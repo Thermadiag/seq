@@ -1,0 +1,58 @@
+\hypertarget{structflat__string__set}{}\doxysection{flat\+\_\+string\+\_\+set$<$ Allocator $>$ Struct Template Reference}
+\label{structflat__string__set}\index{flat\_string\_set$<$ Allocator $>$@{flat\_string\_set$<$ Allocator $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structflat__string__set_a5ab4d4ad8fc39db5fa731a55f3efc327}\label{structflat__string__set_a5ab4d4ad8fc39db5fa731a55f3efc327}} 
+using {\bfseries string\+\_\+type} = \mbox{\hyperlink{classstring__view}{string\+\_\+view}}$<$ true $>$
+\item 
+\mbox{\Hypertarget{structflat__string__set_a359374aa75798c844981e4dcfcdc2082}\label{structflat__string__set_a359374aa75798c844981e4dcfcdc2082}} 
+using {\bfseries tree\+\_\+type} = \mbox{\hyperlink{structdetail_1_1flat__tree}{detail\+::flat\+\_\+tree}}$<$ \mbox{\hyperlink{classstring__view}{string\+\_\+type}} $>$
+\item 
+\mbox{\Hypertarget{structflat__string__set_adb504f77cc39a538a20988a1f77b682f}\label{structflat__string__set_adb504f77cc39a538a20988a1f77b682f}} 
+using {\bfseries iterator} = typename tree\+\_\+type\+::iterator
+\item 
+\mbox{\Hypertarget{structflat__string__set_afc2f3622e3736fecb17d1d09738e6e2d}\label{structflat__string__set_afc2f3622e3736fecb17d1d09738e6e2d}} 
+using {\bfseries const\+\_\+iterator} = typename tree\+\_\+type\+::const\+\_\+iterator
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structflat__string__set_ac6ff2baaf59a92cc0cdafba3c432e03e}\label{structflat__string__set_ac6ff2baaf59a92cc0cdafba3c432e03e}} 
+size\+\_\+t {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{structflat__string__set_a78a3fac6030051ff9bbdebc931b4b339}\label{structflat__string__set_a78a3fac6030051ff9bbdebc931b4b339}} 
+const \mbox{\hyperlink{classstring__view}{string\+\_\+type}} \& {\bfseries at} (size\+\_\+t pos) const noexcept
+\item 
+\mbox{\Hypertarget{structflat__string__set_ad26577ebe57d7f8a186286f541186d20}\label{structflat__string__set_ad26577ebe57d7f8a186286f541186d20}} 
+const\+\_\+iterator {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{structflat__string__set_a1f0e72d68fec22c4a7d9f1704d6de4df}\label{structflat__string__set_a1f0e72d68fec22c4a7d9f1704d6de4df}} 
+const\+\_\+iterator {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{structflat__string__set_afa5ab099bbfefa514b3719e395596156}\label{structflat__string__set_afa5ab099bbfefa514b3719e395596156}} 
+{\footnotesize template$<$class U $>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries insert} (const U \&str)
+\item 
+\mbox{\Hypertarget{structflat__string__set_a187c187f71387e598a72b2769648f440}\label{structflat__string__set_a187c187f71387e598a72b2769648f440}} 
+{\footnotesize template$<$class U $>$ }\\std\+::pair$<$ size\+\_\+t, bool $>$ {\bfseries insert\+\_\+pos} (const U \&str)
+\item 
+\mbox{\Hypertarget{structflat__string__set_a2b0bf3a80b6840b7988f033ebea5e9ce}\label{structflat__string__set_a2b0bf3a80b6840b7988f033ebea5e9ce}} 
+{\footnotesize template$<$class U $>$ }\\size\+\_\+t {\bfseries find\+\_\+pos} (const U \&str) const noexcept
+\item 
+\mbox{\Hypertarget{structflat__string__set_ac0555788bbff4e2097675e87815c4f37}\label{structflat__string__set_ac0555788bbff4e2097675e87815c4f37}} 
+void {\bfseries erase} (size\+\_\+t pos)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structflat__string__set_a6debdb46e99c061200e9195d0f752fe4}\label{structflat__string__set_a6debdb46e99c061200e9195d0f752fe4}} 
+\mbox{\hyperlink{structdetail_1_1flat__tree}{tree\+\_\+type}} {\bfseries d\+\_\+tree}
+\item 
+\mbox{\Hypertarget{structflat__string__set_af67ca8bb5d2db1bca829a713a568b26b}\label{structflat__string__set_af67ca8bb5d2db1bca829a713a568b26b}} 
+\mbox{\hyperlink{classstring__builder}{string\+\_\+builder}} {\bfseries d\+\_\+builder}
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+flat\+\_\+map.\+hpp\end{DoxyCompactItemize}

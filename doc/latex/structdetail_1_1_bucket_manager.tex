@@ -1,0 +1,1023 @@
+\hypertarget{structdetail_1_1_bucket_manager}{}\doxysection{detail\+::Bucket\+Manager$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$ Struct Template Reference}
+\label{structdetail_1_1_bucket_manager}\index{detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+
+
+{\ttfamily \#include $<$deque2\+\_\+union.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa79e003f59e30e71f03507f346cc4e1b}\label{structdetail_1_1_bucket_manager_aa79e003f59e30e71f03507f346cc4e1b}} 
+using {\bfseries Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}}$<$ T, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa99f52a4e579a2ccd804ee187599e126}\label{structdetail_1_1_bucket_manager_aa99f52a4e579a2ccd804ee187599e126}} 
+using {\bfseries Store\+Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_store_bucket}{Store\+Bucket}}$<$ T, Allocator, Value\+Compare, Store\+Back\+Values $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_abfbe755fdf178e309f263fe1584b8f8c}\label{structdetail_1_1_bucket_manager_abfbe755fdf178e309f263fe1584b8f8c}} 
+using {\bfseries alloc\+\_\+traits} = std\+::allocator\+\_\+traits$<$ Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac74dbd61732f9c9b53f6bbbf129271a6}\label{structdetail_1_1_bucket_manager_ac74dbd61732f9c9b53f6bbbf129271a6}} 
+using {\bfseries Alloc\+Type} = typename \mbox{\hyperlink{structdetail_1_1_select_alloc}{Select\+Alloc}}$<$ T, Allocator, layout $>$\+::type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af2dc45c46c07be78e2734c13fef0869a}\label{structdetail_1_1_bucket_manager_af2dc45c46c07be78e2734c13fef0869a}} 
+using {\bfseries this\+\_\+type} = \mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a1e864bce7ffd4c7eabe4b6745ec5623f}\label{structdetail_1_1_bucket_manager_a1e864bce7ffd4c7eabe4b6745ec5623f}} 
+using {\bfseries size\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aad9b3f1aadb0af90175b3bec60803aaa}\label{structdetail_1_1_bucket_manager_aad9b3f1aadb0af90175b3bec60803aaa}} 
+using {\bfseries difference\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4394b37e16b9df9cb5a3695ce1c0e9b2}\label{structdetail_1_1_bucket_manager_a4394b37e16b9df9cb5a3695ce1c0e9b2}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a99054b87195bb5aefb6bd4dc0fd86d0c}\label{structdetail_1_1_bucket_manager_a99054b87195bb5aefb6bd4dc0fd86d0c}} 
+using {\bfseries pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a74d282aad3b06a6acd01589d9cebc0ca}\label{structdetail_1_1_bucket_manager_a74d282aad3b06a6acd01589d9cebc0ca}} 
+using {\bfseries const\+\_\+pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af74987c5a84411a05b283207702ce4a3}\label{structdetail_1_1_bucket_manager_af74987c5a84411a05b283207702ce4a3}} 
+using {\bfseries reference} = value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4b2df42b94842dd66d131067d81a361f}\label{structdetail_1_1_bucket_manager_a4b2df42b94842dd66d131067d81a361f}} 
+using {\bfseries Bucket\+Vector} = std\+::vector$<$ \mbox{\hyperlink{structdetail_1_1_store_bucket}{Store\+Bucket\+Type}}, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa79e003f59e30e71f03507f346cc4e1b}\label{structdetail_1_1_bucket_manager_aa79e003f59e30e71f03507f346cc4e1b}} 
+using {\bfseries Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}}$<$ T, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa99f52a4e579a2ccd804ee187599e126}\label{structdetail_1_1_bucket_manager_aa99f52a4e579a2ccd804ee187599e126}} 
+using {\bfseries Store\+Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_store_bucket}{Store\+Bucket}}$<$ T, Allocator, Value\+Compare, Store\+Back\+Values $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_abfbe755fdf178e309f263fe1584b8f8c}\label{structdetail_1_1_bucket_manager_abfbe755fdf178e309f263fe1584b8f8c}} 
+using {\bfseries alloc\+\_\+traits} = std\+::allocator\+\_\+traits$<$ Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac74dbd61732f9c9b53f6bbbf129271a6}\label{structdetail_1_1_bucket_manager_ac74dbd61732f9c9b53f6bbbf129271a6}} 
+using {\bfseries Alloc\+Type} = typename \mbox{\hyperlink{structdetail_1_1_select_alloc}{Select\+Alloc}}$<$ T, Allocator, layout $>$\+::type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af2dc45c46c07be78e2734c13fef0869a}\label{structdetail_1_1_bucket_manager_af2dc45c46c07be78e2734c13fef0869a}} 
+using {\bfseries this\+\_\+type} = \mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a1e864bce7ffd4c7eabe4b6745ec5623f}\label{structdetail_1_1_bucket_manager_a1e864bce7ffd4c7eabe4b6745ec5623f}} 
+using {\bfseries size\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aad9b3f1aadb0af90175b3bec60803aaa}\label{structdetail_1_1_bucket_manager_aad9b3f1aadb0af90175b3bec60803aaa}} 
+using {\bfseries difference\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4394b37e16b9df9cb5a3695ce1c0e9b2}\label{structdetail_1_1_bucket_manager_a4394b37e16b9df9cb5a3695ce1c0e9b2}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a99054b87195bb5aefb6bd4dc0fd86d0c}\label{structdetail_1_1_bucket_manager_a99054b87195bb5aefb6bd4dc0fd86d0c}} 
+using {\bfseries pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a74d282aad3b06a6acd01589d9cebc0ca}\label{structdetail_1_1_bucket_manager_a74d282aad3b06a6acd01589d9cebc0ca}} 
+using {\bfseries const\+\_\+pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af74987c5a84411a05b283207702ce4a3}\label{structdetail_1_1_bucket_manager_af74987c5a84411a05b283207702ce4a3}} 
+using {\bfseries reference} = value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4b2df42b94842dd66d131067d81a361f}\label{structdetail_1_1_bucket_manager_a4b2df42b94842dd66d131067d81a361f}} 
+using {\bfseries Bucket\+Vector} = std\+::vector$<$ \mbox{\hyperlink{structdetail_1_1_store_bucket}{Store\+Bucket\+Type}}, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa79e003f59e30e71f03507f346cc4e1b}\label{structdetail_1_1_bucket_manager_aa79e003f59e30e71f03507f346cc4e1b}} 
+using {\bfseries Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}}$<$ T, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa561d8b935600a4216b2f70921e71404}\label{structdetail_1_1_bucket_manager_aa561d8b935600a4216b2f70921e71404}} 
+using {\bfseries Store\+Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_store_bucket}{Store\+Bucket}}$<$ T, Allocator, Store\+Back\+Values $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_abfbe755fdf178e309f263fe1584b8f8c}\label{structdetail_1_1_bucket_manager_abfbe755fdf178e309f263fe1584b8f8c}} 
+using {\bfseries alloc\+\_\+traits} = std\+::allocator\+\_\+traits$<$ Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac74dbd61732f9c9b53f6bbbf129271a6}\label{structdetail_1_1_bucket_manager_ac74dbd61732f9c9b53f6bbbf129271a6}} 
+using {\bfseries Alloc\+Type} = typename \mbox{\hyperlink{structdetail_1_1_select_alloc}{Select\+Alloc}}$<$ T, Allocator, layout $>$\+::type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3061d08c42e70777303951389cc30d2f}\label{structdetail_1_1_bucket_manager_a3061d08c42e70777303951389cc30d2f}} 
+using {\bfseries this\+\_\+type} = \mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a1e864bce7ffd4c7eabe4b6745ec5623f}\label{structdetail_1_1_bucket_manager_a1e864bce7ffd4c7eabe4b6745ec5623f}} 
+using {\bfseries size\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aad9b3f1aadb0af90175b3bec60803aaa}\label{structdetail_1_1_bucket_manager_aad9b3f1aadb0af90175b3bec60803aaa}} 
+using {\bfseries difference\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4394b37e16b9df9cb5a3695ce1c0e9b2}\label{structdetail_1_1_bucket_manager_a4394b37e16b9df9cb5a3695ce1c0e9b2}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a99054b87195bb5aefb6bd4dc0fd86d0c}\label{structdetail_1_1_bucket_manager_a99054b87195bb5aefb6bd4dc0fd86d0c}} 
+using {\bfseries pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a74d282aad3b06a6acd01589d9cebc0ca}\label{structdetail_1_1_bucket_manager_a74d282aad3b06a6acd01589d9cebc0ca}} 
+using {\bfseries const\+\_\+pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af74987c5a84411a05b283207702ce4a3}\label{structdetail_1_1_bucket_manager_af74987c5a84411a05b283207702ce4a3}} 
+using {\bfseries reference} = value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4b2df42b94842dd66d131067d81a361f}\label{structdetail_1_1_bucket_manager_a4b2df42b94842dd66d131067d81a361f}} 
+using {\bfseries Bucket\+Vector} = std\+::vector$<$ \mbox{\hyperlink{structdetail_1_1_store_bucket}{Store\+Bucket\+Type}}, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a72b1ce9cb62b36ab82bb3b106f3ffa34}\label{structdetail_1_1_bucket_manager_a72b1ce9cb62b36ab82bb3b106f3ffa34}} 
+using {\bfseries Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}}$<$ T, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4e3af0f34afd05e04dcdde824a9cb5ec}\label{structdetail_1_1_bucket_manager_a4e3af0f34afd05e04dcdde824a9cb5ec}} 
+using {\bfseries Front\+Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_circular_front_buffer}{Circular\+Front\+Buffer}}$<$ T, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aeccc5eaa30f957a9c20bf3055d30cc8f}\label{structdetail_1_1_bucket_manager_aeccc5eaa30f957a9c20bf3055d30cc8f}} 
+using {\bfseries Alloc\+Type} = typename \mbox{\hyperlink{structdetail_1_1_select_alloc}{Select\+Alloc}}$<$ T, Allocator, Use\+Mem\+Pool $>$\+::type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a169790c79e6f085ddfacd8a6266667fe}\label{structdetail_1_1_bucket_manager_a169790c79e6f085ddfacd8a6266667fe}} 
+using {\bfseries this\+\_\+type} = \mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Use\+Mem\+Pool, Min\+B\+Size, Max\+B\+Size $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a1e864bce7ffd4c7eabe4b6745ec5623f}\label{structdetail_1_1_bucket_manager_a1e864bce7ffd4c7eabe4b6745ec5623f}} 
+using {\bfseries size\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aad9b3f1aadb0af90175b3bec60803aaa}\label{structdetail_1_1_bucket_manager_aad9b3f1aadb0af90175b3bec60803aaa}} 
+using {\bfseries difference\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4394b37e16b9df9cb5a3695ce1c0e9b2}\label{structdetail_1_1_bucket_manager_a4394b37e16b9df9cb5a3695ce1c0e9b2}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a99054b87195bb5aefb6bd4dc0fd86d0c}\label{structdetail_1_1_bucket_manager_a99054b87195bb5aefb6bd4dc0fd86d0c}} 
+using {\bfseries pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a74d282aad3b06a6acd01589d9cebc0ca}\label{structdetail_1_1_bucket_manager_a74d282aad3b06a6acd01589d9cebc0ca}} 
+using {\bfseries const\+\_\+pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af74987c5a84411a05b283207702ce4a3}\label{structdetail_1_1_bucket_manager_af74987c5a84411a05b283207702ce4a3}} 
+using {\bfseries reference} = value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa79e003f59e30e71f03507f346cc4e1b}\label{structdetail_1_1_bucket_manager_aa79e003f59e30e71f03507f346cc4e1b}} 
+using {\bfseries Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}}$<$ T, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4e3af0f34afd05e04dcdde824a9cb5ec}\label{structdetail_1_1_bucket_manager_a4e3af0f34afd05e04dcdde824a9cb5ec}} 
+using {\bfseries Front\+Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_circular_front_buffer}{Circular\+Front\+Buffer}}$<$ T, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aeccc5eaa30f957a9c20bf3055d30cc8f}\label{structdetail_1_1_bucket_manager_aeccc5eaa30f957a9c20bf3055d30cc8f}} 
+using {\bfseries Alloc\+Type} = typename \mbox{\hyperlink{structdetail_1_1_select_alloc}{Select\+Alloc}}$<$ T, Allocator, Use\+Mem\+Pool $>$\+::type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a169790c79e6f085ddfacd8a6266667fe}\label{structdetail_1_1_bucket_manager_a169790c79e6f085ddfacd8a6266667fe}} 
+using {\bfseries this\+\_\+type} = \mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Use\+Mem\+Pool, Min\+B\+Size, Max\+B\+Size $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a1e864bce7ffd4c7eabe4b6745ec5623f}\label{structdetail_1_1_bucket_manager_a1e864bce7ffd4c7eabe4b6745ec5623f}} 
+using {\bfseries size\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aad9b3f1aadb0af90175b3bec60803aaa}\label{structdetail_1_1_bucket_manager_aad9b3f1aadb0af90175b3bec60803aaa}} 
+using {\bfseries difference\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4394b37e16b9df9cb5a3695ce1c0e9b2}\label{structdetail_1_1_bucket_manager_a4394b37e16b9df9cb5a3695ce1c0e9b2}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a99054b87195bb5aefb6bd4dc0fd86d0c}\label{structdetail_1_1_bucket_manager_a99054b87195bb5aefb6bd4dc0fd86d0c}} 
+using {\bfseries pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a74d282aad3b06a6acd01589d9cebc0ca}\label{structdetail_1_1_bucket_manager_a74d282aad3b06a6acd01589d9cebc0ca}} 
+using {\bfseries const\+\_\+pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af74987c5a84411a05b283207702ce4a3}\label{structdetail_1_1_bucket_manager_af74987c5a84411a05b283207702ce4a3}} 
+using {\bfseries reference} = value\+\_\+type \&
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a48ef9e64e78dba50f65dd4307c4dd2e4}\label{structdetail_1_1_bucket_manager_a48ef9e64e78dba50f65dd4307c4dd2e4}} 
+void {\bfseries update\+\_\+all\+\_\+back\+\_\+values} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a47eb739f170e109323e75987632f9894}\label{structdetail_1_1_bucket_manager_a47eb739f170e109323e75987632f9894}} 
+{\bfseries Bucket\+Manager} (int bucket\+\_\+size, const Allocator \&al=Allocator()) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac892493173eeb839ee28dfa17f39a07f}\label{structdetail_1_1_bucket_manager_ac892493173eeb839ee28dfa17f39a07f}} 
+{\bfseries Bucket\+Manager} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a77d6ef1cfca3c9a0f825ed689a3d5274}\label{structdetail_1_1_bucket_manager_a77d6ef1cfca3c9a0f825ed689a3d5274}} 
+{\bfseries Bucket\+Manager} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other, const Allocator \&al) noexcept(alloc\+\_\+traits\+::is\+\_\+always\+\_\+equal\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a85333c919c15965e4e6ecb1676b58271}\label{structdetail_1_1_bucket_manager_a85333c919c15965e4e6ecb1676b58271}} 
+{\bfseries Bucket\+Manager} (const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{this\+\_\+type}} \&other, int new\+\_\+bucket\+\_\+size, size\+\_\+type start=0, size\+\_\+type size=-\/1, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a261f3f0c6a220f9e5c181f02514ca53f}\label{structdetail_1_1_bucket_manager_a261f3f0c6a220f9e5c181f02514ca53f}} 
+{\bfseries Bucket\+Manager} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{this\+\_\+type}} \&\&other, int new\+\_\+bucket\+\_\+size, size\+\_\+type start=0, size\+\_\+type size=-\/1, const Allocator \&al=Allocator(), bool still\+\_\+memory=true)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac08c73504ecdc774c0c1ad62c1f7db10}\label{structdetail_1_1_bucket_manager_ac08c73504ecdc774c0c1ad62c1f7db10}} 
+void {\bfseries destroy\+\_\+all} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae9ed19b506adbce5d0355f5c3a9d9bd7}\label{structdetail_1_1_bucket_manager_ae9ed19b506adbce5d0355f5c3a9d9bd7}} 
+void {\bfseries destroy\+\_\+all\+\_\+no\+\_\+destructor} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a22df4e7c02c289d511b8648d42a645e3}\label{structdetail_1_1_bucket_manager_a22df4e7c02c289d511b8648d42a645e3}} 
+\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \& {\bfseries operator=} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a84c92c253892b8fa0f362eb2e1317bf0}\label{structdetail_1_1_bucket_manager_a84c92c253892b8fa0f362eb2e1317bf0}} 
+Bucket\+Vector \& {\bfseries buckets} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac388b4477472852a8516124f7674e190}\label{structdetail_1_1_bucket_manager_ac388b4477472852a8516124f7674e190}} 
+const Bucket\+Vector \& {\bfseries buckets} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3f4e968c276d5de7b9ecf32e9606efc5}\label{structdetail_1_1_bucket_manager_a3f4e968c276d5de7b9ecf32e9606efc5}} 
+{\footnotesize template$<$class Functor $>$ }\\Functor {\bfseries for\+\_\+each} (size\+\_\+type start, size\+\_\+type end, Functor fun) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a54bd30edc7535f77e667b34111c600f3}\label{structdetail_1_1_bucket_manager_a54bd30edc7535f77e667b34111c600f3}} 
+{\footnotesize template$<$class Functor $>$ }\\Functor {\bfseries for\+\_\+each} (size\+\_\+type start, size\+\_\+type end, Functor fun)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a8391a0bda6d628acdf5b486a3a3a1e87}\label{structdetail_1_1_bucket_manager_a8391a0bda6d628acdf5b486a3a3a1e87}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2\+Size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a854215b59190976c0813301bdebf8ef9}\label{structdetail_1_1_bucket_manager_a854215b59190976c0813301bdebf8ef9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2\+Size} (size\+\_\+t s) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4792013154a79ac454a9ec2251c42512}\label{structdetail_1_1_bucket_manager_a4792013154a79ac454a9ec2251c42512}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const Allocator \& {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a78dfbb4a5e2afe111a346974c050b6d6}\label{structdetail_1_1_bucket_manager_a78dfbb4a5e2afe111a346974c050b6d6}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE Allocator \& {\bfseries get\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aed42f2d9412ec759ed7fded75de31a20}\label{structdetail_1_1_bucket_manager_aed42f2d9412ec759ed7fded75de31a20}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const Alloc\+Type \& {\bfseries block\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5aff34aff92f5d646476512b1e7c5d49}\label{structdetail_1_1_bucket_manager_a5aff34aff92f5d646476512b1e7c5d49}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE Alloc\+Type \& {\bfseries block\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_acb8b784825d21e610ea05223bf54fa82}\label{structdetail_1_1_bucket_manager_acb8b784825d21e610ea05223bf54fa82}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries bucket} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ab6dd2a4c9f979254785b926774e59706}\label{structdetail_1_1_bucket_manager_ab6dd2a4c9f979254785b926774e59706}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries bucket} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa5b79bade61a6633b07c254b8ad5536c}\label{structdetail_1_1_bucket_manager_aa5b79bade61a6633b07c254b8ad5536c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries bucket\+\_\+index} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aed959c25856b03c1f08aa3ee38a3a626}\label{structdetail_1_1_bucket_manager_aed959c25856b03c1f08aa3ee38a3a626}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE int {\bfseries bucket\+\_\+pos} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ab24bef749b796f7d697fdc4cd3ee3efe}\label{structdetail_1_1_bucket_manager_ab24bef749b796f7d697fdc4cd3ee3efe}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE int {\bfseries bucket\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ad03da72a3ebc42f5e4c6437c6e6721bd}\label{structdetail_1_1_bucket_manager_ad03da72a3ebc42f5e4c6437c6e6721bd}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries bucket\+\_\+count} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a53e5342d9c798f4f08b15231e328515c}\label{structdetail_1_1_bucket_manager_a53e5342d9c798f4f08b15231e328515c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ab260fa33c791fb30f6ad44fcd37f7d1e}\label{structdetail_1_1_bucket_manager_ab260fa33c791fb30f6ad44fcd37f7d1e}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE int {\bfseries bucket\+\_\+size} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a7861bbf8d95adc4a8b7e49aed1057f5b}\label{structdetail_1_1_bucket_manager_a7861bbf8d95adc4a8b7e49aed1057f5b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries back} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac1af4eeadfe56aa8b6a7874779b688aa}\label{structdetail_1_1_bucket_manager_ac1af4eeadfe56aa8b6a7874779b688aa}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries back} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa788e4372616381b090cea170766c90b}\label{structdetail_1_1_bucket_manager_aa788e4372616381b090cea170766c90b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a95544020f0b2f9824d06cc8933c92e17}\label{structdetail_1_1_bucket_manager_a95544020f0b2f9824d06cc8933c92e17}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries front} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a2fa7d2b636aca74e8325f3746efb9f10}\label{structdetail_1_1_bucket_manager_a2fa7d2b636aca74e8325f3746efb9f10}} 
+T \& {\bfseries at} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a38524ad1b98099c5d76c7a54362fadbe}\label{structdetail_1_1_bucket_manager_a38524ad1b98099c5d76c7a54362fadbe}} 
+const T \& {\bfseries at} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae0d79ba3eaddcea171272de1e076567b}\label{structdetail_1_1_bucket_manager_ae0d79ba3eaddcea171272de1e076567b}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+back\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af9782fe015d0caff90a15715c4a8e4e7}\label{structdetail_1_1_bucket_manager_af9782fe015d0caff90a15715c4a8e4e7}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+back\+\_\+bucket} (const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aed89cc5cb3cd4babc6ab420d293d5520}\label{structdetail_1_1_bucket_manager_aed89cc5cb3cd4babc6ab420d293d5520}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+front\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a69dbf31299195f096a77b33f1008b19d}\label{structdetail_1_1_bucket_manager_a69dbf31299195f096a77b33f1008b19d}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+front\+\_\+bucket} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac5551a19f26d45235c9b149f47f8dad0}\label{structdetail_1_1_bucket_manager_ac5551a19f26d45235c9b149f47f8dad0}} 
+void {\bfseries remove\+\_\+back\+\_\+bucket} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5df8566c69202a97966c8def76222df0}\label{structdetail_1_1_bucket_manager_a5df8566c69202a97966c8def76222df0}} 
+void {\bfseries remove\+\_\+front\+\_\+bucket} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a08ea94336221fabf9a9ddf98ccdde7cf}\label{structdetail_1_1_bucket_manager_a08ea94336221fabf9a9ddf98ccdde7cf}} 
+void {\bfseries ensure\+\_\+has\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa20acadeeef45aa4971056fd233bd0fc}\label{structdetail_1_1_bucket_manager_aa20acadeeef45aa4971056fd233bd0fc}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace\+\_\+back} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a710f9c020840f87ba4f0a9d8ef575999}\label{structdetail_1_1_bucket_manager_a710f9c020840f87ba4f0a9d8ef575999}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_acd83434aa76cd91b02b34253563be108}\label{structdetail_1_1_bucket_manager_acd83434aa76cd91b02b34253563be108}} 
+void {\bfseries push\+\_\+back} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae834d478bfb37a8e403b24a36438f4f4}\label{structdetail_1_1_bucket_manager_ae834d478bfb37a8e403b24a36438f4f4}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace\+\_\+front} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a26f2be7c211189f2d11748aad19e183a}\label{structdetail_1_1_bucket_manager_a26f2be7c211189f2d11748aad19e183a}} 
+void {\bfseries push\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa499d5974330a053fdbfc3ce865573d8}\label{structdetail_1_1_bucket_manager_aa499d5974330a053fdbfc3ce865573d8}} 
+void {\bfseries push\+\_\+front} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a458f93d452945a3430c594e13944b5bb}\label{structdetail_1_1_bucket_manager_a458f93d452945a3430c594e13944b5bb}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries insert\+\_\+one\+\_\+bucket} (size\+\_\+type bucket\+\_\+index, int index, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a8cdeec1642e0e2fc740159ce7165c98e}\label{structdetail_1_1_bucket_manager_a8cdeec1642e0e2fc740159ce7165c98e}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries insert\+\_\+left} (size\+\_\+type pos, size\+\_\+type bucket\+\_\+index, int index, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a16bf36d41119a1f0517b486f7ac83a9d}\label{structdetail_1_1_bucket_manager_a16bf36d41119a1f0517b486f7ac83a9d}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries insert\+\_\+right} (size\+\_\+type pos, size\+\_\+type bucket\+\_\+index, int index, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a2d74b5fa44ab50f44e23b1569d17e56c}\label{structdetail_1_1_bucket_manager_a2d74b5fa44ab50f44e23b1569d17e56c}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries insert\+\_\+middle\+\_\+fwd} (size\+\_\+type pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a254e4b5a548461db247c76bbcb00b4a9}\label{structdetail_1_1_bucket_manager_a254e4b5a548461db247c76bbcb00b4a9}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries insert} (size\+\_\+type pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a31bb0d3ad46314abcf73313bcffb811b}\label{structdetail_1_1_bucket_manager_a31bb0d3ad46314abcf73313bcffb811b}} 
+void {\bfseries pop\+\_\+back} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a432d182badfacb67937536a994b3393a}\label{structdetail_1_1_bucket_manager_a432d182badfacb67937536a994b3393a}} 
+void {\bfseries pop\+\_\+front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a246331c1150c5cccb314689014129bde}\label{structdetail_1_1_bucket_manager_a246331c1150c5cccb314689014129bde}} 
+void {\bfseries erase} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3e5b724c1b3a6d656e2ffe86d947cecf}\label{structdetail_1_1_bucket_manager_a3e5b724c1b3a6d656e2ffe86d947cecf}} 
+void {\bfseries erase\+\_\+left} (size\+\_\+type bucket\+\_\+index, int index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a10e480be1b70c4f96a2d02f8592ded7f}\label{structdetail_1_1_bucket_manager_a10e480be1b70c4f96a2d02f8592ded7f}} 
+void {\bfseries erase\+\_\+right} (size\+\_\+type bucket\+\_\+index, int index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a0f745df39a173a7463b55eca5d5f47af}\label{structdetail_1_1_bucket_manager_a0f745df39a173a7463b55eca5d5f47af}} 
+void {\bfseries erase\+\_\+middle} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a12b352959a8cd0795adcc26f227cbb39}\label{structdetail_1_1_bucket_manager_a12b352959a8cd0795adcc26f227cbb39}} 
+void {\bfseries resize} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a745b7d00cc3e06d81d8b77ed29ed8c66}\label{structdetail_1_1_bucket_manager_a745b7d00cc3e06d81d8b77ed29ed8c66}} 
+void {\bfseries resize} (size\+\_\+type size, const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a50ced0138e76f2c81f4d40e2a9eb15a9}\label{structdetail_1_1_bucket_manager_a50ced0138e76f2c81f4d40e2a9eb15a9}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a9913c1640f0d96ad8cd87e653229b2ec}\label{structdetail_1_1_bucket_manager_a9913c1640f0d96ad8cd87e653229b2ec}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+type size, const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a48ef9e64e78dba50f65dd4307c4dd2e4}\label{structdetail_1_1_bucket_manager_a48ef9e64e78dba50f65dd4307c4dd2e4}} 
+void {\bfseries update\+\_\+all\+\_\+back\+\_\+values} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a47eb739f170e109323e75987632f9894}\label{structdetail_1_1_bucket_manager_a47eb739f170e109323e75987632f9894}} 
+{\bfseries Bucket\+Manager} (int bucket\+\_\+size, const Allocator \&al=Allocator()) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac892493173eeb839ee28dfa17f39a07f}\label{structdetail_1_1_bucket_manager_ac892493173eeb839ee28dfa17f39a07f}} 
+{\bfseries Bucket\+Manager} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a77d6ef1cfca3c9a0f825ed689a3d5274}\label{structdetail_1_1_bucket_manager_a77d6ef1cfca3c9a0f825ed689a3d5274}} 
+{\bfseries Bucket\+Manager} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other, const Allocator \&al) noexcept(alloc\+\_\+traits\+::is\+\_\+always\+\_\+equal\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a85333c919c15965e4e6ecb1676b58271}\label{structdetail_1_1_bucket_manager_a85333c919c15965e4e6ecb1676b58271}} 
+{\bfseries Bucket\+Manager} (const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{this\+\_\+type}} \&other, int new\+\_\+bucket\+\_\+size, size\+\_\+type start=0, size\+\_\+type size=-\/1, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a261f3f0c6a220f9e5c181f02514ca53f}\label{structdetail_1_1_bucket_manager_a261f3f0c6a220f9e5c181f02514ca53f}} 
+{\bfseries Bucket\+Manager} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{this\+\_\+type}} \&\&other, int new\+\_\+bucket\+\_\+size, size\+\_\+type start=0, size\+\_\+type size=-\/1, const Allocator \&al=Allocator(), bool still\+\_\+memory=true)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac08c73504ecdc774c0c1ad62c1f7db10}\label{structdetail_1_1_bucket_manager_ac08c73504ecdc774c0c1ad62c1f7db10}} 
+void {\bfseries destroy\+\_\+all} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae9ed19b506adbce5d0355f5c3a9d9bd7}\label{structdetail_1_1_bucket_manager_ae9ed19b506adbce5d0355f5c3a9d9bd7}} 
+void {\bfseries destroy\+\_\+all\+\_\+no\+\_\+destructor} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a22df4e7c02c289d511b8648d42a645e3}\label{structdetail_1_1_bucket_manager_a22df4e7c02c289d511b8648d42a645e3}} 
+\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \& {\bfseries operator=} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a84c92c253892b8fa0f362eb2e1317bf0}\label{structdetail_1_1_bucket_manager_a84c92c253892b8fa0f362eb2e1317bf0}} 
+Bucket\+Vector \& {\bfseries buckets} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac388b4477472852a8516124f7674e190}\label{structdetail_1_1_bucket_manager_ac388b4477472852a8516124f7674e190}} 
+const Bucket\+Vector \& {\bfseries buckets} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3f4e968c276d5de7b9ecf32e9606efc5}\label{structdetail_1_1_bucket_manager_a3f4e968c276d5de7b9ecf32e9606efc5}} 
+{\footnotesize template$<$class Functor $>$ }\\Functor {\bfseries for\+\_\+each} (size\+\_\+type start, size\+\_\+type end, Functor fun) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a54bd30edc7535f77e667b34111c600f3}\label{structdetail_1_1_bucket_manager_a54bd30edc7535f77e667b34111c600f3}} 
+{\footnotesize template$<$class Functor $>$ }\\Functor {\bfseries for\+\_\+each} (size\+\_\+type start, size\+\_\+type end, Functor fun)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a8391a0bda6d628acdf5b486a3a3a1e87}\label{structdetail_1_1_bucket_manager_a8391a0bda6d628acdf5b486a3a3a1e87}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2\+Size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a854215b59190976c0813301bdebf8ef9}\label{structdetail_1_1_bucket_manager_a854215b59190976c0813301bdebf8ef9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2\+Size} (size\+\_\+t s) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4792013154a79ac454a9ec2251c42512}\label{structdetail_1_1_bucket_manager_a4792013154a79ac454a9ec2251c42512}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const Allocator \& {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a78dfbb4a5e2afe111a346974c050b6d6}\label{structdetail_1_1_bucket_manager_a78dfbb4a5e2afe111a346974c050b6d6}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE Allocator \& {\bfseries get\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aed42f2d9412ec759ed7fded75de31a20}\label{structdetail_1_1_bucket_manager_aed42f2d9412ec759ed7fded75de31a20}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const Alloc\+Type \& {\bfseries block\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5aff34aff92f5d646476512b1e7c5d49}\label{structdetail_1_1_bucket_manager_a5aff34aff92f5d646476512b1e7c5d49}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE Alloc\+Type \& {\bfseries block\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_acb8b784825d21e610ea05223bf54fa82}\label{structdetail_1_1_bucket_manager_acb8b784825d21e610ea05223bf54fa82}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries bucket} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ab6dd2a4c9f979254785b926774e59706}\label{structdetail_1_1_bucket_manager_ab6dd2a4c9f979254785b926774e59706}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries bucket} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa5b79bade61a6633b07c254b8ad5536c}\label{structdetail_1_1_bucket_manager_aa5b79bade61a6633b07c254b8ad5536c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries bucket\+\_\+index} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aed959c25856b03c1f08aa3ee38a3a626}\label{structdetail_1_1_bucket_manager_aed959c25856b03c1f08aa3ee38a3a626}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE int {\bfseries bucket\+\_\+pos} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ab24bef749b796f7d697fdc4cd3ee3efe}\label{structdetail_1_1_bucket_manager_ab24bef749b796f7d697fdc4cd3ee3efe}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE int {\bfseries bucket\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ad03da72a3ebc42f5e4c6437c6e6721bd}\label{structdetail_1_1_bucket_manager_ad03da72a3ebc42f5e4c6437c6e6721bd}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries bucket\+\_\+count} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a53e5342d9c798f4f08b15231e328515c}\label{structdetail_1_1_bucket_manager_a53e5342d9c798f4f08b15231e328515c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ab260fa33c791fb30f6ad44fcd37f7d1e}\label{structdetail_1_1_bucket_manager_ab260fa33c791fb30f6ad44fcd37f7d1e}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE int {\bfseries bucket\+\_\+size} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a7861bbf8d95adc4a8b7e49aed1057f5b}\label{structdetail_1_1_bucket_manager_a7861bbf8d95adc4a8b7e49aed1057f5b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries back} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac1af4eeadfe56aa8b6a7874779b688aa}\label{structdetail_1_1_bucket_manager_ac1af4eeadfe56aa8b6a7874779b688aa}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries back} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa788e4372616381b090cea170766c90b}\label{structdetail_1_1_bucket_manager_aa788e4372616381b090cea170766c90b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a95544020f0b2f9824d06cc8933c92e17}\label{structdetail_1_1_bucket_manager_a95544020f0b2f9824d06cc8933c92e17}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries front} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a2fa7d2b636aca74e8325f3746efb9f10}\label{structdetail_1_1_bucket_manager_a2fa7d2b636aca74e8325f3746efb9f10}} 
+T \& {\bfseries at} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a38524ad1b98099c5d76c7a54362fadbe}\label{structdetail_1_1_bucket_manager_a38524ad1b98099c5d76c7a54362fadbe}} 
+const T \& {\bfseries at} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae0d79ba3eaddcea171272de1e076567b}\label{structdetail_1_1_bucket_manager_ae0d79ba3eaddcea171272de1e076567b}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+back\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af9782fe015d0caff90a15715c4a8e4e7}\label{structdetail_1_1_bucket_manager_af9782fe015d0caff90a15715c4a8e4e7}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+back\+\_\+bucket} (const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aed89cc5cb3cd4babc6ab420d293d5520}\label{structdetail_1_1_bucket_manager_aed89cc5cb3cd4babc6ab420d293d5520}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+front\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a69dbf31299195f096a77b33f1008b19d}\label{structdetail_1_1_bucket_manager_a69dbf31299195f096a77b33f1008b19d}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+front\+\_\+bucket} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac5551a19f26d45235c9b149f47f8dad0}\label{structdetail_1_1_bucket_manager_ac5551a19f26d45235c9b149f47f8dad0}} 
+void {\bfseries remove\+\_\+back\+\_\+bucket} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5df8566c69202a97966c8def76222df0}\label{structdetail_1_1_bucket_manager_a5df8566c69202a97966c8def76222df0}} 
+void {\bfseries remove\+\_\+front\+\_\+bucket} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a69b5fc2d0b872e609e7ead86294494f5}\label{structdetail_1_1_bucket_manager_a69b5fc2d0b872e609e7ead86294494f5}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries ensure\+\_\+has\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa20acadeeef45aa4971056fd233bd0fc}\label{structdetail_1_1_bucket_manager_aa20acadeeef45aa4971056fd233bd0fc}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace\+\_\+back} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a710f9c020840f87ba4f0a9d8ef575999}\label{structdetail_1_1_bucket_manager_a710f9c020840f87ba4f0a9d8ef575999}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_acd83434aa76cd91b02b34253563be108}\label{structdetail_1_1_bucket_manager_acd83434aa76cd91b02b34253563be108}} 
+void {\bfseries push\+\_\+back} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae834d478bfb37a8e403b24a36438f4f4}\label{structdetail_1_1_bucket_manager_ae834d478bfb37a8e403b24a36438f4f4}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace\+\_\+front} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a26f2be7c211189f2d11748aad19e183a}\label{structdetail_1_1_bucket_manager_a26f2be7c211189f2d11748aad19e183a}} 
+void {\bfseries push\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa499d5974330a053fdbfc3ce865573d8}\label{structdetail_1_1_bucket_manager_aa499d5974330a053fdbfc3ce865573d8}} 
+void {\bfseries push\+\_\+front} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a458f93d452945a3430c594e13944b5bb}\label{structdetail_1_1_bucket_manager_a458f93d452945a3430c594e13944b5bb}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries insert\+\_\+one\+\_\+bucket} (size\+\_\+type bucket\+\_\+index, int index, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a8cdeec1642e0e2fc740159ce7165c98e}\label{structdetail_1_1_bucket_manager_a8cdeec1642e0e2fc740159ce7165c98e}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries insert\+\_\+left} (size\+\_\+type pos, size\+\_\+type bucket\+\_\+index, int index, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a16bf36d41119a1f0517b486f7ac83a9d}\label{structdetail_1_1_bucket_manager_a16bf36d41119a1f0517b486f7ac83a9d}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries insert\+\_\+right} (size\+\_\+type pos, size\+\_\+type bucket\+\_\+index, int index, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a2d74b5fa44ab50f44e23b1569d17e56c}\label{structdetail_1_1_bucket_manager_a2d74b5fa44ab50f44e23b1569d17e56c}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries insert\+\_\+middle\+\_\+fwd} (size\+\_\+type pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a254e4b5a548461db247c76bbcb00b4a9}\label{structdetail_1_1_bucket_manager_a254e4b5a548461db247c76bbcb00b4a9}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries insert} (size\+\_\+type pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a31bb0d3ad46314abcf73313bcffb811b}\label{structdetail_1_1_bucket_manager_a31bb0d3ad46314abcf73313bcffb811b}} 
+void {\bfseries pop\+\_\+back} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a432d182badfacb67937536a994b3393a}\label{structdetail_1_1_bucket_manager_a432d182badfacb67937536a994b3393a}} 
+void {\bfseries pop\+\_\+front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a246331c1150c5cccb314689014129bde}\label{structdetail_1_1_bucket_manager_a246331c1150c5cccb314689014129bde}} 
+void {\bfseries erase} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3e5b724c1b3a6d656e2ffe86d947cecf}\label{structdetail_1_1_bucket_manager_a3e5b724c1b3a6d656e2ffe86d947cecf}} 
+void {\bfseries erase\+\_\+left} (size\+\_\+type bucket\+\_\+index, int index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a10e480be1b70c4f96a2d02f8592ded7f}\label{structdetail_1_1_bucket_manager_a10e480be1b70c4f96a2d02f8592ded7f}} 
+void {\bfseries erase\+\_\+right} (size\+\_\+type bucket\+\_\+index, int index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a0f745df39a173a7463b55eca5d5f47af}\label{structdetail_1_1_bucket_manager_a0f745df39a173a7463b55eca5d5f47af}} 
+void {\bfseries erase\+\_\+middle} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a12b352959a8cd0795adcc26f227cbb39}\label{structdetail_1_1_bucket_manager_a12b352959a8cd0795adcc26f227cbb39}} 
+void {\bfseries resize} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a745b7d00cc3e06d81d8b77ed29ed8c66}\label{structdetail_1_1_bucket_manager_a745b7d00cc3e06d81d8b77ed29ed8c66}} 
+void {\bfseries resize} (size\+\_\+type size, const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a50ced0138e76f2c81f4d40e2a9eb15a9}\label{structdetail_1_1_bucket_manager_a50ced0138e76f2c81f4d40e2a9eb15a9}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a9913c1640f0d96ad8cd87e653229b2ec}\label{structdetail_1_1_bucket_manager_a9913c1640f0d96ad8cd87e653229b2ec}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+type size, const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a48ef9e64e78dba50f65dd4307c4dd2e4}\label{structdetail_1_1_bucket_manager_a48ef9e64e78dba50f65dd4307c4dd2e4}} 
+void {\bfseries update\+\_\+all\+\_\+back\+\_\+values} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a47eb739f170e109323e75987632f9894}\label{structdetail_1_1_bucket_manager_a47eb739f170e109323e75987632f9894}} 
+{\bfseries Bucket\+Manager} (int bucket\+\_\+size, const Allocator \&al=Allocator()) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac892493173eeb839ee28dfa17f39a07f}\label{structdetail_1_1_bucket_manager_ac892493173eeb839ee28dfa17f39a07f}} 
+{\bfseries Bucket\+Manager} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a77d6ef1cfca3c9a0f825ed689a3d5274}\label{structdetail_1_1_bucket_manager_a77d6ef1cfca3c9a0f825ed689a3d5274}} 
+{\bfseries Bucket\+Manager} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other, const Allocator \&al) noexcept(alloc\+\_\+traits\+::is\+\_\+always\+\_\+equal\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a0b963fa1677851e658fcbfd2e71d5e14}\label{structdetail_1_1_bucket_manager_a0b963fa1677851e658fcbfd2e71d5e14}} 
+void {\bfseries assert\+\_\+equal} (const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} $\ast$b1, const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} $\ast$b2, size\+\_\+type s)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4d0a4b632ea5d4756d13b731b3d49887}\label{structdetail_1_1_bucket_manager_a4d0a4b632ea5d4756d13b731b3d49887}} 
+{\bfseries Bucket\+Manager} (const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, layout $>$ \&other, int new\+\_\+bucket\+\_\+size, size\+\_\+type start=0, size\+\_\+type size=-\/1, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa06ce1a4ea4773a369e48d98b858747d}\label{structdetail_1_1_bucket_manager_aa06ce1a4ea4773a369e48d98b858747d}} 
+{\bfseries Bucket\+Manager} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, layout $>$ \&\&other, int new\+\_\+bucket\+\_\+size, size\+\_\+type start=0, size\+\_\+type size=-\/1, const Allocator \&al=Allocator(), bool still\+\_\+memory=true)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac08c73504ecdc774c0c1ad62c1f7db10}\label{structdetail_1_1_bucket_manager_ac08c73504ecdc774c0c1ad62c1f7db10}} 
+void {\bfseries destroy\+\_\+all} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a22df4e7c02c289d511b8648d42a645e3}\label{structdetail_1_1_bucket_manager_a22df4e7c02c289d511b8648d42a645e3}} 
+\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \& {\bfseries operator=} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a84c92c253892b8fa0f362eb2e1317bf0}\label{structdetail_1_1_bucket_manager_a84c92c253892b8fa0f362eb2e1317bf0}} 
+Bucket\+Vector \& {\bfseries buckets} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac388b4477472852a8516124f7674e190}\label{structdetail_1_1_bucket_manager_ac388b4477472852a8516124f7674e190}} 
+const Bucket\+Vector \& {\bfseries buckets} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3f4e968c276d5de7b9ecf32e9606efc5}\label{structdetail_1_1_bucket_manager_a3f4e968c276d5de7b9ecf32e9606efc5}} 
+{\footnotesize template$<$class Functor $>$ }\\Functor {\bfseries for\+\_\+each} (size\+\_\+type start, size\+\_\+type end, Functor fun) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a54bd30edc7535f77e667b34111c600f3}\label{structdetail_1_1_bucket_manager_a54bd30edc7535f77e667b34111c600f3}} 
+{\footnotesize template$<$class Functor $>$ }\\Functor {\bfseries for\+\_\+each} (size\+\_\+type start, size\+\_\+type end, Functor fun)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a8391a0bda6d628acdf5b486a3a3a1e87}\label{structdetail_1_1_bucket_manager_a8391a0bda6d628acdf5b486a3a3a1e87}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2\+Size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4792013154a79ac454a9ec2251c42512}\label{structdetail_1_1_bucket_manager_a4792013154a79ac454a9ec2251c42512}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const Allocator \& {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a78dfbb4a5e2afe111a346974c050b6d6}\label{structdetail_1_1_bucket_manager_a78dfbb4a5e2afe111a346974c050b6d6}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE Allocator \& {\bfseries get\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aed42f2d9412ec759ed7fded75de31a20}\label{structdetail_1_1_bucket_manager_aed42f2d9412ec759ed7fded75de31a20}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const Alloc\+Type \& {\bfseries block\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5aff34aff92f5d646476512b1e7c5d49}\label{structdetail_1_1_bucket_manager_a5aff34aff92f5d646476512b1e7c5d49}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE Alloc\+Type \& {\bfseries block\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_acb8b784825d21e610ea05223bf54fa82}\label{structdetail_1_1_bucket_manager_acb8b784825d21e610ea05223bf54fa82}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries bucket} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ab6dd2a4c9f979254785b926774e59706}\label{structdetail_1_1_bucket_manager_ab6dd2a4c9f979254785b926774e59706}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries bucket} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa5b79bade61a6633b07c254b8ad5536c}\label{structdetail_1_1_bucket_manager_aa5b79bade61a6633b07c254b8ad5536c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries bucket\+\_\+index} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aed959c25856b03c1f08aa3ee38a3a626}\label{structdetail_1_1_bucket_manager_aed959c25856b03c1f08aa3ee38a3a626}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE int {\bfseries bucket\+\_\+pos} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ab24bef749b796f7d697fdc4cd3ee3efe}\label{structdetail_1_1_bucket_manager_ab24bef749b796f7d697fdc4cd3ee3efe}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE int {\bfseries bucket\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ad03da72a3ebc42f5e4c6437c6e6721bd}\label{structdetail_1_1_bucket_manager_ad03da72a3ebc42f5e4c6437c6e6721bd}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries bucket\+\_\+count} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a53e5342d9c798f4f08b15231e328515c}\label{structdetail_1_1_bucket_manager_a53e5342d9c798f4f08b15231e328515c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ab260fa33c791fb30f6ad44fcd37f7d1e}\label{structdetail_1_1_bucket_manager_ab260fa33c791fb30f6ad44fcd37f7d1e}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE int {\bfseries bucket\+\_\+size} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a6947deb108bb74b85b24e087fcf95ff9}\label{structdetail_1_1_bucket_manager_a6947deb108bb74b85b24e087fcf95ff9}} 
+T \& {\bfseries back} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aad6592ac4d2f3047c07800d1de4db5b4}\label{structdetail_1_1_bucket_manager_aad6592ac4d2f3047c07800d1de4db5b4}} 
+const T \& {\bfseries back} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae29893c8e1d043d9465c346a4b01423b}\label{structdetail_1_1_bucket_manager_ae29893c8e1d043d9465c346a4b01423b}} 
+T \& {\bfseries front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a935a51263f0fc5b0bd7c3d78c467ce3c}\label{structdetail_1_1_bucket_manager_a935a51263f0fc5b0bd7c3d78c467ce3c}} 
+const T \& {\bfseries front} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a2fa7d2b636aca74e8325f3746efb9f10}\label{structdetail_1_1_bucket_manager_a2fa7d2b636aca74e8325f3746efb9f10}} 
+T \& {\bfseries at} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a38524ad1b98099c5d76c7a54362fadbe}\label{structdetail_1_1_bucket_manager_a38524ad1b98099c5d76c7a54362fadbe}} 
+const T \& {\bfseries at} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae0d79ba3eaddcea171272de1e076567b}\label{structdetail_1_1_bucket_manager_ae0d79ba3eaddcea171272de1e076567b}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+back\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af9782fe015d0caff90a15715c4a8e4e7}\label{structdetail_1_1_bucket_manager_af9782fe015d0caff90a15715c4a8e4e7}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+back\+\_\+bucket} (const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aed89cc5cb3cd4babc6ab420d293d5520}\label{structdetail_1_1_bucket_manager_aed89cc5cb3cd4babc6ab420d293d5520}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+front\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a69dbf31299195f096a77b33f1008b19d}\label{structdetail_1_1_bucket_manager_a69dbf31299195f096a77b33f1008b19d}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+front\+\_\+bucket} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac5551a19f26d45235c9b149f47f8dad0}\label{structdetail_1_1_bucket_manager_ac5551a19f26d45235c9b149f47f8dad0}} 
+void {\bfseries remove\+\_\+back\+\_\+bucket} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5df8566c69202a97966c8def76222df0}\label{structdetail_1_1_bucket_manager_a5df8566c69202a97966c8def76222df0}} 
+void {\bfseries remove\+\_\+front\+\_\+bucket} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a08ea94336221fabf9a9ddf98ccdde7cf}\label{structdetail_1_1_bucket_manager_a08ea94336221fabf9a9ddf98ccdde7cf}} 
+void {\bfseries ensure\+\_\+has\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa20acadeeef45aa4971056fd233bd0fc}\label{structdetail_1_1_bucket_manager_aa20acadeeef45aa4971056fd233bd0fc}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace\+\_\+back} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a710f9c020840f87ba4f0a9d8ef575999}\label{structdetail_1_1_bucket_manager_a710f9c020840f87ba4f0a9d8ef575999}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_acd83434aa76cd91b02b34253563be108}\label{structdetail_1_1_bucket_manager_acd83434aa76cd91b02b34253563be108}} 
+void {\bfseries push\+\_\+back} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae834d478bfb37a8e403b24a36438f4f4}\label{structdetail_1_1_bucket_manager_ae834d478bfb37a8e403b24a36438f4f4}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace\+\_\+front} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a26f2be7c211189f2d11748aad19e183a}\label{structdetail_1_1_bucket_manager_a26f2be7c211189f2d11748aad19e183a}} 
+void {\bfseries push\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa499d5974330a053fdbfc3ce865573d8}\label{structdetail_1_1_bucket_manager_aa499d5974330a053fdbfc3ce865573d8}} 
+void {\bfseries push\+\_\+front} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae7b653c381f59b94c8a9571df2c25565}\label{structdetail_1_1_bucket_manager_ae7b653c381f59b94c8a9571df2c25565}} 
+{\footnotesize template$<$class U $>$ }\\T $\ast$ {\bfseries insert\+\_\+one\+\_\+bucket} (size\+\_\+type bucket\+\_\+index, int index, U \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aaebd2cf07f5440db34fabd14668792ec}\label{structdetail_1_1_bucket_manager_aaebd2cf07f5440db34fabd14668792ec}} 
+{\footnotesize template$<$class U $>$ }\\T $\ast$ {\bfseries insert\+\_\+left} (size\+\_\+type pos, size\+\_\+type bucket\+\_\+index, int index, U \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a4cd74d9d2ba68679d2e0a16b2cb07540}\label{structdetail_1_1_bucket_manager_a4cd74d9d2ba68679d2e0a16b2cb07540}} 
+{\footnotesize template$<$class U $>$ }\\T $\ast$ {\bfseries insert\+\_\+right} (size\+\_\+type pos, size\+\_\+type bucket\+\_\+index, int index, U \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a90761e8c2c0d3b2004b75532abb70772}\label{structdetail_1_1_bucket_manager_a90761e8c2c0d3b2004b75532abb70772}} 
+{\footnotesize template$<$class U $>$ }\\T $\ast$ {\bfseries insert\+\_\+middle\+\_\+fwd} (size\+\_\+type pos, U \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5804a7a88b81f1e441c33e7ec69af8a8}\label{structdetail_1_1_bucket_manager_a5804a7a88b81f1e441c33e7ec69af8a8}} 
+void {\bfseries insert} (size\+\_\+type pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aca83e04f69e68571e213a079015981df}\label{structdetail_1_1_bucket_manager_aca83e04f69e68571e213a079015981df}} 
+void {\bfseries insert} (size\+\_\+type pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a254e4b5a548461db247c76bbcb00b4a9}\label{structdetail_1_1_bucket_manager_a254e4b5a548461db247c76bbcb00b4a9}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries insert} (size\+\_\+type pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a31bb0d3ad46314abcf73313bcffb811b}\label{structdetail_1_1_bucket_manager_a31bb0d3ad46314abcf73313bcffb811b}} 
+void {\bfseries pop\+\_\+back} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a432d182badfacb67937536a994b3393a}\label{structdetail_1_1_bucket_manager_a432d182badfacb67937536a994b3393a}} 
+void {\bfseries pop\+\_\+front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a246331c1150c5cccb314689014129bde}\label{structdetail_1_1_bucket_manager_a246331c1150c5cccb314689014129bde}} 
+void {\bfseries erase} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3e5b724c1b3a6d656e2ffe86d947cecf}\label{structdetail_1_1_bucket_manager_a3e5b724c1b3a6d656e2ffe86d947cecf}} 
+void {\bfseries erase\+\_\+left} (size\+\_\+type bucket\+\_\+index, int index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a10e480be1b70c4f96a2d02f8592ded7f}\label{structdetail_1_1_bucket_manager_a10e480be1b70c4f96a2d02f8592ded7f}} 
+void {\bfseries erase\+\_\+right} (size\+\_\+type bucket\+\_\+index, int index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a0f745df39a173a7463b55eca5d5f47af}\label{structdetail_1_1_bucket_manager_a0f745df39a173a7463b55eca5d5f47af}} 
+void {\bfseries erase\+\_\+middle} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a12b352959a8cd0795adcc26f227cbb39}\label{structdetail_1_1_bucket_manager_a12b352959a8cd0795adcc26f227cbb39}} 
+void {\bfseries resize} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a745b7d00cc3e06d81d8b77ed29ed8c66}\label{structdetail_1_1_bucket_manager_a745b7d00cc3e06d81d8b77ed29ed8c66}} 
+void {\bfseries resize} (size\+\_\+type size, const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a50ced0138e76f2c81f4d40e2a9eb15a9}\label{structdetail_1_1_bucket_manager_a50ced0138e76f2c81f4d40e2a9eb15a9}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a9913c1640f0d96ad8cd87e653229b2ec}\label{structdetail_1_1_bucket_manager_a9913c1640f0d96ad8cd87e653229b2ec}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+type size, const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a0339bb721494a83b0ea4672887b830ae}\label{structdetail_1_1_bucket_manager_a0339bb721494a83b0ea4672887b830ae}} 
+{\bfseries Bucket\+Manager} (int bucket\+\_\+size, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3d5115ce6cbdf711ab01cd601cfc393d}\label{structdetail_1_1_bucket_manager_a3d5115ce6cbdf711ab01cd601cfc393d}} 
+{\bfseries Bucket\+Manager} (const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Use\+Mem\+Pool, Min\+B\+Size, Max\+B\+Size $>$ \&other, int new\+\_\+bucket\+\_\+size, bool move, size\+\_\+type size=-\/1, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa4c7153ef5c3ee637963b192384fd779}\label{structdetail_1_1_bucket_manager_aa4c7153ef5c3ee637963b192384fd779}} 
+void {\bfseries copy} (size\+\_\+type start, size\+\_\+type end, T $\ast$out, bool move) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5878ac0f0d8debf780cda6b6668ddde6}\label{structdetail_1_1_bucket_manager_a5878ac0f0d8debf780cda6b6668ddde6}} 
+bool {\bfseries even\+Size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a026cc012e978066550f5507c44ce5092}\label{structdetail_1_1_bucket_manager_a026cc012e978066550f5507c44ce5092}} 
+const Allocator \& {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a8e82c75b7d6cb6a043d374606b8406e4}\label{structdetail_1_1_bucket_manager_a8e82c75b7d6cb6a043d374606b8406e4}} 
+Alloc\+Type \& {\bfseries block\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ad70b11fb4962ade5d6ab61f20783ea34}\label{structdetail_1_1_bucket_manager_ad70b11fb4962ade5d6ab61f20783ea34}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries bucket} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a55cd840b1abea8c6b1f4a230ea644ea2}\label{structdetail_1_1_bucket_manager_a55cd840b1abea8c6b1f4a230ea644ea2}} 
+const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries bucket} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae5ef935f1940ac9add93f763caec1669}\label{structdetail_1_1_bucket_manager_ae5ef935f1940ac9add93f763caec1669}} 
+size\+\_\+type {\bfseries bucket\+\_\+index} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a546909ff0ac64edb45b201a1277079e9}\label{structdetail_1_1_bucket_manager_a546909ff0ac64edb45b201a1277079e9}} 
+int {\bfseries bucket\+\_\+pos} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aba1b38641e0d12949a7a0aeb1b8c5db6}\label{structdetail_1_1_bucket_manager_aba1b38641e0d12949a7a0aeb1b8c5db6}} 
+int {\bfseries bucket\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a590bcabfbce170f764e5bce677e7b999}\label{structdetail_1_1_bucket_manager_a590bcabfbce170f764e5bce677e7b999}} 
+size\+\_\+type {\bfseries bucket\+\_\+count} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a28713355c986d451672922559b1e4e41}\label{structdetail_1_1_bucket_manager_a28713355c986d451672922559b1e4e41}} 
+size\+\_\+type {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a2c3c6b06e04f91f0917ff2e0ad80ec9e}\label{structdetail_1_1_bucket_manager_a2c3c6b06e04f91f0917ff2e0ad80ec9e}} 
+int {\bfseries bucket\+\_\+size} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a8a673482563599d9dc44b4787c27d196}\label{structdetail_1_1_bucket_manager_a8a673482563599d9dc44b4787c27d196}} 
+{\footnotesize template$<$class Type $>$ }\\void {\bfseries pos\+\_\+range} (size\+\_\+type bindex, Type \&first, Type \&last) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a022b5f4db54740e907fc31b0820e0d6f}\label{structdetail_1_1_bucket_manager_a022b5f4db54740e907fc31b0820e0d6f}} 
+{\footnotesize template$<$class Type $>$ }\\\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$$\ast$ {\bfseries make\+\_\+end} (Type \&size) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a2c812fb7269dd0aaecf96b1ca20faad2}\label{structdetail_1_1_bucket_manager_a2c812fb7269dd0aaecf96b1ca20faad2}} 
+{\footnotesize template$<$class Type $>$ }\\\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$$\ast$ {\bfseries all\+\_\+infos} (size\+\_\+type pos, Type \&index, Type \&first, Type \&last) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ab7a0541cd5700fc4fc1d1e59c8180e2f}\label{structdetail_1_1_bucket_manager_ab7a0541cd5700fc4fc1d1e59c8180e2f}} 
+T \& {\bfseries at} (const size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aaa6fe701f5654cd3898893ad68c0429a}\label{structdetail_1_1_bucket_manager_aaa6fe701f5654cd3898893ad68c0429a}} 
+const T \& {\bfseries at} (const size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae0d79ba3eaddcea171272de1e076567b}\label{structdetail_1_1_bucket_manager_ae0d79ba3eaddcea171272de1e076567b}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+back\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af9782fe015d0caff90a15715c4a8e4e7}\label{structdetail_1_1_bucket_manager_af9782fe015d0caff90a15715c4a8e4e7}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+back\+\_\+bucket} (const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aed89cc5cb3cd4babc6ab420d293d5520}\label{structdetail_1_1_bucket_manager_aed89cc5cb3cd4babc6ab420d293d5520}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+front\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a971bf28f02ea675fc05bc312c9414902}\label{structdetail_1_1_bucket_manager_a971bf28f02ea675fc05bc312c9414902}} 
+void {\bfseries remove\+\_\+back\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ada31efc29f6ecb688ea3be6b04a5898d}\label{structdetail_1_1_bucket_manager_ada31efc29f6ecb688ea3be6b04a5898d}} 
+void {\bfseries remove\+\_\+front\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a710f9c020840f87ba4f0a9d8ef575999}\label{structdetail_1_1_bucket_manager_a710f9c020840f87ba4f0a9d8ef575999}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a31436bafd82b95114c7028075698fe86}\label{structdetail_1_1_bucket_manager_a31436bafd82b95114c7028075698fe86}} 
+void {\bfseries push\+\_\+back\+\_\+move} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a26f2be7c211189f2d11748aad19e183a}\label{structdetail_1_1_bucket_manager_a26f2be7c211189f2d11748aad19e183a}} 
+void {\bfseries push\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac6a1e1d73a8ac3a785ffb0feda1c08f0}\label{structdetail_1_1_bucket_manager_ac6a1e1d73a8ac3a785ffb0feda1c08f0}} 
+void {\bfseries push\+\_\+front\+\_\+move} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a700b7a0e4dacd63f76170f4c8bdb94ff}\label{structdetail_1_1_bucket_manager_a700b7a0e4dacd63f76170f4c8bdb94ff}} 
+void {\bfseries insert\+\_\+middle} (size\+\_\+type pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5804a7a88b81f1e441c33e7ec69af8a8}\label{structdetail_1_1_bucket_manager_a5804a7a88b81f1e441c33e7ec69af8a8}} 
+void {\bfseries insert} (size\+\_\+type pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac9d08dcc8727eb84b735476487902f3a}\label{structdetail_1_1_bucket_manager_ac9d08dcc8727eb84b735476487902f3a}} 
+void {\bfseries insert\+\_\+move} (size\+\_\+type pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5e4b18fbe14272c79e33cf93b320a32f}\label{structdetail_1_1_bucket_manager_a5e4b18fbe14272c79e33cf93b320a32f}} 
+void {\bfseries \+\_\+pop\+\_\+back\+\_\+on\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aeead266b5e8e59aa4bbf1b1650ee4b50}\label{structdetail_1_1_bucket_manager_aeead266b5e8e59aa4bbf1b1650ee4b50}} 
+void {\bfseries \+\_\+pop\+\_\+back\+\_\+on\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a72983f6266f1fb940dfb7eefc8529113}\label{structdetail_1_1_bucket_manager_a72983f6266f1fb940dfb7eefc8529113}} 
+void {\bfseries pop\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a98550d77d3dd39d6bacdb81cbdad2eed}\label{structdetail_1_1_bucket_manager_a98550d77d3dd39d6bacdb81cbdad2eed}} 
+void {\bfseries pop\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a246331c1150c5cccb314689014129bde}\label{structdetail_1_1_bucket_manager_a246331c1150c5cccb314689014129bde}} 
+void {\bfseries erase} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3e5b724c1b3a6d656e2ffe86d947cecf}\label{structdetail_1_1_bucket_manager_a3e5b724c1b3a6d656e2ffe86d947cecf}} 
+void {\bfseries erase\+\_\+left} (size\+\_\+type bucket\+\_\+index, int index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a10e480be1b70c4f96a2d02f8592ded7f}\label{structdetail_1_1_bucket_manager_a10e480be1b70c4f96a2d02f8592ded7f}} 
+void {\bfseries erase\+\_\+right} (size\+\_\+type bucket\+\_\+index, int index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a0f745df39a173a7463b55eca5d5f47af}\label{structdetail_1_1_bucket_manager_a0f745df39a173a7463b55eca5d5f47af}} 
+void {\bfseries erase\+\_\+middle} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a867bcb21bce1bb7dc67a1caf72f4d9ad}\label{structdetail_1_1_bucket_manager_a867bcb21bce1bb7dc67a1caf72f4d9ad}} 
+void {\bfseries resize} (size\+\_\+type size, const T \&val=T())
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a0339bb721494a83b0ea4672887b830ae}\label{structdetail_1_1_bucket_manager_a0339bb721494a83b0ea4672887b830ae}} 
+{\bfseries Bucket\+Manager} (int bucket\+\_\+size, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3d5115ce6cbdf711ab01cd601cfc393d}\label{structdetail_1_1_bucket_manager_a3d5115ce6cbdf711ab01cd601cfc393d}} 
+{\bfseries Bucket\+Manager} (const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Use\+Mem\+Pool, Min\+B\+Size, Max\+B\+Size $>$ \&other, int new\+\_\+bucket\+\_\+size, bool move, size\+\_\+type size=-\/1, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa4c7153ef5c3ee637963b192384fd779}\label{structdetail_1_1_bucket_manager_aa4c7153ef5c3ee637963b192384fd779}} 
+void {\bfseries copy} (size\+\_\+type start, size\+\_\+type end, T $\ast$out, bool move) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5878ac0f0d8debf780cda6b6668ddde6}\label{structdetail_1_1_bucket_manager_a5878ac0f0d8debf780cda6b6668ddde6}} 
+bool {\bfseries even\+Size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a026cc012e978066550f5507c44ce5092}\label{structdetail_1_1_bucket_manager_a026cc012e978066550f5507c44ce5092}} 
+const Allocator \& {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a8e82c75b7d6cb6a043d374606b8406e4}\label{structdetail_1_1_bucket_manager_a8e82c75b7d6cb6a043d374606b8406e4}} 
+Alloc\+Type \& {\bfseries block\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ad70b11fb4962ade5d6ab61f20783ea34}\label{structdetail_1_1_bucket_manager_ad70b11fb4962ade5d6ab61f20783ea34}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries bucket} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a55cd840b1abea8c6b1f4a230ea644ea2}\label{structdetail_1_1_bucket_manager_a55cd840b1abea8c6b1f4a230ea644ea2}} 
+const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries bucket} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae5ef935f1940ac9add93f763caec1669}\label{structdetail_1_1_bucket_manager_ae5ef935f1940ac9add93f763caec1669}} 
+size\+\_\+type {\bfseries bucket\+\_\+index} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a546909ff0ac64edb45b201a1277079e9}\label{structdetail_1_1_bucket_manager_a546909ff0ac64edb45b201a1277079e9}} 
+int {\bfseries bucket\+\_\+pos} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aba1b38641e0d12949a7a0aeb1b8c5db6}\label{structdetail_1_1_bucket_manager_aba1b38641e0d12949a7a0aeb1b8c5db6}} 
+int {\bfseries bucket\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a590bcabfbce170f764e5bce677e7b999}\label{structdetail_1_1_bucket_manager_a590bcabfbce170f764e5bce677e7b999}} 
+size\+\_\+type {\bfseries bucket\+\_\+count} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a28713355c986d451672922559b1e4e41}\label{structdetail_1_1_bucket_manager_a28713355c986d451672922559b1e4e41}} 
+size\+\_\+type {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a2c3c6b06e04f91f0917ff2e0ad80ec9e}\label{structdetail_1_1_bucket_manager_a2c3c6b06e04f91f0917ff2e0ad80ec9e}} 
+int {\bfseries bucket\+\_\+size} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ab7a0541cd5700fc4fc1d1e59c8180e2f}\label{structdetail_1_1_bucket_manager_ab7a0541cd5700fc4fc1d1e59c8180e2f}} 
+T \& {\bfseries at} (const size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aaa6fe701f5654cd3898893ad68c0429a}\label{structdetail_1_1_bucket_manager_aaa6fe701f5654cd3898893ad68c0429a}} 
+const T \& {\bfseries at} (const size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ae0d79ba3eaddcea171272de1e076567b}\label{structdetail_1_1_bucket_manager_ae0d79ba3eaddcea171272de1e076567b}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+back\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_af9782fe015d0caff90a15715c4a8e4e7}\label{structdetail_1_1_bucket_manager_af9782fe015d0caff90a15715c4a8e4e7}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+back\+\_\+bucket} (const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aed89cc5cb3cd4babc6ab420d293d5520}\label{structdetail_1_1_bucket_manager_aed89cc5cb3cd4babc6ab420d293d5520}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries create\+\_\+front\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a971bf28f02ea675fc05bc312c9414902}\label{structdetail_1_1_bucket_manager_a971bf28f02ea675fc05bc312c9414902}} 
+void {\bfseries remove\+\_\+back\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ada31efc29f6ecb688ea3be6b04a5898d}\label{structdetail_1_1_bucket_manager_ada31efc29f6ecb688ea3be6b04a5898d}} 
+void {\bfseries remove\+\_\+front\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a710f9c020840f87ba4f0a9d8ef575999}\label{structdetail_1_1_bucket_manager_a710f9c020840f87ba4f0a9d8ef575999}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a31436bafd82b95114c7028075698fe86}\label{structdetail_1_1_bucket_manager_a31436bafd82b95114c7028075698fe86}} 
+void {\bfseries push\+\_\+back\+\_\+move} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a26f2be7c211189f2d11748aad19e183a}\label{structdetail_1_1_bucket_manager_a26f2be7c211189f2d11748aad19e183a}} 
+void {\bfseries push\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac6a1e1d73a8ac3a785ffb0feda1c08f0}\label{structdetail_1_1_bucket_manager_ac6a1e1d73a8ac3a785ffb0feda1c08f0}} 
+void {\bfseries push\+\_\+front\+\_\+move} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a700b7a0e4dacd63f76170f4c8bdb94ff}\label{structdetail_1_1_bucket_manager_a700b7a0e4dacd63f76170f4c8bdb94ff}} 
+void {\bfseries insert\+\_\+middle} (size\+\_\+type pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5804a7a88b81f1e441c33e7ec69af8a8}\label{structdetail_1_1_bucket_manager_a5804a7a88b81f1e441c33e7ec69af8a8}} 
+void {\bfseries insert} (size\+\_\+type pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_ac9d08dcc8727eb84b735476487902f3a}\label{structdetail_1_1_bucket_manager_ac9d08dcc8727eb84b735476487902f3a}} 
+void {\bfseries insert\+\_\+move} (size\+\_\+type pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a5e4b18fbe14272c79e33cf93b320a32f}\label{structdetail_1_1_bucket_manager_a5e4b18fbe14272c79e33cf93b320a32f}} 
+void {\bfseries \+\_\+pop\+\_\+back\+\_\+on\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aeead266b5e8e59aa4bbf1b1650ee4b50}\label{structdetail_1_1_bucket_manager_aeead266b5e8e59aa4bbf1b1650ee4b50}} 
+void {\bfseries \+\_\+pop\+\_\+back\+\_\+on\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a72983f6266f1fb940dfb7eefc8529113}\label{structdetail_1_1_bucket_manager_a72983f6266f1fb940dfb7eefc8529113}} 
+void {\bfseries pop\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a98550d77d3dd39d6bacdb81cbdad2eed}\label{structdetail_1_1_bucket_manager_a98550d77d3dd39d6bacdb81cbdad2eed}} 
+void {\bfseries pop\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a246331c1150c5cccb314689014129bde}\label{structdetail_1_1_bucket_manager_a246331c1150c5cccb314689014129bde}} 
+void {\bfseries erase} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3e5b724c1b3a6d656e2ffe86d947cecf}\label{structdetail_1_1_bucket_manager_a3e5b724c1b3a6d656e2ffe86d947cecf}} 
+void {\bfseries erase\+\_\+left} (size\+\_\+type bucket\+\_\+index, int index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a10e480be1b70c4f96a2d02f8592ded7f}\label{structdetail_1_1_bucket_manager_a10e480be1b70c4f96a2d02f8592ded7f}} 
+void {\bfseries erase\+\_\+right} (size\+\_\+type bucket\+\_\+index, int index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a0f745df39a173a7463b55eca5d5f47af}\label{structdetail_1_1_bucket_manager_a0f745df39a173a7463b55eca5d5f47af}} 
+void {\bfseries erase\+\_\+middle} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a867bcb21bce1bb7dc67a1caf72f4d9ad}\label{structdetail_1_1_bucket_manager_a867bcb21bce1bb7dc67a1caf72f4d9ad}} 
+void {\bfseries resize} (size\+\_\+type size, const T \&val=T())
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_acd96bc75117a46e968c539114b41e099}\label{structdetail_1_1_bucket_manager_acd96bc75117a46e968c539114b41e099}} 
+Alloc\+Type {\bfseries d\+\_\+ballocator}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a2e38b26ba7302cb33fb30eae80a6ecd4}\label{structdetail_1_1_bucket_manager_a2e38b26ba7302cb33fb30eae80a6ecd4}} 
+Bucket\+Vector {\bfseries d\+\_\+buckets}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3347d8593631217d4d33bdc961e2e5a3}\label{structdetail_1_1_bucket_manager_a3347d8593631217d4d33bdc961e2e5a3}} 
+cbuffer\+\_\+pos {\bfseries d\+\_\+bucket\+\_\+size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a36d1feebc3a630f7fa1b84ee9c5c77f0}\label{structdetail_1_1_bucket_manager_a36d1feebc3a630f7fa1b84ee9c5c77f0}} 
+cbuffer\+\_\+pos {\bfseries d\+\_\+bucket\+\_\+size1}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a2f7cb9e46905775f6964c9b86879966e}\label{structdetail_1_1_bucket_manager_a2f7cb9e46905775f6964c9b86879966e}} 
+cbuffer\+\_\+pos {\bfseries d\+\_\+bucket\+\_\+size\+\_\+bits}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a7cde9cdb953aa7ab986bb5b4dd495a4e}\label{structdetail_1_1_bucket_manager_a7cde9cdb953aa7ab986bb5b4dd495a4e}} 
+size\+\_\+type {\bfseries d\+\_\+size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a21b62d3b544a5a56ff1a534504583237}\label{structdetail_1_1_bucket_manager_a21b62d3b544a5a56ff1a534504583237}} 
+std\+::vector$<$ \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$, Allocator $>$ {\bfseries d\+\_\+buckets}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a3347d8593631217d4d33bdc961e2e5a3}\label{structdetail_1_1_bucket_manager_a3347d8593631217d4d33bdc961e2e5a3}} 
+size\+\_\+type {\bfseries d\+\_\+bucket\+\_\+size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a36d1feebc3a630f7fa1b84ee9c5c77f0}\label{structdetail_1_1_bucket_manager_a36d1feebc3a630f7fa1b84ee9c5c77f0}} 
+size\+\_\+type {\bfseries d\+\_\+bucket\+\_\+size1}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a2f7cb9e46905775f6964c9b86879966e}\label{structdetail_1_1_bucket_manager_a2f7cb9e46905775f6964c9b86879966e}} 
+size\+\_\+type {\bfseries d\+\_\+bucket\+\_\+size\+\_\+bits}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a86341a514760f7e27d3cb7299bc17a3d}\label{structdetail_1_1_bucket_manager_a86341a514760f7e27d3cb7299bc17a3d}} 
+difference\+\_\+type {\bfseries d\+\_\+zero}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_aa4c7c46981f45a97fe4b485ad30e18fb}\label{structdetail_1_1_bucket_manager_aa4c7c46981f45a97fe4b485ad30e18fb}} 
+static constexpr int {\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_manager_a67296ba5d8395c4fae446ed2d80ad8e4}\label{structdetail_1_1_bucket_manager_a67296ba5d8395c4fae446ed2d80ad8e4}} 
+static constexpr int {\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator, int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare, Layout\+Management layout = Optimize\+For\+Speed$>$\newline
+struct detail\+::\+Bucket\+Manager$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$}
+
+Bucket manager class, in charge of most deque operations 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+deque2 -\/ Copie.\+hpp\item 
+deque2.\+hpp\item 
+deque2\+\_\+union.\+hpp\item 
+deque\+\_\+save.\+hpp\item 
+deque\+\_\+save.\+txt\end{DoxyCompactItemize}

@@ -1,0 +1,258 @@
+\hypertarget{charconv_8hpp}{}\doxysection{seq/charconv.hpp File Reference}
+\label{charconv_8hpp}\index{seq/charconv.hpp@{seq/charconv.hpp}}
+{\ttfamily \#include $<$cstdio$>$}\newline
+{\ttfamily \#include $<$cctype$>$}\newline
+{\ttfamily \#include $<$cinttypes$>$}\newline
+{\ttfamily \#include $<$clocale$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$cfloat$>$}\newline
+{\ttfamily \#include $<$ostream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$system\+\_\+error$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}tiny\+\_\+string.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}bits.\+hpp\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1to__chars__result}{seq\+::to\+\_\+chars\+\_\+result}}
+\begin{DoxyCompactList}\small\item\em Return type for \mbox{\hyperlink{namespaceseq_ad80e2e70627dd4598cda06a37b7767b6}{seq\+::to\+\_\+chars}} functions, similar to std\+::to\+\_\+chars\+\_\+result. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1from__chars__result}{seq\+::from\+\_\+chars\+\_\+result}}
+\begin{DoxyCompactList}\small\item\em Return type for \mbox{\hyperlink{namespaceseq_ad1f5c92eee4485b984df28c1ceb0f96a}{seq\+::from\+\_\+chars}} functions, similar to std\+::from\+\_\+chars\+\_\+result. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1integral__chars__format}{seq\+::integral\+\_\+chars\+\_\+format}}
+\begin{DoxyCompactList}\small\item\em Parameters for integer to string conversion using \mbox{\hyperlink{namespaceseq_ad80e2e70627dd4598cda06a37b7767b6}{seq\+::to\+\_\+chars}}. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classseq_1_1basic__input__stream}{seq\+::basic\+\_\+input\+\_\+stream$<$ Derived $>$}}
+\begin{DoxyCompactList}\small\item\em Base class for input text streams. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1float__chars__format}{seq\+::detail\+::float\+\_\+chars\+\_\+format}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1char__range}{seq\+::detail\+::char\+\_\+range}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1string__range}{seq\+::detail\+::string\+\_\+range$<$ String $>$}}
+\item 
+union \mbox{\hyperlink{unionseq_1_1detail_1_1u__double}{seq\+::detail\+::u\+\_\+double}}
+\item 
+union \mbox{\hyperlink{unionseq_1_1detail_1_1u__float}{seq\+::detail\+::u\+\_\+float}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1float__tables}{seq\+::detail\+::float\+\_\+tables$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream}{seq\+::detail\+::from\+\_\+chars\+\_\+stream}}
+\item 
+class \mbox{\hyperlink{classseq_1_1buffer__input__stream}{seq\+::buffer\+\_\+input\+\_\+stream}}
+\begin{DoxyCompactList}\small\item\em Input stream working on a sequence of characters. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream$<$ buff\+\_\+size $>$}}
+\begin{DoxyCompactList}\small\item\em Input stream working on a std\+::istream. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classseq_1_1file__input__stream}{seq\+::file\+\_\+input\+\_\+stream$<$ buff\+\_\+size $>$}}
+\begin{DoxyCompactList}\small\item\em Input stream working on a F\+I\+LE pointer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail}{seq\+::detail}}
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits in {\itshape value}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespaceseq_a19a45e1f866d73140819b9ea2280c682}{seq\+::chars\+\_\+format}} \{ \mbox{\hyperlink{namespaceseq_a19a45e1f866d73140819b9ea2280c682af715ab801ec116cdbb4a7f7541e46166}{seq\+::scientific}} = 0x8000000, 
+\mbox{\hyperlink{namespaceseq_a19a45e1f866d73140819b9ea2280c682abfc5cfa7d975226254b5443690d9f918}{seq\+::fixed}} = 0x10000000, 
+\mbox{\hyperlink{namespaceseq_a19a45e1f866d73140819b9ea2280c682a37dc0b5d725475e8b304b312a07c079d}{seq\+::general}} = scientific$\vert$fixed
+ \}
+\begin{DoxyCompactList}\small\item\em A Bitmask\+Type used to specify floating-\/point formatting for \mbox{\hyperlink{namespaceseq_ad80e2e70627dd4598cda06a37b7767b6}{seq\+::to\+\_\+chars}}. This is similar to std\+::chars\+\_\+format, but without the hex value. \end{DoxyCompactList}\item 
+enum \mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{seq\+::\+Stream\+State}} \{ \mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2adc676c349921535a50db525652b39774}{seq\+::\+Ok}}, 
+\mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2a3f7afd64256598243b4355a79f0e4d7d}{seq\+::\+End\+Of\+File}}, 
+\mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2a255aad079a8bea265f55d1a6e8ef5587}{seq\+::\+Bad\+Input\+Format}}
+ \}
+\begin{DoxyCompactList}\small\item\em Stream object status for classes inheriting basic\+\_\+input\+\_\+stream. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_1_1detail_ac1e07dd79c45866bb207b6be62766c1d}{seq\+::detail\+::signbit}} (float X) noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_1_1detail_ab3b45f497e6e8efbf6802d4b4d968b2b}{seq\+::detail\+::signbit}} (double X) noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_1_1detail_a0a82d776ea023a5a0036e10b99e1dde7}{seq\+::detail\+::signbit}} (long double X) noexcept
+\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T \mbox{\hyperlink{namespaceseq_1_1detail_a5c4fa7f9db7786f7925e401431c9337e}{seq\+::detail\+::get\+\_\+pow}} (int exp)
+\item 
+template$<$$>$ \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} float \mbox{\hyperlink{namespaceseq_1_1detail_ab9d41d7e36359d563c5cec973eca8596}{seq\+::detail\+::get\+\_\+pow}} (int exp)
+\item 
+{\footnotesize template$<$class T , class Stream $>$ }\\T \mbox{\hyperlink{namespaceseq_1_1detail_a9cf8bc4859ddb91fed3ddb680c8dd540}{seq\+::detail\+::read\+\_\+integral\+\_\+base\+\_\+10}} (Stream \&str)
+\item 
+{\footnotesize template$<$class T , class Stream $>$ }\\T \mbox{\hyperlink{namespaceseq_1_1detail_ac221e2d1a82d50e57b1abe6683b7fd64}{seq\+::detail\+::read\+\_\+integral}} (Stream \&str, unsigned base=10)
+\item 
+{\footnotesize template$<$class Stream $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} std\+::int64\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_af294c62cab5c293f03add2fd8e43a130}{seq\+::detail\+::read\+\_\+int64}} (Stream \&str)
+\item 
+{\footnotesize template$<$class T , class Integral , class Stream $>$ }\\\mbox{\hyperlink{namespaceseq_1_1detail_a0d97af5a0a9d3274ce1b5b38895b8a18}{seq\+::detail\+::\+S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE}} (T) read\+\_\+nan(Integral saved\+\_\+pos
+\item 
+str \mbox{\hyperlink{namespaceseq_1_1detail_a63da9137b98e3dacd2221e72b57cc5d8}{seq\+::detail\+::seek}} (saved\+\_\+pos)
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_a1b8e385d3c8864635396ef6d37e8a056}{seq\+::detail\+::return}} (T) 0
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_ab9551b4c14c4a11d1e390709fd6a991d}{seq\+::detail\+::while}} (is\+\_\+digit(first))
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_a0ce4a765c892f34521aa711c2ee1a9e7}{seq\+::detail\+::if}} (first==E\+OF)
+\item 
+str \mbox{\hyperlink{namespaceseq_1_1detail_a5692b3e3f099c31ac25c1d3fb7120618}{seq\+::detail\+::reset}} ()
+\item 
+return \mbox{\hyperlink{namespaceseq_1_1detail_a3c4ec3bd377b7c13349ec025d7d2c5ec}{seq\+::detail\+::sign\+\_\+value}} (res, sign)
+\item 
+str \mbox{\hyperlink{namespaceseq_1_1detail_a5cc50b99ae3278bfdc5ec8e4c182f5f4}{seq\+::detail\+::seek}} (saved)
+\item 
+str \mbox{\hyperlink{namespaceseq_1_1detail_ab45f757d90027888eaddec64ee10b064}{seq\+::detail\+::seek}} (save\+\_\+point)
+\item 
+{\footnotesize template$<$class T , class Stream $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T \mbox{\hyperlink{namespaceseq_1_1detail_a37eb46f929062859d69de76c2425fe59}{seq\+::detail\+::read\+\_\+double}} (Stream \&str, chars\+\_\+format fmt, char dot=\textquotesingle{}.\textquotesingle{})
+\item 
+{\footnotesize template$<$class T , class Stream $>$ }\\T \mbox{\hyperlink{namespaceseq_1_1detail_a7d83bc781c657dac1d23296cb6004328}{seq\+::detail\+::read\+\_\+string}} (Stream \&str)
+\item 
+{\footnotesize template$<$class T , class Stream $>$ }\\T \mbox{\hyperlink{namespaceseq_1_1detail_a86465a67a71950704611f4e63c224510}{seq\+::detail\+::read\+\_\+line}} (Stream \&str)
+\item 
+{\footnotesize template$<$class Range , class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_1_1detail_aba5a98faf7ec8b746e5e79e331dc74a8}{seq\+::detail\+::write\+\_\+integer\+\_\+generic}} (const Range \&range, T \+\_\+val, int base, const integral\+\_\+chars\+\_\+format \&fmt)
+\begin{DoxyCompactList}\small\item\em Write functions. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Range , class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_1_1detail_a8b362e6ac609610cc58cbb16abd738af}{seq\+::detail\+::write\+\_\+integral}} (const Range \&range, T \+\_\+value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\item 
+{\footnotesize template$<$class Range , class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_1_1detail_a7561b0b08ce69a767932d92d826f16c5}{seq\+::detail\+::write\+\_\+integer\+\_\+decimal\+\_\+part}} (const Range \&range, T value, int min\+\_\+width, bool null\+\_\+first)
+\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const std\+::int16\+\_\+t $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_ab8b03533aec67fb310a0a9d98634b4bd}{seq\+::detail\+::get\+\_\+pow\+\_\+table}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const std\+::int16\+\_\+t $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_ab8639f5adb6233f8b944e0df99cad630}{seq\+::detail\+::get\+\_\+pow\+\_\+table$<$ float $>$}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const std\+::int16\+\_\+t $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_a9f46101a7af608a88ae20c761f510f4e}{seq\+::detail\+::get\+\_\+pow\+\_\+table$<$ double $>$}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const std\+::int16\+\_\+t $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_aa54a8f17a17edf5ac1a579417e4e1848}{seq\+::detail\+::get\+\_\+pow\+\_\+table$<$ long double $>$}} ()
+\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const float\+\_\+tables$<$ T $>$ $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_afd86b3a07341889dbadcbcca545e0ede}{seq\+::detail\+::get\+\_\+float\+\_\+high\+\_\+div\+\_\+tables}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const float\+\_\+tables$<$ float $>$ $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_adb11fb9243cb081f4eca4add3e91c477}{seq\+::detail\+::get\+\_\+float\+\_\+high\+\_\+div\+\_\+tables$<$ float $>$}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const float\+\_\+tables$<$ double $>$ $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_a4a2eeb20175e381710947af93607dbc0}{seq\+::detail\+::get\+\_\+float\+\_\+high\+\_\+div\+\_\+tables$<$ double $>$}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const float\+\_\+tables$<$ long double $>$ $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_ad040b3a20e3ac39e935e0708f9849418}{seq\+::detail\+::get\+\_\+float\+\_\+high\+\_\+div\+\_\+tables$<$ long double $>$}} ()
+\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const float\+\_\+tables$<$ T $>$ $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_a059f4eff9c2e7c9b01f0f64dc5105c75}{seq\+::detail\+::get\+\_\+float\+\_\+low\+\_\+div\+\_\+tables}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const float\+\_\+tables$<$ float $>$ $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_a3d0b54f827dea116c85655327fa199d6}{seq\+::detail\+::get\+\_\+float\+\_\+low\+\_\+div\+\_\+tables$<$ float $>$}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const float\+\_\+tables$<$ double $>$ $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_a648fdfe8ec9b7ced22ba850a456aa1e9}{seq\+::detail\+::get\+\_\+float\+\_\+low\+\_\+div\+\_\+tables$<$ double $>$}} ()
+\item 
+template$<$$>$ \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const float\+\_\+tables$<$ long double $>$ $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_afda8551f39cefd466c3fb1400f5113a6}{seq\+::detail\+::get\+\_\+float\+\_\+low\+\_\+div\+\_\+tables$<$ long double $>$}} ()
+\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{namespaceseq_1_1detail_acca53ea07f76adb15e6a157fadf53fec}{seq\+::detail\+::normalize\+\_\+double}} (T \&value, const float\+\_\+chars\+\_\+format \&fmt)
+\item 
+{\footnotesize template$<$class T , class U\+Int $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{namespaceseq_1_1detail_a690eb33d4c22d386e733b8af4e18be9c}{seq\+::detail\+::split\+\_\+double}} (T value, U\+Int \&integral, U\+Int \&decimals, int16\+\_\+t \&exponent, bool \&null\+\_\+first, int width, float\+\_\+chars\+\_\+format \&fmt)
+\item 
+{\footnotesize template$<$class Range , class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_1_1detail_afc6ca33a3210bb2a4c3bce7e2ef54be5}{seq\+::detail\+::write\+\_\+double\+\_\+fixed}} (const Range \&range, T value, int width, float\+\_\+chars\+\_\+format fmt)
+\item 
+{\footnotesize template$<$class Range $>$ }\\\mbox{\hyperlink{namespaceseq_1_1detail_af960abe1364fe04ae7c69d23e84c8f22}{seq\+::detail\+::\+S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE}} (to\+\_\+chars\+\_\+result) write\+\_\+nan(const Range \&range
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_abdd88b5515c4255971b7c6ef745daa51}{seq\+::detail\+::if}} (\mbox{\hyperlink{group__bits_ga371649b7712afb0bb3b2781aeddf45d9}{S\+E\+Q\+\_\+\+U\+N\+L\+I\+K\+E\+LY}}(!dst)) return
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_ae49924ca13cf21cb4dc863186840b61a}{seq\+::detail\+::if}} (fmt.\+upper) memcpy(dst
+\item 
+else \mbox{\hyperlink{namespaceseq_1_1detail_a874f70d17afddc31413384d922ad4b83}{seq\+::detail\+::memcpy}} (dst, \char`\"{}nan\char`\"{}, 3)
+\item 
+else \mbox{\hyperlink{namespaceseq_1_1detail_add95dd0115930e8c2a7fbf4d2648a23e}{seq\+::detail\+::memcpy}} (dst, \char`\"{}inf\char`\"{}, 3)
+\item 
+{\footnotesize template$<$class Range , class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_1_1detail_af06375edbd279fa2bafeb0c71fb119fb}{seq\+::detail\+::write\+\_\+double\+\_\+abs}} (const Range \&range, T value, int width, float\+\_\+chars\+\_\+format \&fmt)
+\item 
+{\footnotesize template$<$class Range , class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_1_1detail_a416f7bf6716062b98a760f1cc6b8b512}{seq\+::detail\+::write\+\_\+double}} (const Range \&range, T value, int width=6, float\+\_\+chars\+\_\+format fmt=float\+\_\+chars\+\_\+format())
+\item 
+{\footnotesize template$<$class Stream , class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Stream \& \mbox{\hyperlink{namespaceseq_a8dd14a20a2e7b03cebe3d48e3ae5e2ff}{seq\+::from\+\_\+stream}} (Stream \&str, T \&value, int base=10)
+\begin{DoxyCompactList}\small\item\em Read an integral value from a \mbox{\hyperlink{classseq_1_1basic__input__stream}{seq\+::basic\+\_\+input\+\_\+stream}} object. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Stream $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Stream \& \mbox{\hyperlink{namespaceseq_ac74a811757834955b06125e00c5deaed}{seq\+::from\+\_\+stream}} (Stream \&str, float \&value, chars\+\_\+format fmt=chars\+\_\+format\+::general, char dot=\textquotesingle{}.\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Read a floating point value from a \#basic\+\_\+input\+\_\+stream object. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Stream $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Stream \& \mbox{\hyperlink{namespaceseq_a9a68123ed035fdbc90e3a4dbe10c7017}{seq\+::from\+\_\+stream}} (Stream \&str, double \&value, chars\+\_\+format fmt=chars\+\_\+format\+::general, char dot=\textquotesingle{}.\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Read a floating point value from a \#basic\+\_\+input\+\_\+stream object. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Stream $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Stream \& \mbox{\hyperlink{namespaceseq_ab1e3d3b18077453a7de1a33feb7d438a}{seq\+::from\+\_\+stream}} (Stream \&str, long double \&value, chars\+\_\+format fmt=chars\+\_\+format\+::general, char dot=\textquotesingle{}.\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Read a floating point value from a \#basic\+\_\+input\+\_\+stream object. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Stream $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Stream \& \mbox{\hyperlink{namespaceseq_a73b8ae631903ebbe7b9a67a8cd5e1c2a}{seq\+::from\+\_\+stream}} (Stream \&str, std\+::string \&value)
+\begin{DoxyCompactList}\small\item\em Read a word from a \#basic\+\_\+input\+\_\+stream object. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Stream , size\+\_\+t Ss, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Stream \& \mbox{\hyperlink{namespaceseq_aff00103371136fa3e5dd96eb74a400bb}{seq\+::from\+\_\+stream}} (Stream \&str, tiny\+\_\+string$<$ Ss, Al $>$ \&value)
+\begin{DoxyCompactList}\small\item\em Read a word from a \#basic\+\_\+input\+\_\+stream object. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Stream $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Stream \& \mbox{\hyperlink{namespaceseq_afe93dbc8ebf7707cd6a49a40efb69516}{seq\+::read\+\_\+line\+\_\+from\+\_\+stream}} (Stream \&str, std\+::string \&value)
+\begin{DoxyCompactList}\small\item\em Read a line from a \#basic\+\_\+input\+\_\+stream object. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Stream , size\+\_\+t Ss, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Stream \& \mbox{\hyperlink{namespaceseq_a68c61bfb64e7882fc5018cad8cb51fd4}{seq\+::read\+\_\+line\+\_\+from\+\_\+stream}} (Stream \&str, tiny\+\_\+string$<$ Ss, Al $>$ \&value)
+\begin{DoxyCompactList}\small\item\em Read a line from a \#basic\+\_\+input\+\_\+stream object. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} from\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_ad1f5c92eee4485b984df28c1ceb0f96a}{seq\+::from\+\_\+chars}} (const char $\ast$first, const char $\ast$last, T \&value, int base=10)
+\begin{DoxyCompactList}\small\item\em Read an integral value from the sequence of characters \mbox{[}first,last). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} from\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_aac6fa5dbb2342554b8e0229a2517c05e}{seq\+::from\+\_\+chars}} (const char $\ast$first, const char $\ast$last, float \&value, chars\+\_\+format fmt=general, char dot=\textquotesingle{}.\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Read a floating point value from the sequence of characters \mbox{[}first,last). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} from\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a0294caef2f682aa43d45d96a74311dba}{seq\+::from\+\_\+chars}} (const char $\ast$first, const char $\ast$last, double \&value, chars\+\_\+format fmt=general, char dot=\textquotesingle{}.\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Read a floating point value from the sequence of characters \mbox{[}first,last). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} from\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a3d671aafd486530c5efed00cf8da94ba}{seq\+::from\+\_\+chars}} (const char $\ast$first, const char $\ast$last, long double \&value, chars\+\_\+format fmt=general, char dot=\textquotesingle{}.\textquotesingle{})
+\begin{DoxyCompactList}\small\item\em Read a floating point value from the sequence of characters \mbox{[}first,last). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_ad80e2e70627dd4598cda06a37b7767b6}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, char value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\begin{DoxyCompactList}\small\item\em Converts value into a character string by successively filling the range \mbox{[}first, last), where \mbox{[}first, last) is required to be a valid range. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a7a70b9f25eca44e1a2d0a28b6fce9fe9}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, signed char value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_afc313ebf8c04e9029d7b04999f018a34}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, unsigned char value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a37387ff734e6cbbd35d075ec4ce97361}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, short value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a78c888bf0cbe7fd25536a699a803ce54}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, unsigned short value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_aa8cc32ae6f827f4d47d630c2380391d7}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, int value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a76fbab5b1b8f89a5bbc1dea15277e3cb}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, unsigned int value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a86dba7a492de53017a087ddd3dab4580}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, long value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_aa67a5a24c6b6a856cf92230bc93bc2ab}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, unsigned long value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a7892cafa4dd725dee3ee0945aeea1652}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, long long value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_aff467499d43b24b158dbdf27563e6228}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, unsigned long long value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())
+\item 
+to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a295df44c0aa1b1bd24f09fc99530a445}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, bool value, int base=10, const integral\+\_\+chars\+\_\+format \&fmt=integral\+\_\+chars\+\_\+format())=delete
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a00b551a6b9a237e00485171e598b17ed}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, float value)
+\begin{DoxyCompactList}\small\item\em Converts value into a character string by successively filling the range \mbox{[}first, last), where \mbox{[}first, last) is required to be a valid range. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a55bcd11b01a3f09227c80c355d84c28d}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, double value)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a129fc53b61e8c0e747045b23df5d1062}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, long double value)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a9eaa974695ff6a6769addd3a96b41404}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, float value, chars\+\_\+format fmt)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_aa2ce07ea09c6b1253bd62111853a01fc}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, double value, chars\+\_\+format fmt)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a23e2d522a9be477687ce8a99832f5d9d}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, long double value, chars\+\_\+format fmt)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_a8f18559369db93f332cd9af2d5a8d49d}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, float value, chars\+\_\+format fmt, int precision, char dot=\textquotesingle{}.\textquotesingle{}, char exp=\textquotesingle{}e\textquotesingle{}, bool upper=false)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_abe570a1e00892b6ed78277b2939477fd}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, double value, chars\+\_\+format fmt, int precision, char dot=\textquotesingle{}.\textquotesingle{}, char exp=\textquotesingle{}e\textquotesingle{}, bool upper=false)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} to\+\_\+chars\+\_\+result \mbox{\hyperlink{namespaceseq_ade72bd4859446d94c240d219e7dd8dc4}{seq\+::to\+\_\+chars}} (char $\ast$first, char $\ast$last, long double value, chars\+\_\+format fmt, int precision, char dot=\textquotesingle{}.\textquotesingle{}, char exp=\textquotesingle{}e\textquotesingle{}, bool upper=false)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+Stream \& \mbox{\hyperlink{namespaceseq_1_1detail_a357d94da98d7b1a4e83f37f3852bfdc6}{seq\+::detail\+::str}}
+\item 
+char \mbox{\hyperlink{namespaceseq_1_1detail_a12c9a7db6862be66b508b7cc80e12a2d}{seq\+::detail\+::n}} = to\+\_\+upper(str.\+getc())
+\item 
+if(a==\textquotesingle{}A\textquotesingle{} \&\&n==\textquotesingle{}N\textquotesingle{}) return std \mbox{\hyperlink{namespaceseq_1_1detail_ac528f934337af8fcb023cff249bdc648}{seq\+::detail\+::else}}
+\item 
+int \mbox{\hyperlink{namespaceseq_1_1detail_ab2089ca2de12c558d623d0da00b3de1a}{seq\+::detail\+::sign}}
+\item 
+char \mbox{\hyperlink{namespaceseq_1_1detail_a76fa776653402382e316c7b6715856af}{seq\+::detail\+::f}} = to\+\_\+upper(str.\+getc())
+\item 
+Integral \mbox{\hyperlink{namespaceseq_1_1detail_ae55afe416e41adc12918f3deb7b62d68}{seq\+::detail\+::saved}}
+\item 
+Integral int char \mbox{\hyperlink{namespaceseq_1_1detail_a24c739f9847a2958ea1a2a5c410d8d68}{seq\+::detail\+::dot}}
+\item 
+Integral int char Stream const chars\+\_\+format \& \mbox{\hyperlink{namespaceseq_1_1detail_ae2ec0926cfae1c70dc01e5156c2ff400}{seq\+::detail\+::fmt}}
+\item 
+Integral \mbox{\hyperlink{namespaceseq_1_1detail_a07fd861e0874342ee8e1202fe0138bef}{seq\+::detail\+::save\+\_\+point}} = 0
+\item 
+int \mbox{\hyperlink{namespaceseq_1_1detail_a4abc955e0a77f9f1a5d4b9fa147745e1}{seq\+::detail\+::first}} = str.\+getc()
+\item 
+error \mbox{\hyperlink{namespaceseq_1_1detail_a40dbe04f3c796d42398f3e656174cbe0}{seq\+::detail\+::\+\_\+\+\_\+pad0\+\_\+\+\_\+}}
+\item 
+partial \mbox{\hyperlink{namespaceseq_1_1detail_ac0312ea89c1631865dfffd7b4de699bc}{seq\+::detail\+::\+\_\+\+\_\+pad1\+\_\+\+\_\+}}
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_ac251eb4e32250b98d21c517092cda6f1}{seq\+::detail\+::\+N\+AN}}
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_a71a01c8d491d7c793e8bffdc81ac8bfb}{seq\+::detail\+::return}} \{ dst + 3, std\+::errc() \}
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_a0d7792917a9e5886fe9d35f58eb7daca}{seq\+::detail\+::\+I\+NF}}
+\end{DoxyCompactItemize}

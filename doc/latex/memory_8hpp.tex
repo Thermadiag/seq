@@ -1,0 +1,127 @@
+\hypertarget{memory_8hpp}{}\doxysection{seq/memory.hpp File Reference}
+\label{memory_8hpp}\index{seq/memory.hpp@{seq/memory.hpp}}
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$list$>$}\newline
+{\ttfamily \#include \char`\"{}lock.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}bits.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utils.\+hpp\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_malloc_free}{seq\+::detail\+::\+Malloc\+Free}}
+\item 
+class \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator$<$ T, Allocator, Align $>$}}
+\begin{DoxyCompactList}\small\item\em Allocator class with custom alignment. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1aligned__allocator_1_1rebind}{seq\+::aligned\+\_\+allocator$<$ T, Allocator, Align $>$\+::rebind$<$ U $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1aligned__allocator_3_01_t_00_01std_1_1allocator_3_01_t_01_4_00_01_align_01_4}{seq\+::aligned\+\_\+allocator$<$ T, std\+::allocator$<$ T $>$, Align $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1aligned__allocator_3_01_t_00_01std_1_1allocator_3_01_t_01_4_00_01_align_01_4_1_1rebind}{seq\+::aligned\+\_\+allocator$<$ T, std\+::allocator$<$ T $>$, Align $>$\+::rebind$<$ U $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1external__allocator}{seq\+::external\+\_\+allocator$<$ T, External $>$}}
+\begin{DoxyCompactList}\small\item\em Stl conforming allocator wrapper using an external class to perform the allocation. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1external__allocator_1_1rebind}{seq\+::external\+\_\+allocator$<$ T, External $>$\+::rebind$<$ U $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__object__pool}{seq\+::is\+\_\+object\+\_\+pool$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{seq\+::detail\+::virtual\+\_\+mem\+\_\+pool}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1impl__mem__pool}{seq\+::detail\+::impl\+\_\+mem\+\_\+pool$<$ Pool $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1select__ref__cnt__type}{seq\+::detail\+::select\+\_\+ref\+\_\+cnt\+\_\+type$<$ Is\+Threaded $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1select__ref__cnt__type_3_01true_01_4}{seq\+::detail\+::select\+\_\+ref\+\_\+cnt\+\_\+type$<$ true $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data$<$ Allocator, Is\+Threaded $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data}{seq\+::detail\+::allocator\+\_\+data$<$ Allocator, Is\+Threaded $>$\+::\+Vector\+Data}}
+\item 
+class \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator$<$ Pool $>$}}
+\begin{DoxyCompactList}\small\item\em Stl conforming allocator based on an object pool class. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1object__allocator_1_1rebind}{seq\+::object\+\_\+allocator$<$ Pool $>$\+::rebind$<$ U $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1bool__locker}{seq\+::detail\+::bool\+\_\+locker}}
+\begin{DoxyCompactList}\small\item\em Lock a boolean value. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::thread\+\_\+data$<$ Threaded $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1detail_1_1thread__data_3_01false_01_4}{seq\+::detail\+::thread\+\_\+data$<$ false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{seq\+::detail\+::stats\+\_\+data$<$ Temporal\+Stats $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4}{seq\+::detail\+::stats\+\_\+data$<$ false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_3_01_allocator_00_01_align_00_01false_00_01_generate_stats_00_01false_01_4}{seq\+::detail\+::block\+\_\+pool$<$ Allocator, Align, false, Generate\+Stats, false $>$}}
+\begin{DoxyCompactList}\small\item\em Specialization of \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}} for non multi-\/threaded pool. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1block__it}{seq\+::detail\+::block\+\_\+it$<$ block\+\_\+type $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1base__object__pool}{seq\+::detail\+::base\+\_\+object\+\_\+pool$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1virtual__block}{seq\+::detail\+::virtual\+\_\+block$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1unique__ptr__deleter}{seq\+::unique\+\_\+ptr\+\_\+deleter$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Deleter class for std\+::unique\+\_\+ptr when used with \#object\+\_\+pool or \#parallel\+\_\+object\+\_\+pool. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classseq_1_1detail_1_1allocator__for__shared__ptr}{seq\+::detail\+::allocator\+\_\+for\+\_\+shared\+\_\+ptr$<$ T, Pool $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1allocator__for__shared__ptr_1_1rebind}{seq\+::detail\+::allocator\+\_\+for\+\_\+shared\+\_\+ptr$<$ T, Pool $>$\+::rebind$<$ U $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1object__pool__stats}{seq\+::object\+\_\+pool\+\_\+stats}}
+\begin{DoxyCompactList}\small\item\em Class gathering statistics for \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}} or \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool}}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1linear__object__allocation}{seq\+::linear\+\_\+object\+\_\+allocation$<$ Max\+Size, Min\+Capacity $>$}}
+\begin{DoxyCompactList}\small\item\em Allocate up to Max\+Size objects by step of 1. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1block__object__allocation}{seq\+::block\+\_\+object\+\_\+allocation$<$ Max\+Size, Block\+Size, Min\+Capacity $>$}}
+\begin{DoxyCompactList}\small\item\em Allocate up to Max\+Size objects by step of Block\+Size. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1pow__object__allocation}{seq\+::pow\+\_\+object\+\_\+allocation$<$ Max\+Size, Min\+Size, Min\+Capacity $>$}}
+\begin{DoxyCompactList}\small\item\em Allocate up to Max\+Size objects using power of 2 steps. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1shared__ptr__allocation}{seq\+::shared\+\_\+ptr\+\_\+allocation}}
+\item 
+class \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$}}
+\begin{DoxyCompactList}\small\item\em Object pool class used to allocate objects of type T. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1object__pool_1_1rebind}{seq\+::object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::rebind$<$ U $>$}}
+\begin{DoxyCompactList}\small\item\em Rebind struct, used for \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1is__object__pool_3_01object__pool_3_01_t_00_01_allocator_00_01_align_00_01object__aa897b5fd959a84c29154e339081634cc}{seq\+::is\+\_\+object\+\_\+pool$<$ object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1parallel__stats__data}{seq\+::detail\+::parallel\+\_\+stats\+\_\+data$<$ Temporal\+Stats $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1parallel__stats__data_3_01false_01_4}{seq\+::detail\+::parallel\+\_\+stats\+\_\+data$<$ false $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$}}
+\begin{DoxyCompactList}\small\item\em Lock-\/free parallel object pool. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1parallel__object__pool_1_1rebind}{seq\+::parallel\+\_\+object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$\+::rebind$<$ U $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__parallel__object__pool}{seq\+::is\+\_\+parallel\+\_\+object\+\_\+pool$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__parallel__object__pool_3_01parallel__object__pool_3_01_t_00_01_al_00_01_a_00_01_o_00_01_g_01_4_01_4}{seq\+::is\+\_\+parallel\+\_\+object\+\_\+pool$<$ parallel\+\_\+object\+\_\+pool$<$ T, Al, A, O, G $>$ $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail}{seq\+::detail}}
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits in {\itshape value}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{seq\+::detail\+::thread\+\_\+id}} = std\+::thread\+::id
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{namespaceseq_a20e72bbc46786ab0a7095941c5d09045ad00237c7a57ddcba9f768430524651f2}{seq\+::\+Enough\+For\+Shared\+Ptr}} = I\+N\+T\+\_\+\+M\+AX, 
+\mbox{\hyperlink{namespaceseq_a20e72bbc46786ab0a7095941c5d09045a668d551cd99226655e9e973b6d5be517}{seq\+::\+Default\+Alignment}} = 0
+ \}
+\begin{DoxyCompactList}\small\item\em Constants used by \#object\+\_\+pool, \#parallel\+\_\+object\+\_\+pool and \#object\+\_\+allocator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class Pool , class Allocator , class Real\+Allocator $>$ }\\void \mbox{\hyperlink{namespaceseq_1_1detail_ad47ea97ae6d22ba92788429119e1d212}{seq\+::detail\+::deallocate\+\_\+virtual\+\_\+pool}} (Allocator \&al, virtual\+\_\+mem\+\_\+pool $\ast$pool)
+\item 
+{\footnotesize template$<$class T $>$ }\\virtual\+\_\+block$<$ T $>$ $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_a1d06f9112f8f380b6152378060e694f0}{seq\+::detail\+::get\+\_\+virtual\+\_\+block}} (T $\ast$p)
+\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{namespaceseq_a1349a44a2ff37300a5c72a03780780fe}{seq\+::unique\+\_\+ptr\+\_\+delete}} (T $\ast$p)
+\begin{DoxyCompactList}\small\item\em Deallocate pointer previously held by a std\+::unqiue\+\_\+ptr$<$T,unique\+\_\+ptr\+\_\+deleter$<$\+T$>$ $>$ \end{DoxyCompactList}\end{DoxyCompactItemize}

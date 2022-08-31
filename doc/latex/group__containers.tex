@@ -1,0 +1,29 @@
+\hypertarget{group__containers}{}\doxysection{Containers\+: original S\+T\+L-\/like containers}
+\label{group__containers}\index{Containers: original STL-\/like containers@{Containers: original STL-\/like containers}}
+
+
+The \mbox{\hyperlink{group__containers}{containers}} module defines several container classes as alternatives to S\+TL containers or providing features not present in the S\+TL. These containers generally adhere to the properties of S\+TL containers, though there are often some associated A\+PI differences and/or implementation details which differ from the standard library.  
+
+
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The \mbox{\hyperlink{group__containers}{containers}} module defines several container classes as alternatives to S\+TL containers or providing features not present in the S\+TL. These containers generally adhere to the properties of S\+TL containers, though there are often some associated A\+PI differences and/or implementation details which differ from the standard library. 
+
+The Seq containers are not necessarly drop-\/in replacement for their S\+TL counterparts as they usually provide different iterator/reference statibility rules or different exception guarantees.
+
+Currently, the \mbox{\hyperlink{group__containers}{containers}} module provide 6 types of containers\+:
+\begin{DoxyItemize}
+\item Sequential random-\/access containers\+: \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}} and \mbox{\hyperlink{classseq_1_1deque}{seq\+::deque}},
+\item Sequential stable non random-\/access container\+: \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}},
+\item Sorted containers\+: \mbox{\hyperlink{classseq_1_1flat__set}{seq\+::flat\+\_\+set}}, \mbox{\hyperlink{classseq_1_1flat__map}{seq\+::flat\+\_\+map}}, \mbox{\hyperlink{classseq_1_1flat__multiset}{seq\+::flat\+\_\+multiset}} and \mbox{\hyperlink{classseq_1_1flat__multimap}{seq\+::flat\+\_\+multimap}},
+\item Ordered robin-\/hood hash tables\+: \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} and \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}.
+\item Tiny string and string view\+: \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}} and \mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{seq\+::tstring\+\_\+view}}.
+\end{DoxyItemize}
+
+See the documentation of each class for more details. 

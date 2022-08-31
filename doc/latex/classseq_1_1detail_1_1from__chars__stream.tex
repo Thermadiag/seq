@@ -1,0 +1,221 @@
+\hypertarget{classseq_1_1detail_1_1from__chars__stream}{}\doxysection{seq\+::detail\+::from\+\_\+chars\+\_\+stream Class Reference}
+\label{classseq_1_1detail_1_1from__chars__stream}\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+
+
+{\ttfamily \#include $<$charconv.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_a5fece229bf3b5a3ace2787cbe71b5290}{State}} = \mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{Stream\+State}}
+\item 
+using \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_a3e87cae80b0b5f92c4323427ce8c024f}{streamsize}} = const char $\ast$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_a1bad42a62caa7d6b730afae50e4bae08}{from\+\_\+chars\+\_\+stream}} ()
+\begin{DoxyCompactList}\small\item\em Default ctor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_afcd257e9b3b2e84d750b2de926eb424c}{from\+\_\+chars\+\_\+stream}} (const char $\ast$data, const char $\ast$end)
+\begin{DoxyCompactList}\small\item\em Construct from sequence of characters and size. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_aea4be6be6efe4e83ea8954839551f9fa}{set\+\_\+state}} (\mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{State}} st) noexcept
+\begin{DoxyCompactList}\small\item\em Set the stream state. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{State}} \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_a0100138dcbb64267bcf3253fe289e625}{state}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the current stream state. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} std\+::errc \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_a811a890ee6150005f00a55b2fd59ad3f}{error}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_af1c04698b574e14679b067f246f5e95a}{reset}} ()
+\item 
+constexpr \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_ac8d079c362954a3c34456e7bba31668c}{operator bool}} () const noexcept
+\item 
+void \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_a44dfc38ec83b4554be8c97a501f1d9d2}{close}} ()
+\begin{DoxyCompactList}\small\item\em Close the stream. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_a4e45d04d22efdac06be608f69e4224e7}{is\+\_\+open}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns true if the stream is open. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_a51e37e45e524cef779681c7f6a03efc6}{at\+\_\+end}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns true if the stream read its last character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_af0dfec0a22a151b9af59d8634371bc1d}{size}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the internal character sequence size. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const char $\ast$ \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_acf28278e1ac35e133ea0750c7c2f46d7}{tell}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the current read position in the stream. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_a4be8046e22dca119b8c6b55496adb76e}{back}} () noexcept
+\begin{DoxyCompactList}\small\item\em Go back one character (if possible) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_aa07438597ea3035af7c3a28d56c4f62d}{seek}} (const char $\ast$\mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) noexcept
+\begin{DoxyCompactList}\small\item\em Seek at given position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_a6a2e2246f95e7d59bab9457aed131941}{getc}} () noexcept
+\begin{DoxyCompactList}\small\item\em Extract a single character from the stream and put the read position to the next character. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_a5fece229bf3b5a3ace2787cbe71b5290}\label{classseq_1_1detail_1_1from__chars__stream_a5fece229bf3b5a3ace2787cbe71b5290}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!State@{State}}
+\index{State@{State}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{State}{State}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::\+State}} =  \mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{Stream\+State}}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_a3e87cae80b0b5f92c4323427ce8c024f}\label{classseq_1_1detail_1_1from__chars__stream_a3e87cae80b0b5f92c4323427ce8c024f}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!streamsize@{streamsize}}
+\index{streamsize@{streamsize}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{streamsize}{streamsize}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1detail_1_1from__chars__stream_a3e87cae80b0b5f92c4323427ce8c024f}{seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::streamsize}} =  const char$\ast$}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_a1bad42a62caa7d6b730afae50e4bae08}\label{classseq_1_1detail_1_1from__chars__stream_a1bad42a62caa7d6b730afae50e4bae08}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!from\_chars\_stream@{from\_chars\_stream}}
+\index{from\_chars\_stream@{from\_chars\_stream}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{from\_chars\_stream()}{from\_chars\_stream()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::from\+\_\+chars\+\_\+stream (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Default ctor. 
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_afcd257e9b3b2e84d750b2de926eb424c}\label{classseq_1_1detail_1_1from__chars__stream_afcd257e9b3b2e84d750b2de926eb424c}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!from\_chars\_stream@{from\_chars\_stream}}
+\index{from\_chars\_stream@{from\_chars\_stream}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{from\_chars\_stream()}{from\_chars\_stream()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::from\+\_\+chars\+\_\+stream (\begin{DoxyParamCaption}\item[{const char $\ast$}]{data,  }\item[{const char $\ast$}]{end }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct from sequence of characters and size. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_a51e37e45e524cef779681c7f6a03efc6}\label{classseq_1_1detail_1_1from__chars__stream_a51e37e45e524cef779681c7f6a03efc6}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!at\_end@{at\_end}}
+\index{at\_end@{at\_end}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{at\_end()}{at\_end()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::at\+\_\+end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns true if the stream read its last character. 
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_a4be8046e22dca119b8c6b55496adb76e}\label{classseq_1_1detail_1_1from__chars__stream_a4be8046e22dca119b8c6b55496adb76e}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!back@{back}}
+\index{back@{back}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Go back one character (if possible) 
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_a44dfc38ec83b4554be8c97a501f1d9d2}\label{classseq_1_1detail_1_1from__chars__stream_a44dfc38ec83b4554be8c97a501f1d9d2}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!close@{close}}
+\index{close@{close}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily void seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::close (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Close the stream. 
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_a811a890ee6150005f00a55b2fd59ad3f}\label{classseq_1_1detail_1_1from__chars__stream_a811a890ee6150005f00a55b2fd59ad3f}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!error@{error}}
+\index{error@{error}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{error()}{error()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} std\+::errc seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::error (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_a6a2e2246f95e7d59bab9457aed131941}\label{classseq_1_1detail_1_1from__chars__stream_a6a2e2246f95e7d59bab9457aed131941}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!getc@{getc}}
+\index{getc@{getc}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{getc()}{getc()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::getc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Extract a single character from the stream and put the read position to the next character. 
+
+\begin{DoxyReturn}{Returns}
+extracted character or E\+OF 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_a4e45d04d22efdac06be608f69e4224e7}\label{classseq_1_1detail_1_1from__chars__stream_a4e45d04d22efdac06be608f69e4224e7}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!is\_open@{is\_open}}
+\index{is\_open@{is\_open}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{is\_open()}{is\_open()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::is\+\_\+open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns true if the stream is open. 
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_ac8d079c362954a3c34456e7bba31668c}\label{classseq_1_1detail_1_1from__chars__stream_ac8d079c362954a3c34456e7bba31668c}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{operator bool()}{operator bool()}}
+{\footnotesize\ttfamily constexpr \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::operator bool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_af1c04698b574e14679b067f246f5e95a}\label{classseq_1_1detail_1_1from__chars__stream_af1c04698b574e14679b067f246f5e95a}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!reset@{reset}}
+\index{reset@{reset}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_aa07438597ea3035af7c3a28d56c4f62d}\label{classseq_1_1detail_1_1from__chars__stream_aa07438597ea3035af7c3a28d56c4f62d}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!seek@{seek}}
+\index{seek@{seek}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{seek()}{seek()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::seek (\begin{DoxyParamCaption}\item[{const char $\ast$}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Seek at given position. 
+
+\begin{DoxyReturn}{Returns}
+The new read position 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_aea4be6be6efe4e83ea8954839551f9fa}\label{classseq_1_1detail_1_1from__chars__stream_aea4be6be6efe4e83ea8954839551f9fa}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!set\_state@{set\_state}}
+\index{set\_state@{set\_state}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{set\_state()}{set\_state()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::set\+\_\+state (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{State}}}]{st }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the stream state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em st} & stream state \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_af0dfec0a22a151b9af59d8634371bc1d}\label{classseq_1_1detail_1_1from__chars__stream_af0dfec0a22a151b9af59d8634371bc1d}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!size@{size}}
+\index{size@{size}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the internal character sequence size. 
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_a0100138dcbb64267bcf3253fe289e625}\label{classseq_1_1detail_1_1from__chars__stream_a0100138dcbb64267bcf3253fe289e625}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!state@{state}}
+\index{state@{state}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{state()}{state()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{State}} seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::state (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the current stream state. 
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1from__chars__stream_acf28278e1ac35e133ea0750c7c2f46d7}\label{classseq_1_1detail_1_1from__chars__stream_acf28278e1ac35e133ea0750c7c2f46d7}} 
+\index{seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}!tell@{tell}}
+\index{tell@{tell}!seq::detail::from\_chars\_stream@{seq::detail::from\_chars\_stream}}
+\doxysubsubsection{\texorpdfstring{tell()}{tell()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const char$\ast$ seq\+::detail\+::from\+\_\+chars\+\_\+stream\+::tell (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the current read position in the stream. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{charconv_8hpp}{charconv.\+hpp}}\end{DoxyCompactItemize}

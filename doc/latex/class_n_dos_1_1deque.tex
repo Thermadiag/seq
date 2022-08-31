@@ -1,0 +1,230 @@
+\hypertarget{class_n_dos_1_1deque}{}\doxysection{N\+Dos\+::deque$<$ T, Alloc $>$ Class Template Reference}
+\label{class_n_dos_1_1deque}\index{NDos::deque$<$ T, Alloc $>$@{NDos::deque$<$ T, Alloc $>$}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}}
+\item 
+class \mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ad316301a40ad2d7bdb4ffbad20ddadfb}\label{class_n_dos_1_1deque_ad316301a40ad2d7bdb4ffbad20ddadfb}} 
+typedef T {\bfseries value\+\_\+type}
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a2e0adbca71f1856e87c7d0ccd6e9f371}\label{class_n_dos_1_1deque_a2e0adbca71f1856e87c7d0ccd6e9f371}} 
+typedef Alloc {\bfseries allocator\+\_\+type}
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ad79bd30aab7771d72419e32f8c975969}\label{class_n_dos_1_1deque_ad79bd30aab7771d72419e32f8c975969}} 
+typedef std\+::allocator\+\_\+traits$<$ Alloc $>$\+::size\+\_\+type {\bfseries size\+\_\+type}
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a3119ed2cd1e4ed088642140b837163c9}\label{class_n_dos_1_1deque_a3119ed2cd1e4ed088642140b837163c9}} 
+typedef std\+::allocator\+\_\+traits$<$ Alloc $>$\+::difference\+\_\+type {\bfseries difference\+\_\+type}
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a5f0dcb1c8740aaac3c25171799fb464c}\label{class_n_dos_1_1deque_a5f0dcb1c8740aaac3c25171799fb464c}} 
+typedef T \& {\bfseries reference}
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a8c37fb2d64e730e49957162be0627948}\label{class_n_dos_1_1deque_a8c37fb2d64e730e49957162be0627948}} 
+typedef const T \& {\bfseries const\+\_\+reference}
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a28df0f2af6492c4bdb692aa31a27a7b2}\label{class_n_dos_1_1deque_a28df0f2af6492c4bdb692aa31a27a7b2}} 
+typedef std\+::allocator\+\_\+traits$<$ Alloc $>$\+::pointer {\bfseries pointer}
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_adc682a09a59d1fb2bf31e5be1802fd1d}\label{class_n_dos_1_1deque_adc682a09a59d1fb2bf31e5be1802fd1d}} 
+typedef std\+::allocator\+\_\+traits$<$ Alloc $>$\+::const\+\_\+pointer {\bfseries const\+\_\+pointer}
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a088fa0d80dd63d88483f4fce50ef3612}\label{class_n_dos_1_1deque_a088fa0d80dd63d88483f4fce50ef3612}} 
+typedef std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}} $>$ {\bfseries reverse\+\_\+iterator}
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a7b099d3a4e367de40062ff7eef020553}\label{class_n_dos_1_1deque_a7b099d3a4e367de40062ff7eef020553}} 
+typedef std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} $>$ {\bfseries const\+\_\+reverse\+\_\+iterator}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a6aa0d4ae33f4dc4729b672d002be7f17}\label{class_n_dos_1_1deque_a6aa0d4ae33f4dc4729b672d002be7f17}} 
+{\bfseries deque} (const Alloc \&alloc)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_af052ab75b5a7e8a45f38ee39d8a0a6f5}\label{class_n_dos_1_1deque_af052ab75b5a7e8a45f38ee39d8a0a6f5}} 
+{\bfseries deque} (size\+\_\+type count, const\+\_\+reference value, const Alloc \&alloc=Alloc())
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a94620716978fd4434595d874e182331c}\label{class_n_dos_1_1deque_a94620716978fd4434595d874e182331c}} 
+{\bfseries deque} (size\+\_\+type count, const Alloc \&alloc=Alloc())
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a5ee48503126294db88754655b50ec377}\label{class_n_dos_1_1deque_a5ee48503126294db88754655b50ec377}} 
+{\footnotesize template$<$class Input\+It $>$ }\\{\bfseries deque} (Input\+It first, std\+::conditional\+\_\+t$<$ false, typename std\+::iterator\+\_\+traits$<$ Input\+It $>$\+::value\+\_\+type, Input\+It $>$ last, const Alloc \&alloc=Alloc())
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a7ec6dfabcb7ccc5fa868df82c0967ac2}\label{class_n_dos_1_1deque_a7ec6dfabcb7ccc5fa868df82c0967ac2}} 
+{\bfseries deque} (const \mbox{\hyperlink{class_n_dos_1_1deque}{deque}} \&other)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a687e844a0313fe611780ce13ec2848af}\label{class_n_dos_1_1deque_a687e844a0313fe611780ce13ec2848af}} 
+{\bfseries deque} (const \mbox{\hyperlink{class_n_dos_1_1deque}{deque}} \&other, const Alloc \&alloc)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a17c186013a0867ab6f4bc38c4dc92e2b}\label{class_n_dos_1_1deque_a17c186013a0867ab6f4bc38c4dc92e2b}} 
+{\bfseries deque} (\mbox{\hyperlink{class_n_dos_1_1deque}{deque}} \&\&other)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a53744949c17862812d3e6cd9bd68146b}\label{class_n_dos_1_1deque_a53744949c17862812d3e6cd9bd68146b}} 
+{\bfseries deque} (\mbox{\hyperlink{class_n_dos_1_1deque}{deque}} \&\&other, const Alloc \&alloc)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a50766394f1ab12896fc001057580456c}\label{class_n_dos_1_1deque_a50766394f1ab12896fc001057580456c}} 
+{\bfseries deque} (std\+::initializer\+\_\+list$<$ T $>$ init, const Alloc \&alloc=Alloc())
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a68d649c917b7ae1e339d54eac67415e1}\label{class_n_dos_1_1deque_a68d649c917b7ae1e339d54eac67415e1}} 
+\mbox{\hyperlink{class_n_dos_1_1deque}{deque}} \& {\bfseries operator=} (const \mbox{\hyperlink{class_n_dos_1_1deque}{deque}} \&other)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a7decbf64c6608acad4b54343ac692e94}\label{class_n_dos_1_1deque_a7decbf64c6608acad4b54343ac692e94}} 
+\mbox{\hyperlink{class_n_dos_1_1deque}{deque}} \& {\bfseries operator=} (\mbox{\hyperlink{class_n_dos_1_1deque}{deque}} \&\&other) noexcept(typename vatraits\+::is\+\_\+always\+\_\+equal())
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ad427381a428cc52a48e77730eb92246f}\label{class_n_dos_1_1deque_ad427381a428cc52a48e77730eb92246f}} 
+\mbox{\hyperlink{class_n_dos_1_1deque}{deque}} \& {\bfseries operator=} (std\+::initializer\+\_\+list$<$ T $>$ other)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a2607011ce7579df5245749a3e6f3a4ce}\label{class_n_dos_1_1deque_a2607011ce7579df5245749a3e6f3a4ce}} 
+void {\bfseries assign} (size\+\_\+type count, const\+\_\+reference value)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_afe7c3c837312f619cdd1218a249369d3}\label{class_n_dos_1_1deque_afe7c3c837312f619cdd1218a249369d3}} 
+{\footnotesize template$<$class Input\+It $>$ }\\std\+::conditional\+\_\+t$<$ false, typename std\+::iterator\+\_\+traits$<$ Input\+It $>$\+::value\+\_\+type, void $>$ {\bfseries assign} (Input\+It first, Input\+It last)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_af339fd4b8b4e266b0b8b0615708dceb1}\label{class_n_dos_1_1deque_af339fd4b8b4e266b0b8b0615708dceb1}} 
+void {\bfseries assign} (std\+::initializer\+\_\+list$<$ T $>$ other)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ad279d9c6f73ef09bf8f96d157f45a6f5}\label{class_n_dos_1_1deque_ad279d9c6f73ef09bf8f96d157f45a6f5}} 
+Alloc {\bfseries get\+\_\+allocator} () const
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a1e6e52f901345a7104ed4ce8e72613d8}\label{class_n_dos_1_1deque_a1e6e52f901345a7104ed4ce8e72613d8}} 
+reference {\bfseries at} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a6d56e24c0d67f9a90254c547cb90b56a}\label{class_n_dos_1_1deque_a6d56e24c0d67f9a90254c547cb90b56a}} 
+const\+\_\+reference {\bfseries at} (size\+\_\+type pos) const
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a2eb7e2e8bfe5342c5ee0abda0741009b}\label{class_n_dos_1_1deque_a2eb7e2e8bfe5342c5ee0abda0741009b}} 
+reference {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a39b1e776d28579a0e6c7f953276c36a2}\label{class_n_dos_1_1deque_a39b1e776d28579a0e6c7f953276c36a2}} 
+const\+\_\+reference {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+type pos) const
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a25da7ef02a40b853abcb68f2456db5a4}\label{class_n_dos_1_1deque_a25da7ef02a40b853abcb68f2456db5a4}} 
+reference {\bfseries front} ()
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_adba2795359bc465db369758742f3d834}\label{class_n_dos_1_1deque_adba2795359bc465db369758742f3d834}} 
+const\+\_\+reference {\bfseries front} () const
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a762a0fc50a364bc24472e58ddccb5cad}\label{class_n_dos_1_1deque_a762a0fc50a364bc24472e58ddccb5cad}} 
+reference {\bfseries back} ()
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a8ca1e6781f890a2bd63b80535643fbd9}\label{class_n_dos_1_1deque_a8ca1e6781f890a2bd63b80535643fbd9}} 
+const\+\_\+reference {\bfseries back} () const
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_aef7fc74a246ff6e32bc6f02e28c4e497}\label{class_n_dos_1_1deque_aef7fc74a246ff6e32bc6f02e28c4e497}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}} {\bfseries begin} () noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ab82873038489a67e7e15d08a32f2de56}\label{class_n_dos_1_1deque_ab82873038489a67e7e15d08a32f2de56}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a0f297018eef4bc7c3c65c4cac740a17d}\label{class_n_dos_1_1deque_a0f297018eef4bc7c3c65c4cac740a17d}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} {\bfseries cbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a0e1c5568cb8746d7eb7f63d07f195bfa}\label{class_n_dos_1_1deque_a0e1c5568cb8746d7eb7f63d07f195bfa}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}} {\bfseries end} () noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ad7189cdde9356c45a4b09b75ad448d5a}\label{class_n_dos_1_1deque_ad7189cdde9356c45a4b09b75ad448d5a}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a8e22adbbc5fc4d93297a6b452fdf2d48}\label{class_n_dos_1_1deque_a8e22adbbc5fc4d93297a6b452fdf2d48}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} {\bfseries cend} () const noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_aa33c50b95fdc20c86b58b9db1d3b81b6}\label{class_n_dos_1_1deque_aa33c50b95fdc20c86b58b9db1d3b81b6}} 
+reverse\+\_\+iterator {\bfseries rbegin} () noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a175ff6412fd6c71a78ce8ad20c556053}\label{class_n_dos_1_1deque_a175ff6412fd6c71a78ce8ad20c556053}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a74764b2a9bdba3878b3426a9c8e08c5f}\label{class_n_dos_1_1deque_a74764b2a9bdba3878b3426a9c8e08c5f}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a21715302500afb0b7bd664d45ad081ea}\label{class_n_dos_1_1deque_a21715302500afb0b7bd664d45ad081ea}} 
+reverse\+\_\+iterator {\bfseries rend} () noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a5c795645bce9efd8b6b36342162003ac}\label{class_n_dos_1_1deque_a5c795645bce9efd8b6b36342162003ac}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rend} () const noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a0acc301e46fa68cbd710840eff029ac9}\label{class_n_dos_1_1deque_a0acc301e46fa68cbd710840eff029ac9}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crend} () const noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a8040f2f19246c83189f0f1579a3f0d3f}\label{class_n_dos_1_1deque_a8040f2f19246c83189f0f1579a3f0d3f}} 
+bool {\bfseries empty} () const noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ac28d0b7936374d23d2bbe1bf6aecb3bf}\label{class_n_dos_1_1deque_ac28d0b7936374d23d2bbe1bf6aecb3bf}} 
+size\+\_\+type {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a55ce8f6ab0654e65b1b85125358a9cf5}\label{class_n_dos_1_1deque_a55ce8f6ab0654e65b1b85125358a9cf5}} 
+size\+\_\+type {\bfseries max\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a2cbfe6c552cc0ac248728e4ad645f488}\label{class_n_dos_1_1deque_a2cbfe6c552cc0ac248728e4ad645f488}} 
+void {\bfseries shrink\+\_\+to\+\_\+fit} ()
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_adb8a5daaef13a7660c0e39ec7cd5f56a}\label{class_n_dos_1_1deque_adb8a5daaef13a7660c0e39ec7cd5f56a}} 
+void {\bfseries clear} () noexcept
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ad5bca2836382acd399615fe80e502bee}\label{class_n_dos_1_1deque_ad5bca2836382acd399615fe80e502bee}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} pos, const\+\_\+reference value)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a5145805b4d325a4cfb4db84b5414697d}\label{class_n_dos_1_1deque_a5145805b4d325a4cfb4db84b5414697d}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a5d8e33dbcc281027fe09b471f840ced3}\label{class_n_dos_1_1deque_a5d8e33dbcc281027fe09b471f840ced3}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} pos, size\+\_\+type count, const\+\_\+reference value)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a5fac9676cf262840a71cbbd4d1b3e774}\label{class_n_dos_1_1deque_a5fac9676cf262840a71cbbd4d1b3e774}} 
+{\footnotesize template$<$class Input\+It $>$ }\\std\+::conditional\+\_\+t$<$ false, typename std\+::iterator\+\_\+traits$<$ Input\+It $>$\+::value\+\_\+type, \mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}} $>$ {\bfseries insert} (\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} pos, Input\+It first, Input\+It last)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a087c8ca6f1f49e899ed6efacf7797c41}\label{class_n_dos_1_1deque_a087c8ca6f1f49e899ed6efacf7797c41}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} pos, std\+::initializer\+\_\+list$<$ T $>$ ilist)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a99544cfd1ae19974b9a2777c86cd5b98}\label{class_n_dos_1_1deque_a99544cfd1ae19974b9a2777c86cd5b98}} 
+{\footnotesize template$<$class ... Args$>$ }\\\mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}} {\bfseries emplace} (\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} pos, Args \&\&...args)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a75d43f14e1ead6a44a9405e7ae30fc76}\label{class_n_dos_1_1deque_a75d43f14e1ead6a44a9405e7ae30fc76}} 
+void {\bfseries push\+\_\+back} (const\+\_\+reference value)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a6ecf9fe91b8c50b47fe5094edc877b39}\label{class_n_dos_1_1deque_a6ecf9fe91b8c50b47fe5094edc877b39}} 
+void {\bfseries push\+\_\+back} (T \&\&value)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ac6a89227a3c0930c5cec0fcdae871bee}\label{class_n_dos_1_1deque_ac6a89227a3c0930c5cec0fcdae871bee}} 
+{\footnotesize template$<$class ... Args$>$ }\\void {\bfseries emplace\+\_\+back} (Args \&\&...args)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_af4b232b3c56f3005a2e642c264234f17}\label{class_n_dos_1_1deque_af4b232b3c56f3005a2e642c264234f17}} 
+void {\bfseries push\+\_\+front} (const\+\_\+reference value)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ace9803bb7d10a37910abe2f1f7e0ad36}\label{class_n_dos_1_1deque_ace9803bb7d10a37910abe2f1f7e0ad36}} 
+void {\bfseries push\+\_\+front} (T \&\&value)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a66274accaa7054d8580b1484c227573e}\label{class_n_dos_1_1deque_a66274accaa7054d8580b1484c227573e}} 
+{\footnotesize template$<$class ... Args$>$ }\\void {\bfseries emplace\+\_\+front} (Args \&\&...args)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_aed6a5fd28081ccb1720d71c74d1ca3ef}\label{class_n_dos_1_1deque_aed6a5fd28081ccb1720d71c74d1ca3ef}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}} {\bfseries erase} (\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} pos)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a19f9dc85fc27a421df3a07dca961dda2}\label{class_n_dos_1_1deque_a19f9dc85fc27a421df3a07dca961dda2}} 
+\mbox{\hyperlink{class_n_dos_1_1deque_1_1iterator}{iterator}} {\bfseries erase} (\mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} first, \mbox{\hyperlink{class_n_dos_1_1deque_1_1const__iterator}{const\+\_\+iterator}} last)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ab3c34422a929cad0e53891478ad8e518}\label{class_n_dos_1_1deque_ab3c34422a929cad0e53891478ad8e518}} 
+void {\bfseries pop\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_a9e443f65a2e87cd466ba7c67423cb49a}\label{class_n_dos_1_1deque_a9e443f65a2e87cd466ba7c67423cb49a}} 
+void {\bfseries pop\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_aa074c875970be7222440ee6470389ed3}\label{class_n_dos_1_1deque_aa074c875970be7222440ee6470389ed3}} 
+void {\bfseries resize} (size\+\_\+type count)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_ab1a4440f867169ed0262814333e973fe}\label{class_n_dos_1_1deque_ab1a4440f867169ed0262814333e973fe}} 
+void {\bfseries resize} (size\+\_\+type count, const\+\_\+reference value)
+\item 
+\mbox{\Hypertarget{class_n_dos_1_1deque_af611ff54db6d4f1e95b0f4366be8f7ae}\label{class_n_dos_1_1deque_af611ff54db6d4f1e95b0f4366be8f7ae}} 
+void {\bfseries swap} (\mbox{\hyperlink{class_n_dos_1_1deque}{deque}} \&other) noexcept(typename vatraits\+::is\+\_\+always\+\_\+equal())
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+deque\+\_\+off.\+hpp\end{DoxyCompactItemize}

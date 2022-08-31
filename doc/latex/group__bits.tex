@@ -1,0 +1,329 @@
+\hypertarget{group__bits}{}\doxysection{Bits\+: collection of functions for low level bits manipulation.}
+\label{group__bits}\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+
+
+The bits module provides several portable low-\/level functions for bits manipulation\+:  
+
+
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{group__bits_gac808a645bccc22a8d104686b25845824}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+U\+N\+D\+E\+F\+I\+N\+ED}}~((unsigned)-\/1)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga10ac05fc4c1d30f0843d0d49b3e70c90}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+C\+O\+R\+R\+U\+P\+T\+E\+D\+\_\+\+D\+A\+TA}}~((unsigned)-\/2)
+\item 
+\#define \mbox{\hyperlink{group__bits_gaddfaa589aaa63ececdeaebd5fbf2a1a3}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+S\+R\+C\+\_\+\+O\+V\+E\+R\+F\+L\+OW}}~((unsigned)-\/3)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga6a6232f0723fc5484382161ce43f1884}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+S\+T\+\_\+\+O\+V\+E\+R\+F\+L\+OW}}~((unsigned)-\/4)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga7fcb9cdceaaee010cedfa87de0f0fa69}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+A\+L\+L\+OC}}~((unsigned)-\/5)
+\item 
+\#define \mbox{\hyperlink{group__bits_gac7427f43a736038eeaad11d9908dbda1}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+I\+N\+P\+UT}}~((unsigned)-\/6)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga89854d5a934294428684c6cd1d4f0336}{S\+E\+Q\+\_\+\+L\+A\+S\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+C\+O\+DE}}~((unsigned)-\/10)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga67d3b70d773f73a03d96f6b4808a5921}{S\+E\+Q\+\_\+\+G\+R\+O\+W\+\_\+\+F\+A\+C\+T\+OR}}~1.\+6
+\item 
+\#define \mbox{\hyperlink{group__bits_ga3188941b4d65de46471a2e1259fc0ca3}{B\+Y\+T\+E\+O\+R\+D\+E\+R\+\_\+\+L\+I\+T\+T\+L\+E\+\_\+\+E\+N\+D\+I\+AN}}~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga92cc12b19b23eb27798b62d2d2f4e59f}{B\+Y\+T\+E\+O\+R\+D\+E\+R\+\_\+\+B\+I\+G\+\_\+\+E\+N\+D\+I\+AN}}~1
+\item 
+\#define \mbox{\hyperlink{group__bits_ga1cbb44da4a53751136f4dc9e91955349}{S\+E\+Q\+\_\+\+A\+R\+C\+H\+\_\+32}}
+\item 
+\#define \mbox{\hyperlink{group__bits_ga4358957bf3c41e772ade27671699c4e6}{S\+E\+Q\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+A\+L\+I\+G\+N\+M\+E\+NT}}~alignof(std\+::max\+\_\+align\+\_\+t)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga72391f4e9dec6b03cd65e4fa6e737b47}{S\+E\+Q\+\_\+\+A\+B\+O\+RT}}(...)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga3af9d45fb1cb5d6a17fdb3404b472f78}{S\+E\+Q\+\_\+\+O\+F\+F\+S\+E\+T\+OF}}(s,  m)~((\+::size\+\_\+t)\&reinterpret\+\_\+cast$<$char const volatile\&$>$((((s$\ast$)0)-\/$>$m)))
+\item 
+\#define \mbox{\hyperlink{group__bits_gae4a7019ba7c6381482288d4f2a24246a}{\+\_\+\+S\+E\+Q\+\_\+\+P\+R\+A\+G\+MA}}(text)~\+\_\+\+Pragma(\#text)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga06eb095185f16889bec1c2207f0e101d}{S\+E\+Q\+\_\+\+P\+R\+A\+G\+MA}}(text)~\mbox{\hyperlink{group__bits_gae4a7019ba7c6381482288d4f2a24246a}{\+\_\+\+S\+E\+Q\+\_\+\+P\+R\+A\+G\+MA}}(text)
+\item 
+\#define \mbox{\hyperlink{group__bits_gaaf29ff69ae3d251b8e68651482bdc280}{S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE}}(...)~\+\_\+\+\_\+\+V\+A\+\_\+\+A\+R\+G\+S\+\_\+\+\_\+ \+\_\+\+\_\+attribute\+\_\+\+\_\+((noinline))
+\item 
+\#define \mbox{\hyperlink{group__bits_gaeed0a618f017e128a5d8654754f792db}{\+\_\+\+\_\+has\+\_\+cpp\+\_\+attribute}}(x)~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga061fe8f79573a411376c454836794223}{S\+E\+Q\+\_\+\+F\+A\+L\+L\+T\+H\+R\+O\+U\+GH}}()
+\item 
+\#define \mbox{\hyperlink{group__bits_ga2616804c95a1e947af283dc5f65464e2}{S\+E\+Q\+\_\+\+A\+L\+I\+G\+N\+\_\+\+T\+O\+\_\+\+B\+O\+U\+N\+D\+A\+RY}}(n)~S\+E\+Q\+\_\+\+U\+S\+E\+R\+\_\+\+A\+L\+I\+G\+N\+\_\+\+T\+O\+\_\+\+B\+O\+U\+N\+D\+A\+RY(n)
+\item 
+\#define \mbox{\hyperlink{group__bits_gaac3e750dd623d4a1ef045f0faa734e08}{S\+E\+Q\+\_\+\+L\+I\+K\+E\+LY}}(x)~\+\_\+\+\_\+builtin\+\_\+expect (!!(x), 1)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga371649b7712afb0bb3b2781aeddf45d9}{S\+E\+Q\+\_\+\+U\+N\+L\+I\+K\+E\+LY}}(x)~\+\_\+\+\_\+builtin\+\_\+expect (!!(x), 0)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga55ced08c31bd12c443136cc314819992}{S\+E\+Q\+\_\+\+I\+N\+L\+I\+NE}}~\mbox{\hyperlink{group__bits_ga00d24c7231be28dbaf71f5408f30e44c}{inline}}
+\item 
+\#define \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}}~\mbox{\hyperlink{group__bits_ga00d24c7231be28dbaf71f5408f30e44c}{inline}}
+\item 
+\#define \mbox{\hyperlink{group__bits_ga2c2d414302ad252268251a38eba3d17a}{S\+E\+Q\+\_\+\+E\+X\+T\+E\+N\+S\+I\+ON}}
+\item 
+\#define \mbox{\hyperlink{group__bits_ga9989f32616a05af18ff62830566e4b2f}{S\+E\+Q\+\_\+\+A\+S\+S\+E\+R\+T\+\_\+\+D\+E\+B\+UG}}(condition, ...)~assert((condition) \&\& (\+\_\+\+\_\+\+V\+A\+\_\+\+A\+R\+G\+S\+\_\+\+\_\+))
+\item 
+\#define \mbox{\hyperlink{group__bits_ga447121dcab4275b7839a56082b7a1ab8}{\+\_\+\+\_\+has\+\_\+builtin}}(x)~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga54d2d7742701f3f112afbcd8d4f9ccdb}{\+\_\+\+\_\+has\+\_\+attribute}}(x)~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga59c586478ea00b6dc39ac90bb328d377}{S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+P\+O\+S\+I\+X\+\_\+\+M\+E\+M\+A\+L\+I\+GN}}~0
+\item 
+\#define \mbox{\hyperlink{group__bits_gae44fd21755228afece88fa61639e195b}{S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+M\+M\+\_\+\+M\+A\+L\+L\+OC}}~0
+\item 
+\#define \mbox{\hyperlink{group__bits_gaca71eb8581a4867a6eb7fc1d5e65b9b7}{S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+A\+L\+I\+G\+N\+E\+D\+\_\+\+M\+A\+L\+L\+OC}}~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga15b108df9e786a28e99c8a6e70d51b57}{S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+M\+I\+N\+G\+W\+\_\+\+A\+L\+I\+G\+N\+E\+D\+\_\+\+M\+A\+L\+L\+OC}}~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga2e12dfd1209d2791136221bb807e8b21}{G\+N\+U\+C\+\_\+\+P\+R\+E\+R\+EQ}}(x,  y)~0
+\item 
+\#define \mbox{\hyperlink{group__bits_gac95dddc8d05cdc27531e99aa65535c53}{C\+L\+A\+N\+G\+\_\+\+P\+R\+E\+R\+EQ}}(x,  y)~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga00d24c7231be28dbaf71f5408f30e44c}{inline}}~\+\_\+\+\_\+inline
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The bits module provides several portable low-\/level functions for bits manipulation\+: 
+
+
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{namespaceseq_a93474d742382c06825212a479a720fcb}{seq\+::popcnt64}}\+: population count on a 64 bits word
+\item \mbox{\hyperlink{namespaceseq_a08ad7cd23d956c6e3205dd20ff1629b3}{seq\+::popcnt32}}\+: population count on a 32 bits word
+\item \mbox{\hyperlink{namespaceseq_a2e9f083253d23d9c760804a87995efe2}{seq\+::popcnt16}}\+: population count on a 16 bits word
+\item \mbox{\hyperlink{namespaceseq_ac360f9661dc5c8b69336408b4a96259a}{seq\+::popcnt8}}\+: population count on a 8 bits word
+\item \mbox{\hyperlink{namespaceseq_a62ae84cf43b3822a03c04a4e0762813a}{seq\+::bit\+\_\+scan\+\_\+forward\+\_\+32}}\+: index of the lowest set bit in a 32 bits word
+\item \mbox{\hyperlink{namespaceseq_a55187c5046afdf617db98cf0a27f9320}{seq\+::bit\+\_\+scan\+\_\+forward\+\_\+64}}\+: index of the lowest set bit in a 64 bits word
+\item \mbox{\hyperlink{namespaceseq_aab5a4ec0a40a8275833a0fe25b4dfb23}{seq\+::bit\+\_\+scan\+\_\+reverse\+\_\+32}}\+: index of the highest set bit in a 32 bits word
+\item \mbox{\hyperlink{namespaceseq_ab6a7d54aa37d26276cef0ea1ca0a1fe1}{seq\+::bit\+\_\+scan\+\_\+reverse\+\_\+64}}\+: index of the highest set bit in a 32 bits word
+\item \mbox{\hyperlink{namespaceseq_a80de2782447e04cfb1d873736761c04c}{seq\+::bit\+\_\+scan\+\_\+forward}}\+: index of the lowest set bit in a size\+\_\+t word
+\item \mbox{\hyperlink{namespaceseq_a7e82ccd4ecac286fcbe78c84dc2bf793}{seq\+::bit\+\_\+scan\+\_\+reverse}}\+: index of the highest set bit in a size\+\_\+t word
+\item \mbox{\hyperlink{structseq_1_1static__bit__scan__reverse}{seq\+::static\+\_\+bit\+\_\+scan\+\_\+reverse}}\+: index of the highest set bit at compile time
+\item \mbox{\hyperlink{namespaceseq_a595642727b17c09f8ed3f1902addb13b}{seq\+::count\+\_\+digits\+\_\+base\+\_\+10}}\+: number of digits to represent an integer in base 10
+\item \mbox{\hyperlink{namespaceseq_ab2f848adb0c9d3ac36fb1c523850748b}{seq\+::nth\+\_\+bit\+\_\+set}}\+: index of the nth set bit in a 64 bits word
+\item \mbox{\hyperlink{namespaceseq_a43ea7e90ba548509579455f13905d240}{seq\+::bswap\+\_\+16}}\+: byte swap for 16 bits word
+\item \mbox{\hyperlink{namespaceseq_a8b149fbd9ca094cb690819800c9f754e}{seq\+::bswap\+\_\+32}}\+: byte swap for 32 bits word
+\item \mbox{\hyperlink{namespaceseq_ad02968f707921c4060800cbfcd96956b}{seq\+::bswap\+\_\+64}}\+: byte swap for 64 bits word
+\end{DoxyItemize}
+
+See functions documentation for more details. 
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{group__bits_ga54d2d7742701f3f112afbcd8d4f9ccdb}\label{group__bits_ga54d2d7742701f3f112afbcd8d4f9ccdb}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!\_\_has\_attribute@{\_\_has\_attribute}}
+\index{\_\_has\_attribute@{\_\_has\_attribute}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{\_\_has\_attribute}{\_\_has\_attribute}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+has\+\_\+attribute(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~0}
+
+\mbox{\Hypertarget{group__bits_ga447121dcab4275b7839a56082b7a1ab8}\label{group__bits_ga447121dcab4275b7839a56082b7a1ab8}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!\_\_has\_builtin@{\_\_has\_builtin}}
+\index{\_\_has\_builtin@{\_\_has\_builtin}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{\_\_has\_builtin}{\_\_has\_builtin}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+has\+\_\+builtin(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~0}
+
+\mbox{\Hypertarget{group__bits_gaeed0a618f017e128a5d8654754f792db}\label{group__bits_gaeed0a618f017e128a5d8654754f792db}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!\_\_has\_cpp\_attribute@{\_\_has\_cpp\_attribute}}
+\index{\_\_has\_cpp\_attribute@{\_\_has\_cpp\_attribute}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{\_\_has\_cpp\_attribute}{\_\_has\_cpp\_attribute}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+has\+\_\+cpp\+\_\+attribute(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~0}
+
+\mbox{\Hypertarget{group__bits_gae4a7019ba7c6381482288d4f2a24246a}\label{group__bits_gae4a7019ba7c6381482288d4f2a24246a}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!\_SEQ\_PRAGMA@{\_SEQ\_PRAGMA}}
+\index{\_SEQ\_PRAGMA@{\_SEQ\_PRAGMA}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{\_SEQ\_PRAGMA}{\_SEQ\_PRAGMA}}
+{\footnotesize\ttfamily \#define \+\_\+\+S\+E\+Q\+\_\+\+P\+R\+A\+G\+MA(\begin{DoxyParamCaption}\item[{}]{text }\end{DoxyParamCaption})~\+\_\+\+Pragma(\#text)}
+
+\mbox{\Hypertarget{group__bits_ga92cc12b19b23eb27798b62d2d2f4e59f}\label{group__bits_ga92cc12b19b23eb27798b62d2d2f4e59f}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!BYTEORDER\_BIG\_ENDIAN@{BYTEORDER\_BIG\_ENDIAN}}
+\index{BYTEORDER\_BIG\_ENDIAN@{BYTEORDER\_BIG\_ENDIAN}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{BYTEORDER\_BIG\_ENDIAN}{BYTEORDER\_BIG\_ENDIAN}}
+{\footnotesize\ttfamily \#define B\+Y\+T\+E\+O\+R\+D\+E\+R\+\_\+\+B\+I\+G\+\_\+\+E\+N\+D\+I\+AN~1}
+
+\mbox{\Hypertarget{group__bits_ga3188941b4d65de46471a2e1259fc0ca3}\label{group__bits_ga3188941b4d65de46471a2e1259fc0ca3}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!BYTEORDER\_LITTLE\_ENDIAN@{BYTEORDER\_LITTLE\_ENDIAN}}
+\index{BYTEORDER\_LITTLE\_ENDIAN@{BYTEORDER\_LITTLE\_ENDIAN}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{BYTEORDER\_LITTLE\_ENDIAN}{BYTEORDER\_LITTLE\_ENDIAN}}
+{\footnotesize\ttfamily \#define B\+Y\+T\+E\+O\+R\+D\+E\+R\+\_\+\+L\+I\+T\+T\+L\+E\+\_\+\+E\+N\+D\+I\+AN~0}
+
+\mbox{\Hypertarget{group__bits_gac95dddc8d05cdc27531e99aa65535c53}\label{group__bits_gac95dddc8d05cdc27531e99aa65535c53}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!CLANG\_PREREQ@{CLANG\_PREREQ}}
+\index{CLANG\_PREREQ@{CLANG\_PREREQ}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{CLANG\_PREREQ}{CLANG\_PREREQ}}
+{\footnotesize\ttfamily \#define C\+L\+A\+N\+G\+\_\+\+P\+R\+E\+R\+EQ(\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{y }\end{DoxyParamCaption})~0}
+
+\mbox{\Hypertarget{group__bits_ga2e12dfd1209d2791136221bb807e8b21}\label{group__bits_ga2e12dfd1209d2791136221bb807e8b21}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!GNUC\_PREREQ@{GNUC\_PREREQ}}
+\index{GNUC\_PREREQ@{GNUC\_PREREQ}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{GNUC\_PREREQ}{GNUC\_PREREQ}}
+{\footnotesize\ttfamily \#define G\+N\+U\+C\+\_\+\+P\+R\+E\+R\+EQ(\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{y }\end{DoxyParamCaption})~0}
+
+\mbox{\Hypertarget{group__bits_ga00d24c7231be28dbaf71f5408f30e44c}\label{group__bits_ga00d24c7231be28dbaf71f5408f30e44c}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!inline@{inline}}
+\index{inline@{inline}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{inline}{inline}}
+{\footnotesize\ttfamily \#define inline~\+\_\+\+\_\+inline}
+
+\mbox{\Hypertarget{group__bits_ga72391f4e9dec6b03cd65e4fa6e737b47}\label{group__bits_ga72391f4e9dec6b03cd65e4fa6e737b47}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_ABORT@{SEQ\_ABORT}}
+\index{SEQ\_ABORT@{SEQ\_ABORT}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ABORT}{SEQ\_ABORT}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+A\+B\+O\+RT(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    printf( \_\_VA\_ARGS\_\_ ); fflush(stdout);\(\backslash\)}
+\DoxyCodeLine{    abort();}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{group__bits_ga2616804c95a1e947af283dc5f65464e2}\label{group__bits_ga2616804c95a1e947af283dc5f65464e2}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_ALIGN\_TO\_BOUNDARY@{SEQ\_ALIGN\_TO\_BOUNDARY}}
+\index{SEQ\_ALIGN\_TO\_BOUNDARY@{SEQ\_ALIGN\_TO\_BOUNDARY}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ALIGN\_TO\_BOUNDARY}{SEQ\_ALIGN\_TO\_BOUNDARY}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+A\+L\+I\+G\+N\+\_\+\+T\+O\+\_\+\+B\+O\+U\+N\+D\+A\+RY(\begin{DoxyParamCaption}\item[{}]{n }\end{DoxyParamCaption})~S\+E\+Q\+\_\+\+U\+S\+E\+R\+\_\+\+A\+L\+I\+G\+N\+\_\+\+T\+O\+\_\+\+B\+O\+U\+N\+D\+A\+RY(n)}
+
+\mbox{\Hypertarget{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}\label{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_ALWAYS\_INLINE@{SEQ\_ALWAYS\_INLINE}}
+\index{SEQ\_ALWAYS\_INLINE@{SEQ\_ALWAYS\_INLINE}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ALWAYS\_INLINE}{SEQ\_ALWAYS\_INLINE}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE~\mbox{\hyperlink{group__bits_ga00d24c7231be28dbaf71f5408f30e44c}{inline}}}
+
+\mbox{\Hypertarget{group__bits_ga1cbb44da4a53751136f4dc9e91955349}\label{group__bits_ga1cbb44da4a53751136f4dc9e91955349}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_ARCH\_32@{SEQ\_ARCH\_32}}
+\index{SEQ\_ARCH\_32@{SEQ\_ARCH\_32}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ARCH\_32}{SEQ\_ARCH\_32}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+A\+R\+C\+H\+\_\+32}
+
+\mbox{\Hypertarget{group__bits_ga9989f32616a05af18ff62830566e4b2f}\label{group__bits_ga9989f32616a05af18ff62830566e4b2f}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_ASSERT\_DEBUG@{SEQ\_ASSERT\_DEBUG}}
+\index{SEQ\_ASSERT\_DEBUG@{SEQ\_ASSERT\_DEBUG}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ASSERT\_DEBUG}{SEQ\_ASSERT\_DEBUG}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+A\+S\+S\+E\+R\+T\+\_\+\+D\+E\+B\+UG(\begin{DoxyParamCaption}\item[{}]{condition,  }\item[{}]{... }\end{DoxyParamCaption})~assert((condition) \&\& (\+\_\+\+\_\+\+V\+A\+\_\+\+A\+R\+G\+S\+\_\+\+\_\+))}
+
+\mbox{\Hypertarget{group__bits_ga4358957bf3c41e772ade27671699c4e6}\label{group__bits_ga4358957bf3c41e772ade27671699c4e6}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_DEFAULT\_ALIGNMENT@{SEQ\_DEFAULT\_ALIGNMENT}}
+\index{SEQ\_DEFAULT\_ALIGNMENT@{SEQ\_DEFAULT\_ALIGNMENT}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_DEFAULT\_ALIGNMENT}{SEQ\_DEFAULT\_ALIGNMENT}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+A\+L\+I\+G\+N\+M\+E\+NT~alignof(std\+::max\+\_\+align\+\_\+t)}
+
+\mbox{\Hypertarget{group__bits_ga7fcb9cdceaaee010cedfa87de0f0fa69}\label{group__bits_ga7fcb9cdceaaee010cedfa87de0f0fa69}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_ERROR\_ALLOC@{SEQ\_ERROR\_ALLOC}}
+\index{SEQ\_ERROR\_ALLOC@{SEQ\_ERROR\_ALLOC}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ERROR\_ALLOC}{SEQ\_ERROR\_ALLOC}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+A\+L\+L\+OC~((unsigned)-\/5)}
+
+\mbox{\Hypertarget{group__bits_ga10ac05fc4c1d30f0843d0d49b3e70c90}\label{group__bits_ga10ac05fc4c1d30f0843d0d49b3e70c90}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_ERROR\_CORRUPTED\_DATA@{SEQ\_ERROR\_CORRUPTED\_DATA}}
+\index{SEQ\_ERROR\_CORRUPTED\_DATA@{SEQ\_ERROR\_CORRUPTED\_DATA}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ERROR\_CORRUPTED\_DATA}{SEQ\_ERROR\_CORRUPTED\_DATA}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+C\+O\+R\+R\+U\+P\+T\+E\+D\+\_\+\+D\+A\+TA~((unsigned)-\/2)}
+
+\mbox{\Hypertarget{group__bits_ga6a6232f0723fc5484382161ce43f1884}\label{group__bits_ga6a6232f0723fc5484382161ce43f1884}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_ERROR\_DST\_OVERFLOW@{SEQ\_ERROR\_DST\_OVERFLOW}}
+\index{SEQ\_ERROR\_DST\_OVERFLOW@{SEQ\_ERROR\_DST\_OVERFLOW}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ERROR\_DST\_OVERFLOW}{SEQ\_ERROR\_DST\_OVERFLOW}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+S\+T\+\_\+\+O\+V\+E\+R\+F\+L\+OW~((unsigned)-\/4)}
+
+\mbox{\Hypertarget{group__bits_gac7427f43a736038eeaad11d9908dbda1}\label{group__bits_gac7427f43a736038eeaad11d9908dbda1}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_ERROR\_INVALID\_INPUT@{SEQ\_ERROR\_INVALID\_INPUT}}
+\index{SEQ\_ERROR\_INVALID\_INPUT@{SEQ\_ERROR\_INVALID\_INPUT}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ERROR\_INVALID\_INPUT}{SEQ\_ERROR\_INVALID\_INPUT}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+I\+N\+P\+UT~((unsigned)-\/6)}
+
+\mbox{\Hypertarget{group__bits_gaddfaa589aaa63ececdeaebd5fbf2a1a3}\label{group__bits_gaddfaa589aaa63ececdeaebd5fbf2a1a3}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_ERROR\_SRC\_OVERFLOW@{SEQ\_ERROR\_SRC\_OVERFLOW}}
+\index{SEQ\_ERROR\_SRC\_OVERFLOW@{SEQ\_ERROR\_SRC\_OVERFLOW}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ERROR\_SRC\_OVERFLOW}{SEQ\_ERROR\_SRC\_OVERFLOW}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+S\+R\+C\+\_\+\+O\+V\+E\+R\+F\+L\+OW~((unsigned)-\/3)}
+
+\mbox{\Hypertarget{group__bits_gac808a645bccc22a8d104686b25845824}\label{group__bits_gac808a645bccc22a8d104686b25845824}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_ERROR\_UNDEFINED@{SEQ\_ERROR\_UNDEFINED}}
+\index{SEQ\_ERROR\_UNDEFINED@{SEQ\_ERROR\_UNDEFINED}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ERROR\_UNDEFINED}{SEQ\_ERROR\_UNDEFINED}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+U\+N\+D\+E\+F\+I\+N\+ED~((unsigned)-\/1)}
+
+\mbox{\Hypertarget{group__bits_ga2c2d414302ad252268251a38eba3d17a}\label{group__bits_ga2c2d414302ad252268251a38eba3d17a}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_EXTENSION@{SEQ\_EXTENSION}}
+\index{SEQ\_EXTENSION@{SEQ\_EXTENSION}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_EXTENSION}{SEQ\_EXTENSION}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+E\+X\+T\+E\+N\+S\+I\+ON}
+
+\mbox{\Hypertarget{group__bits_ga061fe8f79573a411376c454836794223}\label{group__bits_ga061fe8f79573a411376c454836794223}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_FALLTHROUGH@{SEQ\_FALLTHROUGH}}
+\index{SEQ\_FALLTHROUGH@{SEQ\_FALLTHROUGH}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_FALLTHROUGH}{SEQ\_FALLTHROUGH}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+F\+A\+L\+L\+T\+H\+R\+O\+U\+GH(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{group__bits_ga67d3b70d773f73a03d96f6b4808a5921}\label{group__bits_ga67d3b70d773f73a03d96f6b4808a5921}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_GROW\_FACTOR@{SEQ\_GROW\_FACTOR}}
+\index{SEQ\_GROW\_FACTOR@{SEQ\_GROW\_FACTOR}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_GROW\_FACTOR}{SEQ\_GROW\_FACTOR}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+G\+R\+O\+W\+\_\+\+F\+A\+C\+T\+OR~1.\+6}
+
+\mbox{\Hypertarget{group__bits_gaca71eb8581a4867a6eb7fc1d5e65b9b7}\label{group__bits_gaca71eb8581a4867a6eb7fc1d5e65b9b7}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_HAS\_ALIGNED\_MALLOC@{SEQ\_HAS\_ALIGNED\_MALLOC}}
+\index{SEQ\_HAS\_ALIGNED\_MALLOC@{SEQ\_HAS\_ALIGNED\_MALLOC}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_HAS\_ALIGNED\_MALLOC}{SEQ\_HAS\_ALIGNED\_MALLOC}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+A\+L\+I\+G\+N\+E\+D\+\_\+\+M\+A\+L\+L\+OC~0}
+
+\mbox{\Hypertarget{group__bits_ga15b108df9e786a28e99c8a6e70d51b57}\label{group__bits_ga15b108df9e786a28e99c8a6e70d51b57}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_HAS\_MINGW\_ALIGNED\_MALLOC@{SEQ\_HAS\_MINGW\_ALIGNED\_MALLOC}}
+\index{SEQ\_HAS\_MINGW\_ALIGNED\_MALLOC@{SEQ\_HAS\_MINGW\_ALIGNED\_MALLOC}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_HAS\_MINGW\_ALIGNED\_MALLOC}{SEQ\_HAS\_MINGW\_ALIGNED\_MALLOC}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+M\+I\+N\+G\+W\+\_\+\+A\+L\+I\+G\+N\+E\+D\+\_\+\+M\+A\+L\+L\+OC~0}
+
+\mbox{\Hypertarget{group__bits_gae44fd21755228afece88fa61639e195b}\label{group__bits_gae44fd21755228afece88fa61639e195b}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_HAS\_MM\_MALLOC@{SEQ\_HAS\_MM\_MALLOC}}
+\index{SEQ\_HAS\_MM\_MALLOC@{SEQ\_HAS\_MM\_MALLOC}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_HAS\_MM\_MALLOC}{SEQ\_HAS\_MM\_MALLOC}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+M\+M\+\_\+\+M\+A\+L\+L\+OC~0}
+
+\mbox{\Hypertarget{group__bits_ga59c586478ea00b6dc39ac90bb328d377}\label{group__bits_ga59c586478ea00b6dc39ac90bb328d377}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_HAS\_POSIX\_MEMALIGN@{SEQ\_HAS\_POSIX\_MEMALIGN}}
+\index{SEQ\_HAS\_POSIX\_MEMALIGN@{SEQ\_HAS\_POSIX\_MEMALIGN}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_HAS\_POSIX\_MEMALIGN}{SEQ\_HAS\_POSIX\_MEMALIGN}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+P\+O\+S\+I\+X\+\_\+\+M\+E\+M\+A\+L\+I\+GN~0}
+
+\mbox{\Hypertarget{group__bits_ga55ced08c31bd12c443136cc314819992}\label{group__bits_ga55ced08c31bd12c443136cc314819992}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_INLINE@{SEQ\_INLINE}}
+\index{SEQ\_INLINE@{SEQ\_INLINE}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_INLINE}{SEQ\_INLINE}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+I\+N\+L\+I\+NE~\mbox{\hyperlink{group__bits_ga00d24c7231be28dbaf71f5408f30e44c}{inline}}}
+
+\mbox{\Hypertarget{group__bits_ga89854d5a934294428684c6cd1d4f0336}\label{group__bits_ga89854d5a934294428684c6cd1d4f0336}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_LAST\_ERROR\_CODE@{SEQ\_LAST\_ERROR\_CODE}}
+\index{SEQ\_LAST\_ERROR\_CODE@{SEQ\_LAST\_ERROR\_CODE}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_LAST\_ERROR\_CODE}{SEQ\_LAST\_ERROR\_CODE}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+L\+A\+S\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+C\+O\+DE~((unsigned)-\/10)}
+
+\mbox{\Hypertarget{group__bits_gaac3e750dd623d4a1ef045f0faa734e08}\label{group__bits_gaac3e750dd623d4a1ef045f0faa734e08}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_LIKELY@{SEQ\_LIKELY}}
+\index{SEQ\_LIKELY@{SEQ\_LIKELY}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_LIKELY}{SEQ\_LIKELY}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+L\+I\+K\+E\+LY(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~\+\_\+\+\_\+builtin\+\_\+expect (!!(x), 1)}
+
+\mbox{\Hypertarget{group__bits_gaaf29ff69ae3d251b8e68651482bdc280}\label{group__bits_gaaf29ff69ae3d251b8e68651482bdc280}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_NOINLINE@{SEQ\_NOINLINE}}
+\index{SEQ\_NOINLINE@{SEQ\_NOINLINE}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_NOINLINE}{SEQ\_NOINLINE}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\+\_\+\+\_\+\+V\+A\+\_\+\+A\+R\+G\+S\+\_\+\+\_\+ \+\_\+\+\_\+attribute\+\_\+\+\_\+((noinline))}
+
+\mbox{\Hypertarget{group__bits_ga3af9d45fb1cb5d6a17fdb3404b472f78}\label{group__bits_ga3af9d45fb1cb5d6a17fdb3404b472f78}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_OFFSETOF@{SEQ\_OFFSETOF}}
+\index{SEQ\_OFFSETOF@{SEQ\_OFFSETOF}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_OFFSETOF}{SEQ\_OFFSETOF}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+O\+F\+F\+S\+E\+T\+OF(\begin{DoxyParamCaption}\item[{}]{s,  }\item[{}]{m }\end{DoxyParamCaption})~((\+::size\+\_\+t)\&reinterpret\+\_\+cast$<$char const volatile\&$>$((((s$\ast$)0)-\/$>$m)))}
+
+\mbox{\Hypertarget{group__bits_ga06eb095185f16889bec1c2207f0e101d}\label{group__bits_ga06eb095185f16889bec1c2207f0e101d}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_PRAGMA@{SEQ\_PRAGMA}}
+\index{SEQ\_PRAGMA@{SEQ\_PRAGMA}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_PRAGMA}{SEQ\_PRAGMA}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+P\+R\+A\+G\+MA(\begin{DoxyParamCaption}\item[{}]{text }\end{DoxyParamCaption})~\mbox{\hyperlink{group__bits_gae4a7019ba7c6381482288d4f2a24246a}{\+\_\+\+S\+E\+Q\+\_\+\+P\+R\+A\+G\+MA}}(text)}
+
+\mbox{\Hypertarget{group__bits_ga371649b7712afb0bb3b2781aeddf45d9}\label{group__bits_ga371649b7712afb0bb3b2781aeddf45d9}} 
+\index{Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}!SEQ\_UNLIKELY@{SEQ\_UNLIKELY}}
+\index{SEQ\_UNLIKELY@{SEQ\_UNLIKELY}!Bits: collection of functions for low level bits manipulation.@{Bits: collection of functions for low level bits manipulation.}}
+\doxysubsubsection{\texorpdfstring{SEQ\_UNLIKELY}{SEQ\_UNLIKELY}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+U\+N\+L\+I\+K\+E\+LY(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~\+\_\+\+\_\+builtin\+\_\+expect (!!(x), 0)}
+

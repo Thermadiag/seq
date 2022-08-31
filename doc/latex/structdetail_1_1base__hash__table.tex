@@ -1,0 +1,615 @@
+\hypertarget{structdetail_1_1base__hash__table}{}\doxysection{detail\+::base\+\_\+hash\+\_\+table$<$ T, Allocator, Hash, Equal, Node, Store\+Hash, layout, Compute\+Begin\+End $>$ Struct Template Reference}
+\label{structdetail_1_1base__hash__table}\index{detail::base\_hash\_table$<$ T, Allocator, Hash, Equal, Node, StoreHash, layout, ComputeBeginEnd $>$@{detail::base\_hash\_table$<$ T, Allocator, Hash, Equal, Node, StoreHash, layout, ComputeBeginEnd $>$}}
+
+
+{\ttfamily \#include $<$hash\+\_\+map.\+hpp$>$}
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1const__iterator}{const\+\_\+iterator}}
+\item 
+struct \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1iterator}{iterator}}
+\item 
+struct \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1range__iterator}{range\+\_\+iterator}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a21cee99f692045e7ae81e1c87eccd6b4}\label{structdetail_1_1base__hash__table_a21cee99f692045e7ae81e1c87eccd6b4}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a7f49f8c8dcd32e3cd603e547be937e5a}\label{structdetail_1_1base__hash__table_a7f49f8c8dcd32e3cd603e547be937e5a}} 
+using {\bfseries vector\+\_\+allocator} = Rebind\+Alloc$<$ \mbox{\hyperlink{structdetail_1_1_node}{Node}} $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a38d71f014ce678a71519199588c4f85f}\label{structdetail_1_1base__hash__table_a38d71f014ce678a71519199588c4f85f}} 
+using {\bfseries size\+\_\+type} = typename Node\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_afa24dddc10951c055b0f46d9d4846c73}\label{structdetail_1_1base__hash__table_afa24dddc10951c055b0f46d9d4846c73}} 
+using {\bfseries node\+\_\+type} = \mbox{\hyperlink{structdetail_1_1_node}{Node}}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ad9573bc8719525ea140dce82e4accaca}\label{structdetail_1_1base__hash__table_ad9573bc8719525ea140dce82e4accaca}} 
+using {\bfseries bucket\+\_\+type} = std\+::vector$<$ \mbox{\hyperlink{structdetail_1_1_node}{node\+\_\+type}}, vector\+\_\+allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aba4339d8add43b0ee0bd245564a61762}\label{structdetail_1_1base__hash__table_aba4339d8add43b0ee0bd245564a61762}} 
+using {\bfseries store\+\_\+type} = typename node\+\_\+type\+::store\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a7289892046df6e599d82e2a5cf5242a7}\label{structdetail_1_1base__hash__table_a7289892046df6e599d82e2a5cf5242a7}} 
+using {\bfseries key\+\_\+type} = typename node\+\_\+type\+::key\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a622620cdaf74217188d6a150858c1c04}\label{structdetail_1_1base__hash__table_a622620cdaf74217188d6a150858c1c04}} 
+using {\bfseries hasher} = Hash
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a2860eac7213897914852daf8f2d6e1c2}\label{structdetail_1_1base__hash__table_a2860eac7213897914852daf8f2d6e1c2}} 
+using {\bfseries key\+\_\+equal} = Equal
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_af6ae44c46fd44c6d8bb8be6bab81b846}\label{structdetail_1_1base__hash__table_af6ae44c46fd44c6d8bb8be6bab81b846}} 
+using {\bfseries bucket\+\_\+iterator} = typename bucket\+\_\+type\+::iterator
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a6926ec5ab72c5071564a1db662fb818e}\label{structdetail_1_1base__hash__table_a6926ec5ab72c5071564a1db662fb818e}} 
+using {\bfseries bucket\+\_\+const\+\_\+iterator} = typename bucket\+\_\+type\+::const\+\_\+iterator
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a21cee99f692045e7ae81e1c87eccd6b4}\label{structdetail_1_1base__hash__table_a21cee99f692045e7ae81e1c87eccd6b4}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a7f49f8c8dcd32e3cd603e547be937e5a}\label{structdetail_1_1base__hash__table_a7f49f8c8dcd32e3cd603e547be937e5a}} 
+using {\bfseries vector\+\_\+allocator} = Rebind\+Alloc$<$ \mbox{\hyperlink{structdetail_1_1_node}{Node}} $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a38d71f014ce678a71519199588c4f85f}\label{structdetail_1_1base__hash__table_a38d71f014ce678a71519199588c4f85f}} 
+using {\bfseries size\+\_\+type} = typename Node\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_afa24dddc10951c055b0f46d9d4846c73}\label{structdetail_1_1base__hash__table_afa24dddc10951c055b0f46d9d4846c73}} 
+using {\bfseries node\+\_\+type} = \mbox{\hyperlink{structdetail_1_1_node}{Node}}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ad9573bc8719525ea140dce82e4accaca}\label{structdetail_1_1base__hash__table_ad9573bc8719525ea140dce82e4accaca}} 
+using {\bfseries bucket\+\_\+type} = std\+::vector$<$ \mbox{\hyperlink{structdetail_1_1_node}{node\+\_\+type}}, vector\+\_\+allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aba4339d8add43b0ee0bd245564a61762}\label{structdetail_1_1base__hash__table_aba4339d8add43b0ee0bd245564a61762}} 
+using {\bfseries store\+\_\+type} = typename node\+\_\+type\+::store\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a7289892046df6e599d82e2a5cf5242a7}\label{structdetail_1_1base__hash__table_a7289892046df6e599d82e2a5cf5242a7}} 
+using {\bfseries key\+\_\+type} = typename node\+\_\+type\+::key\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a622620cdaf74217188d6a150858c1c04}\label{structdetail_1_1base__hash__table_a622620cdaf74217188d6a150858c1c04}} 
+using {\bfseries hasher} = Hash
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a2860eac7213897914852daf8f2d6e1c2}\label{structdetail_1_1base__hash__table_a2860eac7213897914852daf8f2d6e1c2}} 
+using {\bfseries key\+\_\+equal} = Equal
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_af6ae44c46fd44c6d8bb8be6bab81b846}\label{structdetail_1_1base__hash__table_af6ae44c46fd44c6d8bb8be6bab81b846}} 
+using {\bfseries bucket\+\_\+iterator} = typename bucket\+\_\+type\+::iterator
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a6926ec5ab72c5071564a1db662fb818e}\label{structdetail_1_1base__hash__table_a6926ec5ab72c5071564a1db662fb818e}} 
+using {\bfseries bucket\+\_\+const\+\_\+iterator} = typename bucket\+\_\+type\+::const\+\_\+iterator
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a21cee99f692045e7ae81e1c87eccd6b4}\label{structdetail_1_1base__hash__table_a21cee99f692045e7ae81e1c87eccd6b4}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a7f49f8c8dcd32e3cd603e547be937e5a}\label{structdetail_1_1base__hash__table_a7f49f8c8dcd32e3cd603e547be937e5a}} 
+using {\bfseries vector\+\_\+allocator} = Rebind\+Alloc$<$ \mbox{\hyperlink{structdetail_1_1_node}{Node}} $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a38d71f014ce678a71519199588c4f85f}\label{structdetail_1_1base__hash__table_a38d71f014ce678a71519199588c4f85f}} 
+using {\bfseries size\+\_\+type} = typename Node\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_afa24dddc10951c055b0f46d9d4846c73}\label{structdetail_1_1base__hash__table_afa24dddc10951c055b0f46d9d4846c73}} 
+using {\bfseries node\+\_\+type} = \mbox{\hyperlink{structdetail_1_1_node}{Node}}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ad9573bc8719525ea140dce82e4accaca}\label{structdetail_1_1base__hash__table_ad9573bc8719525ea140dce82e4accaca}} 
+using {\bfseries bucket\+\_\+type} = std\+::vector$<$ \mbox{\hyperlink{structdetail_1_1_node}{node\+\_\+type}}, vector\+\_\+allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aba4339d8add43b0ee0bd245564a61762}\label{structdetail_1_1base__hash__table_aba4339d8add43b0ee0bd245564a61762}} 
+using {\bfseries store\+\_\+type} = typename node\+\_\+type\+::store\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a7289892046df6e599d82e2a5cf5242a7}\label{structdetail_1_1base__hash__table_a7289892046df6e599d82e2a5cf5242a7}} 
+using {\bfseries key\+\_\+type} = typename node\+\_\+type\+::key\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a622620cdaf74217188d6a150858c1c04}\label{structdetail_1_1base__hash__table_a622620cdaf74217188d6a150858c1c04}} 
+using {\bfseries hasher} = Hash
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a2860eac7213897914852daf8f2d6e1c2}\label{structdetail_1_1base__hash__table_a2860eac7213897914852daf8f2d6e1c2}} 
+using {\bfseries key\+\_\+equal} = Equal
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_af6ae44c46fd44c6d8bb8be6bab81b846}\label{structdetail_1_1base__hash__table_af6ae44c46fd44c6d8bb8be6bab81b846}} 
+using {\bfseries bucket\+\_\+iterator} = typename bucket\+\_\+type\+::iterator
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a6926ec5ab72c5071564a1db662fb818e}\label{structdetail_1_1base__hash__table_a6926ec5ab72c5071564a1db662fb818e}} 
+using {\bfseries bucket\+\_\+const\+\_\+iterator} = typename bucket\+\_\+type\+::const\+\_\+iterator
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a52f18560fbfbb0909a6bd81c1e8941ee}\label{structdetail_1_1base__hash__table_a52f18560fbfbb0909a6bd81c1e8941ee}} 
+{\bfseries base\+\_\+hash\+\_\+table} (const Hash \&hash=Hash(), const key\+\_\+equal \&equal=key\+\_\+equal(), const Allocator \&alloc=Allocator()) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a36b184e4feb5929995eb6d3d35d53dae}\label{structdetail_1_1base__hash__table_a36b184e4feb5929995eb6d3d35d53dae}} 
+{\bfseries base\+\_\+hash\+\_\+table} (const \mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a1d1d83028549059700c9d79f5a391a6d}\label{structdetail_1_1base__hash__table_a1d1d83028549059700c9d79f5a391a6d}} 
+{\bfseries base\+\_\+hash\+\_\+table} (const \mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&other, const Allocator \&al) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a8597c39785f4484668d684dfa4bdfaec}\label{structdetail_1_1base__hash__table_a8597c39785f4484668d684dfa4bdfaec}} 
+{\bfseries base\+\_\+hash\+\_\+table} (\mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aaec35a03d10ab09941fd722d0b59f0f5}\label{structdetail_1_1base__hash__table_aaec35a03d10ab09941fd722d0b59f0f5}} 
+{\bfseries base\+\_\+hash\+\_\+table} (\mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&\&other, const Allocator \&al) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a65b5a7d13523b9faf59287c6cd63c6a0}\label{structdetail_1_1base__hash__table_a65b5a7d13523b9faf59287c6cd63c6a0}} 
+size\+\_\+t {\bfseries memory\+\_\+footprint} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ac63f4f6d3f1fa9ed10bace6f2de5fbbb}\label{structdetail_1_1base__hash__table_ac63f4f6d3f1fa9ed10bace6f2de5fbbb}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a3430da9738d61ef9c096b2dd6b0804ce}\label{structdetail_1_1base__hash__table_a3430da9738d61ef9c096b2dd6b0804ce}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1const__iterator}{const\+\_\+iterator}} {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a806f1aaa2203dccdcae66acb4a73705c}\label{structdetail_1_1base__hash__table_a806f1aaa2203dccdcae66acb4a73705c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1const__iterator}{const\+\_\+iterator}} {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a2ed1d0d15efbda376c797791b688d8f9}\label{structdetail_1_1base__hash__table_a2ed1d0d15efbda376c797791b688d8f9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1iterator}{iterator}} {\bfseries begin} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aaa1244740a43201f8eac73df7ce01cf1}\label{structdetail_1_1base__hash__table_aaa1244740a43201f8eac73df7ce01cf1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1iterator}{iterator}} {\bfseries end} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a4a273ce2c1a08631520c4240389fd076}\label{structdetail_1_1base__hash__table_a4a273ce2c1a08631520c4240389fd076}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1const__iterator}{const\+\_\+iterator}} {\bfseries to\+\_\+iterator} (typename bucket\+\_\+type\+::const\+\_\+iterator n) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a69f19bfeaec26e33c2ebc6704fd4e203}\label{structdetail_1_1base__hash__table_a69f19bfeaec26e33c2ebc6704fd4e203}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1iterator}{iterator}} {\bfseries to\+\_\+iterator} (typename bucket\+\_\+type\+::iterator n) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a0b18b06a33084876aab3476dd1ebbe1b}\label{structdetail_1_1base__hash__table_a0b18b06a33084876aab3476dd1ebbe1b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries hash\+Full} (const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a1dac3344b48ce8ec36b6419caf32b834}\label{structdetail_1_1base__hash__table_a1dac3344b48ce8ec36b6419caf32b834}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a0d5792ead1e1fb266269cff58e893d13}\label{structdetail_1_1base__hash__table_a0d5792ead1e1fb266269cff58e893d13}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2} (size\+\_\+t size) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_afa3805003522c5fe09ecbac69f55adf9}\label{structdetail_1_1base__hash__table_afa3805003522c5fe09ecbac69f55adf9}} 
+Allocator {\bfseries get\+\_\+allocator} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a5900e6bc0ffa96113eac2f3bfeaf34e8}\label{structdetail_1_1base__hash__table_a5900e6bc0ffa96113eac2f3bfeaf34e8}} 
+bucket\+\_\+const\+\_\+iterator {\bfseries rehash} (size\+\_\+type hash\+\_\+len, bucket\+\_\+const\+\_\+iterator keep\+\_\+track)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_afb79997a42572678f8703744500e8b46}\label{structdetail_1_1base__hash__table_afb79997a42572678f8703744500e8b46}} 
+bucket\+\_\+const\+\_\+iterator {\bfseries check\+Size} (bool force, bucket\+\_\+const\+\_\+iterator keep\+\_\+track)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a16b44e881fbd535fe061d50f7445155a}\label{structdetail_1_1base__hash__table_a16b44e881fbd535fe061d50f7445155a}} 
+void {\bfseries shrink\+\_\+to\+\_\+fit} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a780d3cef3a3665c21ea9f0f95de147ed}\label{structdetail_1_1base__hash__table_a780d3cef3a3665c21ea9f0f95de147ed}} 
+void {\bfseries reserve} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ade45792471a8cc67c16fabd12c2d68f4}\label{structdetail_1_1base__hash__table_ade45792471a8cc67c16fabd12c2d68f4}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae10a354231e6644dc1999c1fb93ec6ac}\label{structdetail_1_1base__hash__table_ae10a354231e6644dc1999c1fb93ec6ac}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries reserve\+\_\+space} (bucket\+\_\+type \&b)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a066938cf7c7e1e26bb7cf45a14d8d9ef}\label{structdetail_1_1base__hash__table_a066938cf7c7e1e26bb7cf45a14d8d9ef}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (std\+::pair$<$ bucket\+\_\+iterator, bool $>$) insert\+\_\+back(size\+\_\+t small\+\_\+hash
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_abbcd45e579b3aaad05dd4c75eeaac9cb}\label{structdetail_1_1base__hash__table_abbcd45e579b3aaad05dd4c75eeaac9cb}} 
+{\bfseries if} (d\+\_\+buckets\mbox{[}small\+\_\+hash\mbox{]}.end\+\_\+probe()) b -\/$>$ flags.\+full=full\+\_\+hash
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aba6f0f6c7ac6c3fdda090b7a2239ef92}\label{structdetail_1_1base__hash__table_aba6f0f6c7ac6c3fdda090b7a2239ef92}} 
+d\+\_\+buckets\mbox{[}small\+\_\+hash\mbox{]} {\bfseries set\+\_\+next} (d\+\_\+buckets.\+size() -\/ 1 -\/(d\+\_\+hash\+\_\+mask+1))
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a7920fb20c408d4a90020ca474d188aa5}\label{structdetail_1_1base__hash__table_a7920fb20c408d4a90020ca474d188aa5}} 
+return {\bfseries std\+::pair} (b, true)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aae46f749f5b4b509d249b550cb4c8bdf}\label{structdetail_1_1base__hash__table_aae46f749f5b4b509d249b550cb4c8bdf}} 
+{\footnotesize template$<$class U $>$ }\\std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert\+\_\+if\+\_\+no\+\_\+exist} (size\+\_\+t hash, const store\+\_\+type \&value, const U compare\+\_\+to)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a46c9a70171ec716e2291f793759435ba}\label{structdetail_1_1base__hash__table_a46c9a70171ec716e2291f793759435ba}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert\+\_\+if\+\_\+no\+\_\+exist} (const store\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a36cc89ae00fbfe147a2d8fd321de46bf}\label{structdetail_1_1base__hash__table_a36cc89ae00fbfe147a2d8fd321de46bf}} 
+bucket\+\_\+type\+::const\+\_\+iterator {\bfseries find} (const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a321f1814e00c3cea16000e421cb0e9d3}\label{structdetail_1_1base__hash__table_a321f1814e00c3cea16000e421cb0e9d3}} 
+bucket\+\_\+type\+::iterator {\bfseries find} (const key\+\_\+type \&value) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae8778280f8a5fa60c6ec2789e13078af}\label{structdetail_1_1base__hash__table_ae8778280f8a5fa60c6ec2789e13078af}} 
+bucket\+\_\+type\+::const\+\_\+iterator {\bfseries find} (typename bucket\+\_\+type\+::const\+\_\+iterator n, size\+\_\+t full\+\_\+hash, const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae1b52123b148eb1a53a76e2fd6fea788}\label{structdetail_1_1base__hash__table_ae1b52123b148eb1a53a76e2fd6fea788}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries find} (size\+\_\+t full\+\_\+hash, const key\+\_\+type \&value) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a496c2cb63d5c1e6bd45952df4874f2d3}\label{structdetail_1_1base__hash__table_a496c2cb63d5c1e6bd45952df4874f2d3}} 
+const bucket\+\_\+type\+::const\+\_\+iterator {\bfseries find} (size\+\_\+t full\+\_\+hash, const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a95f620a26f41f433b4d771f55201ff4f}\label{structdetail_1_1base__hash__table_a95f620a26f41f433b4d771f55201ff4f}} 
+void {\bfseries erase} (bucket\+\_\+const\+\_\+iterator \+\_\+n)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae470ca180af2b2884fc9630d58cbb461}\label{structdetail_1_1base__hash__table_ae470ca180af2b2884fc9630d58cbb461}} 
+bucket\+\_\+iterator {\bfseries erase} (bucket\+\_\+const\+\_\+iterator first, bucket\+\_\+const\+\_\+iterator last)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a8ec23c8a18468f78191fa3683b6ac562}\label{structdetail_1_1base__hash__table_a8ec23c8a18468f78191fa3683b6ac562}} 
+void {\bfseries erase} (const std\+::vector$<$ bucket\+\_\+const\+\_\+iterator $>$ \&iterators)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a22fe8023031701d96b3a79c8e75aae85}\label{structdetail_1_1base__hash__table_a22fe8023031701d96b3a79c8e75aae85}} 
+{\footnotesize template$<$class K $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1range__iterator}{range\+\_\+iterator}}, \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1range__iterator}{range\+\_\+iterator}} $>$ {\bfseries equal\+\_\+range} (const K \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ac8cdea0e9694a33cb41316faab05b607}\label{structdetail_1_1base__hash__table_ac8cdea0e9694a33cb41316faab05b607}} 
+void {\bfseries swap} (\mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a52f18560fbfbb0909a6bd81c1e8941ee}\label{structdetail_1_1base__hash__table_a52f18560fbfbb0909a6bd81c1e8941ee}} 
+{\bfseries base\+\_\+hash\+\_\+table} (const Hash \&hash=Hash(), const key\+\_\+equal \&equal=key\+\_\+equal(), const Allocator \&alloc=Allocator()) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a36b184e4feb5929995eb6d3d35d53dae}\label{structdetail_1_1base__hash__table_a36b184e4feb5929995eb6d3d35d53dae}} 
+{\bfseries base\+\_\+hash\+\_\+table} (const \mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a1d1d83028549059700c9d79f5a391a6d}\label{structdetail_1_1base__hash__table_a1d1d83028549059700c9d79f5a391a6d}} 
+{\bfseries base\+\_\+hash\+\_\+table} (const \mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&other, const Allocator \&al) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a8597c39785f4484668d684dfa4bdfaec}\label{structdetail_1_1base__hash__table_a8597c39785f4484668d684dfa4bdfaec}} 
+{\bfseries base\+\_\+hash\+\_\+table} (\mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aaec35a03d10ab09941fd722d0b59f0f5}\label{structdetail_1_1base__hash__table_aaec35a03d10ab09941fd722d0b59f0f5}} 
+{\bfseries base\+\_\+hash\+\_\+table} (\mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&\&other, const Allocator \&al) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a65b5a7d13523b9faf59287c6cd63c6a0}\label{structdetail_1_1base__hash__table_a65b5a7d13523b9faf59287c6cd63c6a0}} 
+size\+\_\+t {\bfseries memory\+\_\+footprint} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ac63f4f6d3f1fa9ed10bace6f2de5fbbb}\label{structdetail_1_1base__hash__table_ac63f4f6d3f1fa9ed10bace6f2de5fbbb}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a3430da9738d61ef9c096b2dd6b0804ce}\label{structdetail_1_1base__hash__table_a3430da9738d61ef9c096b2dd6b0804ce}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1const__iterator}{const\+\_\+iterator}} {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a806f1aaa2203dccdcae66acb4a73705c}\label{structdetail_1_1base__hash__table_a806f1aaa2203dccdcae66acb4a73705c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1const__iterator}{const\+\_\+iterator}} {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a2ed1d0d15efbda376c797791b688d8f9}\label{structdetail_1_1base__hash__table_a2ed1d0d15efbda376c797791b688d8f9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1iterator}{iterator}} {\bfseries begin} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aaa1244740a43201f8eac73df7ce01cf1}\label{structdetail_1_1base__hash__table_aaa1244740a43201f8eac73df7ce01cf1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1iterator}{iterator}} {\bfseries end} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a4a273ce2c1a08631520c4240389fd076}\label{structdetail_1_1base__hash__table_a4a273ce2c1a08631520c4240389fd076}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1const__iterator}{const\+\_\+iterator}} {\bfseries to\+\_\+iterator} (typename bucket\+\_\+type\+::const\+\_\+iterator n) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a69f19bfeaec26e33c2ebc6704fd4e203}\label{structdetail_1_1base__hash__table_a69f19bfeaec26e33c2ebc6704fd4e203}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1iterator}{iterator}} {\bfseries to\+\_\+iterator} (typename bucket\+\_\+type\+::iterator n) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a01d8032e6a41605b886690e5293765d2}\label{structdetail_1_1base__hash__table_a01d8032e6a41605b886690e5293765d2}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries hash\+Full} (const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a1dac3344b48ce8ec36b6419caf32b834}\label{structdetail_1_1base__hash__table_a1dac3344b48ce8ec36b6419caf32b834}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a0d5792ead1e1fb266269cff58e893d13}\label{structdetail_1_1base__hash__table_a0d5792ead1e1fb266269cff58e893d13}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2} (size\+\_\+t size) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_afa3805003522c5fe09ecbac69f55adf9}\label{structdetail_1_1base__hash__table_afa3805003522c5fe09ecbac69f55adf9}} 
+Allocator {\bfseries get\+\_\+allocator} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a5900e6bc0ffa96113eac2f3bfeaf34e8}\label{structdetail_1_1base__hash__table_a5900e6bc0ffa96113eac2f3bfeaf34e8}} 
+bucket\+\_\+const\+\_\+iterator {\bfseries rehash} (size\+\_\+type hash\+\_\+len, bucket\+\_\+const\+\_\+iterator keep\+\_\+track)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_afb79997a42572678f8703744500e8b46}\label{structdetail_1_1base__hash__table_afb79997a42572678f8703744500e8b46}} 
+bucket\+\_\+const\+\_\+iterator {\bfseries check\+Size} (bool force, bucket\+\_\+const\+\_\+iterator keep\+\_\+track)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a16b44e881fbd535fe061d50f7445155a}\label{structdetail_1_1base__hash__table_a16b44e881fbd535fe061d50f7445155a}} 
+void {\bfseries shrink\+\_\+to\+\_\+fit} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a780d3cef3a3665c21ea9f0f95de147ed}\label{structdetail_1_1base__hash__table_a780d3cef3a3665c21ea9f0f95de147ed}} 
+void {\bfseries reserve} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ade45792471a8cc67c16fabd12c2d68f4}\label{structdetail_1_1base__hash__table_ade45792471a8cc67c16fabd12c2d68f4}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae10a354231e6644dc1999c1fb93ec6ac}\label{structdetail_1_1base__hash__table_ae10a354231e6644dc1999c1fb93ec6ac}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries reserve\+\_\+space} (bucket\+\_\+type \&b)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a4fc10dc6408a784885ecad067d8a726d}\label{structdetail_1_1base__hash__table_a4fc10dc6408a784885ecad067d8a726d}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert} (size\+\_\+type hash, const store\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a599a1690feed02a85bce5e01995aed8d}\label{structdetail_1_1base__hash__table_a599a1690feed02a85bce5e01995aed8d}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert} (size\+\_\+type hash, store\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ab5c47944f06337a8cba1f76fedb9b6ac}\label{structdetail_1_1base__hash__table_ab5c47944f06337a8cba1f76fedb9b6ac}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert} (const store\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aa4352db4856180a73e07a32b3dbe4c70}\label{structdetail_1_1base__hash__table_aa4352db4856180a73e07a32b3dbe4c70}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert} (store\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aca606be1e425da229e9b3d1a615ea778}\label{structdetail_1_1base__hash__table_aca606be1e425da229e9b3d1a615ea778}} 
+{\footnotesize template$<$class U $>$ }\\std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert\+\_\+if\+\_\+no\+\_\+exist} (size\+\_\+type hash, const store\+\_\+type \&value, const U compare\+\_\+to)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aa868f225ac70b1b6273ad6d292807a72}\label{structdetail_1_1base__hash__table_aa868f225ac70b1b6273ad6d292807a72}} 
+{\footnotesize template$<$class U $>$ }\\std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert\+\_\+if\+\_\+no\+\_\+exist} (size\+\_\+type hash, store\+\_\+type \&\&value, const U \&compare\+\_\+to)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a46c9a70171ec716e2291f793759435ba}\label{structdetail_1_1base__hash__table_a46c9a70171ec716e2291f793759435ba}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert\+\_\+if\+\_\+no\+\_\+exist} (const store\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_acc48cbec3ae7b9ac245ed885511528f6}\label{structdetail_1_1base__hash__table_acc48cbec3ae7b9ac245ed885511528f6}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert\+\_\+if\+\_\+no\+\_\+exist} (store\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a36cc89ae00fbfe147a2d8fd321de46bf}\label{structdetail_1_1base__hash__table_a36cc89ae00fbfe147a2d8fd321de46bf}} 
+bucket\+\_\+type\+::const\+\_\+iterator {\bfseries find} (const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a321f1814e00c3cea16000e421cb0e9d3}\label{structdetail_1_1base__hash__table_a321f1814e00c3cea16000e421cb0e9d3}} 
+bucket\+\_\+type\+::iterator {\bfseries find} (const key\+\_\+type \&value) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a21794af47a8124d0995b187c6d957796}\label{structdetail_1_1base__hash__table_a21794af47a8124d0995b187c6d957796}} 
+bucket\+\_\+type\+::const\+\_\+iterator {\bfseries find} (typename bucket\+\_\+type\+::const\+\_\+iterator n, size\+\_\+type full\+\_\+hash, const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae941c205c245023618430d4b7eac703f}\label{structdetail_1_1base__hash__table_ae941c205c245023618430d4b7eac703f}} 
+bucket\+\_\+type\+::iterator {\bfseries find} (typename bucket\+\_\+type\+::iterator n, size\+\_\+type full\+\_\+hash, const key\+\_\+type \&value) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a9422d073d7248fdb60e14bc69f23c16e}\label{structdetail_1_1base__hash__table_a9422d073d7248fdb60e14bc69f23c16e}} 
+const bucket\+\_\+type\+::const\+\_\+iterator {\bfseries find} (size\+\_\+type full\+\_\+hash, const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a79ed3268ffa6f34978cfa54fdadfac9f}\label{structdetail_1_1base__hash__table_a79ed3268ffa6f34978cfa54fdadfac9f}} 
+const bucket\+\_\+type\+::iterator {\bfseries find} (size\+\_\+type full\+\_\+hash, const key\+\_\+type \&value) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a95f620a26f41f433b4d771f55201ff4f}\label{structdetail_1_1base__hash__table_a95f620a26f41f433b4d771f55201ff4f}} 
+void {\bfseries erase} (bucket\+\_\+const\+\_\+iterator \+\_\+n)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae470ca180af2b2884fc9630d58cbb461}\label{structdetail_1_1base__hash__table_ae470ca180af2b2884fc9630d58cbb461}} 
+bucket\+\_\+iterator {\bfseries erase} (bucket\+\_\+const\+\_\+iterator first, bucket\+\_\+const\+\_\+iterator last)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a8ec23c8a18468f78191fa3683b6ac562}\label{structdetail_1_1base__hash__table_a8ec23c8a18468f78191fa3683b6ac562}} 
+void {\bfseries erase} (const std\+::vector$<$ bucket\+\_\+const\+\_\+iterator $>$ \&iterators)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a22fe8023031701d96b3a79c8e75aae85}\label{structdetail_1_1base__hash__table_a22fe8023031701d96b3a79c8e75aae85}} 
+{\footnotesize template$<$class K $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1range__iterator}{range\+\_\+iterator}}, \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1range__iterator}{range\+\_\+iterator}} $>$ {\bfseries equal\+\_\+range} (const K \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ac8cdea0e9694a33cb41316faab05b607}\label{structdetail_1_1base__hash__table_ac8cdea0e9694a33cb41316faab05b607}} 
+void {\bfseries swap} (\mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a52f18560fbfbb0909a6bd81c1e8941ee}\label{structdetail_1_1base__hash__table_a52f18560fbfbb0909a6bd81c1e8941ee}} 
+{\bfseries base\+\_\+hash\+\_\+table} (const Hash \&hash=Hash(), const key\+\_\+equal \&equal=key\+\_\+equal(), const Allocator \&alloc=Allocator()) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a36b184e4feb5929995eb6d3d35d53dae}\label{structdetail_1_1base__hash__table_a36b184e4feb5929995eb6d3d35d53dae}} 
+{\bfseries base\+\_\+hash\+\_\+table} (const \mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a1d1d83028549059700c9d79f5a391a6d}\label{structdetail_1_1base__hash__table_a1d1d83028549059700c9d79f5a391a6d}} 
+{\bfseries base\+\_\+hash\+\_\+table} (const \mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&other, const Allocator \&al) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a8597c39785f4484668d684dfa4bdfaec}\label{structdetail_1_1base__hash__table_a8597c39785f4484668d684dfa4bdfaec}} 
+{\bfseries base\+\_\+hash\+\_\+table} (\mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aaec35a03d10ab09941fd722d0b59f0f5}\label{structdetail_1_1base__hash__table_aaec35a03d10ab09941fd722d0b59f0f5}} 
+{\bfseries base\+\_\+hash\+\_\+table} (\mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&\&other, const Allocator \&al) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a65b5a7d13523b9faf59287c6cd63c6a0}\label{structdetail_1_1base__hash__table_a65b5a7d13523b9faf59287c6cd63c6a0}} 
+size\+\_\+t {\bfseries memory\+\_\+footprint} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ac63f4f6d3f1fa9ed10bace6f2de5fbbb}\label{structdetail_1_1base__hash__table_ac63f4f6d3f1fa9ed10bace6f2de5fbbb}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a3430da9738d61ef9c096b2dd6b0804ce}\label{structdetail_1_1base__hash__table_a3430da9738d61ef9c096b2dd6b0804ce}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1const__iterator}{const\+\_\+iterator}} {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a806f1aaa2203dccdcae66acb4a73705c}\label{structdetail_1_1base__hash__table_a806f1aaa2203dccdcae66acb4a73705c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1const__iterator}{const\+\_\+iterator}} {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a2ed1d0d15efbda376c797791b688d8f9}\label{structdetail_1_1base__hash__table_a2ed1d0d15efbda376c797791b688d8f9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1iterator}{iterator}} {\bfseries begin} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aaa1244740a43201f8eac73df7ce01cf1}\label{structdetail_1_1base__hash__table_aaa1244740a43201f8eac73df7ce01cf1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1iterator}{iterator}} {\bfseries end} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a4a273ce2c1a08631520c4240389fd076}\label{structdetail_1_1base__hash__table_a4a273ce2c1a08631520c4240389fd076}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1const__iterator}{const\+\_\+iterator}} {\bfseries to\+\_\+iterator} (typename bucket\+\_\+type\+::const\+\_\+iterator n) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a69f19bfeaec26e33c2ebc6704fd4e203}\label{structdetail_1_1base__hash__table_a69f19bfeaec26e33c2ebc6704fd4e203}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1iterator}{iterator}} {\bfseries to\+\_\+iterator} (typename bucket\+\_\+type\+::iterator n) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a0b18b06a33084876aab3476dd1ebbe1b}\label{structdetail_1_1base__hash__table_a0b18b06a33084876aab3476dd1ebbe1b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries hash\+Full} (const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a1dac3344b48ce8ec36b6419caf32b834}\label{structdetail_1_1base__hash__table_a1dac3344b48ce8ec36b6419caf32b834}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a0d5792ead1e1fb266269cff58e893d13}\label{structdetail_1_1base__hash__table_a0d5792ead1e1fb266269cff58e893d13}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2} (size\+\_\+t size) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_afa3805003522c5fe09ecbac69f55adf9}\label{structdetail_1_1base__hash__table_afa3805003522c5fe09ecbac69f55adf9}} 
+Allocator {\bfseries get\+\_\+allocator} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a5900e6bc0ffa96113eac2f3bfeaf34e8}\label{structdetail_1_1base__hash__table_a5900e6bc0ffa96113eac2f3bfeaf34e8}} 
+bucket\+\_\+const\+\_\+iterator {\bfseries rehash} (size\+\_\+type hash\+\_\+len, bucket\+\_\+const\+\_\+iterator keep\+\_\+track)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_afb79997a42572678f8703744500e8b46}\label{structdetail_1_1base__hash__table_afb79997a42572678f8703744500e8b46}} 
+bucket\+\_\+const\+\_\+iterator {\bfseries check\+Size} (bool force, bucket\+\_\+const\+\_\+iterator keep\+\_\+track)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a16b44e881fbd535fe061d50f7445155a}\label{structdetail_1_1base__hash__table_a16b44e881fbd535fe061d50f7445155a}} 
+void {\bfseries shrink\+\_\+to\+\_\+fit} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a780d3cef3a3665c21ea9f0f95de147ed}\label{structdetail_1_1base__hash__table_a780d3cef3a3665c21ea9f0f95de147ed}} 
+void {\bfseries reserve} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ade45792471a8cc67c16fabd12c2d68f4}\label{structdetail_1_1base__hash__table_ade45792471a8cc67c16fabd12c2d68f4}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae10a354231e6644dc1999c1fb93ec6ac}\label{structdetail_1_1base__hash__table_ae10a354231e6644dc1999c1fb93ec6ac}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries reserve\+\_\+space} (bucket\+\_\+type \&b)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a07a02bb159c609467b24d8adcb3e76b6}\label{structdetail_1_1base__hash__table_a07a02bb159c609467b24d8adcb3e76b6}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert} (size\+\_\+t hash, const store\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae62daa5da8551ac277d761782db5440d}\label{structdetail_1_1base__hash__table_ae62daa5da8551ac277d761782db5440d}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert} (size\+\_\+t hash, store\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ab5c47944f06337a8cba1f76fedb9b6ac}\label{structdetail_1_1base__hash__table_ab5c47944f06337a8cba1f76fedb9b6ac}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert} (const store\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aa4352db4856180a73e07a32b3dbe4c70}\label{structdetail_1_1base__hash__table_aa4352db4856180a73e07a32b3dbe4c70}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert} (store\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aae46f749f5b4b509d249b550cb4c8bdf}\label{structdetail_1_1base__hash__table_aae46f749f5b4b509d249b550cb4c8bdf}} 
+{\footnotesize template$<$class U $>$ }\\std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert\+\_\+if\+\_\+no\+\_\+exist} (size\+\_\+t hash, const store\+\_\+type \&value, const U compare\+\_\+to)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ab536a6f3fcbbfd178a5b98dc05bf86a9}\label{structdetail_1_1base__hash__table_ab536a6f3fcbbfd178a5b98dc05bf86a9}} 
+{\footnotesize template$<$class U $>$ }\\std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert\+\_\+if\+\_\+no\+\_\+exist} (size\+\_\+t hash, store\+\_\+type \&\&value, const U \&compare\+\_\+to)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a46c9a70171ec716e2291f793759435ba}\label{structdetail_1_1base__hash__table_a46c9a70171ec716e2291f793759435ba}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert\+\_\+if\+\_\+no\+\_\+exist} (const store\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_acc48cbec3ae7b9ac245ed885511528f6}\label{structdetail_1_1base__hash__table_acc48cbec3ae7b9ac245ed885511528f6}} 
+std\+::pair$<$ bucket\+\_\+iterator, bool $>$ {\bfseries insert\+\_\+if\+\_\+no\+\_\+exist} (store\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a36cc89ae00fbfe147a2d8fd321de46bf}\label{structdetail_1_1base__hash__table_a36cc89ae00fbfe147a2d8fd321de46bf}} 
+bucket\+\_\+type\+::const\+\_\+iterator {\bfseries find} (const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a321f1814e00c3cea16000e421cb0e9d3}\label{structdetail_1_1base__hash__table_a321f1814e00c3cea16000e421cb0e9d3}} 
+bucket\+\_\+type\+::iterator {\bfseries find} (const key\+\_\+type \&value) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae8778280f8a5fa60c6ec2789e13078af}\label{structdetail_1_1base__hash__table_ae8778280f8a5fa60c6ec2789e13078af}} 
+bucket\+\_\+type\+::const\+\_\+iterator {\bfseries find} (typename bucket\+\_\+type\+::const\+\_\+iterator n, size\+\_\+t full\+\_\+hash, const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_af6e54e291b4f5d74aab75ba9908729bd}\label{structdetail_1_1base__hash__table_af6e54e291b4f5d74aab75ba9908729bd}} 
+bucket\+\_\+type\+::iterator {\bfseries find} (typename bucket\+\_\+type\+::iterator n, size\+\_\+t full\+\_\+hash, const key\+\_\+type \&value) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a496c2cb63d5c1e6bd45952df4874f2d3}\label{structdetail_1_1base__hash__table_a496c2cb63d5c1e6bd45952df4874f2d3}} 
+const bucket\+\_\+type\+::const\+\_\+iterator {\bfseries find} (size\+\_\+t full\+\_\+hash, const key\+\_\+type \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a21741aac39736c0d4fb24e4e2a46847b}\label{structdetail_1_1base__hash__table_a21741aac39736c0d4fb24e4e2a46847b}} 
+const bucket\+\_\+type\+::iterator {\bfseries find} (size\+\_\+t full\+\_\+hash, const key\+\_\+type \&value) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a95f620a26f41f433b4d771f55201ff4f}\label{structdetail_1_1base__hash__table_a95f620a26f41f433b4d771f55201ff4f}} 
+void {\bfseries erase} (bucket\+\_\+const\+\_\+iterator \+\_\+n)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae470ca180af2b2884fc9630d58cbb461}\label{structdetail_1_1base__hash__table_ae470ca180af2b2884fc9630d58cbb461}} 
+bucket\+\_\+iterator {\bfseries erase} (bucket\+\_\+const\+\_\+iterator first, bucket\+\_\+const\+\_\+iterator last)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a8ec23c8a18468f78191fa3683b6ac562}\label{structdetail_1_1base__hash__table_a8ec23c8a18468f78191fa3683b6ac562}} 
+void {\bfseries erase} (const std\+::vector$<$ bucket\+\_\+const\+\_\+iterator $>$ \&iterators)
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a22fe8023031701d96b3a79c8e75aae85}\label{structdetail_1_1base__hash__table_a22fe8023031701d96b3a79c8e75aae85}} 
+{\footnotesize template$<$class K $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1range__iterator}{range\+\_\+iterator}}, \mbox{\hyperlink{structdetail_1_1base__hash__table_1_1range__iterator}{range\+\_\+iterator}} $>$ {\bfseries equal\+\_\+range} (const K \&value) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ac8cdea0e9694a33cb41316faab05b607}\label{structdetail_1_1base__hash__table_ac8cdea0e9694a33cb41316faab05b607}} 
+void {\bfseries swap} (\mbox{\hyperlink{structdetail_1_1base__hash__table}{base\+\_\+hash\+\_\+table}} \&other) noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_acf82bfbf0fd3c88740868da08624b21f}\label{structdetail_1_1base__hash__table_acf82bfbf0fd3c88740868da08624b21f}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries max\+\_\+size} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a0da10c49ee525465c1cf8237213a09fb}\label{structdetail_1_1base__hash__table_a0da10c49ee525465c1cf8237213a09fb}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries hash\+Len\+For\+Size} (size\+\_\+t size) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a2db89b1634628dc3c7894f90f0f940da}\label{structdetail_1_1base__hash__table_a2db89b1634628dc3c7894f90f0f940da}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries hash\+Small} (size\+\_\+t h, size\+\_\+t mask) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a2ba125ca53b2bc5e1503a4e3e440f18f}\label{structdetail_1_1base__hash__table_a2ba125ca53b2bc5e1503a4e3e440f18f}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries hash\+Small\+Len} (size\+\_\+t h, size\+\_\+t Len) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_acf82bfbf0fd3c88740868da08624b21f}\label{structdetail_1_1base__hash__table_acf82bfbf0fd3c88740868da08624b21f}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries max\+\_\+size} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aca3e06304d658af080b655a3b5711a66}\label{structdetail_1_1base__hash__table_aca3e06304d658af080b655a3b5711a66}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries hash\+Len\+For\+Size} (size\+\_\+type size) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aa536e2d3f68b208674cda69865b99aa2}\label{structdetail_1_1base__hash__table_aa536e2d3f68b208674cda69865b99aa2}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries hash\+Small} (size\+\_\+type h, size\+\_\+type mask) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_acfa982a0c550a9352517f8094636d24a}\label{structdetail_1_1base__hash__table_acfa982a0c550a9352517f8094636d24a}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries hash\+Small\+Len} (size\+\_\+type h, size\+\_\+type Len) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_acf82bfbf0fd3c88740868da08624b21f}\label{structdetail_1_1base__hash__table_acf82bfbf0fd3c88740868da08624b21f}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries max\+\_\+size} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a0da10c49ee525465c1cf8237213a09fb}\label{structdetail_1_1base__hash__table_a0da10c49ee525465c1cf8237213a09fb}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries hash\+Len\+For\+Size} (size\+\_\+t size) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a2db89b1634628dc3c7894f90f0f940da}\label{structdetail_1_1base__hash__table_a2db89b1634628dc3c7894f90f0f940da}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries hash\+Small} (size\+\_\+t h, size\+\_\+t mask) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a2ba125ca53b2bc5e1503a4e3e440f18f}\label{structdetail_1_1base__hash__table_a2ba125ca53b2bc5e1503a4e3e440f18f}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries hash\+Small\+Len} (size\+\_\+t h, size\+\_\+t Len) noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a36bd6b19b5728fa7e8de58a1d8f72788}\label{structdetail_1_1base__hash__table_a36bd6b19b5728fa7e8de58a1d8f72788}} 
+bucket\+\_\+type {\bfseries d\+\_\+buckets}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a7dd29c58dad926b1b247108f01c43cec}\label{structdetail_1_1base__hash__table_a7dd29c58dad926b1b247108f01c43cec}} 
+size\+\_\+t {\bfseries d\+\_\+hash\+\_\+len}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ac8f76b9d68039e9fec950d5d776c23fb}\label{structdetail_1_1base__hash__table_ac8f76b9d68039e9fec950d5d776c23fb}} 
+size\+\_\+t {\bfseries d\+\_\+hash\+\_\+mask}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aefa3246f58e4652e9702b10a79b76ed8}\label{structdetail_1_1base__hash__table_aefa3246f58e4652e9702b10a79b76ed8}} 
+size\+\_\+t {\bfseries d\+\_\+size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ae4e4b444886ef60a7cebc8f96f98d307}\label{structdetail_1_1base__hash__table_ae4e4b444886ef60a7cebc8f96f98d307}} 
+size\+\_\+t {\bfseries d\+\_\+begin}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ac2b9678027ef298ba6d2eeb920a1b274}\label{structdetail_1_1base__hash__table_ac2b9678027ef298ba6d2eeb920a1b274}} 
+size\+\_\+t {\bfseries d\+\_\+end}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aeb28348584d0d2bdfcb3be366fbec48c}\label{structdetail_1_1base__hash__table_aeb28348584d0d2bdfcb3be366fbec48c}} 
+Hash {\bfseries d\+\_\+hash}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a71f06159a5fe237f5641bf7f18c4c5d7}\label{structdetail_1_1base__hash__table_a71f06159a5fe237f5641bf7f18c4c5d7}} 
+Equal {\bfseries d\+\_\+eq}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_adcf45581061f66d1a6a076e53d1dc574}\label{structdetail_1_1base__hash__table_adcf45581061f66d1a6a076e53d1dc574}} 
+size\+\_\+t {\bfseries full\+\_\+hash}
+\item 
+size\+\_\+t const store\+\_\+type \& {\bfseries value}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a4afc52d0683f7a3365bff45db712cafc}\label{structdetail_1_1base__hash__table_a4afc52d0683f7a3365bff45db712cafc}} 
+bucket\+\_\+iterator {\bfseries b} = -\/-\/d\+\_\+buckets.\+end()
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ad1e1404c69bcd213ffc4b587cab5a8c4}\label{structdetail_1_1base__hash__table_ad1e1404c69bcd213ffc4b587cab5a8c4}} 
+else b flags {\bfseries full} = d\+\_\+buckets\mbox{[}small\+\_\+hash\mbox{]}.flags.\+full
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_aadb30ac3505652a1eae538d07b43aad5}\label{structdetail_1_1base__hash__table_aadb30ac3505652a1eae538d07b43aad5}} 
+{\bfseries d\+\_\+end} = d\+\_\+buckets.\+size()
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a236caedae9c7ec5c02f342476cb928c1}\label{structdetail_1_1base__hash__table_a236caedae9c7ec5c02f342476cb928c1}} 
+{\bfseries d\+\_\+size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a8cd18d5dd941a38b50e537fa800dfb44}\label{structdetail_1_1base__hash__table_a8cd18d5dd941a38b50e537fa800dfb44}} 
+size\+\_\+type {\bfseries d\+\_\+hash\+\_\+len}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_ac9b075edf7c4676233adf813f4a87a74}\label{structdetail_1_1base__hash__table_ac9b075edf7c4676233adf813f4a87a74}} 
+size\+\_\+type {\bfseries d\+\_\+hash\+\_\+mask}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a477538ad7628340a3117fab1f5c0e829}\label{structdetail_1_1base__hash__table_a477538ad7628340a3117fab1f5c0e829}} 
+static const size\+\_\+t {\bfseries min\+\_\+hash\+\_\+len} = 4
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator, class Hash, class Equal, class Node, bool Store\+Hash = false, Layout\+Management layout = Optimize\+For\+Speed, bool Compute\+Begin\+End = true$>$\newline
+struct detail\+::base\+\_\+hash\+\_\+table$<$ T, Allocator, Hash, Equal, Node, Store\+Hash, layout, Compute\+Begin\+End $>$}
+
+Base class for all hash tables 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structdetail_1_1base__hash__table_a021ad58bd5011d4c88abb0789f9554f0}\label{structdetail_1_1base__hash__table_a021ad58bd5011d4c88abb0789f9554f0}} 
+\index{detail::base\_hash\_table$<$ T, Allocator, Hash, Equal, Node, StoreHash, layout, ComputeBeginEnd $>$@{detail::base\_hash\_table$<$ T, Allocator, Hash, Equal, Node, StoreHash, layout, ComputeBeginEnd $>$}!value@{value}}
+\index{value@{value}!detail::base\_hash\_table$<$ T, Allocator, Hash, Equal, Node, StoreHash, layout, ComputeBeginEnd $>$@{detail::base\_hash\_table$<$ T, Allocator, Hash, Equal, Node, StoreHash, layout, ComputeBeginEnd $>$}}
+\doxysubsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Hash , class Equal , class Node , bool Store\+Hash = false, Layout\+Management layout = Optimize\+For\+Speed, bool Compute\+Begin\+End = true$>$ \\
+size\+\_\+t const store\+\_\+type\& \mbox{\hyperlink{structdetail_1_1base__hash__table}{detail\+::base\+\_\+hash\+\_\+table}}$<$ T, Allocator, Hash, Equal, \mbox{\hyperlink{structdetail_1_1_node}{Node}}, Store\+Hash, layout, Compute\+Begin\+End $>$\+::value}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{            }
+\DoxyCodeLine{            }
+\DoxyCodeLine{            d\_buckets.push\_back(node\_type(value))}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+hash\+\_\+map.\+hpp\item 
+hash\+\_\+map\+Copie.\+hpp\item 
+hash\+\_\+map\+Copie2.\+hpp\end{DoxyCompactItemize}

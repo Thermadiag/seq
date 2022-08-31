@@ -1,0 +1,101 @@
+\hypertarget{structdetail_1_1_hash_buffers}{}\doxysection{detail\+::Hash\+Buffers$<$ T, Allocator, Store\+Hash $>$ Struct Template Reference}
+\label{structdetail_1_1_hash_buffers}\index{detail::HashBuffers$<$ T, Allocator, StoreHash $>$@{detail::HashBuffers$<$ T, Allocator, StoreHash $>$}}
+
+
+{\ttfamily \#include $<$sparse\+\_\+hash -\/with smart rehash.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a937a110525642d7856d0ce96a4b9809b}\label{structdetail_1_1_hash_buffers_a937a110525642d7856d0ce96a4b9809b}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a4677394e4132e298cbf1d1781dc6247d}\label{structdetail_1_1_hash_buffers_a4677394e4132e298cbf1d1781dc6247d}} 
+void {\bfseries init} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a8360b595800a5dd85015dcc909682259}\label{structdetail_1_1_hash_buffers_a8360b595800a5dd85015dcc909682259}} 
+void {\bfseries destroy} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a4ea77b2a02a2f7ee106b0421d054918f}\label{structdetail_1_1_hash_buffers_a4ea77b2a02a2f7ee106b0421d054918f}} 
+{\bfseries Hash\+Buffers} (const Allocator al=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_ab545ebe9ebff0915562329c15df256d4}\label{structdetail_1_1_hash_buffers_ab545ebe9ebff0915562329c15df256d4}} 
+{\bfseries Hash\+Buffers} (\mbox{\hyperlink{structdetail_1_1_hash_buffers}{Hash\+Buffers}} \&\&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a4e678a1486fc2000cdd063cf87efe112}\label{structdetail_1_1_hash_buffers_a4e678a1486fc2000cdd063cf87efe112}} 
+{\bfseries Hash\+Buffers} (\mbox{\hyperlink{structdetail_1_1_hash_buffers}{Hash\+Buffers}} \&\&other, Allocator al)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a0254c110057d42871edaf9970d5dca4a}\label{structdetail_1_1_hash_buffers_a0254c110057d42871edaf9970d5dca4a}} 
+Allocator {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a50971b08cc8ef7fee32cd73f58d6e902}\label{structdetail_1_1_hash_buffers_a50971b08cc8ef7fee32cd73f58d6e902}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void $\ast$) allocate(void $\ast$ptr
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a03e932c51e99d5a01d68b90c111bf0c6}\label{structdetail_1_1_hash_buffers_a03e932c51e99d5a01d68b90c111bf0c6}} 
+{\bfseries if} (Store\+Hash) res
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a1124673cf6040d89acf7dd79a3a4897f}\label{structdetail_1_1_hash_buffers_a1124673cf6040d89acf7dd79a3a4897f}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void) deallocate(void $\ast$ptr
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a6513c4cb0d94bd139b89bbbe9828d066}\label{structdetail_1_1_hash_buffers_a6513c4cb0d94bd139b89bbbe9828d066}} 
+{\bfseries if} (Store\+Hash) ptr
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a64fd0b01daf54de7783ef210ff59fe33}\label{structdetail_1_1_hash_buffers_a64fd0b01daf54de7783ef210ff59fe33}} 
+d\+\_\+pools\mbox{[}idx\mbox{]} {\bfseries deallocate} (ptr)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_a03d40123226bfcd97c83bd160051a065}\label{structdetail_1_1_hash_buffers_a03d40123226bfcd97c83bd160051a065}} 
+std\+::size\+\_\+t {\bfseries memory\+\_\+footprint} () const noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_ac2d8da8db9addf044a6e627481cf6fdb}\label{structdetail_1_1_hash_buffers_ac2d8da8db9addf044a6e627481cf6fdb}} 
+Allocator {\bfseries d\+\_\+alloc}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_ab1d7e728c8a1cd0d7f14b703a5ab8df3}\label{structdetail_1_1_hash_buffers_ab1d7e728c8a1cd0d7f14b703a5ab8df3}} 
+\mbox{\hyperlink{classdetail_1_1_hash_pool_alloc}{Hash\+Pool\+Alloc}}$<$ Allocator $>$ $\ast$ {\bfseries d\+\_\+pools}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_ab9eecae4a1ee22ac919ae4c6e03ef8d3}\label{structdetail_1_1_hash_buffers_ab9eecae4a1ee22ac919ae4c6e03ef8d3}} 
+{\bfseries size\+\_\+t}
+\item 
+size\+\_\+t {\bfseries size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_aa8f751c4327c90c4d696ce4942ae72ef}\label{structdetail_1_1_hash_buffers_aa8f751c4327c90c4d696ce4942ae72ef}} 
+void $\ast$ {\bfseries res} = d\+\_\+pools\mbox{[}idx\mbox{]}.allocate()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_ae0195cdb24066e13bdaaf6b1ea52f2d8}\label{structdetail_1_1_hash_buffers_ae0195cdb24066e13bdaaf6b1ea52f2d8}} 
+return {\bfseries res}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_ad86884b353e069708ed3c411050e7c22}\label{structdetail_1_1_hash_buffers_ad86884b353e069708ed3c411050e7c22}} 
+size\+\_\+t {\bfseries idx} = size / 8U\+LL -\/ 1U\+LL
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator, bool Store\+Hash$>$\newline
+struct detail\+::\+Hash\+Buffers$<$ T, Allocator, Store\+Hash $>$}
+
+Fast allocator for hash tables. Allocate chunks of 8, 16, 24, 32 or 64 values. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structdetail_1_1_hash_buffers_ac3472ccc114a0ea35a895e100a868e4d}\label{structdetail_1_1_hash_buffers_ac3472ccc114a0ea35a895e100a868e4d}} 
+\index{detail::HashBuffers$<$ T, Allocator, StoreHash $>$@{detail::HashBuffers$<$ T, Allocator, StoreHash $>$}!size@{size}}
+\index{size@{size}!detail::HashBuffers$<$ T, Allocator, StoreHash $>$@{detail::HashBuffers$<$ T, Allocator, StoreHash $>$}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , bool Store\+Hash$>$ \\
+size\+\_\+t \mbox{\hyperlink{structdetail_1_1_hash_buffers}{detail\+::\+Hash\+Buffers}}$<$ T, Allocator, Store\+Hash $>$\+::size}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{            \textcolor{keywordtype}{size\_t} idx = size / 8ULL -\/ 1ULL}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sparse\+\_\+hash -\/with smart rehash.\+hpp\end{DoxyCompactItemize}

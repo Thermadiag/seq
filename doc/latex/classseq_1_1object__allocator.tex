@@ -1,0 +1,359 @@
+\hypertarget{classseq_1_1object__allocator}{}\doxysection{seq\+::object\+\_\+allocator$<$ Pool $>$ Class Template Reference}
+\label{classseq_1_1object__allocator}\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+
+
+Stl conforming allocator based on an object pool class.  
+
+
+
+
+{\ttfamily \#include $<$memory.\+hpp$>$}
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1object__allocator_1_1rebind}{rebind}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_a1a07fb32aa6d0564ffdfcf0357141422}{pool\+\_\+type}} = Pool
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}{allocator\+\_\+type}} = Allocator
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_a687a22e4159c22603258ba7be1eeab7c}{value\+\_\+type}} = type
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_ad45500def131c496fc38e50f1ed71d1b}{pointer}} = type $\ast$
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_aabc67ba808659b513cad41921d8eaa92}{const\+\_\+pointer}} = const type $\ast$
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_abe77e7a24aaba3ae7dc92bf9272481fe}{reference}} = type \&
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_a95d716ff0fe69374c75c35df1aadf1e3}{const\+\_\+reference}} = const type \&
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_ae67b39b2cdf921225d1d42c50031d8a2}{size\+\_\+type}} = size\+\_\+t
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_ae762927a154d238d3adda6c2ad9b20b4}{difference\+\_\+type}} = std\+::ptrdiff\+\_\+t
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_ab6dd88df3c8714eb53a62bed9b33be95}{propagate\+\_\+on\+\_\+container\+\_\+swap}} = std\+::true\+\_\+type
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_a38ecf58896dd4e500455768205a30ffa}{propagate\+\_\+on\+\_\+container\+\_\+copy\+\_\+assignment}} = std\+::true\+\_\+type
+\item 
+using \mbox{\hyperlink{classseq_1_1object__allocator_a3f2377d8bb105d9a33090a5acddc87bd}{propagate\+\_\+on\+\_\+container\+\_\+move\+\_\+assignment}} = std\+::true\+\_\+type
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} \mbox{\hyperlink{classseq_1_1object__allocator_a2f4eff9adbe6623e7d332f70a40fafc8}{select\+\_\+on\+\_\+container\+\_\+copy\+\_\+construction}} () const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1object__allocator_ab211919b88353add307a0269721b9782}{object\+\_\+allocator}} (const \mbox{\hyperlink{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}{allocator\+\_\+type}} al=\mbox{\hyperlink{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}{allocator\+\_\+type}}())
+\item 
+\mbox{\hyperlink{classseq_1_1object__allocator_a6e2f3d76528fcdc0e27a98c49d0b6909}{object\+\_\+allocator}} (const \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} \&other)
+\item 
+{\footnotesize template$<$class U $>$ }\\\mbox{\hyperlink{classseq_1_1object__allocator_ae9385d08cd4ee97678df0e5fe589e124}{object\+\_\+allocator}} (const \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}}$<$ U $>$ \&other)
+\item 
+\mbox{\hyperlink{classseq_1_1object__allocator_ac8aa435667c320138a67978d539d8dcf}{$\sim$object\+\_\+allocator}} ()
+\item 
+\mbox{\hyperlink{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}{allocator\+\_\+type}} \& \mbox{\hyperlink{classseq_1_1object__allocator_abfe8db7084540cd3b6244a3dd6bc82ea}{get\+\_\+allocator}} () noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}{allocator\+\_\+type}} \mbox{\hyperlink{classseq_1_1object__allocator_a3452650cc3e1826d6cf07caf328b81f5}{get\+\_\+allocator}} () const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1object__allocator_a1a07fb32aa6d0564ffdfcf0357141422}{pool\+\_\+type}} $\ast$ \mbox{\hyperlink{classseq_1_1object__allocator_a53334e61be02d4cd038e03557e46a212}{get\+\_\+pool}} ()
+\item 
+bool \mbox{\hyperlink{classseq_1_1object__allocator_a2ad95493d6dd21cca84f95292c98d953}{operator==}} (const \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} \&other) const noexcept
+\item 
+bool \mbox{\hyperlink{classseq_1_1object__allocator_aef78908846954acc7879c01bcce7b5fd}{operator!=}} (const \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} \&other) const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1object__allocator_ad45500def131c496fc38e50f1ed71d1b}{pointer}} \mbox{\hyperlink{classseq_1_1object__allocator_af4e37fa51e19dfeed31aa199cb1952ef}{address}} (\mbox{\hyperlink{classseq_1_1object__allocator_abe77e7a24aaba3ae7dc92bf9272481fe}{reference}} x) const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1object__allocator_aabc67ba808659b513cad41921d8eaa92}{const\+\_\+pointer}} \mbox{\hyperlink{classseq_1_1object__allocator_a7d9451c95da9936cee3490c43a78c82e}{address}} (\mbox{\hyperlink{classseq_1_1object__allocator_a95d716ff0fe69374c75c35df1aadf1e3}{const\+\_\+reference}} x) const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1object__allocator_a687a22e4159c22603258ba7be1eeab7c}{value\+\_\+type}} $\ast$ \mbox{\hyperlink{classseq_1_1object__allocator_a0f7b985efd20e2742a9e21a9bc981db5}{allocate}} (size\+\_\+t n, const void $\ast$)
+\item 
+\mbox{\hyperlink{classseq_1_1object__allocator_a687a22e4159c22603258ba7be1eeab7c}{value\+\_\+type}} $\ast$ \mbox{\hyperlink{classseq_1_1object__allocator_a0139794defd1d1ee7d2fa06ea7726e85}{allocate}} (size\+\_\+t n)
+\item 
+void \mbox{\hyperlink{classseq_1_1object__allocator_adfdd6b4ae0da9498dd1f755dd94cf548}{deallocate}} (\mbox{\hyperlink{classseq_1_1object__allocator_a687a22e4159c22603258ba7be1eeab7c}{value\+\_\+type}} $\ast$p, size\+\_\+t n)
+\item 
+{\footnotesize template$<$class U , class... Args$>$ }\\void \mbox{\hyperlink{classseq_1_1object__allocator_a8b497fc77201bc94a3c65ea57fcffe21}{construct}} (U $\ast$p, Args \&\&... args)
+\item 
+{\footnotesize template$<$class U $>$ }\\void \mbox{\hyperlink{classseq_1_1object__allocator_a73358cea0a0f14ff7926dc990a08d22d}{destroy}} (U $\ast$p)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const size\+\_\+t \mbox{\hyperlink{classseq_1_1object__allocator_a45690d33eb93c44d2f98f0b076ecf162}{max\+\_\+objects\+\_\+per\+\_\+allocation}} = Pool\+::max\+\_\+objects
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class U $>$ }\\class \mbox{\hyperlink{classseq_1_1object__allocator_a565b12258ff3d3f1498582bee545d6d5}{object\+\_\+allocator}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Pool$>$\newline
+class seq\+::object\+\_\+allocator$<$ Pool $>$}
+
+Stl conforming allocator based on an object pool class. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Pool} & object pool type, either \#object\+\_\+pool or \#parallel\+\_\+object\+\_\+pool\\
+\hline
+\end{DoxyTemplParams}
+\mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}} is a stl compliant allocator dedicated to node based containers like std\+::set, std\+::map, std\+::list, std\+::deque, std\+::multimap, std\+::multiset... \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} also works for other containers like std\+::vector, but does not provide any benefits in such cases.
+
+It provides faster allocation/deallocation time as well as reduced memory footprint and reduced memory fragmentation (see \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}} class for more details). Since the \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}} class uses chunk based allocation, containers using \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} are usually more cache friendly, which fasten most operations(like iterating, sorting, ...).
+
+Note that \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} does not work with std\+::list\+::sort() on gcc. (\href{https://stackoverflow.com/questions/63716394/list-sort-fails-with-abort-when-list-is-created-with-stateful-allocator-when-com}{\texttt{ https\+://stackoverflow.\+com/questions/63716394/list-\/sort-\/fails-\/with-\/abort-\/when-\/list-\/is-\/created-\/with-\/stateful-\/allocator-\/when-\/com}})
+
+Usage example for std\+::list\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{using} allocator = object\_allocator< object\_pool<int> >;}
+\DoxyCodeLine{}
+\DoxyCodeLine{std::list<int, allocator > my\_list;}
+\DoxyCodeLine{\textcolor{comment}{//....}}
+\end{DoxyCode}
+ 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}\label{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!allocator\_type@{allocator\_type}}
+\index{allocator\_type@{allocator\_type}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{allocator\_type}{allocator\_type}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}{allocator\+\_\+type}} =  Allocator}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_aabc67ba808659b513cad41921d8eaa92}\label{classseq_1_1object__allocator_aabc67ba808659b513cad41921d8eaa92}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!const\_pointer@{const\_pointer}}
+\index{const\_pointer@{const\_pointer}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{const\_pointer}{const\_pointer}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_aabc67ba808659b513cad41921d8eaa92}{const\+\_\+pointer}} =  const type$\ast$}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a95d716ff0fe69374c75c35df1aadf1e3}\label{classseq_1_1object__allocator_a95d716ff0fe69374c75c35df1aadf1e3}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!const\_reference@{const\_reference}}
+\index{const\_reference@{const\_reference}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reference}{const\_reference}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_a95d716ff0fe69374c75c35df1aadf1e3}{const\+\_\+reference}} =  const type\&}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_ae762927a154d238d3adda6c2ad9b20b4}\label{classseq_1_1object__allocator_ae762927a154d238d3adda6c2ad9b20b4}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!difference\_type@{difference\_type}}
+\index{difference\_type@{difference\_type}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{difference\_type}{difference\_type}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_ae762927a154d238d3adda6c2ad9b20b4}{difference\+\_\+type}} =  std\+::ptrdiff\+\_\+t}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_ad45500def131c496fc38e50f1ed71d1b}\label{classseq_1_1object__allocator_ad45500def131c496fc38e50f1ed71d1b}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!pointer@{pointer}}
+\index{pointer@{pointer}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{pointer}{pointer}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_ad45500def131c496fc38e50f1ed71d1b}{pointer}} =  type$\ast$}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a1a07fb32aa6d0564ffdfcf0357141422}\label{classseq_1_1object__allocator_a1a07fb32aa6d0564ffdfcf0357141422}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!pool\_type@{pool\_type}}
+\index{pool\_type@{pool\_type}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{pool\_type}{pool\_type}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_a1a07fb32aa6d0564ffdfcf0357141422}{pool\+\_\+type}} =  Pool}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a38ecf58896dd4e500455768205a30ffa}\label{classseq_1_1object__allocator_a38ecf58896dd4e500455768205a30ffa}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!propagate\_on\_container\_copy\_assignment@{propagate\_on\_container\_copy\_assignment}}
+\index{propagate\_on\_container\_copy\_assignment@{propagate\_on\_container\_copy\_assignment}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{propagate\_on\_container\_copy\_assignment}{propagate\_on\_container\_copy\_assignment}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_a38ecf58896dd4e500455768205a30ffa}{propagate\+\_\+on\+\_\+container\+\_\+copy\+\_\+assignment}} =  std\+::true\+\_\+type}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a3f2377d8bb105d9a33090a5acddc87bd}\label{classseq_1_1object__allocator_a3f2377d8bb105d9a33090a5acddc87bd}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!propagate\_on\_container\_move\_assignment@{propagate\_on\_container\_move\_assignment}}
+\index{propagate\_on\_container\_move\_assignment@{propagate\_on\_container\_move\_assignment}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{propagate\_on\_container\_move\_assignment}{propagate\_on\_container\_move\_assignment}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_a3f2377d8bb105d9a33090a5acddc87bd}{propagate\+\_\+on\+\_\+container\+\_\+move\+\_\+assignment}} =  std\+::true\+\_\+type}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_ab6dd88df3c8714eb53a62bed9b33be95}\label{classseq_1_1object__allocator_ab6dd88df3c8714eb53a62bed9b33be95}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!propagate\_on\_container\_swap@{propagate\_on\_container\_swap}}
+\index{propagate\_on\_container\_swap@{propagate\_on\_container\_swap}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{propagate\_on\_container\_swap}{propagate\_on\_container\_swap}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_ab6dd88df3c8714eb53a62bed9b33be95}{propagate\+\_\+on\+\_\+container\+\_\+swap}} =  std\+::true\+\_\+type}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_abe77e7a24aaba3ae7dc92bf9272481fe}\label{classseq_1_1object__allocator_abe77e7a24aaba3ae7dc92bf9272481fe}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!reference@{reference}}
+\index{reference@{reference}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{reference}{reference}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_abe77e7a24aaba3ae7dc92bf9272481fe}{reference}} =  type\&}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_ae67b39b2cdf921225d1d42c50031d8a2}\label{classseq_1_1object__allocator_ae67b39b2cdf921225d1d42c50031d8a2}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!size\_type@{size\_type}}
+\index{size\_type@{size\_type}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{size\_type}{size\_type}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_ae67b39b2cdf921225d1d42c50031d8a2}{size\+\_\+type}} =  size\+\_\+t}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a687a22e4159c22603258ba7be1eeab7c}\label{classseq_1_1object__allocator_a687a22e4159c22603258ba7be1eeab7c}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+using \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator_a687a22e4159c22603258ba7be1eeab7c}{value\+\_\+type}} =  type}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classseq_1_1object__allocator_ab211919b88353add307a0269721b9782}\label{classseq_1_1object__allocator_ab211919b88353add307a0269721b9782}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!object\_allocator@{object\_allocator}}
+\index{object\_allocator@{object\_allocator}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{object\_allocator()}{object\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}{allocator\+\_\+type}}}]{al = {\ttfamily \mbox{\hyperlink{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}{allocator\+\_\+type}}()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a6e2f3d76528fcdc0e27a98c49d0b6909}\label{classseq_1_1object__allocator_a6e2f3d76528fcdc0e27a98c49d0b6909}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!object\_allocator@{object\_allocator}}
+\index{object\_allocator@{object\_allocator}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{object\_allocator()}{object\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}}$<$ Pool $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_ae9385d08cd4ee97678df0e5fe589e124}\label{classseq_1_1object__allocator_ae9385d08cd4ee97678df0e5fe589e124}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!object\_allocator@{object\_allocator}}
+\index{object\_allocator@{object\_allocator}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{object\_allocator()}{object\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+template$<$class U $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::\mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}}$<$ U $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_ac8aa435667c320138a67978d539d8dcf}\label{classseq_1_1object__allocator_ac8aa435667c320138a67978d539d8dcf}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!````~object\_allocator@{$\sim$object\_allocator}}
+\index{````~object\_allocator@{$\sim$object\_allocator}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{$\sim$object\_allocator()}{~object\_allocator()}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::$\sim$\mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1object__allocator_a7d9451c95da9936cee3490c43a78c82e}\label{classseq_1_1object__allocator_a7d9451c95da9936cee3490c43a78c82e}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!address@{address}}
+\index{address@{address}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{address()}{address()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator_aabc67ba808659b513cad41921d8eaa92}{const\+\_\+pointer}} \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::address (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1object__allocator_a95d716ff0fe69374c75c35df1aadf1e3}{const\+\_\+reference}}}]{x }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_af4e37fa51e19dfeed31aa199cb1952ef}\label{classseq_1_1object__allocator_af4e37fa51e19dfeed31aa199cb1952ef}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!address@{address}}
+\index{address@{address}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{address()}{address()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator_ad45500def131c496fc38e50f1ed71d1b}{pointer}} \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::address (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1object__allocator_abe77e7a24aaba3ae7dc92bf9272481fe}{reference}}}]{x }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a0139794defd1d1ee7d2fa06ea7726e85}\label{classseq_1_1object__allocator_a0139794defd1d1ee7d2fa06ea7726e85}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!allocate@{allocate}}
+\index{allocate@{allocate}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator_a687a22e4159c22603258ba7be1eeab7c}{value\+\_\+type}}$\ast$ \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a0f7b985efd20e2742a9e21a9bc981db5}\label{classseq_1_1object__allocator_a0f7b985efd20e2742a9e21a9bc981db5}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!allocate@{allocate}}
+\index{allocate@{allocate}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator_a687a22e4159c22603258ba7be1eeab7c}{value\+\_\+type}}$\ast$ \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n,  }\item[{const void $\ast$}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a8b497fc77201bc94a3c65ea57fcffe21}\label{classseq_1_1object__allocator_a8b497fc77201bc94a3c65ea57fcffe21}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!construct@{construct}}
+\index{construct@{construct}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{construct()}{construct()}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+template$<$class U , class... Args$>$ \\
+void \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::construct (\begin{DoxyParamCaption}\item[{U $\ast$}]{p,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_adfdd6b4ae0da9498dd1f755dd94cf548}\label{classseq_1_1object__allocator_adfdd6b4ae0da9498dd1f755dd94cf548}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!deallocate@{deallocate}}
+\index{deallocate@{deallocate}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{deallocate()}{deallocate()}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+void \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::deallocate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1object__allocator_a687a22e4159c22603258ba7be1eeab7c}{value\+\_\+type}} $\ast$}]{p,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a73358cea0a0f14ff7926dc990a08d22d}\label{classseq_1_1object__allocator_a73358cea0a0f14ff7926dc990a08d22d}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!destroy@{destroy}}
+\index{destroy@{destroy}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+template$<$class U $>$ \\
+void \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::destroy (\begin{DoxyParamCaption}\item[{U $\ast$}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a3452650cc3e1826d6cf07caf328b81f5}\label{classseq_1_1object__allocator_a3452650cc3e1826d6cf07caf328b81f5}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}{allocator\+\_\+type}} \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_abfe8db7084540cd3b6244a3dd6bc82ea}\label{classseq_1_1object__allocator_abfe8db7084540cd3b6244a3dd6bc82ea}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator_a854a7aed95b37fc7e45d5995d6c5d936}{allocator\+\_\+type}}\& \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a53334e61be02d4cd038e03557e46a212}\label{classseq_1_1object__allocator_a53334e61be02d4cd038e03557e46a212}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!get\_pool@{get\_pool}}
+\index{get\_pool@{get\_pool}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{get\_pool()}{get\_pool()}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator_a1a07fb32aa6d0564ffdfcf0357141422}{pool\+\_\+type}}$\ast$ \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::get\+\_\+pool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_aef78908846954acc7879c01bcce7b5fd}\label{classseq_1_1object__allocator_aef78908846954acc7879c01bcce7b5fd}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+bool \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}}$<$ Pool $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a2ad95493d6dd21cca84f95292c98d953}\label{classseq_1_1object__allocator_a2ad95493d6dd21cca84f95292c98d953}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!operator==@{operator==}}
+\index{operator==@{operator==}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+bool \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}}$<$ Pool $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1object__allocator_a2f4eff9adbe6623e7d332f70a40fafc8}\label{classseq_1_1object__allocator_a2f4eff9adbe6623e7d332f70a40fafc8}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!select\_on\_container\_copy\_construction@{select\_on\_container\_copy\_construction}}
+\index{select\_on\_container\_copy\_construction@{select\_on\_container\_copy\_construction}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{select\_on\_container\_copy\_construction()}{select\_on\_container\_copy\_construction()}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+\mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}} \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::select\+\_\+on\+\_\+container\+\_\+copy\+\_\+construction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classseq_1_1object__allocator_a565b12258ff3d3f1498582bee545d6d5}\label{classseq_1_1object__allocator_a565b12258ff3d3f1498582bee545d6d5}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!object\_allocator@{object\_allocator}}
+\index{object\_allocator@{object\_allocator}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{object\_allocator}{object\_allocator}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+template$<$class U $>$ \\
+friend class \mbox{\hyperlink{classseq_1_1object__allocator}{object\+\_\+allocator}}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classseq_1_1object__allocator_a45690d33eb93c44d2f98f0b076ecf162}\label{classseq_1_1object__allocator_a45690d33eb93c44d2f98f0b076ecf162}} 
+\index{seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}!max\_objects\_per\_allocation@{max\_objects\_per\_allocation}}
+\index{max\_objects\_per\_allocation@{max\_objects\_per\_allocation}!seq::object\_allocator$<$ Pool $>$@{seq::object\_allocator$<$ Pool $>$}}
+\doxysubsubsection{\texorpdfstring{max\_objects\_per\_allocation}{max\_objects\_per\_allocation}}
+{\footnotesize\ttfamily template$<$class Pool $>$ \\
+const size\+\_\+t \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator}}$<$ Pool $>$\+::max\+\_\+objects\+\_\+per\+\_\+allocation = Pool\+::max\+\_\+objects\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{memory_8hpp}{memory.\+hpp}}\end{DoxyCompactItemize}

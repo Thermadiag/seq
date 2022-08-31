@@ -1,0 +1,1319 @@
+\hypertarget{classseq_1_1devector}{}\doxysection{seq\+::devector$<$ T, Allocator, flag $>$ Class Template Reference}
+\label{classseq_1_1devector}\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+
+
+Double-\/ending vector implementation which can be optimized for several use case.  
+
+
+
+
+{\ttfamily \#include $<$devector.\+hpp$>$}
+
+
+
+Inherits \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data$<$ T, std\+::allocator$<$ T $>$, Optimize\+For\+Both\+Ends $>$}}.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_ae3217177144dd3d22afd21fb01409fa4}{value\+\_\+type}} = T
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_ab4e7ecd7ca31f09c06f32a50ba7afbc9}{allocator\+\_\+type}} = Allocator
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}{size\+\_\+type}} = size\+\_\+t
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_a8ce005bbb17f69a2bc55daf9aecf68fa}{difference\+\_\+type}} = std\+::ptrdiff\+\_\+t
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_ac5da5ceeca35e724ef47bd91797bb0a2}{reference}} = T \&
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_af2d622d174cfd20e4c5a3b2dfae67ffc}{const\+\_\+reference}} = const T \&
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_a027484875528af750d6826817c942cf3}{pointer}} = T $\ast$
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_ac3ad9c011bd3afd2edf57352f4bb27f1}{const\+\_\+pointer}} = const T $\ast$
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} = T $\ast$
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} = const T $\ast$
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_af816b3889e97dc10e8cd147bb8d6e84f}{reverse\+\_\+iterator}} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} $>$
+\item 
+using \mbox{\hyperlink{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}{const\+\_\+reverse\+\_\+iterator}} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classseq_1_1devector_a3fefe84a3c6a7388140229c42c159d6c}{devector}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_adb9ad834efb737db31bd53ba773d2984}{devector}} (const Allocator \&alloc)
+\begin{DoxyCompactList}\small\item\em Constructs an empty container with the given allocator alloc. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_a0f9873d3e5052a49786073cdf25a406f}{devector}} (\mbox{\hyperlink{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}{size\+\_\+type}} count, const T \&value, const Allocator \&alloc=Allocator())
+\begin{DoxyCompactList}\small\item\em Constructs the container with count copies of elements with value value. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_ab084dbdeb123b2c9527114fd99e1b046}{devector}} (\mbox{\hyperlink{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}{size\+\_\+type}} count, const Allocator \&alloc=Allocator())
+\begin{DoxyCompactList}\small\item\em Constructs the container with count element default constructed. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Input\+It $>$ }\\\mbox{\hyperlink{classseq_1_1devector_ae6ccf4875731b2440cdadae85751b56e}{devector}} (Input\+It first, Input\+It last, const Allocator \&alloc=Allocator())
+\begin{DoxyCompactList}\small\item\em Constructs the container with the contents of the range \mbox{[}first, last). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_a81c71d99d38b3b770ecf39b09dc3ecfc}{devector}} (const \mbox{\hyperlink{classseq_1_1devector}{devector}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_ac5ba09d5a78f67724af349d70b298ccd}{devector}} (const \mbox{\hyperlink{classseq_1_1devector}{devector}} \&other, const Allocator \&alloc)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_ab9f2955b059ff0a24cf3c371e06f764d}{devector}} (\mbox{\hyperlink{classseq_1_1devector}{devector}} \&\&other) noexcept
+\begin{DoxyCompactList}\small\item\em Move constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_aa637f78aff0773b889bba39a6db5ac91}{devector}} (\mbox{\hyperlink{classseq_1_1devector}{devector}} \&\&other, const Allocator \&alloc)
+\begin{DoxyCompactList}\small\item\em Move constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_ad3500ca8da2e7fd7d39523e948cceded}{devector}} (std\+::initializer\+\_\+list$<$ T $>$ init, const Allocator \&alloc=Allocator())
+\begin{DoxyCompactList}\small\item\em Constructs the container with the contents of the initializer list init. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the container size. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classseq_1_1devector_a046d4be644a2fe27859066e26c08f339}{capacity}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the container full capacity (\mbox{\hyperlink{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}{back\+\_\+capacity()}} + \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size()}} + \mbox{\hyperlink{classseq_1_1devector_a669166063e020cce4e00092288b0a942}{front\+\_\+capacity()}}) \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}{back\+\_\+capacity}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the container back capacity. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classseq_1_1devector_a669166063e020cce4e00092288b0a942}{front\+\_\+capacity}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the container front capacity. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classseq_1_1devector_ae486774510d411a45a11765b7a948464}{max\+\_\+size}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the container maximum size. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classseq_1_1devector_afbf61be36c4ce28bede8e1c8d8a35b51}{empty}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns true if the container is empty, false otherwise. \end{DoxyCompactList}\item 
+Allocator \& \mbox{\hyperlink{classseq_1_1devector_aadee566959ee1d042db57d542f359ed8}{get\+\_\+allocator}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns the container allocator object. \end{DoxyCompactList}\item 
+Allocator \mbox{\hyperlink{classseq_1_1devector_a138520afd8421861ebfc1e5d05eaeda7}{get\+\_\+allocator}} () const
+\begin{DoxyCompactList}\small\item\em Returns the container allocator object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a7670284631ce1eedfea53b96b5cd4494}{clear}} () noexcept
+\begin{DoxyCompactList}\small\item\em Clear the container, but does not deallocate the storage. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_ad7dc6ca1ccdabd0c74731209913b2090}{shrink\+\_\+to\+\_\+fit}} ()
+\begin{DoxyCompactList}\small\item\em Requests the removal of unused capacity. Strong exception guarentee. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_ac8de2d7bb6aaa6317e70c2fdf33a4890}{push\+\_\+back}} (const T \&value)
+\begin{DoxyCompactList}\small\item\em Insert an element at the back of the container. The complexity is amortized O(1) for Optimize\+For\+Push\+Back and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Front. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}{back\+\_\+capacity()}} == 0. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_aab45a92dfbe1d074b7ef2ef419d0c325}{push\+\_\+back}} (T \&\&value)
+\begin{DoxyCompactList}\small\item\em Insert an element at the back of the container using move semantic. The complexity is amortized O(1) for Optimize\+For\+Push\+Back and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Front. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}{back\+\_\+capacity()}} == 0. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{classseq_1_1devector_ac5da5ceeca35e724ef47bd91797bb0a2}{reference}} \mbox{\hyperlink{classseq_1_1devector_a2c7e17d782ff34c2fe0e0d0405f66129}{emplace\+\_\+back}} (Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Appends a new element to the end of the container. The element is constructed through std\+::allocator\+\_\+traits\+::construct, which typically uses placement-\/new to construct the element in-\/place at the location provided by the container. The arguments args... are forwarded to the constructor as std\+::forward$<$\+Args$>$(args).... The complexity is amortized O(1) for Optimize\+For\+Push\+Back and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Front. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}{back\+\_\+capacity()}} == 0. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a0d10831168489b4fcd47b4dbcc9fef96}{push\+\_\+front}} (const T \&value)
+\begin{DoxyCompactList}\small\item\em Insert an element at the front of the container. The complexity is amortized O(1) for Optimize\+For\+Push\+Front and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Back. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a669166063e020cce4e00092288b0a942}{front\+\_\+capacity()}} == 0. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a46c496edf014b84398c0e2a21a47146c}{push\+\_\+front}} (T \&\&value)
+\begin{DoxyCompactList}\small\item\em Insert an element at the front of the container using move semantic. The complexity is amortized O(1) for Optimize\+For\+Push\+Front and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Back. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a669166063e020cce4e00092288b0a942}{front\+\_\+capacity()}} == 0. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{classseq_1_1devector_ac5da5ceeca35e724ef47bd91797bb0a2}{reference}} \mbox{\hyperlink{classseq_1_1devector_a84d9ab1e2b039c7f2c4e55dbbfdaec10}{emplace\+\_\+front}} (Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Appends a new element to the front of the container. The element is constructed through std\+::allocator\+\_\+traits\+::construct, which typically uses placement-\/new to construct the element in-\/place at the location provided by the container. The arguments args... are forwarded to the constructor as std\+::forward$<$\+Args$>$(args).... The complexity is amortized O(1) for Optimize\+For\+Push\+Front and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Back. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a669166063e020cce4e00092288b0a942}{front\+\_\+capacity()}} == 0. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector_a936d7219cd92d42b74263dd7d8817fbb}{emplace}} (\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Inserts a new element into the container directly before pos. The element is constructed through std\+::allocator\+\_\+traits\+::construct, which typically uses placement-\/new to construct the element in-\/place at a location provided by the container. However, if the required location has been occupied by an existing element, the inserted element is constructed at another location at first, and then move assigned into the required location. The arguments args... are forwarded to the constructor as std\+::forward$<$\+Args$>$(args).... args... may directly or indirectly refer to a value in the container. Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector_a610d5b49e3c1321a68c278cab2946d3b}{insert}} (\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, const T \&value)
+\begin{DoxyCompactList}\small\item\em Inserts a new element into the container directly before pos. Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector_a8d2da204b04f387a7d7def09e2de9a4e}{insert}} (\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, T \&\&value)
+\begin{DoxyCompactList}\small\item\em Inserts a new element into the container directly before pos using move semantic. Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Input\+It $>$ }\\\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector_a56754fdef6558bba3ab574e473125f8c}{insert}} (\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, Input\+It first, Input\+It last)
+\begin{DoxyCompactList}\small\item\em Inserts elements from range \mbox{[}first, last) before pos. Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector_a160a5a9e1188d858980af44bdc630af3}{insert}} (\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, \mbox{\hyperlink{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}{size\+\_\+type}} count, const T \&value)
+\begin{DoxyCompactList}\small\item\em inserts count copies of the value before pos Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector_a67c6a990e15975fe7b1a1cf111c7ad92}{insert}} (\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, std\+::initializer\+\_\+list$<$ T $>$ ilist)
+\begin{DoxyCompactList}\small\item\em inserts elements from initializer list ilist before pos Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Input\+It $>$ }\\void \mbox{\hyperlink{classseq_1_1devector_a8de2b39307fc6d565bfd4c0ae22bfee5}{assign}} (Input\+It first, Input\+It last)
+\begin{DoxyCompactList}\small\item\em Assign elements from range \mbox{[}first, last) to the container. Invalidate all references and iterators. Basic exception guarantee. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a1eb7a0517ccfe626af25a490267ca906}{assign}} (\mbox{\hyperlink{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}{size\+\_\+type}} count, const T \&value)
+\begin{DoxyCompactList}\small\item\em Replaces the contents with count copies of value value Invalidate all references and iterators. Basic exception guarantee. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a9443a54a1b2fbaf09cc3eda134c1c746}{assign}} (std\+::initializer\+\_\+list$<$ T $>$ ilist)
+\begin{DoxyCompactList}\small\item\em Replaces the contents with the elements from the initializer list ilist Invalidate all references and iterators. Basic exception guarantee. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a8bf9a8520bffb6176384db953146c8ba}{pop\+\_\+back}} () noexcept
+\begin{DoxyCompactList}\small\item\em Removes the last element of the container Iterators and references to the last element, as well as the \mbox{\hyperlink{classseq_1_1devector_a1a74b918b004144e4f1f6025797a94a3}{end()}} iterator, are invalidated. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_adbe0361f9ea84833729ab052c94566eb}{pop\+\_\+front}} () noexcept
+\begin{DoxyCompactList}\small\item\em Removes the first element of the container Iterators and references to the first element are invalidated. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector_a14ee5fce221473f6a4f5ab69bcb67940}{erase}} (\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} first, \mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} last)
+\begin{DoxyCompactList}\small\item\em Removes the elements in the range \mbox{[}first, last). Basic exception guarantee. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector_a9d33556776d4139b965aea0ca10da0a2}{erase}} (\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}})
+\begin{DoxyCompactList}\small\item\em Removes the element at pos Basic exception guarantee. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a8cdd4a389d12386193a8e027210df1b0}{swap}} (\mbox{\hyperlink{classseq_1_1devector}{devector}} \&other) noexcept
+\begin{DoxyCompactList}\small\item\em Swap this container with other Does not invalidated iterators, including \mbox{\hyperlink{classseq_1_1devector_a1a74b918b004144e4f1f6025797a94a3}{end()}} iterator. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a54e4712f4c74bec591ff2f0d10e10a53}{reserve}} (size\+\_\+t new\+\_\+cap)
+\begin{DoxyCompactList}\small\item\em Increase the capacity of the devector (the total number of elements that the devector can hold without requiring reallocation) to a value that\textquotesingle{}s greater or equal to new\+\_\+cap. If new\+\_\+cap is greater than the current \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_ad9792bc1862077268e153a4dfd0a2b66}{capacity()}}, new storage is allocated, otherwise the function does nothing. When reallocating, the front and back capacity is adjusted depending on the optimization flag. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a49a79a5beaf35a4568574ff4a1e8ddf6}{reserve\+\_\+back}} (size\+\_\+t new\+\_\+back\+\_\+capacity)
+\begin{DoxyCompactList}\small\item\em Ensure that the devector has at least new\+\_\+back\+\_\+capacity free slots at the back, no matter what is the optimization flag. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_aa650950408291dc8681255279bc85a3e}{reserve\+\_\+front}} (size\+\_\+t new\+\_\+front\+\_\+capacity)
+\begin{DoxyCompactList}\small\item\em Ensure that the devector has at least new\+\_\+front\+\_\+capacity free slots at the front, no matter what is the optimization flag. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a22f275a449330e0c685adc5b8e907c22}{resize}} (size\+\_\+t count)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain count elements. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_ac34202c1f317b92dce0d00c7345d4f56}{resize}} (size\+\_\+t count, const T \&value)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain count elements. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a3089cff6cc2da56dace46cab6a666ead}{resize\+\_\+front}} (size\+\_\+t new\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain count elements. The container is extended by the front. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1devector_a33066dedfb3543a31b22de5f3c22abce}{resize\+\_\+front}} (size\+\_\+t new\+\_\+size, const T \&value)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain count elements. The container is extended by the front. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee. \end{DoxyCompactList}\item 
+T $\ast$ \mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns pointer to the underlying array serving as element storage. The pointer is such that range \mbox{[}\mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}}; \mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}} + \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size()}}) is always a valid range, even if the container is empty (\mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}} is not dereferenceable in that case). \end{DoxyCompactList}\item 
+const T $\ast$ \mbox{\hyperlink{classseq_1_1devector_a4195eae975c9bbf57fcf0e634de5ad8d}{data}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns pointer to the underlying array serving as element storage. The pointer is such that range \mbox{[}\mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}}; \mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}} + \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size()}}) is always a valid range, even if the container is empty (\mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}} is not dereferenceable in that case). \end{DoxyCompactList}\item 
+T \& \mbox{\hyperlink{classseq_1_1devector_a4233499d7df6a2be8eb311652476f4c5}{back}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the back element. \end{DoxyCompactList}\item 
+const T \& \mbox{\hyperlink{classseq_1_1devector_ae5cc563a86a19ac48e63c5995c8f5d92}{back}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the back element. \end{DoxyCompactList}\item 
+T \& \mbox{\hyperlink{classseq_1_1devector_ae91da93246bc151eeca655d0f40a5910}{front}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the front element. \end{DoxyCompactList}\item 
+const T \& \mbox{\hyperlink{classseq_1_1devector_abc7633fa19128528b51235c2e1d33b77}{front}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the front element. \end{DoxyCompactList}\item 
+const T \& \mbox{\hyperlink{classseq_1_1devector_ae88d8674cf3d3ed081e14e70d09d51fb}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the element at pos. \end{DoxyCompactList}\item 
+T \& \mbox{\hyperlink{classseq_1_1devector_a2a0fe0a8a0f62ba1e246200e3884f9fa}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the element at pos. \end{DoxyCompactList}\item 
+const T \& \mbox{\hyperlink{classseq_1_1devector_aa3307eb36c64638601f3657b9cd8b20d}{at}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) const
+\begin{DoxyCompactList}\small\item\em Returns a reference to the element at pos. Throw std\+::out\+\_\+of\+\_\+range if pos is invalid. ~\newline
+ \end{DoxyCompactList}\item 
+T \& \mbox{\hyperlink{classseq_1_1devector_ab3a0a122a2cfe6a3cb7b5927b7d21d06}{at}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}})
+\begin{DoxyCompactList}\small\item\em Returns a reference to the element at pos. Throw std\+::out\+\_\+of\+\_\+range if pos is invalid. ~\newline
+ \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector_a017a1f3425009f7c01051744334e43ca}{begin}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the first element of the devector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector_af58382cc988c7412bed513adf5a5854a}{begin}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the first element of the devector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector_a4660372a671c8aa2ab3e06b432b011e0}{end}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the element following the last element of the devector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector_a1a74b918b004144e4f1f6025797a94a3}{end}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the element following the last element of the devector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_af816b3889e97dc10e8cd147bb8d6e84f}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector_ac0b39c0cc242f2a6a09c26c01898cb08}{rbegin}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the first element of the reversed devector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector_ae8d3c6b801ee2a1fb1df803d1d26be69}{rbegin}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the first element of the reversed devector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_af816b3889e97dc10e8cd147bb8d6e84f}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector_a960b362a35f8c3a39acd7684d605ad28}{rend}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the element following the last element of the reversed devector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector_a9465b9c0126b19828ab74e5d812ad735}{rend}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the element following the last element of the reversed devector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector_a6895b1d5c06e13ca597b97d5aa0c5fc2}{cbegin}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the first element of the devector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector_a0d1dbbfc5088ab1864429909f6f8a98c}{cend}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the element following the last element of the devector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector_aaeffdbeecf345708b279bf64028d4852}{crbegin}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the first element of the reversed devector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector_a473c5865528c0fa68ce9bf6c9e751bde}{crend}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the element following the last element of the reversed devector. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Alloc , D\+E\+Vector\+Flag F$>$ }\\\mbox{\hyperlink{classseq_1_1devector}{devector}} \& \mbox{\hyperlink{classseq_1_1devector_a85071c0d48aecf687c5c42d287b5df08}{operator=}} (const \mbox{\hyperlink{classseq_1_1devector}{devector}}$<$ T, Alloc, F $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Copy operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector}{devector}} \& \mbox{\hyperlink{classseq_1_1devector_adf1a251add8f788531f3af96821e1f0c}{operator=}} (const \mbox{\hyperlink{classseq_1_1devector}{devector}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1devector}{devector}} \& \mbox{\hyperlink{classseq_1_1devector_a1b4244e12f49c601abd79a4a819b7231}{operator=}} (\mbox{\hyperlink{classseq_1_1devector}{devector}} \&\&other) noexcept
+\begin{DoxyCompactList}\small\item\em Move assignment operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$\newline
+class seq\+::devector$<$ T, Allocator, flag $>$}
+
+Double-\/ending vector implementation which can be optimized for several use case. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & value type \\
+\hline
+{\em Allocator} & allocator type \\
+\hline
+{\em flag} & optimization flag\\
+\hline
+\end{DoxyTemplParams}
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}} is a double-\/ending vector class that mixes the behavior and performances of std\+::deque and std\+::vector. Elements are stored in a contiguous memory chunk exatcly like a vector, but might contain free space at the front in addition to free space at the back in order to provide O(1) insertion at the front.
+
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}} provides a similar interface as std\+::vector with the following additional members\+:
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{classseq_1_1devector_a0d10831168489b4fcd47b4dbcc9fef96}{push\+\_\+front()}} and \mbox{\hyperlink{classseq_1_1devector_a84d9ab1e2b039c7f2c4e55dbbfdaec10}{emplace\+\_\+front()}}\+: insert an element at the front of the devector
+\item \mbox{\hyperlink{classseq_1_1devector_a3089cff6cc2da56dace46cab6a666ead}{resize\+\_\+front()}}\+: resize the devector from the front instead of the back of the container
+\item \mbox{\hyperlink{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}{back\+\_\+capacity()}}\+: returns the capacity (free slots) at the back of the devector
+\item \mbox{\hyperlink{classseq_1_1devector_a669166063e020cce4e00092288b0a942}{front\+\_\+capacity()}}\+: returns the capacity (free slots) at the front of the devector
+\end{DoxyItemize}
+
+Almost all members provide basic exception guarantee, except if the value type has a noexcept move constructor and move assignment operator, in which case members provide strong exception guarantee.
+
+References and iterators are invalidated by insertion/removal of elements.
+
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}} is used by \mbox{\hyperlink{classseq_1_1deque}{seq\+::deque}} for bucket storage.\hypertarget{classseq_1_1devector_autotoc_md18}{}\doxysubsubsection{Optimization flags}\label{classseq_1_1devector_autotoc_md18}
+devector can be configured with the following flags\+:
+\begin{DoxyItemize}
+\item Optimize\+For\+Push\+Back\+: the devector behaves like a std\+::vector, adding free space at the back based on the growth factor S\+E\+Q\+\_\+\+G\+R\+O\+W\+\_\+\+F\+A\+C\+T\+OR. In this case, inserting elements at the front is as slow as for std\+::vector as it require to move all elements toward the back.
+\item Optimize\+For\+Push\+Front\+: the devector adds free space at the front based on the growth factor S\+E\+Q\+\_\+\+G\+R\+O\+W\+\_\+\+F\+A\+C\+T\+OR. Inserting elements at the front is amortized O(1), inserting at the back is O(\+N).
+\item Optimize\+For\+Both\+Ends (default)\+: the devector has as many free space at the back and the front. Both \mbox{\hyperlink{classseq_1_1devector_ac8de2d7bb6aaa6317e70c2fdf33a4890}{push\+\_\+back()}} and \mbox{\hyperlink{classseq_1_1devector_a0d10831168489b4fcd47b4dbcc9fef96}{push\+\_\+front()}} behave in amortized O(1). When the memory storage grows (by a factor of S\+E\+Q\+\_\+\+G\+R\+O\+W\+\_\+\+F\+A\+C\+T\+OR), the elements are moved to the middle of the storage, leaving as much space at the front and the back. When inserting an element at the back, several scenarios are checked (this is similar for front insertion)\+:
+\begin{DoxyEnumerate}
+\item Free slots are available at the back and the element is inserted there.
+\item The devector does not have available slots at the back or the front, a new chunk of memory of size \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size()}}$\ast$\+S\+E\+Q\+\_\+\+G\+R\+O\+W\+\_\+\+F\+A\+C\+T\+OR is allocated, elements are moved to this new memory location (leaving the same capacity at the back and the front) and the new element is inserted at the back.
+\item The devector does not have enough capacity at the back, but has free capacity at the front. In this case, there are 2 possibilities\+:
+\begin{DoxyEnumerate}
+\item front capacity is greater than \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size()}} / \+\_\+\+\_\+\+S\+E\+Q\+\_\+\+D\+E\+V\+E\+C\+T\+O\+R\+\_\+\+S\+I\+Z\+E\+\_\+\+L\+I\+M\+IT\+: elements are moved toward the front, leaving the same capacity at the back and the front. The new element is then inserted at the back.
+\item front capacity is lower or equal to \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size()}} / \+\_\+\+\_\+\+S\+E\+Q\+\_\+\+D\+E\+V\+E\+C\+T\+O\+R\+\_\+\+S\+I\+Z\+E\+\_\+\+L\+I\+M\+IT\+: a new chunk is allocated like in b). By default, \+\_\+\+\_\+\+S\+E\+Q\+\_\+\+D\+E\+V\+E\+C\+T\+O\+R\+\_\+\+S\+I\+Z\+E\+\_\+\+L\+I\+M\+IT is set to 16. \+\_\+\+\_\+\+S\+E\+Q\+\_\+\+D\+E\+V\+E\+C\+T\+O\+R\+\_\+\+S\+I\+Z\+E\+\_\+\+L\+I\+M\+IT can be adjusted to provide a different trade-\/off between insertion speed and memory usage.
+\end{DoxyEnumerate}
+\end{DoxyEnumerate}
+\end{DoxyItemize}\hypertarget{classseq_1_1devector_autotoc_md19}{}\doxysubsubsection{Performances}\label{classseq_1_1devector_autotoc_md19}
+Internal benchmarks show that devector is as fast as std\+::vector when inserting at the back with Optimize\+For\+Push\+Back, or inserting at the front with Optimize\+For\+Push\+Front. Using Optimize\+For\+Both\+Ends makes insertion at both ends usually twice as slow as back insertion for std\+::vector.
+
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}} is faster than std\+::vector for relocatable types (where \mbox{\hyperlink{structseq_1_1is__relocatable_a9bc3104d310961a601c2185957f846ad}{seq\+::is\+\_\+relocatable$<$\+T$>$\+::value}} is true) as memcpy and memmove can be used instead of std\+::copy or std\+::move on reallocation.
+
+Inserting a new element in the middle of a devector is on average twice as fast as on std\+::vector, since the values can be pushed to either ends, whichever is faster (at least with Optimize\+For\+Both\+Ends). 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classseq_1_1devector_ab4e7ecd7ca31f09c06f32a50ba7afbc9}\label{classseq_1_1devector_ab4e7ecd7ca31f09c06f32a50ba7afbc9}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!allocator\_type@{allocator\_type}}
+\index{allocator\_type@{allocator\_type}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{allocator\_type}{allocator\_type}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_ab4e7ecd7ca31f09c06f32a50ba7afbc9}{allocator\+\_\+type}} =  Allocator}
+
+\mbox{\Hypertarget{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}\label{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!const\_iterator@{const\_iterator}}
+\index{const\_iterator@{const\_iterator}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{const\_iterator}{const\_iterator}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} =  const T$\ast$}
+
+\mbox{\Hypertarget{classseq_1_1devector_ac3ad9c011bd3afd2edf57352f4bb27f1}\label{classseq_1_1devector_ac3ad9c011bd3afd2edf57352f4bb27f1}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!const\_pointer@{const\_pointer}}
+\index{const\_pointer@{const\_pointer}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{const\_pointer}{const\_pointer}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_ac3ad9c011bd3afd2edf57352f4bb27f1}{const\+\_\+pointer}} =  const T$\ast$}
+
+\mbox{\Hypertarget{classseq_1_1devector_af2d622d174cfd20e4c5a3b2dfae67ffc}\label{classseq_1_1devector_af2d622d174cfd20e4c5a3b2dfae67ffc}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!const\_reference@{const\_reference}}
+\index{const\_reference@{const\_reference}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reference}{const\_reference}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_af2d622d174cfd20e4c5a3b2dfae67ffc}{const\+\_\+reference}} =  const T\&}
+
+\mbox{\Hypertarget{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}\label{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!const\_reverse\_iterator@{const\_reverse\_iterator}}
+\index{const\_reverse\_iterator@{const\_reverse\_iterator}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reverse\_iterator}{const\_reverse\_iterator}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}{const\+\_\+reverse\+\_\+iterator}} =  std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}}$>$}
+
+\mbox{\Hypertarget{classseq_1_1devector_a8ce005bbb17f69a2bc55daf9aecf68fa}\label{classseq_1_1devector_a8ce005bbb17f69a2bc55daf9aecf68fa}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!difference\_type@{difference\_type}}
+\index{difference\_type@{difference\_type}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{difference\_type}{difference\_type}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_a8ce005bbb17f69a2bc55daf9aecf68fa}{difference\+\_\+type}} =  std\+::ptrdiff\+\_\+t}
+
+\mbox{\Hypertarget{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}\label{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!iterator@{iterator}}
+\index{iterator@{iterator}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{iterator}{iterator}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} =  T$\ast$}
+
+\mbox{\Hypertarget{classseq_1_1devector_a027484875528af750d6826817c942cf3}\label{classseq_1_1devector_a027484875528af750d6826817c942cf3}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!pointer@{pointer}}
+\index{pointer@{pointer}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{pointer}{pointer}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_a027484875528af750d6826817c942cf3}{pointer}} =  T$\ast$}
+
+\mbox{\Hypertarget{classseq_1_1devector_ac5da5ceeca35e724ef47bd91797bb0a2}\label{classseq_1_1devector_ac5da5ceeca35e724ef47bd91797bb0a2}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!reference@{reference}}
+\index{reference@{reference}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{reference}{reference}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_ac5da5ceeca35e724ef47bd91797bb0a2}{reference}} =  T\&}
+
+\mbox{\Hypertarget{classseq_1_1devector_af816b3889e97dc10e8cd147bb8d6e84f}\label{classseq_1_1devector_af816b3889e97dc10e8cd147bb8d6e84f}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!reverse\_iterator@{reverse\_iterator}}
+\index{reverse\_iterator@{reverse\_iterator}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{reverse\_iterator}{reverse\_iterator}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_af816b3889e97dc10e8cd147bb8d6e84f}{reverse\+\_\+iterator}} =  std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}}$>$}
+
+\mbox{\Hypertarget{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}\label{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!size\_type@{size\_type}}
+\index{size\_type@{size\_type}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{size\_type}{size\_type}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}{size\+\_\+type}} =  size\+\_\+t}
+
+\mbox{\Hypertarget{classseq_1_1devector_ae3217177144dd3d22afd21fb01409fa4}\label{classseq_1_1devector_ae3217177144dd3d22afd21fb01409fa4}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+using \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector_ae3217177144dd3d22afd21fb01409fa4}{value\+\_\+type}} =  T}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classseq_1_1devector_a3fefe84a3c6a7388140229c42c159d6c}\label{classseq_1_1devector_a3fefe84a3c6a7388140229c42c159d6c}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!devector@{devector}}
+\index{devector@{devector}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{devector()}{devector()}\hspace{0.1cm}{\footnotesize\ttfamily [1/10]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector}{devector}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Default constructor. 
+
+\mbox{\Hypertarget{classseq_1_1devector_adb9ad834efb737db31bd53ba773d2984}\label{classseq_1_1devector_adb9ad834efb737db31bd53ba773d2984}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!devector@{devector}}
+\index{devector@{devector}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{devector()}{devector()}\hspace{0.1cm}{\footnotesize\ttfamily [2/10]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector}{devector}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Constructs an empty container with the given allocator alloc. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em alloc} & allocator to use for all memory allocations of this container \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_a0f9873d3e5052a49786073cdf25a406f}\label{classseq_1_1devector_a0f9873d3e5052a49786073cdf25a406f}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!devector@{devector}}
+\index{devector@{devector}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{devector()}{devector()}\hspace{0.1cm}{\footnotesize\ttfamily [3/10]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector}{devector}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}{size\+\_\+type}}}]{count,  }\item[{const T \&}]{value,  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs the container with count copies of elements with value value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & the size of the container \\
+\hline
+{\em value} & the value to initialize elements of the container with \\
+\hline
+{\em alloc} & allocator to use for all memory allocations of this container \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_ab084dbdeb123b2c9527114fd99e1b046}\label{classseq_1_1devector_ab084dbdeb123b2c9527114fd99e1b046}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!devector@{devector}}
+\index{devector@{devector}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{devector()}{devector()}\hspace{0.1cm}{\footnotesize\ttfamily [4/10]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector}{devector}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}{size\+\_\+type}}}]{count,  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Constructs the container with count element default constructed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & the size of the container \\
+\hline
+{\em alloc} & allocator to use for all memory allocations of this container \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_ae6ccf4875731b2440cdadae85751b56e}\label{classseq_1_1devector_ae6ccf4875731b2440cdadae85751b56e}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!devector@{devector}}
+\index{devector@{devector}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{devector()}{devector()}\hspace{0.1cm}{\footnotesize\ttfamily [5/10]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+template$<$class Input\+It $>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector}{devector}} (\begin{DoxyParamCaption}\item[{Input\+It}]{first,  }\item[{Input\+It}]{last,  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs the container with the contents of the range \mbox{[}first, last). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em first} & the range to copy the elements from \\
+\hline
+{\em last} & the range to copy the elements from \\
+\hline
+{\em alloc} & allocator to use for all memory allocations of this container \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_a81c71d99d38b3b770ecf39b09dc3ecfc}\label{classseq_1_1devector_a81c71d99d38b3b770ecf39b09dc3ecfc}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!devector@{devector}}
+\index{devector@{devector}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{devector()}{devector()}\hspace{0.1cm}{\footnotesize\ttfamily [6/10]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector}{devector}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1devector}{devector}}$<$ T, Allocator, flag $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Copy constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & another container to be used as source to initialize the elements of the container with \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_ac5ba09d5a78f67724af349d70b298ccd}\label{classseq_1_1devector_ac5ba09d5a78f67724af349d70b298ccd}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!devector@{devector}}
+\index{devector@{devector}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{devector()}{devector()}\hspace{0.1cm}{\footnotesize\ttfamily [7/10]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector}{devector}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1devector}{devector}}$<$ T, Allocator, flag $>$ \&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Copy constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & another container to be used as source to initialize the elements of the container with \\
+\hline
+{\em alloc} & allocator to use for all memory allocations of this container \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_ab9f2955b059ff0a24cf3c371e06f764d}\label{classseq_1_1devector_ab9f2955b059ff0a24cf3c371e06f764d}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!devector@{devector}}
+\index{devector@{devector}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{devector()}{devector()}\hspace{0.1cm}{\footnotesize\ttfamily [8/10]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector}{devector}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector}{devector}}$<$ T, Allocator, flag $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Move constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & another container to be used as source to initialize the elements of the container with \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_aa637f78aff0773b889bba39a6db5ac91}\label{classseq_1_1devector_aa637f78aff0773b889bba39a6db5ac91}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!devector@{devector}}
+\index{devector@{devector}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{devector()}{devector()}\hspace{0.1cm}{\footnotesize\ttfamily [9/10]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector}{devector}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector}{devector}}$<$ T, Allocator, flag $>$ \&\&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Move constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & another container to be used as source to initialize the elements of the container with \\
+\hline
+{\em alloc} & allocator to use for all memory allocations of this container \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_ad3500ca8da2e7fd7d39523e948cceded}\label{classseq_1_1devector_ad3500ca8da2e7fd7d39523e948cceded}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!devector@{devector}}
+\index{devector@{devector}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{devector()}{devector()}\hspace{0.1cm}{\footnotesize\ttfamily [10/10]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{classseq_1_1devector}{devector}} (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ T $>$}]{init,  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs the container with the contents of the initializer list init. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em init} & initializer list to initialize the elements of the container with \\
+\hline
+{\em alloc} & allocator to use for all memory allocations of this container \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1devector_a8de2b39307fc6d565bfd4c0ae22bfee5}\label{classseq_1_1devector_a8de2b39307fc6d565bfd4c0ae22bfee5}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!assign@{assign}}
+\index{assign@{assign}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{assign()}{assign()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+template$<$class Input\+It $>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::assign (\begin{DoxyParamCaption}\item[{Input\+It}]{first,  }\item[{Input\+It}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Assign elements from range \mbox{[}first, last) to the container. Invalidate all references and iterators. Basic exception guarantee. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a1eb7a0517ccfe626af25a490267ca906}\label{classseq_1_1devector_a1eb7a0517ccfe626af25a490267ca906}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!assign@{assign}}
+\index{assign@{assign}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{assign()}{assign()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::assign (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}{size\+\_\+type}}}]{count,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Replaces the contents with count copies of value value Invalidate all references and iterators. Basic exception guarantee. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a9443a54a1b2fbaf09cc3eda134c1c746}\label{classseq_1_1devector_a9443a54a1b2fbaf09cc3eda134c1c746}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!assign@{assign}}
+\index{assign@{assign}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{assign()}{assign()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::assign (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ T $>$}]{ilist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Replaces the contents with the elements from the initializer list ilist Invalidate all references and iterators. Basic exception guarantee. 
+
+\mbox{\Hypertarget{classseq_1_1devector_ab3a0a122a2cfe6a3cb7b5927b7d21d06}\label{classseq_1_1devector_ab3a0a122a2cfe6a3cb7b5927b7d21d06}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!at@{at}}
+\index{at@{at}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+T\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::at (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns a reference to the element at pos. Throw std\+::out\+\_\+of\+\_\+range if pos is invalid. ~\newline
+ 
+
+\mbox{\Hypertarget{classseq_1_1devector_aa3307eb36c64638601f3657b9cd8b20d}\label{classseq_1_1devector_aa3307eb36c64638601f3657b9cd8b20d}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!at@{at}}
+\index{at@{at}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+const T\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::at (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns a reference to the element at pos. Throw std\+::out\+\_\+of\+\_\+range if pos is invalid. ~\newline
+ 
+
+\mbox{\Hypertarget{classseq_1_1devector_ae5cc563a86a19ac48e63c5995c8f5d92}\label{classseq_1_1devector_ae5cc563a86a19ac48e63c5995c8f5d92}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!back@{back}}
+\index{back@{back}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+const T\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reference to the back element. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a4233499d7df6a2be8eb311652476f4c5}\label{classseq_1_1devector_a4233499d7df6a2be8eb311652476f4c5}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!back@{back}}
+\index{back@{back}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+T\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reference to the back element. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}\label{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!back\_capacity@{back\_capacity}}
+\index{back\_capacity@{back\_capacity}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{back\_capacity()}{back\_capacity()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+size\+\_\+t \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::back\+\_\+capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the container back capacity. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a017a1f3425009f7c01051744334e43ca}\label{classseq_1_1devector_a017a1f3425009f7c01051744334e43ca}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!begin@{begin}}
+\index{begin@{begin}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns an iterator to the first element of the devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_af58382cc988c7412bed513adf5a5854a}\label{classseq_1_1devector_af58382cc988c7412bed513adf5a5854a}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!begin@{begin}}
+\index{begin@{begin}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns an iterator to the first element of the devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a046d4be644a2fe27859066e26c08f339}\label{classseq_1_1devector_a046d4be644a2fe27859066e26c08f339}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!capacity@{capacity}}
+\index{capacity@{capacity}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{capacity()}{capacity()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+size\+\_\+t \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the container full capacity (\mbox{\hyperlink{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}{back\+\_\+capacity()}} + \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size()}} + \mbox{\hyperlink{classseq_1_1devector_a669166063e020cce4e00092288b0a942}{front\+\_\+capacity()}}) 
+
+\mbox{\Hypertarget{classseq_1_1devector_a6895b1d5c06e13ca597b97d5aa0c5fc2}\label{classseq_1_1devector_a6895b1d5c06e13ca597b97d5aa0c5fc2}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!cbegin@{cbegin}}
+\index{cbegin@{cbegin}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{cbegin()}{cbegin()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::cbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns an iterator to the first element of the devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a0d1dbbfc5088ab1864429909f6f8a98c}\label{classseq_1_1devector_a0d1dbbfc5088ab1864429909f6f8a98c}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!cend@{cend}}
+\index{cend@{cend}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{cend()}{cend()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::cend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns an iterator to the element following the last element of the devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a7670284631ce1eedfea53b96b5cd4494}\label{classseq_1_1devector_a7670284631ce1eedfea53b96b5cd4494}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!clear@{clear}}
+\index{clear@{clear}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Clear the container, but does not deallocate the storage. 
+
+\mbox{\Hypertarget{classseq_1_1devector_aaeffdbeecf345708b279bf64028d4852}\label{classseq_1_1devector_aaeffdbeecf345708b279bf64028d4852}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!crbegin@{crbegin}}
+\index{crbegin@{crbegin}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{crbegin()}{crbegin()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::crbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reverse iterator to the first element of the reversed devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a473c5865528c0fa68ce9bf6c9e751bde}\label{classseq_1_1devector_a473c5865528c0fa68ce9bf6c9e751bde}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!crend@{crend}}
+\index{crend@{crend}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{crend()}{crend()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::crend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reverse iterator to the element following the last element of the reversed devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a4195eae975c9bbf57fcf0e634de5ad8d}\label{classseq_1_1devector_a4195eae975c9bbf57fcf0e634de5ad8d}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!data@{data}}
+\index{data@{data}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+const T$\ast$ \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns pointer to the underlying array serving as element storage. The pointer is such that range \mbox{[}\mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}}; \mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}} + \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size()}}) is always a valid range, even if the container is empty (\mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}} is not dereferenceable in that case). 
+
+\mbox{\Hypertarget{classseq_1_1devector_a983a72269e8244a29d1837f029264430}\label{classseq_1_1devector_a983a72269e8244a29d1837f029264430}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!data@{data}}
+\index{data@{data}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+T$\ast$ \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns pointer to the underlying array serving as element storage. The pointer is such that range \mbox{[}\mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}}; \mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}} + \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size()}}) is always a valid range, even if the container is empty (\mbox{\hyperlink{classseq_1_1devector_a983a72269e8244a29d1837f029264430}{data()}} is not dereferenceable in that case). 
+
+\mbox{\Hypertarget{classseq_1_1devector_a936d7219cd92d42b74263dd7d8817fbb}\label{classseq_1_1devector_a936d7219cd92d42b74263dd7d8817fbb}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!emplace@{emplace}}
+\index{emplace@{emplace}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{emplace()}{emplace()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+template$<$class... Args$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::emplace (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}}}]{pos,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts a new element into the container directly before pos. The element is constructed through std\+::allocator\+\_\+traits\+::construct, which typically uses placement-\/new to construct the element in-\/place at a location provided by the container. However, if the required location has been occupied by an existing element, the inserted element is constructed at another location at first, and then move assigned into the required location. The arguments args... are forwarded to the constructor as std\+::forward$<$\+Args$>$(args).... args... may directly or indirectly refer to a value in the container. Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. 
+
+\begin{DoxyReturn}{Returns}
+iterator to the inserted element 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classseq_1_1devector_a2c7e17d782ff34c2fe0e0d0405f66129}\label{classseq_1_1devector_a2c7e17d782ff34c2fe0e0d0405f66129}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!emplace\_back@{emplace\_back}}
+\index{emplace\_back@{emplace\_back}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_back()}{emplace\_back()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+template$<$class... Args$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_ac5da5ceeca35e724ef47bd91797bb0a2}{reference}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::emplace\+\_\+back (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Appends a new element to the end of the container. The element is constructed through std\+::allocator\+\_\+traits\+::construct, which typically uses placement-\/new to construct the element in-\/place at the location provided by the container. The arguments args... are forwarded to the constructor as std\+::forward$<$\+Args$>$(args).... The complexity is amortized O(1) for Optimize\+For\+Push\+Back and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Front. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}{back\+\_\+capacity()}} == 0. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a84d9ab1e2b039c7f2c4e55dbbfdaec10}\label{classseq_1_1devector_a84d9ab1e2b039c7f2c4e55dbbfdaec10}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!emplace\_front@{emplace\_front}}
+\index{emplace\_front@{emplace\_front}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_front()}{emplace\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+template$<$class... Args$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_ac5da5ceeca35e724ef47bd91797bb0a2}{reference}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::emplace\+\_\+front (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Appends a new element to the front of the container. The element is constructed through std\+::allocator\+\_\+traits\+::construct, which typically uses placement-\/new to construct the element in-\/place at the location provided by the container. The arguments args... are forwarded to the constructor as std\+::forward$<$\+Args$>$(args).... The complexity is amortized O(1) for Optimize\+For\+Push\+Front and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Back. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a669166063e020cce4e00092288b0a942}{front\+\_\+capacity()}} == 0. 
+
+\mbox{\Hypertarget{classseq_1_1devector_afbf61be36c4ce28bede8e1c8d8a35b51}\label{classseq_1_1devector_afbf61be36c4ce28bede8e1c8d8a35b51}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!empty@{empty}}
+\index{empty@{empty}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{empty()}{empty()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+bool \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns true if the container is empty, false otherwise. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a4660372a671c8aa2ab3e06b432b011e0}\label{classseq_1_1devector_a4660372a671c8aa2ab3e06b432b011e0}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!end@{end}}
+\index{end@{end}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns an iterator to the element following the last element of the devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a1a74b918b004144e4f1f6025797a94a3}\label{classseq_1_1devector_a1a74b918b004144e4f1f6025797a94a3}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!end@{end}}
+\index{end@{end}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns an iterator to the element following the last element of the devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a14ee5fce221473f6a4f5ab69bcb67940}\label{classseq_1_1devector_a14ee5fce221473f6a4f5ab69bcb67940}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!erase@{erase}}
+\index{erase@{erase}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}}}]{first,  }\item[{\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}}}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Removes the elements in the range \mbox{[}first, last). Basic exception guarantee. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em first} & range of elements to remove \\
+\hline
+{\em last} & range of elements to remove \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator following the last removed element 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classseq_1_1devector_a9d33556776d4139b965aea0ca10da0a2}\label{classseq_1_1devector_a9d33556776d4139b965aea0ca10da0a2}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!erase@{erase}}
+\index{erase@{erase}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}}}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Removes the element at pos Basic exception guarantee. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & iterator to the position to erase \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator following the last removed element. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classseq_1_1devector_abc7633fa19128528b51235c2e1d33b77}\label{classseq_1_1devector_abc7633fa19128528b51235c2e1d33b77}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!front@{front}}
+\index{front@{front}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+const T\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reference to the front element. 
+
+\mbox{\Hypertarget{classseq_1_1devector_ae91da93246bc151eeca655d0f40a5910}\label{classseq_1_1devector_ae91da93246bc151eeca655d0f40a5910}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!front@{front}}
+\index{front@{front}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+T\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reference to the front element. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a669166063e020cce4e00092288b0a942}\label{classseq_1_1devector_a669166063e020cce4e00092288b0a942}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!front\_capacity@{front\_capacity}}
+\index{front\_capacity@{front\_capacity}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{front\_capacity()}{front\_capacity()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+size\+\_\+t \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::front\+\_\+capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the container front capacity. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a138520afd8421861ebfc1e5d05eaeda7}\label{classseq_1_1devector_a138520afd8421861ebfc1e5d05eaeda7}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+Allocator \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the container allocator object. 
+
+\mbox{\Hypertarget{classseq_1_1devector_aadee566959ee1d042db57d542f359ed8}\label{classseq_1_1devector_aadee566959ee1d042db57d542f359ed8}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+Allocator\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the container allocator object. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a610d5b49e3c1321a68c278cab2946d3b}\label{classseq_1_1devector_a610d5b49e3c1321a68c278cab2946d3b}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!insert@{insert}}
+\index{insert@{insert}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}}}]{pos,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts a new element into the container directly before pos. Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. 
+
+\begin{DoxyReturn}{Returns}
+iterator to the inserted element 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classseq_1_1devector_a56754fdef6558bba3ab574e473125f8c}\label{classseq_1_1devector_a56754fdef6558bba3ab574e473125f8c}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!insert@{insert}}
+\index{insert@{insert}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+template$<$class Input\+It $>$ \\
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}}}]{pos,  }\item[{Input\+It}]{first,  }\item[{Input\+It}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts elements from range \mbox{[}first, last) before pos. Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & iterator before which the content will be inserted. pos may be the \mbox{\hyperlink{classseq_1_1devector_a1a74b918b004144e4f1f6025797a94a3}{end()}} iterator \\
+\hline
+{\em first} & the range of elements to insert, can\textquotesingle{}t be iterators into container for which insert is called \\
+\hline
+{\em last} & the range of elements to insert, can\textquotesingle{}t be iterators into container for which insert is called \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+iterator pointing to the first element inserted, or pos if first==last. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classseq_1_1devector_a160a5a9e1188d858980af44bdc630af3}\label{classseq_1_1devector_a160a5a9e1188d858980af44bdc630af3}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!insert@{insert}}
+\index{insert@{insert}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}}}]{pos,  }\item[{\mbox{\hyperlink{classseq_1_1devector_a24a5b543beee7d7b1d0caea19bb60d49}{size\+\_\+type}}}]{count,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+inserts count copies of the value before pos Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & iterator before which the content will be inserted. pos may be the \mbox{\hyperlink{classseq_1_1devector_a1a74b918b004144e4f1f6025797a94a3}{end()}} iterator \\
+\hline
+{\em count} & number of elements to insert \\
+\hline
+{\em value} & element value to insert \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+iterator pointing to the first element inserted, or pos if first==last 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classseq_1_1devector_a67c6a990e15975fe7b1a1cf111c7ad92}\label{classseq_1_1devector_a67c6a990e15975fe7b1a1cf111c7ad92}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!insert@{insert}}
+\index{insert@{insert}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}}}]{pos,  }\item[{std\+::initializer\+\_\+list$<$ T $>$}]{ilist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+inserts elements from initializer list ilist before pos Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & iterator before which the content will be inserted. pos may be the \mbox{\hyperlink{classseq_1_1devector_a1a74b918b004144e4f1f6025797a94a3}{end()}} iterator \\
+\hline
+{\em ilist} & initializer list to insert the values from \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+iterator pointing to the first element inserted, or pos if first==last 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classseq_1_1devector_a8d2da204b04f387a7d7def09e2de9a4e}\label{classseq_1_1devector_a8d2da204b04f387a7d7def09e2de9a4e}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!insert@{insert}}
+\index{insert@{insert}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_aadae105c5c9770faf504a4dc6a269886}{iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector_af32bd5500b6a718faf99aeda79a8c349}{const\+\_\+iterator}}}]{pos,  }\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts a new element into the container directly before pos using move semantic. Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. 
+
+\begin{DoxyReturn}{Returns}
+iterator to the inserted element 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classseq_1_1devector_ae486774510d411a45a11765b7a948464}\label{classseq_1_1devector_ae486774510d411a45a11765b7a948464}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!max\_size@{max\_size}}
+\index{max\_size@{max\_size}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{max\_size()}{max\_size()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+size\+\_\+t \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::max\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the container maximum size. 
+
+\mbox{\Hypertarget{classseq_1_1devector_adf1a251add8f788531f3af96821e1f0c}\label{classseq_1_1devector_adf1a251add8f788531f3af96821e1f0c}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{devector}}\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1devector}{devector}}$<$ T, Allocator, flag $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Copy operator. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a85071c0d48aecf687c5c42d287b5df08}\label{classseq_1_1devector_a85071c0d48aecf687c5c42d287b5df08}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+template$<$class Alloc , D\+E\+Vector\+Flag F$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{devector}}\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1devector}{devector}}$<$ T, Alloc, F $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Copy operator. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a1b4244e12f49c601abd79a4a819b7231}\label{classseq_1_1devector_a1b4244e12f49c601abd79a4a819b7231}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector}{devector}}\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector}{devector}}$<$ T, Allocator, flag $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Move assignment operator. 
+
+\mbox{\Hypertarget{classseq_1_1devector_ae88d8674cf3d3ed081e14e70d09d51fb}\label{classseq_1_1devector_ae88d8674cf3d3ed081e14e70d09d51fb}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+const T\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reference to the element at pos. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a2a0fe0a8a0f62ba1e246200e3884f9fa}\label{classseq_1_1devector_a2a0fe0a8a0f62ba1e246200e3884f9fa}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+T\& \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reference to the element at pos. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a8bf9a8520bffb6176384db953146c8ba}\label{classseq_1_1devector_a8bf9a8520bffb6176384db953146c8ba}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!pop\_back@{pop\_back}}
+\index{pop\_back@{pop\_back}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{pop\_back()}{pop\_back()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::pop\+\_\+back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Removes the last element of the container Iterators and references to the last element, as well as the \mbox{\hyperlink{classseq_1_1devector_a1a74b918b004144e4f1f6025797a94a3}{end()}} iterator, are invalidated. 
+
+\mbox{\Hypertarget{classseq_1_1devector_adbe0361f9ea84833729ab052c94566eb}\label{classseq_1_1devector_adbe0361f9ea84833729ab052c94566eb}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!pop\_front@{pop\_front}}
+\index{pop\_front@{pop\_front}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{pop\_front()}{pop\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::pop\+\_\+front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Removes the first element of the container Iterators and references to the first element are invalidated. 
+
+\mbox{\Hypertarget{classseq_1_1devector_ac8de2d7bb6aaa6317e70c2fdf33a4890}\label{classseq_1_1devector_ac8de2d7bb6aaa6317e70c2fdf33a4890}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Insert an element at the back of the container. The complexity is amortized O(1) for Optimize\+For\+Push\+Back and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Front. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}{back\+\_\+capacity()}} == 0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & value to insert \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_aab45a92dfbe1d074b7ef2ef419d0c325}\label{classseq_1_1devector_aab45a92dfbe1d074b7ef2ef419d0c325}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Insert an element at the back of the container using move semantic. The complexity is amortized O(1) for Optimize\+For\+Push\+Back and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Front. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a3684a613c9ffec39e6b56772c850aa87}{back\+\_\+capacity()}} == 0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & value to insert \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_a0d10831168489b4fcd47b4dbcc9fef96}\label{classseq_1_1devector_a0d10831168489b4fcd47b4dbcc9fef96}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!push\_front@{push\_front}}
+\index{push\_front@{push\_front}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Insert an element at the front of the container. The complexity is amortized O(1) for Optimize\+For\+Push\+Front and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Back. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a669166063e020cce4e00092288b0a942}{front\+\_\+capacity()}} == 0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & value to insert \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_a46c496edf014b84398c0e2a21a47146c}\label{classseq_1_1devector_a46c496edf014b84398c0e2a21a47146c}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!push\_front@{push\_front}}
+\index{push\_front@{push\_front}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Insert an element at the front of the container using move semantic. The complexity is amortized O(1) for Optimize\+For\+Push\+Front and Optimize\+For\+Both\+Ends, O(\+N) for Optimize\+For\+Push\+Back. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if \mbox{\hyperlink{classseq_1_1devector_a669166063e020cce4e00092288b0a942}{front\+\_\+capacity()}} == 0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & value to insert \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_ae8d3c6b801ee2a1fb1df803d1d26be69}\label{classseq_1_1devector_ae8d3c6b801ee2a1fb1df803d1d26be69}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reverse iterator to the first element of the reversed devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_ac0b39c0cc242f2a6a09c26c01898cb08}\label{classseq_1_1devector_ac0b39c0cc242f2a6a09c26c01898cb08}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_af816b3889e97dc10e8cd147bb8d6e84f}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reverse iterator to the first element of the reversed devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a9465b9c0126b19828ab74e5d812ad735}\label{classseq_1_1devector_a9465b9c0126b19828ab74e5d812ad735}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!rend@{rend}}
+\index{rend@{rend}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{rend()}{rend()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_a4aebd524decb8d4263b0c182a12dea4c}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reverse iterator to the element following the last element of the reversed devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a960b362a35f8c3a39acd7684d605ad28}\label{classseq_1_1devector_a960b362a35f8c3a39acd7684d605ad28}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!rend@{rend}}
+\index{rend@{rend}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{rend()}{rend()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+\mbox{\hyperlink{classseq_1_1devector_af816b3889e97dc10e8cd147bb8d6e84f}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a reverse iterator to the element following the last element of the reversed devector. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a54e4712f4c74bec591ff2f0d10e10a53}\label{classseq_1_1devector_a54e4712f4c74bec591ff2f0d10e10a53}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!reserve@{reserve}}
+\index{reserve@{reserve}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{reserve()}{reserve()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::reserve (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+cap }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Increase the capacity of the devector (the total number of elements that the devector can hold without requiring reallocation) to a value that\textquotesingle{}s greater or equal to new\+\_\+cap. If new\+\_\+cap is greater than the current \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_ad9792bc1862077268e153a4dfd0a2b66}{capacity()}}, new storage is allocated, otherwise the function does nothing. When reallocating, the front and back capacity is adjusted depending on the optimization flag. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a49a79a5beaf35a4568574ff4a1e8ddf6}\label{classseq_1_1devector_a49a79a5beaf35a4568574ff4a1e8ddf6}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!reserve\_back@{reserve\_back}}
+\index{reserve\_back@{reserve\_back}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{reserve\_back()}{reserve\_back()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::reserve\+\_\+back (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+back\+\_\+capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Ensure that the devector has at least new\+\_\+back\+\_\+capacity free slots at the back, no matter what is the optimization flag. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+\_\+back\+\_\+capacity} & minimum back capacity \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_aa650950408291dc8681255279bc85a3e}\label{classseq_1_1devector_aa650950408291dc8681255279bc85a3e}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!reserve\_front@{reserve\_front}}
+\index{reserve\_front@{reserve\_front}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{reserve\_front()}{reserve\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::reserve\+\_\+front (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+front\+\_\+capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Ensure that the devector has at least new\+\_\+front\+\_\+capacity free slots at the front, no matter what is the optimization flag. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+\_\+back\+\_\+capacity} & minimum front capacity \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_a22f275a449330e0c685adc5b8e907c22}\label{classseq_1_1devector_a22f275a449330e0c685adc5b8e907c22}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!resize@{resize}}
+\index{resize@{resize}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::resize (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Resizes the container to contain count elements. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & new container size ~\newline
+ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_ac34202c1f317b92dce0d00c7345d4f56}\label{classseq_1_1devector_ac34202c1f317b92dce0d00c7345d4f56}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!resize@{resize}}
+\index{resize@{resize}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::resize (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{count,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Resizes the container to contain count elements. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & new container size \\
+\hline
+{\em value} & if count is greater than \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size()}}, copies of value are appended to the back of the devector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_a3089cff6cc2da56dace46cab6a666ead}\label{classseq_1_1devector_a3089cff6cc2da56dace46cab6a666ead}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!resize\_front@{resize\_front}}
+\index{resize\_front@{resize\_front}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{resize\_front()}{resize\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::resize\+\_\+front (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Resizes the container to contain count elements. The container is extended by the front. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & new container size ~\newline
+ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_a33066dedfb3543a31b22de5f3c22abce}\label{classseq_1_1devector_a33066dedfb3543a31b22de5f3c22abce}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!resize\_front@{resize\_front}}
+\index{resize\_front@{resize\_front}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{resize\_front()}{resize\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::resize\+\_\+front (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+size,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Resizes the container to contain count elements. The container is extended by the front. Invalidate iterators and references if a new storage is allocated. Strong exception guarantee. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & new container size \\
+\hline
+{\em value} & if count is greater than \mbox{\hyperlink{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}{size()}}, copies of value are prepended to the back of the devector \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classseq_1_1devector_ad7dc6ca1ccdabd0c74731209913b2090}\label{classseq_1_1devector_ad7dc6ca1ccdabd0c74731209913b2090}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!shrink\_to\_fit@{shrink\_to\_fit}}
+\index{shrink\_to\_fit@{shrink\_to\_fit}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{shrink\_to\_fit()}{shrink\_to\_fit()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::shrink\+\_\+to\+\_\+fit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Requests the removal of unused capacity. Strong exception guarentee. 
+
+\mbox{\Hypertarget{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}\label{classseq_1_1devector_af60f96b557a4fa6a56ec461b4de165d4}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!size@{size}}
+\index{size@{size}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+size\+\_\+t \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the container size. 
+
+\mbox{\Hypertarget{classseq_1_1devector_a8cdd4a389d12386193a8e027210df1b0}\label{classseq_1_1devector_a8cdd4a389d12386193a8e027210df1b0}} 
+\index{seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}!swap@{swap}}
+\index{swap@{swap}!seq::devector$<$ T, Allocator, flag $>$@{seq::devector$<$ T, Allocator, flag $>$}}
+\doxysubsubsection{\texorpdfstring{swap()}{swap()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, D\+E\+Vector\+Flag flag = Optimize\+For\+Both\+Ends$>$ \\
+void \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}$<$ T, Allocator, flag $>$\+::swap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1devector}{devector}}$<$ T, Allocator, flag $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Swap this container with other Does not invalidated iterators, including \mbox{\hyperlink{classseq_1_1devector_a1a74b918b004144e4f1f6025797a94a3}{end()}} iterator. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{devector_8hpp}{devector.\+hpp}}\end{DoxyCompactItemize}

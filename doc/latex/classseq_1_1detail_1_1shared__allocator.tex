@@ -1,0 +1,106 @@
+\hypertarget{classseq_1_1detail_1_1shared__allocator}{}\doxysection{seq\+::detail\+::shared\+\_\+allocator$<$ T, Allocator, Lock $>$ Class Template Reference}
+\label{classseq_1_1detail_1_1shared__allocator}\index{seq::detail::shared\_allocator$<$ T, Allocator, Lock $>$@{seq::detail::shared\_allocator$<$ T, Allocator, Lock $>$}}
+
+
+Inherits allocator$<$ T $>$.
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1shared__allocator_1_1rebind}{rebind}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a9626d22667ce727327d60bda35c9bb23}\label{classseq_1_1detail_1_1shared__allocator_a9626d22667ce727327d60bda35c9bb23}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a8aed6992e0f30f7f61b22cec5abbd3a7}\label{classseq_1_1detail_1_1shared__allocator_a8aed6992e0f30f7f61b22cec5abbd3a7}} 
+using {\bfseries pointer} = T $\ast$
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a7cc593abc7ba3a145f0ae3873fa49b4e}\label{classseq_1_1detail_1_1shared__allocator_a7cc593abc7ba3a145f0ae3873fa49b4e}} 
+using {\bfseries const\+\_\+pointer} = const T $\ast$
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a42bcdf6b8293ec6e42fc7c0afc10ec48}\label{classseq_1_1detail_1_1shared__allocator_a42bcdf6b8293ec6e42fc7c0afc10ec48}} 
+using {\bfseries reference} = T \&
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_af58028263676e8904aa547a93ce1470e}\label{classseq_1_1detail_1_1shared__allocator_af58028263676e8904aa547a93ce1470e}} 
+using {\bfseries const\+\_\+reference} = const T \&
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_abfaa81aaede868fc6bfa5c4c6fa6e45b}\label{classseq_1_1detail_1_1shared__allocator_abfaa81aaede868fc6bfa5c4c6fa6e45b}} 
+using {\bfseries size\+\_\+type} = size\+\_\+t
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a4ac5c5814df005318bc3a2fb61fb3859}\label{classseq_1_1detail_1_1shared__allocator_a4ac5c5814df005318bc3a2fb61fb3859}} 
+using {\bfseries difference\+\_\+type} = std\+::ptrdiff\+\_\+t
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_aad406a3e654c8cd2828a76ef72430edc}\label{classseq_1_1detail_1_1shared__allocator_aad406a3e654c8cd2828a76ef72430edc}} 
+using {\bfseries propagate\+\_\+on\+\_\+container\+\_\+swap} = std\+::true\+\_\+type
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a7c2ed97032a07383f896f5bae510bc7a}\label{classseq_1_1detail_1_1shared__allocator_a7c2ed97032a07383f896f5bae510bc7a}} 
+using {\bfseries propagate\+\_\+on\+\_\+container\+\_\+copy\+\_\+assignment} = std\+::true\+\_\+type
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_afaf8c1cb5f55db893870eb441cca2e54}\label{classseq_1_1detail_1_1shared__allocator_afaf8c1cb5f55db893870eb441cca2e54}} 
+using {\bfseries propagate\+\_\+on\+\_\+container\+\_\+move\+\_\+assignment} = std\+::true\+\_\+type
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a51156ebc025495e1ca34d139a0bd74fd}\label{classseq_1_1detail_1_1shared__allocator_a51156ebc025495e1ca34d139a0bd74fd}} 
+const \mbox{\hyperlink{classseq_1_1detail_1_1tiny__shared__ptr}{data\+\_\+type}} \& {\bfseries data} () const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a1a48ee719b82b5c090b5d54540e78441}\label{classseq_1_1detail_1_1shared__allocator_a1a48ee719b82b5c090b5d54540e78441}} 
+\mbox{\hyperlink{classseq_1_1detail_1_1shared__allocator}{shared\+\_\+allocator}} {\bfseries select\+\_\+on\+\_\+container\+\_\+copy\+\_\+construction} () const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a31826905b539335e8b77bd58737e2ef9}\label{classseq_1_1detail_1_1shared__allocator_a31826905b539335e8b77bd58737e2ef9}} 
+{\bfseries shared\+\_\+allocator} (const Allocator al=Allocator())
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a64df1786a85efeaa52a245fc91fa77aa}\label{classseq_1_1detail_1_1shared__allocator_a64df1786a85efeaa52a245fc91fa77aa}} 
+{\bfseries shared\+\_\+allocator} (const \mbox{\hyperlink{classseq_1_1detail_1_1shared__allocator}{shared\+\_\+allocator}} \&other)
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a6fbdbc63ffbfa9837134cd38309a2826}\label{classseq_1_1detail_1_1shared__allocator_a6fbdbc63ffbfa9837134cd38309a2826}} 
+{\footnotesize template$<$class U $>$ }\\{\bfseries shared\+\_\+allocator} (const \mbox{\hyperlink{classseq_1_1detail_1_1shared__allocator}{shared\+\_\+allocator}}$<$ U, Allocator, Lock $>$ \&other)
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a64fe65e7e86439311a1f031fd44ff3d3}\label{classseq_1_1detail_1_1shared__allocator_a64fe65e7e86439311a1f031fd44ff3d3}} 
+size\+\_\+t {\bfseries capacity} () const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a1467bc6a111bf9f64280eeb18ee16395}\label{classseq_1_1detail_1_1shared__allocator_a1467bc6a111bf9f64280eeb18ee16395}} 
+size\+\_\+t {\bfseries objects} () const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_ad25cbd6099a269c014c2335371333956}\label{classseq_1_1detail_1_1shared__allocator_ad25cbd6099a269c014c2335371333956}} 
+size\+\_\+t {\bfseries memory\+\_\+footprint} () const
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a7d57a946e2e3029eec5e39bce441a53e}\label{classseq_1_1detail_1_1shared__allocator_a7d57a946e2e3029eec5e39bce441a53e}} 
+Allocator {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a2d4e1dc9e5a7d61b7bdaf2dbd70154b1}\label{classseq_1_1detail_1_1shared__allocator_a2d4e1dc9e5a7d61b7bdaf2dbd70154b1}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{classseq_1_1detail_1_1shared__allocator}{shared\+\_\+allocator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a7ae419a33e241f9849529c8c08fa7e93}\label{classseq_1_1detail_1_1shared__allocator_a7ae419a33e241f9849529c8c08fa7e93}} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{classseq_1_1detail_1_1shared__allocator}{shared\+\_\+allocator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_ab0843c88ee0e5c99330ca800a56269c6}\label{classseq_1_1detail_1_1shared__allocator_ab0843c88ee0e5c99330ca800a56269c6}} 
+pointer {\bfseries address} (reference x) const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a0694d72fbc1711f1917f8e3b1b8c0f77}\label{classseq_1_1detail_1_1shared__allocator_a0694d72fbc1711f1917f8e3b1b8c0f77}} 
+const\+\_\+pointer {\bfseries address} (const\+\_\+reference x) const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_aadbed3af952cc2193c86bd3c82fac2db}\label{classseq_1_1detail_1_1shared__allocator_aadbed3af952cc2193c86bd3c82fac2db}} 
+T $\ast$ {\bfseries allocate} (size\+\_\+t n, const void $\ast$)
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a16b1e4c3795e79291962640f1f892d1a}\label{classseq_1_1detail_1_1shared__allocator_a16b1e4c3795e79291962640f1f892d1a}} 
+T $\ast$ {\bfseries allocate} (size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a5ae2816117ca49310883f5651f5bd6ed}\label{classseq_1_1detail_1_1shared__allocator_a5ae2816117ca49310883f5651f5bd6ed}} 
+void {\bfseries deallocate} (T $\ast$p, size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_a3450358d40d2c1441fdc9707b1a6aec7}\label{classseq_1_1detail_1_1shared__allocator_a3450358d40d2c1441fdc9707b1a6aec7}} 
+{\footnotesize template$<$class U , class... Args$>$ }\\void {\bfseries construct} (U $\ast$p, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classseq_1_1detail_1_1shared__allocator_ae76d37a950dabc4445b451fc878372ea}\label{classseq_1_1detail_1_1shared__allocator_ae76d37a950dabc4445b451fc878372ea}} 
+{\footnotesize template$<$class U $>$ }\\void {\bfseries destroy} (U $\ast$p)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+mem\+\_\+pool.\+hpp\end{DoxyCompactItemize}

@@ -1,0 +1,74 @@
+\hypertarget{utils_8hpp}{}\doxysection{seq/utils.hpp File Reference}
+\label{utils_8hpp}\index{seq/utils.hpp@{seq/utils.hpp}}
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include \char`\"{}type\+\_\+traits.\+hpp\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classseq_1_1cvalue__iterator}{seq\+::cvalue\+\_\+iterator$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Convenient random access iterator on a constant value. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_extract_key}{seq\+::detail\+::\+Extract\+Key$<$ Key, T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_extract_key_3_01_t_00_01_t_01_4}{seq\+::detail\+::\+Extract\+Key$<$ T, T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_build_value}{seq\+::detail\+::\+Build\+Value$<$ T, Args $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_build_value_3_01_t_00_01_t_01_4}{seq\+::detail\+::\+Build\+Value$<$ T, T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_build_value_3_01_t_00_01_t_01_6_01_4}{seq\+::detail\+::\+Build\+Value$<$ T, T \& $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_build_value_3_01_t_00_01_t_01_6_6_01_4}{seq\+::detail\+::\+Build\+Value$<$ T, T \&\& $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_build_value_3_01_t_00_01const_01_t_01_6_01_4}{seq\+::detail\+::\+Build\+Value$<$ T, const T \& $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1make__void}{seq\+::detail\+::make\+\_\+void$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1has__is__transparent}{seq\+::detail\+::has\+\_\+is\+\_\+transparent$<$ T, class $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1has__is__transparent_3_01_t_00_01typename_01make__void_3_01typename_01_t_731b4c47406019f529ad05a7741846ca}{seq\+::detail\+::has\+\_\+is\+\_\+transparent$<$ T, typename make\+\_\+void$<$ typename T\+::is\+\_\+transparent $>$\+::type $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_call_lambda}{seq\+::detail\+::\+Call\+Lambda$<$ L1, L2, Is\+L1 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_call_lambda_3_01_l1_00_01_l2_00_01false_01_4}{seq\+::detail\+::\+Call\+Lambda$<$ L1, L2, false $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail}{seq\+::detail}}
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits in {\itshape value}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespaceseq_a209c3fd2e66f43ecc90862f2ee5e3dd5}{seq\+::\+Layout\+Management}} \{ \mbox{\hyperlink{namespaceseq_a209c3fd2e66f43ecc90862f2ee5e3dd5a83983acd78764ffa023da74a7360670e}{seq\+::\+Optimize\+For\+Speed}}, 
+\mbox{\hyperlink{namespaceseq_a209c3fd2e66f43ecc90862f2ee5e3dd5a51407649077d79765e15397347a57432}{seq\+::\+Optimize\+For\+Memory}}
+ \}
+\begin{DoxyCompactList}\small\item\em Memory Layout Management for containers like \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}} or \mbox{\hyperlink{classseq_1_1deque}{seq\+::deque}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\cvalue\+\_\+iterator$<$ T $>$ \mbox{\hyperlink{namespaceseq_a1407693897892cd91dbb31683cf1e200}{seq\+::operator+}} (const cvalue\+\_\+iterator$<$ T $>$ \&it, typename cvalue\+\_\+iterator$<$ T $>$\+::difference\+\_\+type diff) noexcept
+\item 
+{\footnotesize template$<$class T $>$ }\\cvalue\+\_\+iterator$<$ T $>$ \mbox{\hyperlink{namespaceseq_ae140a176dbb43c6b695adac9561c01da}{seq\+::operator-\/}} (const cvalue\+\_\+iterator$<$ T $>$ \&it, typename cvalue\+\_\+iterator$<$ T $>$\+::difference\+\_\+type diff) noexcept
+\item 
+{\footnotesize template$<$class T $>$ }\\cvalue\+\_\+iterator$<$ T $>$\+::difference\+\_\+type \mbox{\hyperlink{namespaceseq_a5edaf549d71732fa081394b43ae7e438}{seq\+::operator-\/}} (const cvalue\+\_\+iterator$<$ T $>$ \&it1, const cvalue\+\_\+iterator$<$ T $>$ \&it2) noexcept
+\item 
+{\footnotesize template$<$class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_a0c2ac9b96f995fff575fc24a8169cb3d}{seq\+::operator$<$}} (const cvalue\+\_\+iterator$<$ T $>$ \&it1, const cvalue\+\_\+iterator$<$ T $>$ \&it2) noexcept
+\item 
+{\footnotesize template$<$class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_af73cb013ab8de39759f3188c232bc768}{seq\+::operator$>$}} (const cvalue\+\_\+iterator$<$ T $>$ \&it1, const cvalue\+\_\+iterator$<$ T $>$ \&it2) noexcept
+\item 
+{\footnotesize template$<$class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_ad7bf025c87b50f374d4e581963559c30}{seq\+::operator$<$=}} (const cvalue\+\_\+iterator$<$ T $>$ \&it1, const cvalue\+\_\+iterator$<$ T $>$ \&it2) noexcept
+\item 
+{\footnotesize template$<$class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_a9c78c77d93ada0613a00c80f01fe15da}{seq\+::operator$>$=}} (const cvalue\+\_\+iterator$<$ T $>$ \&it1, const cvalue\+\_\+iterator$<$ T $>$ \&it2) noexcept
+\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{namespaceseq_ae09f4c319b21510f90dae6dc5b7d8656}{seq\+::destroy\+\_\+ptr}} (T $\ast$p)
+\item 
+{\footnotesize template$<$class T , class... Args$>$ }\\void \mbox{\hyperlink{namespaceseq_a48515fc69dc7f83f81c6e0715999ba16}{seq\+::construct\+\_\+ptr}} (T $\ast$p, Args \&\&... args)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$bool Is\+L1, class L1 , class L2 , class... Args$>$ }\\decltype(std\+::declval$<$ detail\+::\+Call\+Lambda$<$ L1, L2, Is\+L1 $>$ \& $>$()(std\+::declval$<$ L1 \& $>$(), std\+::declval$<$ L2 \& $>$(), std\+::declval$<$ Args $>$()...)) \mbox{\hyperlink{namespaceseq_a7847ff182c5998204ab1a9f404d175a6}{seq\+::constexpr\+\_\+if}} (const L1 \&l1, const L2 \&l2, Args \&\&... args)
+\end{DoxyCompactItemize}

@@ -1,0 +1,49 @@
+\hypertarget{classseq_1_1unique__ptr__builder}{}\doxysection{seq\+::unique\+\_\+ptr\+\_\+builder$<$ T, Allocator, Lock $>$ Class Template Reference}
+\label{classseq_1_1unique__ptr__builder}\index{seq::unique\_ptr\_builder$<$ T, Allocator, Lock $>$@{seq::unique\_ptr\_builder$<$ T, Allocator, Lock $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_a6a9b3350e34830c4f4d92b86b2c20099}\label{classseq_1_1unique__ptr__builder_a6a9b3350e34830c4f4d92b86b2c20099}} 
+using {\bfseries unique\+\_\+ptr\+\_\+type} = std\+::unique\+\_\+ptr$<$ T, \mbox{\hyperlink{structseq_1_1detail_1_1unique__ptr__deleter}{deleter\+\_\+type}} $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_a40597cbf87e58163f0c5e6756d19835a}\label{classseq_1_1unique__ptr__builder_a40597cbf87e58163f0c5e6756d19835a}} 
+{\bfseries unique\+\_\+ptr\+\_\+builder} (const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_ad6980262943d0db2754466a025720f7c}\label{classseq_1_1unique__ptr__builder_ad6980262943d0db2754466a025720f7c}} 
+{\bfseries unique\+\_\+ptr\+\_\+builder} (size\+\_\+t elem\+\_\+count, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_a0e490de7b51e06dcae9855b114c429a2}\label{classseq_1_1unique__ptr__builder_a0e490de7b51e06dcae9855b114c429a2}} 
+{\bfseries unique\+\_\+ptr\+\_\+builder} (\mbox{\hyperlink{classseq_1_1unique__ptr__builder}{unique\+\_\+ptr\+\_\+builder}} \&\&other)
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_aa94ec9fd8d7036d3595374eecb66a0f7}\label{classseq_1_1unique__ptr__builder_aa94ec9fd8d7036d3595374eecb66a0f7}} 
+Allocator {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_a144d5a3c8af34b17cf154b44750f8fc3}\label{classseq_1_1unique__ptr__builder_a144d5a3c8af34b17cf154b44750f8fc3}} 
+size\+\_\+t {\bfseries capacity} () const
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_ac970e4737cfa472f080e4cc7b2d3fe20}\label{classseq_1_1unique__ptr__builder_ac970e4737cfa472f080e4cc7b2d3fe20}} 
+size\+\_\+t {\bfseries objects} () const
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_a65539969ca03a830dc1eec597cac0d7b}\label{classseq_1_1unique__ptr__builder_a65539969ca03a830dc1eec597cac0d7b}} 
+size\+\_\+t {\bfseries memory\+\_\+footprint} () const
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_a6471b5bfbfc4564b9c36273f9305a7f3}\label{classseq_1_1unique__ptr__builder_a6471b5bfbfc4564b9c36273f9305a7f3}} 
+void {\bfseries reserve} (size\+\_\+t count)
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_a5951d1820114b07435e0d1a50df60a62}\label{classseq_1_1unique__ptr__builder_a5951d1820114b07435e0d1a50df60a62}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_a9bc764b5112b6679f751b1bdc4400f92}\label{classseq_1_1unique__ptr__builder_a9bc764b5112b6679f751b1bdc4400f92}} 
+{\footnotesize template$<$class... Args$>$ }\\unique\+\_\+ptr\+\_\+type {\bfseries make\+\_\+unique} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classseq_1_1unique__ptr__builder_a792e4c000f1c90be615d93ddbbc851b5}\label{classseq_1_1unique__ptr__builder_a792e4c000f1c90be615d93ddbbc851b5}} 
+void {\bfseries destroy\+\_\+and\+\_\+free} (T $\ast$ptr)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+mem\+\_\+pool.\+hpp\end{DoxyCompactItemize}

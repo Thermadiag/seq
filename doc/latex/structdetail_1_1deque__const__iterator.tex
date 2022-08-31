@@ -1,0 +1,408 @@
+\hypertarget{structdetail_1_1deque__const__iterator}{}\doxysection{detail\+::deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ Class Template Reference}
+\label{structdetail_1_1deque__const__iterator}\index{detail::deque\_const\_iterator$<$ BucketMgr $>$@{detail::deque\_const\_iterator$<$ BucketMgr $>$}}
+
+
+Inherited by \mbox{\hyperlink{structdetail_1_1deque__iterator}{detail\+::deque\+\_\+iterator$<$ Bucket\+Mgr $>$}}.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ab19d8a0e284d63aa218bfb56b80824a0}\label{structdetail_1_1deque__const__iterator_ab19d8a0e284d63aa218bfb56b80824a0}} 
+using {\bfseries bucket\+\_\+manager} = Bucket\+Mgr
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a902773f3f6b44e8ba6679c1e8386abcf}\label{structdetail_1_1deque__const__iterator_a902773f3f6b44e8ba6679c1e8386abcf}} 
+using {\bfseries bucket\+\_\+type} = typename bucket\+\_\+manager\+::\+Store\+Bucket\+Type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_af87b28c74de9163e1359b8a422817c65}\label{structdetail_1_1deque__const__iterator_af87b28c74de9163e1359b8a422817c65}} 
+using {\bfseries value\+\_\+type} = typename Bucket\+Mgr\+::value\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a21d0cb5fce37030a64c13e46db1a4f90}\label{structdetail_1_1deque__const__iterator_a21d0cb5fce37030a64c13e46db1a4f90}} 
+using {\bfseries iterator\+\_\+category} = std\+::random\+\_\+access\+\_\+iterator\+\_\+tag
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a42ff6ac76823becd9a09ffd135d68269}\label{structdetail_1_1deque__const__iterator_a42ff6ac76823becd9a09ffd135d68269}} 
+using {\bfseries size\+\_\+type} = typename Bucket\+Mgr\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a9b90eb01c20ff0ffcdc8a850ed02edea}\label{structdetail_1_1deque__const__iterator_a9b90eb01c20ff0ffcdc8a850ed02edea}} 
+using {\bfseries difference\+\_\+type} = typename Bucket\+Mgr\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a700e7445439ee36aad50598cb78b8761}\label{structdetail_1_1deque__const__iterator_a700e7445439ee36aad50598cb78b8761}} 
+using {\bfseries pointer} = typename Bucket\+Mgr\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a5c1af83ae127f93f90e2fc9d7050da7c}\label{structdetail_1_1deque__const__iterator_a5c1af83ae127f93f90e2fc9d7050da7c}} 
+using {\bfseries reference} = const value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ab19d8a0e284d63aa218bfb56b80824a0}\label{structdetail_1_1deque__const__iterator_ab19d8a0e284d63aa218bfb56b80824a0}} 
+using {\bfseries bucket\+\_\+manager} = Bucket\+Mgr
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a902773f3f6b44e8ba6679c1e8386abcf}\label{structdetail_1_1deque__const__iterator_a902773f3f6b44e8ba6679c1e8386abcf}} 
+using {\bfseries bucket\+\_\+type} = typename bucket\+\_\+manager\+::\+Store\+Bucket\+Type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_af87b28c74de9163e1359b8a422817c65}\label{structdetail_1_1deque__const__iterator_af87b28c74de9163e1359b8a422817c65}} 
+using {\bfseries value\+\_\+type} = typename Bucket\+Mgr\+::value\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a21d0cb5fce37030a64c13e46db1a4f90}\label{structdetail_1_1deque__const__iterator_a21d0cb5fce37030a64c13e46db1a4f90}} 
+using {\bfseries iterator\+\_\+category} = std\+::random\+\_\+access\+\_\+iterator\+\_\+tag
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a42ff6ac76823becd9a09ffd135d68269}\label{structdetail_1_1deque__const__iterator_a42ff6ac76823becd9a09ffd135d68269}} 
+using {\bfseries size\+\_\+type} = typename Bucket\+Mgr\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a9b90eb01c20ff0ffcdc8a850ed02edea}\label{structdetail_1_1deque__const__iterator_a9b90eb01c20ff0ffcdc8a850ed02edea}} 
+using {\bfseries difference\+\_\+type} = typename Bucket\+Mgr\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a700e7445439ee36aad50598cb78b8761}\label{structdetail_1_1deque__const__iterator_a700e7445439ee36aad50598cb78b8761}} 
+using {\bfseries pointer} = typename Bucket\+Mgr\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a5c1af83ae127f93f90e2fc9d7050da7c}\label{structdetail_1_1deque__const__iterator_a5c1af83ae127f93f90e2fc9d7050da7c}} 
+using {\bfseries reference} = const value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ab19d8a0e284d63aa218bfb56b80824a0}\label{structdetail_1_1deque__const__iterator_ab19d8a0e284d63aa218bfb56b80824a0}} 
+using {\bfseries bucket\+\_\+manager} = Bucket\+Mgr
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a902773f3f6b44e8ba6679c1e8386abcf}\label{structdetail_1_1deque__const__iterator_a902773f3f6b44e8ba6679c1e8386abcf}} 
+using {\bfseries bucket\+\_\+type} = typename bucket\+\_\+manager\+::\+Store\+Bucket\+Type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_af87b28c74de9163e1359b8a422817c65}\label{structdetail_1_1deque__const__iterator_af87b28c74de9163e1359b8a422817c65}} 
+using {\bfseries value\+\_\+type} = typename Bucket\+Mgr\+::value\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a21d0cb5fce37030a64c13e46db1a4f90}\label{structdetail_1_1deque__const__iterator_a21d0cb5fce37030a64c13e46db1a4f90}} 
+using {\bfseries iterator\+\_\+category} = std\+::random\+\_\+access\+\_\+iterator\+\_\+tag
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a42ff6ac76823becd9a09ffd135d68269}\label{structdetail_1_1deque__const__iterator_a42ff6ac76823becd9a09ffd135d68269}} 
+using {\bfseries size\+\_\+type} = typename Bucket\+Mgr\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a9b90eb01c20ff0ffcdc8a850ed02edea}\label{structdetail_1_1deque__const__iterator_a9b90eb01c20ff0ffcdc8a850ed02edea}} 
+using {\bfseries difference\+\_\+type} = typename Bucket\+Mgr\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a700e7445439ee36aad50598cb78b8761}\label{structdetail_1_1deque__const__iterator_a700e7445439ee36aad50598cb78b8761}} 
+using {\bfseries pointer} = typename Bucket\+Mgr\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a5c1af83ae127f93f90e2fc9d7050da7c}\label{structdetail_1_1deque__const__iterator_a5c1af83ae127f93f90e2fc9d7050da7c}} 
+using {\bfseries reference} = const value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_abc41893012296cc8f30878a6dbe54b24}\label{structdetail_1_1deque__const__iterator_abc41893012296cc8f30878a6dbe54b24}} 
+using {\bfseries bucket\+\_\+manager} = typename Deque\+::bucket\+\_\+manager
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a21d0cb5fce37030a64c13e46db1a4f90}\label{structdetail_1_1deque__const__iterator_a21d0cb5fce37030a64c13e46db1a4f90}} 
+using {\bfseries iterator\+\_\+category} = std\+::random\+\_\+access\+\_\+iterator\+\_\+tag
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a23ca52595241e20438f94871f0643248}\label{structdetail_1_1deque__const__iterator_a23ca52595241e20438f94871f0643248}} 
+using {\bfseries value\+\_\+type} = typename Deque\+::value\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aef27c64c0a56092d0221eb0a527509d0}\label{structdetail_1_1deque__const__iterator_aef27c64c0a56092d0221eb0a527509d0}} 
+using {\bfseries difference\+\_\+type} = typename Deque\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_afbc656fac1f93cc541a4f05d6d060eed}\label{structdetail_1_1deque__const__iterator_afbc656fac1f93cc541a4f05d6d060eed}} 
+using {\bfseries size\+\_\+type} = typename Deque\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aca112947c32606358f0eb4d279e5472e}\label{structdetail_1_1deque__const__iterator_aca112947c32606358f0eb4d279e5472e}} 
+using {\bfseries pointer} = typename Deque\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a5c1af83ae127f93f90e2fc9d7050da7c}\label{structdetail_1_1deque__const__iterator_a5c1af83ae127f93f90e2fc9d7050da7c}} 
+using {\bfseries reference} = const value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_abc41893012296cc8f30878a6dbe54b24}\label{structdetail_1_1deque__const__iterator_abc41893012296cc8f30878a6dbe54b24}} 
+using {\bfseries bucket\+\_\+manager} = typename Deque\+::bucket\+\_\+manager
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a21d0cb5fce37030a64c13e46db1a4f90}\label{structdetail_1_1deque__const__iterator_a21d0cb5fce37030a64c13e46db1a4f90}} 
+using {\bfseries iterator\+\_\+category} = std\+::random\+\_\+access\+\_\+iterator\+\_\+tag
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a23ca52595241e20438f94871f0643248}\label{structdetail_1_1deque__const__iterator_a23ca52595241e20438f94871f0643248}} 
+using {\bfseries value\+\_\+type} = typename Deque\+::value\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aef27c64c0a56092d0221eb0a527509d0}\label{structdetail_1_1deque__const__iterator_aef27c64c0a56092d0221eb0a527509d0}} 
+using {\bfseries difference\+\_\+type} = typename Deque\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_afbc656fac1f93cc541a4f05d6d060eed}\label{structdetail_1_1deque__const__iterator_afbc656fac1f93cc541a4f05d6d060eed}} 
+using {\bfseries size\+\_\+type} = typename Deque\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aca112947c32606358f0eb4d279e5472e}\label{structdetail_1_1deque__const__iterator_aca112947c32606358f0eb4d279e5472e}} 
+using {\bfseries pointer} = typename Deque\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a5c1af83ae127f93f90e2fc9d7050da7c}\label{structdetail_1_1deque__const__iterator_a5c1af83ae127f93f90e2fc9d7050da7c}} 
+using {\bfseries reference} = const value\+\_\+type \&
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a9f4815c4548982462431ed0f507ac1f7}\label{structdetail_1_1deque__const__iterator_a9f4815c4548982462431ed0f507ac1f7}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE {\bfseries deque\+\_\+const\+\_\+iterator} (const bucket\+\_\+manager $\ast$d) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a91a03445533ffe4cb558ca7659ef5af8}\label{structdetail_1_1deque__const__iterator_a91a03445533ffe4cb558ca7659ef5af8}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE {\bfseries deque\+\_\+const\+\_\+iterator} (const bucket\+\_\+manager $\ast$d, size\+\_\+type) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_adf8b28064f1a197be6ae99804bde12cb}\label{structdetail_1_1deque__const__iterator_adf8b28064f1a197be6ae99804bde12cb}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE {\bfseries deque\+\_\+const\+\_\+iterator} (const bucket\+\_\+manager $\ast$d, size\+\_\+type p, size\+\_\+type) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a51260c435901e56a99932633cf76865c}\label{structdetail_1_1deque__const__iterator_a51260c435901e56a99932633cf76865c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE cbuffer\+\_\+pos {\bfseries index} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a0a1a3d1f1f08389b4fba266c450a274f}\label{structdetail_1_1deque__const__iterator_a0a1a3d1f1f08389b4fba266c450a274f}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries absolute\+Pos} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a40db3707ca28cccbb81aca33bbcc94a3}\label{structdetail_1_1deque__const__iterator_a40db3707ca28cccbb81aca33bbcc94a3}} 
+void {\bfseries set\+Pos} (difference\+\_\+type new\+\_\+pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a0041f987d085438d0eac767fa90128a1}\label{structdetail_1_1deque__const__iterator_a0041f987d085438d0eac767fa90128a1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries offset} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a7d225de1bfdc3acb3727fb95ab73ed2e}\label{structdetail_1_1deque__const__iterator_a7d225de1bfdc3acb3727fb95ab73ed2e}} 
+void {\bfseries next} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a07b17bca2445e5974f6ce8398e047c0d}\label{structdetail_1_1deque__const__iterator_a07b17bca2445e5974f6ce8398e047c0d}} 
+void {\bfseries previous} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a3847ee4b6cbd1dba6b1be2dcaf32e70b}\label{structdetail_1_1deque__const__iterator_a3847ee4b6cbd1dba6b1be2dcaf32e70b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator++} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_adf5bdb8cd9b71b48584e98bcb3e9a286}\label{structdetail_1_1deque__const__iterator_adf5bdb8cd9b71b48584e98bcb3e9a286}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} {\bfseries operator++} (int) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a3039f0ab83416d642e80693263de55f2}\label{structdetail_1_1deque__const__iterator_a3039f0ab83416d642e80693263de55f2}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator-\/-\/} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ac59c3b222fd924ae99627c013b29df44}\label{structdetail_1_1deque__const__iterator_ac59c3b222fd924ae99627c013b29df44}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} {\bfseries operator-\/-\/} (int) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a25d28804ebab62996ad550b26ceade64}\label{structdetail_1_1deque__const__iterator_a25d28804ebab62996ad550b26ceade64}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE reference {\bfseries operator$\ast$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_afaa4d1f4b54e9eb17cd04333c65f61cf}\label{structdetail_1_1deque__const__iterator_afaa4d1f4b54e9eb17cd04333c65f61cf}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE pointer {\bfseries operator-\/$>$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ac83e5523a08d27a48bd6959d00f0ee51}\label{structdetail_1_1deque__const__iterator_ac83e5523a08d27a48bd6959d00f0ee51}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator+=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a51f615640d954167eafaa06a34ed81ed}\label{structdetail_1_1deque__const__iterator_a51f615640d954167eafaa06a34ed81ed}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator-\/=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a9f4815c4548982462431ed0f507ac1f7}\label{structdetail_1_1deque__const__iterator_a9f4815c4548982462431ed0f507ac1f7}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE {\bfseries deque\+\_\+const\+\_\+iterator} (const bucket\+\_\+manager $\ast$d) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a91a03445533ffe4cb558ca7659ef5af8}\label{structdetail_1_1deque__const__iterator_a91a03445533ffe4cb558ca7659ef5af8}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE {\bfseries deque\+\_\+const\+\_\+iterator} (const bucket\+\_\+manager $\ast$d, size\+\_\+type) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_adf8b28064f1a197be6ae99804bde12cb}\label{structdetail_1_1deque__const__iterator_adf8b28064f1a197be6ae99804bde12cb}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE {\bfseries deque\+\_\+const\+\_\+iterator} (const bucket\+\_\+manager $\ast$d, size\+\_\+type p, size\+\_\+type) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a51260c435901e56a99932633cf76865c}\label{structdetail_1_1deque__const__iterator_a51260c435901e56a99932633cf76865c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE cbuffer\+\_\+pos {\bfseries index} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a0a1a3d1f1f08389b4fba266c450a274f}\label{structdetail_1_1deque__const__iterator_a0a1a3d1f1f08389b4fba266c450a274f}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+type {\bfseries absolute\+Pos} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aaac0414014d31d2aa18fd85ef84858b1}\label{structdetail_1_1deque__const__iterator_aaac0414014d31d2aa18fd85ef84858b1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries set\+Pos} (difference\+\_\+type new\+\_\+pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a0041f987d085438d0eac767fa90128a1}\label{structdetail_1_1deque__const__iterator_a0041f987d085438d0eac767fa90128a1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries offset} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a4aa8eb49fef598070b87ca344bcff65c}\label{structdetail_1_1deque__const__iterator_a4aa8eb49fef598070b87ca344bcff65c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries next} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a245d9b0a9a86c9887d0554266d07598b}\label{structdetail_1_1deque__const__iterator_a245d9b0a9a86c9887d0554266d07598b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries previous} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a3847ee4b6cbd1dba6b1be2dcaf32e70b}\label{structdetail_1_1deque__const__iterator_a3847ee4b6cbd1dba6b1be2dcaf32e70b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator++} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_adf5bdb8cd9b71b48584e98bcb3e9a286}\label{structdetail_1_1deque__const__iterator_adf5bdb8cd9b71b48584e98bcb3e9a286}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} {\bfseries operator++} (int) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a3039f0ab83416d642e80693263de55f2}\label{structdetail_1_1deque__const__iterator_a3039f0ab83416d642e80693263de55f2}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator-\/-\/} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ac59c3b222fd924ae99627c013b29df44}\label{structdetail_1_1deque__const__iterator_ac59c3b222fd924ae99627c013b29df44}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} {\bfseries operator-\/-\/} (int) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a25d28804ebab62996ad550b26ceade64}\label{structdetail_1_1deque__const__iterator_a25d28804ebab62996ad550b26ceade64}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE reference {\bfseries operator$\ast$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_afaa4d1f4b54e9eb17cd04333c65f61cf}\label{structdetail_1_1deque__const__iterator_afaa4d1f4b54e9eb17cd04333c65f61cf}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE pointer {\bfseries operator-\/$>$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ac83e5523a08d27a48bd6959d00f0ee51}\label{structdetail_1_1deque__const__iterator_ac83e5523a08d27a48bd6959d00f0ee51}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator+=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a51f615640d954167eafaa06a34ed81ed}\label{structdetail_1_1deque__const__iterator_a51f615640d954167eafaa06a34ed81ed}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator-\/=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ae5225cf49d4c7b8503e4ce15d8be6f10}\label{structdetail_1_1deque__const__iterator_ae5225cf49d4c7b8503e4ce15d8be6f10}} 
+{\bfseries deque\+\_\+const\+\_\+iterator} (const bucket\+\_\+manager $\ast$d) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ac82209f81d67377c345681bac5b04af7}\label{structdetail_1_1deque__const__iterator_ac82209f81d67377c345681bac5b04af7}} 
+{\bfseries deque\+\_\+const\+\_\+iterator} (const bucket\+\_\+manager $\ast$d, size\+\_\+type) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a5c2aab840231b9f191b9644524b7c72e}\label{structdetail_1_1deque__const__iterator_a5c2aab840231b9f191b9644524b7c72e}} 
+{\bfseries deque\+\_\+const\+\_\+iterator} (const bucket\+\_\+manager $\ast$d, size\+\_\+type p, size\+\_\+type) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ad1811d2db236ac4a6730da2614328b79}\label{structdetail_1_1deque__const__iterator_ad1811d2db236ac4a6730da2614328b79}} 
+cbuffer\+\_\+pos {\bfseries index} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a1f6a0f3f23086d0f225dbfe175c464a0}\label{structdetail_1_1deque__const__iterator_a1f6a0f3f23086d0f225dbfe175c464a0}} 
+size\+\_\+type {\bfseries absolute\+Pos} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aaac0414014d31d2aa18fd85ef84858b1}\label{structdetail_1_1deque__const__iterator_aaac0414014d31d2aa18fd85ef84858b1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries set\+Pos} (difference\+\_\+type new\+\_\+pos) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aa7c9c3e32e6f3f3e34e0c8444c31625d}\label{structdetail_1_1deque__const__iterator_aa7c9c3e32e6f3f3e34e0c8444c31625d}} 
+void {\bfseries set\+Bucket\+And\+Pos} (bucket\+\_\+type $\ast$b, difference\+\_\+type index\+\_\+in\+\_\+bucket) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a0041f987d085438d0eac767fa90128a1}\label{structdetail_1_1deque__const__iterator_a0041f987d085438d0eac767fa90128a1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries offset} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a4aa8eb49fef598070b87ca344bcff65c}\label{structdetail_1_1deque__const__iterator_a4aa8eb49fef598070b87ca344bcff65c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries next} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a245d9b0a9a86c9887d0554266d07598b}\label{structdetail_1_1deque__const__iterator_a245d9b0a9a86c9887d0554266d07598b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries previous} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a3847ee4b6cbd1dba6b1be2dcaf32e70b}\label{structdetail_1_1deque__const__iterator_a3847ee4b6cbd1dba6b1be2dcaf32e70b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator++} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_adf5bdb8cd9b71b48584e98bcb3e9a286}\label{structdetail_1_1deque__const__iterator_adf5bdb8cd9b71b48584e98bcb3e9a286}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} {\bfseries operator++} (int) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a3039f0ab83416d642e80693263de55f2}\label{structdetail_1_1deque__const__iterator_a3039f0ab83416d642e80693263de55f2}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator-\/-\/} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ac59c3b222fd924ae99627c013b29df44}\label{structdetail_1_1deque__const__iterator_ac59c3b222fd924ae99627c013b29df44}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} {\bfseries operator-\/-\/} (int) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a25d28804ebab62996ad550b26ceade64}\label{structdetail_1_1deque__const__iterator_a25d28804ebab62996ad550b26ceade64}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE reference {\bfseries operator$\ast$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_afaa4d1f4b54e9eb17cd04333c65f61cf}\label{structdetail_1_1deque__const__iterator_afaa4d1f4b54e9eb17cd04333c65f61cf}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE pointer {\bfseries operator-\/$>$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ac83e5523a08d27a48bd6959d00f0ee51}\label{structdetail_1_1deque__const__iterator_ac83e5523a08d27a48bd6959d00f0ee51}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator+=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a51f615640d954167eafaa06a34ed81ed}\label{structdetail_1_1deque__const__iterator_a51f615640d954167eafaa06a34ed81ed}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator-\/=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ab3705b559c05b3ac50cd195642335c25}\label{structdetail_1_1deque__const__iterator_ab3705b559c05b3ac50cd195642335c25}} 
+{\bfseries deque\+\_\+const\+\_\+iterator} (const bucket\+\_\+manager $\ast$\+\_\+dm=N\+U\+LL, size\+\_\+type \+\_\+pos=0) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a05a5fd5fcb25f6a058f7d178131cca2e}\label{structdetail_1_1deque__const__iterator_a05a5fd5fcb25f6a058f7d178131cca2e}} 
+{\bfseries deque\+\_\+const\+\_\+iterator} (const \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \&it) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aab09df7a230a9c494323760a92482f5e}\label{structdetail_1_1deque__const__iterator_aab09df7a230a9c494323760a92482f5e}} 
+size\+\_\+t {\bfseries absolute\+Pos} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a2456a1ce96c63fd7668f9d43395a546a}\label{structdetail_1_1deque__const__iterator_a2456a1ce96c63fd7668f9d43395a546a}} 
+reference {\bfseries operator$\ast$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ac5d7b5d9b00aa0418e76dcce900f744a}\label{structdetail_1_1deque__const__iterator_ac5d7b5d9b00aa0418e76dcce900f744a}} 
+pointer {\bfseries operator-\/$>$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a74918addc2233d143b65fa7e21f4b7b3}\label{structdetail_1_1deque__const__iterator_a74918addc2233d143b65fa7e21f4b7b3}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator++} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ae3dca8fccb419d07fcd710b0e388bb6d}\label{structdetail_1_1deque__const__iterator_ae3dca8fccb419d07fcd710b0e388bb6d}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} {\bfseries operator++} (int) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a5ff37c2a96708801cfde095c52754237}\label{structdetail_1_1deque__const__iterator_a5ff37c2a96708801cfde095c52754237}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator-\/-\/} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aad2685121638066f28114c51476c06f1}\label{structdetail_1_1deque__const__iterator_aad2685121638066f28114c51476c06f1}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} {\bfseries operator-\/-\/} (int) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_af75a053b69f85d87cb7c46e6a381ebe2}\label{structdetail_1_1deque__const__iterator_af75a053b69f85d87cb7c46e6a381ebe2}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a6cdf108a318921ad2ced5172d2c383d4}\label{structdetail_1_1deque__const__iterator_a6cdf108a318921ad2ced5172d2c383d4}} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ad2d4fe2e500de71227141f1dfaeb204e}\label{structdetail_1_1deque__const__iterator_ad2d4fe2e500de71227141f1dfaeb204e}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator+=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_af52d6ffc13f93210a6ae193542c94339}\label{structdetail_1_1deque__const__iterator_af52d6ffc13f93210a6ae193542c94339}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator-\/=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_afa44ed9c1e9727f8d94f4b8d36b8b162}\label{structdetail_1_1deque__const__iterator_afa44ed9c1e9727f8d94f4b8d36b8b162}} 
+const value\+\_\+type \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (difference\+\_\+type diff) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_acd4948ab06f78df3ede40426f0ec92a7}\label{structdetail_1_1deque__const__iterator_acd4948ab06f78df3ede40426f0ec92a7}} 
+value\+\_\+type \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ab3705b559c05b3ac50cd195642335c25}\label{structdetail_1_1deque__const__iterator_ab3705b559c05b3ac50cd195642335c25}} 
+{\bfseries deque\+\_\+const\+\_\+iterator} (const bucket\+\_\+manager $\ast$\+\_\+dm=N\+U\+LL, size\+\_\+type \+\_\+pos=0) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a05a5fd5fcb25f6a058f7d178131cca2e}\label{structdetail_1_1deque__const__iterator_a05a5fd5fcb25f6a058f7d178131cca2e}} 
+{\bfseries deque\+\_\+const\+\_\+iterator} (const \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \&it) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aab09df7a230a9c494323760a92482f5e}\label{structdetail_1_1deque__const__iterator_aab09df7a230a9c494323760a92482f5e}} 
+size\+\_\+t {\bfseries absolute\+Pos} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a2456a1ce96c63fd7668f9d43395a546a}\label{structdetail_1_1deque__const__iterator_a2456a1ce96c63fd7668f9d43395a546a}} 
+reference {\bfseries operator$\ast$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ac5d7b5d9b00aa0418e76dcce900f744a}\label{structdetail_1_1deque__const__iterator_ac5d7b5d9b00aa0418e76dcce900f744a}} 
+pointer {\bfseries operator-\/$>$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a74918addc2233d143b65fa7e21f4b7b3}\label{structdetail_1_1deque__const__iterator_a74918addc2233d143b65fa7e21f4b7b3}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator++} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ae3dca8fccb419d07fcd710b0e388bb6d}\label{structdetail_1_1deque__const__iterator_ae3dca8fccb419d07fcd710b0e388bb6d}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} {\bfseries operator++} (int) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a5ff37c2a96708801cfde095c52754237}\label{structdetail_1_1deque__const__iterator_a5ff37c2a96708801cfde095c52754237}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator-\/-\/} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aad2685121638066f28114c51476c06f1}\label{structdetail_1_1deque__const__iterator_aad2685121638066f28114c51476c06f1}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} {\bfseries operator-\/-\/} (int) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_af75a053b69f85d87cb7c46e6a381ebe2}\label{structdetail_1_1deque__const__iterator_af75a053b69f85d87cb7c46e6a381ebe2}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a6cdf108a318921ad2ced5172d2c383d4}\label{structdetail_1_1deque__const__iterator_a6cdf108a318921ad2ced5172d2c383d4}} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ad2d4fe2e500de71227141f1dfaeb204e}\label{structdetail_1_1deque__const__iterator_ad2d4fe2e500de71227141f1dfaeb204e}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator+=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_af52d6ffc13f93210a6ae193542c94339}\label{structdetail_1_1deque__const__iterator_af52d6ffc13f93210a6ae193542c94339}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& {\bfseries operator-\/=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_afa44ed9c1e9727f8d94f4b8d36b8b162}\label{structdetail_1_1deque__const__iterator_afa44ed9c1e9727f8d94f4b8d36b8b162}} 
+const value\+\_\+type \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (difference\+\_\+type diff) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_acd4948ab06f78df3ede40426f0ec92a7}\label{structdetail_1_1deque__const__iterator_acd4948ab06f78df3ede40426f0ec92a7}} 
+value\+\_\+type \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (difference\+\_\+type diff) noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ae9f8b19c0667986f21f5efd836025383}\label{structdetail_1_1deque__const__iterator_ae9f8b19c0667986f21f5efd836025383}} 
+bucket\+\_\+manager $\ast$ {\bfseries mgr}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_ac08d91bb425f2420a306a1330eeb012b}\label{structdetail_1_1deque__const__iterator_ac08d91bb425f2420a306a1330eeb012b}} 
+bucket\+\_\+type $\ast$ {\bfseries bucket}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aa8cf7487279f9e184e1bdff7e6d991fc}\label{structdetail_1_1deque__const__iterator_aa8cf7487279f9e184e1bdff7e6d991fc}} 
+difference\+\_\+type {\bfseries pos}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_af38ad5e76a7c7f476d7c8eb3406c0615}\label{structdetail_1_1deque__const__iterator_af38ad5e76a7c7f476d7c8eb3406c0615}} 
+cbuffer\+\_\+pos {\bfseries ptr}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a69a874c703f9682575535a49012554e6}\label{structdetail_1_1deque__const__iterator_a69a874c703f9682575535a49012554e6}} 
+cbuffer\+\_\+pos {\bfseries begin\+\_\+ptr}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_a9491be9ffea88f169060aae3feb4eb00}\label{structdetail_1_1deque__const__iterator_a9491be9ffea88f169060aae3feb4eb00}} 
+cbuffer\+\_\+pos {\bfseries first\+\_\+stop}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_acbfe6791c3a25e75be493b96d7d86fd5}\label{structdetail_1_1deque__const__iterator_acbfe6791c3a25e75be493b96d7d86fd5}} 
+bucket\+\_\+manager $\ast$ {\bfseries dm}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__const__iterator_aa8cf7487279f9e184e1bdff7e6d991fc}\label{structdetail_1_1deque__const__iterator_aa8cf7487279f9e184e1bdff7e6d991fc}} 
+size\+\_\+type {\bfseries pos}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+deque2 -\/ Copie.\+hpp\item 
+deque2.\+hpp\item 
+deque2\+\_\+union.\+hpp\item 
+deque\+\_\+save.\+hpp\item 
+deque\+\_\+save.\+txt\end{DoxyCompactItemize}

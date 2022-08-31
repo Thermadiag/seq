@@ -1,0 +1,69 @@
+\hypertarget{structseq_1_1detail_1_1sequence__iterator}{}\doxysection{seq\+::detail\+::sequence\+\_\+iterator$<$ List $>$ Struct Template Reference}
+\label{structseq_1_1detail_1_1sequence__iterator}\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+
+
+Inherits \mbox{\hyperlink{structseq_1_1detail_1_1sequence__const__iterator}{seq\+::detail\+::sequence\+\_\+const\+\_\+iterator$<$ List $>$}}.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_a26082e5da3978816b3759a59c4c23983}\label{structseq_1_1detail_1_1sequence__iterator_a26082e5da3978816b3759a59c4c23983}} 
+using {\bfseries base\+\_\+type} = \mbox{\hyperlink{structseq_1_1detail_1_1sequence__const__iterator}{sequence\+\_\+const\+\_\+iterator}}$<$ List $>$
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_a8b02b527a83b5f4d789d8148ee773a61}\label{structseq_1_1detail_1_1sequence__iterator_a8b02b527a83b5f4d789d8148ee773a61}} 
+using {\bfseries iterator\+\_\+category} = std\+::bidirectional\+\_\+iterator\+\_\+tag
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_ae13a01bb6d12273c4f1473279b374d5d}\label{structseq_1_1detail_1_1sequence__iterator_ae13a01bb6d12273c4f1473279b374d5d}} 
+using {\bfseries value\+\_\+type} = typename List\+::value\+\_\+type
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_a86c5290c372ff13e189effb7c2dc21c1}\label{structseq_1_1detail_1_1sequence__iterator_a86c5290c372ff13e189effb7c2dc21c1}} 
+using {\bfseries difference\+\_\+type} = typename List\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_ae0d0bef523ed7f7f0bed2696a53be1b4}\label{structseq_1_1detail_1_1sequence__iterator_ae0d0bef523ed7f7f0bed2696a53be1b4}} 
+using {\bfseries pointer} = typename List\+::pointer
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_a89a234bb83f8a76b1affe055a78161f2}\label{structseq_1_1detail_1_1sequence__iterator_a89a234bb83f8a76b1affe055a78161f2}} 
+using {\bfseries reference} = value\+\_\+type \&
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_afa2f2fe84c02b4428139a0d958ad288e}\label{structseq_1_1detail_1_1sequence__iterator_afa2f2fe84c02b4428139a0d958ad288e}} 
+{\bfseries sequence\+\_\+iterator} (const typename \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{base\+\_\+type\+::chunk\+\_\+type}} $\ast$node) noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_a19716046d30668f5272e0a809f7b1385}\label{structseq_1_1detail_1_1sequence__iterator_a19716046d30668f5272e0a809f7b1385}} 
+{\bfseries sequence\+\_\+iterator} (const typename \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{base\+\_\+type\+::chunk\+\_\+type}} $\ast$node, typename base\+\_\+type\+::pos\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_a7aaaa77db8b46af79cb2e78ec29e9c53}\label{structseq_1_1detail_1_1sequence__iterator_a7aaaa77db8b46af79cb2e78ec29e9c53}} 
+{\bfseries sequence\+\_\+iterator} (const \mbox{\hyperlink{structseq_1_1detail_1_1sequence__const__iterator}{sequence\+\_\+const\+\_\+iterator}}$<$ List $>$ \&other) noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_ae3229972c5b73b47a9e56a5e5c0ccb61}\label{structseq_1_1detail_1_1sequence__iterator_ae3229972c5b73b47a9e56a5e5c0ccb61}} 
+reference {\bfseries operator$\ast$} () const noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_af0b78e58f814b8ec55e16e7805d93533}\label{structseq_1_1detail_1_1sequence__iterator_af0b78e58f814b8ec55e16e7805d93533}} 
+pointer {\bfseries operator-\/$>$} () const noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_a42cfcbe5bd958660d443aa7cb9c18964}\label{structseq_1_1detail_1_1sequence__iterator_a42cfcbe5bd958660d443aa7cb9c18964}} 
+\mbox{\hyperlink{structseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \& {\bfseries operator++} () noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_aff0dd003bbd5dc4fde020ab6efc1aa10}\label{structseq_1_1detail_1_1sequence__iterator_aff0dd003bbd5dc4fde020ab6efc1aa10}} 
+\mbox{\hyperlink{structseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} {\bfseries operator++} (int) noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_a1694ed79d79b0c0e174655c7b549f6f9}\label{structseq_1_1detail_1_1sequence__iterator_a1694ed79d79b0c0e174655c7b549f6f9}} 
+\mbox{\hyperlink{structseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \& {\bfseries operator-\/-\/} () noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_a2db8eeac466f6e2f9e74a083b2b45b97}\label{structseq_1_1detail_1_1sequence__iterator_a2db8eeac466f6e2f9e74a083b2b45b97}} 
+\mbox{\hyperlink{structseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} {\bfseries operator-\/-\/} (int) noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_a6eae5e249a991ab2b0ea792e6eb85b74}\label{structseq_1_1detail_1_1sequence__iterator_a6eae5e249a991ab2b0ea792e6eb85b74}} 
+\mbox{\hyperlink{structseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \& {\bfseries operator+=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1sequence__iterator_a83542fea1d0bf6c7e121f5db6a184552}\label{structseq_1_1detail_1_1sequence__iterator_a83542fea1d0bf6c7e121f5db6a184552}} 
+\mbox{\hyperlink{structseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \& {\bfseries operator-\/=} (difference\+\_\+type diff) noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/sequence.\+hpp\end{DoxyCompactItemize}

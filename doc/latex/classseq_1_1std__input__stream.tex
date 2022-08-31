@@ -1,0 +1,241 @@
+\hypertarget{classseq_1_1std__input__stream}{}\doxysection{seq\+::std\+\_\+input\+\_\+stream$<$ buff\+\_\+size $>$ Class Template Reference}
+\label{classseq_1_1std__input__stream}\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+
+
+Input stream working on a std\+::istream.  
+
+
+
+
+{\ttfamily \#include $<$charconv.\+hpp$>$}
+
+
+
+Inherits \mbox{\hyperlink{classseq_1_1basic__input__stream}{seq\+::basic\+\_\+input\+\_\+stream$<$ std\+\_\+input\+\_\+stream$<$ 32 $>$ $>$}}.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classseq_1_1std__input__stream_aa0d086dcc31cafa56d35bdd45afb089a}{base\+\_\+type}} = \mbox{\hyperlink{classseq_1_1basic__input__stream}{basic\+\_\+input\+\_\+stream}}$<$ \mbox{\hyperlink{classseq_1_1std__input__stream}{std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$ $>$
+\item 
+using \mbox{\hyperlink{classseq_1_1std__input__stream_af921fde38b67e5d5e1ff3cd8502ea8e3}{State}} = \mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{Stream\+State}}
+\item 
+using \mbox{\hyperlink{classseq_1_1std__input__stream_a4c19e491e63846c19f724284a00ef3f8}{streamsize}} = std\+::uint64\+\_\+t
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classseq_1_1std__input__stream_a72b07f534ec27415d2da33b4426d65e0}{std\+\_\+input\+\_\+stream}} ()
+\begin{DoxyCompactList}\small\item\em Default ctor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1std__input__stream_a262efa763a04265fc2f0a60c2430de83}{std\+\_\+input\+\_\+stream}} (std\+::istream \&iss)
+\begin{DoxyCompactList}\small\item\em Construct from a std\+::istream object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1std__input__stream_a8f76d101f34e3d3709752828db65abe8}{$\sim$std\+\_\+input\+\_\+stream}} ()
+\begin{DoxyCompactList}\small\item\em Destructor, close the stream and update the underlying std\+::istream get position. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1std__input__stream_ad463816689e1a6f1967bdffa7e27de0e}{set\+\_\+state}} (\mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{State}} st) noexcept
+\begin{DoxyCompactList}\small\item\em Set the stream state. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{State}} \mbox{\hyperlink{classseq_1_1std__input__stream_a71f09a16e0c3c733dd7599725aa74a1e}{state}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the stream state. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1std__input__stream_a4c2e115420d6d82cfd3feb7c67cbbef0}{close}} () noexcept
+\begin{DoxyCompactList}\small\item\em Close the stream and update the underlying std\+::istream get position. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classseq_1_1std__input__stream_af83d6291bbbedc69beb381669ff991c9}{open}} (std\+::istream \&iss)
+\begin{DoxyCompactList}\small\item\em Open based on a std\+::istream object. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classseq_1_1std__input__stream_abda4f4d3834f8fc58c04147093e61cb2}{is\+\_\+open}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns true if the stream is open (the underlying std\+::istream object is valid) \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classseq_1_1std__input__stream_a83deca3cd5802d6624f53422c9c7be46}{tell}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the stream get position. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1std__input__stream_a7ba753523b4c7934f9bd5a131aed70fb}{back}} () noexcept
+\begin{DoxyCompactList}\small\item\em Go back to previous character if possible. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1std__input__stream_a1b74d2e6bc27c55bbecc04d22b705544}{S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE}} (size\+\_\+t) seek(size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) noexcept
+\begin{DoxyCompactList}\small\item\em Seek to given position and returns the new get position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{classseq_1_1std__input__stream_a84b29c9411142029650dedc037c8a5ef}{getc}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns the next character from the stream and update the get position. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classseq_1_1std__input__stream_a109d6019912c622f325c4a25cb59a395}{read}} (char $\ast$dst, size\+\_\+t size) noexcept
+\begin{DoxyCompactList}\small\item\em Read several bytes from the stream, and return the number of read bytes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$unsigned buff\+\_\+size = 32$>$\newline
+class seq\+::std\+\_\+input\+\_\+stream$<$ buff\+\_\+size $>$}
+
+Input stream working on a std\+::istream. 
+
+\mbox{\hyperlink{classseq_1_1std__input__stream}{std\+\_\+input\+\_\+stream}} is a \#basic\+\_\+input\+\_\+stream used to extract numbers, words and lines from a std\+::istream object. Its goal is to be able to use the optimized reading function (\mbox{\hyperlink{namespaceseq_a8dd14a20a2e7b03cebe3d48e3ae5e2ff}{seq\+::from\+\_\+stream}} to extract numerical values and words, \mbox{\hyperlink{namespaceseq_afe93dbc8ebf7707cd6a49a40efb69516}{seq\+::read\+\_\+line\+\_\+from\+\_\+stream}} to extract full lines) on a std\+::istream object.
+
+\mbox{\hyperlink{classseq_1_1std__input__stream}{std\+\_\+input\+\_\+stream}} uses internally a buffer of size \textquotesingle{}buff\+\_\+size\textquotesingle{} to read from the underlying std\+::istream object by chunks. Even if the std\+::istream is internally bufferized, it makes the reading of single characters several times faster. 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classseq_1_1std__input__stream_aa0d086dcc31cafa56d35bdd45afb089a}\label{classseq_1_1std__input__stream_aa0d086dcc31cafa56d35bdd45afb089a}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!base\_type@{base\_type}}
+\index{base\_type@{base\_type}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{base\_type}{base\_type}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+using \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::\mbox{\hyperlink{classseq_1_1std__input__stream_aa0d086dcc31cafa56d35bdd45afb089a}{base\+\_\+type}} =  \mbox{\hyperlink{classseq_1_1basic__input__stream}{basic\+\_\+input\+\_\+stream}}$<$ \mbox{\hyperlink{classseq_1_1std__input__stream}{std\+\_\+input\+\_\+stream}}$<$buff\+\_\+size$>$ $>$}
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_af921fde38b67e5d5e1ff3cd8502ea8e3}\label{classseq_1_1std__input__stream_af921fde38b67e5d5e1ff3cd8502ea8e3}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!State@{State}}
+\index{State@{State}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{State}{State}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+using \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::\mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{State}} =  \mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{Stream\+State}}}
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_a4c19e491e63846c19f724284a00ef3f8}\label{classseq_1_1std__input__stream_a4c19e491e63846c19f724284a00ef3f8}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!streamsize@{streamsize}}
+\index{streamsize@{streamsize}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{streamsize}{streamsize}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+using \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::\mbox{\hyperlink{classseq_1_1std__input__stream_a4c19e491e63846c19f724284a00ef3f8}{streamsize}} =  std\+::uint64\+\_\+t}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classseq_1_1std__input__stream_a72b07f534ec27415d2da33b4426d65e0}\label{classseq_1_1std__input__stream_a72b07f534ec27415d2da33b4426d65e0}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!std\_input\_stream@{std\_input\_stream}}
+\index{std\_input\_stream@{std\_input\_stream}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{std\_input\_stream()}{std\_input\_stream()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+\mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::\mbox{\hyperlink{classseq_1_1std__input__stream}{std\+\_\+input\+\_\+stream}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Default ctor. 
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_a262efa763a04265fc2f0a60c2430de83}\label{classseq_1_1std__input__stream_a262efa763a04265fc2f0a60c2430de83}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!std\_input\_stream@{std\_input\_stream}}
+\index{std\_input\_stream@{std\_input\_stream}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{std\_input\_stream()}{std\_input\_stream()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+\mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::\mbox{\hyperlink{classseq_1_1std__input__stream}{std\+\_\+input\+\_\+stream}} (\begin{DoxyParamCaption}\item[{std\+::istream \&}]{iss }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct from a std\+::istream object. 
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_a8f76d101f34e3d3709752828db65abe8}\label{classseq_1_1std__input__stream_a8f76d101f34e3d3709752828db65abe8}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!````~std\_input\_stream@{$\sim$std\_input\_stream}}
+\index{````~std\_input\_stream@{$\sim$std\_input\_stream}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{$\sim$std\_input\_stream()}{~std\_input\_stream()}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+\mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::$\sim$\mbox{\hyperlink{classseq_1_1std__input__stream}{std\+\_\+input\+\_\+stream}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Destructor, close the stream and update the underlying std\+::istream get position. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1std__input__stream_a7ba753523b4c7934f9bd5a131aed70fb}\label{classseq_1_1std__input__stream_a7ba753523b4c7934f9bd5a131aed70fb}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!back@{back}}
+\index{back@{back}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+void \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Go back to previous character if possible. 
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_a4c2e115420d6d82cfd3feb7c67cbbef0}\label{classseq_1_1std__input__stream_a4c2e115420d6d82cfd3feb7c67cbbef0}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!close@{close}}
+\index{close@{close}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+void \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::close (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Close the stream and update the underlying std\+::istream get position. 
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_a84b29c9411142029650dedc037c8a5ef}\label{classseq_1_1std__input__stream_a84b29c9411142029650dedc037c8a5ef}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!getc@{getc}}
+\index{getc@{getc}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{getc()}{getc()}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::getc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the next character from the stream and update the get position. 
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_abda4f4d3834f8fc58c04147093e61cb2}\label{classseq_1_1std__input__stream_abda4f4d3834f8fc58c04147093e61cb2}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!is\_open@{is\_open}}
+\index{is\_open@{is\_open}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{is\_open()}{is\_open()}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+bool \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::is\+\_\+open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns true if the stream is open (the underlying std\+::istream object is valid) 
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_af83d6291bbbedc69beb381669ff991c9}\label{classseq_1_1std__input__stream_af83d6291bbbedc69beb381669ff991c9}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!open@{open}}
+\index{open@{open}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+bool \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::open (\begin{DoxyParamCaption}\item[{std\+::istream \&}]{iss }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Open based on a std\+::istream object. 
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_a109d6019912c622f325c4a25cb59a395}\label{classseq_1_1std__input__stream_a109d6019912c622f325c4a25cb59a395}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!read@{read}}
+\index{read@{read}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{read()}{read()}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+size\+\_\+t \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::read (\begin{DoxyParamCaption}\item[{char $\ast$}]{dst,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Read several bytes from the stream, and return the number of read bytes. 
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_a1b74d2e6bc27c55bbecc04d22b705544}\label{classseq_1_1std__input__stream_a1b74d2e6bc27c55bbecc04d22b705544}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!SEQ\_NOINLINE@{SEQ\_NOINLINE}}
+\index{SEQ\_NOINLINE@{SEQ\_NOINLINE}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{SEQ\_NOINLINE()}{SEQ\_NOINLINE()}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+\mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Seek to given position and returns the new get position. 
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_ad463816689e1a6f1967bdffa7e27de0e}\label{classseq_1_1std__input__stream_ad463816689e1a6f1967bdffa7e27de0e}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!set\_state@{set\_state}}
+\index{set\_state@{set\_state}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{set\_state()}{set\_state()}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+void \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::set\+\_\+state (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{State}}}]{st }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the stream state. 
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_a71f09a16e0c3c733dd7599725aa74a1e}\label{classseq_1_1std__input__stream_a71f09a16e0c3c733dd7599725aa74a1e}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!state@{state}}
+\index{state@{state}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{state()}{state()}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+\mbox{\hyperlink{namespaceseq_ac3d7eb5b00b5c7e90602aaf0e8bd23e2}{State}} \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::state (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the stream state. 
+
+\mbox{\Hypertarget{classseq_1_1std__input__stream_a83deca3cd5802d6624f53422c9c7be46}\label{classseq_1_1std__input__stream_a83deca3cd5802d6624f53422c9c7be46}} 
+\index{seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}!tell@{tell}}
+\index{tell@{tell}!seq::std\_input\_stream$<$ buff\_size $>$@{seq::std\_input\_stream$<$ buff\_size $>$}}
+\doxysubsubsection{\texorpdfstring{tell()}{tell()}}
+{\footnotesize\ttfamily template$<$unsigned buff\+\_\+size = 32$>$ \\
+size\+\_\+t \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}$<$ buff\+\_\+size $>$\+::tell (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the stream get position. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{charconv_8hpp}{charconv.\+hpp}}\end{DoxyCompactItemize}

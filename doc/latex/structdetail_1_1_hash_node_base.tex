@@ -1,0 +1,106 @@
+\hypertarget{structdetail_1_1_hash_node_base}{}\doxysection{detail\+::Hash\+Node\+Base$<$ Derived, Size\+Type, Store\+Hash $>$ Struct Template Reference}
+\label{structdetail_1_1_hash_node_base}\index{detail::HashNodeBase$<$ Derived, SizeType, StoreHash $>$@{detail::HashNodeBase$<$ Derived, SizeType, StoreHash $>$}}
+
+
+{\bfseries{attribute}}((packed));;  
+
+
+
+
+{\ttfamily \#include $<$hash\+\_\+map.\+hpp$>$}
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+union \mbox{\hyperlink{uniondetail_1_1_hash_node_base_1_1flag__union}{flag\+\_\+union}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_ac7b2c53f2d60789ee61c4ecc106511dc}\label{structdetail_1_1_hash_node_base_ac7b2c53f2d60789ee61c4ecc106511dc}} 
+typedef union \mbox{\hyperlink{uniondetail_1_1_hash_node_base_1_1flag__union}{detail\+::\+Hash\+Node\+Base\+::flag\+\_\+union}} {\bfseries flag\+\_\+union}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a28894c527b6b6de23339a0354bb81da7}\label{structdetail_1_1_hash_node_base_a28894c527b6b6de23339a0354bb81da7}} 
+{\bfseries Hash\+Node\+Base} (Size\+Type n=invalid) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_ac56fc075dc4c9c1b2a08b4e657216706}\label{structdetail_1_1_hash_node_base_ac56fc075dc4c9c1b2a08b4e657216706}} 
+bool {\bfseries is\+\_\+valid} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_ae2a09b758aa19483ce4c2d0101eb3bf7}\label{structdetail_1_1_hash_node_base_ae2a09b758aa19483ce4c2d0101eb3bf7}} 
+bool {\bfseries end\+\_\+probe} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a590a8e87d7564b1295842572c56b46ac}\label{structdetail_1_1_hash_node_base_a590a8e87d7564b1295842572c56b46ac}} 
+{\footnotesize template$<$class Hash $>$ }\\I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries get\+\_\+hash} (const Hash \&h) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a2e37c022ac408f47827ac5b436cff563}\label{structdetail_1_1_hash_node_base_a2e37c022ac408f47827ac5b436cff563}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries match\+\_\+hash} (size\+\_\+t h) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a6b8f88f8466e9559b05ef0aa6fd6a636}\label{structdetail_1_1_hash_node_base_a6b8f88f8466e9559b05ef0aa6fd6a636}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries set\+\_\+next} (Size\+Type n)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a1f1d5d48b11550b9ad19bff61a94232b}\label{structdetail_1_1_hash_node_base_a1f1d5d48b11550b9ad19bff61a94232b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE Size\+Type {\bfseries next} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_af15e0ef134e215b80d7a066ce0588845}\label{structdetail_1_1_hash_node_base_af15e0ef134e215b80d7a066ce0588845}} 
+{\footnotesize template$<$class Hash $>$ }\\I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE Size\+Type {\bfseries get\+\_\+hash} (const Hash \&h) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a665d852230ae18cfa22de6327f354ec3}\label{structdetail_1_1_hash_node_base_a665d852230ae18cfa22de6327f354ec3}} 
+void {\bfseries set\+\_\+hash} (Size\+Type) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_aa465fa2159da3bedb717f1a4c723a9ae}\label{structdetail_1_1_hash_node_base_aa465fa2159da3bedb717f1a4c723a9ae}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries match\+\_\+hash} (Size\+Type) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a28894c527b6b6de23339a0354bb81da7}\label{structdetail_1_1_hash_node_base_a28894c527b6b6de23339a0354bb81da7}} 
+{\bfseries Hash\+Node\+Base} (Size\+Type n=invalid) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_ac56fc075dc4c9c1b2a08b4e657216706}\label{structdetail_1_1_hash_node_base_ac56fc075dc4c9c1b2a08b4e657216706}} 
+bool {\bfseries is\+\_\+valid} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_ae2a09b758aa19483ce4c2d0101eb3bf7}\label{structdetail_1_1_hash_node_base_ae2a09b758aa19483ce4c2d0101eb3bf7}} 
+bool {\bfseries end\+\_\+probe} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a590a8e87d7564b1295842572c56b46ac}\label{structdetail_1_1_hash_node_base_a590a8e87d7564b1295842572c56b46ac}} 
+{\footnotesize template$<$class Hash $>$ }\\I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries get\+\_\+hash} (const Hash \&h) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a7e16636952166d11a75a87ae8fd713d4}\label{structdetail_1_1_hash_node_base_a7e16636952166d11a75a87ae8fd713d4}} 
+void {\bfseries set\+\_\+hash} (size\+\_\+t) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a2a2e259397acda29385f4b00ea48bda9}\label{structdetail_1_1_hash_node_base_a2a2e259397acda29385f4b00ea48bda9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries match\+\_\+hash} (size\+\_\+t) const noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a9defbfd8d5e07e8a248aa4f817509f41}\label{structdetail_1_1_hash_node_base_a9defbfd8d5e07e8a248aa4f817509f41}} 
+\mbox{\hyperlink{uniondetail_1_1_hash_node_base_1_1flag__union}{flag\+\_\+union}} {\bfseries flags}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a5b631617f52000c0a39b8412f1d9bbe8}\label{structdetail_1_1_hash_node_base_a5b631617f52000c0a39b8412f1d9bbe8}} 
+Size\+Type {\bfseries next}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a261112ad465036c4e3bc2d93bc2f8f71}\label{structdetail_1_1_hash_node_base_a261112ad465036c4e3bc2d93bc2f8f71}} 
+static const Size\+Type {\bfseries invalid} = \mbox{\hyperlink{structinteger__max}{integer\+\_\+max}}$<$Size\+Type$>$\+::value
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_node_base_a2bc4c25704377604108eb57a5059cedd}\label{structdetail_1_1_hash_node_base_a2bc4c25704377604108eb57a5059cedd}} 
+static const Size\+Type {\bfseries no\+\_\+next} = \mbox{\hyperlink{structinteger__max}{integer\+\_\+max}}$<$Size\+Type$>$\+::value -\/ 1
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Derived, class Size\+Type, bool Store\+Hash$>$\newline
+struct detail\+::\+Hash\+Node\+Base$<$ Derived, Size\+Type, Store\+Hash $>$}
+
+{\bfseries{attribute}}((packed));; 
+
+Base node\+\_\+type type, used to store (or not) the hash value 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+hash\+\_\+map.\+hpp\item 
+hash\+\_\+map\+Copie2.\+hpp\item 
+hash\+\_\+map\+Copie.\+hpp\end{DoxyCompactItemize}

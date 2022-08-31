@@ -1,0 +1,37 @@
+\hypertarget{struct_mem_chunk}{}\doxysection{Mem\+Chunk$<$ T, Allocator $>$ Struct Template Reference}
+\label{struct_mem_chunk}\index{MemChunk$<$ T, Allocator $>$@{MemChunk$<$ T, Allocator $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_mem_chunk_af17eb9c810d638850a97c744c96ec175}\label{struct_mem_chunk_af17eb9c810d638850a97c744c96ec175}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_mem_chunk_a84362890ab3c3c1e4c789a1b20d408dd}\label{struct_mem_chunk_a84362890ab3c3c1e4c789a1b20d408dd}} 
+{\bfseries Mem\+Chunk} (Allocator alloc, size\+\_\+t size)
+\item 
+\mbox{\Hypertarget{struct_mem_chunk_ae4842b55072a1f2d4516171f90b349da}\label{struct_mem_chunk_ae4842b55072a1f2d4516171f90b349da}} 
+void $\ast$ {\bfseries allocate} (size\+\_\+t size)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_mem_chunk_ab127da3b4da2113ac4921f9090a57488}\label{struct_mem_chunk_ab127da3b4da2113ac4921f9090a57488}} 
+Rebind\+Alloc$<$ char $>$ {\bfseries d\+\_\+alloc}
+\item 
+\mbox{\Hypertarget{struct_mem_chunk_a801eedc7a5e7c371d6a067c615ffedcd}\label{struct_mem_chunk_a801eedc7a5e7c371d6a067c615ffedcd}} 
+std\+::uint64\+\_\+t {\bfseries d\+\_\+size}
+\item 
+\mbox{\Hypertarget{struct_mem_chunk_a0c4d8fcb9a0604d74c3965fe06412b1b}\label{struct_mem_chunk_a0c4d8fcb9a0604d74c3965fe06412b1b}} 
+char $\ast$ {\bfseries d\+\_\+mem}
+\item 
+\mbox{\Hypertarget{struct_mem_chunk_af37127f06b97dbda59a5b43214374575}\label{struct_mem_chunk_af37127f06b97dbda59a5b43214374575}} 
+std\+::uint64\+\_\+t {\bfseries d\+\_\+firsts} \mbox{[}9\mbox{]}
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+hash\+\_\+block.\+hpp\end{DoxyCompactItemize}

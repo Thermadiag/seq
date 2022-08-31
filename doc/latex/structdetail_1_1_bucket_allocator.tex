@@ -1,0 +1,139 @@
+\hypertarget{structdetail_1_1_bucket_allocator}{}\doxysection{detail\+::Bucket\+Allocator$<$ T, Allocator $>$ Struct Template Reference}
+\label{structdetail_1_1_bucket_allocator}\index{detail::BucketAllocator$<$ T, Allocator $>$@{detail::BucketAllocator$<$ T, Allocator $>$}}
+
+
+{\ttfamily \#include $<$deque2\+\_\+union.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a055e89112070a6add42377cbc6e31f68}\label{structdetail_1_1_bucket_allocator_a055e89112070a6add42377cbc6e31f68}} 
+using {\bfseries Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}}$<$ T, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_acf57c764a3928cf254a003fdf39739d5}\label{structdetail_1_1_bucket_allocator_acf57c764a3928cf254a003fdf39739d5}} 
+using {\bfseries Mem\+Pool\+Type} = mem\+\_\+pool\+\_\+void$<$ alignof(T), true, 57, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_ab8404724d869bf5a7dc71a61d7c551a9}\label{structdetail_1_1_bucket_allocator_ab8404724d869bf5a7dc71a61d7c551a9}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a339b83b08fb9d5ebceadc64aa7e653b9}\label{structdetail_1_1_bucket_allocator_a339b83b08fb9d5ebceadc64aa7e653b9}} 
+using {\bfseries Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}}$<$ T, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_abfb422e4ce8eb826aae198f4f37c37ee}\label{structdetail_1_1_bucket_allocator_abfb422e4ce8eb826aae198f4f37c37ee}} 
+using {\bfseries Mem\+Pool\+Type} = mem\+\_\+pool\+\_\+void$<$ alignof(T), false, 57, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_ab8404724d869bf5a7dc71a61d7c551a9}\label{structdetail_1_1_bucket_allocator_ab8404724d869bf5a7dc71a61d7c551a9}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a055e89112070a6add42377cbc6e31f68}\label{structdetail_1_1_bucket_allocator_a055e89112070a6add42377cbc6e31f68}} 
+using {\bfseries Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}}$<$ T, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_abfb422e4ce8eb826aae198f4f37c37ee}\label{structdetail_1_1_bucket_allocator_abfb422e4ce8eb826aae198f4f37c37ee}} 
+using {\bfseries Mem\+Pool\+Type} = mem\+\_\+pool\+\_\+void$<$ alignof(T), false, 57, Allocator $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_ab8404724d869bf5a7dc71a61d7c551a9}\label{structdetail_1_1_bucket_allocator_ab8404724d869bf5a7dc71a61d7c551a9}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_acd5ed5da392407236fbbf0831c2e3d35}\label{structdetail_1_1_bucket_allocator_acd5ed5da392407236fbbf0831c2e3d35}} 
+{\bfseries Bucket\+Allocator} (const Allocator \&al)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a4c32b661f57dcfa8ad9ab88e46881d76}\label{structdetail_1_1_bucket_allocator_a4c32b661f57dcfa8ad9ab88e46881d76}} 
+{\bfseries Bucket\+Allocator} (Allocator \&\&al)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a76505a730daa06f6a0337fc9dbf81f2f}\label{structdetail_1_1_bucket_allocator_a76505a730daa06f6a0337fc9dbf81f2f}} 
+{\bfseries Bucket\+Allocator} (\mbox{\hyperlink{structdetail_1_1_bucket_allocator}{Bucket\+Allocator}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_ac4e60cf7b5ab9c630918767a1cb48242}\label{structdetail_1_1_bucket_allocator_ac4e60cf7b5ab9c630918767a1cb48242}} 
+{\bfseries Bucket\+Allocator} (\mbox{\hyperlink{structdetail_1_1_bucket_allocator}{Bucket\+Allocator}} \&\&other, const Allocator \&al) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_aa7963b0e0d6e6ef137596b724cd3be17}\label{structdetail_1_1_bucket_allocator_aa7963b0e0d6e6ef137596b724cd3be17}} 
+\mbox{\hyperlink{structdetail_1_1_bucket_allocator}{Bucket\+Allocator}} \& {\bfseries operator=} (\mbox{\hyperlink{structdetail_1_1_bucket_allocator}{Bucket\+Allocator}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a977ab2151d3f8ed47e159ee0933e2246}\label{structdetail_1_1_bucket_allocator_a977ab2151d3f8ed47e159ee0933e2246}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries alloc} (int max\+\_\+size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a47366be6c2ba593525a3e9a2f1cdffb3}\label{structdetail_1_1_bucket_allocator_a47366be6c2ba593525a3e9a2f1cdffb3}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries alloc} (int max\+\_\+size, const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a7acc4fc904a67d38aeb79e0f45a5de99}\label{structdetail_1_1_bucket_allocator_a7acc4fc904a67d38aeb79e0f45a5de99}} 
+void {\bfseries dealloc} (\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$buff)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_ade3dbf2fa1938b9ce0cf97b367789b81}\label{structdetail_1_1_bucket_allocator_ade3dbf2fa1938b9ce0cf97b367789b81}} 
+{\footnotesize template$<$class Store\+Bucket $>$ }\\void {\bfseries destroy\+\_\+all} (\mbox{\hyperlink{structdetail_1_1_store_bucket}{Store\+Bucket}} $\ast$bs, std\+::size\+\_\+t count)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a495eae8f5bc48c230ef2e68b4f6f4e14}\label{structdetail_1_1_bucket_allocator_a495eae8f5bc48c230ef2e68b4f6f4e14}} 
+void {\bfseries init} (std\+::size\+\_\+t bcount, int bsize)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a5f5460158cfc54d553faaa8826d8c2e6}\label{structdetail_1_1_bucket_allocator_a5f5460158cfc54d553faaa8826d8c2e6}} 
+void {\bfseries recyclate} (\mbox{\hyperlink{structdetail_1_1_bucket_allocator}{Bucket\+Allocator}}$<$ T, Allocator $>$ \&old, int new\+\_\+bucket\+\_\+size=0)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_acd5ed5da392407236fbbf0831c2e3d35}\label{structdetail_1_1_bucket_allocator_acd5ed5da392407236fbbf0831c2e3d35}} 
+{\bfseries Bucket\+Allocator} (const Allocator \&al)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a977ab2151d3f8ed47e159ee0933e2246}\label{structdetail_1_1_bucket_allocator_a977ab2151d3f8ed47e159ee0933e2246}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries alloc} (int max\+\_\+size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a47366be6c2ba593525a3e9a2f1cdffb3}\label{structdetail_1_1_bucket_allocator_a47366be6c2ba593525a3e9a2f1cdffb3}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries alloc} (int max\+\_\+size, const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a7acc4fc904a67d38aeb79e0f45a5de99}\label{structdetail_1_1_bucket_allocator_a7acc4fc904a67d38aeb79e0f45a5de99}} 
+void {\bfseries dealloc} (\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$buff)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a5d2885b6a4379242d0b58b4b8fad3643}\label{structdetail_1_1_bucket_allocator_a5d2885b6a4379242d0b58b4b8fad3643}} 
+void {\bfseries destroy\+\_\+all} (\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$$\ast$bs, std\+::size\+\_\+t count)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a495eae8f5bc48c230ef2e68b4f6f4e14}\label{structdetail_1_1_bucket_allocator_a495eae8f5bc48c230ef2e68b4f6f4e14}} 
+void {\bfseries init} (std\+::size\+\_\+t bcount, int bsize)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_ae872694f6bf4a66eb5ed53ee2633c456}\label{structdetail_1_1_bucket_allocator_ae872694f6bf4a66eb5ed53ee2633c456}} 
+void {\bfseries recyclate} (const \mbox{\hyperlink{structdetail_1_1_bucket_allocator}{Bucket\+Allocator}}$<$ T, Allocator $>$ \&old)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_acd5ed5da392407236fbbf0831c2e3d35}\label{structdetail_1_1_bucket_allocator_acd5ed5da392407236fbbf0831c2e3d35}} 
+{\bfseries Bucket\+Allocator} (const Allocator \&al)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a977ab2151d3f8ed47e159ee0933e2246}\label{structdetail_1_1_bucket_allocator_a977ab2151d3f8ed47e159ee0933e2246}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries alloc} (int max\+\_\+size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a47366be6c2ba593525a3e9a2f1cdffb3}\label{structdetail_1_1_bucket_allocator_a47366be6c2ba593525a3e9a2f1cdffb3}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$ {\bfseries alloc} (int max\+\_\+size, const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a7acc4fc904a67d38aeb79e0f45a5de99}\label{structdetail_1_1_bucket_allocator_a7acc4fc904a67d38aeb79e0f45a5de99}} 
+void {\bfseries dealloc} (\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$buff)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a5d2885b6a4379242d0b58b4b8fad3643}\label{structdetail_1_1_bucket_allocator_a5d2885b6a4379242d0b58b4b8fad3643}} 
+void {\bfseries destroy\+\_\+all} (\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Bucket\+Type}} $\ast$$\ast$bs, std\+::size\+\_\+t count)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_a495eae8f5bc48c230ef2e68b4f6f4e14}\label{structdetail_1_1_bucket_allocator_a495eae8f5bc48c230ef2e68b4f6f4e14}} 
+void {\bfseries init} (std\+::size\+\_\+t bcount, int bsize)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_ae872694f6bf4a66eb5ed53ee2633c456}\label{structdetail_1_1_bucket_allocator_ae872694f6bf4a66eb5ed53ee2633c456}} 
+void {\bfseries recyclate} (const \mbox{\hyperlink{structdetail_1_1_bucket_allocator}{Bucket\+Allocator}}$<$ T, Allocator $>$ \&old)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_aaf637b994a8f5b2340c531c4710cafe6}\label{structdetail_1_1_bucket_allocator_aaf637b994a8f5b2340c531c4710cafe6}} 
+Allocator {\bfseries allocator}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_aae62282872097d3fda014959718198d9}\label{structdetail_1_1_bucket_allocator_aae62282872097d3fda014959718198d9}} 
+int {\bfseries bucket\+\_\+size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_bucket_allocator_afd913669cc12b3e49de1eb6d0d6a4dff}\label{structdetail_1_1_bucket_allocator_afd913669cc12b3e49de1eb6d0d6a4dff}} 
+Mem\+Pool\+Type {\bfseries pool}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator$>$\newline
+struct detail\+::\+Bucket\+Allocator$<$ T, Allocator $>$}
+
+Bucket allocator/deallocator class. This version uses a mem\+\_\+pool\+\_\+void object to allocate/deallocate buckets. 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+deque2\+\_\+union.\+hpp\item 
+deque\+\_\+save.\+hpp\item 
+deque\+\_\+save.\+txt\end{DoxyCompactItemize}

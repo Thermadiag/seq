@@ -1,0 +1,272 @@
+\hypertarget{classseq_1_1numeric__format}{}\doxysection{seq\+::numeric\+\_\+format Class Reference}
+\label{classseq_1_1numeric__format}\index{seq::numeric\_format@{seq::numeric\_format}}
+
+
+Formatting options for arithmetic types.  
+
+
+
+
+{\ttfamily \#include $<$format.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classseq_1_1numeric__format_a41d9d6be3ef7cbdda3481798101c2165}{numeric\+\_\+format}} ()
+\item 
+\mbox{\hyperlink{classseq_1_1numeric__format_a23956a595bd8ddb1cc5361d9c40a53e1}{numeric\+\_\+format}} (char base\+\_\+or\+\_\+format)
+\item 
+char \mbox{\hyperlink{classseq_1_1numeric__format_aeda7ae9a71d21745877956804939b49a}{base}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the base for integral types. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{classseq_1_1numeric__format_a4d81228d7b3f7ee86250e752dc27d198}{format}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the format for integral types. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{classseq_1_1numeric__format_a81ba4c2d6f474fe5fe66eafdc27fa014}{dot}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the format dot character for floating point types. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{classseq_1_1numeric__format_af1183bf9c3ea33fd4543961e3a0fe42e}{precision}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the precision for floating point types. \end{DoxyCompactList}\item 
+unsigned char \mbox{\hyperlink{classseq_1_1numeric__format_aee835fcaeebaa77b258736ae734499b8}{formatting}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the formatting options for integral types. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_a836da84231093faff7a85da099c2dc9e}{base}} (char \mbox{\hyperlink{classseq_1_1numeric__format_ad948251b450078eb395a3baa54575030}{b}}) noexcept
+\begin{DoxyCompactList}\small\item\em Set the base for integral types. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_ad948251b450078eb395a3baa54575030}{b}} (char \+\_\+b) noexcept
+\begin{DoxyCompactList}\small\item\em Set the base for integral types. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_a586136f20430cc96768d84ddf2bf505c}{format}} (char \mbox{\hyperlink{classseq_1_1numeric__format_ad948251b450078eb395a3baa54575030}{b}}) noexcept
+\begin{DoxyCompactList}\small\item\em Set the format for floating point types. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_a82cc576d70a4e933f5b03df4d548a4af}{t}} (char f) noexcept
+\begin{DoxyCompactList}\small\item\em Set the format for floating point types. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_aebe3ff2752d02fd8a85084d340d5fc14}{precision}} (int \mbox{\hyperlink{classseq_1_1numeric__format_a222ee6c8bf568ba7bbeb005df9ad9270}{p}}) noexcept
+\begin{DoxyCompactList}\small\item\em Set the precision for floating point types, default to 6. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_a222ee6c8bf568ba7bbeb005df9ad9270}{p}} (int \+\_\+p) noexcept
+\begin{DoxyCompactList}\small\item\em Set the precision for floating point types, default to 6. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_a02ec9556164f8e63496faef4945785bc}{upper}} () noexcept
+\begin{DoxyCompactList}\small\item\em For integral types only and base $>$ 10, output upper case characters. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_aaa14b1b8da8d849307d8b4bfa876a142}{u}} () noexcept
+\begin{DoxyCompactList}\small\item\em For integral types only and base $>$ 10, output upper case characters. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_a4bdad90c1a3e509f310990270dcc0b44}{hex\+\_\+prefix}} () noexcept
+\begin{DoxyCompactList}\small\item\em For integral types only and base == 16, output \textquotesingle{}0x\textquotesingle{} prefix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_aa7141003aca3b972180229d1e4dd24da}{h}} () noexcept
+\begin{DoxyCompactList}\small\item\em For integral types only and base == 16, output \textquotesingle{}0x\textquotesingle{} prefix. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_a806ba60377a7088d68e3867bcc7f9280}{dot}} (char \mbox{\hyperlink{classseq_1_1numeric__format_a7c464398469afd45170fed2825087e37}{d}}) noexcept
+\begin{DoxyCompactList}\small\item\em For floating point types only, set the dot character (default to \textquotesingle{}.\textquotesingle{}) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_a7c464398469afd45170fed2825087e37}{d}} (char \+\_\+d) noexcept
+\begin{DoxyCompactList}\small\item\em For floating point types only, set the dot character (default to \textquotesingle{}.\textquotesingle{}) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_a66969320eebef49a9a433d0cc01fdab6}{as\+\_\+char}} () noexcept
+\begin{DoxyCompactList}\small\item\em Print integral value as a character. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \& \mbox{\hyperlink{classseq_1_1numeric__format_a9d960d0daf1776e688847ec1621611ff}{c}} () noexcept
+\begin{DoxyCompactList}\small\item\em Print integral value as a character. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Formatting options for arithmetic types. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classseq_1_1numeric__format_a41d9d6be3ef7cbdda3481798101c2165}\label{classseq_1_1numeric__format_a41d9d6be3ef7cbdda3481798101c2165}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!numeric\_format@{numeric\_format}}
+\index{numeric\_format@{numeric\_format}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{numeric\_format()}{numeric\_format()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily seq\+::numeric\+\_\+format\+::numeric\+\_\+format (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a23956a595bd8ddb1cc5361d9c40a53e1}\label{classseq_1_1numeric__format_a23956a595bd8ddb1cc5361d9c40a53e1}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!numeric\_format@{numeric\_format}}
+\index{numeric\_format@{numeric\_format}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{numeric\_format()}{numeric\_format()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily seq\+::numeric\+\_\+format\+::numeric\+\_\+format (\begin{DoxyParamCaption}\item[{char}]{base\+\_\+or\+\_\+format }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1numeric__format_a66969320eebef49a9a433d0cc01fdab6}\label{classseq_1_1numeric__format_a66969320eebef49a9a433d0cc01fdab6}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!as\_char@{as\_char}}
+\index{as\_char@{as\_char}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{as\_char()}{as\_char()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::as\+\_\+char (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Print integral value as a character. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_ad948251b450078eb395a3baa54575030}\label{classseq_1_1numeric__format_ad948251b450078eb395a3baa54575030}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!b@{b}}
+\index{b@{b}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{b()}{b()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::b (\begin{DoxyParamCaption}\item[{char}]{\+\_\+b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the base for integral types. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_aeda7ae9a71d21745877956804939b49a}\label{classseq_1_1numeric__format_aeda7ae9a71d21745877956804939b49a}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!base@{base}}
+\index{base@{base}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{base()}{base()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily char seq\+::numeric\+\_\+format\+::base (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the base for integral types. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a836da84231093faff7a85da099c2dc9e}\label{classseq_1_1numeric__format_a836da84231093faff7a85da099c2dc9e}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!base@{base}}
+\index{base@{base}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{base()}{base()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::base (\begin{DoxyParamCaption}\item[{char}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the base for integral types. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a9d960d0daf1776e688847ec1621611ff}\label{classseq_1_1numeric__format_a9d960d0daf1776e688847ec1621611ff}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!c@{c}}
+\index{c@{c}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{c()}{c()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::c (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Print integral value as a character. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a7c464398469afd45170fed2825087e37}\label{classseq_1_1numeric__format_a7c464398469afd45170fed2825087e37}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!d@{d}}
+\index{d@{d}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{d()}{d()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::d (\begin{DoxyParamCaption}\item[{char}]{\+\_\+d }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For floating point types only, set the dot character (default to \textquotesingle{}.\textquotesingle{}) 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a81ba4c2d6f474fe5fe66eafdc27fa014}\label{classseq_1_1numeric__format_a81ba4c2d6f474fe5fe66eafdc27fa014}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!dot@{dot}}
+\index{dot@{dot}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily char seq\+::numeric\+\_\+format\+::dot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the format dot character for floating point types. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a806ba60377a7088d68e3867bcc7f9280}\label{classseq_1_1numeric__format_a806ba60377a7088d68e3867bcc7f9280}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!dot@{dot}}
+\index{dot@{dot}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::dot (\begin{DoxyParamCaption}\item[{char}]{d }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For floating point types only, set the dot character (default to \textquotesingle{}.\textquotesingle{}) 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a4d81228d7b3f7ee86250e752dc27d198}\label{classseq_1_1numeric__format_a4d81228d7b3f7ee86250e752dc27d198}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!format@{format}}
+\index{format@{format}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{format()}{format()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily char seq\+::numeric\+\_\+format\+::format (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the format for integral types. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a586136f20430cc96768d84ddf2bf505c}\label{classseq_1_1numeric__format_a586136f20430cc96768d84ddf2bf505c}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!format@{format}}
+\index{format@{format}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{format()}{format()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::format (\begin{DoxyParamCaption}\item[{char}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the format for floating point types. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_aee835fcaeebaa77b258736ae734499b8}\label{classseq_1_1numeric__format_aee835fcaeebaa77b258736ae734499b8}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!formatting@{formatting}}
+\index{formatting@{formatting}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{formatting()}{formatting()}}
+{\footnotesize\ttfamily unsigned char seq\+::numeric\+\_\+format\+::formatting (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the formatting options for integral types. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_aa7141003aca3b972180229d1e4dd24da}\label{classseq_1_1numeric__format_aa7141003aca3b972180229d1e4dd24da}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!h@{h}}
+\index{h@{h}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{h()}{h()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::h (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For integral types only and base == 16, output \textquotesingle{}0x\textquotesingle{} prefix. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a4bdad90c1a3e509f310990270dcc0b44}\label{classseq_1_1numeric__format_a4bdad90c1a3e509f310990270dcc0b44}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!hex\_prefix@{hex\_prefix}}
+\index{hex\_prefix@{hex\_prefix}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{hex\_prefix()}{hex\_prefix()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::hex\+\_\+prefix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For integral types only and base == 16, output \textquotesingle{}0x\textquotesingle{} prefix. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a222ee6c8bf568ba7bbeb005df9ad9270}\label{classseq_1_1numeric__format_a222ee6c8bf568ba7bbeb005df9ad9270}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!p@{p}}
+\index{p@{p}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{p()}{p()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::p (\begin{DoxyParamCaption}\item[{int}]{\+\_\+p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the precision for floating point types, default to 6. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_af1183bf9c3ea33fd4543961e3a0fe42e}\label{classseq_1_1numeric__format_af1183bf9c3ea33fd4543961e3a0fe42e}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!precision@{precision}}
+\index{precision@{precision}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{precision()}{precision()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily unsigned char seq\+::numeric\+\_\+format\+::precision (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the precision for floating point types. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_aebe3ff2752d02fd8a85084d340d5fc14}\label{classseq_1_1numeric__format_aebe3ff2752d02fd8a85084d340d5fc14}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!precision@{precision}}
+\index{precision@{precision}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{precision()}{precision()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::precision (\begin{DoxyParamCaption}\item[{int}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the precision for floating point types, default to 6. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a82cc576d70a4e933f5b03df4d548a4af}\label{classseq_1_1numeric__format_a82cc576d70a4e933f5b03df4d548a4af}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!t@{t}}
+\index{t@{t}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{t()}{t()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::t (\begin{DoxyParamCaption}\item[{char}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the format for floating point types. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_aaa14b1b8da8d849307d8b4bfa876a142}\label{classseq_1_1numeric__format_aaa14b1b8da8d849307d8b4bfa876a142}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!u@{u}}
+\index{u@{u}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{u()}{u()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::u (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For integral types only and base $>$ 10, output upper case characters. 
+
+\mbox{\Hypertarget{classseq_1_1numeric__format_a02ec9556164f8e63496faef4945785bc}\label{classseq_1_1numeric__format_a02ec9556164f8e63496faef4945785bc}} 
+\index{seq::numeric\_format@{seq::numeric\_format}!upper@{upper}}
+\index{upper@{upper}!seq::numeric\_format@{seq::numeric\_format}}
+\doxysubsubsection{\texorpdfstring{upper()}{upper()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}}\& seq\+::numeric\+\_\+format\+::upper (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For integral types only and base $>$ 10, output upper case characters. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{format_8hpp}{format.\+hpp}}\end{DoxyCompactItemize}

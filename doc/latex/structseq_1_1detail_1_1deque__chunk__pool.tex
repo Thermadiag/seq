@@ -1,0 +1,264 @@
+\hypertarget{structseq_1_1detail_1_1deque__chunk__pool}{}\doxysection{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool$<$ T, Allocator $>$ Struct Template Reference}
+\label{structseq_1_1detail_1_1deque__chunk__pool}\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+
+
+{\ttfamily \#include $<$deque\+\_\+allocator.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class U $>$ }\\using \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a55662f6f809e36eddc7585c70ed41e7a}{Rebind\+Alloc}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_ac4a7e6886019f3ce519a4436b797a2db}{set\+\_\+next}} (T $\ast$p, T $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_af74b24ba1f0ca45e81d51588b4df837d}{next}})
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_af74b24ba1f0ca45e81d51588b4df837d}{next}} (T $\ast$p)
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a73298698ca320c1dd8b8c3fce5f02499}{T\+\_\+per\+\_\+chunk}} () const noexcept
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_ae366e8eabc6f483158635d5e5c778de1}{chunk\+At}} (size\+\_\+t i) noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a45d3b7cac5c6d1f453d182a6ad7ad896}{index\+Of\+Chunk}} (const T $\ast$ch) const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a2ca7e180adcda9b81ca5c1b86cbee7fc}{deque\+\_\+chunk\+\_\+pool}} (const Allocator \&al=Allocator()) noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_af33b2137624547469f0d784cac2596f7}{deque\+\_\+chunk\+\_\+pool}} (const Allocator \&al, size\+\_\+t elems, size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a2595cde82492c377da69d47ec213b901}{elems\+\_\+per\+\_\+chunk}})
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a6cfa86a53bbe786ed176d4147262648c}{deque\+\_\+chunk\+\_\+pool}} (const \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&other)=delete
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \& \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a590291dadf403d9cc61c991098f46cc7}{operator=}} (const \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&other)=delete
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_addb7cacaf141e6107a8e4fc8a47d30c0}{$\sim$deque\+\_\+chunk\+\_\+pool}} () noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_acd31c94c0b4c914c6fac3fc9df77ab6c}{deque\+\_\+chunk\+\_\+pool}} (\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&\&other) noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \& \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_aa90633c5d48b6febd6a48fe4eca47527}{operator=}} (\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&\&other) noexcept
+\item 
+bool \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_aa57bcacc515e5c81d1ad03a058c0df42}{rebind\+\_\+for}} (size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a2595cde82492c377da69d47ec213b901}{elems\+\_\+per\+\_\+chunk}})
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_acba6e8b16da78814c52f68572aaccda5}{is\+\_\+inside}} (void $\ast$ptr) const noexcept
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a83ee3d77d70aa91069bddf53593ec3d7}{allocate}} () noexcept
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_ab98b5586dcae96cf34fc702dbf57319e}{deallocate}} (T $\ast$ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a3e107e969a77634aa0d3bd5191ee0fbe}{count}}
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a4f80c116944593c46d4977084072735e}{used}}
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a2595cde82492c377da69d47ec213b901}{elems\+\_\+per\+\_\+chunk}}
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_ac13d5d73aa5d0a84b3a7d49c7c083566}{tail}}
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_ace66f0a06579be21197558cf77e15b08}{total\+\_\+T}}
+\item 
+Allocator \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_ae8d05f7e0a786cd7fc80c2203b4d9f48}{allocator}}
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a8680024aba525f53e593bc6d3e19f9b4}{chunks}}
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_ab9efdd0f2018187377d07d16146a60a9}{first\+\_\+free}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator$>$\newline
+struct seq\+::detail\+::deque\+\_\+chunk\+\_\+pool$<$ T, Allocator $>$}
+
+Allocate list\+\_\+chunk$<$\+T$>$ object by continuous blocks 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_a55662f6f809e36eddc7585c70ed41e7a}\label{structseq_1_1detail_1_1deque__chunk__pool_a55662f6f809e36eddc7585c70ed41e7a}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!RebindAlloc@{RebindAlloc}}
+\index{RebindAlloc@{RebindAlloc}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{RebindAlloc}{RebindAlloc}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$class U $>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool_a55662f6f809e36eddc7585c70ed41e7a}{Rebind\+Alloc}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::template rebind\+\_\+alloc$<$U$>$}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_a2ca7e180adcda9b81ca5c1b86cbee7fc}\label{structseq_1_1detail_1_1deque__chunk__pool_a2ca7e180adcda9b81ca5c1b86cbee7fc}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!deque\_chunk\_pool@{deque\_chunk\_pool}}
+\index{deque\_chunk\_pool@{deque\_chunk\_pool}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{deque\_chunk\_pool()}{deque\_chunk\_pool()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{al = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_af33b2137624547469f0d784cac2596f7}\label{structseq_1_1detail_1_1deque__chunk__pool_af33b2137624547469f0d784cac2596f7}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!deque\_chunk\_pool@{deque\_chunk\_pool}}
+\index{deque\_chunk\_pool@{deque\_chunk\_pool}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{deque\_chunk\_pool()}{deque\_chunk\_pool()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{al,  }\item[{size\+\_\+t}]{elems,  }\item[{size\+\_\+t}]{elems\+\_\+per\+\_\+chunk }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_a6cfa86a53bbe786ed176d4147262648c}\label{structseq_1_1detail_1_1deque__chunk__pool_a6cfa86a53bbe786ed176d4147262648c}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!deque\_chunk\_pool@{deque\_chunk\_pool}}
+\index{deque\_chunk\_pool@{deque\_chunk\_pool}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{deque\_chunk\_pool()}{deque\_chunk\_pool()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_addb7cacaf141e6107a8e4fc8a47d30c0}\label{structseq_1_1detail_1_1deque__chunk__pool_addb7cacaf141e6107a8e4fc8a47d30c0}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!````~deque\_chunk\_pool@{$\sim$deque\_chunk\_pool}}
+\index{````~deque\_chunk\_pool@{$\sim$deque\_chunk\_pool}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{$\sim$deque\_chunk\_pool()}{~deque\_chunk\_pool()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::$\sim$\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_acd31c94c0b4c914c6fac3fc9df77ab6c}\label{structseq_1_1detail_1_1deque__chunk__pool_acd31c94c0b4c914c6fac3fc9df77ab6c}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!deque\_chunk\_pool@{deque\_chunk\_pool}}
+\index{deque\_chunk\_pool@{deque\_chunk\_pool}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{deque\_chunk\_pool()}{deque\_chunk\_pool()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_a83ee3d77d70aa91069bddf53593ec3d7}\label{structseq_1_1detail_1_1deque__chunk__pool_a83ee3d77d70aa91069bddf53593ec3d7}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!allocate@{allocate}}
+\index{allocate@{allocate}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::allocate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_ae366e8eabc6f483158635d5e5c778de1}\label{structseq_1_1detail_1_1deque__chunk__pool_ae366e8eabc6f483158635d5e5c778de1}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!chunkAt@{chunkAt}}
+\index{chunkAt@{chunkAt}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{chunkAt()}{chunkAt()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::chunk\+At (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_ab98b5586dcae96cf34fc702dbf57319e}\label{structseq_1_1detail_1_1deque__chunk__pool_ab98b5586dcae96cf34fc702dbf57319e}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!deallocate@{deallocate}}
+\index{deallocate@{deallocate}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{deallocate()}{deallocate()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::deallocate (\begin{DoxyParamCaption}\item[{T $\ast$}]{ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_a45d3b7cac5c6d1f453d182a6ad7ad896}\label{structseq_1_1detail_1_1deque__chunk__pool_a45d3b7cac5c6d1f453d182a6ad7ad896}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!indexOfChunk@{indexOfChunk}}
+\index{indexOfChunk@{indexOfChunk}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{indexOfChunk()}{indexOfChunk()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::index\+Of\+Chunk (\begin{DoxyParamCaption}\item[{const T $\ast$}]{ch }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_acba6e8b16da78814c52f68572aaccda5}\label{structseq_1_1detail_1_1deque__chunk__pool_acba6e8b16da78814c52f68572aaccda5}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!is\_inside@{is\_inside}}
+\index{is\_inside@{is\_inside}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{is\_inside()}{is\_inside()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::is\+\_\+inside (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_af74b24ba1f0ca45e81d51588b4df837d}\label{structseq_1_1detail_1_1deque__chunk__pool_af74b24ba1f0ca45e81d51588b4df837d}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!next@{next}}
+\index{next@{next}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{next()}{next()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::next (\begin{DoxyParamCaption}\item[{T $\ast$}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_a590291dadf403d9cc61c991098f46cc7}\label{structseq_1_1detail_1_1deque__chunk__pool_a590291dadf403d9cc61c991098f46cc7}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}}\& \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_aa90633c5d48b6febd6a48fe4eca47527}\label{structseq_1_1detail_1_1deque__chunk__pool_aa90633c5d48b6febd6a48fe4eca47527}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}}\& \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_aa57bcacc515e5c81d1ad03a058c0df42}\label{structseq_1_1detail_1_1deque__chunk__pool_aa57bcacc515e5c81d1ad03a058c0df42}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!rebind\_for@{rebind\_for}}
+\index{rebind\_for@{rebind\_for}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{rebind\_for()}{rebind\_for()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+bool \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::rebind\+\_\+for (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{elems\+\_\+per\+\_\+chunk }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_ac4a7e6886019f3ce519a4436b797a2db}\label{structseq_1_1detail_1_1deque__chunk__pool_ac4a7e6886019f3ce519a4436b797a2db}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!set\_next@{set\_next}}
+\index{set\_next@{set\_next}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{set\_next()}{set\_next()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::set\+\_\+next (\begin{DoxyParamCaption}\item[{T $\ast$}]{p,  }\item[{T $\ast$}]{next }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_a73298698ca320c1dd8b8c3fce5f02499}\label{structseq_1_1detail_1_1deque__chunk__pool_a73298698ca320c1dd8b8c3fce5f02499}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!T\_per\_chunk@{T\_per\_chunk}}
+\index{T\_per\_chunk@{T\_per\_chunk}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{T\_per\_chunk()}{T\_per\_chunk()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::T\+\_\+per\+\_\+chunk (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_ae8d05f7e0a786cd7fc80c2203b4d9f48}\label{structseq_1_1detail_1_1deque__chunk__pool_ae8d05f7e0a786cd7fc80c2203b4d9f48}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!allocator@{allocator}}
+\index{allocator@{allocator}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{allocator}{allocator}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+Allocator \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::allocator}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_a8680024aba525f53e593bc6d3e19f9b4}\label{structseq_1_1detail_1_1deque__chunk__pool_a8680024aba525f53e593bc6d3e19f9b4}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!chunks@{chunks}}
+\index{chunks@{chunks}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{chunks}{chunks}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::chunks}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_a3e107e969a77634aa0d3bd5191ee0fbe}\label{structseq_1_1detail_1_1deque__chunk__pool_a3e107e969a77634aa0d3bd5191ee0fbe}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!count@{count}}
+\index{count@{count}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{count}{count}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::count}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_a2595cde82492c377da69d47ec213b901}\label{structseq_1_1detail_1_1deque__chunk__pool_a2595cde82492c377da69d47ec213b901}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!elems\_per\_chunk@{elems\_per\_chunk}}
+\index{elems\_per\_chunk@{elems\_per\_chunk}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{elems\_per\_chunk}{elems\_per\_chunk}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::elems\+\_\+per\+\_\+chunk}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_ab9efdd0f2018187377d07d16146a60a9}\label{structseq_1_1detail_1_1deque__chunk__pool_ab9efdd0f2018187377d07d16146a60a9}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!first\_free@{first\_free}}
+\index{first\_free@{first\_free}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{first\_free}{first\_free}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::first\+\_\+free}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_ac13d5d73aa5d0a84b3a7d49c7c083566}\label{structseq_1_1detail_1_1deque__chunk__pool_ac13d5d73aa5d0a84b3a7d49c7c083566}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!tail@{tail}}
+\index{tail@{tail}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{tail}{tail}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::tail}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_ace66f0a06579be21197558cf77e15b08}\label{structseq_1_1detail_1_1deque__chunk__pool_ace66f0a06579be21197558cf77e15b08}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!total\_T@{total\_T}}
+\index{total\_T@{total\_T}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{total\_T}{total\_T}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::total\+\_\+T}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__chunk__pool_a4f80c116944593c46d4977084072735e}\label{structseq_1_1detail_1_1deque__chunk__pool_a4f80c116944593c46d4977084072735e}} 
+\index{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}!used@{used}}
+\index{used@{used}!seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$@{seq::detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{used}{used}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool}{seq\+::detail\+::deque\+\_\+chunk\+\_\+pool}}$<$ T, Allocator $>$\+::used}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{deque__allocator_8hpp}{deque\+\_\+allocator.\+hpp}}\end{DoxyCompactItemize}

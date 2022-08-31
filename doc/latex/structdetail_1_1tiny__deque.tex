@@ -1,0 +1,302 @@
+\hypertarget{structdetail_1_1tiny__deque}{}\doxysection{detail\+::tiny\+\_\+deque$<$ T, Al $>$ Struct Template Reference}
+\label{structdetail_1_1tiny__deque}\index{detail::tiny\_deque$<$ T, Al $>$@{detail::tiny\_deque$<$ T, Al $>$}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structdetail_1_1tiny__deque_1_1bucket}{bucket}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a1a973499d188a672770d4a46d1d730ca}\label{structdetail_1_1tiny__deque_a1a973499d188a672770d4a46d1d730ca}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a94391677c5624bc90dc822142383bc54}\label{structdetail_1_1tiny__deque_a94391677c5624bc90dc822142383bc54}} 
+using {\bfseries size\+\_\+type} = size\+\_\+t
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_affb6e1b20c531a4a5da50d27c0617222}\label{structdetail_1_1tiny__deque_affb6e1b20c531a4a5da50d27c0617222}} 
+using {\bfseries difference\+\_\+type} = std\+::intptr\+\_\+t
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a66440f382f4aac81ade57b894d53aa54}\label{structdetail_1_1tiny__deque_a66440f382f4aac81ade57b894d53aa54}} 
+using {\bfseries pointer} = T $\ast$
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a7b8475b624f52a760addeacb7035eb24}\label{structdetail_1_1tiny__deque_a7b8475b624f52a760addeacb7035eb24}} 
+using {\bfseries reference} = T \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a71c8e5d6cf10cc7f1cde300de41c3354}\label{structdetail_1_1tiny__deque_a71c8e5d6cf10cc7f1cde300de41c3354}} 
+using {\bfseries const\+\_\+pointer} = const T $\ast$
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a3d07e12f6e35e7e99220797343ff0774}\label{structdetail_1_1tiny__deque_a3d07e12f6e35e7e99220797343ff0774}} 
+using {\bfseries const\+\_\+reference} = const T \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a3c6d6c177e3e43ac508814e14e0829ee}\label{structdetail_1_1tiny__deque_a3c6d6c177e3e43ac508814e14e0829ee}} 
+using {\bfseries const\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1td__const__iterator}{td\+\_\+const\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}}$<$ T, Al $>$ $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a59f2a198c0135f4a10446b2550237976}\label{structdetail_1_1tiny__deque_a59f2a198c0135f4a10446b2550237976}} 
+using {\bfseries iterator} = \mbox{\hyperlink{structdetail_1_1td__iterator}{td\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}}$<$ T, Al $>$ $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a1a973499d188a672770d4a46d1d730ca}\label{structdetail_1_1tiny__deque_a1a973499d188a672770d4a46d1d730ca}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a94391677c5624bc90dc822142383bc54}\label{structdetail_1_1tiny__deque_a94391677c5624bc90dc822142383bc54}} 
+using {\bfseries size\+\_\+type} = size\+\_\+t
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_affb6e1b20c531a4a5da50d27c0617222}\label{structdetail_1_1tiny__deque_affb6e1b20c531a4a5da50d27c0617222}} 
+using {\bfseries difference\+\_\+type} = std\+::intptr\+\_\+t
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a66440f382f4aac81ade57b894d53aa54}\label{structdetail_1_1tiny__deque_a66440f382f4aac81ade57b894d53aa54}} 
+using {\bfseries pointer} = T $\ast$
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a7b8475b624f52a760addeacb7035eb24}\label{structdetail_1_1tiny__deque_a7b8475b624f52a760addeacb7035eb24}} 
+using {\bfseries reference} = T \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a71c8e5d6cf10cc7f1cde300de41c3354}\label{structdetail_1_1tiny__deque_a71c8e5d6cf10cc7f1cde300de41c3354}} 
+using {\bfseries const\+\_\+pointer} = const T $\ast$
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a3d07e12f6e35e7e99220797343ff0774}\label{structdetail_1_1tiny__deque_a3d07e12f6e35e7e99220797343ff0774}} 
+using {\bfseries const\+\_\+reference} = const T \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a3c6d6c177e3e43ac508814e14e0829ee}\label{structdetail_1_1tiny__deque_a3c6d6c177e3e43ac508814e14e0829ee}} 
+using {\bfseries const\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1td__const__iterator}{td\+\_\+const\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}}$<$ T, Al $>$ $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a59f2a198c0135f4a10446b2550237976}\label{structdetail_1_1tiny__deque_a59f2a198c0135f4a10446b2550237976}} 
+using {\bfseries iterator} = \mbox{\hyperlink{structdetail_1_1td__iterator}{td\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}}$<$ T, Al $>$ $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a1a973499d188a672770d4a46d1d730ca}\label{structdetail_1_1tiny__deque_a1a973499d188a672770d4a46d1d730ca}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a94391677c5624bc90dc822142383bc54}\label{structdetail_1_1tiny__deque_a94391677c5624bc90dc822142383bc54}} 
+using {\bfseries size\+\_\+type} = size\+\_\+t
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_affb6e1b20c531a4a5da50d27c0617222}\label{structdetail_1_1tiny__deque_affb6e1b20c531a4a5da50d27c0617222}} 
+using {\bfseries difference\+\_\+type} = std\+::intptr\+\_\+t
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a66440f382f4aac81ade57b894d53aa54}\label{structdetail_1_1tiny__deque_a66440f382f4aac81ade57b894d53aa54}} 
+using {\bfseries pointer} = T $\ast$
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a7b8475b624f52a760addeacb7035eb24}\label{structdetail_1_1tiny__deque_a7b8475b624f52a760addeacb7035eb24}} 
+using {\bfseries reference} = T \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a71c8e5d6cf10cc7f1cde300de41c3354}\label{structdetail_1_1tiny__deque_a71c8e5d6cf10cc7f1cde300de41c3354}} 
+using {\bfseries const\+\_\+pointer} = const T $\ast$
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a3d07e12f6e35e7e99220797343ff0774}\label{structdetail_1_1tiny__deque_a3d07e12f6e35e7e99220797343ff0774}} 
+using {\bfseries const\+\_\+reference} = const T \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a3c6d6c177e3e43ac508814e14e0829ee}\label{structdetail_1_1tiny__deque_a3c6d6c177e3e43ac508814e14e0829ee}} 
+using {\bfseries const\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1td__const__iterator}{td\+\_\+const\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}}$<$ T, Al $>$ $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a59f2a198c0135f4a10446b2550237976}\label{structdetail_1_1tiny__deque_a59f2a198c0135f4a10446b2550237976}} 
+using {\bfseries iterator} = \mbox{\hyperlink{structdetail_1_1td__iterator}{td\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}}$<$ T, Al $>$ $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a4651cc83fb464ec77e6345f35e9bd451}\label{structdetail_1_1tiny__deque_a4651cc83fb464ec77e6345f35e9bd451}} 
+{\bfseries tiny\+\_\+deque} (const Al \&al=Al())
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_aa712ed34ab8d38bf10dc6acb55327e6f}\label{structdetail_1_1tiny__deque_aa712ed34ab8d38bf10dc6acb55327e6f}} 
+{\bfseries tiny\+\_\+deque} (\mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}} \&\&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a08803bfd6d7bcaf69468c9552229a8b9}\label{structdetail_1_1tiny__deque_a08803bfd6d7bcaf69468c9552229a8b9}} 
+\mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}} \& {\bfseries operator=} (\mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}} \&\&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a5f046f9cc70c9417061deee67ff549ec}\label{structdetail_1_1tiny__deque_a5f046f9cc70c9417061deee67ff549ec}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a631b14bba788f6e67f8aeb60a763a93d}\label{structdetail_1_1tiny__deque_a631b14bba788f6e67f8aeb60a763a93d}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ae34dee0680b1488ca606620d4d6d4ea5}\label{structdetail_1_1tiny__deque_ae34dee0680b1488ca606620d4d6d4ea5}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries empty} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ac8e0d738f442181448413bbcc3b2db78}\label{structdetail_1_1tiny__deque_ac8e0d738f442181448413bbcc3b2db78}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t i)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ab8e6800e26b2227fe4d8b29132819ac6}\label{structdetail_1_1tiny__deque_ab8e6800e26b2227fe4d8b29132819ac6}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t i) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a1fe6ad172be2bcb474a89139554f30a8}\label{structdetail_1_1tiny__deque_a1fe6ad172be2bcb474a89139554f30a8}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries back} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ab7b1610378bd4a6c22f1264d8159ea96}\label{structdetail_1_1tiny__deque_ab7b1610378bd4a6c22f1264d8159ea96}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries back} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ac8412370a0c97d2747895f996e4f7cd2}\label{structdetail_1_1tiny__deque_ac8412370a0c97d2747895f996e4f7cd2}} 
+void {\bfseries push\+\_\+back} (T \&\&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a7e22b1c6e470907f7748f095d27cd241}\label{structdetail_1_1tiny__deque_a7e22b1c6e470907f7748f095d27cd241}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries reserve} (size\+\_\+t)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a3e06f6c30dc7cde53b6b837271e0bd8f}\label{structdetail_1_1tiny__deque_a3e06f6c30dc7cde53b6b837271e0bd8f}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries capacity} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ac14e000fb609ddd2085e741a5c4bf926}\label{structdetail_1_1tiny__deque_ac14e000fb609ddd2085e741a5c4bf926}} 
+void {\bfseries resize} (size\+\_\+t new\+\_\+size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ab9f0336ebc6d17eea3ff56f27e55522f}\label{structdetail_1_1tiny__deque_ab9f0336ebc6d17eea3ff56f27e55522f}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__iterator}{iterator}} {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a9023b0cf57506fb17a955edef996d2e0}\label{structdetail_1_1tiny__deque_a9023b0cf57506fb17a955edef996d2e0}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries begin} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a8f1cf826ba546804fb02393822fa7667}\label{structdetail_1_1tiny__deque_a8f1cf826ba546804fb02393822fa7667}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries cbegin} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a613a8c6a432e793351797ea218421c61}\label{structdetail_1_1tiny__deque_a613a8c6a432e793351797ea218421c61}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__iterator}{iterator}} {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a0e12f266c72fcb7e713c2aa373618d14}\label{structdetail_1_1tiny__deque_a0e12f266c72fcb7e713c2aa373618d14}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries end} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ac1643a1eaaf7d51493430c06cc613902}\label{structdetail_1_1tiny__deque_ac1643a1eaaf7d51493430c06cc613902}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries cend} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a4651cc83fb464ec77e6345f35e9bd451}\label{structdetail_1_1tiny__deque_a4651cc83fb464ec77e6345f35e9bd451}} 
+{\bfseries tiny\+\_\+deque} (const Al \&al=Al())
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_aa712ed34ab8d38bf10dc6acb55327e6f}\label{structdetail_1_1tiny__deque_aa712ed34ab8d38bf10dc6acb55327e6f}} 
+{\bfseries tiny\+\_\+deque} (\mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}} \&\&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a08803bfd6d7bcaf69468c9552229a8b9}\label{structdetail_1_1tiny__deque_a08803bfd6d7bcaf69468c9552229a8b9}} 
+\mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}} \& {\bfseries operator=} (\mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}} \&\&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a5f046f9cc70c9417061deee67ff549ec}\label{structdetail_1_1tiny__deque_a5f046f9cc70c9417061deee67ff549ec}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a631b14bba788f6e67f8aeb60a763a93d}\label{structdetail_1_1tiny__deque_a631b14bba788f6e67f8aeb60a763a93d}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ae34dee0680b1488ca606620d4d6d4ea5}\label{structdetail_1_1tiny__deque_ae34dee0680b1488ca606620d4d6d4ea5}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries empty} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ac8e0d738f442181448413bbcc3b2db78}\label{structdetail_1_1tiny__deque_ac8e0d738f442181448413bbcc3b2db78}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t i)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ab8e6800e26b2227fe4d8b29132819ac6}\label{structdetail_1_1tiny__deque_ab8e6800e26b2227fe4d8b29132819ac6}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t i) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a1fe6ad172be2bcb474a89139554f30a8}\label{structdetail_1_1tiny__deque_a1fe6ad172be2bcb474a89139554f30a8}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries back} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ab7b1610378bd4a6c22f1264d8159ea96}\label{structdetail_1_1tiny__deque_ab7b1610378bd4a6c22f1264d8159ea96}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries back} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a28d9122f646e5f80a99ae409f79bc096}\label{structdetail_1_1tiny__deque_a28d9122f646e5f80a99ae409f79bc096}} 
+void {\bfseries push\+\_\+back} (const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a7e22b1c6e470907f7748f095d27cd241}\label{structdetail_1_1tiny__deque_a7e22b1c6e470907f7748f095d27cd241}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries reserve} (size\+\_\+t)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a3e06f6c30dc7cde53b6b837271e0bd8f}\label{structdetail_1_1tiny__deque_a3e06f6c30dc7cde53b6b837271e0bd8f}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries capacity} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ac14e000fb609ddd2085e741a5c4bf926}\label{structdetail_1_1tiny__deque_ac14e000fb609ddd2085e741a5c4bf926}} 
+void {\bfseries resize} (size\+\_\+t new\+\_\+size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ab9f0336ebc6d17eea3ff56f27e55522f}\label{structdetail_1_1tiny__deque_ab9f0336ebc6d17eea3ff56f27e55522f}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__iterator}{iterator}} {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a9023b0cf57506fb17a955edef996d2e0}\label{structdetail_1_1tiny__deque_a9023b0cf57506fb17a955edef996d2e0}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries begin} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a8f1cf826ba546804fb02393822fa7667}\label{structdetail_1_1tiny__deque_a8f1cf826ba546804fb02393822fa7667}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries cbegin} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a613a8c6a432e793351797ea218421c61}\label{structdetail_1_1tiny__deque_a613a8c6a432e793351797ea218421c61}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__iterator}{iterator}} {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a0e12f266c72fcb7e713c2aa373618d14}\label{structdetail_1_1tiny__deque_a0e12f266c72fcb7e713c2aa373618d14}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries end} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ac1643a1eaaf7d51493430c06cc613902}\label{structdetail_1_1tiny__deque_ac1643a1eaaf7d51493430c06cc613902}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries cend} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a4651cc83fb464ec77e6345f35e9bd451}\label{structdetail_1_1tiny__deque_a4651cc83fb464ec77e6345f35e9bd451}} 
+{\bfseries tiny\+\_\+deque} (const Al \&al=Al())
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_aa712ed34ab8d38bf10dc6acb55327e6f}\label{structdetail_1_1tiny__deque_aa712ed34ab8d38bf10dc6acb55327e6f}} 
+{\bfseries tiny\+\_\+deque} (\mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}} \&\&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a08803bfd6d7bcaf69468c9552229a8b9}\label{structdetail_1_1tiny__deque_a08803bfd6d7bcaf69468c9552229a8b9}} 
+\mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}} \& {\bfseries operator=} (\mbox{\hyperlink{structdetail_1_1tiny__deque}{tiny\+\_\+deque}} \&\&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a5f046f9cc70c9417061deee67ff549ec}\label{structdetail_1_1tiny__deque_a5f046f9cc70c9417061deee67ff549ec}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a631b14bba788f6e67f8aeb60a763a93d}\label{structdetail_1_1tiny__deque_a631b14bba788f6e67f8aeb60a763a93d}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ae34dee0680b1488ca606620d4d6d4ea5}\label{structdetail_1_1tiny__deque_ae34dee0680b1488ca606620d4d6d4ea5}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries empty} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ac8e0d738f442181448413bbcc3b2db78}\label{structdetail_1_1tiny__deque_ac8e0d738f442181448413bbcc3b2db78}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t i)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ab8e6800e26b2227fe4d8b29132819ac6}\label{structdetail_1_1tiny__deque_ab8e6800e26b2227fe4d8b29132819ac6}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t i) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a1fe6ad172be2bcb474a89139554f30a8}\label{structdetail_1_1tiny__deque_a1fe6ad172be2bcb474a89139554f30a8}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries back} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ab7b1610378bd4a6c22f1264d8159ea96}\label{structdetail_1_1tiny__deque_ab7b1610378bd4a6c22f1264d8159ea96}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries back} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a28d9122f646e5f80a99ae409f79bc096}\label{structdetail_1_1tiny__deque_a28d9122f646e5f80a99ae409f79bc096}} 
+void {\bfseries push\+\_\+back} (const T \&val)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a7e22b1c6e470907f7748f095d27cd241}\label{structdetail_1_1tiny__deque_a7e22b1c6e470907f7748f095d27cd241}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries reserve} (size\+\_\+t)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a3e06f6c30dc7cde53b6b837271e0bd8f}\label{structdetail_1_1tiny__deque_a3e06f6c30dc7cde53b6b837271e0bd8f}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries capacity} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ac14e000fb609ddd2085e741a5c4bf926}\label{structdetail_1_1tiny__deque_ac14e000fb609ddd2085e741a5c4bf926}} 
+void {\bfseries resize} (size\+\_\+t new\+\_\+size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ab9f0336ebc6d17eea3ff56f27e55522f}\label{structdetail_1_1tiny__deque_ab9f0336ebc6d17eea3ff56f27e55522f}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__iterator}{iterator}} {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a9023b0cf57506fb17a955edef996d2e0}\label{structdetail_1_1tiny__deque_a9023b0cf57506fb17a955edef996d2e0}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries begin} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a8f1cf826ba546804fb02393822fa7667}\label{structdetail_1_1tiny__deque_a8f1cf826ba546804fb02393822fa7667}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries cbegin} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a613a8c6a432e793351797ea218421c61}\label{structdetail_1_1tiny__deque_a613a8c6a432e793351797ea218421c61}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__iterator}{iterator}} {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a0e12f266c72fcb7e713c2aa373618d14}\label{structdetail_1_1tiny__deque_a0e12f266c72fcb7e713c2aa373618d14}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries end} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ac1643a1eaaf7d51493430c06cc613902}\label{structdetail_1_1tiny__deque_ac1643a1eaaf7d51493430c06cc613902}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1td__const__iterator}{const\+\_\+iterator}} {\bfseries cend} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a89bb62ce7066fc109f577142c4983b61}\label{structdetail_1_1tiny__deque_a89bb62ce7066fc109f577142c4983b61}} 
+std\+::vector$<$ \mbox{\hyperlink{structdetail_1_1tiny__deque_1_1bucket}{bucket}}$<$ T $>$ $>$ {\bfseries d\+\_\+buckets}
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_aac434dc17ed9e30aa95d570ed8f153e7}\label{structdetail_1_1tiny__deque_aac434dc17ed9e30aa95d570ed8f153e7}} 
+size\+\_\+t {\bfseries d\+\_\+size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a0e596f841d5ede7798d4b53724739a17}\label{structdetail_1_1tiny__deque_a0e596f841d5ede7798d4b53724739a17}} 
+std\+::vector$<$ std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{structdetail_1_1tiny__deque_1_1bucket}{bucket}} $>$ $>$ {\bfseries d\+\_\+buckets}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_a83e99c008c257e2c92ca7cd818831a23}\label{structdetail_1_1tiny__deque_a83e99c008c257e2c92ca7cd818831a23}} 
+static const size\+\_\+t {\bfseries mask} = 64 -\/ 1
+\item 
+\mbox{\Hypertarget{structdetail_1_1tiny__deque_ad47b12dd57f3b8c711fda989dbabe940}\label{structdetail_1_1tiny__deque_ad47b12dd57f3b8c711fda989dbabe940}} 
+static const size\+\_\+t {\bfseries bits} = 6
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+hash\+\_\+map.\+hpp\item 
+hash\+\_\+map\+Copie.\+hpp\item 
+hash\+\_\+map\+Copie2.\+hpp\end{DoxyCompactItemize}

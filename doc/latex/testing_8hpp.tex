@@ -1,0 +1,99 @@
+\hypertarget{testing_8hpp}{}\doxysection{seq/testing.hpp File Reference}
+\label{testing_8hpp}\index{seq/testing.hpp@{seq/testing.hpp}}
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}bits.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}charconv.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1basic__nullbuf}{seq\+::basic\+\_\+nullbuf$<$ Ch, Traits $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_multiply}{seq\+::detail\+::\+Multiply$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_multiply_3_01long_01double_01_4}{seq\+::detail\+::\+Multiply$<$ long double $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_multiply_3_01double_01_4}{seq\+::detail\+::\+Multiply$<$ double $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_multiply_3_01float_01_4}{seq\+::detail\+::\+Multiply$<$ float $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1random__float__genertor}{seq\+::random\+\_\+float\+\_\+genertor$<$ Float $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail}{seq\+::detail}}
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits in {\itshape value}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{testing_8hpp_abc5c3a6e65116573e62eeb249e7fe541}{S\+E\+Q\+\_\+\+T\+E\+S\+T\+\_\+\+A\+S\+S\+E\+RT}}(...)
+\item 
+\#define \mbox{\hyperlink{testing_8hpp_ab462c5274334590dc0a7221fcd626d19}{win\+\_\+system}}~std\+::system
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct timespec \mbox{\hyperlink{namespaceseq_ad75714ebe7ef4833c3a3a641d3389e39}{seq\+::high\+\_\+def\+\_\+timer}}
+\item 
+typedef basic\+\_\+nullbuf$<$ char $>$ \mbox{\hyperlink{namespaceseq_ae795f8c3dab753bc7283f542671183d6}{seq\+::nullbuf}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{namespaceseq_a7e09173d3e2cbd2e90fde65284d6a362}{seq\+::start\+\_\+timer}} (high\+\_\+def\+\_\+timer $\ast$timer)
+\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{namespaceseq_ae6680f5c7e0d172b1f3cc7334306ed5b}{seq\+::elapsed\+\_\+microseconds}} (high\+\_\+def\+\_\+timer $\ast$timer)
+\item 
+void \mbox{\hyperlink{namespaceseq_ad863fcfc143b646f5a2f2362a1327575}{seq\+::tick}} ()
+\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{namespaceseq_a6ebacd959a1a167aec6e024961697304}{seq\+::tock\+\_\+us}} ()
+\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{namespaceseq_a1c3fc02a69112af58e297963a9e4c08c}{seq\+::tock\+\_\+ms}} ()
+\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{namespaceseq_af47d4cfe851a2c80ba696a4b90905c7c}{seq\+::tock\+\_\+s}} ()
+\item 
+void \mbox{\hyperlink{namespaceseq_acabfa3eaf9a03808f516c1c71d521dee}{seq\+::reset\+\_\+memory\+\_\+usage}} ()
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_a15e52d40a551ef3e1dc395d1c93349aa}{seq\+::get\+\_\+memory\+\_\+usage}} ()
+\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{namespaceseq_a4b887df093a1fae4487fccd6c1949116}{seq\+::print\+\_\+null}} (const T \&v)
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_ae96cdb73265a09784b8f3e8cbc777328}{seq\+::to\+\_\+int}} (const std\+::string \&v)
+\item 
+{\footnotesize template$<$size\+\_\+t S, class AL $>$ }\\size\+\_\+t \mbox{\hyperlink{namespaceseq_a84e0fbe51f6e0fd8e54e91864b14ee86}{seq\+::to\+\_\+int}} (const tiny\+\_\+string$<$ S, AL $>$ \&v)
+\item 
+{\footnotesize template$<$class T $>$ }\\size\+\_\+t \mbox{\hyperlink{namespaceseq_ae7a9cdadd4df8f31f3b1fd39cebf350e}{seq\+::to\+\_\+int}} (const T \&v)
+\item 
+{\footnotesize template$<$class T , class U $>$ }\\size\+\_\+t \mbox{\hyperlink{namespaceseq_aaf81691741d518d15f0faaf1da2f015a}{seq\+::to\+\_\+int}} (const std\+::pair$<$ T, U $>$ \&v)
+\item 
+{\footnotesize template$<$class T , class U $>$ }\\size\+\_\+t \mbox{\hyperlink{namespaceseq_a9d21556f69c13e311f06e94da75c1792}{seq\+::to\+\_\+int}} (const std\+::pair$<$ const T, U $>$ \&v)
+\item 
+{\footnotesize template$<$class String $>$ }\\String \mbox{\hyperlink{namespaceseq_aca5e1bd8af52c82c89100c6146c47e10}{seq\+::generate\+\_\+random\+\_\+string}} (int max\+\_\+size, bool fixed=false)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{testing_8hpp_abc5c3a6e65116573e62eeb249e7fe541}\label{testing_8hpp_abc5c3a6e65116573e62eeb249e7fe541}} 
+\index{testing.hpp@{testing.hpp}!SEQ\_TEST\_ASSERT@{SEQ\_TEST\_ASSERT}}
+\index{SEQ\_TEST\_ASSERT@{SEQ\_TEST\_ASSERT}!testing.hpp@{testing.hpp}}
+\doxysubsubsection{\texorpdfstring{SEQ\_TEST\_ASSERT}{SEQ\_TEST\_ASSERT}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+T\+E\+S\+T\+\_\+\+A\+S\+S\+E\+RT(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{if}(! (\_\_VA\_ARGS\_\_) ) \{\mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\_view}} v =\mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq::fmt}}(\_\_LINE\_\_);  \(\backslash\)}
+\DoxyCodeLine{        throw std::runtime\_error((\textcolor{stringliteral}{"testing error: file "} \_\_FILE\_\_ \textcolor{stringliteral}{"("} + v + \textcolor{stringliteral}{")"}).c\_str()); \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{testing_8hpp_ab462c5274334590dc0a7221fcd626d19}\label{testing_8hpp_ab462c5274334590dc0a7221fcd626d19}} 
+\index{testing.hpp@{testing.hpp}!win\_system@{win\_system}}
+\index{win\_system@{win\_system}!testing.hpp@{testing.hpp}}
+\doxysubsubsection{\texorpdfstring{win\_system}{win\_system}}
+{\footnotesize\ttfamily \#define win\+\_\+system~std\+::system}
+

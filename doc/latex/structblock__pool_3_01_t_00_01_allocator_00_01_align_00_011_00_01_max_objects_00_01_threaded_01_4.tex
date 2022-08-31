@@ -1,0 +1,142 @@
+\hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4}{}\doxysection{block\+\_\+pool$<$ T, Allocator, Align, 1, Max\+Objects, Threaded $>$ Struct Template Reference}
+\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4}\index{block\_pool$<$ T, Allocator, Align, 1, MaxObjects, Threaded $>$@{block\_pool$<$ T, Allocator, Align, 1, MaxObjects, Threaded $>$}}
+
+
+Inherits \mbox{\hyperlink{classthread__data}{thread\+\_\+data$<$ Threaded $>$}}.
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_1_1_obj}{Obj}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_aaa7491bed5102bd9f233ef4dff2c1308}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_aaa7491bed5102bd9f233ef4dff2c1308}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries rebind\+\_\+alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a87236da85e535d544895fd824228b928}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a87236da85e535d544895fd824228b928}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a39d231d63f35b365b6f2bfa854781249}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a39d231d63f35b365b6f2bfa854781249}} 
+using {\bfseries lock\+\_\+type} = typename \mbox{\hyperlink{classthread__data}{thread\+\_\+data}}$<$ Threaded $>$\+::\mbox{\hyperlink{classadaptative__mutex}{lock\+\_\+type}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a4238dd65a5b1d8f2309be6bbd132ea0c}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a4238dd65a5b1d8f2309be6bbd132ea0c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries bytes} () const noexcept
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a2112cf7215829a7f5b599be070d579ae}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a2112cf7215829a7f5b599be070d579ae}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries set\+\_\+next} (Obj $\ast$o, Obj $\ast$next)
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_ade1c3e784f1e94e0aba6582f79cf2916}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_ade1c3e784f1e94e0aba6582f79cf2916}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE Obj $\ast$ {\bfseries next} (Obj $\ast$o)
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a05c326d307500bea3beb9351fe17f35a}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a05c326d307500bea3beb9351fe17f35a}} 
+{\bfseries block\+\_\+pool} (size\+\_\+t elems, const Allocator \&alloc=Allocator())
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a1a39d73812dea5abfc5d7e84110f86af}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a1a39d73812dea5abfc5d7e84110f86af}} 
+{\bfseries block\+\_\+pool} (const \mbox{\hyperlink{structblock__pool}{block\+\_\+pool}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_aa8b54f4c95d6866c25311716cb72ca1c}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_aa8b54f4c95d6866c25311716cb72ca1c}} 
+\mbox{\hyperlink{structblock__pool}{block\+\_\+pool}} \& {\bfseries operator=} (const \mbox{\hyperlink{structblock__pool}{block\+\_\+pool}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a5b98ba2e7c32b95c040030bc395a3e80}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a5b98ba2e7c32b95c040030bc395a3e80}} 
+Allocator {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_acac49e337abe28b19415a911b985cc0a}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_acac49e337abe28b19415a911b985cc0a}} 
+Allocator \& {\bfseries get\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a1eec526156e8a6925605c5adc34dd43b}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a1eec526156e8a6925605c5adc34dd43b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries memory\+\_\+footprint} () const noexcept
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a48df655ad796210d956b0432f62c7470}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a48df655ad796210d956b0432f62c7470}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+inside} (void $\ast$ptr) const noexcept
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a66ad6e44b507488dd4af810a138201aa}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a66ad6e44b507488dd4af810a138201aa}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+full} (size\+\_\+t=1) const noexcept
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_ae28d61ba7a6d755ba59713a5d8d6a6ca}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_ae28d61ba7a6d755ba59713a5d8d6a6ca}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (T $\ast$) allocate(size\+\_\+t) noexcept
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a31bf96ff54711ae5474955c37a51c8fb}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a31bf96ff54711ae5474955c37a51c8fb}} 
+void {\bfseries deallocate\+\_\+internal} (void $\ast$ptr)
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_abe47f864b773b93c6cdcb18b711663c1}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_abe47f864b773b93c6cdcb18b711663c1}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void) add\+\_\+deffered\+\_\+delete(void $\ast$ptr)
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_ab6cb556586ee51d42b9cb4af4a30c390}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_ab6cb556586ee51d42b9cb4af4a30c390}} 
+void {\bfseries delete\+\_\+deffered} ()
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_aa8448d6e70a7c6fe97387d4063e79c92}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_aa8448d6e70a7c6fe97387d4063e79c92}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void) delete\+\_\+deffered\+\_\+locked()
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a86373ceec8688854c6845de3ee1f653a}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a86373ceec8688854c6845de3ee1f653a}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void) deallocate(T $\ast$ptr
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_af15a5e4e117595158cf143a4b9a07a52}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_af15a5e4e117595158cf143a4b9a07a52}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries deallocate\+\_\+ptr\+\_\+no\+\_\+thread} (T $\ast$ptr, size\+\_\+t, detail\+::thread\+\_\+id current\+\_\+id)
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a503aa63d6905d5ed42aa8bb4ade9408c}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a503aa63d6905d5ed42aa8bb4ade9408c}} 
+bool {\bfseries deallocate\+\_\+ptr} (T $\ast$ptr, size\+\_\+t, detail\+::thread\+\_\+id current\+\_\+id)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_affe510ce072955388532c388d296f110}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_affe510ce072955388532c388d296f110}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structblock__pool}{block\+\_\+pool}} $\ast$ {\bfseries from\+\_\+ptr} (void $\ast$ptr) noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a67b049a1a3cba9b5d0929805daa58d2c}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a67b049a1a3cba9b5d0929805daa58d2c}} 
+size\+\_\+t {\bfseries capacity}
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_af1ed666da1af4d8ac530cc8e25e58844}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_af1ed666da1af4d8ac530cc8e25e58844}} 
+size\+\_\+t {\bfseries objects}
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_aa7ab5e926e0731c76ae6047c1ecfde27}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_aa7ab5e926e0731c76ae6047c1ecfde27}} 
+size\+\_\+t {\bfseries tail}
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a658c4e1bb99cc647dd6e198ba6a08fab}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a658c4e1bb99cc647dd6e198ba6a08fab}} 
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ Obj, Allocator, Align $>$ {\bfseries allocator}
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_ab044b43c0b847dacb66160fcbc9cd93b}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_ab044b43c0b847dacb66160fcbc9cd93b}} 
+Obj $\ast$ {\bfseries chunks}
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a94677e933d1c76dfae88176050cf9d9c}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a94677e933d1c76dfae88176050cf9d9c}} 
+Obj $\ast$ {\bfseries first\+\_\+free}
+\item 
+{\bfseries size\+\_\+t}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a05e4ad12372b2defaf980655adda595f}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a05e4ad12372b2defaf980655adda595f}} 
+static const size\+\_\+t {\bfseries alignment} = (Align == 0 $\vert$$\vert$ Align $<$ I\+N\+C\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+A\+L\+L\+O\+C\+\_\+\+A\+L\+I\+G\+N\+M\+E\+NT) ? I\+N\+C\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+A\+L\+L\+O\+C\+\_\+\+A\+L\+I\+G\+N\+M\+E\+NT \+: Align
+\item 
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_af86e694e94ee07d8e3b76ef6e346a4e6}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_af86e694e94ee07d8e3b76ef6e346a4e6}} 
+static const size\+\_\+t {\bfseries elem\+\_\+size} = (sizeof(T) $<$= alignment ? alignment \+: (sizeof(T) \% alignment ? ((sizeof(T) / alignment + 1) $\ast$ alignment) \+: (sizeof(T))))
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a6689b52f29c9d1b7d87f9595e2aa0754}\label{structblock__pool_3_01_t_00_01_allocator_00_01_align_00_011_00_01_max_objects_00_01_threaded_01_4_a6689b52f29c9d1b7d87f9595e2aa0754}} 
+\index{block\_pool$<$ T, Allocator, Align, 1, MaxObjects, Threaded $>$@{block\_pool$<$ T, Allocator, Align, 1, MaxObjects, Threaded $>$}!size\_t@{size\_t}}
+\index{size\_t@{size\_t}!block\_pool$<$ T, Allocator, Align, 1, MaxObjects, Threaded $>$@{block\_pool$<$ T, Allocator, Align, 1, MaxObjects, Threaded $>$}}
+\doxysubsubsection{\texorpdfstring{size\_t}{size\_t}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , size\+\_\+t Align, size\+\_\+t Max\+Objects, bool Threaded$>$ \\
+\mbox{\hyperlink{structblock__pool}{block\+\_\+pool}}$<$ T, Allocator, Align, 1, Max\+Objects, Threaded $>$\+::size\+\_\+t}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{        deallocate\_ptr(ptr, 1, detail::thread\_id())}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+memory -\/ Copie.\+hpp\end{DoxyCompactItemize}

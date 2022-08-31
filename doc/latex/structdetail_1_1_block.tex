@@ -1,0 +1,53 @@
+\hypertarget{structdetail_1_1_block}{}\doxysection{detail\+::Block$<$ T $>$ Struct Template Reference}
+\label{structdetail_1_1_block}\index{detail::Block$<$ T $>$@{detail::Block$<$ T $>$}}
+
+
+Inherits \mbox{\hyperlink{structdetail_1_1_base_block}{detail\+::\+Base\+Block}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_block_a4c760611d3b0b87a922419e0bc6160c3}\label{structdetail_1_1_block_a4c760611d3b0b87a922419e0bc6160c3}} 
+{\bfseries Block} (\mbox{\hyperlink{structdetail_1_1_base_block}{Base\+Block}} $\ast$end)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_block_ab4a99eadbf23b441bea6e76f3948d706}\label{structdetail_1_1_block_ab4a99eadbf23b441bea6e76f3948d706}} 
+size\+\_\+t {\bfseries remaining} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_block_a6d985ea516a323bf61ad782bcdf5b37a}\label{structdetail_1_1_block_a6d985ea516a323bf61ad782bcdf5b37a}} 
+size\+\_\+t {\bfseries used} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_block_a1640fe0c0e1f963c386c7227dd5056d7}\label{structdetail_1_1_block_a1640fe0c0e1f963c386c7227dd5056d7}} 
+{\footnotesize template$<$size\+\_\+t Count = 8$>$ }\\bool {\bfseries has\+\_\+room\+\_\+for} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_block_a2289daed532f4ba8bb0356f1d84c11f3}\label{structdetail_1_1_block_a2289daed532f4ba8bb0356f1d84c11f3}} 
+{\footnotesize template$<$size\+\_\+t Count = 8$>$ }\\T $\ast$ {\bfseries allocate} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_block_aaaac9832753cfcbb78ce3882920fcea5}\label{structdetail_1_1_block_aaaac9832753cfcbb78ce3882920fcea5}} 
+T $\ast$ {\bfseries allocate\+\_\+N} (size\+\_\+t Count)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_block_a6709632c79e9962a67230fa7129208d7}\label{structdetail_1_1_block_a6709632c79e9962a67230fa7129208d7}} 
+{\footnotesize template$<$size\+\_\+t Count$>$ }\\T $\ast$ {\bfseries extend} (T $\ast$ptr, size\+\_\+t Prev\+Count) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_block_a780bd85d24a16b7044020b48e203b8cc}\label{structdetail_1_1_block_a780bd85d24a16b7044020b48e203b8cc}} 
+{\footnotesize template$<$size\+\_\+t Count = 8$>$ }\\void {\bfseries deallocate} (T $\ast$ptr) noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_block_a310442074a01903b08ad66d1379ef7a4}\label{structdetail_1_1_block_a310442074a01903b08ad66d1379ef7a4}} 
+size\+\_\+t {\bfseries mask}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_block_aa037936e148462283f87c7d41768d94e}\label{structdetail_1_1_block_aa037936e148462283f87c7d41768d94e}} 
+std\+::aligned\+\_\+storage$<$ sizeof(T) $\ast$max\+\_\+capacity, alignof(T)$>$\+::type {\bfseries storage}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_block_af840a207a13c5746ed18171b95b9a975}\label{structdetail_1_1_block_af840a207a13c5746ed18171b95b9a975}} 
+static const size\+\_\+t {\bfseries max\+\_\+capacity} = sizeof(size\+\_\+t) $\ast$ 8 $\ast$ 8
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+hash\+\_\+block.\+hpp\end{DoxyCompactItemize}

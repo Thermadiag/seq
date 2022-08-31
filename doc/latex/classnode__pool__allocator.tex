@@ -1,0 +1,78 @@
+\hypertarget{classnode__pool__allocator}{}\doxysection{node\+\_\+pool\+\_\+allocator$<$ T, Allocator $>$ Class Template Reference}
+\label{classnode__pool__allocator}\index{node\_pool\_allocator$<$ T, Allocator $>$@{node\_pool\_allocator$<$ T, Allocator $>$}}
+
+
+{\ttfamily \#include $<$map2.\+hpp$>$}
+
+
+
+Inherits \mbox{\hyperlink{structbase__node__pool__allocator}{base\+\_\+node\+\_\+pool\+\_\+allocator}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_ad84388c884ca6cc9c2a472133b9c02c3}\label{classnode__pool__allocator_ad84388c884ca6cc9c2a472133b9c02c3}} 
+{\bfseries node\+\_\+pool\+\_\+allocator} (const Allocator \&alloc) noexcept
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_a22fb9ba8143a61f74ce247aaa7b58948}\label{classnode__pool__allocator_a22fb9ba8143a61f74ce247aaa7b58948}} 
+{\bfseries node\+\_\+pool\+\_\+allocator} (size\+\_\+t elem\+\_\+count)
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_a5ecbd3b8b1b5c185f702aa1a9fccf7e7}\label{classnode__pool__allocator_a5ecbd3b8b1b5c185f702aa1a9fccf7e7}} 
+{\bfseries node\+\_\+pool\+\_\+allocator} (size\+\_\+t elem\+\_\+count, const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_a00607a4f614e277aab4288be782af9bc}\label{classnode__pool__allocator_a00607a4f614e277aab4288be782af9bc}} 
+{\bfseries node\+\_\+pool\+\_\+allocator} (\mbox{\hyperlink{classnode__pool__allocator}{node\+\_\+pool\+\_\+allocator}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_ab9cfca3584d10deac2593198929f9c01}\label{classnode__pool__allocator_ab9cfca3584d10deac2593198929f9c01}} 
+{\bfseries node\+\_\+pool\+\_\+allocator} (\mbox{\hyperlink{classnode__pool__allocator}{node\+\_\+pool\+\_\+allocator}} \&\&other, const Allocator \&alloc) noexcept
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_a2443bd93b92f0ee5c57240a717221a9a}\label{classnode__pool__allocator_a2443bd93b92f0ee5c57240a717221a9a}} 
+{\bfseries node\+\_\+pool\+\_\+allocator} (const \mbox{\hyperlink{classnode__pool__allocator}{node\+\_\+pool\+\_\+allocator}} \&)=delete
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_ae5bbc8ae574b88e4827a3f27f727da32}\label{classnode__pool__allocator_ae5bbc8ae574b88e4827a3f27f727da32}} 
+\mbox{\hyperlink{classnode__pool__allocator}{node\+\_\+pool\+\_\+allocator}} \& {\bfseries operator=} (const \mbox{\hyperlink{classnode__pool__allocator}{node\+\_\+pool\+\_\+allocator}} \&)=delete
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_af383a4b42c3c5a34059815605e9688e8}\label{classnode__pool__allocator_af383a4b42c3c5a34059815605e9688e8}} 
+\mbox{\hyperlink{classnode__pool__allocator}{node\+\_\+pool\+\_\+allocator}} \& {\bfseries operator=} (\mbox{\hyperlink{classnode__pool__allocator}{node\+\_\+pool\+\_\+allocator}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_aec3df83533214d505cc3105af193bab6}\label{classnode__pool__allocator_aec3df83533214d505cc3105af193bab6}} 
+Allocator {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_ad4dab99f20f2a48ac11da6ad08ec9318}\label{classnode__pool__allocator_ad4dab99f20f2a48ac11da6ad08ec9318}} 
+Allocator \& {\bfseries get\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_a7d30251142868a364ff0fce837939aa5}\label{classnode__pool__allocator_a7d30251142868a364ff0fce837939aa5}} 
+std\+::size\+\_\+t {\bfseries free\+\_\+count} () const noexcept
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_ac8e886f944e5514ef4ba1130b45d3e1c}\label{classnode__pool__allocator_ac8e886f944e5514ef4ba1130b45d3e1c}} 
+std\+::size\+\_\+t {\bfseries memory\+\_\+footprint} () const noexcept
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_a3a72e2b2028ba08ff0d3b0054ef28f0c}\label{classnode__pool__allocator_a3a72e2b2028ba08ff0d3b0054ef28f0c}} 
+void {\bfseries resize} (std\+::size\+\_\+t count)
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_a0f4253819e084d44dff7712802b3ea44}\label{classnode__pool__allocator_a0f4253819e084d44dff7712802b3ea44}} 
+T $\ast$ {\bfseries allocate} ()
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_a351b4d5e4d64a0616d451f9a61fba8d2}\label{classnode__pool__allocator_a351b4d5e4d64a0616d451f9a61fba8d2}} 
+void {\bfseries deallocate} (T $\ast$ptr)
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_ad79d96be4712b440e44412d08988e735}\label{classnode__pool__allocator_ad79d96be4712b440e44412d08988e735}} 
+virtual void $\ast$ {\bfseries allocate\+\_\+one} ()
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_a15f328934c7e3429a7a0734f7149e6a0}\label{classnode__pool__allocator_a15f328934c7e3429a7a0734f7149e6a0}} 
+virtual void {\bfseries deallocate\+\_\+one} (void $\ast$ptr)
+\item 
+\mbox{\Hypertarget{classnode__pool__allocator_a74cebba8d2cbb7c257059027e1ac4685}\label{classnode__pool__allocator_a74cebba8d2cbb7c257059027e1ac4685}} 
+virtual void {\bfseries reserve} (size\+\_\+t size)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator = std\+::allocator$<$\+T$>$$>$\newline
+class node\+\_\+pool\+\_\+allocator$<$ T, Allocator $>$}
+
+Class used to allocate/deallocate T objects. Internally uses a list of growing \mbox{\hyperlink{structnode__pool}{node\+\_\+pool}} objects. Uses the global G\+R\+O\+W\+\_\+\+F\+A\+C\+T\+OR value 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+map2.\+hpp\end{DoxyCompactItemize}

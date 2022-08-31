@@ -1,0 +1,79 @@
+\hypertarget{type__traits_8hpp}{}\doxysection{seq/type\+\_\+traits.hpp File Reference}
+\label{type__traits_8hpp}\index{seq/type\_traits.hpp@{seq/type\_traits.hpp}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1integer__max}{seq\+::integer\+\_\+max$<$ T, Signed $>$}}
+\begin{DoxyCompactList}\small\item\em Compute integer type maximum value at compile time. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1integer__max_3_01_t_00_01false_01_4}{seq\+::integer\+\_\+max$<$ T, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1integer__min}{seq\+::integer\+\_\+min$<$ T, Signed $>$}}
+\begin{DoxyCompactList}\small\item\em Compute integer type minimum value at compile time. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1integer__min_3_01_t_00_01false_01_4}{seq\+::integer\+\_\+min$<$ T, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1integer__abs__return}{seq\+::integer\+\_\+abs\+\_\+return$<$ T, Signed, Size $>$}}
+\begin{DoxyCompactList}\small\item\em Define the return type of \mbox{\hyperlink{namespaceseq_a97e43145f833c1fb4c26fbc91e341564}{seq\+::negate\+\_\+if\+\_\+signed}} and \mbox{\hyperlink{namespaceseq_af7ecbace49a8c09bb7de9eac60a97f58}{seq\+::abs}}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1integer__abs__return_3_01_t_00_01true_00_011_01_4}{seq\+::integer\+\_\+abs\+\_\+return$<$ T, true, 1 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1integer__abs__return_3_01_t_00_01true_00_012_01_4}{seq\+::integer\+\_\+abs\+\_\+return$<$ T, true, 2 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1integer__abs__return_3_01_t_00_01true_00_014_01_4}{seq\+::integer\+\_\+abs\+\_\+return$<$ T, true, 4 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1integer__abs__return_3_01_t_00_01true_00_018_01_4}{seq\+::integer\+\_\+abs\+\_\+return$<$ T, true, 8 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_integer_abs}{seq\+::detail\+::\+Integer\+Abs$<$ T, Signed $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_integer_abs_3_01_t_00_01false_01_4}{seq\+::detail\+::\+Integer\+Abs$<$ T, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1unique__ptr__traits}{seq\+::detail\+::unique\+\_\+ptr\+\_\+traits$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1unique__ptr__traits_3_01std_1_1unique__ptr_3_01_t_00_01_del_01_4_01_4}{seq\+::detail\+::unique\+\_\+ptr\+\_\+traits$<$ std\+::unique\+\_\+ptr$<$ T, Del $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1unique__ptr__traits_3_01const_01std_1_1unique__ptr_3_01_t_00_01_del_01_4_01_4}{seq\+::detail\+::unique\+\_\+ptr\+\_\+traits$<$ const std\+::unique\+\_\+ptr$<$ T, Del $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__unique__ptr}{seq\+::is\+\_\+unique\+\_\+ptr$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Inherits std\+::true\+\_\+type is T is of type std\+::unique\+\_\+ptr$<$...$>$, false otherwise. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1is__unique__ptr_3_01std_1_1unique__ptr_3_01_t_00_01_del_01_4_01_4}{seq\+::is\+\_\+unique\+\_\+ptr$<$ std\+::unique\+\_\+ptr$<$ T, Del $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__relocatable}{seq\+::is\+\_\+relocatable$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Type trait telling if a class is relocatable or not. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1is__relocatable_3_01std_1_1unique__ptr_3_01_t_00_01_d_01_4_01_4}{seq\+::is\+\_\+relocatable$<$ std\+::unique\+\_\+ptr$<$ T, D $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__relocatable_3_01std_1_1shared__ptr_3_01_t_01_4_01_4}{seq\+::is\+\_\+relocatable$<$ std\+::shared\+\_\+ptr$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__relocatable_3_01std_1_1pair_3_01_t_00_01_v_01_4_01_4}{seq\+::is\+\_\+relocatable$<$ std\+::pair$<$ T, V $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__relocatable_3_01std_1_1allocator_3_01_t_01_4_01_4}{seq\+::is\+\_\+relocatable$<$ std\+::allocator$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__hashable}{seq\+::is\+\_\+hashable$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1is__ostreamable}{seq\+::is\+\_\+ostreamable$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1is__istreamable}{seq\+::is\+\_\+istreamable$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1is__equal__comparable}{seq\+::is\+\_\+equal\+\_\+comparable$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1is__less__comparable}{seq\+::is\+\_\+less\+\_\+comparable$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__invocable}{seq\+::is\+\_\+invocable$<$ F, Args $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__invocable__r}{seq\+::is\+\_\+invocable\+\_\+r$<$ R, F, Args $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail}{seq\+::detail}}
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits in {\itshape value}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\integer\+\_\+abs\+\_\+return$<$ T $>$\+::type \mbox{\hyperlink{namespaceseq_a97e43145f833c1fb4c26fbc91e341564}{seq\+::negate\+\_\+if\+\_\+signed}} (T v)
+\begin{DoxyCompactList}\small\item\em Returns -\/v if v is signed, v otherwise. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\integer\+\_\+abs\+\_\+return$<$ T $>$\+::type \mbox{\hyperlink{namespaceseq_af7ecbace49a8c09bb7de9eac60a97f58}{seq\+::abs}} (T v)
+\begin{DoxyCompactList}\small\item\em Returns absolute value of v. \end{DoxyCompactList}\end{DoxyCompactItemize}

@@ -1,0 +1,206 @@
+\hypertarget{structseq_1_1typed__type__info}{}\doxysection{seq\+::typed\+\_\+type\+\_\+info$<$ T, class $>$ Struct Template Reference}
+\label{structseq_1_1typed__type__info}\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+
+
+Implementation of \mbox{\hyperlink{classseq_1_1any__type__info}{any\+\_\+type\+\_\+info}} for specific type (Type Erasure)  
+
+
+
+
+{\ttfamily \#include $<$any -\/ Copie.\+hpp$>$}
+
+
+
+Inherits \mbox{\hyperlink{classseq_1_1any__type__info}{seq\+::any\+\_\+type\+\_\+info}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structseq_1_1typed__type__info_ad961ac4bddb5eb2259a7132480231a7e}{typed\+\_\+type\+\_\+info}} ()
+\item 
+virtual size\+\_\+t \mbox{\hyperlink{structseq_1_1typed__type__info_a0af3c20f348291683286ffa472193c1a}{sizeof\+\_\+type}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the size of underlying type. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info_ac18df0dbc9fceae5806558a69f1b3ce8}{destroy\+\_\+any}} (void $\ast$in) const noexcept
+\begin{DoxyCompactList}\small\item\em Destroy object. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{structseq_1_1typed__type__info_aa627c112869fc5bacdeec03720392d2d}{equal\+\_\+any}} (const void $\ast$a, const void $\ast$b) const
+\begin{DoxyCompactList}\small\item\em Compare 2 objects of same type for equality. \end{DoxyCompactList}\item 
+virtual bool \mbox{\hyperlink{structseq_1_1typed__type__info_afc280574e981eb9f00b094d53cab4961}{less\+\_\+any}} (const void $\ast$a, const void $\ast$b) const
+\begin{DoxyCompactList}\small\item\em Compare 2 objects of same type for less than. \end{DoxyCompactList}\item 
+virtual size\+\_\+t \mbox{\hyperlink{structseq_1_1typed__type__info_ad885493535c32f4942444cbc5600f326}{hash\+\_\+any}} (const void $\ast$in) const
+\begin{DoxyCompactList}\small\item\em Hash object of underlying type. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info_aeff89f342dc601afd5aeb09426337fe4}{format\+\_\+any}} (std\+::string \&out, const void $\ast$in, const \mbox{\hyperlink{structseq_1_1width__format}{width\+\_\+format}} \&wfmt, const \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \&nfmt) const
+\begin{DoxyCompactList}\small\item\em Format object of underlying type into output string. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info_a6b7d5aa2095425d9c3dd5fafab2cad31}{ostream\+\_\+any}} (const void $\ast$in, std\+::ostream \&oss) const
+\begin{DoxyCompactList}\small\item\em Stream object of underlying type to a std\+::ostream object. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info_a3e71e2b926e8b860667a30f797bc0429}{istream\+\_\+any}} (void $\ast$in, std\+::istream \&iss) const
+\begin{DoxyCompactList}\small\item\em Read object of underlying type from a std\+::istream object. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info_a078c528e2e5126afdb0dc14a21edfc43}{copy\+\_\+any}} (const \mbox{\hyperlink{classseq_1_1any__type__info}{any\+\_\+type\+\_\+info}} $\ast$in\+\_\+p, const void $\ast$in, const \mbox{\hyperlink{classseq_1_1any__type__info}{any\+\_\+type\+\_\+info}} $\ast$out\+\_\+p, void $\ast$out\+\_\+storage, unsigned out\+\_\+storage\+\_\+size) const
+\item 
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info_a20f405cef06be519d6ec333ea709bf50}{move\+\_\+any}} (const \mbox{\hyperlink{classseq_1_1any__type__info}{any\+\_\+type\+\_\+info}} $\ast$in\+\_\+p, void $\ast$in, const \mbox{\hyperlink{classseq_1_1any__type__info}{any\+\_\+type\+\_\+info}} $\ast$out\+\_\+p, void $\ast$out\+\_\+storage, unsigned out\+\_\+storage\+\_\+size) const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class = void$>$\newline
+struct seq\+::typed\+\_\+type\+\_\+info$<$ T, class $>$}
+
+Implementation of \mbox{\hyperlink{classseq_1_1any__type__info}{any\+\_\+type\+\_\+info}} for specific type (Type Erasure) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structseq_1_1typed__type__info_ad961ac4bddb5eb2259a7132480231a7e}\label{structseq_1_1typed__type__info_ad961ac4bddb5eb2259a7132480231a7e}} 
+\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}!typed\_type\_info@{typed\_type\_info}}
+\index{typed\_type\_info@{typed\_type\_info}!seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+\doxysubsubsection{\texorpdfstring{typed\_type\_info()}{typed\_type\_info()}}
+{\footnotesize\ttfamily template$<$class T , class  = void$>$ \\
+\mbox{\hyperlink{structseq_1_1typed__type__info}{seq\+::typed\+\_\+type\+\_\+info}}$<$ T, class $>$\+::\mbox{\hyperlink{structseq_1_1typed__type__info}{typed\+\_\+type\+\_\+info}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1typed__type__info_a078c528e2e5126afdb0dc14a21edfc43}\label{structseq_1_1typed__type__info_a078c528e2e5126afdb0dc14a21edfc43}} 
+\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}!copy\_any@{copy\_any}}
+\index{copy\_any@{copy\_any}!seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+\doxysubsubsection{\texorpdfstring{copy\_any()}{copy\_any()}}
+{\footnotesize\ttfamily template$<$class T , class  = void$>$ \\
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info}{seq\+::typed\+\_\+type\+\_\+info}}$<$ T, class $>$\+::copy\+\_\+any (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1any__type__info}{any\+\_\+type\+\_\+info}} $\ast$}]{in\+\_\+p,  }\item[{const void $\ast$}]{in,  }\item[{const \mbox{\hyperlink{classseq_1_1any__type__info}{any\+\_\+type\+\_\+info}} $\ast$}]{out\+\_\+p,  }\item[{void $\ast$}]{out\+\_\+storage,  }\item[{unsigned}]{out\+\_\+storage\+\_\+size }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classseq_1_1any__type__info_a98097b5fd6c2f3ee41093fd02ca8a6a0}{seq\+::any\+\_\+type\+\_\+info}}.
+
+\mbox{\Hypertarget{structseq_1_1typed__type__info_ac18df0dbc9fceae5806558a69f1b3ce8}\label{structseq_1_1typed__type__info_ac18df0dbc9fceae5806558a69f1b3ce8}} 
+\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}!destroy\_any@{destroy\_any}}
+\index{destroy\_any@{destroy\_any}!seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+\doxysubsubsection{\texorpdfstring{destroy\_any()}{destroy\_any()}}
+{\footnotesize\ttfamily template$<$class T , class  = void$>$ \\
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info}{seq\+::typed\+\_\+type\+\_\+info}}$<$ T, class $>$\+::destroy\+\_\+any (\begin{DoxyParamCaption}\item[{void $\ast$}]{in }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Destroy object. 
+
+
+
+Implements \mbox{\hyperlink{classseq_1_1any__type__info_a1cbce1fddd8b3b27c051dad440522ca8}{seq\+::any\+\_\+type\+\_\+info}}.
+
+\mbox{\Hypertarget{structseq_1_1typed__type__info_aa627c112869fc5bacdeec03720392d2d}\label{structseq_1_1typed__type__info_aa627c112869fc5bacdeec03720392d2d}} 
+\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}!equal\_any@{equal\_any}}
+\index{equal\_any@{equal\_any}!seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+\doxysubsubsection{\texorpdfstring{equal\_any()}{equal\_any()}}
+{\footnotesize\ttfamily template$<$class T , class  = void$>$ \\
+virtual bool \mbox{\hyperlink{structseq_1_1typed__type__info}{seq\+::typed\+\_\+type\+\_\+info}}$<$ T, class $>$\+::equal\+\_\+any (\begin{DoxyParamCaption}\item[{const void $\ast$}]{a,  }\item[{const void $\ast$}]{o }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Compare 2 objects of same type for equality. 
+
+
+
+Implements \mbox{\hyperlink{classseq_1_1any__type__info_a26ba0ac2af3eef93ddacf9a2d1d3fdee}{seq\+::any\+\_\+type\+\_\+info}}.
+
+\mbox{\Hypertarget{structseq_1_1typed__type__info_aeff89f342dc601afd5aeb09426337fe4}\label{structseq_1_1typed__type__info_aeff89f342dc601afd5aeb09426337fe4}} 
+\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}!format\_any@{format\_any}}
+\index{format\_any@{format\_any}!seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+\doxysubsubsection{\texorpdfstring{format\_any()}{format\_any()}}
+{\footnotesize\ttfamily template$<$class T , class  = void$>$ \\
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info}{seq\+::typed\+\_\+type\+\_\+info}}$<$ T, class $>$\+::format\+\_\+any (\begin{DoxyParamCaption}\item[{std\+::string \&}]{out,  }\item[{const void $\ast$}]{in,  }\item[{const \mbox{\hyperlink{structseq_1_1width__format}{width\+\_\+format}} \&}]{wfmt,  }\item[{const \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \&}]{nfmt }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Format object of underlying type into output string. 
+
+
+
+Implements \mbox{\hyperlink{classseq_1_1any__type__info_a7e9104ee8a563e36f8b9b034241c2320}{seq\+::any\+\_\+type\+\_\+info}}.
+
+\mbox{\Hypertarget{structseq_1_1typed__type__info_ad885493535c32f4942444cbc5600f326}\label{structseq_1_1typed__type__info_ad885493535c32f4942444cbc5600f326}} 
+\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}!hash\_any@{hash\_any}}
+\index{hash\_any@{hash\_any}!seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+\doxysubsubsection{\texorpdfstring{hash\_any()}{hash\_any()}}
+{\footnotesize\ttfamily template$<$class T , class  = void$>$ \\
+virtual size\+\_\+t \mbox{\hyperlink{structseq_1_1typed__type__info}{seq\+::typed\+\_\+type\+\_\+info}}$<$ T, class $>$\+::hash\+\_\+any (\begin{DoxyParamCaption}\item[{const void $\ast$}]{in }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Hash object of underlying type. 
+
+
+
+Implements \mbox{\hyperlink{classseq_1_1any__type__info_ab32e6c51ae08a696257329e2b56e6c2d}{seq\+::any\+\_\+type\+\_\+info}}.
+
+\mbox{\Hypertarget{structseq_1_1typed__type__info_a3e71e2b926e8b860667a30f797bc0429}\label{structseq_1_1typed__type__info_a3e71e2b926e8b860667a30f797bc0429}} 
+\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}!istream\_any@{istream\_any}}
+\index{istream\_any@{istream\_any}!seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+\doxysubsubsection{\texorpdfstring{istream\_any()}{istream\_any()}}
+{\footnotesize\ttfamily template$<$class T , class  = void$>$ \\
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info}{seq\+::typed\+\_\+type\+\_\+info}}$<$ T, class $>$\+::istream\+\_\+any (\begin{DoxyParamCaption}\item[{void $\ast$}]{in,  }\item[{std\+::istream \&}]{iss }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Read object of underlying type from a std\+::istream object. 
+
+
+
+Implements \mbox{\hyperlink{classseq_1_1any__type__info_afa06b167a028df27c5bff0ece2da5a61}{seq\+::any\+\_\+type\+\_\+info}}.
+
+\mbox{\Hypertarget{structseq_1_1typed__type__info_afc280574e981eb9f00b094d53cab4961}\label{structseq_1_1typed__type__info_afc280574e981eb9f00b094d53cab4961}} 
+\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}!less\_any@{less\_any}}
+\index{less\_any@{less\_any}!seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+\doxysubsubsection{\texorpdfstring{less\_any()}{less\_any()}}
+{\footnotesize\ttfamily template$<$class T , class  = void$>$ \\
+virtual bool \mbox{\hyperlink{structseq_1_1typed__type__info}{seq\+::typed\+\_\+type\+\_\+info}}$<$ T, class $>$\+::less\+\_\+any (\begin{DoxyParamCaption}\item[{const void $\ast$}]{a,  }\item[{const void $\ast$}]{o }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Compare 2 objects of same type for less than. 
+
+
+
+Implements \mbox{\hyperlink{classseq_1_1any__type__info_a90181faf2290e0e0baf50c36f893fc24}{seq\+::any\+\_\+type\+\_\+info}}.
+
+\mbox{\Hypertarget{structseq_1_1typed__type__info_a20f405cef06be519d6ec333ea709bf50}\label{structseq_1_1typed__type__info_a20f405cef06be519d6ec333ea709bf50}} 
+\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}!move\_any@{move\_any}}
+\index{move\_any@{move\_any}!seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+\doxysubsubsection{\texorpdfstring{move\_any()}{move\_any()}}
+{\footnotesize\ttfamily template$<$class T , class  = void$>$ \\
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info}{seq\+::typed\+\_\+type\+\_\+info}}$<$ T, class $>$\+::move\+\_\+any (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1any__type__info}{any\+\_\+type\+\_\+info}} $\ast$}]{in\+\_\+p,  }\item[{void $\ast$}]{in,  }\item[{const \mbox{\hyperlink{classseq_1_1any__type__info}{any\+\_\+type\+\_\+info}} $\ast$}]{out\+\_\+p,  }\item[{void $\ast$}]{out\+\_\+storage,  }\item[{unsigned}]{out\+\_\+storage\+\_\+size }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classseq_1_1any__type__info_a50d6148315fee2eab35875d0913e392d}{seq\+::any\+\_\+type\+\_\+info}}.
+
+\mbox{\Hypertarget{structseq_1_1typed__type__info_a6b7d5aa2095425d9c3dd5fafab2cad31}\label{structseq_1_1typed__type__info_a6b7d5aa2095425d9c3dd5fafab2cad31}} 
+\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}!ostream\_any@{ostream\_any}}
+\index{ostream\_any@{ostream\_any}!seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+\doxysubsubsection{\texorpdfstring{ostream\_any()}{ostream\_any()}}
+{\footnotesize\ttfamily template$<$class T , class  = void$>$ \\
+virtual void \mbox{\hyperlink{structseq_1_1typed__type__info}{seq\+::typed\+\_\+type\+\_\+info}}$<$ T, class $>$\+::ostream\+\_\+any (\begin{DoxyParamCaption}\item[{const void $\ast$}]{in,  }\item[{std\+::ostream \&}]{oss }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+Stream object of underlying type to a std\+::ostream object. 
+
+
+
+Implements \mbox{\hyperlink{classseq_1_1any__type__info_afe4fd18d85c203f2a28fb15ee1cc7065}{seq\+::any\+\_\+type\+\_\+info}}.
+
+\mbox{\Hypertarget{structseq_1_1typed__type__info_a0af3c20f348291683286ffa472193c1a}\label{structseq_1_1typed__type__info_a0af3c20f348291683286ffa472193c1a}} 
+\index{seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}!sizeof\_type@{sizeof\_type}}
+\index{sizeof\_type@{sizeof\_type}!seq::typed\_type\_info$<$ T, class $>$@{seq::typed\_type\_info$<$ T, class $>$}}
+\doxysubsubsection{\texorpdfstring{sizeof\_type()}{sizeof\_type()}}
+{\footnotesize\ttfamily template$<$class T , class  = void$>$ \\
+virtual size\+\_\+t \mbox{\hyperlink{structseq_1_1typed__type__info}{seq\+::typed\+\_\+type\+\_\+info}}$<$ T, class $>$\+::sizeof\+\_\+type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the size of underlying type. 
+
+
+
+Implements \mbox{\hyperlink{classseq_1_1any__type__info_ae9303e7b9ab96435ca7936e0367764a6}{seq\+::any\+\_\+type\+\_\+info}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{any_01-_01_copie_8hpp}{any -\/ Copie.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,84 @@
+\hypertarget{structseq_1_1detail_1_1chunk__mem__pool}{}\doxysection{seq\+::detail\+::chunk\+\_\+mem\+\_\+pool$<$ T, Allocator, Align $>$ Struct Template Reference}
+\label{structseq_1_1detail_1_1chunk__mem__pool}\index{seq::detail::chunk\_mem\_pool$<$ T, Allocator, Align $>$@{seq::detail::chunk\_mem\_pool$<$ T, Allocator, Align $>$}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1chunk__mem__pool_1_1_obj}{Obj}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_ad47f87c3ea94f119f8df21937d58a9da}\label{structseq_1_1detail_1_1chunk__mem__pool_ad47f87c3ea94f119f8df21937d58a9da}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries rebind\+\_\+alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_a1b678145fce7ea9ddde0ea13e1cc1660}\label{structseq_1_1detail_1_1chunk__mem__pool_a1b678145fce7ea9ddde0ea13e1cc1660}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries bytes} () const noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_ae97c61e98342cd9ef977a0ccbc168b28}\label{structseq_1_1detail_1_1chunk__mem__pool_ae97c61e98342cd9ef977a0ccbc168b28}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries set\+\_\+next} (\mbox{\hyperlink{structseq_1_1detail_1_1chunk__mem__pool_1_1_obj}{Obj}} $\ast$o, \mbox{\hyperlink{structseq_1_1detail_1_1chunk__mem__pool_1_1_obj}{Obj}} $\ast$next)
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_a4ddf053d53f7ba1cef3a0891c03198ee}\label{structseq_1_1detail_1_1chunk__mem__pool_a4ddf053d53f7ba1cef3a0891c03198ee}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structseq_1_1detail_1_1chunk__mem__pool_1_1_obj}{Obj}} $\ast$ {\bfseries next} (\mbox{\hyperlink{structseq_1_1detail_1_1chunk__mem__pool_1_1_obj}{Obj}} $\ast$o)
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_ad073ee2356cfa81a135358df7bdc2817}\label{structseq_1_1detail_1_1chunk__mem__pool_ad073ee2356cfa81a135358df7bdc2817}} 
+{\bfseries chunk\+\_\+mem\+\_\+pool} (const Allocator \&al, size\+\_\+t elems, void $\ast$parent)
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_aea9c926fba3d73c11d47276a589e5c45}\label{structseq_1_1detail_1_1chunk__mem__pool_aea9c926fba3d73c11d47276a589e5c45}} 
+{\bfseries chunk\+\_\+mem\+\_\+pool} (const \mbox{\hyperlink{structseq_1_1detail_1_1chunk__mem__pool}{chunk\+\_\+mem\+\_\+pool}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_a80a97f29ca4b5d0596f7275c676883fb}\label{structseq_1_1detail_1_1chunk__mem__pool_a80a97f29ca4b5d0596f7275c676883fb}} 
+\mbox{\hyperlink{structseq_1_1detail_1_1chunk__mem__pool}{chunk\+\_\+mem\+\_\+pool}} \& {\bfseries operator=} (const \mbox{\hyperlink{structseq_1_1detail_1_1chunk__mem__pool}{chunk\+\_\+mem\+\_\+pool}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_adc189f4b12689ebce6ae0b0483c9e547}\label{structseq_1_1detail_1_1chunk__mem__pool_adc189f4b12689ebce6ae0b0483c9e547}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+inside} (void $\ast$ptr) const noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_ac576c7bf3a15f1e18ac152515ea8e800}\label{structseq_1_1detail_1_1chunk__mem__pool_ac576c7bf3a15f1e18ac152515ea8e800}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+full} () const noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_a22f2fa4044e955cc7b6c02ba84d2b59c}\label{structseq_1_1detail_1_1chunk__mem__pool_a22f2fa4044e955cc7b6c02ba84d2b59c}} 
+T $\ast$ {\bfseries allocate} () noexcept
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_a4a532cdcaaa33f7476de6156cb88c124}\label{structseq_1_1detail_1_1chunk__mem__pool_a4a532cdcaaa33f7476de6156cb88c124}} 
+void {\bfseries deallocate} (T $\ast$ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_a0d4b0d68911df241bc108930ef32e425}\label{structseq_1_1detail_1_1chunk__mem__pool_a0d4b0d68911df241bc108930ef32e425}} 
+size\+\_\+t {\bfseries count}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_ab80bbd7155f5de0ffe88e92698c6f7f5}\label{structseq_1_1detail_1_1chunk__mem__pool_ab80bbd7155f5de0ffe88e92698c6f7f5}} 
+size\+\_\+t {\bfseries used}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_a1ce54f6d602af518d369e1a1ca94bce4}\label{structseq_1_1detail_1_1chunk__mem__pool_a1ce54f6d602af518d369e1a1ca94bce4}} 
+size\+\_\+t {\bfseries tail}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_a2d34e6036f069e850ab3bf7748a13236}\label{structseq_1_1detail_1_1chunk__mem__pool_a2d34e6036f069e850ab3bf7748a13236}} 
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}}$<$ \mbox{\hyperlink{structseq_1_1detail_1_1chunk__mem__pool_1_1_obj}{Obj}}, Allocator, Align $>$ {\bfseries allocator}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_a9fde0355a392eabfb4ec6e90766fd692}\label{structseq_1_1detail_1_1chunk__mem__pool_a9fde0355a392eabfb4ec6e90766fd692}} 
+\mbox{\hyperlink{structseq_1_1detail_1_1chunk__mem__pool_1_1_obj}{Obj}} $\ast$ {\bfseries chunks}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_a512d5a482a5938ba08f25ae6f66bfe41}\label{structseq_1_1detail_1_1chunk__mem__pool_a512d5a482a5938ba08f25ae6f66bfe41}} 
+\mbox{\hyperlink{structseq_1_1detail_1_1chunk__mem__pool_1_1_obj}{Obj}} $\ast$ {\bfseries first\+\_\+free}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_af193b14a6f6c808d6309dcd0011af14d}\label{structseq_1_1detail_1_1chunk__mem__pool_af193b14a6f6c808d6309dcd0011af14d}} 
+std\+::atomic$<$ void $\ast$ $>$ {\bfseries parent}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_a6b348faf7947ea1a90f1cce704c6b473}\label{structseq_1_1detail_1_1chunk__mem__pool_a6b348faf7947ea1a90f1cce704c6b473}} 
+std\+::atomic$<$ int $>$ {\bfseries l}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structseq_1_1detail_1_1chunk__mem__pool_ad0f1ace4bc341be394e91914304c6016}\label{structseq_1_1detail_1_1chunk__mem__pool_ad0f1ace4bc341be394e91914304c6016}} 
+static const size\+\_\+t {\bfseries alignment} = (Align == 0 $\vert$$\vert$ Align $<$ I\+N\+C\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+A\+L\+L\+O\+C\+\_\+\+A\+L\+I\+G\+N\+M\+E\+NT) ? I\+N\+C\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+M\+A\+L\+L\+O\+C\+\_\+\+A\+L\+I\+G\+N\+M\+E\+NT \+: Align
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+mem\+\_\+pool.\+hpp\end{DoxyCompactItemize}

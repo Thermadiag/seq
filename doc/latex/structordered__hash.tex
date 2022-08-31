@@ -1,0 +1,107 @@
+\hypertarget{structordered__hash}{}\doxysection{ordered\+\_\+hash$<$ T, Allocator, Size\+Type, layout, Store\+Hash $>$ Struct Template Reference}
+\label{structordered__hash}\index{ordered\_hash$<$ T, Allocator, SizeType, layout, StoreHash $>$@{ordered\_hash$<$ T, Allocator, SizeType, layout, StoreHash $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structordered__hash_aa0e9b7a4c5664d30daafe820dfc6407a}\label{structordered__hash_aa0e9b7a4c5664d30daafe820dfc6407a}} 
+using {\bfseries iterator} = typename \mbox{\hyperlink{classsequence}{sequence}}$<$ T, Allocator, layout $>$\+::iterator
+\item 
+\mbox{\Hypertarget{structordered__hash_a397e420e6a3aea00423a00befea584c2}\label{structordered__hash_a397e420e6a3aea00423a00befea584c2}} 
+using {\bfseries hash\+\_\+table} = \mbox{\hyperlink{structdetail_1_1base__hash__table}{detail\+::base\+\_\+hash\+\_\+table}}$<$ T, Allocator, std\+::hash$<$ T $>$, std\+::equal\+\_\+to$<$ T $>$, \mbox{\hyperlink{classdetail_1_1_seq_node}{detail\+::\+Seq\+Node}}$<$ T, iterator, Size\+Type, Store\+Hash $>$, Store\+Hash, layout, false $>$
+\item 
+\mbox{\Hypertarget{structordered__hash_ace2ae6cf4e5733f630c2fb8cdc565c1b}\label{structordered__hash_ace2ae6cf4e5733f630c2fb8cdc565c1b}} 
+using {\bfseries node\+\_\+type} = typename \mbox{\hyperlink{structdetail_1_1_node}{hash\+\_\+table\+::node\+\_\+type}}
+\item 
+\mbox{\Hypertarget{structordered__hash_a7c4ad34e20873b378a074e8bb5b30249}\label{structordered__hash_a7c4ad34e20873b378a074e8bb5b30249}} 
+using {\bfseries size\+\_\+type} = typename node\+\_\+type\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structordered__hash_aa0e9b7a4c5664d30daafe820dfc6407a}\label{structordered__hash_aa0e9b7a4c5664d30daafe820dfc6407a}} 
+using {\bfseries iterator} = typename \mbox{\hyperlink{classsequence}{sequence}}$<$ T, Allocator, layout $>$\+::iterator
+\item 
+\mbox{\Hypertarget{structordered__hash_a397e420e6a3aea00423a00befea584c2}\label{structordered__hash_a397e420e6a3aea00423a00befea584c2}} 
+using {\bfseries hash\+\_\+table} = \mbox{\hyperlink{structdetail_1_1base__hash__table}{detail\+::base\+\_\+hash\+\_\+table}}$<$ T, Allocator, std\+::hash$<$ T $>$, std\+::equal\+\_\+to$<$ T $>$, \mbox{\hyperlink{classdetail_1_1_seq_node}{detail\+::\+Seq\+Node}}$<$ T, iterator, Size\+Type, Store\+Hash $>$, Store\+Hash, layout, false $>$
+\item 
+\mbox{\Hypertarget{structordered__hash_ace2ae6cf4e5733f630c2fb8cdc565c1b}\label{structordered__hash_ace2ae6cf4e5733f630c2fb8cdc565c1b}} 
+using {\bfseries node\+\_\+type} = typename \mbox{\hyperlink{structdetail_1_1_node}{hash\+\_\+table\+::node\+\_\+type}}
+\item 
+\mbox{\Hypertarget{structordered__hash_a7c4ad34e20873b378a074e8bb5b30249}\label{structordered__hash_a7c4ad34e20873b378a074e8bb5b30249}} 
+using {\bfseries size\+\_\+type} = typename node\+\_\+type\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structordered__hash_aa7fee632b96d64df9f91e3e708b8c05f}\label{structordered__hash_aa7fee632b96d64df9f91e3e708b8c05f}} 
+typedef \mbox{\hyperlink{classsequence}{sequence}}$<$ T, Allocator, layout $>$ {\bfseries d\+\_\+seq}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structordered__hash_abd211b192d1f1288a8784a0d54b27466}\label{structordered__hash_abd211b192d1f1288a8784a0d54b27466}} 
+iterator {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{structordered__hash_a05435a2c4ccbe71f711ffb8bf0abc8ba}\label{structordered__hash_a05435a2c4ccbe71f711ffb8bf0abc8ba}} 
+iterator {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{structordered__hash_ad834f40c7d4d0770970c457b4b830020}\label{structordered__hash_ad834f40c7d4d0770970c457b4b830020}} 
+size\+\_\+type {\bfseries size} ()
+\item 
+\mbox{\Hypertarget{structordered__hash_aaad44e5640e84f810d150501c9e6fce0}\label{structordered__hash_aaad44e5640e84f810d150501c9e6fce0}} 
+void {\bfseries reserve} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{structordered__hash_ab31e62d00905bacac9f6046681a8b81f}\label{structordered__hash_ab31e62d00905bacac9f6046681a8b81f}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{structordered__hash_a36b80d8193fc98fe581e92e71516f79e}\label{structordered__hash_a36b80d8193fc98fe581e92e71516f79e}} 
+iterator {\bfseries insert} (const T \&value)
+\item 
+\mbox{\Hypertarget{structordered__hash_ac1134ba90ced1b937f4c7f861fd3c67a}\label{structordered__hash_ac1134ba90ced1b937f4c7f861fd3c67a}} 
+iterator {\bfseries find} (const T \&value) noexcept
+\item 
+\mbox{\Hypertarget{structordered__hash_a496b2bbae3b8608c04778cfe09b49755}\label{structordered__hash_a496b2bbae3b8608c04778cfe09b49755}} 
+void {\bfseries erase} (iterator it)
+\item 
+\mbox{\Hypertarget{structordered__hash_a74934b5099c7c02b2d062554048c70ce}\label{structordered__hash_a74934b5099c7c02b2d062554048c70ce}} 
+void {\bfseries erase} (const T \&value)
+\item 
+\mbox{\Hypertarget{structordered__hash_af76163bc7e300a72b006f698cfe43ef7}\label{structordered__hash_af76163bc7e300a72b006f698cfe43ef7}} 
+size\+\_\+t {\bfseries memory\+\_\+footprint} () const
+\item 
+\mbox{\Hypertarget{structordered__hash_abd211b192d1f1288a8784a0d54b27466}\label{structordered__hash_abd211b192d1f1288a8784a0d54b27466}} 
+iterator {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{structordered__hash_a05435a2c4ccbe71f711ffb8bf0abc8ba}\label{structordered__hash_a05435a2c4ccbe71f711ffb8bf0abc8ba}} 
+iterator {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{structordered__hash_ad834f40c7d4d0770970c457b4b830020}\label{structordered__hash_ad834f40c7d4d0770970c457b4b830020}} 
+size\+\_\+type {\bfseries size} ()
+\item 
+\mbox{\Hypertarget{structordered__hash_aaad44e5640e84f810d150501c9e6fce0}\label{structordered__hash_aaad44e5640e84f810d150501c9e6fce0}} 
+void {\bfseries reserve} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{structordered__hash_ab31e62d00905bacac9f6046681a8b81f}\label{structordered__hash_ab31e62d00905bacac9f6046681a8b81f}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{structordered__hash_a36b80d8193fc98fe581e92e71516f79e}\label{structordered__hash_a36b80d8193fc98fe581e92e71516f79e}} 
+iterator {\bfseries insert} (const T \&value)
+\item 
+\mbox{\Hypertarget{structordered__hash_ac1134ba90ced1b937f4c7f861fd3c67a}\label{structordered__hash_ac1134ba90ced1b937f4c7f861fd3c67a}} 
+iterator {\bfseries find} (const T \&value) noexcept
+\item 
+\mbox{\Hypertarget{structordered__hash_a496b2bbae3b8608c04778cfe09b49755}\label{structordered__hash_a496b2bbae3b8608c04778cfe09b49755}} 
+void {\bfseries erase} (iterator it)
+\item 
+\mbox{\Hypertarget{structordered__hash_a74934b5099c7c02b2d062554048c70ce}\label{structordered__hash_a74934b5099c7c02b2d062554048c70ce}} 
+void {\bfseries erase} (const T \&value)
+\item 
+\mbox{\Hypertarget{structordered__hash_af76163bc7e300a72b006f698cfe43ef7}\label{structordered__hash_af76163bc7e300a72b006f698cfe43ef7}} 
+size\+\_\+t {\bfseries memory\+\_\+footprint} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structordered__hash_a4cb0162240eef745439e45a68a905f98}\label{structordered__hash_a4cb0162240eef745439e45a68a905f98}} 
+\mbox{\hyperlink{structdetail_1_1base__hash__table}{hash\+\_\+table}} {\bfseries d\+\_\+hash}
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+hash\+\_\+map\+Copie.\+hpp\item 
+hash\+\_\+map\+Copie2.\+hpp\end{DoxyCompactItemize}

@@ -1,0 +1,279 @@
+\hypertarget{structseq_1_1any__base}{}\doxysection{seq\+::any\+\_\+base$<$ Derived, Type\+Info, Static\+Size, Alignment $>$ Struct Template Reference}
+\label{structseq_1_1any__base}\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+
+
+Base interface for \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} class.  
+
+
+
+
+{\ttfamily \#include $<$any.\+hpp$>$}
+
+
+
+Inherits \mbox{\hyperlink{structseq_1_1detail_1_1null__policy}{seq\+::detail\+::null\+\_\+policy}}.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{structseq_1_1any__base_ad510dce17e4652ba69bab072541e6e6e}{type\+\_\+info\+\_\+type}} = Type\+Info
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const void $\ast$ \mbox{\hyperlink{structseq_1_1any__base_a5bf6361319d828a0a3321a0ef1438872}{data}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the underlying object as a void$\ast$. Never returns a N\+U\+LL pointer, even for empty object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void $\ast$ \mbox{\hyperlink{structseq_1_1any__base_a9fe890402f74be9dce0a9d1a8b865996}{data}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns the underlying object as a void$\ast$. Never returns a N\+U\+LL pointer, even for empty object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Type\+Info $\ast$ \mbox{\hyperlink{structseq_1_1any__base_aa899d3d4de92c0e55c62d3ad4d69aee6}{type}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns the type information as a Type\+Info pointer. Returns N\+U\+LL if the object is empty. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const Type\+Info $\ast$ \mbox{\hyperlink{structseq_1_1any__base_ab875435054b7fc0d30c812b211377790}{type}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the type information as a Type\+Info pointer. Returns N\+U\+LL if the object is empty. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{structseq_1_1any__base_a2ceda43b2dd33eb65c9139409fa608e6}{type\+\_\+id}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the type id for this object. Returns 0 if the object is empty. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1any__base_a70d7ea155d0685c3cf827ab7042ebb51}{empty}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns true if this object is empty, false otherwise. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1any__base_ad9a1c7d3711d5638f67843961f194363}{sizeof\+\_\+type}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the size of underlying type, 0 if empty. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T \mbox{\hyperlink{structseq_1_1any__base_aa9d30cf924ad6697ae3311ec947ea6d0}{cast}} ()
+\begin{DoxyCompactList}\small\item\em Cast any object to given type. Throw a std\+::bad\+\_\+cast on error. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T \mbox{\hyperlink{structseq_1_1any__base_a38a444acffa2d3c10bfee25c0f8e5e14}{cast}} () const
+\begin{DoxyCompactList}\small\item\em Cast any object to given type. Throw a std\+::bad\+\_\+cast on error. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1any__base_a1507269eecaedac6dde9b9e79ccb2aa1}{hash}} () const
+\begin{DoxyCompactList}\small\item\em Returns the hash value for underlying object based on std\+::hash. Might throw a std\+::bad\+\_\+function\+\_\+call. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{structseq_1_1any__base_aa16c27b3120359d1f80ff0930199dfd8}{storage\+\_\+type}} = typename std\+::aligned\+\_\+storage$<$ Static\+Size, Alignment $>$\+::\mbox{\hyperlink{structseq_1_1any__base_aa899d3d4de92c0e55c62d3ad4d69aee6}{type}}
+\item 
+using \mbox{\hyperlink{structseq_1_1any__base_abc0890d85192860e6b3d72bdfb1e4d37}{pointer\+\_\+type}} = \mbox{\hyperlink{classseq_1_1tagged__pointer}{tagged\+\_\+pointer}}$<$ Type\+Info, \mbox{\hyperlink{namespaceseq_affae767f96f2af9924f7c6f3bdd4c72aad297c23409b392745ce5f3024304a8e8}{Custom\+Alignment}}, 32 $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\void $\ast$ \mbox{\hyperlink{structseq_1_1any__base_aa96905dea4abe8e3f1ce8d997de8528a}{alloc}} ()
+\item 
+void \mbox{\hyperlink{structseq_1_1any__base_a9197c890b48f4414996a62f8f6f181ec}{dealloc}} () noexcept
+\item 
+{\footnotesize template$<$class T , class  = typename std\+::enable\+\_\+if$<$std\+::is\+\_\+reference$<$\+T$>$\+::value, void$>$\+::type$>$ }\\T \mbox{\hyperlink{structseq_1_1any__base_a536f3c697a51c4abb0e2283c9944c566}{convert}} (const Type\+Info $\ast$info, const Type\+Info $\ast$out\+\_\+p, std\+::uintptr\+\_\+t tags) const
+\item 
+{\footnotesize template$<$class T , class  = typename std\+::enable\+\_\+if$<$!std\+::is\+\_\+reference$<$\+T$>$\+::value, void$>$\+::type$>$ }\\std\+::decay$<$ T $>$\+::\mbox{\hyperlink{structseq_1_1any__base_aa899d3d4de92c0e55c62d3ad4d69aee6}{type}} \mbox{\hyperlink{structseq_1_1any__base_a54c6648301a2a1410bcfadc5e6022625}{convert}} (const Type\+Info $\ast$info, const Type\+Info $\ast$out\+\_\+p, std\+::uintptr\+\_\+t tags) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structseq_1_1any__base_abc0890d85192860e6b3d72bdfb1e4d37}{pointer\+\_\+type}} \mbox{\hyperlink{structseq_1_1any__base_a2b615cf6c1416d7c6b3929f0458acb30}{d\+\_\+type\+\_\+info}}
+\item 
+\mbox{\hyperlink{structseq_1_1any__base_aa16c27b3120359d1f80ff0930199dfd8}{storage\+\_\+type}} \mbox{\hyperlink{structseq_1_1any__base_aa0112aaddf25246d85bc678eb3fb1567}{d\+\_\+storage}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Derived, class Type\+Info, size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$\newline
+struct seq\+::any\+\_\+base$<$ Derived, Type\+Info, Static\+Size, Alignment $>$}
+
+Base interface for \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} class. 
+
+\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} will directly inherit \mbox{\hyperlink{structseq_1_1any__base}{any\+\_\+base}} that provides the following members\+:
+\begin{DoxyItemize}
+\item \mbox{\hyperlink{structseq_1_1any__base_a70d7ea155d0685c3cf827ab7042ebb51}{any\+\_\+base\+::empty()}} \+: check for empty any
+\item \mbox{\hyperlink{structseq_1_1any__base_a9fe890402f74be9dce0a9d1a8b865996}{any\+\_\+base\+::data()}} \+: returns underlying object as a void$\ast$
+\item \mbox{\hyperlink{structseq_1_1any__base_aa899d3d4de92c0e55c62d3ad4d69aee6}{any\+\_\+base\+::type()}} \+: returns the type as a Type\+Info pointer
+\item \mbox{\hyperlink{structseq_1_1any__base_a2ceda43b2dd33eb65c9139409fa608e6}{any\+\_\+base\+::type\+\_\+id()}} \+: returns the type id (as \mbox{\hyperlink{namespaceseq_ae671e0f695cb6f085d8255e0de4d2281}{get\+\_\+type\+\_\+id()}})
+\item \mbox{\hyperlink{structseq_1_1any__base_aa9d30cf924ad6697ae3311ec947ea6d0}{any\+\_\+base\+::cast()}} \+: cast to template type
+\item \mbox{\hyperlink{structseq_1_1any__base_ad9a1c7d3711d5638f67843961f194363}{any\+\_\+base\+::sizeof\+\_\+type()}}\+: returns the size of underlying type
+\item \mbox{\hyperlink{structseq_1_1any__base_a1507269eecaedac6dde9b9e79ccb2aa1}{any\+\_\+base\+::hash()}}\+: returns a hash value (based on std\+::hash) for underlying object
+\end{DoxyItemize}
+
+It is possible to inherit \mbox{\hyperlink{structseq_1_1any__base}{any\+\_\+base}} in order to provide an extended interface to \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} (see \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} documentation for an example). 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{structseq_1_1any__base_abc0890d85192860e6b3d72bdfb1e4d37}\label{structseq_1_1any__base_abc0890d85192860e6b3d72bdfb1e4d37}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!pointer\_type@{pointer\_type}}
+\index{pointer\_type@{pointer\_type}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{pointer\_type}{pointer\_type}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+using \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::\mbox{\hyperlink{structseq_1_1any__base_abc0890d85192860e6b3d72bdfb1e4d37}{pointer\+\_\+type}} =  \mbox{\hyperlink{classseq_1_1tagged__pointer}{tagged\+\_\+pointer}}$<$Type\+Info, \mbox{\hyperlink{namespaceseq_affae767f96f2af9924f7c6f3bdd4c72aad297c23409b392745ce5f3024304a8e8}{Custom\+Alignment}}, 32$>$\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{structseq_1_1any__base_aa16c27b3120359d1f80ff0930199dfd8}\label{structseq_1_1any__base_aa16c27b3120359d1f80ff0930199dfd8}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!storage\_type@{storage\_type}}
+\index{storage\_type@{storage\_type}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{storage\_type}{storage\_type}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+using \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::\mbox{\hyperlink{structseq_1_1any__base_aa16c27b3120359d1f80ff0930199dfd8}{storage\+\_\+type}} =  typename std\+::aligned\+\_\+storage$<$ Static\+Size, Alignment$>$\+::\mbox{\hyperlink{structseq_1_1any__base_aa899d3d4de92c0e55c62d3ad4d69aee6}{type}}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{structseq_1_1any__base_ad510dce17e4652ba69bab072541e6e6e}\label{structseq_1_1any__base_ad510dce17e4652ba69bab072541e6e6e}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!type\_info\_type@{type\_info\_type}}
+\index{type\_info\_type@{type\_info\_type}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{type\_info\_type}{type\_info\_type}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+using \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::\mbox{\hyperlink{structseq_1_1any__base_ad510dce17e4652ba69bab072541e6e6e}{type\+\_\+info\+\_\+type}} =  Type\+Info}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1any__base_aa96905dea4abe8e3f1ce8d997de8528a}\label{structseq_1_1any__base_aa96905dea4abe8e3f1ce8d997de8528a}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!alloc@{alloc}}
+\index{alloc@{alloc}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{alloc()}{alloc()}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+template$<$class T $>$ \\
+void$\ast$ \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::alloc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{structseq_1_1any__base_aa9d30cf924ad6697ae3311ec947ea6d0}\label{structseq_1_1any__base_aa9d30cf924ad6697ae3311ec947ea6d0}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!cast@{cast}}
+\index{cast@{cast}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{cast()}{cast()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+template$<$class T $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::cast (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Cast any object to given type. Throw a std\+::bad\+\_\+cast on error. 
+
+\mbox{\Hypertarget{structseq_1_1any__base_a38a444acffa2d3c10bfee25c0f8e5e14}\label{structseq_1_1any__base_a38a444acffa2d3c10bfee25c0f8e5e14}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!cast@{cast}}
+\index{cast@{cast}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{cast()}{cast()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+template$<$class T $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::cast (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Cast any object to given type. Throw a std\+::bad\+\_\+cast on error. 
+
+\mbox{\Hypertarget{structseq_1_1any__base_a536f3c697a51c4abb0e2283c9944c566}\label{structseq_1_1any__base_a536f3c697a51c4abb0e2283c9944c566}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!convert@{convert}}
+\index{convert@{convert}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{convert()}{convert()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+template$<$class T , class  = typename std\+::enable\+\_\+if$<$std\+::is\+\_\+reference$<$\+T$>$\+::value, void$>$\+::type$>$ \\
+T \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::convert (\begin{DoxyParamCaption}\item[{const Type\+Info $\ast$}]{info,  }\item[{const Type\+Info $\ast$}]{out\+\_\+p,  }\item[{std\+::uintptr\+\_\+t}]{tags }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{structseq_1_1any__base_a54c6648301a2a1410bcfadc5e6022625}\label{structseq_1_1any__base_a54c6648301a2a1410bcfadc5e6022625}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!convert@{convert}}
+\index{convert@{convert}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{convert()}{convert()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+template$<$class T , class  = typename std\+::enable\+\_\+if$<$!std\+::is\+\_\+reference$<$\+T$>$\+::value, void$>$\+::type$>$ \\
+std\+::decay$<$T$>$\+::\mbox{\hyperlink{structseq_1_1any__base_aa899d3d4de92c0e55c62d3ad4d69aee6}{type}} \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::convert (\begin{DoxyParamCaption}\item[{const Type\+Info $\ast$}]{info,  }\item[{const Type\+Info $\ast$}]{out\+\_\+p,  }\item[{std\+::uintptr\+\_\+t}]{tags }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{structseq_1_1any__base_a5bf6361319d828a0a3321a0ef1438872}\label{structseq_1_1any__base_a5bf6361319d828a0a3321a0ef1438872}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!data@{data}}
+\index{data@{data}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const void$\ast$ \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the underlying object as a void$\ast$. Never returns a N\+U\+LL pointer, even for empty object. 
+
+\mbox{\Hypertarget{structseq_1_1any__base_a9fe890402f74be9dce0a9d1a8b865996}\label{structseq_1_1any__base_a9fe890402f74be9dce0a9d1a8b865996}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!data@{data}}
+\index{data@{data}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void$\ast$ \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the underlying object as a void$\ast$. Never returns a N\+U\+LL pointer, even for empty object. 
+
+\mbox{\Hypertarget{structseq_1_1any__base_a9197c890b48f4414996a62f8f6f181ec}\label{structseq_1_1any__base_a9197c890b48f4414996a62f8f6f181ec}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!dealloc@{dealloc}}
+\index{dealloc@{dealloc}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{dealloc()}{dealloc()}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+void \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::dealloc (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1any__base_a70d7ea155d0685c3cf827ab7042ebb51}\label{structseq_1_1any__base_a70d7ea155d0685c3cf827ab7042ebb51}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!empty@{empty}}
+\index{empty@{empty}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{empty()}{empty()}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns true if this object is empty, false otherwise. 
+
+\mbox{\Hypertarget{structseq_1_1any__base_a1507269eecaedac6dde9b9e79ccb2aa1}\label{structseq_1_1any__base_a1507269eecaedac6dde9b9e79ccb2aa1}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!hash@{hash}}
+\index{hash@{hash}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{hash()}{hash()}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::hash (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the hash value for underlying object based on std\+::hash. Might throw a std\+::bad\+\_\+function\+\_\+call. 
+
+\mbox{\Hypertarget{structseq_1_1any__base_ad9a1c7d3711d5638f67843961f194363}\label{structseq_1_1any__base_ad9a1c7d3711d5638f67843961f194363}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!sizeof\_type@{sizeof\_type}}
+\index{sizeof\_type@{sizeof\_type}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{sizeof\_type()}{sizeof\_type()}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::sizeof\+\_\+type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the size of underlying type, 0 if empty. 
+
+\mbox{\Hypertarget{structseq_1_1any__base_ab875435054b7fc0d30c812b211377790}\label{structseq_1_1any__base_ab875435054b7fc0d30c812b211377790}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!type@{type}}
+\index{type@{type}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{type()}{type()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const Type\+Info$\ast$ \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the type information as a Type\+Info pointer. Returns N\+U\+LL if the object is empty. 
+
+\mbox{\Hypertarget{structseq_1_1any__base_aa899d3d4de92c0e55c62d3ad4d69aee6}\label{structseq_1_1any__base_aa899d3d4de92c0e55c62d3ad4d69aee6}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!type@{type}}
+\index{type@{type}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{type()}{type()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Type\+Info$\ast$ \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the type information as a Type\+Info pointer. Returns N\+U\+LL if the object is empty. 
+
+\mbox{\Hypertarget{structseq_1_1any__base_a2ceda43b2dd33eb65c9139409fa608e6}\label{structseq_1_1any__base_a2ceda43b2dd33eb65c9139409fa608e6}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!type\_id@{type\_id}}
+\index{type\_id@{type\_id}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{type\_id()}{type\_id()}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::type\+\_\+id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the type id for this object. Returns 0 if the object is empty. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structseq_1_1any__base_aa0112aaddf25246d85bc678eb3fb1567}\label{structseq_1_1any__base_aa0112aaddf25246d85bc678eb3fb1567}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!d\_storage@{d\_storage}}
+\index{d\_storage@{d\_storage}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{d\_storage}{d\_storage}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+\mbox{\hyperlink{structseq_1_1any__base_aa16c27b3120359d1f80ff0930199dfd8}{storage\+\_\+type}} \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::d\+\_\+storage\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{structseq_1_1any__base_a2b615cf6c1416d7c6b3929f0458acb30}\label{structseq_1_1any__base_a2b615cf6c1416d7c6b3929f0458acb30}} 
+\index{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}!d\_type\_info@{d\_type\_info}}
+\index{d\_type\_info@{d\_type\_info}!seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$@{seq::any\_base$<$ Derived, TypeInfo, StaticSize, Alignment $>$}}
+\doxysubsubsection{\texorpdfstring{d\_type\_info}{d\_type\_info}}
+{\footnotesize\ttfamily template$<$class Derived , class Type\+Info , size\+\_\+t Static\+Size = sizeof(void$\ast$), size\+\_\+t Alignment = alignof(void$\ast$)$>$ \\
+\mbox{\hyperlink{structseq_1_1any__base_abc0890d85192860e6b3d72bdfb1e4d37}{pointer\+\_\+type}} \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base}}$<$ Derived, Type\+Info, Static\+Size, Alignment $>$\+::d\+\_\+type\+\_\+info\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{any_8hpp}{any.\+hpp}}\end{DoxyCompactItemize}

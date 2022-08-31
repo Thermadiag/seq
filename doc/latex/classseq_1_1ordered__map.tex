@@ -1,0 +1,1220 @@
+\hypertarget{classseq_1_1ordered__map}{}\doxysection{seq\+::ordered\+\_\+map$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$ Class Template Reference}
+\label{classseq_1_1ordered__map}\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+
+
+Associative container that contains key-\/value pairs with unique keys. Search, insertion, and removal of elements have average constant-\/time complexity.  
+
+
+
+
+{\ttfamily \#include $<$ordered\+\_\+map.\+hpp$>$}
+
+
+
+Inherits \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{seq\+::detail\+::\+Sparse\+Flat\+Node\+Hash\+Table$<$ Key, std\+::pair$<$ Key, T $>$, std\+::hash$<$ Key $>$, std\+::equal\+\_\+to$<$ Key $>$, std\+::allocator$<$ std\+::pair$<$ const Key, T $>$ $>$, Optimize\+For\+Speed $>$}}.
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_acf895525b20291e68801facab7a79f0b}{sequence\+\_\+type}} = typename \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a98d750db6b916e5c8c9d287a31c79f6c}{base\+\_\+type\+::sequence\+\_\+type}}
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_ac5766a73f7c0ed34db047ee6dbabfce5}{key\+\_\+type}} = Key
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_a95ffeff97a961fa121ee3b3337d1f68c}{mapped\+\_\+type}} = T
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} = std\+::pair$<$ Key, T $>$
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_a70b4d626755f863e6f3b0c9f01267238}{allocator\+\_\+type}} = Allocator
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}{size\+\_\+type}} = size\+\_\+t
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_a44f5c8b616e5228ae8f30b4bd94f340b}{difference\+\_\+type}} = std\+::ptrdiff\+\_\+t
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_ac78ad96722a72f145a5fc0b05466a0fc}{hasher}} = Hash
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}} = Key\+Equal
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_a7782581e45ca17fc55983767ec8b531d}{reference}} = \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_aa34019b3e49d21b5dc5277591a40e68b}{const\+\_\+reference}} = const \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_a711c4e83f0511cb9369327ac2b273731}{pointer}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a711c4e83f0511cb9369327ac2b273731}{pointer}}
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_a5843678a0d38ee5b7c901ecd366e9bf8}{const\+\_\+pointer}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a5843678a0d38ee5b7c901ecd366e9bf8}{const\+\_\+pointer}}
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_a3dbf2f6bd0e89a2ec214f1cf66b99c32}{reverse\+\_\+iterator}} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} $>$
+\item 
+using \mbox{\hyperlink{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}{const\+\_\+reverse\+\_\+iterator}} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a8e8373645de9b36270c1588d807c2630}{ordered\+\_\+map}} (const Hash \&\mbox{\hyperlink{structseq_1_1detail_1_1_hash_equal_ae93d63f42e715da31f2f1b8ea083ac1e}{hash}}=Hash(), const Key\+Equal \&equal=Key\+Equal(), const Allocator \&alloc=Allocator()) noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a6bb528bb8c5b7e32a43ab58ab69a2cbe}{ordered\+\_\+map}} (const Allocator \&alloc)
+\item 
+{\footnotesize template$<$class Input\+It $>$ }\\\mbox{\hyperlink{classseq_1_1ordered__map_a27d5328be0763528960426ab70a2422f}{ordered\+\_\+map}} (Input\+It first, Input\+It last, const Hash \&\mbox{\hyperlink{structseq_1_1detail_1_1_hash_equal_ae93d63f42e715da31f2f1b8ea083ac1e}{hash}}=Hash(), const \mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}} \&equal=\mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}}(), const Allocator \&alloc=Allocator())
+\item 
+{\footnotesize template$<$class Input\+It $>$ }\\\mbox{\hyperlink{classseq_1_1ordered__map_ad876f53f27c34df89fdceaf5012e51a5}{ordered\+\_\+map}} (Input\+It first, Input\+It last, const Allocator \&alloc)
+\item 
+{\footnotesize template$<$class Input\+It $>$ }\\\mbox{\hyperlink{classseq_1_1ordered__map_a15673ee8a45ad8ef2bdba5c754894f88}{ordered\+\_\+map}} (Input\+It first, Input\+It last, const Hash \&\mbox{\hyperlink{structseq_1_1detail_1_1_hash_equal_ae93d63f42e715da31f2f1b8ea083ac1e}{hash}}, const Allocator \&alloc)
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_aa5850892af7ffbfbce6eca28a2d83db9}{ordered\+\_\+map}} (const \mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} \&other, const Allocator \&alloc)
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_aa8c6f1a4faf32b4b1bfd54d9ff7e5a1d}{ordered\+\_\+map}} (const \mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} \&other)
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a691bd59df8d631773b9f109a41d4519a}{ordered\+\_\+map}} (\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} \&\&other)
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a9fbd7601b407734cda9c68dc1a4019dc}{ordered\+\_\+map}} (\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} \&\&other, const Allocator \&alloc)
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a89c03da3079de9d2fe39a41323b9155f}{ordered\+\_\+map}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} $>$ init, const Hash \&\mbox{\hyperlink{structseq_1_1detail_1_1_hash_equal_ae93d63f42e715da31f2f1b8ea083ac1e}{hash}}=Hash(), const \mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}} \&equal=\mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}}(), const Allocator \&alloc=Allocator())
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_ab5cba1518f907d6e095b7f8ad81962f9}{ordered\+\_\+map}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} $>$ init, const Hash \&\mbox{\hyperlink{structseq_1_1detail_1_1_hash_equal_ae93d63f42e715da31f2f1b8ea083ac1e}{hash}}, const Allocator \&alloc)
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a8e972f934851f047a3f95e816b1238ec}{ordered\+\_\+map}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} $>$ init, const Allocator \&alloc)
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} \& \mbox{\hyperlink{classseq_1_1ordered__map_a0281b5aaa2d5ed18362375353ed76862}{operator=}} (const \mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} \&other)
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} \& \mbox{\hyperlink{classseq_1_1ordered__map_ad485168afb3aa287413c5d7e49d4065e}{operator=}} (\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} \&\&other)
+\item 
+size\+\_\+t \mbox{\hyperlink{classseq_1_1ordered__map_a13d555ee5a290a26e6a6321088512a0c}{size}} () const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{classseq_1_1ordered__map_af3e98f1aa4ae4a3db60bf04de83dee15}{max\+\_\+size}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classseq_1_1ordered__map_a653f2a39fd95efaa8d63aeb85e1b6c13}{empty}} () const noexcept
+\item 
+int \mbox{\hyperlink{classseq_1_1ordered__map_acadaaccd710afb96f5def00f89de4d08}{max\+\_\+probe\+\_\+distance}} () const noexcept
+\item 
+float \mbox{\hyperlink{classseq_1_1ordered__map_ab9a3e0affcf78b7fdba13671c5855b32}{load\+\_\+factor}} () const noexcept
+\item 
+float \mbox{\hyperlink{classseq_1_1ordered__map_aad5aea1a487d08b4625876105acbb436}{max\+\_\+load\+\_\+factor}} () const noexcept
+\item 
+void \mbox{\hyperlink{classseq_1_1ordered__map_ab66aeb572d77bb62e6ee08811596df14}{max\+\_\+load\+\_\+factor}} (float f) noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a70b4d626755f863e6f3b0c9f01267238}{allocator\+\_\+type}} \& \mbox{\hyperlink{classseq_1_1ordered__map_a51fd2c22002f9c7f9b4f109def8a6e91}{get\+\_\+allocator}} () noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a70b4d626755f863e6f3b0c9f01267238}{allocator\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__map_a2b6fdbe1e8e08c2090e4ecf122fbe0d9}{get\+\_\+allocator}} () const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_ac78ad96722a72f145a5fc0b05466a0fc}{hasher}} \mbox{\hyperlink{classseq_1_1ordered__map_af818dd8302d486d9b4827b0659f788fd}{hash\+\_\+function}} () const
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}} \mbox{\hyperlink{classseq_1_1ordered__map_a071a88ce6702a28925ef1fa39a66c399}{key\+\_\+eq}} () const
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_acf895525b20291e68801facab7a79f0b}{sequence\+\_\+type}} \& \mbox{\hyperlink{classseq_1_1ordered__map_a870aadd077f8a647976e1de70be6797b}{sequence}} () noexcept
+\item 
+const \mbox{\hyperlink{classseq_1_1ordered__map_acf895525b20291e68801facab7a79f0b}{sequence\+\_\+type}} \& \mbox{\hyperlink{classseq_1_1ordered__map_a36796e623913c10877ad2e4760fdb3b6}{sequence}} () const noexcept
+\item 
+const \mbox{\hyperlink{classseq_1_1ordered__map_acf895525b20291e68801facab7a79f0b}{sequence\+\_\+type}} \& \mbox{\hyperlink{classseq_1_1ordered__map_ae3226d840e296ef3c48789f68bbce0d7}{csequence}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_aa5083dccaa4462e3a6a245d3fd765397}{end}} () noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a2d4807e500d006b5f416f8595ce9d719}{end}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a226009902c84cc9416cd47c3a150f713}{cend}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a7e28d093c3bf9a4df3329a23f517d083}{begin}} () noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a35ec64c3733ca7289e38755efb9fd5f2}{begin}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_aa76132d32b75d4c3f9ca84b18b7553fc}{cbegin}} () const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a3dbf2f6bd0e89a2ec214f1cf66b99c32}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a854661c286a222a093ba5f55aab93bb0}{rbegin}} () noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a1b6f354920b84217cc1b50e83135e977}{rbegin}} () const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a6ef19aaa4f5ea73256edd98ec4941bed}{crbegin}} () const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a3dbf2f6bd0e89a2ec214f1cf66b99c32}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_ad358770f696739c233190694b991a204}{rend}} () noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_ab40a139a71d8fe1edb1f3281bb47fe20}{rend}} () const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_afe31a58b621c2fd90114e036f4fab448}{crend}} () const noexcept
+\item 
+void \mbox{\hyperlink{classseq_1_1ordered__map_a7bec7fe8389900238476d4c2899ddd74}{clear}} ()
+\item 
+void \mbox{\hyperlink{classseq_1_1ordered__map_ae60e711ea8398db5f3ca18c07354a911}{rehash}} ()
+\item 
+void \mbox{\hyperlink{classseq_1_1ordered__map_a20f4fdb35d6f6e2b96f3ce567c4e135c}{reserve}} (size\+\_\+t \mbox{\hyperlink{classseq_1_1ordered__map_a13d555ee5a290a26e6a6321088512a0c}{size}})
+\item 
+{\footnotesize template$<$class Less $>$ }\\void \mbox{\hyperlink{classseq_1_1ordered__map_a03910fe5d95b6c85f4472028feb3647f}{sort}} (Less le)
+\item 
+void \mbox{\hyperlink{classseq_1_1ordered__map_ae2159f06325aa2d453f561312f3f43f3}{sort}} ()
+\item 
+{\footnotesize template$<$class Less $>$ }\\void \mbox{\hyperlink{classseq_1_1ordered__map_a39ba3275f40335bd20d51fc661d417a9}{stable\+\_\+sort}} (Less le)
+\item 
+void \mbox{\hyperlink{classseq_1_1ordered__map_a8ad2d7acf3d35e3848df60aebf967b57}{stable\+\_\+sort}} ()
+\item 
+void \mbox{\hyperlink{classseq_1_1ordered__map_ac06bc17b22adf646bd87d27fc53b8957}{shrink\+\_\+to\+\_\+fit}} ()
+\item 
+void \mbox{\hyperlink{classseq_1_1ordered__map_ab3355dbcb5f60a39ff10c6259534c849}{swap}} (\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} \&other)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a23cfa4d24e492106746f934b19478c59}{emplace}} (Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a451c580fbd652dc3c14389534bc88e4a}{emplace\+\_\+hint}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, Args \&\&... args)
+\item 
+std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_ac24f8635304aac2cfdeafd800100748d}{insert}} (const \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&value)
+\item 
+std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a2564b48c053d7f0299d66acf083b299c}{insert}} (\mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&\&value)
+\item 
+{\footnotesize template$<$class P $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_af905ce336629ce608479be714d1d1a15}{insert}} (P \&\&value)
+\item 
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_aae7802ccf25f7ce56a1f037a1dab9dd3}{insert}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, const \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&value)
+\item 
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_aecea9b688e4bc9fb3eb1a26daafba806}{insert}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&\&value)
+\item 
+{\footnotesize template$<$class P $>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_ad24b808319be032ee5720a56d35ba191}{insert}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, P \&\&value)
+\item 
+{\footnotesize template$<$class Input\+It $>$ }\\void \mbox{\hyperlink{classseq_1_1ordered__map_aafc78ae3740154c0d279bb086cb5c065}{insert}} (Input\+It first, Input\+It last)
+\item 
+void \mbox{\hyperlink{classseq_1_1ordered__map_aaa97bda53ee76719aca2f6230c6bac0d}{insert}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} $>$ ilist)
+\item 
+{\footnotesize template$<$class M $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a96b77d8f74f57c814ab4eabf5d031a8b}{insert\+\_\+or\+\_\+assign}} (const Key \&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class M $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a056ea1e2a7cc867f874ff1656fc7f47f}{insert\+\_\+or\+\_\+assign}} (Key \&\&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class M $>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a030fd9b315358bda45cb9df3f15b3388}{insert\+\_\+or\+\_\+assign}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, const Key \&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class M $>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a91863e8616383f5a54006ed029f947a8}{insert\+\_\+or\+\_\+assign}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, Key \&\&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class M $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a0a0dada6614cc2c808956d931ade40f2}{push\+\_\+back\+\_\+or\+\_\+assign}} (const Key \&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class M $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_ae44e0ce5b5992b0f4905a5b678e09061}{push\+\_\+back\+\_\+or\+\_\+assign}} (Key \&\&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class M $>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a62b0a0ea773bafb71824c051a71af567}{push\+\_\+back\+\_\+or\+\_\+assign}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, const Key \&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class M $>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a041ad4bb6e577b1867cdd7e0434a547c}{push\+\_\+back\+\_\+or\+\_\+assign}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, Key \&\&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class M $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a524f63e5c36eeba2c52744e12a829552}{push\+\_\+front\+\_\+or\+\_\+assign}} (const Key \&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class M $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a9af3693deeaa1c00de5cec2094f3c555}{push\+\_\+front\+\_\+or\+\_\+assign}} (Key \&\&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class M $>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_aa98b34484505150178418f21ab4ff8f0}{push\+\_\+front\+\_\+or\+\_\+assign}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, const Key \&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class M $>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a7fbc2e7af9a2ea1230571732545efa2d}{push\+\_\+front\+\_\+or\+\_\+assign}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, Key \&\&k, M \&\&obj)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a4697b22faf7fb53d5be38c3e9743bb18}{emplace\+\_\+back}} (Args \&\&... args)
+\item 
+std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a06f384aaf01378963bb6744f677ed59a}{push\+\_\+back}} (const \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&value)
+\item 
+std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a0df805a6fcad8fd3ad4184b78d14dadc}{push\+\_\+back}} (\mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&\&value)
+\item 
+{\footnotesize template$<$class P $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a33af58389917f2dc7a23d9188acfeeec}{push\+\_\+back}} (P \&\&value)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_ade27aed463bf0ed77f2e2379274c866c}{emplace\+\_\+front}} (Args \&\&... args)
+\item 
+std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_ae8c144899a8b903208dd6db63d100354}{push\+\_\+front}} (const \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&value)
+\item 
+std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_af2ae5dfc5e2c99091c5dc185f05f6809}{push\+\_\+front}} (\mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&\&value)
+\item 
+{\footnotesize template$<$class P $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a217add67bd596c7d43a70ad535f649b1}{push\+\_\+front}} (P \&\&value)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_ac20884beaa93ac3e881ebfd44c7bd88d}{try\+\_\+emplace}} (const Key \&k, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a67284f00bd8854928883e77775ae961a}{try\+\_\+emplace}} (Key \&\&k, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_aee990482fead77c208fd0c38a4eda767}{try\+\_\+emplace}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, const Key \&k, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a67a888895139155bed5572dee2048797}{try\+\_\+emplace}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, Key \&\&k, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_ae104ae1e6955e18a3c859b25f660c9d1}{try\+\_\+emplace\+\_\+back}} (const Key \&k, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_a692779e2306c805cc503646fdf8f0b7f}{try\+\_\+emplace\+\_\+back}} (Key \&\&k, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a485d96db14a8881c4c3fb5deb915532a}{try\+\_\+emplace\+\_\+back}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, const Key \&k, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a9ac4fe2ceabbda265a14bb841755d4aa}{try\+\_\+emplace\+\_\+back}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, Key \&\&k, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_aa4f3405523d6c60dbbb509e369f584f7}{try\+\_\+emplace\+\_\+front}} (const Key \&k, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__map_ab1dfa37f8ddfeb8b41a8b9875666751c}{try\+\_\+emplace\+\_\+front}} (Key \&\&k, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_aaed29ead7b2beccb2ef6d48062c9704b}{try\+\_\+emplace\+\_\+front}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, const Key \&k, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a9835c036b0b18b5120c84a427b5aa7a6}{try\+\_\+emplace\+\_\+front}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} hint, Key \&\&k, Args \&\&... args)
+\item 
+T \& \mbox{\hyperlink{classseq_1_1ordered__map_a310dc21ab43beebbce40324f1aa1d5d9}{at}} (const Key \&key)
+\item 
+const T \& \mbox{\hyperlink{classseq_1_1ordered__map_a3e4388e060510f649de79c426d8d4aae}{at}} (const Key \&key) const
+\item 
+T \& \mbox{\hyperlink{classseq_1_1ordered__map_a976062be5b80f36f350908e5c3e44a23}{operator\mbox{[}$\,$\mbox{]}}} (const Key \&key)
+\item 
+T \& \mbox{\hyperlink{classseq_1_1ordered__map_a9c0cad69d8126b4b98295d03bb37c1c5}{operator\mbox{[}$\,$\mbox{]}}} (Key \&\&key)
+\item 
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_ab4e40be162ab3142b16fb544c557963e}{erase}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}})
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__map_a54a8a72a0d971d17c9d2b748060354d0}{erase}} (const Key \&key)
+\item 
+{\footnotesize template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ }\\\mbox{\hyperlink{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__map_a8ffba953e230b258ecfa782cb9c8a655}{erase}} (const K \&key)
+\item 
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a57af6f8ce57183e0a55da1df451ba80d}{erase}} (\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} first, \mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} last)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_ae4e29feb46f4429eeb4286828bb01b97}{find}} (const Key \&value) const
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a2a43ec1955fa7f8f5d2874df840e6151}{find}} (const Key \&value)
+\item 
+{\footnotesize template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a7e1bf0e853f2a693e8c26768aa37b610}{find}} (const K \&key) const
+\item 
+{\footnotesize template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map_a8019772bbfa88b8403acfafef250d0ff}{find}} (const K \&key)
+\item 
+\mbox{\hyperlink{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__map_a56e839616f4b123851f1720e71715dd7}{count}} (const Key \&key) const
+\item 
+{\footnotesize template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ }\\\mbox{\hyperlink{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__map_add3c8d75876bf3aefb78c6e75a686f69}{count}} (const K \&key) const
+\item 
+bool \mbox{\hyperlink{classseq_1_1ordered__map_a85709189ee42697181faaba3e45acb43}{contains}} (const Key \&key) const
+\item 
+{\footnotesize template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ }\\bool \mbox{\hyperlink{classseq_1_1ordered__map_add1bc95848ee24a1848a5d6d8517a447}{contains}} (const K \&key) const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Key, class T, class Hash = std\+::hash$<$\+Key$>$, class Key\+Equal = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$\newline
+class seq\+::ordered\+\_\+map$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$}
+
+Associative container that contains key-\/value pairs with unique keys. Search, insertion, and removal of elements have average constant-\/time complexity. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Key} & Key type \\
+\hline
+{\em T} & mapped type \\
+\hline
+{\em Hash} & Hash function \\
+\hline
+{\em Key\+Equal} & Equality comparison function \\
+\hline
+{\em Allocator} & allocator object \\
+\hline
+{\em Layout} & memory layout used by the underlying sequence object\\
+\hline
+\end{DoxyTemplParams}
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}} is a hash table using robin hood hashing and backward shift deletion. Its main properties are\+:
+\begin{DoxyItemize}
+\item Keys are ordered by insertion order. Therefore, \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} provides the additional members \mbox{\hyperlink{classseq_1_1ordered__map_a06f384aaf01378963bb6744f677ed59a}{push\+\_\+back()}}, \mbox{\hyperlink{classseq_1_1ordered__map_ae8c144899a8b903208dd6db63d100354}{push\+\_\+front()}}, \mbox{\hyperlink{classseq_1_1ordered__map_a4697b22faf7fb53d5be38c3e9743bb18}{emplace\+\_\+back()}} and \mbox{\hyperlink{classseq_1_1ordered__map_ade27aed463bf0ed77f2e2379274c866c}{emplace\+\_\+front()}} to constrol key ordering.
+\item Since the container is ordered, it is also sortable. \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} provides the additional members \mbox{\hyperlink{classseq_1_1ordered__map_ae2159f06325aa2d453f561312f3f43f3}{sort()}} and \mbox{\hyperlink{classseq_1_1ordered__map_a8ad2d7acf3d35e3848df60aebf967b57}{stable\+\_\+sort()}} for this purpose.
+\item The hash table itself basically stores iterators to a \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}} object storing the actual values. Therefore, \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} provides {\bfseries{stable references and iterators, even on rehash}} (unlike std\+::unordered\+\_\+set that invalidates iterators on rehash).
+\item No memory peak on rehash.
+\item \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} uses robin hood probing with backard shift deletion. It does not rely on tombstones and supports high load factors.
+\item It is fast and memory efficient compared to other node based hash tables (see section {\bfseries{Performances}}), but still slower than most open addressing hash tables.
+\end{DoxyItemize}
+
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}} behaves like \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} except that the underlying sequence stores elements of types std\+::pair$<$\+Key,\+T$>$ instead of Key. Its interface is similar to std\+::unordered\+\_\+map, except for the bucket based members.
+
+Unlike std\+::unordered\+\_\+map which stores objects of type std\+::pair$<$const Key,\+T$>$, \mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} stores objects of type std\+::pair$<$\+Key,\+T$>$. To avoid modifying the key value through iterators, the value is reinterpreted to std\+::pair$<$const Key,\+T$>$. Although quite ugly, this solution works on all tested compilers.
+
+For more details on its internal implementation, see \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} documentation. 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classseq_1_1ordered__map_a70b4d626755f863e6f3b0c9f01267238}\label{classseq_1_1ordered__map_a70b4d626755f863e6f3b0c9f01267238}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!allocator\_type@{allocator\_type}}
+\index{allocator\_type@{allocator\_type}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{allocator\_type}{allocator\_type}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a70b4d626755f863e6f3b0c9f01267238}{allocator\+\_\+type}} =  Allocator}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a5843678a0d38ee5b7c901ecd366e9bf8}\label{classseq_1_1ordered__map_a5843678a0d38ee5b7c901ecd366e9bf8}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!const\_pointer@{const\_pointer}}
+\index{const\_pointer@{const\_pointer}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{const\_pointer}{const\_pointer}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a5843678a0d38ee5b7c901ecd366e9bf8}{const\+\_\+pointer}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a5843678a0d38ee5b7c901ecd366e9bf8}{const\+\_\+pointer}}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aa34019b3e49d21b5dc5277591a40e68b}\label{classseq_1_1ordered__map_aa34019b3e49d21b5dc5277591a40e68b}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!const\_reference@{const\_reference}}
+\index{const\_reference@{const\_reference}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reference}{const\_reference}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_aa34019b3e49d21b5dc5277591a40e68b}{const\+\_\+reference}} =  const \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}}\&}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}\label{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!const\_reverse\_iterator@{const\_reverse\_iterator}}
+\index{const\_reverse\_iterator@{const\_reverse\_iterator}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reverse\_iterator}{const\_reverse\_iterator}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}{const\+\_\+reverse\+\_\+iterator}} =  std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}$>$}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a44f5c8b616e5228ae8f30b4bd94f340b}\label{classseq_1_1ordered__map_a44f5c8b616e5228ae8f30b4bd94f340b}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!difference\_type@{difference\_type}}
+\index{difference\_type@{difference\_type}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{difference\_type}{difference\_type}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a44f5c8b616e5228ae8f30b4bd94f340b}{difference\+\_\+type}} =  std\+::ptrdiff\+\_\+t}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ac78ad96722a72f145a5fc0b05466a0fc}\label{classseq_1_1ordered__map_ac78ad96722a72f145a5fc0b05466a0fc}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!hasher@{hasher}}
+\index{hasher@{hasher}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{hasher}{hasher}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_ac78ad96722a72f145a5fc0b05466a0fc}{hasher}} =  Hash}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}\label{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!key\_equal@{key\_equal}}
+\index{key\_equal@{key\_equal}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{key\_equal}{key\_equal}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}} =  Key\+Equal}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ac5766a73f7c0ed34db047ee6dbabfce5}\label{classseq_1_1ordered__map_ac5766a73f7c0ed34db047ee6dbabfce5}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!key\_type@{key\_type}}
+\index{key\_type@{key\_type}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{key\_type}{key\_type}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_ac5766a73f7c0ed34db047ee6dbabfce5}{key\+\_\+type}} =  Key}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a95ffeff97a961fa121ee3b3337d1f68c}\label{classseq_1_1ordered__map_a95ffeff97a961fa121ee3b3337d1f68c}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!mapped\_type@{mapped\_type}}
+\index{mapped\_type@{mapped\_type}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{mapped\_type}{mapped\_type}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a95ffeff97a961fa121ee3b3337d1f68c}{mapped\+\_\+type}} =  T}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a711c4e83f0511cb9369327ac2b273731}\label{classseq_1_1ordered__map_a711c4e83f0511cb9369327ac2b273731}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!pointer@{pointer}}
+\index{pointer@{pointer}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{pointer}{pointer}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a711c4e83f0511cb9369327ac2b273731}{pointer}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a711c4e83f0511cb9369327ac2b273731}{pointer}}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a7782581e45ca17fc55983767ec8b531d}\label{classseq_1_1ordered__map_a7782581e45ca17fc55983767ec8b531d}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!reference@{reference}}
+\index{reference@{reference}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{reference}{reference}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a7782581e45ca17fc55983767ec8b531d}{reference}} =  \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}}\&}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a3dbf2f6bd0e89a2ec214f1cf66b99c32}\label{classseq_1_1ordered__map_a3dbf2f6bd0e89a2ec214f1cf66b99c32}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!reverse\_iterator@{reverse\_iterator}}
+\index{reverse\_iterator@{reverse\_iterator}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{reverse\_iterator}{reverse\_iterator}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a3dbf2f6bd0e89a2ec214f1cf66b99c32}{reverse\+\_\+iterator}} =  std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}$>$}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_acf895525b20291e68801facab7a79f0b}\label{classseq_1_1ordered__map_acf895525b20291e68801facab7a79f0b}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!sequence\_type@{sequence\_type}}
+\index{sequence\_type@{sequence\_type}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{sequence\_type}{sequence\_type}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_acf895525b20291e68801facab7a79f0b}{sequence\+\_\+type}} =  typename \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a98d750db6b916e5c8c9d287a31c79f6c}{base\+\_\+type\+::sequence\+\_\+type}}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}\label{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!size\_type@{size\_type}}
+\index{size\_type@{size\_type}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{size\_type}{size\_type}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}{size\+\_\+type}} =  size\+\_\+t}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}\label{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} =  std\+::pair$<$Key, T$>$}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classseq_1_1ordered__map_a8e8373645de9b36270c1588d807c2630}\label{classseq_1_1ordered__map_a8e8373645de9b36270c1588d807c2630}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [1/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{const Hash \&}]{hash = {\ttfamily Hash()},  }\item[{const Key\+Equal \&}]{equal = {\ttfamily KeyEqual()},  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a6bb528bb8c5b7e32a43ab58ab69a2cbe}\label{classseq_1_1ordered__map_a6bb528bb8c5b7e32a43ab58ab69a2cbe}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [2/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a27d5328be0763528960426ab70a2422f}\label{classseq_1_1ordered__map_a27d5328be0763528960426ab70a2422f}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [3/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class Input\+It $>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{Input\+It}]{first,  }\item[{Input\+It}]{last,  }\item[{const Hash \&}]{hash = {\ttfamily Hash()},  }\item[{const \mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}} \&}]{equal = {\ttfamily \mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}}()},  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ad876f53f27c34df89fdceaf5012e51a5}\label{classseq_1_1ordered__map_ad876f53f27c34df89fdceaf5012e51a5}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [4/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class Input\+It $>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{Input\+It}]{first,  }\item[{Input\+It}]{last,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a15673ee8a45ad8ef2bdba5c754894f88}\label{classseq_1_1ordered__map_a15673ee8a45ad8ef2bdba5c754894f88}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [5/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class Input\+It $>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{Input\+It}]{first,  }\item[{Input\+It}]{last,  }\item[{const Hash \&}]{hash,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aa5850892af7ffbfbce6eca28a2d83db9}\label{classseq_1_1ordered__map_aa5850892af7ffbfbce6eca28a2d83db9}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [6/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$ \&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aa8c6f1a4faf32b4b1bfd54d9ff7e5a1d}\label{classseq_1_1ordered__map_aa8c6f1a4faf32b4b1bfd54d9ff7e5a1d}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [7/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a691bd59df8d631773b9f109a41d4519a}\label{classseq_1_1ordered__map_a691bd59df8d631773b9f109a41d4519a}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [8/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a9fbd7601b407734cda9c68dc1a4019dc}\label{classseq_1_1ordered__map_a9fbd7601b407734cda9c68dc1a4019dc}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [9/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$ \&\&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a89c03da3079de9d2fe39a41323b9155f}\label{classseq_1_1ordered__map_a89c03da3079de9d2fe39a41323b9155f}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [10/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} $>$}]{init,  }\item[{const Hash \&}]{hash = {\ttfamily Hash()},  }\item[{const \mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}} \&}]{equal = {\ttfamily \mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}}()},  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ab5cba1518f907d6e095b7f8ad81962f9}\label{classseq_1_1ordered__map_ab5cba1518f907d6e095b7f8ad81962f9}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [11/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} $>$}]{init,  }\item[{const Hash \&}]{hash,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a8e972f934851f047a3f95e816b1238ec}\label{classseq_1_1ordered__map_a8e972f934851f047a3f95e816b1238ec}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!ordered\_map@{ordered\_map}}
+\index{ordered\_map@{ordered\_map}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{ordered\_map()}{ordered\_map()}\hspace{0.1cm}{\footnotesize\ttfamily [12/12]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}} (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} $>$}]{init,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1ordered__map_a310dc21ab43beebbce40324f1aa1d5d9}\label{classseq_1_1ordered__map_a310dc21ab43beebbce40324f1aa1d5d9}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!at@{at}}
+\index{at@{at}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+T\& \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::at (\begin{DoxyParamCaption}\item[{const Key \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a3e4388e060510f649de79c426d8d4aae}\label{classseq_1_1ordered__map_a3e4388e060510f649de79c426d8d4aae}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!at@{at}}
+\index{at@{at}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+const T\& \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::at (\begin{DoxyParamCaption}\item[{const Key \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a35ec64c3733ca7289e38755efb9fd5f2}\label{classseq_1_1ordered__map_a35ec64c3733ca7289e38755efb9fd5f2}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!begin@{begin}}
+\index{begin@{begin}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a7e28d093c3bf9a4df3329a23f517d083}\label{classseq_1_1ordered__map_a7e28d093c3bf9a4df3329a23f517d083}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!begin@{begin}}
+\index{begin@{begin}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aa76132d32b75d4c3f9ca84b18b7553fc}\label{classseq_1_1ordered__map_aa76132d32b75d4c3f9ca84b18b7553fc}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!cbegin@{cbegin}}
+\index{cbegin@{cbegin}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{cbegin()}{cbegin()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::cbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a226009902c84cc9416cd47c3a150f713}\label{classseq_1_1ordered__map_a226009902c84cc9416cd47c3a150f713}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!cend@{cend}}
+\index{cend@{cend}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{cend()}{cend()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::cend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a7bec7fe8389900238476d4c2899ddd74}\label{classseq_1_1ordered__map_a7bec7fe8389900238476d4c2899ddd74}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!clear@{clear}}
+\index{clear@{clear}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_add1bc95848ee24a1848a5d6d8517a447}\label{classseq_1_1ordered__map_add1bc95848ee24a1848a5d6d8517a447}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!contains@{contains}}
+\index{contains@{contains}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ \\
+bool \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::contains (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a85709189ee42697181faaba3e45acb43}\label{classseq_1_1ordered__map_a85709189ee42697181faaba3e45acb43}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!contains@{contains}}
+\index{contains@{contains}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+bool \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::contains (\begin{DoxyParamCaption}\item[{const Key \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_add3c8d75876bf3aefb78c6e75a686f69}\label{classseq_1_1ordered__map_add3c8d75876bf3aefb78c6e75a686f69}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!count@{count}}
+\index{count@{count}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::count (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a56e839616f4b123851f1720e71715dd7}\label{classseq_1_1ordered__map_a56e839616f4b123851f1720e71715dd7}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!count@{count}}
+\index{count@{count}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::count (\begin{DoxyParamCaption}\item[{const Key \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a6ef19aaa4f5ea73256edd98ec4941bed}\label{classseq_1_1ordered__map_a6ef19aaa4f5ea73256edd98ec4941bed}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!crbegin@{crbegin}}
+\index{crbegin@{crbegin}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{crbegin()}{crbegin()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::crbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_afe31a58b621c2fd90114e036f4fab448}\label{classseq_1_1ordered__map_afe31a58b621c2fd90114e036f4fab448}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!crend@{crend}}
+\index{crend@{crend}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{crend()}{crend()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::crend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ae3226d840e296ef3c48789f68bbce0d7}\label{classseq_1_1ordered__map_ae3226d840e296ef3c48789f68bbce0d7}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!csequence@{csequence}}
+\index{csequence@{csequence}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{csequence()}{csequence()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+const \mbox{\hyperlink{classseq_1_1ordered__map_acf895525b20291e68801facab7a79f0b}{sequence\+\_\+type}}\& \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::csequence (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a23cfa4d24e492106746f934b19478c59}\label{classseq_1_1ordered__map_a23cfa4d24e492106746f934b19478c59}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!emplace@{emplace}}
+\index{emplace@{emplace}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{emplace()}{emplace()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a4697b22faf7fb53d5be38c3e9743bb18}\label{classseq_1_1ordered__map_a4697b22faf7fb53d5be38c3e9743bb18}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!emplace\_back@{emplace\_back}}
+\index{emplace\_back@{emplace\_back}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_back()}{emplace\_back()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace\+\_\+back (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ade27aed463bf0ed77f2e2379274c866c}\label{classseq_1_1ordered__map_ade27aed463bf0ed77f2e2379274c866c}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!emplace\_front@{emplace\_front}}
+\index{emplace\_front@{emplace\_front}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_front()}{emplace\_front()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace\+\_\+front (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a451c580fbd652dc3c14389534bc88e4a}\label{classseq_1_1ordered__map_a451c580fbd652dc3c14389534bc88e4a}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!emplace\_hint@{emplace\_hint}}
+\index{emplace\_hint@{emplace\_hint}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_hint()}{emplace\_hint()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace\+\_\+hint (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a653f2a39fd95efaa8d63aeb85e1b6c13}\label{classseq_1_1ordered__map_a653f2a39fd95efaa8d63aeb85e1b6c13}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!empty@{empty}}
+\index{empty@{empty}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{empty()}{empty()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+bool \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a2d4807e500d006b5f416f8595ce9d719}\label{classseq_1_1ordered__map_a2d4807e500d006b5f416f8595ce9d719}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!end@{end}}
+\index{end@{end}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aa5083dccaa4462e3a6a245d3fd765397}\label{classseq_1_1ordered__map_aa5083dccaa4462e3a6a245d3fd765397}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!end@{end}}
+\index{end@{end}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a8ffba953e230b258ecfa782cb9c8a655}\label{classseq_1_1ordered__map_a8ffba953e230b258ecfa782cb9c8a655}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!erase@{erase}}
+\index{erase@{erase}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a54a8a72a0d971d17c9d2b748060354d0}\label{classseq_1_1ordered__map_a54a8a72a0d971d17c9d2b748060354d0}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!erase@{erase}}
+\index{erase@{erase}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_aefb0b0d7fc936e04477c46289ae810d6}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{const Key \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a57af6f8ce57183e0a55da1df451ba80d}\label{classseq_1_1ordered__map_a57af6f8ce57183e0a55da1df451ba80d}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!erase@{erase}}
+\index{erase@{erase}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{first,  }\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ab4e40be162ab3142b16fb544c557963e}\label{classseq_1_1ordered__map_ab4e40be162ab3142b16fb544c557963e}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!erase@{erase}}
+\index{erase@{erase}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a8019772bbfa88b8403acfafef250d0ff}\label{classseq_1_1ordered__map_a8019772bbfa88b8403acfafef250d0ff}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!find@{find}}
+\index{find@{find}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::find (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a7e1bf0e853f2a693e8c26768aa37b610}\label{classseq_1_1ordered__map_a7e1bf0e853f2a693e8c26768aa37b610}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!find@{find}}
+\index{find@{find}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::find (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a2a43ec1955fa7f8f5d2874df840e6151}\label{classseq_1_1ordered__map_a2a43ec1955fa7f8f5d2874df840e6151}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!find@{find}}
+\index{find@{find}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::find (\begin{DoxyParamCaption}\item[{const Key \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ae4e29feb46f4429eeb4286828bb01b97}\label{classseq_1_1ordered__map_ae4e29feb46f4429eeb4286828bb01b97}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!find@{find}}
+\index{find@{find}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::find (\begin{DoxyParamCaption}\item[{const Key \&}]{value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a2b6fdbe1e8e08c2090e4ecf122fbe0d9}\label{classseq_1_1ordered__map_a2b6fdbe1e8e08c2090e4ecf122fbe0d9}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_a70b4d626755f863e6f3b0c9f01267238}{allocator\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a51fd2c22002f9c7f9b4f109def8a6e91}\label{classseq_1_1ordered__map_a51fd2c22002f9c7f9b4f109def8a6e91}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_a70b4d626755f863e6f3b0c9f01267238}{allocator\+\_\+type}}\& \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_af818dd8302d486d9b4827b0659f788fd}\label{classseq_1_1ordered__map_af818dd8302d486d9b4827b0659f788fd}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!hash\_function@{hash\_function}}
+\index{hash\_function@{hash\_function}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{hash\_function()}{hash\_function()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_ac78ad96722a72f145a5fc0b05466a0fc}{hasher}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::hash\+\_\+function (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ac24f8635304aac2cfdeafd800100748d}\label{classseq_1_1ordered__map_ac24f8635304aac2cfdeafd800100748d}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
+\index{insert@{insert}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [1/8]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aae7802ccf25f7ce56a1f037a1dab9dd3}\label{classseq_1_1ordered__map_aae7802ccf25f7ce56a1f037a1dab9dd3}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
+\index{insert@{insert}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [2/8]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{const \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ad24b808319be032ee5720a56d35ba191}\label{classseq_1_1ordered__map_ad24b808319be032ee5720a56d35ba191}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
+\index{insert@{insert}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [3/8]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class P $>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{P \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aecea9b688e4bc9fb3eb1a26daafba806}\label{classseq_1_1ordered__map_aecea9b688e4bc9fb3eb1a26daafba806}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
+\index{insert@{insert}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [4/8]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{\mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aafc78ae3740154c0d279bb086cb5c065}\label{classseq_1_1ordered__map_aafc78ae3740154c0d279bb086cb5c065}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
+\index{insert@{insert}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [5/8]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class Input\+It $>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{Input\+It}]{first,  }\item[{Input\+It}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_af905ce336629ce608479be714d1d1a15}\label{classseq_1_1ordered__map_af905ce336629ce608479be714d1d1a15}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
+\index{insert@{insert}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [6/8]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class P $>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{P \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aaa97bda53ee76719aca2f6230c6bac0d}\label{classseq_1_1ordered__map_aaa97bda53ee76719aca2f6230c6bac0d}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
+\index{insert@{insert}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [7/8]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} $>$}]{ilist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a2564b48c053d7f0299d66acf083b299c}\label{classseq_1_1ordered__map_a2564b48c053d7f0299d66acf083b299c}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
+\index{insert@{insert}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [8/8]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a96b77d8f74f57c814ab4eabf5d031a8b}\label{classseq_1_1ordered__map_a96b77d8f74f57c814ab4eabf5d031a8b}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert\_or\_assign@{insert\_or\_assign}}
+\index{insert\_or\_assign@{insert\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_or\_assign()}{insert\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{const Key \&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a030fd9b315358bda45cb9df3f15b3388}\label{classseq_1_1ordered__map_a030fd9b315358bda45cb9df3f15b3388}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert\_or\_assign@{insert\_or\_assign}}
+\index{insert\_or\_assign@{insert\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_or\_assign()}{insert\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{const Key \&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a91863e8616383f5a54006ed029f947a8}\label{classseq_1_1ordered__map_a91863e8616383f5a54006ed029f947a8}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert\_or\_assign@{insert\_or\_assign}}
+\index{insert\_or\_assign@{insert\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_or\_assign()}{insert\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{Key \&\&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a056ea1e2a7cc867f874ff1656fc7f47f}\label{classseq_1_1ordered__map_a056ea1e2a7cc867f874ff1656fc7f47f}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!insert\_or\_assign@{insert\_or\_assign}}
+\index{insert\_or\_assign@{insert\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_or\_assign()}{insert\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::insert\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{Key \&\&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a071a88ce6702a28925ef1fa39a66c399}\label{classseq_1_1ordered__map_a071a88ce6702a28925ef1fa39a66c399}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!key\_eq@{key\_eq}}
+\index{key\_eq@{key\_eq}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{key\_eq()}{key\_eq()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_a3bc962e93266c6f9d6fdc5960ffb499d}{key\+\_\+equal}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::key\+\_\+eq (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ab9a3e0affcf78b7fdba13671c5855b32}\label{classseq_1_1ordered__map_ab9a3e0affcf78b7fdba13671c5855b32}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!load\_factor@{load\_factor}}
+\index{load\_factor@{load\_factor}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{load\_factor()}{load\_factor()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+float \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::load\+\_\+factor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aad5aea1a487d08b4625876105acbb436}\label{classseq_1_1ordered__map_aad5aea1a487d08b4625876105acbb436}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!max\_load\_factor@{max\_load\_factor}}
+\index{max\_load\_factor@{max\_load\_factor}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{max\_load\_factor()}{max\_load\_factor()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+float \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::max\+\_\+load\+\_\+factor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ab66aeb572d77bb62e6ee08811596df14}\label{classseq_1_1ordered__map_ab66aeb572d77bb62e6ee08811596df14}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!max\_load\_factor@{max\_load\_factor}}
+\index{max\_load\_factor@{max\_load\_factor}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{max\_load\_factor()}{max\_load\_factor()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::max\+\_\+load\+\_\+factor (\begin{DoxyParamCaption}\item[{float}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_acadaaccd710afb96f5def00f89de4d08}\label{classseq_1_1ordered__map_acadaaccd710afb96f5def00f89de4d08}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!max\_probe\_distance@{max\_probe\_distance}}
+\index{max\_probe\_distance@{max\_probe\_distance}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{max\_probe\_distance()}{max\_probe\_distance()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+int \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::max\+\_\+probe\+\_\+distance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_af3e98f1aa4ae4a3db60bf04de83dee15}\label{classseq_1_1ordered__map_af3e98f1aa4ae4a3db60bf04de83dee15}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!max\_size@{max\_size}}
+\index{max\_size@{max\_size}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{max\_size()}{max\_size()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+size\+\_\+t \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::max\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a0281b5aaa2d5ed18362375353ed76862}\label{classseq_1_1ordered__map_a0281b5aaa2d5ed18362375353ed76862}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}}\& \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ad485168afb3aa287413c5d7e49d4065e}\label{classseq_1_1ordered__map_ad485168afb3aa287413c5d7e49d4065e}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}}\& \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a976062be5b80f36f350908e5c3e44a23}\label{classseq_1_1ordered__map_a976062be5b80f36f350908e5c3e44a23}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+T\& \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const Key \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a9c0cad69d8126b4b98295d03bb37c1c5}\label{classseq_1_1ordered__map_a9c0cad69d8126b4b98295d03bb37c1c5}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+T\& \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{Key \&\&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a06f384aaf01378963bb6744f677ed59a}\label{classseq_1_1ordered__map_a06f384aaf01378963bb6744f677ed59a}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a33af58389917f2dc7a23d9188acfeeec}\label{classseq_1_1ordered__map_a33af58389917f2dc7a23d9188acfeeec}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class P $>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{P \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a0df805a6fcad8fd3ad4184b78d14dadc}\label{classseq_1_1ordered__map_a0df805a6fcad8fd3ad4184b78d14dadc}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a0a0dada6614cc2c808956d931ade40f2}\label{classseq_1_1ordered__map_a0a0dada6614cc2c808956d931ade40f2}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_back\_or\_assign@{push\_back\_or\_assign}}
+\index{push\_back\_or\_assign@{push\_back\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back\_or\_assign()}{push\_back\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+back\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{const Key \&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a62b0a0ea773bafb71824c051a71af567}\label{classseq_1_1ordered__map_a62b0a0ea773bafb71824c051a71af567}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_back\_or\_assign@{push\_back\_or\_assign}}
+\index{push\_back\_or\_assign@{push\_back\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back\_or\_assign()}{push\_back\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+back\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{const Key \&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a041ad4bb6e577b1867cdd7e0434a547c}\label{classseq_1_1ordered__map_a041ad4bb6e577b1867cdd7e0434a547c}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_back\_or\_assign@{push\_back\_or\_assign}}
+\index{push\_back\_or\_assign@{push\_back\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back\_or\_assign()}{push\_back\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+back\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{Key \&\&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ae44e0ce5b5992b0f4905a5b678e09061}\label{classseq_1_1ordered__map_ae44e0ce5b5992b0f4905a5b678e09061}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_back\_or\_assign@{push\_back\_or\_assign}}
+\index{push\_back\_or\_assign@{push\_back\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back\_or\_assign()}{push\_back\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+back\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{Key \&\&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ae8c144899a8b903208dd6db63d100354}\label{classseq_1_1ordered__map_ae8c144899a8b903208dd6db63d100354}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_front@{push\_front}}
+\index{push\_front@{push\_front}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a217add67bd596c7d43a70ad535f649b1}\label{classseq_1_1ordered__map_a217add67bd596c7d43a70ad535f649b1}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_front@{push\_front}}
+\index{push\_front@{push\_front}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class P $>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{P \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_af2ae5dfc5e2c99091c5dc185f05f6809}\label{classseq_1_1ordered__map_af2ae5dfc5e2c99091c5dc185f05f6809}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_front@{push\_front}}
+\index{push\_front@{push\_front}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__map_a6f62c553066804713570423a44c2f93c}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a524f63e5c36eeba2c52744e12a829552}\label{classseq_1_1ordered__map_a524f63e5c36eeba2c52744e12a829552}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_front\_or\_assign@{push\_front\_or\_assign}}
+\index{push\_front\_or\_assign@{push\_front\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front\_or\_assign()}{push\_front\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+front\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{const Key \&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aa98b34484505150178418f21ab4ff8f0}\label{classseq_1_1ordered__map_aa98b34484505150178418f21ab4ff8f0}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_front\_or\_assign@{push\_front\_or\_assign}}
+\index{push\_front\_or\_assign@{push\_front\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front\_or\_assign()}{push\_front\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+front\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{const Key \&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a7fbc2e7af9a2ea1230571732545efa2d}\label{classseq_1_1ordered__map_a7fbc2e7af9a2ea1230571732545efa2d}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_front\_or\_assign@{push\_front\_or\_assign}}
+\index{push\_front\_or\_assign@{push\_front\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front\_or\_assign()}{push\_front\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+front\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{Key \&\&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a9af3693deeaa1c00de5cec2094f3c555}\label{classseq_1_1ordered__map_a9af3693deeaa1c00de5cec2094f3c555}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!push\_front\_or\_assign@{push\_front\_or\_assign}}
+\index{push\_front\_or\_assign@{push\_front\_or\_assign}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front\_or\_assign()}{push\_front\_or\_assign()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class M $>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+front\+\_\+or\+\_\+assign (\begin{DoxyParamCaption}\item[{Key \&\&}]{k,  }\item[{M \&\&}]{obj }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a1b6f354920b84217cc1b50e83135e977}\label{classseq_1_1ordered__map_a1b6f354920b84217cc1b50e83135e977}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a854661c286a222a093ba5f55aab93bb0}\label{classseq_1_1ordered__map_a854661c286a222a093ba5f55aab93bb0}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_a3dbf2f6bd0e89a2ec214f1cf66b99c32}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ae60e711ea8398db5f3ca18c07354a911}\label{classseq_1_1ordered__map_ae60e711ea8398db5f3ca18c07354a911}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!rehash@{rehash}}
+\index{rehash@{rehash}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{rehash()}{rehash()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::rehash (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ab40a139a71d8fe1edb1f3281bb47fe20}\label{classseq_1_1ordered__map_ab40a139a71d8fe1edb1f3281bb47fe20}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!rend@{rend}}
+\index{rend@{rend}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{rend()}{rend()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_a0b615ff647a32c3bb5a179daa4bf12a2}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ad358770f696739c233190694b991a204}\label{classseq_1_1ordered__map_ad358770f696739c233190694b991a204}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!rend@{rend}}
+\index{rend@{rend}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{rend()}{rend()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_a3dbf2f6bd0e89a2ec214f1cf66b99c32}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a20f4fdb35d6f6e2b96f3ce567c4e135c}\label{classseq_1_1ordered__map_a20f4fdb35d6f6e2b96f3ce567c4e135c}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!reserve@{reserve}}
+\index{reserve@{reserve}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{reserve()}{reserve()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::reserve (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a36796e623913c10877ad2e4760fdb3b6}\label{classseq_1_1ordered__map_a36796e623913c10877ad2e4760fdb3b6}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!sequence@{sequence}}
+\index{sequence@{sequence}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{sequence()}{sequence()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+const \mbox{\hyperlink{classseq_1_1ordered__map_acf895525b20291e68801facab7a79f0b}{sequence\+\_\+type}}\& \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1sequence}{sequence}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a870aadd077f8a647976e1de70be6797b}\label{classseq_1_1ordered__map_a870aadd077f8a647976e1de70be6797b}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!sequence@{sequence}}
+\index{sequence@{sequence}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{sequence()}{sequence()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{classseq_1_1ordered__map_acf895525b20291e68801facab7a79f0b}{sequence\+\_\+type}}\& \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1sequence}{sequence}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ac06bc17b22adf646bd87d27fc53b8957}\label{classseq_1_1ordered__map_ac06bc17b22adf646bd87d27fc53b8957}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!shrink\_to\_fit@{shrink\_to\_fit}}
+\index{shrink\_to\_fit@{shrink\_to\_fit}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{shrink\_to\_fit()}{shrink\_to\_fit()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::shrink\+\_\+to\+\_\+fit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a13d555ee5a290a26e6a6321088512a0c}\label{classseq_1_1ordered__map_a13d555ee5a290a26e6a6321088512a0c}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!size@{size}}
+\index{size@{size}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+size\+\_\+t \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ae2159f06325aa2d453f561312f3f43f3}\label{classseq_1_1ordered__map_ae2159f06325aa2d453f561312f3f43f3}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!sort@{sort}}
+\index{sort@{sort}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{sort()}{sort()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::sort (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a03910fe5d95b6c85f4472028feb3647f}\label{classseq_1_1ordered__map_a03910fe5d95b6c85f4472028feb3647f}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!sort@{sort}}
+\index{sort@{sort}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{sort()}{sort()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class Less $>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::sort (\begin{DoxyParamCaption}\item[{Less}]{le }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a8ad2d7acf3d35e3848df60aebf967b57}\label{classseq_1_1ordered__map_a8ad2d7acf3d35e3848df60aebf967b57}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!stable\_sort@{stable\_sort}}
+\index{stable\_sort@{stable\_sort}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{stable\_sort()}{stable\_sort()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::stable\+\_\+sort (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a39ba3275f40335bd20d51fc661d417a9}\label{classseq_1_1ordered__map_a39ba3275f40335bd20d51fc661d417a9}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!stable\_sort@{stable\_sort}}
+\index{stable\_sort@{stable\_sort}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{stable\_sort()}{stable\_sort()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class Less $>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::stable\+\_\+sort (\begin{DoxyParamCaption}\item[{Less}]{le }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ab3355dbcb5f60a39ff10c6259534c849}\label{classseq_1_1ordered__map_ab3355dbcb5f60a39ff10c6259534c849}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!swap@{swap}}
+\index{swap@{swap}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{swap()}{swap()}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::swap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__map}{ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ac20884beaa93ac3e881ebfd44c7bd88d}\label{classseq_1_1ordered__map_ac20884beaa93ac3e881ebfd44c7bd88d}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace@{try\_emplace}}
+\index{try\_emplace@{try\_emplace}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace()}{try\_emplace()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace (\begin{DoxyParamCaption}\item[{const Key \&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aee990482fead77c208fd0c38a4eda767}\label{classseq_1_1ordered__map_aee990482fead77c208fd0c38a4eda767}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace@{try\_emplace}}
+\index{try\_emplace@{try\_emplace}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace()}{try\_emplace()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{const Key \&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a67a888895139155bed5572dee2048797}\label{classseq_1_1ordered__map_a67a888895139155bed5572dee2048797}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace@{try\_emplace}}
+\index{try\_emplace@{try\_emplace}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace()}{try\_emplace()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{Key \&\&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a67284f00bd8854928883e77775ae961a}\label{classseq_1_1ordered__map_a67284f00bd8854928883e77775ae961a}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace@{try\_emplace}}
+\index{try\_emplace@{try\_emplace}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace()}{try\_emplace()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace (\begin{DoxyParamCaption}\item[{Key \&\&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ae104ae1e6955e18a3c859b25f660c9d1}\label{classseq_1_1ordered__map_ae104ae1e6955e18a3c859b25f660c9d1}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace\_back@{try\_emplace\_back}}
+\index{try\_emplace\_back@{try\_emplace\_back}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace\_back()}{try\_emplace\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace\+\_\+back (\begin{DoxyParamCaption}\item[{const Key \&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a485d96db14a8881c4c3fb5deb915532a}\label{classseq_1_1ordered__map_a485d96db14a8881c4c3fb5deb915532a}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace\_back@{try\_emplace\_back}}
+\index{try\_emplace\_back@{try\_emplace\_back}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace\_back()}{try\_emplace\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{const Key \&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a9ac4fe2ceabbda265a14bb841755d4aa}\label{classseq_1_1ordered__map_a9ac4fe2ceabbda265a14bb841755d4aa}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace\_back@{try\_emplace\_back}}
+\index{try\_emplace\_back@{try\_emplace\_back}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace\_back()}{try\_emplace\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{Key \&\&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a692779e2306c805cc503646fdf8f0b7f}\label{classseq_1_1ordered__map_a692779e2306c805cc503646fdf8f0b7f}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace\_back@{try\_emplace\_back}}
+\index{try\_emplace\_back@{try\_emplace\_back}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace\_back()}{try\_emplace\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace\+\_\+back (\begin{DoxyParamCaption}\item[{Key \&\&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aa4f3405523d6c60dbbb509e369f584f7}\label{classseq_1_1ordered__map_aa4f3405523d6c60dbbb509e369f584f7}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace\_front@{try\_emplace\_front}}
+\index{try\_emplace\_front@{try\_emplace\_front}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace\_front()}{try\_emplace\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace\+\_\+front (\begin{DoxyParamCaption}\item[{const Key \&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_aaed29ead7b2beccb2ef6d48062c9704b}\label{classseq_1_1ordered__map_aaed29ead7b2beccb2ef6d48062c9704b}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace\_front@{try\_emplace\_front}}
+\index{try\_emplace\_front@{try\_emplace\_front}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace\_front()}{try\_emplace\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{const Key \&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_a9835c036b0b18b5120c84a427b5aa7a6}\label{classseq_1_1ordered__map_a9835c036b0b18b5120c84a427b5aa7a6}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace\_front@{try\_emplace\_front}}
+\index{try\_emplace\_front@{try\_emplace\_front}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace\_front()}{try\_emplace\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__map_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{Key \&\&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1ordered__map_ab1dfa37f8ddfeb8b41a8b9875666751c}\label{classseq_1_1ordered__map_ab1dfa37f8ddfeb8b41a8b9875666751c}} 
+\index{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}!try\_emplace\_front@{try\_emplace\_front}}
+\index{try\_emplace\_front@{try\_emplace\_front}!seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_map$<$ Key, T, Hash, KeyEqual, Allocator, Layout $>$}}
+\doxysubsubsection{\texorpdfstring{try\_emplace\_front()}{try\_emplace\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class Key , class T , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$ std\+::pair$<$const Key, T$>$ $>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+std\+::pair$<$\mbox{\hyperlink{structseq_1_1ordered__map_1_1iterator}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}$<$ Key, T, Hash, Key\+Equal, Allocator, Layout $>$\+::try\+\_\+emplace\+\_\+front (\begin{DoxyParamCaption}\item[{Key \&\&}]{k,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{ordered__map_8hpp}{ordered\+\_\+map.\+hpp}}\end{DoxyCompactItemize}

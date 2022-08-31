@@ -1,0 +1,116 @@
+\hypertarget{classdetail_1_1_base_bucket_list}{}\doxysection{detail\+::Base\+Bucket\+List$<$ T $>$ Class Template Reference}
+\label{classdetail_1_1_base_bucket_list}\index{detail::BaseBucketList$<$ T $>$@{detail::BaseBucketList$<$ T $>$}}
+
+
+Inherited by \mbox{\hyperlink{classdetail_1_1_bucket_list}{detail\+::\+Bucket\+List$<$ T, Bucket\+Size $>$}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a8ddd6abd5e2172a0ebd8bb224f5fb1d8}\label{classdetail_1_1_base_bucket_list_a8ddd6abd5e2172a0ebd8bb224f5fb1d8}} 
+{\bfseries Base\+Bucket\+List} (int bucket\+\_\+size)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a8867b5845185f5074749b6bf86812b8d}\label{classdetail_1_1_base_bucket_list_a8867b5845185f5074749b6bf86812b8d}} 
+{\bfseries Base\+Bucket\+List} (\mbox{\hyperlink{classdetail_1_1_base_bucket_list}{Base\+Bucket\+List}} \&\&base)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a331dc7a55cdff19d97c5deb2b95e1e0a}\label{classdetail_1_1_base_bucket_list_a331dc7a55cdff19d97c5deb2b95e1e0a}} 
+void $\ast$ {\bfseries bucket} (std\+::size\+\_\+t pos)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_af458c1279f84df625faf2a7baeb1415d}\label{classdetail_1_1_base_bucket_list_af458c1279f84df625faf2a7baeb1415d}} 
+const void $\ast$ {\bfseries bucket} (std\+::size\+\_\+t pos) const
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a892c5821fa08dcdeb236368bc32f1422}\label{classdetail_1_1_base_bucket_list_a892c5821fa08dcdeb236368bc32f1422}} 
+int {\bfseries bucket\+\_\+size} () const
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_af3fe31a5bcc60d2115cf8075b6984f0b}\label{classdetail_1_1_base_bucket_list_af3fe31a5bcc60d2115cf8075b6984f0b}} 
+std\+::size\+\_\+t {\bfseries bucket\+\_\+count} () const
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a9cf68ec16dbd55b40a64b9c5e630625b}\label{classdetail_1_1_base_bucket_list_a9cf68ec16dbd55b40a64b9c5e630625b}} 
+std\+::size\+\_\+t {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a6ec06d240dbd6d63c71c434acb5aa7d8}\label{classdetail_1_1_base_bucket_list_a6ec06d240dbd6d63c71c434acb5aa7d8}} 
+int {\bfseries bucket\+\_\+size} (std\+::size\+\_\+t pos) const
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_aa9232756a458b6b4229361b2e0e760ef}\label{classdetail_1_1_base_bucket_list_aa9232756a458b6b4229361b2e0e760ef}} 
+void {\bfseries resize\+\_\+bucket} (std\+::size\+\_\+t pos, int new\+\_\+size)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a6b4d3ae7470c6a9760233796ce3b3229}\label{classdetail_1_1_base_bucket_list_a6b4d3ae7470c6a9760233796ce3b3229}} 
+T \& {\bfseries bucket\+\_\+value} (std\+::size\+\_\+t pos, int index)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a982993a851ac3a3632052db74d378a90}\label{classdetail_1_1_base_bucket_list_a982993a851ac3a3632052db74d378a90}} 
+const T \& {\bfseries bucket\+\_\+value} (std\+::size\+\_\+t pos, int index) const
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a4029e1671486a4186320fcdb5a2c467f}\label{classdetail_1_1_base_bucket_list_a4029e1671486a4186320fcdb5a2c467f}} 
+const T \& {\bfseries at} (std\+::size\+\_\+t pos) const
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a7fdb48a880eb0ebc1c5f2109e59309ec}\label{classdetail_1_1_base_bucket_list_a7fdb48a880eb0ebc1c5f2109e59309ec}} 
+T \& {\bfseries at} (std\+::size\+\_\+t pos)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a1806246d63e0e2894c5bdc1bf2517edf}\label{classdetail_1_1_base_bucket_list_a1806246d63e0e2894c5bdc1bf2517edf}} 
+virtual void $\ast$ {\bfseries alloc\+\_\+bucket} (int size)=0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a44faba69f8759ddb1bc7d17479e16770}\label{classdetail_1_1_base_bucket_list_a44faba69f8759ddb1bc7d17479e16770}} 
+virtual void {\bfseries dealloc\+\_\+bucket} (void $\ast$)=0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_aa64c4681774fa03b6ea925118442972d}\label{classdetail_1_1_base_bucket_list_aa64c4681774fa03b6ea925118442972d}} 
+virtual \mbox{\hyperlink{classdetail_1_1_base_bucket_list}{Base\+Bucket\+List}} $\ast$ {\bfseries copy} (int bucket\+\_\+size, bool move=false) const =0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a9a114fcc76d853b5c151c14588d6c659}\label{classdetail_1_1_base_bucket_list_a9a114fcc76d853b5c151c14588d6c659}} 
+virtual void {\bfseries push\+\_\+back} (const T \&value)=0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_aa6bdde58e0eb8ed28ffaca445ad97b00}\label{classdetail_1_1_base_bucket_list_aa6bdde58e0eb8ed28ffaca445ad97b00}} 
+virtual void {\bfseries push\+\_\+back\+\_\+move} (T \&\&value)=0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a11d2922c162600e930833733b77d7019}\label{classdetail_1_1_base_bucket_list_a11d2922c162600e930833733b77d7019}} 
+virtual void {\bfseries push\+\_\+front} (const T \&value)=0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_ae1a1c8325ad3ec085fbb5cccb28baedc}\label{classdetail_1_1_base_bucket_list_ae1a1c8325ad3ec085fbb5cccb28baedc}} 
+virtual void {\bfseries push\+\_\+front\+\_\+move} (T \&\&value)=0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a4920908a2c4ce08187042be00f992b6d}\label{classdetail_1_1_base_bucket_list_a4920908a2c4ce08187042be00f992b6d}} 
+virtual \mbox{\hyperlink{classdetail_1_1_base_bucket_list}{Base\+Bucket\+List}} $\ast$ {\bfseries resize} (std\+::size\+\_\+t size)=0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_ad1450dd6f27d1f211a5f82b47d67da26}\label{classdetail_1_1_base_bucket_list_ad1450dd6f27d1f211a5f82b47d67da26}} 
+virtual void {\bfseries shrink\+\_\+to\+\_\+fit} ()=0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a8d4d13d8164134d793017d80f54f43f0}\label{classdetail_1_1_base_bucket_list_a8d4d13d8164134d793017d80f54f43f0}} 
+virtual void {\bfseries insert} (std\+::size\+\_\+t pos, const T \&value)=0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a353c7065f3afb5d9bfa5bae1607d0469}\label{classdetail_1_1_base_bucket_list_a353c7065f3afb5d9bfa5bae1607d0469}} 
+virtual void {\bfseries insert\+\_\+move} (std\+::size\+\_\+t pos, T \&\&value)=0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a02fb04421833927b27084b575557817f}\label{classdetail_1_1_base_bucket_list_a02fb04421833927b27084b575557817f}} 
+virtual void {\bfseries erase} (std\+::size\+\_\+t pos)=0
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a76511dd37397d3e759d1a0edbc171dac}\label{classdetail_1_1_base_bucket_list_a76511dd37397d3e759d1a0edbc171dac}} 
+virtual std\+::size\+\_\+t {\bfseries memory\+\_\+footprint} () const =0
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a1002642b30c12936c8831dc877a2f4a2}\label{classdetail_1_1_base_bucket_list_a1002642b30c12936c8831dc877a2f4a2}} 
+std\+::vector$<$ void $\ast$ $>$ {\bfseries d\+\_\+buckets}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a401a27f940a347d9d5ecb6e7f8d0e1c1}\label{classdetail_1_1_base_bucket_list_a401a27f940a347d9d5ecb6e7f8d0e1c1}} 
+int {\bfseries d\+\_\+bucket\+\_\+size}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_ab9ce7b70e01380cd2c12464ef02c554c}\label{classdetail_1_1_base_bucket_list_ab9ce7b70e01380cd2c12464ef02c554c}} 
+int {\bfseries d\+\_\+bucket\+\_\+size1}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_a79371788a6ed80da690521a19c73b8d4}\label{classdetail_1_1_base_bucket_list_a79371788a6ed80da690521a19c73b8d4}} 
+int {\bfseries d\+\_\+bucket\+\_\+size\+\_\+bits}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_aeb09a6a33d1de8eab80e7ac18fc24f9d}\label{classdetail_1_1_base_bucket_list_aeb09a6a33d1de8eab80e7ac18fc24f9d}} 
+std\+::size\+\_\+t {\bfseries d\+\_\+first\+\_\+bucket\+\_\+size}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_acc024755750902b92613457609221c26}\label{classdetail_1_1_base_bucket_list_acc024755750902b92613457609221c26}} 
+std\+::size\+\_\+t {\bfseries d\+\_\+first\+\_\+bucket\+\_\+rem}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_base_bucket_list_ac5d9e8f79cbc792db56543644d97398d}\label{classdetail_1_1_base_bucket_list_ac5d9e8f79cbc792db56543644d97398d}} 
+std\+::size\+\_\+t {\bfseries d\+\_\+size}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+deque.\+hpp\end{DoxyCompactItemize}

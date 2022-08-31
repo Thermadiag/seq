@@ -1,0 +1,79 @@
+\hypertarget{structdetail_1_1_sequence_node}{}\doxysection{detail\+::Sequence\+Node$<$ T $>$ Struct Template Reference}
+\label{structdetail_1_1_sequence_node}\index{detail::SequenceNode$<$ T $>$@{detail::SequenceNode$<$ T $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a8b2abf1d4984acffda96f8e22ac7473a}\label{structdetail_1_1_sequence_node_a8b2abf1d4984acffda96f8e22ac7473a}} 
+using {\bfseries tiny\+\_\+hash} = std\+::uint8\+\_\+t
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a9626ea0b8bf6948139d16a3cdd95e3f5}\label{structdetail_1_1_sequence_node_a9626ea0b8bf6948139d16a3cdd95e3f5}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a27597fd4f3d7e8907ca4928f5b7c86c6}\label{structdetail_1_1_sequence_node_a27597fd4f3d7e8907ca4928f5b7c86c6}} 
+using {\bfseries key\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a6d43efc5a48185b68b04328e97e19be6}\label{structdetail_1_1_sequence_node_a6d43efc5a48185b68b04328e97e19be6}} 
+using {\bfseries store\+\_\+type} = void $\ast$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_af4bb311ac7df7e5c1c6ede685c0d03ae}\label{structdetail_1_1_sequence_node_af4bb311ac7df7e5c1c6ede685c0d03ae}} 
+using {\bfseries tag\+\_\+ptr} = \mbox{\hyperlink{classtagged__pointer}{tagged\+\_\+pointer}}$<$ \mbox{\hyperlink{structdetail_1_1list__chunk}{detail\+::list\+\_\+chunk}}$<$ T $>$, Heap\+Pointer $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a7ac8aa036bb86497a767a49ff127d328}\label{structdetail_1_1_sequence_node_a7ac8aa036bb86497a767a49ff127d328}} 
+{\footnotesize template$<$class Iter $>$ }\\I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE {\bfseries Sequence\+Node} (tiny\+\_\+hash h, std\+::uint8\+\_\+t exact\+\_\+location, const \mbox{\hyperlink{structdetail_1_1_iter}{Iter}} \&it)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a6710c2163fa956493be14342ce98c22d}\label{structdetail_1_1_sequence_node_a6710c2163fa956493be14342ce98c22d}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries exact\+\_\+location} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_add35becee114ea4c6e09d1b0b430199c}\label{structdetail_1_1_sequence_node_add35becee114ea4c6e09d1b0b430199c}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE std\+::uint8\+\_\+t {\bfseries pos} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a29728b502486e8fe0f88686f4793e5e1}\label{structdetail_1_1_sequence_node_a29728b502486e8fe0f88686f4793e5e1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1list__chunk}{detail\+::list\+\_\+chunk}}$<$ T $>$ $\ast$ {\bfseries node} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_aeb30588a556fb071026e82f4dcd99127}\label{structdetail_1_1_sequence_node_aeb30588a556fb071026e82f4dcd99127}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries value} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a1ec65bcbc80999d3d4da876240a730e0}\label{structdetail_1_1_sequence_node_a1ec65bcbc80999d3d4da876240a730e0}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries value} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a1560be8952c3de13294cab0500b4bdfe}\label{structdetail_1_1_sequence_node_a1560be8952c3de13294cab0500b4bdfe}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE std\+::uint8\+\_\+t {\bfseries hash} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a0122411e879008b40af4d00fe23dff50}\label{structdetail_1_1_sequence_node_a0122411e879008b40af4d00fe23dff50}} 
+{\footnotesize template$<$class Equal , class U $>$ }\\I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries compare} (const Equal \&eq, tiny\+\_\+hash h, const U \&value) const noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a89412d2833f93befb0ff6094b5cea48e}\label{structdetail_1_1_sequence_node_a89412d2833f93befb0ff6094b5cea48e}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE tiny\+\_\+hash {\bfseries small\+\_\+hash} (size\+\_\+t h)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_aba588832b81f01828132f231bfb460a7}\label{structdetail_1_1_sequence_node_aba588832b81f01828132f231bfb460a7}} 
+std\+::uint8\+\_\+t {\bfseries storage} \mbox{[}8\mbox{]}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_aea7790954b4bf0e8168fabe0919e3a33}\label{structdetail_1_1_sequence_node_aea7790954b4bf0e8168fabe0919e3a33}} 
+std\+::uint8\+\_\+t {\bfseries th}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_af7fc7a4491e8c915752084224f8efa2b}\label{structdetail_1_1_sequence_node_af7fc7a4491e8c915752084224f8efa2b}} 
+static const std\+::uintptr\+\_\+t {\bfseries tag\+\_\+bits} = 6U\+LL
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a1aefe9c8e6bc8a706f9446740b649087}\label{structdetail_1_1_sequence_node_a1aefe9c8e6bc8a706f9446740b649087}} 
+static const std\+::uintptr\+\_\+t {\bfseries mask\+\_\+high} = ($\sim$((1U\+LL $<$$<$ tag\+\_\+bits) -\/ 1U\+LL)) \& $\sim$(1U\+LL $<$$<$ 63U\+LL)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sequence_node_a89d4b64ef49c518b47fc1dff642e9491}\label{structdetail_1_1_sequence_node_a89d4b64ef49c518b47fc1dff642e9491}} 
+static const std\+::uint8\+\_\+t {\bfseries mask\+\_\+low} = ((1U $<$$<$ (unsigned)tag\+\_\+bits) -\/ 1U)
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sparse\+\_\+hash.\+hpp\end{DoxyCompactItemize}

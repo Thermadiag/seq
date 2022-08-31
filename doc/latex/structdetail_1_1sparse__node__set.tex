@@ -1,0 +1,58 @@
+\hypertarget{structdetail_1_1sparse__node__set}{}\doxysection{detail\+::sparse\+\_\+node\+\_\+set$<$ T, Hash, Equal, Allocator, layout $>$ Struct Template Reference}
+\label{structdetail_1_1sparse__node__set}\index{detail::sparse\_node\_set$<$ T, Hash, Equal, Allocator, layout $>$@{detail::sparse\_node\_set$<$ T, Hash, Equal, Allocator, layout $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_a6b683575345e40c0bf3ed10eb001aed8}\label{structdetail_1_1sparse__node__set_a6b683575345e40c0bf3ed10eb001aed8}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_a3337d6fb6470cfee9ce296cd2630fd03}\label{structdetail_1_1sparse__node__set_a3337d6fb6470cfee9ce296cd2630fd03}} 
+using {\bfseries node\+\_\+type} = \mbox{\hyperlink{structdetail_1_1_pointer_node}{Pointer\+Node}}$<$ T $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_a380ae92056532d0eae76621b19099dfc}\label{structdetail_1_1sparse__node__set_a380ae92056532d0eae76621b19099dfc}} 
+using {\bfseries table\+\_\+type} = \mbox{\hyperlink{structdetail_1_1_sparse_hash_table}{Sparse\+Hash\+Table}}$<$ T, Hash, Equal, Allocator, \mbox{\hyperlink{structdetail_1_1_pointer_node}{node\+\_\+type}}, layout, false $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_afcc984bc9319c2a8f79e4edf4a137eca}\label{structdetail_1_1sparse__node__set_afcc984bc9319c2a8f79e4edf4a137eca}} 
+using {\bfseries coord} = typename table\+\_\+type\+::coord
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_ad391839a534900f98abc38499d1403c4}\label{structdetail_1_1sparse__node__set_ad391839a534900f98abc38499d1403c4}} 
+typedef \mbox{\hyperlink{classsequence}{sequence}}$<$ T, std\+::allocator$<$ T $>$ $>$ {\bfseries d\+\_\+seq}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_a1dca3eb97631edca03a593b9b099ee5f}\label{structdetail_1_1sparse__node__set_a1dca3eb97631edca03a593b9b099ee5f}} 
+size\+\_\+t {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_abffef46a9e25e71bb2b65ac89bb7cafa}\label{structdetail_1_1sparse__node__set_abffef46a9e25e71bb2b65ac89bb7cafa}} 
+size\+\_\+t {\bfseries memory\+\_\+footprint} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_ae389ba25bdab5c8053ee43e09b7b8846}\label{structdetail_1_1sparse__node__set_ae389ba25bdab5c8053ee43e09b7b8846}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void) reserve(size\+\_\+t size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_aec681f58dbf72d055b77291ea8928a19}\label{structdetail_1_1sparse__node__set_aec681f58dbf72d055b77291ea8928a19}} 
+const T \& {\bfseries at} (const coord \&c) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_aa15356274e38e4e97fa76bca70964a98}\label{structdetail_1_1sparse__node__set_aa15356274e38e4e97fa76bca70964a98}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE std\+::pair$<$ coord, bool $>$ {\bfseries find} (const T \&value) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_a19862b19cec15624b65e09fc04df4056}\label{structdetail_1_1sparse__node__set_a19862b19cec15624b65e09fc04df4056}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE std\+::pair$<$ coord, bool $>$ {\bfseries find} (size\+\_\+t hash, const T \&value) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_a71ef23e9e87e29f05655617e88018dd6}\label{structdetail_1_1sparse__node__set_a71ef23e9e87e29f05655617e88018dd6}} 
+bool {\bfseries insert} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_a6adc8a39cfc8309a31d41c90d9d49dca}\label{structdetail_1_1sparse__node__set_a6adc8a39cfc8309a31d41c90d9d49dca}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries insert} (size\+\_\+t hash, const T \&value)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1sparse__node__set_a7d82157e0e8b7e3379191cfa32ecfde9}\label{structdetail_1_1sparse__node__set_a7d82157e0e8b7e3379191cfa32ecfde9}} 
+\mbox{\hyperlink{structdetail_1_1_sparse_hash_table}{table\+\_\+type}} {\bfseries d\+\_\+table}
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sparse\+\_\+hash -\/with smart rehash.\+hpp\end{DoxyCompactItemize}
