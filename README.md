@@ -2,7 +2,7 @@
 Purpose
 -------
 
-Seq library is a collection of C++11 STL-like containers and related tools optimized for speed and/or memory usage.
+The Seq library is a collection of C++11 STL-like containers and related tools optimized for speed and/or memory usage.
 
 Seq library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) std. Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.
 
@@ -44,3 +44,9 @@ Why C++11 ?
 
 For now the seq library is developped and maintained in order to remain compatible with C++11 only compilers.
 While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11.
+
+
+Documentation
+-------------
+
+The full library documentation (generated with *doxygen*) is available <a href="https://rawcdn.githack.com/Thermadiag/seq/731467950d3591147b62856972e0d543173dddc1/doc/html/index.html">here</a>.
