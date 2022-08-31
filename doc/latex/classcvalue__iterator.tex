@@ -1,0 +1,82 @@
+\hypertarget{classcvalue__iterator}{}\doxysection{cvalue\+\_\+iterator$<$ T $>$ Class Template Reference}
+\label{classcvalue__iterator}\index{cvalue\_iterator$<$ T $>$@{cvalue\_iterator$<$ T $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_af656870d3ffd75d3290c8ec153e02acb}\label{classcvalue__iterator_af656870d3ffd75d3290c8ec153e02acb}} 
+using {\bfseries iterator\+\_\+category} = std\+::random\+\_\+access\+\_\+iterator\+\_\+tag
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a7a76edd11d116d54abcce519b984ac17}\label{classcvalue__iterator_a7a76edd11d116d54abcce519b984ac17}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a8059e9912da66067d473e9c5ea1223e2}\label{classcvalue__iterator_a8059e9912da66067d473e9c5ea1223e2}} 
+using {\bfseries difference\+\_\+type} = typename alloc\+\_\+traits\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_afca26d7de9bfccb52cd9722aa5423181}\label{classcvalue__iterator_afca26d7de9bfccb52cd9722aa5423181}} 
+using {\bfseries size\+\_\+type} = typename alloc\+\_\+traits\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a50d454b458588562ec79b3620498d517}\label{classcvalue__iterator_a50d454b458588562ec79b3620498d517}} 
+using {\bfseries pointer} = typename alloc\+\_\+traits\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a83eb2eac4af86b5c8f59fe9e639490a9}\label{classcvalue__iterator_a83eb2eac4af86b5c8f59fe9e639490a9}} 
+using {\bfseries reference} = const value\+\_\+type \&
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_aa11266865331bdbbafe2f588a8a90633}\label{classcvalue__iterator_aa11266865331bdbbafe2f588a8a90633}} 
+{\bfseries cvalue\+\_\+iterator} (size\+\_\+type \+\_\+pos=0)
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_ae5cff07f186f220818d3a212542a60d3}\label{classcvalue__iterator_ae5cff07f186f220818d3a212542a60d3}} 
+{\bfseries cvalue\+\_\+iterator} (size\+\_\+type \+\_\+pos, const T \&\+\_\+value)
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a028b2245dc67cc16297573bf401faea2}\label{classcvalue__iterator_a028b2245dc67cc16297573bf401faea2}} 
+reference {\bfseries operator$\ast$} () const noexcept
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_ab2157bcb6601f1af50523878291c4cf7}\label{classcvalue__iterator_ab2157bcb6601f1af50523878291c4cf7}} 
+pointer {\bfseries operator-\/$>$} () const noexcept
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a07b0f05a5ad131918dfa1ef6d44ee4e0}\label{classcvalue__iterator_a07b0f05a5ad131918dfa1ef6d44ee4e0}} 
+\mbox{\hyperlink{classcvalue__iterator}{cvalue\+\_\+iterator}} \& {\bfseries operator++} () noexcept
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_aa8f3e75d9f8adc8d44d4c26dc0f98040}\label{classcvalue__iterator_aa8f3e75d9f8adc8d44d4c26dc0f98040}} 
+\mbox{\hyperlink{classcvalue__iterator}{cvalue\+\_\+iterator}} {\bfseries operator++} (int) noexcept
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a345a28c19e767651dff452952157c751}\label{classcvalue__iterator_a345a28c19e767651dff452952157c751}} 
+\mbox{\hyperlink{classcvalue__iterator}{cvalue\+\_\+iterator}} \& {\bfseries operator-\/-\/} () noexcept
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_aafd846958b8de294ec1850f3083e7234}\label{classcvalue__iterator_aafd846958b8de294ec1850f3083e7234}} 
+\mbox{\hyperlink{classcvalue__iterator}{cvalue\+\_\+iterator}} {\bfseries operator-\/-\/} (int) noexcept
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_aa3803fb234c59fb74976d5c25976f5da}\label{classcvalue__iterator_aa3803fb234c59fb74976d5c25976f5da}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{classcvalue__iterator}{cvalue\+\_\+iterator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_ae2df285ddb4b3e6667cdd7fb69bb2b4f}\label{classcvalue__iterator_ae2df285ddb4b3e6667cdd7fb69bb2b4f}} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{classcvalue__iterator}{cvalue\+\_\+iterator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a223abc992fd50db4e2e6b3e6c8f8b20c}\label{classcvalue__iterator_a223abc992fd50db4e2e6b3e6c8f8b20c}} 
+\mbox{\hyperlink{classcvalue__iterator}{cvalue\+\_\+iterator}} \& {\bfseries operator+=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a9ab2aec72780d9c32c3b22b18b5a8fe1}\label{classcvalue__iterator_a9ab2aec72780d9c32c3b22b18b5a8fe1}} 
+\mbox{\hyperlink{classcvalue__iterator}{cvalue\+\_\+iterator}} \& {\bfseries operator-\/=} (difference\+\_\+type diff) noexcept
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a4767c65bdb39a4cbb71f7a391eb16c03}\label{classcvalue__iterator_a4767c65bdb39a4cbb71f7a391eb16c03}} 
+const value\+\_\+type \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (difference\+\_\+type diff) const noexcept
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a3292b293bb71c4cddf1da30034af8de4}\label{classcvalue__iterator_a3292b293bb71c4cddf1da30034af8de4}} 
+value\+\_\+type \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (difference\+\_\+type diff) noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_adc4d846448d9b2d1606ebca534900781}\label{classcvalue__iterator_adc4d846448d9b2d1606ebca534900781}} 
+T {\bfseries value}
+\item 
+\mbox{\Hypertarget{classcvalue__iterator_a54fdef3d35e612d5ab115ac3a39d3cda}\label{classcvalue__iterator_a54fdef3d35e612d5ab115ac3a39d3cda}} 
+size\+\_\+type {\bfseries pos}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+utils.\+hpp\end{DoxyCompactItemize}

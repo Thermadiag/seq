@@ -1,0 +1,889 @@
+\hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4}{}\doxysection{seq\+::tiny\+\_\+string$<$ 0, view\+\_\+allocator $>$ Struct Reference}
+\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4}\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+
+
+Specialization of \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} for string views. You should use the global typedef tstring\+\_\+view equivalent to \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4}{tiny\+\_\+string$<$0,view\+\_\+allocator$>$}}. Provides a similar interface to std\+::string\+\_\+view. See \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} documentation for more details.  
+
+
+
+
+{\ttfamily \#include $<$tiny\+\_\+string.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa02a4a2b500052fcd6ba4413c1d0bc1d}{internal\+\_\+data}} = \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{detail\+::string\+\_\+internal}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a32c1dd0beab8b054ffabc0048f4ac881}{this\+\_\+type}} = \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a947d46c21566b70750abbc986f22a8be}{traits\+\_\+type}} = std\+::char\+\_\+traits$<$ char $>$
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7a89ac73617edf95bb6ebc70193bb330}{value\+\_\+type}} = char
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a54d59a08cd4a393aa75e24b2d8dddf33}{reference}} = char \&
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af2fbc11c7f19fea794e286115a1a0ec1}{pointer}} = char $\ast$
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a59f1a48b389fb3634d08ead70dd321fc}{const\+\_\+reference}} = const char \&
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a28d9c13a1203e1a3414b4c908ad9cfa3}{const\+\_\+pointer}} = const char $\ast$
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a70be71e4042d45a71f82e719a8f14dc9}{iterator}} = const char $\ast$
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}} = const char $\ast$
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab2fe73c7f719033e3dbd4c971ba0fc0e}{reverse\+\_\+iterator}} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a70be71e4042d45a71f82e719a8f14dc9}{iterator}} $>$
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}{const\+\_\+reverse\+\_\+iterator}} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}} $>$
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a358ddf914f0565c54058e3fa511fdee0}{size\+\_\+type}} = size\+\_\+t
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afea14fe87bae9823c87e1d7caf3abb8b}{difference\+\_\+type}} = std\+::intptr\+\_\+t
+\item 
+using \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad03ac1317b3b4813c91196935e7b4437}{allocator\+\_\+type}} = \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ac9f144c3adc0a87c1adb98606bdd5e93}{is\+\_\+sso}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a3be89b5e17a1835e1a185ab2af43cc76}{is\+\_\+sso}} (size\+\_\+t) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2183c2546c4306ba213fe32d75e1a915}{size\+\_\+internal}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a37f0f5173bd23c456a66f9b21001ad92}{is\+Pow2}} (size\+\_\+t len) const noexcept
+\item 
+const char $\ast$ \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a84c1e66b4f5dee8fe08fe234be806e5b}{data}} () const noexcept
+\item 
+const char $\ast$ \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa3c0e278a741fcdc8559ca2a9b542b69}{c\+\_\+str}} () const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0bde50171b915807f36efb863a6ca70b}{size}} () const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a794559bf16e7212dff90c8f869d71d4c}{length}} () const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1b52a91c4b4ff4c16835fbc57e62c1ef}{max\+\_\+size}} () const noexcept
+\item 
+bool \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a32b3117e09bb9512501fec3c35641e82}{empty}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad03ac1317b3b4813c91196935e7b4437}{allocator\+\_\+type}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae6cd27c6f522910c397417ea1ad8a37b}{get\+\_\+allocator}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afe76159e86a2c462150d19030ce7a7e1}{tiny\+\_\+string}} ()
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6daa9118ef544c2d5af04bda58ac902c}{tiny\+\_\+string}} (const char $\ast$\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a84c1e66b4f5dee8fe08fe234be806e5b}{data}})
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1790cbf90250be2f57a51d95643feebc}{tiny\+\_\+string}} (const char $\ast$\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a84c1e66b4f5dee8fe08fe234be806e5b}{data}}, size\+\_\+t n)
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa4f61098fc53c6f42600d25547902181}{tiny\+\_\+string}} (const std\+::string \&str)
+\item 
+{\footnotesize template$<$size\+\_\+t Other\+Max\+SS, class Other\+Alloc $>$ }\\\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_adbe7ccc4bb433272150537aa1f381d50}{tiny\+\_\+string}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Other\+Max\+SS, Other\+Alloc $>$ \&other)
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_adaf6c0e4d9383a6167b14aaf05565242}{tiny\+\_\+string}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&other)
+\item 
+{\footnotesize template$<$class Iter $>$ }\\\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2d35800205fe8c0ec1516748bcebe830}{tiny\+\_\+string}} (Iter first, Iter last)
+\item 
+\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \& \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aee15c17c41deab65758c6afbfb75878e}{operator=}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&other)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a78460e871c63bbf994cdf9003c1a067b}{swap}} (\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&other)
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b3992ba4bb8b771e4d1e5c378244ec8}{begin}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af58863cb67c0712884c7f55b97095bd8}{cbegin}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a42839d3210735ac8fef54c1130fde190}{end}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aba3ced69b36ff99fc935b371afba9a43}{cend}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aaf06b3df8d132a9540d81138a28da082}{rbegin}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6b938fa7db942aa930391fe8a5b5454a}{rend}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a27e90ee09f18b35b9ebb367db404f2b6}{crbegin}} () const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a79921d2711edddc27c1fa1704a666266}{crend}} () const noexcept
+\item 
+char \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b363cce6b9d8f5e8b8206e466868e13}{at}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) const
+\item 
+char \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7076421fde8b0ecfb280598d35aef815}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) const noexcept
+\item 
+char \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aeaf9d250bb5bac6192163cf3cda4c252}{back}} () const noexcept
+\item 
+char \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afdd0dfa35d94f2e05581f0c2cb1e26af}{front}} () const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afd6a622c4e230f9082c21910710f4549}{count}} (const char $\ast$str, size\+\_\+t n, size\+\_\+t start=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a53d3b87a89b21cec6753ea868ca25039}{count}} (const char $\ast$str, size\+\_\+t start=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a522f61f27c585fdb2b4aa78d560473ff}{count}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t start=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2ebb625ef8cf28d597be6c7c17110fb1}{count}} (const std\+::string \&str, size\+\_\+t start=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a9c5a887577cc39976eba489f5bcf88e9}{count}} (char c, size\+\_\+t start=0) const noexcept
+\item 
+{\footnotesize template$<$class Iter $>$ }\\Iter \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0fd8f6f3ecbc20cd5d485f254baf22c2}{split}} (const char $\ast$match, size\+\_\+t n, Iter out, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+{\footnotesize template$<$class Iter $>$ }\\Iter \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a82d8d4b4753a739ae8b84197aca8b950}{split}} (const char $\ast$match, Iter out, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+{\footnotesize template$<$class Iter $>$ }\\Iter \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab740b244c2d2caca4ae2a3e622a145a7}{split}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&match, Iter out, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+{\footnotesize template$<$class Iter $>$ }\\Iter \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a4566d89a4b7dafb1695f711abf412fe7}{split}} (const std\+::string \&match, Iter out, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+std\+::vector$<$ \mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\+\_\+view}} $>$ \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a35e58ce27ed21433c724b3707ab25a6b}{split}} (const char $\ast$match, size\+\_\+t n, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+std\+::vector$<$ \mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\+\_\+view}} $>$ \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a18e9f257e5a98f9d5e7c8f5e09ae49dd}{split}} (const char $\ast$match, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+std\+::vector$<$ \mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\+\_\+view}} $>$ \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6e3acad401772aef92713885d99c098f}{split}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&match, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+std\+::vector$<$ \mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\+\_\+view}} $>$ \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a65bba8f37a6ddd5d388a8cd96d2e0121}{split}} (const std\+::string \&match, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+{\footnotesize template$<$class String , class Iter $>$ }\\void \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aea0f029716fd35f5c085df61abc039b8}{join}} (String \&out, Iter first, Iter last) const
+\item 
+{\footnotesize template$<$class String , class T $>$ }\\void \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1d5260c6a2b8c434558392b486864899}{join}} (String \&out, std\+::initializer\+\_\+list$<$ T $>$ il) const
+\item 
+{\footnotesize template$<$class Iter $>$ }\\\mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{tstring}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7575437a52f987323cf30b8e412dba4a}{join}} (Iter first, Iter last) const
+\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{tstring}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5e77f1c4cd5ce110adda571c66fea85d}{join}} (std\+::initializer\+\_\+list$<$ T $>$ il)
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a40dc815eaf89499cbe3f2858dabbfbc2}{copy}} (char $\ast$s, size\+\_\+t len, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0) const
+\item 
+\mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\+\_\+view}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aad547848bac90987d9a4d857e19bd11d}{substr}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0, size\+\_\+t len=\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}) const
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a3f4cd650e3c9bbc2e2068e4b979b0a57}{find}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0ea58f78d1fee03c4a4085aef98b56c6}{find}} (const std\+::string \&str, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a8f6c0478fe296a1833888b7167991f5d}{find}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0) const
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a80ee5acc9cbeebfe4a9a59105a82bdbb}{find}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a358ddf914f0565c54058e3fa511fdee0}{size\+\_\+type}} n) const
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b6f70860da996bb30eed40c637bc4d8}{find}} (char c, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af0dd825bf7521e9a778fd592318578cc}{rfind}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6be64ba05bf58ca019ec4c84ea2e1b1b}{rfind}} (const std\+::string \&str, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad14ec538474e457c2e4902cf5319031d}{rfind}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}) const
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab8fa361ced644ce17029cbf46f40d0dc}{rfind}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a358ddf914f0565c54058e3fa511fdee0}{size\+\_\+type}} n) const
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b243f34c78844450b3ee36029876fd8}{rfind}} (char c, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a25fac2bd215994d96d5b0498e12f925f}{find\+\_\+first\+\_\+of}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, size\+\_\+t n) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5fe059486a27425aea37f852a7774c3a}{find\+\_\+first\+\_\+of}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a32592f69c12e8852b005ed40ad43f02e}{find\+\_\+first\+\_\+of}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a86fa4e4b8fda1c5fda368918dfef920c}{find\+\_\+first\+\_\+of}} (char c, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae475d7445a650336a8070db714048a66}{find\+\_\+last\+\_\+of}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_acbc75e0e39de48627ef67940c420f1ae}{find\+\_\+last\+\_\+of}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1c9bdafb62f25f6cedfb55cbe115db0e}{find\+\_\+last\+\_\+of}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, size\+\_\+t n) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad674dc9bdf1cc2bf25de630e45a88371}{find\+\_\+last\+\_\+of}} (char c, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a24b5210cd011186ae9e0fc81297df6d9}{find\+\_\+first\+\_\+not\+\_\+of}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a92b18782afbd61281f55ac140bf50f67}{find\+\_\+first\+\_\+not\+\_\+of}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae6a01924e1e38a88b74fbd9fa19ecaab}{find\+\_\+first\+\_\+not\+\_\+of}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, size\+\_\+t n) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a3e3c169a523a22f556620f46e648f186}{find\+\_\+first\+\_\+not\+\_\+of}} (char c, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=0) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aac759912ee7b27a835de73d9b06b8762}{find\+\_\+last\+\_\+not\+\_\+of}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a343d3679f755b5ab4a6f11106f2210a4}{find\+\_\+last\+\_\+not\+\_\+of}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae647b3ef94af1c3d3973c9c173fb2b92}{find\+\_\+last\+\_\+not\+\_\+of}} (const char $\ast$s, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, size\+\_\+t n) const noexcept
+\item 
+size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab985762544be2080927a6e201bc6267a}{find\+\_\+last\+\_\+not\+\_\+of}} (char c, size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}=\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}) const noexcept
+\item 
+int \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af7338ba08b074452cb26ac82ecd28057}{compare}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&str) const noexcept
+\item 
+int \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a9f145514808afa4e58926c4984d68e5a}{compare}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, size\+\_\+t len, const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&str) const noexcept
+\item 
+int \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a39ce625c4acfa9994fcf90da4c0dce2a}{compare}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, size\+\_\+t len, const std\+::string \&str) const noexcept
+\item 
+int \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5b73d209b2b30c3096d4a05c0c2d04e9}{compare}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, size\+\_\+t len, const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t subpos, size\+\_\+t sublen) const noexcept
+\item 
+int \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa08b931063e45ebd1ab69c8238ce71a7}{compare}} (const char $\ast$s) const noexcept
+\item 
+int \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7571367b1ffb2fca10a778255841283f}{compare}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, size\+\_\+t len, const char $\ast$s) const noexcept
+\item 
+int \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a8cb0631f19b510ba70199a5a0050e6d9}{compare}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, size\+\_\+t len, const char $\ast$\+\_\+s, size\+\_\+t n) const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a35fe6a7f80e9992f67dc67e22ad30b97}{operator std\+::string}} () const
+\begin{DoxyCompactList}\small\item\em Implicit conversion to std\+::string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa02a4a2b500052fcd6ba4413c1d0bc1d}{internal\+\_\+data}} \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5ddcdf60a9c3fcb1ffcd178f54669056}{d\+\_\+data}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aeadaa4c52749e02d36300149c38aa305}{sso\+\_\+max\+\_\+capacity}} = internal\+\_\+data\+::sso\+\_\+size + 1
+\item 
+static const size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a62558a15adcb4afcb20e79ba2f6e6603}{max\+\_\+static\+\_\+size}} = \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aeadaa4c52749e02d36300149c38aa305}{sso\+\_\+max\+\_\+capacity}} -\/ 1
+\item 
+static const size\+\_\+t \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}} = -\/1
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Specialization of \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} for string views. You should use the global typedef tstring\+\_\+view equivalent to \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4}{tiny\+\_\+string$<$0,view\+\_\+allocator$>$}}. Provides a similar interface to std\+::string\+\_\+view. See \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} documentation for more details. 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad03ac1317b3b4813c91196935e7b4437}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad03ac1317b3b4813c91196935e7b4437}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!allocator\_type@{allocator\_type}}
+\index{allocator\_type@{allocator\_type}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{allocator\_type}{allocator\_type}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad03ac1317b3b4813c91196935e7b4437}{allocator\+\_\+type}} =  \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!const\_iterator@{const\_iterator}}
+\index{const\_iterator@{const\_iterator}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{const\_iterator}{const\_iterator}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}} =  const char$\ast$}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a28d9c13a1203e1a3414b4c908ad9cfa3}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a28d9c13a1203e1a3414b4c908ad9cfa3}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!const\_pointer@{const\_pointer}}
+\index{const\_pointer@{const\_pointer}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{const\_pointer}{const\_pointer}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a28d9c13a1203e1a3414b4c908ad9cfa3}{const\+\_\+pointer}} =  const char$\ast$}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a59f1a48b389fb3634d08ead70dd321fc}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a59f1a48b389fb3634d08ead70dd321fc}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!const\_reference@{const\_reference}}
+\index{const\_reference@{const\_reference}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reference}{const\_reference}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a59f1a48b389fb3634d08ead70dd321fc}{const\+\_\+reference}} =  const char\&}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!const\_reverse\_iterator@{const\_reverse\_iterator}}
+\index{const\_reverse\_iterator@{const\_reverse\_iterator}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reverse\_iterator}{const\_reverse\_iterator}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}{const\+\_\+reverse\+\_\+iterator}} =  std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}}$>$}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afea14fe87bae9823c87e1d7caf3abb8b}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afea14fe87bae9823c87e1d7caf3abb8b}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!difference\_type@{difference\_type}}
+\index{difference\_type@{difference\_type}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{difference\_type}{difference\_type}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afea14fe87bae9823c87e1d7caf3abb8b}{difference\+\_\+type}} =  std\+::intptr\+\_\+t}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa02a4a2b500052fcd6ba4413c1d0bc1d}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa02a4a2b500052fcd6ba4413c1d0bc1d}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!internal\_data@{internal\_data}}
+\index{internal\_data@{internal\_data}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{internal\_data}{internal\_data}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa02a4a2b500052fcd6ba4413c1d0bc1d}{internal\+\_\+data}} =  \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{detail\+::string\+\_\+internal}}$<$0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}}$>$}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a70be71e4042d45a71f82e719a8f14dc9}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a70be71e4042d45a71f82e719a8f14dc9}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!iterator@{iterator}}
+\index{iterator@{iterator}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{iterator}{iterator}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a70be71e4042d45a71f82e719a8f14dc9}{iterator}} =  const char$\ast$}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af2fbc11c7f19fea794e286115a1a0ec1}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af2fbc11c7f19fea794e286115a1a0ec1}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!pointer@{pointer}}
+\index{pointer@{pointer}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{pointer}{pointer}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af2fbc11c7f19fea794e286115a1a0ec1}{pointer}} =  char$\ast$}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a54d59a08cd4a393aa75e24b2d8dddf33}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a54d59a08cd4a393aa75e24b2d8dddf33}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!reference@{reference}}
+\index{reference@{reference}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{reference}{reference}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a54d59a08cd4a393aa75e24b2d8dddf33}{reference}} =  char\&}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab2fe73c7f719033e3dbd4c971ba0fc0e}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab2fe73c7f719033e3dbd4c971ba0fc0e}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!reverse\_iterator@{reverse\_iterator}}
+\index{reverse\_iterator@{reverse\_iterator}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{reverse\_iterator}{reverse\_iterator}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab2fe73c7f719033e3dbd4c971ba0fc0e}{reverse\+\_\+iterator}} =  std\+::reverse\+\_\+iterator$<$\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a70be71e4042d45a71f82e719a8f14dc9}{iterator}}$>$}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a358ddf914f0565c54058e3fa511fdee0}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a358ddf914f0565c54058e3fa511fdee0}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!size\_type@{size\_type}}
+\index{size\_type@{size\_type}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{size\_type}{size\_type}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a358ddf914f0565c54058e3fa511fdee0}{size\+\_\+type}} =  size\+\_\+t}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a32c1dd0beab8b054ffabc0048f4ac881}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a32c1dd0beab8b054ffabc0048f4ac881}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!this\_type@{this\_type}}
+\index{this\_type@{this\_type}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{this\_type}{this\_type}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a32c1dd0beab8b054ffabc0048f4ac881}{this\+\_\+type}} =  \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}}$>$}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a947d46c21566b70750abbc986f22a8be}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a947d46c21566b70750abbc986f22a8be}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!traits\_type@{traits\_type}}
+\index{traits\_type@{traits\_type}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{traits\_type}{traits\_type}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a947d46c21566b70750abbc986f22a8be}{traits\+\_\+type}} =  std\+::char\+\_\+traits$<$char$>$}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7a89ac73617edf95bb6ebc70193bb330}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7a89ac73617edf95bb6ebc70193bb330}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7a89ac73617edf95bb6ebc70193bb330}{value\+\_\+type}} =  char}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afe76159e86a2c462150d19030ce7a7e1}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afe76159e86a2c462150d19030ce7a7e1}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!tiny\_string@{tiny\_string}}
+\index{tiny\_string@{tiny\_string}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{tiny\_string()}{tiny\_string()}\hspace{0.1cm}{\footnotesize\ttfamily [1/7]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6daa9118ef544c2d5af04bda58ac902c}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6daa9118ef544c2d5af04bda58ac902c}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!tiny\_string@{tiny\_string}}
+\index{tiny\_string@{tiny\_string}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{tiny\_string()}{tiny\_string()}\hspace{0.1cm}{\footnotesize\ttfamily [2/7]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} (\begin{DoxyParamCaption}\item[{const char $\ast$}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1790cbf90250be2f57a51d95643feebc}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1790cbf90250be2f57a51d95643feebc}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!tiny\_string@{tiny\_string}}
+\index{tiny\_string@{tiny\_string}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{tiny\_string()}{tiny\_string()}\hspace{0.1cm}{\footnotesize\ttfamily [3/7]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} (\begin{DoxyParamCaption}\item[{const char $\ast$}]{data,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa4f61098fc53c6f42600d25547902181}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa4f61098fc53c6f42600d25547902181}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!tiny\_string@{tiny\_string}}
+\index{tiny\_string@{tiny\_string}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{tiny\_string()}{tiny\_string()}\hspace{0.1cm}{\footnotesize\ttfamily [4/7]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_adbe7ccc4bb433272150537aa1f381d50}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_adbe7ccc4bb433272150537aa1f381d50}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!tiny\_string@{tiny\_string}}
+\index{tiny\_string@{tiny\_string}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{tiny\_string()}{tiny\_string()}\hspace{0.1cm}{\footnotesize\ttfamily [5/7]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Other\+Max\+SS, class Other\+Alloc $>$ \\
+\mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Other\+Max\+SS, Other\+Alloc $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_adaf6c0e4d9383a6167b14aaf05565242}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_adaf6c0e4d9383a6167b14aaf05565242}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!tiny\_string@{tiny\_string}}
+\index{tiny\_string@{tiny\_string}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{tiny\_string()}{tiny\_string()}\hspace{0.1cm}{\footnotesize\ttfamily [6/7]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2d35800205fe8c0ec1516748bcebe830}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2d35800205fe8c0ec1516748bcebe830}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!tiny\_string@{tiny\_string}}
+\index{tiny\_string@{tiny\_string}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{tiny\_string()}{tiny\_string()}\hspace{0.1cm}{\footnotesize\ttfamily [7/7]}}
+{\footnotesize\ttfamily template$<$class Iter $>$ \\
+\mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} (\begin{DoxyParamCaption}\item[{Iter}]{first,  }\item[{Iter}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b363cce6b9d8f5e8b8206e466868e13}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b363cce6b9d8f5e8b8206e466868e13}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!at@{at}}
+\index{at@{at}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}}
+{\footnotesize\ttfamily char \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::at (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aeaf9d250bb5bac6192163cf3cda4c252}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aeaf9d250bb5bac6192163cf3cda4c252}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!back@{back}}
+\index{back@{back}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}}
+{\footnotesize\ttfamily char \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b3992ba4bb8b771e4d1e5c378244ec8}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b3992ba4bb8b771e4d1e5c378244ec8}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!begin@{begin}}
+\index{begin@{begin}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa3c0e278a741fcdc8559ca2a9b542b69}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa3c0e278a741fcdc8559ca2a9b542b69}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!c\_str@{c\_str}}
+\index{c\_str@{c\_str}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{c\_str()}{c\_str()}}
+{\footnotesize\ttfamily const char$\ast$ \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::c\+\_\+str (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af58863cb67c0712884c7f55b97095bd8}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af58863cb67c0712884c7f55b97095bd8}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!cbegin@{cbegin}}
+\index{cbegin@{cbegin}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{cbegin()}{cbegin()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::cbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aba3ced69b36ff99fc935b371afba9a43}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aba3ced69b36ff99fc935b371afba9a43}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!cend@{cend}}
+\index{cend@{cend}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{cend()}{cend()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::cend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa08b931063e45ebd1ab69c8238ce71a7}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa08b931063e45ebd1ab69c8238ce71a7}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!compare@{compare}}
+\index{compare@{compare}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{compare()}{compare()}\hspace{0.1cm}{\footnotesize\ttfamily [1/7]}}
+{\footnotesize\ttfamily int \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::compare (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af7338ba08b074452cb26ac82ecd28057}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af7338ba08b074452cb26ac82ecd28057}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!compare@{compare}}
+\index{compare@{compare}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{compare()}{compare()}\hspace{0.1cm}{\footnotesize\ttfamily [2/7]}}
+{\footnotesize\ttfamily int \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::compare (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{str }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a8cb0631f19b510ba70199a5a0050e6d9}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a8cb0631f19b510ba70199a5a0050e6d9}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!compare@{compare}}
+\index{compare@{compare}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{compare()}{compare()}\hspace{0.1cm}{\footnotesize\ttfamily [3/7]}}
+{\footnotesize\ttfamily int \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::compare (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos,  }\item[{size\+\_\+t}]{len,  }\item[{const char $\ast$}]{\+\_\+s,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7571367b1ffb2fca10a778255841283f}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7571367b1ffb2fca10a778255841283f}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!compare@{compare}}
+\index{compare@{compare}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{compare()}{compare()}\hspace{0.1cm}{\footnotesize\ttfamily [4/7]}}
+{\footnotesize\ttfamily int \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::compare (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos,  }\item[{size\+\_\+t}]{len,  }\item[{const char $\ast$}]{s }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a39ce625c4acfa9994fcf90da4c0dce2a}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a39ce625c4acfa9994fcf90da4c0dce2a}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!compare@{compare}}
+\index{compare@{compare}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{compare()}{compare()}\hspace{0.1cm}{\footnotesize\ttfamily [5/7]}}
+{\footnotesize\ttfamily int \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::compare (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos,  }\item[{size\+\_\+t}]{len,  }\item[{const std\+::string \&}]{str }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a9f145514808afa4e58926c4984d68e5a}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a9f145514808afa4e58926c4984d68e5a}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!compare@{compare}}
+\index{compare@{compare}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{compare()}{compare()}\hspace{0.1cm}{\footnotesize\ttfamily [6/7]}}
+{\footnotesize\ttfamily int \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::compare (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos,  }\item[{size\+\_\+t}]{len,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{str }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5b73d209b2b30c3096d4a05c0c2d04e9}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5b73d209b2b30c3096d4a05c0c2d04e9}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!compare@{compare}}
+\index{compare@{compare}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{compare()}{compare()}\hspace{0.1cm}{\footnotesize\ttfamily [7/7]}}
+{\footnotesize\ttfamily int \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::compare (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos,  }\item[{size\+\_\+t}]{len,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{str,  }\item[{size\+\_\+t}]{subpos,  }\item[{size\+\_\+t}]{sublen }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a40dc815eaf89499cbe3f2858dabbfbc2}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a40dc815eaf89499cbe3f2858dabbfbc2}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!copy@{copy}}
+\index{copy@{copy}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{copy()}{copy()}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::copy (\begin{DoxyParamCaption}\item[{char $\ast$}]{s,  }\item[{size\+\_\+t}]{len,  }\item[{size\+\_\+t}]{pos = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a9c5a887577cc39976eba489f5bcf88e9}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a9c5a887577cc39976eba489f5bcf88e9}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!count@{count}}
+\index{count@{count}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::count (\begin{DoxyParamCaption}\item[{char}]{c,  }\item[{size\+\_\+t}]{start = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afd6a622c4e230f9082c21910710f4549}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afd6a622c4e230f9082c21910710f4549}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!count@{count}}
+\index{count@{count}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::count (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str,  }\item[{size\+\_\+t}]{n,  }\item[{size\+\_\+t}]{start = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Convenient function, returns the count of non-\/overlapping occurrences of \textquotesingle{}str\textquotesingle{} \mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a53d3b87a89b21cec6753ea868ca25039}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a53d3b87a89b21cec6753ea868ca25039}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!count@{count}}
+\index{count@{count}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::count (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str,  }\item[{size\+\_\+t}]{start = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2ebb625ef8cf28d597be6c7c17110fb1}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2ebb625ef8cf28d597be6c7c17110fb1}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!count@{count}}
+\index{count@{count}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::count (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str,  }\item[{size\+\_\+t}]{start = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a522f61f27c585fdb2b4aa78d560473ff}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a522f61f27c585fdb2b4aa78d560473ff}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!count@{count}}
+\index{count@{count}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::count (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{str,  }\item[{size\+\_\+t}]{start = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a27e90ee09f18b35b9ebb367db404f2b6}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a27e90ee09f18b35b9ebb367db404f2b6}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!crbegin@{crbegin}}
+\index{crbegin@{crbegin}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{crbegin()}{crbegin()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::crbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a79921d2711edddc27c1fa1704a666266}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a79921d2711edddc27c1fa1704a666266}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!crend@{crend}}
+\index{crend@{crend}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{crend()}{crend()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::crend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a84c1e66b4f5dee8fe08fe234be806e5b}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a84c1e66b4f5dee8fe08fe234be806e5b}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!data@{data}}
+\index{data@{data}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{data()}{data()}}
+{\footnotesize\ttfamily const char$\ast$ \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a32b3117e09bb9512501fec3c35641e82}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a32b3117e09bb9512501fec3c35641e82}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!empty@{empty}}
+\index{empty@{empty}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{empty()}{empty()}}
+{\footnotesize\ttfamily bool \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a42839d3210735ac8fef54c1130fde190}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a42839d3210735ac8fef54c1130fde190}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!end@{end}}
+\index{end@{end}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a71e1aedf6b60a39c889300d245fb1c35}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b6f70860da996bb30eed40c637bc4d8}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b6f70860da996bb30eed40c637bc4d8}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find@{find}}
+\index{find@{find}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find (\begin{DoxyParamCaption}\item[{char}]{c,  }\item[{size\+\_\+t}]{pos = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a80ee5acc9cbeebfe4a9a59105a82bdbb}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a80ee5acc9cbeebfe4a9a59105a82bdbb}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find@{find}}
+\index{find@{find}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos,  }\item[{\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a358ddf914f0565c54058e3fa511fdee0}{size\+\_\+type}}}]{n }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a8f6c0478fe296a1833888b7167991f5d}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a8f6c0478fe296a1833888b7167991f5d}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find@{find}}
+\index{find@{find}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0ea58f78d1fee03c4a4085aef98b56c6}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0ea58f78d1fee03c4a4085aef98b56c6}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find@{find}}
+\index{find@{find}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str,  }\item[{size\+\_\+t}]{pos = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a3f4cd650e3c9bbc2e2068e4b979b0a57}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a3f4cd650e3c9bbc2e2068e4b979b0a57}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find@{find}}
+\index{find@{find}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{str,  }\item[{size\+\_\+t}]{pos = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a3e3c169a523a22f556620f46e648f186}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a3e3c169a523a22f556620f46e648f186}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_first\_not\_of@{find\_first\_not\_of}}
+\index{find\_first\_not\_of@{find\_first\_not\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_first\_not\_of()}{find\_first\_not\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+first\+\_\+not\+\_\+of (\begin{DoxyParamCaption}\item[{char}]{c,  }\item[{size\+\_\+t}]{pos = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae6a01924e1e38a88b74fbd9fa19ecaab}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae6a01924e1e38a88b74fbd9fa19ecaab}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_first\_not\_of@{find\_first\_not\_of}}
+\index{find\_first\_not\_of@{find\_first\_not\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_first\_not\_of()}{find\_first\_not\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+first\+\_\+not\+\_\+of (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a92b18782afbd61281f55ac140bf50f67}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a92b18782afbd61281f55ac140bf50f67}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_first\_not\_of@{find\_first\_not\_of}}
+\index{find\_first\_not\_of@{find\_first\_not\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_first\_not\_of()}{find\_first\_not\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+first\+\_\+not\+\_\+of (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a24b5210cd011186ae9e0fc81297df6d9}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a24b5210cd011186ae9e0fc81297df6d9}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_first\_not\_of@{find\_first\_not\_of}}
+\index{find\_first\_not\_of@{find\_first\_not\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_first\_not\_of()}{find\_first\_not\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+first\+\_\+not\+\_\+of (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{str,  }\item[{size\+\_\+t}]{pos = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a86fa4e4b8fda1c5fda368918dfef920c}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a86fa4e4b8fda1c5fda368918dfef920c}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_first\_of@{find\_first\_of}}
+\index{find\_first\_of@{find\_first\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_first\_of()}{find\_first\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+first\+\_\+of (\begin{DoxyParamCaption}\item[{char}]{c,  }\item[{size\+\_\+t}]{pos = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a25fac2bd215994d96d5b0498e12f925f}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a25fac2bd215994d96d5b0498e12f925f}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_first\_of@{find\_first\_of}}
+\index{find\_first\_of@{find\_first\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_first\_of()}{find\_first\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+first\+\_\+of (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a32592f69c12e8852b005ed40ad43f02e}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a32592f69c12e8852b005ed40ad43f02e}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_first\_of@{find\_first\_of}}
+\index{find\_first\_of@{find\_first\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_first\_of()}{find\_first\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+first\+\_\+of (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5fe059486a27425aea37f852a7774c3a}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5fe059486a27425aea37f852a7774c3a}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_first\_of@{find\_first\_of}}
+\index{find\_first\_of@{find\_first\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_first\_of()}{find\_first\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+first\+\_\+of (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{str,  }\item[{size\+\_\+t}]{pos = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab985762544be2080927a6e201bc6267a}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab985762544be2080927a6e201bc6267a}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_last\_not\_of@{find\_last\_not\_of}}
+\index{find\_last\_not\_of@{find\_last\_not\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_last\_not\_of()}{find\_last\_not\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+last\+\_\+not\+\_\+of (\begin{DoxyParamCaption}\item[{char}]{c,  }\item[{size\+\_\+t}]{pos = {\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae647b3ef94af1c3d3973c9c173fb2b92}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae647b3ef94af1c3d3973c9c173fb2b92}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_last\_not\_of@{find\_last\_not\_of}}
+\index{find\_last\_not\_of@{find\_last\_not\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_last\_not\_of()}{find\_last\_not\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+last\+\_\+not\+\_\+of (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a343d3679f755b5ab4a6f11106f2210a4}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a343d3679f755b5ab4a6f11106f2210a4}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_last\_not\_of@{find\_last\_not\_of}}
+\index{find\_last\_not\_of@{find\_last\_not\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_last\_not\_of()}{find\_last\_not\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+last\+\_\+not\+\_\+of (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos = {\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aac759912ee7b27a835de73d9b06b8762}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aac759912ee7b27a835de73d9b06b8762}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_last\_not\_of@{find\_last\_not\_of}}
+\index{find\_last\_not\_of@{find\_last\_not\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_last\_not\_of()}{find\_last\_not\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+last\+\_\+not\+\_\+of (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{str,  }\item[{size\+\_\+t}]{pos = {\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad674dc9bdf1cc2bf25de630e45a88371}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad674dc9bdf1cc2bf25de630e45a88371}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_last\_of@{find\_last\_of}}
+\index{find\_last\_of@{find\_last\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_last\_of()}{find\_last\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+last\+\_\+of (\begin{DoxyParamCaption}\item[{char}]{c,  }\item[{size\+\_\+t}]{pos = {\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1c9bdafb62f25f6cedfb55cbe115db0e}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1c9bdafb62f25f6cedfb55cbe115db0e}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_last\_of@{find\_last\_of}}
+\index{find\_last\_of@{find\_last\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_last\_of()}{find\_last\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+last\+\_\+of (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_acbc75e0e39de48627ef67940c420f1ae}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_acbc75e0e39de48627ef67940c420f1ae}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_last\_of@{find\_last\_of}}
+\index{find\_last\_of@{find\_last\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_last\_of()}{find\_last\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+last\+\_\+of (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos = {\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae475d7445a650336a8070db714048a66}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae475d7445a650336a8070db714048a66}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!find\_last\_of@{find\_last\_of}}
+\index{find\_last\_of@{find\_last\_of}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{find\_last\_of()}{find\_last\_of()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::find\+\_\+last\+\_\+of (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{str,  }\item[{size\+\_\+t}]{pos = {\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afdd0dfa35d94f2e05581f0c2cb1e26af}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_afdd0dfa35d94f2e05581f0c2cb1e26af}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!front@{front}}
+\index{front@{front}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{front()}{front()}}
+{\footnotesize\ttfamily char \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae6cd27c6f522910c397417ea1ad8a37b}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ae6cd27c6f522910c397417ea1ad8a37b}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad03ac1317b3b4813c91196935e7b4437}{allocator\+\_\+type}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ac9f144c3adc0a87c1adb98606bdd5e93}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ac9f144c3adc0a87c1adb98606bdd5e93}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!is\_sso@{is\_sso}}
+\index{is\_sso@{is\_sso}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{is\_sso()}{is\_sso()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::is\+\_\+sso (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a3be89b5e17a1835e1a185ab2af43cc76}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a3be89b5e17a1835e1a185ab2af43cc76}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!is\_sso@{is\_sso}}
+\index{is\_sso@{is\_sso}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{is\_sso()}{is\_sso()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::is\+\_\+sso (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a37f0f5173bd23c456a66f9b21001ad92}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a37f0f5173bd23c456a66f9b21001ad92}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!isPow2@{isPow2}}
+\index{isPow2@{isPow2}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{isPow2()}{isPow2()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::is\+Pow2 (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{len }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7575437a52f987323cf30b8e412dba4a}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7575437a52f987323cf30b8e412dba4a}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!join@{join}}
+\index{join@{join}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{join()}{join()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class Iter $>$ \\
+\mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{tstring}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::join (\begin{DoxyParamCaption}\item[{Iter}]{first,  }\item[{Iter}]{last }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5e77f1c4cd5ce110adda571c66fea85d}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5e77f1c4cd5ce110adda571c66fea85d}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!join@{join}}
+\index{join@{join}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{join()}{join()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{tstring}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::join (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ T $>$}]{il }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aea0f029716fd35f5c085df61abc039b8}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aea0f029716fd35f5c085df61abc039b8}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!join@{join}}
+\index{join@{join}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{join()}{join()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class String , class Iter $>$ \\
+void \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::join (\begin{DoxyParamCaption}\item[{String \&}]{out,  }\item[{Iter}]{first,  }\item[{Iter}]{last }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1d5260c6a2b8c434558392b486864899}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1d5260c6a2b8c434558392b486864899}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!join@{join}}
+\index{join@{join}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{join()}{join()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class String , class T $>$ \\
+void \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::join (\begin{DoxyParamCaption}\item[{String \&}]{out,  }\item[{std\+::initializer\+\_\+list$<$ T $>$}]{il }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a794559bf16e7212dff90c8f869d71d4c}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a794559bf16e7212dff90c8f869d71d4c}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!length@{length}}
+\index{length@{length}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{length()}{length()}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1b52a91c4b4ff4c16835fbc57e62c1ef}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a1b52a91c4b4ff4c16835fbc57e62c1ef}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!max\_size@{max\_size}}
+\index{max\_size@{max\_size}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{max\_size()}{max\_size()}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::max\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a35fe6a7f80e9992f67dc67e22ad30b97}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a35fe6a7f80e9992f67dc67e22ad30b97}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!operator std::string@{operator std::string}}
+\index{operator std::string@{operator std::string}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{operator std::string()}{operator std::string()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::operator std\+::string (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Implicit conversion to std\+::string. 
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aee15c17c41deab65758c6afbfb75878e}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aee15c17c41deab65758c6afbfb75878e}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}\& \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7076421fde8b0ecfb280598d35aef815}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a7076421fde8b0ecfb280598d35aef815}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}}
+{\footnotesize\ttfamily char \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aaf06b3df8d132a9540d81138a28da082}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aaf06b3df8d132a9540d81138a28da082}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6b938fa7db942aa930391fe8a5b5454a}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6b938fa7db942aa930391fe8a5b5454a}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!rend@{rend}}
+\index{rend@{rend}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{rend()}{rend()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0d3a4944e7375779ef2b20f201818f58}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b243f34c78844450b3ee36029876fd8}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2b243f34c78844450b3ee36029876fd8}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!rfind@{rfind}}
+\index{rfind@{rfind}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{rfind()}{rfind()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::rfind (\begin{DoxyParamCaption}\item[{char}]{c,  }\item[{size\+\_\+t}]{pos = {\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab8fa361ced644ce17029cbf46f40d0dc}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab8fa361ced644ce17029cbf46f40d0dc}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!rfind@{rfind}}
+\index{rfind@{rfind}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{rfind()}{rfind()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::rfind (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos,  }\item[{\mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a358ddf914f0565c54058e3fa511fdee0}{size\+\_\+type}}}]{n }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad14ec538474e457c2e4902cf5319031d}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ad14ec538474e457c2e4902cf5319031d}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!rfind@{rfind}}
+\index{rfind@{rfind}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{rfind()}{rfind()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::rfind (\begin{DoxyParamCaption}\item[{const char $\ast$}]{s,  }\item[{size\+\_\+t}]{pos = {\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6be64ba05bf58ca019ec4c84ea2e1b1b}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6be64ba05bf58ca019ec4c84ea2e1b1b}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!rfind@{rfind}}
+\index{rfind@{rfind}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{rfind()}{rfind()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::rfind (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str,  }\item[{size\+\_\+t}]{pos = {\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af0dd825bf7521e9a778fd592318578cc}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_af0dd825bf7521e9a778fd592318578cc}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!rfind@{rfind}}
+\index{rfind@{rfind}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{rfind()}{rfind()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::rfind (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{str,  }\item[{size\+\_\+t}]{pos = {\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0bde50171b915807f36efb863a6ca70b}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0bde50171b915807f36efb863a6ca70b}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!size@{size}}
+\index{size@{size}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2183c2546c4306ba213fe32d75e1a915}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a2183c2546c4306ba213fe32d75e1a915}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!size\_internal@{size\_internal}}
+\index{size\_internal@{size\_internal}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{size\_internal()}{size\_internal()}}
+{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::size\+\_\+internal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a18e9f257e5a98f9d5e7c8f5e09ae49dd}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a18e9f257e5a98f9d5e7c8f5e09ae49dd}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!split@{split}}
+\index{split@{split}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}\hspace{0.1cm}{\footnotesize\ttfamily [1/8]}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\+\_\+view}}$>$ \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::split (\begin{DoxyParamCaption}\item[{const char $\ast$}]{match,  }\item[{bool}]{keep\+\_\+empty\+\_\+strings = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a82d8d4b4753a739ae8b84197aca8b950}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a82d8d4b4753a739ae8b84197aca8b950}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!split@{split}}
+\index{split@{split}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}\hspace{0.1cm}{\footnotesize\ttfamily [2/8]}}
+{\footnotesize\ttfamily template$<$class Iter $>$ \\
+Iter \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::split (\begin{DoxyParamCaption}\item[{const char $\ast$}]{match,  }\item[{Iter}]{out,  }\item[{bool}]{keep\+\_\+empty\+\_\+strings = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a35e58ce27ed21433c724b3707ab25a6b}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a35e58ce27ed21433c724b3707ab25a6b}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!split@{split}}
+\index{split@{split}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}\hspace{0.1cm}{\footnotesize\ttfamily [3/8]}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\+\_\+view}}$>$ \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::split (\begin{DoxyParamCaption}\item[{const char $\ast$}]{match,  }\item[{size\+\_\+t}]{n,  }\item[{bool}]{keep\+\_\+empty\+\_\+strings = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0fd8f6f3ecbc20cd5d485f254baf22c2}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a0fd8f6f3ecbc20cd5d485f254baf22c2}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!split@{split}}
+\index{split@{split}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}\hspace{0.1cm}{\footnotesize\ttfamily [4/8]}}
+{\footnotesize\ttfamily template$<$class Iter $>$ \\
+Iter \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::split (\begin{DoxyParamCaption}\item[{const char $\ast$}]{match,  }\item[{size\+\_\+t}]{n,  }\item[{Iter}]{out,  }\item[{bool}]{keep\+\_\+empty\+\_\+strings = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a65bba8f37a6ddd5d388a8cd96d2e0121}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a65bba8f37a6ddd5d388a8cd96d2e0121}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!split@{split}}
+\index{split@{split}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}\hspace{0.1cm}{\footnotesize\ttfamily [5/8]}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\+\_\+view}}$>$ \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::split (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{match,  }\item[{bool}]{keep\+\_\+empty\+\_\+strings = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a4566d89a4b7dafb1695f711abf412fe7}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a4566d89a4b7dafb1695f711abf412fe7}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!split@{split}}
+\index{split@{split}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}\hspace{0.1cm}{\footnotesize\ttfamily [6/8]}}
+{\footnotesize\ttfamily template$<$class Iter $>$ \\
+Iter \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::split (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{match,  }\item[{Iter}]{out,  }\item[{bool}]{keep\+\_\+empty\+\_\+strings = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6e3acad401772aef92713885d99c098f}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a6e3acad401772aef92713885d99c098f}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!split@{split}}
+\index{split@{split}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}\hspace{0.1cm}{\footnotesize\ttfamily [7/8]}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\+\_\+view}}$>$ \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::split (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{match,  }\item[{bool}]{keep\+\_\+empty\+\_\+strings = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab740b244c2d2caca4ae2a3e622a145a7}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_ab740b244c2d2caca4ae2a3e622a145a7}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!split@{split}}
+\index{split@{split}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}\hspace{0.1cm}{\footnotesize\ttfamily [8/8]}}
+{\footnotesize\ttfamily template$<$class Iter $>$ \\
+Iter \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::split (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{match,  }\item[{Iter}]{out,  }\item[{bool}]{keep\+\_\+empty\+\_\+strings = {\ttfamily true} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aad547848bac90987d9a4d857e19bd11d}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aad547848bac90987d9a4d857e19bd11d}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!substr@{substr}}
+\index{substr@{substr}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{substr()}{substr()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\+\_\+view}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::substr (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{pos = {\ttfamily 0},  }\item[{size\+\_\+t}]{len = {\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}{npos}}} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a78460e871c63bbf994cdf9003c1a067b}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a78460e871c63bbf994cdf9003c1a067b}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!swap@{swap}}
+\index{swap@{swap}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{swap()}{swap()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::swap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5ddcdf60a9c3fcb1ffcd178f54669056}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a5ddcdf60a9c3fcb1ffcd178f54669056}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!d\_data@{d\_data}}
+\index{d\_data@{d\_data}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{d\_data}{d\_data}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aa02a4a2b500052fcd6ba4413c1d0bc1d}{internal\+\_\+data}} \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::d\+\_\+data}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a62558a15adcb4afcb20e79ba2f6e6603}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a62558a15adcb4afcb20e79ba2f6e6603}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!max\_static\_size@{max\_static\_size}}
+\index{max\_static\_size@{max\_static\_size}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{max\_static\_size}{max\_static\_size}}
+{\footnotesize\ttfamily const size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::max\+\_\+static\+\_\+size = \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aeadaa4c52749e02d36300149c38aa305}{sso\+\_\+max\+\_\+capacity}} -\/ 1\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_a842603a375b1a8008465111e6914f676}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!npos@{npos}}
+\index{npos@{npos}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{npos}{npos}}
+{\footnotesize\ttfamily const size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::npos = -\/1\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aeadaa4c52749e02d36300149c38aa305}\label{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4_aeadaa4c52749e02d36300149c38aa305}} 
+\index{seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}!sso\_max\_capacity@{sso\_max\_capacity}}
+\index{sso\_max\_capacity@{sso\_max\_capacity}!seq::tiny\_string$<$ 0, view\_allocator $>$@{seq::tiny\_string$<$ 0, view\_allocator $>$}}
+\doxysubsubsection{\texorpdfstring{sso\_max\_capacity}{sso\_max\_capacity}}
+{\footnotesize\ttfamily const size\+\_\+t \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ 0, \mbox{\hyperlink{structseq_1_1view__allocator}{view\+\_\+allocator}} $>$\+::sso\+\_\+max\+\_\+capacity = internal\+\_\+data\+::sso\+\_\+size + 1\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{tiny__string_8hpp}{tiny\+\_\+string.\+hpp}}\end{DoxyCompactItemize}

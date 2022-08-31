@@ -1,0 +1,28 @@
+\hypertarget{structdetail_1_1_tuple_radix_sorter_3_01_i_00_01_s_00_01const_01_tuple_01_6_01_4}{}\doxysection{detail\+::Tuple\+Radix\+Sorter$<$ I, S, const Tuple \& $>$ Struct Template Reference}
+\label{structdetail_1_1_tuple_radix_sorter_3_01_i_00_01_s_00_01const_01_tuple_01_6_01_4}\index{detail::TupleRadixSorter$<$ I, S, const Tuple \& $>$@{detail::TupleRadixSorter$<$ I, S, const Tuple \& $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_tuple_radix_sorter_3_01_i_00_01_s_00_01const_01_tuple_01_6_01_4_a145dc8fe50eb55ba93d69de5eac8c0e7}\label{structdetail_1_1_tuple_radix_sorter_3_01_i_00_01_s_00_01const_01_tuple_01_6_01_4_a145dc8fe50eb55ba93d69de5eac8c0e7}} 
+using {\bfseries Next\+Sorter} = \mbox{\hyperlink{structdetail_1_1_tuple_radix_sorter}{Tuple\+Radix\+Sorter}}$<$ I+1, S, const Tuple \& $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_tuple_radix_sorter_3_01_i_00_01_s_00_01const_01_tuple_01_6_01_4_a04d6377fe8685d37adb090e11853ab23}\label{structdetail_1_1_tuple_radix_sorter_3_01_i_00_01_s_00_01const_01_tuple_01_6_01_4_a04d6377fe8685d37adb090e11853ab23}} 
+using {\bfseries This\+Sorter} = \mbox{\hyperlink{structdetail_1_1_radix_sorter}{Radix\+Sorter}}$<$ typename std\+::tuple\+\_\+element$<$ I, Tuple $>$\+::type $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_tuple_radix_sorter_3_01_i_00_01_s_00_01const_01_tuple_01_6_01_4_a7b573120ac09750e01a6cf6538d084dc}\label{structdetail_1_1_tuple_radix_sorter_3_01_i_00_01_s_00_01const_01_tuple_01_6_01_4_a7b573120ac09750e01a6cf6538d084dc}} 
+{\footnotesize template$<$typename It , typename Out\+It , typename Extract\+Key $>$ }\\static bool {\bfseries sort} (It begin, It end, Out\+It out\+\_\+begin, Out\+It out\+\_\+end, \mbox{\hyperlink{struct_extract_key}{Extract\+Key}} \&\&extract\+\_\+key)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_tuple_radix_sorter_3_01_i_00_01_s_00_01const_01_tuple_01_6_01_4_acaad6f7a14a75b017b2c1ebb1699d6d0}\label{structdetail_1_1_tuple_radix_sorter_3_01_i_00_01_s_00_01const_01_tuple_01_6_01_4_acaad6f7a14a75b017b2c1ebb1699d6d0}} 
+static constexpr size\+\_\+t {\bfseries pass\+\_\+count} = This\+Sorter\+::pass\+\_\+count + Next\+Sorter\+::pass\+\_\+count
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ska\+\_\+sort.\+hpp\end{DoxyCompactItemize}

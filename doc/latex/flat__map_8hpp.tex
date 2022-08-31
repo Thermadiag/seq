@@ -1,0 +1,81 @@
+\hypertarget{flat__map_8hpp}{}\doxysection{seq/flat\+\_\+map.hpp File Reference}
+\label{flat__map_8hpp}\index{seq/flat\_map.hpp@{seq/flat\_map.hpp}}
+{\ttfamily \#include \char`\"{}deque.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}pdqsort.\+hpp\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1is__less__or__greater}{seq\+::detail\+::is\+\_\+less\+\_\+or\+\_\+greater$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1is__less__or__greater_3_01std_1_1less_3_01_t_01_4_01_4}{seq\+::detail\+::is\+\_\+less\+\_\+or\+\_\+greater$<$ std\+::less$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1is__less__or__greater_3_01std_1_1greater_3_01_t_01_4_01_4}{seq\+::detail\+::is\+\_\+less\+\_\+or\+\_\+greater$<$ std\+::greater$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_map_inserter}{seq\+::detail\+::\+Map\+Inserter$<$ Sequence, Value $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_map_inserter_3_01_sequence_00_01const_01_value_01_6_01_4}{seq\+::detail\+::\+Map\+Inserter$<$ Sequence, const Value \& $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_map_inserter_3_01_sequence_00_01_value_01_6_6_01_4}{seq\+::detail\+::\+Map\+Inserter$<$ Sequence, Value \&\& $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_deque_sorter}{seq\+::detail\+::\+Deque\+Sorter$<$ Stable, Less, Is\+Arithmetic, Less\+Or\+Greater $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_deque_sorter_3_01false_00_01_less_00_01true_00_01true_01_4}{seq\+::detail\+::\+Deque\+Sorter$<$ false, Less, true, true $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_deque_sorter_3_01true_00_01_less_00_01_is_arithmetic_00_01_less_or_greater_01_4}{seq\+::detail\+::\+Deque\+Sorter$<$ true, Less, Is\+Arithmetic, Less\+Or\+Greater $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_base_tree}{seq\+::detail\+::\+Base\+Tree$<$ Key, Value, Less $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_base_tree_3_01_key_00_01_key_00_01_less_01_4}{seq\+::detail\+::\+Base\+Tree$<$ Key, Key, Less $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_1_1_equal}{seq\+::detail\+::flat\+\_\+tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::\+Equal}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_1_1_less}{seq\+::detail\+::flat\+\_\+tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::\+Less}}
+\item 
+class \mbox{\hyperlink{classseq_1_1flat__set}{seq\+::flat\+\_\+set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$}}
+\begin{DoxyCompactList}\small\item\em flat sorted container similar to boost\+::flat\+\_\+set with faster insertion/deletion of single values \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1flat__set_1_1const__iterator}{seq\+::flat\+\_\+set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$\+::const\+\_\+iterator}}
+\begin{DoxyCompactList}\small\item\em Random access const iterator class. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classseq_1_1flat__multiset}{seq\+::flat\+\_\+multiset$<$ Key, Compare, Allocator, layout, Stable $>$}}
+\begin{DoxyCompactList}\small\item\em flat sorted container similar to boost\+::flat\+\_\+multiset with faster insertion/deletion of single values \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classseq_1_1flat__map}{seq\+::flat\+\_\+map$<$ Key, T, Compare, Allocator, layout, Stable, Unique $>$}}
+\begin{DoxyCompactList}\small\item\em flat sorted associative container that contains key-\/value pairs with unique keys similar to boost\+::flat\+\_\+map with faster insertion/deletion of single values \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1flat__map_1_1const__iterator}{seq\+::flat\+\_\+map$<$ Key, T, Compare, Allocator, layout, Stable, Unique $>$\+::const\+\_\+iterator}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1flat__map_1_1iterator}{seq\+::flat\+\_\+map$<$ Key, T, Compare, Allocator, layout, Stable, Unique $>$\+::iterator}}
+\item 
+class \mbox{\hyperlink{classseq_1_1flat__multimap}{seq\+::flat\+\_\+multimap$<$ Key, T, Compare, Allocator, layout, Stable $>$}}
+\begin{DoxyCompactList}\small\item\em flat sorted container similar to boost\+::flat\+\_\+multimap with faster insertion/deletion of single values \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail}{seq\+::detail}}
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits in {\itshape value}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$bool Stable, class Deque , class Less $>$ }\\void \mbox{\hyperlink{namespaceseq_1_1detail_accea9dd74cf95ff522fc3015d97b8fde}{seq\+::detail\+::sort\+\_\+deque}} (Deque \&d, size\+\_\+t begin, size\+\_\+t end, Less less)
+\item 
+{\footnotesize template$<$class It , class Cat $>$ }\\std\+::ptrdiff\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_a63493b4bc3ee8b2b916edd2c0bcdee0f}{seq\+::detail\+::internal\+\_\+distance}} (It first, It last, Cat)
+\item 
+{\footnotesize template$<$class It $>$ }\\std\+::ptrdiff\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_a9737ce3fe55b7263b5ce4314bd467a58}{seq\+::detail\+::internal\+\_\+distance}} (It first, It last, std\+::random\+\_\+access\+\_\+iterator\+\_\+tag)
+\item 
+{\footnotesize template$<$class It $>$ }\\std\+::ptrdiff\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_a98d31ec305e699140ee9ae314c5cb890}{seq\+::detail\+::distance}} (It first, It last)
+\item 
+{\footnotesize template$<$class Deque , class Input\+It1 , class Input\+It2 , class Less , class Deque2  = Deque$>$ }\\void \mbox{\hyperlink{namespaceseq_1_1detail_aaedb8b0de37201c43e07cd8f9d8eb817}{seq\+::detail\+::unique\+\_\+merge\+\_\+move}} (Deque \&out, Input\+It1 first1, Input\+It1 last1, Input\+It2 first2, Input\+It2 last2, Less less, Deque2 $\ast$remaining=N\+U\+LL)
+\item 
+{\footnotesize template$<$class Key , class Compare , class Al1 , class Al2 , Layout\+Management L1, Layout\+Management L2, bool S1, bool S2, bool U1, bool U2$>$ }\\bool \mbox{\hyperlink{namespaceseq_a28f21073ae01bd19e5a6f141f38e5892}{seq\+::operator==}} (const flat\+\_\+set$<$ Key, Compare, Al1, L1, S1, U1 $>$ \&s1, const flat\+\_\+set$<$ Key, Compare, Al2, L2, S2, U2 $>$ \&s2)
+\begin{DoxyCompactList}\small\item\em Checks if the contents of s1 and s2 are equal, that is, they have the same number of elements and each element in s1 compares equal with the element in s2 at the same position. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Key , class Compare , class Al1 , class Al2 , Layout\+Management L1, Layout\+Management L2, bool S1, bool S2, bool U1, bool U2$>$ }\\bool \mbox{\hyperlink{namespaceseq_afa48d4b3cf1891cd8ae3f021ad3f0e71}{seq\+::operator!=}} (const flat\+\_\+set$<$ Key, Compare, Al1, L1, S1, U1 $>$ \&s1, const flat\+\_\+set$<$ Key, Compare, Al2, L2, S2, U2 $>$ \&s2)
+\begin{DoxyCompactList}\small\item\em Checks if the contents of s1 and s2 are not equals. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Key , class Compare , class Al1 , Layout\+Management L1, bool S1, bool U1, class Pred $>$ }\\flat\+\_\+set$<$ Key, Compare, Al1, L1, S1, U1 $>$\+::size\+\_\+type \mbox{\hyperlink{namespaceseq_ad635125b29a71d98dd496a619aa2d3fc}{seq\+::erase\+\_\+if}} (flat\+\_\+set$<$ Key, Compare, Al1, L1, S1, U1 $>$ \&s1, Pred p)
+\begin{DoxyCompactList}\small\item\em Erases all elements that satisfy the predicate p from the container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Key , class T , class Compare , class Al1 , class Al2 , Layout\+Management L1, Layout\+Management L2, bool S1, bool S2, bool U1, bool U2$>$ }\\bool \mbox{\hyperlink{namespaceseq_a6eb611395bcf177863d2e3bb53432afc}{seq\+::operator==}} (const flat\+\_\+map$<$ Key, T, Compare, Al1, L1, S1, U1 $>$ \&s1, const flat\+\_\+map$<$ Key, T, Compare, Al2, L2, S2, U2 $>$ \&s2)
+\begin{DoxyCompactList}\small\item\em Checks if the contents of s1 and s2 are equal, that is, they have the same number of elements and each element in s1 compares equal with the element in s2 at the same position. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Key , class T , class Compare , class Al1 , class Al2 , Layout\+Management L1, Layout\+Management L2, bool S1, bool S2, bool U1, bool U2$>$ }\\bool \mbox{\hyperlink{namespaceseq_a4b03a0e86dff59b708f1f20240bcdfdb}{seq\+::operator!=}} (const flat\+\_\+map$<$ Key, T, Compare, Al1, L1, S1, U1 $>$ \&s1, const flat\+\_\+map$<$ Key, T, Compare, Al2, L2, S2, U2 $>$ \&s2)
+\begin{DoxyCompactList}\small\item\em Checks if the contents of s1 and s2 are not equals. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Key , class T , class Compare , class Al1 , Layout\+Management L1, bool S1, bool U1, class Pred $>$ }\\flat\+\_\+map$<$ Key, T, Compare, Al1, L1, S1, U1 $>$\+::size\+\_\+type \mbox{\hyperlink{namespaceseq_ab59a95e404977402f0b0cb994189dd4c}{seq\+::erase\+\_\+if}} (flat\+\_\+map$<$ Key, T, Compare, Al1, L1, S1, U1 $>$ \&s1, Pred p)
+\begin{DoxyCompactList}\small\item\em Erases all elements that satisfy the predicate p from the container. \end{DoxyCompactList}\end{DoxyCompactItemize}

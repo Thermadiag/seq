@@ -1,0 +1,111 @@
+\hypertarget{classseq_1_1detail_1_1thread__data}{}\doxysection{seq\+::detail\+::thread\+\_\+data$<$ Threaded $>$ Class Template Reference}
+\label{classseq_1_1detail_1_1thread__data}\index{seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}}
+
+
+{\ttfamily \#include $<$memory.\+hpp$>$}
+
+
+
+Inherited by \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$}}.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a7275e03676e4e849cf17dc706c6e0177}{lock\+\_\+type}} = \mbox{\hyperlink{classseq_1_1spin__mutex}{spin\+\_\+mutex}}$<$$>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1thread__data_ae41421a279881ed1ca3f020d4932badd}{thread\+\_\+data}} (\mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}} \+\_\+id) noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void $\ast$ \mbox{\hyperlink{classseq_1_1detail_1_1thread__data_acd5877d21e7f7d2b1267a9dc062c70b2}{deffered\+\_\+free}} () noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} unsigned \mbox{\hyperlink{classseq_1_1detail_1_1thread__data_ac61fdeb054b675b72a9a0b50878e5a90}{deffered\+\_\+count}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}} \mbox{\hyperlink{classseq_1_1detail_1_1thread__data_acd9e53a82b0b936442d05bf60658fad4}{thread\+\_\+id}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a7275e03676e4e849cf17dc706c6e0177}{lock\+\_\+type}} $\ast$ \mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a9915653aafe025e918efa4d8b6f2b441}{lock}} () noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a72cf6eb84acf0c859b6af27a10741192}{set\+\_\+deffered\+\_\+free}} (void $\ast$d) noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1detail_1_1thread__data_ace932f8b197f53d49798be8dd9034b0a}{set\+\_\+deffered\+\_\+count}} (unsigned c) noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1detail_1_1thread__data_adc9e89e73c6e80476b9d3a2be5310710}{set\+\_\+thread\+\_\+id}} (\mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}} id) noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classseq_1_1detail_1_1thread__data_a7275e03676e4e849cf17dc706c6e0177}\label{classseq_1_1detail_1_1thread__data_a7275e03676e4e849cf17dc706c6e0177}} 
+\index{seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}!lock\_type@{lock\_type}}
+\index{lock\_type@{lock\_type}!seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}}
+\doxysubsubsection{\texorpdfstring{lock\_type}{lock\_type}}
+{\footnotesize\ttfamily template$<$bool Threaded$>$ \\
+using \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::thread\+\_\+data}}$<$ Threaded $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a7275e03676e4e849cf17dc706c6e0177}{lock\+\_\+type}} =  \mbox{\hyperlink{classseq_1_1spin__mutex}{spin\+\_\+mutex}}$<$$>$}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classseq_1_1detail_1_1thread__data_ae41421a279881ed1ca3f020d4932badd}\label{classseq_1_1detail_1_1thread__data_ae41421a279881ed1ca3f020d4932badd}} 
+\index{seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}!thread\_data@{thread\_data}}
+\index{thread\_data@{thread\_data}!seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}}
+\doxysubsubsection{\texorpdfstring{thread\_data()}{thread\_data()}}
+{\footnotesize\ttfamily template$<$bool Threaded$>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::thread\+\_\+data}}$<$ Threaded $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{thread\+\_\+data}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}}}]{\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1detail_1_1thread__data_ac61fdeb054b675b72a9a0b50878e5a90}\label{classseq_1_1detail_1_1thread__data_ac61fdeb054b675b72a9a0b50878e5a90}} 
+\index{seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}!deffered\_count@{deffered\_count}}
+\index{deffered\_count@{deffered\_count}!seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}}
+\doxysubsubsection{\texorpdfstring{deffered\_count()}{deffered\_count()}}
+{\footnotesize\ttfamily template$<$bool Threaded$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} unsigned \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::thread\+\_\+data}}$<$ Threaded $>$\+::deffered\+\_\+count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1thread__data_acd5877d21e7f7d2b1267a9dc062c70b2}\label{classseq_1_1detail_1_1thread__data_acd5877d21e7f7d2b1267a9dc062c70b2}} 
+\index{seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}!deffered\_free@{deffered\_free}}
+\index{deffered\_free@{deffered\_free}!seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}}
+\doxysubsubsection{\texorpdfstring{deffered\_free()}{deffered\_free()}}
+{\footnotesize\ttfamily template$<$bool Threaded$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void$\ast$ \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::thread\+\_\+data}}$<$ Threaded $>$\+::deffered\+\_\+free (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1thread__data_a9915653aafe025e918efa4d8b6f2b441}\label{classseq_1_1detail_1_1thread__data_a9915653aafe025e918efa4d8b6f2b441}} 
+\index{seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}!lock@{lock}}
+\index{lock@{lock}!seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}}
+\doxysubsubsection{\texorpdfstring{lock()}{lock()}}
+{\footnotesize\ttfamily template$<$bool Threaded$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a7275e03676e4e849cf17dc706c6e0177}{lock\+\_\+type}}$\ast$ \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::thread\+\_\+data}}$<$ Threaded $>$\+::lock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1thread__data_ace932f8b197f53d49798be8dd9034b0a}\label{classseq_1_1detail_1_1thread__data_ace932f8b197f53d49798be8dd9034b0a}} 
+\index{seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}!set\_deffered\_count@{set\_deffered\_count}}
+\index{set\_deffered\_count@{set\_deffered\_count}!seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}}
+\doxysubsubsection{\texorpdfstring{set\_deffered\_count()}{set\_deffered\_count()}}
+{\footnotesize\ttfamily template$<$bool Threaded$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::thread\+\_\+data}}$<$ Threaded $>$\+::set\+\_\+deffered\+\_\+count (\begin{DoxyParamCaption}\item[{unsigned}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1thread__data_a72cf6eb84acf0c859b6af27a10741192}\label{classseq_1_1detail_1_1thread__data_a72cf6eb84acf0c859b6af27a10741192}} 
+\index{seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}!set\_deffered\_free@{set\_deffered\_free}}
+\index{set\_deffered\_free@{set\_deffered\_free}!seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}}
+\doxysubsubsection{\texorpdfstring{set\_deffered\_free()}{set\_deffered\_free()}}
+{\footnotesize\ttfamily template$<$bool Threaded$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::thread\+\_\+data}}$<$ Threaded $>$\+::set\+\_\+deffered\+\_\+free (\begin{DoxyParamCaption}\item[{void $\ast$}]{d }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1thread__data_adc9e89e73c6e80476b9d3a2be5310710}\label{classseq_1_1detail_1_1thread__data_adc9e89e73c6e80476b9d3a2be5310710}} 
+\index{seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}!set\_thread\_id@{set\_thread\_id}}
+\index{set\_thread\_id@{set\_thread\_id}!seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}}
+\doxysubsubsection{\texorpdfstring{set\_thread\_id()}{set\_thread\_id()}}
+{\footnotesize\ttfamily template$<$bool Threaded$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::thread\+\_\+data}}$<$ Threaded $>$\+::set\+\_\+thread\+\_\+id (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}}}]{id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1thread__data_acd9e53a82b0b936442d05bf60658fad4}\label{classseq_1_1detail_1_1thread__data_acd9e53a82b0b936442d05bf60658fad4}} 
+\index{seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}!thread\_id@{thread\_id}}
+\index{thread\_id@{thread\_id}!seq::detail::thread\_data$<$ Threaded $>$@{seq::detail::thread\_data$<$ Threaded $>$}}
+\doxysubsubsection{\texorpdfstring{thread\_id()}{thread\_id()}}
+{\footnotesize\ttfamily template$<$bool Threaded$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}} \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::thread\+\_\+data}}$<$ Threaded $>$\+::\mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{thread\+\_\+id}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{memory_8hpp}{memory.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,163 @@
+\hypertarget{classpool__allocator}{}\doxysection{pool\+\_\+allocator$<$ T, Allocator, Align, Max\+Objects\+Allocation, Max\+Objects $>$ Class Template Reference}
+\label{classpool__allocator}\index{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpool__allocator_aefdfe752be241a166bda8a302fdcf500}\label{classpool__allocator_aefdfe752be241a166bda8a302fdcf500}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{classpool__allocator_a64df689e1051212dbe9c41fdd2d6aabd}\label{classpool__allocator_a64df689e1051212dbe9c41fdd2d6aabd}} 
+using {\bfseries pointer} = T $\ast$
+\item 
+\mbox{\Hypertarget{classpool__allocator_a8fbd5321669a2962e9926576fa82e7e9}\label{classpool__allocator_a8fbd5321669a2962e9926576fa82e7e9}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\item 
+\mbox{\Hypertarget{classpool__allocator_a88a69e3d086fa9790026034802a5b14f}\label{classpool__allocator_a88a69e3d086fa9790026034802a5b14f}} 
+using {\bfseries unique\+\_\+ptr} = std\+::unique\+\_\+ptr$<$ T, \mbox{\hyperlink{structunique__ptr__deleter}{unique\+\_\+ptr\+\_\+deleter}}$<$ T $>$ $>$
+\item 
+\mbox{\Hypertarget{classpool__allocator_aefdfe752be241a166bda8a302fdcf500}\label{classpool__allocator_aefdfe752be241a166bda8a302fdcf500}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{classpool__allocator_a64df689e1051212dbe9c41fdd2d6aabd}\label{classpool__allocator_a64df689e1051212dbe9c41fdd2d6aabd}} 
+using {\bfseries pointer} = T $\ast$
+\item 
+\mbox{\Hypertarget{classpool__allocator_a8fbd5321669a2962e9926576fa82e7e9}\label{classpool__allocator_a8fbd5321669a2962e9926576fa82e7e9}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\item 
+\mbox{\Hypertarget{classpool__allocator_a88a69e3d086fa9790026034802a5b14f}\label{classpool__allocator_a88a69e3d086fa9790026034802a5b14f}} 
+using {\bfseries unique\+\_\+ptr} = std\+::unique\+\_\+ptr$<$ T, \mbox{\hyperlink{structunique__ptr__deleter}{unique\+\_\+ptr\+\_\+deleter}}$<$ T $>$ $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpool__allocator_a5b21c0e673dfd301487e847830a244af}\label{classpool__allocator_a5b21c0e673dfd301487e847830a244af}} 
+{\bfseries pool\+\_\+allocator} (const Allocator \&al=Allocator()) noexcept
+\item 
+\mbox{\Hypertarget{classpool__allocator_a595c83a7e90118c19d692caca2c558c7}\label{classpool__allocator_a595c83a7e90118c19d692caca2c558c7}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classpool__allocator_aef2b80627541b10f9e9316df7132f85a}\label{classpool__allocator_aef2b80627541b10f9e9316df7132f85a}} 
+const Allocator \& {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{classpool__allocator_aeab1efcd2cbb46955f64b7dcadb8cd22}\label{classpool__allocator_aeab1efcd2cbb46955f64b7dcadb8cd22}} 
+Allocator \& {\bfseries get\+\_\+allocator} () noexcept
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classpool__allocator_a79f5a3e6c4a53f3b7ce8bfe85157dd91}{memory\+\_\+footprint}} () const noexcept
+\item 
+\mbox{\Hypertarget{classpool__allocator_a5ba2bf46f0cf8870961f180cd735e639}\label{classpool__allocator_a5ba2bf46f0cf8870961f180cd735e639}} 
+bool {\bfseries reclaim\+\_\+memory} () const noexcept
+\item 
+\mbox{\Hypertarget{classpool__allocator_abe1bfd024a8a1c45c777dba83ffa82bb}\label{classpool__allocator_abe1bfd024a8a1c45c777dba83ffa82bb}} 
+void {\bfseries set\+\_\+reclaim\+\_\+memory} (bool reclaim)
+\item 
+void \mbox{\hyperlink{classpool__allocator_a2021ccb203d0493587b6ff92fb1f6d30}{release\+\_\+unused\+\_\+memory}} ()
+\item 
+\mbox{\Hypertarget{classpool__allocator_afdea1ecc64951f79319c97ea8be18a98}\label{classpool__allocator_afdea1ecc64951f79319c97ea8be18a98}} 
+T $\ast$ {\bfseries allocate} (size\+\_\+t size)
+\item 
+\mbox{\Hypertarget{classpool__allocator_a9fe52fc986f2aa38bc032c2e7c42abb1}\label{classpool__allocator_a9fe52fc986f2aa38bc032c2e7c42abb1}} 
+void {\bfseries deallocate} (T $\ast$ptr, size\+\_\+t size)
+\item 
+void \mbox{\hyperlink{classpool__allocator_a9f1f160f795ad143cdcf3bbce98192a4}{reserve}} (size\+\_\+t count)
+\item 
+\mbox{\Hypertarget{classpool__allocator_a8d316826a6a9458ed12ce7294378ec2f}\label{classpool__allocator_a8d316826a6a9458ed12ce7294378ec2f}} 
+{\footnotesize template$<$class... Args$>$ }\\unique\+\_\+ptr {\bfseries make\+\_\+unique} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classpool__allocator_a5b21c0e673dfd301487e847830a244af}\label{classpool__allocator_a5b21c0e673dfd301487e847830a244af}} 
+{\bfseries pool\+\_\+allocator} (const Allocator \&al=Allocator()) noexcept
+\item 
+\mbox{\Hypertarget{classpool__allocator_a595c83a7e90118c19d692caca2c558c7}\label{classpool__allocator_a595c83a7e90118c19d692caca2c558c7}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classpool__allocator_a5656e1663ba4bbba218192467ca004c4}\label{classpool__allocator_a5656e1663ba4bbba218192467ca004c4}} 
+void {\bfseries reset} ()
+\item 
+\mbox{\Hypertarget{classpool__allocator_aef2b80627541b10f9e9316df7132f85a}\label{classpool__allocator_aef2b80627541b10f9e9316df7132f85a}} 
+const Allocator \& {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{classpool__allocator_aeab1efcd2cbb46955f64b7dcadb8cd22}\label{classpool__allocator_aeab1efcd2cbb46955f64b7dcadb8cd22}} 
+Allocator \& {\bfseries get\+\_\+allocator} () noexcept
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classpool__allocator_a79f5a3e6c4a53f3b7ce8bfe85157dd91}{memory\+\_\+footprint}} () const noexcept
+\item 
+\mbox{\Hypertarget{classpool__allocator_a5ba2bf46f0cf8870961f180cd735e639}\label{classpool__allocator_a5ba2bf46f0cf8870961f180cd735e639}} 
+bool {\bfseries reclaim\+\_\+memory} () const noexcept
+\item 
+\mbox{\Hypertarget{classpool__allocator_abe1bfd024a8a1c45c777dba83ffa82bb}\label{classpool__allocator_abe1bfd024a8a1c45c777dba83ffa82bb}} 
+void {\bfseries set\+\_\+reclaim\+\_\+memory} (bool reclaim)
+\item 
+void \mbox{\hyperlink{classpool__allocator_a2021ccb203d0493587b6ff92fb1f6d30}{release\+\_\+unused\+\_\+memory}} ()
+\item 
+\mbox{\Hypertarget{classpool__allocator_afdea1ecc64951f79319c97ea8be18a98}\label{classpool__allocator_afdea1ecc64951f79319c97ea8be18a98}} 
+T $\ast$ {\bfseries allocate} (size\+\_\+t size)
+\item 
+\mbox{\Hypertarget{classpool__allocator_a9fe52fc986f2aa38bc032c2e7c42abb1}\label{classpool__allocator_a9fe52fc986f2aa38bc032c2e7c42abb1}} 
+void {\bfseries deallocate} (T $\ast$ptr, size\+\_\+t size)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\unique\+\_\+ptr \mbox{\hyperlink{classpool__allocator_a8d316826a6a9458ed12ce7294378ec2f}{make\+\_\+unique}} (Args \&\&... args)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpool__allocator_a6cebccdec26d48c5280fc18365311c06}\label{classpool__allocator_a6cebccdec26d48c5280fc18365311c06}} 
+static const size\+\_\+t {\bfseries max\+\_\+objects} = Max\+Objects
+\item 
+\mbox{\Hypertarget{classpool__allocator_a39d5603178525d3818c01a0bdba08cce}\label{classpool__allocator_a39d5603178525d3818c01a0bdba08cce}} 
+static const size\+\_\+t {\bfseries max\+\_\+objects\+\_\+per\+\_\+allocation} = Max\+Objects\+Allocation
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classpool__allocator_a8d316826a6a9458ed12ce7294378ec2f}\label{classpool__allocator_a8d316826a6a9458ed12ce7294378ec2f}} 
+\index{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}!make\_unique@{make\_unique}}
+\index{make\_unique@{make\_unique}!pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}}
+\doxysubsubsection{\texorpdfstring{make\_unique()}{make\_unique()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = 0, size\+\_\+t Max\+Objects\+Allocation = 1, size\+\_\+t Max\+Objects = 64$>$ \\
+template$<$class... Args$>$ \\
+unique\+\_\+ptr \mbox{\hyperlink{classpool__allocator}{pool\+\_\+allocator}}$<$ T, Allocator, Align, Max\+Objects\+Allocation, Max\+Objects $>$\+::make\+\_\+unique (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Extend the \mbox{\hyperlink{classmem__pool}{mem\+\_\+pool}} object in order to hold at least {\itshape count} slots. Does nothing if count $<$= capacity().
+
+Throws a std\+::bad\+\_\+alloc exception on failure. \mbox{\Hypertarget{classpool__allocator_a79f5a3e6c4a53f3b7ce8bfe85157dd91}\label{classpool__allocator_a79f5a3e6c4a53f3b7ce8bfe85157dd91}} 
+\index{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}!memory\_footprint@{memory\_footprint}}
+\index{memory\_footprint@{memory\_footprint}!pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}}
+\doxysubsubsection{\texorpdfstring{memory\_footprint()}{memory\_footprint()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = 0, size\+\_\+t Max\+Objects\+Allocation = 1, size\+\_\+t Max\+Objects = 64$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classpool__allocator}{pool\+\_\+allocator}}$<$ T, Allocator, Align, Max\+Objects\+Allocation, Max\+Objects $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Returns the object memory footprint in bytes excluding sizeof($\ast$this). \mbox{\Hypertarget{classpool__allocator_a79f5a3e6c4a53f3b7ce8bfe85157dd91}\label{classpool__allocator_a79f5a3e6c4a53f3b7ce8bfe85157dd91}} 
+\index{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}!memory\_footprint@{memory\_footprint}}
+\index{memory\_footprint@{memory\_footprint}!pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}}
+\doxysubsubsection{\texorpdfstring{memory\_footprint()}{memory\_footprint()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = 0, size\+\_\+t Max\+Objects\+Allocation = 1, size\+\_\+t Max\+Objects = 64$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classpool__allocator}{pool\+\_\+allocator}}$<$ T, Allocator, Align, Max\+Objects\+Allocation, Max\+Objects $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Returns the object memory footprint in bytes excluding sizeof($\ast$this). \mbox{\Hypertarget{classpool__allocator_a2021ccb203d0493587b6ff92fb1f6d30}\label{classpool__allocator_a2021ccb203d0493587b6ff92fb1f6d30}} 
+\index{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}!release\_unused\_memory@{release\_unused\_memory}}
+\index{release\_unused\_memory@{release\_unused\_memory}!pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}}
+\doxysubsubsection{\texorpdfstring{release\_unused\_memory()}{release\_unused\_memory()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = 0, size\+\_\+t Max\+Objects\+Allocation = 1, size\+\_\+t Max\+Objects = 64$>$ \\
+void \mbox{\hyperlink{classpool__allocator}{pool\+\_\+allocator}}$<$ T, Allocator, Align, Max\+Objects\+Allocation, Max\+Objects $>$\+::release\+\_\+unused\+\_\+memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Free all unused memory. This only makes sense if \#reclaim\+\_\+memory() is false. \mbox{\Hypertarget{classpool__allocator_a2021ccb203d0493587b6ff92fb1f6d30}\label{classpool__allocator_a2021ccb203d0493587b6ff92fb1f6d30}} 
+\index{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}!release\_unused\_memory@{release\_unused\_memory}}
+\index{release\_unused\_memory@{release\_unused\_memory}!pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}}
+\doxysubsubsection{\texorpdfstring{release\_unused\_memory()}{release\_unused\_memory()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = 0, size\+\_\+t Max\+Objects\+Allocation = 1, size\+\_\+t Max\+Objects = 64$>$ \\
+void \mbox{\hyperlink{classpool__allocator}{pool\+\_\+allocator}}$<$ T, Allocator, Align, Max\+Objects\+Allocation, Max\+Objects $>$\+::release\+\_\+unused\+\_\+memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Free all unused memory. This only makes sense if \#reclaim\+\_\+memory() is false. \mbox{\Hypertarget{classpool__allocator_a9f1f160f795ad143cdcf3bbce98192a4}\label{classpool__allocator_a9f1f160f795ad143cdcf3bbce98192a4}} 
+\index{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}!reserve@{reserve}}
+\index{reserve@{reserve}!pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$@{pool\_allocator$<$ T, Allocator, Align, MaxObjectsAllocation, MaxObjects $>$}}
+\doxysubsubsection{\texorpdfstring{reserve()}{reserve()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = 0, size\+\_\+t Max\+Objects\+Allocation = 1, size\+\_\+t Max\+Objects = 64$>$ \\
+void \mbox{\hyperlink{classpool__allocator}{pool\+\_\+allocator}}$<$ T, Allocator, Align, Max\+Objects\+Allocation, Max\+Objects $>$\+::reserve (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Extend the \mbox{\hyperlink{classmem__pool}{mem\+\_\+pool}} object in order to hold at least {\itshape count} slots. Does nothing if count $<$= capacity().
+
+Throws a std\+::bad\+\_\+alloc exception on failure. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+memory -\/ Copie.\+hpp\item 
+memory.\+hpp\end{DoxyCompactItemize}

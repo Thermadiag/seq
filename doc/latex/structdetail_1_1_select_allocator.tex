@@ -1,0 +1,27 @@
+\hypertarget{structdetail_1_1_select_allocator}{}\doxysection{detail\+::Select\+Allocator$<$ T, Allocator, Store\+Hash, layout $>$ Struct Template Reference}
+\label{structdetail_1_1_select_allocator}\index{detail::SelectAllocator$<$ T, Allocator, StoreHash, layout $>$@{detail::SelectAllocator$<$ T, Allocator, StoreHash, layout $>$}}
+
+
+{\ttfamily \#include $<$sparse\+\_\+hash -\/with smart rehash.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_select_allocator_a3b5ca96bc11300c7f4fc1e26fb1383af}\label{structdetail_1_1_select_allocator_a3b5ca96bc11300c7f4fc1e26fb1383af}} 
+using {\bfseries type} = \mbox{\hyperlink{structdetail_1_1_hash_buffers}{Hash\+Buffers}}$<$ T, Allocator, Store\+Hash $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_select_allocator_af190a8a1cb8b211780a3c44c4cb9230a}\label{structdetail_1_1_select_allocator_af190a8a1cb8b211780a3c44c4cb9230a}} 
+using {\bfseries type} = \mbox{\hyperlink{classdetail_1_1_node_allocator}{Node\+Allocator}}$<$ Allocator, T, \mbox{\hyperlink{structdetail_1_1_node}{Node}} $>$
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator, bool Store\+Hash, Layout\+Management layout = Optimize\+For\+Speed$>$\newline
+struct detail\+::\+Select\+Allocator$<$ T, Allocator, Store\+Hash, layout $>$}
+
+Select buffer allocator based on memory layout (either \mbox{\hyperlink{structdetail_1_1_hash_buffers}{Hash\+Buffers}} (fast) or \mbox{\hyperlink{structdetail_1_1_hash_allocator}{Hash\+Allocator}} (slow)) 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+sparse\+\_\+hash -\/with smart rehash.\+hpp\item 
+sparse\+\_\+hash.\+hpp\end{DoxyCompactItemize}

@@ -1,0 +1,117 @@
+\hypertarget{classdetail_1_1_node_chunk_allocator}{}\doxysection{detail\+::Node\+Chunk\+Allocator$<$ Allocator, T, Node $>$ Class Template Reference}
+\label{classdetail_1_1_node_chunk_allocator}\index{detail::NodeChunkAllocator$<$ Allocator, T, Node $>$@{detail::NodeChunkAllocator$<$ Allocator, T, Node $>$}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a73523025e2f341fdd9ea742563db07ac}\label{classdetail_1_1_node_chunk_allocator_a73523025e2f341fdd9ea742563db07ac}} 
+{\bfseries Node\+Chunk\+Allocator} (const Allocator \&al=Allocator()) noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a5a445e358ffec60b80691fa90d5631a0}\label{classdetail_1_1_node_chunk_allocator_a5a445e358ffec60b80691fa90d5631a0}} 
+const Allocator \& {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_ad3b72c213b3e4bb4ad5a77fe5a29ae22}\label{classdetail_1_1_node_chunk_allocator_ad3b72c213b3e4bb4ad5a77fe5a29ae22}} 
+Allocator \& {\bfseries get\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a420f0bc26983f5bf22e3918324b1483f}\label{classdetail_1_1_node_chunk_allocator_a420f0bc26983f5bf22e3918324b1483f}} 
+std\+::size\+\_\+t {\bfseries memory\+\_\+footprint} () const noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a849b444d1adeac0e33d5c0c5b7eab51c}\label{classdetail_1_1_node_chunk_allocator_a849b444d1adeac0e33d5c0c5b7eab51c}} 
+void {\bfseries null\+\_\+last} ()
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_abd16c395f907d0805a8208e0a4e27e5a}\label{classdetail_1_1_node_chunk_allocator_abd16c395f907d0805a8208e0a4e27e5a}} 
+void {\bfseries add\+\_\+capacity} (void $\ast$p, size\+\_\+t size)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_aa799c98e2e133f48b1b8ab042f903656}\label{classdetail_1_1_node_chunk_allocator_aa799c98e2e133f48b1b8ab042f903656}} 
+bool {\bfseries reclaim\+\_\+memory} (size\+\_\+t) const
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a7c2be04cb6229e8263f06946eca43a0e}\label{classdetail_1_1_node_chunk_allocator_a7c2be04cb6229e8263f06946eca43a0e}} 
+void {\bfseries set\+\_\+reclaim\+\_\+memory} (size\+\_\+t, bool)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a25b6ead2fe975225cbb6ccb9ea4dac20}\label{classdetail_1_1_node_chunk_allocator_a25b6ead2fe975225cbb6ccb9ea4dac20}} 
+void {\bfseries move\+\_\+to} (size\+\_\+t, size\+\_\+t)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a8f86ce0dab45759e7fa2028abf3556c4}\label{classdetail_1_1_node_chunk_allocator_a8f86ce0dab45759e7fa2028abf3556c4}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void $\ast$) allocate(void $\ast$hint
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a93340672fbfa4b3658551e9938e23e08}\label{classdetail_1_1_node_chunk_allocator_a93340672fbfa4b3658551e9938e23e08}} 
+{\bfseries if} (!to\+\_\+allocate$\vert$$\vert$to\+\_\+allocate==data-\/$>$capacity) to\+\_\+allocate
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a8500e2f3c11ba6610259ecf1acf946e8}\label{classdetail_1_1_node_chunk_allocator_a8500e2f3c11ba6610259ecf1acf946e8}} 
+data pools {\bfseries push\+\_\+back} (hpool\+\_\+ptr(new \mbox{\hyperlink{structdetail_1_1_node_chunk_pool}{hpool}}(to\+\_\+allocate)))
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a27b4cc89b90bdc377015107f03fa5948}\label{classdetail_1_1_node_chunk_allocator_a27b4cc89b90bdc377015107f03fa5948}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void $\ast$) allocate\+\_\+chunk()
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a5cd23c07388df916862516601bcb053c}\label{classdetail_1_1_node_chunk_allocator_a5cd23c07388df916862516601bcb053c}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void) deallocate(void $\ast$ptr
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_aeeda6b6d64fd76c5468f6cdbcb4aa193}\label{classdetail_1_1_node_chunk_allocator_aeeda6b6d64fd76c5468f6cdbcb4aa193}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void) deallocate\+\_\+chunk(void $\ast$ptr)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a180010d7e9be6e96f131eb863c8bd828}\label{classdetail_1_1_node_chunk_allocator_a180010d7e9be6e96f131eb863c8bd828}} 
+void {\bfseries resize} (size\+\_\+t)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_aa5ed8ef10871d69d5832fb22d307afa5}\label{classdetail_1_1_node_chunk_allocator_aa5ed8ef10871d69d5832fb22d307afa5}} 
+{\bfseries size\+\_\+t}
+\item 
+size\+\_\+t {\bfseries size}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a819635211c929aeaf84b7974dacd2b32}\label{classdetail_1_1_node_chunk_allocator_a819635211c929aeaf84b7974dacd2b32}} 
+data {\bfseries capacity} = data-\/$>$pools.\+back()-\/$>$count
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a92e48ebcc71ad8628a0368c26c1b6977}\label{classdetail_1_1_node_chunk_allocator_a92e48ebcc71ad8628a0368c26c1b6977}} 
+data {\bfseries last} = data-\/$>$pools.\+size() -\/ 1
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_af9cebfb5f3504e2662845cce7d8b96f8}\label{classdetail_1_1_node_chunk_allocator_af9cebfb5f3504e2662845cce7d8b96f8}} 
+void $\ast$ {\bfseries res} = data-\/$>$pools.\+back()-\/$>$allocate(size)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a97b2a091c27024e85246dda507e426b7}\label{classdetail_1_1_node_chunk_allocator_a97b2a091c27024e85246dda507e426b7}} 
+return {\bfseries res}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_a46d8a79c4fb8aa1917c85a57d3b770dc}\label{classdetail_1_1_node_chunk_allocator_a46d8a79c4fb8aa1917c85a57d3b770dc}} 
+static const bool {\bfseries use\+\_\+realloc} = false
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classdetail_1_1_node_chunk_allocator_add6109c1a2f8c9f1adc7ea0752461858}\label{classdetail_1_1_node_chunk_allocator_add6109c1a2f8c9f1adc7ea0752461858}} 
+\index{detail::NodeChunkAllocator$<$ Allocator, T, Node $>$@{detail::NodeChunkAllocator$<$ Allocator, T, Node $>$}!size@{size}}
+\index{size@{size}!detail::NodeChunkAllocator$<$ Allocator, T, Node $>$@{detail::NodeChunkAllocator$<$ Allocator, T, Node $>$}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily template$<$class Allocator , class T , class Node $>$ \\
+size\+\_\+t \mbox{\hyperlink{classdetail_1_1_node_chunk_allocator}{detail\+::\+Node\+Chunk\+Allocator}}$<$ Allocator, T, \mbox{\hyperlink{structdetail_1_1_node}{Node}} $>$\+::size}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{            }
+\DoxyCodeLine{            }
+\DoxyCodeLine{            }
+\DoxyCodeLine{            \textcolor{keywordflow}{if} (data-\/>last !=-\/1 ) \{}
+\DoxyCodeLine{                \textcolor{keywordflow}{if} (\textcolor{keywordtype}{void}* res = data-\/>pools[data-\/>last]-\/>allocate(size)) \{}
+\DoxyCodeLine{                    \textcolor{keywordflow}{return} res;}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{                }
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{            \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = data-\/>pools.size() -\/ 1; i>=0; -\/-\/i) \{}
+\DoxyCodeLine{                \textcolor{keywordflow}{if}(i != data-\/>last )}
+\DoxyCodeLine{                    }
+\DoxyCodeLine{                    \textcolor{keywordflow}{if} (\textcolor{keywordtype}{void}* res = data-\/>pools[i]-\/>allocate(size)) \{}
+\DoxyCodeLine{                        data-\/>last = i;}
+\DoxyCodeLine{                        \textcolor{keywordflow}{return} res;}
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{            \textcolor{keywordtype}{size\_t} to\_allocate = data-\/>pools.empty() ? 8 : data-\/>capacity * GROW\_FACTOR}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sparse\+\_\+hash.\+hpp\end{DoxyCompactItemize}

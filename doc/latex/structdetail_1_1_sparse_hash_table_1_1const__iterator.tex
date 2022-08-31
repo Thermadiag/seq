@@ -1,0 +1,72 @@
+\hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator}{}\doxysection{detail\+::Sparse\+Hash\+Table$<$ T, Hash, Equal, Allocator, Node\+Type, layout, Store\+Hash $>$\+::const\+\_\+iterator Struct Reference}
+\label{structdetail_1_1_sparse_hash_table_1_1const__iterator}\index{detail::SparseHashTable$<$ T, Hash, Equal, Allocator, NodeType, layout, StoreHash $>$::const\_iterator@{detail::SparseHashTable$<$ T, Hash, Equal, Allocator, NodeType, layout, StoreHash $>$::const\_iterator}}
+
+
+Inherited by \mbox{\hyperlink{structdetail_1_1_sparse_hash_table_1_1iterator}{detail\+::\+Sparse\+Hash\+Table$<$ T, Hash, Equal, Allocator, Node\+Type, layout, Store\+Hash $>$\+::iterator}}.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_a1991d624e78885f7cd1754f6178165e4}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_a1991d624e78885f7cd1754f6178165e4}} 
+using {\bfseries value\+\_\+type} = typename node\+\_\+type\+::store\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_aaa01d17e543f73acea54c0674b12749b}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_aaa01d17e543f73acea54c0674b12749b}} 
+using {\bfseries value\+\_\+type} = typename node\+\_\+type\+::value\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_ad4235f4c2c17bcb40fbf4894ef2a6b10}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_ad4235f4c2c17bcb40fbf4894ef2a6b10}} 
+using {\bfseries iterator\+\_\+category} = std\+::forward\+\_\+iterator\+\_\+tag
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_ae658e032520304ba3978a817e206e6a1}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_ae658e032520304ba3978a817e206e6a1}} 
+{\bfseries const\+\_\+iterator} (const \mbox{\hyperlink{structdetail_1_1_sparse_bucket}{bucket\+\_\+type}} $\ast$\mbox{\hyperlink{structdetail_1_1bucket}{bucket}}, const node\+\_\+type $\ast$node) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_aa03c316194c33d43f13bd49b95bd619f}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_aa03c316194c33d43f13bd49b95bd619f}} 
+{\bfseries const\+\_\+iterator} (const \mbox{\hyperlink{structdetail_1_1_sparse_hash_table_1_1const__iterator}{const\+\_\+iterator}} \&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_acf4bdb7a219fcf3f4e243c0fe6854ac8}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_acf4bdb7a219fcf3f4e243c0fe6854ac8}} 
+\mbox{\hyperlink{structdetail_1_1_sparse_hash_table_1_1const__iterator}{const\+\_\+iterator}} \& {\bfseries operator++} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_a9bc91eb4a314084e4ce5dbb04ab19775}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_a9bc91eb4a314084e4ce5dbb04ab19775}} 
+const value\+\_\+type \& {\bfseries operator$\ast$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_a55801fc14baee79e03a3e6938c620764}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_a55801fc14baee79e03a3e6938c620764}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{structdetail_1_1_sparse_hash_table_1_1const__iterator}{const\+\_\+iterator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_a435477c55bf689bfde4fa9e9ff5ece81}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_a435477c55bf689bfde4fa9e9ff5ece81}} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{structdetail_1_1_sparse_hash_table_1_1const__iterator}{const\+\_\+iterator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_ae658e032520304ba3978a817e206e6a1}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_ae658e032520304ba3978a817e206e6a1}} 
+{\bfseries const\+\_\+iterator} (const \mbox{\hyperlink{structdetail_1_1_sparse_bucket}{bucket\+\_\+type}} $\ast$\mbox{\hyperlink{structdetail_1_1bucket}{bucket}}, const node\+\_\+type $\ast$node) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_aa03c316194c33d43f13bd49b95bd619f}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_aa03c316194c33d43f13bd49b95bd619f}} 
+{\bfseries const\+\_\+iterator} (const \mbox{\hyperlink{structdetail_1_1_sparse_hash_table_1_1const__iterator}{const\+\_\+iterator}} \&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_acf4bdb7a219fcf3f4e243c0fe6854ac8}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_acf4bdb7a219fcf3f4e243c0fe6854ac8}} 
+\mbox{\hyperlink{structdetail_1_1_sparse_hash_table_1_1const__iterator}{const\+\_\+iterator}} \& {\bfseries operator++} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_a9bc91eb4a314084e4ce5dbb04ab19775}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_a9bc91eb4a314084e4ce5dbb04ab19775}} 
+const value\+\_\+type \& {\bfseries operator$\ast$} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_a55801fc14baee79e03a3e6938c620764}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_a55801fc14baee79e03a3e6938c620764}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{structdetail_1_1_sparse_hash_table_1_1const__iterator}{const\+\_\+iterator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_a435477c55bf689bfde4fa9e9ff5ece81}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_a435477c55bf689bfde4fa9e9ff5ece81}} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{structdetail_1_1_sparse_hash_table_1_1const__iterator}{const\+\_\+iterator}} \&other) const noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_a9274874dc3fe4de9d0340977c3398ca0}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_a9274874dc3fe4de9d0340977c3398ca0}} 
+const \mbox{\hyperlink{structdetail_1_1_sparse_bucket}{bucket\+\_\+type}} $\ast$ {\bfseries bucket}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_sparse_hash_table_1_1const__iterator_ab60d4ee5f2cdf71850ccde4c0a58f8d7}\label{structdetail_1_1_sparse_hash_table_1_1const__iterator_ab60d4ee5f2cdf71850ccde4c0a58f8d7}} 
+const node\+\_\+type $\ast$ {\bfseries node}
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+sparse\+\_\+hash -\/with smart rehash.\+hpp\item 
+sparse\+\_\+hash.\+hpp\end{DoxyCompactItemize}

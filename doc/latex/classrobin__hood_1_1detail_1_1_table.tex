@@ -1,0 +1,254 @@
+\hypertarget{classrobin__hood_1_1detail_1_1_table}{}\doxysection{robin\+\_\+hood\+::detail\+::Table$<$ Is\+Flat, Max\+Load\+Factor100, Key, T, Hash, Key\+Equal $>$ Class Template Reference}
+\label{classrobin__hood_1_1detail_1_1_table}\index{robin\_hood::detail::Table$<$ IsFlat, MaxLoadFactor100, Key, T, Hash, KeyEqual $>$@{robin\_hood::detail::Table$<$ IsFlat, MaxLoadFactor100, Key, T, Hash, KeyEqual $>$}}
+
+
+Inherits \mbox{\hyperlink{structrobin__hood_1_1detail_1_1_wrap_hash}{robin\+\_\+hood\+::detail\+::\+Wrap\+Hash$<$ Hash $>$}}, \mbox{\hyperlink{structrobin__hood_1_1detail_1_1_wrap_key_equal}{robin\+\_\+hood\+::detail\+::\+Wrap\+Key\+Equal$<$ Key\+Equal $>$}}, and \mbox{\hyperlink{structrobin__hood_1_1detail_1_1_node_allocator}{robin\+\_\+hood\+::detail\+::\+Node\+Allocator$<$ std\+::conditional$<$ std\+::is\+\_\+void$<$ T $>$\+::value, Key, robin\+\_\+hood\+::pair$<$ std\+::conditional$<$ Is\+Flat, Key, Key const $>$\+::type, T $>$ $>$\+::type, 4, 16384, Is\+Flat $>$}}.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a71358990733e9f0af7d2a2cb82f883d4}\label{classrobin__hood_1_1detail_1_1_table_a71358990733e9f0af7d2a2cb82f883d4}} 
+using {\bfseries key\+\_\+type} = Key
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_ad57e98927ed028ee462aeaa6352f435e}\label{classrobin__hood_1_1detail_1_1_table_ad57e98927ed028ee462aeaa6352f435e}} 
+using {\bfseries mapped\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_aaa96e437f425b19604f49d654d54d7ce}\label{classrobin__hood_1_1detail_1_1_table_aaa96e437f425b19604f49d654d54d7ce}} 
+using {\bfseries value\+\_\+type} = typename std\+::conditional$<$ is\+\_\+set, Key, \mbox{\hyperlink{structrobin__hood_1_1pair}{robin\+\_\+hood\+::pair}}$<$ typename std\+::conditional$<$ is\+\_\+flat, Key, Key const  $>$\+::type, T $>$ $>$\+::type
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a7f1df95c74de5245e0dff74db3c7cfce}\label{classrobin__hood_1_1detail_1_1_table_a7f1df95c74de5245e0dff74db3c7cfce}} 
+using {\bfseries size\+\_\+type} = size\+\_\+t
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a13180b774f5da55e353d0343dbeb8c86}\label{classrobin__hood_1_1detail_1_1_table_a13180b774f5da55e353d0343dbeb8c86}} 
+using {\bfseries hasher} = Hash
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_aa68503d58c08320ebfe5cf78185cc575}\label{classrobin__hood_1_1detail_1_1_table_aa68503d58c08320ebfe5cf78185cc575}} 
+using {\bfseries key\+\_\+equal} = Key\+Equal
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_ad933544cfb52d2729a6a6f200e59b666}\label{classrobin__hood_1_1detail_1_1_table_ad933544cfb52d2729a6a6f200e59b666}} 
+using {\bfseries Self} = \mbox{\hyperlink{classrobin__hood_1_1detail_1_1_table}{Table}}$<$ Is\+Flat, Max\+Load\+Factor100, key\+\_\+type, mapped\+\_\+type, hasher, key\+\_\+equal $>$
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a46c9f030f2bfd8e463660db58d3a0f14}\label{classrobin__hood_1_1detail_1_1_table_a46c9f030f2bfd8e463660db58d3a0f14}} 
+using {\bfseries iterator} = Iter$<$ false $>$
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a2876c055bf6f25ab7e2a14b3075bd7ec}\label{classrobin__hood_1_1detail_1_1_table_a2876c055bf6f25ab7e2a14b3075bd7ec}} 
+using {\bfseries const\+\_\+iterator} = Iter$<$ true $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a2a2fe9160a460041b6bd4d9aeeaab781}\label{classrobin__hood_1_1detail_1_1_table_a2a2fe9160a460041b6bd4d9aeeaab781}} 
+{\bfseries Table} (size\+\_\+t R\+O\+B\+I\+N\+\_\+\+H\+O\+O\+D\+\_\+\+U\+N\+U\+S\+ED(bucket\+\_\+count), const Hash \&h=Hash\{\}, const Key\+Equal \&equal=Key\+Equal\{\}) noexcept(noexcept(Hash(h)) \&\&noexcept(Key\+Equal(equal)))
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a367b27209a9e61ec825ab1c0fb6a7225}\label{classrobin__hood_1_1detail_1_1_table_a367b27209a9e61ec825ab1c0fb6a7225}} 
+{\footnotesize template$<$typename Iter $>$ }\\{\bfseries Table} (Iter first, Iter last, size\+\_\+t R\+O\+B\+I\+N\+\_\+\+H\+O\+O\+D\+\_\+\+U\+N\+U\+S\+ED(bucket\+\_\+count)=0, const Hash \&h=Hash\{\}, const Key\+Equal \&equal=Key\+Equal\{\})
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_af2c227765ba6707e003ce5f46f57f3a1}\label{classrobin__hood_1_1detail_1_1_table_af2c227765ba6707e003ce5f46f57f3a1}} 
+{\bfseries Table} (std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ initlist, size\+\_\+t R\+O\+B\+I\+N\+\_\+\+H\+O\+O\+D\+\_\+\+U\+N\+U\+S\+ED(bucket\+\_\+count)=0, const Hash \&h=Hash\{\}, const Key\+Equal \&equal=Key\+Equal\{\})
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a4bd8bf8273183d4657def8a5efae42f9}\label{classrobin__hood_1_1detail_1_1_table_a4bd8bf8273183d4657def8a5efae42f9}} 
+{\bfseries Table} (\mbox{\hyperlink{classrobin__hood_1_1detail_1_1_table}{Table}} \&\&o) noexcept
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_adccf7c9573573c92794471275ee764a1}\label{classrobin__hood_1_1detail_1_1_table_adccf7c9573573c92794471275ee764a1}} 
+\mbox{\hyperlink{classrobin__hood_1_1detail_1_1_table}{Table}} \& {\bfseries operator=} (\mbox{\hyperlink{classrobin__hood_1_1detail_1_1_table}{Table}} \&\&o) noexcept
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_aeb88d60adc8d4bed347fa4e3daa98531}\label{classrobin__hood_1_1detail_1_1_table_aeb88d60adc8d4bed347fa4e3daa98531}} 
+{\bfseries Table} (const \mbox{\hyperlink{classrobin__hood_1_1detail_1_1_table}{Table}} \&o)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a6dfa81768d98c8dfd23e50e716632801}\label{classrobin__hood_1_1detail_1_1_table_a6dfa81768d98c8dfd23e50e716632801}} 
+\mbox{\hyperlink{classrobin__hood_1_1detail_1_1_table}{Table}} \& {\bfseries operator=} (\mbox{\hyperlink{classrobin__hood_1_1detail_1_1_table}{Table}} const \&o)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a35659bfc4c799a774d5c2e60f2b19dff}\label{classrobin__hood_1_1detail_1_1_table_a35659bfc4c799a774d5c2e60f2b19dff}} 
+void {\bfseries swap} (\mbox{\hyperlink{classrobin__hood_1_1detail_1_1_table}{Table}} \&o)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a63f44cedc183bf0e0c51c1ef0343897a}\label{classrobin__hood_1_1detail_1_1_table_a63f44cedc183bf0e0c51c1ef0343897a}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a4b063819c28f1800f35e6ef0033a334a}\label{classrobin__hood_1_1detail_1_1_table_a4b063819c28f1800f35e6ef0033a334a}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{classrobin__hood_1_1detail_1_1_table}{Table}} \&other) const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a70c3d7f130f32a133aa7cd90034a6e35}\label{classrobin__hood_1_1detail_1_1_table_a70c3d7f130f32a133aa7cd90034a6e35}} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{classrobin__hood_1_1detail_1_1_table}{Table}} \&other) const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_ad844ebcf70743e94a39eb75f69876533}\label{classrobin__hood_1_1detail_1_1_table_ad844ebcf70743e94a39eb75f69876533}} 
+{\footnotesize template$<$typename Q  = mapped\+\_\+type$>$ }\\std\+::enable\+\_\+if$<$!std\+::is\+\_\+void$<$ Q $>$\+::value, Q \& $>$\+::type {\bfseries operator\mbox{[}$\,$\mbox{]}} (const key\+\_\+type \&key)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_adc1927a4d896dd259ef031aaa8fb2575}\label{classrobin__hood_1_1detail_1_1_table_adc1927a4d896dd259ef031aaa8fb2575}} 
+{\footnotesize template$<$typename Q  = mapped\+\_\+type$>$ }\\std\+::enable\+\_\+if$<$!std\+::is\+\_\+void$<$ Q $>$\+::value, Q \& $>$\+::type {\bfseries operator\mbox{[}$\,$\mbox{]}} (key\+\_\+type \&\&key)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_afaf52ac516fda1480f9fe83af37dbc1d}\label{classrobin__hood_1_1detail_1_1_table_afaf52ac516fda1480f9fe83af37dbc1d}} 
+{\footnotesize template$<$typename Iter $>$ }\\void {\bfseries insert} (Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_aa9208d5701485d0bec9211d5f1c99f97}\label{classrobin__hood_1_1detail_1_1_table_aa9208d5701485d0bec9211d5f1c99f97}} 
+void {\bfseries insert} (std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ ilist)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a1a6364cae0784d401af7cec792f69b2d}\label{classrobin__hood_1_1detail_1_1_table_a1a6364cae0784d401af7cec792f69b2d}} 
+{\footnotesize template$<$typename... Args$>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries emplace} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_acc93414b0ebafa2dbcaaf7095f00da44}\label{classrobin__hood_1_1detail_1_1_table_acc93414b0ebafa2dbcaaf7095f00da44}} 
+{\footnotesize template$<$typename... Args$>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries try\+\_\+emplace} (const key\+\_\+type \&key, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_af50253b285645da4c6952d87200061d3}\label{classrobin__hood_1_1detail_1_1_table_af50253b285645da4c6952d87200061d3}} 
+{\footnotesize template$<$typename... Args$>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries try\+\_\+emplace} (key\+\_\+type \&\&key, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a560563a61f670c3193632664a5d37485}\label{classrobin__hood_1_1detail_1_1_table_a560563a61f670c3193632664a5d37485}} 
+{\footnotesize template$<$typename... Args$>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries try\+\_\+emplace} (const\+\_\+iterator hint, const key\+\_\+type \&key, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a73d14eacffaa05a0fd2bdcb1e9e277c3}\label{classrobin__hood_1_1detail_1_1_table_a73d14eacffaa05a0fd2bdcb1e9e277c3}} 
+{\footnotesize template$<$typename... Args$>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries try\+\_\+emplace} (const\+\_\+iterator hint, key\+\_\+type \&\&key, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a950170921b778149a3484744821a352a}\label{classrobin__hood_1_1detail_1_1_table_a950170921b778149a3484744821a352a}} 
+{\footnotesize template$<$typename Mapped $>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries insert\+\_\+or\+\_\+assign} (const key\+\_\+type \&key, Mapped \&\&obj)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a334b766430187a1ded42b54650ee1479}\label{classrobin__hood_1_1detail_1_1_table_a334b766430187a1ded42b54650ee1479}} 
+{\footnotesize template$<$typename Mapped $>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries insert\+\_\+or\+\_\+assign} (key\+\_\+type \&\&key, Mapped \&\&obj)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a0653cf9f09d02a76a8ba8cc468fc3a9f}\label{classrobin__hood_1_1detail_1_1_table_a0653cf9f09d02a76a8ba8cc468fc3a9f}} 
+{\footnotesize template$<$typename Mapped $>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries insert\+\_\+or\+\_\+assign} (const\+\_\+iterator hint, const key\+\_\+type \&key, Mapped \&\&obj)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a0792385a6961c06e7e38925af45ae1a4}\label{classrobin__hood_1_1detail_1_1_table_a0792385a6961c06e7e38925af45ae1a4}} 
+{\footnotesize template$<$typename Mapped $>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries insert\+\_\+or\+\_\+assign} (const\+\_\+iterator hint, key\+\_\+type \&\&key, Mapped \&\&obj)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a4686cb83428318f86560bb2d40cc1811}\label{classrobin__hood_1_1detail_1_1_table_a4686cb83428318f86560bb2d40cc1811}} 
+std\+::pair$<$ iterator, bool $>$ {\bfseries insert} (const value\+\_\+type \&keyval)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a3614f574e1f1d567028cf7032681c020}\label{classrobin__hood_1_1detail_1_1_table_a3614f574e1f1d567028cf7032681c020}} 
+std\+::pair$<$ iterator, bool $>$ {\bfseries insert} (value\+\_\+type \&\&keyval)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a98a73a7b295dc5cb50304068fbd811bd}\label{classrobin__hood_1_1detail_1_1_table_a98a73a7b295dc5cb50304068fbd811bd}} 
+size\+\_\+t {\bfseries count} (const key\+\_\+type \&key) const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_afb32389eb41a797c91f5cb1319ed6fc0}\label{classrobin__hood_1_1detail_1_1_table_afb32389eb41a797c91f5cb1319ed6fc0}} 
+{\footnotesize template$<$typename Other\+Key , typename Self\+\_\+  = Self$>$ }\\std\+::enable\+\_\+if$<$ Self\+\_\+\+::is\+\_\+transparent, size\+\_\+t $>$\+::type {\bfseries count} (const Other\+Key \&key) const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a79fdf3ba7034cb3eb36bbda40ec2d3c7}\label{classrobin__hood_1_1detail_1_1_table_a79fdf3ba7034cb3eb36bbda40ec2d3c7}} 
+bool {\bfseries contains} (const key\+\_\+type \&key) const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a595fe17eb846e867e89bd8deaf78a9e8}\label{classrobin__hood_1_1detail_1_1_table_a595fe17eb846e867e89bd8deaf78a9e8}} 
+{\footnotesize template$<$typename Other\+Key , typename Self\+\_\+  = Self$>$ }\\std\+::enable\+\_\+if$<$ Self\+\_\+\+::is\+\_\+transparent, bool $>$\+::type {\bfseries contains} (const Other\+Key \&key) const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a0d466b8ba45024362193eac9a75ac58d}\label{classrobin__hood_1_1detail_1_1_table_a0d466b8ba45024362193eac9a75ac58d}} 
+{\footnotesize template$<$typename Q  = mapped\+\_\+type$>$ }\\std\+::enable\+\_\+if$<$!std\+::is\+\_\+void$<$ Q $>$\+::value, Q \& $>$\+::type {\bfseries at} (key\+\_\+type const \&key)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a9c0147f0e06d0eadf94bca6dcf921ad2}\label{classrobin__hood_1_1detail_1_1_table_a9c0147f0e06d0eadf94bca6dcf921ad2}} 
+{\footnotesize template$<$typename Q  = mapped\+\_\+type$>$ }\\std\+::enable\+\_\+if$<$!std\+::is\+\_\+void$<$ Q $>$\+::value, Q const  \& $>$\+::type {\bfseries at} (key\+\_\+type const \&key) const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a751521706e7da7240a271f9833116892}\label{classrobin__hood_1_1detail_1_1_table_a751521706e7da7240a271f9833116892}} 
+const\+\_\+iterator {\bfseries find} (const key\+\_\+type \&key) const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_adf60460a9051e969a3284fa14bd3c74a}\label{classrobin__hood_1_1detail_1_1_table_adf60460a9051e969a3284fa14bd3c74a}} 
+{\footnotesize template$<$typename Other\+Key $>$ }\\const\+\_\+iterator {\bfseries find} (const Other\+Key \&key, \mbox{\hyperlink{structrobin__hood_1_1is__transparent__tag}{is\+\_\+transparent\+\_\+tag}}) const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_adf3c7c0450e96a9bdad483e4ae02ae14}\label{classrobin__hood_1_1detail_1_1_table_adf3c7c0450e96a9bdad483e4ae02ae14}} 
+{\footnotesize template$<$typename Other\+Key , typename Self\+\_\+  = Self$>$ }\\std\+::enable\+\_\+if$<$ Self\+\_\+\+::is\+\_\+transparent, const\+\_\+iterator $>$\+::type {\bfseries find} (const Other\+Key \&key) const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a0316a19c00f4502bea3158bf7b610c49}\label{classrobin__hood_1_1detail_1_1_table_a0316a19c00f4502bea3158bf7b610c49}} 
+iterator {\bfseries find} (const key\+\_\+type \&key)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a7c095537d9ce4bc041cab7a21caf3c3f}\label{classrobin__hood_1_1detail_1_1_table_a7c095537d9ce4bc041cab7a21caf3c3f}} 
+{\footnotesize template$<$typename Other\+Key $>$ }\\iterator {\bfseries find} (const Other\+Key \&key, \mbox{\hyperlink{structrobin__hood_1_1is__transparent__tag}{is\+\_\+transparent\+\_\+tag}})
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_aa8d29c8d5499bff58299341d7b9af9c9}\label{classrobin__hood_1_1detail_1_1_table_aa8d29c8d5499bff58299341d7b9af9c9}} 
+{\footnotesize template$<$typename Other\+Key , typename Self\+\_\+  = Self$>$ }\\std\+::enable\+\_\+if$<$ Self\+\_\+\+::is\+\_\+transparent, iterator $>$\+::type {\bfseries find} (const Other\+Key \&key)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_add7d28059e51e869700275a52f10f792}\label{classrobin__hood_1_1detail_1_1_table_add7d28059e51e869700275a52f10f792}} 
+iterator {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a9177e8678fba060701f8f14cfc79addb}\label{classrobin__hood_1_1detail_1_1_table_a9177e8678fba060701f8f14cfc79addb}} 
+const\+\_\+iterator {\bfseries begin} () const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a9b30089c2562da0e517af454139d12ed}\label{classrobin__hood_1_1detail_1_1_table_a9b30089c2562da0e517af454139d12ed}} 
+const\+\_\+iterator {\bfseries cbegin} () const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a7617a36eda977a6a088a25e69e42b53f}\label{classrobin__hood_1_1detail_1_1_table_a7617a36eda977a6a088a25e69e42b53f}} 
+iterator {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a362e4bdcd6170fea20823e988aac353d}\label{classrobin__hood_1_1detail_1_1_table_a362e4bdcd6170fea20823e988aac353d}} 
+const\+\_\+iterator {\bfseries end} () const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a0bdce506f7cf81f095ab6ee9d31caa78}\label{classrobin__hood_1_1detail_1_1_table_a0bdce506f7cf81f095ab6ee9d31caa78}} 
+const\+\_\+iterator {\bfseries cend} () const
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a0539538ef39c9c19c00253a705890919}\label{classrobin__hood_1_1detail_1_1_table_a0539538ef39c9c19c00253a705890919}} 
+iterator {\bfseries erase} (const\+\_\+iterator pos)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_af2f4e3e5aa89a5807d2f772f29ccd42c}\label{classrobin__hood_1_1detail_1_1_table_af2f4e3e5aa89a5807d2f772f29ccd42c}} 
+iterator {\bfseries erase} (iterator pos)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a84476a4555d16f32431d3c7bf30ad6e4}\label{classrobin__hood_1_1detail_1_1_table_a84476a4555d16f32431d3c7bf30ad6e4}} 
+size\+\_\+t {\bfseries erase} (const key\+\_\+type \&key)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a0038ca0e91a80ac87330d7ce4ec9b3c4}\label{classrobin__hood_1_1detail_1_1_table_a0038ca0e91a80ac87330d7ce4ec9b3c4}} 
+void {\bfseries rehash} (size\+\_\+t c)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a6c2d436df6800ac290cc26da5961a331}\label{classrobin__hood_1_1detail_1_1_table_a6c2d436df6800ac290cc26da5961a331}} 
+void {\bfseries reserve} (size\+\_\+t c)
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a3800a7d774d67a516acbd77b26649ab4}\label{classrobin__hood_1_1detail_1_1_table_a3800a7d774d67a516acbd77b26649ab4}} 
+void {\bfseries compact} ()
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_aa181b46b39e30eed42fa5efa3938909b}\label{classrobin__hood_1_1detail_1_1_table_aa181b46b39e30eed42fa5efa3938909b}} 
+size\+\_\+type {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_abe7368300bb9911dc370cfab2204b091}\label{classrobin__hood_1_1detail_1_1_table_abe7368300bb9911dc370cfab2204b091}} 
+size\+\_\+type {\bfseries max\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a634a4835bd928f2ae474b9d4c11dbfae}\label{classrobin__hood_1_1detail_1_1_table_a634a4835bd928f2ae474b9d4c11dbfae}} 
+{\bfseries R\+O\+B\+I\+N\+\_\+\+H\+O\+OD} (N\+O\+D\+I\+S\+C\+A\+RD) bool empty() const noexcept
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_aadf30acd1126007598469f9f251854b3}\label{classrobin__hood_1_1detail_1_1_table_aadf30acd1126007598469f9f251854b3}} 
+float {\bfseries max\+\_\+load\+\_\+factor} () const noexcept
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_aab67bd7d78e3d520175471b18537e53d}\label{classrobin__hood_1_1detail_1_1_table_aab67bd7d78e3d520175471b18537e53d}} 
+float {\bfseries load\+\_\+factor} () const noexcept
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_ab57f691567c67c78db7af1a46353ba55}\label{classrobin__hood_1_1detail_1_1_table_ab57f691567c67c78db7af1a46353ba55}} 
+{\bfseries R\+O\+B\+I\+N\+\_\+\+H\+O\+OD} (N\+O\+D\+I\+S\+C\+A\+RD) size\+\_\+t mask() const noexcept
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a3a3da8028bb22366a69ef29646833473}\label{classrobin__hood_1_1detail_1_1_table_a3a3da8028bb22366a69ef29646833473}} 
+{\bfseries R\+O\+B\+I\+N\+\_\+\+H\+O\+OD} (N\+O\+D\+I\+S\+C\+A\+RD) size\+\_\+t calc\+Max\+Num\+Elements\+Allowed(size\+\_\+t max\+Elements) const noexcept
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a68ff7b9d2b41b77f1865470e652e3c2b}\label{classrobin__hood_1_1detail_1_1_table_a68ff7b9d2b41b77f1865470e652e3c2b}} 
+{\bfseries R\+O\+B\+I\+N\+\_\+\+H\+O\+OD} (N\+O\+D\+I\+S\+C\+A\+RD) size\+\_\+t calc\+Num\+Bytes\+Info(size\+\_\+t num\+Elements) const noexcept
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_aa208de708a56c35b077807c0d6302d22}\label{classrobin__hood_1_1detail_1_1_table_aa208de708a56c35b077807c0d6302d22}} 
+size\+\_\+t {\bfseries calc\+Num\+Elements\+With\+Buffer} (size\+\_\+t num\+Elements) const noexcept
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_ab2dab1133a8ea888d9a40a09f243bd8b}\label{classrobin__hood_1_1detail_1_1_table_ab2dab1133a8ea888d9a40a09f243bd8b}} 
+{\bfseries R\+O\+B\+I\+N\+\_\+\+H\+O\+OD} (N\+O\+D\+I\+S\+C\+A\+RD) size\+\_\+t calc\+Num\+Bytes\+Total(size\+\_\+t num\+Elements) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_acbc8a6be27e6b6acb68601cc9b43374e}\label{classrobin__hood_1_1detail_1_1_table_acbc8a6be27e6b6acb68601cc9b43374e}} 
+static constexpr bool {\bfseries is\+\_\+flat} = Is\+Flat
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_a0c2d258850afd0923b137fef79235bd6}\label{classrobin__hood_1_1detail_1_1_table_a0c2d258850afd0923b137fef79235bd6}} 
+static constexpr bool {\bfseries is\+\_\+map} = !std\+::is\+\_\+void$<$T$>$\+::value
+\item 
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_af0a05809764dcc1f5601019d9a1f7905}\label{classrobin__hood_1_1detail_1_1_table_af0a05809764dcc1f5601019d9a1f7905}} 
+static constexpr bool {\bfseries is\+\_\+set} = !is\+\_\+map
+\item 
+static constexpr bool {\bfseries is\+\_\+transparent}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classrobin__hood_1_1detail_1_1_table_aefd4c2c18703cec7e07d846fae64e2a9}\label{classrobin__hood_1_1detail_1_1_table_aefd4c2c18703cec7e07d846fae64e2a9}} 
+\index{robin\_hood::detail::Table$<$ IsFlat, MaxLoadFactor100, Key, T, Hash, KeyEqual $>$@{robin\_hood::detail::Table$<$ IsFlat, MaxLoadFactor100, Key, T, Hash, KeyEqual $>$}!is\_transparent@{is\_transparent}}
+\index{is\_transparent@{is\_transparent}!robin\_hood::detail::Table$<$ IsFlat, MaxLoadFactor100, Key, T, Hash, KeyEqual $>$@{robin\_hood::detail::Table$<$ IsFlat, MaxLoadFactor100, Key, T, Hash, KeyEqual $>$}}
+\doxysubsubsection{\texorpdfstring{is\_transparent}{is\_transparent}}
+{\footnotesize\ttfamily template$<$bool Is\+Flat, size\+\_\+t Max\+Load\+Factor100, typename Key , typename T , typename Hash , typename Key\+Equal $>$ \\
+constexpr bool \mbox{\hyperlink{classrobin__hood_1_1detail_1_1_table}{robin\+\_\+hood\+::detail\+::\+Table}}$<$ Is\+Flat, Max\+Load\+Factor100, Key, T, Hash, Key\+Equal $>$\+::is\+\_\+transparent\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{        has\_is\_transparent<Hash>::value \&\& has\_is\_transparent<KeyEqual>::value}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+robin\+\_\+hood.\+h\end{DoxyCompactItemize}

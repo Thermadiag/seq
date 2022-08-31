@@ -1,0 +1,106 @@
+\hypertarget{classplf_1_1colony_1_1colony__iterator}{}\doxysection{plf\+::colony$<$ element\+\_\+type, allocator\+\_\+type, priority $>$\+::colony\+\_\+iterator$<$ is\+\_\+const $>$ Class Template Reference}
+\label{classplf_1_1colony_1_1colony__iterator}\index{plf::colony$<$ element\_type, allocator\_type, priority $>$::colony\_iterator$<$ is\_const $>$@{plf::colony$<$ element\_type, allocator\_type, priority $>$::colony\_iterator$<$ is\_const $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a1ff2d8684dde69a7ebeebd779ba20a22}\label{classplf_1_1colony_1_1colony__iterator_a1ff2d8684dde69a7ebeebd779ba20a22}} 
+typedef std\+::bidirectional\+\_\+iterator\+\_\+tag {\bfseries iterator\+\_\+category}
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_ac3662af70004e7af5d9a0c678eaf0e02}\label{classplf_1_1colony_1_1colony__iterator_ac3662af70004e7af5d9a0c678eaf0e02}} 
+typedef colony\+::value\+\_\+type {\bfseries value\+\_\+type}
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_ac468e0ff5e935adbd7e95035689ab2f6}\label{classplf_1_1colony_1_1colony__iterator_ac468e0ff5e935adbd7e95035689ab2f6}} 
+typedef colony\+::difference\+\_\+type {\bfseries difference\+\_\+type}
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a990ce6da579894ab038cfefeb8e65eaf}\label{classplf_1_1colony_1_1colony__iterator_a990ce6da579894ab038cfefeb8e65eaf}} 
+typedef choose$<$ is\+\_\+const, typename colony\+::const\+\_\+pointer, typename colony\+::pointer $>$\+::type {\bfseries pointer}
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a50d46c03708279911a62df2f90b8a81b}\label{classplf_1_1colony_1_1colony__iterator_a50d46c03708279911a62df2f90b8a81b}} 
+typedef choose$<$ is\+\_\+const, typename colony\+::const\+\_\+reference, typename colony\+::reference $>$\+::type {\bfseries reference}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_ae74685158d1d1f0b1e0a628c71ee5b4a}\label{classplf_1_1colony_1_1colony__iterator_ae74685158d1d1f0b1e0a628c71ee5b4a}} 
+\mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \& {\bfseries operator=} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \&source) P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a502cf9130ed04347fb201f0a3ce8831f}\label{classplf_1_1colony_1_1colony__iterator_a502cf9130ed04347fb201f0a3ce8831f}} 
+\mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \& {\bfseries operator=} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}}$<$!is\+\_\+const $>$ \&source) P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a5c8dcc99a8b05719442d70f7b34ec38a}\label{classplf_1_1colony_1_1colony__iterator_a5c8dcc99a8b05719442d70f7b34ec38a}} 
+P\+L\+F\+\_\+\+F\+O\+R\+C\+E\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries operator==} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \&rh) const P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_ab067baf0f6b8a6e8a60244341c766d5b}\label{classplf_1_1colony_1_1colony__iterator_ab067baf0f6b8a6e8a60244341c766d5b}} 
+P\+L\+F\+\_\+\+F\+O\+R\+C\+E\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries operator==} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}}$<$!is\+\_\+const $>$ \&rh) const P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a9009dc4b40dede99a788f4ea56194f03}\label{classplf_1_1colony_1_1colony__iterator_a9009dc4b40dede99a788f4ea56194f03}} 
+P\+L\+F\+\_\+\+F\+O\+R\+C\+E\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries operator!=} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \&rh) const P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a9599c89afce7d96da57ffb20dc2fc0fc}\label{classplf_1_1colony_1_1colony__iterator_a9599c89afce7d96da57ffb20dc2fc0fc}} 
+P\+L\+F\+\_\+\+F\+O\+R\+C\+E\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries operator!=} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}}$<$!is\+\_\+const $>$ \&rh) const P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a215cdd6f18836867243b7bf7aaf31679}\label{classplf_1_1colony_1_1colony__iterator_a215cdd6f18836867243b7bf7aaf31679}} 
+P\+L\+F\+\_\+\+F\+O\+R\+C\+E\+\_\+\+I\+N\+L\+I\+NE reference {\bfseries operator$\ast$} () const
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_abd5170a940748c33286458f9753a35f8}\label{classplf_1_1colony_1_1colony__iterator_abd5170a940748c33286458f9753a35f8}} 
+P\+L\+F\+\_\+\+F\+O\+R\+C\+E\+\_\+\+I\+N\+L\+I\+NE pointer {\bfseries operator-\/$>$} () const P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_af576f717ba82db664f90786ca11acf47}\label{classplf_1_1colony_1_1colony__iterator_af576f717ba82db664f90786ca11acf47}} 
+\mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \& {\bfseries operator++} ()
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a4edc75de9e1ba4abc0ed018c26936637}\label{classplf_1_1colony_1_1colony__iterator_a4edc75de9e1ba4abc0ed018c26936637}} 
+\mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} {\bfseries operator++} (int)
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a5f5f5a2589563d268b9f7eaafd7aa8ac}\label{classplf_1_1colony_1_1colony__iterator_a5f5f5a2589563d268b9f7eaafd7aa8ac}} 
+\mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \& {\bfseries operator-\/-\/} ()
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a9fa315408720c7422d335adfe0c7b56e}\label{classplf_1_1colony_1_1colony__iterator_a9fa315408720c7422d335adfe0c7b56e}} 
+\mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} {\bfseries operator-\/-\/} (int)
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a7e4edcdac6a3bdf5b90a1f74c92d6164}\label{classplf_1_1colony_1_1colony__iterator_a7e4edcdac6a3bdf5b90a1f74c92d6164}} 
+{\footnotesize template$<$bool is\+\_\+const\+\_\+it$>$ }\\bool {\bfseries operator$>$} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}}$<$ is\+\_\+const\+\_\+it $>$ \&rh) const P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a01871ee7e93a812c8b75baa2896d992f}\label{classplf_1_1colony_1_1colony__iterator_a01871ee7e93a812c8b75baa2896d992f}} 
+{\footnotesize template$<$bool is\+\_\+const\+\_\+it$>$ }\\bool {\bfseries operator$<$} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}}$<$ is\+\_\+const\+\_\+it $>$ \&rh) const P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a8ba4578769e3f9f53ea716c39ec493f0}\label{classplf_1_1colony_1_1colony__iterator_a8ba4578769e3f9f53ea716c39ec493f0}} 
+{\footnotesize template$<$bool is\+\_\+const\+\_\+it$>$ }\\bool {\bfseries operator$>$=} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}}$<$ is\+\_\+const\+\_\+it $>$ \&rh) const P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_af2352df88e468eb4cb1bc7d05141a0df}\label{classplf_1_1colony_1_1colony__iterator_af2352df88e468eb4cb1bc7d05141a0df}} 
+{\footnotesize template$<$bool is\+\_\+const\+\_\+it$>$ }\\bool {\bfseries operator$<$=} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}}$<$ is\+\_\+const\+\_\+it $>$ \&rh) const P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a4990829f2988415598484e57f5d8d66b}\label{classplf_1_1colony_1_1colony__iterator_a4990829f2988415598484e57f5d8d66b}} 
+{\bfseries colony\+\_\+iterator} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \&source) P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a93dbfb63f7df8dc469dc2db9fad0fa97}\label{classplf_1_1colony_1_1colony__iterator_a93dbfb63f7df8dc469dc2db9fad0fa97}} 
+{\bfseries colony\+\_\+iterator} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}}$<$!is\+\_\+const $>$ \&source) P\+L\+F\+\_\+\+N\+O\+E\+X\+C\+E\+PT
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_abbb69f83d920d94b8ff35337d51d6e2c}\label{classplf_1_1colony_1_1colony__iterator_abbb69f83d920d94b8ff35337d51d6e2c}} 
+class {\bfseries colony}
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_aa5d83144d20c439288360309524fb477}\label{classplf_1_1colony_1_1colony__iterator_aa5d83144d20c439288360309524fb477}} 
+class {\bfseries colony\+\_\+reverse\+\_\+iterator$<$ false $>$}
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a74bc3e0dfc899b2778eff15ae02bc5c6}\label{classplf_1_1colony_1_1colony__iterator_a74bc3e0dfc899b2778eff15ae02bc5c6}} 
+class {\bfseries colony\+\_\+reverse\+\_\+iterator$<$ true $>$}
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a65524e8e944a0963b4fb0960852dc3d1}\label{classplf_1_1colony_1_1colony__iterator_a65524e8e944a0963b4fb0960852dc3d1}} 
+{\footnotesize template$<$class distance\+\_\+type $>$ }\\void {\bfseries advance} (\mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \&it, distance\+\_\+type distance)
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_ad6872ac3a5f65b6ce188193582d3835a}\label{classplf_1_1colony_1_1colony__iterator_ad6872ac3a5f65b6ce188193582d3835a}} 
+\mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} {\bfseries next} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \&it, const difference\+\_\+type distance)
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a4b91efa857656da7b67e84879aae4ef1}\label{classplf_1_1colony_1_1colony__iterator_a4b91efa857656da7b67e84879aae4ef1}} 
+\mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} {\bfseries prev} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \&it, const difference\+\_\+type distance)
+\item 
+\mbox{\Hypertarget{classplf_1_1colony_1_1colony__iterator_a354d153a6e6e9063804d8325d1bc90b3}\label{classplf_1_1colony_1_1colony__iterator_a354d153a6e6e9063804d8325d1bc90b3}} 
+colony\+\_\+iterator\+::difference\+\_\+type {\bfseries distance} (const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \&first, const \mbox{\hyperlink{classplf_1_1colony_1_1colony__iterator}{colony\+\_\+iterator}} \&last)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+plf\+\_\+colony.\+hpp\end{DoxyCompactItemize}

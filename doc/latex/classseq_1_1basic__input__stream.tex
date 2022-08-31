@@ -1,0 +1,68 @@
+\hypertarget{classseq_1_1basic__input__stream}{}\doxysection{seq\+::basic\+\_\+input\+\_\+stream$<$ Derived $>$ Class Template Reference}
+\label{classseq_1_1basic__input__stream}\index{seq::basic\_input\_stream$<$ Derived $>$@{seq::basic\_input\_stream$<$ Derived $>$}}
+
+
+Base class for input text streams.  
+
+
+
+
+{\ttfamily \#include $<$charconv.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{classseq_1_1basic__input__stream_aa5024985117ca65420f93905582ea564}{is\+\_\+ok}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1basic__input__stream_a3b9b2097f54eb1f241aadfbd4e67651d}{reset}} () noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{classseq_1_1basic__input__stream_a39040536b902003e02615e51fc41bce7}{operator bool}} () const noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Derived$>$\newline
+class seq\+::basic\+\_\+input\+\_\+stream$<$ Derived $>$}
+
+Base class for input text streams. 
+
+Input text streams behave mostly like a (very) lightweight version of std\+::istream. They are used for reading numerical values, strings and lines from either\+:
+\begin{DoxyItemize}
+\item a F\+I\+LE descriptor (\mbox{\hyperlink{classseq_1_1file__input__stream}{seq\+::file\+\_\+input\+\_\+stream}})
+\item a std\+::istream object (\mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}})
+\item a sequence of characters (\mbox{\hyperlink{classseq_1_1buffer__input__stream}{seq\+::buffer\+\_\+input\+\_\+stream}})
+\end{DoxyItemize}
+
+The main advantage of using \mbox{\hyperlink{classseq_1_1basic__input__stream}{basic\+\_\+input\+\_\+stream}} instead of standard std\+::istream classes is its speed. std\+::istream is a very heavy machinery, full of virtual function dispatching and providing all possible features, including very exotic ones.
+
+\mbox{\hyperlink{classseq_1_1basic__input__stream}{basic\+\_\+input\+\_\+stream}} does not rely on virtual function call, does not used locales nor std\+::streambuf. Optimized integer and floating point read functions provided in the seq library rely on \mbox{\hyperlink{classseq_1_1basic__input__stream}{basic\+\_\+input\+\_\+stream}}.
+
+Note that it is still possible to use the optimized read function on a std\+::istream object using the \mbox{\hyperlink{classseq_1_1std__input__stream}{std\+\_\+input\+\_\+stream}} class. This is still several times faster than using the raw std\+::istream. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1basic__input__stream_aa5024985117ca65420f93905582ea564}\label{classseq_1_1basic__input__stream_aa5024985117ca65420f93905582ea564}} 
+\index{seq::basic\_input\_stream$<$ Derived $>$@{seq::basic\_input\_stream$<$ Derived $>$}!is\_ok@{is\_ok}}
+\index{is\_ok@{is\_ok}!seq::basic\_input\_stream$<$ Derived $>$@{seq::basic\_input\_stream$<$ Derived $>$}}
+\doxysubsubsection{\texorpdfstring{is\_ok()}{is\_ok()}}
+{\footnotesize\ttfamily template$<$class Derived $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{classseq_1_1basic__input__stream}{seq\+::basic\+\_\+input\+\_\+stream}}$<$ Derived $>$\+::is\+\_\+ok (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1basic__input__stream_a39040536b902003e02615e51fc41bce7}\label{classseq_1_1basic__input__stream_a39040536b902003e02615e51fc41bce7}} 
+\index{seq::basic\_input\_stream$<$ Derived $>$@{seq::basic\_input\_stream$<$ Derived $>$}!operator bool@{operator bool}}
+\index{operator bool@{operator bool}!seq::basic\_input\_stream$<$ Derived $>$@{seq::basic\_input\_stream$<$ Derived $>$}}
+\doxysubsubsection{\texorpdfstring{operator bool()}{operator bool()}}
+{\footnotesize\ttfamily template$<$class Derived $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{classseq_1_1basic__input__stream}{seq\+::basic\+\_\+input\+\_\+stream}}$<$ Derived $>$\+::operator bool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1basic__input__stream_a3b9b2097f54eb1f241aadfbd4e67651d}\label{classseq_1_1basic__input__stream_a3b9b2097f54eb1f241aadfbd4e67651d}} 
+\index{seq::basic\_input\_stream$<$ Derived $>$@{seq::basic\_input\_stream$<$ Derived $>$}!reset@{reset}}
+\index{reset@{reset}!seq::basic\_input\_stream$<$ Derived $>$@{seq::basic\_input\_stream$<$ Derived $>$}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily template$<$class Derived $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{classseq_1_1basic__input__stream}{seq\+::basic\+\_\+input\+\_\+stream}}$<$ Derived $>$\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{charconv_8hpp}{charconv.\+hpp}}\end{DoxyCompactItemize}

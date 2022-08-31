@@ -1,0 +1,111 @@
+\hypertarget{deque_8hpp}{}\doxysection{seq/deque.hpp File Reference}
+\label{deque_8hpp}\index{seq/deque.hpp@{seq/deque.hpp}}
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$stdexcept$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include \char`\"{}utils.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}devector.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}deque\+\_\+allocator.\+hpp\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1deque__iterator}{seq\+::detail\+::deque\+\_\+iterator$<$ Bucket\+Mgr $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_base_circular_buffer}{seq\+::detail\+::\+Base\+Circular\+Buffer$<$ T, Allocator $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer$<$ T, Allocator $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_find_bucket_size}{seq\+::detail\+::\+Find\+Bucket\+Size$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_small_bucket_allocator}{seq\+::detail\+::\+Small\+Bucket\+Allocator$<$ T, Allocator $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_select_alloc}{seq\+::detail\+::\+Select\+Alloc$<$ T, Allocator, layout $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_select_alloc_3_01_t_00_01_allocator_00_01_optimize_for_memory_01_4}{seq\+::detail\+::\+Select\+Alloc$<$ T, Allocator, Optimize\+For\+Memory $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_store_bucket}{seq\+::detail\+::\+Store\+Bucket$<$ T, Allocator, Value\+Compare, Store\+Back\+Values, Is\+Arithmetic $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01false_00_01_is_arithmetic_01_4}{seq\+::detail\+::\+Store\+Bucket$<$ T, Allocator, Value\+Compare, false, Is\+Arithmetic $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01false_01_4}{seq\+::detail\+::\+Store\+Bucket$<$ T, Allocator, Value\+Compare, true, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01true_01_4}{seq\+::detail\+::\+Store\+Bucket$<$ T, Allocator, Value\+Compare, true, true $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__relocatable_3_01detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compdf720ebec973c8da48b23df61e3cbc7a}{seq\+::is\+\_\+relocatable$<$ detail\+::\+Store\+Bucket$<$ T, Allocator, Value\+Compare, Store\+Back\+Values, Is\+Arithmetic $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare}{seq\+::detail\+::\+Null\+Value\+Compare$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1deque}{seq\+::deque$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classseq_1_1deque}{seq\+::deque}} is a std\+::deque like container implemented as a tiered-\/vector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail}{seq\+::detail}}
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits in {\itshape value}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{deque_8hpp_a8138c63e1b50e132c7835a56cc0455a5}{S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE}}(T)~(sizeof(T) $<$= 4 ? 64 \+: (sizeof(T) $<$= 8 ? 32 \+: (sizeof(T) $<$= 16 ? 16 \+: 8)))
+\begin{DoxyCompactList}\small\item\em Minimum bucket size for given type. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{deque_8hpp_a8a4e63455cc57222ba6515c1866efcd0}{S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE}}~(1U$<$$<$14U)
+\begin{DoxyCompactList}\small\item\em Maximum bucket size (default to 1$<$$<$14) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{seq\+::detail\+::cbuffer\+\_\+pos}} = short
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class Bucket\+Mgr $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \mbox{\hyperlink{namespaceseq_1_1detail_a670a9a093e076e0972d5640d58504c08}{seq\+::detail\+::operator+}} (const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it, typename deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$\+::difference\+\_\+type diff) noexcept
+\item 
+{\footnotesize template$<$class Bucket\+Mgr $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} deque\+\_\+iterator$<$ Bucket\+Mgr $>$ \mbox{\hyperlink{namespaceseq_1_1detail_aa97c7161b119e3c9c59f3d8ac1142345}{seq\+::detail\+::operator+}} (const deque\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it, typename deque\+\_\+iterator$<$ Bucket\+Mgr $>$\+::difference\+\_\+type diff) noexcept
+\item 
+{\footnotesize template$<$class Bucket\+Mgr $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \mbox{\hyperlink{namespaceseq_1_1detail_a2220b5604c5bec665d54e58bdef1765d}{seq\+::detail\+::operator-\/}} (const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it, typename deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$\+::difference\+\_\+type diff) noexcept
+\item 
+{\footnotesize template$<$class Bucket\+Mgr $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} deque\+\_\+iterator$<$ Bucket\+Mgr $>$ \mbox{\hyperlink{namespaceseq_1_1detail_a1de1bbcabe5107da959edd18721d19da}{seq\+::detail\+::operator-\/}} (const deque\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it, typename deque\+\_\+iterator$<$ Bucket\+Mgr $>$\+::difference\+\_\+type diff) noexcept
+\item 
+{\footnotesize template$<$class Bucket\+Mgr $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$\+::difference\+\_\+type \mbox{\hyperlink{namespaceseq_1_1detail_a9adb684043f1319b50463abe87777706}{seq\+::detail\+::operator-\/}} (const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it1, const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it2) noexcept
+\item 
+{\footnotesize template$<$class Bucket\+Mgr $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_1_1detail_a0b6d00ce150d6016f8c571f23287e145}{seq\+::detail\+::operator==}} (const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it1, const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it2) noexcept
+\item 
+{\footnotesize template$<$class Bucket\+Mgr $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_1_1detail_a7d90210ef1f71234fe09aa58c61f1d1b}{seq\+::detail\+::operator!=}} (const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it1, const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it2) noexcept
+\item 
+{\footnotesize template$<$class Bucket\+Mgr $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_1_1detail_a59c7fefca76db009fbc037b96669118d}{seq\+::detail\+::operator$<$}} (const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it1, const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it2) noexcept
+\item 
+{\footnotesize template$<$class Bucket\+Mgr $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_1_1detail_a1adf3c1ed253d584dec784fe3a65df34}{seq\+::detail\+::operator$>$}} (const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it1, const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it2) noexcept
+\item 
+{\footnotesize template$<$class Bucket\+Mgr $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_1_1detail_a970e7a89535ee2b0b238672430663f9d}{seq\+::detail\+::operator$<$=}} (const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it1, const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it2) noexcept
+\item 
+{\footnotesize template$<$class Bucket\+Mgr $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_1_1detail_a042179f1a06e1455b2350d5fffc315ee}{seq\+::detail\+::operator$>$=}} (const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it1, const deque\+\_\+const\+\_\+iterator$<$ Bucket\+Mgr $>$ \&it2) noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{deque_8hpp_a8a4e63455cc57222ba6515c1866efcd0}\label{deque_8hpp_a8a4e63455cc57222ba6515c1866efcd0}} 
+\index{deque.hpp@{deque.hpp}!SEQ\_MAX\_BUCKET\_SIZE@{SEQ\_MAX\_BUCKET\_SIZE}}
+\index{SEQ\_MAX\_BUCKET\_SIZE@{SEQ\_MAX\_BUCKET\_SIZE}!deque.hpp@{deque.hpp}}
+\doxysubsubsection{\texorpdfstring{SEQ\_MAX\_BUCKET\_SIZE}{SEQ\_MAX\_BUCKET\_SIZE}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE~(1U$<$$<$14U)}
+
+
+
+Maximum bucket size (default to 1$<$$<$14) 
+
+\mbox{\Hypertarget{deque_8hpp_a8138c63e1b50e132c7835a56cc0455a5}\label{deque_8hpp_a8138c63e1b50e132c7835a56cc0455a5}} 
+\index{deque.hpp@{deque.hpp}!SEQ\_MIN\_BUCKET\_SIZE@{SEQ\_MIN\_BUCKET\_SIZE}}
+\index{SEQ\_MIN\_BUCKET\_SIZE@{SEQ\_MIN\_BUCKET\_SIZE}!deque.hpp@{deque.hpp}}
+\doxysubsubsection{\texorpdfstring{SEQ\_MIN\_BUCKET\_SIZE}{SEQ\_MIN\_BUCKET\_SIZE}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE(\begin{DoxyParamCaption}\item[{}]{T }\end{DoxyParamCaption})~(sizeof(T) $<$= 4 ? 64 \+: (sizeof(T) $<$= 8 ? 32 \+: (sizeof(T) $<$= 16 ? 16 \+: 8)))}
+
+
+
+Minimum bucket size for given type. 
+

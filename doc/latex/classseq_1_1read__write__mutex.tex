@@ -1,0 +1,168 @@
+\hypertarget{classseq_1_1read__write__mutex}{}\doxysection{seq\+::read\+\_\+write\+\_\+mutex$<$ Mutex $>$ Class Template Reference}
+\label{classseq_1_1read__write__mutex}\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+
+
+A read-\/write mutex based on either \mbox{\hyperlink{classseq_1_1spinlock}{seq\+::spinlock}} class or \mbox{\hyperlink{classseq_1_1spin__mutex}{seq\+::spin\+\_\+mutex}} class.  
+
+
+
+
+{\ttfamily \#include $<$lock.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classseq_1_1read__write__mutex_ad73f40b3d8754a66125a299a55bc3ef7}{read\+\_\+write\+\_\+mutex}} ()
+\item 
+\mbox{\hyperlink{classseq_1_1read__write__mutex_a7ea596e7d2a4b94c52a0c3f7d8c815ba}{$\sim$read\+\_\+write\+\_\+mutex}} ()
+\item 
+void \mbox{\hyperlink{classseq_1_1read__write__mutex_ab8b0fd682c3a501fdb426c4105823f2b}{lock}} ()
+\item 
+bool \mbox{\hyperlink{classseq_1_1read__write__mutex_aadb0add58490c29981651f58aad3047b}{try\+\_\+lock}} ()
+\begin{DoxyCompactList}\small\item\em Tries to lock the mutex for exclusive access (e.\+g. for a write operation). \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classseq_1_1read__write__mutex_ac0c04347a72465784d2caec693825fb5}{is\+\_\+locked}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classseq_1_1read__write__mutex_aee0a708cdac0f36a44d3ba6c2cc9dd85}{is\+\_\+locked\+\_\+shared}} () const noexcept
+\item 
+void \mbox{\hyperlink{classseq_1_1read__write__mutex_aa09734be7da56bb2c36317674a32e445}{unlock}} ()
+\begin{DoxyCompactList}\small\item\em Unlocks the mutex. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Rep , class Period $>$ }\\bool \mbox{\hyperlink{classseq_1_1read__write__mutex_af896b6d041723c18c17cf8de68284bb4}{try\+\_\+lock\+\_\+for}} (const std\+::chrono\+::duration$<$ Rep, Period $>$ \&duration)
+\item 
+{\footnotesize template$<$class Clock , class Duration $>$ }\\bool \mbox{\hyperlink{classseq_1_1read__write__mutex_a51a40c6f86ed9294831da1491ce1db4c}{try\+\_\+lock\+\_\+until}} (const std\+::chrono\+::time\+\_\+point$<$ Clock, Duration $>$ \&time\+Point)
+\item 
+void \mbox{\hyperlink{classseq_1_1read__write__mutex_ac7e7bc119dc96f18353628e3f08d4acc}{lock\+\_\+shared}} ()
+\begin{DoxyCompactList}\small\item\em Acquires shared ownership of the mutex (e.\+g. for a read operation). \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classseq_1_1read__write__mutex_a3ee3422b62b82d0729fdc6c515ab56f8}{try\+\_\+lock\+\_\+shared}} ()
+\begin{DoxyCompactList}\small\item\em Tries to lock the mutex in shared mode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1read__write__mutex_abfe05942f150d5e707f6062d05edb705}{unlock\+\_\+shared}} ()
+\begin{DoxyCompactList}\small\item\em Releases the mutex from shared ownership by the calling thread. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Mutex = spin\+\_\+mutex$<$$>$$>$\newline
+class seq\+::read\+\_\+write\+\_\+mutex$<$ Mutex $>$}
+
+A read-\/write mutex based on either \mbox{\hyperlink{classseq_1_1spinlock}{seq\+::spinlock}} class or \mbox{\hyperlink{classseq_1_1spin__mutex}{seq\+::spin\+\_\+mutex}} class. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Mutex} & either \mbox{\hyperlink{classseq_1_1spinlock}{seq\+::spinlock}} or \mbox{\hyperlink{classseq_1_1spin__mutex}{seq\+::spin\+\_\+mutex}} class\\
+\hline
+\end{DoxyTemplParams}
+\mbox{\hyperlink{classseq_1_1read__write__mutex}{read\+\_\+write\+\_\+mutex}} follows the Timed\+Mutex requirements. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classseq_1_1read__write__mutex_ad73f40b3d8754a66125a299a55bc3ef7}\label{classseq_1_1read__write__mutex_ad73f40b3d8754a66125a299a55bc3ef7}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!read\_write\_mutex@{read\_write\_mutex}}
+\index{read\_write\_mutex@{read\_write\_mutex}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{read\_write\_mutex()}{read\_write\_mutex()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+\mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::\mbox{\hyperlink{classseq_1_1read__write__mutex}{read\+\_\+write\+\_\+mutex}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1read__write__mutex_a7ea596e7d2a4b94c52a0c3f7d8c815ba}\label{classseq_1_1read__write__mutex_a7ea596e7d2a4b94c52a0c3f7d8c815ba}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!````~read\_write\_mutex@{$\sim$read\_write\_mutex}}
+\index{````~read\_write\_mutex@{$\sim$read\_write\_mutex}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{$\sim$read\_write\_mutex()}{~read\_write\_mutex()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+\mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::$\sim$\mbox{\hyperlink{classseq_1_1read__write__mutex}{read\+\_\+write\+\_\+mutex}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1read__write__mutex_ac0c04347a72465784d2caec693825fb5}\label{classseq_1_1read__write__mutex_ac0c04347a72465784d2caec693825fb5}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!is\_locked@{is\_locked}}
+\index{is\_locked@{is\_locked}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{is\_locked()}{is\_locked()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+bool \mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::is\+\_\+locked (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1read__write__mutex_aee0a708cdac0f36a44d3ba6c2cc9dd85}\label{classseq_1_1read__write__mutex_aee0a708cdac0f36a44d3ba6c2cc9dd85}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!is\_locked\_shared@{is\_locked\_shared}}
+\index{is\_locked\_shared@{is\_locked\_shared}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{is\_locked\_shared()}{is\_locked\_shared()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+bool \mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::is\+\_\+locked\+\_\+shared (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1read__write__mutex_ab8b0fd682c3a501fdb426c4105823f2b}\label{classseq_1_1read__write__mutex_ab8b0fd682c3a501fdb426c4105823f2b}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!lock@{lock}}
+\index{lock@{lock}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{lock()}{lock()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+void \mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::lock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Locks the mutex for exclusive access (e.\+g. for a write operation). If another thread has already locked the mutex, a call to lock will block execution until the lock is acquired. \mbox{\Hypertarget{classseq_1_1read__write__mutex_ac7e7bc119dc96f18353628e3f08d4acc}\label{classseq_1_1read__write__mutex_ac7e7bc119dc96f18353628e3f08d4acc}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!lock\_shared@{lock\_shared}}
+\index{lock\_shared@{lock\_shared}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{lock\_shared()}{lock\_shared()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+void \mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::lock\+\_\+shared (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Acquires shared ownership of the mutex (e.\+g. for a read operation). 
+
+\mbox{\Hypertarget{classseq_1_1read__write__mutex_aadb0add58490c29981651f58aad3047b}\label{classseq_1_1read__write__mutex_aadb0add58490c29981651f58aad3047b}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!try\_lock@{try\_lock}}
+\index{try\_lock@{try\_lock}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{try\_lock()}{try\_lock()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+bool \mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::try\+\_\+lock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Tries to lock the mutex for exclusive access (e.\+g. for a write operation). 
+
+\mbox{\Hypertarget{classseq_1_1read__write__mutex_af896b6d041723c18c17cf8de68284bb4}\label{classseq_1_1read__write__mutex_af896b6d041723c18c17cf8de68284bb4}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!try\_lock\_for@{try\_lock\_for}}
+\index{try\_lock\_for@{try\_lock\_for}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{try\_lock\_for()}{try\_lock\_for()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+template$<$class Rep , class Period $>$ \\
+bool \mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::try\+\_\+lock\+\_\+for (\begin{DoxyParamCaption}\item[{const std\+::chrono\+::duration$<$ Rep, Period $>$ \&}]{duration }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1read__write__mutex_a3ee3422b62b82d0729fdc6c515ab56f8}\label{classseq_1_1read__write__mutex_a3ee3422b62b82d0729fdc6c515ab56f8}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!try\_lock\_shared@{try\_lock\_shared}}
+\index{try\_lock\_shared@{try\_lock\_shared}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{try\_lock\_shared()}{try\_lock\_shared()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+bool \mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::try\+\_\+lock\+\_\+shared (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Tries to lock the mutex in shared mode. 
+
+\mbox{\Hypertarget{classseq_1_1read__write__mutex_a51a40c6f86ed9294831da1491ce1db4c}\label{classseq_1_1read__write__mutex_a51a40c6f86ed9294831da1491ce1db4c}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!try\_lock\_until@{try\_lock\_until}}
+\index{try\_lock\_until@{try\_lock\_until}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{try\_lock\_until()}{try\_lock\_until()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+template$<$class Clock , class Duration $>$ \\
+bool \mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::try\+\_\+lock\+\_\+until (\begin{DoxyParamCaption}\item[{const std\+::chrono\+::time\+\_\+point$<$ Clock, Duration $>$ \&}]{time\+Point }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1read__write__mutex_aa09734be7da56bb2c36317674a32e445}\label{classseq_1_1read__write__mutex_aa09734be7da56bb2c36317674a32e445}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!unlock@{unlock}}
+\index{unlock@{unlock}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{unlock()}{unlock()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+void \mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::unlock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Unlocks the mutex. 
+
+\mbox{\Hypertarget{classseq_1_1read__write__mutex_abfe05942f150d5e707f6062d05edb705}\label{classseq_1_1read__write__mutex_abfe05942f150d5e707f6062d05edb705}} 
+\index{seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}!unlock\_shared@{unlock\_shared}}
+\index{unlock\_shared@{unlock\_shared}!seq::read\_write\_mutex$<$ Mutex $>$@{seq::read\_write\_mutex$<$ Mutex $>$}}
+\doxysubsubsection{\texorpdfstring{unlock\_shared()}{unlock\_shared()}}
+{\footnotesize\ttfamily template$<$class Mutex  = spin\+\_\+mutex$<$$>$$>$ \\
+void \mbox{\hyperlink{classseq_1_1read__write__mutex}{seq\+::read\+\_\+write\+\_\+mutex}}$<$ Mutex $>$\+::unlock\+\_\+shared (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Releases the mutex from shared ownership by the calling thread. 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{lock_8hpp}{lock.\+hpp}}\end{DoxyCompactItemize}

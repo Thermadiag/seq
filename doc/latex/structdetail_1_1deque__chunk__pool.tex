@@ -1,0 +1,159 @@
+\hypertarget{structdetail_1_1deque__chunk__pool}{}\doxysection{detail\+::deque\+\_\+chunk\+\_\+pool$<$ T, Allocator $>$ Struct Template Reference}
+\label{structdetail_1_1deque__chunk__pool}\index{detail::deque\_chunk\_pool$<$ T, Allocator $>$@{detail::deque\_chunk\_pool$<$ T, Allocator $>$}}
+
+
+{\ttfamily \#include $<$deque\+\_\+allocator -\/ Copie.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_af7a3f50384b3f81e5d51be7cddb1d8a2}\label{structdetail_1_1deque__chunk__pool_af7a3f50384b3f81e5d51be7cddb1d8a2}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_af7a3f50384b3f81e5d51be7cddb1d8a2}\label{structdetail_1_1deque__chunk__pool_af7a3f50384b3f81e5d51be7cddb1d8a2}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_ad2451a3fca94b1456c41ad5b0296b724}\label{structdetail_1_1deque__chunk__pool_ad2451a3fca94b1456c41ad5b0296b724}} 
+void {\bfseries set\+\_\+next} (T $\ast$p, T $\ast$next)
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a1b6cceb3ddc51d89895c21df74c226b0}\label{structdetail_1_1deque__chunk__pool_a1b6cceb3ddc51d89895c21df74c226b0}} 
+T $\ast$ {\bfseries next} (T $\ast$p)
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_ad8e2794d879f92dc3a3e3c4383b53e0a}\label{structdetail_1_1deque__chunk__pool_ad8e2794d879f92dc3a3e3c4383b53e0a}} 
+size\+\_\+t {\bfseries T\+\_\+per\+\_\+chunk} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a2fc948acfd36a0841d47cb86d27ef6cc}\label{structdetail_1_1deque__chunk__pool_a2fc948acfd36a0841d47cb86d27ef6cc}} 
+\mbox{\hyperlink{structdetail_1_1dchunk}{dchunk}}$<$ T $>$ $\ast$ {\bfseries chunk\+At} (size\+\_\+t i) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_aac80219805fb157b9e497751cf6eaef0}\label{structdetail_1_1deque__chunk__pool_aac80219805fb157b9e497751cf6eaef0}} 
+size\+\_\+t {\bfseries index\+Of\+Chunk} (const \mbox{\hyperlink{structdetail_1_1dchunk}{dchunk}}$<$ T $>$ $\ast$ch) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_ad0e37860fc03456b0b10721b8b3323a2}\label{structdetail_1_1deque__chunk__pool_ad0e37860fc03456b0b10721b8b3323a2}} 
+{\bfseries deque\+\_\+chunk\+\_\+pool} (const Allocator \&al=Allocator()) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a0c2b762fff58ad4cc1123dbe5adbfbe7}\label{structdetail_1_1deque__chunk__pool_a0c2b762fff58ad4cc1123dbe5adbfbe7}} 
+{\bfseries deque\+\_\+chunk\+\_\+pool} (const Allocator \&al, size\+\_\+t elems, size\+\_\+t elems\+\_\+per\+\_\+chunk)
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_aae8d4d4d8188087547c9187b1e712517}\label{structdetail_1_1deque__chunk__pool_aae8d4d4d8188087547c9187b1e712517}} 
+{\bfseries deque\+\_\+chunk\+\_\+pool} (const \mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a98580dbc75ad7f093396865c2e8df425}\label{structdetail_1_1deque__chunk__pool_a98580dbc75ad7f093396865c2e8df425}} 
+\mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \& {\bfseries operator=} (const \mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a79049bcc7e6f91c528f04a2f781e1edc}\label{structdetail_1_1deque__chunk__pool_a79049bcc7e6f91c528f04a2f781e1edc}} 
+{\bfseries deque\+\_\+chunk\+\_\+pool} (\mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_aa1675ab21d10abd4bb9895f2ee20422a}\label{structdetail_1_1deque__chunk__pool_aa1675ab21d10abd4bb9895f2ee20422a}} 
+\mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \& {\bfseries operator=} (\mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a4428f49205e76d34d7859689152cf516}\label{structdetail_1_1deque__chunk__pool_a4428f49205e76d34d7859689152cf516}} 
+bool {\bfseries rebind\+\_\+for} (size\+\_\+t elems\+\_\+per\+\_\+chunk)
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a3a2f875905b5238536bdb699e5b54e2a}\label{structdetail_1_1deque__chunk__pool_a3a2f875905b5238536bdb699e5b54e2a}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+inside} (void $\ast$ptr) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a45a5bd9c8d29f5e94e4107c749282749}\label{structdetail_1_1deque__chunk__pool_a45a5bd9c8d29f5e94e4107c749282749}} 
+\mbox{\hyperlink{structdetail_1_1dchunk}{dchunk}}$<$ T $>$ $\ast$ {\bfseries allocate} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a369eda4b1af5dc3a4766717a105c670f}\label{structdetail_1_1deque__chunk__pool_a369eda4b1af5dc3a4766717a105c670f}} 
+void {\bfseries deallocate} (\mbox{\hyperlink{structdetail_1_1dchunk}{dchunk}}$<$ T $>$ $\ast$ptr)
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_ad2451a3fca94b1456c41ad5b0296b724}\label{structdetail_1_1deque__chunk__pool_ad2451a3fca94b1456c41ad5b0296b724}} 
+void {\bfseries set\+\_\+next} (T $\ast$p, T $\ast$next)
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a1b6cceb3ddc51d89895c21df74c226b0}\label{structdetail_1_1deque__chunk__pool_a1b6cceb3ddc51d89895c21df74c226b0}} 
+T $\ast$ {\bfseries next} (T $\ast$p)
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_ad8e2794d879f92dc3a3e3c4383b53e0a}\label{structdetail_1_1deque__chunk__pool_ad8e2794d879f92dc3a3e3c4383b53e0a}} 
+size\+\_\+t {\bfseries T\+\_\+per\+\_\+chunk} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_accae3b06056e5326f042ba6116702fbc}\label{structdetail_1_1deque__chunk__pool_accae3b06056e5326f042ba6116702fbc}} 
+T $\ast$ {\bfseries chunk\+At} (size\+\_\+t i) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_afc11c8d15e703b6a161ef86614a78f30}\label{structdetail_1_1deque__chunk__pool_afc11c8d15e703b6a161ef86614a78f30}} 
+size\+\_\+t {\bfseries index\+Of\+Chunk} (const T $\ast$ch) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_ad0e37860fc03456b0b10721b8b3323a2}\label{structdetail_1_1deque__chunk__pool_ad0e37860fc03456b0b10721b8b3323a2}} 
+{\bfseries deque\+\_\+chunk\+\_\+pool} (const Allocator \&al=Allocator()) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a0c2b762fff58ad4cc1123dbe5adbfbe7}\label{structdetail_1_1deque__chunk__pool_a0c2b762fff58ad4cc1123dbe5adbfbe7}} 
+{\bfseries deque\+\_\+chunk\+\_\+pool} (const Allocator \&al, size\+\_\+t elems, size\+\_\+t elems\+\_\+per\+\_\+chunk)
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_aae8d4d4d8188087547c9187b1e712517}\label{structdetail_1_1deque__chunk__pool_aae8d4d4d8188087547c9187b1e712517}} 
+{\bfseries deque\+\_\+chunk\+\_\+pool} (const \mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a98580dbc75ad7f093396865c2e8df425}\label{structdetail_1_1deque__chunk__pool_a98580dbc75ad7f093396865c2e8df425}} 
+\mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \& {\bfseries operator=} (const \mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a79049bcc7e6f91c528f04a2f781e1edc}\label{structdetail_1_1deque__chunk__pool_a79049bcc7e6f91c528f04a2f781e1edc}} 
+{\bfseries deque\+\_\+chunk\+\_\+pool} (\mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_aa1675ab21d10abd4bb9895f2ee20422a}\label{structdetail_1_1deque__chunk__pool_aa1675ab21d10abd4bb9895f2ee20422a}} 
+\mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \& {\bfseries operator=} (\mbox{\hyperlink{structdetail_1_1deque__chunk__pool}{deque\+\_\+chunk\+\_\+pool}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a4428f49205e76d34d7859689152cf516}\label{structdetail_1_1deque__chunk__pool_a4428f49205e76d34d7859689152cf516}} 
+bool {\bfseries rebind\+\_\+for} (size\+\_\+t elems\+\_\+per\+\_\+chunk)
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a3a2f875905b5238536bdb699e5b54e2a}\label{structdetail_1_1deque__chunk__pool_a3a2f875905b5238536bdb699e5b54e2a}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+inside} (void $\ast$ptr) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a9d617fec9ec43eca4436306f0654dd7e}\label{structdetail_1_1deque__chunk__pool_a9d617fec9ec43eca4436306f0654dd7e}} 
+T $\ast$ {\bfseries allocate} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a2937ca4318d7b6717e03f8100cc8ef2b}\label{structdetail_1_1deque__chunk__pool_a2937ca4318d7b6717e03f8100cc8ef2b}} 
+void {\bfseries deallocate} (T $\ast$ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a186d6c45ed5e8d38e0411e3bf435eee7}\label{structdetail_1_1deque__chunk__pool_a186d6c45ed5e8d38e0411e3bf435eee7}} 
+size\+\_\+t {\bfseries count}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a90c66ece7cb9c95b03fa9ca23378ce3b}\label{structdetail_1_1deque__chunk__pool_a90c66ece7cb9c95b03fa9ca23378ce3b}} 
+size\+\_\+t {\bfseries used}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a553824459a5584675c30d0b3e0be5649}\label{structdetail_1_1deque__chunk__pool_a553824459a5584675c30d0b3e0be5649}} 
+size\+\_\+t {\bfseries elems\+\_\+per\+\_\+chunk}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a70a3982dbe4d80d09ded8ecee2a25d48}\label{structdetail_1_1deque__chunk__pool_a70a3982dbe4d80d09ded8ecee2a25d48}} 
+size\+\_\+t {\bfseries total\+\_\+T}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a5d855b5acd3a58b6a95735c944972d72}\label{structdetail_1_1deque__chunk__pool_a5d855b5acd3a58b6a95735c944972d72}} 
+size\+\_\+t {\bfseries tail}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_aada38794af15b29bb17ff844d794dcde}\label{structdetail_1_1deque__chunk__pool_aada38794af15b29bb17ff844d794dcde}} 
+Allocator {\bfseries allocator}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_ab83723a5b71f4d18219f39f832ae5682}\label{structdetail_1_1deque__chunk__pool_ab83723a5b71f4d18219f39f832ae5682}} 
+\mbox{\hyperlink{structdetail_1_1dchunk}{dchunk}}$<$ T $>$ $\ast$ {\bfseries chunks}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_ad4d9acfb361fd9eb8a1480d36be1f01b}\label{structdetail_1_1deque__chunk__pool_ad4d9acfb361fd9eb8a1480d36be1f01b}} 
+\mbox{\hyperlink{structdetail_1_1dchunk}{dchunk}}$<$ T $>$ $\ast$ {\bfseries first\+\_\+free}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_ae0184cba03192273ae1e35988f9cdcb6}\label{structdetail_1_1deque__chunk__pool_ae0184cba03192273ae1e35988f9cdcb6}} 
+T $\ast$ {\bfseries chunks}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_ae762eac880905e029e4c8ffe4be2e216}\label{structdetail_1_1deque__chunk__pool_ae762eac880905e029e4c8ffe4be2e216}} 
+T $\ast$ {\bfseries first\+\_\+free}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1deque__chunk__pool_a668b8368447e46cc3035f1e593b116de}\label{structdetail_1_1deque__chunk__pool_a668b8368447e46cc3035f1e593b116de}} 
+static const size\+\_\+t {\bfseries chunk\+\_\+size\+\_\+T} = sizeof(\mbox{\hyperlink{structdetail_1_1dchunk}{dchunk}}$<$T$>$) / sizeof(T)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator$>$\newline
+struct detail\+::deque\+\_\+chunk\+\_\+pool$<$ T, Allocator $>$}
+
+Allocate list\+\_\+chunk$<$\+T$>$ object by continuous blocks 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+deque\+\_\+allocator -\/ Copie.\+hpp\item 
+deque\+\_\+allocator.\+hpp\end{DoxyCompactItemize}

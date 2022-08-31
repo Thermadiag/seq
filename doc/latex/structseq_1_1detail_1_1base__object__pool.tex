@@ -1,0 +1,59 @@
+\hypertarget{structseq_1_1detail_1_1base__object__pool}{}\doxysection{seq\+::detail\+::base\+\_\+object\+\_\+pool$<$ T $>$ Struct Template Reference}
+\label{structseq_1_1detail_1_1base__object__pool}\index{seq::detail::base\_object\_pool$<$ T $>$@{seq::detail::base\_object\_pool$<$ T $>$}}
+
+
+{\ttfamily \#include $<$memory.\+hpp$>$}
+
+
+
+Inherited by \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$}}, and \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{structseq_1_1detail_1_1base__object__pool_a07aaca7767486e800033bd9d77452ec9}{$\sim$base\+\_\+object\+\_\+pool}} ()
+\item 
+virtual T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1base__object__pool_a93e413406ac370c1c308448e15104620}{allocate}} (size\+\_\+t N)=0
+\item 
+virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__object__pool_a94c3d29a9aa75d5efdaa6e03e866b5d5}{deallocate}} (T $\ast$p, size\+\_\+t N)=0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1base__object__pool_a07aaca7767486e800033bd9d77452ec9}\label{structseq_1_1detail_1_1base__object__pool_a07aaca7767486e800033bd9d77452ec9}} 
+\index{seq::detail::base\_object\_pool$<$ T $>$@{seq::detail::base\_object\_pool$<$ T $>$}!````~base\_object\_pool@{$\sim$base\_object\_pool}}
+\index{````~base\_object\_pool@{$\sim$base\_object\_pool}!seq::detail::base\_object\_pool$<$ T $>$@{seq::detail::base\_object\_pool$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{$\sim$base\_object\_pool()}{~base\_object\_pool()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+virtual \mbox{\hyperlink{structseq_1_1detail_1_1base__object__pool}{seq\+::detail\+::base\+\_\+object\+\_\+pool}}$<$ T $>$\+::$\sim$\mbox{\hyperlink{structseq_1_1detail_1_1base__object__pool}{base\+\_\+object\+\_\+pool}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1base__object__pool_a93e413406ac370c1c308448e15104620}\label{structseq_1_1detail_1_1base__object__pool_a93e413406ac370c1c308448e15104620}} 
+\index{seq::detail::base\_object\_pool$<$ T $>$@{seq::detail::base\_object\_pool$<$ T $>$}!allocate@{allocate}}
+\index{allocate@{allocate}!seq::detail::base\_object\_pool$<$ T $>$@{seq::detail::base\_object\_pool$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+virtual T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1base__object__pool}{seq\+::detail\+::base\+\_\+object\+\_\+pool}}$<$ T $>$\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{N }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classseq_1_1parallel__object__pool_ae3c243e04ce9aa60db684a4c07cfce9f}{seq\+::parallel\+\_\+object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$}}, and \mbox{\hyperlink{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}{seq\+::object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$}}.
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1base__object__pool_a94c3d29a9aa75d5efdaa6e03e866b5d5}\label{structseq_1_1detail_1_1base__object__pool_a94c3d29a9aa75d5efdaa6e03e866b5d5}} 
+\index{seq::detail::base\_object\_pool$<$ T $>$@{seq::detail::base\_object\_pool$<$ T $>$}!deallocate@{deallocate}}
+\index{deallocate@{deallocate}!seq::detail::base\_object\_pool$<$ T $>$@{seq::detail::base\_object\_pool$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{deallocate()}{deallocate()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__object__pool}{seq\+::detail\+::base\+\_\+object\+\_\+pool}}$<$ T $>$\+::deallocate (\begin{DoxyParamCaption}\item[{T $\ast$}]{p,  }\item[{size\+\_\+t}]{N }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classseq_1_1parallel__object__pool_afb326f8db6a4e84048bf825dab79f2a7}{seq\+::parallel\+\_\+object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$}}, and \mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{seq\+::object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$}}.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{memory_8hpp}{memory.\+hpp}}\end{DoxyCompactItemize}

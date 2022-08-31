@@ -1,0 +1,156 @@
+\hypertarget{structseq_1_1detail_1_1string__internal}{}\doxysection{seq\+::detail\+::string\+\_\+internal$<$ Max\+S\+SO, Allocator $>$ Struct Template Reference}
+\label{structseq_1_1detail_1_1string__internal}\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+
+
+{\ttfamily \#include $<$tiny\+\_\+string.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a4e69d867ae22202ee21c8e16edb141f9}{string\+\_\+internal}} ()
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a47ccb3fbab9e484481a557c228c0f4ae}{string\+\_\+internal}} (const Allocator \&al)
+\item 
+char $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a6866a45af1a9092fa3bc41c991997ea9}{allocate}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_a12c9a7db6862be66b508b7cc80e12a2d}{n}})
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a7ce9eb8cab7ed6fb12fd0857ddb80d64}{deallocate}} (char $\ast$p, size\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_a12c9a7db6862be66b508b7cc80e12a2d}{n}})
+\item 
+Allocator \& \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a05512632e13932ff65f36cf990f1542c}{get\+\_\+allocator}} ()
+\item 
+const Allocator \& \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_acb88e8edd1968e0876e9e36cf0650af2}{get\+\_\+allocator}} () const
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a06f674a275e3287a9adbbdf0b361fead}{set\+\_\+allocator}} (const Allocator \&al)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a2c8069f23a613f4533ee972dd3245780}{set\+\_\+allocator}} (Allocator \&\&al)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Allocator \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a6bdbf2694be5998bea31a3451cc4637e}{alloc}}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{structseq_1_1detail_1_1_s_s_o}{SSO}}$<$ \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_aa3cf847c9caa739449c9a000686e8512}{sso\_size}} $>$ \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a3359e011e39939075dee45ff4c7ac6d4}{sso}}\\
+\>\mbox{\hyperlink{structseq_1_1detail_1_1_none_s_s_o}{NoneSSO}} \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a3c40ba263b050d90e1527399859670df}{non\_sso}}\\
+\} \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a610072e0b076a05a3423b0829ad4e789}{d\_union}}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a246958943a7e2402743f94c90fc1f624}{struct\+\_\+size}} = sizeof(\mbox{\hyperlink{structseq_1_1detail_1_1string__proxy}{string\+\_\+proxy}}$<$Max\+S\+SO, Allocator$>$)
+\item 
+static const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_aa3cf847c9caa739449c9a000686e8512}{sso\+\_\+size}} = \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a246958943a7e2402743f94c90fc1f624}{struct\+\_\+size}} -\/ 2
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a4e69d867ae22202ee21c8e16edb141f9}\label{structseq_1_1detail_1_1string__internal_a4e69d867ae22202ee21c8e16edb141f9}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!string\_internal@{string\_internal}}
+\index{string\_internal@{string\_internal}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{string\_internal()}{string\_internal()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{string\+\_\+internal}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a47ccb3fbab9e484481a557c228c0f4ae}\label{structseq_1_1detail_1_1string__internal_a47ccb3fbab9e484481a557c228c0f4ae}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!string\_internal@{string\_internal}}
+\index{string\_internal@{string\_internal}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{string\_internal()}{string\_internal()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{string\+\_\+internal}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{al }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a6866a45af1a9092fa3bc41c991997ea9}\label{structseq_1_1detail_1_1string__internal_a6866a45af1a9092fa3bc41c991997ea9}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!allocate@{allocate}}
+\index{allocate@{allocate}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+char$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a7ce9eb8cab7ed6fb12fd0857ddb80d64}\label{structseq_1_1detail_1_1string__internal_a7ce9eb8cab7ed6fb12fd0857ddb80d64}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!deallocate@{deallocate}}
+\index{deallocate@{deallocate}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{deallocate()}{deallocate()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::deallocate (\begin{DoxyParamCaption}\item[{char $\ast$}]{p,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a05512632e13932ff65f36cf990f1542c}\label{structseq_1_1detail_1_1string__internal_a05512632e13932ff65f36cf990f1542c}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+Allocator\& \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_acb88e8edd1968e0876e9e36cf0650af2}\label{structseq_1_1detail_1_1string__internal_acb88e8edd1968e0876e9e36cf0650af2}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+const Allocator\& \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a2c8069f23a613f4533ee972dd3245780}\label{structseq_1_1detail_1_1string__internal_a2c8069f23a613f4533ee972dd3245780}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!set\_allocator@{set\_allocator}}
+\index{set\_allocator@{set\_allocator}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{set\_allocator()}{set\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::set\+\_\+allocator (\begin{DoxyParamCaption}\item[{Allocator \&\&}]{al }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a06f674a275e3287a9adbbdf0b361fead}\label{structseq_1_1detail_1_1string__internal_a06f674a275e3287a9adbbdf0b361fead}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!set\_allocator@{set\_allocator}}
+\index{set\_allocator@{set\_allocator}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{set\_allocator()}{set\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::set\+\_\+allocator (\begin{DoxyParamCaption}\item[{const Allocator \&}]{al }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a6bdbf2694be5998bea31a3451cc4637e}\label{structseq_1_1detail_1_1string__internal_a6bdbf2694be5998bea31a3451cc4637e}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!alloc@{alloc}}
+\index{alloc@{alloc}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{alloc}{alloc}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+Allocator \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::alloc}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a610072e0b076a05a3423b0829ad4e789}\label{structseq_1_1detail_1_1string__internal_a610072e0b076a05a3423b0829ad4e789}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!d\_union@{d\_union}}
+\index{d\_union@{d\_union}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{d\_union}{d\_union}}
+{\footnotesize\ttfamily union \{ ... \}  \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::d\+\_\+union}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a3c40ba263b050d90e1527399859670df}\label{structseq_1_1detail_1_1string__internal_a3c40ba263b050d90e1527399859670df}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!non\_sso@{non\_sso}}
+\index{non\_sso@{non\_sso}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{non\_sso}{non\_sso}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_none_s_s_o}{None\+S\+SO}} \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::non\+\_\+sso}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a3359e011e39939075dee45ff4c7ac6d4}\label{structseq_1_1detail_1_1string__internal_a3359e011e39939075dee45ff4c7ac6d4}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!sso@{sso}}
+\index{sso@{sso}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{sso}{sso}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_s_s_o}{S\+SO}}$<$\mbox{\hyperlink{structseq_1_1detail_1_1string__internal_aa3cf847c9caa739449c9a000686e8512}{sso\+\_\+size}}$>$ \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::sso}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_aa3cf847c9caa739449c9a000686e8512}\label{structseq_1_1detail_1_1string__internal_aa3cf847c9caa739449c9a000686e8512}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!sso\_size@{sso\_size}}
+\index{sso\_size@{sso\_size}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{sso\_size}{sso\_size}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::sso\+\_\+size = \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_a246958943a7e2402743f94c90fc1f624}{struct\+\_\+size}} -\/ 2\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1string__internal_a246958943a7e2402743f94c90fc1f624}\label{structseq_1_1detail_1_1string__internal_a246958943a7e2402743f94c90fc1f624}} 
+\index{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}!struct\_size@{struct\_size}}
+\index{struct\_size@{struct\_size}!seq::detail::string\_internal$<$ MaxSSO, Allocator $>$@{seq::detail::string\_internal$<$ MaxSSO, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{struct\_size}{struct\_size}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+S\+SO, class Allocator $>$ \\
+const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal}}$<$ Max\+S\+SO, Allocator $>$\+::struct\+\_\+size = sizeof(\mbox{\hyperlink{structseq_1_1detail_1_1string__proxy}{string\+\_\+proxy}}$<$Max\+S\+SO, Allocator$>$)\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{tiny__string_8hpp}{tiny\+\_\+string.\+hpp}}\end{DoxyCompactItemize}

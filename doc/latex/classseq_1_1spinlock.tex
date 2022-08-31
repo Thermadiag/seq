@@ -1,0 +1,96 @@
+\hypertarget{classseq_1_1spinlock}{}\doxysection{seq\+::spinlock Class Reference}
+\label{classseq_1_1spinlock}\index{seq::spinlock@{seq::spinlock}}
+
+
+Lightweight and fast spinlock implementation based on \href{https://rigtorp.se/spinlock/}{\texttt{ https\+://rigtorp.\+se/spinlock/}}.  
+
+
+
+
+{\ttfamily \#include $<$lock.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classseq_1_1spinlock_aef741d6df9d5f5b83c4d0ba2298d7be9}{spinlock}} ()
+\item 
+\mbox{\hyperlink{classseq_1_1spinlock_aa85be60a32ba4fc348ec4e0a2fdc8bc9}{$\sim$spinlock}} ()
+\item 
+void \mbox{\hyperlink{classseq_1_1spinlock_a49296466bec73a7406ee3fbbe6a973c8}{lock}} () noexcept
+\item 
+bool \mbox{\hyperlink{classseq_1_1spinlock_af2f8bffc7bb9159e8d89ceea1ae1987e}{is\+\_\+locked}} () const noexcept
+\item 
+bool \mbox{\hyperlink{classseq_1_1spinlock_afafdba33c70dc1159d3e1224feb80c67}{try\+\_\+lock}} () noexcept
+\item 
+void \mbox{\hyperlink{classseq_1_1spinlock_a565b549d9b490b08a3a37b4d06d6410e}{unlock}} () noexcept
+\item 
+{\footnotesize template$<$class Rep , class Period $>$ }\\bool \mbox{\hyperlink{classseq_1_1spinlock_a1b85ec01c6d92e7579ba2d04d8a2aff7}{try\+\_\+lock\+\_\+for}} (const std\+::chrono\+::duration$<$ Rep, Period $>$ \&duration) noexcept
+\item 
+{\footnotesize template$<$class Clock , class Duration $>$ }\\bool \mbox{\hyperlink{classseq_1_1spinlock_a1600b4b813be88443b06e018aa99f6e7}{try\+\_\+lock\+\_\+until}} (const std\+::chrono\+::time\+\_\+point$<$ Clock, Duration $>$ \&time\+Point) noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Lightweight and fast spinlock implementation based on \href{https://rigtorp.se/spinlock/}{\texttt{ https\+://rigtorp.\+se/spinlock/}}. 
+
+spinlock is a lightweight spinlock implementation following the Timed\+Mutex requirements. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classseq_1_1spinlock_aef741d6df9d5f5b83c4d0ba2298d7be9}\label{classseq_1_1spinlock_aef741d6df9d5f5b83c4d0ba2298d7be9}} 
+\index{seq::spinlock@{seq::spinlock}!spinlock@{spinlock}}
+\index{spinlock@{spinlock}!seq::spinlock@{seq::spinlock}}
+\doxysubsubsection{\texorpdfstring{spinlock()}{spinlock()}}
+{\footnotesize\ttfamily seq\+::spinlock\+::spinlock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1spinlock_aa85be60a32ba4fc348ec4e0a2fdc8bc9}\label{classseq_1_1spinlock_aa85be60a32ba4fc348ec4e0a2fdc8bc9}} 
+\index{seq::spinlock@{seq::spinlock}!````~spinlock@{$\sim$spinlock}}
+\index{````~spinlock@{$\sim$spinlock}!seq::spinlock@{seq::spinlock}}
+\doxysubsubsection{\texorpdfstring{$\sim$spinlock()}{~spinlock()}}
+{\footnotesize\ttfamily seq\+::spinlock\+::$\sim$spinlock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1spinlock_af2f8bffc7bb9159e8d89ceea1ae1987e}\label{classseq_1_1spinlock_af2f8bffc7bb9159e8d89ceea1ae1987e}} 
+\index{seq::spinlock@{seq::spinlock}!is\_locked@{is\_locked}}
+\index{is\_locked@{is\_locked}!seq::spinlock@{seq::spinlock}}
+\doxysubsubsection{\texorpdfstring{is\_locked()}{is\_locked()}}
+{\footnotesize\ttfamily bool seq\+::spinlock\+::is\+\_\+locked (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1spinlock_a49296466bec73a7406ee3fbbe6a973c8}\label{classseq_1_1spinlock_a49296466bec73a7406ee3fbbe6a973c8}} 
+\index{seq::spinlock@{seq::spinlock}!lock@{lock}}
+\index{lock@{lock}!seq::spinlock@{seq::spinlock}}
+\doxysubsubsection{\texorpdfstring{lock()}{lock()}}
+{\footnotesize\ttfamily void seq\+::spinlock\+::lock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1spinlock_afafdba33c70dc1159d3e1224feb80c67}\label{classseq_1_1spinlock_afafdba33c70dc1159d3e1224feb80c67}} 
+\index{seq::spinlock@{seq::spinlock}!try\_lock@{try\_lock}}
+\index{try\_lock@{try\_lock}!seq::spinlock@{seq::spinlock}}
+\doxysubsubsection{\texorpdfstring{try\_lock()}{try\_lock()}}
+{\footnotesize\ttfamily bool seq\+::spinlock\+::try\+\_\+lock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1spinlock_a1b85ec01c6d92e7579ba2d04d8a2aff7}\label{classseq_1_1spinlock_a1b85ec01c6d92e7579ba2d04d8a2aff7}} 
+\index{seq::spinlock@{seq::spinlock}!try\_lock\_for@{try\_lock\_for}}
+\index{try\_lock\_for@{try\_lock\_for}!seq::spinlock@{seq::spinlock}}
+\doxysubsubsection{\texorpdfstring{try\_lock\_for()}{try\_lock\_for()}}
+{\footnotesize\ttfamily template$<$class Rep , class Period $>$ \\
+bool seq\+::spinlock\+::try\+\_\+lock\+\_\+for (\begin{DoxyParamCaption}\item[{const std\+::chrono\+::duration$<$ Rep, Period $>$ \&}]{duration }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1spinlock_a1600b4b813be88443b06e018aa99f6e7}\label{classseq_1_1spinlock_a1600b4b813be88443b06e018aa99f6e7}} 
+\index{seq::spinlock@{seq::spinlock}!try\_lock\_until@{try\_lock\_until}}
+\index{try\_lock\_until@{try\_lock\_until}!seq::spinlock@{seq::spinlock}}
+\doxysubsubsection{\texorpdfstring{try\_lock\_until()}{try\_lock\_until()}}
+{\footnotesize\ttfamily template$<$class Clock , class Duration $>$ \\
+bool seq\+::spinlock\+::try\+\_\+lock\+\_\+until (\begin{DoxyParamCaption}\item[{const std\+::chrono\+::time\+\_\+point$<$ Clock, Duration $>$ \&}]{time\+Point }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1spinlock_a565b549d9b490b08a3a37b4d06d6410e}\label{classseq_1_1spinlock_a565b549d9b490b08a3a37b4d06d6410e}} 
+\index{seq::spinlock@{seq::spinlock}!unlock@{unlock}}
+\index{unlock@{unlock}!seq::spinlock@{seq::spinlock}}
+\doxysubsubsection{\texorpdfstring{unlock()}{unlock()}}
+{\footnotesize\ttfamily void seq\+::spinlock\+::unlock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{lock_8hpp}{lock.\+hpp}}\end{DoxyCompactItemize}

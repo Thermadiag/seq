@@ -1,0 +1,238 @@
+\hypertarget{structdetail_1_1_compressed_deque_internal}{}\doxysection{detail\+::Compressed\+Deque\+Internal$<$ T, Allocator, Block\+Count, Level $>$ Struct Template Reference}
+\label{structdetail_1_1_compressed_deque_internal}\index{detail::CompressedDequeInternal$<$ T, Allocator, BlockCount, Level $>$@{detail::CompressedDequeInternal$<$ T, Allocator, BlockCount, Level $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a62a7aff2c91fd68f1091896772c7eacd}\label{structdetail_1_1_compressed_deque_internal_a62a7aff2c91fd68f1091896772c7eacd}} 
+using {\bfseries This\+Type} = \mbox{\hyperlink{structdetail_1_1_compressed_deque_internal}{Compressed\+Deque\+Internal}}$<$ T, Allocator, Block\+Count, Level $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_afa1c336b524935377c111a3d987bcf48}\label{structdetail_1_1_compressed_deque_internal_afa1c336b524935377c111a3d987bcf48}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_ada82762d7fc02309f4b2b4a7f5f05bf8}\label{structdetail_1_1_compressed_deque_internal_ada82762d7fc02309f4b2b4a7f5f05bf8}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a0d47d10dffed46dd4a56fcd5132ad62f}\label{structdetail_1_1_compressed_deque_internal_a0d47d10dffed46dd4a56fcd5132ad62f}} 
+using {\bfseries reference} = T \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_ab59a4d6f852000b943a0de40d0962550}\label{structdetail_1_1_compressed_deque_internal_ab59a4d6f852000b943a0de40d0962550}} 
+using {\bfseries const\+\_\+reference} = const T \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_acb7cd93a4ac25722bb571d7446c7aac9}\label{structdetail_1_1_compressed_deque_internal_acb7cd93a4ac25722bb571d7446c7aac9}} 
+using {\bfseries difference\+\_\+type} = std\+::int64\+\_\+t
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a64de0cfe50616eb25005974a3fbeac0e}\label{structdetail_1_1_compressed_deque_internal_a64de0cfe50616eb25005974a3fbeac0e}} 
+using {\bfseries pointer} = T $\ast$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a06dc8018b74ded2cd582902763fadf65}\label{structdetail_1_1_compressed_deque_internal_a06dc8018b74ded2cd582902763fadf65}} 
+using {\bfseries const\+\_\+pointer} = const T $\ast$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a09d9c9e911490e437434932cb5831e1b}\label{structdetail_1_1_compressed_deque_internal_a09d9c9e911490e437434932cb5831e1b}} 
+using {\bfseries iterator} = \mbox{\hyperlink{structdetail_1_1_iter}{Iter}}$<$ \mbox{\hyperlink{structdetail_1_1_compressed_deque_internal}{This\+Type}} $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a62ed12358c47248ac2de844c2a11b1fc}\label{structdetail_1_1_compressed_deque_internal_a62ed12358c47248ac2de844c2a11b1fc}} 
+using {\bfseries const\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1_iter}{Iter}}$<$ \mbox{\hyperlink{structdetail_1_1_compressed_deque_internal}{This\+Type}} $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a590a4ac7cdddef22aedb74d605e5a8a6}\label{structdetail_1_1_compressed_deque_internal_a590a4ac7cdddef22aedb74d605e5a8a6}} 
+using {\bfseries Value\+Wrapper\+Type} = \mbox{\hyperlink{classdetail_1_1_value_wrapper}{Value\+Wrapper}}$<$ T, \mbox{\hyperlink{structdetail_1_1_compressed_deque_internal}{This\+Type}} $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a89de436345454bdad29cf31709fc32c7}\label{structdetail_1_1_compressed_deque_internal_a89de436345454bdad29cf31709fc32c7}} 
+using {\bfseries Const\+Value\+Wrapper\+Type} = \mbox{\hyperlink{classdetail_1_1_const_value_wrapper}{Const\+Value\+Wrapper}}$<$ T, \mbox{\hyperlink{structdetail_1_1_compressed_deque_internal}{This\+Type}} $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a09cd8b4069e1e970170f6e998d9a8044}\label{structdetail_1_1_compressed_deque_internal_a09cd8b4069e1e970170f6e998d9a8044}} 
+using {\bfseries Bucket\+Type} = \mbox{\hyperlink{structdetail_1_1_pack_buffer}{Pack\+Buffer}}$<$ T, block\+\_\+count $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a185132255dce2d415a0b19498592abce}\label{structdetail_1_1_compressed_deque_internal_a185132255dce2d415a0b19498592abce}} 
+using {\bfseries Raw\+Type} = \mbox{\hyperlink{structdetail_1_1_raw_buffer}{Raw\+Buffer}}$<$ T, block\+\_\+count $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_af591cece4e86f3516d5db4009423789b}\label{structdetail_1_1_compressed_deque_internal_af591cece4e86f3516d5db4009423789b}} 
+float {\bfseries cratio} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_adced4b2127cfdbb80070c391cf420a21}\label{structdetail_1_1_compressed_deque_internal_adced4b2127cfdbb80070c391cf420a21}} 
+{\bfseries Compressed\+Deque\+Internal} (const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a2da9327c7c26034d65ec99a7160ee5fc}\label{structdetail_1_1_compressed_deque_internal_a2da9327c7c26034d65ec99a7160ee5fc}} 
+{\bfseries Compressed\+Deque\+Internal} (\mbox{\hyperlink{structdetail_1_1_compressed_deque_internal}{Compressed\+Deque\+Internal}} \&\&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a1b2f7b3544b129b5e28c0c5a53497c1c}\label{structdetail_1_1_compressed_deque_internal_a1b2f7b3544b129b5e28c0c5a53497c1c}} 
+\mbox{\hyperlink{structdetail_1_1_compressed_deque_internal}{Compressed\+Deque\+Internal}} \& {\bfseries operator=} (\mbox{\hyperlink{structdetail_1_1_compressed_deque_internal}{Compressed\+Deque\+Internal}} \&\&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a7e71a91a4ff1bbcc8eb6f59c907c7405}\label{structdetail_1_1_compressed_deque_internal_a7e71a91a4ff1bbcc8eb6f59c907c7405}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_acbffc375bde3b1c81e4256b706af7c77}\label{structdetail_1_1_compressed_deque_internal_acbffc375bde3b1c81e4256b706af7c77}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries update\+\_\+end\+\_\+sizes} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a4a3148acb0297ba4b3333701e1e80c9f}\label{structdetail_1_1_compressed_deque_internal_a4a3148acb0297ba4b3333701e1e80c9f}} 
+size\+\_\+t {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a58e6525f141fe446407c5fa2e61d30b5}\label{structdetail_1_1_compressed_deque_internal_a58e6525f141fe446407c5fa2e61d30b5}} 
+float {\bfseries max\+\_\+ratio} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a6587931ce7805d1e5c43223ffc8208c7}\label{structdetail_1_1_compressed_deque_internal_a6587931ce7805d1e5c43223ffc8208c7}} 
+float {\bfseries current\+\_\+ratio} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a3ce873552bcc17ab25a36af7f80bdb91}\label{structdetail_1_1_compressed_deque_internal_a3ce873552bcc17ab25a36af7f80bdb91}} 
+void {\bfseries set\+\_\+max\+\_\+ratio} (float ratio)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a85b46a78f8fb87b88522389ebc60bc44}\label{structdetail_1_1_compressed_deque_internal_a85b46a78f8fb87b88522389ebc60bc44}} 
+void {\bfseries shrink\+\_\+to\+\_\+fit} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a27e9b7a786e2193e3b4b1314a4181cea}\label{structdetail_1_1_compressed_deque_internal_a27e9b7a786e2193e3b4b1314a4181cea}} 
+bool {\bfseries try\+\_\+lock} (\mbox{\hyperlink{structdetail_1_1_raw_buffer}{Raw\+Type}} $\ast$raw)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a5a43e25eab6ab1c8142257e7240360e5}\label{structdetail_1_1_compressed_deque_internal_a5a43e25eab6ab1c8142257e7240360e5}} 
+void {\bfseries unlock} (\mbox{\hyperlink{structdetail_1_1_raw_buffer}{Raw\+Type}} $\ast$raw)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a020186fd85b958225fb8951a39354b99}\label{structdetail_1_1_compressed_deque_internal_a020186fd85b958225fb8951a39354b99}} 
+\mbox{\hyperlink{structdetail_1_1_raw_buffer}{Raw\+Type}} $\ast$ {\bfseries make\+\_\+or\+\_\+find\+\_\+free\+\_\+context} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a3baa7a02480ce2306d18d903ebec8e54}\label{structdetail_1_1_compressed_deque_internal_a3baa7a02480ce2306d18d903ebec8e54}} 
+\mbox{\hyperlink{structdetail_1_1_raw_buffer}{Raw\+Type}} $\ast$ {\bfseries find\+\_\+free\+\_\+context} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_ab010e59d554cc157d32dc96d33fa757a}\label{structdetail_1_1_compressed_deque_internal_ab010e59d554cc157d32dc96d33fa757a}} 
+\mbox{\hyperlink{structdetail_1_1_raw_buffer}{Raw\+Type}} $\ast$ {\bfseries compress\+\_\+bucket} (size\+\_\+t index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a09fc715366627301d371e434cf873fd4}\label{structdetail_1_1_compressed_deque_internal_a09fc715366627301d371e434cf873fd4}} 
+void {\bfseries ensure\+\_\+has\+\_\+back\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a9a19668450b1fac86d03ba80fc9c10c3}\label{structdetail_1_1_compressed_deque_internal_a9a19668450b1fac86d03ba80fc9c10c3}} 
+void {\bfseries ensure\+\_\+has\+\_\+front\+\_\+bucket} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_ab9d13300e133e828bdac73cb351ac792}\label{structdetail_1_1_compressed_deque_internal_ab9d13300e133e828bdac73cb351ac792}} 
+void {\bfseries decompress\+\_\+bucket} (size\+\_\+t index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a9a78bce9605224c7fc9296aacafb8efc}\label{structdetail_1_1_compressed_deque_internal_a9a78bce9605224c7fc9296aacafb8efc}} 
+size\+\_\+t {\bfseries compression\+\_\+buffer\+\_\+size} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a517c67feb23ad4e76db615201bbf628b}\label{structdetail_1_1_compressed_deque_internal_a517c67feb23ad4e76db615201bbf628b}} 
+size\+\_\+t {\bfseries memory\+\_\+footprint} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a5c5709eb7ad9400b6b4577a564ee8ecd}\label{structdetail_1_1_compressed_deque_internal_a5c5709eb7ad9400b6b4577a564ee8ecd}} 
+{\footnotesize template$<$class... Args$>$ }\\void {\bfseries emplace\+\_\+back} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a679a67398ff8225369c7d52b8dd24c47}\label{structdetail_1_1_compressed_deque_internal_a679a67398ff8225369c7d52b8dd24c47}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_af6bfe13651834800fa5388b14904422a}\label{structdetail_1_1_compressed_deque_internal_af6bfe13651834800fa5388b14904422a}} 
+void {\bfseries push\+\_\+back} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_ab5ec84b866810550610cd81523587156}\label{structdetail_1_1_compressed_deque_internal_ab5ec84b866810550610cd81523587156}} 
+void {\bfseries reserve} (size\+\_\+t)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a818f3888aaca29b728a5b4679428717a}\label{structdetail_1_1_compressed_deque_internal_a818f3888aaca29b728a5b4679428717a}} 
+void {\bfseries resize} (size\+\_\+t new\+\_\+size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a904a8c5ba5e35b56faa74959f4a057c3}\label{structdetail_1_1_compressed_deque_internal_a904a8c5ba5e35b56faa74959f4a057c3}} 
+\mbox{\hyperlink{classdetail_1_1_value_wrapper}{Value\+Wrapper\+Type}} {\bfseries at} (size\+\_\+t pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a0484e370e6179f0df5a92a80b6646680}\label{structdetail_1_1_compressed_deque_internal_a0484e370e6179f0df5a92a80b6646680}} 
+\mbox{\hyperlink{classdetail_1_1_const_value_wrapper}{Const\+Value\+Wrapper\+Type}} {\bfseries at} (size\+\_\+t pos) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_ad1c4493d89c12ce457d9b99ce018def1}\label{structdetail_1_1_compressed_deque_internal_ad1c4493d89c12ce457d9b99ce018def1}} 
+\mbox{\hyperlink{classdetail_1_1_value_wrapper}{Value\+Wrapper\+Type}} {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a630a72d4015a3f9a3d00bd7f2ed5d656}\label{structdetail_1_1_compressed_deque_internal_a630a72d4015a3f9a3d00bd7f2ed5d656}} 
+\mbox{\hyperlink{classdetail_1_1_const_value_wrapper}{Const\+Value\+Wrapper\+Type}} {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t pos) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a41ee3ded1e0df07162b5dbeb4d7a8fcd}\label{structdetail_1_1_compressed_deque_internal_a41ee3ded1e0df07162b5dbeb4d7a8fcd}} 
+\mbox{\hyperlink{classdetail_1_1_value_wrapper}{Value\+Wrapper\+Type}} {\bfseries back} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_aef5b059f35b5490474d2af21f9f020ad}\label{structdetail_1_1_compressed_deque_internal_aef5b059f35b5490474d2af21f9f020ad}} 
+\mbox{\hyperlink{classdetail_1_1_const_value_wrapper}{Const\+Value\+Wrapper\+Type}} {\bfseries back} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a4fbc84b187fc414226b82a6821dc994f}\label{structdetail_1_1_compressed_deque_internal_a4fbc84b187fc414226b82a6821dc994f}} 
+\mbox{\hyperlink{classdetail_1_1_value_wrapper}{Value\+Wrapper\+Type}} {\bfseries front} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_ab0538331b0d0c8a520f446598335f13f}\label{structdetail_1_1_compressed_deque_internal_ab0538331b0d0c8a520f446598335f13f}} 
+\mbox{\hyperlink{classdetail_1_1_const_value_wrapper}{Const\+Value\+Wrapper\+Type}} {\bfseries front} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a53320fc9cb7e275e0792ac4c249beeda}\label{structdetail_1_1_compressed_deque_internal_a53320fc9cb7e275e0792ac4c249beeda}} 
+size\+\_\+t {\bfseries max\+\_\+size} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a7d1bf0fecb87580616ee0a9596548464}\label{structdetail_1_1_compressed_deque_internal_a7d1bf0fecb87580616ee0a9596548464}} 
+void {\bfseries erase} (\mbox{\hyperlink{structdetail_1_1_iter}{const\+\_\+iterator}})
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a9172cd631696e2c787da6e1389ba4192}\label{structdetail_1_1_compressed_deque_internal_a9172cd631696e2c787da6e1389ba4192}} 
+void {\bfseries lock} (size\+\_\+t pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a8a1028d046d1fb81243a9744ec24107a}\label{structdetail_1_1_compressed_deque_internal_a8a1028d046d1fb81243a9744ec24107a}} 
+void {\bfseries unlock} (size\+\_\+t pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a2c6ea4f94f46f3333f2dbd1711f61b81}\label{structdetail_1_1_compressed_deque_internal_a2c6ea4f94f46f3333f2dbd1711f61b81}} 
+\mbox{\hyperlink{structdetail_1_1_iter}{iterator}} {\bfseries begin} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a58cec6b9f94729ba7dc9b18a8f41c60b}\label{structdetail_1_1_compressed_deque_internal_a58cec6b9f94729ba7dc9b18a8f41c60b}} 
+\mbox{\hyperlink{structdetail_1_1_iter}{iterator}} {\bfseries end} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a127eb6852fd92962a8beaf470007f8fc}\label{structdetail_1_1_compressed_deque_internal_a127eb6852fd92962a8beaf470007f8fc}} 
+\mbox{\hyperlink{structdetail_1_1_iter}{const\+\_\+iterator}} {\bfseries begin} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_ac0f7db23adbeb13aa4611a446dc728ac}\label{structdetail_1_1_compressed_deque_internal_ac0f7db23adbeb13aa4611a446dc728ac}} 
+\mbox{\hyperlink{structdetail_1_1_iter}{const\+\_\+iterator}} {\bfseries end} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_ada33fc0e7e1eece7b7ebb1e02af79f0c}\label{structdetail_1_1_compressed_deque_internal_ada33fc0e7e1eece7b7ebb1e02af79f0c}} 
+\mbox{\hyperlink{structdetail_1_1_iter}{const\+\_\+iterator}} {\bfseries cbegin} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_ada26a18ab87c4b99be2ef7596a8bb7bd}\label{structdetail_1_1_compressed_deque_internal_ada26a18ab87c4b99be2ef7596a8bb7bd}} 
+\mbox{\hyperlink{structdetail_1_1_iter}{const\+\_\+iterator}} {\bfseries cend} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a5793950859c750a6a10d51b3559728cd}\label{structdetail_1_1_compressed_deque_internal_a5793950859c750a6a10d51b3559728cd}} 
+std\+::vector$<$ \mbox{\hyperlink{structdetail_1_1_pack_buffer}{Bucket\+Type}} $>$ {\bfseries d\+\_\+buckets}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a67c95bfe0d3f90e9ba73ace758092beb}\label{structdetail_1_1_compressed_deque_internal_a67c95bfe0d3f90e9ba73ace758092beb}} 
+std\+::vector$<$ \mbox{\hyperlink{structdetail_1_1_raw_buffer}{Raw\+Type}} $\ast$ $>$ {\bfseries d\+\_\+contexts}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a9f296470341732db54ea40f3e594e5d9}\label{structdetail_1_1_compressed_deque_internal_a9f296470341732db54ea40f3e594e5d9}} 
+size\+\_\+t {\bfseries d\+\_\+compress\+\_\+size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a6fb965f8cf2c13ab5575ce9335a4c31e}\label{structdetail_1_1_compressed_deque_internal_a6fb965f8cf2c13ab5575ce9335a4c31e}} 
+size\+\_\+t {\bfseries d\+\_\+size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a65e468132075cad276ac5912760ecdc5}\label{structdetail_1_1_compressed_deque_internal_a65e468132075cad276ac5912760ecdc5}} 
+unsigned short {\bfseries d\+\_\+front\+\_\+size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a1ac2ddbf3d13c6e24b6bf2651ee8006d}\label{structdetail_1_1_compressed_deque_internal_a1ac2ddbf3d13c6e24b6bf2651ee8006d}} 
+unsigned short {\bfseries d\+\_\+back\+\_\+size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a00042a3b10a47683ef3add40f6f7b917}\label{structdetail_1_1_compressed_deque_internal_a00042a3b10a47683ef3add40f6f7b917}} 
+float {\bfseries d\+\_\+max\+\_\+ratio}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a589e458a21f7c6c93dfc91ca4037c54f}\label{structdetail_1_1_compressed_deque_internal_a589e458a21f7c6c93dfc91ca4037c54f}} 
+size\+\_\+t {\bfseries d\+\_\+decomp\+\_\+count}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_ae5019cf7c322850b354fa47967a1f98b}\label{structdetail_1_1_compressed_deque_internal_ae5019cf7c322850b354fa47967a1f98b}} 
+Allocator {\bfseries d\+\_\+alloc}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a0fc1b8ada802d49c770acbd02b862616}\label{structdetail_1_1_compressed_deque_internal_a0fc1b8ada802d49c770acbd02b862616}} 
+\mbox{\hyperlink{classspinlock}{c\+\_\+spinlock}} {\bfseries d\+\_\+lock}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a7fa461fd08c763830813ad6f8d81d8bb}\label{structdetail_1_1_compressed_deque_internal_a7fa461fd08c763830813ad6f8d81d8bb}} 
+static const size\+\_\+t {\bfseries bcount} = (Block\+Count == 0 ? (Level == 0 ? 1 \+: (sizeof(T) $<$= 2 ? 8 \+: (sizeof(T) $<$=4 ? 4 \+: (sizeof(T) $<$= 16 ? 2 \+: 1) )))\+: Block\+Count)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a6dedcd27a1127e29919408897eea495e}\label{structdetail_1_1_compressed_deque_internal_a6dedcd27a1127e29919408897eea495e}} 
+static const size\+\_\+t {\bfseries block\+\_\+count} = bcount $>$ 8 ? 8 \+: bcount
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a4c8e58cb4503396c728cbff59b3c37f8}\label{structdetail_1_1_compressed_deque_internal_a4c8e58cb4503396c728cbff59b3c37f8}} 
+static const size\+\_\+t {\bfseries elems\+\_\+per\+\_\+block} = 256 $\ast$ block\+\_\+count
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a016ebc7a647f9ee086d56d4cb6738472}\label{structdetail_1_1_compressed_deque_internal_a016ebc7a647f9ee086d56d4cb6738472}} 
+static const size\+\_\+t {\bfseries mask} = elems\+\_\+per\+\_\+block -\/ 1
+\item 
+\mbox{\Hypertarget{structdetail_1_1_compressed_deque_internal_a15cdbc2be867f082dc1a9726ad71d1ba}\label{structdetail_1_1_compressed_deque_internal_a15cdbc2be867f082dc1a9726ad71d1ba}} 
+static const size\+\_\+t {\bfseries shift} = (block\+\_\+count == 1 ? 8U \+: (block\+\_\+count == 2 ? 9U \+: (block\+\_\+count == 4 ? 10U \+: 11U)))
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+compressed\+\_\+deck.\+hpp\end{DoxyCompactItemize}

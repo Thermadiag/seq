@@ -1,0 +1,2170 @@
+\hypertarget{classdeque2}{}\doxysection{deque2$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$ Class Template Reference}
+\label{classdeque2}\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+
+
+seq\+::deque is a std\+::deque like container implemented as a tiered-\/vector.  
+
+
+
+
+{\ttfamily \#include $<$deque2.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdeque2_ad15526f7d7553b867f1e00c548ecc21e}\label{classdeque2_ad15526f7d7553b867f1e00c548ecc21e}} 
+enum \{ \newline
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size, 
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries use\+\_\+mem\+\_\+pool} = Use\+Mem\+Pool, 
+\newline
+{\bfseries use\+\_\+mem\+\_\+pool} = Use\+Mem\+Pool
+ \}
+\item 
+\mbox{\Hypertarget{classdeque2_ad15526f7d7553b867f1e00c548ecc21e}\label{classdeque2_ad15526f7d7553b867f1e00c548ecc21e}} 
+enum \{ \newline
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size, 
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries use\+\_\+mem\+\_\+pool} = Use\+Mem\+Pool, 
+\newline
+{\bfseries use\+\_\+mem\+\_\+pool} = Use\+Mem\+Pool
+ \}
+\item 
+\mbox{\Hypertarget{classdeque2_ae583d4129ad10d282fdcba684bf8f8bb}\label{classdeque2_ae583d4129ad10d282fdcba684bf8f8bb}} 
+enum \{ {\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size, 
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size
+ \}
+\item 
+\mbox{\Hypertarget{classdeque2_ad15526f7d7553b867f1e00c548ecc21e}\label{classdeque2_ad15526f7d7553b867f1e00c548ecc21e}} 
+enum \{ \newline
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size, 
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries use\+\_\+mem\+\_\+pool} = Use\+Mem\+Pool, 
+\newline
+{\bfseries use\+\_\+mem\+\_\+pool} = Use\+Mem\+Pool
+ \}
+\item 
+\mbox{\Hypertarget{classdeque2_ae583d4129ad10d282fdcba684bf8f8bb}\label{classdeque2_ae583d4129ad10d282fdcba684bf8f8bb}} 
+enum \{ {\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size, 
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size
+ \}
+\item 
+\mbox{\Hypertarget{classdeque2_a0053f339ea493d66e0e3973fe3d31221}\label{classdeque2_a0053f339ea493d66e0e3973fe3d31221}} 
+enum \{ {\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size, 
+{\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size
+ \}
+\item 
+\mbox{\Hypertarget{classdeque2_ad15526f7d7553b867f1e00c548ecc21e}\label{classdeque2_ad15526f7d7553b867f1e00c548ecc21e}} 
+enum \{ \newline
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size, 
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries use\+\_\+mem\+\_\+pool} = Use\+Mem\+Pool, 
+\newline
+{\bfseries use\+\_\+mem\+\_\+pool} = Use\+Mem\+Pool
+ \}
+\item 
+\mbox{\Hypertarget{classdeque2_ae583d4129ad10d282fdcba684bf8f8bb}\label{classdeque2_ae583d4129ad10d282fdcba684bf8f8bb}} 
+enum \{ {\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size, 
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size, 
+{\bfseries min\+\_\+block\+\_\+size} = Min\+B\+Size
+ \}
+\item 
+\mbox{\Hypertarget{classdeque2_a0053f339ea493d66e0e3973fe3d31221}\label{classdeque2_a0053f339ea493d66e0e3973fe3d31221}} 
+enum \{ {\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size, 
+{\bfseries max\+\_\+block\+\_\+size} = Max\+B\+Size
+ \}
+\item 
+\mbox{\Hypertarget{classdeque2_a61016c6bc3bd6bea570ebe5582178d90}\label{classdeque2_a61016c6bc3bd6bea570ebe5582178d90}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a9cfef255176e1b3e52790038b45720d3}\label{classdeque2_a9cfef255176e1b3e52790038b45720d3}} 
+using {\bfseries bucket\+\_\+manager} = \mbox{\hyperlink{structdetail_1_1_bucket_manager}{detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$
+\item 
+\mbox{\Hypertarget{classdeque2_adc85323d5cc39917b0054dcaef78ce2a}\label{classdeque2_adc85323d5cc39917b0054dcaef78ce2a}} 
+using {\bfseries alloc\+\_\+traits} = std\+::allocator\+\_\+traits$<$ Allocator $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a0b4913bbcd3530a56400b655794b4470}\label{classdeque2_a0b4913bbcd3530a56400b655794b4470}} 
+using {\bfseries this\+\_\+type} = \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a46c8fef7202718c3b9649321ee8f7715}\label{classdeque2_a46c8fef7202718c3b9649321ee8f7715}} 
+using {\bfseries find\+\_\+bsize\+\_\+type} = Find\+B\+Size
+\item 
+\mbox{\Hypertarget{classdeque2_a600be7ec0c0a0256b789225b84308dcc}\label{classdeque2_a600be7ec0c0a0256b789225b84308dcc}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{classdeque2_a228d205e7c179d9c87cf936d24ba9dd4}\label{classdeque2_a228d205e7c179d9c87cf936d24ba9dd4}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\item 
+\mbox{\Hypertarget{classdeque2_a3071baa70c70b9a6ec7083064e67d4c3}\label{classdeque2_a3071baa70c70b9a6ec7083064e67d4c3}} 
+using {\bfseries size\+\_\+type} = typename alloc\+\_\+traits\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{classdeque2_a63b571f84b69059f6d0868d3f9ac5427}\label{classdeque2_a63b571f84b69059f6d0868d3f9ac5427}} 
+using {\bfseries difference\+\_\+type} = typename alloc\+\_\+traits\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{classdeque2_a76c04bed428981ff4ef82cf9f6dbe2dd}\label{classdeque2_a76c04bed428981ff4ef82cf9f6dbe2dd}} 
+using {\bfseries pointer} = typename alloc\+\_\+traits\+::pointer
+\item 
+\mbox{\Hypertarget{classdeque2_ac1f1494a0f75f05c13327cf190fde8df}\label{classdeque2_ac1f1494a0f75f05c13327cf190fde8df}} 
+using {\bfseries const\+\_\+pointer} = typename alloc\+\_\+traits\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{classdeque2_a0d8022190763c231b244bad7386a54f2}\label{classdeque2_a0d8022190763c231b244bad7386a54f2}} 
+using {\bfseries reference} = value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{classdeque2_a333f714b25ba56afe74ed44113faee2d}\label{classdeque2_a333f714b25ba56afe74ed44113faee2d}} 
+using {\bfseries const\+\_\+reference} = const value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{classdeque2_ae9c8e01f341e504a6148901b7bf25aae}\label{classdeque2_ae9c8e01f341e504a6148901b7bf25aae}} 
+using {\bfseries iterator} = \mbox{\hyperlink{structdetail_1_1deque__iterator}{detail\+::deque\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a24fe81bd4133e2a4c5a25ca26e3b72f9}\label{classdeque2_a24fe81bd4133e2a4c5a25ca26e3b72f9}} 
+using {\bfseries const\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{detail\+::deque\+\_\+const\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a6faa0a87e9f58b63bc8ee253838ffcf7}\label{classdeque2_a6faa0a87e9f58b63bc8ee253838ffcf7}} 
+using {\bfseries reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_add1d8044a92d6e57d551b0b559343aad}\label{classdeque2_add1d8044a92d6e57d551b0b559343aad}} 
+using {\bfseries const\+\_\+reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a71f4881c0a9b1b07010fcddd00b2e8bc}\label{classdeque2_a71f4881c0a9b1b07010fcddd00b2e8bc}} 
+using {\bfseries bucket\+\_\+manager} = \mbox{\hyperlink{structdetail_1_1_bucket_manager}{detail\+::\+Bucket\+Manager}}$<$ T, Allocator, min\+\_\+block\+\_\+size, max\+\_\+block\+\_\+size, Store\+Back\+Values, Value\+Compare, layout $>$
+\item 
+\mbox{\Hypertarget{classdeque2_adc85323d5cc39917b0054dcaef78ce2a}\label{classdeque2_adc85323d5cc39917b0054dcaef78ce2a}} 
+using {\bfseries alloc\+\_\+traits} = std\+::allocator\+\_\+traits$<$ Allocator $>$
+\item 
+\mbox{\Hypertarget{classdeque2_aa5d5faf45e011182104aad24e30252bf}\label{classdeque2_aa5d5faf45e011182104aad24e30252bf}} 
+using {\bfseries this\+\_\+type} = \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, min\+\_\+block\+\_\+size, max\+\_\+block\+\_\+size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a46c8fef7202718c3b9649321ee8f7715}\label{classdeque2_a46c8fef7202718c3b9649321ee8f7715}} 
+using {\bfseries find\+\_\+bsize\+\_\+type} = Find\+B\+Size
+\item 
+\mbox{\Hypertarget{classdeque2_a600be7ec0c0a0256b789225b84308dcc}\label{classdeque2_a600be7ec0c0a0256b789225b84308dcc}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{classdeque2_a228d205e7c179d9c87cf936d24ba9dd4}\label{classdeque2_a228d205e7c179d9c87cf936d24ba9dd4}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\item 
+\mbox{\Hypertarget{classdeque2_a3071baa70c70b9a6ec7083064e67d4c3}\label{classdeque2_a3071baa70c70b9a6ec7083064e67d4c3}} 
+using {\bfseries size\+\_\+type} = typename alloc\+\_\+traits\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{classdeque2_a63b571f84b69059f6d0868d3f9ac5427}\label{classdeque2_a63b571f84b69059f6d0868d3f9ac5427}} 
+using {\bfseries difference\+\_\+type} = typename alloc\+\_\+traits\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{classdeque2_a76c04bed428981ff4ef82cf9f6dbe2dd}\label{classdeque2_a76c04bed428981ff4ef82cf9f6dbe2dd}} 
+using {\bfseries pointer} = typename alloc\+\_\+traits\+::pointer
+\item 
+\mbox{\Hypertarget{classdeque2_ac1f1494a0f75f05c13327cf190fde8df}\label{classdeque2_ac1f1494a0f75f05c13327cf190fde8df}} 
+using {\bfseries const\+\_\+pointer} = typename alloc\+\_\+traits\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{classdeque2_a0d8022190763c231b244bad7386a54f2}\label{classdeque2_a0d8022190763c231b244bad7386a54f2}} 
+using {\bfseries reference} = value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{classdeque2_a333f714b25ba56afe74ed44113faee2d}\label{classdeque2_a333f714b25ba56afe74ed44113faee2d}} 
+using {\bfseries const\+\_\+reference} = const value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{classdeque2_ae9c8e01f341e504a6148901b7bf25aae}\label{classdeque2_ae9c8e01f341e504a6148901b7bf25aae}} 
+using {\bfseries iterator} = \mbox{\hyperlink{structdetail_1_1deque__iterator}{detail\+::deque\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a24fe81bd4133e2a4c5a25ca26e3b72f9}\label{classdeque2_a24fe81bd4133e2a4c5a25ca26e3b72f9}} 
+using {\bfseries const\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{detail\+::deque\+\_\+const\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a6faa0a87e9f58b63bc8ee253838ffcf7}\label{classdeque2_a6faa0a87e9f58b63bc8ee253838ffcf7}} 
+using {\bfseries reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_add1d8044a92d6e57d551b0b559343aad}\label{classdeque2_add1d8044a92d6e57d551b0b559343aad}} 
+using {\bfseries const\+\_\+reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a61016c6bc3bd6bea570ebe5582178d90}\label{classdeque2_a61016c6bc3bd6bea570ebe5582178d90}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{classdeque2_aff337f311d8403f6de431411b102c59a}\label{classdeque2_aff337f311d8403f6de431411b102c59a}} 
+using {\bfseries bucket\+\_\+manager} = \mbox{\hyperlink{structdetail_1_1_bucket_manager}{detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, layout $>$
+\item 
+\mbox{\Hypertarget{classdeque2_adc85323d5cc39917b0054dcaef78ce2a}\label{classdeque2_adc85323d5cc39917b0054dcaef78ce2a}} 
+using {\bfseries alloc\+\_\+traits} = std\+::allocator\+\_\+traits$<$ Allocator $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a4ecf76513eed89e865fc8876ebc7b61c}\label{classdeque2_a4ecf76513eed89e865fc8876ebc7b61c}} 
+using {\bfseries this\+\_\+type} = \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a46c8fef7202718c3b9649321ee8f7715}\label{classdeque2_a46c8fef7202718c3b9649321ee8f7715}} 
+using {\bfseries find\+\_\+bsize\+\_\+type} = Find\+B\+Size
+\item 
+\mbox{\Hypertarget{classdeque2_a600be7ec0c0a0256b789225b84308dcc}\label{classdeque2_a600be7ec0c0a0256b789225b84308dcc}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{classdeque2_a228d205e7c179d9c87cf936d24ba9dd4}\label{classdeque2_a228d205e7c179d9c87cf936d24ba9dd4}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\item 
+\mbox{\Hypertarget{classdeque2_a3071baa70c70b9a6ec7083064e67d4c3}\label{classdeque2_a3071baa70c70b9a6ec7083064e67d4c3}} 
+using {\bfseries size\+\_\+type} = typename alloc\+\_\+traits\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{classdeque2_a63b571f84b69059f6d0868d3f9ac5427}\label{classdeque2_a63b571f84b69059f6d0868d3f9ac5427}} 
+using {\bfseries difference\+\_\+type} = typename alloc\+\_\+traits\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{classdeque2_a76c04bed428981ff4ef82cf9f6dbe2dd}\label{classdeque2_a76c04bed428981ff4ef82cf9f6dbe2dd}} 
+using {\bfseries pointer} = typename alloc\+\_\+traits\+::pointer
+\item 
+\mbox{\Hypertarget{classdeque2_ac1f1494a0f75f05c13327cf190fde8df}\label{classdeque2_ac1f1494a0f75f05c13327cf190fde8df}} 
+using {\bfseries const\+\_\+pointer} = typename alloc\+\_\+traits\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{classdeque2_a0d8022190763c231b244bad7386a54f2}\label{classdeque2_a0d8022190763c231b244bad7386a54f2}} 
+using {\bfseries reference} = value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{classdeque2_a333f714b25ba56afe74ed44113faee2d}\label{classdeque2_a333f714b25ba56afe74ed44113faee2d}} 
+using {\bfseries const\+\_\+reference} = const value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{classdeque2_ae9c8e01f341e504a6148901b7bf25aae}\label{classdeque2_ae9c8e01f341e504a6148901b7bf25aae}} 
+using {\bfseries iterator} = \mbox{\hyperlink{structdetail_1_1deque__iterator}{detail\+::deque\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a24fe81bd4133e2a4c5a25ca26e3b72f9}\label{classdeque2_a24fe81bd4133e2a4c5a25ca26e3b72f9}} 
+using {\bfseries const\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{detail\+::deque\+\_\+const\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a6faa0a87e9f58b63bc8ee253838ffcf7}\label{classdeque2_a6faa0a87e9f58b63bc8ee253838ffcf7}} 
+using {\bfseries reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_add1d8044a92d6e57d551b0b559343aad}\label{classdeque2_add1d8044a92d6e57d551b0b559343aad}} 
+using {\bfseries const\+\_\+reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a61016c6bc3bd6bea570ebe5582178d90}\label{classdeque2_a61016c6bc3bd6bea570ebe5582178d90}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a96666615860aa2ccd1bc446f3333b9c5}\label{classdeque2_a96666615860aa2ccd1bc446f3333b9c5}} 
+using {\bfseries bucket\+\_\+manager} = \mbox{\hyperlink{structdetail_1_1_bucket_manager}{detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Use\+Mem\+Pool, Min\+B\+Size, Max\+B\+Size $>$
+\item 
+\mbox{\Hypertarget{classdeque2_adc85323d5cc39917b0054dcaef78ce2a}\label{classdeque2_adc85323d5cc39917b0054dcaef78ce2a}} 
+using {\bfseries alloc\+\_\+traits} = std\+::allocator\+\_\+traits$<$ Allocator $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a45cee2b1eb71f4212636769c5929bc5c}\label{classdeque2_a45cee2b1eb71f4212636769c5929bc5c}} 
+using {\bfseries this\+\_\+type} = \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, Use\+Mem\+Pool, Min\+B\+Size, Max\+B\+Size $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a600be7ec0c0a0256b789225b84308dcc}\label{classdeque2_a600be7ec0c0a0256b789225b84308dcc}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{classdeque2_a228d205e7c179d9c87cf936d24ba9dd4}\label{classdeque2_a228d205e7c179d9c87cf936d24ba9dd4}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\item 
+\mbox{\Hypertarget{classdeque2_a3071baa70c70b9a6ec7083064e67d4c3}\label{classdeque2_a3071baa70c70b9a6ec7083064e67d4c3}} 
+using {\bfseries size\+\_\+type} = typename alloc\+\_\+traits\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{classdeque2_a63b571f84b69059f6d0868d3f9ac5427}\label{classdeque2_a63b571f84b69059f6d0868d3f9ac5427}} 
+using {\bfseries difference\+\_\+type} = typename alloc\+\_\+traits\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{classdeque2_a76c04bed428981ff4ef82cf9f6dbe2dd}\label{classdeque2_a76c04bed428981ff4ef82cf9f6dbe2dd}} 
+using {\bfseries pointer} = typename alloc\+\_\+traits\+::pointer
+\item 
+\mbox{\Hypertarget{classdeque2_ac1f1494a0f75f05c13327cf190fde8df}\label{classdeque2_ac1f1494a0f75f05c13327cf190fde8df}} 
+using {\bfseries const\+\_\+pointer} = typename alloc\+\_\+traits\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{classdeque2_a0d8022190763c231b244bad7386a54f2}\label{classdeque2_a0d8022190763c231b244bad7386a54f2}} 
+using {\bfseries reference} = value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{classdeque2_a333f714b25ba56afe74ed44113faee2d}\label{classdeque2_a333f714b25ba56afe74ed44113faee2d}} 
+using {\bfseries const\+\_\+reference} = const value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{classdeque2_a0c66ecb89b0b569ce12d9bb9d3bf17a4}\label{classdeque2_a0c66ecb89b0b569ce12d9bb9d3bf17a4}} 
+using {\bfseries iterator} = \mbox{\hyperlink{structdetail_1_1deque__iterator}{detail\+::deque\+\_\+iterator}}$<$ \mbox{\hyperlink{classdeque2}{this\+\_\+type}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a2e7c4a989b6341c7698548fcd9b2aaa0}\label{classdeque2_a2e7c4a989b6341c7698548fcd9b2aaa0}} 
+using {\bfseries const\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{detail\+::deque\+\_\+const\+\_\+iterator}}$<$ \mbox{\hyperlink{classdeque2}{this\+\_\+type}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a6faa0a87e9f58b63bc8ee253838ffcf7}\label{classdeque2_a6faa0a87e9f58b63bc8ee253838ffcf7}} 
+using {\bfseries reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_add1d8044a92d6e57d551b0b559343aad}\label{classdeque2_add1d8044a92d6e57d551b0b559343aad}} 
+using {\bfseries const\+\_\+reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a1781b3f5fadd1ba61026bdf43c3a349f}\label{classdeque2_a1781b3f5fadd1ba61026bdf43c3a349f}} 
+using {\bfseries u\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1unsafe__iterator}{detail\+::unsafe\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_ae03fa7425f7acc53505160f41811b8e9}\label{classdeque2_ae03fa7425f7acc53505160f41811b8e9}} 
+using {\bfseries u\+\_\+const\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{detail\+::unsafe\+\_\+const\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a327db2a454d0035fda0c63ff4793b383}\label{classdeque2_a327db2a454d0035fda0c63ff4793b383}} 
+using {\bfseries u\+\_\+reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1unsafe__iterator}{u\+\_\+iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a178ed9e5c58b36ce2546aae8354f4b5a}\label{classdeque2_a178ed9e5c58b36ce2546aae8354f4b5a}} 
+using {\bfseries u\+\_\+const\+\_\+reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{u\+\_\+const\+\_\+iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a61016c6bc3bd6bea570ebe5582178d90}\label{classdeque2_a61016c6bc3bd6bea570ebe5582178d90}} 
+{\footnotesize template$<$class U $>$ }\\using {\bfseries Rebind\+Alloc} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a96666615860aa2ccd1bc446f3333b9c5}\label{classdeque2_a96666615860aa2ccd1bc446f3333b9c5}} 
+using {\bfseries bucket\+\_\+manager} = \mbox{\hyperlink{structdetail_1_1_bucket_manager}{detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Use\+Mem\+Pool, Min\+B\+Size, Max\+B\+Size $>$
+\item 
+\mbox{\Hypertarget{classdeque2_adc85323d5cc39917b0054dcaef78ce2a}\label{classdeque2_adc85323d5cc39917b0054dcaef78ce2a}} 
+using {\bfseries alloc\+\_\+traits} = std\+::allocator\+\_\+traits$<$ Allocator $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a45cee2b1eb71f4212636769c5929bc5c}\label{classdeque2_a45cee2b1eb71f4212636769c5929bc5c}} 
+using {\bfseries this\+\_\+type} = \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, Use\+Mem\+Pool, Min\+B\+Size, Max\+B\+Size $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a600be7ec0c0a0256b789225b84308dcc}\label{classdeque2_a600be7ec0c0a0256b789225b84308dcc}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{classdeque2_a228d205e7c179d9c87cf936d24ba9dd4}\label{classdeque2_a228d205e7c179d9c87cf936d24ba9dd4}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\item 
+\mbox{\Hypertarget{classdeque2_a3071baa70c70b9a6ec7083064e67d4c3}\label{classdeque2_a3071baa70c70b9a6ec7083064e67d4c3}} 
+using {\bfseries size\+\_\+type} = typename alloc\+\_\+traits\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{classdeque2_a63b571f84b69059f6d0868d3f9ac5427}\label{classdeque2_a63b571f84b69059f6d0868d3f9ac5427}} 
+using {\bfseries difference\+\_\+type} = typename alloc\+\_\+traits\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{classdeque2_a76c04bed428981ff4ef82cf9f6dbe2dd}\label{classdeque2_a76c04bed428981ff4ef82cf9f6dbe2dd}} 
+using {\bfseries pointer} = typename alloc\+\_\+traits\+::pointer
+\item 
+\mbox{\Hypertarget{classdeque2_ac1f1494a0f75f05c13327cf190fde8df}\label{classdeque2_ac1f1494a0f75f05c13327cf190fde8df}} 
+using {\bfseries const\+\_\+pointer} = typename alloc\+\_\+traits\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{classdeque2_a0d8022190763c231b244bad7386a54f2}\label{classdeque2_a0d8022190763c231b244bad7386a54f2}} 
+using {\bfseries reference} = value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{classdeque2_a333f714b25ba56afe74ed44113faee2d}\label{classdeque2_a333f714b25ba56afe74ed44113faee2d}} 
+using {\bfseries const\+\_\+reference} = const value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{classdeque2_a0c66ecb89b0b569ce12d9bb9d3bf17a4}\label{classdeque2_a0c66ecb89b0b569ce12d9bb9d3bf17a4}} 
+using {\bfseries iterator} = \mbox{\hyperlink{structdetail_1_1deque__iterator}{detail\+::deque\+\_\+iterator}}$<$ \mbox{\hyperlink{classdeque2}{this\+\_\+type}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a2e7c4a989b6341c7698548fcd9b2aaa0}\label{classdeque2_a2e7c4a989b6341c7698548fcd9b2aaa0}} 
+using {\bfseries const\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{detail\+::deque\+\_\+const\+\_\+iterator}}$<$ \mbox{\hyperlink{classdeque2}{this\+\_\+type}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a6faa0a87e9f58b63bc8ee253838ffcf7}\label{classdeque2_a6faa0a87e9f58b63bc8ee253838ffcf7}} 
+using {\bfseries reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_add1d8044a92d6e57d551b0b559343aad}\label{classdeque2_add1d8044a92d6e57d551b0b559343aad}} 
+using {\bfseries const\+\_\+reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a1781b3f5fadd1ba61026bdf43c3a349f}\label{classdeque2_a1781b3f5fadd1ba61026bdf43c3a349f}} 
+using {\bfseries u\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1unsafe__iterator}{detail\+::unsafe\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_ae03fa7425f7acc53505160f41811b8e9}\label{classdeque2_ae03fa7425f7acc53505160f41811b8e9}} 
+using {\bfseries u\+\_\+const\+\_\+iterator} = \mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{detail\+::unsafe\+\_\+const\+\_\+iterator}}$<$ \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a327db2a454d0035fda0c63ff4793b383}\label{classdeque2_a327db2a454d0035fda0c63ff4793b383}} 
+using {\bfseries u\+\_\+reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1unsafe__iterator}{u\+\_\+iterator}} $>$
+\item 
+\mbox{\Hypertarget{classdeque2_a178ed9e5c58b36ce2546aae8354f4b5a}\label{classdeque2_a178ed9e5c58b36ce2546aae8354f4b5a}} 
+using {\bfseries u\+\_\+const\+\_\+reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ \mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{u\+\_\+const\+\_\+iterator}} $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdeque2_ac6ca75793eff0ab70abb5aaa9a5d494b}\label{classdeque2_ac6ca75793eff0ab70abb5aaa9a5d494b}} 
+{\bfseries deque2} (const Allocator \&al)
+\item 
+\mbox{\Hypertarget{classdeque2_a8bddececf7a80fb4a59f973502ea78f2}\label{classdeque2_a8bddececf7a80fb4a59f973502ea78f2}} 
+{\bfseries deque2} (size\+\_\+type count, const T \&value, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classdeque2_a1ce543ee5f85c3a643f4c06f71a262f7}\label{classdeque2_a1ce543ee5f85c3a643f4c06f71a262f7}} 
+{\bfseries deque2} (size\+\_\+type count, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classdeque2_a575b9355e93af26795de39c95a6c1a03}\label{classdeque2_a575b9355e93af26795de39c95a6c1a03}} 
+{\bfseries deque2} (const \mbox{\hyperlink{classdeque2}{deque2}} \&other)
+\item 
+\mbox{\Hypertarget{classdeque2_aee98802cdd938218fd880acc507f84dd}\label{classdeque2_aee98802cdd938218fd880acc507f84dd}} 
+{\bfseries deque2} (const \mbox{\hyperlink{classdeque2}{deque2}} \&other, const Allocator \&al)
+\item 
+\mbox{\Hypertarget{classdeque2_acf479e8f20f7e6f1a7261c324eb0407f}\label{classdeque2_acf479e8f20f7e6f1a7261c324eb0407f}} 
+{\bfseries deque2} (\mbox{\hyperlink{classdeque2}{deque2}} \&\&other)
+\item 
+\mbox{\Hypertarget{classdeque2_abf296fa64efebf3908dc032e732aadd6}\label{classdeque2_abf296fa64efebf3908dc032e732aadd6}} 
+{\bfseries deque2} (\mbox{\hyperlink{classdeque2}{deque2}} \&\&other, const Allocator \&al)
+\item 
+\mbox{\Hypertarget{classdeque2_a9463e5cb9ffce18663771343373ee407}\label{classdeque2_a9463e5cb9ffce18663771343373ee407}} 
+{\bfseries deque2} (const std\+::initializer\+\_\+list$<$ T $>$ \&lst, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classdeque2_a51dab4eca1e9ac5cb4a92b1deeef1ad8}\label{classdeque2_a51dab4eca1e9ac5cb4a92b1deeef1ad8}} 
+{\footnotesize template$<$class Iter $>$ }\\{\bfseries deque2} (Iter first, Iter last, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classdeque2_a3004e6e90143b036175d56d8bbfaa7a1}\label{classdeque2_a3004e6e90143b036175d56d8bbfaa7a1}} 
+\mbox{\hyperlink{classdeque2}{deque2}} \& {\bfseries operator=} (\mbox{\hyperlink{classdeque2}{deque2}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aa27581d2e342d67b35c17076aa052d24}\label{classdeque2_aa27581d2e342d67b35c17076aa052d24}} 
+\mbox{\hyperlink{classdeque2}{deque2}} \& {\bfseries operator=} (const \mbox{\hyperlink{classdeque2}{deque2}} \&other)
+\item 
+\mbox{\Hypertarget{classdeque2_aa33237f11572fe69ce5289182a5c97bd}\label{classdeque2_aa33237f11572fe69ce5289182a5c97bd}} 
+\mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ {\bfseries manager} ()
+\item 
+\mbox{\Hypertarget{classdeque2_ab9556251fa4d00681e0c00764b76bf5d}\label{classdeque2_ab9556251fa4d00681e0c00764b76bf5d}} 
+const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ {\bfseries manager} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a7410e636e215d1c9a26e5143c1bbe1a5}\label{classdeque2_a7410e636e215d1c9a26e5143c1bbe1a5}} 
+size\+\_\+type {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a77b36d5b665c22198212b5f57e137db2}\label{classdeque2_a77b36d5b665c22198212b5f57e137db2}} 
+size\+\_\+type {\bfseries max\+\_\+size} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a96859695b35909cce1f8e2d9017441cb}\label{classdeque2_a96859695b35909cce1f8e2d9017441cb}} 
+size\+\_\+type {\bfseries bucket\+\_\+count} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a79990fcc5adea92b4db470811cb3e780}\label{classdeque2_a79990fcc5adea92b4db470811cb3e780}} 
+size\+\_\+type {\bfseries bucket\+\_\+size} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a6a69761ef6d0e315699ff266f096bb35}\label{classdeque2_a6a69761ef6d0e315699ff266f096bb35}} 
+bool {\bfseries empty} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a5b5de9eaeea47d64c58ffb462c80baff}\label{classdeque2_a5b5de9eaeea47d64c58ffb462c80baff}} 
+const Allocator \& {\bfseries get\+\_\+allocator} () const
+\item 
+\mbox{\Hypertarget{classdeque2_abaffbc4030df124777b75f068041c2f3}\label{classdeque2_abaffbc4030df124777b75f068041c2f3}} 
+Allocator \& {\bfseries get\+\_\+allocator} ()
+\item 
+\mbox{\Hypertarget{classdeque2_a413d4c2b4b2ab4b9ea496a15cb7086bd}\label{classdeque2_a413d4c2b4b2ab4b9ea496a15cb7086bd}} 
+void {\bfseries swap} (\mbox{\hyperlink{classdeque2}{deque2}} \&other) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a18ab5f05303bc9176ca90cc141927437}\label{classdeque2_a18ab5f05303bc9176ca90cc141927437}} 
+void {\bfseries shrink\+\_\+to\+\_\+fit} ()
+\item 
+\mbox{\Hypertarget{classdeque2_ad70817b27f1ca49ba921bb500e323aa1}\label{classdeque2_ad70817b27f1ca49ba921bb500e323aa1}} 
+void {\bfseries resize} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{classdeque2_ab42d94561d996aef405d13363df71c75}\label{classdeque2_ab42d94561d996aef405d13363df71c75}} 
+void {\bfseries resize} (size\+\_\+type size, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a1547738d10a9c169a73555f85be3ff37}\label{classdeque2_a1547738d10a9c169a73555f85be3ff37}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{classdeque2_afa8f06360784823d8b942ab562800073}\label{classdeque2_afa8f06360784823d8b942ab562800073}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+type size, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a1721abf59df0890421905681f06a1913}\label{classdeque2_a1721abf59df0890421905681f06a1913}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classdeque2_a3ca48f57aea391d037e676767ea2621c}\label{classdeque2_a3ca48f57aea391d037e676767ea2621c}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a9d7d2474b171536fcc899509293b94da}\label{classdeque2_a9d7d2474b171536fcc899509293b94da}} 
+void {\bfseries push\+\_\+back} (T \&\&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a6efbb7f69a24333f38025294e0cb4a79}\label{classdeque2_a6efbb7f69a24333f38025294e0cb4a79}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace\+\_\+back} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_a21c2ea4236b1def98b091b53566a5b32}\label{classdeque2_a21c2ea4236b1def98b091b53566a5b32}} 
+void {\bfseries push\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a4cfb4c5a61549f5df100a82f9f02dc00}\label{classdeque2_a4cfb4c5a61549f5df100a82f9f02dc00}} 
+void {\bfseries push\+\_\+front} (T \&\&value)
+\item 
+\mbox{\Hypertarget{classdeque2_aab0db81affe0ce2e5f28afcee9952403}\label{classdeque2_aab0db81affe0ce2e5f28afcee9952403}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace\+\_\+front} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_a6111a1c166b94923046f5ce9b5d05658}\label{classdeque2_a6111a1c166b94923046f5ce9b5d05658}} 
+void {\bfseries insert} (size\+\_\+type pos, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a05b2833d3c9688cbda07fffff6c988b3}\label{classdeque2_a05b2833d3c9688cbda07fffff6c988b3}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a6c68a938bc2a298449c5aa36dfbecc8a}\label{classdeque2_a6c68a938bc2a298449c5aa36dfbecc8a}} 
+void {\bfseries insert} (size\+\_\+type pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a55c295f4c8ae4c879c4b030fa92cddf6}\label{classdeque2_a55c295f4c8ae4c879c4b030fa92cddf6}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it, T \&\&value)
+\item 
+\mbox{\Hypertarget{classdeque2_ae9dbd414ccc60320f772c189cc4bb0a7}\label{classdeque2_ae9dbd414ccc60320f772c189cc4bb0a7}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace} (size\+\_\+type pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_abf31475aea5e645cd06c0a18b49fe67a}\label{classdeque2_abf31475aea5e645cd06c0a18b49fe67a}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace} (\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_a081250f49736dbf48e5b844deacafdb1}\label{classdeque2_a081250f49736dbf48e5b844deacafdb1}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_a541c06978e7e6f577d2a2f8d1f08c598}\label{classdeque2_a541c06978e7e6f577d2a2f8d1f08c598}} 
+{\footnotesize template$<$class Iter $>$ }\\void {\bfseries insert} (size\+\_\+type pos, Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{classdeque2_ac32e48983e2596f4393a9def65ecf884}\label{classdeque2_ac32e48983e2596f4393a9def65ecf884}} 
+{\footnotesize template$<$class Iter $>$ }\\\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it, Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{classdeque2_ae3205797052f31e99bbd835d3f7421f2}\label{classdeque2_ae3205797052f31e99bbd835d3f7421f2}} 
+void {\bfseries insert} (size\+\_\+type pos, size\+\_\+type count, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a839c9e8bff3303eaa6cc3470ce2df314}\label{classdeque2_a839c9e8bff3303eaa6cc3470ce2df314}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} pos, size\+\_\+type count, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a7412866d48eeeba1ae9831e2d90e2e9c}\label{classdeque2_a7412866d48eeeba1ae9831e2d90e2e9c}} 
+void {\bfseries pop\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{classdeque2_acf33bd83e3344bb65aed00cb9758165c}\label{classdeque2_acf33bd83e3344bb65aed00cb9758165c}} 
+void {\bfseries pop\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{classdeque2_a7d84531f6e31b03aa4d4af7346f069df}\label{classdeque2_a7d84531f6e31b03aa4d4af7346f069df}} 
+void {\bfseries erase} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{classdeque2_a0dcb557ffcf46f609cd37ebfcfe9c15b}\label{classdeque2_a0dcb557ffcf46f609cd37ebfcfe9c15b}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries erase} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it)
+\item 
+\mbox{\Hypertarget{classdeque2_a0bc74c95ca7d62c10f6078020ada986f}\label{classdeque2_a0bc74c95ca7d62c10f6078020ada986f}} 
+void {\bfseries erase} (size\+\_\+type first, size\+\_\+type last)
+\item 
+\mbox{\Hypertarget{classdeque2_a709f986b066ffbd1b2d9a774d78b9add}\label{classdeque2_a709f986b066ffbd1b2d9a774d78b9add}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries erase} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} first, \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} last)
+\item 
+\mbox{\Hypertarget{classdeque2_a70eaa59a8a8759ef893fd28d019e6937}\label{classdeque2_a70eaa59a8a8759ef893fd28d019e6937}} 
+void {\bfseries assign} (size\+\_\+type count, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a93c47c37e56f11714f0a09d269c57719}\label{classdeque2_a93c47c37e56f11714f0a09d269c57719}} 
+{\footnotesize template$<$class Iter $>$ }\\void {\bfseries assign} (Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{classdeque2_a8c684f4163189ef1124ee3315048259b}\label{classdeque2_a8c684f4163189ef1124ee3315048259b}} 
+void {\bfseries assign} (std\+::initializer\+\_\+list$<$ T $>$ ilist)
+\item 
+\mbox{\Hypertarget{classdeque2_a08f33a0bc38953f17e476ae498df9040}\label{classdeque2_a08f33a0bc38953f17e476ae498df9040}} 
+{\footnotesize template$<$class Fun $>$ }\\Fun {\bfseries for\+\_\+each} (size\+\_\+type first, size\+\_\+type last, Fun fun)
+\item 
+\mbox{\Hypertarget{classdeque2_a3acff7357ef7605976812891c648dd10}\label{classdeque2_a3acff7357ef7605976812891c648dd10}} 
+{\footnotesize template$<$class Fun $>$ }\\Fun {\bfseries for\+\_\+each} (size\+\_\+type first, size\+\_\+type last, Fun fun) const
+\item 
+\mbox{\Hypertarget{classdeque2_a626ff0d93bf0a61826997cae1b13a54f}\label{classdeque2_a626ff0d93bf0a61826997cae1b13a54f}} 
+const T \& {\bfseries at} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a37cdfa99cd9546752901c80f9c805677}\label{classdeque2_a37cdfa99cd9546752901c80f9c805677}} 
+T \& {\bfseries at} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a33ff211593d9c16c401c8e4de79586e5}\label{classdeque2_a33ff211593d9c16c401c8e4de79586e5}} 
+const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aea59542bba56f67c662f9ed4f0d80e7a}\label{classdeque2_aea59542bba56f67c662f9ed4f0d80e7a}} 
+T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_abf82cc501b7710a7620f6d87ba76027c}\label{classdeque2_abf82cc501b7710a7620f6d87ba76027c}} 
+T \& {\bfseries back} ()
+\item 
+\mbox{\Hypertarget{classdeque2_aedde7889adcb981115f80d8f768364ce}\label{classdeque2_aedde7889adcb981115f80d8f768364ce}} 
+const T \& {\bfseries back} () const
+\item 
+\mbox{\Hypertarget{classdeque2_ab8dc71f3abd1a384269dd4a5ade712ab}\label{classdeque2_ab8dc71f3abd1a384269dd4a5ade712ab}} 
+T \& {\bfseries front} ()
+\item 
+\mbox{\Hypertarget{classdeque2_ad746d0e885d28419ada40c502a105cbb}\label{classdeque2_ad746d0e885d28419ada40c502a105cbb}} 
+const T \& {\bfseries front} () const
+\item 
+\mbox{\Hypertarget{classdeque2_ac212188082da190386b63541e8c6d469}\label{classdeque2_ac212188082da190386b63541e8c6d469}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_af464c96015bbd4fdd82b0f5d43046a02}\label{classdeque2_af464c96015bbd4fdd82b0f5d43046a02}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries begin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a637ce4ab03c362c2d1913b2d7fd0ada9}\label{classdeque2_a637ce4ab03c362c2d1913b2d7fd0ada9}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a06ac7ab28029a485d6b46da6a9b01f1b}\label{classdeque2_a06ac7ab28029a485d6b46da6a9b01f1b}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries end} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_af3b2521b6dc207516124cf530b429b05}\label{classdeque2_af3b2521b6dc207516124cf530b429b05}} 
+reverse\+\_\+iterator {\bfseries rbegin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a41617280aa72f0f794d763c767b339bb}\label{classdeque2_a41617280aa72f0f794d763c767b339bb}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a5a3ae65ccc69bf7ed8971b01aaac3bcb}\label{classdeque2_a5a3ae65ccc69bf7ed8971b01aaac3bcb}} 
+reverse\+\_\+iterator {\bfseries rend} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aea81d8b2ad8fa7981e6c7536ff5baeab}\label{classdeque2_aea81d8b2ad8fa7981e6c7536ff5baeab}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_afc6c60d03af01a0dfab9afc4f0252940}\label{classdeque2_afc6c60d03af01a0dfab9afc4f0252940}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries cbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_acda3bc2fa33630abae730c717bcfb1f3}\label{classdeque2_acda3bc2fa33630abae730c717bcfb1f3}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries cend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ae00e7a3b56e091e7361f510edd714d89}\label{classdeque2_ae00e7a3b56e091e7361f510edd714d89}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a65e6719d9ca9c0fcb4b46b6561ddfc99}\label{classdeque2_a65e6719d9ca9c0fcb4b46b6561ddfc99}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aa62acf9ffaf5220a9611c39ad3155cbf}\label{classdeque2_aa62acf9ffaf5220a9611c39ad3155cbf}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries iterator\+\_\+at} (size\+\_\+t pos) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a83a8b6a9daee6eab0635eb36da0fb5b3}\label{classdeque2_a83a8b6a9daee6eab0635eb36da0fb5b3}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries iterator\+\_\+at} (size\+\_\+t pos) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a830ee91c694f6c6e48f5ce12f7a0bd54}\label{classdeque2_a830ee91c694f6c6e48f5ce12f7a0bd54}} 
+{\footnotesize template$<$class U , class Less  = std\+::less$<$\+T$>$$>$ }\\size\+\_\+t {\bfseries binary\+\_\+search} (const U \&value, const \mbox{\hyperlink{struct_less}{Less}} \&le=\mbox{\hyperlink{struct_less}{Less}}()) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a5cca90cf6ea9d4f393cc2e1ec199a115}\label{classdeque2_a5cca90cf6ea9d4f393cc2e1ec199a115}} 
+{\footnotesize template$<$class U , class Less  = std\+::less$<$\+T$>$$>$ }\\size\+\_\+t {\bfseries lower\+\_\+bound} (const U \&value, const \mbox{\hyperlink{struct_less}{Less}} \&le=\mbox{\hyperlink{struct_less}{Less}}()) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_af14b60911bd00bfa1abab542b541b9eb}\label{classdeque2_af14b60911bd00bfa1abab542b541b9eb}} 
+{\footnotesize template$<$class U , class Less  = std\+::less$<$\+T$>$$>$ }\\size\+\_\+t {\bfseries upper\+\_\+bound} (const U \&value, const \mbox{\hyperlink{struct_less}{Less}} \&le=\mbox{\hyperlink{struct_less}{Less}}()) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a9d32d45c4eaccddc736c21a811e898b2}\label{classdeque2_a9d32d45c4eaccddc736c21a811e898b2}} 
+\mbox{\hyperlink{classdeque2_a9d32d45c4eaccddc736c21a811e898b2}{deque2}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor, initialize the internal bucket manager. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdeque2_adde1d8dd3a0df9d66583c90e4a47cffc}{deque2}} (const Allocator \&alloc)
+\begin{DoxyCompactList}\small\item\em Constructs an empty container with the given allocator alloc. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdeque2_a14a4146ac9e9dc3ecc611d38d39612ba}{deque2}} (size\+\_\+type count, const T \&value, const Allocator \&alloc=Allocator())
+\begin{DoxyCompactList}\small\item\em Constructs the container with {\itshape count} copies of elements with value {\itshape value}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdeque2_a4816d7bcd290309366a7649b0008a1e1}{deque2}} (size\+\_\+type count, const Allocator \&alloc=Allocator())
+\begin{DoxyCompactList}\small\item\em Constructs the container with count default-\/inserted instances of T. No copies are made. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdeque2_a575b9355e93af26795de39c95a6c1a03}{deque2}} (const \mbox{\hyperlink{classdeque2}{deque2}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. Constructs the container with the copy of the contents of other. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdeque2_a04d836281d75a3570875c1640e934a8c}{deque2}} (const \mbox{\hyperlink{classdeque2}{deque2}} \&other, const Allocator \&alloc)
+\begin{DoxyCompactList}\small\item\em Constructs the container with the copy of the contents of other, using alloc as the allocator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdeque2_a514bcd4479f84e16dbab77f39486d4c9}{deque2}} (\mbox{\hyperlink{classdeque2}{deque2}} \&\&other) noexcept
+\begin{DoxyCompactList}\small\item\em Move constructor. Constructs the container with the contents of other using move semantics. Allocator is obtained by move-\/construction from the allocator belonging to other. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdeque2_ad64584fe43e94684e880dee234e72cda}{deque2}} (\mbox{\hyperlink{classdeque2}{deque2}} \&\&other, const Allocator \&alloc) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\begin{DoxyCompactList}\small\item\em Allocator-\/extended move constructor. Using alloc as the allocator for the new container, moving the contents from other; if alloc != other.\+get\+\_\+allocator(), this results in an element-\/wise move. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdeque2_a8523a9a78856485c4a7d3e8c2cb40145}{deque2}} (const std\+::initializer\+\_\+list$<$ T $>$ \&lst, const Allocator \&alloc=Allocator())
+\begin{DoxyCompactList}\small\item\em Constructs the container with the contents of the initializer list {\itshape init}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Iter $>$ }\\\mbox{\hyperlink{classdeque2_a07b7f9aaa26245d0437fc4f6732bc010}{deque2}} (Iter first, Iter last, const Allocator \&alloc=Allocator())
+\begin{DoxyCompactList}\small\item\em Constructs the container with the contents of the range \mbox{[}first, last). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a2ff2723cf68fc3388eadfb56162b2ff7}\label{classdeque2_a2ff2723cf68fc3388eadfb56162b2ff7}} 
+\mbox{\hyperlink{classdeque2_a2ff2723cf68fc3388eadfb56162b2ff7}{$\sim$deque2}} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdeque2}{deque2}} \& \mbox{\hyperlink{classdeque2_a3004e6e90143b036175d56d8bbfaa7a1}{operator=}} (\mbox{\hyperlink{classdeque2}{deque2}} \&\&other) noexcept
+\begin{DoxyCompactList}\small\item\em Move assignment operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classdeque2}{deque2}} \& \mbox{\hyperlink{classdeque2_aa27581d2e342d67b35c17076aa052d24}{operator=}} (const \mbox{\hyperlink{classdeque2}{deque2}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy assignment operator. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_aaa9490e9d02dc9046988d7ab145f9085}\label{classdeque2_aaa9490e9d02dc9046988d7ab145f9085}} 
+\mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ \mbox{\hyperlink{classdeque2_aaa9490e9d02dc9046988d7ab145f9085}{manager}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns the internal bucket manager object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a3d97624ceafe56cea993c7ec35d03e03}\label{classdeque2_a3d97624ceafe56cea993c7ec35d03e03}} 
+const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ \mbox{\hyperlink{classdeque2_a3d97624ceafe56cea993c7ec35d03e03}{manager}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the internal bucket manager object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_aeea740c4033894c62ae7c427e1b4ed11}\label{classdeque2_aeea740c4033894c62ae7c427e1b4ed11}} 
+size\+\_\+type \mbox{\hyperlink{classdeque2_aeea740c4033894c62ae7c427e1b4ed11}{size}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the container size. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a9d1f33203301da65e144f7449d2dfc22}\label{classdeque2_a9d1f33203301da65e144f7449d2dfc22}} 
+size\+\_\+type \mbox{\hyperlink{classdeque2_a9d1f33203301da65e144f7449d2dfc22}{max\+\_\+size}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the container maximum size. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a1b32fbde47daf1a36a71b849a26aeb10}\label{classdeque2_a1b32fbde47daf1a36a71b849a26aeb10}} 
+size\+\_\+type \mbox{\hyperlink{classdeque2_a1b32fbde47daf1a36a71b849a26aeb10}{bucket\+\_\+count}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the number of buckets within deque. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a3821ad9cef7217a600b2398ec515fa61}\label{classdeque2_a3821ad9cef7217a600b2398ec515fa61}} 
+size\+\_\+type \mbox{\hyperlink{classdeque2_a3821ad9cef7217a600b2398ec515fa61}{bucket\+\_\+size}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the size of a bucket within deque. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_ab387217281fb34031a6412ad3b08795e}\label{classdeque2_ab387217281fb34031a6412ad3b08795e}} 
+bool \mbox{\hyperlink{classdeque2_ab387217281fb34031a6412ad3b08795e}{empty}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Retruns true if the container is empty, false otherwise. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_af7ff8bcbc758759712c65a9a8f7349fa}\label{classdeque2_af7ff8bcbc758759712c65a9a8f7349fa}} 
+const Allocator \& \mbox{\hyperlink{classdeque2_af7ff8bcbc758759712c65a9a8f7349fa}{get\+\_\+allocator}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the allocator associated with the container. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a8de9f97f1a1eb7f9ccd34fd45807c442}\label{classdeque2_a8de9f97f1a1eb7f9ccd34fd45807c442}} 
+Allocator \& \mbox{\hyperlink{classdeque2_a8de9f97f1a1eb7f9ccd34fd45807c442}{get\+\_\+allocator}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns the allocator associated with the container. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a413d4c2b4b2ab4b9ea496a15cb7086bd}{swap}} (\mbox{\hyperlink{classdeque2}{deque2}} \&other) noexcept
+\begin{DoxyCompactList}\small\item\em Exchanges the contents of the container with those of other. Does not invoke any move, copy, or swap operations on individual elements. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a18ab5f05303bc9176ca90cc141927437}\label{classdeque2_a18ab5f05303bc9176ca90cc141927437}} 
+void \mbox{\hyperlink{classdeque2_a18ab5f05303bc9176ca90cc141927437}{shrink\+\_\+to\+\_\+fit}} ()
+\begin{DoxyCompactList}\small\item\em Release all unused memory, and move the deque content to the smallest possible storage. This function only makes sense for {\itshape Optimize\+For\+Speed} flag. Invalidate all iterators and references. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a3a4f93360f8231415156b6861a09c739}{resize}} (size\+\_\+type count)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain count elements. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_af7ed0942ed60505b86261e28daa3d769}{resize}} (size\+\_\+type count, const T \&value)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain count elements. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_ac5924e01065e92c41121c4b6490f0bf8}{resize\+\_\+front}} (size\+\_\+type count)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain count elements. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a7e7d0148dd8ef08ad552afb3eadd30f6}{resize\+\_\+front}} (size\+\_\+type count, const T \&value)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain count elements. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a1721abf59df0890421905681f06a1913}\label{classdeque2_a1721abf59df0890421905681f06a1913}} 
+void \mbox{\hyperlink{classdeque2_a1721abf59df0890421905681f06a1913}{clear}} ()
+\begin{DoxyCompactList}\small\item\em Clear the container. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a3ca48f57aea391d037e676767ea2621c}{push\+\_\+back}} (const T \&value)
+\begin{DoxyCompactList}\small\item\em Appends the given element value to the end of the container. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a9d7d2474b171536fcc899509293b94da}{push\+\_\+back}} (T \&\&value)
+\begin{DoxyCompactList}\small\item\em Appends the given element value to the end of the container using move semantic. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class... Args$>$ }\\T \& \mbox{\hyperlink{classdeque2_a6efbb7f69a24333f38025294e0cb4a79}{emplace\+\_\+back}} (Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Appends a new element to the end of the container. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a21c2ea4236b1def98b091b53566a5b32}{push\+\_\+front}} (const T \&value)
+\begin{DoxyCompactList}\small\item\em Appends the given element value to the beginning of the container. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a4cfb4c5a61549f5df100a82f9f02dc00}{push\+\_\+front}} (T \&\&value)
+\begin{DoxyCompactList}\small\item\em Appends the given element value to the beginning of the container using move semantic. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class... Args$>$ }\\T \& \mbox{\hyperlink{classdeque2_aab0db81affe0ce2e5f28afcee9952403}{emplace\+\_\+front}} (Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Appends a new element to the beginning of the container. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a6111a1c166b94923046f5ce9b5d05658}{insert}} (size\+\_\+type pos, const T \&value)
+\begin{DoxyCompactList}\small\item\em Insert {\itshape value} before {\itshape pos}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a6c68a938bc2a298449c5aa36dfbecc8a}{insert}} (size\+\_\+type pos, T \&\&value)
+\begin{DoxyCompactList}\small\item\em Insert {\itshape value} before {\itshape pos} using move semantic. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2_a05b2833d3c9688cbda07fffff6c988b3}{insert}} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it, const T \&value)
+\begin{DoxyCompactList}\small\item\em Insert {\itshape value} before {\itshape it}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2_a55c295f4c8ae4c879c4b030fa92cddf6}{insert}} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it, T \&\&value)
+\begin{DoxyCompactList}\small\item\em Insert {\itshape value} before {\itshape it} using move semantic. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class... Args$>$ }\\T \& \mbox{\hyperlink{classdeque2_ae9dbd414ccc60320f772c189cc4bb0a7}{emplace}} (size\+\_\+type pos, Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Inserts a new element into the container directly before {\itshape pos}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class... Args$>$ }\\T \& \mbox{\hyperlink{classdeque2_a081250f49736dbf48e5b844deacafdb1}{emplace}} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} pos, Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Inserts a new element into the container directly before {\itshape pos}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Iter $>$ }\\void \mbox{\hyperlink{classdeque2_a541c06978e7e6f577d2a2f8d1f08c598}{insert}} (size\+\_\+type pos, Iter first, Iter last)
+\begin{DoxyCompactList}\small\item\em Inserts elements from range \mbox{[}first, last) before pos. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Iter $>$ }\\\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2_ac32e48983e2596f4393a9def65ecf884}{insert}} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it, Iter first, Iter last)
+\begin{DoxyCompactList}\small\item\em Inserts elements from range \mbox{[}first, last) before it. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a64249801c41d575c76c7e8920e007e90}{insert}} (size\+\_\+type pos, std\+::initializer\+\_\+list$<$ T $>$ ilist)
+\begin{DoxyCompactList}\small\item\em Inserts elements from initializer list ilist before pos. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2_ac1b56478cca246bfa99b3ef87e7e3e69}{insert}} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} pos, std\+::initializer\+\_\+list$<$ T $>$ ilist)
+\begin{DoxyCompactList}\small\item\em Inserts elements from initializer list ilist before pos. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_ae3205797052f31e99bbd835d3f7421f2}\label{classdeque2_ae3205797052f31e99bbd835d3f7421f2}} 
+void \mbox{\hyperlink{classdeque2_ae3205797052f31e99bbd835d3f7421f2}{insert}} (size\+\_\+type pos, size\+\_\+type count, const T \&value)
+\begin{DoxyCompactList}\small\item\em Inserts count copies of the value before pos Basic exception guarantee. ~\newline
+ \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2_a839c9e8bff3303eaa6cc3470ce2df314}{insert}} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} pos, size\+\_\+type count, const T \&value)
+\begin{DoxyCompactList}\small\item\em Inserts count copies of the value before pos. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a7412866d48eeeba1ae9831e2d90e2e9c}\label{classdeque2_a7412866d48eeeba1ae9831e2d90e2e9c}} 
+void \mbox{\hyperlink{classdeque2_a7412866d48eeeba1ae9831e2d90e2e9c}{pop\+\_\+back}} ()
+\begin{DoxyCompactList}\small\item\em Removes the last element of the container. Calling pop\+\_\+back on an empty container results in undefined behavior. Basic exception guarantee, except if {\itshape Min\+B\+Size == Max\+B\+Size} (strong guarantee in this case). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_acf33bd83e3344bb65aed00cb9758165c}\label{classdeque2_acf33bd83e3344bb65aed00cb9758165c}} 
+void \mbox{\hyperlink{classdeque2_acf33bd83e3344bb65aed00cb9758165c}{pop\+\_\+front}} ()
+\begin{DoxyCompactList}\small\item\em Removes the first element of the container. Calling pop\+\_\+front on an empty container results in undefined behavior. Basic exception guarantee, except if {\itshape Min\+B\+Size == Max\+B\+Size} (strong guarantee in this case). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a7d84531f6e31b03aa4d4af7346f069df}{erase}} (size\+\_\+type pos)
+\begin{DoxyCompactList}\small\item\em Erase element at given position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2_a0dcb557ffcf46f609cd37ebfcfe9c15b}{erase}} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it)
+\begin{DoxyCompactList}\small\item\em Erase element at given position. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classdeque2_a0bc74c95ca7d62c10f6078020ada986f}{erase}} (size\+\_\+type first, size\+\_\+type last)
+\begin{DoxyCompactList}\small\item\em Removes the elements in the range \mbox{[}first, last). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2_a709f986b066ffbd1b2d9a774d78b9add}{erase}} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} first, \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} last)
+\begin{DoxyCompactList}\small\item\em Removes the elements in the range \mbox{[}first, last). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a70eaa59a8a8759ef893fd28d019e6937}\label{classdeque2_a70eaa59a8a8759ef893fd28d019e6937}} 
+void \mbox{\hyperlink{classdeque2_a70eaa59a8a8759ef893fd28d019e6937}{assign}} (size\+\_\+type count, const T \&value)
+\begin{DoxyCompactList}\small\item\em Replaces the contents with {\itshape count} copies of value {\itshape value} Basic exception guarantee. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a93c47c37e56f11714f0a09d269c57719}\label{classdeque2_a93c47c37e56f11714f0a09d269c57719}} 
+{\footnotesize template$<$class Iter $>$ }\\void \mbox{\hyperlink{classdeque2_a93c47c37e56f11714f0a09d269c57719}{assign}} (Iter first, Iter last)
+\begin{DoxyCompactList}\small\item\em Replaces the contents with copies of those in the range \mbox{[}first, last). The behavior is undefined if either argument is an iterator into $\ast$this. Basic exception guarantee. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a8c684f4163189ef1124ee3315048259b}\label{classdeque2_a8c684f4163189ef1124ee3315048259b}} 
+void \mbox{\hyperlink{classdeque2_a8c684f4163189ef1124ee3315048259b}{assign}} (std\+::initializer\+\_\+list$<$ T $>$ ilist)
+\begin{DoxyCompactList}\small\item\em Replaces the contents with the elements from the initializer list ilist. Basic exception guarantee. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Fun $>$ }\\Fun \mbox{\hyperlink{classdeque2_a08f33a0bc38953f17e476ae498df9040}{for\+\_\+each}} (size\+\_\+type first, size\+\_\+type last, Fun fun)
+\begin{DoxyCompactList}\small\item\em Apply unary function {\itshape fun} to all elements within the range \mbox{[}first,last). \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Fun $>$ }\\Fun \mbox{\hyperlink{classdeque2_a3acff7357ef7605976812891c648dd10}{for\+\_\+each}} (size\+\_\+type first, size\+\_\+type last, Fun fun) const
+\begin{DoxyCompactList}\small\item\em Apply unary function {\itshape fun} to all elements within the range \mbox{[}first,last). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_afc276d62f18eba6c17f61143eae71313}\label{classdeque2_afc276d62f18eba6c17f61143eae71313}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& \mbox{\hyperlink{classdeque2_afc276d62f18eba6c17f61143eae71313}{at}} (size\+\_\+type pos) const
+\begin{DoxyCompactList}\small\item\em Returns a reference to the element at specified location pos, with bounds checking. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_ae6ecccfa9a1b8d820acc0f1d66df6348}\label{classdeque2_ae6ecccfa9a1b8d820acc0f1d66df6348}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& \mbox{\hyperlink{classdeque2_ae6ecccfa9a1b8d820acc0f1d66df6348}{at}} (size\+\_\+type pos)
+\begin{DoxyCompactList}\small\item\em Returns a reference to the element at specified location pos, with bounds checking. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_acfb3d4f7d077cb9b1f5fd25b0453cd10}\label{classdeque2_acfb3d4f7d077cb9b1f5fd25b0453cd10}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& \mbox{\hyperlink{classdeque2_acfb3d4f7d077cb9b1f5fd25b0453cd10}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+type pos) const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the element at specified location pos, without bounds checking. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_ad6a6ac6a2a43aba8209c94f261b75ad6}\label{classdeque2_ad6a6ac6a2a43aba8209c94f261b75ad6}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& \mbox{\hyperlink{classdeque2_ad6a6ac6a2a43aba8209c94f261b75ad6}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+type pos) noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the element at specified location pos, without bounds checking. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a1d8e50887a43c0329dad7437d5472133}\label{classdeque2_a1d8e50887a43c0329dad7437d5472133}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& \mbox{\hyperlink{classdeque2_a1d8e50887a43c0329dad7437d5472133}{back}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the last element in the container. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_abc9c07cc11554d758e25a6e5f41a53f2}\label{classdeque2_abc9c07cc11554d758e25a6e5f41a53f2}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& \mbox{\hyperlink{classdeque2_abc9c07cc11554d758e25a6e5f41a53f2}{back}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the last element in the container. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a30a8607031f4ea86dc414133abcfcab5}\label{classdeque2_a30a8607031f4ea86dc414133abcfcab5}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& \mbox{\hyperlink{classdeque2_a30a8607031f4ea86dc414133abcfcab5}{front}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the first element in the container. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_ad6cd32520ab43fe9e409ee4acbd8e828}\label{classdeque2_ad6cd32520ab43fe9e409ee4acbd8e828}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& \mbox{\hyperlink{classdeque2_ad6cd32520ab43fe9e409ee4acbd8e828}{front}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reference to the first element in the container. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a8f5a94bb95298295c0fb05679786daa9}\label{classdeque2_a8f5a94bb95298295c0fb05679786daa9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classdeque2_a8f5a94bb95298295c0fb05679786daa9}{begin}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the first element of the deque. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_abaac5b3d4e611e3f9f74c9c1db0883ff}\label{classdeque2_abaac5b3d4e611e3f9f74c9c1db0883ff}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2_abaac5b3d4e611e3f9f74c9c1db0883ff}{begin}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the first element of the deque. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_ade243d29ff6016aa9bc877ea4a8bd691}\label{classdeque2_ade243d29ff6016aa9bc877ea4a8bd691}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classdeque2_ade243d29ff6016aa9bc877ea4a8bd691}{end}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the element following the last element of the deque. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a360e117c76bdb55b1bbd8d48328320fe}\label{classdeque2_a360e117c76bdb55b1bbd8d48328320fe}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2_a360e117c76bdb55b1bbd8d48328320fe}{end}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the element following the last element of the deque. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a97abe4a1ee4a3bdcc8a3987cc94516c4}\label{classdeque2_a97abe4a1ee4a3bdcc8a3987cc94516c4}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE reverse\+\_\+iterator \mbox{\hyperlink{classdeque2_a97abe4a1ee4a3bdcc8a3987cc94516c4}{rbegin}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the first element of the reversed list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a61375f03fce7646dc08eccf151b2d555}\label{classdeque2_a61375f03fce7646dc08eccf151b2d555}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const\+\_\+reverse\+\_\+iterator \mbox{\hyperlink{classdeque2_a61375f03fce7646dc08eccf151b2d555}{rbegin}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the first element of the reversed list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_acf05ce6a2b33eaef20a41c015957c030}\label{classdeque2_acf05ce6a2b33eaef20a41c015957c030}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE reverse\+\_\+iterator \mbox{\hyperlink{classdeque2_acf05ce6a2b33eaef20a41c015957c030}{rend}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the element following the last element of the reversed list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a3876b759d2aed8cd8d3e595ab939c317}\label{classdeque2_a3876b759d2aed8cd8d3e595ab939c317}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const\+\_\+reverse\+\_\+iterator \mbox{\hyperlink{classdeque2_a3876b759d2aed8cd8d3e595ab939c317}{rend}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the element following the last element of the reversed list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a4b083e36c9af190dc87b783557e7a655}\label{classdeque2_a4b083e36c9af190dc87b783557e7a655}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classdeque2_a4b083e36c9af190dc87b783557e7a655}{cbegin}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the first element of the deque. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a6d961d23aa89c0752dae7da2c2686ee5}\label{classdeque2_a6d961d23aa89c0752dae7da2c2686ee5}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classdeque2_a6d961d23aa89c0752dae7da2c2686ee5}{cend}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the element following the last element of the deque. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_ad2868cb8966e2715a0918a55c60aef5b}\label{classdeque2_ad2868cb8966e2715a0918a55c60aef5b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const\+\_\+reverse\+\_\+iterator \mbox{\hyperlink{classdeque2_ad2868cb8966e2715a0918a55c60aef5b}{crbegin}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the first element of the reversed list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a4b9b04e269502675f6318db9baa130e7}\label{classdeque2_a4b9b04e269502675f6318db9baa130e7}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const\+\_\+reverse\+\_\+iterator \mbox{\hyperlink{classdeque2_a4b9b04e269502675f6318db9baa130e7}{crend}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the element following the last element of the reversed list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_aa62acf9ffaf5220a9611c39ad3155cbf}\label{classdeque2_aa62acf9ffaf5220a9611c39ad3155cbf}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2_aa62acf9ffaf5220a9611c39ad3155cbf}{iterator\+\_\+at}} (size\+\_\+t pos) noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to given absolute position. This is slightly faster than begin()+pos. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a83a8b6a9daee6eab0635eb36da0fb5b3}\label{classdeque2_a83a8b6a9daee6eab0635eb36da0fb5b3}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classdeque2_a83a8b6a9daee6eab0635eb36da0fb5b3}{iterator\+\_\+at}} (size\+\_\+t pos) const noexcept
+\begin{DoxyCompactList}\small\item\em Returns a const\+\_\+iterator to given absolute position. This is slightly faster than begin()+pos. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a830ee91c694f6c6e48f5ce12f7a0bd54}\label{classdeque2_a830ee91c694f6c6e48f5ce12f7a0bd54}} 
+{\footnotesize template$<$class U , class Less  = std\+::less$<$\+T$>$$>$ }\\size\+\_\+t \mbox{\hyperlink{classdeque2_a830ee91c694f6c6e48f5ce12f7a0bd54}{binary\+\_\+search}} (const U \&value, const \mbox{\hyperlink{struct_less}{Less}} \&le=\mbox{\hyperlink{struct_less}{Less}}()) const noexcept
+\begin{DoxyCompactList}\small\item\em Optimized version of std\+::binary\+\_\+search(begin(),end(),value,le); Only works for sorted deque. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_a5cca90cf6ea9d4f393cc2e1ec199a115}\label{classdeque2_a5cca90cf6ea9d4f393cc2e1ec199a115}} 
+{\footnotesize template$<$class U , class Less  = std\+::less$<$\+T$>$$>$ }\\size\+\_\+t \mbox{\hyperlink{classdeque2_a5cca90cf6ea9d4f393cc2e1ec199a115}{lower\+\_\+bound}} (const U \&value, const \mbox{\hyperlink{struct_less}{Less}} \&le=\mbox{\hyperlink{struct_less}{Less}}()) const noexcept
+\begin{DoxyCompactList}\small\item\em Optimized version of std\+::lower\+\_\+bound(begin(),end(),value,le); Only works for sorted deque. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_af14b60911bd00bfa1abab542b541b9eb}\label{classdeque2_af14b60911bd00bfa1abab542b541b9eb}} 
+{\footnotesize template$<$class U , class Less  = std\+::less$<$\+T$>$$>$ }\\size\+\_\+t \mbox{\hyperlink{classdeque2_af14b60911bd00bfa1abab542b541b9eb}{upper\+\_\+bound}} (const U \&value, const \mbox{\hyperlink{struct_less}{Less}} \&le=\mbox{\hyperlink{struct_less}{Less}}()) const noexcept
+\begin{DoxyCompactList}\small\item\em Optimized version of std\+::upper\+\_\+bound(begin(),end(),value,le); Only works for sorted deque. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classdeque2_ac6ca75793eff0ab70abb5aaa9a5d494b}\label{classdeque2_ac6ca75793eff0ab70abb5aaa9a5d494b}} 
+{\bfseries deque2} (const Allocator \&al)
+\item 
+\mbox{\Hypertarget{classdeque2_a8bddececf7a80fb4a59f973502ea78f2}\label{classdeque2_a8bddececf7a80fb4a59f973502ea78f2}} 
+{\bfseries deque2} (size\+\_\+type count, const T \&value, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classdeque2_a1ce543ee5f85c3a643f4c06f71a262f7}\label{classdeque2_a1ce543ee5f85c3a643f4c06f71a262f7}} 
+{\bfseries deque2} (size\+\_\+type count, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classdeque2_a575b9355e93af26795de39c95a6c1a03}\label{classdeque2_a575b9355e93af26795de39c95a6c1a03}} 
+{\bfseries deque2} (const \mbox{\hyperlink{classdeque2}{deque2}} \&other)
+\item 
+\mbox{\Hypertarget{classdeque2_aee98802cdd938218fd880acc507f84dd}\label{classdeque2_aee98802cdd938218fd880acc507f84dd}} 
+{\bfseries deque2} (const \mbox{\hyperlink{classdeque2}{deque2}} \&other, const Allocator \&al)
+\item 
+\mbox{\Hypertarget{classdeque2_acf479e8f20f7e6f1a7261c324eb0407f}\label{classdeque2_acf479e8f20f7e6f1a7261c324eb0407f}} 
+{\bfseries deque2} (\mbox{\hyperlink{classdeque2}{deque2}} \&\&other)
+\item 
+\mbox{\Hypertarget{classdeque2_abf296fa64efebf3908dc032e732aadd6}\label{classdeque2_abf296fa64efebf3908dc032e732aadd6}} 
+{\bfseries deque2} (\mbox{\hyperlink{classdeque2}{deque2}} \&\&other, const Allocator \&al)
+\item 
+\mbox{\Hypertarget{classdeque2_a9463e5cb9ffce18663771343373ee407}\label{classdeque2_a9463e5cb9ffce18663771343373ee407}} 
+{\bfseries deque2} (const std\+::initializer\+\_\+list$<$ T $>$ \&lst, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classdeque2_a51dab4eca1e9ac5cb4a92b1deeef1ad8}\label{classdeque2_a51dab4eca1e9ac5cb4a92b1deeef1ad8}} 
+{\footnotesize template$<$class Iter $>$ }\\{\bfseries deque2} (Iter first, Iter last, const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classdeque2_a3004e6e90143b036175d56d8bbfaa7a1}\label{classdeque2_a3004e6e90143b036175d56d8bbfaa7a1}} 
+\mbox{\hyperlink{classdeque2}{deque2}} \& {\bfseries operator=} (\mbox{\hyperlink{classdeque2}{deque2}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aa27581d2e342d67b35c17076aa052d24}\label{classdeque2_aa27581d2e342d67b35c17076aa052d24}} 
+\mbox{\hyperlink{classdeque2}{deque2}} \& {\bfseries operator=} (const \mbox{\hyperlink{classdeque2}{deque2}} \&other)
+\item 
+\mbox{\Hypertarget{classdeque2_aa33237f11572fe69ce5289182a5c97bd}\label{classdeque2_aa33237f11572fe69ce5289182a5c97bd}} 
+\mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ {\bfseries manager} ()
+\item 
+\mbox{\Hypertarget{classdeque2_ab9556251fa4d00681e0c00764b76bf5d}\label{classdeque2_ab9556251fa4d00681e0c00764b76bf5d}} 
+const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ {\bfseries manager} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a7410e636e215d1c9a26e5143c1bbe1a5}\label{classdeque2_a7410e636e215d1c9a26e5143c1bbe1a5}} 
+size\+\_\+type {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a77b36d5b665c22198212b5f57e137db2}\label{classdeque2_a77b36d5b665c22198212b5f57e137db2}} 
+size\+\_\+type {\bfseries max\+\_\+size} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a96859695b35909cce1f8e2d9017441cb}\label{classdeque2_a96859695b35909cce1f8e2d9017441cb}} 
+size\+\_\+type {\bfseries bucket\+\_\+count} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a79990fcc5adea92b4db470811cb3e780}\label{classdeque2_a79990fcc5adea92b4db470811cb3e780}} 
+size\+\_\+type {\bfseries bucket\+\_\+size} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a6a69761ef6d0e315699ff266f096bb35}\label{classdeque2_a6a69761ef6d0e315699ff266f096bb35}} 
+bool {\bfseries empty} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a5b5de9eaeea47d64c58ffb462c80baff}\label{classdeque2_a5b5de9eaeea47d64c58ffb462c80baff}} 
+const Allocator \& {\bfseries get\+\_\+allocator} () const
+\item 
+\mbox{\Hypertarget{classdeque2_abaffbc4030df124777b75f068041c2f3}\label{classdeque2_abaffbc4030df124777b75f068041c2f3}} 
+Allocator \& {\bfseries get\+\_\+allocator} ()
+\item 
+\mbox{\Hypertarget{classdeque2_a413d4c2b4b2ab4b9ea496a15cb7086bd}\label{classdeque2_a413d4c2b4b2ab4b9ea496a15cb7086bd}} 
+void {\bfseries swap} (\mbox{\hyperlink{classdeque2}{deque2}} \&other) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a18ab5f05303bc9176ca90cc141927437}\label{classdeque2_a18ab5f05303bc9176ca90cc141927437}} 
+void {\bfseries shrink\+\_\+to\+\_\+fit} ()
+\item 
+\mbox{\Hypertarget{classdeque2_ad70817b27f1ca49ba921bb500e323aa1}\label{classdeque2_ad70817b27f1ca49ba921bb500e323aa1}} 
+void {\bfseries resize} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{classdeque2_ab42d94561d996aef405d13363df71c75}\label{classdeque2_ab42d94561d996aef405d13363df71c75}} 
+void {\bfseries resize} (size\+\_\+type size, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a1547738d10a9c169a73555f85be3ff37}\label{classdeque2_a1547738d10a9c169a73555f85be3ff37}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{classdeque2_afa8f06360784823d8b942ab562800073}\label{classdeque2_afa8f06360784823d8b942ab562800073}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+type size, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a1721abf59df0890421905681f06a1913}\label{classdeque2_a1721abf59df0890421905681f06a1913}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classdeque2_a3ca48f57aea391d037e676767ea2621c}\label{classdeque2_a3ca48f57aea391d037e676767ea2621c}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a9d7d2474b171536fcc899509293b94da}\label{classdeque2_a9d7d2474b171536fcc899509293b94da}} 
+void {\bfseries push\+\_\+back} (T \&\&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a6efbb7f69a24333f38025294e0cb4a79}\label{classdeque2_a6efbb7f69a24333f38025294e0cb4a79}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace\+\_\+back} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_a21c2ea4236b1def98b091b53566a5b32}\label{classdeque2_a21c2ea4236b1def98b091b53566a5b32}} 
+void {\bfseries push\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a4cfb4c5a61549f5df100a82f9f02dc00}\label{classdeque2_a4cfb4c5a61549f5df100a82f9f02dc00}} 
+void {\bfseries push\+\_\+front} (T \&\&value)
+\item 
+\mbox{\Hypertarget{classdeque2_aab0db81affe0ce2e5f28afcee9952403}\label{classdeque2_aab0db81affe0ce2e5f28afcee9952403}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace\+\_\+front} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_a6111a1c166b94923046f5ce9b5d05658}\label{classdeque2_a6111a1c166b94923046f5ce9b5d05658}} 
+void {\bfseries insert} (size\+\_\+type pos, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a05b2833d3c9688cbda07fffff6c988b3}\label{classdeque2_a05b2833d3c9688cbda07fffff6c988b3}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a6c68a938bc2a298449c5aa36dfbecc8a}\label{classdeque2_a6c68a938bc2a298449c5aa36dfbecc8a}} 
+void {\bfseries insert} (size\+\_\+type pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a55c295f4c8ae4c879c4b030fa92cddf6}\label{classdeque2_a55c295f4c8ae4c879c4b030fa92cddf6}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it, T \&\&value)
+\item 
+\mbox{\Hypertarget{classdeque2_ae9dbd414ccc60320f772c189cc4bb0a7}\label{classdeque2_ae9dbd414ccc60320f772c189cc4bb0a7}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace} (size\+\_\+type pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_abf31475aea5e645cd06c0a18b49fe67a}\label{classdeque2_abf31475aea5e645cd06c0a18b49fe67a}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace} (\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_a081250f49736dbf48e5b844deacafdb1}\label{classdeque2_a081250f49736dbf48e5b844deacafdb1}} 
+{\footnotesize template$<$class... Args$>$ }\\T \& {\bfseries emplace} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_a541c06978e7e6f577d2a2f8d1f08c598}\label{classdeque2_a541c06978e7e6f577d2a2f8d1f08c598}} 
+{\footnotesize template$<$class Iter $>$ }\\void {\bfseries insert} (size\+\_\+type pos, Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{classdeque2_ac32e48983e2596f4393a9def65ecf884}\label{classdeque2_ac32e48983e2596f4393a9def65ecf884}} 
+{\footnotesize template$<$class Iter $>$ }\\\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it, Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{classdeque2_ae3205797052f31e99bbd835d3f7421f2}\label{classdeque2_ae3205797052f31e99bbd835d3f7421f2}} 
+void {\bfseries insert} (size\+\_\+type pos, size\+\_\+type count, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a839c9e8bff3303eaa6cc3470ce2df314}\label{classdeque2_a839c9e8bff3303eaa6cc3470ce2df314}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries insert} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} pos, size\+\_\+type count, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a7412866d48eeeba1ae9831e2d90e2e9c}\label{classdeque2_a7412866d48eeeba1ae9831e2d90e2e9c}} 
+void {\bfseries pop\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{classdeque2_acf33bd83e3344bb65aed00cb9758165c}\label{classdeque2_acf33bd83e3344bb65aed00cb9758165c}} 
+void {\bfseries pop\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{classdeque2_a7d84531f6e31b03aa4d4af7346f069df}\label{classdeque2_a7d84531f6e31b03aa4d4af7346f069df}} 
+void {\bfseries erase} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{classdeque2_a0dcb557ffcf46f609cd37ebfcfe9c15b}\label{classdeque2_a0dcb557ffcf46f609cd37ebfcfe9c15b}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries erase} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} it)
+\item 
+\mbox{\Hypertarget{classdeque2_a0bc74c95ca7d62c10f6078020ada986f}\label{classdeque2_a0bc74c95ca7d62c10f6078020ada986f}} 
+void {\bfseries erase} (size\+\_\+type first, size\+\_\+type last)
+\item 
+\mbox{\Hypertarget{classdeque2_a709f986b066ffbd1b2d9a774d78b9add}\label{classdeque2_a709f986b066ffbd1b2d9a774d78b9add}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries erase} (\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} first, \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} last)
+\item 
+\mbox{\Hypertarget{classdeque2_a70eaa59a8a8759ef893fd28d019e6937}\label{classdeque2_a70eaa59a8a8759ef893fd28d019e6937}} 
+void {\bfseries assign} (size\+\_\+type count, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a93c47c37e56f11714f0a09d269c57719}\label{classdeque2_a93c47c37e56f11714f0a09d269c57719}} 
+{\footnotesize template$<$class Iter $>$ }\\void {\bfseries assign} (Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{classdeque2_a8c684f4163189ef1124ee3315048259b}\label{classdeque2_a8c684f4163189ef1124ee3315048259b}} 
+void {\bfseries assign} (std\+::initializer\+\_\+list$<$ T $>$ ilist)
+\item 
+\mbox{\Hypertarget{classdeque2_a08f33a0bc38953f17e476ae498df9040}\label{classdeque2_a08f33a0bc38953f17e476ae498df9040}} 
+{\footnotesize template$<$class Fun $>$ }\\Fun {\bfseries for\+\_\+each} (size\+\_\+type first, size\+\_\+type last, Fun fun)
+\item 
+\mbox{\Hypertarget{classdeque2_a3acff7357ef7605976812891c648dd10}\label{classdeque2_a3acff7357ef7605976812891c648dd10}} 
+{\footnotesize template$<$class Fun $>$ }\\Fun {\bfseries for\+\_\+each} (size\+\_\+type first, size\+\_\+type last, Fun fun) const
+\item 
+\mbox{\Hypertarget{classdeque2_a626ff0d93bf0a61826997cae1b13a54f}\label{classdeque2_a626ff0d93bf0a61826997cae1b13a54f}} 
+const T \& {\bfseries at} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a37cdfa99cd9546752901c80f9c805677}\label{classdeque2_a37cdfa99cd9546752901c80f9c805677}} 
+T \& {\bfseries at} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a33ff211593d9c16c401c8e4de79586e5}\label{classdeque2_a33ff211593d9c16c401c8e4de79586e5}} 
+const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aea59542bba56f67c662f9ed4f0d80e7a}\label{classdeque2_aea59542bba56f67c662f9ed4f0d80e7a}} 
+T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_abf82cc501b7710a7620f6d87ba76027c}\label{classdeque2_abf82cc501b7710a7620f6d87ba76027c}} 
+T \& {\bfseries back} ()
+\item 
+\mbox{\Hypertarget{classdeque2_aedde7889adcb981115f80d8f768364ce}\label{classdeque2_aedde7889adcb981115f80d8f768364ce}} 
+const T \& {\bfseries back} () const
+\item 
+\mbox{\Hypertarget{classdeque2_ab8dc71f3abd1a384269dd4a5ade712ab}\label{classdeque2_ab8dc71f3abd1a384269dd4a5ade712ab}} 
+T \& {\bfseries front} ()
+\item 
+\mbox{\Hypertarget{classdeque2_ad746d0e885d28419ada40c502a105cbb}\label{classdeque2_ad746d0e885d28419ada40c502a105cbb}} 
+const T \& {\bfseries front} () const
+\item 
+\mbox{\Hypertarget{classdeque2_ac212188082da190386b63541e8c6d469}\label{classdeque2_ac212188082da190386b63541e8c6d469}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_af464c96015bbd4fdd82b0f5d43046a02}\label{classdeque2_af464c96015bbd4fdd82b0f5d43046a02}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries begin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a637ce4ab03c362c2d1913b2d7fd0ada9}\label{classdeque2_a637ce4ab03c362c2d1913b2d7fd0ada9}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a06ac7ab28029a485d6b46da6a9b01f1b}\label{classdeque2_a06ac7ab28029a485d6b46da6a9b01f1b}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries end} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_af3b2521b6dc207516124cf530b429b05}\label{classdeque2_af3b2521b6dc207516124cf530b429b05}} 
+reverse\+\_\+iterator {\bfseries rbegin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a41617280aa72f0f794d763c767b339bb}\label{classdeque2_a41617280aa72f0f794d763c767b339bb}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a5a3ae65ccc69bf7ed8971b01aaac3bcb}\label{classdeque2_a5a3ae65ccc69bf7ed8971b01aaac3bcb}} 
+reverse\+\_\+iterator {\bfseries rend} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aea81d8b2ad8fa7981e6c7536ff5baeab}\label{classdeque2_aea81d8b2ad8fa7981e6c7536ff5baeab}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_afc6c60d03af01a0dfab9afc4f0252940}\label{classdeque2_afc6c60d03af01a0dfab9afc4f0252940}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries cbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_acda3bc2fa33630abae730c717bcfb1f3}\label{classdeque2_acda3bc2fa33630abae730c717bcfb1f3}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries cend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ae00e7a3b56e091e7361f510edd714d89}\label{classdeque2_ae00e7a3b56e091e7361f510edd714d89}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a65e6719d9ca9c0fcb4b46b6561ddfc99}\label{classdeque2_a65e6719d9ca9c0fcb4b46b6561ddfc99}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a554f84df0e4f2d3dc0d9e7e50fe2f4a5}\label{classdeque2_a554f84df0e4f2d3dc0d9e7e50fe2f4a5}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries iterator\+\_\+at} (size\+\_\+t pos) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aa9ab4950e326b4d1670481d01540afdd}\label{classdeque2_aa9ab4950e326b4d1670481d01540afdd}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries iterator\+\_\+at} (size\+\_\+t pos) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a63a2d6c49127e823063d3b51340c08d1}\label{classdeque2_a63a2d6c49127e823063d3b51340c08d1}} 
+{\footnotesize template$<$class U , class Less  = std\+::less$<$\+T$>$$>$ }\\size\+\_\+t {\bfseries binary\+\_\+search} (const U \&value, size\+\_\+t start, size\+\_\+t end, \mbox{\hyperlink{struct_less}{Less}} le=\mbox{\hyperlink{struct_less}{Less}}()) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_afaa54848330282b143d38d116419c340}\label{classdeque2_afaa54848330282b143d38d116419c340}} 
+{\footnotesize template$<$class U , class Less  = std\+::less$<$\+T$>$$>$ }\\size\+\_\+t {\bfseries lower\+\_\+bound} (const U \&value, size\+\_\+t start, size\+\_\+t end, \mbox{\hyperlink{struct_less}{Less}} le=\mbox{\hyperlink{struct_less}{Less}}()) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ac3f85497f3c3788b56404dcfd3e73d83}\label{classdeque2_ac3f85497f3c3788b56404dcfd3e73d83}} 
+{\footnotesize template$<$class U , class Less  = std\+::less$<$\+T$>$$>$ }\\size\+\_\+t {\bfseries upper\+\_\+bound} (const U \&value, size\+\_\+t start, size\+\_\+t end, \mbox{\hyperlink{struct_less}{Less}} le=\mbox{\hyperlink{struct_less}{Less}}()) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ad739ede6074365c5ec746c94f7bfd902}\label{classdeque2_ad739ede6074365c5ec746c94f7bfd902}} 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ {\bfseries make\+\_\+manager} (const Allocator \&al, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_a61fe7529e06d4347f4f3d9b4af0fce60}\label{classdeque2_a61fe7529e06d4347f4f3d9b4af0fce60}} 
+void {\bfseries destroy\+\_\+manager} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$manager)
+\item 
+\mbox{\Hypertarget{classdeque2_aa33237f11572fe69ce5289182a5c97bd}\label{classdeque2_aa33237f11572fe69ce5289182a5c97bd}} 
+\mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ {\bfseries manager} ()
+\item 
+\mbox{\Hypertarget{classdeque2_ab9556251fa4d00681e0c00764b76bf5d}\label{classdeque2_ab9556251fa4d00681e0c00764b76bf5d}} 
+const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ {\bfseries manager} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a9f56493aea4b142564d2fce2b9e9cb8f}\label{classdeque2_a9f56493aea4b142564d2fce2b9e9cb8f}} 
+{\bfseries deque2} (const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classdeque2_a575b9355e93af26795de39c95a6c1a03}\label{classdeque2_a575b9355e93af26795de39c95a6c1a03}} 
+{\bfseries deque2} (const \mbox{\hyperlink{classdeque2}{deque2}} \&other)
+\item 
+\mbox{\Hypertarget{classdeque2_acf479e8f20f7e6f1a7261c324eb0407f}\label{classdeque2_acf479e8f20f7e6f1a7261c324eb0407f}} 
+{\bfseries deque2} (\mbox{\hyperlink{classdeque2}{deque2}} \&\&other)
+\item 
+\mbox{\Hypertarget{classdeque2_a3166344991198d1094e25d6569838559}\label{classdeque2_a3166344991198d1094e25d6569838559}} 
+{\bfseries deque2} (const std\+::initializer\+\_\+list$<$ T $>$ \&lst)
+\item 
+\mbox{\Hypertarget{classdeque2_a7410e636e215d1c9a26e5143c1bbe1a5}\label{classdeque2_a7410e636e215d1c9a26e5143c1bbe1a5}} 
+size\+\_\+type {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a5b5de9eaeea47d64c58ffb462c80baff}\label{classdeque2_a5b5de9eaeea47d64c58ffb462c80baff}} 
+const Allocator \& {\bfseries get\+\_\+allocator} () const
+\item 
+\mbox{\Hypertarget{classdeque2_ad70817b27f1ca49ba921bb500e323aa1}\label{classdeque2_ad70817b27f1ca49ba921bb500e323aa1}} 
+void {\bfseries resize} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{classdeque2_a1721abf59df0890421905681f06a1913}\label{classdeque2_a1721abf59df0890421905681f06a1913}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classdeque2_ad1844a3867e423d3dfdc5f46a4b63d5f}\label{classdeque2_ad1844a3867e423d3dfdc5f46a4b63d5f}} 
+void {\bfseries check\+\_\+bucket\+\_\+size} ()
+\item 
+\mbox{\Hypertarget{classdeque2_a3ca48f57aea391d037e676767ea2621c}\label{classdeque2_a3ca48f57aea391d037e676767ea2621c}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a21c2ea4236b1def98b091b53566a5b32}\label{classdeque2_a21c2ea4236b1def98b091b53566a5b32}} 
+void {\bfseries push\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a6111a1c166b94923046f5ce9b5d05658}\label{classdeque2_a6111a1c166b94923046f5ce9b5d05658}} 
+void {\bfseries insert} (size\+\_\+type pos, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a7412866d48eeeba1ae9831e2d90e2e9c}\label{classdeque2_a7412866d48eeeba1ae9831e2d90e2e9c}} 
+void {\bfseries pop\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{classdeque2_acf33bd83e3344bb65aed00cb9758165c}\label{classdeque2_acf33bd83e3344bb65aed00cb9758165c}} 
+void {\bfseries pop\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{classdeque2_a7d84531f6e31b03aa4d4af7346f069df}\label{classdeque2_a7d84531f6e31b03aa4d4af7346f069df}} 
+void {\bfseries erase} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{classdeque2_ad339529032a6371492d155e5dc6288c9}\label{classdeque2_ad339529032a6371492d155e5dc6288c9}} 
+void {\bfseries set\+\_\+bucket\+\_\+size} (int bsize)
+\item 
+\mbox{\Hypertarget{classdeque2_a4794faa024985b84d0f50bf3457b14bd}\label{classdeque2_a4794faa024985b84d0f50bf3457b14bd}} 
+const T \& {\bfseries cat} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a33ff211593d9c16c401c8e4de79586e5}\label{classdeque2_a33ff211593d9c16c401c8e4de79586e5}} 
+const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aea59542bba56f67c662f9ed4f0d80e7a}\label{classdeque2_aea59542bba56f67c662f9ed4f0d80e7a}} 
+T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ac212188082da190386b63541e8c6d469}\label{classdeque2_ac212188082da190386b63541e8c6d469}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_af464c96015bbd4fdd82b0f5d43046a02}\label{classdeque2_af464c96015bbd4fdd82b0f5d43046a02}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries begin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a637ce4ab03c362c2d1913b2d7fd0ada9}\label{classdeque2_a637ce4ab03c362c2d1913b2d7fd0ada9}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a06ac7ab28029a485d6b46da6a9b01f1b}\label{classdeque2_a06ac7ab28029a485d6b46da6a9b01f1b}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries end} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_af3b2521b6dc207516124cf530b429b05}\label{classdeque2_af3b2521b6dc207516124cf530b429b05}} 
+reverse\+\_\+iterator {\bfseries rbegin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a41617280aa72f0f794d763c767b339bb}\label{classdeque2_a41617280aa72f0f794d763c767b339bb}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a5a3ae65ccc69bf7ed8971b01aaac3bcb}\label{classdeque2_a5a3ae65ccc69bf7ed8971b01aaac3bcb}} 
+reverse\+\_\+iterator {\bfseries rend} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aea81d8b2ad8fa7981e6c7536ff5baeab}\label{classdeque2_aea81d8b2ad8fa7981e6c7536ff5baeab}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_afc6c60d03af01a0dfab9afc4f0252940}\label{classdeque2_afc6c60d03af01a0dfab9afc4f0252940}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries cbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_acda3bc2fa33630abae730c717bcfb1f3}\label{classdeque2_acda3bc2fa33630abae730c717bcfb1f3}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries cend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ae00e7a3b56e091e7361f510edd714d89}\label{classdeque2_ae00e7a3b56e091e7361f510edd714d89}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a65e6719d9ca9c0fcb4b46b6561ddfc99}\label{classdeque2_a65e6719d9ca9c0fcb4b46b6561ddfc99}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a38a0436da239b20a92bfea3fd0b86fc2}\label{classdeque2_a38a0436da239b20a92bfea3fd0b86fc2}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{u\+\_\+const\+\_\+iterator}} {\bfseries u\+\_\+begin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a698f7326423bb85ac2a2e48d3cc6f95c}\label{classdeque2_a698f7326423bb85ac2a2e48d3cc6f95c}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__iterator}{u\+\_\+iterator}} {\bfseries u\+\_\+begin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a18950e5721bef24702e423a2cc475931}\label{classdeque2_a18950e5721bef24702e423a2cc475931}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{u\+\_\+const\+\_\+iterator}} {\bfseries u\+\_\+end} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a60c923762b53b33fd39a42144a85d7d9}\label{classdeque2_a60c923762b53b33fd39a42144a85d7d9}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__iterator}{u\+\_\+iterator}} {\bfseries u\+\_\+end} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a138b1aeb854a5064df0696472e6f3cfb}\label{classdeque2_a138b1aeb854a5064df0696472e6f3cfb}} 
+u\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+rbegin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_abb1287e647ec6e207dff5245dc05784c}\label{classdeque2_abb1287e647ec6e207dff5245dc05784c}} 
+u\+\_\+const\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+rbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a5e6717c137185c145a216d997649e10a}\label{classdeque2_a5e6717c137185c145a216d997649e10a}} 
+u\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+rend} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ac65537cf5a4b6e465f213b6639775409}\label{classdeque2_ac65537cf5a4b6e465f213b6639775409}} 
+u\+\_\+const\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+rend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ab82d31e9eb592eeeb6e1995f7610a11d}\label{classdeque2_ab82d31e9eb592eeeb6e1995f7610a11d}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{u\+\_\+const\+\_\+iterator}} {\bfseries u\+\_\+cbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a821a84892abf7ddd46b35db5e7a05fa3}\label{classdeque2_a821a84892abf7ddd46b35db5e7a05fa3}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{u\+\_\+const\+\_\+iterator}} {\bfseries u\+\_\+cend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a3c01f9123f967eb34779ae4092b3f0ee}\label{classdeque2_a3c01f9123f967eb34779ae4092b3f0ee}} 
+u\+\_\+const\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+crbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a0f44847c70660a020770a52bbe36f22f}\label{classdeque2_a0f44847c70660a020770a52bbe36f22f}} 
+u\+\_\+const\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+crend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ad739ede6074365c5ec746c94f7bfd902}\label{classdeque2_ad739ede6074365c5ec746c94f7bfd902}} 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ {\bfseries make\+\_\+manager} (const Allocator \&al, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classdeque2_a61fe7529e06d4347f4f3d9b4af0fce60}\label{classdeque2_a61fe7529e06d4347f4f3d9b4af0fce60}} 
+void {\bfseries destroy\+\_\+manager} (\mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$manager)
+\item 
+\mbox{\Hypertarget{classdeque2_aa33237f11572fe69ce5289182a5c97bd}\label{classdeque2_aa33237f11572fe69ce5289182a5c97bd}} 
+\mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ {\bfseries manager} ()
+\item 
+\mbox{\Hypertarget{classdeque2_ab9556251fa4d00681e0c00764b76bf5d}\label{classdeque2_ab9556251fa4d00681e0c00764b76bf5d}} 
+const \mbox{\hyperlink{structdetail_1_1_bucket_manager}{bucket\+\_\+manager}} $\ast$ {\bfseries manager} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a9f56493aea4b142564d2fce2b9e9cb8f}\label{classdeque2_a9f56493aea4b142564d2fce2b9e9cb8f}} 
+{\bfseries deque2} (const Allocator \&al=Allocator())
+\item 
+\mbox{\Hypertarget{classdeque2_a575b9355e93af26795de39c95a6c1a03}\label{classdeque2_a575b9355e93af26795de39c95a6c1a03}} 
+{\bfseries deque2} (const \mbox{\hyperlink{classdeque2}{deque2}} \&other)
+\item 
+\mbox{\Hypertarget{classdeque2_acf479e8f20f7e6f1a7261c324eb0407f}\label{classdeque2_acf479e8f20f7e6f1a7261c324eb0407f}} 
+{\bfseries deque2} (\mbox{\hyperlink{classdeque2}{deque2}} \&\&other)
+\item 
+\mbox{\Hypertarget{classdeque2_a3166344991198d1094e25d6569838559}\label{classdeque2_a3166344991198d1094e25d6569838559}} 
+{\bfseries deque2} (const std\+::initializer\+\_\+list$<$ T $>$ \&lst)
+\item 
+\mbox{\Hypertarget{classdeque2_a7410e636e215d1c9a26e5143c1bbe1a5}\label{classdeque2_a7410e636e215d1c9a26e5143c1bbe1a5}} 
+size\+\_\+type {\bfseries size} () const
+\item 
+\mbox{\Hypertarget{classdeque2_a5b5de9eaeea47d64c58ffb462c80baff}\label{classdeque2_a5b5de9eaeea47d64c58ffb462c80baff}} 
+const Allocator \& {\bfseries get\+\_\+allocator} () const
+\item 
+\mbox{\Hypertarget{classdeque2_ad70817b27f1ca49ba921bb500e323aa1}\label{classdeque2_ad70817b27f1ca49ba921bb500e323aa1}} 
+void {\bfseries resize} (size\+\_\+type size)
+\item 
+\mbox{\Hypertarget{classdeque2_a1721abf59df0890421905681f06a1913}\label{classdeque2_a1721abf59df0890421905681f06a1913}} 
+void {\bfseries clear} ()
+\item 
+\mbox{\Hypertarget{classdeque2_ad1844a3867e423d3dfdc5f46a4b63d5f}\label{classdeque2_ad1844a3867e423d3dfdc5f46a4b63d5f}} 
+void {\bfseries check\+\_\+bucket\+\_\+size} ()
+\item 
+\mbox{\Hypertarget{classdeque2_a3ca48f57aea391d037e676767ea2621c}\label{classdeque2_a3ca48f57aea391d037e676767ea2621c}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a21c2ea4236b1def98b091b53566a5b32}\label{classdeque2_a21c2ea4236b1def98b091b53566a5b32}} 
+void {\bfseries push\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a6111a1c166b94923046f5ce9b5d05658}\label{classdeque2_a6111a1c166b94923046f5ce9b5d05658}} 
+void {\bfseries insert} (size\+\_\+type pos, const T \&value)
+\item 
+\mbox{\Hypertarget{classdeque2_a7412866d48eeeba1ae9831e2d90e2e9c}\label{classdeque2_a7412866d48eeeba1ae9831e2d90e2e9c}} 
+void {\bfseries pop\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{classdeque2_acf33bd83e3344bb65aed00cb9758165c}\label{classdeque2_acf33bd83e3344bb65aed00cb9758165c}} 
+void {\bfseries pop\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{classdeque2_a7d84531f6e31b03aa4d4af7346f069df}\label{classdeque2_a7d84531f6e31b03aa4d4af7346f069df}} 
+void {\bfseries erase} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{classdeque2_ad339529032a6371492d155e5dc6288c9}\label{classdeque2_ad339529032a6371492d155e5dc6288c9}} 
+void {\bfseries set\+\_\+bucket\+\_\+size} (int bsize)
+\item 
+\mbox{\Hypertarget{classdeque2_a4794faa024985b84d0f50bf3457b14bd}\label{classdeque2_a4794faa024985b84d0f50bf3457b14bd}} 
+const T \& {\bfseries cat} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a33ff211593d9c16c401c8e4de79586e5}\label{classdeque2_a33ff211593d9c16c401c8e4de79586e5}} 
+const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+type pos) const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aea59542bba56f67c662f9ed4f0d80e7a}\label{classdeque2_aea59542bba56f67c662f9ed4f0d80e7a}} 
+T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+type pos) noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ac212188082da190386b63541e8c6d469}\label{classdeque2_ac212188082da190386b63541e8c6d469}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_af464c96015bbd4fdd82b0f5d43046a02}\label{classdeque2_af464c96015bbd4fdd82b0f5d43046a02}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries begin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a637ce4ab03c362c2d1913b2d7fd0ada9}\label{classdeque2_a637ce4ab03c362c2d1913b2d7fd0ada9}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a06ac7ab28029a485d6b46da6a9b01f1b}\label{classdeque2_a06ac7ab28029a485d6b46da6a9b01f1b}} 
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} {\bfseries end} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_af3b2521b6dc207516124cf530b429b05}\label{classdeque2_af3b2521b6dc207516124cf530b429b05}} 
+reverse\+\_\+iterator {\bfseries rbegin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a41617280aa72f0f794d763c767b339bb}\label{classdeque2_a41617280aa72f0f794d763c767b339bb}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a5a3ae65ccc69bf7ed8971b01aaac3bcb}\label{classdeque2_a5a3ae65ccc69bf7ed8971b01aaac3bcb}} 
+reverse\+\_\+iterator {\bfseries rend} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_aea81d8b2ad8fa7981e6c7536ff5baeab}\label{classdeque2_aea81d8b2ad8fa7981e6c7536ff5baeab}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_afc6c60d03af01a0dfab9afc4f0252940}\label{classdeque2_afc6c60d03af01a0dfab9afc4f0252940}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries cbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_acda3bc2fa33630abae730c717bcfb1f3}\label{classdeque2_acda3bc2fa33630abae730c717bcfb1f3}} 
+\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}} {\bfseries cend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ae00e7a3b56e091e7361f510edd714d89}\label{classdeque2_ae00e7a3b56e091e7361f510edd714d89}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a65e6719d9ca9c0fcb4b46b6561ddfc99}\label{classdeque2_a65e6719d9ca9c0fcb4b46b6561ddfc99}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a38a0436da239b20a92bfea3fd0b86fc2}\label{classdeque2_a38a0436da239b20a92bfea3fd0b86fc2}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{u\+\_\+const\+\_\+iterator}} {\bfseries u\+\_\+begin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a698f7326423bb85ac2a2e48d3cc6f95c}\label{classdeque2_a698f7326423bb85ac2a2e48d3cc6f95c}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__iterator}{u\+\_\+iterator}} {\bfseries u\+\_\+begin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a18950e5721bef24702e423a2cc475931}\label{classdeque2_a18950e5721bef24702e423a2cc475931}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{u\+\_\+const\+\_\+iterator}} {\bfseries u\+\_\+end} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a60c923762b53b33fd39a42144a85d7d9}\label{classdeque2_a60c923762b53b33fd39a42144a85d7d9}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__iterator}{u\+\_\+iterator}} {\bfseries u\+\_\+end} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a138b1aeb854a5064df0696472e6f3cfb}\label{classdeque2_a138b1aeb854a5064df0696472e6f3cfb}} 
+u\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+rbegin} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_abb1287e647ec6e207dff5245dc05784c}\label{classdeque2_abb1287e647ec6e207dff5245dc05784c}} 
+u\+\_\+const\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+rbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a5e6717c137185c145a216d997649e10a}\label{classdeque2_a5e6717c137185c145a216d997649e10a}} 
+u\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+rend} () noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ac65537cf5a4b6e465f213b6639775409}\label{classdeque2_ac65537cf5a4b6e465f213b6639775409}} 
+u\+\_\+const\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+rend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_ab82d31e9eb592eeeb6e1995f7610a11d}\label{classdeque2_ab82d31e9eb592eeeb6e1995f7610a11d}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{u\+\_\+const\+\_\+iterator}} {\bfseries u\+\_\+cbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a821a84892abf7ddd46b35db5e7a05fa3}\label{classdeque2_a821a84892abf7ddd46b35db5e7a05fa3}} 
+\mbox{\hyperlink{structdetail_1_1unsafe__const__iterator}{u\+\_\+const\+\_\+iterator}} {\bfseries u\+\_\+cend} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a3c01f9123f967eb34779ae4092b3f0ee}\label{classdeque2_a3c01f9123f967eb34779ae4092b3f0ee}} 
+u\+\_\+const\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+crbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classdeque2_a0f44847c70660a020770a52bbe36f22f}\label{classdeque2_a0f44847c70660a020770a52bbe36f22f}} 
+u\+\_\+const\+\_\+reverse\+\_\+iterator {\bfseries u\+\_\+crend} () const noexcept
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$\newline
+class deque2$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$}
+
+seq\+::deque is a std\+::deque like container implemented as a tiered-\/vector. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & value type \\
+\hline
+{\em Allocator} & allocator type \\
+\hline
+{\em Find\+B\+Size} & struct used to find the bucket size for a given deque size \\
+\hline
+{\em Value\+Compare} & internal use only\\
+\hline
+\end{DoxyTemplParams}
+seq\+::deque is a random-\/access, bucket based container providing a similar interface to std\+::deque. Its internals are however very different as it is implemented as a \href{http://cs.brown.edu/cgc/jdsl/papers/tiered-vector.pdf}{\texttt{ tiered vector}}. Instead of maintaining a vector of fixed size buckets, seq\+::deque uses a bucket size close to sqrt(size()). The bucket size is always a power of 2 for fast division and modulo. Furtheremore, the bucket is not a linear buffer but is instead implemented as a circular buffer. This allows a complexity of O(sqrt(\+N)) for insertion and deletion in the middle of the deque instead of O(\+N) for std\+::deque. Inserting and deleting elements at both ends is still O(1).\hypertarget{classdeque2_autotoc_md0}{}\doxysubsubsection{Interface}\label{classdeque2_autotoc_md0}
+seq\+::deque interface is the same as std\+::deque. The only difference is the additional \#for\+\_\+each() members providing a faster way to walk through the deque than iterators.\hypertarget{classdeque2_autotoc_md1}{}\doxysubsubsection{Bucket managment}\label{classdeque2_autotoc_md1}
+The seq\+::deque maintains internally an array of circular buffers (or buckets). At any moment, all buckets have the same size which is a power of 2. At container initialization, the bucket size is given by template parameter {\itshape Min\+B\+Size} which is, by default, between 64 and 8 depending on value\+\_\+type size. Whenever seq\+::deque grows (through \#push\+\_\+back(), \#push\+\_\+front(), \#insert(), \#resize() ...), the new bucket size is computed using the template parameter {\itshape Find\+B\+Size}. {\itshape Find\+B\+Size} must provide the member 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{unsigned}  FindBSize::operator() (\textcolor{keywordtype}{size\_t} size, \textcolor{keywordtype}{unsigned} MinBSize, \textcolor{keywordtype}{unsigned} MaxBSize) \textcolor{keyword}{const} noexcept ;}
+\end{DoxyCode}
+ returning the new bucket size based on the container size, the minimum and maximum bucket size. Default implementation returns a value close to sqrt(size()) rounded up to the next power of 2.
+
+If the new bucket size is different than the current one, new buckets are created and elements from the old buckets are moved to the new ones. This has the practical consequence to $<$ b$>$ invalidate all iterators and references on growing or shrinking $<$ /b$>$, as opposed to std\+::deque which maintains references when insert/deleting at both ends.\hypertarget{classdeque2_autotoc_md2}{}\doxysubsubsection{Inserting and deleting elements}\label{classdeque2_autotoc_md2}
+Inserting or deleting elements at the back or the front behaves the same way as for std\+::deque, except if the bucket size is updated (as explained above).
+
+Inerting an element in the middle of seq\+::deque follows these steps\+: \begin{DoxyVerb}- The bucket index and the element position within the bucket are first computed
+- The back element of the bucket is extracted and removed from the bucket
+- The new element is inserted at the right position. Since the bucket is implemented as a dense
+circular buffer, at most half of the bucket elements must be moved (toward the left or the right,
+whichever is the shortest path)
+- The back value that was previously removed is inserted at the front of the next bucket
+- The next bucket back value is extracted and inserted at the front of the following bucket
+- ....
+- And so forth until we reach the last bucket. 
+\end{DoxyVerb}
+
+
+This operation of {\itshape insert front/pop back} is very fast on a circular buffer as it involves only two element moves and shifting the begin index of the buffer. If the bucket size is exactly sqrt(size()), inserting an element in the middle performs in O(sqrt(\+N)) as it involves as many element moves within a single bucket than between buckets.
+
+In practice the buckets size should be greater than sqrt(size()) as moving elements within a bucket is much faster than between buckets due to cache locality.
+
+Note that, depending on the insertion location, elements can be shifted toward the front bucket instead of the back one if this is the shortest path. This practically divides by 2 (on average) the number of moved elements.
+
+Erasing an element in the middle follows the exact same logic.\hypertarget{classdeque2_autotoc_md3}{}\doxysubsubsection{Exception guarantee}\label{classdeque2_autotoc_md3}
+All insertion/deletion operations on a seq\+::deque are much more complex than for a std\+::deque. Especially, each operation might change the bucket size, and therefore trigger the allocation of new buckets plus moving all elements within the new buckets.
+
+Although possible, providing strong exception guarantee on seq\+::deque operations would have added a very complex layer hurting its performances. Therefore, all seq\+::deque operations only provide {\bfseries{basic exception guarantee}}.\hypertarget{classdeque2_autotoc_md4}{}\doxysubsubsection{Iterators and references invalidation}\label{classdeque2_autotoc_md4}
+As explained above, all seq\+::deque operations invalidate iterators and references, except for swapping two seq\+::deque.
+
+The only exception is when providing a minimum bucket size ({\itshape Min\+B\+Size}) equals to the maximum bucket size ({\itshape Max\+B\+Size}). In this case, inserting/deleting elements will {\itshape never} change the bucket size and move all elements within new buckets. This affects the members \#emplace\+\_\+back(), \#push\+\_\+back(), \#emplace\+\_\+front() and \#push\+\_\+front() that provide the same invalidation rules as for std\+::deque.\hypertarget{classdeque2_autotoc_md5}{}\doxysubsubsection{Memory layout}\label{classdeque2_autotoc_md5}
+If the {\itshape layout} template parameter is {\itshape Optimize\+For\+Memory}, each bucket is independantly allocated using the provided allocator, and the buckets are automatically deallocated when empty.
+
+When using the {\itshape Optimize\+For\+Speed} flag, the seq\+::deque will use a memory pool to allocate several buckets at once, still using the provided allocator. The memory pool uses a growing strategy to allocate more and more buckets based on a growth factor (S\+E\+Q\+\_\+\+G\+R\+O\+W\+\_\+\+F\+A\+C\+T\+OR define, defaulting to 1.\+6). Whenever the bucket size change, memory chunks used to store the previous buckets are kept as long as they are big enough to hold buckets of the new size. This avoid a lot of unnecessary allocations when continuously extending the seq\+::deque. The memory pool makes insertion tipically 50\% faster (depending on value\+\_\+type size) than the default allocation strategy, but will consume slightly more memory.
+
+With {\itshape Optimize\+For\+Speed} flag, the deque will almost never release memory, except on calls to \#shrink\+\_\+to\+\_\+fit().\hypertarget{classdeque2_autotoc_md6}{}\doxysubsubsection{Performances}\label{classdeque2_autotoc_md6}
+seq\+::deque was optimized to match libc++ std\+::deque performances as close as possible. My benchmarhs shows that all members are actually faster than libc++ std\+::deque, except for \#push\+\_\+back(), \#push\+\_\+front(), \#pop\+\_\+back() and \#pop\+\_\+front() which are slightly slower due to the need to move all elements when the bucket size changes. This can be alievated by the {\itshape Optimize\+For\+Speed} flag that makes both ooperations faster than their std\+::deque counterparts.
+
+Usually, iterating through a seq\+::deque is faster than through a std\+::deque. The random-\/access \#operator\mbox{[}$\,$\mbox{]}(size\+\_\+t) is also faster. Making a lot of random access based on iterators can be slightly slower with seq\+::deque depending on the use case. For instance, sorting a seq\+::deque is slower than sorting a std\+::deque.
+
+Inserting/deleting single elements on a seq\+::deque is several order of magnitudes faster than std\+::deque due to the tiered-\/vector implementation.
+
+The standard conlusion is\+: you should always benchmark with your own use cases. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classdeque2_adde1d8dd3a0df9d66583c90e4a47cffc}\label{classdeque2_adde1d8dd3a0df9d66583c90e4a47cffc}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!deque2@{deque2}}
+\index{deque2@{deque2}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{deque2()}{deque2()}\hspace{0.1cm}{\footnotesize\ttfamily [1/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::\mbox{\hyperlink{classdeque2}{deque2}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Constructs an empty container with the given allocator alloc. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em alloc} & allocator object \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a14a4146ac9e9dc3ecc611d38d39612ba}\label{classdeque2_a14a4146ac9e9dc3ecc611d38d39612ba}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!deque2@{deque2}}
+\index{deque2@{deque2}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{deque2()}{deque2()}\hspace{0.1cm}{\footnotesize\ttfamily [2/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::\mbox{\hyperlink{classdeque2}{deque2}} (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{count,  }\item[{const T \&}]{value,  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Constructs the container with {\itshape count} copies of elements with value {\itshape value}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & new deque size \\
+\hline
+{\em value} & the value to initialize elements of the container with \\
+\hline
+{\em alloc} & allocator object ~\newline
+ \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a4816d7bcd290309366a7649b0008a1e1}\label{classdeque2_a4816d7bcd290309366a7649b0008a1e1}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!deque2@{deque2}}
+\index{deque2@{deque2}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{deque2()}{deque2()}\hspace{0.1cm}{\footnotesize\ttfamily [3/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::\mbox{\hyperlink{classdeque2}{deque2}} (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{count,  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+
+Constructs the container with count default-\/inserted instances of T. No copies are made. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & new deque size \\
+\hline
+{\em alloc} & allocator object \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a575b9355e93af26795de39c95a6c1a03}\label{classdeque2_a575b9355e93af26795de39c95a6c1a03}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!deque2@{deque2}}
+\index{deque2@{deque2}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{deque2()}{deque2()}\hspace{0.1cm}{\footnotesize\ttfamily [4/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::\mbox{\hyperlink{classdeque2}{deque2}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Copy constructor. Constructs the container with the copy of the contents of other. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & another container to be used as source to initialize the elements of the container with \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a04d836281d75a3570875c1640e934a8c}\label{classdeque2_a04d836281d75a3570875c1640e934a8c}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!deque2@{deque2}}
+\index{deque2@{deque2}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{deque2()}{deque2()}\hspace{0.1cm}{\footnotesize\ttfamily [5/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::\mbox{\hyperlink{classdeque2}{deque2}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$ \&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs the container with the copy of the contents of other, using alloc as the allocator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & other another container to be used as source to initialize the elements of the container with \\
+\hline
+{\em alloc} & allcoator object \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a514bcd4479f84e16dbab77f39486d4c9}\label{classdeque2_a514bcd4479f84e16dbab77f39486d4c9}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!deque2@{deque2}}
+\index{deque2@{deque2}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{deque2()}{deque2()}\hspace{0.1cm}{\footnotesize\ttfamily [6/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::\mbox{\hyperlink{classdeque2}{deque2}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Move constructor. Constructs the container with the contents of other using move semantics. Allocator is obtained by move-\/construction from the allocator belonging to other. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & another container to be used as source to initialize the elements of the container with \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_ad64584fe43e94684e880dee234e72cda}\label{classdeque2_ad64584fe43e94684e880dee234e72cda}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!deque2@{deque2}}
+\index{deque2@{deque2}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{deque2()}{deque2()}\hspace{0.1cm}{\footnotesize\ttfamily [7/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::\mbox{\hyperlink{classdeque2}{deque2}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$ \&\&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Allocator-\/extended move constructor. Using alloc as the allocator for the new container, moving the contents from other; if alloc != other.\+get\+\_\+allocator(), this results in an element-\/wise move. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & another container to be used as source to initialize the elements of the container with \\
+\hline
+{\em alloc} & allocator object \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a8523a9a78856485c4a7d3e8c2cb40145}\label{classdeque2_a8523a9a78856485c4a7d3e8c2cb40145}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!deque2@{deque2}}
+\index{deque2@{deque2}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{deque2()}{deque2()}\hspace{0.1cm}{\footnotesize\ttfamily [8/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::\mbox{\hyperlink{classdeque2}{deque2}} (\begin{DoxyParamCaption}\item[{const std\+::initializer\+\_\+list$<$ T $>$ \&}]{lst,  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs the container with the contents of the initializer list {\itshape init}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lst} & initializer list \\
+\hline
+{\em alloc} & allocator object \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a07b7f9aaa26245d0437fc4f6732bc010}\label{classdeque2_a07b7f9aaa26245d0437fc4f6732bc010}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!deque2@{deque2}}
+\index{deque2@{deque2}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{deque2()}{deque2()}\hspace{0.1cm}{\footnotesize\ttfamily [9/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+template$<$class Iter $>$ \\
+\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::\mbox{\hyperlink{classdeque2}{deque2}} (\begin{DoxyParamCaption}\item[{Iter}]{first,  }\item[{Iter}]{last,  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs the container with the contents of the range \mbox{[}first, last). 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Iter} & iterator type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em first} & first iterator of the range \\
+\hline
+{\em last} & last iterator of the range \\
+\hline
+{\em alloc} & allocator object \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classdeque2_a081250f49736dbf48e5b844deacafdb1}\label{classdeque2_a081250f49736dbf48e5b844deacafdb1}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!emplace@{emplace}}
+\index{emplace@{emplace}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{emplace()}{emplace()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+template$<$class... Args$>$ \\
+T\& \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::emplace (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}}}]{pos,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts a new element into the container directly before {\itshape pos}. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em ...\+Args} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & iterator within the deque \\
+\hline
+{\em ...\+args} & T constructor arguments \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to inserted element Basic exception guarantee. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_ae9dbd414ccc60320f772c189cc4bb0a7}\label{classdeque2_ae9dbd414ccc60320f772c189cc4bb0a7}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!emplace@{emplace}}
+\index{emplace@{emplace}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{emplace()}{emplace()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+template$<$class... Args$>$ \\
+T\& \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::emplace (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{pos,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts a new element into the container directly before {\itshape pos}. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em ...\+Args} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & absolute position within the deque \\
+\hline
+{\em ...\+args} & T constructor arguments \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to inserted element Basic exception guarantee. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_a6efbb7f69a24333f38025294e0cb4a79}\label{classdeque2_a6efbb7f69a24333f38025294e0cb4a79}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!emplace\_back@{emplace\_back}}
+\index{emplace\_back@{emplace\_back}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_back()}{emplace\_back()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+template$<$class... Args$>$ \\
+T\& \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::emplace\+\_\+back (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Appends a new element to the end of the container. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em ...\+Args} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em ...\+args} & T constructor arguments \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to inserted element Basic exception guarantee, except if {\itshape Min\+B\+Size == Max\+B\+Size} (strong guarantee in this case). 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_aab0db81affe0ce2e5f28afcee9952403}\label{classdeque2_aab0db81affe0ce2e5f28afcee9952403}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!emplace\_front@{emplace\_front}}
+\index{emplace\_front@{emplace\_front}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_front()}{emplace\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+template$<$class... Args$>$ \\
+T\& \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::emplace\+\_\+front (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Appends a new element to the beginning of the container. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em ...\+Args} & \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em ...\+args} & T constructor arguments \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to inserted element Basic exception guarantee, except if {\itshape Min\+B\+Size == Max\+B\+Size} (strong guarantee in this case). 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_a709f986b066ffbd1b2d9a774d78b9add}\label{classdeque2_a709f986b066ffbd1b2d9a774d78b9add}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!erase@{erase}}
+\index{erase@{erase}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}}}]{first,  }\item[{\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}}}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Removes the elements in the range \mbox{[}first, last). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em first} & iterator to the first element to erase \\
+\hline
+{\em last} & iterator to the last (excluded) element to erase \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator following the last removed element. Basic exception guarantee. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_a0dcb557ffcf46f609cd37ebfcfe9c15b}\label{classdeque2_a0dcb557ffcf46f609cd37ebfcfe9c15b}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!erase@{erase}}
+\index{erase@{erase}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}}}]{it }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Erase element at given position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em it} & iterator to the element to remove \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+iterator following the last removed element Basic exception guarantee. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_a0bc74c95ca7d62c10f6078020ada986f}\label{classdeque2_a0bc74c95ca7d62c10f6078020ada986f}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!erase@{erase}}
+\index{erase@{erase}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::erase (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{first,  }\item[{size\+\_\+type}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Removes the elements in the range \mbox{[}first, last). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em first} & absolute position of the first element to erase \\
+\hline
+{\em last} & absolute position of the last (excluded) element to erase Basic exception guarantee. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a7d84531f6e31b03aa4d4af7346f069df}\label{classdeque2_a7d84531f6e31b03aa4d4af7346f069df}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!erase@{erase}}
+\index{erase@{erase}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::erase (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Erase element at given position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & absolute position of the element to erase Basic exception guarantee. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a08f33a0bc38953f17e476ae498df9040}\label{classdeque2_a08f33a0bc38953f17e476ae498df9040}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!for\_each@{for\_each}}
+\index{for\_each@{for\_each}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{for\_each()}{for\_each()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+template$<$class Fun $>$ \\
+Fun \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::for\+\_\+each (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{first,  }\item[{size\+\_\+type}]{last,  }\item[{Fun}]{fun }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Apply unary function {\itshape fun} to all elements within the range \mbox{[}first,last). 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Fun} & unary functor type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em first} & first element of the range to apply the functor {\itshape fun} \\
+\hline
+{\em last} & end of range \\
+\hline
+{\em fun} & unary functor of lambda function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the unary functor (usefull for statefull functors). Using for\+\_\+each is faster than walking through iterators as it uses the internal knowledge on bucket layout to fasten step increments. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_a3acff7357ef7605976812891c648dd10}\label{classdeque2_a3acff7357ef7605976812891c648dd10}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!for\_each@{for\_each}}
+\index{for\_each@{for\_each}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{for\_each()}{for\_each()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+template$<$class Fun $>$ \\
+Fun \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::for\+\_\+each (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{first,  }\item[{size\+\_\+type}]{last,  }\item[{Fun}]{fun }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Apply unary function {\itshape fun} to all elements within the range \mbox{[}first,last). 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Fun} & unary functor type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em first} & first element of the range to apply the functor {\itshape fun} \\
+\hline
+{\em last} & end of range \\
+\hline
+{\em fun} & unary functor of lambda function \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the unary functor (usefull for statefull functors). Using for\+\_\+each is faster than walking through iterators as it uses the internal knowledge on bucket layout to fasten step increments. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_a05b2833d3c9688cbda07fffff6c988b3}\label{classdeque2_a05b2833d3c9688cbda07fffff6c988b3}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!insert@{insert}}
+\index{insert@{insert}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [1/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}}}]{it,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Insert {\itshape value} before {\itshape it}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em it} & iterator within the deque \\
+\hline
+{\em value} & element to insert Basic exception guarantee. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_ac32e48983e2596f4393a9def65ecf884}\label{classdeque2_ac32e48983e2596f4393a9def65ecf884}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!insert@{insert}}
+\index{insert@{insert}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [2/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+template$<$class Iter $>$ \\
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}}}]{it,  }\item[{Iter}]{first,  }\item[{Iter}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts elements from range \mbox{[}first, last) before it. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Iter} & iterator type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em it} & iterator within the deque \\
+\hline
+{\em first} & first iterator of the range \\
+\hline
+{\em last} & last iterator of the range \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator pointing to the first element inserted, or it if first==last Basic exception guarantee. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_a55c295f4c8ae4c879c4b030fa92cddf6}\label{classdeque2_a55c295f4c8ae4c879c4b030fa92cddf6}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!insert@{insert}}
+\index{insert@{insert}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [3/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}}}]{it,  }\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Insert {\itshape value} before {\itshape it} using move semantic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em it} & iterator within the deque \\
+\hline
+{\em value} & element to insert Basic exception guarantee. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a839c9e8bff3303eaa6cc3470ce2df314}\label{classdeque2_a839c9e8bff3303eaa6cc3470ce2df314}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!insert@{insert}}
+\index{insert@{insert}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [4/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}}}]{pos,  }\item[{size\+\_\+type}]{count,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts count copies of the value before pos. 
+
+\begin{DoxyReturn}{Returns}
+Iterator pointing to the first element inserted, or it if count==0 Basic exception guarantee. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_ac1b56478cca246bfa99b3ef87e7e3e69}\label{classdeque2_ac1b56478cca246bfa99b3ef87e7e3e69}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!insert@{insert}}
+\index{insert@{insert}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [5/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{structdetail_1_1deque__iterator}{iterator}} \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdetail_1_1deque__const__iterator}{const\+\_\+iterator}}}]{pos,  }\item[{std\+::initializer\+\_\+list$<$ T $>$}]{ilist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts elements from initializer list ilist before pos. 
+
+\begin{DoxyReturn}{Returns}
+Iterator pointing to the first element inserted, or it if first==last. Basic exception guarantee. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_a6111a1c166b94923046f5ce9b5d05658}\label{classdeque2_a6111a1c166b94923046f5ce9b5d05658}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!insert@{insert}}
+\index{insert@{insert}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [6/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::insert (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{pos,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Insert {\itshape value} before {\itshape pos}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & absolute position within the deque \\
+\hline
+{\em value} & element to insert Basic exception guarantee. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a541c06978e7e6f577d2a2f8d1f08c598}\label{classdeque2_a541c06978e7e6f577d2a2f8d1f08c598}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!insert@{insert}}
+\index{insert@{insert}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [7/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+template$<$class Iter $>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::insert (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{pos,  }\item[{Iter}]{first,  }\item[{Iter}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts elements from range \mbox{[}first, last) before pos. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Iter} & iterator type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & absolute position within the deque \\
+\hline
+{\em first} & first iterator of the range \\
+\hline
+{\em last} & last iterator of the range Basic exception guarantee. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a64249801c41d575c76c7e8920e007e90}\label{classdeque2_a64249801c41d575c76c7e8920e007e90}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!insert@{insert}}
+\index{insert@{insert}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [8/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::insert (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{pos,  }\item[{std\+::initializer\+\_\+list$<$ T $>$}]{ilist }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Inserts elements from initializer list ilist before pos. 
+
+\begin{DoxyReturn}{Returns}
+Iterator pointing to the first element inserted, or it if first==last. Basic exception guarantee. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_a6c68a938bc2a298449c5aa36dfbecc8a}\label{classdeque2_a6c68a938bc2a298449c5aa36dfbecc8a}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!insert@{insert}}
+\index{insert@{insert}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [9/9]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::insert (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{pos,  }\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Insert {\itshape value} before {\itshape pos} using move semantic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & absolute position within the deque \\
+\hline
+{\em value} & element to insert Basic exception guarantee. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_aa27581d2e342d67b35c17076aa052d24}\label{classdeque2_aa27581d2e342d67b35c17076aa052d24}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{classdeque2}{deque2}}\& \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Copy assignment operator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & another container to use as data source \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_a3004e6e90143b036175d56d8bbfaa7a1}\label{classdeque2_a3004e6e90143b036175d56d8bbfaa7a1}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+\mbox{\hyperlink{classdeque2}{deque2}}\& \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Move assignment operator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & another container to use as data source \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classdeque2_a3ca48f57aea391d037e676767ea2621c}\label{classdeque2_a3ca48f57aea391d037e676767ea2621c}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Appends the given element value to the end of the container. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & the value of the element to append Basic exception guarantee, except if {\itshape Min\+B\+Size == Max\+B\+Size} (strong guarantee in this case). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a9d7d2474b171536fcc899509293b94da}\label{classdeque2_a9d7d2474b171536fcc899509293b94da}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Appends the given element value to the end of the container using move semantic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & the value of the element to append Basic exception guarantee, except if {\itshape Min\+B\+Size == Max\+B\+Size} (strong guarantee in this case). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a21c2ea4236b1def98b091b53566a5b32}\label{classdeque2_a21c2ea4236b1def98b091b53566a5b32}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!push\_front@{push\_front}}
+\index{push\_front@{push\_front}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Appends the given element value to the beginning of the container. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & the value of the element to append Basic exception guarantee, except if {\itshape Min\+B\+Size == Max\+B\+Size} (strong guarantee in this case). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a4cfb4c5a61549f5df100a82f9f02dc00}\label{classdeque2_a4cfb4c5a61549f5df100a82f9f02dc00}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!push\_front@{push\_front}}
+\index{push\_front@{push\_front}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Appends the given element value to the beginning of the container using move semantic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & the value of the element to append Basic exception guarantee, except if {\itshape Min\+B\+Size == Max\+B\+Size} (strong guarantee in this case). \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a3a4f93360f8231415156b6861a09c739}\label{classdeque2_a3a4f93360f8231415156b6861a09c739}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!resize@{resize}}
+\index{resize@{resize}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::resize (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Resizes the container to contain count elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & new size of the container If the current size is greater than count, the container is reduced to its first count elements. If the current size is less than count, additional default-\/inserted elements are appended. Basic exception guarantee. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_af7ed0942ed60505b86261e28daa3d769}\label{classdeque2_af7ed0942ed60505b86261e28daa3d769}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!resize@{resize}}
+\index{resize@{resize}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::resize (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{count,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Resizes the container to contain count elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & new size of the container \\
+\hline
+{\em value} & the value to initialize the new elements with If the current size is greater than count, the container is reduced to its first count elements. If the current size is less than count, additional copies of value are appended. Basic exception guarantee. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_ac5924e01065e92c41121c4b6490f0bf8}\label{classdeque2_ac5924e01065e92c41121c4b6490f0bf8}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!resize\_front@{resize\_front}}
+\index{resize\_front@{resize\_front}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{resize\_front()}{resize\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::resize\+\_\+front (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Resizes the container to contain count elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & new size of the container If the current size is greater than count, the container is reduced to its last count elements. If the current size is less than count, additional default-\/inserted elements are prepended. Basic exception guarantee. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a7e7d0148dd8ef08ad552afb3eadd30f6}\label{classdeque2_a7e7d0148dd8ef08ad552afb3eadd30f6}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!resize\_front@{resize\_front}}
+\index{resize\_front@{resize\_front}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{resize\_front()}{resize\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::resize\+\_\+front (\begin{DoxyParamCaption}\item[{size\+\_\+type}]{count,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Resizes the container to contain count elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em count} & new size of the container \\
+\hline
+{\em value} & the value to initialize the new elements with If the current size is greater than count, the container is reduced to its last count elements. If the current size is less than count, additional copies of value are prepended. Basic exception guarantee. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classdeque2_a413d4c2b4b2ab4b9ea496a15cb7086bd}\label{classdeque2_a413d4c2b4b2ab4b9ea496a15cb7086bd}} 
+\index{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}!swap@{swap}}
+\index{swap@{swap}!deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$@{deque2$<$ T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare $>$}}
+\doxysubsubsection{\texorpdfstring{swap()}{swap()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, int Min\+B\+Size = S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+Z\+E(\+T), int Max\+B\+Size = S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, class Find\+B\+Size  = detail\+::\+Find\+Bucket\+Size$<$\+T$>$, bool Store\+Back\+Values = false, class Value\+Compare  = detail\+::\+Null\+Value\+Compare$<$\+T$>$$>$ \\
+void \mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$\+::swap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classdeque2}{deque2}}$<$ T, Allocator, layout, Min\+B\+Size, Max\+B\+Size, Find\+B\+Size, Store\+Back\+Values, Value\+Compare $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Exchanges the contents of the container with those of other. Does not invoke any move, copy, or swap operations on individual elements. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & other sequence to swap with All iterators and references remain valid. An iterator holding the past-\/the-\/end value in this container will refer to the other container after the operation. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+deque2 -\/ Copie.\+hpp\item 
+deque2.\+hpp\item 
+deque2\+\_\+union.\+hpp\item 
+deque\+\_\+save.\+hpp\item 
+deque\+\_\+save.\+txt\end{DoxyCompactItemize}

@@ -1,0 +1,104 @@
+\hypertarget{pdqsort_8hpp}{}\doxysection{seq/pdqsort.hpp File Reference}
+\label{pdqsort_8hpp}\index{seq/pdqsort.hpp@{seq/pdqsort.hpp}}
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include $<$iterator$>$}\newline
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacepdqsort__detail}{pdqsort\+\_\+detail}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{pdqsort_8hpp_a3de8fb7a53a7399f2b28c51e73b80dd0}{P\+D\+Q\+S\+O\+R\+T\+\_\+\+P\+R\+E\+F\+E\+R\+\_\+\+M\+O\+VE}}(x)~(x)
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{namespacepdqsort__detail_a52699500243ca6fa8246c8b104c56b72a93aa19e909e1c9aac3476145eac01d08}{pdqsort\+\_\+detail\+::insertion\+\_\+sort\+\_\+threshold}} = 24, 
+\mbox{\hyperlink{namespacepdqsort__detail_a52699500243ca6fa8246c8b104c56b72a2e33aab6bd526c39448030168613bb78}{pdqsort\+\_\+detail\+::ninther\+\_\+threshold}} = 128, 
+\mbox{\hyperlink{namespacepdqsort__detail_a52699500243ca6fa8246c8b104c56b72aab89097901f2f898e6bb3c528cabc55a}{pdqsort\+\_\+detail\+::partial\+\_\+insertion\+\_\+sort\+\_\+limit}} = 8, 
+\mbox{\hyperlink{namespacepdqsort__detail_a52699500243ca6fa8246c8b104c56b72a7a05f9a339ce440ec2bee00a69947e37}{pdqsort\+\_\+detail\+::block\+\_\+size}} = 64, 
+\newline
+\mbox{\hyperlink{namespacepdqsort__detail_a52699500243ca6fa8246c8b104c56b72ae9d9eaf23e2582ffabe6d5c94635932d}{pdqsort\+\_\+detail\+::cacheline\+\_\+size}} = 64
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\int \mbox{\hyperlink{namespacepdqsort__detail_a92efcfdf1e8d68b3874edff8b80076ed}{pdqsort\+\_\+detail\+::log2}} (T n)
+\item 
+{\footnotesize template$<$class Iter , class Compare $>$ }\\void \mbox{\hyperlink{namespacepdqsort__detail_adc095280baf9194391b8fd781bf22c05}{pdqsort\+\_\+detail\+::insertion\+\_\+sort}} (Iter begin, Iter end, Compare comp)
+\item 
+{\footnotesize template$<$class Iter , class Compare $>$ }\\void \mbox{\hyperlink{namespacepdqsort__detail_a3f1c34cdc137010052833aa50f03950d}{pdqsort\+\_\+detail\+::unguarded\+\_\+insertion\+\_\+sort}} (Iter begin, Iter end, Compare comp)
+\item 
+{\footnotesize template$<$class Iter , class Compare $>$ }\\bool \mbox{\hyperlink{namespacepdqsort__detail_a01d434ba2a54a3abc238517e4cb7519a}{pdqsort\+\_\+detail\+::partial\+\_\+insertion\+\_\+sort}} (Iter begin, Iter end, Compare comp)
+\item 
+{\footnotesize template$<$class Iter , class Compare $>$ }\\void \mbox{\hyperlink{namespacepdqsort__detail_a3daafaa0f44a7507d138749b7311dcaa}{pdqsort\+\_\+detail\+::sort2}} (Iter a, Iter b, Compare comp)
+\item 
+{\footnotesize template$<$class Iter , class Compare $>$ }\\void \mbox{\hyperlink{namespacepdqsort__detail_ae1afda154c9e98c0f24589f4aa5f703f}{pdqsort\+\_\+detail\+::sort3}} (Iter a, Iter b, Iter c, Compare comp)
+\item 
+{\footnotesize template$<$class T $>$ }\\T $\ast$ \mbox{\hyperlink{namespacepdqsort__detail_a5cfbd74545cae92930540b5042146308}{pdqsort\+\_\+detail\+::align\+\_\+cacheline}} (T $\ast$p)
+\item 
+{\footnotesize template$<$class Iter $>$ }\\void \mbox{\hyperlink{namespacepdqsort__detail_a9fb8c4c6e7cae1781d127e70e47a8016}{pdqsort\+\_\+detail\+::swap\+\_\+offsets}} (Iter first, Iter last, unsigned char $\ast$offsets\+\_\+l, unsigned char $\ast$offsets\+\_\+r, size\+\_\+t num, bool use\+\_\+swaps)
+\item 
+{\footnotesize template$<$class Iter , class Compare $>$ }\\std\+::pair$<$ Iter, bool $>$ \mbox{\hyperlink{namespacepdqsort__detail_ac9bc0d86b2906d79ae5fd1e8432d40e5}{pdqsort\+\_\+detail\+::partition\+\_\+right\+\_\+branchless}} (Iter begin, Iter end, Compare comp)
+\item 
+{\footnotesize template$<$class Iter , class Compare $>$ }\\std\+::pair$<$ Iter, bool $>$ \mbox{\hyperlink{namespacepdqsort__detail_ae2958caba202615154b809d3781b2cd7}{pdqsort\+\_\+detail\+::partition\+\_\+right}} (Iter begin, Iter end, Compare comp)
+\item 
+{\footnotesize template$<$class Iter , class Compare $>$ }\\Iter \mbox{\hyperlink{namespacepdqsort__detail_af7961c01faadc35189ac84f9b03e837f}{pdqsort\+\_\+detail\+::partition\+\_\+left}} (Iter begin, Iter end, Compare comp)
+\item 
+{\footnotesize template$<$class Iter , class Compare , bool Branchless$>$ }\\void \mbox{\hyperlink{namespacepdqsort__detail_a2c5ecdf1abb3b6e3fc02cd157512ac11}{pdqsort\+\_\+detail\+::pdqsort\+\_\+loop}} (Iter begin, Iter end, Compare comp, int bad\+\_\+allowed, bool leftmost=true)
+\item 
+{\footnotesize template$<$class Iter , class Compare $>$ }\\void \mbox{\hyperlink{pdqsort_8hpp_a9a4675f3c4f61ef1aa7d808c984d5f35}{pdqsort}} (Iter begin, Iter end, Compare comp)
+\item 
+{\footnotesize template$<$class Iter $>$ }\\void \mbox{\hyperlink{pdqsort_8hpp_acc9c6dee9ea3572a997cbd085a0f3265}{pdqsort}} (Iter begin, Iter end)
+\item 
+{\footnotesize template$<$class Iter , class Compare $>$ }\\void \mbox{\hyperlink{pdqsort_8hpp_a29ab6c05f20769083e8140b392c41189}{pdqsort\+\_\+branchless}} (Iter begin, Iter end, Compare comp)
+\item 
+{\footnotesize template$<$class Iter $>$ }\\void \mbox{\hyperlink{pdqsort_8hpp_a256e806ad89928e707d145a6282cf049}{pdqsort\+\_\+branchless}} (Iter begin, Iter end)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{pdqsort_8hpp_a3de8fb7a53a7399f2b28c51e73b80dd0}\label{pdqsort_8hpp_a3de8fb7a53a7399f2b28c51e73b80dd0}} 
+\index{pdqsort.hpp@{pdqsort.hpp}!PDQSORT\_PREFER\_MOVE@{PDQSORT\_PREFER\_MOVE}}
+\index{PDQSORT\_PREFER\_MOVE@{PDQSORT\_PREFER\_MOVE}!pdqsort.hpp@{pdqsort.hpp}}
+\doxysubsubsection{\texorpdfstring{PDQSORT\_PREFER\_MOVE}{PDQSORT\_PREFER\_MOVE}}
+{\footnotesize\ttfamily \#define P\+D\+Q\+S\+O\+R\+T\+\_\+\+P\+R\+E\+F\+E\+R\+\_\+\+M\+O\+VE(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~(x)}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{pdqsort_8hpp_acc9c6dee9ea3572a997cbd085a0f3265}\label{pdqsort_8hpp_acc9c6dee9ea3572a997cbd085a0f3265}} 
+\index{pdqsort.hpp@{pdqsort.hpp}!pdqsort@{pdqsort}}
+\index{pdqsort@{pdqsort}!pdqsort.hpp@{pdqsort.hpp}}
+\doxysubsubsection{\texorpdfstring{pdqsort()}{pdqsort()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Iter $>$ \\
+void pdqsort (\begin{DoxyParamCaption}\item[{Iter}]{begin,  }\item[{Iter}]{end }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{pdqsort_8hpp_a9a4675f3c4f61ef1aa7d808c984d5f35}\label{pdqsort_8hpp_a9a4675f3c4f61ef1aa7d808c984d5f35}} 
+\index{pdqsort.hpp@{pdqsort.hpp}!pdqsort@{pdqsort}}
+\index{pdqsort@{pdqsort}!pdqsort.hpp@{pdqsort.hpp}}
+\doxysubsubsection{\texorpdfstring{pdqsort()}{pdqsort()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Iter , class Compare $>$ \\
+void pdqsort (\begin{DoxyParamCaption}\item[{Iter}]{begin,  }\item[{Iter}]{end,  }\item[{Compare}]{comp }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{pdqsort_8hpp_a256e806ad89928e707d145a6282cf049}\label{pdqsort_8hpp_a256e806ad89928e707d145a6282cf049}} 
+\index{pdqsort.hpp@{pdqsort.hpp}!pdqsort\_branchless@{pdqsort\_branchless}}
+\index{pdqsort\_branchless@{pdqsort\_branchless}!pdqsort.hpp@{pdqsort.hpp}}
+\doxysubsubsection{\texorpdfstring{pdqsort\_branchless()}{pdqsort\_branchless()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Iter $>$ \\
+void pdqsort\+\_\+branchless (\begin{DoxyParamCaption}\item[{Iter}]{begin,  }\item[{Iter}]{end }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{pdqsort_8hpp_a29ab6c05f20769083e8140b392c41189}\label{pdqsort_8hpp_a29ab6c05f20769083e8140b392c41189}} 
+\index{pdqsort.hpp@{pdqsort.hpp}!pdqsort\_branchless@{pdqsort\_branchless}}
+\index{pdqsort\_branchless@{pdqsort\_branchless}!pdqsort.hpp@{pdqsort.hpp}}
+\doxysubsubsection{\texorpdfstring{pdqsort\_branchless()}{pdqsort\_branchless()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Iter , class Compare $>$ \\
+void pdqsort\+\_\+branchless (\begin{DoxyParamCaption}\item[{Iter}]{begin,  }\item[{Iter}]{end,  }\item[{Compare}]{comp }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+

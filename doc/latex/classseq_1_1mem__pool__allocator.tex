@@ -1,0 +1,135 @@
+\hypertarget{classseq_1_1mem__pool__allocator}{}\doxysection{seq\+::mem\+\_\+pool\+\_\+allocator$<$ T, Allocator, Align, Lock $>$ Class Template Reference}
+\label{classseq_1_1mem__pool__allocator}\index{seq::mem\_pool\_allocator$<$ T, Allocator, Align, Lock $>$@{seq::mem\_pool\_allocator$<$ T, Allocator, Align, Lock $>$}}
+
+
+{\ttfamily \#include $<$mem\+\_\+pool.\+hpp$>$}
+
+
+
+Inherits allocator$<$ T $>$.
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1mem__pool__allocator_1_1rebind}{rebind}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a1417e25b634efb177e919a6f477c99cb}\label{classseq_1_1mem__pool__allocator_a1417e25b634efb177e919a6f477c99cb}} 
+using {\bfseries value\+\_\+type} = T
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_acea09a49f16bd3bb58a66385fc7d963b}\label{classseq_1_1mem__pool__allocator_acea09a49f16bd3bb58a66385fc7d963b}} 
+using {\bfseries pointer} = T $\ast$
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_abe9896dd85c75bdda1235f0b7bad58ff}\label{classseq_1_1mem__pool__allocator_abe9896dd85c75bdda1235f0b7bad58ff}} 
+using {\bfseries const\+\_\+pointer} = const T $\ast$
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_ac0fe8eb9e76ce6dbf32fae6ac654a301}\label{classseq_1_1mem__pool__allocator_ac0fe8eb9e76ce6dbf32fae6ac654a301}} 
+using {\bfseries reference} = T \&
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a5cce683a5b0dc674a0215e14481d1817}\label{classseq_1_1mem__pool__allocator_a5cce683a5b0dc674a0215e14481d1817}} 
+using {\bfseries const\+\_\+reference} = const T \&
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_aa4ed491851c25ea1e60762e2bd4b5f0f}\label{classseq_1_1mem__pool__allocator_aa4ed491851c25ea1e60762e2bd4b5f0f}} 
+using {\bfseries size\+\_\+type} = size\+\_\+t
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a2ca4be716202ab0a6e9ed33724782054}\label{classseq_1_1mem__pool__allocator_a2ca4be716202ab0a6e9ed33724782054}} 
+using {\bfseries difference\+\_\+type} = std\+::ptrdiff\+\_\+t
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a5cfdd03e719c53c7acfc8f2f2f1feb97}\label{classseq_1_1mem__pool__allocator_a5cfdd03e719c53c7acfc8f2f2f1feb97}} 
+using {\bfseries propagate\+\_\+on\+\_\+container\+\_\+swap} = std\+::true\+\_\+type
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a0326a2d5fd39abae7b5ac08adfc43a07}\label{classseq_1_1mem__pool__allocator_a0326a2d5fd39abae7b5ac08adfc43a07}} 
+using {\bfseries propagate\+\_\+on\+\_\+container\+\_\+copy\+\_\+assignment} = std\+::true\+\_\+type
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a5fb4aec2c4d402659a359c48b0bc2997}\label{classseq_1_1mem__pool__allocator_a5fb4aec2c4d402659a359c48b0bc2997}} 
+using {\bfseries propagate\+\_\+on\+\_\+container\+\_\+move\+\_\+assignment} = std\+::true\+\_\+type
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_afeed70f6349e4ae39d59ac73b9c0fde6}\label{classseq_1_1mem__pool__allocator_afeed70f6349e4ae39d59ac73b9c0fde6}} 
+\mbox{\hyperlink{classseq_1_1mem__pool__allocator}{mem\+\_\+pool\+\_\+allocator}} {\bfseries select\+\_\+on\+\_\+container\+\_\+copy\+\_\+construction} () const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_ae0b20f6455901de3b618e5cf46cdabe8}\label{classseq_1_1mem__pool__allocator_ae0b20f6455901de3b618e5cf46cdabe8}} 
+const \mbox{\hyperlink{classseq_1_1detail_1_1tiny__shared__ptr}{data\+\_\+type}} \& {\bfseries data} () const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a2198151657a7b78719377b5ab4a8bfb3}\label{classseq_1_1mem__pool__allocator_a2198151657a7b78719377b5ab4a8bfb3}} 
+{\bfseries mem\+\_\+pool\+\_\+allocator} (const Allocator al=Allocator())
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_ab60c635664367cf03ae1458fd785ab9a}\label{classseq_1_1mem__pool__allocator_ab60c635664367cf03ae1458fd785ab9a}} 
+{\bfseries mem\+\_\+pool\+\_\+allocator} (const \mbox{\hyperlink{classseq_1_1mem__pool__allocator}{mem\+\_\+pool\+\_\+allocator}} \&other)
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a383d73647c48baec36ee6393b6d2d989}\label{classseq_1_1mem__pool__allocator_a383d73647c48baec36ee6393b6d2d989}} 
+{\footnotesize template$<$class U $>$ }\\{\bfseries mem\+\_\+pool\+\_\+allocator} (const \mbox{\hyperlink{classseq_1_1mem__pool__allocator}{mem\+\_\+pool\+\_\+allocator}}$<$ U, Allocator, Align, Lock $>$ \&other)
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_af6e28663d18787b0b38656707cfa70c5}\label{classseq_1_1mem__pool__allocator_af6e28663d18787b0b38656707cfa70c5}} 
+Allocator \& {\bfseries get\+\_\+allocator} ()
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_ac40f7a96b906fabc738e3096039065db}\label{classseq_1_1mem__pool__allocator_ac40f7a96b906fabc738e3096039065db}} 
+Allocator {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a160a303caae9076c84f90491e1be3dc7}\label{classseq_1_1mem__pool__allocator_a160a303caae9076c84f90491e1be3dc7}} 
+size\+\_\+t {\bfseries capacity} () const
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a966c4cd7aed1f1a0f3e8f84688d099cf}\label{classseq_1_1mem__pool__allocator_a966c4cd7aed1f1a0f3e8f84688d099cf}} 
+size\+\_\+t {\bfseries total\+\_\+capacity} () const
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_aac8eb9794a27a6141b2ca9f7b5343280}\label{classseq_1_1mem__pool__allocator_aac8eb9794a27a6141b2ca9f7b5343280}} 
+size\+\_\+t {\bfseries objects} () const
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_ae7e530e1dc6035ca8e98b27f7b3460af}\label{classseq_1_1mem__pool__allocator_ae7e530e1dc6035ca8e98b27f7b3460af}} 
+size\+\_\+t {\bfseries total\+\_\+objects} () const
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_abfab232aa2e88c80a5cccca42a205e91}\label{classseq_1_1mem__pool__allocator_abfab232aa2e88c80a5cccca42a205e91}} 
+size\+\_\+t {\bfseries memory\+\_\+footprint} () const
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_ad85f36b884a20c375770a27ecc19c73d}\label{classseq_1_1mem__pool__allocator_ad85f36b884a20c375770a27ecc19c73d}} 
+bool {\bfseries operator==} (const \mbox{\hyperlink{classseq_1_1mem__pool__allocator}{mem\+\_\+pool\+\_\+allocator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a0ea6291d5494aaa73411ecf5bb455033}\label{classseq_1_1mem__pool__allocator_a0ea6291d5494aaa73411ecf5bb455033}} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{classseq_1_1mem__pool__allocator}{mem\+\_\+pool\+\_\+allocator}} \&other) const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_ac6aade5493906483036bf721dd41a686}\label{classseq_1_1mem__pool__allocator_ac6aade5493906483036bf721dd41a686}} 
+pointer {\bfseries address} (reference x) const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_acd5e9cbf4dcee41669df41852863269f}\label{classseq_1_1mem__pool__allocator_acd5e9cbf4dcee41669df41852863269f}} 
+const\+\_\+pointer {\bfseries address} (const\+\_\+reference x) const noexcept
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a851b4cb811ad6c2513b773cc91e11e89}\label{classseq_1_1mem__pool__allocator_a851b4cb811ad6c2513b773cc91e11e89}} 
+T $\ast$ {\bfseries allocate} (size\+\_\+t n, const void $\ast$)
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_aa499dec7b7c0c1443a4e2df37b605e79}\label{classseq_1_1mem__pool__allocator_aa499dec7b7c0c1443a4e2df37b605e79}} 
+T $\ast$ {\bfseries allocate} (size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a5c2b042abd93d8e44c35724efd693fe5}\label{classseq_1_1mem__pool__allocator_a5c2b042abd93d8e44c35724efd693fe5}} 
+void {\bfseries deallocate} (T $\ast$p, size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a4a3d6abddf5e9537cb5dfe326bdc62e6}\label{classseq_1_1mem__pool__allocator_a4a3d6abddf5e9537cb5dfe326bdc62e6}} 
+{\footnotesize template$<$class U , class... Args$>$ }\\void {\bfseries construct} (U $\ast$p, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classseq_1_1mem__pool__allocator_a50e59794c9b3d1c722d2e1a0e1e4c458}\label{classseq_1_1mem__pool__allocator_a50e59794c9b3d1c722d2e1a0e1e4c458}} 
+{\footnotesize template$<$class U $>$ }\\void {\bfseries destroy} (U $\ast$p)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator = std\+::allocator$<$\+T$>$, size\+\_\+t Align = 0, class Lock = null\+\_\+lock$>$\newline
+class seq\+::mem\+\_\+pool\+\_\+allocator$<$ T, Allocator, Align, Lock $>$}
+
+Custom allocator based on \mbox{\hyperlink{classmem__pool}{mem\+\_\+pool}} class.
+
+{\itshape \mbox{\hyperlink{classseq_1_1mem__pool__allocator}{mem\+\_\+pool\+\_\+allocator}}} is a stl compliant allocator dedicated to node based containers like std\+::set, std\+::map, std\+::list, std\+::deque, std\+::multimap, std\+::multiset...
+
+It provides faster allocation/deallocation time as well as reduced memory footprint (see \mbox{\hyperlink{classmem__pool}{mem\+\_\+pool}} class for more details). Since the {\itshape \mbox{\hyperlink{classseq_1_1mem__pool}{mem\+\_\+pool}}} class uses chunk based allocation, containers using {\itshape \mbox{\hyperlink{classseq_1_1mem__pool__allocator}{mem\+\_\+pool\+\_\+allocator}}} are usually more cache friendly, which fasten most operations (like iterating, sorting,...).
+
+The {\itshape Allocator} template parameter is forwarded to the underlying \mbox{\hyperlink{classseq_1_1mem__pool}{mem\+\_\+pool}} objects. It is also used when allocating more than one object. Therafore, using {\itshape \mbox{\hyperlink{classseq_1_1mem__pool__allocator}{mem\+\_\+pool\+\_\+allocator}}} does not benefit to containers relying on contiguous memory blocks like std\+::vector.
+
+T\+O\+DO\+: thread safe
+
+N\+OT working with std\+::list\+::sort() \href{https://stackoverflow.com/questions/63716394/list-sort-fails-with-abort-when-list-is-created-with-stateful-allocator-when-com}{\texttt{ https\+://stackoverflow.\+com/questions/63716394/list-\/sort-\/fails-\/with-\/abort-\/when-\/list-\/is-\/created-\/with-\/stateful-\/allocator-\/when-\/com}} 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+mem\+\_\+pool.\+hpp\end{DoxyCompactItemize}

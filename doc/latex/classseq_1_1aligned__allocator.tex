@@ -1,0 +1,338 @@
+\hypertarget{classseq_1_1aligned__allocator}{}\doxysection{seq\+::aligned\+\_\+allocator$<$ T, Allocator, Align $>$ Class Template Reference}
+\label{classseq_1_1aligned__allocator}\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+
+
+Allocator class with custom alignment.  
+
+
+
+
+{\ttfamily \#include $<$memory.\+hpp$>$}
+
+
+
+Inherits allocator$<$ T $>$.
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1aligned__allocator_1_1rebind}{rebind}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classseq_1_1aligned__allocator_a03797e0a76d9632f641e54fdd70049dd}{value\+\_\+type}} = T
+\item 
+using \mbox{\hyperlink{classseq_1_1aligned__allocator_aa53da316195c73c7b0038eb579949a22}{pointer}} = T $\ast$
+\item 
+using \mbox{\hyperlink{classseq_1_1aligned__allocator_aa926b1d5c48d5fc25ff55b2d4b9ff735}{const\+\_\+pointer}} = const T $\ast$
+\item 
+using \mbox{\hyperlink{classseq_1_1aligned__allocator_a1f367aa3a5ab01673809fa63df1e8f87}{reference}} = T \&
+\item 
+using \mbox{\hyperlink{classseq_1_1aligned__allocator_a74801a5728b3613f4ddba990bf796e69}{const\+\_\+reference}} = const T \&
+\item 
+using \mbox{\hyperlink{classseq_1_1aligned__allocator_a7d75087e6bd7051aee163978c0f7b9b2}{size\+\_\+type}} = size\+\_\+t
+\item 
+using \mbox{\hyperlink{classseq_1_1aligned__allocator_a4f8f9ef336b49da03b3dc8c7e8ad1c22}{difference\+\_\+type}} = std\+::ptrdiff\+\_\+t
+\item 
+using \mbox{\hyperlink{classseq_1_1aligned__allocator_adb06b0f3f7463f04817c51aaa532c245}{propagate\+\_\+on\+\_\+container\+\_\+swap}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_adb06b0f3f7463f04817c51aaa532c245}{propagate\+\_\+on\+\_\+container\+\_\+swap}}
+\item 
+using \mbox{\hyperlink{classseq_1_1aligned__allocator_a7c9468c1848b3a1dee2769403fc9d555}{propagate\+\_\+on\+\_\+container\+\_\+copy\+\_\+assignment}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_a7c9468c1848b3a1dee2769403fc9d555}{propagate\+\_\+on\+\_\+container\+\_\+copy\+\_\+assignment}}
+\item 
+using \mbox{\hyperlink{classseq_1_1aligned__allocator_a5d2621a750f7cf8c83dba4f0f768c5ab}{propagate\+\_\+on\+\_\+container\+\_\+move\+\_\+assignment}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_a5d2621a750f7cf8c83dba4f0f768c5ab}{propagate\+\_\+on\+\_\+container\+\_\+move\+\_\+assignment}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} \mbox{\hyperlink{classseq_1_1aligned__allocator_a1fb21f5d7c1570d45223a08cf2767d3e}{select\+\_\+on\+\_\+container\+\_\+copy\+\_\+construction}} () const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1aligned__allocator_a6d5277e5a71ea01dfd7283d0aa4b2514}{aligned\+\_\+allocator}} (const Allocator al=Allocator())
+\item 
+\mbox{\hyperlink{classseq_1_1aligned__allocator_a8f7e24fbf2e2a5d65d728331de4f29d2}{aligned\+\_\+allocator}} (const \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} \&other)
+\item 
+\mbox{\hyperlink{classseq_1_1aligned__allocator_a458d9bf5059e8b955cf4f8fb9ed803c3}{aligned\+\_\+allocator}} (\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} \&\&other)
+\item 
+{\footnotesize template$<$class U $>$ }\\\mbox{\hyperlink{classseq_1_1aligned__allocator_a3fd482ab0bfbd847cc376cb2f5304bbf}{aligned\+\_\+allocator}} (const \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}}$<$ U, Allocator, Align $>$ \&other)
+\item 
+\mbox{\hyperlink{classseq_1_1aligned__allocator_a21b55faeed2d648b68653d35860b69b7}{$\sim$aligned\+\_\+allocator}} ()
+\item 
+Allocator \& \mbox{\hyperlink{classseq_1_1aligned__allocator_adf97714ed74c4d260533f87081edc708}{get\+\_\+allocator}} ()
+\item 
+Allocator \mbox{\hyperlink{classseq_1_1aligned__allocator_adf4dbe868e89c80663aee0be9a7ad88a}{get\+\_\+allocator}} () const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} \& \mbox{\hyperlink{classseq_1_1aligned__allocator_a781421c9fbab0c992d3d8e754eb53ee2}{operator=}} (const \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} \&other)
+\item 
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} \& \mbox{\hyperlink{classseq_1_1aligned__allocator_aa9b1b3ebcf5e12c39c850abfe16e1a2e}{operator=}} (\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} \&\&other)
+\item 
+bool \mbox{\hyperlink{classseq_1_1aligned__allocator_ad44953b56370f70f76ff01c1d6045978}{operator==}} (const \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} \&other) const noexcept
+\item 
+bool \mbox{\hyperlink{classseq_1_1aligned__allocator_a58f7c43eb035ca61f68fa140313e764c}{operator!=}} (const \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} \&other) const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1aligned__allocator_aa53da316195c73c7b0038eb579949a22}{pointer}} \mbox{\hyperlink{classseq_1_1aligned__allocator_ab26e2d83cd062548f65d2b6f8c3742de}{address}} (\mbox{\hyperlink{classseq_1_1aligned__allocator_a1f367aa3a5ab01673809fa63df1e8f87}{reference}} x) const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1aligned__allocator_aa926b1d5c48d5fc25ff55b2d4b9ff735}{const\+\_\+pointer}} \mbox{\hyperlink{classseq_1_1aligned__allocator_ab776a0293f2b2831d5d2b2f1f1b15a6b}{address}} (\mbox{\hyperlink{classseq_1_1aligned__allocator_a74801a5728b3613f4ddba990bf796e69}{const\+\_\+reference}} x) const noexcept
+\item 
+T $\ast$ \mbox{\hyperlink{classseq_1_1aligned__allocator_a78bb43c7800272a2262f04287279a778}{allocate}} (size\+\_\+t n, const void $\ast$)
+\item 
+T $\ast$ \mbox{\hyperlink{classseq_1_1aligned__allocator_a532325ed27c087c4d09ea8fdcb1e6eaa}{allocate}} (size\+\_\+t n)
+\item 
+void \mbox{\hyperlink{classseq_1_1aligned__allocator_a5271afd1a2475f998862460dc037a2b7}{deallocate}} (T $\ast$p, size\+\_\+t n)
+\item 
+{\footnotesize template$<$class U , class... Args$>$ }\\void \mbox{\hyperlink{classseq_1_1aligned__allocator_a1d8945b314279170648ac2a2e5210c6d}{construct}} (U $\ast$p, Args \&\&... args)
+\item 
+{\footnotesize template$<$class U $>$ }\\void \mbox{\hyperlink{classseq_1_1aligned__allocator_a4d47d0dde411858e8f7e14a835caf648}{destroy}} (U $\ast$p)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const size\+\_\+t \mbox{\hyperlink{classseq_1_1aligned__allocator_ae3e074d47efb95e1c6e31b7ec75e40eb}{alignment}} = (Align == 0 $\vert$$\vert$ Align $<$ \mbox{\hyperlink{group__bits_ga4358957bf3c41e772ade27671699c4e6}{S\+E\+Q\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+A\+L\+I\+G\+N\+M\+E\+NT}}) ? \mbox{\hyperlink{group__bits_ga4358957bf3c41e772ade27671699c4e6}{S\+E\+Q\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+A\+L\+I\+G\+N\+M\+E\+NT}} \+: Align
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$\newline
+class seq\+::aligned\+\_\+allocator$<$ T, Allocator, Align $>$}
+
+Allocator class with custom alignment. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & object type to allocate \\
+\hline
+{\em Allocator} & underlying allocator\\
+\hline
+\end{DoxyTemplParams}
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} is a stl conforming allocator class supporting custom alignment. It relies on an underlying allocator class to perform the actual memory allocation. \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} will allocate more memory than required for over aligned types.
+
+If {\itshape Align} is 0, the default system alignment is used.
+
+If provided Allocator class is std\+::allocator$<$\+T$>$, \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} is specialized to use \mbox{\hyperlink{namespaceseq_ad83ce9b88f61a6d39bc6505b04ec6f6e}{seq\+::aligned\+\_\+malloc}} and \mbox{\hyperlink{namespaceseq_a04be1ca38e79158feb4755807ef3d08c}{seq\+::aligned\+\_\+free}}. 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_aa926b1d5c48d5fc25ff55b2d4b9ff735}\label{classseq_1_1aligned__allocator_aa926b1d5c48d5fc25ff55b2d4b9ff735}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!const\_pointer@{const\_pointer}}
+\index{const\_pointer@{const\_pointer}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{const\_pointer}{const\_pointer}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+using \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_aa926b1d5c48d5fc25ff55b2d4b9ff735}{const\+\_\+pointer}} =  const T$\ast$}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a74801a5728b3613f4ddba990bf796e69}\label{classseq_1_1aligned__allocator_a74801a5728b3613f4ddba990bf796e69}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!const\_reference@{const\_reference}}
+\index{const\_reference@{const\_reference}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{const\_reference}{const\_reference}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+using \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_a74801a5728b3613f4ddba990bf796e69}{const\+\_\+reference}} =  const T\&}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a4f8f9ef336b49da03b3dc8c7e8ad1c22}\label{classseq_1_1aligned__allocator_a4f8f9ef336b49da03b3dc8c7e8ad1c22}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!difference\_type@{difference\_type}}
+\index{difference\_type@{difference\_type}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{difference\_type}{difference\_type}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+using \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_a4f8f9ef336b49da03b3dc8c7e8ad1c22}{difference\+\_\+type}} =  std\+::ptrdiff\+\_\+t}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_aa53da316195c73c7b0038eb579949a22}\label{classseq_1_1aligned__allocator_aa53da316195c73c7b0038eb579949a22}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!pointer@{pointer}}
+\index{pointer@{pointer}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{pointer}{pointer}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+using \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_aa53da316195c73c7b0038eb579949a22}{pointer}} =  T$\ast$}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a7c9468c1848b3a1dee2769403fc9d555}\label{classseq_1_1aligned__allocator_a7c9468c1848b3a1dee2769403fc9d555}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!propagate\_on\_container\_copy\_assignment@{propagate\_on\_container\_copy\_assignment}}
+\index{propagate\_on\_container\_copy\_assignment@{propagate\_on\_container\_copy\_assignment}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{propagate\_on\_container\_copy\_assignment}{propagate\_on\_container\_copy\_assignment}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+using \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_a7c9468c1848b3a1dee2769403fc9d555}{propagate\+\_\+on\+\_\+container\+\_\+copy\+\_\+assignment}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_a7c9468c1848b3a1dee2769403fc9d555}{propagate\+\_\+on\+\_\+container\+\_\+copy\+\_\+assignment}}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a5d2621a750f7cf8c83dba4f0f768c5ab}\label{classseq_1_1aligned__allocator_a5d2621a750f7cf8c83dba4f0f768c5ab}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!propagate\_on\_container\_move\_assignment@{propagate\_on\_container\_move\_assignment}}
+\index{propagate\_on\_container\_move\_assignment@{propagate\_on\_container\_move\_assignment}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{propagate\_on\_container\_move\_assignment}{propagate\_on\_container\_move\_assignment}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+using \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_a5d2621a750f7cf8c83dba4f0f768c5ab}{propagate\+\_\+on\+\_\+container\+\_\+move\+\_\+assignment}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_a5d2621a750f7cf8c83dba4f0f768c5ab}{propagate\+\_\+on\+\_\+container\+\_\+move\+\_\+assignment}}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_adb06b0f3f7463f04817c51aaa532c245}\label{classseq_1_1aligned__allocator_adb06b0f3f7463f04817c51aaa532c245}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!propagate\_on\_container\_swap@{propagate\_on\_container\_swap}}
+\index{propagate\_on\_container\_swap@{propagate\_on\_container\_swap}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{propagate\_on\_container\_swap}{propagate\_on\_container\_swap}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+using \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_adb06b0f3f7463f04817c51aaa532c245}{propagate\+\_\+on\+\_\+container\+\_\+swap}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_adb06b0f3f7463f04817c51aaa532c245}{propagate\+\_\+on\+\_\+container\+\_\+swap}}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a1f367aa3a5ab01673809fa63df1e8f87}\label{classseq_1_1aligned__allocator_a1f367aa3a5ab01673809fa63df1e8f87}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!reference@{reference}}
+\index{reference@{reference}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{reference}{reference}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+using \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_a1f367aa3a5ab01673809fa63df1e8f87}{reference}} =  T\&}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a7d75087e6bd7051aee163978c0f7b9b2}\label{classseq_1_1aligned__allocator_a7d75087e6bd7051aee163978c0f7b9b2}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!size\_type@{size\_type}}
+\index{size\_type@{size\_type}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{size\_type}{size\_type}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+using \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_a7d75087e6bd7051aee163978c0f7b9b2}{size\+\_\+type}} =  size\+\_\+t}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a03797e0a76d9632f641e54fdd70049dd}\label{classseq_1_1aligned__allocator_a03797e0a76d9632f641e54fdd70049dd}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+using \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator_a03797e0a76d9632f641e54fdd70049dd}{value\+\_\+type}} =  T}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a6d5277e5a71ea01dfd7283d0aa4b2514}\label{classseq_1_1aligned__allocator_a6d5277e5a71ea01dfd7283d0aa4b2514}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!aligned\_allocator@{aligned\_allocator}}
+\index{aligned\_allocator@{aligned\_allocator}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{aligned\_allocator()}{aligned\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} (\begin{DoxyParamCaption}\item[{const Allocator}]{al = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a8f7e24fbf2e2a5d65d728331de4f29d2}\label{classseq_1_1aligned__allocator_a8f7e24fbf2e2a5d65d728331de4f29d2}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!aligned\_allocator@{aligned\_allocator}}
+\index{aligned\_allocator@{aligned\_allocator}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{aligned\_allocator()}{aligned\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a458d9bf5059e8b955cf4f8fb9ed803c3}\label{classseq_1_1aligned__allocator_a458d9bf5059e8b955cf4f8fb9ed803c3}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!aligned\_allocator@{aligned\_allocator}}
+\index{aligned\_allocator@{aligned\_allocator}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{aligned\_allocator()}{aligned\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a3fd482ab0bfbd847cc376cb2f5304bbf}\label{classseq_1_1aligned__allocator_a3fd482ab0bfbd847cc376cb2f5304bbf}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!aligned\_allocator@{aligned\_allocator}}
+\index{aligned\_allocator@{aligned\_allocator}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{aligned\_allocator()}{aligned\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+template$<$class U $>$ \\
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}}$<$ U, Allocator, Align $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a21b55faeed2d648b68653d35860b69b7}\label{classseq_1_1aligned__allocator_a21b55faeed2d648b68653d35860b69b7}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!````~aligned\_allocator@{$\sim$aligned\_allocator}}
+\index{````~aligned\_allocator@{$\sim$aligned\_allocator}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{$\sim$aligned\_allocator()}{~aligned\_allocator()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::$\sim$\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_ab776a0293f2b2831d5d2b2f1f1b15a6b}\label{classseq_1_1aligned__allocator_ab776a0293f2b2831d5d2b2f1f1b15a6b}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!address@{address}}
+\index{address@{address}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{address()}{address()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+\mbox{\hyperlink{classseq_1_1aligned__allocator_aa926b1d5c48d5fc25ff55b2d4b9ff735}{const\+\_\+pointer}} \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::address (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1aligned__allocator_a74801a5728b3613f4ddba990bf796e69}{const\+\_\+reference}}}]{x }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_ab26e2d83cd062548f65d2b6f8c3742de}\label{classseq_1_1aligned__allocator_ab26e2d83cd062548f65d2b6f8c3742de}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!address@{address}}
+\index{address@{address}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{address()}{address()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+\mbox{\hyperlink{classseq_1_1aligned__allocator_aa53da316195c73c7b0038eb579949a22}{pointer}} \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::address (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1aligned__allocator_a1f367aa3a5ab01673809fa63df1e8f87}{reference}}}]{x }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a532325ed27c087c4d09ea8fdcb1e6eaa}\label{classseq_1_1aligned__allocator_a532325ed27c087c4d09ea8fdcb1e6eaa}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!allocate@{allocate}}
+\index{allocate@{allocate}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+T$\ast$ \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a78bb43c7800272a2262f04287279a778}\label{classseq_1_1aligned__allocator_a78bb43c7800272a2262f04287279a778}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!allocate@{allocate}}
+\index{allocate@{allocate}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{allocate()}{allocate()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+T$\ast$ \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n,  }\item[{const void $\ast$}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a1d8945b314279170648ac2a2e5210c6d}\label{classseq_1_1aligned__allocator_a1d8945b314279170648ac2a2e5210c6d}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!construct@{construct}}
+\index{construct@{construct}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{construct()}{construct()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+template$<$class U , class... Args$>$ \\
+void \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::construct (\begin{DoxyParamCaption}\item[{U $\ast$}]{p,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a5271afd1a2475f998862460dc037a2b7}\label{classseq_1_1aligned__allocator_a5271afd1a2475f998862460dc037a2b7}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!deallocate@{deallocate}}
+\index{deallocate@{deallocate}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{deallocate()}{deallocate()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+void \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::deallocate (\begin{DoxyParamCaption}\item[{T $\ast$}]{p,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a4d47d0dde411858e8f7e14a835caf648}\label{classseq_1_1aligned__allocator_a4d47d0dde411858e8f7e14a835caf648}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!destroy@{destroy}}
+\index{destroy@{destroy}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+template$<$class U $>$ \\
+void \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::destroy (\begin{DoxyParamCaption}\item[{U $\ast$}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_adf97714ed74c4d260533f87081edc708}\label{classseq_1_1aligned__allocator_adf97714ed74c4d260533f87081edc708}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+Allocator\& \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_adf4dbe868e89c80663aee0be9a7ad88a}\label{classseq_1_1aligned__allocator_adf4dbe868e89c80663aee0be9a7ad88a}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+Allocator \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a58f7c43eb035ca61f68fa140313e764c}\label{classseq_1_1aligned__allocator_a58f7c43eb035ca61f68fa140313e764c}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+bool \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_aa9b1b3ebcf5e12c39c850abfe16e1a2e}\label{classseq_1_1aligned__allocator_aa9b1b3ebcf5e12c39c850abfe16e1a2e}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}}\& \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a781421c9fbab0c992d3d8e754eb53ee2}\label{classseq_1_1aligned__allocator_a781421c9fbab0c992d3d8e754eb53ee2}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}}\& \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_ad44953b56370f70f76ff01c1d6045978}\label{classseq_1_1aligned__allocator_ad44953b56370f70f76ff01c1d6045978}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!operator==@{operator==}}
+\index{operator==@{operator==}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+bool \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_a1fb21f5d7c1570d45223a08cf2767d3e}\label{classseq_1_1aligned__allocator_a1fb21f5d7c1570d45223a08cf2767d3e}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!select\_on\_container\_copy\_construction@{select\_on\_container\_copy\_construction}}
+\index{select\_on\_container\_copy\_construction@{select\_on\_container\_copy\_construction}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{select\_on\_container\_copy\_construction()}{select\_on\_container\_copy\_construction()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+\mbox{\hyperlink{classseq_1_1aligned__allocator}{aligned\+\_\+allocator}} \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::select\+\_\+on\+\_\+container\+\_\+copy\+\_\+construction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classseq_1_1aligned__allocator_ae3e074d47efb95e1c6e31b7ec75e40eb}\label{classseq_1_1aligned__allocator_ae3e074d47efb95e1c6e31b7ec75e40eb}} 
+\index{seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}!alignment@{alignment}}
+\index{alignment@{alignment}!seq::aligned\_allocator$<$ T, Allocator, Align $>$@{seq::aligned\_allocator$<$ T, Allocator, Align $>$}}
+\doxysubsubsection{\texorpdfstring{alignment}{alignment}}
+{\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment$>$ \\
+const size\+\_\+t \mbox{\hyperlink{classseq_1_1aligned__allocator}{seq\+::aligned\+\_\+allocator}}$<$ T, Allocator, Align $>$\+::alignment = (Align == 0 $\vert$$\vert$ Align $<$ \mbox{\hyperlink{group__bits_ga4358957bf3c41e772ade27671699c4e6}{S\+E\+Q\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+A\+L\+I\+G\+N\+M\+E\+NT}}) ? \mbox{\hyperlink{group__bits_ga4358957bf3c41e772ade27671699c4e6}{S\+E\+Q\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+A\+L\+I\+G\+N\+M\+E\+NT}} \+: Align\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{memory_8hpp}{memory.\+hpp}}\end{DoxyCompactItemize}

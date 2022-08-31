@@ -1,0 +1,202 @@
+\hypertarget{bits_8hpp}{}\doxysection{seq/bits.hpp File Reference}
+\label{bits_8hpp}\index{seq/bits.hpp@{seq/bits.hpp}}
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$climits$>$}\newline
+{\ttfamily \#include $<$cstddef$>$}\newline
+{\ttfamily \#include $<$cassert$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$cstdio$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1static__bit__scan__reverse}{seq\+::static\+\_\+bit\+\_\+scan\+\_\+reverse$<$ Size $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1static__bit__scan__reverse_3_011_01_4}{seq\+::static\+\_\+bit\+\_\+scan\+\_\+reverse$<$ 1 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1static__bit__scan__reverse_3_010_u_l_l_01_4}{seq\+::static\+\_\+bit\+\_\+scan\+\_\+reverse$<$ 0\+U\+L\+L $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail}{seq\+::detail}}
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits in {\itshape value}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{group__bits_gac808a645bccc22a8d104686b25845824}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+U\+N\+D\+E\+F\+I\+N\+ED}}~((unsigned)-\/1)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga10ac05fc4c1d30f0843d0d49b3e70c90}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+C\+O\+R\+R\+U\+P\+T\+E\+D\+\_\+\+D\+A\+TA}}~((unsigned)-\/2)
+\item 
+\#define \mbox{\hyperlink{group__bits_gaddfaa589aaa63ececdeaebd5fbf2a1a3}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+S\+R\+C\+\_\+\+O\+V\+E\+R\+F\+L\+OW}}~((unsigned)-\/3)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga6a6232f0723fc5484382161ce43f1884}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+D\+S\+T\+\_\+\+O\+V\+E\+R\+F\+L\+OW}}~((unsigned)-\/4)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga7fcb9cdceaaee010cedfa87de0f0fa69}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+A\+L\+L\+OC}}~((unsigned)-\/5)
+\item 
+\#define \mbox{\hyperlink{group__bits_gac7427f43a736038eeaad11d9908dbda1}{S\+E\+Q\+\_\+\+E\+R\+R\+O\+R\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+I\+N\+P\+UT}}~((unsigned)-\/6)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga89854d5a934294428684c6cd1d4f0336}{S\+E\+Q\+\_\+\+L\+A\+S\+T\+\_\+\+E\+R\+R\+O\+R\+\_\+\+C\+O\+DE}}~((unsigned)-\/10)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga67d3b70d773f73a03d96f6b4808a5921}{S\+E\+Q\+\_\+\+G\+R\+O\+W\+\_\+\+F\+A\+C\+T\+OR}}~1.\+6
+\item 
+\#define \mbox{\hyperlink{group__bits_ga3188941b4d65de46471a2e1259fc0ca3}{B\+Y\+T\+E\+O\+R\+D\+E\+R\+\_\+\+L\+I\+T\+T\+L\+E\+\_\+\+E\+N\+D\+I\+AN}}~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga92cc12b19b23eb27798b62d2d2f4e59f}{B\+Y\+T\+E\+O\+R\+D\+E\+R\+\_\+\+B\+I\+G\+\_\+\+E\+N\+D\+I\+AN}}~1
+\item 
+\#define \mbox{\hyperlink{group__bits_ga1cbb44da4a53751136f4dc9e91955349}{S\+E\+Q\+\_\+\+A\+R\+C\+H\+\_\+32}}
+\item 
+\#define \mbox{\hyperlink{group__bits_ga4358957bf3c41e772ade27671699c4e6}{S\+E\+Q\+\_\+\+D\+E\+F\+A\+U\+L\+T\+\_\+\+A\+L\+I\+G\+N\+M\+E\+NT}}~alignof(std\+::max\+\_\+align\+\_\+t)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga72391f4e9dec6b03cd65e4fa6e737b47}{S\+E\+Q\+\_\+\+A\+B\+O\+RT}}(...)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga3af9d45fb1cb5d6a17fdb3404b472f78}{S\+E\+Q\+\_\+\+O\+F\+F\+S\+E\+T\+OF}}(s,  m)~((\+::size\+\_\+t)\&reinterpret\+\_\+cast$<$char const volatile\&$>$((((s$\ast$)0)-\/$>$m)))
+\item 
+\#define \mbox{\hyperlink{group__bits_gae4a7019ba7c6381482288d4f2a24246a}{\+\_\+\+S\+E\+Q\+\_\+\+P\+R\+A\+G\+MA}}(text)~\+\_\+\+Pragma(\#text)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga06eb095185f16889bec1c2207f0e101d}{S\+E\+Q\+\_\+\+P\+R\+A\+G\+MA}}(text)~\mbox{\hyperlink{group__bits_gae4a7019ba7c6381482288d4f2a24246a}{\+\_\+\+S\+E\+Q\+\_\+\+P\+R\+A\+G\+MA}}(text)
+\item 
+\#define \mbox{\hyperlink{group__bits_gaaf29ff69ae3d251b8e68651482bdc280}{S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE}}(...)~\+\_\+\+\_\+\+V\+A\+\_\+\+A\+R\+G\+S\+\_\+\+\_\+ \+\_\+\+\_\+attribute\+\_\+\+\_\+((noinline))
+\item 
+\#define \mbox{\hyperlink{group__bits_gaeed0a618f017e128a5d8654754f792db}{\+\_\+\+\_\+has\+\_\+cpp\+\_\+attribute}}(x)~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga061fe8f79573a411376c454836794223}{S\+E\+Q\+\_\+\+F\+A\+L\+L\+T\+H\+R\+O\+U\+GH}}()
+\item 
+\#define \mbox{\hyperlink{group__bits_ga2616804c95a1e947af283dc5f65464e2}{S\+E\+Q\+\_\+\+A\+L\+I\+G\+N\+\_\+\+T\+O\+\_\+\+B\+O\+U\+N\+D\+A\+RY}}(n)~S\+E\+Q\+\_\+\+U\+S\+E\+R\+\_\+\+A\+L\+I\+G\+N\+\_\+\+T\+O\+\_\+\+B\+O\+U\+N\+D\+A\+RY(n)
+\item 
+\#define \mbox{\hyperlink{group__bits_gaac3e750dd623d4a1ef045f0faa734e08}{S\+E\+Q\+\_\+\+L\+I\+K\+E\+LY}}(x)~\+\_\+\+\_\+builtin\+\_\+expect (!!(x), 1)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga371649b7712afb0bb3b2781aeddf45d9}{S\+E\+Q\+\_\+\+U\+N\+L\+I\+K\+E\+LY}}(x)~\+\_\+\+\_\+builtin\+\_\+expect (!!(x), 0)
+\item 
+\#define \mbox{\hyperlink{group__bits_ga55ced08c31bd12c443136cc314819992}{S\+E\+Q\+\_\+\+I\+N\+L\+I\+NE}}~\mbox{\hyperlink{group__bits_ga00d24c7231be28dbaf71f5408f30e44c}{inline}}
+\item 
+\#define \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}}~\mbox{\hyperlink{group__bits_ga00d24c7231be28dbaf71f5408f30e44c}{inline}}
+\item 
+\#define \mbox{\hyperlink{group__bits_ga2c2d414302ad252268251a38eba3d17a}{S\+E\+Q\+\_\+\+E\+X\+T\+E\+N\+S\+I\+ON}}
+\item 
+\#define \mbox{\hyperlink{group__bits_ga9989f32616a05af18ff62830566e4b2f}{S\+E\+Q\+\_\+\+A\+S\+S\+E\+R\+T\+\_\+\+D\+E\+B\+UG}}(condition, ...)~assert((condition) \&\& (\+\_\+\+\_\+\+V\+A\+\_\+\+A\+R\+G\+S\+\_\+\+\_\+))
+\item 
+\#define \mbox{\hyperlink{group__bits_ga447121dcab4275b7839a56082b7a1ab8}{\+\_\+\+\_\+has\+\_\+builtin}}(x)~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga54d2d7742701f3f112afbcd8d4f9ccdb}{\+\_\+\+\_\+has\+\_\+attribute}}(x)~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga59c586478ea00b6dc39ac90bb328d377}{S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+P\+O\+S\+I\+X\+\_\+\+M\+E\+M\+A\+L\+I\+GN}}~0
+\item 
+\#define \mbox{\hyperlink{group__bits_gae44fd21755228afece88fa61639e195b}{S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+M\+M\+\_\+\+M\+A\+L\+L\+OC}}~0
+\item 
+\#define \mbox{\hyperlink{group__bits_gaca71eb8581a4867a6eb7fc1d5e65b9b7}{S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+A\+L\+I\+G\+N\+E\+D\+\_\+\+M\+A\+L\+L\+OC}}~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga15b108df9e786a28e99c8a6e70d51b57}{S\+E\+Q\+\_\+\+H\+A\+S\+\_\+\+M\+I\+N\+G\+W\+\_\+\+A\+L\+I\+G\+N\+E\+D\+\_\+\+M\+A\+L\+L\+OC}}~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga2e12dfd1209d2791136221bb807e8b21}{G\+N\+U\+C\+\_\+\+P\+R\+E\+R\+EQ}}(x,  y)~0
+\item 
+\#define \mbox{\hyperlink{group__bits_gac95dddc8d05cdc27531e99aa65535c53}{C\+L\+A\+N\+G\+\_\+\+P\+R\+E\+R\+EQ}}(x,  y)~0
+\item 
+\#define \mbox{\hyperlink{group__bits_ga00d24c7231be28dbaf71f5408f30e44c}{inline}}~\+\_\+\+\_\+inline
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespaceseq_a6d2b0aba572fc96bdcec68b500577b5b}{seq\+::max\+\_\+align\+\_\+t}} = std\+::max\+\_\+align\+\_\+t
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_a0acdc0552433e887c5f2ca3ed1e56eaf}{seq\+::detail\+::handmade\+\_\+aligned\+\_\+malloc}} (size\+\_\+t size, size\+\_\+t alignment)
+\item 
+void \mbox{\hyperlink{namespaceseq_1_1detail_a9f7345d54076f3c6b286dec507e4d001}{seq\+::detail\+::handmade\+\_\+aligned\+\_\+free}} (void $\ast$ptr)
+\item 
+void $\ast$ \mbox{\hyperlink{namespaceseq_ad83ce9b88f61a6d39bc6505b04ec6f6e}{seq\+::aligned\+\_\+malloc}} (size\+\_\+t size, size\+\_\+t align)
+\begin{DoxyCompactList}\small\item\em Allocates {\itshape size} bytes. The returned pointer is guaranteed to have {\itshape align} bytes alignment. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceseq_a04be1ca38e79158feb4755807ef3d08c}{seq\+::aligned\+\_\+free}} (void $\ast$ptr)
+\begin{DoxyCompactList}\small\item\em Frees memory allocated with aligned\+\_\+malloc. \end{DoxyCompactList}\item 
+unsigned \mbox{\hyperlink{namespaceseq_1_1detail_a9a452ed6b1074de5c8182e2b57ce4e9e}{seq\+::detail\+::popcount64}} (std\+::uint64\+\_\+t x)
+\item 
+unsigned \mbox{\hyperlink{namespaceseq_1_1detail_a1fc3c748867f87cd233bca9e60843800}{seq\+::detail\+::popcount32}} (uint32\+\_\+t i)
+\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{namespaceseq_a93474d742382c06825212a479a720fcb}{seq\+::popcnt64}} (std\+::uint64\+\_\+t x)
+\item 
+uint32\+\_\+t \mbox{\hyperlink{namespaceseq_a08ad7cd23d956c6e3205dd20ff1629b3}{seq\+::popcnt32}} (uint32\+\_\+t x)
+\item 
+unsigned \mbox{\hyperlink{namespaceseq_ac360f9661dc5c8b69336408b4a96259a}{seq\+::popcnt8}} (unsigned char value)
+\item 
+unsigned \mbox{\hyperlink{namespaceseq_a2e9f083253d23d9c760804a87995efe2}{seq\+::popcnt16}} (unsigned short value)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} unsigned int \mbox{\hyperlink{namespaceseq_ae4aa3fe9c20f97f4f5af93dfa190bbad}{seq\+::bit\+\_\+scan\+\_\+forward\+\_\+8}} (std\+::uint8\+\_\+t val)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} unsigned int \mbox{\hyperlink{namespaceseq_a4922210860b6f327b5fb7a5138882236}{seq\+::bit\+\_\+scan\+\_\+reverse\+\_\+8}} (std\+::uint8\+\_\+t val)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} unsigned int \mbox{\hyperlink{namespaceseq_a62ae84cf43b3822a03c04a4e0762813a}{seq\+::bit\+\_\+scan\+\_\+forward\+\_\+32}} (std\+::uint32\+\_\+t val)
+\begin{DoxyCompactList}\small\item\em Returns the lowest set bit index in {\itshape val} Undefined if val==0. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} unsigned int \mbox{\hyperlink{namespaceseq_aab5a4ec0a40a8275833a0fe25b4dfb23}{seq\+::bit\+\_\+scan\+\_\+reverse\+\_\+32}} (std\+::uint32\+\_\+t val)
+\begin{DoxyCompactList}\small\item\em Returns the highest set bit index in {\itshape val} Undefined if val==0. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} unsigned \mbox{\hyperlink{namespaceseq_a55187c5046afdf617db98cf0a27f9320}{seq\+::bit\+\_\+scan\+\_\+forward\+\_\+64}} (std\+::uint64\+\_\+t bb) noexcept
+\begin{DoxyCompactList}\small\item\em Returns the lowest set bit index in {\itshape bb}. Developed by Kim Walisch (2012). Undefined if bb==0. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} unsigned \mbox{\hyperlink{namespaceseq_ab6a7d54aa37d26276cef0ea1ca0a1fe1}{seq\+::bit\+\_\+scan\+\_\+reverse\+\_\+64}} (std\+::uint64\+\_\+t bb) noexcept
+\begin{DoxyCompactList}\small\item\em Returns the highest set bit index in {\itshape bb}. Developed by Kim Walisch, Mark Dickinson. Undefined if bb==0. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} unsigned \mbox{\hyperlink{namespaceseq_a80de2782447e04cfb1d873736761c04c}{seq\+::bit\+\_\+scan\+\_\+forward}} (size\+\_\+t bb) noexcept
+\begin{DoxyCompactList}\small\item\em Returns the lowest set bit index in {\itshape bb}. Undefined if bb==0. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} unsigned \mbox{\hyperlink{namespaceseq_a7e82ccd4ecac286fcbe78c84dc2bf793}{seq\+::bit\+\_\+scan\+\_\+reverse}} (size\+\_\+t bb) noexcept
+\begin{DoxyCompactList}\small\item\em Returns the highest set bit index in {\itshape bb}. Undefined if bb==0. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} unsigned \mbox{\hyperlink{namespaceseq_a595642727b17c09f8ed3f1902addb13b}{seq\+::count\+\_\+digits\+\_\+base\+\_\+10}} (T x)
+\item 
+unsigned int \mbox{\hyperlink{namespaceseq_1_1detail_ab350f7bad7fd188946048813bcea6647}{seq\+::detail\+::generic\+\_\+nth\+\_\+bit\+\_\+set}} (std\+::uint64\+\_\+t value, unsigned int n) noexcept
+\item 
+unsigned \mbox{\hyperlink{namespaceseq_ab2f848adb0c9d3ac36fb1c523850748b}{seq\+::nth\+\_\+bit\+\_\+set}} (std\+::uint64\+\_\+t x, unsigned n) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Consecutive\+N\+Bits$>$ }\\size\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_af543fcd4f0af06a266c50d2f52424245}{seq\+::detail\+::find\+\_\+consecutive\+\_\+bits}} (size\+\_\+t num)
+\item 
+template$<$$>$ size\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_a774b82bec43e0dfca0fca3f5a2ad6508}{seq\+::detail\+::find\+\_\+consecutive\+\_\+bits$<$ 1 $>$}} (size\+\_\+t num)
+\item 
+{\footnotesize template$<$size\+\_\+t Consecutive\+N\+Bits$>$ }\\unsigned \mbox{\hyperlink{namespaceseq_a6611a655add0de38badee7fcad961c4b}{seq\+::consecutive\+\_\+\+N\+\_\+bits}} (size\+\_\+t num)
+\begin{DoxyCompactList}\small\item\em Returns the position of the first consecutive N bits within {\itshape num}. \end{DoxyCompactList}\item 
+std\+::uint16\+\_\+t \mbox{\hyperlink{namespaceseq_a43ea7e90ba548509579455f13905d240}{seq\+::bswap\+\_\+16}} (std\+::uint16\+\_\+t value)
+\item 
+std\+::uint32\+\_\+t \mbox{\hyperlink{namespaceseq_a8b149fbd9ca094cb690819800c9f754e}{seq\+::bswap\+\_\+32}} (std\+::uint32\+\_\+t value)
+\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{namespaceseq_ad02968f707921c4060800cbfcd96956b}{seq\+::bswap\+\_\+64}} (std\+::uint64\+\_\+t value)
+\item 
+void \mbox{\hyperlink{namespaceseq_a8aa0f34c5b9efbaacd24ae215c6ebdfe}{seq\+::write\+\_\+\+L\+E\+\_\+16}} (void $\ast$dst, std\+::uint16\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em Write 16 bits integer {\itshape value} to {\itshape dst} in little endian order. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceseq_abbce06d3b6c0dd24ef956b3bba564914}{seq\+::write\+\_\+\+L\+E\+\_\+32}} (void $\ast$dst, std\+::uint32\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em Write 32 bits integer {\itshape value} to {\itshape dst} in little endian order. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{namespaceseq_a2dd16ebc1860bdc316a5f83c8210a361}{seq\+::write\+\_\+\+L\+E\+\_\+64}} (void $\ast$dst, std\+::uint64\+\_\+t value)
+\begin{DoxyCompactList}\small\item\em Write 64 bits integer {\itshape value} to {\itshape dst} in little endian order. \end{DoxyCompactList}\item 
+std\+::uint16\+\_\+t \mbox{\hyperlink{namespaceseq_af61414f482d42dd1e59f8a558d76ff93}{seq\+::read\+\_\+\+L\+E\+\_\+16}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Read 16 bits integer from {\itshape src} in little endian order. \end{DoxyCompactList}\item 
+std\+::uint32\+\_\+t \mbox{\hyperlink{namespaceseq_a1c3e5f6a4d449a97ac34349d47846aca}{seq\+::read\+\_\+\+L\+E\+\_\+32}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Read 32 bits integer from {\itshape src} in little endian order. \end{DoxyCompactList}\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{namespaceseq_a6f80bab6226f672c5ede30f5cce325b4}{seq\+::read\+\_\+\+L\+E\+\_\+64}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Read 64 bits integer from {\itshape src} in little endian order. \end{DoxyCompactList}\item 
+std\+::uint16\+\_\+t \mbox{\hyperlink{namespaceseq_a3dc979c02b15bd647641e83db0cdfd6c}{seq\+::read\+\_\+16}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Reads 16 bits integer from {\itshape src}. \end{DoxyCompactList}\item 
+std\+::uint32\+\_\+t \mbox{\hyperlink{namespaceseq_a3fd204b49f8889e867693b7804ad1377}{seq\+::read\+\_\+32}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Reads 32 bits integer from {\itshape src}. \end{DoxyCompactList}\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{namespaceseq_a881c8b8e6500cbc8c9e6dc07b4651633}{seq\+::read\+\_\+64}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Reads 64 bits integer from {\itshape src}. \end{DoxyCompactList}\item 
+std\+::uintptr\+\_\+t \mbox{\hyperlink{namespaceseq_af19d29d42a2dde5c53e17ba342ac7828}{seq\+::read\+\_\+ptr\+\_\+t}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Reads uintptr\+\_\+t integer from {\itshape src}. \end{DoxyCompactList}\item 
+std\+::uint16\+\_\+t \mbox{\hyperlink{namespaceseq_ab3af9223b2fccb354d936f83997b13f4}{seq\+::read\+\_\+\+B\+E\+\_\+16}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Reads 16 bits integer from {\itshape src} in big endian order. \end{DoxyCompactList}\item 
+std\+::uint32\+\_\+t \mbox{\hyperlink{namespaceseq_ad8e3a29f545268e8a71e23dbd2da47d7}{seq\+::read\+\_\+\+B\+E\+\_\+32}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Reads 32 bits integer from {\itshape src} in big endian order. \end{DoxyCompactList}\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{namespaceseq_a82004ca023848af43c197128cfc598f1}{seq\+::read\+\_\+\+B\+E\+\_\+64}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Reads 64 bits integer from {\itshape src} in big endian order. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_a234f60d7f588e4060eb0d094150cbd46}{seq\+::read\+\_\+size\+\_\+t}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Reads size\+\_\+t object from {\itshape src}. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_af540dfc5f9a344a81c4b1c3e1b7fcf95}{seq\+::read\+\_\+\+L\+E\+\_\+size\+\_\+t}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Reads size\+\_\+t object from {\itshape src} in little endian order. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_a6d3ee7edc45051b7185cbc127044752f}{seq\+::read\+\_\+\+B\+E\+\_\+size\+\_\+t}} (const void $\ast$src)
+\begin{DoxyCompactList}\small\item\em Reads size\+\_\+t object from {\itshape src} in big endian order. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const unsigned \mbox{\hyperlink{namespaceseq_1_1detail_a4aaed06feb8d2e31a872f8dc8c23ff55}{seq\+::detail\+::forward\+\_\+index64}} \mbox{[}64\mbox{]}
+\item 
+const unsigned \mbox{\hyperlink{namespaceseq_1_1detail_a28c6f397e24a3612693c4f86653b2ebe}{seq\+::detail\+::backward\+\_\+index64}} \mbox{[}64\mbox{]}
+\end{DoxyCompactItemize}

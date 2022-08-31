@@ -1,0 +1,49 @@
+\hypertarget{structrobin__hood_1_1pair}{}\doxysection{robin\+\_\+hood\+::pair$<$ T1, T2 $>$ Struct Template Reference}
+\label{structrobin__hood_1_1pair}\index{robin\_hood::pair$<$ T1, T2 $>$@{robin\_hood::pair$<$ T1, T2 $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structrobin__hood_1_1pair_ae90464c1a30743de104c8c74d1fef95b}\label{structrobin__hood_1_1pair_ae90464c1a30743de104c8c74d1fef95b}} 
+using {\bfseries first\+\_\+type} = T1
+\item 
+\mbox{\Hypertarget{structrobin__hood_1_1pair_ad886414c4c74d57e65622a6d38a8d8dc}\label{structrobin__hood_1_1pair_ad886414c4c74d57e65622a6d38a8d8dc}} 
+using {\bfseries second\+\_\+type} = T2
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structrobin__hood_1_1pair_af8586698acd202220e5c8e60f289a9d3}\label{structrobin__hood_1_1pair_af8586698acd202220e5c8e60f289a9d3}} 
+constexpr {\bfseries pair} (std\+::pair$<$ T1, T2 $>$ const \&o) noexcept(noexcept(T1(std\+::declval$<$ T1 const \& $>$())) \&\&noexcept(T2(std\+::declval$<$ T2 const \& $>$())))
+\item 
+\mbox{\Hypertarget{structrobin__hood_1_1pair_a297292d1dde37f8ec1de3c381730dea0}\label{structrobin__hood_1_1pair_a297292d1dde37f8ec1de3c381730dea0}} 
+constexpr {\bfseries pair} (std\+::pair$<$ T1, T2 $>$ \&\&o) noexcept(noexcept(T1(std\+::move(std\+::declval$<$ T1 \&\& $>$()))) \&\&noexcept(T2(std\+::move(std\+::declval$<$ T2 \&\& $>$()))))
+\item 
+\mbox{\Hypertarget{structrobin__hood_1_1pair_a4e9a6a1ad4bfced04f88ba218f7a3e70}\label{structrobin__hood_1_1pair_a4e9a6a1ad4bfced04f88ba218f7a3e70}} 
+constexpr {\bfseries pair} (T1 \&\&a, T2 \&\&b) noexcept(noexcept(T1(std\+::move(std\+::declval$<$ T1 \&\& $>$()))) \&\&noexcept(T2(std\+::move(std\+::declval$<$ T2 \&\& $>$()))))
+\item 
+\mbox{\Hypertarget{structrobin__hood_1_1pair_a754f145a3ac76c3eed4e8fa6ce46e4f1}\label{structrobin__hood_1_1pair_a754f145a3ac76c3eed4e8fa6ce46e4f1}} 
+{\footnotesize template$<$typename U1 , typename U2 $>$ }\\constexpr {\bfseries pair} (U1 \&\&a, U2 \&\&b) noexcept(noexcept(T1(std\+::forward$<$ U1 $>$(std\+::declval$<$ U1 \&\& $>$()))) \&\&noexcept(T2(std\+::forward$<$ U2 $>$(std\+::declval$<$ U2 \&\& $>$()))))
+\item 
+\mbox{\Hypertarget{structrobin__hood_1_1pair_a11c83a2f6084541a19ef2aafa7276b0c}\label{structrobin__hood_1_1pair_a11c83a2f6084541a19ef2aafa7276b0c}} 
+{\footnotesize template$<$typename... U1, typename... U2$>$ }\\constexpr {\bfseries pair} (std\+::piecewise\+\_\+construct\+\_\+t, std\+::tuple$<$ U1... $>$ a, std\+::tuple$<$ U2... $>$ b) noexcept(noexcept(\mbox{\hyperlink{structrobin__hood_1_1pair}{pair}}(std\+::declval$<$ std\+::tuple$<$ U1... $>$ \& $>$(), std\+::declval$<$ std\+::tuple$<$ U2... $>$ \& $>$(), R\+O\+B\+I\+N\+\_\+\+H\+O\+O\+D\+\_\+\+S\+T\+D\+::index\+\_\+sequence\+\_\+for$<$ U1... $>$(), R\+O\+B\+I\+N\+\_\+\+H\+O\+O\+D\+\_\+\+S\+T\+D\+::index\+\_\+sequence\+\_\+for$<$ U2... $>$())))
+\item 
+\mbox{\Hypertarget{structrobin__hood_1_1pair_a331c9e1e4591581872f6419fdd831780}\label{structrobin__hood_1_1pair_a331c9e1e4591581872f6419fdd831780}} 
+{\footnotesize template$<$typename... U1, size\+\_\+t... I1, typename... U2, size\+\_\+t... I2$>$ }\\{\bfseries pair} (std\+::tuple$<$ U1... $>$ \&a, std\+::tuple$<$ U2... $>$ \&b, \mbox{\hyperlink{classrobin__hood_1_1_r_o_b_i_n___h_o_o_d___s_t_d_1_1integer__sequence}{R\+O\+B\+I\+N\+\_\+\+H\+O\+O\+D\+\_\+\+S\+T\+D\+::index\+\_\+sequence}}$<$ I1... $>$, \mbox{\hyperlink{classrobin__hood_1_1_r_o_b_i_n___h_o_o_d___s_t_d_1_1integer__sequence}{R\+O\+B\+I\+N\+\_\+\+H\+O\+O\+D\+\_\+\+S\+T\+D\+::index\+\_\+sequence}}$<$ I2... $>$) noexcept(noexcept(T1(std\+::forward$<$ U1 $>$(std\+::get$<$ I1 $>$(std\+::declval$<$ std\+::tuple$<$ U1... $>$ \& $>$()))...)) \&\&noexcept(T2(std\+::forward$<$ U2 $>$(std\+::get$<$ I2 $>$(std\+::declval$<$ std\+::tuple$<$ U2... $>$ \& $>$()))...)))
+\item 
+\mbox{\Hypertarget{structrobin__hood_1_1pair_a275158d20afa79271ffa919b7d161fd5}\label{structrobin__hood_1_1pair_a275158d20afa79271ffa919b7d161fd5}} 
+void {\bfseries swap} (\mbox{\hyperlink{structrobin__hood_1_1pair}{pair}}$<$ T1, T2 $>$ \&o) noexcept((\mbox{\hyperlink{structrobin__hood_1_1detail_1_1swappable_1_1nothrow}{detail\+::swappable\+::nothrow}}$<$ T1 $>$\+::value) \&\&(\mbox{\hyperlink{structrobin__hood_1_1detail_1_1swappable_1_1nothrow}{detail\+::swappable\+::nothrow}}$<$ T2 $>$\+::value))
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structrobin__hood_1_1pair_a65e663c4f353ff0ffb25a093ecb95c6d}\label{structrobin__hood_1_1pair_a65e663c4f353ff0ffb25a093ecb95c6d}} 
+T1 {\bfseries first}
+\item 
+\mbox{\Hypertarget{structrobin__hood_1_1pair_a3703b0d79fb2daa2d39ca48954278326}\label{structrobin__hood_1_1pair_a3703b0d79fb2daa2d39ca48954278326}} 
+T2 {\bfseries second}
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+robin\+\_\+hood.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,19 @@
+\hypertarget{hash_8hpp}{}\doxysection{seq/hash.hpp File Reference}
+\label{hash_8hpp}\index{seq/hash.hpp@{seq/hash.hpp}}
+{\ttfamily \#include \char`\"{}bits.\+hpp\char`\"{}}\newline
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_a4ce0a7bad49b2b432d3b0565e5cbc3c4}{seq\+::hash\+\_\+combine}} (size\+\_\+t h1, size\+\_\+t h2) noexcept
+\begin{DoxyCompactList}\small\item\em Combine 2 hash values. Uses either murmurhash2 for 64 bits platform or the boost version for 32 bits platform. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_a11c1603678ff859a7ac75a082ecb97b2}{seq\+::hash\+\_\+bytes\+\_\+murmur64}} (const std\+::uint8\+\_\+t $\ast$ptr, size\+\_\+t len) noexcept
+\begin{DoxyCompactList}\small\item\em Compute a hash value for input data using the murmurhash2 algorithm. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_a7aa0a287687aadd2106e1fb1ff32431f}{seq\+::hash\+\_\+bytes\+\_\+fnv1a}} (const unsigned char $\ast$ptr, size\+\_\+t size) noexcept
+\begin{DoxyCompactList}\small\item\em Compute a hash value for input data using the fnv1a algorithm. This version reads the input buffer by chunks of sizeof(size\+\_\+t). \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_aba0458b86ee52bc2dd1471917dd424b8}{seq\+::hash\+\_\+bytes\+\_\+fnv1a\+\_\+slow}} (const unsigned char $\ast$ptr, size\+\_\+t size) noexcept
+\begin{DoxyCompactList}\small\item\em Compute a hash value for input data using the fnv1a algorithm. \end{DoxyCompactList}\end{DoxyCompactItemize}

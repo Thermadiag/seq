@@ -1,0 +1,47 @@
+\hypertarget{structdetail_1_1_hash_allocator}{}\doxysection{detail\+::Hash\+Allocator$<$ T, Allocator, Store\+Hash $>$ Struct Template Reference}
+\label{structdetail_1_1_hash_allocator}\index{detail::HashAllocator$<$ T, Allocator, StoreHash $>$@{detail::HashAllocator$<$ T, Allocator, StoreHash $>$}}
+
+
+{\ttfamily \#include $<$sparse\+\_\+hash -\/with smart rehash.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_allocator_aa254a7871933c67ab1429075a5f46989}\label{structdetail_1_1_hash_allocator_aa254a7871933c67ab1429075a5f46989}} 
+{\bfseries Hash\+Allocator} (const Allocator al=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_allocator_a8138b2371b0461cad66a8902b9f235d3}\label{structdetail_1_1_hash_allocator_a8138b2371b0461cad66a8902b9f235d3}} 
+{\bfseries Hash\+Allocator} (\mbox{\hyperlink{structdetail_1_1_hash_allocator}{Hash\+Allocator}} \&\&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_allocator_a042331dddcf63d3d52cf70cb3b19a8fa}\label{structdetail_1_1_hash_allocator_a042331dddcf63d3d52cf70cb3b19a8fa}} 
+{\bfseries Hash\+Allocator} (\mbox{\hyperlink{structdetail_1_1_hash_allocator}{Hash\+Allocator}} \&\&other, const Allocator \&al)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_allocator_a773367ed3550fc1f9d0c27aa4877e251}\label{structdetail_1_1_hash_allocator_a773367ed3550fc1f9d0c27aa4877e251}} 
+Allocator {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_allocator_aea9ae668e2f0df1a7a4c1d93bdfa60c5}\label{structdetail_1_1_hash_allocator_aea9ae668e2f0df1a7a4c1d93bdfa60c5}} 
+void $\ast$ {\bfseries allocate} (T $\ast$ptr, size\+\_\+t, size\+\_\+t size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_allocator_a6e85b11938aa3eeb200827ab4565c3bb}\label{structdetail_1_1_hash_allocator_a6e85b11938aa3eeb200827ab4565c3bb}} 
+void {\bfseries deallocate} (T $\ast$ptr, size\+\_\+t size)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_allocator_a0ef9cff41bdf429f86b4017271dd589f}\label{structdetail_1_1_hash_allocator_a0ef9cff41bdf429f86b4017271dd589f}} 
+std\+::size\+\_\+t {\bfseries memory\+\_\+footprint} () const noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_hash_allocator_adf3e3e40fcc5d3543706608f5e038a83}\label{structdetail_1_1_hash_allocator_adf3e3e40fcc5d3543706608f5e038a83}} 
+Allocator {\bfseries alloc}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator, bool Store\+Hash$>$\newline
+struct detail\+::\+Hash\+Allocator$<$ T, Allocator, Store\+Hash $>$}
+
+Standard allocator for hash tables, used with Optimize\+For\+Memory 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sparse\+\_\+hash -\/with smart rehash.\+hpp\end{DoxyCompactItemize}

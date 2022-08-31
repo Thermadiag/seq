@@ -1,0 +1,193 @@
+\hypertarget{classseq_1_1detail_1_1sequence__iterator}{}\doxysection{seq\+::detail\+::sequence\+\_\+iterator$<$ List $>$ Class Template Reference}
+\label{classseq_1_1detail_1_1sequence__iterator}\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+
+
+{\ttfamily \#include $<$sequence.\+hpp$>$}
+
+
+
+Inherits \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator}{seq\+::detail\+::sequence\+\_\+const\+\_\+iterator$<$ List $>$}}.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a26082e5da3978816b3759a59c4c23983}{base\+\_\+type}} = \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator}{sequence\+\_\+const\+\_\+iterator}}$<$ List $>$
+\item 
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a8b02b527a83b5f4d789d8148ee773a61}{iterator\+\_\+category}} = std\+::bidirectional\+\_\+iterator\+\_\+tag
+\item 
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_ae13a01bb6d12273c4f1473279b374d5d}{value\+\_\+type}} = typename List\+::value\+\_\+type
+\item 
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a86c5290c372ff13e189effb7c2dc21c1}{difference\+\_\+type}} = typename List\+::difference\+\_\+type
+\item 
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_ae0d0bef523ed7f7f0bed2696a53be1b4}{pointer}} = typename List\+::pointer
+\item 
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a89a234bb83f8a76b1affe055a78161f2}{reference}} = \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_ab66d521732b12decb8d4e44fa71427c5}{value\+\_\+type}} \&
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a66ba07eea152cb3ff1f8ce549bf8a37c}{sequence\+\_\+iterator}} () noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_afa2f2fe84c02b4428139a0d958ad288e}{sequence\+\_\+iterator}} (const typename \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a0dfd2e838653ee10bb9a74dc78d7a0b6}{base\+\_\+type\+::chunk\+\_\+type}} $\ast$\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_ac930bd4b98d77e12ea922cc55f673fc4}{node}}) noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a19716046d30668f5272e0a809f7b1385}{sequence\+\_\+iterator}} (const typename \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a0dfd2e838653ee10bb9a74dc78d7a0b6}{base\+\_\+type\+::chunk\+\_\+type}} $\ast$\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_ac930bd4b98d77e12ea922cc55f673fc4}{node}}, typename \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a9d01dc6e2027fdcacfb4f7e65be44f66}{base\+\_\+type\+::pos\+\_\+type}} \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a1493ed5748bcbd4ef2b6379941ff9bd8}{pos}}) noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a7aaaa77db8b46af79cb2e78ec29e9c53}{sequence\+\_\+iterator}} (const \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator}{sequence\+\_\+const\+\_\+iterator}}$<$ List $>$ \&other) noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a7b0d3cf27bcdb2f31738dd10de98c6a1}{reference}} \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_ae3229972c5b73b47a9e56a5e5c0ccb61}{operator$\ast$}} () const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a1bbe3a914c9675c6187660a07dbc4034}{pointer}} \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_af0b78e58f814b8ec55e16e7805d93533}{operator-\/$>$}} () const noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \& \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a42cfcbe5bd958660d443aa7cb9c18964}{operator++}} () noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_aff0dd003bbd5dc4fde020ab6efc1aa10}{operator++}} (int) noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \& \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a1694ed79d79b0c0e174655c7b549f6f9}{operator-\/-\/}} () noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a2db8eeac466f6e2f9e74a083b2b45b97}{operator-\/-\/}} (int) noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \& \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a6eae5e249a991ab2b0ea792e6eb85b74}{operator+=}} (\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a0c386cf44b88c698329f4502b236fb26}{difference\+\_\+type}} diff) noexcept
+\item 
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \& \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a83542fea1d0bf6c7e121f5db6a184552}{operator-\/=}} (\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a0c386cf44b88c698329f4502b236fb26}{difference\+\_\+type}} diff) noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a26082e5da3978816b3759a59c4c23983}\label{classseq_1_1detail_1_1sequence__iterator_a26082e5da3978816b3759a59c4c23983}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!base\_type@{base\_type}}
+\index{base\_type@{base\_type}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{base\_type}{base\_type}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a26082e5da3978816b3759a59c4c23983}{base\+\_\+type}} =  \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator}{sequence\+\_\+const\+\_\+iterator}}$<$ List$>$}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a86c5290c372ff13e189effb7c2dc21c1}\label{classseq_1_1detail_1_1sequence__iterator_a86c5290c372ff13e189effb7c2dc21c1}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!difference\_type@{difference\_type}}
+\index{difference\_type@{difference\_type}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{difference\_type}{difference\_type}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a0c386cf44b88c698329f4502b236fb26}{difference\+\_\+type}} =  typename List\+::difference\+\_\+type}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a8b02b527a83b5f4d789d8148ee773a61}\label{classseq_1_1detail_1_1sequence__iterator_a8b02b527a83b5f4d789d8148ee773a61}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!iterator\_category@{iterator\_category}}
+\index{iterator\_category@{iterator\_category}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{iterator\_category}{iterator\_category}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_af959d4853724e29a9a5ce5572e94ecdf}{iterator\+\_\+category}} =  std\+::bidirectional\+\_\+iterator\+\_\+tag}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_ae0d0bef523ed7f7f0bed2696a53be1b4}\label{classseq_1_1detail_1_1sequence__iterator_ae0d0bef523ed7f7f0bed2696a53be1b4}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!pointer@{pointer}}
+\index{pointer@{pointer}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{pointer}{pointer}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a1bbe3a914c9675c6187660a07dbc4034}{pointer}} =  typename List\+::pointer}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a89a234bb83f8a76b1affe055a78161f2}\label{classseq_1_1detail_1_1sequence__iterator_a89a234bb83f8a76b1affe055a78161f2}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!reference@{reference}}
+\index{reference@{reference}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{reference}{reference}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a7b0d3cf27bcdb2f31738dd10de98c6a1}{reference}} =  \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_ab66d521732b12decb8d4e44fa71427c5}{value\+\_\+type}}\&}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_ae13a01bb6d12273c4f1473279b374d5d}\label{classseq_1_1detail_1_1sequence__iterator_ae13a01bb6d12273c4f1473279b374d5d}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+using \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_ab66d521732b12decb8d4e44fa71427c5}{value\+\_\+type}} =  typename List\+::value\+\_\+type}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a66ba07eea152cb3ff1f8ce549bf8a37c}\label{classseq_1_1detail_1_1sequence__iterator_a66ba07eea152cb3ff1f8ce549bf8a37c}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!sequence\_iterator@{sequence\_iterator}}
+\index{sequence\_iterator@{sequence\_iterator}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{sequence\_iterator()}{sequence\_iterator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_afa2f2fe84c02b4428139a0d958ad288e}\label{classseq_1_1detail_1_1sequence__iterator_afa2f2fe84c02b4428139a0d958ad288e}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!sequence\_iterator@{sequence\_iterator}}
+\index{sequence\_iterator@{sequence\_iterator}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{sequence\_iterator()}{sequence\_iterator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} (\begin{DoxyParamCaption}\item[{const typename \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a0dfd2e838653ee10bb9a74dc78d7a0b6}{base\+\_\+type\+::chunk\+\_\+type}} $\ast$}]{node }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a19716046d30668f5272e0a809f7b1385}\label{classseq_1_1detail_1_1sequence__iterator_a19716046d30668f5272e0a809f7b1385}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!sequence\_iterator@{sequence\_iterator}}
+\index{sequence\_iterator@{sequence\_iterator}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{sequence\_iterator()}{sequence\_iterator()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} (\begin{DoxyParamCaption}\item[{const typename \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a0dfd2e838653ee10bb9a74dc78d7a0b6}{base\+\_\+type\+::chunk\+\_\+type}} $\ast$}]{node,  }\item[{typename \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a9d01dc6e2027fdcacfb4f7e65be44f66}{base\+\_\+type\+::pos\+\_\+type}}}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a7aaaa77db8b46af79cb2e78ec29e9c53}\label{classseq_1_1detail_1_1sequence__iterator_a7aaaa77db8b46af79cb2e78ec29e9c53}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!sequence\_iterator@{sequence\_iterator}}
+\index{sequence\_iterator@{sequence\_iterator}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{sequence\_iterator()}{sequence\_iterator()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator}{sequence\+\_\+const\+\_\+iterator}}$<$ List $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_ae3229972c5b73b47a9e56a5e5c0ccb61}\label{classseq_1_1detail_1_1sequence__iterator_ae3229972c5b73b47a9e56a5e5c0ccb61}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a7b0d3cf27bcdb2f31738dd10de98c6a1}{reference}} \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::operator$\ast$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a42cfcbe5bd958660d443aa7cb9c18964}\label{classseq_1_1detail_1_1sequence__iterator_a42cfcbe5bd958660d443aa7cb9c18964}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!operator++@{operator++}}
+\index{operator++@{operator++}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{operator++()}{operator++()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}}\& \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::operator++ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_aff0dd003bbd5dc4fde020ab6efc1aa10}\label{classseq_1_1detail_1_1sequence__iterator_aff0dd003bbd5dc4fde020ab6efc1aa10}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!operator++@{operator++}}
+\index{operator++@{operator++}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{operator++()}{operator++()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::operator++ (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a6eae5e249a991ab2b0ea792e6eb85b74}\label{classseq_1_1detail_1_1sequence__iterator_a6eae5e249a991ab2b0ea792e6eb85b74}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}}\& \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::operator+= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a0c386cf44b88c698329f4502b236fb26}{difference\+\_\+type}}}]{diff }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a1694ed79d79b0c0e174655c7b549f6f9}\label{classseq_1_1detail_1_1sequence__iterator_a1694ed79d79b0c0e174655c7b549f6f9}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!operator-\/-\/@{operator-\/-\/}}
+\index{operator-\/-\/@{operator-\/-\/}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/-\/()}{operator--()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}}\& \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::operator-\/-\/ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a2db8eeac466f6e2f9e74a083b2b45b97}\label{classseq_1_1detail_1_1sequence__iterator_a2db8eeac466f6e2f9e74a083b2b45b97}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!operator-\/-\/@{operator-\/-\/}}
+\index{operator-\/-\/@{operator-\/-\/}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/-\/()}{operator--()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::operator-\/-\/ (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_a83542fea1d0bf6c7e121f5db6a184552}\label{classseq_1_1detail_1_1sequence__iterator_a83542fea1d0bf6c7e121f5db6a184552}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{sequence\+\_\+iterator}}\& \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::operator-\/= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a0c386cf44b88c698329f4502b236fb26}{difference\+\_\+type}}}]{diff }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{classseq_1_1detail_1_1sequence__iterator_af0b78e58f814b8ec55e16e7805d93533}\label{classseq_1_1detail_1_1sequence__iterator_af0b78e58f814b8ec55e16e7805d93533}} 
+\index{seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}!operator-\/$>$@{operator-\/$>$}}
+\index{operator-\/$>$@{operator-\/$>$}!seq::detail::sequence\_iterator$<$ List $>$@{seq::detail::sequence\_iterator$<$ List $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/$>$()}{operator->()}}
+{\footnotesize\ttfamily template$<$class List $>$ \\
+\mbox{\hyperlink{classseq_1_1detail_1_1sequence__const__iterator_a1bbe3a914c9675c6187660a07dbc4034}{pointer}} \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator}{seq\+::detail\+::sequence\+\_\+iterator}}$<$ List $>$\+::operator-\/$>$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{sequence_8hpp}{sequence.\+hpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,40 @@
+\hypertarget{struct_std_pool}{}\doxysection{Std\+Pool$<$ T $>$ Struct Template Reference}
+\label{struct_std_pool}\index{StdPool$<$ T $>$@{StdPool$<$ T $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_std_pool_a8941ae89f7f024d79aa586d35f57f858}\label{struct_std_pool_a8941ae89f7f024d79aa586d35f57f858}} 
+using {\bfseries unique\+\_\+ptr} = std\+::unique\+\_\+ptr$<$ T $>$
+\item 
+\mbox{\Hypertarget{struct_std_pool_a998aff3784dc67dd31223085f57c990d}\label{struct_std_pool_a998aff3784dc67dd31223085f57c990d}} 
+using {\bfseries value\+\_\+type} = T
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{struct_std_pool_a5e205dfc81d07597dce69412d20fe466}\label{struct_std_pool_a5e205dfc81d07597dce69412d20fe466}} 
+T $\ast$ {\bfseries allocate} (size\+\_\+t size=1)
+\item 
+\mbox{\Hypertarget{struct_std_pool_a2eaae7e8599e13f13bb0c9a7a2e4c517}\label{struct_std_pool_a2eaae7e8599e13f13bb0c9a7a2e4c517}} 
+void {\bfseries deallocate} (T $\ast$ptr, size\+\_\+t=1)
+\item 
+\mbox{\Hypertarget{struct_std_pool_a73ce2d678e0eafa16220f40943f8478e}\label{struct_std_pool_a73ce2d678e0eafa16220f40943f8478e}} 
+void {\bfseries release\+\_\+unused\+\_\+memory\+\_\+all} ()
+\item 
+\mbox{\Hypertarget{struct_std_pool_a914cdb68ee3a905b6fcb261b6fbf76b0}\label{struct_std_pool_a914cdb68ee3a905b6fcb261b6fbf76b0}} 
+size\+\_\+t {\bfseries release\+\_\+unused\+\_\+memory} ()
+\item 
+\mbox{\Hypertarget{struct_std_pool_a311218c22a9fe3056aafe031f5b97cf2}\label{struct_std_pool_a311218c22a9fe3056aafe031f5b97cf2}} 
+void {\bfseries clear\+\_\+all} ()
+\item 
+\mbox{\Hypertarget{struct_std_pool_a6959f5273c5d3e5db8083c71e65ac357}\label{struct_std_pool_a6959f5273c5d3e5db8083c71e65ac357}} 
+void {\bfseries reserve} (size\+\_\+t)
+\item 
+\mbox{\Hypertarget{struct_std_pool_aac04fa42313b015e8e30a15f9e6c57d3}\label{struct_std_pool_aac04fa42313b015e8e30a15f9e6c57d3}} 
+{\footnotesize template$<$class U $>$ }\\std\+::unique\+\_\+ptr$<$ T $>$ {\bfseries make\+\_\+unique} (const U \&v)
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+test\+\_\+mem\+\_\+pool.\+hpp\end{DoxyCompactItemize}

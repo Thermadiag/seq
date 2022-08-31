@@ -1,0 +1,250 @@
+\hypertarget{classflat__set}{}\doxysection{flat\+\_\+set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$ Class Template Reference}
+\label{classflat__set}\index{flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$@{flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classflat__set_a8074613e0b90fc42c184263accb7e1a3}\label{classflat__set_a8074613e0b90fc42c184263accb7e1a3}} 
+using {\bfseries deque\+\_\+type} = typename \mbox{\hyperlink{classdeque2}{flat\+\_\+tree\+\_\+type\+::deque\+\_\+type}}
+\item 
+\mbox{\Hypertarget{classflat__set_ad1b9a66b080bf26aed43c5e62cf28521}\label{classflat__set_ad1b9a66b080bf26aed43c5e62cf28521}} 
+using {\bfseries key\+\_\+type} = Key
+\item 
+\mbox{\Hypertarget{classflat__set_a4374a57b05aee7ae5b51575a050b4646}\label{classflat__set_a4374a57b05aee7ae5b51575a050b4646}} 
+using {\bfseries value\+\_\+type} = Key
+\item 
+\mbox{\Hypertarget{classflat__set_a90578aa001a998974e42c19fe23a1676}\label{classflat__set_a90578aa001a998974e42c19fe23a1676}} 
+using {\bfseries difference\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{classflat__set_a4d4241a24079930fe14fe6096c542ab4}\label{classflat__set_a4d4241a24079930fe14fe6096c542ab4}} 
+using {\bfseries size\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{classflat__set_abfe705984a3de3659a9e8188fb50d2cc}\label{classflat__set_abfe705984a3de3659a9e8188fb50d2cc}} 
+using {\bfseries key\+\_\+compare} = Compare
+\item 
+\mbox{\Hypertarget{classflat__set_a8eee95012c2765bec95c8b753c8f939f}\label{classflat__set_a8eee95012c2765bec95c8b753c8f939f}} 
+using {\bfseries value\+\_\+compare} = typename \mbox{\hyperlink{structdetail_1_1flat__tree_1_1_key_comp}{flat\+\_\+tree\+\_\+type\+::value\+\_\+compare}}
+\item 
+\mbox{\Hypertarget{classflat__set_a09329ffa90634ba84068f49fde9ddd7d}\label{classflat__set_a09329ffa90634ba84068f49fde9ddd7d}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\item 
+\mbox{\Hypertarget{classflat__set_ab00d54048dda7a6f7f50937ef8b9d5d7}\label{classflat__set_ab00d54048dda7a6f7f50937ef8b9d5d7}} 
+using {\bfseries reference} = Key \&
+\item 
+\mbox{\Hypertarget{classflat__set_a99e3a6730f8a18282da229b5f74bf55a}\label{classflat__set_a99e3a6730f8a18282da229b5f74bf55a}} 
+using {\bfseries const\+\_\+reference} = const Key \&
+\item 
+\mbox{\Hypertarget{classflat__set_a7b60f1c133c083a88d7bb149464e0969}\label{classflat__set_a7b60f1c133c083a88d7bb149464e0969}} 
+using {\bfseries pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::pointer
+\item 
+\mbox{\Hypertarget{classflat__set_af643b013db711ddc99c3114af5d2d1e7}\label{classflat__set_af643b013db711ddc99c3114af5d2d1e7}} 
+using {\bfseries const\+\_\+pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{classflat__set_affaf9e971584a67f7ea7195ec84aee12}\label{classflat__set_affaf9e971584a67f7ea7195ec84aee12}} 
+using {\bfseries iterator} = typename deque\+\_\+type\+::iterator
+\item 
+\mbox{\Hypertarget{classflat__set_ac65ee847d2c02ba18cc947f2b1b6d7a1}\label{classflat__set_ac65ee847d2c02ba18cc947f2b1b6d7a1}} 
+using {\bfseries const\+\_\+iterator} = typename deque\+\_\+type\+::const\+\_\+iterator
+\item 
+\mbox{\Hypertarget{classflat__set_af89d9bd4c7e6fea93196c2c98a0a8662}\label{classflat__set_af89d9bd4c7e6fea93196c2c98a0a8662}} 
+using {\bfseries reverse\+\_\+iterator} = typename deque\+\_\+type\+::reverse\+\_\+iterator
+\item 
+\mbox{\Hypertarget{classflat__set_a101311b44887854c3ee021ff0f070b2c}\label{classflat__set_a101311b44887854c3ee021ff0f070b2c}} 
+using {\bfseries const\+\_\+reverse\+\_\+iterator} = typename deque\+\_\+type\+::const\+\_\+reverse\+\_\+iterator
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classflat__set_a07a45c7cb20fbf60b0216d70dc453263}\label{classflat__set_a07a45c7cb20fbf60b0216d70dc453263}} 
+{\bfseries flat\+\_\+set} (const Compare \&comp, const Allocator \&alloc=Allocator())
+\item 
+\mbox{\Hypertarget{classflat__set_a0dbedf31a648a2d022626a3928c0094c}\label{classflat__set_a0dbedf31a648a2d022626a3928c0094c}} 
+{\bfseries flat\+\_\+set} (const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{classflat__set_a9a9800d64995e8604416455ba3b5de98}\label{classflat__set_a9a9800d64995e8604416455ba3b5de98}} 
+{\footnotesize template$<$class Input\+It $>$ }\\{\bfseries flat\+\_\+set} (Input\+It first, Input\+It last, const Compare \&comp=Compare(), const Allocator \&alloc=Allocator())
+\item 
+\mbox{\Hypertarget{classflat__set_afbb39bed5f921930adffe8af2a58931c}\label{classflat__set_afbb39bed5f921930adffe8af2a58931c}} 
+{\footnotesize template$<$class Input\+It $>$ }\\{\bfseries flat\+\_\+set} (Input\+It first, Input\+It last, const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{classflat__set_a7bc2b73d1f9ab197474dc977ef2de6ba}\label{classflat__set_a7bc2b73d1f9ab197474dc977ef2de6ba}} 
+{\bfseries flat\+\_\+set} (const \mbox{\hyperlink{classflat__set}{flat\+\_\+set}} \&other)
+\item 
+\mbox{\Hypertarget{classflat__set_a36afdc176885f71e6770fd0b3cb9cdfa}\label{classflat__set_a36afdc176885f71e6770fd0b3cb9cdfa}} 
+{\bfseries flat\+\_\+set} (const \mbox{\hyperlink{classflat__set}{flat\+\_\+set}} \&other, const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{classflat__set_a677612f25fbffea8548c7bae81df8e30}\label{classflat__set_a677612f25fbffea8548c7bae81df8e30}} 
+{\bfseries flat\+\_\+set} (\mbox{\hyperlink{classflat__set}{flat\+\_\+set}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a961f50cbc73f1b5ba3f480f2fe0488ba}\label{classflat__set_a961f50cbc73f1b5ba3f480f2fe0488ba}} 
+{\bfseries flat\+\_\+set} (\mbox{\hyperlink{classflat__set}{flat\+\_\+set}} \&\&other, const Allocator \&alloc) noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_ae1747ce6cb9b13654255730b7d9e584e}\label{classflat__set_ae1747ce6cb9b13654255730b7d9e584e}} 
+{\bfseries flat\+\_\+set} (std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ init, const Compare \&comp=Compare(), const Allocator \&alloc=Allocator())
+\item 
+\mbox{\Hypertarget{classflat__set_ab8522bc24e4b72c10e12d64767769545}\label{classflat__set_ab8522bc24e4b72c10e12d64767769545}} 
+{\bfseries flat\+\_\+set} (std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ init, const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{classflat__set_a16375df8efbea49f0bf870d204068807}\label{classflat__set_a16375df8efbea49f0bf870d204068807}} 
+\mbox{\hyperlink{classflat__set}{flat\+\_\+set}} \& {\bfseries operator=} (\mbox{\hyperlink{classflat__set}{flat\+\_\+set}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a1ce965163c810434890006e725984c1b}\label{classflat__set_a1ce965163c810434890006e725984c1b}} 
+\mbox{\hyperlink{classflat__set}{flat\+\_\+set}} \& {\bfseries operator=} (const \mbox{\hyperlink{classflat__set}{flat\+\_\+set}} \&other)
+\item 
+\mbox{\Hypertarget{classflat__set_a63112ba9b9541b9c6b627cab25938878}\label{classflat__set_a63112ba9b9541b9c6b627cab25938878}} 
+\mbox{\hyperlink{classflat__set}{flat\+\_\+set}} \& {\bfseries operator=} (const std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ \&init)
+\item 
+\mbox{\Hypertarget{classflat__set_a5925cc0a64da5b903bcd7e2f0dc155d4}\label{classflat__set_a5925cc0a64da5b903bcd7e2f0dc155d4}} 
+Allocator {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a2fa51cfa21ae34c2eb90bf7fd15a5f1b}\label{classflat__set_a2fa51cfa21ae34c2eb90bf7fd15a5f1b}} 
+bool {\bfseries empty} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_af2d8f8547da947eb21919f61a8a71630}\label{classflat__set_af2d8f8547da947eb21919f61a8a71630}} 
+size\+\_\+type {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a02da2d9f2f7aea3393678b023e67390a}\label{classflat__set_a02da2d9f2f7aea3393678b023e67390a}} 
+size\+\_\+type {\bfseries max\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_ae93a0a8236d3f6abef60876ec1b54647}\label{classflat__set_ae93a0a8236d3f6abef60876ec1b54647}} 
+void {\bfseries clear} () noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a98231378b08d05d8b8d89d61fbfb6ad8}\label{classflat__set_a98231378b08d05d8b8d89d61fbfb6ad8}} 
+void {\bfseries swap} (\mbox{\hyperlink{classflat__set}{flat\+\_\+set}} \&other) noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a305e0a51beddcb34c8346a8258d3d856}\label{classflat__set_a305e0a51beddcb34c8346a8258d3d856}} 
+std\+::pair$<$ iterator, bool $>$ {\bfseries insert} (const value\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{classflat__set_ac743c414725dace8f44d8caf3f793086}\label{classflat__set_ac743c414725dace8f44d8caf3f793086}} 
+std\+::pair$<$ iterator, bool $>$ {\bfseries insert} (value\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{classflat__set_ac9bd614156d53db6853a4738e268dfef}\label{classflat__set_ac9bd614156d53db6853a4738e268dfef}} 
+std\+::pair$<$ size\+\_\+t, bool $>$ {\bfseries insert\+\_\+pos} (const value\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{classflat__set_a091d30a0028107f4e158c6ec806c111b}\label{classflat__set_a091d30a0028107f4e158c6ec806c111b}} 
+std\+::pair$<$ size\+\_\+t, bool $>$ {\bfseries insert\+\_\+pos} (value\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{classflat__set_a9d2b2932f0629f92f5a01645d09d849b}\label{classflat__set_a9d2b2932f0629f92f5a01645d09d849b}} 
+{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries emplace} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classflat__set_a116146bd30b75da2b74e63767b17b326}\label{classflat__set_a116146bd30b75da2b74e63767b17b326}} 
+{\footnotesize template$<$class... Args$>$ }\\iterator {\bfseries emplace\+\_\+hint} (const\+\_\+iterator hint, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classflat__set_abbd50a16e950b0a9d7190f07f5a597bd}\label{classflat__set_abbd50a16e950b0a9d7190f07f5a597bd}} 
+iterator {\bfseries insert} (const\+\_\+iterator hint, const value\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{classflat__set_a09f57c983cd46c454244fad895f11243}\label{classflat__set_a09f57c983cd46c454244fad895f11243}} 
+iterator {\bfseries insert} (const\+\_\+iterator hint, value\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{classflat__set_a890e10ffc9bb0a3932471ecdeead1e4a}\label{classflat__set_a890e10ffc9bb0a3932471ecdeead1e4a}} 
+{\footnotesize template$<$class Input\+It $>$ }\\void {\bfseries insert} (Input\+It first, Input\+It last)
+\item 
+\mbox{\Hypertarget{classflat__set_aa464c593455c573e4a87f77cc66823a9}\label{classflat__set_aa464c593455c573e4a87f77cc66823a9}} 
+void {\bfseries insert} (std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ ilist)
+\item 
+\mbox{\Hypertarget{classflat__set_a04ae3f9a6ea3c10905d12545e8592069}\label{classflat__set_a04ae3f9a6ea3c10905d12545e8592069}} 
+{\footnotesize template$<$class Iter $>$ }\\void {\bfseries assign} (Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{classflat__set_a8f99a0e028db0f673e37dbd931ca25ac}\label{classflat__set_a8f99a0e028db0f673e37dbd931ca25ac}} 
+void {\bfseries erase} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{classflat__set_a5c28abfcf0d1dc9cca951ced6a47876a}\label{classflat__set_a5c28abfcf0d1dc9cca951ced6a47876a}} 
+iterator {\bfseries erase} (const\+\_\+iterator pos)
+\item 
+\mbox{\Hypertarget{classflat__set_a8ed820f9286c5881a3cea6abf9e6e617}\label{classflat__set_a8ed820f9286c5881a3cea6abf9e6e617}} 
+iterator {\bfseries erase} (iterator pos)
+\item 
+\mbox{\Hypertarget{classflat__set_af9ff67e58661b2cbf1f526b1ec484d5f}\label{classflat__set_af9ff67e58661b2cbf1f526b1ec484d5f}} 
+iterator {\bfseries erase} (const\+\_\+iterator first, const\+\_\+iterator last)
+\item 
+\mbox{\Hypertarget{classflat__set_a179157a978a3d29358330a58734e2f07}\label{classflat__set_a179157a978a3d29358330a58734e2f07}} 
+{\footnotesize template$<$class K $>$ }\\size\+\_\+type {\bfseries erase} (const K \&key)
+\item 
+\mbox{\Hypertarget{classflat__set_a39fdcb4e0f7f17e876b9cf8c15f39380}\label{classflat__set_a39fdcb4e0f7f17e876b9cf8c15f39380}} 
+{\footnotesize template$<$class K $>$ }\\iterator {\bfseries find} (const K \&x) noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a2240907cd1aa0c7df7a2b5ff522b030a}\label{classflat__set_a2240907cd1aa0c7df7a2b5ff522b030a}} 
+{\footnotesize template$<$class K $>$ }\\const\+\_\+iterator {\bfseries find} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a9a05500b1f984f1d14a78d7c7ee896d0}\label{classflat__set_a9a05500b1f984f1d14a78d7c7ee896d0}} 
+{\footnotesize template$<$class K $>$ }\\size\+\_\+t {\bfseries find\+\_\+pos} (const K \&x) noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_ad4a99fff8ebc4c76f15185d1cd6bb848}\label{classflat__set_ad4a99fff8ebc4c76f15185d1cd6bb848}} 
+{\footnotesize template$<$class K $>$ }\\size\+\_\+t {\bfseries find\+\_\+pos} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_ad5e0cb50de1502e9f068de9f1bd3d0a7}\label{classflat__set_ad5e0cb50de1502e9f068de9f1bd3d0a7}} 
+const value\+\_\+type \& {\bfseries at} (size\+\_\+t i) const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a33146348c439cb889a24646f241ef8ad}\label{classflat__set_a33146348c439cb889a24646f241ef8ad}} 
+{\footnotesize template$<$class K $>$ }\\iterator {\bfseries lower\+\_\+bound} (const K \&x) noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a9cd457f85e0217be98af15560bba6ec0}\label{classflat__set_a9cd457f85e0217be98af15560bba6ec0}} 
+{\footnotesize template$<$class K $>$ }\\const\+\_\+iterator {\bfseries lower\+\_\+bound} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_aee2cc27f916d608c8d77e13f477e2e3b}\label{classflat__set_aee2cc27f916d608c8d77e13f477e2e3b}} 
+{\footnotesize template$<$class K $>$ }\\iterator {\bfseries upper\+\_\+bound} (const K \&x) noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_afc65bdc6436942326b3dba9b20bf2c17}\label{classflat__set_afc65bdc6436942326b3dba9b20bf2c17}} 
+{\footnotesize template$<$class K $>$ }\\const\+\_\+iterator {\bfseries upper\+\_\+bound} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_aeb5d829b8bd400856dfa018c5dc58047}\label{classflat__set_aeb5d829b8bd400856dfa018c5dc58047}} 
+{\footnotesize template$<$class K $>$ }\\bool {\bfseries contains} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a4fa33d656ec34ccfc70391da6d8d5f59}\label{classflat__set_a4fa33d656ec34ccfc70391da6d8d5f59}} 
+{\footnotesize template$<$class K $>$ }\\size\+\_\+type {\bfseries count} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_afd9f3de30d91905ec0aa23672fbb8eb1}\label{classflat__set_afd9f3de30d91905ec0aa23672fbb8eb1}} 
+{\footnotesize template$<$class K $>$ }\\std\+::pair$<$ iterator, iterator $>$ {\bfseries equal\+\_\+range} (const K \&x) noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_adf65b3093c9df96a38403d2dfde31059}\label{classflat__set_adf65b3093c9df96a38403d2dfde31059}} 
+{\footnotesize template$<$class K $>$ }\\std\+::pair$<$ const\+\_\+iterator, const\+\_\+iterator $>$ {\bfseries equal\+\_\+range} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a10c3823f8f5a48a2e0439899f63ac757}\label{classflat__set_a10c3823f8f5a48a2e0439899f63ac757}} 
+{\footnotesize template$<$class C2 , Layout\+Management layout2$>$ }\\void {\bfseries merge} (\mbox{\hyperlink{classflat__set}{flat\+\_\+set}}$<$ Key, C2, Allocator, layout2 $>$ \&source)
+\item 
+\mbox{\Hypertarget{classflat__set_aed5b75b5f97e05537e159b84e8e67254}\label{classflat__set_aed5b75b5f97e05537e159b84e8e67254}} 
+iterator {\bfseries begin} () noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_ab0cb26cdd2a7c7fdca6169e8a9da5b98}\label{classflat__set_ab0cb26cdd2a7c7fdca6169e8a9da5b98}} 
+const\+\_\+iterator {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a4deb30b1ebd21ba62066e6860fa44e5f}\label{classflat__set_a4deb30b1ebd21ba62066e6860fa44e5f}} 
+const\+\_\+iterator {\bfseries cbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a989e6a01a66c53a091241042d70995c2}\label{classflat__set_a989e6a01a66c53a091241042d70995c2}} 
+iterator {\bfseries end} () noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_aa897c0a7b6869e9befcedb352efe673d}\label{classflat__set_aa897c0a7b6869e9befcedb352efe673d}} 
+const\+\_\+iterator {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_afc968ee06254e6bfd3f1b1f1ddfcd569}\label{classflat__set_afc968ee06254e6bfd3f1b1f1ddfcd569}} 
+const\+\_\+iterator {\bfseries cend} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_aa907fbf0ee11404c2fd3c23b1c58677a}\label{classflat__set_aa907fbf0ee11404c2fd3c23b1c58677a}} 
+reverse\+\_\+iterator {\bfseries rbegin} () noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_aebbe65e31a57d93f62b619247f7f92f7}\label{classflat__set_aebbe65e31a57d93f62b619247f7f92f7}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a41d11dc740cbfeb303575c5a024864f4}\label{classflat__set_a41d11dc740cbfeb303575c5a024864f4}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a840cd8cef2c5624dec8c33a6e1e31dd4}\label{classflat__set_a840cd8cef2c5624dec8c33a6e1e31dd4}} 
+reverse\+\_\+iterator {\bfseries rend} () noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a0a3ebaf4d9c24385f42bc26297502ff9}\label{classflat__set_a0a3ebaf4d9c24385f42bc26297502ff9}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rend} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_abe227d5b2379e17241cde6c8fdd3ec9d}\label{classflat__set_abe227d5b2379e17241cde6c8fdd3ec9d}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crend} () const noexcept
+\item 
+\mbox{\Hypertarget{classflat__set_a963f6dc828d37fdaa75d970e209de951}\label{classflat__set_a963f6dc828d37fdaa75d970e209de951}} 
+key\+\_\+compare {\bfseries key\+\_\+comp} () const
+\item 
+\mbox{\Hypertarget{classflat__set_a2c539babfef2c5d8bf1b2ab3b337c3fd}\label{classflat__set_a2c539babfef2c5d8bf1b2ab3b337c3fd}} 
+value\+\_\+compare {\bfseries value\+\_\+comp} () const
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+flat\+\_\+map.\+hpp\end{DoxyCompactItemize}

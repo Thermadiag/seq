@@ -1,0 +1,792 @@
+\hypertarget{structseq_1_1detail_1_1_bucket_manager}{}\doxysection{seq\+::detail\+::Bucket\+Manager$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$ Struct Template Reference}
+\label{structseq_1_1detail_1_1_bucket_manager}\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+
+
+{\ttfamily \#include $<$deque.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class U $>$ }\\using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a34e25f68351344ab718c43629a8a238f}{Rebind\+Alloc}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}} = \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{Circular\+Buffer}}$<$ T, Allocator $>$
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aa1c075679ae2722e487d20bece6f7dc5}{Store\+Bucket\+Type}} = \mbox{\hyperlink{structseq_1_1detail_1_1_store_bucket}{Store\+Bucket}}$<$ T, Allocator, Value\+Compare, Store\+Back\+Values $>$
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_abf763429dbd415a920f86f1a424331e1}{alloc\+\_\+traits}} = std\+::allocator\+\_\+traits$<$ Allocator $>$
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2377f330ee9c454cbb1eef4adbcf590a}{Alloc\+Type}} = typename \mbox{\hyperlink{structseq_1_1detail_1_1_select_alloc}{Select\+Alloc}}$<$ T, Allocator, layout $>$\+::type
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a663899d7be63746ae38ea2665bcba6b8}{this\+\_\+type}} = \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a30bbeef52f9be1fde3289e649e97d6eb}{difference\+\_\+type}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a30bbeef52f9be1fde3289e649e97d6eb}{difference\+\_\+type}}
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2665be1d505732f14ba5ac776e2275f0}{value\+\_\+type}} = T
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a50437d31f43dc7efef2582a807c65e5b}{pointer}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a50437d31f43dc7efef2582a807c65e5b}{pointer}}
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a544f83dbee4edda1e42c2af174bc9aff}{const\+\_\+pointer}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a544f83dbee4edda1e42c2af174bc9aff}{const\+\_\+pointer}}
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac9184a74252ca538b2c1afcdbf64734a}{reference}} = \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2665be1d505732f14ba5ac776e2275f0}{value\+\_\+type}} \&
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a60144b8a23f6753824e5e324f99641de}{Bucket\+Vector}} = \mbox{\hyperlink{classseq_1_1devector}{devector}}$<$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aa1c075679ae2722e487d20bece6f7dc5}{Store\+Bucket\+Type}}, \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a34e25f68351344ab718c43629a8a238f}{Rebind\+Alloc}}$<$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aa1c075679ae2722e487d20bece6f7dc5}{Store\+Bucket\+Type}} $>$ $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a3f584c3984011aec538ec8444d18e2ce}{update\+\_\+all\+\_\+back\+\_\+values}} () noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_acef219d3d432f6c1965ba4c8f23655a3}{Bucket\+Manager}} (int \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_afbf6f3f33a652f5943128831a9c882a0}{bucket\+\_\+size}}, const Allocator \&al=Allocator()) noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a10c2de8c035698f4e266db7e44bd76a2}{Bucket\+Manager}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other) noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac15b958b1e0f3e7f1fcc87d1a01eb973}{Bucket\+Manager}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other, const Allocator \&al) noexcept(alloc\+\_\+traits\+::is\+\_\+always\+\_\+equal\+::value)
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a65a74d49ace4ea6f3841a0f82af42d08}{Bucket\+Manager}} (const \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a663899d7be63746ae38ea2665bcba6b8}{this\+\_\+type}} \&other, int new\+\_\+bucket\+\_\+size, \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} start=0, \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a7e3b6698583c20962b323de8ab04abb1}{size}}=-\/1, const Allocator \&al=Allocator())
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_adcefffa5e291f80f008fa437eb8655b0}{Bucket\+Manager}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a663899d7be63746ae38ea2665bcba6b8}{this\+\_\+type}} \&\&other, int new\+\_\+bucket\+\_\+size, \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} start=0, \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a7e3b6698583c20962b323de8ab04abb1}{size}}=-\/1, const Allocator \&al=Allocator(), bool still\+\_\+memory=true)
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ae1cfaaeb717a71eab4d4713a254024a1}{$\sim$\+Bucket\+Manager}} ()
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aa59e51647e10ff16b114df0e2aa09bea}{destroy\+\_\+all}} ()
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a22ae2522d0e14ac63385192d064ba343}{destroy\+\_\+all\+\_\+no\+\_\+destructor}} ()
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}} \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ad6bc0be2e29ab4e699545521b60d1e90}{operator=}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}} \&\&other) noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a60144b8a23f6753824e5e324f99641de}{Bucket\+Vector}} \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2431726344175c2a42d7aa0de81738a9}{buckets}} () noexcept
+\item 
+const \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a60144b8a23f6753824e5e324f99641de}{Bucket\+Vector}} \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a865a32a4a541bd52bbcd5665883017b4}{buckets}} () const noexcept
+\item 
+{\footnotesize template$<$class Functor $>$ }\\Functor \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a4c1ae611aa0461276217193ff73c0726}{for\+\_\+each}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} start, \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} end, Functor fun) const
+\item 
+{\footnotesize template$<$class Functor $>$ }\\Functor \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a4d2e9b8dca041e4740888e079dfa01b4}{for\+\_\+each}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} start, \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} end, Functor fun)
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a204a583484a20834e1fec58d7acb6b81}{is\+Pow2\+Size}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ae3933f894b247239c9e0cfe5b6bf2e2e}{is\+Pow2\+Size}} (size\+\_\+t s) const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const Allocator \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ae05aa8b9e293ec1eac17ea85551700b0}{get\+\_\+allocator}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Allocator \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ab3bd7b7beb28709b3be93d3cc21d1e41}{get\+\_\+allocator}} () noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2377f330ee9c454cbb1eef4adbcf590a}{Alloc\+Type}} \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ab47b06483c8fbf5c1ae8e7dbc1ddb7a0}{block\+\_\+allocator}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2377f330ee9c454cbb1eef4adbcf590a}{Alloc\+Type}} \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ad4fe6032e96088d0ab2920aecb341497}{block\+\_\+allocator}} () noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aa76530999cca44ca646ed57fbf807b7c}{bucket}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a881ad04ffe1b3f5f1cc30547a1cbb4be}{bucket}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_af8ac91109dbd99d1f22c97ab7e9c7a36}{bucket\+\_\+index}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a14d82cca3ff12efb308d18f0d387d870}{bucket\+\_\+pos}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_afbf6f3f33a652f5943128831a9c882a0}{bucket\+\_\+size}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a8ee6de4ca7701f7bcc69a214bc735e39}{bucket\+\_\+count}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a7e3b6698583c20962b323de8ab04abb1}{size}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a3fb34865eaaed2163cfd23314e0af33b}{bucket\+\_\+size}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a6e369093cd3f5129a1aa5bda11a36b00}{back}} () noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ad82d878bc5a64e2ed50e3c5e329a6a38}{back}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aa2d55fa92e0bce38070852989e10d3fc}{front}} () noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_adf38dbff7b35be704ffc153275c0710d}{front}} () const noexcept
+\item 
+T \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a40d21ec87ad743281660070aa84e40f4}{at}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) noexcept
+\item 
+const T \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_afa532a9a0470c3c6bc87c358749ffa8b}{at}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) const noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aa07ab5ee193cebc5df00c26e21c468f1}{create\+\_\+back\+\_\+bucket}} ()
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_abe019ca90aaf230c5dc8e8dcfb81e33c}{create\+\_\+back\+\_\+bucket}} (const T \&val)
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a1f2b86166836343770b243e4f7ec32f8}{create\+\_\+front\+\_\+bucket}} ()
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_adef29fc5afad7b5a70abbfef69372d0b}{create\+\_\+front\+\_\+bucket}} (const T \&value)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a69430040661f1b8ab9c9d5ce878e1849}{remove\+\_\+back\+\_\+bucket}} () noexcept
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aaf29c842ae58740d9b83c900ff7e910b}{remove\+\_\+front\+\_\+bucket}} () noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2c57c20ee55f13f44df5e2b541f2b366}{ensure\+\_\+has\+\_\+bucket}} ()
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ad12abec85a4e858efbdb3b6fe8d1b4fc}{emplace\+\_\+back}} (Args \&\&... args)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a87fa45fa41a02396d3b7ad7c3a263b25}{push\+\_\+back}} (const T \&value)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a3d950e937052ba913760a0c4177e42fe}{push\+\_\+back}} (T \&\&value)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_acf70a7b8f86b935c3f2cd55a010a81c5}{emplace\+\_\+front}} (Args \&\&... args)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ada351dbe42f082799cd369aaa08d1b58}{push\+\_\+front}} (const T \&value)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a075e08adfa52006f3d1e65a514c6f06f}{push\+\_\+front}} (T \&\&value)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a0a021b7032628200928710405fd94b2e}{insert\+\_\+one\+\_\+bucket}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_af8ac91109dbd99d1f22c97ab7e9c7a36}{bucket\+\_\+index}}, int index, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2e093a7dc77972354644376f7af28e61}{insert\+\_\+left}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_af8ac91109dbd99d1f22c97ab7e9c7a36}{bucket\+\_\+index}}, int index, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a1b09b1e93ddae3c5ba0aacc22ceb8a2e}{insert\+\_\+right}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_af8ac91109dbd99d1f22c97ab7e9c7a36}{bucket\+\_\+index}}, int index, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a73ecd6baf85a3a004a9529297b7c1afc}{insert\+\_\+middle\+\_\+fwd}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T \& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a718e229195181cf95d05e776700f784c}{insert}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}, Args \&\&... args)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a7ca4ebc02dc0730e0013f9a7f2444372}{pop\+\_\+back}} () noexcept
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a7db210baa7f1aa1a2c9addba04f32f7d}{pop\+\_\+front}} () noexcept
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a1d88a85b84e821305e7cf1e030ab8c10}{erase}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}})
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a803525363c71b003eeea20504216966e}{erase\+\_\+left}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_af8ac91109dbd99d1f22c97ab7e9c7a36}{bucket\+\_\+index}}, int index)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aa5bf7584b9e724cdc901e5d477ba7eb1}{erase\+\_\+right}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_af8ac91109dbd99d1f22c97ab7e9c7a36}{bucket\+\_\+index}}, int index)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a7051a8f9b17b9b2977faa77d3289fdd7}{erase\+\_\+middle}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}})
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a6371fbf703e6af2458eefb4106bb8525}{resize}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a7e3b6698583c20962b323de8ab04abb1}{size}})
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a0eefac517280b61d7ec40f073909f8b8}{resize}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a7e3b6698583c20962b323de8ab04abb1}{size}}, const T \&val)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ad858ce157fd273e91b5e5986dbf2728c}{resize\+\_\+front}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a7e3b6698583c20962b323de8ab04abb1}{size}})
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac221f9efb8b6eb6030da0a1e8747fdbf}{resize\+\_\+front}} (\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a7e3b6698583c20962b323de8ab04abb1}{size}}, const T \&val)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2377f330ee9c454cbb1eef4adbcf590a}{Alloc\+Type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a4580fe696847cc216da378adbbb92f97}{d\+\_\+ballocator}}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a60144b8a23f6753824e5e324f99641de}{Bucket\+Vector}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a8710f8ae9269ebd6de8a77852125917b}{d\+\_\+buckets}}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a762d0085a1c5e12c1a79d779b8aff240}{d\+\_\+size}}
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ab35a332a2570647a963bfbaf9e9d36ac}{d\+\_\+bucket\+\_\+size}}
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a285b5146f7448845c08fdc450c6e27ef}{d\+\_\+bucket\+\_\+size1}}
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a6eec745df451f79e6a6ae6b48d82b1a2}{d\+\_\+bucket\+\_\+size\+\_\+bits}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr int \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a21c672ea565d0280aec10c99d205ceac}{min\+\_\+block\+\_\+size}} = Min\+B\+Size
+\item 
+static constexpr int \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a4f65eb96ebbf8451e5002b690c2f3bfd}{max\+\_\+block\+\_\+size}} = Max\+B\+Size
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_abf763429dbd415a920f86f1a424331e1}\label{structseq_1_1detail_1_1_bucket_manager_abf763429dbd415a920f86f1a424331e1}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!alloc\_traits@{alloc\_traits}}
+\index{alloc\_traits@{alloc\_traits}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{alloc\_traits}{alloc\_traits}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_abf763429dbd415a920f86f1a424331e1}{alloc\+\_\+traits}} =  std\+::allocator\+\_\+traits$<$Allocator$>$}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a2377f330ee9c454cbb1eef4adbcf590a}\label{structseq_1_1detail_1_1_bucket_manager_a2377f330ee9c454cbb1eef4adbcf590a}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!AllocType@{AllocType}}
+\index{AllocType@{AllocType}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{AllocType}{AllocType}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2377f330ee9c454cbb1eef4adbcf590a}{Alloc\+Type}} =  typename \mbox{\hyperlink{structseq_1_1detail_1_1_select_alloc}{Select\+Alloc}}$<$T, Allocator, layout$>$\+::type}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}\label{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!BucketType@{BucketType}}
+\index{BucketType@{BucketType}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{BucketType}{BucketType}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}} =  \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{Circular\+Buffer}}$<$T, Allocator$>$}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a60144b8a23f6753824e5e324f99641de}\label{structseq_1_1detail_1_1_bucket_manager_a60144b8a23f6753824e5e324f99641de}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!BucketVector@{BucketVector}}
+\index{BucketVector@{BucketVector}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{BucketVector}{BucketVector}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a60144b8a23f6753824e5e324f99641de}{Bucket\+Vector}} =  \mbox{\hyperlink{classseq_1_1devector}{devector}} $<$\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aa1c075679ae2722e487d20bece6f7dc5}{Store\+Bucket\+Type}}, \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a34e25f68351344ab718c43629a8a238f}{Rebind\+Alloc}}$<$\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aa1c075679ae2722e487d20bece6f7dc5}{Store\+Bucket\+Type}}$>$ $>$}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a544f83dbee4edda1e42c2af174bc9aff}\label{structseq_1_1detail_1_1_bucket_manager_a544f83dbee4edda1e42c2af174bc9aff}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!const\_pointer@{const\_pointer}}
+\index{const\_pointer@{const\_pointer}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{const\_pointer}{const\_pointer}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a544f83dbee4edda1e42c2af174bc9aff}{const\+\_\+pointer}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a544f83dbee4edda1e42c2af174bc9aff}{const\+\_\+pointer}}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a30bbeef52f9be1fde3289e649e97d6eb}\label{structseq_1_1detail_1_1_bucket_manager_a30bbeef52f9be1fde3289e649e97d6eb}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!difference\_type@{difference\_type}}
+\index{difference\_type@{difference\_type}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{difference\_type}{difference\_type}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a30bbeef52f9be1fde3289e649e97d6eb}{difference\+\_\+type}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a30bbeef52f9be1fde3289e649e97d6eb}{difference\+\_\+type}}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a50437d31f43dc7efef2582a807c65e5b}\label{structseq_1_1detail_1_1_bucket_manager_a50437d31f43dc7efef2582a807c65e5b}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!pointer@{pointer}}
+\index{pointer@{pointer}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{pointer}{pointer}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a50437d31f43dc7efef2582a807c65e5b}{pointer}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a50437d31f43dc7efef2582a807c65e5b}{pointer}}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a34e25f68351344ab718c43629a8a238f}\label{structseq_1_1detail_1_1_bucket_manager_a34e25f68351344ab718c43629a8a238f}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!RebindAlloc@{RebindAlloc}}
+\index{RebindAlloc@{RebindAlloc}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{RebindAlloc}{RebindAlloc}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+template$<$class U $>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a34e25f68351344ab718c43629a8a238f}{Rebind\+Alloc}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::template rebind\+\_\+alloc$<$U$>$}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ac9184a74252ca538b2c1afcdbf64734a}\label{structseq_1_1detail_1_1_bucket_manager_ac9184a74252ca538b2c1afcdbf64734a}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!reference@{reference}}
+\index{reference@{reference}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{reference}{reference}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac9184a74252ca538b2c1afcdbf64734a}{reference}} =  \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2665be1d505732f14ba5ac776e2275f0}{value\+\_\+type}}\&}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}\label{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!size\_type@{size\_type}}
+\index{size\_type@{size\_type}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{size\_type}{size\_type}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_aa1c075679ae2722e487d20bece6f7dc5}\label{structseq_1_1detail_1_1_bucket_manager_aa1c075679ae2722e487d20bece6f7dc5}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!StoreBucketType@{StoreBucketType}}
+\index{StoreBucketType@{StoreBucketType}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{StoreBucketType}{StoreBucketType}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_aa1c075679ae2722e487d20bece6f7dc5}{Store\+Bucket\+Type}} =  \mbox{\hyperlink{structseq_1_1detail_1_1_store_bucket}{Store\+Bucket}}$<$T, Allocator, Value\+Compare, Store\+Back\+Values$>$}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a663899d7be63746ae38ea2665bcba6b8}\label{structseq_1_1detail_1_1_bucket_manager_a663899d7be63746ae38ea2665bcba6b8}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!this\_type@{this\_type}}
+\index{this\_type@{this\_type}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{this\_type}{this\_type}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a663899d7be63746ae38ea2665bcba6b8}{this\+\_\+type}} =  \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}}$<$T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a2665be1d505732f14ba5ac776e2275f0}\label{structseq_1_1detail_1_1_bucket_manager_a2665be1d505732f14ba5ac776e2275f0}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2665be1d505732f14ba5ac776e2275f0}{value\+\_\+type}} =  T}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_acef219d3d432f6c1965ba4c8f23655a3}\label{structseq_1_1detail_1_1_bucket_manager_acef219d3d432f6c1965ba4c8f23655a3}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!BucketManager@{BucketManager}}
+\index{BucketManager@{BucketManager}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{BucketManager()}{BucketManager()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}} (\begin{DoxyParamCaption}\item[{int}]{bucket\+\_\+size,  }\item[{const Allocator \&}]{al = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a10c2de8c035698f4e266db7e44bd76a2}\label{structseq_1_1detail_1_1_bucket_manager_a10c2de8c035698f4e266db7e44bd76a2}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!BucketManager@{BucketManager}}
+\index{BucketManager@{BucketManager}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{BucketManager()}{BucketManager()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ac15b958b1e0f3e7f1fcc87d1a01eb973}\label{structseq_1_1detail_1_1_bucket_manager_ac15b958b1e0f3e7f1fcc87d1a01eb973}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!BucketManager@{BucketManager}}
+\index{BucketManager@{BucketManager}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{BucketManager()}{BucketManager()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$ \&\&}]{other,  }\item[{const Allocator \&}]{al }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a65a74d49ace4ea6f3841a0f82af42d08}\label{structseq_1_1detail_1_1_bucket_manager_a65a74d49ace4ea6f3841a0f82af42d08}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!BucketManager@{BucketManager}}
+\index{BucketManager@{BucketManager}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{BucketManager()}{BucketManager()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a663899d7be63746ae38ea2665bcba6b8}{this\+\_\+type}} \&}]{other,  }\item[{int}]{new\+\_\+bucket\+\_\+size,  }\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{start = {\ttfamily 0},  }\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{size = {\ttfamily -\/1},  }\item[{const Allocator \&}]{al = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_adcefffa5e291f80f008fa437eb8655b0}\label{structseq_1_1detail_1_1_bucket_manager_adcefffa5e291f80f008fa437eb8655b0}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!BucketManager@{BucketManager}}
+\index{BucketManager@{BucketManager}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{BucketManager()}{BucketManager()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a663899d7be63746ae38ea2665bcba6b8}{this\+\_\+type}} \&\&}]{other,  }\item[{int}]{new\+\_\+bucket\+\_\+size,  }\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{start = {\ttfamily 0},  }\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{size = {\ttfamily -\/1},  }\item[{const Allocator \&}]{al = {\ttfamily Allocator()},  }\item[{bool}]{still\+\_\+memory = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ae1cfaaeb717a71eab4d4713a254024a1}\label{structseq_1_1detail_1_1_bucket_manager_ae1cfaaeb717a71eab4d4713a254024a1}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!````~BucketManager@{$\sim$BucketManager}}
+\index{````~BucketManager@{$\sim$BucketManager}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{$\sim$BucketManager()}{~BucketManager()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::$\sim$\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_afa532a9a0470c3c6bc87c358749ffa8b}\label{structseq_1_1detail_1_1_bucket_manager_afa532a9a0470c3c6bc87c358749ffa8b}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!at@{at}}
+\index{at@{at}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+const T\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a40d21ec87ad743281660070aa84e40f4}\label{structseq_1_1detail_1_1_bucket_manager_a40d21ec87ad743281660070aa84e40f4}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!at@{at}}
+\index{at@{at}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+T\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ad82d878bc5a64e2ed50e3c5e329a6a38}\label{structseq_1_1detail_1_1_bucket_manager_ad82d878bc5a64e2ed50e3c5e329a6a38}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!back@{back}}
+\index{back@{back}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a6e369093cd3f5129a1aa5bda11a36b00}\label{structseq_1_1detail_1_1_bucket_manager_a6e369093cd3f5129a1aa5bda11a36b00}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!back@{back}}
+\index{back@{back}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ab47b06483c8fbf5c1ae8e7dbc1ddb7a0}\label{structseq_1_1detail_1_1_bucket_manager_ab47b06483c8fbf5c1ae8e7dbc1ddb7a0}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!block\_allocator@{block\_allocator}}
+\index{block\_allocator@{block\_allocator}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{block\_allocator()}{block\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2377f330ee9c454cbb1eef4adbcf590a}{Alloc\+Type}}\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::block\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ad4fe6032e96088d0ab2920aecb341497}\label{structseq_1_1detail_1_1_bucket_manager_ad4fe6032e96088d0ab2920aecb341497}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!block\_allocator@{block\_allocator}}
+\index{block\_allocator@{block\_allocator}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{block\_allocator()}{block\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2377f330ee9c454cbb1eef4adbcf590a}{Alloc\+Type}}\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::block\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a881ad04ffe1b3f5f1cc30547a1cbb4be}\label{structseq_1_1detail_1_1_bucket_manager_a881ad04ffe1b3f5f1cc30547a1cbb4be}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!bucket@{bucket}}
+\index{bucket@{bucket}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{bucket()}{bucket()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::bucket (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_aa76530999cca44ca646ed57fbf807b7c}\label{structseq_1_1detail_1_1_bucket_manager_aa76530999cca44ca646ed57fbf807b7c}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!bucket@{bucket}}
+\index{bucket@{bucket}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{bucket()}{bucket()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::bucket (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a8ee6de4ca7701f7bcc69a214bc735e39}\label{structseq_1_1detail_1_1_bucket_manager_a8ee6de4ca7701f7bcc69a214bc735e39}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!bucket\_count@{bucket\_count}}
+\index{bucket\_count@{bucket\_count}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{bucket\_count()}{bucket\_count()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::bucket\+\_\+count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_af8ac91109dbd99d1f22c97ab7e9c7a36}\label{structseq_1_1detail_1_1_bucket_manager_af8ac91109dbd99d1f22c97ab7e9c7a36}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!bucket\_index@{bucket\_index}}
+\index{bucket\_index@{bucket\_index}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{bucket\_index()}{bucket\_index()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::bucket\+\_\+index (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a14d82cca3ff12efb308d18f0d387d870}\label{structseq_1_1detail_1_1_bucket_manager_a14d82cca3ff12efb308d18f0d387d870}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!bucket\_pos@{bucket\_pos}}
+\index{bucket\_pos@{bucket\_pos}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{bucket\_pos()}{bucket\_pos()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::bucket\+\_\+pos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_afbf6f3f33a652f5943128831a9c882a0}\label{structseq_1_1detail_1_1_bucket_manager_afbf6f3f33a652f5943128831a9c882a0}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!bucket\_size@{bucket\_size}}
+\index{bucket\_size@{bucket\_size}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{bucket\_size()}{bucket\_size()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::bucket\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a3fb34865eaaed2163cfd23314e0af33b}\label{structseq_1_1detail_1_1_bucket_manager_a3fb34865eaaed2163cfd23314e0af33b}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!bucket\_size@{bucket\_size}}
+\index{bucket\_size@{bucket\_size}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{bucket\_size()}{bucket\_size()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} int \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::bucket\+\_\+size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a865a32a4a541bd52bbcd5665883017b4}\label{structseq_1_1detail_1_1_bucket_manager_a865a32a4a541bd52bbcd5665883017b4}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!buckets@{buckets}}
+\index{buckets@{buckets}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{buckets()}{buckets()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+const \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a60144b8a23f6753824e5e324f99641de}{Bucket\+Vector}}\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::buckets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a2431726344175c2a42d7aa0de81738a9}\label{structseq_1_1detail_1_1_bucket_manager_a2431726344175c2a42d7aa0de81738a9}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!buckets@{buckets}}
+\index{buckets@{buckets}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{buckets()}{buckets()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a60144b8a23f6753824e5e324f99641de}{Bucket\+Vector}}\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::buckets (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_aa07ab5ee193cebc5df00c26e21c468f1}\label{structseq_1_1detail_1_1_bucket_manager_aa07ab5ee193cebc5df00c26e21c468f1}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!create\_back\_bucket@{create\_back\_bucket}}
+\index{create\_back\_bucket@{create\_back\_bucket}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{create\_back\_bucket()}{create\_back\_bucket()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::create\+\_\+back\+\_\+bucket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_abe019ca90aaf230c5dc8e8dcfb81e33c}\label{structseq_1_1detail_1_1_bucket_manager_abe019ca90aaf230c5dc8e8dcfb81e33c}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!create\_back\_bucket@{create\_back\_bucket}}
+\index{create\_back\_bucket@{create\_back\_bucket}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{create\_back\_bucket()}{create\_back\_bucket()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::create\+\_\+back\+\_\+bucket (\begin{DoxyParamCaption}\item[{const T \&}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a1f2b86166836343770b243e4f7ec32f8}\label{structseq_1_1detail_1_1_bucket_manager_a1f2b86166836343770b243e4f7ec32f8}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!create\_front\_bucket@{create\_front\_bucket}}
+\index{create\_front\_bucket@{create\_front\_bucket}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{create\_front\_bucket()}{create\_front\_bucket()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::create\+\_\+front\+\_\+bucket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_adef29fc5afad7b5a70abbfef69372d0b}\label{structseq_1_1detail_1_1_bucket_manager_adef29fc5afad7b5a70abbfef69372d0b}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!create\_front\_bucket@{create\_front\_bucket}}
+\index{create\_front\_bucket@{create\_front\_bucket}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{create\_front\_bucket()}{create\_front\_bucket()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a451e621aa935adc301f53d1771a2d9e6}{Bucket\+Type}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::create\+\_\+front\+\_\+bucket (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_aa59e51647e10ff16b114df0e2aa09bea}\label{structseq_1_1detail_1_1_bucket_manager_aa59e51647e10ff16b114df0e2aa09bea}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!destroy\_all@{destroy\_all}}
+\index{destroy\_all@{destroy\_all}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{destroy\_all()}{destroy\_all()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::destroy\+\_\+all (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a22ae2522d0e14ac63385192d064ba343}\label{structseq_1_1detail_1_1_bucket_manager_a22ae2522d0e14ac63385192d064ba343}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!destroy\_all\_no\_destructor@{destroy\_all\_no\_destructor}}
+\index{destroy\_all\_no\_destructor@{destroy\_all\_no\_destructor}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{destroy\_all\_no\_destructor()}{destroy\_all\_no\_destructor()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::destroy\+\_\+all\+\_\+no\+\_\+destructor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ad12abec85a4e858efbdb3b6fe8d1b4fc}\label{structseq_1_1detail_1_1_bucket_manager_ad12abec85a4e858efbdb3b6fe8d1b4fc}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!emplace\_back@{emplace\_back}}
+\index{emplace\_back@{emplace\_back}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_back()}{emplace\_back()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+T\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::emplace\+\_\+back (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_acf70a7b8f86b935c3f2cd55a010a81c5}\label{structseq_1_1detail_1_1_bucket_manager_acf70a7b8f86b935c3f2cd55a010a81c5}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!emplace\_front@{emplace\_front}}
+\index{emplace\_front@{emplace\_front}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_front()}{emplace\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+T\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::emplace\+\_\+front (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a2c57c20ee55f13f44df5e2b541f2b366}\label{structseq_1_1detail_1_1_bucket_manager_a2c57c20ee55f13f44df5e2b541f2b366}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!ensure\_has\_bucket@{ensure\_has\_bucket}}
+\index{ensure\_has\_bucket@{ensure\_has\_bucket}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{ensure\_has\_bucket()}{ensure\_has\_bucket()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::ensure\+\_\+has\+\_\+bucket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a1d88a85b84e821305e7cf1e030ab8c10}\label{structseq_1_1detail_1_1_bucket_manager_a1d88a85b84e821305e7cf1e030ab8c10}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!erase@{erase}}
+\index{erase@{erase}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a803525363c71b003eeea20504216966e}\label{structseq_1_1detail_1_1_bucket_manager_a803525363c71b003eeea20504216966e}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!erase\_left@{erase\_left}}
+\index{erase\_left@{erase\_left}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{erase\_left()}{erase\_left()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::erase\+\_\+left (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{bucket\+\_\+index,  }\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a7051a8f9b17b9b2977faa77d3289fdd7}\label{structseq_1_1detail_1_1_bucket_manager_a7051a8f9b17b9b2977faa77d3289fdd7}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!erase\_middle@{erase\_middle}}
+\index{erase\_middle@{erase\_middle}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{erase\_middle()}{erase\_middle()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::erase\+\_\+middle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_aa5bf7584b9e724cdc901e5d477ba7eb1}\label{structseq_1_1detail_1_1_bucket_manager_aa5bf7584b9e724cdc901e5d477ba7eb1}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!erase\_right@{erase\_right}}
+\index{erase\_right@{erase\_right}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{erase\_right()}{erase\_right()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::erase\+\_\+right (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{bucket\+\_\+index,  }\item[{int}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a4d2e9b8dca041e4740888e079dfa01b4}\label{structseq_1_1detail_1_1_bucket_manager_a4d2e9b8dca041e4740888e079dfa01b4}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!for\_each@{for\_each}}
+\index{for\_each@{for\_each}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{for\_each()}{for\_each()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+template$<$class Functor $>$ \\
+Functor \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::for\+\_\+each (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{start,  }\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{end,  }\item[{Functor}]{fun }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a4c1ae611aa0461276217193ff73c0726}\label{structseq_1_1detail_1_1_bucket_manager_a4c1ae611aa0461276217193ff73c0726}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!for\_each@{for\_each}}
+\index{for\_each@{for\_each}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{for\_each()}{for\_each()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+template$<$class Functor $>$ \\
+Functor \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::for\+\_\+each (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{start,  }\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{end,  }\item[{Functor}]{fun }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_adf38dbff7b35be704ffc153275c0710d}\label{structseq_1_1detail_1_1_bucket_manager_adf38dbff7b35be704ffc153275c0710d}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!front@{front}}
+\index{front@{front}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_aa2d55fa92e0bce38070852989e10d3fc}\label{structseq_1_1detail_1_1_bucket_manager_aa2d55fa92e0bce38070852989e10d3fc}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!front@{front}}
+\index{front@{front}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ae05aa8b9e293ec1eac17ea85551700b0}\label{structseq_1_1detail_1_1_bucket_manager_ae05aa8b9e293ec1eac17ea85551700b0}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const Allocator\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ab3bd7b7beb28709b3be93d3cc21d1e41}\label{structseq_1_1detail_1_1_bucket_manager_ab3bd7b7beb28709b3be93d3cc21d1e41}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!get\_allocator@{get\_allocator}}
+\index{get\_allocator@{get\_allocator}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} Allocator\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a718e229195181cf95d05e776700f784c}\label{structseq_1_1detail_1_1_bucket_manager_a718e229195181cf95d05e776700f784c}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!insert@{insert}}
+\index{insert@{insert}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+T\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a2e093a7dc77972354644376f7af28e61}\label{structseq_1_1detail_1_1_bucket_manager_a2e093a7dc77972354644376f7af28e61}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!insert\_left@{insert\_left}}
+\index{insert\_left@{insert\_left}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_left()}{insert\_left()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::insert\+\_\+left (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos,  }\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{bucket\+\_\+index,  }\item[{int}]{index,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a73ecd6baf85a3a004a9529297b7c1afc}\label{structseq_1_1detail_1_1_bucket_manager_a73ecd6baf85a3a004a9529297b7c1afc}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!insert\_middle\_fwd@{insert\_middle\_fwd}}
+\index{insert\_middle\_fwd@{insert\_middle\_fwd}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_middle\_fwd()}{insert\_middle\_fwd()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::insert\+\_\+middle\+\_\+fwd (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a0a021b7032628200928710405fd94b2e}\label{structseq_1_1detail_1_1_bucket_manager_a0a021b7032628200928710405fd94b2e}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!insert\_one\_bucket@{insert\_one\_bucket}}
+\index{insert\_one\_bucket@{insert\_one\_bucket}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_one\_bucket()}{insert\_one\_bucket()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::insert\+\_\+one\+\_\+bucket (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{bucket\+\_\+index,  }\item[{int}]{index,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a1b09b1e93ddae3c5ba0aacc22ceb8a2e}\label{structseq_1_1detail_1_1_bucket_manager_a1b09b1e93ddae3c5ba0aacc22ceb8a2e}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!insert\_right@{insert\_right}}
+\index{insert\_right@{insert\_right}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_right()}{insert\_right()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+template$<$class... Args$>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::insert\+\_\+right (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{pos,  }\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{bucket\+\_\+index,  }\item[{int}]{index,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a204a583484a20834e1fec58d7acb6b81}\label{structseq_1_1detail_1_1_bucket_manager_a204a583484a20834e1fec58d7acb6b81}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!isPow2Size@{isPow2Size}}
+\index{isPow2Size@{isPow2Size}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{isPow2Size()}{isPow2Size()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::is\+Pow2\+Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ae3933f894b247239c9e0cfe5b6bf2e2e}\label{structseq_1_1detail_1_1_bucket_manager_ae3933f894b247239c9e0cfe5b6bf2e2e}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!isPow2Size@{isPow2Size}}
+\index{isPow2Size@{isPow2Size}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{isPow2Size()}{isPow2Size()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::is\+Pow2\+Size (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{s }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ad6bc0be2e29ab4e699545521b60d1e90}\label{structseq_1_1detail_1_1_bucket_manager_ad6bc0be2e29ab4e699545521b60d1e90}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}}\& \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a7ca4ebc02dc0730e0013f9a7f2444372}\label{structseq_1_1detail_1_1_bucket_manager_a7ca4ebc02dc0730e0013f9a7f2444372}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!pop\_back@{pop\_back}}
+\index{pop\_back@{pop\_back}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{pop\_back()}{pop\_back()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::pop\+\_\+back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a7db210baa7f1aa1a2c9addba04f32f7d}\label{structseq_1_1detail_1_1_bucket_manager_a7db210baa7f1aa1a2c9addba04f32f7d}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!pop\_front@{pop\_front}}
+\index{pop\_front@{pop\_front}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{pop\_front()}{pop\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::pop\+\_\+front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a87fa45fa41a02396d3b7ad7c3a263b25}\label{structseq_1_1detail_1_1_bucket_manager_a87fa45fa41a02396d3b7ad7c3a263b25}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a3d950e937052ba913760a0c4177e42fe}\label{structseq_1_1detail_1_1_bucket_manager_a3d950e937052ba913760a0c4177e42fe}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ada351dbe42f082799cd369aaa08d1b58}\label{structseq_1_1detail_1_1_bucket_manager_ada351dbe42f082799cd369aaa08d1b58}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!push\_front@{push\_front}}
+\index{push\_front@{push\_front}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a075e08adfa52006f3d1e65a514c6f06f}\label{structseq_1_1detail_1_1_bucket_manager_a075e08adfa52006f3d1e65a514c6f06f}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!push\_front@{push\_front}}
+\index{push\_front@{push\_front}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a69430040661f1b8ab9c9d5ce878e1849}\label{structseq_1_1detail_1_1_bucket_manager_a69430040661f1b8ab9c9d5ce878e1849}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!remove\_back\_bucket@{remove\_back\_bucket}}
+\index{remove\_back\_bucket@{remove\_back\_bucket}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{remove\_back\_bucket()}{remove\_back\_bucket()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::remove\+\_\+back\+\_\+bucket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_aaf29c842ae58740d9b83c900ff7e910b}\label{structseq_1_1detail_1_1_bucket_manager_aaf29c842ae58740d9b83c900ff7e910b}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!remove\_front\_bucket@{remove\_front\_bucket}}
+\index{remove\_front\_bucket@{remove\_front\_bucket}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{remove\_front\_bucket()}{remove\_front\_bucket()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::remove\+\_\+front\+\_\+bucket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a6371fbf703e6af2458eefb4106bb8525}\label{structseq_1_1detail_1_1_bucket_manager_a6371fbf703e6af2458eefb4106bb8525}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!resize@{resize}}
+\index{resize@{resize}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::resize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a0eefac517280b61d7ec40f073909f8b8}\label{structseq_1_1detail_1_1_bucket_manager_a0eefac517280b61d7ec40f073909f8b8}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!resize@{resize}}
+\index{resize@{resize}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::resize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{size,  }\item[{const T \&}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ad858ce157fd273e91b5e5986dbf2728c}\label{structseq_1_1detail_1_1_bucket_manager_ad858ce157fd273e91b5e5986dbf2728c}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!resize\_front@{resize\_front}}
+\index{resize\_front@{resize\_front}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{resize\_front()}{resize\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::resize\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ac221f9efb8b6eb6030da0a1e8747fdbf}\label{structseq_1_1detail_1_1_bucket_manager_ac221f9efb8b6eb6030da0a1e8747fdbf}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!resize\_front@{resize\_front}}
+\index{resize\_front@{resize\_front}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{resize\_front()}{resize\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::resize\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}}}]{size,  }\item[{const T \&}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a7e3b6698583c20962b323de8ab04abb1}\label{structseq_1_1detail_1_1_bucket_manager_a7e3b6698583c20962b323de8ab04abb1}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!size@{size}}
+\index{size@{size}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a3f584c3984011aec538ec8444d18e2ce}\label{structseq_1_1detail_1_1_bucket_manager_a3f584c3984011aec538ec8444d18e2ce}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!update\_all\_back\_values@{update\_all\_back\_values}}
+\index{update\_all\_back\_values@{update\_all\_back\_values}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{update\_all\_back\_values()}{update\_all\_back\_values()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::update\+\_\+all\+\_\+back\+\_\+values (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a4580fe696847cc216da378adbbb92f97}\label{structseq_1_1detail_1_1_bucket_manager_a4580fe696847cc216da378adbbb92f97}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!d\_ballocator@{d\_ballocator}}
+\index{d\_ballocator@{d\_ballocator}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{d\_ballocator}{d\_ballocator}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a2377f330ee9c454cbb1eef4adbcf590a}{Alloc\+Type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::d\+\_\+ballocator}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_ab35a332a2570647a963bfbaf9e9d36ac}\label{structseq_1_1detail_1_1_bucket_manager_ab35a332a2570647a963bfbaf9e9d36ac}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!d\_bucket\_size@{d\_bucket\_size}}
+\index{d\_bucket\_size@{d\_bucket\_size}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{d\_bucket\_size}{d\_bucket\_size}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::d\+\_\+bucket\+\_\+size}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a285b5146f7448845c08fdc450c6e27ef}\label{structseq_1_1detail_1_1_bucket_manager_a285b5146f7448845c08fdc450c6e27ef}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!d\_bucket\_size1@{d\_bucket\_size1}}
+\index{d\_bucket\_size1@{d\_bucket\_size1}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{d\_bucket\_size1}{d\_bucket\_size1}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::d\+\_\+bucket\+\_\+size1}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a6eec745df451f79e6a6ae6b48d82b1a2}\label{structseq_1_1detail_1_1_bucket_manager_a6eec745df451f79e6a6ae6b48d82b1a2}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!d\_bucket\_size\_bits@{d\_bucket\_size\_bits}}
+\index{d\_bucket\_size\_bits@{d\_bucket\_size\_bits}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{d\_bucket\_size\_bits}{d\_bucket\_size\_bits}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::d\+\_\+bucket\+\_\+size\+\_\+bits}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a8710f8ae9269ebd6de8a77852125917b}\label{structseq_1_1detail_1_1_bucket_manager_a8710f8ae9269ebd6de8a77852125917b}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!d\_buckets@{d\_buckets}}
+\index{d\_buckets@{d\_buckets}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{d\_buckets}{d\_buckets}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_a60144b8a23f6753824e5e324f99641de}{Bucket\+Vector}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::d\+\_\+buckets}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a762d0085a1c5e12c1a79d779b8aff240}\label{structseq_1_1detail_1_1_bucket_manager_a762d0085a1c5e12c1a79d779b8aff240}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!d\_size@{d\_size}}
+\index{d\_size@{d\_size}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{d\_size}{d\_size}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager_ac678f333a4e7f4dca94539cbe99b5538}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::d\+\_\+size}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a4f65eb96ebbf8451e5002b690c2f3bfd}\label{structseq_1_1detail_1_1_bucket_manager_a4f65eb96ebbf8451e5002b690c2f3bfd}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!max\_block\_size@{max\_block\_size}}
+\index{max\_block\_size@{max\_block\_size}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{max\_block\_size}{max\_block\_size}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+constexpr int \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::max\+\_\+block\+\_\+size = Max\+B\+Size\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_bucket_manager_a21c672ea565d0280aec10c99d205ceac}\label{structseq_1_1detail_1_1_bucket_manager_a21c672ea565d0280aec10c99d205ceac}} 
+\index{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}!min\_block\_size@{min\_block\_size}}
+\index{min\_block\_size@{min\_block\_size}!seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$@{seq::detail::BucketManager$<$ T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout $>$}}
+\doxysubsubsection{\texorpdfstring{min\_block\_size}{min\_block\_size}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , int Min\+B\+Size, int Max\+B\+Size, bool Store\+Back\+Values, class Value\+Compare , Layout\+Management layout = Optimize\+For\+Speed$>$ \\
+constexpr int \mbox{\hyperlink{structseq_1_1detail_1_1_bucket_manager}{seq\+::detail\+::\+Bucket\+Manager}}$<$ T, Allocator, Min\+B\+Size, Max\+B\+Size, Store\+Back\+Values, Value\+Compare, layout $>$\+::min\+\_\+block\+\_\+size = Min\+B\+Size\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{deque_8hpp}{deque.\+hpp}}\end{DoxyCompactItemize}

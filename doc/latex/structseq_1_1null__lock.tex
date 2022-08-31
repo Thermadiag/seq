@@ -1,0 +1,75 @@
+\hypertarget{structseq_1_1null__lock}{}\doxysection{seq\+::null\+\_\+lock Struct Reference}
+\label{structseq_1_1null__lock}\index{seq::null\_lock@{seq::null\_lock}}
+
+
+Dumy lock class that basically does nothing.  
+
+
+
+
+{\ttfamily \#include $<$lock.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{structseq_1_1null__lock_aa3b1b6ad1c8d0fde44c0b051ef05f40d}{lock}} () noexcept
+\item 
+void \mbox{\hyperlink{structseq_1_1null__lock_a2ce95687bf7895a8fc391f4b95ede46d}{unlock}} () noexcept
+\item 
+bool \mbox{\hyperlink{structseq_1_1null__lock_ae256b62d51f491c7bc076e15c2a8cb8a}{try\+\_\+lock}} () const noexcept
+\item 
+bool \mbox{\hyperlink{structseq_1_1null__lock_a10504d539eccc64f43627e98480cdc1e}{is\+\_\+locked}} () const noexcept
+\item 
+{\footnotesize template$<$class Rep , class Period $>$ }\\bool \mbox{\hyperlink{structseq_1_1null__lock_ad0ba907a40e083337ff017551b160c07}{try\+\_\+lock\+\_\+for}} (const std\+::chrono\+::duration$<$ Rep, Period $>$ \&duration)
+\item 
+{\footnotesize template$<$class Clock , class Duration $>$ }\\bool \mbox{\hyperlink{structseq_1_1null__lock_ae07260c4ef40561db13ba92927204e7e}{try\+\_\+lock\+\_\+until}} (const std\+::chrono\+::time\+\_\+point$<$ Clock, Duration $>$ \&time\+Point)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Dumy lock class that basically does nothing. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1null__lock_a10504d539eccc64f43627e98480cdc1e}\label{structseq_1_1null__lock_a10504d539eccc64f43627e98480cdc1e}} 
+\index{seq::null\_lock@{seq::null\_lock}!is\_locked@{is\_locked}}
+\index{is\_locked@{is\_locked}!seq::null\_lock@{seq::null\_lock}}
+\doxysubsubsection{\texorpdfstring{is\_locked()}{is\_locked()}}
+{\footnotesize\ttfamily bool seq\+::null\+\_\+lock\+::is\+\_\+locked (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1null__lock_aa3b1b6ad1c8d0fde44c0b051ef05f40d}\label{structseq_1_1null__lock_aa3b1b6ad1c8d0fde44c0b051ef05f40d}} 
+\index{seq::null\_lock@{seq::null\_lock}!lock@{lock}}
+\index{lock@{lock}!seq::null\_lock@{seq::null\_lock}}
+\doxysubsubsection{\texorpdfstring{lock()}{lock()}}
+{\footnotesize\ttfamily void seq\+::null\+\_\+lock\+::lock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1null__lock_ae256b62d51f491c7bc076e15c2a8cb8a}\label{structseq_1_1null__lock_ae256b62d51f491c7bc076e15c2a8cb8a}} 
+\index{seq::null\_lock@{seq::null\_lock}!try\_lock@{try\_lock}}
+\index{try\_lock@{try\_lock}!seq::null\_lock@{seq::null\_lock}}
+\doxysubsubsection{\texorpdfstring{try\_lock()}{try\_lock()}}
+{\footnotesize\ttfamily bool seq\+::null\+\_\+lock\+::try\+\_\+lock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1null__lock_ad0ba907a40e083337ff017551b160c07}\label{structseq_1_1null__lock_ad0ba907a40e083337ff017551b160c07}} 
+\index{seq::null\_lock@{seq::null\_lock}!try\_lock\_for@{try\_lock\_for}}
+\index{try\_lock\_for@{try\_lock\_for}!seq::null\_lock@{seq::null\_lock}}
+\doxysubsubsection{\texorpdfstring{try\_lock\_for()}{try\_lock\_for()}}
+{\footnotesize\ttfamily template$<$class Rep , class Period $>$ \\
+bool seq\+::null\+\_\+lock\+::try\+\_\+lock\+\_\+for (\begin{DoxyParamCaption}\item[{const std\+::chrono\+::duration$<$ Rep, Period $>$ \&}]{duration }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1null__lock_ae07260c4ef40561db13ba92927204e7e}\label{structseq_1_1null__lock_ae07260c4ef40561db13ba92927204e7e}} 
+\index{seq::null\_lock@{seq::null\_lock}!try\_lock\_until@{try\_lock\_until}}
+\index{try\_lock\_until@{try\_lock\_until}!seq::null\_lock@{seq::null\_lock}}
+\doxysubsubsection{\texorpdfstring{try\_lock\_until()}{try\_lock\_until()}}
+{\footnotesize\ttfamily template$<$class Clock , class Duration $>$ \\
+bool seq\+::null\+\_\+lock\+::try\+\_\+lock\+\_\+until (\begin{DoxyParamCaption}\item[{const std\+::chrono\+::time\+\_\+point$<$ Clock, Duration $>$ \&}]{time\+Point }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1null__lock_a2ce95687bf7895a8fc391f4b95ede46d}\label{structseq_1_1null__lock_a2ce95687bf7895a8fc391f4b95ede46d}} 
+\index{seq::null\_lock@{seq::null\_lock}!unlock@{unlock}}
+\index{unlock@{unlock}!seq::null\_lock@{seq::null\_lock}}
+\doxysubsubsection{\texorpdfstring{unlock()}{unlock()}}
+{\footnotesize\ttfamily void seq\+::null\+\_\+lock\+::unlock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{lock_8hpp}{lock.\+hpp}}\end{DoxyCompactItemize}

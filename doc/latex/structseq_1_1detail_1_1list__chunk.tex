@@ -1,0 +1,189 @@
+\hypertarget{structseq_1_1detail_1_1list__chunk}{}\doxysection{seq\+::detail\+::list\+\_\+chunk$<$ T $>$ Struct Template Reference}
+\label{structseq_1_1detail_1_1list__chunk}\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+
+
+{\ttfamily \#include $<$sequence.\+hpp$>$}
+
+
+
+Inherits \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{seq\+::detail\+::base\+\_\+list\+\_\+chunk$<$ T $>$}}.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a9ba14a9f8a60118cc3fbcd3f413e6620}{base\+\_\+type}} = \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{base\+\_\+list\+\_\+chunk}}$<$ T $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a9528b5d5122d39f474745c59a42d9c58}{buffer}} () noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a0ae84e5d33e9a659651a8804a5328c6b}{buffer}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T \& \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_aa526b451eb0790668f0fa1ce4da7580d}{front}} ()
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T \& \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a71130dd9cb7925e21b22f5492bf6e00c}{front}} () const
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T \& \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_aeb11437ad6aa0d2d66b014bb2da3993c}{back}} ()
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T \& \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a50cb2b4ef0410ce2feada1572ce6d3d7}{back}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::aligned\+\_\+storage$<$ \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk_ad0ca2464809e202e92c9e2d8573749f3}{count}} $\ast$sizeof(T), alignof(T) $>$\+::type \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a81e8914cf5efb88d29f75c702c946c64}{storage}}
+\item 
+std\+::uint64\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a50a30d17deec7f081d932412ee6e3dcb}{used}}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{base\+\_\+list\+\_\+chunk}}$<$ T $>$ $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a24a7b5e907b5b46bf08691a9e345056c}{prev}}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{base\+\_\+list\+\_\+chunk}}$<$ T $>$ $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_ab4110114b4fcdaf0724c3c32058dbd0a}{next}}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{base\+\_\+list\+\_\+chunk}}$<$ T $>$ $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a9c86ed49912cabf967cb74150f5d326c}{prev\+\_\+free}}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{base\+\_\+list\+\_\+chunk}}$<$ T $>$ $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_abe8eb9a781af85caed60f1fc3bf071ad}{next\+\_\+free}}
+\item 
+int \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_affc3f0996a48add559678075498dbea4}{start}}
+\item 
+int \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a25bd662c9d4b62af8eb3e55129626650}{end}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const std\+::uint64\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_ad0ca2464809e202e92c9e2d8573749f3}{count}}
+\item 
+static const std\+::uint64\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a3ebbba1a31e27695853dbc8293f1c968}{count\+\_\+bits}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_a9ba14a9f8a60118cc3fbcd3f413e6620}\label{structseq_1_1detail_1_1list__chunk_a9ba14a9f8a60118cc3fbcd3f413e6620}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!base\_type@{base\_type}}
+\index{base\_type@{base\_type}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{base\_type}{base\_type}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{seq\+::detail\+::list\+\_\+chunk}}$<$ T $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1list__chunk_a9ba14a9f8a60118cc3fbcd3f413e6620}{base\+\_\+type}} =  \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{base\+\_\+list\+\_\+chunk}}$<$T$>$}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_aeb11437ad6aa0d2d66b014bb2da3993c}\label{structseq_1_1detail_1_1list__chunk_aeb11437ad6aa0d2d66b014bb2da3993c}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!back@{back}}
+\index{back@{back}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T\& \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{seq\+::detail\+::list\+\_\+chunk}}$<$ T $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_a50cb2b4ef0410ce2feada1572ce6d3d7}\label{structseq_1_1detail_1_1list__chunk_a50cb2b4ef0410ce2feada1572ce6d3d7}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!back@{back}}
+\index{back@{back}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T\& \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{seq\+::detail\+::list\+\_\+chunk}}$<$ T $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_a0ae84e5d33e9a659651a8804a5328c6b}\label{structseq_1_1detail_1_1list__chunk_a0ae84e5d33e9a659651a8804a5328c6b}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!buffer@{buffer}}
+\index{buffer@{buffer}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{buffer()}{buffer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{seq\+::detail\+::list\+\_\+chunk}}$<$ T $>$\+::buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_a9528b5d5122d39f474745c59a42d9c58}\label{structseq_1_1detail_1_1list__chunk_a9528b5d5122d39f474745c59a42d9c58}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!buffer@{buffer}}
+\index{buffer@{buffer}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{buffer()}{buffer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{seq\+::detail\+::list\+\_\+chunk}}$<$ T $>$\+::buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_aa526b451eb0790668f0fa1ce4da7580d}\label{structseq_1_1detail_1_1list__chunk_aa526b451eb0790668f0fa1ce4da7580d}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!front@{front}}
+\index{front@{front}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T\& \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{seq\+::detail\+::list\+\_\+chunk}}$<$ T $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_a71130dd9cb7925e21b22f5492bf6e00c}\label{structseq_1_1detail_1_1list__chunk_a71130dd9cb7925e21b22f5492bf6e00c}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!front@{front}}
+\index{front@{front}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T\& \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{seq\+::detail\+::list\+\_\+chunk}}$<$ T $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_ad0ca2464809e202e92c9e2d8573749f3}\label{structseq_1_1detail_1_1list__chunk_ad0ca2464809e202e92c9e2d8573749f3}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!count@{count}}
+\index{count@{count}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{count}{count}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+const std\+::uint64\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{seq\+::detail\+::base\+\_\+list\+\_\+chunk}}$<$ T $>$\+::count\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_a3ebbba1a31e27695853dbc8293f1c968}\label{structseq_1_1detail_1_1list__chunk_a3ebbba1a31e27695853dbc8293f1c968}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!count\_bits@{count\_bits}}
+\index{count\_bits@{count\_bits}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{count\_bits}{count\_bits}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+const std\+::uint64\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{seq\+::detail\+::base\+\_\+list\+\_\+chunk}}$<$ T $>$\+::count\+\_\+bits\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_a25bd662c9d4b62af8eb3e55129626650}\label{structseq_1_1detail_1_1list__chunk_a25bd662c9d4b62af8eb3e55129626650}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!end@{end}}
+\index{end@{end}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{end}{end}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+int \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{seq\+::detail\+::base\+\_\+list\+\_\+chunk}}$<$ T $>$\+::end}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_ab4110114b4fcdaf0724c3c32058dbd0a}\label{structseq_1_1detail_1_1list__chunk_ab4110114b4fcdaf0724c3c32058dbd0a}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!next@{next}}
+\index{next@{next}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{next}{next}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{base\+\_\+list\+\_\+chunk}}$<$T$>$$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{seq\+::detail\+::base\+\_\+list\+\_\+chunk}}$<$ T $>$\+::next}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_abe8eb9a781af85caed60f1fc3bf071ad}\label{structseq_1_1detail_1_1list__chunk_abe8eb9a781af85caed60f1fc3bf071ad}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!next\_free@{next\_free}}
+\index{next\_free@{next\_free}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{next\_free}{next\_free}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{base\+\_\+list\+\_\+chunk}}$<$T$>$$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{seq\+::detail\+::base\+\_\+list\+\_\+chunk}}$<$ T $>$\+::next\+\_\+free}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_a24a7b5e907b5b46bf08691a9e345056c}\label{structseq_1_1detail_1_1list__chunk_a24a7b5e907b5b46bf08691a9e345056c}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!prev@{prev}}
+\index{prev@{prev}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{prev}{prev}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{base\+\_\+list\+\_\+chunk}}$<$T$>$$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{seq\+::detail\+::base\+\_\+list\+\_\+chunk}}$<$ T $>$\+::prev}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_a9c86ed49912cabf967cb74150f5d326c}\label{structseq_1_1detail_1_1list__chunk_a9c86ed49912cabf967cb74150f5d326c}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!prev\_free@{prev\_free}}
+\index{prev\_free@{prev\_free}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{prev\_free}{prev\_free}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{base\+\_\+list\+\_\+chunk}}$<$T$>$$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{seq\+::detail\+::base\+\_\+list\+\_\+chunk}}$<$ T $>$\+::prev\+\_\+free}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_affc3f0996a48add559678075498dbea4}\label{structseq_1_1detail_1_1list__chunk_affc3f0996a48add559678075498dbea4}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!start@{start}}
+\index{start@{start}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{start}{start}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+int \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{seq\+::detail\+::base\+\_\+list\+\_\+chunk}}$<$ T $>$\+::start}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_a81e8914cf5efb88d29f75c702c946c64}\label{structseq_1_1detail_1_1list__chunk_a81e8914cf5efb88d29f75c702c946c64}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!storage@{storage}}
+\index{storage@{storage}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{storage}{storage}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::aligned\+\_\+storage$<$\mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk_ad0ca2464809e202e92c9e2d8573749f3}{count}} $\ast$ sizeof(T), alignof(T) $>$\+::type \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{seq\+::detail\+::list\+\_\+chunk}}$<$ T $>$\+::storage}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1list__chunk_a50a30d17deec7f081d932412ee6e3dcb}\label{structseq_1_1detail_1_1list__chunk_a50a30d17deec7f081d932412ee6e3dcb}} 
+\index{seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}!used@{used}}
+\index{used@{used}!seq::detail::list\_chunk$<$ T $>$@{seq::detail::list\_chunk$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{used}{used}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+std\+::uint64\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1base__list__chunk}{seq\+::detail\+::base\+\_\+list\+\_\+chunk}}$<$ T $>$\+::used}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{sequence_8hpp}{sequence.\+hpp}}\end{DoxyCompactItemize}

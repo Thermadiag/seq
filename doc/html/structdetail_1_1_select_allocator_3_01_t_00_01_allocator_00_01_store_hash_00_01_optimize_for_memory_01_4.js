@@ -1,0 +1,4 @@
+var structdetail_1_1_select_allocator_3_01_t_00_01_allocator_00_01_store_hash_00_01_optimize_for_memory_01_4 =
+[
+    [ "type", "structdetail_1_1_select_allocator_3_01_t_00_01_allocator_00_01_store_hash_00_01_optimize_for_memory_01_4.html#a8540be5a16b381f93096f50d191a4bc4", null ]
+];

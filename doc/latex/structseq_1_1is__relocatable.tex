@@ -1,0 +1,50 @@
+\hypertarget{structseq_1_1is__relocatable}{}\doxysection{seq\+::is\+\_\+relocatable$<$ T $>$ Struct Template Reference}
+\label{structseq_1_1is__relocatable}\index{seq::is\_relocatable$<$ T $>$@{seq::is\_relocatable$<$ T $>$}}
+
+
+Type trait telling if a class is relocatable or not.  
+
+
+
+
+{\ttfamily \#include $<$type\+\_\+traits.\+hpp$>$}
+
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr bool \mbox{\hyperlink{structseq_1_1is__relocatable_a9bc3104d310961a601c2185957f846ad}{value}} = std\+::is\+\_\+trivially\+\_\+copyable$<$T$>$\+::value \&\& std\+::is\+\_\+trivially\+\_\+destructible$<$T$>$\+::value
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T$>$\newline
+struct seq\+::is\+\_\+relocatable$<$ T $>$}
+
+Type trait telling if a class is relocatable or not. 
+
+A type is considered relocatable if these consecutive calls 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{new}(new\_place) T(std::move(old\_place));}
+\DoxyCodeLine{old\_place.\string~T();}
+\end{DoxyCode}
+ can be replaced by 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{namespaceseq_1_1detail_a874f70d17afddc31413384d922ad4b83}{memcpy}}(\&new\_place, \&old\_place, \textcolor{keyword}{sizeof}(T));}
+\end{DoxyCode}
+
+
+This property is used to optimize containers like \mbox{\hyperlink{classseq_1_1devector}{seq\+::devector}}, \mbox{\hyperlink{classseq_1_1deque}{seq\+::deque}}, seq\+::flat\+\_\+(map/set/multimap/multiset). 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structseq_1_1is__relocatable_a9bc3104d310961a601c2185957f846ad}\label{structseq_1_1is__relocatable_a9bc3104d310961a601c2185957f846ad}} 
+\index{seq::is\_relocatable$<$ T $>$@{seq::is\_relocatable$<$ T $>$}!value@{value}}
+\index{value@{value}!seq::is\_relocatable$<$ T $>$@{seq::is\_relocatable$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+constexpr bool \mbox{\hyperlink{structseq_1_1is__relocatable}{seq\+::is\+\_\+relocatable}}$<$ T $>$\+::value = std\+::is\+\_\+trivially\+\_\+copyable$<$T$>$\+::value \&\& std\+::is\+\_\+trivially\+\_\+destructible$<$T$>$\+::value\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{type__traits_8hpp}{type\+\_\+traits.\+hpp}}\end{DoxyCompactItemize}

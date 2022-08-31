@@ -1,0 +1,296 @@
+\hypertarget{structdetail_1_1flat__tree}{}\doxysection{detail\+::flat\+\_\+tree$<$ Key, Extract\+Key, Compare, Allocator, layout, Stable, Unique $>$ Struct Template Reference}
+\label{structdetail_1_1flat__tree}\index{detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$@{detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structdetail_1_1flat__tree_1_1_equal}{Equal}}
+\item 
+struct \mbox{\hyperlink{structdetail_1_1flat__tree_1_1_key_comp}{Key\+Comp}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a6a7d95e2ed46e2a622b1f0dfdba6c4d7}\label{structdetail_1_1flat__tree_a6a7d95e2ed46e2a622b1f0dfdba6c4d7}} 
+using {\bfseries deque\+\_\+type} = \mbox{\hyperlink{classdeque2}{deque2}}$<$ Key, Allocator, layout, S\+E\+Q\+\_\+\+M\+I\+N\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE(Key), S\+E\+Q\+\_\+\+M\+A\+X\+\_\+\+B\+U\+C\+K\+E\+T\+\_\+\+S\+I\+ZE, \mbox{\hyperlink{structdetail_1_1_find_bucket_size}{detail\+::\+Find\+Bucket\+Size}}$<$ Key $>$, true, \mbox{\hyperlink{structdetail_1_1flat__tree_1_1_key_comp}{Key\+Comp}} $>$
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_aff89e0dc656b979a15babc48814192d4}\label{structdetail_1_1flat__tree_aff89e0dc656b979a15babc48814192d4}} 
+using {\bfseries key\+\_\+type} = Key
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a656bcf62fedeb54fae8e70bfecfdef44}\label{structdetail_1_1flat__tree_a656bcf62fedeb54fae8e70bfecfdef44}} 
+using {\bfseries value\+\_\+type} = Key
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_acb62926b4deb50d6a62484f794e09fa3}\label{structdetail_1_1flat__tree_acb62926b4deb50d6a62484f794e09fa3}} 
+using {\bfseries difference\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a2b5f9354023958506ac8565e10a1df66}\label{structdetail_1_1flat__tree_a2b5f9354023958506ac8565e10a1df66}} 
+using {\bfseries size\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_ab9aeaffb96079bc3867c839ac450a1be}\label{structdetail_1_1flat__tree_ab9aeaffb96079bc3867c839ac450a1be}} 
+using {\bfseries key\+\_\+compare} = Compare
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a555bf69afa6f38751607893b9748cd19}\label{structdetail_1_1flat__tree_a555bf69afa6f38751607893b9748cd19}} 
+using {\bfseries value\+\_\+compare} = \mbox{\hyperlink{structdetail_1_1flat__tree_1_1_key_comp}{Key\+Comp}}
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_ae487138a29ea7a7268871889a72e7106}\label{structdetail_1_1flat__tree_ae487138a29ea7a7268871889a72e7106}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a62f144211db0bce370906c030e29f82f}\label{structdetail_1_1flat__tree_a62f144211db0bce370906c030e29f82f}} 
+using {\bfseries reference} = Key \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_accb4679ef5d34da32d46c2a41625d958}\label{structdetail_1_1flat__tree_accb4679ef5d34da32d46c2a41625d958}} 
+using {\bfseries const\+\_\+reference} = const Key \&
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a4cb359407f593777d3c69e7586278301}\label{structdetail_1_1flat__tree_a4cb359407f593777d3c69e7586278301}} 
+using {\bfseries pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a000122af6aacc4afe021083907225441}\label{structdetail_1_1flat__tree_a000122af6aacc4afe021083907225441}} 
+using {\bfseries const\+\_\+pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_aa639f8a0ecb8d9971ace12d0d7aeb5f4}\label{structdetail_1_1flat__tree_aa639f8a0ecb8d9971ace12d0d7aeb5f4}} 
+using {\bfseries iterator} = typename \mbox{\hyperlink{structdetail_1_1deque__iterator}{deque\+\_\+type\+::iterator}}
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a59ec4321cb51fa50b47c3188ac8aa945}\label{structdetail_1_1flat__tree_a59ec4321cb51fa50b47c3188ac8aa945}} 
+using {\bfseries const\+\_\+iterator} = typename \mbox{\hyperlink{structdetail_1_1deque__const__iterator}{deque\+\_\+type\+::const\+\_\+iterator}}
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a83432102196847936a7a38e79052042d}\label{structdetail_1_1flat__tree_a83432102196847936a7a38e79052042d}} 
+using {\bfseries reverse\+\_\+iterator} = typename deque\+\_\+type\+::reverse\+\_\+iterator
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a51a70a825e10943460562675033f7925}\label{structdetail_1_1flat__tree_a51a70a825e10943460562675033f7925}} 
+using {\bfseries const\+\_\+reverse\+\_\+iterator} = typename deque\+\_\+type\+::const\+\_\+reverse\+\_\+iterator
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_aaa8b7d1e99ad03c4be56ff27eb7ffa6a}\label{structdetail_1_1flat__tree_aaa8b7d1e99ad03c4be56ff27eb7ffa6a}} 
+{\footnotesize template$<$class Iter , class Cat $>$ }\\void {\bfseries assign\+\_\+cat} (\mbox{\hyperlink{structdetail_1_1_iter}{Iter}} first, \mbox{\hyperlink{structdetail_1_1_iter}{Iter}} last, Cat)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_af2451958b899d5f0603879aa64c664fd}\label{structdetail_1_1flat__tree_af2451958b899d5f0603879aa64c664fd}} 
+{\footnotesize template$<$class Iter $>$ }\\void {\bfseries assign\+\_\+cat} (\mbox{\hyperlink{structdetail_1_1_iter}{Iter}} first, \mbox{\hyperlink{structdetail_1_1_iter}{Iter}} last, std\+::random\+\_\+access\+\_\+iterator\+\_\+tag)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_afd8e255019b530d1066d62d3f98844b5}\label{structdetail_1_1flat__tree_afd8e255019b530d1066d62d3f98844b5}} 
+{\bfseries flat\+\_\+tree} (const Compare \&comp, const Allocator \&alloc=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a6bee5319359cad2b6c24bfb09eec9358}\label{structdetail_1_1flat__tree_a6bee5319359cad2b6c24bfb09eec9358}} 
+{\bfseries flat\+\_\+tree} (const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a791a4bbff7a590880325d34aa5cdd837}\label{structdetail_1_1flat__tree_a791a4bbff7a590880325d34aa5cdd837}} 
+{\footnotesize template$<$class Input\+It $>$ }\\{\bfseries flat\+\_\+tree} (Input\+It first, Input\+It last, const Compare \&comp=Compare(), const Allocator \&alloc=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_ad086cf39f179d5a40b267f9e1de40ca2}\label{structdetail_1_1flat__tree_ad086cf39f179d5a40b267f9e1de40ca2}} 
+{\footnotesize template$<$class Input\+It $>$ }\\{\bfseries flat\+\_\+tree} (Input\+It first, Input\+It last, const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a0ef1e2ef2354dc62ee36af46788cc06c}\label{structdetail_1_1flat__tree_a0ef1e2ef2354dc62ee36af46788cc06c}} 
+{\bfseries flat\+\_\+tree} (const \mbox{\hyperlink{structdetail_1_1flat__tree}{flat\+\_\+tree}} \&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a83706e88d8afbc4d00a41b1305023f06}\label{structdetail_1_1flat__tree_a83706e88d8afbc4d00a41b1305023f06}} 
+{\bfseries flat\+\_\+tree} (const \mbox{\hyperlink{structdetail_1_1flat__tree}{flat\+\_\+tree}} \&other, const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a6bf5f53405a097f64dc0a4dd83b2fe48}\label{structdetail_1_1flat__tree_a6bf5f53405a097f64dc0a4dd83b2fe48}} 
+{\bfseries flat\+\_\+tree} (\mbox{\hyperlink{structdetail_1_1flat__tree}{flat\+\_\+tree}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a579737ccc0546fb82a7104383331bcae}\label{structdetail_1_1flat__tree_a579737ccc0546fb82a7104383331bcae}} 
+{\bfseries flat\+\_\+tree} (\mbox{\hyperlink{structdetail_1_1flat__tree}{flat\+\_\+tree}} \&\&other, const Allocator \&alloc) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a715bdc385618f8742725cb0e900d0964}\label{structdetail_1_1flat__tree_a715bdc385618f8742725cb0e900d0964}} 
+{\bfseries flat\+\_\+tree} (std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ init, const Compare \&comp=Compare(), const Allocator \&alloc=Allocator())
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a5f502e4953229aad4b9870b1faa6c3d0}\label{structdetail_1_1flat__tree_a5f502e4953229aad4b9870b1faa6c3d0}} 
+{\bfseries flat\+\_\+tree} (std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ init, const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a91d43c006a46aa9a99b93ce2763b766f}\label{structdetail_1_1flat__tree_a91d43c006a46aa9a99b93ce2763b766f}} 
+\mbox{\hyperlink{structdetail_1_1flat__tree}{flat\+\_\+tree}} \& {\bfseries operator=} (\mbox{\hyperlink{structdetail_1_1flat__tree}{flat\+\_\+tree}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a8fa952a67054df9c72d92da18fdbd1cd}\label{structdetail_1_1flat__tree_a8fa952a67054df9c72d92da18fdbd1cd}} 
+\mbox{\hyperlink{structdetail_1_1flat__tree}{flat\+\_\+tree}} \& {\bfseries operator=} (const \mbox{\hyperlink{structdetail_1_1flat__tree}{flat\+\_\+tree}} \&other)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a7e5f002c0e8025a115e3976668fbc59f}\label{structdetail_1_1flat__tree_a7e5f002c0e8025a115e3976668fbc59f}} 
+\mbox{\hyperlink{structdetail_1_1flat__tree}{flat\+\_\+tree}} \& {\bfseries operator=} (const std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ \&init)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a10abdebb244c90b60e5abad66ca04bff}\label{structdetail_1_1flat__tree_a10abdebb244c90b60e5abad66ca04bff}} 
+Allocator {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a88adc2d5b4137aff4ccd4d1fb3be1958}\label{structdetail_1_1flat__tree_a88adc2d5b4137aff4ccd4d1fb3be1958}} 
+bool {\bfseries empty} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_ad4f91ebf539aa1bf90fe7f8f74dcae32}\label{structdetail_1_1flat__tree_ad4f91ebf539aa1bf90fe7f8f74dcae32}} 
+size\+\_\+type {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_abdca804e7253b6fd7784e766209dd03e}\label{structdetail_1_1flat__tree_abdca804e7253b6fd7784e766209dd03e}} 
+size\+\_\+type {\bfseries max\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a9e0ee0de08522295b647f0344b354048}\label{structdetail_1_1flat__tree_a9e0ee0de08522295b647f0344b354048}} 
+void {\bfseries clear} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a64267a390a874067071d3d56d3746ed1}\label{structdetail_1_1flat__tree_a64267a390a874067071d3d56d3746ed1}} 
+void {\bfseries swap} (\mbox{\hyperlink{structdetail_1_1flat__tree}{flat\+\_\+tree}} \&other) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a3be17a78f280f9f8140bd2246705f753}\label{structdetail_1_1flat__tree_a3be17a78f280f9f8140bd2246705f753}} 
+{\footnotesize template$<$class U $>$ }\\std\+::pair$<$ size\+\_\+t, bool $>$ {\bfseries insert\+\_\+pos\+\_\+multi} (U \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a84796d478b4c2d736ba9e3d11972e014}\label{structdetail_1_1flat__tree_a84796d478b4c2d736ba9e3d11972e014}} 
+std\+::pair$<$ size\+\_\+t, bool $>$ {\bfseries insert\+\_\+pos} (const value\+\_\+type \&value)
+\item 
+std\+::pair$<$ size\+\_\+t, bool $>$ \mbox{\hyperlink{structdetail_1_1flat__tree_a7708a75f9e3a49ae66204f69d9b4278d}{insert\+\_\+pos}} (value\+\_\+type \&\&value)
+\item 
+std\+::pair$<$ iterator, bool $>$ \mbox{\hyperlink{structdetail_1_1flat__tree_aa044bf8612274ef73677523b10f1a4b4}{insert}} (const value\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_aa68b1e3ed50a585583535287e6d4185f}\label{structdetail_1_1flat__tree_aa68b1e3ed50a585583535287e6d4185f}} 
+{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ iterator, bool $>$ {\bfseries emplace} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_acf35bbd655b328f38b67b63c3d81774c}\label{structdetail_1_1flat__tree_acf35bbd655b328f38b67b63c3d81774c}} 
+{\footnotesize template$<$class... Args$>$ }\\iterator {\bfseries emplace\+\_\+hint} (const\+\_\+iterator hint, Args \&\&... args)
+\item 
+std\+::pair$<$ iterator, bool $>$ \mbox{\hyperlink{structdetail_1_1flat__tree_affae24437b41d00a3b7dfc5457b901e4}{insert}} (value\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_af4003501bf50e1ebc1df7eb7d3330df9}\label{structdetail_1_1flat__tree_af4003501bf50e1ebc1df7eb7d3330df9}} 
+iterator {\bfseries insert} (const\+\_\+iterator hint, const value\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a2a9a4d4737b1b7d4e5e0fd6d83070f94}\label{structdetail_1_1flat__tree_a2a9a4d4737b1b7d4e5e0fd6d83070f94}} 
+iterator {\bfseries insert} (const\+\_\+iterator hint, value\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_ab5de75d969b93e814006fb2080dfa117}\label{structdetail_1_1flat__tree_ab5de75d969b93e814006fb2080dfa117}} 
+{\footnotesize template$<$class Input\+It $>$ }\\void {\bfseries insert} (Input\+It first, Input\+It last)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a66828ee730fed5fe4c803357702f32d0}\label{structdetail_1_1flat__tree_a66828ee730fed5fe4c803357702f32d0}} 
+void {\bfseries insert} (std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ ilist)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_aeccb2e693ca2db0815bb0ee0f5e0d37d}\label{structdetail_1_1flat__tree_aeccb2e693ca2db0815bb0ee0f5e0d37d}} 
+{\footnotesize template$<$class Iter $>$ }\\void {\bfseries assign} (\mbox{\hyperlink{structdetail_1_1_iter}{Iter}} first, \mbox{\hyperlink{structdetail_1_1_iter}{Iter}} last)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_ad6bf253a08c1f6f926bf51fa0c2a45d6}\label{structdetail_1_1flat__tree_ad6bf253a08c1f6f926bf51fa0c2a45d6}} 
+void {\bfseries erase} (size\+\_\+type pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a95143d47e4add39ffd28f6f195fcde87}\label{structdetail_1_1flat__tree_a95143d47e4add39ffd28f6f195fcde87}} 
+iterator {\bfseries erase} (const\+\_\+iterator pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_aaf7b6f185eddb9a9d6a81a5156cc3127}\label{structdetail_1_1flat__tree_aaf7b6f185eddb9a9d6a81a5156cc3127}} 
+iterator {\bfseries erase} (iterator pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a6dc0cd1a998d495999eb2c5fb5c2c557}\label{structdetail_1_1flat__tree_a6dc0cd1a998d495999eb2c5fb5c2c557}} 
+iterator {\bfseries erase} (const\+\_\+iterator first, const\+\_\+iterator last)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a523f494f64c27fc4e24edce613de5348}\label{structdetail_1_1flat__tree_a523f494f64c27fc4e24edce613de5348}} 
+{\footnotesize template$<$class K $>$ }\\size\+\_\+type {\bfseries erase} (const K \&key)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a3ce89b60e33e55b2e30d870837596a9d}\label{structdetail_1_1flat__tree_a3ce89b60e33e55b2e30d870837596a9d}} 
+{\footnotesize template$<$class K $>$ }\\iterator {\bfseries find} (const K \&x) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_aa88e16efcce9393eeade81a3c5f208c9}\label{structdetail_1_1flat__tree_aa88e16efcce9393eeade81a3c5f208c9}} 
+{\footnotesize template$<$class K $>$ }\\const\+\_\+iterator {\bfseries find} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a76401a133af8d68768d06cc28ee30a1a}\label{structdetail_1_1flat__tree_a76401a133af8d68768d06cc28ee30a1a}} 
+{\footnotesize template$<$class K $>$ }\\size\+\_\+t {\bfseries find\+\_\+pos} (const K \&x) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_acfe59112b612dbd7f55b8c6273c42370}\label{structdetail_1_1flat__tree_acfe59112b612dbd7f55b8c6273c42370}} 
+{\footnotesize template$<$class K $>$ }\\size\+\_\+t {\bfseries find\+\_\+pos} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a3e5c9b908b0fa17026c0136f1b831d34}\label{structdetail_1_1flat__tree_a3e5c9b908b0fa17026c0136f1b831d34}} 
+const Key \& {\bfseries at} (size\+\_\+t i) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a08af67633355281c7d8b077f1ea1281f}\label{structdetail_1_1flat__tree_a08af67633355281c7d8b077f1ea1281f}} 
+{\footnotesize template$<$class K $>$ }\\iterator {\bfseries lower\+\_\+bound} (const K \&x) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a0f1355744c6c5f75aad2da6010f9b16d}\label{structdetail_1_1flat__tree_a0f1355744c6c5f75aad2da6010f9b16d}} 
+{\footnotesize template$<$class K $>$ }\\const\+\_\+iterator {\bfseries lower\+\_\+bound} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a30d8a096e78ca299fa5daa84ec6bbf3b}\label{structdetail_1_1flat__tree_a30d8a096e78ca299fa5daa84ec6bbf3b}} 
+{\footnotesize template$<$class K $>$ }\\iterator {\bfseries upper\+\_\+bound} (const K \&x) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a796f78d3f7df6593fdeee8c1b974919b}\label{structdetail_1_1flat__tree_a796f78d3f7df6593fdeee8c1b974919b}} 
+{\footnotesize template$<$class K $>$ }\\const\+\_\+iterator {\bfseries upper\+\_\+bound} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a775ebc6a7aaa2b058064b6d7cce7dc13}\label{structdetail_1_1flat__tree_a775ebc6a7aaa2b058064b6d7cce7dc13}} 
+{\footnotesize template$<$class K $>$ }\\bool {\bfseries contains} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a85be8f3361912a51e2cc63d12ac5fec9}\label{structdetail_1_1flat__tree_a85be8f3361912a51e2cc63d12ac5fec9}} 
+{\footnotesize template$<$class K $>$ }\\size\+\_\+type {\bfseries count} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_ac647518433c149a48410e19fabcf6eaf}\label{structdetail_1_1flat__tree_ac647518433c149a48410e19fabcf6eaf}} 
+{\footnotesize template$<$class K $>$ }\\std\+::pair$<$ iterator, iterator $>$ {\bfseries equal\+\_\+range} (const K \&x) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a3e1b1ef771fea915d25160c4a3743cb8}\label{structdetail_1_1flat__tree_a3e1b1ef771fea915d25160c4a3743cb8}} 
+{\footnotesize template$<$class K $>$ }\\std\+::pair$<$ const\+\_\+iterator, const\+\_\+iterator $>$ {\bfseries equal\+\_\+range} (const K \&x) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a1f6dd035d3c7c62889235fb161f82de0}\label{structdetail_1_1flat__tree_a1f6dd035d3c7c62889235fb161f82de0}} 
+{\footnotesize template$<$class C2 , Layout\+Management layout2, bool Unique2$>$ }\\void {\bfseries merge} (\mbox{\hyperlink{structdetail_1_1flat__tree}{flat\+\_\+tree}}$<$ Key, \mbox{\hyperlink{struct_extract_key}{Extract\+Key}}, C2, Allocator, layout2, Unique2 $>$ \&source)
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a7774096cdeaba1cf2d05a50b58dff427}\label{structdetail_1_1flat__tree_a7774096cdeaba1cf2d05a50b58dff427}} 
+iterator {\bfseries begin} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a6f15cc58c4cf27760462d95ecd304feb}\label{structdetail_1_1flat__tree_a6f15cc58c4cf27760462d95ecd304feb}} 
+const\+\_\+iterator {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_aee779bc398499c3ff217eb746606ef20}\label{structdetail_1_1flat__tree_aee779bc398499c3ff217eb746606ef20}} 
+const\+\_\+iterator {\bfseries cbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_ac3a50a13c2b91237ebed476fd1a4b657}\label{structdetail_1_1flat__tree_ac3a50a13c2b91237ebed476fd1a4b657}} 
+iterator {\bfseries end} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_ad7c82fd3d17ae507a5616fb6b9841c12}\label{structdetail_1_1flat__tree_ad7c82fd3d17ae507a5616fb6b9841c12}} 
+const\+\_\+iterator {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a2754fa7241f511360721208970654c1c}\label{structdetail_1_1flat__tree_a2754fa7241f511360721208970654c1c}} 
+const\+\_\+iterator {\bfseries cend} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a0038cbae3659f028bc850b984f8662ff}\label{structdetail_1_1flat__tree_a0038cbae3659f028bc850b984f8662ff}} 
+reverse\+\_\+iterator {\bfseries rbegin} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_aaa574f09ff23d4f519a2c5746c3c2465}\label{structdetail_1_1flat__tree_aaa574f09ff23d4f519a2c5746c3c2465}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_af6452850b255d636b97b3c0c9fde33d8}\label{structdetail_1_1flat__tree_af6452850b255d636b97b3c0c9fde33d8}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a3ac946d96c6b98671c045cbf1f21a00d}\label{structdetail_1_1flat__tree_a3ac946d96c6b98671c045cbf1f21a00d}} 
+reverse\+\_\+iterator {\bfseries rend} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a4bbbc22f277a84e56e64583cce600b10}\label{structdetail_1_1flat__tree_a4bbbc22f277a84e56e64583cce600b10}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rend} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a4e4f3c9c61107c2b18c434bbc916e9eb}\label{structdetail_1_1flat__tree_a4e4f3c9c61107c2b18c434bbc916e9eb}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crend} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a030ab8ea0215e0be94c44a213348b0d9}\label{structdetail_1_1flat__tree_a030ab8ea0215e0be94c44a213348b0d9}} 
+key\+\_\+compare {\bfseries key\+\_\+comp} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a04f17864bdbc43ed8b267fbea447a2ff}\label{structdetail_1_1flat__tree_a04f17864bdbc43ed8b267fbea447a2ff}} 
+\mbox{\hyperlink{structdetail_1_1flat__tree_1_1_key_comp}{value\+\_\+compare}} {\bfseries value\+\_\+comp} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_a9aab639ca5b3b359543b7bb85b110b6e}\label{structdetail_1_1flat__tree_a9aab639ca5b3b359543b7bb85b110b6e}} 
+\mbox{\hyperlink{classdeque2}{deque\+\_\+type}} {\bfseries d\+\_\+deque}
+\item 
+\mbox{\Hypertarget{structdetail_1_1flat__tree_ad819db34192cc2c4db2d4de79aa86ef5}\label{structdetail_1_1flat__tree_ad819db34192cc2c4db2d4de79aa86ef5}} 
+\mbox{\hyperlink{structdetail_1_1flat__tree_1_1_key_comp}{Key\+Comp}} {\bfseries d\+\_\+comp}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structdetail_1_1flat__tree_aa044bf8612274ef73677523b10f1a4b4}\label{structdetail_1_1flat__tree_aa044bf8612274ef73677523b10f1a4b4}} 
+\index{detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$@{detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$}!insert@{insert}}
+\index{insert@{insert}!detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$@{detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Key , class Extract\+Key  = Invariant$<$\+Key$>$, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
+std\+::pair$<$iterator, bool$>$ \mbox{\hyperlink{structdetail_1_1flat__tree}{detail\+::flat\+\_\+tree}}$<$ Key, \mbox{\hyperlink{struct_extract_key}{Extract\+Key}}, Compare, Allocator, layout, Stable, Unique $>$\+::insert (\begin{DoxyParamCaption}\item[{const value\+\_\+type \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+(value $<$ deque\mbox{[}pos\mbox{]}))\mbox{\Hypertarget{structdetail_1_1flat__tree_affae24437b41d00a3b7dfc5457b901e4}\label{structdetail_1_1flat__tree_affae24437b41d00a3b7dfc5457b901e4}} 
+\index{detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$@{detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$}!insert@{insert}}
+\index{insert@{insert}!detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$@{detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Key , class Extract\+Key  = Invariant$<$\+Key$>$, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
+std\+::pair$<$iterator, bool$>$ \mbox{\hyperlink{structdetail_1_1flat__tree}{detail\+::flat\+\_\+tree}}$<$ Key, \mbox{\hyperlink{struct_extract_key}{Extract\+Key}}, Compare, Allocator, layout, Stable, Unique $>$\+::insert (\begin{DoxyParamCaption}\item[{value\+\_\+type \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+(value $<$ deque\mbox{[}pos\mbox{]}))\mbox{\Hypertarget{structdetail_1_1flat__tree_a7708a75f9e3a49ae66204f69d9b4278d}\label{structdetail_1_1flat__tree_a7708a75f9e3a49ae66204f69d9b4278d}} 
+\index{detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$@{detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$}!insert\_pos@{insert\_pos}}
+\index{insert\_pos@{insert\_pos}!detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$@{detail::flat\_tree$<$ Key, ExtractKey, Compare, Allocator, layout, Stable, Unique $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_pos()}{insert\_pos()}}
+{\footnotesize\ttfamily template$<$class Key , class Extract\+Key  = Invariant$<$\+Key$>$, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
+std\+::pair$<$size\+\_\+t, bool$>$ \mbox{\hyperlink{structdetail_1_1flat__tree}{detail\+::flat\+\_\+tree}}$<$ Key, \mbox{\hyperlink{struct_extract_key}{Extract\+Key}}, Compare, Allocator, layout, Stable, Unique $>$\+::insert\+\_\+pos (\begin{DoxyParamCaption}\item[{value\+\_\+type \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+(value $<$ deque\mbox{[}pos\mbox{]}))
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+flat\+\_\+map.\+hpp\end{DoxyCompactItemize}

@@ -1,0 +1,295 @@
+\hypertarget{any_8hpp}{}\doxysection{seq/any.hpp File Reference}
+\label{any_8hpp}\index{seq/any.hpp@{seq/any.hpp}}
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include \char`\"{}tagged\+\_\+pointer.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lock.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}tiny\+\_\+string.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}format.\+hpp\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_hash_type}{seq\+::detail\+::\+Hash\+Type$<$ T, Valid, class $>$}}
+\begin{DoxyCompactList}\small\item\em Hash type only if is\+\_\+hashable$<$\+T$>$\+::value is true. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_hash_type_3_01_t_00_01true_00_01typename_01std_1_1enable__if_3_01std_1_15afd7044be60c89666e3f8a99d32f652}{seq\+::detail\+::\+Hash\+Type$<$ T, true, typename std\+::enable\+\_\+if$<$ std\+::is\+\_\+integral$<$ T $>$\+::value, void $>$\+::type $>$}}
+\begin{DoxyCompactList}\small\item\em Hash integral types. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_hash_type_3_01std_1_1string_00_01true_01_4}{seq\+::detail\+::\+Hash\+Type$<$ std\+::string, true $>$}}
+\begin{DoxyCompactList}\small\item\em Specializations for std\+::string and const char$\ast$ that use std\+::hash$<$tstring$>$ \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_hash_type_3_01const_01char_01_5_00_01true_01_4}{seq\+::detail\+::\+Hash\+Type$<$ const char $\ast$, true $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_hash_type_3_01char_01_5_00_01true_01_4}{seq\+::detail\+::\+Hash\+Type$<$ char $\ast$, true $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_hash_type_3_01_t_00_01false_01_4}{seq\+::detail\+::\+Hash\+Type$<$ T, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_type}{seq\+::detail\+::\+Format\+Type$<$ T, Valid $>$}}
+\begin{DoxyCompactList}\small\item\em Format type only if \mbox{\hyperlink{structseq_1_1is__formattable_a95b756a4c5b0d68502746a828f5aa06b}{is\+\_\+formattable$<$\+T$>$\+::value}} is true. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_type_3_01_t_00_01false_01_4}{seq\+::detail\+::\+Format\+Type$<$ T, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_arithmetic}{seq\+::detail\+::\+Cast\+Arithmetic$<$ T, Is\+Numeric $>$}}
+\begin{DoxyCompactList}\small\item\em Cast T to an arithmetic type. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_arithmetic_3_01_t_00_01false_01_4}{seq\+::detail\+::\+Cast\+Arithmetic$<$ T, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_string}{seq\+::detail\+::\+Cast\+String$<$ T, Is\+Numeric $>$}}
+\begin{DoxyCompactList}\small\item\em Cast string type to an arithmetic type. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_string_3_01_t_00_01false_01_4}{seq\+::detail\+::\+Cast\+String$<$ T, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_arithmetic_to_string}{seq\+::detail\+::\+Cast\+Arithmetic\+To\+String$<$ String, Is\+String $>$}}
+\begin{DoxyCompactList}\small\item\em Cast arithmetic type to string type. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_arithmetic_to_string_3_01_string_00_01false_01_4}{seq\+::detail\+::\+Cast\+Arithmetic\+To\+String$<$ String, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_string_to_string}{seq\+::detail\+::\+Cast\+String\+To\+String$<$ String, In\+String, Is\+String $>$}}
+\begin{DoxyCompactList}\small\item\em Cast string types between them. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_string_to_string_3_01_string_00_01_in_string_00_01false_01_4}{seq\+::detail\+::\+Cast\+String\+To\+String$<$ String, In\+String, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_string_to_string_view}{seq\+::detail\+::\+Cast\+String\+To\+String\+View$<$ String, In\+String, Is\+String $>$}}
+\begin{DoxyCompactList}\small\item\em Cast string types to string\+\_\+view. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_string_to_string_view_3_01char_01_5_00_01_in_string_00_01true_01_4}{seq\+::detail\+::\+Cast\+String\+To\+String\+View$<$ char $\ast$, In\+String, true $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_string_to_string_view_3_01const_01char_01_5_00_01_in_string_00_01true_01_4}{seq\+::detail\+::\+Cast\+String\+To\+String\+View$<$ const char $\ast$, In\+String, true $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_string_to_string_view_3_01_string_00_01_in_string_00_01false_01_4}{seq\+::detail\+::\+Cast\+String\+To\+String\+View$<$ String, In\+String, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_ptr_to_void}{seq\+::detail\+::\+Cast\+Ptr\+To\+Void$<$ Out\+Ptr, Is\+Ptr $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_cast_ptr_to_void_3_01_out_ptr_00_01false_01_4}{seq\+::detail\+::\+Cast\+Ptr\+To\+Void$<$ Out\+Ptr, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_compare_less_arithmetic}{seq\+::detail\+::\+Compare\+Less\+Arithmetic$<$ T, Cast, Is\+Arithmetic $>$}}
+\begin{DoxyCompactList}\small\item\em Less than comparison for \mbox{\hyperlink{classseq_1_1hold__any_a714f33734dd075c50d6db1c27820d75a}{hold\+\_\+any\+::less\+\_\+than}}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_compare_less_arithmetic_3_01_t_00_01_cast_00_01false_01_4}{seq\+::detail\+::\+Compare\+Less\+Arithmetic$<$ T, Cast, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_compare_greater_arithmetic}{seq\+::detail\+::\+Compare\+Greater\+Arithmetic$<$ T, Cast, Is\+Arithmetic $>$}}
+\begin{DoxyCompactList}\small\item\em Greater than comparison for \mbox{\hyperlink{classseq_1_1hold__any_a2ea753703a8f545546cd8fbcfe22c72b}{hold\+\_\+any\+::greater\+\_\+than}}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_compare_greater_arithmetic_3_01_t_00_01_cast_00_01false_01_4}{seq\+::detail\+::\+Compare\+Greater\+Arithmetic$<$ T, Cast, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_compare_equal_string}{seq\+::detail\+::\+Compare\+Equal\+String$<$ T, Is\+String $>$}}
+\begin{DoxyCompactList}\small\item\em Equality comparison for \mbox{\hyperlink{classseq_1_1hold__any_a3b088c695a803ba28912ad55a9bed7e2}{hold\+\_\+any\+::equal\+\_\+to}}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_compare_equal_string_3_01_t_00_01false_01_4}{seq\+::detail\+::\+Compare\+Equal\+String$<$ T, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_compare_less_string}{seq\+::detail\+::\+Compare\+Less\+String$<$ T, Is\+String $>$}}
+\begin{DoxyCompactList}\small\item\em Less than comparison for \mbox{\hyperlink{classseq_1_1hold__any_a714f33734dd075c50d6db1c27820d75a}{hold\+\_\+any\+::less\+\_\+than}}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_compare_less_string_3_01_t_00_01false_01_4}{seq\+::detail\+::\+Compare\+Less\+String$<$ T, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_compare_greater_string}{seq\+::detail\+::\+Compare\+Greater\+String$<$ T, Is\+String $>$}}
+\begin{DoxyCompactList}\small\item\em Greater than comparison for \mbox{\hyperlink{classseq_1_1hold__any_a2ea753703a8f545546cd8fbcfe22c72b}{hold\+\_\+any\+::greater\+\_\+than}}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_compare_greater_string_3_01_t_00_01false_01_4}{seq\+::detail\+::\+Compare\+Greater\+String$<$ T, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1null__policy}{seq\+::detail\+::null\+\_\+policy}}
+\item 
+class \mbox{\hyperlink{classseq_1_1any__type__info}{seq\+::any\+\_\+type\+\_\+info}}
+\begin{DoxyCompactList}\small\item\em Base class representing a type and related functions. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1any__typed__type__info}{seq\+::any\+\_\+typed\+\_\+type\+\_\+info$<$ T, Support\+Hash $>$}}
+\begin{DoxyCompactList}\small\item\em Implementation of \mbox{\hyperlink{classseq_1_1any__type__info}{any\+\_\+type\+\_\+info}} for specific type (Type Erasure) \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1any__base}{seq\+::any\+\_\+base$<$ Derived, Type\+Info, Static\+Size, Alignment $>$}}
+\begin{DoxyCompactList}\small\item\em Base interface for \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} class. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1any__default__interface}{seq\+::any\+\_\+default\+\_\+interface}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1any__default__interface_1_1typed__type__info}{seq\+::any\+\_\+default\+\_\+interface\+::typed\+\_\+type\+\_\+info$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1any__default__interface_1_1any__interface}{seq\+::any\+\_\+default\+\_\+interface\+::any\+\_\+interface$<$ Base $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1any__no__hash__interface}{seq\+::any\+\_\+no\+\_\+hash\+\_\+interface}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1any__no__hash__interface_1_1typed__type__info}{seq\+::any\+\_\+no\+\_\+hash\+\_\+interface\+::typed\+\_\+type\+\_\+info$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1any__no__hash__interface_1_1any__interface}{seq\+::any\+\_\+no\+\_\+hash\+\_\+interface\+::any\+\_\+interface$<$ Base $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any$<$ Interface, Static\+Size, Alignment $>$}}
+\begin{DoxyCompactList}\small\item\em std\+::any like class optimized to build heterogeneous containers. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classseq_1_1ostream__format_3_01hold__any_3_01_interface_00_01_s_00_01_a_01_4_01_4}{seq\+::ostream\+\_\+format$<$ hold\+\_\+any$<$ Interface, S, A $>$ $>$}}
+\item 
+class \mbox{\hyperlink{classstd_1_1hash_3_01hold__any_3_01_interface_00_01_s_00_01_a_01_4_01_4}{std\+::hash$<$ hold\+\_\+any$<$ Interface, S, A $>$ $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail}{seq\+::detail}}
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits in {\itshape value}. \end{DoxyCompactList}\item 
+ \mbox{\hyperlink{namespacestd}{std}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{any_8hpp_a9dd8b331e651b5ee46e95c268b7dcfb2}{S\+E\+Q\+\_\+\+A\+N\+Y\+\_\+\+M\+A\+L\+L\+OC}}~malloc
+\item 
+\#define \mbox{\hyperlink{any_8hpp_a520345ba4d5ef1497bb909b68db9a40d}{S\+E\+Q\+\_\+\+A\+N\+Y\+\_\+\+F\+R\+EE}}~free
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespaceseq_a24ef193cef19271b9b18ce6c74fc5b54}{seq\+::any}} = hold\+\_\+any$<$$>$
+\item 
+using \mbox{\hyperlink{namespaceseq_a2ec98840dd82cf3a3207402caa66c73f}{seq\+::nh\+\_\+any}} = hold\+\_\+any$<$ any\+\_\+no\+\_\+hash\+\_\+interface $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespaceseq_1_1detail_ac216a6fbe88ca4064ad3d0229eb05c94}{seq\+::detail\+::\+Any\+Tag}} \{ \newline
+\mbox{\hyperlink{namespaceseq_1_1detail_ac216a6fbe88ca4064ad3d0229eb05c94a5c24d9f4dabfaf44e6f39bb79efe007d}{seq\+::detail\+::complex\+\_\+destroy}} = 1, 
+\mbox{\hyperlink{namespaceseq_1_1detail_ac216a6fbe88ca4064ad3d0229eb05c94a21d8030f7b7372fcc07527a90621bc04}{seq\+::detail\+::complex\+\_\+copy}} = 2, 
+\mbox{\hyperlink{namespaceseq_1_1detail_ac216a6fbe88ca4064ad3d0229eb05c94a9b05fc20c73a1af005b549bee05cac7f}{seq\+::detail\+::non\+\_\+relocatable}} = 4, 
+\mbox{\hyperlink{namespaceseq_1_1detail_ac216a6fbe88ca4064ad3d0229eb05c94af817ea68e6795f001032bfa9dd721aa3}{seq\+::detail\+::big\+\_\+size}} = 8, 
+\newline
+\mbox{\hyperlink{namespaceseq_1_1detail_ac216a6fbe88ca4064ad3d0229eb05c94a996c4e55f85a2ff843a5f245ee7fa705}{seq\+::detail\+::pointer}} = 16
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespaceseq_1_1detail_af9cabdc548df7ecfc6569dcd950550e1}{seq\+::detail\+::build\+\_\+type\+\_\+id}} () noexcept
+\item 
+{\footnotesize template$<$class T $>$ }\\int \mbox{\hyperlink{namespaceseq_ae671e0f695cb6f085d8255e0de4d2281}{seq\+::get\+\_\+type\+\_\+id}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns type Id used by \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} as a unique type identifier. \end{DoxyCompactList}\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a9da3f0204724ddc1fdba5f789bf26ca7}{seq\+::get\+\_\+type\+\_\+id$<$ char $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a86bdf469671f96daaeaeae76df1add29}{seq\+::get\+\_\+type\+\_\+id$<$ signed char $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a74e66bbdc6a3730d5e1e5773fd873bd8}{seq\+::get\+\_\+type\+\_\+id$<$ short $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a5504596c7066d0670dbb27070fe4108f}{seq\+::get\+\_\+type\+\_\+id$<$ int $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a270f8f53256ccbe680de58e8b295935c}{seq\+::get\+\_\+type\+\_\+id$<$ long $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_ac1b12f8d796c5f68a531312d9013ca8d}{seq\+::get\+\_\+type\+\_\+id$<$ long long $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a5d7751f74007ee1da9d4c8fad04244aa}{seq\+::get\+\_\+type\+\_\+id$<$ unsigned char $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a912a79946b016b195aaae872f3880531}{seq\+::get\+\_\+type\+\_\+id$<$ unsigned short $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_afbda3cc28bfc463ad92655a81a7e8697}{seq\+::get\+\_\+type\+\_\+id$<$ unsigned int $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a1d29ec40b45132cad26a58ee35eafbc1}{seq\+::get\+\_\+type\+\_\+id$<$ unsigned long $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a4b8d3115e942c7ee280db3a773f5b290}{seq\+::get\+\_\+type\+\_\+id$<$ unsigned long long $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_af403a261d3b265e926d12e067cbf1b14}{seq\+::get\+\_\+type\+\_\+id$<$ float $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a287623ba796c4e37c9b4d210469a5848}{seq\+::get\+\_\+type\+\_\+id$<$ double $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a8b631b774d3ead5643468e96c3f75a1f}{seq\+::get\+\_\+type\+\_\+id$<$ long double $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a55463d520234699844e33b644e823021}{seq\+::get\+\_\+type\+\_\+id$<$ std\+::string $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a4e35629061325fb26ea45ef1567584ba}{seq\+::get\+\_\+type\+\_\+id$<$ tstring $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a1d958fc758855945fbb6e1c4c856aa72}{seq\+::get\+\_\+type\+\_\+id$<$ tstring\+\_\+view $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a22b299fb33498ab4f7ed6fbdd11ab656}{seq\+::get\+\_\+type\+\_\+id$<$ const char $\ast$ $>$}} () noexcept
+\item 
+template$<$$>$ constexpr int \mbox{\hyperlink{namespaceseq_a402011b5f9276ddc9680bc0c2b19b1ac}{seq\+::get\+\_\+type\+\_\+id$<$ char $\ast$ $>$}} () noexcept
+\item 
+bool \mbox{\hyperlink{namespaceseq_a6bccbbebeeee8688c45c1df3e9e7e6b9}{seq\+::is\+\_\+signed\+\_\+integral\+\_\+type}} (int id) noexcept
+\begin{DoxyCompactList}\small\item\em Returns true if given type id corresponds to a signed integral type. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceseq_a9db7ee7492e17303be3048c114e4264f}{seq\+::is\+\_\+unsigned\+\_\+integral\+\_\+type}} (int id) noexcept
+\begin{DoxyCompactList}\small\item\em Returns true if given type id corresponds to an unsigned integral type. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceseq_ac3b539a9956d133181c00c77994436bf}{seq\+::is\+\_\+integral\+\_\+type}} (int id) noexcept
+\begin{DoxyCompactList}\small\item\em Returns true if given type id corresponds to an integral type. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceseq_a7b388481b03b0e9394311721d0a775a7}{seq\+::is\+\_\+floating\+\_\+point\+\_\+type}} (int id) noexcept
+\begin{DoxyCompactList}\small\item\em Returns true if given type id corresponds to a floating point type. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceseq_a03dcabc115ead85eb0b230c30e401d20}{seq\+::is\+\_\+arithmetic\+\_\+type}} (int id) noexcept
+\begin{DoxyCompactList}\small\item\em Returns true if given type id corresponds to an arithmetic type (floating point or integral) \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{namespaceseq_a9a0f92caef2894b34d224402ac89c65a}{seq\+::is\+\_\+string\+\_\+type}} (int id) noexcept
+\begin{DoxyCompactList}\small\item\em Returns true if given type id corresponds to a string type (std\+::string, tstring, tstring\+\_\+view or const char$\ast$) \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{namespaceseq_1_1detail_a6abd70fcf8613db7ef84a03fcd3eac52}{seq\+::detail\+::ostream\+\_\+any}} (std\+::ostream \&oss, const void $\ast$in)
+\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{namespaceseq_1_1detail_a177935585942e13bbb30830a6ab6238d}{seq\+::detail\+::istream\+\_\+any}} (std\+::istream \&iss, void $\ast$in)
+\item 
+{\footnotesize template$<$class T , bool Support\+Hash$>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_a6d83dba91cd67c6a52c3d8f1481d85b0}{seq\+::detail\+::hash\+\_\+any}} (const void $\ast$in)
+\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_1_1detail_aa98d8492e7cf261cb8a080e92b6de533}{seq\+::detail\+::compare\+\_\+equal\+\_\+any}} (const void $\ast$a, const void $\ast$b)
+\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_1_1detail_a1277f65f98aeb88c8c540670a60a6ecb}{seq\+::detail\+::compare\+\_\+less\+\_\+any}} (const void $\ast$a, const void $\ast$b)
+\item 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{namespaceseq_1_1detail_a4ad86eafd488ec111a28fd36dbcc5d19}{seq\+::detail\+::format\+\_\+any}} (std\+::string \&out, const void $\ast$in, const width\+\_\+format \&wfmt, const numeric\+\_\+format \&nfmt)
+\item 
+{\footnotesize template$<$class T , class any\+\_\+type\+\_\+info $>$ }\\void \mbox{\hyperlink{namespaceseq_1_1detail_a5727265c32d48e72d18a6f6190b40d4a}{seq\+::detail\+::copy\+\_\+any}} (const any\+\_\+type\+\_\+info $\ast$in\+\_\+p, const void $\ast$in, const any\+\_\+type\+\_\+info $\ast$out\+\_\+p, void $\ast$out\+\_\+storage, unsigned out\+\_\+storage\+\_\+size)
+\item 
+{\footnotesize template$<$class T , class any\+\_\+type\+\_\+info $>$ }\\void \mbox{\hyperlink{namespaceseq_1_1detail_aadadc42324010b84a6053c3491490dea}{seq\+::detail\+::move\+\_\+any}} (const any\+\_\+type\+\_\+info $\ast$in\+\_\+p, void $\ast$in, const any\+\_\+type\+\_\+info $\ast$out\+\_\+p, void $\ast$out\+\_\+storage, unsigned out\+\_\+storage\+\_\+size)
+\item 
+std\+::vector$<$ std\+::vector$<$ std\+::function$<$ void(const void $\ast$, void $\ast$)$>$ $>$ $>$ \& \mbox{\hyperlink{namespaceseq_1_1detail_a2e61bcc223130690fd85c313f0697478}{seq\+::detail\+::get\+\_\+converters}} ()
+\item 
+{\footnotesize template$<$class T , class U $>$ }\\void \mbox{\hyperlink{namespaceseq_1_1detail_a325ffdd8c91778c443c208ab56a3aa8d}{seq\+::detail\+::default\+\_\+convert}} (const void $\ast$in, void $\ast$out)
+\item 
+{\footnotesize template$<$class T , class U , class Fun $>$ }\\void \mbox{\hyperlink{namespaceseq_1_1detail_a63bfbe60a172d1e8eaf464f8611e6119}{seq\+::detail\+::default\+\_\+convert\+\_\+with\+\_\+functor}} (const Fun \&fun, const void $\ast$in, void $\ast$out)
+\item 
+std\+::vector$<$ std\+::vector$<$ std\+::function$<$ bool(const void $\ast$, const void $\ast$)$>$ $>$ $>$ \& \mbox{\hyperlink{namespaceseq_1_1detail_a874caca6ae2d798173198d9e45ba01a4}{seq\+::detail\+::get\+\_\+less\+\_\+comparison}} ()
+\item 
+{\footnotesize template$<$class T , class U $>$ }\\bool \mbox{\hyperlink{namespaceseq_1_1detail_a6bb4dd0d056c5deb94359ca9ebd7f0ed}{seq\+::detail\+::default\+\_\+less\+\_\+comparison}} (const void $\ast$a, const void $\ast$b)
+\item 
+{\footnotesize template$<$class T , class U , class Fun $>$ }\\bool \mbox{\hyperlink{namespaceseq_1_1detail_a2c46b3a759cbe54111f180788aa79740}{seq\+::detail\+::default\+\_\+less\+\_\+comparison\+\_\+with\+\_\+functor}} (const Fun \&fun, const void $\ast$a, const void $\ast$b)
+\item 
+std\+::vector$<$ std\+::vector$<$ std\+::function$<$ bool(const void $\ast$, const void $\ast$)$>$ $>$ $>$ \& \mbox{\hyperlink{namespaceseq_1_1detail_aea2d7fb04e6e6b1cef58c76006757e17}{seq\+::detail\+::get\+\_\+equal\+\_\+comparison}} ()
+\item 
+{\footnotesize template$<$class T , class U $>$ }\\bool \mbox{\hyperlink{namespaceseq_1_1detail_a1ba757574f8505caef849d610bc6da87}{seq\+::detail\+::default\+\_\+equal\+\_\+comparison}} (const void $\ast$a, const void $\ast$b)
+\item 
+{\footnotesize template$<$class T , class U , class Fun $>$ }\\bool \mbox{\hyperlink{namespaceseq_1_1detail_a135122703183ecda78f0272f30005109}{seq\+::detail\+::default\+\_\+equal\+\_\+comparison\+\_\+with\+\_\+functor}} (const Fun \&fun, const void $\ast$a, const void $\ast$b)
+\item 
+{\footnotesize template$<$class T , class U $>$ }\\void \mbox{\hyperlink{namespaceseq_a97851d71ded4c7928aabd76f4280d268}{seq\+::register\+\_\+any\+\_\+conversion}} ()
+\item 
+{\footnotesize template$<$class T , class U , class Fun $>$ }\\void \mbox{\hyperlink{namespaceseq_ad7a515ea06834d35cedd4e4f9c4ba1b0}{seq\+::register\+\_\+any\+\_\+conversion}} (Fun fun)
+\item 
+{\footnotesize template$<$class T , class U $>$ }\\void \mbox{\hyperlink{namespaceseq_ab390e9bf772c9a88f9f48c5bd360d7ed}{seq\+::register\+\_\+any\+\_\+less\+\_\+comparison}} ()
+\item 
+{\footnotesize template$<$class T , class U , class Fun $>$ }\\void \mbox{\hyperlink{namespaceseq_a0b0810417829f24c04037720cfe1cc92}{seq\+::register\+\_\+any\+\_\+less\+\_\+comparison}} (Fun fun)
+\item 
+{\footnotesize template$<$class T , class U $>$ }\\void \mbox{\hyperlink{namespaceseq_adb61336a531e99a11a888883a46d0f01}{seq\+::register\+\_\+any\+\_\+equal\+\_\+comparison}} ()
+\item 
+{\footnotesize template$<$class T , class U , class Fun $>$ }\\void \mbox{\hyperlink{namespaceseq_aaa783de724c82de2264d98a3437294df}{seq\+::register\+\_\+any\+\_\+equal\+\_\+comparison}} (Fun fun)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_ab16afe94ff6844ae0e6a3a03b4aaca97}{seq\+::operator==}} (const hold\+\_\+any$<$ Interface, S, A $>$ \&a, const T \&b)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_a754af04dbc50b9221ab643cb662472cc}{seq\+::operator==}} (const T \&b, const hold\+\_\+any$<$ Interface, S, A $>$ \&a)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_ad0c63e362da26d374ed74adbcf3f6d27}{seq\+::operator!=}} (const hold\+\_\+any$<$ Interface, S, A $>$ \&a, const T \&b)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_aee04bc042e8f3ab7de2fcd2043b83e7c}{seq\+::operator!=}} (const T \&b, const hold\+\_\+any$<$ Interface, S, A $>$ \&a)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_a7818cfce7c07b43a84c5cd16027c6e27}{seq\+::operator$<$}} (const hold\+\_\+any$<$ Interface, S, A $>$ \&a, const T \&b)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_acd2d68d1bbe2979f2be27051a9190bc2}{seq\+::operator$>$}} (const hold\+\_\+any$<$ Interface, S, A $>$ \&a, const T \&b)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_add444378c72974b32b72ab9740801e30}{seq\+::operator$<$=}} (const hold\+\_\+any$<$ Interface, S, A $>$ \&a, const T \&b)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_af627534627450a46af42eae32dbac9d6}{seq\+::operator$>$=}} (const hold\+\_\+any$<$ Interface, S, A $>$ \&a, const T \&b)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_a684e5860e1daf02e4d92177ab58d7e47}{seq\+::operator$<$}} (const T \&a, const hold\+\_\+any$<$ Interface, S, A $>$ \&b)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_a29745acf13b1dd0c436e7fb11d39ddad}{seq\+::operator$>$}} (const T \&a, const hold\+\_\+any$<$ Interface, S, A $>$ \&b)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_aecee5def0e45356420fe839d4492d515}{seq\+::operator$<$=}} (const T \&a, const hold\+\_\+any$<$ Interface, S, A $>$ \&b)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A, class T $>$ }\\bool \mbox{\hyperlink{namespaceseq_a400d2d1d88be73ebe1ad7548c7242ee4}{seq\+::operator$>$=}} (const T \&a, const hold\+\_\+any$<$ Interface, S, A $>$ \&b)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A$>$ }\\std\+::ostream \& \mbox{\hyperlink{namespaceseq_a48d82e80de97f55662208a343727653f}{seq\+::operator$<$$<$}} (std\+::ostream \&oss, const hold\+\_\+any$<$ Interface, S, A $>$ \&a)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A$>$ }\\std\+::istream \& \mbox{\hyperlink{namespaceseq_a368335418326de8bb38c9fba7642c027}{seq\+::operator$>$$>$}} (std\+::istream \&iss, hold\+\_\+any$<$ Interface, S, A $>$ \&a)
+\item 
+{\footnotesize template$<$class T , class Interface , size\+\_\+t S, size\+\_\+t A$>$ }\\T \mbox{\hyperlink{namespaceseq_a6b963eb589bb722310da16e78278c62e}{seq\+::any\+\_\+cast}} (const hold\+\_\+any$<$ Interface, S, A $>$ \&operand)
+\item 
+{\footnotesize template$<$class T , class Interface , size\+\_\+t S, size\+\_\+t A$>$ }\\T \mbox{\hyperlink{namespaceseq_accce8085ad2ebc8f3a73a876be03650c}{seq\+::any\+\_\+cast}} (hold\+\_\+any$<$ Interface, S, A $>$ \&operand)
+\item 
+{\footnotesize template$<$class T , class Interface , size\+\_\+t S, size\+\_\+t A$>$ }\\const T $\ast$ \mbox{\hyperlink{namespaceseq_aacd7538cfa09fb8edf2f4fee4bdb6d8e}{seq\+::any\+\_\+cast}} (const hold\+\_\+any$<$ Interface, S, A $>$ $\ast$operand) noexcept
+\item 
+{\footnotesize template$<$class T , class Interface , size\+\_\+t S, size\+\_\+t A$>$ }\\T $\ast$ \mbox{\hyperlink{namespaceseq_adf7e59237b8c383ec6b7eb422e20ef6e}{seq\+::any\+\_\+cast}} (hold\+\_\+any$<$ Interface, S, A $>$ $\ast$operand) noexcept
+\item 
+{\footnotesize template$<$class Any , class T , class... Args$>$ }\\Any \mbox{\hyperlink{namespaceseq_a413a264358b2b20fcf4388023a0e1f8d}{seq\+::make\+\_\+any}} (Args \&\&... args)
+\item 
+{\footnotesize template$<$class Any , class T , class U , class... Args$>$ }\\Any \mbox{\hyperlink{namespaceseq_aa604c9a7d58c994a56ff6e0ce62e7bd7}{seq\+::make\+\_\+any}} (std\+::initializer\+\_\+list$<$ U $>$ il, Args \&\&... args)
+\item 
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A$>$ }\\void \mbox{\hyperlink{namespacestd_aaf08cfda3929fe6011b95a314db90da1}{std\+::swap}} (hold\+\_\+any$<$ Interface, S, A $>$ \&a, hold\+\_\+any$<$ Interface, S, A $>$ \&b)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{any_8hpp_a520345ba4d5ef1497bb909b68db9a40d}\label{any_8hpp_a520345ba4d5ef1497bb909b68db9a40d}} 
+\index{any.hpp@{any.hpp}!SEQ\_ANY\_FREE@{SEQ\_ANY\_FREE}}
+\index{SEQ\_ANY\_FREE@{SEQ\_ANY\_FREE}!any.hpp@{any.hpp}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ANY\_FREE}{SEQ\_ANY\_FREE}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+A\+N\+Y\+\_\+\+F\+R\+EE~free}
+
+\mbox{\Hypertarget{any_8hpp_a9dd8b331e651b5ee46e95c268b7dcfb2}\label{any_8hpp_a9dd8b331e651b5ee46e95c268b7dcfb2}} 
+\index{any.hpp@{any.hpp}!SEQ\_ANY\_MALLOC@{SEQ\_ANY\_MALLOC}}
+\index{SEQ\_ANY\_MALLOC@{SEQ\_ANY\_MALLOC}!any.hpp@{any.hpp}}
+\doxysubsubsection{\texorpdfstring{SEQ\_ANY\_MALLOC}{SEQ\_ANY\_MALLOC}}
+{\footnotesize\ttfamily \#define S\+E\+Q\+\_\+\+A\+N\+Y\+\_\+\+M\+A\+L\+L\+OC~malloc}
+

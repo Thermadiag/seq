@@ -1,0 +1,151 @@
+\hypertarget{structfix__block}{}\doxysection{fix\+\_\+block$<$ T, Align, Max\+Objects\+Allocation, Max\+Objects $>$ Struct Template Reference}
+\label{structfix__block}\index{fix\_block$<$ T, Align, MaxObjectsAllocation, MaxObjects $>$@{fix\_block$<$ T, Align, MaxObjectsAllocation, MaxObjects $>$}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structfix__block_1_1_obj}{Obj}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structfix__block_a8c5495747217e77022b35e296fc3c606}\label{structfix__block_a8c5495747217e77022b35e296fc3c606}} 
+using {\bfseries chunk\+\_\+it} = \mbox{\hyperlink{structfix__block__it}{fix\+\_\+block\+\_\+it}}$<$ T, Align, Max\+Objects\+Allocation, Max\+Objects $>$
+\item 
+\mbox{\Hypertarget{structfix__block_a8c5495747217e77022b35e296fc3c606}\label{structfix__block_a8c5495747217e77022b35e296fc3c606}} 
+using {\bfseries chunk\+\_\+it} = \mbox{\hyperlink{structfix__block__it}{fix\+\_\+block\+\_\+it}}$<$ T, Align, Max\+Objects\+Allocation, Max\+Objects $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structfix__block_afd8fb2b977a7693aaa3de74b3f868eb3}\label{structfix__block_afd8fb2b977a7693aaa3de74b3f868eb3}} 
+void {\bfseries init} (void $\ast$parent, size\+\_\+t objects\+\_\+allocation) noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_a89aed4f0f1323256a17f5377d4ecfe80}\label{structfix__block_a89aed4f0f1323256a17f5377d4ecfe80}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE char $\ast$ {\bfseries get\+\_\+next} (void $\ast$p) const noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_ae96516c4d374b3c8fa952da209f3b371}\label{structfix__block_ae96516c4d374b3c8fa952da209f3b371}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries set\+\_\+next} (void $\ast$p, void $\ast$next) noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_af2676af68dc78759e34ebeb140a16b94}\label{structfix__block_af2676af68dc78759e34ebeb140a16b94}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries remove} () noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_af49c045476b9cb25cbdd30724f3aab79}\label{structfix__block_af49c045476b9cb25cbdd30724f3aab79}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries insert} (\mbox{\hyperlink{structfix__block}{fix\+\_\+block}} $\ast$p, \mbox{\hyperlink{structfix__block}{fix\+\_\+block}} $\ast$n)
+\item 
+\mbox{\Hypertarget{structfix__block_a2912e2ded19feb02f59f8f28a25b8020}\label{structfix__block_a2912e2ded19feb02f59f8f28a25b8020}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+full} () const noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_aca18fc89880f307b8eda1006f6a24692}\label{structfix__block_aca18fc89880f307b8eda1006f6a24692}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+empty} () const noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_ad50f4830d4ca67e1ec4fbe2b51577492}\label{structfix__block_ad50f4830d4ca67e1ec4fbe2b51577492}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+inside} (void $\ast$ptr) noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_af371af28e085fa95b0959657f56d48cb}\label{structfix__block_af371af28e085fa95b0959657f56d48cb}} 
+void $\ast$ {\bfseries allocate\+\_\+from\+\_\+first\+\_\+free} ()
+\item 
+\mbox{\Hypertarget{structfix__block_af86f437abdf57457a4d0070200da8f09}\label{structfix__block_af86f437abdf57457a4d0070200da8f09}} 
+void $\ast$ {\bfseries allocate\+\_\+from\+\_\+tail} ()
+\item 
+\mbox{\Hypertarget{structfix__block_a6d7a78c16863df93c9a32480e0e2cd2c}\label{structfix__block_a6d7a78c16863df93c9a32480e0e2cd2c}} 
+void $\ast$ {\bfseries allocate} ()
+\item 
+\mbox{\Hypertarget{structfix__block_ac321f3ca2f2856b8220adcd525475858}\label{structfix__block_ac321f3ca2f2856b8220adcd525475858}} 
+void {\bfseries deallocate} (void $\ast$ptr)
+\item 
+\mbox{\Hypertarget{structfix__block_afd8fb2b977a7693aaa3de74b3f868eb3}\label{structfix__block_afd8fb2b977a7693aaa3de74b3f868eb3}} 
+void {\bfseries init} (void $\ast$parent, size\+\_\+t objects\+\_\+allocation) noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_a89aed4f0f1323256a17f5377d4ecfe80}\label{structfix__block_a89aed4f0f1323256a17f5377d4ecfe80}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE char $\ast$ {\bfseries get\+\_\+next} (void $\ast$p) const noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_ae96516c4d374b3c8fa952da209f3b371}\label{structfix__block_ae96516c4d374b3c8fa952da209f3b371}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries set\+\_\+next} (void $\ast$p, void $\ast$next) noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_af2676af68dc78759e34ebeb140a16b94}\label{structfix__block_af2676af68dc78759e34ebeb140a16b94}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries remove} () noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_af49c045476b9cb25cbdd30724f3aab79}\label{structfix__block_af49c045476b9cb25cbdd30724f3aab79}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE void {\bfseries insert} (\mbox{\hyperlink{structfix__block}{fix\+\_\+block}} $\ast$p, \mbox{\hyperlink{structfix__block}{fix\+\_\+block}} $\ast$n)
+\item 
+\mbox{\Hypertarget{structfix__block_a2912e2ded19feb02f59f8f28a25b8020}\label{structfix__block_a2912e2ded19feb02f59f8f28a25b8020}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+full} () const noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_aca18fc89880f307b8eda1006f6a24692}\label{structfix__block_aca18fc89880f307b8eda1006f6a24692}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+empty} () const noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_ad50f4830d4ca67e1ec4fbe2b51577492}\label{structfix__block_ad50f4830d4ca67e1ec4fbe2b51577492}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+inside} (void $\ast$ptr) noexcept
+\item 
+\mbox{\Hypertarget{structfix__block_af371af28e085fa95b0959657f56d48cb}\label{structfix__block_af371af28e085fa95b0959657f56d48cb}} 
+void $\ast$ {\bfseries allocate\+\_\+from\+\_\+first\+\_\+free} ()
+\item 
+\mbox{\Hypertarget{structfix__block_af86f437abdf57457a4d0070200da8f09}\label{structfix__block_af86f437abdf57457a4d0070200da8f09}} 
+void $\ast$ {\bfseries allocate\+\_\+from\+\_\+tail} ()
+\item 
+\mbox{\Hypertarget{structfix__block_a6d7a78c16863df93c9a32480e0e2cd2c}\label{structfix__block_a6d7a78c16863df93c9a32480e0e2cd2c}} 
+void $\ast$ {\bfseries allocate} ()
+\item 
+\mbox{\Hypertarget{structfix__block_ac321f3ca2f2856b8220adcd525475858}\label{structfix__block_ac321f3ca2f2856b8220adcd525475858}} 
+void {\bfseries deallocate} (void $\ast$ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structfix__block_ad48de79739f10ce4649d542e194e3c18}\label{structfix__block_ad48de79739f10ce4649d542e194e3c18}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structfix__block}{fix\+\_\+block}} $\ast$ {\bfseries parent} (void $\ast$ptr)
+\item 
+\mbox{\Hypertarget{structfix__block_ad48de79739f10ce4649d542e194e3c18}\label{structfix__block_ad48de79739f10ce4649d542e194e3c18}} 
+static I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE \mbox{\hyperlink{structfix__block}{fix\+\_\+block}} $\ast$ {\bfseries parent} (void $\ast$ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structfix__block_a11d4f246e324fc7d7bd09059167e42e2}\label{structfix__block_a11d4f246e324fc7d7bd09059167e42e2}} 
+void $\ast$ {\bfseries parent\+\_\+pool}
+\item 
+\mbox{\Hypertarget{structfix__block_a9aa163946d65927305f7fa538e737f44}\label{structfix__block_a9aa163946d65927305f7fa538e737f44}} 
+void $\ast$ {\bfseries first\+\_\+free}
+\item 
+\mbox{\Hypertarget{structfix__block_a7de3d25a8737209fff9982819f83897d}\label{structfix__block_a7de3d25a8737209fff9982819f83897d}} 
+unsigned {\bfseries tail}
+\item 
+\mbox{\Hypertarget{structfix__block_ae876c4da265c05a4aee771d1a1322f34}\label{structfix__block_ae876c4da265c05a4aee771d1a1322f34}} 
+unsigned {\bfseries count}
+\item 
+\mbox{\Hypertarget{structfix__block_ab4a1c726e82ea8937f2a7f7aad4b782d}\label{structfix__block_ab4a1c726e82ea8937f2a7f7aad4b782d}} 
+unsigned {\bfseries used}
+\item 
+\mbox{\Hypertarget{structfix__block_ae4bdc39fa40d82e635435eeadd616199}\label{structfix__block_ae4bdc39fa40d82e635435eeadd616199}} 
+unsigned short {\bfseries step\+\_\+size}
+\item 
+\mbox{\Hypertarget{structfix__block_abdb1e94dcb5e96c126f95a130167e7b2}\label{structfix__block_abdb1e94dcb5e96c126f95a130167e7b2}} 
+unsigned short {\bfseries objects\+\_\+allocation}
+\item 
+\mbox{\Hypertarget{structfix__block_a0516d111f5551315e7c4e5da9a95fa72}\label{structfix__block_a0516d111f5551315e7c4e5da9a95fa72}} 
+\mbox{\hyperlink{structfix__block_1_1_obj}{Obj}} {\bfseries chunk} \mbox{[}Max\+Objects\mbox{]}
+\item 
+\mbox{\Hypertarget{structfix__block_af78909fee24493546723056fcfffd488}\label{structfix__block_af78909fee24493546723056fcfffd488}} 
+block\+\_\+type $\ast$ {\bfseries prev}
+\item 
+\mbox{\Hypertarget{structfix__block_a9cf01b252a42592a4bd67c1a0d515b2a}\label{structfix__block_a9cf01b252a42592a4bd67c1a0d515b2a}} 
+block\+\_\+type $\ast$ {\bfseries next}
+\item 
+\mbox{\Hypertarget{structfix__block_af78909fee24493546723056fcfffd488}\label{structfix__block_af78909fee24493546723056fcfffd488}} 
+block\+\_\+type $\ast$ {\bfseries prev}
+\item 
+\mbox{\Hypertarget{structfix__block_a9cf01b252a42592a4bd67c1a0d515b2a}\label{structfix__block_a9cf01b252a42592a4bd67c1a0d515b2a}} 
+block\+\_\+type $\ast$ {\bfseries next}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structfix__block_ae093357d2e7a5eb6383a8dae12718963}\label{structfix__block_ae093357d2e7a5eb6383a8dae12718963}} 
+static const size\+\_\+t {\bfseries elem\+\_\+size} = (sizeof(T) $<$= Align ? Align \+: (sizeof(T) \% Align ? ((sizeof(T) / Align + 1) $\ast$ Align) \+: (sizeof(T))))
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+memory -\/ Copie.\+hpp\item 
+memory.\+hpp\end{DoxyCompactItemize}

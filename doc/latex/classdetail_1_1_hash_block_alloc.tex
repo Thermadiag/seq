@@ -1,0 +1,65 @@
+\hypertarget{classdetail_1_1_hash_block_alloc}{}\doxysection{detail\+::Hash\+Block\+Alloc$<$ T, Allocator $>$ Class Template Reference}
+\label{classdetail_1_1_hash_block_alloc}\index{detail::HashBlockAlloc$<$ T, Allocator $>$@{detail::HashBlockAlloc$<$ T, Allocator $>$}}
+
+
+{\ttfamily \#include $<$hash\+\_\+block.\+hpp$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_ad1af60f436dec726800ba936f441cffb}\label{classdetail_1_1_hash_block_alloc_ad1af60f436dec726800ba936f441cffb}} 
+{\bfseries Hash\+Block\+Alloc} (const Allocator \&alloc) noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a3fae77e2bd71bedb572a0d78b9bc4a5b}\label{classdetail_1_1_hash_block_alloc_a3fae77e2bd71bedb572a0d78b9bc4a5b}} 
+{\bfseries Hash\+Block\+Alloc} (size\+\_\+t elem\+\_\+count)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_ac82c87fee71c1cf6e3f924fcf4260791}\label{classdetail_1_1_hash_block_alloc_ac82c87fee71c1cf6e3f924fcf4260791}} 
+{\bfseries Hash\+Block\+Alloc} (size\+\_\+t elem\+\_\+count, const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a3e5c461cbcbba8b93ed3a52b7c831c0d}\label{classdetail_1_1_hash_block_alloc_a3e5c461cbcbba8b93ed3a52b7c831c0d}} 
+{\bfseries Hash\+Block\+Alloc} (\mbox{\hyperlink{classdetail_1_1_hash_block_alloc}{Hash\+Block\+Alloc}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a94137b17fd58803b8da2bf6b4eb6fbe5}\label{classdetail_1_1_hash_block_alloc_a94137b17fd58803b8da2bf6b4eb6fbe5}} 
+{\bfseries Hash\+Block\+Alloc} (\mbox{\hyperlink{classdetail_1_1_hash_block_alloc}{Hash\+Block\+Alloc}} \&\&other, const Allocator \&alloc) noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a021ba87e8f084c538b08a3165d04c4fd}\label{classdetail_1_1_hash_block_alloc_a021ba87e8f084c538b08a3165d04c4fd}} 
+{\bfseries Hash\+Block\+Alloc} (const \mbox{\hyperlink{classdetail_1_1_hash_block_alloc}{Hash\+Block\+Alloc}} \&)=delete
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a81a17ad54909ed9a4b61b547478f0041}\label{classdetail_1_1_hash_block_alloc_a81a17ad54909ed9a4b61b547478f0041}} 
+\mbox{\hyperlink{classdetail_1_1_hash_block_alloc}{Hash\+Block\+Alloc}} \& {\bfseries operator=} (const \mbox{\hyperlink{classdetail_1_1_hash_block_alloc}{Hash\+Block\+Alloc}} \&)=delete
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a7ea8546be4dc88351e7fde460ff55b55}\label{classdetail_1_1_hash_block_alloc_a7ea8546be4dc88351e7fde460ff55b55}} 
+\mbox{\hyperlink{classdetail_1_1_hash_block_alloc}{Hash\+Block\+Alloc}} \& {\bfseries operator=} (\mbox{\hyperlink{classdetail_1_1_hash_block_alloc}{Hash\+Block\+Alloc}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a3a6e7bbf182a52a43285a0e3e923de54}\label{classdetail_1_1_hash_block_alloc_a3a6e7bbf182a52a43285a0e3e923de54}} 
+const Allocator \& {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a1d20a3943e022a241b1dc35a0656fe70}\label{classdetail_1_1_hash_block_alloc_a1d20a3943e022a241b1dc35a0656fe70}} 
+Allocator \& {\bfseries get\+\_\+allocator} () noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a7787f2c1ecf9af5f59bcbd61506e5ce1}\label{classdetail_1_1_hash_block_alloc_a7787f2c1ecf9af5f59bcbd61506e5ce1}} 
+std\+::size\+\_\+t {\bfseries free\+\_\+count} () const noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a51639b8d8a3c34b7dd4904f2ab01b0bd}\label{classdetail_1_1_hash_block_alloc_a51639b8d8a3c34b7dd4904f2ab01b0bd}} 
+std\+::size\+\_\+t {\bfseries memory\+\_\+footprint} () const noexcept
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a342b51a91e0739615f9de4e645dcc61d}\label{classdetail_1_1_hash_block_alloc_a342b51a91e0739615f9de4e645dcc61d}} 
+void {\bfseries resize} (std\+::size\+\_\+t count)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_aaacab3acfdce31e14d9c7917ac8b9539}\label{classdetail_1_1_hash_block_alloc_aaacab3acfdce31e14d9c7917ac8b9539}} 
+T $\ast$ {\bfseries allocate} (size\+\_\+t Count)
+\item 
+\mbox{\Hypertarget{classdetail_1_1_hash_block_alloc_a0fdf69d875f078daa3b490c8c3b91226}\label{classdetail_1_1_hash_block_alloc_a0fdf69d875f078daa3b490c8c3b91226}} 
+void {\bfseries deallocate} (T $\ast$ptr, size\+\_\+t Count)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator = std\+::allocator$<$\+T$>$$>$\newline
+class detail\+::\+Hash\+Block\+Alloc$<$ T, Allocator $>$}
+
+Class used to allocate/deallocate T objects by block of 8, 16, 24, 32 or 64 elements. Internally uses a list of growing \mbox{\hyperlink{structdetail_1_1_hash_block}{Hash\+Block}} objects. Uses the global G\+R\+O\+W\+\_\+\+F\+A\+C\+T\+OR value 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+hash\+\_\+block.\+hpp\end{DoxyCompactItemize}

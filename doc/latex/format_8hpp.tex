@@ -1,0 +1,146 @@
+\hypertarget{format_8hpp}{}\doxysection{seq/format.hpp File Reference}
+\label{format_8hpp}\index{seq/format.hpp@{seq/format.hpp}}
+{\ttfamily \#include \char`\"{}charconv.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$tuple$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1null__format}{seq\+::null\+\_\+format}}
+\begin{DoxyCompactList}\small\item\em Placehoder when reusing a formatting object. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1width__format}{seq\+::width\+\_\+format}}
+\begin{DoxyCompactList}\small\item\em Class representing the width formatting for a any formatting object. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_append_helper}{seq\+::detail\+::\+Append\+Helper$<$ Ostream, Is\+Arithmetic $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_append_helper_3_01_ostream_00_01true_01_4}{seq\+::detail\+::\+Append\+Helper$<$ Ostream, true $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1is__fmt__basic__type}{seq\+::detail\+::is\+\_\+fmt\+\_\+basic\+\_\+type$<$ T, Is\+Basic\+Type $>$}}
+\begin{DoxyCompactList}\small\item\em Tells if T is one of format library basic type (arithmetic or tstring\+\_\+view types) \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_value_holder}{seq\+::detail\+::\+Value\+Holder$<$ T, Is\+Basic\+Type $>$}}
+\begin{DoxyCompactList}\small\item\em Hold a value (basic type) or a const pointer (complex types) \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_value_holder_3_01_t_00_01false_01_4}{seq\+::detail\+::\+Value\+Holder$<$ T, false $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1numeric__format}{seq\+::numeric\+\_\+format}}
+\begin{DoxyCompactList}\small\item\em Formatting options for arithmetic types. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format$<$ T, Derived $>$}}
+\begin{DoxyCompactList}\small\item\em Base class for formatting objects. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_ostream_to_string}{seq\+::detail\+::\+Ostream\+To\+String$<$ T, Is\+Integral, Is\+Float, Is\+String, Is\+Streamable $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_ostream_to_string_3_01_t_00_01false_00_01false_00_01false_00_01false_01_4}{seq\+::detail\+::\+Ostream\+To\+String$<$ T, false, false, false, false $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_ostream_to_string_3_01_t_00_01false_00_01false_00_01true_00_01true_01_4}{seq\+::detail\+::\+Ostream\+To\+String$<$ T, false, false, true, true $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_ostream_to_string_3_01_t_00_01true_00_01false_00_01false_00_01true_01_4}{seq\+::detail\+::\+Ostream\+To\+String$<$ T, true, false, false, true $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_ostream_to_string_3_01_t_00_01false_00_01true_00_01false_00_01true_01_4}{seq\+::detail\+::\+Ostream\+To\+String$<$ T, false, true, false, true $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1detail_1_1is__default__formattable}{seq\+::detail\+::is\+\_\+default\+\_\+formattable$<$ T, Ostream $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\+format$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Number and string formatting class. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classseq_1_1ostream__format_3_01ostream__format_3_01_t_01_4_01_4}{seq\+::ostream\+\_\+format$<$ ostream\+\_\+format$<$ T $>$ $>$}}
+\begin{DoxyCompactList}\small\item\em Nested \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper}{seq\+::detail\+::\+Format\+Wrapper$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01const_01_t_01_6_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ const T \& $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01_t_01_6_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ T \& $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01ostream__format_3_01_t_01_4_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ ostream\+\_\+format$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01const_01ostream__format_3_01_t_01_4_01_6_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ const ostream\+\_\+format$<$ T $>$ \& $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01ostream__format_3_01_t_01_4_01_6_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ ostream\+\_\+format$<$ T $>$ \& $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01char_01_5_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ char $\ast$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01const_01char_01_5_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ const char $\ast$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01std_1_1string_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ std\+::string $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01tiny__string_3_01_s_00_01_alloc_01_4_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ tiny\+\_\+string$<$ S, Alloc $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01char_0f_n_0e_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ char\mbox{[}\+N\mbox{]} $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01const_01char_0f_n_0e_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ const char\mbox{[}\+N\mbox{]} $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_format_wrapper_3_01char_01const_07_6_08_0f_n_0e_01_4}{seq\+::detail\+::\+Format\+Wrapper$<$ char const(\&)\mbox{[}\+N\mbox{]} $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1apply__wrapper}{seq\+::detail\+::apply\+\_\+wrapper$<$ Element $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1metafunction_1_1transform__elements}{seq\+::detail\+::metafunction\+::transform\+\_\+elements$<$ Tuple, Function $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1metafunction_1_1transform__elements_3_01std_1_1tuple_3_01_elements_8_8_8_f52f81a94209b4407572bca94eb3784a}{seq\+::detail\+::metafunction\+::transform\+\_\+elements$<$ std\+::tuple$<$ Elements... $>$, Unary\+Meta\+Function $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_converter}{seq\+::detail\+::\+Converter$<$ Tuple, N $>$}}
+\begin{DoxyCompactList}\small\item\em Convert a tuple of \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}} to string. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_converter_3_01_tuple_00_010_01_4}{seq\+::detail\+::\+Converter$<$ Tuple, 0 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_to_ostream}{seq\+::detail\+::\+To\+Ostream$<$ Tuple, N $>$}}
+\begin{DoxyCompactList}\small\item\em Write tuple of \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}} to string. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_to_ostream_3_01_tuple_00_010_01_4}{seq\+::detail\+::\+To\+Ostream$<$ Tuple, 0 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_affect_values}{seq\+::detail\+::\+Affect\+Values$<$ Tuple, N $>$}}
+\begin{DoxyCompactList}\small\item\em Affect new values to all members of a tuple of \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}} objects. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_affect_values_3_01_tuple_00_010_01_4}{seq\+::detail\+::\+Affect\+Values$<$ Tuple, 0 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_get_p}{seq\+::detail\+::\+Get\+P$<$ N, T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_get_p_3_01_n_00_01_t1_00_01_ts_8_8_8_01_4}{seq\+::detail\+::\+Get\+P$<$ N, T1, Ts... $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_get_p_3_010_00_01_t_00_01_ts_8_8_8_01_4}{seq\+::detail\+::\+Get\+P$<$ 0, T, Ts... $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_positional}{seq\+::detail\+::\+Positional$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Positinal type returned by \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{seq\+::pos()}} function. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_positional_1_1get}{seq\+::detail\+::\+Positional$<$ T $>$\+::get$<$ Pos $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_affect_values_with_pos}{seq\+::detail\+::\+Affect\+Values\+With\+Pos$<$ Pos, Tuple, N $>$}}
+\begin{DoxyCompactList}\small\item\em Affect new values to all members of a tuple of \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}} objects. Use a \mbox{\hyperlink{structseq_1_1detail_1_1_positional}{Positional}} object to only updated some members of the tuple. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_affect_values_with_pos_3_01_pos_00_01_tuple_00_010_01_4}{seq\+::detail\+::\+Affect\+Values\+With\+Pos$<$ Pos, Tuple, 0 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1mutli__ostream__format}{seq\+::detail\+::mutli\+\_\+ostream\+\_\+format$<$ Tuple, Pos $>$}}
+\begin{DoxyCompactList}\small\item\em Formatting class for multiple values, returned by seq\+::fmt(... , ...). \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1mutli__ostream__format_3_01_tuple_00_01_positional_3_01_ts_8_8_8_01_4_01_4}{seq\+::detail\+::mutli\+\_\+ostream\+\_\+format$<$ Tuple, Positional$<$ Ts... $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_build_format}{seq\+::detail\+::\+Build\+Format$<$ N\+Args, Pos, Args $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_build_format_3_011_00_01void_00_01_args_8_8_8_01_4}{seq\+::detail\+::\+Build\+Format$<$ 1, void, Args... $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__formattable}{seq\+::is\+\_\+formattable$<$ T $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail}{seq\+::detail}}
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits in {\itshape value}. \end{DoxyCompactList}\item 
+ \mbox{\hyperlink{namespacestd}{std}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail_1_1metafunction}{seq\+::detail\+::metafunction}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class Meta\+Function $>$ }\\using \mbox{\hyperlink{namespaceseq_1_1detail_1_1metafunction_aa19b1a949c3c295ec273f26e5d21d84a}{seq\+::detail\+::metafunction\+::result\+\_\+of}} = typename Meta\+Function\+::result
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespaceseq_1_1detail_a2bb8d16cefeca8b3707c5694645997e6}{seq\+::detail\+::\+Format\+Flags}} \{ \mbox{\hyperlink{namespaceseq_1_1detail_a2bb8d16cefeca8b3707c5694645997e6a3c6d625e85b0f4d866ab4b64735d34be}{seq\+::detail\+::f\+\_\+upper}} = 64, 
+\mbox{\hyperlink{namespaceseq_1_1detail_a2bb8d16cefeca8b3707c5694645997e6a8f4ea025b504ecd337743701bf960b4e}{seq\+::detail\+::f\+\_\+prefix}} = 128
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$size\+\_\+t... Ts$>$ }\\detail\+::\+Positional$<$ Ts... $>$ \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{seq\+::pos}} ()
+\begin{DoxyCompactList}\small\item\em Returns a positional object used either by \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt()}} or operator() of formatting object. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class ... Args$>$ }\\auto \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}} (Args \&\&... args) -\/$>$ typename detail\+::\+Build\+Format$<$ sizeof...(Args), void, Args... $>$\+::return\+\_\+type
+\item 
+{\footnotesize template$<$size\+\_\+t ... Ts, class ... Args$>$ }\\auto \mbox{\hyperlink{namespaceseq_a50efcf02fb38933039611940d459ae10}{seq\+::fmt}} (detail\+::\+Positional$<$ Ts... $>$, Args \&\&... args) -\/$>$ typename detail\+::\+Build\+Format$<$ sizeof...(Args), detail\+::\+Positional$<$ Ts... $>$, Args... $>$\+::return\+\_\+type
+\item 
+{\footnotesize template$<$class ... Args$>$ }\\auto \mbox{\hyperlink{namespaceseq_a1c7f5113ac0f03f720b3a5cf96c20550}{seq\+::fmt}} () -\/$>$ typename detail\+::\+Build\+Format$<$ sizeof...(Args), void, Args... $>$\+::return\+\_\+type
+\end{DoxyCompactItemize}

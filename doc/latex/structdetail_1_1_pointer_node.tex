@@ -1,0 +1,61 @@
+\hypertarget{structdetail_1_1_pointer_node}{}\doxysection{detail\+::Pointer\+Node$<$ T $>$ Struct Template Reference}
+\label{structdetail_1_1_pointer_node}\index{detail::PointerNode$<$ T $>$@{detail::PointerNode$<$ T $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_aec0ceee289751bcd11602172b5d19b80}\label{structdetail_1_1_pointer_node_aec0ceee289751bcd11602172b5d19b80}} 
+typedef std\+::uint8\+\_\+t {\bfseries tiny\+\_\+hash}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_a2f2929ec6b423ddbb0ce0ae18833a2f9}\label{structdetail_1_1_pointer_node_a2f2929ec6b423ddbb0ce0ae18833a2f9}} 
+typedef char $\ast$ {\bfseries store\+\_\+type}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_a5666d90a7af07aa5af3c2e345683631e}\label{structdetail_1_1_pointer_node_a5666d90a7af07aa5af3c2e345683631e}} 
+{\bfseries Pointer\+Node} (T $\ast$p, tiny\+\_\+hash h)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_a88b560047a632bd7eb6b58a196a4c73c}\label{structdetail_1_1_pointer_node_a88b560047a632bd7eb6b58a196a4c73c}} 
+T $\ast$ {\bfseries ptr} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_a8e3c440ff9a87f30a1992f4e593e1623}\label{structdetail_1_1_pointer_node_a8e3c440ff9a87f30a1992f4e593e1623}} 
+const T $\ast$ {\bfseries ptr} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_ac964c7f26a9bcfc7227269e992edefa8}\label{structdetail_1_1_pointer_node_ac964c7f26a9bcfc7227269e992edefa8}} 
+void {\bfseries set\+\_\+ptr} (T $\ast$p)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_a50486da3850fd2161918113c55b3e37d}\label{structdetail_1_1_pointer_node_a50486da3850fd2161918113c55b3e37d}} 
+void {\bfseries set\+\_\+hash} (tiny\+\_\+hash h)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_a749bc7ff4bd9a37ec1623ce4f0b6c51c}\label{structdetail_1_1_pointer_node_a749bc7ff4bd9a37ec1623ce4f0b6c51c}} 
+tiny\+\_\+hash {\bfseries hash} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_a46131892ab86fd568946248759ff0e54}\label{structdetail_1_1_pointer_node_a46131892ab86fd568946248759ff0e54}} 
+T \& {\bfseries value} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_ae6b0644e36db1adffb626fa58e364431}\label{structdetail_1_1_pointer_node_ae6b0644e36db1adffb626fa58e364431}} 
+const T \& {\bfseries value} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_a75566e9093283ef7c2c19b32b534c68b}\label{structdetail_1_1_pointer_node_a75566e9093283ef7c2c19b32b534c68b}} 
+{\footnotesize template$<$class Hasher $>$ }\\I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE size\+\_\+t {\bfseries get\+\_\+hash} (const \mbox{\hyperlink{struct_hasher}{Hasher}} \&hasher) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_a21869f616a902b1ee47b10102f8e16f4}\label{structdetail_1_1_pointer_node_a21869f616a902b1ee47b10102f8e16f4}} 
+{\footnotesize template$<$class U , class Equal $>$ }\\bool {\bfseries compare} (const U \&value, const Equal \&eq, tiny\+\_\+hash h) const noexcept
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_a9581fffe3080053481f7d7f7d8e26080}\label{structdetail_1_1_pointer_node_a9581fffe3080053481f7d7f7d8e26080}} 
+static tiny\+\_\+hash {\bfseries small\+\_\+hash} (size\+\_\+t h)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_pointer_node_a0522f8309441883479409676045e62ce}\label{structdetail_1_1_pointer_node_a0522f8309441883479409676045e62ce}} 
+char {\bfseries storage} \mbox{[}sizeof(void $\ast$)+1\mbox{]}
+\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sparse\+\_\+hash -\/with smart rehash.\+hpp\end{DoxyCompactItemize}

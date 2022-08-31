@@ -1,0 +1,999 @@
+\hypertarget{structdetail_1_1_circular_buffer}{}\doxysection{detail\+::Circular\+Buffer$<$ T, Allocator $>$ Struct Template Reference}
+\label{structdetail_1_1_circular_buffer}\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+
+
+{\ttfamily \#include $<$deque2\+\_\+union.\+hpp$>$}
+
+
+
+Inherits \mbox{\hyperlink{structdetail_1_1_base_circular_buffer}{detail\+::\+Base\+Circular\+Buffer$<$ T, Allocator $>$}}.
+
+
+
+Inherited by \mbox{\hyperlink{structdetail_1_1_circular_front_buffer}{detail\+::\+Circular\+Front\+Buffer$<$ T, Allocator $>$}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_afa70d049f3990e311894bc0f20b3a39b}\label{structdetail_1_1_circular_buffer_afa70d049f3990e311894bc0f20b3a39b}} 
+{\bfseries Circular\+Buffer} (cbuffer\+\_\+pos max\+\_\+size) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aef72dd4309e429507a71f63083ff7f7d}\label{structdetail_1_1_circular_buffer_aef72dd4309e429507a71f63083ff7f7d}} 
+{\bfseries Circular\+Buffer} (cbuffer\+\_\+pos max\+\_\+size, const T \&val, Allocator \&allocator) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a55f5a7f642dcb3e0f17ea24be1120805}\label{structdetail_1_1_circular_buffer_a55f5a7f642dcb3e0f17ea24be1120805}} 
+void {\bfseries destroy} (Allocator \&allocator) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac05402c7334a43e7949a60cd90cc477d}\label{structdetail_1_1_circular_buffer_ac05402c7334a43e7949a60cd90cc477d}} 
+{\bfseries Circular\+Buffer} (const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9cd420b4e2e750557870f98b34f63bb4}\label{structdetail_1_1_circular_buffer_a9cd420b4e2e750557870f98b34f63bb4}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \& {\bfseries operator=} (const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a68b36aa91ea6da088631a86267a41072}\label{structdetail_1_1_circular_buffer_a68b36aa91ea6da088631a86267a41072}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T $\ast$ {\bfseries buffer} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a1565a96699ea73d6709f203f1455a02e}\label{structdetail_1_1_circular_buffer_a1565a96699ea73d6709f203f1455a02e}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T $\ast$ {\bfseries buffer} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a5a5ac86a3c68031576239c98fe0ac3f3}\label{structdetail_1_1_circular_buffer_a5a5ac86a3c68031576239c98fe0ac3f3}} 
+T $\ast$ {\bfseries begin\+\_\+ptr} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ad8ed667ab97241e46e6d12d34ca04bc5}\label{structdetail_1_1_circular_buffer_ad8ed667ab97241e46e6d12d34ca04bc5}} 
+const T $\ast$ {\bfseries begin\+\_\+ptr} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ad01b5975f81791a73e7eab37ea574788}\label{structdetail_1_1_circular_buffer_ad01b5975f81791a73e7eab37ea574788}} 
+T $\ast$ {\bfseries last\+\_\+ptr} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac036727bece31542181d9d000dfe2816}\label{structdetail_1_1_circular_buffer_ac036727bece31542181d9d000dfe2816}} 
+const T $\ast$ {\bfseries last\+\_\+ptr} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_afbebb8bd169f605309dfa8dc4714add9}\label{structdetail_1_1_circular_buffer_afbebb8bd169f605309dfa8dc4714add9}} 
+cbuffer\+\_\+pos {\bfseries begin\+\_\+index} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af14c50668303428bbb77945f15ca7619}\label{structdetail_1_1_circular_buffer_af14c50668303428bbb77945f15ca7619}} 
+cbuffer\+\_\+pos {\bfseries first\+\_\+stop} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae44d24e2ca8e2bd92924267e42e7f216}\label{structdetail_1_1_circular_buffer_ae44d24e2ca8e2bd92924267e42e7f216}} 
+cbuffer\+\_\+pos {\bfseries second\+\_\+stop} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_acb972fd63800731a8632e865d20576f4}\label{structdetail_1_1_circular_buffer_acb972fd63800731a8632e865d20576f4}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE cbuffer\+\_\+pos {\bfseries max\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a6653ea0aa61430b3c5b74e03a7722c4d}\label{structdetail_1_1_circular_buffer_a6653ea0aa61430b3c5b74e03a7722c4d}} 
+bool {\bfseries is\+Full} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae3d6d2f05e8510a37a8edfb536957fb6}\label{structdetail_1_1_circular_buffer_ae3d6d2f05e8510a37a8edfb536957fb6}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (cbuffer\+\_\+pos index) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2141c4e042d664141f2e16e15836f0e9}\label{structdetail_1_1_circular_buffer_a2141c4e042d664141f2e16e15836f0e9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (cbuffer\+\_\+pos index) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_acc101ba14a67030f936a03e7233420b9}\label{structdetail_1_1_circular_buffer_acc101ba14a67030f936a03e7233420b9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries at} (cbuffer\+\_\+pos index) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a654be612745a0e198be6bb42cea681a1}\label{structdetail_1_1_circular_buffer_a654be612745a0e198be6bb42cea681a1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries at} (cbuffer\+\_\+pos index) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aae2d973d126ab1ecf499812c54973861}\label{structdetail_1_1_circular_buffer_aae2d973d126ab1ecf499812c54973861}} 
+T \& {\bfseries front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af2aadb3fd8d765ea50be2faad2e44395}\label{structdetail_1_1_circular_buffer_af2aadb3fd8d765ea50be2faad2e44395}} 
+const T \& {\bfseries front} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4b5d5b420641e63c85eaf5872dcee67e}\label{structdetail_1_1_circular_buffer_a4b5d5b420641e63c85eaf5872dcee67e}} 
+T \& {\bfseries back} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4e44aa654b2051644a396cd9ef0676bf}\label{structdetail_1_1_circular_buffer_a4e44aa654b2051644a396cd9ef0676bf}} 
+const T \& {\bfseries back} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a69d22daccaabc15a09545349f918c5df}\label{structdetail_1_1_circular_buffer_a69d22daccaabc15a09545349f918c5df}} 
+void {\bfseries init\+\_\+front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a43d4b3a11fb5c0d8a60e3aff53be9c33}\label{structdetail_1_1_circular_buffer_a43d4b3a11fb5c0d8a60e3aff53be9c33}} 
+void {\bfseries resize} (cbuffer\+\_\+pos s, Allocator \&allocator) noexcept(std\+::is\+\_\+nothrow\+\_\+default\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab51164ed53b7569a0dfac33bd0286bfd}\label{structdetail_1_1_circular_buffer_ab51164ed53b7569a0dfac33bd0286bfd}} 
+void {\bfseries resize} (cbuffer\+\_\+pos s, const T \&value, Allocator \&allocator) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae49d1d1e1e3b8417ee3d3eecf233400d}\label{structdetail_1_1_circular_buffer_ae49d1d1e1e3b8417ee3d3eecf233400d}} 
+void {\bfseries grow\+\_\+front} (cbuffer\+\_\+pos s) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a3b2f20dccdf0f09697ba3879dd29f635}\label{structdetail_1_1_circular_buffer_a3b2f20dccdf0f09697ba3879dd29f635}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries emplace\+\_\+back} (Allocator \&allocator, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a472749c0c05a818148bc952a2874ddb0}\label{structdetail_1_1_circular_buffer_a472749c0c05a818148bc952a2874ddb0}} 
+T $\ast$ {\bfseries push\+\_\+back} (Allocator \&allocator, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2aca290f0f3fc7a842f57789d0240eb0}\label{structdetail_1_1_circular_buffer_a2aca290f0f3fc7a842f57789d0240eb0}} 
+T $\ast$ {\bfseries push\+\_\+back} (Allocator \&allocator, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a3fdd8aa08672923ed7a1b001d47e57ce}\label{structdetail_1_1_circular_buffer_a3fdd8aa08672923ed7a1b001d47e57ce}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries emplace\+\_\+front} (Allocator \&allocator, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a66c2c5e1ffd09ee93554df8d75187bc7}\label{structdetail_1_1_circular_buffer_a66c2c5e1ffd09ee93554df8d75187bc7}} 
+T $\ast$ {\bfseries push\+\_\+front} (Allocator \&allocator, const T \&value) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af354f6baf8b11764f9a905bd8c43857b}\label{structdetail_1_1_circular_buffer_af354f6baf8b11764f9a905bd8c43857b}} 
+T $\ast$ {\bfseries push\+\_\+front} (Allocator \&allocator, T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac868f63c616af30caf5121b3c9888c9d}\label{structdetail_1_1_circular_buffer_ac868f63c616af30caf5121b3c9888c9d}} 
+void {\bfseries push\+\_\+front\+\_\+pop\+\_\+back\+\_\+use\+\_\+relocatable} (T \&inout) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a1481649ff4eef3f97f8f59a5d44d7c36}\label{structdetail_1_1_circular_buffer_a1481649ff4eef3f97f8f59a5d44d7c36}} 
+void {\bfseries push\+\_\+front\+\_\+pop\+\_\+back\+\_\+relocatable} (T \&inout) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab9cadcf8bfabfc8a6a6788f3628d4213}\label{structdetail_1_1_circular_buffer_ab9cadcf8bfabfc8a6a6788f3628d4213}} 
+T {\bfseries push\+\_\+front\+\_\+pop\+\_\+back} (T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a7c1eaad69699d65e78f65494cac679fc}\label{structdetail_1_1_circular_buffer_a7c1eaad69699d65e78f65494cac679fc}} 
+void {\bfseries push\+\_\+back\+\_\+pop\+\_\+front\+\_\+use\+\_\+relocatable} (T \&inout) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a49f0785b2bda07a123555159eab28056}\label{structdetail_1_1_circular_buffer_a49f0785b2bda07a123555159eab28056}} 
+void {\bfseries push\+\_\+back\+\_\+pop\+\_\+front\+\_\+relocatable} (T \&inout) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a62dcf8e827b0dcbfff5f5456eed3e714}\label{structdetail_1_1_circular_buffer_a62dcf8e827b0dcbfff5f5456eed3e714}} 
+T {\bfseries push\+\_\+back\+\_\+pop\+\_\+front} (T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a13b3fbcac1f6cfb95aff2f1883666384}\label{structdetail_1_1_circular_buffer_a13b3fbcac1f6cfb95aff2f1883666384}} 
+void {\bfseries pop\+\_\+back} (Allocator \&allocator)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a37d72f63c265762023868fe542eb3a6b}\label{structdetail_1_1_circular_buffer_a37d72f63c265762023868fe542eb3a6b}} 
+void {\bfseries pop\+\_\+front} (Allocator \&allocator)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a5c3f997bf8cd9a769a6c335db0643925}\label{structdetail_1_1_circular_buffer_a5c3f997bf8cd9a769a6c335db0643925}} 
+void {\bfseries pop\+\_\+front\+\_\+n} (Allocator \&allocator, cbuffer\+\_\+pos n)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a684491fb95ae9c403e7ed11b4683d8c0}\label{structdetail_1_1_circular_buffer_a684491fb95ae9c403e7ed11b4683d8c0}} 
+{\footnotesize template$<$class U $>$ }\\void {\bfseries push\+\_\+front\+\_\+n} (Allocator \&allocator, cbuffer\+\_\+pos n, const U \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aa6f66f1846be168397cc593fafa3bc39}\label{structdetail_1_1_circular_buffer_aa6f66f1846be168397cc593fafa3bc39}} 
+void {\bfseries push\+\_\+front\+\_\+n} (Allocator \&allocator, cbuffer\+\_\+pos n)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae8cbd9594bc97ebc082d0db71041661e}\label{structdetail_1_1_circular_buffer_ae8cbd9594bc97ebc082d0db71041661e}} 
+void {\bfseries move\+\_\+right\+\_\+1} (int pos) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value$\vert$$\vert$relocatable)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aad70740670c9e57a9fe9c80ebd2bb077}\label{structdetail_1_1_circular_buffer_aad70740670c9e57a9fe9c80ebd2bb077}} 
+void {\bfseries move\+\_\+left\+\_\+1} (int pos) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value$\vert$$\vert$relocatable)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac4cbf00e64644788621ebb416ae1d5fa}\label{structdetail_1_1_circular_buffer_ac4cbf00e64644788621ebb416ae1d5fa}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void) move\+\_\+right(Allocator \&allocator
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a152a71097211426f27436355aabcb6bc}\label{structdetail_1_1_circular_buffer_a152a71097211426f27436355aabcb6bc}} 
+{\bfseries move\+\_\+right\+\_\+1} (pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4b70e74eb83463bb666b6735ac8e0648}\label{structdetail_1_1_circular_buffer_a4b70e74eb83463bb666b6735ac8e0648}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void) move\+\_\+left(Allocator \&allocator
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aed35660fed1e5f3b484732cf59ea488d}\label{structdetail_1_1_circular_buffer_aed35660fed1e5f3b484732cf59ea488d}} 
+{\bfseries if} (-\/-\/begin$<$ 0) begin
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a19cc944db6e5c849c5c91aa0f878cf3d}\label{structdetail_1_1_circular_buffer_a19cc944db6e5c849c5c91aa0f878cf3d}} 
+{\bfseries move\+\_\+left\+\_\+1} (pos+1)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac0d6c73497b5138cf4f13fe96e3dc129}\label{structdetail_1_1_circular_buffer_ac0d6c73497b5138cf4f13fe96e3dc129}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries emplace} (Allocator \&allocator, cbuffer\+\_\+pos pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9ced4553fe28ee9dcf781a1bf99ad8ba}\label{structdetail_1_1_circular_buffer_a9ced4553fe28ee9dcf781a1bf99ad8ba}} 
+T $\ast$ {\bfseries insert} (Allocator \&allocator, cbuffer\+\_\+pos pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a7cedb4a740c0743d5f8fb8a2f2767a95}\label{structdetail_1_1_circular_buffer_a7cedb4a740c0743d5f8fb8a2f2767a95}} 
+T $\ast$ {\bfseries insert} (Allocator \&allocator, cbuffer\+\_\+pos pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9938977a1253ba10033888e3f49afa5a}\label{structdetail_1_1_circular_buffer_a9938977a1253ba10033888e3f49afa5a}} 
+{\footnotesize template$<$class... Args$>$ }\\T {\bfseries insert\+\_\+pop\+\_\+back} (Allocator \&allocator, cbuffer\+\_\+pos pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a3a6d7ab053370bcec702f3941fec1a37}\label{structdetail_1_1_circular_buffer_a3a6d7ab053370bcec702f3941fec1a37}} 
+{\footnotesize template$<$class... Args$>$ }\\T {\bfseries insert\+\_\+pop\+\_\+front} (Allocator \&allocator, cbuffer\+\_\+pos pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2242dcb24d6153c168e171ccea41e452}\label{structdetail_1_1_circular_buffer_a2242dcb24d6153c168e171ccea41e452}} 
+void {\bfseries move\+\_\+erase\+\_\+right\+\_\+1} (int pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab54ad3a62b34b4fa6e4fab845bf41da1}\label{structdetail_1_1_circular_buffer_ab54ad3a62b34b4fa6e4fab845bf41da1}} 
+void {\bfseries move\+\_\+erase\+\_\+left\+\_\+1} (int pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_afa7693f709d28481c1c876545c602847}\label{structdetail_1_1_circular_buffer_afa7693f709d28481c1c876545c602847}} 
+void {\bfseries erase\+\_\+push\+\_\+back} (Allocator \&allocator, cbuffer\+\_\+pos pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_abb162b25a2f195dcf5a204ae4a5dde3c}\label{structdetail_1_1_circular_buffer_abb162b25a2f195dcf5a204ae4a5dde3c}} 
+void {\bfseries erase\+\_\+push\+\_\+front} (Allocator \&allocator, cbuffer\+\_\+pos pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a0ae7f1461d0fed16691654704435e938}\label{structdetail_1_1_circular_buffer_a0ae7f1461d0fed16691654704435e938}} 
+void {\bfseries erase} (Allocator \&allocator, cbuffer\+\_\+pos pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_afa70d049f3990e311894bc0f20b3a39b}\label{structdetail_1_1_circular_buffer_afa70d049f3990e311894bc0f20b3a39b}} 
+{\bfseries Circular\+Buffer} (cbuffer\+\_\+pos max\+\_\+size) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aef72dd4309e429507a71f63083ff7f7d}\label{structdetail_1_1_circular_buffer_aef72dd4309e429507a71f63083ff7f7d}} 
+{\bfseries Circular\+Buffer} (cbuffer\+\_\+pos max\+\_\+size, const T \&val, Allocator \&allocator) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a55f5a7f642dcb3e0f17ea24be1120805}\label{structdetail_1_1_circular_buffer_a55f5a7f642dcb3e0f17ea24be1120805}} 
+void {\bfseries destroy} (Allocator \&allocator) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac05402c7334a43e7949a60cd90cc477d}\label{structdetail_1_1_circular_buffer_ac05402c7334a43e7949a60cd90cc477d}} 
+{\bfseries Circular\+Buffer} (const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9cd420b4e2e750557870f98b34f63bb4}\label{structdetail_1_1_circular_buffer_a9cd420b4e2e750557870f98b34f63bb4}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \& {\bfseries operator=} (const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a68b36aa91ea6da088631a86267a41072}\label{structdetail_1_1_circular_buffer_a68b36aa91ea6da088631a86267a41072}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T $\ast$ {\bfseries buffer} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a1565a96699ea73d6709f203f1455a02e}\label{structdetail_1_1_circular_buffer_a1565a96699ea73d6709f203f1455a02e}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T $\ast$ {\bfseries buffer} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a5a5ac86a3c68031576239c98fe0ac3f3}\label{structdetail_1_1_circular_buffer_a5a5ac86a3c68031576239c98fe0ac3f3}} 
+T $\ast$ {\bfseries begin\+\_\+ptr} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ad8ed667ab97241e46e6d12d34ca04bc5}\label{structdetail_1_1_circular_buffer_ad8ed667ab97241e46e6d12d34ca04bc5}} 
+const T $\ast$ {\bfseries begin\+\_\+ptr} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ad01b5975f81791a73e7eab37ea574788}\label{structdetail_1_1_circular_buffer_ad01b5975f81791a73e7eab37ea574788}} 
+T $\ast$ {\bfseries last\+\_\+ptr} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac036727bece31542181d9d000dfe2816}\label{structdetail_1_1_circular_buffer_ac036727bece31542181d9d000dfe2816}} 
+const T $\ast$ {\bfseries last\+\_\+ptr} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_afbebb8bd169f605309dfa8dc4714add9}\label{structdetail_1_1_circular_buffer_afbebb8bd169f605309dfa8dc4714add9}} 
+cbuffer\+\_\+pos {\bfseries begin\+\_\+index} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af14c50668303428bbb77945f15ca7619}\label{structdetail_1_1_circular_buffer_af14c50668303428bbb77945f15ca7619}} 
+cbuffer\+\_\+pos {\bfseries first\+\_\+stop} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae44d24e2ca8e2bd92924267e42e7f216}\label{structdetail_1_1_circular_buffer_ae44d24e2ca8e2bd92924267e42e7f216}} 
+cbuffer\+\_\+pos {\bfseries second\+\_\+stop} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_acb972fd63800731a8632e865d20576f4}\label{structdetail_1_1_circular_buffer_acb972fd63800731a8632e865d20576f4}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE cbuffer\+\_\+pos {\bfseries max\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a6653ea0aa61430b3c5b74e03a7722c4d}\label{structdetail_1_1_circular_buffer_a6653ea0aa61430b3c5b74e03a7722c4d}} 
+bool {\bfseries is\+Full} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae3d6d2f05e8510a37a8edfb536957fb6}\label{structdetail_1_1_circular_buffer_ae3d6d2f05e8510a37a8edfb536957fb6}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (cbuffer\+\_\+pos index) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2141c4e042d664141f2e16e15836f0e9}\label{structdetail_1_1_circular_buffer_a2141c4e042d664141f2e16e15836f0e9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (cbuffer\+\_\+pos index) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_acc101ba14a67030f936a03e7233420b9}\label{structdetail_1_1_circular_buffer_acc101ba14a67030f936a03e7233420b9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries at} (cbuffer\+\_\+pos index) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a654be612745a0e198be6bb42cea681a1}\label{structdetail_1_1_circular_buffer_a654be612745a0e198be6bb42cea681a1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries at} (cbuffer\+\_\+pos index) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aae2d973d126ab1ecf499812c54973861}\label{structdetail_1_1_circular_buffer_aae2d973d126ab1ecf499812c54973861}} 
+T \& {\bfseries front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af2aadb3fd8d765ea50be2faad2e44395}\label{structdetail_1_1_circular_buffer_af2aadb3fd8d765ea50be2faad2e44395}} 
+const T \& {\bfseries front} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4b5d5b420641e63c85eaf5872dcee67e}\label{structdetail_1_1_circular_buffer_a4b5d5b420641e63c85eaf5872dcee67e}} 
+T \& {\bfseries back} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4e44aa654b2051644a396cd9ef0676bf}\label{structdetail_1_1_circular_buffer_a4e44aa654b2051644a396cd9ef0676bf}} 
+const T \& {\bfseries back} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a69d22daccaabc15a09545349f918c5df}\label{structdetail_1_1_circular_buffer_a69d22daccaabc15a09545349f918c5df}} 
+void {\bfseries init\+\_\+front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a43d4b3a11fb5c0d8a60e3aff53be9c33}\label{structdetail_1_1_circular_buffer_a43d4b3a11fb5c0d8a60e3aff53be9c33}} 
+void {\bfseries resize} (cbuffer\+\_\+pos s, Allocator \&allocator) noexcept(std\+::is\+\_\+nothrow\+\_\+default\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab51164ed53b7569a0dfac33bd0286bfd}\label{structdetail_1_1_circular_buffer_ab51164ed53b7569a0dfac33bd0286bfd}} 
+void {\bfseries resize} (cbuffer\+\_\+pos s, const T \&value, Allocator \&allocator) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae49d1d1e1e3b8417ee3d3eecf233400d}\label{structdetail_1_1_circular_buffer_ae49d1d1e1e3b8417ee3d3eecf233400d}} 
+void {\bfseries grow\+\_\+front} (cbuffer\+\_\+pos s) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a3b2f20dccdf0f09697ba3879dd29f635}\label{structdetail_1_1_circular_buffer_a3b2f20dccdf0f09697ba3879dd29f635}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries emplace\+\_\+back} (Allocator \&allocator, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a472749c0c05a818148bc952a2874ddb0}\label{structdetail_1_1_circular_buffer_a472749c0c05a818148bc952a2874ddb0}} 
+T $\ast$ {\bfseries push\+\_\+back} (Allocator \&allocator, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2aca290f0f3fc7a842f57789d0240eb0}\label{structdetail_1_1_circular_buffer_a2aca290f0f3fc7a842f57789d0240eb0}} 
+T $\ast$ {\bfseries push\+\_\+back} (Allocator \&allocator, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a3fdd8aa08672923ed7a1b001d47e57ce}\label{structdetail_1_1_circular_buffer_a3fdd8aa08672923ed7a1b001d47e57ce}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries emplace\+\_\+front} (Allocator \&allocator, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a66c2c5e1ffd09ee93554df8d75187bc7}\label{structdetail_1_1_circular_buffer_a66c2c5e1ffd09ee93554df8d75187bc7}} 
+T $\ast$ {\bfseries push\+\_\+front} (Allocator \&allocator, const T \&value) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af354f6baf8b11764f9a905bd8c43857b}\label{structdetail_1_1_circular_buffer_af354f6baf8b11764f9a905bd8c43857b}} 
+T $\ast$ {\bfseries push\+\_\+front} (Allocator \&allocator, T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac868f63c616af30caf5121b3c9888c9d}\label{structdetail_1_1_circular_buffer_ac868f63c616af30caf5121b3c9888c9d}} 
+void {\bfseries push\+\_\+front\+\_\+pop\+\_\+back\+\_\+use\+\_\+relocatable} (T \&inout) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a1481649ff4eef3f97f8f59a5d44d7c36}\label{structdetail_1_1_circular_buffer_a1481649ff4eef3f97f8f59a5d44d7c36}} 
+void {\bfseries push\+\_\+front\+\_\+pop\+\_\+back\+\_\+relocatable} (T \&inout) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab9cadcf8bfabfc8a6a6788f3628d4213}\label{structdetail_1_1_circular_buffer_ab9cadcf8bfabfc8a6a6788f3628d4213}} 
+T {\bfseries push\+\_\+front\+\_\+pop\+\_\+back} (T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a7c1eaad69699d65e78f65494cac679fc}\label{structdetail_1_1_circular_buffer_a7c1eaad69699d65e78f65494cac679fc}} 
+void {\bfseries push\+\_\+back\+\_\+pop\+\_\+front\+\_\+use\+\_\+relocatable} (T \&inout) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a49f0785b2bda07a123555159eab28056}\label{structdetail_1_1_circular_buffer_a49f0785b2bda07a123555159eab28056}} 
+void {\bfseries push\+\_\+back\+\_\+pop\+\_\+front\+\_\+relocatable} (T \&inout) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a62dcf8e827b0dcbfff5f5456eed3e714}\label{structdetail_1_1_circular_buffer_a62dcf8e827b0dcbfff5f5456eed3e714}} 
+T {\bfseries push\+\_\+back\+\_\+pop\+\_\+front} (T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a13b3fbcac1f6cfb95aff2f1883666384}\label{structdetail_1_1_circular_buffer_a13b3fbcac1f6cfb95aff2f1883666384}} 
+void {\bfseries pop\+\_\+back} (Allocator \&allocator)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a37d72f63c265762023868fe542eb3a6b}\label{structdetail_1_1_circular_buffer_a37d72f63c265762023868fe542eb3a6b}} 
+void {\bfseries pop\+\_\+front} (Allocator \&allocator)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a5c3f997bf8cd9a769a6c335db0643925}\label{structdetail_1_1_circular_buffer_a5c3f997bf8cd9a769a6c335db0643925}} 
+void {\bfseries pop\+\_\+front\+\_\+n} (Allocator \&allocator, cbuffer\+\_\+pos n)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a684491fb95ae9c403e7ed11b4683d8c0}\label{structdetail_1_1_circular_buffer_a684491fb95ae9c403e7ed11b4683d8c0}} 
+{\footnotesize template$<$class U $>$ }\\void {\bfseries push\+\_\+front\+\_\+n} (Allocator \&allocator, cbuffer\+\_\+pos n, const U \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aa6f66f1846be168397cc593fafa3bc39}\label{structdetail_1_1_circular_buffer_aa6f66f1846be168397cc593fafa3bc39}} 
+void {\bfseries push\+\_\+front\+\_\+n} (Allocator \&allocator, cbuffer\+\_\+pos n)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae8cbd9594bc97ebc082d0db71041661e}\label{structdetail_1_1_circular_buffer_ae8cbd9594bc97ebc082d0db71041661e}} 
+void {\bfseries move\+\_\+right\+\_\+1} (int pos) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value$\vert$$\vert$relocatable)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aad70740670c9e57a9fe9c80ebd2bb077}\label{structdetail_1_1_circular_buffer_aad70740670c9e57a9fe9c80ebd2bb077}} 
+void {\bfseries move\+\_\+left\+\_\+1} (int pos) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value$\vert$$\vert$relocatable)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac4cbf00e64644788621ebb416ae1d5fa}\label{structdetail_1_1_circular_buffer_ac4cbf00e64644788621ebb416ae1d5fa}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void) move\+\_\+right(Allocator \&allocator
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a152a71097211426f27436355aabcb6bc}\label{structdetail_1_1_circular_buffer_a152a71097211426f27436355aabcb6bc}} 
+{\bfseries move\+\_\+right\+\_\+1} (pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4b70e74eb83463bb666b6735ac8e0648}\label{structdetail_1_1_circular_buffer_a4b70e74eb83463bb666b6735ac8e0648}} 
+{\bfseries S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE} (void) move\+\_\+left(Allocator \&allocator
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aed35660fed1e5f3b484732cf59ea488d}\label{structdetail_1_1_circular_buffer_aed35660fed1e5f3b484732cf59ea488d}} 
+{\bfseries if} (-\/-\/begin$<$ 0) begin
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a19cc944db6e5c849c5c91aa0f878cf3d}\label{structdetail_1_1_circular_buffer_a19cc944db6e5c849c5c91aa0f878cf3d}} 
+{\bfseries move\+\_\+left\+\_\+1} (pos+1)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac0d6c73497b5138cf4f13fe96e3dc129}\label{structdetail_1_1_circular_buffer_ac0d6c73497b5138cf4f13fe96e3dc129}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries emplace} (Allocator \&allocator, cbuffer\+\_\+pos pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9ced4553fe28ee9dcf781a1bf99ad8ba}\label{structdetail_1_1_circular_buffer_a9ced4553fe28ee9dcf781a1bf99ad8ba}} 
+T $\ast$ {\bfseries insert} (Allocator \&allocator, cbuffer\+\_\+pos pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a7cedb4a740c0743d5f8fb8a2f2767a95}\label{structdetail_1_1_circular_buffer_a7cedb4a740c0743d5f8fb8a2f2767a95}} 
+T $\ast$ {\bfseries insert} (Allocator \&allocator, cbuffer\+\_\+pos pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9938977a1253ba10033888e3f49afa5a}\label{structdetail_1_1_circular_buffer_a9938977a1253ba10033888e3f49afa5a}} 
+{\footnotesize template$<$class... Args$>$ }\\T {\bfseries insert\+\_\+pop\+\_\+back} (Allocator \&allocator, cbuffer\+\_\+pos pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a3a6d7ab053370bcec702f3941fec1a37}\label{structdetail_1_1_circular_buffer_a3a6d7ab053370bcec702f3941fec1a37}} 
+{\footnotesize template$<$class... Args$>$ }\\T {\bfseries insert\+\_\+pop\+\_\+front} (Allocator \&allocator, cbuffer\+\_\+pos pos, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2242dcb24d6153c168e171ccea41e452}\label{structdetail_1_1_circular_buffer_a2242dcb24d6153c168e171ccea41e452}} 
+void {\bfseries move\+\_\+erase\+\_\+right\+\_\+1} (int pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab54ad3a62b34b4fa6e4fab845bf41da1}\label{structdetail_1_1_circular_buffer_ab54ad3a62b34b4fa6e4fab845bf41da1}} 
+void {\bfseries move\+\_\+erase\+\_\+left\+\_\+1} (int pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_afa7693f709d28481c1c876545c602847}\label{structdetail_1_1_circular_buffer_afa7693f709d28481c1c876545c602847}} 
+void {\bfseries erase\+\_\+push\+\_\+back} (Allocator \&allocator, cbuffer\+\_\+pos pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_abb162b25a2f195dcf5a204ae4a5dde3c}\label{structdetail_1_1_circular_buffer_abb162b25a2f195dcf5a204ae4a5dde3c}} 
+void {\bfseries erase\+\_\+push\+\_\+front} (Allocator \&allocator, cbuffer\+\_\+pos pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a0ae7f1461d0fed16691654704435e938}\label{structdetail_1_1_circular_buffer_a0ae7f1461d0fed16691654704435e938}} 
+void {\bfseries erase} (Allocator \&allocator, cbuffer\+\_\+pos pos)
+\item 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer_afa70d049f3990e311894bc0f20b3a39b}{Circular\+Buffer}} (cbuffer\+\_\+pos max\+\_\+size) noexcept
+\item 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer_aef72dd4309e429507a71f63083ff7f7d}{Circular\+Buffer}} (cbuffer\+\_\+pos max\+\_\+size, const T \&val, Allocator \&allocator) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+void \mbox{\hyperlink{structdetail_1_1_circular_buffer_a55f5a7f642dcb3e0f17ea24be1120805}{destroy}} (Allocator \&allocator) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac05402c7334a43e7949a60cd90cc477d}\label{structdetail_1_1_circular_buffer_ac05402c7334a43e7949a60cd90cc477d}} 
+{\bfseries Circular\+Buffer} (const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9cd420b4e2e750557870f98b34f63bb4}\label{structdetail_1_1_circular_buffer_a9cd420b4e2e750557870f98b34f63bb4}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \& {\bfseries operator=} (const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a68b36aa91ea6da088631a86267a41072}\label{structdetail_1_1_circular_buffer_a68b36aa91ea6da088631a86267a41072}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T $\ast$ {\bfseries buffer} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a1565a96699ea73d6709f203f1455a02e}\label{structdetail_1_1_circular_buffer_a1565a96699ea73d6709f203f1455a02e}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T $\ast$ {\bfseries buffer} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a5a5ac86a3c68031576239c98fe0ac3f3}\label{structdetail_1_1_circular_buffer_a5a5ac86a3c68031576239c98fe0ac3f3}} 
+T $\ast$ {\bfseries begin\+\_\+ptr} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ad8ed667ab97241e46e6d12d34ca04bc5}\label{structdetail_1_1_circular_buffer_ad8ed667ab97241e46e6d12d34ca04bc5}} 
+const T $\ast$ {\bfseries begin\+\_\+ptr} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ad01b5975f81791a73e7eab37ea574788}\label{structdetail_1_1_circular_buffer_ad01b5975f81791a73e7eab37ea574788}} 
+T $\ast$ {\bfseries last\+\_\+ptr} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac036727bece31542181d9d000dfe2816}\label{structdetail_1_1_circular_buffer_ac036727bece31542181d9d000dfe2816}} 
+const T $\ast$ {\bfseries last\+\_\+ptr} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_afbebb8bd169f605309dfa8dc4714add9}\label{structdetail_1_1_circular_buffer_afbebb8bd169f605309dfa8dc4714add9}} 
+cbuffer\+\_\+pos {\bfseries begin\+\_\+index} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af14c50668303428bbb77945f15ca7619}\label{structdetail_1_1_circular_buffer_af14c50668303428bbb77945f15ca7619}} 
+cbuffer\+\_\+pos {\bfseries first\+\_\+stop} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae44d24e2ca8e2bd92924267e42e7f216}\label{structdetail_1_1_circular_buffer_ae44d24e2ca8e2bd92924267e42e7f216}} 
+cbuffer\+\_\+pos {\bfseries second\+\_\+stop} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_acb972fd63800731a8632e865d20576f4}\label{structdetail_1_1_circular_buffer_acb972fd63800731a8632e865d20576f4}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE cbuffer\+\_\+pos {\bfseries max\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a6653ea0aa61430b3c5b74e03a7722c4d}\label{structdetail_1_1_circular_buffer_a6653ea0aa61430b3c5b74e03a7722c4d}} 
+bool {\bfseries is\+Full} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae3d6d2f05e8510a37a8edfb536957fb6}\label{structdetail_1_1_circular_buffer_ae3d6d2f05e8510a37a8edfb536957fb6}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (cbuffer\+\_\+pos index) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2141c4e042d664141f2e16e15836f0e9}\label{structdetail_1_1_circular_buffer_a2141c4e042d664141f2e16e15836f0e9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (cbuffer\+\_\+pos index) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_acc101ba14a67030f936a03e7233420b9}\label{structdetail_1_1_circular_buffer_acc101ba14a67030f936a03e7233420b9}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T \& {\bfseries at} (cbuffer\+\_\+pos index) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a654be612745a0e198be6bb42cea681a1}\label{structdetail_1_1_circular_buffer_a654be612745a0e198be6bb42cea681a1}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T \& {\bfseries at} (cbuffer\+\_\+pos index) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aae2d973d126ab1ecf499812c54973861}\label{structdetail_1_1_circular_buffer_aae2d973d126ab1ecf499812c54973861}} 
+T \& {\bfseries front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af2aadb3fd8d765ea50be2faad2e44395}\label{structdetail_1_1_circular_buffer_af2aadb3fd8d765ea50be2faad2e44395}} 
+const T \& {\bfseries front} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4b5d5b420641e63c85eaf5872dcee67e}\label{structdetail_1_1_circular_buffer_a4b5d5b420641e63c85eaf5872dcee67e}} 
+T \& {\bfseries back} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4e44aa654b2051644a396cd9ef0676bf}\label{structdetail_1_1_circular_buffer_a4e44aa654b2051644a396cd9ef0676bf}} 
+const T \& {\bfseries back} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a69d22daccaabc15a09545349f918c5df}\label{structdetail_1_1_circular_buffer_a69d22daccaabc15a09545349f918c5df}} 
+void {\bfseries init\+\_\+front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a43d4b3a11fb5c0d8a60e3aff53be9c33}\label{structdetail_1_1_circular_buffer_a43d4b3a11fb5c0d8a60e3aff53be9c33}} 
+void {\bfseries resize} (cbuffer\+\_\+pos s, Allocator \&allocator) noexcept(std\+::is\+\_\+nothrow\+\_\+default\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab51164ed53b7569a0dfac33bd0286bfd}\label{structdetail_1_1_circular_buffer_ab51164ed53b7569a0dfac33bd0286bfd}} 
+void {\bfseries resize} (cbuffer\+\_\+pos s, const T \&value, Allocator \&allocator) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae49d1d1e1e3b8417ee3d3eecf233400d}\label{structdetail_1_1_circular_buffer_ae49d1d1e1e3b8417ee3d3eecf233400d}} 
+void {\bfseries grow\+\_\+front} (cbuffer\+\_\+pos s) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a3b2f20dccdf0f09697ba3879dd29f635}\label{structdetail_1_1_circular_buffer_a3b2f20dccdf0f09697ba3879dd29f635}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries emplace\+\_\+back} (Allocator \&allocator, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a472749c0c05a818148bc952a2874ddb0}\label{structdetail_1_1_circular_buffer_a472749c0c05a818148bc952a2874ddb0}} 
+T $\ast$ {\bfseries push\+\_\+back} (Allocator \&allocator, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2aca290f0f3fc7a842f57789d0240eb0}\label{structdetail_1_1_circular_buffer_a2aca290f0f3fc7a842f57789d0240eb0}} 
+T $\ast$ {\bfseries push\+\_\+back} (Allocator \&allocator, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a3fdd8aa08672923ed7a1b001d47e57ce}\label{structdetail_1_1_circular_buffer_a3fdd8aa08672923ed7a1b001d47e57ce}} 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ {\bfseries emplace\+\_\+front} (Allocator \&allocator, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a66c2c5e1ffd09ee93554df8d75187bc7}\label{structdetail_1_1_circular_buffer_a66c2c5e1ffd09ee93554df8d75187bc7}} 
+T $\ast$ {\bfseries push\+\_\+front} (Allocator \&allocator, const T \&value) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af354f6baf8b11764f9a905bd8c43857b}\label{structdetail_1_1_circular_buffer_af354f6baf8b11764f9a905bd8c43857b}} 
+T $\ast$ {\bfseries push\+\_\+front} (Allocator \&allocator, T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a710e61ff87658d2a6de5f08e7f5d93c0}\label{structdetail_1_1_circular_buffer_a710e61ff87658d2a6de5f08e7f5d93c0}} 
+void {\bfseries push\+\_\+front\+\_\+pop\+\_\+back\+\_\+no\+\_\+return} (const T \&value) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aa24b5889d93bac1e8218cf6a0734a9c9}\label{structdetail_1_1_circular_buffer_aa24b5889d93bac1e8218cf6a0734a9c9}} 
+void {\bfseries push\+\_\+front\+\_\+pop\+\_\+back\+\_\+no\+\_\+return} (T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a99f0bc0b3f56c926bb850417ea8821cd}\label{structdetail_1_1_circular_buffer_a99f0bc0b3f56c926bb850417ea8821cd}} 
+T {\bfseries push\+\_\+front\+\_\+pop\+\_\+back} (const T \&value) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab9cadcf8bfabfc8a6a6788f3628d4213}\label{structdetail_1_1_circular_buffer_ab9cadcf8bfabfc8a6a6788f3628d4213}} 
+T {\bfseries push\+\_\+front\+\_\+pop\+\_\+back} (T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2b5ffe7e68531788670608891ba2c678}\label{structdetail_1_1_circular_buffer_a2b5ffe7e68531788670608891ba2c678}} 
+void {\bfseries push\+\_\+back\+\_\+pop\+\_\+front\+\_\+no\+\_\+return} (const T \&value) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a27a719fd13a45d6c41e31f586f824839}\label{structdetail_1_1_circular_buffer_a27a719fd13a45d6c41e31f586f824839}} 
+void {\bfseries push\+\_\+back\+\_\+pop\+\_\+front\+\_\+no\+\_\+return} (T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a5662cd552095e57450b7dac0fb63a008}\label{structdetail_1_1_circular_buffer_a5662cd552095e57450b7dac0fb63a008}} 
+T {\bfseries push\+\_\+back\+\_\+pop\+\_\+front} (const T \&value) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a62dcf8e827b0dcbfff5f5456eed3e714}\label{structdetail_1_1_circular_buffer_a62dcf8e827b0dcbfff5f5456eed3e714}} 
+T {\bfseries push\+\_\+back\+\_\+pop\+\_\+front} (T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a13b3fbcac1f6cfb95aff2f1883666384}\label{structdetail_1_1_circular_buffer_a13b3fbcac1f6cfb95aff2f1883666384}} 
+void {\bfseries pop\+\_\+back} (Allocator \&allocator)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a37d72f63c265762023868fe542eb3a6b}\label{structdetail_1_1_circular_buffer_a37d72f63c265762023868fe542eb3a6b}} 
+void {\bfseries pop\+\_\+front} (Allocator \&allocator)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a5c3f997bf8cd9a769a6c335db0643925}\label{structdetail_1_1_circular_buffer_a5c3f997bf8cd9a769a6c335db0643925}} 
+void {\bfseries pop\+\_\+front\+\_\+n} (Allocator \&allocator, cbuffer\+\_\+pos n)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a684491fb95ae9c403e7ed11b4683d8c0}\label{structdetail_1_1_circular_buffer_a684491fb95ae9c403e7ed11b4683d8c0}} 
+{\footnotesize template$<$class U $>$ }\\void {\bfseries push\+\_\+front\+\_\+n} (Allocator \&allocator, cbuffer\+\_\+pos n, const U \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aa6f66f1846be168397cc593fafa3bc39}\label{structdetail_1_1_circular_buffer_aa6f66f1846be168397cc593fafa3bc39}} 
+void {\bfseries push\+\_\+front\+\_\+n} (Allocator \&allocator, cbuffer\+\_\+pos n)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4fcca5e870caf58f3536e23c5310f43c}\label{structdetail_1_1_circular_buffer_a4fcca5e870caf58f3536e23c5310f43c}} 
+void {\bfseries move\+\_\+right\+\_\+1} (int pos) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a5eb854be72907e60e88f0ad42eeecc6b}\label{structdetail_1_1_circular_buffer_a5eb854be72907e60e88f0ad42eeecc6b}} 
+void {\bfseries move\+\_\+left\+\_\+1} (int pos) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T $\ast$ \mbox{\hyperlink{structdetail_1_1_circular_buffer_ae98024eba51426abf8405026d19854f5}{emplace}} (Allocator \&allocator, cbuffer\+\_\+pos pos, Args \&\&... args)
+\item 
+T $\ast$ \mbox{\hyperlink{structdetail_1_1_circular_buffer_a9ced4553fe28ee9dcf781a1bf99ad8ba}{insert}} (Allocator \&allocator, cbuffer\+\_\+pos pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a7cedb4a740c0743d5f8fb8a2f2767a95}\label{structdetail_1_1_circular_buffer_a7cedb4a740c0743d5f8fb8a2f2767a95}} 
+T $\ast$ {\bfseries insert} (Allocator \&allocator, cbuffer\+\_\+pos pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae564a646f0c91855c4dd7cd71f0c32c7}\label{structdetail_1_1_circular_buffer_ae564a646f0c91855c4dd7cd71f0c32c7}} 
+T {\bfseries insert\+\_\+pop\+\_\+back} (cbuffer\+\_\+pos pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4d78a2f2bec36770f8eef470ec188b9c}\label{structdetail_1_1_circular_buffer_a4d78a2f2bec36770f8eef470ec188b9c}} 
+T {\bfseries insert\+\_\+pop\+\_\+back} (cbuffer\+\_\+pos pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_afd1a6502ec28edbad30b7d3514c50f77}\label{structdetail_1_1_circular_buffer_afd1a6502ec28edbad30b7d3514c50f77}} 
+T {\bfseries insert\+\_\+pop\+\_\+front} (cbuffer\+\_\+pos pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a8fc31b0e927716ab844fd06055a7c827}\label{structdetail_1_1_circular_buffer_a8fc31b0e927716ab844fd06055a7c827}} 
+T {\bfseries insert\+\_\+pop\+\_\+front} (cbuffer\+\_\+pos pos, T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2242dcb24d6153c168e171ccea41e452}\label{structdetail_1_1_circular_buffer_a2242dcb24d6153c168e171ccea41e452}} 
+void {\bfseries move\+\_\+erase\+\_\+right\+\_\+1} (int pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab54ad3a62b34b4fa6e4fab845bf41da1}\label{structdetail_1_1_circular_buffer_ab54ad3a62b34b4fa6e4fab845bf41da1}} 
+void {\bfseries move\+\_\+erase\+\_\+left\+\_\+1} (int pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_adbac98cee2feecb87863b872bcea64e8}\label{structdetail_1_1_circular_buffer_adbac98cee2feecb87863b872bcea64e8}} 
+void {\bfseries erase\+\_\+right\+\_\+push\+\_\+back} (Allocator \&allocator, cbuffer\+\_\+pos pos, T \&\&value)
+\item 
+void \mbox{\hyperlink{structdetail_1_1_circular_buffer_a0ae7f1461d0fed16691654704435e938}{erase}} (Allocator \&allocator, cbuffer\+\_\+pos pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab05d038b07afcdab72aabfd18c5fac4d}\label{structdetail_1_1_circular_buffer_ab05d038b07afcdab72aabfd18c5fac4d}} 
+{\bfseries Circular\+Buffer} (cbuffer\+\_\+pos max\+\_\+size, const Allocator \&alloc) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac08f672cfd63666807cca69d687e6390}\label{structdetail_1_1_circular_buffer_ac08f672cfd63666807cca69d687e6390}} 
+{\bfseries Circular\+Buffer} (cbuffer\+\_\+pos max\+\_\+size, const T \&val, const Allocator \&alloc) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac05402c7334a43e7949a60cd90cc477d}\label{structdetail_1_1_circular_buffer_ac05402c7334a43e7949a60cd90cc477d}} 
+{\bfseries Circular\+Buffer} (const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9cd420b4e2e750557870f98b34f63bb4}\label{structdetail_1_1_circular_buffer_a9cd420b4e2e750557870f98b34f63bb4}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \& {\bfseries operator=} (const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a851ee4f2d88084cb4432c51eff0d0443}\label{structdetail_1_1_circular_buffer_a851ee4f2d88084cb4432c51eff0d0443}} 
+T $\ast$ {\bfseries buffer} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a93d1b1c01d9dfb03c9f265e5cb38a407}\label{structdetail_1_1_circular_buffer_a93d1b1c01d9dfb03c9f265e5cb38a407}} 
+const T $\ast$ {\bfseries buffer} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac258d8318fb26b0e6b904798b02d77fd}\label{structdetail_1_1_circular_buffer_ac258d8318fb26b0e6b904798b02d77fd}} 
+cbuffer\+\_\+pos {\bfseries max\+\_\+size} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a1c4dae7c99e09d25ee1380bd13c23a3a}\label{structdetail_1_1_circular_buffer_a1c4dae7c99e09d25ee1380bd13c23a3a}} 
+bool {\bfseries is\+Full} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a8dae41119696fa089c821cb219134c11}\label{structdetail_1_1_circular_buffer_a8dae41119696fa089c821cb219134c11}} 
+T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (cbuffer\+\_\+pos index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a404969e859a6c3496a40265a36284cc9}\label{structdetail_1_1_circular_buffer_a404969e859a6c3496a40265a36284cc9}} 
+const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (cbuffer\+\_\+pos index) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aa7009b2bfa6c4e7482fa3ce55705ed1b}\label{structdetail_1_1_circular_buffer_aa7009b2bfa6c4e7482fa3ce55705ed1b}} 
+T \& {\bfseries at} (cbuffer\+\_\+pos index)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a43227725d01355d6c595906d796252a3}\label{structdetail_1_1_circular_buffer_a43227725d01355d6c595906d796252a3}} 
+const T \& {\bfseries at} (cbuffer\+\_\+pos index) const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a50fe12b30c75a411823f410c86318dae}\label{structdetail_1_1_circular_buffer_a50fe12b30c75a411823f410c86318dae}} 
+T \& {\bfseries front} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a3ba61354f94dc819e1adf5a1718bae78}\label{structdetail_1_1_circular_buffer_a3ba61354f94dc819e1adf5a1718bae78}} 
+const T \& {\bfseries front} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a8905fec1a3481d8e3128a5b249f61c84}\label{structdetail_1_1_circular_buffer_a8905fec1a3481d8e3128a5b249f61c84}} 
+T \& {\bfseries back} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a7e054659210991607cfb07eae9651f43}\label{structdetail_1_1_circular_buffer_a7e054659210991607cfb07eae9651f43}} 
+const T \& {\bfseries back} () const
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a69d22daccaabc15a09545349f918c5df}\label{structdetail_1_1_circular_buffer_a69d22daccaabc15a09545349f918c5df}} 
+void {\bfseries init\+\_\+front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a7649e761948b908459934f2c134421b0}\label{structdetail_1_1_circular_buffer_a7649e761948b908459934f2c134421b0}} 
+void {\bfseries resize} (cbuffer\+\_\+pos s)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a26b63c5ea6698dd351405f7ab2830012}\label{structdetail_1_1_circular_buffer_a26b63c5ea6698dd351405f7ab2830012}} 
+void {\bfseries resize\+\_\+front} (cbuffer\+\_\+pos s)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a94e4d0ad44ffa0878e94dc5f2fe25c92}\label{structdetail_1_1_circular_buffer_a94e4d0ad44ffa0878e94dc5f2fe25c92}} 
+void {\bfseries grow\+\_\+front} (cbuffer\+\_\+pos s)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a63cf23580061930f28c20b80ed4a0a43}\label{structdetail_1_1_circular_buffer_a63cf23580061930f28c20b80ed4a0a43}} 
+void {\bfseries resize} (cbuffer\+\_\+pos s, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab472b5e3cdf2aeffe35c6f37147fa9e7}\label{structdetail_1_1_circular_buffer_ab472b5e3cdf2aeffe35c6f37147fa9e7}} 
+void {\bfseries resize\+\_\+front} (cbuffer\+\_\+pos s, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae66101ef300b59a34ae20fdfbd9b20e7}\label{structdetail_1_1_circular_buffer_ae66101ef300b59a34ae20fdfbd9b20e7}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a1083770433f86cf7ef67a2b07d6b3984}\label{structdetail_1_1_circular_buffer_a1083770433f86cf7ef67a2b07d6b3984}} 
+void {\bfseries push\+\_\+back} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2dfad78744cd2977bee583f030af7a0a}\label{structdetail_1_1_circular_buffer_a2dfad78744cd2977bee583f030af7a0a}} 
+void {\bfseries push\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a0f38720427924f421b648fc2f5adf501}\label{structdetail_1_1_circular_buffer_a0f38720427924f421b648fc2f5adf501}} 
+void {\bfseries push\+\_\+front} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a22ab6af10c7743e384b7144d99f8135d}\label{structdetail_1_1_circular_buffer_a22ab6af10c7743e384b7144d99f8135d}} 
+void {\bfseries push\+\_\+front\+\_\+pop\+\_\+back\+\_\+no\+\_\+return} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2509a2f5b2330dd8a44153465f2db4bf}\label{structdetail_1_1_circular_buffer_a2509a2f5b2330dd8a44153465f2db4bf}} 
+T {\bfseries push\+\_\+front\+\_\+pop\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9e6bb09a87d014a02d1a1da1404d1aba}\label{structdetail_1_1_circular_buffer_a9e6bb09a87d014a02d1a1da1404d1aba}} 
+T {\bfseries push\+\_\+front\+\_\+pop\+\_\+back} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a006c3e11811360193feed85c99b49212}\label{structdetail_1_1_circular_buffer_a006c3e11811360193feed85c99b49212}} 
+void {\bfseries push\+\_\+back\+\_\+pop\+\_\+front\+\_\+no\+\_\+return} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a673b3da488c52dd6d3d106b86f6af22c}\label{structdetail_1_1_circular_buffer_a673b3da488c52dd6d3d106b86f6af22c}} 
+T {\bfseries push\+\_\+back\+\_\+pop\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aaed566fe77a1f59b456d635e0a26c5c5}\label{structdetail_1_1_circular_buffer_aaed566fe77a1f59b456d635e0a26c5c5}} 
+T {\bfseries push\+\_\+back\+\_\+pop\+\_\+front} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a711a2216807bf32f96771e7771752ecf}\label{structdetail_1_1_circular_buffer_a711a2216807bf32f96771e7771752ecf}} 
+void {\bfseries pop\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4366259adf745f5f4ad9ee35a0d1f591}\label{structdetail_1_1_circular_buffer_a4366259adf745f5f4ad9ee35a0d1f591}} 
+void {\bfseries pop\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aeb60e2e8fda9b65a25a9b6a421c9f7b8}\label{structdetail_1_1_circular_buffer_aeb60e2e8fda9b65a25a9b6a421c9f7b8}} 
+void {\bfseries move\+\_\+right\+\_\+1} (int pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a152f9ff1d865a620159069cf208ffb3d}\label{structdetail_1_1_circular_buffer_a152f9ff1d865a620159069cf208ffb3d}} 
+void {\bfseries move\+\_\+left\+\_\+1} (int pos)
+\item 
+{\footnotesize template$<$bool Move\+Right$>$ }\\void \mbox{\hyperlink{structdetail_1_1_circular_buffer_a4bc56b30f5c272bea0a58eedb46c1728}{insert}} (cbuffer\+\_\+pos pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ace15e1b703771da36ac2f5e6a75be7dd}\label{structdetail_1_1_circular_buffer_ace15e1b703771da36ac2f5e6a75be7dd}} 
+{\footnotesize template$<$bool Move\+Right$>$ }\\T {\bfseries insert\+\_\+pop} (cbuffer\+\_\+pos pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2242dcb24d6153c168e171ccea41e452}\label{structdetail_1_1_circular_buffer_a2242dcb24d6153c168e171ccea41e452}} 
+void {\bfseries move\+\_\+erase\+\_\+right\+\_\+1} (int pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab54ad3a62b34b4fa6e4fab845bf41da1}\label{structdetail_1_1_circular_buffer_ab54ad3a62b34b4fa6e4fab845bf41da1}} 
+void {\bfseries move\+\_\+erase\+\_\+left\+\_\+1} (int pos)
+\item 
+{\footnotesize template$<$bool Move\+Right$>$ }\\void \mbox{\hyperlink{structdetail_1_1_circular_buffer_aec962b41f61796f12a1bf1d223c0482e}{erase}} (cbuffer\+\_\+pos pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab05d038b07afcdab72aabfd18c5fac4d}\label{structdetail_1_1_circular_buffer_ab05d038b07afcdab72aabfd18c5fac4d}} 
+{\bfseries Circular\+Buffer} (cbuffer\+\_\+pos max\+\_\+size, const Allocator \&alloc) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac08f672cfd63666807cca69d687e6390}\label{structdetail_1_1_circular_buffer_ac08f672cfd63666807cca69d687e6390}} 
+{\bfseries Circular\+Buffer} (cbuffer\+\_\+pos max\+\_\+size, const T \&val, const Allocator \&alloc) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac05402c7334a43e7949a60cd90cc477d}\label{structdetail_1_1_circular_buffer_ac05402c7334a43e7949a60cd90cc477d}} 
+{\bfseries Circular\+Buffer} (const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9cd420b4e2e750557870f98b34f63bb4}\label{structdetail_1_1_circular_buffer_a9cd420b4e2e750557870f98b34f63bb4}} 
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \& {\bfseries operator=} (const \mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a68b36aa91ea6da088631a86267a41072}\label{structdetail_1_1_circular_buffer_a68b36aa91ea6da088631a86267a41072}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T $\ast$ {\bfseries buffer} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a1565a96699ea73d6709f203f1455a02e}\label{structdetail_1_1_circular_buffer_a1565a96699ea73d6709f203f1455a02e}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE const T $\ast$ {\bfseries buffer} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a5a5ac86a3c68031576239c98fe0ac3f3}\label{structdetail_1_1_circular_buffer_a5a5ac86a3c68031576239c98fe0ac3f3}} 
+T $\ast$ {\bfseries begin\+\_\+ptr} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_afbebb8bd169f605309dfa8dc4714add9}\label{structdetail_1_1_circular_buffer_afbebb8bd169f605309dfa8dc4714add9}} 
+cbuffer\+\_\+pos {\bfseries begin\+\_\+index} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ad8ed667ab97241e46e6d12d34ca04bc5}\label{structdetail_1_1_circular_buffer_ad8ed667ab97241e46e6d12d34ca04bc5}} 
+const T $\ast$ {\bfseries begin\+\_\+ptr} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ad01b5975f81791a73e7eab37ea574788}\label{structdetail_1_1_circular_buffer_ad01b5975f81791a73e7eab37ea574788}} 
+T $\ast$ {\bfseries last\+\_\+ptr} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac036727bece31542181d9d000dfe2816}\label{structdetail_1_1_circular_buffer_ac036727bece31542181d9d000dfe2816}} 
+const T $\ast$ {\bfseries last\+\_\+ptr} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_afa208b111b189f40103a59d918e96da4}\label{structdetail_1_1_circular_buffer_afa208b111b189f40103a59d918e96da4}} 
+const T $\ast$ {\bfseries first\+\_\+stop} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a388c11953f330281c587c4ff0a362d67}\label{structdetail_1_1_circular_buffer_a388c11953f330281c587c4ff0a362d67}} 
+const T $\ast$ {\bfseries second\+\_\+stop} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae272d08f56747013f3eb7da91286850e}\label{structdetail_1_1_circular_buffer_ae272d08f56747013f3eb7da91286850e}} 
+cbuffer\+\_\+pos {\bfseries max\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a6653ea0aa61430b3c5b74e03a7722c4d}\label{structdetail_1_1_circular_buffer_a6653ea0aa61430b3c5b74e03a7722c4d}} 
+bool {\bfseries is\+Full} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aca69aab549ac932792755dd4d6f4b385}\label{structdetail_1_1_circular_buffer_aca69aab549ac932792755dd4d6f4b385}} 
+T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (cbuffer\+\_\+pos index) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9824ddb44eade806f83bb01d9c37ddc6}\label{structdetail_1_1_circular_buffer_a9824ddb44eade806f83bb01d9c37ddc6}} 
+const T \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (cbuffer\+\_\+pos index) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a18f5a945c597c65419ca6b529a4f2acc}\label{structdetail_1_1_circular_buffer_a18f5a945c597c65419ca6b529a4f2acc}} 
+T \& {\bfseries at} (cbuffer\+\_\+pos index) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a53f53a568ac0e4347172df71e19ef8c1}\label{structdetail_1_1_circular_buffer_a53f53a568ac0e4347172df71e19ef8c1}} 
+const T \& {\bfseries at} (cbuffer\+\_\+pos index) const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aae2d973d126ab1ecf499812c54973861}\label{structdetail_1_1_circular_buffer_aae2d973d126ab1ecf499812c54973861}} 
+T \& {\bfseries front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af2aadb3fd8d765ea50be2faad2e44395}\label{structdetail_1_1_circular_buffer_af2aadb3fd8d765ea50be2faad2e44395}} 
+const T \& {\bfseries front} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4b5d5b420641e63c85eaf5872dcee67e}\label{structdetail_1_1_circular_buffer_a4b5d5b420641e63c85eaf5872dcee67e}} 
+T \& {\bfseries back} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4e44aa654b2051644a396cd9ef0676bf}\label{structdetail_1_1_circular_buffer_a4e44aa654b2051644a396cd9ef0676bf}} 
+const T \& {\bfseries back} () const noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a69d22daccaabc15a09545349f918c5df}\label{structdetail_1_1_circular_buffer_a69d22daccaabc15a09545349f918c5df}} 
+void {\bfseries init\+\_\+front} () noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a7649e761948b908459934f2c134421b0}\label{structdetail_1_1_circular_buffer_a7649e761948b908459934f2c134421b0}} 
+void {\bfseries resize} (cbuffer\+\_\+pos s)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a26b63c5ea6698dd351405f7ab2830012}\label{structdetail_1_1_circular_buffer_a26b63c5ea6698dd351405f7ab2830012}} 
+void {\bfseries resize\+\_\+front} (cbuffer\+\_\+pos s)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae49d1d1e1e3b8417ee3d3eecf233400d}\label{structdetail_1_1_circular_buffer_ae49d1d1e1e3b8417ee3d3eecf233400d}} 
+void {\bfseries grow\+\_\+front} (cbuffer\+\_\+pos s) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a63cf23580061930f28c20b80ed4a0a43}\label{structdetail_1_1_circular_buffer_a63cf23580061930f28c20b80ed4a0a43}} 
+void {\bfseries resize} (cbuffer\+\_\+pos s, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab472b5e3cdf2aeffe35c6f37147fa9e7}\label{structdetail_1_1_circular_buffer_ab472b5e3cdf2aeffe35c6f37147fa9e7}} 
+void {\bfseries resize\+\_\+front} (cbuffer\+\_\+pos s, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae66101ef300b59a34ae20fdfbd9b20e7}\label{structdetail_1_1_circular_buffer_ae66101ef300b59a34ae20fdfbd9b20e7}} 
+void {\bfseries push\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a1083770433f86cf7ef67a2b07d6b3984}\label{structdetail_1_1_circular_buffer_a1083770433f86cf7ef67a2b07d6b3984}} 
+void {\bfseries push\+\_\+back} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2dfad78744cd2977bee583f030af7a0a}\label{structdetail_1_1_circular_buffer_a2dfad78744cd2977bee583f030af7a0a}} 
+void {\bfseries push\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a0f38720427924f421b648fc2f5adf501}\label{structdetail_1_1_circular_buffer_a0f38720427924f421b648fc2f5adf501}} 
+void {\bfseries push\+\_\+front} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_acee53625d19a328fda9b6f379b5e8e54}\label{structdetail_1_1_circular_buffer_acee53625d19a328fda9b6f379b5e8e54}} 
+void {\bfseries push\+\_\+front\+\_\+pop\+\_\+back\+\_\+no\+\_\+return} (const T \&value) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2509a2f5b2330dd8a44153465f2db4bf}\label{structdetail_1_1_circular_buffer_a2509a2f5b2330dd8a44153465f2db4bf}} 
+T {\bfseries push\+\_\+front\+\_\+pop\+\_\+back} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9e6bb09a87d014a02d1a1da1404d1aba}\label{structdetail_1_1_circular_buffer_a9e6bb09a87d014a02d1a1da1404d1aba}} 
+T {\bfseries push\+\_\+front\+\_\+pop\+\_\+back} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a06289edbc53e41ba6d6b3ff94c3024b2}\label{structdetail_1_1_circular_buffer_a06289edbc53e41ba6d6b3ff94c3024b2}} 
+void {\bfseries push\+\_\+back\+\_\+pop\+\_\+front\+\_\+no\+\_\+return} (const T \&value) noexcept
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a673b3da488c52dd6d3d106b86f6af22c}\label{structdetail_1_1_circular_buffer_a673b3da488c52dd6d3d106b86f6af22c}} 
+T {\bfseries push\+\_\+back\+\_\+pop\+\_\+front} (const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aaed566fe77a1f59b456d635e0a26c5c5}\label{structdetail_1_1_circular_buffer_aaed566fe77a1f59b456d635e0a26c5c5}} 
+T {\bfseries push\+\_\+back\+\_\+pop\+\_\+front} (T \&\&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a711a2216807bf32f96771e7771752ecf}\label{structdetail_1_1_circular_buffer_a711a2216807bf32f96771e7771752ecf}} 
+void {\bfseries pop\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4366259adf745f5f4ad9ee35a0d1f591}\label{structdetail_1_1_circular_buffer_a4366259adf745f5f4ad9ee35a0d1f591}} 
+void {\bfseries pop\+\_\+front} ()
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_aeb60e2e8fda9b65a25a9b6a421c9f7b8}\label{structdetail_1_1_circular_buffer_aeb60e2e8fda9b65a25a9b6a421c9f7b8}} 
+void {\bfseries move\+\_\+right\+\_\+1} (int pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a152f9ff1d865a620159069cf208ffb3d}\label{structdetail_1_1_circular_buffer_a152f9ff1d865a620159069cf208ffb3d}} 
+void {\bfseries move\+\_\+left\+\_\+1} (int pos)
+\item 
+{\footnotesize template$<$bool Move\+Right$>$ }\\void \mbox{\hyperlink{structdetail_1_1_circular_buffer_a4bc56b30f5c272bea0a58eedb46c1728}{insert}} (cbuffer\+\_\+pos pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ace15e1b703771da36ac2f5e6a75be7dd}\label{structdetail_1_1_circular_buffer_ace15e1b703771da36ac2f5e6a75be7dd}} 
+{\footnotesize template$<$bool Move\+Right$>$ }\\T {\bfseries insert\+\_\+pop} (cbuffer\+\_\+pos pos, const T \&value)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a2242dcb24d6153c168e171ccea41e452}\label{structdetail_1_1_circular_buffer_a2242dcb24d6153c168e171ccea41e452}} 
+void {\bfseries move\+\_\+erase\+\_\+right\+\_\+1} (int pos)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ab54ad3a62b34b4fa6e4fab845bf41da1}\label{structdetail_1_1_circular_buffer_ab54ad3a62b34b4fa6e4fab845bf41da1}} 
+void {\bfseries move\+\_\+erase\+\_\+left\+\_\+1} (int pos)
+\item 
+{\footnotesize template$<$bool Move\+Right$>$ }\\void \mbox{\hyperlink{structdetail_1_1_circular_buffer_aec962b41f61796f12a1bf1d223c0482e}{erase}} (cbuffer\+\_\+pos pos)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+cbuffer\+\_\+pos {\bfseries pos}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af1b7ceea9aa605f9755f4e4b3a6e5381}\label{structdetail_1_1_circular_buffer_af1b7ceea9aa605f9755f4e4b3a6e5381}} 
+{\bfseries size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_af1b7ceea9aa605f9755f4e4b3a6e5381}\label{structdetail_1_1_circular_buffer_af1b7ceea9aa605f9755f4e4b3a6e5381}} 
+cbuffer\+\_\+pos {\bfseries size}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ad6f35532cfb57d220709d4c1fef08352}\label{structdetail_1_1_circular_buffer_ad6f35532cfb57d220709d4c1fef08352}} 
+cbuffer\+\_\+pos {\bfseries max\+\_\+size1}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a760c03dabfb3cce3afe31e9338a745cc}\label{structdetail_1_1_circular_buffer_a760c03dabfb3cce3afe31e9338a745cc}} 
+cbuffer\+\_\+pos {\bfseries begin}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ac35f24d5dac4d9eb4054c28768aa8792}\label{structdetail_1_1_circular_buffer_ac35f24d5dac4d9eb4054c28768aa8792}} 
+cbuffer\+\_\+pos {\bfseries gap}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_adba431b6abb53204d146130ff63791be}\label{structdetail_1_1_circular_buffer_adba431b6abb53204d146130ff63791be}} 
+cbuffer\+\_\+pos {\bfseries last}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a565b3209cf3c819eedde60d62dd99483}\label{structdetail_1_1_circular_buffer_a565b3209cf3c819eedde60d62dd99483}} 
+cbuffer\+\_\+pos {\bfseries max\+\_\+size\+\_\+bits}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a7d0fdde67a35f000486f2590f89f8204}\label{structdetail_1_1_circular_buffer_a7d0fdde67a35f000486f2590f89f8204}} 
+Allocator {\bfseries allocator}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a047f1991e5ef0ee73283aa5a94c20b41}\label{structdetail_1_1_circular_buffer_a047f1991e5ef0ee73283aa5a94c20b41}} 
+static const size\+\_\+t {\bfseries size\+\_\+T} = sizeof(T)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a8e8e5e57eccc71c79386c8c2f15d43f4}\label{structdetail_1_1_circular_buffer_a8e8e5e57eccc71c79386c8c2f15d43f4}} 
+static const size\+\_\+t {\bfseries size\+\_\+\+B\+CB} = sizeof(\mbox{\hyperlink{structdetail_1_1_base_circular_buffer}{Base\+Circular\+Buffer}}$<$T,Allocator$>$)
+\item 
+static const size\+\_\+t {\bfseries start\+\_\+data\+\_\+T}
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a772650b4e72d58e142183b7cd3d4b52f}\label{structdetail_1_1_circular_buffer_a772650b4e72d58e142183b7cd3d4b52f}} 
+static const size\+\_\+t {\bfseries start\+\_\+data} = start\+\_\+data\+\_\+T $\ast$ sizeof(T)
+\item 
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_abd7814ce3140b1acf28ac67dd651c847}\label{structdetail_1_1_circular_buffer_abd7814ce3140b1acf28ac67dd651c847}} 
+static const bool {\bfseries relocatable} = \mbox{\hyperlink{structis__relocatable}{is\+\_\+relocatable}}$<$T$>$\+::value \&\& (sizeof(T) $>$= sizeof(size\+\_\+t))
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator$>$\newline
+struct detail\+::\+Circular\+Buffer$<$ T, Allocator $>$}
+
+Circular buffer class used internally by deque 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_afa70d049f3990e311894bc0f20b3a39b}\label{structdetail_1_1_circular_buffer_afa70d049f3990e311894bc0f20b3a39b}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!CircularBuffer@{CircularBuffer}}
+\index{CircularBuffer@{CircularBuffer}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{CircularBuffer()}{CircularBuffer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} (\begin{DoxyParamCaption}\item[{cbuffer\+\_\+pos}]{max\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Initialize from a maximum internal.\+data.\+size \mbox{\Hypertarget{structdetail_1_1_circular_buffer_aef72dd4309e429507a71f63083ff7f7d}\label{structdetail_1_1_circular_buffer_aef72dd4309e429507a71f63083ff7f7d}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!CircularBuffer@{CircularBuffer}}
+\index{CircularBuffer@{CircularBuffer}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{CircularBuffer()}{CircularBuffer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::\mbox{\hyperlink{structdetail_1_1_circular_buffer}{Circular\+Buffer}} (\begin{DoxyParamCaption}\item[{cbuffer\+\_\+pos}]{max\+\_\+size,  }\item[{const T \&}]{val,  }\item[{Allocator \&}]{allocator }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Initialize from a maximum internal.\+data.\+size and a default value. This will set the buffer internal.\+data.\+size to its maximum. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a55f5a7f642dcb3e0f17ea24be1120805}\label{structdetail_1_1_circular_buffer_a55f5a7f642dcb3e0f17ea24be1120805}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!destroy@{destroy}}
+\index{destroy@{destroy}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::destroy (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Destroy all values within buffer \mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae98024eba51426abf8405026d19854f5}\label{structdetail_1_1_circular_buffer_ae98024eba51426abf8405026d19854f5}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!emplace@{emplace}}
+\index{emplace@{emplace}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{emplace()}{emplace()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$class... Args$>$ \\
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE T$\ast$ \mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::emplace (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{cbuffer\+\_\+pos}]{pos,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Insert value at given position. If Move\+Right is true, insert by shifting the right values (from pos to internal.\+data.\+size) and keep left ones unchanged. If Move\+Right is false, insert by shifting the left values (before pos) and keep the right ones unchanged. \mbox{\Hypertarget{structdetail_1_1_circular_buffer_a0ae7f1461d0fed16691654704435e938}\label{structdetail_1_1_circular_buffer_a0ae7f1461d0fed16691654704435e938}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!erase@{erase}}
+\index{erase@{erase}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::erase (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{cbuffer\+\_\+pos}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Erase value at given position. If Move\+Right is true, erase by shifting the right values (from pos to internal.\+data.\+size) and keep left ones unchanged. If Move\+Right is false, erase by shifting the left values (before pos) and keep the right ones unchanged. \mbox{\Hypertarget{structdetail_1_1_circular_buffer_aec962b41f61796f12a1bf1d223c0482e}\label{structdetail_1_1_circular_buffer_aec962b41f61796f12a1bf1d223c0482e}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!erase@{erase}}
+\index{erase@{erase}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$bool Move\+Right$>$ \\
+void \mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::erase (\begin{DoxyParamCaption}\item[{cbuffer\+\_\+pos}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Erase value at given position. If Move\+Right is true, erase by shifting the right values (from pos to size) and keep left ones unchanged. If Move\+Right is false, erase by shifting the left values (before pos) and keep the right ones unchanged. \mbox{\Hypertarget{structdetail_1_1_circular_buffer_aec962b41f61796f12a1bf1d223c0482e}\label{structdetail_1_1_circular_buffer_aec962b41f61796f12a1bf1d223c0482e}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!erase@{erase}}
+\index{erase@{erase}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$bool Move\+Right$>$ \\
+void \mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::erase (\begin{DoxyParamCaption}\item[{cbuffer\+\_\+pos}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Erase value at given position. If Move\+Right is true, erase by shifting the right values (from pos to size) and keep left ones unchanged. If Move\+Right is false, erase by shifting the left values (before pos) and keep the right ones unchanged. \mbox{\Hypertarget{structdetail_1_1_circular_buffer_a9ced4553fe28ee9dcf781a1bf99ad8ba}\label{structdetail_1_1_circular_buffer_a9ced4553fe28ee9dcf781a1bf99ad8ba}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!insert@{insert}}
+\index{insert@{insert}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::insert (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{cbuffer\+\_\+pos}]{pos,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Insert value at given position. If Move\+Right is true, insert by shifting the right values (from pos to internal.\+data.\+size) and keep left ones unchanged. If Move\+Right is false, insert by shifting the left values (before pos) and keep the right ones unchanged. \mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4bc56b30f5c272bea0a58eedb46c1728}\label{structdetail_1_1_circular_buffer_a4bc56b30f5c272bea0a58eedb46c1728}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!insert@{insert}}
+\index{insert@{insert}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$bool Move\+Right$>$ \\
+void \mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::insert (\begin{DoxyParamCaption}\item[{cbuffer\+\_\+pos}]{pos,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Insert value at given position. If Move\+Right is true, insert by shifting the right values (from pos to size) and keep left ones unchanged. If Move\+Right is false, insert by shifting the left values (before pos) and keep the right ones unchanged. \mbox{\Hypertarget{structdetail_1_1_circular_buffer_a4bc56b30f5c272bea0a58eedb46c1728}\label{structdetail_1_1_circular_buffer_a4bc56b30f5c272bea0a58eedb46c1728}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!insert@{insert}}
+\index{insert@{insert}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$bool Move\+Right$>$ \\
+void \mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::insert (\begin{DoxyParamCaption}\item[{cbuffer\+\_\+pos}]{pos,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Insert value at given position. If Move\+Right is true, insert by shifting the right values (from pos to size) and keep left ones unchanged. If Move\+Right is false, insert by shifting the left values (before pos) and keep the right ones unchanged. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_ae8aa093104aecad62a29b2571cec035b}\label{structdetail_1_1_circular_buffer_ae8aa093104aecad62a29b2571cec035b}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!pos@{pos}}
+\index{pos@{pos}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{pos}{pos}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+cbuffer\+\_\+pos \mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::pos}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{             \textcolor{keywordflow}{if} (!relocatable)}
+\DoxyCodeLine{                 allocator.construct(\&(*\textcolor{keyword}{this})[size])}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{structdetail_1_1_circular_buffer_a58ce2590a6a60e69341d68c76c64497a}\label{structdetail_1_1_circular_buffer_a58ce2590a6a60e69341d68c76c64497a}} 
+\index{detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}!start\_data\_T@{start\_data\_T}}
+\index{start\_data\_T@{start\_data\_T}!detail::CircularBuffer$<$ T, Allocator $>$@{detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{start\_data\_T}{start\_data\_T}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+static const size\+\_\+t \mbox{\hyperlink{structdetail_1_1_circular_buffer}{detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::start\+\_\+data\+\_\+T\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= (size\_BCB > size\_T) ?}
+\DoxyCodeLine{            (size\_BCB / size\_T + ((size\_BCB \% size\_T) ? 1 : 0)) :}
+\DoxyCodeLine{            1}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+deque2 -\/ Copie.\+hpp\item 
+deque2.\+hpp\item 
+deque2\+\_\+union.\+hpp\item 
+deque\+\_\+save.\+hpp\item 
+deque\+\_\+save.\+txt\end{DoxyCompactItemize}

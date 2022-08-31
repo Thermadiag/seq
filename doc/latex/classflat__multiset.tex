@@ -1,0 +1,131 @@
+\hypertarget{classflat__multiset}{}\doxysection{flat\+\_\+multiset$<$ Key, Compare, Allocator, layout $>$ Class Template Reference}
+\label{classflat__multiset}\index{flat\_multiset$<$ Key, Compare, Allocator, layout $>$@{flat\_multiset$<$ Key, Compare, Allocator, layout $>$}}
+
+
+Inherits \mbox{\hyperlink{classflat__set}{flat\+\_\+set$<$ Key, std\+::less$<$ Key $>$, std\+::allocator$<$ Key $>$, Optimize\+For\+Speed, false $>$}}.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classflat__multiset_a9545ac03ae1152b7743ac5191d31391e}\label{classflat__multiset_a9545ac03ae1152b7743ac5191d31391e}} 
+using {\bfseries key\+\_\+type} = Key
+\item 
+\mbox{\Hypertarget{classflat__multiset_a6892c76793c0793563c9375ef89814e6}\label{classflat__multiset_a6892c76793c0793563c9375ef89814e6}} 
+using {\bfseries value\+\_\+type} = Key
+\item 
+\mbox{\Hypertarget{classflat__multiset_a84137455475074f92aee282290f02179}\label{classflat__multiset_a84137455475074f92aee282290f02179}} 
+using {\bfseries difference\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::difference\+\_\+type
+\item 
+\mbox{\Hypertarget{classflat__multiset_a494968c519e629dc28a86243c5bc19b1}\label{classflat__multiset_a494968c519e629dc28a86243c5bc19b1}} 
+using {\bfseries size\+\_\+type} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::size\+\_\+type
+\item 
+\mbox{\Hypertarget{classflat__multiset_a5c06d98b1e74d92ded09be35caea3cc3}\label{classflat__multiset_a5c06d98b1e74d92ded09be35caea3cc3}} 
+using {\bfseries key\+\_\+compare} = Compare
+\item 
+\mbox{\Hypertarget{classflat__multiset_aaf4887d93d8844a01048664c6e563b1e}\label{classflat__multiset_aaf4887d93d8844a01048664c6e563b1e}} 
+using {\bfseries value\+\_\+compare} = typename base\+\_\+type\+::value\+\_\+compare
+\item 
+\mbox{\Hypertarget{classflat__multiset_a8e59a639288b5d5c0c6234816b33261d}\label{classflat__multiset_a8e59a639288b5d5c0c6234816b33261d}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\item 
+\mbox{\Hypertarget{classflat__multiset_aff2585d8180e6d148e9ed17679d8025d}\label{classflat__multiset_aff2585d8180e6d148e9ed17679d8025d}} 
+using {\bfseries reference} = Key \&
+\item 
+\mbox{\Hypertarget{classflat__multiset_a99543bde025649176de080b60423d527}\label{classflat__multiset_a99543bde025649176de080b60423d527}} 
+using {\bfseries const\+\_\+reference} = const Key \&
+\item 
+\mbox{\Hypertarget{classflat__multiset_ac2fb38f749db2850a89e1abf49a10eef}\label{classflat__multiset_ac2fb38f749db2850a89e1abf49a10eef}} 
+using {\bfseries pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::pointer
+\item 
+\mbox{\Hypertarget{classflat__multiset_a62e6b12586cacd827906a3144e51e8a7}\label{classflat__multiset_a62e6b12586cacd827906a3144e51e8a7}} 
+using {\bfseries const\+\_\+pointer} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::const\+\_\+pointer
+\item 
+\mbox{\Hypertarget{classflat__multiset_ac343653df78ad2d1cd87c24e1c86e59a}\label{classflat__multiset_ac343653df78ad2d1cd87c24e1c86e59a}} 
+using {\bfseries iterator} = typename base\+\_\+type\+::iterator
+\item 
+\mbox{\Hypertarget{classflat__multiset_a8862a16547d21f74189dba87b94ab5c9}\label{classflat__multiset_a8862a16547d21f74189dba87b94ab5c9}} 
+using {\bfseries const\+\_\+iterator} = typename base\+\_\+type\+::const\+\_\+iterator
+\item 
+\mbox{\Hypertarget{classflat__multiset_a324c30f5add960611c279e69dd5e40fd}\label{classflat__multiset_a324c30f5add960611c279e69dd5e40fd}} 
+using {\bfseries reverse\+\_\+iterator} = typename base\+\_\+type\+::reverse\+\_\+iterator
+\item 
+\mbox{\Hypertarget{classflat__multiset_a99182b589258e5edc193c7fbf5c83948}\label{classflat__multiset_a99182b589258e5edc193c7fbf5c83948}} 
+using {\bfseries const\+\_\+reverse\+\_\+iterator} = typename base\+\_\+type\+::const\+\_\+reverse\+\_\+iterator
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classflat__multiset_a8c923d0ed2cd157630080a0bb0e5fc26}\label{classflat__multiset_a8c923d0ed2cd157630080a0bb0e5fc26}} 
+{\bfseries flat\+\_\+multiset} (const Compare \&comp, const Allocator \&alloc=Allocator())
+\item 
+\mbox{\Hypertarget{classflat__multiset_a51ca78ea0d74b090b12cc595cc9599e2}\label{classflat__multiset_a51ca78ea0d74b090b12cc595cc9599e2}} 
+{\bfseries flat\+\_\+multiset} (const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a993900babc2380b7700100b1c4f46f4e}\label{classflat__multiset_a993900babc2380b7700100b1c4f46f4e}} 
+{\footnotesize template$<$class Input\+It $>$ }\\{\bfseries flat\+\_\+multiset} (Input\+It first, Input\+It last, const Compare \&comp=Compare(), const Allocator \&alloc=Allocator())
+\item 
+\mbox{\Hypertarget{classflat__multiset_a72f70f29e3f78db85b1874e8f49c8349}\label{classflat__multiset_a72f70f29e3f78db85b1874e8f49c8349}} 
+{\footnotesize template$<$class Input\+It $>$ }\\{\bfseries flat\+\_\+multiset} (Input\+It first, Input\+It last, const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a82b2a27a8e22363096f3a6dcb0c8b584}\label{classflat__multiset_a82b2a27a8e22363096f3a6dcb0c8b584}} 
+{\bfseries flat\+\_\+multiset} (const \mbox{\hyperlink{classflat__multiset}{flat\+\_\+multiset}} \&other)
+\item 
+\mbox{\Hypertarget{classflat__multiset_aca0105dea728fb0954c4a844208fa6a2}\label{classflat__multiset_aca0105dea728fb0954c4a844208fa6a2}} 
+{\bfseries flat\+\_\+multiset} (const \mbox{\hyperlink{classflat__multiset}{flat\+\_\+multiset}} \&other, const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a7bfa1140b6c2f598ba3abb2d045451b4}\label{classflat__multiset_a7bfa1140b6c2f598ba3abb2d045451b4}} 
+{\bfseries flat\+\_\+multiset} (\mbox{\hyperlink{classflat__multiset}{flat\+\_\+multiset}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{classflat__multiset_a6a8f81d883213cafe3098d69c91ea868}\label{classflat__multiset_a6a8f81d883213cafe3098d69c91ea868}} 
+{\bfseries flat\+\_\+multiset} (\mbox{\hyperlink{classflat__multiset}{flat\+\_\+multiset}} \&\&other, const Allocator \&alloc) noexcept
+\item 
+\mbox{\Hypertarget{classflat__multiset_a02935d3dae12afca7544c2df1fdd2f5d}\label{classflat__multiset_a02935d3dae12afca7544c2df1fdd2f5d}} 
+{\bfseries flat\+\_\+multiset} (std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ init, const Compare \&comp=Compare(), const Allocator \&alloc=Allocator())
+\item 
+\mbox{\Hypertarget{classflat__multiset_a3c2c87d6d40619c93614f6ef3eca072f}\label{classflat__multiset_a3c2c87d6d40619c93614f6ef3eca072f}} 
+{\bfseries flat\+\_\+multiset} (std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ init, const Allocator \&alloc)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a8f006dfcfbf99ff102c5f7e1be52c8fc}\label{classflat__multiset_a8f006dfcfbf99ff102c5f7e1be52c8fc}} 
+\mbox{\hyperlink{classflat__multiset}{flat\+\_\+multiset}} \& {\bfseries operator=} (\mbox{\hyperlink{classflat__multiset}{flat\+\_\+multiset}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{classflat__multiset_a00f5ad77bb88555d28de40d9bfb13061}\label{classflat__multiset_a00f5ad77bb88555d28de40d9bfb13061}} 
+\mbox{\hyperlink{classflat__multiset}{flat\+\_\+multiset}} \& {\bfseries operator=} (const \mbox{\hyperlink{classflat__multiset}{flat\+\_\+multiset}} \&other)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a60b01490191bec3c43f24b4fefcd6087}\label{classflat__multiset_a60b01490191bec3c43f24b4fefcd6087}} 
+\mbox{\hyperlink{classflat__multiset}{flat\+\_\+multiset}} \& {\bfseries operator=} (const std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ \&init)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a3e371b3ad3409228a9524446d47a1115}\label{classflat__multiset_a3e371b3ad3409228a9524446d47a1115}} 
+iterator {\bfseries insert} (const value\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a13563c078934e539104dc6bea9416720}\label{classflat__multiset_a13563c078934e539104dc6bea9416720}} 
+iterator {\bfseries insert} (value\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a864b316d3199387760dc6f74a9421f75}\label{classflat__multiset_a864b316d3199387760dc6f74a9421f75}} 
+{\footnotesize template$<$class... Args$>$ }\\iterator {\bfseries emplace} (Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a5864f022cfd9cecc12b0c6807a7ebf9b}\label{classflat__multiset_a5864f022cfd9cecc12b0c6807a7ebf9b}} 
+{\footnotesize template$<$class... Args$>$ }\\iterator {\bfseries emplace\+\_\+hint} (const\+\_\+iterator hint, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a305e0a51beddcb34c8346a8258d3d856}\label{classflat__multiset_a305e0a51beddcb34c8346a8258d3d856}} 
+std\+::pair$<$ iterator, bool $>$ {\bfseries insert} (const value\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{classflat__multiset_ac743c414725dace8f44d8caf3f793086}\label{classflat__multiset_ac743c414725dace8f44d8caf3f793086}} 
+std\+::pair$<$ iterator, bool $>$ {\bfseries insert} (value\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{classflat__multiset_abbd50a16e950b0a9d7190f07f5a597bd}\label{classflat__multiset_abbd50a16e950b0a9d7190f07f5a597bd}} 
+iterator {\bfseries insert} (const\+\_\+iterator hint, const value\+\_\+type \&value)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a09f57c983cd46c454244fad895f11243}\label{classflat__multiset_a09f57c983cd46c454244fad895f11243}} 
+iterator {\bfseries insert} (const\+\_\+iterator hint, value\+\_\+type \&\&value)
+\item 
+\mbox{\Hypertarget{classflat__multiset_a890e10ffc9bb0a3932471ecdeead1e4a}\label{classflat__multiset_a890e10ffc9bb0a3932471ecdeead1e4a}} 
+{\footnotesize template$<$class Input\+It $>$ }\\void {\bfseries insert} (Input\+It first, Input\+It last)
+\item 
+\mbox{\Hypertarget{classflat__multiset_aa464c593455c573e4a87f77cc66823a9}\label{classflat__multiset_aa464c593455c573e4a87f77cc66823a9}} 
+void {\bfseries insert} (std\+::initializer\+\_\+list$<$ value\+\_\+type $>$ ilist)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+flat\+\_\+map.\+hpp\end{DoxyCompactItemize}

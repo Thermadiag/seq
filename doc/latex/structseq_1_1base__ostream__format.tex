@@ -1,0 +1,766 @@
+\hypertarget{structseq_1_1base__ostream__format}{}\doxysection{seq\+::base\+\_\+ostream\+\_\+format$<$ T, Derived $>$ Struct Template Reference}
+\label{structseq_1_1base__ostream__format}\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+
+
+Base class for formatting objects.  
+
+
+
+
+{\ttfamily \#include $<$format.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{structseq_1_1base__ostream__format_a5488e2705d67711c14a638682f29e1b2}{value\+\_\+type}} = T
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structseq_1_1base__ostream__format_aea4bbab205e37fe47cc06d492d27228a}{base\+\_\+ostream\+\_\+format}} ()
+\item 
+\mbox{\hyperlink{structseq_1_1base__ostream__format_acf4f7fb0239eb7c34ac028eb46d3db9f}{base\+\_\+ostream\+\_\+format}} (const T \&val)
+\item 
+\mbox{\hyperlink{structseq_1_1base__ostream__format_a56479605b5e356783d59cf1f01610ecf}{base\+\_\+ostream\+\_\+format}} (const T \&val, char base\+\_\+or\+\_\+format)
+\item 
+\mbox{\hyperlink{structseq_1_1base__ostream__format_a409368a083fb48c5e3179135322f6c1c}{base\+\_\+ostream\+\_\+format}} (const T \&val, const \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \&\mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}})
+\item 
+char \mbox{\hyperlink{structseq_1_1base__ostream__format_af41b152c5fe7b2eefa3b7aceb61c2d6d}{base}} () const noexcept
+\item 
+char \mbox{\hyperlink{structseq_1_1base__ostream__format_af7c20ef7f1241b9ab2f708395e3b2587}{format}} () const noexcept
+\item 
+char \mbox{\hyperlink{structseq_1_1base__ostream__format_abc7333c9cfec4dede6617ead8ec2bed8}{dot}} () const noexcept
+\item 
+unsigned char \mbox{\hyperlink{structseq_1_1base__ostream__format_a520e6bf290dd9a2d4860d4de39423abd}{precision}} () const noexcept
+\item 
+unsigned char \mbox{\hyperlink{structseq_1_1base__ostream__format_ab7b3003fc2b15efcdd29c3f40ef3cc2f}{formatting}} () const noexcept
+\item 
+T \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a847269fc7b29632927a725d1c5f41abb}{value}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns the value held by this \mbox{\hyperlink{structseq_1_1base__ostream__format}{base\+\_\+ostream\+\_\+format}}. \end{DoxyCompactList}\item 
+const T \& \mbox{\hyperlink{structseq_1_1base__ostream__format_adb67f1ef99db2e7622d09aa12c1d9673}{value}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the value held by this \mbox{\hyperlink{structseq_1_1base__ostream__format}{base\+\_\+ostream\+\_\+format}}. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_ac14e6aada4febfc410190399da11397e}{derived}} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns derived object. \end{DoxyCompactList}\item 
+const Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_acd20ab4e4388ae316036dd33e2de3be2}{derived}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns derived object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \mbox{\hyperlink{structseq_1_1base__ostream__format_a33c08cb2cd77242552ab96e14a4d65c1}{numeric\+\_\+fmt}} () const
+\begin{DoxyCompactList}\small\item\em Returns the arithmetic format options. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structseq_1_1width__format}{width\+\_\+format}} \mbox{\hyperlink{structseq_1_1base__ostream__format_a1197448df1ab6cede96e1ebfab278be0}{width\+\_\+fmt}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns the width format options. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structseq_1_1base__ostream__format_a7bdbefb4da82dc77cbd4759b6330c592}{set\+\_\+width\+\_\+format}} (const \mbox{\hyperlink{structseq_1_1width__format}{width\+\_\+format}} \&\mbox{\hyperlink{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}{f}})
+\item 
+void \mbox{\hyperlink{structseq_1_1base__ostream__format_ac8a7b6f49451a92b9b63386614bb7a26}{set\+\_\+numeric\+\_\+format}} (const \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \&\mbox{\hyperlink{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}{f}})
+\item 
+unsigned short \mbox{\hyperlink{structseq_1_1base__ostream__format_a249551b14435ae684058167f5f83b730}{width}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns width value of the width formatting options. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{structseq_1_1base__ostream__format_a48f2ee1fc76f01f6d7406a92f1e54454}{fill\+\_\+character}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns fill character of the width formatting options. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{structseq_1_1base__ostream__format_ad8edef141cc3bb3342b4ba9396609d22}{alignment}} () const noexcept
+\begin{DoxyCompactList}\small\item\em Returns alignment value of the width formatting options. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a9029987483c1fe58e43bea263b678b37}{left}} (int w) noexcept
+\begin{DoxyCompactList}\small\item\em Set the exact width and the alignment. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a1c8eb3ab0eed1182043c857e80191a61}{l}} (int w)
+\begin{DoxyCompactList}\small\item\em Set the exact width and the alignment. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a573d1bd2789bcdc654b8fa8f80d283a6}{right}} (int w) noexcept
+\begin{DoxyCompactList}\small\item\em Set the exact width and the alignment. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_ad34271089e77f60e6e0c33376bce6c31}{r}} (int w) noexcept
+\begin{DoxyCompactList}\small\item\em Set the exact width and the alignment. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a4f52bd0f8a05e5f4fd494ad2189516ad}{center}} (int w) noexcept
+\begin{DoxyCompactList}\small\item\em Set the exact width and the alignment. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a5ed9c11d4e2648846e64ae61a562fc2c}{c}} (int w) noexcept
+\begin{DoxyCompactList}\small\item\em Set the exact width and the alignment. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a78d82514c5efcfe3d7fae9e23a2d2d00}{no\+\_\+align}} () noexcept
+\begin{DoxyCompactList}\small\item\em Reset alignment options. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a8d52d81cd5d732d426e9b0a8e0262c5e}{fill}} (char \mbox{\hyperlink{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}{f}}) noexcept
+\begin{DoxyCompactList}\small\item\em Set the fill character, used with \mbox{\hyperlink{structseq_1_1base__ostream__format_a9029987483c1fe58e43bea263b678b37}{left()}}, \mbox{\hyperlink{structseq_1_1base__ostream__format_a573d1bd2789bcdc654b8fa8f80d283a6}{right()}} and \mbox{\hyperlink{structseq_1_1base__ostream__format_a4f52bd0f8a05e5f4fd494ad2189516ad}{center()}} \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}{f}} (char \+\_\+f) noexcept
+\begin{DoxyCompactList}\small\item\em Set the fill character, used with \mbox{\hyperlink{structseq_1_1base__ostream__format_a9029987483c1fe58e43bea263b678b37}{left()}}, \mbox{\hyperlink{structseq_1_1base__ostream__format_a573d1bd2789bcdc654b8fa8f80d283a6}{right()}} and \mbox{\hyperlink{structseq_1_1base__ostream__format_a4f52bd0f8a05e5f4fd494ad2189516ad}{center()}} \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a4190163a94820dcc88f04f461ba34f28}{base}} (char \mbox{\hyperlink{structseq_1_1base__ostream__format_afe1a9a5f6685e850a96a9f0aeacd3e3a}{b}}) noexcept
+\begin{DoxyCompactList}\small\item\em Set the base for integral types. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_afe1a9a5f6685e850a96a9f0aeacd3e3a}{b}} (char \+\_\+b) noexcept
+\begin{DoxyCompactList}\small\item\em Set the base for integral types. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a05f2106a27f6277d711f58912ae1c063}{format}} (char \mbox{\hyperlink{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}{f}}) noexcept
+\begin{DoxyCompactList}\small\item\em Set the format for floating point types. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_ad48441904a6d795d0679f616f3049022}{format}} (\mbox{\hyperlink{namespaceseq_a19a45e1f866d73140819b9ea2280c682}{seq\+::chars\+\_\+format}} \mbox{\hyperlink{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}{f}}, bool \mbox{\hyperlink{structseq_1_1base__ostream__format_af19cfd13336841e15bf96116c698f01a}{upper}}=false) noexcept
+\begin{DoxyCompactList}\small\item\em Set the format for floating point types. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a497a58e77eaa79608d1f0db421e85f88}{t}} (char \mbox{\hyperlink{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}{f}}) noexcept
+\begin{DoxyCompactList}\small\item\em Set the format for floating point types. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a46f9d0761bef15e208022fec91428f0b}{t}} (\mbox{\hyperlink{namespaceseq_a19a45e1f866d73140819b9ea2280c682}{seq\+::chars\+\_\+format}} \mbox{\hyperlink{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}{f}}, bool \mbox{\hyperlink{structseq_1_1base__ostream__format_af19cfd13336841e15bf96116c698f01a}{upper}}=false) noexcept
+\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a8c1be53018c2c8beecaf409be3ebc477}{precision}} (int \mbox{\hyperlink{structseq_1_1base__ostream__format_a0ba691ddcddb692b607a1c56e33f56b9}{p}}) noexcept
+\begin{DoxyCompactList}\small\item\em Set the precision for floating point types, default to 6. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a0ba691ddcddb692b607a1c56e33f56b9}{p}} (int \+\_\+p) noexcept
+\begin{DoxyCompactList}\small\item\em Set the precision for floating point types, default to 6. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_af19cfd13336841e15bf96116c698f01a}{upper}} () noexcept
+\begin{DoxyCompactList}\small\item\em For integral types only and base $>$ 10, output upper case characters. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a34361f96ff67db3952d1dbccd47b5c78}{u}} () noexcept
+\begin{DoxyCompactList}\small\item\em For integral types only and base $>$ 10, output upper case characters. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a21d80f610fb12c3d9c3abae51e934d2c}{hex\+\_\+prefix}} () noexcept
+\begin{DoxyCompactList}\small\item\em For integral types only and base == 16, output \textquotesingle{}0x\textquotesingle{} prefix. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a3028179495159687784222112d39699e}{h}} () noexcept
+\begin{DoxyCompactList}\small\item\em For integral types only and base == 16, output \textquotesingle{}0x\textquotesingle{} prefix. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_ad8e2fb0505c5ea83f7fe3a6275c16569}{dot}} (char \mbox{\hyperlink{structseq_1_1base__ostream__format_a0a4f85450adcc0973c2727a6f8e97332}{d}}) noexcept
+\begin{DoxyCompactList}\small\item\em For floating point types only, set the dot character (default to \textquotesingle{}.\textquotesingle{}) \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a0a4f85450adcc0973c2727a6f8e97332}{d}} (char \+\_\+d) noexcept
+\begin{DoxyCompactList}\small\item\em For floating point types only, set the dot character (default to \textquotesingle{}.\textquotesingle{}) \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_af0008423449824311c4a82218fc2365e}{as\+\_\+char}} () noexcept
+\begin{DoxyCompactList}\small\item\em For integral types, print the value as a character. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_ada38fab0663c072f7dd1b32c594a7930}{c}} () noexcept
+\begin{DoxyCompactList}\small\item\em For integral types, print the value as a character. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a827352bde5f920aaa8002dcb09c20da4}{operator()}} (const T \&v)
+\begin{DoxyCompactList}\small\item\em Copy v to this \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}}. \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a4563b67941a8284d1f9c0d4f133ef864}{operator()}} (const \mbox{\hyperlink{structseq_1_1null__format}{null\+\_\+format}} \&)
+\begin{DoxyCompactList}\small\item\em operator() using placeholder object, no-\/op \end{DoxyCompactList}\item 
+Derived \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a77b8bbc2b18db24d190264f47c4f6c29}{operator()}} (const Derived \&other)
+\begin{DoxyCompactList}\small\item\em Equivalent to dervied() = other. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structseq_1_1base__ostream__format_ab7fb3b47b0b57ffcbcdbbcfd9174b4fc}{operator std\+::string}} () const
+\begin{DoxyCompactList}\small\item\em Conversion operator to std\+::string. \end{DoxyCompactList}\item 
+{\footnotesize template$<$size\+\_\+t Ss, class Al $>$ }\\\mbox{\hyperlink{structseq_1_1base__ostream__format_abc5679a0d934f148f336cda8e7046a1c}{operator tiny\+\_\+string$<$ Ss, Al $>$}} () const
+\begin{DoxyCompactList}\small\item\em Conversion operator to \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class String  = std\+::string$>$ }\\String \mbox{\hyperlink{structseq_1_1base__ostream__format_a02daa761e5ba173f0ea03cac45fa804e}{str}} () const
+\begin{DoxyCompactList}\small\item\em Convert the formatting object to String. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class String $>$ }\\String \& \mbox{\hyperlink{structseq_1_1base__ostream__format_a165ecaaeb3a61156507a31003dec03ad}{append}} (String \&out) const
+\begin{DoxyCompactList}\small\item\em Append the formatting object to a string-\/like object. \end{DoxyCompactList}\item 
+char $\ast$ \mbox{\hyperlink{structseq_1_1base__ostream__format_aadfaf335afead65aff7bed262b2795ea}{to\+\_\+chars}} (char $\ast$dst)
+\item 
+std\+::pair$<$ char $\ast$, size\+\_\+t $>$ \mbox{\hyperlink{structseq_1_1base__ostream__format_aa47a6558b3d34fd7b723bec4ae2461e3}{to\+\_\+chars}} (char $\ast$dst, size\+\_\+t max)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr bool \mbox{\hyperlink{structseq_1_1base__ostream__format_a471150a3451ab8bf42758e21e4972bf9}{auto\+\_\+width\+\_\+format}} = false
+\item 
+static constexpr bool \mbox{\hyperlink{structseq_1_1base__ostream__format_a2b6d22ef8bbb6467964bce59beb40d44}{is\+\_\+formattable}} = true
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_value_holder}{detail\+::\+Value\+Holder}}$<$ T $>$ \mbox{\hyperlink{structseq_1_1base__ostream__format_a88b7e80f3f7de2ccd4410419db1afba3}{\+\_\+value}}
+\item 
+\mbox{\hyperlink{structseq_1_1width__format}{width\+\_\+format}} \mbox{\hyperlink{structseq_1_1base__ostream__format_a44f32a469001d55f1ea32db8d3c867f7}{\+\_\+width}}
+\item 
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \mbox{\hyperlink{structseq_1_1base__ostream__format_afbbaba3c8fb7d956eea723771004bd49}{\+\_\+format}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Derived$>$\newline
+struct seq\+::base\+\_\+ostream\+\_\+format$<$ T, Derived $>$}
+
+Base class for formatting objects. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & type to format \\
+\hline
+{\em Derived} & Curiously recurring template pattern\\
+\hline
+\end{DoxyTemplParams}
+This class can be derived to provide custom formatting 
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a5488e2705d67711c14a638682f29e1b2}\label{structseq_1_1base__ostream__format_a5488e2705d67711c14a638682f29e1b2}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!value\_type@{value\_type}}
+\index{value\_type@{value\_type}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+using \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::\mbox{\hyperlink{structseq_1_1base__ostream__format_a5488e2705d67711c14a638682f29e1b2}{value\+\_\+type}} =  T}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_aea4bbab205e37fe47cc06d492d27228a}\label{structseq_1_1base__ostream__format_aea4bbab205e37fe47cc06d492d27228a}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!base\_ostream\_format@{base\_ostream\_format}}
+\index{base\_ostream\_format@{base\_ostream\_format}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{base\_ostream\_format()}{base\_ostream\_format()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+\mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::\mbox{\hyperlink{structseq_1_1base__ostream__format}{base\+\_\+ostream\+\_\+format}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_acf4f7fb0239eb7c34ac028eb46d3db9f}\label{structseq_1_1base__ostream__format_acf4f7fb0239eb7c34ac028eb46d3db9f}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!base\_ostream\_format@{base\_ostream\_format}}
+\index{base\_ostream\_format@{base\_ostream\_format}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{base\_ostream\_format()}{base\_ostream\_format()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+\mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::\mbox{\hyperlink{structseq_1_1base__ostream__format}{base\+\_\+ostream\+\_\+format}} (\begin{DoxyParamCaption}\item[{const T \&}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a56479605b5e356783d59cf1f01610ecf}\label{structseq_1_1base__ostream__format_a56479605b5e356783d59cf1f01610ecf}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!base\_ostream\_format@{base\_ostream\_format}}
+\index{base\_ostream\_format@{base\_ostream\_format}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{base\_ostream\_format()}{base\_ostream\_format()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+\mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::\mbox{\hyperlink{structseq_1_1base__ostream__format}{base\+\_\+ostream\+\_\+format}} (\begin{DoxyParamCaption}\item[{const T \&}]{val,  }\item[{char}]{base\+\_\+or\+\_\+format }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a409368a083fb48c5e3179135322f6c1c}\label{structseq_1_1base__ostream__format_a409368a083fb48c5e3179135322f6c1c}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!base\_ostream\_format@{base\_ostream\_format}}
+\index{base\_ostream\_format@{base\_ostream\_format}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{base\_ostream\_format()}{base\_ostream\_format()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+\mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::\mbox{\hyperlink{structseq_1_1base__ostream__format}{base\+\_\+ostream\+\_\+format}} (\begin{DoxyParamCaption}\item[{const T \&}]{val,  }\item[{const \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \&}]{fmt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_ad8edef141cc3bb3342b4ba9396609d22}\label{structseq_1_1base__ostream__format_ad8edef141cc3bb3342b4ba9396609d22}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!alignment@{alignment}}
+\index{alignment@{alignment}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{alignment()}{alignment()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+char \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::alignment (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns alignment value of the width formatting options. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a165ecaaeb3a61156507a31003dec03ad}\label{structseq_1_1base__ostream__format_a165ecaaeb3a61156507a31003dec03ad}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!append@{append}}
+\index{append@{append}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{append()}{append()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+template$<$class String $>$ \\
+String\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::append (\begin{DoxyParamCaption}\item[{String \&}]{out }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Append the formatting object to a string-\/like object. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_af0008423449824311c4a82218fc2365e}\label{structseq_1_1base__ostream__format_af0008423449824311c4a82218fc2365e}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!as\_char@{as\_char}}
+\index{as\_char@{as\_char}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{as\_char()}{as\_char()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::as\+\_\+char (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For integral types, print the value as a character. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_afe1a9a5f6685e850a96a9f0aeacd3e3a}\label{structseq_1_1base__ostream__format_afe1a9a5f6685e850a96a9f0aeacd3e3a}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!b@{b}}
+\index{b@{b}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{b()}{b()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::b (\begin{DoxyParamCaption}\item[{char}]{\+\_\+b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the base for integral types. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_af41b152c5fe7b2eefa3b7aceb61c2d6d}\label{structseq_1_1base__ostream__format_af41b152c5fe7b2eefa3b7aceb61c2d6d}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!base@{base}}
+\index{base@{base}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{base()}{base()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+char \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::base (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a4190163a94820dcc88f04f461ba34f28}\label{structseq_1_1base__ostream__format_a4190163a94820dcc88f04f461ba34f28}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!base@{base}}
+\index{base@{base}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{base()}{base()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::base (\begin{DoxyParamCaption}\item[{char}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the base for integral types. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_ada38fab0663c072f7dd1b32c594a7930}\label{structseq_1_1base__ostream__format_ada38fab0663c072f7dd1b32c594a7930}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!c@{c}}
+\index{c@{c}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{c()}{c()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::c (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For integral types, print the value as a character. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a5ed9c11d4e2648846e64ae61a562fc2c}\label{structseq_1_1base__ostream__format_a5ed9c11d4e2648846e64ae61a562fc2c}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!c@{c}}
+\index{c@{c}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{c()}{c()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::c (\begin{DoxyParamCaption}\item[{int}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the exact width and the alignment. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a4f52bd0f8a05e5f4fd494ad2189516ad}\label{structseq_1_1base__ostream__format_a4f52bd0f8a05e5f4fd494ad2189516ad}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!center@{center}}
+\index{center@{center}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{center()}{center()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::center (\begin{DoxyParamCaption}\item[{int}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the exact width and the alignment. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a0a4f85450adcc0973c2727a6f8e97332}\label{structseq_1_1base__ostream__format_a0a4f85450adcc0973c2727a6f8e97332}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!d@{d}}
+\index{d@{d}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{d()}{d()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::d (\begin{DoxyParamCaption}\item[{char}]{\+\_\+d }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For floating point types only, set the dot character (default to \textquotesingle{}.\textquotesingle{}) 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_acd20ab4e4388ae316036dd33e2de3be2}\label{structseq_1_1base__ostream__format_acd20ab4e4388ae316036dd33e2de3be2}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!derived@{derived}}
+\index{derived@{derived}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{derived()}{derived()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+const Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::derived (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns derived object. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_ac14e6aada4febfc410190399da11397e}\label{structseq_1_1base__ostream__format_ac14e6aada4febfc410190399da11397e}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!derived@{derived}}
+\index{derived@{derived}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{derived()}{derived()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::derived (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns derived object. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_abc7333c9cfec4dede6617ead8ec2bed8}\label{structseq_1_1base__ostream__format_abc7333c9cfec4dede6617ead8ec2bed8}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!dot@{dot}}
+\index{dot@{dot}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+char \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::dot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_ad8e2fb0505c5ea83f7fe3a6275c16569}\label{structseq_1_1base__ostream__format_ad8e2fb0505c5ea83f7fe3a6275c16569}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!dot@{dot}}
+\index{dot@{dot}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::dot (\begin{DoxyParamCaption}\item[{char}]{d }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For floating point types only, set the dot character (default to \textquotesingle{}.\textquotesingle{}) 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}\label{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!f@{f}}
+\index{f@{f}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{f()}{f()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::f (\begin{DoxyParamCaption}\item[{char}]{\+\_\+f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the fill character, used with \mbox{\hyperlink{structseq_1_1base__ostream__format_a9029987483c1fe58e43bea263b678b37}{left()}}, \mbox{\hyperlink{structseq_1_1base__ostream__format_a573d1bd2789bcdc654b8fa8f80d283a6}{right()}} and \mbox{\hyperlink{structseq_1_1base__ostream__format_a4f52bd0f8a05e5f4fd494ad2189516ad}{center()}} 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a8d52d81cd5d732d426e9b0a8e0262c5e}\label{structseq_1_1base__ostream__format_a8d52d81cd5d732d426e9b0a8e0262c5e}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!fill@{fill}}
+\index{fill@{fill}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{fill()}{fill()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::fill (\begin{DoxyParamCaption}\item[{char}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the fill character, used with \mbox{\hyperlink{structseq_1_1base__ostream__format_a9029987483c1fe58e43bea263b678b37}{left()}}, \mbox{\hyperlink{structseq_1_1base__ostream__format_a573d1bd2789bcdc654b8fa8f80d283a6}{right()}} and \mbox{\hyperlink{structseq_1_1base__ostream__format_a4f52bd0f8a05e5f4fd494ad2189516ad}{center()}} 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a48f2ee1fc76f01f6d7406a92f1e54454}\label{structseq_1_1base__ostream__format_a48f2ee1fc76f01f6d7406a92f1e54454}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!fill\_character@{fill\_character}}
+\index{fill\_character@{fill\_character}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{fill\_character()}{fill\_character()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+char \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::fill\+\_\+character (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns fill character of the width formatting options. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_af7c20ef7f1241b9ab2f708395e3b2587}\label{structseq_1_1base__ostream__format_af7c20ef7f1241b9ab2f708395e3b2587}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!format@{format}}
+\index{format@{format}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{format()}{format()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+char \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::format (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a05f2106a27f6277d711f58912ae1c063}\label{structseq_1_1base__ostream__format_a05f2106a27f6277d711f58912ae1c063}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!format@{format}}
+\index{format@{format}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{format()}{format()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::format (\begin{DoxyParamCaption}\item[{char}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the format for floating point types. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_ad48441904a6d795d0679f616f3049022}\label{structseq_1_1base__ostream__format_ad48441904a6d795d0679f616f3049022}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!format@{format}}
+\index{format@{format}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{format()}{format()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::format (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_a19a45e1f866d73140819b9ea2280c682}{seq\+::chars\+\_\+format}}}]{f,  }\item[{bool}]{upper = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the format for floating point types. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_ab7b3003fc2b15efcdd29c3f40ef3cc2f}\label{structseq_1_1base__ostream__format_ab7b3003fc2b15efcdd29c3f40ef3cc2f}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!formatting@{formatting}}
+\index{formatting@{formatting}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{formatting()}{formatting()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+unsigned char \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::formatting (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a3028179495159687784222112d39699e}\label{structseq_1_1base__ostream__format_a3028179495159687784222112d39699e}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!h@{h}}
+\index{h@{h}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{h()}{h()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::h (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For integral types only and base == 16, output \textquotesingle{}0x\textquotesingle{} prefix. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a21d80f610fb12c3d9c3abae51e934d2c}\label{structseq_1_1base__ostream__format_a21d80f610fb12c3d9c3abae51e934d2c}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!hex\_prefix@{hex\_prefix}}
+\index{hex\_prefix@{hex\_prefix}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{hex\_prefix()}{hex\_prefix()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::hex\+\_\+prefix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For integral types only and base == 16, output \textquotesingle{}0x\textquotesingle{} prefix. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a1c8eb3ab0eed1182043c857e80191a61}\label{structseq_1_1base__ostream__format_a1c8eb3ab0eed1182043c857e80191a61}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!l@{l}}
+\index{l@{l}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{l()}{l()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::l (\begin{DoxyParamCaption}\item[{int}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the exact width and the alignment. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a9029987483c1fe58e43bea263b678b37}\label{structseq_1_1base__ostream__format_a9029987483c1fe58e43bea263b678b37}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!left@{left}}
+\index{left@{left}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{left()}{left()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::left (\begin{DoxyParamCaption}\item[{int}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the exact width and the alignment. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a78d82514c5efcfe3d7fae9e23a2d2d00}\label{structseq_1_1base__ostream__format_a78d82514c5efcfe3d7fae9e23a2d2d00}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!no\_align@{no\_align}}
+\index{no\_align@{no\_align}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{no\_align()}{no\_align()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::no\+\_\+align (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Reset alignment options. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a33c08cb2cd77242552ab96e14a4d65c1}\label{structseq_1_1base__ostream__format_a33c08cb2cd77242552ab96e14a4d65c1}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!numeric\_fmt@{numeric\_fmt}}
+\index{numeric\_fmt@{numeric\_fmt}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{numeric\_fmt()}{numeric\_fmt()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::numeric\+\_\+fmt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns the arithmetic format options. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_ab7fb3b47b0b57ffcbcdbbcfd9174b4fc}\label{structseq_1_1base__ostream__format_ab7fb3b47b0b57ffcbcdbbcfd9174b4fc}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!operator std::string@{operator std::string}}
+\index{operator std::string@{operator std::string}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{operator std::string()}{operator std::string()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+\mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::operator std\+::string (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Conversion operator to std\+::string. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_abc5679a0d934f148f336cda8e7046a1c}\label{structseq_1_1base__ostream__format_abc5679a0d934f148f336cda8e7046a1c}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!operator tiny\_string$<$ Ss, Al $>$@{operator tiny\_string$<$ Ss, Al $>$}}
+\index{operator tiny\_string$<$ Ss, Al $>$@{operator tiny\_string$<$ Ss, Al $>$}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{operator tiny\_string$<$ Ss, Al $>$()}{operator tiny\_string< Ss, Al >()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+template$<$size\+\_\+t Ss, class Al $>$ \\
+\mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::operator \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Ss, Al $>$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Conversion operator to \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a77b8bbc2b18db24d190264f47c4f6c29}\label{structseq_1_1base__ostream__format_a77b8bbc2b18db24d190264f47c4f6c29}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!operator()@{operator()}}
+\index{operator()@{operator()}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::operator() (\begin{DoxyParamCaption}\item[{const Derived \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Equivalent to dervied() = other. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a4563b67941a8284d1f9c0d4f133ef864}\label{structseq_1_1base__ostream__format_a4563b67941a8284d1f9c0d4f133ef864}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!operator()@{operator()}}
+\index{operator()@{operator()}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::operator() (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structseq_1_1null__format}{null\+\_\+format}} \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+operator() using placeholder object, no-\/op 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a827352bde5f920aaa8002dcb09c20da4}\label{structseq_1_1base__ostream__format_a827352bde5f920aaa8002dcb09c20da4}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!operator()@{operator()}}
+\index{operator()@{operator()}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{operator()()}{operator()()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::operator() (\begin{DoxyParamCaption}\item[{const T \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Copy v to this \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & input value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to $\ast$this 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a0ba691ddcddb692b607a1c56e33f56b9}\label{structseq_1_1base__ostream__format_a0ba691ddcddb692b607a1c56e33f56b9}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!p@{p}}
+\index{p@{p}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{p()}{p()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::p (\begin{DoxyParamCaption}\item[{int}]{\+\_\+p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the precision for floating point types, default to 6. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a520e6bf290dd9a2d4860d4de39423abd}\label{structseq_1_1base__ostream__format_a520e6bf290dd9a2d4860d4de39423abd}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!precision@{precision}}
+\index{precision@{precision}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{precision()}{precision()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+unsigned char \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::precision (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a8c1be53018c2c8beecaf409be3ebc477}\label{structseq_1_1base__ostream__format_a8c1be53018c2c8beecaf409be3ebc477}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!precision@{precision}}
+\index{precision@{precision}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{precision()}{precision()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::precision (\begin{DoxyParamCaption}\item[{int}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the precision for floating point types, default to 6. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_ad34271089e77f60e6e0c33376bce6c31}\label{structseq_1_1base__ostream__format_ad34271089e77f60e6e0c33376bce6c31}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!r@{r}}
+\index{r@{r}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{r()}{r()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::r (\begin{DoxyParamCaption}\item[{int}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the exact width and the alignment. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a573d1bd2789bcdc654b8fa8f80d283a6}\label{structseq_1_1base__ostream__format_a573d1bd2789bcdc654b8fa8f80d283a6}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!right@{right}}
+\index{right@{right}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{right()}{right()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::right (\begin{DoxyParamCaption}\item[{int}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the exact width and the alignment. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_ac8a7b6f49451a92b9b63386614bb7a26}\label{structseq_1_1base__ostream__format_ac8a7b6f49451a92b9b63386614bb7a26}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!set\_numeric\_format@{set\_numeric\_format}}
+\index{set\_numeric\_format@{set\_numeric\_format}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{set\_numeric\_format()}{set\_numeric\_format()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+void \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::set\+\_\+numeric\+\_\+format (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \&}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a7bdbefb4da82dc77cbd4759b6330c592}\label{structseq_1_1base__ostream__format_a7bdbefb4da82dc77cbd4759b6330c592}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!set\_width\_format@{set\_width\_format}}
+\index{set\_width\_format@{set\_width\_format}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{set\_width\_format()}{set\_width\_format()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+void \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::set\+\_\+width\+\_\+format (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structseq_1_1width__format}{width\+\_\+format}} \&}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a02daa761e5ba173f0ea03cac45fa804e}\label{structseq_1_1base__ostream__format_a02daa761e5ba173f0ea03cac45fa804e}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!str@{str}}
+\index{str@{str}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{str()}{str()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+template$<$class String  = std\+::string$>$ \\
+String \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::str (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Convert the formatting object to String. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a497a58e77eaa79608d1f0db421e85f88}\label{structseq_1_1base__ostream__format_a497a58e77eaa79608d1f0db421e85f88}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!t@{t}}
+\index{t@{t}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{t()}{t()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::t (\begin{DoxyParamCaption}\item[{char}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the format for floating point types. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a46f9d0761bef15e208022fec91428f0b}\label{structseq_1_1base__ostream__format_a46f9d0761bef15e208022fec91428f0b}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!t@{t}}
+\index{t@{t}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{t()}{t()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::t (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_a19a45e1f866d73140819b9ea2280c682}{seq\+::chars\+\_\+format}}}]{f,  }\item[{bool}]{upper = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_aadfaf335afead65aff7bed262b2795ea}\label{structseq_1_1base__ostream__format_aadfaf335afead65aff7bed262b2795ea}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!to\_chars@{to\_chars}}
+\index{to\_chars@{to\_chars}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{to\_chars()}{to\_chars()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+char$\ast$ \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::to\+\_\+chars (\begin{DoxyParamCaption}\item[{char $\ast$}]{dst }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_aa47a6558b3d34fd7b723bec4ae2461e3}\label{structseq_1_1base__ostream__format_aa47a6558b3d34fd7b723bec4ae2461e3}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!to\_chars@{to\_chars}}
+\index{to\_chars@{to\_chars}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{to\_chars()}{to\_chars()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+std\+::pair$<$char$\ast$, size\+\_\+t$>$ \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::to\+\_\+chars (\begin{DoxyParamCaption}\item[{char $\ast$}]{dst,  }\item[{size\+\_\+t}]{max }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a34361f96ff67db3952d1dbccd47b5c78}\label{structseq_1_1base__ostream__format_a34361f96ff67db3952d1dbccd47b5c78}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!u@{u}}
+\index{u@{u}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{u()}{u()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::u (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For integral types only and base $>$ 10, output upper case characters. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_af19cfd13336841e15bf96116c698f01a}\label{structseq_1_1base__ostream__format_af19cfd13336841e15bf96116c698f01a}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!upper@{upper}}
+\index{upper@{upper}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{upper()}{upper()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+Derived\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::upper (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+For integral types only and base $>$ 10, output upper case characters. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_adb67f1ef99db2e7622d09aa12c1d9673}\label{structseq_1_1base__ostream__format_adb67f1ef99db2e7622d09aa12c1d9673}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!value@{value}}
+\index{value@{value}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+const T\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the value held by this \mbox{\hyperlink{structseq_1_1base__ostream__format}{base\+\_\+ostream\+\_\+format}}. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a847269fc7b29632927a725d1c5f41abb}\label{structseq_1_1base__ostream__format_a847269fc7b29632927a725d1c5f41abb}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!value@{value}}
+\index{value@{value}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{value()}{value()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+T\& \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the value held by this \mbox{\hyperlink{structseq_1_1base__ostream__format}{base\+\_\+ostream\+\_\+format}}. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a249551b14435ae684058167f5f83b730}\label{structseq_1_1base__ostream__format_a249551b14435ae684058167f5f83b730}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!width@{width}}
+\index{width@{width}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{width()}{width()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+unsigned short \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::width (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns width value of the width formatting options. 
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a1197448df1ab6cede96e1ebfab278be0}\label{structseq_1_1base__ostream__format_a1197448df1ab6cede96e1ebfab278be0}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!width\_fmt@{width\_fmt}}
+\index{width\_fmt@{width\_fmt}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{width\_fmt()}{width\_fmt()}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+\mbox{\hyperlink{structseq_1_1width__format}{width\+\_\+format}} \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::width\+\_\+fmt (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns the width format options. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_afbbaba3c8fb7d956eea723771004bd49}\label{structseq_1_1base__ostream__format_afbbaba3c8fb7d956eea723771004bd49}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!\_format@{\_format}}
+\index{\_format@{\_format}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{\_format}{\_format}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+\mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::\+\_\+format\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a88b7e80f3f7de2ccd4410419db1afba3}\label{structseq_1_1base__ostream__format_a88b7e80f3f7de2ccd4410419db1afba3}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!\_value@{\_value}}
+\index{\_value@{\_value}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{\_value}{\_value}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_value_holder}{detail\+::\+Value\+Holder}}$<$T$>$ \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::\+\_\+value\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a44f32a469001d55f1ea32db8d3c867f7}\label{structseq_1_1base__ostream__format_a44f32a469001d55f1ea32db8d3c867f7}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!\_width@{\_width}}
+\index{\_width@{\_width}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{\_width}{\_width}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+\mbox{\hyperlink{structseq_1_1width__format}{width\+\_\+format}} \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::\+\_\+width\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a471150a3451ab8bf42758e21e4972bf9}\label{structseq_1_1base__ostream__format_a471150a3451ab8bf42758e21e4972bf9}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!auto\_width\_format@{auto\_width\_format}}
+\index{auto\_width\_format@{auto\_width\_format}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{auto\_width\_format}{auto\_width\_format}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+constexpr bool \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::auto\+\_\+width\+\_\+format = false\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\mbox{\Hypertarget{structseq_1_1base__ostream__format_a2b6d22ef8bbb6467964bce59beb40d44}\label{structseq_1_1base__ostream__format_a2b6d22ef8bbb6467964bce59beb40d44}} 
+\index{seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}!is\_formattable@{is\_formattable}}
+\index{is\_formattable@{is\_formattable}!seq::base\_ostream\_format$<$ T, Derived $>$@{seq::base\_ostream\_format$<$ T, Derived $>$}}
+\doxysubsubsection{\texorpdfstring{is\_formattable}{is\_formattable}}
+{\footnotesize\ttfamily template$<$class T , class Derived $>$ \\
+constexpr bool \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+ostream\+\_\+format}}$<$ T, Derived $>$\+::\mbox{\hyperlink{structseq_1_1is__formattable}{is\+\_\+formattable}} = true\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{format_8hpp}{format.\+hpp}}\end{DoxyCompactItemize}

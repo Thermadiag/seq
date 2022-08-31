@@ -1,0 +1,625 @@
+\hypertarget{structtiny__string}{}\doxysection{tiny\+\_\+string$<$ Max\+Static\+Size, Allocator $>$ Struct Template Reference}
+\label{structtiny__string}\index{tiny\_string$<$ MaxStaticSize, Allocator $>$@{tiny\_string$<$ MaxStaticSize, Allocator $>$}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structtiny__string_ab3e21182654bb3c84a5314a04c64fd06}\label{structtiny__string_ab3e21182654bb3c84a5314a04c64fd06}} 
+using {\bfseries internal\+\_\+data} = \mbox{\hyperlink{structdetail_1_1string__internal}{detail\+::string\+\_\+internal}}$<$ Max\+Static\+Size, Allocator $>$
+\item 
+\mbox{\Hypertarget{structtiny__string_a3d592317fac6761bf0ab90ef28156bb6}\label{structtiny__string_a3d592317fac6761bf0ab90ef28156bb6}} 
+using {\bfseries this\+\_\+type} = \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}}$<$ Max\+Static\+Size, Allocator $>$
+\item 
+\mbox{\Hypertarget{structtiny__string_aac16473d5f365c74d39bd1b6013d7bce}\label{structtiny__string_aac16473d5f365c74d39bd1b6013d7bce}} 
+using {\bfseries traits\+\_\+type} = std\+::char\+\_\+traits$<$ char $>$
+\item 
+\mbox{\Hypertarget{structtiny__string_a6f40a77a36bfc6ea47f11dc7cf877c52}\label{structtiny__string_a6f40a77a36bfc6ea47f11dc7cf877c52}} 
+using {\bfseries value\+\_\+type} = char
+\item 
+\mbox{\Hypertarget{structtiny__string_ab3ec1ebb798924e1099e4782c3e2dbf4}\label{structtiny__string_ab3ec1ebb798924e1099e4782c3e2dbf4}} 
+using {\bfseries reference} = char \&
+\item 
+\mbox{\Hypertarget{structtiny__string_acd9bf06a6765182269f314bfa3e23730}\label{structtiny__string_acd9bf06a6765182269f314bfa3e23730}} 
+using {\bfseries pointer} = char $\ast$
+\item 
+\mbox{\Hypertarget{structtiny__string_abcfb564325cea1588b50937986d8469b}\label{structtiny__string_abcfb564325cea1588b50937986d8469b}} 
+using {\bfseries const\+\_\+reference} = const char \&
+\item 
+\mbox{\Hypertarget{structtiny__string_a387a0541972769fd02984a5012df49ad}\label{structtiny__string_a387a0541972769fd02984a5012df49ad}} 
+using {\bfseries const\+\_\+pointer} = const char $\ast$
+\item 
+\mbox{\Hypertarget{structtiny__string_a2b93f46336c5c1c91fb442cd695e4666}\label{structtiny__string_a2b93f46336c5c1c91fb442cd695e4666}} 
+using {\bfseries iterator} = char $\ast$
+\item 
+\mbox{\Hypertarget{structtiny__string_aee714c71932785d3367681e5f96013fa}\label{structtiny__string_aee714c71932785d3367681e5f96013fa}} 
+using {\bfseries const\+\_\+iterator} = const char $\ast$
+\item 
+\mbox{\Hypertarget{structtiny__string_a4368bb09bed2990a1258312ec69a0051}\label{structtiny__string_a4368bb09bed2990a1258312ec69a0051}} 
+using {\bfseries reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ iterator $>$
+\item 
+\mbox{\Hypertarget{structtiny__string_ae0e49a7a5e0cfb01a324a27965d1e6a5}\label{structtiny__string_ae0e49a7a5e0cfb01a324a27965d1e6a5}} 
+using {\bfseries const\+\_\+reverse\+\_\+iterator} = std\+::reverse\+\_\+iterator$<$ const\+\_\+iterator $>$
+\item 
+\mbox{\Hypertarget{structtiny__string_a8f4041dba310b6c9042d9bc2086db8d1}\label{structtiny__string_a8f4041dba310b6c9042d9bc2086db8d1}} 
+using {\bfseries size\+\_\+type} = size\+\_\+t
+\item 
+\mbox{\Hypertarget{structtiny__string_a3084b8cc914dec47ccd137ddbc7f625f}\label{structtiny__string_a3084b8cc914dec47ccd137ddbc7f625f}} 
+using {\bfseries difference\+\_\+type} = std\+::intptr\+\_\+t
+\item 
+\mbox{\Hypertarget{structtiny__string_ab1202f8ae1e24bca96105745d3d66623}\label{structtiny__string_ab1202f8ae1e24bca96105745d3d66623}} 
+using {\bfseries allocator\+\_\+type} = Allocator
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structtiny__string_a6d4ffa487aee5e7e07cb3215617de48a}\label{structtiny__string_a6d4ffa487aee5e7e07cb3215617de48a}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+sso} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a097d6b0b6815e59f0991fc4ddcf10ba7}\label{structtiny__string_a097d6b0b6815e59f0991fc4ddcf10ba7}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+\_\+sso} (size\+\_\+t len) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a93f035953798c87bcc54209c6eec9c2a}\label{structtiny__string_a93f035953798c87bcc54209c6eec9c2a}} 
+void {\bfseries set\+\_\+size\+\_\+internal} (size\+\_\+t len) noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a8ebfc94bd7bf3b5be7ad52a3e5792be9}\label{structtiny__string_a8ebfc94bd7bf3b5be7ad52a3e5792be9}} 
+size\+\_\+t {\bfseries size\+\_\+internal} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a50f88303dd9929578fd44c590edea61c}\label{structtiny__string_a50f88303dd9929578fd44c590edea61c}} 
+size\+\_\+t {\bfseries capacity\+\_\+internal} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a13c282e1ca5c9a4840222fdaf4b4237b}\label{structtiny__string_a13c282e1ca5c9a4840222fdaf4b4237b}} 
+size\+\_\+t {\bfseries capacity\+\_\+for\+\_\+length} (size\+\_\+t len) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_abe27fbbd616b7781bdfa7c5e40ada2cb}\label{structtiny__string_abe27fbbd616b7781bdfa7c5e40ada2cb}} 
+void {\bfseries resize\+\_\+uninitialized} (size\+\_\+t len, bool keep\+\_\+old, bool exact\+\_\+size=false)
+\item 
+\mbox{\Hypertarget{structtiny__string_a9ec2f3d43317d625e577cd9df8c882d6}\label{structtiny__string_a9ec2f3d43317d625e577cd9df8c882d6}} 
+{\footnotesize template$<$class Iter , class Cat $>$ }\\void {\bfseries assign\+\_\+cat} (Iter first, Iter last, Cat)
+\item 
+\mbox{\Hypertarget{structtiny__string_af18557dbf014e5a4221c10df40d2b559}\label{structtiny__string_af18557dbf014e5a4221c10df40d2b559}} 
+{\footnotesize template$<$class Iter $>$ }\\void {\bfseries assign\+\_\+cat} (Iter first, Iter last, std\+::random\+\_\+access\+\_\+iterator\+\_\+tag)
+\item 
+\mbox{\Hypertarget{structtiny__string_a041c93b454b5075d1581f5bfdabd40a7}\label{structtiny__string_a041c93b454b5075d1581f5bfdabd40a7}} 
+{\footnotesize template$<$class Iter , class Cat $>$ }\\void {\bfseries insert\+\_\+cat} (size\+\_\+t pos, Iter first, Iter last, Cat)
+\item 
+\mbox{\Hypertarget{structtiny__string_a9c70be654b5bbc95ad2f876438fb1713}\label{structtiny__string_a9c70be654b5bbc95ad2f876438fb1713}} 
+{\footnotesize template$<$class Iter $>$ }\\void {\bfseries insert\+\_\+cat} (size\+\_\+t pos, Iter first, Iter last, std\+::random\+\_\+access\+\_\+iterator\+\_\+tag)
+\item 
+\mbox{\Hypertarget{structtiny__string_a4a8f86c849e2723ab61606bcc121e68b}\label{structtiny__string_a4a8f86c849e2723ab61606bcc121e68b}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE bool {\bfseries is\+Pow2} (size\+\_\+t len) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ada6c059991b45c1a02d9d2fe425d995d}\label{structtiny__string_ada6c059991b45c1a02d9d2fe425d995d}} 
+void {\bfseries extend\+\_\+buffer\+\_\+for\+\_\+push\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{structtiny__string_a76fbd26b5c1f3bde5117b3cc2d94d8ce}\label{structtiny__string_a76fbd26b5c1f3bde5117b3cc2d94d8ce}} 
+void {\bfseries push\+\_\+back\+\_\+sso} (char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_a2da8ecfe4589193a80411141a4ab412c}\label{structtiny__string_a2da8ecfe4589193a80411141a4ab412c}} 
+void {\bfseries pop\+\_\+back\+\_\+to\+\_\+sso} ()
+\item 
+\mbox{\Hypertarget{structtiny__string_a318185a1b3c0ddd94c3ba112e1563314}\label{structtiny__string_a318185a1b3c0ddd94c3ba112e1563314}} 
+void {\bfseries erase\+\_\+internal} (size\+\_\+t first, size\+\_\+t last)
+\item 
+\mbox{\Hypertarget{structtiny__string_ab934e940007f9abe255e7efc25aec133}\label{structtiny__string_ab934e940007f9abe255e7efc25aec133}} 
+{\footnotesize template$<$class Iter $>$ }\\void {\bfseries replace\+\_\+cat} (size\+\_\+t pos, size\+\_\+t len, Iter first, Iter last, std\+::random\+\_\+access\+\_\+iterator\+\_\+tag)
+\item 
+\mbox{\Hypertarget{structtiny__string_acdb3d2568188168b3ff614e13cb7ff91}\label{structtiny__string_acdb3d2568188168b3ff614e13cb7ff91}} 
+{\footnotesize template$<$class Iter , class Cat $>$ }\\void {\bfseries replace\+\_\+cat} (size\+\_\+t pos, size\+\_\+t len, Iter first, Iter last, Cat c)
+\item 
+\mbox{\Hypertarget{structtiny__string_afa77da829075bc361654dab60e55c27a}\label{structtiny__string_afa77da829075bc361654dab60e55c27a}} 
+{\footnotesize template$<$class Iter $>$ }\\void {\bfseries replace\+\_\+internal} (size\+\_\+t pos, size\+\_\+t len, Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{structtiny__string_a7fd35966471a6b7a4ff8bd27be4db65b}\label{structtiny__string_a7fd35966471a6b7a4ff8bd27be4db65b}} 
+char $\ast$ {\bfseries initialize} (size\+\_\+t size)
+\item 
+\mbox{\Hypertarget{structtiny__string_a53fe2e631692cc00e7fa6e4c7532dcae}\label{structtiny__string_a53fe2e631692cc00e7fa6e4c7532dcae}} 
+char $\ast$ {\bfseries data} () noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a93106def65228ace31b08255de4386ba}\label{structtiny__string_a93106def65228ace31b08255de4386ba}} 
+const char $\ast$ {\bfseries data} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ac2808f94789fa063e677cf1ddaca8ded}\label{structtiny__string_ac2808f94789fa063e677cf1ddaca8ded}} 
+const char $\ast$ {\bfseries c\+\_\+str} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ae745adda3d5ed60f9aaee820dffa64ce}\label{structtiny__string_ae745adda3d5ed60f9aaee820dffa64ce}} 
+size\+\_\+t {\bfseries size} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a4bd6e08133fc840aa0a6f7f38c476bf7}\label{structtiny__string_a4bd6e08133fc840aa0a6f7f38c476bf7}} 
+size\+\_\+t {\bfseries length} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a2f5b2bd8fd34d812b27c62430cc9998a}\label{structtiny__string_a2f5b2bd8fd34d812b27c62430cc9998a}} 
+size\+\_\+t {\bfseries max\+\_\+size} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_abe9db6b23f6bcbd44e6664170639d96e}\label{structtiny__string_abe9db6b23f6bcbd44e6664170639d96e}} 
+size\+\_\+t {\bfseries capacity} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_afc342a3f05f14f146690dff04ee8cd57}\label{structtiny__string_afc342a3f05f14f146690dff04ee8cd57}} 
+bool {\bfseries empty} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a830fecb903959fe7a303b59395e7a10d}\label{structtiny__string_a830fecb903959fe7a303b59395e7a10d}} 
+allocator\+\_\+type {\bfseries get\+\_\+allocator} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_aa40ff33bdf59681ab9789cf5bfc83c00}\label{structtiny__string_aa40ff33bdf59681ab9789cf5bfc83c00}} 
+{\bfseries tiny\+\_\+string} (const char $\ast$data)
+\item 
+\mbox{\Hypertarget{structtiny__string_a4e22a0e0cb6623f697558fe04c8fb5e2}\label{structtiny__string_a4e22a0e0cb6623f697558fe04c8fb5e2}} 
+{\bfseries tiny\+\_\+string} (const char $\ast$data, size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{structtiny__string_a2cd0e3cdbbf9a1ad7bd02dbaf59330b0}\label{structtiny__string_a2cd0e3cdbbf9a1ad7bd02dbaf59330b0}} 
+{\bfseries tiny\+\_\+string} (size\+\_\+t n, char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_a0e69ee53198ad032a330af10845627c0}\label{structtiny__string_a0e69ee53198ad032a330af10845627c0}} 
+{\bfseries tiny\+\_\+string} (const std\+::string \&str)
+\item 
+\mbox{\Hypertarget{structtiny__string_a32aff77949f53ce5e1619a797d76baac}\label{structtiny__string_a32aff77949f53ce5e1619a797d76baac}} 
+I\+N\+C\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE {\bfseries tiny\+\_\+string} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&other)
+\item 
+\mbox{\Hypertarget{structtiny__string_a41aa674722fb6af5d811ef4da8c38bac}\label{structtiny__string_a41aa674722fb6af5d811ef4da8c38bac}} 
+{\bfseries tiny\+\_\+string} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&other, size\+\_\+t pos, size\+\_\+t len=npos)
+\item 
+\mbox{\Hypertarget{structtiny__string_ad3f067c6ee2b5836f46c4039163d7ea7}\label{structtiny__string_ad3f067c6ee2b5836f46c4039163d7ea7}} 
+{\bfseries tiny\+\_\+string} (\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a2ad6f050bba9080a88ba1083aac02d49}\label{structtiny__string_a2ad6f050bba9080a88ba1083aac02d49}} 
+{\footnotesize template$<$class Iter $>$ }\\{\bfseries tiny\+\_\+string} (Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{structtiny__string_af27566baaf55999b21cc3a9427de6479}\label{structtiny__string_af27566baaf55999b21cc3a9427de6479}} 
+{\bfseries tiny\+\_\+string} (std\+::initializer\+\_\+list$<$ char $>$ il)
+\item 
+\mbox{\Hypertarget{structtiny__string_a78c36b6c6428b6da306f82d7789633e1}\label{structtiny__string_a78c36b6c6428b6da306f82d7789633e1}} 
+{\footnotesize template$<$class Iter $>$ }\\\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries assign} (Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{structtiny__string_ae2639884860a103702cfbdb7ef3e6f04}\label{structtiny__string_ae2639884860a103702cfbdb7ef3e6f04}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries assign} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&other)
+\item 
+\mbox{\Hypertarget{structtiny__string_ace39fa8f82b39aa2cb38c8c4f0941712}\label{structtiny__string_ace39fa8f82b39aa2cb38c8c4f0941712}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries assign} (const std\+::string \&other)
+\item 
+\mbox{\Hypertarget{structtiny__string_a6d306f809970cd0ae97195bef3385a28}\label{structtiny__string_a6d306f809970cd0ae97195bef3385a28}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries assign} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t subpos, size\+\_\+t sublen=npos)
+\item 
+\mbox{\Hypertarget{structtiny__string_ac88a6263e29d2670b94bc077a5c472ca}\label{structtiny__string_ac88a6263e29d2670b94bc077a5c472ca}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries assign} (const char $\ast$s)
+\item 
+\mbox{\Hypertarget{structtiny__string_abec9a17735e57fda0f8268567d2c640a}\label{structtiny__string_abec9a17735e57fda0f8268567d2c640a}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries assign} (const char $\ast$s, size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{structtiny__string_a82d624683c436153cbc38d826547697e}\label{structtiny__string_a82d624683c436153cbc38d826547697e}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries assign} (size\+\_\+t n, char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_a222d3de8efd164948d1bb8426de33da7}\label{structtiny__string_a222d3de8efd164948d1bb8426de33da7}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries assign} (std\+::initializer\+\_\+list$<$ char $>$ il)
+\item 
+\mbox{\Hypertarget{structtiny__string_a57ffc1d27b84153894b5b761922e28d2}\label{structtiny__string_a57ffc1d27b84153894b5b761922e28d2}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries assign} (\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a3dcd2b233a4bc9c5f4db3f4e47ac49c6}\label{structtiny__string_a3dcd2b233a4bc9c5f4db3f4e47ac49c6}} 
+void {\bfseries resize} (size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{structtiny__string_a390c039bbd7dabf523747ed49794a1a1}\label{structtiny__string_a390c039bbd7dabf523747ed49794a1a1}} 
+void {\bfseries resize} (size\+\_\+t n, char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_a19c0b70eee1591e4abf8c74c87f5bef3}\label{structtiny__string_a19c0b70eee1591e4abf8c74c87f5bef3}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{structtiny__string_ac44a6176c7013a4dcbf76796d9eb187e}\label{structtiny__string_ac44a6176c7013a4dcbf76796d9eb187e}} 
+void {\bfseries resize\+\_\+front} (size\+\_\+t n, char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_ad0955173241a16cde9d8b6e8bc7efefc}\label{structtiny__string_ad0955173241a16cde9d8b6e8bc7efefc}} 
+void {\bfseries swap} (\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&other)
+\item 
+\mbox{\Hypertarget{structtiny__string_a207fe6550a777707a8606176f1f3b527}\label{structtiny__string_a207fe6550a777707a8606176f1f3b527}} 
+void {\bfseries clear} () noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a770fd1751ec366e8055b3ee30060c5f2}\label{structtiny__string_a770fd1751ec366e8055b3ee30060c5f2}} 
+void {\bfseries shrink\+\_\+to\+\_\+fit} ()
+\item 
+\mbox{\Hypertarget{structtiny__string_a90afc3b6fdaf18f015c8beafcb7ef1de}\label{structtiny__string_a90afc3b6fdaf18f015c8beafcb7ef1de}} 
+void {\bfseries reserve} (size\+\_\+t)
+\item 
+\mbox{\Hypertarget{structtiny__string_abe0069b9f8b53b7c19eb4f706beb8e92}\label{structtiny__string_abe0069b9f8b53b7c19eb4f706beb8e92}} 
+iterator {\bfseries begin} () noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ad469539e258900fc697dde1bf594082f}\label{structtiny__string_ad469539e258900fc697dde1bf594082f}} 
+const\+\_\+iterator {\bfseries begin} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a0cd408891ad2cccaf681e172809065db}\label{structtiny__string_a0cd408891ad2cccaf681e172809065db}} 
+const\+\_\+iterator {\bfseries cbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ade791cc62a09da3e372147c8593337dc}\label{structtiny__string_ade791cc62a09da3e372147c8593337dc}} 
+iterator {\bfseries end} () noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_aef9b4755525d95fbbabe0c8cce9e24d0}\label{structtiny__string_aef9b4755525d95fbbabe0c8cce9e24d0}} 
+const\+\_\+iterator {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ae0d9891d880ed40a82f2f4f5546b8a16}\label{structtiny__string_ae0d9891d880ed40a82f2f4f5546b8a16}} 
+const\+\_\+iterator {\bfseries cend} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ac4e2e3a522540c1deba025bd4c79edcf}\label{structtiny__string_ac4e2e3a522540c1deba025bd4c79edcf}} 
+reverse\+\_\+iterator {\bfseries rbegin} () noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a493e97b140ca0f66027139e181af5278}\label{structtiny__string_a493e97b140ca0f66027139e181af5278}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a754aedb4c0550eaeaa7dd957a44f8013}\label{structtiny__string_a754aedb4c0550eaeaa7dd957a44f8013}} 
+reverse\+\_\+iterator {\bfseries rend} () noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ad0aaff9bcd859cce8d74ff378e7532d6}\label{structtiny__string_ad0aaff9bcd859cce8d74ff378e7532d6}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries rend} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a50c8ac73647f500a2d2c21ac08aeaca3}\label{structtiny__string_a50c8ac73647f500a2d2c21ac08aeaca3}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crbegin} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ad6b1fd534c35123841be6cea152743de}\label{structtiny__string_ad6b1fd534c35123841be6cea152743de}} 
+const\+\_\+reverse\+\_\+iterator {\bfseries crend} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a89d52326ffdaab55f19bae4b03f3da56}\label{structtiny__string_a89d52326ffdaab55f19bae4b03f3da56}} 
+char {\bfseries at} (size\+\_\+t pos) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a60e3050ad00071586b3a55bf45eaf792}\label{structtiny__string_a60e3050ad00071586b3a55bf45eaf792}} 
+char \& {\bfseries at} (size\+\_\+t pos)
+\item 
+\mbox{\Hypertarget{structtiny__string_af0445ffa8ca73015f7a153c73e8026d4}\label{structtiny__string_af0445ffa8ca73015f7a153c73e8026d4}} 
+char {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t pos) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ae3fef75a18973668413bcacfbf337742}\label{structtiny__string_ae3fef75a18973668413bcacfbf337742}} 
+char \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t pos) noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ab1630b1f85a6c61297b5a292fd2db36e}\label{structtiny__string_ab1630b1f85a6c61297b5a292fd2db36e}} 
+char {\bfseries back} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ae235e4671407cadd5aa9328869cf2c96}\label{structtiny__string_ae235e4671407cadd5aa9328869cf2c96}} 
+char \& {\bfseries back} () noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a7b28777fd8c70ea3f9feda5d9e54528f}\label{structtiny__string_a7b28777fd8c70ea3f9feda5d9e54528f}} 
+char {\bfseries front} () const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a913bb449441acfeb54c25e68a2317170}\label{structtiny__string_a913bb449441acfeb54c25e68a2317170}} 
+char \& {\bfseries front} () noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_afdc1f333e441e1d4542ae5ecb1fdf08d}\label{structtiny__string_afdc1f333e441e1d4542ae5ecb1fdf08d}} 
+void {\bfseries push\+\_\+back} (char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_a244167b72d0ad24264ff79625989584d}\label{structtiny__string_a244167b72d0ad24264ff79625989584d}} 
+void {\bfseries pop\+\_\+back} ()
+\item 
+\mbox{\Hypertarget{structtiny__string_ac0e14d2f0d3c16f1d92507d67ac505f2}\label{structtiny__string_ac0e14d2f0d3c16f1d92507d67ac505f2}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries append} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str)
+\item 
+\mbox{\Hypertarget{structtiny__string_a0622e5de3d903ffdf0ad6979fe5f4efb}\label{structtiny__string_a0622e5de3d903ffdf0ad6979fe5f4efb}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries append} (const std\+::string \&str)
+\item 
+\mbox{\Hypertarget{structtiny__string_a46666156b18c34ee4b45b5cf310d065c}\label{structtiny__string_a46666156b18c34ee4b45b5cf310d065c}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries append} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t subpos, size\+\_\+t sublen=npos)
+\item 
+\mbox{\Hypertarget{structtiny__string_a57b3eb3b89d3cb9a298b208593fab267}\label{structtiny__string_a57b3eb3b89d3cb9a298b208593fab267}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries append} (const char $\ast$s)
+\item 
+\mbox{\Hypertarget{structtiny__string_a66bbe41d5923c820ebcfccd1d301aab0}\label{structtiny__string_a66bbe41d5923c820ebcfccd1d301aab0}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries append} (const char $\ast$s, size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{structtiny__string_a3f3b155814b0a5a50c4757fb20583cf4}\label{structtiny__string_a3f3b155814b0a5a50c4757fb20583cf4}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries append} (size\+\_\+t n, char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_a67590caf1a06a9f19cb043591dedd10d}\label{structtiny__string_a67590caf1a06a9f19cb043591dedd10d}} 
+{\footnotesize template$<$class Iter $>$ }\\\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries append} (Iter first, Iter last)
+\item 
+\mbox{\Hypertarget{structtiny__string_abf42d75c484a3f6d63687f329dd9549e}\label{structtiny__string_abf42d75c484a3f6d63687f329dd9549e}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries append} (std\+::initializer\+\_\+list$<$ char $>$ il)
+\item 
+\mbox{\Hypertarget{structtiny__string_a45988385ef1dd23b2b90bcb71df9dc84}\label{structtiny__string_a45988385ef1dd23b2b90bcb71df9dc84}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries insert} (size\+\_\+t pos, const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str)
+\item 
+\mbox{\Hypertarget{structtiny__string_a6cc7c394fbcfd41e8a5d3b3cb0c0bdd0}\label{structtiny__string_a6cc7c394fbcfd41e8a5d3b3cb0c0bdd0}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries insert} (size\+\_\+t pos, const std\+::string \&str)
+\item 
+\mbox{\Hypertarget{structtiny__string_ad5c0a826e36ac588b69b51022fad1835}\label{structtiny__string_ad5c0a826e36ac588b69b51022fad1835}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries insert} (size\+\_\+t pos, const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t subpos, size\+\_\+t sublen=npos)
+\item 
+\mbox{\Hypertarget{structtiny__string_a3f87784a809696703baa740212c31c16}\label{structtiny__string_a3f87784a809696703baa740212c31c16}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries insert} (size\+\_\+t pos, const char $\ast$s)
+\item 
+\mbox{\Hypertarget{structtiny__string_ad9eb353e4dab39dae11c0b0ac42ecc6a}\label{structtiny__string_ad9eb353e4dab39dae11c0b0ac42ecc6a}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries insert} (size\+\_\+t pos, const char $\ast$s, size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{structtiny__string_a82536a51a64b91dd3b8d2d286cb0b8cb}\label{structtiny__string_a82536a51a64b91dd3b8d2d286cb0b8cb}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries insert} (size\+\_\+t pos, size\+\_\+t n, char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_a4916fc2030052fcc7e72ede08d3d06bd}\label{structtiny__string_a4916fc2030052fcc7e72ede08d3d06bd}} 
+iterator {\bfseries insert} (const\+\_\+iterator p, size\+\_\+t n, char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_a6a9331ced66f1b5f6c550a2596d23caf}\label{structtiny__string_a6a9331ced66f1b5f6c550a2596d23caf}} 
+iterator {\bfseries insert} (const\+\_\+iterator p, char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_ad5daeb1cf564227fb7121ed1b18f9f39}\label{structtiny__string_ad5daeb1cf564227fb7121ed1b18f9f39}} 
+{\footnotesize template$<$class Input\+Iterator $>$ }\\iterator {\bfseries insert} (const\+\_\+iterator p, Input\+Iterator first, Input\+Iterator last)
+\item 
+\mbox{\Hypertarget{structtiny__string_ac586355ff2de189240163649005cf079}\label{structtiny__string_ac586355ff2de189240163649005cf079}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries insert} (const\+\_\+iterator p, std\+::initializer\+\_\+list$<$ char $>$ il)
+\item 
+\mbox{\Hypertarget{structtiny__string_a7fb23b015791ee588a5b232e92abb7bf}\label{structtiny__string_a7fb23b015791ee588a5b232e92abb7bf}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries erase} (size\+\_\+t subpos=0, size\+\_\+t sublen=npos)
+\item 
+\mbox{\Hypertarget{structtiny__string_a4bc6c88128fd9848cda7d71e9ed1bc7f}\label{structtiny__string_a4bc6c88128fd9848cda7d71e9ed1bc7f}} 
+iterator {\bfseries erase} (const\+\_\+iterator p)
+\item 
+\mbox{\Hypertarget{structtiny__string_af358d3eb221f7a9f3cb36e1974c72d3f}\label{structtiny__string_af358d3eb221f7a9f3cb36e1974c72d3f}} 
+iterator {\bfseries erase} (const\+\_\+iterator first, const\+\_\+iterator last)
+\item 
+\mbox{\Hypertarget{structtiny__string_af4483c3382046ee2c3bf77aa0bdaeb29}\label{structtiny__string_af4483c3382046ee2c3bf77aa0bdaeb29}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries replace} (size\+\_\+t pos, size\+\_\+t len, const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str)
+\item 
+\mbox{\Hypertarget{structtiny__string_aed2fa441b345768fbc68cd1ad8058142}\label{structtiny__string_aed2fa441b345768fbc68cd1ad8058142}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries replace} (const\+\_\+iterator i1, const\+\_\+iterator i2, const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str)
+\item 
+\mbox{\Hypertarget{structtiny__string_a3b42efbab94d99f22fbb65e65b3689d5}\label{structtiny__string_a3b42efbab94d99f22fbb65e65b3689d5}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries replace} (size\+\_\+t pos, size\+\_\+t len, const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t subpos, size\+\_\+t sublen)
+\item 
+\mbox{\Hypertarget{structtiny__string_a9168ebc461163e8b2b9d1d0d052f1ec8}\label{structtiny__string_a9168ebc461163e8b2b9d1d0d052f1ec8}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries replace} (size\+\_\+t pos, size\+\_\+t len, const char $\ast$s)
+\item 
+\mbox{\Hypertarget{structtiny__string_a82bd9b4d6d5fbcd079639a5273f9d485}\label{structtiny__string_a82bd9b4d6d5fbcd079639a5273f9d485}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries replace} (const\+\_\+iterator i1, const\+\_\+iterator i2, const char $\ast$s)
+\item 
+\mbox{\Hypertarget{structtiny__string_a4348c53e6cb3fb4c4b4ddc06e651a26e}\label{structtiny__string_a4348c53e6cb3fb4c4b4ddc06e651a26e}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries replace} (size\+\_\+t pos, size\+\_\+t len, const char $\ast$s, size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{structtiny__string_a5ce28773df2d46e8742b8aada657b78c}\label{structtiny__string_a5ce28773df2d46e8742b8aada657b78c}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries replace} (const\+\_\+iterator i1, const\+\_\+iterator i2, const char $\ast$s, size\+\_\+t n)
+\item 
+\mbox{\Hypertarget{structtiny__string_a1abb54d86120117edb104e2319c387b3}\label{structtiny__string_a1abb54d86120117edb104e2319c387b3}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries replace} (size\+\_\+t pos, size\+\_\+t len, size\+\_\+t n, char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_a6779553a12db451181464f4941d306d7}\label{structtiny__string_a6779553a12db451181464f4941d306d7}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries replace} (const\+\_\+iterator i1, const\+\_\+iterator i2, size\+\_\+t n, char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_aa95b66e6a765a38f86a8811b356c57bc}\label{structtiny__string_aa95b66e6a765a38f86a8811b356c57bc}} 
+{\footnotesize template$<$class Input\+Iterator $>$ }\\\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries replace} (const\+\_\+iterator i1, const\+\_\+iterator i2, Input\+Iterator first, Input\+Iterator last)
+\item 
+\mbox{\Hypertarget{structtiny__string_ad35ad7d3abc425e1b9584a58492b7927}\label{structtiny__string_ad35ad7d3abc425e1b9584a58492b7927}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries replace} (const\+\_\+iterator i1, const\+\_\+iterator i2, std\+::initializer\+\_\+list$<$ char $>$ il)
+\item 
+size\+\_\+t \mbox{\hyperlink{structtiny__string_ae4ceffda7b2552f954f847e9eaa3f7be}{replace}} (const char $\ast$\+\_\+from, size\+\_\+t n1, const char $\ast$\+\_\+to, size\+\_\+t n2, size\+\_\+t start=0)
+\item 
+\mbox{\Hypertarget{structtiny__string_a261fabfdcdab655c629f330781a3fae1}\label{structtiny__string_a261fabfdcdab655c629f330781a3fae1}} 
+size\+\_\+t {\bfseries replace} (const char $\ast$\+\_\+from, const char $\ast$\+\_\+to, size\+\_\+t start=0)
+\item 
+\mbox{\Hypertarget{structtiny__string_a71f7424bc0165d417c1e6eb3ebdafe07}\label{structtiny__string_a71f7424bc0165d417c1e6eb3ebdafe07}} 
+size\+\_\+t {\bfseries replace} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&\+\_\+from, const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&\+\_\+to, size\+\_\+t start=0)
+\item 
+\mbox{\Hypertarget{structtiny__string_a9deab4aa93abeb42eddc662028fbccec}\label{structtiny__string_a9deab4aa93abeb42eddc662028fbccec}} 
+size\+\_\+t {\bfseries replace} (const std\+::string \&\+\_\+from, const std\+::string \&\+\_\+to, size\+\_\+t start=0)
+\item 
+size\+\_\+t \mbox{\hyperlink{structtiny__string_a10fc4c0d909f5365d3aeb862fd1546a9}{count}} (const char $\ast$str, size\+\_\+t n, size\+\_\+t start=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a3de91ad1dcef18cf5757da094281410d}\label{structtiny__string_a3de91ad1dcef18cf5757da094281410d}} 
+size\+\_\+t {\bfseries count} (const char $\ast$str, size\+\_\+t start=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_acd9099079599a577f3dc760cc46134a0}\label{structtiny__string_acd9099079599a577f3dc760cc46134a0}} 
+size\+\_\+t {\bfseries count} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t start=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ad2032256b4205f71a6900640c1a965fa}\label{structtiny__string_ad2032256b4205f71a6900640c1a965fa}} 
+size\+\_\+t {\bfseries count} (const std\+::string \&str, size\+\_\+t start=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_af8324ade8f5e17593ea1497aad6015c0}\label{structtiny__string_af8324ade8f5e17593ea1497aad6015c0}} 
+size\+\_\+t {\bfseries count} (char c, size\+\_\+t start=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_aa1a3b502d71e794132c6f462caf47154}\label{structtiny__string_aa1a3b502d71e794132c6f462caf47154}} 
+{\footnotesize template$<$class Iter $>$ }\\Iter {\bfseries split} (const char $\ast$match, size\+\_\+t n, Iter out, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a54447b52cba49225b90dc04958b61199}\label{structtiny__string_a54447b52cba49225b90dc04958b61199}} 
+{\footnotesize template$<$class Iter $>$ }\\Iter {\bfseries split} (const char $\ast$match, Iter out, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+\mbox{\Hypertarget{structtiny__string_af4440d3ae9a465521b098d7e9c678aae}\label{structtiny__string_af4440d3ae9a465521b098d7e9c678aae}} 
+{\footnotesize template$<$class Iter $>$ }\\Iter {\bfseries split} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&match, Iter out, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a635f64f1d2e0bf53063e912442b48afd}\label{structtiny__string_a635f64f1d2e0bf53063e912442b48afd}} 
+{\footnotesize template$<$class Iter $>$ }\\Iter {\bfseries split} (const std\+::string \&match, Iter out, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a817b9a7b9e05a2e224dff4779166c8b3}\label{structtiny__string_a817b9a7b9e05a2e224dff4779166c8b3}} 
+std\+::vector$<$ \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} $>$ {\bfseries split} (const char $\ast$match, size\+\_\+t n, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a52b5219e102e65c6b343e0155b98db90}\label{structtiny__string_a52b5219e102e65c6b343e0155b98db90}} 
+std\+::vector$<$ \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} $>$ {\bfseries split} (const char $\ast$match, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+\mbox{\Hypertarget{structtiny__string_aac16e090567ab9ae54ae5bef3d51faf8}\label{structtiny__string_aac16e090567ab9ae54ae5bef3d51faf8}} 
+std\+::vector$<$ \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} $>$ {\bfseries split} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&match, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a500603c471fcf59dee162173a336fc9f}\label{structtiny__string_a500603c471fcf59dee162173a336fc9f}} 
+std\+::vector$<$ \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} $>$ {\bfseries split} (const std\+::string \&match, bool keep\+\_\+empty\+\_\+strings=true) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a4cad3df2c5d96a0d85a2bd9da45a7388}\label{structtiny__string_a4cad3df2c5d96a0d85a2bd9da45a7388}} 
+{\footnotesize template$<$class Iter $>$ }\\\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} {\bfseries join} (Iter first, Iter last) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a9b9a3d2d980dc35814efc0e98f82a043}\label{structtiny__string_a9b9a3d2d980dc35814efc0e98f82a043}} 
+{\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} {\bfseries join} (std\+::initializer\+\_\+list$<$ T $>$ il)
+\item 
+\mbox{\Hypertarget{structtiny__string_a07cea1cd0a8d602bf8a95795b2d77f78}\label{structtiny__string_a07cea1cd0a8d602bf8a95795b2d77f78}} 
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries sprintf} (const char $\ast$format, Args \&\&... args)
+\item 
+\mbox{\Hypertarget{structtiny__string_a647be8f8ea036b5cb44c16cd3dc289f3}\label{structtiny__string_a647be8f8ea036b5cb44c16cd3dc289f3}} 
+{\footnotesize template$<$class T $>$ }\\T {\bfseries convert} (bool $\ast$ok=N\+U\+LL) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a0bcde3ee59507691e498c4da1fb5d091}\label{structtiny__string_a0bcde3ee59507691e498c4da1fb5d091}} 
+size\+\_\+t {\bfseries copy} (char $\ast$s, size\+\_\+t len, size\+\_\+t pos=0) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a06a9ebcc8aae72a5aad2615715552946}\label{structtiny__string_a06a9ebcc8aae72a5aad2615715552946}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} {\bfseries substr} (size\+\_\+t pos=0, size\+\_\+t len=npos) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a2b5e4371003366d9c81fce618ac559c1}\label{structtiny__string_a2b5e4371003366d9c81fce618ac559c1}} 
+size\+\_\+t {\bfseries find} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t pos=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ab9c0f5957b032a74e3aa673996d5efed}\label{structtiny__string_ab9c0f5957b032a74e3aa673996d5efed}} 
+size\+\_\+t {\bfseries find} (const std\+::string \&str, size\+\_\+t pos=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_acfe55a546fe5d31ff69bde2ee95b7e2c}\label{structtiny__string_acfe55a546fe5d31ff69bde2ee95b7e2c}} 
+size\+\_\+t {\bfseries find} (const char $\ast$s, size\+\_\+t pos=0) const
+\item 
+\mbox{\Hypertarget{structtiny__string_aa9ec4efff96404c437c3185490de4d0e}\label{structtiny__string_aa9ec4efff96404c437c3185490de4d0e}} 
+size\+\_\+t {\bfseries find} (const char $\ast$s, size\+\_\+t pos, size\+\_\+type n) const
+\item 
+\mbox{\Hypertarget{structtiny__string_ace73694332de75040d998a91720f0f3a}\label{structtiny__string_ace73694332de75040d998a91720f0f3a}} 
+size\+\_\+t {\bfseries find} (char c, size\+\_\+t pos=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a024e1455d6d960b6c132b073bfb5f285}\label{structtiny__string_a024e1455d6d960b6c132b073bfb5f285}} 
+size\+\_\+t {\bfseries rfind} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t pos=npos) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_aa292a3bd925866651b0fba51e9dfaee2}\label{structtiny__string_aa292a3bd925866651b0fba51e9dfaee2}} 
+size\+\_\+t {\bfseries rfind} (const std\+::string \&str, size\+\_\+t pos=npos) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a53f1637f0c495d16c58c5240c5a27aa0}\label{structtiny__string_a53f1637f0c495d16c58c5240c5a27aa0}} 
+size\+\_\+t {\bfseries rfind} (const char $\ast$s, size\+\_\+t pos=npos) const
+\item 
+\mbox{\Hypertarget{structtiny__string_af79f0b4784328b92f4894b977b528461}\label{structtiny__string_af79f0b4784328b92f4894b977b528461}} 
+size\+\_\+t {\bfseries rfind} (const char $\ast$s, size\+\_\+t pos, size\+\_\+type n) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a75e4b0a97dec1bd19e6b5ef2908e2dc4}\label{structtiny__string_a75e4b0a97dec1bd19e6b5ef2908e2dc4}} 
+size\+\_\+t {\bfseries rfind} (char c, size\+\_\+t pos=npos) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_accab12d349791c467a5c42d02f995a90}\label{structtiny__string_accab12d349791c467a5c42d02f995a90}} 
+size\+\_\+t {\bfseries find\+\_\+first\+\_\+of} (const char $\ast$s, size\+\_\+t pos, size\+\_\+t n) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a9ef75cbe89a7f01a9a86cfeaf6636873}\label{structtiny__string_a9ef75cbe89a7f01a9a86cfeaf6636873}} 
+size\+\_\+t {\bfseries find\+\_\+first\+\_\+of} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t pos=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a994b2c31ae8900d48365359779d6f9b2}\label{structtiny__string_a994b2c31ae8900d48365359779d6f9b2}} 
+size\+\_\+t {\bfseries find\+\_\+first\+\_\+of} (const char $\ast$s, size\+\_\+t pos=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a79aa76cd0c8df8689bfff88fc5451ce0}\label{structtiny__string_a79aa76cd0c8df8689bfff88fc5451ce0}} 
+size\+\_\+t {\bfseries find\+\_\+first\+\_\+of} (char c, size\+\_\+t pos=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a498e7d2b588f1d674734e0613159529f}\label{structtiny__string_a498e7d2b588f1d674734e0613159529f}} 
+size\+\_\+t {\bfseries find\+\_\+last\+\_\+of} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t pos=npos) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a3c34583affc1c8205cee55ad8c0476c2}\label{structtiny__string_a3c34583affc1c8205cee55ad8c0476c2}} 
+size\+\_\+t {\bfseries find\+\_\+last\+\_\+of} (const char $\ast$s, size\+\_\+t pos=npos) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ac00bc767a91f84fda0684ba44a55ebf1}\label{structtiny__string_ac00bc767a91f84fda0684ba44a55ebf1}} 
+size\+\_\+t {\bfseries find\+\_\+last\+\_\+of} (const char $\ast$s, size\+\_\+t pos, size\+\_\+t n) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a57ab8c71693bc3424af9a5b0b65b19e5}\label{structtiny__string_a57ab8c71693bc3424af9a5b0b65b19e5}} 
+size\+\_\+t {\bfseries find\+\_\+last\+\_\+of} (char c, size\+\_\+t pos=npos) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a53defac040afe160fd98f7312a42507c}\label{structtiny__string_a53defac040afe160fd98f7312a42507c}} 
+size\+\_\+t {\bfseries find\+\_\+first\+\_\+not\+\_\+of} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t pos=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ab6ef71fbe80d8abfe699f5129385be70}\label{structtiny__string_ab6ef71fbe80d8abfe699f5129385be70}} 
+size\+\_\+t {\bfseries find\+\_\+first\+\_\+not\+\_\+of} (const char $\ast$s, size\+\_\+t pos=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a4e530c8c4f38afceab5ebdde06ac1fe1}\label{structtiny__string_a4e530c8c4f38afceab5ebdde06ac1fe1}} 
+size\+\_\+t {\bfseries find\+\_\+first\+\_\+not\+\_\+of} (const char $\ast$s, size\+\_\+t pos, size\+\_\+t n) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a7c026f67def1d1fd9ff2e9867bf1efa1}\label{structtiny__string_a7c026f67def1d1fd9ff2e9867bf1efa1}} 
+size\+\_\+t {\bfseries find\+\_\+first\+\_\+not\+\_\+of} (char c, size\+\_\+t pos=0) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_aad7d9fae275a71e21ca506a111c8bc88}\label{structtiny__string_aad7d9fae275a71e21ca506a111c8bc88}} 
+size\+\_\+t {\bfseries find\+\_\+last\+\_\+not\+\_\+of} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t pos=npos) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a300793daecb75280ca40dbd9d2bc92ca}\label{structtiny__string_a300793daecb75280ca40dbd9d2bc92ca}} 
+size\+\_\+t {\bfseries find\+\_\+last\+\_\+not\+\_\+of} (const char $\ast$s, size\+\_\+t pos=npos) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a0ba13f5224f33dd8c967680c583724dd}\label{structtiny__string_a0ba13f5224f33dd8c967680c583724dd}} 
+size\+\_\+t {\bfseries find\+\_\+last\+\_\+not\+\_\+of} (const char $\ast$s, size\+\_\+t pos, size\+\_\+t n) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a4026e3d46f0b05ed25e6a0d64c7e33ba}\label{structtiny__string_a4026e3d46f0b05ed25e6a0d64c7e33ba}} 
+size\+\_\+t {\bfseries find\+\_\+last\+\_\+not\+\_\+of} (char c, size\+\_\+t pos=npos) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a92493faff3a37043d1d43ab19a870d58}\label{structtiny__string_a92493faff3a37043d1d43ab19a870d58}} 
+int {\bfseries compare} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str) const noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_ab543455c9af366e5b75dfc4d62f96e88}\label{structtiny__string_ab543455c9af366e5b75dfc4d62f96e88}} 
+int {\bfseries compare} (size\+\_\+t pos, size\+\_\+t len, const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str) const
+\item 
+\mbox{\Hypertarget{structtiny__string_ac9f4c48a573ed291edf8fe5c0e4bb791}\label{structtiny__string_ac9f4c48a573ed291edf8fe5c0e4bb791}} 
+int {\bfseries compare} (size\+\_\+t pos, size\+\_\+t len, const std\+::string \&str) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a438985a1d7b6d6d39a78d146b15086a9}\label{structtiny__string_a438985a1d7b6d6d39a78d146b15086a9}} 
+int {\bfseries compare} (size\+\_\+t pos, size\+\_\+t len, const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str, size\+\_\+t subpos, size\+\_\+t sublen) const
+\item 
+\mbox{\Hypertarget{structtiny__string_a94ca3319ecedde4f0382a769dccd3c75}\label{structtiny__string_a94ca3319ecedde4f0382a769dccd3c75}} 
+int {\bfseries compare} (const char $\ast$s) const
+\item 
+\mbox{\Hypertarget{structtiny__string_aed75b6c6ac1278b3591bbf0bc0303a01}\label{structtiny__string_aed75b6c6ac1278b3591bbf0bc0303a01}} 
+int {\bfseries compare} (size\+\_\+t pos, size\+\_\+t len, const char $\ast$s) const
+\item 
+\mbox{\Hypertarget{structtiny__string_aa0a3c180b3c6c5d0821e93290d0196d7}\label{structtiny__string_aa0a3c180b3c6c5d0821e93290d0196d7}} 
+int {\bfseries compare} (size\+\_\+t pos, size\+\_\+t len, const char $\ast$\+\_\+s, size\+\_\+t n) const
+\item 
+\mbox{\Hypertarget{structtiny__string_adce9654c36e062c017fe4d3aa430a454}\label{structtiny__string_adce9654c36e062c017fe4d3aa430a454}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries operator=} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&other)
+\item 
+\mbox{\Hypertarget{structtiny__string_a1750da7bc7c04a08eda13400abb88023}\label{structtiny__string_a1750da7bc7c04a08eda13400abb88023}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries operator=} (\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&\&other) noexcept
+\item 
+\mbox{\Hypertarget{structtiny__string_a9fdaff982e2c1f52db39b5ff4c7b16c4}\label{structtiny__string_a9fdaff982e2c1f52db39b5ff4c7b16c4}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries operator=} (const char $\ast$other)
+\item 
+\mbox{\Hypertarget{structtiny__string_aa5854c4d53a1e658dfcebb5bebcf084a}\label{structtiny__string_aa5854c4d53a1e658dfcebb5bebcf084a}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries operator=} (char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_abf8ed84bf6de0086091bee59a125bafa}\label{structtiny__string_abf8ed84bf6de0086091bee59a125bafa}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries operator=} (const std\+::string \&other)
+\item 
+\mbox{\Hypertarget{structtiny__string_a04a6346928351fdf37ce1e484a474a3c}\label{structtiny__string_a04a6346928351fdf37ce1e484a474a3c}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries operator=} (std\+::initializer\+\_\+list$<$ char $>$ il)
+\item 
+\mbox{\Hypertarget{structtiny__string_a85af3ffd1ea17b1561e37285f1231bc9}\label{structtiny__string_a85af3ffd1ea17b1561e37285f1231bc9}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries operator+=} (const \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \&str)
+\item 
+\mbox{\Hypertarget{structtiny__string_a0530e40faadcb685914878e794187981}\label{structtiny__string_a0530e40faadcb685914878e794187981}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries operator+=} (const std\+::string \&str)
+\item 
+\mbox{\Hypertarget{structtiny__string_a99ae8f289ad87d9511a599bcffb569f7}\label{structtiny__string_a99ae8f289ad87d9511a599bcffb569f7}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries operator+=} (const char $\ast$s)
+\item 
+\mbox{\Hypertarget{structtiny__string_a0342fdc4b3993084067569a3c13d4202}\label{structtiny__string_a0342fdc4b3993084067569a3c13d4202}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries operator+=} (char c)
+\item 
+\mbox{\Hypertarget{structtiny__string_a32d85826c67862834a74ab264d14ef33}\label{structtiny__string_a32d85826c67862834a74ab264d14ef33}} 
+\mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}} \& {\bfseries operator+=} (std\+::initializer\+\_\+list$<$ char $>$ il)
+\item 
+\mbox{\Hypertarget{structtiny__string_a20f3250e0ac3131750a3aa2604d68d9d}\label{structtiny__string_a20f3250e0ac3131750a3aa2604d68d9d}} 
+const \mbox{\hyperlink{structdetail_1_1string__internal}{internal\+\_\+data}} \& {\bfseries internal} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structtiny__string_a37edde888005b6df103a286d33da22fd}\label{structtiny__string_a37edde888005b6df103a286d33da22fd}} 
+\mbox{\hyperlink{structdetail_1_1string__internal}{internal\+\_\+data}} {\bfseries d\+\_\+data}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structtiny__string_ad9b1106d157d58ba7cf80ecf6a9e0b3a}\label{structtiny__string_ad9b1106d157d58ba7cf80ecf6a9e0b3a}} 
+static const size\+\_\+t {\bfseries sso\+\_\+max\+\_\+capacity} = sizeof(\mbox{\hyperlink{structdetail_1_1string__internal}{internal\+\_\+data}}) -\/ 1
+\item 
+\mbox{\Hypertarget{structtiny__string_ae8b00dcb7cad6c1d2c66cab141abc708}\label{structtiny__string_ae8b00dcb7cad6c1d2c66cab141abc708}} 
+static const size\+\_\+t {\bfseries max\+\_\+static\+\_\+size} = sso\+\_\+max\+\_\+capacity -\/ 1
+\item 
+\mbox{\Hypertarget{structtiny__string_ac07a9533661dca981fffeb2c97b057ad}\label{structtiny__string_ac07a9533661dca981fffeb2c97b057ad}} 
+static const size\+\_\+t {\bfseries internal\+\_\+data\+\_\+size} = sizeof(\mbox{\hyperlink{structdetail_1_1_none_s_s_o}{detail\+::\+None\+S\+SO}})
+\item 
+\mbox{\Hypertarget{structtiny__string_a5f6462af3489baed5e560804b2fe9f13}\label{structtiny__string_a5f6462af3489baed5e560804b2fe9f13}} 
+static const size\+\_\+t {\bfseries npos} = -\/1
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structtiny__string_a10fc4c0d909f5365d3aeb862fd1546a9}\label{structtiny__string_a10fc4c0d909f5365d3aeb862fd1546a9}} 
+\index{tiny\_string$<$ MaxStaticSize, Allocator $>$@{tiny\_string$<$ MaxStaticSize, Allocator $>$}!count@{count}}
+\index{count@{count}!tiny\_string$<$ MaxStaticSize, Allocator $>$@{tiny\_string$<$ MaxStaticSize, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+Static\+Size = 0, class Allocator  = std\+::allocator$<$char$>$$>$ \\
+size\+\_\+t \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}}$<$ Max\+Static\+Size, Allocator $>$\+::count (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str,  }\item[{size\+\_\+t}]{n,  }\item[{size\+\_\+t}]{start = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+Convenient function, returns the count of non-\/overlapping occurrences of \textquotesingle{}str\textquotesingle{} \mbox{\Hypertarget{structtiny__string_ae4ceffda7b2552f954f847e9eaa3f7be}\label{structtiny__string_ae4ceffda7b2552f954f847e9eaa3f7be}} 
+\index{tiny\_string$<$ MaxStaticSize, Allocator $>$@{tiny\_string$<$ MaxStaticSize, Allocator $>$}!replace@{replace}}
+\index{replace@{replace}!tiny\_string$<$ MaxStaticSize, Allocator $>$@{tiny\_string$<$ MaxStaticSize, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{replace()}{replace()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Max\+Static\+Size = 0, class Allocator  = std\+::allocator$<$char$>$$>$ \\
+size\+\_\+t \mbox{\hyperlink{structtiny__string}{tiny\+\_\+string}}$<$ Max\+Static\+Size, Allocator $>$\+::replace (\begin{DoxyParamCaption}\item[{const char $\ast$}]{\+\_\+from,  }\item[{size\+\_\+t}]{n1,  }\item[{const char $\ast$}]{\+\_\+to,  }\item[{size\+\_\+t}]{n2,  }\item[{size\+\_\+t}]{start = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Convenient function, replace a substring by another. Returns the number of replaced substrings. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+tiny\+\_\+string.\+hpp\end{DoxyCompactItemize}

@@ -1,0 +1,218 @@
+\hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator}{}\doxysection{seq\+::detail\+::Deque\+Bucket\+Allocator$<$ T, Allocator, Bucket $>$ Struct Template Reference}
+\label{structseq_1_1detail_1_1_deque_bucket_allocator}\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+
+
+{\ttfamily \#include $<$deque\+\_\+allocator.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a59ffe41b55efc5f821f09d3a4de5e506}{Bucket\+Type}} = Bucket
+\item 
+using \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_affec3fc22c59e7b0313e5af04747abcd}{Mem\+Pool\+Type}} = \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool__alloc}{deque\+\_\+chunk\+\_\+pool\+\_\+alloc}}$<$ T, Allocator $>$
+\item 
+{\footnotesize template$<$class U $>$ }\\using \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a4799258227d06d87cf05c6563eaf709d}{Rebind\+Alloc}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template rebind\+\_\+alloc$<$ U $>$
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_ac193a9022c54a3e71b159b6b676e2864}{Deque\+Bucket\+Allocator}} (const Allocator \&al)
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_ab8c736b2cc509ef5f86648c32bcc48c2}{Deque\+Bucket\+Allocator}} (Allocator \&\&al)
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a59ce6643c285664c126eb0537a14a54f}{Deque\+Bucket\+Allocator}} (\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}} \&\&other) noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a62d70d925d45f0d379e3579ec6f68975}{Deque\+Bucket\+Allocator}} (\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}} \&\&other, const Allocator \&al) noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a82ff70487e1a26d218174c3b0d33e7f2}{$\sim$\+Deque\+Bucket\+Allocator}} ()
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}} \& \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_ac89cb317800a81fc517786917bee68df}{operator=}} (\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}} \&\&other) noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a59ffe41b55efc5f821f09d3a4de5e506}{Bucket\+Type}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a4d65cb08da372e7bb8ec0f2e38840053}{alloc}} (int max\+\_\+size)
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a59ffe41b55efc5f821f09d3a4de5e506}{Bucket\+Type}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_ad9bb1a7cfabf2c8b5cd47be2a58c4aa6}{alloc}} (int max\+\_\+size, const T \&val)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a6a36c06cb26a22fc719244a77df3d37c}{dealloc}} (\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a59ffe41b55efc5f821f09d3a4de5e506}{Bucket\+Type}} $\ast$buff)
+\item 
+{\footnotesize template$<$class Store\+Bucket $>$ }\\void \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a26604625321c25d9bc00802600bcd2e7}{destroy\+\_\+all}} (\mbox{\hyperlink{structseq_1_1detail_1_1_store_bucket}{Store\+Bucket}} $\ast$bs, std\+::size\+\_\+t count)
+\item 
+{\footnotesize template$<$class Store\+Bucket $>$ }\\void \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a02e8cd27b5587413ab4d94f4b31cede5}{destroy\+\_\+all\+\_\+no\+\_\+destructor}} (\mbox{\hyperlink{structseq_1_1detail_1_1_store_bucket}{Store\+Bucket}} $\ast$, std\+::size\+\_\+t)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a156ee7f5098c016050f5bde2ca31d3bc}{init}} (std\+::size\+\_\+t bcount, int bsize)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_af3d2fcc2436c50bc5a561dec15790877}{recyclate}} (\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$ \&old, int new\+\_\+bucket\+\_\+size=0)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Allocator \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a6a52575df5e71738aabdf607feeacf49}{allocator}}
+\item 
+int \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a508f7fc18e3c10646a35106390aa9a7a}{bucket\+\_\+size}}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_affec3fc22c59e7b0313e5af04747abcd}{Mem\+Pool\+Type}} \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a65ef9908907cd2f04955918037d30a2e}{pool}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a612e254104c1f8a1d3e8ea98b7ed5d85}{start\+\_\+data\+\_\+T}} = Bucket\+Type\+::start\+\_\+data\+\_\+T
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a59ffe41b55efc5f821f09d3a4de5e506}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a59ffe41b55efc5f821f09d3a4de5e506}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!BucketType@{BucketType}}
+\index{BucketType@{BucketType}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{BucketType}{BucketType}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a59ffe41b55efc5f821f09d3a4de5e506}{Bucket\+Type}} =  Bucket}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_affec3fc22c59e7b0313e5af04747abcd}\label{structseq_1_1detail_1_1_deque_bucket_allocator_affec3fc22c59e7b0313e5af04747abcd}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!MemPoolType@{MemPoolType}}
+\index{MemPoolType@{MemPoolType}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{MemPoolType}{MemPoolType}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_affec3fc22c59e7b0313e5af04747abcd}{Mem\+Pool\+Type}} =  \mbox{\hyperlink{structseq_1_1detail_1_1deque__chunk__pool__alloc}{deque\+\_\+chunk\+\_\+pool\+\_\+alloc}}$<$T, Allocator$>$}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a4799258227d06d87cf05c6563eaf709d}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a4799258227d06d87cf05c6563eaf709d}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!RebindAlloc@{RebindAlloc}}
+\index{RebindAlloc@{RebindAlloc}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{RebindAlloc}{RebindAlloc}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+template$<$class U $>$ \\
+using \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a4799258227d06d87cf05c6563eaf709d}{Rebind\+Alloc}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::template rebind\+\_\+alloc$<$U$>$}
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_ac193a9022c54a3e71b159b6b676e2864}\label{structseq_1_1detail_1_1_deque_bucket_allocator_ac193a9022c54a3e71b159b6b676e2864}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!DequeBucketAllocator@{DequeBucketAllocator}}
+\index{DequeBucketAllocator@{DequeBucketAllocator}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{DequeBucketAllocator()}{DequeBucketAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{al }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_ab8c736b2cc509ef5f86648c32bcc48c2}\label{structseq_1_1detail_1_1_deque_bucket_allocator_ab8c736b2cc509ef5f86648c32bcc48c2}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!DequeBucketAllocator@{DequeBucketAllocator}}
+\index{DequeBucketAllocator@{DequeBucketAllocator}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{DequeBucketAllocator()}{DequeBucketAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}} (\begin{DoxyParamCaption}\item[{Allocator \&\&}]{al }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a59ce6643c285664c126eb0537a14a54f}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a59ce6643c285664c126eb0537a14a54f}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!DequeBucketAllocator@{DequeBucketAllocator}}
+\index{DequeBucketAllocator@{DequeBucketAllocator}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{DequeBucketAllocator()}{DequeBucketAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a62d70d925d45f0d379e3579ec6f68975}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a62d70d925d45f0d379e3579ec6f68975}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!DequeBucketAllocator@{DequeBucketAllocator}}
+\index{DequeBucketAllocator@{DequeBucketAllocator}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{DequeBucketAllocator()}{DequeBucketAllocator()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$ \&\&}]{other,  }\item[{const Allocator \&}]{al }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a82ff70487e1a26d218174c3b0d33e7f2}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a82ff70487e1a26d218174c3b0d33e7f2}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!````~DequeBucketAllocator@{$\sim$DequeBucketAllocator}}
+\index{````~DequeBucketAllocator@{$\sim$DequeBucketAllocator}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{$\sim$DequeBucketAllocator()}{~DequeBucketAllocator()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::$\sim$\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a4d65cb08da372e7bb8ec0f2e38840053}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a4d65cb08da372e7bb8ec0f2e38840053}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!alloc@{alloc}}
+\index{alloc@{alloc}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{alloc()}{alloc()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a59ffe41b55efc5f821f09d3a4de5e506}{Bucket\+Type}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::alloc (\begin{DoxyParamCaption}\item[{int}]{max\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_ad9bb1a7cfabf2c8b5cd47be2a58c4aa6}\label{structseq_1_1detail_1_1_deque_bucket_allocator_ad9bb1a7cfabf2c8b5cd47be2a58c4aa6}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!alloc@{alloc}}
+\index{alloc@{alloc}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{alloc()}{alloc()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a59ffe41b55efc5f821f09d3a4de5e506}{Bucket\+Type}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::alloc (\begin{DoxyParamCaption}\item[{int}]{max\+\_\+size,  }\item[{const T \&}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a6a36c06cb26a22fc719244a77df3d37c}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a6a36c06cb26a22fc719244a77df3d37c}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!dealloc@{dealloc}}
+\index{dealloc@{dealloc}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{dealloc()}{dealloc()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::dealloc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_a59ffe41b55efc5f821f09d3a4de5e506}{Bucket\+Type}} $\ast$}]{buff }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a26604625321c25d9bc00802600bcd2e7}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a26604625321c25d9bc00802600bcd2e7}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!destroy\_all@{destroy\_all}}
+\index{destroy\_all@{destroy\_all}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{destroy\_all()}{destroy\_all()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+template$<$class Store\+Bucket $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::destroy\+\_\+all (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_store_bucket}{Store\+Bucket}} $\ast$}]{bs,  }\item[{std\+::size\+\_\+t}]{count }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a02e8cd27b5587413ab4d94f4b31cede5}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a02e8cd27b5587413ab4d94f4b31cede5}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!destroy\_all\_no\_destructor@{destroy\_all\_no\_destructor}}
+\index{destroy\_all\_no\_destructor@{destroy\_all\_no\_destructor}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{destroy\_all\_no\_destructor()}{destroy\_all\_no\_destructor()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+template$<$class Store\+Bucket $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::destroy\+\_\+all\+\_\+no\+\_\+destructor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_store_bucket}{Store\+Bucket}} $\ast$}]{,  }\item[{std\+::size\+\_\+t}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a156ee7f5098c016050f5bde2ca31d3bc}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a156ee7f5098c016050f5bde2ca31d3bc}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!init@{init}}
+\index{init@{init}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::init (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{bcount,  }\item[{int}]{bsize }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_ac89cb317800a81fc517786917bee68df}\label{structseq_1_1detail_1_1_deque_bucket_allocator_ac89cb317800a81fc517786917bee68df}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}}\& \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_af3d2fcc2436c50bc5a561dec15790877}\label{structseq_1_1detail_1_1_deque_bucket_allocator_af3d2fcc2436c50bc5a561dec15790877}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!recyclate@{recyclate}}
+\index{recyclate@{recyclate}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{recyclate()}{recyclate()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::recyclate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$ \&}]{old,  }\item[{int}]{new\+\_\+bucket\+\_\+size = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a6a52575df5e71738aabdf607feeacf49}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a6a52575df5e71738aabdf607feeacf49}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!allocator@{allocator}}
+\index{allocator@{allocator}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{allocator}{allocator}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+Allocator \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::allocator}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a508f7fc18e3c10646a35106390aa9a7a}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a508f7fc18e3c10646a35106390aa9a7a}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!bucket\_size@{bucket\_size}}
+\index{bucket\_size@{bucket\_size}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{bucket\_size}{bucket\_size}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+int \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::bucket\+\_\+size}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a65ef9908907cd2f04955918037d30a2e}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a65ef9908907cd2f04955918037d30a2e}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!pool@{pool}}
+\index{pool@{pool}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{pool}{pool}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator_affec3fc22c59e7b0313e5af04747abcd}{Mem\+Pool\+Type}} \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::pool}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_deque_bucket_allocator_a612e254104c1f8a1d3e8ea98b7ed5d85}\label{structseq_1_1detail_1_1_deque_bucket_allocator_a612e254104c1f8a1d3e8ea98b7ed5d85}} 
+\index{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}!start\_data\_T@{start\_data\_T}}
+\index{start\_data\_T@{start\_data\_T}!seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$@{seq::detail::DequeBucketAllocator$<$ T, Allocator, Bucket $>$}}
+\doxysubsubsection{\texorpdfstring{start\_data\_T}{start\_data\_T}}
+{\footnotesize\ttfamily template$<$class T , class Allocator , class Bucket $>$ \\
+const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_deque_bucket_allocator}{seq\+::detail\+::\+Deque\+Bucket\+Allocator}}$<$ T, Allocator, Bucket $>$\+::start\+\_\+data\+\_\+T = Bucket\+Type\+::start\+\_\+data\+\_\+T\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{deque__allocator_8hpp}{deque\+\_\+allocator.\+hpp}}\end{DoxyCompactItemize}

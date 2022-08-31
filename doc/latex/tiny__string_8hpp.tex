@@ -1,0 +1,233 @@
+\hypertarget{tiny__string_8hpp}{}\doxysection{seq/tiny\+\_\+string.hpp File Reference}
+\label{tiny__string_8hpp}\index{seq/tiny\_string.hpp@{seq/tiny\_string.hpp}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$streambuf$>$}\newline
+{\ttfamily \#include $<$istream$>$}\newline
+{\ttfamily \#include $<$iterator$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include \char`\"{}hash.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}type\+\_\+traits.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utils.\+hpp\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structseq_1_1view__allocator}{seq\+::view\+\_\+allocator}}
+\begin{DoxyCompactList}\small\item\em Allocator type for tiny string view. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string$<$ Max\+Static\+Size, Allocator $>$}}
+\begin{DoxyCompactList}\small\item\em String class with a similar interface and requirements than std\+::string. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1membuf}{seq\+::detail\+::membuf}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1ibufferstream}{seq\+::detail\+::ibufferstream}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_s_s_o}{seq\+::detail\+::\+S\+S\+O$<$ Max\+S\+S\+O $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_none_s_s_o}{seq\+::detail\+::\+None\+S\+SO}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_none_s_s_o_proxy}{seq\+::detail\+::\+None\+S\+S\+O\+Proxy}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1string__proxy}{seq\+::detail\+::string\+\_\+proxy$<$ Max\+S\+S\+O, Allocator $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1string__proxy_3_01_max_s_s_o_00_01std_1_1allocator_3_01char_01_4_01_4}{seq\+::detail\+::string\+\_\+proxy$<$ Max\+S\+S\+O, std\+::allocator$<$ char $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1string__internal}{seq\+::detail\+::string\+\_\+internal$<$ Max\+S\+S\+O, Allocator $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_3_01_max_s_s_o_00_01std_1_1allocator_3_01char_01_4_01_4}{seq\+::detail\+::string\+\_\+internal$<$ Max\+S\+S\+O, std\+::allocator$<$ char $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1string__internal_3_01_max_s_s_o_00_01view__allocator_01_4}{seq\+::detail\+::string\+\_\+internal$<$ Max\+S\+S\+O, view\+\_\+allocator $>$}}
+\item 
+class \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string$<$ Max\+Static\+Size, Allocator $>$}}
+\begin{DoxyCompactList}\small\item\em String class with a similar interface and requirements than std\+::string. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4}{seq\+::tiny\+\_\+string$<$ 0, view\+\_\+allocator $>$}}
+\begin{DoxyCompactList}\small\item\em Specialization of \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} for string views. You should use the global typedef tstring\+\_\+view equivalent to \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4}{tiny\+\_\+string$<$0,view\+\_\+allocator$>$}}. Provides a similar interface to std\+::string\+\_\+view. See \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}} documentation for more details. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_get_static_size}{seq\+::detail\+::\+Get\+Static\+Size$<$ T $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_get_static_size_3_01tiny__string_3_01_size_00_01_al_01_4_01_4}{seq\+::detail\+::\+Get\+Static\+Size$<$ tiny\+\_\+string$<$ Size, Al $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_find_static_size}{seq\+::detail\+::\+Find\+Static\+Size$<$ S1, S2 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_find_allocator}{seq\+::detail\+::\+Find\+Allocator$<$ Al1, Al2 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_find_allocator_3_01view__allocator_00_01view__allocator_01_4}{seq\+::detail\+::\+Find\+Allocator$<$ view\+\_\+allocator, view\+\_\+allocator $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_find_allocator_3_01_al1_00_01view__allocator_01_4}{seq\+::detail\+::\+Find\+Allocator$<$ Al1, view\+\_\+allocator $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_find_allocator_3_01view__allocator_00_01_al2_01_4}{seq\+::detail\+::\+Find\+Allocator$<$ view\+\_\+allocator, Al2 $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{seq\+::detail\+::\+Find\+Return\+Type$<$ S1, S2, Al $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type_3_01_s1_00_01_s2_00_01void_01_4}{seq\+::detail\+::\+Find\+Return\+Type$<$ S1, S2, void $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__tiny__string}{seq\+::is\+\_\+tiny\+\_\+string$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Detect \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1is__tiny__string_3_01tiny__string_3_01_s_00_01_al_01_4_01_4}{seq\+::is\+\_\+tiny\+\_\+string$<$ tiny\+\_\+string$<$ S, Al $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__allocated__string}{seq\+::is\+\_\+allocated\+\_\+string$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Detect \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}, std\+::string, but not tstring\+\_\+view. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1is__allocated__string_3_01tiny__string_3_01_s_00_01_al_01_4_01_4}{seq\+::is\+\_\+allocated\+\_\+string$<$ tiny\+\_\+string$<$ S, Al $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__allocated__string_3_01std_1_1string_01_4}{seq\+::is\+\_\+allocated\+\_\+string$<$ std\+::string $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__allocated__string_3_01tstring__view_01_4}{seq\+::is\+\_\+allocated\+\_\+string$<$ tstring\+\_\+view $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__generic__string}{seq\+::is\+\_\+generic\+\_\+string$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Detect all possible string types (std\+::string, tstring, tstring\+\_\+view, std\+::string\+\_\+view, const char$\ast$, char$\ast$. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1is__generic__string_3_01char_01_5_01_4}{seq\+::is\+\_\+generic\+\_\+string$<$ char $\ast$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__generic__string_3_01const_01char_01_5_01_4}{seq\+::is\+\_\+generic\+\_\+string$<$ const char $\ast$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__generic__string_3_01std_1_1string_01_4}{seq\+::is\+\_\+generic\+\_\+string$<$ std\+::string $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__generic__string_3_01tiny__string_3_01_s_00_01_al_01_4_01_4}{seq\+::is\+\_\+generic\+\_\+string$<$ tiny\+\_\+string$<$ S, Al $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__string__view}{seq\+::is\+\_\+string\+\_\+view$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Detect tstring\+\_\+view or std\+::string\+\_\+view. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1is__string__view_3_01tstring__view_01_4}{seq\+::is\+\_\+string\+\_\+view$<$ tstring\+\_\+view $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__generic__string__view}{seq\+::is\+\_\+generic\+\_\+string\+\_\+view$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Detect generic string view\+: tstring\+\_\+view, std\+::string\+\_\+view, char$\ast$, const char$\ast$. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structseq_1_1is__generic__string__view_3_01tstring__view_01_4}{seq\+::is\+\_\+generic\+\_\+string\+\_\+view$<$ tstring\+\_\+view $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__generic__string__view_3_01char_01_5_01_4}{seq\+::is\+\_\+generic\+\_\+string\+\_\+view$<$ char $\ast$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__generic__string__view_3_01const_01char_01_5_01_4}{seq\+::is\+\_\+generic\+\_\+string\+\_\+view$<$ const char $\ast$ $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__relocatable_3_01view__allocator_01_4}{seq\+::is\+\_\+relocatable$<$ view\+\_\+allocator $>$}}
+\item 
+struct \mbox{\hyperlink{structseq_1_1is__relocatable_3_01tiny__string_3_01_s_00_01_alloc_01_4_01_4}{seq\+::is\+\_\+relocatable$<$ tiny\+\_\+string$<$ S, Alloc $>$ $>$}}
+\item 
+class \mbox{\hyperlink{classstd_1_1hash_3_01seq_1_1tiny__string_3_01_size_00_01_allocator_01_4_01_4}{std\+::hash$<$ seq\+::tiny\+\_\+string$<$ Size, Allocator $>$ $>$}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceseq}{seq}}
+\item 
+ \mbox{\hyperlink{namespaceseq_1_1detail}{seq\+::detail}}
+\begin{DoxyCompactList}\small\item\em Returns the number of set bits in {\itshape value}. \end{DoxyCompactList}\item 
+ \mbox{\hyperlink{namespacestd}{std}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{tiny__string_8hpp_a0b31438dd90256ed47b3bea0eb62be06}{S\+T\+E\+P\+S\+I\+ZE}}~sizeof(size\+\_\+t)
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{seq\+::tstring\+\_\+view}} = tiny\+\_\+string$<$ 0, view\+\_\+allocator $>$
+\begin{DoxyCompactList}\small\item\em Base string view typedef, similar to std\+::string\+\_\+view. Equivalent to \mbox{\hyperlink{structseq_1_1tiny__string_3_010_00_01view__allocator_01_4}{tiny\+\_\+string$<$0, view\+\_\+allocator$>$}}. \end{DoxyCompactList}\item 
+using \mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{seq\+::tstring}} = tiny\+\_\+string$<$ 0, std\+::allocator$<$ char $>$ $>$
+\begin{DoxyCompactList}\small\item\em Base string typedef, similar to std\+::string. Equivalent to \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$0, std\+::allocator$<$char$>$$>$. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class String1 , class String2 , class Iter $>$ }\\void \mbox{\hyperlink{namespaceseq_1_1detail_ab55ba7ab1c29b9bc02d77676e7b08acc}{seq\+::detail\+::join}} (String1 \&out, const String2 \&sep, Iter first, Iter last)
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al , size\+\_\+t Size2, class Al2 $>$ }\\bool \mbox{\hyperlink{namespaceseq_a9d27edcb268d2f54a2aea63289ce60fa}{seq\+::operator==}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const tiny\+\_\+string$<$ Size2, Al2 $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\bool \mbox{\hyperlink{namespaceseq_ae2d2328b5f70f42feabee51284c0b4f4}{seq\+::operator==}} (const char $\ast$lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\bool \mbox{\hyperlink{namespaceseq_ab46515296513c942f8ea60c873def0c5}{seq\+::operator==}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const char $\ast$rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\bool \mbox{\hyperlink{namespaceseq_a1ac06f782d2107c3cc7124399b4eb581}{seq\+::operator==}} (const std\+::string \&lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\bool \mbox{\hyperlink{namespaceseq_ae4f441a6b31df9530605a13ef51c148a}{seq\+::operator==}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const std\+::string \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al , size\+\_\+t Size2, class Al2 $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_ad9e28e6da6ec3562c1faef9ef00631d6}{seq\+::operator!=}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const tiny\+\_\+string$<$ Size2, Al2 $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a3d6a00f67a9341cb4bcc99c107515229}{seq\+::operator!=}} (const char $\ast$lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a3b6a796c87305524653d7265ae4da2ff}{seq\+::operator!=}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const char $\ast$rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a948fa0ea1e3ce1689da9c6b62c096245}{seq\+::operator!=}} (const std\+::string \&lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_afe32bc8987b500a2d007b0a068d48538}{seq\+::operator!=}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const std\+::string \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al , size\+\_\+t Size2, class Al2 $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a3b6a7ec8e9a4fc0d7eaf0d5f523774ca}{seq\+::operator$<$}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const tiny\+\_\+string$<$ Size2, Al2 $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_abfc02f75db7d73bb10c42d71a370c368}{seq\+::operator$<$}} (const char $\ast$lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_aea4feaa3ec5619d0c601da47ed4245c3}{seq\+::operator$<$}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const char $\ast$rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a1d793a96fc5ac7087c067d0b129662d0}{seq\+::operator$<$}} (const std\+::string \&lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a7797b9c1954288017fdfe309b554454a}{seq\+::operator$<$}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const std\+::string \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al , size\+\_\+t Size2, class Al2 $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_ad8f6d50f3c32887116c4bae46c3429d4}{seq\+::operator$<$=}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const tiny\+\_\+string$<$ Size2, Al2 $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a9edd539db8412668d682cf9ff5e7a070}{seq\+::operator$<$=}} (const char $\ast$lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_ad008ee24c9386b09b25e912de5d4c1a1}{seq\+::operator$<$=}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const char $\ast$rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_aedc2a4ddf5388c2ced30ccb8f562d675}{seq\+::operator$<$=}} (const std\+::string \&lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a56068d4d371f671c476f2d48a14c40c4}{seq\+::operator$<$=}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const std\+::string \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al , size\+\_\+t Size2, class Al2 $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a5e1833a5b86d9fe7f4aa324dc762ee7f}{seq\+::operator$>$}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const tiny\+\_\+string$<$ Size2, Al2 $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a1f3482ce2ab94dc59b5b2b857802906f}{seq\+::operator$>$}} (const char $\ast$lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a58cc10a31374b3edfd99aa9d766ad5c7}{seq\+::operator$>$}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const char $\ast$rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a382805c206a702e81be578225f9b2a6c}{seq\+::operator$>$}} (const std\+::string \&lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a3422ba2ed76ef830f9a768efb0ab264b}{seq\+::operator$>$}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const std\+::string \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al , size\+\_\+t Size2, class Al2 $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a42b02d9de4bef32a8048a063ca879338}{seq\+::operator$>$=}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const tiny\+\_\+string$<$ Size2, Al2 $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a9d1652748e87ae34ddb4e4aaee0c1047}{seq\+::operator$>$=}} (const char $\ast$lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a0492edc203e24e4f2a815f88b63b6b9c}{seq\+::operator$>$=}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const char $\ast$rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_aefbd22b85882e325ad2aa30cc80476fa}{seq\+::operator$>$=}} (const std\+::string \&lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a099bb20d7de44b7e830799fea7f7a709}{seq\+::operator$>$=}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const std\+::string \&rhs) noexcept
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al , size\+\_\+t Size2, class Al2 $>$ }\\detail\+::\+Find\+Return\+Type$<$ tiny\+\_\+string$<$ Size, Al $>$, tiny\+\_\+string$<$ Size2, Al2 $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_a4da0baa868f02d38d414b2dc1f288549}{seq\+::operator+}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const tiny\+\_\+string$<$ Size2, Al2 $>$ \&rhs)
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\detail\+::\+Find\+Return\+Type$<$ tiny\+\_\+string$<$ Size, Al $>$, tiny\+\_\+string$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_a55661fe2e7792e24a096eb01c961774f}{seq\+::operator+}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const std\+::string \&rhs)
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\detail\+::\+Find\+Return\+Type$<$ tiny\+\_\+string$<$ Size, Al $>$, tiny\+\_\+string$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_a213087903db1d425d09460f104ba12af}{seq\+::operator+}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, const char $\ast$rhs)
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\detail\+::\+Find\+Return\+Type$<$ tiny\+\_\+string$<$ Size, Al $>$, tiny\+\_\+string$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_aed0caf1783a3f82d9cfc9d88e159b8a9}{seq\+::operator+}} (const tiny\+\_\+string$<$ Size, Al $>$ \&lhs, char rhs)
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\detail\+::\+Find\+Return\+Type$<$ tiny\+\_\+string$<$ Size, Al $>$, tiny\+\_\+string$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_a6f7fd51f3cc247331f7ed13b1b1cf4ed}{seq\+::operator+}} (const std\+::string \&lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs)
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\detail\+::\+Find\+Return\+Type$<$ tiny\+\_\+string$<$ Size, Al $>$, tiny\+\_\+string$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_ad4daaf1a307da775f3767ab9e300f36a}{seq\+::operator+}} (const char $\ast$lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs)
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\detail\+::\+Find\+Return\+Type$<$ tiny\+\_\+string$<$ Size, Al $>$, tiny\+\_\+string$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_aa16ed00cc778ba6a0e21215120dedaf8}{seq\+::operator+}} (char lhs, const tiny\+\_\+string$<$ Size, Al $>$ \&rhs)
+\item 
+const char $\ast$ \mbox{\hyperlink{namespaceseq_a78db8ea6da034c3a306ddfda73895cdf}{seq\+::string\+\_\+data}} (const std\+::string \&str)
+\item 
+{\footnotesize template$<$size\+\_\+t S, class Al $>$ }\\const char $\ast$ \mbox{\hyperlink{namespaceseq_aeb3e5871a80d139dfc445702677436d6}{seq\+::string\+\_\+data}} (const tiny\+\_\+string$<$ S, Al $>$ \&str)
+\item 
+const char $\ast$ \mbox{\hyperlink{namespaceseq_a07cfb914c6655f3fac351e92d3467782}{seq\+::string\+\_\+data}} (const char $\ast$str)
+\item 
+const char $\ast$ \mbox{\hyperlink{namespaceseq_ac0a4e70902832fb7a5b4098d8ea1d7aa}{seq\+::string\+\_\+data}} (const tstring\+\_\+view \&str)
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_aa8ca2f2c8716a04f750b46cda23c9a42}{seq\+::string\+\_\+size}} (const std\+::string \&str)
+\item 
+{\footnotesize template$<$size\+\_\+t S, class Al $>$ }\\size\+\_\+t \mbox{\hyperlink{namespaceseq_a6eb2edfe41e69b0f8116ffb2e729c680}{seq\+::string\+\_\+size}} (const tiny\+\_\+string$<$ S, Al $>$ \&str)
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_aed50f805163eb7f65b9f6b7fadbb2b21}{seq\+::string\+\_\+size}} (const char $\ast$str)
+\item 
+size\+\_\+t \mbox{\hyperlink{namespaceseq_a184b1c0786a832e217d7c17843cc765a}{seq\+::string\+\_\+size}} (const tstring\+\_\+view \&str)
+\item 
+{\footnotesize template$<$size\+\_\+t Size, class Allocator $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{namespacestd_a9ca33a12754126a8bfbdf41f9cdbadf2}{std\+::swap}} (\mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Allocator $>$ \&a, \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Allocator $>$ \&b)
+\item 
+{\footnotesize template$<$class Elem , class Traits , size\+\_\+t Size, class Alloc $>$ }\\std\+::enable\+\_\+if$<$!std\+::is\+\_\+same$<$ Alloc, \mbox{\hyperlink{structseq_1_1view__allocator}{seq\+::view\+\_\+allocator}} $>$\+::value, basic\+\_\+istream$<$ Elem, Traits $>$ $>$\+::type \& \mbox{\hyperlink{namespacestd_a91c67e18d776f534bb60e796df4eb409}{std\+::operator$>$$>$}} (basic\+\_\+istream$<$ Elem, Traits $>$ \&iss, \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&str)
+\item 
+{\footnotesize template$<$class Elem , class Traits , size\+\_\+t Size, class Alloc $>$ }\\basic\+\_\+ostream$<$ Elem, Traits $>$ \& \mbox{\hyperlink{namespacestd_aeabb1eedd041e0ecf754094e2ffd5964}{std\+::operator$<$$<$}} (basic\+\_\+ostream$<$ Elem, Traits $>$ \&oss, const \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&str)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{tiny__string_8hpp_a0b31438dd90256ed47b3bea0eb62be06}\label{tiny__string_8hpp_a0b31438dd90256ed47b3bea0eb62be06}} 
+\index{tiny\_string.hpp@{tiny\_string.hpp}!STEPSIZE@{STEPSIZE}}
+\index{STEPSIZE@{STEPSIZE}!tiny\_string.hpp@{tiny\_string.hpp}}
+\doxysubsubsection{\texorpdfstring{STEPSIZE}{STEPSIZE}}
+{\footnotesize\ttfamily \#define S\+T\+E\+P\+S\+I\+ZE~sizeof(size\+\_\+t)}
+

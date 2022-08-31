@@ -1,0 +1,200 @@
+\hypertarget{structseq_1_1width__format}{}\doxysection{seq\+::width\+\_\+format Struct Reference}
+\label{structseq_1_1width__format}\index{seq::width\_format@{seq::width\_format}}
+
+
+Class representing the width formatting for a any formatting object.  
+
+
+
+
+{\ttfamily \#include $<$format.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6}{Direction}} \{ \mbox{\hyperlink{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6a9f2eddf9a5372f48525476da6051bfe5}{align\+\_\+none}} = 0, 
+\mbox{\hyperlink{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6a8c7d8411a095c102be6b0e2ede99e79b}{align\+\_\+left}} = 1, 
+\mbox{\hyperlink{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6abc53b24242c696f8af1f460cd77835c4}{align\+\_\+right}} = 2, 
+\mbox{\hyperlink{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6a065dcf6fbc8f9a5fda435c48c0931ae5}{align\+\_\+center}} = 3
+ \}
+\begin{DoxyCompactList}\small\item\em Possible alignment values. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structseq_1_1width__format_acc48ee0209c637be169115e1269f4e31}{width\+\_\+format}} (unsigned short w=0, char align=0, char f=\textquotesingle{} \textquotesingle{}) noexcept
+\item 
+void \mbox{\hyperlink{structseq_1_1width__format_a03f58cbd2913ca5b3d01e56412ac3119}{left}} (unsigned short w) noexcept
+\begin{DoxyCompactList}\small\item\em Align to the left with given width. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structseq_1_1width__format_a54269d87eebe8215e520b0dc1a13bf07}{right}} (unsigned short w) noexcept
+\begin{DoxyCompactList}\small\item\em Align to the right with given width. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structseq_1_1width__format_a0b886227383fad795ad283559c874586}{center}} (unsigned short w) noexcept
+\begin{DoxyCompactList}\small\item\em Align to the center with given width. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structseq_1_1width__format_a4e884b73f1212b0e4ec184d7507637b1}{fill}} (char c) noexcept
+\begin{DoxyCompactList}\small\item\em Set the filling character. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structseq_1_1width__format_ae642fb41df4363ee71c5e9e600dff73a}{reset}} () noexcept
+\begin{DoxyCompactList}\small\item\em Reset alignment anf fill character. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class String $>$ }\\static void \mbox{\hyperlink{structseq_1_1width__format_ad5439b630d7b7f9618c6656c19e076af}{format}} (String \&str, size\+\_\+t from, size\+\_\+t to, \mbox{\hyperlink{structseq_1_1width__format}{width\+\_\+format}} w)
+\begin{DoxyCompactList}\small\item\em Apply the alignment formatting to a portion of the string inplace. This might change the string size. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned short \mbox{\hyperlink{structseq_1_1width__format_a0bb532bd9443fca7cc62a10068f7d39c}{width}}
+\item 
+char \mbox{\hyperlink{structseq_1_1width__format_ad7f1b7a611e8e81f115676e16bb2a092}{alignment}}
+\item 
+char \mbox{\hyperlink{structseq_1_1width__format_a9dd6d7e068bf415d787592919efd2474}{pad}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Class representing the width formatting for a any formatting object. 
+
+\mbox{\hyperlink{structseq_1_1width__format}{width\+\_\+format}} controls how a string is aligned based on a width. The string can be aligned to the left, right or centered. If the given width is greater than the string length, the string is padded with a fill character. Otherwise, the string is truncated. Numerical values are never truncated. 
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6}\label{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6}} 
+\index{seq::width\_format@{seq::width\_format}!Direction@{Direction}}
+\index{Direction@{Direction}!seq::width\_format@{seq::width\_format}}
+\doxysubsubsection{\texorpdfstring{Direction}{Direction}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6}{seq\+::width\+\_\+format\+::\+Direction}}}
+
+
+
+Possible alignment values. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{align\_none@{align\_none}!seq::width\_format@{seq::width\_format}}\index{seq::width\_format@{seq::width\_format}!align\_none@{align\_none}}}\mbox{\Hypertarget{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6a9f2eddf9a5372f48525476da6051bfe5}\label{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6a9f2eddf9a5372f48525476da6051bfe5}} 
+align\+\_\+none&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{align\_left@{align\_left}!seq::width\_format@{seq::width\_format}}\index{seq::width\_format@{seq::width\_format}!align\_left@{align\_left}}}\mbox{\Hypertarget{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6a8c7d8411a095c102be6b0e2ede99e79b}\label{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6a8c7d8411a095c102be6b0e2ede99e79b}} 
+align\+\_\+left&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{align\_right@{align\_right}!seq::width\_format@{seq::width\_format}}\index{seq::width\_format@{seq::width\_format}!align\_right@{align\_right}}}\mbox{\Hypertarget{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6abc53b24242c696f8af1f460cd77835c4}\label{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6abc53b24242c696f8af1f460cd77835c4}} 
+align\+\_\+right&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{align\_center@{align\_center}!seq::width\_format@{seq::width\_format}}\index{seq::width\_format@{seq::width\_format}!align\_center@{align\_center}}}\mbox{\Hypertarget{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6a065dcf6fbc8f9a5fda435c48c0931ae5}\label{structseq_1_1width__format_a2443451a4fbf47e6a5263bd6ba5f5df6a065dcf6fbc8f9a5fda435c48c0931ae5}} 
+align\+\_\+center&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structseq_1_1width__format_acc48ee0209c637be169115e1269f4e31}\label{structseq_1_1width__format_acc48ee0209c637be169115e1269f4e31}} 
+\index{seq::width\_format@{seq::width\_format}!width\_format@{width\_format}}
+\index{width\_format@{width\_format}!seq::width\_format@{seq::width\_format}}
+\doxysubsubsection{\texorpdfstring{width\_format()}{width\_format()}}
+{\footnotesize\ttfamily seq\+::width\+\_\+format\+::width\+\_\+format (\begin{DoxyParamCaption}\item[{unsigned short}]{w = {\ttfamily 0},  }\item[{char}]{align = {\ttfamily 0},  }\item[{char}]{f = {\ttfamily \textquotesingle{}~\textquotesingle{}} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1width__format_a0b886227383fad795ad283559c874586}\label{structseq_1_1width__format_a0b886227383fad795ad283559c874586}} 
+\index{seq::width\_format@{seq::width\_format}!center@{center}}
+\index{center@{center}!seq::width\_format@{seq::width\_format}}
+\doxysubsubsection{\texorpdfstring{center()}{center()}}
+{\footnotesize\ttfamily void seq\+::width\+\_\+format\+::center (\begin{DoxyParamCaption}\item[{unsigned short}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Align to the center with given width. 
+
+\mbox{\Hypertarget{structseq_1_1width__format_a4e884b73f1212b0e4ec184d7507637b1}\label{structseq_1_1width__format_a4e884b73f1212b0e4ec184d7507637b1}} 
+\index{seq::width\_format@{seq::width\_format}!fill@{fill}}
+\index{fill@{fill}!seq::width\_format@{seq::width\_format}}
+\doxysubsubsection{\texorpdfstring{fill()}{fill()}}
+{\footnotesize\ttfamily void seq\+::width\+\_\+format\+::fill (\begin{DoxyParamCaption}\item[{char}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Set the filling character. 
+
+\mbox{\Hypertarget{structseq_1_1width__format_ad5439b630d7b7f9618c6656c19e076af}\label{structseq_1_1width__format_ad5439b630d7b7f9618c6656c19e076af}} 
+\index{seq::width\_format@{seq::width\_format}!format@{format}}
+\index{format@{format}!seq::width\_format@{seq::width\_format}}
+\doxysubsubsection{\texorpdfstring{format()}{format()}}
+{\footnotesize\ttfamily template$<$class String $>$ \\
+static void seq\+::width\+\_\+format\+::format (\begin{DoxyParamCaption}\item[{String \&}]{str,  }\item[{size\+\_\+t}]{from,  }\item[{size\+\_\+t}]{to,  }\item[{\mbox{\hyperlink{structseq_1_1width__format}{width\+\_\+format}}}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Apply the alignment formatting to a portion of the string inplace. This might change the string size. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em String} & type \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em str} & String in/out string object \\
+\hline
+{\em from} & format range \mbox{[}from,to) \\
+\hline
+{\em to} & format range \mbox{[}from,to) \\
+\hline
+{\em w} & formatting parameter \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structseq_1_1width__format_a03f58cbd2913ca5b3d01e56412ac3119}\label{structseq_1_1width__format_a03f58cbd2913ca5b3d01e56412ac3119}} 
+\index{seq::width\_format@{seq::width\_format}!left@{left}}
+\index{left@{left}!seq::width\_format@{seq::width\_format}}
+\doxysubsubsection{\texorpdfstring{left()}{left()}}
+{\footnotesize\ttfamily void seq\+::width\+\_\+format\+::left (\begin{DoxyParamCaption}\item[{unsigned short}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Align to the left with given width. 
+
+\mbox{\Hypertarget{structseq_1_1width__format_ae642fb41df4363ee71c5e9e600dff73a}\label{structseq_1_1width__format_ae642fb41df4363ee71c5e9e600dff73a}} 
+\index{seq::width\_format@{seq::width\_format}!reset@{reset}}
+\index{reset@{reset}!seq::width\_format@{seq::width\_format}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily void seq\+::width\+\_\+format\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Reset alignment anf fill character. 
+
+\mbox{\Hypertarget{structseq_1_1width__format_a54269d87eebe8215e520b0dc1a13bf07}\label{structseq_1_1width__format_a54269d87eebe8215e520b0dc1a13bf07}} 
+\index{seq::width\_format@{seq::width\_format}!right@{right}}
+\index{right@{right}!seq::width\_format@{seq::width\_format}}
+\doxysubsubsection{\texorpdfstring{right()}{right()}}
+{\footnotesize\ttfamily void seq\+::width\+\_\+format\+::right (\begin{DoxyParamCaption}\item[{unsigned short}]{w }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Align to the right with given width. 
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structseq_1_1width__format_ad7f1b7a611e8e81f115676e16bb2a092}\label{structseq_1_1width__format_ad7f1b7a611e8e81f115676e16bb2a092}} 
+\index{seq::width\_format@{seq::width\_format}!alignment@{alignment}}
+\index{alignment@{alignment}!seq::width\_format@{seq::width\_format}}
+\doxysubsubsection{\texorpdfstring{alignment}{alignment}}
+{\footnotesize\ttfamily char seq\+::width\+\_\+format\+::alignment}
+
+\mbox{\Hypertarget{structseq_1_1width__format_a9dd6d7e068bf415d787592919efd2474}\label{structseq_1_1width__format_a9dd6d7e068bf415d787592919efd2474}} 
+\index{seq::width\_format@{seq::width\_format}!pad@{pad}}
+\index{pad@{pad}!seq::width\_format@{seq::width\_format}}
+\doxysubsubsection{\texorpdfstring{pad}{pad}}
+{\footnotesize\ttfamily char seq\+::width\+\_\+format\+::pad}
+
+\mbox{\Hypertarget{structseq_1_1width__format_a0bb532bd9443fca7cc62a10068f7d39c}\label{structseq_1_1width__format_a0bb532bd9443fca7cc62a10068f7d39c}} 
+\index{seq::width\_format@{seq::width\_format}!width@{width}}
+\index{width@{width}!seq::width\_format@{seq::width\_format}}
+\doxysubsubsection{\texorpdfstring{width}{width}}
+{\footnotesize\ttfamily unsigned short seq\+::width\+\_\+format\+::width}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{format_8hpp}{format.\+hpp}}\end{DoxyCompactItemize}

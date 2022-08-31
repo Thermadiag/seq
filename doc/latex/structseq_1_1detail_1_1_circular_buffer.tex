@@ -1,0 +1,674 @@
+\hypertarget{structseq_1_1detail_1_1_circular_buffer}{}\doxysection{seq\+::detail\+::Circular\+Buffer$<$ T, Allocator $>$ Struct Template Reference}
+\label{structseq_1_1detail_1_1_circular_buffer}\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+
+
+{\ttfamily \#include $<$deque.\+hpp$>$}
+
+
+
+Inherits \mbox{\hyperlink{structseq_1_1detail_1_1_base_circular_buffer}{seq\+::detail\+::\+Base\+Circular\+Buffer$<$ T, Allocator $>$}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a2c254ba61401445d54b9a766f23b1d33}{Circular\+Buffer}} (\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ab22c1f34b2f59f35e87c137955b17877}{max\+\_\+size}}) noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a1e9699c764a51d88dcdccbf9c79a9dd8}{Circular\+Buffer}} (\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ab22c1f34b2f59f35e87c137955b17877}{max\+\_\+size}}, const T \&val, Allocator \&allocator) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a283cac053eb87d3f305e6750fdf3c40b}{destroy}} (Allocator \&) noexcept
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ab5ae07a66480e90325cd3e5316c69301}{Circular\+Buffer}} (const \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{Circular\+Buffer}} \& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a1570ebf50b941138034c30c26e869317}{operator=}} (const \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{Circular\+Buffer}} \&other)=delete
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_af8bec29162ca8357e2b9e1e0a3dde78d}{buffer}} () noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a4add7694d94b88ef8bf0b9af64955f99}{buffer}} () const noexcept
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ae8cfc7d8c90d933467817631c4ceeeed}{begin\+\_\+ptr}} () noexcept
+\item 
+const T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_addb370c8fde00f46a661e7b4662a84d1}{begin\+\_\+ptr}} () const noexcept
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ab7bd42841fc68b60958f5b9c2a9da958}{last\+\_\+ptr}} () noexcept
+\item 
+const T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a0840d77a5b3c29f4105a8238c592df12}{last\+\_\+ptr}} () const noexcept
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ae669f8ec0576d3584d6b3656ccfb8a16}{begin\+\_\+index}} () const noexcept
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a3d2aa1e4e8c7650a9ae392f276790b57}{first\+\_\+stop}} () const noexcept
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_aa38863bbc73ac90aed2ef0bfbadd4a16}{second\+\_\+stop}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ab22c1f34b2f59f35e87c137955b17877}{max\+\_\+size}} () const noexcept
+\item 
+bool \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a84209c6a33eec350d6b3244475c66c3d}{is\+Full}} () const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T \& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ae7690253cf6085b49221ab96f146aacd}{operator\mbox{[}$\,$\mbox{]}}} (\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} index) noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T \& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a88b1de3896bb2f09abad87672d4cb042}{operator\mbox{[}$\,$\mbox{]}}} (\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} index) const noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T \& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a833d575233f2c2f79555aaab459c8558}{at}} (\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} index) noexcept
+\item 
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T \& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ac5c8166ebf83cd9e2dd31f8bcddcc25b}{at}} (\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} index) const noexcept
+\item 
+T \& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ae5435a0bc00b372daf8f216df0896450}{front}} () noexcept
+\item 
+const T \& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ae268e9c6be04c482769c65ab46511f0e}{front}} () const noexcept
+\item 
+T \& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_adca3b1dbbce9e6cc3242a2042dda7fa6}{back}} () noexcept
+\item 
+const T \& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_aa637eb2a4d3e88b6e16336376a20915c}{back}} () const noexcept
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ac03a1b2ca056bc73fbe52cb3db0734cf}{init\+\_\+front}} () noexcept
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a6e1756b810a7000e847fea42f6a5b117}{resize}} (\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} s, Allocator \&allocator)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a75b761437acc4efb58564f32024e63f9}{resize}} (\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} s, const T \&value, Allocator \&allocator) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ac9c693a5526b8d1417ff70f6f1105ceb}{grow\+\_\+front}} (\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} s) noexcept
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ab0d18be57d6cf5ac861162f735ad45e5}{emplace\+\_\+back}} (Allocator \&allocator, Args \&\&... args)
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a031e34813ab3e2b81d53331fd2acc077}{push\+\_\+back}} (Allocator \&allocator, const T \&value)
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a7a16ba89e0a4fd980ab49eb5ee08b9b7}{push\+\_\+back}} (Allocator \&allocator, T \&\&value)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a74f152bbea637d0fc626770b7413c696}{emplace\+\_\+front}} (Allocator \&allocator, Args \&\&... args)
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ad912c1119350b6d080f3ef06f19e4222}{push\+\_\+front}} (Allocator \&allocator, const T \&value) noexcept(std\+::is\+\_\+nothrow\+\_\+copy\+\_\+constructible$<$ T $>$\+::value)
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ae8a245623991ff37491a29e4aec0aeb5}{push\+\_\+front}} (Allocator \&allocator, T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible$<$ T $>$\+::value)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a552bce03dfc7095eacd45986e0ed2ea5}{push\+\_\+front\+\_\+pop\+\_\+back\+\_\+use\+\_\+relocatable}} (T \&inout) noexcept
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_aeaa6c0fa338a2d23be94d270917b2222}{push\+\_\+front\+\_\+pop\+\_\+back\+\_\+relocatable}} (T \&inout) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+T \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a58e523a9af6f2c7da829bce74dd60b6e}{push\+\_\+front\+\_\+pop\+\_\+back}} (T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ac8fcc8884d16c73bd190800d56c32151}{push\+\_\+back\+\_\+pop\+\_\+front\+\_\+use\+\_\+relocatable}} (T \&inout) noexcept
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_adc04ceb5c4207a4e614c2265e36c7661}{push\+\_\+back\+\_\+pop\+\_\+front\+\_\+relocatable}} (T \&inout) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+T \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_afa41026bca814a0d32bec41acc7d338b}{push\+\_\+back\+\_\+pop\+\_\+front}} (T \&\&value) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ab2b5526e72d780644355a738b82e286c}{pop\+\_\+back}} (Allocator \&allocator)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a465fa71278f70a8804f6f0a7ac169db1}{pop\+\_\+front}} (Allocator \&allocator)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a89de17da09dda4853efb083ae5e5fb57}{pop\+\_\+front\+\_\+n}} (Allocator \&allocator, \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{namespaceseq_1_1detail_a12c9a7db6862be66b508b7cc80e12a2d}{n}})
+\item 
+{\footnotesize template$<$class U $>$ }\\void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a098c7d4a7ca505f2c1d870eb7ea05ff1}{push\+\_\+front\+\_\+n}} (Allocator \&allocator, \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{namespaceseq_1_1detail_a12c9a7db6862be66b508b7cc80e12a2d}{n}}, const U \&value)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_abd66ffbe17a9b5b87217cd2b02168fd6}{push\+\_\+front\+\_\+n}} (Allocator \&allocator, \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{namespaceseq_1_1detail_a12c9a7db6862be66b508b7cc80e12a2d}{n}})
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a95394e9dc4ebadcb2acfcf49202c010d}{move\+\_\+right\+\_\+1}} (int \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value$\vert$$\vert$\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ac6a39364a8b74be120e2f0a4aebee0d0}{relocatable}})
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ac5a663b713139f4055037251c1014353}{move\+\_\+left\+\_\+1}} (int \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value$\vert$$\vert$\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ac6a39364a8b74be120e2f0a4aebee0d0}{relocatable}})
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_aab6f390d997c05af983430da89baf855}{S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE}} (void) move\+\_\+right(Allocator \&allocator
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a5f6dfd04732335e454f8530d4846bb8d}{move\+\_\+right\+\_\+1}} (\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}})
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a692060bb61a40ccdfdc79b316880909f}{S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE}} (void) move\+\_\+left(Allocator \&allocator
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a5a5c9613bfdc623a40d32ba03d1fb1b8}{if}} (-\/-\/\mbox{\hyperlink{structseq_1_1detail_1_1_base_circular_buffer_a4facadf2ea41580c7c71bd3aa0247608}{begin}}$<$ 0) \mbox{\hyperlink{structseq_1_1detail_1_1_base_circular_buffer_a4facadf2ea41580c7c71bd3aa0247608}{begin}}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ae31f032f9fb27ef06a4ce29bdf62b395}{move\+\_\+left\+\_\+1}} (\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}+1)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a7285c76c4af76896ffa422e34f88b46b}{emplace}} (Allocator \&allocator, \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}, Args \&\&... args)
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a6880814031fdfcafd7c81c9712881a9c}{insert}} (Allocator \&allocator, \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}, const T \&value)
+\item 
+T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a3ef6a71955bca71660cdac7c8047d2a3}{insert}} (Allocator \&allocator, \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}, T \&\&value)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ad360c5a3069d6cc4f3e534d1936a23c8}{insert\+\_\+pop\+\_\+back}} (Allocator \&allocator, \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}, Args \&\&... args)
+\item 
+{\footnotesize template$<$class... Args$>$ }\\T \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a055e78990aa429856790b847a0dca637}{insert\+\_\+pop\+\_\+front}} (Allocator \&allocator, \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}, Args \&\&... args)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a7c4d1d55e50e5199d64eaeb3b96d5e85}{move\+\_\+erase\+\_\+right\+\_\+1}} (int \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}})
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ae3b12cd8e7b6e4bb0daedc589b69c2f3}{move\+\_\+erase\+\_\+left\+\_\+1}} (int \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}})
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a4697d8d346e34d217bc4dcaae92604a9}{erase\+\_\+push\+\_\+back}} (Allocator \&allocator, \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}, T \&\&value)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a4c1e5c785ab8727b682fa69570abd842}{erase\+\_\+push\+\_\+front}} (Allocator \&allocator, \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}, T \&\&value)
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a3b92ab6ae4ce41e926cfde08bf311b33}{erase}} (Allocator \&allocator, \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}
+\item 
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a95ff54f2d321194d53c5262717afc9b0}{size}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a5027efd6f028110a19a19e7df5463ceb}{size\+\_\+T}} = sizeof(T)
+\item 
+static const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a39a1682bfe9bbde492391a2d7e57f5da}{size\+\_\+\+B\+CB}} = sizeof(\mbox{\hyperlink{structseq_1_1detail_1_1_base_circular_buffer}{Base\+Circular\+Buffer}}$<$T, Allocator$>$)
+\item 
+static const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a3df89fecb8fbddc68f18c578b721fda3}{start\+\_\+data\+\_\+T}}
+\item 
+static const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ad13d8ccf0451d70251a8db013766ce23}{start\+\_\+data}} = \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a3df89fecb8fbddc68f18c578b721fda3}{start\+\_\+data\+\_\+T}} $\ast$ sizeof(T)
+\item 
+static const bool \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ac6a39364a8b74be120e2f0a4aebee0d0}{relocatable}} = \mbox{\hyperlink{structseq_1_1is__relocatable}{is\+\_\+relocatable}}$<$T$>$\+::value \&\& (sizeof(T) $>$= sizeof(size\+\_\+t))
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a2c254ba61401445d54b9a766f23b1d33}\label{structseq_1_1detail_1_1_circular_buffer_a2c254ba61401445d54b9a766f23b1d33}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!CircularBuffer@{CircularBuffer}}
+\index{CircularBuffer@{CircularBuffer}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{CircularBuffer()}{CircularBuffer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{Circular\+Buffer}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{max\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a1e9699c764a51d88dcdccbf9c79a9dd8}\label{structseq_1_1detail_1_1_circular_buffer_a1e9699c764a51d88dcdccbf9c79a9dd8}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!CircularBuffer@{CircularBuffer}}
+\index{CircularBuffer@{CircularBuffer}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{CircularBuffer()}{CircularBuffer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{Circular\+Buffer}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{max\+\_\+size,  }\item[{const T \&}]{val,  }\item[{Allocator \&}]{allocator }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ab5ae07a66480e90325cd3e5316c69301}\label{structseq_1_1detail_1_1_circular_buffer_ab5ae07a66480e90325cd3e5316c69301}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!CircularBuffer@{CircularBuffer}}
+\index{CircularBuffer@{CircularBuffer}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{CircularBuffer()}{CircularBuffer()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{Circular\+Buffer}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{Circular\+Buffer}}$<$ T, Allocator $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ac5c8166ebf83cd9e2dd31f8bcddcc25b}\label{structseq_1_1detail_1_1_circular_buffer_ac5c8166ebf83cd9e2dd31f8bcddcc25b}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!at@{at}}
+\index{at@{at}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T\& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{index }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a833d575233f2c2f79555aaab459c8558}\label{structseq_1_1detail_1_1_circular_buffer_a833d575233f2c2f79555aaab459c8558}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!at@{at}}
+\index{at@{at}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{at()}{at()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T\& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::at (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_aa637eb2a4d3e88b6e16336376a20915c}\label{structseq_1_1detail_1_1_circular_buffer_aa637eb2a4d3e88b6e16336376a20915c}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!back@{back}}
+\index{back@{back}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+const T\& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_adca3b1dbbce9e6cc3242a2042dda7fa6}\label{structseq_1_1detail_1_1_circular_buffer_adca3b1dbbce9e6cc3242a2042dda7fa6}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!back@{back}}
+\index{back@{back}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T\& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ae669f8ec0576d3584d6b3656ccfb8a16}\label{structseq_1_1detail_1_1_circular_buffer_ae669f8ec0576d3584d6b3656ccfb8a16}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!begin\_index@{begin\_index}}
+\index{begin\_index@{begin\_index}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{begin\_index()}{begin\_index()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::begin\+\_\+index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_addb370c8fde00f46a661e7b4662a84d1}\label{structseq_1_1detail_1_1_circular_buffer_addb370c8fde00f46a661e7b4662a84d1}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!begin\_ptr@{begin\_ptr}}
+\index{begin\_ptr@{begin\_ptr}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{begin\_ptr()}{begin\_ptr()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+const T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::begin\+\_\+ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ae8cfc7d8c90d933467817631c4ceeeed}\label{structseq_1_1detail_1_1_circular_buffer_ae8cfc7d8c90d933467817631c4ceeeed}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!begin\_ptr@{begin\_ptr}}
+\index{begin\_ptr@{begin\_ptr}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{begin\_ptr()}{begin\_ptr()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::begin\+\_\+ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a4add7694d94b88ef8bf0b9af64955f99}\label{structseq_1_1detail_1_1_circular_buffer_a4add7694d94b88ef8bf0b9af64955f99}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!buffer@{buffer}}
+\index{buffer@{buffer}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{buffer()}{buffer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_af8bec29162ca8357e2b9e1e0a3dde78d}\label{structseq_1_1detail_1_1_circular_buffer_af8bec29162ca8357e2b9e1e0a3dde78d}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!buffer@{buffer}}
+\index{buffer@{buffer}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{buffer()}{buffer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a283cac053eb87d3f305e6750fdf3c40b}\label{structseq_1_1detail_1_1_circular_buffer_a283cac053eb87d3f305e6750fdf3c40b}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!destroy@{destroy}}
+\index{destroy@{destroy}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::destroy (\begin{DoxyParamCaption}\item[{Allocator \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a7285c76c4af76896ffa422e34f88b46b}\label{structseq_1_1detail_1_1_circular_buffer_a7285c76c4af76896ffa422e34f88b46b}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!emplace@{emplace}}
+\index{emplace@{emplace}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{emplace()}{emplace()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$class... Args$>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::emplace (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{pos,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ab0d18be57d6cf5ac861162f735ad45e5}\label{structseq_1_1detail_1_1_circular_buffer_ab0d18be57d6cf5ac861162f735ad45e5}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!emplace\_back@{emplace\_back}}
+\index{emplace\_back@{emplace\_back}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_back()}{emplace\_back()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$class... Args$>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::emplace\+\_\+back (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a74f152bbea637d0fc626770b7413c696}\label{structseq_1_1detail_1_1_circular_buffer_a74f152bbea637d0fc626770b7413c696}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!emplace\_front@{emplace\_front}}
+\index{emplace\_front@{emplace\_front}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{emplace\_front()}{emplace\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$class... Args$>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::emplace\+\_\+front (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a3b92ab6ae4ce41e926cfde08bf311b33}\label{structseq_1_1detail_1_1_circular_buffer_a3b92ab6ae4ce41e926cfde08bf311b33}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!erase@{erase}}
+\index{erase@{erase}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{erase()}{erase()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::erase (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a4697d8d346e34d217bc4dcaae92604a9}\label{structseq_1_1detail_1_1_circular_buffer_a4697d8d346e34d217bc4dcaae92604a9}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!erase\_push\_back@{erase\_push\_back}}
+\index{erase\_push\_back@{erase\_push\_back}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{erase\_push\_back()}{erase\_push\_back()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::erase\+\_\+push\+\_\+back (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{pos,  }\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a4c1e5c785ab8727b682fa69570abd842}\label{structseq_1_1detail_1_1_circular_buffer_a4c1e5c785ab8727b682fa69570abd842}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!erase\_push\_front@{erase\_push\_front}}
+\index{erase\_push\_front@{erase\_push\_front}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{erase\_push\_front()}{erase\_push\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::erase\+\_\+push\+\_\+front (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{pos,  }\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a3d2aa1e4e8c7650a9ae392f276790b57}\label{structseq_1_1detail_1_1_circular_buffer_a3d2aa1e4e8c7650a9ae392f276790b57}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!first\_stop@{first\_stop}}
+\index{first\_stop@{first\_stop}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{first\_stop()}{first\_stop()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::first\+\_\+stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ae268e9c6be04c482769c65ab46511f0e}\label{structseq_1_1detail_1_1_circular_buffer_ae268e9c6be04c482769c65ab46511f0e}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!front@{front}}
+\index{front@{front}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+const T\& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ae5435a0bc00b372daf8f216df0896450}\label{structseq_1_1detail_1_1_circular_buffer_ae5435a0bc00b372daf8f216df0896450}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!front@{front}}
+\index{front@{front}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T\& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ac9c693a5526b8d1417ff70f6f1105ceb}\label{structseq_1_1detail_1_1_circular_buffer_ac9c693a5526b8d1417ff70f6f1105ceb}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!grow\_front@{grow\_front}}
+\index{grow\_front@{grow\_front}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{grow\_front()}{grow\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::grow\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a5a5c9613bfdc623a40d32ba03d1fb1b8}\label{structseq_1_1detail_1_1_circular_buffer_a5a5c9613bfdc623a40d32ba03d1fb1b8}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!if@{if}}
+\index{if@{if}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{if()}{if()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::if (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ac03a1b2ca056bc73fbe52cb3db0734cf}\label{structseq_1_1detail_1_1_circular_buffer_ac03a1b2ca056bc73fbe52cb3db0734cf}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!init\_front@{init\_front}}
+\index{init\_front@{init\_front}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{init\_front()}{init\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::init\+\_\+front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a6880814031fdfcafd7c81c9712881a9c}\label{structseq_1_1detail_1_1_circular_buffer_a6880814031fdfcafd7c81c9712881a9c}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!insert@{insert}}
+\index{insert@{insert}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::insert (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{pos,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a3ef6a71955bca71660cdac7c8047d2a3}\label{structseq_1_1detail_1_1_circular_buffer_a3ef6a71955bca71660cdac7c8047d2a3}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!insert@{insert}}
+\index{insert@{insert}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::insert (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{pos,  }\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ad360c5a3069d6cc4f3e534d1936a23c8}\label{structseq_1_1detail_1_1_circular_buffer_ad360c5a3069d6cc4f3e534d1936a23c8}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!insert\_pop\_back@{insert\_pop\_back}}
+\index{insert\_pop\_back@{insert\_pop\_back}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_pop\_back()}{insert\_pop\_back()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$class... Args$>$ \\
+T \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::insert\+\_\+pop\+\_\+back (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{pos,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a055e78990aa429856790b847a0dca637}\label{structseq_1_1detail_1_1_circular_buffer_a055e78990aa429856790b847a0dca637}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!insert\_pop\_front@{insert\_pop\_front}}
+\index{insert\_pop\_front@{insert\_pop\_front}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{insert\_pop\_front()}{insert\_pop\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$class... Args$>$ \\
+T \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::insert\+\_\+pop\+\_\+front (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{pos,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a84209c6a33eec350d6b3244475c66c3d}\label{structseq_1_1detail_1_1_circular_buffer_a84209c6a33eec350d6b3244475c66c3d}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!isFull@{isFull}}
+\index{isFull@{isFull}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{isFull()}{isFull()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+bool \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::is\+Full (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a0840d77a5b3c29f4105a8238c592df12}\label{structseq_1_1detail_1_1_circular_buffer_a0840d77a5b3c29f4105a8238c592df12}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!last\_ptr@{last\_ptr}}
+\index{last\_ptr@{last\_ptr}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{last\_ptr()}{last\_ptr()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+const T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::last\+\_\+ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ab7bd42841fc68b60958f5b9c2a9da958}\label{structseq_1_1detail_1_1_circular_buffer_ab7bd42841fc68b60958f5b9c2a9da958}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!last\_ptr@{last\_ptr}}
+\index{last\_ptr@{last\_ptr}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{last\_ptr()}{last\_ptr()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::last\+\_\+ptr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ab22c1f34b2f59f35e87c137955b17877}\label{structseq_1_1detail_1_1_circular_buffer_ab22c1f34b2f59f35e87c137955b17877}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!max\_size@{max\_size}}
+\index{max\_size@{max\_size}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{max\_size()}{max\_size()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::max\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ae3b12cd8e7b6e4bb0daedc589b69c2f3}\label{structseq_1_1detail_1_1_circular_buffer_ae3b12cd8e7b6e4bb0daedc589b69c2f3}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!move\_erase\_left\_1@{move\_erase\_left\_1}}
+\index{move\_erase\_left\_1@{move\_erase\_left\_1}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{move\_erase\_left\_1()}{move\_erase\_left\_1()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::move\+\_\+erase\+\_\+left\+\_\+1 (\begin{DoxyParamCaption}\item[{int}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a7c4d1d55e50e5199d64eaeb3b96d5e85}\label{structseq_1_1detail_1_1_circular_buffer_a7c4d1d55e50e5199d64eaeb3b96d5e85}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!move\_erase\_right\_1@{move\_erase\_right\_1}}
+\index{move\_erase\_right\_1@{move\_erase\_right\_1}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{move\_erase\_right\_1()}{move\_erase\_right\_1()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::move\+\_\+erase\+\_\+right\+\_\+1 (\begin{DoxyParamCaption}\item[{int}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ac5a663b713139f4055037251c1014353}\label{structseq_1_1detail_1_1_circular_buffer_ac5a663b713139f4055037251c1014353}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!move\_left\_1@{move\_left\_1}}
+\index{move\_left\_1@{move\_left\_1}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{move\_left\_1()}{move\_left\_1()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::move\+\_\+left\+\_\+1 (\begin{DoxyParamCaption}\item[{int}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ae31f032f9fb27ef06a4ce29bdf62b395}\label{structseq_1_1detail_1_1_circular_buffer_ae31f032f9fb27ef06a4ce29bdf62b395}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!move\_left\_1@{move\_left\_1}}
+\index{move\_left\_1@{move\_left\_1}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{move\_left\_1()}{move\_left\_1()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::move\+\_\+left\+\_\+1 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}+}]{1 }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a95394e9dc4ebadcb2acfcf49202c010d}\label{structseq_1_1detail_1_1_circular_buffer_a95394e9dc4ebadcb2acfcf49202c010d}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!move\_right\_1@{move\_right\_1}}
+\index{move\_right\_1@{move\_right\_1}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{move\_right\_1()}{move\_right\_1()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::move\+\_\+right\+\_\+1 (\begin{DoxyParamCaption}\item[{int}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a5f6dfd04732335e454f8530d4846bb8d}\label{structseq_1_1detail_1_1_circular_buffer_a5f6dfd04732335e454f8530d4846bb8d}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!move\_right\_1@{move\_right\_1}}
+\index{move\_right\_1@{move\_right\_1}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{move\_right\_1()}{move\_right\_1()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::move\+\_\+right\+\_\+1 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}{pos}}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a1570ebf50b941138034c30c26e869317}\label{structseq_1_1detail_1_1_circular_buffer_a1570ebf50b941138034c30c26e869317}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{Circular\+Buffer}}\& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{Circular\+Buffer}}$<$ T, Allocator $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a88b1de3896bb2f09abad87672d4cb042}\label{structseq_1_1detail_1_1_circular_buffer_a88b1de3896bb2f09abad87672d4cb042}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} const T\& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{index }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ae7690253cf6085b49221ab96f146aacd}\label{structseq_1_1detail_1_1_circular_buffer_ae7690253cf6085b49221ab96f146aacd}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} T\& \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ab2b5526e72d780644355a738b82e286c}\label{structseq_1_1detail_1_1_circular_buffer_ab2b5526e72d780644355a738b82e286c}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!pop\_back@{pop\_back}}
+\index{pop\_back@{pop\_back}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{pop\_back()}{pop\_back()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::pop\+\_\+back (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a465fa71278f70a8804f6f0a7ac169db1}\label{structseq_1_1detail_1_1_circular_buffer_a465fa71278f70a8804f6f0a7ac169db1}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!pop\_front@{pop\_front}}
+\index{pop\_front@{pop\_front}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{pop\_front()}{pop\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::pop\+\_\+front (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a89de17da09dda4853efb083ae5e5fb57}\label{structseq_1_1detail_1_1_circular_buffer_a89de17da09dda4853efb083ae5e5fb57}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!pop\_front\_n@{pop\_front\_n}}
+\index{pop\_front\_n@{pop\_front\_n}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{pop\_front\_n()}{pop\_front\_n()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::pop\+\_\+front\+\_\+n (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a031e34813ab3e2b81d53331fd2acc077}\label{structseq_1_1detail_1_1_circular_buffer_a031e34813ab3e2b81d53331fd2acc077}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a7a16ba89e0a4fd980ab49eb5ee08b9b7}\label{structseq_1_1detail_1_1_circular_buffer_a7a16ba89e0a4fd980ab49eb5ee08b9b7}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_back@{push\_back}}
+\index{push\_back@{push\_back}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_afa41026bca814a0d32bec41acc7d338b}\label{structseq_1_1detail_1_1_circular_buffer_afa41026bca814a0d32bec41acc7d338b}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_back\_pop\_front@{push\_back\_pop\_front}}
+\index{push\_back\_pop\_front@{push\_back\_pop\_front}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back\_pop\_front()}{push\_back\_pop\_front()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+back\+\_\+pop\+\_\+front (\begin{DoxyParamCaption}\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_adc04ceb5c4207a4e614c2265e36c7661}\label{structseq_1_1detail_1_1_circular_buffer_adc04ceb5c4207a4e614c2265e36c7661}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_back\_pop\_front\_relocatable@{push\_back\_pop\_front\_relocatable}}
+\index{push\_back\_pop\_front\_relocatable@{push\_back\_pop\_front\_relocatable}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back\_pop\_front\_relocatable()}{push\_back\_pop\_front\_relocatable()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+back\+\_\+pop\+\_\+front\+\_\+relocatable (\begin{DoxyParamCaption}\item[{T \&}]{inout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ac8fcc8884d16c73bd190800d56c32151}\label{structseq_1_1detail_1_1_circular_buffer_ac8fcc8884d16c73bd190800d56c32151}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_back\_pop\_front\_use\_relocatable@{push\_back\_pop\_front\_use\_relocatable}}
+\index{push\_back\_pop\_front\_use\_relocatable@{push\_back\_pop\_front\_use\_relocatable}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_back\_pop\_front\_use\_relocatable()}{push\_back\_pop\_front\_use\_relocatable()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+back\+\_\+pop\+\_\+front\+\_\+use\+\_\+relocatable (\begin{DoxyParamCaption}\item[{T \&}]{inout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ad912c1119350b6d080f3ef06f19e4222}\label{structseq_1_1detail_1_1_circular_buffer_ad912c1119350b6d080f3ef06f19e4222}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_front@{push\_front}}
+\index{push\_front@{push\_front}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ae8a245623991ff37491a29e4aec0aeb5}\label{structseq_1_1detail_1_1_circular_buffer_ae8a245623991ff37491a29e4aec0aeb5}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_front@{push\_front}}
+\index{push\_front@{push\_front}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_abd66ffbe17a9b5b87217cd2b02168fd6}\label{structseq_1_1detail_1_1_circular_buffer_abd66ffbe17a9b5b87217cd2b02168fd6}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_front\_n@{push\_front\_n}}
+\index{push\_front\_n@{push\_front\_n}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front\_n()}{push\_front\_n()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+front\+\_\+n (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a098c7d4a7ca505f2c1d870eb7ea05ff1}\label{structseq_1_1detail_1_1_circular_buffer_a098c7d4a7ca505f2c1d870eb7ea05ff1}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_front\_n@{push\_front\_n}}
+\index{push\_front\_n@{push\_front\_n}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front\_n()}{push\_front\_n()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+template$<$class U $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+front\+\_\+n (\begin{DoxyParamCaption}\item[{Allocator \&}]{allocator,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{n,  }\item[{const U \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a58e523a9af6f2c7da829bce74dd60b6e}\label{structseq_1_1detail_1_1_circular_buffer_a58e523a9af6f2c7da829bce74dd60b6e}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_front\_pop\_back@{push\_front\_pop\_back}}
+\index{push\_front\_pop\_back@{push\_front\_pop\_back}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front\_pop\_back()}{push\_front\_pop\_back()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+T \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+front\+\_\+pop\+\_\+back (\begin{DoxyParamCaption}\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_aeaa6c0fa338a2d23be94d270917b2222}\label{structseq_1_1detail_1_1_circular_buffer_aeaa6c0fa338a2d23be94d270917b2222}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_front\_pop\_back\_relocatable@{push\_front\_pop\_back\_relocatable}}
+\index{push\_front\_pop\_back\_relocatable@{push\_front\_pop\_back\_relocatable}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front\_pop\_back\_relocatable()}{push\_front\_pop\_back\_relocatable()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+front\+\_\+pop\+\_\+back\+\_\+relocatable (\begin{DoxyParamCaption}\item[{T \&}]{inout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a552bce03dfc7095eacd45986e0ed2ea5}\label{structseq_1_1detail_1_1_circular_buffer_a552bce03dfc7095eacd45986e0ed2ea5}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!push\_front\_pop\_back\_use\_relocatable@{push\_front\_pop\_back\_use\_relocatable}}
+\index{push\_front\_pop\_back\_use\_relocatable@{push\_front\_pop\_back\_use\_relocatable}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{push\_front\_pop\_back\_use\_relocatable()}{push\_front\_pop\_back\_use\_relocatable()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::push\+\_\+front\+\_\+pop\+\_\+back\+\_\+use\+\_\+relocatable (\begin{DoxyParamCaption}\item[{T \&}]{inout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a6e1756b810a7000e847fea42f6a5b117}\label{structseq_1_1detail_1_1_circular_buffer_a6e1756b810a7000e847fea42f6a5b117}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!resize@{resize}}
+\index{resize@{resize}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::resize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{s,  }\item[{Allocator \&}]{allocator }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a75b761437acc4efb58564f32024e63f9}\label{structseq_1_1detail_1_1_circular_buffer_a75b761437acc4efb58564f32024e63f9}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!resize@{resize}}
+\index{resize@{resize}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{resize()}{resize()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+void \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::resize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}}}]{s,  }\item[{const T \&}]{value,  }\item[{Allocator \&}]{allocator }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_aa38863bbc73ac90aed2ef0bfbadd4a16}\label{structseq_1_1detail_1_1_circular_buffer_aa38863bbc73ac90aed2ef0bfbadd4a16}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!second\_stop@{second\_stop}}
+\index{second\_stop@{second\_stop}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{second\_stop()}{second\_stop()}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::second\+\_\+stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a692060bb61a40ccdfdc79b316880909f}\label{structseq_1_1detail_1_1_circular_buffer_a692060bb61a40ccdfdc79b316880909f}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!SEQ\_NOINLINE@{SEQ\_NOINLINE}}
+\index{SEQ\_NOINLINE@{SEQ\_NOINLINE}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{SEQ\_NOINLINE()}{SEQ\_NOINLINE()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) \&}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_aab6f390d997c05af983430da89baf855}\label{structseq_1_1detail_1_1_circular_buffer_aab6f390d997c05af983430da89baf855}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!SEQ\_NOINLINE@{SEQ\_NOINLINE}}
+\index{SEQ\_NOINLINE@{SEQ\_NOINLINE}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{SEQ\_NOINLINE()}{SEQ\_NOINLINE()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) \&}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}\label{structseq_1_1detail_1_1_circular_buffer_a18127916c12cd084ad9cf6b522b83b1c}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!pos@{pos}}
+\index{pos@{pos}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{pos}{pos}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{namespaceseq_1_1detail_ad3a0759bd89ba1e3f58f05841ac6f76f}{cbuffer\+\_\+pos}} \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::pos}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{                \textcolor{keywordflow}{if} (!\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_ac6a39364a8b74be120e2f0a4aebee0d0}{relocatable}})}
+\DoxyCodeLine{                    \mbox{\hyperlink{namespaceseq_a48515fc69dc7f83f81c6e0715999ba16}{construct\_ptr}}(\&(*\textcolor{keyword}{this})[\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a95ff54f2d321194d53c5262717afc9b0}{size}}])}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ac6a39364a8b74be120e2f0a4aebee0d0}\label{structseq_1_1detail_1_1_circular_buffer_ac6a39364a8b74be120e2f0a4aebee0d0}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!relocatable@{relocatable}}
+\index{relocatable@{relocatable}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{relocatable}{relocatable}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+const bool \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::relocatable = \mbox{\hyperlink{structseq_1_1is__relocatable}{is\+\_\+relocatable}}$<$T$>$\+::value \&\& (sizeof(T) $>$= sizeof(size\+\_\+t))\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a95ff54f2d321194d53c5262717afc9b0}\label{structseq_1_1detail_1_1_circular_buffer_a95ff54f2d321194d53c5262717afc9b0}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!size@{size}}
+\index{size@{size}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::size}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a39a1682bfe9bbde492391a2d7e57f5da}\label{structseq_1_1detail_1_1_circular_buffer_a39a1682bfe9bbde492391a2d7e57f5da}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!size\_BCB@{size\_BCB}}
+\index{size\_BCB@{size\_BCB}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{size\_BCB}{size\_BCB}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::size\+\_\+\+B\+CB = sizeof(\mbox{\hyperlink{structseq_1_1detail_1_1_base_circular_buffer}{Base\+Circular\+Buffer}}$<$T, Allocator$>$)\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a5027efd6f028110a19a19e7df5463ceb}\label{structseq_1_1detail_1_1_circular_buffer_a5027efd6f028110a19a19e7df5463ceb}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!size\_T@{size\_T}}
+\index{size\_T@{size\_T}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{size\_T}{size\_T}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::size\+\_\+T = sizeof(T)\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_ad13d8ccf0451d70251a8db013766ce23}\label{structseq_1_1detail_1_1_circular_buffer_ad13d8ccf0451d70251a8db013766ce23}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!start\_data@{start\_data}}
+\index{start\_data@{start\_data}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{start\_data}{start\_data}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::start\+\_\+data = \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a3df89fecb8fbddc68f18c578b721fda3}{start\+\_\+data\+\_\+T}} $\ast$ sizeof(T)\hspace{0.3cm}{\ttfamily [static]}}
+
+\mbox{\Hypertarget{structseq_1_1detail_1_1_circular_buffer_a3df89fecb8fbddc68f18c578b721fda3}\label{structseq_1_1detail_1_1_circular_buffer_a3df89fecb8fbddc68f18c578b721fda3}} 
+\index{seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}!start\_data\_T@{start\_data\_T}}
+\index{start\_data\_T@{start\_data\_T}!seq::detail::CircularBuffer$<$ T, Allocator $>$@{seq::detail::CircularBuffer$<$ T, Allocator $>$}}
+\doxysubsubsection{\texorpdfstring{start\_data\_T}{start\_data\_T}}
+{\footnotesize\ttfamily template$<$class T , class Allocator $>$ \\
+const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer}{seq\+::detail\+::\+Circular\+Buffer}}$<$ T, Allocator $>$\+::start\+\_\+data\+\_\+T\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= (\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a39a1682bfe9bbde492391a2d7e57f5da}{size\_BCB}} > \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a5027efd6f028110a19a19e7df5463ceb}{size\_T}}) ?}
+\DoxyCodeLine{                (\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a39a1682bfe9bbde492391a2d7e57f5da}{size\_BCB}} / \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a5027efd6f028110a19a19e7df5463ceb}{size\_T}} + ((\mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a39a1682bfe9bbde492391a2d7e57f5da}{size\_BCB}} \% \mbox{\hyperlink{structseq_1_1detail_1_1_circular_buffer_a5027efd6f028110a19a19e7df5463ceb}{size\_T}}) ? 1 : 0)) :}
+\DoxyCodeLine{                1}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+seq/\mbox{\hyperlink{deque_8hpp}{deque.\+hpp}}\end{DoxyCompactItemize}
