@@ -2,7 +2,7 @@
 \label{structseq_1_1detail_1_1deque__const__iterator}\index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}}
 
 
-{\ttfamily \#include $<$deque.\+hpp$>$}
+{\ttfamily \#include $<$tiered\+\_\+vector.\+hpp$>$}
 
 
 
@@ -38,7 +38,7 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_ab48b079225
 \item 
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_ad35485333266601ee057c544c8a721d3}{deque\+\_\+const\+\_\+iterator}} (const \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a3a8728cd2188df354b62d45cd48dab53}{bucket\+\_\+manager}} $\ast$d, \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a2300961cb9cd2bab4fe59aadb180a347}{size\+\_\+type}} p, \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a2300961cb9cd2bab4fe59aadb180a347}{size\+\_\+type}}) noexcept
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a2300961cb9cd2bab4fe59aadb180a347}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_aff4ae39240a790a2d12d479089763ba6}{absolute\+Pos}} () const noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a3e95abcfe271fa89d915e2a0e1dc377d}{absolute\+Pos}} () const noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a2300961cb9cd2bab4fe59aadb180a347}{size\+\_\+type}}
 \item 
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a3865b8175659e34080ec4f7ca16b9de3}{set\+Pos}} (\mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a980984b057c0d9d75304ac54167f19b2}{difference\+\_\+type}} new\+\_\+pos) noexcept
 \item 
@@ -48,21 +48,21 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_ab48b079225
 \item 
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a5bf9e9794e47939182a15a05d5663ddc}{go\+\_\+prev}} ()
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_abddaf1c38d96ae1af347963741c13943}{operator++}} () noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_ae9495832c11e5b7875f1c2602b1e3b87}{operator++}} () noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \&
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a63c66b122dec418c23c3b2e883174c1a}{operator++}} (int) noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a162d02dceda8b08af3318a9557e890a7}{operator++}} (int) noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}}
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a36debe07e4f986527f8a770f64af861e}{operator-\/-\/}} () noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_adb42be1961cdfec637f39bfb21576630}{operator-\/-\/}} () noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \&
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a202bdaf98dc93bda149639c2e0224bf1}{operator-\/-\/}} (int) noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_ab7cc30f0286e75024106c8d27c46ce19}{operator-\/-\/}} (int) noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}}
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_ab48b079225979a7e083f48d48c7647eb}{reference}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a08107f049262986c11502dee76f04918}{operator$\ast$}} () const noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_afe331b0d037bd3460b0c71bc5fb96c09}{operator$\ast$}} () const noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_ab48b079225979a7e083f48d48c7647eb}{reference}}
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a7161f91534b7b769f8ba379694b4940b}{pointer}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a16aea9a4cd6ce4d64bd70e272b07b1e5}{operator-\/$>$}} () const noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_ac7f40504e2b1fafc679316a472a242ee}{operator-\/$>$}} () const noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a7161f91534b7b769f8ba379694b4940b}{pointer}}
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a0514f387e1208f3f9547c213f60561a1}{operator+=}} (\mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a980984b057c0d9d75304ac54167f19b2}{difference\+\_\+type}} diff) noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a4b5e10a72a093541d923bee3cf33aff3}{operator+=}} (\mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a980984b057c0d9d75304ac54167f19b2}{difference\+\_\+type}} diff) noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \&
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \& \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a2d712198c1b9d07f3ec0203adf2aec71}{operator-\/=}} (\mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a980984b057c0d9d75304ac54167f19b2}{difference\+\_\+type}} diff) noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_aaae5de03756fab0f9112bb091b07175e}{operator-\/=}} (\mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a980984b057c0d9d75304ac54167f19b2}{difference\+\_\+type}} diff) noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \&
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -172,12 +172,12 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::det
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_aff4ae39240a790a2d12d479089763ba6}\label{structseq_1_1detail_1_1deque__const__iterator_aff4ae39240a790a2d12d479089763ba6}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_a3e95abcfe271fa89d915e2a0e1dc377d}\label{structseq_1_1detail_1_1deque__const__iterator_a3e95abcfe271fa89d915e2a0e1dc377d}} 
 \index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}!absolutePos@{absolutePos}}
 \index{absolutePos@{absolutePos}!seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}}
 \doxysubsubsection{\texorpdfstring{absolutePos()}{absolutePos()}}
 {\footnotesize\ttfamily template$<$class Bucket\+Mgr $>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a2300961cb9cd2bab4fe59aadb180a347}{size\+\_\+type}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::absolute\+Pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::absolute\+Pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a2300961cb9cd2bab4fe59aadb180a347}{size\+\_\+type}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_acce8efcf9c53cd78537d7e21b302aaf3}\label{structseq_1_1detail_1_1deque__const__iterator_acce8efcf9c53cd78537d7e21b302aaf3}} 
 \index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}!go\_next@{go\_next}}
@@ -200,61 +200,61 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::det
 {\footnotesize\ttfamily template$<$class Bucket\+Mgr $>$ \\
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::offset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a980984b057c0d9d75304ac54167f19b2}{difference\+\_\+type}}}]{diff }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_a08107f049262986c11502dee76f04918}\label{structseq_1_1detail_1_1deque__const__iterator_a08107f049262986c11502dee76f04918}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_afe331b0d037bd3460b0c71bc5fb96c09}\label{structseq_1_1detail_1_1deque__const__iterator_afe331b0d037bd3460b0c71bc5fb96c09}} 
 \index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}!operator$\ast$@{operator$\ast$}}
 \index{operator$\ast$@{operator$\ast$}!seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}}
 \doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
 {\footnotesize\ttfamily template$<$class Bucket\+Mgr $>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_ab48b079225979a7e083f48d48c7647eb}{reference}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator$\ast$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator$\ast$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_ab48b079225979a7e083f48d48c7647eb}{reference}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_abddaf1c38d96ae1af347963741c13943}\label{structseq_1_1detail_1_1deque__const__iterator_abddaf1c38d96ae1af347963741c13943}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_ae9495832c11e5b7875f1c2602b1e3b87}\label{structseq_1_1detail_1_1deque__const__iterator_ae9495832c11e5b7875f1c2602b1e3b87}} 
 \index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}!operator++@{operator++}}
 \index{operator++@{operator++}!seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}}
 \doxysubsubsection{\texorpdfstring{operator++()}{operator++()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Bucket\+Mgr $>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}}\& \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator++ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator++ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_a63c66b122dec418c23c3b2e883174c1a}\label{structseq_1_1detail_1_1deque__const__iterator_a63c66b122dec418c23c3b2e883174c1a}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_a162d02dceda8b08af3318a9557e890a7}\label{structseq_1_1detail_1_1deque__const__iterator_a162d02dceda8b08af3318a9557e890a7}} 
 \index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}!operator++@{operator++}}
 \index{operator++@{operator++}!seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}}
 \doxysubsubsection{\texorpdfstring{operator++()}{operator++()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Bucket\+Mgr $>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator++ (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator++ (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_a0514f387e1208f3f9547c213f60561a1}\label{structseq_1_1detail_1_1deque__const__iterator_a0514f387e1208f3f9547c213f60561a1}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_a4b5e10a72a093541d923bee3cf33aff3}\label{structseq_1_1detail_1_1deque__const__iterator_a4b5e10a72a093541d923bee3cf33aff3}} 
 \index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}!operator+=@{operator+=}}
 \index{operator+=@{operator+=}!seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}}
 \doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}}
 {\footnotesize\ttfamily template$<$class Bucket\+Mgr $>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}}\& \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator+= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a980984b057c0d9d75304ac54167f19b2}{difference\+\_\+type}}}]{diff }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator+= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a980984b057c0d9d75304ac54167f19b2}{difference\+\_\+type}}}]{diff }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_a36debe07e4f986527f8a770f64af861e}\label{structseq_1_1detail_1_1deque__const__iterator_a36debe07e4f986527f8a770f64af861e}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_adb42be1961cdfec637f39bfb21576630}\label{structseq_1_1detail_1_1deque__const__iterator_adb42be1961cdfec637f39bfb21576630}} 
 \index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}!operator-\/-\/@{operator-\/-\/}}
 \index{operator-\/-\/@{operator-\/-\/}!seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}}
 \doxysubsubsection{\texorpdfstring{operator-\/-\/()}{operator--()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Bucket\+Mgr $>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}}\& \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator-\/-\/ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator-\/-\/ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_a202bdaf98dc93bda149639c2e0224bf1}\label{structseq_1_1detail_1_1deque__const__iterator_a202bdaf98dc93bda149639c2e0224bf1}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_ab7cc30f0286e75024106c8d27c46ce19}\label{structseq_1_1detail_1_1deque__const__iterator_ab7cc30f0286e75024106c8d27c46ce19}} 
 \index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}!operator-\/-\/@{operator-\/-\/}}
 \index{operator-\/-\/@{operator-\/-\/}!seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}}
 \doxysubsubsection{\texorpdfstring{operator-\/-\/()}{operator--()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Bucket\+Mgr $>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator-\/-\/ (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator-\/-\/ (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_a2d712198c1b9d07f3ec0203adf2aec71}\label{structseq_1_1detail_1_1deque__const__iterator_a2d712198c1b9d07f3ec0203adf2aec71}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_aaae5de03756fab0f9112bb091b07175e}\label{structseq_1_1detail_1_1deque__const__iterator_aaae5de03756fab0f9112bb091b07175e}} 
 \index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}!operator-\/=@{operator-\/=}}
 \index{operator-\/=@{operator-\/=}!seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}}
 \doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}}
 {\footnotesize\ttfamily template$<$class Bucket\+Mgr $>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}}\& \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator-\/= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a980984b057c0d9d75304ac54167f19b2}{difference\+\_\+type}}}]{diff }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator-\/= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a980984b057c0d9d75304ac54167f19b2}{difference\+\_\+type}}}]{diff }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{deque\+\_\+const\+\_\+iterator}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_a16aea9a4cd6ce4d64bd70e272b07b1e5}\label{structseq_1_1detail_1_1deque__const__iterator_a16aea9a4cd6ce4d64bd70e272b07b1e5}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_ac7f40504e2b1fafc679316a472a242ee}\label{structseq_1_1detail_1_1deque__const__iterator_ac7f40504e2b1fafc679316a472a242ee}} 
 \index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}!operator-\/$>$@{operator-\/$>$}}
 \index{operator-\/$>$@{operator-\/$>$}!seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}}
 \doxysubsubsection{\texorpdfstring{operator-\/$>$()}{operator->()}}
 {\footnotesize\ttfamily template$<$class Bucket\+Mgr $>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a7161f91534b7b769f8ba379694b4940b}{pointer}} \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator-\/$>$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::detail\+::deque\+\_\+const\+\_\+iterator}}$<$ Bucket\+Mgr $>$\+::operator-\/$>$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator_a7161f91534b7b769f8ba379694b4940b}{pointer}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1deque__const__iterator_a3865b8175659e34080ec4f7ca16b9de3}\label{structseq_1_1detail_1_1deque__const__iterator_a3865b8175659e34080ec4f7ca16b9de3}} 
 \index{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$@{seq::detail::deque\_const\_iterator$<$ BucketMgr $>$}!setPos@{setPos}}
@@ -312,4 +312,4 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1deque__const__iterator}{seq\+::det
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-seq/\mbox{\hyperlink{deque_8hpp}{deque.\+hpp}}\end{DoxyCompactItemize}
+seq/\mbox{\hyperlink{tiered__vector_8hpp}{tiered\+\_\+vector.\+hpp}}\end{DoxyCompactItemize}

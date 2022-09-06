@@ -1,4 +1,7 @@
-#pragma once
+#ifndef SEQ_CHARCONV_HPP
+#define SEQ_CHARCONV_HPP
+
+
 
 /** @file */
 
@@ -85,23 +88,14 @@ In additional to seq::std_input_stream, charconv module provides the similar seq
  */
 
 #ifdef _MSC_VER
-#define _CRT_DISABLE_PERFCRIT_LOCKS
+#define CRT_DISABLE_PERFCRIT_LOCKS
 #endif
 
-#include <cstdio>
-#include <cctype>
-#include <cinttypes>
-#include <clocale>
 #include <cmath>
 #include <cfloat>
-#include <ostream>
-#include <iomanip>
-#include <type_traits>
-#include <system_error>
-#include <iostream>
 
-#include "tiny_string.hpp"
 #include "bits.hpp"
+#include "tiny_string.hpp"
 
 namespace seq
 {
@@ -129,7 +123,7 @@ namespace seq
 	struct to_chars_result {
 		char* ptr;
 		std::errc ec;
-	};
+	} ;
 
 	/// @brief Return type for seq::from_chars functions, similar to std::from_chars_result
 	struct from_chars_result {
@@ -178,8 +172,8 @@ namespace seq
 	template<class Derived>
 	class basic_input_stream
 	{
-		SEQ_ALWAYS_INLINE Derived& derived() noexcept { return static_cast<Derived&>(*this); }
-		SEQ_ALWAYS_INLINE const Derived& derived() const noexcept { return static_cast<const Derived&>(*this); }
+		SEQ_ALWAYS_INLINE auto derived() noexcept -> Derived& { return static_cast<Derived&>(*this); }
+		SEQ_ALWAYS_INLINE auto derived() const noexcept -> const Derived& { return static_cast<const Derived&>(*this); }
 
 	public:
 
@@ -198,7 +192,7 @@ namespace seq
 
 		*/
 
-		SEQ_ALWAYS_INLINE bool is_ok() const noexcept { return derived().state() == Ok; }
+		SEQ_ALWAYS_INLINE auto is_ok() const noexcept -> bool { return derived().state() == Ok; }
 		SEQ_ALWAYS_INLINE void reset() noexcept { derived().set_state(Ok); }
 		SEQ_ALWAYS_INLINE explicit operator bool() const noexcept { return is_ok(); }
 	};
@@ -221,7 +215,7 @@ namespace seq
 
 			float_chars_format(chars_format fmt = general, char dot = '.', char exp = 'e', char upper = 0)
 				:fmt(fmt), dot(dot), exp(exp), upper(upper){}
-		};
+		} ;
 
 		struct char_range
 		{
@@ -231,20 +225,21 @@ namespace seq
 			char* end;
 			char_range(char* start , char* end )
 				:pos(start), end(end) {}
-			SEQ_ALWAYS_INLINE char* add_size(size_t count) const noexcept { 
+			SEQ_ALWAYS_INLINE auto add_size(size_t count) const noexcept -> char* { 
 				const char* tmp = pos;
 				const_cast<char_range*>(this)->pos += count;
-				return (pos > end) ? NULL : (char*)tmp; 
+				return (pos > end) ? nullptr : const_cast<char*>(tmp); 
 			}
-			SEQ_ALWAYS_INLINE char* current() const noexcept { return const_cast<char*>(pos); } //current position
-			SEQ_ALWAYS_INLINE char* end_ptr() const noexcept { return const_cast<char*>(end); } //end ptr for error
-			SEQ_ALWAYS_INLINE char* back() const noexcept { return --const_cast<char_range*>(this)->pos; }
-			SEQ_ALWAYS_INLINE bool append(char v) const noexcept {
-				if (SEQ_UNLIKELY(pos == end)) return false;
+			SEQ_ALWAYS_INLINE auto current() const noexcept -> char* { return const_cast<char*>(pos); } //current position
+			SEQ_ALWAYS_INLINE auto end_ptr() const noexcept -> char* { return const_cast<char*>(end); } //end ptr for error
+			SEQ_ALWAYS_INLINE auto back() const noexcept -> char* { return --const_cast<char_range*>(this)->pos; }
+			SEQ_ALWAYS_INLINE auto append(char v) const noexcept -> bool {
+				if (SEQ_UNLIKELY(pos == end)) { return false;
+}
 				*const_cast<char_range*>(this)->pos++ = v;
 				return true;
 			}
-		};
+		} ;
 
 		template<class String>
 		struct string_range
@@ -252,18 +247,18 @@ namespace seq
 			// Write value into a string-like object
 			static constexpr bool extendible = true;
 			String* str;
-			string_range(String* str ) : str(str) { 
+			explicit string_range(String* str ) : str(str) { 
 				//str->clear(); 
 			}
-			SEQ_ALWAYS_INLINE char* add_size(size_t count) const {
+			SEQ_ALWAYS_INLINE auto add_size(size_t count) const -> char* {
 				size_t size = str->size();
 				const_cast<String*>(str)->resize(size + count);
 				return (char*)str->data() + size;
 			}
-			SEQ_ALWAYS_INLINE char* current() const noexcept { return (char*)&const_cast<String*>(str)->back(); } //current position
-			SEQ_ALWAYS_INLINE char* end_ptr() const noexcept { return NULL; } //end ptr for error
-			SEQ_ALWAYS_INLINE char* back() const noexcept { const_cast<String*>(str)->pop_back(); return current(); }
-			SEQ_ALWAYS_INLINE constexpr bool append(char v) const {
+			SEQ_ALWAYS_INLINE auto current() const noexcept -> char* { return (char*)&const_cast<String*>(str)->back(); } //current position
+			SEQ_ALWAYS_INLINE auto end_ptr() const noexcept -> char* { return NULL; } //end ptr for error
+			SEQ_ALWAYS_INLINE auto back() const noexcept -> char* { const_cast<String*>(str)->pop_back(); return current(); }
+			SEQ_ALWAYS_INLINE constexpr auto append(char v) const -> bool {
 				const_cast<String*>(str)->push_back( v);
 				return true;
 			}
@@ -272,36 +267,36 @@ namespace seq
 		
 
 
-		typedef union{  
+		using u_double = union{  
 			unsigned short bytes[sizeof(double)];
 			double val;
-		} u_double;
-		typedef union{  
+		};
+		using u_float = union{  
 			unsigned short bytes[sizeof(float)];
 			float val;
-		} u_float;
+		};
 		
-		SEQ_ALWAYS_INLINE bool signbit(float X) noexcept
+		SEQ_ALWAYS_INLINE auto signbit(float X) noexcept -> bool
 		{
 #if BYTEORDER_ENDIAN == BYTEORDER_LITTLE_ENDIAN
-			return (((u_float*)(char*)&(X))->bytes[1] & ((unsigned short)0x8000)) != 0;
+			return ((reinterpret_cast<u_float*>(reinterpret_cast<char*>(&(X))))->bytes[1] & (static_cast<unsigned short>(0x8000))) != 0;
 #else
 			return std::signbit(X);
 #endif
 		}
-		SEQ_ALWAYS_INLINE bool signbit(double X) noexcept
+		SEQ_ALWAYS_INLINE auto signbit(double X) noexcept -> bool
 		{
 #if BYTEORDER_ENDIAN == BYTEORDER_LITTLE_ENDIAN
-			return (((u_double*)(char*)&(X))->bytes[3] & ((unsigned short)0x8000)) != 0;
+			return ((reinterpret_cast<u_double*>(reinterpret_cast<char*>(&(X))))->bytes[3] & (static_cast<unsigned short>(0x8000))) != 0;
 #else
 			return std::signbit(X);
 #endif
 		}
-		SEQ_ALWAYS_INLINE bool signbit(long double X) noexcept
+		SEQ_ALWAYS_INLINE auto signbit(long double X) noexcept -> bool
 		{
 #if BYTEORDER_ENDIAN == BYTEORDER_LITTLE_ENDIAN
 			return sizeof(long double) == sizeof(double) ?
-				signbit((double)X) :
+				signbit(static_cast<double>(X)) :
 				std::signbit(X);
 #else
 			return std::signbit(X);
@@ -315,37 +310,37 @@ namespace seq
 		//////////////////////////////////////////////////////////////////////////////
 
 		template<class T>
-		static SEQ_ALWAYS_INLINE T sign_value(T val, int sign) noexcept
+		static SEQ_ALWAYS_INLINE auto sign_value(T val, int sign) noexcept -> T
 		{
 			return sign == -1 ? -val : val;
 		}
-		static SEQ_ALWAYS_INLINE unsigned char sign_value(unsigned char val, int sign) noexcept
+		static SEQ_ALWAYS_INLINE auto sign_value(unsigned char val, int sign) noexcept -> unsigned char
 		{
 			return sign == -1 ? (0U - val) : val;
 		}
-		static SEQ_ALWAYS_INLINE unsigned short sign_value(unsigned short val, int sign) noexcept
+		static SEQ_ALWAYS_INLINE auto sign_value(unsigned short val, int sign) noexcept -> unsigned short
 		{
 			return sign == -1 ? (0U - val) : val;
 		}
-		static SEQ_ALWAYS_INLINE unsigned int sign_value(unsigned int val, int sign) noexcept
+		static SEQ_ALWAYS_INLINE auto sign_value(unsigned int val, int sign) noexcept -> unsigned int
 		{
 			return sign == -1 ? (0U - val) : val;
 		}
-		static SEQ_ALWAYS_INLINE unsigned long sign_value(unsigned long val, int sign) noexcept
+		static SEQ_ALWAYS_INLINE auto sign_value(unsigned long val, int sign) noexcept -> unsigned long
 		{
 			return sign == -1 ? (0U - val) : val;
 		}
-		static SEQ_ALWAYS_INLINE unsigned long long sign_value(unsigned long long val, int sign) noexcept
+		static SEQ_ALWAYS_INLINE auto sign_value(unsigned long long val, int sign) noexcept -> unsigned long long
 		{
 			return sign == -1 ? (0ULL - val) : val;
 		}
 
 
-		static SEQ_ALWAYS_INLINE unsigned digit_value(char c)  noexcept
+		static SEQ_ALWAYS_INLINE auto digit_value(char c)  noexcept -> unsigned
 		{
-			return unsigned(c - '0');
+			return static_cast<unsigned>(c - '0');
 		}
-		static SEQ_ALWAYS_INLINE bool is_digit(char c) noexcept
+		static SEQ_ALWAYS_INLINE auto is_digit(char c) noexcept -> bool
 		{
 			return digit_value(c) <= 9;
 		}
@@ -353,25 +348,25 @@ namespace seq
 		{
 			return is_digit(c) || c == 'e' || c == 'E' || c == '.' || c == ',' || c == '+' || c == '-';
 		}*/
-		static SEQ_ALWAYS_INLINE bool is_space(int c)  noexcept
+		static SEQ_ALWAYS_INLINE auto is_space(int c)  noexcept -> bool
 		{
 			return c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r';
 		}
-		static SEQ_ALWAYS_INLINE bool is_eol(int c)  noexcept
+		static SEQ_ALWAYS_INLINE auto is_eol(int c)  noexcept -> bool
 		{
 			return c == '\n' || c == '\r';
 		}
-		static SEQ_ALWAYS_INLINE char to_upper(char c)
+		static SEQ_ALWAYS_INLINE auto to_upper(char c) -> char
 		{
 			static const char offset = 'a' - 'A';
 			return c >= 'a' ? c - offset : c;
 		}
-		static SEQ_ALWAYS_INLINE unsigned to_digit_hex(char c)
+		static SEQ_ALWAYS_INLINE auto to_digit_hex(char c) -> unsigned
 		{
 			c = to_upper(c);
 			return (c < ':' && c > '/') ?
 				c - '0'
-				: ((c >= 'A' && c <= 'Z') ? (c - 'A' + 10) : (unsigned)-1);
+				: ((c >= 'A' && c <= 'Z') ? (c - 'A' + 10) : static_cast<unsigned>(-1));
 		}
 
 
@@ -380,38 +375,34 @@ namespace seq
 		/// Read functions
 		//////////////////////////////////////////////////////////////////////////////
 
-		static inline double get_pow_double(int exponent)
+		static inline auto get_pow_double(int exponent) -> double
 		{
 			static const double  pow10[] = { 1E-323, 1E-322, 1E-321, 1E-320, 1E-319, 1E-318, 1E-317, 1E-316, 1E-315, 1E-314, 1E-313, 1E-312, 1E-311, 1E-310, 1E-309, 1E-308, 1E-307, 1E-306, 1E-305, 1E-304, 1E-303, 1E-302, 1E-301, 1E-300, 1E-299, 1E-298, 1E-297, 1E-296, 1E-295, 1E-294, 1E-293, 1E-292, 1E-291, 1E-290, 1E-289, 1E-288, 1E-287, 1E-286, 1E-285, 1E-284, 1E-283, 1E-282, 1E-281, 1E-280, 1E-279, 1E-278, 1E-277, 1E-276, 1E-275, 1E-274, 1E-273, 1E-272, 1E-271, 1E-270, 1E-269, 1E-268, 1E-267, 1E-266, 1E-265, 1E-264, 1E-263, 1E-262, 1E-261, 1E-260, 1E-259, 1E-258, 1E-257, 1E-256, 1E-255, 1E-254, 1E-253, 1E-252, 1E-251, 1E-250, 1E-249, 1E-248, 1E-247, 1E-246, 1E-245, 1E-244, 1E-243, 1E-242, 1E-241, 1E-240, 1E-239, 1E-238, 1E-237, 1E-236, 1E-235, 1E-234, 1E-233, 1E-232, 1E-231, 1E-230, 1E-229, 1E-228, 1E-227, 1E-226, 1E-225, 1E-224, 1E-223, 1E-222, 1E-221, 1E-220, 1E-219, 1E-218, 1E-217, 1E-216, 1E-215, 1E-214, 1E-213, 1E-212, 1E-211, 1E-210, 1E-209, 1E-208, 1E-207, 1E-206, 1E-205, 1E-204, 1E-203, 1E-202, 1E-201, 1E-200, 1E-199, 1E-198, 1E-197, 1E-196, 1E-195, 1E-194, 1E-193, 1E-192, 1E-191, 1E-190, 1E-189, 1E-188, 1E-187, 1E-186, 1E-185, 1E-184, 1E-183, 1E-182, 1E-181, 1E-180, 1E-179, 1E-178, 1E-177, 1E-176, 1E-175, 1E-174, 1E-173, 1E-172, 1E-171, 1E-170, 1E-169, 1E-168, 1E-167, 1E-166, 1E-165, 1E-164, 1E-163, 1E-162, 1E-161, 1E-160, 1E-159, 1E-158, 1E-157, 1E-156, 1E-155, 1E-154, 1E-153, 1E-152, 1E-151, 1E-150, 1E-149, 1E-148, 1E-147, 1E-146, 1E-145, 1E-144, 1E-143, 1E-142, 1E-141, 1E-140, 1E-139, 1E-138, 1E-137, 1E-136, 1E-135, 1E-134, 1E-133, 1E-132, 1E-131, 1E-130, 1E-129, 1E-128, 1E-127, 1E-126, 1E-125, 1E-124, 1E-123, 1E-122, 1E-121, 1E-120, 1E-119, 1E-118, 1E-117, 1E-116, 1E-115, 1E-114, 1E-113, 1E-112, 1E-111, 1E-110, 1E-109, 1E-108, 1E-107, 1E-106, 1E-105, 1E-104, 1E-103, 1E-102, 1E-101, 1E-100, 1E-099, 1E-098, 1E-097, 1E-096, 1E-095, 1E-094, 1E-093, 1E-092, 1E-091, 1E-090, 1E-089, 1E-088, 1E-087, 1E-086, 1E-085, 1E-084, 1E-083, 1E-082, 1E-081, 1E-080, 1E-079, 1E-078, 1E-077, 1E-076, 1E-075, 1E-074, 1E-073, 1E-072, 1E-071, 1E-070, 1E-069, 1E-068, 1E-067, 1E-066, 1E-065, 1E-064, 1E-063, 1E-062, 1E-061, 1E-060, 1E-059, 1E-058, 1E-057, 1E-056, 1E-055, 1E-054, 1E-053, 1E-052, 1E-051, 1E-050, 1E-049, 1E-048, 1E-047, 1E-046, 1E-045, 1E-044, 1E-043, 1E-042, 1E-041, 1E-040, 1E-039, 1E-038, 1E-037, 1E-036, 1E-035, 1E-034, 1E-033, 1E-032, 1E-031, 1E-030, 1E-029, 1E-028, 1E-027, 1E-026, 1E-025, 1E-024, 1E-023, 1E-022, 1E-021, 1E-020, 1E-019, 1E-018, 1E-017, 1E-016, 1E-015, 1E-014, 1E-013, 1E-012, 1E-011, 1E-010, 1E-009, 1E-008, 1E-007, 1E-006, 1E-005, 1E-004, 1E-003, 1E-002, 1E-001, 1E+000, 1E+001, 1E+002, 1E+003, 1E+004, 1E+005, 1E+006, 1E+007, 1E+008, 1E+009, 1E+010, 1E+011, 1E+012, 1E+013, 1E+014, 1E+015, 1E+016, 1E+017, 1E+018, 1E+019, 1E+020, 1E+021, 1E+022, 1E+023, 1E+024, 1E+025, 1E+026, 1E+027, 1E+028, 1E+029, 1E+030, 1E+031, 1E+032, 1E+033, 1E+034, 1E+035, 1E+036, 1E+037, 1E+038, 1E+039, 1E+040, 1E+041, 1E+042, 1E+043, 1E+044, 1E+045, 1E+046, 1E+047, 1E+048, 1E+049, 1E+050, 1E+051, 1E+052, 1E+053, 1E+054, 1E+055, 1E+056, 1E+057, 1E+058, 1E+059, 1E+060, 1E+061, 1E+062, 1E+063, 1E+064, 1E+065, 1E+066, 1E+067, 1E+068, 1E+069, 1E+070, 1E+071, 1E+072, 1E+073, 1E+074, 1E+075, 1E+076, 1E+077, 1E+078, 1E+079, 1E+080, 1E+081, 1E+082, 1E+083, 1E+084, 1E+085, 1E+086, 1E+087, 1E+088, 1E+089, 1E+090, 1E+091, 1E+092, 1E+093, 1E+094, 1E+095, 1E+096, 1E+097, 1E+098, 1E+099, 1E+100, 1E+101, 1E+102, 1E+103, 1E+104, 1E+105, 1E+106, 1E+107, 1E+108, 1E+109, 1E+110, 1E+111, 1E+112, 1E+113, 1E+114, 1E+115, 1E+116, 1E+117, 1E+118, 1E+119, 1E+120, 1E+121, 1E+122, 1E+123, 1E+124, 1E+125, 1E+126, 1E+127, 1E+128, 1E+129, 1E+130, 1E+131, 1E+132, 1E+133, 1E+134, 1E+135, 1E+136, 1E+137, 1E+138, 1E+139, 1E+140, 1E+141, 1E+142, 1E+143, 1E+144, 1E+145, 1E+146, 1E+147, 1E+148, 1E+149, 1E+150, 1E+151, 1E+152, 1E+153, 1E+154, 1E+155, 1E+156, 1E+157, 1E+158, 1E+159, 1E+160, 1E+161, 1E+162, 1E+163, 1E+164, 1E+165, 1E+166, 1E+167, 1E+168, 1E+169, 1E+170, 1E+171, 1E+172, 1E+173, 1E+174, 1E+175, 1E+176, 1E+177, 1E+178, 1E+179, 1E+180, 1E+181, 1E+182, 1E+183, 1E+184, 1E+185, 1E+186, 1E+187, 1E+188, 1E+189, 1E+190, 1E+191, 1E+192, 1E+193, 1E+194, 1E+195, 1E+196, 1E+197, 1E+198, 1E+199, 1E+200, 1E+201, 1E+202, 1E+203, 1E+204, 1E+205, 1E+206, 1E+207, 1E+208, 1E+209, 1E+210, 1E+211, 1E+212, 1E+213, 1E+214, 1E+215, 1E+216, 1E+217, 1E+218, 1E+219, 1E+220, 1E+221, 1E+222, 1E+223, 1E+224, 1E+225, 1E+226, 1E+227, 1E+228, 1E+229, 1E+230, 1E+231, 1E+232, 1E+233, 1E+234, 1E+235, 1E+236, 1E+237, 1E+238, 1E+239, 1E+240, 1E+241, 1E+242, 1E+243, 1E+244, 1E+245, 1E+246, 1E+247, 1E+248, 1E+249, 1E+250, 1E+251, 1E+252, 1E+253, 1E+254, 1E+255, 1E+256, 1E+257, 1E+258, 1E+259, 1E+260, 1E+261, 1E+262, 1E+263, 1E+264, 1E+265, 1E+266, 1E+267, 1E+268, 1E+269, 1E+270, 1E+271, 1E+272, 1E+273, 1E+274, 1E+275, 1E+276, 1E+277, 1E+278, 1E+279, 1E+280, 1E+281, 1E+282, 1E+283, 1E+284, 1E+285, 1E+286, 1E+287, 1E+288, 1E+289, 1E+290, 1E+291, 1E+292, 1E+293, 1E+294, 1E+295, 1E+296, 1E+297, 1E+298, 1E+299, 1E+300, 1E+301, 1E+302, 1E+303, 1E+304, 1E+305, 1E+306, 1E+307, 1E+308 };
 			return pow10[exponent + 323];
 		}
 		template<class T>
-		SEQ_ALWAYS_INLINE T get_pow(int exp)
+		SEQ_ALWAYS_INLINE auto get_pow(int exp) -> T
 		{
 			return T();
 		}
 		template<>
-		SEQ_ALWAYS_INLINE float get_pow(int exp)
+		SEQ_ALWAYS_INLINE auto get_pow(int exp) -> float
 		{
 			return static_cast<float>(get_pow_double(exp));
 		}
 		template<>
-		SEQ_ALWAYS_INLINE double get_pow(int exp)
+		SEQ_ALWAYS_INLINE auto get_pow(int exp) -> double
 		{
 			return (get_pow_double(exp));
 		}
 		template<>
-		SEQ_ALWAYS_INLINE long double get_pow(int exp)
+		SEQ_ALWAYS_INLINE auto get_pow(int exp) -> long double
 		{
+			return std::pow(10.L, static_cast<long double>(exp));
 #if LDBL_MANT_DIG > DBL_MANT_DIG
-			if (exp < -323 || exp > 308)
-			{
-				// long double are supported
-				return std::pow(10.L, exp);
-			}
-			else
+			return std::pow(10.L, (long double)exp);
 #endif
-				return static_cast<long double>(get_pow_double(exp));
+			return static_cast<long double>(get_pow_double(exp));
 		}
 		
 		
@@ -420,7 +411,7 @@ namespace seq
 		
 
 		template< class T, class Stream>
-		T read_integral_base_10(Stream& str)
+		auto read_integral_base_10(Stream& str) -> T
 		{
 			// Fast decimal integral reading
 
@@ -480,7 +471,7 @@ namespace seq
 
 
 		template< class T, class Stream>
-		T read_integral(Stream& str, unsigned base = 10)
+		auto read_integral(Stream& str, unsigned base) -> T
 		{
 			// Generic integral reading
 
@@ -578,7 +569,7 @@ namespace seq
 		static constexpr unsigned _EOF = 4294967247; // EOF - '0'
 
 		template<class Stream>
-		SEQ_ALWAYS_INLINE std::int64_t read_int64(Stream& str)
+		SEQ_ALWAYS_INLINE auto read_int64(Stream& str) -> std::int64_t
 		{
 			// Read an int64 without the sign and leading spaces
 			// Read digits by group of 2 to reduce integer multiplications
@@ -598,35 +589,41 @@ namespace seq
 
 
 			std::int64_t x = 0;
-			int count;
+			int count = 0;
 			// get frist character
-			unsigned first = str.getc() - '0', second;
+			unsigned first = str.getc() - '0';
+			unsigned second;
 
 			// check EOF
-			if (SEQ_UNLIKELY(first == _EOF || !(first <= 9)))
+			if (SEQ_UNLIKELY(first == _EOF || !(first <= 9))) {
 				goto error;
+}
 			
 			second = str.getc() - '0';
 			count = 0;
 			while ((first <= 9) && (second <= 9))
 			{
-				x = x * (int64_t)100 + (int64_t)(integral_read_table[first][second] );
+				x = x * static_cast<int64_t>(100) + static_cast<int64_t>(integral_read_table[first][second] );
 				first = str.getc() - '0';
 				second = str.getc() - '0';
 				count += 2;
-				if (SEQ_UNLIKELY(count > 18))
+				if (SEQ_UNLIKELY(count > 18)) {
 					goto too_long_int;
+}
 			}
-			if (second != _EOF)
+			if (second != _EOF) {
 				str.back();
+}
 			if ((first <= 9)) {
-				x = x * 10 + (int64_t)(first );
-				if (++count > 18)
+				x = x * 10 + static_cast<int64_t>(first );
+				if (++count > 18) {
 					goto too_long_int;
+}
 				
 			}
-			else if (first != _EOF)
+			else if (first != _EOF) {
 				str.back();
+}
 			
 			str.reset();
 			return x;
@@ -641,35 +638,35 @@ namespace seq
 
 
 		template<class T, class Integral, class Stream>
-		SEQ_NOINLINE(T) read_nan(Integral saved_pos, Stream& str)
+		SEQ_NOINLINE(auto) read_nan(Integral saved_pos, Stream& str) -> T
 		{
 			// read 'nan'
 			char a = to_upper(str.getc());
 			char n = to_upper(str.getc());
-			if (a == 'A' && n == 'N')
+			if (a == 'A' && n == 'N') {
 				return std::numeric_limits<T>::quiet_NaN();
-			else {
+			} 
 				str.set_state(BadInputFormat);
 				str.seek(saved_pos);
 				return (T)0;
-			}
+		
 		}
 		template<class T, class Integral, class Stream>
-		SEQ_NOINLINE(T) read_inf(Integral saved_pos, int sign, Stream& str)
+		SEQ_NOINLINE(auto) read_inf(Integral saved_pos, int sign, Stream& str) -> T
 		{
 			// read 'inf'
 			char n = to_upper(str.getc());
 			char f = to_upper(str.getc());
-			if (n == 'N' && f == 'F')
+			if (n == 'N' && f == 'F') {
 				return sign_value(std::numeric_limits<T>::infinity(), sign);
-			else {
+			} 
 				str.set_state(BadInputFormat);
 				str.seek(saved_pos);
 				return (T)0;
-			}
+		
 		}
 		template<class T, class Integral, class Stream>
-		SEQ_NOINLINE(T) return_bad_format(Integral saved_pos, Stream& str)
+		SEQ_NOINLINE(auto) return_bad_format(Integral saved_pos, Stream& str) -> T
 		{
 			str.set_state(BadInputFormat);
 			str.seek(saved_pos);
@@ -677,10 +674,11 @@ namespace seq
 		}
 
 		template<class T, class Integral, class Stream>
-		SEQ_NOINLINE(T) read_long_double(T res, Integral saved, int sign, char dot, Stream& str, const chars_format& fmt)
+		SEQ_NOINLINE(auto) read_long_double(T res, Integral saved, int sign, char dot, Stream& str, const chars_format& fmt) -> T
 		{
-			if (std::isnan(res))
+			if (std::isnan(res)) {
 				res = 0;
+}
 
 			Integral save_point = 0;
 			int first = str.getc();
@@ -735,16 +733,19 @@ namespace seq
 				if (first == '-') {
 					exp_sign = -1;
 					first = str.getc();
-					if (!is_digit(first))
+					if (!is_digit(first)) {
 						goto partial;
+}
 				}
 				else if (first == '+') {
 					first = str.getc();
-					if (!is_digit(first))
+					if (!is_digit(first)) {
 						goto partial;
+}
 				}
-				else if (!is_digit(first))
+				else if (!is_digit(first)) {
 					goto partial;
+}
 
 				do {
 					exp = (exp * 10) + static_cast<int>(first - '0');
@@ -760,19 +761,22 @@ namespace seq
 					res = exp > 0 ? std::numeric_limits<T>::infinity() : 0;
 #endif
 				}
-				else
+				else {
 					res *= (T)get_pow_double(exp);//pow10[exp + 323];
+}
 
-				if (first != EOF)
+				if (first != EOF) {
 					str.back();
+}
 			}
 			else {
 				if (SEQ_UNLIKELY((fmt & scientific) && !(fmt & fixed))) {
 					str.set_state(BadInputFormat);
 					goto error;
 				}
-				if (first != EOF)
+				if (first != EOF) {
 					str.back();
+}
 			}
 
 
@@ -780,8 +784,9 @@ namespace seq
 			return sign_value(res, sign);
 
 		error:
-			if (str)
+			if (str) {
 				str.set_state(BadInputFormat);
+}
 			str.seek(saved);
 			return (T)0;
 		partial:
@@ -791,14 +796,15 @@ namespace seq
 		}
 
 		template<class T, class Stream>
-		SEQ_ALWAYS_INLINE T read_double(Stream& str, chars_format fmt, char dot = '.')
+		SEQ_ALWAYS_INLINE auto read_double(Stream& str, chars_format fmt, char dot) -> T
 		{
 			using Integral = typename Stream::streamsize;
 
 			str.reset();
 			Integral saved = str.tell();
 			int first = str.getc();
-			int sign = 1, c;
+			int sign = 1;
+			int c;
 			T res = 0;
 			
 
@@ -807,21 +813,24 @@ namespace seq
 				first = str.getc();
 			}
 			// check EOF
-			if (SEQ_UNLIKELY(first == EOF))
+			if (SEQ_UNLIKELY(first == EOF)) {
 				return (T)0;
+}
 				
 			if (first == '-') {
 				// first character is a sign
 				sign = -1;
 				first = str.getc();
-				if (SEQ_UNLIKELY(first == EOF))
+				if (SEQ_UNLIKELY(first == EOF)) {
 					return (T)0;
+}
 			}
 			else if (first == '+') {
 				// first character is a sign
 				first = str.getc();
-				if (SEQ_UNLIKELY(first == EOF))
+				if (SEQ_UNLIKELY(first == EOF)) {
 					return (T)0;
+}
 			}
 			// potential nan
 			else if (SEQ_UNLIKELY(to_upper(first) == 'N')) {
@@ -833,7 +842,7 @@ namespace seq
 				// read 'inf'
 				return read_inf<T>(saved,sign, str);
 			}
-			else if (SEQ_UNLIKELY(!is_digit(first) && first != dot))
+			if (SEQ_UNLIKELY(!is_digit(first) && first != dot))
 				// first character must be either the dot or a digit
 			{
 				return return_bad_format<T>(saved, str);
@@ -846,9 +855,10 @@ namespace seq
 			// read intergal part
 			int64_t integral = read_int64(str);
 			if (SEQ_UNLIKELY(!str)) {
-				if (integral == -1) 
+				if (integral == -1) { 
 					//too big: switch to the default slower version
 					goto slow_path;
+}
 				
 				// invalid intergal part: invalid format
 				return return_bad_format<T>(saved, str);
@@ -869,9 +879,10 @@ namespace seq
 						//too big: switch to the default slower version
 						goto slow_path;
 					}
-					if (fmt == scientific) 
+					if (fmt == scientific) { 
 						// exponent is mandatory
 						return return_bad_format<T>(saved, str);
+}
 					//we accept a dot with nothing after
 					return sign_value(res, sign);
 				}
@@ -890,12 +901,14 @@ namespace seq
 				c = str.getc();
 				if (!is_digit(c)) {
 					//read exponent sign
-					if (c == '-') esign = -1;
-					else if (SEQ_UNLIKELY(c != '+'))
+					if (c == '-') { esign = -1;
+					} else if (SEQ_UNLIKELY(c != '+')) {
 						return return_bad_format<T>(saved, str);
+}
 					c = str.getc();
-					if (!is_digit(c))
+					if (!is_digit(c)) {
 						return return_bad_format<T>(saved, str);
+}
 				}
 				// read exponent value
 				unsigned cc = c- '0';
@@ -903,22 +916,25 @@ namespace seq
 					exp = (exp * 10) + (cc);
 					cc = str.getc() - '0';
 				} while (cc <= 9);
-				if (cc != _EOF)
+				if (cc != _EOF) {
 					str.back();
-				else
+				} else {
 					str.reset();
+}
 
-				exp = sign_value((int)exp, esign);
+				exp = sign_value(exp, esign);
 				// check exponent validity
-				if (SEQ_UNLIKELY(exp > std::numeric_limits<T>::max_exponent10))
+				if (SEQ_UNLIKELY(exp > std::numeric_limits<T>::max_exponent10)) {
 					return sign_value(std::numeric_limits<T>::infinity(), sign);
-				else if (SEQ_UNLIKELY(exp < std::numeric_limits<T>::min_exponent10))
+				} if (SEQ_UNLIKELY(exp < std::numeric_limits<T>::min_exponent10))
 					return sign_value((T)0, sign);
 
 				// success
-				return sign_value(res * get_pow<T>(exp), sign);
+				T p = get_pow<T>(exp);
+				res = sign_value(res * p, sign);
+				return res;
 			}
-			else if (SEQ_UNLIKELY(fmt == scientific)) {
+			if (SEQ_UNLIKELY(fmt == scientific)) {
 				// exponent is mandatory
 				return return_bad_format<T>(saved, str);
 			}
@@ -941,7 +957,7 @@ namespace seq
 
 
 		template<class T, class Stream>
-		T read_string(Stream& str)
+		auto read_string(Stream& str) -> T
 		{
 			// Read a string object (std::string or seq::tiny_string) from input stream
 			str.reset();
@@ -974,7 +990,7 @@ namespace seq
 
 
 		template<class T, class Stream>
-		T read_line(Stream& str)
+		auto read_line(Stream& str) -> T
 		{
 			// Read a line (std::string or seq::tiny_string) from input stream
 			str.reset();
@@ -1017,7 +1033,7 @@ namespace seq
 
 
 		template <class Range, class T>
-		SEQ_ALWAYS_INLINE to_chars_result write_integer_generic(const Range & range, T _val, int base, const integral_chars_format& fmt)
+		SEQ_ALWAYS_INLINE auto write_integer_generic(const Range & range, T _val, int base, const integral_chars_format& fmt) -> to_chars_result
 		{
 			// Generic version of integer to string.
 			// Write in reverse order in a temporay buffer, and copy/reverse in dst.
@@ -1029,16 +1045,18 @@ namespace seq
 			static const char* lower_chars = "0123456789abcdefghijklmnopqrstuvwxyz";
 			
 			if (!_val) {
-				int size = fmt.integral_min_width ? (int)fmt.integral_min_width : 1;
+				int size = fmt.integral_min_width ? static_cast<int>(fmt.integral_min_width) : 1;
 				char* dst = range.add_size(size);
-				if (SEQ_UNLIKELY(!dst))
+				if (SEQ_UNLIKELY(!dst)) {
 					return { range.end_ptr(), std::errc::value_too_large };
-				while(size-- > 0)
+}
+				while(size-- > 0) {
 					*dst++ = ( '0');
+}
 				return { dst , std::errc()};
 			}
 			const char* chars = fmt.upper_case ? upper_chars : lower_chars;
-			int min_width = (int)fmt.integral_min_width;
+			int min_width = static_cast<int>(fmt.integral_min_width);
 			char tmp[66];
 			int index = 65;
 			tmp[index] = 0;
@@ -1051,8 +1069,9 @@ namespace seq
 				neg = 1;
 				val = negate_if_signed(_val);
 			}
-			else
+			else {
 				val = static_cast<uint_type>(_val);
+}
 
 			while (val)
 			{
@@ -1063,20 +1082,23 @@ namespace seq
 			}
 			if (min_width >= 0) {
 				int count = 65 - index;
-				while (min_width-- > count && index > 0)
+				while (min_width-- > count && index > 0) {
 					tmp[--index] = '0';
+}
 			}
 			if (base == 16 && fmt.hex_prefix) {
 				tmp[--index] = 'x';
 				tmp[--index] = '0';
 			}
-			if (std::is_signed<T>::value && neg)
+			if (std::is_signed<T>::value && neg) {
 				tmp[--index] = '-';
+}
 
 			size_t size = sizeof(tmp) - index - 1;
 			char* dst = range.add_size(size);
-			if (SEQ_UNLIKELY(!dst) )
+			if (SEQ_UNLIKELY(!dst) ) {
 				return { range.end_ptr(), std::errc::value_too_large };
+}
 			memcpy(dst, tmp + index, size);
 			return { dst + size, std::errc() };
 		}
@@ -1085,7 +1107,7 @@ namespace seq
 
 
 
-		static SEQ_ALWAYS_INLINE const char* decimal_table()
+		static SEQ_ALWAYS_INLINE auto decimal_table() -> const char*
 		{
 			// Static table used to write integers by chunk of 2 digits (in base 10 only)
 			static const char* table = "00102030405060708090011121314151617181910212223242526272829203132333435363738393041424344454647484940515253545556575859506162636465666768696071727374757677787970818283848586878889809192939495969798999";
@@ -1094,13 +1116,14 @@ namespace seq
 
 
 		template<class Range, class T>
-		SEQ_ALWAYS_INLINE to_chars_result write_integral(const Range & range, T _value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+		SEQ_ALWAYS_INLINE auto write_integral(const Range & range, T _value, int base, const integral_chars_format& fmt) -> to_chars_result
 		{
 			// Write integral in any base
 			// Use well known trick to write 2 digits at once based on a lookup table (for base 10 only).
 
-			if (base != 10)
+			if (base != 10) {
 				return detail::write_integer_generic(range, _value, base, fmt);
+}
 
 			const char* table = decimal_table();
 			unsigned neg = 0;
@@ -1112,17 +1135,21 @@ namespace seq
 				neg = 1;
 				value = negate_if_signed(_value);
 			}
-			else
+			else {
 				value = static_cast<uint_type>(_value);
+}
 
 			unsigned digit = count_digits_base_10(value);
-			if (SEQ_UNLIKELY(fmt.integral_min_width > digit))
+			if (SEQ_UNLIKELY(fmt.integral_min_width > digit)) {
 				digit = fmt.integral_min_width;
-			if (std::is_signed<T>::value) 
+}
+			if (std::is_signed<T>::value) { 
 				digit += neg;
+}
 			char* buffer = range.add_size(digit );
-			if (SEQ_UNLIKELY(!buffer))
+			if (SEQ_UNLIKELY(!buffer)) {
 				return { range.end_ptr(), std::errc::value_too_large };
+}
 
 			char* start = buffer + neg;
 			char* res = buffer + digit;
@@ -1134,7 +1161,7 @@ namespace seq
 				const unsigned rem = value - val * 100U;
 				const unsigned i = rem * 2U;
 				value = val;*/
-				const unsigned i = (unsigned)( (value % 100U) * 2U);
+				const auto i = (unsigned)( (value % 100U) * 2U);
 				value /= 100U;
 				
 				*--buffer = table[i];
@@ -1142,15 +1169,16 @@ namespace seq
 			}
 
 			if (value < 10U) {
-				*--buffer = char(value) + '0';
+				*--buffer = static_cast<char>(value) + '0';
 			}
 			else {
-				const unsigned i = (unsigned)(value * 2U);
+				const auto i = (unsigned)(value * 2U);
 				*--buffer = table[i];
 				*--buffer = table[i + 1];
 			}
-			while (buffer > start)
+			while (buffer > start) {
 				*--buffer = '0';
+}
 			if (std::is_signed<T>::value && neg) {
 				*--buffer = '-';
 			}
@@ -1158,7 +1186,7 @@ namespace seq
 		}
 
 		template<class Range, class T>
-		SEQ_ALWAYS_INLINE to_chars_result write_integer_decimal_part(const Range & range, T value, int min_width, bool null_first)
+		SEQ_ALWAYS_INLINE auto write_integer_decimal_part(const Range & range, T value, int min_width, bool null_first) -> to_chars_result
 		{
 			static_assert(std::is_unsigned<T>::value, "");
 
@@ -1174,39 +1202,43 @@ namespace seq
 			}
 
 			// check if no need to output
-			if(null_first && value == 1 && min_width <= 1)
+			if(null_first && value == 1 && min_width <= 1) {
 				return { range.current(),std::errc() };
+}
 
 
 			unsigned digit = count_digits_base_10(value);
 			
 			char* buffer = range.add_size(digit);
-			if (SEQ_UNLIKELY(!buffer))
+			if (SEQ_UNLIKELY(!buffer)) {
 				return { range.end_ptr(), std::errc::value_too_large };
+}
 
 			char* res = buffer + digit;
 			char* start = buffer;
 			buffer = res;
 
 			while (value >= 100U) {
-				const unsigned i = (unsigned)((value % 100U) * 2U);
+				const auto i = (unsigned)((value % 100U) * 2U);
 				value /= 100U;
 				*--buffer = table[i];
 				*--buffer = table[i + 1];
 			}
 
 			if (value < 10U) {
-				*--buffer = char(value) + '0';
+				*--buffer = static_cast<char>(value) + '0';
 			}
 			else {
-				const unsigned i = (unsigned)( value * 2U);
+				const auto i = (unsigned)( value * 2U);
 				*--buffer = table[i];
 				*--buffer = table[i + 1];
 			}
-			while (buffer > start)
+			while (buffer > start) {
 				*--buffer = '0';
-			if (null_first)
+}
+			if (null_first) {
 				--(*buffer);
+}
 			return { res,std::errc() };
 		}
 
@@ -1219,24 +1251,24 @@ namespace seq
 		struct float_tables
 		{
 			// Table type used to extract floating point exponent
-			const T * mul_table;
-			const T * comp_table;
+			const T* mul_table;
+			const T* comp_table;
 			int size;
 		};
 
 		// 
 		template<class T> 
-		SEQ_ALWAYS_INLINE  const std::int16_t* get_pow_table() {
+		SEQ_ALWAYS_INLINE  auto get_pow_table() -> const std::int16_t* {
 			// Returns table of power of 10 used in conjunction with float_tables
 			return NULL; 
 		}
 		template<>
-		SEQ_ALWAYS_INLINE  const std::int16_t* get_pow_table<float>() {
+		SEQ_ALWAYS_INLINE  auto get_pow_table<float>() -> const std::int16_t* {
 			static const std::int16_t pow_table[] = { 16,8,4,2,1 };
 			return pow_table;
 		}
 		template<>
-		SEQ_ALWAYS_INLINE  const std::int16_t* get_pow_table<double>() {
+		SEQ_ALWAYS_INLINE  auto get_pow_table<double>() -> const std::int16_t* {
 			static const std::int16_t pow_table[] = { 256,128,64,32,16,8,4,2,1 };
 			return pow_table;
 		}
@@ -1248,7 +1280,7 @@ namespace seq
 		}
 #else
 		template<>
-		SEQ_ALWAYS_INLINE  const std::int16_t* get_pow_table<long double>() {
+		SEQ_ALWAYS_INLINE  auto get_pow_table<long double>() -> const std::int16_t* {
 			static const std::int16_t pow_table[] = { 256,128,64,32,16,8,4,2,1 };
 			return pow_table;
 		}
@@ -1257,19 +1289,19 @@ namespace seq
 
 		
 		template<class T>
-		SEQ_ALWAYS_INLINE const float_tables<T>* get_float_high_div_tables() {
+		SEQ_ALWAYS_INLINE auto get_float_high_div_tables() -> const float_tables<T>* {
 			// returns table used to extract positive exponent from floating point number
 			return NULL;
 		}
 		template<>
-		SEQ_ALWAYS_INLINE const float_tables<float>* get_float_high_div_tables<float>() {
-			static const float mul_table[] = { 1e-16f,1e-8f,1e-4f,1e-2f,1e-1f };
-			static const float comp_table[] = { 1e16f,1e8f,1e4f,1e2f,1e1f };
+		SEQ_ALWAYS_INLINE auto get_float_high_div_tables<float>() -> const float_tables<float>* {
+			static const float mul_table[] = { 1e-16F,1e-8F,1e-4F,1e-2F,1e-1F };
+			static const float comp_table[] = { 1e16F,1e8F,1e4F,1e2F,1e1F };
 			static const float_tables<float> tables = { mul_table ,comp_table , 5 };
 			return &tables;
 		}
 		template<>
-		SEQ_ALWAYS_INLINE const float_tables<double>* get_float_high_div_tables<double>() {
+		SEQ_ALWAYS_INLINE auto get_float_high_div_tables<double>() -> const float_tables<double>* {
 			static const double mul_table[] = { 1e-256,1e-128,1e-64,1e-32,1e-16,1e-8,1e-4,1e-2,1e-1 };
 			static const double comp_table[] = { 1e256,1e128,1e64,1e32,1e16,1e8,1e4,1e2,1e1 };
 			static const float_tables<double> tables = { mul_table ,comp_table , 9 };
@@ -1285,7 +1317,7 @@ namespace seq
 		}
 #else
 		template<>
-		SEQ_ALWAYS_INLINE const float_tables<long double>* get_float_high_div_tables<long double>() {
+		SEQ_ALWAYS_INLINE auto get_float_high_div_tables<long double>() -> const float_tables<long double>* {
 			static const long double mul_table[] = { 1e-256,1e-128,1e-64,1e-32,1e-16,1e-8,1e-4,1e-2,1e-1 };
 			static const long double comp_table[] = { 1e256,1e128,1e64,1e32,1e16,1e8,1e4,1e2,1e1 };
 			static const float_tables<long double> tables = { mul_table ,comp_table , 9 };
@@ -1295,19 +1327,19 @@ namespace seq
 
 
 		template<class T>
-		SEQ_ALWAYS_INLINE const float_tables<T>* get_float_low_div_tables() {
+		SEQ_ALWAYS_INLINE auto get_float_low_div_tables() -> const float_tables<T>* {
 			// returns table used to extract negative exponent from floating point number
 			return NULL;
 		}
 		template<>
-		SEQ_ALWAYS_INLINE const float_tables<float>* get_float_low_div_tables<float>() {
-			static const float mul_table[] = { 1e16f,1e8f,1e4f,1e2f,1e1f };
-			static const float comp_table[] = { 1e-15f,1e-7f,1e-3f,1e-1f,1e0f };
+		SEQ_ALWAYS_INLINE auto get_float_low_div_tables<float>() -> const float_tables<float>* {
+			static const float mul_table[] = { 1e16F,1e8F,1e4F,1e2F,1e1F };
+			static const float comp_table[] = { 1e-15F,1e-7F,1e-3F,1e-1F,1e0F };
 			static const float_tables<float> tables = { mul_table ,comp_table , 5 };
 			return &tables;
 		}
 		template<>
-		SEQ_ALWAYS_INLINE const float_tables<double>* get_float_low_div_tables<double>() {
+		SEQ_ALWAYS_INLINE auto get_float_low_div_tables<double>() -> const float_tables<double>* {
 			static const double mul_table[] = { 1e256,1e128,1e64,1e32,1e16,1e8,1e4,1e2,1e1 };
 			static const double comp_table[] = { 1e-255,1e-127,1e-63,1e-31,1e-15,1e-7,1e-3,1e-1,1e0 };
 			//static const double comp_table[] = { 1e-255,1e-127,1e-63,1e-31,1e-15,1e-7,1e-3,1e-1,1e0 };
@@ -1324,7 +1356,7 @@ namespace seq
 		}
 #else
 		template<>
-		SEQ_ALWAYS_INLINE const float_tables<long double>* get_float_low_div_tables<long double>() {
+		SEQ_ALWAYS_INLINE auto get_float_low_div_tables<long double>() -> const float_tables<long double>* {
 			static const long double mul_table[] = { 1e256,1e128,1e64,1e32,1e16,1e8,1e4,1e2,1e1 };
 			static const long double comp_table[] = { 1e-255,1e-127,1e-63,1e-31,1e-15,1e-7,1e-3,1e-1,1e0 };
 			static const float_tables<long double> tables = { mul_table ,comp_table , 9 };
@@ -1332,17 +1364,9 @@ namespace seq
 		}
 #endif
 		
-		static inline bool qFuzzyCompare(double p1, double p2)
-		{
-			return p1 == p2 || (std::isnan(p1) && std::isnan(p2)) || (std::abs(p1 - p2) * 1000000000000. <= std::min(std::abs(p1), std::abs(p2)));
-		}
-		static inline bool qFuzzyCompare(long double p1, long double p2)
-		{
-			return p1 == p2 || (std::isnan(p1) && std::isnan(p2)) || (std::abs(p1 - p2) * 1000000000000000.L <= std::min(std::abs(p1), std::abs(p2)));
-		}
 
 		template<class T>
-		SEQ_ALWAYS_INLINE int normalize_double(T& value,  const float_chars_format& fmt) {
+		SEQ_ALWAYS_INLINE auto normalize_double(T& value,  const float_chars_format& fmt) -> int {
 
 			// Compute exponent and adjust value accordingly.
 			// If scientific_notation is true, compute the maximum exponent value.
@@ -1382,10 +1406,12 @@ namespace seq
 		}
 
 		template<class T, class UInt>
-		SEQ_ALWAYS_INLINE int split_double(T value, UInt& integral, UInt& decimals, int16_t& exponent, bool & null_first, int width,  float_chars_format& fmt)
+		SEQ_ALWAYS_INLINE auto split_double(T value, UInt& integral, UInt& decimals, int16_t& exponent, bool & null_first, int width,  float_chars_format& fmt) -> int
 		{
 			// Split floating point value into its integral, decimal and exponent part.
 			// Uses width to compute the proper exponent and decimal value.
+
+			static constexpr int max_exp_for_fixed = sizeof(T) <= 4 ? 8 : 17;
 
 			T saved = value;
 			exponent = normalize_double(value, fmt);
@@ -1394,7 +1420,7 @@ namespace seq
 				//see https://stackoverflow.com/questions/30658919/the-precision-of-printf-with-specifier-g
 				width = width == 0 ? 1 : width;
 				// adjust format and precision
-				if (width > exponent && exponent >= -4){
+				if (width > exponent && exponent >= -4 && exponent <= max_exp_for_fixed){
 					fmt.fmt = seq::fixed;
 					width = width - 1 - exponent;
 				}
@@ -1442,7 +1468,7 @@ namespace seq
 		}
 
 		template<class Range, class T>
-		SEQ_ALWAYS_INLINE to_chars_result write_double_fixed(const Range & range, T value, int width,  float_chars_format fmt)
+		SEQ_ALWAYS_INLINE auto write_double_fixed(const Range & range, T value, int width,  float_chars_format fmt) -> to_chars_result
 		{
 			// Write floating point value with fixed method (usually slower than scientific or general)
 
@@ -1461,8 +1487,9 @@ namespace seq
 			const char* dec_table = decimal_table();
 
 			// append leading 0, just use for rounding purpose
-			if (SEQ_UNLIKELY(!range.append('0')))
+			if (SEQ_UNLIKELY(!range.append('0'))) {
 				return { range.end_ptr(), std::errc::value_too_large };
+}
 
 			
 			std::int16_t exp = exponent;
@@ -1475,9 +1502,10 @@ namespace seq
 					do {
 						char v = (char)value;
 						char* dst = range.add_size(2);
-						if (SEQ_UNLIKELY(!dst))
+						if (SEQ_UNLIKELY(!dst)) {
 							return { range.end_ptr(), std::errc::value_too_large };
-						const char* d = dec_table + (int)v * 2;
+}
+						const char* d = dec_table + static_cast<int>(v) * 2;
 						dst[0] = d[1];
 						dst[1] = d[0];
 						exp -= 2;
@@ -1487,12 +1515,14 @@ namespace seq
 							value *= 100;
 						}
 					} while (exp >= 1);
-					if (exp <= 0) value *= (T)0.1;
+					if (exp <= 0) { value *= (T)0.1;
+}
 				}
 				while (exp >= 0) {
 					char v = (char)value;
-					if (SEQ_UNLIKELY(!range.append(v + '0')))
+					if (SEQ_UNLIKELY(!range.append(v + '0'))) {
 						return { range.end_ptr(), std::errc::value_too_large };
+}
 					--exp;
 					value -= v;
 					value *= 10.;
@@ -1500,17 +1530,20 @@ namespace seq
 			}
 			else{
 				// output 0 for negative exponent
-				if (SEQ_UNLIKELY(!range.append('0')))
+				if (SEQ_UNLIKELY(!range.append('0'))) {
 					return { range.end_ptr(), std::errc::value_too_large };
+}
 			}
 			// output dot
-			if (SEQ_UNLIKELY(!range.append(fmt.dot)))
+			if (SEQ_UNLIKELY(!range.append(fmt.dot))) {
 				return { range.end_ptr(), std::errc::value_too_large };
+}
 
 			// for negative exponent, output possibly LOTS of 0 before the remaining of decimal part
 			while (++exponent < 0) {
-				if (SEQ_UNLIKELY(!range.append('0')))
+				if (SEQ_UNLIKELY(!range.append('0'))) {
 					return { range.end_ptr(), std::errc::value_too_large };
+}
 				--width;
 				if (width == -1) {
 					width = 0;
@@ -1532,9 +1565,10 @@ namespace seq
 					do {
 						char v = (char)value;
 						char* dst = range.add_size(2);
-						if (SEQ_UNLIKELY(!dst))
+						if (SEQ_UNLIKELY(!dst)) {
 							return { range.end_ptr(), std::errc::value_too_large };
-						const char* d = dec_table  + (int)v * 2;
+}
+						const char* d = dec_table  + static_cast<int>(v) * 2;
 						dst[0] = d[1];
 						dst[1] = d[0];
 						width -= 2;
@@ -1543,12 +1577,14 @@ namespace seq
 							value *= 100;
 						}
 					} while (width >= 1);
-					if (width <= 0) value *= (T)0.1;
+					if (width <= 0) { value *= (T)0.1;
+}
 				}
 				while (width >= 0) {
 					char v = (char)value;
-					if (SEQ_UNLIKELY(!range.append(v + '0')))
+					if (SEQ_UNLIKELY(!range.append(v + '0'))) {
 						return { range.end_ptr(), std::errc::value_too_large };
+}
 					--width;
 					value -= v;
 					value *= 10.;
@@ -1562,11 +1598,13 @@ namespace seq
 				do {
 					--last;
 					//skip dot to round the integral part
-					if (*last == fmt.dot)
+					if (*last == fmt.dot) {
 						--last;
+}
 					(*last)++;
-					if (*last == ':') *last = '0';
-					else break;
+					if (*last == ':') { *last = '0';
+					} else { break;
+}
 				} while (last > start);
 
 				if (last != start) {
@@ -1588,8 +1626,9 @@ namespace seq
 			}
 
 			// do not keep a dot without trailing values
-			if (*last == fmt.dot)
+			if (*last == fmt.dot) {
 				--last;
+			}
 				
 
 			return { last +1 ,std::errc() };
@@ -1599,69 +1638,84 @@ namespace seq
 
 		
 		template<class Range>
-		SEQ_NOINLINE(to_chars_result) write_nan(const Range& range, const float_chars_format fmt )
+		SEQ_NOINLINE(auto) write_nan(const Range& range, const float_chars_format fmt ) -> to_chars_result
 		{
 			// outputs 'nan'
 			char* dst = range.add_size(3);
-			if (SEQ_UNLIKELY(!dst))
+			if (SEQ_UNLIKELY(!dst)) {
 				return { range.end_ptr(), std::errc::value_too_large };
-			if (fmt.upper) memcpy(dst, "NAN", 3);
-			else memcpy(dst, "nan", 3);
+			}
+			if (fmt.upper) { memcpy(dst, "NAN", 3);
+			} else {
+				memcpy(dst, "nan",3);
+			}
 			return { dst + 3, std::errc() };
 		}
 		template<class Range>
-		SEQ_NOINLINE(to_chars_result) write_inf(const Range& range, const float_chars_format fmt)
+		SEQ_NOINLINE(auto) write_inf(const Range& range, const float_chars_format fmt) -> to_chars_result
 		{
 			// outputs 'inf'
 			char* dst = range.add_size(3);
-			if (SEQ_UNLIKELY(!dst))
+			if (SEQ_UNLIKELY(!dst)) {
 				return { range.end_ptr(), std::errc::value_too_large };
-			if (fmt.upper) memcpy(dst, "INF", 3);
-			else memcpy(dst, "inf", 3);
+			}
+			if (fmt.upper) {
+				memcpy(dst, "INF",3);
+			} else {
+				memcpy(dst, "inf",3);
+			}
 			return { dst + 3, std::errc() };
 		}
 
 		template<class Range, class T>
-		SEQ_ALWAYS_INLINE to_chars_result write_double_abs(const Range& range, T value, int width, float_chars_format& fmt)
+		SEQ_ALWAYS_INLINE auto write_double_abs(const Range& range, T value, int width, float_chars_format& fmt) -> to_chars_result
 		{
 			using UInt = std::uint64_t;
 
 			// Compute integral, decimal and exponent parts
-			UInt integral, decimals;
-			int16_t exponent;
-			bool decrement_first;
+			UInt integral;
+			UInt decimals;
+			int16_t exponent = 0;
+			bool decrement_first = 0;
 			width = split_double(value, integral, decimals, exponent, decrement_first, width, fmt);
 
 			// Write integral part, at least one digit
 			integral_chars_format tmp;
 			tmp.integral_min_width = 1;
 			to_chars_result r = write_integral(range, integral, 10, tmp);
-			if (SEQ_UNLIKELY(r.ec == std::errc::value_too_large))
+			if (SEQ_UNLIKELY(r.ec == std::errc::value_too_large)) {
 				return r;
+			}
 
 			if (SEQ_LIKELY(decimals)) {
 				// Write dot first
 
-				if (SEQ_UNLIKELY(!range.append(fmt.dot)))
+				if (SEQ_UNLIKELY(!range.append(fmt.dot))) {
 					return { range.end_ptr(), std::errc::value_too_large };
+				}
 
 				char* tmp = range.current();
 				r = write_integer_decimal_part(range, (decimals), width, decrement_first);
-				if (SEQ_UNLIKELY(r.ec == std::errc::value_too_large))
+				if (SEQ_UNLIKELY(r.ec == std::errc::value_too_large)) {
 					return r;
+				}
 
 				// if nothing was outputed, remove the dot
-				if (r.ptr == tmp)
+				if (r.ptr == tmp) {
 					r.ptr = range.back();
+				}
 			}
 			//write exponent
 			if (exponent | (fmt.fmt == scientific)) {
-				if (SEQ_UNLIKELY(!range.append(fmt.exp)))
+				if (SEQ_UNLIKELY(!range.append(fmt.exp))) {
 					return { range.end_ptr(), std::errc::value_too_large };
-				if (exponent >= 0)
+				}
+				if (exponent >= 0) {
 					// For scientific notation (equivalent to 'e' or 'E'), force the '+' sign
-					if (SEQ_UNLIKELY(!range.append('+')))
+					if (SEQ_UNLIKELY(!range.append('+'))) {
 						return { range.end_ptr(), std::errc::value_too_large };
+					}
+				}
 
 				tmp.integral_min_width = 2;
 				r = write_integral(range, exponent, 10, tmp);
@@ -1674,30 +1728,35 @@ namespace seq
 		
 
 		template<class Range, class T>
-		SEQ_ALWAYS_INLINE to_chars_result write_double(const Range & range, T value, int width = 6,  float_chars_format fmt = float_chars_format())
+		SEQ_ALWAYS_INLINE auto write_double(const Range & range, T value, int width = 6, float_chars_format fmt = float_chars_format()) -> to_chars_result
 		{
 			// Write floating point value based on given format.
 			// Main idea from https://blog.benoitblanchon.fr/lightweight-float-to-string/
 
 			
 			//if (SEQ_UNLIKELY(std::isnan(value)))
-			if(SEQ_UNLIKELY(value != value))
+			if(SEQ_UNLIKELY(value != value)) {
 				return write_nan(range, fmt);
+			}
 			if (detail::signbit(value)) {
 				//extract sign, outputs '-' if negative, take abolute value
-				if (SEQ_UNLIKELY(!range.append('-')))
+				if (SEQ_UNLIKELY(!range.append('-'))) {
 					return { range.end_ptr(), std::errc::value_too_large };
+				}
 				value = -value;
 			}
-			if (SEQ_UNLIKELY(/*std::isinf(value))*/value == std::numeric_limits<double>::infinity()))
+			if (SEQ_UNLIKELY(/*std::isinf(value))*/value == std::numeric_limits<double>::infinity())) {
 				return write_inf(range, fmt);
+			}
 			
-			if (width < 0) 
+			if (width < 0) { 
 				width = 6;
+			}
 
-			if ((fmt.fmt == fixed && (value < (T)1e-15 || value >= (T)1e16 || width > 17))) 
+			if ((fmt.fmt == fixed && (value < (T)1e-15 || value >= (T)1e16 || width > 17))) { 
 				// 'fixed' format is processed differently
 				return write_double_fixed(range, value, width, fmt);
+			}
 				
 			return write_double_abs(range, value, width, fmt);
 		}
@@ -1724,7 +1783,7 @@ namespace seq
 			const char* d_end;
 			std::errc d_state;
 
-			char set_eof() noexcept {
+			auto set_eof() noexcept -> char {
 				d_state = std::errc::invalid_argument;
 				return EOF;
 			}
@@ -1732,7 +1791,7 @@ namespace seq
 		public:
 			/// @brief Default ctor
 			from_chars_stream()
-				:d_start(NULL), d_end(NULL), d_state() {}
+				:d_start(nullptr), d_end(nullptr), d_state() {}
 			/// @brief Construct from sequence of characters and size
 			from_chars_stream(const char* data, const char * end)
 				:d_start(data), d_end(end), d_state() {}
@@ -1744,40 +1803,40 @@ namespace seq
 				d_state = st != Ok ? std::errc::invalid_argument : std::errc() ;
 			}
 			/// @brief Returns the current stream state
-			SEQ_ALWAYS_INLINE State state() const noexcept
+			SEQ_ALWAYS_INLINE auto state() const noexcept -> State
 			{
 				return d_state == std::errc() ? Ok : BadInputFormat;
 			}
-			SEQ_ALWAYS_INLINE std::errc error() const noexcept { return d_state; }
+			SEQ_ALWAYS_INLINE auto error() const noexcept -> std::errc { return d_state; }
 			SEQ_ALWAYS_INLINE void reset() {
 				d_state = std::errc();
 			}
-			SEQ_ALWAYS_INLINE constexpr operator bool() const noexcept {
+			SEQ_ALWAYS_INLINE constexpr explicit operator bool() const noexcept {
 				return d_state == std::errc();
 			}
 			/// @brief Close the stream
 			void close()
 			{
-				d_start = d_end =NULL;
+				d_start = d_end =nullptr;
 				d_state = std::errc();
 			}
 			/// @brief Returns true if the stream is open
-			SEQ_ALWAYS_INLINE bool is_open() const noexcept
+			SEQ_ALWAYS_INLINE auto is_open() const noexcept -> bool
 			{
-				return d_start != NULL;
+				return d_start != nullptr;
 			}
 			/// @brief Returns true if the stream read its last character
-			SEQ_ALWAYS_INLINE bool at_end() const noexcept
+			SEQ_ALWAYS_INLINE auto at_end() const noexcept -> bool
 			{
 				return d_start >= d_end;
 			}
 			/// @brief Returns the internal character sequence size
-			SEQ_ALWAYS_INLINE size_t size() const noexcept
+			static SEQ_ALWAYS_INLINE auto size() noexcept -> size_t
 			{
 				return 0;
 			}
 			/// @brief Returns the current read position in the stream 
-			SEQ_ALWAYS_INLINE const char* tell() const noexcept
+			SEQ_ALWAYS_INLINE auto tell() const noexcept -> const char*
 			{
 				return d_start;
 			}
@@ -1794,10 +1853,11 @@ namespace seq
 			}
 			/// @brief Extract a single character from the stream and put the read position to the next character
 			/// @return extracted character or EOF
-			SEQ_ALWAYS_INLINE int getc() noexcept
+			SEQ_ALWAYS_INLINE auto getc() noexcept -> int
 			{
-				if (SEQ_LIKELY(d_start != d_end))
+				if (SEQ_LIKELY(d_start != d_end)) {
 					return *d_start++;
+}
 				d_state = std::errc::invalid_argument;
 				return EOF;
 			}
@@ -1829,7 +1889,7 @@ namespace seq
 		streamsize d_pos;
 		StreamState d_state;
 
-		char set_eof() noexcept {
+		auto set_eof() noexcept -> char {
 			d_state = EndOfFile;
 			return EOF;
 		}
@@ -1837,16 +1897,16 @@ namespace seq
 	public:
 		/// @brief Default ctor
 		buffer_input_stream()
-			:d_buff(NULL), d_len(0), d_pos(0), d_state(Ok) {}
+			:d_buff(nullptr), d_len(0), d_pos(0), d_state(Ok) {}
 		/// @brief Construct from sequence of characters and size
 		buffer_input_stream(const char* data, streamsize len)
 			:d_buff(data), d_len(len), d_pos(0), d_state(Ok) {}
 		/// @brief Construct from a null terminated string
-		buffer_input_stream(const char* data)
+		explicit buffer_input_stream(const char* data)
 			:buffer_input_stream(data, strlen(data)) {}
 		/// @brief Construct from a string-like object (usually std::string or tiny_string)
 		template<class StringLike>
-		buffer_input_stream(const StringLike& str)
+		explicit buffer_input_stream(const StringLike& str)
 			: buffer_input_stream(str.data(), (streamsize)str.size()) {}
 
 		/// @brief Set the stream state
@@ -1856,67 +1916,71 @@ namespace seq
 			d_state = st;
 		}
 		/// @brief Returns the current stream state
-		SEQ_ALWAYS_INLINE State state() const noexcept
+		SEQ_ALWAYS_INLINE auto state() const noexcept -> State
 		{
 			return d_state;
 		}
 		/// @brief Close the stream
 		void close()
 		{
-			d_buff = NULL;
+			d_buff = nullptr;
 			d_len = d_pos = 0;
 			d_state = Ok;
 		}
 		/// @brief Returns true if the stream is open
-		SEQ_ALWAYS_INLINE bool is_open() const noexcept
+		SEQ_ALWAYS_INLINE auto is_open() const noexcept -> bool
 		{
-			return d_buff != NULL;
+			return d_buff != nullptr;
 		}
 		/// @brief Returns true if the stream read its last character
-		SEQ_ALWAYS_INLINE bool at_end() const noexcept
+		SEQ_ALWAYS_INLINE auto at_end() const noexcept -> bool
 		{
 			return d_pos >= d_len;
 		}
 		/// @brief Returns the internal character sequence size
-		SEQ_ALWAYS_INLINE streamsize size() const noexcept
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> streamsize
 		{
 			return d_len;
 		}
 		/// @brief Returns the current read position in the stream 
-		SEQ_ALWAYS_INLINE streamsize tell() const noexcept
+		SEQ_ALWAYS_INLINE auto tell() const noexcept -> streamsize
 		{
 			return d_pos;
 		}
 		/// @brief Go back one character (if possible)
 		SEQ_ALWAYS_INLINE void back() noexcept
 		{
-			if (d_pos > 0)
+			if (d_pos > 0) {
 				--d_pos;
+}
 		}
 		/// @brief Seek at given position
 		/// @return The new read position
-		SEQ_ALWAYS_INLINE streamsize seek(streamsize pos) noexcept
+		SEQ_ALWAYS_INLINE auto seek(streamsize pos) noexcept -> streamsize
 		{
-			if (pos >= d_len)
+			if (pos >= d_len) {
 				pos = d_len;
+			}
 			return d_pos = pos;
 		}
 		/// @brief Extract a single character from the stream and put the read position to the next character
 		/// @return extracted character or EOF
-		SEQ_ALWAYS_INLINE int getc() noexcept
+		SEQ_ALWAYS_INLINE auto getc() noexcept -> int
 		{
-			if (SEQ_LIKELY(d_pos != d_len)) return d_buff[d_pos++];
+			if (SEQ_LIKELY(d_pos != d_len)) { return d_buff[d_pos++];
+			}
 			return set_eof();
 			//return d_pos != d_len ? d_buff[d_pos++] : set_eof();
 		}
 		/// @brief Read several characters at once
 		/// @return The number of read characters
-		size_t read(char* dst, streamsize size) noexcept
+		auto read(char* dst, streamsize size) noexcept -> size_t
 		{
 			streamsize rem = d_len - d_pos;
 			streamsize to_read = std::min(size, rem);
 			memcpy(dst, d_buff + d_pos, to_read);
-			if (size > rem) set_eof();
+			if (size > rem) { set_eof();
+			}
 			d_pos += to_read;
 			return to_read;
 		}
@@ -1947,12 +2011,12 @@ namespace seq
 		char* d_buff_end;
 		State d_state;
 
-		char set_eof() noexcept {
+		auto set_eof() noexcept -> char {
 			set_state(EndOfFile);
 			return EOF;
 		}
 
-		int fillbuff()
+		auto fillbuff() -> int
 		{
 			d_file->read(d_buff, buff_size);
 			size_t read = d_file->gcount();
@@ -1972,7 +2036,7 @@ namespace seq
 		std_input_stream()
 			:d_file(NULL), d_pos(0), d_buff_pos(NULL), d_buff_end(NULL), d_state(Ok) {}
 		/// @brief Construct from a std::istream object
-		std_input_stream(std::istream& iss)
+		explicit std_input_stream(std::istream& iss)
 			:d_file(NULL), d_pos(0), d_buff_pos(NULL), d_buff_end(NULL), d_state(Ok) {
 			open(iss);
 		}
@@ -1986,7 +2050,7 @@ namespace seq
 			d_state = st;
 		}
 		/// @brief Returns the stream state
-		State state() const noexcept
+		auto state() const noexcept -> State
 		{
 			return d_state;
 		}
@@ -2000,7 +2064,7 @@ namespace seq
 			d_state = Ok;
 		}
 		/// @brief Open based on a std::istream object
-		bool open(std::istream& iss)
+		auto open(std::istream& iss) -> bool
 		{
 			close();
 			if (iss) {
@@ -2011,12 +2075,12 @@ namespace seq
 			return false;
 		}
 		/// @brief Returns true if the stream is open (the underlying std::istream object is valid)
-		bool is_open() const noexcept
+		auto is_open() const noexcept -> bool
 		{
 			return d_file != NULL;
 		}
 		/// @brief Returns the stream get position
-		size_t tell() const noexcept
+		auto tell() const noexcept -> size_t
 		{
 			return d_pos;
 		}
@@ -2031,7 +2095,7 @@ namespace seq
 				seek(d_pos - 1);
 		}
 		/// @brief Seek to given position and returns the new get position
-		SEQ_NOINLINE(size_t) seek(size_t pos) noexcept
+		SEQ_NOINLINE(auto) seek(size_t pos) noexcept -> size_t
 		{
 			if (pos < d_pos) {
 				int start = d_buff_pos ? (int)(d_buff_pos - d_buff) : 0;
@@ -2062,7 +2126,7 @@ namespace seq
 			return d_pos;
 		}
 		/// @brief Returns the next character from the stream and update the get position 
-		SEQ_ALWAYS_INLINE int getc() noexcept
+		SEQ_ALWAYS_INLINE auto getc() noexcept -> int
 		{
 			// We need this one to be very fast
 			if (SEQ_UNLIKELY(d_buff_pos == d_buff_end))
@@ -2071,7 +2135,7 @@ namespace seq
 			return *d_buff_pos++;
 		}
 		/// @brief Read several bytes from the stream, and return the number of read bytes.
-		size_t read(char* dst, size_t size) noexcept
+		auto read(char* dst, size_t size) noexcept -> size_t
 		{
 			size_t rem = d_buff_end - d_buff_pos;
 			size_t from_buffer = std::min(size, rem);
@@ -2119,12 +2183,12 @@ namespace seq
 		State d_state;
 		int d_flag;
 
-		char set_eof() noexcept {
+		auto set_eof() noexcept -> char {
 			set_state(EndOfFile);
 			return EOF;
 		}
 
-		int fillbuff()
+		auto fillbuff() -> int
 		{
 			streamsize read = fread(d_buff, 1, buff_size, d_file);
 			d_buff_pos = d_buff;
@@ -2141,13 +2205,13 @@ namespace seq
 		file_input_stream()
 			:d_file(NULL), d_pos(0), d_buff_pos(NULL), d_buff_end(NULL), d_state(Ok), d_flag(0) {}
 		/// @brief Construct from a filename
-		file_input_stream(const char* filename, const char* format = "r")
+		explicit file_input_stream(const char* filename, const char* format)
 			:d_file(NULL), d_pos(0), d_buff_pos(NULL), d_buff_end(NULL), d_state(Ok), d_flag(0) {
 			open(filename, format);
 		}
 		/// @brief Construct from a FILE object. 
 		/// If 'own' is true, closing the stream will also close the FILE object.
-		file_input_stream(FILE* file, bool own = true)
+		explicit file_input_stream(FILE* file, bool own)
 			:d_file(file), d_pos(0), d_buff_pos(NULL), d_buff_end(NULL), d_state(Ok), d_flag(0) {
 			open(file, own);
 		}
@@ -2161,7 +2225,7 @@ namespace seq
 			d_state = st;
 		}
 		/// @brief Returns the stream state
-		State state() const noexcept
+		auto state() const noexcept -> State
 		{
 			return d_state;
 		}
@@ -2181,7 +2245,7 @@ namespace seq
 		}
 		/// @brief Open given file
 		/// @return true on success, false otherwise.
-		bool open(const char* filename, const char* format = "r")
+		auto open(const char* filename, const char* format) -> bool
 		{
 			close();
 			d_file = fopen(filename, format);
@@ -2193,7 +2257,7 @@ namespace seq
 		}
 		/// @brief Open the stream based on a FILE object
 		/// If 'own' is true, the FILE object will be closed in the stream destructor or with the close() member. 
-		bool open(FILE* file, bool own = true)
+		auto open(FILE* file, bool own) -> bool
 		{
 			close();
 			d_file = file;
@@ -2205,12 +2269,12 @@ namespace seq
 			return false;
 		}
 		/// @brief Returns true if the stream is open (underlying FILE object is valid)
-		bool is_open() const noexcept
+		auto is_open() const noexcept -> bool
 		{
 			return d_file != NULL;
 		}
 		/// @brief Returns the current get position
-		streamsize tell() const noexcept
+		auto tell() const noexcept -> streamsize
 		{
 			return d_pos;
 		}
@@ -2225,7 +2289,7 @@ namespace seq
 				seek(d_pos - 1);
 		}
 		/// @brief Seek to given location, and return the new get position
-		SEQ_NOINLINE(streamsize) seek(streamsize pos) noexcept
+		SEQ_NOINLINE(auto) seek(streamsize pos) noexcept -> streamsize
 		{
 			if (pos < d_pos) {
 				int start = d_buff_pos ? (int)(d_buff_pos - d_buff) : 0;
@@ -2257,7 +2321,7 @@ namespace seq
 			return d_pos;
 		}
 		/// @brief Returns the next character from the stream and update the get position 
-		SEQ_ALWAYS_INLINE int getc() noexcept
+		SEQ_ALWAYS_INLINE auto getc() noexcept -> int
 		{
 			// We need this one to be very fast
 			if (SEQ_UNLIKELY(d_buff_pos == d_buff_end))
@@ -2266,7 +2330,7 @@ namespace seq
 			return *d_buff_pos++;
 		}
 		/// @brief Read several bytes from the stream, and return the number of read bytes.
-		streamsize read(char* dst, streamsize size) noexcept
+		auto read(char* dst, streamsize size) noexcept -> streamsize
 		{
 			streamsize rem = d_buff_end - d_buff_pos;
 			streamsize from_buffer = std::min(size, rem);
@@ -2314,7 +2378,7 @@ namespace seq
 	/// seq::from_chars internally uses seq::from_stream with a seq::buffer_input_stream object.
 	/// 
 	template<class Stream, class T>
-	inline Stream& from_stream(Stream& str, T& value, int base = 10)
+	inline auto from_stream(Stream& str, T& value, int base = 10) -> Stream&
 	{
 		value = detail::read_integral<T>(str, base);
 		return str;
@@ -2351,7 +2415,7 @@ namespace seq
 	/// seq::from_chars internally uses seq::from_stream with a seq::buffer_input_stream object.
 	/// 
 	template<class Stream>
-	inline Stream& from_stream(Stream& str, float& value, chars_format fmt = chars_format::general, char dot = '.')
+	inline auto from_stream(Stream& str, float& value, chars_format fmt = seq::general, char dot = '.') -> Stream&
 	{
 		value = detail::read_double<float>(str, fmt, dot);
 		return str;
@@ -2388,7 +2452,7 @@ namespace seq
 	/// seq::from_chars internally uses seq::from_stream with a seq::buffer_input_stream object.
 	/// 
 	template<class Stream>
-	inline Stream& from_stream(Stream& str, double& value, chars_format fmt = chars_format::general, char dot = '.')
+	inline auto from_stream(Stream& str, double& value, chars_format fmt = seq::general, char dot = '.') -> Stream&
 	{
 		value = detail::read_double<double>(str, fmt, dot);
 		return str;
@@ -2425,7 +2489,7 @@ namespace seq
 	/// seq::from_chars internally uses seq::from_stream with a seq::buffer_input_stream object.
 	/// 
 	template<class Stream>
-	inline Stream& from_stream(Stream& str, long double& value, chars_format fmt = chars_format::general, char dot = '.')
+	inline auto from_stream(Stream& str, long double& value, chars_format fmt = seq::general, char dot = '.') -> Stream&
 	{
 		value = detail::read_double<long double>(str, fmt, dot);
 		return str;
@@ -2441,7 +2505,7 @@ namespace seq
 	/// to #EndOfFile.
 	/// 
 	template<class Stream>
-	inline Stream& from_stream(Stream& str, std::string& value)
+	inline auto from_stream(Stream& str, std::string& value) -> Stream&
 	{
 		value = detail::read_string<std::string>(str);
 		return str;
@@ -2457,7 +2521,7 @@ namespace seq
 	/// to #EndOfFile.
 	/// 
 	template<class Stream, size_t Ss, class Al>
-	inline Stream& from_stream(Stream& str, tiny_string<Ss,Al>& value)
+	inline auto from_stream(Stream& str, tiny_string<Ss,Al>& value) -> Stream&
 	{
 		value = detail::read_string<tiny_string<Ss, Al>>(str);
 		return str;
@@ -2473,7 +2537,7 @@ namespace seq
 	/// to #EndOfFile.
 	/// 
 	template<class Stream>
-	inline Stream& read_line_from_stream(Stream& str, std::string& value)
+	inline auto read_line_from_stream(Stream& str, std::string& value) -> Stream&
 	{
 		value = detail::read_line<std::string>(str);
 		return str;
@@ -2489,7 +2553,7 @@ namespace seq
 	/// to #EndOfFile.
 	/// 
 	template<class Stream, size_t Ss, class Al>
-	inline Stream& read_line_from_stream(Stream& str, tiny_string<Ss, Al>& value)
+	inline auto read_line_from_stream(Stream& str, tiny_string<Ss, Al>& value) -> Stream&
 	{
 		value = detail::read_line<tiny_string<Ss, Al>>(str);
 		return str;
@@ -2522,7 +2586,7 @@ namespace seq
 	/// 
 	/// 
 	template<class T>
-	inline from_chars_result from_chars(const char* first, const char* last, T& value, int base = 10)
+	inline auto from_chars(const char* first, const char* last, T& value, int base = 10) -> from_chars_result
 	{
 		detail::from_chars_stream str(first, last);
 		value = detail::read_integral<T>(str, base);
@@ -2557,7 +2621,7 @@ namespace seq
 	/// value is set to 0. 
 	/// 
 	/// 
-	inline  from_chars_result from_chars(const char* first, const char* last, float& value, chars_format fmt = general, char dot = '.')
+	inline  auto from_chars(const char* first, const char* last, float& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result
 	{
 		detail::from_chars_stream str(first, last);
 		value = detail::read_double<float>(str, fmt, dot);
@@ -2592,7 +2656,7 @@ namespace seq
 	/// value is set to 0. 
 	/// 
 	/// 
-	inline from_chars_result from_chars(const char* first, const char* last, double& value, chars_format fmt = general, char dot = '.')
+	inline auto from_chars(const char* first, const char* last, double& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result
 	{
 		detail::from_chars_stream str(first, last);
 		value = detail::read_double<double>(str,fmt, dot);
@@ -2627,7 +2691,7 @@ namespace seq
 	/// value is set to 0. 
 	/// 
 	/// 
-	inline  from_chars_result from_chars(const char* first, const char* last, long double& value, chars_format fmt = general, char dot = '.')
+	inline  auto from_chars(const char* first, const char* last, long double& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result
 	{
 		detail::from_chars_stream str(first, last);
 		value = detail::read_double<long double>(str, fmt, dot);
@@ -2668,51 +2732,51 @@ namespace seq
 	/// On error, returns a value of type seq::to_chars_result holding std::errc::value_too_large in ec, 
 	/// a copy of the value last in ptr, and leaves the contents of the range[first, last) in unspecified state.
 	/// 
-	inline to_chars_result to_chars(char* first, char* last, char value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+	inline auto to_chars(char* first, char* last, char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
 	{
 		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, signed char value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+	inline auto to_chars(char* first, char* last, signed char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
 	{
 		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, unsigned char value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+	inline auto to_chars(char* first, char* last, unsigned char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
 	{
 		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, short value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+	inline auto to_chars(char* first, char* last, short value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
 	{
 		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, unsigned short value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+	inline auto to_chars(char* first, char* last, unsigned short value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
 	{
 		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, int value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+	inline auto to_chars(char* first, char* last, int value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
 	{
 		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, unsigned int value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+	inline auto to_chars(char* first, char* last, unsigned int value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
 	{
 		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, long value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+	inline auto to_chars(char* first, char* last, long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
 	{
 		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, unsigned long value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+	inline auto to_chars(char* first, char* last, unsigned long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
 	{
 		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+	inline auto to_chars(char* first, char* last, long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
 	{
 		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, unsigned long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format())
+	inline auto to_chars(char* first, char* last, unsigned long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
 	{
 		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
 	}
-	to_chars_result to_chars(char* first, char* last, bool value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) = delete;
+	auto to_chars(char* first, char* last, bool value, int base = 10, const integral_chars_format& fmt = integral_chars_format())-> to_chars_result = delete;
 
 
 
@@ -2768,41 +2832,41 @@ namespace seq
 	/// Use this function when you need very fast formatting of a huge amount of floating point values without exact formatting requirement.
 	/// 
 	/// 
-	inline to_chars_result to_chars(char* first, char* last, float value)
+	inline auto to_chars(char* first, char* last, float value) -> to_chars_result
 	{
 		return detail::write_double(detail::char_range(first, last), static_cast<double>(value));
 	}
-	inline to_chars_result to_chars(char* first, char* last, double value)
+	inline auto to_chars(char* first, char* last, double value) -> to_chars_result
 	{
 		return detail::write_double(detail::char_range(first, last), value);
 	}
-	inline to_chars_result to_chars(char* first, char* last, long double value)
+	inline auto to_chars(char* first, char* last, long double value) -> to_chars_result
 	{
 		return detail::write_double(detail::char_range(first, last), value);
 	}
-	inline to_chars_result to_chars(char* first, char* last, float value, chars_format fmt)
+	inline auto to_chars(char* first, char* last, float value, chars_format fmt) -> to_chars_result
 	{
 		return detail::write_double(detail::char_range(first, last), static_cast<double>(value), 6, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, double value, chars_format fmt)
+	inline auto to_chars(char* first, char* last, double value, chars_format fmt) -> to_chars_result
 	{
 		return detail::write_double(detail::char_range(first, last), value, 6, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, long double value, chars_format fmt)
+	inline auto to_chars(char* first, char* last, long double value, chars_format fmt) -> to_chars_result
 	{
 		return detail::write_double(detail::char_range(first, last), value, 6, fmt);
 	}
-	inline to_chars_result to_chars(char* first, char* last, float value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false)
+	inline auto to_chars(char* first, char* last, float value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result
 	{
-		return detail::write_double(detail::char_range(first, last), static_cast<double>(value), precision, detail::float_chars_format(fmt, dot, exp,(char)upper));
+		return detail::write_double(detail::char_range(first, last), static_cast<double>(value), precision, detail::float_chars_format(fmt, dot, exp,static_cast<char>(upper)));
 	}
-	inline to_chars_result to_chars(char* first, char* last, double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false)
+	inline auto to_chars(char* first, char* last, double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result
 	{
-		return detail::write_double(detail::char_range(first, last), value, precision, detail::float_chars_format(fmt, dot, exp, (char)upper));
+		return detail::write_double(detail::char_range(first, last), value, precision, detail::float_chars_format(fmt, dot, exp, static_cast<char>(upper)));
 	}
-	inline to_chars_result to_chars(char* first, char* last, long double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false)
+	inline auto to_chars(char* first, char* last, long double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result
 	{
-		return detail::write_double(detail::char_range(first, last), value, precision, detail::float_chars_format(fmt, dot, exp, (char)upper));
+		return detail::write_double(detail::char_range(first, last), value, precision, detail::float_chars_format(fmt, dot, exp, static_cast<char>(upper)));
 	}
 
 
@@ -2814,3 +2878,5 @@ namespace seq
 
 /** @}*/
 //end charconv
+
+#endif

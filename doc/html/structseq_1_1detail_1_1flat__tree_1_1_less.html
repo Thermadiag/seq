@@ -106,8 +106,8 @@ Public Types</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aeef4f8f03b2aab661db7b27f692b5db6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree_1_1_less.html#aeef4f8f03b2aab661db7b27f692b5db6">Less</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> *<a class="el" href="structseq_1_1detail_1_1flat__tree_1_1_less.html#ab724d778f299c7f46332d7b26d4f8778">c</a>)</td></tr>
 <tr class="separator:aeef4f8f03b2aab661db7b27f692b5db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06bbb277c24a6f51e0f719689687c85c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree_1_1_less.html#a06bbb277c24a6f51e0f719689687c85c">operator()</a> (const Value &amp;a, const Value &amp;b) const</td></tr>
-<tr class="separator:a06bbb277c24a6f51e0f719689687c85c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a395f477b5581db3eb6e5cea74299b9e1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree_1_1_less.html#a395f477b5581db3eb6e5cea74299b9e1">operator()</a> (const Value &amp;a, const Value &amp;b) const -&gt; bool</td></tr>
+<tr class="separator:a395f477b5581db3eb6e5cea74299b9e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -177,8 +177,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a06bbb277c24a6f51e0f719689687c85c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06bbb277c24a6f51e0f719689687c85c">&#9670;&nbsp;</a></span>operator()()</h2>
+<a id="a395f477b5581db3eb6e5cea74299b9e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a395f477b5581db3eb6e5cea74299b9e1">&#9670;&nbsp;</a></span>operator()()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -189,7 +189,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::Less::operator() </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::Less::operator() </td>
           <td>(</td>
           <td class="paramtype">const Value &amp;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -203,7 +203,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const</td>
+          <td></td><td> const -&gt; bool </td>
         </tr>
       </table>
   </td>

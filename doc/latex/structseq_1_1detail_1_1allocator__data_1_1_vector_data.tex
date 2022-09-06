@@ -7,12 +7,12 @@
 \doxysubsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
-typedef void($\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_acfc5f8776d6782d81a38ca4353ab5f7f}{deallocate\+\_\+fun}}) (Allocator \&, \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$)
+using \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_a14940fd42f5179a67af43dec492f131a}{deallocate\+\_\+fun}} = void($\ast$)(Allocator \&, \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_a9c55750f4a1526ce5ecf65a9bf65ab74}{Vector\+Data}} (\mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$p, size\+\_\+t k, \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_acfc5f8776d6782d81a38ca4353ab5f7f}{deallocate\+\_\+fun}} \mbox{\hyperlink{namespaceseq_1_1detail_a76fa776653402382e316c7b6715856af}{f}})
+\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_a9c55750f4a1526ce5ecf65a9bf65ab74}{Vector\+Data}} (\mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$p, size\+\_\+t k, \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_a14940fd42f5179a67af43dec492f131a}{deallocate\+\_\+fun}} \mbox{\hyperlink{namespaceseq_1_1detail_a76fa776653402382e316c7b6715856af}{f}})
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -21,17 +21,17 @@ typedef void($\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_
 \item 
 size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_af4d1116b6f82e080e41d23ff0d05aef0}{key}}
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_acfc5f8776d6782d81a38ca4353ab5f7f}{deallocate\+\_\+fun}} \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_aa7d6e0c1f69ae8a876d3dc2535b420d0}{ptr}}
+\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_a14940fd42f5179a67af43dec492f131a}{deallocate\+\_\+fun}} \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_aa7d6e0c1f69ae8a876d3dc2535b420d0}{ptr}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Member Typedef Documentation}
-\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_1_1_vector_data_acfc5f8776d6782d81a38ca4353ab5f7f}\label{structseq_1_1detail_1_1allocator__data_1_1_vector_data_acfc5f8776d6782d81a38ca4353ab5f7f}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_1_1_vector_data_a14940fd42f5179a67af43dec492f131a}\label{structseq_1_1detail_1_1allocator__data_1_1_vector_data_a14940fd42f5179a67af43dec492f131a}} 
 \index{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$::VectorData@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$::VectorData}!deallocate\_fun@{deallocate\_fun}}
 \index{deallocate\_fun@{deallocate\_fun}!seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$::VectorData@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$::VectorData}}
 \doxysubsubsection{\texorpdfstring{deallocate\_fun}{deallocate\_fun}}
 {\footnotesize\ttfamily template$<$class Allocator , bool Is\+Threaded$>$ \\
-typedef void($\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::Vector\+Data\+::deallocate\+\_\+fun) (Allocator \&, \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$)}
+using \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_a14940fd42f5179a67af43dec492f131a}{Vector\+Data\+::deallocate\+\_\+fun}} =  void ($\ast$)(Allocator \&, \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$)}
 
 
 
@@ -41,7 +41,7 @@ typedef void($\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq
 \index{VectorData@{VectorData}!seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$::VectorData@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$::VectorData}}
 \doxysubsubsection{\texorpdfstring{VectorData()}{VectorData()}}
 {\footnotesize\ttfamily template$<$class Allocator , bool Is\+Threaded$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::Vector\+Data\+::\+Vector\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$}]{p,  }\item[{size\+\_\+t}]{k,  }\item[{\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_acfc5f8776d6782d81a38ca4353ab5f7f}{deallocate\+\_\+fun}}}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::Vector\+Data\+::\+Vector\+Data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$}]{p,  }\item[{size\+\_\+t}]{k,  }\item[{\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_a14940fd42f5179a67af43dec492f131a}{deallocate\+\_\+fun}}}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -65,7 +65,7 @@ size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::deta
 \index{ptr@{ptr}!seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$::VectorData@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$::VectorData}}
 \doxysubsubsection{\texorpdfstring{ptr}{ptr}}
 {\footnotesize\ttfamily template$<$class Allocator , bool Is\+Threaded$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_acfc5f8776d6782d81a38ca4353ab5f7f}{deallocate\+\_\+fun}} \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::Vector\+Data\+::ptr}
+\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data_a14940fd42f5179a67af43dec492f131a}{deallocate\+\_\+fun}} \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::Vector\+Data\+::ptr}
 
 
 

@@ -1,15 +1,18 @@
+#ifndef SEQ_SEQ_SEQ_HPP
+#define SEQ_SEQ_SEQ_HPP
+
 #pragma once
 
 /** @file */
 
 #include "format.hpp"
-#include "tiered_vector.hpp"
-#include "sequence.hpp"
+#include "flat_map.hpp"
 #include "hash.hpp"
 #include "memory.hpp"
 #include "ordered_map.hpp"
-#include "lock.hpp"
+#include "sequence.hpp"
 #include "tagged_pointer.hpp"
+#include "tiered_vector.hpp"
 #include "tiny_string.hpp"
 
 
@@ -20,7 +23,7 @@ Purpose
 
 Seq library is a collection of C++11 STL-like containers and related tools optimized for speed and/or memory usage.
 
-Seq library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) std. Instead, it provides new features 
+Seq library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) `std`. Instead, it provides new features 
 (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined 
 to keep the seq library self dependent.
 
@@ -44,10 +47,9 @@ when I need a fast hash map with low memory overhead (and when iterators/referen
 Content
 -------
 
-The library is divided in 5 main modules:
+The library is divided in 7 small modules:
 	-	\ref bits "bits": low-level bits manipulation utilities
 	-	\ref hash "hash": implementation of fnv1a and murmurhash2 algorithms
-	-	\ref lock "lock": locking classes
 	-	\ref memory "memory": allocators and memory pools mainly used for containers
 	-	\ref charconv "charconv": fast arithmetic to/from string conversion
 	-	\ref format "format": fast and type safe formatting tools
@@ -64,4 +66,27 @@ For now the seq library is developped and maintained in order to remain compatib
 While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work 
 on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11.
 
+Design
+------
+
+Seq library is a small collection of header only and self dependant components. There is no restriction on internal dependencies, and a seq component can use any number of other components.
+For instance, almost all modules rely on the \ref bits "bits" module.
+
+All classes and functions are defined in the `seq` namespace, and names are lower case with underscore separators, much like the STL.
+Macro names are upper case and start with `SEQ_` prefix.
+
+The directory structure is flat and use the "stuttering" scheme `seq/seq` used by many other libraries like boost.
+Including a file as the following syntax: `#include <seq/tiered_vector.hpp>`
+
+The `seq/seq/test` subdirectory includes tests for all components, usually named `test_modulename.hpp`, with a unique `main.cpp`. 
+The `seq/seq/docs` directory contains documentation using markdown format, and the `seq/seq/doc` directory contains the html documentation generated with doxygen.
+
+Build
+-----
+
+The seq library is header only and does not need to be built. However, a cmake file is provided for installation.
+The tests can be built using cmake from the `tests` folder.
+
 */
+
+#endif

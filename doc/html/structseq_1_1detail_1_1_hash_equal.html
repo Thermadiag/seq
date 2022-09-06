@@ -103,10 +103,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5e2a638510e73013dd54e5382d8df6ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accbf82fbdbf4a9b7cdce5bb75dd063a0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#accbf82fbdbf4a9b7cdce5bb75dd063a0">HashEqual</a> (const <a class="el" href="structseq_1_1detail_1_1_hash_equal.html">HashEqual</a> &amp;other)</td></tr>
 <tr class="separator:accbf82fbdbf4a9b7cdce5bb75dd063a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d860a60db9046eddc9731298f58a3c7"><td class="memItemLeft" align="right" valign="top">Hash&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a3d860a60db9046eddc9731298f58a3c7">hash_function</a> () const</td></tr>
-<tr class="separator:a3d860a60db9046eddc9731298f58a3c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e346c717a88f97eddb88221d2483c3b"><td class="memItemLeft" align="right" valign="top">Equal&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a5e346c717a88f97eddb88221d2483c3b">key_eq</a> () const</td></tr>
-<tr class="separator:a5e346c717a88f97eddb88221d2483c3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4c4444ca6d01ec0cafcc261e1b40e11"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#aa4c4444ca6d01ec0cafcc261e1b40e11">hash_function</a> () const -&gt; Hash</td></tr>
+<tr class="separator:aa4c4444ca6d01ec0cafcc261e1b40e11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2ac19ce25ada5b96c990471cc0ab702"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ad2ac19ce25ada5b96c990471cc0ab702">key_eq</a> () const -&gt; Equal</td></tr>
+<tr class="separator:ad2ac19ce25ada5b96c990471cc0ab702"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae93d63f42e715da31f2f1b8ea083ac1e"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
 <tr class="memitem:ae93d63f42e715da31f2f1b8ea083ac1e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ae93d63f42e715da31f2f1b8ea083ac1e">hash</a> (Args &amp;&amp;... args) const noexcept</td></tr>
 <tr class="separator:ae93d63f42e715da31f2f1b8ea083ac1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -239,8 +239,8 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a3d860a60db9046eddc9731298f58a3c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d860a60db9046eddc9731298f58a3c7">&#9670;&nbsp;</a></span>hash_function()</h2>
+<a id="aa4c4444ca6d01ec0cafcc261e1b40e11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4c4444ca6d01ec0cafcc261e1b40e11">&#9670;&nbsp;</a></span>hash_function()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -251,10 +251,10 @@ template&lt;class Hash , class Equal , bool EmptyHash = std::is_empty&lt;Hash&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Hash <a class="el" href="structseq_1_1detail_1_1_hash_equal.html">seq::detail::HashEqual</a>&lt; Hash, Equal, EmptyHash, EmptyEqual &gt;::hash_function </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_hash_equal.html">seq::detail::HashEqual</a>&lt; Hash, Equal, EmptyHash, EmptyEqual &gt;::hash_function </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; Hash </td>
         </tr>
       </table>
   </td>
@@ -266,8 +266,8 @@ template&lt;class Hash , class Equal , bool EmptyHash = std::is_empty&lt;Hash&gt
 
 </div>
 </div>
-<a id="a5e346c717a88f97eddb88221d2483c3b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e346c717a88f97eddb88221d2483c3b">&#9670;&nbsp;</a></span>key_eq()</h2>
+<a id="ad2ac19ce25ada5b96c990471cc0ab702"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2ac19ce25ada5b96c990471cc0ab702">&#9670;&nbsp;</a></span>key_eq()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,10 +278,10 @@ template&lt;class Hash , class Equal , bool EmptyHash = std::is_empty&lt;Hash&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Equal <a class="el" href="structseq_1_1detail_1_1_hash_equal.html">seq::detail::HashEqual</a>&lt; Hash, Equal, EmptyHash, EmptyEqual &gt;::key_eq </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_hash_equal.html">seq::detail::HashEqual</a>&lt; Hash, Equal, EmptyHash, EmptyEqual &gt;::key_eq </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; Equal </td>
         </tr>
       </table>
   </td>

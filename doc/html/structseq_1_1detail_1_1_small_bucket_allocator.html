@@ -94,11 +94,11 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_small_bucket_a
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="deque_8hpp_source.html">deque.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="tiered__vector_8hpp_source.html">tiered_vector.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a5d6e87a4575bd8ab01b8a0f93924f222"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a> = <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html">CircularBuffer</a>&lt; T, Allocator &gt;</td></tr>
+<tr class="memitem:a5d6e87a4575bd8ab01b8a0f93924f222"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a> = <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html">CircularBuffer</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;</td></tr>
 <tr class="separator:a5d6e87a4575bd8ab01b8a0f93924f222"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a24487804af0619f78ebf42310d7a91d4"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
 <tr class="memitem:a24487804af0619f78ebf42310d7a91d4"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a24487804af0619f78ebf42310d7a91d4">RebindAlloc</a> = typename std::allocator_traits&lt; Allocator &gt;::template rebind_alloc&lt; U &gt;</td></tr>
@@ -114,12 +114,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:adaa171fb1fa5a746f0ddebad1f4f11db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81e2a7abd0cac83bd0ae54fff33611c2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a81e2a7abd0cac83bd0ae54fff33611c2">SmallBucketAllocator</a> (<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> &amp;&amp;other, const Allocator &amp;al) noexcept</td></tr>
 <tr class="separator:a81e2a7abd0cac83bd0ae54fff33611c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23460da251c8a9987e22ae47121993d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a23460da251c8a9987e22ae47121993d9">operator=</a> (<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="separator:a23460da251c8a9987e22ae47121993d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a397e44495c59dcc2fa24a1e4e1e2b5e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a397e44495c59dcc2fa24a1e4e1e2b5e2">alloc</a> (int max_size)</td></tr>
-<tr class="separator:a397e44495c59dcc2fa24a1e4e1e2b5e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2ee1feac6991e77e2756c68af0473f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#ab2ee1feac6991e77e2756c68af0473f0">alloc</a> (int max_size, const T &amp;val)</td></tr>
-<tr class="separator:ab2ee1feac6991e77e2756c68af0473f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63c15b3c6c45521c5da69714d1bcde0c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a63c15b3c6c45521c5da69714d1bcde0c">operator=</a> (<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> &amp;&amp;other) noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> &amp;</td></tr>
+<tr class="separator:a63c15b3c6c45521c5da69714d1bcde0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae42a1a9f3b959c59504ec0551c626622"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#ae42a1a9f3b959c59504ec0551c626622">alloc</a> (int max_size) -&gt; <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a> *</td></tr>
+<tr class="separator:ae42a1a9f3b959c59504ec0551c626622"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21f31289626189bdba2eb02b1945229b"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a21f31289626189bdba2eb02b1945229b">alloc</a> (int max_size, const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;<a class="el" href="namespaceseq_1_1detail.html#ad2ef3bc87521f2c064991225c99aeabf">val</a>) -&gt; <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a> *</td></tr>
+<tr class="separator:a21f31289626189bdba2eb02b1945229b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2e9cc27562151c883251f3eaa5fb9b4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#ae2e9cc27562151c883251f3eaa5fb9b4">dealloc</a> (<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a> *buff) noexcept</td></tr>
 <tr class="separator:ae2e9cc27562151c883251f3eaa5fb9b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fdee123813306f84431826df1b2eeb8"><td class="memTemplParams" colspan="2">template&lt;class StoreBucket &gt; </td></tr>
@@ -130,7 +130,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a739a56a6d81ae219ddc9af8f76bc54e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf2f608ff58c2fc5aa68a36cf4af18a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#abf2f608ff58c2fc5aa68a36cf4af18a4">init</a> (size_t, int) noexcept</td></tr>
 <tr class="separator:abf2f608ff58c2fc5aa68a36cf4af18a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76b8c8e7beafc7012724ac12645e32db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a76b8c8e7beafc7012724ac12645e32db">recyclate</a> (const <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&lt; T, Allocator &gt; &amp;, int=0) noexcept</td></tr>
+<tr class="memitem:a76b8c8e7beafc7012724ac12645e32db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a76b8c8e7beafc7012724ac12645e32db">recyclate</a> (const <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt; &amp;, int=0) noexcept</td></tr>
 <tr class="separator:a76b8c8e7beafc7012724ac12645e32db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -153,7 +153,7 @@ Static Public Attributes</h2></td></tr>
 template&lt;class T , class Allocator &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a> =  <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html">CircularBuffer</a>&lt;T, Allocator&gt;</td>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a> =  <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html">CircularBuffer</a>&lt;<a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -171,7 +171,7 @@ template&lt;class T , class Allocator &gt; </div>
 template&lt;class U &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a24487804af0619f78ebf42310d7a91d4">RebindAlloc</a> =  typename std::allocator_traits&lt;Allocator&gt;::template rebind_alloc&lt;U&gt;</td>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a24487804af0619f78ebf42310d7a91d4">RebindAlloc</a> =  typename std::allocator_traits&lt;Allocator&gt;::template rebind_alloc&lt;U&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -191,7 +191,7 @@ template&lt;class T , class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> </td>
+          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> </td>
           <td>(</td>
           <td class="paramtype">const Allocator &amp;&#160;</td>
           <td class="paramname"><em>al</em></td><td>)</td>
@@ -219,7 +219,7 @@ template&lt;class T , class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> </td>
+          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> </td>
           <td>(</td>
           <td class="paramtype">Allocator &amp;&amp;&#160;</td>
           <td class="paramname"><em>al</em></td><td>)</td>
@@ -247,9 +247,9 @@ template&lt;class T , class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> </td>
+          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&lt; T, Allocator &gt; &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -275,9 +275,9 @@ template&lt;class T , class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> </td>
+          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&lt; T, Allocator &gt; &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>other</em>, </td>
         </tr>
         <tr>
@@ -302,8 +302,8 @@ template&lt;class T , class Allocator &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a397e44495c59dcc2fa24a1e4e1e2b5e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a397e44495c59dcc2fa24a1e4e1e2b5e2">&#9670;&nbsp;</a></span>alloc() <span class="overload">[1/2]</span></h2>
+<a id="ae42a1a9f3b959c59504ec0551c626622"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae42a1a9f3b959c59504ec0551c626622">&#9670;&nbsp;</a></span>alloc() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -314,11 +314,11 @@ template&lt;class T , class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a>* <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::alloc </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::alloc </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>max_size</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a>* </td>
         </tr>
       </table>
   </td>
@@ -330,8 +330,8 @@ template&lt;class T , class Allocator &gt; </div>
 
 </div>
 </div>
-<a id="ab2ee1feac6991e77e2756c68af0473f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2ee1feac6991e77e2756c68af0473f0">&#9670;&nbsp;</a></span>alloc() <span class="overload">[2/2]</span></h2>
+<a id="a21f31289626189bdba2eb02b1945229b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21f31289626189bdba2eb02b1945229b">&#9670;&nbsp;</a></span>alloc() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -342,7 +342,7 @@ template&lt;class T , class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a>* <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::alloc </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::alloc </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>max_size</em>, </td>
@@ -350,13 +350,13 @@ template&lt;class T , class Allocator &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;&#160;</td>
           <td class="paramname"><em>val</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a>* </td>
         </tr>
       </table>
   </td>
@@ -380,7 +380,7 @@ template&lt;class T , class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::dealloc </td>
+          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::dealloc </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a5d6e87a4575bd8ab01b8a0f93924f222">BucketType</a> *&#160;</td>
           <td class="paramname"><em>buff</em></td><td>)</td>
@@ -410,7 +410,7 @@ template&lt;class StoreBucket &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::destroy_all </td>
+          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::destroy_all </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_store_bucket.html">StoreBucket</a> *&#160;</td>
           <td class="paramname"><em>bs</em>, </td>
@@ -450,7 +450,7 @@ template&lt;class StoreBucket &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::destroy_all_no_destructor </td>
+          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::destroy_all_no_destructor </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_store_bucket.html">StoreBucket</a> *&#160;</td>
           <td class="paramname"><em>bs</em>, </td>
@@ -488,7 +488,7 @@ template&lt;class T , class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::init </td>
+          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::init </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname">, </td>
@@ -514,8 +514,8 @@ template&lt;class T , class Allocator &gt; </div>
 
 </div>
 </div>
-<a id="a23460da251c8a9987e22ae47121993d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23460da251c8a9987e22ae47121993d9">&#9670;&nbsp;</a></span>operator=()</h2>
+<a id="a63c15b3c6c45521c5da69714d1bcde0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63c15b3c6c45521c5da69714d1bcde0c">&#9670;&nbsp;</a></span>operator=()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -526,11 +526,11 @@ template&lt;class T , class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&amp; <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::operator= </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::operator= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&lt; T, Allocator &gt; &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&amp; </td>
         </tr>
       </table>
   </td>
@@ -554,9 +554,9 @@ template&lt;class T , class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::recyclate </td>
+          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::recyclate </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&lt; T, Allocator &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt; &amp;&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
@@ -590,7 +590,7 @@ template&lt;class T , class Allocator &gt; </div>
 template&lt;class T , class Allocator &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">Allocator <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::allocator</td>
+          <td class="memname">Allocator <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::allocator</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -609,7 +609,7 @@ template&lt;class T , class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr int <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; T, Allocator &gt;::SizeofHeader = <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#a3df89fecb8fbddc68f18c578b721fda3">BucketType::start_data_T</a></td>
+          <td class="memname">constexpr int <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::SizeofHeader = <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#a3df89fecb8fbddc68f18c578b721fda3">BucketType::start_data_T</a></td>
         </tr>
       </table>
   </td>
@@ -622,7 +622,7 @@ template&lt;class T , class Allocator &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>seq/<a class="el" href="deque_8hpp_source.html">deque.hpp</a></li>
+<li>seq/<a class="el" href="tiered__vector_8hpp_source.html">tiered_vector.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

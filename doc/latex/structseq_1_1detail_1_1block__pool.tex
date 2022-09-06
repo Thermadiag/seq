@@ -13,42 +13,42 @@ Inherits \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::t
 \item 
 {\footnotesize template$<$class U $>$ }\\using \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a35cae57fb90140e3e06e20d410bc9253}{rebind\+\_\+alloc}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a35cae57fb90140e3e06e20d410bc9253}{rebind\+\_\+alloc}}$<$ U $>$
 \item 
-using \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a0d2e6ae196f83856f4c94f88fdb0e230}{lock\+\_\+type}} = typename \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{thread\+\_\+data}}$<$ Threaded $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a7275e03676e4e849cf17dc706c6e0177}{lock\+\_\+type}}
+using \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a0d2e6ae196f83856f4c94f88fdb0e230}{lock\+\_\+type}} = typename \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{thread\+\_\+data}}$<$ Threaded $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a5c7ed83c731e2530ef42e3f287e78198}{lock\+\_\+type}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_aea6d970e603e0f7b7d74ce8afe7b698e}{bytes}} () const noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a3a20e94ccf8f6619db9c7f991b698eb9}{bytes}} () const noexcept -\/$>$ size\+\_\+t
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a27f06186253f1de2a5d0081843af25ae}{set\+\_\+next}} (char $\ast$o, char $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1block__pool_aa5be685378e8a661f2684e3a8e4134f7}{next}})
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a27f06186253f1de2a5d0081843af25ae}{set\+\_\+next}} (char $\ast$o, char $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1block__pool_ae58b51c7efc87abdc3fdd07b430aeac8}{next}})
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} char $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_aa5be685378e8a661f2684e3a8e4134f7}{next}} (char $\ast$o)
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_ae58b51c7efc87abdc3fdd07b430aeac8}{next}} (char $\ast$o) -\/$>$ char $\ast$
 \item 
-bool \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a12066ba1189a4816b19514044be3ea5c}{init}} (unsigned \+\_\+elem\+\_\+size) noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a0fd5e84aaf631bee6389fc31a88e55af}{init}} (unsigned \+\_\+elem\+\_\+size) noexcept -\/$>$ bool
 \item 
 void \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_ae852ff5a8f96fa07880e1445d211718b}{reset}} ()
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a349a57d4667a2df9b18dc37a52b22c89}{block\+\_\+pool}} (size\+\_\+t elems, unsigned \+\_\+elem\+\_\+size, const Allocator \&alloc=Allocator())
+\mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a3263c12b323dffca699260d7d1fb8317}{block\+\_\+pool}} (size\+\_\+t elems, unsigned \+\_\+elem\+\_\+size, const Allocator \&alloc)
 \item 
 \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_aa25d2b8c1bb0bc57bbaf14753d264a30}{block\+\_\+pool}} (const \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}} \&other)=delete
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}} \& \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a461d197bc17baaf54bebf2132cbed60f}{operator=}} (const \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}} \&other)=delete
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a6e1f8d9c882bffb3f467f778ffb23f8f}{operator=}} (const \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}} \&other) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}} \&=delete
 \item 
 \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a453e71f29a3618cd3d83255ba3a99215}{$\sim$block\+\_\+pool}} ()
 \item 
-Allocator \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_aa6b90791142bd840b575e04961198c27}{get\+\_\+allocator}} () const noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a34e4d10f6390acc2bb41da2074756ec2}{get\+\_\+allocator}} () const noexcept -\/$>$ Allocator
 \item 
-Allocator \& \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a2c183c73b60c6e7f1a88911607d1a666}{get\+\_\+allocator}} () noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_aa4a8a3af5618d03aaef2d34ee46f205b}{get\+\_\+allocator}} () noexcept -\/$>$ Allocator \&
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a8336e8c5374e29f56a932fbb4fa53c01}{memory\+\_\+footprint}} () const noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a3c2511b631e5f46afa41992e30bc9eec}{memory\+\_\+footprint}} () const noexcept -\/$>$ size\+\_\+t
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a2dee257df8d74639df7c17553792a458}{is\+\_\+inside}} (void $\ast$ptr) const noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_ad7cc2e00298a88a9b5b5dd9e3237b463}{is\+\_\+inside}} (void $\ast$ptr) const noexcept -\/$>$ bool
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a32ae6cbcfc9ad04f53e51c4d77b98060}{is\+\_\+full}} () const noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_ab500435ee88871017e0a9baae9467bc3}{is\+\_\+full}} () const noexcept -\/$>$ bool
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a7eba31ac1880c32535b17cbb5f8925a4}{objects\+\_\+minus\+\_\+deffered}} () const noexcept
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a22ad59027608fbf56ddb4f04ed60de25}{objects\+\_\+minus\+\_\+deffered}} () const noexcept -\/$>$ size\+\_\+t
 \item 
-void $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a695e242b49a2a33a62c9161ffcd787bf}{allocate}} () noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a80bd2ec17d75fc0964ca06c9396bb7f2}{allocate}} () noexcept -\/$>$ void $\ast$
 \item 
 void \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a2103b5a3280058c2c249440c10731ac7}{deallocate\+\_\+internal}} (void $\ast$ptr)
 \item 
@@ -60,14 +60,14 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a4e9cf59e43e2c8badae1c4
 \item 
 \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a176fa05ecbfd550d588739b87e909046}{S\+E\+Q\+\_\+\+N\+O\+I\+N\+L\+I\+NE}} (void) deallocate(void $\ast$ptr)
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a665551580eb05882f93a15fe3f52e464}{deallocate\+\_\+ptr\+\_\+no\+\_\+thread}} (void $\ast$ptr, \mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}} current\+\_\+id)
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a8faab09639ff917aeaa4248d32cef230}{deallocate\+\_\+ptr\+\_\+no\+\_\+thread}} (void $\ast$ptr, \mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}} current\+\_\+id) -\/$>$ bool
 \item 
-bool \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_afbdeaeee7a12771ca2eb16837ff2c594}{deallocate\+\_\+ptr}} (void $\ast$ptr, \mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}} current\+\_\+id)
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a4e5471d12cac99ead92a415531fb0533}{deallocate\+\_\+ptr}} (void $\ast$ptr, \mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}} current\+\_\+id) -\/$>$ bool
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a56eb37784a5d89420f16954c2f7d1132}{from\+\_\+ptr}} (void $\ast$ptr) noexcept
+static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_abb1c62e47bc1534b91d88f3bc7b38c01}{from\+\_\+ptr}} (void $\ast$ptr) noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}} $\ast$
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -101,7 +101,7 @@ static const size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1block__pool_a12
 \index{lock\_type@{lock\_type}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{lock\_type}{lock\_type}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-using \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a7275e03676e4e849cf17dc706c6e0177}{lock\+\_\+type}} =  typename \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{thread\+\_\+data}}$<$Threaded$>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a7275e03676e4e849cf17dc706c6e0177}{lock\+\_\+type}}}
+using \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a5c7ed83c731e2530ef42e3f287e78198}{lock\+\_\+type}} =  typename \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{thread\+\_\+data}}$<$Threaded$>$\+::\mbox{\hyperlink{classseq_1_1detail_1_1thread__data_a5c7ed83c731e2530ef42e3f287e78198}{lock\+\_\+type}}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a35cae57fb90140e3e06e20d410bc9253}\label{structseq_1_1detail_1_1block__pool_a35cae57fb90140e3e06e20d410bc9253}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!rebind\_alloc@{rebind\_alloc}}
@@ -114,12 +114,12 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::bloc
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a349a57d4667a2df9b18dc37a52b22c89}\label{structseq_1_1detail_1_1block__pool_a349a57d4667a2df9b18dc37a52b22c89}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a3263c12b323dffca699260d7d1fb8317}\label{structseq_1_1detail_1_1block__pool_a3263c12b323dffca699260d7d1fb8317}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!block\_pool@{block\_pool}}
 \index{block\_pool@{block\_pool}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{block\_pool()}{block\_pool()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{elems,  }\item[{unsigned}]{\+\_\+elem\+\_\+size,  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{elems,  }\item[{unsigned}]{\+\_\+elem\+\_\+size,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_aa25d2b8c1bb0bc57bbaf14753d264a30}\label{structseq_1_1detail_1_1block__pool_aa25d2b8c1bb0bc57bbaf14753d264a30}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!block\_pool@{block\_pool}}
@@ -138,19 +138,20 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::bloc
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a695e242b49a2a33a62c9161ffcd787bf}\label{structseq_1_1detail_1_1block__pool_a695e242b49a2a33a62c9161ffcd787bf}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a80bd2ec17d75fc0964ca06c9396bb7f2}\label{structseq_1_1detail_1_1block__pool_a80bd2ec17d75fc0964ca06c9396bb7f2}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!allocate@{allocate}}
 \index{allocate@{allocate}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{allocate()}{allocate()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-void$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::allocate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::allocate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ void$\ast$
+			\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_aea6d970e603e0f7b7d74ce8afe7b698e}\label{structseq_1_1detail_1_1block__pool_aea6d970e603e0f7b7d74ce8afe7b698e}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a3a20e94ccf8f6619db9c7f991b698eb9}\label{structseq_1_1detail_1_1block__pool_a3a20e94ccf8f6619db9c7f991b698eb9}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!bytes@{bytes}}
 \index{bytes@{bytes}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{bytes()}{bytes()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::bytes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::bytes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a2103b5a3280058c2c249440c10731ac7}\label{structseq_1_1detail_1_1block__pool_a2103b5a3280058c2c249440c10731ac7}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!deallocate\_internal@{deallocate\_internal}}
@@ -159,19 +160,21 @@ void$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+:
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
 void \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::deallocate\+\_\+internal (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_afbdeaeee7a12771ca2eb16837ff2c594}\label{structseq_1_1detail_1_1block__pool_afbdeaeee7a12771ca2eb16837ff2c594}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a4e5471d12cac99ead92a415531fb0533}\label{structseq_1_1detail_1_1block__pool_a4e5471d12cac99ead92a415531fb0533}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!deallocate\_ptr@{deallocate\_ptr}}
 \index{deallocate\_ptr@{deallocate\_ptr}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{deallocate\_ptr()}{deallocate\_ptr()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-bool \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::deallocate\+\_\+ptr (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}}}]{current\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::deallocate\+\_\+ptr (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}}}]{current\+\_\+id }\end{DoxyParamCaption}) -\/$>$ bool
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a665551580eb05882f93a15fe3f52e464}\label{structseq_1_1detail_1_1block__pool_a665551580eb05882f93a15fe3f52e464}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a8faab09639ff917aeaa4248d32cef230}\label{structseq_1_1detail_1_1block__pool_a8faab09639ff917aeaa4248d32cef230}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!deallocate\_ptr\_no\_thread@{deallocate\_ptr\_no\_thread}}
 \index{deallocate\_ptr\_no\_thread@{deallocate\_ptr\_no\_thread}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{deallocate\_ptr\_no\_thread()}{deallocate\_ptr\_no\_thread()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::deallocate\+\_\+ptr\+\_\+no\+\_\+thread (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}}}]{current\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::deallocate\+\_\+ptr\+\_\+no\+\_\+thread (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}{detail\+::thread\+\_\+id}}}]{current\+\_\+id }\end{DoxyParamCaption}) -\/$>$ bool
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a4e9cf59e43e2c8badae1c45482bd0b19}\label{structseq_1_1detail_1_1block__pool_a4e9cf59e43e2c8badae1c45482bd0b19}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!delete\_deffered@{delete\_deffered}}
@@ -180,75 +183,76 @@ bool \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
 void \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::delete\+\_\+deffered (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a56eb37784a5d89420f16954c2f7d1132}\label{structseq_1_1detail_1_1block__pool_a56eb37784a5d89420f16954c2f7d1132}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_abb1c62e47bc1534b91d88f3bc7b38c01}\label{structseq_1_1detail_1_1block__pool_abb1c62e47bc1534b91d88f3bc7b38c01}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!from\_ptr@{from\_ptr}}
 \index{from\_ptr@{from\_ptr}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{from\_ptr()}{from\_ptr()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::from\+\_\+ptr (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [noexcept]}}
+static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::from\+\_\+ptr (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}}$\ast$ \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_aa6b90791142bd840b575e04961198c27}\label{structseq_1_1detail_1_1block__pool_aa6b90791142bd840b575e04961198c27}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a34e4d10f6390acc2bb41da2074756ec2}\label{structseq_1_1detail_1_1block__pool_a34e4d10f6390acc2bb41da2074756ec2}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-Allocator \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ Allocator \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a2c183c73b60c6e7f1a88911607d1a666}\label{structseq_1_1detail_1_1block__pool_a2c183c73b60c6e7f1a88911607d1a666}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_aa4a8a3af5618d03aaef2d34ee46f205b}\label{structseq_1_1detail_1_1block__pool_aa4a8a3af5618d03aaef2d34ee46f205b}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-Allocator\& \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ Allocator\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a12066ba1189a4816b19514044be3ea5c}\label{structseq_1_1detail_1_1block__pool_a12066ba1189a4816b19514044be3ea5c}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a0fd5e84aaf631bee6389fc31a88e55af}\label{structseq_1_1detail_1_1block__pool_a0fd5e84aaf631bee6389fc31a88e55af}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!init@{init}}
 \index{init@{init}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{init()}{init()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-bool \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::init (\begin{DoxyParamCaption}\item[{unsigned}]{\+\_\+elem\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::init (\begin{DoxyParamCaption}\item[{unsigned}]{\+\_\+elem\+\_\+size }\end{DoxyParamCaption}) -\/$>$ bool
+			\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a32ae6cbcfc9ad04f53e51c4d77b98060}\label{structseq_1_1detail_1_1block__pool_a32ae6cbcfc9ad04f53e51c4d77b98060}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_ab500435ee88871017e0a9baae9467bc3}\label{structseq_1_1detail_1_1block__pool_ab500435ee88871017e0a9baae9467bc3}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!is\_full@{is\_full}}
 \index{is\_full@{is\_full}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{is\_full()}{is\_full()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::is\+\_\+full (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::is\+\_\+full (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ bool \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a2dee257df8d74639df7c17553792a458}\label{structseq_1_1detail_1_1block__pool_a2dee257df8d74639df7c17553792a458}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_ad7cc2e00298a88a9b5b5dd9e3237b463}\label{structseq_1_1detail_1_1block__pool_ad7cc2e00298a88a9b5b5dd9e3237b463}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!is\_inside@{is\_inside}}
 \index{is\_inside@{is\_inside}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{is\_inside()}{is\_inside()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::is\+\_\+inside (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::is\+\_\+inside (\begin{DoxyParamCaption}\item[{void $\ast$}]{ptr }\end{DoxyParamCaption}) const -\/$>$ bool \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a8336e8c5374e29f56a932fbb4fa53c01}\label{structseq_1_1detail_1_1block__pool_a8336e8c5374e29f56a932fbb4fa53c01}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a3c2511b631e5f46afa41992e30bc9eec}\label{structseq_1_1detail_1_1block__pool_a3c2511b631e5f46afa41992e30bc9eec}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!memory\_footprint@{memory\_footprint}}
 \index{memory\_footprint@{memory\_footprint}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{memory\_footprint()}{memory\_footprint()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_aa5be685378e8a661f2684e3a8e4134f7}\label{structseq_1_1detail_1_1block__pool_aa5be685378e8a661f2684e3a8e4134f7}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_ae58b51c7efc87abdc3fdd07b430aeac8}\label{structseq_1_1detail_1_1block__pool_ae58b51c7efc87abdc3fdd07b430aeac8}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!next@{next}}
 \index{next@{next}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{next()}{next()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} char$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::next (\begin{DoxyParamCaption}\item[{char $\ast$}]{o }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::next (\begin{DoxyParamCaption}\item[{char $\ast$}]{o }\end{DoxyParamCaption}) -\/$>$ char$\ast$ \hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a7eba31ac1880c32535b17cbb5f8925a4}\label{structseq_1_1detail_1_1block__pool_a7eba31ac1880c32535b17cbb5f8925a4}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a22ad59027608fbf56ddb4f04ed60de25}\label{structseq_1_1detail_1_1block__pool_a22ad59027608fbf56ddb4f04ed60de25}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!objects\_minus\_deffered@{objects\_minus\_deffered}}
 \index{objects\_minus\_deffered@{objects\_minus\_deffered}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{objects\_minus\_deffered()}{objects\_minus\_deffered()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::objects\+\_\+minus\+\_\+deffered (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::objects\+\_\+minus\+\_\+deffered (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a461d197bc17baaf54bebf2132cbed60f}\label{structseq_1_1detail_1_1block__pool_a461d197bc17baaf54bebf2132cbed60f}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_a6e1f8d9c882bffb3f467f778ffb23f8f}\label{structseq_1_1detail_1_1block__pool_a6e1f8d9c882bffb3f467f778ffb23f8f}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!operator=@{operator=}}
 \index{operator=@{operator=}!seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}}
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
 {\footnotesize\ttfamily template$<$class Allocator , size\+\_\+t Align, bool Threaded, bool Generate\+Stats, bool Store\+Header = true$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}}\& \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{seq\+::detail\+::block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}}$<$ Allocator, Align, Threaded, Generate\+Stats, Store\+Header $>$ \&}]{other }\end{DoxyParamCaption}) -\/$>$  \mbox{\hyperlink{structseq_1_1detail_1_1block__pool}{block\+\_\+pool}} \&=delete\hspace{0.3cm}{\ttfamily [delete]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1block__pool_ae852ff5a8f96fa07880e1445d211718b}\label{structseq_1_1detail_1_1block__pool_ae852ff5a8f96fa07880e1445d211718b}} 
 \index{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$@{seq::detail::block\_pool$<$ Allocator, Align, Threaded, GenerateStats, StoreHeader $>$}!reset@{reset}}

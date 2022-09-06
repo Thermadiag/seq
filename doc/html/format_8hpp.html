@@ -93,11 +93,10 @@ $(document).ready(function(){initNavTree('format_8hpp.html',''); initResizable()
 <div class="title">format.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="charconv_8hpp_source.html">charconv.hpp</a>&quot;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
 <code>#include &lt;tuple&gt;</code><br />
+<code>#include &quot;<a class="el" href="charconv_8hpp_source.html">charconv.hpp</a>&quot;</code><br />
 </div>
 <p><a href="format_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -199,7 +198,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_get_p_3_010_00_01_t_00_01_ts_8_8_8_01_4.html">seq::detail::GetP&lt; 0, T, Ts... &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_positional.html">seq::detail::Positional&lt; T &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Positinal type returned by <a class="el" href="namespaceseq.html#a4af98bbd3b7d9b7d7cb552f6f3a8d220" title="Returns a positional object used either by seq::fmt() or operator() of formatting object.">seq::pos()</a> function.  <a href="structseq_1_1detail_1_1_positional.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Positinal type returned by <a class="el" href="namespaceseq.html#ab534e8a0f6ac376f61e976fe7cd65457" title="Returns a positional object used either by seq::fmt() or operator() of formatting object.">seq::pos()</a> function.  <a href="structseq_1_1detail_1_1_positional.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_positional_1_1get.html">seq::detail::Positional&lt; T &gt;::get&lt; Pos &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -247,10 +246,10 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4af98bbd3b7d9b7d7cb552f6f3a8d220"><td class="memTemplParams" colspan="2">template&lt;size_t... Ts&gt; </td></tr>
-<tr class="memitem:a4af98bbd3b7d9b7d7cb552f6f3a8d220"><td class="memTemplItemLeft" align="right" valign="top">detail::Positional&lt; Ts... &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a4af98bbd3b7d9b7d7cb552f6f3a8d220">seq::pos</a> ()</td></tr>
-<tr class="memdesc:a4af98bbd3b7d9b7d7cb552f6f3a8d220"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a positional object used either by <a class="el" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt()</a> or operator() of formatting object.  <a href="namespaceseq.html#a4af98bbd3b7d9b7d7cb552f6f3a8d220">More...</a><br /></td></tr>
-<tr class="separator:a4af98bbd3b7d9b7d7cb552f6f3a8d220"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab534e8a0f6ac376f61e976fe7cd65457"><td class="memTemplParams" colspan="2">template&lt;size_t... Ts&gt; </td></tr>
+<tr class="memitem:ab534e8a0f6ac376f61e976fe7cd65457"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab534e8a0f6ac376f61e976fe7cd65457">seq::pos</a> () -&gt; detail::Positional&lt; Ts... &gt;</td></tr>
+<tr class="memdesc:ab534e8a0f6ac376f61e976fe7cd65457"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a positional object used either by <a class="el" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt()</a> or operator() of formatting object.  <a href="namespaceseq.html#ab534e8a0f6ac376f61e976fe7cd65457">More...</a><br /></td></tr>
+<tr class="separator:ab534e8a0f6ac376f61e976fe7cd65457"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21b27d9d28ab49b4e36657f9e95013c7"><td class="memTemplParams" colspan="2">template&lt;class ... Args&gt; </td></tr>
 <tr class="memitem:a21b27d9d28ab49b4e36657f9e95013c7"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a> (Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), void, Args... &gt;::return_type</td></tr>
 <tr class="separator:a21b27d9d28ab49b4e36657f9e95013c7"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -1,4 +1,7 @@
-#pragma once
+#ifndef SEQ_ORDERED_MAP_HPP
+#define SEQ_ORDERED_MAP_HPP
+
+
 
 /** @file */
 
@@ -166,8 +169,8 @@ namespace seq
 			HashEqual(const Hash& h, const Equal& e) : Hash(h), Equal(e) {}
 			HashEqual(const HashEqual& other) : Hash(other), Equal(other) {}
 
-			Hash hash_function() const { return static_cast<Hash&>(*this); }
-			Equal key_eq() const { return static_cast<Equal&>(*this); }
+			auto hash_function() const -> Hash { return static_cast<Hash&>(*this); }
+			auto key_eq() const -> Equal { return static_cast<Equal&>(*this); }
 
 			template< class... Args >
 			SEQ_ALWAYS_INLINE size_t hash(Args&&... args) const noexcept { return (Hash::operator()(std::forward<Args>(args)...)); }
@@ -178,11 +181,11 @@ namespace seq
 		struct HashEqual<Hash,Equal,true,true>
 		{
 			HashEqual() {}
-			HashEqual(const Hash& , const Equal& )  {}
-			HashEqual(const HashEqual& ) {}
+			HashEqual(const Hash&  /*unused*/, const Equal&  /*unused*/)  {}
+			HashEqual(const HashEqual&  /*unused*/) {}
 
-			Hash hash_function() const { return Hash(); }
-			Equal key_eq() const { return Equal(); }
+			auto hash_function() const -> Hash { return Hash(); }
+			auto key_eq() const -> Equal { return Equal(); }
 
 			template< class... Args >
 			SEQ_ALWAYS_INLINE size_t hash(Args&&... args) const noexcept { return (Hash{}(std::forward<Args>(args)...)); }
@@ -193,11 +196,11 @@ namespace seq
 		struct HashEqual<Hash, Equal, true,false> : private Equal
 		{
 			HashEqual() {}
-			HashEqual(const Hash& , const Equal& e) :  Equal(e) {}
+			HashEqual(const Hash&  /*unused*/, const Equal& e) :  Equal(e) {}
 			HashEqual(const HashEqual& other) : Equal(other) {}
 
-			Hash hash_function() const { return Hash(); }
-			Equal key_eq() const { return static_cast<Equal&>(*this); }
+			auto hash_function() const -> Hash { return Hash(); }
+			auto key_eq() const -> Equal { return static_cast<Equal&>(*this); }
 
 			template< class... Args >
 			SEQ_ALWAYS_INLINE size_t hash(Args&&... args) const noexcept { return (Hash{}(std::forward<Args>(args)...)); }
@@ -208,11 +211,11 @@ namespace seq
 		struct HashEqual<Hash, Equal, false, true> : private Hash
 		{
 			HashEqual() {}
-			HashEqual(const Hash& h, const Equal& ) : Hash(h) {}
+			HashEqual(const Hash& h, const Equal&  /*unused*/) : Hash(h) {}
 			HashEqual(const HashEqual& other) : Hash(other) {}
 
-			Hash hash_function() const { return static_cast<Hash&>(*this); }
-			Equal key_eq() const { return Equal(); }
+			auto hash_function() const -> Hash { return static_cast<Hash&>(*this); }
+			auto key_eq() const -> Equal { return Equal(); }
 
 			template< class... Args >
 			SEQ_ALWAYS_INLINE size_t hash(Args&&... args) const noexcept { return (Hash::operator()(std::forward<Args>(args)...)); }
@@ -326,13 +329,13 @@ namespace seq
 
 
 		private:
-			static node_type* null_node() {
+			static auto null_node() -> node_type* {
 				// Null node used to initialize d_buckets (avoid a check on lookup)
 				static node_type null;
 				return &null;
 			}
 
-			node_type* find_node(size_t hash, const const_iterator& it)
+			auto find_node(size_t hash, const const_iterator& it) -> node_type*
 			{
 				// Find an existing node based on a sequence iterator and the hash value
 				size_t index = hash & d_hash_mask;
@@ -343,7 +346,7 @@ namespace seq
 				}
 				return d_buckets + index;
 			}
-			node_type* find_node(const const_iterator& it)
+			auto find_node(const const_iterator& it) -> node_type*
 			{
 				// Find an existing node based on a sequence iterator
 				return find_node(hash_key(extract_key::key(*it)), it);
@@ -514,7 +517,7 @@ namespace seq
 				}
 			}
 
-			node_type* make_buckets(size_t size) const
+			auto make_buckets(size_t size) const -> node_type*
 			{
 				// Allocate/initialize nodes
 				node_allocator al = d_seq.get_allocator();
@@ -534,24 +537,24 @@ namespace seq
 
 			// Returns distance between 2 iterators, or 0 for non random access iterators
 			template<class Iter, class Cat>
-			std::ptrdiff_t iter_distance(const Iter& it1, const Iter& it2, Cat) const noexcept { return 0; }
+			auto iter_distance(const Iter& it1, const Iter& it2, Cat /*unused*/) const noexcept -> std::ptrdiff_t { return 0; }
 			template<class Iter>
-			std::ptrdiff_t iter_distance(const Iter& it1, const Iter& it2, std::random_access_iterator_tag) const noexcept { return it1 - it2; }
+			auto iter_distance(const Iter& it1, const Iter& it2, std::random_access_iterator_tag /*unused*/) const noexcept -> std::ptrdiff_t { return it1 - it2; }
 			template<class Iter>
-			std::ptrdiff_t distance(const Iter& it1, const Iter& it2)const noexcept {
+			auto distance(const Iter& it1, const Iter& it2)const noexcept -> std::ptrdiff_t {
 				return iter_distance(it1, it2, typename std::iterator_traits<Iter>::iterator_category());
 			}
 
 		public:
 
-			SparseFlatNodeHashTable(const Hash& hash = Hash(),
-				const Equal& equal = Equal(),
-				const Allocator& alloc = Allocator()) noexcept
+			explicit SparseFlatNodeHashTable(const Hash& hash,
+				const Equal& equal,
+				const Allocator& alloc) noexcept
 				:base_type(hash,equal), d_seq(alloc), d_buckets(null_node()), d_hash_mask(0), d_next_target(0), d_max_dist(1), d_load_factor(0.6f)
 			{
 			}
 			SparseFlatNodeHashTable(SparseFlatNodeHashTable&& other)
-				:base_type(other.hash_function(), other.key_eq()), d_seq(std::move(other.d_seq)),
+ noexcept 				:base_type(other.hash_function(), other.key_eq()), d_seq(std::move(other.d_seq)),
 				d_buckets(other.d_buckets), d_hash_mask(other.d_hash_mask),
 				d_next_target(other.d_next_target), d_max_dist(other.d_max_dist),
 				d_load_factor(other.d_load_factor)
@@ -675,7 +678,7 @@ namespace seq
 			
 
 			template< class... Args >
-			const_iterator find_linear_hash(size_t hash, Args&&... args) const noexcept
+			const_iterator find_linear_hash(size_t hash, Args&&... args) const 
 			{
 				// Search for given value considering he hash table to be purely linear (no robin hood probing and potential tombstones)
 				check_hash_operation();
@@ -950,32 +953,6 @@ namespace seq
 
 
 
-
-
-
-
-	/// @brief Transparent comparison functor, in case std::equal_to<void> is not available
-	///
-	struct equal_to_t
-	{
-		using is_transparent = std::true_type;
-		template<class U, class V>
-		bool operator()(const U& u, const V& v) const {
-			return u == v;
-		}
-	};
-	/// @brief Transparent hash functor using std::hash<T>
-	///
-	template<class T>
-	struct hash_t
-	{
-		using is_transparent = std::true_type;
-		template<class U>
-		size_t operator()(const U & value) const { return std::hash<T>{}(value); }
-	};
-
-
-
 	/// @brief Associative container that contains a set of unique objects of type Key. Search, insertion, and removal have average constant-time complexity.
 	/// @tparam Key Key type
 	/// @tparam Hash Hash function
@@ -1209,7 +1186,7 @@ namespace seq
 		ordered_set(const Hash& hash = Hash(),
 			const KeyEqual& equal = KeyEqual(),
 			const Allocator& alloc = Allocator()) noexcept
-			:base_type(hash,equal,alloc)
+			:base_type(hash, equal, alloc)
 		{}
 		/// @brief Constructs empty container. Sets max_load_factor() to 0.6.
 		/// @param alloc allocator to use for all memory allocations of this container
@@ -1244,7 +1221,7 @@ namespace seq
 		template< class InputIt >
 		ordered_set(InputIt first, InputIt last,
 			const Allocator& alloc)
-			: ordered_set(first, last, Hash(), key_equal(), alloc) 
+			: ordered_set(first, last, Hash(), key_equal(), alloc)
 		{}
 		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.6. 
 		/// If multiple elements in the range have keys that compare equivalent, only the first occurence is inserted.
@@ -1258,7 +1235,7 @@ namespace seq
 		ordered_set(InputIt first, InputIt last,
 			const Hash& hash,
 			const Allocator& alloc)
-			: ordered_set(first, last, hash, key_equal(), alloc) 
+			: ordered_set(first, last, hash, key_equal(), alloc)
 		{}
 		/// @brief Copy constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
@@ -1290,7 +1267,7 @@ namespace seq
 		/// @param other another container to be used as source to initialize the elements of the container with
 		/// @param alloc allocator to use for all memory allocations of this container
 		ordered_set(ordered_set&& other, const Allocator& alloc)
-			:base_type(std::move(other),alloc)
+			:base_type(std::move(other), alloc)
 		{}
 		ordered_set(std::initializer_list<value_type> init,
 			const Hash& hash = Hash(),
@@ -1315,8 +1292,9 @@ namespace seq
 			:ordered_set(init.begin(), init.end(), alloc)
 		{}
 
+
 		/// @brief Copy assignment operator
-		ordered_set& operator=(const ordered_set& other)
+		auto operator=(const ordered_set& other) -> ordered_set&
 		{
 			this->d_seq = other.sequence();
 			if (other.dirty()) this->mark_dirty();
@@ -1326,76 +1304,76 @@ namespace seq
 		}
 
 		/// @brief Move assignment operator
-		ordered_set& operator=( ordered_set&& other)
-		{
+		auto operator=( ordered_set&& other) noexcept -> ordered_set&
+  		{
 			base_type::swap(other);
 			return *this;
 		}
 
 		/// @brief Returns the container size
-		size_t size() const noexcept { return this->d_seq.size(); }
+		auto size() const noexcept -> size_t { return this->d_seq.size(); }
 		/// @brief Returns the container maximum size
-		size_t max_size() const noexcept { return this->d_seq.max_size(); }
+		auto max_size() const noexcept -> size_t { return this->d_seq.max_size(); }
 		/// @brief Returns true if the container is empty, false otherwise
-		bool empty() const noexcept { return this->d_seq.empty(); }
+		auto empty() const noexcept -> bool { return this->d_seq.empty(); }
 
 		/// @brief Returns the current maximum possible probe distance
-		int max_probe_distance() const noexcept { return this->d_max_dist; }
+		auto max_probe_distance() const noexcept -> int { return this->d_max_dist; }
 
 		/// @brief Returns the current load factor
-		float load_factor() const noexcept { return base_type::load_factor(); }
+		auto load_factor() const noexcept -> float { return base_type::load_factor(); }
 		/// @brief Returns the current maximum load factor
-		float max_load_factor() const noexcept { return base_type::max_load_factor(); }
+		auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
 		/// @brief Set the maximum load factor
 		void max_load_factor(float f) noexcept { base_type::max_load_factor(f); }
 
 		/// @brief Returns the container allocator object
-		allocator_type& get_allocator() noexcept { return this->d_seq.get_allocator(); }
+		auto get_allocator() noexcept -> allocator_type& { return this->d_seq.get_allocator(); }
 		/// @brief Returns the container allocator object
-		allocator_type get_allocator() const noexcept { return this->d_seq.get_allocator(); }
+		auto get_allocator() const noexcept -> allocator_type { return this->d_seq.get_allocator(); }
 
 		/// @brief Returns the hash function
-		hasher hash_function() const { return this->base_type::hash_function(); }
+		auto hash_function() const -> hasher { return this->base_type::hash_function(); }
 		/// @brief Returns the equality comparison function
-		key_equal key_eq() const { return this->base_type::key_eq(); }
+		auto key_eq() const -> key_equal { return this->base_type::key_eq(); }
 
 		/// @brief Returns the underlying sequence object.
 		/// Calling this function will mark the container as dirty. Any further attempts to call members like find() or insert() (relying on the hash function)
 		/// will raise a std::logic_error. To mark the container as non dirty anymore, the user must call ordered_set::rehash().
 		/// @return a reference to the underlying seq::sequence object
-		sequence_type& sequence() noexcept { this->base_type::mark_dirty(); return this->d_seq; }
+		auto sequence() noexcept -> sequence_type& { this->base_type::mark_dirty(); return this->d_seq; }
 		/// @brief Returns the underlying sequence object. Do NOT mark the container as dirty.
-		const sequence_type & sequence() const noexcept { return this->d_seq; }
+		auto sequence() const noexcept -> const sequence_type & { return this->d_seq; }
 		/// @brief Returns the underlying sequence object. Do NOT mark the container as dirty.
-		const sequence_type & csequence() const noexcept { return this->d_seq; }
+		auto csequence() const noexcept -> const sequence_type & { return this->d_seq; }
 
 		/// @brief Returns an iterator to the first element of the container.
-		iterator end() noexcept { return this->d_seq.end(); }
+		auto end() noexcept -> iterator { return this->d_seq.end(); }
 		/// @brief Returns an iterator to the first element of the container.
-		const_iterator end() const noexcept { return this->d_seq.end(); }
+		auto end() const noexcept -> const_iterator { return this->d_seq.end(); }
 		/// @brief Returns an iterator to the first element of the container.
-		const_iterator cend() const noexcept { return this->d_seq.end(); }
+		auto cend() const noexcept -> const_iterator { return this->d_seq.end(); }
 		
 		/// @brief Returns an iterator to the element following the last element of the container.
-		iterator begin() noexcept { return this->d_seq.begin(); }
+		auto begin() noexcept -> iterator { return this->d_seq.begin(); }
 		/// @brief Returns an iterator to the element following the last element of the container.
-		const_iterator begin() const noexcept { return this->d_seq.begin(); }
+		auto begin() const noexcept -> const_iterator { return this->d_seq.begin(); }
 		/// @brief Returns an iterator to the element following the last element of the container.
-		const_iterator cbegin() const noexcept { return this->d_seq.begin(); }
+		auto cbegin() const noexcept -> const_iterator { return this->d_seq.begin(); }
 
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		reverse_iterator rbegin() noexcept { return this->d_seq.rbegin(); }
+		auto rbegin() noexcept -> reverse_iterator { return this->d_seq.rbegin(); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		const_reverse_iterator rbegin() const noexcept  { return this->d_seq.rbegin(); }
+		auto rbegin() const noexcept -> const_reverse_iterator  { return this->d_seq.rbegin(); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		const_reverse_iterator crbegin() const noexcept  { return this->d_seq.rbegin(); }
+		auto crbegin() const noexcept -> const_reverse_iterator  { return this->d_seq.rbegin(); }
 
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		reverse_iterator rend() noexcept { return this->d_seq.rend(); }
+		auto rend() noexcept -> reverse_iterator { return this->d_seq.rend(); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		const_reverse_iterator rend() const noexcept { return this->d_seq.rend(); }
+		auto rend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		const_reverse_iterator crend() const noexcept { return this->d_seq.rend(); }
+		auto crend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
 
 		/// @brief Clear the container
 		void clear()
@@ -1493,14 +1471,14 @@ namespace seq
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
 		template< class... Args >
-		std::pair<iterator, bool> emplace(Args&&... args)
+		auto emplace(Args&&... args) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Anywhere>(std::forward<Args>(args)...);
 		}
 		/// @brief Inserts a new element into the container constructed in-place with the given args if there is no element with the key in the container.
 		/// Same as ordered_set::emplace().
 		template <class... Args>
-		iterator emplace_hint(const_iterator hint, Args&&... args)
+		auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
 			(void)hint;
 			return this->base_type::template insert<detail::Anywhere>(std::forward<Args>(args)...).first;
@@ -1512,7 +1490,7 @@ namespace seq
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		std::pair<iterator, bool> insert(const value_type& value)
+		auto insert(const value_type& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Anywhere>(value);
 		}
@@ -1523,20 +1501,20 @@ namespace seq
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		std::pair<iterator, bool> insert( value_type&& value)
+		auto insert( value_type&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Anywhere>(std::move(value));
 		}
 		/// @brief Inserts element into the container, if the container doesn't already contain an element with an equivalent key.
 		/// Same as ordered_set::insert().
-		iterator insert(const_iterator hint, const value_type& value)
+		auto insert(const_iterator hint, const value_type& value) -> iterator
 		{
 			(void)hint;
 			return insert(value).first;
 		}
 		/// @brief Inserts element into the container using move semantic, if the container doesn't already contain an element with an equivalent key.
 		/// Same as ordered_set::insert().
-		iterator insert(const_iterator hint, value_type&& value)
+		auto insert(const_iterator hint, value_type&& value) -> iterator
 		{
 			(void)hint;
 			return insert(std::move(value)).first;
@@ -1572,7 +1550,7 @@ namespace seq
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
 		template< class... Args >
-		std::pair<iterator, bool> emplace_back(Args&&... args)
+		auto emplace_back(Args&&... args) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Back>(std::forward<Args>(args)...);
 		}
@@ -1581,7 +1559,7 @@ namespace seq
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		std::pair<iterator, bool> push_back(const value_type& value)
+		auto push_back(const value_type& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Back>(value);
 		}
@@ -1590,7 +1568,7 @@ namespace seq
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		std::pair<iterator, bool> push_back(value_type&& value)
+		auto push_back(value_type&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Back>(std::move(value));
 		}
@@ -1606,7 +1584,7 @@ namespace seq
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
 		template< class... Args >
-		std::pair<iterator, bool> emplace_front(Args&&... args)
+		auto emplace_front(Args&&... args) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Front>(std::forward<Args>(args)...);
 		}
@@ -1615,7 +1593,7 @@ namespace seq
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		std::pair<iterator, bool> push_front(const value_type& value)
+		auto push_front(const value_type& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Front>(value);
 		}
@@ -1624,7 +1602,7 @@ namespace seq
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		std::pair<iterator, bool> push_front(value_type&& value)
+		auto push_front(value_type&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Front>(std::move(value));
 		}
@@ -1634,7 +1612,7 @@ namespace seq
 		/// Iterators and references are not invalidated. Rehashing never occurs.
 		/// @param pos iterator to the element to erase
 		/// @return iterator to the next element
-		iterator erase(const_iterator pos)
+		auto erase(const_iterator pos) -> iterator
 		{
 			return this->base_type::erase(pos.iter);
 		}
@@ -1642,7 +1620,7 @@ namespace seq
 		/// Iterators and references are not invalidated. Rehashing never occurs.
 		/// @param key key to be erased
 		/// @return number of erased elements (0 or 1)
-		size_type erase(const Key& key)
+		auto erase(const Key& key) -> size_type
 		{
 			return this->base_type::erase(key);
 		}
@@ -1654,7 +1632,7 @@ namespace seq
 		/// @return number of erased elements (0 or 1)
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-		size_type erase(const K& x)
+		auto erase(const K& x) -> size_type
 		{
 			return this->base_type::erase(x);
 		}
@@ -1662,7 +1640,7 @@ namespace seq
 		/// @param first range of elements to remove
 		/// @param last range of elements to remove
 		/// @return Iterator following the last removed element
-		iterator erase(const_iterator first, const_iterator last)
+		auto erase(const_iterator first, const_iterator last) -> iterator
 		{
 			return this->base_type::erase(first.iter,last.iter);
 		}
@@ -1794,7 +1772,7 @@ namespace seq
 			LessAdapter() {}
 			LessAdapter(Less l) :l(l) {}
 			template<class U, class V>
-			bool operator()(const U& v1, const V& v2) const {
+			auto operator()(const U& v1, const V& v2) const -> bool {
 				return l(extract_key::key(v1), extract_key::key(v2));
 			}
 		};
@@ -1980,7 +1958,7 @@ namespace seq
 			:ordered_map(init.begin(), init.end(), alloc)
 		{}
 
-		ordered_map& operator=(const ordered_map& other)
+		auto operator=(const ordered_map& other) -> ordered_map&
 		{
 			this->d_seq = other.sequence();
 			if (other.dirty()) this->mark_dirty();
@@ -1988,47 +1966,47 @@ namespace seq
 			rehash();
 			return *this;
 		}
-		ordered_map& operator=(ordered_map&& other)
-		{
+		auto operator=(ordered_map&& other) noexcept -> ordered_map&
+  		{
 			base_type::swap(other);
 			return *this;
 		}
 
-		size_t size() const noexcept { return this->d_seq.size(); }
-		size_t max_size() const noexcept { return this->d_seq.max_size(); }
-		bool empty() const noexcept { return this->d_seq.empty(); }
+		auto size() const noexcept -> size_t { return this->d_seq.size(); }
+		auto max_size() const noexcept -> size_t { return this->d_seq.max_size(); }
+		auto empty() const noexcept -> bool { return this->d_seq.empty(); }
 
-		int max_probe_distance() const noexcept { return this->d_max_dist; }
+		auto max_probe_distance() const noexcept -> int { return this->d_max_dist; }
 
-		float load_factor() const noexcept { return base_type::load_factor(); }
-		float max_load_factor() const noexcept { return base_type::max_load_factor(); }
+		auto load_factor() const noexcept -> float { return base_type::load_factor(); }
+		auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
 		void max_load_factor(float f) noexcept { base_type::max_load_factor(f); }
 
-		allocator_type& get_allocator() noexcept { return this->d_seq.get_allocator(); }
-		allocator_type get_allocator() const noexcept { return this->d_seq.get_allocator(); }
+		auto get_allocator() noexcept -> allocator_type& { return this->d_seq.get_allocator(); }
+		auto get_allocator() const noexcept -> allocator_type { return this->d_seq.get_allocator(); }
 
-		hasher hash_function() const { return this->base_type::hash_function(); }
-		key_equal key_eq() const { return this->base_type::key_eq(); }
+		auto hash_function() const -> hasher { return this->base_type::hash_function(); }
+		auto key_eq() const -> key_equal { return this->base_type::key_eq(); }
 
-		sequence_type& sequence() noexcept { this->base_type::mark_dirty(); return this->d_seq; }
-		const sequence_type& sequence() const noexcept { return this->d_seq; }
-		const sequence_type& csequence() const noexcept { return this->d_seq; }
+		auto sequence() noexcept -> sequence_type& { this->base_type::mark_dirty(); return this->d_seq; }
+		auto sequence() const noexcept -> const sequence_type& { return this->d_seq; }
+		auto csequence() const noexcept -> const sequence_type& { return this->d_seq; }
 
-		iterator end() noexcept { return this->d_seq.end(); }
-		const_iterator end() const noexcept { return this->d_seq.end(); }
-		const_iterator cend() const noexcept { return this->d_seq.end(); }
+		auto end() noexcept -> iterator { return this->d_seq.end(); }
+		auto end() const noexcept -> const_iterator { return this->d_seq.end(); }
+		auto cend() const noexcept -> const_iterator { return this->d_seq.end(); }
 
-		iterator begin() noexcept { return this->d_seq.begin(); }
-		const_iterator begin() const noexcept { return this->d_seq.begin(); }
-		const_iterator cbegin() const noexcept { return this->d_seq.begin(); }
+		auto begin() noexcept -> iterator { return this->d_seq.begin(); }
+		auto begin() const noexcept -> const_iterator { return this->d_seq.begin(); }
+		auto cbegin() const noexcept -> const_iterator { return this->d_seq.begin(); }
 
-		reverse_iterator rbegin() noexcept { return this->d_seq.rbegin(); }
-		const_reverse_iterator rbegin() const noexcept { return this->d_seq.rbegin(); }
-		const_reverse_iterator crbegin() const noexcept { return this->d_seq.rbegin(); }
+		auto rbegin() noexcept -> reverse_iterator { return this->d_seq.rbegin(); }
+		auto rbegin() const noexcept -> const_reverse_iterator { return this->d_seq.rbegin(); }
+		auto crbegin() const noexcept -> const_reverse_iterator { return this->d_seq.rbegin(); }
 
-		reverse_iterator rend() noexcept { return this->d_seq.rend(); }
-		const_reverse_iterator rend() const noexcept { return this->d_seq.rend(); }
-		const_reverse_iterator crend() const noexcept { return this->d_seq.rend(); }
+		auto rend() noexcept -> reverse_iterator { return this->d_seq.rend(); }
+		auto rend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
+		auto crend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
 
 		void clear()
 		{
@@ -2077,41 +2055,41 @@ namespace seq
 
 
 		template< class... Args >
-		std::pair<iterator, bool> emplace(Args&&... args)
+		auto emplace(Args&&... args) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Anywhere>(std::forward<Args>(args)...);
 		}
 		template <class... Args>
-		iterator emplace_hint(const_iterator hint, Args&&... args)
+		auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
 			(void)hint;
 			return this->base_type::template insert<detail::Anywhere>(std::forward<Args>(args)...).first;
 		}
-		std::pair<iterator, bool> insert(const value_type& value)
+		auto insert(const value_type& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Anywhere>(value);
 		}
-		std::pair<iterator, bool> insert(value_type&& value)
+		auto insert(value_type&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Anywhere>(std::move(value));
 		}
 		template< class P >
-		std::pair<iterator, bool> insert(P&& value)
+		auto insert(P&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Anywhere>(std::forward<P>(value));
 		}
-		iterator insert(const_iterator hint, const value_type& value)
+		auto insert(const_iterator hint, const value_type& value) -> iterator
 		{
 			(void)hint;
 			return insert(value).first;
 		}
-		iterator insert(const_iterator hint, value_type&& value)
+		auto insert(const_iterator hint, value_type&& value) -> iterator
 		{
 			(void)hint;
 			return insert(std::move(value)).first;
 		}
 		template< class P >
-		iterator insert(const_iterator hint, P&& value)
+		auto insert(const_iterator hint, P&& value) -> iterator
 		{
 			(void)hint;
 			return this->base_type::template insert<detail::Anywhere>(std::forward<P>(value));
@@ -2130,7 +2108,7 @@ namespace seq
 
 
 		template <class M>
-		std::pair<iterator, bool> insert_or_assign(const Key& k, M&& obj)
+		auto insert_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end()) {
@@ -2140,7 +2118,7 @@ namespace seq
 			return this->base_type::template insert_no_check<detail::Anywhere>(k, std::forward<M>(obj));
 		}
 		template <class M>
-		std::pair<iterator, bool> insert_or_assign(Key&& k, M&& obj)
+		auto insert_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end()) {
@@ -2150,13 +2128,13 @@ namespace seq
 			return this->base_type::template insert_no_check<detail::Anywhere>(std::move(k), std::forward<M>(obj));
 		}
 		template <class M>
-		iterator insert_or_assign(const_iterator hint, const Key& k, M&& obj)
+		auto insert_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return insert_or_assign(k, std::forward<M>(obj)).first;
 		}
 		template <class M>
-		iterator insert_or_assign(const_iterator hint, Key&& k, M&& obj)
+		auto insert_or_assign(const_iterator hint, Key&& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return insert_or_assign(std::move(k), std::forward<M>(obj)).first;
@@ -2164,7 +2142,7 @@ namespace seq
 
 
 		template <class M>
-		std::pair<iterator, bool> push_back_or_assign(const Key& k, M&& obj)
+		auto push_back_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end()) {
@@ -2174,7 +2152,7 @@ namespace seq
 			return this->base_type::template insert_no_check<detail::Back>(k, std::forward<M>(obj));
 		}
 		template <class M>
-		std::pair<iterator, bool> push_back_or_assign(Key&& k, M&& obj)
+		auto push_back_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end()) {
@@ -2184,13 +2162,13 @@ namespace seq
 			return this->base_type::template insert_no_check<detail::Back>(std::move(k), std::forward<M>(obj));
 		}
 		template <class M>
-		iterator push_back_or_assign(const_iterator hint, const Key& k, M&& obj)
+		auto push_back_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return push_back_or_assign(k, std::forward<M>(obj)).first;
 		}
 		template <class M>
-		iterator push_back_or_assign(const_iterator hint, Key&& k, M&& obj)
+		auto push_back_or_assign(const_iterator hint, Key&& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return push_back_or_assign(std::move(k), std::forward<M>(obj)).first;
@@ -2199,7 +2177,7 @@ namespace seq
 
 
 		template <class M>
-		std::pair<iterator, bool> push_front_or_assign(const Key& k, M&& obj)
+		auto push_front_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end()) {
@@ -2209,7 +2187,7 @@ namespace seq
 			return this->base_type::template insert_no_check<detail::Front>(k, std::forward<M>(obj));
 		}
 		template <class M>
-		std::pair<iterator, bool> push_front_or_assign(Key&& k, M&& obj)
+		auto push_front_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end()) {
@@ -2219,13 +2197,13 @@ namespace seq
 			return this->base_type::template insert_no_check<detail::Front>(std::move(k), std::forward<M>(obj));
 		}
 		template <class M>
-		iterator push_front_or_assign(const_iterator hint, const Key& k, M&& obj)
+		auto push_front_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return push_front_or_assign(k, std::forward<M>(obj)).first;
 		}
 		template <class M>
-		iterator push_front_or_assign(const_iterator hint, Key&& k, M&& obj)
+		auto push_front_or_assign(const_iterator hint, Key&& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return push_front_or_assign(std::move(k), std::forward<M>(obj)).first;
@@ -2233,39 +2211,39 @@ namespace seq
 
 
 		template< class... Args >
-		std::pair<iterator, bool> emplace_back(Args&&... args)
+		auto emplace_back(Args&&... args) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Back>(std::forward<Args>(args)...);
 		}
-		std::pair<iterator, bool> push_back(const value_type& value)
+		auto push_back(const value_type& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Back>(value);
 		}
-		std::pair<iterator, bool> push_back(value_type&& value)
+		auto push_back(value_type&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Back>(std::move(value));
 		}
 		template<class P>
-		std::pair<iterator, bool> push_back(P&& value)
+		auto push_back(P&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Back>(std::forward<P>(value));
 		}
 
 		template< class... Args >
-		std::pair<iterator, bool> emplace_front(Args&&... args)
+		auto emplace_front(Args&&... args) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Front>(std::forward<Args>(args)...);
 		}
-		std::pair<iterator, bool> push_front(const value_type& value)
+		auto push_front(const value_type& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Front>(value);
 		}
-		std::pair<iterator, bool> push_front(value_type&& value)
+		auto push_front(value_type&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Front>(std::move(value));
 		}
 		template<class P>
-		std::pair<iterator, bool> push_front(P&& value)
+		auto push_front(P&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template insert<detail::Front>(std::forward<P>(value));
 		}
@@ -2274,7 +2252,7 @@ namespace seq
 
 
 		template< class... Args >
-		std::pair<iterator, bool> try_emplace(const Key& k, Args&&... args)
+		auto try_emplace(const Key& k, Args&&... args) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end())
@@ -2285,7 +2263,7 @@ namespace seq
 				std::forward_as_tuple(std::forward<Args>(args)...)));
 		}
 		template< class... Args >
-		std::pair<iterator, bool> try_emplace(Key&& k, Args&&... args)
+		auto try_emplace(Key&& k, Args&&... args) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end())
@@ -2296,13 +2274,13 @@ namespace seq
 					std::forward_as_tuple(std::forward<Args>(args)...)));
 		}
 		template< class... Args >
-		iterator try_emplace(const_iterator hint, const Key& k, Args&&... args)
+		auto try_emplace(const_iterator hint, const Key& k, Args&&... args) -> iterator
 		{
 			(void)hint;
 			return try_emplace(k, std::forward<Args>(args)...).first;
 		}
 		template< class... Args >
-		iterator try_emplace(const_iterator hint, Key&& k, Args&&... args)
+		auto try_emplace(const_iterator hint, Key&& k, Args&&... args) -> iterator
 		{
 			(void)hint;
 			return try_emplace(std::move(k), std::forward<Args>(args)...).first;
@@ -2312,7 +2290,7 @@ namespace seq
 
 
 		template< class... Args >
-		std::pair<iterator, bool> try_emplace_back(const Key& k, Args&&... args)
+		auto try_emplace_back(const Key& k, Args&&... args) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end())
@@ -2323,7 +2301,7 @@ namespace seq
 					std::forward_as_tuple(std::forward<Args>(args)...)));
 		}
 		template< class... Args >
-		std::pair<iterator, bool> try_emplace_back(Key&& k, Args&&... args)
+		auto try_emplace_back(Key&& k, Args&&... args) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end())
@@ -2334,13 +2312,13 @@ namespace seq
 					std::forward_as_tuple(std::forward<Args>(args)...)));
 		}
 		template< class... Args >
-		iterator try_emplace_back(const_iterator hint, const Key& k, Args&&... args)
+		auto try_emplace_back(const_iterator hint, const Key& k, Args&&... args) -> iterator
 		{
 			(void)hint;
 			return try_emplace_back(k, std::forward<Args>(args)...).first;
 		}
 		template< class... Args >
-		iterator try_emplace_back(const_iterator hint, Key&& k, Args&&... args)
+		auto try_emplace_back(const_iterator hint, Key&& k, Args&&... args) -> iterator
 		{
 			(void)hint;
 			return try_emplace_back(std::move(k), std::forward<Args>(args)...).first;
@@ -2350,7 +2328,7 @@ namespace seq
 
 
 		template< class... Args >
-		std::pair<iterator, bool> try_emplace_front(const Key& k, Args&&... args)
+		auto try_emplace_front(const Key& k, Args&&... args) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end())
@@ -2361,7 +2339,7 @@ namespace seq
 					std::forward_as_tuple(std::forward<Args>(args)...)));
 		}
 		template< class... Args >
-		std::pair<iterator, bool> try_emplace_front(Key&& k, Args&&... args)
+		auto try_emplace_front(Key&& k, Args&&... args) -> std::pair<iterator, bool>
 		{
 			auto it = find(k);
 			if (it != end())
@@ -2372,13 +2350,13 @@ namespace seq
 					std::forward_as_tuple(std::forward<Args>(args)...)));
 		}
 		template< class... Args >
-		iterator try_emplace_front(const_iterator hint, const Key& k, Args&&... args)
+		auto try_emplace_front(const_iterator hint, const Key& k, Args&&... args) -> iterator
 		{
 			(void)hint;
 			return try_emplace_front(k, std::forward<Args>(args)...).first;
 		}
 		template< class... Args >
-		iterator try_emplace_front(const_iterator hint, Key&& k, Args&&... args)
+		auto try_emplace_front(const_iterator hint, Key&& k, Args&&... args) -> iterator
 		{
 			(void)hint;
 			return try_emplace_front(std::move(k), std::forward<Args>(args)...).first;
@@ -2386,14 +2364,14 @@ namespace seq
 
 
 
-		T& at(const Key& key)
+		auto at(const Key& key) -> T&
 		{
 			auto it = find(key);
 			if (it == end())
 				throw std::out_of_range("ordered_map: key not found");
 			return it->second;
 		}
-		const T& at(const Key& key) const
+		auto at(const Key& key) const -> const T&
 		{
 			auto it = find(key);
 			if (it == end())
@@ -2403,7 +2381,7 @@ namespace seq
 
 
 
-		T& operator[](const Key& key)
+		auto operator[](const Key& key) -> T&
 		{
 			auto it = find(key);
 			if (it != end())
@@ -2411,7 +2389,7 @@ namespace seq
 			return this->base_type::template insert_no_check<detail::Anywhere>(
 				value_type(std::piecewise_construct, std::forward_as_tuple(key), std::tuple<>())).first->second;
 		}
-		T& operator[](Key&& key)
+		auto operator[](Key&& key) -> T&
 		{
 			auto it = find(key);
 			if (it != end())
@@ -2422,21 +2400,21 @@ namespace seq
 
 
 
-		iterator erase(const_iterator pos)
+		auto erase(const_iterator pos) -> iterator
 		{
 			return this->base_type::erase(pos.iter);
 		}
-		size_type erase(const Key& key)
+		auto erase(const Key& key) -> size_type
 		{
 			return this->base_type::erase(key);
 		}
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-			size_type erase(const K& key)
+			auto erase(const K& key) -> size_type
 		{
 			return this->base_type::erase(key);
 		}
-		iterator erase(const_iterator first, const_iterator last)
+		auto erase(const_iterator first, const_iterator last) -> iterator
 		{
 			return this->base_type::erase(first.iter, last.iter);
 		}
@@ -2509,7 +2487,7 @@ namespace seq
 		LayoutManagement Layout1,
 		LayoutManagement Layout2
 	>
-		bool operator == (const ordered_set<Key, Hash1, KeyEqual, Allocator1, Layout1>& lhs, const ordered_set<Key, Hash2, KeyEqual, Allocator2, Layout2>& rhs)
+		auto operator == (const ordered_set<Key, Hash1, KeyEqual, Allocator1, Layout1>& lhs, const ordered_set<Key, Hash2, KeyEqual, Allocator2, Layout2>& rhs) -> bool
 	{
 		if (lhs.size() != rhs.size())
 			return false;
@@ -2532,7 +2510,7 @@ namespace seq
 		LayoutManagement Layout1,
 		LayoutManagement Layout2
 	>
-		bool operator != (const ordered_set<Key, Hash1, KeyEqual, Allocator1, Layout1>& lhs, const ordered_set<Key, Hash2, KeyEqual, Allocator2, Layout2>& rhs)
+		auto operator != (const ordered_set<Key, Hash1, KeyEqual, Allocator1, Layout1>& lhs, const ordered_set<Key, Hash2, KeyEqual, Allocator2, Layout2>& rhs) -> bool
 	{
 		return !(lhs == rhs);
 	}
@@ -2548,7 +2526,7 @@ namespace seq
 		LayoutManagement Layout1,
 		class Pred
 	>
-	size_t erase_if(ordered_set<Key, Hash1, KeyEqual, Allocator1, Layout1>& set, Pred p)
+	auto erase_if(ordered_set<Key, Hash1, KeyEqual, Allocator1, Layout1>& set, Pred p) -> size_t
 	{
 		using sequence_type = typename ordered_set<Key, Hash1, KeyEqual, Allocator1, Layout1>::sequence_type;
 		// avoid flagging the map as dirty
@@ -2586,7 +2564,7 @@ namespace seq
 		LayoutManagement Layout1,
 		LayoutManagement Layout2
 	>
-		bool operator == (const ordered_map<Key, T, Hash1, KeyEqual, Allocator1, Layout1>& lhs, const ordered_map<Key, T, Hash2, KeyEqual, Allocator2, Layout2>& rhs)
+		auto operator == (const ordered_map<Key, T, Hash1, KeyEqual, Allocator1, Layout1>& lhs, const ordered_map<Key, T, Hash2, KeyEqual, Allocator2, Layout2>& rhs) -> bool
 	{
 		if (lhs.size() != rhs.size())
 			return false;
@@ -2610,7 +2588,7 @@ namespace seq
 		LayoutManagement Layout1,
 		LayoutManagement Layout2
 	>
-		bool operator != (const ordered_map<Key, T, Hash1, KeyEqual, Allocator1, Layout1>& lhs, const ordered_map<Key, T, Hash2, KeyEqual, Allocator2, Layout2>& rhs)
+		auto operator != (const ordered_map<Key, T, Hash1, KeyEqual, Allocator1, Layout1>& lhs, const ordered_map<Key, T, Hash2, KeyEqual, Allocator2, Layout2>& rhs) -> bool
 	{
 		return !(lhs == rhs);
 	}
@@ -2627,7 +2605,7 @@ namespace seq
 		LayoutManagement Layout1,
 		class Pred
 	>
-		size_t erase_if(ordered_map<Key, T, Hash1, KeyEqual, Allocator1, Layout1>& set, Pred p)
+		auto erase_if(ordered_map<Key, T, Hash1, KeyEqual, Allocator1, Layout1>& set, Pred p) -> size_t
 	{
 		using sequence_type = typename ordered_map<Key, T, Hash1, KeyEqual, Allocator1, Layout1>::sequence_type;
 		// avoid flagging the map as dirty
@@ -2650,3 +2628,5 @@ namespace seq
 	}
 
 }//end namespace seq
+
+#endif

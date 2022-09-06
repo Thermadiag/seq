@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['min_5fblock_5fsize_2565',['min_block_size',['../classseq_1_1deque.html#a3ba6c8bebfda616a22386fe197aa8cb3a7cc35ae60e861ea7a2b359dca0116152',1,'seq::deque']]]
+  ['min_5fblock_5fsize_2531',['min_block_size',['../classseq_1_1tiered__vector.html#a2aaa20913d8c2931c7da304f3212d92ba10dbae124d01fc518a51912d5e7e5a3d',1,'seq::tiered_vector']]]
 ];

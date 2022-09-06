@@ -99,14 +99,14 @@ $(document).ready(function(){initNavTree('structseq_1_1pow__object__allocation.h
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a97b4b293ea2db59c74f609a7918fd1c0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1pow__object__allocation.html#a97b4b293ea2db59c74f609a7918fd1c0">fits</a> (size_t size)</td></tr>
-<tr class="separator:a97b4b293ea2db59c74f609a7918fd1c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96b3bbcdfc797dd6feb44c6dd0bfb06d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1pow__object__allocation.html#a96b3bbcdfc797dd6feb44c6dd0bfb06d">nonPow2</a> (size_t size)</td></tr>
-<tr class="separator:a96b3bbcdfc797dd6feb44c6dd0bfb06d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38f8536ddd3acae4c9664fd74eebfe97"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1pow__object__allocation.html#a38f8536ddd3acae4c9664fd74eebfe97">size_to_idx</a> (size_t size)</td></tr>
-<tr class="separator:a38f8536ddd3acae4c9664fd74eebfe97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abeda536e0be40abc7dffc3ce3324d3fa"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1pow__object__allocation.html#abeda536e0be40abc7dffc3ce3324d3fa">idx_to_size</a> (size_t idx)</td></tr>
-<tr class="separator:abeda536e0be40abc7dffc3ce3324d3fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade7159caf00525430db438f2926577e0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1pow__object__allocation.html#ade7159caf00525430db438f2926577e0">fits</a> (size_t size) -&gt; bool</td></tr>
+<tr class="separator:ade7159caf00525430db438f2926577e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6794bc94b86bf5ffc8aa4f6be061d5eb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1pow__object__allocation.html#a6794bc94b86bf5ffc8aa4f6be061d5eb">nonPow2</a> (size_t size) -&gt; size_t</td></tr>
+<tr class="separator:a6794bc94b86bf5ffc8aa4f6be061d5eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaca73b6574ec0504798846ee8906dd07"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1pow__object__allocation.html#aaca73b6574ec0504798846ee8906dd07">size_to_idx</a> (size_t size) -&gt; size_t</td></tr>
+<tr class="separator:aaca73b6574ec0504798846ee8906dd07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb9ad1e564bcb73f3f66c297cef7a3c2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1pow__object__allocation.html#acb9ad1e564bcb73f3f66c297cef7a3c2">idx_to_size</a> (size_t idx) -&gt; size_t</td></tr>
+<tr class="separator:acb9ad1e564bcb73f3f66c297cef7a3c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -123,8 +123,8 @@ struct seq::pow_object_allocation&lt; MaxSize, MinSize, MinCapacity &gt;</h3>
 
 <p>Allocate up to MaxSize objects using power of 2 steps. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a97b4b293ea2db59c74f609a7918fd1c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97b4b293ea2db59c74f609a7918fd1c0">&#9670;&nbsp;</a></span>fits()</h2>
+<a id="ade7159caf00525430db438f2926577e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade7159caf00525430db438f2926577e0">&#9670;&nbsp;</a></span>fits()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -135,11 +135,11 @@ template&lt;size_t MaxSize, size_t MinSize = 1U, size_t MinCapacity = 4U&gt; </d
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool <a class="el" href="structseq_1_1pow__object__allocation.html">seq::pow_object_allocation</a>&lt; MaxSize, MinSize, MinCapacity &gt;::fits </td>
+          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1pow__object__allocation.html">seq::pow_object_allocation</a>&lt; MaxSize, MinSize, MinCapacity &gt;::fits </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>size</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; bool </td>
         </tr>
       </table>
   </td>
@@ -151,8 +151,8 @@ template&lt;size_t MaxSize, size_t MinSize = 1U, size_t MinCapacity = 4U&gt; </d
 
 </div>
 </div>
-<a id="abeda536e0be40abc7dffc3ce3324d3fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abeda536e0be40abc7dffc3ce3324d3fa">&#9670;&nbsp;</a></span>idx_to_size()</h2>
+<a id="acb9ad1e564bcb73f3f66c297cef7a3c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb9ad1e564bcb73f3f66c297cef7a3c2">&#9670;&nbsp;</a></span>idx_to_size()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -163,11 +163,11 @@ template&lt;size_t MaxSize, size_t MinSize = 1U, size_t MinCapacity = 4U&gt; </d
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> size_t <a class="el" href="structseq_1_1pow__object__allocation.html">seq::pow_object_allocation</a>&lt; MaxSize, MinSize, MinCapacity &gt;::idx_to_size </td>
+          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1pow__object__allocation.html">seq::pow_object_allocation</a>&lt; MaxSize, MinSize, MinCapacity &gt;::idx_to_size </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>idx</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; size_t </td>
         </tr>
       </table>
   </td>
@@ -179,8 +179,8 @@ template&lt;size_t MaxSize, size_t MinSize = 1U, size_t MinCapacity = 4U&gt; </d
 
 </div>
 </div>
-<a id="a96b3bbcdfc797dd6feb44c6dd0bfb06d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96b3bbcdfc797dd6feb44c6dd0bfb06d">&#9670;&nbsp;</a></span>nonPow2()</h2>
+<a id="a6794bc94b86bf5ffc8aa4f6be061d5eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6794bc94b86bf5ffc8aa4f6be061d5eb">&#9670;&nbsp;</a></span>nonPow2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -191,11 +191,11 @@ template&lt;size_t MaxSize, size_t MinSize = 1U, size_t MinCapacity = 4U&gt; </d
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> size_t <a class="el" href="structseq_1_1pow__object__allocation.html">seq::pow_object_allocation</a>&lt; MaxSize, MinSize, MinCapacity &gt;::nonPow2 </td>
+          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1pow__object__allocation.html">seq::pow_object_allocation</a>&lt; MaxSize, MinSize, MinCapacity &gt;::nonPow2 </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>size</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; size_t </td>
         </tr>
       </table>
   </td>
@@ -207,8 +207,8 @@ template&lt;size_t MaxSize, size_t MinSize = 1U, size_t MinCapacity = 4U&gt; </d
 
 </div>
 </div>
-<a id="a38f8536ddd3acae4c9664fd74eebfe97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38f8536ddd3acae4c9664fd74eebfe97">&#9670;&nbsp;</a></span>size_to_idx()</h2>
+<a id="aaca73b6574ec0504798846ee8906dd07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaca73b6574ec0504798846ee8906dd07">&#9670;&nbsp;</a></span>size_to_idx()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -219,11 +219,11 @@ template&lt;size_t MaxSize, size_t MinSize = 1U, size_t MinCapacity = 4U&gt; </d
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> size_t <a class="el" href="structseq_1_1pow__object__allocation.html">seq::pow_object_allocation</a>&lt; MaxSize, MinSize, MinCapacity &gt;::size_to_idx </td>
+          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1pow__object__allocation.html">seq::pow_object_allocation</a>&lt; MaxSize, MinSize, MinCapacity &gt;::size_to_idx </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>size</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; size_t </td>
         </tr>
       </table>
   </td>

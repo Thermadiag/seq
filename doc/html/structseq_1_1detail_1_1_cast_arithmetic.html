@@ -98,9 +98,9 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_cast_arithmeti
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:acdbb811f38e59396edf5fd90b7acc77a"><td class="memTemplParams" colspan="2">template&lt;class TypeInfo &gt; </td></tr>
-<tr class="memitem:acdbb811f38e59396edf5fd90b7acc77a"><td class="memTemplItemLeft" align="right" valign="top">static T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_cast_arithmetic.html#acdbb811f38e59396edf5fd90b7acc77a">apply</a> (const void *in, const TypeInfo *in_p)</td></tr>
-<tr class="separator:acdbb811f38e59396edf5fd90b7acc77a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95e0c5c4f553057ff9ac9e1d86b131d2"><td class="memTemplParams" colspan="2">template&lt;class TypeInfo &gt; </td></tr>
+<tr class="memitem:a95e0c5c4f553057ff9ac9e1d86b131d2"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_cast_arithmetic.html#a95e0c5c4f553057ff9ac9e1d86b131d2">apply</a> (const void *in, const TypeInfo *in_p) -&gt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a></td></tr>
+<tr class="separator:a95e0c5c4f553057ff9ac9e1d86b131d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class T, bool IsNumeric = std::is_arithmetic&lt;T&gt;::value&gt;<br />
@@ -108,8 +108,8 @@ struct seq::detail::CastArithmetic&lt; T, IsNumeric &gt;</h3>
 
 <p>Cast T to an arithmetic type. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="acdbb811f38e59396edf5fd90b7acc77a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acdbb811f38e59396edf5fd90b7acc77a">&#9670;&nbsp;</a></span>apply()</h2>
+<a id="a95e0c5c4f553057ff9ac9e1d86b131d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95e0c5c4f553057ff9ac9e1d86b131d2">&#9670;&nbsp;</a></span>apply()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -122,7 +122,7 @@ template&lt;class TypeInfo &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static T <a class="el" href="structseq_1_1detail_1_1_cast_arithmetic.html">seq::detail::CastArithmetic</a>&lt; T, IsNumeric &gt;::apply </td>
+          <td class="memname">static auto <a class="el" href="structseq_1_1detail_1_1_cast_arithmetic.html">seq::detail::CastArithmetic</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, IsNumeric &gt;::apply </td>
           <td>(</td>
           <td class="paramtype">const void *&#160;</td>
           <td class="paramname"><em>in</em>, </td>
@@ -136,7 +136,8 @@ template&lt;class TypeInfo &gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>
+			</td>
         </tr>
       </table>
   </td>

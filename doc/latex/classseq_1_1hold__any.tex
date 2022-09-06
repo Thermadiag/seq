@@ -29,23 +29,23 @@ using \mbox{\hyperlink{classseq_1_1hold__any_a23d29fc7c99e55af995fa4de7596c5c3}{
 \item 
 \mbox{\hyperlink{classseq_1_1hold__any_a1b270bf34f7dc79b210aaafd46641bb1}{hold\+\_\+any}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other)
 \item 
-\mbox{\hyperlink{classseq_1_1hold__any_ac587e55fd6491bee3a704491ae45b0d8}{hold\+\_\+any}} (\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&\&other)
+\mbox{\hyperlink{classseq_1_1hold__any_a0e5414d101d6b8afdc976ca0876a4f83}{hold\+\_\+any}} (\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&\&other) noexcept
 \item 
 {\footnotesize template$<$class T , class  = typename std\+::enable\+\_\+if$<$ !std\+::is\+\_\+base\+\_\+of$<$detail\+::null\+\_\+policy, typename std\+::decay$<$\+T$>$\+::type$>$\+::value, void$>$\+::type$>$ }\\\mbox{\hyperlink{classseq_1_1hold__any_a143cd5f15f6a232497f79d40a47c0db4}{hold\+\_\+any}} (T \&\&value)
 \item 
 \mbox{\hyperlink{classseq_1_1hold__any_a82b9694ee008b29d32572a2392610fd0}{$\sim$hold\+\_\+any}} ()
 \item 
-\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \& \mbox{\hyperlink{classseq_1_1hold__any_acc064690371ffc7e2588e358c0976e9d}{operator=}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other)
+auto \mbox{\hyperlink{classseq_1_1hold__any_a2ee20937ac7a67a9565e247149490c44}{operator=}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) -\/$>$ \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&
 \item 
-\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \& \mbox{\hyperlink{classseq_1_1hold__any_a49b5790b509c7d4d828bac23e8e6e214}{operator=}} (\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&\&other)
+auto \mbox{\hyperlink{classseq_1_1hold__any_ab6a014d7d3b184e17401983542ae7075}{operator=}} (\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&\&other) noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&
 \item 
-{\footnotesize template$<$class T , class  = typename std\+::enable\+\_\+if$<$ !std\+::is\+\_\+base\+\_\+of$<$detail\+::null\+\_\+policy, typename std\+::decay$<$\+T$>$\+::type$>$\+::value, void$>$\+::type$>$ }\\\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \& \mbox{\hyperlink{classseq_1_1hold__any_ae585fa056ff659ee5cd85b63ea493c2c}{operator=}} (T \&\&value)
+{\footnotesize template$<$class T , class  = typename std\+::enable\+\_\+if$<$ !std\+::is\+\_\+base\+\_\+of$<$detail\+::null\+\_\+policy, typename std\+::decay$<$\+T$>$\+::type$>$\+::value, void$>$\+::type$>$ }\\auto \mbox{\hyperlink{classseq_1_1hold__any_af674e3f02ac5c0605e52601d7d333c1a}{operator=}} (T \&\&value) -\/$>$ \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&
 \item 
-{\footnotesize template$<$class Value\+Type , class... Args$>$ }\\std\+::decay$<$ Value\+Type $>$\+::type \& \mbox{\hyperlink{classseq_1_1hold__any_a5b7b1250151bd3b6cb91095b244484c5}{emplace}} (Args \&\&... args)
+{\footnotesize template$<$class Value\+Type , class... Args$>$ }\\auto \mbox{\hyperlink{classseq_1_1hold__any_a87143783cbfba43b22bf57d033246e34}{emplace}} (Args \&\&... args) -\/$>$ typename std\+::decay$<$ Value\+Type $>$\+::type \&
 \item 
-{\footnotesize template$<$class Value\+Type , class U , class... Args$>$ }\\std\+::decay$<$ Value\+Type $>$\+::type \& \mbox{\hyperlink{classseq_1_1hold__any_a76e4930a3708516c549bdc19f8e2523c}{emplace}} (std\+::initializer\+\_\+list$<$ U $>$ il, Args \&\&... args)
+{\footnotesize template$<$class Value\+Type , class U , class... Args$>$ }\\auto \mbox{\hyperlink{classseq_1_1hold__any_a200afdd399e8169666eb47c85d60b16f}{emplace}} (std\+::initializer\+\_\+list$<$ U $>$ il, Args \&\&... args) -\/$>$ typename std\+::decay$<$ Value\+Type $>$\+::type \&
 \item 
-bool \mbox{\hyperlink{classseq_1_1hold__any_ae797eefbfa0ab6a607609b7da999ab91}{has\+\_\+value}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1hold__any_ac8439dbae538c9724f1e3b3ba644708f}{has\+\_\+value}} () const noexcept -\/$>$ bool
 \item 
 \mbox{\hyperlink{classseq_1_1hold__any_a635579e9906f4b4f1401c5b68a3b7efb}{operator bool}} () const noexcept
 \item 
@@ -53,28 +53,28 @@ void \mbox{\hyperlink{classseq_1_1hold__any_ae602f9129adf5742ce96a050a82d081e}{s
 \item 
 void \mbox{\hyperlink{classseq_1_1hold__any_af968dafb946e95314e8e223888b0a59c}{reset}} () noexcept
 \item 
-{\footnotesize template$<$class T $>$ }\\bool \mbox{\hyperlink{classseq_1_1hold__any_a3b088c695a803ba28912ad55a9bed7e2}{equal\+\_\+to}} (T \&\&other) const
+{\footnotesize template$<$class T $>$ }\\auto \mbox{\hyperlink{classseq_1_1hold__any_abbeed042b82bc91b7b75dfc50064676a}{equal\+\_\+to}} (T \&\&other) const -\/$>$ bool
 \item 
-{\footnotesize template$<$class T $>$ }\\bool \mbox{\hyperlink{classseq_1_1hold__any_a714f33734dd075c50d6db1c27820d75a}{less\+\_\+than}} (T \&\&other) const
+{\footnotesize template$<$class T $>$ }\\auto \mbox{\hyperlink{classseq_1_1hold__any_a25cb6f241bd0cd9e29961b8ba4d8d6bd}{less\+\_\+than}} (T \&\&other) const -\/$>$ bool
 \item 
-{\footnotesize template$<$class T $>$ }\\bool \mbox{\hyperlink{classseq_1_1hold__any_a2ea753703a8f545546cd8fbcfe22c72b}{greater\+\_\+than}} (T \&\&other) const
+{\footnotesize template$<$class T $>$ }\\auto \mbox{\hyperlink{classseq_1_1hold__any_a309289b8f08a2a8c3e587a07e35d1b15}{greater\+\_\+than}} (T \&\&other) const -\/$>$ bool
 \item 
-bool \mbox{\hyperlink{classseq_1_1hold__any_aa16767455262c7c414d7fc19acd6c323}{operator==}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const
+auto \mbox{\hyperlink{classseq_1_1hold__any_af042372b1ab3f7b22a58011909eeb3ef}{operator==}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const -\/$>$ bool
 \item 
-bool \mbox{\hyperlink{classseq_1_1hold__any_a0a5e9a4fb078d3fa02f152db4c99c8c3}{operator!=}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const
+auto \mbox{\hyperlink{classseq_1_1hold__any_a583e9d4e8516b29d396e5d337609b45e}{operator!=}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const -\/$>$ bool
 \item 
-bool \mbox{\hyperlink{classseq_1_1hold__any_aeafde237bdacef6ea8e87844432cd9e3}{operator$<$}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const
+auto \mbox{\hyperlink{classseq_1_1hold__any_aa8b3ecb9f35ee664e2ca3545b6e48328}{operator$<$}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const -\/$>$ bool
 \item 
-bool \mbox{\hyperlink{classseq_1_1hold__any_a0b62f6ce30b3611bb7629c7b6167d5e1}{operator$<$=}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const
+auto \mbox{\hyperlink{classseq_1_1hold__any_af67323dc05989bdb7ff530ddd6606325}{operator$<$=}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const -\/$>$ bool
 \item 
-bool \mbox{\hyperlink{classseq_1_1hold__any_aa2ebfd8bf662950e5f3eb7ef390d6ff8}{operator$>$}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const
+auto \mbox{\hyperlink{classseq_1_1hold__any_aa87a957815734e8e534660a9c212f0b6}{operator$>$}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const -\/$>$ bool
 \item 
-bool \mbox{\hyperlink{classseq_1_1hold__any_ac8a7326b86fbdff85b974ed447ed7725}{operator$>$=}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const
+auto \mbox{\hyperlink{classseq_1_1hold__any_adb748c5632f96736d9f0707dd47e9f67}{operator$>$=}} (const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} \&other) const -\/$>$ bool
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$class T $>$ }\\static \mbox{\hyperlink{classseq_1_1hold__any_a23d29fc7c99e55af995fa4de7596c5c3}{type\+\_\+info\+\_\+type}} $\ast$ \mbox{\hyperlink{classseq_1_1hold__any_a8707202cf4218db32b5ee73559a7614d}{get\+\_\+type}} ()
+{\footnotesize template$<$class T $>$ }\\static auto \mbox{\hyperlink{classseq_1_1hold__any_a91e38de782f33532cef590a05661f9e3}{get\+\_\+type}} () -\/$>$ \mbox{\hyperlink{classseq_1_1hold__any_a23d29fc7c99e55af995fa4de7596c5c3}{type\+\_\+info\+\_\+type}} $\ast$
 \begin{DoxyCompactList}\small\item\em Returns the type info for given type. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
@@ -145,7 +145,7 @@ Otherwise, you can completely disable the hashing support using \mbox{\hyperlink
 \DoxyCodeLine{\mbox{\hyperlink{classseq_1_1hold__any}{seq::nh\_any}} a = test();}
 \end{DoxyCode}
 \hypertarget{classseq_1_1hold__any_autotoc_md1}{}\doxysubsubsection{Casting}\label{classseq_1_1hold__any_autotoc_md1}
-\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} can be cast to another type using either hold\+\_\+any\+::cast() function or \mbox{\hyperlink{namespaceseq_a6b963eb589bb722310da16e78278c62e}{seq\+::any\+\_\+cast()}} (similar to std\+::any\+\_\+cast). When casting to the same type as the underlying object, it is possible to retrieve a reference to the object\+:
+\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} can be cast to another type using either hold\+\_\+any\+::cast() function or \mbox{\hyperlink{namespaceseq_a568a9b05cad11abae721e6b2a1a64942}{seq\+::any\+\_\+cast()}} (similar to std\+::any\+\_\+cast). When casting to the same type as the underlying object, it is possible to retrieve a reference to the object\+:
 
 
 \begin{DoxyCode}{0}
@@ -175,7 +175,7 @@ Example\+:
 \DoxyCodeLine{\textcolor{keywordtype}{void}* v = a.cast<\textcolor{keywordtype}{void}*>(); \textcolor{comment}{//conversion to void* is valid (although not safe)}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// conversion to the different string types}}
-\DoxyCodeLine{\mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{tstring}} \mbox{\hyperlink{namespaceseq_1_1detail_a357d94da98d7b1a4e83f37f3852bfdc6}{str}} = a.cast<\mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{tstring}}>();}
+\DoxyCodeLine{\mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{tstring}} \mbox{\hyperlink{namespaceseq_1_1detail_a84d714603751dddb280584583ccdd7e3}{str}} = a.cast<\mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{tstring}}>();}
 \DoxyCodeLine{\mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\_view}} view = a.cast<\mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\_view}}>();}
 \DoxyCodeLine{std::string str2 = a.cast<std::string>();}
 \DoxyCodeLine{}
@@ -255,16 +255,16 @@ Example\+:
 \DoxyCodeLine{\textcolor{comment}{// build an ordered set than supports heterogeneous lookup }}
 \DoxyCodeLine{\mbox{\hyperlink{classseq_1_1ordered__set}{seq::ordered\_set<any,std::hash<any>}} , std::equal\_to<void> > set;}
 \DoxyCodeLine{}
-\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{insert}}(3);}
-\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{insert}}(2.5);}
-\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{insert}}(\mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{tstring}}(\textcolor{stringliteral}{"hello"}));}
-\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{insert}}(1);}
-\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{insert}}(std::string(\textcolor{stringliteral}{"world"}));}
-\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{insert}}(\textcolor{stringliteral}{"ok"});}
+\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{insert}}(3);}
+\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{insert}}(2.5);}
+\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{insert}}(\mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{tstring}}(\textcolor{stringliteral}{"hello"}));}
+\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{insert}}(1);}
+\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{insert}}(std::string(\textcolor{stringliteral}{"world"}));}
+\DoxyCodeLine{set.\mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{insert}}(\textcolor{stringliteral}{"ok"});}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// print the set content}}
-\DoxyCodeLine{\textcolor{keywordflow}{for} (\textcolor{keyword}{auto} val : set)}
-\DoxyCodeLine{    std::cout << val << std::endl;}
+\DoxyCodeLine{\textcolor{keywordflow}{for} (\textcolor{keyword}{auto} \mbox{\hyperlink{namespaceseq_1_1detail_ad2ef3bc87521f2c064991225c99aeabf}{val}} : set)}
+\DoxyCodeLine{    std::cout << \mbox{\hyperlink{namespaceseq_1_1detail_ad2ef3bc87521f2c064991225c99aeabf}{val}} << std::endl;}
 \DoxyCodeLine{}
 \DoxyCodeLine{assert(set.find(3) != set.end());           \textcolor{comment}{// use heterogeneous lookup }}
 \DoxyCodeLine{assert(set.find(2.5) != set.end());         \textcolor{comment}{// use heterogeneous lookup }}
@@ -277,7 +277,7 @@ Example\+:
 \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} objects are equally comparable. This feature is mandatory when inserting any objects into hash table based containers like std\+::unordered\+\_\+set. Two \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} are considered equal if\+:
 \begin{DoxyItemize}
 \item They are both empty.
-\item They hold the same type and both underlying objects compare equals. If the type does not provide a comparison operator, the \mbox{\hyperlink{classseq_1_1hold__any_aa16767455262c7c414d7fc19acd6c323}{operator==()}} always return false.
+\item They hold the same type and both underlying objects compare equals. If the type does not provide a comparison operator, the \mbox{\hyperlink{classseq_1_1hold__any_af042372b1ab3f7b22a58011909eeb3ef}{operator==()}} always return false.
 \item They both hold an arithmetic value of possibly different types, and these values compare equals.
 \item They both hold a string like object (std\+::string, \mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{seq\+::tstring}}, \mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{seq\+::tstring\+\_\+view}}, std\+::string\+\_\+view, char$\ast$, const char$\ast$) that compare equals. Note that a const char$\ast$ can be compared to another string object (like std\+::string) using string comparison, but comparing two const char$\ast$ will result in a pointer comparison!
 \end{DoxyItemize}
@@ -319,12 +319,13 @@ Example\+:
 \DoxyCodeLine{assert(pair == integer);}
 \end{DoxyCode}
 \hypertarget{classseq_1_1hold__any_autotoc_md4}{}\doxysubsubsection{Less comparison}\label{classseq_1_1hold__any_autotoc_md4}
-\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} object can be compared using operators $<$, $>$, $<$=, $>$=, all based on the {\itshape less than} operator. This is mandatory when inserting any objects into a sorted container like std\+::set. A \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} object A is considered less than another \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} B if\+: \begin{DoxyVerb}-   A is empty and not B.
--   A and B hold the same type and object(A) < object(B). If the type does not provide a less than operator, throw std::bad_function_call.
--   They both hold an arithmetic value of possibly different types, and object(A) < object(B).
--   They both hold a string like object (std::string, seq::tstring, seq::tstring_view, std::string_view, char*, const char*) and object(A) < object(B).
-\end{DoxyVerb}
-
+\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} object can be compared using operators $<$, $>$, $<$=, $>$=, all based on the {\itshape less than} operator. This is mandatory when inserting any objects into a sorted container like std\+::set. A \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} object A is considered less than another \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} B if\+:
+\begin{DoxyItemize}
+\item A is empty and not B.
+\item A and B hold the same type and object(\+A) $<$ object(\+B). If the type does not provide a less than operator, throw std\+::bad\+\_\+function\+\_\+call.
+\item They both hold an arithmetic value of possibly different types, and object(\+A) $<$ object(\+B).
+\item They both hold a string like object (std\+::string, \mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{seq\+::tstring}}, \mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{seq\+::tstring\+\_\+view}}, std\+::string\+\_\+view, char$\ast$, const char$\ast$) and object(\+A) $<$ object(\+B).
+\end{DoxyItemize}
 
 It is possible to register a comparison function for unrelated types using \mbox{\hyperlink{namespaceseq_ab390e9bf772c9a88f9f48c5bd360d7ed}{seq\+::register\+\_\+any\+\_\+less\+\_\+comparison()}} function.
 
@@ -436,11 +437,11 @@ Below is an example of extension that adds the info() member returning a std\+::
 \DoxyCodeLine{    \textcolor{keyword}{struct }typed\_type\_info : type\_info, \mbox{\hyperlink{structseq_1_1any__typed__type__info}{any\_typed\_type\_info}}<T>}
 \DoxyCodeLine{    \{}
 \DoxyCodeLine{        \textcolor{comment}{// implementation of additional info() member}}
-\DoxyCodeLine{        \textcolor{keyword}{virtual} \textcolor{keyword}{const} std::type\_info\& info()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} \textcolor{keyword}{typeid}(T); \}}
+\DoxyCodeLine{        \textcolor{keyword}{virtual} \textcolor{keyword}{const} std::type\_info\& info()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} \textcolor{keyword}{typeid}(\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}); \}}
 \DoxyCodeLine{}
 \DoxyCodeLine{        \textcolor{comment}{// new implementation for the hash function based on the old one}}
-\DoxyCodeLine{        \textcolor{keyword}{virtual} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{namespaceseq_1_1detail_a6d83dba91cd67c6a52c3d8f1481d85b0}{hash\_any}}(\textcolor{keyword}{const} \textcolor{keywordtype}{void}* in)\textcolor{keyword}{ const }\{}
-\DoxyCodeLine{            \textcolor{keywordflow}{return} \mbox{\hyperlink{structseq_1_1any__typed__type__info}{any\_typed\_type\_info<T>}}\{\}.\mbox{\hyperlink{structseq_1_1any__typed__type__info_a5ec6b957d0acddca8c0d5fafab8cf13c}{hash\_any}}(in)* UINT64\_C(0xc4ceb9fe1a85ec53);}
+\DoxyCodeLine{        \textcolor{keyword}{virtual} \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{namespaceseq_1_1detail_a280597fb66785a68b9b92e1f19bccf04}{hash\_any}}(\textcolor{keyword}{const} \textcolor{keywordtype}{void}* in)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{            \textcolor{keywordflow}{return} \mbox{\hyperlink{structseq_1_1any__typed__type__info}{any\_typed\_type\_info<T>}}\{\}.\mbox{\hyperlink{structseq_1_1any__typed__type__info_a22b7544c534b15f5877b6e3756819009}{hash\_any}}(in)* UINT64\_C(0xc4ceb9fe1a85ec53);}
 \DoxyCodeLine{        \}}
 \DoxyCodeLine{    \};}
 \DoxyCodeLine{}
@@ -503,14 +504,14 @@ Below is a more complex example that transform \mbox{\hyperlink{classseq_1_1hold
 \DoxyCodeLine{\textcolor{keyword}{            }\{}
 \DoxyCodeLine{                \textcolor{comment}{// C++11 emulation of if constexpr}}
 \DoxyCodeLine{                \textcolor{comment}{// Make sure that this interface is still suitable for non invocable types}}
-\DoxyCodeLine{                \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceseq_a7847ff182c5998204ab1a9f404d175a6}{constexpr\_if}}<is\_invocable<T, As ...>::value>(}
+\DoxyCodeLine{                \textcolor{keywordflow}{return} \mbox{\hyperlink{namespaceseq_a60b1a14cbf28e77e92a346892ef8531c}{constexpr\_if}}<is\_invocable<\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, As ...>::value>(}
 \DoxyCodeLine{                    [\&as...](\textcolor{keyword}{const} \textcolor{keyword}{auto}\& fun) \{\textcolor{keywordflow}{return} fun(std::forward<As>(as)...); \},}
 \DoxyCodeLine{                    [](\textcolor{keyword}{const} \textcolor{keyword}{auto}\&) \{\textcolor{keywordflow}{throw} std::bad\_function\_call(); \textcolor{keywordflow}{return} R(); \},}
-\DoxyCodeLine{                    * \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const }T*\textcolor{keyword}{>}(data));}
+\DoxyCodeLine{                    * \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const }\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}*\textcolor{keyword}{>}(data));}
 \DoxyCodeLine{            \}}
 \DoxyCodeLine{            \textcolor{keyword}{virtual} \textcolor{keyword}{const} std::type\_info\& target\_type()\textcolor{keyword}{ const}}
 \DoxyCodeLine{\textcolor{keyword}{            }\{}
-\DoxyCodeLine{                \textcolor{keywordflow}{return} \textcolor{keyword}{typeid}(T);}
+\DoxyCodeLine{                \textcolor{keywordflow}{return} \textcolor{keyword}{typeid}(\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}});}
 \DoxyCodeLine{            \}}
 \DoxyCodeLine{        \};}
 \DoxyCodeLine{}
@@ -599,12 +600,12 @@ using \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interfac
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
 \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_ac587e55fd6491bee3a704491ae45b0d8}\label{classseq_1_1hold__any_ac587e55fd6491bee3a704491ae45b0d8}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_a0e5414d101d6b8afdc976ca0876a4f83}\label{classseq_1_1hold__any_a0e5414d101d6b8afdc976ca0876a4f83}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!hold\_any@{hold\_any}}
 \index{hold\_any@{hold\_any}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{hold\_any()}{hold\_any()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
-\mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{classseq_1_1hold__any_a143cd5f15f6a232497f79d40a47c0db4}\label{classseq_1_1hold__any_a143cd5f15f6a232497f79d40a47c0db4}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!hold\_any@{hold\_any}}
@@ -624,64 +625,70 @@ template$<$class T , class  = typename std\+::enable\+\_\+if$<$ !std\+::is\+\_\+
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classseq_1_1hold__any_a5b7b1250151bd3b6cb91095b244484c5}\label{classseq_1_1hold__any_a5b7b1250151bd3b6cb91095b244484c5}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_a87143783cbfba43b22bf57d033246e34}\label{classseq_1_1hold__any_a87143783cbfba43b22bf57d033246e34}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!emplace@{emplace}}
 \index{emplace@{emplace}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{emplace()}{emplace()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
 template$<$class Value\+Type , class... Args$>$ \\
-std\+::decay$<$Value\+Type$>$\+::type\& \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::emplace (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::emplace (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ typename std\+::decay$<$Value\+Type$>$\+::type \&
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_a76e4930a3708516c549bdc19f8e2523c}\label{classseq_1_1hold__any_a76e4930a3708516c549bdc19f8e2523c}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_a200afdd399e8169666eb47c85d60b16f}\label{classseq_1_1hold__any_a200afdd399e8169666eb47c85d60b16f}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!emplace@{emplace}}
 \index{emplace@{emplace}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{emplace()}{emplace()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
 template$<$class Value\+Type , class U , class... Args$>$ \\
-std\+::decay$<$Value\+Type$>$\+::type\& \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::emplace (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ U $>$}]{il,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::emplace (\begin{DoxyParamCaption}\item[{std\+::initializer\+\_\+list$<$ U $>$}]{il,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ typename std\+::decay$<$Value\+Type$>$\+::type\&
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_a3b088c695a803ba28912ad55a9bed7e2}\label{classseq_1_1hold__any_a3b088c695a803ba28912ad55a9bed7e2}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_abbeed042b82bc91b7b75dfc50064676a}\label{classseq_1_1hold__any_abbeed042b82bc91b7b75dfc50064676a}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!equal\_to@{equal\_to}}
 \index{equal\_to@{equal\_to}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{equal\_to()}{equal\_to()}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
 template$<$class T $>$ \\
-bool \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::equal\+\_\+to (\begin{DoxyParamCaption}\item[{T \&\&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::equal\+\_\+to (\begin{DoxyParamCaption}\item[{T \&\&}]{other }\end{DoxyParamCaption}) const -\/$>$ bool
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_a8707202cf4218db32b5ee73559a7614d}\label{classseq_1_1hold__any_a8707202cf4218db32b5ee73559a7614d}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_a91e38de782f33532cef590a05661f9e3}\label{classseq_1_1hold__any_a91e38de782f33532cef590a05661f9e3}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!get\_type@{get\_type}}
 \index{get\_type@{get\_type}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{get\_type()}{get\_type()}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
 template$<$class T $>$ \\
-static \mbox{\hyperlink{classseq_1_1hold__any_a23d29fc7c99e55af995fa4de7596c5c3}{type\+\_\+info\+\_\+type}}$\ast$ \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::get\+\_\+type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+static auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::get\+\_\+type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1hold__any_a23d29fc7c99e55af995fa4de7596c5c3}{type\+\_\+info\+\_\+type}}$\ast$ \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
 
 
 
 Returns the type info for given type. 
 
-\mbox{\Hypertarget{classseq_1_1hold__any_a2ea753703a8f545546cd8fbcfe22c72b}\label{classseq_1_1hold__any_a2ea753703a8f545546cd8fbcfe22c72b}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_a309289b8f08a2a8c3e587a07e35d1b15}\label{classseq_1_1hold__any_a309289b8f08a2a8c3e587a07e35d1b15}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!greater\_than@{greater\_than}}
 \index{greater\_than@{greater\_than}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{greater\_than()}{greater\_than()}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
 template$<$class T $>$ \\
-bool \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::greater\+\_\+than (\begin{DoxyParamCaption}\item[{T \&\&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::greater\+\_\+than (\begin{DoxyParamCaption}\item[{T \&\&}]{other }\end{DoxyParamCaption}) const -\/$>$ bool
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_ae797eefbfa0ab6a607609b7da999ab91}\label{classseq_1_1hold__any_ae797eefbfa0ab6a607609b7da999ab91}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_ac8439dbae538c9724f1e3b3ba644708f}\label{classseq_1_1hold__any_ac8439dbae538c9724f1e3b3ba644708f}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!has\_value@{has\_value}}
 \index{has\_value@{has\_value}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{has\_value()}{has\_value()}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
-bool \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::has\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::has\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ bool
+		\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_a714f33734dd075c50d6db1c27820d75a}\label{classseq_1_1hold__any_a714f33734dd075c50d6db1c27820d75a}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_a25cb6f241bd0cd9e29961b8ba4d8d6bd}\label{classseq_1_1hold__any_a25cb6f241bd0cd9e29961b8ba4d8d6bd}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!less\_than@{less\_than}}
 \index{less\_than@{less\_than}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{less\_than()}{less\_than()}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
 template$<$class T $>$ \\
-bool \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::less\+\_\+than (\begin{DoxyParamCaption}\item[{T \&\&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::less\+\_\+than (\begin{DoxyParamCaption}\item[{T \&\&}]{other }\end{DoxyParamCaption}) const -\/$>$ bool
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{classseq_1_1hold__any_a635579e9906f4b4f1401c5b68a3b7efb}\label{classseq_1_1hold__any_a635579e9906f4b4f1401c5b68a3b7efb}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!operator bool@{operator bool}}
@@ -690,69 +697,78 @@ bool \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
 \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator bool (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_a0a5e9a4fb078d3fa02f152db4c99c8c3}\label{classseq_1_1hold__any_a0a5e9a4fb078d3fa02f152db4c99c8c3}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_a583e9d4e8516b29d396e5d337609b45e}\label{classseq_1_1hold__any_a583e9d4e8516b29d396e5d337609b45e}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!operator"!=@{operator"!=}}
 \index{operator"!=@{operator"!=}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
-bool \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const -\/$>$ bool
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_aeafde237bdacef6ea8e87844432cd9e3}\label{classseq_1_1hold__any_aeafde237bdacef6ea8e87844432cd9e3}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_aa8b3ecb9f35ee664e2ca3545b6e48328}\label{classseq_1_1hold__any_aa8b3ecb9f35ee664e2ca3545b6e48328}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!operator$<$@{operator$<$}}
 \index{operator$<$@{operator$<$}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{operator$<$()}{operator<()}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
-bool \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const -\/$>$ bool
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_a0b62f6ce30b3611bb7629c7b6167d5e1}\label{classseq_1_1hold__any_a0b62f6ce30b3611bb7629c7b6167d5e1}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_af67323dc05989bdb7ff530ddd6606325}\label{classseq_1_1hold__any_af67323dc05989bdb7ff530ddd6606325}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!operator$<$=@{operator$<$=}}
 \index{operator$<$=@{operator$<$=}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{operator$<$=()}{operator<=()}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
-bool \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator$<$= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator$<$= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const -\/$>$ bool
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_acc064690371ffc7e2588e358c0976e9d}\label{classseq_1_1hold__any_acc064690371ffc7e2588e358c0976e9d}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_a2ee20937ac7a67a9565e247149490c44}\label{classseq_1_1hold__any_a2ee20937ac7a67a9565e247149490c44}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!operator=@{operator=}}
 \index{operator=@{operator=}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
-\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}\& \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}\&
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_a49b5790b509c7d4d828bac23e8e6e214}\label{classseq_1_1hold__any_a49b5790b509c7d4d828bac23e8e6e214}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_ab6a014d7d3b184e17401983542ae7075}\label{classseq_1_1hold__any_ab6a014d7d3b184e17401983542ae7075}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!operator=@{operator=}}
 \index{operator=@{operator=}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
-\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}\& \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&\&}]{other }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}\&
+  		\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_ae585fa056ff659ee5cd85b63ea493c2c}\label{classseq_1_1hold__any_ae585fa056ff659ee5cd85b63ea493c2c}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_af674e3f02ac5c0605e52601d7d333c1a}\label{classseq_1_1hold__any_af674e3f02ac5c0605e52601d7d333c1a}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!operator=@{operator=}}
 \index{operator=@{operator=}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
 template$<$class T , class  = typename std\+::enable\+\_\+if$<$ !std\+::is\+\_\+base\+\_\+of$<$detail\+::null\+\_\+policy, typename std\+::decay$<$\+T$>$\+::type$>$\+::value, void$>$\+::type$>$ \\
-\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}\& \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator= (\begin{DoxyParamCaption}\item[{T \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator= (\begin{DoxyParamCaption}\item[{T \&\&}]{value }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}\&
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_aa16767455262c7c414d7fc19acd6c323}\label{classseq_1_1hold__any_aa16767455262c7c414d7fc19acd6c323}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_af042372b1ab3f7b22a58011909eeb3ef}\label{classseq_1_1hold__any_af042372b1ab3f7b22a58011909eeb3ef}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!operator==@{operator==}}
 \index{operator==@{operator==}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
-bool \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const -\/$>$ bool
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_aa2ebfd8bf662950e5f3eb7ef390d6ff8}\label{classseq_1_1hold__any_aa2ebfd8bf662950e5f3eb7ef390d6ff8}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_aa87a957815734e8e534660a9c212f0b6}\label{classseq_1_1hold__any_aa87a957815734e8e534660a9c212f0b6}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!operator$>$@{operator$>$}}
 \index{operator$>$@{operator$>$}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{operator$>$()}{operator>()}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
-bool \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator$>$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator$>$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const -\/$>$ bool
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classseq_1_1hold__any_ac8a7326b86fbdff85b974ed447ed7725}\label{classseq_1_1hold__any_ac8a7326b86fbdff85b974ed447ed7725}} 
+\mbox{\Hypertarget{classseq_1_1hold__any_adb748c5632f96736d9f0707dd47e9f67}\label{classseq_1_1hold__any_adb748c5632f96736d9f0707dd47e9f67}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!operator$>$=@{operator$>$=}}
 \index{operator$>$=@{operator$>$=}!seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}}
 \doxysubsubsection{\texorpdfstring{operator$>$=()}{operator>=()}}
 {\footnotesize\ttfamily template$<$class Interface  = any\+\_\+default\+\_\+interface, size\+\_\+t Static\+Size = sizeof(double), size\+\_\+t Alignment = alignof(double)$>$ \\
-bool \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator$>$= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$\+::operator$>$= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, Static\+Size, Alignment $>$ \&}]{other }\end{DoxyParamCaption}) const -\/$>$ bool
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{classseq_1_1hold__any_af968dafb946e95314e8e223888b0a59c}\label{classseq_1_1hold__any_af968dafb946e95314e8e223888b0a59c}} 
 \index{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$@{seq::hold\_any$<$ Interface, StaticSize, Alignment $>$}!reset@{reset}}

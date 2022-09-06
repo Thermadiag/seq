@@ -87,8 +87,8 @@ $(document).ready(function(){initNavTree('functions_d.html',''); initResizable()
 
 <h3><a id="index_d"></a>- d -</h3><ul>
 <li>d()
-: <a class="el" href="structseq_1_1base__ostream__format.html#a0a4f85450adcc0973c2727a6f8e97332">seq::base_ostream_format&lt; T, Derived &gt;</a>
-, <a class="el" href="classseq_1_1numeric__format.html#a7c464398469afd45170fed2825087e37">seq::numeric_format</a>
+: <a class="el" href="structseq_1_1base__ostream__format.html#a6721420806bb6682f20b94c6b4744344">seq::base_ostream_format&lt; T, Derived &gt;</a>
+, <a class="el" href="classseq_1_1numeric__format.html#aa74c759b4692312f413e5757e6f7ab2c">seq::numeric_format</a>
 </li>
 <li>d_ballocator
 : <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a4580fe696847cc216da378adbbb92f97">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
@@ -121,8 +121,14 @@ $(document).ready(function(){initNavTree('functions_d.html',''); initResizable()
 <li>d_load_factor
 : <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a5b5ed4333adb1211d695a3bb48ffabee">seq::detail::SparseFlatNodeHashTable&lt; Key, Value, Hash, Equal, Allocator, layout &gt;</a>
 </li>
+<li>d_lock
+: <a class="el" href="structseq_1_1detail_1_1_mutex_wrapper.html#aa44074e7ecc50bc0c9cd6a4a85c732a9">seq::detail::MutexWrapper</a>
+</li>
 <li>d_max_dist
 : <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a4151cb318e1cdd603754a296c6cf0d9e">seq::detail::SparseFlatNodeHashTable&lt; Key, Value, Hash, Equal, Allocator, layout &gt;</a>
+</li>
+<li>d_mutex
+: <a class="el" href="structseq_1_1detail_1_1_mutex_wrapper.html#abf3ea3afdafeec429b2a52b0dd08bada">seq::detail::MutexWrapper</a>
 </li>
 <li>d_next_target
 : <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af91492cf16584877960dec88f1d23ec7">seq::detail::SparseFlatNodeHashTable&lt; Key, Value, Hash, Equal, Allocator, layout &gt;</a>
@@ -150,17 +156,17 @@ $(document).ready(function(){initNavTree('functions_d.html',''); initResizable()
 , <a class="el" href="structseq_1_1detail_1_1string__proxy_3_01_max_s_s_o_00_01std_1_1allocator_3_01char_01_4_01_4.html#a6ff41ab5fe460cc2c7298378f3db1cda">seq::detail::string_proxy&lt; MaxSSO, std::allocator&lt; char &gt; &gt;</a>
 </li>
 <li>data()
-: <a class="el" href="structseq_1_1any__base.html#a5bf6361319d828a0a3321a0ef1438872">seq::any_base&lt; Derived, TypeInfo, StaticSize, Alignment &gt;</a>
+: <a class="el" href="structseq_1_1any__base.html#a3527bca3e8f7bde999a673cda0153984">seq::any_base&lt; Derived, TypeInfo, StaticSize, Alignment &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1allocator__data.html#aec5a41d9bbeb448f6cdbf91e59250958">seq::detail::allocator_data&lt; Allocator, IsThreaded &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_d_e_vector_data.html#ac62d617ffc507a226bdcdbfdccde683a">seq::detail::DEVectorData&lt; T, Allocator, flag &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_none_s_s_o.html#af1fd2c0778c3a8504ed2f054e4e49c9f">seq::detail::NoneSSO</a>
 , <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a051849764d09f1dfd7823b6f57675bcc">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_s_s_o.html#a2109835e5f772d1a33a4b5bad77942e4">seq::detail::SSO&lt; MaxSSO &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1string__internal_3_01_max_s_s_o_00_01view__allocator_01_4.html#ac9ea1660ed54559005ae51dd7a54f176">seq::detail::string_internal&lt; MaxSSO, view_allocator &gt;</a>
-, <a class="el" href="classseq_1_1devector.html#a983a72269e8244a29d1837f029264430">seq::devector&lt; T, Allocator, flag &gt;</a>
-, <a class="el" href="classseq_1_1sequence.html#a7965d6074abfbcbdef971934fd4dec78">seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</a>
-, <a class="el" href="classseq_1_1tiny__string.html#a9b2a64208ee2ac9d02e0775fbe979655">seq::tiny_string&lt; MaxStaticSize, Allocator &gt;</a>
-, <a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#a84c1e66b4f5dee8fe08fe234be806e5b">seq::tiny_string&lt; 0, view_allocator &gt;</a>
+, <a class="el" href="classseq_1_1devector.html#a666a917c74845f804b37d42037f3e3e7">seq::devector&lt; T, Allocator, flag &gt;</a>
+, <a class="el" href="classseq_1_1sequence.html#a24cf8f2fe37e422bcc119ebd2f064dce">seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</a>
+, <a class="el" href="classseq_1_1tiny__string.html#afae773f0ef9691865f27a9824153d61a">seq::tiny_string&lt; MaxStaticSize, Allocator &gt;</a>
+, <a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#adde0f6d1b0c4c06a58c303729932566c">seq::tiny_string&lt; 0, view_allocator &gt;</a>
 </li>
 <li>dealloc()
 : <a class="el" href="structseq_1_1any__base.html#a9197c890b48f4414996a62f8f6f181ec">seq::any_base&lt; Derived, TypeInfo, StaticSize, Alignment &gt;</a>
@@ -185,40 +191,40 @@ $(document).ready(function(){initNavTree('functions_d.html',''); initResizable()
 , <a class="el" href="classseq_1_1external__allocator.html#a02da4fdefe81788b7fee07283a878d50">seq::external_allocator&lt; T, External &gt;</a>
 , <a class="el" href="classseq_1_1object__allocator.html#adfdd6b4ae0da9498dd1f755dd94cf548">seq::object_allocator&lt; Pool &gt;</a>
 , <a class="el" href="classseq_1_1object__pool.html#a99af259462a246f9b6c46a6b00a9a782">seq::object_pool&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;</a>
-, <a class="el" href="classseq_1_1parallel__object__pool.html#afb326f8db6a4e84048bf825dab79f2a7">seq::parallel_object_pool&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;</a>
+, <a class="el" href="classseq_1_1parallel__object__pool.html#a36e68df7db73bb812434ebb0c9988053">seq::parallel_object_pool&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;</a>
 </li>
 <li>deallocate_chunk()
 : <a class="el" href="classseq_1_1detail_1_1chunk__pool__alloc.html#a0ce47f4648221ba2d52a5ed370866cd5">seq::detail::chunk_pool_alloc&lt; T, Allocator &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1std__alloc.html#ae9eb015c32d05ff94db1674e36514e26">seq::detail::std_alloc&lt; T, Allocator, Align64 &gt;</a>
 </li>
 <li>deallocate_fun
-: <a class="el" href="structseq_1_1detail_1_1allocator__data_1_1_vector_data.html#acfc5f8776d6782d81a38ca4353ab5f7f">seq::detail::allocator_data&lt; Allocator, IsThreaded &gt;::VectorData</a>
+: <a class="el" href="structseq_1_1detail_1_1allocator__data_1_1_vector_data.html#a14940fd42f5179a67af43dec492f131a">seq::detail::allocator_data&lt; Allocator, IsThreaded &gt;::VectorData</a>
 </li>
 <li>deallocate_internal()
 : <a class="el" href="structseq_1_1detail_1_1block__pool.html#a2103b5a3280058c2c249440c10731ac7">seq::detail::block_pool&lt; Allocator, Align, Threaded, GenerateStats, StoreHeader &gt;</a>
 </li>
 <li>deallocate_N()
-: <a class="el" href="structseq_1_1detail_1_1impl__mem__pool.html#a3e88af1f1a1bdfacd0da878ce21357e9">seq::detail::impl_mem_pool&lt; Pool &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1impl__mem__pool.html#ab8fe9933ff137ca04d629ddf8772c692">seq::detail::impl_mem_pool&lt; Pool &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1virtual__mem__pool.html#a43596d7b03cf996ad77081b6a2920613">seq::detail::virtual_mem_pool</a>
 </li>
 <li>deallocate_ptr()
-: <a class="el" href="structseq_1_1detail_1_1block__pool.html#afbdeaeee7a12771ca2eb16837ff2c594">seq::detail::block_pool&lt; Allocator, Align, Threaded, GenerateStats, StoreHeader &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1block__pool_3_01_allocator_00_01_align_00_01false_00_01_generate_stats_00_01false_01_4.html#ae87d2507d8603db5c2c98e77a2057a42">seq::detail::block_pool&lt; Allocator, Align, false, GenerateStats, false &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1block__pool.html#a4e5471d12cac99ead92a415531fb0533">seq::detail::block_pool&lt; Allocator, Align, Threaded, GenerateStats, StoreHeader &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1block__pool_3_01_allocator_00_01_align_00_01false_00_01_generate_stats_00_01false_01_4.html#a4e5f9077cdf88b0eeb29a4eb71a85ada">seq::detail::block_pool&lt; Allocator, Align, false, GenerateStats, false &gt;</a>
 </li>
 <li>deallocate_ptr_no_thread()
-: <a class="el" href="structseq_1_1detail_1_1block__pool.html#a665551580eb05882f93a15fe3f52e464">seq::detail::block_pool&lt; Allocator, Align, Threaded, GenerateStats, StoreHeader &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1block__pool_3_01_allocator_00_01_align_00_01false_00_01_generate_stats_00_01false_01_4.html#a746d1319a24d38d8e45b030b32aa90ee">seq::detail::block_pool&lt; Allocator, Align, false, GenerateStats, false &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1block__pool.html#a8faab09639ff917aeaa4248d32cef230">seq::detail::block_pool&lt; Allocator, Align, Threaded, GenerateStats, StoreHeader &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1block__pool_3_01_allocator_00_01_align_00_01false_00_01_generate_stats_00_01false_01_4.html#acde073e5a34ec251e3f750d37e86774b">seq::detail::block_pool&lt; Allocator, Align, false, GenerateStats, false &gt;</a>
 </li>
 <li>decref()
 : <a class="el" href="structseq_1_1detail_1_1allocator__data.html#acb6e1ea135f1f6c8a4ae1b91928c08b4">seq::detail::allocator_data&lt; Allocator, IsThreaded &gt;</a>
 </li>
 <li>deffered_count()
-: <a class="el" href="classseq_1_1detail_1_1thread__data.html#ac61fdeb054b675b72a9a0b50878e5a90">seq::detail::thread_data&lt; Threaded &gt;</a>
-, <a class="el" href="classseq_1_1detail_1_1thread__data_3_01false_01_4.html#ad1da952677502b0865678460035aca7c">seq::detail::thread_data&lt; false &gt;</a>
+: <a class="el" href="classseq_1_1detail_1_1thread__data.html#a846fb19354027219e879df97a00fb32a">seq::detail::thread_data&lt; Threaded &gt;</a>
+, <a class="el" href="classseq_1_1detail_1_1thread__data_3_01false_01_4.html#a33b0c33a7eec60725071a356fba30d5d">seq::detail::thread_data&lt; false &gt;</a>
 </li>
 <li>deffered_free()
-: <a class="el" href="classseq_1_1detail_1_1thread__data.html#acd5877d21e7f7d2b1267a9dc062c70b2">seq::detail::thread_data&lt; Threaded &gt;</a>
-, <a class="el" href="classseq_1_1detail_1_1thread__data_3_01false_01_4.html#af5c2a27bdd7663ff30129da288b5a447">seq::detail::thread_data&lt; false &gt;</a>
+: <a class="el" href="classseq_1_1detail_1_1thread__data.html#a83800cfdbeba78fc262449738e396071">seq::detail::thread_data&lt; Threaded &gt;</a>
+, <a class="el" href="classseq_1_1detail_1_1thread__data_3_01false_01_4.html#a08bd6856d57989a6e7e5234c6450b914">seq::detail::thread_data&lt; false &gt;</a>
 </li>
 <li>delete_deffered()
 : <a class="el" href="structseq_1_1detail_1_1block__pool.html#a4e9cf59e43e2c8badae1c45482bd0b19">seq::detail::block_pool&lt; Allocator, Align, Threaded, GenerateStats, StoreHeader &gt;</a>
@@ -227,35 +233,29 @@ $(document).ready(function(){initNavTree('functions_d.html',''); initResizable()
 <li>delete_deffered_locked()
 : <a class="el" href="structseq_1_1detail_1_1block__pool_3_01_allocator_00_01_align_00_01false_00_01_generate_stats_00_01false_01_4.html#a404b3b7951b333bb4a34edc89ed4f534">seq::detail::block_pool&lt; Allocator, Align, false, GenerateStats, false &gt;</a>
 </li>
-<li>deque()
-: <a class="el" href="classseq_1_1deque.html#a7aae7b987099770b63f3147335f7dcce">seq::deque&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a711b2cdff2140888e09f2420d3afe0f6">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1flat__map.html#a7f09896254c07f44e677d3242ac3c218">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1flat__set.html#a433db4cba9db5d263537724ae83530f6">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;</a>
-</li>
 <li>deque_chunk_pool()
-: <a class="el" href="structseq_1_1detail_1_1deque__chunk__pool.html#a2ca7e180adcda9b81ca5c1b86cbee7fc">seq::detail::deque_chunk_pool&lt; T, Allocator &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1deque__chunk__pool.html#a983705e63a6421e614455b2dcb475c2d">seq::detail::deque_chunk_pool&lt; T, Allocator &gt;</a>
 </li>
 <li>deque_chunk_pool_alloc()
 : <a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#a38fb1c8acfac41308d2fbce25a3c0345">seq::detail::deque_chunk_pool_alloc&lt; T, Allocator &gt;</a>
 </li>
 <li>deque_const_iterator()
-: <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html#a09ded0f792599a1e0bd2def656e07d3c">seq::detail::deque_const_iterator&lt; BucketMgr &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html#a9636b9253820d1397c42b7f6d8fdee92">seq::detail::deque_const_iterator&lt; BucketMgr &gt;</a>
 </li>
 <li>deque_iterator()
-: <a class="el" href="structseq_1_1detail_1_1deque__iterator.html#a43996e0d9f4a5c11de1a58085d9af0e2">seq::detail::deque_iterator&lt; BucketMgr &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1deque__iterator.html#a4cd3a4954d66a9d12f04895659dbee61">seq::detail::deque_iterator&lt; BucketMgr &gt;</a>
 </li>
 <li>deque_type
-: <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ce69acdeb2df26a94c72eb659d11762">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a206db35a1c2d1065d811172700f3518d">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
 , <a class="el" href="classseq_1_1flat__map.html#aa1000b7197b0ce9a7fccb22421000d49">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;</a>
 , <a class="el" href="classseq_1_1flat__multimap.html#af20166ba66768fa1334b274123c063c9">seq::flat_multimap&lt; Key, T, Compare, Allocator, layout, Stable &gt;</a>
 , <a class="el" href="classseq_1_1flat__set.html#a1a99d74a2c1b1287883c1aa8f77b9d23">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;</a>
 </li>
 <li>DequeBucketAllocator()
-: <a class="el" href="structseq_1_1detail_1_1_deque_bucket_allocator.html#ac193a9022c54a3e71b159b6b676e2864">seq::detail::DequeBucketAllocator&lt; T, Allocator, Bucket &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1_deque_bucket_allocator.html#a59ce6643c285664c126eb0537a14a54f">seq::detail::DequeBucketAllocator&lt; T, Allocator, Bucket &gt;</a>
 </li>
 <li>derived()
-: <a class="el" href="structseq_1_1base__ostream__format.html#ac14e6aada4febfc410190399da11397e">seq::base_ostream_format&lt; T, Derived &gt;</a>
+: <a class="el" href="structseq_1_1base__ostream__format.html#adbb3f0d879273c631589955c0bec5f31">seq::base_ostream_format&lt; T, Derived &gt;</a>
 </li>
 <li>destroy()
 : <a class="el" href="classseq_1_1aligned__allocator.html#a4d47d0dde411858e8f7e14a835caf648">seq::aligned_allocator&lt; T, Allocator, Align &gt;</a>
@@ -277,7 +277,7 @@ $(document).ready(function(){initNavTree('functions_d.html',''); initResizable()
 </li>
 <li>destroy_any()
 : <a class="el" href="classseq_1_1any__type__info.html#a1cbce1fddd8b3b27c051dad440522ca8">seq::any_type_info</a>
-, <a class="el" href="structseq_1_1any__typed__type__info.html#a62b63c8731e26b2ccebb7453bc3a94ca">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>
+, <a class="el" href="structseq_1_1any__typed__type__info.html#a6e3a2bb84d15debc4cb75f27e5171f72">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>
 </li>
 <li>destroy_range()
 : <a class="el" href="structseq_1_1detail_1_1_d_e_vector_data.html#a69d7439ef922e3ebbf19333339f05b3c">seq::detail::DEVectorData&lt; T, Allocator, flag &gt;</a>
@@ -296,16 +296,15 @@ $(document).ready(function(){initNavTree('functions_d.html',''); initResizable()
 : <a class="el" href="classseq_1_1sequence.html#a678594126fb1327768c3931311cad470">seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</a>
 </li>
 <li>devector()
-: <a class="el" href="classseq_1_1devector.html#adb9ad834efb737db31bd53ba773d2984">seq::devector&lt; T, Allocator, flag &gt;</a>
+: <a class="el" href="classseq_1_1devector.html#ac5ba09d5a78f67724af349d70b298ccd">seq::devector&lt; T, Allocator, flag &gt;</a>
 </li>
 <li>DEVectorData()
-: <a class="el" href="structseq_1_1detail_1_1_d_e_vector_data.html#aa9c761903373f93c9df5cd095c2caeed">seq::detail::DEVectorData&lt; T, Allocator, flag &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1_d_e_vector_data.html#a6c46edc1e1752c5766df6962803b29dd">seq::detail::DEVectorData&lt; T, Allocator, flag &gt;</a>
 </li>
 <li>difference_type
 : <a class="el" href="classseq_1_1aligned__allocator.html#a4f8f9ef336b49da03b3dc8c7e8ad1c22">seq::aligned_allocator&lt; T, Allocator, Align &gt;</a>
 , <a class="el" href="classseq_1_1aligned__allocator_3_01_t_00_01std_1_1allocator_3_01_t_01_4_00_01_align_01_4.html#a439b45a6253c3fdb72d90d2c70e788bc">seq::aligned_allocator&lt; T, std::allocator&lt; T &gt;, Align &gt;</a>
 , <a class="el" href="classseq_1_1cvalue__iterator.html#a8ddced87c5c54ac3dbd5547774d7ccca">seq::cvalue_iterator&lt; T &gt;</a>
-, <a class="el" href="classseq_1_1deque.html#ae2f18cc6989d106d650aa488415252e8">seq::deque&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1allocator__for__shared__ptr.html#a3acdc307d25b2cf2c9dd013ade63e539">seq::detail::allocator_for_shared_ptr&lt; T, Pool &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a30bbeef52f9be1fde3289e649e97d6eb">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html#a980984b057c0d9d75304ac54167f19b2">seq::detail::deque_const_iterator&lt; BucketMgr &gt;</a>
@@ -331,6 +330,7 @@ $(document).ready(function(){initNavTree('functions_d.html',''); initResizable()
 , <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#a2b19d3368c3c08c2a1f52ffc3cb39510">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
 , <a class="el" href="classseq_1_1ordered__set.html#aa5395a6fe5848dd040ffb3e59d3f6c3c">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;</a>
 , <a class="el" href="classseq_1_1sequence.html#a6090a614e298f8427de83867a6a6d5a5">seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</a>
+, <a class="el" href="classseq_1_1tiered__vector.html#aed83ac2260fe7fdc884bc540733b241a">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
 , <a class="el" href="classseq_1_1tiny__string.html#a9c29beef2556e4c9bfd089a2504260db">seq::tiny_string&lt; MaxStaticSize, Allocator &gt;</a>
 , <a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#afea14fe87bae9823c87e1d7caf3abb8b">seq::tiny_string&lt; 0, view_allocator &gt;</a>
 </li>
@@ -338,7 +338,7 @@ $(document).ready(function(){initNavTree('functions_d.html',''); initResizable()
 : <a class="el" href="structseq_1_1width__format.html#a2443451a4fbf47e6a5263bd6ba5f5df6">seq::width_format</a>
 </li>
 <li>dirty()
-: <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae49a26c456290688f51292059625adc9">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a7d9cf5f6464dcc1a41d86bffbaad986f">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#abf3329dc7858872daff1f5f546dfd15d">seq::detail::SparseFlatNodeHashTable&lt; Key, Value, Hash, Equal, Allocator, layout &gt;</a>
 </li>
 <li>dist_type
@@ -350,9 +350,9 @@ $(document).ready(function(){initNavTree('functions_d.html',''); initResizable()
 , <a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a802c54da6ff756ec2b6190f036c3625b">seq::detail::SequenceNode&lt; T, Extract &gt;</a>
 </li>
 <li>dot()
-: <a class="el" href="structseq_1_1base__ostream__format.html#ad8e2fb0505c5ea83f7fe3a6275c16569">seq::base_ostream_format&lt; T, Derived &gt;</a>
+: <a class="el" href="structseq_1_1base__ostream__format.html#abf837251ae5426b5dae863602f564387">seq::base_ostream_format&lt; T, Derived &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1float__chars__format.html#aa122029412a65d8ac0b7798b8a4c7f52">seq::detail::float_chars_format</a>
-, <a class="el" href="classseq_1_1numeric__format.html#a81ba4c2d6f474fe5fe66eafdc27fa014">seq::numeric_format</a>
+, <a class="el" href="classseq_1_1numeric__format.html#a39fee7595e82e15497feb8f4c0ea7f7e">seq::numeric_format</a>
 </li>
 <li>dump_statistics()
 : <a class="el" href="classseq_1_1object__pool.html#ae2eeb6dbde18dbe45eba8527db0dec52">seq::object_pool&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;</a>

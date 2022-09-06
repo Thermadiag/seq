@@ -113,8 +113,8 @@ Public Types</h2></td></tr>
 <tr class="separator:a3ddeb0daf1bfb4dc9fc087875dfada16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69e12b18fe1291fb844c4e32f5c748b0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a69e12b18fe1291fb844c4e32f5c748b0">this_type</a> = <a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</td></tr>
 <tr class="separator:a69e12b18fe1291fb844c4e32f5c748b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ce69acdeb2df26a94c72eb659d11762"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ce69acdeb2df26a94c72eb659d11762">deque_type</a> = <a class="el" href="classseq_1_1deque.html">deque</a>&lt; Value, Allocator, layout, <a class="el" href="deque_8hpp.html#a8138c63e1b50e132c7835a56cc0455a5">SEQ_MIN_BUCKET_SIZE</a>(Value), <a class="el" href="deque_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">SEQ_MAX_BUCKET_SIZE</a>, <a class="el" href="structseq_1_1detail_1_1_find_bucket_size.html">FindBucketSize</a>&lt; Value &gt;, true, <a class="el" href="structseq_1_1detail_1_1_extract_key.html">ExtractKey</a>&lt; Key, Value &gt; &gt;</td></tr>
-<tr class="separator:a3ce69acdeb2df26a94c72eb659d11762"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a206db35a1c2d1065d811172700f3518d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a206db35a1c2d1065d811172700f3518d">deque_type</a> = <a class="el" href="classseq_1_1tiered__vector.html">tiered_vector</a>&lt; Value, Allocator, layout, <a class="el" href="tiered__vector_8hpp.html#a8138c63e1b50e132c7835a56cc0455a5">SEQ_MIN_BUCKET_SIZE</a>(Value), <a class="el" href="tiered__vector_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">SEQ_MAX_BUCKET_SIZE</a>, <a class="el" href="structseq_1_1detail_1_1_find_bucket_size.html">FindBucketSize</a>&lt; Value &gt;, true, <a class="el" href="structseq_1_1detail_1_1_extract_key.html">ExtractKey</a>&lt; Key, Value &gt; &gt;</td></tr>
+<tr class="separator:a206db35a1c2d1065d811172700f3518d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2606bb3857c1b930f092917432edf84"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aa2606bb3857c1b930f092917432edf84">key_type</a> = Key</td></tr>
 <tr class="separator:aa2606bb3857c1b930f092917432edf84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8ea95d1a08cdcde3d0afc3f22c18b07"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> = Value</td></tr>
@@ -137,25 +137,25 @@ Public Types</h2></td></tr>
 <tr class="separator:a4ae9f53766ccb4bf1b04a0208ebb97ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f071ac2377ffc983856a7bf0abdff78"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a7f071ac2377ffc983856a7bf0abdff78">const_pointer</a> = typename std::allocator_traits&lt; Allocator &gt;::<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a7f071ac2377ffc983856a7bf0abdff78">const_pointer</a></td></tr>
 <tr class="separator:a7f071ac2377ffc983856a7bf0abdff78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63457f818ac8a402c8982880c2433a48"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> = typename <a class="el" href="classseq_1_1deque.html#a26cf9da97c50a252516996ae1f7f2acc">deque_type::iterator</a></td></tr>
+<tr class="memitem:a63457f818ac8a402c8982880c2433a48"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> = typename <a class="el" href="classseq_1_1tiered__vector.html#af07fac47e43faf9784565ac772ad4a16">deque_type::iterator</a></td></tr>
 <tr class="separator:a63457f818ac8a402c8982880c2433a48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57edc40ddfede7c92d1055cedd3b7049"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> = typename <a class="el" href="classseq_1_1deque.html#a33aa4d29ac3235a3e39c4e4ba4b7e8aa">deque_type::const_iterator</a></td></tr>
+<tr class="memitem:a57edc40ddfede7c92d1055cedd3b7049"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> = typename <a class="el" href="classseq_1_1tiered__vector.html#ad896d0a64dec4e0ef996b226a18556a6">deque_type::const_iterator</a></td></tr>
 <tr class="separator:a57edc40ddfede7c92d1055cedd3b7049"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c071f877d35a1e6c91d3b71c784678f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a> = typename <a class="el" href="classseq_1_1deque.html#a14115e561acf8848747c6e7661c4800d">deque_type::reverse_iterator</a></td></tr>
+<tr class="memitem:a5c071f877d35a1e6c91d3b71c784678f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a> = typename <a class="el" href="classseq_1_1tiered__vector.html#aba04b669119d7766597946a9e4d34a30">deque_type::reverse_iterator</a></td></tr>
 <tr class="separator:a5c071f877d35a1e6c91d3b71c784678f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc1ded13073aeb2923893a48e916a5c9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> = typename <a class="el" href="classseq_1_1deque.html#a4bb9e145b4cc3ab0203afb6b5dfffa1e">deque_type::const_reverse_iterator</a></td></tr>
+<tr class="memitem:afc1ded13073aeb2923893a48e916a5c9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> = typename <a class="el" href="classseq_1_1tiered__vector.html#ac62f57fd6c1c2c85aaad444a363717af">deque_type::const_reverse_iterator</a></td></tr>
 <tr class="separator:afc1ded13073aeb2923893a48e916a5c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab2c8c1e86a8d4cef6a1a0d5250542446"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ddeb0daf1bfb4dc9fc087875dfada16">base_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ab2c8c1e86a8d4cef6a1a0d5250542446">base</a> () noexcept</td></tr>
-<tr class="separator:ab2c8c1e86a8d4cef6a1a0d5250542446"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bca8eb0b25ce490bc86564793c22363"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ddeb0daf1bfb4dc9fc087875dfada16">base_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a7bca8eb0b25ce490bc86564793c22363">base</a> () const noexcept</td></tr>
-<tr class="separator:a7bca8eb0b25ce490bc86564793c22363"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ac93cf203719a41cce940ed52fd1f70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a4ac93cf203719a41cce940ed52fd1f70">base</a> () noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ddeb0daf1bfb4dc9fc087875dfada16">base_type</a> &amp;</td></tr>
+<tr class="separator:a4ac93cf203719a41cce940ed52fd1f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2feb3d32aca302d5a1aeac0249a363d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a2feb3d32aca302d5a1aeac0249a363d3">base</a> () const noexcept -&gt; const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ddeb0daf1bfb4dc9fc087875dfada16">base_type</a> &amp;</td></tr>
+<tr class="separator:a2feb3d32aca302d5a1aeac0249a363d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42619f399691199925c8b64723df3b1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a42619f399691199925c8b64723df3b1c">mark_dirty</a> ()</td></tr>
 <tr class="separator:a42619f399691199925c8b64723df3b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae49a26c456290688f51292059625adc9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae49a26c456290688f51292059625adc9">dirty</a> () const</td></tr>
-<tr class="separator:ae49a26c456290688f51292059625adc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d9cf5f6464dcc1a41d86bffbaad986f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a7d9cf5f6464dcc1a41d86bffbaad986f">dirty</a> () const -&gt; bool</td></tr>
+<tr class="separator:a7d9cf5f6464dcc1a41d86bffbaad986f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e39684cc1838aa901e247f7105e44cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a4e39684cc1838aa901e247f7105e44cc">check_dirty</a> () const</td></tr>
 <tr class="separator:a4e39684cc1838aa901e247f7105e44cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf12d0e2f5056e5e237933ec16c4543d"><td class="memTemplParams" colspan="2">template&lt;class Iter , class Cat &gt; </td></tr>
@@ -188,54 +188,54 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a655ac1d34e4debe66c2750f34dbd71a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a523298a9d735b7a6f523303bf915845f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a523298a9d735b7a6f523303bf915845f">flat_tree</a> (std::initializer_list&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &gt; init, const Allocator &amp;alloc)</td></tr>
 <tr class="separator:a523298a9d735b7a6f523303bf915845f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6edabaced2ebca797f704e62be3daf0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#af6edabaced2ebca797f704e62be3daf0">operator=</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="separator:af6edabaced2ebca797f704e62be3daf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7db0b6ca0dbbf08f36ada7f530c5ce9e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a7db0b6ca0dbbf08f36ada7f530c5ce9e">operator=</a> (const <a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;other)</td></tr>
-<tr class="separator:a7db0b6ca0dbbf08f36ada7f530c5ce9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47ec69e68daa675ba8dad5d8a2c701e2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a47ec69e68daa675ba8dad5d8a2c701e2">operator=</a> (const std::initializer_list&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &gt; &amp;init)</td></tr>
-<tr class="separator:a47ec69e68daa675ba8dad5d8a2c701e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec987bac6469226f0610dea715422317"><td class="memItemLeft" align="right" valign="top">Allocator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aec987bac6469226f0610dea715422317">get_allocator</a> () const noexcept</td></tr>
-<tr class="separator:aec987bac6469226f0610dea715422317"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad95f7bd367339eaa4c04e57f288441b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aad95f7bd367339eaa4c04e57f288441b">empty</a> () const noexcept</td></tr>
-<tr class="separator:aad95f7bd367339eaa4c04e57f288441b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f4d1946f273035604b4ee61e656a009"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a7f4d1946f273035604b4ee61e656a009">size</a> () const noexcept</td></tr>
-<tr class="separator:a7f4d1946f273035604b4ee61e656a009"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa070e1ef6a6fe0d48c5fa8383bc59642"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aa070e1ef6a6fe0d48c5fa8383bc59642">max_size</a> () const noexcept</td></tr>
-<tr class="separator:aa070e1ef6a6fe0d48c5fa8383bc59642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafa8a9ca17b4f6f16df83a983d9912db"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aafa8a9ca17b4f6f16df83a983d9912db">operator=</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;&amp;other) noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;</td></tr>
+<tr class="separator:aafa8a9ca17b4f6f16df83a983d9912db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dee7d23f68f4dd1735d530507ef9757"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a6dee7d23f68f4dd1735d530507ef9757">operator=</a> (const <a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;other) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;</td></tr>
+<tr class="separator:a6dee7d23f68f4dd1735d530507ef9757"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64b34748e7942481628d1ec339b5b5c2"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a64b34748e7942481628d1ec339b5b5c2">operator=</a> (const std::initializer_list&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &gt; &amp;init) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;</td></tr>
+<tr class="separator:a64b34748e7942481628d1ec339b5b5c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae235e159e329e94e99207b08ecc448bd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae235e159e329e94e99207b08ecc448bd">get_allocator</a> () const noexcept -&gt; Allocator</td></tr>
+<tr class="separator:ae235e159e329e94e99207b08ecc448bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f8737ec783f8d58ca1aba083de25036"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a6f8737ec783f8d58ca1aba083de25036">empty</a> () const noexcept -&gt; bool</td></tr>
+<tr class="separator:a6f8737ec783f8d58ca1aba083de25036"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96e1fe054bc7bcf2bd8bd7bbdd53ebb2"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a96e1fe054bc7bcf2bd8bd7bbdd53ebb2">size</a> () const noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a></td></tr>
+<tr class="separator:a96e1fe054bc7bcf2bd8bd7bbdd53ebb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ccd6072f2ad57921367f2ef67d578cf"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a7ccd6072f2ad57921367f2ef67d578cf">max_size</a> () const noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a></td></tr>
+<tr class="separator:a7ccd6072f2ad57921367f2ef67d578cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab03f25e6444408de9fa9a3c7bb75e97a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ab03f25e6444408de9fa9a3c7bb75e97a">clear</a> () noexcept</td></tr>
 <tr class="separator:ab03f25e6444408de9fa9a3c7bb75e97a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5875047bec7bd942469015dd039080f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#af5875047bec7bd942469015dd039080f">swap</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;other) noexcept</td></tr>
 <tr class="separator:af5875047bec7bd942469015dd039080f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a711b2cdff2140888e09f2420d3afe0f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ce69acdeb2df26a94c72eb659d11762">deque_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a711b2cdff2140888e09f2420d3afe0f6">deque</a> () noexcept</td></tr>
-<tr class="separator:a711b2cdff2140888e09f2420d3afe0f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ecd338e685eaf62d91310c83fcb6eaa"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ce69acdeb2df26a94c72eb659d11762">deque_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a1ecd338e685eaf62d91310c83fcb6eaa">deque</a> () const noexcept</td></tr>
-<tr class="separator:a1ecd338e685eaf62d91310c83fcb6eaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81e842fd74baa5ec7f636746ed2b6a16"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ce69acdeb2df26a94c72eb659d11762">deque_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a81e842fd74baa5ec7f636746ed2b6a16">cdeque</a> () const noexcept</td></tr>
-<tr class="separator:a81e842fd74baa5ec7f636746ed2b6a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6310c830c1460e99928e03b279ab5664"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
-<tr class="memitem:a6310c830c1460e99928e03b279ab5664"><td class="memTemplItemLeft" align="right" valign="top">std::pair&lt; size_t, bool &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a6310c830c1460e99928e03b279ab5664">insert_pos_multi</a> (U &amp;&amp;value)</td></tr>
-<tr class="separator:a6310c830c1460e99928e03b279ab5664"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea0735505194cc2528c7d3df48240753"><td class="memItemLeft" align="right" valign="top">std::pair&lt; size_t, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aea0735505194cc2528c7d3df48240753">insert_pos</a> (const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;value)</td></tr>
-<tr class="separator:aea0735505194cc2528c7d3df48240753"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a876948f8a846a19b0fdcac0978f031d7"><td class="memItemLeft" align="right" valign="top">std::pair&lt; size_t, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a876948f8a846a19b0fdcac0978f031d7">insert_pos</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;&amp;value)</td></tr>
-<tr class="separator:a876948f8a846a19b0fdcac0978f031d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78e6219307fb487bb977834aad695c0d"><td class="memItemLeft" align="right" valign="top">std::pair&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a78e6219307fb487bb977834aad695c0d">insert</a> (const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;value)</td></tr>
-<tr class="separator:a78e6219307fb487bb977834aad695c0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa8178fd5e179443bc999c92a615e165"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:afa8178fd5e179443bc999c92a615e165"><td class="memTemplItemLeft" align="right" valign="top">std::pair&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#afa8178fd5e179443bc999c92a615e165">emplace</a> (Args &amp;&amp;... args)</td></tr>
-<tr class="separator:afa8178fd5e179443bc999c92a615e165"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e5c2aad66a12f79a49b6915db310b9c"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:a4e5c2aad66a12f79a49b6915db310b9c"><td class="memTemplItemLeft" align="right" valign="top">std::pair&lt; size_t, bool &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a4e5c2aad66a12f79a49b6915db310b9c">emplace_pos</a> (Args &amp;&amp;... args)</td></tr>
-<tr class="separator:a4e5c2aad66a12f79a49b6915db310b9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a418f734e6d1326b009c7ac5ef33920f9"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:a418f734e6d1326b009c7ac5ef33920f9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a418f734e6d1326b009c7ac5ef33920f9">emplace_hint</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> hint, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:a418f734e6d1326b009c7ac5ef33920f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84c6de659991937a472effbd5c767316"><td class="memItemLeft" align="right" valign="top">std::pair&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a84c6de659991937a472effbd5c767316">insert</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;&amp;value)</td></tr>
-<tr class="separator:a84c6de659991937a472effbd5c767316"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a19be6f8a95a8954cc215ebad9cef7b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a9a19be6f8a95a8954cc215ebad9cef7b">insert</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> hint, const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;value)</td></tr>
-<tr class="separator:a9a19be6f8a95a8954cc215ebad9cef7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82120e92dd70ec88a3376acaafc2287d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a82120e92dd70ec88a3376acaafc2287d">insert</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> hint, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;&amp;value)</td></tr>
-<tr class="separator:a82120e92dd70ec88a3376acaafc2287d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae91e46b23d6713e3aaa12426bd2ba29d"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae91e46b23d6713e3aaa12426bd2ba29d">tvector</a> () noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a206db35a1c2d1065d811172700f3518d">deque_type</a> &amp;</td></tr>
+<tr class="separator:ae91e46b23d6713e3aaa12426bd2ba29d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa38823aa3eb9beef2849f39d35cd24b9"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aa38823aa3eb9beef2849f39d35cd24b9">tvector</a> () const noexcept -&gt; const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a206db35a1c2d1065d811172700f3518d">deque_type</a> &amp;</td></tr>
+<tr class="separator:aa38823aa3eb9beef2849f39d35cd24b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e88072c0f2363abf2c399ac0bed627f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a0e88072c0f2363abf2c399ac0bed627f">cdeque</a> () const noexcept -&gt; const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a206db35a1c2d1065d811172700f3518d">deque_type</a> &amp;</td></tr>
+<tr class="separator:a0e88072c0f2363abf2c399ac0bed627f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af21473ef5433144f4aaac286d6b1d6ad"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
+<tr class="memitem:af21473ef5433144f4aaac286d6b1d6ad"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#af21473ef5433144f4aaac286d6b1d6ad">insert_pos_multi</a> (U &amp;&amp;value) -&gt; std::pair&lt; size_t, bool &gt;</td></tr>
+<tr class="separator:af21473ef5433144f4aaac286d6b1d6ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5728395447a218e950b64d4c5a57b054"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5728395447a218e950b64d4c5a57b054">insert_pos</a> (const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;value) -&gt; std::pair&lt; size_t, bool &gt;</td></tr>
+<tr class="separator:a5728395447a218e950b64d4c5a57b054"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a738c96a20c82f3b9ff39a986430c5334"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a738c96a20c82f3b9ff39a986430c5334">insert_pos</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;&amp;value) -&gt; std::pair&lt; size_t, bool &gt;</td></tr>
+<tr class="separator:a738c96a20c82f3b9ff39a986430c5334"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f096056da1e6c0ddf56c525d6b92685"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a2f096056da1e6c0ddf56c525d6b92685">insert</a> (const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;value) -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool &gt;</td></tr>
+<tr class="separator:a2f096056da1e6c0ddf56c525d6b92685"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6a9770185af3bbe70d10c98ee745e6c"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:af6a9770185af3bbe70d10c98ee745e6c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#af6a9770185af3bbe70d10c98ee745e6c">emplace</a> (Args &amp;&amp;... args) -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool &gt;</td></tr>
+<tr class="separator:af6a9770185af3bbe70d10c98ee745e6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9c5e2c0a704e27753b15f3f7fc85c83"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:ad9c5e2c0a704e27753b15f3f7fc85c83"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ad9c5e2c0a704e27753b15f3f7fc85c83">emplace_pos</a> (Args &amp;&amp;... args) -&gt; std::pair&lt; size_t, bool &gt;</td></tr>
+<tr class="separator:ad9c5e2c0a704e27753b15f3f7fc85c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa5ee390e64d38098fbe9a761111b505"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:aaa5ee390e64d38098fbe9a761111b505"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aaa5ee390e64d38098fbe9a761111b505">emplace_hint</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> hint, Args &amp;&amp;... args) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a></td></tr>
+<tr class="separator:aaa5ee390e64d38098fbe9a761111b505"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9eeacb6697d7046aea3e8ee1ca5f2ab0"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a9eeacb6697d7046aea3e8ee1ca5f2ab0">insert</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;&amp;value) -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool &gt;</td></tr>
+<tr class="separator:a9eeacb6697d7046aea3e8ee1ca5f2ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cf2d136e38ceeb7feeefd3d2f9b48c6"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a2cf2d136e38ceeb7feeefd3d2f9b48c6">insert</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> hint, const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;value) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a></td></tr>
+<tr class="separator:a2cf2d136e38ceeb7feeefd3d2f9b48c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37bd049c13d624419cba79d243b0f9eb"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a37bd049c13d624419cba79d243b0f9eb">insert</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> hint, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;&amp;value) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a></td></tr>
+<tr class="separator:a37bd049c13d624419cba79d243b0f9eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a546f190f2ae7b6f4bd0098604661b1f6"><td class="memTemplParams" colspan="2">template&lt;class InputIt &gt; </td></tr>
 <tr class="memitem:a546f190f2ae7b6f4bd0098604661b1f6"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a546f190f2ae7b6f4bd0098604661b1f6">insert</a> (InputIt <a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, InputIt last)</td></tr>
 <tr class="separator:a546f190f2ae7b6f4bd0098604661b1f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -244,102 +244,102 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8642640a132bb38e23d74c1b8af7e42d"><td class="memTemplParams" colspan="2">template&lt;class Iter &gt; </td></tr>
 <tr class="memitem:a8642640a132bb38e23d74c1b8af7e42d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a8642640a132bb38e23d74c1b8af7e42d">assign</a> (Iter <a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, Iter last)</td></tr>
 <tr class="separator:a8642640a132bb38e23d74c1b8af7e42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39118f87b0bb988820fca1ef833061db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a39118f87b0bb988820fca1ef833061db">erase_pos</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a084771bc7783d1b6a1218cee5e6a503b">pos</a>)</td></tr>
+<tr class="memitem:a39118f87b0bb988820fca1ef833061db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a39118f87b0bb988820fca1ef833061db">erase_pos</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html#af90f59be0f60cd9080b68d63d00dae90">pos</a>)</td></tr>
 <tr class="separator:a39118f87b0bb988820fca1ef833061db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13ff9e39bff62cc40dc534de37c4d2cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a13ff9e39bff62cc40dc534de37c4d2cc">erase</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a084771bc7783d1b6a1218cee5e6a503b">pos</a>)</td></tr>
-<tr class="separator:a13ff9e39bff62cc40dc534de37c4d2cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7c9bdbc410f6ec4014fee880f225371"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ab7c9bdbc410f6ec4014fee880f225371">erase</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a084771bc7783d1b6a1218cee5e6a503b">pos</a>)</td></tr>
-<tr class="separator:ab7c9bdbc410f6ec4014fee880f225371"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad06d32250b9bdfa340c06812e3a64639"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ad06d32250b9bdfa340c06812e3a64639">erase</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> <a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> last)</td></tr>
-<tr class="separator:ad06d32250b9bdfa340c06812e3a64639"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cb1507e795370246523f41521613a3b"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a1cb1507e795370246523f41521613a3b">erase</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html#af90f59be0f60cd9080b68d63d00dae90">pos</a>) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a></td></tr>
+<tr class="separator:a1cb1507e795370246523f41521613a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a464ae5dfd949988c1f07ecc3ef211f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a9a464ae5dfd949988c1f07ecc3ef211f">erase</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html#af90f59be0f60cd9080b68d63d00dae90">pos</a>) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a></td></tr>
+<tr class="separator:a9a464ae5dfd949988c1f07ecc3ef211f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bcc7f8722a2edc5b0dac2727ca17f77"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a6bcc7f8722a2edc5b0dac2727ca17f77">erase</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> <a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> last) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a></td></tr>
+<tr class="separator:a6bcc7f8722a2edc5b0dac2727ca17f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae257df5fb76d6d539a0761b8067d9f61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae257df5fb76d6d539a0761b8067d9f61">erase</a> (size_t <a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, size_t last)</td></tr>
 <tr class="separator:ae257df5fb76d6d539a0761b8067d9f61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad56122f184e934e25f80a307d7e33c3f"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:ad56122f184e934e25f80a307d7e33c3f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ad56122f184e934e25f80a307d7e33c3f">erase</a> (const K &amp;key)</td></tr>
-<tr class="separator:ad56122f184e934e25f80a307d7e33c3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac89c963489754f7bcf5a1519b072e29c"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:ac89c963489754f7bcf5a1519b072e29c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac89c963489754f7bcf5a1519b072e29c">find</a> (const K &amp;x)</td></tr>
-<tr class="separator:ac89c963489754f7bcf5a1519b072e29c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af89c29e883bf36325fe8000470acbc30"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:af89c29e883bf36325fe8000470acbc30"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#af89c29e883bf36325fe8000470acbc30">find</a> (const K &amp;x) const</td></tr>
-<tr class="separator:af89c29e883bf36325fe8000470acbc30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae302a32654b5ac32cbfd6c333a742597"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:ae302a32654b5ac32cbfd6c333a742597"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae302a32654b5ac32cbfd6c333a742597">find_pos</a> (const K &amp;x) const</td></tr>
-<tr class="separator:ae302a32654b5ac32cbfd6c333a742597"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a084771bc7783d1b6a1218cee5e6a503b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> const Value &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a084771bc7783d1b6a1218cee5e6a503b">pos</a> (size_t i) const noexcept</td></tr>
-<tr class="separator:a084771bc7783d1b6a1218cee5e6a503b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1dc88809cbf4f7696db130d458d8de5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> Value &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ad1dc88809cbf4f7696db130d458d8de5">pos</a> (size_t i) noexcept</td></tr>
-<tr class="separator:ad1dc88809cbf4f7696db130d458d8de5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a505aabd3997bb52e1e399f26df42a0f5"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:a505aabd3997bb52e1e399f26df42a0f5"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a505aabd3997bb52e1e399f26df42a0f5">lower_bound</a> (const K &amp;x)</td></tr>
-<tr class="separator:a505aabd3997bb52e1e399f26df42a0f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54ce4802ffa9c8f27516b2c3f334c0cb"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:a54ce4802ffa9c8f27516b2c3f334c0cb"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a54ce4802ffa9c8f27516b2c3f334c0cb">lower_bound</a> (const K &amp;x) const</td></tr>
-<tr class="separator:a54ce4802ffa9c8f27516b2c3f334c0cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaeadb7c88e8942ce72fda6b58fdec605"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:aaeadb7c88e8942ce72fda6b58fdec605"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aaeadb7c88e8942ce72fda6b58fdec605">lower_bound_pos</a> (const K &amp;x) const</td></tr>
-<tr class="separator:aaeadb7c88e8942ce72fda6b58fdec605"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f4224a59158cbeb609ea78a7601b34b"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:a9f4224a59158cbeb609ea78a7601b34b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a9f4224a59158cbeb609ea78a7601b34b">upper_bound</a> (const K &amp;x)</td></tr>
-<tr class="separator:a9f4224a59158cbeb609ea78a7601b34b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae53e87b9d1e2f0e1c33fbf507c2a180b"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:ae53e87b9d1e2f0e1c33fbf507c2a180b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae53e87b9d1e2f0e1c33fbf507c2a180b">upper_bound</a> (const K &amp;x) const</td></tr>
-<tr class="separator:ae53e87b9d1e2f0e1c33fbf507c2a180b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae45657153539bb5abbee9a50bf778b47"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:ae45657153539bb5abbee9a50bf778b47"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae45657153539bb5abbee9a50bf778b47">upper_bound_pos</a> (const K &amp;x) const</td></tr>
-<tr class="separator:ae45657153539bb5abbee9a50bf778b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30d4379ee3dc70694190e424114e972f"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:a30d4379ee3dc70694190e424114e972f"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a30d4379ee3dc70694190e424114e972f">contains</a> (const K &amp;x) const</td></tr>
-<tr class="separator:a30d4379ee3dc70694190e424114e972f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e08f2e2a3da7be5464f4984a7cd0012"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:a8e08f2e2a3da7be5464f4984a7cd0012"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a8e08f2e2a3da7be5464f4984a7cd0012">count</a> (const K &amp;x) const</td></tr>
-<tr class="separator:a8e08f2e2a3da7be5464f4984a7cd0012"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f91517cf90d25291522a20c5a7e1171"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:a8f91517cf90d25291522a20c5a7e1171"><td class="memTemplItemLeft" align="right" valign="top">std::pair&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a8f91517cf90d25291522a20c5a7e1171">equal_range</a> (const K &amp;x)</td></tr>
-<tr class="separator:a8f91517cf90d25291522a20c5a7e1171"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af05ab452855c2cead22dff859e6e41c4"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:af05ab452855c2cead22dff859e6e41c4"><td class="memTemplItemLeft" align="right" valign="top">std::pair&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#af05ab452855c2cead22dff859e6e41c4">equal_range</a> (const K &amp;x) const</td></tr>
-<tr class="separator:af05ab452855c2cead22dff859e6e41c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0a939966252eb9d0741cb199860e6ba"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:ae0a939966252eb9d0741cb199860e6ba"><td class="memTemplItemLeft" align="right" valign="top">std::pair&lt; size_t, size_t &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae0a939966252eb9d0741cb199860e6ba">equal_range_pos</a> (const K &amp;x) const</td></tr>
-<tr class="separator:ae0a939966252eb9d0741cb199860e6ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a592811a313bc04ad3b9e066856d5c436"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:a592811a313bc04ad3b9e066856d5c436"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a592811a313bc04ad3b9e066856d5c436">erase</a> (const K &amp;key) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a></td></tr>
+<tr class="separator:a592811a313bc04ad3b9e066856d5c436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfa0621503236a89b5d96c8671000e0d"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:adfa0621503236a89b5d96c8671000e0d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#adfa0621503236a89b5d96c8671000e0d">find</a> (const K &amp;x) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a></td></tr>
+<tr class="separator:adfa0621503236a89b5d96c8671000e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e23a09190ac90d93fb9184485c01009"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:a4e23a09190ac90d93fb9184485c01009"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a4e23a09190ac90d93fb9184485c01009">find</a> (const K &amp;x) const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a></td></tr>
+<tr class="separator:a4e23a09190ac90d93fb9184485c01009"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f0704588227c2e7807b01b4b41f0bc4"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:a6f0704588227c2e7807b01b4b41f0bc4"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a6f0704588227c2e7807b01b4b41f0bc4">find_pos</a> (const K &amp;x) const -&gt; size_t</td></tr>
+<tr class="separator:a6f0704588227c2e7807b01b4b41f0bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af90f59be0f60cd9080b68d63d00dae90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#af90f59be0f60cd9080b68d63d00dae90">pos</a> (size_t i) const noexcept -&gt; const Value &amp;</td></tr>
+<tr class="separator:af90f59be0f60cd9080b68d63d00dae90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a990b2bda1e3170abc0557c0443c5b436"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a990b2bda1e3170abc0557c0443c5b436">pos</a> (size_t i) noexcept -&gt; Value &amp;</td></tr>
+<tr class="separator:a990b2bda1e3170abc0557c0443c5b436"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af58d78eaed8ff96dd2af78335d14de30"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:af58d78eaed8ff96dd2af78335d14de30"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#af58d78eaed8ff96dd2af78335d14de30">lower_bound</a> (const K &amp;x) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a></td></tr>
+<tr class="separator:af58d78eaed8ff96dd2af78335d14de30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54ad37ee6cf59e9721c133f3064bcda2"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:a54ad37ee6cf59e9721c133f3064bcda2"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a54ad37ee6cf59e9721c133f3064bcda2">lower_bound</a> (const K &amp;x) const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a></td></tr>
+<tr class="separator:a54ad37ee6cf59e9721c133f3064bcda2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11bd964d76589107589a301ea4637a71"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:a11bd964d76589107589a301ea4637a71"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a11bd964d76589107589a301ea4637a71">lower_bound_pos</a> (const K &amp;x) const -&gt; size_t</td></tr>
+<tr class="separator:a11bd964d76589107589a301ea4637a71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8c06deebba9e390b837277a5401151f"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:ad8c06deebba9e390b837277a5401151f"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ad8c06deebba9e390b837277a5401151f">upper_bound</a> (const K &amp;x) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a></td></tr>
+<tr class="separator:ad8c06deebba9e390b837277a5401151f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bb810d8c2ff8cf6ef86570dd4f9b2b0"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:a3bb810d8c2ff8cf6ef86570dd4f9b2b0"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3bb810d8c2ff8cf6ef86570dd4f9b2b0">upper_bound</a> (const K &amp;x) const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a></td></tr>
+<tr class="separator:a3bb810d8c2ff8cf6ef86570dd4f9b2b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b098ab602065b3294068df2f92fb87d"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:a8b098ab602065b3294068df2f92fb87d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a8b098ab602065b3294068df2f92fb87d">upper_bound_pos</a> (const K &amp;x) const -&gt; size_t</td></tr>
+<tr class="separator:a8b098ab602065b3294068df2f92fb87d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa74255b51fa975480b683a0891ccdbbc"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:aa74255b51fa975480b683a0891ccdbbc"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aa74255b51fa975480b683a0891ccdbbc">contains</a> (const K &amp;x) const -&gt; bool</td></tr>
+<tr class="separator:aa74255b51fa975480b683a0891ccdbbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46818093f1009d0dc57b025fde2a722a"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:a46818093f1009d0dc57b025fde2a722a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a46818093f1009d0dc57b025fde2a722a">count</a> (const K &amp;x) const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a></td></tr>
+<tr class="separator:a46818093f1009d0dc57b025fde2a722a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab53fee76a4bf26c73cadf7de9610b6c"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:aab53fee76a4bf26c73cadf7de9610b6c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aab53fee76a4bf26c73cadf7de9610b6c">equal_range</a> (const K &amp;x) -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> &gt;</td></tr>
+<tr class="separator:aab53fee76a4bf26c73cadf7de9610b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabc0923808a96c94357fae39d9cc56a0"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:aabc0923808a96c94357fae39d9cc56a0"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aabc0923808a96c94357fae39d9cc56a0">equal_range</a> (const K &amp;x) const -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> &gt;</td></tr>
+<tr class="separator:aabc0923808a96c94357fae39d9cc56a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b37f6311b9508a5717dfff6820d10a6"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:a1b37f6311b9508a5717dfff6820d10a6"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a1b37f6311b9508a5717dfff6820d10a6">equal_range_pos</a> (const K &amp;x) const -&gt; std::pair&lt; size_t, size_t &gt;</td></tr>
+<tr class="separator:a1b37f6311b9508a5717dfff6820d10a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8486088fed947dd88da21dd1f55b9c75"><td class="memTemplParams" colspan="2">template&lt;class C2 , LayoutManagement layout2, bool Unique2&gt; </td></tr>
 <tr class="memitem:a8486088fed947dd88da21dd1f55b9c75"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a8486088fed947dd88da21dd1f55b9c75">merge</a> (<a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a>&lt; Key, Key, C2, Allocator, layout2, Unique2 &gt; &amp;source)</td></tr>
 <tr class="separator:a8486088fed947dd88da21dd1f55b9c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad50bca4ea90cf1a8a01aca68f0621927"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ad50bca4ea90cf1a8a01aca68f0621927">begin</a> () noexcept</td></tr>
-<tr class="separator:ad50bca4ea90cf1a8a01aca68f0621927"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7df2f29344199da342e49db8eac9a713"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a7df2f29344199da342e49db8eac9a713">begin</a> () const noexcept</td></tr>
-<tr class="separator:a7df2f29344199da342e49db8eac9a713"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76e5d218d6382129236d92532706eb40"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a76e5d218d6382129236d92532706eb40">cbegin</a> () const noexcept</td></tr>
-<tr class="separator:a76e5d218d6382129236d92532706eb40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31ad08c70b1600430bf87fbeacd095a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a31ad08c70b1600430bf87fbeacd095a1">end</a> () noexcept</td></tr>
-<tr class="separator:a31ad08c70b1600430bf87fbeacd095a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a809ea3b22577c2109e5f9ed17456489e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a809ea3b22577c2109e5f9ed17456489e">end</a> () const noexcept</td></tr>
-<tr class="separator:a809ea3b22577c2109e5f9ed17456489e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21f8ef8951b21682739c6656392d7167"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a21f8ef8951b21682739c6656392d7167">cend</a> () const noexcept</td></tr>
-<tr class="separator:a21f8ef8951b21682739c6656392d7167"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98da9544b14b926ecb16a6216aa50555"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a98da9544b14b926ecb16a6216aa50555">rbegin</a> () noexcept</td></tr>
-<tr class="separator:a98da9544b14b926ecb16a6216aa50555"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8790a6a6438d6a735700f0209383a8a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aa8790a6a6438d6a735700f0209383a8a">rbegin</a> () const noexcept</td></tr>
-<tr class="separator:aa8790a6a6438d6a735700f0209383a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3099a58349f7daca92aed1265c41d128"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3099a58349f7daca92aed1265c41d128">crbegin</a> () const noexcept</td></tr>
-<tr class="separator:a3099a58349f7daca92aed1265c41d128"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d71ca8c5c0b7c62a8c11a50ba9747d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a9d71ca8c5c0b7c62a8c11a50ba9747d6">rend</a> () noexcept</td></tr>
-<tr class="separator:a9d71ca8c5c0b7c62a8c11a50ba9747d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca28d70c22a0e33473663d990f2485a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aca28d70c22a0e33473663d990f2485a4">rend</a> () const noexcept</td></tr>
-<tr class="separator:aca28d70c22a0e33473663d990f2485a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5062f0164bced7acee1b1c523d715e1b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5062f0164bced7acee1b1c523d715e1b">crend</a> () const noexcept</td></tr>
-<tr class="separator:a5062f0164bced7acee1b1c523d715e1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5e5f79bc25b31914753321ae1852546"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ab5923de14afa0bd77f5a861dc9231822">key_compare</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aa5e5f79bc25b31914753321ae1852546">key_comp</a> () const</td></tr>
-<tr class="separator:aa5e5f79bc25b31914753321ae1852546"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0aef7cc82217ee5d7275ef08e75d8f52"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ace75a2587b634ab29cc26b95949e15e9">value_compare</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a0aef7cc82217ee5d7275ef08e75d8f52">value_comp</a> () const</td></tr>
-<tr class="separator:a0aef7cc82217ee5d7275ef08e75d8f52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06afa1675b21660bdd9a780fe16a64c1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a06afa1675b21660bdd9a780fe16a64c1">begin</a> () noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a></td></tr>
+<tr class="separator:a06afa1675b21660bdd9a780fe16a64c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28211fe84caa51890a2666f6f0c16e23"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a28211fe84caa51890a2666f6f0c16e23">begin</a> () const noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a></td></tr>
+<tr class="separator:a28211fe84caa51890a2666f6f0c16e23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cfbfe63af1a6fd6a0b86d6af95b6ba6"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a1cfbfe63af1a6fd6a0b86d6af95b6ba6">cbegin</a> () const noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a></td></tr>
+<tr class="separator:a1cfbfe63af1a6fd6a0b86d6af95b6ba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab3481205ca1ae486db56065b8a14f3a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#aab3481205ca1ae486db56065b8a14f3a">end</a> () noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a></td></tr>
+<tr class="separator:aab3481205ca1ae486db56065b8a14f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bb348b05f76c5ead3ec2238373c19de"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a2bb348b05f76c5ead3ec2238373c19de">end</a> () const noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a></td></tr>
+<tr class="separator:a2bb348b05f76c5ead3ec2238373c19de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7682fb07165f757a28fe76a0c5cefbf1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a7682fb07165f757a28fe76a0c5cefbf1">cend</a> () const noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a></td></tr>
+<tr class="separator:a7682fb07165f757a28fe76a0c5cefbf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ec84cbe98a81410d229dae1f881670d"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a1ec84cbe98a81410d229dae1f881670d">rbegin</a> () noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a></td></tr>
+<tr class="separator:a1ec84cbe98a81410d229dae1f881670d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae71bc91be3594df4abaa19c7829d1346"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae71bc91be3594df4abaa19c7829d1346">rbegin</a> () const noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a></td></tr>
+<tr class="separator:ae71bc91be3594df4abaa19c7829d1346"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cabea98a7ec6ce54c9090d30fa5847e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a4cabea98a7ec6ce54c9090d30fa5847e">crbegin</a> () const noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a></td></tr>
+<tr class="separator:a4cabea98a7ec6ce54c9090d30fa5847e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5936d978de4e18144a2759721f39b1a3"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5936d978de4e18144a2759721f39b1a3">rend</a> () noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a></td></tr>
+<tr class="separator:a5936d978de4e18144a2759721f39b1a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09f7a17413240e8f075988fd4c11f519"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a09f7a17413240e8f075988fd4c11f519">rend</a> () const noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a></td></tr>
+<tr class="separator:a09f7a17413240e8f075988fd4c11f519"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03275476e667627ce2450bf479509325"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a03275476e667627ce2450bf479509325">crend</a> () const noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a></td></tr>
+<tr class="separator:a03275476e667627ce2450bf479509325"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b185f6615f1c8154f2294796643fcfd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5b185f6615f1c8154f2294796643fcfd">key_comp</a> () const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ab5923de14afa0bd77f5a861dc9231822">key_compare</a></td></tr>
+<tr class="separator:a5b185f6615f1c8154f2294796643fcfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a678825df80e20dcae2a0d4165cf5ff7d"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a678825df80e20dcae2a0d4165cf5ff7d">value_comp</a> () const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ace75a2587b634ab29cc26b95949e15e9">value_compare</a></td></tr>
+<tr class="separator:a678825df80e20dcae2a0d4165cf5ff7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e5885d16d378b8b3ac46820841e39fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a9e5885d16d378b8b3ac46820841e39fd">sort</a> ()</td></tr>
 <tr class="separator:a9e5885d16d378b8b3ac46820841e39fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a5659024b51f63d3cf51918d8866e4d40"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ce69acdeb2df26a94c72eb659d11762">deque_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5659024b51f63d3cf51918d8866e4d40">d_deque</a></td></tr>
+<tr class="memitem:a5659024b51f63d3cf51918d8866e4d40"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a206db35a1c2d1065d811172700f3518d">deque_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5659024b51f63d3cf51918d8866e4d40">d_deque</a></td></tr>
 <tr class="separator:a5659024b51f63d3cf51918d8866e4d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae03e5c1c020749579f6302e96d1a075c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae03e5c1c020749579f6302e96d1a075c">d_dirty</a></td></tr>
 <tr class="separator:ae03e5c1c020749579f6302e96d1a075c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -386,7 +386,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> =  typename <a class="el" href="classseq_1_1deque.html#a33aa4d29ac3235a3e39c4e4ba4b7e8aa">deque_type::const_iterator</a></td>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> =  typename <a class="el" href="classseq_1_1tiered__vector.html#ad896d0a64dec4e0ef996b226a18556a6">deque_type::const_iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -434,15 +434,15 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> =  typename <a class="el" href="classseq_1_1deque.html#a4bb9e145b4cc3ab0203afb6b5dfffa1e">deque_type::const_reverse_iterator</a></td>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> =  typename <a class="el" href="classseq_1_1tiered__vector.html#ac62f57fd6c1c2c85aaad444a363717af">deque_type::const_reverse_iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a3ce69acdeb2df26a94c72eb659d11762"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ce69acdeb2df26a94c72eb659d11762">&#9670;&nbsp;</a></span>deque_type</h2>
+<a id="a206db35a1c2d1065d811172700f3518d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a206db35a1c2d1065d811172700f3518d">&#9670;&nbsp;</a></span>deque_type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -450,7 +450,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ce69acdeb2df26a94c72eb659d11762">deque_type</a> =  <a class="el" href="classseq_1_1deque.html">deque</a>&lt;Value, Allocator, layout, <a class="el" href="deque_8hpp.html#a8138c63e1b50e132c7835a56cc0455a5">SEQ_MIN_BUCKET_SIZE</a>(Value), <a class="el" href="deque_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">SEQ_MAX_BUCKET_SIZE</a>, <a class="el" href="structseq_1_1detail_1_1_find_bucket_size.html">FindBucketSize</a>&lt;Value&gt;, true, <a class="el" href="structseq_1_1detail_1_1_extract_key.html">ExtractKey</a>&lt;Key,Value&gt; &gt;</td>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a206db35a1c2d1065d811172700f3518d">deque_type</a> =  <a class="el" href="classseq_1_1tiered__vector.html">tiered_vector</a>&lt;Value, Allocator, layout, <a class="el" href="tiered__vector_8hpp.html#a8138c63e1b50e132c7835a56cc0455a5">SEQ_MIN_BUCKET_SIZE</a>(Value), <a class="el" href="tiered__vector_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">SEQ_MAX_BUCKET_SIZE</a>, <a class="el" href="structseq_1_1detail_1_1_find_bucket_size.html">FindBucketSize</a>&lt;Value&gt;, true, <a class="el" href="structseq_1_1detail_1_1_extract_key.html">ExtractKey</a>&lt;Key,Value&gt; &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -498,7 +498,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> =  typename <a class="el" href="classseq_1_1deque.html#a26cf9da97c50a252516996ae1f7f2acc">deque_type::iterator</a></td>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> =  typename <a class="el" href="classseq_1_1tiered__vector.html#af07fac47e43faf9784565ac772ad4a16">deque_type::iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -578,7 +578,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a> =  typename <a class="el" href="classseq_1_1deque.html#a14115e561acf8848747c6e7661c4800d">deque_type::reverse_iterator</a></td>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a> =  typename <a class="el" href="classseq_1_1tiered__vector.html#aba04b669119d7766597946a9e4d34a30">deque_type::reverse_iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1188,8 +1188,8 @@ template&lt;class Iter &gt; </div>
 
 </div>
 </div>
-<a id="a7bca8eb0b25ce490bc86564793c22363"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bca8eb0b25ce490bc86564793c22363">&#9670;&nbsp;</a></span>base() <span class="overload">[1/2]</span></h2>
+<a id="a2feb3d32aca302d5a1aeac0249a363d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2feb3d32aca302d5a1aeac0249a363d3">&#9670;&nbsp;</a></span>base() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1200,10 +1200,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ddeb0daf1bfb4dc9fc087875dfada16">base_type</a>&amp; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::base </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::base </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ddeb0daf1bfb4dc9fc087875dfada16">base_type</a>&amp; </td>
         </tr>
       </table>
   </td>
@@ -1215,8 +1215,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="ab2c8c1e86a8d4cef6a1a0d5250542446"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2c8c1e86a8d4cef6a1a0d5250542446">&#9670;&nbsp;</a></span>base() <span class="overload">[2/2]</span></h2>
+<a id="a4ac93cf203719a41cce940ed52fd1f70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ac93cf203719a41cce940ed52fd1f70">&#9670;&nbsp;</a></span>base() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1227,10 +1227,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ddeb0daf1bfb4dc9fc087875dfada16">base_type</a>&amp; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::base </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::base </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ddeb0daf1bfb4dc9fc087875dfada16">base_type</a>&amp;  </td>
         </tr>
       </table>
   </td>
@@ -1242,8 +1242,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a7df2f29344199da342e49db8eac9a713"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7df2f29344199da342e49db8eac9a713">&#9670;&nbsp;</a></span>begin() <span class="overload">[1/2]</span></h2>
+<a id="a28211fe84caa51890a2666f6f0c16e23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28211fe84caa51890a2666f6f0c16e23">&#9670;&nbsp;</a></span>begin() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1254,10 +1254,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::begin </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1269,8 +1269,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="ad50bca4ea90cf1a8a01aca68f0621927"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad50bca4ea90cf1a8a01aca68f0621927">&#9670;&nbsp;</a></span>begin() <span class="overload">[2/2]</span></h2>
+<a id="a06afa1675b21660bdd9a780fe16a64c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06afa1675b21660bdd9a780fe16a64c1">&#9670;&nbsp;</a></span>begin() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1281,10 +1281,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::begin </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1296,8 +1296,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a76e5d218d6382129236d92532706eb40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a76e5d218d6382129236d92532706eb40">&#9670;&nbsp;</a></span>cbegin()</h2>
+<a id="a1cfbfe63af1a6fd6a0b86d6af95b6ba6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cfbfe63af1a6fd6a0b86d6af95b6ba6">&#9670;&nbsp;</a></span>cbegin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1308,10 +1308,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::cbegin </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::cbegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1323,8 +1323,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a81e842fd74baa5ec7f636746ed2b6a16"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81e842fd74baa5ec7f636746ed2b6a16">&#9670;&nbsp;</a></span>cdeque()</h2>
+<a id="a0e88072c0f2363abf2c399ac0bed627f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e88072c0f2363abf2c399ac0bed627f">&#9670;&nbsp;</a></span>cdeque()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1335,10 +1335,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ce69acdeb2df26a94c72eb659d11762">deque_type</a>&amp; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::cdeque </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::cdeque </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a206db35a1c2d1065d811172700f3518d">deque_type</a>&amp; </td>
         </tr>
       </table>
   </td>
@@ -1350,8 +1350,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a21f8ef8951b21682739c6656392d7167"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21f8ef8951b21682739c6656392d7167">&#9670;&nbsp;</a></span>cend()</h2>
+<a id="a7682fb07165f757a28fe76a0c5cefbf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7682fb07165f757a28fe76a0c5cefbf1">&#9670;&nbsp;</a></span>cend()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1362,10 +1362,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::cend </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::cend </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1431,8 +1431,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a30d4379ee3dc70694190e424114e972f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30d4379ee3dc70694190e424114e972f">&#9670;&nbsp;</a></span>contains()</h2>
+<a id="aa74255b51fa975480b683a0891ccdbbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa74255b51fa975480b683a0891ccdbbc">&#9670;&nbsp;</a></span>contains()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1445,11 +1445,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::contains </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::contains </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; bool 
+		</td>
         </tr>
       </table>
   </td>
@@ -1461,8 +1462,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="a8e08f2e2a3da7be5464f4984a7cd0012"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e08f2e2a3da7be5464f4984a7cd0012">&#9670;&nbsp;</a></span>count()</h2>
+<a id="a46818093f1009d0dc57b025fde2a722a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46818093f1009d0dc57b025fde2a722a">&#9670;&nbsp;</a></span>count()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1475,11 +1476,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::count </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::count </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a> 
+		</td>
         </tr>
       </table>
   </td>
@@ -1491,8 +1493,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="a3099a58349f7daca92aed1265c41d128"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3099a58349f7daca92aed1265c41d128">&#9670;&nbsp;</a></span>crbegin()</h2>
+<a id="a4cabea98a7ec6ce54c9090d30fa5847e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cabea98a7ec6ce54c9090d30fa5847e">&#9670;&nbsp;</a></span>crbegin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1503,10 +1505,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::crbegin </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::crbegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1518,8 +1520,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a5062f0164bced7acee1b1c523d715e1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5062f0164bced7acee1b1c523d715e1b">&#9670;&nbsp;</a></span>crend()</h2>
+<a id="a03275476e667627ce2450bf479509325"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03275476e667627ce2450bf479509325">&#9670;&nbsp;</a></span>crend()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1530,10 +1532,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::crend </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::crend </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1545,8 +1547,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a1ecd338e685eaf62d91310c83fcb6eaa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ecd338e685eaf62d91310c83fcb6eaa">&#9670;&nbsp;</a></span>deque() <span class="overload">[1/2]</span></h2>
+<a id="a7d9cf5f6464dcc1a41d86bffbaad986f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d9cf5f6464dcc1a41d86bffbaad986f">&#9670;&nbsp;</a></span>dirty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1557,64 +1559,11 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ce69acdeb2df26a94c72eb659d11762">deque_type</a>&amp; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="classseq_1_1deque.html">deque</a> </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::dirty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a711b2cdff2140888e09f2420d3afe0f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a711b2cdff2140888e09f2420d3afe0f6">&#9670;&nbsp;</a></span>deque() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ce69acdeb2df26a94c72eb659d11762">deque_type</a>&amp; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::<a class="el" href="classseq_1_1deque.html">deque</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae49a26c456290688f51292059625adc9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae49a26c456290688f51292059625adc9">&#9670;&nbsp;</a></span>dirty()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::dirty </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; bool
+		</td>
         </tr>
       </table>
   </td>
@@ -1626,8 +1575,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="afa8178fd5e179443bc999c92a615e165"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa8178fd5e179443bc999c92a615e165">&#9670;&nbsp;</a></span>emplace()</h2>
+<a id="af6a9770185af3bbe70d10c98ee745e6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6a9770185af3bbe70d10c98ee745e6c">&#9670;&nbsp;</a></span>emplace()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1640,11 +1589,12 @@ template&lt;class... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::emplace </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::emplace </td>
           <td>(</td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool&gt;
+		</td>
         </tr>
       </table>
   </td>
@@ -1656,8 +1606,8 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a418f734e6d1326b009c7ac5ef33920f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a418f734e6d1326b009c7ac5ef33920f9">&#9670;&nbsp;</a></span>emplace_hint()</h2>
+<a id="aaa5ee390e64d38098fbe9a761111b505"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa5ee390e64d38098fbe9a761111b505">&#9670;&nbsp;</a></span>emplace_hint()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1670,7 +1620,7 @@ template&lt;class... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::emplace_hint </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::emplace_hint </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td>
           <td class="paramname"><em>hint</em>, </td>
@@ -1684,7 +1634,8 @@ template&lt;class... Args&gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>
+		</td>
         </tr>
       </table>
   </td>
@@ -1696,8 +1647,8 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a4e5c2aad66a12f79a49b6915db310b9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e5c2aad66a12f79a49b6915db310b9c">&#9670;&nbsp;</a></span>emplace_pos()</h2>
+<a id="ad9c5e2c0a704e27753b15f3f7fc85c83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9c5e2c0a704e27753b15f3f7fc85c83">&#9670;&nbsp;</a></span>emplace_pos()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1710,11 +1661,12 @@ template&lt;class... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;size_t, bool&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::emplace_pos </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::emplace_pos </td>
           <td>(</td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; std::pair&lt;size_t, bool&gt;
+		</td>
         </tr>
       </table>
   </td>
@@ -1726,8 +1678,8 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="aad95f7bd367339eaa4c04e57f288441b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad95f7bd367339eaa4c04e57f288441b">&#9670;&nbsp;</a></span>empty()</h2>
+<a id="a6f8737ec783f8d58ca1aba083de25036"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f8737ec783f8d58ca1aba083de25036">&#9670;&nbsp;</a></span>empty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1738,10 +1690,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::empty </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::empty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; bool </td>
         </tr>
       </table>
   </td>
@@ -1753,8 +1705,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a809ea3b22577c2109e5f9ed17456489e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a809ea3b22577c2109e5f9ed17456489e">&#9670;&nbsp;</a></span>end() <span class="overload">[1/2]</span></h2>
+<a id="a2bb348b05f76c5ead3ec2238373c19de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bb348b05f76c5ead3ec2238373c19de">&#9670;&nbsp;</a></span>end() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1765,10 +1717,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::end </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1780,8 +1732,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a31ad08c70b1600430bf87fbeacd095a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31ad08c70b1600430bf87fbeacd095a1">&#9670;&nbsp;</a></span>end() <span class="overload">[2/2]</span></h2>
+<a id="aab3481205ca1ae486db56065b8a14f3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab3481205ca1ae486db56065b8a14f3a">&#9670;&nbsp;</a></span>end() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1792,10 +1744,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::end </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1807,8 +1759,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a8f91517cf90d25291522a20c5a7e1171"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f91517cf90d25291522a20c5a7e1171">&#9670;&nbsp;</a></span>equal_range() <span class="overload">[1/2]</span></h2>
+<a id="aab53fee76a4bf26c73cadf7de9610b6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab53fee76a4bf26c73cadf7de9610b6c">&#9670;&nbsp;</a></span>equal_range() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1821,11 +1773,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::equal_range </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::equal_range </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&gt; 
+		</td>
         </tr>
       </table>
   </td>
@@ -1837,8 +1790,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="af05ab452855c2cead22dff859e6e41c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af05ab452855c2cead22dff859e6e41c4">&#9670;&nbsp;</a></span>equal_range() <span class="overload">[2/2]</span></h2>
+<a id="aabc0923808a96c94357fae39d9cc56a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabc0923808a96c94357fae39d9cc56a0">&#9670;&nbsp;</a></span>equal_range() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1851,11 +1804,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::equal_range </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::equal_range </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&gt; 
+		</td>
         </tr>
       </table>
   </td>
@@ -1867,8 +1821,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="ae0a939966252eb9d0741cb199860e6ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0a939966252eb9d0741cb199860e6ba">&#9670;&nbsp;</a></span>equal_range_pos()</h2>
+<a id="a1b37f6311b9508a5717dfff6820d10a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b37f6311b9508a5717dfff6820d10a6">&#9670;&nbsp;</a></span>equal_range_pos()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1881,11 +1835,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;size_t, size_t&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::equal_range_pos </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::equal_range_pos </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; std::pair&lt;size_t, size_t&gt; 
+		</td>
         </tr>
       </table>
   </td>
@@ -1897,8 +1852,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="ad56122f184e934e25f80a307d7e33c3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad56122f184e934e25f80a307d7e33c3f">&#9670;&nbsp;</a></span>erase() <span class="overload">[1/5]</span></h2>
+<a id="a592811a313bc04ad3b9e066856d5c436"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a592811a313bc04ad3b9e066856d5c436">&#9670;&nbsp;</a></span>erase() <span class="overload">[1/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1911,11 +1866,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::erase </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::erase </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>key</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a>
+		</td>
         </tr>
       </table>
   </td>
@@ -1927,8 +1883,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="ad06d32250b9bdfa340c06812e3a64639"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad06d32250b9bdfa340c06812e3a64639">&#9670;&nbsp;</a></span>erase() <span class="overload">[2/5]</span></h2>
+<a id="a6bcc7f8722a2edc5b0dac2727ca17f77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bcc7f8722a2edc5b0dac2727ca17f77">&#9670;&nbsp;</a></span>erase() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1939,7 +1895,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::erase </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::erase </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td>
           <td class="paramname"><em>first</em>, </td>
@@ -1953,7 +1909,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>
+		</td>
         </tr>
       </table>
   </td>
@@ -1965,8 +1922,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a13ff9e39bff62cc40dc534de37c4d2cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13ff9e39bff62cc40dc534de37c4d2cc">&#9670;&nbsp;</a></span>erase() <span class="overload">[3/5]</span></h2>
+<a id="a1cb1507e795370246523f41521613a3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cb1507e795370246523f41521613a3b">&#9670;&nbsp;</a></span>erase() <span class="overload">[3/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1977,11 +1934,12 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::erase </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::erase </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td>
           <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>
+		</td>
         </tr>
       </table>
   </td>
@@ -1993,8 +1951,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="ab7c9bdbc410f6ec4014fee880f225371"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7c9bdbc410f6ec4014fee880f225371">&#9670;&nbsp;</a></span>erase() <span class="overload">[4/5]</span></h2>
+<a id="a9a464ae5dfd949988c1f07ecc3ef211f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a464ae5dfd949988c1f07ecc3ef211f">&#9670;&nbsp;</a></span>erase() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2005,11 +1963,12 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::erase </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::erase </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>&#160;</td>
           <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>
+		</td>
         </tr>
       </table>
   </td>
@@ -2087,8 +2046,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="ac89c963489754f7bcf5a1519b072e29c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac89c963489754f7bcf5a1519b072e29c">&#9670;&nbsp;</a></span>find() <span class="overload">[1/2]</span></h2>
+<a id="adfa0621503236a89b5d96c8671000e0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfa0621503236a89b5d96c8671000e0d">&#9670;&nbsp;</a></span>find() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2101,11 +2060,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::find </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::find </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> 
+		</td>
         </tr>
       </table>
   </td>
@@ -2117,8 +2077,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="af89c29e883bf36325fe8000470acbc30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af89c29e883bf36325fe8000470acbc30">&#9670;&nbsp;</a></span>find() <span class="overload">[2/2]</span></h2>
+<a id="a4e23a09190ac90d93fb9184485c01009"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e23a09190ac90d93fb9184485c01009">&#9670;&nbsp;</a></span>find() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2131,11 +2091,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::find </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::find </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> 
+		</td>
         </tr>
       </table>
   </td>
@@ -2147,8 +2108,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="ae302a32654b5ac32cbfd6c333a742597"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae302a32654b5ac32cbfd6c333a742597">&#9670;&nbsp;</a></span>find_pos()</h2>
+<a id="a6f0704588227c2e7807b01b4b41f0bc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f0704588227c2e7807b01b4b41f0bc4">&#9670;&nbsp;</a></span>find_pos()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2161,11 +2122,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::find_pos </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::find_pos </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; size_t 
+		</td>
         </tr>
       </table>
   </td>
@@ -2177,8 +2139,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="aec987bac6469226f0610dea715422317"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec987bac6469226f0610dea715422317">&#9670;&nbsp;</a></span>get_allocator()</h2>
+<a id="ae235e159e329e94e99207b08ecc448bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae235e159e329e94e99207b08ecc448bd">&#9670;&nbsp;</a></span>get_allocator()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2189,10 +2151,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Allocator <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::get_allocator </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::get_allocator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; Allocator </td>
         </tr>
       </table>
   </td>
@@ -2204,8 +2166,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a78e6219307fb487bb977834aad695c0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78e6219307fb487bb977834aad695c0d">&#9670;&nbsp;</a></span>insert() <span class="overload">[1/6]</span></h2>
+<a id="a2f096056da1e6c0ddf56c525d6b92685"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f096056da1e6c0ddf56c525d6b92685">&#9670;&nbsp;</a></span>insert() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2216,11 +2178,11 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool&gt; </td>
         </tr>
       </table>
   </td>
@@ -2232,8 +2194,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a9a19be6f8a95a8954cc215ebad9cef7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a19be6f8a95a8954cc215ebad9cef7b">&#9670;&nbsp;</a></span>insert() <span class="overload">[2/6]</span></h2>
+<a id="a2cf2d136e38ceeb7feeefd3d2f9b48c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cf2d136e38ceeb7feeefd3d2f9b48c6">&#9670;&nbsp;</a></span>insert() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2244,7 +2206,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td>
           <td class="paramname"><em>hint</em>, </td>
@@ -2258,7 +2220,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -2270,8 +2232,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a82120e92dd70ec88a3376acaafc2287d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82120e92dd70ec88a3376acaafc2287d">&#9670;&nbsp;</a></span>insert() <span class="overload">[3/6]</span></h2>
+<a id="a37bd049c13d624419cba79d243b0f9eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37bd049c13d624419cba79d243b0f9eb">&#9670;&nbsp;</a></span>insert() <span class="overload">[3/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2282,7 +2244,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a>&#160;</td>
           <td class="paramname"><em>hint</em>, </td>
@@ -2296,7 +2258,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -2376,8 +2338,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a84c6de659991937a472effbd5c767316"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84c6de659991937a472effbd5c767316">&#9670;&nbsp;</a></span>insert() <span class="overload">[6/6]</span></h2>
+<a id="a9eeacb6697d7046aea3e8ee1ca5f2ab0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9eeacb6697d7046aea3e8ee1ca5f2ab0">&#9670;&nbsp;</a></span>insert() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2388,11 +2350,11 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a>, bool&gt; </td>
         </tr>
       </table>
   </td>
@@ -2404,8 +2366,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="aea0735505194cc2528c7d3df48240753"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea0735505194cc2528c7d3df48240753">&#9670;&nbsp;</a></span>insert_pos() <span class="overload">[1/2]</span></h2>
+<a id="a5728395447a218e950b64d4c5a57b054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5728395447a218e950b64d4c5a57b054">&#9670;&nbsp;</a></span>insert_pos() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2416,11 +2378,11 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;size_t, bool&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert_pos </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert_pos </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; std::pair&lt;size_t, bool&gt; </td>
         </tr>
       </table>
   </td>
@@ -2432,8 +2394,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a876948f8a846a19b0fdcac0978f031d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a876948f8a846a19b0fdcac0978f031d7">&#9670;&nbsp;</a></span>insert_pos() <span class="overload">[2/2]</span></h2>
+<a id="a738c96a20c82f3b9ff39a986430c5334"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a738c96a20c82f3b9ff39a986430c5334">&#9670;&nbsp;</a></span>insert_pos() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2444,11 +2406,11 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;size_t, bool&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert_pos </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert_pos </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; std::pair&lt;size_t, bool&gt; </td>
         </tr>
       </table>
   </td>
@@ -2460,8 +2422,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a6310c830c1460e99928e03b279ab5664"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6310c830c1460e99928e03b279ab5664">&#9670;&nbsp;</a></span>insert_pos_multi()</h2>
+<a id="af21473ef5433144f4aaac286d6b1d6ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af21473ef5433144f4aaac286d6b1d6ad">&#9670;&nbsp;</a></span>insert_pos_multi()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2474,11 +2436,12 @@ template&lt;class U &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt;size_t, bool&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert_pos_multi </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::insert_pos_multi </td>
           <td>(</td>
           <td class="paramtype">U &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; std::pair&lt;size_t, bool&gt;
+		</td>
         </tr>
       </table>
   </td>
@@ -2490,8 +2453,8 @@ template&lt;class U &gt; </div>
 
 </div>
 </div>
-<a id="aa5e5f79bc25b31914753321ae1852546"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5e5f79bc25b31914753321ae1852546">&#9670;&nbsp;</a></span>key_comp()</h2>
+<a id="a5b185f6615f1c8154f2294796643fcfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b185f6615f1c8154f2294796643fcfd">&#9670;&nbsp;</a></span>key_comp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2502,10 +2465,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ab5923de14afa0bd77f5a861dc9231822">key_compare</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::key_comp </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::key_comp </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ab5923de14afa0bd77f5a861dc9231822">key_compare</a> </td>
         </tr>
       </table>
   </td>
@@ -2517,8 +2480,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a505aabd3997bb52e1e399f26df42a0f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a505aabd3997bb52e1e399f26df42a0f5">&#9670;&nbsp;</a></span>lower_bound() <span class="overload">[1/2]</span></h2>
+<a id="af58d78eaed8ff96dd2af78335d14de30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af58d78eaed8ff96dd2af78335d14de30">&#9670;&nbsp;</a></span>lower_bound() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2531,11 +2494,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::lower_bound </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::lower_bound </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> 
+		</td>
         </tr>
       </table>
   </td>
@@ -2547,8 +2511,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="a54ce4802ffa9c8f27516b2c3f334c0cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54ce4802ffa9c8f27516b2c3f334c0cb">&#9670;&nbsp;</a></span>lower_bound() <span class="overload">[2/2]</span></h2>
+<a id="a54ad37ee6cf59e9721c133f3064bcda2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54ad37ee6cf59e9721c133f3064bcda2">&#9670;&nbsp;</a></span>lower_bound() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2561,11 +2525,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::lower_bound </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::lower_bound </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> 
+		</td>
         </tr>
       </table>
   </td>
@@ -2577,8 +2542,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="aaeadb7c88e8942ce72fda6b58fdec605"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaeadb7c88e8942ce72fda6b58fdec605">&#9670;&nbsp;</a></span>lower_bound_pos()</h2>
+<a id="a11bd964d76589107589a301ea4637a71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11bd964d76589107589a301ea4637a71">&#9670;&nbsp;</a></span>lower_bound_pos()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2591,11 +2556,12 @@ template&lt;class K &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::lower_bound_pos </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::lower_bound_pos </td>
           <td>(</td>
           <td class="paramtype">const K &amp;&#160;</td>
           <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; size_t 
+		</td>
         </tr>
       </table>
   </td>
@@ -2634,8 +2600,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="aa070e1ef6a6fe0d48c5fa8383bc59642"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa070e1ef6a6fe0d48c5fa8383bc59642">&#9670;&nbsp;</a></span>max_size()</h2>
+<a id="a7ccd6072f2ad57921367f2ef67d578cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ccd6072f2ad57921367f2ef67d578cf">&#9670;&nbsp;</a></span>max_size()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2646,10 +2612,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::max_size </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::max_size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a> </td>
         </tr>
       </table>
   </td>
@@ -2691,8 +2657,8 @@ template&lt;class C2 , LayoutManagement layout2, bool Unique2&gt; </div>
 
 </div>
 </div>
-<a id="a7db0b6ca0dbbf08f36ada7f530c5ce9e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7db0b6ca0dbbf08f36ada7f530c5ce9e">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/3]</span></h2>
+<a id="a6dee7d23f68f4dd1735d530507ef9757"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dee7d23f68f4dd1735d530507ef9757">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2703,11 +2669,11 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a>&amp; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::operator= </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::operator= </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt; &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a>&amp; </td>
         </tr>
       </table>
   </td>
@@ -2719,8 +2685,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a47ec69e68daa675ba8dad5d8a2c701e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47ec69e68daa675ba8dad5d8a2c701e2">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/3]</span></h2>
+<a id="a64b34748e7942481628d1ec339b5b5c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64b34748e7942481628d1ec339b5b5c2">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2731,11 +2697,12 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a>&amp; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::operator= </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::operator= </td>
           <td>(</td>
           <td class="paramtype">const std::initializer_list&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>init</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a>&amp;
+		</td>
         </tr>
       </table>
   </td>
@@ -2747,8 +2714,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="af6edabaced2ebca797f704e62be3daf0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6edabaced2ebca797f704e62be3daf0">&#9670;&nbsp;</a></span>operator=() <span class="overload">[3/3]</span></h2>
+<a id="aafa8a9ca17b4f6f16df83a983d9912db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafa8a9ca17b4f6f16df83a983d9912db">&#9670;&nbsp;</a></span>operator=() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2759,11 +2726,11 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a>&amp; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::operator= </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::operator= </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a>&amp; </td>
         </tr>
       </table>
   </td>
@@ -2775,8 +2742,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a084771bc7783d1b6a1218cee5e6a503b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a084771bc7783d1b6a1218cee5e6a503b">&#9670;&nbsp;</a></span>pos() <span class="overload">[1/2]</span></h2>
+<a id="af90f59be0f60cd9080b68d63d00dae90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af90f59be0f60cd9080b68d63d00dae90">&#9670;&nbsp;</a></span>pos() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2787,11 +2754,12 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> const Value&amp; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::pos </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::pos </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; const Value&amp;
+		</td>
         </tr>
       </table>
   </td>
@@ -2803,8 +2771,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="ad1dc88809cbf4f7696db130d458d8de5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1dc88809cbf4f7696db130d458d8de5">&#9670;&nbsp;</a></span>pos() <span class="overload">[2/2]</span></h2>
+<a id="a990b2bda1e3170abc0557c0443c5b436"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a990b2bda1e3170abc0557c0443c5b436">&#9670;&nbsp;</a></span>pos() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2815,11 +2783,12 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> Value&amp; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::pos </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::pos </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>i</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; Value&amp;
+		</td>
         </tr>
       </table>
   </td>
@@ -2831,8 +2800,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="aa8790a6a6438d6a735700f0209383a8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8790a6a6438d6a735700f0209383a8a">&#9670;&nbsp;</a></span>rbegin() <span class="overload">[1/2]</span></h2>
+<a id="ae71bc91be3594df4abaa19c7829d1346"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae71bc91be3594df4abaa19c7829d1346">&#9670;&nbsp;</a></span>rbegin() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2843,10 +2812,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::rbegin </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::rbegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -2858,8 +2827,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a98da9544b14b926ecb16a6216aa50555"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98da9544b14b926ecb16a6216aa50555">&#9670;&nbsp;</a></span>rbegin() <span class="overload">[2/2]</span></h2>
+<a id="a1ec84cbe98a81410d229dae1f881670d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ec84cbe98a81410d229dae1f881670d">&#9670;&nbsp;</a></span>rbegin() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2870,10 +2839,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::rbegin </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::rbegin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -2885,8 +2854,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="aca28d70c22a0e33473663d990f2485a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca28d70c22a0e33473663d990f2485a4">&#9670;&nbsp;</a></span>rend() <span class="overload">[1/2]</span></h2>
+<a id="a09f7a17413240e8f075988fd4c11f519"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09f7a17413240e8f075988fd4c11f519">&#9670;&nbsp;</a></span>rend() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2897,10 +2866,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::rend </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::rend </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#afc1ded13073aeb2923893a48e916a5c9">const_reverse_iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -2912,8 +2881,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a9d71ca8c5c0b7c62a8c11a50ba9747d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d71ca8c5c0b7c62a8c11a50ba9747d6">&#9670;&nbsp;</a></span>rend() <span class="overload">[2/2]</span></h2>
+<a id="a5936d978de4e18144a2759721f39b1a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5936d978de4e18144a2759721f39b1a3">&#9670;&nbsp;</a></span>rend() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2924,10 +2893,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::rend </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::rend </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a5c071f877d35a1e6c91d3b71c784678f">reverse_iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -2939,8 +2908,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a7f4d1946f273035604b4ee61e656a009"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f4d1946f273035604b4ee61e656a009">&#9670;&nbsp;</a></span>size()</h2>
+<a id="a96e1fe054bc7bcf2bd8bd7bbdd53ebb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96e1fe054bc7bcf2bd8bd7bbdd53ebb2">&#9670;&nbsp;</a></span>size()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2951,10 +2920,10 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::size </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a> </td>
         </tr>
       </table>
   </td>
@@ -3021,98 +2990,8 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 
 </div>
 </div>
-<a id="a9f4224a59158cbeb609ea78a7601b34b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f4224a59158cbeb609ea78a7601b34b">&#9670;&nbsp;</a></span>upper_bound() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
-<div class="memtemplate">
-template&lt;class K &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::upper_bound </td>
-          <td>(</td>
-          <td class="paramtype">const K &amp;&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae53e87b9d1e2f0e1c33fbf507c2a180b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae53e87b9d1e2f0e1c33fbf507c2a180b">&#9670;&nbsp;</a></span>upper_bound() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
-<div class="memtemplate">
-template&lt;class K &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::upper_bound </td>
-          <td>(</td>
-          <td class="paramtype">const K &amp;&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae45657153539bb5abbee9a50bf778b47"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae45657153539bb5abbee9a50bf778b47">&#9670;&nbsp;</a></span>upper_bound_pos()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
-<div class="memtemplate">
-template&lt;class K &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::upper_bound_pos </td>
-          <td>(</td>
-          <td class="paramtype">const K &amp;&#160;</td>
-          <td class="paramname"><em>x</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0aef7cc82217ee5d7275ef08e75d8f52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0aef7cc82217ee5d7275ef08e75d8f52">&#9670;&nbsp;</a></span>value_comp()</h2>
+<a id="aa38823aa3eb9beef2849f39d35cd24b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa38823aa3eb9beef2849f39d35cd24b9">&#9670;&nbsp;</a></span>tvector() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3123,10 +3002,157 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ace75a2587b634ab29cc26b95949e15e9">value_compare</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::value_comp </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::tvector </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; const <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a206db35a1c2d1065d811172700f3518d">deque_type</a>&amp; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae91e46b23d6713e3aaa12426bd2ba29d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae91e46b23d6713e3aaa12426bd2ba29d">&#9670;&nbsp;</a></span>tvector() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::tvector </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a206db35a1c2d1065d811172700f3518d">deque_type</a>&amp; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad8c06deebba9e390b837277a5401151f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8c06deebba9e390b837277a5401151f">&#9670;&nbsp;</a></span>upper_bound() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
+<div class="memtemplate">
+template&lt;class K &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::upper_bound </td>
+          <td>(</td>
+          <td class="paramtype">const K &amp;&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a63457f818ac8a402c8982880c2433a48">iterator</a> 
+		</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3bb810d8c2ff8cf6ef86570dd4f9b2b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bb810d8c2ff8cf6ef86570dd4f9b2b0">&#9670;&nbsp;</a></span>upper_bound() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
+<div class="memtemplate">
+template&lt;class K &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::upper_bound </td>
+          <td>(</td>
+          <td class="paramtype">const K &amp;&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a57edc40ddfede7c92d1055cedd3b7049">const_iterator</a> 
+		</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b098ab602065b3294068df2f92fb87d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b098ab602065b3294068df2f92fb87d">&#9670;&nbsp;</a></span>upper_bound_pos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
+<div class="memtemplate">
+template&lt;class K &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::upper_bound_pos </td>
+          <td>(</td>
+          <td class="paramtype">const K &amp;&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td> const -&gt; size_t 
+		</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a678825df80e20dcae2a0d4165cf5ff7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a678825df80e20dcae2a0d4165cf5ff7d">&#9670;&nbsp;</a></span>value_comp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::value_comp </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ace75a2587b634ab29cc26b95949e15e9">value_compare</a> </td>
         </tr>
       </table>
   </td>
@@ -3148,7 +3174,7 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
 template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a3ce69acdeb2df26a94c72eb659d11762">deque_type</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::d_deque</td>
+          <td class="memname"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a206db35a1c2d1065d811172700f3518d">deque_type</a> <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::d_deque</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -24,7 +24,6 @@ list(APPEND headers "${CMAKE_CURRENT_SOURCE_DIR}/seq/any.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/ordered_map.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/pdqsort.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/sequence.hpp"
-					"${CMAKE_CURRENT_SOURCE_DIR}/seq/lock.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/tagged_pointer.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/testing.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/tiny_string.hpp"
@@ -45,7 +44,7 @@ if(${CMAKE_VERSION} VERSION_GREATER "3.2")
 
 
 
-    ## Create and install tsl-robin-mapConfig.cmake
+    ## Create and install seqConfig.cmake
     configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/seqConfig.cmake.in"
                                   "${CMAKE_CURRENT_BINARY_DIR}/seqConfig.cmake"
                                   INSTALL_DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/cmake/seq")
@@ -54,10 +53,10 @@ if(${CMAKE_VERSION} VERSION_GREATER "3.2")
             DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/cmake/seq")
 
 
-    ## Create local tsl-robin-mapTargets.cmake
+    ## Create local seqTargets.cmake
     export(TARGETS seq NAMESPACE seq:: FILE "${CMAKE_CURRENT_BINARY_DIR}/seqTargets.cmake")
 
-    ## Create and install global tsl-robin-mapTargets.cmake
+    ## Create and install global seqTargets.cmake
     install(TARGETS seq
             EXPORT seqTargets)
 
@@ -67,10 +66,10 @@ if(${CMAKE_VERSION} VERSION_GREATER "3.2")
 
 
 
-    ## Create and install tsl-robin-mapConfigVersion.cmake
-    # tsl-robin-map is header-only and does not depend on the architecture.
-    # Remove CMAKE_SIZEOF_VOID_P from tsl-robin-mapConfigVersion.cmake so that a
-    # tsl-robin-mapConfig.cmake generated for a 64 bit target can be used for 32 bit
+    ## Create and install seqConfigVersion.cmake
+    # seq is header-only and does not depend on the architecture.
+    # Remove CMAKE_SIZEOF_VOID_P from seqConfigVersion.cmake so that a
+    # seqConfig.cmake generated for a 64 bit target can be used for 32 bit
     # targets and vice versa.
     set(CMAKE_SIZEOF_VOID_P_BACKUP ${CMAKE_SIZEOF_VOID_P})
     unset(CMAKE_SIZEOF_VOID_P)

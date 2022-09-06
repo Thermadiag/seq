@@ -7,15 +7,15 @@ var classseq_1_1buffer__input__stream =
     [ "buffer_input_stream", "classseq_1_1buffer__input__stream.html#a09a24020ee23b2f3133b66a8656082c4", null ],
     [ "buffer_input_stream", "classseq_1_1buffer__input__stream.html#a876b51e5671d23a2237908a946d05e19", null ],
     [ "buffer_input_stream", "classseq_1_1buffer__input__stream.html#a8665f535f3e8ae3edeb5e8fe5fe09985", null ],
-    [ "at_end", "classseq_1_1buffer__input__stream.html#a624998b5497a431257cc8336ef34bb69", null ],
+    [ "at_end", "classseq_1_1buffer__input__stream.html#a6b1429e1f135ef75f23e71c280d21fc3", null ],
     [ "back", "classseq_1_1buffer__input__stream.html#a0e74a63fda6ed9e034d7ce5e3a2f6378", null ],
     [ "close", "classseq_1_1buffer__input__stream.html#ab19d959bf9adef72d07e1e3b7688741d", null ],
-    [ "getc", "classseq_1_1buffer__input__stream.html#a168a641d92a64cd9066026dbe0fac231", null ],
-    [ "is_open", "classseq_1_1buffer__input__stream.html#af8c955e204fd3ddb191b6a4af492ffc9", null ],
-    [ "read", "classseq_1_1buffer__input__stream.html#a81e54b781a30212c0b31c1d4bd69bd91", null ],
-    [ "seek", "classseq_1_1buffer__input__stream.html#af84a766b70307a01582519b6c1871590", null ],
+    [ "getc", "classseq_1_1buffer__input__stream.html#a5d91128c0d491b8ae96fbd37c581e80b", null ],
+    [ "is_open", "classseq_1_1buffer__input__stream.html#a0216b55af809953596879ad5bce9dc64", null ],
+    [ "read", "classseq_1_1buffer__input__stream.html#a846552bf18e8683c9db43c8ae9b1470a", null ],
+    [ "seek", "classseq_1_1buffer__input__stream.html#aeeb75ae8f6f3a1295c59c09bf1a2999a", null ],
     [ "set_state", "classseq_1_1buffer__input__stream.html#a2ebb820eafdce70b40d3efa4591eaba3", null ],
-    [ "size", "classseq_1_1buffer__input__stream.html#a7b04e0e5cd41585b9d10dda7cc68a309", null ],
-    [ "state", "classseq_1_1buffer__input__stream.html#a9c9a2baf33ae6a11fc1fd9951a2e443b", null ],
-    [ "tell", "classseq_1_1buffer__input__stream.html#af8b0472ecd668f49192ca41873efe283", null ]
+    [ "size", "classseq_1_1buffer__input__stream.html#a7eed76ce6711ad147bb40652df4d7fbb", null ],
+    [ "state", "classseq_1_1buffer__input__stream.html#ac84df4c540700bd48dc0cc93bab54237", null ],
+    [ "tell", "classseq_1_1buffer__input__stream.html#a4fa8073596ff0c460a75143555ef59af", null ]
 ];

@@ -95,12 +95,12 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_cast_ptr_to_vo
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ab2306b210ca540a360114ddd88a12b6e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> OutPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_cast_ptr_to_void.html#ab2306b210ca540a360114ddd88a12b6e">apply</a> (const void *ptr)</td></tr>
-<tr class="separator:ab2306b210ca540a360114ddd88a12b6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e88dda433e25d3ff5d5365d59028b41"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_cast_ptr_to_void.html#a9e88dda433e25d3ff5d5365d59028b41">apply</a> (const void *ptr) -&gt; OutPtr</td></tr>
+<tr class="separator:a9e88dda433e25d3ff5d5365d59028b41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab2306b210ca540a360114ddd88a12b6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2306b210ca540a360114ddd88a12b6e">&#9670;&nbsp;</a></span>apply()</h2>
+<a id="a9e88dda433e25d3ff5d5365d59028b41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e88dda433e25d3ff5d5365d59028b41">&#9670;&nbsp;</a></span>apply()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -111,11 +111,12 @@ template&lt;class OutPtr , bool IsPtr = std::is_same&lt;OutPtr,void*&gt;::value 
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> OutPtr <a class="el" href="structseq_1_1detail_1_1_cast_ptr_to_void.html">seq::detail::CastPtrToVoid</a>&lt; OutPtr, IsPtr &gt;::apply </td>
+          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_cast_ptr_to_void.html">seq::detail::CastPtrToVoid</a>&lt; OutPtr, IsPtr &gt;::apply </td>
           <td>(</td>
           <td class="paramtype">const void *&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; OutPtr
+			</td>
         </tr>
       </table>
   </td>

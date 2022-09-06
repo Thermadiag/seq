@@ -51,7 +51,7 @@ using \mbox{\hyperlink{classseq_1_1sequence_ab014bbe6eb79dd6e79d0f24cdac13485}{c
 \begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classseq_1_1sequence_a77d815a5628cc6f8037465017dae6558}{sequence}} (\mbox{\hyperlink{classseq_1_1sequence}{sequence}} \&\&other) noexcept
 \begin{DoxyCompactList}\small\item\em Move constructor. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1sequence_a4950a19cf05dbc9b5af00dcbc90a8a54}{sequence}} (\mbox{\hyperlink{classseq_1_1sequence}{sequence}} \&\&other, const Allocator \&alloc) noexcept(std\+::is\+\_\+nothrow\+\_\+move\+\_\+assignable$<$ T $>$\+::value)
+\mbox{\hyperlink{classseq_1_1sequence_a2cd969dd2081e6ab9c6acbdc8e7475c1}{sequence}} (\mbox{\hyperlink{classseq_1_1sequence}{sequence}} \&\&other, const Allocator \&alloc)
 \begin{DoxyCompactList}\small\item\em Allocator-\/extended move constructor. Using alloc as the allocator for the new container, moving the contents from other; if alloc != other.\+get\+\_\+allocator(), this results in an element-\/wise move. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classseq_1_1sequence_a6bc0b4e6e117b2c63c3d124068ab81ba}{sequence}} (const std\+::initializer\+\_\+list$<$ T $>$ \&lst, const Allocator \&al=Allocator())
 \begin{DoxyCompactList}\small\item\em Constructs the sequence with the contents of the initializer list {\itshape lst}. \end{DoxyCompactList}\item 
@@ -59,35 +59,35 @@ using \mbox{\hyperlink{classseq_1_1sequence_ab014bbe6eb79dd6e79d0f24cdac13485}{c
 \begin{DoxyCompactList}\small\item\em Constructs the sequence with the contents of the range \mbox{[}first, last). \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classseq_1_1sequence_ad15ffd990a824f160fbe8fb66878d8ff}{$\sim$sequence}} ()
 \begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1sequence}{sequence}} \& \mbox{\hyperlink{classseq_1_1sequence_a69c6c9bd0dcc596b190fcf986e9c3ae6}{operator=}} (const \mbox{\hyperlink{classseq_1_1sequence}{sequence}} \&other)
+auto \mbox{\hyperlink{classseq_1_1sequence_a3fe31dfa20f873fe2e541d37efacb6d4}{operator=}} (const \mbox{\hyperlink{classseq_1_1sequence}{sequence}} \&other) -\/$>$ \mbox{\hyperlink{classseq_1_1sequence}{sequence}} \&
 \begin{DoxyCompactList}\small\item\em Copy operator, basic exception guarantee. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1sequence}{sequence}} \& \mbox{\hyperlink{classseq_1_1sequence_ac66ddee058887387286a3ba6c8d429a1}{operator=}} (\mbox{\hyperlink{classseq_1_1sequence}{sequence}} \&\&other) noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_a24f4acbccef9afb88836ca12d7fba1f3}{operator=}} (\mbox{\hyperlink{classseq_1_1sequence}{sequence}} \&\&other) noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1sequence}{sequence}} \&
 \begin{DoxyCompactList}\small\item\em Move assignment operator. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1sequence_ac4eb2f85de25d69ca79a3e9e426f487b}{swap}} (\mbox{\hyperlink{classseq_1_1sequence}{sequence}} \&other) noexcept
 \begin{DoxyCompactList}\small\item\em Exchanges the contents of the container with those of other. Does not invoke any move, copy, or swap operations on individual elements. \end{DoxyCompactList}\item 
-Data $\ast$ \mbox{\hyperlink{classseq_1_1sequence_a7965d6074abfbcbdef971934fd4dec78}{data}} () noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_a24cf8f2fe37e422bcc119ebd2f064dce}{data}} () noexcept -\/$>$ Data $\ast$
 \begin{DoxyCompactList}\small\item\em Returns the sequence internal data. Internal use only. \end{DoxyCompactList}\item 
-const Data $\ast$ \mbox{\hyperlink{classseq_1_1sequence_a23d784907087118119cee410a7b2c6c7}{data}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_a425737526395c84ed6b57b6297bcb410}{data}} () const noexcept -\/$>$ const Data $\ast$
 \item 
-std\+::size\+\_\+t \mbox{\hyperlink{classseq_1_1sequence_ad5689f2789f4f2acdd2a78f9d652a7d0}{memory\+\_\+footprint}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_aef7cb1d4d77ba5476930bfdffef65e09}{memory\+\_\+footprint}} () const noexcept -\/$>$ std\+::size\+\_\+t
 \begin{DoxyCompactList}\small\item\em Returns the full memory footprint of this sequence in bytes, excluding sizeof($\ast$this). \end{DoxyCompactList}\item 
-Allocator \& \mbox{\hyperlink{classseq_1_1sequence_a2b0f1ebf64715907e8c694f3bb6f22c6}{get\+\_\+allocator}} () noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_a065df7dfb6b5495249346d377d94b0dc}{get\+\_\+allocator}} () noexcept -\/$>$ Allocator \&
 \begin{DoxyCompactList}\small\item\em Returns the allocator associated with the container. \end{DoxyCompactList}\item 
-Allocator \mbox{\hyperlink{classseq_1_1sequence_ae2f1f188ffa5e7e2da618d1df5647515}{get\+\_\+allocator}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_a9f868260d86160cfb072ad362db4b6d3}{get\+\_\+allocator}} () const noexcept -\/$>$ Allocator
 \begin{DoxyCompactList}\small\item\em Returns the allocator associated with the container. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1sequence_ad4fab80858b23d4eb40703de80cc28cd}{size}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_af1171dafc78357c61afd896f15d87884}{size}} () const noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}}
 \begin{DoxyCompactList}\small\item\em Returns thenumber of elements in this sequence. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classseq_1_1sequence_a640ffee51572b2cbf01ce2819b217df9}{empty}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_a367842660b634699aca64fa00af6743a}{empty}} () const noexcept -\/$>$ bool
 \item 
-size\+\_\+t \mbox{\hyperlink{classseq_1_1sequence_afb43c38faef27cfa8e144cd682921988}{capacity}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_a39900c1d6c4189f852298857a3ef7938}{capacity}} () const noexcept -\/$>$ size\+\_\+t
 \begin{DoxyCompactList}\small\item\em Returns the number of elements that the container has currently allocated space for. \end{DoxyCompactList}\item 
-const T \& \mbox{\hyperlink{classseq_1_1sequence_a24059a4fa4280f2c55686137a2763276}{back}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_a84eae0de15058ca5a708264a241564b6}{back}} () const noexcept -\/$>$ const T \&
 \begin{DoxyCompactList}\small\item\em Returns the back sequence value. \end{DoxyCompactList}\item 
-T \& \mbox{\hyperlink{classseq_1_1sequence_a9dd076a005da1a97b9de004b882f7f42}{back}} () noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_a6da4f80e918b45025b44eef043b1d4a9}{back}} () noexcept -\/$>$ T \&
 \begin{DoxyCompactList}\small\item\em Returns the back sequence value. \end{DoxyCompactList}\item 
-const T \& \mbox{\hyperlink{classseq_1_1sequence_aab4b0547a82571d611fd7174b9fce304}{front}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_a41b2a98cd2c9a3249e6cc592f774a720}{front}} () const noexcept -\/$>$ const T \&
 \begin{DoxyCompactList}\small\item\em Returns the front sequence value. \end{DoxyCompactList}\item 
-T \& \mbox{\hyperlink{classseq_1_1sequence_a437130809209dae583f2f3348daef29d}{front}} () noexcept
+auto \mbox{\hyperlink{classseq_1_1sequence_acaaf970d1c536112aec1153bd5d8c0e8}{front}} () noexcept -\/$>$ T \&
 \begin{DoxyCompactList}\small\item\em Returns the front sequence value. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1sequence_afa3e3d448af95c0bf3a7e897ae02f193}{clear}} () noexcept
 \begin{DoxyCompactList}\small\item\em Clears the contents. Erases all elements from the container. After this call, size() returns zero. Invalidates any references, pointers, or iterators referring to contained elements. Any past-\/the-\/end iterator remains valid. \end{DoxyCompactList}\item 
@@ -136,18 +136,18 @@ void \mbox{\hyperlink{classseq_1_1sequence_ad484e68bb32cfabe38cc19f5821afaec}{po
 \begin{DoxyCompactList}\small\item\em Removes the first element of the container. Calling pop\+\_\+front on an empty container results in undefined behavior. Iterators and references to the first element are invalidated. Other iterators and references remain valid. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1sequence_af358418e79ad4c4839bd2516bd44a945}{pop\+\_\+back}} () noexcept
 \begin{DoxyCompactList}\small\item\em Removes the last element of the container. Calling pop\+\_\+back on an empty container results in undefined behavior. Iterators and references to the last element are invalidated. Other iterators and references remain valid. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1sequence_a7a07a0366c0a33e89a2faa4602528833}{iterator}} \mbox{\hyperlink{classseq_1_1sequence_aea74094dc554b982ce88974be31abb3f}{iterator\+\_\+at}} (\mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) noexcept
+\mbox{\hyperlink{classseq_1_1sequence_a7a07a0366c0a33e89a2faa4602528833}{iterator}} \mbox{\hyperlink{classseq_1_1sequence_aea74094dc554b982ce88974be31abb3f}{iterator\+\_\+at}} (\mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_ab534e8a0f6ac376f61e976fe7cd65457}{pos}}) noexcept
 \begin{DoxyCompactList}\small\item\em Returns an iterator to given position. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1sequence_a7f4c3f39d42b9d1c0cc33f3f85c93e0d}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1sequence_a7f27286ba281008e948d43776650131d}{iterator\+\_\+at}} (\mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}}) const noexcept
+\mbox{\hyperlink{classseq_1_1sequence_a7f4c3f39d42b9d1c0cc33f3f85c93e0d}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1sequence_a7f27286ba281008e948d43776650131d}{iterator\+\_\+at}} (\mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}} \mbox{\hyperlink{namespaceseq_ab534e8a0f6ac376f61e976fe7cd65457}{pos}}) const noexcept
 \begin{DoxyCompactList}\small\item\em Returns a const\+\_\+iterator to given position. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classseq_1_1sequence_a7a07a0366c0a33e89a2faa4602528833}{iterator}} \mbox{\hyperlink{classseq_1_1sequence_a038a503f6e12ef433dd22463bf21cc0b}{erase}} (\mbox{\hyperlink{classseq_1_1sequence_a7f4c3f39d42b9d1c0cc33f3f85c93e0d}{const\+\_\+iterator}} it) noexcept
 \begin{DoxyCompactList}\small\item\em Erases the specified element from the container. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classseq_1_1sequence_a7a07a0366c0a33e89a2faa4602528833}{iterator}} \mbox{\hyperlink{classseq_1_1sequence_ab11c6afd53764d0a0bd83a5de6badc99}{erase}} (\mbox{\hyperlink{classseq_1_1sequence_a7f4c3f39d42b9d1c0cc33f3f85c93e0d}{const\+\_\+iterator}} first, \mbox{\hyperlink{classseq_1_1sequence_a7f4c3f39d42b9d1c0cc33f3f85c93e0d}{const\+\_\+iterator}} last) noexcept
 \begin{DoxyCompactList}\small\item\em Erases the specified elements from the container. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort}} ()
-\begin{DoxyCompactList}\small\item\em Sort the sequence. The sequence is sorted using the std\+::less$<$value\+\_\+type$>$ comparator. \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort()}} relies on the \href{https://github.com/orlp/pdqsort}{\texttt{ pdqsort}} implementation from Orson Peters, and should be as fast as sorting a std\+::deque. This invalidates all iterators and references. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Sort the sequence. The sequence is sorted using the std\+::less$<$value\+\_\+type$>$ comparator. \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort()}} relies on the \href{https://github.com/orlp/pdqsort}{\texttt{ pdqsort}} implementation from Orson Peters, and should be as fast as sorting a std\+\_\+deque. This invalidates all iterators and references. \end{DoxyCompactList}\item 
 {\footnotesize template$<$class Less $>$ }\\void \mbox{\hyperlink{classseq_1_1sequence_a5ca5c3fc0cc7a2660c90b601b075ca97}{sort}} (Less less)
-\begin{DoxyCompactList}\small\item\em Sort the sequence using given comparator. \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort()}} relies on the \href{https://github.com/orlp/pdqsort}{\texttt{ pdqsort}} implementation from Orson Peters, and should be as fast as sorting a std\+::deque. This invalidates all iterators and references. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Sort the sequence using given comparator. \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort()}} relies on the \href{https://github.com/orlp/pdqsort}{\texttt{ pdqsort}} implementation from Orson Peters, and should be as fast as sorting a std\+\_\+deque. This invalidates all iterators and references. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1sequence_a5aaca3cd0a83c4637c28599ac55d70a0}{stable\+\_\+sort}} ()
 \begin{DoxyCompactList}\small\item\em Sort the sequence. The sequence is sorted using the std\+::less$<$value\+\_\+type$>$ comparator. \mbox{\hyperlink{classseq_1_1sequence_a5aaca3cd0a83c4637c28599ac55d70a0}{stable\+\_\+sort()}} relies on std\+::stable\+\_\+sort. This invalidates all iterators and references. \end{DoxyCompactList}\item 
 {\footnotesize template$<$class Less $>$ }\\void \mbox{\hyperlink{classseq_1_1sequence_aa979daac3cf88f256f9902ac150ae687}{stable\+\_\+sort}} (Less less)
@@ -179,7 +179,7 @@ void \mbox{\hyperlink{classseq_1_1sequence_a5aaca3cd0a83c4637c28599ac55d70a0}{st
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1sequence_a21bca2aa833223052f3ed832f779522e}{max\+\_\+size}} () noexcept
+static auto \mbox{\hyperlink{classseq_1_1sequence_a21013b95f15468be8a88bded677a45de}{max\+\_\+size}} () noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}}
 \begin{DoxyCompactList}\small\item\em Returns the sequence maximum size. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
@@ -203,34 +203,34 @@ sequence is an ordered container supporting constant time insertion at both end 
 {\em Allocator} & allocator type\\
 \hline
 \end{DoxyTemplParams}
-The sequence container behaves like a hybrid version of std\+::deque and std\+::list. It provides\+:
+The sequence container behaves like a hybrid version of std\+\_\+deque and std\+::list. It provides\+:
 \begin{DoxyItemize}
 \item Constant time insertion at the back or the front using members \mbox{\hyperlink{classseq_1_1sequence_ab7a6dfc0af059f7d3c6dd0b255bea08f}{push\+\_\+back()}}, \mbox{\hyperlink{classseq_1_1sequence_ad849b79810bf1ad79912af6914834949}{emplace\+\_\+back()}}, \mbox{\hyperlink{classseq_1_1sequence_a1b1a3369b5343e9941d069ccc7cd4639}{push\+\_\+front()}} and \mbox{\hyperlink{classseq_1_1sequence_a70fffbaf997937a304178a81e9e92637}{emplace\+\_\+front()}}
 \item Constant time removal of one or more elements with \mbox{\hyperlink{classseq_1_1sequence_a038a503f6e12ef433dd22463bf21cc0b}{erase()}}
-\item Stability of references and iterators.
+\item Stability of references and iterators (except end iterator).
 \end{DoxyItemize}
 
 Unlike std\+::list, the sequence container does not provide insertion anywhere in the container. Instead, sequence provides unordered insertion through its member \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{insert()}}, much like the \href{https://plflib.org/colony.htm}{\texttt{ plf\+::colony}} class. Unordered insertion is usually prefered to back or front insertion as it can reuse free slots created by \mbox{\hyperlink{classseq_1_1sequence_a038a503f6e12ef433dd22463bf21cc0b}{erase()}} and avoid potential allocations. In addition, its \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort()}}, \mbox{\hyperlink{classseq_1_1sequence_a5aaca3cd0a83c4637c28599ac55d70a0}{stable\+\_\+sort()}} and \mbox{\hyperlink{classseq_1_1sequence_a1bf494125859119c2748a7a5e59588fa}{shrink\+\_\+to\+\_\+fit()}} members do not preserve reference and iterator stability.
 
 Its main advantages other std\+::list (and other containers) are\+:
 \begin{DoxyItemize}
-\item Insertion at both ends is faster than a std\+::deque or std\+::vector (without reserve)
-\item Walking through the sequence with iterators is usually faster than walking through a std\+::deque
-\item Sorting a sequence (with \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort()}} or \mbox{\hyperlink{classseq_1_1sequence_a5aaca3cd0a83c4637c28599ac55d70a0}{stable\+\_\+sort()}}) is usually as fast as sorting a std\+::deque. Note that \#sequence\+::sort() uses \href{https://github.com/orlp/pdqsort}{\texttt{ pdqsort}} from Orson Peters.
+\item Insertion at both ends is faster than a std\+\_\+deque or std\+::vector (without reserve)
+\item Walking through the sequence with iterators is usually faster than walking through a std\+\_\+deque
+\item Sorting a sequence (with \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort()}} or \mbox{\hyperlink{classseq_1_1sequence_a5aaca3cd0a83c4637c28599ac55d70a0}{stable\+\_\+sort()}}) is usually as fast as sorting a std\+\_\+deque. Note that \#sequence\+::sort() uses \href{https://github.com/orlp/pdqsort}{\texttt{ pdqsort}} from Orson Peters.
 \item Its memory overhead is lower than a std\+::list\+: around 1 byte per element.
 \end{DoxyItemize}
 
-The sequence container is a perfect candidate for std\+::queue and std\+::stack. It is used by the seq library as the backend container for \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} and \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}.\hypertarget{classseq_1_1sequence_autotoc_md50}{}\doxysubsubsection{Technical description}\label{classseq_1_1sequence_autotoc_md50}
+The sequence container is a perfect candidate for std\+::queue and std\+::stack. It is used by the seq library as the backend container for \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} and \mbox{\hyperlink{classseq_1_1ordered__map}{seq\+::ordered\+\_\+map}}.\hypertarget{classseq_1_1sequence_autotoc_md45}{}\doxysubsubsection{Technical description}\label{classseq_1_1sequence_autotoc_md45}
 sequence container is implemented as a linked list of buckets. Each bucket holds (up to) 64 elements in a contiguous storage, and a 64 bits integer telling if a slot is empty or occupied.
 
 In order to retrieve the index of the first (or last) used slot in a bucket, or to get the number of occupied slots, the sequence container uses OS intrinsics to scan the 64 bits integer. For instance, on Windows, {\itshape \+\_\+\+Bit\+Scan\+Forward64}, {\itshape \+\_\+\+Bit\+Scan\+Revers64} and {\itshape \+\_\+mm\+\_\+popcnt\+\_\+u64} are used. Removing an element from the sequence will set the corresponding bit to 0, inserting will set the bit to 1.
 
-In addition, the sequence maintains another linked list of partially free buckets in order to perform fast unordered insertion using \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{insert()}} member and therefore reuse slots previously deleted by \mbox{\hyperlink{classseq_1_1sequence_a038a503f6e12ef433dd22463bf21cc0b}{erase()}}.\hypertarget{classseq_1_1sequence_autotoc_md51}{}\doxysubsubsection{Iterators}\label{classseq_1_1sequence_autotoc_md51}
+In addition, the sequence maintains another linked list of partially free buckets in order to perform fast unordered insertion using \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{insert()}} member and therefore reuse slots previously deleted by \mbox{\hyperlink{classseq_1_1sequence_a038a503f6e12ef433dd22463bf21cc0b}{erase()}}.\hypertarget{classseq_1_1sequence_autotoc_md46}{}\doxysubsubsection{Iterators}\label{classseq_1_1sequence_autotoc_md46}
 sequence iterator and const\+\_\+iterator are bidirectional iterators. However, they provide all the members to behave like random access iterator, except the std\+::random\+\_\+access\+\_\+iterator\+\_\+tag typedef.
 
-Indeed, using {\itshape \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a6eae5e249a991ab2b0ea792e6eb85b74}{iterator\+::operator+=}}} is, for instance, much faster than {\itshape std\+::advance} as it can skip whole buckets to reach the required location. Likewise subtracting 2 iterators is much faster than using {\itshape std\+::distance}.
+Indeed, using {\itshape \mbox{\hyperlink{classseq_1_1detail_1_1sequence__iterator_a9ecbbe579745bd34a8b183b0000e5700}{iterator\+::operator+=}}} is, for instance, much faster than {\itshape std\+::advance} as it can skip whole buckets to reach the required location. Likewise subtracting 2 iterators is much faster than using {\itshape std\+::distance}.
 
-sequence iterator also provide comparison operators $<$, $>$, $<$= and $>$=.\hypertarget{classseq_1_1sequence_autotoc_md52}{}\doxysubsubsection{Memory managment}\label{classseq_1_1sequence_autotoc_md52}
+sequence iterator also provide comparison operators $<$, $>$, $<$= and $>$=.\hypertarget{classseq_1_1sequence_autotoc_md47}{}\doxysubsubsection{Memory managment}\label{classseq_1_1sequence_autotoc_md47}
 When using the {\itshape Optimize\+For\+Memory} flag, the sequence will allocate each bucket independently using the provided allocator.
 
 When using the {\itshape Optimize\+For\+Speed} flag, the sequence will use a memory pool to allocate several buckets at once, still using the provided allocator. The memory pool uses a growing strategy to allocate more and more buckets based on a growth factor (S\+E\+Q\+\_\+\+G\+R\+O\+W\+\_\+\+F\+A\+C\+T\+OR define, defaulting to 1.\+6). The memory pool makes insertion tipically 50\% faster than the default allocation strategy, but will consume slightly more memory.
@@ -350,7 +350,7 @@ Constructor from an allocator object.
 \index{sequence@{sequence}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{sequence()}{sequence()}\hspace{0.1cm}{\footnotesize\ttfamily [3/10]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-\mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::\mbox{\hyperlink{classseq_1_1sequence}{sequence}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}}}]{count,  }\item[{const T \&}]{value,  }\item[{const Allocator \&}]{al = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+\mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::\mbox{\hyperlink{classseq_1_1sequence}{sequence}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}}}]{count,  }\item[{const T \&}]{value,  }\item[{const Allocator \&}]{al = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -434,12 +434,12 @@ Move constructor.
  \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classseq_1_1sequence_a4950a19cf05dbc9b5af00dcbc90a8a54}\label{classseq_1_1sequence_a4950a19cf05dbc9b5af00dcbc90a8a54}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a2cd969dd2081e6ab9c6acbdc8e7475c1}\label{classseq_1_1sequence_a2cd969dd2081e6ab9c6acbdc8e7475c1}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!sequence@{sequence}}
 \index{sequence@{sequence}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{sequence()}{sequence()}\hspace{0.1cm}{\footnotesize\ttfamily [8/10]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-\mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::\mbox{\hyperlink{classseq_1_1sequence}{sequence}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1sequence}{sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$ \&\&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::\mbox{\hyperlink{classseq_1_1sequence}{sequence}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1sequence}{sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$ \&\&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -571,23 +571,23 @@ Replaces the contents with count copies of value {\itshape value}.
  \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classseq_1_1sequence_a24059a4fa4280f2c55686137a2763276}\label{classseq_1_1sequence_a24059a4fa4280f2c55686137a2763276}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a84eae0de15058ca5a708264a241564b6}\label{classseq_1_1sequence_a84eae0de15058ca5a708264a241564b6}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!back@{back}}
 \index{back@{back}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-const T\& \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const T\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the back sequence value. 
 
-\mbox{\Hypertarget{classseq_1_1sequence_a9dd076a005da1a97b9de004b882f7f42}\label{classseq_1_1sequence_a9dd076a005da1a97b9de004b882f7f42}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a6da4f80e918b45025b44eef043b1d4a9}\label{classseq_1_1sequence_a6da4f80e918b45025b44eef043b1d4a9}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!back@{back}}
 \index{back@{back}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{back()}{back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-T\& \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ T\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -615,12 +615,12 @@ Returns an iterator to the first element of the sequence.
 
 Returns an iterator to the first element of the sequence. 
 
-\mbox{\Hypertarget{classseq_1_1sequence_afb43c38faef27cfa8e144cd682921988}\label{classseq_1_1sequence_afb43c38faef27cfa8e144cd682921988}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a39900c1d6c4189f852298857a3ef7938}\label{classseq_1_1sequence_a39900c1d6c4189f852298857a3ef7938}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!capacity@{capacity}}
 \index{capacity@{capacity}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{capacity()}{capacity()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-size\+\_\+t \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -681,19 +681,19 @@ Returns a reverse iterator to the first element of the reversed list.
 
 Returns a reverse iterator to the element following the last element of the reversed list. 
 
-\mbox{\Hypertarget{classseq_1_1sequence_a23d784907087118119cee410a7b2c6c7}\label{classseq_1_1sequence_a23d784907087118119cee410a7b2c6c7}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a425737526395c84ed6b57b6297bcb410}\label{classseq_1_1sequence_a425737526395c84ed6b57b6297bcb410}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!data@{data}}
 \index{data@{data}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-const Data$\ast$ \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const Data$\ast$ \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{classseq_1_1sequence_a7965d6074abfbcbdef971934fd4dec78}\label{classseq_1_1sequence_a7965d6074abfbcbdef971934fd4dec78}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a24cf8f2fe37e422bcc119ebd2f064dce}\label{classseq_1_1sequence_a24cf8f2fe37e422bcc119ebd2f064dce}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!data@{data}}
 \index{data@{data}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{data()}{data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-Data$\ast$ \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ Data$\ast$  \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -824,12 +824,12 @@ Constructs an element in-\/place at the beginning and returns an iterator pointi
 \begin{DoxyReturn}{Returns}
 iterator to the inserted element No iterators or references are invalidated. Strong exception guarantee. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1sequence_a640ffee51572b2cbf01ce2819b217df9}\label{classseq_1_1sequence_a640ffee51572b2cbf01ce2819b217df9}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a367842660b634699aca64fa00af6743a}\label{classseq_1_1sequence_a367842660b634699aca64fa00af6743a}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!empty@{empty}}
 \index{empty@{empty}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{empty()}{empty()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-bool \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ bool \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{classseq_1_1sequence_a40328f62dbf803e7bfc1d1516dee858d}\label{classseq_1_1sequence_a40328f62dbf803e7bfc1d1516dee858d}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!end@{end}}
@@ -893,45 +893,45 @@ Erases the specified element from the container.
 \begin{DoxyReturn}{Returns}
 Iterator following the last removed element This function performs in O(1). Iterators and references to the erased element are invalidated. Iterators and references to other elements in the sequence remain valid. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1sequence_aab4b0547a82571d611fd7174b9fce304}\label{classseq_1_1sequence_aab4b0547a82571d611fd7174b9fce304}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a41b2a98cd2c9a3249e6cc592f774a720}\label{classseq_1_1sequence_a41b2a98cd2c9a3249e6cc592f774a720}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!front@{front}}
 \index{front@{front}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-const T\& \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const T\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the front sequence value. 
 
-\mbox{\Hypertarget{classseq_1_1sequence_a437130809209dae583f2f3348daef29d}\label{classseq_1_1sequence_a437130809209dae583f2f3348daef29d}} 
+\mbox{\Hypertarget{classseq_1_1sequence_acaaf970d1c536112aec1153bd5d8c0e8}\label{classseq_1_1sequence_acaaf970d1c536112aec1153bd5d8c0e8}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!front@{front}}
 \index{front@{front}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{front()}{front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-T\& \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ T\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the front sequence value. 
 
-\mbox{\Hypertarget{classseq_1_1sequence_ae2f1f188ffa5e7e2da618d1df5647515}\label{classseq_1_1sequence_ae2f1f188ffa5e7e2da618d1df5647515}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a9f868260d86160cfb072ad362db4b6d3}\label{classseq_1_1sequence_a9f868260d86160cfb072ad362db4b6d3}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-Allocator \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ Allocator\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the allocator associated with the container. 
 
-\mbox{\Hypertarget{classseq_1_1sequence_a2b0f1ebf64715907e8c694f3bb6f22c6}\label{classseq_1_1sequence_a2b0f1ebf64715907e8c694f3bb6f22c6}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a065df7dfb6b5495249346d377d94b0dc}\label{classseq_1_1sequence_a065df7dfb6b5495249346d377d94b0dc}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-Allocator\& \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ Allocator\&\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -1017,34 +1017,35 @@ Returns an iterator to given position.
 {\em pos} & position in the sequence While sequence is not a random access container, operations on iterators are still faster than for a conventional std\+::list. This function is faster than using \mbox{\hyperlink{classseq_1_1sequence_a6bad1f0997441f15da625f94ac63a795}{begin()}}+pos as it might start from the end to reach the required position. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classseq_1_1sequence_a21bca2aa833223052f3ed832f779522e}\label{classseq_1_1sequence_a21bca2aa833223052f3ed832f779522e}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a21013b95f15468be8a88bded677a45de}\label{classseq_1_1sequence_a21013b95f15468be8a88bded677a45de}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!max\_size@{max\_size}}
 \index{max\_size@{max\_size}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{max\_size()}{max\_size()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-static \mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::max\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [noexcept]}}
+static auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::max\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the sequence maximum size. 
 
-\mbox{\Hypertarget{classseq_1_1sequence_ad5689f2789f4f2acdd2a78f9d652a7d0}\label{classseq_1_1sequence_ad5689f2789f4f2acdd2a78f9d652a7d0}} 
+\mbox{\Hypertarget{classseq_1_1sequence_aef7cb1d4d77ba5476930bfdffef65e09}\label{classseq_1_1sequence_aef7cb1d4d77ba5476930bfdffef65e09}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!memory\_footprint@{memory\_footprint}}
 \index{memory\_footprint@{memory\_footprint}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{memory\_footprint()}{memory\_footprint()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-std\+::size\+\_\+t \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ std\+::size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the full memory footprint of this sequence in bytes, excluding sizeof($\ast$this). 
 
-\mbox{\Hypertarget{classseq_1_1sequence_a69c6c9bd0dcc596b190fcf986e9c3ae6}\label{classseq_1_1sequence_a69c6c9bd0dcc596b190fcf986e9c3ae6}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a3fe31dfa20f873fe2e541d37efacb6d4}\label{classseq_1_1sequence_a3fe31dfa20f873fe2e541d37efacb6d4}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!operator=@{operator=}}
 \index{operator=@{operator=}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-\mbox{\hyperlink{classseq_1_1sequence}{sequence}}\& \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1sequence}{sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1sequence}{sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$ \&}]{other }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1sequence}{sequence}}\&
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -1058,12 +1059,13 @@ Copy operator, basic exception guarantee.
 \begin{DoxyReturn}{Returns}
 reference to this 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1sequence_ac66ddee058887387286a3ba6c8d429a1}\label{classseq_1_1sequence_ac66ddee058887387286a3ba6c8d429a1}} 
+\mbox{\Hypertarget{classseq_1_1sequence_a24f4acbccef9afb88836ca12d7fba1f3}\label{classseq_1_1sequence_a24f4acbccef9afb88836ca12d7fba1f3}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!operator=@{operator=}}
 \index{operator=@{operator=}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-\mbox{\hyperlink{classseq_1_1sequence}{sequence}}\& \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1sequence}{sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1sequence}{sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$ \&\&}]{other }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1sequence}{sequence}}\&
+		\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -1221,7 +1223,7 @@ Increase the capacity of the vector to a value that\textquotesingle{}s greater o
 
 
 \begin{DoxyParams}{Parameters}
-{\em new\+\_\+cap} & new capacity of the sequence If new\+\_\+cap is greater than the current \mbox{\hyperlink{classseq_1_1sequence_afb43c38faef27cfa8e144cd682921988}{capacity()}}, new storage is allocated, otherwise the function does nothing. \mbox{\hyperlink{classseq_1_1sequence_a54647e26b4fb0be48e05fc345c3272d3}{reserve()}} does not change the size of the sequence. Note that \mbox{\hyperlink{classseq_1_1sequence_a54647e26b4fb0be48e05fc345c3272d3}{reserve()}} only works with {\itshape Optimize\+For\+Speed} flag. Basic exception guarantee. ~\newline
+{\em new\+\_\+cap} & new capacity of the sequence If new\+\_\+cap is greater than the current \mbox{\hyperlink{classseq_1_1sequence_a39900c1d6c4189f852298857a3ef7938}{capacity()}}, new storage is allocated, otherwise the function does nothing. \mbox{\hyperlink{classseq_1_1sequence_a54647e26b4fb0be48e05fc345c3272d3}{reserve()}} does not change the size of the sequence. Note that \mbox{\hyperlink{classseq_1_1sequence_a54647e26b4fb0be48e05fc345c3272d3}{reserve()}} only works with {\itshape Optimize\+For\+Speed} flag. Basic exception guarantee. ~\newline
  \\
 \hline
 \end{DoxyParams}
@@ -1305,12 +1307,12 @@ void \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, l
 Pack the sequence to remove empty slots and release unused memory. All empty slots created by calls to \mbox{\hyperlink{classseq_1_1sequence_a038a503f6e12ef433dd22463bf21cc0b}{erase()}} are filled by moving each element toward the beginning. This function might deallocate unused buckets created by the shrinking operation, but never allocates memory. Invalidates all references and iterators. Basic exception guarantee. ~\newline
  
 
-\mbox{\Hypertarget{classseq_1_1sequence_ad4fab80858b23d4eb40703de80cc28cd}\label{classseq_1_1sequence_ad4fab80858b23d4eb40703de80cc28cd}} 
+\mbox{\Hypertarget{classseq_1_1sequence_af1171dafc78357c61afd896f15d87884}\label{classseq_1_1sequence_af1171dafc78357c61afd896f15d87884}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!size@{size}}
 \index{size@{size}!seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}}
 \doxysubsubsection{\texorpdfstring{size()}{size()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Force\+Align64 = false$>$ \\
-\mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, layout, Force\+Align64 $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{classseq_1_1sequence_a7dd184f2899a4f88b9c0f4ae80c4c87d}{size\+\_\+type}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -1325,7 +1327,7 @@ void \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, l
 
 
 
-Sort the sequence. The sequence is sorted using the std\+::less$<$value\+\_\+type$>$ comparator. \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort()}} relies on the \href{https://github.com/orlp/pdqsort}{\texttt{ pdqsort}} implementation from Orson Peters, and should be as fast as sorting a std\+::deque. This invalidates all iterators and references. 
+Sort the sequence. The sequence is sorted using the std\+::less$<$value\+\_\+type$>$ comparator. \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort()}} relies on the \href{https://github.com/orlp/pdqsort}{\texttt{ pdqsort}} implementation from Orson Peters, and should be as fast as sorting a std\+\_\+deque. This invalidates all iterators and references. 
 
 \mbox{\Hypertarget{classseq_1_1sequence_a5ca5c3fc0cc7a2660c90b601b075ca97}\label{classseq_1_1sequence_a5ca5c3fc0cc7a2660c90b601b075ca97}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!sort@{sort}}
@@ -1337,7 +1339,7 @@ void \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}}$<$ T, Allocator, l
 
 
 
-Sort the sequence using given comparator. \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort()}} relies on the \href{https://github.com/orlp/pdqsort}{\texttt{ pdqsort}} implementation from Orson Peters, and should be as fast as sorting a std\+::deque. This invalidates all iterators and references. 
+Sort the sequence using given comparator. \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{sort()}} relies on the \href{https://github.com/orlp/pdqsort}{\texttt{ pdqsort}} implementation from Orson Peters, and should be as fast as sorting a std\+\_\+deque. This invalidates all iterators and references. 
 
 \mbox{\Hypertarget{classseq_1_1sequence_a5aaca3cd0a83c4637c28599ac55d70a0}\label{classseq_1_1sequence_a5aaca3cd0a83c4637c28599ac55d70a0}} 
 \index{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$@{seq::sequence$<$ T, Allocator, layout, ForceAlign64 $>$}!stable\_sort@{stable\_sort}}

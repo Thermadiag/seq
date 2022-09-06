@@ -1,4 +1,0 @@
-var structdetail_1_1_next_tuple_sub_key_3_01_index_00_01_sub_key_3_01void_01_4_00_01_first_00_01_second_00_01_more_8_8_8_01_4 =
-[
-    [ "type", "structdetail_1_1_next_tuple_sub_key_3_01_index_00_01_sub_key_3_01void_01_4_00_01_first_00_01_second_00_01_more_8_8_8_01_4.html#a0675c690020c376bd7f681eedcb7c291", null ]
-];

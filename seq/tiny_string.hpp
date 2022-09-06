@@ -1,20 +1,18 @@
-#pragma once
+#ifndef SEQ_TINY_STRING_HPP
+#define SEQ_TINY_STRING_HPP
+
+
 
 /** @file */
 
-#include <string>
-#include <cstring>
-#include <streambuf>
-#include <istream>
-#include <iterator>
-#include <algorithm>
-#include <cstdint>
-#include <vector>
 
 #ifdef SEQ_HAS_CPP_17
 #include <string_view>
 #endif
 
+#include <vector>
+#include <string>
+#include <algorithm>
 
 
 #include "hash.hpp"
@@ -25,11 +23,30 @@
 #undef max
 
 
+namespace utils
+{
+	//Function missing on msvc and gcc/mingw
+	inline auto my_memrchr(const void* s, int c, size_t n) -> void* {
+		const auto* p = static_cast<const unsigned char*>(s);
+		for (p += n; n > 0; n--) {
+			if (*--p == c) {
+				return const_cast<unsigned char*>(p);
+}
+}
+
+		return nullptr;
+	}
+}
+#if defined( WIN32 ) || defined(_WIN32)
+#define memrchr utils::my_memrchr
+#endif
+
+
 namespace seq
 {
 
 	/// @brief Allocator type for tiny string view
-	struct view_allocator {};
+	struct view_allocator {} ;
 
 	// forward declaration
 	template<size_t MaxStaticSize, class Allocator>
@@ -42,32 +59,27 @@ namespace seq
 
 
 	
-#ifdef WIN32
-//Function missing on msvc and gcc/mingw
-static inline void* memrchr(const void* s, int c, size_t n) {
-	const unsigned char* p = static_cast<const unsigned char*>(s);
-	for (p += n; n > 0; n--)
-		if (*--p == c)
-			return const_cast<unsigned char*>(p);
-
-	return NULL;
-}
-#endif
 
 
 namespace detail
 {
 
+	
+
+
+
+
+
 	/*-************************************
 	*  Common functions
 	**************************************/
-	static inline void unsafe_char_memcpy(char* SEQ_RESTRICT dst, const char* SEQ_RESTRICT src, size_t s, size_t exact_size)
+	static inline void unsafe_char_memcpy(char * SEQ_RESTRICT dst, const char* SEQ_RESTRICT src, size_t s, size_t exact_size)
 	{
 		// Copy characters by chunks of 32 bytes if possible
 		if (exact_size) {
 			memcpy(dst, src, s); return;
 		}
-		const char* end = src + s;
+		const char* end  = src + s;
 		do {
 			memcpy(dst, src, 32);
 			dst += 32;
@@ -84,14 +96,14 @@ namespace detail
 	}
 
 
-	static inline unsigned NbCommonBytes(size_t val)
+	static inline auto NbCommonBytes(size_t val) -> unsigned
 	{
 #if BYTEORDER_ENDIAN == BYTEORDER_LITTLE_ENDIAN
 			if (sizeof(val) == 8) {
 #       if defined(_MSC_VER) && defined(_WIN64) 
 				unsigned long r = 0;
-				_BitScanForward64(&r, (std::uint64_t)val);
-				return (int)(r >> 3);
+				_BitScanForward64(&r, static_cast<std::uint64_t>(val));
+				return static_cast<int>(r >> 3);
 #       elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3))) 
 				return (__builtin_ctzll(static_cast<std::uint64_t>(val)) >> 3);
 #       else
@@ -108,9 +120,9 @@ namespace detail
 			}
 			else /* 32 bits */ {
 #       if defined(_MSC_VER) 
-				unsigned long r;
-				_BitScanForward(&r, (std::uint32_t)val);
-				return (int)(r >> 3);
+				unsigned long r = 0;
+				_BitScanForward(&r, static_cast<std::uint32_t>(val));
+				return static_cast<int>(r >> 3);
 #       elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3))) 
 				return (__builtin_ctz(static_cast<std::uint32_t>(val)) >> 3);
 #       else
@@ -161,13 +173,13 @@ namespace detail
 	}
 
 #define STEPSIZE sizeof(size_t)
-	static inline size_t count_common_bytes(const char* pIn, const char* pMatch, const char* pInLimit)
+	static inline auto count_common_bytes(const char* pIn, const char* pMatch, const char* pInLimit) -> size_t
 	{
 		const char* const pStart = pIn;
 
 		if (SEQ_LIKELY(pIn < pInLimit - (STEPSIZE - 1))) {
 			size_t const diff = read_size_t(pMatch) ^ read_size_t(pIn);
-			if (!diff) {
+			if (diff == 0u) {
 				pIn += STEPSIZE; pMatch += STEPSIZE;
 			}
 			else {
@@ -177,99 +189,109 @@ namespace detail
 
 		while (SEQ_LIKELY(pIn < pInLimit - (STEPSIZE - 1))) {
 			size_t const diff = read_size_t(pMatch) ^ read_size_t(pIn);
-			if (!diff) { pIn += STEPSIZE; pMatch += STEPSIZE; continue; }
+			if (diff == 0u) { pIn += STEPSIZE; pMatch += STEPSIZE; continue; }
 			pIn += NbCommonBytes(diff);
 			return static_cast<unsigned>(pIn - pStart);
 		}
 
 		if ((STEPSIZE == 8) && (pIn < (pInLimit - 3)) && (read_32(pMatch) == read_32(pIn))) { pIn += 4; pMatch += 4; }
 		if ((pIn < (pInLimit - 1)) && (read_16(pMatch) == read_16(pIn))) { pIn += 2; pMatch += 2; }
-		if ((pIn < pInLimit) && (*pMatch == *pIn)) pIn++;
+		if ((pIn < pInLimit) && (*pMatch == *pIn)) { pIn++;
+}
 		return static_cast<unsigned>(pIn - pStart);
 	}
 
 	
-	static bool string_inf(const char* v1, const char* e1, const char* v2, const char* e2)noexcept
+	static auto string_inf(const char* v1, const char* e1, const char* v2, const char* e2)noexcept -> bool
 	{
 		//comparison works on unsigned !!!!
 		
-		if (*v1 != *v2) return static_cast<unsigned char>(*v1) < static_cast<unsigned char>(*v2);
+		if (*v1 != *v2) { return static_cast<unsigned char>(*v1) < static_cast<unsigned char>(*v2);
+}
 
 		const char* end = v1 + std::min(e1 - v1, e2 - v2);
 		while ((v1 < end - (8 - 1))) {
 			std::uint64_t r1 = read_BE_64(v1);
 			std::uint64_t r2 = read_BE_64(v2);
-			if (r1 != r2) return r1 < r2;
+			if (r1 != r2) { return r1 < r2;
+}
 			v1 += 8;
 			v2 += 8;
 		}
 		if ((v1 < (end - 3))) {
 			std::uint32_t r1 = read_BE_32(v1);
 			std::uint32_t r2 = read_BE_32(v2);
-			if (r1 != r2) return r1 < r2;
+			if (r1 != r2) { return r1 < r2;
+}
 			v1 += 4; v2 += 4;
 		}
 		while (v1 != end) {
-			if (*v1 != *v2)
+			if (*v1 != *v2) {
 				return static_cast<unsigned char>(*v1) < static_cast<unsigned char>(*v2);
+}
 			++v1; ++v2;
 		}
 		return v1 == e1 && v2 != e2;
 	}
 	
-	static inline int string_compare(const unsigned char* v1, size_t l1, const unsigned char* v2, size_t l2)noexcept
+	static inline auto string_compare(const unsigned char* v1, size_t l1, const unsigned char* v2, size_t l2)noexcept -> int
 	{
 		const unsigned char* end = v1 + std::min(l1,l2);
 		while ((v1 < end - (8 - 1))) {
 			std::uint64_t r1 = read_BE_64(v1);
 			std::uint64_t r2 = read_BE_64(v2);
-			if (r1 != r2) return r1 < r2 ? -1 : 1;
+			if (r1 != r2) { return r1 < r2 ? -1 : 1;
+}
 			v1 += 8;
 			v2 += 8;
 		}
 		if ((v1 < (end - 3))) {
 			std::uint32_t r1 = read_BE_32(v1);
 			std::uint32_t r2 = read_BE_32(v2);
-			if (r1 != r2) return r1 < r2 ? -1 : 1;
+			if (r1 != r2) { return r1 < r2 ? -1 : 1;
+}
 			v1 += 4; v2 += 4;
 		}
 		while (v1 != end) {
-			if (*v1 != *v2)
+			if (*v1 != *v2) {
 				return static_cast<unsigned char>(*v1) < static_cast<unsigned char>(*v2) ? -1 : 1;
+}
 			++v1; ++v2;
 		}
 		return (l1 < l2) ? -1 : ((l1 == l2) ? 0 : 1);
 	}
 	
-	static inline bool string_inf_equal(const char* v1, const char* e1, const char* v2, const char* e2)noexcept
+	static inline auto string_inf_equal(const char* v1, const char* e1, const char* v2, const char* e2)noexcept -> bool
 	{
 		return !string_inf(v2, e2, v1, e1);
 	}
 
 
-	static inline bool string_equal(const char* pIn, const char* pMatch, const char* pInLimit)  noexcept {
+	static inline auto string_equal(const char* pIn, const char* pMatch, const char* pInLimit)  noexcept -> bool {
 		while ((pIn < pInLimit - (STEPSIZE - 1))) {
-			if (read_size_t(pMatch) != read_size_t(pIn)) return false;
+			if (read_size_t(pMatch) != read_size_t(pIn)) { return false;
+}
 			pIn += STEPSIZE; pMatch += STEPSIZE;
 		}
 		while (pIn != pInLimit) {
-			if (*pIn != *pMatch) return false;
+			if (*pIn != *pMatch) { return false;
+}
 			++pIn; ++pMatch;
 		} 
 		return true;
 
 	}
-	static inline bool string_equal(const char* s1, size_t l1, const char* s2, size_t l2) noexcept {
+	static inline auto string_equal(const char* s1, size_t l1, const char* s2, size_t l2) noexcept -> bool {
 		return (l1 == l2) && string_equal(s1, s2, s1 +l1);
 	}
 
 
 	template<class T>
-	static inline size_t get_size(const T& obj) { return obj.size(); }
-	static inline size_t get_size(const char* obj) { return strlen(obj); }
+	static inline auto get_size(const T& obj) -> size_t { return obj.size(); }
+	static inline auto get_size(const char* obj) -> size_t { return strlen(obj); }
 	template<class T>
-	static inline const char* get_data(const T& obj) { return obj.data(); }
-	static inline const char* get_data(const char* obj) { return obj; }
+	static inline auto get_data(const T& obj) -> const char* { return obj.data(); }
+	static inline auto get_data(const char* obj) -> const char* { return obj; }
 
 	template<class String1, class String2, class Iter>
 	void join(String1 & out, const String2 & sep, Iter first, Iter last) 
@@ -322,7 +344,7 @@ namespace detail
 	{
 		size_t not_sso : 1;
 		size_t exact_size : 1;
-		size_t size : sizeof(size_t)*8-2;
+		size_t size : sizeof(size_t) * 8 - 2;
 		char* data;
 	};
 	struct NoneSSOProxy
@@ -365,14 +387,14 @@ namespace detail
 
 		string_internal() { }
 		string_internal(const Allocator & al) :alloc(al) { }
-		char* allocate(size_t n) {
+		auto allocate(size_t n) -> char* {
 			return alloc.allocate(n);
 		}
 		void deallocate(char* p, size_t n) {
 			alloc.deallocate(p, n);
 		}
-		Allocator & get_allocator()  { return alloc; }
-		const Allocator& get_allocator() const { return alloc; }
+		auto get_allocator() -> Allocator &  { return alloc; }
+		auto get_allocator() const -> const Allocator& { return alloc; }
 		void set_allocator(const Allocator& al) { alloc = al; }
 		void set_allocator( Allocator&& al) { alloc = std::move(al); }
 		
@@ -390,18 +412,18 @@ namespace detail
 		} d_union;
 
 		string_internal() {} 
-		string_internal(const std::allocator<char>&) {}
+		string_internal(const std::allocator<char>& /*unused*/) {}
 
-		char* allocate(size_t n) {
+		auto allocate(size_t n) -> char* {
 			char* p = std::allocator<char>{}.allocate(n);
 			return p;
 		}
 		void deallocate(char* p, size_t n) {
 			std::allocator<char>{}.deallocate(p, n);
 		}
-		std::allocator<char> get_allocator() const { return std::allocator<char>(); }
-		void set_allocator(const std::allocator<char>& ) {  }
-		void set_allocator(std::allocator<char> && ) {  }
+		auto get_allocator() const -> std::allocator<char> { return std::allocator<char>(); }
+		void set_allocator(const std::allocator<char>&  /*unused*/) {  }
+		void set_allocator(std::allocator<char> &&  /*unused*/) {  }
 	};
 
 	template< size_t MaxSSO>
@@ -413,17 +435,17 @@ namespace detail
 		const char* data;
 		size_t size;
 
-		string_internal(const char * d=NULL, size_t s=0)
+		string_internal(const char * d = nullptr, size_t s = 0)
 		:data(d), size(s){} 
 
-		char* allocate(size_t n) {
+		auto allocate(size_t n) -> char* {
 			throw std::bad_alloc();
 			return NULL;
 		}
-		void deallocate(char* , size_t ) {}
-		view_allocator get_allocator() const { return view_allocator(); }
-		void set_allocator(const view_allocator&) {  }
-		void set_allocator(view_allocator&&) {  }
+		void deallocate(char*  /*unused*/, size_t  /*unused*/) {}
+		auto get_allocator() const -> view_allocator { return view_allocator(); }
+		void set_allocator(const view_allocator& /*unused*/) {  }
+		void set_allocator(view_allocator&& /*unused*/) {  }
 	};
 
 	
@@ -589,8 +611,8 @@ class tiny_string
 			d_data.d_union.non_sso.size = len;
 		}
 	}
-	size_t size_internal() const noexcept { return is_sso() ? d_data.d_union.sso.size : d_data.d_union.non_sso.size; }
-	size_t capacity_internal() const noexcept {
+	auto size_internal() const noexcept -> size_t { return is_sso() ? d_data.d_union.sso.size : d_data.d_union.non_sso.size; }
+	auto capacity_internal() const noexcept -> size_t {
 		// returns the capacity
 		return is_sso() ? 
 			sso_max_capacity: 
@@ -600,7 +622,7 @@ class tiny_string
 					32 :
 					(1ULL << (1ULL + (bit_scan_reverse_64(d_data.d_union.non_sso.size))))));
 	}
-	size_t capacity_for_length(size_t len) const noexcept {
+	auto capacity_for_length(size_t len) const noexcept -> size_t {
 		//returns the capacity for given length
 		return is_sso(len) ? 
 			sso_max_capacity : 
@@ -680,7 +702,7 @@ class tiny_string
 	}
 
 	template<class Iter, class Cat>
-	void assign_cat(Iter first, Iter last, Cat)
+	void assign_cat(Iter first, Iter last, Cat /*unused*/)
 	{
 		// assign range for non random access iterators
 		tiny_string tmp;
@@ -691,7 +713,7 @@ class tiny_string
 		*this = std::move(tmp);
 	}
 	template<class Iter>
-	void assign_cat(Iter first, Iter last, std::random_access_iterator_tag)
+	void assign_cat(Iter first, Iter last, std::random_access_iterator_tag /*unused*/)
 	{
 		// assign range for random access iterators
 		resize_uninitialized(last - first,false,true);
@@ -699,7 +721,7 @@ class tiny_string
 	}
 
 	template<class Iter, class Cat>
-	void insert_cat(size_t pos, Iter first, Iter last, Cat)
+	void insert_cat(size_t pos, Iter first, Iter last, Cat /*unused*/)
 	{
 		// insert range for non random access iterators
 		SEQ_ASSERT_DEBUG(pos <= size(), "invalid insert position");
@@ -715,7 +737,7 @@ class tiny_string
 	}
 
 	template<class Iter>
-	void insert_cat(size_t pos, Iter first, Iter last, std::random_access_iterator_tag)
+	void insert_cat(size_t pos, Iter first, Iter last, std::random_access_iterator_tag /*unused*/)
 	{
 		// insert range for random access iterators
 		SEQ_ASSERT_DEBUG(pos <= size(), "invalid insert position");
@@ -818,7 +840,7 @@ class tiny_string
 
 
 	template <class Iter>
-	void replace_cat(size_t pos, size_t len, Iter first, Iter last, std::random_access_iterator_tag)
+	void replace_cat(size_t pos, size_t len, Iter first, Iter last, std::random_access_iterator_tag /*unused*/)
 	{
 		size_t input_size = (last - first);
 		size_t new_size = size() - len + input_size;
@@ -867,7 +889,7 @@ class tiny_string
 		replace_cat(pos, len, first, last, typename std::iterator_traits<Iter>::iterator_category());
 	}
 
-	char* initialize(size_t size)
+	auto initialize(size_t size) -> char*
 	{
 		// intialize the string for given size
 		memset(&d_data.d_union, 0, sizeof(d_data.d_union));
@@ -911,31 +933,31 @@ public:
 	static const size_t npos = -1;
 
 	/// @brief Returns the internal character storage 
-	char* data() noexcept { return is_sso() ? d_data.d_union.sso.data : d_data.d_union.non_sso.data; }
+	auto data() noexcept -> char* { return is_sso() ? d_data.d_union.sso.data : d_data.d_union.non_sso.data; }
 	/// @brief Returns the internal character storage 
-	const char* data() const noexcept { return is_sso() ? d_data.d_union.sso.data : d_data.d_union.non_sso.data; }
+	auto data() const noexcept -> const char* { return is_sso() ? d_data.d_union.sso.data : d_data.d_union.non_sso.data; }
 	/// @brief Returns the internal character storage 
-	const char* c_str() const noexcept { return data(); }
+	auto c_str() const noexcept -> const char* { return data(); }
 	/// @brief Returns the string size (without the trailing null character)
-	size_t size() const noexcept { return size_internal(); }
+	auto size() const noexcept -> size_t { return size_internal(); }
 	/// @brief Returns the string size (without the trailing null character)
-	size_t length() const noexcept { return size(); }
+	auto length() const noexcept -> size_t { return size(); }
 	/// @brief Returns the string maximum size
-	size_t max_size() const noexcept { return (1ULL << (sizeof(size_t) * 8ULL - 2ULL)) - 1ULL; }
+	auto max_size() const noexcept -> size_t { return (1ULL << (sizeof(size_t) * 8ULL - 2ULL)) - 1ULL; }
 	/// @brief Returns the string current capacity
-	size_t capacity() const noexcept { return capacity_internal() - 1ULL; }
+	auto capacity() const noexcept -> size_t { return capacity_internal() - 1ULL; }
 	/// @brief Returns true if the string is empty, false otherwise
-	bool empty() const noexcept { return size() == 0; }
+	auto empty() const noexcept -> bool { return size() == 0; }
 	/// @brief Returns the string allocator
-	allocator_type get_allocator() const noexcept { return d_data.get_allocator(); }
+	auto get_allocator() const noexcept -> allocator_type { return d_data.get_allocator(); }
 
 	/// @brief Default constructor
 	tiny_string()
-	{ 
-		memset(&d_data.d_union, 0, sizeof(d_data.d_union)); 
+	{
+		memset(&d_data.d_union, 0, sizeof(d_data.d_union));
 	}
 	/// @brief Construct from allocator object
-	explicit tiny_string(const Allocator & al)
+	explicit tiny_string(const Allocator& al)
 		:d_data(al)
 	{
 		memset(&d_data.d_union, 0, sizeof(d_data.d_union));
@@ -960,7 +982,7 @@ public:
 		memset(initialize(n), c, n);
 	}
 	/// @brief Construct from a std::string and an allocator object
-	tiny_string(const std::string & str, const Allocator& al = Allocator())
+	tiny_string(const std::string& str, const Allocator& al = Allocator())
 		:d_data(al)
 	{
 		memcpy(initialize(str.size()), str.data(), str.size());
@@ -978,8 +1000,8 @@ public:
 
 
 	/// @brief Copy constructor
-	tiny_string(const tiny_string& other) 
-	:d_data(other.d_data.get_allocator())
+	tiny_string(const tiny_string& other)
+		:d_data(other.d_data.get_allocator())
 	{
 		if (other.is_sso())
 			// for SSO and read only string 
@@ -989,7 +1011,7 @@ public:
 			d_data.d_union.non_sso.size = other.d_data.d_union.non_sso.size;
 			d_data.d_union.non_sso.exact_size = 1;
 			d_data.d_union.non_sso.data = d_data.allocate(d_data.d_union.non_sso.size + 1);
-			detail::char_memcpy(d_data.d_union.non_sso.data, other.d_data.d_union.non_sso.data, d_data.d_union.non_sso.size+1);
+			detail::char_memcpy(d_data.d_union.non_sso.data, other.d_data.d_union.non_sso.data, d_data.d_union.non_sso.size + 1);
 		}
 	}
 	/// @brief Copy constructor with custom allocator
@@ -1012,10 +1034,10 @@ public:
 	tiny_string(const tiny_string<OtherMaxSS, OtherAlloc>& other)
 		:d_data()
 	{
-		memcpy(initialize(other.size()), other.data() , other.size());
+		memcpy(initialize(other.size()), other.data(), other.size());
 	}
 	/// @brief Construct by copying a sub-part of other
-	tiny_string(const tiny_string& other, size_t pos, size_t len , const Allocator & al = Allocator())
+	tiny_string(const tiny_string& other, size_t pos, size_t len, const Allocator& al = Allocator())
 		:d_data(al)
 	{
 		if (len == npos || pos + len > other.size())
@@ -1034,11 +1056,11 @@ public:
 		:d_data(other.d_data.get_allocator())
 	{
 		memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
-		if(!is_sso())
-			memset(&other.d_data.d_union,0,sizeof(d_data.d_union));
+		if (!is_sso())
+			memset(&other.d_data.d_union, 0, sizeof(d_data.d_union));
 	}
 	/// @brief Move constructor with custom allocator
-	tiny_string(tiny_string&& other, const Allocator & al) noexcept
+	tiny_string(tiny_string&& other, const Allocator& al) noexcept
 		:d_data(al)
 	{
 		memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
@@ -1047,10 +1069,10 @@ public:
 	}
 	/// @brief Construct by copying the range [first,last)
 	template<class Iter>
-	tiny_string(Iter first, Iter last, const Allocator & al = Allocator()) 
+	tiny_string(Iter first, Iter last, const Allocator& al = Allocator())
 		:d_data(al)
 	{
-		
+
 		memset(&d_data.d_union, 0, sizeof(d_data.d_union));
 		assign_cat(first, last, typename std::iterator_traits<Iter>::iterator_category());
 	}
@@ -1062,22 +1084,22 @@ public:
 		assign(il);
 	}
 
-	~tiny_string() 
+	~tiny_string()
 	{
-		if ( !is_sso()) {
+		if (!is_sso()) {
 			d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal());
 		}
 	}
 
 	/// @brief Assign the range [first,last) to this string
 	template<class Iter>
-	tiny_string& assign(Iter first, Iter last)
+	auto assign(Iter first, Iter last) -> tiny_string&
 	{
 		assign_cat(first, last, typename std::iterator_traits<Iter>::iterator_category());
 		return *this;
 	}
 	/// @brief Assign the content of other to this string
-	tiny_string& assign(const tiny_string& other)
+	auto assign(const tiny_string& other) -> tiny_string&
 	{
 		if (is_sso() && other.is_sso())
 			memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
@@ -1089,14 +1111,14 @@ public:
 	}
 	/// @brief Assign the content of other to this string
 	template<size_t OtherMaxStaticSize, class OtherAlloc>
-	tiny_string& assign(const tiny_string<OtherMaxStaticSize, OtherAlloc>& other)
+	auto assign(const tiny_string<OtherMaxStaticSize, OtherAlloc>& other) -> tiny_string&
 	{
 		resize_uninitialized(other.size(), false, true);
 		detail::char_memcpy(this->data(), other.c_str(), other.size());
 		return *this;
 	}
 	/// @brief Assign the content of other to this string
-	tiny_string& assign(const std::string& other) 
+	auto assign(const std::string& other) -> tiny_string& 
 	{
 		resize_uninitialized(other.size(), false, true);
 		detail::char_memcpy(this->data(), other.c_str(), other.size());
@@ -1114,7 +1136,7 @@ public:
 #endif
 
 	/// @brief Assign a sub-part of other to this string
-	tiny_string& assign(const tiny_string& str, size_t subpos, size_t sublen = npos) 
+	auto assign(const tiny_string& str, size_t subpos, size_t sublen) -> tiny_string& 
 	{
 		if (sublen == npos || subpos + sublen > str.size())
 			sublen = str.size() - subpos;
@@ -1123,7 +1145,7 @@ public:
 		return *this;
 	}
 	/// @brief Assign a null-terminated buffer to this string
-	tiny_string& assign(const char* s)
+	auto assign(const char* s) -> tiny_string&
 	{
 		size_t len = strlen(s);
 		resize_uninitialized(len, false, true);
@@ -1131,21 +1153,21 @@ public:
 		return *this;
 	}
 	/// @brief Assign a buffer to this string
-	tiny_string& assign(const char* s, size_t n)
+	auto assign(const char* s, size_t n) -> tiny_string&
 	{
 		resize_uninitialized(n, false, true);
 		detail::char_memcpy(this->data(), s, n);
 		return *this;
 	}
 	/// @brief Reset the string by n copies of c
-	tiny_string& assign(size_t n, char c) 
+	auto assign(size_t n, char c) -> tiny_string& 
 	{
 		resize_uninitialized(n, false,true);
 		detail::char_memset(this->data(), c, n);
 		return *this;
 	}
 	/// @brief Assign to this string the initializer list il
-	tiny_string& assign(std::initializer_list<char> il) 
+	auto assign(std::initializer_list<char> il) -> tiny_string& 
 	{
 		return assign(il.begin(), il.end());
 	}
@@ -1521,7 +1543,7 @@ public:
 	}
 
 	/// @brief Removes up to sublen character starting from subpos
-	tiny_string& erase(size_t subpos = 0, size_t sublen = npos) 
+	tiny_string& erase(size_t subpos , size_t sublen = npos) 
 	{
 		if (sublen == npos || subpos + sublen > size())
 			sublen = size() - subpos;
@@ -1877,7 +1899,7 @@ public:
 	/// @brief Use this string to join multiple string objects into out.
 	/// Returns the concatenation of the range [first,last) separated by this string content.
 	template<class Iter>
-	tiny_string join(Iter first, Iter last) const 
+	auto join(Iter first, Iter last) const -> tiny_string 
 	{
 		tiny_string res;
 		detail::join(res, *this, first, last);
@@ -1886,14 +1908,14 @@ public:
 	/// @brief Use this string to join multiple string objects into out.
 	/// Returns the concatenation of the range [il.begin(),il.end()) separated by this string content.
 	template<class T>
-	tiny_string join(std::initializer_list<T> il)
+	auto join(std::initializer_list<T> il) -> tiny_string
 	{
 		return join(il.begin(), il.end());
 	}
 
 	/// @brief std::sprintf equivalent writing to this string. 
 	template <class... Args>
-	tiny_string & sprintf(const char *format, Args&&... args) 
+	auto sprintf(const char *format, Args&&... args) -> tiny_string & 
 	{
 		size_t cap = capacity();
 		size_t n = std::snprintf(data(), cap + 1, format, std::forward<Args>(args)...);
@@ -1912,7 +1934,7 @@ public:
 	/// @brief Convert this string to given type using std::istream.
 	/// If the convertion failed and ok is not NULL, ok is set to false, true otherwise.
 	template<class T>
-	T convert(bool* ok = NULL) const noexcept 
+	auto convert(bool* ok = nullptr) const noexcept -> T 
 	{
 		detail::ibufferstream iss(data(), size());
 		T tmp;
@@ -1923,7 +1945,7 @@ public:
 
 	/// @brief Copies a substring [pos, pos+len) to character string pointed to by s.
 	/// Returns the number of copied characters.
-	size_t copy(char* s, size_t len, size_t pos = 0) const
+	auto copy(char* s, size_t len, size_t pos = 0) const -> size_t
 	{
 		if (pos > size()) throw std::out_of_range("tiny_string::copy out of range");
 		if (len == npos || pos + len > size())
@@ -1933,14 +1955,14 @@ public:
 	}
 
 	// @brief Returns a sub-part of this string as a tstring_view object
-	tstring_view substr(size_t pos = 0, size_t len = npos) const;
+	auto substr(size_t pos, size_t len = npos) const -> tstring_view;
 
 	template<size_t S, class Al>
-	size_t find(const tiny_string<S,Al>& str, size_t pos = 0) const noexcept 
+	auto find(const tiny_string<S,Al>& str, size_t pos = 0) const noexcept -> size_t 
 	{
 		return find(str.data(), pos, str.size());
 	}
-	size_t find(const std::string& str, size_t pos = 0) const noexcept
+	auto find(const std::string& str, size_t pos = 0) const noexcept -> size_t
 	{
 		return find(str.data(), pos, str.size());
 	}
@@ -1952,11 +1974,11 @@ public:
 	}
 #endif
 
-	size_t find(const char* s, size_t pos = 0) const
+	auto find(const char* s, size_t pos = 0) const -> size_t
 	{
 		return find(s, pos, strlen(s));
 	}
-	size_t find(const char* s, size_t pos, size_type n) const
+	auto find(const char* s, size_t pos, size_type n) const -> size_t
 	{
 		size_t this_size = size();
 		if (n > this_size || pos + n > this_size || n==0) return npos;
@@ -1981,18 +2003,18 @@ public:
 		return npos;
 #endif
 	}
-	size_t find(char c, size_t pos = 0) const noexcept 
+	auto find(char c, size_t pos = 0) const noexcept -> size_t 
 	{
 		const char* p = static_cast<char*>(memchr(data() + pos, c, size() - pos));
 		return p == NULL ? npos : p - begin();
 	}
 
 	template<size_t S, class Al>
-	size_t rfind(const tiny_string<S,Al>& str, size_t pos = npos) const noexcept
+	auto rfind(const tiny_string<S,Al>& str, size_t pos = npos) const noexcept -> size_t
 	{
 		return rfind(str.data(), pos, str.size());
 	}
-	size_t rfind(const std::string& str, size_t pos = npos) const noexcept 
+	auto rfind(const std::string& str, size_t pos = npos) const noexcept -> size_t 
 	{
 		return rfind(str.data(), pos, str.size());
 	}
@@ -2004,11 +2026,11 @@ public:
 	}
 #endif
 
-	size_t rfind(const char* s, size_t pos = npos) const
+	auto rfind(const char* s, size_t pos = npos) const -> size_t
 	{
 		return rfind(s, pos, strlen(s));
 	}
-	size_t rfind(const char* s, size_t pos, size_type n) const 
+	auto rfind(const char* s, size_t pos, size_type n) const -> size_t 
 	{
 		size_t this_size = size();
 		if (n > this_size || pos < n || n==0) return npos;
@@ -2027,7 +2049,7 @@ public:
 		}
 		return npos;
 	}
-	size_t rfind(char c, size_t pos = npos) const noexcept 
+	auto rfind(char c, size_t pos = npos) const noexcept -> size_t 
 	{
 		if (pos >= size()) pos = size()-1;
 		const char* p = static_cast<char*>(memrchr(data(), c, pos+1));
@@ -2035,7 +2057,7 @@ public:
 	}
 
 
-	size_t find_first_of(const char* s, size_t pos, size_t n) const noexcept
+	auto find_first_of(const char* s, size_t pos, size_t n) const noexcept -> size_t
 	{
 		const char* end = this->end();
 		if (size() < 512) {
@@ -2055,29 +2077,29 @@ public:
 		return npos;
 	}
 	template<size_t S, class Al>
-	size_t find_first_of(const tiny_string<S,Al>& str, size_t pos = 0) const noexcept 
+	auto find_first_of(const tiny_string<S,Al>& str, size_t pos = 0) const noexcept -> size_t 
 	{
 		return find_first_of(str.data(), pos, str.size());
 	}
-	size_t find_first_of(const char* s, size_t pos = 0) const noexcept 
+	auto find_first_of(const char* s, size_t pos = 0) const noexcept -> size_t 
 	{
 		return find_first_of(s, pos, strlen(s));
 	}
-	size_t find_first_of(char c, size_t pos = 0) const noexcept
+	auto find_first_of(char c, size_t pos = 0) const noexcept -> size_t
 	{
 		return find(c, pos);
 	}
 
 	template<size_t S, class Al>
-	size_t find_last_of(const tiny_string<S,Al>& str, size_t pos = npos) const noexcept 
+	auto find_last_of(const tiny_string<S,Al>& str, size_t pos = npos) const noexcept -> size_t 
 	{
 		return find_last_of(str.data(), pos, str.size());
 	}
-	size_t find_last_of(const char* s, size_t pos = npos) const noexcept 
+	auto find_last_of(const char* s, size_t pos = npos) const noexcept -> size_t 
 	{
 		return find_last_of(s, pos, strlen(s));
 	}
-	size_t find_last_of(const char* s, size_t pos, size_t n) const noexcept 
+	auto find_last_of(const char* s, size_t pos, size_t n = npos) const noexcept -> size_t 
 	{
 		if (size() == 0) return npos;
 		if (pos >= size()) pos = size() - 1;
@@ -2100,21 +2122,21 @@ public:
 		}
 		return npos;
 	}
-	size_t find_last_of(char c, size_t pos = npos) const noexcept
+	auto find_last_of(char c, size_t pos = npos) const noexcept -> size_t
 	{
 		return rfind(c, pos);
 	}
 
 	template<size_t S, class Al>
-	size_t find_first_not_of(const tiny_string<S,Al>& str, size_t pos = 0) const noexcept 
+	auto find_first_not_of(const tiny_string<S,Al>& str, size_t pos = 0) const noexcept -> size_t 
 	{
 		return find_first_not_of(str.data(), pos, str.size());
 	}
-	size_t find_first_not_of(const char* s, size_t pos = 0) const noexcept 
+	auto find_first_not_of(const char* s, size_t pos = 0) const noexcept -> size_t 
 	{
 		return find_first_not_of(s, pos, strlen(s));
 	}
-	size_t find_first_not_of(const char* s, size_t pos, size_t n) const noexcept 
+	auto find_first_not_of(const char* s, size_t pos, size_t n) const noexcept -> size_t 
 	{
 		const char* end = this->end();
 		const char* send = s + n;
@@ -2127,7 +2149,7 @@ public:
 		}
 		return npos;
 	}
-	size_t find_first_not_of(char c, size_t pos = 0) const noexcept 
+	auto find_first_not_of(char c, size_t pos = 0) const noexcept -> size_t 
 	{
 		const char* e = end();
 		for (const char* p = data() + pos; p != e; ++p)
@@ -2136,15 +2158,15 @@ public:
 	}
 
 	template<size_t S, class Al>
-	size_t find_last_not_of(const tiny_string<S,Al>& str, size_t pos = npos) const noexcept 
+	auto find_last_not_of(const tiny_string<S,Al>& str, size_t pos = npos) const noexcept -> size_t 
 	{
 		return find_last_not_of(str.data(), pos, str.size());
 	}
-	size_t find_last_not_of(const char* s, size_t pos = npos) const noexcept 
+	auto find_last_not_of(const char* s, size_t pos = npos) const noexcept -> size_t 
 	{
 		return find_last_not_of(s, pos, strlen(s));
 	}
-	size_t find_last_not_of(const char* s, size_t pos, size_t n) const noexcept 
+	auto find_last_not_of(const char* s, size_t pos, size_t n = npos) const noexcept -> size_t 
 	{
 		if (size() == 0) return npos;
 		if (pos >= size()) pos = size() - 1;
@@ -2159,7 +2181,7 @@ public:
 		}
 		return npos;
 	}
-	size_t find_last_not_of(char c, size_t pos = npos) const noexcept 
+	auto find_last_not_of(char c, size_t pos = npos) const noexcept -> size_t 
 	{
 		if (size() == 0) return npos;
 		if (pos >= size()) pos = size() - 1;
@@ -2171,15 +2193,15 @@ public:
 	}
 
 	template<size_t S, class Al>
-	int compare(const tiny_string<S,Al>& str) const noexcept 
+	auto compare(const tiny_string<S,Al>& str) const noexcept -> int 
 	{
 		return compare(0, size(), str.data(), str.size());
 	}
-	int compare(size_t pos, size_t len, const tiny_string& str) const noexcept
+	auto compare(size_t pos, size_t len, const tiny_string& str) const noexcept -> int
 	{
 		return compare(pos, len, str.data(), str.size());
 	}
-	int compare(size_t pos, size_t len, const std::string& str) const noexcept
+	auto compare(size_t pos, size_t len, const std::string& str) const noexcept -> int
 	{
 		return compare(pos, len, str.data(), str.size());
 	}
@@ -2191,21 +2213,21 @@ public:
 	}
 #endif
 
-	int compare(size_t pos, size_t len, const tiny_string& str, size_t subpos, size_t sublen) const noexcept
+	auto compare(size_t pos, size_t len, const tiny_string& str, size_t subpos, size_t sublen) const noexcept -> int
 	{
 		if (sublen == npos || subpos + sublen > str.size())
 			sublen = str.size() - subpos;
 		return compare(pos, len, str.data() + subpos, sublen);
 	}
-	int compare(const char* s) const noexcept
+	auto compare(const char* s) const noexcept -> int
 	{
 		return compare(0, size(), s);
 	}
-	int compare(size_t pos, size_t len, const char* s) const noexcept
+	auto compare(size_t pos, size_t len, const char* s) const noexcept -> int
 	{
 		return compare(pos, len, s, strlen(s));
 	}
-	int compare(size_t pos, size_t len, const char* _s, size_t n) const noexcept
+	auto compare(size_t pos, size_t len, const char* _s, size_t n) const noexcept -> int
 	{
 		if (len == npos || pos + len > size())
 			len = size() - pos;
@@ -2224,12 +2246,12 @@ public:
 	}
 
 
-	tiny_string& operator=(const tiny_string& other) 
+	auto operator=(const tiny_string& other) -> tiny_string& 
 	{
 		return assign(other);
 	} 
 	template<size_t OtherMSS,class OtherAlloc>
-	tiny_string& operator=(const tiny_string<OtherMSS, OtherAlloc>& other)
+	auto operator=(const tiny_string<OtherMSS, OtherAlloc>& other) -> tiny_string&
 	{
 		return assign(other);
 	}
@@ -2303,12 +2325,12 @@ struct tiny_string<0,view_allocator>
 	internal_data d_data;
 
 	//is it a small string
-	SEQ_ALWAYS_INLINE bool is_sso() const noexcept { return false; }
-	SEQ_ALWAYS_INLINE bool is_sso(size_t ) const noexcept { return false; }
-	size_t size_internal() const noexcept { return d_data.size; }
+	SEQ_ALWAYS_INLINE bool is_sso() const noexcept { return 0; }
+	SEQ_ALWAYS_INLINE bool is_sso(size_t  /*unused*/) const noexcept { return 0; }
+	auto size_internal() const noexcept -> size_t { return d_data.size; }
 	
 	SEQ_ALWAYS_INLINE bool isPow2(size_t len) const noexcept {
-		return ((len - static_cast<size_t>(1)) & len) == 0;
+		return static_cast<int>(((len - static_cast<size_t>(1)) & len) == 0);
 	}
 
 
@@ -2330,16 +2352,16 @@ public:
 	using allocator_type = view_allocator;
 	static const size_t npos = -1;
 
-	const char* data() const noexcept { return d_data.data; }
-	const char* c_str() const noexcept { return data(); }
-	size_t size() const noexcept { return size_internal(); }
-	size_t length() const noexcept { return size(); }
-	size_t max_size() const noexcept { return std::numeric_limits<size_t>::max(); }
-	bool empty() const noexcept { return size() == 0; }
-	allocator_type get_allocator() const noexcept { return d_data.get_allocator(); }
+	auto data() const noexcept -> const char* { return d_data.data; }
+	auto c_str() const noexcept -> const char* { return data(); }
+	auto size() const noexcept -> size_t { return size_internal(); }
+	auto length() const noexcept -> size_t { return size(); }
+	static auto max_size() noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
+	auto empty() const noexcept -> bool { return size() == 0; }
+	auto get_allocator() const noexcept -> allocator_type { return d_data.get_allocator(); }
 
 	tiny_string()
-		:d_data() {}
+		:d_data(NULL,0) {}
 	
 	tiny_string(const char* data)
 		:d_data(data, strlen(data)) {}
@@ -2366,7 +2388,7 @@ public:
 	tiny_string(Iter first, Iter last)
 		: d_data(&(*first), last - first) {}
 
-	tiny_string& operator=(const tiny_string& other)
+	auto operator=(const tiny_string& other) -> tiny_string&
 	{
 		d_data = other.d_data;
 		return *this;
@@ -2377,32 +2399,33 @@ public:
 		std::swap(d_data, other.d_data);
 	}
 
-	const_iterator begin() const noexcept { return data(); }
-	const_iterator cbegin() const noexcept { return data(); }
-	const_iterator end() const noexcept { return d_data.data + d_data.size; }
-	const_iterator cend() const noexcept { return d_data.data + d_data.size; }
-	const_reverse_iterator rbegin() const noexcept { return const_reverse_iterator(end()); }
-	const_reverse_iterator rend() const noexcept { return const_reverse_iterator(begin()); }
-	const_reverse_iterator crbegin() const noexcept { return rbegin(); }
-	const_reverse_iterator crend() const noexcept { return rend(); }
+	auto begin() const noexcept -> const_iterator { return data(); }
+	auto cbegin() const noexcept -> const_iterator { return data(); }
+	auto end() const noexcept -> const_iterator { return d_data.data + d_data.size; }
+	auto cend() const noexcept -> const_iterator { return d_data.data + d_data.size; }
+	auto rbegin() const noexcept -> const_reverse_iterator { return const_reverse_iterator(end()); }
+	auto rend() const noexcept -> const_reverse_iterator { return const_reverse_iterator(begin()); }
+	auto crbegin() const noexcept -> const_reverse_iterator { return rbegin(); }
+	auto crend() const noexcept -> const_reverse_iterator { return rend(); }
 
-	char at(size_t pos) const
+	auto at(size_t pos) const -> char
 	{
-		if (pos >= size()) throw std::out_of_range("");
+		if (pos >= size()) { throw std::out_of_range("");
+}
 		return data()[pos];
 	}
-	char operator[](size_t pos) const noexcept
+	auto operator[](size_t pos) const noexcept -> char
 	{
 		return data()[pos];
 	}
 
-	char back() const noexcept { return data()[size() - 1]; }
-	char front() const noexcept { return data()[0]; }
+	auto back() const noexcept -> char { return data()[size() - 1]; }
+	auto front() const noexcept -> char { return data()[0]; }
 
 	/**
 	* Convenient function, returns the count of non-overlapping occurrences of 'str'
 	*/
-	size_t count(const char* str, size_t n, size_t start = 0) const noexcept
+	auto count(const char* str, size_t n, size_t start = 0) const noexcept -> size_t
 	{
 		if (length() == 0) return 0;
 		size_t count = 0;
@@ -2410,27 +2433,27 @@ public:
 			++count;
 		return count;
 	}
-	size_t count(const char* str, size_t start = 0) const noexcept
+	auto count(const char* str, size_t start = 0) const noexcept -> size_t
 	{
 		return count(str, strlen(str), start);
 	}
-	size_t count(const tiny_string& str, size_t start = 0) const noexcept
+	auto count(const tiny_string& str, size_t start = 0) const noexcept -> size_t
 	{
 		return count(str.data(), str.size(), start);
 	}
-	size_t count(const std::string& str, size_t start = 0) const noexcept
+	auto count(const std::string& str, size_t start = 0) const noexcept -> size_t
 	{
 		return count(str.data(), str.size(), start);
 	}
 
 #ifdef SEQ_HAS_CPP_17
-	size_t count(const std::string_view& str, size_t start = 0) const noexcept
+	auto count(const std::string_view& str, size_t start = 0) const noexcept -> size_t
 	{
 		return count(str.data(), str.size(), start);
 	}
 #endif
 
-	size_t count(char c, size_t start = 0) const noexcept
+	auto count(char c, size_t start = 0) const noexcept -> size_t
 	{
 		if (length() == 0) return 0;
 		size_t count = 0;
@@ -2440,7 +2463,7 @@ public:
 	}
 
 	template<class Iter>
-	Iter split(const char* match, size_t n, Iter out, bool keep_empty_strings = true) const
+	auto split(const char* match, size_t n, Iter out, bool keep_empty_strings = true) const -> Iter
 	{
 		size_t start_pos = 0;
 		size_t previous_pos = 0;
@@ -2458,17 +2481,17 @@ public:
 		return out;
 	}
 	template<class Iter>
-	Iter split(const char* match, Iter out, bool keep_empty_strings = true) const
+	auto split(const char* match, Iter out, bool keep_empty_strings = true) const -> Iter
 	{
 		return split(match, strlen(match), out, keep_empty_strings);
 	}
 	template<class Iter>
-	Iter split(const tiny_string& match, Iter out, bool keep_empty_strings = true) const
+	auto split(const tiny_string& match, Iter out, bool keep_empty_strings = true) const -> Iter
 	{
 		return split(match.data(), match.size(), out, keep_empty_strings);
 	}
 	template<class Iter>
-	Iter split(const std::string& match, Iter out, bool keep_empty_strings = true) const
+	auto split(const std::string& match, Iter out, bool keep_empty_strings = true) const -> Iter
 	{
 		return split(match.data(), match.size(), out, keep_empty_strings);
 	}
@@ -2483,7 +2506,7 @@ public:
 
 	std::vector<tstring_view> split(const char* match, size_t n, bool keep_empty_strings = true) const
 	{
-		std::vector<tstring_view> res;
+		std::vector<tstring_view> res ;
 		split(match, n, std::back_inserter< std::vector<tstring_view> >(res), keep_empty_strings);
 		return res;
 	}
@@ -2519,42 +2542,44 @@ public:
 		detail::join(out, *this, il.begin(), il.end());
 	}
 	template<class Iter>
-	tstring join(Iter first, Iter last) const
+	auto join(Iter first, Iter last) const -> tstring
 	{
 		tstring res;
 		detail::join(res, *this, first, last);
 		return res;
 	}
 	template<class T>
-	tstring join(std::initializer_list<T> il)
+	auto join(std::initializer_list<T> il) -> tstring
 	{
 		return join(il.begin(), il.end());
 	}
 
 
 
-	size_t copy(char* s, size_t len, size_t pos = 0) const
+	auto copy(char* s, size_t len, size_t pos = 0) const -> size_t
 	{
-		if (pos > size()) throw std::out_of_range("tiny_string::copy out of range");
-		if (len == npos || pos + len > size())
+		if (pos > size()) { throw std::out_of_range("tiny_string::copy out of range");}
+		if (len == npos || pos + len > size()) {
 			len = size() - pos;
+		}		
 		detail::char_memcpy(s, data() + pos, len);
 		return len;
 	}
 
-	tstring_view substr(size_t pos = 0, size_t len = npos) const
+	auto substr(size_t pos = 0, size_t len = npos) const -> tstring_view
 	{
-		if (pos > size()) throw std::out_of_range("tiny_string::substr out of range");
-		if (len == npos || pos + len > size())
+		if (pos > size()) { throw std::out_of_range("tiny_string::substr out of range");}
+		if (len == npos || pos + len > size()) {
 			len = size() - pos;
-		return tstring_view(begin() + pos, len);
+		}
+		return {begin() + pos, len};
 	}
 
-	size_t find(const tiny_string& str, size_t pos = 0) const noexcept
+	auto find(const tiny_string& str, size_t pos = 0) const noexcept -> size_t
 	{
 		return find(str.data(), pos, str.size());
 	}
-	size_t find(const std::string& str, size_t pos = 0) const noexcept
+	auto find(const std::string& str, size_t pos = 0) const noexcept -> size_t
 	{
 		return find(str.data(), pos, str.size());
 	}
@@ -2566,14 +2591,14 @@ public:
 	}
 #endif
 
-	size_t find(const char* s, size_t pos = 0) const
+	auto find(const char* s, size_t pos = 0) const -> size_t
 	{
 		return find(s, pos, strlen(s));
 	}
-	size_t find(const char* s, size_t pos, size_type n) const
+	auto find(const char* s, size_t pos, size_type n) const -> size_t
 	{
 		size_t this_size = size();
-		if (n > this_size || pos + n > this_size || n == 0) return npos;
+		if (n > this_size || pos + n > this_size || n == 0) { return npos;}
 #ifndef _MSC_VER
 		//this is faster on gcc (?)
 		auto it = std::search(begin() + pos, end(), s, s + n);
@@ -2584,29 +2609,30 @@ public:
 		char c = *s;
 		for (;;) {
 			in = (char*)memchr(in, c, end - in);
-			if (!in) return npos;
+			if (in == nullptr) { return npos;}
 
 			//start searching
 			size_t common = detail::count_common_bytes(in + 1, s + 1, in + n);
-			if (common == n - 1)
+			if (common == n - 1) {
 				return in - begin();
+			}
 			in += common + 1;
 		}
 		return npos;
 #endif
 	}
-	size_t find(char c, size_t pos = 0) const noexcept
+	auto find(char c, size_t pos = 0) const noexcept -> size_t
 	{
 		const char* p = static_cast<const char*>(memchr(data() + pos, c, size() - pos));
-		return p == NULL ? npos : p - begin();
+		return p == nullptr ? npos : p - begin();
 	}
 
 
-	size_t rfind(const tiny_string& str, size_t pos = npos) const noexcept
+	auto rfind(const tiny_string& str, size_t pos = npos) const noexcept -> size_t
 	{
 		return rfind(str.data(), pos, str.size());
 	}
-	size_t rfind(const std::string& str, size_t pos = npos) const noexcept
+	auto rfind(const std::string& str, size_t pos = npos) const noexcept -> size_t
 	{
 		return rfind(str.data(), pos, str.size());
 	}
@@ -2618,181 +2644,204 @@ public:
 	}
 #endif
 
-	size_t rfind(const char* s, size_t pos = npos) const
+	auto rfind(const char* s, size_t pos = npos) const -> size_t
 	{
 		return rfind(s, pos, strlen(s));
 	}
-	size_t rfind(const char* s, size_t pos, size_type n) const
+	auto rfind(const char* s, size_t pos, size_type n) const -> size_t
 	{
 		size_t this_size = size();
-		if (n > this_size || pos < n || n == 0) return npos;
-		if (pos > this_size) pos = this_size;
+		if (n > this_size || pos < n || n == 0) { return npos;
+		}
+		if (pos > this_size) { pos = this_size;
+		}
 		const char* beg = data();
 		const char* in = std::min(beg + pos, end() - n);
 		char c = *s;
 		for (;;) {
 			in = static_cast<char*>(memrchr(beg, c, in - beg + 1));
-			if (!in) return npos;
+			if (in == nullptr) { return npos;
+			}
 			//start searching
 			size_t common = detail::count_common_bytes(in + 1, s + 1, in + n);
-			if (common == n - 1)
+			if (common == n - 1) {
 				return in - begin();
+			}
 			--in;
 		}
 		return npos;
 	}
-	size_t rfind(char c, size_t pos = npos) const noexcept
+	auto rfind(char c, size_t pos = npos) const noexcept -> size_t
 	{
-		if (pos >= size()) pos = size() - 1;
+		if (pos >= size()) { pos = size() - 1;
+		}
 		const char* p = static_cast<char*>(memrchr(data(), c, pos + 1));
-		return p == NULL ? npos : p - data();
+		return p == nullptr ? npos : p - data();
 	}
 
 
-	size_t find_first_of(const char* s, size_t pos, size_t n) const noexcept
+
+	auto find_first_of(const char* s, size_t pos, size_t n) const noexcept -> size_t
 	{
 		const char* end = this->end();
 		if (size() < 512) {
 			const char* send = s + n;
-			for (const char* p = data() + pos; p != end; ++p)
-				for (const char* m = s; m != send; ++m)
-					if (*m == *p) return p - data();
+			for (const char* p = data() + pos; p != end; ++p) {
+				for (const char* m = s; m != send; ++m) {
+					if (*m == *p) { return p - data();}
+				}
+			}
 		}
 		else {
 			char buff[256];
 			memset(buff, 0, sizeof(buff));
-			for (size_t i = 0; i < n; ++i) buff[static_cast<unsigned char>(s[i])] = 1;
-			for (const char* p = data() + pos; p != end; ++p)
-				if (buff[static_cast<unsigned char>(*p)])
+			for (size_t i = 0; i < n; ++i) { buff[static_cast<unsigned char>(s[i])] = 1;}
+			for (const char* p = data() + pos; p != end; ++p) {
+				if (buff[static_cast<unsigned char>(*p)] != 0) {
 					return p - data();
+					}
+				}
 		}
 		return npos;
 	}
-	size_t find_first_of(const tiny_string& str, size_t pos = 0) const noexcept
+	auto find_first_of(const tiny_string& str, size_t pos = 0) const noexcept -> size_t
 	{
 		return find_first_of(str.data(), pos, str.size());
 	}
-	size_t find_first_of(const char* s, size_t pos = 0) const noexcept
+	auto find_first_of(const char* s, size_t pos = 0) const noexcept -> size_t
 	{
 		return find_first_of(s, pos, strlen(s));
 	}
-	size_t find_first_of(char c, size_t pos = 0) const noexcept
+	auto find_first_of(char c, size_t pos = 0) const noexcept -> size_t
 	{
 		return find(c, pos);
 	}
 
 
-	size_t find_last_of(const tiny_string& str, size_t pos = npos) const noexcept
+	auto find_last_of(const tiny_string& str, size_t pos = npos) const noexcept -> size_t
 	{
 		return find_last_of(str.data(), pos, str.size());
 	}
-	size_t find_last_of(const char* s, size_t pos = npos) const noexcept
+	auto find_last_of(const char* s, size_t pos = npos) const noexcept -> size_t
 	{
 		return find_last_of(s, pos, strlen(s));
 	}
-	size_t find_last_of(const char* s, size_t pos, size_t n) const noexcept
+	auto find_last_of(const char* s, size_t pos, size_t n) const noexcept -> size_t
 	{
-		if (size() == 0) return npos;
-		if (pos >= size()) pos = size() - 1;
+		if (size() == 0) { return npos;
+}
+		if (pos >= size()) { pos = size() - 1;
+}
 		const char* p = data();
 		if (size() < 512) {
 			const char* send = s + n;
 			for (const char* in = p + pos; in >= p; --in) {
-				for (const char* m = s; m != send; ++m)
-					if (*m == *in) return in - p;
+				for (const char* m = s; m != send; ++m) {
+					if (*m == *in) { return in - p;
+}
+}
 			}
 		}
 		else {
 			char buff[256];
 			memset(buff, 0, sizeof(buff));
-			for (size_t i = 0; i < n; ++i) buff[static_cast<unsigned char>(s[i])] = 1;
+			for (size_t i = 0; i < n; ++i) { buff[static_cast<unsigned char>(s[i])] = 1;
+}
 			for (const char* in = p + pos; in >= p; --in) {
-				if (buff[static_cast<unsigned char>(*in)])
+				if (buff[static_cast<unsigned char>(*in)] != 0) {
 					return in - p;
+}
 			}
 		}
 		return npos;
 	}
-	size_t find_last_of(char c, size_t pos = npos) const noexcept
+	auto find_last_of(char c, size_t pos = npos) const noexcept -> size_t
 	{
 		return rfind(c, pos);
 	}
 
 
-	size_t find_first_not_of(const tiny_string& str, size_t pos = 0) const noexcept
+	auto find_first_not_of(const tiny_string& str, size_t pos = 0) const noexcept -> size_t
 	{
 		return find_first_not_of(str.data(), pos, str.size());
 	}
-	size_t find_first_not_of(const char* s, size_t pos = 0) const noexcept
+	auto find_first_not_of(const char* s, size_t pos = 0) const noexcept -> size_t
 	{
 		return find_first_not_of(s, pos, strlen(s));
 	}
-	size_t find_first_not_of(const char* s, size_t pos, size_t n) const noexcept
+	auto find_first_not_of(const char* s, size_t pos, size_t n) const noexcept -> size_t
 	{
 		const char* end = this->end();
 		const char* send = s + n;
 		for (const char* p = data() + pos; p != end; ++p) {
 			const char* m = s;
-			for (; m != send; ++m)
-				if (*m == *p) break;
-			if (m == send)
+			for (; m != send; ++m) {
+				if (*m == *p) { break;}
+			}
+			if (m == send) {
 				return p - data();
+			}
 		}
 		return npos;
 	}
-	size_t find_first_not_of(char c, size_t pos = 0) const noexcept
+	auto find_first_not_of(char c, size_t pos = 0) const noexcept -> size_t
 	{
 		const char* e = end();
-		for (const char* p = data() + pos; p != e; ++p)
-			if (*p != c) return p - data();
+		for (const char* p = data() + pos; p != e; ++p) {
+			if (*p != c) { return p - data();}
+		}
 		return npos;
 	}
 
 
-	size_t find_last_not_of(const tiny_string& str, size_t pos = npos) const noexcept
+	auto find_last_not_of(const tiny_string& str, size_t pos = npos) const noexcept -> size_t
 	{
 		return find_last_not_of(str.data(), pos, str.size());
 	}
-	size_t find_last_not_of(const char* s, size_t pos = npos) const noexcept
+	auto find_last_not_of(const char* s, size_t pos = npos) const noexcept -> size_t
 	{
 		return find_last_not_of(s, pos, strlen(s));
 	}
-	size_t find_last_not_of(const char* s, size_t pos, size_t n) const noexcept
+	auto find_last_not_of(const char* s, size_t pos, size_t n) const noexcept -> size_t
 	{
-		if (size() == 0) return npos;
-		if (pos >= size()) pos = size() - 1;
+		if (size() == 0) { return npos;}
+		if (pos >= size()) { pos = size() - 1;}
 		const char* p = data();
 		const char* send = s + n;
 		for (const char* in = p + pos; in >= p; --in) {
 			const char* m = s;
-			for (; m != send; ++m)
-				if (*m == *in) break;
-			if (m == send)
+			for (; m != send; ++m) {
+				if (*m == *in) { break;}
+			}
+			if (m == send) {
 				return in - p;
+			}
 		}
 		return npos;
 	}
-	size_t find_last_not_of(char c, size_t pos = npos) const noexcept
+	auto find_last_not_of(char c, size_t pos = npos) const noexcept -> size_t
 	{
-		if (size() == 0) return npos;
-		if (pos >= size()) pos = size() - 1;
+		if (size() == 0) { return npos;}
+		if (pos >= size()) { pos = size() - 1;}
 		const char* p = data();
-		for (const char* in = p + pos; in >= p; --in)
-			if (*in != c)
+		for (const char* in = p + pos; in >= p; --in) {
+			if (*in != c) {
 				return in - p;
+			}
+		}
 		return npos;
 	}
 
 
-	int compare(const tiny_string& str) const noexcept
+	auto compare(const tiny_string& str) const noexcept -> int
 	{
 		return compare(0, size(), str.data(), str.size());
 	}
-	int compare(size_t pos, size_t len, const tiny_string& str) const noexcept
+	auto compare(size_t pos, size_t len, const tiny_string& str) const noexcept -> int
 	{
 		return compare(pos, len, str.data(), str.size());
 	}
-	int compare(size_t pos, size_t len, const std::string& str) const noexcept
+	auto compare(size_t pos, size_t len, const std::string& str) const noexcept -> int
 	{
 		return compare(pos, len, str.data(), str.size());
 	}
@@ -2804,33 +2853,38 @@ public:
 	}
 #endif
 
-	int compare(size_t pos, size_t len, const tiny_string& str, size_t subpos, size_t sublen) const noexcept
+	auto compare(size_t pos, size_t len, const tiny_string& str, size_t subpos, size_t sublen) const noexcept -> int
 	{
-		if (sublen == npos || subpos + sublen > str.size())
+		if (sublen == npos || subpos + sublen > str.size()) {
 			sublen = str.size() - subpos;
+}
 		return compare(pos, len, str.data() + subpos, sublen);
 	}
-	int compare(const char* s) const noexcept
+	auto compare(const char* s) const noexcept -> int
 	{
 		return compare(0, size(), s);
 	}
-	int compare(size_t pos, size_t len, const char* s) const noexcept
+	auto compare(size_t pos, size_t len, const char* s) const noexcept -> int
 	{
 		return compare(pos, len, s, strlen(s));
 	}
-	int compare(size_t pos, size_t len, const char* _s, size_t n) const noexcept
+	auto compare(size_t pos, size_t len, const char* _s, size_t n) const noexcept -> int
 	{
-		if (len == npos || pos + len > size())
+		if (len == npos || pos + len > size()) {
 			len = size() - pos;
+}
 
 		//comparison works on unsigned !!!!
 		const unsigned char* p = reinterpret_cast<const unsigned char*>(data()) + pos;
-		const unsigned char* s = reinterpret_cast<const unsigned char*>(_s);
+		const auto* s = reinterpret_cast<const unsigned char*>(_s);
 		
-		if (*p < *s) return -1;
-		if (*p > *s) return 1;
+		if (*p < *s) { return -1;
+}
+		if (*p > *s) { return 1;
+}
 		int r = memcmp(p, s, std::min(len, n));
-		if (r == 0) return len < n ? -1 : (len > n ? 1 : 0);
+		if (r == 0) { return len < n ? -1 : (len > n ? 1 : 0);
+}
 		return r;
 	}
 
@@ -2882,7 +2936,7 @@ std::vector<tstring_view> tiny_string<Ss, Al>::split(const std::string_view& mat
 #endif
 
 template<size_t Ss, class Al>
-tstring_view tiny_string<Ss, Al>::substr(size_t pos , size_t len ) const
+auto tiny_string<Ss, Al>::substr(size_t pos , size_t len ) const -> tstring_view
 {
 	if (pos > size()) throw std::out_of_range("tiny_string::substr out of range");
 	if (len == npos || pos + len > size())
@@ -2903,23 +2957,23 @@ tstring_view tiny_string<Ss, Al>::substr(size_t pos , size_t len ) const
 * ********************************/
 
 template<size_t Size, class Al, size_t Size2, class Al2>
-bool operator== (const tiny_string<Size,Al>& lhs, const tiny_string<Size2, Al2>& rhs) noexcept {
+auto operator== (const tiny_string<Size,Al>& lhs, const tiny_string<Size2, Al2>& rhs) noexcept -> bool {
 	return detail::string_equal(lhs.data(), lhs.size(), rhs.data(), rhs.size());
 }
 template<size_t Size, class Al>
-bool operator== (const char* lhs, const tiny_string<Size,Al>& rhs) noexcept {
+auto operator== (const char* lhs, const tiny_string<Size,Al>& rhs) noexcept -> bool {
 	return detail::string_equal(lhs, strlen(lhs), rhs.data(), rhs.size());
 }
 template<size_t Size, class Al>
-bool operator== (const tiny_string<Size,Al>& lhs, const char* rhs) noexcept {
+auto operator== (const tiny_string<Size,Al>& lhs, const char* rhs) noexcept -> bool {
 	return detail::string_equal(lhs.data(), lhs.size(), rhs, strlen(rhs));
 }
 template<size_t Size, class Al>
-bool operator== (const std::string &lhs, const tiny_string<Size,Al>& rhs)noexcept {
+auto operator== (const std::string &lhs, const tiny_string<Size,Al>& rhs)noexcept -> bool {
 	return detail::string_equal(lhs.data(), lhs.size(), rhs.data(), rhs.size());
 }
 template<size_t Size, class Al>
-bool operator== (const tiny_string<Size,Al>& lhs, const std::string & rhs) noexcept {
+auto operator== (const tiny_string<Size,Al>& lhs, const std::string & rhs) noexcept -> bool {
 	return detail::string_equal(lhs.data(), lhs.size(), rhs.data(), rhs.size());
 }
 
@@ -3123,25 +3177,25 @@ namespace detail
 	struct FindAllocator
 	{
 		using allocator_type = Al1;
-		static Al1 select(const Al1& al1, const Al2&) { return al1; }
+		static auto select(const Al1& al1, const Al2& /*unused*/) -> Al1 { return al1; }
 	};
 	template<>
 	struct FindAllocator<view_allocator,view_allocator>
 	{
 		using allocator_type = std::allocator<char>;
-		static std::allocator<char> select(const view_allocator&, const view_allocator&) {return std::allocator<char>();}
-	};
+		static auto select(const view_allocator& /*unused*/, const view_allocator& /*unused*/) -> std::allocator<char> {return {};}
+	} ;
 	template<class Al1>
 	struct FindAllocator<Al1, view_allocator>
 	{
 		using allocator_type = Al1;
-		static Al1 select(const Al1& al1, const view_allocator&) { return al1; }
+		static auto select(const Al1& al1, const view_allocator& /*unused*/) -> Al1 { return al1; }
 	};
 	template<class Al2>
 	struct FindAllocator< view_allocator, Al2>
 	{
 		using allocator_type = Al2;
-		static Al2 select(const view_allocator& , const Al2& al2) { return al2; }
+		static auto select(const view_allocator&  /*unused*/, const Al2& al2) -> Al2 { return al2; }
 	};
 	template<class S1, class S2, class Al=void>
 	struct FindReturnType
@@ -3217,20 +3271,20 @@ typename detail::FindReturnType<tiny_string<Size, Al>, tiny_string<Size, Al> >::
 }
 
 
-const char* string_data(const std::string& str) { return str.data(); }
+auto string_data(const std::string& str) -> const char* { return str.data(); }
 template<size_t S, class Al>
-const char* string_data(const tiny_string<S, Al>& str) { return str.data(); }
-const char* string_data(const char* str) { return str; }
-const char* string_data(const tstring_view& str) { return str.data(); }
+auto string_data(const tiny_string<S, Al>& str) -> const char* { return str.data(); }
+auto string_data(const char* str) -> const char* { return str; }
+auto string_data(const tstring_view& str) -> const char* { return str.data(); }
 #ifdef SEQ_HAS_CPP_17
 const char* string_data(const std::string_view& str) { return str.data(); }
 #endif
 
-size_t string_size(const std::string& str) { return str.size(); }
+auto string_size(const std::string& str) -> size_t { return str.size(); }
 template<size_t S, class Al>
-size_t string_size(const tiny_string<S, Al>& str) { return str.size(); }
-size_t string_size(const char* str) { return strlen(str); }
-size_t string_size(const tstring_view& str) { return str.size(); }
+auto string_size(const tiny_string<S, Al>& str) -> size_t { return str.size(); }
+auto string_size(const char* str) -> size_t { return strlen(str); }
+auto string_size(const tstring_view& str) -> size_t { return str.size(); }
 #ifdef SEQ_HAS_CPP_17
 size_t string_size(const std::string_view& str) { return str.size(); }
 #endif
@@ -3250,19 +3304,19 @@ struct is_allocated_string : std::false_type {};
 template<size_t S, class Al>
 struct is_allocated_string<tiny_string<S, Al>> : std::true_type {};
 template<>
-struct is_allocated_string<std::string> : std::true_type {};
+struct is_allocated_string<std::string> : std::true_type {} ;
 template<>
-struct is_allocated_string<tstring_view> : std::false_type {};
+struct is_allocated_string<tstring_view> : std::false_type {} ;
 
 /// @brief Detect all possible string types (std::string, tstring, tstring_view, std::string_view, const char*, char*
 template<class T>
 struct is_generic_string : std::false_type {};
 template<>
-struct is_generic_string<char*> : std::true_type {};
+struct is_generic_string<char*> : std::true_type {} ;
 template<>
-struct is_generic_string<const char*> : std::true_type {};
+struct is_generic_string<const char*> : std::true_type {} ;
 template<>
-struct is_generic_string<std::string> : std::true_type {};
+struct is_generic_string<std::string> : std::true_type {} ;
 template<size_t S, class Al>
 struct is_generic_string<tiny_string<S, Al>> : std::true_type {};
 #ifdef SEQ_HAS_CPP_17
@@ -3274,7 +3328,7 @@ struct is_generic_string<std::string_view> : std::true_type {};
 template<class T>
 struct is_string_view : std::false_type {};
 template<>
-struct is_string_view<tstring_view> : std::true_type {};
+struct is_string_view<tstring_view> : std::true_type {} ;
 #ifdef SEQ_HAS_CPP_17
 template<>
 struct is_string_view<std::string_view> : std::true_type {};
@@ -3285,11 +3339,11 @@ struct is_string_view<std::string_view> : std::true_type {};
 template<class T>
 struct is_generic_string_view : std::false_type {};
 template<>
-struct is_generic_string_view<tstring_view> : std::true_type {};
+struct is_generic_string_view<tstring_view> : std::true_type {} ;
 template<>
-struct is_generic_string_view<char*> : std::true_type {};
+struct is_generic_string_view<char*> : std::true_type {} ;
 template<>
-struct is_generic_string_view<const char*> : std::true_type {};
+struct is_generic_string_view<const char*> : std::true_type {} ;
 #ifdef SEQ_HAS_CPP_17
 template<>
 struct is_generic_string_view<std::string_view> : std::true_type {};
@@ -3300,7 +3354,7 @@ struct is_generic_string_view<std::string_view> : std::true_type {};
 // Specialization of is_relocatable
 
 template<>
-struct is_relocatable<view_allocator> : std::true_type {};
+struct is_relocatable<view_allocator> : std::true_type {} ;
 
 template<size_t S, class Alloc>
 struct is_relocatable<tiny_string<S, Alloc> > : is_relocatable<Alloc> {};
@@ -3327,20 +3381,20 @@ namespace std
 	{
 	public:
 		using is_transparent = std::true_type;
-		size_t operator()(const seq::tiny_string<Size, Allocator>& str) const noexcept
+		auto operator()(const seq::tiny_string<Size, Allocator>& str) const noexcept -> size_t
 		{
 			return seq::hash_bytes_murmur64(reinterpret_cast<const uint8_t*>(str.data()), str.size());
 		}
 		template<size_t S, class Al>
-		size_t operator()(const seq::tiny_string<S, Al>& str) const noexcept
+		auto operator()(const seq::tiny_string<S, Al>& str) const noexcept -> size_t
 		{
 			return seq::hash_bytes_murmur64(reinterpret_cast< const uint8_t*>(str.data()), str.size());
 		}
-		size_t operator()(const std::string& str) const noexcept
+		auto operator()(const std::string& str) const noexcept -> size_t
 		{
 			return seq::hash_bytes_murmur64(reinterpret_cast< const uint8_t*>(str.data()), str.size());
 		}
-		size_t operator()(const char * str) const noexcept
+		auto operator()(const char * str) const noexcept -> size_t
 		{
 			return seq::hash_bytes_murmur64(reinterpret_cast<const uint8_t*>(str), strlen(str));
 		}
@@ -3359,7 +3413,7 @@ namespace std
 	* ********************************/
 
 	template<class Elem,class Traits,size_t Size, class Alloc>
-	inline typename std::enable_if<!std::is_same<Alloc, seq::view_allocator>::value, basic_istream<Elem, Traits> >::type	& operator>>(basic_istream<Elem, Traits>& iss, seq::tiny_string<Size, Alloc>& str)
+	inline auto operator>>(basic_istream<Elem, Traits>& iss, seq::tiny_string<Size, Alloc>& str) -> typename std::enable_if<!std::is_same<Alloc, seq::view_allocator>::value, basic_istream<Elem, Traits> >::type	&
 	{	// extract a string
 		typedef ctype<Elem> c_type;
 		typedef basic_istream<Elem, Traits> stream_type;
@@ -3410,7 +3464,7 @@ namespace std
 	}
 
 	template<class Elem, class Traits, size_t Size, class Alloc>
-	inline	basic_ostream<Elem, Traits>& operator<<(basic_ostream<Elem, Traits>& oss, const seq::tiny_string<Size, Alloc>& str)
+	inline	auto operator<<(basic_ostream<Elem, Traits>& oss, const seq::tiny_string<Size, Alloc>& str) -> basic_ostream<Elem, Traits>&
 	{	// insert a string
 		typedef basic_ostream<Elem, Traits> myos;
 		typedef seq::tiny_string<Size, Alloc> mystr;
@@ -3471,3 +3525,5 @@ namespace std
 
 
 
+
+#endif

@@ -1,10 +1,9 @@
 \hypertarget{format_8hpp}{}\doxysection{seq/format.hpp File Reference}
 \label{format_8hpp}\index{seq/format.hpp@{seq/format.hpp}}
-{\ttfamily \#include \char`\"{}charconv.\+hpp\char`\"{}}\newline
-{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
-{\ttfamily \#include $<$sstream$>$}\newline
-{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$iomanip$>$}\newline
 {\ttfamily \#include $<$tuple$>$}\newline
+{\ttfamily \#include \char`\"{}charconv.\+hpp\char`\"{}}\newline
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
@@ -93,7 +92,7 @@ struct \mbox{\hyperlink{structseq_1_1detail_1_1_get_p_3_01_n_00_01_t1_00_01_ts_8
 struct \mbox{\hyperlink{structseq_1_1detail_1_1_get_p_3_010_00_01_t_00_01_ts_8_8_8_01_4}{seq\+::detail\+::\+Get\+P$<$ 0, T, Ts... $>$}}
 \item 
 struct \mbox{\hyperlink{structseq_1_1detail_1_1_positional}{seq\+::detail\+::\+Positional$<$ T $>$}}
-\begin{DoxyCompactList}\small\item\em Positinal type returned by \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{seq\+::pos()}} function. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Positinal type returned by \mbox{\hyperlink{namespaceseq_ab534e8a0f6ac376f61e976fe7cd65457}{seq\+::pos()}} function. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structseq_1_1detail_1_1_positional_1_1get}{seq\+::detail\+::\+Positional$<$ T $>$\+::get$<$ Pos $>$}}
 \item 
 struct \mbox{\hyperlink{structseq_1_1detail_1_1_affect_values_with_pos}{seq\+::detail\+::\+Affect\+Values\+With\+Pos$<$ Pos, Tuple, N $>$}}
@@ -136,7 +135,7 @@ enum \mbox{\hyperlink{namespaceseq_1_1detail_a2bb8d16cefeca8b3707c5694645997e6}{
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$size\+\_\+t... Ts$>$ }\\detail\+::\+Positional$<$ Ts... $>$ \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{seq\+::pos}} ()
+{\footnotesize template$<$size\+\_\+t... Ts$>$ }\\auto \mbox{\hyperlink{namespaceseq_ab534e8a0f6ac376f61e976fe7cd65457}{seq\+::pos}} () -\/$>$ detail\+::\+Positional$<$ Ts... $>$
 \begin{DoxyCompactList}\small\item\em Returns a positional object used either by \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt()}} or operator() of formatting object. \end{DoxyCompactList}\item 
 {\footnotesize template$<$class ... Args$>$ }\\auto \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}} (Args \&\&... args) -\/$>$ typename detail\+::\+Build\+Format$<$ sizeof...(Args), void, Args... $>$\+::return\+\_\+type
 \item 

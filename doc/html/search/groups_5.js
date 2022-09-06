@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lock_3a_20locking_20classes_2602',['Lock: locking classes',['../group__lock.html',1,'']]]
+  ['memory_3a_20collection_20of_20tools_20for_20memory_20management_2569',['Memory: collection of tools for memory management',['../group__memory.html',1,'']]]
 ];

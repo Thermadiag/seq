@@ -99,9 +99,9 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1base__object__p
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a07aaca7767486e800033bd9d77452ec9"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__object__pool.html#a07aaca7767486e800033bd9d77452ec9">~base_object_pool</a> ()</td></tr>
 <tr class="separator:a07aaca7767486e800033bd9d77452ec9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93e413406ac370c1c308448e15104620"><td class="memItemLeft" align="right" valign="top">virtual T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__object__pool.html#a93e413406ac370c1c308448e15104620">allocate</a> (size_t N)=0</td></tr>
-<tr class="separator:a93e413406ac370c1c308448e15104620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94c3d29a9aa75d5efdaa6e03e866b5d5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__object__pool.html#a94c3d29a9aa75d5efdaa6e03e866b5d5">deallocate</a> (T *p, size_t N)=0</td></tr>
+<tr class="memitem:a901146a91f522302842181dc455ad0cf"><td class="memItemLeft" align="right" valign="top">virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__object__pool.html#a901146a91f522302842181dc455ad0cf">allocate</a> (size_t N) -&gt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> *=0</td></tr>
+<tr class="separator:a901146a91f522302842181dc455ad0cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94c3d29a9aa75d5efdaa6e03e866b5d5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__object__pool.html#a94c3d29a9aa75d5efdaa6e03e866b5d5">deallocate</a> (<a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> *p, size_t N)=0</td></tr>
 <tr class="separator:a94c3d29a9aa75d5efdaa6e03e866b5d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -117,7 +117,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">seq::detail::base_object_pool</a>&lt; T &gt;::~<a class="el" href="structseq_1_1detail_1_1base__object__pool.html">base_object_pool</a> </td>
+          <td class="memname">virtual <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">seq::detail::base_object_pool</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt;::~<a class="el" href="structseq_1_1detail_1_1base__object__pool.html">base_object_pool</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -133,8 +133,8 @@ template&lt;class T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a93e413406ac370c1c308448e15104620"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93e413406ac370c1c308448e15104620">&#9670;&nbsp;</a></span>allocate()</h2>
+<a id="a901146a91f522302842181dc455ad0cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a901146a91f522302842181dc455ad0cf">&#9670;&nbsp;</a></span>allocate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -145,11 +145,11 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual T* <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">seq::detail::base_object_pool</a>&lt; T &gt;::allocate </td>
+          <td class="memname">virtual auto <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">seq::detail::base_object_pool</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt;::allocate </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>N</em></td><td>)</td>
-          <td></td>
+          <td> -&gt;  <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> *</td>
         </tr>
       </table>
   </td>
@@ -159,7 +159,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classseq_1_1parallel__object__pool.html#ae3c243e04ce9aa60db684a4c07cfce9f">seq::parallel_object_pool&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;</a>, and <a class="el" href="classseq_1_1object__pool.html#afa83f77752aa9e9d9d60d15380b76d42">seq::object_pool&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classseq_1_1parallel__object__pool.html#a128d1dead3c25a24d4ae746a007e28ea">seq::parallel_object_pool&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;</a>, and <a class="el" href="classseq_1_1object__pool.html#a05063f627ffe9c606fe013adfed0e245">seq::object_pool&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;</a>.</p>
 
 </div>
 </div>
@@ -175,9 +175,9 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">seq::detail::base_object_pool</a>&lt; T &gt;::deallocate </td>
+          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">seq::detail::base_object_pool</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt;::deallocate </td>
           <td>(</td>
-          <td class="paramtype">T *&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> *&#160;</td>
           <td class="paramname"><em>p</em>, </td>
         </tr>
         <tr>
@@ -199,7 +199,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="classseq_1_1parallel__object__pool.html#afb326f8db6a4e84048bf825dab79f2a7">seq::parallel_object_pool&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;</a>, and <a class="el" href="classseq_1_1object__pool.html#a99af259462a246f9b6c46a6b00a9a782">seq::object_pool&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classseq_1_1parallel__object__pool.html#a36e68df7db73bb812434ebb0c9988053">seq::parallel_object_pool&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;</a>, and <a class="el" href="classseq_1_1object__pool.html#a99af259462a246f9b6c46a6b00a9a782">seq::object_pool&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;</a>.</p>
 
 </div>
 </div>

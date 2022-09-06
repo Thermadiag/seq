@@ -106,10 +106,10 @@ Static Public Attributes</h2></td></tr>
 struct seq::is_relocatable&lt; T &gt;</h3>
 
 <p>Type trait telling if a class is relocatable or not. </p>
-<p>A type is considered relocatable if these consecutive calls </p><div class="fragment"><div class="line"><span class="keyword">new</span>(new_place) T(std::move(old_place));</div>
+<p>A type is considered relocatable if these consecutive calls </p><div class="fragment"><div class="line"><span class="keyword">new</span>(new_place) <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>(std::move(old_place));</div>
 <div class="line">old_place.~T();</div>
-</div><!-- fragment --><p> can be replaced by </p><div class="fragment"><div class="line"><a class="code" href="namespaceseq_1_1detail.html#a874f70d17afddc31413384d922ad4b83">memcpy</a>(&amp;new_place, &amp;old_place, <span class="keyword">sizeof</span>(T));</div>
-</div><!-- fragment --><p>This property is used to optimize containers like <a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a>, <a class="el" href="classseq_1_1deque.html" title="seq::deque is a std::deque like container implemented as a tiered-vector.">seq::deque</a>, seq::flat_(map/set/multimap/multiset). </p>
+</div><!-- fragment --><p> can be replaced by </p><div class="fragment"><div class="line">memcpy(&amp;new_place, &amp;old_place, <span class="keyword">sizeof</span>(<a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>));</div>
+</div><!-- fragment --><p>This property is used to optimize containers like <a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a>, <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std_deque like container implemented as a tiered-vector.">seq::tiered_vector</a>, seq::flat_(map/set/multimap/multiset). </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a9bc3104d310961a601c2185957f846ad"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9bc3104d310961a601c2185957f846ad">&#9670;&nbsp;</a></span>value</h2>
@@ -140,7 +140,7 @@ template&lt;class T &gt; </div>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="anamespaceseq_1_1detail_html_a874f70d17afddc31413384d922ad4b83"><div class="ttname"><a href="namespaceseq_1_1detail.html#a874f70d17afddc31413384d922ad4b83">seq::detail::memcpy</a></div><div class="ttdeci">else memcpy(dst, &quot;nan&quot;, 3)</div></div>
+<div class="ttc" id="anamespaceseq_1_1detail_html_ae4e48f51c85e7a3a935596cba71a7355"><div class="ttname"><a href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">seq::detail::T</a></div><div class="ttdeci">Stream &amp;str T</div><div class="ttdef"><b>Definition:</b> charconv.hpp:642</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

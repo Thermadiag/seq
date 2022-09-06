@@ -100,10 +100,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a052a373fe3530c8fad26113e2974bdac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a9ef50b163855dfab17dfb0e2b0bc38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1stats__data.html#a1a9ef50b163855dfab17dfb0e2b0bc38">reset_statistics</a> () noexcept</td></tr>
 <tr class="separator:a1a9ef50b163855dfab17dfb0e2b0bc38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a389029045423dd04f4ba6858e1ccfced"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1stats__data.html#a389029045423dd04f4ba6858e1ccfced">get_cum_created</a> () const noexcept</td></tr>
-<tr class="separator:a389029045423dd04f4ba6858e1ccfced"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad810f76601904cad4169e00ef25bdf80"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1stats__data.html#ad810f76601904cad4169e00ef25bdf80">get_cum_freed</a> () const noexcept</td></tr>
-<tr class="separator:ad810f76601904cad4169e00ef25bdf80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86151b3cf4b6a35584a909a754670896"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1stats__data.html#a86151b3cf4b6a35584a909a754670896">get_cum_created</a> () const noexcept -&gt; size_t</td></tr>
+<tr class="separator:a86151b3cf4b6a35584a909a754670896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e168ec87b8cd5849bf4f62f5a480499"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1stats__data.html#a2e168ec87b8cd5849bf4f62f5a480499">get_cum_freed</a> () const noexcept -&gt; size_t</td></tr>
+<tr class="separator:a2e168ec87b8cd5849bf4f62f5a480499"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8133c8d3f0033ecfea7c57ab2f2f83f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1stats__data.html#a8133c8d3f0033ecfea7c57ab2f2f83f1">increment_created</a> () noexcept</td></tr>
 <tr class="separator:a8133c8d3f0033ecfea7c57ab2f2f83f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d5d44b9e86efa99832903508e16f420"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1stats__data.html#a2d5d44b9e86efa99832903508e16f420">increment_freed</a> () noexcept</td></tr>
@@ -175,8 +175,8 @@ template&lt;bool TemporalStats&gt; </div>
 
 </div>
 </div>
-<a id="a389029045423dd04f4ba6858e1ccfced"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a389029045423dd04f4ba6858e1ccfced">&#9670;&nbsp;</a></span>get_cum_created()</h2>
+<a id="a86151b3cf4b6a35584a909a754670896"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86151b3cf4b6a35584a909a754670896">&#9670;&nbsp;</a></span>get_cum_created()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,10 +187,10 @@ template&lt;bool TemporalStats&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="structseq_1_1detail_1_1stats__data.html">seq::detail::stats_data</a>&lt; TemporalStats &gt;::get_cum_created </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1stats__data.html">seq::detail::stats_data</a>&lt; TemporalStats &gt;::get_cum_created </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; size_t </td>
         </tr>
       </table>
   </td>
@@ -202,8 +202,8 @@ template&lt;bool TemporalStats&gt; </div>
 
 </div>
 </div>
-<a id="ad810f76601904cad4169e00ef25bdf80"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad810f76601904cad4169e00ef25bdf80">&#9670;&nbsp;</a></span>get_cum_freed()</h2>
+<a id="a2e168ec87b8cd5849bf4f62f5a480499"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e168ec87b8cd5849bf4f62f5a480499">&#9670;&nbsp;</a></span>get_cum_freed()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -214,10 +214,10 @@ template&lt;bool TemporalStats&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="structseq_1_1detail_1_1stats__data.html">seq::detail::stats_data</a>&lt; TemporalStats &gt;::get_cum_freed </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1stats__data.html">seq::detail::stats_data</a>&lt; TemporalStats &gt;::get_cum_freed </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; size_t </td>
         </tr>
       </table>
   </td>

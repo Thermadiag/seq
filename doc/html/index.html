@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="title">Seq library: original STL-like containers and container related tools </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h2><a class="anchor" id="autotoc_md47"></a>
+<div class="textblock"><h2><a class="anchor" id="autotoc_md40"></a>
 Purpose</h2>
 <p>Seq library is a collection of C++11 STL-like containers and related tools optimized for speed and/or memory usage.</p>
 <p>Seq library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) std. Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.</p>
@@ -98,28 +98,36 @@ Purpose</h2>
 <li>I would like to be able to sort a hash map.</li>
 <li>std::vector is great, but it's a shame that it is only optimized for back insertion.</li>
 <li>std::list is the only standard container that keeps insertion order and ensure iterators/reference stability, but its memory overhead for small types and low speed make it barely usable.</li>
-<li>Random-access containers (std::deque and std::vector) are very slow when inserting/deleting in the middle.</li>
+<li>Random-access containers (std_deque and std::vector) are very slow when inserting/deleting in the middle.</li>
 <li>Likewise, most flat map implementations (like the boost one) are very slow when inserting/deleting single entries.</li>
 <li>Using C++ streams to format numerical values and build tables is usually slow and not very convenient.</li>
 <li>...</li>
 </ul>
 <p>Some of my concerns were already takled by external libraries. For instance, I use <a href="https://github.com/greg7mdp/parallel-hashmap">phmap::flat_hash_set/map</a> (based on <a href="https://github.com/abseil/abseil-cpp">absl::flat_hash_map</a>) when I need a fast hash map with low memory overhead (and when iterators/references stability is not a concern). I started working on the seq libraries for the other points.</p>
-<h2><a class="anchor" id="autotoc_md48"></a>
+<h2><a class="anchor" id="autotoc_md41"></a>
 Content</h2>
-<p>The library is divided in 5 main modules:</p><ul>
+<p>The library is divided in 7 small modules:</p><ul>
 <li><a class="el" href="group__bits.html">bits</a>: low-level bits manipulation utilities</li>
 <li><a class="el" href="group__hash.html">hash</a>: implementation of fnv1a and murmurhash2 algorithms</li>
-<li><a class="el" href="group__lock.html">lock</a>: locking classes</li>
 <li><a class="el" href="group__memory.html">memory</a>: allocators and memory pools mainly used for containers</li>
 <li><a class="el" href="group__charconv.html">charconv</a>: fast arithmetic to/from string conversion</li>
 <li><a class="el" href="group__format.html">format</a>: fast and type safe formatting tools</li>
 <li><a class="el" href="group__containers.html">containers</a>: main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector...</li>
 <li><a class="el" href="group__any.html">any</a>: type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.</li>
 </ul>
-<p>seq library is header-only and self-dependent. A cmake project is provided for installation and compilation of tests and benchmarks.</p>
-<h2><a class="anchor" id="autotoc_md49"></a>
+<p>seq library is header-only and self-dependent. A cmake project is provided for installation and compilation of tests.</p>
+<h2><a class="anchor" id="autotoc_md42"></a>
 Why C++11 ?</h2>
-<p>For now the seq library is developped and maintained in order to remain compatible with C++11 only compilers. While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constraint and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11. </p>
+<p>For now the seq library is developped and maintained in order to remain compatible with C++11 only compilers. While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11.</p>
+<h2><a class="anchor" id="autotoc_md43"></a>
+Design</h2>
+<p>Seq library is a small collection of header only and self dependant components. There is no restriction on internal dependencies, and a seq component can use any number of other components. For instance, almost all modules rely on the <a class="el" href="group__bits.html">bits</a> module.</p>
+<p>All classes and functions are defined in the <code>seq</code> namespace, and names are lower case with underscore separators, much like the STL. Macro names are upper case and start with <code>SEQ_</code> prefix.</p>
+<p>The directory structure is flat and use the "stuttering" scheme <code>seq/seq</code> used by many other libraries like boost. Including a file as the following syntax: <code>#include &lt;<a class="el" href="tiered__vector_8hpp.html">seq/tiered_vector.hpp</a>&gt;</code></p>
+<p>The <code>seq/seq/test</code> subdirectory includes tests for all components, usually named <code>test_modulename.hpp</code>, with a unique <code>main.cpp</code>. The <code>seq/seq/docs</code> directory contains documentation using markdown format, and the <code>seq/seq/doc</code> directory contains the html documentation generated with doxygen.</p>
+<h2><a class="anchor" id="autotoc_md44"></a>
+Build</h2>
+<p>The seq library is header only and does not need to be built. However, a cmake file is provided for installation. The tests can be built using cmake from the <code>tests</code> folder. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -105,10 +105,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a50d593d5bc13693fc793770d7e64602b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae68ae0578c7a2b5475befdeeba6bb70d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1virtual__block.html#ae68ae0578c7a2b5475befdeeba6bb70d">remove_and_unref</a> ()=0</td></tr>
 <tr class="separator:ae68ae0578c7a2b5475befdeeba6bb70d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68901a44802a21f03975ebe4dae05c45"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1virtual__block.html#a68901a44802a21f03975ebe4dae05c45">deallocate</a> (T *p, size_t <a class="el" href="namespaceseq_1_1detail.html#a12c9a7db6862be66b508b7cc80e12a2d">n</a>)=0</td></tr>
+<tr class="memitem:a68901a44802a21f03975ebe4dae05c45"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1virtual__block.html#a68901a44802a21f03975ebe4dae05c45">deallocate</a> (<a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> *p, size_t <a class="el" href="namespaceseq_1_1detail.html#a12c9a7db6862be66b508b7cc80e12a2d">n</a>)=0</td></tr>
 <tr class="separator:a68901a44802a21f03975ebe4dae05c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a537c571607780e06baab1c85173b2e57"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">base_object_pool</a>&lt; T &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1virtual__block.html#a537c571607780e06baab1c85173b2e57">parent</a> () const =0</td></tr>
-<tr class="separator:a537c571607780e06baab1c85173b2e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb524782c8e2e03e1593a32a67d32b9f"><td class="memItemLeft" align="right" valign="top">virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1virtual__block.html#adb524782c8e2e03e1593a32a67d32b9f">parent</a> () const -&gt; <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">base_object_pool</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt; *=0</td></tr>
+<tr class="separator:adb524782c8e2e03e1593a32a67d32b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a68901a44802a21f03975ebe4dae05c45"></a>
@@ -123,9 +123,9 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; T &gt;::deallocate </td>
+          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt;::deallocate </td>
           <td>(</td>
-          <td class="paramtype">T *&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> *&#160;</td>
           <td class="paramname"><em>p</em>, </td>
         </tr>
         <tr>
@@ -151,8 +151,8 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a537c571607780e06baab1c85173b2e57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a537c571607780e06baab1c85173b2e57">&#9670;&nbsp;</a></span>parent()</h2>
+<a id="adb524782c8e2e03e1593a32a67d32b9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb524782c8e2e03e1593a32a67d32b9f">&#9670;&nbsp;</a></span>parent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -163,10 +163,10 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">base_object_pool</a>&lt;T&gt;* <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; T &gt;::parent </td>
+          <td class="memname">virtual auto <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt;::parent </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt;  <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">base_object_pool</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt; *</td>
         </tr>
       </table>
   </td>
@@ -190,7 +190,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; T &gt;::ref </td>
+          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt;::ref </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -219,7 +219,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; T &gt;::remove </td>
+          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt;::remove </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -248,7 +248,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; T &gt;::remove_and_unref </td>
+          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt;::remove_and_unref </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -277,7 +277,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; T &gt;::unref </td>
+          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt;::unref </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

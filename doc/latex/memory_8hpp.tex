@@ -1,9 +1,10 @@
 \hypertarget{memory_8hpp}{}\doxysection{seq/memory.hpp File Reference}
 \label{memory_8hpp}\index{seq/memory.hpp@{seq/memory.hpp}}
-{\ttfamily \#include $<$memory$>$}\newline
 {\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$mutex$>$}\newline
 {\ttfamily \#include $<$list$>$}\newline
-{\ttfamily \#include \char`\"{}lock.\+hpp\char`\"{}}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$atomic$>$}\newline
 {\ttfamily \#include \char`\"{}bits.\+hpp\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}utils.\+hpp\char`\"{}}\newline
 \doxysubsection*{Classes}
@@ -37,10 +38,14 @@ struct \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+:
 \item 
 struct \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_1_1_vector_data}{seq\+::detail\+::allocator\+\_\+data$<$ Allocator, Is\+Threaded $>$\+::\+Vector\+Data}}
 \item 
+struct \mbox{\hyperlink{structseq_1_1detail_1_1_mutex_wrapper}{seq\+::detail\+::\+Mutex\+Wrapper}}
+\item 
 class \mbox{\hyperlink{classseq_1_1object__allocator}{seq\+::object\+\_\+allocator$<$ Pool $>$}}
 \begin{DoxyCompactList}\small\item\em Stl conforming allocator based on an object pool class. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structseq_1_1object__allocator_1_1rebind}{seq\+::object\+\_\+allocator$<$ Pool $>$\+::rebind$<$ U $>$}}
 \item 
+struct \mbox{\hyperlink{structseq_1_1null__lock}{seq\+::null\+\_\+lock}}
+\begin{DoxyCompactList}\small\item\em Dumy lock class that basically does nothing. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structseq_1_1detail_1_1bool__locker}{seq\+::detail\+::bool\+\_\+locker}}
 \begin{DoxyCompactList}\small\item\em Lock a boolean value. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classseq_1_1detail_1_1thread__data}{seq\+::detail\+::thread\+\_\+data$<$ Threaded $>$}}
@@ -112,8 +117,8 @@ using \mbox{\hyperlink{namespaceseq_1_1detail_a8e965e791df5b616ea81c89033637e8c}
 \doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
-enum \{ \mbox{\hyperlink{namespaceseq_a20e72bbc46786ab0a7095941c5d09045ad00237c7a57ddcba9f768430524651f2}{seq\+::\+Enough\+For\+Shared\+Ptr}} = I\+N\+T\+\_\+\+M\+AX, 
-\mbox{\hyperlink{namespaceseq_a20e72bbc46786ab0a7095941c5d09045a668d551cd99226655e9e973b6d5be517}{seq\+::\+Default\+Alignment}} = 0
+enum \{ \mbox{\hyperlink{namespaceseq_adac07c5c5e3d6da3ebb03f7ddd1e7cdead00237c7a57ddcba9f768430524651f2}{seq\+::\+Enough\+For\+Shared\+Ptr}} = I\+N\+T\+\_\+\+M\+AX, 
+\mbox{\hyperlink{namespaceseq_adac07c5c5e3d6da3ebb03f7ddd1e7cdea668d551cd99226655e9e973b6d5be517}{seq\+::\+Default\+Alignment}} = 0
  \}
 \begin{DoxyCompactList}\small\item\em Constants used by \#object\+\_\+pool, \#parallel\+\_\+object\+\_\+pool and \#object\+\_\+allocator. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Functions}
@@ -121,7 +126,7 @@ enum \{ \mbox{\hyperlink{namespaceseq_a20e72bbc46786ab0a7095941c5d09045ad00237c7
 \item 
 {\footnotesize template$<$class Pool , class Allocator , class Real\+Allocator $>$ }\\void \mbox{\hyperlink{namespaceseq_1_1detail_ad47ea97ae6d22ba92788429119e1d212}{seq\+::detail\+::deallocate\+\_\+virtual\+\_\+pool}} (Allocator \&al, virtual\+\_\+mem\+\_\+pool $\ast$pool)
 \item 
-{\footnotesize template$<$class T $>$ }\\virtual\+\_\+block$<$ T $>$ $\ast$ \mbox{\hyperlink{namespaceseq_1_1detail_a1d06f9112f8f380b6152378060e694f0}{seq\+::detail\+::get\+\_\+virtual\+\_\+block}} (T $\ast$p)
+{\footnotesize template$<$class T $>$ }\\auto \mbox{\hyperlink{namespaceseq_1_1detail_a702ee1c043435c4800bbb1665b4db803}{seq\+::detail\+::get\+\_\+virtual\+\_\+block}} (T $\ast$p) -\/$>$ virtual\+\_\+block$<$ T $>$ $\ast$
 \item 
 {\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{namespaceseq_a1349a44a2ff37300a5c72a03780780fe}{seq\+::unique\+\_\+ptr\+\_\+delete}} (T $\ast$p)
 \begin{DoxyCompactList}\small\item\em Deallocate pointer previously held by a std\+::unqiue\+\_\+ptr$<$T,unique\+\_\+ptr\+\_\+deleter$<$\+T$>$ $>$ \end{DoxyCompactList}\end{DoxyCompactItemize}

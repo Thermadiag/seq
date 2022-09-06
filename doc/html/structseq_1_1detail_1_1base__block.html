@@ -102,13 +102,13 @@ Public Types</h2></td></tr>
 <tr class="memitem:a25b2bf388b6ae01743020e8d34b22b73"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
 <tr class="memitem:a25b2bf388b6ae01743020e8d34b22b73"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__block.html#a25b2bf388b6ae01743020e8d34b22b73">rebind_alloc</a> = typename std::allocator_traits&lt; Allocator &gt;::template <a class="el" href="structseq_1_1detail_1_1base__block.html#a25b2bf388b6ae01743020e8d34b22b73">rebind_alloc</a>&lt; U &gt;</td></tr>
 <tr class="separator:a25b2bf388b6ae01743020e8d34b22b73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d210634f86bb8508913d41ddbb95060"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__block.html#a9d210634f86bb8508913d41ddbb95060">value_type</a> = T</td></tr>
+<tr class="memitem:a9d210634f86bb8508913d41ddbb95060"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__block.html#a9d210634f86bb8508913d41ddbb95060">value_type</a> = <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a></td></tr>
 <tr class="separator:a9d210634f86bb8508913d41ddbb95060"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a682acc6fcc1e355d40d2735ac6b93318"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__block.html#a682acc6fcc1e355d40d2735ac6b93318">base_block</a> (void *th, size_t elems, unsigned elem_size, const Allocator &amp;al=Allocator())</td></tr>
-<tr class="separator:a682acc6fcc1e355d40d2735ac6b93318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fd30c84bab546756c13769e40b29e38"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__block.html#a7fd30c84bab546756c13769e40b29e38">base_block</a> (void *th, size_t elems, unsigned elem_size, const Allocator &amp;al)</td></tr>
+<tr class="separator:a7fd30c84bab546756c13769e40b29e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a633334d83aaf151da2e3a1bfd5520d39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__block.html#a633334d83aaf151da2e3a1bfd5520d39">insert</a> (derived *<a class="el" href="structseq_1_1detail_1_1block__it.html#a1687c81a9c8de31b0415191844bc80fd">left</a>, derived *<a class="el" href="structseq_1_1detail_1_1block__it.html#a26b9d8c5f75bbaad52c0ce62029d21df">right</a>)</td></tr>
 <tr class="separator:a633334d83aaf151da2e3a1bfd5520d39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace692196ba17b631c15ba1dff3b34599"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__block.html#ace692196ba17b631c15ba1dff3b34599">remove</a> ()</td></tr>
@@ -125,8 +125,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aef7018ed8990188117cd9ff50a7303a5 inherit pub_methods_structseq_1_1detail_1_1block__it"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1block__it.html#aef7018ed8990188117cd9ff50a7303a5">block_it</a> ()</td></tr>
 <tr class="separator:aef7018ed8990188117cd9ff50a7303a5 inherit pub_methods_structseq_1_1detail_1_1block__it"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structseq_1_1detail_1_1virtual__block"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structseq_1_1detail_1_1virtual__block')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structseq_1_1detail_1_1virtual__block.html">seq::detail::virtual_block&lt; T &gt;</a></td></tr>
-<tr class="memitem:a537c571607780e06baab1c85173b2e57 inherit pub_methods_structseq_1_1detail_1_1virtual__block"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">base_object_pool</a>&lt; T &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1virtual__block.html#a537c571607780e06baab1c85173b2e57">parent</a> () const =0</td></tr>
-<tr class="separator:a537c571607780e06baab1c85173b2e57 inherit pub_methods_structseq_1_1detail_1_1virtual__block"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb524782c8e2e03e1593a32a67d32b9f inherit pub_methods_structseq_1_1detail_1_1virtual__block"><td class="memItemLeft" align="right" valign="top">virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1virtual__block.html#adb524782c8e2e03e1593a32a67d32b9f">parent</a> () const -&gt; <a class="el" href="structseq_1_1detail_1_1base__object__pool.html">base_object_pool</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt; *=0</td></tr>
+<tr class="separator:adb524782c8e2e03e1593a32a67d32b9f inherit pub_methods_structseq_1_1detail_1_1virtual__block"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -154,7 +154,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
 template&lt;class U &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::<a class="el" href="structseq_1_1detail_1_1base__block.html#a25b2bf388b6ae01743020e8d34b22b73">rebind_alloc</a> =  typename std::allocator_traits&lt;Allocator&gt;::template <a class="el" href="structseq_1_1detail_1_1base__block.html#a25b2bf388b6ae01743020e8d34b22b73">rebind_alloc</a>&lt;U&gt;</td>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::<a class="el" href="structseq_1_1detail_1_1base__block.html#a25b2bf388b6ae01743020e8d34b22b73">rebind_alloc</a> =  typename std::allocator_traits&lt;Allocator&gt;::template <a class="el" href="structseq_1_1detail_1_1base__block.html#a25b2bf388b6ae01743020e8d34b22b73">rebind_alloc</a>&lt;U&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -170,7 +170,7 @@ template&lt;class U &gt; </div>
 template&lt;class T , class Allocator , class block_pool_type , class derived &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::<a class="el" href="structseq_1_1detail_1_1base__block.html#a9d210634f86bb8508913d41ddbb95060">value_type</a> =  T</td>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::<a class="el" href="structseq_1_1detail_1_1base__block.html#a9d210634f86bb8508913d41ddbb95060">value_type</a> =  <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -178,8 +178,8 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a682acc6fcc1e355d40d2735ac6b93318"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a682acc6fcc1e355d40d2735ac6b93318">&#9670;&nbsp;</a></span>base_block()</h2>
+<a id="a7fd30c84bab546756c13769e40b29e38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fd30c84bab546756c13769e40b29e38">&#9670;&nbsp;</a></span>base_block()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -190,7 +190,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::<a class="el" href="structseq_1_1detail_1_1base__block.html">base_block</a> </td>
+          <td class="memname"><a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::<a class="el" href="structseq_1_1detail_1_1base__block.html">base_block</a> </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>th</em>, </td>
@@ -211,7 +211,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const Allocator &amp;&#160;</td>
-          <td class="paramname"><em>al</em> = <code>Allocator()</code>&#160;</td>
+          <td class="paramname"><em>al</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -241,7 +241,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::deallocate </td>
+          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::deallocate </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1base__block.html#a9d210634f86bb8508913d41ddbb95060">value_type</a> *&#160;</td>
           <td class="paramname"><em>p</em>, </td>
@@ -281,7 +281,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::insert </td>
+          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::insert </td>
           <td>(</td>
           <td class="paramtype">derived *&#160;</td>
           <td class="paramname"><em>left</em>, </td>
@@ -319,7 +319,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::ref </td>
+          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::ref </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -348,7 +348,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::remove </td>
+          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::remove </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -377,7 +377,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::remove_and_unref </td>
+          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::remove_and_unref </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -406,7 +406,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::unref </td>
+          <td class="memname">virtual void <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::unref </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -433,7 +433,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
 template&lt;class T , class Allocator , class block_pool_type , class derived &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">block_pool_type <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::pool</td>
+          <td class="memname">block_pool_type <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::pool</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -449,7 +449,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
 template&lt;class T , class Allocator , class block_pool_type , class derived &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::atomic&lt;size_t&gt; <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::ref_cnt</td>
+          <td class="memname">std::atomic&lt;size_t&gt; <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::ref_cnt</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -465,7 +465,7 @@ template&lt;class T , class Allocator , class block_pool_type , class derived &g
 template&lt;class T , class Allocator , class block_pool_type , class derived &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void* <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; T, Allocator, block_pool_type, derived &gt;::th_data</td>
+          <td class="memname">void* <a class="el" href="structseq_1_1detail_1_1base__block.html">seq::detail::base_block</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, block_pool_type, derived &gt;::th_data</td>
         </tr>
       </table>
 </div><div class="memdoc">

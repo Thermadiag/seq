@@ -91,24 +91,24 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_compare_equal_
 </div><!--header-->
 <div class="contents">
 
-<p>Equality comparison for <a class="el" href="classseq_1_1hold__any.html#a3b088c695a803ba28912ad55a9bed7e2">hold_any::equal_to</a>.  
+<p>Equality comparison for <a class="el" href="classseq_1_1hold__any.html#abbeed042b82bc91b7b75dfc50064676a">hold_any::equal_to</a>.  
  <a href="structseq_1_1detail_1_1_compare_equal_string.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="any_8hpp_source.html">any.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a7e85bdd12a9b64bb962d1df9d23207da"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_equal_string.html#a7e85bdd12a9b64bb962d1df9d23207da">equal</a> (const <a class="el" href="namespaceseq.html#a2bede5ff16f5bb9f856b3b2d78303f69">tstring_view</a> &amp;a, const T &amp;b)</td></tr>
-<tr class="separator:a7e85bdd12a9b64bb962d1df9d23207da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fe0e1e7f72a0e446287d7a69fd003ab"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_equal_string.html#a7fe0e1e7f72a0e446287d7a69fd003ab">equal</a> (const <a class="el" href="namespaceseq.html#a2bede5ff16f5bb9f856b3b2d78303f69">tstring_view</a> &amp;a, const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;b) -&gt; bool</td></tr>
+<tr class="separator:a7fe0e1e7f72a0e446287d7a69fd003ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class T, bool IsString = is_generic_string&lt;T&gt;::value&gt;<br />
 struct seq::detail::CompareEqualString&lt; T, IsString &gt;</h3>
 
-<p>Equality comparison for <a class="el" href="classseq_1_1hold__any.html#a3b088c695a803ba28912ad55a9bed7e2">hold_any::equal_to</a>. </p>
+<p>Equality comparison for <a class="el" href="classseq_1_1hold__any.html#abbeed042b82bc91b7b75dfc50064676a">hold_any::equal_to</a>. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a7e85bdd12a9b64bb962d1df9d23207da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e85bdd12a9b64bb962d1df9d23207da">&#9670;&nbsp;</a></span>equal()</h2>
+<a id="a7fe0e1e7f72a0e446287d7a69fd003ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fe0e1e7f72a0e446287d7a69fd003ab">&#9670;&nbsp;</a></span>equal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -119,7 +119,7 @@ template&lt;class T , bool IsString = is_generic_string&lt;T&gt;::value&gt; </di
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool <a class="el" href="structseq_1_1detail_1_1_compare_equal_string.html">seq::detail::CompareEqualString</a>&lt; T, IsString &gt;::equal </td>
+          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_compare_equal_string.html">seq::detail::CompareEqualString</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, IsString &gt;::equal </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="namespaceseq.html#a2bede5ff16f5bb9f856b3b2d78303f69">tstring_view</a> &amp;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -127,13 +127,13 @@ template&lt;class T , bool IsString = is_generic_string&lt;T&gt;::value&gt; </di
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; bool </td>
         </tr>
       </table>
   </td>

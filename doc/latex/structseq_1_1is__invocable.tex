@@ -2,6 +2,11 @@
 \label{structseq_1_1is__invocable}\index{seq::is\_invocable$<$ F, Args $>$@{seq::is\_invocable$<$ F, Args $>$}}
 
 
+Tells if given type supports invocation with signature void(\+Args ...) Equivalent to C++17 std\+::is\+\_\+invocable.  
+
+
+
+
 {\ttfamily \#include $<$type\+\_\+traits.\+hpp$>$}
 
 
@@ -9,6 +14,12 @@
 Inherits is\+\_\+constructible$<$ std\+::function$<$ void(\+Args ...)$>$, std\+::reference\+\_\+wrapper$<$ std\+::remove\+\_\+reference$<$ F $>$\+::type $>$ $>$.
 
 
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename F, typename... Args$>$\newline
+struct seq\+::is\+\_\+invocable$<$ F, Args $>$}
+
+Tells if given type supports invocation with signature void(\+Args ...) Equivalent to C++17 std\+::is\+\_\+invocable. 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

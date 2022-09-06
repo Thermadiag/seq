@@ -16,8 +16,6 @@ var ordered__map_8hpp =
     [ "Inserter< Sequence, Front, Value && >", "structseq_1_1detail_1_1_inserter_3_01_sequence_00_01_front_00_01_value_01_6_6_01_4.html", null ],
     [ "Inserter< Sequence, Anywhere, Value && >", "structseq_1_1detail_1_1_inserter_3_01_sequence_00_01_anywhere_00_01_value_01_6_6_01_4.html", null ],
     [ "SparseFlatNodeHashTable", "structseq_1_1detail_1_1_sparse_flat_node_hash_table.html", "structseq_1_1detail_1_1_sparse_flat_node_hash_table" ],
-    [ "equal_to_t", "structseq_1_1equal__to__t.html", "structseq_1_1equal__to__t" ],
-    [ "hash_t", "structseq_1_1hash__t.html", "structseq_1_1hash__t" ],
     [ "ordered_set", "classseq_1_1ordered__set.html", "classseq_1_1ordered__set" ],
     [ "const_iterator", "structseq_1_1ordered__set_1_1const__iterator.html", "structseq_1_1ordered__set_1_1const__iterator" ],
     [ "ordered_map", "classseq_1_1ordered__map.html", "classseq_1_1ordered__map" ],
@@ -28,10 +26,10 @@ var ordered__map_8hpp =
       [ "Front", "ordered__map_8hpp.html#ab30aadadbca04f03a4fbfafab2b975afa9ee85222ef4be71557a04ca6e1d9462a", null ],
       [ "Anywhere", "ordered__map_8hpp.html#ab30aadadbca04f03a4fbfafab2b975afaf0e0359e700bf7b06a32567d0da335ed", null ]
     ] ],
-    [ "erase_if", "ordered__map_8hpp.html#a4a4674d3392bd75ab94dbb6d754a91f7", null ],
-    [ "erase_if", "ordered__map_8hpp.html#aa186b78abe0024b08ac9417eeb3b67dd", null ],
-    [ "operator!=", "ordered__map_8hpp.html#a6912674e5ef451a9f0733279b436113e", null ],
-    [ "operator!=", "ordered__map_8hpp.html#a818f1ef96eceafb1f80fc069720a99e5", null ],
-    [ "operator==", "ordered__map_8hpp.html#ad1661245c4cb91cf0898e0c87fa1160d", null ],
-    [ "operator==", "ordered__map_8hpp.html#a6cd24b67e86b93a8639f533415cfd811", null ]
+    [ "erase_if", "ordered__map_8hpp.html#a345460864d8e607d34f3547e6d1e01fd", null ],
+    [ "erase_if", "ordered__map_8hpp.html#ac8c9030a8049270841c9d1ceb949ed16", null ],
+    [ "operator!=", "ordered__map_8hpp.html#ac8a77517d376eeb44fc2615040f226b3", null ],
+    [ "operator!=", "ordered__map_8hpp.html#a12a8e4ca5bdbbf2cd53645c2733449d0", null ],
+    [ "operator==", "ordered__map_8hpp.html#a3debed99e1f30055ff02d9d0ee009727", null ],
+    [ "operator==", "ordered__map_8hpp.html#a4308e82af69325da59bf1abe2e9b30d1", null ]
 ];

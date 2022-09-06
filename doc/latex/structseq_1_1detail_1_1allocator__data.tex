@@ -23,17 +23,17 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_a9876102b8155c9d58
 \item 
 \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_a2b3a2db2a0025cfcca3caaaf885f0e03}{$\sim$allocator\+\_\+data}} ()
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{allocator\+\_\+data}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_aaf8bfe74607c52f9554fcb94c0e75869}{ref}} ()
+auto \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_a7f9bfc396ca6377b5062770ac95bc041}{ref}} () -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{allocator\+\_\+data}} $\ast$
 \item 
-int \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_abb61e207c8949ca77d6a7a2d6dbd88d6}{unref}} ()
+auto \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_afbdca7d5e6b93a75a565c4a95932c933}{unref}} () -\/$>$ int
 \item 
 void \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_acb6e1ea135f1f6c8a4ae1b91928c08b4}{decref}} ()
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_a4ccbe5f28253a03ff7e8a2371e0585aa}{find}} (size\+\_\+t k) noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_af084c0c99cab0c7b9889c2c812353989}{find}} (size\+\_\+t k) noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$
 \item 
-const \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_adc5dfbed824d2f72c94d6d0d1b717250}{find}} (size\+\_\+t k) const noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_ac508aacb2208ac693a1f393f12b03eeb}{find}} (size\+\_\+t k) const noexcept -\/$>$ const \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$
 \item 
-{\footnotesize template$<$class Pool\+Type $>$ }\\\mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_aff283190f714e909c009b558ffe2b179}{emplace\+\_\+back}} ()
+{\footnotesize template$<$class Pool\+Type $>$ }\\auto \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data_aa93531485ac5fa43c9d3e5e342bca072}{emplace\+\_\+back}} () -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}} $\ast$
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -89,41 +89,41 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::
 {\footnotesize\ttfamily template$<$class Allocator , bool Is\+Threaded$>$ \\
 void \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::decref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_aff283190f714e909c009b558ffe2b179}\label{structseq_1_1detail_1_1allocator__data_aff283190f714e909c009b558ffe2b179}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_aa93531485ac5fa43c9d3e5e342bca072}\label{structseq_1_1detail_1_1allocator__data_aa93531485ac5fa43c9d3e5e342bca072}} 
 \index{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$}!emplace\_back@{emplace\_back}}
 \index{emplace\_back@{emplace\_back}!seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$}}
 \doxysubsubsection{\texorpdfstring{emplace\_back()}{emplace\_back()}}
 {\footnotesize\ttfamily template$<$class Allocator , bool Is\+Threaded$>$ \\
 template$<$class Pool\+Type $>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::emplace\+\_\+back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::emplace\+\_\+back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}}$\ast$ \hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_adc5dfbed824d2f72c94d6d0d1b717250}\label{structseq_1_1detail_1_1allocator__data_adc5dfbed824d2f72c94d6d0d1b717250}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_ac508aacb2208ac693a1f393f12b03eeb}\label{structseq_1_1detail_1_1allocator__data_ac508aacb2208ac693a1f393f12b03eeb}} 
 \index{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$}!find@{find}}
 \index{find@{find}!seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$}}
 \doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Allocator , bool Is\+Threaded$>$ \\
-const \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::find (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{k }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::find (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{k }\end{DoxyParamCaption}) const -\/$>$ const \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}}$\ast$ \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_a4ccbe5f28253a03ff7e8a2371e0585aa}\label{structseq_1_1detail_1_1allocator__data_a4ccbe5f28253a03ff7e8a2371e0585aa}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_af084c0c99cab0c7b9889c2c812353989}\label{structseq_1_1detail_1_1allocator__data_af084c0c99cab0c7b9889c2c812353989}} 
 \index{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$}!find@{find}}
 \index{find@{find}!seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$}}
 \doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Allocator , bool Is\+Threaded$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::find (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{k }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::find (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{k }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1virtual__mem__pool}{virtual\+\_\+mem\+\_\+pool}}$\ast$ \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_aaf8bfe74607c52f9554fcb94c0e75869}\label{structseq_1_1detail_1_1allocator__data_aaf8bfe74607c52f9554fcb94c0e75869}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_a7f9bfc396ca6377b5062770ac95bc041}\label{structseq_1_1detail_1_1allocator__data_a7f9bfc396ca6377b5062770ac95bc041}} 
 \index{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$}!ref@{ref}}
 \index{ref@{ref}!seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$}}
 \doxysubsubsection{\texorpdfstring{ref()}{ref()}}
 {\footnotesize\ttfamily template$<$class Allocator , bool Is\+Threaded$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{allocator\+\_\+data}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::ref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::ref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{allocator\+\_\+data}}$\ast$ \hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_abb61e207c8949ca77d6a7a2d6dbd88d6}\label{structseq_1_1detail_1_1allocator__data_abb61e207c8949ca77d6a7a2d6dbd88d6}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1allocator__data_afbdca7d5e6b93a75a565c4a95932c933}\label{structseq_1_1detail_1_1allocator__data_afbdca7d5e6b93a75a565c4a95932c933}} 
 \index{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$}!unref@{unref}}
 \index{unref@{unref}!seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$@{seq::detail::allocator\_data$<$ Allocator, IsThreaded $>$}}
 \doxysubsubsection{\texorpdfstring{unref()}{unref()}}
 {\footnotesize\ttfamily template$<$class Allocator , bool Is\+Threaded$>$ \\
-int \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::unref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1allocator__data}{seq\+::detail\+::allocator\+\_\+data}}$<$ Allocator, Is\+Threaded $>$\+::unref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ int \hspace{0.3cm}{\ttfamily [inline]}}
 
 
 

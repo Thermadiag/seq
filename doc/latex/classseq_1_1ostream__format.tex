@@ -18,20 +18,20 @@ Inherits \mbox{\hyperlink{structseq_1_1base__ostream__format}{seq\+::base\+\_\+o
 \item 
 \mbox{\hyperlink{classseq_1_1ostream__format_aa92d4f21903e6f12faa3f0cec4962b96}{ostream\+\_\+format}} ()
 \begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ostream__format_aa9c6fcff5360952a2d20f78440bd9260}{ostream\+\_\+format}} (const T \&\mbox{\hyperlink{structseq_1_1base__ostream__format_a847269fc7b29632927a725d1c5f41abb}{value}})
+\mbox{\hyperlink{classseq_1_1ostream__format_aa9c6fcff5360952a2d20f78440bd9260}{ostream\+\_\+format}} (const T \&\mbox{\hyperlink{structseq_1_1base__ostream__format_ad75f4918a30f9643a0b66c0100d00293}{value}})
 \item 
-\mbox{\hyperlink{classseq_1_1ostream__format_af0ade56c4a611ab110236a86dc795474}{ostream\+\_\+format}} (const T \&\mbox{\hyperlink{structseq_1_1base__ostream__format_a847269fc7b29632927a725d1c5f41abb}{value}}, char base\+\_\+or\+\_\+format)
+\mbox{\hyperlink{classseq_1_1ostream__format_af0ade56c4a611ab110236a86dc795474}{ostream\+\_\+format}} (const T \&\mbox{\hyperlink{structseq_1_1base__ostream__format_ad75f4918a30f9643a0b66c0100d00293}{value}}, char base\+\_\+or\+\_\+format)
 \begin{DoxyCompactList}\small\item\em Construct from a value and a base or format value. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ostream__format_ae92f6180eebb702f017de526573309f5}{ostream\+\_\+format}} (const T \&\mbox{\hyperlink{structseq_1_1base__ostream__format_a847269fc7b29632927a725d1c5f41abb}{value}}, const \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \&\mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}})
+\mbox{\hyperlink{classseq_1_1ostream__format_ae92f6180eebb702f017de526573309f5}{ostream\+\_\+format}} (const T \&\mbox{\hyperlink{structseq_1_1base__ostream__format_ad75f4918a30f9643a0b66c0100d00293}{value}}, const \mbox{\hyperlink{classseq_1_1numeric__format}{numeric\+\_\+format}} \&\mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}})
 \item 
-{\footnotesize template$<$class String $>$ }\\size\+\_\+t \mbox{\hyperlink{classseq_1_1ostream__format_a17593d6d54bf0e77e8c32f5756d33b1d}{to\+\_\+string}} (String \&\mbox{\hyperlink{structseq_1_1base__ostream__format_a02daa761e5ba173f0ea03cac45fa804e}{str}}) const
+{\footnotesize template$<$class String $>$ }\\auto \mbox{\hyperlink{classseq_1_1ostream__format_a3c30d958ce8fb82d6509acc7e23f2648}{to\+\_\+string}} (String \&\mbox{\hyperlink{structseq_1_1base__ostream__format_ac9a6a2d5e7cdcecdf10599f43fab2cfe}{str}}) const -\/$>$ size\+\_\+t
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
 static constexpr bool \mbox{\hyperlink{classseq_1_1ostream__format_ad17739787fa96a1f4d1ae1a42a66d6e1}{auto\+\_\+width\+\_\+format}} = true
 \item 
-static constexpr bool \mbox{\hyperlink{classseq_1_1ostream__format_a032bd8fe0c7b16c3883b5a4195d4a6c7}{is\+\_\+formattable}} = \mbox{\hyperlink{classseq_1_1detail_1_1is__default__formattable}{detail\+::is\+\_\+default\+\_\+formattable}}$<$T, \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}}$<$T$>$ $>$\+::\mbox{\hyperlink{structseq_1_1base__ostream__format_a847269fc7b29632927a725d1c5f41abb}{value}}
+static constexpr bool \mbox{\hyperlink{classseq_1_1ostream__format_a032bd8fe0c7b16c3883b5a4195d4a6c7}{is\+\_\+formattable}} = \mbox{\hyperlink{classseq_1_1detail_1_1is__default__formattable}{detail\+::is\+\_\+default\+\_\+formattable}}$<$T, \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}}$<$T$>$ $>$\+::\mbox{\hyperlink{structseq_1_1base__ostream__format_ad75f4918a30f9643a0b66c0100d00293}{value}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
@@ -75,7 +75,7 @@ The following examples give a better idea of \mbox{\hyperlink{classseq_1_1ostrea
 \DoxyCodeLine{std::cout << \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(\textcolor{stringliteral}{"hello"}).c(10).f(\textcolor{charliteral}{'*'}) << std::endl;            \textcolor{comment}{//center string, use dense notation}}
 \DoxyCodeLine{std::cout << \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(\textcolor{stringliteral}{"hello"}).c(3) << std::endl;                    \textcolor{comment}{//center and truncate string}}
 \DoxyCodeLine{}
-\DoxyCodeLine{std::string \mbox{\hyperlink{structseq_1_1base__ostream__format_a02daa761e5ba173f0ea03cac45fa804e}{str}} = \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(1.2);                                 \textcolor{comment}{//direct string conversion}}
+\DoxyCodeLine{std::string \mbox{\hyperlink{structseq_1_1base__ostream__format_ac9a6a2d5e7cdcecdf10599f43fab2cfe}{str}} = \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(1.2);                                 \textcolor{comment}{//direct string conversion}}
 \DoxyCodeLine{std::string str2 = \textcolor{stringliteral}{"the value is "} + \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(1.2).str();            \textcolor{comment}{//direct string conversion}}
 \end{DoxyCode}
 
@@ -84,10 +84,10 @@ A \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}} can be sto
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\textcolor{keyword}{auto} \mbox{\hyperlink{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}{f}} = fmt<int>().b(16).h().u();  \textcolor{comment}{//integer formatting : hexadecimal upper case with '0x' prefix}}
+\DoxyCodeLine{\textcolor{keyword}{auto} \mbox{\hyperlink{structseq_1_1base__ostream__format_ae3419b00fa5c6250aba3f9cf35da54cd}{f}} = fmt<int>().b(16).h().u();  \textcolor{comment}{//integer formatting : hexadecimal upper case with '0x' prefix}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i=0; i < 100; ++i)}
-\DoxyCodeLine{    std::cout<<\mbox{\hyperlink{structseq_1_1base__ostream__format_ae8e92f09005c29b286899bb59e66d8ee}{f}}(i)<<std::endl;     \textcolor{comment}{//use the same formatting options for all values}}
+\DoxyCodeLine{    std::cout<<\mbox{\hyperlink{structseq_1_1base__ostream__format_ae3419b00fa5c6250aba3f9cf35da54cd}{f}}(i)<<std::endl;     \textcolor{comment}{//use the same formatting options for all values}}
 \end{DoxyCode}
 
 
@@ -110,7 +110,7 @@ If the type is integral, initialize to base 10. If the type ia floating point, i
 \index{ostream\_format@{ostream\_format}!seq::ostream\_format$<$ T $>$@{seq::ostream\_format$<$ T $>$}}
 \doxysubsubsection{\texorpdfstring{ostream\_format()}{ostream\_format()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
 {\footnotesize\ttfamily template$<$class T $>$ \\
-\mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\+format}}$<$ T $>$\+::\mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}} (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\+format}}$<$ T $>$\+::\mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}} (\begin{DoxyParamCaption}\item[{const T \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
 
 \mbox{\Hypertarget{classseq_1_1ostream__format_af0ade56c4a611ab110236a86dc795474}\label{classseq_1_1ostream__format_af0ade56c4a611ab110236a86dc795474}} 
 \index{seq::ostream\_format$<$ T $>$@{seq::ostream\_format$<$ T $>$}!ostream\_format@{ostream\_format}}
@@ -140,13 +140,14 @@ Construct from a value and a base or format value.
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classseq_1_1ostream__format_a17593d6d54bf0e77e8c32f5756d33b1d}\label{classseq_1_1ostream__format_a17593d6d54bf0e77e8c32f5756d33b1d}} 
+\mbox{\Hypertarget{classseq_1_1ostream__format_a3c30d958ce8fb82d6509acc7e23f2648}\label{classseq_1_1ostream__format_a3c30d958ce8fb82d6509acc7e23f2648}} 
 \index{seq::ostream\_format$<$ T $>$@{seq::ostream\_format$<$ T $>$}!to\_string@{to\_string}}
 \index{to\_string@{to\_string}!seq::ostream\_format$<$ T $>$@{seq::ostream\_format$<$ T $>$}}
 \doxysubsubsection{\texorpdfstring{to\_string()}{to\_string()}}
 {\footnotesize\ttfamily template$<$class T $>$ \\
 template$<$class String $>$ \\
-size\+\_\+t \mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\+format}}$<$ T $>$\+::to\+\_\+string (\begin{DoxyParamCaption}\item[{String \&}]{str }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\+format}}$<$ T $>$\+::to\+\_\+string (\begin{DoxyParamCaption}\item[{String \&}]{str }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -182,7 +183,7 @@ constexpr bool \mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\
 \index{is\_formattable@{is\_formattable}!seq::ostream\_format$<$ T $>$@{seq::ostream\_format$<$ T $>$}}
 \doxysubsubsection{\texorpdfstring{is\_formattable}{is\_formattable}}
 {\footnotesize\ttfamily template$<$class T $>$ \\
-constexpr bool \mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\+format}}$<$ T $>$\+::\mbox{\hyperlink{structseq_1_1is__formattable}{is\+\_\+formattable}} = \mbox{\hyperlink{classseq_1_1detail_1_1is__default__formattable}{detail\+::is\+\_\+default\+\_\+formattable}}$<$T, \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}}$<$T$>$ $>$\+::\mbox{\hyperlink{structseq_1_1base__ostream__format_a847269fc7b29632927a725d1c5f41abb}{value}}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+constexpr bool \mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\+format}}$<$ T $>$\+::\mbox{\hyperlink{structseq_1_1is__formattable}{is\+\_\+formattable}} = \mbox{\hyperlink{classseq_1_1detail_1_1is__default__formattable}{detail\+::is\+\_\+default\+\_\+formattable}}$<$T, \mbox{\hyperlink{classseq_1_1ostream__format}{ostream\+\_\+format}}$<$T$>$ $>$\+::\mbox{\hyperlink{structseq_1_1base__ostream__format_ad75f4918a30f9643a0b66c0100d00293}{value}}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
 
 
 

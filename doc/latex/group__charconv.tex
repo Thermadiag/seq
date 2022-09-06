@@ -16,9 +16,9 @@ The charconv module provides fast routines to convert numerical values from/to s
 The charconv module provides fast routines to convert numerical values from/to string. This module was initially developped for very fast containers dump in files or strings. 
 
 \hypertarget{group__charconv_autotoc_md9}{}\doxysubsubsection{Low level functions}\label{group__charconv_autotoc_md9}
-The main functions of charconv module are \mbox{\hyperlink{namespaceseq_ad80e2e70627dd4598cda06a37b7767b6}{seq\+::to\+\_\+chars}} and \mbox{\hyperlink{namespaceseq_ad1f5c92eee4485b984df28c1ceb0f96a}{seq\+::from\+\_\+chars}} which provide a similar interface to C++17 functions std\+::from\+\_\+chars and std\+::to\+\_\+chars. They aim to provide a faster alternative to C++ streams for converting floating point and integer types from/to string. Note that they were developped to accomodate my needs, and might not be used in all circumstances.
+The main functions of charconv module are \mbox{\hyperlink{namespaceseq_a9e1cfb2de75c85497d57702430705b1c}{seq\+::to\+\_\+chars}} and \mbox{\hyperlink{namespaceseq_ac422fc75d3e6f011374ffeed3683da55}{seq\+::from\+\_\+chars}} which provide a similar interface to C++17 functions std\+::from\+\_\+chars and std\+::to\+\_\+chars. They aim to provide a faster alternative to C++ streams for converting floating point and integer types from/to string. Note that they were developped to accomodate my needs, and might not be used in all circumstances.
 
-\mbox{\hyperlink{namespaceseq_ad1f5c92eee4485b984df28c1ceb0f96a}{seq\+::from\+\_\+chars()}} is similar to std\+::from\+\_\+chars with the following differences\+:
+\mbox{\hyperlink{namespaceseq_ac422fc75d3e6f011374ffeed3683da55}{seq\+::from\+\_\+chars()}} is similar to std\+::from\+\_\+chars with the following differences\+:
 \begin{DoxyItemize}
 \item Leading spaces are consumed.
 \item For integral types, a leading \textquotesingle{}0x\textquotesingle{} prefix is considered valid.
@@ -28,7 +28,7 @@ The main functions of charconv module are \mbox{\hyperlink{namespaceseq_ad80e2e7
 \item For floating point values\+: this function IS N\+OT AN E\+X\+A\+CT P\+A\+R\+S\+ER. In some cases it relies on unprecise floating point arithmetic wich might produce different roundings than strtod() function. Note that the result is almost always equal to the result of strtod(), and potential differences are located in the last digits. Use this function when the speed factor is more important than 100\% perfect exactitude.
 \end{DoxyItemize}
 
-\mbox{\hyperlink{namespaceseq_ad80e2e70627dd4598cda06a37b7767b6}{seq\+::to\+\_\+chars}} is similar to std\+::to\+\_\+chars with the following differences
+\mbox{\hyperlink{namespaceseq_a9e1cfb2de75c85497d57702430705b1c}{seq\+::to\+\_\+chars}} is similar to std\+::to\+\_\+chars with the following differences
 \begin{DoxyItemize}
 \item For integral types, additional options on the form of a \mbox{\hyperlink{structseq_1_1integral__chars__format}{seq\+::integral\+\_\+chars\+\_\+format}} object can be passed. They add the possibility to output a leading \textquotesingle{}0x\textquotesingle{} for hexadecimal formatting, a minimum width (with zeros padding), upper case outputs for hexadecimal formatting.
 \item For floating point values, the \textquotesingle{}dot\textquotesingle{} character can be specified.
@@ -47,19 +47,19 @@ Basic usage\+:
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// Read trailing lines}}
 \DoxyCodeLine{std::string trailer;}
-\DoxyCodeLine{\mbox{\hyperlink{namespaceseq_afe93dbc8ebf7707cd6a49a40efb69516}{seq::read\_line\_from\_stream}}(istream, trailer);}
+\DoxyCodeLine{\mbox{\hyperlink{namespaceseq_add85486f09f54fba24d5f3cc4737474c}{seq::read\_line\_from\_stream}}(istream, trailer);}
 \DoxyCodeLine{\textcolor{comment}{//...}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// Read words}}
 \DoxyCodeLine{std::string word;}
-\DoxyCodeLine{\mbox{\hyperlink{namespaceseq_a8dd14a20a2e7b03cebe3d48e3ae5e2ff}{seq::from\_stream}}(istream, word);}
+\DoxyCodeLine{\mbox{\hyperlink{namespaceseq_ade167dcc6d29b420964a6be1498889ac}{seq::from\_stream}}(istream, word);}
 \DoxyCodeLine{\textcolor{comment}{//...}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// Read all numeric values into a vector}}
 \DoxyCodeLine{std::vector<double> vec;}
 \DoxyCodeLine{\textcolor{keywordflow}{while} (\textcolor{keyword}{true}) \{}
 \DoxyCodeLine{    \textcolor{keywordtype}{double} v;}
-\DoxyCodeLine{    \mbox{\hyperlink{namespaceseq_a8dd14a20a2e7b03cebe3d48e3ae5e2ff}{seq::from\_stream}}(istream, v);}
+\DoxyCodeLine{    \mbox{\hyperlink{namespaceseq_ade167dcc6d29b420964a6be1498889ac}{seq::from\_stream}}(istream, v);}
 \DoxyCodeLine{    \textcolor{keywordflow}{if} (istream)}
 \DoxyCodeLine{        vec.push\_back(v);}
 \DoxyCodeLine{    \textcolor{keywordflow}{else}}
@@ -68,6 +68,6 @@ Basic usage\+:
 \end{DoxyCode}
 
 
-Internal benchmarks show that using \mbox{\hyperlink{namespaceseq_aff00103371136fa3e5dd96eb74a400bb}{from\+\_\+stream()}} is around 20 faster (or more) than using \mbox{\hyperlink{namespaceseq_a368335418326de8bb38c9fba7642c027}{std\+::istream\+::operator$>$$>$()}} when reading floating point values from a huge string.
+Internal benchmarks show that using \mbox{\hyperlink{namespaceseq_ac2d0cf3592690ba5924d6eb3f5cf48a8}{from\+\_\+stream()}} is around 20 faster (or more) than using \mbox{\hyperlink{namespaceseq_a7083aa58832400e4ec4cd4baaf5b39d0}{std\+::istream\+::operator$>$$>$()}} when reading floating point values from a huge string.
 
 In additional to \mbox{\hyperlink{classseq_1_1std__input__stream}{seq\+::std\+\_\+input\+\_\+stream}}, charconv module provides the similar \mbox{\hyperlink{classseq_1_1buffer__input__stream}{seq\+::buffer\+\_\+input\+\_\+stream}} and \mbox{\hyperlink{classseq_1_1file__input__stream}{seq\+::file\+\_\+input\+\_\+stream}}. 

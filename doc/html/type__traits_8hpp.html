@@ -91,9 +91,9 @@ $(document).ready(function(){initNavTree('type__traits_8hpp.html',''); initResiz
 <div class="title">type_traits.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;string&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;functional&gt;</code><br />
 </div>
 <p><a href="type__traits_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -111,7 +111,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1integer__min_3_01_t_00_01false_01_4.html">seq::integer_min&lt; T, false &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1integer__abs__return.html">seq::integer_abs_return&lt; T, Signed, Size &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the return type of <a class="el" href="namespaceseq.html#a97e43145f833c1fb4c26fbc91e341564" title="Returns -v if v is signed, v otherwise.">seq::negate_if_signed</a> and <a class="el" href="namespaceseq.html#af7ecbace49a8c09bb7de9eac60a97f58" title="Returns absolute value of v.">seq::abs</a>.  <a href="structseq_1_1integer__abs__return.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the return type of <a class="el" href="namespaceseq.html#a7c279fa143d4e6216df953924ce47406" title="Returns -v if v is signed, v otherwise.">seq::negate_if_signed</a> and <a class="el" href="namespaceseq.html#ab6f8f4791e95dce2f0a4298ff8e82797" title="Returns absolute value of v.">seq::abs</a>.  <a href="structseq_1_1integer__abs__return.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1integer__abs__return_3_01_t_00_01true_00_011_01_4.html">seq::integer_abs_return&lt; T, true, 1 &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,18 +148,25 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__relocatable_3_01std_1_1allocator_3_01_t_01_4_01_4.html">seq::is_relocatable&lt; std::allocator&lt; T &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__hashable.html">seq::is_hashable&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells if given type is hashable with std::hash. True by default, optimistically assume that all types are hashable. Used by <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">seq::hold_any</a>.  <a href="structseq_1_1is__hashable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1is__ostreamable.html">seq::is_ostreamable&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells if given type can be streamed to a std::ostream object.  <a href="classseq_1_1is__ostreamable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1is__istreamable.html">seq::is_istreamable&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells if given type can be read from a std::istream object.  <a href="classseq_1_1is__istreamable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1is__equal__comparable.html">seq::is_equal_comparable&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells if given type supports equality comparison with operator ==.  <a href="classseq_1_1is__equal__comparable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1is__less__comparable.html">seq::is_less_comparable&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells if given type supports comparison with operator &lt;.  <a href="classseq_1_1is__less__comparable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__invocable.html">seq::is_invocable&lt; F, Args &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells if given type supports invocation with signature void(Args ...) Equivalent to C++17 std::is_invocable.  <a href="structseq_1_1is__invocable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__invocable__r.html">seq::is_invocable_r&lt; R, F, Args &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells if given type supports invocation with signature R(Args ...) Equivalent to C++17 std::is_invocable_r.  <a href="structseq_1_1is__invocable__r.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -172,14 +179,14 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a97e43145f833c1fb4c26fbc91e341564"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:a97e43145f833c1fb4c26fbc91e341564"><td class="memTemplItemLeft" align="right" valign="top">integer_abs_return&lt; T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a97e43145f833c1fb4c26fbc91e341564">seq::negate_if_signed</a> (T v)</td></tr>
-<tr class="memdesc:a97e43145f833c1fb4c26fbc91e341564"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns -v if v is signed, v otherwise.  <a href="namespaceseq.html#a97e43145f833c1fb4c26fbc91e341564">More...</a><br /></td></tr>
-<tr class="separator:a97e43145f833c1fb4c26fbc91e341564"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7ecbace49a8c09bb7de9eac60a97f58"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:af7ecbace49a8c09bb7de9eac60a97f58"><td class="memTemplItemLeft" align="right" valign="top">integer_abs_return&lt; T &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#af7ecbace49a8c09bb7de9eac60a97f58">seq::abs</a> (T v)</td></tr>
-<tr class="memdesc:af7ecbace49a8c09bb7de9eac60a97f58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns absolute value of v.  <a href="namespaceseq.html#af7ecbace49a8c09bb7de9eac60a97f58">More...</a><br /></td></tr>
-<tr class="separator:af7ecbace49a8c09bb7de9eac60a97f58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c279fa143d4e6216df953924ce47406"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a7c279fa143d4e6216df953924ce47406"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a7c279fa143d4e6216df953924ce47406">seq::negate_if_signed</a> (T v) -&gt; typename integer_abs_return&lt; T &gt;::type</td></tr>
+<tr class="memdesc:a7c279fa143d4e6216df953924ce47406"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns -v if v is signed, v otherwise.  <a href="namespaceseq.html#a7c279fa143d4e6216df953924ce47406">More...</a><br /></td></tr>
+<tr class="separator:a7c279fa143d4e6216df953924ce47406"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6f8f4791e95dce2f0a4298ff8e82797"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ab6f8f4791e95dce2f0a4298ff8e82797"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab6f8f4791e95dce2f0a4298ff8e82797">seq::abs</a> (T v) -&gt; typename integer_abs_return&lt; T &gt;::type</td></tr>
+<tr class="memdesc:ab6f8f4791e95dce2f0a4298ff8e82797"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns absolute value of v.  <a href="namespaceseq.html#ab6f8f4791e95dce2f0a4298ff8e82797">More...</a><br /></td></tr>
+<tr class="separator:ab6f8f4791e95dce2f0a4298ff8e82797"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

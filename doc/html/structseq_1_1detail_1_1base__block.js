@@ -2,7 +2,7 @@ var structseq_1_1detail_1_1base__block =
 [
     [ "rebind_alloc", "structseq_1_1detail_1_1base__block.html#a25b2bf388b6ae01743020e8d34b22b73", null ],
     [ "value_type", "structseq_1_1detail_1_1base__block.html#a9d210634f86bb8508913d41ddbb95060", null ],
-    [ "base_block", "structseq_1_1detail_1_1base__block.html#a682acc6fcc1e355d40d2735ac6b93318", null ],
+    [ "base_block", "structseq_1_1detail_1_1base__block.html#a7fd30c84bab546756c13769e40b29e38", null ],
     [ "deallocate", "structseq_1_1detail_1_1base__block.html#a89ac525cbd71b316b7b3d232274b2df8", null ],
     [ "insert", "structseq_1_1detail_1_1base__block.html#a633334d83aaf151da2e3a1bfd5520d39", null ],
     [ "ref", "structseq_1_1detail_1_1base__block.html#a4a738ad1a5cabd93147d80e94b8b4ac9", null ],

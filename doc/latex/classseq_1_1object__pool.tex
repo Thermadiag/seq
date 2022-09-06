@@ -48,29 +48,29 @@ void \mbox{\hyperlink{classseq_1_1object__pool_a5ba0e2834a30fa3cbb4a1d895eb0f687
 \begin{DoxyCompactList}\small\item\em Reset statistics. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1object__pool_ae2eeb6dbde18dbe45eba8527db0dec52}{dump\+\_\+statistics}} (\mbox{\hyperlink{structseq_1_1object__pool__stats}{object\+\_\+pool\+\_\+stats}} \&stats)
 \begin{DoxyCompactList}\small\item\em Dump \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} statistics into a \mbox{\hyperlink{structseq_1_1object__pool__stats}{object\+\_\+pool\+\_\+stats}}. \end{DoxyCompactList}\item 
-const Allocator \& \mbox{\hyperlink{classseq_1_1object__pool_afc2aaa432cec941d2830eac50564ea73}{get\+\_\+allocator}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1object__pool_aa7f2219bf1f9dc09c5c1e67948febd70}{get\+\_\+allocator}} () const noexcept -\/$>$ const Allocator \&
 \begin{DoxyCompactList}\small\item\em Returns the underlying allocator object. \end{DoxyCompactList}\item 
-Allocator \& \mbox{\hyperlink{classseq_1_1object__pool_a2206253ca3972c9d296cd83949ee5ec7}{get\+\_\+allocator}} () noexcept
+auto \mbox{\hyperlink{classseq_1_1object__pool_a2286444dc9ce69a944f9465f0e12b37d}{get\+\_\+allocator}} () noexcept -\/$>$ Allocator \&
 \begin{DoxyCompactList}\small\item\em Returns the underlying allocator object. \end{DoxyCompactList}\item 
-std\+::size\+\_\+t \mbox{\hyperlink{classseq_1_1object__pool_a7b9437706ca7401f89076eb2b2c91de3}{memory\+\_\+footprint}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1object__pool_adcb78702499af1357a871e3a0aadf0d8}{memory\+\_\+footprint}} () const noexcept -\/$>$ std\+::size\+\_\+t
 \begin{DoxyCompactList}\small\item\em Returns the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} memory footprint in bytes excluding sizeof($\ast$this). \end{DoxyCompactList}\item 
-std\+::size\+\_\+t \mbox{\hyperlink{classseq_1_1object__pool_af96e3a376a2c0f05fa1af26444f7891a}{peak\+\_\+memory\+\_\+footprint}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1object__pool_aa38fbf8d66be889bb4b075b917942c89}{peak\+\_\+memory\+\_\+footprint}} () const noexcept -\/$>$ std\+::size\+\_\+t
 \begin{DoxyCompactList}\small\item\em Returns the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} peak memory footprint in bytes excluding sizeof($\ast$this). \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classseq_1_1object__pool_af972a9454e9956630a0ed8b9d906ab44}{reclaim\+\_\+memory}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1object__pool_ad97abff55ea874b6a6d1777fc3da9e15}{reclaim\+\_\+memory}} () const noexcept -\/$>$ bool
 \begin{DoxyCompactList}\small\item\em Returns true if the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} reclaim freed memory, false otherwise. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1object__pool_aee9c75a122612306b3a95466946afddc}{set\+\_\+reclaim\+\_\+memory}} (bool reclaim)
 \begin{DoxyCompactList}\small\item\em Set the reclaim\+\_\+memory flag. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1object__pool_a575391a7d2cc25c2e8d0394d6057a5a9}{release\+\_\+unused\+\_\+memory}} ()
-\begin{DoxyCompactList}\small\item\em Deallocate all unused memory blocks. This only makes sense if \mbox{\hyperlink{classseq_1_1object__pool_af972a9454e9956630a0ed8b9d906ab44}{reclaim\+\_\+memory()}} is false. \end{DoxyCompactList}\item 
-T $\ast$ \mbox{\hyperlink{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}{allocate}} (size\+\_\+t size)
+\begin{DoxyCompactList}\small\item\em Deallocate all unused memory blocks. This only makes sense if \mbox{\hyperlink{classseq_1_1object__pool_ad97abff55ea874b6a6d1777fc3da9e15}{reclaim\+\_\+memory()}} is false. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classseq_1_1object__pool_a05063f627ffe9c606fe013adfed0e245}{allocate}} (size\+\_\+t size) -\/$>$ T $\ast$
 \begin{DoxyCompactList}\small\item\em Allocate size objects. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{deallocate}} (T $\ast$ptr, size\+\_\+t size)
 \begin{DoxyCompactList}\small\item\em Deallocate size objects. Non P\+OD objects must have been destroyed previously. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1object__pool_aa96fd22de10478226d8d5650ef4efb1a}{reserve}} (size\+\_\+t alloc\+\_\+size, size\+\_\+t count)
 \begin{DoxyCompactList}\small\item\em Extend the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} in order to hold at least count free slots for calls to allocate(alloc\+\_\+size). \end{DoxyCompactList}\item 
-{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{classseq_1_1object__pool_a38e3596ddb1309e36ebc321386d6dc5d}{unique\+\_\+ptr}} \mbox{\hyperlink{classseq_1_1object__pool_ad3700f4d4fe1eaf5753ffb9383f942cc}{make\+\_\+unique}} (Args \&\&... args)
+{\footnotesize template$<$class... Args$>$ }\\auto \mbox{\hyperlink{classseq_1_1object__pool_a6c693c5b972f21af9ab51a7fd22d15ba}{make\+\_\+unique}} (Args \&\&... args) -\/$>$ \mbox{\hyperlink{classseq_1_1object__pool_a38e3596ddb1309e36ebc321386d6dc5d}{unique\+\_\+ptr}}
 \begin{DoxyCompactList}\small\item\em Returns a unique\+\_\+ptr object constructed from the forwarded argument. \end{DoxyCompactList}\item 
-{\footnotesize template$<$class... Args$>$ }\\std\+::shared\+\_\+ptr$<$ T $>$ \mbox{\hyperlink{classseq_1_1object__pool_a8a439e60ea8aea9b7dbe62f03eccc8be}{make\+\_\+shared}} (Args \&\&... args)
+{\footnotesize template$<$class... Args$>$ }\\auto \mbox{\hyperlink{classseq_1_1object__pool_a46c19b78510cd2becc02db55eea3dc62}{make\+\_\+shared}} (Args \&\&... args) -\/$>$ std\+::shared\+\_\+ptr$<$ T $>$
 \begin{DoxyCompactList}\small\item\em Experimental. Returns a shared\+\_\+ptr object built with this \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
@@ -121,8 +121,8 @@ Object pool class used to allocate objects of type T.
 \item It can generate std\+::unique\+\_\+ptr object (if Enable\+Unique\+Ptr is true) that outlive the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} object.
 \end{DoxyItemize}
 
-\mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} is N\+OT thread safe. For a thread safe alternative, see \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool}}.\hypertarget{classseq_1_1object__pool_autotoc_md35}{}\doxysubsubsection{Allocation}\label{classseq_1_1object__pool_autotoc_md35}
-Use \mbox{\hyperlink{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}{object\+\_\+pool\+::allocate()}} to allocate one or more objects. If the requested number of objects is lower or equal to object\+\_\+allocation\+::max\+\_\+objects, the pool will look for a memory block able to allocate the requested size. If no such block exists, a new block is created based on provided allocator. If the object count is greater than object\+\_\+allocation\+::max\+\_\+objects, \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} will directly use the supplied allocator object.
+\mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} is N\+OT thread safe. For a thread safe alternative, see \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool}}.\hypertarget{classseq_1_1object__pool_autotoc_md28}{}\doxysubsubsection{Allocation}\label{classseq_1_1object__pool_autotoc_md28}
+Use \mbox{\hyperlink{classseq_1_1object__pool_a05063f627ffe9c606fe013adfed0e245}{object\+\_\+pool\+::allocate()}} to allocate one or more objects. If the requested number of objects is lower or equal to object\+\_\+allocation\+::max\+\_\+objects, the pool will look for a memory block able to allocate the requested size. If no such block exists, a new block is created based on provided allocator. If the object count is greater than object\+\_\+allocation\+::max\+\_\+objects, \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} will directly use the supplied allocator object.
 
 Each memory block is a contiguous memory chunk, where new objects are extracted by incrementing a head pointer (this is a simplification as the provided alignment must be taken into account). On deallocation, the created free slot is added to a monodirectional linked list of free slots and ready to be used for further allocations. The allocation process always performs in O(1), except when a new memory block must be created (in which case the behavior depends on the provided allocator).
 
@@ -133,25 +133,25 @@ Each memory block is a contiguous memory chunk, where new objects are extracted 
 \item pow\+\_\+object\+\_\+allocation$<$\+Max\+Size$>$\+: can allocate up to Max\+Size contiguous objects by steps which are power of 2. For pow\+\_\+object\+\_\+allocation$<$16$>$, the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} manages 5 types of memory block, which can allocate 1, 2, 4, 8 or 16 objects.
 \end{DoxyItemize}
 
-As explained above, \mbox{\hyperlink{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}{object\+\_\+pool\+::allocate()}} never fails (except with a potential std\+::bad\+\_\+alloc), and will fallback to the supplied allocator if requested number of objects is not managed by the provided object\+\_\+allocation type.
+As explained above, \mbox{\hyperlink{classseq_1_1object__pool_a05063f627ffe9c606fe013adfed0e245}{object\+\_\+pool\+::allocate()}} never fails (except with a potential std\+::bad\+\_\+alloc), and will fallback to the supplied allocator if requested number of objects is not managed by the provided object\+\_\+allocation type.
 
 Usage example\+:
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\mbox{\hyperlink{classseq_1_1object__pool}{seq::object\_pool<int, std::allocator<int>}}, \mbox{\hyperlink{namespaceseq_a20e72bbc46786ab0a7095941c5d09045a668d551cd99226655e9e973b6d5be517}{seq::DefaultAlignment}}, \mbox{\hyperlink{structseq_1_1linear__object__allocation}{seq::linear\_object\_allocation<2>}} > pool;}
+\DoxyCodeLine{\mbox{\hyperlink{classseq_1_1object__pool}{seq::object\_pool<int, std::allocator<int>}}, \mbox{\hyperlink{namespaceseq_adac07c5c5e3d6da3ebb03f7ddd1e7cdea668d551cd99226655e9e973b6d5be517}{seq::DefaultAlignment}}, \mbox{\hyperlink{structseq_1_1linear__object__allocation}{seq::linear\_object\_allocation<2>}} > pool;}
 \DoxyCodeLine{}
-\DoxyCodeLine{\textcolor{keywordtype}{int} *p1 = pool.\mbox{\hyperlink{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}{allocate}}(1); \textcolor{comment}{// use memory blocks dedicated to allocate 1 object}}
-\DoxyCodeLine{\textcolor{keywordtype}{int} *p2 = pool.\mbox{\hyperlink{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}{allocate}}(2); \textcolor{comment}{// use memory blocks dedicated to allocate 2 object2}}
-\DoxyCodeLine{\textcolor{keywordtype}{int} *p3 = pool.\mbox{\hyperlink{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}{allocate}}(3); \textcolor{comment}{// directly call std::allocator<int>::allocate(3)}}
+\DoxyCodeLine{\textcolor{keywordtype}{int} *p1 = pool.\mbox{\hyperlink{classseq_1_1object__pool_a05063f627ffe9c606fe013adfed0e245}{allocate}}(1); \textcolor{comment}{// use memory blocks dedicated to allocate 1 object}}
+\DoxyCodeLine{\textcolor{keywordtype}{int} *p2 = pool.\mbox{\hyperlink{classseq_1_1object__pool_a05063f627ffe9c606fe013adfed0e245}{allocate}}(2); \textcolor{comment}{// use memory blocks dedicated to allocate 2 object2}}
+\DoxyCodeLine{\textcolor{keywordtype}{int} *p3 = pool.\mbox{\hyperlink{classseq_1_1object__pool_a05063f627ffe9c606fe013adfed0e245}{allocate}}(3); \textcolor{comment}{// directly call std::allocator<int>::allocate(3)}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// deallocate all}}
 \DoxyCodeLine{pool.\mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{deallocate}}(p1,1);}
 \DoxyCodeLine{pool.\mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{deallocate}}(p2,2);}
 \DoxyCodeLine{pool.\mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{deallocate}}(p3,3);  \textcolor{comment}{// directly call std::allocator<int>::deallocate(p3,3)}}
 \end{DoxyCode}
-\hypertarget{classseq_1_1object__pool_autotoc_md36}{}\doxysubsubsection{Deallocation}\label{classseq_1_1object__pool_autotoc_md36}
-Use \mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{object\+\_\+pool\+::deallocate()}} to deallocate a memory region previously allocated with \mbox{\hyperlink{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}{object\+\_\+pool\+::allocate()}}. A deallocation can trigger 2 types of mechanism\+:
+\hypertarget{classseq_1_1object__pool_autotoc_md29}{}\doxysubsubsection{Deallocation}\label{classseq_1_1object__pool_autotoc_md29}
+Use \mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{object\+\_\+pool\+::deallocate()}} to deallocate a memory region previously allocated with \mbox{\hyperlink{classseq_1_1object__pool_a05063f627ffe9c606fe013adfed0e245}{object\+\_\+pool\+::allocate()}}. A deallocation can trigger 2 types of mechanism\+:
 \begin{DoxyItemize}
 \item If the number of objects to deallocate is greater than object\+\_\+allocation\+::max\+\_\+objects, the supplied allocator is directly used for the deallocation.
 \item Otherwise\+:
@@ -160,18 +160,18 @@ Use \mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}
 \item The objects are marked as free slots and added to a free list
 \item If the memory block is empty (no more objects inside), it is either\+:
 \begin{DoxyItemize}
-\item Deallocated if \mbox{\hyperlink{classseq_1_1object__pool_af972a9454e9956630a0ed8b9d906ab44}{reclaim\+\_\+memory()}} is true
-\item Kept internally for further reuse if \mbox{\hyperlink{classseq_1_1object__pool_af972a9454e9956630a0ed8b9d906ab44}{reclaim\+\_\+memory()}} is false.
+\item Deallocated if \mbox{\hyperlink{classseq_1_1object__pool_ad97abff55ea874b6a6d1777fc3da9e15}{reclaim\+\_\+memory()}} is true
+\item Kept internally for further reuse if \mbox{\hyperlink{classseq_1_1object__pool_ad97abff55ea874b6a6d1777fc3da9e15}{reclaim\+\_\+memory()}} is false.
 \end{DoxyItemize}
 \end{DoxyEnumerate}
 \end{DoxyItemize}
 
 Memory blocks do not outlive the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}}. On destruction or calls to \mbox{\hyperlink{classseq_1_1object__pool_ab508ba0903b7b60224c116c1016be050}{clear()}} or \mbox{\hyperlink{classseq_1_1object__pool_a575391a7d2cc25c2e8d0394d6057a5a9}{release\+\_\+unused\+\_\+memory()}}, all memory blocks are freed (this invalidates pointers referencing these blocks). Note, however, that the memory allocated with supplied allocator when requested object count is greater than object\+\_\+allocation\+::max\+\_\+objects is not automatically deallocated.
 
-Another exception is when dealing with std\+::unique\+\_\+ptr (see next section).\hypertarget{classseq_1_1object__pool_autotoc_md37}{}\doxysubsubsection{Unique pointers}\label{classseq_1_1object__pool_autotoc_md37}
+Another exception is when dealing with std\+::unique\+\_\+ptr (see next section).\hypertarget{classseq_1_1object__pool_autotoc_md30}{}\doxysubsubsection{Unique pointers}\label{classseq_1_1object__pool_autotoc_md30}
 An \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} can create std\+::unique\+\_\+ptr objects only if Enable\+Unique\+Ptr is true. In this case the unique\+\_\+ptr type is given by the typedef \mbox{\hyperlink{classseq_1_1object__pool_a38e3596ddb1309e36ebc321386d6dc5d}{object\+\_\+pool$<$\+T$>$\+::unique\+\_\+ptr}}. This is basically a std\+::unique\+\_\+ptr with a custom deleter class.
 
-Use \mbox{\hyperlink{classseq_1_1object__pool_ad3700f4d4fe1eaf5753ffb9383f942cc}{object\+\_\+pool\+::make\+\_\+unique()}} to create unique\+\_\+ptr objects. These objects will outlive the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}}. When destroying the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} or on calls to \mbox{\hyperlink{classseq_1_1object__pool_ab508ba0903b7b60224c116c1016be050}{object\+\_\+pool\+::clear()}} or \mbox{\hyperlink{classseq_1_1object__pool_a575391a7d2cc25c2e8d0394d6057a5a9}{release\+\_\+unused\+\_\+memory()}}, all memory blocks that contain at least one object stored in a unique\+\_\+ptr are not destroyed. These blocks contain a thread-\/safe reference counter that is decremented whenever a unique\+\_\+ptr is destroyed, and is eventually deallocated when the last unique\+\_\+ptr referencing it is destroyed.
+Use \mbox{\hyperlink{classseq_1_1object__pool_a6c693c5b972f21af9ab51a7fd22d15ba}{object\+\_\+pool\+::make\+\_\+unique()}} to create unique\+\_\+ptr objects. These objects will outlive the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}}. When destroying the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} or on calls to \mbox{\hyperlink{classseq_1_1object__pool_ab508ba0903b7b60224c116c1016be050}{object\+\_\+pool\+::clear()}} or \mbox{\hyperlink{classseq_1_1object__pool_a575391a7d2cc25c2e8d0394d6057a5a9}{release\+\_\+unused\+\_\+memory()}}, all memory blocks that contain at least one object stored in a unique\+\_\+ptr are not destroyed. These blocks contain a thread-\/safe reference counter that is decremented whenever a unique\+\_\+ptr is destroyed, and is eventually deallocated when the last unique\+\_\+ptr referencing it is destroyed.
 
 You should never call \mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{object\+\_\+pool\+::deallocate()}} on a pointer held by a unique\+\_\+ptr, this will lead to a segfault on unique\+\_\+ptr destruction.
 
@@ -181,14 +181,14 @@ Usage example\+:
 
 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\textcolor{keyword}{using} pool\_type = \mbox{\hyperlink{classseq_1_1object__pool}{seq::object\_pool<int, std::allocator<int>}}, \mbox{\hyperlink{namespaceseq_a20e72bbc46786ab0a7095941c5d09045a668d551cd99226655e9e973b6d5be517}{seq::DefaultAlignment}}, \mbox{\hyperlink{structseq_1_1linear__object__allocation}{seq::linear\_object\_allocation<1>}}, \textcolor{keyword}{true} >;}
+\DoxyCodeLine{\textcolor{keyword}{using} pool\_type = \mbox{\hyperlink{classseq_1_1object__pool}{seq::object\_pool<int, std::allocator<int>}}, \mbox{\hyperlink{namespaceseq_adac07c5c5e3d6da3ebb03f7ddd1e7cdea668d551cd99226655e9e973b6d5be517}{seq::DefaultAlignment}}, \mbox{\hyperlink{structseq_1_1linear__object__allocation}{seq::linear\_object\_allocation<1>}}, \textcolor{keyword}{true} >;}
 \DoxyCodeLine{\textcolor{keyword}{using} \mbox{\hyperlink{classseq_1_1object__pool_a38e3596ddb1309e36ebc321386d6dc5d}{unique\_ptr}} = \textcolor{keyword}{typename} pool\_type::unique\_ptr;}
 \DoxyCodeLine{}
 \DoxyCodeLine{\mbox{\hyperlink{classseq_1_1object__pool_a38e3596ddb1309e36ebc321386d6dc5d}{unique\_ptr}} p1, p2;}
 \DoxyCodeLine{\{}
 \DoxyCodeLine{pool\_type pool;}
 \DoxyCodeLine{}
-\DoxyCodeLine{p1 = pool.\mbox{\hyperlink{classseq_1_1object__pool_ad3700f4d4fe1eaf5753ffb9383f942cc}{make\_unique}}(1);   \textcolor{comment}{//unique ptr containing int(1)}}
+\DoxyCodeLine{p1 = pool.\mbox{\hyperlink{classseq_1_1object__pool_a6c693c5b972f21af9ab51a7fd22d15ba}{make\_unique}}(1);   \textcolor{comment}{//unique ptr containing int(1)}}
 \DoxyCodeLine{p2 = pool.make\_unique(2);   \textcolor{comment}{//unique ptr containing int(2)}}
 \DoxyCodeLine{\}}
 \DoxyCodeLine{}
@@ -202,8 +202,8 @@ Usage example\+:
 \end{DoxyCode}
 
 
-The unique\+\_\+ptr generation is not enabled by default as it makes the allocation process slightly slower and require more memory (one additional pointer per allocation).\hypertarget{classseq_1_1object__pool_autotoc_md38}{}\doxysubsubsection{Statistics}\label{classseq_1_1object__pool_autotoc_md38}
-At any point, the total memory footprint of an \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} can be retrieved with \mbox{\hyperlink{classseq_1_1object__pool_a7b9437706ca7401f89076eb2b2c91de3}{object\+\_\+pool\+::memory\+\_\+footprint()}}. The peak memory footprint can be retrieved with \mbox{\hyperlink{classseq_1_1object__pool_af96e3a376a2c0f05fa1af26444f7891a}{peak\+\_\+memory\+\_\+footprint()}}.
+The unique\+\_\+ptr generation is not enabled by default as it makes the allocation process slightly slower and require more memory (one additional pointer per allocation).\hypertarget{classseq_1_1object__pool_autotoc_md31}{}\doxysubsubsection{Statistics}\label{classseq_1_1object__pool_autotoc_md31}
+At any point, the total memory footprint of an \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} can be retrieved with \mbox{\hyperlink{classseq_1_1object__pool_adcb78702499af1357a871e3a0aadf0d8}{object\+\_\+pool\+::memory\+\_\+footprint()}}. The peak memory footprint can be retrieved with \mbox{\hyperlink{classseq_1_1object__pool_aa38fbf8d66be889bb4b075b917942c89}{peak\+\_\+memory\+\_\+footprint()}}.
 
 To access to more detailed statistics, the function \mbox{\hyperlink{classseq_1_1object__pool_ae2eeb6dbde18dbe45eba8527db0dec52}{object\+\_\+pool\+::dump\+\_\+statistics()}} will provide the following information through a \mbox{\hyperlink{structseq_1_1object__pool__stats}{object\+\_\+pool\+\_\+stats}} object\+:
 \begin{DoxyItemize}
@@ -313,12 +313,13 @@ Constructor.
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}\label{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}} 
+\mbox{\Hypertarget{classseq_1_1object__pool_a05063f627ffe9c606fe013adfed0e245}\label{classseq_1_1object__pool_a05063f627ffe9c606fe013adfed0e245}} 
 \index{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}!allocate@{allocate}}
 \index{allocate@{allocate}!seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{allocate()}{allocate()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Enable\+Unique\+Ptr = false, bool Generate\+Stats = false$>$ \\
-T$\ast$ \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+auto \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption}) -\/$>$ T$\ast$
+		\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 
@@ -336,7 +337,7 @@ If size $<$= object\+\_\+allocation\+::max\+\_\+object, use the memory block mec
 
 Might throw std\+::bad\+\_\+alloc. 
 
-Implements \mbox{\hyperlink{structseq_1_1detail_1_1base__object__pool_a93e413406ac370c1c308448e15104620}{seq\+::detail\+::base\+\_\+object\+\_\+pool$<$ T $>$}}.
+Implements \mbox{\hyperlink{structseq_1_1detail_1_1base__object__pool_a901146a91f522302842181dc455ad0cf}{seq\+::detail\+::base\+\_\+object\+\_\+pool$<$ T $>$}}.
 
 \mbox{\Hypertarget{classseq_1_1object__pool_ab508ba0903b7b60224c116c1016be050}\label{classseq_1_1object__pool_ab508ba0903b7b60224c116c1016be050}} 
 \index{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}!clear@{clear}}
@@ -384,80 +385,82 @@ void \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, 
 
 Dump \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} statistics into a \mbox{\hyperlink{structseq_1_1object__pool__stats}{object\+\_\+pool\+\_\+stats}}. 
 
-\mbox{\Hypertarget{classseq_1_1object__pool_afc2aaa432cec941d2830eac50564ea73}\label{classseq_1_1object__pool_afc2aaa432cec941d2830eac50564ea73}} 
+\mbox{\Hypertarget{classseq_1_1object__pool_aa7f2219bf1f9dc09c5c1e67948febd70}\label{classseq_1_1object__pool_aa7f2219bf1f9dc09c5c1e67948febd70}} 
 \index{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Enable\+Unique\+Ptr = false, bool Generate\+Stats = false$>$ \\
-const Allocator\& \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const Allocator\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the underlying allocator object. 
 
-\mbox{\Hypertarget{classseq_1_1object__pool_a2206253ca3972c9d296cd83949ee5ec7}\label{classseq_1_1object__pool_a2206253ca3972c9d296cd83949ee5ec7}} 
+\mbox{\Hypertarget{classseq_1_1object__pool_a2286444dc9ce69a944f9465f0e12b37d}\label{classseq_1_1object__pool_a2286444dc9ce69a944f9465f0e12b37d}} 
 \index{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Enable\+Unique\+Ptr = false, bool Generate\+Stats = false$>$ \\
-Allocator\& \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ Allocator\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the underlying allocator object. 
 
-\mbox{\Hypertarget{classseq_1_1object__pool_a8a439e60ea8aea9b7dbe62f03eccc8be}\label{classseq_1_1object__pool_a8a439e60ea8aea9b7dbe62f03eccc8be}} 
+\mbox{\Hypertarget{classseq_1_1object__pool_a46c19b78510cd2becc02db55eea3dc62}\label{classseq_1_1object__pool_a46c19b78510cd2becc02db55eea3dc62}} 
 \index{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}!make\_shared@{make\_shared}}
 \index{make\_shared@{make\_shared}!seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{make\_shared()}{make\_shared()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Enable\+Unique\+Ptr = false, bool Generate\+Stats = false$>$ \\
 template$<$class... Args$>$ \\
-std\+::shared\+\_\+ptr$<$T$>$ \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::make\+\_\+shared (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::make\+\_\+shared (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ std\+::shared\+\_\+ptr$<$T$>$
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 Experimental. Returns a shared\+\_\+ptr object built with this \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}}. 
 
-\mbox{\Hypertarget{classseq_1_1object__pool_ad3700f4d4fe1eaf5753ffb9383f942cc}\label{classseq_1_1object__pool_ad3700f4d4fe1eaf5753ffb9383f942cc}} 
+\mbox{\Hypertarget{classseq_1_1object__pool_a6c693c5b972f21af9ab51a7fd22d15ba}\label{classseq_1_1object__pool_a6c693c5b972f21af9ab51a7fd22d15ba}} 
 \index{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}!make\_unique@{make\_unique}}
 \index{make\_unique@{make\_unique}!seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{make\_unique()}{make\_unique()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Enable\+Unique\+Ptr = false, bool Generate\+Stats = false$>$ \\
 template$<$class... Args$>$ \\
-\mbox{\hyperlink{classseq_1_1object__pool_a38e3596ddb1309e36ebc321386d6dc5d}{unique\+\_\+ptr}} \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::make\+\_\+unique (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::make\+\_\+unique (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1object__pool_a38e3596ddb1309e36ebc321386d6dc5d}{unique\+\_\+ptr}}
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 Returns a unique\+\_\+ptr object constructed from the forwarded argument. 
 
-This function is similar to std\+::make\+\_\+unique(), except that it relies on the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} to allocate the memory. The created unique\+\_\+ptr will outlive the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}}. Never deallocate a unique\+\_\+ptr pointer with \mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{object\+\_\+pool\+::deallocate()}}. If unique\+\_\+ptr\+::release() is called, the pointer must be destroyed with \mbox{\hyperlink{namespaceseq_a1349a44a2ff37300a5c72a03780780fe}{seq\+::unique\+\_\+ptr\+\_\+delete()}}, which calls the object destructor and release the memory if needed. \mbox{\Hypertarget{classseq_1_1object__pool_a7b9437706ca7401f89076eb2b2c91de3}\label{classseq_1_1object__pool_a7b9437706ca7401f89076eb2b2c91de3}} 
+This function is similar to std\+::make\+\_\+unique(), except that it relies on the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} to allocate the memory. The created unique\+\_\+ptr will outlive the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}}. Never deallocate a unique\+\_\+ptr pointer with \mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{object\+\_\+pool\+::deallocate()}}. If unique\+\_\+ptr\+::release() is called, the pointer must be destroyed with \mbox{\hyperlink{namespaceseq_a1349a44a2ff37300a5c72a03780780fe}{seq\+::unique\+\_\+ptr\+\_\+delete()}}, which calls the object destructor and release the memory if needed. \mbox{\Hypertarget{classseq_1_1object__pool_adcb78702499af1357a871e3a0aadf0d8}\label{classseq_1_1object__pool_adcb78702499af1357a871e3a0aadf0d8}} 
 \index{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}!memory\_footprint@{memory\_footprint}}
 \index{memory\_footprint@{memory\_footprint}!seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{memory\_footprint()}{memory\_footprint()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Enable\+Unique\+Ptr = false, bool Generate\+Stats = false$>$ \\
-std\+::size\+\_\+t \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ std\+::size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} memory footprint in bytes excluding sizeof($\ast$this). 
 
-\mbox{\Hypertarget{classseq_1_1object__pool_af96e3a376a2c0f05fa1af26444f7891a}\label{classseq_1_1object__pool_af96e3a376a2c0f05fa1af26444f7891a}} 
+\mbox{\Hypertarget{classseq_1_1object__pool_aa38fbf8d66be889bb4b075b917942c89}\label{classseq_1_1object__pool_aa38fbf8d66be889bb4b075b917942c89}} 
 \index{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}!peak\_memory\_footprint@{peak\_memory\_footprint}}
 \index{peak\_memory\_footprint@{peak\_memory\_footprint}!seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{peak\_memory\_footprint()}{peak\_memory\_footprint()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Enable\+Unique\+Ptr = false, bool Generate\+Stats = false$>$ \\
-std\+::size\+\_\+t \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::peak\+\_\+memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::peak\+\_\+memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ std\+::size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} peak memory footprint in bytes excluding sizeof($\ast$this). 
 
-\mbox{\Hypertarget{classseq_1_1object__pool_af972a9454e9956630a0ed8b9d906ab44}\label{classseq_1_1object__pool_af972a9454e9956630a0ed8b9d906ab44}} 
+\mbox{\Hypertarget{classseq_1_1object__pool_ad97abff55ea874b6a6d1777fc3da9e15}\label{classseq_1_1object__pool_ad97abff55ea874b6a6d1777fc3da9e15}} 
 \index{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}!reclaim\_memory@{reclaim\_memory}}
 \index{reclaim\_memory@{reclaim\_memory}!seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{reclaim\_memory()}{reclaim\_memory()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = Default\+Alignment, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Enable\+Unique\+Ptr = false, bool Generate\+Stats = false$>$ \\
-bool \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::reclaim\+\_\+memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$\+::reclaim\+\_\+memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ bool \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -472,7 +475,7 @@ void \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, 
 
 
 
-Deallocate all unused memory blocks. This only makes sense if \mbox{\hyperlink{classseq_1_1object__pool_af972a9454e9956630a0ed8b9d906ab44}{reclaim\+\_\+memory()}} is false. 
+Deallocate all unused memory blocks. This only makes sense if \mbox{\hyperlink{classseq_1_1object__pool_ad97abff55ea874b6a6d1777fc3da9e15}{reclaim\+\_\+memory()}} is false. 
 
 \mbox{\Hypertarget{classseq_1_1object__pool_aa96fd22de10478226d8d5650ef4efb1a}\label{classseq_1_1object__pool_aa96fd22de10478226d8d5650ef4efb1a}} 
 \index{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$@{seq::object\_pool$<$ T, Allocator, Align, object\_allocation, EnableUniquePtr, GenerateStats $>$}!reserve@{reserve}}
@@ -487,7 +490,7 @@ Extend the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} in orde
 
 
 \begin{DoxyParams}{Parameters}
-{\em alloc\+\_\+size} & only extend the pool in order to allocate alloc\+\_\+size objects per calls to \mbox{\hyperlink{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}{allocate()}} \\
+{\em alloc\+\_\+size} & only extend the pool in order to allocate alloc\+\_\+size objects per calls to \mbox{\hyperlink{classseq_1_1object__pool_a05063f627ffe9c606fe013adfed0e245}{allocate()}} \\
 \hline
 {\em count} & make sure that at least count calls to allocate(alloc\+\_\+size) will not trigger a memory allocation\\
 \hline
@@ -532,7 +535,7 @@ void \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}}$<$ T, 
 
 Set the reclaim\+\_\+memory flag. 
 
-If false, the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} will not deallocate memory on calls to \mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{deallocate()}}. Instead, free memory blocks will be added to an internal list and reuse on calls to \mbox{\hyperlink{classseq_1_1object__pool_afa83f77752aa9e9d9d60d15380b76d42}{allocate()}}. This is the only way to move a memory block dedicated to an object count for another object count.
+If false, the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} will not deallocate memory on calls to \mbox{\hyperlink{classseq_1_1object__pool_a99af259462a246f9b6c46a6b00a9a782}{deallocate()}}. Instead, free memory blocks will be added to an internal list and reuse on calls to \mbox{\hyperlink{classseq_1_1object__pool_a05063f627ffe9c606fe013adfed0e245}{allocate()}}. This is the only way to move a memory block dedicated to an object count for another object count.
 
 If true, calls to deallocate will deallocate any free block. 
 

@@ -1,4 +1,7 @@
-#pragma once
+#ifndef SEQ_FORMAT_HPP
+#define SEQ_FORMAT_HPP
+
+
 
 /** @file */
 
@@ -418,15 +421,15 @@ Above example compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10 on a Intel(
  */
 
 
-#include <type_traits>
-#include <sstream>
-#include <string>
-#include <tuple>
 
 #ifdef SEQ_HAS_CPP_17
 #include <string_view>
 #include <charconv>
 #endif
+
+#include <iostream>
+#include <iomanip>
+#include <tuple>
 
 #include "charconv.hpp"
 
@@ -437,7 +440,7 @@ namespace seq
 {
 
 	/// @brief Placehoder when reusing a formatting object
-	struct null_format {};
+	struct null_format {} ;
 	static const null_format null;
 
 	/// @brief Class representing the width formatting for a any formatting object.
@@ -464,7 +467,7 @@ namespace seq
 		// Fill character
 		char pad;
 
-		width_format(unsigned short w = 0, char align = 0, char f = ' ') noexcept : width(w), alignment(align), pad(f) {}
+		explicit width_format(unsigned short w = 0, char align = 0, char f = ' ') noexcept : width(w), alignment(align), pad(f) {}
 
 		/// @brief Align to the left with given width
 		void left(unsigned short w) noexcept {
@@ -590,19 +593,19 @@ namespace seq
 
 
 
-		static inline std::string& ostream_buffer()
+		static inline auto ostream_buffer() -> std::string&
 		{
 			// Returns buffer suitable to write values into a std::ostream
 			static thread_local std::string tmp;
 			return tmp;
 		}
-		static inline std::string& numeric_buffer()
+		static inline auto numeric_buffer() -> std::string&
 		{
 			// Returns buffer suitable to write numerical values to string
 			static thread_local std::string tmp;
 			return tmp;
 		}
-		static inline std::string& to_chars_buffer()
+		static inline auto to_chars_buffer() -> std::string&
 		{
 			// Returns buffer suitable to write multi_ostream_format values into a std::ostream
 			static thread_local std::string tmp;
@@ -616,7 +619,7 @@ namespace seq
 		{
 
 			template<class String>
-			static String& append(String& out, const Ostream& d)
+			static auto append(String& out, const Ostream& d) -> String&
 			{
 				// For all types except arithmetic ones:
 				// - use to_string() to append formatted value to out
@@ -637,7 +640,7 @@ namespace seq
 		struct AppendHelper<Ostream, true>
 		{
 			template<class String>
-			static String& append(String& out, const Ostream& d)
+			static auto append(String& out, const Ostream& d) -> String&
 			{
 				// Append arithmetic value: use a temporary buffer
 
@@ -666,9 +669,9 @@ namespace seq
 		{
 			T _value;
 			ValueHolder() : _value() {}
-			ValueHolder(const T& value) : _value(value) {}
-			T& value() noexcept { return _value; }
-			const T& value() const noexcept { return _value; }
+			explicit ValueHolder(const T& value) : _value(value) {}
+			auto value() noexcept -> T& { return _value; }
+			auto value() const noexcept -> const T& { return _value; }
 			void set_value(const T& value) { _value = value; }
 		};
 		template<class T >
@@ -676,9 +679,9 @@ namespace seq
 		{
 			const T * _value;
 			ValueHolder() : _value(NULL) {}
-			ValueHolder(const T& value) : _value(&value) {}
-			T& value() noexcept { return *_value; }
-			const T& value() const noexcept { return *_value; }
+			explicit ValueHolder(const T& value) : _value(&value) {}
+			auto value() noexcept -> T& { return *_value; }
+			auto value() const noexcept -> const T& { return *_value; }
 			void set_value(const T& value) { _value = &value; }
 		};
 
@@ -703,79 +706,79 @@ namespace seq
 
 		numeric_format()
 			:_base_or_format(10), _dot('.'), _precision_or_formatting(6) {}
-		numeric_format(char base_or_format)
+		explicit numeric_format(char base_or_format)
 			:_base_or_format(base_or_format), _dot('.'), _precision_or_formatting(6) {}
 		
 		/// @brief Returns the base for integral types
-		char base() const noexcept { return _base_or_format; }
+		auto base() const noexcept -> char { return _base_or_format; }
 		/// @brief Returns the format for integral types
-		char format() const noexcept { return _base_or_format; }
+		auto format() const noexcept -> char { return _base_or_format; }
 		/// @brief Returns the format dot character for floating point types
-		char dot() const noexcept { return (char)_dot; }
+		auto dot() const noexcept -> char { return static_cast<char>(_dot); }
 		/// @brief Returns the precision for floating point types
-		unsigned char precision() const noexcept { return _precision_or_formatting; }
+		auto precision() const noexcept -> unsigned char { return _precision_or_formatting; }
 		/// @brief Returns the formatting options for integral types
-		unsigned char formatting() const noexcept { return _precision_or_formatting; }
+		auto formatting() const noexcept -> unsigned char { return _precision_or_formatting; }
 
 		/// @brief Set the base for integral types
-		numeric_format& base(char b) noexcept {
+		auto base(char b) noexcept -> numeric_format& {
 			//static_assert(std::is_integral<T>::value, "'base' property only supported for integral types");
-			_base_or_format = (uchar)b;
+			_base_or_format = static_cast<uchar>(b);
 			return *this;
 		}
 		/// @brief Set the base for integral types
-		numeric_format& b(char _b) noexcept { return base(_b); }
+		auto b(char _b) noexcept -> numeric_format& { return base(_b); }
 
 		/// @brief Set the format for floating point types
-		numeric_format& format(char b) noexcept {
+		auto format(char b) noexcept -> numeric_format& {
 			//static_assert(std::is_floating_point<T>::value, "'format' property only supported for floating point types");
-			_base_or_format = (uchar)b;
+			_base_or_format = static_cast<uchar>(b);
 			return *this;
 		}
 		/// @brief Set the format for floating point types
-		numeric_format& t(char f) noexcept { return format(f); }
+		auto t(char f) noexcept -> numeric_format& { return format(f); }
 
 
 		/// @brief Set the precision for floating point types, default to 6
-		numeric_format& precision(int p) noexcept {
+		auto precision(int p) noexcept -> numeric_format& {
 			//static_assert(std::is_floating_point<T>::value, "'precision' property only supported for floating point types");
-			_precision_or_formatting = (uchar)p;
+			_precision_or_formatting = static_cast<uchar>(p);
 			return *this;
 		}
 		/// @brief Set the precision for floating point types, default to 6
-		numeric_format& p(int _p) noexcept { return precision(_p); }
+		auto p(int _p) noexcept -> numeric_format& { return precision(_p); }
 
 		/// @brief For integral types only and base > 10, output upper case characters
-		numeric_format& upper() noexcept {
+		auto upper() noexcept -> numeric_format& {
 			//static_assert(std::is_integral<T>::value, "'upper' property only supported for integral types");
-			_precision_or_formatting |= (uchar)detail::f_upper;
+			_precision_or_formatting |= static_cast<uchar>(detail::f_upper);
 			return *this;
 		}
 		/// @brief For integral types only and base > 10, output upper case characters
-		numeric_format& u() noexcept { return upper(); }
+		auto u() noexcept -> numeric_format& { return upper(); }
 
 		/// @brief For integral types only and base == 16, output '0x' prefix
-		numeric_format& hex_prefix() noexcept {
+		auto hex_prefix() noexcept -> numeric_format& {
 			//static_assert(std::is_integral<T>::value, "'hex_prefix' property only supported for integral types");
-			_precision_or_formatting |= (uchar)detail::f_prefix;
+			_precision_or_formatting |= static_cast<uchar>(detail::f_prefix);
 			return *this;
 		}
 		/// @brief For integral types only and base == 16, output '0x' prefix
-		numeric_format& h() noexcept { return hex_prefix(); }
+		auto h() noexcept -> numeric_format& { return hex_prefix(); }
 
 		/// @brief For floating point types only, set the dot character (default to '.')
-		numeric_format& dot(char d) noexcept {
+		auto dot(char d) noexcept -> numeric_format& {
 			//static_assert(std::is_floating_point<T>::value, "'dot' property only supported for floating point types");
-			_dot = (uchar)d;
+			_dot = static_cast<uchar>(d);
 			return *this;
 		}
 		/// @brief For floating point types only, set the dot character (default to '.')
-		numeric_format& d(char _d) noexcept { return dot(_d); }
+		auto d(char _d) noexcept -> numeric_format& { return dot(_d); }
 
 		/// @brief Print integral value as a character
-		numeric_format& as_char() noexcept{return dot('c');}
+		auto as_char() noexcept -> numeric_format&{return dot('c');}
 		/// @brief Print integral value as a character
-		numeric_format& c() noexcept { return dot('c'); }
+		auto c() noexcept -> numeric_format& { return dot('c'); }
 	};
 
 
@@ -806,142 +809,142 @@ namespace seq
 		using value_type = T;
 
 		base_ostream_format() : _value(), _width(), _format(std::is_floating_point<T>::value ? 'g' : (char)10) {}
-		base_ostream_format(const T& val) : _value(val), _width(), _format(std::is_floating_point<T>::value ? 'g' : (char)10) {}
+		explicit base_ostream_format(const T& val) : _value(val), _width(), _format(std::is_floating_point<T>::value ? 'g' : (char)10) {}
 		base_ostream_format(const T& val, char base_or_format) : _value(val), _width(), _format(base_or_format) {}
 		base_ostream_format(const T& val, const numeric_format& fmt) : _value(val), _width(), _format(fmt) {}
 
 
 		//getters
-		char base() const noexcept { return _format.base(); }
-		char format() const noexcept { return _format.format(); }
-		char dot() const noexcept { return (char)_format.dot(); }
-		unsigned char precision() const noexcept { return _format.precision(); }
-		unsigned char formatting() const noexcept { return _format.formatting(); }
+		auto base() const noexcept -> char { return _format.base(); }
+		auto format() const noexcept -> char { return _format.format(); }
+		auto dot() const noexcept -> char { return (char)_format.dot(); }
+		auto precision() const noexcept -> unsigned char { return _format.precision(); }
+		auto formatting() const noexcept -> unsigned char { return _format.formatting(); }
 
 		/// @brief Returns the value held by this base_ostream_format
-		T& value() noexcept { return _value.value(); }
+		auto value() noexcept -> T& { return _value.value(); }
 		/// @brief Returns the value held by this base_ostream_format
-		const T& value() const noexcept { return _value.value(); }
+		auto value() const noexcept -> const T& { return _value.value(); }
 
 		/// @brief Returns derived object
-		Derived& derived() noexcept { return static_cast<Derived&>(*this); }
+		auto derived() noexcept -> Derived& { return static_cast<Derived&>(*this); }
 		/// @brief Returns derived object
-		const Derived& derived() const noexcept { return static_cast<const Derived&>(*this); }
+		auto derived() const noexcept -> const Derived& { return static_cast<const Derived&>(*this); }
 
 		/// @brief Returns the arithmetic format options
-		numeric_format numeric_fmt() const { return _format; }
+		auto numeric_fmt() const -> numeric_format { return _format; }
 		/// @brief Returns the width format options
-		width_format width_fmt() const noexcept { return _width; }
+		auto width_fmt() const noexcept -> width_format { return _width; }
 
 		void set_width_format(const width_format& f) { _width = f; }
 		void set_numeric_format(const numeric_format& f) { _format = f; }
 
 		/// @brief Returns width value of the width formatting options
-		unsigned short width() const noexcept { return _width.width; }
+		auto width() const noexcept -> unsigned short { return _width.width; }
 		/// @brief Returns fill character of the width formatting options
-		char fill_character() const noexcept { return _width.pad; }
+		auto fill_character() const noexcept -> char { return _width.pad; }
 		/// @brief Returns alignment value of the width formatting options
-		char alignment() const noexcept { return _width.alignment; }
+		auto alignment() const noexcept -> char { return _width.alignment; }
 
 		/// @brief Set the exact width and the alignment
-		Derived& left(int w)noexcept {
+		auto left(int w)noexcept -> Derived& {
 			_width.left((unsigned short)w);
 			return derived();
 		}
 		/// @brief Set the exact width and the alignment
-		Derived& l(int w) { return left(w); }
+		auto l(int w) -> Derived& { return left(w); }
 
 		/// @brief Set the exact width and the alignment
-		Derived& right(int w)noexcept {
+		auto right(int w)noexcept -> Derived& {
 			_width.right((unsigned short)w);
 			return derived();
 		}
 		/// @brief Set the exact width and the alignment
-		Derived& r(int w) noexcept { return right(w); }
+		auto r(int w) noexcept -> Derived& { return right(w); }
 
 		/// @brief Set the exact width and the alignment
-		Derived& center(int w)noexcept {
+		auto center(int w)noexcept -> Derived& {
 			_width.center((unsigned short)w);
 			return derived();
 		}
 		/// @brief Set the exact width and the alignment
-		Derived& c(int w) noexcept { return center(w); }
+		auto c(int w) noexcept -> Derived& { return center(w); }
 
 		/// @brief Reset alignment options
-		Derived& no_align() noexcept {
+		auto no_align() noexcept -> Derived& {
 			_width.reset();
 			return derived();
 		}
 		/// @brief Set the fill character, used with left(), right() and center()
-		Derived& fill(char f) noexcept {
+		auto fill(char f) noexcept -> Derived& {
 			_width.fill(f);
 			return derived();
 		}
 		/// @brief Set the fill character, used with left(), right() and center()
-		Derived& f(char _f) noexcept { return fill(_f); }
+		auto f(char _f) noexcept -> Derived& { return fill(_f); }
 
 		/// @brief Set the base for integral types
-		Derived& base(char b) noexcept {
+		auto base(char b) noexcept -> Derived& {
 			_format.base(b);
 			return derived();
 		}
 		/// @brief Set the base for integral types
-		Derived& b(char _b) noexcept { return base(_b); }
+		auto b(char _b) noexcept -> Derived& { return base(_b); }
 
 		/// @brief Set the format for floating point types
-		Derived& format(char f) noexcept {
+		auto format(char f) noexcept -> Derived& {
 			_format.format(f);
 			return derived();
 		}
 		/// @brief Set the format for floating point types
-		Derived& format(seq::chars_format f, bool upper = false) noexcept {
+		auto format(seq::chars_format f, bool upper) noexcept -> Derived& {
 			if(!upper) _format.format(f == fixed ? 'f' : (f == general ? 'g' : 'e'));
 			else  _format.format(f == fixed ? 'F' : (f == general ? 'G' : 'E'));
 			return derived();
 		}
 		/// @brief Set the format for floating point types
-		Derived& t(char f) noexcept { return format(f); }
-		Derived& t(seq::chars_format f, bool upper = false) noexcept {return format(f, upper);}
+		auto t(char f) noexcept -> Derived& { return format(f); }
+		auto t(seq::chars_format f, bool upper) noexcept -> Derived& {return format(f, upper);}
 
 		/// @brief Set the precision for floating point types, default to 6
-		Derived& precision(int p) noexcept {
+		auto precision(int p) noexcept -> Derived& {
 			_format.precision(p);
 			return derived();
 		}
 		/// @brief Set the precision for floating point types, default to 6
-		Derived& p(int _p) noexcept { return precision(_p); }
+		auto p(int _p) noexcept -> Derived& { return precision(_p); }
 
 		/// @brief For integral types only and base > 10, output upper case characters
-		Derived& upper() noexcept {
+		auto upper() noexcept -> Derived& {
 			_format.upper();
 			return derived();
 		}
 		/// @brief For integral types only and base > 10, output upper case characters
-		Derived& u() noexcept { return upper(); }
+		auto u() noexcept -> Derived& { return upper(); }
 
 		/// @brief For integral types only and base == 16, output '0x' prefix
-		Derived& hex_prefix() noexcept {
+		auto hex_prefix() noexcept -> Derived& {
 			_format.hex_prefix();
 			return derived();
 		}
 		/// @brief For integral types only and base == 16, output '0x' prefix
-		Derived& h() noexcept { return hex_prefix(); }
+		auto h() noexcept -> Derived& { return hex_prefix(); }
 
 		/// @brief For floating point types only, set the dot character (default to '.')
-		Derived& dot(char d) noexcept {
+		auto dot(char d) noexcept -> Derived& {
 			_format.dot(d);
 			return derived();
 		}
 		/// @brief For floating point types only, set the dot character (default to '.')
-		Derived& d(char _d) noexcept { return dot(_d); }
+		auto d(char _d) noexcept -> Derived& { return dot(_d); }
 
 		/// @brief For integral types, print the value as a character
-		Derived& as_char() noexcept {
+		auto as_char() noexcept -> Derived& {
 			_format.as_char();
 			return derived();
 		}
 		/// @brief For integral types, print the value as a character
-		Derived& c() noexcept { 
+		auto c() noexcept -> Derived& { 
 			return as_char();
 		}
 
@@ -949,17 +952,17 @@ namespace seq
 		/// @brief Copy v to this ostream_format
 		/// @param v input value
 		/// @return reference to *this
-		Derived& operator()(const T& v) {
+		auto operator()(const T& v) -> Derived& {
 			_value.set_value(v);
 			return derived();
 		}
 
 		/// @brief operator() using placeholder object, no-op
-		Derived& operator()(const null_format&) {
+		auto operator()(const null_format& /*unused*/) -> Derived& {
 			return derived();
 		}
 		/// @brief Equivalent to dervied() = other
-		Derived& operator()(const Derived& other) {
+		auto operator()(const Derived& other) -> Derived& {
 			return derived() = other;
 		}
 
@@ -976,19 +979,19 @@ namespace seq
 
 		/// @brief Convert the formatting object to String
 		template<class String = std::string>
-		String str() const {
+		auto str() const -> String {
 			String res;
 			return append(res);
 		}
 
 		/// @brief Append the formatting object to a string-like object
 		template<class String>
-		String& append(String& out) const
+		auto append(String& out) const -> String&
 		{
 			return detail::AppendHelper<Derived>::append(out, derived());
 		}
 
-		char* to_chars(char* dst)
+		auto to_chars(char* dst) -> char*
 		{
 			std::string& tmp = detail::to_chars_buffer();
 			tmp.clear();
@@ -997,7 +1000,7 @@ namespace seq
 			return dst + tmp.size();
 		}
 
-		std::pair<char*, size_t> to_chars(char* dst, size_t max)
+		auto to_chars(char* dst, size_t max) -> std::pair<char*, size_t>
 		{
 			std::string& tmp = detail::to_chars_buffer();
 			tmp.clear();
@@ -1021,7 +1024,7 @@ namespace seq
 		struct OstreamToString
 		{
 			template<class String, class Ostream>
-			static size_t write(String& out, const Ostream& val)
+			static auto write(String& out, const Ostream& val) -> size_t
 			{
 				// Default implementation: use ostringstream
 
@@ -1044,7 +1047,7 @@ namespace seq
 		struct OstreamToString<T, false, false, true, true>
 		{
 			template<class String, class Ostream>
-			static size_t write(String& out, const Ostream& val)
+			static auto write(String& out, const Ostream& val) -> size_t
 			{
 				// Specialization for tstring_view
 				return val.write_string_to_string(out, val);
@@ -1054,7 +1057,7 @@ namespace seq
 		struct OstreamToString<T, true, false, false, true>
 		{
 			template<class String, class Ostream>
-			static size_t write(String& out, const Ostream& val)
+			static auto write(String& out, const Ostream& val) -> size_t
 			{
 				// Specialization for integral types
 				return val.write_integral_to_string(out, val);
@@ -1064,7 +1067,7 @@ namespace seq
 		struct OstreamToString<T, false, true, false, true>
 		{
 			template<class String, class Ostream>
-			static size_t write(String& out, const Ostream& val)
+			static auto write(String& out, const Ostream& val) -> size_t
 			{
 				// Specialization for floating point types
 				return val.write_float_to_string(out, val);
@@ -1163,7 +1166,7 @@ namespace seq
 		ostream_format()
 			: base_type() {}
 
-		ostream_format(const T& value)
+		explicit ostream_format(const T& value)
 			:base_type(value) {}
 
 		/// @brief Construct from a value and a base or format value
@@ -1177,7 +1180,7 @@ namespace seq
 
 
 		template<class String>
-		size_t to_string(String& str) const
+		auto to_string(String& str) const -> size_t
 		{
 			return detail::OstreamToString<T>::write(str, *this);
 		}
@@ -1187,11 +1190,11 @@ namespace seq
 
 
 		template<class String, class U>
-		size_t write_integral_to_string(String& tmp, const ostream_format<U>& val) const
+		auto write_integral_to_string(String& tmp, const ostream_format<U>& val) const -> size_t
 		{
 			to_chars_result f;
 			size_t size;
-			int min_cap = std::max(14, (int)val.width());
+			size_t min_cap = std::max((size_t)14, (size_t)val.width());
 			if (SEQ_UNLIKELY(tmp.capacity() < (size_t)min_cap)) {
 				tmp.reserve(min_cap);
 			}
@@ -1223,9 +1226,9 @@ namespace seq
 		}
 
 		template<class String, class U>
-		size_t write_float_to_string(String& tmp, const ostream_format<U>& val) const
+		auto write_float_to_string(String& tmp, const ostream_format<U>& val) const -> size_t
 		{
-			int min_cap = std::max(14, (int)val.width());
+			size_t min_cap = std::max((size_t)14, (size_t)val.width());
 			if (SEQ_UNLIKELY(tmp.capacity() < min_cap)) {
 				tmp.reserve(min_cap);
 			}
@@ -1263,7 +1266,7 @@ namespace seq
 		}
 
 		template<class String, class U>
-		size_t write_string_to_string(String& tmp, const ostream_format<U>& val) const
+		auto write_string_to_string(String& tmp, const ostream_format<U>& val) const -> size_t
 		{
 			size_t prev = tmp.size();
 			size_t size = val.value().size();
@@ -1320,11 +1323,11 @@ namespace seq
 		ostream_format()
 			: base_type() {}
 
-		ostream_format(const ostream_format<T>& value)
+		explicit ostream_format(const ostream_format<T>& value)
 			:base_type(value) {}
 
 		template<class String>
-		size_t to_string(String& str) const
+		auto to_string(String& str) const -> size_t
 		{
 			size_t prev = str.size();
 			this->value().append(str);
@@ -1341,7 +1344,7 @@ namespace std
 {
 	/// @brief Write a ostream_format object to a std::ostream 
 	template<class Elem, class Traits, class T>
-	static SEQ_ALWAYS_INLINE basic_ostream<Elem, Traits>& operator<<(basic_ostream<Elem, Traits>& oss, const seq::ostream_format<T>& val)
+	static SEQ_ALWAYS_INLINE basic_ostream<Elem, Traits>& operator<<(basic_ostream<Elem, Traits>&  oss, const seq::ostream_format<T>&  val)
 	{
 		std::string& tmp = seq::detail::ostream_buffer();
 		tmp.clear();
@@ -1417,18 +1420,18 @@ namespace seq
 		{
 			// Literal strings should produce ostream_format<tstring_view>
 			using type = ostream_format<tstring_view>;
-		};
+		} ;
 		template<>
 		struct FormatWrapper<const char*>
 		{
 			using type = ostream_format<tstring_view>;
-		};
+		} ;
 		template<>
 		struct FormatWrapper<std::string>
 		{
 			// ALL string classes should produce ostream_format<tstring_view>
 			using type = ostream_format<tstring_view>;
-		};
+		} ;
 
 #ifdef SEQ_HAS_CPP_17
 		template<>
@@ -1495,7 +1498,7 @@ namespace seq
 		}
 
 
-		static inline std::string& multi_ostream_buffer()
+		static inline auto multi_ostream_buffer() -> std::string&
 		{
 			// Returns buffer suitable to write multi_ostream_format values into a std::ostream
 			static thread_local std::string tmp;
@@ -1522,7 +1525,7 @@ namespace seq
 		struct Converter<Tuple, 0>
 		{
 			template<class String>
-			static void convert(String&, const Tuple&)
+			static void convert(String& /*unused*/, const Tuple& /*unused*/)
 			{}
 		};
 
@@ -1557,7 +1560,7 @@ namespace seq
 		struct ToOstream<Tuple, 0>
 		{
 			template<class Stream>
-			static void convert(Stream&, const Tuple&)
+			static void convert(Stream& /*unused*/, const Tuple& /*unused*/)
 			{}
 		};
 
@@ -1582,7 +1585,7 @@ namespace seq
 		struct AffectValues<Tuple, 0>
 		{
 			template<class Out, class ...Args>
-			static void convert(Out&, Args&&... args)
+			static void convert(Out& /*unused*/, Args&&... args)
 			{}
 		};
 
@@ -1643,7 +1646,7 @@ namespace seq
 		struct AffectValuesWithPos<Pos, Tuple, 0>
 		{
 			template<class Out, class ...Args>
-			static void convert(Out&, Args&&... args)
+			static void convert(Out& /*unused*/, Args&&... args)
 			{}
 		};
 
@@ -1673,14 +1676,14 @@ namespace seq
 			
 
 			template<class ...Args>
-			mutli_ostream_format& operator()(Args&&... args)
+			auto operator()(Args&&... args) -> mutli_ostream_format&
 			{
 				// Update internal tuple with new values.
 				AffectValues<Tuple>::convert(d_tuple, std::forward<Args>(args)...);
 				return *this;
 			}
 			template<size_t ...T, class ...Args>
-			mutli_ostream_format& operator()(Positional<T...>, Args&&... args)
+			auto operator()(Positional<T...> /*unused*/, Args&&... args) -> mutli_ostream_format&
 			{
 				// update internal tuple with new values for given indexes
 				AffectValuesWithPos<Positional<T...>, Tuple>::convert(d_tuple, std::forward<Args>(args)...);
@@ -1692,23 +1695,23 @@ namespace seq
 				std::get<N>(d_tuple)(value);
 			}
 			template<size_t N>
-			typename std::tuple_element<N, Tuple>::type& get() noexcept {
+			auto get() noexcept -> typename std::tuple_element<N, Tuple>::type& {
 				return std::get<N>(d_tuple);
 			}
 			template<size_t N>
-			const typename std::tuple_element<N, Tuple>::type& get() const noexcept {
+			auto get() const noexcept -> const typename std::tuple_element<N, Tuple>::type& {
 				return std::get<N>(d_tuple);
 			}
 
 			template<class String = std::string>
-			String& append(String& out) const
+			auto append(String& out) const -> String&
 			{
 				// append the content of this formatting object to a string-like object
 				Converter<Tuple>::convert(out, d_tuple);
 				return out;
 			}
 
-			char* to_chars(char* dst)
+			auto to_chars(char* dst) -> char*
 			{
 				std::string& tmp = detail::to_chars_buffer();
 				tmp.clear();
@@ -1717,7 +1720,7 @@ namespace seq
 				return dst + tmp.size();
 			}
 
-			std::pair<char*, size_t> to_chars(char* dst, size_t max)
+			auto to_chars(char* dst, size_t max) -> std::pair<char*, size_t>
 			{
 				std::string& tmp = detail::to_chars_buffer();
 				tmp.clear();
@@ -1731,7 +1734,7 @@ namespace seq
 			}
 
 			template<class String = std::string>
-			String str() const
+			auto str() const -> String
 			{
 				// convert this formatting object to string-like object
 				String res;
@@ -1771,13 +1774,13 @@ namespace seq
 			{}
 
 			template<class ...Args>
-			mutli_ostream_format& operator()(Args&&... args)
+			auto operator()(Args&&... args) -> mutli_ostream_format&
 			{
 				AffectValuesWithPos<pos_type, Tuple>::convert(d_tuple, std::forward<Args>(args)...);
 				return *this;
 			}
 			template<size_t ...T, class ...Args>
-			mutli_ostream_format& operator()(Positional<T...>, Args&&... args)
+			auto operator()(Positional<T...> /*unused*/, Args&&... args) -> mutli_ostream_format&
 			{
 				AffectValuesWithPos<Positional<T...>, Tuple>::convert(d_tuple, std::forward<Args>(args)...);
 				return *this;
@@ -1788,34 +1791,34 @@ namespace seq
 				std::get<N>(d_tuple)(value);
 			}
 			template<size_t N>
-			typename std::tuple_element<N, Tuple>::type& get() noexcept {
+			auto get() noexcept -> typename std::tuple_element<N, Tuple>::type& {
 				return std::get<N>(d_tuple);
 			}
 			template<size_t N>
-			const typename std::tuple_element<N, Tuple>::type& get() const noexcept {
+			auto get() const noexcept -> const typename std::tuple_element<N, Tuple>::type& {
 				return std::get<N>(d_tuple);
 			}
 
 			template<class String = std::string>
-			String& append(String& out) const
+			auto append(String& out) const -> String&
 			{
 				Converter<Tuple>::convert(out, d_tuple);
 				return out;
 			}
 			template<class String = std::string>
-			String str() const
+			auto str() const -> String
 			{
 				String res;
 				Converter<Tuple>::convert(res, d_tuple);
 				return res;
 			}
 
-			operator std::string() const
+			explicit operator std::string() const
 			{
 				return str();
 			}
 			template<size_t S, class Al>
-			operator tiny_string<S, Al>() const
+			explicit operator tiny_string<S, Al>() const
 			{
 				return str< tiny_string<S, Al> >();
 			}
@@ -1827,7 +1830,7 @@ namespace seq
 
 	/// @brief Returns a positional object used either by seq::fmt() or operator() of formatting object 
 	template <size_t... Ts>
-	detail::Positional<Ts...> pos()
+	auto pos() -> detail::Positional<Ts...>
 	{
 		return detail::Positional<Ts...>();
 	}
@@ -1857,7 +1860,7 @@ namespace seq
 			using type = typename std::remove_reference< Args...>::type;
 			using return_type = ostream_format<type>;
 
-			static return_type build(Args&&... args)
+			static auto build(Args&&... args) -> return_type
 			{
 				return return_type(std::forward<Args>(args)...);
 			}
@@ -1875,7 +1878,7 @@ namespace seq
 	}
 
 	template<size_t ...Ts, class ...Args>
-	auto fmt(detail::Positional<Ts...>, Args&&... args) -> typename detail::BuildFormat< sizeof...(Args), detail::Positional<Ts...>, Args...>::return_type
+	auto fmt(detail::Positional<Ts...> /*unused*/, Args&&... args) -> typename detail::BuildFormat< sizeof...(Args), detail::Positional<Ts...>, Args...>::return_type
 	{
 		// Returns a formatting object (multi_ostream_format or ostream_format) for given input values
 		// The Positional type is embedded within the multi_ostream_format type.
@@ -1893,50 +1896,50 @@ namespace seq
 	}
 
 
-	static inline ostream_format<float> fmt(float value, char format = 'g')
+	static inline auto fmt(float value, char format) -> ostream_format<float>
 	{
 		// Floating point formatting
 		return ostream_format<float>(value, format);
 	}
 	
-	static inline ostream_format<double> fmt(double value, char format = 'g')
+	static inline auto fmt(double value, char format) -> ostream_format<double>
 	{
 		// Floating point formatting
 		return ostream_format<double>(value, format);
 	}
 	
-	static inline ostream_format<long double> fmt(long double value, char format = 'g')
+	static inline auto fmt(long double value, char format) -> ostream_format<long double>
 	{
 		// Floating point formatting
 		return ostream_format<long double>(value, format);
 	}
 
 	
-	static inline ostream_format<tstring_view> fmt(const char* str)
+	static inline auto fmt(const char* str) -> ostream_format<tstring_view>
 	{
 		// String formatting
 		return ostream_format<tstring_view>(tstring_view(str));
 	}
 	
-	static inline ostream_format<tstring_view> fmt(const char* str, size_t size)
+	static inline auto fmt(const char* str, size_t size) -> ostream_format<tstring_view>
 	{
 		return ostream_format<tstring_view>(tstring_view(str, size));
 	}
 	
-	static inline ostream_format<tstring_view> fmt(const std::string& str)
+	static inline auto fmt(const std::string& str) -> ostream_format<tstring_view>
 	{
 		// String formatting
 		return ostream_format<tstring_view>(tstring_view(str.data(), str.size()));
 	}
 	
 	template<size_t Ss, class Al>
-	static inline ostream_format<tstring_view> fmt(const tiny_string<Ss, Al>& str)
+	static inline auto fmt(const tiny_string<Ss, Al>& str) -> ostream_format<tstring_view>
 	{
 		// String formatting
 		return ostream_format<tstring_view>(tstring_view(str.data(), str.size()));
 	}
 
-	static inline ostream_format<tstring_view> fmt(const tstring_view& str)
+	static inline auto fmt(const tstring_view& str) -> ostream_format<tstring_view>
 	{
 		// String formatting
 		return ostream_format<tstring_view>(str);
@@ -1950,69 +1953,69 @@ namespace seq
 #endif
 
 	template<class T>
-	static inline ostream_format<T> e(T val = T())
+	static inline auto e(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val,'e');
 	}
 	template<class T>
-	static inline ostream_format<T> E(T val = T())
+	static inline auto E(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'E');
 	}
 	template<class T>
-	static inline ostream_format<T> g(T val = T())
+	static inline auto g(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'g');
 	}
 	template<class T>
-	static inline ostream_format<T> G(T val = T())
+	static inline auto G(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'G');
 	}
 	template<class T>
-	static inline ostream_format<T> f(T val = T())
+	static inline auto f(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'f');
 	}
 	template<class T>
-	static inline ostream_format<T> F(T val = T())
+	static inline auto F(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'F');
 	}
 
 	template<class T>
-	static inline ostream_format<T> hex(T val = T())
+	static inline auto hex(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for integral formatting
 		return fmt(val).base(16);
 	}
 	template<class T>
-	static inline ostream_format<T> oct(T val = T())
+	static inline auto oct(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for integral formatting
 		return fmt(val).base(8);
 	}
 	template<class T>
-	static inline ostream_format<T> bin(T val = T())
+	static inline auto bin(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for integral formatting
 		return fmt(val).base(2);
 	}
 
 	template<class T>
-	static inline ostream_format<T> ch(T val = T())
+	static inline auto ch(T val = T()) -> ostream_format<T>
 	{
 		// Format an integral value as a character
 		return fmt(val).c();
 	}
 
-	static inline ostream_format<tstring_view> str()
+	static inline auto str() -> ostream_format<tstring_view>
 	{
 		// Null string formatting, used with seq::fmt().
 		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
@@ -2041,9 +2044,11 @@ namespace std
 		seq::detail::ToOstream<T>::convert(oss, val.d_tuple);
 		return oss;
 	}
-}
+} // namespace std
 
 
 
 /** @}*/
 //end charconv
+
+#endif

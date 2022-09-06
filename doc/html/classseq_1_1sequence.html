@@ -147,9 +147,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a77d815a5628cc6f8037465017dae6558"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a77d815a5628cc6f8037465017dae6558">sequence</a> (<a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;&amp;other) noexcept</td></tr>
 <tr class="memdesc:a77d815a5628cc6f8037465017dae6558"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor.  <a href="classseq_1_1sequence.html#a77d815a5628cc6f8037465017dae6558">More...</a><br /></td></tr>
 <tr class="separator:a77d815a5628cc6f8037465017dae6558"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4950a19cf05dbc9b5af00dcbc90a8a54"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a4950a19cf05dbc9b5af00dcbc90a8a54">sequence</a> (<a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;&amp;other, const Allocator &amp;alloc) noexcept(std::is_nothrow_move_assignable&lt; T &gt;::value)</td></tr>
-<tr class="memdesc:a4950a19cf05dbc9b5af00dcbc90a8a54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocator-extended move constructor. Using alloc as the allocator for the new container, moving the contents from other; if alloc != other.get_allocator(), this results in an element-wise move.  <a href="classseq_1_1sequence.html#a4950a19cf05dbc9b5af00dcbc90a8a54">More...</a><br /></td></tr>
-<tr class="separator:a4950a19cf05dbc9b5af00dcbc90a8a54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cd969dd2081e6ab9c6acbdc8e7475c1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a2cd969dd2081e6ab9c6acbdc8e7475c1">sequence</a> (<a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;&amp;other, const Allocator &amp;alloc)</td></tr>
+<tr class="memdesc:a2cd969dd2081e6ab9c6acbdc8e7475c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocator-extended move constructor. Using alloc as the allocator for the new container, moving the contents from other; if alloc != other.get_allocator(), this results in an element-wise move.  <a href="classseq_1_1sequence.html#a2cd969dd2081e6ab9c6acbdc8e7475c1">More...</a><br /></td></tr>
+<tr class="separator:a2cd969dd2081e6ab9c6acbdc8e7475c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bc0b4e6e117b2c63c3d124068ab81ba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a6bc0b4e6e117b2c63c3d124068ab81ba">sequence</a> (const std::initializer_list&lt; T &gt; &amp;lst, const Allocator &amp;al=Allocator())</td></tr>
 <tr class="memdesc:a6bc0b4e6e117b2c63c3d124068ab81ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the sequence with the contents of the initializer list <em>lst</em>.  <a href="classseq_1_1sequence.html#a6bc0b4e6e117b2c63c3d124068ab81ba">More...</a><br /></td></tr>
 <tr class="separator:a6bc0b4e6e117b2c63c3d124068ab81ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,49 +160,49 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad15ffd990a824f160fbe8fb66878d8ff"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#ad15ffd990a824f160fbe8fb66878d8ff">~sequence</a> ()</td></tr>
 <tr class="memdesc:ad15ffd990a824f160fbe8fb66878d8ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="classseq_1_1sequence.html#ad15ffd990a824f160fbe8fb66878d8ff">More...</a><br /></td></tr>
 <tr class="separator:ad15ffd990a824f160fbe8fb66878d8ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69c6c9bd0dcc596b190fcf986e9c3ae6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a69c6c9bd0dcc596b190fcf986e9c3ae6">operator=</a> (const <a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;other)</td></tr>
-<tr class="memdesc:a69c6c9bd0dcc596b190fcf986e9c3ae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy operator, basic exception guarantee.  <a href="classseq_1_1sequence.html#a69c6c9bd0dcc596b190fcf986e9c3ae6">More...</a><br /></td></tr>
-<tr class="separator:a69c6c9bd0dcc596b190fcf986e9c3ae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac66ddee058887387286a3ba6c8d429a1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#ac66ddee058887387286a3ba6c8d429a1">operator=</a> (<a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memdesc:ac66ddee058887387286a3ba6c8d429a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator.  <a href="classseq_1_1sequence.html#ac66ddee058887387286a3ba6c8d429a1">More...</a><br /></td></tr>
-<tr class="separator:ac66ddee058887387286a3ba6c8d429a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fe31dfa20f873fe2e541d37efacb6d4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a3fe31dfa20f873fe2e541d37efacb6d4">operator=</a> (const <a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;other) -&gt; <a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;</td></tr>
+<tr class="memdesc:a3fe31dfa20f873fe2e541d37efacb6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy operator, basic exception guarantee.  <a href="classseq_1_1sequence.html#a3fe31dfa20f873fe2e541d37efacb6d4">More...</a><br /></td></tr>
+<tr class="separator:a3fe31dfa20f873fe2e541d37efacb6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24f4acbccef9afb88836ca12d7fba1f3"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a24f4acbccef9afb88836ca12d7fba1f3">operator=</a> (<a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;&amp;other) noexcept -&gt; <a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;</td></tr>
+<tr class="memdesc:a24f4acbccef9afb88836ca12d7fba1f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment operator.  <a href="classseq_1_1sequence.html#a24f4acbccef9afb88836ca12d7fba1f3">More...</a><br /></td></tr>
+<tr class="separator:a24f4acbccef9afb88836ca12d7fba1f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4eb2f85de25d69ca79a3e9e426f487b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#ac4eb2f85de25d69ca79a3e9e426f487b">swap</a> (<a class="el" href="classseq_1_1sequence.html">sequence</a> &amp;other) noexcept</td></tr>
 <tr class="memdesc:ac4eb2f85de25d69ca79a3e9e426f487b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exchanges the contents of the container with those of other. Does not invoke any move, copy, or swap operations on individual elements.  <a href="classseq_1_1sequence.html#ac4eb2f85de25d69ca79a3e9e426f487b">More...</a><br /></td></tr>
 <tr class="separator:ac4eb2f85de25d69ca79a3e9e426f487b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7965d6074abfbcbdef971934fd4dec78"><td class="memItemLeft" align="right" valign="top">Data *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a7965d6074abfbcbdef971934fd4dec78">data</a> () noexcept</td></tr>
-<tr class="memdesc:a7965d6074abfbcbdef971934fd4dec78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the sequence internal data. Internal use only.  <a href="classseq_1_1sequence.html#a7965d6074abfbcbdef971934fd4dec78">More...</a><br /></td></tr>
-<tr class="separator:a7965d6074abfbcbdef971934fd4dec78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23d784907087118119cee410a7b2c6c7"><td class="memItemLeft" align="right" valign="top">const Data *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a23d784907087118119cee410a7b2c6c7">data</a> () const noexcept</td></tr>
-<tr class="separator:a23d784907087118119cee410a7b2c6c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5689f2789f4f2acdd2a78f9d652a7d0"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#ad5689f2789f4f2acdd2a78f9d652a7d0">memory_footprint</a> () const noexcept</td></tr>
-<tr class="memdesc:ad5689f2789f4f2acdd2a78f9d652a7d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full memory footprint of this sequence in bytes, excluding sizeof(*this).  <a href="classseq_1_1sequence.html#ad5689f2789f4f2acdd2a78f9d652a7d0">More...</a><br /></td></tr>
-<tr class="separator:ad5689f2789f4f2acdd2a78f9d652a7d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b0f1ebf64715907e8c694f3bb6f22c6"><td class="memItemLeft" align="right" valign="top">Allocator &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a2b0f1ebf64715907e8c694f3bb6f22c6">get_allocator</a> () noexcept</td></tr>
-<tr class="memdesc:a2b0f1ebf64715907e8c694f3bb6f22c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the allocator associated with the container.  <a href="classseq_1_1sequence.html#a2b0f1ebf64715907e8c694f3bb6f22c6">More...</a><br /></td></tr>
-<tr class="separator:a2b0f1ebf64715907e8c694f3bb6f22c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2f1f188ffa5e7e2da618d1df5647515"><td class="memItemLeft" align="right" valign="top">Allocator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#ae2f1f188ffa5e7e2da618d1df5647515">get_allocator</a> () const noexcept</td></tr>
-<tr class="memdesc:ae2f1f188ffa5e7e2da618d1df5647515"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the allocator associated with the container.  <a href="classseq_1_1sequence.html#ae2f1f188ffa5e7e2da618d1df5647515">More...</a><br /></td></tr>
-<tr class="separator:ae2f1f188ffa5e7e2da618d1df5647515"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4fab80858b23d4eb40703de80cc28cd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#ad4fab80858b23d4eb40703de80cc28cd">size</a> () const noexcept</td></tr>
-<tr class="memdesc:ad4fab80858b23d4eb40703de80cc28cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns thenumber of elements in this sequence.  <a href="classseq_1_1sequence.html#ad4fab80858b23d4eb40703de80cc28cd">More...</a><br /></td></tr>
-<tr class="separator:ad4fab80858b23d4eb40703de80cc28cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a640ffee51572b2cbf01ce2819b217df9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a640ffee51572b2cbf01ce2819b217df9">empty</a> () const noexcept</td></tr>
-<tr class="separator:a640ffee51572b2cbf01ce2819b217df9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb43c38faef27cfa8e144cd682921988"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#afb43c38faef27cfa8e144cd682921988">capacity</a> () const noexcept</td></tr>
-<tr class="memdesc:afb43c38faef27cfa8e144cd682921988"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of elements that the container has currently allocated space for.  <a href="classseq_1_1sequence.html#afb43c38faef27cfa8e144cd682921988">More...</a><br /></td></tr>
-<tr class="separator:afb43c38faef27cfa8e144cd682921988"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24059a4fa4280f2c55686137a2763276"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a24059a4fa4280f2c55686137a2763276">back</a> () const noexcept</td></tr>
-<tr class="memdesc:a24059a4fa4280f2c55686137a2763276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the back sequence value.  <a href="classseq_1_1sequence.html#a24059a4fa4280f2c55686137a2763276">More...</a><br /></td></tr>
-<tr class="separator:a24059a4fa4280f2c55686137a2763276"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9dd076a005da1a97b9de004b882f7f42"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a9dd076a005da1a97b9de004b882f7f42">back</a> () noexcept</td></tr>
-<tr class="memdesc:a9dd076a005da1a97b9de004b882f7f42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the back sequence value.  <a href="classseq_1_1sequence.html#a9dd076a005da1a97b9de004b882f7f42">More...</a><br /></td></tr>
-<tr class="separator:a9dd076a005da1a97b9de004b882f7f42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab4b0547a82571d611fd7174b9fce304"><td class="memItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#aab4b0547a82571d611fd7174b9fce304">front</a> () const noexcept</td></tr>
-<tr class="memdesc:aab4b0547a82571d611fd7174b9fce304"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the front sequence value.  <a href="classseq_1_1sequence.html#aab4b0547a82571d611fd7174b9fce304">More...</a><br /></td></tr>
-<tr class="separator:aab4b0547a82571d611fd7174b9fce304"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a437130809209dae583f2f3348daef29d"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a437130809209dae583f2f3348daef29d">front</a> () noexcept</td></tr>
-<tr class="memdesc:a437130809209dae583f2f3348daef29d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the front sequence value.  <a href="classseq_1_1sequence.html#a437130809209dae583f2f3348daef29d">More...</a><br /></td></tr>
-<tr class="separator:a437130809209dae583f2f3348daef29d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24cf8f2fe37e422bcc119ebd2f064dce"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a24cf8f2fe37e422bcc119ebd2f064dce">data</a> () noexcept -&gt; Data *</td></tr>
+<tr class="memdesc:a24cf8f2fe37e422bcc119ebd2f064dce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the sequence internal data. Internal use only.  <a href="classseq_1_1sequence.html#a24cf8f2fe37e422bcc119ebd2f064dce">More...</a><br /></td></tr>
+<tr class="separator:a24cf8f2fe37e422bcc119ebd2f064dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a425737526395c84ed6b57b6297bcb410"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a425737526395c84ed6b57b6297bcb410">data</a> () const noexcept -&gt; const Data *</td></tr>
+<tr class="separator:a425737526395c84ed6b57b6297bcb410"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef7cb1d4d77ba5476930bfdffef65e09"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#aef7cb1d4d77ba5476930bfdffef65e09">memory_footprint</a> () const noexcept -&gt; std::size_t</td></tr>
+<tr class="memdesc:aef7cb1d4d77ba5476930bfdffef65e09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full memory footprint of this sequence in bytes, excluding sizeof(*this).  <a href="classseq_1_1sequence.html#aef7cb1d4d77ba5476930bfdffef65e09">More...</a><br /></td></tr>
+<tr class="separator:aef7cb1d4d77ba5476930bfdffef65e09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a065df7dfb6b5495249346d377d94b0dc"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a065df7dfb6b5495249346d377d94b0dc">get_allocator</a> () noexcept -&gt; Allocator &amp;</td></tr>
+<tr class="memdesc:a065df7dfb6b5495249346d377d94b0dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the allocator associated with the container.  <a href="classseq_1_1sequence.html#a065df7dfb6b5495249346d377d94b0dc">More...</a><br /></td></tr>
+<tr class="separator:a065df7dfb6b5495249346d377d94b0dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f868260d86160cfb072ad362db4b6d3"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a9f868260d86160cfb072ad362db4b6d3">get_allocator</a> () const noexcept -&gt; Allocator</td></tr>
+<tr class="memdesc:a9f868260d86160cfb072ad362db4b6d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the allocator associated with the container.  <a href="classseq_1_1sequence.html#a9f868260d86160cfb072ad362db4b6d3">More...</a><br /></td></tr>
+<tr class="separator:a9f868260d86160cfb072ad362db4b6d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1171dafc78357c61afd896f15d87884"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#af1171dafc78357c61afd896f15d87884">size</a> () const noexcept -&gt; <a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a></td></tr>
+<tr class="memdesc:af1171dafc78357c61afd896f15d87884"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns thenumber of elements in this sequence.  <a href="classseq_1_1sequence.html#af1171dafc78357c61afd896f15d87884">More...</a><br /></td></tr>
+<tr class="separator:af1171dafc78357c61afd896f15d87884"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a367842660b634699aca64fa00af6743a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a367842660b634699aca64fa00af6743a">empty</a> () const noexcept -&gt; bool</td></tr>
+<tr class="separator:a367842660b634699aca64fa00af6743a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39900c1d6c4189f852298857a3ef7938"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a39900c1d6c4189f852298857a3ef7938">capacity</a> () const noexcept -&gt; size_t</td></tr>
+<tr class="memdesc:a39900c1d6c4189f852298857a3ef7938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of elements that the container has currently allocated space for.  <a href="classseq_1_1sequence.html#a39900c1d6c4189f852298857a3ef7938">More...</a><br /></td></tr>
+<tr class="separator:a39900c1d6c4189f852298857a3ef7938"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84eae0de15058ca5a708264a241564b6"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a84eae0de15058ca5a708264a241564b6">back</a> () const noexcept -&gt; const T &amp;</td></tr>
+<tr class="memdesc:a84eae0de15058ca5a708264a241564b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the back sequence value.  <a href="classseq_1_1sequence.html#a84eae0de15058ca5a708264a241564b6">More...</a><br /></td></tr>
+<tr class="separator:a84eae0de15058ca5a708264a241564b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6da4f80e918b45025b44eef043b1d4a9"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a6da4f80e918b45025b44eef043b1d4a9">back</a> () noexcept -&gt; T &amp;</td></tr>
+<tr class="memdesc:a6da4f80e918b45025b44eef043b1d4a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the back sequence value.  <a href="classseq_1_1sequence.html#a6da4f80e918b45025b44eef043b1d4a9">More...</a><br /></td></tr>
+<tr class="separator:a6da4f80e918b45025b44eef043b1d4a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41b2a98cd2c9a3249e6cc592f774a720"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a41b2a98cd2c9a3249e6cc592f774a720">front</a> () const noexcept -&gt; const T &amp;</td></tr>
+<tr class="memdesc:a41b2a98cd2c9a3249e6cc592f774a720"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the front sequence value.  <a href="classseq_1_1sequence.html#a41b2a98cd2c9a3249e6cc592f774a720">More...</a><br /></td></tr>
+<tr class="separator:a41b2a98cd2c9a3249e6cc592f774a720"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaaf970d1c536112aec1153bd5d8c0e8"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#acaaf970d1c536112aec1153bd5d8c0e8">front</a> () noexcept -&gt; T &amp;</td></tr>
+<tr class="memdesc:acaaf970d1c536112aec1153bd5d8c0e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the front sequence value.  <a href="classseq_1_1sequence.html#acaaf970d1c536112aec1153bd5d8c0e8">More...</a><br /></td></tr>
+<tr class="separator:acaaf970d1c536112aec1153bd5d8c0e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa3e3d448af95c0bf3a7e897ae02f193"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#afa3e3d448af95c0bf3a7e897ae02f193">clear</a> () noexcept</td></tr>
 <tr class="memdesc:afa3e3d448af95c0bf3a7e897ae02f193"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the contents. Erases all elements from the container. After this call, size() returns zero. Invalidates any references, pointers, or iterators referring to contained elements. Any past-the-end iterator remains valid.  <a href="classseq_1_1sequence.html#afa3e3d448af95c0bf3a7e897ae02f193">More...</a><br /></td></tr>
 <tr class="separator:afa3e3d448af95c0bf3a7e897ae02f193"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -279,10 +279,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af358418e79ad4c4839bd2516bd44a945"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#af358418e79ad4c4839bd2516bd44a945">pop_back</a> () noexcept</td></tr>
 <tr class="memdesc:af358418e79ad4c4839bd2516bd44a945"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the last element of the container. Calling pop_back on an empty container results in undefined behavior. Iterators and references to the last element are invalidated. Other iterators and references remain valid.  <a href="classseq_1_1sequence.html#af358418e79ad4c4839bd2516bd44a945">More...</a><br /></td></tr>
 <tr class="separator:af358418e79ad4c4839bd2516bd44a945"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea74094dc554b982ce88974be31abb3f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classseq_1_1sequence.html#a7a07a0366c0a33e89a2faa4602528833">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#aea74094dc554b982ce88974be31abb3f">iterator_at</a> (<a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a> <a class="el" href="namespaceseq.html#a4af98bbd3b7d9b7d7cb552f6f3a8d220">pos</a>) noexcept</td></tr>
+<tr class="memitem:aea74094dc554b982ce88974be31abb3f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classseq_1_1sequence.html#a7a07a0366c0a33e89a2faa4602528833">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#aea74094dc554b982ce88974be31abb3f">iterator_at</a> (<a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a> <a class="el" href="namespaceseq.html#ab534e8a0f6ac376f61e976fe7cd65457">pos</a>) noexcept</td></tr>
 <tr class="memdesc:aea74094dc554b982ce88974be31abb3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to given position.  <a href="classseq_1_1sequence.html#aea74094dc554b982ce88974be31abb3f">More...</a><br /></td></tr>
 <tr class="separator:aea74094dc554b982ce88974be31abb3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f27286ba281008e948d43776650131d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classseq_1_1sequence.html#a7f4c3f39d42b9d1c0cc33f3f85c93e0d">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a7f27286ba281008e948d43776650131d">iterator_at</a> (<a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a> <a class="el" href="namespaceseq.html#a4af98bbd3b7d9b7d7cb552f6f3a8d220">pos</a>) const noexcept</td></tr>
+<tr class="memitem:a7f27286ba281008e948d43776650131d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classseq_1_1sequence.html#a7f4c3f39d42b9d1c0cc33f3f85c93e0d">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a7f27286ba281008e948d43776650131d">iterator_at</a> (<a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a> <a class="el" href="namespaceseq.html#ab534e8a0f6ac376f61e976fe7cd65457">pos</a>) const noexcept</td></tr>
 <tr class="memdesc:a7f27286ba281008e948d43776650131d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const_iterator to given position.  <a href="classseq_1_1sequence.html#a7f27286ba281008e948d43776650131d">More...</a><br /></td></tr>
 <tr class="separator:a7f27286ba281008e948d43776650131d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a038a503f6e12ef433dd22463bf21cc0b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classseq_1_1sequence.html#a7a07a0366c0a33e89a2faa4602528833">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a038a503f6e12ef433dd22463bf21cc0b">erase</a> (<a class="el" href="classseq_1_1sequence.html#a7f4c3f39d42b9d1c0cc33f3f85c93e0d">const_iterator</a> it) noexcept</td></tr>
@@ -292,11 +292,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab11c6afd53764d0a0bd83a5de6badc99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases the specified elements from the container.  <a href="classseq_1_1sequence.html#ab11c6afd53764d0a0bd83a5de6badc99">More...</a><br /></td></tr>
 <tr class="separator:ab11c6afd53764d0a0bd83a5de6badc99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c2005c28e8537de74b4c1e588180463"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463">sort</a> ()</td></tr>
-<tr class="memdesc:a0c2005c28e8537de74b4c1e588180463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator. <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a> relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std::deque. This invalidates all iterators and references.  <a href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463">More...</a><br /></td></tr>
+<tr class="memdesc:a0c2005c28e8537de74b4c1e588180463"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator. <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a> relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std_deque. This invalidates all iterators and references.  <a href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463">More...</a><br /></td></tr>
 <tr class="separator:a0c2005c28e8537de74b4c1e588180463"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ca5c3fc0cc7a2660c90b601b075ca97"><td class="memTemplParams" colspan="2">template&lt;class Less &gt; </td></tr>
 <tr class="memitem:a5ca5c3fc0cc7a2660c90b601b075ca97"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a5ca5c3fc0cc7a2660c90b601b075ca97">sort</a> (Less less)</td></tr>
-<tr class="memdesc:a5ca5c3fc0cc7a2660c90b601b075ca97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort the sequence using given comparator. <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a> relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std::deque. This invalidates all iterators and references.  <a href="classseq_1_1sequence.html#a5ca5c3fc0cc7a2660c90b601b075ca97">More...</a><br /></td></tr>
+<tr class="memdesc:a5ca5c3fc0cc7a2660c90b601b075ca97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort the sequence using given comparator. <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a> relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std_deque. This invalidates all iterators and references.  <a href="classseq_1_1sequence.html#a5ca5c3fc0cc7a2660c90b601b075ca97">More...</a><br /></td></tr>
 <tr class="separator:a5ca5c3fc0cc7a2660c90b601b075ca97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5aaca3cd0a83c4637c28599ac55d70a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a5aaca3cd0a83c4637c28599ac55d70a0">stable_sort</a> ()</td></tr>
 <tr class="memdesc:a5aaca3cd0a83c4637c28599ac55d70a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator. <a class="el" href="classseq_1_1sequence.html#a5aaca3cd0a83c4637c28599ac55d70a0" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">stable_sort()</a> relies on std::stable_sort. This invalidates all iterators and references.  <a href="classseq_1_1sequence.html#a5aaca3cd0a83c4637c28599ac55d70a0">More...</a><br /></td></tr>
@@ -344,9 +344,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a21bca2aa833223052f3ed832f779522e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a21bca2aa833223052f3ed832f779522e">max_size</a> () noexcept</td></tr>
-<tr class="memdesc:a21bca2aa833223052f3ed832f779522e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the sequence maximum size.  <a href="classseq_1_1sequence.html#a21bca2aa833223052f3ed832f779522e">More...</a><br /></td></tr>
-<tr class="separator:a21bca2aa833223052f3ed832f779522e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21013b95f15468be8a88bded677a45de"><td class="memItemLeft" align="right" valign="top">static auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a21013b95f15468be8a88bded677a45de">max_size</a> () noexcept -&gt; <a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a></td></tr>
+<tr class="memdesc:a21013b95f15468be8a88bded677a45de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the sequence maximum size.  <a href="classseq_1_1sequence.html#a21013b95f15468be8a88bded677a45de">More...</a><br /></td></tr>
+<tr class="separator:a21013b95f15468be8a88bded677a45de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -367,30 +367,30 @@ class seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</h3>
   </table>
   </dd>
 </dl>
-<p>The sequence container behaves like a hybrid version of std::deque and std::list. It provides:</p><ul>
+<p>The sequence container behaves like a hybrid version of std_deque and std::list. It provides:</p><ul>
 <li>Constant time insertion at the back or the front using members <a class="el" href="classseq_1_1sequence.html#ab7a6dfc0af059f7d3c6dd0b255bea08f" title="Appends the given element value to the end of the sequence.">push_back()</a>, <a class="el" href="classseq_1_1sequence.html#ad849b79810bf1ad79912af6914834949" title="Constructs an element in-place at the end.">emplace_back()</a>, <a class="el" href="classseq_1_1sequence.html#a1b1a3369b5343e9941d069ccc7cd4639" title="Prepends the given element value to the beginning of the sequence.">push_front()</a> and <a class="el" href="classseq_1_1sequence.html#a70fffbaf997937a304178a81e9e92637" title="Constructs an element in-place at the beginning.">emplace_front()</a></li>
 <li>Constant time removal of one or more elements with <a class="el" href="classseq_1_1sequence.html#a038a503f6e12ef433dd22463bf21cc0b" title="Erases the specified element from the container.">erase()</a></li>
-<li>Stability of references and iterators.</li>
+<li>Stability of references and iterators (except end iterator).</li>
 </ul>
 <p>Unlike std::list, the sequence container does not provide insertion anywhere in the container. Instead, sequence provides unordered insertion through its member <a class="el" href="classseq_1_1sequence.html#a3a6276982c81ecc0cfc2b0f22a896a7a" title="Insert the given element into the sequence.">insert()</a>, much like the <a href="https://plflib.org/colony.htm">plf::colony</a> class. Unordered insertion is usually prefered to back or front insertion as it can reuse free slots created by <a class="el" href="classseq_1_1sequence.html#a038a503f6e12ef433dd22463bf21cc0b" title="Erases the specified element from the container.">erase()</a> and avoid potential allocations. In addition, its <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a>, <a class="el" href="classseq_1_1sequence.html#a5aaca3cd0a83c4637c28599ac55d70a0" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">stable_sort()</a> and <a class="el" href="classseq_1_1sequence.html#a1bf494125859119c2748a7a5e59588fa" title="Pack the sequence to remove empty slots and release unused memory. All empty slots created by calls t...">shrink_to_fit()</a> members do not preserve reference and iterator stability.</p>
 <p>Its main advantages other std::list (and other containers) are:</p><ul>
-<li>Insertion at both ends is faster than a std::deque or std::vector (without reserve)</li>
-<li>Walking through the sequence with iterators is usually faster than walking through a std::deque</li>
-<li>Sorting a sequence (with <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a> or <a class="el" href="classseq_1_1sequence.html#a5aaca3cd0a83c4637c28599ac55d70a0" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">stable_sort()</a>) is usually as fast as sorting a std::deque. Note that #sequence::sort() uses <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters.</li>
+<li>Insertion at both ends is faster than a std_deque or std::vector (without reserve)</li>
+<li>Walking through the sequence with iterators is usually faster than walking through a std_deque</li>
+<li>Sorting a sequence (with <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a> or <a class="el" href="classseq_1_1sequence.html#a5aaca3cd0a83c4637c28599ac55d70a0" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">stable_sort()</a>) is usually as fast as sorting a std_deque. Note that #sequence::sort() uses <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters.</li>
 <li>Its memory overhead is lower than a std::list: around 1 byte per element.</li>
 </ul>
 <p>The sequence container is a perfect candidate for std::queue and std::stack. It is used by the seq library as the backend container for <a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">seq::ordered_set</a> and <a class="el" href="classseq_1_1ordered__map.html" title="Associative container that contains key-value pairs with unique keys. Search, insertion,...">seq::ordered_map</a>.</p>
-<h2><a class="anchor" id="autotoc_md50"></a>
+<h2><a class="anchor" id="autotoc_md45"></a>
 Technical description</h2>
 <p>sequence container is implemented as a linked list of buckets. Each bucket holds (up to) 64 elements in a contiguous storage, and a 64 bits integer telling if a slot is empty or occupied.</p>
 <p>In order to retrieve the index of the first (or last) used slot in a bucket, or to get the number of occupied slots, the sequence container uses OS intrinsics to scan the 64 bits integer. For instance, on Windows, <em>_BitScanForward64</em>, <em>_BitScanRevers64</em> and <em>_mm_popcnt_u64</em> are used. Removing an element from the sequence will set the corresponding bit to 0, inserting will set the bit to 1.</p>
 <p>In addition, the sequence maintains another linked list of partially free buckets in order to perform fast unordered insertion using <a class="el" href="classseq_1_1sequence.html#a3a6276982c81ecc0cfc2b0f22a896a7a" title="Insert the given element into the sequence.">insert()</a> member and therefore reuse slots previously deleted by <a class="el" href="classseq_1_1sequence.html#a038a503f6e12ef433dd22463bf21cc0b" title="Erases the specified element from the container.">erase()</a>.</p>
-<h2><a class="anchor" id="autotoc_md51"></a>
+<h2><a class="anchor" id="autotoc_md46"></a>
 Iterators</h2>
 <p>sequence iterator and const_iterator are bidirectional iterators. However, they provide all the members to behave like random access iterator, except the std::random_access_iterator_tag typedef.</p>
-<p>Indeed, using <em><a class="el" href="classseq_1_1detail_1_1sequence__iterator.html#a6eae5e249a991ab2b0ea792e6eb85b74">iterator::operator+=</a></em> is, for instance, much faster than <em>std::advance</em> as it can skip whole buckets to reach the required location. Likewise subtracting 2 iterators is much faster than using <em>std::distance</em>.</p>
+<p>Indeed, using <em><a class="el" href="classseq_1_1detail_1_1sequence__iterator.html#a9ecbbe579745bd34a8b183b0000e5700">iterator::operator+=</a></em> is, for instance, much faster than <em>std::advance</em> as it can skip whole buckets to reach the required location. Likewise subtracting 2 iterators is much faster than using <em>std::distance</em>.</p>
 <p>sequence iterator also provide comparison operators &lt;, &gt;, &lt;= and &gt;=.</p>
-<h2><a class="anchor" id="autotoc_md52"></a>
+<h2><a class="anchor" id="autotoc_md47"></a>
 Memory managment</h2>
 <p>When using the <em>OptimizeForMemory</em> flag, the sequence will allocate each bucket independently using the provided allocator.</p>
 <p>When using the <em>OptimizeForSpeed</em> flag, the sequence will use a memory pool to allocate several buckets at once, still using the provided allocator. The memory pool uses a growing strategy to allocate more and more buckets based on a growth factor (SEQ_GROW_FACTOR define, defaulting to 1.6). The memory pool makes insertion tipically 50% faster than the default allocation strategy, but will consume slightly more memory.</p>
@@ -675,7 +675,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -859,8 +859,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="a4950a19cf05dbc9b5af00dcbc90a8a54"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4950a19cf05dbc9b5af00dcbc90a8a54">&#9670;&nbsp;</a></span>sequence() <span class="overload">[8/10]</span></h2>
+<a id="a2cd969dd2081e6ab9c6acbdc8e7475c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cd969dd2081e6ab9c6acbdc8e7475c1">&#9670;&nbsp;</a></span>sequence() <span class="overload">[8/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -890,7 +890,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1186,8 +1186,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="a24059a4fa4280f2c55686137a2763276"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24059a4fa4280f2c55686137a2763276">&#9670;&nbsp;</a></span>back() <span class="overload">[1/2]</span></h2>
+<a id="a84eae0de15058ca5a708264a241564b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84eae0de15058ca5a708264a241564b6">&#9670;&nbsp;</a></span>back() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1198,10 +1198,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T&amp; <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::back </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::back </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; const T&amp; </td>
         </tr>
       </table>
   </td>
@@ -1215,8 +1215,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="a9dd076a005da1a97b9de004b882f7f42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9dd076a005da1a97b9de004b882f7f42">&#9670;&nbsp;</a></span>back() <span class="overload">[2/2]</span></h2>
+<a id="a6da4f80e918b45025b44eef043b1d4a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6da4f80e918b45025b44eef043b1d4a9">&#9670;&nbsp;</a></span>back() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1227,10 +1227,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T&amp; <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::back </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::back </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> -&gt; T&amp; </td>
         </tr>
       </table>
   </td>
@@ -1302,8 +1302,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="afb43c38faef27cfa8e144cd682921988"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb43c38faef27cfa8e144cd682921988">&#9670;&nbsp;</a></span>capacity()</h2>
+<a id="a39900c1d6c4189f852298857a3ef7938"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39900c1d6c4189f852298857a3ef7938">&#9670;&nbsp;</a></span>capacity()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1314,10 +1314,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::capacity </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::capacity </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; size_t </td>
         </tr>
       </table>
   </td>
@@ -1476,8 +1476,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="a23d784907087118119cee410a7b2c6c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23d784907087118119cee410a7b2c6c7">&#9670;&nbsp;</a></span>data() <span class="overload">[1/2]</span></h2>
+<a id="a425737526395c84ed6b57b6297bcb410"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a425737526395c84ed6b57b6297bcb410">&#9670;&nbsp;</a></span>data() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1488,10 +1488,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const Data* <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::data </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::data </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; const Data* </td>
         </tr>
       </table>
   </td>
@@ -1503,8 +1503,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="a7965d6074abfbcbdef971934fd4dec78"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7965d6074abfbcbdef971934fd4dec78">&#9670;&nbsp;</a></span>data() <span class="overload">[2/2]</span></h2>
+<a id="a24cf8f2fe37e422bcc119ebd2f064dce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24cf8f2fe37e422bcc119ebd2f064dce">&#9670;&nbsp;</a></span>data() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1515,10 +1515,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Data* <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::data </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::data </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> -&gt; Data*  </td>
         </tr>
       </table>
   </td>
@@ -1757,8 +1757,8 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a640ffee51572b2cbf01ce2819b217df9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a640ffee51572b2cbf01ce2819b217df9">&#9670;&nbsp;</a></span>empty()</h2>
+<a id="a367842660b634699aca64fa00af6743a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a367842660b634699aca64fa00af6743a">&#9670;&nbsp;</a></span>empty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1769,10 +1769,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::empty </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::empty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; bool </td>
         </tr>
       </table>
   </td>
@@ -1927,8 +1927,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="aab4b0547a82571d611fd7174b9fce304"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab4b0547a82571d611fd7174b9fce304">&#9670;&nbsp;</a></span>front() <span class="overload">[1/2]</span></h2>
+<a id="a41b2a98cd2c9a3249e6cc592f774a720"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41b2a98cd2c9a3249e6cc592f774a720">&#9670;&nbsp;</a></span>front() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1939,10 +1939,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T&amp; <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::front </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::front </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; const T&amp; </td>
         </tr>
       </table>
   </td>
@@ -1956,8 +1956,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="a437130809209dae583f2f3348daef29d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a437130809209dae583f2f3348daef29d">&#9670;&nbsp;</a></span>front() <span class="overload">[2/2]</span></h2>
+<a id="acaaf970d1c536112aec1153bd5d8c0e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acaaf970d1c536112aec1153bd5d8c0e8">&#9670;&nbsp;</a></span>front() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1968,10 +1968,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T&amp; <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::front </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::front </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> -&gt; T&amp; </td>
         </tr>
       </table>
   </td>
@@ -1985,8 +1985,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="ae2f1f188ffa5e7e2da618d1df5647515"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2f1f188ffa5e7e2da618d1df5647515">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[1/2]</span></h2>
+<a id="a9f868260d86160cfb072ad362db4b6d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f868260d86160cfb072ad362db4b6d3">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1997,10 +1997,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Allocator <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::get_allocator </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::get_allocator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; Allocator</td>
         </tr>
       </table>
   </td>
@@ -2014,8 +2014,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="a2b0f1ebf64715907e8c694f3bb6f22c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b0f1ebf64715907e8c694f3bb6f22c6">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[2/2]</span></h2>
+<a id="a065df7dfb6b5495249346d377d94b0dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a065df7dfb6b5495249346d377d94b0dc">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2026,10 +2026,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Allocator&amp; <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::get_allocator </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::get_allocator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> -&gt; Allocator&amp;</td>
         </tr>
       </table>
   </td>
@@ -2201,8 +2201,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="a21bca2aa833223052f3ed832f779522e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21bca2aa833223052f3ed832f779522e">&#9670;&nbsp;</a></span>max_size()</h2>
+<a id="a21013b95f15468be8a88bded677a45de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21013b95f15468be8a88bded677a45de">&#9670;&nbsp;</a></span>max_size()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2213,10 +2213,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a> <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::max_size </td>
+          <td class="memname">static auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::max_size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a> </td>
         </tr>
       </table>
   </td>
@@ -2230,8 +2230,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="ad5689f2789f4f2acdd2a78f9d652a7d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad5689f2789f4f2acdd2a78f9d652a7d0">&#9670;&nbsp;</a></span>memory_footprint()</h2>
+<a id="aef7cb1d4d77ba5476930bfdffef65e09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef7cb1d4d77ba5476930bfdffef65e09">&#9670;&nbsp;</a></span>memory_footprint()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2242,10 +2242,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::memory_footprint </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::memory_footprint </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; std::size_t </td>
         </tr>
       </table>
   </td>
@@ -2259,8 +2259,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="a69c6c9bd0dcc596b190fcf986e9c3ae6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69c6c9bd0dcc596b190fcf986e9c3ae6">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
+<a id="a3fe31dfa20f873fe2e541d37efacb6d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fe31dfa20f873fe2e541d37efacb6d4">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2271,11 +2271,12 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1sequence.html">sequence</a>&amp; <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::operator= </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::operator= </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classseq_1_1sequence.html">sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt; &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="classseq_1_1sequence.html">sequence</a>&amp;
+		</td>
         </tr>
       </table>
   </td>
@@ -2296,8 +2297,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="ac66ddee058887387286a3ba6c8d429a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac66ddee058887387286a3ba6c8d429a1">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
+<a id="a24f4acbccef9afb88836ca12d7fba1f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24f4acbccef9afb88836ca12d7fba1f3">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2308,11 +2309,12 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1sequence.html">sequence</a>&amp; <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::operator= </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::operator= </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classseq_1_1sequence.html">sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; <a class="el" href="classseq_1_1sequence.html">sequence</a>&amp;
+		</td>
         </tr>
       </table>
   </td>
@@ -2681,7 +2683,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 <p>Increase the capacity of the vector to a value that's greater or equal to new_cap. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">new_cap</td><td>new capacity of the sequence If new_cap is greater than the current <a class="el" href="classseq_1_1sequence.html#afb43c38faef27cfa8e144cd682921988" title="Returns the number of elements that the container has currently allocated space for.">capacity()</a>, new storage is allocated, otherwise the function does nothing. <a class="el" href="classseq_1_1sequence.html#a54647e26b4fb0be48e05fc345c3272d3" title="Increase the capacity of the vector to a value that&#39;s greater or equal to new_cap.">reserve()</a> does not change the size of the sequence. Note that <a class="el" href="classseq_1_1sequence.html#a54647e26b4fb0be48e05fc345c3272d3" title="Increase the capacity of the vector to a value that&#39;s greater or equal to new_cap.">reserve()</a> only works with <em>OptimizeForSpeed</em> flag. Basic exception guarantee. <br  />
+    <tr><td class="paramname">new_cap</td><td>new capacity of the sequence If new_cap is greater than the current <a class="el" href="classseq_1_1sequence.html#a39900c1d6c4189f852298857a3ef7938" title="Returns the number of elements that the container has currently allocated space for.">capacity()</a>, new storage is allocated, otherwise the function does nothing. <a class="el" href="classseq_1_1sequence.html#a54647e26b4fb0be48e05fc345c3272d3" title="Increase the capacity of the vector to a value that&#39;s greater or equal to new_cap.">reserve()</a> does not change the size of the sequence. Note that <a class="el" href="classseq_1_1sequence.html#a54647e26b4fb0be48e05fc345c3272d3" title="Increase the capacity of the vector to a value that&#39;s greater or equal to new_cap.">reserve()</a> only works with <em>OptimizeForSpeed</em> flag. Basic exception guarantee. <br  />
  </td></tr>
   </table>
   </dd>
@@ -2885,8 +2887,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="ad4fab80858b23d4eb40703de80cc28cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4fab80858b23d4eb40703de80cc28cd">&#9670;&nbsp;</a></span>size()</h2>
+<a id="af1171dafc78357c61afd896f15d87884"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1171dafc78357c61afd896f15d87884">&#9670;&nbsp;</a></span>size()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2897,10 +2899,10 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a> <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::size </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::size </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> const -&gt; <a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a> </td>
         </tr>
       </table>
   </td>
@@ -2939,7 +2941,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 </table>
 </div><div class="memdoc">
 
-<p>Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator. <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a> relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std::deque. This invalidates all iterators and references. </p>
+<p>Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator. <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a> relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std_deque. This invalidates all iterators and references. </p>
 
 </div>
 </div>
@@ -2971,7 +2973,7 @@ template&lt;class Less &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Sort the sequence using given comparator. <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a> relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std::deque. This invalidates all iterators and references. </p>
+<p>Sort the sequence using given comparator. <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a> relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std_deque. This invalidates all iterators and references. </p>
 
 </div>
 </div>

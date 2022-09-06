@@ -13,12 +13,12 @@ Inherits \mbox{\hyperlink{structseq_1_1detail_1_1block__it}{seq\+::detail\+::blo
 \item 
 {\footnotesize template$<$class U $>$ }\\using \mbox{\hyperlink{structseq_1_1detail_1_1base__block_a25b2bf388b6ae01743020e8d34b22b73}{rebind\+\_\+alloc}} = typename std\+::allocator\+\_\+traits$<$ Allocator $>$\+::template \mbox{\hyperlink{structseq_1_1detail_1_1base__block_a25b2bf388b6ae01743020e8d34b22b73}{rebind\+\_\+alloc}}$<$ U $>$
 \item 
-using \mbox{\hyperlink{structseq_1_1detail_1_1base__block_a9d210634f86bb8508913d41ddbb95060}{value\+\_\+type}} = T
+using \mbox{\hyperlink{structseq_1_1detail_1_1base__block_a9d210634f86bb8508913d41ddbb95060}{value\+\_\+type}} = \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1base__block_a682acc6fcc1e355d40d2735ac6b93318}{base\+\_\+block}} (void $\ast$th, size\+\_\+t elems, unsigned elem\+\_\+size, const Allocator \&al=Allocator())
+\mbox{\hyperlink{structseq_1_1detail_1_1base__block_a7fd30c84bab546756c13769e40b29e38}{base\+\_\+block}} (void $\ast$th, size\+\_\+t elems, unsigned elem\+\_\+size, const Allocator \&al)
 \item 
 void \mbox{\hyperlink{structseq_1_1detail_1_1base__block_a633334d83aaf151da2e3a1bfd5520d39}{insert}} (derived $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1block__it_a1687c81a9c8de31b0415191844bc80fd}{left}}, derived $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1block__it_a26b9d8c5f75bbaad52c0ce62029d21df}{right}})
 \item 
@@ -50,24 +50,24 @@ std\+::atomic$<$ size\+\_\+t $>$ \mbox{\hyperlink{structseq_1_1detail_1_1base__b
 \doxysubsubsection{\texorpdfstring{rebind\_alloc}{rebind\_alloc}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
 template$<$class U $>$ \\
-using \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1base__block_a25b2bf388b6ae01743020e8d34b22b73}{rebind\+\_\+alloc}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::template \mbox{\hyperlink{structseq_1_1detail_1_1base__block_a25b2bf388b6ae01743020e8d34b22b73}{rebind\+\_\+alloc}}$<$U$>$}
+using \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1base__block_a25b2bf388b6ae01743020e8d34b22b73}{rebind\+\_\+alloc}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::template \mbox{\hyperlink{structseq_1_1detail_1_1base__block_a25b2bf388b6ae01743020e8d34b22b73}{rebind\+\_\+alloc}}$<$U$>$}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1base__block_a9d210634f86bb8508913d41ddbb95060}\label{structseq_1_1detail_1_1base__block_a9d210634f86bb8508913d41ddbb95060}} 
 \index{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}!value\_type@{value\_type}}
 \index{value\_type@{value\_type}!seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}}
 \doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
-using \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1base__block_a9d210634f86bb8508913d41ddbb95060}{value\+\_\+type}} =  T}
+using \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1base__block_a9d210634f86bb8508913d41ddbb95060}{value\+\_\+type}} =  \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}}
 
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{structseq_1_1detail_1_1base__block_a682acc6fcc1e355d40d2735ac6b93318}\label{structseq_1_1detail_1_1base__block_a682acc6fcc1e355d40d2735ac6b93318}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1base__block_a7fd30c84bab546756c13769e40b29e38}\label{structseq_1_1detail_1_1base__block_a7fd30c84bab546756c13769e40b29e38}} 
 \index{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}!base\_block@{base\_block}}
 \index{base\_block@{base\_block}!seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}}
 \doxysubsubsection{\texorpdfstring{base\_block()}{base\_block()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1base__block}{base\+\_\+block}} (\begin{DoxyParamCaption}\item[{void $\ast$}]{th,  }\item[{size\+\_\+t}]{elems,  }\item[{unsigned}]{elem\+\_\+size,  }\item[{const Allocator \&}]{al = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1base__block}{base\+\_\+block}} (\begin{DoxyParamCaption}\item[{void $\ast$}]{th,  }\item[{size\+\_\+t}]{elems,  }\item[{unsigned}]{elem\+\_\+size,  }\item[{const Allocator \&}]{al }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -77,7 +77,7 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base
 \index{deallocate@{deallocate}!seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}}
 \doxysubsubsection{\texorpdfstring{deallocate()}{deallocate()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
-virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::deallocate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1base__block_a9d210634f86bb8508913d41ddbb95060}{value\+\_\+type}} $\ast$}]{p,  }\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::deallocate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1base__block_a9d210634f86bb8508913d41ddbb95060}{value\+\_\+type}} $\ast$}]{p,  }\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 
@@ -88,14 +88,14 @@ Implements \mbox{\hyperlink{structseq_1_1detail_1_1virtual__block_a68901a44802a2
 \index{insert@{insert}!seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}}
 \doxysubsubsection{\texorpdfstring{insert()}{insert()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::insert (\begin{DoxyParamCaption}\item[{derived $\ast$}]{left,  }\item[{derived $\ast$}]{right }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::insert (\begin{DoxyParamCaption}\item[{derived $\ast$}]{left,  }\item[{derived $\ast$}]{right }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1base__block_a4a738ad1a5cabd93147d80e94b8b4ac9}\label{structseq_1_1detail_1_1base__block_a4a738ad1a5cabd93147d80e94b8b4ac9}} 
 \index{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}!ref@{ref}}
 \index{ref@{ref}!seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}}
 \doxysubsubsection{\texorpdfstring{ref()}{ref()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
-virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::ref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::ref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 
@@ -106,7 +106,7 @@ Implements \mbox{\hyperlink{structseq_1_1detail_1_1virtual__block_a9aca191b1158b
 \index{remove@{remove}!seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}}
 \doxysubsubsection{\texorpdfstring{remove()}{remove()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
-virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::remove (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::remove (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 
@@ -117,7 +117,7 @@ Implements \mbox{\hyperlink{structseq_1_1detail_1_1virtual__block_aa89ef61690732
 \index{remove\_and\_unref@{remove\_and\_unref}!seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}}
 \doxysubsubsection{\texorpdfstring{remove\_and\_unref()}{remove\_and\_unref()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
-virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::remove\+\_\+and\+\_\+unref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::remove\+\_\+and\+\_\+unref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 
@@ -128,7 +128,7 @@ Implements \mbox{\hyperlink{structseq_1_1detail_1_1virtual__block_ae68ae0578c7a2
 \index{unref@{unref}!seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}}
 \doxysubsubsection{\texorpdfstring{unref()}{unref()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
-virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::unref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+virtual void \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::unref (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
 
 
 
@@ -142,21 +142,21 @@ Implements \mbox{\hyperlink{structseq_1_1detail_1_1virtual__block_a50d593d5bc136
 \index{pool@{pool}!seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}}
 \doxysubsubsection{\texorpdfstring{pool}{pool}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
-block\+\_\+pool\+\_\+type \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::pool}
+block\+\_\+pool\+\_\+type \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::pool}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1base__block_a1a791f654c5945ae6ca159a6b1556078}\label{structseq_1_1detail_1_1base__block_a1a791f654c5945ae6ca159a6b1556078}} 
 \index{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}!ref\_cnt@{ref\_cnt}}
 \index{ref\_cnt@{ref\_cnt}!seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}}
 \doxysubsubsection{\texorpdfstring{ref\_cnt}{ref\_cnt}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
-std\+::atomic$<$size\+\_\+t$>$ \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::ref\+\_\+cnt}
+std\+::atomic$<$size\+\_\+t$>$ \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::ref\+\_\+cnt}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1base__block_a4fd011ada93f32171bb10b3c0347620f}\label{structseq_1_1detail_1_1base__block_a4fd011ada93f32171bb10b3c0347620f}} 
 \index{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}!th\_data@{th\_data}}
 \index{th\_data@{th\_data}!seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$@{seq::detail::base\_block$<$ T, Allocator, block\_pool\_type, derived $>$}}
 \doxysubsubsection{\texorpdfstring{th\_data}{th\_data}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , class block\+\_\+pool\+\_\+type , class derived $>$ \\
-void$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ T, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::th\+\_\+data}
+void$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1base__block}{seq\+::detail\+::base\+\_\+block}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, block\+\_\+pool\+\_\+type, derived $>$\+::th\+\_\+data}
 
 
 

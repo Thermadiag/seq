@@ -101,18 +101,18 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4ce0a7bad49b2b432d3b0565e5cbc3c4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a4ce0a7bad49b2b432d3b0565e5cbc3c4">seq::hash_combine</a> (size_t h1, size_t h2) noexcept</td></tr>
-<tr class="memdesc:a4ce0a7bad49b2b432d3b0565e5cbc3c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine 2 hash values. Uses either murmurhash2 for 64 bits platform or the boost version for 32 bits platform.  <a href="namespaceseq.html#a4ce0a7bad49b2b432d3b0565e5cbc3c4">More...</a><br /></td></tr>
-<tr class="separator:a4ce0a7bad49b2b432d3b0565e5cbc3c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11c1603678ff859a7ac75a082ecb97b2"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a11c1603678ff859a7ac75a082ecb97b2">seq::hash_bytes_murmur64</a> (const std::uint8_t *ptr, size_t len) noexcept</td></tr>
-<tr class="memdesc:a11c1603678ff859a7ac75a082ecb97b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a hash value for input data using the murmurhash2 algorithm.  <a href="namespaceseq.html#a11c1603678ff859a7ac75a082ecb97b2">More...</a><br /></td></tr>
-<tr class="separator:a11c1603678ff859a7ac75a082ecb97b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7aa0a287687aadd2106e1fb1ff32431f"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a7aa0a287687aadd2106e1fb1ff32431f">seq::hash_bytes_fnv1a</a> (const unsigned char *ptr, size_t size) noexcept</td></tr>
-<tr class="memdesc:a7aa0a287687aadd2106e1fb1ff32431f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a hash value for input data using the fnv1a algorithm. This version reads the input buffer by chunks of sizeof(size_t).  <a href="namespaceseq.html#a7aa0a287687aadd2106e1fb1ff32431f">More...</a><br /></td></tr>
-<tr class="separator:a7aa0a287687aadd2106e1fb1ff32431f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba0458b86ee52bc2dd1471917dd424b8"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aba0458b86ee52bc2dd1471917dd424b8">seq::hash_bytes_fnv1a_slow</a> (const unsigned char *ptr, size_t size) noexcept</td></tr>
-<tr class="memdesc:aba0458b86ee52bc2dd1471917dd424b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a hash value for input data using the fnv1a algorithm.  <a href="namespaceseq.html#aba0458b86ee52bc2dd1471917dd424b8">More...</a><br /></td></tr>
-<tr class="separator:aba0458b86ee52bc2dd1471917dd424b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e75ac2752560b9441e25dbeb0a37035"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a1e75ac2752560b9441e25dbeb0a37035">seq::hash_combine</a> (size_t h1, size_t h2) noexcept -&gt; size_t</td></tr>
+<tr class="memdesc:a1e75ac2752560b9441e25dbeb0a37035"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine 2 hash values. Uses either murmurhash2 for 64 bits platform or the boost version for 32 bits platform.  <a href="namespaceseq.html#a1e75ac2752560b9441e25dbeb0a37035">More...</a><br /></td></tr>
+<tr class="separator:a1e75ac2752560b9441e25dbeb0a37035"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b21f8567341968f120686ab59a18a86"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a7b21f8567341968f120686ab59a18a86">seq::hash_bytes_murmur64</a> (const std::uint8_t *ptr, size_t len) noexcept -&gt; size_t</td></tr>
+<tr class="memdesc:a7b21f8567341968f120686ab59a18a86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a hash value for input data using the murmurhash2 algorithm.  <a href="namespaceseq.html#a7b21f8567341968f120686ab59a18a86">More...</a><br /></td></tr>
+<tr class="separator:a7b21f8567341968f120686ab59a18a86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08d5414cdd66534c903b9667391934f2"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a08d5414cdd66534c903b9667391934f2">seq::hash_bytes_fnv1a</a> (const unsigned char *ptr, size_t size) noexcept -&gt; size_t</td></tr>
+<tr class="memdesc:a08d5414cdd66534c903b9667391934f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a hash value for input data using the fnv1a algorithm. This version reads the input buffer by chunks of sizeof(size_t).  <a href="namespaceseq.html#a08d5414cdd66534c903b9667391934f2">More...</a><br /></td></tr>
+<tr class="separator:a08d5414cdd66534c903b9667391934f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab48356b6277c4d0a4eae3e8df71928e9"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab48356b6277c4d0a4eae3e8df71928e9">seq::hash_bytes_fnv1a_slow</a> (const unsigned char *ptr, size_t size) noexcept -&gt; size_t</td></tr>
+<tr class="memdesc:ab48356b6277c4d0a4eae3e8df71928e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a hash value for input data using the fnv1a algorithm.  <a href="namespaceseq.html#ab48356b6277c4d0a4eae3e8df71928e9">More...</a><br /></td></tr>
+<tr class="separator:ab48356b6277c4d0a4eae3e8df71928e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -1,4 +1,7 @@
-#pragma once
+#ifndef SEQ_TAGGED_POINTER_HPP
+#define SEQ_TAGGED_POINTER_HPP
+
+
 
 /** @file */
 
@@ -7,8 +10,6 @@
  */
 
 
-#include <cstdint>
-#include <cstddef>
 #include "bits.hpp"
 
 
@@ -75,18 +76,18 @@ namespace seq
 		tagged_pointer(T* ptr, tag_type t) noexcept
 			:d_ptr((std::uintptr_t)ptr | (t & mask_low)) {}
 		/// @brief Returns the pointer 
-		pointer ptr() noexcept { return reinterpret_cast<T*>(d_ptr & mask_high); }
+		auto ptr() noexcept -> pointer { return reinterpret_cast<T*>(d_ptr & mask_high); }
 		/// @brief Returns the pointer 
-		const_pointer ptr() const noexcept { return reinterpret_cast<T*>(d_ptr & mask_high); }
+		auto ptr() const noexcept -> const_pointer { return reinterpret_cast<T*>(d_ptr & mask_high); }
 		/// @brief Returns the tag 
-		tag_type tag() const noexcept { return d_ptr & mask_low; }
+		auto tag() const noexcept -> tag_type { return d_ptr & mask_low; }
 
 		/// @brief Set the pointer value
 		void set_ptr(pointer ptr)noexcept { d_ptr = tag() | (tag_type)ptr; }
 		/// @brief Set the tag value
-		tag_type set_tag(tag_type tag)noexcept { d_ptr = tag | (d_ptr & mask_high); return tag; }
+		auto set_tag(tag_type tag)noexcept -> tag_type { d_ptr = tag | (d_ptr & mask_high); return tag; }
 
-		std::uintptr_t full() const noexcept { return d_ptr; }
+		auto full() const noexcept -> std::uintptr_t { return d_ptr; }
 		void set_full(std::uintptr_t p)noexcept { d_ptr = p; }
 
 		/// @brief cast operator to pointer
@@ -95,13 +96,13 @@ namespace seq
 		operator const_pointer() const noexcept { return ptr(); }
 
 		/// @brief Returns the pointer 
-		pointer operator->() noexcept { return ptr(); }
+		auto operator->() noexcept -> pointer { return ptr(); }
 		/// @brief Returns the pointer 
-		const_pointer operator->() const noexcept { return ptr(); }
+		auto operator->() const noexcept -> const_pointer { return ptr(); }
 		/// @brief Returns a reference to the pointed value
-		reference operator*() noexcept { return *ptr(); }
+		auto operator*() noexcept -> reference { return *ptr(); }
 		/// @brief Returns a reference to the pointed value
-		const_reference operator*() const noexcept { return *ptr(); }
+		auto operator*() const noexcept -> const_reference { return *ptr(); }
 	};
 
 
@@ -128,25 +129,27 @@ namespace seq
 		using pointer = void*;
 		using const_pointer = const void*;
 
-		tagged_pointer(void* ptr = NULL) noexcept
+		tagged_pointer(void* ptr = nullptr) noexcept
 			:d_ptr((std::uintptr_t)ptr) {}
 		tagged_pointer(void* ptr, tag_type t) noexcept
 			:d_ptr((std::uintptr_t)ptr | (t & mask_low)) {}
-		pointer ptr() noexcept { return reinterpret_cast<void*>(d_ptr & mask_high); }
-		const_pointer ptr() const noexcept { return reinterpret_cast<void*>(d_ptr & mask_high); }
-		tag_type tag() const noexcept { return d_ptr & mask_low; }
+		auto ptr() noexcept -> pointer { return reinterpret_cast<void*>(d_ptr & mask_high); }
+		auto ptr() const noexcept -> const_pointer { return reinterpret_cast<void*>(d_ptr & mask_high); }
+		auto tag() const noexcept -> tag_type { return d_ptr & mask_low; }
 		void set_ptr(pointer ptr)noexcept { d_ptr = tag() | (tag_type)ptr; }
-		tag_type set_tag(tag_type tag)noexcept { d_ptr = tag | (d_ptr & mask_high); return tag; }
-		std::uintptr_t full() const noexcept { return d_ptr; }
+		auto set_tag(tag_type tag)noexcept -> tag_type { d_ptr = tag | (d_ptr & mask_high); return tag; }
+		auto full() const noexcept -> std::uintptr_t { return d_ptr; }
 		void set_full(std::uintptr_t p)noexcept { d_ptr = p; }
 
 		operator pointer() noexcept { return ptr(); }
 		operator const_pointer() const noexcept { return ptr(); }
-		pointer operator->() noexcept { return ptr(); }
-		const_pointer operator->() const noexcept { return ptr(); }
+		auto operator->() noexcept -> pointer { return ptr(); }
+		auto operator->() const noexcept -> const_pointer { return ptr(); }
 	};
 
 }
 
 /** @}*/
 //end memory
+
+#endif

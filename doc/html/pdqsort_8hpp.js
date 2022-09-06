@@ -1,11 +1,11 @@
 var pdqsort_8hpp =
 [
     [ "PDQSORT_PREFER_MOVE", "pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0", null ],
-    [ "insertion_sort_threshold", "pdqsort_8hpp.html#a52699500243ca6fa8246c8b104c56b72a93aa19e909e1c9aac3476145eac01d08", null ],
-    [ "ninther_threshold", "pdqsort_8hpp.html#a52699500243ca6fa8246c8b104c56b72a2e33aab6bd526c39448030168613bb78", null ],
-    [ "partial_insertion_sort_limit", "pdqsort_8hpp.html#a52699500243ca6fa8246c8b104c56b72aab89097901f2f898e6bb3c528cabc55a", null ],
-    [ "block_size", "pdqsort_8hpp.html#a52699500243ca6fa8246c8b104c56b72a7a05f9a339ce440ec2bee00a69947e37", null ],
-    [ "cacheline_size", "pdqsort_8hpp.html#a52699500243ca6fa8246c8b104c56b72ae9d9eaf23e2582ffabe6d5c94635932d", null ],
+    [ "insertion_sort_threshold", "pdqsort_8hpp.html#a43a547dca0fb0dc8329dcc90fbaeabe4a93aa19e909e1c9aac3476145eac01d08", null ],
+    [ "ninther_threshold", "pdqsort_8hpp.html#a43a547dca0fb0dc8329dcc90fbaeabe4a2e33aab6bd526c39448030168613bb78", null ],
+    [ "partial_insertion_sort_limit", "pdqsort_8hpp.html#a43a547dca0fb0dc8329dcc90fbaeabe4aab89097901f2f898e6bb3c528cabc55a", null ],
+    [ "block_size", "pdqsort_8hpp.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37", null ],
+    [ "cacheline_size", "pdqsort_8hpp.html#a43a547dca0fb0dc8329dcc90fbaeabe4ae9d9eaf23e2582ffabe6d5c94635932d", null ],
     [ "align_cacheline", "pdqsort_8hpp.html#a5cfbd74545cae92930540b5042146308", null ],
     [ "insertion_sort", "pdqsort_8hpp.html#adc095280baf9194391b8fd781bf22c05", null ],
     [ "log2", "pdqsort_8hpp.html#a92efcfdf1e8d68b3874edff8b80076ed", null ],

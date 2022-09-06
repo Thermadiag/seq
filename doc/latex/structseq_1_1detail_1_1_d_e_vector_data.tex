@@ -13,29 +13,29 @@ Inherits Allocator.
 \item 
 \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a31305ca2cf607d5bf68a40383125b556}{D\+E\+Vector\+Data}} (const Allocator \&al=Allocator())
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_aa9c761903373f93c9df5cd095c2caeed}{D\+E\+Vector\+Data}} (\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}} \&\&other)
+\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a6c46edc1e1752c5766df6962803b29dd}{D\+E\+Vector\+Data}} (\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}} \&\&other) noexcept
 \item 
 \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a7e47655c1db91a769f30708185d37f0f}{D\+E\+Vector\+Data}} (\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}} \&\&other, const Allocator \&al)
 \item 
 \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a79c1549854f3ff1df5c6f611ef12153a}{$\sim$\+D\+E\+Vector\+Data}} ()
 \item 
-Allocator \& \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a1ca51a809e675d1c5659902e7053991e}{get\+\_\+allocator}} () noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a65378a49755773be33a7afdbf70929d7}{get\+\_\+allocator}} () noexcept -\/$>$ Allocator \&
 \item 
-const Allocator \& \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_af796ce00fda6b296115c84a85b2fad2b}{get\+\_\+allocator}} () const noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_af523f7be4f00d026d19aaa26f5f6f54d}{get\+\_\+allocator}} () const noexcept -\/$>$ const Allocator \&
 \item 
-T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a6bd374808a17c83ef3236812e7a7adf1}{allocate}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_a12c9a7db6862be66b508b7cc80e12a2d}{n}})
+auto \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_af7a1a3b298b90459840a84aca7d0bc81}{allocate}} (size\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_a12c9a7db6862be66b508b7cc80e12a2d}{n}}) -\/$>$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$
 \item 
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a93080e14200d2f6f8d3b628f570ec17a}{deallocate}} (T $\ast$p, size\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_a12c9a7db6862be66b508b7cc80e12a2d}{n}})
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a93080e14200d2f6f8d3b628f570ec17a}{deallocate}} (\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$p, size\+\_\+t \mbox{\hyperlink{namespaceseq_1_1detail_a12c9a7db6862be66b508b7cc80e12a2d}{n}})
 \item 
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a69d7439ef922e3ebbf19333339f05b3c}{destroy\+\_\+range}} (T $\ast$begin, T $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}{end}})
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a69d7439ef922e3ebbf19333339f05b3c}{destroy\+\_\+range}} (\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$begin, \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}{end}})
 \item 
-{\footnotesize template$<$class... Args$>$ }\\void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adc26813536ec6a58a34c455fc0803994}{construct\+\_\+range}} (T $\ast$begin, T $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}{end}}, Args \&\&... args)
+{\footnotesize template$<$class... Args$>$ }\\void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adc26813536ec6a58a34c455fc0803994}{construct\+\_\+range}} (\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$begin, \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}{end}}, Args \&\&... args)
 \item 
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a000ffac3b0db86f020ecfedc23d42e5f}{copy\+\_\+destroy\+\_\+input}} (T $\ast$begin, T $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}{end}}, T $\ast$dst)
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a000ffac3b0db86f020ecfedc23d42e5f}{copy\+\_\+destroy\+\_\+input}} (\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$begin, \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}{end}}, \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$dst)
 \item 
-size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a3def6f7bd89139192ef4d739777dcf99}{grow\+\_\+capacity}} () const
+auto \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_ab76370951195d31d66f84389e521defc}{grow\+\_\+capacity}} () const -\/$>$ size\+\_\+t
 \item 
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a2e521cad3dfb8c30b15aaa5d59c66c11}{move\+\_\+destroy\+\_\+input}} (T $\ast$begin, T $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}{end}}, T $\ast$dst)
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a2e521cad3dfb8c30b15aaa5d59c66c11}{move\+\_\+destroy\+\_\+input}} (\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$begin, \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}{end}}, \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$dst)
 \item 
 void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_af954396d9e95ff2f9271cb755343dea3}{clear}} () noexcept
 \item 
@@ -58,18 +58,18 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a992c6ec7fb9658b1e
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_ac62d617ffc507a226bdcdbfdccde683a}{data}}
+\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_ac62d617ffc507a226bdcdbfdccde683a}{data}}
 \item 
-T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_acc4db8216457a7b4c4c4f22c4e779d3b}{start}}
+\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_acc4db8216457a7b4c4c4f22c4e779d3b}{start}}
 \item 
-T $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}{end}}
+\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}{end}}
 \item 
 size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_ad9792bc1862077268e153a4dfd0a2b66}{capacity}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-static constexpr bool \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_ab77ce49d923a0fb79d6c5e9197a938bb}{relocatable}} = \mbox{\hyperlink{structseq_1_1is__relocatable}{is\+\_\+relocatable}}$<$T$>$\+::value
+static constexpr bool \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_ab77ce49d923a0fb79d6c5e9197a938bb}{relocatable}} = \mbox{\hyperlink{structseq_1_1is__relocatable}{is\+\_\+relocatable}}$<$\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}$>$\+::value
 \end{DoxyCompactItemize}
 
 
@@ -79,45 +79,45 @@ static constexpr bool \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data_a
 \index{DEVectorData@{DEVectorData}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{DEVectorData()}{DEVectorData()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{al = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{al = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_aa9c761903373f93c9df5cd095c2caeed}\label{structseq_1_1detail_1_1_d_e_vector_data_aa9c761903373f93c9df5cd095c2caeed}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a6c46edc1e1752c5766df6962803b29dd}\label{structseq_1_1detail_1_1_d_e_vector_data_a6c46edc1e1752c5766df6962803b29dd}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!DEVectorData@{DEVectorData}}
 \index{DEVectorData@{DEVectorData}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{DEVectorData()}{DEVectorData()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a7e47655c1db91a769f30708185d37f0f}\label{structseq_1_1detail_1_1_d_e_vector_data_a7e47655c1db91a769f30708185d37f0f}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!DEVectorData@{DEVectorData}}
 \index{DEVectorData@{DEVectorData}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{DEVectorData()}{DEVectorData()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$ \&\&}]{other,  }\item[{const Allocator \&}]{al }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$ \&\&}]{other,  }\item[{const Allocator \&}]{al }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a79c1549854f3ff1df5c6f611ef12153a}\label{structseq_1_1detail_1_1_d_e_vector_data_a79c1549854f3ff1df5c6f611ef12153a}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!````~DEVectorData@{$\sim$DEVectorData}}
 \index{````~DEVectorData@{$\sim$DEVectorData}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{$\sim$DEVectorData()}{~DEVectorData()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::$\sim$\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::$\sim$\mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{D\+E\+Vector\+Data}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a6bd374808a17c83ef3236812e7a7adf1}\label{structseq_1_1detail_1_1_d_e_vector_data_a6bd374808a17c83ef3236812e7a7adf1}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_af7a1a3b298b90459840a84aca7d0bc81}\label{structseq_1_1detail_1_1_d_e_vector_data_af7a1a3b298b90459840a84aca7d0bc81}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!allocate@{allocate}}
 \index{allocate@{allocate}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{allocate()}{allocate()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::allocate (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{n }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}$\ast$ \hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_af954396d9e95ff2f9271cb755343dea3}\label{structseq_1_1detail_1_1_d_e_vector_data_af954396d9e95ff2f9271cb755343dea3}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!clear@{clear}}
 \index{clear@{clear}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{clear()}{clear()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_adc26813536ec6a58a34c455fc0803994}\label{structseq_1_1detail_1_1_d_e_vector_data_adc26813536ec6a58a34c455fc0803994}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!construct\_range@{construct\_range}}
@@ -125,91 +125,92 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::
 \doxysubsubsection{\texorpdfstring{construct\_range()}{construct\_range()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
 template$<$class... Args$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::construct\+\_\+range (\begin{DoxyParamCaption}\item[{T $\ast$}]{begin,  }\item[{T $\ast$}]{end,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::construct\+\_\+range (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$}]{begin,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$}]{end,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a000ffac3b0db86f020ecfedc23d42e5f}\label{structseq_1_1detail_1_1_d_e_vector_data_a000ffac3b0db86f020ecfedc23d42e5f}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!copy\_destroy\_input@{copy\_destroy\_input}}
 \index{copy\_destroy\_input@{copy\_destroy\_input}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{copy\_destroy\_input()}{copy\_destroy\_input()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::copy\+\_\+destroy\+\_\+input (\begin{DoxyParamCaption}\item[{T $\ast$}]{begin,  }\item[{T $\ast$}]{end,  }\item[{T $\ast$}]{dst }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::copy\+\_\+destroy\+\_\+input (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$}]{begin,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$}]{end,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$}]{dst }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a93080e14200d2f6f8d3b628f570ec17a}\label{structseq_1_1detail_1_1_d_e_vector_data_a93080e14200d2f6f8d3b628f570ec17a}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!deallocate@{deallocate}}
 \index{deallocate@{deallocate}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{deallocate()}{deallocate()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::deallocate (\begin{DoxyParamCaption}\item[{T $\ast$}]{p,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::deallocate (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$}]{p,  }\item[{size\+\_\+t}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a69d7439ef922e3ebbf19333339f05b3c}\label{structseq_1_1detail_1_1_d_e_vector_data_a69d7439ef922e3ebbf19333339f05b3c}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!destroy\_range@{destroy\_range}}
 \index{destroy\_range@{destroy\_range}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{destroy\_range()}{destroy\_range()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::destroy\+\_\+range (\begin{DoxyParamCaption}\item[{T $\ast$}]{begin,  }\item[{T $\ast$}]{end }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::destroy\+\_\+range (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$}]{begin,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$}]{end }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_af796ce00fda6b296115c84a85b2fad2b}\label{structseq_1_1detail_1_1_d_e_vector_data_af796ce00fda6b296115c84a85b2fad2b}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_af523f7be4f00d026d19aaa26f5f6f54d}\label{structseq_1_1detail_1_1_d_e_vector_data_af523f7be4f00d026d19aaa26f5f6f54d}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-const Allocator\& \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const Allocator\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a1ca51a809e675d1c5659902e7053991e}\label{structseq_1_1detail_1_1_d_e_vector_data_a1ca51a809e675d1c5659902e7053991e}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a65378a49755773be33a7afdbf70929d7}\label{structseq_1_1detail_1_1_d_e_vector_data_a65378a49755773be33a7afdbf70929d7}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-Allocator\& \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ Allocator\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a250846d13200002645f89ef4e3a2b451}\label{structseq_1_1detail_1_1_d_e_vector_data_a250846d13200002645f89ef4e3a2b451}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!grow\_back@{grow\_back}}
 \index{grow\_back@{grow\_back}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{grow\_back()}{grow\_back()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::grow\+\_\+back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::grow\+\_\+back (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a3def6f7bd89139192ef4d739777dcf99}\label{structseq_1_1detail_1_1_d_e_vector_data_a3def6f7bd89139192ef4d739777dcf99}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_ab76370951195d31d66f84389e521defc}\label{structseq_1_1detail_1_1_d_e_vector_data_ab76370951195d31d66f84389e521defc}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!grow\_capacity@{grow\_capacity}}
 \index{grow\_capacity@{grow\_capacity}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{grow\_capacity()}{grow\_capacity()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::grow\+\_\+capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::grow\+\_\+capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a992c6ec7fb9658b1e7ec2625a4f4006e}\label{structseq_1_1detail_1_1_d_e_vector_data_a992c6ec7fb9658b1e7ec2625a4f4006e}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!grow\_front@{grow\_front}}
 \index{grow\_front@{grow\_front}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{grow\_front()}{grow\_front()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::grow\+\_\+front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::grow\+\_\+front (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a2e521cad3dfb8c30b15aaa5d59c66c11}\label{structseq_1_1detail_1_1_d_e_vector_data_a2e521cad3dfb8c30b15aaa5d59c66c11}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!move\_destroy\_input@{move\_destroy\_input}}
 \index{move\_destroy\_input@{move\_destroy\_input}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{move\_destroy\_input()}{move\_destroy\_input()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::move\+\_\+destroy\+\_\+input (\begin{DoxyParamCaption}\item[{T $\ast$}]{begin,  }\item[{T $\ast$}]{end,  }\item[{T $\ast$}]{dst }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::move\+\_\+destroy\+\_\+input (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$}]{begin,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$}]{end,  }\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $\ast$}]{dst }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a76804dbc355a530218c703d778dde15d}\label{structseq_1_1detail_1_1_d_e_vector_data_a76804dbc355a530218c703d778dde15d}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!reserve@{reserve}}
 \index{reserve@{reserve}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{reserve()}{reserve()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::reserve (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::reserve (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a9c410767513478957e05bf02d09a2fee}\label{structseq_1_1detail_1_1_d_e_vector_data_a9c410767513478957e05bf02d09a2fee}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!reserve\_back@{reserve\_back}}
 \index{reserve\_back@{reserve\_back}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{reserve\_back()}{reserve\_back()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::reserve\+\_\+back (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+back\+\_\+capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::reserve\+\_\+back (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+back\+\_\+capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a3a2226ce0a85635f8a1daae11f7c43bd}\label{structseq_1_1detail_1_1_d_e_vector_data_a3a2226ce0a85635f8a1daae11f7c43bd}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!reserve\_front@{reserve\_front}}
 \index{reserve\_front@{reserve\_front}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{reserve\_front()}{reserve\_front()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::reserve\+\_\+front (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+front\+\_\+capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::reserve\+\_\+front (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+front\+\_\+capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a6a1b32079ee507717c28fd71dcd8ab53}\label{structseq_1_1detail_1_1_d_e_vector_data_a6a1b32079ee507717c28fd71dcd8ab53}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!resize@{resize}}
@@ -217,7 +218,7 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::
 \doxysubsubsection{\texorpdfstring{resize()}{resize()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
 template$<$class... Args$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::resize (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+size,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::resize (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+size,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a260f09e6996c2d4e7496d2576943ecb1}\label{structseq_1_1detail_1_1_d_e_vector_data_a260f09e6996c2d4e7496d2576943ecb1}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!resize\_front@{resize\_front}}
@@ -225,14 +226,14 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::
 \doxysubsubsection{\texorpdfstring{resize\_front()}{resize\_front()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
 template$<$class... Args$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::resize\+\_\+front (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+size,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::resize\+\_\+front (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{new\+\_\+size,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_a5ba791b953ce7d2688e3607b96257847}\label{structseq_1_1detail_1_1_d_e_vector_data_a5ba791b953ce7d2688e3607b96257847}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!shrink\_to\_fit@{shrink\_to\_fit}}
 \index{shrink\_to\_fit@{shrink\_to\_fit}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{shrink\_to\_fit()}{shrink\_to\_fit()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::shrink\+\_\+to\+\_\+fit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::shrink\+\_\+to\+\_\+fit (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -242,35 +243,35 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::
 \index{capacity@{capacity}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{capacity}{capacity}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::capacity}
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::capacity}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_ac62d617ffc507a226bdcdbfdccde683a}\label{structseq_1_1detail_1_1_d_e_vector_data_ac62d617ffc507a226bdcdbfdccde683a}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!data@{data}}
 \index{data@{data}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{data}{data}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::data}
+\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::data}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}\label{structseq_1_1detail_1_1_d_e_vector_data_adaee728fa91a4dc148efe1748d4427ac}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!end@{end}}
 \index{end@{end}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{end}{end}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::end}
+\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::end}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_ab77ce49d923a0fb79d6c5e9197a938bb}\label{structseq_1_1detail_1_1_d_e_vector_data_ab77ce49d923a0fb79d6c5e9197a938bb}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!relocatable@{relocatable}}
 \index{relocatable@{relocatable}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{relocatable}{relocatable}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-constexpr bool \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::relocatable = \mbox{\hyperlink{structseq_1_1is__relocatable}{is\+\_\+relocatable}}$<$T$>$\+::value\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
+constexpr bool \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::relocatable = \mbox{\hyperlink{structseq_1_1is__relocatable}{is\+\_\+relocatable}}$<$\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}$>$\+::value\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_d_e_vector_data_acc4db8216457a7b4c4c4f22c4e779d3b}\label{structseq_1_1detail_1_1_d_e_vector_data_acc4db8216457a7b4c4c4f22c4e779d3b}} 
 \index{seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}!start@{start}}
 \index{start@{start}!seq::detail::DEVectorData$<$ T, Allocator, flag $>$@{seq::detail::DEVectorData$<$ T, Allocator, flag $>$}}
 \doxysubsubsection{\texorpdfstring{start}{start}}
 {\footnotesize\ttfamily template$<$class T , class Allocator , D\+E\+Vector\+Flag flag$>$ \\
-T$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ T, Allocator, flag $>$\+::start}
+\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1_d_e_vector_data}{seq\+::detail\+::\+D\+E\+Vector\+Data}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, flag $>$\+::start}
 
 
 

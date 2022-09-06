@@ -1,10 +1,12 @@
-#pragma once
+#ifndef SEQ_UTILS_HPP
+#define SEQ_UTILS_HPP
+
+
 
 /** @file */
 
-#include <memory>
-#include <chrono>
 
+#include "bits.hpp"
 #include "type_traits.hpp"
 
 
@@ -32,49 +34,49 @@ namespace seq
 		using pointer = typename alloc_traits::const_pointer;
 		using reference = const value_type&;
 
-		cvalue_iterator(size_type _pos = 0) : pos(_pos) {}
+		explicit cvalue_iterator(size_type _pos) : pos(_pos) {}
 		cvalue_iterator(size_type _pos, const T& _value) :pos(_pos), value(_value) {}
 
-		reference operator*() const noexcept {
+		auto operator*() const noexcept -> reference {
 			return value;
 		}
-		pointer operator->() const noexcept {
+		auto operator->() const noexcept -> pointer {
 			return std::pointer_traits<pointer>::pointer_to(**this);
 		}
-		cvalue_iterator& operator++() noexcept {
+		auto operator++() noexcept -> cvalue_iterator& {
 			++pos;
 			return *this;
 		}
-		cvalue_iterator operator++(int) noexcept {
+		auto operator++(int) noexcept -> cvalue_iterator {
 			cvalue_iterator _Tmp = *this;
 			++(*this);
 			return _Tmp;
 		}
-		cvalue_iterator& operator--() noexcept {
-			//TODO: check decrement
+		auto operator--() noexcept -> cvalue_iterator& {
+			// TODO(VM213788): check decrement
 			--pos;
 			return *this;
 		}
-		cvalue_iterator operator--(int) noexcept {
+		auto operator--(int) noexcept -> cvalue_iterator {
 			cvalue_iterator _Tmp = *this;
 			--(*this);
 			return _Tmp;
 		}
-		bool operator==(const cvalue_iterator& other) const noexcept {
+		auto operator==(const cvalue_iterator& other) const noexcept -> bool {
 			return pos == other.pos;
 		}
-		bool operator!=(const cvalue_iterator& other) const noexcept {
+		auto operator!=(const cvalue_iterator& other) const noexcept -> bool {
 			return pos != other.pos;
 		}
-		cvalue_iterator& operator+=(difference_type diff)noexcept {
+		auto operator+=(difference_type diff)noexcept -> cvalue_iterator& {
 			pos += diff;
 			return *this;
 		}
-		cvalue_iterator& operator-=(difference_type diff)noexcept {
+		auto operator-=(difference_type diff)noexcept -> cvalue_iterator& {
 			pos -= diff;
 			return *this;
 		}
-		const value_type& operator[](difference_type diff) const noexcept {
+		auto operator[](difference_type diff) const noexcept -> const value_type& {
 			return value;
 		}
 		
@@ -83,33 +85,33 @@ namespace seq
 	};
 
 	template < class T>
-	cvalue_iterator< T> operator+(const cvalue_iterator< T>& it, typename cvalue_iterator< T>::difference_type diff)noexcept {
+	auto operator+(const cvalue_iterator< T>& it, typename cvalue_iterator< T>::difference_type diff)noexcept -> cvalue_iterator< T> {
 		cvalue_iterator< T> res = it;
 		return res += diff;
 	}
 	template < class T>
-	cvalue_iterator< T> operator-(const cvalue_iterator< T>& it, typename cvalue_iterator< T>::difference_type diff)noexcept {
+	auto operator-(const cvalue_iterator< T>& it, typename cvalue_iterator< T>::difference_type diff)noexcept -> cvalue_iterator< T> {
 		cvalue_iterator< T> res = it;
 		return res -= diff;
 	}
 	template < class T>
-	typename cvalue_iterator< T>::difference_type operator-(const cvalue_iterator< T>& it1, const cvalue_iterator< T>& it2)noexcept {
+	auto operator-(const cvalue_iterator< T>& it1, const cvalue_iterator< T>& it2)noexcept -> typename cvalue_iterator< T>::difference_type {
 		return it1.pos - it2.pos;
 	}
 	template < class T>
-	bool operator<(const cvalue_iterator< T>& it1, const cvalue_iterator< T>& it2)noexcept {
+	auto operator<(const cvalue_iterator< T>& it1, const cvalue_iterator< T>& it2)noexcept -> bool {
 		return it1.pos < it2.pos;
 	}
 	template < class T>
-	bool operator>(const cvalue_iterator< T>& it1, const cvalue_iterator< T>& it2) noexcept {
+	auto operator>(const cvalue_iterator< T>& it1, const cvalue_iterator< T>& it2) noexcept -> bool {
 		return it1.pos > it2.pos;
 	}
 	template < class T>
-	bool operator<=(const cvalue_iterator< T>& it1, const cvalue_iterator< T>& it2)noexcept {
+	auto operator<=(const cvalue_iterator< T>& it1, const cvalue_iterator< T>& it2)noexcept -> bool {
 		return it1.pos <= it2.pos;
 	}
 	template < class T>
-	bool operator>=(const cvalue_iterator< T>& it1, const cvalue_iterator< T>& it2)noexcept {
+	auto operator>=(const cvalue_iterator< T>& it1, const cvalue_iterator< T>& it2)noexcept -> bool {
 		return it1.pos >= it2.pos;
 	}
 
@@ -214,7 +216,7 @@ namespace seq
 			using return_type = decltype(std::declval<L1&>()(std::declval<Args>()...));
 
 			template <class... Args>
-			return_type<Args ...> operator()(const L1& l1, const L2& , Args&&... args) const
+			return_type<Args ...> operator()(const L1& l1, const L2&  /*unused*/, Args&&... args) const
 			{
 				return l1(std::forward<Args>(args)...);
 			}
@@ -226,7 +228,7 @@ namespace seq
 			using return_type = decltype(std::declval<L2&>()(std::declval<Args>()...));
 
 			template <class... Args>
-			return_type<Args ...> operator()(const L1& , const L2& l2, Args&&... args) const
+			return_type<Args ...> operator()(const L1&  /*unused*/, const L2& l2, Args&&... args) const
 			{
 				return l2(std::forward<Args>(args)...);
 			}
@@ -235,8 +237,8 @@ namespace seq
 
 	/// @brief Simulation of C++17 if constexpr
 	template<bool IsL1, class L1, class L2, class... Args>
-	decltype(std::declval<detail::CallLambda<L1, L2, IsL1>&>()(std::declval<L1&>(), std::declval<L2&>(),std::declval<Args>()...))
-		constexpr_if( const L1& l1,  const L2& l2, Args&&... args)
+	auto
+		constexpr_if( const L1& l1,  const L2& l2, Args&&... args) -> decltype(std::declval<detail::CallLambda<L1, L2, IsL1>&>()(std::declval<L1&>(), std::declval<L2&>(),std::declval<Args>()...))
 	{
 		return detail::CallLambda<L1, L2, IsL1>{}(l1,l2, std::forward<Args>(args)...);
 	}
@@ -244,3 +246,4 @@ namespace seq
 
 
 }//end namespace seq
+#endif

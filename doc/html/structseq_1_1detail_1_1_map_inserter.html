@@ -95,14 +95,14 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_map_inserter.h
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:afce3233152e8e2f2b7375dd20ca00602"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> std::pair&lt; size_t, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_map_inserter.html#afce3233152e8e2f2b7375dd20ca00602">insert_pos</a> (Sequence &amp;seq, Value &amp;value)</td></tr>
-<tr class="separator:afce3233152e8e2f2b7375dd20ca00602"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b9689bafc860bfd39622dbe012da874"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> std::pair&lt; typename Sequence::iterator, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_map_inserter.html#a8b9689bafc860bfd39622dbe012da874">insert</a> (Sequence &amp;seq, Value &amp;value)</td></tr>
-<tr class="separator:a8b9689bafc860bfd39622dbe012da874"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cbda5b4ead7a524692ca030bde15e93"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_map_inserter.html#a2cbda5b4ead7a524692ca030bde15e93">insert_pos</a> (Sequence &amp;seq, Value &amp;value) -&gt; std::pair&lt; size_t, bool &gt;</td></tr>
+<tr class="separator:a2cbda5b4ead7a524692ca030bde15e93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac47391f4fe9adf73ba9660a65e77296"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_map_inserter.html#aac47391f4fe9adf73ba9660a65e77296">insert</a> (Sequence &amp;seq, Value &amp;value) -&gt; std::pair&lt; typename Sequence::iterator, bool &gt;</td></tr>
+<tr class="separator:aac47391f4fe9adf73ba9660a65e77296"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a8b9689bafc860bfd39622dbe012da874"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b9689bafc860bfd39622dbe012da874">&#9670;&nbsp;</a></span>insert()</h2>
+<a id="aac47391f4fe9adf73ba9660a65e77296"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac47391f4fe9adf73ba9660a65e77296">&#9670;&nbsp;</a></span>insert()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -113,7 +113,7 @@ template&lt;class Sequence , class Value &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> std::pair&lt;typename Sequence::iterator, bool&gt; <a class="el" href="structseq_1_1detail_1_1_map_inserter.html">seq::detail::MapInserter</a>&lt; Sequence, Value &gt;::insert </td>
+          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_map_inserter.html">seq::detail::MapInserter</a>&lt; Sequence, Value &gt;::insert </td>
           <td>(</td>
           <td class="paramtype">Sequence &amp;&#160;</td>
           <td class="paramname"><em>seq</em>, </td>
@@ -127,7 +127,7 @@ template&lt;class Sequence , class Value &gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; std::pair&lt;typename Sequence::iterator, bool&gt; </td>
         </tr>
       </table>
   </td>
@@ -139,8 +139,8 @@ template&lt;class Sequence , class Value &gt; </div>
 
 </div>
 </div>
-<a id="afce3233152e8e2f2b7375dd20ca00602"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afce3233152e8e2f2b7375dd20ca00602">&#9670;&nbsp;</a></span>insert_pos()</h2>
+<a id="a2cbda5b4ead7a524692ca030bde15e93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cbda5b4ead7a524692ca030bde15e93">&#9670;&nbsp;</a></span>insert_pos()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -151,7 +151,7 @@ template&lt;class Sequence , class Value &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> std::pair&lt;size_t,bool&gt; <a class="el" href="structseq_1_1detail_1_1_map_inserter.html">seq::detail::MapInserter</a>&lt; Sequence, Value &gt;::insert_pos </td>
+          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_map_inserter.html">seq::detail::MapInserter</a>&lt; Sequence, Value &gt;::insert_pos </td>
           <td>(</td>
           <td class="paramtype">Sequence &amp;&#160;</td>
           <td class="paramname"><em>seq</em>, </td>
@@ -165,7 +165,7 @@ template&lt;class Sequence , class Value &gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; std::pair&lt;size_t,bool&gt; </td>
         </tr>
       </table>
   </td>

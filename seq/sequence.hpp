@@ -1,11 +1,14 @@
-#pragma once
+#ifndef SEQ_SEQUENCE_HPP
+#define SEQ_SEQUENCE_HPP
+
+
 
 /** @file */
 
 #include "memory.hpp"
-#include "utils.hpp"
 #include "pdqsort.hpp"
 #include "type_traits.hpp"
+#include "utils.hpp"
 
 
 
@@ -22,7 +25,7 @@ namespace seq
 		struct shift_left<64ULL>
 		{
 			static constexpr std::uint64_t value = 0;
-		};
+		} ;
 
 		// Contiguous storage for up to 64 objects
 		template< class T>
@@ -34,7 +37,7 @@ namespace seq
 			static const std::uint64_t count_bits = sizeof(T) <= 8 ? 6 : sizeof(T) <= 16 ? 5 : sizeof(T) <= 32 ? 4 : sizeof(T) <= 64 ? 3 : sizeof(T) <= 128 ? 2 : 1;
 			//static const std::uint64_t count_bits = sizeof(T) < (8 * 4) ? 6 : (sizeof(T) < (16 * 4) ? 5 : 4);
 			// Mask value when full
-			static const std::uint64_t full = (count == 64ULL ? (std::uint64_t )-1 : (shift_left<count>::value - 1ULL));
+			static const std::uint64_t full = (count == 64ULL ? static_cast<std::uint64_t>(-1) : (shift_left<count>::value - 1ULL));
 			// Invalid index value
 			static const std::int64_t no_index = LLONG_MIN;
 
@@ -100,7 +103,7 @@ namespace seq
 		// Compute padding size to properly align list_chunk on 64 bytes
 		template<class T>
 		struct chunk_padding_base {
-			static const size_t size = (sizeof(chunk_proxy<T>) % 64ULL) ? (((sizeof(chunk_proxy<T>) / 64ULL) + 1ULL) * 64ULL) - sizeof(chunk_proxy<T>) : 0ULL;
+			static const size_t size = (sizeof(chunk_proxy<T>) % 64ULL) != 0u ? (((sizeof(chunk_proxy<T>) / 64ULL) + 1ULL) * 64ULL) - sizeof(chunk_proxy<T>) : 0ULL;
 		};
 		template<class T, size_t Size = chunk_padding_base<T>::size>
 		struct chunk_padding {
@@ -126,12 +129,16 @@ namespace seq
 			using base_type::start;
 			using base_type::end;
 
+			using storage_type = typename std::aligned_storage<count * sizeof(T), alignof(T) >::type;
 			// Storage for values
-			typename std::aligned_storage<count * sizeof(T), alignof(T) >::type storage;
+			storage_type storage;
+
+			SEQ_ALWAYS_INLINE storage_type* get_storage() noexcept { return &storage; }
+			SEQ_ALWAYS_INLINE const storage_type* get_storage() const noexcept { return &storage; }
 
 			//Raw buffer access
-			SEQ_ALWAYS_INLINE T* buffer() noexcept { return  (T*)(&storage); }
-			SEQ_ALWAYS_INLINE const T* buffer() const noexcept { return  (T*)(&storage); }
+			SEQ_ALWAYS_INLINE T* buffer() noexcept { return  reinterpret_cast<T*>(get_storage()); }
+			SEQ_ALWAYS_INLINE const T* buffer() const noexcept { return  reinterpret_cast<const T*>(get_storage()); }
 			SEQ_ALWAYS_INLINE T& front() { return buffer()[start]; }
 			SEQ_ALWAYS_INLINE const T& front() const { return buffer()[start]; }
 			SEQ_ALWAYS_INLINE T& back() { return buffer()[end - 1]; }
@@ -210,8 +217,8 @@ namespace seq
 			std::uintptr_t d_pool;
 
 			pool_type* pool() const noexcept{return reinterpret_cast<pool_type*>(d_pool);}
-			bool can_use_aligned_alloc() const noexcept {return std::is_same < Allocator, std::allocator<T> >::value && d_pool < 4;}
-			bool pool_allocated() const noexcept { return d_pool > 4; }
+			auto can_use_aligned_alloc() const noexcept -> bool {return std::is_same < Allocator, std::allocator<T> >::value && d_pool < 4;}
+			auto pool_allocated() const noexcept -> bool { return d_pool > 4; }
 
 		public:
 			chunk_pool_alloc(const Allocator& alloc) noexcept : Allocator(alloc), d_pool(0) {}
@@ -227,17 +234,17 @@ namespace seq
 			}
 			// disable copy, only allox move semantic
 			chunk_pool_alloc(const chunk_pool_alloc&) = delete;
-			chunk_pool_alloc& operator=(const chunk_pool_alloc&) = delete;
+			auto operator=(const chunk_pool_alloc&) -> chunk_pool_alloc& = delete;
 
-			Allocator get_allocator() const noexcept {
+			auto get_allocator() const noexcept -> Allocator {
 				return *this;
 			}
-			Allocator& get_allocator() noexcept {
+			auto get_allocator() noexcept -> Allocator& {
 				return *this;
 			}
 
 			// total memory footprint in bytes excluding sizeof(*this)
-			size_t memory_footprint() const noexcept {
+			auto memory_footprint() const noexcept -> size_t {
 				return d_pool ? ( can_use_aligned_alloc() ? d_pool * sizeof(list_chunk<T>) : pool()->memory_footprint()) : 0;
 			}
 			
@@ -256,7 +263,7 @@ namespace seq
 			}
 
 			//allocate one list_chunk<T>
-			list_chunk<T>* allocate_chunk()
+			auto allocate_chunk() -> list_chunk<T>*
 			{
 				if (can_use_aligned_alloc()) {
 					list_chunk<T>* res = (list_chunk<T>*)aligned_malloc(sizeof(list_chunk<T>), 64);
@@ -310,12 +317,12 @@ namespace seq
 			size_t chunks;
 			std_alloc() noexcept :chunks(0) {}
 			std_alloc(const Allocator& alloc) noexcept :allocator(alloc), chunks(0) {}
-			std_alloc(size_t) noexcept :chunks(0) {}
+			std_alloc(size_t /*unused*/) noexcept :chunks(0) {}
 
-			Allocator& get_allocator() noexcept { return allocator; }
-			const Allocator& get_allocator() const noexcept { return allocator; }
-			void resize(size_t) {}
-			list_chunk<T>* allocate_chunk()
+			auto get_allocator() noexcept -> Allocator& { return allocator; }
+			auto get_allocator() const noexcept -> const Allocator& { return allocator; }
+			void resize(size_t /*unused*/) {}
+			auto allocate_chunk() -> list_chunk<T>*
 			{
 				rebind_alloc< list_chunk<T> > _al = allocator;
 				list_chunk<T>* res;
@@ -341,16 +348,16 @@ namespace seq
 			}
 
 			// total memory footprint in bytes excluding sizeof(*this)
-			size_t memory_footprint() const noexcept {
+			auto memory_footprint() const noexcept -> size_t {
 				return  chunks * sizeof(list_chunk<T>);
 			}
 			// capacity in terms of chunk
-			size_t get_capacity() const noexcept { return chunks; }
+			auto get_capacity() const noexcept -> size_t { return chunks; }
 
 			void clear_all() {}
 		};
 
-		struct NullChunkAllocator {};
+		struct NullChunkAllocator {} ;
 
 		// Select the chunk allocator based on the layout strategy and an optional ChunkAllocator class
 		template<class T, class Allocator, LayoutManagement layout, class ChunkAllocator, bool Align64>
@@ -360,17 +367,17 @@ namespace seq
 		template<class T, class Allocator, bool Align64>
 		struct select_layout<T, Allocator, OptimizeForSpeed, NullChunkAllocator, Align64>
 		{
-			typedef chunk_pool_alloc<T, Allocator> type;
+			using type = chunk_pool_alloc<T, Allocator>;
 		};
 		template<class T, class Allocator, class ChunkAllocator, bool Align64>
 		struct select_layout<T, Allocator, OptimizeForSpeed, ChunkAllocator, Align64>
 		{
-			typedef ChunkAllocator type;
+			using type = ChunkAllocator;
 		};
 		template<class T, class Allocator, class ChunkAllocator, bool Align64>
 		struct select_layout<T, Allocator, OptimizeForMemory, ChunkAllocator, Align64>
 		{
-			typedef std_alloc<T, Allocator, Align64> type;
+			using type = std_alloc<T, Allocator, Align64>;
 		};
 
 
@@ -402,7 +409,7 @@ namespace seq
 
 			sequence_const_iterator() noexcept {}
 			sequence_const_iterator(const chunk_type* node) noexcept
-				:node((chunk_type*)node), pos((pos_type)node->start) {}
+				:node((chunk_type*)node), pos(node ? (pos_type)node->start : 0) {}
 			sequence_const_iterator(const chunk_type* node, pos_type pos) noexcept
 				:node((chunk_type*)node), pos(pos) {}
 
@@ -440,7 +447,7 @@ namespace seq
 			void update_decr_pos()
 			{
 				if (pos < (pos_type)node->start) {
-					node = (detail::list_chunk<value_type>*)node->prev;
+					node = (chunk_type*)node->prev;
 					pos = (pos_type)(node->end - 1);
 				}
 				else {
@@ -453,7 +460,7 @@ namespace seq
 				if (SEQ_UNLIKELY(pos == (pos_type)-1 || !((node->used & (1ULL << pos)))  /*ptr == node->end*/)) {
 					update_decr_pos();
 				}
-				SEQ_ASSERT_DEBUG(pos >= 0 && pos < node->end, "invalid iterator position");
+				//SEQ_ASSERT_DEBUG(pos >= 0 && pos < node->end, "invalid iterator position");
 				return*this;
 			}
 			SEQ_ALWAYS_INLINE sequence_const_iterator operator--(int) noexcept {
@@ -594,35 +601,35 @@ namespace seq
 			sequence_iterator(const typename base_type::chunk_type* node, typename base_type::pos_type pos) noexcept
 				:sequence_const_iterator<List>(node, pos) {}
 			sequence_iterator(const sequence_const_iterator<List>& other) noexcept : base_type(other) {}
-			reference operator*() const noexcept {
+			auto operator*() const noexcept -> reference {
 				return const_cast<reference>(base_type::operator*());
 			}
-			pointer operator->() const noexcept {
+			auto operator->() const noexcept -> pointer {
 				return std::pointer_traits<pointer>::pointer_to(**this);
 			}
-			sequence_iterator& operator++() noexcept {
+			auto operator++() noexcept -> sequence_iterator& {
 				base_type::operator++();
 				return *this;
 			}
-			sequence_iterator operator++(int) noexcept {
+			auto operator++(int) noexcept -> sequence_iterator {
 				sequence_iterator _Tmp = *this;
 				base_type::operator++();
 				return _Tmp;
 			}
-			sequence_iterator& operator--() noexcept {
+			auto operator--() noexcept -> sequence_iterator& {
 				base_type::operator--();
 				return *this;
 			}
-			sequence_iterator operator--(int) noexcept {
+			auto operator--(int) noexcept -> sequence_iterator {
 				sequence_iterator _Tmp = *this;
 				base_type::operator--();
 				return _Tmp;
 			}
-			sequence_iterator& operator+=(difference_type diff)noexcept {
+			auto operator+=(difference_type diff)noexcept -> sequence_iterator& {
 				base_type::operator+=(diff);
 				return *this;
 			}
-			sequence_iterator& operator-=(difference_type diff)noexcept {
+			auto operator-=(difference_type diff)noexcept -> sequence_iterator& {
 				base_type::operator-=(diff);
 				return *this;
 			}
@@ -657,26 +664,26 @@ namespace seq
 			return a.distance(a, b);
 		}
 		template < class List>
-		SEQ_ALWAYS_INLINE sequence_const_iterator< List> operator+(const sequence_const_iterator< List>& it, typename sequence_const_iterator< List>::difference_type diff) {
-			sequence_const_iterator< List> res = it;
+		SEQ_ALWAYS_INLINE sequence_const_iterator< List> operator+(const sequence_const_iterator< List>&  it, typename sequence_const_iterator< List>::difference_type  diff) {
+			sequence_const_iterator< List> res  = it;
 			res += diff;
 			return res;
 		}
 		template < class List>
-		SEQ_ALWAYS_INLINE sequence_iterator< List> operator+(const sequence_iterator< List>& it, typename sequence_iterator< List>::difference_type diff) {
-			sequence_iterator< List> res = it;
+		SEQ_ALWAYS_INLINE sequence_iterator< List> operator+(const sequence_iterator< List>&  it, typename sequence_iterator< List>::difference_type  diff) {
+			sequence_iterator< List> res  = it;
 			res += diff;
 			return res;
 		}
 		template < class List>
-		SEQ_ALWAYS_INLINE sequence_const_iterator< List> operator-(const sequence_const_iterator< List>& it, typename sequence_const_iterator< List>::difference_type diff) {
-			sequence_const_iterator< List> res = it;
+		SEQ_ALWAYS_INLINE sequence_const_iterator< List> operator-(const sequence_const_iterator< List>&  it, typename sequence_const_iterator< List>::difference_type  diff) {
+			sequence_const_iterator< List> res  = it;
 			res -= diff;
 			return res;
 		}
 		template < class List>
-		SEQ_ALWAYS_INLINE sequence_iterator< List> operator-(const sequence_iterator< List>& it, typename sequence_iterator< List>::difference_type diff) {
-			sequence_iterator< List> res = it;
+		SEQ_ALWAYS_INLINE sequence_iterator< List> operator-(const sequence_iterator< List>&  it, typename sequence_iterator< List>::difference_type  diff) {
+			sequence_iterator< List> res  = it;
 			res -= diff;
 			return res;
 		}
@@ -695,9 +702,9 @@ namespace seq
 		struct sequence_ra_iterator
 		{
 			struct Data {
-				std::vector< detail::list_chunk<typename List::value_type>*> chunks;
+				std::vector< detail::list_chunk<typename List::value_type>*> chunks{};
 				detail::list_chunk<typename List::value_type>* end;
-				size_t size;
+				size_t size{};
 			};
 			using iterator_category = std::random_access_iterator_tag;
 			using value_type = typename List::value_type;
@@ -839,7 +846,7 @@ namespace seq
 	/// The sequence container behaves like a hybrid version of std_deque and std::list. It provides:
 	///		- Constant time insertion at the back or the front using members push_back(), emplace_back(), push_front() and emplace_front()
 	///		- Constant time removal of one or more elements with erase()
-	///		- Stability of references and iterators.
+	///		- Stability of references and iterators (except end iterator).
 	/// 
 	/// Unlike std::list, the sequence container does not provide insertion anywhere in the container.
 	/// Instead, sequence provides unordered insertion through its member #insert(), much like the <a href="https://plflib.org/colony.htm">plf::colony</a> class.
@@ -1164,7 +1171,7 @@ namespace seq
 		}
 
 		// Allocate and build a chunk with uninitialized storage
-		chunk_type* make_chunk(chunk_type* prev, chunk_type* next, std::int64_t index = chunk_type::no_index)
+		auto make_chunk(chunk_type* prev, chunk_type* next, std::int64_t index = chunk_type::no_index) -> chunk_type*
 		{
 			// Allocate, might throw
 			chunk_type* ptr = (chunk_type*)d_data->allocate_chunk();
@@ -1314,6 +1321,9 @@ namespace seq
 		template<class Alloc, LayoutManagement L, bool Align>
 		void import(const sequence<T,Alloc,L,Align> & other)
 		{
+			if (!d_data)
+				d_data = make_data();
+
 			// Assign another sequence
 
 			// Check self assignment
@@ -1516,7 +1526,7 @@ namespace seq
 		// Sequence object internal data
 		Data* d_data;
 
-		Data* make_data(const Allocator& al = Allocator())
+		auto make_data(const Allocator& al = Allocator()) -> Data*
 		{
 			rebind_alloc<Data> a = al;
 			Data * d = a.allocate(1);
@@ -1525,16 +1535,18 @@ namespace seq
 		}
 		void destroy_data(Data* d)
 		{
-			rebind_alloc<Data> a = get_allocator();
-			destroy_ptr(d);
-			a.deallocate(d, 1);
+			if (d) {
+				rebind_alloc<Data> a = get_allocator();
+				destroy_ptr(d);
+				a.deallocate(d, 1);
+			}
 		}
 
 	public:
 
 		/// @brief Default constructor, initialize internal data
 		sequence()
-			: d_data(make_data())
+			: d_data(NULL)
 		{
 		}
 		/// @brief Constructor from an allocator object
@@ -1543,17 +1555,15 @@ namespace seq
 			: d_data(make_data(al))
 		{
 		}
-
 		/// @brief Construct with an initial size and a fill value
 		/// @param count initial size
 		/// @param value fill value
 		/// @param al allocator object
-		explicit  sequence(size_type count, const T& value, const Allocator& al = Allocator())
+		sequence(size_type count, const T& value, const Allocator& al = Allocator())
 			:d_data(make_data(al))
 		{
 			resize(count, value);
 		}
-
 		/// @brief Construct with an initial size. Objects will be value initialize.
 		/// @param count initial size
 		/// @param al allocator object
@@ -1562,15 +1572,14 @@ namespace seq
 		{
 			resize(count);
 		}
-
 		/// @brief Copy constructor
 		/// @param other input sequence to copy
 		sequence(const sequence& other)
-			:d_data(make_data())
+			:d_data(NULL)
 		{
-			import(other);
+			if(other.size())
+				import(other);
 		}
-
 		/// @brief Copy constructor
 		/// @param other input sequence to copy
 		/// @param al allocator object
@@ -1579,19 +1588,17 @@ namespace seq
 		{
 			import(other);
 		}
-
 		/// @brief Move constructor
 		/// @param other 
 		sequence(sequence&& other) noexcept
-			:d_data(make_data())
+			:d_data(other.d_data)
 		{
-			std::swap(other.d_data, d_data);
+			other.d_data = NULL;
 		}
-
 		/// @brief  Allocator-extended move constructor. Using alloc as the allocator for the new container, moving the contents from other; if alloc != other.get_allocator(), this results in an element-wise move.
 		/// @param other another container to be used as source to initialize the elements of the container with
 		/// @param alloc allocator object
-		sequence(sequence&& other, const Allocator& alloc) noexcept(std::is_nothrow_move_assignable<T>::value)
+		sequence(sequence&& other, const Allocator& alloc) 
 			:d_data(make_data(alloc))
 		{
 			if(alloc == other.get_allocator())
@@ -1601,7 +1608,6 @@ namespace seq
 				std::move(other.begin(), other.end(), begin());
 			}
 		}
-
 		/// @brief Constructs the sequence with the contents of the initializer list \a lst
 		/// @param lst initializer list
 		/// @param al allocator object
@@ -1610,7 +1616,6 @@ namespace seq
 		{
 			assign(lst.begin(), lst.end());
 		}
-
 		/// @brief Constructs the sequence with the contents of the range [first, last).
 		/// @tparam Iter iterator type
 		/// @param first begin iterator
@@ -1622,27 +1627,29 @@ namespace seq
 		{
 			assign(first, last);
 		}
-	
 		/// @brief Destructor
 		~sequence()
 		{
 			clear();
-			destroy_data(d_data);
 		}
 
 		/// @brief Copy operator, basic exception guarantee
 		/// @param other input sequence object
 		/// @return reference to this
-		sequence& operator=(const sequence& other)
+		auto operator=(const sequence& other) -> sequence&
 		{
-			import(other);
+			if (other.size()) {
+				import(other);
+			}
+			else
+				clear();
 			return *this;
 		}
 
 		/// @brief Move assignment operator
 		/// @param other input sequence object
 		/// @return reference to this
-		sequence& operator=( sequence&& other) noexcept
+		auto operator=( sequence&& other) noexcept -> sequence&
 		{
 			std::swap(d_data, other.d_data);
 			return *this;
@@ -1658,41 +1665,46 @@ namespace seq
 		}
 
 		/// @brief Returns the sequence internal data. Internal use only.
-		Data* data() noexcept  { return d_data; }
-		const Data* data() const noexcept { return d_data; }
+		auto data() noexcept -> Data*  { return d_data; }
+		auto data() const noexcept -> const Data* { return d_data; }
 
 		/// @brief Returns the full memory footprint of this sequence in bytes, excluding sizeof(*this).
-		std::size_t memory_footprint() const noexcept {
-			return sizeof(*d_data) + d_data->memory_footprint() ;
+		auto memory_footprint() const noexcept -> std::size_t {
+			return d_data ? sizeof(*d_data) + d_data->memory_footprint() : (size_t)0;
 		}
 
 		/// @brief Returns the allocator associated with the container.
-		Allocator& get_allocator() noexcept{return d_data->get_allocator();}
+		auto get_allocator() noexcept -> Allocator&{
+			static Allocator unused;
+			return d_data ? d_data->get_allocator() : unused;
+		}
 		/// @brief Returns the allocator associated with the container.
-		Allocator get_allocator() const noexcept{return d_data->get_allocator();}
+		auto get_allocator() const noexcept -> Allocator{
+			return d_data ? d_data->get_allocator() : Allocator{};
+		}
 
 		/// @brief Returns the sequence maximum size.
-		static size_type max_size() noexcept { return  LLONG_MAX ; }
+		static auto max_size() noexcept -> size_type { return  LLONG_MAX ; }
 
 		/// @brief Returns thenumber of elements in this sequence.
-		size_type size() const noexcept { return d_data->size; }
+		auto size() const noexcept -> size_type { return d_data ? d_data->size : 0; }
 
-		bool empty() const noexcept {return d_data->size== 0;}
+		auto empty() const noexcept -> bool {return !d_data || d_data->size== 0;}
 
 		/// @brief Returns the number of elements that the container has currently allocated space for.
-		size_t capacity() const noexcept { return d_data->get_capacity() * 64ULL; }
+		auto capacity() const noexcept -> size_t { return d_data ? d_data->get_capacity() * 64ULL : 0; }
 
 		/// @brief Returns the back sequence value.
-		const T& back() const noexcept { return ((chunk_type*)d_data->end.prev)->back(); }
+		auto back() const noexcept -> const T& { return ((chunk_type*)d_data->end.prev)->back(); }
 
 		/// @brief Returns the back sequence value.
-		T& back() noexcept { return ((chunk_type*)d_data->end.prev)->back(); }
+		auto back() noexcept -> T& { return ((chunk_type*)d_data->end.prev)->back(); }
 
 		/// @brief Returns the front sequence value.
-		const T& front() const noexcept { return ((chunk_type*)d_data->end.next)->front(); }
+		auto front() const noexcept -> const T& { return ((chunk_type*)d_data->end.next)->front(); }
 
 		/// @brief Returns the front sequence value.
-		T& front() noexcept { return ((chunk_type*)d_data->end.next)->front(); }
+		auto front() noexcept -> T& { return ((chunk_type*)d_data->end.next)->front(); }
 
 		/// @brief Clears the contents.
 		/// Erases all elements from the container. After this call, size() returns zero.
@@ -1700,6 +1712,9 @@ namespace seq
 		/// Any past-the-end iterator remains valid.
 		void clear() noexcept
 		{
+			if (!d_data)
+				return;
+
 			if (std::is_trivially_destructible<T>::value && layout == OptimizeForSpeed)
 			{
 				int no_pool_count = 0;
@@ -1729,12 +1744,8 @@ namespace seq
 					node = next;
 				}
 			}
-			// Reset members
-			d_data->end.next = d_data->endNode();
-			d_data->end.prev = d_data->endNode();
-			d_data->endNode()->prev_free = d_data->endNode()->next_free = d_data->endNode();
-			d_data->size = 0;
-			d_data->dirty = NULL;
+			destroy_data(d_data);
+			d_data = NULL;
 		}
 
 		/// @brief Constructs an element in-place at the end
@@ -1746,6 +1757,7 @@ namespace seq
 		template <class... Args>
 		T& emplace_back(Args&&... args)
 		{
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
 			chunk_type* last = (chunk_type*)d_data->end.prev;
 			if (SEQ_UNLIKELY(last->used & (1ULL << (count - 1ULL))))
 				return emplace_back_new_chunk(last,std::forward<Args>(args)...);
@@ -1790,6 +1802,7 @@ namespace seq
 		template <class... Args>
 		T& emplace_front(Args&&... args)
 		{
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
 			chunk_type* first = (chunk_type*)(d_data->end.next);
 			if (SEQ_UNLIKELY(first->used & 1)) 
 				return emplace_front_new_chunk(first, std::forward<Args>(args)...);
@@ -1840,6 +1853,8 @@ namespace seq
 		template <class... Args>
 		iterator emplace(Args&&... args)
 		{
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+
 			if (d_data->end.next_free == &d_data->end)
 				// If no free slot, deafult to emplace_back
 				return emplace_back_iter(std::forward<Args>(args)...);
@@ -1908,6 +1923,8 @@ namespace seq
 				clear();
 				return;
 			}
+
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
 
 			if (count > size()) {
 				reserve(count);
@@ -2029,6 +2046,8 @@ namespace seq
 				return;
 			}
 
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+
 			if (count > size()) {
 				reserve(count);
 				size_type diff = count - size();
@@ -2148,6 +2167,8 @@ namespace seq
 				clear();
 				return;
 			}
+
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
 
 			if (count > size()) {
 				reserve(count);
@@ -2273,6 +2294,8 @@ namespace seq
 				return;
 			}
 
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+
 			if (count > size()) {
 				reserve(count);
 				size_type diff = count - size();
@@ -2387,6 +2410,7 @@ namespace seq
 		template<class Iter>
 		void assign(Iter first, Iter last)
 		{
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
 			assign_cat(first, last, typename std::iterator_traits<Iter>::iterator_category());
 		}
 
@@ -2395,6 +2419,7 @@ namespace seq
 		/// Basic exception guarantee. 
 		void assign(const std::initializer_list<T>& lst)
 		{
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
 			assign_cat(lst.begin(), lst.end(), std::random_access_iterator_tag());
 		}
 
@@ -2404,6 +2429,7 @@ namespace seq
 		/// Basic exception guarantee. 
 		void assign(size_type count, const T& value)
 		{
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
 			assign_cat(cvalue_iterator<T>(0, value), cvalue_iterator<T>(count, value), std::random_access_iterator_tag());
 		}
 
@@ -2415,7 +2441,8 @@ namespace seq
 		/// Basic exception guarantee. 
 		void shrink_to_fit() 
 		{
-			d_data->shrink_to_fit();
+			if(d_data)
+				d_data->shrink_to_fit();
 		}
 
 		/// @brief Increase the capacity of the vector to a value that's greater or equal to new_cap.
@@ -2426,6 +2453,7 @@ namespace seq
 		/// Basic exception guarantee. 
 		void reserve(size_t new_cap)
 		{
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
 			if (new_cap > d_data->size) {
 				size_t chunks = new_cap / count + (new_cap % count ? 1 : 0);
 				d_data->resize(chunks);
@@ -2489,7 +2517,7 @@ namespace seq
 		/// the required position.
 		iterator iterator_at(size_type pos) noexcept
 		{
-			return d_data->iterator_at(pos);
+			return d_data ? d_data->iterator_at(pos) : end();
 		}
 
 		/// @brief Returns a const_iterator to given position.
@@ -2500,7 +2528,7 @@ namespace seq
 		/// the required position.
 		const_iterator iterator_at(size_type pos) const noexcept
 		{
-			return d_data->iterator_at(pos);
+			return d_data ?  d_data->iterator_at(pos) : end();
 		}
 	
 		/// @brief Erases the specified element from the container.
@@ -2616,6 +2644,9 @@ namespace seq
 		template<class Less >
 		void sort(Less less)
 		{
+			if (empty())
+				return;
+
 			using iter = detail::sequence_ra_iterator< sequence<T, Allocator, layout> >;
 			using data = typename iter::Data;
 
@@ -2645,6 +2676,9 @@ namespace seq
 		template<class Less >
 		void stable_sort(Less less)
 		{
+			if (empty())
+				return;
+
 			using iter = detail::sequence_ra_iterator< this_type >;
 			using data = typename iter::Data;
 
@@ -2659,17 +2693,17 @@ namespace seq
 		}
 
 		/// @brief Returns an iterator to the first element of the sequence.
-		iterator begin() noexcept { return iterator((chunk_type*)d_data->end.next); }
+		iterator begin() noexcept { return iterator(d_data ? (chunk_type*)d_data->end.next : NULL); }
 		/// @brief Returns an iterator to the element following the last element of the sequence.
-		iterator end() noexcept { return iterator((chunk_type*)&d_data->end, 0); }
+		iterator end() noexcept { return iterator(d_data ? (chunk_type*)&d_data->end : NULL, 0); }
 		/// @brief Returns an iterator to the first element of the sequence.
-		const_iterator begin() const noexcept { return const_iterator((chunk_type*)d_data->end.next); }
+		const_iterator begin() const noexcept { return const_iterator(d_data ? (chunk_type*)d_data->end.next : NULL); }
 		/// @brief Returns an iterator to the element following the last element of the sequence.
-		const_iterator end() const noexcept { return const_iterator((chunk_type*)&d_data->end, 0); }
+		const_iterator end() const noexcept { return const_iterator(d_data ? (chunk_type*)&d_data->end : NULL, 0); }
 		/// @brief Returns an iterator to the first element of the sequence.
-		const_iterator cbegin() const noexcept { return const_iterator((chunk_type*)d_data->end.next); }
+		const_iterator cbegin() const noexcept { return const_iterator(d_data ? (chunk_type*)d_data->end.next : NULL); }
 		/// @brief Returns an iterator to the element following the last element of the sequence.
-		const_iterator cend() const noexcept { return const_iterator((chunk_type*)&d_data->end, 0); }
+		const_iterator cend() const noexcept { return const_iterator(d_data ? (chunk_type*)&d_data->end : NULL, 0); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
@@ -2693,3 +2727,5 @@ namespace seq
 }//end namespace seq
 
 
+
+#endif

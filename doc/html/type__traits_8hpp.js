@@ -28,6 +28,6 @@ var type__traits_8hpp =
     [ "is_less_comparable", "classseq_1_1is__less__comparable.html", null ],
     [ "is_invocable", "structseq_1_1is__invocable.html", null ],
     [ "is_invocable_r", "structseq_1_1is__invocable__r.html", null ],
-    [ "abs", "type__traits_8hpp.html#af7ecbace49a8c09bb7de9eac60a97f58", null ],
-    [ "negate_if_signed", "type__traits_8hpp.html#a97e43145f833c1fb4c26fbc91e341564", null ]
+    [ "abs", "type__traits_8hpp.html#ab6f8f4791e95dce2f0a4298ff8e82797", null ],
+    [ "negate_if_signed", "type__traits_8hpp.html#a7c279fa143d4e6216df953924ce47406", null ]
 ];

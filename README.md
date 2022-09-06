@@ -22,14 +22,12 @@ The seq library was developped based on my growing frustration when using standa
 
 Some of my concerns were already takled by external libraries. For instance, I use <a href="https://github.com/greg7mdp/parallel-hashmap">phmap::flat_hash_set/map</a> (based on <a href="https://github.com/abseil/abseil-cpp">absl::flat_hash_map</a>) when I need a fast hash map with low memory overhead (and when iterators/references stability is not a concern). I started working on the seq library for the other points.
 
-
 Content
 -------
 
-The library is divided in 8 modules:
+The library is divided in 7 small modules:
 -	[bits](docs/bits.md): low-level bits manipulation utilities
 -	[hash](docs/hash.md): implementation of fnv1a and murmurhash2 algorithms
--	[lock](docs/lock.md): locking classes
 -	[memory](docs/memory.md): allocators and memory pools mainly used for containers
 -	[charconv](docs/charconv.md): fast arithmetic to/from string conversion
 -	[format](docs/format.md): fast and type safe formatting tools
@@ -38,7 +36,6 @@ The library is divided in 8 modules:
 
 seq library is header-only and self-dependent. A cmake project is provided for installation and compilation of tests.
 
-
 Why C++11 ?
 -----------
 
@@ -46,7 +43,23 @@ For now the seq library is developped and maintained in order to remain compatib
 While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11.
 
 
-Documentation
--------------
+Design
+------
 
-The full library documentation (generated with *doxygen*) is available <a href="https://rawcdn.githack.com/Thermadiag/seq/731467950d3591147b62856972e0d543173dddc1/doc/html/index.html">here</a>.
+Seq library is a small collection of header only and self dependant components. There is no restriction on internal dependencies, and a seq component can use any number of other components.
+For instance, almost all modules rely on the [bits](docs/bits.md) module.
+
+All classes and functions are defined in the `seq` namespace, and names are lower case with underscore separators, much like the STL.
+Macro names are upper case and start with `SEQ_` prefix.
+
+The directory structure is flat and use the "stuttering" scheme `seq/seq` used by many other libraries like boost.
+Including a file as the following syntax: `#include <seq/tiered_vector.hpp>`
+
+The `seq/seq/test` subdirectory includes tests for all components, usually named `test_modulename.hpp`, with a unique `main.cpp`. 
+The `seq/seq/docs` directory contains documentation using markdown format, and the `seq/seq/doc` directory contains the html documentation generated with doxygen (available <a href="https://rawcdn.githack.com/Thermadiag/seq/731467950d3591147b62856972e0d543173dddc1/doc/html/index.html">here</a>).
+
+Build
+-----
+
+The seq library is header only and does not need to be built. However, a cmake file is provided for installation.
+The tests can be built using cmake from the `tests` folder.

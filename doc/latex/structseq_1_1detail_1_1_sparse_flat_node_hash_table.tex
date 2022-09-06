@@ -44,9 +44,9 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a235f
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_acc035466d0d290752c5bd22130d2b50b}{Sparse\+Flat\+Node\+Hash\+Table}} (const Hash \&\mbox{\hyperlink{structseq_1_1detail_1_1_hash_equal_ae93d63f42e715da31f2f1b8ea083ac1e}{hash}}=Hash(), const Equal \&equal=Equal(), const Allocator \&alloc=Allocator()) noexcept
+\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a5bffd2ec246ae63e9a968e6024000a0b}{Sparse\+Flat\+Node\+Hash\+Table}} (const Hash \&\mbox{\hyperlink{structseq_1_1detail_1_1_hash_equal_ae93d63f42e715da31f2f1b8ea083ac1e}{hash}}, const Equal \&equal, const Allocator \&alloc) noexcept
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a8deb5acdbed61ebc076189102d37b485}{Sparse\+Flat\+Node\+Hash\+Table}} (\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{Sparse\+Flat\+Node\+Hash\+Table}} \&\&other)
+\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_ac098d7455dfd3ef93a6cc4ef40d93337}{Sparse\+Flat\+Node\+Hash\+Table}} (\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{Sparse\+Flat\+Node\+Hash\+Table}} \&\&other) noexcept
 \item 
 \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a874b30a2e7441041ed4efd1a091e4255}{Sparse\+Flat\+Node\+Hash\+Table}} (\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{Sparse\+Flat\+Node\+Hash\+Table}} \&\&other, const Allocator \&alloc)
 \item 
@@ -76,7 +76,7 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_afba1e
 \item 
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a4bcb573116a4bd98a886191d63fa1cc6}{bucket\+\_\+size}} () const noexcept
 \item 
-{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a235f79c38fe367a0150b65ef8ec28b62}{const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a0e6679e4537cdf1efeb20bcd3a99a7c6}{find\+\_\+linear\+\_\+hash}} (size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_hash_equal_ae93d63f42e715da31f2f1b8ea083ac1e}{hash}}, Args \&\&... args) const noexcept
+{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a235f79c38fe367a0150b65ef8ec28b62}{const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a091f40721c7658ba2a191a46dced1403}{find\+\_\+linear\+\_\+hash}} (size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_hash_equal_ae93d63f42e715da31f2f1b8ea083ac1e}{hash}}, Args \&\&... args) const
 \item 
 {\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a235f79c38fe367a0150b65ef8ec28b62}{const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a84209d4440e2738e8de63ebe741eab3e}{find\+\_\+hash}} (size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1_hash_equal_ae93d63f42e715da31f2f1b8ea083ac1e}{hash}}, Args \&\&... args) const
 \item 
@@ -232,19 +232,19 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{seq\
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{structseq_1_1detail_1_1_sparse_flat_node_hash_table_acc035466d0d290752c5bd22130d2b50b}\label{structseq_1_1detail_1_1_sparse_flat_node_hash_table_acc035466d0d290752c5bd22130d2b50b}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a5bffd2ec246ae63e9a968e6024000a0b}\label{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a5bffd2ec246ae63e9a968e6024000a0b}} 
 \index{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$@{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$}!SparseFlatNodeHashTable@{SparseFlatNodeHashTable}}
 \index{SparseFlatNodeHashTable@{SparseFlatNodeHashTable}!seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$@{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$}}
 \doxysubsubsection{\texorpdfstring{SparseFlatNodeHashTable()}{SparseFlatNodeHashTable()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
 {\footnotesize\ttfamily template$<$class Key , class Value , class Hash , class Equal , class Allocator , Layout\+Management layout$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{seq\+::detail\+::\+Sparse\+Flat\+Node\+Hash\+Table}}$<$ Key, Value, Hash, Equal, Allocator, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{Sparse\+Flat\+Node\+Hash\+Table}} (\begin{DoxyParamCaption}\item[{const Hash \&}]{hash = {\ttfamily Hash()},  }\item[{const Equal \&}]{equal = {\ttfamily Equal()},  }\item[{const Allocator \&}]{alloc = {\ttfamily Allocator()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{seq\+::detail\+::\+Sparse\+Flat\+Node\+Hash\+Table}}$<$ Key, Value, Hash, Equal, Allocator, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{Sparse\+Flat\+Node\+Hash\+Table}} (\begin{DoxyParamCaption}\item[{const Hash \&}]{hash,  }\item[{const Equal \&}]{equal,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a8deb5acdbed61ebc076189102d37b485}\label{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a8deb5acdbed61ebc076189102d37b485}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1_sparse_flat_node_hash_table_ac098d7455dfd3ef93a6cc4ef40d93337}\label{structseq_1_1detail_1_1_sparse_flat_node_hash_table_ac098d7455dfd3ef93a6cc4ef40d93337}} 
 \index{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$@{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$}!SparseFlatNodeHashTable@{SparseFlatNodeHashTable}}
 \index{SparseFlatNodeHashTable@{SparseFlatNodeHashTable}!seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$@{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$}}
 \doxysubsubsection{\texorpdfstring{SparseFlatNodeHashTable()}{SparseFlatNodeHashTable()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
 {\footnotesize\ttfamily template$<$class Key , class Value , class Hash , class Equal , class Allocator , Layout\+Management layout$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{seq\+::detail\+::\+Sparse\+Flat\+Node\+Hash\+Table}}$<$ Key, Value, Hash, Equal, Allocator, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{Sparse\+Flat\+Node\+Hash\+Table}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{Sparse\+Flat\+Node\+Hash\+Table}}$<$ Key, Value, Hash, Equal, Allocator, layout $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{seq\+::detail\+::\+Sparse\+Flat\+Node\+Hash\+Table}}$<$ Key, Value, Hash, Equal, Allocator, layout $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{Sparse\+Flat\+Node\+Hash\+Table}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{Sparse\+Flat\+Node\+Hash\+Table}}$<$ Key, Value, Hash, Equal, Allocator, layout $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a874b30a2e7441041ed4efd1a091e4255}\label{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a874b30a2e7441041ed4efd1a091e4255}} 
 \index{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$@{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$}!SparseFlatNodeHashTable@{SparseFlatNodeHashTable}}
@@ -336,13 +336,13 @@ template$<$class... Args$>$ \\
 template$<$class... Args$>$ \\
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a235f79c38fe367a0150b65ef8ec28b62}{const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{seq\+::detail\+::\+Sparse\+Flat\+Node\+Hash\+Table}}$<$ Key, Value, Hash, Equal, Allocator, layout $>$\+::find\+\_\+hash (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{hash,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a0e6679e4537cdf1efeb20bcd3a99a7c6}\label{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a0e6679e4537cdf1efeb20bcd3a99a7c6}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a091f40721c7658ba2a191a46dced1403}\label{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a091f40721c7658ba2a191a46dced1403}} 
 \index{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$@{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$}!find\_linear\_hash@{find\_linear\_hash}}
 \index{find\_linear\_hash@{find\_linear\_hash}!seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$@{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$}}
 \doxysubsubsection{\texorpdfstring{find\_linear\_hash()}{find\_linear\_hash()}}
 {\footnotesize\ttfamily template$<$class Key , class Value , class Hash , class Equal , class Allocator , Layout\+Management layout$>$ \\
 template$<$class... Args$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a235f79c38fe367a0150b65ef8ec28b62}{const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{seq\+::detail\+::\+Sparse\+Flat\+Node\+Hash\+Table}}$<$ Key, Value, Hash, Equal, Allocator, layout $>$\+::find\+\_\+linear\+\_\+hash (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{hash,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a235f79c38fe367a0150b65ef8ec28b62}{const\+\_\+iterator}} \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table}{seq\+::detail\+::\+Sparse\+Flat\+Node\+Hash\+Table}}$<$ Key, Value, Hash, Equal, Allocator, layout $>$\+::find\+\_\+linear\+\_\+hash (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{hash,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a8b1fa8b555b25b61085486f6dc2ccbda}\label{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a8b1fa8b555b25b61085486f6dc2ccbda}} 
 \index{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$@{seq::detail::SparseFlatNodeHashTable$<$ Key, Value, Hash, Equal, Allocator, layout $>$}!hash\_key@{hash\_key}}

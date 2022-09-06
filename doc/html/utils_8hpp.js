@@ -17,14 +17,14 @@ var utils_8hpp =
       [ "OptimizeForSpeed", "utils_8hpp.html#a209c3fd2e66f43ecc90862f2ee5e3dd5a83983acd78764ffa023da74a7360670e", null ],
       [ "OptimizeForMemory", "utils_8hpp.html#a209c3fd2e66f43ecc90862f2ee5e3dd5a51407649077d79765e15397347a57432", null ]
     ] ],
+    [ "constexpr_if", "utils_8hpp.html#a60b1a14cbf28e77e92a346892ef8531c", null ],
     [ "construct_ptr", "utils_8hpp.html#a48515fc69dc7f83f81c6e0715999ba16", null ],
     [ "destroy_ptr", "utils_8hpp.html#ae09f4c319b21510f90dae6dc5b7d8656", null ],
-    [ "operator+", "utils_8hpp.html#a1407693897892cd91dbb31683cf1e200", null ],
-    [ "operator-", "utils_8hpp.html#ae140a176dbb43c6b695adac9561c01da", null ],
-    [ "operator-", "utils_8hpp.html#a5edaf549d71732fa081394b43ae7e438", null ],
-    [ "operator<", "utils_8hpp.html#a0c2ac9b96f995fff575fc24a8169cb3d", null ],
-    [ "operator<=", "utils_8hpp.html#ad7bf025c87b50f374d4e581963559c30", null ],
-    [ "operator>", "utils_8hpp.html#af73cb013ab8de39759f3188c232bc768", null ],
-    [ "operator>=", "utils_8hpp.html#a9c78c77d93ada0613a00c80f01fe15da", null ],
-    [ "constexpr_if", "utils_8hpp.html#a7847ff182c5998204ab1a9f404d175a6", null ]
+    [ "operator+", "utils_8hpp.html#a57a83c380ba3efb861a6d64bd87360c1", null ],
+    [ "operator-", "utils_8hpp.html#aa242d97b0138a72bd07cabe76a62ef17", null ],
+    [ "operator-", "utils_8hpp.html#a8a3dab51febe50dfd60f7bd4fe46154f", null ],
+    [ "operator<", "utils_8hpp.html#a2c4cb9a01f8408e24f5cf3b5874876f9", null ],
+    [ "operator<=", "utils_8hpp.html#ac6920a1594333ae1cb5a606a699e2fa7", null ],
+    [ "operator>", "utils_8hpp.html#a0e24e00cf888c85c3bc16fa9a8f8dfbf", null ],
+    [ "operator>=", "utils_8hpp.html#a93bda8a7271df48555e68fe9d51ebf37", null ]
 ];

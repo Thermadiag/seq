@@ -12,11 +12,11 @@ Allocate up to Max\+Size objects by step of Block\+Size.
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1block__object__allocation_a76da88f5f59e0f246a730e1944da3fb6}{fits}} (size\+\_\+t size)
+static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1block__object__allocation_a183193b577293901445f24697c3ba8d1}{fits}} (size\+\_\+t size) -\/$>$ bool
 \item 
-static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1block__object__allocation_a0d69d760a245ce4fd9151dc244e3b8ac}{size\+\_\+to\+\_\+idx}} (size\+\_\+t size)
+static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1block__object__allocation_a35c1dd336661480f4680e443001f3235}{size\+\_\+to\+\_\+idx}} (size\+\_\+t size) -\/$>$ size\+\_\+t
 \item 
-static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1block__object__allocation_a1d2fbd0d65e00797bd745609a76626af}{idx\+\_\+to\+\_\+size}} (size\+\_\+t idx)
+static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1block__object__allocation_a174cfaee238e9c88495cbc2b31395a1e}{idx\+\_\+to\+\_\+size}} (size\+\_\+t idx) -\/$>$ size\+\_\+t
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
@@ -36,26 +36,26 @@ struct seq\+::block\+\_\+object\+\_\+allocation$<$ Max\+Size, Block\+Size, Min\+
 Allocate up to Max\+Size objects by step of Block\+Size. 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{structseq_1_1block__object__allocation_a76da88f5f59e0f246a730e1944da3fb6}\label{structseq_1_1block__object__allocation_a76da88f5f59e0f246a730e1944da3fb6}} 
+\mbox{\Hypertarget{structseq_1_1block__object__allocation_a183193b577293901445f24697c3ba8d1}\label{structseq_1_1block__object__allocation_a183193b577293901445f24697c3ba8d1}} 
 \index{seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$@{seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$}!fits@{fits}}
 \index{fits@{fits}!seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$@{seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$}}
 \doxysubsubsection{\texorpdfstring{fits()}{fits()}}
 {\footnotesize\ttfamily template$<$size\+\_\+t Max\+Size, size\+\_\+t Block\+Size, size\+\_\+t Min\+Capacity = 4U$>$ \\
-static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{structseq_1_1block__object__allocation}{seq\+::block\+\_\+object\+\_\+allocation}}$<$ Max\+Size, Block\+Size, Min\+Capacity $>$\+::fits (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1block__object__allocation}{seq\+::block\+\_\+object\+\_\+allocation}}$<$ Max\+Size, Block\+Size, Min\+Capacity $>$\+::fits (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption}) -\/$>$ bool \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
 
-\mbox{\Hypertarget{structseq_1_1block__object__allocation_a1d2fbd0d65e00797bd745609a76626af}\label{structseq_1_1block__object__allocation_a1d2fbd0d65e00797bd745609a76626af}} 
+\mbox{\Hypertarget{structseq_1_1block__object__allocation_a174cfaee238e9c88495cbc2b31395a1e}\label{structseq_1_1block__object__allocation_a174cfaee238e9c88495cbc2b31395a1e}} 
 \index{seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$@{seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$}!idx\_to\_size@{idx\_to\_size}}
 \index{idx\_to\_size@{idx\_to\_size}!seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$@{seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$}}
 \doxysubsubsection{\texorpdfstring{idx\_to\_size()}{idx\_to\_size()}}
 {\footnotesize\ttfamily template$<$size\+\_\+t Max\+Size, size\+\_\+t Block\+Size, size\+\_\+t Min\+Capacity = 4U$>$ \\
-static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1block__object__allocation}{seq\+::block\+\_\+object\+\_\+allocation}}$<$ Max\+Size, Block\+Size, Min\+Capacity $>$\+::idx\+\_\+to\+\_\+size (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{idx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1block__object__allocation}{seq\+::block\+\_\+object\+\_\+allocation}}$<$ Max\+Size, Block\+Size, Min\+Capacity $>$\+::idx\+\_\+to\+\_\+size (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{idx }\end{DoxyParamCaption}) -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
 
-\mbox{\Hypertarget{structseq_1_1block__object__allocation_a0d69d760a245ce4fd9151dc244e3b8ac}\label{structseq_1_1block__object__allocation_a0d69d760a245ce4fd9151dc244e3b8ac}} 
+\mbox{\Hypertarget{structseq_1_1block__object__allocation_a35c1dd336661480f4680e443001f3235}\label{structseq_1_1block__object__allocation_a35c1dd336661480f4680e443001f3235}} 
 \index{seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$@{seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$}!size\_to\_idx@{size\_to\_idx}}
 \index{size\_to\_idx@{size\_to\_idx}!seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$@{seq::block\_object\_allocation$<$ MaxSize, BlockSize, MinCapacity $>$}}
 \doxysubsubsection{\texorpdfstring{size\_to\_idx()}{size\_to\_idx()}}
 {\footnotesize\ttfamily template$<$size\+\_\+t Max\+Size, size\+\_\+t Block\+Size, size\+\_\+t Min\+Capacity = 4U$>$ \\
-static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} size\+\_\+t \mbox{\hyperlink{structseq_1_1block__object__allocation}{seq\+::block\+\_\+object\+\_\+allocation}}$<$ Max\+Size, Block\+Size, Min\+Capacity $>$\+::size\+\_\+to\+\_\+idx (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+static \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1block__object__allocation}{seq\+::block\+\_\+object\+\_\+allocation}}$<$ Max\+Size, Block\+Size, Min\+Capacity $>$\+::size\+\_\+to\+\_\+idx (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{size }\end{DoxyParamCaption}) -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
 
 
 

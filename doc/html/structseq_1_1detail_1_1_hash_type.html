@@ -98,8 +98,8 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_hash_type.html
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a471c9789037a736a0d6e3c82e3e9b9bb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_type.html#a471c9789037a736a0d6e3c82e3e9b9bb">apply</a> (const void *in)</td></tr>
-<tr class="separator:a471c9789037a736a0d6e3c82e3e9b9bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22c0c44c66f48a116adee61c1360adf6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_type.html#a22c0c44c66f48a116adee61c1360adf6">apply</a> (const void *in) -&gt; size_t</td></tr>
+<tr class="separator:a22c0c44c66f48a116adee61c1360adf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class T, bool Valid = is_hashable&lt;T&gt;::value, class = void&gt;<br />
@@ -107,8 +107,8 @@ struct seq::detail::HashType&lt; T, Valid, class &gt;</h3>
 
 <p>Hash type only if is_hashable&lt;T&gt;::value is true. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a471c9789037a736a0d6e3c82e3e9b9bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a471c9789037a736a0d6e3c82e3e9b9bb">&#9670;&nbsp;</a></span>apply()</h2>
+<a id="a22c0c44c66f48a116adee61c1360adf6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22c0c44c66f48a116adee61c1360adf6">&#9670;&nbsp;</a></span>apply()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -119,11 +119,12 @@ template&lt;class T , bool Valid = is_hashable&lt;T&gt;::value, class  = void&gt
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> size_t <a class="el" href="structseq_1_1detail_1_1_hash_type.html">seq::detail::HashType</a>&lt; T, Valid, class &gt;::apply </td>
+          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_hash_type.html">seq::detail::HashType</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Valid, class &gt;::apply </td>
           <td>(</td>
           <td class="paramtype">const void *&#160;</td>
           <td class="paramname"><em>in</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; size_t
+			</td>
         </tr>
       </table>
   </td>

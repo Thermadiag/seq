@@ -2,19 +2,19 @@
 \label{structseq_1_1detail_1_1_null_value_compare}\index{seq::detail::NullValueCompare$<$ T $>$@{seq::detail::NullValueCompare$<$ T $>$}}
 
 
-{\ttfamily \#include $<$deque.\+hpp$>$}
+{\ttfamily \#include $<$tiered\+\_\+vector.\+hpp$>$}
 
 \doxysubsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
-using \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare_a71a9b7ad9c777e94ea96359b0fcff762}{key\+\_\+type}} = T
+using \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare_a71a9b7ad9c777e94ea96359b0fcff762}{key\+\_\+type}} = \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static T \& \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare_aff7c5978d8f869c1452eec9f38120530}{key}} (T \&v) noexcept
+static auto \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare_a5f735c1f01cc1390154187e262be50ed}{key}} (\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} \&v) noexcept -\/$>$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} \&
 \item 
-static const T \& \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare_a3cfefb1c82467688e1c5254580f93c4e}{key}} (const T \&v) noexcept
+static auto \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare_a998f60f0eb203be1b079706427499bcd}{key}} (const \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} \&v) noexcept -\/$>$ const \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} \&
 \end{DoxyCompactItemize}
 
 
@@ -24,27 +24,27 @@ static const T \& \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare_a3
 \index{key\_type@{key\_type}!seq::detail::NullValueCompare$<$ T $>$@{seq::detail::NullValueCompare$<$ T $>$}}
 \doxysubsubsection{\texorpdfstring{key\_type}{key\_type}}
 {\footnotesize\ttfamily template$<$class T $>$ \\
-using \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare}{seq\+::detail\+::\+Null\+Value\+Compare}}$<$ T $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare_a71a9b7ad9c777e94ea96359b0fcff762}{key\+\_\+type}} =  T}
+using \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare}{seq\+::detail\+::\+Null\+Value\+Compare}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare_a71a9b7ad9c777e94ea96359b0fcff762}{key\+\_\+type}} =  \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}}
 
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{structseq_1_1detail_1_1_null_value_compare_a3cfefb1c82467688e1c5254580f93c4e}\label{structseq_1_1detail_1_1_null_value_compare_a3cfefb1c82467688e1c5254580f93c4e}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1_null_value_compare_a998f60f0eb203be1b079706427499bcd}\label{structseq_1_1detail_1_1_null_value_compare_a998f60f0eb203be1b079706427499bcd}} 
 \index{seq::detail::NullValueCompare$<$ T $>$@{seq::detail::NullValueCompare$<$ T $>$}!key@{key}}
 \index{key@{key}!seq::detail::NullValueCompare$<$ T $>$@{seq::detail::NullValueCompare$<$ T $>$}}
 \doxysubsubsection{\texorpdfstring{key()}{key()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class T $>$ \\
-static const T\& \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare}{seq\+::detail\+::\+Null\+Value\+Compare}}$<$ T $>$\+::key (\begin{DoxyParamCaption}\item[{const T \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [noexcept]}}
+static auto \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare}{seq\+::detail\+::\+Null\+Value\+Compare}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $>$\+::key (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} \&}]{v }\end{DoxyParamCaption}) -\/$>$ const \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1_null_value_compare_aff7c5978d8f869c1452eec9f38120530}\label{structseq_1_1detail_1_1_null_value_compare_aff7c5978d8f869c1452eec9f38120530}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1_null_value_compare_a5f735c1f01cc1390154187e262be50ed}\label{structseq_1_1detail_1_1_null_value_compare_a5f735c1f01cc1390154187e262be50ed}} 
 \index{seq::detail::NullValueCompare$<$ T $>$@{seq::detail::NullValueCompare$<$ T $>$}!key@{key}}
 \index{key@{key}!seq::detail::NullValueCompare$<$ T $>$@{seq::detail::NullValueCompare$<$ T $>$}}
 \doxysubsubsection{\texorpdfstring{key()}{key()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class T $>$ \\
-static T\& \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare}{seq\+::detail\+::\+Null\+Value\+Compare}}$<$ T $>$\+::key (\begin{DoxyParamCaption}\item[{T \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [noexcept]}}
+static auto \mbox{\hyperlink{structseq_1_1detail_1_1_null_value_compare}{seq\+::detail\+::\+Null\+Value\+Compare}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $>$\+::key (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} \&}]{v }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [noexcept]}}
 
 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-seq/\mbox{\hyperlink{deque_8hpp}{deque.\+hpp}}\end{DoxyCompactItemize}
+seq/\mbox{\hyperlink{tiered__vector_8hpp}{tiered\+\_\+vector.\+hpp}}\end{DoxyCompactItemize}

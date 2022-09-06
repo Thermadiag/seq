@@ -1,18 +1,15 @@
-#ifndef SEQ_TESTING_H
-#define SEQ_TESTING_H
+#ifndef SEQ_TESTING_HPP
+#define SEQ_TESTING_HPP
 
-#include <chrono>
-#include <fstream>
-#include <vector>
-#include <iostream>
 
-#ifdef WIN32
-#include <windows.h>
-#include <psapi.h>
+#if defined( WIN32) || defined(_WIN32)
+#include <Windows.h>
+#include <Psapi.h>
 #else 
 #include <time.h>
 #endif
 
+#include <chrono>
 
 #include "bits.hpp"
 #include "format.hpp"
@@ -27,20 +24,20 @@ namespace seq
 {
 	namespace detail
 	{
-		static inline int64_t msecs_since_epoch()
+		static inline auto msecs_since_epoch() -> int64_t
 		{
 			using namespace std::chrono;
 			return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 		}
 
 
-#ifdef WIN32
+#if defined( WIN32) || defined(_WIN32)
 
 
-		typedef struct high_def_timer {
+		using high_def_timer = struct high_def_timer {
 			LARGE_INTEGER timer;
 			LARGE_INTEGER freq;
-		} high_def_timer;
+		};
 
 		inline void start_timer(high_def_timer* timer)
 		{
@@ -48,7 +45,7 @@ namespace seq
 			QueryPerformanceFrequency(&timer->freq);
 		}
 
-		inline std::uint64_t elapsed_microseconds(high_def_timer* timer)
+		inline auto elapsed_microseconds(high_def_timer* timer) -> std::uint64_t
 		{
 			LARGE_INTEGER end;
 			QueryPerformanceCounter(&end);
@@ -75,7 +72,7 @@ namespace seq
 
 #endif
 
-		static inline high_def_timer& get_timer()
+		static inline auto get_timer() -> high_def_timer&
 		{
 			static thread_local high_def_timer timer;
 			return timer;
@@ -89,12 +86,12 @@ namespace seq
 		detail::start_timer(&detail::get_timer());
 	}
 	/// @brief For tests only, returns elapsed microseconds since last call to tick()
-	std::uint64_t tock_us()
+	auto tock_us() -> std::uint64_t
 	{
 		return detail::elapsed_microseconds(&detail::get_timer());
 	}
 	/// @brief For tests only, returns elapsed milliseconds since last call to tick()
-	std::uint64_t tock_ms()
+	auto tock_ms() -> std::uint64_t
 	{
 		return detail::elapsed_microseconds(&detail::get_timer()) / 1000ULL;
 	}
@@ -102,24 +99,25 @@ namespace seq
 	
 
 
-#ifdef WIN32
+#if defined( WIN32) || defined(_WIN32)
 
 		/// @brief Equivalent to std::system without a command prompt on Windows
-		int system(const char* command)
+		auto system(const char* command) -> int
 		{
 			// Windows has a system() function which works, but it opens a command prompt window.
 
-			char* tmp_command, * cmd_exe_path;
+			char * tmp_command;
+			char * cmd_exe_path;
 			DWORD ret = 0;
 			LPDWORD         ret_val = &ret;
-			size_t          len;
-			PROCESS_INFORMATION process_info = { 0,0,0,0 };
+			size_t          len = 0;
+			PROCESS_INFORMATION process_info = { nullptr,nullptr,0,0 };
 			STARTUPINFOA        startup_info;// = { 0 };
 			memset(&startup_info, 0, sizeof(startup_info));
 
 
 			len = strlen(command);
-			tmp_command = (char*)malloc(len + 4);
+			tmp_command = static_cast<char*>(malloc(len + 4));
 			tmp_command[0] = 0x2F; // '/'
 			tmp_command[1] = 0x63; // 'c'
 			tmp_command[2] = 0x20; // <space>;
@@ -135,7 +133,7 @@ namespace seq
 			
 			_flushall();  // required for Windows system() calls, probably a good idea here too
 
-			if (CreateProcessA(cmd_exe_path, tmp_command, NULL, NULL, 0, CREATE_NO_WINDOW, NULL, NULL, &startup_info, &process_info)) {
+			if (CreateProcessA(cmd_exe_path, tmp_command, nullptr, nullptr, 0, CREATE_NO_WINDOW, nullptr, nullptr, &startup_info, &process_info) != 0) {
 				WaitForSingleObject(process_info.hProcess, INFINITE);
 				GetExitCodeProcess(process_info.hProcess, ret_val);
 				CloseHandle(process_info.hProcess);
@@ -152,19 +150,19 @@ namespace seq
 
 		void reset_memory_usage()
 		{
-#ifdef WIN32
+#if defined( WIN32) || defined(_WIN32)
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 #endif
 		}
 
-		size_t get_memory_usage()
+		auto get_memory_usage() -> size_t
 		{
-#ifdef WIN32
+#if defined( WIN32) || defined(_WIN32)
 			Sleep(50);
 			HANDLE currentProcessHandle = GetCurrentProcess();
 			PROCESS_MEMORY_COUNTERS_EX   memoryCounters;// = { 0 };;
 			memset(&memoryCounters, 0, sizeof(memoryCounters));
-			if (GetProcessMemoryInfo(currentProcessHandle, (PROCESS_MEMORY_COUNTERS*)&memoryCounters, sizeof(memoryCounters)))
+			if (GetProcessMemoryInfo(currentProcessHandle, reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&memoryCounters), sizeof(memoryCounters)))
 			{
 				return /*memoryCounters.PrivateUsage + */memoryCounters.WorkingSetSize;
 			}
@@ -179,17 +177,17 @@ namespace seq
 
 	template<typename Ch, typename Traits = std::char_traits<Ch> >
 	struct basic_nullbuf : std::basic_streambuf<Ch, Traits> {
-		typedef std::basic_streambuf<Ch, Traits> base_type;
-		typedef typename base_type::int_type int_type;
-		typedef typename base_type::traits_type traits_type;
+		using base_type = std::basic_streambuf<Ch, Traits>;
+		using int_type = typename base_type::int_type;
+		using traits_type = typename base_type::traits_type;
 
-		virtual int_type overflow(int_type c) {
+		virtual auto overflow(int_type c) -> int_type {
 			return traits_type::not_eof(c);
 		}
 	};
 
 	/// @brief For tests only, alias for null buffer, to be used with c++ iostreams
-	typedef basic_nullbuf<char> nullbuf;
+	using nullbuf = basic_nullbuf<char>;
 
 
 	/*size_t to_int(const std::string& v) { return v.size(); }
@@ -205,7 +203,7 @@ namespace seq
 
 	/// @brief For tests only, generate a random string of given max size
 	template<class String>
-	String generate_random_string(int max_size, bool fixed = false)
+	auto generate_random_string(int max_size, bool fixed = false) -> String
 	{
 		size_t size = (size_t)(fixed ? max_size : rand() % max_size);
 		String res(size, 0);
@@ -222,39 +220,39 @@ namespace seq
 		template<class T>
 		struct Multiply
 		{
-			static T multiply(T value) {
+			static auto multiply(T value) -> T {
 				return static_cast<T>(((int)rand() + (int)rand()) * 14695981039346656037ULL * value);
 			}
 			template<class Stream>
-			static T read(Stream& str) { T r;  seq::from_stream(str, r); return r; }
+			static auto read(Stream& str) -> T { T r;  seq::from_stream(str, r); return r; }
 		};
 		template<>
 		struct Multiply<long double>
 		{
-			static long double multiply(long double value) {
-				return static_cast<long double>(((long double)rand() + (long double)rand())) * 1.4695981039346656037 * value;
+			static auto multiply(long double value) -> long double {
+				return static_cast<long double>((static_cast<long double>(rand()) + static_cast<long double>(rand()))) * 1.4695981039346656037 * value;
 			}
 			template<class Stream>
-			static long double read(Stream& str) { long double r; seq::from_stream(str, r); return r; }
-		};
+			static auto read(Stream& str) -> long double { long double r; seq::from_stream(str, r); return r; }
+		} ;
 		template<>
 		struct Multiply<double>
 		{
-			static double multiply(double value) {
-				return static_cast<double>(((double)rand() + (double)rand())) * 1.4695981039346656037 * value;
+			static auto multiply(double value) -> double {
+				return static_cast<double>((static_cast<double>(rand()) + static_cast<double>(rand()))) * 1.4695981039346656037 * value;
 			}
 			template<class Stream>
-			static double read(Stream& str) { double r; seq::from_stream(str, r); return r; }
-		};
+			static auto read(Stream& str) -> double { double r; seq::from_stream(str, r); return r; }
+		} ;
 		template<>
 		struct Multiply<float>
 		{
-			static float multiply(float value) {
-				return static_cast<float>(((float)rand() + (float)rand()) * 1.4695981039346656037 * value);
+			static auto multiply(float value) -> float {
+				return static_cast<float>((static_cast<float>(rand()) + static_cast<float>(rand())) * 1.4695981039346656037 * value);
 			}
 			template<class Stream>
-			static float read(Stream& str) { float r;  seq::from_stream(str, r); return r; }
-		};
+			static auto read(Stream& str) -> float { float r;  seq::from_stream(str, r); return r; }
+		} ;
 	}
 
 	/// @brief For tests only, generate random floating point number on the whole representable range (including potential infinit values)
@@ -266,13 +264,13 @@ namespace seq
 		unsigned count;
 
 	public:
-		random_float_genertor(unsigned seed = 0)
+		random_float_genertor(unsigned seed=0)
 			:count(0)
 		{
 			srand(seed);
 		}
 
-		Float operator()()
+		auto operator()() -> Float
 		{
 			const bool type = rand() & 1;
 			Float sign1 = (rand() & 1) ? (Float)-1 : (Float)1;

@@ -95,7 +95,7 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1chunk__padding_
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:af06a8b41c8783cbadbf1d4d329299470"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1chunk__padding__base.html#af06a8b41c8783cbadbf1d4d329299470">size</a> = (sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;T&gt;) % 64ULL) ? (((sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;T&gt;) / 64ULL) + 1ULL) * 64ULL) - sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;T&gt;) : 0ULL</td></tr>
+<tr class="memitem:af06a8b41c8783cbadbf1d4d329299470"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1chunk__padding__base.html#af06a8b41c8783cbadbf1d4d329299470">size</a> = (sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;<a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>&gt;) % 64ULL) != 0u ? (((sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;<a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>&gt;) / 64ULL) + 1ULL) * 64ULL) - sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;<a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>&gt;) : 0ULL</td></tr>
 <tr class="separator:af06a8b41c8783cbadbf1d4d329299470"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -111,7 +111,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const size_t <a class="el" href="structseq_1_1detail_1_1chunk__padding__base.html">seq::detail::chunk_padding_base</a>&lt; T &gt;::size = (sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;T&gt;) % 64ULL) ? (((sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;T&gt;) / 64ULL) + 1ULL) * 64ULL) - sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;T&gt;) : 0ULL</td>
+          <td class="memname">const size_t <a class="el" href="structseq_1_1detail_1_1chunk__padding__base.html">seq::detail::chunk_padding_base</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &gt;::size = (sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;<a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>&gt;) % 64ULL) != 0u ? (((sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;<a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>&gt;) / 64ULL) + 1ULL) * 64ULL) - sizeof(<a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a>&lt;<a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>&gt;) : 0ULL</td>
         </tr>
       </table>
   </td>

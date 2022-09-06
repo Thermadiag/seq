@@ -91,25 +91,25 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_compare_less_a
 </div><!--header-->
 <div class="contents">
 
-<p>Less than comparison for <a class="el" href="classseq_1_1hold__any.html#a714f33734dd075c50d6db1c27820d75a">hold_any::less_than</a>.  
+<p>Less than comparison for <a class="el" href="classseq_1_1hold__any.html#a25cb6f241bd0cd9e29961b8ba4d8d6bd">hold_any::less_than</a>.  
  <a href="structseq_1_1detail_1_1_compare_less_arithmetic.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="any_8hpp_source.html">any.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a0e8ed9dc8b92ee6d4b1d7c3eea23d2f6"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
-<tr class="memitem:a0e8ed9dc8b92ee6d4b1d7c3eea23d2f6"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_less_arithmetic.html#a0e8ed9dc8b92ee6d4b1d7c3eea23d2f6">less</a> (const U &amp;a, const T &amp;b)</td></tr>
-<tr class="separator:a0e8ed9dc8b92ee6d4b1d7c3eea23d2f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcf327c7abaaa4ea9273c277effa9e55"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
+<tr class="memitem:afcf327c7abaaa4ea9273c277effa9e55"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_less_arithmetic.html#afcf327c7abaaa4ea9273c277effa9e55">less</a> (const U &amp;a, const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;b) -&gt; bool</td></tr>
+<tr class="separator:afcf327c7abaaa4ea9273c277effa9e55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class T, class Cast, bool IsArithmetic = std::is_arithmetic&lt;T&gt;::value&gt;<br />
 struct seq::detail::CompareLessArithmetic&lt; T, Cast, IsArithmetic &gt;</h3>
 
-<p>Less than comparison for <a class="el" href="classseq_1_1hold__any.html#a714f33734dd075c50d6db1c27820d75a">hold_any::less_than</a>. </p>
+<p>Less than comparison for <a class="el" href="classseq_1_1hold__any.html#a25cb6f241bd0cd9e29961b8ba4d8d6bd">hold_any::less_than</a>. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a0e8ed9dc8b92ee6d4b1d7c3eea23d2f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e8ed9dc8b92ee6d4b1d7c3eea23d2f6">&#9670;&nbsp;</a></span>less()</h2>
+<a id="afcf327c7abaaa4ea9273c277effa9e55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcf327c7abaaa4ea9273c277effa9e55">&#9670;&nbsp;</a></span>less()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -122,7 +122,7 @@ template&lt;class U &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool <a class="el" href="structseq_1_1detail_1_1_compare_less_arithmetic.html">seq::detail::CompareLessArithmetic</a>&lt; T, Cast, IsArithmetic &gt;::less </td>
+          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_compare_less_arithmetic.html">seq::detail::CompareLessArithmetic</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Cast, IsArithmetic &gt;::less </td>
           <td>(</td>
           <td class="paramtype">const U &amp;&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -130,13 +130,13 @@ template&lt;class U &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; bool </td>
         </tr>
       </table>
   </td>

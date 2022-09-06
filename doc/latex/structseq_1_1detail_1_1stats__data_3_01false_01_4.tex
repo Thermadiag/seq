@@ -11,13 +11,9 @@ Inherited by \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool$
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4_a203c7f40f706c0f959fffda6a90aedd1}{stats\+\_\+data}} () noexcept
+\mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4_a4c9ee5839f17b51e431795f829858ccf}{stats\+\_\+data}} () noexcept=default
 \item 
 void \mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4_a976332abcdc67980482577fff115b33e}{reset\+\_\+statistics}} () noexcept
-\item 
-size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4_a1ffecd4d92a15641c27dd4d5dad65ffe}{get\+\_\+cum\+\_\+created}} () const noexcept
-\item 
-size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4_a6b5c86e2bf578dc1ed9b1fe9c026b7b2}{get\+\_\+cum\+\_\+freed}} () const noexcept
 \item 
 void \mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4_a47a30cf40614a1a7bbd6ecbeb4ab781a}{increment\+\_\+created}} () noexcept
 \item 
@@ -25,14 +21,21 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4_ac236292
 \item 
 void \mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4_a6e7869bea4f62634936d35f99cc9a043}{add\+\_\+to}} (\mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{stats\+\_\+data}} \&) noexcept
 \end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static auto \mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4_aed38a5f5ce548bf349028c7b32a57d82}{get\+\_\+cum\+\_\+created}} () noexcept -\/$>$ size\+\_\+t
+\item 
+static auto \mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4_a4f8a00e4ea6d2b279b252d991ca3faa3}{get\+\_\+cum\+\_\+freed}} () noexcept -\/$>$ size\+\_\+t
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{structseq_1_1detail_1_1stats__data_3_01false_01_4_a203c7f40f706c0f959fffda6a90aedd1}\label{structseq_1_1detail_1_1stats__data_3_01false_01_4_a203c7f40f706c0f959fffda6a90aedd1}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1stats__data_3_01false_01_4_a4c9ee5839f17b51e431795f829858ccf}\label{structseq_1_1detail_1_1stats__data_3_01false_01_4_a4c9ee5839f17b51e431795f829858ccf}} 
 \index{seq::detail::stats\_data$<$ false $>$@{seq::detail::stats\_data$<$ false $>$}!stats\_data@{stats\_data}}
 \index{stats\_data@{stats\_data}!seq::detail::stats\_data$<$ false $>$@{seq::detail::stats\_data$<$ false $>$}}
 \doxysubsubsection{\texorpdfstring{stats\_data()}{stats\_data()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{seq\+::detail\+::stats\+\_\+data}}$<$ false $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{stats\+\_\+data}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{seq\+::detail\+::stats\+\_\+data}}$<$ false $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{stats\+\_\+data}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}, {\ttfamily [noexcept]}}
 
 
 
@@ -43,17 +46,17 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1stats__data_3_01false_01_4_a6e7869b
 \doxysubsubsection{\texorpdfstring{add\_to()}{add\_to()}}
 {\footnotesize\ttfamily void \mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{seq\+::detail\+::stats\+\_\+data}}$<$ false $>$\+::add\+\_\+to (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{stats\+\_\+data}}$<$ false $>$ \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1stats__data_3_01false_01_4_a1ffecd4d92a15641c27dd4d5dad65ffe}\label{structseq_1_1detail_1_1stats__data_3_01false_01_4_a1ffecd4d92a15641c27dd4d5dad65ffe}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1stats__data_3_01false_01_4_aed38a5f5ce548bf349028c7b32a57d82}\label{structseq_1_1detail_1_1stats__data_3_01false_01_4_aed38a5f5ce548bf349028c7b32a57d82}} 
 \index{seq::detail::stats\_data$<$ false $>$@{seq::detail::stats\_data$<$ false $>$}!get\_cum\_created@{get\_cum\_created}}
 \index{get\_cum\_created@{get\_cum\_created}!seq::detail::stats\_data$<$ false $>$@{seq::detail::stats\_data$<$ false $>$}}
 \doxysubsubsection{\texorpdfstring{get\_cum\_created()}{get\_cum\_created()}}
-{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{seq\+::detail\+::stats\+\_\+data}}$<$ false $>$\+::get\+\_\+cum\+\_\+created (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+{\footnotesize\ttfamily static auto \mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{seq\+::detail\+::stats\+\_\+data}}$<$ false $>$\+::get\+\_\+cum\+\_\+created (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1stats__data_3_01false_01_4_a6b5c86e2bf578dc1ed9b1fe9c026b7b2}\label{structseq_1_1detail_1_1stats__data_3_01false_01_4_a6b5c86e2bf578dc1ed9b1fe9c026b7b2}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1stats__data_3_01false_01_4_a4f8a00e4ea6d2b279b252d991ca3faa3}\label{structseq_1_1detail_1_1stats__data_3_01false_01_4_a4f8a00e4ea6d2b279b252d991ca3faa3}} 
 \index{seq::detail::stats\_data$<$ false $>$@{seq::detail::stats\_data$<$ false $>$}!get\_cum\_freed@{get\_cum\_freed}}
 \index{get\_cum\_freed@{get\_cum\_freed}!seq::detail::stats\_data$<$ false $>$@{seq::detail::stats\_data$<$ false $>$}}
 \doxysubsubsection{\texorpdfstring{get\_cum\_freed()}{get\_cum\_freed()}}
-{\footnotesize\ttfamily size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{seq\+::detail\+::stats\+\_\+data}}$<$ false $>$\+::get\+\_\+cum\+\_\+freed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+{\footnotesize\ttfamily static auto \mbox{\hyperlink{structseq_1_1detail_1_1stats__data}{seq\+::detail\+::stats\+\_\+data}}$<$ false $>$\+::get\+\_\+cum\+\_\+freed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1stats__data_3_01false_01_4_a47a30cf40614a1a7bbd6ecbeb4ab781a}\label{structseq_1_1detail_1_1stats__data_3_01false_01_4_a47a30cf40614a1a7bbd6ecbeb4ab781a}} 
 \index{seq::detail::stats\_data$<$ false $>$@{seq::detail::stats\_data$<$ false $>$}!increment\_created@{increment\_created}}

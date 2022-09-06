@@ -1,4 +1,7 @@
-#pragma once
+#ifndef SEQ_HASH_HPP
+#define SEQ_HASH_HPP
+
+
 
 /** @file */
 
@@ -29,7 +32,7 @@ namespace seq
 	/// @param h1 first hash value
 	/// @param h2 second hash value
 	/// @return combination of both hash value
-	inline size_t hash_combine(size_t h1, size_t h2)noexcept
+	inline auto hash_combine(size_t h1, size_t h2)noexcept -> size_t
 	{
 #ifdef SEQ_ARCH_64
 		// murmurhash2
@@ -50,7 +53,7 @@ namespace seq
 	/// @param ptr input buffer
 	/// @param len input buffer size
 	/// @return computed hash value
-	inline size_t hash_bytes_murmur64(const std::uint8_t* ptr, size_t len) noexcept
+	inline auto hash_bytes_murmur64(const std::uint8_t*  ptr, size_t len) noexcept -> size_t
 	{
 		static constexpr std::uint64_t m = 14313749767032793493ULL;
 		static constexpr std::uint64_t seed = 3782874213ULL;
@@ -109,14 +112,14 @@ namespace seq
 	/// @param ptr input buffer
 	/// @param len input buffer size
 	/// @return computed hash value
-	inline size_t hash_bytes_fnv1a(const unsigned char* ptr, size_t size)noexcept
+	inline auto hash_bytes_fnv1a(const unsigned char* ptr, size_t size)noexcept -> size_t
 	{
 		static constexpr size_t FNV_offset_basis = sizeof(size_t) == 8 ? 14695981039346656037ULL : 2166136261U;
 		static constexpr size_t FNV_prime = sizeof(size_t) == 8 ? 1099511628211ULL : 16777619U;
 
 		size_t h = FNV_offset_basis;
 
-		const std::uint8_t* end = ptr + size - (sizeof(size_t) - 1);
+		const std::uint8_t* end =  ptr + size - (sizeof(size_t) - 1);
 		while (ptr < end) {
 			auto k = read_size_t(ptr);
 			h ^= k;
@@ -162,7 +165,7 @@ namespace seq
 	/// @param ptr input buffer
 	/// @param len input buffer size
 	/// @return computed hash value
-	inline size_t hash_bytes_fnv1a_slow(const unsigned char* ptr, size_t size)noexcept
+	inline auto hash_bytes_fnv1a_slow(const unsigned char* ptr, size_t size)noexcept -> size_t
 	{
 		static constexpr size_t FNV_offset_basis = sizeof(size_t) == 8 ? 14695981039346656037ULL : 2166136261U;
 		static constexpr size_t FNV_prime = sizeof(size_t) == 8 ? 1099511628211ULL : 16777619U;
@@ -170,7 +173,7 @@ namespace seq
 		size_t h = FNV_offset_basis;
 
 		for (size_t i = 0; i < size; ++i) {
-			size_t k = static_cast<size_t>(ptr[i]);
+			auto k = static_cast<size_t>(ptr[i]);
 			h ^= k;
 			h *= FNV_prime;
 		}
@@ -183,3 +186,5 @@ namespace seq
 
 /** @}*/
 //end hash
+
+#endif

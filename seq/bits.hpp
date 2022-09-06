@@ -1,4 +1,7 @@
-#pragma once
+#ifndef SEQ_BITS_HPP
+#define SEQ_BITS_HPP
+
+
 
 /** @file */
 
@@ -30,17 +33,12 @@ See functions documentation for more details.
  *  @{
  */
 
-
-#include <cstdlib>
 #include <cstdint>
-#include <climits>
+#include <cstring>
+#include <cstdlib>
 #include <cstddef>
 #include <cassert>
-#include <cstring>
-#include <cstdio>
-#include <chrono>
-#include <type_traits>
-#include <memory>
+
 
 #if defined(__APPLE__)
 // Mac OS X / Darwin features
@@ -70,15 +68,6 @@ See functions documentation for more details.
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
 
-
-// Error codes for compression module
-#define SEQ_ERROR_UNDEFINED ((unsigned)-1)
-#define SEQ_ERROR_CORRUPTED_DATA ((unsigned)-2)
-#define SEQ_ERROR_SRC_OVERFLOW ((unsigned)-3)
-#define SEQ_ERROR_DST_OVERFLOW ((unsigned)-4)
-#define SEQ_ERROR_ALLOC ((unsigned)-5)
-#define SEQ_ERROR_INVALID_INPUT ((unsigned)-6)
-#define SEQ_LAST_ERROR_CODE ((unsigned)-10)
 
 // Global grow factor for most containers
 #ifndef SEQ_GROW_FACTOR
@@ -167,7 +156,7 @@ namespace seq {
 #define SEQ_DEFAULT_ALIGNMENT alignof(std::max_align_t)
 namespace seq {
 	using max_align_t = std::max_align_t;
-}
+} // namespace seq
 #endif
 
 // Abort program with a last message
@@ -175,8 +164,10 @@ namespace seq {
 	printf( __VA_ARGS__ ); fflush(stdout);\
 	abort();
 
+// going through a variable to avoid cppcheck error with SEQ_OFFSETOF
+static const void* __dummy_ptr_with_long_name = nullptr;
 // Redefine offsetof to get rid of warning "'offsetof' within non-standard-layout type ...."
-#define SEQ_OFFSETOF(s,m) ((::size_t)&reinterpret_cast<char const volatile&>((((s*)0)->m)))
+#define SEQ_OFFSETOF(s,m) ((::size_t)&reinterpret_cast<char const volatile&>((((s*)__dummy_ptr_with_long_name)->m)))
 
 
 
@@ -332,30 +323,31 @@ namespace seq
 
 		/// \internal Like malloc, but the returned pointer is guaranteed to be alignment-byte aligned.
 		/// Fast, but wastes alignment additional bytes of memory. Does not throw any exception.
-		inline void* handmade_aligned_malloc(size_t size, size_t alignment)
+		inline auto handmade_aligned_malloc(size_t size, size_t alignment) -> void*
 		{
-			void* ptr;
+			void* ptr = nullptr;
 			alignment--;
 
-			size_t offset;
-			std::uint8_t* mem;
+			size_t offset = 0;
+			std::uint8_t* mem = nullptr;
 
 			// Room for padding and extra pointer stored in front of allocated area 
 			size_t overhead = alignment + sizeof(void*);
 
 			// Avoid integer overflow 
 			if (size > (SIZE_MAX - overhead)) {
-				return NULL;
+				return nullptr;
 			}
 
 			mem = static_cast<std::uint8_t*>(malloc(size + overhead));
-			if (mem == NULL)
+			if (mem == nullptr) {
 				return mem;
+}
 
 			// Use the fact that alignment + 1U is a power of 2
 			offset = ((alignment ^ (reinterpret_cast<std::uintptr_t>(mem + sizeof(void*)) & alignment)) + 1U) & alignment;
 			ptr = static_cast<void*>(mem + sizeof(void*) + offset);
-			((void**)ptr)[-1] = mem;
+			(static_cast<void**>(ptr))[-1] = mem;
 			return ptr;
 		}
 
@@ -363,8 +355,8 @@ namespace seq
 		inline void handmade_aligned_free(void* ptr)
 		{
 			// Generic implementation has malloced pointer stored in front of used area 
-			if (ptr != NULL) {
-				free(((void**)ptr)[-1]);
+			if (ptr != nullptr) {
+				free((static_cast<void**>(ptr))[-1]);
 			}
 		}
 
@@ -375,9 +367,9 @@ namespace seq
 	/// @param size size in bytes to allocate
 	/// @param align alignment of result pointer 
 	/// @return algned pointer or NULL on error
-	inline void* aligned_malloc(size_t size, size_t align)
+	inline auto aligned_malloc(size_t size, size_t align) -> void*
 	{
-		void* result = 0;
+		void* result = nullptr;
 
 	#if SEQ_HAS_POSIX_MEMALIGN
 		if (posix_memalign(&result, align, size)) result = 0;
@@ -422,7 +414,7 @@ namespace seq
 
 #ifdef __clang__
 #define CLANG_PREREQ(x, y) \
-      (__clang_major__ > x || (__clang_major__ == x && __clang_minor__ >= y))
+      (__clang_major__ > (x) || (__clang_major__ == (x) && __clang_minor__ >= (y)))
 #else
 #define CLANG_PREREQ(x, y) 0
 #endif
@@ -476,12 +468,12 @@ namespace seq
 		// implementation on machines with fast multiplication.
 		// It uses 12 arithmetic operations, one of which is a multiply.
 		// http://en.wikipedia.org/wiki/Hamming_weight#Efficient_implementation
-		inline unsigned popcount64(std::uint64_t x)
+		inline auto popcount64(std::uint64_t x) -> unsigned
 		{
-			std::uint64_t m1 = 0x5555555555555555ll;
-			std::uint64_t m2 = 0x3333333333333333ll;
-			std::uint64_t m4 = 0x0F0F0F0F0F0F0F0Fll;
-			std::uint64_t h01 = 0x0101010101010101ll;
+			std::uint64_t m1 = 0x5555555555555555LL;
+			std::uint64_t m2 = 0x3333333333333333LL;
+			std::uint64_t m4 = 0x0F0F0F0F0F0F0F0FLL;
+			std::uint64_t h01 = 0x0101010101010101LL;
 
 			x -= (x >> 1) & m1;
 			x = (x & m2) + ((x >> 2) & m2);
@@ -489,7 +481,7 @@ namespace seq
 
 			return (x * h01) >> 56;
 		}
-		inline unsigned popcount32(uint32_t i)
+		inline auto popcount32(uint32_t i) -> unsigned
 		{
 			i = i - ((i >> 1) & 0x55555555);        // add pairs of bits
 			i = (i & 0x33333333) + ((i >> 2) & 0x33333333);  // quads
@@ -502,13 +494,13 @@ namespace seq
 #if defined(HAVE_ASM_POPCNT) && \
 		defined(__x86_64__)
 
-	inline unsigned popcnt64(std::uint64_t x)
+	inline auto popcnt64(std::uint64_t x) -> unsigned
 	{
 		__asm__("popcnt %1, %0" : "=r" (x) : "0" (x));
 		return x;
 	}
 
-	inline unsigned popcnt32(uint32_t x)
+	inline auto popcnt32(uint32_t x) -> unsigned
 	{
 		return detail::popcount32(x);
 	}
@@ -582,7 +574,7 @@ namespace seq
 
 #endif
 
-	inline unsigned popcnt8(unsigned char value)
+	inline auto popcnt8(unsigned char value) -> unsigned
 	{
 		static const unsigned char ones[256] =
 		{ 0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4,
@@ -601,7 +593,7 @@ namespace seq
 			5,6,6,7,5,6,6,7,6,7,7,8 };
 		return ones[value];
 	}
-	inline unsigned popcnt16(unsigned short value)
+	inline auto popcnt16(unsigned short value) -> unsigned
 	{
 #ifdef _MSC_VER
 		return __popcnt16(value);
@@ -656,7 +648,7 @@ namespace seq
 
 		
 
-		static const std::uint8_t scan_reverse_8[] =
+		static const wint_t scan_reverse_8[] =
 		{ 8, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4,
 			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
@@ -676,7 +668,7 @@ namespace seq
 
 	}
 
-	SEQ_ALWAYS_INLINE unsigned int bit_scan_forward_8(std::uint8_t  val)
+	SEQ_ALWAYS_INLINE auto bit_scan_forward_8(wint_t  val) -> unsigned int
 	{
 		static const std::uint8_t scan_forward_8[] =
 		{ 8, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 4,
@@ -698,7 +690,7 @@ namespace seq
 		};
 		return scan_forward_8[val];
 	}
-	SEQ_ALWAYS_INLINE unsigned int bit_scan_reverse_8(std::uint8_t  val)
+	SEQ_ALWAYS_INLINE auto bit_scan_reverse_8(std::uint8_t  val) -> unsigned int
 	{
 		return detail::scan_reverse_8[val];
 	}
@@ -706,12 +698,12 @@ namespace seq
 
 	/// @brief Returns the lowest set bit index in \a val
 	/// Undefined if val==0.
-	SEQ_ALWAYS_INLINE unsigned int bit_scan_forward_32(std::uint32_t  val)
+	SEQ_ALWAYS_INLINE auto bit_scan_forward_32(std::uint32_t  val) -> unsigned int
 	{
 #   if defined(_MSC_VER)   /* Visual */
 		unsigned long r = 0;
 		_BitScanForward(&r, val);
-		return (unsigned)r;
+		return static_cast<unsigned>(r);
 #   elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3)))   /* Use GCC Intrinsic */
 		return __builtin_ctz(val);
 #   else   /* Software version */
@@ -726,12 +718,12 @@ namespace seq
 
 	/// @brief Returns the highest set bit index in \a val
 	/// Undefined if val==0.
-	SEQ_ALWAYS_INLINE unsigned int bit_scan_reverse_32(std::uint32_t  val)
+	SEQ_ALWAYS_INLINE auto bit_scan_reverse_32(std::uint32_t  val) -> unsigned int
 	{
 #   if defined(_MSC_VER)   /* Visual */
 		unsigned long r = 0;
 		_BitScanReverse(&r, val);
-		return (unsigned)r;
+		return static_cast<unsigned>(r);
 #   elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3)))   /* Use GCC Intrinsic */
 		return 31 - __builtin_clz(val);
 #   else   /* Software version */
@@ -754,11 +746,11 @@ namespace seq
 	/// @brief Returns the lowest set bit index in \a bb.
 	/// Developed by Kim Walisch (2012).
 	/// Undefined if bb==0.
-	SEQ_ALWAYS_INLINE unsigned bit_scan_forward_64(std::uint64_t bb)noexcept {
+	SEQ_ALWAYS_INLINE auto bit_scan_forward_64(std::uint64_t bb)noexcept -> unsigned {
 #       if defined(_MSC_VER) && defined(_WIN64) 
 		unsigned long r = 0;
 		_BitScanForward64(&r, bb);
-		return (unsigned)r;
+		return static_cast<unsigned>(r);
 #       elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3)))
 		return __builtin_ctzll(bb);
 #       else
@@ -771,11 +763,11 @@ namespace seq
 	/// @brief Returns the highest set bit index in \a bb.
 	/// Developed by Kim Walisch, Mark Dickinson.
 	/// Undefined if bb==0.
-	SEQ_ALWAYS_INLINE unsigned bit_scan_reverse_64(std::uint64_t  bb)noexcept {
+	SEQ_ALWAYS_INLINE auto bit_scan_reverse_64(std::uint64_t  bb)noexcept -> unsigned {
 #       if (defined(_MSC_VER) && defined(_WIN64) ) //|| defined(__MINGW64_VERSION_MAJOR)
 		unsigned long r = 0;
 		_BitScanReverse64(&r, bb);
-		return (unsigned)r;
+		return static_cast<unsigned>(r);
 #       elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3)))
 		return  63 - __builtin_clzll(bb);
 #       else
@@ -794,7 +786,7 @@ namespace seq
 
 	/// @brief Returns the lowest set bit index in \a bb.
 	/// Undefined if bb==0.
-	SEQ_ALWAYS_INLINE unsigned bit_scan_forward(size_t bb)noexcept {
+	SEQ_ALWAYS_INLINE auto bit_scan_forward(size_t bb)noexcept -> unsigned {
 #ifdef SEQ_ARCH_64
 		return bit_scan_forward_64(bb);
 #else
@@ -804,7 +796,7 @@ namespace seq
 
 	/// @brief Returns the highest set bit index in \a bb.
 	/// Undefined if bb==0.
-	SEQ_ALWAYS_INLINE unsigned bit_scan_reverse(size_t bb)noexcept {
+	SEQ_ALWAYS_INLINE auto bit_scan_reverse(size_t bb)noexcept -> unsigned {
 #ifdef SEQ_ARCH_64
 		return bit_scan_reverse_64(bb);
 #else
@@ -818,7 +810,7 @@ namespace seq
 	* This function only works for unsigned integral types
 	*/
 	template <class T>
-	SEQ_ALWAYS_INLINE unsigned count_digits_base_10(T x) {
+	SEQ_ALWAYS_INLINE auto count_digits_base_10(T x) -> unsigned {
 
 		static_assert(std::is_unsigned<T>::value, "");
 
@@ -827,8 +819,11 @@ namespace seq
 				if (x >= 100000000000000ULL) {
 					if (x >= 10000000000000000ULL) {
 						if (x >= 100000000000000000ULL) {
-							if (x >= 1000000000000000000ULL)
+							if (x >= 1000000000000000000ULL) {
+								if (x >= 10000000000000000000ULL)
+									return 20;
 								return 19;
+							}
 							return 18;
 						}
 						return 17;
@@ -928,7 +923,7 @@ namespace seq
 
 	namespace detail
 	{
-		inline unsigned int generic_nth_bit_set(std::uint64_t value, unsigned int n) noexcept
+		inline auto generic_nth_bit_set(std::uint64_t value, unsigned int n) noexcept -> unsigned int
 		{
 			//17 ms
 			/*uint32_t      mask = 0xFFFFFFFFu;
@@ -952,14 +947,16 @@ namespace seq
 			}
 
 			return base;*/
-			if (value == 0)
+			if (value == 0) {
 				return 64;
+}
 
 			unsigned pos = bit_scan_forward_64(value);
 			for (unsigned i = 0; i < n; ++i) {
 				value &= ~(1ULL << pos);
-				if (value == 0)
+				if (value == 0) {
 					return 64;
+}
 				pos = bit_scan_forward_64(value);
 			}
 			return pos;
@@ -982,7 +979,7 @@ namespace seq
 	}
 
 #else
-	inline unsigned nth_bit_set(std::uint64_t x, unsigned n)noexcept {
+	inline auto nth_bit_set(std::uint64_t x, unsigned n)noexcept -> unsigned {
 		return detail::generic_nth_bit_set(x, n);
 	}
 #endif
@@ -1000,11 +997,11 @@ namespace seq
 	namespace detail
 	{
 		template<size_t ConsecutiveNBits>
-		size_t find_consecutive_bits(size_t num) {
+		auto find_consecutive_bits(size_t num) -> size_t {
 			return (num >> (ConsecutiveNBits - 1)) & find_consecutive_bits< ConsecutiveNBits - 1>(num);
 		}
 		template<>
-		inline size_t find_consecutive_bits<1>(size_t num) {
+		inline auto find_consecutive_bits<1>(size_t num) -> size_t {
 			return (num);
 		}
 	}
@@ -1013,7 +1010,7 @@ namespace seq
 	/// @param num number of consecutive bits to look for
 	/// @return position of the first consecutive N bits within \a num
 	template<size_t ConsecutiveNBits>
-	unsigned consecutive_N_bits(size_t num) {
+	auto consecutive_N_bits(size_t num) -> unsigned {
 		static_assert(ConsecutiveNBits > 0, "invalid 0 consecutive bits requested");
 		num = detail::find_consecutive_bits< ConsecutiveNBits>(num);
 		return num ? bit_scan_forward(num) : (unsigned)-1;
@@ -1022,7 +1019,7 @@ namespace seq
 
 	/// SwapByteOrder_16 - This function returns a byte-swapped representation of
 	/// the 16-bit argument.
-	inline std::uint16_t bswap_16(std::uint16_t value) {
+	inline auto bswap_16(std::uint16_t value) -> std::uint16_t {
 #if defined(_MSC_VER) && !defined(_DEBUG)
 		return _byteswap_ushort(value);
 #else
@@ -1032,7 +1029,7 @@ namespace seq
 
 	/// SwapByteOrder_32 - This function returns a byte-swapped representation of
 	/// the 32-bit argument.
-	inline std::uint32_t bswap_32(std::uint32_t value) {
+	inline auto bswap_32(std::uint32_t value) -> std::uint32_t {
 #if  defined(__GNUC__) && (__GNUC__>=4 && __GNUC_MINOR__>=3) && !defined(__ICC)
 		return __builtin_bswap32(value);
 #elif defined(__APPLE__)
@@ -1055,7 +1052,7 @@ namespace seq
 
 	/// SwapByteOrder_64 - This function returns a byte-swapped representation of
 	/// the 64-bit argument.
-	inline std::uint64_t bswap_64(std::uint64_t value) {
+	inline auto bswap_64(std::uint64_t value) -> std::uint64_t {
 #if  defined(__GNUC__) && (__GNUC__>=4 && __GNUC_MINOR__>=3) && !defined(__ICC)
 		return __builtin_bswap64(value);
 #elif defined(__APPLE__)
@@ -1110,9 +1107,9 @@ namespace seq
 
 
 	/// @brief Read 16 bits integer from \a src in little endian order
-	inline std::uint16_t read_LE_16(const void* src)
+	inline auto read_LE_16(const void* src) -> std::uint16_t
 	{
-		std::uint16_t value;
+		std::uint16_t value = 0;
 		memcpy(&value, src, sizeof(std::uint16_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
 		value = bswap_16(value);
@@ -1120,9 +1117,9 @@ namespace seq
 		return value;
 	}
 	/// @brief Read 32 bits integer from \a src in little endian order
-	inline std::uint32_t read_LE_32(const void* src)
+	inline auto read_LE_32(const void* src) -> std::uint32_t
 	{
-		std::uint32_t value;
+		std::uint32_t value = 0;
 		memcpy(&value, src, sizeof(std::uint32_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
 		value = bswap_32(value);
@@ -1130,9 +1127,9 @@ namespace seq
 		return value;
 	}
 	/// @brief Read 64 bits integer from \a src in little endian order
-	inline std::uint64_t read_LE_64(const void* src)
+	inline auto read_LE_64(const void* src) -> std::uint64_t
 	{
-		std::uint64_t value;
+		std::uint64_t value = 0;
 		memcpy(&value, src, sizeof(std::uint64_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
 		value = bswap_64(value);
@@ -1142,40 +1139,40 @@ namespace seq
 
 
 	/// @brief Reads 16 bits integer from \a src
-	inline std::uint16_t read_16(const void* src)
+	inline auto read_16(const void* src) -> std::uint16_t
 	{
-		std::uint16_t value;
+		std::uint16_t value = 0;
 		memcpy(&value, src, sizeof(std::uint16_t));
 		return value;
 	}
 	/// @brief Reads 32 bits integer from \a src
-	inline std::uint32_t read_32(const void* src)
+	inline auto read_32(const void* src) -> std::uint32_t
 	{
-		std::uint32_t value;
+		std::uint32_t value = 0;
 		memcpy(&value, src, sizeof(std::uint32_t));
 		return value;
 	}
 	/// @brief Reads 64 bits integer from \a src
-	inline std::uint64_t read_64(const void* src)
+	inline auto read_64(const void* src) -> std::uint64_t
 	{
-		std::uint64_t value;
+		std::uint64_t value = 0;
 		memcpy(&value, src, sizeof(std::uint64_t));
 		return value;
 	}
 
 	/// @brief Reads uintptr_t integer from \a src
-	inline std::uintptr_t read_ptr_t(const void* src)
+	inline auto read_ptr_t(const void* src) -> std::uintptr_t
 	{
-		std::uintptr_t value;
+		std::uintptr_t value = 0;
 		memcpy(&value, src, sizeof(std::uintptr_t));
 		return value;
 	}
 
 
 	/// @brief Reads 16 bits integer from \a src in big endian order
-	inline std::uint16_t read_BE_16(const void* src)
+	inline auto read_BE_16(const void* src) -> std::uint16_t
 	{
-		std::uint16_t value;
+		std::uint16_t value = 0;
 		memcpy(&value, src, sizeof(std::uint16_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
 		value = bswap_16(value);
@@ -1183,9 +1180,9 @@ namespace seq
 		return value;
 	}
 	/// @brief Reads 32 bits integer from \a src in big endian order
-	inline std::uint32_t read_BE_32(const void* src)
+	inline auto read_BE_32(const void* src) -> std::uint32_t
 	{
-		std::uint32_t value;
+		std::uint32_t value = 0;
 		memcpy(&value, src, sizeof(std::uint32_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
 		value = bswap_32(value);
@@ -1193,9 +1190,9 @@ namespace seq
 		return value;
 	}
 	/// @brief Reads 64 bits integer from \a src in big endian order
-	inline std::uint64_t read_BE_64(const void* src)
+	inline auto read_BE_64(const void* src) -> std::uint64_t
 	{
-		std::uint64_t value;
+		std::uint64_t value = 0;
 		memcpy(&value, src, sizeof(std::uint64_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
 		value = bswap_64(value);
@@ -1205,16 +1202,16 @@ namespace seq
 
 
 	/// @brief Reads size_t object from \a src 
-	inline size_t read_size_t(const void* src)
+	inline auto read_size_t(const void* src) -> size_t
 	{
-		size_t res;
+		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
 		return res;
 	}
 	/// @brief Reads size_t object from \a src in little endian order
-	inline size_t read_LE_size_t(const void* src)
+	inline auto read_LE_size_t(const void* src) -> size_t
 	{
-		size_t res;
+		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_LITTEL_ENDIAN
 		if (sizeof(size_t) == 8) res = bswap_64(res);
@@ -1223,13 +1220,14 @@ namespace seq
 		return res;
 	}
 	/// @brief Reads size_t object from \a src in big endian order
-	inline size_t read_BE_size_t(const void* src)
+	inline auto read_BE_size_t(const void* src) -> size_t
 	{
-		size_t res;
+		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
-		if (sizeof(size_t) == 8) res = bswap_64(res);
-		else res = (size_t)bswap_32((std::uint32_t)res);
+		if (sizeof(size_t) == 8) { res = bswap_64(res);
+		} else { res = static_cast<size_t>(bswap_32(static_cast<std::uint32_t>(res)));
+}
 #endif
 		return res;
 	}
@@ -1244,11 +1242,11 @@ namespace seq
 	struct static_bit_scan_reverse<1>
 	{
 		static const size_t value = 0ULL;
-	};
+	} ;
 	template<>
 	struct static_bit_scan_reverse<0ULL>
 	{
-	};
+	} ;
 
 }//end namespace seq
 
@@ -1259,3 +1257,5 @@ namespace seq
 
 /** @}*/
 //end bits
+
+#endif

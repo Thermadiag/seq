@@ -1,4 +1,7 @@
-#pragma once
+#ifndef SEQ_DEVECTOR_HPP
+#define SEQ_DEVECTOR_HPP
+
+
 
 /** @file */
 
@@ -6,7 +9,7 @@
 #include "bits.hpp"
 
 // Value used to define the limit between moving elements and reallocating new elements for push_back/front
-#define __SEQ_DEVECTOR_SIZE_LIMIT 16U
+#define SEQ_DEVECTOR_SIZE_LIMIT 16U
 
 namespace seq
 {
@@ -36,7 +39,7 @@ namespace seq
 			DEVectorData(const Allocator & al = Allocator()) 
 				: Allocator(al), data(NULL), start(NULL), end(NULL), capacity(0){}
 			DEVectorData(DEVectorData&& other)
-				: Allocator(std::move(static_cast<Allocator&>(other))), data(other.data), start(other.start), end(other.end), capacity(other.capacity) {
+ noexcept 				: Allocator(std::move(static_cast<Allocator&>(other))), data(other.data), start(other.start), end(other.end), capacity(other.capacity) {
 				other.data = other.start = other.end = NULL;
 				other.capacity = 0;
 			}
@@ -52,9 +55,9 @@ namespace seq
 
 			
 
-			Allocator& get_allocator() noexcept { return *this; }
-			const Allocator& get_allocator() const noexcept { return *this; }
-			T* allocate(size_t n) {return n ? get_allocator().allocate(n) : NULL;}
+			auto get_allocator() noexcept -> Allocator& { return *this; }
+			auto get_allocator() const noexcept -> const Allocator& { return *this; }
+			auto allocate(size_t n) -> T* {return n ? get_allocator().allocate(n) : NULL;}
 			void deallocate(T* p, size_t n) { if(p) get_allocator().deallocate(p, n);}
 
 			void destroy_range(T* begin, T* end)
@@ -112,7 +115,7 @@ namespace seq
 				}
 			}
 
-			size_t grow_capacity() const
+			auto grow_capacity() const -> size_t
 			{
 				size_t c = (size_t)(capacity * SEQ_GROW_FACTOR);
 				if (c == capacity)
@@ -450,7 +453,7 @@ namespace seq
 
 				// Check if we have enough space at the front to move data
 				if (remaining_front)
-					if (remaining_front > size / __SEQ_DEVECTOR_SIZE_LIMIT || flag == OptimizeForPushFront) {
+					if (remaining_front > size / SEQ_DEVECTOR_SIZE_LIMIT || flag == OptimizeForPushFront) {
 						// Move data toward the front
 						T* new_start = flag == OptimizeForPushBack ? data : flag == OptimizeForBothEnds ? (data + remaining_front / 2) : start  ;
 						if (new_start == start)
@@ -500,7 +503,7 @@ namespace seq
 
 				// Check if we have enough space at the front to move data
 				if (remaining_back)
-					if (remaining_back > size / __SEQ_DEVECTOR_SIZE_LIMIT || flag == OptimizeForPushBack) {
+					if (remaining_back > size / SEQ_DEVECTOR_SIZE_LIMIT || flag == OptimizeForPushBack) {
 						// Move data toward the back
 						T* new_start = flag == OptimizeForPushBack ? data : flag == OptimizeForBothEnds ? (data + remaining_back / 2) : start;
 						if (new_start == start)
@@ -601,11 +604,11 @@ namespace seq
 
 		// Returns distance between 2 iterators, or 0 for non random access iterators
 		template<class Iter, class Cat>
-		std::ptrdiff_t iter_distance(const Iter& it1, const Iter& it2, Cat) const noexcept { return 0; }
+		auto iter_distance(const Iter& it1, const Iter& it2, Cat /*unused*/) const noexcept -> std::ptrdiff_t { return 0; }
 		template<class Iter>
-		std::ptrdiff_t iter_distance(const Iter& it1, const Iter& it2, std::random_access_iterator_tag) const noexcept { return it1 - it2; }
+		auto iter_distance(const Iter& it1, const Iter& it2, std::random_access_iterator_tag /*unused*/) const noexcept -> std::ptrdiff_t { return it1 - it2; }
 		template<class Iter>
-		std::ptrdiff_t distance(const Iter& it1, const Iter& it2)const noexcept {
+		auto distance(const Iter& it1, const Iter& it2)const noexcept -> std::ptrdiff_t {
 			return iter_distance(it1, it2, typename std::iterator_traits<Iter>::iterator_category());
 		}
 
@@ -635,7 +638,7 @@ namespace seq
 		/// @param count the size of the container
 		/// @param value the value to initialize elements of the container with
 		/// @param alloc allocator to use for all memory allocations of this container
-		devector(size_type count, const T& value, const Allocator& alloc = Allocator())
+		devector(size_type count, const T& value, const Allocator& alloc)
 			:base_type(alloc) {
 			assign(count, value);
 		}
@@ -686,21 +689,21 @@ namespace seq
 		}
 
 		/// @brief Returns the container size
-		size_t size() const noexcept { return this->base_type::end - this->start; }
+		auto size() const noexcept -> size_t { return this->base_type::end - this->start; }
 		/// @brief Returns the container full capacity (back_capacity() + size() + front_capacity())
-		size_t capacity() const noexcept { return this->base_type::capacity; }
+		auto capacity() const noexcept -> size_t { return this->base_type::capacity; }
 		/// @brief Returns the container back capacity
-		size_t back_capacity() const noexcept { return this->data + capacity() - this->base_type::end; }
+		auto back_capacity() const noexcept -> size_t { return this->data + capacity() - this->base_type::end; }
 		/// @brief Returns the container front capacity
-		size_t front_capacity() const noexcept { return this->start - this->data; }
+		auto front_capacity() const noexcept -> size_t { return this->start - this->data; }
 		/// @brief Returns the container maximum size
-		size_t max_size() const noexcept { return std::numeric_limits<size_t>::max(); }
+		auto max_size() const noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
 		/// @brief Returns true if the container is empty, false otherwise
-		bool empty() const noexcept {return this->base_type::end == this->start;}
+		auto empty() const noexcept -> bool {return this->base_type::end == this->start;}
 		/// @brief Returns the container allocator object
-		Allocator& get_allocator() noexcept { return this->base_type::get_allocator(); }
+		auto get_allocator() noexcept -> Allocator& { return this->base_type::get_allocator(); }
 		/// @brief Returns the container allocator object
-		Allocator get_allocator() const { return this->base_type::get_allocator(); }
+		auto get_allocator() const -> Allocator { return this->base_type::get_allocator(); }
 
 		/// @brief Clear the container, but does not deallocate the storage
 		void clear() noexcept
@@ -747,7 +750,7 @@ namespace seq
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if back_capacity() == 0.
 		template< class... Args >
-		reference emplace_back(Args&&... args)
+		auto emplace_back(Args&&... args) -> reference
 		{
 			if (SEQ_UNLIKELY(this->base_type::end == this->base_type::data + capacity()))
 				this->grow_back();
@@ -790,7 +793,7 @@ namespace seq
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if front_capacity() == 0.
 		template< class... Args >
-		reference emplace_front(Args&&... args)
+		auto emplace_front(Args&&... args) -> reference
 		{
 			if (SEQ_UNLIKELY(this->start == this->base_type::data))
 				this->grow_front();
@@ -809,7 +812,7 @@ namespace seq
 		///
 		/// @return iterator to the inserted element
 		template< class... Args >
-		iterator emplace(const_iterator pos, Args&&... args)
+		auto emplace(const_iterator pos, Args&&... args) -> iterator
 		{
 			size_t dist = pos - begin();
 			SEQ_ASSERT_DEBUG(dist <= size() , "devector: invalid insertion location");
@@ -832,7 +835,7 @@ namespace seq
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		///
 		/// @return iterator to the inserted element
-		iterator insert(const_iterator pos, const T& value)
+		auto insert(const_iterator pos, const T& value) -> iterator
 		{
 			return emplace(pos, value);
 		}
@@ -841,7 +844,7 @@ namespace seq
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		///
 		/// @return iterator to the inserted element
-		iterator insert(const_iterator pos, T&& value)
+		auto insert(const_iterator pos, T&& value) -> iterator
 		{
 			return emplace(pos, std::move(value));
 		}
@@ -853,7 +856,7 @@ namespace seq
 		/// @param last the range of elements to insert, can't be iterators into container for which insert is called
 		/// @return iterator pointing to the first element inserted, or pos if first==last.
 		template< class InputIt >
-		iterator insert(const_iterator pos, InputIt first, InputIt last)
+		auto insert(const_iterator pos, InputIt first, InputIt last) -> iterator
 		{	
 			size_type off = pos - begin();
 			SEQ_ASSERT_DEBUG(off <= size() , "devector insert iterator outside range");
@@ -907,7 +910,7 @@ namespace seq
 		/// @param count number of elements to insert
 		/// @param value element value to insert
 		/// @return iterator pointing to the first element inserted, or pos if first==last
-		iterator insert(const_iterator pos, size_type count, const T& value)
+		auto insert(const_iterator pos, size_type count, const T& value) -> iterator
 		{
 			return insert(pos, cvalue_iterator<T>(0,value), cvalue_iterator<T>(count));
 		}
@@ -917,7 +920,7 @@ namespace seq
 		/// @param pos iterator before which the content will be inserted. pos may be the end() iterator
 		/// @param ilist 	initializer list to insert the values from
 		/// @return iterator pointing to the first element inserted, or pos if first==last
-		iterator insert(const_iterator pos, std::initializer_list<T> ilist)
+		auto insert(const_iterator pos, std::initializer_list<T> ilist) -> iterator
 		{
 			return insert(pos, ilist.begin(), ilist.end());
 		}
@@ -981,7 +984,7 @@ namespace seq
 		/// @param first range of elements to remove
 		/// @param last range of elements to remove
 		/// @return Iterator following the last removed element
-		iterator erase(const_iterator first, const_iterator last)
+		auto erase(const_iterator first, const_iterator last) -> iterator
 		{	
 			SEQ_ASSERT_DEBUG(last >= first && first >= begin() && last <= end(), "devector erase iterator outside range");
 			if (first == last)
@@ -1009,7 +1012,7 @@ namespace seq
 		/// Basic exception guarantee
 		/// @param pos iterator to the position to erase
 		/// @return Iterator following the last removed element.
-		iterator erase(const_iterator pos)
+		auto erase(const_iterator pos) -> iterator
 		{
 			return erase(pos, pos + 1);
 		}
@@ -1091,81 +1094,81 @@ namespace seq
 
 		/// @brief Returns pointer to the underlying array serving as element storage. The pointer is such that range [data(); data() + size()) is always a valid range, 
 		/// even if the container is empty (data() is not dereferenceable in that case).
-		T* data() noexcept { return this->start; }
+		auto data() noexcept -> T* { return this->start; }
 		/// @brief Returns pointer to the underlying array serving as element storage. The pointer is such that range [data(); data() + size()) is always a valid range, 
 		/// even if the container is empty (data() is not dereferenceable in that case).
-		const T* data() const noexcept { return this->start; }
+		auto data() const noexcept -> const T* { return this->start; }
 
 		/// @brief Returns a reference to the back element
-		T& back() noexcept { return *(this->base_type::end -1); }
+		auto back() noexcept -> T& { return *(this->base_type::end -1); }
 		/// @brief Returns a reference to the back element
-		const T& back() const noexcept { return *(this->base_type::end - 1); }
+		auto back() const noexcept -> const T& { return *(this->base_type::end - 1); }
 
 		/// @brief Returns a reference to the front element
-		T& front() noexcept { return *(this->start); }
+		auto front() noexcept -> T& { return *(this->start); }
 		/// @brief Returns a reference to the front element
-		const T& front() const noexcept { return *(this->start); }
+		auto front() const noexcept -> const T& { return *(this->start); }
 
 		/// @brief Returns a reference to the element at pos
-		const T& operator[](size_t pos) const noexcept { return this->start[pos]; }
+		auto operator[](size_t pos) const noexcept -> const T& { return this->start[pos]; }
 		/// @brief Returns a reference to the element at pos
-		T& operator[](size_t pos) noexcept { return this->start[pos]; }
+		auto operator[](size_t pos) noexcept -> T& { return this->start[pos]; }
 
 		/// @brief Returns a reference to the element at pos.
 		/// Throw std::out_of_range if pos is invalid. 
-		const T& at(size_t pos) const  {
+		auto at(size_t pos) const -> const T&  {
 			if (pos >= size()) throw std::out_of_range("devector out of range");
 			return this->start[pos]; 
 		}
 		/// @brief Returns a reference to the element at pos.
 		/// Throw std::out_of_range if pos is invalid. 
-		T& at(size_t pos)  { 
+		auto at(size_t pos) -> T&  { 
 			if (pos >= size()) throw std::out_of_range("devector out of range");
 			return this->start[pos];
 		}
 
 		/// @brief Returns an iterator to the first element of the devector.
-		const_iterator begin() const noexcept { return this->start; }
+		auto begin() const noexcept -> const_iterator { return this->start; }
 		/// @brief Returns an iterator to the first element of the devector.
-		iterator begin() noexcept { return this->start; }
+		auto begin() noexcept -> iterator { return this->start; }
 		/// @brief Returns an iterator to the element following the last element of the devector.
-		const_iterator end() const noexcept { return this->base_type::end; }
+		auto end() const noexcept -> const_iterator { return this->base_type::end; }
 		/// @brief Returns an iterator to the element following the last element of the devector.
-		iterator end() noexcept { return this->base_type::end; }
+		auto end() noexcept -> iterator { return this->base_type::end; }
 		/// @brief Returns a reverse iterator to the first element of the reversed devector.
-		reverse_iterator rbegin() noexcept { return reverse_iterator(end()); }
+		auto rbegin() noexcept -> reverse_iterator { return reverse_iterator(end()); }
 		/// @brief Returns a reverse iterator to the first element of the reversed devector.
-		const_reverse_iterator rbegin() const noexcept { return const_reverse_iterator(end()); }
+		auto rbegin() const noexcept -> const_reverse_iterator { return const_reverse_iterator(end()); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed devector.
-		reverse_iterator rend() noexcept { return reverse_iterator(begin()); }
+		auto rend() noexcept -> reverse_iterator { return reverse_iterator(begin()); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed devector.
-		const_reverse_iterator rend() const noexcept { return const_reverse_iterator(begin()); }
+		auto rend() const noexcept -> const_reverse_iterator { return const_reverse_iterator(begin()); }
 		/// @brief Returns an iterator to the first element of the devector.
-		const_iterator cbegin() const noexcept { return begin(); }
+		auto cbegin() const noexcept -> const_iterator { return begin(); }
 		/// @brief Returns an iterator to the element following the last element of the devector.
-		const_iterator cend() const noexcept { return end(); }
+		auto cend() const noexcept -> const_iterator { return end(); }
 		/// @brief Returns a reverse iterator to the first element of the reversed devector.
-		const_reverse_iterator crbegin() const noexcept { return rbegin(); }
+		auto crbegin() const noexcept -> const_reverse_iterator { return rbegin(); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed devector.
-		const_reverse_iterator crend() const noexcept { return rend(); }
+		auto crend() const noexcept -> const_reverse_iterator { return rend(); }
 
 		/// @brief Copy operator
 		template<class Alloc, DEVectorFlag F>
-		devector & operator=(const devector<T,Alloc,F>& other)
+		auto operator=(const devector<T,Alloc,F>& other) -> devector &
 		{
 			resize(other.size());
 			std::copy(other.begin(), other.end(), begin());
 			return *this;
 		}
 		/// @brief Copy operator
-		devector& operator=(const devector& other)
+		auto operator=(const devector& other) -> devector&
 		{
 			resize(other.size());
 			std::copy(other.begin(), other.end(), begin());
 			return *this;
 		}
 		/// @brief Move assignment operator
-		devector& operator=( devector&& other) noexcept
+		auto operator=( devector&& other) noexcept -> devector&
 		{
 			swap(other);
 			return *this;
@@ -1178,3 +1181,4 @@ namespace seq
 	struct is_relocatable<devector<T, Alloc, F> > : std::true_type {};
 
 }
+#endif

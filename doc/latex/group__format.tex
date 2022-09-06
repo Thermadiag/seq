@@ -19,7 +19,7 @@ The format module provides fast routines for object formatting to string/streams
 
 There are already several great C++ formatting libraries available in \href{https://abseil.io/}{\texttt{ Abseil}}, \href{https://github.com/facebook/folly}{\texttt{ Folly}} or the \href{https://fmt.dev/latest/index.html}{\texttt{ fmt}} library. Furtheremore, C++20 will provide a new text formatting library similar to the \{fmt\} one. The format module is an attempt to provide (yet) another formatting library which does not rely on string parsing, is compatible with c++ streams and is {\bfseries{fast}}.
 
-It was designed first to output huge matrices or tables to files and strings. Format module is based on the \mbox{\hyperlink{group__charconv}{charconv}} module to format numerical values.\hypertarget{group__format_autotoc_md25}{}\doxysubsubsection{Formatting single values}\label{group__format_autotoc_md25}
+It was designed first to output huge matrices or tables to files and strings. Format module is based on the \mbox{\hyperlink{group__charconv}{charconv}} module to format numerical values.\hypertarget{group__format_autotoc_md18}{}\doxysubsubsection{Formatting single values}\label{group__format_autotoc_md18}
 Format module heavily relies on the \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}} function to format single or several values.
 
 When formatting a single value, \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}} returns a \mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\+format}} object providing several members to modify the formatting options\+:
@@ -59,7 +59,7 @@ Usage\+:
 \DoxyCodeLine{std::cout << \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(\textcolor{stringliteral}{"hello"}).c(3) << std::endl;                            \textcolor{comment}{//center and truncate string}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// Direct string conversion}}
-\DoxyCodeLine{std::string \mbox{\hyperlink{namespaceseq_1_1detail_a357d94da98d7b1a4e83f37f3852bfdc6}{str}} = \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(PI);}
+\DoxyCodeLine{std::string \mbox{\hyperlink{namespaceseq_1_1detail_a84d714603751dddb280584583ccdd7e3}{str}} = \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(PI);}
 \DoxyCodeLine{\textcolor{comment}{// Direct string conversion using .str()}}
 \DoxyCodeLine{std::string str2 = \textcolor{stringliteral}{"PI value is "} + \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(PI).str();}
 \DoxyCodeLine{std::cout << str2 << std::endl;}
@@ -96,7 +96,7 @@ The format module provides additional convenient functions to shorten the syntax
 \DoxyCodeLine{\textcolor{comment}{// Nested formatting}}
 \DoxyCodeLine{std::cout << \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(\mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(\mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(\mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(\textcolor{stringliteral}{"surrounded text"})).c(20).\mbox{\hyperlink{namespaceseq_1_1detail_a76fa776653402382e316c7b6715856af}{f}}(\textcolor{charliteral}{'*'})).c(30).\mbox{\hyperlink{namespaceseq_1_1detail_a76fa776653402382e316c7b6715856af}{f}}(\textcolor{charliteral}{'\#'})).c(40).f(\textcolor{charliteral}{'-\/'}) << std::endl;}
 \end{DoxyCode}
-\hypertarget{group__format_autotoc_md26}{}\doxysubsubsection{Formatting several values}\label{group__format_autotoc_md26}
+\hypertarget{group__format_autotoc_md19}{}\doxysubsubsection{Formatting several values}\label{group__format_autotoc_md19}
 The \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}} function can be used to format any number of values at once\+:
 
 
@@ -104,9 +104,9 @@ The \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}
 \DoxyCodeLine{\textcolor{comment}{// Formatting multiple values}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// Direct stream}}
-\DoxyCodeLine{std::cout << \mbox{\hyperlink{namespaceseq_1_1detail_ae2ec0926cfae1c70dc01e5156c2ff400}{fmt}}(\textcolor{stringliteral}{"The answer is "}, 43,\textcolor{stringliteral}{" ..."}) << std::endl;}
+\DoxyCodeLine{std::cout << \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(\textcolor{stringliteral}{"The answer is "}, 43,\textcolor{stringliteral}{" ..."}) << std::endl;}
 \DoxyCodeLine{\textcolor{comment}{// Direct stream with nested formatting}}
-\DoxyCodeLine{std::cout << \mbox{\hyperlink{namespaceseq_1_1detail_ae2ec0926cfae1c70dc01e5156c2ff400}{fmt}}(\textcolor{stringliteral}{"...Or it could be"}, \mbox{\hyperlink{namespaceseq_1_1detail_ae2ec0926cfae1c70dc01e5156c2ff400}{fmt}}(43.3,\textcolor{charliteral}{'e'}).c(10) ) << std::endl;}
+\DoxyCodeLine{std::cout << \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(\textcolor{stringliteral}{"...Or it could be"}, \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(43.3,\textcolor{charliteral}{'e'}).c(10) ) << std::endl;}
 \DoxyCodeLine{}
 \DoxyCodeLine{std::cout << std::endl;}
 \DoxyCodeLine{}
@@ -117,7 +117,7 @@ The \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}
 \DoxyCodeLine{std::cout << std::endl;}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// Reuse a formatting object and use seq::null to only update some arguments}}
-\DoxyCodeLine{\textcolor{keyword}{auto} f2 = \mbox{\hyperlink{namespaceseq_1_1detail_ae2ec0926cfae1c70dc01e5156c2ff400}{fmt}}(\textcolor{keywordtype}{int}(), \textcolor{stringliteral}{" + "}, fmt<double>().format(\textcolor{charliteral}{'g'}), \textcolor{stringliteral}{" = "}, fmt<double>().format(\textcolor{charliteral}{'e'}));}
+\DoxyCodeLine{\textcolor{keyword}{auto} f2 = \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(\textcolor{keywordtype}{int}(), \textcolor{stringliteral}{" + "}, fmt<double>().format(\textcolor{charliteral}{'g'}), \textcolor{stringliteral}{" = "}, fmt<double>().format(\textcolor{charliteral}{'e'}));}
 \DoxyCodeLine{std::cout << f2(1, \textcolor{keyword}{null}, 2.2, \textcolor{keyword}{null}, 3.2) << std::endl;}
 \DoxyCodeLine{}
 \DoxyCodeLine{std::cout << std::endl;}
@@ -144,7 +144,7 @@ The \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}
 \DoxyCodeLine{std::cout << f2(pos<0, 2, 4>(), 1, 2.2, 3.2) << std::endl; \textcolor{comment}{// provided arguments are used for positions 0, 2 and 4}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// Positional directly in the fmt call}}
-\DoxyCodeLine{\textcolor{keyword}{auto} f3 = \mbox{\hyperlink{namespaceseq_1_1detail_ae2ec0926cfae1c70dc01e5156c2ff400}{fmt}}(pos<0, 2, 4>(), \textcolor{keywordtype}{int}(), \textcolor{stringliteral}{" + "}, seq::g<double>(), \textcolor{stringliteral}{" = "}, seq::e<double>());}
+\DoxyCodeLine{\textcolor{keyword}{auto} f3 = \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(pos<0, 2, 4>(), \textcolor{keywordtype}{int}(), \textcolor{stringliteral}{" + "}, seq::g<double>(), \textcolor{stringliteral}{" = "}, seq::e<double>());}
 \DoxyCodeLine{std::cout << f3(1, 2.2, 3.2) << std::endl;}
 \DoxyCodeLine{}
 \DoxyCodeLine{std::cout << std::endl;}
@@ -152,9 +152,9 @@ The \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}
 \DoxyCodeLine{\textcolor{comment}{// Building tables}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// header/trailer format, 2 columns of width 20 centered, separated by a '|'}}
-\DoxyCodeLine{\textcolor{keyword}{auto} header = \mbox{\hyperlink{namespaceseq_1_1detail_ae2ec0926cfae1c70dc01e5156c2ff400}{fmt}}(pos<1, 3>(),\textcolor{stringliteral}{"|"}, seq::str().c(20), \textcolor{stringliteral}{"|"}, seq::str().c(20), \textcolor{stringliteral}{"|"});}
+\DoxyCodeLine{\textcolor{keyword}{auto} header = \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(pos<1, 3>(),\textcolor{stringliteral}{"|"}, seq::str().c(20), \textcolor{stringliteral}{"|"}, seq::str().c(20), \textcolor{stringliteral}{"|"});}
 \DoxyCodeLine{\textcolor{comment}{//line format, 2 columns of width 20 centered, separated by a '|'}}
-\DoxyCodeLine{\textcolor{keyword}{auto} line = \mbox{\hyperlink{namespaceseq_1_1detail_ae2ec0926cfae1c70dc01e5156c2ff400}{fmt}}(pos<1, 3>(),\textcolor{stringliteral}{"|"}, seq::fmt<double>().c(20), \textcolor{stringliteral}{"|"}, seq::fmt<double>().c(20), \textcolor{stringliteral}{"|"});}
+\DoxyCodeLine{\textcolor{keyword}{auto} line = \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{fmt}}(pos<1, 3>(),\textcolor{stringliteral}{"|"}, seq::fmt<double>().c(20), \textcolor{stringliteral}{"|"}, seq::fmt<double>().c(20), \textcolor{stringliteral}{"|"});}
 \DoxyCodeLine{\textcolor{comment}{// write table}}
 \DoxyCodeLine{std::cout << header( \textcolor{stringliteral}{"Header 1"}, \textcolor{stringliteral}{"Header 2"}) << std::endl;}
 \DoxyCodeLine{std::cout << line( 1.1, 2.2) << std::endl;}
@@ -163,7 +163,7 @@ The \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}
 \DoxyCodeLine{}
 \DoxyCodeLine{std::cout << std::endl;}
 \end{DoxyCode}
-\hypertarget{group__format_autotoc_md27}{}\doxysubsubsection{Formatting to string or buffer}\label{group__format_autotoc_md27}
+\hypertarget{group__format_autotoc_md20}{}\doxysubsubsection{Formatting to string or buffer}\label{group__format_autotoc_md20}
 A formatting object can be\+:
 \begin{DoxyItemize}
 \item Printed to a std\+::ostream object
@@ -180,8 +180,8 @@ Example\+:
 \DoxyCodeLine{std::cout<< \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq::fmt}}(1.123456789,\textcolor{charliteral}{'g'}) << std::endl;}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// Convert to string}}
-\DoxyCodeLine{std::string \mbox{\hyperlink{namespaceseq_1_1detail_a357d94da98d7b1a4e83f37f3852bfdc6}{str}} = \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq::fmt}}(1.123456789,\textcolor{charliteral}{'g'}).str<std::string>();}
-\DoxyCodeLine{std::cout<< \mbox{\hyperlink{namespaceseq_1_1detail_a357d94da98d7b1a4e83f37f3852bfdc6}{str}} << std::endl;}
+\DoxyCodeLine{std::string \mbox{\hyperlink{namespaceseq_1_1detail_a84d714603751dddb280584583ccdd7e3}{str}} = \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq::fmt}}(1.123456789,\textcolor{charliteral}{'g'}).str<std::string>();}
+\DoxyCodeLine{std::cout<< \mbox{\hyperlink{namespaceseq_1_1detail_a84d714603751dddb280584583ccdd7e3}{str}} << std::endl;}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{// Append to an existing string}}
 \DoxyCodeLine{std::string str2;}
@@ -198,8 +198,8 @@ Example\+:
 \DoxyCodeLine{*\mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq::fmt}}(1.123456789,\textcolor{charliteral}{'g'}).to\_chars(dst2, \textcolor{keyword}{sizeof}(dst2)).first = 0;}
 \DoxyCodeLine{std::cout<< dst2 << std::endl;}
 \end{DoxyCode}
-\hypertarget{group__format_autotoc_md28}{}\doxysubsubsection{Using std\+::to\+\_\+chars}\label{group__format_autotoc_md28}
-It is possible to use std\+::to\+\_\+chars instead of \mbox{\hyperlink{namespaceseq_ad80e2e70627dd4598cda06a37b7767b6}{seq\+::to\+\_\+chars}} within the format module, mostly when exact round-\/trip guarantee is mandatory. For that, you must define S\+E\+Q\+\_\+\+F\+O\+R\+M\+A\+T\+\_\+\+U\+S\+E\+\_\+\+S\+T\+D\+\_\+\+T\+O\+\_\+\+C\+H\+A\+RS and enable C++17. If C++17 is not supported by the compiler, the format module will always fallback to \mbox{\hyperlink{namespaceseq_ad80e2e70627dd4598cda06a37b7767b6}{seq\+::to\+\_\+chars}}.\hypertarget{group__format_autotoc_md29}{}\doxysubsubsection{Working with custom types}\label{group__format_autotoc_md29}
+\hypertarget{group__format_autotoc_md21}{}\doxysubsubsection{Using std\+::to\+\_\+chars}\label{group__format_autotoc_md21}
+It is possible to use std\+::to\+\_\+chars instead of \mbox{\hyperlink{namespaceseq_a9e1cfb2de75c85497d57702430705b1c}{seq\+::to\+\_\+chars}} within the format module, mostly when exact round-\/trip guarantee is mandatory. For that, you must define S\+E\+Q\+\_\+\+F\+O\+R\+M\+A\+T\+\_\+\+U\+S\+E\+\_\+\+S\+T\+D\+\_\+\+T\+O\+\_\+\+C\+H\+A\+RS and enable C++17. If C++17 is not supported by the compiler, the format module will always fallback to \mbox{\hyperlink{namespaceseq_a9e1cfb2de75c85497d57702430705b1c}{seq\+::to\+\_\+chars}}.\hypertarget{group__format_autotoc_md22}{}\doxysubsubsection{Working with custom types}\label{group__format_autotoc_md22}
 By default, the format library supports arithmetic types and string types. Not that std\+::string, \mbox{\hyperlink{namespaceseq_a8d9a01a2c5a12df6d4baac1d1520d4b5}{seq\+::tstring}} or const char$\ast$ arguments are represented internally as string views (tstring\+\_\+view class). The format module is extendible to custom types by 2 means\+:
 \begin{DoxyItemize}
 \item If the type is streamable to std\+::ostream, it will directly work with \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}} using internally a (slow) std\+::ostringstream.
@@ -231,16 +231,16 @@ Example of custom type formatting\+:
 \DoxyCodeLine{}
 \DoxyCodeLine{        \textcolor{comment}{// The specialization must provide this member:}}
 \DoxyCodeLine{}
-\DoxyCodeLine{        \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classseq_1_1ostream__format_a17593d6d54bf0e77e8c32f5756d33b1d}{to\_string}}(std::string \& out)\textcolor{keyword}{ const}}
+\DoxyCodeLine{        \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{classseq_1_1ostream__format_a3c30d958ce8fb82d6509acc7e23f2648}{to\_string}}(std::string \& out)\textcolor{keyword}{ const}}
 \DoxyCodeLine{\textcolor{keyword}{        }\{}
 \DoxyCodeLine{            \textcolor{keywordtype}{size\_t} prev = out.size();}
 \DoxyCodeLine{}
 \DoxyCodeLine{            out.append(\textcolor{stringliteral}{"("});}
 \DoxyCodeLine{            \textcolor{comment}{// Format the first member of the pair using the internal numeric format}}
-\DoxyCodeLine{            ostream\_format<T>(this-\/>\mbox{\hyperlink{structseq_1_1base__ostream__format_a847269fc7b29632927a725d1c5f41abb}{value}}().\mbox{\hyperlink{namespaceseq_1_1detail_a4abc955e0a77f9f1a5d4b9fa147745e1}{first}}, this-\/>\mbox{\hyperlink{structseq_1_1base__ostream__format_a33c08cb2cd77242552ab96e14a4d65c1}{numeric\_fmt}}()).append(out);}
+\DoxyCodeLine{            ostream\_format<T>(this-\/>\mbox{\hyperlink{structseq_1_1base__ostream__format_ad75f4918a30f9643a0b66c0100d00293}{value}}().\mbox{\hyperlink{namespaceseq_1_1detail_a4abc955e0a77f9f1a5d4b9fa147745e1}{first}}, this-\/>\mbox{\hyperlink{structseq_1_1base__ostream__format_a05fa37e912fb5660b236f31689935ad5}{numeric\_fmt}}()).append(out);}
 \DoxyCodeLine{            out.append(\textcolor{stringliteral}{", "});}
 \DoxyCodeLine{            \textcolor{comment}{// Format the second member of the pair using the internal numeric format}}
-\DoxyCodeLine{            ostream\_format<T>(this-\/>\mbox{\hyperlink{structseq_1_1base__ostream__format_a847269fc7b29632927a725d1c5f41abb}{value}}().second, this-\/>\mbox{\hyperlink{structseq_1_1base__ostream__format_a33c08cb2cd77242552ab96e14a4d65c1}{numeric\_fmt}}()).append(out);}
+\DoxyCodeLine{            ostream\_format<T>(this-\/>\mbox{\hyperlink{structseq_1_1base__ostream__format_ad75f4918a30f9643a0b66c0100d00293}{value}}().second, this-\/>\mbox{\hyperlink{structseq_1_1base__ostream__format_a05fa37e912fb5660b236f31689935ad5}{numeric\_fmt}}()).append(out);}
 \DoxyCodeLine{            out.append(\textcolor{stringliteral}{")"});}
 \DoxyCodeLine{}
 \DoxyCodeLine{            \textcolor{keywordflow}{return} out.size() -\/ prev;}
@@ -286,8 +286,8 @@ Example\+:
 \DoxyCodeLine{std::cout << f2(std::string(\textcolor{stringliteral}{"another string"})) <<std::endl;     \textcolor{comment}{//Safe: the first string is replace by a new temporary one}}
 \DoxyCodeLine{std::cout << f2 << std::endl;                                   \textcolor{comment}{//UNSAFE: attempt to format the temporay std::string holding "another string" which was already destroyed}}
 \end{DoxyCode}
-\hypertarget{group__format_autotoc_md30}{}\doxysubsubsection{Thread safety}\label{group__format_autotoc_md30}
-The format module is thread safe\+: formatting objects in different threads is allowed, as the format module only uses (few) global variables with the {\itshape thread\+\_\+local} specifier. However, a formatting object returned by \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}} is not thread safe and you must pass copies of this object to other threads.\hypertarget{group__format_autotoc_md31}{}\doxysubsubsection{Performances}\label{group__format_autotoc_md31}
+\hypertarget{group__format_autotoc_md23}{}\doxysubsubsection{Thread safety}\label{group__format_autotoc_md23}
+The format module is thread safe\+: formatting objects in different threads is allowed, as the format module only uses (few) global variables with the {\itshape thread\+\_\+local} specifier. However, a formatting object returned by \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}} is not thread safe and you must pass copies of this object to other threads.\hypertarget{group__format_autotoc_md24}{}\doxysubsubsection{Performances}\label{group__format_autotoc_md24}
 The format module is relatively fast compared to C++ streams, mainly thanks to the \mbox{\hyperlink{group__charconv}{charconv}} module. Usually, using \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}} to output arithmetic values to streams should be around 8 times faster than directly writing the values to a std\+::ostream object. This will, of course, vary greatly depending on the considered scenario.
 
 The following code is a simple benchmark on writing a 4 $\ast$ 1000000 table of double values to a std\+::ostream object.
@@ -327,7 +327,7 @@ The following code is a simple benchmark on writing a 4 $\ast$ 1000000 table of 
 \DoxyCodeLine{        oss << std::left << std::setw(20) << vec\_d[i * 4+3] << \textcolor{stringliteral}{"|"};}
 \DoxyCodeLine{        oss << std::endl;}
 \DoxyCodeLine{    \}}
-\DoxyCodeLine{    \textcolor{keywordtype}{int} el = \mbox{\hyperlink{namespaceseq_a1c3fc02a69112af58e297963a9e4c08c}{tock\_ms}}();}
+\DoxyCodeLine{    \textcolor{keywordtype}{int} el = \mbox{\hyperlink{namespaceseq_a576ae74a514ded550299e48e4c32cc64}{tock\_ms}}();}
 \DoxyCodeLine{    std::cout << \textcolor{stringliteral}{"Write table with streams: "} <<el<<\textcolor{stringliteral}{" ms"}<< std::endl;}
 \DoxyCodeLine{}
 \DoxyCodeLine{}
@@ -338,7 +338,7 @@ The following code is a simple benchmark on writing a 4 $\ast$ 1000000 table of 
 \DoxyCodeLine{    \mbox{\hyperlink{namespaceseq_ad863fcfc143b646f5a2f2362a1327575}{tick}}();}
 \DoxyCodeLine{    \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < vec\_d.size() / 4; ++i)}
 \DoxyCodeLine{        oss << \mbox{\hyperlink{namespaceseq_1_1detail_a76fa776653402382e316c7b6715856af}{f}}(vec\_d[i * 4], vec\_d[i * 4+1], vec\_d[i * 4+2], vec\_d[i * 4+3]) << std::endl;}
-\DoxyCodeLine{    el = \mbox{\hyperlink{namespaceseq_a1c3fc02a69112af58e297963a9e4c08c}{tock\_ms}}();}
+\DoxyCodeLine{    el = \mbox{\hyperlink{namespaceseq_a576ae74a514ded550299e48e4c32cc64}{tock\_ms}}();}
 \DoxyCodeLine{    std::cout << \textcolor{stringliteral}{"Write table with seq formatting module: "} << el << \textcolor{stringliteral}{" ms"} << std::endl;}
 \DoxyCodeLine{}
 \DoxyCodeLine{}
@@ -356,7 +356,7 @@ The following code is a simple benchmark on writing a 4 $\ast$ 1000000 table of 
 \DoxyCodeLine{    \textcolor{keyword}{auto} f2 = \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq::fmt}}(float\_type(), \textcolor{charliteral}{'g'}).c(20);}
 \DoxyCodeLine{    \textcolor{keywordflow}{for} (\textcolor{keywordtype}{size\_t} i = 0; i < vec\_d.size(); ++i)}
 \DoxyCodeLine{        oss << f2(vec\_d[i]);}
-\DoxyCodeLine{    el = \mbox{\hyperlink{namespaceseq_a1c3fc02a69112af58e297963a9e4c08c}{tock\_ms}}();}
+\DoxyCodeLine{    el = \mbox{\hyperlink{namespaceseq_a576ae74a514ded550299e48e4c32cc64}{tock\_ms}}();}
 \DoxyCodeLine{    std::cout << \textcolor{stringliteral}{"Write centered double with seq::fmt: "} << el << \textcolor{stringliteral}{" ms"} << std::endl;}
 \DoxyCodeLine{}
 \DoxyCodeLine{}

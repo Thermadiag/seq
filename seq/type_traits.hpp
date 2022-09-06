@@ -1,8 +1,9 @@
-#pragma once
+#ifndef SEQ_TYPE_TRAITS_HPP
+#define SEQ_TYPE_TRAITS_HPP
 
-#include <string>
-#include <type_traits>
+#include <iostream>
 #include <memory>
+#include <type_traits>
 #include <functional>
 
 namespace seq
@@ -65,24 +66,24 @@ namespace seq
 		struct IntegerAbs
 		{
 			using type = typename integer_abs_return<T>::type;
-			static inline type neg_if_signed(T v) { return static_cast<type>(-v); }
-			static inline type abs(T v) { return static_cast<type>(v < 0 ? -v : v); }
+			static inline auto neg_if_signed(T v) -> type { return static_cast<type>(-v); }
+			static inline auto abs(T v) -> type { return static_cast<type>(v < 0 ? -v : v); }
 		};
 		template<class T>
 		struct IntegerAbs<T,false>
 		{
 			using type = T;
-			static inline T neg_if_signed(T v) { return v; }
-			static inline T abs(T v) { return v; }
+			static inline auto neg_if_signed(T v) -> T { return v; }
+			static inline auto abs(T v) -> T { return v; }
 		};
 	}
 
 	/// @brief Returns -v if v is signed, v otherwise.
 	template<class T>
-	typename integer_abs_return<T>::type negate_if_signed(T v) { return detail::IntegerAbs<T>::neg_if_signed(v); }
+	auto negate_if_signed(T v) -> typename integer_abs_return<T>::type { return detail::IntegerAbs<T>::neg_if_signed(v); }
 	/// @brief Returns absolute value of v.
 	template<class T>
-	typename integer_abs_return<T>::type abs(T v) { return detail::IntegerAbs<T>::abs(v); }
+	auto abs(T v) -> typename integer_abs_return<T>::type { return detail::IntegerAbs<T>::abs(v); }
 
 
 
@@ -162,7 +163,7 @@ namespace seq
 	// On msvc, std::string is relocatable, as opposed to gcc implementation that stores a pointer to its internal data
 #if defined( _MSC_VER) 
 	template<class T, class Traits, class Alloc>
-	struct is_relocatable<std::basic_string<T, Traits, Alloc> > {
+	struct is_relocatable<std::basic_stringbuf<T, Traits, Alloc> > {
 		static constexpr bool value = true;
 	};
 #endif
@@ -255,3 +256,4 @@ namespace seq
 	{
 	};
 }
+#endif

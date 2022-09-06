@@ -18,19 +18,19 @@
 \item 
 \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a7f5b8148fafa65448b5ab492d4760b3c}{std\+\_\+alloc}} (size\+\_\+t) noexcept
 \item 
-Allocator \& \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a9a0ca14b1895f06ccd2fced377cf616f}{get\+\_\+allocator}} () noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a0a9f7601da5fddbc93aa620547e01f34}{get\+\_\+allocator}} () noexcept -\/$>$ Allocator \&
 \item 
-const Allocator \& \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a733fddbfb509f352408459acadf33f11}{get\+\_\+allocator}} () const noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a4d20a3c47d2608aab7e7c669b8478b8b}{get\+\_\+allocator}} () const noexcept -\/$>$ const Allocator \&
 \item 
 void \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a6289030e17ab8e5423b09817f3a07e5e}{resize}} (size\+\_\+t)
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{list\+\_\+chunk}}$<$ T $>$ $\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a6ea311a9e354c586ea239be52640da21}{allocate\+\_\+chunk}} ()
+auto \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_ad58378c6ad1cfe4d402e2064bae53a2d}{allocate\+\_\+chunk}} () -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{list\+\_\+chunk}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $>$ $\ast$
 \item 
-void \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_ae9eb015c32d05ff94db1674e36514e26}{deallocate\+\_\+chunk}} (\mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{list\+\_\+chunk}}$<$ T $>$ $\ast$ptr)
+void \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_ae9eb015c32d05ff94db1674e36514e26}{deallocate\+\_\+chunk}} (\mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{list\+\_\+chunk}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $>$ $\ast$ptr)
 \item 
-size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a0ab28fff50f05259f595420e72b6b00b}{memory\+\_\+footprint}} () const noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a3dbc374e54396efacd49fe6b3d2a7138}{memory\+\_\+footprint}} () const noexcept -\/$>$ size\+\_\+t
 \item 
-size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_adb68ff7a98bd3189f01e6581b06337b4}{get\+\_\+capacity}} () const noexcept
+auto \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a9284c684544580479395b47b98d9f6cb}{get\+\_\+capacity}} () const noexcept -\/$>$ size\+\_\+t
 \item 
 void \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a92ecc80b50d0b94c01bc840928a84e1c}{clear\+\_\+all}} ()
 \end{DoxyCompactItemize}
@@ -50,7 +50,7 @@ size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_aca10c90b4fa5a126
 \doxysubsubsection{\texorpdfstring{rebind\_alloc}{rebind\_alloc}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
 template$<$class U $>$ \\
-using \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a7745f4aac18dd94899c76113f9674193}{rebind\+\_\+alloc}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::template \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a7745f4aac18dd94899c76113f9674193}{rebind\+\_\+alloc}}$<$U$>$}
+using \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a7745f4aac18dd94899c76113f9674193}{rebind\+\_\+alloc}} =  typename std\+::allocator\+\_\+traits$<$Allocator$>$\+::template \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc_a7745f4aac18dd94899c76113f9674193}{rebind\+\_\+alloc}}$<$U$>$}
 
 
 
@@ -60,80 +60,81 @@ using \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+
 \index{std\_alloc@{std\_alloc}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{std\_alloc()}{std\_alloc()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{std\+\_\+alloc}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{std\+\_\+alloc}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a42d7ed3e455a0629b9cf27c5176ef2b2}\label{structseq_1_1detail_1_1std__alloc_a42d7ed3e455a0629b9cf27c5176ef2b2}} 
 \index{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}!std\_alloc@{std\_alloc}}
 \index{std\_alloc@{std\_alloc}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{std\_alloc()}{std\_alloc()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{std\+\_\+alloc}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{std\+\_\+alloc}} (\begin{DoxyParamCaption}\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a7f5b8148fafa65448b5ab492d4760b3c}\label{structseq_1_1detail_1_1std__alloc_a7f5b8148fafa65448b5ab492d4760b3c}} 
 \index{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}!std\_alloc@{std\_alloc}}
 \index{std\_alloc@{std\_alloc}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{std\_alloc()}{std\_alloc()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{std\+\_\+alloc}} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{std\+\_\+alloc}} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a6ea311a9e354c586ea239be52640da21}\label{structseq_1_1detail_1_1std__alloc_a6ea311a9e354c586ea239be52640da21}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_ad58378c6ad1cfe4d402e2064bae53a2d}\label{structseq_1_1detail_1_1std__alloc_ad58378c6ad1cfe4d402e2064bae53a2d}} 
 \index{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}!allocate\_chunk@{allocate\_chunk}}
 \index{allocate\_chunk@{allocate\_chunk}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{allocate\_chunk()}{allocate\_chunk()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{list\+\_\+chunk}}$<$T$>$$\ast$ \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::allocate\+\_\+chunk (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::allocate\+\_\+chunk (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{list\+\_\+chunk}}$<$\mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}$>$$\ast$
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a92ecc80b50d0b94c01bc840928a84e1c}\label{structseq_1_1detail_1_1std__alloc_a92ecc80b50d0b94c01bc840928a84e1c}} 
 \index{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}!clear\_all@{clear\_all}}
 \index{clear\_all@{clear\_all}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{clear\_all()}{clear\_all()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::clear\+\_\+all (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::clear\+\_\+all (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_ae9eb015c32d05ff94db1674e36514e26}\label{structseq_1_1detail_1_1std__alloc_ae9eb015c32d05ff94db1674e36514e26}} 
 \index{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}!deallocate\_chunk@{deallocate\_chunk}}
 \index{deallocate\_chunk@{deallocate\_chunk}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{deallocate\_chunk()}{deallocate\_chunk()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::deallocate\+\_\+chunk (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{list\+\_\+chunk}}$<$ T $>$ $\ast$}]{ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::deallocate\+\_\+chunk (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{list\+\_\+chunk}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}} $>$ $\ast$}]{ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a733fddbfb509f352408459acadf33f11}\label{structseq_1_1detail_1_1std__alloc_a733fddbfb509f352408459acadf33f11}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a4d20a3c47d2608aab7e7c669b8478b8b}\label{structseq_1_1detail_1_1std__alloc_a4d20a3c47d2608aab7e7c669b8478b8b}} 
 \index{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-const Allocator\& \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const Allocator\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a9a0ca14b1895f06ccd2fced377cf616f}\label{structseq_1_1detail_1_1std__alloc_a9a0ca14b1895f06ccd2fced377cf616f}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a0a9f7601da5fddbc93aa620547e01f34}\label{structseq_1_1detail_1_1std__alloc_a0a9f7601da5fddbc93aa620547e01f34}} 
 \index{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-Allocator\& \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ Allocator\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_adb68ff7a98bd3189f01e6581b06337b4}\label{structseq_1_1detail_1_1std__alloc_adb68ff7a98bd3189f01e6581b06337b4}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a9284c684544580479395b47b98d9f6cb}\label{structseq_1_1detail_1_1std__alloc_a9284c684544580479395b47b98d9f6cb}} 
 \index{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}!get\_capacity@{get\_capacity}}
 \index{get\_capacity@{get\_capacity}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{get\_capacity()}{get\_capacity()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::get\+\_\+capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::get\+\_\+capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a0ab28fff50f05259f595420e72b6b00b}\label{structseq_1_1detail_1_1std__alloc_a0ab28fff50f05259f595420e72b6b00b}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a3dbc374e54396efacd49fe6b3d2a7138}\label{structseq_1_1detail_1_1std__alloc_a3dbc374e54396efacd49fe6b3d2a7138}} 
 \index{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}!memory\_footprint@{memory\_footprint}}
 \index{memory\_footprint@{memory\_footprint}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{memory\_footprint()}{memory\_footprint()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_a6289030e17ab8e5423b09817f3a07e5e}\label{structseq_1_1detail_1_1std__alloc_a6289030e17ab8e5423b09817f3a07e5e}} 
 \index{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}!resize@{resize}}
 \index{resize@{resize}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{resize()}{resize()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-void \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::resize (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+void \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::resize (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -143,14 +144,14 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\
 \index{allocator@{allocator}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{allocator}{allocator}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-Allocator \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::allocator}
+Allocator \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::allocator}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1std__alloc_aca10c90b4fa5a126c2f9603a11dc22e4}\label{structseq_1_1detail_1_1std__alloc_aca10c90b4fa5a126c2f9603a11dc22e4}} 
 \index{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}!chunks@{chunks}}
 \index{chunks@{chunks}!seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$@{seq::detail::std\_alloc$<$ T, Allocator, Align64 $>$}}
 \doxysubsubsection{\texorpdfstring{chunks}{chunks}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, bool Align64 = false$>$ \\
-size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ T, Allocator, Align64 $>$\+::chunks}
+size\+\_\+t \mbox{\hyperlink{structseq_1_1detail_1_1std__alloc}{seq\+::detail\+::std\+\_\+alloc}}$<$ \mbox{\hyperlink{namespaceseq_1_1detail_ae4e48f51c85e7a3a935596cba71a7355}{T}}, Allocator, Align64 $>$\+::chunks}
 
 
 

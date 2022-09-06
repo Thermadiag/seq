@@ -3,44 +3,46 @@
 \doxysubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \mbox{\hyperlink{classstd_1_1hash_3_01hold__any_3_01_interface_00_01_s_00_01_a_01_4_01_4}{hash$<$ hold\+\_\+any$<$ Interface, S, A $>$ $>$}}
+class \mbox{\hyperlink{classstd_1_1hash_3_01seq_1_1hold__any_3_01_interface_00_01_s_00_01_a_01_4_01_4}{hash$<$ seq\+::hold\+\_\+any$<$ Interface, S, A $>$ $>$}}
 \item 
 class \mbox{\hyperlink{classstd_1_1hash_3_01seq_1_1tiny__string_3_01_size_00_01_allocator_01_4_01_4}{hash$<$ seq\+::tiny\+\_\+string$<$ Size, Allocator $>$ $>$}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A$>$ }\\void \mbox{\hyperlink{namespacestd_aaf08cfda3929fe6011b95a314db90da1}{swap}} (hold\+\_\+any$<$ Interface, S, A $>$ \&a, hold\+\_\+any$<$ Interface, S, A $>$ \&b)
+{\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A$>$ }\\void \mbox{\hyperlink{namespacestd_a87a7b5732634d46429dee124bad4fdc3}{swap}} (\mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, S, A $>$ \&a, \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, S, A $>$ \&b)
 \item 
 {\footnotesize template$<$size\+\_\+t Size, class Allocator $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{namespacestd_a9ca33a12754126a8bfbdf41f9cdbadf2}{swap}} (\mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Allocator $>$ \&a, \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Allocator $>$ \&b)
 \item 
-{\footnotesize template$<$class Elem , class Traits , size\+\_\+t Size, class Alloc $>$ }\\std\+::enable\+\_\+if$<$!std\+::is\+\_\+same$<$ Alloc, \mbox{\hyperlink{structseq_1_1view__allocator}{seq\+::view\+\_\+allocator}} $>$\+::value, basic\+\_\+istream$<$ Elem, Traits $>$ $>$\+::type \& \mbox{\hyperlink{namespacestd_a91c67e18d776f534bb60e796df4eb409}{operator$>$$>$}} (basic\+\_\+istream$<$ Elem, Traits $>$ \&iss, \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&str)
+{\footnotesize template$<$class Elem , class Traits , size\+\_\+t Size, class Alloc $>$ }\\auto \mbox{\hyperlink{namespacestd_a766b7e1641c0586c58347cd80e1910fd}{operator$>$$>$}} (basic\+\_\+istream$<$ Elem, Traits $>$ \&iss, \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&str) -\/$>$ typename std\+::enable\+\_\+if$<$!std\+::is\+\_\+same$<$ Alloc, \mbox{\hyperlink{structseq_1_1view__allocator}{seq\+::view\+\_\+allocator}} $>$\+::value, basic\+\_\+istream$<$ Elem, Traits $>$ $>$\+::type \&
 \item 
-{\footnotesize template$<$class Elem , class Traits , size\+\_\+t Size, class Alloc $>$ }\\basic\+\_\+ostream$<$ Elem, Traits $>$ \& \mbox{\hyperlink{namespacestd_aeabb1eedd041e0ecf754094e2ffd5964}{operator$<$$<$}} (basic\+\_\+ostream$<$ Elem, Traits $>$ \&oss, const \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&str)
+{\footnotesize template$<$class Elem , class Traits , size\+\_\+t Size, class Alloc $>$ }\\auto \mbox{\hyperlink{namespacestd_aca62bf29415195ed3a392febcfbc825e}{operator$<$$<$}} (basic\+\_\+ostream$<$ Elem, Traits $>$ \&oss, const \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&str) -\/$>$ basic\+\_\+ostream$<$ Elem, Traits $>$ \&
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{namespacestd_aeabb1eedd041e0ecf754094e2ffd5964}\label{namespacestd_aeabb1eedd041e0ecf754094e2ffd5964}} 
+\mbox{\Hypertarget{namespacestd_aca62bf29415195ed3a392febcfbc825e}\label{namespacestd_aca62bf29415195ed3a392febcfbc825e}} 
 \index{std@{std}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!std@{std}}
 \doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}}
 {\footnotesize\ttfamily template$<$class Elem , class Traits , size\+\_\+t Size, class Alloc $>$ \\
-basic\+\_\+ostream$<$Elem, Traits$>$\& std\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{basic\+\_\+ostream$<$ Elem, Traits $>$ \&}]{oss,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto std\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{basic\+\_\+ostream$<$ Elem, Traits $>$ \&}]{oss,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&}]{str }\end{DoxyParamCaption}) -\/$>$ basic\+\_\+ostream$<$Elem, Traits$>$\&
+	\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{namespacestd_a91c67e18d776f534bb60e796df4eb409}\label{namespacestd_a91c67e18d776f534bb60e796df4eb409}} 
+\mbox{\Hypertarget{namespacestd_a766b7e1641c0586c58347cd80e1910fd}\label{namespacestd_a766b7e1641c0586c58347cd80e1910fd}} 
 \index{std@{std}!operator$>$$>$@{operator$>$$>$}}
 \index{operator$>$$>$@{operator$>$$>$}!std@{std}}
 \doxysubsubsection{\texorpdfstring{operator$>$$>$()}{operator>>()}}
 {\footnotesize\ttfamily template$<$class Elem , class Traits , size\+\_\+t Size, class Alloc $>$ \\
-std\+::enable\+\_\+if$<$!std\+::is\+\_\+same$<$Alloc, \mbox{\hyperlink{structseq_1_1view__allocator}{seq\+::view\+\_\+allocator}}$>$\+::value, basic\+\_\+istream$<$Elem, Traits$>$ $>$\+::type\& std\+::operator$>$$>$ (\begin{DoxyParamCaption}\item[{basic\+\_\+istream$<$ Elem, Traits $>$ \&}]{iss,  }\item[{\mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&}]{str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto std\+::operator$>$$>$ (\begin{DoxyParamCaption}\item[{basic\+\_\+istream$<$ Elem, Traits $>$ \&}]{iss,  }\item[{\mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&}]{str }\end{DoxyParamCaption}) -\/$>$ typename std\+::enable\+\_\+if$<$!std\+::is\+\_\+same$<$Alloc, \mbox{\hyperlink{structseq_1_1view__allocator}{seq\+::view\+\_\+allocator}}$>$\+::value, basic\+\_\+istream$<$Elem, Traits$>$ $>$\+::type	\&
+	\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{namespacestd_aaf08cfda3929fe6011b95a314db90da1}\label{namespacestd_aaf08cfda3929fe6011b95a314db90da1}} 
+\mbox{\Hypertarget{namespacestd_a87a7b5732634d46429dee124bad4fdc3}\label{namespacestd_a87a7b5732634d46429dee124bad4fdc3}} 
 \index{std@{std}!swap@{swap}}
 \index{swap@{swap}!std@{std}}
 \doxysubsubsection{\texorpdfstring{swap()}{swap()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Interface , size\+\_\+t S, size\+\_\+t A$>$ \\
-void std\+::swap (\begin{DoxyParamCaption}\item[{hold\+\_\+any$<$ Interface, S, A $>$ \&}]{a,  }\item[{hold\+\_\+any$<$ Interface, S, A $>$ \&}]{b }\end{DoxyParamCaption})}
+void std\+::swap (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, S, A $>$ \&}]{a,  }\item[{\mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, S, A $>$ \&}]{b }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{namespacestd_a9ca33a12754126a8bfbdf41f9cdbadf2}\label{namespacestd_a9ca33a12754126a8bfbdf41f9cdbadf2}} 
 \index{std@{std}!swap@{swap}}

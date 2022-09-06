@@ -78,61 +78,61 @@ using \mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62
 \begin{DoxyCompactList}\small\item\em constructs the container with the contents of the initializer list init, same as \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}}(init.\+begin(), init.\+end()) \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classseq_1_1ordered__set_af783eef5a121f45a78b9aa1bd64a4e1f}{ordered\+\_\+set}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} $>$ init, const Allocator \&alloc)
 \begin{DoxyCompactList}\small\item\em constructs the container with the contents of the initializer list init, same as \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}}(init.\+begin(), init.\+end()) \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} \& \mbox{\hyperlink{classseq_1_1ordered__set_a4536ee7c30e5718d8469d1d49a34b81a}{operator=}} (const \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} \&other)
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a6be5fbe03ed3b3f03b71348550985d09}{operator=}} (const \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} \&other) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} \&
 \begin{DoxyCompactList}\small\item\em Copy assignment operator. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} \& \mbox{\hyperlink{classseq_1_1ordered__set_a354660e510ee08b28ff5787313fe7616}{operator=}} (\mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} \&\&other)
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a2575a6950a9e2a41ea7f0b073fde1134}{operator=}} (\mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} \&\&other) noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} \&
 \begin{DoxyCompactList}\small\item\em Move assignment operator. \end{DoxyCompactList}\item 
-size\+\_\+t \mbox{\hyperlink{classseq_1_1ordered__set_abca7e24629ce431774748e300f019d81}{size}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a12ebe2df7d623875a764a0d83e8cc067}{size}} () const noexcept -\/$>$ size\+\_\+t
 \begin{DoxyCompactList}\small\item\em Returns the container size. \end{DoxyCompactList}\item 
-size\+\_\+t \mbox{\hyperlink{classseq_1_1ordered__set_ace3604ad070d7b132932431ee70f166d}{max\+\_\+size}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a0e0e2d5eea7bd8904e5859584dc1e6cf}{max\+\_\+size}} () const noexcept -\/$>$ size\+\_\+t
 \begin{DoxyCompactList}\small\item\em Returns the container maximum size. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classseq_1_1ordered__set_a56f66564f55a08b8db92caaf4063b4d4}{empty}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_ae6bfb5bafad2839efbc66abdc1fd831c}{empty}} () const noexcept -\/$>$ bool
 \begin{DoxyCompactList}\small\item\em Returns true if the container is empty, false otherwise. \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{classseq_1_1ordered__set_a3803e22fd0b5f39f6df93d9f92838842}{max\+\_\+probe\+\_\+distance}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a0cfdbedce5753271a2a3e5ff2fcb6ffd}{max\+\_\+probe\+\_\+distance}} () const noexcept -\/$>$ int
 \begin{DoxyCompactList}\small\item\em Returns the current maximum possible probe distance. \end{DoxyCompactList}\item 
-float \mbox{\hyperlink{classseq_1_1ordered__set_ab700f354560059fd8aae90ecc8712d82}{load\+\_\+factor}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_ac6bc92e7739a3fc48b904dd1539766a3}{load\+\_\+factor}} () const noexcept -\/$>$ float
 \begin{DoxyCompactList}\small\item\em Returns the current load factor. \end{DoxyCompactList}\item 
-float \mbox{\hyperlink{classseq_1_1ordered__set_a0b853d3635dee2ae6869a31ad775d9a3}{max\+\_\+load\+\_\+factor}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_ac7fb96b6026596a42b0a186260086f91}{max\+\_\+load\+\_\+factor}} () const noexcept -\/$>$ float
 \begin{DoxyCompactList}\small\item\em Returns the current maximum load factor. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1ordered__set_a403cd189fba893ab4f06b6cb28247288}{max\+\_\+load\+\_\+factor}} (float f) noexcept
 \begin{DoxyCompactList}\small\item\em Set the maximum load factor. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_a73fdf0cb0cfbd9e15e6c9d72c2dde6fd}{allocator\+\_\+type}} \& \mbox{\hyperlink{classseq_1_1ordered__set_a08b784bd6254b797ed667cdcc340cca1}{get\+\_\+allocator}} () noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a2bd5e2b5a3370aac53a5271774edb1c3}{get\+\_\+allocator}} () noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a73fdf0cb0cfbd9e15e6c9d72c2dde6fd}{allocator\+\_\+type}} \&
 \begin{DoxyCompactList}\small\item\em Returns the container allocator object. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_a73fdf0cb0cfbd9e15e6c9d72c2dde6fd}{allocator\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__set_ac6e9e655e89f7ec884242b68a03150cb}{get\+\_\+allocator}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a19b0f4e76ebb8ecd31bb850a904ae76d}{get\+\_\+allocator}} () const noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a73fdf0cb0cfbd9e15e6c9d72c2dde6fd}{allocator\+\_\+type}}
 \begin{DoxyCompactList}\small\item\em Returns the container allocator object. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_a878f53e048251a95c495145448f628f5}{hasher}} \mbox{\hyperlink{classseq_1_1ordered__set_aa94a43b2144d15120ec9da3745e03391}{hash\+\_\+function}} () const
+auto \mbox{\hyperlink{classseq_1_1ordered__set_aff53fface88ca6650d8a45c49db24798}{hash\+\_\+function}} () const -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a878f53e048251a95c495145448f628f5}{hasher}}
 \begin{DoxyCompactList}\small\item\em Returns the hash function. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_a233a269648da39723d38745330132eed}{key\+\_\+equal}} \mbox{\hyperlink{classseq_1_1ordered__set_a01914afcdfeff7e3b271423bcb6916ae}{key\+\_\+eq}} () const
+auto \mbox{\hyperlink{classseq_1_1ordered__set_add28814de268def7f2a41f5cac43e3dd}{key\+\_\+eq}} () const -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a233a269648da39723d38745330132eed}{key\+\_\+equal}}
 \begin{DoxyCompactList}\small\item\em Returns the equality comparison function. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}} \& \mbox{\hyperlink{classseq_1_1ordered__set_aa17f2ac25803a8cd75a632fe5a7f0fc9}{sequence}} () noexcept
-\begin{DoxyCompactList}\small\item\em Returns the underlying sequence object. Calling this function will mark the container as dirty. Any further attempts to call members like \mbox{\hyperlink{classseq_1_1ordered__set_a9975553b3f3550624489307d2906e68b}{find()}} or \mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{insert()}} (relying on the hash function) will raise a std\+::logic\+\_\+error. To mark the container as non dirty anymore, the user must call \mbox{\hyperlink{classseq_1_1ordered__set_a2bb1f28b32c0c6c0422540b7986a49b0}{ordered\+\_\+set\+::rehash()}}. \end{DoxyCompactList}\item 
-const \mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}} \& \mbox{\hyperlink{classseq_1_1ordered__set_a2e293647b0ab4d65ce9fa42c2eae88e2}{sequence}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_af1b1dd7454c03a4b6a4d8e5f08dc7adb}{sequence}} () noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}} \&
+\begin{DoxyCompactList}\small\item\em Returns the underlying sequence object. Calling this function will mark the container as dirty. Any further attempts to call members like \mbox{\hyperlink{classseq_1_1ordered__set_a9975553b3f3550624489307d2906e68b}{find()}} or \mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{insert()}} (relying on the hash function) will raise a std\+::logic\+\_\+error. To mark the container as non dirty anymore, the user must call \mbox{\hyperlink{classseq_1_1ordered__set_a2bb1f28b32c0c6c0422540b7986a49b0}{ordered\+\_\+set\+::rehash()}}. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a56f4ce86306098d218e2c1154a910870}{sequence}} () const noexcept -\/$>$ const \mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}} \&
 \begin{DoxyCompactList}\small\item\em Returns the underlying sequence object. Do N\+OT mark the container as dirty. \end{DoxyCompactList}\item 
-const \mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}} \& \mbox{\hyperlink{classseq_1_1ordered__set_ac0c72361a98b4408d42278dafe331bcb}{csequence}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a94f5605cb65e30201fcf7eed2355ece5}{csequence}} () const noexcept -\/$>$ const \mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}} \&
 \begin{DoxyCompactList}\small\item\em Returns the underlying sequence object. Do N\+OT mark the container as dirty. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a3ff11b33174e2a29e741263be87280ec}{end}} () noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_acefb4c70eac4ca5123ade8a3af80a6c1}{end}} () noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
 \begin{DoxyCompactList}\small\item\em Returns an iterator to the first element of the container. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a43ac1ffc3edd4520c32a30b79fb05598}{end}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a97417c28fec1bdc54feec7cf2800b0a4}{end}} () const noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}
 \begin{DoxyCompactList}\small\item\em Returns an iterator to the first element of the container. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a46659ad6597396632fffe96114856ef8}{cend}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_ad07117fffb2a77323fb69e5b198f4d43}{cend}} () const noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}
 \begin{DoxyCompactList}\small\item\em Returns an iterator to the first element of the container. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a17b30b641deb6f8dead6b218851422a3}{begin}} () noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a21ca04d7c527900e08c38203940889b8}{begin}} () noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
 \begin{DoxyCompactList}\small\item\em Returns an iterator to the element following the last element of the container. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a4cc6ec3c84dbaf96863708cf447b994c}{begin}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a4dbeab9873ae41f1a96212ce273c5e8f}{begin}} () const noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}
 \begin{DoxyCompactList}\small\item\em Returns an iterator to the element following the last element of the container. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a410d0dfec4fd48506824a6dcedcc8273}{cbegin}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_aa8b0670ce78d994a309bc14a912f4c44}{cbegin}} () const noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}
 \begin{DoxyCompactList}\small\item\em Returns an iterator to the element following the last element of the container. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_a432ef60eab5f87e4ed9293dc2c893cbc}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_ad25d9c6aa7377945695c2d4d1f733637}{rbegin}} () noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a4aba4efa615411f6d42d2a0ea32537b5}{rbegin}} () noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a432ef60eab5f87e4ed9293dc2c893cbc}{reverse\+\_\+iterator}}
 \begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the first element of the reversed list. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a8061cfea560a5d1ea776671b398ee9b5}{rbegin}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a46b4bd0e5dd6e4fa694833edf2a2141d}{rbegin}} () const noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}}
 \begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the first element of the reversed list. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a03883efcebbbeb7278d5ec4f03e2d732}{crbegin}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a3fe18df0c4c2845f5037ec4c9fb3d311}{crbegin}} () const noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}}
 \begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the first element of the reversed list. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_a432ef60eab5f87e4ed9293dc2c893cbc}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a608c8538b094d2477f6b67a3a3320dd5}{rend}} () noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_ade4ec861f743e02c59e959933bd5e8cf}{rend}} () noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a432ef60eab5f87e4ed9293dc2c893cbc}{reverse\+\_\+iterator}}
 \begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the element following the last element of the reversed list. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a77890a2e98f5f0a0b5f83f8966594619}{rend}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a41ea6f4b63cae7476f3f0193d3a1e3ae}{rend}} () const noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}}
 \begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the element following the last element of the reversed list. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a321bedfdd099bcd8b4d0b43116b1892c}{crend}} () const noexcept
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a68c2710fbe35338d53ada9cd05ddbe60}{crend}} () const noexcept -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}}
 \begin{DoxyCompactList}\small\item\em Returns a reverse iterator to the element following the last element of the reversed list. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1ordered__set_a26e9b089e85777a7b1e0eb27ec05a51a}{clear}} ()
 \begin{DoxyCompactList}\small\item\em Clear the container. \end{DoxyCompactList}\item 
@@ -149,44 +149,44 @@ void \mbox{\hyperlink{classseq_1_1ordered__set_a36a66b34dafa44d2f963a201272b2d24
 void \mbox{\hyperlink{classseq_1_1ordered__set_ae64707af69a6b261413d1325c8f35d30}{stable\+\_\+sort}} ()
 \begin{DoxyCompactList}\small\item\em Sort the container based on std\+::less$<$\+Key$>$ and using std\+::stable\+\_\+sort. The full container is rehashed afterward. Invalidate all references and iterators. Basic exception guarantee only. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1ordered__set_a13ba901e3b3b3be36be8a12156f4614e}{shrink\+\_\+to\+\_\+fit}} ()
-\begin{DoxyCompactList}\small\item\em Calls \mbox{\hyperlink{classseq_1_1sequence_a1bf494125859119c2748a7a5e59588fa}{seq\+::sequence\+::shrink\+\_\+to\+\_\+fit()}}. Remove potential holes in the sequence object due to calls to \mbox{\hyperlink{classseq_1_1ordered__set_ab77fb73a8facb7f01ed53f43b292eed5}{ordered\+\_\+set\+::erase()}}. Does not allocate memory, except for the hash table itself. Invalidate all references and iterators. Basic exception guarantee only. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Calls \mbox{\hyperlink{classseq_1_1sequence_a1bf494125859119c2748a7a5e59588fa}{seq\+::sequence\+::shrink\+\_\+to\+\_\+fit()}}. Remove potential holes in the sequence object due to calls to \mbox{\hyperlink{classseq_1_1ordered__set_a6fc879b0ce162396bbc1ab16c372d9d0}{ordered\+\_\+set\+::erase()}}. Does not allocate memory, except for the hash table itself. Invalidate all references and iterators. Basic exception guarantee only. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1ordered__set_a768027febcc0b8e7df4465815510715d}{swap}} (\mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} \&other)
 \begin{DoxyCompactList}\small\item\em Swap this container with other. \end{DoxyCompactList}\item 
-{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__set_a6d056ca8203ca976bc05e6873e32b9dd}{emplace}} (Args \&\&... args)
+{\footnotesize template$<$class... Args$>$ }\\auto \mbox{\hyperlink{classseq_1_1ordered__set_aa44832bcf734eb3797689cb299683954}{emplace}} (Args \&\&... args) -\/$>$ std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$
 \begin{DoxyCompactList}\small\item\em Inserts a new element into the container constructed in-\/place with the given args if there is no element with the key in the container. Careful use of emplace allows the new element to be constructed while avoiding unnecessary copy or move operations. The constructor of the new element is called with exactly the same arguments as supplied to emplace, forwarded via std\+::forward$<$\+Args$>$(args).... The element may be constructed even if there already is an element with the key in the container, in which case the newly constructed element will be destroyed immediately. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
-{\footnotesize template$<$class... Args$>$ }\\\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a66e2ee127bb171c0780d79b922d09aca}{emplace\+\_\+hint}} (\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} hint, Args \&\&... args)
-\begin{DoxyCompactList}\small\item\em Inserts a new element into the container constructed in-\/place with the given args if there is no element with the key in the container. Same as \mbox{\hyperlink{classseq_1_1ordered__set_a6d056ca8203ca976bc05e6873e32b9dd}{ordered\+\_\+set\+::emplace()}}. \end{DoxyCompactList}\item 
-std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{insert}} (const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&value)
-\begin{DoxyCompactList}\small\item\em Inserts element into the container, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). This function calls \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{seq\+::sequence\+::insert()}} which insert the new element anywhere in the sequence, trying to fill holes left by calls to \mbox{\hyperlink{classseq_1_1ordered__set_ab77fb73a8facb7f01ed53f43b292eed5}{ordered\+\_\+set\+::erase()}}. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
-std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__set_a5248034d5ee90fe8389ccff6a8513636}{insert}} (\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&value)
-\begin{DoxyCompactList}\small\item\em Inserts element into the container using move semantic, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). This function calls \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{seq\+::sequence\+::insert()}} which insert the new element anywhere in the sequence, trying to fill holes left by calls to \mbox{\hyperlink{classseq_1_1ordered__set_ab77fb73a8facb7f01ed53f43b292eed5}{ordered\+\_\+set\+::erase()}}. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a8c12858c2c7bd944c52db7cb228c44c3}{insert}} (\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} hint, const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&value)
-\begin{DoxyCompactList}\small\item\em Inserts element into the container, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Same as \mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{ordered\+\_\+set\+::insert()}}. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a261954fa1669bd5afbd67395fb2044c8}{insert}} (\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} hint, \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&value)
-\begin{DoxyCompactList}\small\item\em Inserts element into the container using move semantic, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Same as \mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{ordered\+\_\+set\+::insert()}}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class... Args$>$ }\\auto \mbox{\hyperlink{classseq_1_1ordered__set_a158e3ea89502cafe19dd6c86ea0d262c}{emplace\+\_\+hint}} (\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} hint, Args \&\&... args) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
+\begin{DoxyCompactList}\small\item\em Inserts a new element into the container constructed in-\/place with the given args if there is no element with the key in the container. Same as \mbox{\hyperlink{classseq_1_1ordered__set_aa44832bcf734eb3797689cb299683954}{ordered\+\_\+set\+::emplace()}}. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{insert}} (const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&value) -\/$>$ std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$
+\begin{DoxyCompactList}\small\item\em Inserts element into the container, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). This function calls \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{seq\+::sequence\+::insert()}} which insert the new element anywhere in the sequence, trying to fill holes left by calls to \mbox{\hyperlink{classseq_1_1ordered__set_a6fc879b0ce162396bbc1ab16c372d9d0}{ordered\+\_\+set\+::erase()}}. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classseq_1_1ordered__set_ab2b8b075669194ee26bb1a19189b19b7}{insert}} (\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&value) -\/$>$ std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$
+\begin{DoxyCompactList}\small\item\em Inserts element into the container using move semantic, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). This function calls \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{seq\+::sequence\+::insert()}} which insert the new element anywhere in the sequence, trying to fill holes left by calls to \mbox{\hyperlink{classseq_1_1ordered__set_a6fc879b0ce162396bbc1ab16c372d9d0}{ordered\+\_\+set\+::erase()}}. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classseq_1_1ordered__set_ae503b7aebc8f8b339fbcfb97147a49fb}{insert}} (\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} hint, const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&value) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
+\begin{DoxyCompactList}\small\item\em Inserts element into the container, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Same as \mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{ordered\+\_\+set\+::insert()}}. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classseq_1_1ordered__set_ae688ce8e525fbc2c246a5ffa82598eff}{insert}} (\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} hint, \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&value) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
+\begin{DoxyCompactList}\small\item\em Inserts element into the container using move semantic, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Same as \mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{ordered\+\_\+set\+::insert()}}. \end{DoxyCompactList}\item 
 {\footnotesize template$<$class Input\+It $>$ }\\void \mbox{\hyperlink{classseq_1_1ordered__set_ad97d9655ac3a0a3f954c1bfae0ddc8c3}{insert}} (Input\+It first, Input\+It last)
 \begin{DoxyCompactList}\small\item\em Inserts elements from range \mbox{[}first, last). If multiple elements in the range have keys that compare equivalent, only the first occurence is inserted. Elements are inserted in any order. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1ordered__set_af008845549da85d2b5ec77e10020361f}{insert}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} $>$ ilist)
 \begin{DoxyCompactList}\small\item\em Inserts elements from range \mbox{[}init.\+begin(), init.\+end()). If multiple elements in the range have keys that compare equivalent, only the first occurence is inserted. Elements are inserted in any order. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
-{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__set_a389fc041021ac912d72d6cd0f6b158ee}{emplace\+\_\+back}} (Args \&\&... args)
+{\footnotesize template$<$class... Args$>$ }\\auto \mbox{\hyperlink{classseq_1_1ordered__set_a2165161b38251e5310e11b896d9cb478}{emplace\+\_\+back}} (Args \&\&... args) -\/$>$ std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$
 \begin{DoxyCompactList}\small\item\em Inserts a new element at the back of the container, constructed in-\/place with the given args if there is no element with the key in the container. Careful use of emplace\+\_\+back allows the new element to be constructed while avoiding unnecessary copy or move operations. The constructor of the new element is called with exactly the same arguments as supplied to emplace\+\_\+back, forwarded via std\+::forward$<$\+Args$>$(args).... The element may be constructed even if there already is an element with the key in the container, in which case the newly constructed element will be destroyed immediately. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
-std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__set_ae5cf95d12190533776ec9da46196a8da}{push\+\_\+back}} (const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&value)
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a15fa8bb634a540e73eb812b233bb8eda}{push\+\_\+back}} (const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&value) -\/$>$ std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$
 \begin{DoxyCompactList}\small\item\em Inserts element at the back of the container, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
-std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac6c5a2f25f46714a26174aba6826a240}{push\+\_\+back}} (\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&value)
+auto \mbox{\hyperlink{classseq_1_1ordered__set_afbbe4f0a179714cf107b6d095dfd3c3b}{push\+\_\+back}} (\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&value) -\/$>$ std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$
 \begin{DoxyCompactList}\small\item\em Inserts element at the back of the container use move semantic, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
-{\footnotesize template$<$class... Args$>$ }\\std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__set_abd459427704543cc045c0add01253d72}{emplace\+\_\+front}} (Args \&\&... args)
+{\footnotesize template$<$class... Args$>$ }\\auto \mbox{\hyperlink{classseq_1_1ordered__set_a0b7b49336fa2c03a76903be72a3dc2c4}{emplace\+\_\+front}} (Args \&\&... args) -\/$>$ std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$
 \begin{DoxyCompactList}\small\item\em Inserts a new element at the front of the container, constructed in-\/place with the given args if there is no element with the key in the container. Careful use of emplace\+\_\+front allows the new element to be constructed while avoiding unnecessary copy or move operations. The constructor of the new element is called with exactly the same arguments as supplied to emplace\+\_\+front, forwarded via std\+::forward$<$\+Args$>$(args).... The element may be constructed even if there already is an element with the key in the container, in which case the newly constructed element will be destroyed immediately. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
-std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__set_a32e89bccd351ad976cee5e6edd58158e}{push\+\_\+front}} (const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&value)
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a9d49aa11cdcc711db02d265b7bc606f8}{push\+\_\+front}} (const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&value) -\/$>$ std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$
 \begin{DoxyCompactList}\small\item\em Inserts element at the front of the container, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
-std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$ \mbox{\hyperlink{classseq_1_1ordered__set_aa5b741972de9ec05a481d5f1d6c3fd29}{push\+\_\+front}} (\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&value)
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a933f2e5e3bb45e5f1aad5d3cd28b2d05}{push\+\_\+front}} (\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&value) -\/$>$ std\+::pair$<$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool $>$
 \begin{DoxyCompactList}\small\item\em Inserts element at the front of the container using move semantic, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_ab77fb73a8facb7f01ed53f43b292eed5}{erase}} (\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{namespaceseq_a4af98bbd3b7d9b7d7cb552f6f3a8d220}{pos}})
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a6fc879b0ce162396bbc1ab16c372d9d0}{erase}} (\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{namespaceseq_ab534e8a0f6ac376f61e976fe7cd65457}{pos}}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
 \begin{DoxyCompactList}\small\item\em Erase element at given location. Iterators and references are not invalidated. Rehashing never occurs. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_a14db22b9060c55bae803daa77fb21a6f}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__set_a994967fe6f29b325a7452065df7f8257}{erase}} (const Key \&key)
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a2ae12f5fe1790baf6d96857df2683197}{erase}} (const Key \&key) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a14db22b9060c55bae803daa77fb21a6f}{size\+\_\+type}}
 \begin{DoxyCompactList}\small\item\em Erase element comparing equal to given key (if any). Iterators and references are not invalidated. Rehashing never occurs. \end{DoxyCompactList}\item 
-{\footnotesize template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ }\\\mbox{\hyperlink{classseq_1_1ordered__set_a14db22b9060c55bae803daa77fb21a6f}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__set_ae8be2eae6a142bbc73cb57c98558f80a}{erase}} (const K \&x)
+{\footnotesize template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ }\\auto \mbox{\hyperlink{classseq_1_1ordered__set_a8ee0f41eed18d8a036ec89bf460af603}{erase}} (const K \&x) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a14db22b9060c55bae803daa77fb21a6f}{size\+\_\+type}}
 \begin{DoxyCompactList}\small\item\em Erase element comparing equal to given key (if any). Removes the element (if one exists) with key that compares equivalent to the value x. This overload participates in overload resolution only if Hash\+::is\+\_\+transparent and Key\+Equal\+::is\+\_\+transparent are valid and each denotes a type, and neither iterator nor \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} is implicitly convertible from K. This assumes that such Hash is callable with both K and Key type, and that the Key\+Equal is transparent, which, together, allows calling this function without constructing an instance of Key. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_ac23ff5e436a3f5d52ad21ef54d350a16}{erase}} (\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} first, \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} last)
+auto \mbox{\hyperlink{classseq_1_1ordered__set_a7e0188d696f3263e84ad3f0fa11c8e52}{erase}} (\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} first, \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} last) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
 \begin{DoxyCompactList}\small\item\em Removes the elements in the range \mbox{[}first; last), which must be a valid range in $\ast$this. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set_a9975553b3f3550624489307d2906e68b}{find}} (const Key \&key) const
 \begin{DoxyCompactList}\small\item\em Finds an element with key equivalent to key. \end{DoxyCompactList}\item 
@@ -227,29 +227,29 @@ Associative container that contains a set of unique objects of type Key. Search,
 \end{DoxyTemplParams}
 \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} is a open addressing hash table using robin hood hashing and backward shift deletion. Its main properties are\+:
 \begin{DoxyItemize}
-\item Keys are ordered by insertion order. Therefore, \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} provides the additional members \mbox{\hyperlink{classseq_1_1ordered__set_ae5cf95d12190533776ec9da46196a8da}{push\+\_\+back()}}, \mbox{\hyperlink{classseq_1_1ordered__set_a32e89bccd351ad976cee5e6edd58158e}{push\+\_\+front()}}, \mbox{\hyperlink{classseq_1_1ordered__set_a389fc041021ac912d72d6cd0f6b158ee}{emplace\+\_\+back()}} and \mbox{\hyperlink{classseq_1_1ordered__set_abd459427704543cc045c0add01253d72}{emplace\+\_\+front()}} to constrol key ordering.
+\item Keys are ordered by insertion order. Therefore, \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} provides the additional members \mbox{\hyperlink{classseq_1_1ordered__set_a15fa8bb634a540e73eb812b233bb8eda}{push\+\_\+back()}}, \mbox{\hyperlink{classseq_1_1ordered__set_a9d49aa11cdcc711db02d265b7bc606f8}{push\+\_\+front()}}, \mbox{\hyperlink{classseq_1_1ordered__set_a2165161b38251e5310e11b896d9cb478}{emplace\+\_\+back()}} and \mbox{\hyperlink{classseq_1_1ordered__set_a0b7b49336fa2c03a76903be72a3dc2c4}{emplace\+\_\+front()}} to constrol key ordering.
 \item Since the container is ordered, it is also sortable. \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} provides the additional members \mbox{\hyperlink{classseq_1_1ordered__set_a36a66b34dafa44d2f963a201272b2d24}{sort()}} and \mbox{\hyperlink{classseq_1_1ordered__set_ae64707af69a6b261413d1325c8f35d30}{stable\+\_\+sort()}} for this purpose.
 \item The hash table itself basically stores iterators to a \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}} object storing the actual values. Therefore, \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} provides {\bfseries{stable references and iterators, even on rehash}} (unlike std\+::unordered\+\_\+set that invalidates iterators on rehash).
 \item No memory peak on rehash.
 \item \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} uses robin hood probing with backard shift deletion. It does not rely on tombstones and supports high load factors.
 \item It is fast and memory efficient compared to other node based hash tables (see section {\bfseries{Performances}}), but still slower than most open addressing hash tables due to the additional indirection.
-\end{DoxyItemize}\hypertarget{classseq_1_1ordered__set_autotoc_md39}{}\doxysubsubsection{Interface}\label{classseq_1_1ordered__set_autotoc_md39}
+\end{DoxyItemize}\hypertarget{classseq_1_1ordered__set_autotoc_md32}{}\doxysubsubsection{Interface}\label{classseq_1_1ordered__set_autotoc_md32}
 \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} provides a similar interface to std\+::unordered\+\_\+set with the following differences\+:
 \begin{DoxyItemize}
 \item The bucket related functions are not implemented,
 \item The default load factor is set to 0.\+6,
-\item Additional members \mbox{\hyperlink{classseq_1_1ordered__set_ae5cf95d12190533776ec9da46196a8da}{push\+\_\+back()}}, \mbox{\hyperlink{classseq_1_1ordered__set_a32e89bccd351ad976cee5e6edd58158e}{push\+\_\+front()}}, \mbox{\hyperlink{classseq_1_1ordered__set_a389fc041021ac912d72d6cd0f6b158ee}{emplace\+\_\+back()}} and \mbox{\hyperlink{classseq_1_1ordered__set_abd459427704543cc045c0add01253d72}{emplace\+\_\+front()}} let you control the key ordering,
+\item Additional members \mbox{\hyperlink{classseq_1_1ordered__set_a15fa8bb634a540e73eb812b233bb8eda}{push\+\_\+back()}}, \mbox{\hyperlink{classseq_1_1ordered__set_a9d49aa11cdcc711db02d265b7bc606f8}{push\+\_\+front()}}, \mbox{\hyperlink{classseq_1_1ordered__set_a2165161b38251e5310e11b896d9cb478}{emplace\+\_\+back()}} and \mbox{\hyperlink{classseq_1_1ordered__set_a0b7b49336fa2c03a76903be72a3dc2c4}{emplace\+\_\+front()}} let you control the key ordering,
 \item Additional members \mbox{\hyperlink{classseq_1_1ordered__set_a36a66b34dafa44d2f963a201272b2d24}{sort()}} and \mbox{\hyperlink{classseq_1_1ordered__set_ae64707af69a6b261413d1325c8f35d30}{stable\+\_\+sort()}} let you sort the container,
-\item The member \mbox{\hyperlink{classseq_1_1ordered__set_aa17f2ac25803a8cd75a632fe5a7f0fc9}{ordered\+\_\+set\+::sequence()}} returns a reference to the underlying \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}} object,
+\item The member \mbox{\hyperlink{classseq_1_1ordered__set_af1b1dd7454c03a4b6a4d8e5f08dc7adb}{ordered\+\_\+set\+::sequence()}} returns a reference to the underlying \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}} object,
 \item Its iterator and \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} types are bidirectional iterators.
 \end{DoxyItemize}
 
-The underlying sequence object stores plain non const Key objects. However, in order to avoid modifying the keys through iterators (and potentially invalidating the order), both iterator and \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} types can only return const references.\hypertarget{classseq_1_1ordered__set_autotoc_md40}{}\doxysubsubsection{Direct access to sequence}\label{classseq_1_1ordered__set_autotoc_md40}
-Unlike most hash table implementations, it it possible to access and modify the underlying value storage directly (a \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}} object). This possibility musy be used with great care, as modifying directly the sequence might break the hashing. When calling the non-\/const version of \mbox{\hyperlink{classseq_1_1ordered__set_aa17f2ac25803a8cd75a632fe5a7f0fc9}{ordered\+\_\+set\+::sequence()}}, the \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} will be marked as dirty, and further attempts to call functions like \mbox{\hyperlink{classseq_1_1ordered__set_a9975553b3f3550624489307d2906e68b}{ordered\+\_\+set\+::find()}} of \mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{ordered\+\_\+set\+::insert()}} (functions based on hash value) will throw a std\+::logic\+\_\+error.
+The underlying sequence object stores plain non const Key objects. However, in order to avoid modifying the keys through iterators (and potentially invalidating the order), both iterator and \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} types can only return const references.\hypertarget{classseq_1_1ordered__set_autotoc_md33}{}\doxysubsubsection{Direct access to sequence}\label{classseq_1_1ordered__set_autotoc_md33}
+Unlike most hash table implementations, it it possible to access and modify the underlying value storage directly (a \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}} object). This possibility musy be used with great care, as modifying directly the sequence might break the hashing. When calling the non-\/const version of \mbox{\hyperlink{classseq_1_1ordered__set_af1b1dd7454c03a4b6a4d8e5f08dc7adb}{ordered\+\_\+set\+::sequence()}}, the \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} will be marked as dirty, and further attempts to call functions like \mbox{\hyperlink{classseq_1_1ordered__set_a9975553b3f3550624489307d2906e68b}{ordered\+\_\+set\+::find()}} of \mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{ordered\+\_\+set\+::insert()}} (functions based on hash value) will throw a std\+::logic\+\_\+error.
 
 Therefore, after finishing modifying the sequence, you must call \mbox{\hyperlink{classseq_1_1ordered__set_a2bb1f28b32c0c6c0422540b7986a49b0}{ordered\+\_\+set\+::rehash()}} to rehash the sequence, remove potential duplicates, and mark the \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} as non dirty anymore.
 
-This way of modifying a \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} must be used carefully, but is way faster than multiple calls to \mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{ordered\+\_\+set\+::insert()}} of \mbox{\hyperlink{classseq_1_1ordered__set_ab77fb73a8facb7f01ed53f43b292eed5}{ordered\+\_\+set\+::erase()}}. For instance, it is usually faster to insert values this way than reserving the hash table ahead, except when inserting lots of duplicate keys. Example\+:
+This way of modifying a \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} must be used carefully, but is way faster than multiple calls to \mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{ordered\+\_\+set\+::insert()}} of \mbox{\hyperlink{classseq_1_1ordered__set_a6fc879b0ce162396bbc1ab16c372d9d0}{ordered\+\_\+set\+::erase()}}. For instance, it is usually faster to insert values this way than reserving the hash table ahead, except when inserting lots of duplicate keys. Example\+:
 
 
 \begin{DoxyCode}{0}
@@ -262,13 +262,13 @@ This way of modifying a \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+
 \DoxyCodeLine{\textcolor{comment}{// rehash the set and remove potential duplicate values in a stable way}}
 \DoxyCodeLine{set.rehash();}
 \end{DoxyCode}
-\hypertarget{classseq_1_1ordered__set_autotoc_md41}{}\doxysubsubsection{Exception guarantee}\label{classseq_1_1ordered__set_autotoc_md41}
-Most members of \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} provide {\bfseries{strong exception guarantee}}, except if specified otherwise (mentionned in function documentation).\hypertarget{classseq_1_1ordered__set_autotoc_md42}{}\doxysubsubsection{Growth policy and load factor}\label{classseq_1_1ordered__set_autotoc_md42}
+\hypertarget{classseq_1_1ordered__set_autotoc_md34}{}\doxysubsubsection{Exception guarantee}\label{classseq_1_1ordered__set_autotoc_md34}
+Most members of \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} provide {\bfseries{strong exception guarantee}}, except if specified otherwise (mentionned in function documentation).\hypertarget{classseq_1_1ordered__set_autotoc_md35}{}\doxysubsubsection{Growth policy and load factor}\label{classseq_1_1ordered__set_autotoc_md35}
 \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} uses a growth factor of 2 to use the fast modulo. The hash table size is multiplied by 2 each time the table load factor exceeds the given \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}. The default maximum load factor is set to 0.\+6 and can by set up to 0.\+95, which is well supported thanks to the robin hood hashing.
 
 In some cases, the actual load factor can exceed the provided maximum load factor. This holds when the keys are very well distributed, and the maximum distance of a key to its computed location is low (below 8). This strategy avoids some unnecessary rehash for very strong hash function (or well distributed keys). Note however that the load factor will never exceed 0.\+95.
 
-On rehash, the old table is deallocated before allocating the new (twice as big) one. This is possible thanks to the double storage strategy (values are stored in an independant sequence object) and avoid memory peaks.\hypertarget{classseq_1_1ordered__set_autotoc_md43}{}\doxysubsubsection{Handling of bad hash function}\label{classseq_1_1ordered__set_autotoc_md43}
+On rehash, the old table is deallocated before allocating the new (twice as big) one. This is possible thanks to the double storage strategy (values are stored in an independant sequence object) and avoid memory peaks.\hypertarget{classseq_1_1ordered__set_autotoc_md36}{}\doxysubsubsection{Handling of bad hash function}\label{classseq_1_1ordered__set_autotoc_md36}
 Like most robin hood based hash tables (ska\+::flat\+\_\+hash\+\_\+set, tsl\+::robin\+\_\+set...), \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} uses 8 bits to store the node distance to its computed location. For a bad hash function leading to strong clustering, this 8 bits distance quickly overflows. The usual strategy in this case is to rehash the table based on the growth strategy, hopping for a better key distribution.
 
 For very bad hash function (or in case of D\+OS attack), hash tables like ska\+::flat\+\_\+hash\+\_\+set and tsl\+::robin\+\_\+set will keep rehashing its values and reallocating the table, until a fatal std\+::bad\+\_\+alloc is thrown. \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} uses a different strategy to cope with such situation\+:
@@ -278,11 +278,11 @@ For very bad hash function (or in case of D\+OS attack), hash tables like ska\+:
 \item The linear probing behavior is kept until a call to \mbox{\hyperlink{classseq_1_1ordered__set_a2bb1f28b32c0c6c0422540b7986a49b0}{ordered\+\_\+set\+::rehash()}} that might switch back the behavior to robin hood hashing.
 \end{DoxyItemize}
 
-Therefore, a (very) bad hash function will only make the table slower but will never explode with a std\+::bad\+\_\+alloc exception\hypertarget{classseq_1_1ordered__set_autotoc_md44}{}\doxysubsubsection{Deleting entries}\label{classseq_1_1ordered__set_autotoc_md44}
+Therefore, a (very) bad hash function will only make the table slower but will never explode with a std\+::bad\+\_\+alloc exception\hypertarget{classseq_1_1ordered__set_autotoc_md37}{}\doxysubsubsection{Deleting entries}\label{classseq_1_1ordered__set_autotoc_md37}
 \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} uses backward shift deletion to avoid introducing tombstone, except for bad hash functions (see section above). The key lookup remains fast when deleting lots of entries, and mixed scenarios involving lots of interleaved insertion/deletion are well supported.
 
-Note however that removing a key will never trigger a rehash. The user is free to rehash the \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} at any point using \mbox{\hyperlink{classseq_1_1ordered__set_a2bb1f28b32c0c6c0422540b7986a49b0}{ordered\+\_\+set\+::rehash()}} member.\hypertarget{classseq_1_1ordered__set_autotoc_md45}{}\doxysubsubsection{Sorting}\label{classseq_1_1ordered__set_autotoc_md45}
-Since the \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} is ordered by key insertion order, it makes sense to provide a function to sort it. The members \mbox{\hyperlink{classseq_1_1ordered__set_a36a66b34dafa44d2f963a201272b2d24}{ordered\+\_\+set\+::sort()}} and \mbox{\hyperlink{classseq_1_1ordered__set_ae64707af69a6b261413d1325c8f35d30}{ordered\+\_\+set\+::stable\+\_\+sort()}} are provided and call respectively \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{seq\+::sequence\+::sort()}} and \mbox{\hyperlink{classseq_1_1sequence_a5aaca3cd0a83c4637c28599ac55d70a0}{seq\+::sequence\+::stable\+\_\+sort()}}. These functions rehash the full table after sorting.\hypertarget{classseq_1_1ordered__set_autotoc_md46}{}\doxysubsubsection{Performances}\label{classseq_1_1ordered__set_autotoc_md46}
+Note however that removing a key will never trigger a rehash. The user is free to rehash the \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} at any point using \mbox{\hyperlink{classseq_1_1ordered__set_a2bb1f28b32c0c6c0422540b7986a49b0}{ordered\+\_\+set\+::rehash()}} member.\hypertarget{classseq_1_1ordered__set_autotoc_md38}{}\doxysubsubsection{Sorting}\label{classseq_1_1ordered__set_autotoc_md38}
+Since the \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}} is ordered by key insertion order, it makes sense to provide a function to sort it. The members \mbox{\hyperlink{classseq_1_1ordered__set_a36a66b34dafa44d2f963a201272b2d24}{ordered\+\_\+set\+::sort()}} and \mbox{\hyperlink{classseq_1_1ordered__set_ae64707af69a6b261413d1325c8f35d30}{ordered\+\_\+set\+::stable\+\_\+sort()}} are provided and call respectively \mbox{\hyperlink{classseq_1_1sequence_a0c2005c28e8537de74b4c1e588180463}{seq\+::sequence\+::sort()}} and \mbox{\hyperlink{classseq_1_1sequence_a5aaca3cd0a83c4637c28599ac55d70a0}{seq\+::sequence\+::stable\+\_\+sort()}}. These functions rehash the full table after sorting.\hypertarget{classseq_1_1ordered__set_autotoc_md39}{}\doxysubsubsection{Performances}\label{classseq_1_1ordered__set_autotoc_md39}
 Performances of \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}} has been measured and compared to other node based hash tables\+: std\+::unordered\+\_\+set, \href{https://github.com/skarupke/flat_hash_map/blob/master/unordered_map.hpp}{\texttt{ ska\+::unordered\+\_\+set}}, \href{https://github.com/martinus/robin-hood-hashing}{\texttt{ robin\+\_\+hood\+::unordered\+\_\+node\+\_\+set}} and \href{https://github.com/greg7mdp/parallel-hashmap}{\texttt{ phmap\+::node\+\_\+hash\+\_\+set}} (based on abseil hash table). The following table show the results when compiled with gcc 10.\+1.\+0 (-\/O3) for msys2 on Windows 10, using Intel(\+R) Core(\+T\+M) i7-\/10850H at 2.\+70\+G\+Hz. Measured operations are\+:
 \begin{DoxyItemize}
 \item Insert successfully 5M unique double randomly shuffled in an empty table using hash\+\_\+table\+::insert()
@@ -661,45 +661,45 @@ constructs the container with the contents of the initializer list init, same as
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classseq_1_1ordered__set_a4cc6ec3c84dbaf96863708cf447b994c}\label{classseq_1_1ordered__set_a4cc6ec3c84dbaf96863708cf447b994c}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a4dbeab9873ae41f1a96212ce273c5e8f}\label{classseq_1_1ordered__set_a4dbeab9873ae41f1a96212ce273c5e8f}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!begin@{begin}}
 \index{begin@{begin}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns an iterator to the element following the last element of the container. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a17b30b641deb6f8dead6b218851422a3}\label{classseq_1_1ordered__set_a17b30b641deb6f8dead6b218851422a3}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a21ca04d7c527900e08c38203940889b8}\label{classseq_1_1ordered__set_a21ca04d7c527900e08c38203940889b8}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!begin@{begin}}
 \index{begin@{begin}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns an iterator to the element following the last element of the container. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a410d0dfec4fd48506824a6dcedcc8273}\label{classseq_1_1ordered__set_a410d0dfec4fd48506824a6dcedcc8273}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_aa8b0670ce78d994a309bc14a912f4c44}\label{classseq_1_1ordered__set_aa8b0670ce78d994a309bc14a912f4c44}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!cbegin@{cbegin}}
 \index{cbegin@{cbegin}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{cbegin()}{cbegin()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::cbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::cbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns an iterator to the element following the last element of the container. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a46659ad6597396632fffe96114856ef8}\label{classseq_1_1ordered__set_a46659ad6597396632fffe96114856ef8}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_ad07117fffb2a77323fb69e5b198f4d43}\label{classseq_1_1ordered__set_ad07117fffb2a77323fb69e5b198f4d43}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!cend@{cend}}
 \index{cend@{cend}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{cend()}{cend()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::cend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::cend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -762,63 +762,65 @@ Returns 1 of key exists, 0 otherwise.
 
 Returns 1 of key exists, 0 otherwise. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a03883efcebbbeb7278d5ec4f03e2d732}\label{classseq_1_1ordered__set_a03883efcebbbeb7278d5ec4f03e2d732}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a3fe18df0c4c2845f5037ec4c9fb3d311}\label{classseq_1_1ordered__set_a3fe18df0c4c2845f5037ec4c9fb3d311}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!crbegin@{crbegin}}
 \index{crbegin@{crbegin}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{crbegin()}{crbegin()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::crbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::crbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}}  \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns a reverse iterator to the first element of the reversed list. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a321bedfdd099bcd8b4d0b43116b1892c}\label{classseq_1_1ordered__set_a321bedfdd099bcd8b4d0b43116b1892c}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a68c2710fbe35338d53ada9cd05ddbe60}\label{classseq_1_1ordered__set_a68c2710fbe35338d53ada9cd05ddbe60}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!crend@{crend}}
 \index{crend@{crend}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{crend()}{crend()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::crend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::crend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns a reverse iterator to the element following the last element of the reversed list. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_ac0c72361a98b4408d42278dafe331bcb}\label{classseq_1_1ordered__set_ac0c72361a98b4408d42278dafe331bcb}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a94f5605cb65e30201fcf7eed2355ece5}\label{classseq_1_1ordered__set_a94f5605cb65e30201fcf7eed2355ece5}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!csequence@{csequence}}
 \index{csequence@{csequence}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{csequence()}{csequence()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-const \mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}}\& \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::csequence (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::csequence (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const \mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}} \& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the underlying sequence object. Do N\+OT mark the container as dirty. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a6d056ca8203ca976bc05e6873e32b9dd}\label{classseq_1_1ordered__set_a6d056ca8203ca976bc05e6873e32b9dd}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_aa44832bcf734eb3797689cb299683954}\label{classseq_1_1ordered__set_aa44832bcf734eb3797689cb299683954}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!emplace@{emplace}}
 \index{emplace@{emplace}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{emplace()}{emplace()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
 template$<$class... Args$>$ \\
-std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 Inserts a new element into the container constructed in-\/place with the given args if there is no element with the key in the container. Careful use of emplace allows the new element to be constructed while avoiding unnecessary copy or move operations. The constructor of the new element is called with exactly the same arguments as supplied to emplace, forwarded via std\+::forward$<$\+Args$>$(args).... The element may be constructed even if there already is an element with the key in the container, in which case the newly constructed element will be destroyed immediately. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). 
 
-This function calls \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{seq\+::sequence\+::insert()}} which insert the new element anywhere in the sequence, trying to fill holes left by calls to \mbox{\hyperlink{classseq_1_1ordered__set_ab77fb73a8facb7f01ed53f43b292eed5}{ordered\+\_\+set\+::erase()}}.
+This function calls \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{seq\+::sequence\+::insert()}} which insert the new element anywhere in the sequence, trying to fill holes left by calls to \mbox{\hyperlink{classseq_1_1ordered__set_a6fc879b0ce162396bbc1ab16c372d9d0}{ordered\+\_\+set\+::erase()}}.
 
 \begin{DoxyReturn}{Returns}
 pair consisting of an iterator to the inserted element, or the already-\/existing element if no insertion happened, and a bool denoting whether the insertion took place (true if insertion happened, false if it did not). 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_a389fc041021ac912d72d6cd0f6b158ee}\label{classseq_1_1ordered__set_a389fc041021ac912d72d6cd0f6b158ee}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a2165161b38251e5310e11b896d9cb478}\label{classseq_1_1ordered__set_a2165161b38251e5310e11b896d9cb478}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!emplace\_back@{emplace\_back}}
 \index{emplace\_back@{emplace\_back}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{emplace\_back()}{emplace\_back()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
 template$<$class... Args$>$ \\
-std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace\+\_\+back (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace\+\_\+back (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -827,13 +829,14 @@ Inserts a new element at the back of the container, constructed in-\/place with 
 \begin{DoxyReturn}{Returns}
 pair consisting of an iterator to the inserted element, or the already-\/existing element if no insertion happened, and a bool denoting whether the insertion took place (true if insertion happened, false if it did not). 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_abd459427704543cc045c0add01253d72}\label{classseq_1_1ordered__set_abd459427704543cc045c0add01253d72}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a0b7b49336fa2c03a76903be72a3dc2c4}\label{classseq_1_1ordered__set_a0b7b49336fa2c03a76903be72a3dc2c4}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!emplace\_front@{emplace\_front}}
 \index{emplace\_front@{emplace\_front}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{emplace\_front()}{emplace\_front()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
 template$<$class... Args$>$ \\
-std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace\+\_\+front (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace\+\_\+front (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -842,58 +845,60 @@ Inserts a new element at the front of the container, constructed in-\/place with
 \begin{DoxyReturn}{Returns}
 pair consisting of an iterator to the inserted element, or the already-\/existing element if no insertion happened, and a bool denoting whether the insertion took place (true if insertion happened, false if it did not). 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_a66e2ee127bb171c0780d79b922d09aca}\label{classseq_1_1ordered__set_a66e2ee127bb171c0780d79b922d09aca}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a158e3ea89502cafe19dd6c86ea0d262c}\label{classseq_1_1ordered__set_a158e3ea89502cafe19dd6c86ea0d262c}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!emplace\_hint@{emplace\_hint}}
 \index{emplace\_hint@{emplace\_hint}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{emplace\_hint()}{emplace\_hint()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
 template$<$class... Args$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace\+\_\+hint (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::emplace\+\_\+hint (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-Inserts a new element into the container constructed in-\/place with the given args if there is no element with the key in the container. Same as \mbox{\hyperlink{classseq_1_1ordered__set_a6d056ca8203ca976bc05e6873e32b9dd}{ordered\+\_\+set\+::emplace()}}. 
+Inserts a new element into the container constructed in-\/place with the given args if there is no element with the key in the container. Same as \mbox{\hyperlink{classseq_1_1ordered__set_aa44832bcf734eb3797689cb299683954}{ordered\+\_\+set\+::emplace()}}. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a56f66564f55a08b8db92caaf4063b4d4}\label{classseq_1_1ordered__set_a56f66564f55a08b8db92caaf4063b4d4}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_ae6bfb5bafad2839efbc66abdc1fd831c}\label{classseq_1_1ordered__set_ae6bfb5bafad2839efbc66abdc1fd831c}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!empty@{empty}}
 \index{empty@{empty}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{empty()}{empty()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-bool \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ bool \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns true if the container is empty, false otherwise. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a43ac1ffc3edd4520c32a30b79fb05598}\label{classseq_1_1ordered__set_a43ac1ffc3edd4520c32a30b79fb05598}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a97417c28fec1bdc54feec7cf2800b0a4}\label{classseq_1_1ordered__set_a97417c28fec1bdc54feec7cf2800b0a4}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!end@{end}}
 \index{end@{end}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns an iterator to the first element of the container. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a3ff11b33174e2a29e741263be87280ec}\label{classseq_1_1ordered__set_a3ff11b33174e2a29e741263be87280ec}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_acefb4c70eac4ca5123ade8a3af80a6c1}\label{classseq_1_1ordered__set_acefb4c70eac4ca5123ade8a3af80a6c1}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!end@{end}}
 \index{end@{end}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns an iterator to the first element of the container. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_ae8be2eae6a142bbc73cb57c98558f80a}\label{classseq_1_1ordered__set_ae8be2eae6a142bbc73cb57c98558f80a}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a8ee0f41eed18d8a036ec89bf460af603}\label{classseq_1_1ordered__set_a8ee0f41eed18d8a036ec89bf460af603}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!erase@{erase}}
 \index{erase@{erase}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
 template$<$class K , class KE  = Key\+Equal, class H  = Hash, typename std\+::enable\+\_\+if$<$ has\+\_\+is\+\_\+transparent$<$ K\+E $>$\+::value \&\&has\+\_\+is\+\_\+transparent$<$ H $>$\+::value $>$\+::type $\ast$  = nullptr$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a14db22b9060c55bae803daa77fb21a6f}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a14db22b9060c55bae803daa77fb21a6f}{size\+\_\+type}}
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -902,12 +907,13 @@ Erase element comparing equal to given key (if any). Removes the element (if one
 \begin{DoxyReturn}{Returns}
 number of erased elements (0 or 1) 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_a994967fe6f29b325a7452065df7f8257}\label{classseq_1_1ordered__set_a994967fe6f29b325a7452065df7f8257}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a2ae12f5fe1790baf6d96857df2683197}\label{classseq_1_1ordered__set_a2ae12f5fe1790baf6d96857df2683197}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!erase@{erase}}
 \index{erase@{erase}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a14db22b9060c55bae803daa77fb21a6f}{size\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{const Key \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{const Key \&}]{key }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a14db22b9060c55bae803daa77fb21a6f}{size\+\_\+type}}
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -921,12 +927,13 @@ Erase element comparing equal to given key (if any). Iterators and references ar
 \begin{DoxyReturn}{Returns}
 number of erased elements (0 or 1) 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_ac23ff5e436a3f5d52ad21ef54d350a16}\label{classseq_1_1ordered__set_ac23ff5e436a3f5d52ad21ef54d350a16}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a7e0188d696f3263e84ad3f0fa11c8e52}\label{classseq_1_1ordered__set_a7e0188d696f3263e84ad3f0fa11c8e52}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!erase@{erase}}
 \index{erase@{erase}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{first,  }\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{last }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{first,  }\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{last }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -942,12 +949,13 @@ Removes the elements in the range \mbox{[}first; last), which must be a valid ra
 \begin{DoxyReturn}{Returns}
 Iterator following the last removed element 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_ab77fb73a8facb7f01ed53f43b292eed5}\label{classseq_1_1ordered__set_ab77fb73a8facb7f01ed53f43b292eed5}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a6fc879b0ce162396bbc1ab16c372d9d0}\label{classseq_1_1ordered__set_a6fc879b0ce162396bbc1ab16c372d9d0}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!erase@{erase}}
 \index{erase@{erase}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{pos }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -1039,49 +1047,50 @@ Finds an element with key equivalent to key.
 \begin{DoxyReturn}{Returns}
 iterator pointing to found key on success, end iterator on failure. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_ac6e9e655e89f7ec884242b68a03150cb}\label{classseq_1_1ordered__set_ac6e9e655e89f7ec884242b68a03150cb}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a19b0f4e76ebb8ecd31bb850a904ae76d}\label{classseq_1_1ordered__set_a19b0f4e76ebb8ecd31bb850a904ae76d}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a73fdf0cb0cfbd9e15e6c9d72c2dde6fd}{allocator\+\_\+type}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a73fdf0cb0cfbd9e15e6c9d72c2dde6fd}{allocator\+\_\+type}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the container allocator object. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a08b784bd6254b797ed667cdcc340cca1}\label{classseq_1_1ordered__set_a08b784bd6254b797ed667cdcc340cca1}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a2bd5e2b5a3370aac53a5271774edb1c3}\label{classseq_1_1ordered__set_a2bd5e2b5a3370aac53a5271774edb1c3}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!get\_allocator@{get\_allocator}}
 \index{get\_allocator@{get\_allocator}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a73fdf0cb0cfbd9e15e6c9d72c2dde6fd}{allocator\+\_\+type}}\& \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a73fdf0cb0cfbd9e15e6c9d72c2dde6fd}{allocator\+\_\+type}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the container allocator object. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_aa94a43b2144d15120ec9da3745e03391}\label{classseq_1_1ordered__set_aa94a43b2144d15120ec9da3745e03391}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_aff53fface88ca6650d8a45c49db24798}\label{classseq_1_1ordered__set_aff53fface88ca6650d8a45c49db24798}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!hash\_function@{hash\_function}}
 \index{hash\_function@{hash\_function}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{hash\_function()}{hash\_function()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a878f53e048251a95c495145448f628f5}{hasher}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::hash\+\_\+function (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::hash\+\_\+function (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a878f53e048251a95c495145448f628f5}{hasher}} \hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 Returns the hash function. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}\label{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}\label{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
 \index{insert@{insert}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-Inserts element into the container, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). This function calls \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{seq\+::sequence\+::insert()}} which insert the new element anywhere in the sequence, trying to fill holes left by calls to \mbox{\hyperlink{classseq_1_1ordered__set_ab77fb73a8facb7f01ed53f43b292eed5}{ordered\+\_\+set\+::erase()}}. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). 
+Inserts element into the container, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). This function calls \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{seq\+::sequence\+::insert()}} which insert the new element anywhere in the sequence, trying to fill holes left by calls to \mbox{\hyperlink{classseq_1_1ordered__set_a6fc879b0ce162396bbc1ab16c372d9d0}{ordered\+\_\+set\+::erase()}}. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). 
 
 
 \begin{DoxyParams}{Parameters}
@@ -1091,27 +1100,29 @@ Inserts element into the container, if the container doesn\textquotesingle{}t al
 \begin{DoxyReturn}{Returns}
 pair consisting of an iterator to the inserted element, or the already-\/existing element if no insertion happened, and a bool denoting whether the insertion took place (true if insertion happened, false if it did not). 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_a8c12858c2c7bd944c52db7cb228c44c3}\label{classseq_1_1ordered__set_a8c12858c2c7bd944c52db7cb228c44c3}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_ae503b7aebc8f8b339fbcfb97147a49fb}\label{classseq_1_1ordered__set_ae503b7aebc8f8b339fbcfb97147a49fb}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
 \index{insert@{insert}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-Inserts element into the container, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Same as \mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{ordered\+\_\+set\+::insert()}}. 
+Inserts element into the container, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Same as \mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{ordered\+\_\+set\+::insert()}}. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a261954fa1669bd5afbd67395fb2044c8}\label{classseq_1_1ordered__set_a261954fa1669bd5afbd67395fb2044c8}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_ae688ce8e525fbc2c246a5ffa82598eff}\label{classseq_1_1ordered__set_ae688ce8e525fbc2c246a5ffa82598eff}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
 \index{insert@{insert}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1ordered__set_1_1const__iterator}{const\+\_\+iterator}}}]{hint,  }\item[{\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-Inserts element into the container using move semantic, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Same as \mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{ordered\+\_\+set\+::insert()}}. 
+Inserts element into the container using move semantic, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Same as \mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{ordered\+\_\+set\+::insert()}}. 
 
 \mbox{\Hypertarget{classseq_1_1ordered__set_ad97d9655ac3a0a3f954c1bfae0ddc8c3}\label{classseq_1_1ordered__set_ad97d9655ac3a0a3f954c1bfae0ddc8c3}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
@@ -1150,16 +1161,17 @@ Inserts elements from range \mbox{[}init.\+begin(), init.\+end()). If multiple e
 {\em last} & range of elements to insert \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classseq_1_1ordered__set_a5248034d5ee90fe8389ccff6a8513636}\label{classseq_1_1ordered__set_a5248034d5ee90fe8389ccff6a8513636}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_ab2b8b075669194ee26bb1a19189b19b7}\label{classseq_1_1ordered__set_ab2b8b075669194ee26bb1a19189b19b7}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!insert@{insert}}
 \index{insert@{insert}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{insert()}{insert()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::insert (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
-Inserts element into the container using move semantic, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). This function calls \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{seq\+::sequence\+::insert()}} which insert the new element anywhere in the sequence, trying to fill holes left by calls to \mbox{\hyperlink{classseq_1_1ordered__set_ab77fb73a8facb7f01ed53f43b292eed5}{ordered\+\_\+set\+::erase()}}. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). 
+Inserts element into the container using move semantic, if the container doesn\textquotesingle{}t already contain an element with an equivalent key. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). This function calls \mbox{\hyperlink{classseq_1_1sequence_a3a6276982c81ecc0cfc2b0f22a896a7a}{seq\+::sequence\+::insert()}} which insert the new element anywhere in the sequence, trying to fill holes left by calls to \mbox{\hyperlink{classseq_1_1ordered__set_a6fc879b0ce162396bbc1ab16c372d9d0}{ordered\+\_\+set\+::erase()}}. Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than \mbox{\hyperlink{structseq_1_1detail_1_1_sparse_flat_node_hash_table_a45b3895816f93ec39cf389ab3a5cf587}{max\+\_\+load\+\_\+factor()}}$\ast$size(). 
 
 
 \begin{DoxyParams}{Parameters}
@@ -1169,34 +1181,34 @@ Inserts element into the container using move semantic, if the container doesn\t
 \begin{DoxyReturn}{Returns}
 pair consisting of an iterator to the inserted element, or the already-\/existing element if no insertion happened, and a bool denoting whether the insertion took place (true if insertion happened, false if it did not). 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_a01914afcdfeff7e3b271423bcb6916ae}\label{classseq_1_1ordered__set_a01914afcdfeff7e3b271423bcb6916ae}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_add28814de268def7f2a41f5cac43e3dd}\label{classseq_1_1ordered__set_add28814de268def7f2a41f5cac43e3dd}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!key\_eq@{key\_eq}}
 \index{key\_eq@{key\_eq}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{key\_eq()}{key\_eq()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a233a269648da39723d38745330132eed}{key\+\_\+equal}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::key\+\_\+eq (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::key\+\_\+eq (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a233a269648da39723d38745330132eed}{key\+\_\+equal}} \hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 Returns the equality comparison function. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_ab700f354560059fd8aae90ecc8712d82}\label{classseq_1_1ordered__set_ab700f354560059fd8aae90ecc8712d82}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_ac6bc92e7739a3fc48b904dd1539766a3}\label{classseq_1_1ordered__set_ac6bc92e7739a3fc48b904dd1539766a3}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!load\_factor@{load\_factor}}
 \index{load\_factor@{load\_factor}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{load\_factor()}{load\_factor()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-float \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::load\+\_\+factor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::load\+\_\+factor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ float \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the current load factor. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a0b853d3635dee2ae6869a31ad775d9a3}\label{classseq_1_1ordered__set_a0b853d3635dee2ae6869a31ad775d9a3}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_ac7fb96b6026596a42b0a186260086f91}\label{classseq_1_1ordered__set_ac7fb96b6026596a42b0a186260086f91}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!max\_load\_factor@{max\_load\_factor}}
 \index{max\_load\_factor@{max\_load\_factor}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{max\_load\_factor()}{max\_load\_factor()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-float \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::max\+\_\+load\+\_\+factor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::max\+\_\+load\+\_\+factor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ float \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -1213,56 +1225,59 @@ void \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key
 
 Set the maximum load factor. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a3803e22fd0b5f39f6df93d9f92838842}\label{classseq_1_1ordered__set_a3803e22fd0b5f39f6df93d9f92838842}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a0cfdbedce5753271a2a3e5ff2fcb6ffd}\label{classseq_1_1ordered__set_a0cfdbedce5753271a2a3e5ff2fcb6ffd}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!max\_probe\_distance@{max\_probe\_distance}}
 \index{max\_probe\_distance@{max\_probe\_distance}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{max\_probe\_distance()}{max\_probe\_distance()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-int \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::max\+\_\+probe\+\_\+distance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::max\+\_\+probe\+\_\+distance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ int \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the current maximum possible probe distance. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_ace3604ad070d7b132932431ee70f166d}\label{classseq_1_1ordered__set_ace3604ad070d7b132932431ee70f166d}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a0e0e2d5eea7bd8904e5859584dc1e6cf}\label{classseq_1_1ordered__set_a0e0e2d5eea7bd8904e5859584dc1e6cf}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!max\_size@{max\_size}}
 \index{max\_size@{max\_size}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{max\_size()}{max\_size()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-size\+\_\+t \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::max\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::max\+\_\+size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the container maximum size. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a4536ee7c30e5718d8469d1d49a34b81a}\label{classseq_1_1ordered__set_a4536ee7c30e5718d8469d1d49a34b81a}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a6be5fbe03ed3b3f03b71348550985d09}\label{classseq_1_1ordered__set_a6be5fbe03ed3b3f03b71348550985d09}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!operator=@{operator=}}
 \index{operator=@{operator=}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}}\& \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$ \&}]{other }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}}\&
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 Copy assignment operator. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a354660e510ee08b28ff5787313fe7616}\label{classseq_1_1ordered__set_a354660e510ee08b28ff5787313fe7616}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a2575a6950a9e2a41ea7f0b073fde1134}\label{classseq_1_1ordered__set_a2575a6950a9e2a41ea7f0b073fde1134}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!operator=@{operator=}}
 \index{operator=@{operator=}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}}\& \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::operator= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$ \&\&}]{other }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{ordered\+\_\+set}}\&
+  		\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Move assignment operator. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_ae5cf95d12190533776ec9da46196a8da}\label{classseq_1_1ordered__set_ae5cf95d12190533776ec9da46196a8da}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a15fa8bb634a540e73eb812b233bb8eda}\label{classseq_1_1ordered__set_a15fa8bb634a540e73eb812b233bb8eda}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!push\_back@{push\_back}}
 \index{push\_back@{push\_back}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -1276,12 +1291,13 @@ Inserts element at the back of the container, if the container doesn\textquotesi
 \begin{DoxyReturn}{Returns}
 pair consisting of an iterator to the inserted element, or the already-\/existing element if no insertion happened, and a bool denoting whether the insertion took place (true if insertion happened, false if it did not). 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_ac6c5a2f25f46714a26174aba6826a240}\label{classseq_1_1ordered__set_ac6c5a2f25f46714a26174aba6826a240}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_afbbe4f0a179714cf107b6d095dfd3c3b}\label{classseq_1_1ordered__set_afbbe4f0a179714cf107b6d095dfd3c3b}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!push\_back@{push\_back}}
 \index{push\_back@{push\_back}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{push\_back()}{push\_back()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+back (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -1295,12 +1311,13 @@ Inserts element at the back of the container use move semantic, if the container
 \begin{DoxyReturn}{Returns}
 pair consisting of an iterator to the inserted element, or the already-\/existing element if no insertion happened, and a bool denoting whether the insertion took place (true if insertion happened, false if it did not). 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_a32e89bccd351ad976cee5e6edd58158e}\label{classseq_1_1ordered__set_a32e89bccd351ad976cee5e6edd58158e}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a9d49aa11cdcc711db02d265b7bc606f8}\label{classseq_1_1ordered__set_a9d49aa11cdcc711db02d265b7bc606f8}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!push\_front@{push\_front}}
 \index{push\_front@{push\_front}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&}]{value }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -1314,12 +1331,13 @@ Inserts element at the front of the container, if the container doesn\textquotes
 \begin{DoxyReturn}{Returns}
 pair consisting of an iterator to the inserted element, or the already-\/existing element if no insertion happened, and a bool denoting whether the insertion took place (true if insertion happened, false if it did not). 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_aa5b741972de9ec05a481d5f1d6c3fd29}\label{classseq_1_1ordered__set_aa5b741972de9ec05a481d5f1d6c3fd29}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a933f2e5e3bb45e5f1aad5d3cd28b2d05}\label{classseq_1_1ordered__set_a933f2e5e3bb45e5f1aad5d3cd28b2d05}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!push\_front@{push\_front}}
 \index{push\_front@{push\_front}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{push\_front()}{push\_front()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$ \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::push\+\_\+front (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1ordered__set_a09f3080d8f641e7a405a0c6cfb3f953d}{value\+\_\+type}} \&\&}]{value }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$\mbox{\hyperlink{classseq_1_1ordered__set_ac624ed3f3e8da177bf1cc5d8d5933a77}{iterator}}, bool$>$
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -1333,23 +1351,23 @@ Inserts element at the front of the container using move semantic, if the contai
 \begin{DoxyReturn}{Returns}
 pair consisting of an iterator to the inserted element, or the already-\/existing element if no insertion happened, and a bool denoting whether the insertion took place (true if insertion happened, false if it did not). 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classseq_1_1ordered__set_a8061cfea560a5d1ea776671b398ee9b5}\label{classseq_1_1ordered__set_a8061cfea560a5d1ea776671b398ee9b5}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a46b4bd0e5dd6e4fa694833edf2a2141d}\label{classseq_1_1ordered__set_a46b4bd0e5dd6e4fa694833edf2a2141d}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!rbegin@{rbegin}}
 \index{rbegin@{rbegin}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}}  \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns a reverse iterator to the first element of the reversed list. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_ad25d9c6aa7377945695c2d4d1f733637}\label{classseq_1_1ordered__set_ad25d9c6aa7377945695c2d4d1f733637}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a4aba4efa615411f6d42d2a0ea32537b5}\label{classseq_1_1ordered__set_a4aba4efa615411f6d42d2a0ea32537b5}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!rbegin@{rbegin}}
 \index{rbegin@{rbegin}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{rbegin()}{rbegin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a432ef60eab5f87e4ed9293dc2c893cbc}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::rbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a432ef60eab5f87e4ed9293dc2c893cbc}{reverse\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -1372,23 +1390,23 @@ Rehash the container. This function triggers a full rehash if\+:
 \end{DoxyVerb}
 
 
-Otherwise, this function does nothing. \mbox{\Hypertarget{classseq_1_1ordered__set_a77890a2e98f5f0a0b5f83f8966594619}\label{classseq_1_1ordered__set_a77890a2e98f5f0a0b5f83f8966594619}} 
+Otherwise, this function does nothing. \mbox{\Hypertarget{classseq_1_1ordered__set_a41ea6f4b63cae7476f3f0193d3a1e3ae}\label{classseq_1_1ordered__set_a41ea6f4b63cae7476f3f0193d3a1e3ae}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!rend@{rend}}
 \index{rend@{rend}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{rend()}{rend()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a77aa2c4d6b23b4782bd5f84f9edec62f}{const\+\_\+reverse\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns a reverse iterator to the element following the last element of the reversed list. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_a608c8538b094d2477f6b67a3a3320dd5}\label{classseq_1_1ordered__set_a608c8538b094d2477f6b67a3a3320dd5}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_ade4ec861f743e02c59e959933bd5e8cf}\label{classseq_1_1ordered__set_ade4ec861f743e02c59e959933bd5e8cf}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!rend@{rend}}
 \index{rend@{rend}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{rend()}{rend()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_a432ef60eab5f87e4ed9293dc2c893cbc}{reverse\+\_\+iterator}} \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::rend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_a432ef60eab5f87e4ed9293dc2c893cbc}{reverse\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -1410,27 +1428,27 @@ Sets the number of nodes to the number needed to accomodate at least count eleme
 {\em count} & new capacity of the container \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classseq_1_1ordered__set_a2e293647b0ab4d65ce9fa42c2eae88e2}\label{classseq_1_1ordered__set_a2e293647b0ab4d65ce9fa42c2eae88e2}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a56f4ce86306098d218e2c1154a910870}\label{classseq_1_1ordered__set_a56f4ce86306098d218e2c1154a910870}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!sequence@{sequence}}
 \index{sequence@{sequence}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{sequence()}{sequence()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-const \mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}}\& \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1sequence}{sequence}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1sequence}{sequence}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const \mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}} \& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the underlying sequence object. Do N\+OT mark the container as dirty. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_aa17f2ac25803a8cd75a632fe5a7f0fc9}\label{classseq_1_1ordered__set_aa17f2ac25803a8cd75a632fe5a7f0fc9}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_af1b1dd7454c03a4b6a4d8e5f08dc7adb}\label{classseq_1_1ordered__set_af1b1dd7454c03a4b6a4d8e5f08dc7adb}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!sequence@{sequence}}
 \index{sequence@{sequence}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{sequence()}{sequence()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-\mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}}\& \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1sequence}{sequence}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::\mbox{\hyperlink{classseq_1_1sequence}{sequence}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1ordered__set_af9cd9e0271ca9e938e1d128522da7b41}{sequence\+\_\+type}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
-Returns the underlying sequence object. Calling this function will mark the container as dirty. Any further attempts to call members like \mbox{\hyperlink{classseq_1_1ordered__set_a9975553b3f3550624489307d2906e68b}{find()}} or \mbox{\hyperlink{classseq_1_1ordered__set_a1dbca7285370fff2f9af1493aeeced3a}{insert()}} (relying on the hash function) will raise a std\+::logic\+\_\+error. To mark the container as non dirty anymore, the user must call \mbox{\hyperlink{classseq_1_1ordered__set_a2bb1f28b32c0c6c0422540b7986a49b0}{ordered\+\_\+set\+::rehash()}}. 
+Returns the underlying sequence object. Calling this function will mark the container as dirty. Any further attempts to call members like \mbox{\hyperlink{classseq_1_1ordered__set_a9975553b3f3550624489307d2906e68b}{find()}} or \mbox{\hyperlink{classseq_1_1ordered__set_afbc6c320f13dbfe438907cac9a787f6c}{insert()}} (relying on the hash function) will raise a std\+::logic\+\_\+error. To mark the container as non dirty anymore, the user must call \mbox{\hyperlink{classseq_1_1ordered__set_a2bb1f28b32c0c6c0422540b7986a49b0}{ordered\+\_\+set\+::rehash()}}. 
 
 \begin{DoxyReturn}{Returns}
 a reference to the underlying \mbox{\hyperlink{classseq_1_1sequence}{seq\+::sequence}} object 
@@ -1444,14 +1462,14 @@ void \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key
 
 
 
-Calls \mbox{\hyperlink{classseq_1_1sequence_a1bf494125859119c2748a7a5e59588fa}{seq\+::sequence\+::shrink\+\_\+to\+\_\+fit()}}. Remove potential holes in the sequence object due to calls to \mbox{\hyperlink{classseq_1_1ordered__set_ab77fb73a8facb7f01ed53f43b292eed5}{ordered\+\_\+set\+::erase()}}. Does not allocate memory, except for the hash table itself. Invalidate all references and iterators. Basic exception guarantee only. 
+Calls \mbox{\hyperlink{classseq_1_1sequence_a1bf494125859119c2748a7a5e59588fa}{seq\+::sequence\+::shrink\+\_\+to\+\_\+fit()}}. Remove potential holes in the sequence object due to calls to \mbox{\hyperlink{classseq_1_1ordered__set_a6fc879b0ce162396bbc1ab16c372d9d0}{ordered\+\_\+set\+::erase()}}. Does not allocate memory, except for the hash table itself. Invalidate all references and iterators. Basic exception guarantee only. 
 
-\mbox{\Hypertarget{classseq_1_1ordered__set_abca7e24629ce431774748e300f019d81}\label{classseq_1_1ordered__set_abca7e24629ce431774748e300f019d81}} 
+\mbox{\Hypertarget{classseq_1_1ordered__set_a12ebe2df7d623875a764a0d83e8cc067}\label{classseq_1_1ordered__set_a12ebe2df7d623875a764a0d83e8cc067}} 
 \index{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}!size@{size}}
 \index{size@{size}!seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$@{seq::ordered\_set$<$ Key, Hash, KeyEqual, Allocator, Layout $>$}}
 \doxysubsubsection{\texorpdfstring{size()}{size()}}
 {\footnotesize\ttfamily template$<$class Key , class Hash  = std\+::hash$<$\+Key$>$, class Key\+Equal  = std\+::equal\+\_\+to$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management Layout = Optimize\+For\+Speed$>$ \\
-size\+\_\+t \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1ordered__set}{seq\+::ordered\+\_\+set}}$<$ Key, Hash, Key\+Equal, Allocator, Layout $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 

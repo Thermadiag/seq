@@ -98,8 +98,8 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_cast_string_to
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ae9844397eb9e6c4e9e1288152cecca25"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_cast_string_to_string.html#ae9844397eb9e6c4e9e1288152cecca25">apply</a> (const InString &amp;<a class="el" href="namespaceseq_1_1detail.html#a357d94da98d7b1a4e83f37f3852bfdc6">str</a>)</td></tr>
-<tr class="separator:ae9844397eb9e6c4e9e1288152cecca25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15b3de200c8c412e8acdb649aee53667"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_cast_string_to_string.html#a15b3de200c8c412e8acdb649aee53667">apply</a> (const InString &amp;<a class="el" href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">str</a>) -&gt; String</td></tr>
+<tr class="separator:a15b3de200c8c412e8acdb649aee53667"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class String, class InString, bool IsString = is_allocated_string&lt;String&gt;::value &amp;&amp; is_generic_string&lt;InString&gt;::value&gt;<br />
@@ -107,8 +107,8 @@ struct seq::detail::CastStringToString&lt; String, InString, IsString &gt;</h3>
 
 <p>Cast string types between them. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ae9844397eb9e6c4e9e1288152cecca25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9844397eb9e6c4e9e1288152cecca25">&#9670;&nbsp;</a></span>apply()</h2>
+<a id="a15b3de200c8c412e8acdb649aee53667"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15b3de200c8c412e8acdb649aee53667">&#9670;&nbsp;</a></span>apply()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -119,11 +119,12 @@ template&lt;class String , class InString , bool IsString = is_allocated_string&
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> String <a class="el" href="structseq_1_1detail_1_1_cast_string_to_string.html">seq::detail::CastStringToString</a>&lt; String, InString, IsString &gt;::apply </td>
+          <td class="memname">static <a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_cast_string_to_string.html">seq::detail::CastStringToString</a>&lt; String, InString, IsString &gt;::apply </td>
           <td>(</td>
           <td class="paramtype">const InString &amp;&#160;</td>
           <td class="paramname"><em>str</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; String
+			</td>
         </tr>
       </table>
   </td>

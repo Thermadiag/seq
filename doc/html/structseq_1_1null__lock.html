@@ -85,6 +85,7 @@ $(document).ready(function(){initNavTree('structseq_1_1null__lock.html',''); ini
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="structseq_1_1null__lock-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">seq::null_lock Struct Reference</div>  </div>
@@ -94,7 +95,7 @@ $(document).ready(function(){initNavTree('structseq_1_1null__lock.html',''); ini
 <p>Dumy lock class that basically does nothing.  
  <a href="structseq_1_1null__lock.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="lock_8hpp_source.html">lock.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="memory_8hpp_source.html">memory.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -102,22 +103,25 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa3b1b6ad1c8d0fde44c0b051ef05f40d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ce95687bf7895a8fc391f4b95ede46d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1null__lock.html#a2ce95687bf7895a8fc391f4b95ede46d">unlock</a> () noexcept</td></tr>
 <tr class="separator:a2ce95687bf7895a8fc391f4b95ede46d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae256b62d51f491c7bc076e15c2a8cb8a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1null__lock.html#ae256b62d51f491c7bc076e15c2a8cb8a">try_lock</a> () const noexcept</td></tr>
-<tr class="separator:ae256b62d51f491c7bc076e15c2a8cb8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10504d539eccc64f43627e98480cdc1e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1null__lock.html#a10504d539eccc64f43627e98480cdc1e">is_locked</a> () const noexcept</td></tr>
-<tr class="separator:a10504d539eccc64f43627e98480cdc1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0ba907a40e083337ff017551b160c07"><td class="memTemplParams" colspan="2">template&lt;class Rep , class Period &gt; </td></tr>
-<tr class="memitem:ad0ba907a40e083337ff017551b160c07"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1null__lock.html#ad0ba907a40e083337ff017551b160c07">try_lock_for</a> (const std::chrono::duration&lt; Rep, Period &gt; &amp;duration)</td></tr>
-<tr class="separator:ad0ba907a40e083337ff017551b160c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae07260c4ef40561db13ba92927204e7e"><td class="memTemplParams" colspan="2">template&lt;class Clock , class Duration &gt; </td></tr>
-<tr class="memitem:ae07260c4ef40561db13ba92927204e7e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1null__lock.html#ae07260c4ef40561db13ba92927204e7e">try_lock_until</a> (const std::chrono::time_point&lt; Clock, Duration &gt; &amp;timePoint)</td></tr>
-<tr class="separator:ae07260c4ef40561db13ba92927204e7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4628d1382e6501ffce919c321b85f31a"><td class="memTemplParams" colspan="2">template&lt;class Rep , class Period &gt; </td></tr>
+<tr class="memitem:a4628d1382e6501ffce919c321b85f31a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1null__lock.html#a4628d1382e6501ffce919c321b85f31a">try_lock_for</a> (const std::chrono::duration&lt; Rep, Period &gt; &amp;duration) -&gt; bool</td></tr>
+<tr class="separator:a4628d1382e6501ffce919c321b85f31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bd3c732b3b75ea363af8ec8691a8a54"><td class="memTemplParams" colspan="2">template&lt;class Clock , class Duration &gt; </td></tr>
+<tr class="memitem:a7bd3c732b3b75ea363af8ec8691a8a54"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1null__lock.html#a7bd3c732b3b75ea363af8ec8691a8a54">try_lock_until</a> (const std::chrono::time_point&lt; Clock, Duration &gt; &amp;timePoint) -&gt; bool</td></tr>
+<tr class="separator:a7bd3c732b3b75ea363af8ec8691a8a54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a82edadd3355f23ed03ab8864fd23f65e"><td class="memItemLeft" align="right" valign="top">static auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1null__lock.html#a82edadd3355f23ed03ab8864fd23f65e">try_lock</a> () noexcept -&gt; bool</td></tr>
+<tr class="separator:a82edadd3355f23ed03ab8864fd23f65e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69cebcb4abc80943b350e82ad862876a"><td class="memItemLeft" align="right" valign="top">static auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1null__lock.html#a69cebcb4abc80943b350e82ad862876a">is_locked</a> () noexcept -&gt; bool</td></tr>
+<tr class="separator:a69cebcb4abc80943b350e82ad862876a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Dumy lock class that basically does nothing. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a10504d539eccc64f43627e98480cdc1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10504d539eccc64f43627e98480cdc1e">&#9670;&nbsp;</a></span>is_locked()</h2>
+<a id="a69cebcb4abc80943b350e82ad862876a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69cebcb4abc80943b350e82ad862876a">&#9670;&nbsp;</a></span>is_locked()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -126,15 +130,15 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool seq::null_lock::is_locked </td>
+          <td class="memname">static auto seq::null_lock::is_locked </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> -&gt; bool </td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -166,8 +170,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae256b62d51f491c7bc076e15c2a8cb8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae256b62d51f491c7bc076e15c2a8cb8a">&#9670;&nbsp;</a></span>try_lock()</h2>
+<a id="a82edadd3355f23ed03ab8864fd23f65e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82edadd3355f23ed03ab8864fd23f65e">&#9670;&nbsp;</a></span>try_lock()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -176,23 +180,23 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool seq::null_lock::try_lock </td>
+          <td class="memname">static auto seq::null_lock::try_lock </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td> -&gt; bool </td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ad0ba907a40e083337ff017551b160c07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0ba907a40e083337ff017551b160c07">&#9670;&nbsp;</a></span>try_lock_for()</h2>
+<a id="a4628d1382e6501ffce919c321b85f31a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4628d1382e6501ffce919c321b85f31a">&#9670;&nbsp;</a></span>try_lock_for()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -203,11 +207,11 @@ template&lt;class Rep , class Period &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool seq::null_lock::try_lock_for </td>
+          <td class="memname">auto seq::null_lock::try_lock_for </td>
           <td>(</td>
           <td class="paramtype">const std::chrono::duration&lt; Rep, Period &gt; &amp;&#160;</td>
           <td class="paramname"><em>duration</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; bool </td>
         </tr>
       </table>
   </td>
@@ -219,8 +223,8 @@ template&lt;class Rep , class Period &gt; </div>
 
 </div>
 </div>
-<a id="ae07260c4ef40561db13ba92927204e7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae07260c4ef40561db13ba92927204e7e">&#9670;&nbsp;</a></span>try_lock_until()</h2>
+<a id="a7bd3c732b3b75ea363af8ec8691a8a54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bd3c732b3b75ea363af8ec8691a8a54">&#9670;&nbsp;</a></span>try_lock_until()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -231,11 +235,11 @@ template&lt;class Clock , class Duration &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool seq::null_lock::try_lock_until </td>
+          <td class="memname">auto seq::null_lock::try_lock_until </td>
           <td>(</td>
           <td class="paramtype">const std::chrono::time_point&lt; Clock, Duration &gt; &amp;&#160;</td>
           <td class="paramname"><em>timePoint</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; bool </td>
         </tr>
       </table>
   </td>
@@ -273,7 +277,7 @@ template&lt;class Clock , class Duration &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>seq/<a class="el" href="lock_8hpp_source.html">lock.hpp</a></li>
+<li>seq/<a class="el" href="memory_8hpp_source.html">memory.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

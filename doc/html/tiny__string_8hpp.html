@@ -93,14 +93,9 @@ $(document).ready(function(){initNavTree('tiny__string_8hpp.html',''); initResiz
 <div class="title">tiny_string.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;string&gt;</code><br />
-<code>#include &lt;cstring&gt;</code><br />
-<code>#include &lt;streambuf&gt;</code><br />
-<code>#include &lt;istream&gt;</code><br />
-<code>#include &lt;iterator&gt;</code><br />
+<div class="textblock"><code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;cstdint&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;<a class="el" href="hash_8hpp_source.html">hash.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="type__traits_8hpp_source.html">type_traits.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="utils_8hpp_source.html">utils.hpp</a>&quot;</code><br />
@@ -207,6 +202,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
+<tr class="memitem:namespaceutils"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutils.html">utils</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceseq"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html">seq</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:namespaceseq_1_1detail"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html">seq::detail</a></td></tr>
@@ -231,24 +228,26 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ac9c8f72eb9f4e28a9c6aaf0cd8048d7e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceutils.html#ac9c8f72eb9f4e28a9c6aaf0cd8048d7e">utils::my_memrchr</a> (const void *s, int c, size_t n) -&gt; void *</td></tr>
+<tr class="separator:ac9c8f72eb9f4e28a9c6aaf0cd8048d7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab55ba7ab1c29b9bc02d77676e7b08acc"><td class="memTemplParams" colspan="2">template&lt;class String1 , class String2 , class Iter &gt; </td></tr>
 <tr class="memitem:ab55ba7ab1c29b9bc02d77676e7b08acc"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#ab55ba7ab1c29b9bc02d77676e7b08acc">seq::detail::join</a> (String1 &amp;out, const String2 &amp;sep, Iter first, Iter last)</td></tr>
 <tr class="separator:ab55ba7ab1c29b9bc02d77676e7b08acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d27edcb268d2f54a2aea63289ce60fa"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al , size_t Size2, class Al2 &gt; </td></tr>
-<tr class="memitem:a9d27edcb268d2f54a2aea63289ce60fa"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a9d27edcb268d2f54a2aea63289ce60fa">seq::operator==</a> (const tiny_string&lt; Size, Al &gt; &amp;lhs, const tiny_string&lt; Size2, Al2 &gt; &amp;rhs) noexcept</td></tr>
-<tr class="separator:a9d27edcb268d2f54a2aea63289ce60fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2d2328b5f70f42feabee51284c0b4f4"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
-<tr class="memitem:ae2d2328b5f70f42feabee51284c0b4f4"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ae2d2328b5f70f42feabee51284c0b4f4">seq::operator==</a> (const char *lhs, const tiny_string&lt; Size, Al &gt; &amp;rhs) noexcept</td></tr>
-<tr class="separator:ae2d2328b5f70f42feabee51284c0b4f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab46515296513c942f8ea60c873def0c5"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
-<tr class="memitem:ab46515296513c942f8ea60c873def0c5"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab46515296513c942f8ea60c873def0c5">seq::operator==</a> (const tiny_string&lt; Size, Al &gt; &amp;lhs, const char *rhs) noexcept</td></tr>
-<tr class="separator:ab46515296513c942f8ea60c873def0c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ac06f782d2107c3cc7124399b4eb581"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
-<tr class="memitem:a1ac06f782d2107c3cc7124399b4eb581"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a1ac06f782d2107c3cc7124399b4eb581">seq::operator==</a> (const std::string &amp;lhs, const tiny_string&lt; Size, Al &gt; &amp;rhs) noexcept</td></tr>
-<tr class="separator:a1ac06f782d2107c3cc7124399b4eb581"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4f441a6b31df9530605a13ef51c148a"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
-<tr class="memitem:ae4f441a6b31df9530605a13ef51c148a"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ae4f441a6b31df9530605a13ef51c148a">seq::operator==</a> (const tiny_string&lt; Size, Al &gt; &amp;lhs, const std::string &amp;rhs) noexcept</td></tr>
-<tr class="separator:ae4f441a6b31df9530605a13ef51c148a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af67d4f6b5e7766ac1cc45a0e5842e1a1"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al , size_t Size2, class Al2 &gt; </td></tr>
+<tr class="memitem:af67d4f6b5e7766ac1cc45a0e5842e1a1"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#af67d4f6b5e7766ac1cc45a0e5842e1a1">seq::operator==</a> (const tiny_string&lt; Size, Al &gt; &amp;lhs, const tiny_string&lt; Size2, Al2 &gt; &amp;rhs) noexcept -&gt; bool</td></tr>
+<tr class="separator:af67d4f6b5e7766ac1cc45a0e5842e1a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa56c6d64eb04a963a9812c8b7f9714ee"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
+<tr class="memitem:aa56c6d64eb04a963a9812c8b7f9714ee"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aa56c6d64eb04a963a9812c8b7f9714ee">seq::operator==</a> (const char *lhs, const tiny_string&lt; Size, Al &gt; &amp;rhs) noexcept -&gt; bool</td></tr>
+<tr class="separator:aa56c6d64eb04a963a9812c8b7f9714ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a861414ba0c42c6e112aacd979592b13c"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
+<tr class="memitem:a861414ba0c42c6e112aacd979592b13c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a861414ba0c42c6e112aacd979592b13c">seq::operator==</a> (const tiny_string&lt; Size, Al &gt; &amp;lhs, const char *rhs) noexcept -&gt; bool</td></tr>
+<tr class="separator:a861414ba0c42c6e112aacd979592b13c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ea7559047b3040872cdd1c38315df2e"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
+<tr class="memitem:a6ea7559047b3040872cdd1c38315df2e"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a6ea7559047b3040872cdd1c38315df2e">seq::operator==</a> (const std::string &amp;lhs, const tiny_string&lt; Size, Al &gt; &amp;rhs) noexcept -&gt; bool</td></tr>
+<tr class="separator:a6ea7559047b3040872cdd1c38315df2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72b61cb7cf1085d47e734de14233ef20"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
+<tr class="memitem:a72b61cb7cf1085d47e734de14233ef20"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a72b61cb7cf1085d47e734de14233ef20">seq::operator==</a> (const tiny_string&lt; Size, Al &gt; &amp;lhs, const std::string &amp;rhs) noexcept -&gt; bool</td></tr>
+<tr class="separator:a72b61cb7cf1085d47e734de14233ef20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9e28e6da6ec3562c1faef9ef00631d6"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al , size_t Size2, class Al2 &gt; </td></tr>
 <tr class="memitem:ad9e28e6da6ec3562c1faef9ef00631d6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ad9e28e6da6ec3562c1faef9ef00631d6">seq::operator!=</a> (const tiny_string&lt; Size, Al &gt; &amp;lhs, const tiny_string&lt; Size2, Al2 &gt; &amp;rhs) noexcept</td></tr>
 <tr class="separator:ad9e28e6da6ec3562c1faef9ef00631d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -345,33 +344,33 @@ Functions</h2></td></tr>
 <tr class="memitem:aa16ed00cc778ba6a0e21215120dedaf8"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
 <tr class="memitem:aa16ed00cc778ba6a0e21215120dedaf8"><td class="memTemplItemLeft" align="right" valign="top">detail::FindReturnType&lt; tiny_string&lt; Size, Al &gt;, tiny_string&lt; Size, Al &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aa16ed00cc778ba6a0e21215120dedaf8">seq::operator+</a> (char lhs, const tiny_string&lt; Size, Al &gt; &amp;rhs)</td></tr>
 <tr class="separator:aa16ed00cc778ba6a0e21215120dedaf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78db8ea6da034c3a306ddfda73895cdf"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a78db8ea6da034c3a306ddfda73895cdf">seq::string_data</a> (const std::string &amp;str)</td></tr>
-<tr class="separator:a78db8ea6da034c3a306ddfda73895cdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb3e5871a80d139dfc445702677436d6"><td class="memTemplParams" colspan="2">template&lt;size_t S, class Al &gt; </td></tr>
-<tr class="memitem:aeb3e5871a80d139dfc445702677436d6"><td class="memTemplItemLeft" align="right" valign="top">const char *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aeb3e5871a80d139dfc445702677436d6">seq::string_data</a> (const tiny_string&lt; S, Al &gt; &amp;str)</td></tr>
-<tr class="separator:aeb3e5871a80d139dfc445702677436d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07cfb914c6655f3fac351e92d3467782"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a07cfb914c6655f3fac351e92d3467782">seq::string_data</a> (const char *str)</td></tr>
-<tr class="separator:a07cfb914c6655f3fac351e92d3467782"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0a4e70902832fb7a5b4098d8ea1d7aa"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ac0a4e70902832fb7a5b4098d8ea1d7aa">seq::string_data</a> (const tstring_view &amp;str)</td></tr>
-<tr class="separator:ac0a4e70902832fb7a5b4098d8ea1d7aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8ca2f2c8716a04f750b46cda23c9a42"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aa8ca2f2c8716a04f750b46cda23c9a42">seq::string_size</a> (const std::string &amp;str)</td></tr>
-<tr class="separator:aa8ca2f2c8716a04f750b46cda23c9a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6eb2edfe41e69b0f8116ffb2e729c680"><td class="memTemplParams" colspan="2">template&lt;size_t S, class Al &gt; </td></tr>
-<tr class="memitem:a6eb2edfe41e69b0f8116ffb2e729c680"><td class="memTemplItemLeft" align="right" valign="top">size_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a6eb2edfe41e69b0f8116ffb2e729c680">seq::string_size</a> (const tiny_string&lt; S, Al &gt; &amp;str)</td></tr>
-<tr class="separator:a6eb2edfe41e69b0f8116ffb2e729c680"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed50f805163eb7f65b9f6b7fadbb2b21"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aed50f805163eb7f65b9f6b7fadbb2b21">seq::string_size</a> (const char *str)</td></tr>
-<tr class="separator:aed50f805163eb7f65b9f6b7fadbb2b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a184b1c0786a832e217d7c17843cc765a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a184b1c0786a832e217d7c17843cc765a">seq::string_size</a> (const tstring_view &amp;str)</td></tr>
-<tr class="separator:a184b1c0786a832e217d7c17843cc765a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abacbb14fd705709e8f7d3d9b77daeea3"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#abacbb14fd705709e8f7d3d9b77daeea3">seq::string_data</a> (const std::string &amp;str) -&gt; const char *</td></tr>
+<tr class="separator:abacbb14fd705709e8f7d3d9b77daeea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a883e44e91646300fed68720e2e9e7c90"><td class="memTemplParams" colspan="2">template&lt;size_t S, class Al &gt; </td></tr>
+<tr class="memitem:a883e44e91646300fed68720e2e9e7c90"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a883e44e91646300fed68720e2e9e7c90">seq::string_data</a> (const tiny_string&lt; S, Al &gt; &amp;str) -&gt; const char *</td></tr>
+<tr class="separator:a883e44e91646300fed68720e2e9e7c90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a759ced44c9584918c6302fe6562ba950"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a759ced44c9584918c6302fe6562ba950">seq::string_data</a> (const char *str) -&gt; const char *</td></tr>
+<tr class="separator:a759ced44c9584918c6302fe6562ba950"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0218c72afdb6220de9da3a069dc3efa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ac0218c72afdb6220de9da3a069dc3efa">seq::string_data</a> (const tstring_view &amp;str) -&gt; const char *</td></tr>
+<tr class="separator:ac0218c72afdb6220de9da3a069dc3efa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cb962f97eeea267d9b1e420879eb1ff"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a8cb962f97eeea267d9b1e420879eb1ff">seq::string_size</a> (const std::string &amp;str) -&gt; size_t</td></tr>
+<tr class="separator:a8cb962f97eeea267d9b1e420879eb1ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf9baf42d336da7e5368e05ecd5d2515"><td class="memTemplParams" colspan="2">template&lt;size_t S, class Al &gt; </td></tr>
+<tr class="memitem:abf9baf42d336da7e5368e05ecd5d2515"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#abf9baf42d336da7e5368e05ecd5d2515">seq::string_size</a> (const tiny_string&lt; S, Al &gt; &amp;str) -&gt; size_t</td></tr>
+<tr class="separator:abf9baf42d336da7e5368e05ecd5d2515"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac404d9958f2200e3e6588b5601759b1c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ac404d9958f2200e3e6588b5601759b1c">seq::string_size</a> (const char *str) -&gt; size_t</td></tr>
+<tr class="separator:ac404d9958f2200e3e6588b5601759b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada0db3e95c769979401e3c88ec361613"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ada0db3e95c769979401e3c88ec361613">seq::string_size</a> (const tstring_view &amp;str) -&gt; size_t</td></tr>
+<tr class="separator:ada0db3e95c769979401e3c88ec361613"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ca33a12754126a8bfbdf41f9cdbadf2"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Allocator &gt; </td></tr>
 <tr class="memitem:a9ca33a12754126a8bfbdf41f9cdbadf2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestd.html#a9ca33a12754126a8bfbdf41f9cdbadf2">std::swap</a> (<a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; Size, Allocator &gt; &amp;a, <a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; Size, Allocator &gt; &amp;b)</td></tr>
 <tr class="separator:a9ca33a12754126a8bfbdf41f9cdbadf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91c67e18d776f534bb60e796df4eb409"><td class="memTemplParams" colspan="2">template&lt;class Elem , class Traits , size_t Size, class Alloc &gt; </td></tr>
-<tr class="memitem:a91c67e18d776f534bb60e796df4eb409"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt;!std::is_same&lt; Alloc, <a class="el" href="structseq_1_1view__allocator.html">seq::view_allocator</a> &gt;::value, basic_istream&lt; Elem, Traits &gt; &gt;::type &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestd.html#a91c67e18d776f534bb60e796df4eb409">std::operator&gt;&gt;</a> (basic_istream&lt; Elem, Traits &gt; &amp;iss, <a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; Size, Alloc &gt; &amp;str)</td></tr>
-<tr class="separator:a91c67e18d776f534bb60e796df4eb409"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeabb1eedd041e0ecf754094e2ffd5964"><td class="memTemplParams" colspan="2">template&lt;class Elem , class Traits , size_t Size, class Alloc &gt; </td></tr>
-<tr class="memitem:aeabb1eedd041e0ecf754094e2ffd5964"><td class="memTemplItemLeft" align="right" valign="top">basic_ostream&lt; Elem, Traits &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestd.html#aeabb1eedd041e0ecf754094e2ffd5964">std::operator&lt;&lt;</a> (basic_ostream&lt; Elem, Traits &gt; &amp;oss, const <a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; Size, Alloc &gt; &amp;str)</td></tr>
-<tr class="separator:aeabb1eedd041e0ecf754094e2ffd5964"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a766b7e1641c0586c58347cd80e1910fd"><td class="memTemplParams" colspan="2">template&lt;class Elem , class Traits , size_t Size, class Alloc &gt; </td></tr>
+<tr class="memitem:a766b7e1641c0586c58347cd80e1910fd"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestd.html#a766b7e1641c0586c58347cd80e1910fd">std::operator&gt;&gt;</a> (basic_istream&lt; Elem, Traits &gt; &amp;iss, <a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; Size, Alloc &gt; &amp;str) -&gt; typename std::enable_if&lt;!std::is_same&lt; Alloc, <a class="el" href="structseq_1_1view__allocator.html">seq::view_allocator</a> &gt;::value, basic_istream&lt; Elem, Traits &gt; &gt;::type &amp;</td></tr>
+<tr class="separator:a766b7e1641c0586c58347cd80e1910fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca62bf29415195ed3a392febcfbc825e"><td class="memTemplParams" colspan="2">template&lt;class Elem , class Traits , size_t Size, class Alloc &gt; </td></tr>
+<tr class="memitem:aca62bf29415195ed3a392febcfbc825e"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestd.html#aca62bf29415195ed3a392febcfbc825e">std::operator&lt;&lt;</a> (basic_ostream&lt; Elem, Traits &gt; &amp;oss, const <a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; Size, Alloc &gt; &amp;str) -&gt; basic_ostream&lt; Elem, Traits &gt; &amp;</td></tr>
+<tr class="separator:aca62bf29415195ed3a392febcfbc825e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a0b31438dd90256ed47b3bea0eb62be06"></a>
