@@ -496,7 +496,7 @@ namespace seq
 			}
 		};
 
-
+		/// @brief Small wrapper around std::mutex just to get its lock status
 		struct MutexWrapper
 		{
 			std::mutex d_mutex;
@@ -638,7 +638,6 @@ namespace seq
 				ensure_valid();
 			return static_cast<pool_type*>(d_allocator);
 		}
-		
 		auto operator == (const object_allocator& other) const noexcept -> bool {
 			return d_data == other.d_data;
 		}
@@ -703,15 +702,14 @@ namespace seq
 		};
 
 
-
 		template< bool Threaded>
 		class thread_data
 		{
 			// Additional data used for thread safe memory pool
 
-			void*				d_deffered_free;
-			unsigned			d_deffered_count;
-			detail::thread_id	d_id;
+			void*							d_deffered_free;
+			unsigned						d_deffered_count;
+			detail::thread_id				d_id;
 			detail::MutexWrapper			d_lock;
 			
 		public:
@@ -823,7 +821,6 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto bytes() const noexcept -> size_t {
 				return sizeof(*this) + chunk_bytes;
 			}
-
 			// linked list of free slots
 			SEQ_ALWAYS_INLINE void set_next(char* o, char* next) {
 				memcpy(o, &next, sizeof(next));
@@ -899,13 +896,12 @@ namespace seq
 				}
 			}
 
-			auto get_allocator() const noexcept -> Allocator {
+			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> Allocator {
 				return allocator.get_allocator();
 			}
-			auto get_allocator() noexcept -> Allocator& {
+			SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& {
 				return allocator.get_allocator();
 			}
-
 			// memory footprint excluding sizeof(*this)
 			SEQ_ALWAYS_INLINE auto memory_footprint() const noexcept -> size_t {
 				return chunk_bytes;// capacity* (elem_size);
@@ -938,14 +934,8 @@ namespace seq
 				// Delete deffered object if necesary
 				if (Threaded ) {
 					if (this->deffered_count() >= min_for_deffered) {
-						
 						delete_deffered_locked();
 					}
-					
-					// Check for interruption
-					/*this->set_in_alloc(true);
-					if (SEQ_UNLIKELY(this->wait_requested()))
-						interrupt();*/ // Interrupt to delete deffered elements
 				}
 
 				char* res;
@@ -960,7 +950,6 @@ namespace seq
 					tail++;
 				}
 				else {
-					//this->set_in_alloc(false);
 					return NULL;
 				}
 					
@@ -971,8 +960,6 @@ namespace seq
 				// The address is written SEQ_DEFAULT_ALIGNMENT bytes before object itself (usually 8 bytes on 64 bits platform)
 				*(std::uintptr_t*)(res - SEQ_DEFAULT_ALIGNMENT) = (std::uintptr_t)this;
 
-				//if (Threaded)
-				//	this->set_in_alloc(false);
 				return res;
 
 			}
@@ -1107,7 +1094,6 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto bytes() const noexcept -> size_t {
 				return sizeof(*this) + chunk_bytes;
 			}
-
 			SEQ_ALWAYS_INLINE void set_next(char* o, char* next) {
 				memcpy(o, &next, sizeof(next));
 			}
@@ -1171,13 +1157,12 @@ namespace seq
 				}
 			}
 
-			auto get_allocator() const noexcept -> Allocator {
+			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> Allocator {
 				return allocator.get_allocator();
 			}
-			auto get_allocator() noexcept -> Allocator& {
+			SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& {
 				return allocator.get_allocator();
 			}
-
 			SEQ_ALWAYS_INLINE auto memory_footprint() const noexcept -> size_t {
 				return chunk_bytes;// capacity* (elem_size);
 			}
@@ -1188,15 +1173,12 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto is_full() const noexcept -> bool {
 				return objects == capacity;
 			}
-
 			SEQ_ALWAYS_INLINE auto objects_minus_deffered() const noexcept -> size_t {
 				return objects ;
 			}
-
 			static SEQ_ALWAYS_INLINE auto from_ptr(void*  /*unused*/)  noexcept -> block_pool* {
 				return NULL;
 			}
-
 
 			// allocate one Obj
 			auto allocate() noexcept -> void*
@@ -1364,7 +1346,7 @@ namespace seq
 			return static_cast<virtual_block<T>*>(block);
 		}
 
-	}// end detail
+	}// end namespace detail
 
 
 
@@ -1477,8 +1459,7 @@ namespace seq
 		size_t total_created{0};	/// total number of objects that has been allocated (GenerateStats must be true)
 		size_t total_freed{0};		/// total number of object that has been deallocated (GenerateStats must be true)
 		size_t thread_count{0};	/// total number of threads using this pool (always 0 for object_pool)
-		object_pool_stats()
-			 {}
+		object_pool_stats() {}
 	} ;
 
 	/// @brief Allocate up to MaxSize objects by step of 1
@@ -1688,17 +1669,17 @@ namespace seq
 	>
 	class object_pool : public detail::base_object_pool<T>,  private detail::stats_data<GenerateStats>, private Allocator
 	{
-		static const size_t min_objects = 4U;// MaxObjectsAllocation * 4U;
-		static const size_t dword_4 = sizeof(void*) * 4; // Size of 4 pointers
-		static const size_t slots = (!std::is_same<shared_ptr_allocation,object_allocation>::value) ?
-			object_allocation::count :
-			(1 + dword_4 / sizeof(T) + ((dword_4 % sizeof(T)) != 0u ? 1 : 0));
-
-
 		using chunk_type = detail::block_pool<  Allocator,Align, false, GenerateStats, EnableUniquePtr>;
 		template< class U>
 		using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 		using this_type = object_pool<T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats>;
+
+		static const size_t min_objects = 4U;// MaxObjectsAllocation * 4U;
+		static const size_t dword_4 = sizeof(void*) * 4; // Size of 4 pointers
+		static const size_t slots = (!std::is_same<shared_ptr_allocation, object_allocation>::value) ?
+			object_allocation::count :
+			(1 + dword_4 / sizeof(T) + ((dword_4 % sizeof(T)) != 0u ? 1 : 0));
+
 
 		template<class U, class Pool>
 		friend class detail::allocator_for_shared_ptr;
@@ -1724,7 +1705,8 @@ namespace seq
 		size_t d_reclaim_memory :1;
 		
 		// Add a new chunk_mem_pool of given capacity
-		auto add(size_t idx, size_t chunk_capacity) -> block* {
+		auto add(size_t idx, size_t chunk_capacity) -> block* 
+		{
 			// Check minimum size
 			if (chunk_capacity < object_allocation::min_capacity)
 				chunk_capacity = object_allocation::min_capacity;
@@ -1815,7 +1797,6 @@ namespace seq
 				it = next;
 			}
 		}
-
 
 		SEQ_NOINLINE(auto) allocate_from_new_block(size_t idx) -> T*
 		{
@@ -2051,21 +2032,28 @@ namespace seq
 		}
 
 		/// @brief Returns the underlying allocator object
-		auto get_allocator() const noexcept -> const Allocator& { return static_cast<const Allocator&>(*this);}
+		auto get_allocator() const noexcept -> const Allocator& 
+		{ 
+			return static_cast<const Allocator&>(*this);
+		}
 		/// @brief Returns the underlying allocator object
-		auto get_allocator()  noexcept -> Allocator& { return static_cast<Allocator&>(*this); }
-
+		auto get_allocator()  noexcept -> Allocator& 
+		{ 
+			return static_cast<Allocator&>(*this); 
+		}
 		/// @brief Returns the object_pool memory footprint in bytes excluding sizeof(*this).
-		auto memory_footprint() const noexcept -> std::size_t {
+		auto memory_footprint() const noexcept -> std::size_t 
+		{
 			return d_bytes;
 		}
 		/// @brief Returns the object_pool peak memory footprint in bytes excluding sizeof(*this).
-		auto peak_memory_footprint() const noexcept -> std::size_t {
+		auto peak_memory_footprint() const noexcept -> std::size_t 
+		{
 			return d_peak_memory;
 		}
-	
 		/// @brief Returns true if the object_pool reclaim freed memory, false otherwise
-		auto reclaim_memory() const noexcept -> bool {
+		auto reclaim_memory() const noexcept -> bool 
+		{
 			return d_reclaim_memory;
 		}
 
@@ -2077,7 +2065,8 @@ namespace seq
 		/// 
 		/// If true, calls to deallocate will deallocate any free block.
 		/// 
-		void set_reclaim_memory(bool reclaim) {
+		void set_reclaim_memory(bool reclaim) 
+		{
 			if (reclaim == d_reclaim_memory)
 				return;
 			d_reclaim_memory = reclaim;
@@ -2207,7 +2196,7 @@ namespace seq
 	};
 
 
-
+	/// @brief Tells if given type is an object pool
 	template<
 		class T,
 		class Allocator,
@@ -2253,7 +2242,7 @@ namespace seq
 			static auto get_cum_freed() noexcept -> size_t { return 0; }
 			void reset_statistics() {}
 		} ;
-	}
+	} //end namespace detail
 
 
 
@@ -2294,12 +2283,6 @@ namespace seq
 	>
 	class parallel_object_pool : public detail::base_object_pool<T>, private detail::parallel_stats_data<GenerateStats>
 	{
-		static constexpr size_t dword_4 = sizeof(void*) * 4; // Size of 4 pointers
-		static constexpr size_t _slots = (!std::is_same<shared_ptr_allocation, object_allocation>::value) ?
-			object_allocation::count :
-			(1 + dword_4 / sizeof(T) + ((dword_4 % sizeof(T)) != 0u ? 1 : 0));
-		static constexpr size_t slots = _slots == 0 ? 1 : _slots;
-
 		template< class U>
 		using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 		using block_pool_type = detail::block_pool< Allocator, Align, true, GenerateStats, true>;
@@ -2307,6 +2290,12 @@ namespace seq
 	
 		template<class U, class Pool>
 		friend class detail::allocator_for_shared_ptr;
+
+		static constexpr size_t dword_4 = sizeof(void*) * 4; // Size of 4 pointers
+		static constexpr size_t _slots = (!std::is_same<shared_ptr_allocation, object_allocation>::value) ?
+			object_allocation::count :
+			(1 + dword_4 / sizeof(T) + ((dword_4 % sizeof(T)) != 0u ? 1 : 0));
+		static constexpr size_t slots = _slots == 0 ? 1 : _slots;
 
 
 		struct block : public detail::base_block<T,Allocator,block_pool_type, block>
@@ -2331,10 +2320,12 @@ namespace seq
 				this->remove_and_unref();
 				return cap;
 			}
-			virtual auto parent() const -> detail::base_object_pool<T>* {
+			virtual auto parent() const -> detail::base_object_pool<T>* 
+			{
 				return static_cast<thread_data*>(this->th_data)->parent;
 			}
 		};
+
 		using block_iterator = detail::block_it<block>;
 		using pool_lock = typename block_pool_type::lock_type;
 		using lock_type = detail::MutexWrapper;
@@ -2663,7 +2654,7 @@ namespace seq
 		}
 
 
-		auto pause_all() -> size_t
+		void pause_all()
 		{
 			// Trigger a pause for all allocation/deallocation threads and wait for all threads to be paused.
 			// Lock must be held before
@@ -2674,7 +2665,7 @@ namespace seq
 
 			// Wait for all threads to be interrupted
 			bool keep_going = true;
-			/*auto it = d_pools.begin();
+			auto it = d_pools.begin();
 			while (keep_going) {
 				keep_going = false;
 				for (; it != d_pools.end(); ++it)
@@ -2682,30 +2673,8 @@ namespace seq
 						keep_going = true;
 						break;
 					}
-			}*/
-			size_t res = 0;
-			while (keep_going) {
-				keep_going = false;
-				res = 0;
-				for (auto it = d_pools.begin(); it != d_pools.end(); ++it) {
-					if ((*it)->in_alloc) {
-						keep_going = true;
-						break;
-					}
-					res++;
-				}
 			}
 
-			//TEST
-			/*if (pcount != d_pools.size()) {
-				printf("NEW POOL COUNT!!"); fflush(stdout);
-			}
-			for (auto it = d_pools.begin(); it != d_pools.end(); ++it) 
-				if ((*it)->in_alloc) {
-					printf("IN ALLOC!!!!!\n"); fflush(stdout);
-				}
-				*/
-			return res;
 		}
 
 		void resume_all()
@@ -3023,21 +2992,28 @@ namespace seq
 		void reserve(size_t /*unused*/, size_t /*unused*/) {}
 
 		/// @brief Returns the underlying allocator
-		auto get_allocator() const noexcept -> Allocator {
+		auto get_allocator() const noexcept -> Allocator 
+		{
 			return d_alloc;
 		}
 		/// @brief Returns the underlying allocator.
 		auto get_allocator() noexcept -> Allocator& {
 			return d_alloc;
 		}
-
 		/// @brief Returns the memory footprint in bytes excluding sizeof(*this).
-		auto memory_footprint() const noexcept -> size_t {
+		auto memory_footprint() const noexcept -> size_t 
+		{
 			return d_bytes;
 		}
 		/// @brief Returns the peak memory footprint in bytes excluding sizeof(*this).
-		auto peak_memory_footprint() const noexcept -> size_t {
+		auto peak_memory_footprint() const noexcept -> size_t 
+		{
 			return d_peak_memory;
+		}
+		/// @brief Returns true if this pool reclaims freed memory, false otherwise
+		auto reclaim_memory() const noexcept -> bool
+		{
+			return d_reclaim_memory;
 		}
 
 		/// @brief Set the reclaim_memory flag.
@@ -3055,10 +3031,6 @@ namespace seq
 			if (reclaim) {
 				release_unused_memory_internal();
 			}
-		}
-		/// @brief Returns true if this pool reclaims freed memory, false otherwise
-		auto reclaim_memory() const noexcept -> bool {
-			return d_reclaim_memory;
 		}
 
 		/// @brief Dump object_pool statistics into a object_pool_stats

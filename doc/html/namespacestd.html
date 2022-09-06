@@ -103,6 +103,14 @@ Functions</h2></td></tr>
 <tr class="memitem:a87a7b5732634d46429dee124bad4fdc3"><td class="memTemplParams" colspan="2">template&lt;class Interface , size_t S, size_t A&gt; </td></tr>
 <tr class="memitem:a87a7b5732634d46429dee124bad4fdc3"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestd.html#a87a7b5732634d46429dee124bad4fdc3">swap</a> (<a class="el" href="classseq_1_1hold__any.html">seq::hold_any</a>&lt; Interface, S, A &gt; &amp;a, <a class="el" href="classseq_1_1hold__any.html">seq::hold_any</a>&lt; Interface, S, A &gt; &amp;b)</td></tr>
 <tr class="separator:a87a7b5732634d46429dee124bad4fdc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b67178ef88b7ed40056cd46b6d06865"><td class="memTemplParams" colspan="2">template&lt;class Elem , class Traits , class T &gt; </td></tr>
+<tr class="memitem:a4b67178ef88b7ed40056cd46b6d06865"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestd.html#a4b67178ef88b7ed40056cd46b6d06865">operator&lt;&lt;</a> (basic_ostream&lt; Elem, Traits &gt; &amp;oss, const <a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T &gt; &amp;val) -&gt; basic_ostream&lt; Elem, Traits &gt; &amp;</td></tr>
+<tr class="memdesc:a4b67178ef88b7ed40056cd46b6d06865"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a ostream_format object to a std::ostream.  <a href="namespacestd.html#a4b67178ef88b7ed40056cd46b6d06865">More...</a><br /></td></tr>
+<tr class="separator:a4b67178ef88b7ed40056cd46b6d06865"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fdf65f9398c5c4ce6fd94159bc33857"><td class="memTemplParams" colspan="2">template&lt;class Elem , class Traits , class T , class P &gt; </td></tr>
+<tr class="memitem:a2fdf65f9398c5c4ce6fd94159bc33857"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestd.html#a2fdf65f9398c5c4ce6fd94159bc33857">operator&lt;&lt;</a> (basic_ostream&lt; Elem, Traits &gt; &amp;oss, const <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">seq::detail::mutli_ostream_format</a>&lt; T, P &gt; &amp;val) -&gt; basic_ostream&lt; Elem, Traits &gt; &amp;</td></tr>
+<tr class="memdesc:a2fdf65f9398c5c4ce6fd94159bc33857"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a ostream_format object to a std::ostream object.  <a href="namespacestd.html#a2fdf65f9398c5c4ce6fd94159bc33857">More...</a><br /></td></tr>
+<tr class="separator:a2fdf65f9398c5c4ce6fd94159bc33857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ca33a12754126a8bfbdf41f9cdbadf2"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Allocator &gt; </td></tr>
 <tr class="memitem:a9ca33a12754126a8bfbdf41f9cdbadf2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestd.html#a9ca33a12754126a8bfbdf41f9cdbadf2">swap</a> (<a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; Size, Allocator &gt; &amp;a, <a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; Size, Allocator &gt; &amp;b)</td></tr>
 <tr class="separator:a9ca33a12754126a8bfbdf41f9cdbadf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,8 +122,90 @@ Functions</h2></td></tr>
 <tr class="separator:aca62bf29415195ed3a392febcfbc825e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a2fdf65f9398c5c4ce6fd94159bc33857"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fdf65f9398c5c4ce6fd94159bc33857">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Elem , class Traits , class T , class P &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto std::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">basic_ostream&lt; Elem, Traits &gt; &amp;&#160;</td>
+          <td class="paramname"><em>oss</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">seq::detail::mutli_ostream_format</a>&lt; T, P &gt; &amp;&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; basic_ostream&lt;Elem, Traits&gt;&amp;
+	</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write a ostream_format object to a std::ostream object. </p>
+
+</div>
+</div>
+<a id="a4b67178ef88b7ed40056cd46b6d06865"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b67178ef88b7ed40056cd46b6d06865">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Elem , class Traits , class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto std::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">basic_ostream&lt; Elem, Traits &gt; &amp;&#160;</td>
+          <td class="paramname"><em>oss</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; basic_ostream&lt;Elem, Traits&gt;&amp;
+	</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write a ostream_format object to a std::ostream. </p>
+
+</div>
+</div>
 <a id="aca62bf29415195ed3a392febcfbc825e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca62bf29415195ed3a392febcfbc825e">&#9670;&nbsp;</a></span>operator&lt;&lt;()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aca62bf29415195ed3a392febcfbc825e">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

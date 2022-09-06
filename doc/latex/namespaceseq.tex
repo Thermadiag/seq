@@ -83,7 +83,7 @@ struct \mbox{\hyperlink{structseq_1_1is__allocated__string_3_01tstring__view_01_
 class \mbox{\hyperlink{classseq_1_1is__equal__comparable}{is\+\_\+equal\+\_\+comparable}}
 \begin{DoxyCompactList}\small\item\em Tells if given type supports equality comparison with operator ==. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structseq_1_1is__formattable}{is\+\_\+formattable}}
-\item 
+\begin{DoxyCompactList}\small\item\em Check if given type is formattable using \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt()}} \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structseq_1_1is__generic__string}{is\+\_\+generic\+\_\+string}}
 \begin{DoxyCompactList}\small\item\em Detect all possible string types (std\+::string, tstring, tstring\+\_\+view, std\+::string\+\_\+view, const char$\ast$, char$\ast$. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structseq_1_1is__generic__string_3_01char_01_5_01_4}{is\+\_\+generic\+\_\+string$<$ char $\ast$ $>$}}
@@ -115,7 +115,7 @@ class \mbox{\hyperlink{classseq_1_1is__less__comparable}{is\+\_\+less\+\_\+compa
 struct \mbox{\hyperlink{structseq_1_1is__object__pool}{is\+\_\+object\+\_\+pool}}
 \item 
 struct \mbox{\hyperlink{structseq_1_1is__object__pool_3_01object__pool_3_01_t_00_01_allocator_00_01_align_00_01object__aa897b5fd959a84c29154e339081634cc}{is\+\_\+object\+\_\+pool$<$ object\+\_\+pool$<$ T, Allocator, Align, object\+\_\+allocation, Enable\+Unique\+Ptr, Generate\+Stats $>$ $>$}}
-\item 
+\begin{DoxyCompactList}\small\item\em Tells if given type is an object pool. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classseq_1_1is__ostreamable}{is\+\_\+ostreamable}}
 \begin{DoxyCompactList}\small\item\em Tells if given type can be streamed to a std\+::ostream object. \end{DoxyCompactList}\item 
 struct \mbox{\hyperlink{structseq_1_1is__parallel__object__pool}{is\+\_\+parallel\+\_\+object\+\_\+pool}}
@@ -379,21 +379,21 @@ auto \mbox{\hyperlink{namespaceseq_af2cd15c1c849768be9995bcb1fd1733a}{popcnt8}} 
 \item 
 auto \mbox{\hyperlink{namespaceseq_a348cf02b3ab7947f01df82985d741138}{popcnt16}} (unsigned short value) -\/$>$ unsigned
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{namespaceseq_aca32d4dff49ef878b4e422eb6bd14b42}{bit\+\_\+scan\+\_\+forward\+\_\+8}} (wint\+\_\+t val) -\/$>$ unsigned int
+auto \mbox{\hyperlink{namespaceseq_af6ba1bdf7d8e86f8aedd900676c80238}{bit\+\_\+scan\+\_\+forward\+\_\+8}} (wint\+\_\+t val) -\/$>$ unsigned int
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{namespaceseq_a22cc9d270a9c588ab6ef0abfda5f4c58}{bit\+\_\+scan\+\_\+reverse\+\_\+8}} (std\+::uint8\+\_\+t val) -\/$>$ unsigned int
+auto \mbox{\hyperlink{namespaceseq_adbee1b71b206139ba062e72ec88de1cf}{bit\+\_\+scan\+\_\+reverse\+\_\+8}} (std\+::uint8\+\_\+t val) -\/$>$ unsigned int
 \item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{namespaceseq_a5335fc88476215a7b6e85c91f043c75a}{bit\+\_\+scan\+\_\+forward\+\_\+32}} (std\+::uint32\+\_\+t val) -\/$>$ unsigned int
+auto \mbox{\hyperlink{namespaceseq_adaee03ba305545aff518038a6037813b}{bit\+\_\+scan\+\_\+forward\+\_\+32}} (std\+::uint32\+\_\+t val) -\/$>$ unsigned int
 \begin{DoxyCompactList}\small\item\em Returns the lowest set bit index in {\itshape val} Undefined if val==0. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{namespaceseq_ad890d8e0cc7e623d9e5abdda7895b993}{bit\+\_\+scan\+\_\+reverse\+\_\+32}} (std\+::uint32\+\_\+t val) -\/$>$ unsigned int
+auto \mbox{\hyperlink{namespaceseq_a89b01e43cd0234954034486359baa02f}{bit\+\_\+scan\+\_\+reverse\+\_\+32}} (std\+::uint32\+\_\+t val) -\/$>$ unsigned int
 \begin{DoxyCompactList}\small\item\em Returns the highest set bit index in {\itshape val} Undefined if val==0. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{namespaceseq_ad62321cfa7efc948ca4358568b3e9b50}{bit\+\_\+scan\+\_\+forward\+\_\+64}} (std\+::uint64\+\_\+t bb) noexcept -\/$>$ unsigned
+auto \mbox{\hyperlink{namespaceseq_aea82743e4a07a05aad9c2226c85c5925}{bit\+\_\+scan\+\_\+forward\+\_\+64}} (std\+::uint64\+\_\+t bb) noexcept -\/$>$ unsigned
 \begin{DoxyCompactList}\small\item\em Returns the lowest set bit index in {\itshape bb}. Developed by Kim Walisch (2012). Undefined if bb==0. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{namespaceseq_a9d6a2c807a7f315dd91bb855fb665e0c}{bit\+\_\+scan\+\_\+reverse\+\_\+64}} (std\+::uint64\+\_\+t bb) noexcept -\/$>$ unsigned
+auto \mbox{\hyperlink{namespaceseq_aaea603fed30d1318a1a13ee9a6181c1a}{bit\+\_\+scan\+\_\+reverse\+\_\+64}} (std\+::uint64\+\_\+t bb) noexcept -\/$>$ unsigned
 \begin{DoxyCompactList}\small\item\em Returns the highest set bit index in {\itshape bb}. Developed by Kim Walisch, Mark Dickinson. Undefined if bb==0. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{namespaceseq_a8f753a80b6681e028f355e701d7558fd}{bit\+\_\+scan\+\_\+forward}} (size\+\_\+t bb) noexcept -\/$>$ unsigned
+auto \mbox{\hyperlink{namespaceseq_aeb73db39e1609aef776bd9499a838c85}{bit\+\_\+scan\+\_\+forward}} (size\+\_\+t bb) noexcept -\/$>$ unsigned
 \begin{DoxyCompactList}\small\item\em Returns the lowest set bit index in {\itshape bb}. Undefined if bb==0. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{namespaceseq_a95cddad118d3a1b51cb40cecf6a615ac}{bit\+\_\+scan\+\_\+reverse}} (size\+\_\+t bb) noexcept -\/$>$ unsigned
+auto \mbox{\hyperlink{namespaceseq_ab2a4aaad9e6e5b58b9ae8bc9a0a8df09}{bit\+\_\+scan\+\_\+reverse}} (size\+\_\+t bb) noexcept -\/$>$ unsigned
 \begin{DoxyCompactList}\small\item\em Returns the highest set bit index in {\itshape bb}. Undefined if bb==0. \end{DoxyCompactList}\item 
 {\footnotesize template$<$class T $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{namespaceseq_ad229ce51d8085cde156a70f274f2dce2}{count\+\_\+digits\+\_\+base\+\_\+10}} (T x) -\/$>$ unsigned
 \item 
@@ -619,22 +619,22 @@ auto \mbox{\hyperlink{namespaceseq_a30368dcf14dfdddd428c9ac9ec675b6f}{get\+\_\+m
 \item 
 {\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool \mbox{\hyperlink{namespaceseq_a099bb20d7de44b7e830799fea7f7a709}{operator$>$=}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&lhs, const std\+::string \&rhs) noexcept
 \item 
-{\footnotesize template$<$size\+\_\+t Size, class Al , size\+\_\+t Size2, class Al2 $>$ }\\\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size2, Al2 $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_a4da0baa868f02d38d414b2dc1f288549}{operator+}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&lhs, const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size2, Al2 $>$ \&rhs)
+{\footnotesize template$<$size\+\_\+t Size, class Al , size\+\_\+t Size2, class Al2 $>$ }\\auto \mbox{\hyperlink{namespaceseq_a0bb1d95a792c4df40a9942662ab573ff}{operator+}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&lhs, const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size2, Al2 $>$ \&rhs) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size2, Al2 $>$ $>$\+::type
 \item 
-{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_a55661fe2e7792e24a096eb01c961774f}{operator+}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&lhs, const std\+::string \&rhs)
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\auto \mbox{\hyperlink{namespaceseq_aa8056fc410913073144c5fa466cbc690}{operator+}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&lhs, const std\+::string \&rhs) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type
 \item 
-{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_a213087903db1d425d09460f104ba12af}{operator+}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&lhs, const char $\ast$rhs)
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\auto \mbox{\hyperlink{namespaceseq_ae6610e8513f7ab68233cdd6d46151209}{operator+}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&lhs, const char $\ast$rhs) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type
 \item 
-{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_aed0caf1783a3f82d9cfc9d88e159b8a9}{operator+}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&lhs, char rhs)
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\auto \mbox{\hyperlink{namespaceseq_abbdee63e1144180cadb75be9d1730787}{operator+}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&lhs, char rhs) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type
 \item 
-{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_a6f7fd51f3cc247331f7ed13b1b1cf4ed}{operator+}} (const std\+::string \&lhs, const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&rhs)
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\auto \mbox{\hyperlink{namespaceseq_a97cec60fd49b0943f3f8501fcec57676}{operator+}} (const std\+::string \&lhs, const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&rhs) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type
 \item 
-{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_ad4daaf1a307da775f3767ab9e300f36a}{operator+}} (const char $\ast$lhs, const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&rhs)
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\auto \mbox{\hyperlink{namespaceseq_ae509e47a7299cf5e9eaa6d2bb386db1f}{operator+}} (const char $\ast$lhs, const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&rhs) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type
 \item 
-{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type \mbox{\hyperlink{namespaceseq_aa16ed00cc778ba6a0e21215120dedaf8}{operator+}} (char lhs, const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&rhs)
+{\footnotesize template$<$size\+\_\+t Size, class Al $>$ }\\auto \mbox{\hyperlink{namespaceseq_a68147f1f9efe66da434919961feed1f0}{operator+}} (char lhs, const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&rhs) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$ \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ $>$\+::type
 \item 
 auto \mbox{\hyperlink{namespaceseq_abacbb14fd705709e8f7d3d9b77daeea3}{string\+\_\+data}} (const std\+::string \&str) -\/$>$ const char $\ast$
-\item 
+\begin{DoxyCompactList}\small\item\em Returns the string data (const char$\ast$) for given string object. \end{DoxyCompactList}\item 
 {\footnotesize template$<$size\+\_\+t S, class Al $>$ }\\auto \mbox{\hyperlink{namespaceseq_a883e44e91646300fed68720e2e9e7c90}{string\+\_\+data}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ S, Al $>$ \&str) -\/$>$ const char $\ast$
 \item 
 auto \mbox{\hyperlink{namespaceseq_a759ced44c9584918c6302fe6562ba950}{string\+\_\+data}} (const char $\ast$str) -\/$>$ const char $\ast$
@@ -642,7 +642,7 @@ auto \mbox{\hyperlink{namespaceseq_a759ced44c9584918c6302fe6562ba950}{string\+\_
 auto \mbox{\hyperlink{namespaceseq_ac0218c72afdb6220de9da3a069dc3efa}{string\+\_\+data}} (const \mbox{\hyperlink{namespaceseq_a2bede5ff16f5bb9f856b3b2d78303f69}{tstring\+\_\+view}} \&str) -\/$>$ const char $\ast$
 \item 
 auto \mbox{\hyperlink{namespaceseq_a8cb962f97eeea267d9b1e420879eb1ff}{string\+\_\+size}} (const std\+::string \&str) -\/$>$ size\+\_\+t
-\item 
+\begin{DoxyCompactList}\small\item\em Returns the string size for given string object. \end{DoxyCompactList}\item 
 {\footnotesize template$<$size\+\_\+t S, class Al $>$ }\\auto \mbox{\hyperlink{namespaceseq_abf9baf42d336da7e5368e05ecd5d2515}{string\+\_\+size}} (const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ S, Al $>$ \&str) -\/$>$ size\+\_\+t
 \item 
 auto \mbox{\hyperlink{namespaceseq_ac404d9958f2200e3e6588b5601759b1c}{string\+\_\+size}} (const char $\ast$str) -\/$>$ size\+\_\+t
@@ -934,81 +934,81 @@ auto seq\+::any\+\_\+cast (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class
 auto seq\+::any\+\_\+cast (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1hold__any}{hold\+\_\+any}}$<$ Interface, S, A $>$ $\ast$}]{operand }\end{DoxyParamCaption}) -\/$>$ T$\ast$
 	\hspace{0.3cm}{\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{namespaceseq_a8f753a80b6681e028f355e701d7558fd}\label{namespaceseq_a8f753a80b6681e028f355e701d7558fd}} 
+\mbox{\Hypertarget{namespaceseq_aeb73db39e1609aef776bd9499a838c85}\label{namespaceseq_aeb73db39e1609aef776bd9499a838c85}} 
 \index{seq@{seq}!bit\_scan\_forward@{bit\_scan\_forward}}
 \index{bit\_scan\_forward@{bit\_scan\_forward}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{bit\_scan\_forward()}{bit\_scan\_forward()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto seq\+::bit\+\_\+scan\+\_\+forward (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{bb }\end{DoxyParamCaption}) -\/$>$ unsigned \hspace{0.3cm}{\ttfamily [noexcept]}}
+{\footnotesize\ttfamily auto seq\+::bit\+\_\+scan\+\_\+forward (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{bb }\end{DoxyParamCaption}) -\/$>$ unsigned \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the lowest set bit index in {\itshape bb}. Undefined if bb==0. 
 
-\mbox{\Hypertarget{namespaceseq_a5335fc88476215a7b6e85c91f043c75a}\label{namespaceseq_a5335fc88476215a7b6e85c91f043c75a}} 
+\mbox{\Hypertarget{namespaceseq_adaee03ba305545aff518038a6037813b}\label{namespaceseq_adaee03ba305545aff518038a6037813b}} 
 \index{seq@{seq}!bit\_scan\_forward\_32@{bit\_scan\_forward\_32}}
 \index{bit\_scan\_forward\_32@{bit\_scan\_forward\_32}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{bit\_scan\_forward\_32()}{bit\_scan\_forward\_32()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto seq\+::bit\+\_\+scan\+\_\+forward\+\_\+32 (\begin{DoxyParamCaption}\item[{std\+::uint32\+\_\+t}]{val }\end{DoxyParamCaption}) -\/$>$ unsigned int
-	}
+{\footnotesize\ttfamily auto seq\+::bit\+\_\+scan\+\_\+forward\+\_\+32 (\begin{DoxyParamCaption}\item[{std\+::uint32\+\_\+t}]{val }\end{DoxyParamCaption}) -\/$>$ unsigned int
+	\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 Returns the lowest set bit index in {\itshape val} Undefined if val==0. 
 
-\mbox{\Hypertarget{namespaceseq_ad62321cfa7efc948ca4358568b3e9b50}\label{namespaceseq_ad62321cfa7efc948ca4358568b3e9b50}} 
+\mbox{\Hypertarget{namespaceseq_aea82743e4a07a05aad9c2226c85c5925}\label{namespaceseq_aea82743e4a07a05aad9c2226c85c5925}} 
 \index{seq@{seq}!bit\_scan\_forward\_64@{bit\_scan\_forward\_64}}
 \index{bit\_scan\_forward\_64@{bit\_scan\_forward\_64}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{bit\_scan\_forward\_64()}{bit\_scan\_forward\_64()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto seq\+::bit\+\_\+scan\+\_\+forward\+\_\+64 (\begin{DoxyParamCaption}\item[{std\+::uint64\+\_\+t}]{bb }\end{DoxyParamCaption}) -\/$>$ unsigned \hspace{0.3cm}{\ttfamily [noexcept]}}
+{\footnotesize\ttfamily auto seq\+::bit\+\_\+scan\+\_\+forward\+\_\+64 (\begin{DoxyParamCaption}\item[{std\+::uint64\+\_\+t}]{bb }\end{DoxyParamCaption}) -\/$>$ unsigned \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the lowest set bit index in {\itshape bb}. Developed by Kim Walisch (2012). Undefined if bb==0. 
 
-\mbox{\Hypertarget{namespaceseq_aca32d4dff49ef878b4e422eb6bd14b42}\label{namespaceseq_aca32d4dff49ef878b4e422eb6bd14b42}} 
+\mbox{\Hypertarget{namespaceseq_af6ba1bdf7d8e86f8aedd900676c80238}\label{namespaceseq_af6ba1bdf7d8e86f8aedd900676c80238}} 
 \index{seq@{seq}!bit\_scan\_forward\_8@{bit\_scan\_forward\_8}}
 \index{bit\_scan\_forward\_8@{bit\_scan\_forward\_8}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{bit\_scan\_forward\_8()}{bit\_scan\_forward\_8()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto seq\+::bit\+\_\+scan\+\_\+forward\+\_\+8 (\begin{DoxyParamCaption}\item[{wint\+\_\+t}]{val }\end{DoxyParamCaption}) -\/$>$ unsigned int
-	}
+{\footnotesize\ttfamily auto seq\+::bit\+\_\+scan\+\_\+forward\+\_\+8 (\begin{DoxyParamCaption}\item[{wint\+\_\+t}]{val }\end{DoxyParamCaption}) -\/$>$ unsigned int
+	\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{namespaceseq_a95cddad118d3a1b51cb40cecf6a615ac}\label{namespaceseq_a95cddad118d3a1b51cb40cecf6a615ac}} 
+\mbox{\Hypertarget{namespaceseq_ab2a4aaad9e6e5b58b9ae8bc9a0a8df09}\label{namespaceseq_ab2a4aaad9e6e5b58b9ae8bc9a0a8df09}} 
 \index{seq@{seq}!bit\_scan\_reverse@{bit\_scan\_reverse}}
 \index{bit\_scan\_reverse@{bit\_scan\_reverse}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{bit\_scan\_reverse()}{bit\_scan\_reverse()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto seq\+::bit\+\_\+scan\+\_\+reverse (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{bb }\end{DoxyParamCaption}) -\/$>$ unsigned \hspace{0.3cm}{\ttfamily [noexcept]}}
+{\footnotesize\ttfamily auto seq\+::bit\+\_\+scan\+\_\+reverse (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{bb }\end{DoxyParamCaption}) -\/$>$ unsigned \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the highest set bit index in {\itshape bb}. Undefined if bb==0. 
 
-\mbox{\Hypertarget{namespaceseq_ad890d8e0cc7e623d9e5abdda7895b993}\label{namespaceseq_ad890d8e0cc7e623d9e5abdda7895b993}} 
+\mbox{\Hypertarget{namespaceseq_a89b01e43cd0234954034486359baa02f}\label{namespaceseq_a89b01e43cd0234954034486359baa02f}} 
 \index{seq@{seq}!bit\_scan\_reverse\_32@{bit\_scan\_reverse\_32}}
 \index{bit\_scan\_reverse\_32@{bit\_scan\_reverse\_32}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{bit\_scan\_reverse\_32()}{bit\_scan\_reverse\_32()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto seq\+::bit\+\_\+scan\+\_\+reverse\+\_\+32 (\begin{DoxyParamCaption}\item[{std\+::uint32\+\_\+t}]{val }\end{DoxyParamCaption}) -\/$>$ unsigned int
-	}
+{\footnotesize\ttfamily auto seq\+::bit\+\_\+scan\+\_\+reverse\+\_\+32 (\begin{DoxyParamCaption}\item[{std\+::uint32\+\_\+t}]{val }\end{DoxyParamCaption}) -\/$>$ unsigned int
+	\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 Returns the highest set bit index in {\itshape val} Undefined if val==0. 
 
-\mbox{\Hypertarget{namespaceseq_a9d6a2c807a7f315dd91bb855fb665e0c}\label{namespaceseq_a9d6a2c807a7f315dd91bb855fb665e0c}} 
+\mbox{\Hypertarget{namespaceseq_aaea603fed30d1318a1a13ee9a6181c1a}\label{namespaceseq_aaea603fed30d1318a1a13ee9a6181c1a}} 
 \index{seq@{seq}!bit\_scan\_reverse\_64@{bit\_scan\_reverse\_64}}
 \index{bit\_scan\_reverse\_64@{bit\_scan\_reverse\_64}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{bit\_scan\_reverse\_64()}{bit\_scan\_reverse\_64()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto seq\+::bit\+\_\+scan\+\_\+reverse\+\_\+64 (\begin{DoxyParamCaption}\item[{std\+::uint64\+\_\+t}]{bb }\end{DoxyParamCaption}) -\/$>$ unsigned \hspace{0.3cm}{\ttfamily [noexcept]}}
+{\footnotesize\ttfamily auto seq\+::bit\+\_\+scan\+\_\+reverse\+\_\+64 (\begin{DoxyParamCaption}\item[{std\+::uint64\+\_\+t}]{bb }\end{DoxyParamCaption}) -\/$>$ unsigned \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
 Returns the highest set bit index in {\itshape bb}. Developed by Kim Walisch, Mark Dickinson. Undefined if bb==0. 
 
-\mbox{\Hypertarget{namespaceseq_a22cc9d270a9c588ab6ef0abfda5f4c58}\label{namespaceseq_a22cc9d270a9c588ab6ef0abfda5f4c58}} 
+\mbox{\Hypertarget{namespaceseq_adbee1b71b206139ba062e72ec88de1cf}\label{namespaceseq_adbee1b71b206139ba062e72ec88de1cf}} 
 \index{seq@{seq}!bit\_scan\_reverse\_8@{bit\_scan\_reverse\_8}}
 \index{bit\_scan\_reverse\_8@{bit\_scan\_reverse\_8}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{bit\_scan\_reverse\_8()}{bit\_scan\_reverse\_8()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto seq\+::bit\+\_\+scan\+\_\+reverse\+\_\+8 (\begin{DoxyParamCaption}\item[{std\+::uint8\+\_\+t}]{val }\end{DoxyParamCaption}) -\/$>$ unsigned int
-	}
+{\footnotesize\ttfamily auto seq\+::bit\+\_\+scan\+\_\+reverse\+\_\+8 (\begin{DoxyParamCaption}\item[{std\+::uint8\+\_\+t}]{val }\end{DoxyParamCaption}) -\/$>$ unsigned int
+	\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{namespaceseq_a549cd68f02bd7ddfa1ac9db016dcc175}\label{namespaceseq_a549cd68f02bd7ddfa1ac9db016dcc175}} 
 \index{seq@{seq}!bswap\_16@{bswap\_16}}
@@ -1094,7 +1094,7 @@ Simply call p-\/$>$$\sim$\+T(), used as a replacement to std\+::allocator\+::des
 \doxysubsubsection{\texorpdfstring{erase\_if()}{erase\_if()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
 {\footnotesize\ttfamily template$<$class Key , class T , class Compare , class Al1 , Layout\+Management L1, bool S1, bool U1, class Pred $>$ \\
 auto seq\+::erase\+\_\+if (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1flat__map}{flat\+\_\+map}}$<$ Key, T, Compare, Al1, L1, S1, U1 $>$ \&}]{s1,  }\item[{Pred}]{p }\end{DoxyParamCaption}) -\/$>$ typename \mbox{\hyperlink{classseq_1_1flat__map}{flat\+\_\+map}}$<$Key, T, Compare, Al1, L1, S1, U1$>$\+::size\+\_\+type
-}
+	}
 
 
 
@@ -1106,7 +1106,7 @@ Erases all elements that satisfy the predicate p from the container.
 \doxysubsubsection{\texorpdfstring{erase\_if()}{erase\_if()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
 {\footnotesize\ttfamily template$<$class Key , class Compare , class Al1 , Layout\+Management L1, bool S1, bool U1, class Pred $>$ \\
 auto seq\+::erase\+\_\+if (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}}$<$ Key, Compare, Al1, L1, S1, U1 $>$ \&}]{s1,  }\item[{Pred}]{p }\end{DoxyParamCaption}) -\/$>$ typename \mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}}$<$Key, Compare, Al1, L1, S1, U1$>$\+::size\+\_\+type
-}
+	}
 
 
 
@@ -1900,7 +1900,7 @@ Returns -\/v if v is signed, v otherwise.
 \doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/11]}}
 {\footnotesize\ttfamily template$<$class Key , class T , class Compare , class Al1 , class Al2 , Layout\+Management L1, Layout\+Management L2, bool S1, bool S2, bool U1, bool U2$>$ \\
 auto seq\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1flat__map}{flat\+\_\+map}}$<$ Key, T, Compare, Al1, L1, S1, U1 $>$ \&}]{s1,  }\item[{const \mbox{\hyperlink{classseq_1_1flat__map}{flat\+\_\+map}}$<$ Key, T, Compare, Al2, L2, S2, U2 $>$ \&}]{s2 }\end{DoxyParamCaption}) -\/$>$ bool
-}
+	}
 
 
 
@@ -1912,7 +1912,7 @@ Checks if the contents of s1 and s2 are not equals.
 \doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}\hspace{0.1cm}{\footnotesize\ttfamily [3/11]}}
 {\footnotesize\ttfamily template$<$class Key , class Compare , class Al1 , class Al2 , Layout\+Management L1, Layout\+Management L2, bool S1, bool S2, bool U1, bool U2$>$ \\
 auto seq\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}}$<$ Key, Compare, Al1, L1, S1, U1 $>$ \&}]{s1,  }\item[{const \mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}}$<$ Key, Compare, Al2, L2, S2, U2 $>$ \&}]{s2 }\end{DoxyParamCaption}) -\/$>$ bool
-}
+	}
 
 
 
@@ -1992,19 +1992,21 @@ auto seq\+::operator!= (\begin{DoxyParamCaption}\item[{const T \&}]{b,  }\item[{
 {\footnotesize\ttfamily template$<$size\+\_\+t Size, class Al , size\+\_\+t Size2, class Al2 $>$ \\
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} bool seq\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{lhs,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size2, Al2 $>$ \&}]{rhs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{namespaceseq_aa16ed00cc778ba6a0e21215120dedaf8}\label{namespaceseq_aa16ed00cc778ba6a0e21215120dedaf8}} 
+\mbox{\Hypertarget{namespaceseq_a68147f1f9efe66da434919961feed1f0}\label{namespaceseq_a68147f1f9efe66da434919961feed1f0}} 
 \index{seq@{seq}!operator+@{operator+}}
 \index{operator+@{operator+}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{operator+()}{operator+()}\hspace{0.1cm}{\footnotesize\ttfamily [1/8]}}
 {\footnotesize\ttfamily template$<$size\+\_\+t Size, class Al $>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type seq\+::operator+ (\begin{DoxyParamCaption}\item[{char}]{lhs,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{rhs }\end{DoxyParamCaption})}
+auto seq\+::operator+ (\begin{DoxyParamCaption}\item[{char}]{lhs,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{rhs }\end{DoxyParamCaption}) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type
+	}
 
-\mbox{\Hypertarget{namespaceseq_ad4daaf1a307da775f3767ab9e300f36a}\label{namespaceseq_ad4daaf1a307da775f3767ab9e300f36a}} 
+\mbox{\Hypertarget{namespaceseq_ae509e47a7299cf5e9eaa6d2bb386db1f}\label{namespaceseq_ae509e47a7299cf5e9eaa6d2bb386db1f}} 
 \index{seq@{seq}!operator+@{operator+}}
 \index{operator+@{operator+}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{operator+()}{operator+()}\hspace{0.1cm}{\footnotesize\ttfamily [2/8]}}
 {\footnotesize\ttfamily template$<$size\+\_\+t Size, class Al $>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type seq\+::operator+ (\begin{DoxyParamCaption}\item[{const char $\ast$}]{lhs,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{rhs }\end{DoxyParamCaption})}
+auto seq\+::operator+ (\begin{DoxyParamCaption}\item[{const char $\ast$}]{lhs,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{rhs }\end{DoxyParamCaption}) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type
+	}
 
 \mbox{\Hypertarget{namespaceseq_a57a83c380ba3efb861a6d64bd87360c1}\label{namespaceseq_a57a83c380ba3efb861a6d64bd87360c1}} 
 \index{seq@{seq}!operator+@{operator+}}
@@ -2013,40 +2015,45 @@ auto seq\+::operator!= (\begin{DoxyParamCaption}\item[{const T \&}]{b,  }\item[{
 {\footnotesize\ttfamily template$<$class T $>$ \\
 auto seq\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1cvalue__iterator}{cvalue\+\_\+iterator}}$<$ T $>$ \&}]{it,  }\item[{typename \mbox{\hyperlink{classseq_1_1cvalue__iterator}{cvalue\+\_\+iterator}}$<$ T $>$\+::difference\+\_\+type}]{diff }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1cvalue__iterator}{cvalue\+\_\+iterator}}$<$ T$>$ \hspace{0.3cm}{\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{namespaceseq_a6f7fd51f3cc247331f7ed13b1b1cf4ed}\label{namespaceseq_a6f7fd51f3cc247331f7ed13b1b1cf4ed}} 
+\mbox{\Hypertarget{namespaceseq_a97cec60fd49b0943f3f8501fcec57676}\label{namespaceseq_a97cec60fd49b0943f3f8501fcec57676}} 
 \index{seq@{seq}!operator+@{operator+}}
 \index{operator+@{operator+}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{operator+()}{operator+()}\hspace{0.1cm}{\footnotesize\ttfamily [4/8]}}
 {\footnotesize\ttfamily template$<$size\+\_\+t Size, class Al $>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type seq\+::operator+ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{lhs,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{rhs }\end{DoxyParamCaption})}
+auto seq\+::operator+ (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{lhs,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{rhs }\end{DoxyParamCaption}) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type
+	}
 
-\mbox{\Hypertarget{namespaceseq_aed0caf1783a3f82d9cfc9d88e159b8a9}\label{namespaceseq_aed0caf1783a3f82d9cfc9d88e159b8a9}} 
+\mbox{\Hypertarget{namespaceseq_abbdee63e1144180cadb75be9d1730787}\label{namespaceseq_abbdee63e1144180cadb75be9d1730787}} 
 \index{seq@{seq}!operator+@{operator+}}
 \index{operator+@{operator+}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{operator+()}{operator+()}\hspace{0.1cm}{\footnotesize\ttfamily [5/8]}}
 {\footnotesize\ttfamily template$<$size\+\_\+t Size, class Al $>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type seq\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{lhs,  }\item[{char}]{rhs }\end{DoxyParamCaption})}
+auto seq\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{lhs,  }\item[{char}]{rhs }\end{DoxyParamCaption}) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type
+	}
 
-\mbox{\Hypertarget{namespaceseq_a213087903db1d425d09460f104ba12af}\label{namespaceseq_a213087903db1d425d09460f104ba12af}} 
+\mbox{\Hypertarget{namespaceseq_ae6610e8513f7ab68233cdd6d46151209}\label{namespaceseq_ae6610e8513f7ab68233cdd6d46151209}} 
 \index{seq@{seq}!operator+@{operator+}}
 \index{operator+@{operator+}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{operator+()}{operator+()}\hspace{0.1cm}{\footnotesize\ttfamily [6/8]}}
 {\footnotesize\ttfamily template$<$size\+\_\+t Size, class Al $>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type seq\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{lhs,  }\item[{const char $\ast$}]{rhs }\end{DoxyParamCaption})}
+auto seq\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{lhs,  }\item[{const char $\ast$}]{rhs }\end{DoxyParamCaption}) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type
+	}
 
-\mbox{\Hypertarget{namespaceseq_a55661fe2e7792e24a096eb01c961774f}\label{namespaceseq_a55661fe2e7792e24a096eb01c961774f}} 
+\mbox{\Hypertarget{namespaceseq_aa8056fc410913073144c5fa466cbc690}\label{namespaceseq_aa8056fc410913073144c5fa466cbc690}} 
 \index{seq@{seq}!operator+@{operator+}}
 \index{operator+@{operator+}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{operator+()}{operator+()}\hspace{0.1cm}{\footnotesize\ttfamily [7/8]}}
 {\footnotesize\ttfamily template$<$size\+\_\+t Size, class Al $>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type seq\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{lhs,  }\item[{const std\+::string \&}]{rhs }\end{DoxyParamCaption})}
+auto seq\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{lhs,  }\item[{const std\+::string \&}]{rhs }\end{DoxyParamCaption}) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$ $>$\+::type
+	}
 
-\mbox{\Hypertarget{namespaceseq_a4da0baa868f02d38d414b2dc1f288549}\label{namespaceseq_a4da0baa868f02d38d414b2dc1f288549}} 
+\mbox{\Hypertarget{namespaceseq_a0bb1d95a792c4df40a9942662ab573ff}\label{namespaceseq_a0bb1d95a792c4df40a9942662ab573ff}} 
 \index{seq@{seq}!operator+@{operator+}}
 \index{operator+@{operator+}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{operator+()}{operator+()}\hspace{0.1cm}{\footnotesize\ttfamily [8/8]}}
 {\footnotesize\ttfamily template$<$size\+\_\+t Size, class Al , size\+\_\+t Size2, class Al2 $>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size2, Al2$>$ $>$\+::type seq\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{lhs,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size2, Al2 $>$ \&}]{rhs }\end{DoxyParamCaption})}
+auto seq\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size, Al $>$ \&}]{lhs,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$ Size2, Al2 $>$ \&}]{rhs }\end{DoxyParamCaption}) -\/$>$ typename \mbox{\hyperlink{structseq_1_1detail_1_1_find_return_type}{detail\+::\+Find\+Return\+Type}}$<$\mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size, Al$>$, \mbox{\hyperlink{classseq_1_1tiny__string}{tiny\+\_\+string}}$<$Size2, Al2$>$ $>$\+::type
+	}
 
 \mbox{\Hypertarget{namespaceseq_aa242d97b0138a72bd07cabe76a62ef17}\label{namespaceseq_aa242d97b0138a72bd07cabe76a62ef17}} 
 \index{seq@{seq}!operator-\/@{operator-\/}}
@@ -2199,7 +2206,7 @@ auto seq\+::operator== (\begin{DoxyParamCaption}\item[{const char $\ast$}]{lhs, 
 \doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [2/11]}}
 {\footnotesize\ttfamily template$<$class Key , class T , class Compare , class Al1 , class Al2 , Layout\+Management L1, Layout\+Management L2, bool S1, bool S2, bool U1, bool U2$>$ \\
 auto seq\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1flat__map}{flat\+\_\+map}}$<$ Key, T, Compare, Al1, L1, S1, U1 $>$ \&}]{s1,  }\item[{const \mbox{\hyperlink{classseq_1_1flat__map}{flat\+\_\+map}}$<$ Key, T, Compare, Al2, L2, S2, U2 $>$ \&}]{s2 }\end{DoxyParamCaption}) -\/$>$ bool
-}
+	}
 
 
 
@@ -2211,7 +2218,7 @@ Checks if the contents of s1 and s2 are equal, that is, they have the same numbe
 \doxysubsubsection{\texorpdfstring{operator==()}{operator==()}\hspace{0.1cm}{\footnotesize\ttfamily [3/11]}}
 {\footnotesize\ttfamily template$<$class Key , class Compare , class Al1 , class Al2 , Layout\+Management L1, Layout\+Management L2, bool S1, bool S2, bool U1, bool U2$>$ \\
 auto seq\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}}$<$ Key, Compare, Al1, L1, S1, U1 $>$ \&}]{s1,  }\item[{const \mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}}$<$ Key, Compare, Al2, L2, S2, U2 $>$ \&}]{s2 }\end{DoxyParamCaption}) -\/$>$ bool
-}
+	}
 
 
 
@@ -2716,6 +2723,10 @@ void seq\+::register\+\_\+any\+\_\+less\+\_\+comparison (\begin{DoxyParamCaption
 \doxysubsubsection{\texorpdfstring{string\_data()}{string\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
 {\footnotesize\ttfamily auto seq\+::string\+\_\+data (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str }\end{DoxyParamCaption}) -\/$>$ const char$\ast$ }
 
+
+
+Returns the string data (const char$\ast$) for given string object. 
+
 \mbox{\Hypertarget{namespaceseq_a883e44e91646300fed68720e2e9e7c90}\label{namespaceseq_a883e44e91646300fed68720e2e9e7c90}} 
 \index{seq@{seq}!string\_data@{string\_data}}
 \index{string\_data@{string\_data}!seq@{seq}}
@@ -2740,6 +2751,10 @@ auto seq\+::string\+\_\+data (\begin{DoxyParamCaption}\item[{const \mbox{\hyperl
 \index{string\_size@{string\_size}!seq@{seq}}
 \doxysubsubsection{\texorpdfstring{string\_size()}{string\_size()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
 {\footnotesize\ttfamily auto seq\+::string\+\_\+size (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str }\end{DoxyParamCaption}) -\/$>$ size\+\_\+t }
+
+
+
+Returns the string size for given string object. 
 
 \mbox{\Hypertarget{namespaceseq_abf9baf42d336da7e5368e05ecd5d2515}\label{namespaceseq_abf9baf42d336da7e5368e05ecd5d2515}} 
 \index{seq@{seq}!string\_size@{string\_size}}

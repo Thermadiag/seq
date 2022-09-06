@@ -10,7 +10,7 @@ var classseq_1_1detail_1_1from__chars__stream =
     [ "error", "classseq_1_1detail_1_1from__chars__stream.html#a365c5ebd8506dfca033f8fac5aaf639e", null ],
     [ "getc", "classseq_1_1detail_1_1from__chars__stream.html#ae6fe449f337fefdbf460b1d6e8b159af", null ],
     [ "is_open", "classseq_1_1detail_1_1from__chars__stream.html#a7f02f4ec0091251b092fc87a0df6826f", null ],
-    [ "operator bool", "classseq_1_1detail_1_1from__chars__stream.html#ac8d079c362954a3c34456e7bba31668c", null ],
+    [ "operator bool", "classseq_1_1detail_1_1from__chars__stream.html#a7cbb16633649834c2b418614e3f2a392", null ],
     [ "reset", "classseq_1_1detail_1_1from__chars__stream.html#af1c04698b574e14679b067f246f5e95a", null ],
     [ "seek", "classseq_1_1detail_1_1from__chars__stream.html#aa07438597ea3035af7c3a28d56c4f62d", null ],
     [ "set_state", "classseq_1_1detail_1_1from__chars__stream.html#aea4be6be6efe4e83ea8954839551f9fa", null ],

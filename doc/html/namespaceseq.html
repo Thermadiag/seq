@@ -201,6 +201,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells if given type supports equality comparison with operator ==.  <a href="classseq_1_1is__equal__comparable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__formattable.html">is_formattable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if given type is formattable using <a class="el" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt()</a>  <a href="structseq_1_1is__formattable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__generic__string.html">is_generic_string</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detect all possible string types (std::string, tstring, tstring_view, std::string_view, const char*, char*.  <a href="structseq_1_1is__generic__string.html#details">More...</a><br /></td></tr>
@@ -240,6 +241,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__object__pool.html">is_object_pool</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__object__pool_3_01object__pool_3_01_t_00_01_allocator_00_01_align_00_01object__aa897b5fd959a84c29154e339081634cc.html">is_object_pool&lt; object_pool&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt; &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells if given type is an object pool.  <a href="structseq_1_1is__object__pool_3_01object__pool_3_01_t_00_01_allocator_00_01_align_00_01object__aa897b5fd959a84c29154e339081634cc.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1is__ostreamable.html">is_ostreamable</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tells if given type can be streamed to a std::ostream object.  <a href="classseq_1_1is__ostreamable.html#details">More...</a><br /></td></tr>
@@ -598,28 +600,28 @@ Functions</h2></td></tr>
 <tr class="separator:af2cd15c1c849768be9995bcb1fd1733a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a348cf02b3ab7947f01df82985d741138"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a348cf02b3ab7947f01df82985d741138">popcnt16</a> (unsigned short value) -&gt; unsigned</td></tr>
 <tr class="separator:a348cf02b3ab7947f01df82985d741138"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca32d4dff49ef878b4e422eb6bd14b42"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aca32d4dff49ef878b4e422eb6bd14b42">bit_scan_forward_8</a> (wint_t val) -&gt; unsigned int</td></tr>
-<tr class="separator:aca32d4dff49ef878b4e422eb6bd14b42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22cc9d270a9c588ab6ef0abfda5f4c58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a22cc9d270a9c588ab6ef0abfda5f4c58">bit_scan_reverse_8</a> (std::uint8_t val) -&gt; unsigned int</td></tr>
-<tr class="separator:a22cc9d270a9c588ab6ef0abfda5f4c58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5335fc88476215a7b6e85c91f043c75a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a5335fc88476215a7b6e85c91f043c75a">bit_scan_forward_32</a> (std::uint32_t val) -&gt; unsigned int</td></tr>
-<tr class="memdesc:a5335fc88476215a7b6e85c91f043c75a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the lowest set bit index in <em>val</em> Undefined if val==0.  <a href="namespaceseq.html#a5335fc88476215a7b6e85c91f043c75a">More...</a><br /></td></tr>
-<tr class="separator:a5335fc88476215a7b6e85c91f043c75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad890d8e0cc7e623d9e5abdda7895b993"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ad890d8e0cc7e623d9e5abdda7895b993">bit_scan_reverse_32</a> (std::uint32_t val) -&gt; unsigned int</td></tr>
-<tr class="memdesc:ad890d8e0cc7e623d9e5abdda7895b993"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the highest set bit index in <em>val</em> Undefined if val==0.  <a href="namespaceseq.html#ad890d8e0cc7e623d9e5abdda7895b993">More...</a><br /></td></tr>
-<tr class="separator:ad890d8e0cc7e623d9e5abdda7895b993"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad62321cfa7efc948ca4358568b3e9b50"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ad62321cfa7efc948ca4358568b3e9b50">bit_scan_forward_64</a> (std::uint64_t bb) noexcept -&gt; unsigned</td></tr>
-<tr class="memdesc:ad62321cfa7efc948ca4358568b3e9b50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the lowest set bit index in <em>bb</em>. Developed by Kim Walisch (2012). Undefined if bb==0.  <a href="namespaceseq.html#ad62321cfa7efc948ca4358568b3e9b50">More...</a><br /></td></tr>
-<tr class="separator:ad62321cfa7efc948ca4358568b3e9b50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d6a2c807a7f315dd91bb855fb665e0c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a9d6a2c807a7f315dd91bb855fb665e0c">bit_scan_reverse_64</a> (std::uint64_t bb) noexcept -&gt; unsigned</td></tr>
-<tr class="memdesc:a9d6a2c807a7f315dd91bb855fb665e0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the highest set bit index in <em>bb</em>. Developed by Kim Walisch, Mark Dickinson. Undefined if bb==0.  <a href="namespaceseq.html#a9d6a2c807a7f315dd91bb855fb665e0c">More...</a><br /></td></tr>
-<tr class="separator:a9d6a2c807a7f315dd91bb855fb665e0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f753a80b6681e028f355e701d7558fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a8f753a80b6681e028f355e701d7558fd">bit_scan_forward</a> (size_t bb) noexcept -&gt; unsigned</td></tr>
-<tr class="memdesc:a8f753a80b6681e028f355e701d7558fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the lowest set bit index in <em>bb</em>. Undefined if bb==0.  <a href="namespaceseq.html#a8f753a80b6681e028f355e701d7558fd">More...</a><br /></td></tr>
-<tr class="separator:a8f753a80b6681e028f355e701d7558fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95cddad118d3a1b51cb40cecf6a615ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a95cddad118d3a1b51cb40cecf6a615ac">bit_scan_reverse</a> (size_t bb) noexcept -&gt; unsigned</td></tr>
-<tr class="memdesc:a95cddad118d3a1b51cb40cecf6a615ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the highest set bit index in <em>bb</em>. Undefined if bb==0.  <a href="namespaceseq.html#a95cddad118d3a1b51cb40cecf6a615ac">More...</a><br /></td></tr>
-<tr class="separator:a95cddad118d3a1b51cb40cecf6a615ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6ba1bdf7d8e86f8aedd900676c80238"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#af6ba1bdf7d8e86f8aedd900676c80238">bit_scan_forward_8</a> (wint_t val) -&gt; unsigned int</td></tr>
+<tr class="separator:af6ba1bdf7d8e86f8aedd900676c80238"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbee1b71b206139ba062e72ec88de1cf"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#adbee1b71b206139ba062e72ec88de1cf">bit_scan_reverse_8</a> (std::uint8_t val) -&gt; unsigned int</td></tr>
+<tr class="separator:adbee1b71b206139ba062e72ec88de1cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaee03ba305545aff518038a6037813b"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#adaee03ba305545aff518038a6037813b">bit_scan_forward_32</a> (std::uint32_t val) -&gt; unsigned int</td></tr>
+<tr class="memdesc:adaee03ba305545aff518038a6037813b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the lowest set bit index in <em>val</em> Undefined if val==0.  <a href="namespaceseq.html#adaee03ba305545aff518038a6037813b">More...</a><br /></td></tr>
+<tr class="separator:adaee03ba305545aff518038a6037813b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89b01e43cd0234954034486359baa02f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a89b01e43cd0234954034486359baa02f">bit_scan_reverse_32</a> (std::uint32_t val) -&gt; unsigned int</td></tr>
+<tr class="memdesc:a89b01e43cd0234954034486359baa02f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the highest set bit index in <em>val</em> Undefined if val==0.  <a href="namespaceseq.html#a89b01e43cd0234954034486359baa02f">More...</a><br /></td></tr>
+<tr class="separator:a89b01e43cd0234954034486359baa02f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea82743e4a07a05aad9c2226c85c5925"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aea82743e4a07a05aad9c2226c85c5925">bit_scan_forward_64</a> (std::uint64_t bb) noexcept -&gt; unsigned</td></tr>
+<tr class="memdesc:aea82743e4a07a05aad9c2226c85c5925"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the lowest set bit index in <em>bb</em>. Developed by Kim Walisch (2012). Undefined if bb==0.  <a href="namespaceseq.html#aea82743e4a07a05aad9c2226c85c5925">More...</a><br /></td></tr>
+<tr class="separator:aea82743e4a07a05aad9c2226c85c5925"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaea603fed30d1318a1a13ee9a6181c1a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aaea603fed30d1318a1a13ee9a6181c1a">bit_scan_reverse_64</a> (std::uint64_t bb) noexcept -&gt; unsigned</td></tr>
+<tr class="memdesc:aaea603fed30d1318a1a13ee9a6181c1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the highest set bit index in <em>bb</em>. Developed by Kim Walisch, Mark Dickinson. Undefined if bb==0.  <a href="namespaceseq.html#aaea603fed30d1318a1a13ee9a6181c1a">More...</a><br /></td></tr>
+<tr class="separator:aaea603fed30d1318a1a13ee9a6181c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb73db39e1609aef776bd9499a838c85"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aeb73db39e1609aef776bd9499a838c85">bit_scan_forward</a> (size_t bb) noexcept -&gt; unsigned</td></tr>
+<tr class="memdesc:aeb73db39e1609aef776bd9499a838c85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the lowest set bit index in <em>bb</em>. Undefined if bb==0.  <a href="namespaceseq.html#aeb73db39e1609aef776bd9499a838c85">More...</a><br /></td></tr>
+<tr class="separator:aeb73db39e1609aef776bd9499a838c85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2a4aaad9e6e5b58b9ae8bc9a0a8df09"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab2a4aaad9e6e5b58b9ae8bc9a0a8df09">bit_scan_reverse</a> (size_t bb) noexcept -&gt; unsigned</td></tr>
+<tr class="memdesc:ab2a4aaad9e6e5b58b9ae8bc9a0a8df09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the highest set bit index in <em>bb</em>. Undefined if bb==0.  <a href="namespaceseq.html#ab2a4aaad9e6e5b58b9ae8bc9a0a8df09">More...</a><br /></td></tr>
+<tr class="separator:ab2a4aaad9e6e5b58b9ae8bc9a0a8df09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad229ce51d8085cde156a70f274f2dce2"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:ad229ce51d8085cde156a70f274f2dce2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ad229ce51d8085cde156a70f274f2dce2">count_digits_base_10</a> (T x) -&gt; unsigned</td></tr>
 <tr class="separator:ad229ce51d8085cde156a70f274f2dce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -956,28 +958,29 @@ Functions</h2></td></tr>
 <tr class="memitem:a099bb20d7de44b7e830799fea7f7a709"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
 <tr class="memitem:a099bb20d7de44b7e830799fea7f7a709"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a099bb20d7de44b7e830799fea7f7a709">operator&gt;=</a> (const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;lhs, const std::string &amp;rhs) noexcept</td></tr>
 <tr class="separator:a099bb20d7de44b7e830799fea7f7a709"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4da0baa868f02d38d414b2dc1f288549"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al , size_t Size2, class Al2 &gt; </td></tr>
-<tr class="memitem:a4da0baa868f02d38d414b2dc1f288549"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size2, Al2 &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a4da0baa868f02d38d414b2dc1f288549">operator+</a> (const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;lhs, const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size2, Al2 &gt; &amp;rhs)</td></tr>
-<tr class="separator:a4da0baa868f02d38d414b2dc1f288549"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55661fe2e7792e24a096eb01c961774f"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
-<tr class="memitem:a55661fe2e7792e24a096eb01c961774f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a55661fe2e7792e24a096eb01c961774f">operator+</a> (const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;lhs, const std::string &amp;rhs)</td></tr>
-<tr class="separator:a55661fe2e7792e24a096eb01c961774f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a213087903db1d425d09460f104ba12af"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
-<tr class="memitem:a213087903db1d425d09460f104ba12af"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a213087903db1d425d09460f104ba12af">operator+</a> (const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;lhs, const char *rhs)</td></tr>
-<tr class="separator:a213087903db1d425d09460f104ba12af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed0caf1783a3f82d9cfc9d88e159b8a9"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
-<tr class="memitem:aed0caf1783a3f82d9cfc9d88e159b8a9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aed0caf1783a3f82d9cfc9d88e159b8a9">operator+</a> (const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;lhs, char rhs)</td></tr>
-<tr class="separator:aed0caf1783a3f82d9cfc9d88e159b8a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f7fd51f3cc247331f7ed13b1b1cf4ed"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
-<tr class="memitem:a6f7fd51f3cc247331f7ed13b1b1cf4ed"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a6f7fd51f3cc247331f7ed13b1b1cf4ed">operator+</a> (const std::string &amp;lhs, const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;rhs)</td></tr>
-<tr class="separator:a6f7fd51f3cc247331f7ed13b1b1cf4ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4daaf1a307da775f3767ab9e300f36a"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
-<tr class="memitem:ad4daaf1a307da775f3767ab9e300f36a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ad4daaf1a307da775f3767ab9e300f36a">operator+</a> (const char *lhs, const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;rhs)</td></tr>
-<tr class="separator:ad4daaf1a307da775f3767ab9e300f36a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa16ed00cc778ba6a0e21215120dedaf8"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
-<tr class="memitem:aa16ed00cc778ba6a0e21215120dedaf8"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aa16ed00cc778ba6a0e21215120dedaf8">operator+</a> (char lhs, const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;rhs)</td></tr>
-<tr class="separator:aa16ed00cc778ba6a0e21215120dedaf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bb1d95a792c4df40a9942662ab573ff"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al , size_t Size2, class Al2 &gt; </td></tr>
+<tr class="memitem:a0bb1d95a792c4df40a9942662ab573ff"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a0bb1d95a792c4df40a9942662ab573ff">operator+</a> (const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;lhs, const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size2, Al2 &gt; &amp;rhs) -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size2, Al2 &gt; &gt;::type</td></tr>
+<tr class="separator:a0bb1d95a792c4df40a9942662ab573ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8056fc410913073144c5fa466cbc690"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
+<tr class="memitem:aa8056fc410913073144c5fa466cbc690"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aa8056fc410913073144c5fa466cbc690">operator+</a> (const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;lhs, const std::string &amp;rhs) -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type</td></tr>
+<tr class="separator:aa8056fc410913073144c5fa466cbc690"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6610e8513f7ab68233cdd6d46151209"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
+<tr class="memitem:ae6610e8513f7ab68233cdd6d46151209"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ae6610e8513f7ab68233cdd6d46151209">operator+</a> (const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;lhs, const char *rhs) -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type</td></tr>
+<tr class="separator:ae6610e8513f7ab68233cdd6d46151209"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbdee63e1144180cadb75be9d1730787"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
+<tr class="memitem:abbdee63e1144180cadb75be9d1730787"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#abbdee63e1144180cadb75be9d1730787">operator+</a> (const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;lhs, char rhs) -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type</td></tr>
+<tr class="separator:abbdee63e1144180cadb75be9d1730787"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97cec60fd49b0943f3f8501fcec57676"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
+<tr class="memitem:a97cec60fd49b0943f3f8501fcec57676"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a97cec60fd49b0943f3f8501fcec57676">operator+</a> (const std::string &amp;lhs, const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;rhs) -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type</td></tr>
+<tr class="separator:a97cec60fd49b0943f3f8501fcec57676"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae509e47a7299cf5e9eaa6d2bb386db1f"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
+<tr class="memitem:ae509e47a7299cf5e9eaa6d2bb386db1f"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ae509e47a7299cf5e9eaa6d2bb386db1f">operator+</a> (const char *lhs, const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;rhs) -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type</td></tr>
+<tr class="separator:ae509e47a7299cf5e9eaa6d2bb386db1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68147f1f9efe66da434919961feed1f0"><td class="memTemplParams" colspan="2">template&lt;size_t Size, class Al &gt; </td></tr>
+<tr class="memitem:a68147f1f9efe66da434919961feed1f0"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a68147f1f9efe66da434919961feed1f0">operator+</a> (char lhs, const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;rhs) -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt; <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &gt;::type</td></tr>
+<tr class="separator:a68147f1f9efe66da434919961feed1f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abacbb14fd705709e8f7d3d9b77daeea3"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#abacbb14fd705709e8f7d3d9b77daeea3">string_data</a> (const std::string &amp;str) -&gt; const char *</td></tr>
+<tr class="memdesc:abacbb14fd705709e8f7d3d9b77daeea3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the string data (const char*) for given string object.  <a href="namespaceseq.html#abacbb14fd705709e8f7d3d9b77daeea3">More...</a><br /></td></tr>
 <tr class="separator:abacbb14fd705709e8f7d3d9b77daeea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a883e44e91646300fed68720e2e9e7c90"><td class="memTemplParams" colspan="2">template&lt;size_t S, class Al &gt; </td></tr>
 <tr class="memitem:a883e44e91646300fed68720e2e9e7c90"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a883e44e91646300fed68720e2e9e7c90">string_data</a> (const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; S, Al &gt; &amp;str) -&gt; const char *</td></tr>
@@ -987,6 +990,7 @@ Functions</h2></td></tr>
 <tr class="memitem:ac0218c72afdb6220de9da3a069dc3efa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ac0218c72afdb6220de9da3a069dc3efa">string_data</a> (const <a class="el" href="namespaceseq.html#a2bede5ff16f5bb9f856b3b2d78303f69">tstring_view</a> &amp;str) -&gt; const char *</td></tr>
 <tr class="separator:ac0218c72afdb6220de9da3a069dc3efa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cb962f97eeea267d9b1e420879eb1ff"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a8cb962f97eeea267d9b1e420879eb1ff">string_size</a> (const std::string &amp;str) -&gt; size_t</td></tr>
+<tr class="memdesc:a8cb962f97eeea267d9b1e420879eb1ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the string size for given string object.  <a href="namespaceseq.html#a8cb962f97eeea267d9b1e420879eb1ff">More...</a><br /></td></tr>
 <tr class="separator:a8cb962f97eeea267d9b1e420879eb1ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf9baf42d336da7e5368e05ecd5d2515"><td class="memTemplParams" colspan="2">template&lt;size_t S, class Al &gt; </td></tr>
 <tr class="memitem:abf9baf42d336da7e5368e05ecd5d2515"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#abf9baf42d336da7e5368e05ecd5d2515">string_size</a> (const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; S, Al &gt; &amp;str) -&gt; size_t</td></tr>
@@ -1455,8 +1459,8 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
 
 </div>
 </div>
-<a id="a8f753a80b6681e028f355e701d7558fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f753a80b6681e028f355e701d7558fd">&#9670;&nbsp;</a></span>bit_scan_forward()</h2>
+<a id="aeb73db39e1609aef776bd9499a838c85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb73db39e1609aef776bd9499a838c85">&#9670;&nbsp;</a></span>bit_scan_forward()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1465,7 +1469,7 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto seq::bit_scan_forward </td>
+          <td class="memname">auto seq::bit_scan_forward </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>bb</em></td><td>)</td>
@@ -1474,7 +1478,7 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1483,29 +1487,8 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
 
 </div>
 </div>
-<a id="a5335fc88476215a7b6e85c91f043c75a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5335fc88476215a7b6e85c91f043c75a">&#9670;&nbsp;</a></span>bit_scan_forward_32()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto seq::bit_scan_forward_32 </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>val</em></td><td>)</td>
-          <td> -&gt; unsigned int
-	</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the lowest set bit index in <em>val</em> Undefined if val==0. </p>
-
-</div>
-</div>
-<a id="ad62321cfa7efc948ca4358568b3e9b50"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad62321cfa7efc948ca4358568b3e9b50">&#9670;&nbsp;</a></span>bit_scan_forward_64()</h2>
+<a id="adaee03ba305545aff518038a6037813b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adaee03ba305545aff518038a6037813b">&#9670;&nbsp;</a></span>bit_scan_forward_32()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1514,7 +1497,36 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto seq::bit_scan_forward_64 </td>
+          <td class="memname">auto seq::bit_scan_forward_32 </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td> -&gt; unsigned int
+	</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the lowest set bit index in <em>val</em> Undefined if val==0. </p>
+
+</div>
+</div>
+<a id="aea82743e4a07a05aad9c2226c85c5925"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea82743e4a07a05aad9c2226c85c5925">&#9670;&nbsp;</a></span>bit_scan_forward_64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::bit_scan_forward_64 </td>
           <td>(</td>
           <td class="paramtype">std::uint64_t&#160;</td>
           <td class="paramname"><em>bb</em></td><td>)</td>
@@ -1523,7 +1535,7 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1532,27 +1544,8 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
 
 </div>
 </div>
-<a id="aca32d4dff49ef878b4e422eb6bd14b42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca32d4dff49ef878b4e422eb6bd14b42">&#9670;&nbsp;</a></span>bit_scan_forward_8()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto seq::bit_scan_forward_8 </td>
-          <td>(</td>
-          <td class="paramtype">wint_t&#160;</td>
-          <td class="paramname"><em>val</em></td><td>)</td>
-          <td> -&gt; unsigned int
-	</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a95cddad118d3a1b51cb40cecf6a615ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95cddad118d3a1b51cb40cecf6a615ac">&#9670;&nbsp;</a></span>bit_scan_reverse()</h2>
+<a id="af6ba1bdf7d8e86f8aedd900676c80238"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6ba1bdf7d8e86f8aedd900676c80238">&#9670;&nbsp;</a></span>bit_scan_forward_8()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1561,7 +1554,34 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto seq::bit_scan_reverse </td>
+          <td class="memname">auto seq::bit_scan_forward_8 </td>
+          <td>(</td>
+          <td class="paramtype">wint_t&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td> -&gt; unsigned int
+	</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab2a4aaad9e6e5b58b9ae8bc9a0a8df09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2a4aaad9e6e5b58b9ae8bc9a0a8df09">&#9670;&nbsp;</a></span>bit_scan_reverse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::bit_scan_reverse </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>bb</em></td><td>)</td>
@@ -1570,7 +1590,7 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1579,29 +1599,8 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
 
 </div>
 </div>
-<a id="ad890d8e0cc7e623d9e5abdda7895b993"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad890d8e0cc7e623d9e5abdda7895b993">&#9670;&nbsp;</a></span>bit_scan_reverse_32()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto seq::bit_scan_reverse_32 </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>val</em></td><td>)</td>
-          <td> -&gt; unsigned int
-	</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns the highest set bit index in <em>val</em> Undefined if val==0. </p>
-
-</div>
-</div>
-<a id="a9d6a2c807a7f315dd91bb855fb665e0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d6a2c807a7f315dd91bb855fb665e0c">&#9670;&nbsp;</a></span>bit_scan_reverse_64()</h2>
+<a id="a89b01e43cd0234954034486359baa02f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89b01e43cd0234954034486359baa02f">&#9670;&nbsp;</a></span>bit_scan_reverse_32()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1610,7 +1609,36 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto seq::bit_scan_reverse_64 </td>
+          <td class="memname">auto seq::bit_scan_reverse_32 </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>val</em></td><td>)</td>
+          <td> -&gt; unsigned int
+	</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the highest set bit index in <em>val</em> Undefined if val==0. </p>
+
+</div>
+</div>
+<a id="aaea603fed30d1318a1a13ee9a6181c1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaea603fed30d1318a1a13ee9a6181c1a">&#9670;&nbsp;</a></span>bit_scan_reverse_64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::bit_scan_reverse_64 </td>
           <td>(</td>
           <td class="paramtype">std::uint64_t&#160;</td>
           <td class="paramname"><em>bb</em></td><td>)</td>
@@ -1619,7 +1647,7 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1628,14 +1656,17 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
 
 </div>
 </div>
-<a id="a22cc9d270a9c588ab6ef0abfda5f4c58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22cc9d270a9c588ab6ef0abfda5f4c58">&#9670;&nbsp;</a></span>bit_scan_reverse_8()</h2>
+<a id="adbee1b71b206139ba062e72ec88de1cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbee1b71b206139ba062e72ec88de1cf">&#9670;&nbsp;</a></span>bit_scan_reverse_8()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto seq::bit_scan_reverse_8 </td>
+          <td class="memname">auto seq::bit_scan_reverse_8 </td>
           <td>(</td>
           <td class="paramtype">std::uint8_t&#160;</td>
           <td class="paramname"><em>val</em></td><td>)</td>
@@ -1643,6 +1674,11 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
 	</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -1911,7 +1947,7 @@ template&lt;class Key , class T , class Compare , class Al1 , LayoutManagement L
           <td></td>
           <td>)</td>
           <td></td><td> -&gt; typename <a class="el" href="classseq_1_1flat__map.html">flat_map</a>&lt;Key, T, Compare, Al1, L1, S1, U1&gt;::size_type
-</td>
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1944,7 +1980,7 @@ template&lt;class Key , class Compare , class Al1 , LayoutManagement L1, bool S1
           <td></td>
           <td>)</td>
           <td></td><td> -&gt; typename <a class="el" href="classseq_1_1flat__set.html">flat_set</a>&lt;Key, Compare, Al1, L1, S1, U1&gt;::size_type
-</td>
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -3926,7 +3962,7 @@ template&lt;class Key , class T , class Compare , class Al1 , class Al2 , Layout
           <td></td>
           <td>)</td>
           <td></td><td> -&gt; bool
-</td>
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -3959,7 +3995,7 @@ template&lt;class Key , class Compare , class Al1 , class Al2 , LayoutManagement
           <td></td>
           <td>)</td>
           <td></td><td> -&gt; bool
-</td>
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4250,8 +4286,8 @@ template&lt;size_t Size, class Al , size_t Size2, class Al2 &gt; </div>
 
 </div>
 </div>
-<a id="aa16ed00cc778ba6a0e21215120dedaf8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa16ed00cc778ba6a0e21215120dedaf8">&#9670;&nbsp;</a></span>operator+() <span class="overload">[1/8]</span></h2>
+<a id="a68147f1f9efe66da434919961feed1f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68147f1f9efe66da434919961feed1f0">&#9670;&nbsp;</a></span>operator+() <span class="overload">[1/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4259,7 +4295,7 @@ template&lt;size_t Size, class Al , size_t Size2, class Al2 &gt; </div>
 template&lt;size_t Size, class Al &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type seq::operator+ </td>
+          <td class="memname">auto seq::operator+ </td>
           <td>(</td>
           <td class="paramtype">char&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -4273,15 +4309,16 @@ template&lt;size_t Size, class Al &gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ad4daaf1a307da775f3767ab9e300f36a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4daaf1a307da775f3767ab9e300f36a">&#9670;&nbsp;</a></span>operator+() <span class="overload">[2/8]</span></h2>
+<a id="ae509e47a7299cf5e9eaa6d2bb386db1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae509e47a7299cf5e9eaa6d2bb386db1f">&#9670;&nbsp;</a></span>operator+() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4289,7 +4326,7 @@ template&lt;size_t Size, class Al &gt; </div>
 template&lt;size_t Size, class Al &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type seq::operator+ </td>
+          <td class="memname">auto seq::operator+ </td>
           <td>(</td>
           <td class="paramtype">const char *&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -4303,7 +4340,8 @@ template&lt;size_t Size, class Al &gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4348,8 +4386,8 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a6f7fd51f3cc247331f7ed13b1b1cf4ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f7fd51f3cc247331f7ed13b1b1cf4ed">&#9670;&nbsp;</a></span>operator+() <span class="overload">[4/8]</span></h2>
+<a id="a97cec60fd49b0943f3f8501fcec57676"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97cec60fd49b0943f3f8501fcec57676">&#9670;&nbsp;</a></span>operator+() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4357,7 +4395,7 @@ template&lt;class T &gt; </div>
 template&lt;size_t Size, class Al &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type seq::operator+ </td>
+          <td class="memname">auto seq::operator+ </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -4371,15 +4409,16 @@ template&lt;size_t Size, class Al &gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="aed0caf1783a3f82d9cfc9d88e159b8a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed0caf1783a3f82d9cfc9d88e159b8a9">&#9670;&nbsp;</a></span>operator+() <span class="overload">[5/8]</span></h2>
+<a id="abbdee63e1144180cadb75be9d1730787"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbdee63e1144180cadb75be9d1730787">&#9670;&nbsp;</a></span>operator+() <span class="overload">[5/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4387,7 +4426,7 @@ template&lt;size_t Size, class Al &gt; </div>
 template&lt;size_t Size, class Al &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type seq::operator+ </td>
+          <td class="memname">auto seq::operator+ </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -4401,15 +4440,16 @@ template&lt;size_t Size, class Al &gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a213087903db1d425d09460f104ba12af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a213087903db1d425d09460f104ba12af">&#9670;&nbsp;</a></span>operator+() <span class="overload">[6/8]</span></h2>
+<a id="ae6610e8513f7ab68233cdd6d46151209"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6610e8513f7ab68233cdd6d46151209">&#9670;&nbsp;</a></span>operator+() <span class="overload">[6/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4417,7 +4457,7 @@ template&lt;size_t Size, class Al &gt; </div>
 template&lt;size_t Size, class Al &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type seq::operator+ </td>
+          <td class="memname">auto seq::operator+ </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -4431,15 +4471,16 @@ template&lt;size_t Size, class Al &gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a55661fe2e7792e24a096eb01c961774f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55661fe2e7792e24a096eb01c961774f">&#9670;&nbsp;</a></span>operator+() <span class="overload">[7/8]</span></h2>
+<a id="aa8056fc410913073144c5fa466cbc690"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8056fc410913073144c5fa466cbc690">&#9670;&nbsp;</a></span>operator+() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4447,7 +4488,7 @@ template&lt;size_t Size, class Al &gt; </div>
 template&lt;size_t Size, class Al &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type seq::operator+ </td>
+          <td class="memname">auto seq::operator+ </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -4461,15 +4502,16 @@ template&lt;size_t Size, class Al &gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt; &gt;::type
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a4da0baa868f02d38d414b2dc1f288549"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4da0baa868f02d38d414b2dc1f288549">&#9670;&nbsp;</a></span>operator+() <span class="overload">[8/8]</span></h2>
+<a id="a0bb1d95a792c4df40a9942662ab573ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bb1d95a792c4df40a9942662ab573ff">&#9670;&nbsp;</a></span>operator+() <span class="overload">[8/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -4477,7 +4519,7 @@ template&lt;size_t Size, class Al &gt; </div>
 template&lt;size_t Size, class Al , size_t Size2, class Al2 &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size2, Al2&gt; &gt;::type seq::operator+ </td>
+          <td class="memname">auto seq::operator+ </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Al &gt; &amp;&#160;</td>
           <td class="paramname"><em>lhs</em>, </td>
@@ -4491,7 +4533,8 @@ template&lt;size_t Size, class Al , size_t Size2, class Al2 &gt; </div>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> -&gt; typename <a class="el" href="structseq_1_1detail_1_1_find_return_type.html">detail::FindReturnType</a>&lt;<a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size, Al&gt;, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt;Size2, Al2&gt; &gt;::type
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -5247,7 +5290,7 @@ template&lt;class Key , class T , class Compare , class Al1 , class Al2 , Layout
           <td></td>
           <td>)</td>
           <td></td><td> -&gt; bool
-</td>
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -5280,7 +5323,7 @@ template&lt;class Key , class Compare , class Al1 , class Al2 , LayoutManagement
           <td></td>
           <td>)</td>
           <td></td><td> -&gt; bool
-</td>
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -6971,6 +7014,8 @@ template&lt;class T , class U , class Fun &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Returns the string data (const char*) for given string object. </p>
+
 </div>
 </div>
 <a id="a883e44e91646300fed68720e2e9e7c90"></a>
@@ -7044,6 +7089,8 @@ template&lt;size_t S, class Al &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Returns the string size for given string object. </p>
 
 </div>
 </div>

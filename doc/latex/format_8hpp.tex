@@ -108,7 +108,7 @@ struct \mbox{\hyperlink{structseq_1_1detail_1_1_build_format}{seq\+::detail\+::\
 struct \mbox{\hyperlink{structseq_1_1detail_1_1_build_format_3_011_00_01void_00_01_args_8_8_8_01_4}{seq\+::detail\+::\+Build\+Format$<$ 1, void, Args... $>$}}
 \item 
 struct \mbox{\hyperlink{structseq_1_1is__formattable}{seq\+::is\+\_\+formattable$<$ T $>$}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Check if given type is formattable using \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt()}} \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
@@ -135,6 +135,8 @@ enum \mbox{\hyperlink{namespaceseq_1_1detail_a2bb8d16cefeca8b3707c5694645997e6}{
 \doxysubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+{\footnotesize template$<$class Elem , class Traits , class T $>$ }\\auto \mbox{\hyperlink{namespacestd_a4b67178ef88b7ed40056cd46b6d06865}{std\+::operator$<$$<$}} (basic\+\_\+ostream$<$ Elem, Traits $>$ \&oss, const \mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\+format}}$<$ T $>$ \&val) -\/$>$ basic\+\_\+ostream$<$ Elem, Traits $>$ \&
+\begin{DoxyCompactList}\small\item\em Write a ostream\+\_\+format object to a std\+::ostream. \end{DoxyCompactList}\item 
 {\footnotesize template$<$size\+\_\+t... Ts$>$ }\\auto \mbox{\hyperlink{namespaceseq_ab534e8a0f6ac376f61e976fe7cd65457}{seq\+::pos}} () -\/$>$ detail\+::\+Positional$<$ Ts... $>$
 \begin{DoxyCompactList}\small\item\em Returns a positional object used either by \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt()}} or operator() of formatting object. \end{DoxyCompactList}\item 
 {\footnotesize template$<$class ... Args$>$ }\\auto \mbox{\hyperlink{namespaceseq_a21b27d9d28ab49b4e36657f9e95013c7}{seq\+::fmt}} (Args \&\&... args) -\/$>$ typename detail\+::\+Build\+Format$<$ sizeof...(Args), void, Args... $>$\+::return\+\_\+type
@@ -142,4 +144,6 @@ enum \mbox{\hyperlink{namespaceseq_1_1detail_a2bb8d16cefeca8b3707c5694645997e6}{
 {\footnotesize template$<$size\+\_\+t ... Ts, class ... Args$>$ }\\auto \mbox{\hyperlink{namespaceseq_a50efcf02fb38933039611940d459ae10}{seq\+::fmt}} (detail\+::\+Positional$<$ Ts... $>$, Args \&\&... args) -\/$>$ typename detail\+::\+Build\+Format$<$ sizeof...(Args), detail\+::\+Positional$<$ Ts... $>$, Args... $>$\+::return\+\_\+type
 \item 
 {\footnotesize template$<$class ... Args$>$ }\\auto \mbox{\hyperlink{namespaceseq_a1c7f5113ac0f03f720b3a5cf96c20550}{seq\+::fmt}} () -\/$>$ typename detail\+::\+Build\+Format$<$ sizeof...(Args), void, Args... $>$\+::return\+\_\+type
-\end{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class Elem , class Traits , class T , class P $>$ }\\auto \mbox{\hyperlink{namespacestd_a2fdf65f9398c5c4ce6fd94159bc33857}{std\+::operator$<$$<$}} (basic\+\_\+ostream$<$ Elem, Traits $>$ \&oss, const \mbox{\hyperlink{structseq_1_1detail_1_1mutli__ostream__format}{seq\+::detail\+::mutli\+\_\+ostream\+\_\+format}}$<$ T, P $>$ \&val) -\/$>$ basic\+\_\+ostream$<$ Elem, Traits $>$ \&
+\begin{DoxyCompactList}\small\item\em Write a ostream\+\_\+format object to a std\+::ostream object. \end{DoxyCompactList}\end{DoxyCompactItemize}

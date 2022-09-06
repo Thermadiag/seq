@@ -686,7 +686,7 @@ namespace seq
 		};
 
 
-	}// end detail
+	}// end namespace detail
 
 
 
@@ -1151,8 +1151,8 @@ namespace seq
 
 		template<class U, bool IsIntegral, bool IsFloat, bool IsString, bool IsStreamable>
 		friend struct detail::OstreamToString;
-	public:
 
+	public:
 
 		static constexpr bool auto_width_format = true;
 
@@ -1186,8 +1186,6 @@ namespace seq
 		}
 
 	private:
-
-
 
 		template<class String, class U>
 		auto write_integral_to_string(String& tmp, const ostream_format<U>& val) const -> size_t
@@ -1333,7 +1331,6 @@ namespace seq
 			this->value().append(str);
 			return str.size() - prev;
 		}
-
 	};
 
 }
@@ -1344,7 +1341,7 @@ namespace std
 {
 	/// @brief Write a ostream_format object to a std::ostream 
 	template<class Elem, class Traits, class T>
-	static SEQ_ALWAYS_INLINE basic_ostream<Elem, Traits>& operator<<(basic_ostream<Elem, Traits>&  oss, const seq::ostream_format<T>&  val)
+	inline auto operator<<(basic_ostream<Elem, Traits>&  oss, const seq::ostream_format<T>&  val) -> basic_ostream<Elem, Traits>&
 	{
 		std::string& tmp = seq::detail::ostream_buffer();
 		tmp.clear();
@@ -1824,7 +1821,7 @@ namespace seq
 			}
 		};
 
-	}// end detail
+	}// end namespace detail
 
 	
 
@@ -1866,7 +1863,7 @@ namespace seq
 			}
 		};
 
-	}
+	}// end namespace detail
 
 	
 	template<class ...Args>
@@ -2023,11 +2020,11 @@ namespace seq
 	}
 
 
-
+	/// @brief Check if given type is formattable using seq::fmt()
 	template<class T>
 	struct is_formattable
 	{
-		static constexpr bool value = ostream_format<T>::is_formattable;//decltype(test<T>(0))::value;
+		static constexpr bool value = ostream_format<T>::is_formattable;
 	};
 
 } // end namespace seq
@@ -2039,7 +2036,7 @@ namespace std
 {
 	/// @brief Write a ostream_format object to a std::ostream object
 	template<class Elem, class Traits, class T, class P>
-	static SEQ_ALWAYS_INLINE basic_ostream<Elem, Traits>& operator<<(basic_ostream<Elem, Traits>& oss, const seq::detail::mutli_ostream_format<T, P>& val)
+	inline auto operator<<(basic_ostream<Elem, Traits>& oss, const seq::detail::mutli_ostream_format<T, P>& val) -> basic_ostream<Elem, Traits>&
 	{
 		seq::detail::ToOstream<T>::convert(oss, val.d_tuple);
 		return oss;

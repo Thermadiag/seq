@@ -38,13 +38,84 @@ bool equal_seq(const Deq1& d1, const Deq2& d2)
 	return true;
 }
 
-
+struct WideType
+{
+	size_t data[16];
+	WideType(size_t v = 0) {
+		data[0] = v;
+	}
+	bool operator<(const WideType& other) const { return data[0] < other.data[0]; }
+	bool operator==(const WideType& other) const { return data[0] == other.data[0]; }
+	bool operator!=(const WideType& other) const { return data[0] != other.data[0]; }
+};
+bool operator==(const WideType& a, size_t b)  { return a.data[0] == b; }
+bool operator!=(const WideType& a, size_t b)  { return a.data[0] != b; }
+bool operator==(const size_t& a, WideType b) { return a == b.data[0]; }
+bool operator!=(const size_t& a, WideType b) { return a != b.data[0]; }
 
 
 template<class T>
 void test_sequence(int size = 50000000)
 {
 	const int count = size;
+
+	{
+
+		//test different memory layout with different data size
+		
+
+		using small_slow = sequence<size_t, std::allocator<size_t>, OptimizeForMemory>;
+		using small_fast = sequence<size_t, std::allocator<size_t>, OptimizeForSpeed>;
+		using big_slow = sequence<WideType, std::allocator<size_t>, OptimizeForMemory>;
+		using big_fast = sequence<WideType, std::allocator<size_t>, OptimizeForSpeed>;
+
+		small_slow ss;
+		small_fast sf;
+		big_slow bs;
+		big_fast bf;
+
+		size_t c =(size_t) size / 10;
+
+		for (size_t i = 0; i < c; ++i)
+		{
+			size_t v = (size_t)i;
+			ss.push_back(v);
+			sf.push_back(v);
+			bs.push_back(v);
+			bf.push_back(v);
+		}
+
+		SEQ_TEST_ASSERT(equal_seq(ss,bs));
+		SEQ_TEST_ASSERT(equal_seq(sf, bf));
+		SEQ_TEST_ASSERT(equal_seq(ss, bf));
+
+		std::vector<size_t> erase_pos(c / 10);
+		for (size_t i = 0; i < erase_pos.size(); ++i) {
+			erase_pos[i] = i;
+		}
+		std::random_shuffle(erase_pos.begin(), erase_pos.end());
+
+		//erase values
+		for (size_t i = 0; i < erase_pos.size(); ++i) {
+			ss.erase(ss.begin() + erase_pos[i]);
+			sf.erase(sf.begin() + erase_pos[i]);
+			bs.erase(bs.begin() + erase_pos[i]);
+			bf.erase(bf.begin() + erase_pos[i]);
+		}
+		SEQ_TEST_ASSERT(equal_seq(ss, bs));
+		SEQ_TEST_ASSERT(equal_seq(sf, bf));
+		SEQ_TEST_ASSERT(equal_seq(ss, bf));
+
+		//sort 
+		ss.sort();
+		sf.sort();
+		bs.sort();
+		bf.sort();
+
+		SEQ_TEST_ASSERT(equal_seq(ss, bs));
+		SEQ_TEST_ASSERT(equal_seq(sf, bf));
+		SEQ_TEST_ASSERT(equal_seq(ss, bf));
+	}
 	
 
 	typedef T type;

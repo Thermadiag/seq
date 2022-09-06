@@ -2,6 +2,11 @@
 \label{classseq_1_1detail_1_1chunk__pool__alloc}\index{seq::detail::chunk\_pool\_alloc$<$ T, Allocator $>$@{seq::detail::chunk\_pool\_alloc$<$ T, Allocator $>$}}
 
 
+Allocate \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{list\+\_\+chunk}} objects (64 bytes aligned) using a \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}} Note that the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} is only used after a few allocations to avoid a too big memory overhead for small sequences.  
+
+
+
+
 {\ttfamily \#include $<$sequence.\+hpp$>$}
 
 
@@ -36,6 +41,12 @@ void \mbox{\hyperlink{classseq_1_1detail_1_1chunk__pool__alloc_a0ce47f4648221ba2
 void \mbox{\hyperlink{classseq_1_1detail_1_1chunk__pool__alloc_aebfd6a9b9d2f26c158c9523cde9cf99c}{clear\+\_\+all}} ()
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T, class Allocator = std\+::allocator$<$\+T$>$$>$\newline
+class seq\+::detail\+::chunk\+\_\+pool\+\_\+alloc$<$ T, Allocator $>$}
+
+Allocate \mbox{\hyperlink{structseq_1_1detail_1_1list__chunk}{list\+\_\+chunk}} objects (64 bytes aligned) using a \mbox{\hyperlink{classseq_1_1object__pool}{seq\+::object\+\_\+pool}} Note that the \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} is only used after a few allocations to avoid a too big memory overhead for small sequences. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classseq_1_1detail_1_1chunk__pool__alloc_a7e2d3e52112cb3f5fa58d740ceda4fbf}\label{classseq_1_1detail_1_1chunk__pool__alloc_a7e2d3e52112cb3f5fa58d740ceda4fbf}} 

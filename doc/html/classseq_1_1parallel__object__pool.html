@@ -148,12 +148,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa863937a3906273d5ea87079db80a30c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#aa863937a3906273d5ea87079db80a30c">peak_memory_footprint</a> () const noexcept -&gt; size_t</td></tr>
 <tr class="memdesc:aa863937a3906273d5ea87079db80a30c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the peak memory footprint in bytes excluding sizeof(*this).  <a href="classseq_1_1parallel__object__pool.html#aa863937a3906273d5ea87079db80a30c">More...</a><br /></td></tr>
 <tr class="separator:aa863937a3906273d5ea87079db80a30c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9eee0a4998740efaaf1ad68c5b1bc1ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a9eee0a4998740efaaf1ad68c5b1bc1ec">set_reclaim_memory</a> (bool reclaim)</td></tr>
-<tr class="memdesc:a9eee0a4998740efaaf1ad68c5b1bc1ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the reclaim_memory flag.  <a href="classseq_1_1parallel__object__pool.html#a9eee0a4998740efaaf1ad68c5b1bc1ec">More...</a><br /></td></tr>
-<tr class="separator:a9eee0a4998740efaaf1ad68c5b1bc1ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a743de3a7f26697b9924b8283e9d133fa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a743de3a7f26697b9924b8283e9d133fa">reclaim_memory</a> () const noexcept -&gt; bool</td></tr>
 <tr class="memdesc:a743de3a7f26697b9924b8283e9d133fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if this pool reclaims freed memory, false otherwise.  <a href="classseq_1_1parallel__object__pool.html#a743de3a7f26697b9924b8283e9d133fa">More...</a><br /></td></tr>
 <tr class="separator:a743de3a7f26697b9924b8283e9d133fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9eee0a4998740efaaf1ad68c5b1bc1ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a9eee0a4998740efaaf1ad68c5b1bc1ec">set_reclaim_memory</a> (bool reclaim)</td></tr>
+<tr class="memdesc:a9eee0a4998740efaaf1ad68c5b1bc1ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the reclaim_memory flag.  <a href="classseq_1_1parallel__object__pool.html#a9eee0a4998740efaaf1ad68c5b1bc1ec">More...</a><br /></td></tr>
+<tr class="separator:a9eee0a4998740efaaf1ad68c5b1bc1ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23b2bbb8a68e01e169f3b88593140bef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a23b2bbb8a68e01e169f3b88593140bef">dump_statistics</a> (<a class="el" href="structseq_1_1object__pool__stats.html">object_pool_stats</a> &amp;stats)</td></tr>
 <tr class="memdesc:a23b2bbb8a68e01e169f3b88593140bef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dump <a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">object_pool</a> statistics into a <a class="el" href="structseq_1_1object__pool__stats.html" title="Class gathering statistics for seq::object_pool or seq::parallel_object_pool.">object_pool_stats</a>.  <a href="classseq_1_1parallel__object__pool.html#a23b2bbb8a68e01e169f3b88593140bef">More...</a><br /></td></tr>
 <tr class="separator:a23b2bbb8a68e01e169f3b88593140bef"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -585,7 +585,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
           <td class="memname">auto <a class="el" href="classseq_1_1parallel__object__pool.html">seq::parallel_object_pool</a>&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;::get_allocator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; Allocator </td>
+          <td> const -&gt; Allocator 
+		</td>
         </tr>
       </table>
   </td>
@@ -710,7 +711,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
           <td class="memname">auto <a class="el" href="classseq_1_1parallel__object__pool.html">seq::parallel_object_pool</a>&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;::memory_footprint </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; size_t </td>
+          <td> const -&gt; size_t 
+		</td>
         </tr>
       </table>
   </td>
@@ -767,7 +769,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
           <td class="memname">auto <a class="el" href="classseq_1_1parallel__object__pool.html">seq::parallel_object_pool</a>&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;::peak_memory_footprint </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; size_t </td>
+          <td> const -&gt; size_t 
+		</td>
         </tr>
       </table>
   </td>
@@ -796,7 +799,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
           <td class="memname">auto <a class="el" href="classseq_1_1parallel__object__pool.html">seq::parallel_object_pool</a>&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;::reclaim_memory </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; bool </td>
+          <td> const -&gt; bool
+		</td>
         </tr>
       </table>
   </td>

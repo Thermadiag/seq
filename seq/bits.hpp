@@ -668,7 +668,7 @@ namespace seq
 
 	}
 
-	SEQ_ALWAYS_INLINE auto bit_scan_forward_8(wint_t  val) -> unsigned int
+	inline auto bit_scan_forward_8(wint_t  val) -> unsigned int
 	{
 		static const std::uint8_t scan_forward_8[] =
 		{ 8, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 4,
@@ -690,7 +690,7 @@ namespace seq
 		};
 		return scan_forward_8[val];
 	}
-	SEQ_ALWAYS_INLINE auto bit_scan_reverse_8(std::uint8_t  val) -> unsigned int
+	inline auto bit_scan_reverse_8(std::uint8_t  val) -> unsigned int
 	{
 		return detail::scan_reverse_8[val];
 	}
@@ -698,7 +698,7 @@ namespace seq
 
 	/// @brief Returns the lowest set bit index in \a val
 	/// Undefined if val==0.
-	SEQ_ALWAYS_INLINE auto bit_scan_forward_32(std::uint32_t  val) -> unsigned int
+	inline auto bit_scan_forward_32(std::uint32_t  val) -> unsigned int
 	{
 #   if defined(_MSC_VER)   /* Visual */
 		unsigned long r = 0;
@@ -718,7 +718,7 @@ namespace seq
 
 	/// @brief Returns the highest set bit index in \a val
 	/// Undefined if val==0.
-	SEQ_ALWAYS_INLINE auto bit_scan_reverse_32(std::uint32_t  val) -> unsigned int
+	inline auto bit_scan_reverse_32(std::uint32_t  val) -> unsigned int
 	{
 #   if defined(_MSC_VER)   /* Visual */
 		unsigned long r = 0;
@@ -746,7 +746,7 @@ namespace seq
 	/// @brief Returns the lowest set bit index in \a bb.
 	/// Developed by Kim Walisch (2012).
 	/// Undefined if bb==0.
-	SEQ_ALWAYS_INLINE auto bit_scan_forward_64(std::uint64_t bb)noexcept -> unsigned {
+	inline auto bit_scan_forward_64(std::uint64_t bb)noexcept -> unsigned {
 #       if defined(_MSC_VER) && defined(_WIN64) 
 		unsigned long r = 0;
 		_BitScanForward64(&r, bb);
@@ -763,7 +763,7 @@ namespace seq
 	/// @brief Returns the highest set bit index in \a bb.
 	/// Developed by Kim Walisch, Mark Dickinson.
 	/// Undefined if bb==0.
-	SEQ_ALWAYS_INLINE auto bit_scan_reverse_64(std::uint64_t  bb)noexcept -> unsigned {
+	inline auto bit_scan_reverse_64(std::uint64_t  bb)noexcept -> unsigned {
 #       if (defined(_MSC_VER) && defined(_WIN64) ) //|| defined(__MINGW64_VERSION_MAJOR)
 		unsigned long r = 0;
 		_BitScanReverse64(&r, bb);
@@ -786,7 +786,7 @@ namespace seq
 
 	/// @brief Returns the lowest set bit index in \a bb.
 	/// Undefined if bb==0.
-	SEQ_ALWAYS_INLINE auto bit_scan_forward(size_t bb)noexcept -> unsigned {
+	inline auto bit_scan_forward(size_t bb)noexcept -> unsigned {
 #ifdef SEQ_ARCH_64
 		return bit_scan_forward_64(bb);
 #else
@@ -796,7 +796,7 @@ namespace seq
 
 	/// @brief Returns the highest set bit index in \a bb.
 	/// Undefined if bb==0.
-	SEQ_ALWAYS_INLINE auto bit_scan_reverse(size_t bb)noexcept -> unsigned {
+	inline auto bit_scan_reverse(size_t bb)noexcept -> unsigned {
 #ifdef SEQ_ARCH_64
 		return bit_scan_reverse_64(bb);
 #else

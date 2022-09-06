@@ -22,7 +22,7 @@ var classseq_1_1flat__multiset =
     [ "flat_multiset", "classseq_1_1flat__multiset.html#a8986285103b6b8b8ff113f5de551d3d3", null ],
     [ "flat_multiset", "classseq_1_1flat__multiset.html#a983e596648725c407017bd6561fca0bd", null ],
     [ "flat_multiset", "classseq_1_1flat__multiset.html#a55cca6165cc057921692869414c37c55", null ],
-    [ "flat_multiset", "classseq_1_1flat__multiset.html#a19f16cb6d01d65d73acb6370e353b4e5", null ],
+    [ "flat_multiset", "classseq_1_1flat__multiset.html#a6f6f8f35e01c4e99731e6bf43509fa42", null ],
     [ "flat_multiset", "classseq_1_1flat__multiset.html#a1a2dcc536430281e13477a9a08915020", null ],
     [ "flat_multiset", "classseq_1_1flat__multiset.html#a44549f25eaaa5708d7328673e6ecebbe", null ],
     [ "emplace", "classseq_1_1flat__multiset.html#a587774cefd2d54988d8469a59477f69d", null ],

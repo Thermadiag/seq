@@ -59,5 +59,7 @@ var format_8hpp =
     [ "fmt", "format_8hpp.html#a1c7f5113ac0f03f720b3a5cf96c20550", null ],
     [ "fmt", "format_8hpp.html#a21b27d9d28ab49b4e36657f9e95013c7", null ],
     [ "fmt", "format_8hpp.html#a50efcf02fb38933039611940d459ae10", null ],
+    [ "operator<<", "format_8hpp.html#a2fdf65f9398c5c4ce6fd94159bc33857", null ],
+    [ "operator<<", "format_8hpp.html#a4b67178ef88b7ed40056cd46b6d06865", null ],
     [ "pos", "format_8hpp.html#ab534e8a0f6ac376f61e976fe7cd65457", null ]
 ];

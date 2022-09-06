@@ -15,7 +15,6 @@ namespace seq
 	namespace detail
 	{
 	
-		
 	#if (defined (__x86_64__) || defined (_M_X64)) && !defined(SEQ_NO_COMPRESSED_PTR)
 		
 		template<class T, class Extract>
@@ -37,7 +36,7 @@ namespace seq
 			std::uint64_t val;
 
 			// Extract part of hash value
-			static SEQ_ALWAYS_INLINE tiny_hash small_hash(size_t h) { 
+			static SEQ_ALWAYS_INLINE auto small_hash(size_t h) -> tiny_hash {
 				return ( (h) >> (64U - 8U)); 
 			}
 		
@@ -57,14 +56,13 @@ namespace seq
 			// check if node is not null
 			SEQ_ALWAYS_INLINE bool null() const noexcept { return (val & ((1ULL << 48ULL)-1ULL)) == 0; }
 			// position withing sequence chunk (max == 63)
-			SEQ_ALWAYS_INLINE std::uint8_t pos() const noexcept {return val & mask_pos;}
+			SEQ_ALWAYS_INLINE auto pos() const noexcept -> std::uint8_t {return val & mask_pos;}
 			// sequence chunk, aligned on 64 bytes at most
-			SEQ_ALWAYS_INLINE detail::list_chunk<T>* node() const noexcept {return reinterpret_cast<detail::list_chunk<T>*>(val & mask_node);}
-			SEQ_ALWAYS_INLINE T& value() noexcept { return node()->buffer()[pos()];}
-			SEQ_ALWAYS_INLINE const T& value() const noexcept {return node()->buffer()[pos()]; }
-			SEQ_ALWAYS_INLINE tiny_hash hash() const noexcept { return ((unsigned char*)&val)[6]; }
-			SEQ_ALWAYS_INLINE dist_type distance() const noexcept { return  (( char*)&val)[7];}
-			
+			SEQ_ALWAYS_INLINE auto node() const noexcept -> detail::list_chunk<T>* {return reinterpret_cast<detail::list_chunk<T>*>(val & mask_node);}
+			SEQ_ALWAYS_INLINE auto value() noexcept -> T& { return node()->buffer()[pos()];}
+			SEQ_ALWAYS_INLINE auto value() const noexcept -> const T& {return node()->buffer()[pos()]; }
+			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash { return ((unsigned char*)&val)[6]; }
+			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { return  (( char*)&val)[7];}
 			template<class Iter>
 			SEQ_ALWAYS_INLINE bool is_same(const Iter& it) const noexcept {
 				//check iterator equality
@@ -80,12 +78,9 @@ namespace seq
 				val = 0;
 				((char*)&val)[7] = (char)tombstone;
 			}
-
-			SEQ_ALWAYS_INLINE void set_distance(dist_type dist)
-			{
+			SEQ_ALWAYS_INLINE void set_distance(dist_type dist){
 				(( char*)&val)[7] = (char)dist;
-			}
-			
+			}	
 		};
 
 	#else
@@ -124,13 +119,12 @@ namespace seq
 			SEQ_ALWAYS_INLINE bool is_tombstone() const noexcept { return distance() == tombstone; }
 			SEQ_ALWAYS_INLINE bool null_for_search() const noexcept { return null() && distance() != tombstone; }
 			SEQ_ALWAYS_INLINE bool null() const noexcept { return read_ptr_t(storage) == 0; }
-			SEQ_ALWAYS_INLINE dist_type distance() const noexcept {return _dist;}
-			SEQ_ALWAYS_INLINE std::uint8_t pos() const noexcept { return storage[0] & mask_low; }
-			SEQ_ALWAYS_INLINE detail::list_chunk<T>* node() const noexcept {return reinterpret_cast<detail::list_chunk<T>*>(read_size_t(storage) & mask_high);}
-			SEQ_ALWAYS_INLINE T& value() noexcept { return node()->buffer()[pos()]; }
-			SEQ_ALWAYS_INLINE const T& value() const noexcept { return node()->buffer()[pos()]; }
-			SEQ_ALWAYS_INLINE tiny_hash hash() const noexcept { return _hash; }// flags >> max_dist_bits;
-		
+			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type {return _dist;}
+			SEQ_ALWAYS_INLINE auto pos() const noexcept -> std::uint8_t { return storage[0] & mask_low; }
+			SEQ_ALWAYS_INLINE auto node() const noexcept -> detail::list_chunk<T>* {return reinterpret_cast<detail::list_chunk<T>*>(read_size_t(storage) & mask_high);}
+			SEQ_ALWAYS_INLINE auto value() noexcept -> T& { return node()->buffer()[pos()]; }
+			SEQ_ALWAYS_INLINE auto value() const noexcept -> const T& { return node()->buffer()[pos()]; }
+			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash { return _hash; }// flags >> max_dist_bits;
 			template<class Iter>
 			SEQ_ALWAYS_INLINE bool is_same(const Iter& it) const noexcept {
 				return node() == it.node && pos() == it.pos;
@@ -140,18 +134,14 @@ namespace seq
 				_hash =  0;
 				_dist = -1;
 			}
-
 			SEQ_ALWAYS_INLINE void empty_tombstone() {
 				memset(storage, 0, sizeof(storage));
 				_hash = 0;
 				_dist = tombstone;
 			}
-
-			SEQ_ALWAYS_INLINE void set_distance(dist_type dist)
-			{
+			SEQ_ALWAYS_INLINE void set_distance(dist_type dist){
 				_dist = (char)dist;
 			}
-
 		};
 
 	#endif
@@ -173,7 +163,7 @@ namespace seq
 			auto key_eq() const -> Equal { return static_cast<Equal&>(*this); }
 
 			template< class... Args >
-			SEQ_ALWAYS_INLINE size_t hash(Args&&... args) const noexcept { return (Hash::operator()(std::forward<Args>(args)...)); }
+			SEQ_ALWAYS_INLINE auto hash(Args&&... args) const noexcept -> size_t { return (Hash::operator()(std::forward<Args>(args)...)); }
 			template< class... Args >
 			SEQ_ALWAYS_INLINE bool operator()(Args&&... args) const noexcept { return Equal::operator()(std::forward<Args>(args)...); }
 		};
@@ -188,7 +178,7 @@ namespace seq
 			auto key_eq() const -> Equal { return Equal(); }
 
 			template< class... Args >
-			SEQ_ALWAYS_INLINE size_t hash(Args&&... args) const noexcept { return (Hash{}(std::forward<Args>(args)...)); }
+			SEQ_ALWAYS_INLINE auto hash(Args&&... args) const noexcept -> size_t { return (Hash{}(std::forward<Args>(args)...)); }
 			template< class... Args >
 			SEQ_ALWAYS_INLINE bool operator()(Args&&... args) const noexcept { return Equal{}(std::forward<Args>(args)...); }
 		};
@@ -203,7 +193,7 @@ namespace seq
 			auto key_eq() const -> Equal { return static_cast<Equal&>(*this); }
 
 			template< class... Args >
-			SEQ_ALWAYS_INLINE size_t hash(Args&&... args) const noexcept { return (Hash{}(std::forward<Args>(args)...)); }
+			SEQ_ALWAYS_INLINE auto hash(Args&&... args) const noexcept -> size_t { return (Hash{}(std::forward<Args>(args)...)); }
 			template< class... Args >
 			SEQ_ALWAYS_INLINE bool operator()(Args&&... args) const noexcept { return Equal::operator()(std::forward<Args>(args)...); }
 		};
@@ -218,7 +208,7 @@ namespace seq
 			auto key_eq() const -> Equal { return Equal(); }
 
 			template< class... Args >
-			SEQ_ALWAYS_INLINE size_t hash(Args&&... args) const noexcept { return (Hash::operator()(std::forward<Args>(args)...)); }
+			SEQ_ALWAYS_INLINE auto hash(Args&&... args) const noexcept -> size_t { return (Hash::operator()(std::forward<Args>(args)...)); }
 			template< class... Args >
 			SEQ_ALWAYS_INLINE bool operator()(Args&&... args) const noexcept { return Equal{}(std::forward<Args>(args)...); }
 		};
@@ -244,51 +234,51 @@ namespace seq
 		struct Inserter<Sequence, Back, const Value&>
 		{
 			
-			static SEQ_ALWAYS_INLINE typename Sequence::iterator insert(Sequence& seq, const Value& value) {return seq.emplace_back_iter((value));}
+			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, const Value& value) -> typename Sequence::iterator {return seq.emplace_back_iter((value));}
 		};
 		template<class Sequence, class Value>
 		struct Inserter<Sequence, Front, const Value&>
 		{
-			static SEQ_ALWAYS_INLINE typename Sequence::iterator insert(Sequence& seq, const Value& value) { return seq.emplace_front_iter((value)); }
+			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, const Value& value) -> typename Sequence::iterator { return seq.emplace_front_iter((value)); }
 		};
 		template<class Sequence, class Value>
 		struct Inserter<Sequence, Anywhere, const Value&>
 		{
-			static SEQ_ALWAYS_INLINE typename Sequence::iterator insert(Sequence& seq, const Value& value) { return seq.emplace((value)); }
+			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, const Value& value) -> typename Sequence::iterator { return seq.emplace((value)); }
 		};
 
 		// Insert by move semantic for value constructed on the stack
 		template<class Sequence, class Value>
 		struct Inserter<Sequence, Back,  Value>
 		{
-			static SEQ_ALWAYS_INLINE typename Sequence::iterator insert(Sequence& seq,  Value& value) { return seq.emplace_back_iter(std::move(value)); }
+			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq,  Value& value) -> typename Sequence::iterator { return seq.emplace_back_iter(std::move(value)); }
 		};
 		template<class Sequence, class Value>
 		struct Inserter<Sequence, Front,  Value>
 		{
-			static SEQ_ALWAYS_INLINE typename Sequence::iterator insert(Sequence& seq,  Value& value) { return seq.emplace_front_iter(std::move(value)); }
+			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq,  Value& value) -> typename Sequence::iterator { return seq.emplace_front_iter(std::move(value)); }
 		};
 		template<class Sequence, class Value>
 		struct Inserter<Sequence, Anywhere,  Value>
 		{
-			static SEQ_ALWAYS_INLINE typename Sequence::iterator insert(Sequence& seq,  Value& value) { return seq.emplace(std::move(value)); }
+			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq,  Value& value) -> typename Sequence::iterator { return seq.emplace(std::move(value)); }
 		};
 
 		// Insert by move semantic for move insertion
 		template<class Sequence, class Value>
 		struct Inserter<Sequence,Back,Value&&>
 		{
-			static SEQ_ALWAYS_INLINE typename Sequence::iterator insert(Sequence& seq, Value& value) {return seq.emplace_back_iter(std::move(value));}
+			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, Value& value) -> typename Sequence::iterator {return seq.emplace_back_iter(std::move(value));}
 		};
 		template<class Sequence, class Value>
 		struct Inserter<Sequence, Front, Value&&>
 		{
-			static SEQ_ALWAYS_INLINE typename Sequence::iterator insert(Sequence& seq, Value& value) { return seq.emplace_front_iter(std::move(value)); }
+			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, Value& value) -> typename Sequence::iterator { return seq.emplace_front_iter(std::move(value)); }
 		};
 		template<class Sequence, class Value>
 		struct Inserter<Sequence, Anywhere, Value&&>
 		{
-			static SEQ_ALWAYS_INLINE typename Sequence::iterator insert(Sequence& seq, Value& value) { return seq.emplace(std::move(value)); }
+			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, Value& value) -> typename Sequence::iterator { return seq.emplace(std::move(value)); }
 		};
 		
 
@@ -351,7 +341,6 @@ namespace seq
 				// Find an existing node based on a sequence iterator
 				return find_node(hash_key(extract_key::key(*it)), it);
 			}
-
 
 			template<class Iter>
 			void rehash(size_t new_hash_mask, Iter first, Iter last)
@@ -607,7 +596,7 @@ namespace seq
 				if (SEQ_UNLIKELY(dirty()))
 					throw std::logic_error("ordered hash table is dirty");
 			}
-			SEQ_ALWAYS_INLINE size_t size() const noexcept 
+			SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t
 			{ 
 				return d_seq.size();
 			}
@@ -644,19 +633,19 @@ namespace seq
 			}
 			
 			template< class... Args >
-			SEQ_ALWAYS_INLINE size_t hash_key(Args&&... args) const noexcept 
+			SEQ_ALWAYS_INLINE auto hash_key(Args&&... args) const noexcept -> size_t
 			{
 				// Hash the key and multiply the result.
 				// The multiplication is mandatory for very bad hash functions that do not distribute well their values (like libstdc++ default hash function for integers)
 				return this->hash(std::forward<Args>(args)...) *UINT64_C(0xc4ceb9fe1a85ec53);
 			}
 
-			SEQ_ALWAYS_INLINE float max_load_factor() const noexcept
+			auto max_load_factor() const noexcept -> float
 			{ 
 				// Returns the maximum load factor
 				return d_load_factor; 
 			}
-			SEQ_ALWAYS_INLINE void max_load_factor(float f) noexcept
+			void max_load_factor(float f) noexcept
 			{ 
 				// Set the maximum load factor
 				// Load factor must be between 0.1 and 0.95
@@ -665,12 +654,12 @@ namespace seq
 				else if (d_load_factor < 0.1f ) d_load_factor = 0.1f;
 				d_next_target = static_cast<size_t>(bucket_size() * (double)d_load_factor);
 			}
-			SEQ_ALWAYS_INLINE float load_factor()const noexcept 
+			auto load_factor()const noexcept -> float
 			{
 				// Returns the current load factor
 				return (float)size() / (float)bucket_size(); 
 			}
-			SEQ_ALWAYS_INLINE size_t bucket_size() const noexcept 
+			auto bucket_size() const noexcept -> size_t
 			{
 				// Returns the node array size
 				return  d_hash_mask+1; 
@@ -678,7 +667,7 @@ namespace seq
 			
 
 			template< class... Args >
-			const_iterator find_linear_hash(size_t hash, Args&&... args) const 
+			auto find_linear_hash(size_t hash, Args&&... args) const -> const_iterator
 			{
 				// Search for given value considering he hash table to be purely linear (no robin hood probing and potential tombstones)
 				check_hash_operation();
@@ -696,7 +685,7 @@ namespace seq
 			}
 
 			template< class... Args >
-			SEQ_ALWAYS_INLINE const_iterator find_hash(size_t hash, Args&&... args) const
+			SEQ_ALWAYS_INLINE auto find_hash(size_t hash, Args&&... args) const -> const_iterator
 			{
 				// Key lookup
 
@@ -721,13 +710,13 @@ namespace seq
 				return d_seq.end();
 			}
 			template< class... Args >
-			SEQ_ALWAYS_INLINE const_iterator find(Args&&... args) const   
+			SEQ_ALWAYS_INLINE auto find(Args&&... args) const  -> const_iterator
 			{
 				return find_hash(hash_key(std::forward<Args>(args)...), std::forward<Args>(args)...);
 			}
 
 			template<Location loc, class... Args >
-			std::pair<iterator, bool> insert_linear(Args&&... args)
+			auto insert_linear(Args&&... args) -> std::pair<iterator, bool>
 			{
 				// Insert value using linear probing
 
@@ -750,7 +739,7 @@ namespace seq
 			}
 
 			template<Location loc, class... Args >
-			std::pair<iterator,bool> insert(Args&&... args)
+			auto insert(Args&&... args) -> std::pair<iterator, bool>
 			{
 				// Insert new key
 
@@ -805,7 +794,7 @@ namespace seq
 			}
 
 			template<Location loc, class... Args >
-			std::pair<iterator, bool> insert_no_check(Args&&... args)
+			auto insert_no_check(Args&&... args) -> std::pair<iterator, bool>
 			{
 				// Insert new key without checking for existing equal key
 
@@ -871,7 +860,7 @@ namespace seq
 					insert<Anywhere>(*first);
 			}
 			
-			iterator erase_hash(size_t hash, const_iterator it)
+			auto erase_hash(size_t hash, const_iterator it) -> iterator
 			{
 				// Erase key
 
@@ -911,13 +900,13 @@ namespace seq
 				// Erase in sequence
 				return d_seq.erase(it);
 			}
-			iterator erase(const_iterator it)
+			auto erase(const_iterator it) -> iterator
 			{
 				return erase_hash(hash_key(extract_key::key (*it)), it);
 			}
 
 			template<class K>
-			size_t erase(const K& key)
+			auto erase(const K& key) -> size_t
 			{
 				size_t hash = hash_key(key);
 				const_iterator it = find_hash(hash, key);
@@ -926,7 +915,7 @@ namespace seq
 				return 1;
 			}
 
-			iterator erase(const_iterator first, const_iterator last)
+			auto erase(const_iterator first, const_iterator last) -> iterator
 			{
 				// Erase range of iterators. Most of the checks are performed in sequence::erase().
 				// Works for dirty hash map
@@ -1097,6 +1086,9 @@ namespace seq
 	/// seq::ordered_set is significantly faster than the other hash tables except for failed lookup, and has a lower memory overhead.
 	/// Note that this benchmark does not represent all possible workloads, and additional tests must be fullfilled for specific scenarios.
 	/// 
+	/// seq::ordered_set uses internally and if possible compressed pointers to reduce its memory footprint. In such case, the last 16 bits of a pointer are used to store 
+	/// metadata. Situations where this is not possible are detected at compile time, but it is possible to manually disable this optimization by defining SEQ_NO_COMPRESSED_PTR.
+	/// 
 	template<
 		class Key,
 		class Hash = std::hash<Key>,
@@ -1129,42 +1121,42 @@ namespace seq
 
 			const_iterator() {}
 			const_iterator(iter_type it) : iter(it) {}
-			SEQ_ALWAYS_INLINE const_iterator& operator++() noexcept {
+			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_iterator& {
 				++iter;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE const_iterator operator++(int) noexcept {
+			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_iterator {
 				const_iterator _Tmp = *this;
 				++(*this);
 				return _Tmp;
 			}
-			SEQ_ALWAYS_INLINE const_iterator& operator--() noexcept {
+			SEQ_ALWAYS_INLINE auto operator--() noexcept -> const_iterator& {
 				--iter;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE const_iterator operator--(int) noexcept {
+			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> const_iterator {
 				const_iterator _Tmp = *this;
 				--(*this);
 				return _Tmp;
 			}
-			SEQ_ALWAYS_INLINE reference operator*() const noexcept { return *iter; }
-			SEQ_ALWAYS_INLINE pointer operator->() const noexcept { return  std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE const_iterator& operator+=(difference_type diff) noexcept {
+			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return *iter; }
+			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return  std::pointer_traits<pointer>::pointer_to(**this); }
+			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> const_iterator& {
 				iter += diff;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE const_iterator& operator-=(difference_type diff) noexcept {
+			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> const_iterator& {
 				iter -= diff;
 				return *this;
 			}
 			SEQ_ALWAYS_INLINE bool operator==(const const_iterator& it) const { return iter == it.iter; }
 			SEQ_ALWAYS_INLINE bool operator!=(const const_iterator& it) const { return iter != it.iter; }
-			SEQ_ALWAYS_INLINE const_iterator operator+(difference_type diff) { return iter + diff; }
-			SEQ_ALWAYS_INLINE const_iterator operator-(difference_type diff) { return iter + diff; }
-			SEQ_ALWAYS_INLINE difference_type operator-(const const_iterator& other) { return iter - other.iter; }
+			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) -> const_iterator { return iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) -> const_iterator { return iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) -> difference_type { return iter - other.iter; }
 		};
-		using iterator = const_iterator;
 
+		using iterator = const_iterator;
 		using key_type = Key;
 		using value_type = Key;
 		using allocator_type = Allocator;
@@ -1316,27 +1308,22 @@ namespace seq
 		auto max_size() const noexcept -> size_t { return this->d_seq.max_size(); }
 		/// @brief Returns true if the container is empty, false otherwise
 		auto empty() const noexcept -> bool { return this->d_seq.empty(); }
-
 		/// @brief Returns the current maximum possible probe distance
 		auto max_probe_distance() const noexcept -> int { return this->d_max_dist; }
-
 		/// @brief Returns the current load factor
 		auto load_factor() const noexcept -> float { return base_type::load_factor(); }
 		/// @brief Returns the current maximum load factor
 		auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
 		/// @brief Set the maximum load factor
 		void max_load_factor(float f) noexcept { base_type::max_load_factor(f); }
-
 		/// @brief Returns the container allocator object
 		auto get_allocator() noexcept -> allocator_type& { return this->d_seq.get_allocator(); }
 		/// @brief Returns the container allocator object
 		auto get_allocator() const noexcept -> allocator_type { return this->d_seq.get_allocator(); }
-
 		/// @brief Returns the hash function
 		auto hash_function() const -> hasher { return this->base_type::hash_function(); }
 		/// @brief Returns the equality comparison function
 		auto key_eq() const -> key_equal { return this->base_type::key_eq(); }
-
 		/// @brief Returns the underlying sequence object.
 		/// Calling this function will mark the container as dirty. Any further attempts to call members like find() or insert() (relying on the hash function)
 		/// will raise a std::logic_error. To mark the container as non dirty anymore, the user must call ordered_set::rehash().
@@ -1346,40 +1333,32 @@ namespace seq
 		auto sequence() const noexcept -> const sequence_type & { return this->d_seq; }
 		/// @brief Returns the underlying sequence object. Do NOT mark the container as dirty.
 		auto csequence() const noexcept -> const sequence_type & { return this->d_seq; }
-
 		/// @brief Returns an iterator to the first element of the container.
 		auto end() noexcept -> iterator { return this->d_seq.end(); }
 		/// @brief Returns an iterator to the first element of the container.
 		auto end() const noexcept -> const_iterator { return this->d_seq.end(); }
 		/// @brief Returns an iterator to the first element of the container.
 		auto cend() const noexcept -> const_iterator { return this->d_seq.end(); }
-		
 		/// @brief Returns an iterator to the element following the last element of the container.
 		auto begin() noexcept -> iterator { return this->d_seq.begin(); }
 		/// @brief Returns an iterator to the element following the last element of the container.
 		auto begin() const noexcept -> const_iterator { return this->d_seq.begin(); }
 		/// @brief Returns an iterator to the element following the last element of the container.
 		auto cbegin() const noexcept -> const_iterator { return this->d_seq.begin(); }
-
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		auto rbegin() noexcept -> reverse_iterator { return this->d_seq.rbegin(); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		auto rbegin() const noexcept -> const_reverse_iterator  { return this->d_seq.rbegin(); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		auto crbegin() const noexcept -> const_reverse_iterator  { return this->d_seq.rbegin(); }
-
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
 		auto rend() noexcept -> reverse_iterator { return this->d_seq.rend(); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
 		auto rend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
 		auto crend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
-
 		/// @brief Clear the container
-		void clear()
-		{
-			this->base_type::clear();
-		}
+		void clear() {this->base_type::clear();}
 
 		/// @brief Rehash the container.
 		/// This function triggers a full rehash if:
@@ -1390,17 +1369,11 @@ namespace seq
 		/// 
 		/// Otherwise, this function does nothing.
 		/// 
-		void rehash()
-		{
-			this->base_type::rehash();
-		}
+		void rehash() {this->base_type::rehash();}
 		
 		/// @brief Sets the number of nodes to the number needed to accomodate at least count elements without exceeding maximum load factor and rehashes the container.
 		/// @param count new capacity of the container
-		void reserve(size_t count)
-		{
-			this->base_type::reserve(count);
-		}
+		void reserve(size_t count) {this->base_type::reserve(count);}
 
 		/// @brief Sort the container based on given comparator.
 		/// The full container is rehashed afterward.
@@ -1649,14 +1622,14 @@ namespace seq
 		/// @brief Finds an element with key equivalent to key
 		/// @param value key value to search for
 		/// @return iterator pointing to found key on success, end iterator on failure.
-		SEQ_ALWAYS_INLINE const_iterator find(const Key& key) const
+		SEQ_ALWAYS_INLINE auto find(const Key& key) const -> const_iterator
 		{
 			return this->base_type::find(key);
 		}
 		/// @brief Finds an element with key equivalent to key
 		/// @param value key value to search for
 		/// @return iterator pointing to found key on success, end iterator on failure.
-		SEQ_ALWAYS_INLINE iterator find(const Key& value) 
+		SEQ_ALWAYS_INLINE auto find(const Key& value) -> iterator
 		{
 			return (iterator)const_cast<this_type*>(this)->base_type::find(value);
 		}
@@ -1668,7 +1641,7 @@ namespace seq
 		/// @return iterator pointing to found key on success, end iterator on failure.
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value && has_is_transparent<H>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE	const_iterator find(const K& x) const
+		SEQ_ALWAYS_INLINE auto find(const K& x) const -> const_iterator
 		{
 			return const_cast<this_type*>(this)->base_type::find(x);
 		}
@@ -1680,20 +1653,20 @@ namespace seq
 		/// @return iterator pointing to found key on success, end iterator on failure.
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE	iterator find(const K& key)
+		SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
 		{
 			return (iterator)const_cast<this_type*>(this)->base_type::find(key);
 		}
 
 		/// @brief Returns 1 of key exists, 0 otherwise
-		size_type count(const Key& key) const
+		auto count(const Key& key) const -> size_type
 		{
 			return find(key) != end();
 		}
 		/// @brief Returns 1 of key exists, 0 otherwise
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-			size_type count(const K& key) const
+		auto count(const K& key) const -> size_type
 		{
 			return find(key) != end();
 		}
@@ -1706,11 +1679,10 @@ namespace seq
 		/// @brief Returns true of key exists, false otherwise
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-			bool contains(const K& key) const
+		bool contains(const K& key) const
 		{
 			return find(key) != end();
 		}
-
 
 	};
 
@@ -1793,39 +1765,39 @@ namespace seq
 
 			const_iterator() {}
 			const_iterator(const iter_type& it) : iter(it) {}
-			SEQ_ALWAYS_INLINE const_iterator& operator++() noexcept {
+			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_iterator& {
 				++iter;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE const_iterator operator++(int) noexcept {
+			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_iterator {
 				const_iterator _Tmp = *this;
 				++(*this);
 				return _Tmp;
 			}
-			SEQ_ALWAYS_INLINE const_iterator& operator--() noexcept {
+			SEQ_ALWAYS_INLINE auto operator--() noexcept -> const_iterator& {
 				--iter;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE const_iterator operator--(int) noexcept {
+			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> const_iterator {
 				const_iterator _Tmp = *this;
 				--(*this);
 				return _Tmp;
 			}
-			SEQ_ALWAYS_INLINE reference operator*() const noexcept { return reinterpret_cast<const value_type&>(*iter); }
-			SEQ_ALWAYS_INLINE pointer operator->() const noexcept { return  std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE const_iterator& operator+=(difference_type diff) noexcept {
+			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return reinterpret_cast<const value_type&>(*iter); }
+			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return  std::pointer_traits<pointer>::pointer_to(**this); }
+			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> const_iterator& {
 				iter += diff;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE const_iterator& operator-=(difference_type diff) noexcept {
+			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> const_iterator& {
 				iter -= diff;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE bool operator==(const const_iterator& it) const { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE bool operator!=(const const_iterator& it) const { return iter != it.iter; }
-			SEQ_ALWAYS_INLINE const_iterator operator+(difference_type diff) { return iter + diff; }
-			SEQ_ALWAYS_INLINE const_iterator operator-(difference_type diff) { return iter + diff; }
-			SEQ_ALWAYS_INLINE difference_type operator-(const const_iterator& other) { return iter - other.iter; }
+			SEQ_ALWAYS_INLINE bool operator==(const const_iterator& it) const noexcept { return iter == it.iter; }
+			SEQ_ALWAYS_INLINE bool operator!=(const const_iterator& it) const noexcept { return iter != it.iter; }
+			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) noexcept -> const_iterator { return iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) noexcept -> const_iterator { return iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) noexcept -> difference_type { return iter - other.iter; }
 		};
 		struct iterator : public const_iterator
 		{
@@ -1840,39 +1812,39 @@ namespace seq
 			iterator() : const_iterator() {}
 			iterator(const iter_type& it) : const_iterator(it) {}
 			iterator(const const_iterator& it) : const_iterator(it) {}
-			SEQ_ALWAYS_INLINE iterator& operator++() noexcept {
+			SEQ_ALWAYS_INLINE auto operator++() noexcept -> iterator& {
 				++this->iter;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE iterator operator++(int) noexcept {
+			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> iterator {
 				iterator _Tmp = *this;
 				++(*this);
 				return _Tmp;
 			}
-			SEQ_ALWAYS_INLINE iterator& operator--() noexcept {
+			SEQ_ALWAYS_INLINE auto operator--() noexcept -> iterator& {
 				--this->iter;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE iterator operator--(int) noexcept {
+			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> iterator {
 				iterator _Tmp = *this;
 				--(*this);
 				return _Tmp;
 			}
-			SEQ_ALWAYS_INLINE reference operator*() noexcept { return reinterpret_cast<value_type&>(const_cast<std::pair<Key, T>&>(*this->iter)); }
-			SEQ_ALWAYS_INLINE pointer operator->() noexcept { return  std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE iterator& operator+=(difference_type diff) noexcept {
+			SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference { return reinterpret_cast<value_type&>(const_cast<std::pair<Key, T>&>(*this->iter)); }
+			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return  std::pointer_traits<pointer>::pointer_to(**this); }
+			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> iterator& {
 				this->iter += diff;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE iterator& operator-=(difference_type diff) noexcept {
+			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> iterator& {
 				this->iter -= diff;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE bool operator==(const const_iterator& it) const { return this->iter == it.iter; }
-			SEQ_ALWAYS_INLINE bool operator!=(const const_iterator& it) const { return this->iter != it.iter; }
-			SEQ_ALWAYS_INLINE iterator operator+(difference_type diff) { return this->iter + diff; }
-			SEQ_ALWAYS_INLINE iterator operator-(difference_type diff) { return this->iter + diff; }
-			SEQ_ALWAYS_INLINE difference_type operator-(const const_iterator& other) { return this->iter - other.iter; }
+			SEQ_ALWAYS_INLINE bool operator==(const const_iterator& it) const noexcept { return this->iter == it.iter; }
+			SEQ_ALWAYS_INLINE bool operator!=(const const_iterator& it) const noexcept { return this->iter != it.iter; }
+			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) noexcept -> iterator { return this->iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) noexcept -> iterator { return this->iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) noexcept -> difference_type { return this->iter - other.iter; }
 		};
 
 		using key_type = Key;
@@ -2419,41 +2391,40 @@ namespace seq
 			return this->base_type::erase(first.iter, last.iter);
 		}
 
-		SEQ_ALWAYS_INLINE const_iterator find(const Key& value) const
+		SEQ_ALWAYS_INLINE auto find(const Key& value) const -> const_iterator
 		{
 			return this->base_type::find(value);
 		}
-		SEQ_ALWAYS_INLINE iterator find(const Key& value)
+		SEQ_ALWAYS_INLINE auto find(const Key& value) -> iterator
 		{
 			return (iterator)const_cast<this_type*>(this)->base_type::find(value);
 		}
 
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-			SEQ_ALWAYS_INLINE	const_iterator find(const K& key) const
+		SEQ_ALWAYS_INLINE auto find(const K& key) const -> const_iterator
 		{
 			return const_cast<this_type*>(this)->base_type::find(key);
 		}
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-			SEQ_ALWAYS_INLINE	iterator find(const K& key)
+		SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
 		{
 			return (iterator)const_cast<this_type*>(this)->base_type::find(key);
 		}
 
 
-		size_type count(const Key& key) const
+		auto count(const Key& key) const -> size_type
 		{
 			return find(key) != end();
 		}
 
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-			size_type count(const K& key) const
+		auto count(const K& key) const -> size_type
 		{
 			return find(key) != end();
 		}
-
 
 		bool contains(const Key& key) const
 		{
@@ -2462,11 +2433,10 @@ namespace seq
 
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-			bool contains(const K& key) const
+		bool contains(const K& key) const
 		{
 			return find(key) != end();
 		}
-
 	};
 
 

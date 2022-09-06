@@ -54,10 +54,10 @@ auto \mbox{\hyperlink{classseq_1_1parallel__object__pool_a14d7870a5611ea2c96281a
 \begin{DoxyCompactList}\small\item\em Returns the memory footprint in bytes excluding sizeof($\ast$this). \end{DoxyCompactList}\item 
 auto \mbox{\hyperlink{classseq_1_1parallel__object__pool_aa863937a3906273d5ea87079db80a30c}{peak\+\_\+memory\+\_\+footprint}} () const noexcept -\/$>$ size\+\_\+t
 \begin{DoxyCompactList}\small\item\em Returns the peak memory footprint in bytes excluding sizeof($\ast$this). \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classseq_1_1parallel__object__pool_a9eee0a4998740efaaf1ad68c5b1bc1ec}{set\+\_\+reclaim\+\_\+memory}} (bool reclaim)
-\begin{DoxyCompactList}\small\item\em Set the reclaim\+\_\+memory flag. \end{DoxyCompactList}\item 
 auto \mbox{\hyperlink{classseq_1_1parallel__object__pool_a743de3a7f26697b9924b8283e9d133fa}{reclaim\+\_\+memory}} () const noexcept -\/$>$ bool
 \begin{DoxyCompactList}\small\item\em Returns true if this pool reclaims freed memory, false otherwise. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classseq_1_1parallel__object__pool_a9eee0a4998740efaaf1ad68c5b1bc1ec}{set\+\_\+reclaim\+\_\+memory}} (bool reclaim)
+\begin{DoxyCompactList}\small\item\em Set the reclaim\+\_\+memory flag. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1parallel__object__pool_a23b2bbb8a68e01e169f3b88593140bef}{dump\+\_\+statistics}} (\mbox{\hyperlink{structseq_1_1object__pool__stats}{object\+\_\+pool\+\_\+stats}} \&stats)
 \begin{DoxyCompactList}\small\item\em Dump \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} statistics into a \mbox{\hyperlink{structseq_1_1object__pool__stats}{object\+\_\+pool\+\_\+stats}}. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classseq_1_1parallel__object__pool_a90a75ce8c8eec26b1053beb27a91f147}{reset\+\_\+statistics}} (\mbox{\hyperlink{structseq_1_1object__pool__stats}{object\+\_\+pool\+\_\+stats}} \&stats)
@@ -285,7 +285,8 @@ Dump \mbox{\hyperlink{classseq_1_1object__pool}{object\+\_\+pool}} statistics in
 \index{get\_allocator@{get\_allocator}!seq::parallel\_object\_pool$<$ T, Allocator, Align, object\_allocation, GenerateStats $>$@{seq::parallel\_object\_pool$<$ T, Allocator, Align, object\_allocation, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{get\_allocator()}{get\_allocator()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = 0, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Generate\+Stats = false$>$ \\
-auto \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ Allocator \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$\+::get\+\_\+allocator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ Allocator 
+		\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -333,7 +334,8 @@ This function is similar to std\+::make\+\_\+unique(), except that it relies on 
 \index{memory\_footprint@{memory\_footprint}!seq::parallel\_object\_pool$<$ T, Allocator, Align, object\_allocation, GenerateStats $>$@{seq::parallel\_object\_pool$<$ T, Allocator, Align, object\_allocation, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{memory\_footprint()}{memory\_footprint()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = 0, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Generate\+Stats = false$>$ \\
-auto \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$\+::memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t 
+		\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -351,7 +353,8 @@ auto \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+o
 \index{peak\_memory\_footprint@{peak\_memory\_footprint}!seq::parallel\_object\_pool$<$ T, Allocator, Align, object\_allocation, GenerateStats $>$@{seq::parallel\_object\_pool$<$ T, Allocator, Align, object\_allocation, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{peak\_memory\_footprint()}{peak\_memory\_footprint()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = 0, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Generate\+Stats = false$>$ \\
-auto \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$\+::peak\+\_\+memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$\+::peak\+\_\+memory\+\_\+footprint (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t 
+		\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 
@@ -362,7 +365,8 @@ Returns the peak memory footprint in bytes excluding sizeof($\ast$this).
 \index{reclaim\_memory@{reclaim\_memory}!seq::parallel\_object\_pool$<$ T, Allocator, Align, object\_allocation, GenerateStats $>$@{seq::parallel\_object\_pool$<$ T, Allocator, Align, object\_allocation, GenerateStats $>$}}
 \doxysubsubsection{\texorpdfstring{reclaim\_memory()}{reclaim\_memory()}}
 {\footnotesize\ttfamily template$<$class T , class Allocator  = std\+::allocator$<$\+T$>$, size\+\_\+t Align = 0, class object\+\_\+allocation  = linear\+\_\+object\+\_\+allocation$<$1$>$, bool Generate\+Stats = false$>$ \\
-auto \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$\+::reclaim\+\_\+memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ bool \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+auto \mbox{\hyperlink{classseq_1_1parallel__object__pool}{seq\+::parallel\+\_\+object\+\_\+pool}}$<$ T, Allocator, Align, object\+\_\+allocation, Generate\+Stats $>$\+::reclaim\+\_\+memory (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ bool
+		\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 
 

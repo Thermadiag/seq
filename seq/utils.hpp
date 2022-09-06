@@ -139,9 +139,9 @@ namespace seq
 			using key_type = Key;
 			using value_type = T;
 			using mapped_type = typename T::second_type;
-			SEQ_ALWAYS_INLINE static const key_type& key(const value_type& value) noexcept { return value.first; }
+			SEQ_ALWAYS_INLINE static auto key(const value_type& value) noexcept -> const key_type& { return value.first; }
 			template<class U>
-			SEQ_ALWAYS_INLINE static const U& key(const U& value) noexcept { return value; }
+			SEQ_ALWAYS_INLINE static auto key(const U& value) noexcept -> const U& { return value; }
 		};
 		template<class T>
 		struct ExtractKey<T, T>
@@ -149,9 +149,9 @@ namespace seq
 			using key_type = T;
 			using value_type = T;
 			using mapped_type = T;
-			SEQ_ALWAYS_INLINE static const T& key(const T& value) noexcept { return value; }
+			SEQ_ALWAYS_INLINE static auto key(const T& value) noexcept -> const T& { return value; }
 			template<class U>
-			SEQ_ALWAYS_INLINE static const U& key(const U& value) noexcept { return value; }
+			SEQ_ALWAYS_INLINE static auto key(const U& value) noexcept -> const U& { return value; }
 		};
 
 		// Build a std::pair or Key value from forwarded arguments
@@ -216,7 +216,7 @@ namespace seq
 			using return_type = decltype(std::declval<L1&>()(std::declval<Args>()...));
 
 			template <class... Args>
-			return_type<Args ...> operator()(const L1& l1, const L2&  /*unused*/, Args&&... args) const
+			auto operator()(const L1& l1, const L2&  /*unused*/, Args&&... args) const -> return_type<Args ...>
 			{
 				return l1(std::forward<Args>(args)...);
 			}
@@ -228,7 +228,7 @@ namespace seq
 			using return_type = decltype(std::declval<L2&>()(std::declval<Args>()...));
 
 			template <class... Args>
-			return_type<Args ...> operator()(const L1&  /*unused*/, const L2& l2, Args&&... args) const
+			auto operator()(const L1&  /*unused*/, const L2& l2, Args&&... args) const -> return_type<Args ...>
 			{
 				return l2(std::forward<Args>(args)...);
 			}
@@ -237,8 +237,8 @@ namespace seq
 
 	/// @brief Simulation of C++17 if constexpr
 	template<bool IsL1, class L1, class L2, class... Args>
-	auto
-		constexpr_if( const L1& l1,  const L2& l2, Args&&... args) -> decltype(std::declval<detail::CallLambda<L1, L2, IsL1>&>()(std::declval<L1&>(), std::declval<L2&>(),std::declval<Args>()...))
+	auto constexpr_if( const L1& l1,  const L2& l2, Args&&... args) 
+		-> decltype(std::declval<detail::CallLambda<L1, L2, IsL1>&>()(std::declval<L1&>(), std::declval<L2&>(),std::declval<Args>()...))
 	{
 		return detail::CallLambda<L1, L2, IsL1>{}(l1,l2, std::forward<Args>(args)...);
 	}

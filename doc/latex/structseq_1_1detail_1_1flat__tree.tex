@@ -89,7 +89,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a7d9cf5f6464dcc1a41d86bf
 \item 
 \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_af51b5fb20fec580c9c5499dbb44cb098}{flat\+\_\+tree}} (\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}} \&\&other) noexcept
 \item 
-\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a2160078a8fce96a94dc9f7b7a94f0f74}{flat\+\_\+tree}} (\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}} \&\&other, const Allocator \&alloc) noexcept
+\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_ac97857c1eebb5bd31975092cad8c20a0}{flat\+\_\+tree}} (\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}} \&\&other, const Allocator \&alloc)
 \item 
 \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a655ac1d34e4debe66c2750f34dbd71a4}{flat\+\_\+tree}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_ac8ea95d1a08cdcde3d0afc3f22c18b07}{value\+\_\+type}} $>$ init, const Compare \&comp=Compare(), const Allocator \&alloc=Allocator())
 \item 
@@ -111,13 +111,13 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a7ccd6072f2ad57921367f2e
 \item 
 void \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_ab03f25e6444408de9fa9a3c7bb75e97a}{clear}} () noexcept
 \item 
-void \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_af5875047bec7bd942469015dd039080f}{swap}} (\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}} \&other) noexcept
-\item 
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_ae91e46b23d6713e3aaa12426bd2ba29d}{tvector}} () noexcept -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a206db35a1c2d1065d811172700f3518d}{deque\+\_\+type}} \&
 \item 
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_aa38823aa3eb9beef2849f39d35cd24b9}{tvector}} () const noexcept -\/$>$ const \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a206db35a1c2d1065d811172700f3518d}{deque\+\_\+type}} \&
 \item 
-auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a0e88072c0f2363abf2c399ac0bed627f}{cdeque}} () const noexcept -\/$>$ const \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a206db35a1c2d1065d811172700f3518d}{deque\+\_\+type}} \&
+auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a062729da9029f1ef85204f11b939366f}{ctvector}} () const noexcept -\/$>$ const \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a206db35a1c2d1065d811172700f3518d}{deque\+\_\+type}} \&
+\item 
+void \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_af5875047bec7bd942469015dd039080f}{swap}} (\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}} \&other) noexcept
 \item 
 {\footnotesize template$<$class U $>$ }\\auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_af21473ef5433144f4aaac286d6b1d6ad}{insert\+\_\+pos\+\_\+multi}} (U \&\&value) -\/$>$ std\+::pair$<$ size\+\_\+t, bool $>$
 \item 
@@ -425,12 +425,12 @@ template$<$class Input\+It $>$ \\
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$ \&\&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a2160078a8fce96a94dc9f7b7a94f0f74}\label{structseq_1_1detail_1_1flat__tree_a2160078a8fce96a94dc9f7b7a94f0f74}} 
+\mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_ac97857c1eebb5bd31975092cad8c20a0}\label{structseq_1_1detail_1_1flat__tree_ac97857c1eebb5bd31975092cad8c20a0}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!flat\_tree@{flat\_tree}}
 \index{flat\_tree@{flat\_tree}!seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}}
 \doxysubsubsection{\texorpdfstring{flat\_tree()}{flat\_tree()}\hspace{0.1cm}{\footnotesize\ttfamily [9/11]}}
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
-\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$ \&\&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$ \&\&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a655ac1d34e4debe66c2750f34dbd71a4}\label{structseq_1_1detail_1_1flat__tree_a655ac1d34e4debe66c2750f34dbd71a4}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!flat\_tree@{flat\_tree}}
@@ -508,13 +508,6 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::cbegin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a57edc40ddfede7c92d1055cedd3b7049}{const\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
-\mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a0e88072c0f2363abf2c399ac0bed627f}\label{structseq_1_1detail_1_1flat__tree_a0e88072c0f2363abf2c399ac0bed627f}} 
-\index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!cdeque@{cdeque}}
-\index{cdeque@{cdeque}!seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}}
-\doxysubsubsection{\texorpdfstring{cdeque()}{cdeque()}}
-{\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
-auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::cdeque (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a206db35a1c2d1065d811172700f3518d}{deque\+\_\+type}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
-
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a7682fb07165f757a28fe76a0c5cefbf1}\label{structseq_1_1detail_1_1flat__tree_a7682fb07165f757a28fe76a0c5cefbf1}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!cend@{cend}}
 \index{cend@{cend}!seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}}
@@ -543,7 +536,7 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::contains (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) const -\/$>$ bool 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a46818093f1009d0dc57b025fde2a722a}\label{structseq_1_1detail_1_1flat__tree_a46818093f1009d0dc57b025fde2a722a}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!count@{count}}
@@ -552,7 +545,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::count (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_abffaa05b80d449da958b9f194f9791af}{size\+\_\+type}} 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a4cabea98a7ec6ce54c9090d30fa5847e}\label{structseq_1_1detail_1_1flat__tree_a4cabea98a7ec6ce54c9090d30fa5847e}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!crbegin@{crbegin}}
@@ -568,13 +561,20 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::crend (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_afc1ded13073aeb2923893a48e916a5c9}{const\+\_\+reverse\+\_\+iterator}} \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
+\mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a062729da9029f1ef85204f11b939366f}\label{structseq_1_1detail_1_1flat__tree_a062729da9029f1ef85204f11b939366f}} 
+\index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!ctvector@{ctvector}}
+\index{ctvector@{ctvector}!seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}}
+\doxysubsubsection{\texorpdfstring{ctvector()}{ctvector()}}
+{\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
+auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::ctvector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a206db35a1c2d1065d811172700f3518d}{deque\+\_\+type}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a7d9cf5f6464dcc1a41d86bffbaad986f}\label{structseq_1_1detail_1_1flat__tree_a7d9cf5f6464dcc1a41d86bffbaad986f}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!dirty@{dirty}}
 \index{dirty@{dirty}!seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}}
 \doxysubsubsection{\texorpdfstring{dirty()}{dirty()}}
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::dirty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ bool
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_af6a9770185af3bbe70d10c98ee745e6c}\label{structseq_1_1detail_1_1flat__tree_af6a9770185af3bbe70d10c98ee745e6c}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!emplace@{emplace}}
@@ -583,7 +583,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class... Args$>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::emplace (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a63457f818ac8a402c8982880c2433a48}{iterator}}, bool$>$
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_aaa5ee390e64d38098fbe9a761111b505}\label{structseq_1_1detail_1_1flat__tree_aaa5ee390e64d38098fbe9a761111b505}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!emplace\_hint@{emplace\_hint}}
@@ -592,7 +592,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class... Args$>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::emplace\+\_\+hint (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a57edc40ddfede7c92d1055cedd3b7049}{const\+\_\+iterator}}}]{hint,  }\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a63457f818ac8a402c8982880c2433a48}{iterator}}
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_ad9c5e2c0a704e27753b15f3f7fc85c83}\label{structseq_1_1detail_1_1flat__tree_ad9c5e2c0a704e27753b15f3f7fc85c83}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!emplace\_pos@{emplace\_pos}}
@@ -601,7 +601,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class... Args$>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::emplace\+\_\+pos (\begin{DoxyParamCaption}\item[{Args \&\&...}]{args }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$size\+\_\+t, bool$>$
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a6f8737ec783f8d58ca1aba083de25036}\label{structseq_1_1detail_1_1flat__tree_a6f8737ec783f8d58ca1aba083de25036}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!empty@{empty}}
@@ -631,7 +631,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::equal\+\_\+range (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a63457f818ac8a402c8982880c2433a48}{iterator}}, \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a63457f818ac8a402c8982880c2433a48}{iterator}}$>$ 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_aabc0923808a96c94357fae39d9cc56a0}\label{structseq_1_1detail_1_1flat__tree_aabc0923808a96c94357fae39d9cc56a0}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!equal\_range@{equal\_range}}
@@ -640,7 +640,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::equal\+\_\+range (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) const -\/$>$ std\+::pair$<$\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a57edc40ddfede7c92d1055cedd3b7049}{const\+\_\+iterator}}, \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a57edc40ddfede7c92d1055cedd3b7049}{const\+\_\+iterator}}$>$ 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a1b37f6311b9508a5717dfff6820d10a6}\label{structseq_1_1detail_1_1flat__tree_a1b37f6311b9508a5717dfff6820d10a6}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!equal\_range\_pos@{equal\_range\_pos}}
@@ -649,7 +649,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::equal\+\_\+range\+\_\+pos (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) const -\/$>$ std\+::pair$<$size\+\_\+t, size\+\_\+t$>$ 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a592811a313bc04ad3b9e066856d5c436}\label{structseq_1_1detail_1_1flat__tree_a592811a313bc04ad3b9e066856d5c436}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!erase@{erase}}
@@ -658,7 +658,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::erase (\begin{DoxyParamCaption}\item[{const K \&}]{key }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_abffaa05b80d449da958b9f194f9791af}{size\+\_\+type}}
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a6bcc7f8722a2edc5b0dac2727ca17f77}\label{structseq_1_1detail_1_1flat__tree_a6bcc7f8722a2edc5b0dac2727ca17f77}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!erase@{erase}}
@@ -666,7 +666,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 \doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a57edc40ddfede7c92d1055cedd3b7049}{const\+\_\+iterator}}}]{first,  }\item[{\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a57edc40ddfede7c92d1055cedd3b7049}{const\+\_\+iterator}}}]{last }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a63457f818ac8a402c8982880c2433a48}{iterator}}
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a1cb1507e795370246523f41521613a3b}\label{structseq_1_1detail_1_1flat__tree_a1cb1507e795370246523f41521613a3b}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!erase@{erase}}
@@ -674,7 +674,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 \doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a57edc40ddfede7c92d1055cedd3b7049}{const\+\_\+iterator}}}]{pos }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a63457f818ac8a402c8982880c2433a48}{iterator}}
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a9a464ae5dfd949988c1f07ecc3ef211f}\label{structseq_1_1detail_1_1flat__tree_a9a464ae5dfd949988c1f07ecc3ef211f}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!erase@{erase}}
@@ -682,7 +682,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 \doxysubsubsection{\texorpdfstring{erase()}{erase()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::erase (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a63457f818ac8a402c8982880c2433a48}{iterator}}}]{pos }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a63457f818ac8a402c8982880c2433a48}{iterator}}
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_ae257df5fb76d6d539a0761b8067d9f61}\label{structseq_1_1detail_1_1flat__tree_ae257df5fb76d6d539a0761b8067d9f61}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!erase@{erase}}
@@ -705,7 +705,7 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::find (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a63457f818ac8a402c8982880c2433a48}{iterator}} 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a4e23a09190ac90d93fb9184485c01009}\label{structseq_1_1detail_1_1flat__tree_a4e23a09190ac90d93fb9184485c01009}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!find@{find}}
@@ -714,7 +714,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::find (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a57edc40ddfede7c92d1055cedd3b7049}{const\+\_\+iterator}} 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a6f0704588227c2e7807b01b4b41f0bc4}\label{structseq_1_1detail_1_1flat__tree_a6f0704588227c2e7807b01b4b41f0bc4}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!find\_pos@{find\_pos}}
@@ -723,7 +723,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::find\+\_\+pos (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_ae235e159e329e94e99207b08ecc448bd}\label{structseq_1_1detail_1_1flat__tree_ae235e159e329e94e99207b08ecc448bd}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!get\_allocator@{get\_allocator}}
@@ -796,7 +796,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class U $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::insert\+\_\+pos\+\_\+multi (\begin{DoxyParamCaption}\item[{U \&\&}]{value }\end{DoxyParamCaption}) -\/$>$ std\+::pair$<$size\+\_\+t, bool$>$
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a5b185f6615f1c8154f2294796643fcfd}\label{structseq_1_1detail_1_1flat__tree_a5b185f6615f1c8154f2294796643fcfd}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!key\_comp@{key\_comp}}
@@ -812,7 +812,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::lower\+\_\+bound (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a63457f818ac8a402c8982880c2433a48}{iterator}} 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a54ad37ee6cf59e9721c133f3064bcda2}\label{structseq_1_1detail_1_1flat__tree_a54ad37ee6cf59e9721c133f3064bcda2}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!lower\_bound@{lower\_bound}}
@@ -821,7 +821,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::lower\+\_\+bound (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a57edc40ddfede7c92d1055cedd3b7049}{const\+\_\+iterator}} 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a11bd964d76589107589a301ea4637a71}\label{structseq_1_1detail_1_1flat__tree_a11bd964d76589107589a301ea4637a71}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!lower\_bound\_pos@{lower\_bound\_pos}}
@@ -830,7 +830,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::lower\+\_\+bound\+\_\+pos (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a42619f399691199925c8b64723df3b1c}\label{structseq_1_1detail_1_1flat__tree_a42619f399691199925c8b64723df3b1c}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!mark\_dirty@{mark\_dirty}}
@@ -859,7 +859,8 @@ void \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 \index{operator=@{operator=}!seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}}
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
-auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$ \&}]{other }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}}\& \hspace{0.3cm}{\ttfamily [inline]}}
+auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$ \&}]{other }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}}\& 
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a64b34748e7942481628d1ec339b5b5c2}\label{structseq_1_1detail_1_1flat__tree_a64b34748e7942481628d1ec339b5b5c2}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!operator=@{operator=}}
@@ -867,7 +868,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::operator= (\begin{DoxyParamCaption}\item[{const std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_ac8ea95d1a08cdcde3d0afc3f22c18b07}{value\+\_\+type}} $>$ \&}]{init }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{flat\+\_\+tree}}\&
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_aafa8a9ca17b4f6f16df83a983d9912db}\label{structseq_1_1detail_1_1flat__tree_aafa8a9ca17b4f6f16df83a983d9912db}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!operator=@{operator=}}
@@ -882,7 +883,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 \doxysubsubsection{\texorpdfstring{pos()}{pos()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::pos (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i }\end{DoxyParamCaption}) const -\/$>$ const Value\&
-		\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+			\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a990b2bda1e3170abc0557c0443c5b436}\label{structseq_1_1detail_1_1flat__tree_a990b2bda1e3170abc0557c0443c5b436}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!pos@{pos}}
@@ -890,7 +891,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 \doxysubsubsection{\texorpdfstring{pos()}{pos()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::pos (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{i }\end{DoxyParamCaption}) -\/$>$ Value\&
-		\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+			\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_ae71bc91be3594df4abaa19c7829d1346}\label{structseq_1_1detail_1_1flat__tree_ae71bc91be3594df4abaa19c7829d1346}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!rbegin@{rbegin}}
@@ -962,7 +963,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::upper\+\_\+bound (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a63457f818ac8a402c8982880c2433a48}{iterator}} 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a3bb810d8c2ff8cf6ef86570dd4f9b2b0}\label{structseq_1_1detail_1_1flat__tree_a3bb810d8c2ff8cf6ef86570dd4f9b2b0}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!upper\_bound@{upper\_bound}}
@@ -971,7 +972,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::upper\+\_\+bound (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) const -\/$>$ \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree_a57edc40ddfede7c92d1055cedd3b7049}{const\+\_\+iterator}} 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a8b098ab602065b3294068df2f92fb87d}\label{structseq_1_1detail_1_1flat__tree_a8b098ab602065b3294068df2f92fb87d}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!upper\_bound\_pos@{upper\_bound\_pos}}
@@ -980,7 +981,7 @@ auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+
 {\footnotesize\ttfamily template$<$class Key , class Value  = Key, class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Value$>$, Layout\+Management layout = Optimize\+For\+Speed, bool Stable = true, bool Unique = true$>$ \\
 template$<$class K $>$ \\
 auto \mbox{\hyperlink{structseq_1_1detail_1_1flat__tree}{seq\+::detail\+::flat\+\_\+tree}}$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$\+::upper\+\_\+bound\+\_\+pos (\begin{DoxyParamCaption}\item[{const K \&}]{x }\end{DoxyParamCaption}) const -\/$>$ size\+\_\+t 
-		\hspace{0.3cm}{\ttfamily [inline]}}
+			\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{structseq_1_1detail_1_1flat__tree_a678825df80e20dcae2a0d4165cf5ff7d}\label{structseq_1_1detail_1_1flat__tree_a678825df80e20dcae2a0d4165cf5ff7d}} 
 \index{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$@{seq::detail::flat\_tree$<$ Key, Value, Compare, Allocator, layout, Stable, Unique $>$}!value\_comp@{value\_comp}}

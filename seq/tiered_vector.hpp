@@ -110,7 +110,7 @@ namespace seq
 					setPos(pos);*/
 				setPos(pos + diff);
 			}
-			SEQ_ALWAYS_INLINE void go_next()
+			SEQ_ALWAYS_INLINE void go_next() noexcept
 			{
 				const cbuffer_pos sstop = (*bucket)->second_stop();
 				if (first_stop == sstop)
@@ -128,7 +128,7 @@ namespace seq
 					ptr = 0;
 				}
 			}
-			SEQ_ALWAYS_INLINE void go_prev()
+			SEQ_ALWAYS_INLINE void go_prev() noexcept
 			{
 				if (ptr == begin_ptr - 1)
 				{
@@ -1145,14 +1145,6 @@ namespace seq
 			StoreBucket()noexcept {}
 			StoreBucket(CircularBuffer<T, Allocator>* b) noexcept
 				:bucket(b) {}
-			/*StoreBucket(const StoreBucket & other) noexcept
-				: bucket(other.bucket) {}
-			StoreBucket(StoreBucket&& other) noexcept
-				:bucket(other.bucket) {}
-			StoreBucket& operator=(StoreBucket&& other) noexcept {
-				bucket = other.bucket;
-				return *this;
-			}*/
 			void update()noexcept {}
 			auto back() const noexcept -> const T& { return bucket->back(); }
 			auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; };

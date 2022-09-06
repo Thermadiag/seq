@@ -16,9 +16,7 @@ namespace seq
 	{
 
 
-		/**
-		* Allocate list_chunk<T> object by continuous blocks
-		*/
+		/// Allocate list_chunk<T> object by continuous blocks
 		template< class T, class Allocator>
 		struct deque_chunk_pool
 		{
@@ -151,11 +149,10 @@ namespace seq
 
 
 
-		/**
-		* Class used to allocate/deallocate list_chunk<T> objects.
-		* Internally uses a list of growing deque_chunk_pool objects.
-		* Uses the global SEQ_GROW_FACTOR value
-		*/
+		/// Class used to allocate/deallocate list_chunk<T> objects.
+		/// Internally uses a list of growing deque_chunk_pool objects.
+		/// Uses the global SEQ_GROW_FACTOR value
+		///
 		template< class T, class Allocator = std::allocator<T> >
 		struct deque_chunk_pool_alloc
 		{
@@ -288,7 +285,7 @@ namespace seq
 
 
 
-		// Bucket allocator/deallocator class for seq::tiered_vector
+		/// Bucket allocator/deallocator class for seq::tiered_vector
 		template<class T, class Allocator, class Bucket>
 		struct DequeBucketAllocator
 		{

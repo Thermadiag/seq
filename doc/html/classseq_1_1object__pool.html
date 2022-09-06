@@ -653,7 +653,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
           <td class="memname">auto <a class="el" href="classseq_1_1object__pool.html">seq::object_pool</a>&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;::get_allocator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; const Allocator&amp; </td>
+          <td> const -&gt; const Allocator&amp; 
+		</td>
         </tr>
       </table>
   </td>
@@ -682,7 +683,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
           <td class="memname">auto <a class="el" href="classseq_1_1object__pool.html">seq::object_pool</a>&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;::get_allocator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> -&gt; Allocator&amp; </td>
+          <td> -&gt; Allocator&amp; 
+		</td>
         </tr>
       </table>
   </td>
@@ -778,7 +780,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
           <td class="memname">auto <a class="el" href="classseq_1_1object__pool.html">seq::object_pool</a>&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;::memory_footprint </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; std::size_t </td>
+          <td> const -&gt; std::size_t 
+		</td>
         </tr>
       </table>
   </td>
@@ -807,7 +810,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
           <td class="memname">auto <a class="el" href="classseq_1_1object__pool.html">seq::object_pool</a>&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;::peak_memory_footprint </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; std::size_t </td>
+          <td> const -&gt; std::size_t 
+		</td>
         </tr>
       </table>
   </td>
@@ -836,7 +840,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
           <td class="memname">auto <a class="el" href="classseq_1_1object__pool.html">seq::object_pool</a>&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;::reclaim_memory </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; bool </td>
+          <td> const -&gt; bool 
+		</td>
         </tr>
       </table>
   </td>
@@ -1161,14 +1166,14 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassseq_1_1object__pool_html"><div class="ttname"><a href="classseq_1_1object__pool.html">seq::object_pool</a></div><div class="ttdoc">Object pool class used to allocate objects of type T.</div><div class="ttdef"><b>Definition:</b> memory.hpp:1690</div></div>
-<div class="ttc" id="anamespaceseq_html_a1349a44a2ff37300a5c72a03780780fe"><div class="ttname"><a href="namespaceseq.html#a1349a44a2ff37300a5c72a03780780fe">seq::unique_ptr_delete</a></div><div class="ttdeci">void unique_ptr_delete(T *p)</div><div class="ttdoc">Deallocate pointer previously held by a std::unqiue_ptr&lt;T,unique_ptr_deleter&lt;T&gt; &gt;</div><div class="ttdef"><b>Definition:</b> memory.hpp:1391</div></div>
-<div class="ttc" id="aclassseq_1_1object__pool_html_a38e3596ddb1309e36ebc321386d6dc5d"><div class="ttname"><a href="classseq_1_1object__pool.html#a38e3596ddb1309e36ebc321386d6dc5d">seq::object_pool::unique_ptr</a></div><div class="ttdeci">std::unique_ptr&lt; T, unique_ptr_deleter&lt; T &gt; &gt; unique_ptr</div><div class="ttdoc">unique_ptr type if EnableUniquePtr is true</div><div class="ttdef"><b>Definition:</b> memory.hpp:1910</div></div>
+<div class="ttc" id="aclassseq_1_1object__pool_html"><div class="ttname"><a href="classseq_1_1object__pool.html">seq::object_pool</a></div><div class="ttdoc">Object pool class used to allocate objects of type T.</div><div class="ttdef"><b>Definition:</b> memory.hpp:1671</div></div>
+<div class="ttc" id="anamespaceseq_html_a1349a44a2ff37300a5c72a03780780fe"><div class="ttname"><a href="namespaceseq.html#a1349a44a2ff37300a5c72a03780780fe">seq::unique_ptr_delete</a></div><div class="ttdeci">void unique_ptr_delete(T *p)</div><div class="ttdoc">Deallocate pointer previously held by a std::unqiue_ptr&lt;T,unique_ptr_deleter&lt;T&gt; &gt;</div><div class="ttdef"><b>Definition:</b> memory.hpp:1373</div></div>
+<div class="ttc" id="aclassseq_1_1object__pool_html_a38e3596ddb1309e36ebc321386d6dc5d"><div class="ttname"><a href="classseq_1_1object__pool.html#a38e3596ddb1309e36ebc321386d6dc5d">seq::object_pool::unique_ptr</a></div><div class="ttdeci">std::unique_ptr&lt; T, unique_ptr_deleter&lt; T &gt; &gt; unique_ptr</div><div class="ttdoc">unique_ptr type if EnableUniquePtr is true</div><div class="ttdef"><b>Definition:</b> memory.hpp:1891</div></div>
 <div class="ttc" id="anamespaceseq_html_adac07c5c5e3d6da3ebb03f7ddd1e7cdea668d551cd99226655e9e973b6d5be517"><div class="ttname"><a href="namespaceseq.html#adac07c5c5e3d6da3ebb03f7ddd1e7cdea668d551cd99226655e9e973b6d5be517">seq::DefaultAlignment</a></div><div class="ttdeci">@ DefaultAlignment</div><div class="ttdoc">! MaxObjectsAllocation value for #object_pool and #parallel_object_pool to enable shared_ptr building</div><div class="ttdef"><b>Definition:</b> memory.hpp:73</div></div>
-<div class="ttc" id="aclassseq_1_1object__pool_html_a99af259462a246f9b6c46a6b00a9a782"><div class="ttname"><a href="classseq_1_1object__pool.html#a99af259462a246f9b6c46a6b00a9a782">seq::object_pool::deallocate</a></div><div class="ttdeci">void deallocate(T *ptr, size_t size)</div><div class="ttdoc">Deallocate size objects. Non POD objects must have been destroyed previously.</div><div class="ttdef"><b>Definition:</b> memory.hpp:2124</div></div>
-<div class="ttc" id="aclassseq_1_1object__pool_html_a6c693c5b972f21af9ab51a7fd22d15ba"><div class="ttname"><a href="classseq_1_1object__pool.html#a6c693c5b972f21af9ab51a7fd22d15ba">seq::object_pool::make_unique</a></div><div class="ttdeci">auto make_unique(Args &amp;&amp;... args) -&gt; unique_ptr</div><div class="ttdoc">Returns a unique_ptr object constructed from the forwarded argument.</div><div class="ttdef"><b>Definition:</b> memory.hpp:2189</div></div>
-<div class="ttc" id="aclassseq_1_1object__pool_html_a05063f627ffe9c606fe013adfed0e245"><div class="ttname"><a href="classseq_1_1object__pool.html#a05063f627ffe9c606fe013adfed0e245">seq::object_pool::allocate</a></div><div class="ttdeci">auto allocate(size_t size) -&gt; T *</div><div class="ttdoc">Allocate size objects.</div><div class="ttdef"><b>Definition:</b> memory.hpp:2104</div></div>
-<div class="ttc" id="astructseq_1_1linear__object__allocation_html"><div class="ttname"><a href="structseq_1_1linear__object__allocation.html">seq::linear_object_allocation</a></div><div class="ttdoc">Allocate up to MaxSize objects by step of 1.</div><div class="ttdef"><b>Definition:</b> memory.hpp:1487</div></div>
+<div class="ttc" id="aclassseq_1_1object__pool_html_a99af259462a246f9b6c46a6b00a9a782"><div class="ttname"><a href="classseq_1_1object__pool.html#a99af259462a246f9b6c46a6b00a9a782">seq::object_pool::deallocate</a></div><div class="ttdeci">void deallocate(T *ptr, size_t size)</div><div class="ttdoc">Deallocate size objects. Non POD objects must have been destroyed previously.</div><div class="ttdef"><b>Definition:</b> memory.hpp:2113</div></div>
+<div class="ttc" id="aclassseq_1_1object__pool_html_a6c693c5b972f21af9ab51a7fd22d15ba"><div class="ttname"><a href="classseq_1_1object__pool.html#a6c693c5b972f21af9ab51a7fd22d15ba">seq::object_pool::make_unique</a></div><div class="ttdeci">auto make_unique(Args &amp;&amp;... args) -&gt; unique_ptr</div><div class="ttdoc">Returns a unique_ptr object constructed from the forwarded argument.</div><div class="ttdef"><b>Definition:</b> memory.hpp:2178</div></div>
+<div class="ttc" id="aclassseq_1_1object__pool_html_a05063f627ffe9c606fe013adfed0e245"><div class="ttname"><a href="classseq_1_1object__pool.html#a05063f627ffe9c606fe013adfed0e245">seq::object_pool::allocate</a></div><div class="ttdeci">auto allocate(size_t size) -&gt; T *</div><div class="ttdoc">Allocate size objects.</div><div class="ttdef"><b>Definition:</b> memory.hpp:2093</div></div>
+<div class="ttc" id="astructseq_1_1linear__object__allocation_html"><div class="ttname"><a href="structseq_1_1linear__object__allocation.html">seq::linear_object_allocation</a></div><div class="ttdoc">Allocate up to MaxSize objects by step of 1.</div><div class="ttdef"><b>Definition:</b> memory.hpp:1468</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

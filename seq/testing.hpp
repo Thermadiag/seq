@@ -190,17 +190,6 @@ namespace seq
 	using nullbuf = basic_nullbuf<char>;
 
 
-	/*size_t to_int(const std::string& v) { return v.size(); }
-	template<size_t S, class AL>
-	size_t to_int(const tiny_string<S, AL>& v) { return v.size(); }
-	template<class T>
-	size_t to_int(const T& v) { return v; }
-	template<class T, class U>
-	size_t to_int(const std::pair<T, U>& v) { return to_int(v.first); }
-		
-	template<class T, class U>
-	size_t to_int(const std::pair<const T, U>& v) { return to_int(v.first); }*/
-
 	/// @brief For tests only, generate a random string of given max size
 	template<class String>
 	auto generate_random_string(int max_size, bool fixed = false) -> String

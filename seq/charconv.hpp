@@ -1811,7 +1811,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE void reset() {
 				d_state = std::errc();
 			}
-			SEQ_ALWAYS_INLINE constexpr explicit operator bool() const noexcept {
+			SEQ_ALWAYS_INLINE explicit operator bool() const noexcept {
 				return d_state == std::errc();
 			}
 			/// @brief Close the stream

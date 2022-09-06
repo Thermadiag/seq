@@ -70,10 +70,10 @@ Design
 ------
 
 Seq library is a small collection of header only and self dependant components. There is no restriction on internal dependencies, and a seq component can use any number of other components.
-For instance, almost all modules rely on the \ref bits "bits" module.
+For instance, almost all modules rely on the \ref bits "bits" one.
 
 All classes and functions are defined in the `seq` namespace, and names are lower case with underscore separators, much like the STL.
-Macro names are upper case and start with `SEQ_` prefix.
+Macro names are upper case and start with the `SEQ_` prefix.
 
 The directory structure is flat and use the "stuttering" scheme `seq/seq` used by many other libraries like boost.
 Including a file as the following syntax: `#include <seq/tiered_vector.hpp>`
@@ -85,7 +85,7 @@ Build
 -----
 
 The seq library is header only and does not need to be built. However, a cmake file is provided for installation.
-The tests can be built using cmake from the `tests` folder.
+Tests can be built using cmake from the `tests` folder.
 
 */
 

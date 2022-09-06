@@ -1,5 +1,7 @@
 var NAVTREEINDEX8 =
 {
+"namespaceseq.html":[2,0,1],
+"namespaceseq_1_1detail.html":[2,0,1,0],
 "namespaceseq_1_1detail.html":[3,0,0,0],
 "namespaceseq_1_1detail_1_1metafunction.html":[2,0,1,0,0],
 "namespaceseq_1_1detail_1_1metafunction.html":[3,0,0,0,0],
@@ -44,20 +46,19 @@ var NAVTREEINDEX8 =
 "pdqsort_8hpp.html#af7961c01faadc35189ac84f9b03e837f":[4,0,0,10,10],
 "pdqsort_8hpp_source.html":[4,0,0,10],
 "seq_8hpp.html":[4,0,0,11],
-"seq_8hpp.html#ac4cf4b2ab929bd23951a8676eeac086b":[4,0,0,11,0],
 "seq_8hpp_source.html":[4,0,0,11],
 "sequence_8hpp.html":[4,0,0,12],
-"sequence_8hpp.html#a263b96e4ced5629b80f65cdc190990d1":[4,0,0,12,26],
-"sequence_8hpp.html#a2f5d7a2b4190d6001aba2b5e5d0e890d":[4,0,0,12,24],
-"sequence_8hpp.html#a3785726f4883efb201d0ac6cd7bed13d":[4,0,0,12,25],
-"sequence_8hpp.html#a41aae505c4c4202b62ee7ca805a36bc4":[4,0,0,12,22],
+"sequence_8hpp.html#a20b6c0ffa1758e0e2ded820b726ef85b":[4,0,0,12,25],
+"sequence_8hpp.html#a59987d94d05bfef3da2943539d4e2076":[4,0,0,12,26],
 "sequence_8hpp.html#a6f2f13ed03d8da7d7e59edca5f912485":[4,0,0,12,31],
 "sequence_8hpp.html#a78adf3ffc7ff7e57d679e9e20855a201":[4,0,0,12,29],
 "sequence_8hpp.html#a902c1ae91823b0ddf4d65714b957356a":[4,0,0,12,27],
+"sequence_8hpp.html#a947bcf66bbf79cd1e5990d6e93c7b7a4":[4,0,0,12,22],
+"sequence_8hpp.html#ac1770b87b8de065e71857f6eac5ae1c7":[4,0,0,12,24],
+"sequence_8hpp.html#ac47306a9eac480106d2510029623d266":[4,0,0,12,23],
 "sequence_8hpp.html#ac5867214db8d4e7c80dfbef1be42739a":[4,0,0,12,28],
 "sequence_8hpp.html#adaa335e73aaaa477c001520c1135de43":[4,0,0,12,30],
 "sequence_8hpp.html#ae442e2e755bd42be9c7a02f8453ec61a":[4,0,0,12,21],
-"sequence_8hpp.html#ae4c8e1435d945f0154e8273bc3bb3479":[4,0,0,12,23],
 "sequence_8hpp_source.html":[4,0,0,12],
 "structseq_1_1aligned__allocator_1_1rebind.html":[3,0,0,1,0],
 "structseq_1_1aligned__allocator_1_1rebind.html#a75e9e1a617afb7352319e240a5fa62fa":[3,0,0,1,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX8 =
 "structseq_1_1detail_1_1_bucket_manager.html#a76f644e735b0b18db04f68f6f8f66df8":[3,0,0,0,20,40],
 "structseq_1_1detail_1_1_bucket_manager.html#a76f65de7b639bfb6daf4408c749e254b":[3,0,0,0,20,29],
 "structseq_1_1detail_1_1_bucket_manager.html#a7819067b120cf1b020eaf24871f0fa73":[3,0,0,0,20,19],
-"structseq_1_1detail_1_1_bucket_manager.html#a7ab0779d6a6ad54a321e98b0cfebc79a":[3,0,0,0,20,34],
-"structseq_1_1detail_1_1_bucket_manager.html#a7ca4ebc02dc0730e0013f9a7f2444372":[3,0,0,0,20,61]
+"structseq_1_1detail_1_1_bucket_manager.html#a7ab0779d6a6ad54a321e98b0cfebc79a":[3,0,0,0,20,34]
 };

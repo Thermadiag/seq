@@ -52,6 +52,15 @@ namespace seq
 		std::uintptr_t d_ptr;
 
 	public:
+
+		/// @brief storage and tag type
+		using tag_type = std::uintptr_t;
+		using value_type = T;
+		using reference = T&;
+		using const_reference = const T&;
+		using pointer = T*;
+		using const_pointer = const T*;
+
 		/// @brief tagged pointer type
 		static const TagPointerType type = Type;
 		/// @brief number of bits for the tag
@@ -61,13 +70,6 @@ namespace seq
 		/// @brief mask used to extract the tag
 		static const std::uintptr_t mask_low = ((1ULL << tag_bits) - 1ULL);
 
-		/// @brief storage and tag type
-		using tag_type = std::uintptr_t;
-		using value_type = T;
-		using reference = T&;
-		using const_reference = const T&;
-		using pointer = T*;
-		using const_pointer = const T*;
 
 		/// @brief Construct from pointer
 		tagged_pointer(T* ptr = NULL) noexcept
@@ -119,15 +121,16 @@ namespace seq
 		std::uintptr_t d_ptr;
 
 	public:
-		static const TagPointerType type = Type;
-		static const std::uintptr_t tag_bits = bits;
-		static const std::uintptr_t mask_high = ~((1ULL << tag_bits) - 1ULL);
-		static const std::uintptr_t mask_low = ((1ULL << tag_bits) - 1ULL);
 
 		using tag_type = std::uintptr_t;
 		using value_type = void;
 		using pointer = void*;
 		using const_pointer = const void*;
+
+		static const TagPointerType type = Type;
+		static const std::uintptr_t tag_bits = bits;
+		static const std::uintptr_t mask_high = ~((1ULL << tag_bits) - 1ULL);
+		static const std::uintptr_t mask_low = ((1ULL << tag_bits) - 1ULL);
 
 		tagged_pointer(void* ptr = nullptr) noexcept
 			:d_ptr((std::uintptr_t)ptr) {}

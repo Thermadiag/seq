@@ -1,7 +1,7 @@
 \hypertarget{index_autotoc_md40}{}\doxysubsection{Purpose}\label{index_autotoc_md40}
 Seq library is a collection of C++11 S\+T\+L-\/like containers and related tools optimized for speed and/or memory usage.
 
-Seq library does not try to reimplement already existing container classes present in other libraries like \href{https://github.com/facebook/folly}{\texttt{ folly}}, \href{https://abseil.io/}{\texttt{ abseil}}, \href{https://www.boost.org/}{\texttt{ boost}} and (of course) std. Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level A\+PI like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.
+Seq library does not try to reimplement already existing container classes present in other libraries like \href{https://github.com/facebook/folly}{\texttt{ folly}}, \href{https://abseil.io/}{\texttt{ abseil}}, \href{https://www.boost.org/}{\texttt{ boost}} and (of course) {\ttfamily std}. Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level A\+PI like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.
 
 The seq library was developped based on my growing frustration when using standard containers (mainly whose of S\+TD) on a large scale professional project. The biggest concerning points were\+:
 \begin{DoxyItemize}
@@ -31,11 +31,11 @@ The library is divided in 7 small modules\+:
 
 seq library is header-\/only and self-\/dependent. A cmake project is provided for installation and compilation of tests.\hypertarget{index_autotoc_md42}{}\doxysubsection{Why C++11 ?}\label{index_autotoc_md42}
 For now the seq library is developped and maintained in order to remain compatible with C++11 only compilers. While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11.\hypertarget{index_autotoc_md43}{}\doxysubsection{Design}\label{index_autotoc_md43}
-Seq library is a small collection of header only and self dependant components. There is no restriction on internal dependencies, and a seq component can use any number of other components. For instance, almost all modules rely on the \mbox{\hyperlink{group__bits}{bits}} module.
+Seq library is a small collection of header only and self dependant components. There is no restriction on internal dependencies, and a seq component can use any number of other components. For instance, almost all modules rely on the \mbox{\hyperlink{group__bits}{bits}} one.
 
-All classes and functions are defined in the {\ttfamily seq} namespace, and names are lower case with underscore separators, much like the S\+TL. Macro names are upper case and start with {\ttfamily S\+E\+Q\+\_\+} prefix.
+All classes and functions are defined in the {\ttfamily seq} namespace, and names are lower case with underscore separators, much like the S\+TL. Macro names are upper case and start with the {\ttfamily S\+E\+Q\+\_\+} prefix.
 
 The directory structure is flat and use the \char`\"{}stuttering\char`\"{} scheme {\ttfamily seq/seq} used by many other libraries like boost. Including a file as the following syntax\+: {\ttfamily \#include $<$\mbox{\hyperlink{tiered__vector_8hpp}{seq/tiered\+\_\+vector.\+hpp}}$>$}
 
 The {\ttfamily seq/seq/test} subdirectory includes tests for all components, usually named {\ttfamily test\+\_\+modulename.\+hpp}, with a unique {\ttfamily main.\+cpp}. The {\ttfamily seq/seq/docs} directory contains documentation using markdown format, and the {\ttfamily seq/seq/doc} directory contains the html documentation generated with doxygen.\hypertarget{index_autotoc_md44}{}\doxysubsection{Build}\label{index_autotoc_md44}
-The seq library is header only and does not need to be built. However, a cmake file is provided for installation. The tests can be built using cmake from the {\ttfamily tests} folder. 
+The seq library is header only and does not need to be built. However, a cmake file is provided for installation. Tests can be built using cmake from the {\ttfamily tests} folder. 

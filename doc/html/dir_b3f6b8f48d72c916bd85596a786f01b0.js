@@ -15,7 +15,7 @@ var dir_b3f6b8f48d72c916bd85596a786f01b0 =
     [ "memory.hpp", "memory_8hpp.html", "memory_8hpp" ],
     [ "ordered_map.hpp", "ordered__map_8hpp.html", "ordered__map_8hpp" ],
     [ "pdqsort.hpp", "pdqsort_8hpp.html", "pdqsort_8hpp" ],
-    [ "seq.hpp", "seq_8hpp.html", "seq_8hpp" ],
+    [ "seq.hpp", "seq_8hpp.html", null ],
     [ "sequence.hpp", "sequence_8hpp.html", "sequence_8hpp" ],
     [ "tagged_pointer.hpp", "tagged__pointer_8hpp.html", "tagged__pointer_8hpp" ],
     [ "testing.hpp", "testing_8hpp.html", "testing_8hpp" ],

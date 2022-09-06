@@ -64,7 +64,7 @@ using \mbox{\hyperlink{classseq_1_1flat__set_a59f0b73c32e563991fa077115d501c69}{
 \begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classseq_1_1flat__set_a0a5ef5410087dbbfac294b6c3863838f}{flat\+\_\+set}} (\mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}} \&\&other) noexcept
 \begin{DoxyCompactList}\small\item\em Move constructor. Constructs the container with the contents of other using move semantics. If alloc is not provided, allocator is obtained by move-\/construction from the allocator belonging to other. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classseq_1_1flat__set_a99c9734ff27566340dd880f205c51a83}{flat\+\_\+set}} (\mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}} \&\&other, const Allocator \&alloc) noexcept
+\mbox{\hyperlink{classseq_1_1flat__set_ab7a6058962930dd09aa6f7f1579d266e}{flat\+\_\+set}} (\mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}} \&\&other, const Allocator \&alloc)
 \begin{DoxyCompactList}\small\item\em Move constructor. Constructs the container with the contents of other using move semantics. If alloc is not provided, allocator is obtained by move-\/construction from the allocator belonging to other. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{classseq_1_1flat__set_a834fe917b40b91a984b0b6e6a873fb77}{flat\+\_\+set}} (std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1flat__set_a423dfd403dcf1078aa0400ceb34aca10}{value\+\_\+type}} $>$ init, const Compare \&comp=Compare(), const Allocator \&alloc=Allocator())
 \begin{DoxyCompactList}\small\item\em Initializer-\/list constructor. Constructs the container with the contents of the initializer list init. If multiple elements in the range have keys that compare equivalent, it is unspecified which element is inserted, except if template parameter Stable is true. \end{DoxyCompactList}\item 
@@ -92,7 +92,7 @@ auto \mbox{\hyperlink{classseq_1_1flat__set_aad22c9c9dad8a9720aa3c1f6dee76430}{o
 \begin{DoxyCompactList}\small\item\em Returns the underlying \mbox{\hyperlink{classseq_1_1tiered__vector}{tiered\+\_\+vector}}. Calling this function will mark the container as dirty. Any further attempts to call members like \mbox{\hyperlink{classseq_1_1flat__set_ab57074210e38022bdea1e1d34eaea124}{find()}}, lower\+\_\+bound, upper\+\_\+bound... will raise a std\+::logic\+\_\+error. To mark the container as non dirty anymore, the user must call \mbox{\hyperlink{classseq_1_1flat__set_aed2aa28ae90743b550fd6543126d6138}{flat\+\_\+set\+::sort()}}. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{classseq_1_1flat__set_af71e0e9ba96e3cb66048659fa6af5dd2}{tvector}} () const noexcept -\/$>$ const \mbox{\hyperlink{classseq_1_1flat__set_a1a99d74a2c1b1287883c1aa8f77b9d23}{deque\+\_\+type}} \&
 \begin{DoxyCompactList}\small\item\em Returns a const reference to the underlying \mbox{\hyperlink{classseq_1_1tiered__vector}{tiered\+\_\+vector}}. The container will N\+OT be marked as dirty. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{classseq_1_1flat__set_a9e69f59aea54f2796b97e73d8c9a387e}{cdeque}} () const noexcept -\/$>$ const \mbox{\hyperlink{classseq_1_1flat__set_a1a99d74a2c1b1287883c1aa8f77b9d23}{deque\+\_\+type}} \&
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{classseq_1_1flat__set_a5d89147ce2a02f2054ee1441f827b329}{ctvector}} () const noexcept -\/$>$ const \mbox{\hyperlink{classseq_1_1flat__set_a1a99d74a2c1b1287883c1aa8f77b9d23}{deque\+\_\+type}} \&
 \begin{DoxyCompactList}\small\item\em Returns a const reference to the underlying \mbox{\hyperlink{classseq_1_1tiered__vector}{tiered\+\_\+vector}}. The container will N\+OT be marked as dirty. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{classseq_1_1flat__set_a1d303585e85156afba2c58aafab309a4}{insert}} (const \mbox{\hyperlink{classseq_1_1flat__set_a423dfd403dcf1078aa0400ceb34aca10}{value\+\_\+type}} \&value) -\/$>$ std\+::pair$<$ \mbox{\hyperlink{classseq_1_1flat__set_a1b64c5f701a2ab7921e34ce3d5b5d1a6}{iterator}}, bool $>$
 \begin{DoxyCompactList}\small\item\em See std\+::set\+::insert. \end{DoxyCompactList}\item 
@@ -546,12 +546,12 @@ Move constructor. Constructs the container with the contents of other using move
 {\em other} & another container to be used as source to initialize the elements of the container with \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classseq_1_1flat__set_a99c9734ff27566340dd880f205c51a83}\label{classseq_1_1flat__set_a99c9734ff27566340dd880f205c51a83}} 
+\mbox{\Hypertarget{classseq_1_1flat__set_ab7a6058962930dd09aa6f7f1579d266e}\label{classseq_1_1flat__set_ab7a6058962930dd09aa6f7f1579d266e}} 
 \index{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$@{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$}!flat\_set@{flat\_set}}
 \index{flat\_set@{flat\_set}!seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$@{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$}}
 \doxysubsubsection{\texorpdfstring{flat\_set()}{flat\_set()}\hspace{0.1cm}{\footnotesize\ttfamily [9/11]}}
 {\footnotesize\ttfamily template$<$class Key , class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management layout = Optimize\+For\+Memory, bool Stable = false, bool Unique = true$>$ \\
-\mbox{\hyperlink{classseq_1_1flat__set}{seq\+::flat\+\_\+set}}$<$ Key, Compare, Allocator, layout, Stable, Unique $>$\+::\mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}}$<$ Key, Compare, Allocator, layout, Stable, Unique $>$ \&\&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+\mbox{\hyperlink{classseq_1_1flat__set}{seq\+::flat\+\_\+set}}$<$ Key, Compare, Allocator, layout, Stable, Unique $>$\+::\mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}} (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}}$<$ Key, Compare, Allocator, layout, Stable, Unique $>$ \&\&}]{other,  }\item[{const Allocator \&}]{alloc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
@@ -650,17 +650,6 @@ Returns an iterator to the first element of the container.
 
 Returns an iterator to the first element of the container. 
 
-\mbox{\Hypertarget{classseq_1_1flat__set_a9e69f59aea54f2796b97e73d8c9a387e}\label{classseq_1_1flat__set_a9e69f59aea54f2796b97e73d8c9a387e}} 
-\index{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$@{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$}!cdeque@{cdeque}}
-\index{cdeque@{cdeque}!seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$@{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$}}
-\doxysubsubsection{\texorpdfstring{cdeque()}{cdeque()}}
-{\footnotesize\ttfamily template$<$class Key , class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management layout = Optimize\+For\+Memory, bool Stable = false, bool Unique = true$>$ \\
-\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{classseq_1_1flat__set}{seq\+::flat\+\_\+set}}$<$ Key, Compare, Allocator, layout, Stable, Unique $>$\+::cdeque (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const \mbox{\hyperlink{classseq_1_1flat__set_a1a99d74a2c1b1287883c1aa8f77b9d23}{deque\+\_\+type}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
-
-
-
-Returns a const reference to the underlying \mbox{\hyperlink{classseq_1_1tiered__vector}{tiered\+\_\+vector}}. The container will N\+OT be marked as dirty. 
-
 \mbox{\Hypertarget{classseq_1_1flat__set_a45a2f7b8e1111e564d7a697fcc636ae4}\label{classseq_1_1flat__set_a45a2f7b8e1111e564d7a697fcc636ae4}} 
 \index{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$@{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$}!cend@{cend}}
 \index{cend@{cend}!seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$@{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$}}
@@ -750,6 +739,17 @@ Returns a reverse iterator to the first element of the reversed list.
 
 
 Returns a reverse iterator to the element following the last element of the reversed list. 
+
+\mbox{\Hypertarget{classseq_1_1flat__set_a5d89147ce2a02f2054ee1441f827b329}\label{classseq_1_1flat__set_a5d89147ce2a02f2054ee1441f827b329}} 
+\index{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$@{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$}!ctvector@{ctvector}}
+\index{ctvector@{ctvector}!seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$@{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$}}
+\doxysubsubsection{\texorpdfstring{ctvector()}{ctvector()}}
+{\footnotesize\ttfamily template$<$class Key , class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management layout = Optimize\+For\+Memory, bool Stable = false, bool Unique = true$>$ \\
+\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} auto \mbox{\hyperlink{classseq_1_1flat__set}{seq\+::flat\+\_\+set}}$<$ Key, Compare, Allocator, layout, Stable, Unique $>$\+::ctvector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const -\/$>$ const \mbox{\hyperlink{classseq_1_1flat__set_a1a99d74a2c1b1287883c1aa8f77b9d23}{deque\+\_\+type}}\& \hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+
+Returns a const reference to the underlying \mbox{\hyperlink{classseq_1_1tiered__vector}{tiered\+\_\+vector}}. The container will N\+OT be marked as dirty. 
 
 \mbox{\Hypertarget{classseq_1_1flat__set_a7e7400d10c6be9c84e4302950a039a48}\label{classseq_1_1flat__set_a7e7400d10c6be9c84e4302950a039a48}} 
 \index{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$@{seq::flat\_set$<$ Key, Compare, Allocator, layout, Stable, Unique $>$}!emplace@{emplace}}
@@ -1317,7 +1317,7 @@ reference to this container
 \doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
 {\footnotesize\ttfamily template$<$class Key , class Compare  = std\+::less$<$\+Key$>$, class Allocator  = std\+::allocator$<$\+Key$>$, Layout\+Management layout = Optimize\+For\+Memory, bool Stable = false, bool Unique = true$>$ \\
 auto \mbox{\hyperlink{classseq_1_1flat__set}{seq\+::flat\+\_\+set}}$<$ Key, Compare, Allocator, layout, Stable, Unique $>$\+::operator= (\begin{DoxyParamCaption}\item[{const std\+::initializer\+\_\+list$<$ \mbox{\hyperlink{classseq_1_1flat__set_a423dfd403dcf1078aa0400ceb34aca10}{value\+\_\+type}} $>$ \&}]{init }\end{DoxyParamCaption}) -\/$>$ \mbox{\hyperlink{classseq_1_1flat__set}{flat\+\_\+set}}\&
-	\hspace{0.3cm}{\ttfamily [inline]}}
+		\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 

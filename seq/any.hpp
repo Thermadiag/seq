@@ -482,16 +482,16 @@ namespace seq
 		{
 			// Comparing types that are not comparable should return false instead of throwing an exception
 			return constexpr_if<is_equal_comparable<T>::value>(
-				[](const auto& a, const auto& b) {return a == b; },
-				[](const auto& , const auto& ) {/*throw std::bad_function_call();*/ return false; },
+				[](const auto& a, const auto& b) -> bool {return a == b; },
+				[](const auto& , const auto& ) -> bool {/*throw std::bad_function_call();*/ return false; },
 				* static_cast<const T*>(a), * static_cast<const T*>(b));
 		}
 		template<class T>
 		SEQ_ALWAYS_INLINE auto compare_less_any(const void* a, const void* b) -> bool
 		{
 			return constexpr_if<is_less_comparable<T>::value>(
-				[](const auto& a, const auto& b) {return a < b; },
-				[](const auto& , const auto& ) {throw std::bad_function_call(); return false; },
+				[](const auto& a, const auto& b) -> bool {return a < b; },
+				[](const auto& , const auto& ) -> bool {throw std::bad_function_call(); return false; },
 				*static_cast<const T*>(a), *static_cast<const T*>(b));
 		}
 		template<class T>
@@ -1790,7 +1790,6 @@ namespace seq
 			return emplace_args<ValueType>(il, std::forward<Args>(args)...);
 		}
 
-
 		auto has_value() const noexcept -> bool
 		{
 			return !this->empty();
@@ -2333,174 +2332,4 @@ namespace std
 
 
 
-
-/*
-#include <boost/any.hpp>
-#include "testing.hpp"
-
-template<class Any, class T>
-void test_from_value(int repeat, const T& v)
-{
-	std::vector<Any> vec; vec.reserve(repeat);
-
-	size_t st = seq::detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		vec.emplace_back(v);
-	size_t el = seq::detail::msecs_since_epoch() - st;
-	std::cout << "create " << typeid(Any).name() << " from " << typeid(T).name() << ": " << el << " ms" << std::endl;
-}
-
-template<class Any>
-void test_from_any(int repeat, const Any& v)
-{
-	std::vector<Any> vec; vec.reserve(repeat);
-
-	size_t st = seq::detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		vec.emplace_back(v);
-	size_t el = seq::detail::msecs_since_epoch() - st;
-	std::cout << "create " << typeid(Any).name() << " from any: " << el << " ms" << std::endl;
-}
-
-
-template<class Any>
-void test_from_move(int repeat, const Any& v)
-{
-	std::vector<Any> vec; vec.reserve(repeat);
-	for (int i = 0; i < repeat; ++i)
-		vec.emplace_back(v);
-	std::vector<Any> vec2; vec2.reserve(repeat);
-
-	size_t st = seq::detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		vec2.emplace_back(std::move(vec[i]));
-	size_t el = seq::detail::msecs_since_epoch() - st;
-	std::cout << "create " << typeid(Any).name() << " from move: " << el << " ms" << std::endl;
-}
-
-
-
-template<class T>
-void test_cast_same_type_seq(int repeat, const T& v)
-{
-	std::vector<seq::any> vec; vec.reserve(repeat);
-	for (int i = 0; i < repeat; ++i)
-		vec.emplace_back(v);
-
-	T tmp;
-	size_t st = seq::detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		tmp = vec[i].cast<T>();
-	size_t el = seq::detail::msecs_since_epoch() - st;
-	std::cout << "cast seq::any to " << typeid(T).name() << ": " << el << " ms" << "      " << tmp << std::endl;
-}
-template<class T>
-void test_cast_same_type_boost(int repeat, const T& v)
-{
-	std::vector<boost::any> vec; vec.reserve(repeat);
-	for (int i = 0; i < repeat; ++i)
-		vec.emplace_back(v);
-
-	T tmp;
-	size_t st = seq::detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		tmp = boost::any_cast<T>(vec[i]);
-	size_t el = seq::detail::msecs_since_epoch() - st;
-	std::cout << "cast boost::any to " << typeid(T).name() << ": " << el << " ms" << "      " << tmp << std::endl;
-}
-
-
-template<class Any, class T>
-void test_copy_to_null(int repeat, const T& v)
-{
-	std::vector<Any> vec(repeat);
-
-	size_t st = seq::detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		vec[i] = (v);
-	size_t el = seq::detail::msecs_since_epoch() - st;
-	std::cout << "copy to null " << typeid(Any).name() << " a " << typeid(T).name() << ": " << el << " ms" << std::endl;
-}
-
-template<class Any, class T>
-void test_copy_to_same(int repeat, const T& v)
-{
-	std::vector<Any> vec(repeat, v);
-
-	size_t st = seq::detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		vec[i] = (v);
-	size_t el = seq::detail::msecs_since_epoch() - st;
-	std::cout << "copy to same " << typeid(Any).name() << " a " << typeid(T).name() << ": " << el << " ms" << std::endl;
-}
-
-#include "ordered_map.hpp"
-#include <unordered_set>
-
-inline void test_short_string_no_SBO_hashtable(int repeat)
-{
-	std::vector<tstring> strs;
-	for (int i = 0; i < repeat; ++i)
-		strs.push_back(generate_random_string<tstring>(14, true));
-
-	seq::ordered_set<any, std::hash<any>, std::equal_to<void> > set;
-	size_t st = detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		set.insert(strs[i]);
-	size_t el = detail::msecs_since_epoch() - st;
-	std::cout << "insert short string no SBO in hash set: " << el << "ms " << set.size() << std::endl;
-
-	//test find
-	int sum = 0;
-	st = detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		sum += set.find(strs[i])->sizeof_type();
-	el = detail::msecs_since_epoch() - st;
-	std::cout << "find short string no SBO in hash set: " << el << "ms " << sum << std::endl;
-}
-inline void test_short_string_SBO_hashtable(int repeat)
-{
-	using my_any = any;//hold_any<any_base<seq::any_type_info, sizeof(tstring)> >;
-	std::vector<tstring> strs;
-	for (int i = 0; i < repeat; ++i)
-		strs.push_back(generate_random_string<tstring>(14, true));
-
-	seq::ordered_set<my_any, std::hash<my_any>, std::equal_to<void> > set;
-	size_t st = detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		set.insert(strs[i]);
-	size_t el = detail::msecs_since_epoch() - st;
-	std::cout << "insert short string SBO in hash set: " << el << "ms " << set.size() << std::endl;
-
-	//test find
-	int sum = 0;
-	st = detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		sum += set.find(strs[i])->sizeof_type();
-	el = detail::msecs_since_epoch() - st;
-	std::cout << "find short string SBO in hash set: " << el << "ms " << sum << std::endl;
-}
-inline void test_short_string_hashtable(int repeat)
-{
-	using my_any = any;// hold_any<any_base<seq::any_type_info, sizeof(tstring)> >;
-	std::vector<tstring> strs;
-	for (int i = 0; i < repeat; ++i)
-		strs.push_back(generate_random_string<tstring>(14, true));
-
-	seq::ordered_set<tstring > set;
-	size_t st = detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		set.insert(strs[i]);
-	size_t el = detail::msecs_since_epoch() - st;
-	std::cout << "insert short string in hash set: " << el << "ms " << set.size() << std::endl;
-
-	//test find
-	int sum = 0;
-	st = detail::msecs_since_epoch();
-	for (int i = 0; i < repeat; ++i)
-		sum += set.find(strs[i])->size();
-	el = detail::msecs_since_epoch() - st;
-	std::cout << "find short string in hash set: " << el << "ms " << sum << std::endl;
-}
-*/
 #endif

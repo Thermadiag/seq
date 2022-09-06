@@ -12,6 +12,10 @@ class \mbox{\hyperlink{classstd_1_1hash_3_01seq_1_1tiny__string_3_01_size_00_01_
 \item 
 {\footnotesize template$<$class Interface , size\+\_\+t S, size\+\_\+t A$>$ }\\void \mbox{\hyperlink{namespacestd_a87a7b5732634d46429dee124bad4fdc3}{swap}} (\mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, S, A $>$ \&a, \mbox{\hyperlink{classseq_1_1hold__any}{seq\+::hold\+\_\+any}}$<$ Interface, S, A $>$ \&b)
 \item 
+{\footnotesize template$<$class Elem , class Traits , class T $>$ }\\auto \mbox{\hyperlink{namespacestd_a4b67178ef88b7ed40056cd46b6d06865}{operator$<$$<$}} (basic\+\_\+ostream$<$ Elem, Traits $>$ \&oss, const \mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\+format}}$<$ T $>$ \&val) -\/$>$ basic\+\_\+ostream$<$ Elem, Traits $>$ \&
+\begin{DoxyCompactList}\small\item\em Write a ostream\+\_\+format object to a std\+::ostream. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Elem , class Traits , class T , class P $>$ }\\auto \mbox{\hyperlink{namespacestd_a2fdf65f9398c5c4ce6fd94159bc33857}{operator$<$$<$}} (basic\+\_\+ostream$<$ Elem, Traits $>$ \&oss, const \mbox{\hyperlink{structseq_1_1detail_1_1mutli__ostream__format}{seq\+::detail\+::mutli\+\_\+ostream\+\_\+format}}$<$ T, P $>$ \&val) -\/$>$ basic\+\_\+ostream$<$ Elem, Traits $>$ \&
+\begin{DoxyCompactList}\small\item\em Write a ostream\+\_\+format object to a std\+::ostream object. \end{DoxyCompactList}\item 
 {\footnotesize template$<$size\+\_\+t Size, class Allocator $>$ }\\\mbox{\hyperlink{group__bits_ga68ad5ff4a759a2a341569a42f9ba2e44}{S\+E\+Q\+\_\+\+A\+L\+W\+A\+Y\+S\+\_\+\+I\+N\+L\+I\+NE}} void \mbox{\hyperlink{namespacestd_a9ca33a12754126a8bfbdf41f9cdbadf2}{swap}} (\mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Allocator $>$ \&a, \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Allocator $>$ \&b)
 \item 
 {\footnotesize template$<$class Elem , class Traits , size\+\_\+t Size, class Alloc $>$ }\\auto \mbox{\hyperlink{namespacestd_a766b7e1641c0586c58347cd80e1910fd}{operator$>$$>$}} (basic\+\_\+istream$<$ Elem, Traits $>$ \&iss, \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&str) -\/$>$ typename std\+::enable\+\_\+if$<$!std\+::is\+\_\+same$<$ Alloc, \mbox{\hyperlink{structseq_1_1view__allocator}{seq\+::view\+\_\+allocator}} $>$\+::value, basic\+\_\+istream$<$ Elem, Traits $>$ $>$\+::type \&
@@ -21,10 +25,34 @@ class \mbox{\hyperlink{classstd_1_1hash_3_01seq_1_1tiny__string_3_01_size_00_01_
 
 
 \doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacestd_a2fdf65f9398c5c4ce6fd94159bc33857}\label{namespacestd_a2fdf65f9398c5c4ce6fd94159bc33857}} 
+\index{std@{std}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!std@{std}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$class Elem , class Traits , class T , class P $>$ \\
+auto std\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{basic\+\_\+ostream$<$ Elem, Traits $>$ \&}]{oss,  }\item[{const \mbox{\hyperlink{structseq_1_1detail_1_1mutli__ostream__format}{seq\+::detail\+::mutli\+\_\+ostream\+\_\+format}}$<$ T, P $>$ \&}]{val }\end{DoxyParamCaption}) -\/$>$ basic\+\_\+ostream$<$Elem, Traits$>$\&
+	\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Write a ostream\+\_\+format object to a std\+::ostream object. 
+
+\mbox{\Hypertarget{namespacestd_a4b67178ef88b7ed40056cd46b6d06865}\label{namespacestd_a4b67178ef88b7ed40056cd46b6d06865}} 
+\index{std@{std}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!std@{std}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$class Elem , class Traits , class T $>$ \\
+auto std\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{basic\+\_\+ostream$<$ Elem, Traits $>$ \&}]{oss,  }\item[{const \mbox{\hyperlink{classseq_1_1ostream__format}{seq\+::ostream\+\_\+format}}$<$ T $>$ \&}]{val }\end{DoxyParamCaption}) -\/$>$ basic\+\_\+ostream$<$Elem, Traits$>$\&
+	\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Write a ostream\+\_\+format object to a std\+::ostream. 
+
 \mbox{\Hypertarget{namespacestd_aca62bf29415195ed3a392febcfbc825e}\label{namespacestd_aca62bf29415195ed3a392febcfbc825e}} 
 \index{std@{std}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!std@{std}}
-\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}}
+\doxysubsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
 {\footnotesize\ttfamily template$<$class Elem , class Traits , size\+\_\+t Size, class Alloc $>$ \\
 auto std\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{basic\+\_\+ostream$<$ Elem, Traits $>$ \&}]{oss,  }\item[{const \mbox{\hyperlink{classseq_1_1tiny__string}{seq\+::tiny\+\_\+string}}$<$ Size, Alloc $>$ \&}]{str }\end{DoxyParamCaption}) -\/$>$ basic\+\_\+ostream$<$Elem, Traits$>$\&
 	\hspace{0.3cm}{\ttfamily [inline]}}
