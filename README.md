@@ -32,7 +32,7 @@ The library is divided in 7 small modules:
 -	[charconv](docs/charconv.md): fast arithmetic to/from string conversion
 -	[format](docs/format.md): fast and type safe formatting tools
 -	[containers](docs/containers.md): main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector...
--	[any](docs/ant.md): type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.
+-	[any](docs/any.md): type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.
 
 seq library is header-only and self-dependent. A cmake project is provided for installation and compilation of tests.
 
