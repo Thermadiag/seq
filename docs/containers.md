@@ -7,11 +7,19 @@ The *seq* containers are not necessarly drop-in replacement for their STL counte
 
 Currently, the *containers* module provide 5 types of containers:
 -	Sequential random-access containers: 
-	-	*seq::devector* 
-	-	*seq::tiered_vector*
--	Sequential stable non random-access container: *seq::sequence*,
--	Sorted containers: *seq::flat_set*, *seq::flat_map*, *seq::flat_multiset* and *seq::flat_multimap*,
--	Ordered robin-hood hash tables: *seq::ordered_set* and *seq::ordered_map*.
--	Tiny string and string view: *seq::tiny_string* and *seq::tstring_view*.
+	-	`seq::devector`: double ended vector that can be optimized for front operations, back operations or both. Similar interface to `std::deque`.
+	-	`seq::tiered_vector`: tiered vector implementation optimized for fast insertion and deletion in the middle. Similar interface to `std::deque`.
+-	Sequential stable non random-access container: `seq::sequence`, fast stable list-like container.
+-	Sorted containers: 
+	-	`seq::flat_set` : flat set container similar to boost::flat_set but based on seq::tiered_vector and providing fast insertion/deletion of single elements.
+	-	`seq::flat_map`: associative version of `seq::flat_set`.
+	-	`seq::flat_multiset`: similar to `seq::flat_set` but supporting duplicate keys.
+	-	`seq::flat_multimap`: similar to `seq::flat_map` but supporting duplicate keys.
+-	Hash tables: 
+	-	`seq::ordered_set`: Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` with iterator/reference stability, and additional features (see class documentation).
+	-	`seq::ordered_map`: associative version of `seq::ordered_set`.
+-	Strings:
+	-	`seq::tiny_string`: string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
+	-	`seq::tstring_view`: similar to `std::string_view`.
 
-See the documentation of each class for more details.
+See the <a href="https://rawcdn.githack.com/Thermadiag/seq/731467950d3591147b62856972e0d543173dddc1/doc/html/group__containers.html">documentation</a> of each class for more details.

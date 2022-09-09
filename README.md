@@ -63,4 +63,20 @@ Build
 -----
 
 The seq library is header only and does not need to be built. However, a cmake file is provided for installation.
-Tests can be built using cmake from the `tests` folder, and benchmarks can be built using cmake from the `benchs`.
+Tests can be built using cmake from the `tests` folder, and benchmarks from the `benchs` folder.
+
+Acknowledgements
+----------------
+
+The only library dependency is <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters. The header `pdqsort.hpp` is included within the seq library.
+Benchmarks (in `seq/benchs`) compare the performances of the seq library with other great libraries:
+	-	<a href="https://plflib.org/">plf</a>: used for the plf::colony container,
+	-	<a href="https://github.com/greg7mdp/parallel-hashmap">phmap</a>: used for its phmap::btree_set and phmap::node_hash_set,
+	-	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set and boost::unordered_set,
+	-	<a href="https://github.com/martinus/robin-hood-hashing">robin-hood</a>: used for robin_hood::unordered_node_set,
+	-	<a href="https://github.com/skarupke/flat_hash_map">ska</a>: used for ska::unordered_set.
+
+These libraries are included in the `seq/benchs` folder (only a subset of boost is provided).
+
+
+seq:: library and this page Copyright (c) 2022, Victor Moncada
