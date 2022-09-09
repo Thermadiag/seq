@@ -7,6 +7,7 @@ add_executable(seq_benchs
 "bench_text_stream.hpp"
 "bench_tiny_string.hpp"
 "bench_tiered_vector.hpp"
+"bench_sequence.hpp"
 "bench_hash.hpp"
 "bench_map.hpp"
 )
@@ -19,6 +20,14 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     target_compile_options(seq_benchs PRIVATE /O2 /DNDEBUG)
 endif()
+
+if (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+	# mingw
+	target_link_options(seq_benchs PRIVATE -lKernel32 -lpsapi -lBcrypt)
+elseif(UNIX AND (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"))
+    target_compile_options(seq_benchs PRIVATE  -lpthread )
+endif()
+
 
 #target_include_directories(seq_benchs PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/fast_float-main/include/fast_float)
 target_include_directories(seq_benchs PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
