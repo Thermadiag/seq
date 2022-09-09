@@ -736,10 +736,10 @@ namespace seq
 			void set_value(const T& value) { _value = &value; }
 		};
 
-		//TEST
 		template<class T >
 		struct ValueHolder<ostream_format<T>, false>
 		{
+			// Handle properly nested formats
 			ostream_format<T> _value;
 			ValueHolder() : _value() {}
 			explicit ValueHolder(const ostream_format<T>& value) : _value(value) {}
@@ -1021,8 +1021,6 @@ namespace seq
 			_value.set_value(v);
 			return derived();
 		}
-
-		//TEST
 		template<class U>
 		auto operator()(const U& v) -> Derived& {
 			_value.set_value(v);
@@ -1473,28 +1471,7 @@ namespace seq
 		};
 
 
-		//TEST
-		/*template<typename T>
-		struct FormatWrapper<ostream_format<T> >
-		{
-			// Avoid nesting ostream_format
-			using type = ostream_format<ostream_format<T> >;
-		};
-		template<typename T>
-		struct FormatWrapper<const ostream_format<T>&>
-		{
-			using type = ostream_format<ostream_format<T> >;
-		}; 
-		template<typename T>
-		struct FormatWrapper<const ostream_format<T>>
-		{
-			using type = ostream_format<ostream_format<T> >;
-		};
-		template<typename T>
-		struct FormatWrapper<ostream_format<T>&>
-		{
-			using type = ostream_format<ostream_format<T> >;
-		};*/
+		
 
 		template<>
 		struct FormatWrapper<char*>
@@ -1583,7 +1560,7 @@ namespace seq
 		struct apply_wrapper
 		{
 			using tmp_type = typename std::remove_const< typename std::remove_reference<Element>::type >::type;
-			//TEST remove possible ostream_format
+			// remove possible ostream_format
 			using raw_type = typename remove_ostream_format< tmp_type>::type;
 			using result = typename FormatWrapper<raw_type>::type;
 		};
@@ -2153,8 +2130,7 @@ namespace seq
 		struct BuildFormat<1, void, Args...>
 		{
 			using type =  typename std::remove_const< typename std::remove_reference<Args...>::type >::type;
-			//TEST
-			using return_type = typename FormatWrapper<type>::type;//ostream_format<type>;
+			using return_type = typename FormatWrapper<type>::type;
 
 			static auto build(Args&&... args) -> return_type
 			{
