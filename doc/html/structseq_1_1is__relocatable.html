@@ -109,7 +109,7 @@ struct seq::is_relocatable&lt; T &gt;</h3>
 <p>A type is considered relocatable if these consecutive calls </p><div class="fragment"><div class="line"><span class="keyword">new</span>(new_place) <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>(std::move(old_place));</div>
 <div class="line">old_place.~T();</div>
 </div><!-- fragment --><p> can be replaced by </p><div class="fragment"><div class="line">memcpy(&amp;new_place, &amp;old_place, <span class="keyword">sizeof</span>(<a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>));</div>
-</div><!-- fragment --><p>This property is used to optimize containers like <a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a>, <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std_deque like container implemented as a tiered-vector.">seq::tiered_vector</a>, seq::flat_(map/set/multimap/multiset). </p>
+</div><!-- fragment --><p>This property is used to optimize containers like <a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a>, <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a>, seq::flat_(map/set/multimap/multiset). </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a9bc3104d310961a601c2185957f846ad"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9bc3104d310961a601c2185957f846ad">&#9670;&nbsp;</a></span>value</h2>

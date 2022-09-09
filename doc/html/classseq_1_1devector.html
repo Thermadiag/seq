@@ -367,7 +367,7 @@ class seq::devector&lt; T, Allocator, flag &gt;</h3>
   </table>
   </dd>
 </dl>
-<p><a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a> is a double-ending vector class that mixes the behavior and performances of std_deque and std::vector. Elements are stored in a contiguous memory chunk exatcly like a vector, but might contain free space at the front in addition to free space at the back in order to provide O(1) insertion at the front.</p>
+<p><a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a> is a double-ending vector class that mixes the behavior and performances of std::deque and std::vector. Elements are stored in a contiguous memory chunk exatcly like a vector, but might contain free space at the front in addition to free space at the back in order to provide O(1) insertion at the front.</p>
 <p><a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a> provides a similar interface as std::vector with the following additional members:</p><ul>
 <li><a class="el" href="classseq_1_1devector.html#a0d10831168489b4fcd47b4dbcc9fef96" title="Insert an element at the front of the container. The complexity is amortized O(1) for OptimizeForPush...">push_front()</a> and <a class="el" href="classseq_1_1devector.html#a93466b8ae94da0afa221fe5dff0e4fde" title="Appends a new element to the front of the container. The element is constructed through std::allocato...">emplace_front()</a>: insert an element at the front of the devector</li>
 <li><a class="el" href="classseq_1_1devector.html#a3089cff6cc2da56dace46cab6a666ead" title="Resizes the container to contain count elements. The container is extended by the front....">resize_front()</a>: resize the devector from the front instead of the back of the container</li>
@@ -376,7 +376,7 @@ class seq::devector&lt; T, Allocator, flag &gt;</h3>
 </ul>
 <p>Almost all members provide basic exception guarantee, except if the value type has a noexcept move constructor and move assignment operator, in which case members provide strong exception guarantee.</p>
 <p>References and iterators are invalidated by insertion/removal of elements.</p>
-<p><a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a> is used by <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std_deque like container implemented as a tiered-vector.">seq::tiered_vector</a> for bucket storage.</p>
+<p><a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a> is used by <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a> for bucket storage.</p>
 <h2><a class="anchor" id="autotoc_md11"></a>
 Optimization flags</h2>
 <p>devector can be configured with the following flags:</p><ul>

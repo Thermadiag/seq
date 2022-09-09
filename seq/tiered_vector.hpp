@@ -2424,7 +2424,7 @@ namespace seq
 
 
 
-	/// @brief seq::tiered_vector is a std_deque like container implemented as a tiered-vector.
+	/// @brief seq::tiered_vector is a std::deque like container implemented as a tiered-vector.
 	/// @tparam T value type
 	/// @tparam Allocator allocator type
 	/// @tparam layout memory layout
@@ -2434,13 +2434,13 @@ namespace seq
 	/// @tparam ValueCompare internal use only
 	/// 
 	/// 
-	/// seq::tiered_vector is a random-access, bucket based container providing a similar interface to std_deque.
+	/// seq::tiered_vector is a random-access, bucket based container providing a similar interface to std::deque.
 	/// Its internals are however very different as it is implemented as a <a href="http://cs.brown.edu/cgc/jdsl/papers/tiered-vector.pdf">tiered vector</a>.
 	/// Instead of maintaining a vector of fixed size buckets, seq::tiered_vector uses a bucket size
 	/// close to sqrt(size()). The bucket size is always a power of 2 for fast division and modulo.
 	/// Furtheremore, the bucket is not a linear buffer but is instead implemented as a circular buffer.
 	/// This allows a complexity of O(sqrt(N)) for insertion and deletion in the middle of the tiered_vector
-	/// instead of O(N) for std_deque. Inserting and deleting elements at both ends is still O(1).
+	/// instead of O(N) for std::deque. Inserting and deleting elements at both ends is still O(1).
 	/// 
 	/// seq::tiered_vector internally uses seq::devector to store the buckets.
 	/// seq::tiered_vector is used as the backend container for seq::flat_set, seq::flat_map, seq::flat_multiset and seq::flat_multimap.
@@ -2449,7 +2449,7 @@ namespace seq
 	/// Interface
 	/// ---------
 	/// 
-	/// seq::tiered_vector interface is the same as std_deque, with the additional members:
+	/// seq::tiered_vector interface is the same as std::deque, with the additional members:
 	///		-	for_each() providing a faster way to walk through the tiered_vector than iterators,
 	///		-	resize_front() to resize the tiered_vector from the front instead of the back of the container,
 	/// 
@@ -2470,13 +2470,13 @@ namespace seq
 	/// 
 	/// If the new bucket size is different than the current one, new buckets are created and elements from the old
 	/// buckets are moved to the new ones. This has the practical consequence to <b> invalidate all iterators and references 
-	/// on growing or shrinking </b>, as opposed to std_deque which maintains references when inserting/deleting at both ends.
+	/// on growing or shrinking </b>, as opposed to std::deque which maintains references when inserting/deleting at both ends.
 	/// 
 	/// 
 	/// Inserting and deleting elements
 	/// -------------------------------
 	/// 
-	/// Inserting or deleting elements at the back or the front behaves the same way as for std_deque, except if the bucket
+	/// Inserting or deleting elements at the back or the front behaves the same way as for std::deque, except if the bucket
 	/// size is updated (as explained above).
 	/// 
 	/// Inerting an element in the middle of seq::tiered_vector follows these steps:
@@ -2508,7 +2508,7 @@ namespace seq
 	/// Exception guarantee
 	/// -------------------
 	/// 
-	/// All insertion/deletion operations on a seq::tiered_vector are much more complex than for a std_deque. Especially,
+	/// All insertion/deletion operations on a seq::tiered_vector are much more complex than for a std::deque. Especially,
 	/// each operation might change the bucket size, and therefore trigger the allocation of new buckets plus moving
 	/// all elements within the new buckets.
 	/// 
@@ -2524,7 +2524,7 @@ namespace seq
 	/// The only exception is when providing a minimum bucket size (\a MinBSize) equals to the maximum bucket size (\a MaxBSize).
 	/// In this case, inserting/deleting elements will <em>never</em> change the bucket size and move all elements within
 	/// new buckets. This affects the members #emplace_back(), #push_back(), #emplace_front() and #push_front() that provide the
-	/// same invalidation rules as for std_deque.
+	/// same invalidation rules as for std::deque.
 	/// 
 	/// 
 	/// Memory layout
@@ -2546,18 +2546,18 @@ namespace seq
 	/// Performances
 	/// ------------
 	/// 
-	/// seq::tiered_vector was optimized to match libc++ std_deque performances as close as possible.
-	/// My benchmarhs shows that all members are actually faster than libc++ std_deque, except
+	/// seq::tiered_vector was optimized to match libc++ std::deque performances as close as possible.
+	/// My benchmarhs shows that all members are actually faster than libc++ std::deque, except
 	/// for #push_back(), #push_front(), #pop_back() and #pop_front() which are slightly slower 
 	/// due to the need to move all elements when the bucket size changes. This can be alievated 
-	/// by the \a OptimizeForSpeed flag that makes both operations faster than their std_deque counterparts.
+	/// by the \a OptimizeForSpeed flag that makes both operations faster than their std::deque counterparts.
 	/// 
-	/// Usually, iterating through a seq::tiered_vector is faster than through a std_deque. The random-access
+	/// Usually, iterating through a seq::tiered_vector is faster than through a std::deque. The random-access
 	/// #operator[](size_t) is also faster. Making a lot of random access based on iterators can be 
 	/// slightly slower with seq::tiered_vector depending on the use case. For instance, sorting a seq::tiered_vector is slower
-	/// than sorting a std_deque.
+	/// than sorting a std::deque.
 	/// 
-	/// Inserting/deleting single elements on a seq::tiered_vector is several order of magnitudes faster than std_deque
+	/// Inserting/deleting single elements on a seq::tiered_vector is several order of magnitudes faster than std::deque
 	/// due to the tiered-vector implementation.
 	/// 
 	/// The standard conlusion is: you should always benchmark with your own use cases.

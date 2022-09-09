@@ -549,7 +549,7 @@ namespace seq
 	/// @tparam Allocator allocator type
 	/// @tparam flag optimization flag
 	/// 
-	/// seq::devector is a double-ending vector class that mixes the behavior and performances of std_deque and std::vector.
+	/// seq::devector is a double-ending vector class that mixes the behavior and performances of std::deque and std::vector.
 	/// Elements are stored in a contiguous memory chunk exatcly like a vector, but might contain free space at the front in addition to free 
 	/// space at the back in order to provide O(1) insertion at the front.
 	/// 

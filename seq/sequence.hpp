@@ -760,7 +760,7 @@ namespace seq
 	/// @tparam T value type
 	/// @tparam Allocator allocator type
 	///
-	/// The sequence container behaves like a hybrid version of std_deque and std::list. It provides:
+	/// The sequence container behaves like a hybrid version of std::deque and std::list. It provides:
 	///		- Constant time insertion at the back or the front using members push_back(), emplace_back(), push_front() and emplace_front()
 	///		- Constant time removal of one or more elements with erase()
 	///		- Stability of references and iterators (except end iterator).
@@ -772,9 +772,9 @@ namespace seq
 	/// In addition, its sort(), stable_sort() and shrink_to_fit() members do not preserve reference and iterator stability.
 	/// 
 	/// Its main advantages other std::list (and other containers) are:
-	///		-	Insertion at both ends is faster than a std_deque or std::vector (without reserve)
-	///		-	Walking through the sequence with iterators is usually faster than walking through a std_deque
-	///		-	Sorting a sequence (with sort() or stable_sort()) is usually as fast as sorting a std_deque.
+	///		-	Insertion at both ends is faster than a std::deque or std::vector (without reserve)
+	///		-	Walking through the sequence with iterators is usually faster than walking through a std::deque
+	///		-	Sorting a sequence (with sort() or stable_sort()) is usually as fast as sorting a std::deque.
 	///			Note that #sequence::sort() uses <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters.
 	///		-	Its memory overhead is lower than a std::list: around 1 byte per element.
 	/// 
@@ -2552,7 +2552,7 @@ namespace seq
 
 		/// @brief Sort the sequence.
 		/// The sequence is sorted using the std::less<value_type> comparator.
-		/// sort() relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std_deque.
+		/// sort() relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std::deque.
 		/// This invalidates all iterators and references.
 		void sort()
 		{
@@ -2560,7 +2560,7 @@ namespace seq
 		}
 
 		/// @brief Sort the sequence using given comparator.
-		/// sort() relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std_deque.
+		/// sort() relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std::deque.
 		/// This invalidates all iterators and references.
 		template<class Less >
 		void sort(Less less)

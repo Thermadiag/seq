@@ -528,7 +528,7 @@ namespace seq
 	/// @tparam Pool object pool type, either #object_pool or #parallel_object_pool
 	/// 
 	/// seq::object_allocator is a stl compliant allocator dedicated to node based containers like 
-	/// std::set, std::map, std::list, std_deque, std::multimap, std::multiset... object_allocator also
+	/// std::set, std::map, std::list, std::deque, std::multimap, std::multiset... object_allocator also
 	/// works for other containers like std::vector, but does not provide any benefits in such cases.
 	/// 
 	/// It provides faster allocation/deallocation time as well as reduced memory footprint and reduced memory fragmentation
