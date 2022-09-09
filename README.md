@@ -34,7 +34,7 @@ The library is divided in 7 small modules:
 -	[containers](docs/containers.md): main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector...
 -	[any](docs/any.md): type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.
 
-seq library is header-only and self-dependent. A cmake project is provided for installation and compilation of tests.
+seq library is header-only and self-dependent. A cmake project is provided for installation and compilation of tests/benchmarks.
 
 Why C++11 ?
 -----------
@@ -53,10 +53,10 @@ All classes and functions are defined in the `seq` namespace, and names are lowe
 Macro names are upper case and start with the `SEQ_` prefix.
 
 The directory structure is flat and use the "stuttering" scheme `seq/seq` used by many other libraries like boost.
-Including a file as the following syntax: `#include <seq/tiered_vector.hpp>`
+Including a file has the following syntax: `#include <seq/tiered_vector.hpp>`
 
 The `seq/seq/tests` subdirectory includes tests for all components, usually named `test_modulename.hpp`, with a unique `main.cpp`. 
-The `seq/seq/benchs` subdirectory includes benchmarks for some components, usually named `bench_modulename.hpp`, with a unique `main.cpp`. The benchmarks are performed against other libraries that are provided in the 'benchs' folder. Note that only a subset of the 'boost' library is provided in order to compare 'boost::container::flat_set' to 'seq::flat_set'.
+The `seq/seq/benchs` subdirectory includes benchmarks for some components, usually named `bench_modulename.hpp`, with a unique `main.cpp`. The benchmarks are performed against other libraries that are provided in the 'benchs' folder.
 The `seq/seq/docs` directory contains documentation using markdown format, and the `seq/seq/doc` directory contains the html documentation generated with doxygen (available <a href="https://rawcdn.githack.com/Thermadiag/seq/731467950d3591147b62856972e0d543173dddc1/doc/html/index.html">here</a>).
 
 Build
@@ -69,14 +69,14 @@ Acknowledgements
 ----------------
 
 The only library dependency is <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters. The header `pdqsort.hpp` is included within the seq library.
-Benchmarks (in `seq/benchs`) compare the performances of the seq library with other great libraries:
-	-	<a href="https://plflib.org/">plf</a>: used for the plf::colony container,
-	-	<a href="https://github.com/greg7mdp/parallel-hashmap">phmap</a>: used for its phmap::btree_set and phmap::node_hash_set,
-	-	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set and boost::unordered_set,
-	-	<a href="https://github.com/martinus/robin-hood-hashing">robin-hood</a>: used for robin_hood::unordered_node_set,
-	-	<a href="https://github.com/skarupke/flat_hash_map">ska</a>: used for ska::unordered_set.
+Benchmarks (in `seq/seq/benchs`) compare the performances of the seq library with other great libraries:
+-	<a href="https://plflib.org/">plf</a>: used for the plf::colony container,
+-	<a href="https://github.com/greg7mdp/parallel-hashmap">phmap</a>: used for its phmap::btree_set and phmap::node_hash_set,
+-	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set and boost::unordered_set,
+-	<a href="https://github.com/martinus/robin-hood-hashing">robin-hood</a>: used for robin_hood::unordered_node_set,
+-	<a href="https://github.com/skarupke/flat_hash_map">ska</a>: used for ska::unordered_set.
 
-These libraries are included in the `seq/benchs` folder (only a subset of boost is provided).
+These libraries are included in the `seq/seq/benchs` folder (only a subset of boost is provided).
 
 
 seq:: library and this page Copyright (c) 2022, Victor Moncada
