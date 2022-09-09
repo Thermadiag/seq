@@ -8,14 +8,14 @@ Seq library does not try to reimplement already existing container classes prese
 
 The seq library was developped based on my growing frustration when using standard containers (mainly whose of STD) on a large scale professional project. The biggest concerning points were:
 
--	The default hash table (std::unordered_set/map) is quite slow for all operations on almost all implementations.
--	std::unordered_map has a big memory overhead.
--	std::unordered_map does not invalidate iterators and references, which is great for my use cases, and partially explain the memory overhead and general slowness. However,
+-	The default hash table (`std::unordered_set/map`) is quite slow for all operations on almost all implementations.
+-	`std::unordered_map` has a big memory overhead.
+-	`std::unordered_map` does not invalidate iterators and references, which is great for my use cases, and partially explain the memory overhead and general slowness. However,
 		iterators are still invalidated on rehash, which prevents me from using them in scenarios where the item count is not known in advance.
 -	I would like to be able to sort a hash map in a fast way.
--	std::vector is great, but it's a shame that it is only optimized for back insertion.
--	std::list is the only standard container that keeps insertion order and ensure iterators/reference stability, but its memory overhead for small types and low speed make it hardly usable.
--	Random-access containers (std::deque and std::vector) are very slow when inserting/deleting in the middle.
+-	`std::vector` is great, but it's a shame that it is only optimized for back insertion.
+-	`std::list` is the only standard container that keeps insertion order and ensure iterators/reference stability, but its memory overhead for small types and low speed make it hardly usable.
+-	Random-access containers (`std::deque` and `std::vector`) are very slow when inserting/deleting in the middle.
 -	Likewise, most flat map implementations (like the boost one) are very slow when inserting/deleting single entries.
 -	Using C++ streams to format numerical values and build tables is usually slow and not very convenient.
 -	...
