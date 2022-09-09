@@ -55,7 +55,7 @@ Macro names are upper case and start with the `SEQ_` prefix.
 The directory structure is flat and use the "stuttering" scheme `seq/seq` used by many other libraries like boost.
 Including a file has the following syntax: `#include <seq/tiered_vector.hpp>`
 
-The `seq/seq/tests` subdirectory includes tests for all components, usually named `test_modulename.hpp`, with a unique `main.cpp`. 
+The `seq/seq/tests` subdirectory includes tests for all components, usually named `test_modulename.hpp`, with a unique `main.cpp`. The tests try to cover as much features as possible, but bugs might still be present. Do not hesitate to contact me if you discover something unusual.
 The `seq/seq/benchs` subdirectory includes benchmarks for some components, usually named `bench_modulename.hpp`, with a unique `main.cpp`. The benchmarks are performed against other libraries that are provided in the 'benchs' folder.
 The `seq/seq/docs` directory contains documentation using markdown format, and the `seq/seq/doc` directory contains the html documentation generated with doxygen (available <a href="https://rawcdn.githack.com/Thermadiag/seq/731467950d3591147b62856972e0d543173dddc1/doc/html/index.html">here</a>).
 
