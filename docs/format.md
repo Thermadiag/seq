@@ -11,18 +11,18 @@ It was designed first to output huge matrices or tables to files and strings. *F
 
 *Format* module heavily relies on the `seq::fmt` function to format single or several values.
 
-When formatting a single value, seq::fmt returns a seq::ostream_format object providing several members to modify the formatting options:
--	<b>base(int)</b>: specify the base for integral types, similar to b(int)
--	<b>format(char)</b>: specify the format ('e', 'E', 'g', 'G', 'f') for floating point types, similar to t(char)
--	<b>precision(int)</b>: specify the maximum precision for floating point types, similar to p(int)
--	<b>dot(char)</b>: specify the dot character for floating point types, similar to d(char)
--	<b>hex_prefix()</b>: add trailing '0x' for hexadecimal format, similar to h()
--	<b>upper()</b>: output hexadecimal value in upper case, similar to u()
--	<b>as_char()</b>: output integral value as an ascii character, similar to c()
--	<b>left(int)</b>: align output to the left for given width, similar to l(int)
--	<b>right(int)</b>: align output to the right for given width, similar to r(int)
--	<b>center(int)</b>: center output for given width, similar to c(int)
--	<b>fill(char)</b>: specify the filling character used for aligned output (default to space character), similar to f(char)
+When formatting a single value, `seq::fmt` returns a `seq::ostream_format` object providing several members to modify the formatting options:
+-	<b>base(int)</b>: specify the base for integral types, similar to `b(int)`
+-	<b>format(char)</b>: specify the format ('e', 'E', 'g', 'G', 'f') for floating point types, similar to `t(char)`
+-	<b>precision(int)</b>: specify the maximum precision for floating point types, similar to `p(int)`
+-	<b>dot(char)</b>: specify the dot character for floating point types, similar to `d(char)`
+-	<b>hex_prefix()</b>: add trailing '0x' for hexadecimal format, similar to `h()`
+-	<b>upper()</b>: output hexadecimal value in upper case, similar to `u()`
+-	<b>as_char()</b>: output integral value as an ascii character, similar to `c()`
+-	<b>left(int)</b>: align output to the left for given width, similar to `l(int)`
+-	<b>right(int)</b>: align output to the right for given width, similar to `r(int)`
+-	<b>center(int)</b>: center output for given width, similar to `c(int)`
+-	<b>fill(char)</b>: specify the filling character used for aligned output (default to space character), similar to `f(char)`
 
 Usage:
 
@@ -175,7 +175,7 @@ auto f = fmt(
 	);
 
 // Use this functor with custom values.
-// fmt calls are used to replace arguments in a multi-formatting functor
+// fmt calls are also used to replace arguments in a multi-formatting functor
 	std::cout << f(
 		fmt("Tiger", "P. tigris"),
 		fmt("Panda", "A. melanoleuca")

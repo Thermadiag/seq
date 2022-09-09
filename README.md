@@ -2,7 +2,7 @@
 Purpose
 -------
 
-The Seq library is a collection of C++11 STL-like containers and related tools optimized for speed and/or memory usage.
+The Seq library is a collection of original C++11 STL-like containers and related tools.
 
 Seq library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) std. Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.
 
@@ -20,7 +20,7 @@ The seq library was developped based on my growing frustration when using standa
 -	Using C++ streams to format numerical values and build tables is usually slow and not very convenient.
 -	...
 
-Some of my concerns were already takled by external libraries. For instance, I use <a href="https://github.com/greg7mdp/parallel-hashmap">phmap::flat_hash_set/map</a> (based on <a href="https://github.com/abseil/abseil-cpp">absl::flat_hash_map</a>) when I need a fast hash map with low memory overhead (and when iterators/references stability is not a concern). I started working on the seq library for the other points.
+Some of my concerns were already takled by external libraries. For instance, I use <a href="https://github.com/greg7mdp/parallel-hashmap">phmap::flat_hash_set/map</a> (based on <a href="https://github.com/abseil/abseil-cpp">absl::flat_hash_map</a>) when I need a fast hash map with low memory overhead (and when iterators/references stability is not a concern). The Seq library is an attempt to work around the other points.
 
 Content
 -------
