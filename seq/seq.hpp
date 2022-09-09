@@ -21,27 +21,27 @@
 Purpose
 -------
 
-Seq library is a collection of C++11 STL-like containers and related tools optimized for speed and/or memory usage.
+Seq library is a collection of C++11 STL-like containers and related tools.
 
 Seq library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) `std`. Instead, it provides new features 
 (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined 
 to keep the seq library self dependent.
 
 The seq library was developped based on my growing frustration when using standard containers (mainly whose of STD) on a large scale professional project. The biggest concerning points were:
-	-	The default hash table (std::unordered_set/map) is painfully slow for all operations on almost all implementations.
-	-	std::unordered_map has a huge memory overhead.
+	-	The default hash table (std::unordered_set/map) is quite slow for all operations on almost all implementations.
+	-	std::unordered_map has a big memory overhead.
 	-	std::unordered_map does not invalidate iterators and references, which is great for my use cases, and partially explain the memory overhead and general slowness. However,
 		iterators are still invalidated on rehash, which prevents me from using them in scenarios where the item count is not known in advance.
-	-	I would like to be able to sort a hash map.
+	-	I would like to be able to sort efficiently a hash map.
 	-	std::vector is great, but it's a shame that it is only optimized for back insertion.
-	-	std::list is the only standard container that keeps insertion order and ensure iterators/reference stability, but its memory overhead for small types and low speed make it barely usable.
+	-	std::list is the only standard container that keeps insertion order and ensure iterators/reference stability, but its memory overhead for small types and low speed make it hardly usable.
 	-	Random-access containers (std_deque and std::vector) are very slow when inserting/deleting in the middle.
 	-	Likewise, most flat map implementations (like the boost one) are very slow when inserting/deleting single entries.
 	-	Using C++ streams to format numerical values and build tables is usually slow and not very convenient.
 	-	...
 
 Some of my concerns were already takled by external libraries. For instance, I use <a href="https://github.com/greg7mdp/parallel-hashmap">phmap::flat_hash_set/map</a> (based on <a href="https://github.com/abseil/abseil-cpp">absl::flat_hash_map</a>) 
-when I need a fast hash map with low memory overhead (and when iterators/references stability is not a concern). I started working on the seq libraries for the other points.
+when I need a fast hash map with low memory overhead (and when iterators/references stability is not a concern).  The Seq library is an attempt to work around the other points.
 
 
 Content
