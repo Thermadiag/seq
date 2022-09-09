@@ -40,6 +40,7 @@ The class seq::tagged_pointer stores a pointer and tag value on 4-8 bytes (depen
 #include <list>
 #include <vector>
 #include <atomic>
+#include <climits>
 
 #include "bits.hpp"
 #include "utils.hpp"

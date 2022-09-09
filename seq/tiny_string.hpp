@@ -2021,7 +2021,7 @@ namespace seq
 			const char* in = std::min(beg + pos, end()-n) ;
 			char c = *s;
 			for (;;) {
-				in = static_cast<char*>(memrchr(beg, c, in - beg +1));
+				in = static_cast<const char*>(memrchr(beg, c, in - beg +1));
 				if (!in) return npos;
 				//start searching
 				size_t common = detail::count_common_bytes(in + 1, s + 1, in + n);
@@ -2034,7 +2034,7 @@ namespace seq
 		auto rfind(char c, size_t pos = npos) const noexcept -> size_t 
 		{
 			if (pos >= size()) pos = size()-1;
-			const char* p = static_cast<char*>(memrchr(data(), c, pos+1));
+			const char* p = static_cast<const char*>(memrchr(data(), c, pos+1));
 			return p == NULL ? npos : p - data();
 		}
 
@@ -2664,7 +2664,7 @@ namespace seq
 			const char* in = std::min(beg + pos, end() - n);
 			char c = *s;
 			for (;;) {
-				in = static_cast<char*>(memrchr(beg, c, in - beg + 1));
+				in = static_cast<const char*>(memrchr(beg, c, in - beg + 1));
 				if (in == nullptr) { return npos;
 				}
 				//start searching
@@ -2680,7 +2680,7 @@ namespace seq
 		{
 			if (pos >= size()) { pos = size() - 1;
 			}
-			const char* p = static_cast<char*>(memrchr(data(), c, pos + 1));
+			const char* p = static_cast<const char*>(memrchr(data(), c, pos + 1));
 			return p == nullptr ? npos : p - data();
 		}
 

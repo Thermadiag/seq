@@ -10,6 +10,7 @@
 #include "type_traits.hpp"
 #include "utils.hpp"
 
+#include <climits>
 
 
 namespace seq
@@ -1601,7 +1602,7 @@ namespace seq
 		}
 
 		/// @brief Returns the sequence maximum size.
-		static auto max_size() noexcept -> size_type { return  LLONG_MAX ; }
+		static auto max_size() noexcept -> size_type { return (sizeof(size_t) > 4) ? static_cast<size_t>(std::numeric_limits<std::int64_t>::max()) : std::numeric_limits<std::size_t>::max(); }
 
 		/// @brief Returns thenumber of elements in this sequence.
 		auto size() const noexcept -> size_type { return d_data ? d_data->size : 0; }

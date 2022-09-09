@@ -386,7 +386,7 @@ template<class PoolType>
 void __test_mem_pool_random_pattern(PoolType* pool, int count)
 {
 	using value_type = typename PoolType::value_type;
-	std::vector<value_type*> vec(RAND_MAX+1,NULL);
+	std::vector<value_type*> vec((size_t)(RAND_MAX+1),NULL);
 
 	for (int i = 0; i < count; ++i) {
 		int index = rand();
@@ -478,7 +478,7 @@ void __test_mem_pool_random_pattern_random_size(PoolType* pool,int /*th_index*/,
 {
 	using value_type = typename PoolType::value_type;
 	using pair = std::pair<value_type*, size_t>;
-	std::vector<pair> vec(RAND_MAX + 1, pair(NULL,0));
+	std::vector<pair> vec((size_t)(RAND_MAX + 1), pair(NULL,0));
 
 	for (size_t i = 0; i < sizes->size(); ++i) {
 		int index = rand();
