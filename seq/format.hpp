@@ -470,6 +470,10 @@ namespace seq
 	struct null_format {} ;
 	static const null_format null;
 
+	//forward declaration
+	template<class T>
+	class ostream_format;
+
 	/// @brief Class representing the width formatting for a any formatting object.
 	///
 	/// width_format controls how a string is aligned based on a width. The string can be aligned to the left, right or centered.
@@ -730,6 +734,20 @@ namespace seq
 			auto value() noexcept -> T& { return *_value; }
 			auto value() const noexcept -> const T& { return *_value; }
 			void set_value(const T& value) { _value = &value; }
+		};
+
+		//TEST
+		template<class T >
+		struct ValueHolder<ostream_format<T>, false>
+		{
+			ostream_format<T> _value;
+			ValueHolder() : _value() {}
+			explicit ValueHolder(const ostream_format<T>& value) : _value(value) {}
+			auto value() noexcept -> ostream_format<T>& { return _value; }
+			auto value() const noexcept -> const ostream_format<T>& { return _value; }
+			void set_value(const ostream_format<T>& value) { _value( value); }
+			template<class U>
+			void set_value(const U& value) { _value( value); }
 		};
 
 
@@ -1000,6 +1018,13 @@ namespace seq
 		/// @param v input value
 		/// @return reference to *this
 		auto operator()(const T& v) -> Derived& {
+			_value.set_value(v);
+			return derived();
+		}
+
+		//TEST
+		template<class U>
+		auto operator()(const U& v) -> Derived& {
 			_value.set_value(v);
 			return derived();
 		}
@@ -1436,7 +1461,7 @@ namespace seq
 			// Default behavior: use ostream_format<T>
 			using type = ostream_format<T>;
 		};
-		/*template<typename T>
+		template<typename T>
 		struct FormatWrapper<const T&>
 		{
 			using type = ostream_format<T>;
@@ -1445,23 +1470,30 @@ namespace seq
 		struct FormatWrapper<T&>
 		{
 			using type = ostream_format<T>;
-		};*/
+		};
 
-		template<typename T>
+
+		//TEST
+		/*template<typename T>
 		struct FormatWrapper<ostream_format<T> >
 		{
 			// Avoid nesting ostream_format
-			using type = ostream_format<T>;
+			using type = ostream_format<ostream_format<T> >;
 		};
-		/*template<typename T>
+		template<typename T>
 		struct FormatWrapper<const ostream_format<T>&>
 		{
-			using type = ostream_format<T>;
+			using type = ostream_format<ostream_format<T> >;
+		}; 
+		template<typename T>
+		struct FormatWrapper<const ostream_format<T>>
+		{
+			using type = ostream_format<ostream_format<T> >;
 		};
 		template<typename T>
 		struct FormatWrapper<ostream_format<T>&>
 		{
-			using type = ostream_format<T>;
+			using type = ostream_format<ostream_format<T> >;
 		};*/
 
 		template<>
@@ -1534,12 +1566,26 @@ namespace seq
 		};*/		
 
 
+
+		template<class T>
+		struct remove_ostream_format
+		{
+			using type = T;
+		};
+		template<class T>
+		struct remove_ostream_format<ostream_format<T> >
+		{
+			using type = T;
+		};
+
 		// meta-function which yields FormatWrapper<Element>::type from Element
 		template<class Element>
 		struct apply_wrapper
 		{
 			using tmp_type = typename std::remove_const< typename std::remove_reference<Element>::type >::type;
-			using result = typename FormatWrapper<tmp_type>::type;
+			//TEST remove possible ostream_format
+			using raw_type = typename remove_ostream_format< tmp_type>::type;
+			using result = typename FormatWrapper<raw_type>::type;
 		};
 
 		namespace metafunction

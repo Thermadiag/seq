@@ -107,7 +107,7 @@ void test_tstring_operators(size_t count = 5000000, size_t string_size = 14)
 		std::vector<std::string> a(count);
 		std::vector<tstring> b(count);
 		for (size_t i = 0; i < count; ++i) {
-			a[i] = generate_random_string<std::string>(string_size, true);
+			a[i] = generate_random_string<std::string>((int)string_size, true);
 		}
 		std::sort(a.begin(), a.end());
 		seq::random_shuffle(a.begin(), a.end());
