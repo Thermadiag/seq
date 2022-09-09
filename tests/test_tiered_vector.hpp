@@ -41,13 +41,13 @@ bool equal_deq(const Deq1& d1, const Deq2& d2)
 	return true;
 }
 
-
+template<seq::LayoutManagement lay>
 void test_deque_algorithms(size_t count = 5000000)
 {
 	// Test algorithms on tiered_vector, some of them requiring random access iterators
 	
 	typedef size_t type;
-	typedef tiered_vector<type, std::allocator<type> > deque_type;
+	typedef tiered_vector<type, std::allocator<type>, lay > deque_type;
 
 	// Build with non unique random values
 	deque_type  tvec;
@@ -63,7 +63,7 @@ void test_deque_algorithms(size_t count = 5000000)
 	std::sort(deq.begin(), deq.end());
 	std::sort(tvec.begin(), tvec.end());
 		
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	// Test unique after sorting
 	auto it1 = std::unique(deq.begin(), deq.end());
@@ -71,7 +71,7 @@ void test_deque_algorithms(size_t count = 5000000)
 	deq.resize(it1 - deq.begin());
 	tvec.resize(it2 - tvec.begin());
 		
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	// Reset values
 	deq.resize(count);
@@ -84,13 +84,13 @@ void test_deque_algorithms(size_t count = 5000000)
 	std::rotate(deq.begin(), deq.begin() + deq.size() / 2, deq.end());
 	std::rotate(tvec.begin(), tvec.begin() + tvec.size() / 2, tvec.end());
 		
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	// Test reversing
 	std::reverse(deq.begin(), deq.end());
 	std::reverse(tvec.begin(), tvec.end());
 
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	// Reset values
 	for (size_t i = 0; i < count; ++i)
@@ -99,7 +99,7 @@ void test_deque_algorithms(size_t count = 5000000)
 	// Test partial sort
 	std::partial_sort(deq.begin(), deq.begin() + deq.size() / 2, deq.end());
 	std::partial_sort(tvec.begin(), tvec.begin() + tvec.size() / 2, tvec.end());
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 
 	
@@ -110,7 +110,7 @@ void test_deque_algorithms(size_t count = 5000000)
 	// Test nth_element
 	std::nth_element(deq.begin(), deq.begin() + deq.size() / 2, deq.end());
 	std::nth_element(tvec.begin(), tvec.begin() + tvec.size() / 2, tvec.end());
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 	
 }
 
@@ -118,29 +118,29 @@ void test_deque_algorithms(size_t count = 5000000)
 
 
 
-template<class T>
+template<class T, seq::LayoutManagement lay>
 void test_tiered_vector(size_t count = 5000000)
 {
 	
 	// First, test some stl algorithms
-	test_deque_algorithms(count);
+	test_deque_algorithms<lay>(count);
 	
 	typedef T type;
 	std::deque<type > deq;
-	typedef tiered_vector<type, std::allocator<T>, OptimizeForMemory > deque_type;
+	typedef tiered_vector<type, std::allocator<T>, lay > deque_type;
 	deque_type tvec;
 	std::vector<type> vec;
 		
-	SEQ_TEST_ASSERT(tvec.begin() == tvec.end());
-	SEQ_TEST_ASSERT(tvec.size() == 0);
-	SEQ_TEST_ASSERT(tvec.lower_bound(0) == 0);
-	SEQ_TEST_ASSERT(tvec.upper_bound(0) == 0);
-	SEQ_TEST_ASSERT(tvec.binary_search(0) == 0);
+	SEQ_TEST(tvec.begin() == tvec.end());
+	SEQ_TEST(tvec.size() == 0);
+	SEQ_TEST(tvec.lower_bound(0) == 0);
+	SEQ_TEST(tvec.upper_bound(0) == 0);
+	SEQ_TEST(tvec.binary_search(0) == 0);
 
 	tvec.resize(10);
-	SEQ_TEST_ASSERT(tvec.size() == 10);
+	SEQ_TEST(tvec.size() == 10);
 	tvec.clear();
-	SEQ_TEST_ASSERT(tvec.size() == 0 && !tvec.manager());
+	SEQ_TEST(tvec.size() == 0 && !tvec.manager());
 
 
 	// Fill containers
@@ -151,46 +151,46 @@ void test_tiered_vector(size_t count = 5000000)
 	for (size_t i = 0; i < count; ++i)
 		vec.push_back((T)i);
 		
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 		
 	// Test resiz lower
 	deq.resize(deq.size() / 10);
 	tvec.resize(tvec.size() / 10);
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	// Test resize upper
 	deq.resize(count,0);
 	tvec.resize(count,0);
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	{
 		// Test copy contruct
 		std::deque<type> d2 = deq;
 		deque_type dd2 = tvec;
-		SEQ_TEST_ASSERT(equal_deq(d2, dd2));
+		SEQ_TEST(equal_deq(d2, dd2));
 	}
 
 	{
 		// Test insert range based on random access itertor, left side
 		deq.insert(deq.begin() + (deq.size() * 2) / 5, vec.begin(), vec.end());
 		tvec.insert(tvec.begin() + (tvec.size() * 2) / 5, vec.begin(), vec.end());
-		SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+		SEQ_TEST(equal_deq(deq, tvec));
 			
 		deq.resize(count);
 		tvec.resize(count);
-		SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+		SEQ_TEST(equal_deq(deq, tvec));
 
 		// Test insert range based on random access itertor, right side
 		deq.insert(deq.begin() + (deq.size() * 3) / 5, vec.begin(), vec.end());
 		tvec.insert(tvec.begin() + (tvec.size() * 3) / 5, vec.begin(), vec.end());
 			
-		SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+		SEQ_TEST(equal_deq(deq, tvec));
 
 		deq.resize(count);
 		tvec.resize(count);
 
-		SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+		SEQ_TEST(equal_deq(deq, tvec));
 	}
 
 
@@ -199,12 +199,12 @@ void test_tiered_vector(size_t count = 5000000)
 		for (size_t i = 0; i < deq.size(); ++i) {
 			deq[i] = tvec[i] = (T)i;
 		}
-		SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+		SEQ_TEST(equal_deq(deq, tvec));
 
 		// Test erase range, left side
 		deq.erase(deq.begin() + deq.size() / 4, deq.begin() + deq.size() / 2);
 		tvec.erase(tvec.size() / 4, tvec.size() / 2);
-		SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+		SEQ_TEST(equal_deq(deq, tvec));
 
 		deq.resize(count,0);
 		tvec.resize(count,0);
@@ -212,7 +212,7 @@ void test_tiered_vector(size_t count = 5000000)
 		// Test erase range, right side
 		deq.erase(deq.begin() + deq.size() / 2, deq.begin() + deq.size() * 3 / 4);
 		tvec.erase(tvec.size() / 2, tvec.size() * 3 / 4);
-		SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+		SEQ_TEST(equal_deq(deq, tvec));
 	}
 
 	{
@@ -222,7 +222,7 @@ void test_tiered_vector(size_t count = 5000000)
 		// Test assign from lower size
 		deq.assign(vec.begin(), vec.end());
 		tvec.assign(vec.begin(), vec.end());
-		SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+		SEQ_TEST(equal_deq(deq, tvec));
 
 		deq.resize(vec.size() * 2,0);
 		tvec.resize(vec.size() * 2,0);
@@ -230,7 +230,7 @@ void test_tiered_vector(size_t count = 5000000)
 		// Test assign from greater size
 		deq.assign(vec.begin(), vec.end());
 		tvec.assign(vec.begin(), vec.end());
-		SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+		SEQ_TEST(equal_deq(deq, tvec));
 	}
 	{
 		std::list<type> lst;
@@ -243,7 +243,7 @@ void test_tiered_vector(size_t count = 5000000)
 		// Test assign from forward iterators
 		deq.assign(lst.begin(), lst.end());
 		tvec.assign(lst.begin(), lst.end());
-		SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+		SEQ_TEST(equal_deq(deq, tvec));
 
 		deq.resize(lst.size() * 2,0);
 		tvec.resize(lst.size() * 2,0);
@@ -251,12 +251,12 @@ void test_tiered_vector(size_t count = 5000000)
 		// Test assign from forward iterators
 		deq.assign(lst.begin(), lst.end());
 		tvec.assign(lst.begin(), lst.end());
-		SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+		SEQ_TEST(equal_deq(deq, tvec));
 	}
 
 	deq.resize(count,0);
 	tvec.resize(count,0);
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	//fill again, backward
 	for (size_t i = 0; i < deq.size(); ++i) {
@@ -269,12 +269,12 @@ void test_tiered_vector(size_t count = 5000000)
 		deq.pop_back();
 	while (tvec.size() > 25)
 		tvec.pop_back();
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	deq.resize(count,0);
 	tvec.resize(count,0);
 
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	//fill again, backward
 	for (size_t i = 0; i < deq.size(); ++i) {
@@ -283,7 +283,7 @@ void test_tiered_vector(size_t count = 5000000)
 	}
 
 
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	// Test pop_front
 	while (deq.size() > 25) {
@@ -291,7 +291,7 @@ void test_tiered_vector(size_t count = 5000000)
 	}
 	while (tvec.size() > 25)
 		tvec.pop_front();
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 
 	{
@@ -303,19 +303,19 @@ void test_tiered_vector(size_t count = 5000000)
 		for (size_t i = 0; i < d.size(); ++i) {
 			d[i] = dd[i] = (T)i;
 		}
-		SEQ_TEST_ASSERT(equal_deq(d, dd));
+		SEQ_TEST(equal_deq(d, dd));
 		d.insert(10, -1);
 		dd.insert(dd.begin() + 10, -1);
-		SEQ_TEST_ASSERT(equal_deq(d, dd));
+		SEQ_TEST(equal_deq(d, dd));
 		for (size_t i = 0; i < 128; ++i) {
 			d.erase(0);
 			dd.erase(dd.begin());
-			SEQ_TEST_ASSERT(equal_deq(d, dd));
+			SEQ_TEST(equal_deq(d, dd));
 		}
-		SEQ_TEST_ASSERT(equal_deq(d, dd));
+		SEQ_TEST(equal_deq(d, dd));
 		d.erase(0);
 		dd.erase(dd.begin());
-		SEQ_TEST_ASSERT(equal_deq(d, dd));
+		SEQ_TEST(equal_deq(d, dd));
 	}
 
 
@@ -333,7 +333,7 @@ void test_tiered_vector(size_t count = 5000000)
 	for (int i = 0; i < insert_count; ++i) {
 		tvec.insert(in_pos[i], (T)i);
 	}
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 
 	
@@ -353,7 +353,7 @@ void test_tiered_vector(size_t count = 5000000)
 			if (pos == (int)d.size()) --pos;
 			dd.erase(dd.begin() + pos);
 			d.erase(pos);
-			SEQ_TEST_ASSERT(equal_deq(d, dd));
+			SEQ_TEST(equal_deq(d, dd));
 		}
 	}
 
@@ -364,7 +364,7 @@ void test_tiered_vector(size_t count = 5000000)
 
 	// Test shrink_to_fit
 	deq.shrink_to_fit();
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	//fill again, backward
 	for (size_t i = 0; i < deq.size(); ++i) {
@@ -387,7 +387,7 @@ void test_tiered_vector(size_t count = 5000000)
 	for (int i = 0; i < erase_count; ++i) {
 		tvec.erase( er_pos[i]);
 	}
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec));
+	SEQ_TEST(equal_deq(deq, tvec));
 
 	
 
@@ -402,11 +402,11 @@ void test_tiered_vector(size_t count = 5000000)
 
 	std::deque<type> deq2 = std::move(deq);
 	deque_type tvec2 = std::move(tvec);
-	SEQ_TEST_ASSERT(equal_deq(deq2, tvec2) && tvec2.size() > 0 && deq.size() == 0 && tvec.size() == 0);
+	SEQ_TEST(equal_deq(deq2, tvec2) && tvec2.size() > 0 && deq.size() == 0 && tvec.size() == 0);
 
 	deq = std::move(deq2);
 	tvec = std::move(tvec2);
-	SEQ_TEST_ASSERT(equal_deq(deq, tvec) && tvec.size() > 0 && tvec2.size() == 0 && deq2.size() == 0);
+	SEQ_TEST(equal_deq(deq, tvec) && tvec.size() > 0 && tvec2.size() == 0 && deq2.size() == 0);
 }
 
 

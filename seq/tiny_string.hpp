@@ -553,6 +553,7 @@ namespace seq
 	/// std::string        |          160 ms        |          122 ms            |       382 ms          |         311 ms            |
 	/// seq::tiny_string   |          112 ms        |          112 ms            |       306 ms          |         306 ms            |
 	/// 
+	/// This benchmark is available in file 'seq/benchs/bench_tiny_string.hpp'.
 	/// Note that tiny_string always uses its own comparison function. We can see that the comparison function of tiny_string is faster than the default one used
 	/// by std::string. Even when using tiny_string comparator, std::string remains slightly slower due to the tinier memory footprint of tiny_string.
 	/// 
@@ -1299,7 +1300,7 @@ namespace seq
 		/// @brief Append character to the back of the string
 		SEQ_ALWAYS_INLINE void push_back(char c) 
 		{
-			if (SEQ_LIKELY(!is_sso() && !(d_data.d_union.non_sso.exact_size || isPow2(d_data.d_union.non_sso.size + 1)))) {
+			if ((!is_sso() && !(d_data.d_union.non_sso.exact_size || isPow2(d_data.d_union.non_sso.size + 1)))) {
 				char* p = d_data.d_union.non_sso.data + d_data.d_union.non_sso.size++;
 				p[0] = c;
 				p[1] = 0;
@@ -1389,7 +1390,7 @@ namespace seq
 			if (n == 0) return *this;
 			size_t old_size = size();
 			//try to avoid a costly resize_uninitialized
-			if (is_sso() || capacity_for_length(old_size + n) != capacity_internal())
+			if (SEQ_UNLIKELY(is_sso() || capacity_for_length(old_size + n) != capacity_internal()))
 				resize_uninitialized(old_size + n, true);
 			else {
 				d_data.d_union.non_sso.size = old_size + n;
@@ -2374,6 +2375,29 @@ namespace seq
 			d_data = other.d_data;
 			return *this;
 		}
+		template<size_t OtherMaxSS, class OtherAlloc>
+		auto operator=(const tiny_string<OtherMaxSS, OtherAlloc>& other) -> tiny_string&
+		{
+			d_data = internal_data(other.data(),other.size());
+			return *this;
+		}
+		auto operator=(const std::string& other) -> tiny_string&
+		{
+			d_data = internal_data(other.data(), other.size());
+			return *this;
+		}
+		auto operator=(const char* other) -> tiny_string&
+		{
+			d_data = internal_data(other, strlen(other));
+			return *this;
+		}
+#ifdef SEQ_HAS_CPP_17
+		auto operator=(const std::string_view& other) -> tiny_string&
+		{
+			d_data = internal_data(other.data(), other.size());
+			return *this;
+		}
+#endif
 	
 		SEQ_ALWAYS_INLINE void swap(tiny_string& other)
 		{

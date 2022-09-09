@@ -6,7 +6,9 @@ These containers generally adhere to the properties of STL containers, though th
 The *seq* containers are not necessarly drop-in replacement for their STL counterparts as they usually provide different iterator/reference statibility rules or different exception guarantees.
 
 Currently, the *containers* module provide 5 types of containers:
--	Sequential random-access containers: *seq::devector* and *seq::tiered_vector*,
+-	Sequential random-access containers: 
+	-	*seq::devector* 
+	-	*seq::tiered_vector*
 -	Sequential stable non random-access container: *seq::sequence*,
 -	Sorted containers: *seq::flat_set*, *seq::flat_map*, *seq::flat_multiset* and *seq::flat_multimap*,
 -	Ordered robin-hood hash tables: *seq::ordered_set* and *seq::ordered_map*.

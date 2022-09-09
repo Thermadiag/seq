@@ -32,10 +32,9 @@ namespace seq
 		struct base_list_chunk
 		{
 			// Max number of elements
-			static const std::uint64_t count = sizeof(T) <= 8 ? 64 : sizeof(T) <= 16 ? 32 : sizeof(T) <= 32 ? 16 : sizeof(T) <= 64 ? 8 : sizeof(T) <= 128 ? 4 : 2;
+			static const std::uint64_t count = sizeof(T) <= 8 ? 64 : sizeof(T) <= 16 ? 32 : sizeof(T) <= 32 ? 16 : sizeof(T) <= 64 ? 8 : 4;
 			// log2(count)
-			static const std::uint64_t count_bits = sizeof(T) <= 8 ? 6 : sizeof(T) <= 16 ? 5 : sizeof(T) <= 32 ? 4 : sizeof(T) <= 64 ? 3 : sizeof(T) <= 128 ? 2 : 1;
-			//static const std::uint64_t count_bits = sizeof(T) < (8 * 4) ? 6 : (sizeof(T) < (16 * 4) ? 5 : 4);
+			static const std::uint64_t count_bits = sizeof(T) <= 8 ? 6 : sizeof(T) <= 16 ? 5 : sizeof(T) <= 32 ? 4 : sizeof(T) <= 64 ? 3 : 2;
 			// Mask value when full
 			static const std::uint64_t full = (count == 64ULL ? static_cast<std::uint64_t>(-1) : (shift_left<count>::value - 1ULL));
 			// Invalid index value
@@ -664,7 +663,8 @@ namespace seq
 				}
 				this->abs_pos = abs_pos;
 			}
-			SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference {
+			SEQ_ALWAYS_INLINE auto operator*()  -> reference {
+				
 				SEQ_ASSERT_DEBUG(pos >= node->start && pos < node->end, "invalid iterator position");
 				return node->buffer()[pos];
 			}
@@ -2432,7 +2432,7 @@ namespace seq
 		/// than for a conventional std::list.
 		/// This function is faster than using begin()+pos as it might start from the end to reach
 		/// the required position.
-		auto iterator_at(size_type pos) noexcept -> iterator
+		SEQ_ALWAYS_INLINE auto iterator_at(size_type pos) noexcept -> iterator
 		{
 			return d_data ? d_data->iterator_at(pos) : end();
 		}
@@ -2443,7 +2443,7 @@ namespace seq
 		/// than for a conventional std::list.
 		/// This function is faster than using begin()+pos as it might start from the end to reach
 		/// the required position.
-		auto iterator_at(size_type pos) const noexcept -> const_iterator
+		SEQ_ALWAYS_INLINE auto iterator_at(size_type pos) const noexcept -> const_iterator
 		{
 			return d_data ?  d_data->iterator_at(pos) : end();
 		}
@@ -2496,6 +2496,10 @@ namespace seq
 			SEQ_ASSERT_DEBUG(first <= last, "invalid erase range");
 			if (first == last)
 				return last;
+			if (first == begin() && last == end()) {
+				clear();
+				return end();
+			}
 
 			iterator res = last;
 			Allocator al = get_allocator();

@@ -169,6 +169,33 @@ std::cout << std::endl;
 \endcode
 
 
+Nested formatting
+-----------------
+
+Nested formatting occurs when using *fmt* calls within other *fmt* calls. The complexity comes from the argument replacement when using formatting objects as functors.
+The following example shows how to use nested *fmt* calls with multiple arguments and argument replacement:
+
+\code{.cpp}
+
+// Build a formatting functor used to display 2 couples animal/species
+auto f = fmt(
+		pos<1,3>(), //we can modifies positions 1 and 3 (the 2 couples animal/species)
+		"We have 2 couples:\nAnimal/Species: ",
+		fmt(pos<0,2>(),"","/","").c(20),	//A couple Animal/Species centered on a 20 characters width string
+		"\nAnimal/Species: ",
+		fmt(pos<0,2>(),"","/","").c(20)		//Another couple Animal/Species centered on a 20 characters width string
+	);
+
+// Use this functor with custom values.
+// fmt calls are used to replace arguments in a multi-formatting object
+	std::cout << f(
+		fmt("Tiger", "P. tigris"),
+		fmt("Panda", "A. melanoleuca")
+	) << std::endl;
+
+\endcode
+
+
 Formatting to string or buffer
 ------------------------------
 
@@ -359,7 +386,7 @@ int main(int argc, char ** argv)
 		oss << std::left << std::setw(20) << vec_d[i * 4+3] << "|";
 		oss << std::endl;
 	}
-	int el = tock_ms();
+	size_t el = tock_ms();
 	std::cout << "Write table with streams: " <<el<<" ms"<< std::endl;
 
 
@@ -493,6 +520,10 @@ namespace seq
 			width = 0;
 			alignment = 0;
 			pad = ' ';
+		}
+
+		bool has_format() const noexcept {
+			return alignment != 0;
 		}
 
 		/// @brief Apply the alignment formatting to a portion of the string inplace. This might change the string size.
@@ -653,6 +684,22 @@ namespace seq
 
 		};
 
+
+		/*struct StringSlice
+		{
+			char* d_data{ nullptr };
+			char* d_end{ nullptr };
+			size_t d_size{ 0 };
+
+			static constexpr size_t npos = (size_t)-1;
+			static constexpr size_t max_capacity = (size_t)-2;
+
+			StringSlice() {}
+			StringSlice(std::string& str, size_t size = npos) : d_data((char*)str.data()), d_end(d_data + (size != npos ? size : str.size())), d_size(0) {}
+			template<size_t Ss, class Al>
+			StringSlice(tiny_string<Ss,Al> & str, size_t size = npos) : d_data((char*)str.data()), d_end(d_data + (size != npos ? size : str.size())), d_size(0) {}
+			StringSlice(char * d, size_t size = npos) : d_data(d), d_end(d_data + (size != npos ? size : strlen(d))), d_size(0) {}
+		};*/
 
 
 
@@ -964,6 +1011,11 @@ namespace seq
 		/// @brief Equivalent to dervied() = other
 		auto operator()(const Derived& other) -> Derived& {
 			return derived() = other;
+		}
+		template<class U, class D>
+		auto operator()(const base_ostream_format<U,D>& other) -> Derived& {
+			_value.set_value(static_cast<T>(other.value()));
+			return derived();
 		}
 
 
@@ -1384,7 +1436,7 @@ namespace seq
 			// Default behavior: use ostream_format<T>
 			using type = ostream_format<T>;
 		};
-		template<typename T>
+		/*template<typename T>
 		struct FormatWrapper<const T&>
 		{
 			using type = ostream_format<T>;
@@ -1393,7 +1445,7 @@ namespace seq
 		struct FormatWrapper<T&>
 		{
 			using type = ostream_format<T>;
-		};
+		};*/
 
 		template<typename T>
 		struct FormatWrapper<ostream_format<T> >
@@ -1401,7 +1453,7 @@ namespace seq
 			// Avoid nesting ostream_format
 			using type = ostream_format<T>;
 		};
-		template<typename T>
+		/*template<typename T>
 		struct FormatWrapper<const ostream_format<T>&>
 		{
 			using type = ostream_format<T>;
@@ -1410,7 +1462,7 @@ namespace seq
 		struct FormatWrapper<ostream_format<T>&>
 		{
 			using type = ostream_format<T>;
-		};
+		};*/
 
 		template<>
 		struct FormatWrapper<char*>
@@ -1460,11 +1512,34 @@ namespace seq
 			using type = ostream_format<tstring_view>;
 		};
 
+		// forward declaration
+		template<class Tuple, class Pos >
+		struct mutli_ostream_format;
+
+		// Specialize FormatWrapper for mutli_ostream_format (for nesting purpose)
+		template<class Tuple, class Pos>
+		struct FormatWrapper<mutli_ostream_format<Tuple, Pos> >
+		{
+			using type = mutli_ostream_format<Tuple, Pos>;
+		};
+		/*template<class Tuple, class Pos>
+		struct FormatWrapper<const mutli_ostream_format<Tuple, Pos>&>
+		{
+			using type = mutli_ostream_format<Tuple, Pos>;
+		};
+		template<class Tuple, class Pos>
+		struct FormatWrapper<mutli_ostream_format<Tuple, Pos>&>
+		{
+			using type = mutli_ostream_format<Tuple, Pos>;
+		};*/		
+
+
 		// meta-function which yields FormatWrapper<Element>::type from Element
 		template<class Element>
 		struct apply_wrapper
 		{
-			using result = typename FormatWrapper<Element>::type;
+			using tmp_type = typename std::remove_const< typename std::remove_reference<Element>::type >::type;
+			using result = typename FormatWrapper<tmp_type>::type;
 		};
 
 		namespace metafunction
@@ -1587,6 +1662,27 @@ namespace seq
 		};
 
 
+		/// @brief Affect new values (taken from another tuple) to all members of a tuple of ostream_format objects
+		template<class Tuple, class SrcTuple, int N = std::tuple_size<Tuple>::value >
+		struct AffectValuesFromTuple
+		{
+			static constexpr int tuple_size = std::tuple_size<Tuple>::value;
+
+			template<class Out>
+			static void convert(Out& out, const SrcTuple & src)
+			{
+				std::get<tuple_size - N>(out)(std::get<tuple_size - N>(src));
+				AffectValuesFromTuple<Tuple, SrcTuple, N - 1>::convert(out, src);
+			}
+		};
+		template<class Tuple, class SrcTuple>
+		struct AffectValuesFromTuple<Tuple, SrcTuple, 0>
+		{
+			template<class Out, class ...Args>
+			static void convert(Out& /*unused*/, const SrcTuple& /*unused*/)
+			{}
+		};
+
 
 
 
@@ -1648,30 +1744,126 @@ namespace seq
 		};
 
 
+		/// @brief Same as AffectValuesWithPos, but takes input values from a tuple
+		template<class Pos, class Tuple, class SrcTuple, int N = Pos::size >
+		struct AffectValuesWithPosFromTuple
+		{
+			static_assert(std::tuple_size<SrcTuple>::value == Pos::size, "invalid input tuple size");
+			static constexpr size_t pos_size = Pos::size;
+
+			template<class Out>
+			static void convert(Out& out, const SrcTuple & t)
+			{
+				static constexpr size_t pos = pos_size - N;
+				using get_type = typename Pos::template get<pos>;
+				static constexpr size_t tuple_pos = get_type::value;
+				std::get<tuple_pos>(out)(std::get<pos>(t));
+				AffectValuesWithPosFromTuple<Pos, Tuple,SrcTuple, N - 1>::convert(out, t);
+			}
+		};
+		template<class Pos, class Tuple, class SrcTuple>
+		struct AffectValuesWithPosFromTuple<Pos, Tuple, SrcTuple, 0>
+		{
+			template<class Out>
+			static void convert(Out& /*unused*/, const SrcTuple&/*unused*/ )
+			{}
+		};
 
 
 
+		template<class Derived>
+		class base_mutli_ostream_format
+		{
+		protected:
+			width_format d_width;
+			Derived& derived() noexcept { return static_cast<Derived&>(*this); }
+			const Derived& derived() const noexcept { return static_cast<const Derived&>(*this); }
+
+		public:
+			//static constexpr bool auto_width_format = true;
+
+			base_mutli_ostream_format() : d_width() {}
+
+
+			/// @brief Returns the width format options
+			auto width_fmt() const noexcept -> width_format { return d_width; }
+
+			void set_width_format(const width_format& f) { d_width = f; }
+
+			/// @brief Returns width value of the width formatting options
+			auto width() const noexcept -> unsigned short { return d_width.width; }
+			/// @brief Returns fill character of the width formatting options
+			auto fill_character() const noexcept -> char { return d_width.pad; }
+			/// @brief Returns alignment value of the width formatting options
+			auto alignment() const noexcept -> char { return d_width.alignment; }
+
+			/// @brief Set the exact width and the alignment
+			auto left(int w)noexcept -> Derived& {
+				d_width.left((unsigned short)w);
+				return derived();
+			}
+			/// @brief Set the exact width and the alignment
+			auto l(int w) noexcept -> Derived& { return left(w); }
+			auto ll(int w) noexcept -> Derived& { return left(w); }
+
+			/// @brief Set the exact width and the alignment
+			auto right(int w)noexcept -> Derived& {
+				d_width.right((unsigned short)w);
+				return derived();
+			}
+			/// @brief Set the exact width and the alignment
+			auto r(int w) noexcept -> Derived& { return right(w); }
+
+			/// @brief Set the exact width and the alignment
+			auto center(int w)noexcept -> Derived& {
+				d_width.center((unsigned short)w);
+				return derived();
+			}
+			/// @brief Set the exact width and the alignment
+			auto c(int w) noexcept -> Derived& { return center(w); }
+
+			/// @brief Reset alignment options
+			auto no_align() noexcept -> Derived& {
+				d_width.reset();
+				return derived();
+			}
+			/// @brief Set the fill character, used with left(), right() and center()
+			auto fill(char f) noexcept -> Derived& {
+				d_width.fill(f);
+				return derived();
+			}
+			/// @brief Set the fill character, used with left(), right() and center()
+			auto f(char _f) noexcept -> Derived& { return fill(_f); }
+
+			
+		};
 
 		/// @brief Formatting class for multiple values, returned by seq::fmt(... , ...).
 		/// @tparam Tuple tuple of ostream_format
 		/// @tparam Pos possible Positional type
 		template<class Tuple, class Pos = void>
-		struct mutli_ostream_format
+		struct mutli_ostream_format : public base_mutli_ostream_format<mutli_ostream_format<Tuple,Pos>>
 		{
+			using base_type = base_mutli_ostream_format<mutli_ostream_format<Tuple, Pos>>;
+			using this_type = mutli_ostream_format<Tuple, Pos>;
 			using tuple_type = Tuple;
 			tuple_type d_tuple;
-
-			mutli_ostream_format()
-				:d_tuple()
-			{}
-			template<class ...Args>
-			explicit mutli_ostream_format(Args&&... args)
-				// Construct from multiple values.
-				// Mark as explicit otherwise it replaces the default copy constructor
-				: d_tuple(std::forward<Args>(args)...)
-			{}
 			
 
+			mutli_ostream_format()
+				:base_type(), d_tuple()
+			{}
+
+			
+			template<class ...Args, class = typename std::enable_if<((sizeof...(Args)) > 1),void>::type>
+			explicit mutli_ostream_format(Args&&... args)
+				// Construct from multiple values.
+				// Mark as explicit otherwise it replaces the default copy constructor.
+				// Note: explicit is not enough, SFINAE is required
+				: base_type(), d_tuple( std::forward<Args>(args)...)
+			{}
+
+			
 			template<class ...Args>
 			auto operator()(Args&&... args) -> mutli_ostream_format&
 			{
@@ -1684,6 +1876,20 @@ namespace seq
 			{
 				// update internal tuple with new values for given indexes
 				AffectValuesWithPos<Positional<T...>, Tuple>::convert(d_tuple, std::forward<Args>(args)...);
+				return *this;
+			}
+			template<size_t ...T, class TT, class PP>
+			auto operator()(Positional<T...> /*unused*/, const mutli_ostream_format<TT, PP>& o) -> mutli_ostream_format&
+			{
+				// update internal tuple with new values for given indexes
+				AffectValuesWithPosFromTuple<Positional<T...>, Tuple,TT>::convert(d_tuple, o.d_tuple);
+				return *this;
+			}
+			template<class T, class P>
+			auto operator()(const mutli_ostream_format<T,P> & o) -> mutli_ostream_format&
+			{
+				// Affect values based on another mutli_ostream_format, for nested formatting
+				AffectValuesFromTuple<Tuple,T>::convert(d_tuple, o.d_tuple);
 				return *this;
 			}
 
@@ -1704,7 +1910,11 @@ namespace seq
 			auto append(String& out) const -> String&
 			{
 				// append the content of this formatting object to a string-like object
+				size_t prev = out.size();
 				Converter<Tuple>::convert(out, d_tuple);
+				if (this->d_width.has_format()) {
+					width_format::format(out, prev, out.size(), this->d_width);
+				}
 				return out;
 			}
 
@@ -1752,22 +1962,23 @@ namespace seq
 		};
 
 		template<class Tuple, size_t ...Ts>
-		struct mutli_ostream_format<Tuple, Positional<Ts...>>
+		struct mutli_ostream_format<Tuple, Positional<Ts...>> : public base_mutli_ostream_format<mutli_ostream_format<Tuple, Positional<Ts...>>>
 		{
 			// Partial specialization of mutli_ostream_format that supports Positional type as template argument
 
+			using base_type = base_mutli_ostream_format<mutli_ostream_format<Tuple, Positional<Ts...>>>;
 			using tuple_type = Tuple;
 			using pos_type = Positional<Ts...>;
 			tuple_type d_tuple;
 
 			mutli_ostream_format()
-				:d_tuple()
+				:base_type(), d_tuple()
 			{}
-			template<class ...Args>
+			template<class ...Args, class = typename std::enable_if<((sizeof...(Args)) > 1), void>::type>
 			explicit mutli_ostream_format(Args&&... args)
 				// Construct from multiple values.
 				// Mark as explicit otherwise it replaces the default copy constructor
-				: d_tuple(std::forward<Args>(args)...)
+				: base_type(), d_tuple(std::forward<Args>(args)...)
 			{}
 
 			template<class ...Args>
@@ -1780,6 +1991,20 @@ namespace seq
 			auto operator()(Positional<T...> /*unused*/, Args&&... args) -> mutli_ostream_format&
 			{
 				AffectValuesWithPos<Positional<T...>, Tuple>::convert(d_tuple, std::forward<Args>(args)...);
+				return *this;
+			}
+			template<size_t ...T, class TT, class PP>
+			auto operator()(Positional<T...> /*unused*/, const mutli_ostream_format<TT, PP>& o) -> mutli_ostream_format&
+			{
+				// update internal tuple with new values for given indexes
+				AffectValuesWithPosFromTuple<Positional<T...>, Tuple, TT>::convert(d_tuple, o.d_tuple);
+				return *this;
+			}
+			template<class T, class P>
+			auto operator()(const mutli_ostream_format<T, P>& o) -> mutli_ostream_format&
+			{
+				// Affect values based on another mutli_ostream_format, for nested formatting
+				AffectValuesWithPosFromTuple<pos_type, Tuple, T>::convert(d_tuple, o.d_tuple);
 				return *this;
 			}
 
@@ -1799,15 +2024,41 @@ namespace seq
 			template<class String = std::string>
 			auto append(String& out) const -> String&
 			{
+				size_t prev = out.size();
 				Converter<Tuple>::convert(out, d_tuple);
+				if (this->d_width.has_format()) {
+					width_format::format(out, prev, out.size(), this->d_width);
+				}
 				return out;
 			}
+
+			auto to_chars(char* dst) -> char*
+			{
+				std::string& tmp = detail::to_chars_buffer();
+				tmp.clear();
+				this->append(tmp);
+				memcpy(dst, tmp.data(), tmp.size());
+				return dst + tmp.size();
+			}
+
+			auto to_chars(char* dst, size_t max) -> std::pair<char*, size_t>
+			{
+				std::string& tmp = detail::to_chars_buffer();
+				tmp.clear();
+				this->append(tmp);
+				if (tmp.size() > max) {
+					memcpy(dst, tmp.data(), max);
+					return { dst + max,tmp.size() };
+				}
+				memcpy(dst, tmp.data(), tmp.size());
+				return { dst + tmp.size(),tmp.size() };
+			}
+
 			template<class String = std::string>
 			auto str() const -> String
 			{
 				String res;
-				Converter<Tuple>::convert(res, d_tuple);
-				return res;
+				return append(res);
 			}
 
 			explicit operator std::string() const
@@ -1820,6 +2071,7 @@ namespace seq
 				return str< tiny_string<S, Al> >();
 			}
 		};
+
 
 	}// end namespace detail
 
@@ -1854,8 +2106,9 @@ namespace seq
 		template<class ...Args>
 		struct BuildFormat<1, void, Args...>
 		{
-			using type = typename std::remove_reference< Args...>::type;
-			using return_type = ostream_format<type>;
+			using type =  typename std::remove_const< typename std::remove_reference<Args...>::type >::type;
+			//TEST
+			using return_type = typename FormatWrapper<type>::type;//ostream_format<type>;
 
 			static auto build(Args&&... args) -> return_type
 			{
@@ -2038,7 +2291,14 @@ namespace std
 	template<class Elem, class Traits, class T, class P>
 	inline auto operator<<(basic_ostream<Elem, Traits>& oss, const seq::detail::mutli_ostream_format<T, P>& val) -> basic_ostream<Elem, Traits>&
 	{
-		seq::detail::ToOstream<T>::convert(oss, val.d_tuple);
+		/*if (val.alignment() == 0)
+			seq::detail::ToOstream<T>::convert(oss, val.d_tuple);
+		else {*/
+			std::string& tmp = seq::detail::multi_ostream_buffer();
+			tmp.clear();
+			val.append(tmp);
+			oss.rdbuf()->sputn(tmp.data(), (std::streamsize)tmp.size());
+		//}
 		return oss;
 	}
 } // namespace std

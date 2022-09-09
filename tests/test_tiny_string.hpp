@@ -27,7 +27,7 @@ void test_tstring_logic()
 	for (int i = 0; i < 200; ++i)
 		dv.push_back(i);
 	
-	SEQ_TEST_ASSERT(string_equals(v, dv));
+	SEQ_TEST(string_equals(v, dv));
 
 	
 
@@ -37,38 +37,38 @@ void test_tstring_logic()
 	for (int i = 0; i < 200; ++i)
 		dv.insert(dv.begin(), i);
 	
-	SEQ_TEST_ASSERT(string_equals(v, dv));
+	SEQ_TEST(string_equals(v, dv));
 
 
 
 	// test resize;
 	v.resize(1000);
 	dv.resize(1000);
-	SEQ_TEST_ASSERT(string_equals(v, dv));
+	SEQ_TEST(string_equals(v, dv));
 	v.resize(2000, 12);
 	dv.resize(2000, 12);
-	SEQ_TEST_ASSERT(string_equals(v, dv));
+	SEQ_TEST(string_equals(v, dv));
 
 	// test iterators
 	std::string v1(v.size(),0), v2(v.size(),0);
 
 	std::copy(v.begin(), v.end(), v1.begin());
 	std::copy(dv.begin(), dv.end(), v2.begin());
-	SEQ_TEST_ASSERT(string_equals(v1, v2));
+	SEQ_TEST(string_equals(v1, v2));
 
 	std::copy(v.rbegin(), v.rend(), v1.begin());
 	std::copy(dv.rbegin(), dv.rend(), v2.begin());
-	SEQ_TEST_ASSERT(string_equals(v1, v2));
+	SEQ_TEST(string_equals(v1, v2));
 
 	// test operator[]
 	for (size_t i = 0; i < v.size(); ++i) v[i] = (char)i;
 	for (size_t i = 0; i < dv.size(); ++i) dv[i] = (char)i;
-	SEQ_TEST_ASSERT(string_equals(v, dv));
+	SEQ_TEST(string_equals(v, dv));
 
 	//test shrink_to_fit
 	v.shrink_to_fit();
 	dv.shrink_to_fit();
-	SEQ_TEST_ASSERT(string_equals(v, dv));
+	SEQ_TEST(string_equals(v, dv));
 
 
 	//test insertion
@@ -81,7 +81,7 @@ void test_tstring_logic()
 	dv.insert(dv.begin() + pos[0], (char)1235);
 	dv.insert(dv.begin() + pos[0], (char)1236);
 	dv.insert(dv.begin() + pos[0], (char)1237);
-	SEQ_TEST_ASSERT(string_equals(v, dv));
+	SEQ_TEST(string_equals(v, dv));
 
 	//test range insertion
 	v.insert(v.begin() + pos[0], v1.begin(), v1.end());
@@ -92,7 +92,7 @@ void test_tstring_logic()
 	dv.insert(dv.begin() + pos[1], v1.begin(), v1.end());
 	dv.insert(dv.begin() + pos[2], v1.begin(), v1.end());
 	dv.insert(dv.begin() + pos[3], v1.begin(), v1.end());
-	SEQ_TEST_ASSERT(string_equals(v, dv));
+	SEQ_TEST(string_equals(v, dv));
 
 	// test erase
 	size_t err[4] = { rand() % v.size(),rand() % v.size(),rand() % v.size(),rand() % v.size() };
@@ -108,56 +108,56 @@ void test_tstring_logic()
 	dv.erase(dv.begin() + err[1]);
 	dv.erase(dv.begin() + err[2]);
 	dv.erase(dv.begin() + err[3]);
-	SEQ_TEST_ASSERT(string_equals(v, dv));
+	SEQ_TEST(string_equals(v, dv));
 
 	//test erase range
 	for (int i = 0; i < 4; ++i)
 		v.erase(v.begin() + err[i], v.begin() + err[i] + 10);
 	for (int i = 0; i < 4; ++i)
 		dv.erase(dv.begin() + err[i], dv.begin() + err[i] + 10);
-	SEQ_TEST_ASSERT(string_equals(v, dv));
+	SEQ_TEST(string_equals(v, dv));
 
 	//test assign
 	v.assign(v1.begin(), v1.end());
 	dv.assign(v1.begin(), v1.end());
-	SEQ_TEST_ASSERT(string_equals(v, dv));
+	SEQ_TEST(string_equals(v, dv));
 
 	//test copy
 	{
 		std::string vv = v;
 		seq::tiny_string<MaxStaticSize> dvv = dv;
-		SEQ_TEST_ASSERT(string_equals(vv, dvv));
+		SEQ_TEST(string_equals(vv, dvv));
 
 		vv.clear();
 		dvv.clear();
 		vv = v;
 		dvv = dv;
-		SEQ_TEST_ASSERT(string_equals(vv, dvv));
+		SEQ_TEST(string_equals(vv, dvv));
 	}
 	//test move
 	{
 		std::string vv = std::move(v);
 		seq::tiny_string<MaxStaticSize> dvv = std::move(dv);
-		SEQ_TEST_ASSERT(string_equals(vv, dvv));
-		SEQ_TEST_ASSERT(string_equals(v, dv));
+		SEQ_TEST(string_equals(vv, dvv));
+		SEQ_TEST(string_equals(v, dv));
 
 		v = std::move(vv);
 		dv = std::move(dvv);
-		SEQ_TEST_ASSERT(string_equals(vv, dvv));
-		SEQ_TEST_ASSERT(string_equals(v, dv));
+		SEQ_TEST(string_equals(vv, dvv));
+		SEQ_TEST(string_equals(v, dv));
 
 		//swap
 		std::swap(dv, dvv);
 		std::swap(v, vv);
-		SEQ_TEST_ASSERT(string_equals(vv, dvv));
-		SEQ_TEST_ASSERT(string_equals(v, dv));
+		SEQ_TEST(string_equals(vv, dvv));
+		SEQ_TEST(string_equals(v, dv));
 	}
 
 	//range construct
 	{
 		std::string vv(v1.begin(), v1.end());
 		seq::tiny_string<MaxStaticSize> dvv(v1.begin(), v1.end());
-		SEQ_TEST_ASSERT(string_equals(vv, dvv));
+		SEQ_TEST(string_equals(vv, dvv));
 	}
 
 
@@ -170,7 +170,7 @@ void test_tstring_logic()
 
 		std::sort(vec.begin(), vec.end());
 		std::sort(vec2.begin(), vec2.end());
-		SEQ_TEST_ASSERT(string_equals(vec, vec2));
+		SEQ_TEST(string_equals(vec, vec2));
 	}
 
 
@@ -190,7 +190,7 @@ void test_tstring_logic()
 		for (size_t i = 0; i < _count; ++i)
 			str.append(to_append.c_str());
 		
-		SEQ_TEST_ASSERT(string_equals(str, tstr));
+		SEQ_TEST(string_equals(str, tstr));
 	}
 
 	{
@@ -208,7 +208,7 @@ void test_tstring_logic()
 			std::sort(data.begin(), data.end());
 			std::sort(tdata.begin(), tdata.end());
 			
-			SEQ_TEST_ASSERT(std::equal(data.begin(), data.end(), tdata.begin(), tdata.end()));
+			SEQ_TEST(std::equal(data.begin(), data.end(), tdata.begin(), tdata.end()));
 			
 			std::vector<std::string> tmp;
 			for (int i = 0; i < count; ++i)
@@ -230,12 +230,12 @@ void test_tstring_logic()
 				tdata[i] = tmp[i];
 			}
 
-			SEQ_TEST_ASSERT(string_equals(data, tdata));
+			SEQ_TEST(string_equals(data, tdata));
 			
 			//test sorting on wide string
 			std::sort(data.begin(), data.end());
 			std::sort(tdata.begin(), tdata.end());
-			SEQ_TEST_ASSERT(string_equals(data, tdata));
+			SEQ_TEST(string_equals(data, tdata));
 			
 
 		}
@@ -253,7 +253,7 @@ void test_tstring_logic()
 		for (int i = 0; i < count; ++i)
 			str.push_back(std::max((unsigned char)i, (unsigned char)1));
 		
-		SEQ_TEST_ASSERT(string_equals(str, tstr));
+		SEQ_TEST(string_equals(str, tstr));
 
 
 		int sum1 = 0;
@@ -264,7 +264,7 @@ void test_tstring_logic()
 		for (int i = 0; i < count; ++i)
 			sum2 += str[i];
 
-		SEQ_TEST_ASSERT(sum1==sum2);
+		SEQ_TEST(sum1==sum2);
 
 		// test find
 		size_t f = 0;
@@ -288,8 +288,8 @@ void test_tstring_logic()
 			else pos2++;
 		}
 		
-		SEQ_TEST_ASSERT(f == f2);
-		SEQ_TEST_ASSERT(pos == pos2);
+		SEQ_TEST(f == f2);
+		SEQ_TEST(pos == pos2);
 
 		// test rfind
 		f = 0;
@@ -307,15 +307,15 @@ void test_tstring_logic()
 			f2 += pos2;
 			if (pos2 != std::string::npos) --pos2;
 		}
-		SEQ_TEST_ASSERT(f == f2);
-		SEQ_TEST_ASSERT(pos == pos2);
+		SEQ_TEST(f == f2);
+		SEQ_TEST(pos == pos2);
 
 
 
 		memset(tstr.data(), 1, tstr.size() / 2);
 		memset((char*)str.data(), 1, str.size() / 2);
 
-		SEQ_TEST_ASSERT(str == tstr);
+		SEQ_TEST(str == tstr);
 
 		tiny_string<MaxStaticSize> tfirst_of = "lqhgsdsfhg";
 		std::string first_of = "lqhgsdsfhg";
@@ -336,8 +336,8 @@ void test_tstring_logic()
 			if (pos2 == std::string::npos) pos2 = 0;
 			else pos2++;
 		}
-		SEQ_TEST_ASSERT(f == f2);
-		SEQ_TEST_ASSERT(pos == pos2);
+		SEQ_TEST(f == f2);
+		SEQ_TEST(pos == pos2);
 
 
 
@@ -364,8 +364,8 @@ void test_tstring_logic()
 			f2 += pos2;
 			if (pos2 != std::string::npos) --pos2;
 		}
-		SEQ_TEST_ASSERT(f == f2);
-		SEQ_TEST_ASSERT(pos == pos2);
+		SEQ_TEST(f == f2);
+		SEQ_TEST(pos == pos2);
 		
 		//test compare
 		int len = count - (int)find1.size();
@@ -377,7 +377,7 @@ void test_tstring_logic()
 		f2 = 0;
 		for (int i = 0; i < len; ++i)
 			f2 += str.compare(i, find1.size(), find1);
-		SEQ_TEST_ASSERT(f == f2);
+		SEQ_TEST(f == f2);
 
 		//test pop back
 		for (int i = 0; i < count; ++i)
@@ -385,7 +385,7 @@ void test_tstring_logic()
 		
 		for (int i = 0; i < count; ++i)
 			str.pop_back();
-		SEQ_TEST_ASSERT(str==tstr);
+		SEQ_TEST(str==tstr);
 	}
 }
 

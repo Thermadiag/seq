@@ -186,13 +186,12 @@ namespace seq
 				al.deallocate((std::uint8_t*)(((void**)p)[-1]), n * sizeof(T) + alignment - 1ULL + sizeof(void*));
 			}
 		}
-		template< class U, class... Args >
-		void construct(U* p, Args&&... args) {
+		template< class... Args >
+		void construct(T* p, Args&&... args) {
 			//((std::allocator<T>*)(this))->construct(p, std::forward<Args>(args)...);
 			construct_ptr(p, std::forward<Args>(args)...);
 		}
-		template< class U >
-		void destroy(U* p) {
+		void destroy(T* p) {
 			destroy_ptr(p);
 		}
 	};
@@ -254,12 +253,11 @@ namespace seq
 		{
 			aligned_free(p);
 		}
-		template< class U, class... Args >
-		void construct(U* p, Args&&... args) {
+		template< class... Args >
+		void construct(T* p, Args&&... args) {
 			construct_ptr(p, std::forward<Args>(args)...);
 		}
-		template< class U >
-		void destroy(U* p) {
+		void destroy(T* p) {
 			destroy_ptr(static_cast<T*>(p));
 		}
 	};
@@ -321,12 +319,11 @@ namespace seq
 		void deallocate(T* p, size_t n){
 			External::deallocate(p, n * sizeof(T));
 		}
-		template< class U, class... Args >
-		void construct(U* p, Args&&... args) {
+		template<class... Args >
+		void construct(T* p, Args&&... args) {
 			construct_ptr(static_cast<T*>(p), std::forward<Args>(args)...);
 		}
-		template< class U >
-		void destroy(U* p) {
+		void destroy(T* p) {
 			destroy_ptr(static_cast<T*>(p));
 		}
 	};
@@ -639,10 +636,10 @@ namespace seq
 			return static_cast<pool_type*>(d_allocator);
 		}
 		auto operator == (const object_allocator& other) const noexcept -> bool {
-			return d_data == other.d_data;
+			return d_data == other.d_data ;
 		}
 		auto operator != (const object_allocator& other) const noexcept -> bool {
-			return d_data != other.d_data;
+			return !operator ==(other);
 		}
 		auto address(reference x) const noexcept -> pointer {
 			return std::allocator<value_type>{}.address(x);
@@ -665,12 +662,11 @@ namespace seq
 				d_allocator->deallocate_N(p,n);
 			
 		}
-		template< class U, class... Args >
-		void construct(U* p, Args&&... args) {
+		template<  class... Args >
+		void construct(type* p, Args&&... args) {
 			construct_ptr(static_cast<value_type*>(p), std::forward<Args>(args)...);
 		}
-		template< class U >
-		void destroy(U* p) {
+		void destroy(type* p) {
 			destroy_ptr(static_cast<value_type*>(p));
 		}
 	};

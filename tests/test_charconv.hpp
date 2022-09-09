@@ -161,16 +161,16 @@ void test_to_chars(int count, seq::chars_format fmt, int p)
 		__float_to_string_seq(vals[i], fmt, p, dst1, dst1 + sizeof(dst1));
 		__float_to_string_printf(vals[i], fmt, p, dst2, dst2 + sizeof(dst2));
 
-		SEQ_TEST_ASSERT(__test_read_val<T>(dst1));
-		SEQ_TEST_ASSERT(__test_read_val<T>(dst2));
+		SEQ_TEST(__test_read_val<T>(dst1));
+		SEQ_TEST(__test_read_val<T>(dst2));
 
 		try {
 			
-			SEQ_TEST_ASSERT(__test_equal<T>(dst1, dst2,fmt,p));
+			SEQ_TEST(__test_equal<T>(dst1, dst2,fmt,p));
 		 }
 		catch (...)
 		{
-			//SEQ_TEST_ASSERT(__test_equal<T>(dst1, dst2,fmt, p));
+			//SEQ_TEST(__test_equal<T>(dst1, dst2,fmt, p));
 			std::cout << "error while parsing " << dst1 << " (seq) and " << dst2 << " (printf) for value " << std::setprecision(p+6) << vals[i]<<  std::endl;
 			throw;
 		}

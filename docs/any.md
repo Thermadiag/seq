@@ -49,7 +49,7 @@ seq::any a = test(); // compile as is_hashable is specialized for test class
 
 ```
 
-Otherwise, you can completely disable the hashing support using seq::nh_any (equivalent to seq::hold_any<seq::any_no_hash_interface>) :
+Otherwise, you can completely disable the hashing support using seq::nh_any (equivalent to *seq::hold_any<seq::any_no_hash_interface>*) :
 
 ```cpp
 
@@ -85,6 +85,8 @@ int *value3 = seq::any_cast<int>(&a);
 Example:
 
 ```cpp
+
+using namespace seq;
 
 any a = "1.2"; // holds a const char*
 	

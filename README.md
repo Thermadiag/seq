@@ -55,11 +55,12 @@ Macro names are upper case and start with the `SEQ_` prefix.
 The directory structure is flat and use the "stuttering" scheme `seq/seq` used by many other libraries like boost.
 Including a file as the following syntax: `#include <seq/tiered_vector.hpp>`
 
-The `seq/seq/test` subdirectory includes tests for all components, usually named `test_modulename.hpp`, with a unique `main.cpp`. 
+The `seq/seq/tests` subdirectory includes tests for all components, usually named `test_modulename.hpp`, with a unique `main.cpp`. 
+The `seq/seq/benchs` subdirectory includes benchmarks for some components, usually named `bench_modulename.hpp`, with a unique `main.cpp`. The benchmarks are performed against other libraries that are provided in the 'benchs' folder. Note that only a subset of the 'boost' library is provided in order to compare 'boost::container::flat_set' to 'seq::flat_set'.
 The `seq/seq/docs` directory contains documentation using markdown format, and the `seq/seq/doc` directory contains the html documentation generated with doxygen (available <a href="https://rawcdn.githack.com/Thermadiag/seq/731467950d3591147b62856972e0d543173dddc1/doc/html/index.html">here</a>).
 
 Build
 -----
 
 The seq library is header only and does not need to be built. However, a cmake file is provided for installation.
-Tests can be built using cmake from the `tests` folder.
+Tests can be built using cmake from the `tests` folder, and benchmarks can be built using cmake from the `benchs`.

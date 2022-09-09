@@ -263,8 +263,8 @@ void test_any()
 	{
 		// test default ctor
 		any a, b, c, d;
-		SEQ_TEST_ASSERT(a == b);
-		SEQ_TEST_ASSERT(a.empty());
+		SEQ_TEST(a == b);
+		SEQ_TEST(a.empty());
 
 		//test emplace with comparison
 		a.emplace<small_pod>("toto");
@@ -272,14 +272,14 @@ void test_any()
 		c.emplace<small_non_pod>("toto");
 		d.emplace<big_non_pod>("toto");
 
-		SEQ_TEST_ASSERT(a == small_pod("toto"));
-		SEQ_TEST_ASSERT(a == any(small_pod("toto")));
-		SEQ_TEST_ASSERT(b == big_pod("toto"));
-		SEQ_TEST_ASSERT(b == any(big_pod("toto")));
-		SEQ_TEST_ASSERT(c == small_non_pod("toto"));
-		SEQ_TEST_ASSERT(c == any(small_non_pod("toto")));
-		SEQ_TEST_ASSERT(d == big_non_pod("toto"));
-		SEQ_TEST_ASSERT(d == any(big_non_pod("toto")));
+		SEQ_TEST(a == small_pod("toto"));
+		SEQ_TEST(a == any(small_pod("toto")));
+		SEQ_TEST(b == big_pod("toto"));
+		SEQ_TEST(b == any(big_pod("toto")));
+		SEQ_TEST(c == small_non_pod("toto"));
+		SEQ_TEST(c == any(small_non_pod("toto")));
+		SEQ_TEST(d == big_non_pod("toto"));
+		SEQ_TEST(d == any(big_non_pod("toto")));
 	}
 
 	{
@@ -289,14 +289,14 @@ void test_any()
 		any c = small_non_pod("toto");
 		any d = big_non_pod("toto");
 
-		SEQ_TEST_ASSERT(a == small_pod("toto"));
-		SEQ_TEST_ASSERT(a == any(small_pod("toto")));
-		SEQ_TEST_ASSERT(b == big_pod("toto"));
-		SEQ_TEST_ASSERT(b == any(big_pod("toto")));
-		SEQ_TEST_ASSERT(c == small_non_pod("toto"));
-		SEQ_TEST_ASSERT(c == any(small_non_pod("toto")));
-		SEQ_TEST_ASSERT(d == big_non_pod("toto"));
-		SEQ_TEST_ASSERT(d == any(big_non_pod("toto")));
+		SEQ_TEST(a == small_pod("toto"));
+		SEQ_TEST(a == any(small_pod("toto")));
+		SEQ_TEST(b == big_pod("toto"));
+		SEQ_TEST(b == any(big_pod("toto")));
+		SEQ_TEST(c == small_non_pod("toto"));
+		SEQ_TEST(c == any(small_non_pod("toto")));
+		SEQ_TEST(d == big_non_pod("toto"));
+		SEQ_TEST(d == any(big_non_pod("toto")));
 
 		a.reset();
 		b.reset();
@@ -307,14 +307,14 @@ void test_any()
 		b = big_pod("toto");
 		c = small_non_pod("toto");
 		d = big_non_pod("toto");
-		SEQ_TEST_ASSERT(a == small_pod("toto"));
-		SEQ_TEST_ASSERT(a == any(small_pod("toto")));
-		SEQ_TEST_ASSERT(b == big_pod("toto"));
-		SEQ_TEST_ASSERT(b == any(big_pod("toto")));
-		SEQ_TEST_ASSERT(c == small_non_pod("toto"));
-		SEQ_TEST_ASSERT(c == any(small_non_pod("toto")));
-		SEQ_TEST_ASSERT(d == big_non_pod("toto"));
-		SEQ_TEST_ASSERT(d == any(big_non_pod("toto")));
+		SEQ_TEST(a == small_pod("toto"));
+		SEQ_TEST(a == any(small_pod("toto")));
+		SEQ_TEST(b == big_pod("toto"));
+		SEQ_TEST(b == any(big_pod("toto")));
+		SEQ_TEST(c == small_non_pod("toto"));
+		SEQ_TEST(c == any(small_non_pod("toto")));
+		SEQ_TEST(d == big_non_pod("toto"));
+		SEQ_TEST(d == any(big_non_pod("toto")));
 
 	}
 	{
@@ -324,14 +324,14 @@ void test_any()
 		any c = any(small_non_pod("toto"));
 		any d = any(big_non_pod("toto"));
 
-		SEQ_TEST_ASSERT(a == small_pod("toto"));
-		SEQ_TEST_ASSERT(a == any(small_pod("toto")));
-		SEQ_TEST_ASSERT(b == big_pod("toto"));
-		SEQ_TEST_ASSERT(b == any(big_pod("toto")));
-		SEQ_TEST_ASSERT(c == small_non_pod("toto"));
-		SEQ_TEST_ASSERT(c == any(small_non_pod("toto")));
-		SEQ_TEST_ASSERT(d == big_non_pod("toto"));
-		SEQ_TEST_ASSERT(d == any(big_non_pod("toto")));
+		SEQ_TEST(a == small_pod("toto"));
+		SEQ_TEST(a == any(small_pod("toto")));
+		SEQ_TEST(b == big_pod("toto"));
+		SEQ_TEST(b == any(big_pod("toto")));
+		SEQ_TEST(c == small_non_pod("toto"));
+		SEQ_TEST(c == any(small_non_pod("toto")));
+		SEQ_TEST(d == big_non_pod("toto"));
+		SEQ_TEST(d == any(big_non_pod("toto")));
 
 		// test move construct
 		any _a = std::move(a);
@@ -339,42 +339,42 @@ void test_any()
 		any _c = std::move(c);
 		any _d = std::move(d);
 
-		SEQ_TEST_ASSERT(_a == small_pod("toto"));
-		SEQ_TEST_ASSERT(_a == any(small_pod("toto")));
-		SEQ_TEST_ASSERT(_b == big_pod("toto"));
-		SEQ_TEST_ASSERT(_b == any(big_pod("toto")));
-		SEQ_TEST_ASSERT(_c == small_non_pod("toto"));
-		SEQ_TEST_ASSERT(_c == any(small_non_pod("toto")));
-		SEQ_TEST_ASSERT(_d == big_non_pod("toto"));
-		SEQ_TEST_ASSERT(_d == any(big_non_pod("toto")));
+		SEQ_TEST(_a == small_pod("toto"));
+		SEQ_TEST(_a == any(small_pod("toto")));
+		SEQ_TEST(_b == big_pod("toto"));
+		SEQ_TEST(_b == any(big_pod("toto")));
+		SEQ_TEST(_c == small_non_pod("toto"));
+		SEQ_TEST(_c == any(small_non_pod("toto")));
+		SEQ_TEST(_d == big_non_pod("toto"));
+		SEQ_TEST(_d == any(big_non_pod("toto")));
 
 		//test copy to non null
 		a = _a;
 		b = _b;
 		c = _c;
 		d = _d;
-		SEQ_TEST_ASSERT(a == small_pod("toto"));
-		SEQ_TEST_ASSERT(a == any(small_pod("toto")));
-		SEQ_TEST_ASSERT(b == big_pod("toto"));
-		SEQ_TEST_ASSERT(b == any(big_pod("toto")));
-		SEQ_TEST_ASSERT(c == small_non_pod("toto"));
-		SEQ_TEST_ASSERT(c == any(small_non_pod("toto")));
-		SEQ_TEST_ASSERT(d == big_non_pod("toto"));
-		SEQ_TEST_ASSERT(d == any(big_non_pod("toto")));
+		SEQ_TEST(a == small_pod("toto"));
+		SEQ_TEST(a == any(small_pod("toto")));
+		SEQ_TEST(b == big_pod("toto"));
+		SEQ_TEST(b == any(big_pod("toto")));
+		SEQ_TEST(c == small_non_pod("toto"));
+		SEQ_TEST(c == any(small_non_pod("toto")));
+		SEQ_TEST(d == big_non_pod("toto"));
+		SEQ_TEST(d == any(big_non_pod("toto")));
 
 		//test move assignment to non null
 		_a = std::move(a);
 		_b = std::move(b);
 		_c = std::move(c);
 		_d = std::move(d);
-		SEQ_TEST_ASSERT(_a == small_pod("toto"));
-		SEQ_TEST_ASSERT(_a == any(small_pod("toto")));
-		SEQ_TEST_ASSERT(_b == big_pod("toto"));
-		SEQ_TEST_ASSERT(_b == any(big_pod("toto")));
-		SEQ_TEST_ASSERT(_c == small_non_pod("toto"));
-		SEQ_TEST_ASSERT(_c == any(small_non_pod("toto")));
-		SEQ_TEST_ASSERT(_d == big_non_pod("toto"));
-		SEQ_TEST_ASSERT(_d == any(big_non_pod("toto")));
+		SEQ_TEST(_a == small_pod("toto"));
+		SEQ_TEST(_a == any(small_pod("toto")));
+		SEQ_TEST(_b == big_pod("toto"));
+		SEQ_TEST(_b == any(big_pod("toto")));
+		SEQ_TEST(_c == small_non_pod("toto"));
+		SEQ_TEST(_c == any(small_non_pod("toto")));
+		SEQ_TEST(_d == big_non_pod("toto"));
+		SEQ_TEST(_d == any(big_non_pod("toto")));
 
 	}
 
@@ -390,19 +390,19 @@ void test_any()
 		any _c = std::move(c);
 		any _d = std::move(d);
 
-		SEQ_TEST_ASSERT(a.empty());
-		SEQ_TEST_ASSERT(b.empty());
-		SEQ_TEST_ASSERT(c.empty());
-		SEQ_TEST_ASSERT(d.empty());
+		SEQ_TEST(a.empty());
+		SEQ_TEST(b.empty());
+		SEQ_TEST(c.empty());
+		SEQ_TEST(d.empty());
 
-		SEQ_TEST_ASSERT(_a == small_pod("toto"));
-		SEQ_TEST_ASSERT(_a == any(small_pod("toto")));
-		SEQ_TEST_ASSERT(_b == big_pod("toto"));
-		SEQ_TEST_ASSERT(_b == any(big_pod("toto")));
-		SEQ_TEST_ASSERT(_c == small_non_pod("toto"));
-		SEQ_TEST_ASSERT(_c == any(small_non_pod("toto")));
-		SEQ_TEST_ASSERT(_d == big_non_pod("toto"));
-		SEQ_TEST_ASSERT(_d == any(big_non_pod("toto")));
+		SEQ_TEST(_a == small_pod("toto"));
+		SEQ_TEST(_a == any(small_pod("toto")));
+		SEQ_TEST(_b == big_pod("toto"));
+		SEQ_TEST(_b == any(big_pod("toto")));
+		SEQ_TEST(_c == small_non_pod("toto"));
+		SEQ_TEST(_c == any(small_non_pod("toto")));
+		SEQ_TEST(_d == big_non_pod("toto"));
+		SEQ_TEST(_d == any(big_non_pod("toto")));
 
 
 		//test move to any
@@ -421,53 +421,53 @@ void test_any()
 		_c = std::move(c);
 		_d = std::move(d);
 
-		SEQ_TEST_ASSERT(a.empty());
-		SEQ_TEST_ASSERT(b.empty());
-		SEQ_TEST_ASSERT(c.empty());
-		SEQ_TEST_ASSERT(d.empty());
+		SEQ_TEST(a.empty());
+		SEQ_TEST(b.empty());
+		SEQ_TEST(c.empty());
+		SEQ_TEST(d.empty());
 
-		SEQ_TEST_ASSERT(_a == small_pod("toto"));
-		SEQ_TEST_ASSERT(_a == any(small_pod("toto")));
-		SEQ_TEST_ASSERT(_b == big_pod("toto"));
-		SEQ_TEST_ASSERT(_b == any(big_pod("toto")));
-		SEQ_TEST_ASSERT(_c == small_non_pod("toto"));
-		SEQ_TEST_ASSERT(_c == any(small_non_pod("toto")));
-		SEQ_TEST_ASSERT(_d == big_non_pod("toto"));
-		SEQ_TEST_ASSERT(_d == any(big_non_pod("toto")));
+		SEQ_TEST(_a == small_pod("toto"));
+		SEQ_TEST(_a == any(small_pod("toto")));
+		SEQ_TEST(_b == big_pod("toto"));
+		SEQ_TEST(_b == any(big_pod("toto")));
+		SEQ_TEST(_c == small_non_pod("toto"));
+		SEQ_TEST(_c == any(small_non_pod("toto")));
+		SEQ_TEST(_d == big_non_pod("toto"));
+		SEQ_TEST(_d == any(big_non_pod("toto")));
 	}
 	{
 		//test operators
 		any a = small_pod("toto");
 		any b = small_pod("tutu");
 
-		SEQ_TEST_ASSERT(small_pod("toto") < b);
-		SEQ_TEST_ASSERT(small_pod("toto") <= b);
-		SEQ_TEST_ASSERT(b > small_pod("toto"));
-		SEQ_TEST_ASSERT(b >= small_pod("toto"));
-		SEQ_TEST_ASSERT(b != small_pod("toto"));
+		SEQ_TEST(small_pod("toto") < b);
+		SEQ_TEST(small_pod("toto") <= b);
+		SEQ_TEST(b > small_pod("toto"));
+		SEQ_TEST(b >= small_pod("toto"));
+		SEQ_TEST(b != small_pod("toto"));
 
-		SEQ_TEST_ASSERT(a < b);
-		SEQ_TEST_ASSERT(a <= b);
-		SEQ_TEST_ASSERT(b > a);
-		SEQ_TEST_ASSERT(b >= a);
-		SEQ_TEST_ASSERT(b != a);
+		SEQ_TEST(a < b);
+		SEQ_TEST(a <= b);
+		SEQ_TEST(b > a);
+		SEQ_TEST(b >= a);
+		SEQ_TEST(b != a);
 	}
 	{
 		//test operators between different arithmetic types
 		any a = 1;
 		any b = 1.2;
 
-		SEQ_TEST_ASSERT(a < b);
-		SEQ_TEST_ASSERT(a <= b);
-		SEQ_TEST_ASSERT(b > a);
-		SEQ_TEST_ASSERT(b >= a);
-		SEQ_TEST_ASSERT(b != a);
+		SEQ_TEST(a < b);
+		SEQ_TEST(a <= b);
+		SEQ_TEST(b > a);
+		SEQ_TEST(b >= a);
+		SEQ_TEST(b != a);
 
-		SEQ_TEST_ASSERT(1 < b);
-		SEQ_TEST_ASSERT(1 <= b);
-		SEQ_TEST_ASSERT(b > 1);
-		SEQ_TEST_ASSERT(b >= 1);
-		SEQ_TEST_ASSERT(b != 1);
+		SEQ_TEST(1 < b);
+		SEQ_TEST(1 <= b);
+		SEQ_TEST(b > 1);
+		SEQ_TEST(b >= 1);
+		SEQ_TEST(b != 1);
 
 	}
 	{
@@ -475,17 +475,17 @@ void test_any()
 		any a = "toto";
 		any b = tstring("tutu");
 
-		SEQ_TEST_ASSERT(a < b);
-		SEQ_TEST_ASSERT(a <= b);
-		SEQ_TEST_ASSERT(b > a);
-		SEQ_TEST_ASSERT(b >= a);
-		SEQ_TEST_ASSERT(b != a);
+		SEQ_TEST(a < b);
+		SEQ_TEST(a <= b);
+		SEQ_TEST(b > a);
+		SEQ_TEST(b >= a);
+		SEQ_TEST(b != a);
 
-		SEQ_TEST_ASSERT(std::string("toto") < b);
-		SEQ_TEST_ASSERT(std::string("toto") <= b);
-		SEQ_TEST_ASSERT(b > std::string("toto"));
-		SEQ_TEST_ASSERT(b >= std::string("toto"));
-		SEQ_TEST_ASSERT(b != std::string("toto"));
+		SEQ_TEST(std::string("toto") < b);
+		SEQ_TEST(std::string("toto") <= b);
+		SEQ_TEST(b > std::string("toto"));
+		SEQ_TEST(b >= std::string("toto"));
+		SEQ_TEST(b != std::string("toto"));
 	}
 	{
 		// test custom comparison
@@ -503,7 +503,7 @@ void test_any()
 	 
 		 nh_any pair = std::pair<int,int>(2,2);
 		 nh_any integer = 2;
-		 SEQ_TEST_ASSERT(pair == integer);
+		 SEQ_TEST(pair == integer);
 	 
 	}
 	{
@@ -522,7 +522,7 @@ void test_any()
 	 
 		 nh_any pair = std::pair<int,int>(1,2);
 		 nh_any integer = 3;
-		 SEQ_TEST_ASSERT(pair < integer);
+		 SEQ_TEST(pair < integer);
 	}
 	{
 		//test cast
@@ -530,24 +530,24 @@ void test_any()
 		small_pod b = a.cast< small_pod>();
 		small_pod &c = a.cast< small_pod&>();
 
-		SEQ_TEST_ASSERT(a == b);
-		SEQ_TEST_ASSERT(a == c);
+		SEQ_TEST(a == b);
+		SEQ_TEST(a == c);
 
 		small_pod d = any_cast<small_pod>(a);
 		small_pod &e = any_cast<small_pod&>(a);
 		small_pod* f = any_cast<small_pod>(&a);
 
-		SEQ_TEST_ASSERT(a == d);
-		SEQ_TEST_ASSERT(a == e);
-		SEQ_TEST_ASSERT(a == *f);
+		SEQ_TEST(a == d);
+		SEQ_TEST(a == e);
+		SEQ_TEST(a == *f);
 	}
 	{
 		//test make_any
 		any a = make_any<any, small_pod>("toto");
-		SEQ_TEST_ASSERT(a == small_pod("toto"));
+		SEQ_TEST(a == small_pod("toto"));
 
 		//test print
-		std::cout << a << std::endl;
+		SEQ_TEST_TO_OSTREAM("toto", a );
 	}
 	{
 		//test istream
@@ -559,20 +559,11 @@ void test_any()
 		std::ifstream in("test_any_file");
 		in >> a;
 
-		SEQ_TEST_ASSERT(a == 1.2);
+		SEQ_TEST(a == 1.2);
 	}
 	{
 		//test bad_function_call throw
-		bool has_thrown = false;
-
-		try {
-			std::cout << nh_any(std::vector<bool>()); // std::vector<bool> does not define stream operator to std::ostream, throw a std::bad_function_call
-		}
-		catch (const std::bad_function_call& )
-		{
-			has_thrown = true;
-		}
-		SEQ_TEST_ASSERT(has_thrown);
+		SEQ_TEST_THROW(std::bad_function_call, std::cout << nh_any(std::vector<bool>()));
 	}
 	{
 		// test other conversions
@@ -581,32 +572,32 @@ void test_any()
 		 char* c = a.cast<char*>(); // const char * to char* is valid (although not safe)
 		 void* v = a.cast<void*>(); //conversion to void* is valid (although not safe)
 
-		 SEQ_TEST_ASSERT(a == c); //compare pointer
-		 SEQ_TEST_ASSERT(s == c);//compare pointer
-		 SEQ_TEST_ASSERT(s == v);//compare pointer
-		 SEQ_TEST_ASSERT(a == std::string("1.2"));//compare string
+		 SEQ_TEST(a == c); //compare pointer
+		 SEQ_TEST(s == c);//compare pointer
+		 SEQ_TEST(s == v);//compare pointer
+		 SEQ_TEST(a == std::string("1.2"));//compare string
 	
 		 // conversion to the different string types
 		 tstring str = a.cast<tstring>();
 		 tstring_view view = a.cast<tstring_view>();
 		 std::string str2 = a.cast<std::string>();
-		 SEQ_TEST_ASSERT(a == str);
-		 SEQ_TEST_ASSERT(a == view);
-		 SEQ_TEST_ASSERT(a == str2);
+		 SEQ_TEST(a == str);
+		 SEQ_TEST(a == view);
+		 SEQ_TEST(a == str2);
 	
 		 // conversion to arithmetic
 		 double d = a.cast<double>(); // d holds 1.2
-		 SEQ_TEST_ASSERT(d == 1.2);
+		 SEQ_TEST(d == 1.2);
 
 		 int i = a.cast<int>(); // i holds 1
-		 SEQ_TEST_ASSERT(i == 1);
+		 SEQ_TEST(i == 1);
 	
 		 a = 1.2;
 		 i = a.cast<int>(); //valid, cast double to int
-		 SEQ_TEST_ASSERT(i == 1);
+		 SEQ_TEST(i == 1);
 
 		 str2 = a.cast<std::string>(); //valid, str2 holds "1.2"
-		 SEQ_TEST_ASSERT(str2 == "1.2");
+		 SEQ_TEST(str2 == "1.2");
 	}
 	{
 		 // register conversion that already exists 
@@ -617,8 +608,8 @@ void test_any()
 		 nh_any a = std::pair<int, int>(1, 2);
 		 nh_any b = my_int_pair(1, 2);
 	
-		 std::cout << a.cast<std::string>() << std::endl;
-		 std::cout << b.cast<std::string>() << std::endl;
+		 SEQ_TEST_TO_OSTREAM("12", a.cast<std::string>() );
+		 SEQ_TEST_TO_OSTREAM("12", b.cast<std::string>() );
 	}
 	{
 		// build an ordered set than supports heterogeneous lookup 
@@ -632,15 +623,21 @@ void test_any()
 		 set.insert("ok");
 	
 		 // print the set content
-		 for (auto val : set)
-				std::cout << val << std::endl;
+		 auto it = set.begin();
+		 SEQ_TEST_TO_OSTREAM("3", *it++);
+		 SEQ_TEST_TO_OSTREAM("2.5", *it++);
+		 SEQ_TEST_TO_OSTREAM("hello", *it++);
+		 SEQ_TEST_TO_OSTREAM("1", *it++);
+		 SEQ_TEST_TO_OSTREAM("world", *it++);
+		 SEQ_TEST_TO_OSTREAM("ok", *it++);
+		
 	
-		 SEQ_TEST_ASSERT(set.find(3) != set.end());			// use heterogeneous lookup 
-		 SEQ_TEST_ASSERT(set.find(2.5) != set.end());			// use heterogeneous lookup 
-		 SEQ_TEST_ASSERT(set.find("hello")  != set.end());	// use heterogeneous lookup 
-		 SEQ_TEST_ASSERT(set.find(tstring("world")) != set.end());	// use heterogeneous lookup 
-		 SEQ_TEST_ASSERT(set.find("ok") == set.end()) ;			//"ok" not found has we compare 2 const char* -> pointer comparison, not string comparison
-		 SEQ_TEST_ASSERT(set.find("no") == set.end());			//failed lookup
+		 SEQ_TEST(set.find(3) != set.end());			// use heterogeneous lookup 
+		 SEQ_TEST(set.find(2.5) != set.end());			// use heterogeneous lookup 
+		 SEQ_TEST(set.find("hello")  != set.end());	// use heterogeneous lookup 
+		 SEQ_TEST(set.find(tstring("world")) != set.end());	// use heterogeneous lookup 
+		 SEQ_TEST(set.find("ok") == set.end()) ;			//"ok" not found has we compare 2 const char* -> pointer comparison, not string comparison
+		 SEQ_TEST(set.find("no") == set.end());			//failed lookup
 	 
 	}
 	{
@@ -650,23 +647,16 @@ void test_any()
 		 any a = std::unique_ptr<int>(new int(3));
 		 // retrieve a reference to the unique_ptr
 		 std::unique_ptr<int>& val1 = a.cast< std::unique_ptr<int>&>();
-		 SEQ_TEST_ASSERT(*val1 == 3);
+		 SEQ_TEST(*val1 == 3);
 	
 		 // move any object
 		 any b = std::move(a);
 		 std::unique_ptr<int>& val2 = b.cast< std::unique_ptr<int>&>();
-		 SEQ_TEST_ASSERT(*val2 == 3);
+		 SEQ_TEST(*val2 == 3);
 	
 		 // try to copy: throw std::bad_function_call as copy operator is disabled for unique_ptr
-		 bool has_thrown = false;
-		 try {
-	 		any c = b;
-		 }
-		 catch (const std::bad_function_call&)
-		 {
-			 has_thrown = true;
-		 }
-		 SEQ_TEST_ASSERT(has_thrown);
+		 SEQ_TEST_THROW(std::bad_function_call, any c = b);
+		
 	}
 	{
 		//test extend interface
@@ -676,10 +666,10 @@ void test_any()
 		 seq::function<int(int,int)> multiplies_fun = multiplies<int>{};		// affect functor
 		 seq::function<int(int,int)> divide_fun = divide;							// affect function
 		
-		 SEQ_TEST_ASSERT( plus_fun(1,2) == 3);
-		 SEQ_TEST_ASSERT( minus_fun(2,1) == 1);
-		 SEQ_TEST_ASSERT( multiplies_fun(2,3) == 6);
-		 SEQ_TEST_ASSERT( divide_fun(9,3) == 3);
+		 SEQ_TEST( plus_fun(1,2) == 3);
+		 SEQ_TEST( minus_fun(2,1) == 1);
+		 SEQ_TEST( multiplies_fun(2,3) == 6);
+		 SEQ_TEST( divide_fun(9,3) == 3);
 		 
 	}
 }

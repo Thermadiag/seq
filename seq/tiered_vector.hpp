@@ -76,38 +76,29 @@ namespace seq
 				return pos;
 			}
 
-			SEQ_ALWAYS_INLINE void setPos(difference_type new_pos) noexcept {
-					size_type front_size = mgr->d_buckets.front()->size;
-					size_type bindex = (new_pos + (mgr->d_bucket_size - front_size)) >> mgr->d_bucket_size_bits;
-					size_type index_in_bucket = (new_pos - (new_pos < (difference_type)front_size ? 0 : front_size)) & mgr->d_bucket_size1;
+			SEQ_ALWAYS_INLINE void setPos(difference_type new_pos) noexcept 
+			{
+				size_type front_size = mgr->d_buckets.front()->size;
+				size_type bindex = (new_pos + (mgr->d_bucket_size - front_size)) >> mgr->d_bucket_size_bits;
+				size_type index_in_bucket = (new_pos - (new_pos < (difference_type)front_size ? 0 : front_size)) & mgr->d_bucket_size1;
 
-					bucket = mgr->d_buckets.data() + bindex;
-					if (bindex == mgr->d_buckets.size() ){
-						// end iterator
-						ptr = begin_ptr = first_stop = 0;
-					}
-					else {
+				bucket = mgr->d_buckets.data() + bindex;
+
+				if (SEQ_UNLIKELY(bindex == mgr->d_buckets.size())) {
+					// end iterator
+					ptr = begin_ptr = first_stop = 0;
+				}
+				else {
 						
-						ptr = (cbuffer_pos )(&(*bucket)->at((cbuffer_pos)index_in_bucket) - (*bucket)->buffer());
-						begin_ptr = (*bucket)->begin_index();
-						first_stop = (ptr < begin_ptr) ? (*bucket)->second_stop() : (*bucket)->first_stop();
-					}
-					pos = new_pos;
+					ptr = (cbuffer_pos )(&(*bucket)->at((cbuffer_pos)index_in_bucket) - (*bucket)->buffer());
+					begin_ptr = (*bucket)->begin_index();
+					first_stop = (ptr < begin_ptr) ? (*bucket)->second_stop() : (*bucket)->first_stop();
+				}
+				pos = new_pos;
 			}
 
 			SEQ_ALWAYS_INLINE void offset(difference_type diff) noexcept
 			{
-				/*if ( (diff >= 0 && diff < (first_stop - ptr)) || (diff < 0 && (begin_ptr - ptr < diff))  ){
-					ptr += diff;
-					pos += diff;
-				}
-				else
-					setPos(pos + diff);*/
-				/*difference_type _ptr = ptr + diff;
-				ptr = _ptr;
-				pos += diff;
-				if(_ptr >= first_stop || _ptr < begin_ptr)
-					setPos(pos);*/
 				setPos(pos + diff);
 			}
 			SEQ_ALWAYS_INLINE void go_next() noexcept
@@ -536,7 +527,7 @@ namespace seq
 			}
 
 			// Pushing front while poping back value for relocatable types
-			void push_front_pop_back_use_relocatable(T& inout) noexcept {
+			SEQ_ALWAYS_INLINE void push_front_pop_back_use_relocatable(T& inout) noexcept {
 				typename std::aligned_storage<sizeof(T), alignof(T)>::type tmp;
 				memcpy((void*)(&tmp), &back(), sizeof(T));
 				if (--begin < 0) begin = max_size1;
@@ -544,7 +535,7 @@ namespace seq
 				memcpy((void*)(&inout), &tmp, sizeof(T));
 			}
 			// Pushing front while poping back value for relocatable types, except arithmetic ones
-			void push_front_pop_back_relocatable(T& inout)noexcept(std::is_nothrow_move_assignable<T>::value) {
+			SEQ_ALWAYS_INLINE void push_front_pop_back_relocatable(T& inout)noexcept(std::is_nothrow_move_assignable<T>::value) {
 				if (std::is_arithmetic<T>::value)
 					inout = std::move(push_front_pop_back(std::move(inout)));
 				else
@@ -552,7 +543,7 @@ namespace seq
 			}
 			// Pushing front while poping back value
 			// Might throw, but leave the buffer in a valid state
-			auto push_front_pop_back(T&& value) noexcept(std::is_nothrow_move_assignable<T>::value) -> T {
+			SEQ_ALWAYS_INLINE auto push_front_pop_back(T&& value) noexcept(std::is_nothrow_move_assignable<T>::value) -> T {
 				// Only works for filled array
 				T res = std::move(back());
 				if (--begin < 0) begin = max_size1;
@@ -561,7 +552,7 @@ namespace seq
 			}
 
 			// Pushing front while poping back for relocatable types
-			void push_back_pop_front_use_relocatable(T& inout) noexcept {
+			SEQ_ALWAYS_INLINE void push_back_pop_front_use_relocatable(T& inout) noexcept {
 				typename std::aligned_storage<sizeof(T), alignof(T)>::type tmp;
 				memcpy((void*)(&tmp), &front(), sizeof(T));
 				begin = (begin + 1) & (max_size1);
@@ -569,7 +560,7 @@ namespace seq
 				memcpy((void*)(&inout), &tmp, sizeof(T));
 			}
 			// Pushing front while poping back for relocatable types, except arithmetic ones
-			void push_back_pop_front_relocatable(T& inout) noexcept(std::is_nothrow_move_assignable<T>::value) {
+			SEQ_ALWAYS_INLINE void push_back_pop_front_relocatable(T& inout) noexcept(std::is_nothrow_move_assignable<T>::value) {
 				if (std::is_arithmetic<T>::value)
 					inout = std::move(push_back_pop_front(std::move(inout)));
 				else
@@ -577,7 +568,7 @@ namespace seq
 			}
 			// Pushing front while poping back
 			// Might throw, but leave the buffer in a valid state since it is already full
-			auto push_back_pop_front(T&& value) noexcept(std::is_nothrow_move_assignable<T>::value) -> T {
+			SEQ_ALWAYS_INLINE auto push_back_pop_front(T&& value) noexcept(std::is_nothrow_move_assignable<T>::value) -> T {
 				// Only works for filled array
 				T res = std::move(front());
 				begin = (begin + 1) & (max_size1);
@@ -628,7 +619,7 @@ namespace seq
 
 			// Move buffer content toward the right by 1 element
 			// Might throw
-			void move_right_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
+			SEQ_ALWAYS_INLINE void move_right_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
 			{
 				//starting from pos, move elements toward the end
 				T* ptr1 = &at(size - 1);
@@ -666,7 +657,7 @@ namespace seq
 			}
 			// Move buffer content toward the left by 1 element
 			// Might throw
-			void move_left_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
+			SEQ_ALWAYS_INLINE void move_left_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
 			{
 				//starting from pos, move elements toward the beginning
 				T* ptr1 = &at(0);
@@ -3493,7 +3484,7 @@ namespace seq
 		template<class U, class Less = std::less<T> >
 		auto lower_bound( const U & value, const Less & le = Less()) const noexcept -> size_t
 		{
-			if (SEQ_UNLIKELY(!d_manager))
+			if (!d_manager)
 				return 0;
 			// Inspired by https://academy.realm.io/posts/how-we-beat-cpp-stl-binary-search/
 
@@ -3569,7 +3560,7 @@ namespace seq
 		template<class U, class Less = std::less<T> >
 		auto upper_bound(const U& value, const Less & le = Less()) const noexcept -> size_t
 		{
-			if (SEQ_UNLIKELY(!d_manager))
+			if (!d_manager)
 				return 0;
 
 			using BucketVector = typename bucket_manager::BucketVector;

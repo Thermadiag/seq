@@ -72,23 +72,23 @@ inline void test_flat_set_or_multi_logic()
 		//test construct from initializer list
 		set_type set = { 1,9,2,8,3,7,4,6,5,2, 7 };
 		std_set_type uset = { 1,9,2,8,3,7,4,6,5, 2, 7 };
-		SEQ_TEST_ASSERT(set_equals(set, uset));
-		SEQ_TEST_ASSERT(!set.empty());
-		SEQ_TEST_ASSERT(set.max_size() > 0);
+		SEQ_TEST(set_equals(set, uset));
+		SEQ_TEST(!set.empty());
+		SEQ_TEST(set.max_size() > 0);
 	}
 	{
 		//construct from range
 		std::vector<double> v = { 1,9,2,8,3,7,4,6,5,2, 7 };
 		set_type set(v.begin(), v.end());
 		std_set_type uset(v.begin(), v.end());
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 	}
 	{
 		// insert/emplace
 		std::vector<double> v;
 		for (size_t i = 0; i < 10000; ++i)
 			v.push_back((double)i);
-		std::random_shuffle(v.begin(), v.end());
+		seq::random_shuffle(v.begin(), v.end());
 
 		set_type set;
 		std_set_type uset;
@@ -99,7 +99,7 @@ inline void test_flat_set_or_multi_logic()
 			else
 				set.emplace(v[i]);
 		}
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 
 		//test various functions for compilation
 
@@ -123,20 +123,20 @@ inline void test_flat_set_or_multi_logic()
 		set.insert(set.begin(), v.back());
 		uset.insert(uset.begin(), v.back());
 
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 		if (Unique)
 		{
-			SEQ_TEST_ASSERT(set.count(v[0]) == 1);
-			SEQ_TEST_ASSERT(set.count(v[v.size() - 2]) == 0);
-			SEQ_TEST_ASSERT(set.contains(v[0]));
-			SEQ_TEST_ASSERT(!set.contains(v[v.size() - 2]));
+			SEQ_TEST(set.count(v[0]) == 1);
+			SEQ_TEST(set.count(v[v.size() - 2]) == 0);
+			SEQ_TEST(set.contains(v[0]));
+			SEQ_TEST(!set.contains(v[v.size() - 2]));
 		}
 
 		// insert everything (half already in the set)
 		set.insert(v.begin(), v.end());
 		uset.insert(v.begin(), v.end());
 
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 
 		//erase
 		{
@@ -149,7 +149,7 @@ inline void test_flat_set_or_multi_logic()
 			uset.erase(v[1]); //erase key
 		}
 
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 
 		//test push front
 		for (int i = -1; i > -10000; --i)
@@ -157,7 +157,7 @@ inline void test_flat_set_or_multi_logic()
 			set.emplace(i);
 			uset.emplace(i);
 		}
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 
 		//test push back
 		for(int i=10000; i < 20000; ++i)
@@ -165,7 +165,7 @@ inline void test_flat_set_or_multi_logic()
 			set.emplace(i);
 			uset.emplace(i);
 		}
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 	}
 	
 	{
@@ -177,20 +177,20 @@ inline void test_flat_set_or_multi_logic()
 			//manual move
 			set = std::move(set2);
 			uset = std::move(uset2);
-			SEQ_TEST_ASSERT(set_equals(set, uset));
-			SEQ_TEST_ASSERT(set_equals(set2, uset2));
+			SEQ_TEST(set_equals(set, uset));
+			SEQ_TEST(set_equals(set2, uset2));
 		}
 		{
 			set.swap(set2);
 			uset.swap(uset2);
-			SEQ_TEST_ASSERT(set_equals(set, uset));
-			SEQ_TEST_ASSERT(set_equals(set2, uset2));
+			SEQ_TEST(set_equals(set, uset));
+			SEQ_TEST(set_equals(set2, uset2));
 		}
 		{
 			std::swap(set, set2);
 			std::swap(uset, uset2);
-			SEQ_TEST_ASSERT(set_equals(set, uset));
-			SEQ_TEST_ASSERT(set_equals(set2, uset2));
+			SEQ_TEST(set_equals(set, uset));
+			SEQ_TEST(set_equals(set2, uset2));
 		}
 	}
 	{
@@ -198,7 +198,7 @@ inline void test_flat_set_or_multi_logic()
 		std::vector<double> v;
 		for (size_t i = 0; i < 10000; ++i)
 			v.push_back((double)i);
-		std::random_shuffle(v.begin(), v.end());
+		seq::random_shuffle(v.begin(), v.end());
 
 		set_type set;
 		std_set_type uset;
@@ -209,26 +209,26 @@ inline void test_flat_set_or_multi_logic()
 			//test copy construct
 			set_type set2 = set;
 			std_set_type uset2 = uset;
-			SEQ_TEST_ASSERT(set_equals(set2, uset2));
+			SEQ_TEST(set_equals(set2, uset2));
 		}
 		{
 			//test copy operator
 			set_type set2; set2 = set;
 			std_set_type uset2; uset2 = uset;
-			SEQ_TEST_ASSERT(set_equals(set2, uset2));
+			SEQ_TEST(set_equals(set2, uset2));
 
 			//test equality
-			SEQ_TEST_ASSERT(set == set2);
-			SEQ_TEST_ASSERT(uset == uset2);
+			SEQ_TEST(set == set2);
+			SEQ_TEST(uset == uset2);
 		}
 
 		uset.insert(v.begin(), v.end());
 		set.insert(v.begin(), v.end());
 
 		//randomly shuffle thinks
-		std::random_shuffle(set.tvector().begin(), set.tvector().end());
+		seq::random_shuffle(set.tvector().begin(), set.tvector().end());
 		set.sort();
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 	}
 
 	{
@@ -236,13 +236,13 @@ inline void test_flat_set_or_multi_logic()
 		std::vector<std::string> v;
 		for (int i = 0; i < 10000; ++i)
 			v.push_back(generate_random_string<std::string>(32));
-		std::random_shuffle(v.begin(), v.end());
+		seq::random_shuffle(v.begin(), v.end());
 
 		typename rebind<set_type,std::string>::type set;
 		typename rebind<std_set_type, std::string>::type uset;
 		uset.insert(v.begin(), v.end());
 		set.insert(v.begin(), v.end());
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 
 		//erase half
 		for (size_t i = 0; i < v.size(); i += 2) {
@@ -256,18 +256,18 @@ inline void test_flat_set_or_multi_logic()
 			//typename rebind<std_set_type, std::string>::type after(set.begin(), set.end());
 
 			uset.erase(v[i]);
-			//SEQ_TEST_ASSERT(set_equals(set, uset));
+			//SEQ_TEST(set_equals(set, uset));
 		}
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 
 		//reinsert all (half already exists)
 		uset.insert(v.begin(), v.end());
 		set.insert(v.begin(), v.end());
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 
 		set.clear();
 		uset.clear();
-		SEQ_TEST_ASSERT(set_equals(set, uset));
+		SEQ_TEST(set_equals(set, uset));
 	}
 }
 
@@ -291,23 +291,23 @@ inline void test_flat_map_or_multi_logic()
 		//test construct from initializer list
 		map_type set = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
 		umap_type uset = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
-		SEQ_TEST_ASSERT(map_equals(set, uset));
-		SEQ_TEST_ASSERT(!set.empty());
-		SEQ_TEST_ASSERT(set.max_size() > 0);
+		SEQ_TEST(map_equals(set, uset));
+		SEQ_TEST(!set.empty());
+		SEQ_TEST(set.max_size() > 0);
 	}
 	{
 		//construct from range
 		std::vector<std::pair<double, double> > v = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
 		map_type set(v.begin(), v.end());
 		umap_type uset(v.begin(), v.end());
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 	}
 	{
 		// push_front/back and sorted
 		std::vector<double> v;
 		for (size_t i = 0; i < 10000; ++i)
 			v.push_back((double)i);
-		std::random_shuffle(v.begin(), v.end());
+		seq::random_shuffle(v.begin(), v.end());
 
 		map_type set;
 		umap_type uset;
@@ -357,7 +357,7 @@ inline void test_flat_map_or_multi_logic()
 		uset[v[1]] = v[1] * 2;
 		uset[v[2]] = v[2] * 2;
 
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 
 		//try_emplace
 		set.try_emplace(v[0], v[0]); //fail
@@ -380,27 +380,27 @@ inline void test_flat_map_or_multi_logic()
 		uset.emplace(v[v.size() / 2 + 2], v[v.size() / 2 + 2]);
 
 
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 
 		//randomly shuffle thinks
-		std::random_shuffle(set.tvector().begin(), set.tvector().end());
+		seq::random_shuffle(set.tvector().begin(), set.tvector().end());
 		set.sort();
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 
 		//test at() and operator[]
 		for (size_t i = 0; i < v.size() / 2; ++i) {
-			SEQ_TEST_ASSERT(set[v[i]] == uset[v[i]]);
-			SEQ_TEST_ASSERT(set.at(v[i]) == uset.at(v[i]));
+			SEQ_TEST(set[v[i]] == uset[v[i]]);
+			SEQ_TEST(set.at(v[i]) == uset.at(v[i]));
 		}
 
 
 		set.emplace(v.back(), v.back());
 		uset.emplace(v.back(), v.back());
 
-		SEQ_TEST_ASSERT(set.count(v[0]) == 1);
-		SEQ_TEST_ASSERT(set.count(v[v.size() - 2]) == 0);
-		SEQ_TEST_ASSERT(set.contains(v[0]));
-		SEQ_TEST_ASSERT(!set.contains(v[v.size() - 2]));
+		SEQ_TEST(set.count(v[0]) == 1);
+		SEQ_TEST(set.count(v[v.size() - 2]) == 0);
+		SEQ_TEST(set.contains(v[0]));
+		SEQ_TEST(!set.contains(v[v.size() - 2]));
 
 		// insert everything (half already in the set)
 		std::vector<std::pair<double, double> > vv;
@@ -422,7 +422,7 @@ inline void test_flat_map_or_multi_logic()
 		}
 
 
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 		
 	}
 	{
@@ -433,28 +433,28 @@ inline void test_flat_map_or_multi_logic()
 			v.emplace_back((double)i, (double)i);
 		for (size_t i = 0; i < 10000; ++i)
 			v.emplace_back((double)i, (double)i);
-		std::random_shuffle(v.begin(), v.end());
+		seq::random_shuffle(v.begin(), v.end());
 
 		map_type set;
 		umap_type uset;
 
 		uset.insert(v.begin(), v.end());
 		set.insert(v.begin(), v.end());
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 
 		uset.clear();
 		set.clear();
 
 		uset.insert(v.begin(), v.end());
 		set.insert(v.begin(), v.end());
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 
 		//remove half
 		for (size_t i = 0; i < v.size() / 2; ++i) {
 			uset.erase(v[i].first);
 			set.erase(v[i].first);
 		}
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 	}
 	{
 		//test swap/move
@@ -465,20 +465,20 @@ inline void test_flat_map_or_multi_logic()
 			//manual move
 			set = std::move(set2);
 			uset = std::move(uset2);
-			SEQ_TEST_ASSERT(map_equals(set, uset));
-			SEQ_TEST_ASSERT(map_equals(set2, uset2));
+			SEQ_TEST(map_equals(set, uset));
+			SEQ_TEST(map_equals(set2, uset2));
 		}
 		{
 			set.swap(set2);
 			uset.swap(uset2);
-			SEQ_TEST_ASSERT(map_equals(set, uset));
-			SEQ_TEST_ASSERT(map_equals(set2, uset2));
+			SEQ_TEST(map_equals(set, uset));
+			SEQ_TEST(map_equals(set2, uset2));
 		}
 		{
 			std::swap(set, set2);
 			std::swap(uset, uset2);
-			SEQ_TEST_ASSERT(map_equals(set, uset));
-			SEQ_TEST_ASSERT(map_equals(set2, uset2));
+			SEQ_TEST(map_equals(set, uset));
+			SEQ_TEST(map_equals(set2, uset2));
 		}
 	}
 	{
@@ -486,7 +486,7 @@ inline void test_flat_map_or_multi_logic()
 		std::vector<std::pair<double, double> > v;
 		for (size_t i = 0; i < 10000; ++i)
 			v.emplace_back((double)i, (double)i);
-		std::random_shuffle(v.begin(), v.end());
+		seq::random_shuffle(v.begin(), v.end());
 
 		map_type set;
 		umap_type uset;
@@ -497,17 +497,17 @@ inline void test_flat_map_or_multi_logic()
 			//test copy construct
 			map_type set2 = set;
 			umap_type uset2 = uset;
-			SEQ_TEST_ASSERT(map_equals(set2, uset2));
+			SEQ_TEST(map_equals(set2, uset2));
 		}
 		{
 			//test copy operator
 			map_type set2; set2 = set;
 			umap_type uset2; uset2 = uset;
-			SEQ_TEST_ASSERT(map_equals(set2, uset2));
+			SEQ_TEST(map_equals(set2, uset2));
 
 			//test equality
-			SEQ_TEST_ASSERT(set == set2);
-			SEQ_TEST_ASSERT(uset == uset2);
+			SEQ_TEST(set == set2);
+			SEQ_TEST(uset == uset2);
 		}
 
 	}
@@ -528,23 +528,23 @@ inline void test_flat_multimap_logic()
 		//test construct from initializer list
 		map_type set = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
 		umap_type uset = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
-		SEQ_TEST_ASSERT(map_equals(set, uset));
-		SEQ_TEST_ASSERT(!set.empty());
-		SEQ_TEST_ASSERT(set.max_size() > 0);
+		SEQ_TEST(map_equals(set, uset));
+		SEQ_TEST(!set.empty());
+		SEQ_TEST(set.max_size() > 0);
 	}
 	{
 		//construct from range
 		std::vector<std::pair<double, double> > v = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
 		map_type set(v.begin(), v.end());
 		umap_type uset(v.begin(), v.end());
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 	}
 	{
 		// push_front/back and sorted
 		std::vector<double> v;
 		for (size_t i = 0; i < 10000; ++i)
 			v.push_back((double)i);
-		std::random_shuffle(v.begin(), v.end());
+		seq::random_shuffle(v.begin(), v.end());
 
 		map_type set;
 		umap_type uset;
@@ -574,12 +574,12 @@ inline void test_flat_multimap_logic()
 		set.insert(set.begin(), std::pair<double, double>(v[0], v[0]));
 		uset.insert(uset.begin(), std::pair<double, double>(v[0], v[0]));
 
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 
 		//randomly shuffle thinks
-		std::random_shuffle(set.tvector().begin(), set.tvector().end());
+		seq::random_shuffle(set.tvector().begin(), set.tvector().end());
 		set.sort();
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 
 		set.emplace(v.back(), v.back());
 		uset.emplace(v.back(), v.back());
@@ -605,7 +605,7 @@ inline void test_flat_multimap_logic()
 		}
 
 
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 
 	}
 	{
@@ -616,28 +616,28 @@ inline void test_flat_multimap_logic()
 			v.emplace_back((double)i, (double)i);
 		for (size_t i = 0; i < 10000; ++i)
 			v.emplace_back((double)i, (double)i);
-		std::random_shuffle(v.begin(), v.end());
+		seq::random_shuffle(v.begin(), v.end());
 
 		map_type set;
 		umap_type uset;
 
 		uset.insert(v.begin(), v.end());
 		set.insert(v.begin(), v.end());
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 
 		uset.clear();
 		set.clear();
 
 		uset.insert(v.begin(), v.end());
 		set.insert(v.begin(), v.end());
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 
 		//remove half
 		for (size_t i = 0; i < v.size() / 2; ++i) {
 			uset.erase(v[i].first);
 			set.erase(v[i].first);
 		}
-		SEQ_TEST_ASSERT(map_equals(set, uset));
+		SEQ_TEST(map_equals(set, uset));
 	}
 	{
 		//test swap/move
@@ -648,20 +648,20 @@ inline void test_flat_multimap_logic()
 			//manual move
 			set = std::move(set2);
 			uset = std::move(uset2);
-			SEQ_TEST_ASSERT(map_equals(set, uset));
-			SEQ_TEST_ASSERT(map_equals(set2, uset2));
+			SEQ_TEST(map_equals(set, uset));
+			SEQ_TEST(map_equals(set2, uset2));
 		}
 		{
 			set.swap(set2);
 			uset.swap(uset2);
-			SEQ_TEST_ASSERT(map_equals(set, uset));
-			SEQ_TEST_ASSERT(map_equals(set2, uset2));
+			SEQ_TEST(map_equals(set, uset));
+			SEQ_TEST(map_equals(set2, uset2));
 		}
 		{
 			std::swap(set, set2);
 			std::swap(uset, uset2);
-			SEQ_TEST_ASSERT(map_equals(set, uset));
-			SEQ_TEST_ASSERT(map_equals(set2, uset2));
+			SEQ_TEST(map_equals(set, uset));
+			SEQ_TEST(map_equals(set2, uset2));
 		}
 	}
 	{
@@ -669,7 +669,7 @@ inline void test_flat_multimap_logic()
 		std::vector<std::pair<double, double> > v;
 		for (size_t i = 0; i < 10000; ++i)
 			v.emplace_back((double)i, (double)i);
-		std::random_shuffle(v.begin(), v.end());
+		seq::random_shuffle(v.begin(), v.end());
 
 		map_type set;
 		umap_type uset;
@@ -680,17 +680,17 @@ inline void test_flat_multimap_logic()
 			//test copy construct
 			map_type set2 = set;
 			umap_type uset2 = uset;
-			SEQ_TEST_ASSERT(map_equals(set2, uset2));
+			SEQ_TEST(map_equals(set2, uset2));
 		}
 		{
 			//test copy operator
 			map_type set2; set2 = set;
 			umap_type uset2; uset2 = uset;
-			SEQ_TEST_ASSERT(map_equals(set2, uset2));
+			SEQ_TEST(map_equals(set2, uset2));
 
 			//test equality
-			SEQ_TEST_ASSERT(set == set2);
-			SEQ_TEST_ASSERT(uset == uset2);
+			SEQ_TEST(set == set2);
+			SEQ_TEST(uset == uset2);
 		}
 
 	}

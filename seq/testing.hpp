@@ -10,15 +10,79 @@
 #endif
 
 #include <chrono>
+#include <iostream>
+#include <string>
+#include <stdexcept>
+#include <sstream>
+#include <random>
+#include <algorithm>
 
 #include "bits.hpp"
 #include "format.hpp"
 
+namespace seq
+{
+	/// @brief Exception thrown for failed tests
+	class test_error : public std::runtime_error
+	{
+	public:
+		test_error(const std::string & str)
+			:std::runtime_error(str) {}
+	};
 
-/// @brief Very basic testing macro that throws std::runtime_error if condition is not met
-#define SEQ_TEST_ASSERT( ... ) \
-	if(! (__VA_ARGS__) ) {tstring v =seq::fmt(__LINE__);  \
-		throw std::runtime_error(("testing error: file " __FILE__ "(" + v + ")").c_str()); }
+	/// @brief Streambuf that stores the number of outputed characters
+	class streambuf_size : public std::streambuf 
+	{
+		std::streambuf* sbuf{ NULL };
+		std::ostream* oss{ NULL };
+		size_t size{ 0 };
+
+		int overflow(int c) {
+			size++;
+			return sbuf->sputc(c);
+		}
+		int sync() { return sbuf->pubsync(); }
+	public:
+		streambuf_size(std::ostream& o) : sbuf(o.rdbuf()), oss(&o) { oss->rdbuf(this); }
+		~streambuf_size() { oss->rdbuf(sbuf); }
+		size_t get_size() const { return size; }
+	};
+}
+
+
+
+/// @brief Very basic testing macro that throws seq::test_error if condition is not met.
+#define SEQ_TEST( ... ) \
+	if(! (__VA_ARGS__) ) {std::string v =seq::fmt(__LINE__);  throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): "  #__VA_ARGS__).c_str()); }
+
+/// @brief Test if writting given argument to a std::ostream produces the string 'result', throws seq::test_error if not.
+#define SEQ_TEST_TO_OSTREAM( result, ... ) \
+	{std::ostringstream oss; \
+	oss <<(__VA_ARGS__) ; oss.flush() ; \
+	if( oss.str() != result) \
+		{std::string v =seq::fmt(__LINE__);  throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): \"" + std::string(result) + "\" == "  #__VA_ARGS__).c_str());} \
+	}
+
+/// @brief Test if given statement throws a 'exception' object. If not, throws seq::test_error.
+#define SEQ_TEST_THROW(exception, ...) \
+	{bool has_thrown = false;  \
+	try { __VA_ARGS__; } \
+	catch(const exception &) {has_thrown = true;} \
+	catch(...) {} \
+	if(! has_thrown ) {std::string v =seq::fmt(__LINE__);  \
+		throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): "  #__VA_ARGS__).c_str()); } \
+	}
+
+/// @brief Test module
+#define SEQ_TEST_MODULE(name, ... ) \
+	{ seq::streambuf_size str(std::cout); size_t size = 0; bool ok = true; \
+	try { std::cout << "TEST MODULE " << #name << "... " ; std::cout.flush(); size = str.get_size(); __VA_ARGS__; } \
+	catch (const test_error& e) {std::cout<< std::endl; ok = false; std::cerr << "TEST FAILURE IN MODULE " << #name << ": " << e.what() << std::endl; } \
+	catch (const std::exception& e) { std::cout<< std::endl; ok = false; std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << " (std::exception): " << e.what() << std::endl; } \
+	catch (...) { std::cout<< std::endl; ok = false;  std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << std::endl; }\
+	if(ok) { if(str.get_size() != size) std::cout<<std::endl; std::cout<< "SUCCESS" << std::endl; } \
+	}
+
 
 namespace seq
 {
@@ -96,7 +160,14 @@ namespace seq
 		return detail::elapsed_microseconds(&detail::get_timer()) / 1000ULL;
 	}
 	
-	
+	/// @brief Similar to C++11 (and deprecated) std::random_shuffle
+	template<class Iter>
+	void random_shuffle(Iter begin, Iter end)
+	{
+		std::random_device rd;
+		std::mt19937 g(rd());
+		std::shuffle(begin,end, g);
+	}
 
 
 #if defined( WIN32) || defined(_WIN32)
@@ -188,6 +259,15 @@ namespace seq
 
 	/// @brief For tests only, alias for null buffer, to be used with c++ iostreams
 	using nullbuf = basic_nullbuf<char>;
+
+	template<class T>
+	void print_null(const T& v)
+	{
+		static nullbuf n;
+		auto b = std::cout.rdbuf(&n);
+		std::cout << v << std::endl;
+		std::cout.rdbuf(b);
+	}
 
 
 	/// @brief For tests only, generate a random string of given max size

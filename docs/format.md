@@ -158,6 +158,32 @@ std::cout << std::endl;
 ```
 
 
+## Nested formatting
+
+Nested formatting occurs when using *fmt* calls within other *fmt* calls. The complexity comes from the argument replacement when using formatting objects as functors.
+The following example shows how to use nested *fmt* calls with multiple arguments and argument replacement:
+
+```cpp
+
+// Build a formatting functor used to display 2 couples animal/species
+auto f = fmt(
+		pos<1,3>(), //we can modifies positions 1 and 3 (the 2 couples animal/species)
+		"We have 2 couples:\nAnimal/Species: ",
+		fmt(pos<0,2>(),"","/","").c(20),	//A couple Animal/Species centered on a 20 characters width string
+		"\nAnimal/Species: ",
+		fmt(pos<0,2>(),"","/","").c(20)		//Another couple Animal/Species centered on a 20 characters width string
+	);
+
+// Use this functor with custom values.
+// fmt calls are used to replace arguments in a multi-formatting functor
+	std::cout << f(
+		fmt("Tiger", "P. tigris"),
+		fmt("Panda", "A. melanoleuca")
+	) << std::endl;
+
+```
+
+
 ## Formatting to string or buffer
 
 
@@ -347,7 +373,7 @@ int main(int argc, char ** argv)
 		oss << std::left << std::setw(20) << vec_d[i * 4+3] << "|";
 		oss << std::endl;
 	}
-	int el = tock_ms();
+	size_t el = tock_ms();
 	std::cout << "Write table with streams: " <<el<<" ms"<< std::endl;
 
 

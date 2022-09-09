@@ -990,14 +990,15 @@ namespace seq
 	///		-	Walk through the full set (1M double) using iterators
 	///		-	Erase all 1M double one by one using set_class::erase(iterator)
 	/// 
-	/// Set name           | Insert range | Insert (success) | Insert (fail) | Find (success) | Find (fail) | Iterate |  Erase  |
-	/// -------------------|--------------|------------------|---------------|----------------|-------------|---------|---------|
-	/// seq::flat_set      | 53 ms        |     260 ms       |    96 ms      |    97 ms       |    38 ms    |   1 ms  | 213 ms  |
-	/// absl::btree_set    | 98 ms        |     98 ms        |    77 ms      |    82 ms       |    55 ms    |   2 ms  |  94 ms  |
-	/// boost::flat_set    | 50 ms        |    8756 ms       |    87 ms      |    94 ms       |    29 ms    |   0 ms  |223106 ms|
-	/// std::set           | 252 ms       |     263 ms       |   245 ms      |   306 ms       |    41 ms    |  40 ms  | 333 ms  |
-	/// std::unordered_set | 203 ms       |     206 ms       |   107 ms      |   104 ms       |   161 ms    |  34 ms  | 258 ms  |
+	/// Set name                      |   Insert(range)    |       Insert       |Insert(failed) |Find (success) | Find (failed) |    Iterate    |     Erase     |
+	/// ------------------------------|--------------------|--------------------|---------------|---------------|---------------|---------------|---------------|
+	/// seq::flat_set                 |    61 ms/15 MO     |    449 ms/17 MO    |    135 ms     |    144 ms     |    128 ms     |     1 ms      |    432 ms     |
+	/// phmap::btree_set              |    121 ms/18 MO    |    138 ms/19 MO    |    118 ms     |    141 ms     |    112 ms     |     2 ms      |    127 ms     |
+	/// boost::flat_set<T>            |    60 ms/15 MO     |   49314 ms/16 MO   |    130 ms     |    135 ms     |    129 ms     |     0 ms      |   131372 ms   |
+	/// std::set                      |    470 ms/54 MO    |    489 ms/54 MO    |    479 ms     |    535 ms     |    526 ms     |     82 ms     |    737 ms     |
+	/// std::unordered_set            |    185 ms/47 MO    |    284 ms/50 MO    |     97 ms     |    129 ms     |    153 ms     |     30 ms     |    332 ms     |
 	/// 
+	/// This benchmark is available in file 'seq/benchs/bench_map.hpp'.
 	/// seq::flat_set behaves quite well compared to absl::btree_set or boost::flat_set, and is even faster for single insertion/deletion than std::set.
 	/// 
 	/// seq::flat_set insertion/deletion perform in O(sqrt(N)) on average, as compared to std::set that performs in O(log(N)).
@@ -1066,11 +1067,11 @@ namespace seq
 				iter -= diff;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const -> bool { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const -> bool { return iter != it.iter; }
-			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(const const_iterator & other) -> difference_type { return iter - other.iter; }
+			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const noexcept -> bool { return iter == it.iter; }
+			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const noexcept -> bool { return iter != it.iter; }
+			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(const const_iterator & other) const noexcept -> difference_type { return iter - other.iter; }
 		};
 		using iterator = const_iterator;
 
@@ -1634,11 +1635,11 @@ namespace seq
 				iter -= diff;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const -> bool { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const -> bool { return iter != it.iter; }
-			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) -> difference_type { return iter - other.iter; }
+			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const noexcept -> bool { return iter == it.iter; }
+			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const noexcept -> bool { return iter != it.iter; }
+			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) const noexcept -> difference_type { return iter - other.iter; }
 		};
 		struct iterator : public const_iterator
 		{

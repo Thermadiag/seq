@@ -8,6 +8,7 @@
 #include "sequence.hpp"
 #include "utils.hpp"
 
+
 namespace seq
 {
 	
@@ -637,7 +638,7 @@ namespace seq
 			{
 				// Hash the key and multiply the result.
 				// The multiplication is mandatory for very bad hash functions that do not distribute well their values (like libstdc++ default hash function for integers)
-				return this->hash(std::forward<Args>(args)...) *UINT64_C(0xc4ceb9fe1a85ec53);
+				return this->hash(std::forward<Args>(args)...);// *UINT64_C(0xc4ceb9fe1a85ec53);
 			}
 
 			auto max_load_factor() const noexcept -> float
@@ -1075,15 +1076,17 @@ namespace seq
 	/// the program memory consumption is given. Note that the memory consumption is not the exact memory usage of the hash table, and should only bu used
 	/// to measure the difference between implementations.
 	/// 
-	/// Hash table name                | Insert        | Insert (reserve) | Find (success)| Find (failed)  | Iterate     | Erase	     |  Find again |
-	/// -------------------------------|---------------|------------------|---------------|----------------|-------------|---------------|-------------|
-	/// seq::ordered_set               | 477 ms/145 MO |  302 ms/145 MO   |   282 ms      |    188 ms      |    6 ms     | 269 ms/210 MO |  166 ms     |
-	/// phmap::node_hash_set           | 926 ms/187 MO |  492 ms/188 MO   |   370 ms      |    130 ms      |    96 ms    | 501 ms/232 MO |  193 ms     |
-	/// robin_hood::unordered_node_set | 598 ms/182 MO |  448 ms/182 MO   |   394 ms      |    134 ms      |    87 ms    | 407 ms/259 MO |  212 ms     |
-	/// ska::unordered_set             | 1540 ms/256 MO|  728 ms/256 MO   |   300 ms      |    261 ms      |   141 ms    | 513 ms/268 MO |  204 ms     |
-	/// std::unordered_set             | 1844 ms/238 MO| 1148 ms/231 MO   |   751 ms      |    941 ms      |   205 ms    | 868 ms/245 MO |  509 ms     |
-	///  
-	/// seq::ordered_set is significantly faster than the other hash tables except for failed lookup, and has a lower memory overhead.
+	/// Hash table name               |       Insert       |  Insert(reserve)   |Find (success) | Find (failed) |    Iterate    |       Erase        |  Find again   |
+	/// ------------------------------|--------------------|--------------------|---------------|---------------|---------------|--------------------|---------------|
+	/// seq::ordered_set              |   461 ms/145 MO    |   310 ms/145 MO    |    321 ms     |    177 ms     |     5 ms      |   462 ms/222 MO    |    203 ms     |
+	/// phmap::node_hash_set          |   975 ms/188 MO    |   489 ms/187 MO    |    438 ms     |    132 ms     |     95 ms     |   732 ms/264 MO    |    250 ms     |
+	/// robin_hood::unordered_node_set|   583 ms/182 MO    |   242 ms/149 MO    |    341 ms     |    142 ms     |     83 ms     |   379 ms/258 MO    |    224 ms     |
+	/// ska::unordered_set            |   1545 ms/257 MO   |   774 ms/256 MO    |    324 ms     |    258 ms     |    128 ms     |   613 ms/333 MO    |    238 ms     |
+	/// boost::unordered_set          |   1708 ms/257 MO   |   901 ms/257 MO    |    571 ms     |    532 ms     |    262 ms     |   1073 ms/333 MO   |    405 ms     |
+	/// std::unordered_set            |   1830 ms/238 MO   |   1134 ms/232 MO   |    847 ms     |    878 ms     |    295 ms     |   1114 ms/315 MO   |    646 ms     |
+	///
+	/// This benchmark is available in file 'seq/benchs/bench_hash.hpp'.
+	/// seq::ordered_set is among the fastest hashtable for each operation except for failed lookup, and has a lower memory overhead.
 	/// Note that this benchmark does not represent all possible workloads, and additional tests must be fullfilled for specific scenarios.
 	/// 
 	/// seq::ordered_set uses internally and if possible compressed pointers to reduce its memory footprint. In such case, the last 16 bits of a pointer are used to store 

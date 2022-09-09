@@ -38,6 +38,21 @@ bool equal_seq(const Deq1& d1, const Deq2& d2)
 	return true;
 }
 
+template<class Deq>
+bool is_sorted(Deq& d)
+{
+	if (d.empty())
+		return true;
+	auto first = d.begin();
+	auto it = first; ++it;
+	for (; it != d.end(); ++it, ++first)
+	{
+		if (*it < *first)
+			return false;
+	}
+	return true;
+}
+
 struct WideType
 {
 	size_t data[16];
@@ -54,7 +69,7 @@ bool operator==(const size_t& a, WideType b) { return a == b.data[0]; }
 bool operator!=(const size_t& a, WideType b) { return a != b.data[0]; }
 
 
-template<class T>
+template<class T, seq::LayoutManagement lay>
 void test_sequence(int size = 50000000)
 {
 	const int count = size;
@@ -85,15 +100,17 @@ void test_sequence(int size = 50000000)
 			bf.push_back(v);
 		}
 
-		SEQ_TEST_ASSERT(equal_seq(ss,bs));
-		SEQ_TEST_ASSERT(equal_seq(sf, bf));
-		SEQ_TEST_ASSERT(equal_seq(ss, bf));
+		SEQ_TEST(equal_seq(ss,bs));
+		SEQ_TEST(equal_seq(sf, bf));
+		SEQ_TEST(equal_seq(ss, bf));
 
 		std::vector<size_t> erase_pos(c / 10);
 		for (size_t i = 0; i < erase_pos.size(); ++i) {
 			erase_pos[i] = i;
 		}
-		std::random_shuffle(erase_pos.begin(), erase_pos.end());
+		seq::random_shuffle(erase_pos.begin(), erase_pos.end());
+		seq::random_shuffle(erase_pos.begin(), erase_pos.end());
+		seq::random_shuffle(erase_pos.begin(), erase_pos.end());
 
 		//erase values
 		for (size_t i = 0; i < erase_pos.size(); ++i) {
@@ -102,36 +119,46 @@ void test_sequence(int size = 50000000)
 			bs.erase(bs.begin() + erase_pos[i]);
 			bf.erase(bf.begin() + erase_pos[i]);
 		}
-		SEQ_TEST_ASSERT(equal_seq(ss, bs));
-		SEQ_TEST_ASSERT(equal_seq(sf, bf));
-		SEQ_TEST_ASSERT(equal_seq(ss, bf));
+		SEQ_TEST(equal_seq(ss, bs));
+		SEQ_TEST(equal_seq(sf, bf));
+		SEQ_TEST(equal_seq(ss, bf));
 
+		//std::cout << "about to sort " << ss.size() << " values"<< std::endl;
 		//sort 
 		ss.sort();
+		//std::cout << "sorted1" << std::endl;
 		sf.sort();
+		//std::cout << "sorted2" << std::endl;
 		bs.sort();
+		//std::cout << "sorted3" << std::endl;
 		bf.sort();
+		//std::cout << "sorted4" << std::endl;
 
-		SEQ_TEST_ASSERT(equal_seq(ss, bs));
-		SEQ_TEST_ASSERT(equal_seq(sf, bf));
-		SEQ_TEST_ASSERT(equal_seq(ss, bf));
+		SEQ_TEST(is_sorted(ss));
+		SEQ_TEST(is_sorted(sf));
+		SEQ_TEST(is_sorted(bs));
+		SEQ_TEST(is_sorted(bf));
+
+		SEQ_TEST(equal_seq(ss, bs));
+		SEQ_TEST(equal_seq(sf, bf));
+		SEQ_TEST(equal_seq(ss, bf));
 	}
 	
 
 	typedef T type;
 	std::vector<type> vec;
-	typedef tiered_vector<type, std::allocator<T>, OptimizeForSpeed > deque_type;
+	typedef tiered_vector<type, std::allocator<T>, lay > deque_type;
 	deque_type deq;
-	typedef sequence<type , std::allocator<type>, OptimizeForSpeed> sequence_type;
+	typedef sequence<type , std::allocator<type>, lay> sequence_type;
 	sequence_type seq;
 
-	SEQ_TEST_ASSERT(seq.begin() == seq.end());
-	SEQ_TEST_ASSERT(seq.size() == 0);
+	SEQ_TEST(seq.begin() == seq.end());
+	SEQ_TEST(seq.size() == 0);
 	
 	seq.resize(10);
-	SEQ_TEST_ASSERT(seq.size() == 10);
+	SEQ_TEST(seq.size() == 10);
 	seq.clear();
-	SEQ_TEST_ASSERT(seq.size() == 0 && !seq.data());
+	SEQ_TEST(seq.size() == 0 && !seq.data());
 
 	// Test push_back
 
@@ -146,19 +173,19 @@ void test_sequence(int size = 50000000)
 		seq.push_back(i);
 
 
-	SEQ_TEST_ASSERT( equal_seq(deq, seq) )
+	SEQ_TEST( equal_seq(deq, seq) )
 
 	// Test resize lower
 	deq.resize(deq.size() / 10);
 	seq.resize(seq.size() / 10);
 		
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test resize upper
 	deq.resize(count, 0);
 	seq.resize(count, 0);
 		
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 
 	size_t i = 0; 
@@ -172,23 +199,23 @@ void test_sequence(int size = 50000000)
 	deq.resize_front(deq.size() / 10);
 	seq.resize_front(seq.size() / 10);
 
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test resize front upper
 	deq.resize_front(count, 0);
 	seq.resize_front(count, 0);
 		
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 	{
 		// Test copy construct
 		deque_type d2 = deq;
 		sequence_type dd2 = seq;
 
-		SEQ_TEST_ASSERT(equal_seq(d2, dd2));
+		SEQ_TEST(equal_seq(d2, dd2));
 	}
 
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 
 
@@ -204,12 +231,12 @@ void test_sequence(int size = 50000000)
 			}
 		}
 			
-		SEQ_TEST_ASSERT(equal_seq(deq, seq));
+		SEQ_TEST(equal_seq(deq, seq));
 
 		// Test erase range left side
 		deq.erase(deq.begin() + deq.size() / 4, deq.begin() + deq.size() / 2);
 		seq.erase(seq.begin() + seq.size() / 4, seq.begin() + seq.size() / 2);
-		SEQ_TEST_ASSERT(equal_seq(deq, seq));
+		SEQ_TEST(equal_seq(deq, seq));
 
 		deq.resize(count, 0);
 		seq.resize(count, 0);
@@ -217,7 +244,7 @@ void test_sequence(int size = 50000000)
 		// Test erase range right side
 		deq.erase(deq.begin() + deq.size() / 2, deq.begin() + deq.size() * 3 / 4);
 		seq.erase(seq.begin() + seq.size() / 2, seq.begin() + seq.size() * 3 / 4);
-		SEQ_TEST_ASSERT(equal_seq(deq, seq));
+		SEQ_TEST(equal_seq(deq, seq));
 	}
 
 	{
@@ -228,7 +255,7 @@ void test_sequence(int size = 50000000)
 		deq.assign(vec.begin(), vec.end());
 		seq.assign(vec.begin(), vec.end());
 			
-		SEQ_TEST_ASSERT(equal_seq(deq, seq));
+		SEQ_TEST(equal_seq(deq, seq));
 
 		deq.resize(vec.size() * 2, 0);
 		seq.resize(vec.size() * 2, 0);
@@ -237,7 +264,7 @@ void test_sequence(int size = 50000000)
 		deq.assign(vec.begin(), vec.end());
 		seq.assign(vec.begin(), vec.end());
 			
-		SEQ_TEST_ASSERT(equal_seq(deq, seq));
+		SEQ_TEST(equal_seq(deq, seq));
 	}
 	{
 		std::list<type> lst;
@@ -251,7 +278,7 @@ void test_sequence(int size = 50000000)
 		deq.assign(lst.begin(), lst.end());
 		seq.assign(lst.begin(), lst.end());
 			
-		SEQ_TEST_ASSERT(equal_seq(deq, seq));
+		SEQ_TEST(equal_seq(deq, seq));
 		deq.resize(lst.size() * 2, 0);
 		seq.resize(lst.size() * 2, 0);
 
@@ -259,17 +286,17 @@ void test_sequence(int size = 50000000)
 		deq.assign(lst.begin(), lst.end());
 		seq.assign(lst.begin(), lst.end());
 			
-		SEQ_TEST_ASSERT(equal_seq(deq, seq));
+		SEQ_TEST(equal_seq(deq, seq));
 	}
 
 	deq.resize(count, 0);
 	seq.resize(count, 0);
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test shrink_to_fit
 	seq.shrink_to_fit();
 
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 	//fill again, backward
 	{
@@ -283,19 +310,19 @@ void test_sequence(int size = 50000000)
 		}
 	}
 
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test pop_back
 	while (deq.size() > 25)
 		deq.pop_back();
 	while (seq.size() > 25)
 		seq.pop_back();
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 	deq.resize(count, 0);
 	seq.resize(count, 0);
 
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 	//fill again, backward
 	{
@@ -311,14 +338,14 @@ void test_sequence(int size = 50000000)
 
 
 
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test pop_front
 	while (deq.size() > 25) 
 		deq.pop_front();
 	while (seq.size() > 25)
 		seq.pop_front();
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 
 		
@@ -345,7 +372,7 @@ void test_sequence(int size = 50000000)
 			if (pos == (int)d.size()) --pos;
 			dd.erase(dd.begin() + pos);
 			d.erase(d.begin() + pos);
-			SEQ_TEST_ASSERT(equal_seq(d, dd));
+			SEQ_TEST(equal_seq(d, dd));
 		}
 	}
 
@@ -368,7 +395,7 @@ void test_sequence(int size = 50000000)
 		}
 	}
 
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 	
 
@@ -378,7 +405,7 @@ void test_sequence(int size = 50000000)
 	vec.resize(count);
 	for (int i = 0; i < (int)vec.size(); ++i)
 		vec[i] = i;
-	std::random_shuffle(vec.begin(), vec.end());
+	seq::random_shuffle(vec.begin(), vec.end());
 	{
 		auto itd = deq.begin();
 		auto its = seq.begin();
@@ -405,7 +432,7 @@ void test_sequence(int size = 50000000)
 		tmp = seq.erase(seq.iterator_at(ran_pos[i]));
 	}
 	
-	SEQ_TEST_ASSERT(equal_seq(deq, seq));
+	SEQ_TEST(equal_seq(deq, seq));
 
 
 
@@ -426,11 +453,11 @@ void test_sequence(int size = 50000000)
 
 	sequence_type seq2 = std::move(seq);
 	deque_type deq2 = std::move(deq);
-	SEQ_TEST_ASSERT(equal_seq(deq2, seq2) && seq2.size() > 0 && seq.size() == 0 && deq.size() == 0);
+	SEQ_TEST(equal_seq(deq2, seq2) && seq2.size() > 0 && seq.size() == 0 && deq.size() == 0);
 
 	deq = std::move(deq2);
 	seq = std::move(seq2);
-	SEQ_TEST_ASSERT(equal_seq(deq, seq) && seq.size() > 0 && seq2.size() == 0 && deq2.size() == 0);
+	SEQ_TEST(equal_seq(deq, seq) && seq.size() > 0 && seq2.size() == 0 && deq2.size() == 0);
 }
 
 
