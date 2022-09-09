@@ -29,10 +29,12 @@ endif()
 target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 #target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/mimalloc/include)
 
-IF (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+if (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 	# mingw
 	target_link_options(seq_tests PRIVATE -lKernel32 -lpsapi -lBcrypt)
-ENDIF()
+elseif(UNIX AND (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"))
+    target_compile_options(seq_tests PRIVATE  -lpthread )
+endif()
 
 # seq library
 add_subdirectory(../ ${CMAKE_CURRENT_BINARY_DIR}/seq)
