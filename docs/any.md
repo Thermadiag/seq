@@ -17,7 +17,7 @@ The seq library provides the following aliases:
 -	Support for comparison operators <, <=, >, >=, == and !=
 -	Support for standard stream operators to/from std::ostream/std::istream
 -	`hold_any` is hashable based on std::hash
--	`hold_any` can be formatted using the [format](docs/format.md) module of seq library
+-	`hold_any` can be formatted using the [format](format.md) module of seq library
 -	`hold_any` interface can be extended
 
 `hold_any` is very similar to boost.TypeErasure or folly.Poly, but its default implementation provides more features in order to be used within most containers (sorted containers, hash tables,...).
