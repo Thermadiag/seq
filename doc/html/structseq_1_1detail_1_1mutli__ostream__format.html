@@ -100,6 +100,10 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1mutli__ostream_
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:a69eb70fe7c4c97d43bf59cfd9e55513e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#a69eb70fe7c4c97d43bf59cfd9e55513e">base_type</a> = <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">base_mutli_ostream_format</a>&lt; <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a>&lt; Tuple, Pos &gt; &gt;</td></tr>
+<tr class="separator:a69eb70fe7c4c97d43bf59cfd9e55513e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac44c95a7e95bec1683a7873ea1313938"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#ac44c95a7e95bec1683a7873ea1313938">this_type</a> = <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a>&lt; Tuple, Pos &gt;</td></tr>
+<tr class="separator:ac44c95a7e95bec1683a7873ea1313938"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafda152b4de60889c87d1bc27e1a8c16"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#aafda152b4de60889c87d1bc27e1a8c16">tuple_type</a> = Tuple</td></tr>
 <tr class="separator:aafda152b4de60889c87d1bc27e1a8c16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -107,15 +111,21 @@ Public Types</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae489beca64a7366e376b4a61d6c415ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#ae489beca64a7366e376b4a61d6c415ea">mutli_ostream_format</a> ()</td></tr>
 <tr class="separator:ae489beca64a7366e376b4a61d6c415ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f9712be5338b47eb51d356e94f3c003"><td class="memTemplParams" colspan="2">template&lt;class ... Args&gt; </td></tr>
-<tr class="memitem:a2f9712be5338b47eb51d356e94f3c003"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#a2f9712be5338b47eb51d356e94f3c003">mutli_ostream_format</a> (Args &amp;&amp;... args)</td></tr>
-<tr class="separator:a2f9712be5338b47eb51d356e94f3c003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4023ee890f6dd5f6743e6014a5df1c3e"><td class="memTemplParams" colspan="2">template&lt;class ... Args, class  = typename std::enable_if&lt;((sizeof...(Args)) &gt; 1),void&gt;::type&gt; </td></tr>
+<tr class="memitem:a4023ee890f6dd5f6743e6014a5df1c3e"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#a4023ee890f6dd5f6743e6014a5df1c3e">mutli_ostream_format</a> (Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a4023ee890f6dd5f6743e6014a5df1c3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58d6eb4b6194f05b1114aaf526216bc8"><td class="memTemplParams" colspan="2">template&lt;class ... Args&gt; </td></tr>
 <tr class="memitem:a58d6eb4b6194f05b1114aaf526216bc8"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#a58d6eb4b6194f05b1114aaf526216bc8">operator()</a> (Args &amp;&amp;... args) -&gt; <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a> &amp;</td></tr>
 <tr class="separator:a58d6eb4b6194f05b1114aaf526216bc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8eac61da78532add496e784f2503053d"><td class="memTemplParams" colspan="2">template&lt;size_t ... T, class ... Args&gt; </td></tr>
 <tr class="memitem:a8eac61da78532add496e784f2503053d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#a8eac61da78532add496e784f2503053d">operator()</a> (<a class="el" href="structseq_1_1detail_1_1_positional.html">Positional</a>&lt; T... &gt;, Args &amp;&amp;... args) -&gt; <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a> &amp;</td></tr>
 <tr class="separator:a8eac61da78532add496e784f2503053d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a678453d1cb89e5062877330f16c61fc0"><td class="memTemplParams" colspan="2">template&lt;size_t ... T, class TT , class PP &gt; </td></tr>
+<tr class="memitem:a678453d1cb89e5062877330f16c61fc0"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#a678453d1cb89e5062877330f16c61fc0">operator()</a> (<a class="el" href="structseq_1_1detail_1_1_positional.html">Positional</a>&lt; T... &gt;, const <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a>&lt; TT, PP &gt; &amp;o) -&gt; <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a> &amp;</td></tr>
+<tr class="separator:a678453d1cb89e5062877330f16c61fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30b9559f8632ac3bc73df35dc77f553a"><td class="memTemplParams" colspan="2">template&lt;class T , class P &gt; </td></tr>
+<tr class="memitem:a30b9559f8632ac3bc73df35dc77f553a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#a30b9559f8632ac3bc73df35dc77f553a">operator()</a> (const <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, P &gt; &amp;o) -&gt; <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a> &amp;</td></tr>
+<tr class="separator:a30b9559f8632ac3bc73df35dc77f553a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39b9679350f1b32ec6f5b586bb02d6d3"><td class="memTemplParams" colspan="2">template&lt;size_t N, class T &gt; </td></tr>
 <tr class="memitem:a39b9679350f1b32ec6f5b586bb02d6d3"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#a39b9679350f1b32ec6f5b586bb02d6d3">set</a> (const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;value)</td></tr>
 <tr class="separator:a39b9679350f1b32ec6f5b586bb02d6d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,6 +169,38 @@ struct seq::detail::mutli_ostream_format&lt; Tuple, Pos &gt;</h3>
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a69eb70fe7c4c97d43bf59cfd9e55513e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69eb70fe7c4c97d43bf59cfd9e55513e">&#9670;&nbsp;</a></span>base_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Pos  = void&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">seq::detail::mutli_ostream_format</a>&lt; Tuple, Pos &gt;::<a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#a69eb70fe7c4c97d43bf59cfd9e55513e">base_type</a> =  <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">base_mutli_ostream_format</a>&lt;<a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a>&lt;Tuple, Pos&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac44c95a7e95bec1683a7873ea1313938"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac44c95a7e95bec1683a7873ea1313938">&#9670;&nbsp;</a></span>this_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Pos  = void&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">seq::detail::mutli_ostream_format</a>&lt; Tuple, Pos &gt;::<a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#ac44c95a7e95bec1683a7873ea1313938">this_type</a> =  <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a>&lt;Tuple, Pos&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aafda152b4de60889c87d1bc27e1a8c16"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aafda152b4de60889c87d1bc27e1a8c16">&#9670;&nbsp;</a></span>tuple_type</h2>
 
@@ -203,15 +245,15 @@ template&lt;class Tuple , class Pos  = void&gt; </div>
 
 </div>
 </div>
-<a id="a2f9712be5338b47eb51d356e94f3c003"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f9712be5338b47eb51d356e94f3c003">&#9670;&nbsp;</a></span>mutli_ostream_format() <span class="overload">[2/2]</span></h2>
+<a id="a4023ee890f6dd5f6743e6014a5df1c3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4023ee890f6dd5f6743e6014a5df1c3e">&#9670;&nbsp;</a></span>mutli_ostream_format() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class Tuple , class Pos  = void&gt; </div>
 <div class="memtemplate">
-template&lt;class ... Args&gt; </div>
+template&lt;class ... Args, class  = typename std::enable_if&lt;((sizeof...(Args)) &gt; 1),void&gt;::type&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -380,7 +422,7 @@ template&lt;size_t S, class Al &gt; </div>
 </div>
 </div>
 <a id="a58d6eb4b6194f05b1114aaf526216bc8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58d6eb4b6194f05b1114aaf526216bc8">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a58d6eb4b6194f05b1114aaf526216bc8">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -410,8 +452,39 @@ template&lt;class ... Args&gt; </div>
 
 </div>
 </div>
+<a id="a30b9559f8632ac3bc73df35dc77f553a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30b9559f8632ac3bc73df35dc77f553a">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Pos  = void&gt; </div>
+<div class="memtemplate">
+template&lt;class T , class P &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">seq::detail::mutli_ostream_format</a>&lt; Tuple, Pos &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, P &gt; &amp;&#160;</td>
+          <td class="paramname"><em>o</em></td><td>)</td>
+          <td> -&gt; <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a>&amp;
+			</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a8eac61da78532add496e784f2503053d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8eac61da78532add496e784f2503053d">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8eac61da78532add496e784f2503053d">&#9670;&nbsp;</a></span>operator()() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -434,6 +507,47 @@ template&lt;size_t ... T, class ... Args&gt; </div>
           <td></td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a>&amp;
+			</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a678453d1cb89e5062877330f16c61fc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a678453d1cb89e5062877330f16c61fc0">&#9670;&nbsp;</a></span>operator()() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Pos  = void&gt; </div>
+<div class="memtemplate">
+template&lt;size_t ... T, class TT , class PP &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">seq::detail::mutli_ostream_format</a>&lt; Tuple, Pos &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_positional.html">Positional</a>&lt; T... &gt;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">mutli_ostream_format</a>&lt; TT, PP &gt; &amp;&#160;</td>
+          <td class="paramname"><em>o</em>&#160;</td>
         </tr>
         <tr>
           <td></td>

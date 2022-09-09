@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="title">Seq library: original STL-like containers and container related tools </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h2><a class="anchor" id="autotoc_md40"></a>
+<div class="textblock"><h2><a class="anchor" id="autotoc_md41"></a>
 Purpose</h2>
 <p>Seq library is a collection of C++11 STL-like containers and related tools optimized for speed and/or memory usage.</p>
 <p>Seq library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) <code>std</code>. Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.</p>
@@ -104,7 +104,7 @@ Purpose</h2>
 <li>...</li>
 </ul>
 <p>Some of my concerns were already takled by external libraries. For instance, I use <a href="https://github.com/greg7mdp/parallel-hashmap">phmap::flat_hash_set/map</a> (based on <a href="https://github.com/abseil/abseil-cpp">absl::flat_hash_map</a>) when I need a fast hash map with low memory overhead (and when iterators/references stability is not a concern). I started working on the seq libraries for the other points.</p>
-<h2><a class="anchor" id="autotoc_md41"></a>
+<h2><a class="anchor" id="autotoc_md42"></a>
 Content</h2>
 <p>The library is divided in 7 small modules:</p><ul>
 <li><a class="el" href="group__bits.html">bits</a>: low-level bits manipulation utilities</li>
@@ -116,16 +116,16 @@ Content</h2>
 <li><a class="el" href="group__any.html">any</a>: type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.</li>
 </ul>
 <p>seq library is header-only and self-dependent. A cmake project is provided for installation and compilation of tests.</p>
-<h2><a class="anchor" id="autotoc_md42"></a>
+<h2><a class="anchor" id="autotoc_md43"></a>
 Why C++11 ?</h2>
 <p>For now the seq library is developped and maintained in order to remain compatible with C++11 only compilers. While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11.</p>
-<h2><a class="anchor" id="autotoc_md43"></a>
+<h2><a class="anchor" id="autotoc_md44"></a>
 Design</h2>
 <p>Seq library is a small collection of header only and self dependant components. There is no restriction on internal dependencies, and a seq component can use any number of other components. For instance, almost all modules rely on the <a class="el" href="group__bits.html">bits</a> one.</p>
 <p>All classes and functions are defined in the <code>seq</code> namespace, and names are lower case with underscore separators, much like the STL. Macro names are upper case and start with the <code>SEQ_</code> prefix.</p>
 <p>The directory structure is flat and use the "stuttering" scheme <code>seq/seq</code> used by many other libraries like boost. Including a file as the following syntax: <code>#include &lt;<a class="el" href="tiered__vector_8hpp.html">seq/tiered_vector.hpp</a>&gt;</code></p>
 <p>The <code>seq/seq/test</code> subdirectory includes tests for all components, usually named <code>test_modulename.hpp</code>, with a unique <code>main.cpp</code>. The <code>seq/seq/docs</code> directory contains documentation using markdown format, and the <code>seq/seq/doc</code> directory contains the html documentation generated with doxygen.</p>
-<h2><a class="anchor" id="autotoc_md44"></a>
+<h2><a class="anchor" id="autotoc_md45"></a>
 Build</h2>
 <p>The seq library is header only and does not need to be built. However, a cmake file is provided for installation. Tests can be built using cmake from the <code>tests</code> folder. </p>
 </div></div><!-- PageDoc -->

@@ -1,11 +1,11 @@
 var modules =
 [
     [ "Any: type-erasing polymorphic object wrapper used to build heterogeneous containers", "group__any.html", [
-      [ "Purpose", "index.html#autotoc_md40", null ],
-      [ "Content", "index.html#autotoc_md41", null ],
-      [ "Why C++11 ?", "index.html#autotoc_md42", null ],
-      [ "Design", "index.html#autotoc_md43", null ],
-      [ "Build", "index.html#autotoc_md44", null ]
+      [ "Purpose", "index.html#autotoc_md41", null ],
+      [ "Content", "index.html#autotoc_md42", null ],
+      [ "Why C++11 ?", "index.html#autotoc_md43", null ],
+      [ "Design", "index.html#autotoc_md44", null ],
+      [ "Build", "index.html#autotoc_md45", null ]
     ] ],
     [ "Bits: collection of functions for low level bits manipulation.", "group__bits.html", "group__bits" ],
     [ "Charconv: arithmetic value convertion from/to string", "group__charconv.html", "group__charconv" ],

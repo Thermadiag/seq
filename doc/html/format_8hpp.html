@@ -105,6 +105,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1null__format.html">seq::null_format</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Placehoder when reusing a formatting object.  <a href="structseq_1_1null__format.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number and string formatting class.  <a href="classseq_1_1ostream__format.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1width__format.html">seq::width_format</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing the width formatting for a any formatting object.  <a href="structseq_1_1width__format.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,6 +122,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hold a value (basic type) or a const pointer (complex types)  <a href="structseq_1_1detail_1_1_value_holder.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_value_holder_3_01_t_00_01false_01_4.html">seq::detail::ValueHolder&lt; T, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_value_holder_3_01ostream__format_3_01_t_01_4_00_01false_01_4.html">seq::detail::ValueHolder&lt; ostream_format&lt; T &gt;, false &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1numeric__format.html">seq::numeric_format</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formatting options for arithmetic types.  <a href="classseq_1_1numeric__format.html#details">More...</a><br /></td></tr>
@@ -150,12 +155,6 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_format_wrapper_3_01_t_01_6_01_4.html">seq::detail::FormatWrapper&lt; T &amp; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_format_wrapper_3_01ostream__format_3_01_t_01_4_01_4.html">seq::detail::FormatWrapper&lt; ostream_format&lt; T &gt; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_format_wrapper_3_01const_01ostream__format_3_01_t_01_4_01_6_01_4.html">seq::detail::FormatWrapper&lt; const ostream_format&lt; T &gt; &amp; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_format_wrapper_3_01ostream__format_3_01_t_01_4_01_6_01_4.html">seq::detail::FormatWrapper&lt; ostream_format&lt; T &gt; &amp; &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_format_wrapper_3_01char_01_5_01_4.html">seq::detail::FormatWrapper&lt; char * &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_format_wrapper_3_01const_01char_01_5_01_4.html">seq::detail::FormatWrapper&lt; const char * &gt;</a></td></tr>
@@ -169,6 +168,15 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_format_wrapper_3_01const_01char_0f_n_0e_01_4.html">seq::detail::FormatWrapper&lt; const char[N] &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_format_wrapper_3_01char_01const_07_6_08_0f_n_0e_01_4.html">seq::detail::FormatWrapper&lt; char const(&amp;)[N] &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">seq::detail::mutli_ostream_format&lt; Tuple, Pos &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formatting class for multiple values, returned by seq::fmt(... , ...).  <a href="structseq_1_1detail_1_1mutli__ostream__format.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_format_wrapper_3_01mutli__ostream__format_3_01_tuple_00_01_pos_01_4_01_4.html">seq::detail::FormatWrapper&lt; mutli_ostream_format&lt; Tuple, Pos &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1remove__ostream__format.html">seq::detail::remove_ostream_format&lt; T &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1remove__ostream__format_3_01ostream__format_3_01_t_01_4_01_4.html">seq::detail::remove_ostream_format&lt; ostream_format&lt; T &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1apply__wrapper.html">seq::detail::apply_wrapper&lt; Element &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,6 +199,11 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_affect_values_3_01_tuple_00_010_01_4.html">seq::detail::AffectValues&lt; Tuple, 0 &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_affect_values_from_tuple.html">seq::detail::AffectValuesFromTuple&lt; Tuple, SrcTuple, N &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affect new values (taken from another tuple) to all members of a tuple of <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> objects.  <a href="structseq_1_1detail_1_1_affect_values_from_tuple.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_affect_values_from_tuple_3_01_tuple_00_01_src_tuple_00_010_01_4.html">seq::detail::AffectValuesFromTuple&lt; Tuple, SrcTuple, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_get_p.html">seq::detail::GetP&lt; N, T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_get_p_3_01_n_00_01_t1_00_01_ts_8_8_8_01_4.html">seq::detail::GetP&lt; N, T1, Ts... &gt;</a></td></tr>
@@ -206,6 +219,13 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affect new values to all members of a tuple of <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> objects. Use a <a class="el" href="structseq_1_1detail_1_1_positional.html" title="Positinal type returned by seq::pos() function.">Positional</a> object to only updated some members of the tuple.  <a href="structseq_1_1detail_1_1_affect_values_with_pos.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_affect_values_with_pos_3_01_pos_00_01_tuple_00_010_01_4.html">seq::detail::AffectValuesWithPos&lt; Pos, Tuple, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_affect_values_with_pos_from_tuple.html">seq::detail::AffectValuesWithPosFromTuple&lt; Pos, Tuple, SrcTuple, N &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="structseq_1_1detail_1_1_affect_values_with_pos.html" title="Affect new values to all members of a tuple of ostream_format objects. Use a Positional object to onl...">AffectValuesWithPos</a>, but takes input values from a tuple.  <a href="structseq_1_1detail_1_1_affect_values_with_pos_from_tuple.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_affect_values_with_pos_from_tuple_3_01_pos_00_01_tuple_00_01_src_tuple_00_010_01_4.html">seq::detail::AffectValuesWithPosFromTuple&lt; Pos, Tuple, SrcTuple, 0 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format&lt; Derived &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">seq::detail::mutli_ostream_format&lt; Tuple, Pos &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formatting class for multiple values, returned by seq::fmt(... , ...).  <a href="structseq_1_1detail_1_1mutli__ostream__format.html#details">More...</a><br /></td></tr>

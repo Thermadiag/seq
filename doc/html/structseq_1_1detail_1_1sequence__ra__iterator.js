@@ -13,7 +13,7 @@ var structseq_1_1detail_1_1sequence__ra__iterator =
     [ "sequence_ra_iterator", "structseq_1_1detail_1_1sequence__ra__iterator.html#a10f4c96002e04b9a79e5ff869a93b78d", null ],
     [ "absolutePos", "structseq_1_1detail_1_1sequence__ra__iterator.html#ab3cf2aac17ba92c46dcd9ea100e00b42", null ],
     [ "operator!=", "structseq_1_1detail_1_1sequence__ra__iterator.html#a61b92e6e8e334391d66fb3e62dff2e9c", null ],
-    [ "operator*", "structseq_1_1detail_1_1sequence__ra__iterator.html#a25af6e9c3e1f80104af4d20ae1cf4dea", null ],
+    [ "operator*", "structseq_1_1detail_1_1sequence__ra__iterator.html#ad6b897af0f289814349ca53e2abeecad", null ],
     [ "operator+", "structseq_1_1detail_1_1sequence__ra__iterator.html#a3db436d41ebdb1e351178bb406a3ce22", null ],
     [ "operator++", "structseq_1_1detail_1_1sequence__ra__iterator.html#a6db25540957ff73bdd6c8a02899fb4e1", null ],
     [ "operator++", "structseq_1_1detail_1_1sequence__ra__iterator.html#ae61d90de9bb7b96a262b446326f6fdc4", null ],

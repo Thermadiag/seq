@@ -232,12 +232,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0de10add989f928d4bbd3ed9f3480eda"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1base__ostream__format.html#a0de10add989f928d4bbd3ed9f3480eda">operator()</a> (const T &amp;v) -&gt; Derived &amp;</td></tr>
 <tr class="memdesc:a0de10add989f928d4bbd3ed9f3480eda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy v to this <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a>.  <a href="structseq_1_1base__ostream__format.html#a0de10add989f928d4bbd3ed9f3480eda">More...</a><br /></td></tr>
 <tr class="separator:a0de10add989f928d4bbd3ed9f3480eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38e6b11c440c2b9cf1ccdaf57dd24ede"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
+<tr class="memitem:a38e6b11c440c2b9cf1ccdaf57dd24ede"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1base__ostream__format.html#a38e6b11c440c2b9cf1ccdaf57dd24ede">operator()</a> (const U &amp;v) -&gt; Derived &amp;</td></tr>
+<tr class="separator:a38e6b11c440c2b9cf1ccdaf57dd24ede"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47881bdf7f7e19305fd88cd8c7a63aae"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1base__ostream__format.html#a47881bdf7f7e19305fd88cd8c7a63aae">operator()</a> (const <a class="el" href="structseq_1_1null__format.html">null_format</a> &amp;) -&gt; Derived &amp;</td></tr>
 <tr class="memdesc:a47881bdf7f7e19305fd88cd8c7a63aae"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator() using placeholder object, no-op  <a href="structseq_1_1base__ostream__format.html#a47881bdf7f7e19305fd88cd8c7a63aae">More...</a><br /></td></tr>
 <tr class="separator:a47881bdf7f7e19305fd88cd8c7a63aae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4cfd6c2fe8b7dca7e0b64b25324007a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1base__ostream__format.html#ac4cfd6c2fe8b7dca7e0b64b25324007a">operator()</a> (const Derived &amp;other) -&gt; Derived &amp;</td></tr>
 <tr class="memdesc:ac4cfd6c2fe8b7dca7e0b64b25324007a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to dervied() = other.  <a href="structseq_1_1base__ostream__format.html#ac4cfd6c2fe8b7dca7e0b64b25324007a">More...</a><br /></td></tr>
 <tr class="separator:ac4cfd6c2fe8b7dca7e0b64b25324007a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23d20f61d08fa446a87624eda1bc4f1a"><td class="memTemplParams" colspan="2">template&lt;class U , class D &gt; </td></tr>
+<tr class="memitem:a23d20f61d08fa446a87624eda1bc4f1a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1base__ostream__format.html#a23d20f61d08fa446a87624eda1bc4f1a">operator()</a> (const <a class="el" href="structseq_1_1base__ostream__format.html">base_ostream_format</a>&lt; U, D &gt; &amp;other) -&gt; Derived &amp;</td></tr>
+<tr class="separator:a23d20f61d08fa446a87624eda1bc4f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7fb3b47b0b57ffcbcdbbcfd9174b4fc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1base__ostream__format.html#ab7fb3b47b0b57ffcbcdbbcfd9174b4fc">operator std::string</a> () const</td></tr>
 <tr class="memdesc:ab7fb3b47b0b57ffcbcdbbcfd9174b4fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion operator to std::string.  <a href="structseq_1_1base__ostream__format.html#ab7fb3b47b0b57ffcbcdbbcfd9174b4fc">More...</a><br /></td></tr>
 <tr class="separator:ab7fb3b47b0b57ffcbcdbbcfd9174b4fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1298,8 +1304,38 @@ template&lt;size_t Ss, class Al &gt; </div>
 
 </div>
 </div>
+<a id="a23d20f61d08fa446a87624eda1bc4f1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23d20f61d08fa446a87624eda1bc4f1a">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , class Derived &gt; </div>
+<div class="memtemplate">
+template&lt;class U , class D &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1base__ostream__format.html">seq::base_ostream_format</a>&lt; T, Derived &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structseq_1_1base__ostream__format.html">base_ostream_format</a>&lt; U, D &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> -&gt; Derived&amp; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ac4cfd6c2fe8b7dca7e0b64b25324007a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4cfd6c2fe8b7dca7e0b64b25324007a">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4cfd6c2fe8b7dca7e0b64b25324007a">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1329,7 +1365,7 @@ template&lt;class T , class Derived &gt; </div>
 </div>
 </div>
 <a id="a47881bdf7f7e19305fd88cd8c7a63aae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47881bdf7f7e19305fd88cd8c7a63aae">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a47881bdf7f7e19305fd88cd8c7a63aae">&#9670;&nbsp;</a></span>operator()() <span class="overload">[3/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1359,7 +1395,7 @@ template&lt;class T , class Derived &gt; </div>
 </div>
 </div>
 <a id="a0de10add989f928d4bbd3ed9f3480eda"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0de10add989f928d4bbd3ed9f3480eda">&#9670;&nbsp;</a></span>operator()() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0de10add989f928d4bbd3ed9f3480eda">&#9670;&nbsp;</a></span>operator()() <span class="overload">[4/5]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1392,6 +1428,36 @@ template&lt;class T , class Derived &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>reference to *this </dd></dl>
+
+</div>
+</div>
+<a id="a38e6b11c440c2b9cf1ccdaf57dd24ede"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38e6b11c440c2b9cf1ccdaf57dd24ede">&#9670;&nbsp;</a></span>operator()() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , class Derived &gt; </div>
+<div class="memtemplate">
+template&lt;class U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1base__ostream__format.html">seq::base_ostream_format</a>&lt; T, Derived &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const U &amp;&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td> -&gt; Derived&amp; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

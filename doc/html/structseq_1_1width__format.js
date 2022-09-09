@@ -9,6 +9,7 @@ var structseq_1_1width__format =
     [ "width_format", "structseq_1_1width__format.html#acc48ee0209c637be169115e1269f4e31", null ],
     [ "center", "structseq_1_1width__format.html#a0b886227383fad795ad283559c874586", null ],
     [ "fill", "structseq_1_1width__format.html#a4e884b73f1212b0e4ec184d7507637b1", null ],
+    [ "has_format", "structseq_1_1width__format.html#ac599cd72091abcc3461dba957cdb263e", null ],
     [ "left", "structseq_1_1width__format.html#a03f58cbd2913ca5b3d01e56412ac3119", null ],
     [ "reset", "structseq_1_1width__format.html#ae642fb41df4363ee71c5e9e600dff73a", null ],
     [ "right", "structseq_1_1width__format.html#a54269d87eebe8215e520b0dc1a13bf07", null ],

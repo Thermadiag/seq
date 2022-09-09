@@ -228,6 +228,24 @@ Formatting several values</h2>
 <div class="line"> </div>
 <div class="line">std::cout &lt;&lt; std::endl;</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md20"></a>
+Nested formatting</h2>
+<p>Nested formatting occurs when using <em>fmt</em> calls within other <em>fmt</em> calls. The complexity comes from the argument replacement when using formatting objects as functors. The following example shows how to use nested <em>fmt</em> calls with multiple arguments and argument replacement:</p>
+<div class="fragment"><div class="line"><span class="comment">// Build a formatting functor used to display 2 couples animal/species</span></div>
+<div class="line"><span class="keyword">auto</span> <a class="code" href="namespaceseq_1_1detail.html#a76fa776653402382e316c7b6715856af">f</a> = <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(</div>
+<div class="line">        pos&lt;1,3&gt;(), <span class="comment">//we can modifies positions 1 and 3 (the 2 couples animal/species)</span></div>
+<div class="line">        <span class="stringliteral">&quot;We have 2 couples:\nAnimal/Species: &quot;</span>,</div>
+<div class="line">        <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(pos&lt;0,2&gt;(),<span class="stringliteral">&quot;&quot;</span>,<span class="stringliteral">&quot;/&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).c(20),    <span class="comment">//A couple Animal/Species centered on a 20 characters width string</span></div>
+<div class="line">        <span class="stringliteral">&quot;\nAnimal/Species: &quot;</span>,</div>
+<div class="line">        <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(pos&lt;0,2&gt;(),<span class="stringliteral">&quot;&quot;</span>,<span class="stringliteral">&quot;/&quot;</span>,<span class="stringliteral">&quot;&quot;</span>).c(20)     <span class="comment">//Another couple Animal/Species centered on a 20 characters width string</span></div>
+<div class="line">    );</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Use this functor with custom values.</span></div>
+<div class="line"><span class="comment">// fmt calls are used to replace arguments in a multi-formatting object</span></div>
+<div class="line">    std::cout &lt;&lt; <a class="code" href="namespaceseq_1_1detail.html#a76fa776653402382e316c7b6715856af">f</a>(</div>
+<div class="line">        <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(<span class="stringliteral">&quot;Tiger&quot;</span>, <span class="stringliteral">&quot;P. tigris&quot;</span>),</div>
+<div class="line">        <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(<span class="stringliteral">&quot;Panda&quot;</span>, <span class="stringliteral">&quot;A. melanoleuca&quot;</span>)</div>
+<div class="line">    ) &lt;&lt; std::endl;</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md21"></a>
 Formatting to string or buffer</h2>
 <p>A formatting object can be:</p><ul>
 <li>Printed to a std::ostream object</li>
@@ -257,10 +275,10 @@ Formatting to string or buffer</h2>
 <div class="line"><span class="keywordtype">char</span> dst2[100];</div>
 <div class="line">*<a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a>(1.123456789,<span class="charliteral">&#39;g&#39;</span>).to_chars(dst2, <span class="keyword">sizeof</span>(dst2)).first = 0;</div>
 <div class="line">std::cout&lt;&lt; dst2 &lt;&lt; std::endl;</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md21"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md22"></a>
 Using std::to_chars</h2>
 <p>It is possible to use std::to_chars instead of <a class="el" href="namespaceseq.html#a9e1cfb2de75c85497d57702430705b1c" title="Converts value into a character string by successively filling the range [first, last),...">seq::to_chars</a> within the format module, mostly when exact round-trip guarantee is mandatory. For that, you must define SEQ_FORMAT_USE_STD_TO_CHARS and enable C++17. If C++17 is not supported by the compiler, the format module will always fallback to <a class="el" href="namespaceseq.html#a9e1cfb2de75c85497d57702430705b1c" title="Converts value into a character string by successively filling the range [first, last),...">seq::to_chars</a>.</p>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 Working with custom types</h2>
 <p>By default, the format library supports arithmetic types and string types. Not that std::string, <a class="el" href="namespaceseq.html#a8d9a01a2c5a12df6d4baac1d1520d4b5" title="Base string typedef, similar to std::string. Equivalent to tiny_string&lt;0, std::allocator&lt;char&gt;&gt;.">seq::tstring</a> or const char* arguments are represented internally as string views (tstring_view class). The format module is extendible to custom types by 2 means:</p><ul>
 <li>If the type is streamable to std::ostream, it will directly work with <a class="el" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a> using internally a (slow) std::ostringstream.</li>
@@ -294,10 +312,10 @@ Working with custom types</h2>
 <div class="line"> </div>
 <div class="line">            out.append(<span class="stringliteral">&quot;(&quot;</span>);</div>
 <div class="line">            <span class="comment">// Format the first member of the pair using the internal numeric format</span></div>
-<div class="line">            ostream_format&lt;T&gt;(this-&gt;<a class="code" href="structseq_1_1base__ostream__format.html#ad75f4918a30f9643a0b66c0100d00293">value</a>().<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, this-&gt;<a class="code" href="structseq_1_1base__ostream__format.html#a05fa37e912fb5660b236f31689935ad5">numeric_fmt</a>()).append(out);</div>
+<div class="line">            ostream_format&lt;T&gt;(this-&gt;value().<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, this-&gt;numeric_fmt()).append(out);</div>
 <div class="line">            out.append(<span class="stringliteral">&quot;, &quot;</span>);</div>
 <div class="line">            <span class="comment">// Format the second member of the pair using the internal numeric format</span></div>
-<div class="line">            ostream_format&lt;T&gt;(this-&gt;<a class="code" href="structseq_1_1base__ostream__format.html#ad75f4918a30f9643a0b66c0100d00293">value</a>().second, this-&gt;<a class="code" href="structseq_1_1base__ostream__format.html#a05fa37e912fb5660b236f31689935ad5">numeric_fmt</a>()).append(out);</div>
+<div class="line">            ostream_format&lt;T&gt;(this-&gt;value().second, this-&gt;numeric_fmt()).append(out);</div>
 <div class="line">            out.append(<span class="stringliteral">&quot;)&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">            <span class="keywordflow">return</span> out.size() - prev;</div>
@@ -335,10 +353,10 @@ Working with custom types</h2>
 <div class="line"><span class="keyword">auto</span> f2 = <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a>(std::string(<span class="stringliteral">&quot;format a string&quot;</span>));</div>
 <div class="line">std::cout &lt;&lt; f2(std::string(<span class="stringliteral">&quot;another string&quot;</span>)) &lt;&lt;std::endl;     <span class="comment">//Safe: the first string is replace by a new temporary one</span></div>
 <div class="line">std::cout &lt;&lt; f2 &lt;&lt; std::endl;                                   <span class="comment">//UNSAFE: attempt to format the temporay std::string holding &quot;another string&quot; which was already destroyed</span></div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md23"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md24"></a>
 Thread safety</h2>
 <p>The format module is thread safe: formatting objects in different threads is allowed, as the format module only uses (few) global variables with the <em>thread_local</em> specifier. However, a formatting object returned by <a class="el" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a> is not thread safe and you must pass copies of this object to other threads.</p>
-<h2><a class="anchor" id="autotoc_md24"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 Performances</h2>
 <p>The format module is relatively fast compared to C++ streams, mainly thanks to the <a class="el" href="group__charconv.html">charconv</a> module. Usually, using <a class="el" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a> to output arithmetic values to streams should be around 8 times faster than directly writing the values to a std::ostream object. This will, of course, vary greatly depending on the considered scenario.</p>
 <p>The following code is a simple benchmark on writing a 4 * 1000000 table of double values to a std::ostream object.</p>
@@ -375,7 +393,7 @@ Performances</h2>
 <div class="line">        oss &lt;&lt; std::left &lt;&lt; std::setw(20) &lt;&lt; vec_d[i * 4+3] &lt;&lt; <span class="stringliteral">&quot;|&quot;</span>;</div>
 <div class="line">        oss &lt;&lt; std::endl;</div>
 <div class="line">    }</div>
-<div class="line">    <span class="keywordtype">int</span> el = <a class="code" href="namespaceseq.html#a576ae74a514ded550299e48e4c32cc64">tock_ms</a>();</div>
+<div class="line">    <span class="keywordtype">size_t</span> el = <a class="code" href="namespaceseq.html#a576ae74a514ded550299e48e4c32cc64">tock_ms</a>();</div>
 <div class="line">    std::cout &lt;&lt; <span class="stringliteral">&quot;Write table with streams: &quot;</span> &lt;&lt;el&lt;&lt;<span class="stringliteral">&quot; ms&quot;</span>&lt;&lt; std::endl;</div>
 <div class="line"> </div>
 <div class="line"> </div>
@@ -425,23 +443,21 @@ Performances</h2>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespaceseq_html_a8d9a01a2c5a12df6d4baac1d1520d4b5"><div class="ttname"><a href="namespaceseq.html#a8d9a01a2c5a12df6d4baac1d1520d4b5">seq::tstring</a></div><div class="ttdeci">tiny_string&lt; 0, std::allocator&lt; char &gt; &gt; tstring</div><div class="ttdoc">Base string typedef, similar to std::string. Equivalent to tiny_string&lt;0, std::allocator&lt;char&gt;&gt;.</div><div class="ttdef"><b>Definition:</b> tiny_string.hpp:58</div></div>
-<div class="ttc" id="astructseq_1_1base__ostream__format_html_ad75f4918a30f9643a0b66c0100d00293"><div class="ttname"><a href="structseq_1_1base__ostream__format.html#ad75f4918a30f9643a0b66c0100d00293">seq::base_ostream_format&lt; T, ostream_format&lt; T &gt; &gt;::value</a></div><div class="ttdeci">auto value() noexcept -&gt; T &amp;</div><div class="ttdoc">Returns the value held by this base_ostream_format.</div><div class="ttdef"><b>Definition:</b> format.hpp:825</div></div>
-<div class="ttc" id="astructseq_1_1base__ostream__format_html_a05fa37e912fb5660b236f31689935ad5"><div class="ttname"><a href="structseq_1_1base__ostream__format.html#a05fa37e912fb5660b236f31689935ad5">seq::base_ostream_format&lt; T, ostream_format&lt; T &gt; &gt;::numeric_fmt</a></div><div class="ttdeci">auto numeric_fmt() const -&gt; numeric_format</div><div class="ttdoc">Returns the arithmetic format options.</div><div class="ttdef"><b>Definition:</b> format.hpp:835</div></div>
 <div class="ttc" id="aformat_8hpp_html"><div class="ttname"><a href="format_8hpp.html">format.hpp</a></div></div>
 <div class="ttc" id="anamespaceseq_1_1detail_html_a84d714603751dddb280584583ccdd7e3"><div class="ttname"><a href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">seq::detail::str</a></div><div class="ttdeci">Integral int char Stream &amp; str</div><div class="ttdef"><b>Definition:</b> charconv.hpp:677</div></div>
 <div class="ttc" id="anamespaceseq_html"><div class="ttname"><a href="namespaceseq.html">seq</a></div><div class="ttdef"><b>Definition:</b> any.hpp:33</div></div>
 <div class="ttc" id="anamespaceseq_1_1detail_html_a76fa776653402382e316c7b6715856af"><div class="ttname"><a href="namespaceseq_1_1detail.html#a76fa776653402382e316c7b6715856af">seq::detail::f</a></div><div class="ttdeci">char f</div><div class="ttdef"><b>Definition:</b> charconv.hpp:659</div></div>
 <div class="ttc" id="anamespaceseq_1_1detail_html_a4abc955e0a77f9f1a5d4b9fa147745e1"><div class="ttname"><a href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">seq::detail::first</a></div><div class="ttdeci">int first</div><div class="ttdef"><b>Definition:</b> charconv.hpp:684</div></div>
-<div class="ttc" id="anamespaceseq_html_ad863fcfc143b646f5a2f2362a1327575"><div class="ttname"><a href="namespaceseq.html#ad863fcfc143b646f5a2f2362a1327575">seq::tick</a></div><div class="ttdeci">void tick()</div><div class="ttdoc">For tests only, reset timer for calling thread.</div><div class="ttdef"><b>Definition:</b> testing.hpp:84</div></div>
+<div class="ttc" id="anamespaceseq_html_ad863fcfc143b646f5a2f2362a1327575"><div class="ttname"><a href="namespaceseq.html#ad863fcfc143b646f5a2f2362a1327575">seq::tick</a></div><div class="ttdeci">void tick()</div><div class="ttdoc">For tests only, reset timer for calling thread.</div><div class="ttdef"><b>Definition:</b> testing.hpp:148</div></div>
 <div class="ttc" id="anamespaceseq_1_1detail_html_a12c9a7db6862be66b508b7cc80e12a2d"><div class="ttname"><a href="namespaceseq_1_1detail.html#a12c9a7db6862be66b508b7cc80e12a2d">seq::detail::n</a></div><div class="ttdeci">char n</div><div class="ttdef"><b>Definition:</b> charconv.hpp:645</div></div>
-<div class="ttc" id="anamespaceseq_html_a21b27d9d28ab49b4e36657f9e95013c7"><div class="ttname"><a href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a></div><div class="ttdeci">auto fmt(Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), void, Args... &gt;::return_type</div><div class="ttdef"><b>Definition:</b> format.hpp:1870</div></div>
-<div class="ttc" id="aclassseq_1_1ostream__format_html_a3eb7536572cddbefdbb8844bb64cafe4"><div class="ttname"><a href="classseq_1_1ostream__format.html#a3eb7536572cddbefdbb8844bb64cafe4">seq::ostream_format::ostream_format</a></div><div class="ttdeci">friend class ostream_format</div><div class="ttdef"><b>Definition:</b> format.hpp:1150</div></div>
-<div class="ttc" id="aclassseq_1_1random__float__genertor_html"><div class="ttname"><a href="classseq_1_1random__float__genertor.html">seq::random_float_genertor</a></div><div class="ttdoc">For tests only, generate random floating point number on the whole representable range (including pot...</div><div class="ttdef"><b>Definition:</b> testing.hpp:250</div></div>
-<div class="ttc" id="aclassseq_1_1ostream__format_html_a3c30d958ce8fb82d6509acc7e23f2648"><div class="ttname"><a href="classseq_1_1ostream__format.html#a3c30d958ce8fb82d6509acc7e23f2648">seq::ostream_format::to_string</a></div><div class="ttdeci">auto to_string(String &amp;str) const -&gt; size_t</div><div class="ttdef"><b>Definition:</b> format.hpp:1183</div></div>
+<div class="ttc" id="anamespaceseq_html_a21b27d9d28ab49b4e36657f9e95013c7"><div class="ttname"><a href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a></div><div class="ttdeci">auto fmt(Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), void, Args... &gt;::return_type</div><div class="ttdef"><b>Definition:</b> format.hpp:2145</div></div>
+<div class="ttc" id="aclassseq_1_1ostream__format_html_a3eb7536572cddbefdbb8844bb64cafe4"><div class="ttname"><a href="classseq_1_1ostream__format.html#a3eb7536572cddbefdbb8844bb64cafe4">seq::ostream_format::ostream_format</a></div><div class="ttdeci">friend class ostream_format</div><div class="ttdef"><b>Definition:</b> format.hpp:1225</div></div>
+<div class="ttc" id="aclassseq_1_1random__float__genertor_html"><div class="ttname"><a href="classseq_1_1random__float__genertor.html">seq::random_float_genertor</a></div><div class="ttdoc">For tests only, generate random floating point number on the whole representable range (including pot...</div><div class="ttdef"><b>Definition:</b> testing.hpp:330</div></div>
+<div class="ttc" id="aclassseq_1_1ostream__format_html_a3c30d958ce8fb82d6509acc7e23f2648"><div class="ttname"><a href="classseq_1_1ostream__format.html#a3c30d958ce8fb82d6509acc7e23f2648">seq::ostream_format::to_string</a></div><div class="ttdeci">auto to_string(String &amp;str) const -&gt; size_t</div><div class="ttdef"><b>Definition:</b> format.hpp:1258</div></div>
 <div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> any.hpp:2292</div></div>
-<div class="ttc" id="anamespaceseq_html_a576ae74a514ded550299e48e4c32cc64"><div class="ttname"><a href="namespaceseq.html#a576ae74a514ded550299e48e4c32cc64">seq::tock_ms</a></div><div class="ttdeci">auto tock_ms() -&gt; std::uint64_t</div><div class="ttdoc">For tests only, returns elapsed milliseconds since last call to tick()</div><div class="ttdef"><b>Definition:</b> testing.hpp:94</div></div>
+<div class="ttc" id="anamespaceseq_html_a576ae74a514ded550299e48e4c32cc64"><div class="ttname"><a href="namespaceseq.html#a576ae74a514ded550299e48e4c32cc64">seq::tock_ms</a></div><div class="ttdeci">auto tock_ms() -&gt; std::uint64_t</div><div class="ttdoc">For tests only, returns elapsed milliseconds since last call to tick()</div><div class="ttdef"><b>Definition:</b> testing.hpp:158</div></div>
 <div class="ttc" id="atesting_8hpp_html"><div class="ttname"><a href="testing_8hpp.html">testing.hpp</a></div></div>
-<div class="ttc" id="astructseq_1_1basic__nullbuf_html"><div class="ttname"><a href="structseq_1_1basic__nullbuf.html">seq::basic_nullbuf</a></div><div class="ttdef"><b>Definition:</b> testing.hpp:179</div></div>
+<div class="ttc" id="astructseq_1_1basic__nullbuf_html"><div class="ttname"><a href="structseq_1_1basic__nullbuf.html">seq::basic_nullbuf</a></div><div class="ttdef"><b>Definition:</b> testing.hpp:250</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

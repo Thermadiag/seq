@@ -166,12 +166,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aeae2cacd5d3de5987b50d8c88db2c426"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5271afd1a2475f998862460dc037a2b7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1aligned__allocator.html#a5271afd1a2475f998862460dc037a2b7">deallocate</a> (T *p, size_t n)</td></tr>
 <tr class="separator:a5271afd1a2475f998862460dc037a2b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d8945b314279170648ac2a2e5210c6d"><td class="memTemplParams" colspan="2">template&lt;class U , class... Args&gt; </td></tr>
-<tr class="memitem:a1d8945b314279170648ac2a2e5210c6d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1aligned__allocator.html#a1d8945b314279170648ac2a2e5210c6d">construct</a> (U *p, Args &amp;&amp;... args)</td></tr>
-<tr class="separator:a1d8945b314279170648ac2a2e5210c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d47d0dde411858e8f7e14a835caf648"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
-<tr class="memitem:a4d47d0dde411858e8f7e14a835caf648"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1aligned__allocator.html#a4d47d0dde411858e8f7e14a835caf648">destroy</a> (U *p)</td></tr>
-<tr class="separator:a4d47d0dde411858e8f7e14a835caf648"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64336bf4ed0510834700ddac7a505e72"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:a64336bf4ed0510834700ddac7a505e72"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1aligned__allocator.html#a64336bf4ed0510834700ddac7a505e72">construct</a> (T *p, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a64336bf4ed0510834700ddac7a505e72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a798abd4031b236bd2538814111827e6a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1aligned__allocator.html#a798abd4031b236bd2538814111827e6a">destroy</a> (T *p)</td></tr>
+<tr class="separator:a798abd4031b236bd2538814111827e6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -620,15 +619,15 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
 
 </div>
 </div>
-<a id="a1d8945b314279170648ac2a2e5210c6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d8945b314279170648ac2a2e5210c6d">&#9670;&nbsp;</a></span>construct()</h2>
+<a id="a64336bf4ed0510834700ddac7a505e72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64336bf4ed0510834700ddac7a505e72">&#9670;&nbsp;</a></span>construct()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align = DefaultAlignment&gt; </div>
 <div class="memtemplate">
-template&lt;class U , class... Args&gt; </div>
+template&lt;class... Args&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -636,7 +635,7 @@ template&lt;class U , class... Args&gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classseq_1_1aligned__allocator.html">seq::aligned_allocator</a>&lt; T, Allocator, Align &gt;::construct </td>
           <td>(</td>
-          <td class="paramtype">U *&#160;</td>
+          <td class="paramtype">T *&#160;</td>
           <td class="paramname"><em>p</em>, </td>
         </tr>
         <tr>
@@ -698,15 +697,13 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
 
 </div>
 </div>
-<a id="a4d47d0dde411858e8f7e14a835caf648"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d47d0dde411858e8f7e14a835caf648">&#9670;&nbsp;</a></span>destroy()</h2>
+<a id="a798abd4031b236bd2538814111827e6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a798abd4031b236bd2538814111827e6a">&#9670;&nbsp;</a></span>destroy()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align = DefaultAlignment&gt; </div>
-<div class="memtemplate">
-template&lt;class U &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -714,7 +711,7 @@ template&lt;class U &gt; </div>
         <tr>
           <td class="memname">void <a class="el" href="classseq_1_1aligned__allocator.html">seq::aligned_allocator</a>&lt; T, Allocator, Align &gt;::destroy </td>
           <td>(</td>
-          <td class="paramtype">U *&#160;</td>
+          <td class="paramtype">T *&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
           <td></td>
         </tr>

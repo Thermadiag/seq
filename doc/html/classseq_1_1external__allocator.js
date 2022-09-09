@@ -18,9 +18,9 @@ var classseq_1_1external__allocator =
     [ "address", "classseq_1_1external__allocator.html#a5c5ef2dbcb4262321e53c54888f380ff", null ],
     [ "allocate", "classseq_1_1external__allocator.html#aeebe81ed952830d89e313f9b1c0d9512", null ],
     [ "allocate", "classseq_1_1external__allocator.html#a1fa79d4926dc641a842ddb857a120e29", null ],
-    [ "construct", "classseq_1_1external__allocator.html#a7a5d06915881b5cec0c89dcc6bfe313f", null ],
+    [ "construct", "classseq_1_1external__allocator.html#a885ae471a697cc1c10859e634c51cf08", null ],
     [ "deallocate", "classseq_1_1external__allocator.html#a02da4fdefe81788b7fee07283a878d50", null ],
-    [ "destroy", "classseq_1_1external__allocator.html#a20bd2a845850fc0806a120c8c8d52cb0", null ],
+    [ "destroy", "classseq_1_1external__allocator.html#af53456d2fab81fdbe4d750b03dddf214", null ],
     [ "operator!=", "classseq_1_1external__allocator.html#a3bac26c10eef58d7e2a0dc2c83696a91", null ],
     [ "operator==", "classseq_1_1external__allocator.html#a6e60392adae029b7fcdbb279ba6eecd3", null ],
     [ "select_on_container_copy_construction", "classseq_1_1external__allocator.html#af2e09fe64078a8cb9f1a65409fcb1efd", null ]
