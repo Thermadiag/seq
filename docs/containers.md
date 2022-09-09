@@ -22,4 +22,4 @@ Currently, the *containers* module provide 5 types of containers:
 	-	`seq::tiny_string`: string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
 	-	`seq::tstring_view`: similar to `std::string_view`.
 
-See the <a href="https://rawcdn.githack.com/Thermadiag/seq/731467950d3591147b62856972e0d543173dddc1/doc/html/group__containers.html">documentation</a> of each class for more details.
+See the <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/group__containers.html">documentation</a> of each class for more details.

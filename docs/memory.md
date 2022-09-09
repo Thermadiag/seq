@@ -17,7 +17,7 @@ The *memory* module provides 2 types of memory pool classes:
 -	`seq::object_pool`: standard memory pool for fast allocation of 1 or more objects of the same type, as well as `std::unique_ptr`. Not thread safe.
 -	`seq::parallel_object_pool`: memory pool for fast allocation of 1 or more objects in a multi-threaded context. Uses an almost lock-free approach.
 
-See classes documentation for more details.
+See classes <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/group__memory.html">documentation</a> for more details.
 
 
 ## Miscellaneous

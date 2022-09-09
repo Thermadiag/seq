@@ -18,4 +18,4 @@ The *bits* module provides several portable low-level functions for bits manipul
 -	`seq::bswap_32`: byte swap for 32 bits word
 -	`seq::bswap_64`: byte swap for 64 bits word
 
-See functions documentation for more details.
+See functions <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/group__bits.html">documentation</a> for more details.
