@@ -9,7 +9,7 @@ It was designed first to output huge matrices or tables to files and strings. *F
 
 ## Formatting single values
 
-*Format* module heavily relies on the seq::fmt function to format single or several values.
+*Format* module heavily relies on the `seq::fmt` function to format single or several values.
 
 When formatting a single value, seq::fmt returns a seq::ostream_format object providing several members to modify the formatting options:
 -	<b>base(int)</b>: specify the base for integral types, similar to b(int)
@@ -74,7 +74,7 @@ std::cout << bin(100) << std::endl;	//equivalent to fmt(100).base(2) or fmt(100)
 
 ```
 
-seq::fmt calls can also be nested:
+`seq::fmt` calls can also be nested:
 
 ```cpp
 
@@ -89,7 +89,7 @@ std::cout << fmt(fmt(fmt(fmt("surrounded text")).c(20).f('*')).c(30).f('#')).c(4
 ## Formatting several values
 
 
-The seq::fmt function can be used to format any number of values at once:
+The `seq::fmt` function can be used to format any number of values at once:
 
 ```cpp
 
@@ -188,7 +188,7 @@ auto f = fmt(
 
 
 A formatting object can be:
--	Printed to a std::ostream object
+-	Printed to a `std::ostream` object
 -	Converted to a string object
 -	Added to an existing string object
 -	Writed to a buffer
@@ -225,17 +225,17 @@ std::cout<< dst2 << std::endl;
 ## Using std::to_chars
 
 
-It is possible to use std::to_chars instead of seq::to_chars within the *format* module, mostly when exact round-trip guarantee is mandatory.
-For that, you must define *SEQ_FORMAT_USE_STD_TO_CHARS* and enable C++17. If C++17 is not supported by the compiler, the *format* module will always fallback to seq::to_chars.
+It is possible to use `std::to_chars` instead of `seq::to_chars` within the *format* module, mostly when exact round-trip guarantee is mandatory.
+For that, you must define `SEQ_FORMAT_USE_STD_TO_CHARS` and enable C++17. If C++17 is not supported by the compiler, the *format* module will always fallback to `seq::to_chars`.
 
 
 ## Working with custom types
 
 
-By default, the *format* module supports arithmetic types and string types. Not that std::string, seq::tstring or const char* arguments are represented internally as string views (tstring_view class).
+By default, the *format* module supports arithmetic types and string types. Not that `std::string`, `seq::tstring` or `const char*` arguments are represented internally as string views (`seq::tstring_view` class).
 The *format* module is extendible to custom types by 2 means:
--	If the type is streamable to std::ostream, it will directly work with seq::fmt using internally a (slow) std::ostringstream. 
--	Otherwise, you need to specialize seq::ostream_format for your type.
+-	If the type is streamable to `std::ostream`, it will directly work with `seq::fmt` using internally a (slow) `std::ostringstream`. 
+-	Otherwise, you need to specialize `seq::ostream_format` for your type.
 
 Example of custom type formatting:
 
@@ -297,7 +297,7 @@ int main(int argc, char ** argv)
 
 ```
 
-For arithmetic types, a seq::ostream_format internally stores a copy of the value passed as argument of *seq::fmt*. 
+For arithmetic types, a `seq::ostream_format` internally stores a copy of the value passed as argument of `seq::fmt`. 
 Therefore, the ostream_format object can be stored and formatted afterward. 
 However, for custom types as well as strings, it is unsafe to store a ostream_format object and format it afterward as it internally stores a <i>pointer</i> to the actual data.
 
@@ -326,14 +326,14 @@ std::cout << f2 << std::endl;									//UNSAFE: attempt to format the temporay s
 
 
 The *format* module is thread safe: formatting objects in different threads is allowed, as the module only uses (few) global variables with the <i>thread_local</i> specifier.
-However, a formatting object returned by *seq::fmt* is not thread safe and you must pass copies of this object to other threads.
+However, a formatting object returned by `seq::fmt` is not thread safe and you must pass copies of this object to other threads.
 
 
 ## Performances
 
 
 The *format* module is relatively fast compared to C++ streams, mainly thanks to the [charconv](charconv.md) module.
-Usually, using seq::fmt to output arithmetic values to streams should be around 8 times faster than directly writing the values to a std::ostream object.
+Usually, using `seq::fmt` to output arithmetic values to streams should be around 8 times faster than directly writing the values to a std::ostream object.
 This will, of course, vary greatly depending on the considered scenario.
 
 The following code is a simple benchmark on writing a 4 * 1000000 table of double values to a std::ostream object.

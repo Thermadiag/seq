@@ -1,29 +1,29 @@
 # Any: type-erasing polymorphic object wrapper used to build heterogeneous containers
 
 
-The <i>any</i> module provides the *seq::hold_any* class and related functions to provide a type-erasing polymorphic object wrapper.
+The *any* module provides the `seq::hold_any` class and related functions to provide a type-erasing polymorphic object wrapper.
 
-*seq::hold_any* is a *std::any* like class optimized to create heterogeneous containers of any types (vectors, deques, hash tables, sorted containers...).
+`seq::hold_any` is a `std::any` like class optimized to create heterogeneous containers of any types (vectors, deques, hash tables, sorted containers...).
 
 The seq library provides the following aliases:
--	*seq::any*: equivalent to *seq::hold_any<seq::any_default_interface>*
--	*seq::nh_any*: equivalent to  *seq::hold_any<seq::any_no_hash_interface>*
+-	`seq::any`: equivalent to `seq::hold_any<seq::any_default_interface>`
+-	`seq::nh_any`: equivalent to  `seq::hold_any<seq::any_no_hash_interface>`
 
 
 ## Interface
 
 
-*hold_any* offers a similar interface to std::any and supports additional features:
+`hold_any` offers a similar interface to `std::any` and supports additional features:
 -	Support for comparison operators <, <=, >, >=, == and !=
 -	Support for standard stream operators to/from std::ostream/std::istream
--	*hold_any* is hashable based on std::hash
--	*hold_any* can be formatted using the \ref format "formatting" module of seq library
--	*hold_any* interface can be extended
+-	`hold_any` is hashable based on std::hash
+-	`hold_any` can be formatted using the [format](docs/format.md) module of seq library
+-	`hold_any` interface can be extended
 
-*hold_any* is very similar to boost.TypeErasure or folly.Poly, but its default implementation provides more features in order to be used within most containers (sorted containers, hash tables,...).
+`hold_any` is very similar to boost.TypeErasure or folly.Poly, but its default implementation provides more features in order to be used within most containers (sorted containers, hash tables,...).
 
 These features do not modify the requirements of held types: they must be at least move only contructible.
-*hold_any* uses type erasure to provide custom behavior based on held object type, and the additional functions like streaming or comparison support are implemented if the type supports them. 
+`hold_any` uses type erasure to provide custom behavior based on held object type, and the additional functions like streaming or comparison support are implemented if the type supports them. 
 If not, the corresponding functions with throw a std::bad_function_call exception:
 
 ```cpp
@@ -33,8 +33,8 @@ std::cout << seq::any(std::vector<bool>()); // std::vector<bool> does not define
 
 ```
 
-The only exception is the hashing support. Indeed, there is now way in C++11 to tell at compile time if a type is hashable or not, as most implementations of std::hash use static_assert() in the operator() member (undetectable through SFINAE). 
-*hold_any* optimistically assumes that all types are hashable. In order to store non hashable types, you must specialize the seq::is_hashable type trait for this type:
+The only exception is the hashing support. Indeed, there is now way in C++11 to tell at compile time if a type is hashable or not, as most implementations of `std::hash` use static_assert() in the operator() member (undetectable through SFINAE). 
+`hold_any` optimistically assumes that all types are hashable. In order to store non hashable types, you must specialize the `seq::is_hashable` type trait for this type:
 
 ```cpp
 
@@ -49,7 +49,7 @@ seq::any a = test(); // compile as is_hashable is specialized for test class
 
 ```
 
-Otherwise, you can completely disable the hashing support using seq::nh_any (equivalent to *seq::hold_any<seq::any_no_hash_interface>*) :
+Otherwise, you can completely disable the hashing support using `seq::nh_any` (equivalent to `seq::hold_any<seq::any_no_hash_interface>`) :
 
 ```cpp
 
@@ -63,7 +63,7 @@ seq::nh_any a = test();
 ## Casting
 
 
-*hold_any* can be cast to another type using either hold_any::cast() function or seq::any_cast() (similar to std::any_cast).
+`hold_any` can be cast to another type using either `hold_any::cast()` function or `seq::any_cast()` (similar to `std::any_cast`).
 When casting to the same type as the underlying object, it is possible to retrieve a reference to the object:
 
 ```cpp
@@ -75,10 +75,10 @@ int *value3 = seq::any_cast<int>(&a);
 
 ```
 
-*hold_any* supports casting to another type. By default, the following conversion are valid:
+`hold_any` supports casting to another type. By default, the following conversion are valid:
 -	A pointer can be casted to void* or const void*
 -	All arithmetic types can be casted between each other
--	Arithmetic types can be casted to std::string or seq::tiny_string
+-	Arithmetic types can be casted to `std::string` or `seq::tiny_string`
 -	All string types can be casted between each other (std::string, seq::tstring, seq::tstring_view, std::string_view, char* and const char*)
 -	All string types can be casted to arithmetic types (which can throw a std::bad_cast exception if the string does not represent an arithmetic type)
 
@@ -157,14 +157,14 @@ std::cout << b.cast<std::string>() << std::endl;
 ## Hashing
 
 
-As said previously, seq::*hold_any* is hashable and a specialization for std::hash is provided.
+As said previously, `seq::hold_any` is hashable and a specialization for `std::hash` is provided.
 This feature is mandatory when inserting any objects into hash table based containers like std::unordered_set.
-In order to store non hashable types (that do not specialize std::hash), you must specialize seq::is_hashable type traits for this type to have seq::is_hashable<Type>::value == false.
+In order to store non hashable types (that do not specialize std::hash), you must specialize `seq::is_hashable` type traits for this type to have seq::is_hashable<Type>::value == false.
 
 Another way to store non hashable types is to use seq::nh_any instead of seq::any which disable the hashing support. 
-Attempting to call seq::hold_any::hash() member on a non hashable type will throw a std::bad_function_call.
+Attempting to call `seq::hold_any::hash()` member on a non hashable type will throw a std::bad_function_call.
 
-The specialization of std::hash for *hold_any* is transparent to support heterogeneous lookup.
+The specialization of std::hash for `hold_any` is transparent to support heterogeneous lookup.
 
 Example:
 
@@ -207,15 +207,15 @@ assert(set.find("no") == set.end());			//failed lookup
 ## Equality comparison
 
 
-*hold_any* objects are equally comparable. This feature is mandatory when inserting any objects into hash table based containers like std::unordered_set.
-Two *hold_any* are considered equal if:
+`hold_any` objects are equally comparable. This feature is mandatory when inserting any objects into hash table based containers like `std::unordered_set`.
+Two `hold_any` are considered equal if:
 -	They are both empty.
 -	They hold the same type and both underlying objects compare equals. If the type does not provide a comparison operator, the operator==() always return false.
 -	They both hold an arithmetic value of possibly different types, and these values compare equals.
 -	They both hold a string like object (std::string, seq::tstring, seq::tstring_view, std::string_view, char*, const char*) that compare equals.
 	Note that a const char* can be compared to another string object (like std::string) using string comparison, but comparing two const char* will result in a pointer comparison!
 
-It is possible to register a comparison function for unrelated types using seq::register_any_equal_comparison() function.
+It is possible to register a comparison function for unrelated types using `seq::register_any_equal_comparison()` function.
 
 Example:
 
@@ -258,14 +258,14 @@ assert(pair == integer);
 ## Less comparison
 
 
-*hold_any* object can be compared using operators <, >, <=, >=, all based on the <i>less than</i> operator. This is mandatory when inserting any objects into a sorted container like std::set.
-A *hold_any* object A is considered less than another *hold_any* B if:
+`hold_any` object can be compared using operators <, >, <=, >=, all based on the <i>less than</i> operator. This is mandatory when inserting any objects into a sorted container like std::set.
+A `hold_any` object A is considered less than another `hold_any` B if:
 -	A is empty and not B.
 -	A and B hold the same type and object(A) < object(B). If the type does not provide a less than operator, throw std::bad_function_call.
 -	They both hold an arithmetic value of possibly different types, and object(A) < object(B).
 -	They both hold a string like object (std::string, seq::tstring, seq::tstring_view, std::string_view, char*, const char*) and object(A) < object(B).
  
-It is possible to register a comparison function for unrelated types using seq::register_any_less_comparison() function.
+It is possible to register a comparison function for unrelated types using `seq::register_any_less_comparison()` function.
 
 Example:
 
@@ -306,12 +306,12 @@ assert(pair < integer);
 ## Small Buffer Optimization
 
 
-*hold_any* provides a customizable Small Buffer Optimization (SBO) in order to avoid costly memory allocation for small types.
+`hold_any` provides a customizable Small Buffer Optimization (SBO) in order to avoid costly memory allocation for small types.
 The alignment of the small buffer can also be modified.
 
 By default, the small buffer size is equal to sizeof(double) and its alignment is alignof(double). Therefore, on 64 bits machines, sizeof(seq::any) is 16 bytes.
 
-The small buffer size and alignment can be changed through *hold_any* template parameters:
+The small buffer size and alignment can be changed through `hold_any` template parameters:
 
 ```cpp
 
@@ -327,21 +327,21 @@ my_any a = tstring("hello");
 ## Type information and various optimizations
 
 
-Internally, *hold_any* uses a tagged pointer to store 3 additional information on the held type object:
--	Tells if the type is relocatable (seq::is_relocatable<Type>::value == true)
--	Tells if the type is trivially copyable (std::is_trivially_copyable<Type>::value == true)
--	Tells if the type is trivially destructible (std::is_trivially_destructible<Type>::value == true)
+Internally, `hold_any` uses a tagged pointer to store 3 additional information on the held type object:
+-	Tells if the type is relocatable (`seq::is_relocatable<Type>::value == true`)
+-	Tells if the type is trivially copyable (`std::is_trivially_copyable<Type>::value == true`)
+-	Tells if the type is trivially destructible (`std::is_trivially_destructible<Type>::value == true`)
 
-These information are used to optimize the copy, move assignment and destruction of *hold_any* objects.
+These information are used to optimize the copy, move assignment and destruction of `hold_any` objects.
 
-Note that *hold_any* itself is NOT relocatable as it might hold a non relocatable type inside its small buffer.
+Note that `hold_any` itself is NOT relocatable as it might hold a non relocatable type inside its small buffer.
 
 
 ## Move only types
 
 
-*hold_any* supports holding move only types like std::unique_ptr. In this case, the *hold_any* will silently become a move only object, and trying to copy the *hold_any* object will throw a std::bad_function_call exception.
-Likewise, the *hold_any* can only be casted to a reference to this type.
+`hold_any` supports holding move only types like std::unique_ptr. In this case, the `hold_any` will silently become a move only object, and trying to copy the `hold_any` object will throw a std::bad_function_call exception.
+Likewise, the `hold_any` can only be casted to a reference to this type.
 
 Example:
 
@@ -370,13 +370,13 @@ catch (const std::bad_function_call&)
 ``` 
 
 
-## Extending *hold_any* interface
+## Extending hold_any interface
 
 
 
-*hold_any* interface is easily extendable to provide additional members or modify its standard behavior.
+`hold_any` interface is easily extendable to provide additional members or modify its standard behavior.
 
-Below is an example of extension that adds the info() member returning a std::type_info object and modify the hash function:
+Below is an example of extension that adds the info() member returning a `std::type_info` object and modify the hash function:
 
 ```cpp
 
@@ -408,7 +408,7 @@ struct NewInterface
 	template<class Base>
 	struct any_interface : Base
 	{
-		//add function to *hold_any* interface
+		//add function to `hold_any` interface
 		const std::type_info& info() const { return this->type()->info(); }
 	};
 };
@@ -427,7 +427,7 @@ std::cout<< a.hash() << std::endl;
 ``` 
 
 
-Below is a more complex example that transform *hold_any* into a std::function equivalent:
+Below is a more complex example that transform `hold_any` into a `std::function` equivalent:
 
 ```cpp
 
@@ -445,7 +445,7 @@ namespace seq
 	template<class Fun>
 	struct FunInterface;
 	
-	// Provide custom interface to *hold_any* in order to be callable like std::function
+	// Provide custom interface to `hold_any` in order to be callable like std::function
 	template<class R, class... As>
 	struct FunInterface< R(As...)>
 	{
@@ -480,14 +480,14 @@ namespace seq
 		template<class Base>
 		struct any_interface : Base
 		{
-			//add operator() to *hold_any* interface
+			//add operator() to `hold_any` interface
 			R operator()(As... as) const
 			{
 				if (this->empty())
 					throw std::bad_function_call();
 				return this->type()->call(this->data(), std::forward<As>(as)...);
 			}
-			//add member target_type() to *hold_any* interface
+			//add member target_type() to `hold_any` interface
 			const std::type_info& target_type() const
 			{
 				return this->empty() ? typeid(void) : this->type()->target_type();

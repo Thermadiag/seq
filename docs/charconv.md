@@ -1,15 +1,15 @@
 # Charconv: arithmetic value convertion from/to string
 
-The charconv module provides fast routines to convert numerical values from/to string.
+The charconv module provides low-level fast routines to convert numerical values from/to string.
 This module was initially developped for very fast containers dump in files or strings.
 
 ## Low level functions
 
 
-The main functions of charconv module are seq::to_chars and seq::from_chars which provide a similar interface to C++17 functions std::from_chars and std::to_chars. 
+The main functions of charconv module are seq::to_chars and seq::from_chars which provide a similar interface to C++17 functions `std::from_chars` and `std::to_chars`. 
 They aim to provide a faster alternative to C++ streams for converting floating point and integer types from/to string. Note that they were developped to accomodate my needs, and might not be used in all circumstances.
 
-*seq::from_chars()* is similar to *std::from_chars* with the following differences:
+`seq::from_chars()` is similar to `std::from_chars` with the following differences:
 -	Leading spaces are consumed.
 -	For integral types, a leading '0x' prefix is considered valid.
 -	For floating point values: if the pattern is a valid floating point text representation too large or too small to be stored in given output value, value will be set to (+-)inf or (+-)0, 
@@ -19,7 +19,7 @@ They aim to provide a faster alternative to C++ streams for converting floating 
 -	For floating point values: this function IS NOT AN EXACT PARSER. In some cases it relies on unprecise floating point arithmetic wich might produce different roundings than strtod() function.
 	Note that the result is almost always equal to the result of strtod(), and potential differences are located in the last digits. Use this function when the speed factor is more important than 100% perfect exactitude.
 
-*seq::to_chars* is similar to *std::to_chars* with the following differences
+`seq::to_chars` is similar to *std::to_chars* with the following differences
 -	For integral types, additional options on the form of a seq::integral_chars_format object can be passed. They add the possibility to output a leading '0x' for hexadecimal
 	formatting, a minimum width (with zeros padding), upper case outputs for hexadecimal formatting.
 -	For floating point values, the 'dot' character can be specified.
@@ -33,9 +33,9 @@ They aim to provide a faster alternative to C++ streams for converting floating 
 ## Working with C++ streams
 
 
-To write numerical values to C++ std::ostream objects, see the \ref format "format" module.
+To write numerical values to C++ `std::ostream` objects, see the [format](docs/format.md) module.
 
-To read numerical values from std::istream object, the charconv module provides the stream adapter seq::std_input_stream.
+To read numerical values from `std::istream` object, the charconv module provides the stream adapter `seq::std_input_stream`.
 It was developped to read huge tables or matrices from ascii files or strings.
 
 Basic usage:
@@ -68,6 +68,6 @@ while (true) {
 
 ```
 
-Internal benchmarks show that using from_stream() is around 20 faster (or more) than using *std::istream::operator>>()* when reading floating point values from a huge string.
+Internal benchmarks show that using seq::from_stream() is around 10 times faster (or more) than using *std::istream::operator>>()* when reading floating point values from a huge string.
 
-In additional to *seq::std_input_stream*, *charconv* module provides the similar *seq::buffer_input_stream* and *seq::file_input_stream*.
+In additional to `seq::std_input_stream`, *charconv* module provides the similar `seq::buffer_input_stream` and `seq::file_input_stream`.
