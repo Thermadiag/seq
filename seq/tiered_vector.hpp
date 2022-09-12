@@ -1155,7 +1155,9 @@ namespace seq
 				//Update back value
 				back_value = &(bucket)->back();
 			}
-			auto back() const noexcept -> const T& { return *back_value; }
+			auto back() const noexcept -> const typename ValueCompare::key_type& { 
+				return ValueCompare::key(*back_value); 
+			}
 			auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; };
 			auto operator->() const noexcept -> const CircularBuffer<T, Allocator>* { return bucket; };
 		};

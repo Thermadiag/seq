@@ -18,6 +18,12 @@ using namespace seq;
 
 auto  main  (int  /*unused*/, char**  /*unused*/) -> int
 {
+	flat_map<int, std::string, std::less<void>> ff;
+	ff.emplace( 2, std::string("toto"));
+	ff.emplace( 3, "ok");
+	for (auto i = ff.begin(); i != ff.end(); ++i)
+		std::cout << i->first << " " << i->second << std::endl;
+	ff.find(3);
 	
 	SEQ_TEST_MODULE(format, test_format());
 	SEQ_TEST_MODULE(any, test_any());
