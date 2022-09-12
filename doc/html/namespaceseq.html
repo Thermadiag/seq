@@ -111,8 +111,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base interface for <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> class.  <a href="structseq_1_1any__base.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__default__interface.html">any_default_interface</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default interface for <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a>.  <a href="structseq_1_1any__default__interface.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__no__hash__interface.html">any_no_hash_interface</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface for <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> for non hashable types.  <a href="structseq_1_1any__no__hash__interface.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1any__type__info.html">any_type_info</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class representing a type and related functions.  <a href="classseq_1_1any__type__info.html#details">More...</a><br /></td></tr>
@@ -333,11 +335,12 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">For tests only, generate random floating point number on the whole representable range (including potential infinit values)  <a href="classseq_1_1random__float__genertor.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html">sequence</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">sequence is an ordered container supporting constant time insertion at both end and constant removal anywhere.  <a href="classseq_1_1sequence.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">sequence is an ordered container supporting constant time insertion at both end and constant time removal anywhere.  <a href="classseq_1_1sequence.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1shared__ptr__allocation.html">shared_ptr_allocation</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1static__bit__scan__reverse.html">static_bit_scan_reverse</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static version of bit_scan_reverse.  <a href="structseq_1_1static__bit__scan__reverse.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1static__bit__scan__reverse_3_010_u_l_l_01_4.html">static_bit_scan_reverse&lt; 0ULL &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -430,7 +433,7 @@ Enumerations</h2></td></tr>
 <tr class="memitem:a209c3fd2e66f43ecc90862f2ee5e3dd5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a209c3fd2e66f43ecc90862f2ee5e3dd5">LayoutManagement</a> { <a class="el" href="namespaceseq.html#a209c3fd2e66f43ecc90862f2ee5e3dd5a83983acd78764ffa023da74a7360670e">OptimizeForSpeed</a>, 
 <a class="el" href="namespaceseq.html#a209c3fd2e66f43ecc90862f2ee5e3dd5a51407649077d79765e15397347a57432">OptimizeForMemory</a>
  }</td></tr>
-<tr class="memdesc:a209c3fd2e66f43ecc90862f2ee5e3dd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Memory Layout Management for containers like <a class="el" href="classseq_1_1sequence.html" title="sequence is an ordered container supporting constant time insertion at both end and constant removal ...">seq::sequence</a> or <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a>.  <a href="namespaceseq.html#a209c3fd2e66f43ecc90862f2ee5e3dd5">More...</a><br /></td></tr>
+<tr class="memdesc:a209c3fd2e66f43ecc90862f2ee5e3dd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Memory Layout Management for containers like <a class="el" href="classseq_1_1sequence.html" title="sequence is an ordered container supporting constant time insertion at both end and constant time rem...">seq::sequence</a> or <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a>.  <a href="namespaceseq.html#a209c3fd2e66f43ecc90862f2ee5e3dd5">More...</a><br /></td></tr>
 <tr class="separator:a209c3fd2e66f43ecc90862f2ee5e3dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -516,21 +519,27 @@ Functions</h2></td></tr>
 <tr class="separator:a9a34e6330b33a12e7e645c50d6d50a84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97851d71ded4c7928aabd76f4280d268"><td class="memTemplParams" colspan="2">template&lt;class T , class U &gt; </td></tr>
 <tr class="memitem:a97851d71ded4c7928aabd76f4280d268"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a97851d71ded4c7928aabd76f4280d268">register_any_conversion</a> ()</td></tr>
+<tr class="memdesc:a97851d71ded4c7928aabd76f4280d268"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a conversion function based on explicit conversion from type T to type U.  <a href="namespaceseq.html#a97851d71ded4c7928aabd76f4280d268">More...</a><br /></td></tr>
 <tr class="separator:a97851d71ded4c7928aabd76f4280d268"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7a515ea06834d35cedd4e4f9c4ba1b0"><td class="memTemplParams" colspan="2">template&lt;class T , class U , class Fun &gt; </td></tr>
 <tr class="memitem:ad7a515ea06834d35cedd4e4f9c4ba1b0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ad7a515ea06834d35cedd4e4f9c4ba1b0">register_any_conversion</a> (Fun fun)</td></tr>
+<tr class="memdesc:ad7a515ea06834d35cedd4e4f9c4ba1b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a conversion function using given functor.  <a href="namespaceseq.html#ad7a515ea06834d35cedd4e4f9c4ba1b0">More...</a><br /></td></tr>
 <tr class="separator:ad7a515ea06834d35cedd4e4f9c4ba1b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab390e9bf772c9a88f9f48c5bd360d7ed"><td class="memTemplParams" colspan="2">template&lt;class T , class U &gt; </td></tr>
 <tr class="memitem:ab390e9bf772c9a88f9f48c5bd360d7ed"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab390e9bf772c9a88f9f48c5bd360d7ed">register_any_less_comparison</a> ()</td></tr>
+<tr class="memdesc:ab390e9bf772c9a88f9f48c5bd360d7ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register the comparison function <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T()</a> &lt; U()  <a href="namespaceseq.html#ab390e9bf772c9a88f9f48c5bd360d7ed">More...</a><br /></td></tr>
 <tr class="separator:ab390e9bf772c9a88f9f48c5bd360d7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b0810417829f24c04037720cfe1cc92"><td class="memTemplParams" colspan="2">template&lt;class T , class U , class Fun &gt; </td></tr>
 <tr class="memitem:a0b0810417829f24c04037720cfe1cc92"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a0b0810417829f24c04037720cfe1cc92">register_any_less_comparison</a> (Fun fun)</td></tr>
+<tr class="memdesc:a0b0810417829f24c04037720cfe1cc92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a comparison function between types T and U based on given functor.  <a href="namespaceseq.html#a0b0810417829f24c04037720cfe1cc92">More...</a><br /></td></tr>
 <tr class="separator:a0b0810417829f24c04037720cfe1cc92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb61336a531e99a11a888883a46d0f01"><td class="memTemplParams" colspan="2">template&lt;class T , class U &gt; </td></tr>
 <tr class="memitem:adb61336a531e99a11a888883a46d0f01"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#adb61336a531e99a11a888883a46d0f01">register_any_equal_comparison</a> ()</td></tr>
+<tr class="memdesc:adb61336a531e99a11a888883a46d0f01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register the comparison function <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T()</a> == U()  <a href="namespaceseq.html#adb61336a531e99a11a888883a46d0f01">More...</a><br /></td></tr>
 <tr class="separator:adb61336a531e99a11a888883a46d0f01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa783de724c82de2264d98a3437294df"><td class="memTemplParams" colspan="2">template&lt;class T , class U , class Fun &gt; </td></tr>
 <tr class="memitem:aaa783de724c82de2264d98a3437294df"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aaa783de724c82de2264d98a3437294df">register_any_equal_comparison</a> (Fun fun)</td></tr>
+<tr class="memdesc:aaa783de724c82de2264d98a3437294df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a comparison function between types T and U based on given functor.  <a href="namespaceseq.html#aaa783de724c82de2264d98a3437294df">More...</a><br /></td></tr>
 <tr class="separator:aaa783de724c82de2264d98a3437294df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae93974cf840383439da3212e3c79d7c1"><td class="memTemplParams" colspan="2">template&lt;class Interface , size_t S, size_t A, class T &gt; </td></tr>
 <tr class="memitem:ae93974cf840383439da3212e3c79d7c1"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ae93974cf840383439da3212e3c79d7c1">operator==</a> (const <a class="el" href="classseq_1_1hold__any.html">hold_any</a>&lt; Interface, S, A &gt; &amp;a, const T &amp;b) -&gt; bool</td></tr>
@@ -637,59 +646,62 @@ Functions</h2></td></tr>
 <tr class="memitem:aa01a2e9b3b57b882c04f41e155e7d640"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aa01a2e9b3b57b882c04f41e155e7d640">consecutive_N_bits</a> (size_t num) -&gt; unsigned</td></tr>
 <tr class="memdesc:aa01a2e9b3b57b882c04f41e155e7d640"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the position of the first consecutive N bits within <em>num</em>.  <a href="namespaceseq.html#aa01a2e9b3b57b882c04f41e155e7d640">More...</a><br /></td></tr>
 <tr class="separator:aa01a2e9b3b57b882c04f41e155e7d640"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a549cd68f02bd7ddfa1ac9db016dcc175"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a549cd68f02bd7ddfa1ac9db016dcc175">bswap_16</a> (std::uint16_t value) -&gt; std::uint16_t</td></tr>
-<tr class="separator:a549cd68f02bd7ddfa1ac9db016dcc175"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa13f9cd975d93a1aca16515c52217ace"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aa13f9cd975d93a1aca16515c52217ace">bswap_32</a> (std::uint32_t value) -&gt; std::uint32_t</td></tr>
-<tr class="separator:aa13f9cd975d93a1aca16515c52217ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad01aa4e35623066ed4ffc6b7d8385a97"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ad01aa4e35623066ed4ffc6b7d8385a97">bswap_64</a> (std::uint64_t value) -&gt; std::uint64_t</td></tr>
-<tr class="separator:ad01aa4e35623066ed4ffc6b7d8385a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae245e0eac231291e4870473d50563333"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ae245e0eac231291e4870473d50563333">byte_swap_16</a> (std::uint16_t value) -&gt; std::uint16_t</td></tr>
+<tr class="memdesc:ae245e0eac231291e4870473d50563333"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a byte-swapped representation of the 16-bit argument.  <a href="namespaceseq.html#ae245e0eac231291e4870473d50563333">More...</a><br /></td></tr>
+<tr class="separator:ae245e0eac231291e4870473d50563333"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bcd590a0f658c7717ac3295ce0ebd6c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a6bcd590a0f658c7717ac3295ce0ebd6c">byte_swap_32</a> (std::uint32_t value) -&gt; std::uint32_t</td></tr>
+<tr class="memdesc:a6bcd590a0f658c7717ac3295ce0ebd6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a byte-swapped representation of the 32-bit argument.  <a href="namespaceseq.html#a6bcd590a0f658c7717ac3295ce0ebd6c">More...</a><br /></td></tr>
+<tr class="separator:a6bcd590a0f658c7717ac3295ce0ebd6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07a2ecccd735e2c51aed1c52d39e57ec"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a07a2ecccd735e2c51aed1c52d39e57ec">byte_swap_64</a> (std::uint64_t value) -&gt; std::uint64_t</td></tr>
+<tr class="memdesc:a07a2ecccd735e2c51aed1c52d39e57ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a byte-swapped representation of the 64-bit argument.  <a href="namespaceseq.html#a07a2ecccd735e2c51aed1c52d39e57ec">More...</a><br /></td></tr>
+<tr class="separator:a07a2ecccd735e2c51aed1c52d39e57ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8aa0f34c5b9efbaacd24ae215c6ebdfe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a8aa0f34c5b9efbaacd24ae215c6ebdfe">write_LE_16</a> (void *dst, std::uint16_t value)</td></tr>
-<tr class="memdesc:a8aa0f34c5b9efbaacd24ae215c6ebdfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 16 bits integer <em>value</em> to <em>dst</em> in little endian order.  <a href="namespaceseq.html#a8aa0f34c5b9efbaacd24ae215c6ebdfe">More...</a><br /></td></tr>
+<tr class="memdesc:a8aa0f34c5b9efbaacd24ae215c6ebdfe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 16 bits integer value to dst in little endian order.  <a href="namespaceseq.html#a8aa0f34c5b9efbaacd24ae215c6ebdfe">More...</a><br /></td></tr>
 <tr class="separator:a8aa0f34c5b9efbaacd24ae215c6ebdfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbce06d3b6c0dd24ef956b3bba564914"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#abbce06d3b6c0dd24ef956b3bba564914">write_LE_32</a> (void *dst, std::uint32_t value)</td></tr>
-<tr class="memdesc:abbce06d3b6c0dd24ef956b3bba564914"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 32 bits integer <em>value</em> to <em>dst</em> in little endian order.  <a href="namespaceseq.html#abbce06d3b6c0dd24ef956b3bba564914">More...</a><br /></td></tr>
+<tr class="memdesc:abbce06d3b6c0dd24ef956b3bba564914"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 32 bits integer value to dst in little endian order.  <a href="namespaceseq.html#abbce06d3b6c0dd24ef956b3bba564914">More...</a><br /></td></tr>
 <tr class="separator:abbce06d3b6c0dd24ef956b3bba564914"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2dd16ebc1860bdc316a5f83c8210a361"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a2dd16ebc1860bdc316a5f83c8210a361">write_LE_64</a> (void *dst, std::uint64_t value)</td></tr>
-<tr class="memdesc:a2dd16ebc1860bdc316a5f83c8210a361"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 64 bits integer <em>value</em> to <em>dst</em> in little endian order.  <a href="namespaceseq.html#a2dd16ebc1860bdc316a5f83c8210a361">More...</a><br /></td></tr>
+<tr class="memdesc:a2dd16ebc1860bdc316a5f83c8210a361"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 64 bits integer value to dst in little endian order.  <a href="namespaceseq.html#a2dd16ebc1860bdc316a5f83c8210a361">More...</a><br /></td></tr>
 <tr class="separator:a2dd16ebc1860bdc316a5f83c8210a361"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a052b75a0721954d5497ff1753315e997"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a052b75a0721954d5497ff1753315e997">read_LE_16</a> (const void *src) -&gt; std::uint16_t</td></tr>
-<tr class="memdesc:a052b75a0721954d5497ff1753315e997"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 16 bits integer from <em>src</em> in little endian order.  <a href="namespaceseq.html#a052b75a0721954d5497ff1753315e997">More...</a><br /></td></tr>
+<tr class="memdesc:a052b75a0721954d5497ff1753315e997"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 16 bits integer from src in little endian order.  <a href="namespaceseq.html#a052b75a0721954d5497ff1753315e997">More...</a><br /></td></tr>
 <tr class="separator:a052b75a0721954d5497ff1753315e997"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a00bc4c5f354e2350bab137e35c0ceb"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a1a00bc4c5f354e2350bab137e35c0ceb">read_LE_32</a> (const void *src) -&gt; std::uint32_t</td></tr>
-<tr class="memdesc:a1a00bc4c5f354e2350bab137e35c0ceb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 32 bits integer from <em>src</em> in little endian order.  <a href="namespaceseq.html#a1a00bc4c5f354e2350bab137e35c0ceb">More...</a><br /></td></tr>
+<tr class="memdesc:a1a00bc4c5f354e2350bab137e35c0ceb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 32 bits integer from src in little endian order.  <a href="namespaceseq.html#a1a00bc4c5f354e2350bab137e35c0ceb">More...</a><br /></td></tr>
 <tr class="separator:a1a00bc4c5f354e2350bab137e35c0ceb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee33b43276433d62551712f283741546"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aee33b43276433d62551712f283741546">read_LE_64</a> (const void *src) -&gt; std::uint64_t</td></tr>
-<tr class="memdesc:aee33b43276433d62551712f283741546"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 64 bits integer from <em>src</em> in little endian order.  <a href="namespaceseq.html#aee33b43276433d62551712f283741546">More...</a><br /></td></tr>
+<tr class="memdesc:aee33b43276433d62551712f283741546"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 64 bits integer from src in little endian order.  <a href="namespaceseq.html#aee33b43276433d62551712f283741546">More...</a><br /></td></tr>
 <tr class="separator:aee33b43276433d62551712f283741546"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20f46b0218710a8c5534b5795ce95b2e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a20f46b0218710a8c5534b5795ce95b2e">read_16</a> (const void *src) -&gt; std::uint16_t</td></tr>
-<tr class="memdesc:a20f46b0218710a8c5534b5795ce95b2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 16 bits integer from <em>src</em>.  <a href="namespaceseq.html#a20f46b0218710a8c5534b5795ce95b2e">More...</a><br /></td></tr>
+<tr class="memdesc:a20f46b0218710a8c5534b5795ce95b2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 16 bits integer from src.  <a href="namespaceseq.html#a20f46b0218710a8c5534b5795ce95b2e">More...</a><br /></td></tr>
 <tr class="separator:a20f46b0218710a8c5534b5795ce95b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36b48ff10138ee36cd0f4949f01a23f1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a36b48ff10138ee36cd0f4949f01a23f1">read_32</a> (const void *src) -&gt; std::uint32_t</td></tr>
-<tr class="memdesc:a36b48ff10138ee36cd0f4949f01a23f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 32 bits integer from <em>src</em>.  <a href="namespaceseq.html#a36b48ff10138ee36cd0f4949f01a23f1">More...</a><br /></td></tr>
+<tr class="memdesc:a36b48ff10138ee36cd0f4949f01a23f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 32 bits integer from src.  <a href="namespaceseq.html#a36b48ff10138ee36cd0f4949f01a23f1">More...</a><br /></td></tr>
 <tr class="separator:a36b48ff10138ee36cd0f4949f01a23f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a53674d0482ead92a98023ed0d7c57dd1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a53674d0482ead92a98023ed0d7c57dd1">read_64</a> (const void *src) -&gt; std::uint64_t</td></tr>
-<tr class="memdesc:a53674d0482ead92a98023ed0d7c57dd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 64 bits integer from <em>src</em>.  <a href="namespaceseq.html#a53674d0482ead92a98023ed0d7c57dd1">More...</a><br /></td></tr>
+<tr class="memdesc:a53674d0482ead92a98023ed0d7c57dd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 64 bits integer from src.  <a href="namespaceseq.html#a53674d0482ead92a98023ed0d7c57dd1">More...</a><br /></td></tr>
 <tr class="separator:a53674d0482ead92a98023ed0d7c57dd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae07d1a9758d3ce39924f26eff332f759"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ae07d1a9758d3ce39924f26eff332f759">read_ptr_t</a> (const void *src) -&gt; std::uintptr_t</td></tr>
-<tr class="memdesc:ae07d1a9758d3ce39924f26eff332f759"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads uintptr_t integer from <em>src</em>.  <a href="namespaceseq.html#ae07d1a9758d3ce39924f26eff332f759">More...</a><br /></td></tr>
+<tr class="memdesc:ae07d1a9758d3ce39924f26eff332f759"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads uintptr_t integer from src.  <a href="namespaceseq.html#ae07d1a9758d3ce39924f26eff332f759">More...</a><br /></td></tr>
 <tr class="separator:ae07d1a9758d3ce39924f26eff332f759"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1f9f34cc361321151e13951ccad2ac4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aa1f9f34cc361321151e13951ccad2ac4">read_BE_16</a> (const void *src) -&gt; std::uint16_t</td></tr>
-<tr class="memdesc:aa1f9f34cc361321151e13951ccad2ac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 16 bits integer from <em>src</em> in big endian order.  <a href="namespaceseq.html#aa1f9f34cc361321151e13951ccad2ac4">More...</a><br /></td></tr>
+<tr class="memdesc:aa1f9f34cc361321151e13951ccad2ac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 16 bits integer from src in big endian order.  <a href="namespaceseq.html#aa1f9f34cc361321151e13951ccad2ac4">More...</a><br /></td></tr>
 <tr class="separator:aa1f9f34cc361321151e13951ccad2ac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adccead2b857599b0e675267609e5120f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#adccead2b857599b0e675267609e5120f">read_BE_32</a> (const void *src) -&gt; std::uint32_t</td></tr>
-<tr class="memdesc:adccead2b857599b0e675267609e5120f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 32 bits integer from <em>src</em> in big endian order.  <a href="namespaceseq.html#adccead2b857599b0e675267609e5120f">More...</a><br /></td></tr>
+<tr class="memdesc:adccead2b857599b0e675267609e5120f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 32 bits integer from src in big endian order.  <a href="namespaceseq.html#adccead2b857599b0e675267609e5120f">More...</a><br /></td></tr>
 <tr class="separator:adccead2b857599b0e675267609e5120f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3778777f10583618f958211656aec2b4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a3778777f10583618f958211656aec2b4">read_BE_64</a> (const void *src) -&gt; std::uint64_t</td></tr>
-<tr class="memdesc:a3778777f10583618f958211656aec2b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 64 bits integer from <em>src</em> in big endian order.  <a href="namespaceseq.html#a3778777f10583618f958211656aec2b4">More...</a><br /></td></tr>
+<tr class="memdesc:a3778777f10583618f958211656aec2b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads 64 bits integer from src in big endian order.  <a href="namespaceseq.html#a3778777f10583618f958211656aec2b4">More...</a><br /></td></tr>
 <tr class="separator:a3778777f10583618f958211656aec2b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2adb2cb36973f3d571f0984dffb68d87"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a2adb2cb36973f3d571f0984dffb68d87">read_size_t</a> (const void *src) -&gt; size_t</td></tr>
-<tr class="memdesc:a2adb2cb36973f3d571f0984dffb68d87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads size_t object from <em>src</em>.  <a href="namespaceseq.html#a2adb2cb36973f3d571f0984dffb68d87">More...</a><br /></td></tr>
+<tr class="memdesc:a2adb2cb36973f3d571f0984dffb68d87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads size_t object from src.  <a href="namespaceseq.html#a2adb2cb36973f3d571f0984dffb68d87">More...</a><br /></td></tr>
 <tr class="separator:a2adb2cb36973f3d571f0984dffb68d87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1f5bd629161aaad113175e3b0217f29"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aa1f5bd629161aaad113175e3b0217f29">read_LE_size_t</a> (const void *src) -&gt; size_t</td></tr>
-<tr class="memdesc:aa1f5bd629161aaad113175e3b0217f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads size_t object from <em>src</em> in little endian order.  <a href="namespaceseq.html#aa1f5bd629161aaad113175e3b0217f29">More...</a><br /></td></tr>
+<tr class="memdesc:aa1f5bd629161aaad113175e3b0217f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads size_t object from src in little endian order.  <a href="namespaceseq.html#aa1f5bd629161aaad113175e3b0217f29">More...</a><br /></td></tr>
 <tr class="separator:aa1f5bd629161aaad113175e3b0217f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79fbedb52aef41b37b7b243497ead642"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a79fbedb52aef41b37b7b243497ead642">read_BE_size_t</a> (const void *src) -&gt; size_t</td></tr>
-<tr class="memdesc:a79fbedb52aef41b37b7b243497ead642"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads size_t object from <em>src</em> in big endian order.  <a href="namespaceseq.html#a79fbedb52aef41b37b7b243497ead642">More...</a><br /></td></tr>
+<tr class="memdesc:a79fbedb52aef41b37b7b243497ead642"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads size_t object from src in big endian order.  <a href="namespaceseq.html#a79fbedb52aef41b37b7b243497ead642">More...</a><br /></td></tr>
 <tr class="separator:a79fbedb52aef41b37b7b243497ead642"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade167dcc6d29b420964a6be1498889ac"><td class="memTemplParams" colspan="2">template&lt;class Stream , class T &gt; </td></tr>
 <tr class="memitem:ade167dcc6d29b420964a6be1498889ac"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ade167dcc6d29b420964a6be1498889ac">from_stream</a> (Stream &amp;str, T &amp;value, int base=10) -&gt; Stream &amp;</td></tr>
@@ -1054,7 +1066,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:a60b1a14cbf28e77e92a346892ef8531c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation of C++17 if constexpr.  <a href="namespaceseq.html#a60b1a14cbf28e77e92a346892ef8531c">More...</a><br /></td></tr>
 <tr class="separator:a60b1a14cbf28e77e92a346892ef8531c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>MIT License</p>
+<p>Copyright (c) 2022 Victor Moncada <a href="#" onclick="location.href='mai'+'lto:'+'vtr'+'.m'+'onc'+'ad'+'a@g'+'ma'+'il.'+'co'+'m'; return false;">vtr.m<span style="display: none;">.nosp@m.</span>onca<span style="display: none;">.nosp@m.</span>da@gm<span style="display: none;">.nosp@m.</span>ail.<span style="display: none;">.nosp@m.</span>com</a></p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>
+</div><h2 class="groupheader">Typedef Documentation</h2>
 <a id="a24ef193cef19271b9b18ce6c74fc5b54"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a24ef193cef19271b9b18ce6c74fc5b54">&#9670;&nbsp;</a></span>any</h2>
 
@@ -1221,7 +1239,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Memory Layout Management for containers like <a class="el" href="classseq_1_1sequence.html" title="sequence is an ordered container supporting constant time insertion at both end and constant removal ...">seq::sequence</a> or <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a>. </p>
+<p>Memory Layout Management for containers like <a class="el" href="classseq_1_1sequence.html" title="sequence is an ordered container supporting constant time insertion at both end and constant time rem...">seq::sequence</a> or <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a>. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a209c3fd2e66f43ecc90862f2ee5e3dd5a83983acd78764ffa023da74a7360670e"></a>OptimizeForSpeed&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a209c3fd2e66f43ecc90862f2ee5e3dd5a51407649077d79765e15397347a57432"></a>OptimizeForMemory&#160;</td><td class="fielddoc"><p>Use more memory to favor speed. </p>
@@ -1696,8 +1714,8 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
 
 </div>
 </div>
-<a id="a549cd68f02bd7ddfa1ac9db016dcc175"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a549cd68f02bd7ddfa1ac9db016dcc175">&#9670;&nbsp;</a></span>bswap_16()</h2>
+<a id="ae245e0eac231291e4870473d50563333"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae245e0eac231291e4870473d50563333">&#9670;&nbsp;</a></span>byte_swap_16()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1706,7 +1724,7 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto seq::bswap_16 </td>
+          <td class="memname">auto seq::byte_swap_16 </td>
           <td>(</td>
           <td class="paramtype">std::uint16_t&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -1719,12 +1737,13 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>SwapByteOrder_16 - This function returns a byte-swapped representation of the 16-bit argument. </p>
+
+<p>Returns a byte-swapped representation of the 16-bit argument. </p>
 
 </div>
 </div>
-<a id="aa13f9cd975d93a1aca16515c52217ace"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa13f9cd975d93a1aca16515c52217ace">&#9670;&nbsp;</a></span>bswap_32()</h2>
+<a id="a6bcd590a0f658c7717ac3295ce0ebd6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bcd590a0f658c7717ac3295ce0ebd6c">&#9670;&nbsp;</a></span>byte_swap_32()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1733,7 +1752,7 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto seq::bswap_32 </td>
+          <td class="memname">auto seq::byte_swap_32 </td>
           <td>(</td>
           <td class="paramtype">std::uint32_t&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -1746,12 +1765,13 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>SwapByteOrder_32 - This function returns a byte-swapped representation of the 32-bit argument. </p>
+
+<p>Returns a byte-swapped representation of the 32-bit argument. </p>
 
 </div>
 </div>
-<a id="ad01aa4e35623066ed4ffc6b7d8385a97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad01aa4e35623066ed4ffc6b7d8385a97">&#9670;&nbsp;</a></span>bswap_64()</h2>
+<a id="a07a2ecccd735e2c51aed1c52d39e57ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07a2ecccd735e2c51aed1c52d39e57ec">&#9670;&nbsp;</a></span>byte_swap_64()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1760,7 +1780,7 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto seq::bswap_64 </td>
+          <td class="memname">auto seq::byte_swap_64 </td>
           <td>(</td>
           <td class="paramtype">std::uint64_t&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -1773,7 +1793,8 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>SwapByteOrder_64 - This function returns a byte-swapped representation of the 64-bit argument. </p>
+
+<p>Returns a byte-swapped representation of the 64-bit argument. </p>
 
 </div>
 </div>
@@ -6457,7 +6478,7 @@ template&lt;class Iter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Reads 16 bits integer from <em>src</em>. </p>
+<p>Reads 16 bits integer from src. </p>
 
 </div>
 </div>
@@ -6486,7 +6507,7 @@ template&lt;class Iter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Reads 32 bits integer from <em>src</em>. </p>
+<p>Reads 32 bits integer from src. </p>
 
 </div>
 </div>
@@ -6515,7 +6536,7 @@ template&lt;class Iter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Reads 64 bits integer from <em>src</em>. </p>
+<p>Reads 64 bits integer from src. </p>
 
 </div>
 </div>
@@ -6544,7 +6565,7 @@ template&lt;class Iter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Reads 16 bits integer from <em>src</em> in big endian order. </p>
+<p>Reads 16 bits integer from src in big endian order. </p>
 
 </div>
 </div>
@@ -6573,7 +6594,7 @@ template&lt;class Iter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Reads 32 bits integer from <em>src</em> in big endian order. </p>
+<p>Reads 32 bits integer from src in big endian order. </p>
 
 </div>
 </div>
@@ -6602,7 +6623,7 @@ template&lt;class Iter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Reads 64 bits integer from <em>src</em> in big endian order. </p>
+<p>Reads 64 bits integer from src in big endian order. </p>
 
 </div>
 </div>
@@ -6631,7 +6652,7 @@ template&lt;class Iter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Reads size_t object from <em>src</em> in big endian order. </p>
+<p>Reads size_t object from src in big endian order. </p>
 
 </div>
 </div>
@@ -6660,7 +6681,7 @@ template&lt;class Iter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Read 16 bits integer from <em>src</em> in little endian order. </p>
+<p>Read 16 bits integer from src in little endian order. </p>
 
 </div>
 </div>
@@ -6689,7 +6710,7 @@ template&lt;class Iter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Read 32 bits integer from <em>src</em> in little endian order. </p>
+<p>Read 32 bits integer from src in little endian order. </p>
 
 </div>
 </div>
@@ -6718,7 +6739,7 @@ template&lt;class Iter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Read 64 bits integer from <em>src</em> in little endian order. </p>
+<p>Read 64 bits integer from src in little endian order. </p>
 
 </div>
 </div>
@@ -6747,7 +6768,7 @@ template&lt;class Iter &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Reads size_t object from <em>src</em> in little endian order. </p>
+<p>Reads size_t object from src in little endian order. </p>
 
 </div>
 </div>
@@ -6878,7 +6899,7 @@ template&lt;class Stream , size_t Ss, class Al &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Reads uintptr_t integer from <em>src</em>. </p>
+<p>Reads uintptr_t integer from src. </p>
 
 </div>
 </div>
@@ -6907,7 +6928,7 @@ template&lt;class Stream , size_t Ss, class Al &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Reads size_t object from <em>src</em>. </p>
+<p>Reads size_t object from src. </p>
 
 </div>
 </div>
@@ -6927,6 +6948,8 @@ template&lt;class T , class U &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Register a conversion function based on explicit conversion from type T to type U. </p>
 
 </div>
 </div>
@@ -6948,6 +6971,8 @@ template&lt;class T , class U , class Fun &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Register a conversion function using given functor. </p>
+
 </div>
 </div>
 <a id="adb61336a531e99a11a888883a46d0f01"></a>
@@ -6966,6 +6991,8 @@ template&lt;class T , class U &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Register the comparison function <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T()</a> == U() </p>
 
 </div>
 </div>
@@ -6987,6 +7014,8 @@ template&lt;class T , class U , class Fun &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Register a comparison function between types T and U based on given functor. </p>
+
 </div>
 </div>
 <a id="ab390e9bf772c9a88f9f48c5bd360d7ed"></a>
@@ -7005,6 +7034,8 @@ template&lt;class T , class U &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Register the comparison function <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T()</a> &lt; U() </p>
 
 </div>
 </div>
@@ -7025,6 +7056,8 @@ template&lt;class T , class U , class Fun &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Register a comparison function between types T and U based on given functor. </p>
 
 </div>
 </div>
@@ -8520,7 +8553,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Write 16 bits integer <em>value</em> to <em>dst</em> in little endian order. </p>
+<p>Write 16 bits integer value to dst in little endian order. </p>
 
 </div>
 </div>
@@ -8558,7 +8591,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Write 32 bits integer <em>value</em> to <em>dst</em> in little endian order. </p>
+<p>Write 32 bits integer value to dst in little endian order. </p>
 
 </div>
 </div>
@@ -8596,7 +8629,7 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Write 64 bits integer <em>value</em> to <em>dst</em> in little endian order. </p>
+<p>Write 64 bits integer value to dst in little endian order. </p>
 
 </div>
 </div>

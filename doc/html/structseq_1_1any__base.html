@@ -153,8 +153,10 @@ Protected Types</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:ae69d9c307535cd2fa76eb26ed4b967db"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:ae69d9c307535cd2fa76eb26ed4b967db"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#ae69d9c307535cd2fa76eb26ed4b967db">alloc</a> () -&gt; void *</td></tr>
+<tr class="memdesc:ae69d9c307535cd2fa76eb26ed4b967db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate storage for given type, returns pointer to object in order to be constructed.  <a href="structseq_1_1any__base.html#ae69d9c307535cd2fa76eb26ed4b967db">More...</a><br /></td></tr>
 <tr class="separator:ae69d9c307535cd2fa76eb26ed4b967db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9197c890b48f4414996a62f8f6f181ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a9197c890b48f4414996a62f8f6f181ec">dealloc</a> () noexcept</td></tr>
+<tr class="memdesc:a9197c890b48f4414996a62f8f6f181ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocate storage.  <a href="structseq_1_1any__base.html#a9197c890b48f4414996a62f8f6f181ec">More...</a><br /></td></tr>
 <tr class="separator:a9197c890b48f4414996a62f8f6f181ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9cc3e6cece7e75d7322d156b0c35782"><td class="memTemplParams" colspan="2">template&lt;class T , class  = typename std::enable_if&lt;std::is_reference&lt;T&gt;::value, void&gt;::type&gt; </td></tr>
 <tr class="memitem:ad9cc3e6cece7e75d7322d156b0c35782"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#ad9cc3e6cece7e75d7322d156b0c35782">convert</a> (const TypeInfo *, const TypeInfo *, std::uintptr_t) const -&gt; T</td></tr>
@@ -278,6 +280,8 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Allocate storage for given type, returns pointer to object in order to be constructed. </p>
 
 </div>
 </div>
@@ -521,6 +525,8 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Deallocate storage. </p>
 
 </div>
 </div>

@@ -1,4 +1,26 @@
-
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #include "sequence.hpp"
 #include "tiered_vector.hpp"
@@ -89,11 +111,11 @@ void test_sequence(int size = 50000000)
 		big_slow bs;
 		big_fast bf;
 
-		size_t c =(size_t) size / 10;
+		size_t c =static_cast<size_t>( size / 10);
 
 		for (size_t i = 0; i < c; ++i)
 		{
-			size_t v = (size_t)i;
+			size_t v = static_cast<size_t>(i);
 			ss.push_back(v);
 			sf.push_back(v);
 			bs.push_back(v);
@@ -190,10 +212,10 @@ void test_sequence(int size = 50000000)
 
 	size_t i = 0; 
 	for (auto it = seq.begin(); it != seq.end(); ++it)
-		*it = (T)(i++);
+		*it = static_cast<T>(i++);
 	i = 0;
 	for (auto it = deq.begin(); it != deq.end(); ++it)
-		*it = (T)(i++);
+		*it = static_cast<T>(i++);
 
 	// Test resize front lower
 	deq.resize_front(deq.size() / 10);
@@ -302,7 +324,7 @@ void test_sequence(int size = 50000000)
 	{
 		auto itd = deq.begin();
 		auto its = seq.begin();
-		int i = (int)deq.size()-1;
+		int i = static_cast<int>(deq.size())-1;
 		while (itd != deq.end()) {
 			*itd++ = i;
 			*its++ = i;
@@ -328,7 +350,7 @@ void test_sequence(int size = 50000000)
 	{
 		auto itd = deq.begin();
 		auto its = seq.begin();
-		int i = (int)deq.size() - 1;
+		int i = static_cast<int>(deq.size()) - 1;
 		while (itd != deq.end()) {
 			*itd++ = i;
 			*its++ = i;
@@ -368,8 +390,8 @@ void test_sequence(int size = 50000000)
 
 		for (int i = 0; i < 50; ++i) {
 			int pos = i % 5;
-			pos = (int)d.size() * pos / 4;
-			if (pos == (int)d.size()) --pos;
+			pos = static_cast<int>(d.size()) * pos / 4;
+			if (pos == static_cast<int>(d.size())) --pos;
 			dd.erase(dd.begin() + pos);
 			d.erase(d.begin() + pos);
 			SEQ_TEST(equal_seq(d, dd));
@@ -387,7 +409,7 @@ void test_sequence(int size = 50000000)
 	{
 		auto itd = deq.begin();
 		auto its = seq.begin();
-		int i = (int)deq.size() - 1;;
+		int i = static_cast<int>(deq.size()) - 1;;
 		while (itd != deq.end()) {
 			*itd++ = i;
 			*its++ = i;
@@ -403,8 +425,8 @@ void test_sequence(int size = 50000000)
 	seq.resize(count);
 	deq.resize(count);
 	vec.resize(count);
-	for (int i = 0; i < (int)vec.size(); ++i)
-		vec[i] = i;
+	for (size_t i = 0; i < vec.size(); ++i)
+		vec[i] = static_cast<type>(i);
 	seq::random_shuffle(vec.begin(), vec.end());
 	{
 		auto itd = deq.begin();
@@ -417,18 +439,18 @@ void test_sequence(int size = 50000000)
 		}
 	}
 	std::vector<int> ran_pos;
-	int ssize = (int)vec.size();
+	int ssize = static_cast<int>(vec.size());
 	srand(0);
 	for (int i = 0; i < /*100000*/count/10; ++i) {
 		ran_pos.push_back(rand() % ssize--);
 	}
 
 	// Test erase random position
-	for (int i = 0; i < (int)ran_pos.size(); ++i)
+	for (size_t i = 0; i < ran_pos.size(); ++i)
 		deq.erase(deq.begin() + ran_pos[i]);
 	
 	auto tmp = seq.begin();
-	for (int i = 0; i < (int)ran_pos.size(); ++i) {
+	for (size_t i = 0; i < ran_pos.size(); ++i) {
 		tmp = seq.erase(seq.iterator_at(ran_pos[i]));
 	}
 	

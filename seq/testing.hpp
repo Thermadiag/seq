@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef SEQ_TESTING_HPP
 #define SEQ_TESTING_HPP
 
@@ -211,7 +235,7 @@ namespace seq
 				CloseHandle(process_info.hThread);
 			}
 
-			free((void*)tmp_command);
+			free(tmp_command);
 
 			return ret;
 		}
@@ -274,7 +298,7 @@ namespace seq
 	template<class String>
 	auto generate_random_string(int max_size, bool fixed = false) -> String
 	{
-		size_t size = (size_t)(fixed ? max_size : rand() % max_size);
+		size_t size = static_cast<size_t>(fixed ? max_size : rand() % max_size);
 		String res(size, 0);
 		for (size_t i = 0; i < size; ++i)
 			res[i] = (rand() & 63) + 33;
@@ -290,7 +314,7 @@ namespace seq
 		struct Multiply
 		{
 			static auto multiply(T value) -> T {
-				return static_cast<T>(((int)rand() + (int)rand()) * 14695981039346656037ULL * value);
+				return static_cast<T>((static_cast<int>(rand()) + static_cast<int>(rand())) * 14695981039346656037ULL * value);
 			}
 			template<class Stream>
 			static auto read(Stream& str) -> T { T r;  seq::from_stream(str, r); return r; }
@@ -342,12 +366,12 @@ namespace seq
 		auto operator()() -> Float
 		{
 			const bool type = rand() & 1;
-			Float sign1 = (rand() & 1) ? (Float)-1 : (Float)1;
+			Float sign1 = (rand() & 1) ? static_cast<Float>(-1) : static_cast<Float>(1);
 			Float res;
 			if (type)
 				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * rand()))));
 			else
-				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * rand())) * std::pow((Float)10., (Float)sign1 * (rand() & mask))));
+				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * rand())) * std::pow(static_cast<Float>(10.), static_cast<Float>(sign1) * (rand() & mask))));
 
 			return res;
 		}

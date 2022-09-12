@@ -1,4 +1,26 @@
-
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #include <cstdlib>
 #include <cstdio>
@@ -11,7 +33,7 @@
 template<class T>
 int __float_to_string_seq(T val, seq::chars_format fmt, int prec, char *dst, char * end)
 {
-	int size = (int)(seq::to_chars(dst, end, val, fmt, prec).ptr - dst);
+	int size = static_cast<int>(seq::to_chars(dst, end, val, fmt, prec).ptr - dst);
 	dst[size] = 0;
 	return size;
 }
@@ -39,7 +61,7 @@ int __float_to_string_printf(T val, seq::chars_format fmt, int prec, char* dst, 
 	}
 
 	snprintf(dst,end-dst, oss.str().c_str(), val);
-	return (int)strlen(dst);
+	return static_cast<int>(strlen(dst));
 }
 
 template<class T>
@@ -62,13 +84,13 @@ int exponent(T v)
 {
 	T exp = std::log10(std::abs(v));
 	exp = std::floor(exp);
-	return (int)exp;
+	return static_cast<int>(exp);
 }
 
 template<class T>
 bool __test_equal(const char* s1, const char* s2, seq::chars_format fmt, int prec)
 {	
-	int l1 = (int)strlen(s1);
+	int l1 = static_cast<int>(strlen(s1));
 	//int l2 = (int)strlen(s2);
 
 	if (strcmp(s1, s2) == 0)
@@ -100,15 +122,15 @@ bool __test_equal(const char* s1, const char* s2, seq::chars_format fmt, int pre
 		// for fixed specifier, harder to compare, for now just check the exponents
 		return exp1 == exp2;
 	}
-	v1 *= (T)std::pow((T)10, (T)-exp1);
-	v2 *= (T)std::pow((T)10, (T)-exp1);
+	v1 *= static_cast<T>(std::pow(static_cast<T>(10), static_cast<T>(-exp1)));
+	v2 *= static_cast<T>(std::pow(static_cast<T>(10), static_cast<T>(-exp1)));
 
 	int p = prec;
 	if (p > 14) p = 14;
 	if (std::is_same<T, float>::value && p > 6)
 		p = 6;
 	if (p > 0) --p;
-	T error = (T)std::pow((T)10., (T)-p) *4;
+	T error = static_cast<T>(std::pow(static_cast<T>(10.), static_cast<T>(-p))) *4;
 	T diff = std::abs(v1 - v2);
 	if (diff <= error)
 		return true;

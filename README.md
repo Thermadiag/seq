@@ -42,6 +42,7 @@ Why C++11 ?
 For now the seq library is developped and maintained in order to remain compatible with C++11 only compilers.
 While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11.
 
+Seq library was tested with gcc/10.1.0 (Windows, mingw), gcc/8.4.0 (Linux) and msvc/14.20 (Windows).
 
 Design
 ------

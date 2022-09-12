@@ -146,8 +146,10 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_base_circular_buffer.html">BaseCircularBuffer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_base_tree.html">BaseTree</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for <a class="el" href="structseq_1_1detail_1_1flat__tree.html" title="Base class for flat_map/set Uses a seq::tiered_vector to store the values and provide faster insertio...">flat_tree</a>.  <a href="structseq_1_1detail_1_1_base_tree.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_base_tree_3_01_key_00_01_key_00_01_less_01_4.html">BaseTree&lt; Key, Key, Less &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for <a class="el" href="structseq_1_1detail_1_1flat__tree.html" title="Base class for flat_map/set Uses a seq::tiered_vector to store the values and provide faster insertio...">flat_tree</a> in case of simple set (no associative container)  <a href="structseq_1_1detail_1_1_base_tree_3_01_key_00_01_key_00_01_less_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1block__it.html">block_it</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -214,41 +216,33 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1char__range.html">char_range</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1chunk__padding.html">chunk_padding</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1chunk__padding_3_01_t_00_010_01_4.html">chunk_padding&lt; T, 0 &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1chunk__padding__base.html">chunk_padding_base</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1chunk__pool__alloc.html">chunk_pool_alloc</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate <a class="el" href="structseq_1_1detail_1_1list__chunk.html">list_chunk</a> objects (64 bytes aligned) using a <a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">seq::object_pool</a> Note that the <a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">object_pool</a> is only used after a few allocations to avoid a too big memory overhead for small sequences.  <a href="classseq_1_1detail_1_1chunk__pool__alloc.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">chunk_proxy</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_circular_buffer.html">CircularBuffer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_equal_string.html">CompareEqualString</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison for <a class="el" href="classseq_1_1hold__any.html#abbeed042b82bc91b7b75dfc50064676a">hold_any::equal_to</a>.  <a href="structseq_1_1detail_1_1_compare_equal_string.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison for <a class="el" href="classseq_1_1hold__any.html#abbeed042b82bc91b7b75dfc50064676a" title="Returns true if underlying object is equal to other.">hold_any::equal_to</a>.  <a href="structseq_1_1detail_1_1_compare_equal_string.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_equal_string_3_01_t_00_01false_01_4.html">CompareEqualString&lt; T, false &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_greater_arithmetic.html">CompareGreaterArithmetic</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater than comparison for <a class="el" href="classseq_1_1hold__any.html#a309289b8f08a2a8c3e587a07e35d1b15">hold_any::greater_than</a>.  <a href="structseq_1_1detail_1_1_compare_greater_arithmetic.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater than comparison for <a class="el" href="classseq_1_1hold__any.html#a309289b8f08a2a8c3e587a07e35d1b15" title="Returns true if underlying object compares greater than other.">hold_any::greater_than</a>.  <a href="structseq_1_1detail_1_1_compare_greater_arithmetic.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_greater_arithmetic_3_01_t_00_01_cast_00_01false_01_4.html">CompareGreaterArithmetic&lt; T, Cast, false &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_greater_string.html">CompareGreaterString</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater than comparison for <a class="el" href="classseq_1_1hold__any.html#a309289b8f08a2a8c3e587a07e35d1b15">hold_any::greater_than</a>.  <a href="structseq_1_1detail_1_1_compare_greater_string.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greater than comparison for <a class="el" href="classseq_1_1hold__any.html#a309289b8f08a2a8c3e587a07e35d1b15" title="Returns true if underlying object compares greater than other.">hold_any::greater_than</a>.  <a href="structseq_1_1detail_1_1_compare_greater_string.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_greater_string_3_01_t_00_01false_01_4.html">CompareGreaterString&lt; T, false &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_less_arithmetic.html">CompareLessArithmetic</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less than comparison for <a class="el" href="classseq_1_1hold__any.html#a25cb6f241bd0cd9e29961b8ba4d8d6bd">hold_any::less_than</a>.  <a href="structseq_1_1detail_1_1_compare_less_arithmetic.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less than comparison for <a class="el" href="classseq_1_1hold__any.html#a25cb6f241bd0cd9e29961b8ba4d8d6bd" title="Returns true if underlying object compares less than other.">hold_any::less_than</a>.  <a href="structseq_1_1detail_1_1_compare_less_arithmetic.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_less_arithmetic_3_01_t_00_01_cast_00_01false_01_4.html">CompareLessArithmetic&lt; T, Cast, false &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_less_string.html">CompareLessString</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less than comparison for <a class="el" href="classseq_1_1hold__any.html#a25cb6f241bd0cd9e29961b8ba4d8d6bd">hold_any::less_than</a>.  <a href="structseq_1_1detail_1_1_compare_less_string.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less than comparison for <a class="el" href="classseq_1_1hold__any.html#a25cb6f241bd0cd9e29961b8ba4d8d6bd" title="Returns true if underlying object compares less than other.">hold_any::less_than</a>.  <a href="structseq_1_1detail_1_1_compare_less_string.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compare_less_string_3_01_t_00_01false_01_4.html">CompareLessString&lt; T, false &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -258,7 +252,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_converter_3_01_tuple_00_010_01_4.html">Converter&lt; Tuple, 0 &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__chunk__pool.html">deque_chunk_pool</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate list_chunk&lt;T&gt; object by continuous blocks.  <a href="structseq_1_1detail_1_1deque__chunk__pool.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">tiered_vector</a> buckets by continuous blocks.  <a href="structseq_1_1detail_1_1deque__chunk__pool.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html">deque_chunk_pool_alloc</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -271,9 +265,7 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_deque_sorter.html">DequeSorter</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_deque_sorter_3_01false_00_01_less_00_01true_00_01true_01_4.html">DequeSorter&lt; false, Less, true, true &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_deque_sorter_3_01true_00_01_less_00_01_is_arithmetic_00_01_less_or_greater_01_4.html">DequeSorter&lt; true, Less, IsArithmetic, LessOrGreater &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_deque_sorter_3_01true_00_01_less_01_4.html">DequeSorter&lt; true, Less &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_d_e_vector_data.html">DEVectorData</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -298,6 +290,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_find_static_size.html">FindStaticSize</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for flat_map/set Uses a <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a> to store the values and provide faster insertion/deletion of unique elements.  <a href="structseq_1_1detail_1_1flat__tree.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1float__chars__format.html">float_chars_format</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -501,6 +494,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">SmallBucketAllocator</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">SparseFlatNodeHashTable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for robin-hood hash table. Values are stored in a <a class="el" href="classseq_1_1sequence.html" title="sequence is an ordered container supporting constant time insertion at both end and constant time rem...">seq::sequence</a> object, and the hash table contains iterators to the sequence with additional hash value and distance to perfect location.  <a href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_s_s_o.html">SSO</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -590,6 +584,7 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespaceseq_1_1detail.html#ab30aadadbca04f03a4fbfafab2b975afa9ee85222ef4be71557a04ca6e1d9462a">Front</a>, 
 <a class="el" href="namespaceseq_1_1detail.html#ab30aadadbca04f03a4fbfafab2b975afaf0e0359e700bf7b06a32567d0da335ed">Anywhere</a>
  }</td></tr>
+<tr class="memdesc:ab30aadadbca04f03a4fbfafab2b975af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insertion location within a <a class="el" href="classseq_1_1sequence.html" title="sequence is an ordered container supporting constant time insertion at both end and constant time rem...">seq::sequence</a> object.  <a href="namespaceseq_1_1detail.html#ab30aadadbca04f03a4fbfafab2b975af">More...</a><br /></td></tr>
 <tr class="separator:ab30aadadbca04f03a4fbfafab2b975af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -598,21 +593,27 @@ Functions</h2></td></tr>
 <tr class="separator:a16e0b8169a68649463a0531129e80ba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6abd70fcf8613db7ef84a03fcd3eac52"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a6abd70fcf8613db7ef84a03fcd3eac52"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a6abd70fcf8613db7ef84a03fcd3eac52">ostream_any</a> (std::ostream &amp;oss, const void *in)</td></tr>
+<tr class="memdesc:a6abd70fcf8613db7ef84a03fcd3eac52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream object to std::ostream or throw std::bad_function_call.  <a href="namespaceseq_1_1detail.html#a6abd70fcf8613db7ef84a03fcd3eac52">More...</a><br /></td></tr>
 <tr class="separator:a6abd70fcf8613db7ef84a03fcd3eac52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a177935585942e13bbb30830a6ab6238d"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a177935585942e13bbb30830a6ab6238d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a177935585942e13bbb30830a6ab6238d">istream_any</a> (std::istream &amp;iss, void *in)</td></tr>
+<tr class="memdesc:a177935585942e13bbb30830a6ab6238d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read object to std::istream or throw std::bad_function_call.  <a href="namespaceseq_1_1detail.html#a177935585942e13bbb30830a6ab6238d">More...</a><br /></td></tr>
 <tr class="separator:a177935585942e13bbb30830a6ab6238d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a280597fb66785a68b9b92e1f19bccf04"><td class="memTemplParams" colspan="2">template&lt;class T , bool SupportHash&gt; </td></tr>
 <tr class="memitem:a280597fb66785a68b9b92e1f19bccf04"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a280597fb66785a68b9b92e1f19bccf04">hash_any</a> (const void *in) -&gt; size_t</td></tr>
+<tr class="memdesc:a280597fb66785a68b9b92e1f19bccf04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hash object using std::hash or throw std::bad_function_call.  <a href="namespaceseq_1_1detail.html#a280597fb66785a68b9b92e1f19bccf04">More...</a><br /></td></tr>
 <tr class="separator:a280597fb66785a68b9b92e1f19bccf04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21777762f63fc1f6ad38c9fac62ee68d"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a21777762f63fc1f6ad38c9fac62ee68d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a21777762f63fc1f6ad38c9fac62ee68d">compare_equal_any</a> (const void *a, const void *b) -&gt; bool</td></tr>
+<tr class="memdesc:a21777762f63fc1f6ad38c9fac62ee68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare equal 2 objects of same type.  <a href="namespaceseq_1_1detail.html#a21777762f63fc1f6ad38c9fac62ee68d">More...</a><br /></td></tr>
 <tr class="separator:a21777762f63fc1f6ad38c9fac62ee68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac8fe4e3b19060dbcd70e49dca502798"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:aac8fe4e3b19060dbcd70e49dca502798"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#aac8fe4e3b19060dbcd70e49dca502798">compare_less_any</a> (const void *a, const void *b) -&gt; bool</td></tr>
+<tr class="memdesc:aac8fe4e3b19060dbcd70e49dca502798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare 2 objects of same type for less than, or throw std::bad_function_call.  <a href="namespaceseq_1_1detail.html#aac8fe4e3b19060dbcd70e49dca502798">More...</a><br /></td></tr>
 <tr class="separator:aac8fe4e3b19060dbcd70e49dca502798"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ad86eafd488ec111a28fd36dbcc5d19"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a4ad86eafd488ec111a28fd36dbcc5d19"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a4ad86eafd488ec111a28fd36dbcc5d19">format_any</a> (std::string &amp;out, const void *in, const <a class="el" href="structseq_1_1width__format.html">width_format</a> &amp;wfmt, const <a class="el" href="classseq_1_1numeric__format.html">numeric_format</a> &amp;nfmt)</td></tr>
+<tr class="memdesc:a4ad86eafd488ec111a28fd36dbcc5d19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format object or throw std::bad_function_call.  <a href="namespaceseq_1_1detail.html#a4ad86eafd488ec111a28fd36dbcc5d19">More...</a><br /></td></tr>
 <tr class="separator:a4ad86eafd488ec111a28fd36dbcc5d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5727265c32d48e72d18a6f6190b40d4a"><td class="memTemplParams" colspan="2">template&lt;class T , class any_type_info &gt; </td></tr>
 <tr class="memitem:a5727265c32d48e72d18a6f6190b40d4a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a5727265c32d48e72d18a6f6190b40d4a">copy_any</a> (const <a class="el" href="classseq_1_1any__type__info.html">any_type_info</a> *in_p, const void *in, const <a class="el" href="classseq_1_1any__type__info.html">any_type_info</a> *out_p, void *out_storage, unsigned out_storage_size)</td></tr>
@@ -621,28 +622,37 @@ Functions</h2></td></tr>
 <tr class="memitem:aadadc42324010b84a6053c3491490dea"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#aadadc42324010b84a6053c3491490dea">move_any</a> (const <a class="el" href="classseq_1_1any__type__info.html">any_type_info</a> *in_p, void *in, const <a class="el" href="classseq_1_1any__type__info.html">any_type_info</a> *out_p, void *out_storage, unsigned out_storage_size)</td></tr>
 <tr class="separator:aadadc42324010b84a6053c3491490dea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4e4157b43ba1bc8990d6f80c4a1e725"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#ab4e4157b43ba1bc8990d6f80c4a1e725">get_converters</a> () -&gt; std::vector&lt; std::vector&lt; std::function&lt; void(const void *, void *)&gt; &gt; &gt; &amp;</td></tr>
+<tr class="memdesc:ab4e4157b43ba1bc8990d6f80c4a1e725"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns registered conversion functions.  <a href="namespaceseq_1_1detail.html#ab4e4157b43ba1bc8990d6f80c4a1e725">More...</a><br /></td></tr>
 <tr class="separator:ab4e4157b43ba1bc8990d6f80c4a1e725"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a325ffdd8c91778c443c208ab56a3aa8d"><td class="memTemplParams" colspan="2">template&lt;class T , class U &gt; </td></tr>
 <tr class="memitem:a325ffdd8c91778c443c208ab56a3aa8d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a325ffdd8c91778c443c208ab56a3aa8d">default_convert</a> (const void *in, void *out)</td></tr>
+<tr class="memdesc:a325ffdd8c91778c443c208ab56a3aa8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default conversion function, use explicit cast.  <a href="namespaceseq_1_1detail.html#a325ffdd8c91778c443c208ab56a3aa8d">More...</a><br /></td></tr>
 <tr class="separator:a325ffdd8c91778c443c208ab56a3aa8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63bfbe60a172d1e8eaf464f8611e6119"><td class="memTemplParams" colspan="2">template&lt;class T , class U , class Fun &gt; </td></tr>
 <tr class="memitem:a63bfbe60a172d1e8eaf464f8611e6119"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a63bfbe60a172d1e8eaf464f8611e6119">default_convert_with_functor</a> (const Fun &amp;fun, const void *in, void *out)</td></tr>
+<tr class="memdesc:a63bfbe60a172d1e8eaf464f8611e6119"><td class="mdescLeft">&#160;</td><td class="mdescRight">Conversion function based on a functor.  <a href="namespaceseq_1_1detail.html#a63bfbe60a172d1e8eaf464f8611e6119">More...</a><br /></td></tr>
 <tr class="separator:a63bfbe60a172d1e8eaf464f8611e6119"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9559b53b0d8d6a303ca7f92aae8c6aef"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a9559b53b0d8d6a303ca7f92aae8c6aef">get_less_comparison</a> () -&gt; std::vector&lt; std::vector&lt; std::function&lt; bool(const void *, const void *)&gt; &gt; &gt; &amp;</td></tr>
+<tr class="memdesc:a9559b53b0d8d6a303ca7f92aae8c6aef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns registered less comparison functions.  <a href="namespaceseq_1_1detail.html#a9559b53b0d8d6a303ca7f92aae8c6aef">More...</a><br /></td></tr>
 <tr class="separator:a9559b53b0d8d6a303ca7f92aae8c6aef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46a6c983c5ee25c509e6fb01e9f92e58"><td class="memTemplParams" colspan="2">template&lt;class T , class U &gt; </td></tr>
 <tr class="memitem:a46a6c983c5ee25c509e6fb01e9f92e58"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a46a6c983c5ee25c509e6fb01e9f92e58">default_less_comparison</a> (const void *a, const void *b) -&gt; bool</td></tr>
+<tr class="memdesc:a46a6c983c5ee25c509e6fb01e9f92e58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default less comparison.  <a href="namespaceseq_1_1detail.html#a46a6c983c5ee25c509e6fb01e9f92e58">More...</a><br /></td></tr>
 <tr class="separator:a46a6c983c5ee25c509e6fb01e9f92e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0f5c63cfbdeadfaff4fc8e8ac6fda23"><td class="memTemplParams" colspan="2">template&lt;class T , class U , class Fun &gt; </td></tr>
 <tr class="memitem:ae0f5c63cfbdeadfaff4fc8e8ac6fda23"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#ae0f5c63cfbdeadfaff4fc8e8ac6fda23">default_less_comparison_with_functor</a> (const Fun &amp;fun, const void *a, const void *b) -&gt; bool</td></tr>
+<tr class="memdesc:ae0f5c63cfbdeadfaff4fc8e8ac6fda23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Less comparison based on functor.  <a href="namespaceseq_1_1detail.html#ae0f5c63cfbdeadfaff4fc8e8ac6fda23">More...</a><br /></td></tr>
 <tr class="separator:ae0f5c63cfbdeadfaff4fc8e8ac6fda23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b47dcc8834e3d522cdefb08dbb62618"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a4b47dcc8834e3d522cdefb08dbb62618">get_equal_comparison</a> () -&gt; std::vector&lt; std::vector&lt; std::function&lt; bool(const void *, const void *)&gt; &gt; &gt; &amp;</td></tr>
+<tr class="memdesc:a4b47dcc8834e3d522cdefb08dbb62618"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns registered equal comparison functions.  <a href="namespaceseq_1_1detail.html#a4b47dcc8834e3d522cdefb08dbb62618">More...</a><br /></td></tr>
 <tr class="separator:a4b47dcc8834e3d522cdefb08dbb62618"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3447eb45fb659533a95cc7bbd60503d1"><td class="memTemplParams" colspan="2">template&lt;class T , class U &gt; </td></tr>
 <tr class="memitem:a3447eb45fb659533a95cc7bbd60503d1"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a3447eb45fb659533a95cc7bbd60503d1">default_equal_comparison</a> (const void *a, const void *b) -&gt; bool</td></tr>
+<tr class="memdesc:a3447eb45fb659533a95cc7bbd60503d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default equal comparison.  <a href="namespaceseq_1_1detail.html#a3447eb45fb659533a95cc7bbd60503d1">More...</a><br /></td></tr>
 <tr class="separator:a3447eb45fb659533a95cc7bbd60503d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99092238d2cf097db49edcf6ed69b1cd"><td class="memTemplParams" colspan="2">template&lt;class T , class U , class Fun &gt; </td></tr>
 <tr class="memitem:a99092238d2cf097db49edcf6ed69b1cd"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a99092238d2cf097db49edcf6ed69b1cd">default_equal_comparison_with_functor</a> (const Fun &amp;fun, const void *a, const void *b) -&gt; bool</td></tr>
+<tr class="memdesc:a99092238d2cf097db49edcf6ed69b1cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equal comparison based on functor.  <a href="namespaceseq_1_1detail.html#a99092238d2cf097db49edcf6ed69b1cd">More...</a><br /></td></tr>
 <tr class="separator:a99092238d2cf097db49edcf6ed69b1cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3b033e21d6cdae8599040df4a8e2166"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#af3b033e21d6cdae8599040df4a8e2166">handmade_aligned_malloc</a> (size_t size, size_t alignment) -&gt; void *</td></tr>
 <tr class="separator:af3b033e21d6cdae8599040df4a8e2166"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -666,12 +676,12 @@ Functions</h2></td></tr>
 <tr class="separator:aa3838635a4f7b6c2f34b96f6d71b5cb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c22532ef11405416f6e3ea5d19c40f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a1c22532ef11405416f6e3ea5d19c40f4">signbit</a> (long double X) noexcept -&gt; bool</td></tr>
 <tr class="separator:a1c22532ef11405416f6e3ea5d19c40f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affebb3d1e678a709d8f8254e48af1565"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:affebb3d1e678a709d8f8254e48af1565"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#affebb3d1e678a709d8f8254e48af1565">get_pow</a> (int exp) -&gt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a></td></tr>
-<tr class="separator:affebb3d1e678a709d8f8254e48af1565"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2519228645ac3464c3b707e521209fae"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
-<tr class="memitem:a2519228645ac3464c3b707e521209fae"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a2519228645ac3464c3b707e521209fae">get_pow</a> (int exp) -&gt; float</td></tr>
-<tr class="separator:a2519228645ac3464c3b707e521209fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7255a32521440776f254ed947b62a493"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a7255a32521440776f254ed947b62a493"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a7255a32521440776f254ed947b62a493">get_pow</a> (int exp) -&gt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a></td></tr>
+<tr class="separator:a7255a32521440776f254ed947b62a493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7b3108c517a4e2b0ad54886bc2d7284"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
+<tr class="memitem:ae7b3108c517a4e2b0ad54886bc2d7284"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#ae7b3108c517a4e2b0ad54886bc2d7284">get_pow</a> (int exp) -&gt; float</td></tr>
+<tr class="separator:ae7b3108c517a4e2b0ad54886bc2d7284"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a669aca8718360e3682a5b230d59d473c"><td class="memTemplParams" colspan="2">template&lt;class T , class Stream &gt; </td></tr>
 <tr class="memitem:a669aca8718360e3682a5b230d59d473c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a669aca8718360e3682a5b230d59d473c">read_integral_base_10</a> (Stream &amp;<a class="el" href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">str</a>) -&gt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a></td></tr>
 <tr class="separator:a669aca8718360e3682a5b230d59d473c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -690,8 +700,6 @@ Functions</h2></td></tr>
 <tr class="separator:ac149be6fdd3a286cee428684db27cfcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63da9137b98e3dacd2221e72b57cc5d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">str</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a63da9137b98e3dacd2221e72b57cc5d8">seek</a> (saved_pos)</td></tr>
 <tr class="separator:a63da9137b98e3dacd2221e72b57cc5d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b8e385d3c8864635396ef6d37e8a056"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a1b8e385d3c8864635396ef6d37e8a056">return</a> (<a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>) 0</td></tr>
-<tr class="separator:a1b8e385d3c8864635396ef6d37e8a056"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a171886ab0bd98f275cffa9975a1481d6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a171886ab0bd98f275cffa9975a1481d6">if</a> (<a class="el" href="namespaceseq_1_1detail.html#a12c9a7db6862be66b508b7cc80e12a2d">n</a>=='N' &amp;&amp;<a class="el" href="namespaceseq_1_1detail.html#a76fa776653402382e316c7b6715856af">f</a>=='F')</td></tr>
 <tr class="separator:a171886ab0bd98f275cffa9975a1481d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9551b4c14c4a11d1e390709fd6a991d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#ab9551b4c14c4a11d1e390709fd6a991d">while</a> (is_digit(<a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>))</td></tr>
@@ -792,6 +800,7 @@ Functions</h2></td></tr>
 <tr class="separator:a8d763e9272caad254160c11ffd83805d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac84a71ea76d352d046324caa557b6ffa"><td class="memTemplParams" colspan="2">template&lt;class It &gt; </td></tr>
 <tr class="memitem:ac84a71ea76d352d046324caa557b6ffa"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#ac84a71ea76d352d046324caa557b6ffa">distance</a> (It <a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, It last) -&gt; std::ptrdiff_t</td></tr>
+<tr class="memdesc:ac84a71ea76d352d046324caa557b6ffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns distance between 2 iterators, or 0 for non random access iterators.  <a href="namespaceseq_1_1detail.html#ac84a71ea76d352d046324caa557b6ffa">More...</a><br /></td></tr>
 <tr class="separator:ac84a71ea76d352d046324caa557b6ffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaedb8b0de37201c43e07cd8f9d8eb817"><td class="memTemplParams" colspan="2">template&lt;class Deque , class InputIt1 , class InputIt2 , class Less , class Deque2  = Deque&gt; </td></tr>
 <tr class="memitem:aaedb8b0de37201c43e07cd8f9d8eb817"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#aaedb8b0de37201c43e07cd8f9d8eb817">unique_merge_move</a> (Deque &amp;out, InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2, Less less, Deque2 *remaining=NULL)</td></tr>
@@ -888,6 +897,8 @@ Variables</h2></td></tr>
 <tr class="separator:ae4e48f51c85e7a3a935596cba71a7355"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12c9a7db6862be66b508b7cc80e12a2d"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a12c9a7db6862be66b508b7cc80e12a2d">n</a> = to_upper(str.getc())</td></tr>
 <tr class="separator:a12c9a7db6862be66b508b7cc80e12a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71a01c8d491d7c793e8bffdc81ac8bfb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a71a01c8d491d7c793e8bffdc81ac8bfb">return</a> { dst + 3, std::errc() }</td></tr>
+<tr class="separator:a71a01c8d491d7c793e8bffdc81ac8bfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2089ca2de12c558d623d0da00b3de1a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#ab2089ca2de12c558d623d0da00b3de1a">sign</a></td></tr>
 <tr class="separator:ab2089ca2de12c558d623d0da00b3de1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76fa776653402382e316c7b6715856af"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a76fa776653402382e316c7b6715856af">f</a> = to_upper(str.getc())</td></tr>
@@ -908,8 +919,6 @@ Variables</h2></td></tr>
 <tr class="separator:ac0312ea89c1631865dfffd7b4de699bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87c10aead2ddd2549f17e8446a3464a3"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structseq_1_1detail_1_1float__chars__format.html">float_chars_format</a> <a class="el" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a87c10aead2ddd2549f17e8446a3464a3">to_chars_result</a></td></tr>
 <tr class="separator:a87c10aead2ddd2549f17e8446a3464a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71a01c8d491d7c793e8bffdc81ac8bfb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a71a01c8d491d7c793e8bffdc81ac8bfb">return</a> { dst + 3, std::errc() }</td></tr>
-<tr class="separator:a71a01c8d491d7c793e8bffdc81ac8bfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Returns the number of set bits in <em>value</em>. </p>
@@ -917,7 +926,6 @@ Variables</h2></td></tr>
 <p>@function unsigned <a class="el" href="namespaceseq.html#a348cf02b3ab7947f01df82985d741138">popcnt16(unsigned short value)</a> @function unsigned popcnt32(unsigned int value)</p>
 <p>Returns the number of set bits in <em>value</em>. @function unsigned popcnt64(unsigned long long value)</p>
 <p>Returns the number of set bits in <em>value</em>.</p>
-<p>Returns the number of digits used to represent an integer in base 10. This function only works for unsigned integral types</p>
 <p>@function unsigned <a class="el" href="namespaceseq.html#ab2f848adb0c9d3ac36fb1c523850748b">nth_bit_set(std::uint64_t x, unsigned n)</a> </p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
 <a id="ad3a0759bd89ba1e3f58f05841ac6f76f"></a>
@@ -1041,6 +1049,8 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Insertion location within a <a class="el" href="classseq_1_1sequence.html" title="sequence is an ordered container supporting constant time insertion at both end and constant time rem...">seq::sequence</a> object. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab30aadadbca04f03a4fbfafab2b975afa6ae50c1c523c4d9f711fc5309543056e"></a>Back&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ab30aadadbca04f03a4fbfafab2b975afa9ee85222ef4be71557a04ca6e1d9462a"></a>Front&#160;</td><td class="fielddoc"></td></tr>
@@ -1105,6 +1115,8 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Compare equal 2 objects of same type. </p>
+
 </div>
 </div>
 <a id="aac8fe4e3b19060dbcd70e49dca502798"></a>
@@ -1135,6 +1147,8 @@ template&lt;class T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Compare 2 objects of same type for less than, or throw std::bad_function_call. </p>
 
 </div>
 </div>
@@ -1244,6 +1258,8 @@ template&lt;class T , class U &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Default conversion function, use explicit cast. </p>
+
 </div>
 </div>
 <a id="a63bfbe60a172d1e8eaf464f8611e6119"></a>
@@ -1280,6 +1296,8 @@ template&lt;class T , class U , class Fun &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Conversion function based on a functor. </p>
+
 </div>
 </div>
 <a id="a3447eb45fb659533a95cc7bbd60503d1"></a>
@@ -1310,6 +1328,8 @@ template&lt;class T , class U &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Default equal comparison. </p>
 
 </div>
 </div>
@@ -1348,6 +1368,8 @@ template&lt;class T , class U , class Fun &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Equal comparison based on functor. </p>
+
 </div>
 </div>
 <a id="a46a6c983c5ee25c509e6fb01e9f92e58"></a>
@@ -1378,6 +1400,8 @@ template&lt;class T , class U &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Default less comparison. </p>
 
 </div>
 </div>
@@ -1416,6 +1440,8 @@ template&lt;class T , class U , class Fun &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Less comparison based on functor. </p>
+
 </div>
 </div>
 <a id="ac84a71ea76d352d046324caa557b6ffa"></a>
@@ -1446,6 +1472,8 @@ template&lt;class It &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Returns distance between 2 iterators, or 0 for non random access iterators. </p>
 
 </div>
 </div>
@@ -1563,6 +1591,8 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Format object or throw std::bad_function_call. </p>
+
 </div>
 </div>
 <a id="a58980071eb214ce0cb57e4ec19dad4d1"></a>
@@ -1626,6 +1656,8 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Returns registered conversion functions. </p>
+
 </div>
 </div>
 <a id="a4b47dcc8834e3d522cdefb08dbb62618"></a>
@@ -1651,6 +1683,8 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Returns registered equal comparison functions. </p>
 
 </div>
 </div>
@@ -1830,18 +1864,23 @@ template&lt;&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Returns registered less comparison functions. </p>
+
 </div>
 </div>
-<a id="a2519228645ac3464c3b707e521209fae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2519228645ac3464c3b707e521209fae">&#9670;&nbsp;</a></span>get_pow() <span class="overload">[1/2]</span></h2>
+<a id="ae7b3108c517a4e2b0ad54886bc2d7284"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7b3108c517a4e2b0ad54886bc2d7284">&#9670;&nbsp;</a></span>get_pow() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto seq::detail::get_pow </td>
+          <td class="memname">auto seq::detail::get_pow </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>exp</em></td><td>)</td>
@@ -1849,20 +1888,28 @@ template&lt;&gt; </div>
 		</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="affebb3d1e678a709d8f8254e48af1565"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affebb3d1e678a709d8f8254e48af1565">&#9670;&nbsp;</a></span>get_pow() <span class="overload">[2/2]</span></h2>
+<a id="a7255a32521440776f254ed947b62a493"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7255a32521440776f254ed947b62a493">&#9670;&nbsp;</a></span>get_pow() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto seq::detail::get_pow </td>
+          <td class="memname">auto seq::detail::get_pow </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>exp</em></td><td>)</td>
@@ -1870,6 +1917,11 @@ template&lt;class T &gt; </div>
 		</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -2052,6 +2104,8 @@ template&lt;class T , bool SupportHash&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Hash object using std::hash or throw std::bad_function_call. </p>
 
 </div>
 </div>
@@ -2246,6 +2300,8 @@ template&lt;class T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Read object to std::istream or throw std::bad_function_call. </p>
 
 </div>
 </div>
@@ -3233,6 +3289,8 @@ template&lt;class T &gt; </div>
       </table>
 </div><div class="memdoc">
 
+<p>Stream object to std::ostream or throw std::bad_function_call. </p>
+
 </div>
 </div>
 <a id="a0d6a5bae9b45f4045f8909187f590753"></a>
@@ -3435,24 +3493,6 @@ template&lt;class T , class Stream &gt; </div>
           <td class="paramname"><em>str</em></td><td>)</td>
           <td> -&gt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>
 		</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1b8e385d3c8864635396ef6d37e8a056"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1b8e385d3c8864635396ef6d37e8a056">&#9670;&nbsp;</a></span>return()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">seq::detail::return </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -4232,7 +4272,7 @@ template&lt;class Range , class T &gt; </div>
 <div class="line">                }</div>
 <div class="line">                <span class="keywordflow">if</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> != EOF) {</div>
 <div class="line">                    <a class="code" href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">str</a>.back();</div>
-<div class="line">}</div>
+<div class="line">                }</div>
 <div class="line">            }</div>
 <div class="line"> </div>
 <div class="line"> </div>
@@ -4412,13 +4452,13 @@ template&lt;class Range , class T &gt; </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="anamespaceseq_1_1detail_html_a84d714603751dddb280584583ccdd7e3"><div class="ttname"><a href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">seq::detail::str</a></div><div class="ttdeci">Integral int char Stream &amp; str</div><div class="ttdef"><b>Definition:</b> charconv.hpp:677</div></div>
-<div class="ttc" id="anamespaceseq_1_1detail_html_a4abc955e0a77f9f1a5d4b9fa147745e1"><div class="ttname"><a href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">seq::detail::first</a></div><div class="ttdeci">int first</div><div class="ttdef"><b>Definition:</b> charconv.hpp:684</div></div>
-<div class="ttc" id="agroup__bits_html_ga371649b7712afb0bb3b2781aeddf45d9"><div class="ttname"><a href="group__bits.html#ga371649b7712afb0bb3b2781aeddf45d9">SEQ_UNLIKELY</a></div><div class="ttdeci">#define SEQ_UNLIKELY(x)</div><div class="ttdef"><b>Definition:</b> bits.hpp:230</div></div>
-<div class="ttc" id="anamespaceseq_html_a21b27d9d28ab49b4e36657f9e95013c7"><div class="ttname"><a href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a></div><div class="ttdeci">auto fmt(Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), void, Args... &gt;::return_type</div><div class="ttdef"><b>Definition:</b> format.hpp:2145</div></div>
-<div class="ttc" id="anamespaceseq_html_a19a45e1f866d73140819b9ea2280c682abfc5cfa7d975226254b5443690d9f918"><div class="ttname"><a href="namespaceseq.html#a19a45e1f866d73140819b9ea2280c682abfc5cfa7d975226254b5443690d9f918">seq::fixed</a></div><div class="ttdeci">@ fixed</div><div class="ttdef"><b>Definition:</b> charconv.hpp:107</div></div>
-<div class="ttc" id="anamespaceseq_html_a19a45e1f866d73140819b9ea2280c682af715ab801ec116cdbb4a7f7541e46166"><div class="ttname"><a href="namespaceseq.html#a19a45e1f866d73140819b9ea2280c682af715ab801ec116cdbb4a7f7541e46166">seq::scientific</a></div><div class="ttdeci">@ scientific</div><div class="ttdef"><b>Definition:</b> charconv.hpp:106</div></div>
-<div class="ttc" id="anamespaceseq_html_ac3d7eb5b00b5c7e90602aaf0e8bd23e2a255aad079a8bea265f55d1a6e8ef5587"><div class="ttname"><a href="namespaceseq.html#ac3d7eb5b00b5c7e90602aaf0e8bd23e2a255aad079a8bea265f55d1a6e8ef5587">seq::BadInputFormat</a></div><div class="ttdeci">@ BadInputFormat</div><div class="ttdoc">End of file reached.</div><div class="ttdef"><b>Definition:</b> charconv.hpp:118</div></div>
+<div class="ttc" id="anamespaceseq_1_1detail_html_a84d714603751dddb280584583ccdd7e3"><div class="ttname"><a href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">seq::detail::str</a></div><div class="ttdeci">Integral int char Stream &amp; str</div><div class="ttdef"><b>Definition:</b> charconv.hpp:696</div></div>
+<div class="ttc" id="anamespaceseq_1_1detail_html_a4abc955e0a77f9f1a5d4b9fa147745e1"><div class="ttname"><a href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">seq::detail::first</a></div><div class="ttdeci">int first</div><div class="ttdef"><b>Definition:</b> charconv.hpp:705</div></div>
+<div class="ttc" id="agroup__bits_html_ga371649b7712afb0bb3b2781aeddf45d9"><div class="ttname"><a href="group__bits.html#ga371649b7712afb0bb3b2781aeddf45d9">SEQ_UNLIKELY</a></div><div class="ttdeci">#define SEQ_UNLIKELY(x)</div><div class="ttdef"><b>Definition:</b> bits.hpp:242</div></div>
+<div class="ttc" id="anamespaceseq_html_a21b27d9d28ab49b4e36657f9e95013c7"><div class="ttname"><a href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a></div><div class="ttdeci">auto fmt(Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), void, Args... &gt;::return_type</div><div class="ttdef"><b>Definition:</b> format.hpp:2160</div></div>
+<div class="ttc" id="anamespaceseq_html_a19a45e1f866d73140819b9ea2280c682abfc5cfa7d975226254b5443690d9f918"><div class="ttname"><a href="namespaceseq.html#a19a45e1f866d73140819b9ea2280c682abfc5cfa7d975226254b5443690d9f918">seq::fixed</a></div><div class="ttdeci">@ fixed</div><div class="ttdef"><b>Definition:</b> charconv.hpp:131</div></div>
+<div class="ttc" id="anamespaceseq_html_a19a45e1f866d73140819b9ea2280c682af715ab801ec116cdbb4a7f7541e46166"><div class="ttname"><a href="namespaceseq.html#a19a45e1f866d73140819b9ea2280c682af715ab801ec116cdbb4a7f7541e46166">seq::scientific</a></div><div class="ttdeci">@ scientific</div><div class="ttdef"><b>Definition:</b> charconv.hpp:130</div></div>
+<div class="ttc" id="anamespaceseq_html_ac3d7eb5b00b5c7e90602aaf0e8bd23e2a255aad079a8bea265f55d1a6e8ef5587"><div class="ttname"><a href="namespaceseq.html#ac3d7eb5b00b5c7e90602aaf0e8bd23e2a255aad079a8bea265f55d1a6e8ef5587">seq::BadInputFormat</a></div><div class="ttdeci">@ BadInputFormat</div><div class="ttdoc">End of file reached.</div><div class="ttdef"><b>Definition:</b> charconv.hpp:142</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

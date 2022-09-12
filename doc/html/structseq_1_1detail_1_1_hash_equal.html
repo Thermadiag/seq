@@ -114,7 +114,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8eb48330247ff1cb0eade67e08cacb17"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a8eb48330247ff1cb0eade67e08cacb17">operator()</a> (Args &amp;&amp;... args) const noexcept</td></tr>
 <tr class="separator:a8eb48330247ff1cb0eade67e08cacb17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;class Hash, class Equal, bool EmptyHash = std::is_empty&lt;Hash&gt;::value, bool EmptyEqual = std::is_empty&lt;Equal&gt;::value&gt;<br />
+struct seq::detail::HashEqual&lt; Hash, Equal, EmptyHash, EmptyEqual &gt;</h3>
+
+<p>@breif Gather hash class and equal_to class in the same struct. Inherits both for non empty classes. This is a simple way to handle statefull hash function or equality comparison function. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aaabee1d1b9c9896c1412ad426330c816"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaabee1d1b9c9896c1412ad426330c816">&#9670;&nbsp;</a></span>HashEqual() <span class="overload">[1/3]</span></h2>
 

@@ -1,5 +1,26 @@
-
-
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #include <deque>
 #include <list>
@@ -55,8 +76,8 @@ void test_deque_algorithms(size_t count = 5000000)
 	srand(0);// time(NULL));
 	for (size_t i = 0; i < count; ++i) {
 		int r = rand();
-		deq.push_back((size_t)r);
-		tvec.push_back((size_t)r);
+		deq.push_back(static_cast<type>(r));
+		tvec.push_back(static_cast<type>(r));
 	}
 
 	// Test sort
@@ -78,7 +99,7 @@ void test_deque_algorithms(size_t count = 5000000)
 	tvec.resize(count);
 
 	for (size_t i = 0; i < count; ++i)
-		tvec[i] = deq[i] = (size_t) rand();
+		tvec[i] = deq[i] = static_cast<type>( rand());
 
 	// Test rotate
 	std::rotate(deq.begin(), deq.begin() + deq.size() / 2, deq.end());
@@ -94,7 +115,7 @@ void test_deque_algorithms(size_t count = 5000000)
 
 	// Reset values
 	for (size_t i = 0; i < count; ++i)
-		tvec[i] = deq[i] = (size_t) rand();
+		tvec[i] = deq[i] = static_cast<type>( rand());
 
 	// Test partial sort
 	std::partial_sort(deq.begin(), deq.begin() + deq.size() / 2, deq.end());
@@ -104,7 +125,7 @@ void test_deque_algorithms(size_t count = 5000000)
 
 	
 	for (size_t i = 0; i < count; ++i)
-		tvec[i] =deq[i] = (size_t)rand();
+		tvec[i] =deq[i] = static_cast<type>(rand());
 
 	// Strangely, msvc implementation of std::nth_element produce a warning as it tries to modify the value of const iterator
 	// Test nth_element
@@ -145,11 +166,11 @@ void test_tiered_vector(size_t count = 5000000)
 
 	// Fill containers
 	for (size_t i = 0; i < count; ++i)
-		deq.push_back((T)i);
+		deq.push_back(static_cast<T>(i));
 	for (size_t i = 0; i < count; ++i)
-		tvec.push_back((T)i);
+		tvec.push_back(static_cast<T>(i));
 	for (size_t i = 0; i < count; ++i)
-		vec.push_back((T)i);
+		vec.push_back(static_cast<T>(i));
 		
 	SEQ_TEST(equal_deq(deq, tvec));
 
@@ -197,7 +218,7 @@ void test_tiered_vector(size_t count = 5000000)
 	{
 		// Rest values
 		for (size_t i = 0; i < deq.size(); ++i) {
-			deq[i] = tvec[i] = (T)i;
+			deq[i] = tvec[i] = static_cast<T>(i);
 		}
 		SEQ_TEST(equal_deq(deq, tvec));
 
@@ -235,7 +256,7 @@ void test_tiered_vector(size_t count = 5000000)
 	{
 		std::list<type> lst;
 		for (size_t i = 0; i < count; ++i)
-			lst.push_back((T)i);
+			lst.push_back(static_cast<T>(i));
 
 		deq.resize(lst.size() / 2,0);
 		tvec.resize(lst.size() / 2,0);
@@ -260,8 +281,8 @@ void test_tiered_vector(size_t count = 5000000)
 
 	//fill again, backward
 	for (size_t i = 0; i < deq.size(); ++i) {
-		deq[i] = (T)(deq.size() - i - 1);
-		tvec[i] = (T)(tvec.size() - i - 1);
+		deq[i] = static_cast<T>(deq.size() - i - 1);
+		tvec[i] = static_cast<T>(tvec.size() - i - 1);
 	}
 
 	// Test pop_back
@@ -278,8 +299,8 @@ void test_tiered_vector(size_t count = 5000000)
 
 	//fill again, backward
 	for (size_t i = 0; i < deq.size(); ++i) {
-		deq[i] = (T)(deq.size() - i - 1);
-		tvec[i] = (T)(tvec.size() - i - 1);
+		deq[i] = static_cast<T>(deq.size() - i - 1);
+		tvec[i] = static_cast<T>(tvec.size() - i - 1);
 	}
 
 
@@ -301,7 +322,7 @@ void test_tiered_vector(size_t count = 5000000)
 		d.resize(128 * 3,0);
 		dd.resize(128 * 3,0);
 		for (size_t i = 0; i < d.size(); ++i) {
-			d[i] = dd[i] = (T)i;
+			d[i] = dd[i] = static_cast<T>(i);
 		}
 		SEQ_TEST(equal_deq(d, dd));
 		d.insert(10, -1);
@@ -319,19 +340,19 @@ void test_tiered_vector(size_t count = 5000000)
 	}
 
 
-	int insert_count = (int) std::max((size_t)50, count / 100);
+	int insert_count = static_cast<int>( std::max(static_cast<size_t>(50), count / 100));
 	std::vector<size_t> in_pos;
-	int ss= (int)deq.size();
+	int ss= static_cast<int>(deq.size());
 	srand(0);
 	for(int i=0; i< insert_count; ++i)
 		in_pos.push_back(rand() % ss++);
 
 	// Test insert single value at random position
 	for (int i = 0; i < insert_count; ++i) {
-		deq.insert(deq.begin() + in_pos[i], (T)i);
+		deq.insert(deq.begin() + in_pos[i], static_cast<T>(i));
 	}
 	for (int i = 0; i < insert_count; ++i) {
-		tvec.insert(in_pos[i], (T)i);
+		tvec.insert(in_pos[i], static_cast<T>(i));
 	}
 	SEQ_TEST(equal_deq(deq, tvec));
 
@@ -344,13 +365,13 @@ void test_tiered_vector(size_t count = 5000000)
 		d.resize(100,0);
 		dd.resize(100,0);
 		for (size_t i = 0; i < d.size(); ++i) {
-			d[i] = dd[i] = (T)i;
+			d[i] = dd[i] = static_cast<T>(i);
 		}
 
 		for (int i = 0; i < 50; ++i) {
 			int pos = i % 5;
-			pos = (int)(d.size() * pos / 4);
-			if (pos == (int)d.size()) --pos;
+			pos = static_cast<int>(d.size() * pos / 4);
+			if (pos == static_cast<int>(d.size()) )--pos;
 			dd.erase(dd.begin() + pos);
 			d.erase(pos);
 			SEQ_TEST(equal_deq(d, dd));
@@ -368,23 +389,23 @@ void test_tiered_vector(size_t count = 5000000)
 
 	//fill again, backward
 	for (size_t i = 0; i < deq.size(); ++i) {
-		deq[i] = (T)(deq.size() - i - 1);
-		tvec[i] = (T)(tvec.size() - i - 1);
+		deq[i] = static_cast<T>(deq.size() - i - 1);
+		tvec[i] = static_cast<T>(tvec.size() - i - 1);
 	}
 
 	// Test erase single values at random position
-	int erase_count = (int) deq.size()/2;
+	size_t erase_count =  deq.size()/2;
 	std::vector<size_t> er_pos;
-	int sss= (int)count;
+	size_t sss= count;
 	srand(0);
-	for(int i=0; i< erase_count; ++i)
-		er_pos.push_back(rand() % sss--);
+	for(size_t i=0; i< erase_count; ++i)
+		er_pos.push_back(rand() % static_cast<int>(sss--));
 
 
-	for (int i = 0; i < erase_count; ++i) {
+	for (size_t i = 0; i < erase_count; ++i) {
 		deq.erase(deq.begin() + er_pos[i]);
 	}
-	for (int i = 0; i < erase_count; ++i) {
+	for (size_t i = 0; i < erase_count; ++i) {
 		tvec.erase( er_pos[i]);
 	}
 	SEQ_TEST(equal_deq(deq, tvec));
@@ -395,7 +416,7 @@ void test_tiered_vector(size_t count = 5000000)
 	tvec.resize(count);
 	deq.resize(count);
 	for (size_t i = 0; i < deq.size(); ++i) {
-		deq[i] = tvec[i] = (T)i;
+		deq[i] = tvec[i] = static_cast<T>(i);
 	}
 
 	// Test move assign and move copy

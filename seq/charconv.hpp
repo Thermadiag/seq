@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef SEQ_CHARCONV_HPP
 #define SEQ_CHARCONV_HPP
 
@@ -180,15 +204,15 @@ namespace seq
 		/*
 		Mandatory members of derived classes:
 
-		void close() noexcept { derived().close(); }
-		bool is_open() const noexcept { return derived().is_open(); }
-		size_t tell() const noexcept { return derived().tell(); }
-		void back() noexcept { return derived().back(); }
-		size_t seek(size_t pos) noexcept { return derived().seek(pos); }
-		int getc() noexcept { return derived().getc(); }
-		size_t read(char* dst, size_t count) noexcept { return derived().read(dst, count); }
-		void set_state(State st) noexcept { derived().set_state(st); }
-		State state() const noexcept { return derived().state(); }
+		void close() noexcept;
+		bool is_open() const noexcept;
+		size_t tell() const noexcept;
+		void back() noexcept;
+		size_t seek(size_t pos) noexcept;
+		int getc() noexcept;
+		size_t read(char* dst, size_t count) noexcept;
+		void set_state(State st) noexcept;
+		State state() const noexcept;
 
 		*/
 
@@ -247,15 +271,13 @@ namespace seq
 			// Write value into a string-like object
 			static constexpr bool extendible = true;
 			String* str;
-			explicit string_range(String* str ) : str(str) { 
-				//str->clear(); 
-			}
+			explicit string_range(String* str ) : str(str) { }
 			SEQ_ALWAYS_INLINE auto add_size(size_t count) const -> char* {
 				size_t size = str->size();
 				const_cast<String*>(str)->resize(size + count);
-				return (char*)str->data() + size;
+				return const_cast<char*>(str->data()) + size;
 			}
-			SEQ_ALWAYS_INLINE auto current() const noexcept -> char* { return (char*)&const_cast<String*>(str)->back(); } //current position
+			SEQ_ALWAYS_INLINE auto current() const noexcept -> char* { return const_cast<char*>(&const_cast<String*>(str)->back()); } //current position
 			SEQ_ALWAYS_INLINE auto end_ptr() const noexcept -> char* { return NULL; } //end ptr for error
 			SEQ_ALWAYS_INLINE auto back() const noexcept -> char* { const_cast<String*>(str)->pop_back(); return current(); }
 			SEQ_ALWAYS_INLINE constexpr auto append(char v) const -> bool {
@@ -278,7 +300,8 @@ namespace seq
 		
 		SEQ_ALWAYS_INLINE auto signbit(float X) noexcept -> bool
 		{
-#if BYTEORDER_ENDIAN == BYTEORDER_LITTLE_ENDIAN
+			// faster signbit for little endian machines
+#if SEQ_BYTEORDER_ENDIAN == SEQ_BYTEORDER_LITTLE_ENDIAN
 			return ((reinterpret_cast<u_float*>(reinterpret_cast<char*>(&(X))))->bytes[1] & (static_cast<unsigned short>(0x8000))) != 0;
 #else
 			return std::signbit(X);
@@ -286,7 +309,8 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE auto signbit(double X) noexcept -> bool
 		{
-#if BYTEORDER_ENDIAN == BYTEORDER_LITTLE_ENDIAN
+			// faster signbit for little endian machines
+#if SEQ_BYTEORDER_ENDIAN == SEQ_BYTEORDER_LITTLE_ENDIAN
 			return ((reinterpret_cast<u_double*>(reinterpret_cast<char*>(&(X))))->bytes[3] & (static_cast<unsigned short>(0x8000))) != 0;
 #else
 			return std::signbit(X);
@@ -294,7 +318,8 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE auto signbit(long double X) noexcept -> bool
 		{
-#if BYTEORDER_ENDIAN == BYTEORDER_LITTLE_ENDIAN
+			// faster signbit for little endian machines
+#if SEQ_BYTEORDER_ENDIAN == SEQ_BYTEORDER_LITTLE_ENDIAN
 			return sizeof(long double) == sizeof(double) ?
 				signbit(static_cast<double>(X)) :
 				std::signbit(X);
@@ -344,10 +369,7 @@ namespace seq
 		{
 			return digit_value(c) <= 9;
 		}
-		/*static SEQ_ALWAYS_INLINE bool is_double_valid(char c)  noexcept
-		{
-			return is_digit(c) || c == 'e' || c == 'E' || c == '.' || c == ',' || c == '+' || c == '-';
-		}*/
+		
 		static SEQ_ALWAYS_INLINE auto is_space(int c)  noexcept -> bool
 		{
 			return c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r';
@@ -381,26 +403,25 @@ namespace seq
 			return pow10[exponent + 323];
 		}
 		template<class T>
-		SEQ_ALWAYS_INLINE auto get_pow(int exp) -> T
+		inline auto get_pow(int exp) -> T
 		{
 			return T();
 		}
 		template<>
-		SEQ_ALWAYS_INLINE auto get_pow(int exp) -> float
+		inline auto get_pow(int exp) -> float
 		{
 			return static_cast<float>(get_pow_double(exp));
 		}
 		template<>
-		SEQ_ALWAYS_INLINE auto get_pow(int exp) -> double
+		inline auto get_pow(int exp) -> double
 		{
 			return (get_pow_double(exp));
 		}
 		template<>
-		SEQ_ALWAYS_INLINE auto get_pow(int exp) -> long double
+		inline auto get_pow(int exp) -> long double
 		{
-			return std::pow(10.L, static_cast<long double>(exp));
 #if LDBL_MANT_DIG > DBL_MANT_DIG
-			return std::pow(10.L, (long double)exp);
+			return std::pow(10.L, static_cast<long double>(exp));
 #endif
 			return static_cast<long double>(get_pow_double(exp));
 		}
@@ -430,7 +451,7 @@ namespace seq
 
 			// check EOF
 			if (SEQ_UNLIKELY(first == EOF))
-				return (T)0;
+				return 0;
 
 			// check sign
 			if (first == '+') {
@@ -451,22 +472,20 @@ namespace seq
 			}
 
 			while (is_digit(first)) {
-				x = (x * (T)10) + static_cast<T>(first - '0');
+				x = (x * static_cast<T>(10)) + static_cast<T>(first - '0');
 				first = str.getc();
 			}
 			if (first != EOF)
 				str.back();
 
 			str.reset();
-			/*if (sign == -1)
-				return -x;
-			return x;*/
+			
 			return sign_value(x, sign);
 
 		error:
 			if (str) str.set_state(BadInputFormat);
 			str.seek(saved);
-			return (T)0;
+			return 0;
 		}
 
 
@@ -496,7 +515,7 @@ namespace seq
 
 			// check EOF
 			if (SEQ_UNLIKELY(first == EOF))
-				return (T)0;
+				return 0;
 
 			// check sign
 			if (first == '+') {
@@ -541,13 +560,13 @@ namespace seq
 					str.back();
 					return sign_value(x, sign); //sign == -1 ? -x : x;
 				}
-				x = (x * (T)base) + static_cast<T>(val);
+				x = (x * static_cast<T>(base)) + static_cast<T>(val);
 				first = str.getc();
 				val = to_digit_hex(first);
 			}
 
 			while (val < base) {
-				x = (x * (T)base) + static_cast<T>(val);
+				x = (x * static_cast<T>(base)) + static_cast<T>(val);
 				first = str.getc();
 				val = to_digit_hex(first);
 			}
@@ -560,7 +579,7 @@ namespace seq
 		error:
 			if (str) str.set_state(BadInputFormat);
 			str.seek(saved);
-			return (T)0;
+			return 0;
 		}
 
 
@@ -597,7 +616,7 @@ namespace seq
 			// check EOF
 			if (SEQ_UNLIKELY(first == _EOF || !(first <= 9))) {
 				goto error;
-}
+			}
 			
 			second = str.getc() - '0';
 			count = 0;
@@ -609,21 +628,21 @@ namespace seq
 				count += 2;
 				if (SEQ_UNLIKELY(count > 18)) {
 					goto too_long_int;
-}
+				}
 			}
 			if (second != _EOF) {
 				str.back();
-}
+			}
 			if ((first <= 9)) {
 				x = x * 10 + static_cast<int64_t>(first );
 				if (++count > 18) {
 					goto too_long_int;
-}
+				}
 				
 			}
 			else if (first != _EOF) {
 				str.back();
-}
+			}
 			
 			str.reset();
 			return x;
@@ -648,7 +667,7 @@ namespace seq
 			} 
 				str.set_state(BadInputFormat);
 				str.seek(saved_pos);
-				return (T)0;
+				return 0;
 		
 		}
 		template<class T, class Integral, class Stream>
@@ -662,7 +681,7 @@ namespace seq
 			} 
 				str.set_state(BadInputFormat);
 				str.seek(saved_pos);
-				return (T)0;
+				return 0;
 		
 		}
 		template<class T, class Integral, class Stream>
@@ -670,22 +689,24 @@ namespace seq
 		{
 			str.set_state(BadInputFormat);
 			str.seek(saved_pos);
-			return (T)0;
+			return 0;
 		}
 
 		template<class T, class Integral, class Stream>
 		SEQ_NOINLINE(auto) read_long_double(T res, Integral saved, int sign, char dot, Stream& str, const chars_format& fmt) -> T
 		{
+			// Read double too long to be read as separate integrals
+
 			if (std::isnan(res)) {
 				res = 0;
-}
+			}
 
 			Integral save_point = 0;
 			int first = str.getc();
 
 			//read decimal
 			while (is_digit(first)) {
-				res = (res * (T)10) + static_cast<T>(first - '0');
+				res = (res * static_cast<T>(10)) + static_cast<T>(first - '0');
 				first = str.getc();
 			}
 			if (first == EOF) {
@@ -701,10 +722,10 @@ namespace seq
 
 				//read fractional part
 				first = str.getc();
-				T factor = (T)0.1;
+				T factor = static_cast<T>(0.1);
 				while (is_digit(first)) {
 					res = res + static_cast<T>(first - '0') * factor;
-					factor *= (T)0.1;
+					factor *= static_cast<T>(0.1);
 					first = str.getc();
 				}
 				if (first == EOF) {
@@ -735,17 +756,17 @@ namespace seq
 					first = str.getc();
 					if (!is_digit(first)) {
 						goto partial;
-}
+					}
 				}
 				else if (first == '+') {
 					first = str.getc();
 					if (!is_digit(first)) {
 						goto partial;
-}
+					}
 				}
 				else if (!is_digit(first)) {
 					goto partial;
-}
+				}
 
 				do {
 					exp = (exp * 10) + static_cast<int>(first - '0');
@@ -762,12 +783,12 @@ namespace seq
 #endif
 				}
 				else {
-					res *= (T)get_pow_double(exp);//pow10[exp + 323];
-}
+					res *= static_cast<T>(get_pow_double(exp));//pow10[exp + 323];
+				}
 
 				if (first != EOF) {
 					str.back();
-}
+				}
 			}
 			else {
 				if (SEQ_UNLIKELY((fmt & scientific) && !(fmt & fixed))) {
@@ -776,7 +797,7 @@ namespace seq
 				}
 				if (first != EOF) {
 					str.back();
-}
+				}
 			}
 
 
@@ -786,9 +807,9 @@ namespace seq
 		error:
 			if (str) {
 				str.set_state(BadInputFormat);
-}
+			}
 			str.seek(saved);
-			return (T)0;
+			return 0;
 		partial:
 			str.reset();
 			str.seek(save_point);
@@ -814,23 +835,23 @@ namespace seq
 			}
 			// check EOF
 			if (SEQ_UNLIKELY(first == EOF)) {
-				return (T)0;
-}
+				return 0;
+			}
 				
 			if (first == '-') {
 				// first character is a sign
 				sign = -1;
 				first = str.getc();
 				if (SEQ_UNLIKELY(first == EOF)) {
-					return (T)0;
-}
+					return 0;
+				}
 			}
 			else if (first == '+') {
 				// first character is a sign
 				first = str.getc();
 				if (SEQ_UNLIKELY(first == EOF)) {
-					return (T)0;
-}
+					return 0;
+				}
 			}
 			// potential nan
 			else if (SEQ_UNLIKELY(to_upper(first) == 'N')) {
@@ -858,7 +879,7 @@ namespace seq
 				if (integral == -1) { 
 					//too big: switch to the default slower version
 					goto slow_path;
-}
+				}
 				
 				// invalid intergal part: invalid format
 				return return_bad_format<T>(saved, str);
@@ -866,7 +887,7 @@ namespace seq
 
 			// keep going with dot, decimal part, exponent.
 			// mark this state as a chack point, as the intergal part might be reused by the slow path.
-			res = (T)integral;
+			res = static_cast<T>(integral);
 			check_point = str.tell();
 
 			c = str.getc();
@@ -882,11 +903,11 @@ namespace seq
 					if (fmt == scientific) { 
 						// exponent is mandatory
 						return return_bad_format<T>(saved, str);
-}
+					}
 					//we accept a dot with nothing after
 					return sign_value(res, sign);
 				}
-				int dist = (int)(str.tell() - new_check_point);
+				int dist = static_cast<int>(str.tell() - new_check_point);
 				res += decimal * get_pow<T>(-dist);
 				c = str.getc();
 			}
@@ -904,11 +925,11 @@ namespace seq
 					if (c == '-') { esign = -1;
 					} else if (SEQ_UNLIKELY(c != '+')) {
 						return return_bad_format<T>(saved, str);
-}
+					}
 					c = str.getc();
 					if (!is_digit(c)) {
 						return return_bad_format<T>(saved, str);
-}
+					}
 				}
 				// read exponent value
 				unsigned cc = c- '0';
@@ -920,14 +941,14 @@ namespace seq
 					str.back();
 				} else {
 					str.reset();
-}
+				}
 
 				exp = sign_value(exp, esign);
 				// check exponent validity
 				if (SEQ_UNLIKELY(exp > std::numeric_limits<T>::max_exponent10)) {
 					return sign_value(std::numeric_limits<T>::infinity(), sign);
 				} if (SEQ_UNLIKELY(exp < std::numeric_limits<T>::min_exponent10))
-					return sign_value((T)0, sign);
+					return sign_value(static_cast<T>(0), sign);
 
 				// success
 				T p = get_pow<T>(exp);
@@ -972,7 +993,7 @@ namespace seq
 				return T();
 
 			T res;
-			res.push_back((char)first);
+			res.push_back(static_cast<char>(first));
 			for (;;) {
 				first = str.getc();
 				if (!is_space(first) && first != EOF)
@@ -1006,7 +1027,7 @@ namespace seq
 				return T();
 
 			T res;
-			res.push_back((char)first);
+			res.push_back(static_cast<char>(first));
 			for (;;) {
 				first = str.getc();
 				if (!is_eol(first) && first != EOF)
@@ -1071,12 +1092,12 @@ namespace seq
 			}
 			else {
 				val = static_cast<uint_type>(_val);
-}
+			}
 
 			while (val)
 			{
-				uint_type _new = val / (uint_type)base;
-				uint_type rem = val % (uint_type)base;
+				uint_type _new = val / static_cast<uint_type>(base);
+				uint_type rem = val % static_cast<uint_type>(base);
 				tmp[--index] = chars[rem];
 				val = _new;
 			}
@@ -1084,7 +1105,7 @@ namespace seq
 				int count = 65 - index;
 				while (min_width-- > count && index > 0) {
 					tmp[--index] = '0';
-}
+				}
 			}
 			if (base == 16 && fmt.hex_prefix) {
 				tmp[--index] = 'x';
@@ -1092,13 +1113,13 @@ namespace seq
 			}
 			if (std::is_signed<T>::value && neg) {
 				tmp[--index] = '-';
-}
+			}
 
 			size_t size = sizeof(tmp) - index - 1;
 			char* dst = range.add_size(size);
 			if (SEQ_UNLIKELY(!dst) ) {
 				return { range.end_ptr(), std::errc::value_too_large };
-}
+			}
 			memcpy(dst, tmp + index, size);
 			return { dst + size, std::errc() };
 		}
@@ -1123,7 +1144,7 @@ namespace seq
 
 			if (base != 10) {
 				return detail::write_integer_generic(range, _value, base, fmt);
-}
+			}
 
 			const char* table = decimal_table();
 			unsigned neg = 0;
@@ -1137,19 +1158,19 @@ namespace seq
 			}
 			else {
 				value = static_cast<uint_type>(_value);
-}
+			}
 
 			unsigned digit = count_digits_base_10(value);
 			if (SEQ_UNLIKELY(fmt.integral_min_width > digit)) {
 				digit = fmt.integral_min_width;
-}
+			}
 			if (std::is_signed<T>::value) { 
 				digit += neg;
-}
+			}
 			char* buffer = range.add_size(digit );
 			if (SEQ_UNLIKELY(!buffer)) {
 				return { range.end_ptr(), std::errc::value_too_large };
-}
+			}
 
 			char* start = buffer + neg;
 			char* res = buffer + digit;
@@ -1157,11 +1178,7 @@ namespace seq
 			
 
 			while (value >= 100) {
-				/*const uint_type val = value / 100;
-				const unsigned rem = value - val * 100U;
-				const unsigned i = rem * 2U;
-				value = val;*/
-				const auto i = (unsigned)( (value % 100U) * 2U);
+				const auto i = static_cast<unsigned>( (value % 100U) * 2U);
 				value /= 100U;
 				
 				*--buffer = table[i];
@@ -1172,13 +1189,13 @@ namespace seq
 				*--buffer = static_cast<char>(value) + '0';
 			}
 			else {
-				const auto i = (unsigned)(value * 2U);
+				const auto i = static_cast<unsigned>(value * 2U);
 				*--buffer = table[i];
 				*--buffer = table[i + 1];
 			}
 			while (buffer > start) {
 				*--buffer = '0';
-}
+			}
 			if (std::is_signed<T>::value && neg) {
 				*--buffer = '-';
 			}
@@ -1204,7 +1221,7 @@ namespace seq
 			// check if no need to output
 			if(null_first && value == 1 && min_width <= 1) {
 				return { range.current(),std::errc() };
-}
+			}
 
 
 			unsigned digit = count_digits_base_10(value);
@@ -1212,14 +1229,14 @@ namespace seq
 			char* buffer = range.add_size(digit);
 			if (SEQ_UNLIKELY(!buffer)) {
 				return { range.end_ptr(), std::errc::value_too_large };
-}
+			}
 
 			char* res = buffer + digit;
 			char* start = buffer;
 			buffer = res;
 
 			while (value >= 100U) {
-				const auto i = (unsigned)((value % 100U) * 2U);
+				const auto i = static_cast<unsigned>((value % 100U) * 2U);
 				value /= 100U;
 				*--buffer = table[i];
 				*--buffer = table[i + 1];
@@ -1229,16 +1246,16 @@ namespace seq
 				*--buffer = static_cast<char>(value) + '0';
 			}
 			else {
-				const auto i = (unsigned)( value * 2U);
+				const auto i = static_cast<unsigned>( value * 2U);
 				*--buffer = table[i];
 				*--buffer = table[i + 1];
 			}
 			while (buffer > start) {
 				*--buffer = '0';
-}
+			}
 			if (null_first) {
 				--(*buffer);
-}
+			}
 			return { res,std::errc() };
 		}
 
@@ -1434,7 +1451,7 @@ namespace seq
 				exponent = 0;
 			}
 
-			integral = (UInt)value;
+			integral = static_cast<UInt>(value);
 			T remainder = value - integral;
 
 			null_first = false;
@@ -1447,13 +1464,13 @@ namespace seq
 			
 			int p = width > 17 ? 17 : width;
 			remainder *= get_pow<T>(p);
-			decimals = (UInt)remainder;
+			decimals = static_cast<UInt>(remainder);
 
 			// rounding
 			remainder -= decimals;
 			if (remainder >= 0.5) {
 				decimals++;
-				const UInt max_val = static_cast<UInt>(get_pow<T>(p) + (T)0.5);
+				const UInt max_val = static_cast<UInt>(get_pow<T>(p) + static_cast<T>(0.5));
 				if (SEQ_UNLIKELY(decimals >= max_val)) {
 					decimals = 0;
 					integral++;
@@ -1477,19 +1494,14 @@ namespace seq
 			std::int16_t exponent = normalize_double(value, fmt);
 
 			// output sign
-			/*if (value < 0) {
-				if (SEQ_UNLIKELY(!range.append('-')))
-					return { range.end_ptr(), std::errc::value_too_large };
-				value = -value;
-			}*/
-
+			
 			char* start = range.current();
 			const char* dec_table = decimal_table();
 
 			// append leading 0, just use for rounding purpose
 			if (SEQ_UNLIKELY(!range.append('0'))) {
 				return { range.end_ptr(), std::errc::value_too_large };
-}
+			}
 
 			
 			std::int16_t exp = exponent;
@@ -1500,11 +1512,11 @@ namespace seq
 				if (exp) {
 					value *= 10;
 					do {
-						char v = (char)value;
+						char v = static_cast<char>(value);
 						char* dst = range.add_size(2);
 						if (SEQ_UNLIKELY(!dst)) {
 							return { range.end_ptr(), std::errc::value_too_large };
-}
+						}
 						const char* d = dec_table + static_cast<int>(v) * 2;
 						dst[0] = d[1];
 						dst[1] = d[0];
@@ -1515,14 +1527,13 @@ namespace seq
 							value *= 100;
 						}
 					} while (exp >= 1);
-					if (exp <= 0) { value *= (T)0.1;
-}
+					if (exp <= 0) { value *= static_cast<T>(0.1);}
 				}
 				while (exp >= 0) {
-					char v = (char)value;
+					char v = static_cast<char>(value);
 					if (SEQ_UNLIKELY(!range.append(v + '0'))) {
 						return { range.end_ptr(), std::errc::value_too_large };
-}
+					}
 					--exp;
 					value -= v;
 					value *= 10.;
@@ -1532,18 +1543,18 @@ namespace seq
 				// output 0 for negative exponent
 				if (SEQ_UNLIKELY(!range.append('0'))) {
 					return { range.end_ptr(), std::errc::value_too_large };
-}
+				}
 			}
 			// output dot
 			if (SEQ_UNLIKELY(!range.append(fmt.dot))) {
 				return { range.end_ptr(), std::errc::value_too_large };
-}
+			}
 
 			// for negative exponent, output possibly LOTS of 0 before the remaining of decimal part
 			while (++exponent < 0) {
 				if (SEQ_UNLIKELY(!range.append('0'))) {
 					return { range.end_ptr(), std::errc::value_too_large };
-}
+				}
 				--width;
 				if (width == -1) {
 					width = 0;
@@ -1563,11 +1574,11 @@ namespace seq
 				if (width) {
 					value *= 10;
 					do {
-						char v = (char)value;
+						char v = static_cast<char>(value);
 						char* dst = range.add_size(2);
 						if (SEQ_UNLIKELY(!dst)) {
 							return { range.end_ptr(), std::errc::value_too_large };
-}
+						}
 						const char* d = dec_table  + static_cast<int>(v) * 2;
 						dst[0] = d[1];
 						dst[1] = d[0];
@@ -1577,14 +1588,13 @@ namespace seq
 							value *= 100;
 						}
 					} while (width >= 1);
-					if (width <= 0) { value *= (T)0.1;
-}
+					if (width <= 0) { value *= static_cast<T>(0.1); }
 				}
 				while (width >= 0) {
-					char v = (char)value;
+					char v = static_cast<char>(value);
 					if (SEQ_UNLIKELY(!range.append(v + '0'))) {
 						return { range.end_ptr(), std::errc::value_too_large };
-}
+					}
 					--width;
 					value -= v;
 					value *= 10.;
@@ -1600,11 +1610,10 @@ namespace seq
 					//skip dot to round the integral part
 					if (*last == fmt.dot) {
 						--last;
-}
+					}
 					(*last)++;
 					if (*last == ':') { *last = '0';
-					} else { break;
-}
+					} else { break;}
 				} while (last > start);
 
 				if (last != start) {
@@ -1753,7 +1762,7 @@ namespace seq
 				width = 6;
 			}
 
-			if ((fmt.fmt == fixed && (value < (T)1e-15 || value >= (T)1e16 || width > 17))) { 
+			if ((fmt.fmt == fixed && (value < static_cast<T>(1e-15) || value >= static_cast<T>(1e16) || width > 17))) {
 				// 'fixed' format is processed differently
 				return write_double_fixed(range, value, width, fmt);
 			}
@@ -1907,7 +1916,7 @@ namespace seq
 		/// @brief Construct from a string-like object (usually std::string or tiny_string)
 		template<class StringLike>
 		explicit buffer_input_stream(const StringLike& str)
-			: buffer_input_stream(str.data(), (streamsize)str.size()) {}
+			: buffer_input_stream(str.data(), static_cast<streamsize>(str.size())) {}
 
 		/// @brief Set the stream state
 		/// @param st stream state
@@ -2098,7 +2107,7 @@ namespace seq
 		SEQ_NOINLINE(auto) seek(size_t pos) noexcept -> size_t
 		{
 			if (pos < d_pos) {
-				int start = d_buff_pos ? (int)(d_buff_pos - d_buff) : 0;
+				int start = d_buff_pos ? static_cast<int>(d_buff_pos - d_buff) : 0;
 				if (pos + start >= d_pos) {
 					d_buff_pos -= d_pos - pos;
 					d_pos = pos;
@@ -2111,7 +2120,7 @@ namespace seq
 				}
 			}
 			else {
-				int end = d_buff_end ? (int)(d_buff_end - d_buff_pos) : 0;
+				int end = d_buff_end ? static_cast<int>(d_buff_end - d_buff_pos) : 0;
 				if (d_pos + end > pos) {
 					d_buff_pos += pos - d_pos;
 					d_pos = pos;
@@ -2292,7 +2301,7 @@ namespace seq
 		SEQ_NOINLINE(auto) seek(streamsize pos) noexcept -> streamsize
 		{
 			if (pos < d_pos) {
-				int start = d_buff_pos ? (int)(d_buff_pos - d_buff) : 0;
+				int start = d_buff_pos ? static_cast<int>(d_buff_pos - d_buff) : 0;
 				if (pos + start >= d_pos) {
 					d_buff_pos -= d_pos - pos;
 					d_pos = pos;
@@ -2306,7 +2315,7 @@ namespace seq
 				}
 			}
 			else {
-				int end = d_buff_end ? (int)(d_buff_end - d_buff_pos) : 0;
+				int end = d_buff_end ? static_cast<int>(d_buff_end - d_buff_pos) : 0;
 				if (d_pos + end > pos) {
 					d_buff_pos += pos - d_pos;
 					d_pos = pos;

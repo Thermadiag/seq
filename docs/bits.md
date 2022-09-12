@@ -14,8 +14,8 @@ The *bits* module provides several portable low-level functions for bits manipul
 -	`seq::static_bit_scan_reverse`: index of the highest set bit at compile time
 -	`seq::count_digits_base_10`: number of digits to represent an integer in base 10
 -	`seq::nth_bit_set`: index of the nth set bit in a 64 bits word
--	`seq::bswap_16`: byte swap for 16 bits word
--	`seq::bswap_32`: byte swap for 32 bits word
--	`seq::bswap_64`: byte swap for 64 bits word
+-	`seq::byte_swap_16`: byte swap for 16 bits word
+-	`seq::byte_swap_32`: byte swap for 32 bits word
+-	`seq::byte_swap_64`: byte swap for 64 bits word
 
 See functions <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/group__bits.html">documentation</a> for more details.

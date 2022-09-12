@@ -103,17 +103,17 @@ Namespaces</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:ga67d3b70d773f73a03d96f6b4808a5921"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga67d3b70d773f73a03d96f6b4808a5921">SEQ_GROW_FACTOR</a>&#160;&#160;&#160;1.6</td></tr>
 <tr class="separator:ga67d3b70d773f73a03d96f6b4808a5921"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3188941b4d65de46471a2e1259fc0ca3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga3188941b4d65de46471a2e1259fc0ca3">BYTEORDER_LITTLE_ENDIAN</a>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:ga3188941b4d65de46471a2e1259fc0ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga92cc12b19b23eb27798b62d2d2f4e59f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga92cc12b19b23eb27798b62d2d2f4e59f">BYTEORDER_BIG_ENDIAN</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:ga92cc12b19b23eb27798b62d2d2f4e59f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa8746e6e0550da0ff0e313d3937d6c3a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#gaa8746e6e0550da0ff0e313d3937d6c3a">SEQ_BYTEORDER_LITTLE_ENDIAN</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:gaa8746e6e0550da0ff0e313d3937d6c3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga458a6f1416c90c631f1b457abca13345"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga458a6f1416c90c631f1b457abca13345">SEQ_BYTEORDER_BIG_ENDIAN</a>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:ga458a6f1416c90c631f1b457abca13345"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1cbb44da4a53751136f4dc9e91955349"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga1cbb44da4a53751136f4dc9e91955349">SEQ_ARCH_32</a></td></tr>
 <tr class="separator:ga1cbb44da4a53751136f4dc9e91955349"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4358957bf3c41e772ade27671699c4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a>&#160;&#160;&#160;alignof(std::max_align_t)</td></tr>
 <tr class="separator:ga4358957bf3c41e772ade27671699c4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga72391f4e9dec6b03cd65e4fa6e737b47"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga72391f4e9dec6b03cd65e4fa6e737b47">SEQ_ABORT</a>(...)</td></tr>
 <tr class="separator:ga72391f4e9dec6b03cd65e4fa6e737b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3af9d45fb1cb5d6a17fdb3404b472f78"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga3af9d45fb1cb5d6a17fdb3404b472f78">SEQ_OFFSETOF</a>(s,  m)&#160;&#160;&#160;((::size_t)&amp;reinterpret_cast&lt;char const volatile&amp;&gt;((((s*)__dummy_ptr_with_long_name)-&gt;m)))</td></tr>
+<tr class="memitem:ga3af9d45fb1cb5d6a17fdb3404b472f78"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga3af9d45fb1cb5d6a17fdb3404b472f78">SEQ_OFFSETOF</a>(s,  m)&#160;&#160;&#160;(reinterpret_cast&lt;::size_t&gt;(&amp;reinterpret_cast&lt;char const volatile&amp;&gt;(((static_cast&lt;const s*&gt;(__dummy_ptr_with_long_name))-&gt;m))))</td></tr>
 <tr class="separator:ga3af9d45fb1cb5d6a17fdb3404b472f78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae4a7019ba7c6381482288d4f2a24246a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#gae4a7019ba7c6381482288d4f2a24246a">_SEQ_PRAGMA</a>(text)&#160;&#160;&#160;_Pragma(#text)</td></tr>
 <tr class="separator:gae4a7019ba7c6381482288d4f2a24246a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,8 +125,6 @@ Macros</h2></td></tr>
 <tr class="separator:gaeed0a618f017e128a5d8654754f792db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga061fe8f79573a411376c454836794223"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga061fe8f79573a411376c454836794223">SEQ_FALLTHROUGH</a>()</td></tr>
 <tr class="separator:ga061fe8f79573a411376c454836794223"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2616804c95a1e947af283dc5f65464e2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga2616804c95a1e947af283dc5f65464e2">SEQ_ALIGN_TO_BOUNDARY</a>(n)&#160;&#160;&#160;SEQ_USER_ALIGN_TO_BOUNDARY(n)</td></tr>
-<tr class="separator:ga2616804c95a1e947af283dc5f65464e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaac3e750dd623d4a1ef045f0faa734e08"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#gaac3e750dd623d4a1ef045f0faa734e08">SEQ_LIKELY</a>(x)&#160;&#160;&#160;__builtin_expect (!!(x), 1)</td></tr>
 <tr class="separator:gaac3e750dd623d4a1ef045f0faa734e08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga371649b7712afb0bb3b2781aeddf45d9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga371649b7712afb0bb3b2781aeddf45d9">SEQ_UNLIKELY</a>(x)&#160;&#160;&#160;__builtin_expect (!!(x), 0)</td></tr>
@@ -171,12 +169,12 @@ Macros</h2></td></tr>
 <li><a class="el" href="namespaceseq.html#aaea603fed30d1318a1a13ee9a6181c1a" title="Returns the highest set bit index in bb. Developed by Kim Walisch, Mark Dickinson....">seq::bit_scan_reverse_64</a>: index of the highest set bit in a 32 bits word</li>
 <li><a class="el" href="namespaceseq.html#aeb73db39e1609aef776bd9499a838c85" title="Returns the lowest set bit index in bb. Undefined if bb==0.">seq::bit_scan_forward</a>: index of the lowest set bit in a size_t word</li>
 <li><a class="el" href="namespaceseq.html#ab2a4aaad9e6e5b58b9ae8bc9a0a8df09" title="Returns the highest set bit index in bb. Undefined if bb==0.">seq::bit_scan_reverse</a>: index of the highest set bit in a size_t word</li>
-<li><a class="el" href="structseq_1_1static__bit__scan__reverse.html">seq::static_bit_scan_reverse</a>: index of the highest set bit at compile time</li>
+<li><a class="el" href="structseq_1_1static__bit__scan__reverse.html" title="Static version of bit_scan_reverse.">seq::static_bit_scan_reverse</a>: index of the highest set bit at compile time</li>
 <li><a class="el" href="namespaceseq.html#ad229ce51d8085cde156a70f274f2dce2">seq::count_digits_base_10</a>: number of digits to represent an integer in base 10</li>
 <li><a class="el" href="namespaceseq.html#ab2f848adb0c9d3ac36fb1c523850748b">seq::nth_bit_set</a>: index of the nth set bit in a 64 bits word</li>
-<li><a class="el" href="namespaceseq.html#a549cd68f02bd7ddfa1ac9db016dcc175">seq::bswap_16</a>: byte swap for 16 bits word</li>
-<li><a class="el" href="namespaceseq.html#aa13f9cd975d93a1aca16515c52217ace">seq::bswap_32</a>: byte swap for 32 bits word</li>
-<li><a class="el" href="namespaceseq.html#ad01aa4e35623066ed4ffc6b7d8385a97">seq::bswap_64</a>: byte swap for 64 bits word</li>
+<li><a class="el" href="namespaceseq.html#ae245e0eac231291e4870473d50563333" title="Returns a byte-swapped representation of the 16-bit argument.">seq::byte_swap_16</a>: byte swap for 16 bits word</li>
+<li><a class="el" href="namespaceseq.html#a6bcd590a0f658c7717ac3295ce0ebd6c" title="Returns a byte-swapped representation of the 32-bit argument.">seq::byte_swap_32</a>: byte swap for 32 bits word</li>
+<li><a class="el" href="namespaceseq.html#a07a2ecccd735e2c51aed1c52d39e57ec" title="Returns a byte-swapped representation of the 64-bit argument.">seq::byte_swap_64</a>: byte swap for 64 bits word</li>
 </ul>
 <p>See functions documentation for more details. </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
@@ -246,34 +244,6 @@ Macros</h2></td></tr>
           <td class="paramtype">&#160;</td>
           <td class="paramname">text</td><td>)</td>
           <td>&#160;&#160;&#160;_Pragma(#text)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ga92cc12b19b23eb27798b62d2d2f4e59f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga92cc12b19b23eb27798b62d2d2f4e59f">&#9670;&nbsp;</a></span>BYTEORDER_BIG_ENDIAN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BYTEORDER_BIG_ENDIAN&#160;&#160;&#160;1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ga3188941b4d65de46471a2e1259fc0ca3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3188941b4d65de46471a2e1259fc0ca3">&#9670;&nbsp;</a></span>BYTEORDER_LITTLE_ENDIAN</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define BYTEORDER_LITTLE_ENDIAN&#160;&#160;&#160;0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -370,24 +340,6 @@ Macros</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="ga2616804c95a1e947af283dc5f65464e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2616804c95a1e947af283dc5f65464e2">&#9670;&nbsp;</a></span>SEQ_ALIGN_TO_BOUNDARY</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SEQ_ALIGN_TO_BOUNDARY</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">n</td><td>)</td>
-          <td>&#160;&#160;&#160;SEQ_USER_ALIGN_TO_BOUNDARY(n)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ga68ad5ff4a759a2a341569a42f9ba2e44"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga68ad5ff4a759a2a341569a42f9ba2e44">&#9670;&nbsp;</a></span>SEQ_ALWAYS_INLINE</h2>
 
@@ -438,6 +390,34 @@ Macros</h2></td></tr>
           <td></td>
           <td>)</td>
           <td></td><td>&#160;&#160;&#160;assert((condition) &amp;&amp; (__VA_ARGS__))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga458a6f1416c90c631f1b457abca13345"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga458a6f1416c90c631f1b457abca13345">&#9670;&nbsp;</a></span>SEQ_BYTEORDER_BIG_ENDIAN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SEQ_BYTEORDER_BIG_ENDIAN&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="gaa8746e6e0550da0ff0e313d3937d6c3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa8746e6e0550da0ff0e313d3937d6c3a">&#9670;&nbsp;</a></span>SEQ_BYTEORDER_LITTLE_ENDIAN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SEQ_BYTEORDER_LITTLE_ENDIAN&#160;&#160;&#160;0</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -630,7 +610,7 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;((::size_t)&amp;reinterpret_cast&lt;char const volatile&amp;&gt;((((s*)__dummy_ptr_with_long_name)-&gt;m)))</td>
+          <td></td><td>&#160;&#160;&#160;(reinterpret_cast&lt;::size_t&gt;(&amp;reinterpret_cast&lt;char const volatile&amp;&gt;(((static_cast&lt;const s*&gt;(__dummy_ptr_with_long_name))-&gt;m))))</td>
         </tr>
       </table>
 </div><div class="memdoc">

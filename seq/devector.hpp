@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef SEQ_DEVECTOR_HPP
 #define SEQ_DEVECTOR_HPP
 
@@ -94,7 +118,7 @@ namespace seq
 				// In case of exception, input is not detroyed, and created values are destroyed
 				// Strong exception guarantee
 				if (relocatable)
-					memcpy((void*)dst, (void*)begin, (end - begin) * sizeof(T));
+					memcpy(static_cast<void*>(dst), static_cast<void*>(begin), (end - begin) * sizeof(T));
 				else {
 					T* saved = begin;
 					T* saved_dst = dst;
@@ -117,7 +141,7 @@ namespace seq
 
 			auto grow_capacity() const -> size_t
 			{
-				size_t c = (size_t)(capacity * SEQ_GROW_FACTOR);
+				size_t c = static_cast<size_t>(capacity * SEQ_GROW_FACTOR);
 				if (c == capacity)
 					++c;
 				if (c < 2)
@@ -984,35 +1008,35 @@ namespace seq
 		/// @param first range of elements to remove
 		/// @param last range of elements to remove
 		/// @return Iterator following the last removed element
-		auto erase(const_iterator first, const_iterator last) -> iterator
+		auto erase(const_iterator first, const_iterator last) -> const_iterator
 		{	
 			SEQ_ASSERT_DEBUG(last >= first && first >= begin() && last <= end(), "devector erase iterator outside range");
 			if (first == last)
-				return (iterator)last;
+				return last;
 
 			size_type off = first - begin();
 			size_type count = last - first;
 
-			if (off < (size_type)(end() - last))
+			if (off < static_cast<size_type>(end() - last))
 			{	// closer to front
-				std::move_backward(begin(), (iterator)first, (iterator)last);	// copy over hole
+				std::move_backward(begin(), const_cast<iterator>(first), const_cast<iterator>(last));	// copy over hole
 				for (; 0 < count; --count)
 					pop_front();	// pop copied elements
 			}
 			else
 			{	// closer to back
-				std::move((iterator)last, end(), (iterator)first);	// copy over hole
+				std::move(const_cast<iterator>(last), end(), const_cast<iterator>(first));	// copy over hole
 				for (; 0 < count; --count)
 					pop_back();	// pop copied elements
 			}
 
-			return begin() + off;
+			return cbegin() + off;
 		}
 		/// @brief Removes the element at pos
 		/// Basic exception guarantee
 		/// @param pos iterator to the position to erase
 		/// @return Iterator following the last removed element.
-		auto erase(const_iterator pos) -> iterator
+		auto erase(const_iterator pos) -> const_iterator
 		{
 			return erase(pos, pos + 1);
 		}
@@ -1021,10 +1045,12 @@ namespace seq
 		/// Does not invalidated iterators, including end() iterator.
 		void swap(devector& other) noexcept
 		{
-			std::swap(base_type::data, other.base_type::data);
-			std::swap(base_type::start, other.base_type::start);
-			std::swap(base_type::end, other.base_type::end);
-			std::swap(base_type::capacity, other.base_type::capacity);
+			if (this != std::addressof(other)) {
+				std::swap(base_type::data, other.base_type::data);
+				std::swap(base_type::start, other.base_type::start);
+				std::swap(base_type::end, other.base_type::end);
+				std::swap(base_type::capacity, other.base_type::capacity);
+			}
 		}
 
 		/// @brief Increase the capacity of the devector (the total number of elements that the devector can hold without requiring reallocation) to a value that's greater or equal to new_cap.
@@ -1163,8 +1189,10 @@ namespace seq
 		/// @brief Copy operator
 		auto operator=(const devector& other) -> devector&
 		{
-			resize(other.size());
-			std::copy(other.begin(), other.end(), begin());
+			if (this != std::addressof(other)) {
+				resize(other.size());
+				std::copy(other.begin(), other.end(), begin());
+			}
 			return *this;
 		}
 		/// @brief Move assignment operator

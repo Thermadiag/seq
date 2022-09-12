@@ -94,6 +94,9 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_sparse_flat_no
 </div><!--header-->
 <div class="contents">
 
+<p>Base class for robin-hood hash table. Values are stored in a <a class="el" href="classseq_1_1sequence.html" title="sequence is an ordered container supporting constant time insertion at both end and constant time rem...">seq::sequence</a> object, and the hash table contains iterators to the sequence with additional hash value and distance to perfect location.  
+ <a href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ordered__map_8hpp_source.html">ordered_map.hpp</a>&gt;</code></p>
 
 <p>Inherits <a class="el" href="structseq_1_1detail_1_1_hash_equal.html">seq::detail::HashEqual&lt; Hash, Equal &gt;</a>.</p>
@@ -235,7 +238,12 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:aa9941bd1d37289ba169ba1b347be8314"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a82ebc1ddc80bd81a9abfc32945b66fa8">node_type::dist_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#aa9941bd1d37289ba169ba1b347be8314">mask_dirty</a> = <a class="el" href="structseq_1_1integer__max.html">integer_max</a>&lt;typename <a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a82ebc1ddc80bd81a9abfc32945b66fa8">node_type::dist_type</a>&gt;::value</td></tr>
 <tr class="separator:aa9941bd1d37289ba169ba1b347be8314"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Typedef Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;class Key, class Value, class Hash, class Equal, class Allocator, LayoutManagement layout&gt;<br />
+struct seq::detail::SparseFlatNodeHashTable&lt; Key, Value, Hash, Equal, Allocator, layout &gt;</h3>
+
+<p>Base class for robin-hood hash table. Values are stored in a <a class="el" href="classseq_1_1sequence.html" title="sequence is an ordered container supporting constant time insertion at both end and constant time rem...">seq::sequence</a> object, and the hash table contains iterators to the sequence with additional hash value and distance to perfect location. </p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a8677095811e6ce9863b0d547facfa605"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8677095811e6ce9863b0d547facfa605">&#9670;&nbsp;</a></span>base_type</h2>
 

@@ -94,7 +94,7 @@ $(document).ready(function(){initNavTree('classseq_1_1sequence.html',''); initRe
 </div><!--header-->
 <div class="contents">
 
-<p>sequence is an ordered container supporting constant time insertion at both end and constant removal anywhere.  
+<p>sequence is an ordered container supporting constant time insertion at both end and constant time removal anywhere.  
  <a href="classseq_1_1sequence.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="sequence_8hpp_source.html">sequence.hpp</a>&gt;</code></p>
@@ -359,7 +359,7 @@ Friends</h2></td></tr>
 <div class="textblock"><h3>template&lt;class T, class Allocator = std::allocator&lt;T&gt;, LayoutManagement layout = OptimizeForSpeed, bool ForceAlign64 = false&gt;<br />
 class seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</h3>
 
-<p>sequence is an ordered container supporting constant time insertion at both end and constant removal anywhere. </p>
+<p>sequence is an ordered container supporting constant time insertion at both end and constant time removal anywhere. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>value type </td></tr>
@@ -370,7 +370,7 @@ class seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</h3>
 <p>The sequence container behaves like a hybrid version of std::deque and std::list. It provides:</p><ul>
 <li>Constant time insertion at the back or the front using members <a class="el" href="classseq_1_1sequence.html#ab7a6dfc0af059f7d3c6dd0b255bea08f" title="Appends the given element value to the end of the sequence.">push_back()</a>, <a class="el" href="classseq_1_1sequence.html#a0fb2a3944e4ad72fbbf625b1aa816d04" title="Constructs an element in-place at the end.">emplace_back()</a>, <a class="el" href="classseq_1_1sequence.html#a1b1a3369b5343e9941d069ccc7cd4639" title="Prepends the given element value to the beginning of the sequence.">push_front()</a> and <a class="el" href="classseq_1_1sequence.html#a83a78cc8cb63af2c9e17251472179e07" title="Constructs an element in-place at the beginning.">emplace_front()</a></li>
 <li>Constant time removal of one or more elements with <a class="el" href="classseq_1_1sequence.html#ac1f8636e2d4b36354c8f88e2ed7eafdb" title="Erases the specified element from the container.">erase()</a></li>
-<li>Stability of references and iterators (except end iterator).</li>
+<li>Stability of references and iterators.</li>
 </ul>
 <p>Unlike std::list, the sequence container does not provide insertion anywhere in the container. Instead, sequence provides unordered insertion through its member <a class="el" href="classseq_1_1sequence.html#a7dcbce0b90160f9479bfcb7a09f3277e" title="Insert the given element into the sequence.">insert()</a>, much like the <a href="https://plflib.org/colony.htm">plf::colony</a> class. Unordered insertion is usually prefered to back or front insertion as it can reuse free slots created by <a class="el" href="classseq_1_1sequence.html#ac1f8636e2d4b36354c8f88e2ed7eafdb" title="Erases the specified element from the container.">erase()</a> and avoid potential allocations. In addition, its <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">sort()</a>, <a class="el" href="classseq_1_1sequence.html#a5aaca3cd0a83c4637c28599ac55d70a0" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">stable_sort()</a> and <a class="el" href="classseq_1_1sequence.html#a1bf494125859119c2748a7a5e59588fa" title="Pack the sequence to remove empty slots and release unused memory. All empty slots created by calls t...">shrink_to_fit()</a> members do not preserve reference and iterator stability.</p>
 <p>Its main advantages other std::list (and other containers) are:</p><ul>
@@ -393,7 +393,7 @@ Iterators</h2>
 <h2><a class="anchor" id="autotoc_md48"></a>
 Memory managment</h2>
 <p>When using the <em>OptimizeForMemory</em> flag, the sequence will allocate each bucket independently using the provided allocator.</p>
-<p>When using the <em>OptimizeForSpeed</em> flag, the sequence will use a memory pool to allocate several buckets at once, still using the provided allocator. The memory pool uses a growing strategy to allocate more and more buckets based on a growth factor (SEQ_GROW_FACTOR define, defaulting to 1.6). The memory pool makes insertion tipically 50% faster than the default allocation strategy, but will consume slightly more memory.</p>
+<p>When using the <em>OptimizeForSpeed</em> flag, the sequence will use a memory pool (<a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">seq::object_pool</a>) to allocate several buckets at once, still using the provided allocator. The memory pool uses a growing strategy to allocate more and more buckets based on a growth factor (SEQ_GROW_FACTOR define, defaulting to 1.6). The memory pool makes insertion tipically 50% faster than the default allocation strategy, but will consume slightly more memory.</p>
 <p>Whenever a bucket is empty (by calls to <a class="el" href="classseq_1_1sequence.html#ac1f8636e2d4b36354c8f88e2ed7eafdb" title="Erases the specified element from the container.">erase()</a>, <a class="el" href="classseq_1_1sequence.html#afa3e3d448af95c0bf3a7e897ae02f193" title="Clears the contents. Erases all elements from the container. After this call, size() returns zero....">clear()</a>, <a class="el" href="classseq_1_1sequence.html#ac210c62cf9931e32cff1e0d0334e260a" title="Resizes the container to contain count elements.">resize()</a>, <a class="el" href="classseq_1_1sequence.html#a6e8496f2670bef2a4bd401f6671d8fc9" title="Resizes the container to contain count elements.">resize_front()</a> or <a class="el" href="classseq_1_1sequence.html#a1bf494125859119c2748a7a5e59588fa" title="Pack the sequence to remove empty slots and release unused memory. All empty slots created by calls t...">shrink_to_fit()</a>), the sequence releases the occupied memory. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="aa1eea1d1e4d1e27cd662163a9fbbe20d"></a>

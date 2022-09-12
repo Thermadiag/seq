@@ -104,57 +104,78 @@ $(document).ready(function(){initNavTree('classseq_1_1hold__any.html',''); initR
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:af66e74bcdac095ab46f55bdd9419bb34"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#af66e74bcdac095ab46f55bdd9419bb34">base_type</a> = typename Interface::template any_interface&lt; <a class="el" href="structseq_1_1any__base.html">any_base</a>&lt; <a class="el" href="classseq_1_1hold__any.html">hold_any</a>&lt; Interface, StaticSize, Alignment &gt;, typename Interface::type_info, StaticSize, Alignment &gt; &gt;</td></tr>
+<tr class="memdesc:af66e74bcdac095ab46f55bdd9419bb34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base public type.  <a href="classseq_1_1hold__any.html#af66e74bcdac095ab46f55bdd9419bb34">More...</a><br /></td></tr>
 <tr class="separator:af66e74bcdac095ab46f55bdd9419bb34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23d29fc7c99e55af995fa4de7596c5c3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a23d29fc7c99e55af995fa4de7596c5c3">type_info_type</a> = typename Interface::type_info</td></tr>
+<tr class="memdesc:a23d29fc7c99e55af995fa4de7596c5c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type info as returned by type()  <a href="classseq_1_1hold__any.html#a23d29fc7c99e55af995fa4de7596c5c3">More...</a><br /></td></tr>
 <tr class="separator:a23d29fc7c99e55af995fa4de7596c5c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdcce1fa954bad763a29b08b8db95bf3"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:abdcce1fa954bad763a29b08b8db95bf3"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#abdcce1fa954bad763a29b08b8db95bf3">typed_type_info_type</a> = typename Interface::template typed_type_info&lt; T &gt;</td></tr>
+<tr class="memdesc:abdcce1fa954bad763a29b08b8db95bf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actual implementation of type info.  <a href="classseq_1_1hold__any.html#abdcce1fa954bad763a29b08b8db95bf3">More...</a><br /></td></tr>
 <tr class="separator:abdcce1fa954bad763a29b08b8db95bf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab6504e84038886576e6b9bfe772b24af"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#ab6504e84038886576e6b9bfe772b24af">hold_any</a> ()</td></tr>
+<tr class="memdesc:ab6504e84038886576e6b9bfe772b24af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default ctor.  <a href="classseq_1_1hold__any.html#ab6504e84038886576e6b9bfe772b24af">More...</a><br /></td></tr>
 <tr class="separator:ab6504e84038886576e6b9bfe772b24af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b270bf34f7dc79b210aaafd46641bb1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a1b270bf34f7dc79b210aaafd46641bb1">hold_any</a> (const <a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;other)</td></tr>
+<tr class="memdesc:a1b270bf34f7dc79b210aaafd46641bb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor Might throw std::bad_function_call if underlying type is not copy constructible (for instance std::unique_ptr)  <a href="classseq_1_1hold__any.html#a1b270bf34f7dc79b210aaafd46641bb1">More...</a><br /></td></tr>
 <tr class="separator:a1b270bf34f7dc79b210aaafd46641bb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e5414d101d6b8afdc976ca0876a4f83"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a0e5414d101d6b8afdc976ca0876a4f83">hold_any</a> (<a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="separator:a0e5414d101d6b8afdc976ca0876a4f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac587e55fd6491bee3a704491ae45b0d8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#ac587e55fd6491bee3a704491ae45b0d8">hold_any</a> (<a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;&amp;other)</td></tr>
+<tr class="memdesc:ac587e55fd6491bee3a704491ae45b0d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructor Move constructor is NOT noexcept as <a class="el" href="namespaceseq_1_1detail.html#aadadc42324010b84a6053c3491490dea">move_any()</a> might throw.  <a href="classseq_1_1hold__any.html#ac587e55fd6491bee3a704491ae45b0d8">More...</a><br /></td></tr>
+<tr class="separator:ac587e55fd6491bee3a704491ae45b0d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a143cd5f15f6a232497f79d40a47c0db4"><td class="memTemplParams" colspan="2">template&lt;class T , class  = typename std::enable_if&lt; !std::is_base_of&lt;detail::null_policy, typename std::decay&lt;T&gt;::type&gt;::value, void&gt;::type&gt; </td></tr>
 <tr class="memitem:a143cd5f15f6a232497f79d40a47c0db4"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a143cd5f15f6a232497f79d40a47c0db4">hold_any</a> (T &amp;&amp;value)</td></tr>
+<tr class="memdesc:a143cd5f15f6a232497f79d40a47c0db4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct from any object except another <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a>.  <a href="classseq_1_1hold__any.html#a143cd5f15f6a232497f79d40a47c0db4">More...</a><br /></td></tr>
 <tr class="separator:a143cd5f15f6a232497f79d40a47c0db4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82b9694ee008b29d32572a2392610fd0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a82b9694ee008b29d32572a2392610fd0">~hold_any</a> ()</td></tr>
+<tr class="memdesc:a82b9694ee008b29d32572a2392610fd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="classseq_1_1hold__any.html#a82b9694ee008b29d32572a2392610fd0">More...</a><br /></td></tr>
 <tr class="separator:a82b9694ee008b29d32572a2392610fd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ee20937ac7a67a9565e247149490c44"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a2ee20937ac7a67a9565e247149490c44">operator=</a> (const <a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;other) -&gt; <a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;</td></tr>
+<tr class="memdesc:a2ee20937ac7a67a9565e247149490c44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy assignment.  <a href="classseq_1_1hold__any.html#a2ee20937ac7a67a9565e247149490c44">More...</a><br /></td></tr>
 <tr class="separator:a2ee20937ac7a67a9565e247149490c44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6a014d7d3b184e17401983542ae7075"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#ab6a014d7d3b184e17401983542ae7075">operator=</a> (<a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;&amp;other) noexcept -&gt; <a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;</td></tr>
-<tr class="separator:ab6a014d7d3b184e17401983542ae7075"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4000383b6d465a3007602dbbace207aa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a4000383b6d465a3007602dbbace207aa">operator=</a> (<a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;&amp;other) -&gt; <a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;</td></tr>
+<tr class="memdesc:a4000383b6d465a3007602dbbace207aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move assignment, MIGHT THROW!  <a href="classseq_1_1hold__any.html#a4000383b6d465a3007602dbbace207aa">More...</a><br /></td></tr>
+<tr class="separator:a4000383b6d465a3007602dbbace207aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af674e3f02ac5c0605e52601d7d333c1a"><td class="memTemplParams" colspan="2">template&lt;class T , class  = typename std::enable_if&lt; !std::is_base_of&lt;detail::null_policy, typename std::decay&lt;T&gt;::type&gt;::value, void&gt;::type&gt; </td></tr>
 <tr class="memitem:af674e3f02ac5c0605e52601d7d333c1a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#af674e3f02ac5c0605e52601d7d333c1a">operator=</a> (T &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;</td></tr>
+<tr class="memdesc:af674e3f02ac5c0605e52601d7d333c1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign any kind of object except a <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a>.  <a href="classseq_1_1hold__any.html#af674e3f02ac5c0605e52601d7d333c1a">More...</a><br /></td></tr>
 <tr class="separator:af674e3f02ac5c0605e52601d7d333c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87143783cbfba43b22bf57d033246e34"><td class="memTemplParams" colspan="2">template&lt;class ValueType , class... Args&gt; </td></tr>
 <tr class="memitem:a87143783cbfba43b22bf57d033246e34"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a87143783cbfba43b22bf57d033246e34">emplace</a> (Args &amp;&amp;... args) -&gt; typename std::decay&lt; ValueType &gt;::type &amp;</td></tr>
+<tr class="memdesc:a87143783cbfba43b22bf57d033246e34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emplace construction.  <a href="classseq_1_1hold__any.html#a87143783cbfba43b22bf57d033246e34">More...</a><br /></td></tr>
 <tr class="separator:a87143783cbfba43b22bf57d033246e34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a200afdd399e8169666eb47c85d60b16f"><td class="memTemplParams" colspan="2">template&lt;class ValueType , class U , class... Args&gt; </td></tr>
 <tr class="memitem:a200afdd399e8169666eb47c85d60b16f"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a200afdd399e8169666eb47c85d60b16f">emplace</a> (std::initializer_list&lt; U &gt; il, Args &amp;&amp;... args) -&gt; typename std::decay&lt; ValueType &gt;::type &amp;</td></tr>
+<tr class="memdesc:a200afdd399e8169666eb47c85d60b16f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emplace construction.  <a href="classseq_1_1hold__any.html#a200afdd399e8169666eb47c85d60b16f">More...</a><br /></td></tr>
 <tr class="separator:a200afdd399e8169666eb47c85d60b16f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8439dbae538c9724f1e3b3ba644708f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#ac8439dbae538c9724f1e3b3ba644708f">has_value</a> () const noexcept -&gt; bool</td></tr>
+<tr class="memdesc:ac8439dbae538c9724f1e3b3ba644708f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> holds an object.  <a href="classseq_1_1hold__any.html#ac8439dbae538c9724f1e3b3ba644708f">More...</a><br /></td></tr>
 <tr class="separator:ac8439dbae538c9724f1e3b3ba644708f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a635579e9906f4b4f1401c5b68a3b7efb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a635579e9906f4b4f1401c5b68a3b7efb">operator bool</a> () const noexcept</td></tr>
+<tr class="memdesc:a635579e9906f4b4f1401c5b68a3b7efb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicit conversion to bool.  <a href="classseq_1_1hold__any.html#a635579e9906f4b4f1401c5b68a3b7efb">More...</a><br /></td></tr>
 <tr class="separator:a635579e9906f4b4f1401c5b68a3b7efb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae602f9129adf5742ce96a050a82d081e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#ae602f9129adf5742ce96a050a82d081e">swap</a> (<a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;other)</td></tr>
+<tr class="memdesc:ae602f9129adf5742ce96a050a82d081e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swap content with another <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a>. Swap cannot be noexcept as there is no guarantee that move assignment of underlying types are noexcept.  <a href="classseq_1_1hold__any.html#ae602f9129adf5742ce96a050a82d081e">More...</a><br /></td></tr>
 <tr class="separator:ae602f9129adf5742ce96a050a82d081e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af968dafb946e95314e8e223888b0a59c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#af968dafb946e95314e8e223888b0a59c">reset</a> () noexcept</td></tr>
+<tr class="memdesc:af968dafb946e95314e8e223888b0a59c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> by destroying underlying object (if any) and deallocating the storage (if any)  <a href="classseq_1_1hold__any.html#af968dafb946e95314e8e223888b0a59c">More...</a><br /></td></tr>
 <tr class="separator:af968dafb946e95314e8e223888b0a59c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbeed042b82bc91b7b75dfc50064676a"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:abbeed042b82bc91b7b75dfc50064676a"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#abbeed042b82bc91b7b75dfc50064676a">equal_to</a> (T &amp;&amp;other) const -&gt; bool</td></tr>
+<tr class="memdesc:abbeed042b82bc91b7b75dfc50064676a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if underlying object is equal to other.  <a href="classseq_1_1hold__any.html#abbeed042b82bc91b7b75dfc50064676a">More...</a><br /></td></tr>
 <tr class="separator:abbeed042b82bc91b7b75dfc50064676a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25cb6f241bd0cd9e29961b8ba4d8d6bd"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a25cb6f241bd0cd9e29961b8ba4d8d6bd"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a25cb6f241bd0cd9e29961b8ba4d8d6bd">less_than</a> (T &amp;&amp;other) const -&gt; bool</td></tr>
+<tr class="memdesc:a25cb6f241bd0cd9e29961b8ba4d8d6bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if underlying object compares less than other.  <a href="classseq_1_1hold__any.html#a25cb6f241bd0cd9e29961b8ba4d8d6bd">More...</a><br /></td></tr>
 <tr class="separator:a25cb6f241bd0cd9e29961b8ba4d8d6bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a309289b8f08a2a8c3e587a07e35d1b15"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a309289b8f08a2a8c3e587a07e35d1b15"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a309289b8f08a2a8c3e587a07e35d1b15">greater_than</a> (T &amp;&amp;other) const -&gt; bool</td></tr>
+<tr class="memdesc:a309289b8f08a2a8c3e587a07e35d1b15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if underlying object compares greater than other.  <a href="classseq_1_1hold__any.html#a309289b8f08a2a8c3e587a07e35d1b15">More...</a><br /></td></tr>
 <tr class="separator:a309289b8f08a2a8c3e587a07e35d1b15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af042372b1ab3f7b22a58011909eeb3ef"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#af042372b1ab3f7b22a58011909eeb3ef">operator==</a> (const <a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;other) const -&gt; bool</td></tr>
+<tr class="memdesc:af042372b1ab3f7b22a58011909eeb3ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison operator.  <a href="classseq_1_1hold__any.html#af042372b1ab3f7b22a58011909eeb3ef">More...</a><br /></td></tr>
 <tr class="separator:af042372b1ab3f7b22a58011909eeb3ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a583e9d4e8516b29d396e5d337609b45e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a583e9d4e8516b29d396e5d337609b45e">operator!=</a> (const <a class="el" href="classseq_1_1hold__any.html">hold_any</a> &amp;other) const -&gt; bool</td></tr>
 <tr class="separator:a583e9d4e8516b29d396e5d337609b45e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,6 +198,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a835540e3ff0854680297ae3531152992"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html#a835540e3ff0854680297ae3531152992">static_size</a> = sizeof(hold_any::d_storage)</td></tr>
+<tr class="memdesc:a835540e3ff0854680297ae3531152992"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum size for Small Buffer Optimization.  <a href="classseq_1_1hold__any.html#a835540e3ff0854680297ae3531152992">More...</a><br /></td></tr>
 <tr class="separator:a835540e3ff0854680297ae3531152992"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -186,7 +208,7 @@ class seq::hold_any&lt; Interface, StaticSize, Alignment &gt;</h3>
 <p>std::any like class optimized to build heterogeneous containers. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Interface</td><td>class Interface, default to <a class="el" href="structseq_1_1any__default__interface.html">any_default_interface</a>.</td></tr>
+    <tr><td class="paramname">Interface</td><td>class Interface, default to <a class="el" href="structseq_1_1any__default__interface.html" title="Default interface for hold_any.">any_default_interface</a>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -253,7 +275,7 @@ Casting</h2>
 <div class="line">a = 1.2;</div>
 <div class="line">i = a.cast&lt;<span class="keywordtype">int</span>&gt;(); <span class="comment">//valid, cast double to int</span></div>
 <div class="line">str2 = a.cast&lt;std::string&gt;(); <span class="comment">//valid, str2 holds &quot;1.2&quot;</span></div>
-</div><!-- fragment --><p>It is possible to register additional conversion functions for custom types using <a class="el" href="namespaceseq.html#a97851d71ded4c7928aabd76f4280d268">seq::register_any_conversion()</a>:</p>
+</div><!-- fragment --><p>It is possible to register additional conversion functions for custom types using <a class="el" href="namespaceseq.html#a97851d71ded4c7928aabd76f4280d268" title="Register a conversion function based on explicit conversion from type T to type U.">seq::register_any_conversion()</a>:</p>
 <div class="fragment"><div class="line"><span class="keyword">struct </span>my_int_pair</div>
 <div class="line">{</div>
 <div class="line"><span class="keywordtype">int</span> a, b;</div>
@@ -331,11 +353,11 @@ Hashing</h2>
 Equality comparison</h2>
 <p><a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> objects are equally comparable. This feature is mandatory when inserting any objects into hash table based containers like std::unordered_set. Two <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> are considered equal if:</p><ul>
 <li>They are both empty.</li>
-<li>They hold the same type and both underlying objects compare equals. If the type does not provide a comparison operator, the <a class="el" href="classseq_1_1hold__any.html#af042372b1ab3f7b22a58011909eeb3ef">operator==()</a> always return false.</li>
+<li>They hold the same type and both underlying objects compare equals. If the type does not provide a comparison operator, the <a class="el" href="classseq_1_1hold__any.html#af042372b1ab3f7b22a58011909eeb3ef" title="Equality comparison operator.">operator==()</a> always return false.</li>
 <li>They both hold an arithmetic value of possibly different types, and these values compare equals.</li>
 <li>They both hold a string like object (std::string, <a class="el" href="namespaceseq.html#a8d9a01a2c5a12df6d4baac1d1520d4b5" title="Base string typedef, similar to std::string. Equivalent to tiny_string&lt;0, std::allocator&lt;char&gt;&gt;.">seq::tstring</a>, <a class="el" href="namespaceseq.html#a2bede5ff16f5bb9f856b3b2d78303f69" title="Base string view typedef, similar to std::string_view. Equivalent to tiny_string&lt;0,...">seq::tstring_view</a>, std::string_view, char*, const char*) that compare equals. Note that a const char* can be compared to another string object (like std::string) using string comparison, but comparing two const char* will result in a pointer comparison!</li>
 </ul>
-<p>It is possible to register a comparison function for unrelated types using <a class="el" href="namespaceseq.html#adb61336a531e99a11a888883a46d0f01">seq::register_any_equal_comparison()</a> function.</p>
+<p>It is possible to register a comparison function for unrelated types using <a class="el" href="namespaceseq.html#adb61336a531e99a11a888883a46d0f01" title="Register the comparison function T() == U()">seq::register_any_equal_comparison()</a> function.</p>
 <p>Example:</p>
 <div class="fragment"><div class="line"><a class="code" href="classseq_1_1hold__any.html">seq::any</a> a = 1.0;</div>
 <div class="line"><a class="code" href="classseq_1_1hold__any.html">seq::any</a> b = 1;</div>
@@ -374,7 +396,7 @@ Less comparison</h2>
 <li>They both hold an arithmetic value of possibly different types, and object(A) &lt; object(B).</li>
 <li>They both hold a string like object (std::string, <a class="el" href="namespaceseq.html#a8d9a01a2c5a12df6d4baac1d1520d4b5" title="Base string typedef, similar to std::string. Equivalent to tiny_string&lt;0, std::allocator&lt;char&gt;&gt;.">seq::tstring</a>, <a class="el" href="namespaceseq.html#a2bede5ff16f5bb9f856b3b2d78303f69" title="Base string view typedef, similar to std::string_view. Equivalent to tiny_string&lt;0,...">seq::tstring_view</a>, std::string_view, char*, const char*) and object(A) &lt; object(B).</li>
 </ul>
-<p>It is possible to register a comparison function for unrelated types using <a class="el" href="namespaceseq.html#ab390e9bf772c9a88f9f48c5bd360d7ed">seq::register_any_less_comparison()</a> function.</p>
+<p>It is possible to register a comparison function for unrelated types using <a class="el" href="namespaceseq.html#ab390e9bf772c9a88f9f48c5bd360d7ed" title="Register the comparison function T() &lt; U()">seq::register_any_less_comparison()</a> function.</p>
 <p>Example:</p>
 <div class="fragment"><div class="line"><a class="code" href="classseq_1_1hold__any.html">seq::any</a> a = 1;</div>
 <div class="line"><a class="code" href="classseq_1_1hold__any.html">seq::any</a> b = 2.3;</div>
@@ -595,6 +617,8 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
       </table>
 </div><div class="memdoc">
 
+<p>Base public type. </p>
+
 </div>
 </div>
 <a id="a23d29fc7c99e55af995fa4de7596c5c3"></a>
@@ -610,6 +634,8 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Type info as returned by type() </p>
 
 </div>
 </div>
@@ -628,6 +654,8 @@ template&lt;class T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Actual implementation of type info. </p>
 
 </div>
 </div>
@@ -657,6 +685,8 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
 </table>
 </div><div class="memdoc">
 
+<p>Default ctor. </p>
+
 </div>
 </div>
 <a id="a1b270bf34f7dc79b210aaafd46641bb1"></a>
@@ -685,10 +715,12 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
 </table>
 </div><div class="memdoc">
 
+<p>Copy constructor Might throw std::bad_function_call if underlying type is not copy constructible (for instance std::unique_ptr) </p>
+
 </div>
 </div>
-<a id="a0e5414d101d6b8afdc976ca0876a4f83"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e5414d101d6b8afdc976ca0876a4f83">&#9670;&nbsp;</a></span>hold_any() <span class="overload">[3/4]</span></h2>
+<a id="ac587e55fd6491bee3a704491ae45b0d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac587e55fd6491bee3a704491ae45b0d8">&#9670;&nbsp;</a></span>hold_any() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -708,10 +740,12 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Move constructor Move constructor is NOT noexcept as <a class="el" href="namespaceseq_1_1detail.html#aadadc42324010b84a6053c3491490dea">move_any()</a> might throw. </p>
 
 </div>
 </div>
@@ -743,6 +777,8 @@ template&lt;class T , class  = typename std::enable_if&lt; !std::is_base_of&lt;d
 </table>
 </div><div class="memdoc">
 
+<p>Construct from any object except another <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a>. </p>
+
 </div>
 </div>
 <a id="a82b9694ee008b29d32572a2392610fd0"></a>
@@ -769,6 +805,8 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Destructor. </p>
 
 </div>
 </div>
@@ -801,6 +839,8 @@ template&lt;class ValueType , class... Args&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Emplace construction. </p>
 
 </div>
 </div>
@@ -843,6 +883,8 @@ template&lt;class ValueType , class U , class... Args&gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Emplace construction. </p>
+
 </div>
 </div>
 <a id="abbeed042b82bc91b7b75dfc50064676a"></a>
@@ -873,6 +915,8 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Returns true if underlying object is equal to other. </p>
 
 </div>
 </div>
@@ -936,6 +980,8 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Returns true if underlying object compares greater than other. </p>
+
 </div>
 </div>
 <a id="ac8439dbae538c9724f1e3b3ba644708f"></a>
@@ -963,6 +1009,8 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Returns true if <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> holds an object. </p>
 
 </div>
 </div>
@@ -995,6 +1043,8 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Returns true if underlying object compares less than other. </p>
+
 </div>
 </div>
 <a id="a635579e9906f4b4f1401c5b68a3b7efb"></a>
@@ -1021,6 +1071,8 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Explicit conversion to bool. </p>
 
 </div>
 </div>
@@ -1138,10 +1190,12 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
 </table>
 </div><div class="memdoc">
 
+<p>Copy assignment. </p>
+
 </div>
 </div>
-<a id="ab6a014d7d3b184e17401983542ae7075"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6a014d7d3b184e17401983542ae7075">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/3]</span></h2>
+<a id="a4000383b6d465a3007602dbbace207aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4000383b6d465a3007602dbbace207aa">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1162,10 +1216,12 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Move assignment, MIGHT THROW! </p>
 
 </div>
 </div>
@@ -1198,6 +1254,8 @@ template&lt;class T , class  = typename std::enable_if&lt; !std::is_base_of&lt;d
 </table>
 </div><div class="memdoc">
 
+<p>Assign any kind of object except a <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a>. </p>
+
 </div>
 </div>
 <a id="af042372b1ab3f7b22a58011909eeb3ef"></a>
@@ -1226,6 +1284,8 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Equality comparison operator. </p>
 
 </div>
 </div>
@@ -1312,6 +1372,8 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
 </table>
 </div><div class="memdoc">
 
+<p>Reset <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> by destroying underlying object (if any) and deallocating the storage (if any) </p>
+
 </div>
 </div>
 <a id="ae602f9129adf5742ce96a050a82d081e"></a>
@@ -1340,6 +1402,8 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
 </table>
 </div><div class="memdoc">
 
+<p>Swap content with another <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a>. Swap cannot be noexcept as there is no guarantee that move assignment of underlying types are noexcept. </p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -1365,6 +1429,8 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
 </table>
 </div><div class="memdoc">
 
+<p>Maximum size for Small Buffer Optimization. </p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
@@ -1372,30 +1438,30 @@ template&lt;class Interface  = any_default_interface, size_t StaticSize = sizeof
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassseq_1_1any__type__info_html"><div class="ttname"><a href="classseq_1_1any__type__info.html">seq::any_type_info</a></div><div class="ttdoc">Base class representing a type and related functions.</div><div class="ttdef"><b>Definition:</b> any.hpp:599</div></div>
+<div class="ttc" id="aclassseq_1_1any__type__info_html"><div class="ttname"><a href="classseq_1_1any__type__info.html">seq::any_type_info</a></div><div class="ttdoc">Base class representing a type and related functions.</div><div class="ttdef"><b>Definition:</b> any.hpp:628</div></div>
 <div class="ttc" id="atype__traits_8hpp_html"><div class="ttname"><a href="type__traits_8hpp.html">type_traits.hpp</a></div></div>
 <div class="ttc" id="autils_8hpp_html"><div class="ttname"><a href="utils_8hpp.html">utils.hpp</a></div></div>
-<div class="ttc" id="anamespaceseq_html_a8d9a01a2c5a12df6d4baac1d1520d4b5"><div class="ttname"><a href="namespaceseq.html#a8d9a01a2c5a12df6d4baac1d1520d4b5">seq::tstring</a></div><div class="ttdeci">tiny_string&lt; 0, std::allocator&lt; char &gt; &gt; tstring</div><div class="ttdoc">Base string typedef, similar to std::string. Equivalent to tiny_string&lt;0, std::allocator&lt;char&gt;&gt;.</div><div class="ttdef"><b>Definition:</b> tiny_string.hpp:58</div></div>
-<div class="ttc" id="anamespaceseq_html_a60b1a14cbf28e77e92a346892ef8531c"><div class="ttname"><a href="namespaceseq.html#a60b1a14cbf28e77e92a346892ef8531c">seq::constexpr_if</a></div><div class="ttdeci">auto constexpr_if(const L1 &amp;l1, const L2 &amp;l2, Args &amp;&amp;... args) -&gt; decltype(std::declval&lt; detail::CallLambda&lt; L1, L2, IsL1 &gt; &amp; &gt;()(std::declval&lt; L1 &amp; &gt;(), std::declval&lt; L2 &amp; &gt;(), std::declval&lt; Args &gt;()...))</div><div class="ttdoc">Simulation of C++17 if constexpr.</div><div class="ttdef"><b>Definition:</b> utils.hpp:240</div></div>
-<div class="ttc" id="anamespaceseq_1_1detail_html_a280597fb66785a68b9b92e1f19bccf04"><div class="ttname"><a href="namespaceseq_1_1detail.html#a280597fb66785a68b9b92e1f19bccf04">seq::detail::hash_any</a></div><div class="ttdeci">SEQ_ALWAYS_INLINE auto hash_any(const void *in) -&gt; size_t</div><div class="ttdef"><b>Definition:</b> any.hpp:475</div></div>
-<div class="ttc" id="aclassseq_1_1ordered__set_html"><div class="ttname"><a href="classseq_1_1ordered__set.html">seq::ordered_set</a></div><div class="ttdoc">Associative container that contains a set of unique objects of type Key. Search, insertion,...</div><div class="ttdef"><b>Definition:</b> ordered_map.hpp:1103</div></div>
-<div class="ttc" id="anamespaceseq_1_1detail_html_a84d714603751dddb280584583ccdd7e3"><div class="ttname"><a href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">seq::detail::str</a></div><div class="ttdeci">Integral int char Stream &amp; str</div><div class="ttdef"><b>Definition:</b> charconv.hpp:677</div></div>
-<div class="ttc" id="anamespaceseq_html"><div class="ttname"><a href="namespaceseq.html">seq</a></div><div class="ttdef"><b>Definition:</b> any.hpp:33</div></div>
+<div class="ttc" id="anamespaceseq_html_a8d9a01a2c5a12df6d4baac1d1520d4b5"><div class="ttname"><a href="namespaceseq.html#a8d9a01a2c5a12df6d4baac1d1520d4b5">seq::tstring</a></div><div class="ttdeci">tiny_string&lt; 0, std::allocator&lt; char &gt; &gt; tstring</div><div class="ttdoc">Base string typedef, similar to std::string. Equivalent to tiny_string&lt;0, std::allocator&lt;char&gt;&gt;.</div><div class="ttdef"><b>Definition:</b> tiny_string.hpp:82</div></div>
+<div class="ttc" id="anamespaceseq_html_a60b1a14cbf28e77e92a346892ef8531c"><div class="ttname"><a href="namespaceseq.html#a60b1a14cbf28e77e92a346892ef8531c">seq::constexpr_if</a></div><div class="ttdeci">auto constexpr_if(const L1 &amp;l1, const L2 &amp;l2, Args &amp;&amp;... args) -&gt; decltype(std::declval&lt; detail::CallLambda&lt; L1, L2, IsL1 &gt; &amp; &gt;()(std::declval&lt; L1 &amp; &gt;(), std::declval&lt; L2 &amp; &gt;(), std::declval&lt; Args &gt;()...))</div><div class="ttdoc">Simulation of C++17 if constexpr.</div><div class="ttdef"><b>Definition:</b> utils.hpp:264</div></div>
+<div class="ttc" id="anamespaceseq_1_1detail_html_a280597fb66785a68b9b92e1f19bccf04"><div class="ttname"><a href="namespaceseq_1_1detail.html#a280597fb66785a68b9b92e1f19bccf04">seq::detail::hash_any</a></div><div class="ttdeci">SEQ_ALWAYS_INLINE auto hash_any(const void *in) -&gt; size_t</div><div class="ttdoc">Hash object using std::hash or throw std::bad_function_call.</div><div class="ttdef"><b>Definition:</b> any.hpp:502</div></div>
+<div class="ttc" id="aclassseq_1_1ordered__set_html"><div class="ttname"><a href="classseq_1_1ordered__set.html">seq::ordered_set</a></div><div class="ttdoc">Associative container that contains a set of unique objects of type Key. Search, insertion,...</div><div class="ttdef"><b>Definition:</b> ordered_map.hpp:1139</div></div>
+<div class="ttc" id="anamespaceseq_1_1detail_html_a84d714603751dddb280584583ccdd7e3"><div class="ttname"><a href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">seq::detail::str</a></div><div class="ttdeci">Integral int char Stream &amp; str</div><div class="ttdef"><b>Definition:</b> charconv.hpp:696</div></div>
+<div class="ttc" id="anamespaceseq_html"><div class="ttname"><a href="namespaceseq.html">seq</a></div><div class="ttdef"><b>Definition:</b> any.hpp:58</div></div>
 <div class="ttc" id="atiny__string_8hpp_html"><div class="ttname"><a href="tiny__string_8hpp.html">tiny_string.hpp</a></div></div>
-<div class="ttc" id="astructseq_1_1any__typed__type__info_html"><div class="ttname"><a href="structseq_1_1any__typed__type__info.html">seq::any_typed_type_info</a></div><div class="ttdoc">Implementation of any_type_info for specific type (Type Erasure)</div><div class="ttdef"><b>Definition:</b> any.hpp:630</div></div>
-<div class="ttc" id="aclassseq_1_1ordered__set_html_afbc6c320f13dbfe438907cac9a787f6c"><div class="ttname"><a href="classseq_1_1ordered__set.html#afbc6c320f13dbfe438907cac9a787f6c">seq::ordered_set::insert</a></div><div class="ttdeci">auto insert(const value_type &amp;value) -&gt; std::pair&lt; iterator, bool &gt;</div><div class="ttdoc">Inserts element into the container, if the container doesn't already contain an element with an equiv...</div><div class="ttdef"><b>Definition:</b> ordered_map.hpp:1469</div></div>
-<div class="ttc" id="anamespaceseq_html_a21b27d9d28ab49b4e36657f9e95013c7"><div class="ttname"><a href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a></div><div class="ttdeci">auto fmt(Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), void, Args... &gt;::return_type</div><div class="ttdef"><b>Definition:</b> format.hpp:2145</div></div>
-<div class="ttc" id="aclassseq_1_1hold__any_html"><div class="ttname"><a href="classseq_1_1hold__any.html">seq::hold_any</a></div><div class="ttdoc">std::any like class optimized to build heterogeneous containers.</div><div class="ttdef"><b>Definition:</b> any.hpp:1536</div></div>
-<div class="ttc" id="aclassseq_1_1tiny__string_html"><div class="ttname"><a href="classseq_1_1tiny__string.html">seq::tiny_string</a></div><div class="ttdoc">String class with a similar interface and requirements than std::string.</div><div class="ttdef"><b>Definition:</b> tiny_string.hpp:53</div></div>
-<div class="ttc" id="astructseq_1_1any__typed__type__info_html_a22b7544c534b15f5877b6e3756819009"><div class="ttname"><a href="structseq_1_1any__typed__type__info.html#a22b7544c534b15f5877b6e3756819009">seq::any_typed_type_info::hash_any</a></div><div class="ttdeci">auto hash_any(const void *in) const -&gt; size_t</div><div class="ttdoc">Hash object of underlying type.</div><div class="ttdef"><b>Definition:</b> any.hpp:647</div></div>
-<div class="ttc" id="anamespaceseq_html_a24ef193cef19271b9b18ce6c74fc5b54"><div class="ttname"><a href="namespaceseq.html#a24ef193cef19271b9b18ce6c74fc5b54">seq::any</a></div><div class="ttdeci">hold_any&lt;&gt; any</div><div class="ttdef"><b>Definition:</b> any.hpp:2287</div></div>
-<div class="ttc" id="anamespaceseq_1_1detail_html_ad2ef3bc87521f2c064991225c99aeabf"><div class="ttname"><a href="namespaceseq_1_1detail.html#ad2ef3bc87521f2c064991225c99aeabf">seq::detail::val</a></div><div class="ttdeci">double val</div><div class="ttdef"><b>Definition:</b> charconv.hpp:272</div></div>
-<div class="ttc" id="anamespaceseq_html_a2bede5ff16f5bb9f856b3b2d78303f69"><div class="ttname"><a href="namespaceseq.html#a2bede5ff16f5bb9f856b3b2d78303f69">seq::tstring_view</a></div><div class="ttdeci">tiny_string&lt; 0, view_allocator &gt; tstring_view</div><div class="ttdoc">Base string view typedef, similar to std::string_view. Equivalent to tiny_string&lt;0,...</div><div class="ttdef"><b>Definition:</b> tiny_string.hpp:56</div></div>
-<div class="ttc" id="anamespaceseq_1_1detail_html_ae4e48f51c85e7a3a935596cba71a7355"><div class="ttname"><a href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">seq::detail::T</a></div><div class="ttdeci">Stream &amp;str T</div><div class="ttdef"><b>Definition:</b> charconv.hpp:642</div></div>
-<div class="ttc" id="anamespaceseq_html_a2ec98840dd82cf3a3207402caa66c73f"><div class="ttname"><a href="namespaceseq.html#a2ec98840dd82cf3a3207402caa66c73f">seq::nh_any</a></div><div class="ttdeci">hold_any&lt; any_no_hash_interface &gt; nh_any</div><div class="ttdef"><b>Definition:</b> any.hpp:2288</div></div>
+<div class="ttc" id="astructseq_1_1any__typed__type__info_html"><div class="ttname"><a href="structseq_1_1any__typed__type__info.html">seq::any_typed_type_info</a></div><div class="ttdoc">Implementation of any_type_info for specific type (Type Erasure)</div><div class="ttdef"><b>Definition:</b> any.hpp:659</div></div>
+<div class="ttc" id="aclassseq_1_1ordered__set_html_afbc6c320f13dbfe438907cac9a787f6c"><div class="ttname"><a href="classseq_1_1ordered__set.html#afbc6c320f13dbfe438907cac9a787f6c">seq::ordered_set::insert</a></div><div class="ttdeci">auto insert(const value_type &amp;value) -&gt; std::pair&lt; iterator, bool &gt;</div><div class="ttdoc">Inserts element into the container, if the container doesn't already contain an element with an equiv...</div><div class="ttdef"><b>Definition:</b> ordered_map.hpp:1507</div></div>
+<div class="ttc" id="anamespaceseq_html_a21b27d9d28ab49b4e36657f9e95013c7"><div class="ttname"><a href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a></div><div class="ttdeci">auto fmt(Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), void, Args... &gt;::return_type</div><div class="ttdef"><b>Definition:</b> format.hpp:2160</div></div>
+<div class="ttc" id="aclassseq_1_1hold__any_html"><div class="ttname"><a href="classseq_1_1hold__any.html">seq::hold_any</a></div><div class="ttdoc">std::any like class optimized to build heterogeneous containers.</div><div class="ttdef"><b>Definition:</b> any.hpp:1572</div></div>
+<div class="ttc" id="aclassseq_1_1tiny__string_html"><div class="ttname"><a href="classseq_1_1tiny__string.html">seq::tiny_string</a></div><div class="ttdoc">String class with a similar interface and requirements than std::string.</div><div class="ttdef"><b>Definition:</b> tiny_string.hpp:77</div></div>
+<div class="ttc" id="astructseq_1_1any__typed__type__info_html_a22b7544c534b15f5877b6e3756819009"><div class="ttname"><a href="structseq_1_1any__typed__type__info.html#a22b7544c534b15f5877b6e3756819009">seq::any_typed_type_info::hash_any</a></div><div class="ttdeci">auto hash_any(const void *in) const -&gt; size_t</div><div class="ttdoc">Hash object of underlying type.</div><div class="ttdef"><b>Definition:</b> any.hpp:676</div></div>
+<div class="ttc" id="anamespaceseq_html_a24ef193cef19271b9b18ce6c74fc5b54"><div class="ttname"><a href="namespaceseq.html#a24ef193cef19271b9b18ce6c74fc5b54">seq::any</a></div><div class="ttdeci">hold_any&lt;&gt; any</div><div class="ttdef"><b>Definition:</b> any.hpp:2342</div></div>
+<div class="ttc" id="anamespaceseq_1_1detail_html_ad2ef3bc87521f2c064991225c99aeabf"><div class="ttname"><a href="namespaceseq_1_1detail.html#ad2ef3bc87521f2c064991225c99aeabf">seq::detail::val</a></div><div class="ttdeci">double val</div><div class="ttdef"><b>Definition:</b> charconv.hpp:294</div></div>
+<div class="ttc" id="anamespaceseq_html_a2bede5ff16f5bb9f856b3b2d78303f69"><div class="ttname"><a href="namespaceseq.html#a2bede5ff16f5bb9f856b3b2d78303f69">seq::tstring_view</a></div><div class="ttdeci">tiny_string&lt; 0, view_allocator &gt; tstring_view</div><div class="ttdoc">Base string view typedef, similar to std::string_view. Equivalent to tiny_string&lt;0,...</div><div class="ttdef"><b>Definition:</b> tiny_string.hpp:80</div></div>
+<div class="ttc" id="anamespaceseq_1_1detail_html_ae4e48f51c85e7a3a935596cba71a7355"><div class="ttname"><a href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">seq::detail::T</a></div><div class="ttdeci">Stream &amp;str T</div><div class="ttdef"><b>Definition:</b> charconv.hpp:661</div></div>
+<div class="ttc" id="anamespaceseq_html_a2ec98840dd82cf3a3207402caa66c73f"><div class="ttname"><a href="namespaceseq.html#a2ec98840dd82cf3a3207402caa66c73f">seq::nh_any</a></div><div class="ttdeci">hold_any&lt; any_no_hash_interface &gt; nh_any</div><div class="ttdef"><b>Definition:</b> any.hpp:2343</div></div>
 <div class="ttc" id="aany_8hpp_html"><div class="ttname"><a href="any_8hpp.html">any.hpp</a></div></div>
-<div class="ttc" id="astructseq_1_1is__hashable_html"><div class="ttname"><a href="structseq_1_1is__hashable.html">seq::is_hashable</a></div><div class="ttdoc">Tells if given type is hashable with std::hash. True by default, optimistically assume that all types...</div><div class="ttdef"><b>Definition:</b> type_traits.hpp:175</div></div>
-<div class="ttc" id="astructseq_1_1any__default__interface_html"><div class="ttname"><a href="structseq_1_1any__default__interface.html">seq::any_default_interface</a></div><div class="ttdef"><b>Definition:</b> any.hpp:975</div></div>
+<div class="ttc" id="astructseq_1_1is__hashable_html"><div class="ttname"><a href="structseq_1_1is__hashable.html">seq::is_hashable</a></div><div class="ttdoc">Tells if given type is hashable with std::hash. True by default, optimistically assume that all types...</div><div class="ttdef"><b>Definition:</b> type_traits.hpp:199</div></div>
+<div class="ttc" id="astructseq_1_1any__default__interface_html"><div class="ttname"><a href="structseq_1_1any__default__interface.html">seq::any_default_interface</a></div><div class="ttdoc">Default interface for hold_any.</div><div class="ttdef"><b>Definition:</b> any.hpp:1011</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

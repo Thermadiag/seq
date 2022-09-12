@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef SEQ_FLAT_MAP_HPP
 #define SEQ_FLAT_MAP_HPP
 
@@ -25,7 +49,17 @@ See the documentation of each class for more details.
 
 
 #include "tiered_vector.hpp"
+
+// Disable old style cast warning for gcc
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#endif
 #include "pdqsort.hpp"
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
+
 
 
 
@@ -70,7 +104,7 @@ namespace seq
 	
 
 
-		template<bool Stable, class Less, bool IsArithmetic = std::is_arithmetic<typename Less::key_type>::value , bool LessOrGreater = is_less_or_greater<typename Less::compare>::value >
+		template<bool Stable, class Less >
 		struct DequeSorter
 		{
 			// Sort tiered_vector using pdqsort.
@@ -81,17 +115,9 @@ namespace seq
 				pdqsort_branchless(d.begin() + begin, d.begin() + end, less);
 			}
 		};
-		template< class Less>
-		struct DequeSorter<false,Less,true,true>
-		{
-			template<class Deque>
-			static void sort(Deque& d, size_t begin, size_t end , const Less & less) {
-
-				pdqsort_branchless(d.begin() + begin, d.begin() + end, less);
-			}
-		};
-		template<class Less, bool IsArithmetic, bool LessOrGreater >
-		struct DequeSorter<true,Less, IsArithmetic, LessOrGreater>
+		
+		template<class Less >
+		struct DequeSorter<true,Less>
 		{
 			// Sort tiered_vector in a stable way
 			template<class Deque>
@@ -118,6 +144,7 @@ namespace seq
 		{
 			return last - first;
 		}
+		/// @brief Returns distance between 2 iterators, or 0 for non random access iterators
 		template< class It>
 		auto distance(It first, It last) -> std::ptrdiff_t
 		{
@@ -206,7 +233,7 @@ namespace seq
 
 
 	
-
+		/// @brief Base class for flat_tree
 		template<class Key, class Value, class Less>
 		struct BaseTree : Less
 		{
@@ -233,6 +260,7 @@ namespace seq
 			template<class U, class V>
 			SEQ_ALWAYS_INLINE auto equal(const U& v1, const V& v2)  const noexcept -> bool { return !operator()(v1, v2) && !operator()(v2, v1); }
 		};
+		/// @brief Base class for flat_tree in case of simple set (no associative container)
 		template<class Key, class Less>
 		struct BaseTree<Key,Key,Less> : Less
 		{
@@ -260,24 +288,24 @@ namespace seq
 		};
 
 	
-		
+		/// @brief Base class for flat_map/set
+		/// Uses a seq::tiered_vector to store the values and provide faster insertion/deletion of unique elements.
 		template<class Key, class Value = Key, class Compare = std::less<Key>, class Allocator = std::allocator<Value>, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true>
 		struct flat_tree : private BaseTree<Key,Value,Compare>
 		{
-			// Flat set/map class. 
-			// Uses a seq::tiered_vector to store the values and provide faster insertion/deletion of unique elements.
-
-		
+			
 			using extract_key = ExtractKey<Key, Value>;
 			using base_type = BaseTree<Key, Value, Compare>;
 			using this_type = flat_tree<Key, Value, Compare, Allocator, layout, Stable, Unique>;
 
+			// Structure for equality comparison
 			struct Equal
 			{
 				flat_tree* c;
 				Equal(flat_tree * c):c(c) {}
 				SEQ_ALWAYS_INLINE auto operator()(const Value& a, const Value& b) const -> bool { return c->equal((a), (b)); }
 			};
+			// Structure for less than comparison
 			struct Less
 			{
 				using key_type = Key;
@@ -325,7 +353,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE void check_dirty() const
 			{
 				if (SEQ_UNLIKELY(dirty()))
-					throw std::logic_error("");
+					throw std::logic_error("flat_tree is dirty");
 			}
 
 
@@ -467,16 +495,20 @@ namespace seq
 				: flat_tree(init, Compare(), alloc) {}
 
 			auto operator=(flat_tree&& other) noexcept -> flat_tree& {
-				d_deque = std::move(other.d_deque);
-				d_dirty = other.d_dirty;
-				base() = std::move(other.base());
+				if (this != std::addressof(other)) {
+					d_deque = std::move(other.d_deque);
+					d_dirty = other.d_dirty;
+					base() = std::move(other.base());
+				}
 				return *this;
 			}
 			auto operator=(const flat_tree& other) -> flat_tree& 
 			{
-				d_deque = (other.d_deque);
-				d_dirty = other.d_dirty;
-				base() = other.base();
+				if (this != std::addressof(other)) {
+					d_deque = (other.d_deque);
+					d_dirty = other.d_dirty;
+					base() = other.base();
+				}
 				return *this;
 			}
 			auto operator=(const std::initializer_list<value_type>& init) -> flat_tree&
@@ -496,9 +528,11 @@ namespace seq
 
 			void swap(flat_tree& other) noexcept
 			{
-				d_deque.swap(other.d_deque);
-				std::swap(d_dirty,other.d_dirty);
-				std::swap(base(), other.base());
+				if (this != std::addressof(other)) {
+					d_deque.swap(other.d_deque);
+					std::swap(d_dirty, other.d_dirty);
+					std::swap(base(), other.base());
+				}
 			}
 			template<class U>
 			auto insert_pos_multi(U && value) -> std::pair<size_t, bool>
@@ -942,7 +976,7 @@ namespace seq
 	/// 
 	/// 
 	/// Direct access to tiered_vector
-	/// ----------------------
+	/// ------------------------------
 	/// 
 	/// Unlike most flat set implementations, it it possible to directly access and modify the underlying tiered_vector directly. 
 	/// This possibility must be used with great care, as modifying directly the tiered_vector might break the key ordering. 
@@ -1001,7 +1035,7 @@ namespace seq
 	/// This benchmark is available in file 'seq/benchs/bench_map.hpp'.
 	/// seq::flat_set behaves quite well compared to absl::btree_set or boost::flat_set, and is even faster for single insertion/deletion than std::set.
 	/// 
-	/// seq::flat_set insertion/deletion perform in O(sqrt(N)) on average, as compared to std::set that performs in O(log(N)).
+	/// seq::flat_set insertion/deletion performs in O(sqrt(N)) on average, as compared to std::set that performs in O(log(N)).
 	/// seq::flat_set is therfore slower for inserting and deleting elements than std::set when dealing with several millions of elements.
 	/// Lookup functions (find, lower_bound, upper_bound...) still perform in O(log(N)) and remain faster that std::set couterparts because
 	/// seq::tiered_vector is much more cache friendly than std::set. flat_set will always be slower for element lookup than boost::flat_set wich uses
@@ -1529,16 +1563,16 @@ namespace seq
 			: flat_multiset(init, Compare(), alloc) {}
 
 		auto operator=(flat_multiset&& other) noexcept -> flat_multiset& {
-			(base_type&)(*this) = std::move((base_type&)other);
+			static_cast<base_type&>(*this) = std::move(static_cast<base_type&>(other));
 			return *this;
 		}
 		auto operator=(const flat_multiset& other) -> flat_multiset& {
-			(base_type&)(*this) = (const base_type&)(other);
+			static_cast<base_type&>(*this) = static_cast<const base_type&>(other);
 			return *this;
 		}
 		auto operator=(const std::initializer_list<value_type>& init) -> flat_multiset&
 		{
-			(base_type&)(this) = init;
+			static_cast<base_type&>(this) = init;
 			return *this;
 		}
 
@@ -2133,16 +2167,16 @@ namespace seq
 			: flat_multimap(init, Compare(), alloc) {}
 
 		auto operator=(flat_multimap&& other) noexcept -> flat_multimap& {
-			(base_type&)(*this) = std::move((base_type&)other);
+			static_cast<base_type&>(*this) = std::move(static_cast<base_type&>(other));
 			return *this;
 		}
 		auto operator=(const flat_multimap& other) -> flat_multimap& {
-			(base_type&)(*this) = (const base_type&)(other);
+			static_cast<base_type&>(*this) = static_cast<const base_type&>(other);
 			return *this;
 		}
 		auto operator=(const std::initializer_list<value_type>& init) -> flat_multimap&
 		{
-			(base_type&)(this) = init;
+			static_cast<base_type&>(this) = init;
 			return *this;
 		}
 

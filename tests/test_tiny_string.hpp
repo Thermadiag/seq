@@ -1,3 +1,26 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #include "tiny_string.hpp"
 #include "testing.hpp"
@@ -61,8 +84,8 @@ void test_tstring_logic()
 	SEQ_TEST(string_equals(v1, v2));
 
 	// test operator[]
-	for (size_t i = 0; i < v.size(); ++i) v[i] = (char)i;
-	for (size_t i = 0; i < dv.size(); ++i) dv[i] = (char)i;
+	for (size_t i = 0; i < v.size(); ++i) v[i] = static_cast<char>(i);
+	for (size_t i = 0; i < dv.size(); ++i) dv[i] = static_cast<char>(i);
 	SEQ_TEST(string_equals(v, dv));
 
 	//test shrink_to_fit
@@ -73,14 +96,14 @@ void test_tstring_logic()
 
 	//test insertion
 	size_t pos[4] = { rand() % v.size(),rand() % v.size(),rand() % v.size(),rand() % v.size() };
-	v.insert(v.begin() + pos[0], (char)1234);
-	v.insert(v.begin() + pos[0], (char)1235);
-	v.insert(v.begin() + pos[0], (char)1236);
-	v.insert(v.begin() + pos[0], (char)1237);
-	dv.insert(dv.begin() + pos[0], (char)1234);
-	dv.insert(dv.begin() + pos[0], (char)1235);
-	dv.insert(dv.begin() + pos[0], (char)1236);
-	dv.insert(dv.begin() + pos[0], (char)1237);
+	v.insert(v.begin() + pos[0], static_cast<char>(1234));
+	v.insert(v.begin() + pos[0], static_cast < char>(1235));
+	v.insert(v.begin() + pos[0], static_cast < char>(1236));
+	v.insert(v.begin() + pos[0], static_cast < char>(1237));
+	dv.insert(dv.begin() + pos[0], static_cast < char>(1234));
+	dv.insert(dv.begin() + pos[0], static_cast < char>(1235));
+	dv.insert(dv.begin() + pos[0], static_cast < char>(1236));
+	dv.insert(dv.begin() + pos[0], static_cast < char>(1237));
 	SEQ_TEST(string_equals(v, dv));
 
 	//test range insertion
@@ -247,11 +270,11 @@ void test_tstring_logic()
 		//test push back
 		tiny_string<MaxStaticSize> tstr;
 		for (int i = 0; i < count; ++i)
-			tstr.push_back(std::max((unsigned char)i, (unsigned char)1));
+			tstr.push_back(std::max(static_cast<unsigned char>(i), static_cast < unsigned char>(1)));
 		
 		std::string str;
 		for (int i = 0; i < count; ++i)
-			str.push_back(std::max((unsigned char)i, (unsigned char)1));
+			str.push_back(std::max(static_cast<unsigned char>(i), static_cast < unsigned char>(1)));
 		
 		SEQ_TEST(string_equals(str, tstr));
 
@@ -313,7 +336,7 @@ void test_tstring_logic()
 
 
 		memset(tstr.data(), 1, tstr.size() / 2);
-		memset((char*)str.data(), 1, str.size() / 2);
+		memset(const_cast<char*>(str.data()), 1, str.size() / 2);
 
 		SEQ_TEST(str == tstr);
 
@@ -342,11 +365,11 @@ void test_tstring_logic()
 
 
 		for (int i = 0; i < count; ++i) {
-			tstr[i] = (std::max((unsigned char)i, (unsigned char)1));
-			str[i] = (std::max((unsigned char)i, (unsigned char)1));
+			tstr[i] = (std::max(static_cast<unsigned char>(i), static_cast < unsigned char>(1)));
+			str[i] = (std::max(static_cast<unsigned char>(i), static_cast < unsigned char>(1)));
 		}
 		memset(tstr.data() + tstr.size() / 2, 0, tstr.size() - tstr.size() / 2);
-		memset((char*)str.data() + str.size() / 2, 0, str.size() - str.size() / 2);
+		memset(const_cast<char*>(str.data()) + str.size() / 2, 0, str.size() - str.size() / 2);
 
 
 		f = 0;
@@ -368,7 +391,7 @@ void test_tstring_logic()
 		SEQ_TEST(pos == pos2);
 		
 		//test compare
-		int len = count - (int)find1.size();
+		int len = count - static_cast<int>(find1.size());
 		f = 0;
 		for (int i = 0; i < len; ++i) {
 			f += tstr.compare(i, find1.size(), find1);

@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef SEQ_TINY_STRING_HPP
 #define SEQ_TINY_STRING_HPP
 
@@ -66,32 +90,12 @@ namespace seq
 		/*-************************************
 		*  Common functions
 		**************************************/
-		static inline void unsafe_char_memcpy(char * SEQ_RESTRICT dst, const char* SEQ_RESTRICT src, size_t s, size_t exact_size)
-		{
-			// Copy characters by chunks of 32 bytes if possible
-			if (exact_size) {
-				memcpy(dst, src, s); return;
-			}
-			const char* end  = src + s;
-			do {
-				memcpy(dst, src, 32);
-				dst += 32;
-				src += 32;
-			} while (src < end);
-		}
-		static inline void char_memcpy(void* SEQ_RESTRICT dst, const char* SEQ_RESTRICT src, size_t s)
-		{
-			memcpy(dst, src, s);
-		}
-		static SEQ_ALWAYS_INLINE void char_memset(void* dst, int value, size_t s)
-		{
-			memset(dst, value, s);
-		}
+		
 
 
 		static inline auto NbCommonBytes(size_t val) -> unsigned
 		{
-	#if BYTEORDER_ENDIAN == BYTEORDER_LITTLE_ENDIAN
+	#if SEQ_BYTEORDER_ENDIAN == SEQ_BYTEORDER_LITTLE_ENDIAN
 				if (sizeof(val) == 8) {
 	#       if defined(_MSC_VER) && defined(_WIN64) 
 					unsigned long r = 0;
@@ -449,6 +453,21 @@ namespace seq
 	/// seq::tiny_string only supports characters of type char, not wchar_t.
 	/// 
 	/// 
+	/// Motivation
+	/// ----------
+	/// 
+	/// Why another string class? I started writing tiny_string for another project (a deque like container that stores its buckets in a compressed way) where I needed a relocatable string class.
+	/// Indeed, gcc std::string implementation is not relocatable as it stores a pointer to its internal data for small strings. In addition, most std::string implementations have a size of 32 bytes 
+	/// (at least msvc and gcc ones), which was a lot for my compressed container. Therefore, I started working on a string implementation with the following specificities:
+	/// -	Relocatable,
+	/// -	Small footprint (16 bytes on 64 bits machine if possible),
+	/// -	Customizable Small String Optimization (SSO),
+	/// -	Higly optimized for small strings (fast copy/move assignment and fast comparison operators).
+	/// 
+	/// It turns out that such string implementation makes all flat containers (like std::vector or std::deque) faster as it greatly reduces cache misses.
+	/// The Customizable Small String Optimization is also very convenient to avoid unnecessary memory allocations for different workloads.
+	/// 
+	/// 
 	/// Size and bookkeeping
 	/// --------------------
 	/// 
@@ -493,7 +512,7 @@ namespace seq
 	/// about to be destroyed to a new one can be accomplished through a simple memcpy.
 	/// 
 	/// Msvc implementation of std::string is also relocatable, while gcc implementation is not as it stores a pointer to its internal data
-	/// for small string.
+	/// for small strings.
 	/// 
 	/// Within the seq library, a relocatable type must statify seq::is_relocatable<type>::value == true.
 	/// 
@@ -539,9 +558,9 @@ namespace seq
 	/// 
 	/// All tiny_string members have been optimized to match or outperform most std::string implementations. They have been benchmarked against
 	/// gcc (10.0.1) and msvc (14.20) for members compare(), find(), rfind(), find_first_of(), find_last_of(), find_first_not_of() and find_last_not_of().
+	/// Comparison oeprators <=> are usually faster than std::string.
 	/// 
-	/// Appending back characters is also slightly faster, as well as comparison operators. The only exception is the pop_back() member that can 
-	/// be slower than msvc and gcc implementations.
+	/// However, tiny_string is usually slower for back insertion with push_back() or append(). The pop_back() member that can also be slower than msvc and gcc implementations.
 	/// 
 	/// tiny_string is usually faster when used inside flat containers simply because its size is smaller than std::string (32 bytes on gcc and msvc).
 	/// The following table shows the performances of tiny_string against std::string for sorting a vector of 1M random short string (size = 14, where both tiny_string
@@ -571,7 +590,7 @@ namespace seq
 	{
 		using internal_data = detail::string_internal<MaxStaticSize,Allocator>;
 		using this_type = tiny_string<MaxStaticSize,Allocator>;
-		static const size_t sso_max_capacity = internal_data::sso_size + 1;//sizeof(internal_data) - 1;
+		static const size_t sso_max_capacity = internal_data::sso_size + 1;
 		internal_data d_data;
 
 		template<size_t Ss, class Al>
@@ -625,13 +644,13 @@ namespace seq
 				if (!is_sso()) {
 					char* ptr = d_data.d_union.non_sso.data;
 					if (keep_old) 
-						detail::char_memcpy(d_data.d_union.sso.data, ptr, len);
+						memcpy(d_data.d_union.sso.data, ptr, len);
 					d_data.deallocate(ptr,capacity_internal());
 				}
 				/*else {
 					//sso to sso: nothing to do
 				}*/
-				detail::char_memset(d_data.d_union.sso.data + len, 0, sizeof(d_data.d_union.sso.data) - (len));
+				memset(d_data.d_union.sso.data + len, 0, sizeof(d_data.d_union.sso.data) - (len));
 				d_data.d_union.sso.not_sso = 0;
 				d_data.d_union.sso.size = len;
 			}
@@ -647,14 +666,14 @@ namespace seq
 						ptr = d_data.allocate(capacity);
 					}
 					if (keep_old) 
-						detail::char_memcpy(ptr, d_data.d_union.sso.data, d_data.d_union.sso.size);
+						memcpy(ptr, d_data.d_union.sso.data, d_data.d_union.sso.size);
 					ptr[len] = 0;
 					d_data.d_union.non_sso.data = ptr;
 					d_data.d_union.non_sso.exact_size = exact_size;
 				
 					//clear additionals
 					size_t start = reinterpret_cast<char*>((&d_data.d_union.non_sso.data) + 1) - reinterpret_cast<char*>(this);
-					detail::char_memset((char*)this + start, 0, sizeof(*this) - start);
+					memset(reinterpret_cast<char*>(this) + start, 0, sizeof(*this) - start);
 				
 				}
 				//from non sso to non sso
@@ -668,7 +687,7 @@ namespace seq
 						else
 							ptr = d_data.allocate(new_capacity);
 						if (keep_old)
-							detail::char_memcpy(ptr, d_data.d_union.non_sso.data, std::min(len, size_internal()));
+							memcpy(ptr, d_data.d_union.non_sso.data, std::min(len, size_internal()));
 						//memset(ptr + len, 0, new_capacity - len); //reset the whole end to 0
 						d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal());
 						d_data.d_union.non_sso.exact_size = exact_size;
@@ -756,7 +775,7 @@ namespace seq
 			size_t new_capacity = capacity_for_length(d_data.d_union.non_sso.size + 1);
 			// might throw, fine
 			char* ptr = d_data.allocate(new_capacity);
-			detail::unsafe_char_memcpy(ptr, d_data.d_union.non_sso.data, d_data.d_union.non_sso.size, d_data.d_union.non_sso.exact_size);
+			memcpy(ptr, d_data.d_union.non_sso.data, d_data.d_union.non_sso.size);
 			d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal());
 			d_data.d_union.non_sso.data = ptr;
 			d_data.d_union.non_sso.exact_size = 0;
@@ -841,11 +860,11 @@ namespace seq
 			tiny_string other(new_size, 0);
 			char* op = other.data();
 			//first part
-			detail::char_memcpy(op, data(), pos);
+			memcpy(op, data(), pos);
 			//middle part
 			std::copy(first, last, op + pos);
 			//last part
-			detail::char_memcpy(op + pos + input_size, data() + pos + len, size() - (pos + len));
+			memcpy(op + pos + input_size, data() + pos + len, size() - (pos + len));
 
 			swap(other);
 		}
@@ -973,7 +992,7 @@ namespace seq
 				d_data.d_union.non_sso.size = other.d_data.d_union.non_sso.size;
 				d_data.d_union.non_sso.exact_size = 1;
 				d_data.d_union.non_sso.data = d_data.allocate(d_data.d_union.non_sso.size + 1);
-				detail::char_memcpy(d_data.d_union.non_sso.data, other.d_data.d_union.non_sso.data, d_data.d_union.non_sso.size + 1);
+				memcpy(d_data.d_union.non_sso.data, other.d_data.d_union.non_sso.data, d_data.d_union.non_sso.size + 1);
 			}
 		}
 		/// @brief Copy constructor with custom allocator
@@ -988,7 +1007,7 @@ namespace seq
 				d_data.d_union.non_sso.size = other.d_data.d_union.non_sso.size;
 				d_data.d_union.non_sso.exact_size = 1;
 				d_data.d_union.non_sso.data = d_data.allocate(d_data.d_union.non_sso.size + 1);
-				detail::char_memcpy(d_data.d_union.non_sso.data, other.d_data.d_union.non_sso.data, d_data.d_union.non_sso.size + 1);
+				memcpy(d_data.d_union.non_sso.data, other.d_data.d_union.non_sso.data, d_data.d_union.non_sso.size + 1);
 			}
 		}
 		/// @brief Construct by copying the content of another tiny_string
@@ -1087,7 +1106,7 @@ namespace seq
 				memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
 			else {
 				resize_uninitialized(other.size(), false, true);
-				detail::char_memcpy(this->data(), other.c_str(), other.size());
+				memcpy(this->data(), other.c_str(), other.size());
 			}
 			return *this;
 		}
@@ -1096,14 +1115,14 @@ namespace seq
 		auto assign(const tiny_string<OtherMaxStaticSize, OtherAlloc>& other) -> tiny_string&
 		{
 			resize_uninitialized(other.size(), false, true);
-			detail::char_memcpy(this->data(), other.c_str(), other.size());
+			memcpy(this->data(), other.c_str(), other.size());
 			return *this;
 		}
 		/// @brief Assign the content of other to this string
 		auto assign(const std::string& other) -> tiny_string& 
 		{
 			resize_uninitialized(other.size(), false, true);
-			detail::char_memcpy(this->data(), other.c_str(), other.size());
+			memcpy(this->data(), other.c_str(), other.size());
 			return *this;
 		}
 
@@ -1112,7 +1131,7 @@ namespace seq
 		auto assign(const std::string_view& other) -> tiny_string&
 		{
 			resize_uninitialized(other.size(), false, true);
-			detail::char_memcpy(this->data(), other.data(), other.size());
+			memcpy(this->data(), other.data(), other.size());
 			return *this;
 		}
 	#endif
@@ -1123,7 +1142,7 @@ namespace seq
 			if (sublen == npos || subpos + sublen > str.size())
 				sublen = str.size() - subpos;
 			resize_uninitialized(sublen, false,true);
-			detail::char_memcpy(this->data(), str.data() + subpos, sublen);
+			memcpy(this->data(), str.data() + subpos, sublen);
 			return *this;
 		}
 		/// @brief Assign a null-terminated buffer to this string
@@ -1131,21 +1150,21 @@ namespace seq
 		{
 			size_t len = strlen(s);
 			resize_uninitialized(len, false, true);
-			detail::char_memcpy(this->data(), s, len);
+			memcpy(this->data(), s, len);
 			return *this;
 		}
 		/// @brief Assign a buffer to this string
 		auto assign(const char* s, size_t n) -> tiny_string&
 		{
 			resize_uninitialized(n, false, true);
-			detail::char_memcpy(this->data(), s, n);
+			memcpy(this->data(), s, n);
 			return *this;
 		}
 		/// @brief Reset the string by n copies of c
 		auto assign(size_t n, char c) -> tiny_string& 
 		{
 			resize_uninitialized(n, false,true);
-			detail::char_memset(this->data(), c, n);
+			memset(this->data(), c, n);
 			return *this;
 		}
 		/// @brief Assign to this string the initializer list il
@@ -1176,7 +1195,7 @@ namespace seq
 				return;
 			resize_uninitialized(n, true);
 			if(n > old_size)
-				detail::char_memset(data()+ old_size, c, n - old_size);
+				memset(data()+ old_size, c, n - old_size);
 		}
 
 		/// @brief Resize the string from the front.
@@ -1199,7 +1218,7 @@ namespace seq
 				char* p = data();
 				if (n > old_size) {
 					memmove(p + n - old_size, p, old_size);
-					detail::char_memset(p, c, n - old_size);
+					memset(p, c, n - old_size);
 				}
 				else {
 					memmove(p, p + old_size - n, n);
@@ -1211,11 +1230,11 @@ namespace seq
 
 			tiny_string other(n,0);
 			if (n > old_size) {
-				detail::char_memset(other.data(), c, n - old_size);
-				detail::char_memcpy(other.data() + n - old_size, data(), old_size);
+				memset(other.data(), c, n - old_size);
+				memcpy(other.data() + n - old_size, data(), old_size);
 			}
 			else {
-				detail::char_memcpy(other.data() , data() + old_size -n, n);
+				memcpy(other.data() , data() + old_size -n, n);
 			}
 			swap(other);
 		}
@@ -1223,7 +1242,8 @@ namespace seq
 		/// @brief Swap the content of this string with other
 		SEQ_ALWAYS_INLINE void swap(tiny_string& other) 
 		{
-			std::swap(d_data, other.d_data);
+			if (this != std::addressof(other)) 
+				std::swap(d_data, other.d_data);
 		}
 
 		/// @brief Clear the string and deallocate memory for wide strings
@@ -1396,7 +1416,7 @@ namespace seq
 				d_data.d_union.non_sso.size = old_size + n;
 				d_data.d_union.non_sso.data[d_data.d_union.non_sso.size] = 0;
 			}
-			detail::char_memcpy(data() + old_size, s, n);
+			memcpy(data() + old_size, s, n);
 			return *this;
 		}
 		/// @brief Append n copies of character c to the string
@@ -1411,7 +1431,7 @@ namespace seq
 				d_data.d_union.non_sso.size = old_size + n;
 				d_data.d_union.non_sso.data[d_data.d_union.non_sso.size] = 0;
 			}
-			detail::char_memset(data() + old_size, c, n);
+			memset(data() + old_size, c, n);
 			return *this;
 		}
 		/// @brief Append the content of the range [first,last) to this string
@@ -1932,7 +1952,7 @@ namespace seq
 			if (pos > size()) throw std::out_of_range("tiny_string::copy out of range");
 			if (len == npos || pos + len > size())
 				len = size() - pos;
-			detail::char_memcpy(s, data() + pos, len);
+			memcpy(s, data() + pos, len);
 			return len;
 		}
 
@@ -2230,7 +2250,9 @@ namespace seq
 
 		auto operator=(const tiny_string& other) -> tiny_string& 
 		{
-			return assign(other);
+			if (this != std::addressof(other)) 
+				assign(other);
+			return *this;
 		} 
 		template<size_t OtherMSS,class OtherAlloc>
 		auto operator=(const tiny_string<OtherMSS, OtherAlloc>& other) -> tiny_string&
@@ -2239,7 +2261,8 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE auto operator=(tiny_string && other) noexcept -> tiny_string&
 		{
-			std::swap(d_data, other.d_data);
+			if (this != std::addressof(other)) 
+				std::swap(d_data, other.d_data);
 			return *this;
 		}
 		auto operator=(const char * other) -> tiny_string&
@@ -2567,7 +2590,7 @@ namespace seq
 			if (len == npos || pos + len > size()) {
 				len = size() - pos;
 			}		
-			detail::char_memcpy(s, data() + pos, len);
+			memcpy(s, data() + pos, len);
 			return len;
 		}
 

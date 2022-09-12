@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef SEQ_FORMAT_HPP
 #define SEQ_FORMAT_HPP
 
@@ -552,14 +576,14 @@ namespace seq
 				size_t diff = (f_size - w.width);
 				//shrink string
 				if (w.alignment == width_format::align_right) {
-					memmove((char*)str.data() + from, str.data() + to - w.width, str.size() - to + w.width);
+					memmove(const_cast<char*>(str.data()) + from, str.data() + to - w.width, str.size() - to + w.width);
 				}
 				else if (w.alignment == width_format::align_left) {
-					memmove((char*)str.data() + from + w.width, str.data() + to, str.size() - to);
+					memmove(const_cast<char*>(str.data()) + from + w.width, str.data() + to, str.size() - to);
 				}
 				else {
-					memmove((char*)str.data() + from, str.data() + from + diff / 2, w.width);
-					memmove((char*)str.data() + from + w.width, str.data() + to, str.size() - to);
+					memmove(const_cast<char*>(str.data()) + from, str.data() + from + diff / 2, w.width);
+					memmove(const_cast<char*>(str.data()) + from + w.width, str.data() + to, str.size() - to);
 				}
 				str.resize(str.size() - diff);
 			}
@@ -571,22 +595,22 @@ namespace seq
 
 				//move the right part
 				if (to != str.size()) {
-					memmove((char*)str.data() + from + w.width, str.data() + to, old_size - to);
+					memmove(const_cast<char*>(str.data()) + from + w.width, str.data() + to, old_size - to);
 				}
 
 				if (w.alignment == width_format::align_right) {
-					memmove((char*)str.data() + from + w.width - f_size, str.data() + from, f_size);
-					memset((char*)str.data() + from, w.pad, w.width - f_size);
+					memmove(const_cast<char*>(str.data()) + from + w.width - f_size, str.data() + from, f_size);
+					memset(const_cast<char*>(str.data()) + from, w.pad, w.width - f_size);
 
 				}
 				else if (w.alignment == width_format::align_center) {
 					size_t s2 = (w.width - f_size) / 2;
-					memmove((char*)str.data() + from + s2, str.data() + from, f_size);
-					memset((char*)str.data() + from, w.pad, s2);
-					memset((char*)str.data() + from + s2 + f_size, w.pad, w.width - (s2 + f_size));
+					memmove(const_cast<char*>(str.data()) + from + s2, str.data() + from, f_size);
+					memset(const_cast<char*>(str.data()) + from, w.pad, s2);
+					memset(const_cast<char*>(str.data()) + from + s2 + f_size, w.pad, w.width - (s2 + f_size));
 				}
 				else { //left
-					memset((char*)str.data() + from + f_size, w.pad, w.width - f_size);
+					memset(const_cast<char*>(str.data()) + from + f_size, w.pad, w.width - f_size);
 				}
 			}
 		}
@@ -611,18 +635,18 @@ namespace seq
 				return;
 
 			if (w.alignment == width_format::align_right) {
-				memmove((char*)str.data() + w.width - size, str.data(), size);
-				memset((char*)str.data(), w.pad, w.width - size);
+				memmove(const_cast<char*>(str.data()) + w.width - size, str.data(), size);
+				memset(const_cast<char*>(str.data()), w.pad, w.width - size);
 
 			}
 			else if (w.alignment == width_format::align_center) {
 				size_t s2 = (w.width - size) / 2;
-				memmove((char*)str.data() + s2, str.data(), size);
-				memset((char*)str.data(), w.pad, s2);
-				memset((char*)str.data() + s2 + size, w.pad, w.width - (s2 + size));
+				memmove(const_cast<char*>(str.data()) + s2, str.data(), size);
+				memset(const_cast<char*>(str.data()), w.pad, s2);
+				memset(const_cast<char*>(str.data()) + s2 + size, w.pad, w.width - (s2 + size));
 			}
 			else {
-				memset((char*)str.data() + size, w.pad, w.width - size);
+				memset(const_cast<char*>(str.data()) + size, w.pad, w.width - size);
 			}
 		}
 
@@ -873,8 +897,8 @@ namespace seq
 		static constexpr bool is_formattable = true;
 		using value_type = T;
 
-		base_ostream_format() : _value(), _width(), _format(std::is_floating_point<T>::value ? 'g' : (char)10) {}
-		explicit base_ostream_format(const T& val) : _value(val), _width(), _format(std::is_floating_point<T>::value ? 'g' : (char)10) {}
+		base_ostream_format() : _value(), _width(), _format(std::is_floating_point<T>::value ? 'g' : static_cast<char>(10)) {}
+		explicit base_ostream_format(const T& val) : _value(val), _width(), _format(std::is_floating_point<T>::value ? 'g' : static_cast<char>(10)) {}
 		base_ostream_format(const T& val, char base_or_format) : _value(val), _width(), _format(base_or_format) {}
 		base_ostream_format(const T& val, const numeric_format& fmt) : _value(val), _width(), _format(fmt) {}
 
@@ -882,7 +906,7 @@ namespace seq
 		//getters
 		auto base() const noexcept -> char { return _format.base(); }
 		auto format() const noexcept -> char { return _format.format(); }
-		auto dot() const noexcept -> char { return (char)_format.dot(); }
+		auto dot() const noexcept -> char { return  static_cast<char>(_format.dot()); }
 		auto precision() const noexcept -> unsigned char { return _format.precision(); }
 		auto formatting() const noexcept -> unsigned char { return _format.formatting(); }
 
@@ -913,7 +937,7 @@ namespace seq
 
 		/// @brief Set the exact width and the alignment
 		auto left(int w)noexcept -> Derived& {
-			_width.left((unsigned short)w);
+			_width.left(static_cast<unsigned short>(w));
 			return derived();
 		}
 		/// @brief Set the exact width and the alignment
@@ -921,7 +945,7 @@ namespace seq
 
 		/// @brief Set the exact width and the alignment
 		auto right(int w)noexcept -> Derived& {
-			_width.right((unsigned short)w);
+			_width.right(static_cast<unsigned short>(w));
 			return derived();
 		}
 		/// @brief Set the exact width and the alignment
@@ -929,7 +953,7 @@ namespace seq
 
 		/// @brief Set the exact width and the alignment
 		auto center(int w)noexcept -> Derived& {
-			_width.center((unsigned short)w);
+			_width.center(static_cast<unsigned short>(w));
 			return derived();
 		}
 		/// @brief Set the exact width and the alignment
@@ -1267,19 +1291,19 @@ namespace seq
 		{
 			to_chars_result f;
 			size_t size;
-			size_t min_cap = std::max((size_t)14, (size_t)val.width());
-			if (SEQ_UNLIKELY(tmp.capacity() < (size_t)min_cap)) {
+			size_t min_cap = std::max(static_cast<size_t>(14), static_cast<size_t>(val.width()));
+			if (SEQ_UNLIKELY(tmp.capacity() < min_cap)) {
 				tmp.reserve(min_cap);
 			}
 
 			if (val.dot() == 'c') {
 				//print as char
-				(char&)*tmp.data() = (char)val.value();
+				const_cast<char&>(*tmp.data()) = static_cast<char>(val.value());
 				size = 1;
 			}
 			else {
 				for (;;) {
-					f = detail::write_integral(detail::char_range((char*)tmp.data(), (char*)tmp.data() + tmp.capacity()), val.value(),
+					f = detail::write_integral(detail::char_range(const_cast<char*>(tmp.data()), const_cast<char*>(tmp.data()) + tmp.capacity()), val.value(),
 						val.base(),
 						integral_chars_format(0, val.formatting() & detail::f_prefix, val.formatting() & detail::f_upper)
 					);
@@ -1301,7 +1325,7 @@ namespace seq
 		template<class String, class U>
 		auto write_float_to_string(String& tmp, const ostream_format<U>& val) const -> size_t
 		{
-			size_t min_cap = std::max((size_t)14, (size_t)val.width());
+			size_t min_cap = std::max(static_cast<size_t>(14), static_cast<size_t>(val.width()));
 			if (SEQ_UNLIKELY(tmp.capacity() < min_cap)) {
 				tmp.reserve(min_cap);
 			}
@@ -1313,7 +1337,7 @@ namespace seq
 			std::to_chars_result f;
 			std::chars_format format = fmt == 'E' ? std::chars_format::scientific : (fmt == 'F' ? std::chars_format::fixed : std::chars_format::general);
 			for (;;) {
-				f = to_chars((char*)tmp.data(), (char*)tmp.data() + tmp.capacity(), val.value(), format, val.precision());
+				f = to_chars(const_cast<char*>(tmp.data()), const_cast<char*>(tmp.data()) + tmp.capacity(), val.value(), format, val.precision());
 				if (SEQ_LIKELY(f.ec == std::errc()))
 					break;
 				tmp.reserve(tmp.capacity() * 2);
@@ -1324,7 +1348,7 @@ namespace seq
 			to_chars_result f;
 
 			for (;;) {
-				f = seq::to_chars((char*)tmp.data(), (char*)tmp.data() + tmp.capacity(), val.value() , format, val.precision(), val.dot(), exp, upper);
+				f = seq::to_chars(const_cast<char*>(tmp.data()), const_cast<char*>(tmp.data()) + tmp.capacity(), val.value() , format, val.precision(), val.dot(), exp, upper);
 				if (SEQ_LIKELY(f.ec == std::errc()))
 					break;
 				tmp.reserve(tmp.capacity() * 2);
@@ -1428,7 +1452,7 @@ namespace std
 				s = tmp.size();
 			}
 		}
-		oss.rdbuf()->sputn(tmp.data(), (std::streamsize)s);
+		oss.rdbuf()->sputn(tmp.data(), static_cast<std::streamsize>(s));
 		return oss;
 	}
 }
@@ -1531,16 +1555,7 @@ namespace seq
 		{
 			using type = mutli_ostream_format<Tuple, Pos>;
 		};
-		/*template<class Tuple, class Pos>
-		struct FormatWrapper<const mutli_ostream_format<Tuple, Pos>&>
-		{
-			using type = mutli_ostream_format<Tuple, Pos>;
-		};
-		template<class Tuple, class Pos>
-		struct FormatWrapper<mutli_ostream_format<Tuple, Pos>&>
-		{
-			using type = mutli_ostream_format<Tuple, Pos>;
-		};*/		
+				
 
 
 
@@ -1647,7 +1662,7 @@ namespace seq
 						s = tmp.size();
 					}
 				}
-				out.rdbuf()->sputn(tmp.data(), (std::streamsize)s);
+				out.rdbuf()->sputn(tmp.data(), static_cast<std::streamsize>(s));
 				ToOstream<Tuple, N - 1>::convert(out, t);
 			}
 		};
@@ -1822,7 +1837,7 @@ namespace seq
 
 			/// @brief Set the exact width and the alignment
 			auto left(int w)noexcept -> Derived& {
-				d_width.left((unsigned short)w);
+				d_width.left(static_cast<unsigned short>(w));
 				return derived();
 			}
 			/// @brief Set the exact width and the alignment
@@ -1831,7 +1846,7 @@ namespace seq
 
 			/// @brief Set the exact width and the alignment
 			auto right(int w)noexcept -> Derived& {
-				d_width.right((unsigned short)w);
+				d_width.right(static_cast<unsigned short>(w));
 				return derived();
 			}
 			/// @brief Set the exact width and the alignment
@@ -1839,7 +1854,7 @@ namespace seq
 
 			/// @brief Set the exact width and the alignment
 			auto center(int w)noexcept -> Derived& {
-				d_width.center((unsigned short)w);
+				d_width.center(static_cast<unsigned short>(w));
 				return derived();
 			}
 			/// @brief Set the exact width and the alignment
@@ -2319,7 +2334,7 @@ namespace std
 			std::string& tmp = seq::detail::multi_ostream_buffer();
 			tmp.clear();
 			val.append(tmp);
-			oss.rdbuf()->sputn(tmp.data(), (std::streamsize)tmp.size());
+			oss.rdbuf()->sputn(tmp.data(), static_cast<std::streamsize>(tmp.size()));
 		//}
 		return oss;
 	}

@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef SEQ_BITS_HPP
 #define SEQ_BITS_HPP
 
@@ -65,7 +89,7 @@ See functions documentation for more details.
 // Disable old style cast warning for gcc
 #ifdef __GNUC__
 //#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wold-style-cast"
+//#pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
 
 
@@ -78,44 +102,44 @@ See functions documentation for more details.
 // From rapsody library
 //https://stackoverflow.com/questions/4239993/determining-endianness-at-compile-time
 
-#define BYTEORDER_LITTLE_ENDIAN 0 // Little endian machine.
-#define BYTEORDER_BIG_ENDIAN 1 // Big endian machine.
+#define SEQ_BYTEORDER_LITTLE_ENDIAN 0 // Little endian machine.
+#define SEQ_BYTEORDER_BIG_ENDIAN 1 // Big endian machine.
 
 // Find byte order
-#ifndef BYTEORDER_ENDIAN
+#ifndef SEQ_BYTEORDER_ENDIAN
 	// Detect with GCC 4.6's macro.
 #   if defined(__BYTE_ORDER__)
 #       if (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)
-#           define BYTEORDER_ENDIAN BYTEORDER_LITTLE_ENDIAN
+#           define SEQ_BYTEORDER_ENDIAN SEQ_BYTEORDER_LITTLE_ENDIAN
 #       elif (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)
-#           define BYTEORDER_ENDIAN BYTEORDER_BIG_ENDIAN
+#           define SEQ_BYTEORDER_ENDIAN SEQ_BYTEORDER_BIG_ENDIAN
 #       else
-#           error "Unknown machine byteorder endianness detected. User needs to define BYTEORDER_ENDIAN."
+#           error "Unknown machine byteorder endianness detected. User needs to define SEQ_BYTEORDER_ENDIAN."
 #       endif
 	// Detect with GLIBC's endian.h.
 #   elif defined(__GLIBC__)
 #       include <endian.h>
 #       if (__BYTE_ORDER == __LITTLE_ENDIAN)
-#           define BYTEORDER_ENDIAN BYTEORDER_LITTLE_ENDIAN
+#           define SEQ_BYTEORDER_ENDIAN SEQ_BYTEORDER_LITTLE_ENDIAN
 #       elif (__BYTE_ORDER == __BIG_ENDIAN)
-#           define BYTEORDER_ENDIAN BYTEORDER_BIG_ENDIAN
+#           define SEQ_BYTEORDER_ENDIAN SEQ_BYTEORDER_BIG_ENDIAN
 #       else
-#           error "Unknown machine byteorder endianness detected. User needs to define BYTEORDER_ENDIAN."
+#           error "Unknown machine byteorder endianness detected. User needs to define SEQ_BYTEORDER_ENDIAN."
 #       endif
 	// Detect with _LITTLE_ENDIAN and _BIG_ENDIAN macro.
 #   elif defined(_LITTLE_ENDIAN) && !defined(_BIG_ENDIAN)
-#       define BYTEORDER_ENDIAN BYTEORDER_LITTLE_ENDIAN
+#       define SEQ_BYTEORDER_ENDIAN SEQ_BYTEORDER_LITTLE_ENDIAN
 #   elif defined(_BIG_ENDIAN) && !defined(_LITTLE_ENDIAN)
-#       define BYTEORDER_ENDIAN BYTEORDER_BIG_ENDIAN
+#       define SEQ_BYTEORDER_ENDIAN SEQ_BYTEORDER_BIG_ENDIAN
 	// Detect with architecture macros.
 #   elif defined(__sparc) || defined(__sparc__) || defined(_POWER) || defined(__powerpc__) || defined(__ppc__) || defined(__hpux) || defined(__hppa) || defined(_MIPSEB) || defined(_POWER) || defined(__s390__)
-#       define BYTEORDER_ENDIAN BYTEORDER_BIG_ENDIAN
+#       define SEQ_BYTEORDER_ENDIAN SEQ_BYTEORDER_BIG_ENDIAN
 #   elif defined(__i386__) || defined(__alpha__) || defined(__ia64) || defined(__ia64__) || defined(_M_IX86) || defined(_M_IA64) || defined(_M_ALPHA) || defined(__amd64) || defined(__amd64__) || defined(_M_AMD64) || defined(__x86_64) || defined(__x86_64__) || defined(_M_X64) || defined(__bfin__)
-#       define BYTEORDER_ENDIAN BYTEORDER_LITTLE_ENDIAN
+#       define SEQ_BYTEORDER_ENDIAN SEQ_BYTEORDER_LITTLE_ENDIAN
 #   elif defined(_MSC_VER) && (defined(_M_ARM) || defined(_M_ARM64))
-#       define BYTEORDER_ENDIAN BYTEORDER_LITTLE_ENDIAN
+#       define SEQ_BYTEORDER_ENDIAN SEQ_BYTEORDER_LITTLE_ENDIAN
 #   else
-#       error "Unknown machine byteorder endianness detected. User needs to define BYTEORDER_ENDIAN."
+#       error "Unknown machine byteorder endianness detected. User needs to define SEQ_BYTEORDER_ENDIAN."
 #   endif
 #endif
 
@@ -167,7 +191,7 @@ namespace seq {
 // going through a variable to avoid cppcheck error with SEQ_OFFSETOF
 static const void* __dummy_ptr_with_long_name = nullptr;
 // Redefine offsetof to get rid of warning "'offsetof' within non-standard-layout type ...."
-#define SEQ_OFFSETOF(s,m) ((::size_t)&reinterpret_cast<char const volatile&>((((s*)__dummy_ptr_with_long_name)->m)))
+#define SEQ_OFFSETOF(s,m) (reinterpret_cast<::size_t>(&reinterpret_cast<char const volatile&>(((static_cast<const s*>(__dummy_ptr_with_long_name))->m))))
 
 
 
@@ -212,18 +236,6 @@ static const void* __dummy_ptr_with_long_name = nullptr;
 #    define SEQ_FALLTHROUGH()
 #endif
 
- // Forces data to be n-byte aligned (this might be used to satisfy SIMD requirements).
-#if (defined __GNUC__) || (defined __PGI) || (defined __IBMCPP__) || (defined __ARMCC_VERSION)
-#define SEQ_ALIGN_TO_BOUNDARY(n) __attribute__((aligned(n)))
-#elif (defined _MSC_VER)
-#define SEQ_ALIGN_TO_BOUNDARY(n) __declspec(align(n))
-#elif (defined __SUNPRO_CC)
-  // FIXME not sure about this one:
-#define SEQ_ALIGN_TO_BOUNDARY(n) __attribute__((aligned(n)))
-#else
-#define SEQ_ALIGN_TO_BOUNDARY(n) SEQ_USER_ALIGN_TO_BOUNDARY(n)
-#endif
-
 // likely/unlikely definition
 #ifndef _MSC_VER
 #define SEQ_LIKELY(x)    __builtin_expect (!!(x), 1)
@@ -253,24 +265,6 @@ static const void* __dummy_ptr_with_long_name = nullptr;
 #define SEQ_EXTENSION 
 #endif
 
-// assume data are aligned
-#if defined(__GNUC__) && (__GNUC__>=4 && __GNUC_MINOR__>=7)
-#define SEQ_RESTRICT __restrict
-#define SEQ_ASSUME_ALIGNED(type,ptr,out,alignment) type * SEQ_RESTRICT out = (type *)__builtin_assume_aligned((ptr),alignment);
-#elif defined(__GNUC__)
-#define SEQ_RESTRICT __restrict
-#define SEQ_ASSUME_ALIGNED(type,ptr,out,alignment) type * SEQ_RESTRICT out = (ptr);
-  //on intel compiler, another way is to use #pragma vector aligned before the loop.
-#elif defined(__INTEL_COMPILER) || defined(__ICL) || defined(__ICC) || defined(__ECC)
-#define SEQ_RESTRICT restrict
-#define SEQ_ASSUME_ALIGNED(type,ptr,out,alignment) type * SEQ_RESTRICT out = ptr;__assume_aligned(out,alignment);
-#elif defined(__IBMCPP__)
-#define SEQ_RESTRICT restrict
-#define SEQ_ASSUME_ALIGNED(type,ptr,out,alignment) type __attribute__((aligned(alignment))) * SEQ_RESTRICT out = (type __attribute__((aligned(alignment))) *)(ptr);
-#elif defined(_MSC_VER)
-#define SEQ_RESTRICT __restrict
-#define SEQ_ASSUME_ALIGNED(type,ptr,out,alignment) type * SEQ_RESTRICT out = ptr;
-#endif
 
 // Debug assertion
 #ifdef NDEBUG
@@ -872,11 +866,10 @@ namespace seq
 		return 1;
 	}
 
-	/**
-	* Returns the number of digits used to represent an integer in base 10.
-	* This function only works for unsigned integral types
-	*/
-	/*template<typename T>
+	
+	/*
+	// Slightly slower than version above
+	template<typename T>
 	SEQ_ALWAYS_INLINE unsigned count_digits_base_10(T x)
 	{
 		static_assert(std::is_unsigned<T>::value, "");
@@ -925,38 +918,16 @@ namespace seq
 	{
 		inline auto generic_nth_bit_set(std::uint64_t value, unsigned int n) noexcept -> unsigned int
 		{
-			//17 ms
-			/*uint32_t      mask = 0xFFFFFFFFu;
-			unsigned int  size = 64u;
-			unsigned int  base = 0u;
-
-			if (n++ >= popcnt64(value))
-				return 64;
-
-			while (size > 0) {
-				const unsigned int  count = popcnt64(value & mask);
-				if (n > count) {
-					base += size;
-					size >>= 1;
-					mask |= mask << size;
-				}
-				else {
-					size >>= 1;
-					mask >>= size;
-				}
-			}
-
-			return base;*/
 			if (value == 0) {
 				return 64;
-}
+			}
 
 			unsigned pos = bit_scan_forward_64(value);
 			for (unsigned i = 0; i < n; ++i) {
 				value &= ~(1ULL << pos);
 				if (value == 0) {
 					return 64;
-}
+				}
 				pos = bit_scan_forward_64(value);
 			}
 			return pos;
@@ -968,13 +939,11 @@ namespace seq
 #if defined(_MSC_VER) && defined(__BMI2__ )
 
 	inline unsigned nth_bit_set(std::uint64_t x, unsigned n) noexcept {
-		//5ms
 		return (unsigned)_tzcnt_u64(_pdep_u64(1ULL << n, x));
 	}
 
 #elif ((defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3))) && defined(__BMI2__ ))
 	inline unsigned nth_bit_set(std::uint64_t x, unsigned n) noexcept {
-		//5ms
 		return (unsigned)_tzcnt_u64(_pdep_u64(1ULL << n, x));
 	}
 
@@ -1013,12 +982,11 @@ namespace seq
 	auto consecutive_N_bits(size_t num) -> unsigned {
 		static_assert(ConsecutiveNBits > 0, "invalid 0 consecutive bits requested");
 		num = detail::find_consecutive_bits< ConsecutiveNBits>(num);
-		return num ? bit_scan_forward(num) : (unsigned)-1;
+		return num ? bit_scan_forward(num) : static_cast<unsigned>(-1);
 	}
 
 
-	/// SwapByteOrder_16 - This function returns a byte-swapped representation of
-	/// the 16-bit argument.
+	/// @brief Returns a byte-swapped representation of the 16-bit argument.
 	inline auto byte_swap_16(std::uint16_t value) -> std::uint16_t {
 #if defined(_MSC_VER) && !defined(_DEBUG)
 		return _byteswap_ushort(value);
@@ -1027,8 +995,7 @@ namespace seq
 #endif
 	}
 
-	/// SwapByteOrder_32 - This function returns a byte-swapped representation of
-	/// the 32-bit argument.
+	/// @brief Returns a byte-swapped representation of the 32-bit argument.
 	inline auto byte_swap_32(std::uint32_t value) -> std::uint32_t {
 #if  defined(__GNUC__) && (__GNUC__>=4 && __GNUC_MINOR__>=3) && !defined(__ICC)
 		return __builtin_bswap32(value);
@@ -1050,8 +1017,7 @@ namespace seq
 #endif
 	}
 
-	/// SwapByteOrder_64 - This function returns a byte-swapped representation of
-	/// the 64-bit argument.
+	/// @brief Returns a byte-swapped representation of the 64-bit argument.
 	inline auto byte_swap_64(std::uint64_t value) -> std::uint64_t {
 #if  defined(__GNUC__) && (__GNUC__>=4 && __GNUC_MINOR__>=3) && !defined(__ICC)
 		return __builtin_bswap64(value);
@@ -1080,79 +1046,79 @@ namespace seq
 	}
 
 
-	/// @brief Write 16 bits integer \a value to \a dst in little endian order
+	/// @brief Write 16 bits integer value to dst in little endian order
 	inline void write_LE_16(void* dst, std::uint16_t value)
 	{
-#if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
 		value = byte_swap_16(value);
 #endif
 		memcpy(dst, &value, sizeof(std::uint16_t));
 	}
-	/// @brief Write 32 bits integer \a value to \a dst in little endian order
+	/// @brief Write 32 bits integer value to dst in little endian order
 	inline void write_LE_32(void* dst, std::uint32_t value)
 	{
-#if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
 		value = byte_swap_32(value);
 #endif
 		memcpy(dst, &value, sizeof(std::uint32_t));
 	}
-	/// @brief Write 64 bits integer \a value to \a dst in little endian order
+	/// @brief Write 64 bits integer value to dst in little endian order
 	inline void write_LE_64(void* dst, std::uint64_t value)
 	{
-#if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
 		value = byte_swap_64(value);
 #endif
 		memcpy(dst, &value, sizeof(std::uint64_t));
 	}
 
 
-	/// @brief Read 16 bits integer from \a src in little endian order
+	/// @brief Read 16 bits integer from src in little endian order
 	inline auto read_LE_16(const void* src) -> std::uint16_t
 	{
 		std::uint16_t value = 0;
 		memcpy(&value, src, sizeof(std::uint16_t));
-#if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
 		value = byte_swap_16(value);
 #endif
 		return value;
 	}
-	/// @brief Read 32 bits integer from \a src in little endian order
+	/// @brief Read 32 bits integer from src in little endian order
 	inline auto read_LE_32(const void* src) -> std::uint32_t
 	{
 		std::uint32_t value = 0;
 		memcpy(&value, src, sizeof(std::uint32_t));
-#if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
 		value = byte_swap_32(value);
 #endif
 		return value;
 	}
-	/// @brief Read 64 bits integer from \a src in little endian order
+	/// @brief Read 64 bits integer from src in little endian order
 	inline auto read_LE_64(const void* src) -> std::uint64_t
 	{
 		std::uint64_t value = 0;
 		memcpy(&value, src, sizeof(std::uint64_t));
-#if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
 		value = byte_swap_64(value);
 #endif
 		return value;
 	}
 
 
-	/// @brief Reads 16 bits integer from \a src
+	/// @brief Reads 16 bits integer from src
 	inline auto read_16(const void* src) -> std::uint16_t
 	{
 		std::uint16_t value = 0;
 		memcpy(&value, src, sizeof(std::uint16_t));
 		return value;
 	}
-	/// @brief Reads 32 bits integer from \a src
+	/// @brief Reads 32 bits integer from src
 	inline auto read_32(const void* src) -> std::uint32_t
 	{
 		std::uint32_t value = 0;
 		memcpy(&value, src, sizeof(std::uint32_t));
 		return value;
 	}
-	/// @brief Reads 64 bits integer from \a src
+	/// @brief Reads 64 bits integer from src
 	inline auto read_64(const void* src) -> std::uint64_t
 	{
 		std::uint64_t value = 0;
@@ -1160,7 +1126,7 @@ namespace seq
 		return value;
 	}
 
-	/// @brief Reads uintptr_t integer from \a src
+	/// @brief Reads uintptr_t integer from src
 	inline auto read_ptr_t(const void* src) -> std::uintptr_t
 	{
 		std::uintptr_t value = 0;
@@ -1169,62 +1135,62 @@ namespace seq
 	}
 
 
-	/// @brief Reads 16 bits integer from \a src in big endian order
+	/// @brief Reads 16 bits integer from src in big endian order
 	inline auto read_BE_16(const void* src) -> std::uint16_t
 	{
 		std::uint16_t value = 0;
 		memcpy(&value, src, sizeof(std::uint16_t));
-#if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
 		value = byte_swap_16(value);
 #endif
 		return value;
 	}
-	/// @brief Reads 32 bits integer from \a src in big endian order
+	/// @brief Reads 32 bits integer from src in big endian order
 	inline auto read_BE_32(const void* src) -> std::uint32_t
 	{
 		std::uint32_t value = 0;
 		memcpy(&value, src, sizeof(std::uint32_t));
-#if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
 		value = byte_swap_32(value);
 #endif
 		return value;
 	}
-	/// @brief Reads 64 bits integer from \a src in big endian order
+	/// @brief Reads 64 bits integer from src in big endian order
 	inline auto read_BE_64(const void* src) -> std::uint64_t
 	{
 		std::uint64_t value = 0;
 		memcpy(&value, src, sizeof(std::uint64_t));
-#if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
 		value = byte_swap_64(value);
 #endif
 		return value;
 	}
 
 
-	/// @brief Reads size_t object from \a src 
+	/// @brief Reads size_t object from src 
 	inline auto read_size_t(const void* src) -> size_t
 	{
 		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
 		return res;
 	}
-	/// @brief Reads size_t object from \a src in little endian order
+	/// @brief Reads size_t object from src in little endian order
 	inline auto read_LE_size_t(const void* src) -> size_t
 	{
 		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
-#if BYTEORDER_ENDIAN != BYTEORDER_LITTEL_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != BYTEORDER_LITTEL_ENDIAN
 		if (sizeof(size_t) == 8) res = byte_swap_64(res);
 		else res = byte_swap_32(res);
 #endif
 		return res;
 	}
-	/// @brief Reads size_t object from \a src in big endian order
+	/// @brief Reads size_t object from src in big endian order
 	inline auto read_BE_size_t(const void* src) -> size_t
 	{
 		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
-#if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
 		if (sizeof(size_t) == 8) { res = byte_swap_64(res);
 		} else { res = static_cast<size_t>(byte_swap_32(static_cast<std::uint32_t>(res)));
 }
@@ -1232,7 +1198,7 @@ namespace seq
 		return res;
 	}
 
-
+	/// @brief Static version of bit_scan_reverse
 	template<size_t Size>
 	struct static_bit_scan_reverse
 	{

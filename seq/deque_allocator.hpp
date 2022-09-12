@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef SEQ_DEQUE_ALLOCATOR_HPP
 #define SEQ_DEQUE_ALLOCATOR_HPP
 
@@ -16,7 +40,7 @@ namespace seq
 	{
 
 
-		/// Allocate list_chunk<T> object by continuous blocks
+		/// Allocate tiered_vector buckets by continuous blocks
 		template< class T, class Allocator>
 		struct deque_chunk_pool
 		{
@@ -212,7 +236,7 @@ namespace seq
 				this->elems_per_chunks = elems_per_chunks;
 				if (count > capacity) {
 					size_t last_cap = pools.size() ? pools.back().count : 0;
-					size_t extend = std::max(count - capacity, (size_t)(last_cap * SEQ_GROW_FACTOR));
+					size_t extend = std::max(count - capacity, static_cast<size_t>(last_cap * SEQ_GROW_FACTOR));
 					pools.push_back(deque_chunk_pool<T, Allocator>(allocator, extend, elems_per_chunks));
 					capacity += extend;
 				}
@@ -225,13 +249,13 @@ namespace seq
 					//full, create a new deque_chunk_pool
 					if (pools.empty()) pools.push_back(deque_chunk_pool<T, Allocator>(allocator, 1, elems_per_chunks));
 					else {
-						size_t to_allocate = (size_t)( capacity * SEQ_GROW_FACTOR);
+						size_t to_allocate = static_cast<size_t>( capacity * SEQ_GROW_FACTOR);
 						if (!to_allocate) to_allocate = 1;
 						pools.push_back(deque_chunk_pool<T, Allocator>(allocator, to_allocate, elems_per_chunks));
 					}
 					capacity += pools.back().count;
 				}
-				for (int i = (int)pools.size() - 1; i >= 0; --i) {
+				for (int i = static_cast<int>(pools.size()) - 1; i >= 0; --i) {
 					//find a deque_chunk_pool starting from the last deque_chunk_pool
 					T* res = pools[i].allocate();
 					if (res) {
@@ -319,7 +343,7 @@ namespace seq
 				}
 				//alloc, construct, return
 				RebindAlloc< BucketType> alloc = allocator;
-				BucketType* res = (BucketType*)pool.allocate();
+				BucketType* res = reinterpret_cast<BucketType*>(pool.allocate());
 				construct_ptr(res, max_size);
 				return res;
 			}
@@ -331,14 +355,14 @@ namespace seq
 				}
 				//alloc, construct, return
 				RebindAlloc< BucketType> alloc = allocator;
-				BucketType* res = (BucketType*)pool.allocate();
+				BucketType* res = reinterpret_cast<BucketType*>(pool.allocate());
 				construct_ptr(res, max_size, val, allocator);
 				return res;
 			}
 			void dealloc(BucketType* buff) {
 				//destroy and dealloc bucket
 				buff->destroy(allocator);
-				pool.deallocate((T*)buff);
+				pool.deallocate(reinterpret_cast<T*>(buff));
 			}
 			template<class StoreBucket>
 			void destroy_all(StoreBucket* bs, std::size_t count) {

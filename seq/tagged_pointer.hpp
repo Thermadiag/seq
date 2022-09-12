@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef SEQ_TAGGED_POINTER_HPP
 #define SEQ_TAGGED_POINTER_HPP
 
@@ -73,10 +97,10 @@ namespace seq
 
 		/// @brief Construct from pointer
 		tagged_pointer(T* ptr = NULL) noexcept
-			:d_ptr((std::uintptr_t)ptr) {}
+			:d_ptr(reinterpret_cast<std::uintptr_t>(ptr)) {}
 		/// @brief Construct from pointer and tag
 		tagged_pointer(T* ptr, tag_type t) noexcept
-			:d_ptr((std::uintptr_t)ptr | (t & mask_low)) {}
+			:d_ptr(reinterpret_cast<std::uintptr_t>(ptr) | (t & mask_low)) {}
 		/// @brief Returns the pointer 
 		auto ptr() noexcept -> pointer { return reinterpret_cast<T*>(d_ptr & mask_high); }
 		/// @brief Returns the pointer 
@@ -85,7 +109,7 @@ namespace seq
 		auto tag() const noexcept -> tag_type { return d_ptr & mask_low; }
 
 		/// @brief Set the pointer value
-		void set_ptr(pointer ptr)noexcept { d_ptr = tag() | (tag_type)ptr; }
+		void set_ptr(pointer ptr)noexcept { d_ptr = tag() | reinterpret_cast<std::uintptr_t>(ptr); }
 		/// @brief Set the tag value
 		auto set_tag(tag_type tag)noexcept -> tag_type { d_ptr = tag | (d_ptr & mask_high); return tag; }
 
@@ -133,13 +157,13 @@ namespace seq
 		static const std::uintptr_t mask_low = ((1ULL << tag_bits) - 1ULL);
 
 		tagged_pointer(void* ptr = nullptr) noexcept
-			:d_ptr((std::uintptr_t)ptr) {}
+			:d_ptr(reinterpret_cast<std::uintptr_t>(ptr)) {}
 		tagged_pointer(void* ptr, tag_type t) noexcept
-			:d_ptr((std::uintptr_t)ptr | (t & mask_low)) {}
+			:d_ptr(reinterpret_cast<std::uintptr_t>(ptr) | (t & mask_low)) {}
 		auto ptr() noexcept -> pointer { return reinterpret_cast<void*>(d_ptr & mask_high); }
 		auto ptr() const noexcept -> const_pointer { return reinterpret_cast<void*>(d_ptr & mask_high); }
 		auto tag() const noexcept -> tag_type { return d_ptr & mask_low; }
-		void set_ptr(pointer ptr)noexcept { d_ptr = tag() | (tag_type)ptr; }
+		void set_ptr(pointer ptr)noexcept { d_ptr = tag() | reinterpret_cast<tag_type>(ptr); }
 		auto set_tag(tag_type tag)noexcept -> tag_type { d_ptr = tag | (d_ptr & mask_high); return tag; }
 		auto full() const noexcept -> std::uintptr_t { return d_ptr; }
 		void set_full(std::uintptr_t p)noexcept { d_ptr = p; }

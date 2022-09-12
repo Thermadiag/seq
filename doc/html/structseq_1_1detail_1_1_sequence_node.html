@@ -171,7 +171,7 @@ Static Public Attributes</h2></td></tr>
 <tr class="separator:a91ab63715d03e66dededf26aa578e969"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cbe5976bbc8065da587346609e0729c"><td class="memItemLeft" align="right" valign="top">static constexpr std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a7cbe5976bbc8065da587346609e0729c">mask_high</a> = (~((1ULL &lt;&lt; <a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a91ab63715d03e66dededf26aa578e969">tag_bits</a>) - 1ULL))</td></tr>
 <tr class="separator:a7cbe5976bbc8065da587346609e0729c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fa042a596a5307111524a966b2d8ddc"><td class="memItemLeft" align="right" valign="top">static constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a5fa042a596a5307111524a966b2d8ddc">mask_low</a> = ((1U &lt;&lt; (unsigned)<a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a91ab63715d03e66dededf26aa578e969">tag_bits</a>) - 1U)</td></tr>
+<tr class="memitem:a5fa042a596a5307111524a966b2d8ddc"><td class="memItemLeft" align="right" valign="top">static constexpr std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a5fa042a596a5307111524a966b2d8ddc">mask_low</a> = ((1U &lt;&lt; static_cast&lt;unsigned&gt;(<a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a91ab63715d03e66dededf26aa578e969">tag_bits</a>)) - 1U)</td></tr>
 <tr class="separator:a5fa042a596a5307111524a966b2d8ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Typedef Documentation</h2>
@@ -782,7 +782,7 @@ template&lt;class T , class Extract &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr std::uint8_t <a class="el" href="structseq_1_1detail_1_1_sequence_node.html">seq::detail::SequenceNode</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Extract &gt;::mask_low = ((1U &lt;&lt; (unsigned)<a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a91ab63715d03e66dededf26aa578e969">tag_bits</a>) - 1U)</td>
+          <td class="memname">constexpr std::uint8_t <a class="el" href="structseq_1_1detail_1_1_sequence_node.html">seq::detail::SequenceNode</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Extract &gt;::mask_low = ((1U &lt;&lt; static_cast&lt;unsigned&gt;(<a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a91ab63715d03e66dededf26aa578e969">tag_bits</a>)) - 1U)</td>
         </tr>
       </table>
   </td>

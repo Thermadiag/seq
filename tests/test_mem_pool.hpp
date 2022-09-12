@@ -1,4 +1,26 @@
-
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 #include <thread>
 #include <vector>
@@ -14,7 +36,7 @@ struct StdPool
 	using unique_ptr = std::unique_ptr<T>;
 	using shared_ptr = std::shared_ptr<T>;
 	using value_type = T;
-	T* allocate(size_t size=1) { return (T*)malloc(sizeof(T)*size); }
+	T* allocate(size_t size=1) { return static_cast<T*>(malloc(sizeof(T)*size)); }
 	void deallocate(T* ptr, size_t =1) { free(ptr); }
 	void release_unused_memory_all() {}
 	size_t release_unused_memory() { return 0; }
@@ -53,7 +75,7 @@ struct MimallocExternal
 
 static inline size_t get_count(int reps, int step) {
 	static std::vector<size_t> counts;
-	if ((int)counts.size() != reps) {
+	if (static_cast<int>(counts.size()) != reps) {
 		counts.resize(reps);
 		srand(0);
 		for (int i = 0; i < reps; ++i)
@@ -94,7 +116,7 @@ void __test_mem_pool_object(PoolType* pool, int repetitions, int * res)
 		for (size_t i = 0; i < vec.size()/2; ++i) {
 			vec[i] = pool->allocate(1);
 			alloc_count++;
-			memset((void*)vec[i], 0, sizeof(value_type));
+			memset(vec[i], 0, sizeof(value_type));
 			//*res += read_32(vec[i]);
 		}
 		//deallocate 20%
@@ -107,7 +129,7 @@ void __test_mem_pool_object(PoolType* pool, int repetitions, int * res)
 		for (size_t i = vec.size()/2; i < vec.size(); ++i) {
 			vec[i] = pool->allocate(1);
 			alloc_count++;
-			memset((void*)vec[i], 0, sizeof(value_type));
+			memset(vec[i], 0, sizeof(value_type));
 			//*res += read_32(vec[i]);
 		}
 		//deallocate remaining
@@ -155,7 +177,7 @@ void test_mem_pool_separate_threads(int nthreads, int repetitions)
 	__test_mem_pool_type<StdPool<T> >(p,nthreads, repetitions);
 	el = detail::msecs_since_epoch() - start;
 	mem = get_memory_usage() - mem;
-	std::cout << "malloc/free: "<<(int)el << " ms  " << (int)(mem / (1024 * 1024)) << " MO" << std::endl;
+	std::cout << "malloc/free: "<<el << " ms  " << (mem / (1024 * 1024)) << " MO" << std::endl;
 	
 	{
 		reset_memory_usage();
@@ -168,7 +190,7 @@ void test_mem_pool_separate_threads(int nthreads, int repetitions)
 		pp.clear();
 		el = detail::msecs_since_epoch() - start;
 		mem = get_memory_usage() - mem;
-		std::cout << "parallel_object_pool: "<< (int)el <<" ms  "<< (int)(mem / (1024 * 1024)) <<" MO " << std::endl;
+		std::cout << "parallel_object_pool: "<< el <<" ms  "<< (mem / (1024 * 1024)) <<" MO " << std::endl;
 	}
 	
 	
@@ -195,7 +217,7 @@ template<class PoolType>
 void __test_allocate_one_thread(PoolType* pool, std::atomic<void*> * vec, int size)
 {
 	for (int i = 0; i < size; ++i) {
-		vec[i] = (void*)pool->allocate(1);
+		vec[i] =pool->allocate(1);
 	}
 }
 template<class PoolType>
@@ -205,7 +227,7 @@ void __test_deallocate_one_thread(PoolType* pool, std::atomic<void*>* vec, int s
 	for (int i = 0; i < size; ++i) {
 		while (!vec[i])
 			;
-		pool->deallocate((value_type*)(void*)vec[i],1);
+		pool->deallocate(static_cast<value_type*>(static_cast<void*>(vec[i])),1);
 	}
 }
 template<class PoolType>
@@ -258,7 +280,7 @@ void test_alloc_dealloc_separate_threads(int nthreads, int count)
 	__test_alloc_dealloc_separate_threads<StdPool<T> >(p, nthreads, count);
 	el = detail::msecs_since_epoch() - start;
 	mem = get_memory_usage() - mem;
-	std::cout << "malloc/free: " << (int)el << " ms  " << (int)(mem / (1024 * 1024)) << " MO" << std::endl;
+	std::cout << "malloc/free: " << el << " ms  " << (mem / (1024 * 1024)) << " MO" << std::endl;
 	
 
 	
@@ -272,7 +294,7 @@ void test_alloc_dealloc_separate_threads(int nthreads, int count)
 		pp.clear();
 		el = detail::msecs_since_epoch() - start;
 		mem = get_memory_usage() - mem;
-		std::cout << "parallel_object_pool: " << (int)el << " ms  " << (int)(mem / (1024 * 1024)) << " MO" << std::endl;
+		std::cout << "parallel_object_pool: " << el << " ms  " <<(mem / (1024 * 1024)) << " MO" << std::endl;
 	}
 	
 	/*
@@ -291,19 +313,19 @@ void test_alloc_dealloc_separate_threads(int nthreads, int count)
 template<class T>
 void test_monothread_alloc_only(int count)
 {
-	std::cout << "test allocation/deallocation of " << count << " object of size " << (int)sizeof(T) << " one by one" << std::endl;
+	std::cout << "test allocation/deallocation of " << count << " object of size " << sizeof(T) << " one by one" << std::endl;
 	std::vector<T*> vec(count);
 	size_t start, el;
 
 	start = detail::msecs_since_epoch();
 	for (int i = 0; i < count; ++i) {
-		vec[i] = (T*)malloc(sizeof(T));
-		memset((void*)vec[i], 0, sizeof(T));
+		vec[i] = static_cast<T*>(malloc(sizeof(T)));
+		memset(vec[i], 0, sizeof(T));
 	}
 	for (int i = 0; i < count; ++i)
 		free(vec[i]);
 	el = detail::msecs_since_epoch() - start;
-	std::cout << "malloc/free: " << (int)el << " ms" << std::endl;
+	std::cout << "malloc/free: " << el << " ms" << std::endl;
 
 	using pool_type = object_pool < T, std::allocator<T>,0,linear_object_allocation< 1>,false,false > ;
 	{
@@ -313,34 +335,34 @@ void test_monothread_alloc_only(int count)
 		start = detail::msecs_since_epoch();
 		for (int i = 0; i < count; ++i) {
 			vec[i] = pa.allocate(1);
-			memset((void*)vec[i], 0, sizeof(T));
+			memset(vec[i], 0, sizeof(T));
 		}
 		for (int i = 0; i < count; ++i)
 			pa.deallocate(vec[i],1);
 		el = detail::msecs_since_epoch() - start;
-		std::cout << "object_pool: " << (int)el << " ms" << std::endl;
+		std::cout << "object_pool: " << el << " ms" << std::endl;
 
 		
 		start = detail::msecs_since_epoch();
 		for (int i = 0; i < count; ++i) {
 			vec[i] = pa.allocate(1);
-			memset((void*)vec[i], 0, sizeof(T));
+			memset(vec[i], 0, sizeof(T));
 		}
 		for (int i = 0; i < count; ++i)
 			pa.deallocate(vec[i], 1);
 		el = detail::msecs_since_epoch() - start;
-		std::cout << "object_pool preallocated: " << (int)el << " ms" << std::endl;
+		std::cout << "object_pool preallocated: " << el << " ms" << std::endl;
 
 		object_pool < T, std::allocator<T>, 0, linear_object_allocation< 1>,true, false > pa2;
 		start = detail::msecs_since_epoch();
 		for (int i = 0; i < count; ++i) {
 			vec[i] = pa2.allocate(1);
-			memset((void*)vec[i], 0, sizeof(T));
+			memset(vec[i], 0, sizeof(T));
 		}
 		for (int i = 0; i < count; ++i)
 			pa2.deallocate(vec[i], 1);
 		el = detail::msecs_since_epoch() - start;
-		std::cout << "object_pool enable unique_ptr: " << (int)el << " ms" << std::endl;
+		std::cout << "object_pool enable unique_ptr: " << el << " ms" << std::endl;
 	}
 	
 	{
@@ -348,7 +370,7 @@ void test_monothread_alloc_only(int count)
 		start = detail::msecs_since_epoch();
 		for (int i = 0; i < count; ++i) {
 			vec[i] = pa.allocate(1);
-			memset((void*)vec[i], 0, sizeof(T));
+			memset(vec[i], 0, sizeof(T));
 		}
 		for (int i = 0; i < count; ++i)
 			pa.deallocate(vec[i], 1);
@@ -386,7 +408,7 @@ template<class PoolType>
 void __test_mem_pool_random_pattern(PoolType* pool, int count)
 {
 	using value_type = typename PoolType::value_type;
-	std::vector<value_type*> vec((size_t)((unsigned)RAND_MAX+1U),NULL);
+	std::vector<value_type*> vec(static_cast<size_t>((unsigned)RAND_MAX+1U),NULL);
 
 	for (int i = 0; i < count; ++i) {
 		int index = rand();
@@ -396,7 +418,7 @@ void __test_mem_pool_random_pattern(PoolType* pool, int count)
 		}
 		else {
 			vec[index] = pool->allocate(1);
-			memset((void*)vec[index], 0, sizeof(value_type));
+			memset(vec[index], 0, sizeof(value_type));
 		}
 	}
 }
@@ -478,7 +500,7 @@ void __test_mem_pool_random_pattern_random_size(PoolType* pool,int /*th_index*/,
 {
 	using value_type = typename PoolType::value_type;
 	using pair = std::pair<value_type*, size_t>;
-	std::vector<pair> vec((size_t)((unsigned)RAND_MAX + 1U), pair(NULL,0));
+	std::vector<pair> vec(static_cast<size_t>((unsigned)RAND_MAX + 1U), pair(NULL,0));
 
 	for (size_t i = 0; i < sizes->size(); ++i) {
 		int index = rand();
@@ -488,7 +510,7 @@ void __test_mem_pool_random_pattern_random_size(PoolType* pool,int /*th_index*/,
 		}
 		else {
 			vec[index] = pair( pool->allocate((*sizes)[i]), (*sizes)[i]);
-			memset((void*)vec[index].first, 0, sizeof(value_type)* (*sizes)[i]);
+			memset(vec[index].first, 0, sizeof(value_type)* (*sizes)[i]);
 		}
 	}
 	for (size_t i = 0; i < vec.size(); ++i)
@@ -806,13 +828,13 @@ void test_multipl_size_monthread(int count)
 
 	start = detail::msecs_since_epoch();
 	for (int i = 0; i < count; ++i) {
-		vec[i] =pair( (T*)malloc(sizeof(T) * sizes[i]), sizes[i]);
-		memset((void*)vec[i].first, 0, sizeof(T)* sizes[i]);
+		vec[i] =pair(static_cast<T*>(malloc(sizeof(T) * sizes[i])), sizes[i]);
+		memset(vec[i].first, 0, sizeof(T)* sizes[i]);
 	}
 	for (int i = 0; i < count; ++i)
 		free(vec[i].first);
 	el = detail::msecs_since_epoch() - start;
-	std::cout << "malloc: " << el << " ms"<< (int)el << std::endl;
+	std::cout << "malloc: " << el << " ms"<< el << std::endl;
 
 
 	{
@@ -822,7 +844,7 @@ void test_multipl_size_monthread(int count)
 			start = detail::msecs_since_epoch();
 			for (int i = 0; i < count; ++i) {
 				vec[i] = pair(pa.allocate(sizes[i]), sizes[i]);
-				memset((void*)vec[i].first, 0, sizeof(T) * sizes[i]);
+				memset(vec[i].first, 0, sizeof(T) * sizes[i]);
 			}
 			for (int i = 0; i < count; ++i)
 				pa.deallocate(vec[i].first, vec[i].second);
@@ -832,7 +854,7 @@ void test_multipl_size_monthread(int count)
 			start = detail::msecs_since_epoch();
 			for (int i = 0; i < count; ++i) {
 				vec[i] = pair(pa.allocate(sizes[i]), sizes[i]);
-				memset((void*)vec[i].first, 0, sizeof(T) * sizes[i]);
+				memset(vec[i].first, 0, sizeof(T) * sizes[i]);
 			}
 			for (int i = 0; i < count; ++i)
 				pa.deallocate(vec[i].first, vec[i].second);
@@ -847,7 +869,7 @@ void test_multipl_size_monthread(int count)
 		start = detail::msecs_since_epoch();
 		for (int i = 0; i < count; ++i) {
 			vec[i] = pair(pa.allocate(sizes[i]), sizes[i]);
-			memset((void*)vec[i].first, 0, sizeof(T) * sizes[i]);
+			memset(vec[i].first, 0, sizeof(T) * sizes[i]);
 		}
 		for (int i = 0; i < count; ++i)
 			pa.deallocate(vec[i].first, vec[i].second);
@@ -857,7 +879,7 @@ void test_multipl_size_monthread(int count)
 		start = detail::msecs_since_epoch();
 		for (int i = 0; i < count; ++i) {
 			vec[i] = pair(pa.allocate(sizes[i]), sizes[i]);
-			memset((void*)vec[i].first, 0, sizeof(T) * sizes[i]);
+			memset(vec[i].first, 0, sizeof(T) * sizes[i]);
 		}
 		for (int i = 0; i < count; ++i)
 			pa.deallocate(vec[i].first, vec[i].second);
@@ -912,7 +934,7 @@ inline void test_pow2_allocation(int count)
 	for (int i = 0; i < count; ++i)
 		pool.deallocate(std_pool[i], sizes[i]);
 	mem_dealloc = get_memory_usage() - mem;
-	std::cout << "object_pool: " << el << " ms  " << stats.memory / (1024 * 1024) << " MO and " << (int)(mem_dealloc / (1024 * 1024)) << " MO" << std::endl;
+	std::cout << "object_pool: " << el << " ms  " << stats.memory / (1024 * 1024) << " MO and " << (mem_dealloc / (1024 * 1024)) << " MO" << std::endl;
 
 
 
@@ -920,13 +942,13 @@ inline void test_pow2_allocation(int count)
 	mem = get_memory_usage();
 	start = detail::msecs_since_epoch();
 	for (int i = 0; i < count; ++i)
-		std_pool[i] = (char*)malloc(sizes[i]);
+		std_pool[i] = static_cast<char*>(malloc(sizes[i]));
 	el = detail::msecs_since_epoch() - start;
 	mem_alloc = get_memory_usage() - mem;
 	for (int i = 0; i < count; ++i)
 		free(std_pool[i]);
 	mem_dealloc = get_memory_usage() - mem;
-	std::cout << "malloc/free: " << el << " ms  " << (int)(mem_alloc / (1024 * 1024)) << " MO and " << (int)(mem_dealloc / (1024 * 1024)) << " MO" << std::endl;
+	std::cout << "malloc/free: " << el << " ms  " << (mem_alloc / (1024 * 1024)) << " MO and " << (mem_dealloc / (1024 * 1024)) << " MO" << std::endl;
 
 #ifndef __MINGW32__
 	/*reset_memory_usage();

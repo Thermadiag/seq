@@ -14,7 +14,6 @@ add_executable(seq_tests
 "test_charconv.hpp"
 "test_format.hpp"
 "test_tiny_string.hpp"
-#"mimalloc/src/static.c" 
 )
 
 target_compile_features(seq_tests PRIVATE cxx_std_11)

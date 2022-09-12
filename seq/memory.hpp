@@ -1,3 +1,27 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 #ifndef SEQ_MEMORY_HPP
 #define SEQ_MEMORY_HPP
 
@@ -140,10 +164,10 @@ namespace seq
 		auto operator == (const aligned_allocator& other) const noexcept -> bool { return d_alloc == other.d_alloc; }
 		auto operator != (const aligned_allocator& other) const noexcept -> bool { return d_alloc != other.d_alloc; }
 		auto address(reference x) const noexcept -> pointer {
-			return ((std::allocator<T>*)(this))->address(x);
+			return static_cast<std::allocator<T>*>(this)->address(x);
 		}
 		auto address(const_reference x) const noexcept -> const_pointer {
-			return ((std::allocator<T>*)(this))->address(x);
+			return static_cast<std::allocator<T>*>(this)->address(x);
 		}
 		auto allocate(size_t n, const void* /*unused*/) -> T* {
 			return allocate(n);
@@ -170,11 +194,11 @@ namespace seq
 			std::uint8_t* mem = al.allocate(size + overhead);
 
 			// Use the fact that align + 1U is a power of 2 
-			size_t offset = ((align ^ ((size_t)(mem + sizeof(void*)) & align)) + 1U) & align;
-			ptr = (void*)(mem + sizeof(void*) + offset);
-			((void**)ptr)[-1] = mem;
+			size_t offset = ((align ^ (reinterpret_cast<size_t>(mem + sizeof(void*)) & align)) + 1U) & align;
+			ptr = (mem + sizeof(void*) + offset);
+			(reinterpret_cast<void**>(ptr))[-1] = mem;
 
-			return (T*)ptr;
+			return static_cast<T*>(ptr);
 		}
 		void deallocate(T* p, size_t n)
 		{
@@ -184,7 +208,7 @@ namespace seq
 			}
 			if (p != NULL) {
 				rebind_alloc<std::uint8_t> al = get_allocator();
-				al.deallocate((std::uint8_t*)(((void**)p)[-1]), n * sizeof(T) + alignment - 1ULL + sizeof(void*));
+				al.deallocate(reinterpret_cast<std::uint8_t*>((reinterpret_cast<void**>(p))[-1]), n * sizeof(T) + alignment - 1ULL + sizeof(void*));
 			}
 		}
 		template< class... Args >
@@ -238,17 +262,17 @@ namespace seq
 		auto operator == (const aligned_allocator& /*unused*/) const noexcept -> bool { return true; }
 		auto operator != (const aligned_allocator& /*unused*/) const noexcept -> bool { return false; }
 		auto address(reference x) const noexcept -> pointer {
-			return ((std::allocator<T>*)(this))->address(x);
+			return static_cast<std::allocator<T>*>(this)->address(x);
 		}
 		auto address(const_reference x) const noexcept -> const_pointer {
-			return ((std::allocator<T>*)(this))->address(x);
+			return static_cast<std::allocator<T>*>(this)->address(x);
 		}
 		auto allocate(size_t n, const void* /*unused*/) -> T* {
 			return allocate(n);
 		}
 		auto allocate(size_t n) -> T*
 		{
-			return (T*)aligned_malloc(n * sizeof(T), alignment);
+			return static_cast<T*>(aligned_malloc(n * sizeof(T), alignment));
 		}
 		void deallocate(T* p, size_t /*unused*/)
 		{
@@ -315,7 +339,7 @@ namespace seq
 			return External::allocate(n * sizeof(T));
 		}
 		auto allocate(size_t n) -> T*{
-			return (T*)External::allocate(n * sizeof(T));
+			return static_cast<T*>(External::allocate(n * sizeof(T)));
 		}
 		void deallocate(T* p, size_t n){
 			External::deallocate(p, n * sizeof(T));
@@ -360,7 +384,7 @@ namespace seq
 			~impl_mem_pool()  {
 			}
 			auto allocate_N(size_t n) -> void* { return pool.allocate(n); }
-			void deallocate_N(void* p, size_t n)  { pool.deallocate((value_type*)p, n); }
+			void deallocate_N(void* p, size_t n)  { pool.deallocate(static_cast<value_type*>(p), n); }
 			auto reclaim_memory() const  -> bool {return pool.reclaim_memory();}
 			void set_reclaim_memory(bool reclaim)  { pool.set_reclaim_memory(reclaim); }
 			void release_unused_memory()  { pool.release_unused_memory(); }
@@ -374,7 +398,7 @@ namespace seq
 		template<class T>
 		static constexpr auto make_type_key() -> size_t {
 			//No need to use the type alignment
-			return (size_t)sizeof(T)/*| (((size_t)alignof(T)) << (size_t)(sizeof(size_t) * 4))*/;
+			return sizeof(T)/*| (((size_t)alignof(T)) << (size_t)(sizeof(size_t) * 4))*/;
 		}
 
 		// Select reference count type
@@ -654,7 +678,7 @@ namespace seq
 		auto allocate(size_t n) -> value_type* {
 			
 				if (!d_allocator) ensure_valid();
-				return (value_type*)d_allocator->allocate_N(n);
+				return static_cast<value_type*>(d_allocator->allocate_N(n));
 			
 		}
 		void deallocate(value_type* p, size_t n) {
@@ -917,7 +941,7 @@ namespace seq
 			}
 			// only if StoreHeader is true, retrieve the parent block_pool from an allocated object
 			static SEQ_ALWAYS_INLINE auto from_ptr(void* ptr)  noexcept -> block_pool* {
-				char* o = ((char*)ptr - alignment);
+				char* o = (static_cast<char*>(ptr) - alignment);
 				block_pool* res;
 				// The address is written SEQ_DEFAULT_ALIGNMENT bytes before object itself (usually 8 bytes on 64 bits platform)
 				memcpy(&res, o + (alignment - SEQ_DEFAULT_ALIGNMENT), sizeof(void*));
@@ -955,7 +979,7 @@ namespace seq
 				objects++;
 				res += alignment;
 				// The address is written SEQ_DEFAULT_ALIGNMENT bytes before object itself (usually 8 bytes on 64 bits platform)
-				*(std::uintptr_t*)(res - SEQ_DEFAULT_ALIGNMENT) = (std::uintptr_t)this;
+				*reinterpret_cast<std::uintptr_t*>(res - SEQ_DEFAULT_ALIGNMENT) = reinterpret_cast<std::uintptr_t>(this);
 
 				return res;
 
@@ -965,7 +989,7 @@ namespace seq
 			{
 				assert(objects > 0);
 
-				char* o = ((char*)ptr - alignment);
+				char* o = (static_cast<char*>(ptr) - alignment);
 				if (SEQ_UNLIKELY(--objects == 0)) {
 					// no more objects: reset tail to restart from scratch
 					set_next(chunks, NULL);
@@ -1228,8 +1252,8 @@ namespace seq
 					tail = 0;
 				}
 				else {
-					set_next((char*)ptr, first_free);
-					first_free = (char*)ptr;
+					set_next(static_cast<char*>(ptr), first_free);
+					first_free = static_cast<char*>(ptr);
 				}
 				this->increment_freed();
 			}
@@ -1306,7 +1330,7 @@ namespace seq
 			}
 			virtual void unref()
 			{
-				if (ref_cnt.fetch_sub((size_t)1) == (size_t)1) {
+				if (ref_cnt.fetch_sub(static_cast<size_t>(1)) == static_cast<size_t>(1)) {
 					if (this->left && this->right)
 						remove();
 					rebind_alloc< derived> al = pool.get_allocator();
@@ -1336,10 +1360,10 @@ namespace seq
 			};
 
 			// The block_pool address is stored SEQ_DEFAULT_ALIGNMENT bytes before the object itself
-			std::uintptr_t addr = *(std::uintptr_t*)((char*)p - SEQ_DEFAULT_ALIGNMENT);
-			void* pool = (void*)addr;
+			std::uintptr_t addr = *reinterpret_cast<std::uintptr_t*>(reinterpret_cast<char*>(p) - SEQ_DEFAULT_ALIGNMENT);
+			void* pool = reinterpret_cast<void*>(addr);
 			// The block itself is before the block_pool
-			dummy_block* block = (dummy_block*)((char*)pool - SEQ_OFFSETOF(dummy_block, pool));
+			dummy_block* block = reinterpret_cast<dummy_block*>(reinterpret_cast<char*>(pool) - SEQ_OFFSETOF(dummy_block, pool));
 			return static_cast<virtual_block<T>*>(block);
 		}
 
@@ -1418,7 +1442,7 @@ namespace seq
 				static_assert(sizeof(T) <= sizeof(pool_type) * Pool::max_objects,"max objects too low to allocate shared_ptr");
 				static constexpr size_t alloc_count = sizeof(T) / sizeof(pool_type) + (sizeof(T) % sizeof(pool_type) ? 1 : 0);
 				if (n == 1) 
-					return (T*)d_pool->allocate_for_shared(alloc_count);
+					return reinterpret_cast<T*>(d_pool->allocate_for_shared(alloc_count));
 				else
 					return std::allocator<T>{}.allocate(n);
 			}
@@ -1427,8 +1451,8 @@ namespace seq
 				{
 					static constexpr size_t alloc_count = sizeof(T) / sizeof(pool_type) + (sizeof(T) % sizeof(pool_type) ? 1 : 0);
 					// Deallocate p which was allocated with a memory pool.
-					virtual_block<pool_type>* v = get_virtual_block((pool_type*)p);
-					v->deallocate((pool_type*)p, alloc_count);
+					virtual_block<pool_type>* v = get_virtual_block(reinterpret_cast<pool_type*>(p));
+					v->deallocate(reinterpret_cast<pool_type*>(p), alloc_count);
 					// Note: unref() will never deallocate the block as long as it belong to a valid memory pool
 					v->unref();
 				}
@@ -1467,8 +1491,8 @@ namespace seq
 		static constexpr size_t min_capacity = MinCapacity;
 		static constexpr size_t max_objects = MaxSize;
 		static SEQ_ALWAYS_INLINE auto fits(size_t size) -> bool { return size <= MaxSize; }
-		static SEQ_ALWAYS_INLINE auto size_to_idx(size_t size) -> size_t { return size == (size_t)0 ? (size_t)0 : size - (size_t)1;; }
-		static SEQ_ALWAYS_INLINE auto idx_to_size(size_t idx) -> size_t { return idx + (size_t)1; }
+		static SEQ_ALWAYS_INLINE auto size_to_idx(size_t size) -> size_t { return size == 0 ? 0 : size - 1; }
+		static SEQ_ALWAYS_INLINE auto idx_to_size(size_t idx) -> size_t { return idx + 1; }
 	} ;
 
 	/// @brief Allocate up to MaxSize objects by step of BlockSize
@@ -1494,9 +1518,9 @@ namespace seq
 		static constexpr size_t min_capacity = MinCapacity;
 		static constexpr size_t count = seq::static_bit_scan_reverse<MaxSize>::value - seq::static_bit_scan_reverse<MinSize>::value + 1U;
 		static SEQ_ALWAYS_INLINE auto fits(size_t size) -> bool { return size <= MaxSize; }
-		static SEQ_ALWAYS_INLINE auto nonPow2(size_t size) -> size_t { return (size & (size - (size_t)1)) != (size_t)0; }
+		static SEQ_ALWAYS_INLINE auto nonPow2(size_t size) -> size_t { return (size & (size - 1)) != 0; }
 		static SEQ_ALWAYS_INLINE auto size_to_idx(size_t size) -> size_t { 
-			if (size < MinSize) return (size_t)0;
+			if (size < MinSize) return 0;
 			size_t log_2 = bit_scan_reverse(size);
 			log_2 += nonPow2(size);
 			log_2 -= seq::static_bit_scan_reverse<MinSize>::value;
@@ -1713,7 +1737,7 @@ namespace seq
 			block* res = NULL;
 			try {
 				res = al.allocate(1);
-				construct_ptr(res, this, chunk_capacity, (unsigned)(object_allocation::idx_to_size(idx) * sizeof(T)), get_allocator());
+				construct_ptr(res, this, chunk_capacity, static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)), get_allocator());
 			}
 			catch (...) {
 				// deallocate chunk_mem_pool in case of exception and rethrow
@@ -1722,10 +1746,10 @@ namespace seq
 				throw;
 			}
 		
-			res->insert(d_pools[idx].left, (block*)&d_pools[idx]);
+			res->insert(d_pools[idx].left, static_cast<block*>(&d_pools[idx]));
 			d_capacity[idx] += chunk_capacity;
 			d_bytes += sizeof(block) + res->pool.memory_footprint();
-			d_peak_memory = std::max((size_t)d_peak_memory,(size_t) d_bytes);
+			d_peak_memory = std::max(static_cast<size_t>(d_peak_memory), static_cast<size_t>(d_bytes));
 			return res;
 		}
 
@@ -1733,17 +1757,17 @@ namespace seq
 		{
 			block* bl = d_free.right;
 			// Scan all free block until we find a big enough one
-			while (bl != (block*)&d_free) {
+			while (bl != static_cast<block*>(&d_free)) {
 				// Check if this block is big enough
-				if (!bl->pool.init((unsigned)(object_allocation::idx_to_size(idx) * sizeof(T)))) {
+				if (!bl->pool.init(static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)))) {
 					bl = bl->right;
 					continue;
 				}
 				bl->remove();
-				bl->insert(d_pools[idx].left, (block*)&d_pools[idx]);
+				bl->insert(d_pools[idx].left, static_cast<block*>(&d_pools[idx]));
 				d_last[idx] = bl;
 				d_capacity[idx] += bl->pool.capacity;
-				return (T*)bl->pool.allocate();
+				return static_cast<T*>(bl->pool.allocate());
 			}
 			return NULL;
 		}
@@ -1764,7 +1788,7 @@ namespace seq
 			}
 			else {
 				bl->remove();
-				bl->insert(d_free.left, (block*)&d_free);
+				bl->insert(d_free.left, static_cast<block*>(&d_free));
 			}
 			return right;
 		}
@@ -1773,7 +1797,7 @@ namespace seq
 		{
 			for (size_t i = 0; i < slots; ++i){
 				block* it = d_pools[i].right;
-				while (it != (block*)&d_pools[i]) {
+				while (it != static_cast<block*>(&d_pools[i])) {
 					block* next = it->right;
 					if (it->pool.objects == 0) {
 						d_capacity[i] -= it->pool.capacity;
@@ -1786,7 +1810,7 @@ namespace seq
 				}
 			}
 			block* it = d_free.right;
-			while (it != (block*)&d_free) {
+			while (it != static_cast<block*>(&d_free)) {
 				block* next = it->right;
 				d_bytes -= sizeof(block) + it->pool.memory_footprint();
 				it->pool.add_to(*this);
@@ -1808,23 +1832,23 @@ namespace seq
 			}
 			//full, create a new block
 			d_last[idx] = add(idx,to_allocate);
-			return (T*)d_last[idx]->pool.allocate();
+			return static_cast<T*>(d_last[idx]->pool.allocate());
 		}
 
 		SEQ_NOINLINE(auto) allocate_from_non_last(size_t idx) -> T*
 		{
-			if (d_free.right != (block*)&d_free)
+			if (d_free.right != static_cast<block*>(&d_free))
 				if (T* res = allocate_from_free_block(idx))
 					return res;
 
 			block* it = d_pools[idx].right;
-			while (it != (block*)&d_pools[idx]) {
+			while (it != static_cast<block*>(&d_pools[idx])) {
 				// Empty block which is not the last one: due to unique_ptr destruction
-				if (SEQ_UNLIKELY(it->pool.objects == 0 && it->right != (block*)&d_pools[idx])) {
+				if (SEQ_UNLIKELY(it->pool.objects == 0 && it->right != static_cast<block*>(&d_pools[idx]))) {
 					it = empty(idx, it);
 				}
 				if (it != d_last[idx]) {
-					if (T* res = (T*)it->pool.allocate()) {
+					if (T* res = static_cast<T*>(it->pool.allocate())) {
 						d_last[idx] = it;
 						return res;
 					}
@@ -1912,11 +1936,11 @@ namespace seq
 			: detail::stats_data<GenerateStats>(), Allocator(al), d_bytes(0), d_peak_memory(0), d_reclaim_memory(true)//, d_allocator(al)
 		{
 			for (size_t i = 0; i < slots; ++i) {
-				d_pools[i].left = d_pools[i].right = (block*)&d_pools[i];
+				d_pools[i].left = d_pools[i].right = static_cast<block*>(&d_pools[i]);
 				d_last[i] = NULL;
 				d_capacity[i] = 0;
 			}
-			d_free.left = d_free.right = (block*)&d_free;
+			d_free.left = d_free.right = static_cast<block*>(&d_free);
 		}
 		~object_pool() 
 		{
@@ -1933,7 +1957,7 @@ namespace seq
 		void clear()
 		{
 			block* it = d_free.right;
-			while (it != (block*)&d_free) {
+			while (it != static_cast<block*>(&d_free)) {
 				block* next = it->right;
 				d_bytes -= sizeof(block) + it->pool.memory_footprint();
 				it->pool.add_to(*this);
@@ -1942,7 +1966,7 @@ namespace seq
 			}
 			for (size_t i = 0; i < slots; ++i) {
 				block* it = d_pools[i].right;
-				while (it != (block*)&d_pools[i]) {
+				while (it != static_cast<block*>(&d_pools[i])) {
 					block* next = it->right;
 					it->pool.add_to(*this);
 					it->remove_and_unref();
@@ -1951,7 +1975,7 @@ namespace seq
 				d_capacity[i] = (0);
 				d_last[i] = NULL;
 				d_bytes = 0;
-				d_pools[i].left = d_pools[i].right = (block*)&d_pools[i];
+				d_pools[i].left = d_pools[i].right = static_cast<block*>(&d_pools[i]);
 			}
 		}
 
@@ -1966,13 +1990,13 @@ namespace seq
 		{
 			for (size_t i = 0; i < slots; ++i) {
 				block* it = d_pools[i].right;
-				while (it != (block*)&d_pools[i]) {
+				while (it != static_cast<block*>(&d_pools[i])) {
 					block* next = it->right;
 					if (EnableUniquePtr && it->ref_cnt == 1)
 					{
 						// Do NOT reset blocks having at least one unique_ptr
 						it->remove();
-						it->insert(d_free.left, (block*)&d_free);
+						it->insert(d_free.left, static_cast<block*>(&d_free));
 						
 						d_capacity[i] -= it->pool.capacity;
 						it->pool.reset();
@@ -1998,7 +2022,7 @@ namespace seq
 			//reset stats for each block pool
 			for (size_t i = 0; i < slots; ++i) {
 				block* it = d_pools[i].right;
-				while (it != (block*)&d_pools[i]) {
+				while (it != static_cast<block*>(&d_pools[i])) {
 					it->pool.reset_statistics();
 					it = it->right;
 				}
@@ -2019,7 +2043,7 @@ namespace seq
 			//compute object count and total created/freed
 			for (size_t i = 0; i < slots; ++i) {
 				block* it = d_pools[i].right;
-				while (it != (block*)&d_pools[i]) {
+				while (it != static_cast<block*>(&d_pools[i])) {
 					stats.objects += it->pool.objects;
 					stats.total_created += it->pool.get_cum_created();
 					stats.total_freed += it->pool.get_cum_freed();
@@ -2095,7 +2119,7 @@ namespace seq
 			}
 			size_t idx = object_allocation::size_to_idx(size);
 			if (d_last[idx]) {
-				if (T* res = (T*)d_last[idx]->pool.allocate()) {
+				if (T* res = static_cast<T*>(d_last[idx]->pool.allocate())) {
 					return res;
 				}
 			}
@@ -2118,7 +2142,7 @@ namespace seq
 			if (EnableUniquePtr) {
 				chunk_type* p = chunk_type::from_ptr(ptr);
 				p->deallocate_ptr_no_thread(ptr, detail::thread_id());
-				block* b = (block*)((char*)p - SEQ_OFFSETOF(block, pool));
+				block* b = reinterpret_cast<block*>(reinterpret_cast<char*>(p) - SEQ_OFFSETOF(block, pool));
 
 				if (SEQ_UNLIKELY( p->objects == 0)) {
 					empty(idx, b);
@@ -2129,7 +2153,7 @@ namespace seq
 			else {
 				// Scan all block of given size until we find the right one
 				block* b = d_pools[idx].right;
-				while (b != (block*)&d_pools[idx]) {
+				while (b != static_cast<block*>(&d_pools[idx])) {
 					if (b->pool.is_inside(ptr)) {
 						b->pool.deallocate(ptr);
 						if (SEQ_UNLIKELY( b->pool.objects == 0)) {
@@ -2155,7 +2179,7 @@ namespace seq
 		{
 			size_t idx = object_allocation::size_to_idx(alloc_size);
 			if (count > d_capacity[idx]) {
-				size_t to_allocate = (size_t)( d_capacity[idx] * SEQ_GROW_FACTOR);
+				size_t to_allocate = static_cast<size_t>( d_capacity[idx] * SEQ_GROW_FACTOR);
 				if (to_allocate < object_allocation::min_capacity) 
 					to_allocate = object_allocation::min_capacity;
 				else if (to_allocate == d_capacity[idx]) 
@@ -2346,7 +2370,7 @@ namespace seq
 			{
 				for (size_t i = 0; i < slots; ++i) {
 					block* b = pools[i].right;
-					while (b != (block*)&pools[i]) {
+					while (b != static_cast<block*>(&pools[i])) {
 						stats.total_created += b->pool.get_cum_created();
 						stats.total_freed += b->pool.get_cum_freed();
 						stats.objects += b->pool.objects;
@@ -2359,7 +2383,7 @@ namespace seq
 			{
 				for (size_t i = 0; i < slots; ++i) {
 					block* b = pools[i].right;
-					while (b != (block*)&pools[i]) {
+					while (b != static_cast<block*>(&pools[i])) {
 						b->pool.reset_statistics();
 						b = b->right;
 					}
@@ -2370,7 +2394,7 @@ namespace seq
 			{
 				parent = p;
 				for (size_t i = 0; i < slots; ++i) {
-					pools[i].left = pools[i].right = (block*)&pools[i];
+					pools[i].left = pools[i].right = static_cast<block*>(&pools[i]);
 					last[i] = NULL;
 					capacity[i] = 0;
 					pool_count[i] = 0;
@@ -2378,7 +2402,7 @@ namespace seq
 			
 			}
 			auto begin(size_t idx) noexcept -> block* { return pools[idx].right; }
-			auto end(size_t idx) noexcept -> block* { return (block*)&pools[idx]; }
+			auto end(size_t idx) noexcept -> block* { return static_cast<block*>(&pools[idx]); }
 		
 			~thread_data() 
 			{
@@ -2396,7 +2420,7 @@ namespace seq
 						// Move non empty block 'other' list in order to be cleaned later.
 						// In any case, set their th_data attribute to NULL
 						block* b = pools[i].right;
-						while ((block_iterator*)b != /*static_cast<block*>*/(&pools[i])) {
+						while (static_cast<block_iterator*>(b) != /*static_cast<block*>*/(&pools[i])) {
 							block* next = b->right;
 							b->th_data = NULL;
 
@@ -2413,13 +2437,13 @@ namespace seq
 								}
 								else {
 									// Add to shared free list
-									b->insert(parent->d_chunks.left, (block*)&parent->d_chunks);
+									b->insert(parent->d_chunks.left, static_cast<block*>(&parent->d_chunks));
 								}
 							}
 							else {
 								// Add to clean list
 								b->remove();
-								b->insert(parent->d_clean.left, (block*)&parent->d_clean);
+								b->insert(parent->d_clean.left, static_cast<block*>(&parent->d_clean));
 							}
 
 							b = next;
@@ -2461,7 +2485,7 @@ namespace seq
 			std::lock_guard <lock_type> l(d_lock);
 			d_pools.push_back(&tls.data.back());
 			d_bytes += sizeof(TLS) + sizeof(thread_data);
-			if (d_bytes > d_peak_memory) d_peak_memory.store( (size_t) d_bytes );
+			if (d_bytes > d_peak_memory) d_peak_memory.store( static_cast<size_t>( d_bytes ));
 			return tls.last = d_pools.back();
 		}
 
@@ -2514,17 +2538,17 @@ namespace seq
 			lock_with_interrup(data); 
 
 			block* bl = d_chunks.right;
-			while (bl != (block*)&d_chunks) {
-				if (!bl->pool.init((unsigned)(object_allocation::idx_to_size(idx) * sizeof(T)))) {
+			while (bl != static_cast<block*>(&d_chunks)) {
+				if (!bl->pool.init(static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)))) {
 					bl = bl->right;
 					continue;
 				}
 				data->last[idx] = bl;
 				bl->remove();
 				d_lock.unlock(); // Unlock
-				bl->insert(data->pools[idx].left, (block*)&data->pools[idx]);
+				bl->insert(data->pools[idx].left, static_cast<block*>(&data->pools[idx]));
 				bl->pool.set_thread_id(detail::get_thread_id());
-				bl->pool.init((unsigned)(object_allocation::idx_to_size(idx) * sizeof(T)));
+				bl->pool.init(static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)));
 				bl->th_data = data;
 				data->capacity[idx] += bl->pool.capacity;
 				data->pool_count[idx]++;
@@ -2533,7 +2557,7 @@ namespace seq
 
 			//Look in d_clean
 			bl = d_clean.right;
-			while (bl != (block*)&d_clean) {
+			while (bl != static_cast<block*>(&d_clean)) {
 				if (bl->pool.objects - bl->pool.deffered_count())
 				{
 					bl = bl->right;
@@ -2542,9 +2566,9 @@ namespace seq
 				data->last[idx] = bl;
 				bl->remove();
 				d_lock.unlock(); // Unlock
-				bl->insert(data->pools[idx].left, (block*)&data->pools[idx]);
+				bl->insert(data->pools[idx].left, static_cast<block*>(&data->pools[idx]));
 				bl->pool.set_thread_id(detail::get_thread_id());
-				bl->pool.init((unsigned)(object_allocation::idx_to_size(idx) * sizeof(T)));
+				bl->pool.init(static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)));
 				bl->th_data = data;
 				data->capacity[idx] += bl->pool.capacity;
 				data->pool_count[idx]++;
@@ -2583,7 +2607,7 @@ namespace seq
 			}
 			else {
 				
-				bl->insert(d_chunks.left, (block*)&d_chunks);
+				bl->insert(d_chunks.left, static_cast<block*>(&d_chunks));
 				
 			}
 			d_lock.unlock(); // Unlock
@@ -2612,7 +2636,7 @@ namespace seq
 
 			try {
 				res = al.allocate(1);
-				construct_ptr(res, data, to_allocate, (unsigned)(object_allocation::idx_to_size(idx) * sizeof(T)), d_alloc);
+				construct_ptr(res, data, to_allocate, static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)), d_alloc);
 			}
 			catch (...) {
 				if (res)
@@ -2620,7 +2644,7 @@ namespace seq
 				throw;
 			}
 			d_bytes += sizeof(block) + res->pool.memory_footprint();
-			if (d_bytes > d_peak_memory) d_peak_memory.store((size_t) d_bytes);
+			if (d_bytes > d_peak_memory) d_peak_memory.store(static_cast<size_t>( d_bytes));
 			return res;
 		}
 
@@ -2693,7 +2717,7 @@ namespace seq
 			for (auto it = d_pools.begin(); it != d_pools.end(); ++it) {
 				for (size_t i = 0; i < slots; ++i) {
 					block* p = (*it)->pools[i].right;
-					while (p != (block*)&(*it)->pools[i]) {
+					while (p != static_cast<block*>(&(*it)->pools[i])) {
 						block* next = p->right;
 
 						// Delete deffered object if necesary
@@ -2717,7 +2741,7 @@ namespace seq
 
 			// Do the same for blocks to clean
 			block* p = d_clean.right;
-			while (p != (block*)&d_clean) {
+			while (p != static_cast<block*>(&d_clean)) {
 				block* next = p->right;
 				// Delete deffered object if necesary
 				if (p->pool.deffered_count()) {
@@ -2737,13 +2761,13 @@ namespace seq
 
 			// Clear free blocks
 			p = d_chunks.right;
-			while (p != (block*)&d_chunks) {
+			while (p != static_cast<block*>(&d_chunks)) {
 				block* next = p->right;
 				d_bytes -= sizeof(block) + p->pool.memory_footprint();
 				res += p->clear(0);
 				p = next;
 			}
-			d_chunks.right = d_chunks.left = (block*)&d_chunks;
+			d_chunks.right = d_chunks.left = static_cast<block*>(&d_chunks);
 			resume_all();
 			return res;
 		}
@@ -2771,7 +2795,7 @@ namespace seq
 			}
 			// Clear free blocks
 			block* p = d_chunks.right;
-			while (p != (block*)&d_chunks) {
+			while (p != static_cast<block*>(&d_chunks)) {
 				block* next = p->right;
 				res += p->pool.capacity;
 				d_bytes -= sizeof(block) + p->pool.memory_footprint();
@@ -2782,14 +2806,14 @@ namespace seq
 			}
 			// Clear blocks to clean
 			p = d_clean.right;
-			while (p != (block*)&d_clean) {
+			while (p != static_cast<block*>(&d_clean) ){
 				block* next = p->right;
 				d_bytes -= sizeof(block) + p->pool.memory_footprint();
 				p->remove_and_unref();
 				p = next;
 			}
-			d_chunks.right = d_chunks.left = (block*)&d_chunks;
-			d_clean.right = d_clean.left = (block*)&d_clean;
+			d_chunks.right = d_chunks.left = static_cast<block*>(&d_chunks);
+			d_clean.right = d_clean.left = static_cast<block*>(&d_clean);
 			return res;
 		}
 
@@ -2808,7 +2832,7 @@ namespace seq
 							res += p->pool.objects;
 							p->pool.reset();
 							p->remove();
-							p->insert(d_chunks.left, (block*)&d_chunks);
+							p->insert(d_chunks.left, static_cast<block*>(&d_chunks));
 						}
 						p = next;
 					}
@@ -2821,13 +2845,13 @@ namespace seq
 			
 			// Do the same for blocks to clean
 			block* p = d_clean.right;
-			while (p != (block*)&d_clean) {
+			while (p != static_cast<block*>(&d_clean)) {
 				block* next = p->right;
 				if (p->ref_cnt == 1) {
 					res += p->pool.objects;
 					p->pool.reset();
 					p->remove();
-					p->insert(d_chunks.left, (block*)&d_chunks);
+					p->insert(d_chunks.left, static_cast<block*>(&d_chunks));
 				}
 				p = next;
 			}
@@ -2838,7 +2862,7 @@ namespace seq
 		auto allocate_from_free(thread_data* data, size_t idx) -> T*
 		{
 			if ((data->last[idx] = extract_free_block(idx,data)))
-				return (T*)data->last[idx]->pool.allocate();
+				return static_cast<T*>(data->last[idx]->pool.allocate());
 			return NULL;
 		}
 
@@ -2850,22 +2874,22 @@ namespace seq
 			//TEST: retry previous pools in case of deffered delete in-between
 			block * it = data->begin(idx);
 			while (it != data->end(idx)) {
-				if (T* res = (T*)it->pool.allocate()) {
+				if (T* res = static_cast<T*>(it->pool.allocate())) {
 					data->last[idx] = it;
 					// Lock while taking care of interrupt requests
 					lock_with_interrup(data);
-					_bl->insert(d_chunks.left, (block*)&d_chunks);
+					_bl->insert(d_chunks.left, static_cast<block*>(&d_chunks));
 					d_lock.unlock(); // Unlock
 					return res;
 				}
 				it = it->right;
 			}
 
-			_bl->insert(data->pools[idx].left, (block*)&data->pools[idx]);
+			_bl->insert(data->pools[idx].left, static_cast<block*>(&data->pools[idx]));
 			data->capacity[idx] += _bl->pool.capacity;
 			data->pool_count[idx]++;
 			data->last[idx] = _bl;
-			return (T*)_bl->pool.allocate();
+			return static_cast<T*>(_bl->pool.allocate());
 		}
 		SEQ_ALWAYS_INLINE auto allocate_from_last( thread_data* data, size_t idx) -> T*
 		{
@@ -2875,7 +2899,7 @@ namespace seq
 					interrupt_thread(data);
 					if (!data->last[idx]) return NULL;
 				}
-				return (T*)data->last[idx]->pool.allocate();
+				return static_cast<T*>(data->last[idx]->pool.allocate());
 			}
 			return NULL;
 		}
@@ -2890,7 +2914,7 @@ namespace seq
 					it = empty(idx, data, it);
 				}
 				
-				if (T* res = (T*)it->pool.allocate()) {
+				if (T* res = static_cast<T*>(it->pool.allocate())) {
 					data->last[idx] = it;
 					return res;
 				}
@@ -2899,7 +2923,7 @@ namespace seq
 			}
 
 			// Find a free block in the shared free list
-			if (d_chunks.left != (block*)&d_chunks) {
+			if (d_chunks.left != static_cast<block*>(&d_chunks)) {
 				if (T* res = allocate_from_free(data, idx))
 					return res;
 			}
@@ -2971,8 +2995,8 @@ namespace seq
 		parallel_object_pool(const Allocator& alloc = Allocator())
 			:detail::parallel_stats_data<GenerateStats>(), d_alloc(alloc), d_reclaim_memory(true), d_pools(alloc), d_bytes{ 0 }, d_peak_memory{ 0 }
 		{
-			d_chunks.left = d_chunks.right = (block*)&d_chunks;
-			d_clean.left = d_clean.right = (block*)&d_clean;
+			d_chunks.left = d_chunks.right = static_cast<block*>(&d_chunks);
+			d_clean.left = d_clean.right = static_cast<block*>(&d_clean);
 		}
 
 		~parallel_object_pool()
@@ -3130,7 +3154,7 @@ namespace seq
 			size_t idx = object_allocation::size_to_idx(size);
 			detail::thread_id id = detail::get_thread_id();
 			block_pool_type* p = block_pool_type::from_ptr(ptr);
-			block* bl = (block*)((char*)p - SEQ_OFFSETOF(block, pool));
+			block* bl = reinterpret_cast<block*>(reinterpret_cast<char*>(p) - SEQ_OFFSETOF(block, pool));
 			thread_data* data = static_cast<thread_data*>(bl->th_data);
 
 			// If we are in the right thread, check for interrupt.

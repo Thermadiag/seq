@@ -94,6 +94,9 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1flat__tree.html
 </div><!--header-->
 <div class="contents">
 
+<p>Base class for flat_map/set Uses a <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a> to store the values and provide faster insertion/deletion of unique elements.  
+ <a href="structseq_1_1detail_1_1flat__tree.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="flat__map_8hpp_source.html">flat_map.hpp</a>&gt;</code></p>
 
 <p>Inherits <a class="el" href="structseq_1_1detail_1_1_base_tree.html">seq::detail::BaseTree&lt; Key, Key, std::less&lt; Key &gt; &gt;</a>.</p>
@@ -344,7 +347,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ae03e5c1c020749579f6302e96d1a075c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae03e5c1c020749579f6302e96d1a075c">d_dirty</a></td></tr>
 <tr class="separator:ae03e5c1c020749579f6302e96d1a075c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Typedef Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;class Key, class Value = Key, class Compare = std::less&lt;Key&gt;, class Allocator = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt;<br />
+struct seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</h3>
+
+<p>Base class for flat_map/set Uses a <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a> to store the values and provide faster insertion/deletion of unique elements. </p>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="aa2b073e34230b3bdb22060356b1424de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa2b073e34230b3bdb22060356b1424de">&#9670;&nbsp;</a></span>allocator_type</h2>
 

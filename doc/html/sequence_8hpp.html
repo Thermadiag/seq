@@ -95,6 +95,7 @@ $(document).ready(function(){initNavTree('sequence_8hpp.html',''); initResizable
 <code>#include &quot;<a class="el" href="pdqsort_8hpp_source.html">pdqsort.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="type__traits_8hpp_source.html">type_traits.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="utils_8hpp_source.html">utils.hpp</a>&quot;</code><br />
+<code>#include &lt;climits&gt;</code><br />
 </div>
 <p><a href="sequence_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -105,14 +106,6 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1shift__left_3_0164_u_l_l_01_4.html">seq::detail::shift_left&lt; 64ULL &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__list__chunk.html">seq::detail::base_list_chunk&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1chunk__proxy.html">seq::detail::chunk_proxy&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1chunk__padding__base.html">seq::detail::chunk_padding_base&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1chunk__padding.html">seq::detail::chunk_padding&lt; T, Size &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1chunk__padding_3_01_t_00_010_01_4.html">seq::detail::chunk_padding&lt; T, 0 &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1list__chunk.html">seq::detail::list_chunk&lt; T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,7 +133,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator_1_1_data.html">seq::detail::sequence_ra_iterator&lt; List &gt;::Data</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html">seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">sequence is an ordered container supporting constant time insertion at both end and constant removal anywhere.  <a href="classseq_1_1sequence.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">sequence is an ordered container supporting constant time insertion at both end and constant time removal anywhere.  <a href="classseq_1_1sequence.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__relocatable_3_01sequence_3_01_t_00_01_al_00_01_l_00_01_a_01_4_01_4.html">seq::is_relocatable&lt; sequence&lt; T, Al, L, A &gt; &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization of <a class="el" href="structseq_1_1is__relocatable.html" title="Type trait telling if a class is relocatable or not.">is_relocatable</a> for sequence type.  <a href="structseq_1_1is__relocatable_3_01sequence_3_01_t_00_01_al_00_01_l_00_01_a_01_4_01_4.html#details">More...</a><br /></td></tr>
@@ -190,7 +183,13 @@ Functions</h2></td></tr>
 <tr class="memitem:a59987d94d05bfef3da2943539d4e2076"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a59987d94d05bfef3da2943539d4e2076">seq::detail::operator-</a> (const sequence_iterator&lt; List &gt; &amp;it, typename sequence_iterator&lt; List &gt;::difference_type diff) noexcept -&gt; sequence_iterator&lt; List &gt;</td></tr>
 <tr class="separator:a59987d94d05bfef3da2943539d4e2076"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>MIT License</p>
+<p>Copyright (c) 2022 Victor Moncada <a href="#" onclick="location.href='mai'+'lto:'+'vtr'+'.m'+'onc'+'ad'+'a@g'+'ma'+'il.'+'co'+'m'; return false;">vtr.m<span style="display: none;">.nosp@m.</span>onca<span style="display: none;">.nosp@m.</span>da@gm<span style="display: none;">.nosp@m.</span>ail.<span style="display: none;">.nosp@m.</span>com</a></p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
