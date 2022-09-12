@@ -21,9 +21,9 @@ The bits module provides several portable low-level functions for bits manipulat
 	-	seq::static_bit_scan_reverse: index of the highest set bit at compile time
 	-	seq::count_digits_base_10: number of digits to represent an integer in base 10
 	-	seq::nth_bit_set: index of the nth set bit in a 64 bits word
-	-	seq::bswap_16: byte swap for 16 bits word
-	-	seq::bswap_32: byte swap for 32 bits word
-	-	seq::bswap_64: byte swap for 64 bits word
+	-	seq::byte_swap_16: byte swap for 16 bits word
+	-	seq::byte_swap_32: byte swap for 32 bits word
+	-	seq::byte_swap_64: byte swap for 64 bits word
 
 See functions documentation for more details.
 */
@@ -1019,7 +1019,7 @@ namespace seq
 
 	/// SwapByteOrder_16 - This function returns a byte-swapped representation of
 	/// the 16-bit argument.
-	inline auto bswap_16(std::uint16_t value) -> std::uint16_t {
+	inline auto byte_swap_16(std::uint16_t value) -> std::uint16_t {
 #if defined(_MSC_VER) && !defined(_DEBUG)
 		return _byteswap_ushort(value);
 #else
@@ -1029,7 +1029,7 @@ namespace seq
 
 	/// SwapByteOrder_32 - This function returns a byte-swapped representation of
 	/// the 32-bit argument.
-	inline auto bswap_32(std::uint32_t value) -> std::uint32_t {
+	inline auto byte_swap_32(std::uint32_t value) -> std::uint32_t {
 #if  defined(__GNUC__) && (__GNUC__>=4 && __GNUC_MINOR__>=3) && !defined(__ICC)
 		return __builtin_bswap32(value);
 #elif defined(__APPLE__)
@@ -1052,7 +1052,7 @@ namespace seq
 
 	/// SwapByteOrder_64 - This function returns a byte-swapped representation of
 	/// the 64-bit argument.
-	inline auto bswap_64(std::uint64_t value) -> std::uint64_t {
+	inline auto byte_swap_64(std::uint64_t value) -> std::uint64_t {
 #if  defined(__GNUC__) && (__GNUC__>=4 && __GNUC_MINOR__>=3) && !defined(__ICC)
 		return __builtin_bswap64(value);
 #elif defined(__APPLE__)
@@ -1084,7 +1084,7 @@ namespace seq
 	inline void write_LE_16(void* dst, std::uint16_t value)
 	{
 #if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
-		value = bswap_16(value);
+		value = byte_swap_16(value);
 #endif
 		memcpy(dst, &value, sizeof(std::uint16_t));
 	}
@@ -1092,7 +1092,7 @@ namespace seq
 	inline void write_LE_32(void* dst, std::uint32_t value)
 	{
 #if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
-		value = bswap_32(value);
+		value = byte_swap_32(value);
 #endif
 		memcpy(dst, &value, sizeof(std::uint32_t));
 	}
@@ -1100,7 +1100,7 @@ namespace seq
 	inline void write_LE_64(void* dst, std::uint64_t value)
 	{
 #if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
-		value = bswap_64(value);
+		value = byte_swap_64(value);
 #endif
 		memcpy(dst, &value, sizeof(std::uint64_t));
 	}
@@ -1112,7 +1112,7 @@ namespace seq
 		std::uint16_t value = 0;
 		memcpy(&value, src, sizeof(std::uint16_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
-		value = bswap_16(value);
+		value = byte_swap_16(value);
 #endif
 		return value;
 	}
@@ -1122,7 +1122,7 @@ namespace seq
 		std::uint32_t value = 0;
 		memcpy(&value, src, sizeof(std::uint32_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
-		value = bswap_32(value);
+		value = byte_swap_32(value);
 #endif
 		return value;
 	}
@@ -1132,7 +1132,7 @@ namespace seq
 		std::uint64_t value = 0;
 		memcpy(&value, src, sizeof(std::uint64_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
-		value = bswap_64(value);
+		value = byte_swap_64(value);
 #endif
 		return value;
 	}
@@ -1175,7 +1175,7 @@ namespace seq
 		std::uint16_t value = 0;
 		memcpy(&value, src, sizeof(std::uint16_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
-		value = bswap_16(value);
+		value = byte_swap_16(value);
 #endif
 		return value;
 	}
@@ -1185,7 +1185,7 @@ namespace seq
 		std::uint32_t value = 0;
 		memcpy(&value, src, sizeof(std::uint32_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
-		value = bswap_32(value);
+		value = byte_swap_32(value);
 #endif
 		return value;
 	}
@@ -1195,7 +1195,7 @@ namespace seq
 		std::uint64_t value = 0;
 		memcpy(&value, src, sizeof(std::uint64_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
-		value = bswap_64(value);
+		value = byte_swap_64(value);
 #endif
 		return value;
 	}
@@ -1214,8 +1214,8 @@ namespace seq
 		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_LITTEL_ENDIAN
-		if (sizeof(size_t) == 8) res = bswap_64(res);
-		else res = bswap_32(res);
+		if (sizeof(size_t) == 8) res = byte_swap_64(res);
+		else res = byte_swap_32(res);
 #endif
 		return res;
 	}
@@ -1225,8 +1225,8 @@ namespace seq
 		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
 #if BYTEORDER_ENDIAN != BYTEORDER_BIG_ENDIAN
-		if (sizeof(size_t) == 8) { res = bswap_64(res);
-		} else { res = static_cast<size_t>(bswap_32(static_cast<std::uint32_t>(res)));
+		if (sizeof(size_t) == 8) { res = byte_swap_64(res);
+		} else { res = static_cast<size_t>(byte_swap_32(static_cast<std::uint32_t>(res)));
 }
 #endif
 		return res;
