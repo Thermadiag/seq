@@ -1067,7 +1067,7 @@ namespace seq
 	/// These features do not modify the requirements of held types: they must be at least move only contructible.
 	/// hold_any uses type erasure to provide custom behavior based on held object type, and the additional
 	/// functions like streaming or comparison support are implemented if the type supports them. If not, the
-	/// corresponding functions with throw a std::bad_function_call exception:
+	/// corresponding functions will throw a std::bad_function_call exception:
 	/// 
 	/// \code{.cpp}
 	/// 
@@ -1107,7 +1107,7 @@ namespace seq
 	/// Casting
 	/// -------
 	/// 
-	/// hold_any can be cast to another type using either hold_any::cast() function or seq::any_cast() (similar to std::any_cast).
+	/// hold_any can be casted to another type using either hold_any::cast() function or seq::any_cast() (similar to std::any_cast).
 	/// When casting to the same type as the underlying object, it is possible to retrieve a reference to the object:
 	/// 
 	/// \code{.cpp}
@@ -1307,6 +1307,7 @@ namespace seq
 	///		-	A and B hold the same type and object(A) < object(B). If the type does not provide a less than operator, throw std::bad_function_call.
 	///		-	They both hold an arithmetic value of possibly different types, and object(A) < object(B).
 	///		-	They both hold a string like object (std::string, seq::tstring, seq::tstring_view, std::string_view, char*, const char*) and object(A) < object(B).
+	///		-	For totally unrelated types, returns get_type_id(A) < get_type_id(B).
 	///  
 	/// It is possible to register a comparison function for unrelated types using seq::register_any_less_comparison() function.
 	/// 
