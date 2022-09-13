@@ -122,7 +122,7 @@ namespace seq
 #if defined( WIN32) || defined(_WIN32)
 
 
-		using high_def_timer = struct high_def_timer {
+		/*using high_def_timer = struct high_def_timer {
 			LARGE_INTEGER timer;
 			LARGE_INTEGER freq;
 		};
@@ -139,12 +139,11 @@ namespace seq
 			QueryPerformanceCounter(&end);
 			std::uint64_t quad = end.QuadPart - timer->timer.QuadPart;
 			return (quad * 1000000ULL) / timer->freq.QuadPart;
-		}
-
+		}*/
 #else
 
 
-		typedef struct timespec high_def_timer;
+		/*typedef struct timespec high_def_timer;
 
 		inline void start_timer(high_def_timer* timer)
 		{
@@ -156,16 +155,15 @@ namespace seq
 			struct timespec end_time;
 			clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end_time);
 			return (end_time.tv_sec - timer->tv_sec) * (std::uint64_t)1e6 + (end_time.tv_nsec - timer->tv_nsec) / 1000ULL;
-		}
+		}*/
 
 #endif
 
-		static inline auto get_timer() -> high_def_timer&
+		/*static inline auto get_timer() -> high_def_timer&
 		{
 			static thread_local high_def_timer timer;
 			return timer;
-		}
-
+		}*/
 		static inline std::chrono::time_point<std::chrono::high_resolution_clock>& get_clock()
 		{
 			thread_local std::chrono::time_point<std::chrono::high_resolution_clock> clock;
