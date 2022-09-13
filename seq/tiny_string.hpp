@@ -691,33 +691,35 @@ namespace seq
 			size_t new_capacity = capacity_for_length(d_data.d_union.non_sso.size + 1);
 			// might throw, fine
 			char* ptr = d_data.allocate(new_capacity);
-			memcpy(ptr, d_data.d_union.non_sso.data, d_data.d_union.non_sso.size);
+			detail::unsafe_char_memcpy(ptr, d_data.d_union.non_sso.data, d_data.d_union.non_sso.size, d_data.d_union.non_sso.exact_size);
 			d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal());
 			d_data.d_union.non_sso.data = ptr;
 			d_data.d_union.non_sso.exact_size = 0;
 		}
-		char* push_back_sso() 
+		void push_back_sso(char c)
 		{
 			if (d_data.d_union.sso.size < max_static_size) {
 				// SSO push back
-				return d_data.d_union.sso.data + d_data.d_union.sso.size++;
+				d_data.d_union.sso.data[d_data.d_union.sso.size++] = c;
 			}
 			else {
 				// switch from sso to non sso, might throw
 				resize_uninitialized(d_data.d_union.sso.size + 1, true);
-				return d_data.d_union.non_sso.data + d_data.d_union.non_sso.size - 1;
+				d_data.d_union.non_sso.data[d_data.d_union.non_sso.size - 1] = c;
 			}
 		}
 
-		SEQ_NOINLINE(char*) push_back_complex()
+		void push_back_complex(char c)
 		{
 			// complex push_back, when we reach a power of 2 or the transition between SSO / non SSO
 			if (SEQ_UNLIKELY(is_sso())) {
-				return push_back_sso();
+				push_back_sso(c);
 			}
 			else {
 				extend_buffer_for_push_back();
-				return d_data.d_union.non_sso.data + d_data.d_union.non_sso.size++;
+				char* p = d_data.d_union.non_sso.data + d_data.d_union.non_sso.size++;
+				p[0] = c;
+				p[1] = 0;
 			}
 		}
 
@@ -1255,13 +1257,16 @@ namespace seq
 		}
 	
 		/// @brief Append character to the back of the string
-		SEQ_ALWAYS_INLINE void push_back(char c) 
+		SEQ_ALWAYS_INLINE void push_back(char c)
 		{
-			char* p = (!is_sso() && !(d_data.d_union.non_sso.exact_size || isPow2(d_data.d_union.non_sso.size + 1))) ?
-				d_data.d_union.non_sso.data + d_data.d_union.non_sso.size++ :
-				push_back_complex();
-			p[0] = c;
-			p[1] = 0;
+			if (SEQ_LIKELY(!is_sso() && !(d_data.d_union.non_sso.exact_size || isPow2(d_data.d_union.non_sso.size + 1)))) {
+				char* p = d_data.d_union.non_sso.data + d_data.d_union.non_sso.size++;
+				p[0] = c;
+				p[1] = 0;
+			}
+			else {
+				push_back_complex(c);
+			}
 		}
 		/// @brief Removes the last character of the string
 		SEQ_ALWAYS_INLINE void pop_back()
