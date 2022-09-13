@@ -665,6 +665,7 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE void setAbsolutePos(std::size_t abs_pos) noexcept 
 			{
+				SEQ_ASSERT_DEBUG(abs_pos <= (data->size), "invalid iterator position");
 				if (SEQ_UNLIKELY(abs_pos == data->size)) {
 					node = data->end;
 					pos = node->start;
@@ -698,6 +699,7 @@ namespace seq
 				}
 			}
 			SEQ_ALWAYS_INLINE auto operator++() noexcept -> sequence_ra_iterator& {
+				SEQ_ASSERT_DEBUG(abs_pos < static_cast<difference_type>(data->size), "invalid iterator position");
 				++pos;
 				++abs_pos;
 				if (pos >= node->end) {
@@ -723,6 +725,7 @@ namespace seq
 				}
 			}
 			SEQ_ALWAYS_INLINE auto operator--() noexcept -> sequence_ra_iterator& {
+				SEQ_ASSERT_DEBUG(abs_pos > 0, "invalid iterator position");
 				--pos;
 				--abs_pos;
 				if (/*pos == (pos_type)-1 || !((node->used & (1ULL << pos)))*/ pos < node->start ) {
@@ -1174,13 +1177,13 @@ namespace seq
 		}
 
 		// Returns pointer to back value
-		SEQ_ALWAYS_INLINE auto back_ptr() const noexcept -> const T* { return &((static_cast<chunk_type*>(d_data->end.prev))->back()); }
+		SEQ_ALWAYS_INLINE auto back_ptr() const noexcept -> const T* { SEQ_ASSERT_DEBUG(d_data->size > 0,"empty container"); return &((static_cast<chunk_type*>(d_data->end.prev))->back()); }
 		// Returns pointer to front value
-		SEQ_ALWAYS_INLINE auto front_ptr() const noexcept -> const T* { return &((static_cast<chunk_type*>(d_data->end.next))->front()); }
+		SEQ_ALWAYS_INLINE auto front_ptr() const noexcept -> const T* { SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container"); return &((static_cast<chunk_type*>(d_data->end.next))->front()); }
 		// Returns pointer to back value
-		SEQ_ALWAYS_INLINE auto back_ptr() noexcept -> T* { return &((static_cast<chunk_type*>(d_data->end.prev))->back()); }
+		SEQ_ALWAYS_INLINE auto back_ptr() noexcept -> T* { SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container"); return &((static_cast<chunk_type*>(d_data->end.prev))->back()); }
 		// Returns pointer to front value
-		SEQ_ALWAYS_INLINE auto front_ptr() noexcept -> T* { return &((static_cast<chunk_type*>(d_data->end.next))->front()); }
+		SEQ_ALWAYS_INLINE auto front_ptr() noexcept -> T* { SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container"); return &((static_cast<chunk_type*>(d_data->end.next))->front()); }
 
 		// Assign  range for non random access iterator
 		template<class Iter, class Cat>
@@ -1642,16 +1645,16 @@ namespace seq
 		auto capacity() const noexcept -> size_t { return d_data ? d_data->get_capacity() * 64ULL : 0; }
 
 		/// @brief Returns the back sequence value.
-		auto back() const noexcept -> const T& { return (static_cast<chunk_type*>(d_data->end.prev))->back(); }
+		auto back() const noexcept -> const T& { SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container"); return (static_cast<chunk_type*>(d_data->end.prev))->back(); }
 
 		/// @brief Returns the back sequence value.
-		auto back() noexcept -> T& { return (static_cast<chunk_type*>(d_data->end.prev))->back(); }
+		auto back() noexcept -> T& { SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container"); return (static_cast<chunk_type*>(d_data->end.prev))->back(); }
 
 		/// @brief Returns the front sequence value.
-		auto front() const noexcept -> const T& { return (static_cast<chunk_type*>(d_data->end.next))->front(); }
+		auto front() const noexcept -> const T& { SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container"); return (static_cast<chunk_type*>(d_data->end.next))->front(); }
 
 		/// @brief Returns the front sequence value.
-		auto front() noexcept -> T& { return (static_cast<chunk_type*>(d_data->end.next))->front(); }
+		auto front() noexcept -> T& { SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container"); return (static_cast<chunk_type*>(d_data->end.next))->front(); }
 
 		/// @brief Clears the contents.
 		/// Erases all elements from the container. After this call, size() returns zero.

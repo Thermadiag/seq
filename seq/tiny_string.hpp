@@ -1300,22 +1300,36 @@ namespace seq
 		/// @brief Returns the character at pos
 		char operator[](size_t pos) const noexcept 
 		{
+			SEQ_ASSERT_DEBUG(pos < size(), "invalid position");
 			return data()[pos];
 		}
 		/// @brief Returns the character at pos
 		char &operator[](size_t pos) noexcept
 		{
+			SEQ_ASSERT_DEBUG(pos < size(), "invalid position");
 			return data()[pos];
 		}
 
 		/// @brief Returns the last character of the string
-		char back() const noexcept { return is_sso() ? d_data.d_union.sso.data[d_data.d_union.sso.size-1] : d_data.d_union.non_sso.data[d_data.d_union.non_sso.size-1]; }
+		char back() const noexcept { 
+			SEQ_ASSERT_DEBUG(size() > 0, "empty container");
+			return is_sso() ? d_data.d_union.sso.data[d_data.d_union.sso.size-1] : d_data.d_union.non_sso.data[d_data.d_union.non_sso.size-1]; 
+		}
 		/// @brief Returns the last character of the string
-		char &back() noexcept { return is_sso() ? d_data.d_union.sso.data[d_data.d_union.sso.size - 1] : d_data.d_union.non_sso.data[d_data.d_union.non_sso.size - 1]; }
+		char &back() noexcept { 
+			SEQ_ASSERT_DEBUG(size() > 0, "empty container"); 
+			return is_sso() ? d_data.d_union.sso.data[d_data.d_union.sso.size - 1] : d_data.d_union.non_sso.data[d_data.d_union.non_sso.size - 1]; 
+		}
 		/// @brief Returns the first character of the string
-		char front() const noexcept { return is_sso() ? d_data.d_union.sso.data[0] : d_data.d_union.non_sso.data[0]; }
+		char front() const noexcept { 
+			SEQ_ASSERT_DEBUG(size() > 0, "empty container"); 
+			return is_sso() ? d_data.d_union.sso.data[0] : d_data.d_union.non_sso.data[0]; 
+		}
 		/// @brief Returns the first character of the string
-		char &front() noexcept { return is_sso() ? d_data.d_union.sso.data[0] : d_data.d_union.non_sso.data[0]; }
+		char &front() noexcept { 
+			SEQ_ASSERT_DEBUG(size() > 0, "empty container"); 
+			return is_sso() ? d_data.d_union.sso.data[0] : d_data.d_union.non_sso.data[0]; 
+		}
 	
 		/// @brief Append character to the back of the string
 		SEQ_ALWAYS_INLINE void push_back(char c) 

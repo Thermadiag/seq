@@ -28,6 +28,7 @@ list(APPEND headers "${CMAKE_CURRENT_SOURCE_DIR}/seq/any.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/testing.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/tiered_vector.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/tiny_string.hpp"
+					"${CMAKE_CURRENT_SOURCE_DIR}/seq/tiny_string2.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/type_traits.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/utils.hpp"
 					)

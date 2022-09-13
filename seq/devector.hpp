@@ -1126,19 +1126,19 @@ namespace seq
 		auto data() const noexcept -> const T* { return this->start; }
 
 		/// @brief Returns a reference to the back element
-		auto back() noexcept -> T& { return *(this->base_type::end -1); }
+		auto back() noexcept -> T& { SEQ_ASSERT_DEBUG(size() > 0, "empty container"); return *(this->base_type::end -1); }
 		/// @brief Returns a reference to the back element
-		auto back() const noexcept -> const T& { return *(this->base_type::end - 1); }
+		auto back() const noexcept -> const T& { SEQ_ASSERT_DEBUG(size() > 0, "empty container"); return *(this->base_type::end - 1); }
 
 		/// @brief Returns a reference to the front element
-		auto front() noexcept -> T& { return *(this->start); }
+		auto front() noexcept -> T& { SEQ_ASSERT_DEBUG(size() > 0, "empty container"); return *(this->start); }
 		/// @brief Returns a reference to the front element
-		auto front() const noexcept -> const T& { return *(this->start); }
+		auto front() const noexcept -> const T& { SEQ_ASSERT_DEBUG(size() > 0, "empty container"); return *(this->start); }
 
 		/// @brief Returns a reference to the element at pos
-		auto operator[](size_t pos) const noexcept -> const T& { return this->start[pos]; }
+		auto operator[](size_t pos) const noexcept -> const T& { SEQ_ASSERT_DEBUG(pos < size(), "invalid position"); return this->start[pos]; }
 		/// @brief Returns a reference to the element at pos
-		auto operator[](size_t pos) noexcept -> T& { return this->start[pos]; }
+		auto operator[](size_t pos) noexcept -> T& { SEQ_ASSERT_DEBUG(pos < size(), "invalid position"); return this->start[pos]; }
 
 		/// @brief Returns a reference to the element at pos.
 		/// Throw std::out_of_range if pos is invalid. 

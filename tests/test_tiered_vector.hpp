@@ -154,9 +154,9 @@ void test_tiered_vector(size_t count = 5000000)
 		
 	SEQ_TEST(tvec.begin() == tvec.end());
 	SEQ_TEST(tvec.size() == 0);
-	SEQ_TEST(tvec.lower_bound(0) == 0);
-	SEQ_TEST(tvec.upper_bound(0) == 0);
-	SEQ_TEST(tvec.binary_search(0) == 0);
+	//SEQ_TEST(tvec.lower_bound(0) == 0);
+	//SEQ_TEST(tvec.upper_bound(0) == 0);
+	//SEQ_TEST(tvec.binary_search(0) == 0);
 
 	tvec.resize(10);
 	SEQ_TEST(tvec.size() == 10);

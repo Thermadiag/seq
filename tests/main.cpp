@@ -41,7 +41,6 @@ using namespace seq;
 auto  main  (int  /*unused*/, char**  /*unused*/) -> int
 {
 	
-	
 	SEQ_TEST_MODULE(format, test_format());
 	SEQ_TEST_MODULE(any, test_any());
 	SEQ_TEST_MODULE(tiered_vector< seq::OptimizeForMemory>, test_tiered_vector<size_t, seq::OptimizeForMemory>(500000));

@@ -52,7 +52,7 @@ namespace seq
 			size_t elems_per_chunk;			// number of T elements per chunk
 			size_t tail;					//index of first free chunk in case they are all full
 			size_t total_T;
-			Allocator allocator;			//usually std::allocator< list_chunk<T> >
+			Allocator *allocator;			//usually std::allocator< list_chunk<T> >
 			T* chunks;			//pointer to the chunk array
 			T* first_free;		//first free chunk
 
@@ -75,14 +75,14 @@ namespace seq
 			auto indexOfChunk(const T* ch) const noexcept -> size_t {
 				return (ch - chunks) / T_per_chunk();
 			}
-			explicit deque_chunk_pool(const Allocator& al) noexcept
-				: count(0), used(0), elems_per_chunk(0), tail(0), total_T(0), allocator(al), chunks(NULL), first_free(NULL) {}
-			deque_chunk_pool(const Allocator& al, size_t elems, size_t elems_per_chunk)
-				: count(0), used(0), elems_per_chunk(0), tail(0), total_T(0), allocator(al), chunks(NULL), first_free(NULL) {
+			explicit deque_chunk_pool( Allocator& al) noexcept
+				: count(0), used(0), elems_per_chunk(0), tail(0), total_T(0), allocator(&al), chunks(NULL), first_free(NULL) {}
+			deque_chunk_pool( Allocator& al, size_t elems, size_t elems_per_chunk)
+				: count(0), used(0), elems_per_chunk(0), tail(0), total_T(0), allocator(&al), chunks(NULL), first_free(NULL) {
 				//resize(elems,elems_per_chunk);
 				if (elems) {
 					this->elems_per_chunk = elems_per_chunk;
-					chunks = allocator.allocate(elems * T_per_chunk());
+					chunks = allocator->allocate(elems * T_per_chunk());
 					count = elems;
 					total_T = count * T_per_chunk();
 					set_next(chunks, NULL);
@@ -94,7 +94,7 @@ namespace seq
 			~deque_chunk_pool() noexcept {
 				if (chunks) {
 					//free array of dchunk<T>
-					allocator.deallocate(chunks, total_T);
+					allocator->deallocate(chunks, total_T);
 				}
 			}
 			deque_chunk_pool(deque_chunk_pool&& other) noexcept :count(0), used(0), elems_per_chunk(0), chunks(NULL), first_free(NULL) {
@@ -178,25 +178,24 @@ namespace seq
 		/// Uses the global SEQ_GROW_FACTOR value
 		///
 		template< class T, class Allocator = std::allocator<T> >
-		struct deque_chunk_pool_alloc
+		struct deque_chunk_pool_alloc : public Allocator
 		{
 			std::vector< deque_chunk_pool<T, Allocator> > pools; //vector of deque_chunk_pool
-			Allocator allocator;
 			size_t capacity; //full capacity in terms of T
 			size_t objects; //number of allocated T
 			size_t elems_per_chunks;
 		public:
-			deque_chunk_pool_alloc() noexcept :capacity(0), objects(0), elems_per_chunks(0) {}
-			explicit deque_chunk_pool_alloc(const Allocator& alloc) noexcept :allocator(alloc), capacity(0), objects(0), elems_per_chunks(0) {}
-			deque_chunk_pool_alloc(const Allocator& alloc, size_t elem_count, size_t elems_per_chunks) :allocator(alloc), capacity(0), objects(0), elems_per_chunks(0) {
+			deque_chunk_pool_alloc() noexcept : Allocator(), capacity(0), objects(0), elems_per_chunks(0) {}
+			explicit deque_chunk_pool_alloc(const Allocator& alloc) noexcept :Allocator(alloc), capacity(0), objects(0), elems_per_chunks(0) {}
+			deque_chunk_pool_alloc(const Allocator& alloc, size_t elem_count, size_t elems_per_chunks) :Allocator(alloc), capacity(0), objects(0), elems_per_chunks(0) {
 				resize(elem_count, elems_per_chunks);
 			}
 			deque_chunk_pool_alloc(deque_chunk_pool_alloc&& other) noexcept
-				:pools(std::move(other.pools)), allocator(other.allocator), capacity(other.capacity), objects(other.objects), elems_per_chunks(other.elems_per_chunks) {
+				:Allocator(std::move(static_cast<Allocator&>(other))), pools(std::move(other.pools)),  capacity(other.capacity), objects(other.objects), elems_per_chunks(other.elems_per_chunks) {
 				other.capacity = other.objects = 0;
 			}
 			deque_chunk_pool_alloc(deque_chunk_pool_alloc&& other, const Allocator& alloc) noexcept
-				:pools(std::move(other.pools)), allocator(alloc), capacity(other.capacity), objects(other.objects) {
+				:Allocator(alloc), pools(std::move(other.pools)), capacity(other.capacity), objects(other.objects) {
 				other.capacity = other.objects = other.elems_per_chunks = 0;
 			}
 			// disable copy, only allox move semantic
@@ -210,18 +209,18 @@ namespace seq
 
 			auto operator=(deque_chunk_pool_alloc&& other) noexcept -> deque_chunk_pool_alloc& {
 				pools = std::move(other.pools);
-				allocator = std::move(other.allocator);
+				static_cast<Allocator&>(*this) = std::move(static_cast<Allocator&>(other));
 				capacity = (other.capacity);
 				objects = (other.objects);
 				elems_per_chunks = other.elems_per_chunks;
 				other.capacity = other.objects = other.elems_per_chunks = 0;
 				return *this;
 			}
-			auto get_allocator() const noexcept -> Allocator {
-				return allocator;
+			auto get_allocator() const noexcept -> const Allocator& {
+				return *this;
 			}
 			auto get_allocator() noexcept -> Allocator& {
-				return allocator;
+				return *this;
 			}
 			// number of free list_chunk<T>
 			auto free_count() const noexcept -> std::size_t { return capacity - objects; }
@@ -237,7 +236,7 @@ namespace seq
 				if (count > capacity) {
 					size_t last_cap = pools.size() ? pools.back().count : 0;
 					size_t extend = std::max(count - capacity, static_cast<size_t>(last_cap * SEQ_GROW_FACTOR));
-					pools.push_back(deque_chunk_pool<T, Allocator>(allocator, extend, elems_per_chunks));
+					pools.push_back(deque_chunk_pool<T, Allocator>(*this, extend, elems_per_chunks));
 					capacity += extend;
 				}
 			}
@@ -247,11 +246,11 @@ namespace seq
 			{
 				if (capacity == objects) {
 					//full, create a new deque_chunk_pool
-					if (pools.empty()) pools.push_back(deque_chunk_pool<T, Allocator>(allocator, 1, elems_per_chunks));
+					if (pools.empty()) pools.push_back(deque_chunk_pool<T, Allocator>(*this, 1, elems_per_chunks));
 					else {
 						size_t to_allocate = static_cast<size_t>( capacity * SEQ_GROW_FACTOR);
 						if (!to_allocate) to_allocate = 1;
-						pools.push_back(deque_chunk_pool<T, Allocator>(allocator, to_allocate, elems_per_chunks));
+						pools.push_back(deque_chunk_pool<T, Allocator>(*this, to_allocate, elems_per_chunks));
 					}
 					capacity += pools.back().count;
 				}
@@ -311,25 +310,24 @@ namespace seq
 
 		/// Bucket allocator/deallocator class for seq::tiered_vector
 		template<class T, class Allocator, class Bucket>
-		struct DequeBucketAllocator
+		struct DequeBucketAllocator 
 		{
 			using BucketType = Bucket;
 			using MemPoolType = deque_chunk_pool_alloc<T, Allocator>;
 			template< class U>
 			using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 			static const size_t start_data_T = BucketType::start_data_T;
-			Allocator allocator;
-			int bucket_size;
+			
 			MemPoolType pool;
+			int bucket_size;
 
-			explicit DequeBucketAllocator(const Allocator& al) :allocator(al), bucket_size(0), pool(al) {}
-			explicit DequeBucketAllocator(Allocator&& al) :allocator(std::move(al)), bucket_size(0), pool(al) {}
-			DequeBucketAllocator(DequeBucketAllocator&& other) noexcept : allocator(std::move(other.allocator)), bucket_size(other.bucket_size), pool(std::move(other.pool)) {}
-			DequeBucketAllocator(DequeBucketAllocator&& other, const Allocator& al) noexcept : allocator(al), bucket_size(other.bucket_size), pool(std::move(other.pool)) {}
+			explicit DequeBucketAllocator(const Allocator& al) :pool(al), bucket_size(0) {}
+			explicit DequeBucketAllocator(Allocator&& al) : pool(al), bucket_size(0) {}
+			DequeBucketAllocator(DequeBucketAllocator&& other) noexcept : pool(std::move(other.pool)), bucket_size(other.bucket_size) {}
+			DequeBucketAllocator(DequeBucketAllocator&& other, const Allocator& al) noexcept : pool(std::move(other.pool)), bucket_size(other.bucket_size) {}
 			~DequeBucketAllocator() {}
 
 			auto operator=(DequeBucketAllocator&& other) noexcept -> DequeBucketAllocator& {
-				allocator = (std::move(other.allocator));
 				bucket_size = (other.bucket_size);
 				pool = (std::move(other.pool));
 				return *this;
@@ -338,11 +336,10 @@ namespace seq
 			auto alloc(int max_size) -> BucketType* {
 				if (max_size != bucket_size) {
 					//new max size, init
-					pool = std::move(MemPoolType(allocator, 1, start_data_T + max_size));
+					pool = std::move(MemPoolType(pool.get_allocator(), 1, start_data_T + max_size));
 					bucket_size = max_size;
 				}
 				//alloc, construct, return
-				RebindAlloc< BucketType> alloc = allocator;
 				BucketType* res = reinterpret_cast<BucketType*>(pool.allocate());
 				construct_ptr(res, max_size);
 				return res;
@@ -350,26 +347,24 @@ namespace seq
 			auto alloc(int max_size, const T& val) -> BucketType* {
 				if (max_size != bucket_size) {
 					//new max size, init
-					pool = std::move(MemPoolType(allocator, 1, start_data_T + max_size));
+					pool = std::move(MemPoolType(pool.get_allocator(), 1, start_data_T + max_size));
 					bucket_size = max_size;
 				}
 				//alloc, construct, return
-				RebindAlloc< BucketType> alloc = allocator;
 				BucketType* res = reinterpret_cast<BucketType*>(pool.allocate());
-				construct_ptr(res, max_size, val, allocator);
+				construct_ptr(res, max_size, val, pool.get_allocator());
 				return res;
 			}
 			void dealloc(BucketType* buff) {
 				//destroy and dealloc bucket
-				buff->destroy(allocator);
+				buff->destroy(pool.get_allocator());
 				pool.deallocate(reinterpret_cast<T*>(buff));
 			}
 			template<class StoreBucket>
 			void destroy_all(StoreBucket* bs, std::size_t count) {
 				//destroy and dealloc all buckets
-				RebindAlloc< BucketType> alloc = allocator;
 				for (std::size_t i = 0; i < count; ++i) {
-					bs[i].bucket->destroy(allocator);
+					bs[i].bucket->destroy(pool.get_allocator());
 				}
 			}
 			template<class StoreBucket>
@@ -379,7 +374,7 @@ namespace seq
 			void init(std::size_t bcount, int bsize)
 			{
 				//initialize the mem pool from a bucket count and bucket size
-				pool = std::move(MemPoolType(allocator, bcount, start_data_T + bsize));
+				pool = std::move(MemPoolType(pool.get_allocator(), bcount, start_data_T + bsize));
 				bucket_size = bsize;
 			}
 
@@ -387,12 +382,15 @@ namespace seq
 			{
 				if (new_bucket_size && pool.elems_per_chunks == 0) {
 					//initialize pool first
-					pool = std::move(MemPoolType(allocator, 1, start_data_T + new_bucket_size));
+					pool = std::move(MemPoolType(pool.get_allocator(), 1, start_data_T + new_bucket_size));
 					bucket_size = new_bucket_size;
 				}
 				//try to steal some memory from another DequeBucketAllocator before it is destroyed
 				pool.recyclate(old.pool);
 			}
+
+			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return pool.get_allocator(); }
+			SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return pool.get_allocator(); }
 		};
 	}//end namespace detail
 

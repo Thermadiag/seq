@@ -165,23 +165,32 @@ namespace seq
 			static thread_local high_def_timer timer;
 			return timer;
 		}
+
+		static inline std::chrono::time_point<std::chrono::high_resolution_clock>& get_clock()
+		{
+			thread_local std::chrono::time_point<std::chrono::high_resolution_clock> clock;
+			return clock;
+		}
 	}
 
 
 	/// @brief For tests only, reset timer for calling thread
 	void tick()
 	{
-		detail::start_timer(&detail::get_timer());
+		detail::get_clock() = std::chrono::high_resolution_clock::now();
+		//detail::start_timer(&detail::get_timer());
 	}
 	/// @brief For tests only, returns elapsed microseconds since last call to tick()
 	auto tock_us() -> std::uint64_t
 	{
-		return detail::elapsed_microseconds(&detail::get_timer());
+		return  std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::high_resolution_clock::now() - detail::get_clock()).count();
+		//return detail::elapsed_microseconds(&detail::get_timer());
 	}
 	/// @brief For tests only, returns elapsed milliseconds since last call to tick()
 	auto tock_ms() -> std::uint64_t
 	{
-		return detail::elapsed_microseconds(&detail::get_timer()) / 1000ULL;
+		return  std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - detail::get_clock()).count();
+		//return detail::elapsed_microseconds(&detail::get_timer()) / 1000ULL;
 	}
 	
 	/// @brief Similar to C++11 (and deprecated) std::random_shuffle
@@ -194,64 +203,15 @@ namespace seq
 	}
 
 
-#if defined( WIN32) || defined(_WIN32)
-
-		/// @brief Equivalent to std::system without a command prompt on Windows
-		auto system(const char* command) -> int
-		{
-			// Windows has a system() function which works, but it opens a command prompt window.
-
-			char * tmp_command;
-			char * cmd_exe_path;
-			DWORD ret = 0;
-			LPDWORD         ret_val = &ret;
-			size_t          len = 0;
-			PROCESS_INFORMATION process_info = { nullptr,nullptr,0,0 };
-			STARTUPINFOA        startup_info;// = { 0 };
-			memset(&startup_info, 0, sizeof(startup_info));
-
-
-			len = strlen(command);
-			tmp_command = static_cast<char*>(malloc(len + 4));
-			tmp_command[0] = 0x2F; // '/'
-			tmp_command[1] = 0x63; // 'c'
-			tmp_command[2] = 0x20; // <space>;
-			memcpy(tmp_command + 3, command, len + 1);
-
-			startup_info.cb = sizeof(STARTUPINFOA);
-#ifdef _MSC_VER
-#pragma warning(suppress : 4996)
-			cmd_exe_path = getenv("COMSPEC");
-#else
-			cmd_exe_path = getenv("COMSPEC");
-#endif
-			
-			_flushall();  // required for Windows system() calls, probably a good idea here too
-
-			if (CreateProcessA(cmd_exe_path, tmp_command, nullptr, nullptr, 0, CREATE_NO_WINDOW, nullptr, nullptr, &startup_info, &process_info) != 0) {
-				WaitForSingleObject(process_info.hProcess, INFINITE);
-				GetExitCodeProcess(process_info.hProcess, ret_val);
-				CloseHandle(process_info.hProcess);
-				CloseHandle(process_info.hThread);
-			}
-
-			free(tmp_command);
-
-			return ret;
-		}
-#else
-#define system std::system
-#endif
-
-		void reset_memory_usage()
-		{
+	void reset_memory_usage()
+	{
 #if defined( WIN32) || defined(_WIN32)
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 #endif
-		}
+	}
 
-		auto get_memory_usage() -> size_t
-		{
+	auto get_memory_usage() -> size_t
+	{
 #if defined( WIN32) || defined(_WIN32)
 			Sleep(50);
 			HANDLE currentProcessHandle = GetCurrentProcess();
@@ -266,7 +226,7 @@ namespace seq
 			return 0;
 #endif
 
-		}
+	}
 
 
 

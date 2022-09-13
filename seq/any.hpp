@@ -1643,6 +1643,7 @@ namespace seq
 		static auto get_type() -> type_info_type* {
 			struct Holder
 			{
+				// Set the type id at first call to this function
 				typed_type_info_type<T> instance;
 				Holder() {
 					instance.d_type_id = get_type_id<T>();

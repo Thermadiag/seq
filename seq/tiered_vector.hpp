@@ -36,7 +36,7 @@
 #ifndef SEQ_MIN_BUCKET_SIZE
 /// @brief Minimum bucket size for given type
 #define SEQ_MIN_BUCKET_SIZE(T) \
-	(sizeof(T) <= 4 ? 64 : (sizeof(T) <= 8 ? 32 : (sizeof(T) <= 16 ? 16 : 8)))
+	(sizeof(T) <= 4 ? 64 : (sizeof(T) <= 8 ? 32 : (sizeof(T) <= 16 ? 16 : (sizeof(T) <= 64 ? 4 : 2))))
 
 #endif
 
@@ -102,6 +102,8 @@ namespace seq
 
 			SEQ_ALWAYS_INLINE void setPos(difference_type new_pos) noexcept 
 			{
+				SEQ_ASSERT_DEBUG(new_pos >= 0 && new_pos <= static_cast<difference_type>(mgr->d_size), "wrong iterator position");
+
 				size_type front_size = mgr->d_buckets.front()->size;
 				size_type bindex = (new_pos + (mgr->d_bucket_size - front_size)) >> mgr->d_bucket_size_bits;
 				size_type index_in_bucket = (new_pos - (new_pos < static_cast<difference_type>(front_size) ? 0 : front_size)) & mgr->d_bucket_size1;
@@ -158,7 +160,9 @@ namespace seq
 				}
 			}
 			
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> deque_const_iterator& {
+			SEQ_ALWAYS_INLINE auto operator++() noexcept -> deque_const_iterator& 
+			{
+				SEQ_ASSERT_DEBUG(pos < static_cast<difference_type>(mgr->d_size), "increment iterator already at the end");
 				++ptr;
 				++pos;
 				if (SEQ_UNLIKELY(ptr == first_stop )) {
@@ -173,6 +177,7 @@ namespace seq
 			}
 
 			SEQ_ALWAYS_INLINE auto operator--() noexcept -> deque_const_iterator& {
+				SEQ_ASSERT_DEBUG(pos > 0, "increment iterator already at the end");
 				--ptr;
 				--pos;
 				if(SEQ_UNLIKELY(ptr < begin_ptr )) {
@@ -186,6 +191,7 @@ namespace seq
 				return _Tmp;
 			}
 			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference {
+				SEQ_ASSERT_DEBUG(pos >= 0 && pos < static_cast<difference_type>(mgr->d_size), "dereference invalid iterator");
 				return (*bucket)->buffer()[ptr];
 			}
 			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer {
@@ -347,6 +353,7 @@ namespace seq
 		{
 			static const size_t size_T = sizeof(T);
 			static const size_t size_BCB = sizeof(BaseCircularBuffer<T, Allocator>);
+			// Start position for actual data in bytes
 			static const size_t start_data_T = (size_BCB > size_T) ?
 				(size_BCB / size_T + ((size_BCB % size_T) != 0u ? 1 : 0)) :
 				1;
@@ -399,20 +406,20 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto buffer() const noexcept -> const T* { return reinterpret_cast<const T*>(reinterpret_cast<const char*>(this) + start_data); }
 
 			//Pointer on the first data
-			auto begin_ptr() noexcept -> T* { return buffer() + ((begin)&max_size1); }
-			auto begin_ptr() const noexcept -> const T* { return buffer() + ((begin)&max_size1); }
+			SEQ_ALWAYS_INLINE auto begin_ptr() noexcept -> T* { return buffer() + ((begin)&max_size1); }
+			SEQ_ALWAYS_INLINE auto begin_ptr() const noexcept -> const T* { return buffer() + ((begin)&max_size1); }
 			//Pointer on the last data
-			auto last_ptr() noexcept -> T* { return (buffer() + ((begin + size - 1) & max_size1)); }
-			auto last_ptr() const noexcept -> const T* { return (buffer() + ((begin + size - 1) & max_size1)); }
+			SEQ_ALWAYS_INLINE auto last_ptr() noexcept -> T* { return (buffer() + ((begin + size - 1) & max_size1)); }
+			SEQ_ALWAYS_INLINE auto last_ptr() const noexcept -> const T* { return (buffer() + ((begin + size - 1) & max_size1)); }
 			//Index of the first data
-			auto begin_index() const noexcept -> cbuffer_pos { return  (begin)&max_size1; }
+			SEQ_ALWAYS_INLINE auto begin_index() const noexcept -> cbuffer_pos { return  (begin)&max_size1; }
 			// Index of the first stop (either at size or max size)
-			auto first_stop() const noexcept -> cbuffer_pos {
+			SEQ_ALWAYS_INLINE auto first_stop() const noexcept -> cbuffer_pos {
 				cbuffer_pos p = begin_index();
 				return (p + size) > max_size() ? (max_size()) : (p + size);
 			}
 			// Index of the second stop (either at size or max size)
-			auto second_stop() const noexcept -> cbuffer_pos {
+			SEQ_ALWAYS_INLINE auto second_stop() const noexcept -> cbuffer_pos {
 				cbuffer_pos p = begin_index();
 				return (p + size) > max_size() ? (((p + size) & max_size1)) : (p + size);
 			}
@@ -443,13 +450,13 @@ namespace seq
 			}
 
 			// Front/back access
-			auto front() noexcept -> T& { return buffer()[begin]; }
-			auto front() const noexcept -> const T& { return buffer()[begin]; }
-			auto back() noexcept -> T& { return (*this)[size - 1]; }
-			auto back() const noexcept -> const T& { return (*this)[size - 1]; }
+			SEQ_ALWAYS_INLINE auto front() noexcept -> T& { return buffer()[begin]; }
+			SEQ_ALWAYS_INLINE auto front() const noexcept -> const T& { return buffer()[begin]; }
+			SEQ_ALWAYS_INLINE auto back() noexcept -> T& { return (*this)[size - 1]; }
+			SEQ_ALWAYS_INLINE auto back() const noexcept -> const T& { return (*this)[size - 1]; }
 
 			// Initialize a front buffer
-			void init_front() noexcept {
+			SEQ_ALWAYS_INLINE void init_front() noexcept {
 				//init members for front buffer
 				begin = size = 0;
 			}
@@ -1068,57 +1075,55 @@ namespace seq
 		//Bucket allocator/deallocator class.
 		//This version uses the default allocator object passed to the tiered_vector (default).
 		template<class T, class Allocator>
-		struct SmallBucketAllocator
+		struct SmallBucketAllocator : public Allocator
 		{
 			using BucketType = CircularBuffer<T, Allocator>;
 			template< class U>
 			using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 			static constexpr int SizeofHeader = BucketType::start_data_T;
-			Allocator allocator;
-			SmallBucketAllocator(const Allocator& al) noexcept :allocator(al) {}
-			SmallBucketAllocator(Allocator&& al) noexcept :allocator(std::move(al)) {}
-			SmallBucketAllocator(SmallBucketAllocator&& other) noexcept : allocator(std::move(other.allocator)) {}
-			SmallBucketAllocator(SmallBucketAllocator&& other, const Allocator& al) noexcept : allocator(al) {}
+			//Allocator allocator;
+			SmallBucketAllocator(const Allocator& al) noexcept :Allocator(al) {}
+			SmallBucketAllocator(Allocator&& al) noexcept :Allocator(std::move(al)) {}
+			SmallBucketAllocator(SmallBucketAllocator&& other) noexcept : Allocator(std::move(static_cast<Allocator&>(other))) {}
+			SmallBucketAllocator(SmallBucketAllocator&& other, const Allocator& al) noexcept : Allocator(al) {}
 			auto operator=(SmallBucketAllocator&& other) noexcept -> SmallBucketAllocator& {
-				allocator = (std::move(other.allocator));
+				static_cast<Allocator&>(*this) = (std::move(static_cast<Allocator&>(other)));
 				return *this;
 			}
 			auto alloc(int max_size) -> BucketType* {
-				BucketType* res = reinterpret_cast<BucketType*>(allocator.allocate(SizeofHeader + max_size));
+				BucketType* res = reinterpret_cast<BucketType*>(this->allocate(SizeofHeader + max_size));
 				// Never throw
 				construct_ptr(res, max_size);
 				return res;
 			}
 			auto alloc(int max_size, const T& val) -> BucketType* {
-				BucketType* res = reinterpret_cast<BucketType*>(allocator.allocate(SizeofHeader + max_size));
+				BucketType* res = reinterpret_cast<BucketType*>(this->allocate(SizeofHeader + max_size));
 				// Might throw
 				try {
-					construct_ptr(res, max_size, val, allocator);
+					construct_ptr(res, max_size, val, *this);
 				}
 				catch (...) {
-					allocator.deallocate(reinterpret_cast<T*>(res), SizeofHeader + max_size);
+					this->deallocate(reinterpret_cast<T*>(res), SizeofHeader + max_size);
 					throw;
 				}
 				return res;
 			}
 			void dealloc(BucketType* buff) noexcept {
-				buff->destroy(allocator);
-				allocator.deallocate(reinterpret_cast<T*>(buff), SizeofHeader + buff->max_size());
+				buff->destroy(*this);
+				this->deallocate(reinterpret_cast<T*>(buff), SizeofHeader + buff->max_size());
 			}
 			template<class StoreBucket>
 			void destroy_all(StoreBucket* bs, size_t count) noexcept {
-				RebindAlloc<BucketType> alloc = allocator;
 				for (size_t i = 0; i < count; ++i) {
-					bs[i].bucket->destroy(allocator);
-					allocator.deallocate(reinterpret_cast<T*>(bs[i].bucket), SizeofHeader + bs[i]->max_size());
+					bs[i].bucket->destroy(*this);
+					this->deallocate(reinterpret_cast<T*>(bs[i].bucket), SizeofHeader + bs[i]->max_size());
 				}
 			}
 			// Deallocate all without destroying. Only used for relocatable types
 			template<class StoreBucket>
 			void destroy_all_no_destructor(StoreBucket* bs, size_t count) noexcept {
-				RebindAlloc<BucketType> alloc = allocator;
 				for (size_t i = 0; i < count; ++i) {
-					allocator.deallocate(reinterpret_cast<T*>(bs[i].bucket), SizeofHeader + bs[i]->max_size());
+					this->deallocate(reinterpret_cast<T*>(bs[i].bucket), SizeofHeader + bs[i]->max_size());
 				}
 			}
 			void init(size_t /*unused*/, int /*unused*/) noexcept {
@@ -1129,6 +1134,9 @@ namespace seq
 			void recyclate(const SmallBucketAllocator<T, Allocator>&, int = 0) noexcept {
 				//retrieve another block allocator that is going to be deleted.
 			}
+
+			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return *this; }
+			SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return *this; }
 		};
 
 		// Select the bucket allocator class based on memory layout
@@ -1609,20 +1617,22 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto isPow2Size() const noexcept -> bool { return ((d_size - 1) & d_size) == 0; }
 			SEQ_ALWAYS_INLINE auto isPow2Size(size_t s) const noexcept -> bool { return ((s - 1) & s) == 0; }
 			 // Returns allocator
-			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return d_ballocator.allocator; }
-			SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return d_ballocator.allocator; }
+			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return d_ballocator.get_allocator(); }
+			SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return d_ballocator.get_allocator(); }
 			// Returns block allocator
 			SEQ_ALWAYS_INLINE auto block_allocator() const noexcept -> const AllocType& { return d_ballocator; }
 			SEQ_ALWAYS_INLINE auto block_allocator() noexcept -> AllocType& { return d_ballocator; }
 			// Returns bucket at given position
-			SEQ_ALWAYS_INLINE auto bucket(size_type pos) noexcept -> BucketType* { return d_buckets[pos].bucket; }
-			SEQ_ALWAYS_INLINE auto bucket(size_type pos) const noexcept -> const BucketType* { return d_buckets[pos].bucket; }
+			SEQ_ALWAYS_INLINE auto bucket(size_type pos) noexcept -> BucketType* { SEQ_ASSERT_DEBUG(pos >= 0 && pos < d_buckets.size(),"invalid bucket position"); return d_buckets[pos].bucket; }
+			SEQ_ALWAYS_INLINE auto bucket(size_type pos) const noexcept -> const BucketType* { SEQ_ASSERT_DEBUG(pos >= 0 && pos < d_buckets.size(), "invalid bucket position"); return d_buckets[pos].bucket; }
 			// Returns bucket index for global position in tiered_vector
 			SEQ_ALWAYS_INLINE auto bucket_index(size_type pos) const noexcept -> size_type {
+				SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "invalid bucket position");
 				return (pos + static_cast<size_type>(d_bucket_size - d_buckets.front()->size)) >> d_bucket_size_bits;
 			}
 			// Returns position within bucket for global position in tiered_vector
 			SEQ_ALWAYS_INLINE auto bucket_pos(size_type pos) const noexcept -> int { 
+				SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "invalid bucket position");
 				return (pos - (pos < static_cast<size_type>(d_buckets.front()->size) ? 0 : d_buckets.front()->size)) & d_bucket_size1;
 			}
 			// Returns the bucket size (always power of 2)
@@ -1634,14 +1644,15 @@ namespace seq
 			// Returns bucket size at given position
 			SEQ_ALWAYS_INLINE auto bucket_size(size_type pos) const noexcept -> int { return  (bucket(pos))->size; }
 			// Retruns back value
-			SEQ_ALWAYS_INLINE auto back() noexcept -> T & {return d_buckets.back()->back();}
-			SEQ_ALWAYS_INLINE auto back() const noexcept -> const T& { return d_buckets.back()->back(); }
+			SEQ_ALWAYS_INLINE auto back() noexcept -> T & { SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "empty container"); return d_buckets.back()->back();}
+			SEQ_ALWAYS_INLINE auto back() const noexcept -> const T& { SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "empty container"); return d_buckets.back()->back(); }
 			// Retruns front value
-			SEQ_ALWAYS_INLINE auto front() noexcept -> T& {return d_buckets.front()->front();}
-			SEQ_ALWAYS_INLINE auto front() const noexcept -> const T& { return d_buckets.front()->front(); }
+			SEQ_ALWAYS_INLINE auto front() noexcept -> T& { SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "empty container"); return d_buckets.front()->front();}
+			SEQ_ALWAYS_INLINE auto front() const noexcept -> const T& { SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "empty container"); return d_buckets.front()->front(); }
 
 			// Returns element at global position
 			auto at(size_type pos) noexcept -> T& {
+				SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "empty container");
 				//It seems that using d_buckets.front()->size instead of d_first_bucket_size
 				//and (d_bucket_size - d_buckets.front()->size) instead of d_first_bcket_rem is as fast
 				size_t front_size = d_buckets.front()->size;
@@ -1651,6 +1662,7 @@ namespace seq
 
 			}
 			auto at(size_type pos) const noexcept -> const T& {
+				SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "empty container");
 				size_t front_size = d_buckets.front()->size;
 				size_t bucket = (pos + (d_bucket_size - front_size)) >> d_bucket_size_bits;
 				size_t index = (pos - (pos < front_size ? 0 : front_size)) & d_bucket_size1;
@@ -3515,6 +3527,8 @@ namespace seq
 		template<class U, class Less = std::less<T> >
 		auto lower_bound( const U & value, const Less & le = Less()) const noexcept -> size_t
 		{
+			static_assert(!std::is_same< detail::NullValueCompare<T>, ValueCompare>::value, "lower_bound can only be used by flat_map/set containers");
+
 			if (!d_manager)
 				return 0;
 			// Inspired by https://academy.realm.io/posts/how-we-beat-cpp-stl-binary-search/
@@ -3591,6 +3605,8 @@ namespace seq
 		template<class U, class Less = std::less<T> >
 		auto upper_bound(const U& value, const Less & le = Less()) const noexcept -> size_t
 		{
+			static_assert(!std::is_same< detail::NullValueCompare<T>, ValueCompare>::value, "upper_bound can only be used by flat_map/set containers");
+
 			if (!d_manager)
 				return 0;
 
