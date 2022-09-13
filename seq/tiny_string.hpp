@@ -60,10 +60,12 @@ namespace utils
 
 		return nullptr;
 	}
+
 }
 #if defined( WIN32 ) || defined(_WIN32)
 #define memrchr utils::my_memrchr
 #endif
+
 
 
 namespace seq
@@ -92,113 +94,26 @@ namespace seq
 		**************************************/
 		
 
-
-		static inline auto NbCommonBytes(size_t val) -> unsigned
+		inline auto count_approximate_common_bytes(const char* pIn, const char* pMatch, const char* pInLimit) -> size_t
 		{
-	#if SEQ_BYTEORDER_ENDIAN == SEQ_BYTEORDER_LITTLE_ENDIAN
-				if (sizeof(val) == 8) {
-	#       if defined(_MSC_VER) && defined(_WIN64) 
-					unsigned long r = 0;
-					_BitScanForward64(&r, static_cast<std::uint64_t>(val));
-					return static_cast<int>(r >> 3);
-	#       elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3))) 
-					return (__builtin_ctzll(static_cast<std::uint64_t>(val)) >> 3);
-	#       else
-					static const int DeBruijnBytePos[64] = { 0, 0, 0, 0, 0, 1, 1, 2,
-															 0, 3, 1, 3, 1, 4, 2, 7,
-															 0, 2, 3, 6, 1, 5, 3, 5,
-															 1, 3, 4, 4, 2, 5, 6, 7,
-															 7, 0, 1, 2, 3, 3, 4, 6,
-															 2, 6, 5, 5, 3, 4, 5, 6,
-															 7, 1, 2, 4, 6, 4, 4, 5,
-															 7, 2, 6, 5, 7, 6, 7, 7 };
-					return DeBruijnBytePos[((std::uint64_t)((val & -(long long)val) * 0x0218A392CDABBD3FULL)) >> 58];
-	#       endif
-				}
-				else /* 32 bits */ {
-	#       if defined(_MSC_VER) 
-					unsigned long r = 0;
-					_BitScanForward(&r, static_cast<std::uint32_t>(val));
-					return static_cast<int>(r >> 3);
-	#       elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3))) 
-					return (__builtin_ctz(static_cast<std::uint32_t>(val)) >> 3);
-	#       else
-					static const int DeBruijnBytePos[32] = { 0, 0, 3, 0, 3, 1, 3, 0,
-															 3, 2, 2, 1, 3, 2, 0, 1,
-															 3, 3, 1, 2, 2, 2, 2, 0,
-															 3, 1, 2, 0, 1, 0, 1, 1 };
-					return DeBruijnBytePos[((std::uint32_t)((val & -(S32)val) * 0x077CB531U)) >> 27];
-	#       endif
-				}
-	#else //big endian
-				if (sizeof(val) == 8) {   /* 64-bits */
-	#       if defined(_MSC_VER) && defined(_WIN64) 
-					unsigned long r = 0;
-					_BitScanReverse64(&r, val);
-					return (unsigned)(r >> 3);
-	#       elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3))) 
-					return (__builtin_clzll((std::uint64_t)val) >> 3);
-	#       else
-					static const std::uint32_t by32 = sizeof(val) * 4;  /* 32 on 64 bits (goal), 16 on 32 bits.
-						Just to avoid some static analyzer complaining about shift by 32 on 32-bits target.
-						Note that this code path is never triggered in 32-bits mode. */
-					unsigned r;
-					if (!(val >> by32)) { r = 4; }
-					else { r = 0; val >>= by32; }
-					if (!(val >> 16)) { r += 2; val >>= 8; }
-					else { val >>= 24; }
-					r += (!val);
-					return r;
-	#       endif
-				}
-				else /* 32 bits */ {
-	#       if defined(_MSC_VER) 
-					unsigned long r = 0;
-					_BitScanReverse(&r, (unsigned long)val);
-					return (unsigned)(r >> 3);
-	#       elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3))) 
-					return (__builtin_clz((std::uint32_t)val) >> 3);
-	#       else
-					unsigned r;
-					if (!(val >> 16)) { r = 2; val >>= 8; }
-					else { r = 0; val >>= 24; }
-					r += (!val);
-					return r;
-	#       endif
-				}
-	#endif
-		}
-
-	#define STEPSIZE sizeof(size_t)
-		static inline auto count_common_bytes(const char* pIn, const char* pMatch, const char* pInLimit) -> size_t
-		{
+			static constexpr size_t STEPSIZE = sizeof(size_t);
 			const char* const pStart = pIn;
-
-			if (SEQ_LIKELY(pIn < pInLimit - (STEPSIZE - 1))) {
-				size_t const diff = read_size_t(pMatch) ^ read_size_t(pIn);
-				if (diff == 0u) {
-					pIn += STEPSIZE; pMatch += STEPSIZE;
-				}
-				else {
-					return NbCommonBytes(diff);
-				}
-			}
 
 			while (SEQ_LIKELY(pIn < pInLimit - (STEPSIZE - 1))) {
 				size_t const diff = read_size_t(pMatch) ^ read_size_t(pIn);
 				if (diff == 0u) { pIn += STEPSIZE; pMatch += STEPSIZE; continue; }
-				pIn += NbCommonBytes(diff);
-				return static_cast<unsigned>(pIn - pStart);
+				//pIn += NbCommonBytes(diff);
+				return static_cast<size_t>(pIn - pStart);
 			}
 
 			if ((STEPSIZE == 8) && (pIn < (pInLimit - 3)) && (read_32(pMatch) == read_32(pIn))) { pIn += 4; pMatch += 4; }
 			if ((pIn < (pInLimit - 1)) && (read_16(pMatch) == read_16(pIn))) { pIn += 2; pMatch += 2; }
 			if ((pIn < pInLimit) && (*pMatch == *pIn)) { pIn++;}
-			return static_cast<unsigned>(pIn - pStart);
+			return static_cast<size_t>(pIn - pStart);
 		}
 
 	
-		static auto string_inf(const char* v1, const char* e1, const char* v2, const char* e2)noexcept -> bool
+		inline auto string_inf(const char* v1, const char* e1, const char* v2, const char* e2)noexcept -> bool
 		{
 			//comparison works on unsigned !!!!
 		
@@ -226,7 +141,7 @@ namespace seq
 			return v1 == e1 && v2 != e2;
 		}
 	
-		static inline auto string_compare(const unsigned char* v1, size_t l1, const unsigned char* v2, size_t l2)noexcept -> int
+		inline auto string_compare(const unsigned char* v1, size_t l1, const unsigned char* v2, size_t l2)noexcept -> int
 		{
 			const unsigned char* end = v1 + std::min(l1,l2);
 			while ((v1 < end - (8 - 1))) {
@@ -250,13 +165,14 @@ namespace seq
 			return (l1 < l2) ? -1 : ((l1 == l2) ? 0 : 1);
 		}
 	
-		static inline auto string_inf_equal(const char* v1, const char* e1, const char* v2, const char* e2)noexcept -> bool
+		inline auto string_inf_equal(const char* v1, const char* e1, const char* v2, const char* e2)noexcept -> bool
 		{
 			return !string_inf(v2, e2, v1, e1);
 		}
 
 
-		static inline auto string_equal(const char* pIn, const char* pMatch, const char* pInLimit)  noexcept -> bool {
+		inline auto string_equal(const char* pIn, const char* pMatch, const char* pInLimit)  noexcept -> bool {
+			static constexpr size_t STEPSIZE = sizeof(size_t);
 			while ((pIn < pInLimit - (STEPSIZE - 1))) {
 				if (read_size_t(pMatch) != read_size_t(pIn)) { return false;}
 				pIn += STEPSIZE; pMatch += STEPSIZE;
@@ -268,7 +184,7 @@ namespace seq
 			return true;
 
 		}
-		static inline auto string_equal(const char* s1, size_t l1, const char* s2, size_t l2) noexcept -> bool {
+		inline auto string_equal(const char* s1, size_t l1, const char* s2, size_t l2) noexcept -> bool {
 			return (l1 == l2) && string_equal(s1, s2, s1 +l1);
 		}
 
@@ -766,7 +682,7 @@ namespace seq
 
 		SEQ_ALWAYS_INLINE bool isPow2(size_t len) const noexcept {
 			// check if len is a power of 2
-			return ((len - static_cast<size_t>(1)) & len) == 0;
+			return ((len - 1) & len) == 0;
 		}
 
 		void extend_buffer_for_push_back()
@@ -780,30 +696,28 @@ namespace seq
 			d_data.d_union.non_sso.data = ptr;
 			d_data.d_union.non_sso.exact_size = 0;
 		}
-		void push_back_sso(char c) 
+		char* push_back_sso() 
 		{
 			if (d_data.d_union.sso.size < max_static_size) {
 				// SSO push back
-				d_data.d_union.sso.data[d_data.d_union.sso.size++] = c;
+				return d_data.d_union.sso.data + d_data.d_union.sso.size++;
 			}
 			else {
 				// switch from sso to non sso, might throw
 				resize_uninitialized(d_data.d_union.sso.size + 1, true);
-				d_data.d_union.non_sso.data[d_data.d_union.non_sso.size - 1] = c;
+				return d_data.d_union.non_sso.data + d_data.d_union.non_sso.size - 1;
 			}
 		}
 
-		void push_back_complex(char c)
+		SEQ_NOINLINE(char*) push_back_complex()
 		{
 			// complex push_back, when we reach a power of 2 or the transition between SSO / non SSO
 			if (SEQ_UNLIKELY(is_sso())) {
-				push_back_sso(c);
+				return push_back_sso();
 			}
 			else {
 				extend_buffer_for_push_back();
-				char* p = d_data.d_union.non_sso.data + d_data.d_union.non_sso.size++;
-				p[0] = c;
-				p[1] = 0;
+				return d_data.d_union.non_sso.data + d_data.d_union.non_sso.size++;
 			}
 		}
 
@@ -908,6 +822,15 @@ namespace seq
 				return d_data.d_union.non_sso.data;
 			}
 		}
+
+
+		SEQ_ALWAYS_INLINE bool no_resize_non_sso(size_t low, size_t high)
+		{
+			//for non sso mode only, when growing (with append or push_back), tells if the internal buffer must grow
+			//equivalent to capacity_for_length(new_size) != capacity_internal()
+			return high < 32 || !((low ^ high) > low);
+		}
+
 
 
 	public:
@@ -1073,23 +996,23 @@ namespace seq
 		}
 
 		/// @brief Returns the internal character storage 
-		auto data() noexcept -> char* { return is_sso() ? d_data.d_union.sso.data : d_data.d_union.non_sso.data; }
+		SEQ_ALWAYS_INLINE auto data() noexcept -> char* { return is_sso() ? d_data.d_union.sso.data : d_data.d_union.non_sso.data; }
 		/// @brief Returns the internal character storage 
-		auto data() const noexcept -> const char* { return is_sso() ? d_data.d_union.sso.data : d_data.d_union.non_sso.data; }
+		SEQ_ALWAYS_INLINE auto data() const noexcept -> const char* { return is_sso() ? d_data.d_union.sso.data : d_data.d_union.non_sso.data; }
 		/// @brief Returns the internal character storage 
-		auto c_str() const noexcept -> const char* { return data(); }
+		SEQ_ALWAYS_INLINE auto c_str() const noexcept -> const char* { return data(); }
 		/// @brief Returns the string size (without the trailing null character)
-		auto size() const noexcept -> size_t { return size_internal(); }
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return size_internal(); }
 		/// @brief Returns the string size (without the trailing null character)
-		auto length() const noexcept -> size_t { return size(); }
+		SEQ_ALWAYS_INLINE auto length() const noexcept -> size_t { return size(); }
 		/// @brief Returns the string maximum size
-		auto max_size() const noexcept -> size_t { return (1ULL << (sizeof(size_t) * 8ULL - 2ULL)) - 1ULL; }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return (1ULL << (sizeof(size_t) * 8ULL - 2ULL)) - 1ULL; }
 		/// @brief Returns the string current capacity
-		auto capacity() const noexcept -> size_t { return capacity_internal() - 1ULL; }
+		SEQ_ALWAYS_INLINE auto capacity() const noexcept -> size_t { return capacity_internal() - 1ULL; }
 		/// @brief Returns true if the string is empty, false otherwise
-		auto empty() const noexcept -> bool { return size() == 0; }
+		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return size() == 0; }
 		/// @brief Returns the string allocator
-		auto get_allocator() const noexcept -> allocator_type { return d_data.get_allocator(); }
+		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> allocator_type { return d_data.get_allocator(); }
 
 
 		/// @brief Assign the range [first,last) to this string
@@ -1257,76 +1180,76 @@ namespace seq
 		void reserve(size_t) { } //no-op
 
 		/// @brief Returns an iterator to the first element of the container.
-		auto begin() noexcept -> iterator { return data(); }
+		SEQ_ALWAYS_INLINE auto begin() noexcept -> iterator { return data(); }
 		/// @brief Returns an iterator to the first element of the container.
-		auto begin() const noexcept -> const_iterator { return data(); }
+		SEQ_ALWAYS_INLINE auto begin() const noexcept -> const_iterator { return data(); }
 		/// @brief Returns an iterator to the first element of the container.
-		auto cbegin() const noexcept -> const_iterator { return data(); }
+		SEQ_ALWAYS_INLINE auto cbegin() const noexcept -> const_iterator { return data(); }
 	
 		/// @brief Returns an iterator to the element following the last element of the container.
-		auto end() noexcept -> iterator { return is_sso() ? d_data.d_union.sso.data + d_data.d_union.sso.size : d_data.d_union.non_sso.data + d_data.d_union.non_sso.size; }
+		SEQ_ALWAYS_INLINE auto end() noexcept -> iterator { return is_sso() ? d_data.d_union.sso.data + d_data.d_union.sso.size : d_data.d_union.non_sso.data + d_data.d_union.non_sso.size; }
 		/// @brief Returns an iterator to the element following the last element of the container.
-		auto end() const noexcept -> const_iterator { return is_sso() ? d_data.d_union.sso.data + d_data.d_union.sso.size : d_data.d_union.non_sso.data + d_data.d_union.non_sso.size; }
+		SEQ_ALWAYS_INLINE auto end() const noexcept -> const_iterator { return is_sso() ? d_data.d_union.sso.data + d_data.d_union.sso.size : d_data.d_union.non_sso.data + d_data.d_union.non_sso.size; }
 		/// @brief Returns an iterator to the element following the last element of the container.
-		auto cend() const noexcept -> const_iterator { return end(); }
+		SEQ_ALWAYS_INLINE auto cend() const noexcept -> const_iterator { return end(); }
 	
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		auto rbegin() noexcept -> reverse_iterator { return reverse_iterator(end()); }
+		SEQ_ALWAYS_INLINE auto rbegin() noexcept -> reverse_iterator { return reverse_iterator(end()); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		auto rbegin() const noexcept -> const_reverse_iterator { return const_reverse_iterator(end()); }
+		SEQ_ALWAYS_INLINE auto rbegin() const noexcept -> const_reverse_iterator { return const_reverse_iterator(end()); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		auto crbegin() const noexcept -> const_reverse_iterator { return rbegin(); }
+		SEQ_ALWAYS_INLINE auto crbegin() const noexcept -> const_reverse_iterator { return rbegin(); }
 
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		auto rend() noexcept -> reverse_iterator { return reverse_iterator(begin()); }
+		SEQ_ALWAYS_INLINE auto rend() noexcept -> reverse_iterator { return reverse_iterator(begin()); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		auto rend() const noexcept -> const_reverse_iterator { return const_reverse_iterator(begin()); }
+		SEQ_ALWAYS_INLINE auto rend() const noexcept -> const_reverse_iterator { return const_reverse_iterator(begin()); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		auto crend() const noexcept -> const_reverse_iterator { return rend(); }
+		SEQ_ALWAYS_INLINE auto crend() const noexcept -> const_reverse_iterator { return rend(); }
 
 		/// @brief Returns the character at pos, throw std::out_of_range for invalid position.
-		char at(size_t pos) const 
+		SEQ_ALWAYS_INLINE char at(size_t pos) const
 		{
 			if (pos >= size()) throw std::out_of_range("");
 			return data()[pos];
 		}
 		/// @brief Returns the character at pos, throw std::out_of_range for invalid position.
-		char &at(size_t pos) 
+		SEQ_ALWAYS_INLINE char &at(size_t pos)
 		{
 			if (pos >= size()) throw std::out_of_range("");
 			return data()[pos];
 		}
 
 		/// @brief Returns the character at pos
-		char operator[](size_t pos) const noexcept 
+		SEQ_ALWAYS_INLINE char operator[](size_t pos) const noexcept 
 		{
 			SEQ_ASSERT_DEBUG(pos < size(), "invalid position");
 			return data()[pos];
 		}
 		/// @brief Returns the character at pos
-		char &operator[](size_t pos) noexcept
+		SEQ_ALWAYS_INLINE char &operator[](size_t pos) noexcept
 		{
 			SEQ_ASSERT_DEBUG(pos < size(), "invalid position");
 			return data()[pos];
 		}
 
 		/// @brief Returns the last character of the string
-		char back() const noexcept { 
+		SEQ_ALWAYS_INLINE char back() const noexcept {
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container");
 			return is_sso() ? d_data.d_union.sso.data[d_data.d_union.sso.size-1] : d_data.d_union.non_sso.data[d_data.d_union.non_sso.size-1]; 
 		}
 		/// @brief Returns the last character of the string
-		char &back() noexcept { 
+		SEQ_ALWAYS_INLINE char &back() noexcept {
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container"); 
 			return is_sso() ? d_data.d_union.sso.data[d_data.d_union.sso.size - 1] : d_data.d_union.non_sso.data[d_data.d_union.non_sso.size - 1]; 
 		}
 		/// @brief Returns the first character of the string
-		char front() const noexcept { 
+		SEQ_ALWAYS_INLINE char front() const noexcept {
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container"); 
 			return is_sso() ? d_data.d_union.sso.data[0] : d_data.d_union.non_sso.data[0]; 
 		}
 		/// @brief Returns the first character of the string
-		char &front() noexcept { 
+		SEQ_ALWAYS_INLINE char &front() noexcept {
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container"); 
 			return is_sso() ? d_data.d_union.sso.data[0] : d_data.d_union.non_sso.data[0]; 
 		}
@@ -1334,17 +1257,14 @@ namespace seq
 		/// @brief Append character to the back of the string
 		SEQ_ALWAYS_INLINE void push_back(char c) 
 		{
-			if ((!is_sso() && !(d_data.d_union.non_sso.exact_size || isPow2(d_data.d_union.non_sso.size + 1)))) {
-				char* p = d_data.d_union.non_sso.data + d_data.d_union.non_sso.size++;
-				p[0] = c;
-				p[1] = 0;
-			}
-			else {
-				push_back_complex(c);
-			}
+			char* p = (!is_sso() && !(d_data.d_union.non_sso.exact_size || isPow2(d_data.d_union.non_sso.size + 1))) ?
+				d_data.d_union.non_sso.data + d_data.d_union.non_sso.size++ :
+				push_back_complex();
+			p[0] = c;
+			p[1] = 0;
 		}
 		/// @brief Removes the last character of the string
-		void pop_back() 
+		SEQ_ALWAYS_INLINE void pop_back()
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "pop_back on an empty string!");
 
@@ -1418,34 +1338,40 @@ namespace seq
 		{
 			return append(s, strlen(s));
 		}
+		
 		/// @brief Append buffer content to this string
 		auto append(const char* s, size_t n) -> tiny_string&
 		{
-			if (n == 0) return *this;
+			if (SEQ_UNLIKELY(n == 0)) return *this;
 			size_t old_size = size();
+			size_t new_size = old_size + n;
 			//try to avoid a costly resize_uninitialized
-			if (SEQ_UNLIKELY(is_sso() || capacity_for_length(old_size + n) != capacity_internal()))
-				resize_uninitialized(old_size + n, true);
-			else {
-				d_data.d_union.non_sso.size = old_size + n;
-				d_data.d_union.non_sso.data[d_data.d_union.non_sso.size] = 0;
+			if (is_sso() || !no_resize_non_sso(old_size, new_size) || d_data.d_union.non_sso.exact_size) {
+				resize_uninitialized(new_size, true);
 			}
-			memcpy(data() + old_size, s, n);
+			else {
+				d_data.d_union.non_sso.size = new_size;
+			}
+			char* d = data();
+			memcpy(d + old_size, s, n);	
+			d[new_size] = 0;
 			return *this;
 		}
 		/// @brief Append n copies of character c to the string
 		auto append(size_t n, char c) -> tiny_string&
 		{
-			if (n == 0) return *this;
+			if (SEQ_UNLIKELY(n == 0)) return *this;
 			size_t old_size = size();
+			size_t new_size = old_size + n;
 			//try to avoid a costly resize_uninitialized
-			if (is_sso() || capacity_for_length(old_size + n) != capacity_internal())
-				resize_uninitialized(old_size + n, true);
+			if (is_sso() || !no_resize_non_sso(old_size, new_size) || d_data.d_union.non_sso.exact_size) 
+				resize_uninitialized(new_size, true);
 			else {
-				d_data.d_union.non_sso.size = old_size + n;
-				d_data.d_union.non_sso.data[d_data.d_union.non_sso.size] = 0;
+				d_data.d_union.non_sso.size = new_size;
 			}
-			memset(data() + old_size, c, n);
+			char* d = data();
+			memset(d + old_size, c, n);
+			d[new_size] = 0;
 			return *this;
 		}
 		/// @brief Append the content of the range [first,last) to this string
@@ -1456,14 +1382,15 @@ namespace seq
 			if (std::is_same<typename std::iterator_traits<Iter>::iterator_category, std::random_access_iterator_tag>::value) {
 				size_t n = std::distance( first, last);
 				size_t old_size = size();
+				size_t new_size = old_size + n;
 				//try to avoid a costly resize_uninitialized
-				if (is_sso() || capacity_for_length(old_size + n) != capacity_internal())
-					resize_uninitialized(old_size + n, true);
+				if (is_sso() || !no_resize_non_sso(old_size, new_size) || d_data.d_union.non_sso.exact_size) 
+					resize_uninitialized(new_size, true);
 				else {
 					d_data.d_union.non_sso.size = old_size + n;
-					d_data.d_union.non_sso.data[d_data.d_union.non_sso.size] = 0;
 				}
 				std::copy(first, last, data() + old_size);
+				data()[new_size] = 0;
 			}
 			else {
 				while (first != last) {
@@ -1998,30 +1925,25 @@ namespace seq
 		{
 			size_t this_size = size();
 			if (n > this_size || pos + n > this_size || n==0) return npos;
-	#ifndef _MSC_VER
-			//this is faster on gcc (?)
-			auto it = std::search(begin() + pos, end(), s, s+n);
-			return it == end() ? std::string::npos : (it - begin());
-	#else
+
 			const char* in = data() + pos;
 			const char* end = in + (size() - pos - n) +1;
 			char c = *s;
 			for(;;) {
-				in = (char*)memchr(in, c, end - in);
+				in = static_cast<const char*>(memchr(in, c, end - in));
 				if (!in) return npos;
 			
-				//start searching
-				size_t common = detail::count_common_bytes(in + 1, s + 1, in + n);
+				//start searching, count_approximate_common_bytes returns (usually) an underestimation of the common bytes, except if equal
+				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if(common == n-1)
 					return in - begin();
 				in += common +1;
 			}
 			return npos;
-	#endif
 		}
 		auto find(char c, size_t pos = 0) const noexcept -> size_t 
 		{
-			const char* p = static_cast<char*>(memchr(data() + pos, c, size() - pos));
+			const char* p = static_cast<const char*>(memchr(data() + pos, c, size() - pos));
 			return p == NULL ? npos : p - begin();
 		}
 
@@ -2058,7 +1980,7 @@ namespace seq
 				in = static_cast<const char*>(memrchr(beg, c, in - beg +1));
 				if (!in) return npos;
 				//start searching
-				size_t common = detail::count_common_bytes(in + 1, s + 1, in + n);
+				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if (common == n - 1)
 					return in - begin();
 				--in;
@@ -2452,8 +2374,7 @@ namespace seq
 
 		auto at(size_t pos) const -> char
 		{
-			if (pos >= size()) { throw std::out_of_range("");
-	}
+			if (pos >= size()) { throw std::out_of_range("");}
 			return data()[pos];
 		}
 		auto operator[](size_t pos) const noexcept -> char
@@ -2641,27 +2562,22 @@ namespace seq
 		{
 			size_t this_size = size();
 			if (n > this_size || pos + n > this_size || n == 0) { return npos;}
-	#ifndef _MSC_VER
-			//this is faster on gcc (?)
-			auto it = std::search(begin() + pos, end(), s, s + n);
-			return it == end() ? std::string::npos : (it - begin());
-	#else
+
 			const char* in = data() + pos;
 			const char* end = in + (size() - pos - n) + 1;
 			char c = *s;
 			for (;;) {
-				in = (char*)memchr(in, c, end - in);
+				in = static_cast<const char*>(memchr(in, c, end - in));
 				if (in == nullptr) { return npos;}
 
 				//start searching
-				size_t common = detail::count_common_bytes(in + 1, s + 1, in + n);
+				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if (common == n - 1) {
 					return in - begin();
 				}
 				in += common + 1;
 			}
 			return npos;
-	#endif
 		}
 		auto find(char c, size_t pos = 0) const noexcept -> size_t
 		{
@@ -2705,7 +2621,7 @@ namespace seq
 				if (in == nullptr) { return npos;
 				}
 				//start searching
-				size_t common = detail::count_common_bytes(in + 1, s + 1, in + n);
+				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if (common == n - 1) {
 					return in - begin();
 				}

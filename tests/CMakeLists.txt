@@ -20,13 +20,10 @@ target_compile_features(seq_tests PRIVATE cxx_std_11)
 
 #set the most drastic flags    
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_compile_options(seq_tests PRIVATE -Werror -Wall -Wextra -Wold-style-cast -UNDEBUG )
+    target_compile_options(seq_tests PRIVATE -Werror -Wall -Wextra -Wold-style-cast -UNDEBUG  )
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     target_compile_options(seq_tests PRIVATE /bigobj /WX /W3 /UNDEBUG)
 endif()
-
-target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-#target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/mimalloc/include)
 
 if (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 	# mingw
@@ -34,6 +31,10 @@ if (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 elseif(UNIX AND (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"))
     target_compile_options(seq_tests PRIVATE  -lpthread )
 endif()
+
+target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+#target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/mimalloc/include)
+
 
 # seq library
 add_subdirectory(../ ${CMAKE_CURRENT_BINARY_DIR}/seq)

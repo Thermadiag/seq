@@ -21,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
  
 #include "bench_hash.hpp"
 #include "bench_map.hpp"
@@ -35,8 +36,8 @@ using namespace seq;
 
 int  main  (int , char** )
 {
-
-	test_sort_strings(2000000);
+	
+	//test_sort_strings(2000000);
 	test_tstring_members(20000000);
 	test_tstring_operators<25>(5000000, 14);
 	test_sequence_vs_colony<size_t>(5000000);
