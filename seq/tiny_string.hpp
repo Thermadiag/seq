@@ -691,7 +691,7 @@ namespace seq
 			size_t new_capacity = capacity_for_length(d_data.d_union.non_sso.size + 1);
 			// might throw, fine
 			char* ptr = d_data.allocate(new_capacity);
-			memcpy(ptr, d_data.d_union.non_sso.data, d_data.d_union.non_sso.size, d_data.d_union.non_sso.exact_size);
+			memcpy(ptr, d_data.d_union.non_sso.data, d_data.d_union.non_sso.size);
 			d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal());
 			d_data.d_union.non_sso.data = ptr;
 			d_data.d_union.non_sso.exact_size = 0;
