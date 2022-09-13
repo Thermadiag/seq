@@ -514,7 +514,12 @@ void test_tstring_members(size_t count = 5000000)
 		f2 = 0;
 		tick();
 		for (size_t i = 0; i < len; ++i)
-			f2 += str.compare(i, find1.size(), find1);
+		{
+			int c = str.compare(i, find1.size(), find1);
+			if (c < 0) c = -1;
+			else if (c > 0) c = 1;
+			f2 += c;
+		}
 		std_t = tock_ms();
 		SEQ_TEST(f == f2 && str == tstr);
 		std::cout << format("compare", std_t, tstr_t) << std::endl;
