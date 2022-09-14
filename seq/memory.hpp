@@ -750,7 +750,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE void set_deffered_free(void* d) noexcept { d_deffered_free = d; }
 			SEQ_ALWAYS_INLINE void set_deffered_count(unsigned c) noexcept { d_deffered_count = c; }
 			SEQ_ALWAYS_INLINE void set_thread_id(detail::thread_id id) noexcept { d_id = id; }
-			void reset_thread_data() { 
+			SEQ_ALWAYS_INLINE void reset_thread_data() {
 				d_deffered_free = NULL;
 				d_deffered_count = 0;
 			}
@@ -3154,7 +3154,7 @@ namespace seq
 		/// @param ptr pointer to objects to deallocate
 		/// @param size number of objects to deallocate
 		/// 
-		void deallocate(T* ptr, size_t size)
+		SEQ_ALWAYS_INLINE void deallocate(T* ptr, size_t size)
 		{
 			size_t idx = object_allocation::size_to_idx(size);
 			detail::thread_id id = detail::get_thread_id();

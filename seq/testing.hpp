@@ -242,6 +242,20 @@ namespace seq
 	/// @brief For tests only, alias for null buffer, to be used with c++ iostreams
 	using nullbuf = basic_nullbuf<char>;
 
+	struct disable_ostream
+	{
+		std::ostream* d_oss;
+		std::streambuf* d_buf;
+		nullbuf d_null;
+		disable_ostream(std::ostream& oss) : d_oss(&oss) {
+			d_buf = oss.rdbuf();
+			oss.rdbuf(&d_null);
+		}
+		~disable_ostream() {
+			d_oss->rdbuf(d_buf);
+		}
+	};
+
 	template<class T>
 	void print_null(const T& v)
 	{

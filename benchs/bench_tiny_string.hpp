@@ -322,7 +322,7 @@ void test_tstring_members(size_t count = 5000000)
 		std::vector<tstring> tvec(count);
 		std::copy(vec.begin(), vec.end(), tvec.begin());
 
-		std::vector<tstring> ttmp(count);
+		/*std::vector<tstring> ttmp(count);
 		tick();
 		std::copy(tvec.begin(), tvec.end(), ttmp.begin());
 		tstr_t = tock_ms();
@@ -334,15 +334,15 @@ void test_tstring_members(size_t count = 5000000)
 
 		SEQ_TEST(std::equal(tmp.begin(), tmp.end(), ttmp.begin()));
 		std::cout << format("copy lots of big strings", std_t, tstr_t) << std::endl;
-
+		*/
 		std::vector<tstring> ttmp2(count);
 		tick();
-		std::move(tvec.begin(), tvec.end(), ttmp.begin());
+		std::move(tvec.begin(), tvec.end(), ttmp2.begin());
 		tstr_t = tock_ms();
 
 		std::vector<std::string> tmp2(count);
 		tick();
-		std::move(vec.begin(), vec.end(), tmp.begin());
+		std::move(vec.begin(), vec.end(), tmp2.begin());
 		std_t = tock_ms();
 
 		SEQ_TEST(std::equal(tmp2.begin(), tmp2.end(), ttmp2.begin()));
@@ -356,7 +356,9 @@ void test_tstring_members(size_t count = 5000000)
 
 		tick();
 		for (size_t i = 0; i < count; ++i)
+		{
 			tstr.push_back(std::max((unsigned char)i, (unsigned char)1));
+		}
 		tstr_t = tock_ms();
 
 		tick();

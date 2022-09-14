@@ -29,18 +29,22 @@
 #include "bench_tiny_string.hpp"
 #include "bench_tiered_vector.hpp"
 #include "bench_sequence.hpp"
+#include "bench_mem_pool.hpp"
 
 using namespace seq;
 
- 
+
 
 int  main  (int , char** )
-{	
+{
 	
-
-	test_sort_strings(2000000);
 	test_tstring_members(20000000);
+	test_sort_strings(2000000);
 	test_tstring_operators<25>(5000000, 14);
+
+	test_object_pool(1000000);
+
+	
 	test_sequence_vs_colony<size_t>(5000000);
 	
 	test_tiered_vector_algorithms<size_t>(5000000);

@@ -528,7 +528,7 @@ namespace seq
 		friend class tiny_string;
 	
 		//is it a small string
-		SEQ_ALWAYS_INLINE bool is_sso() const noexcept{ return d_data.d_union.sso.not_sso == 0U; }
+		SEQ_ALWAYS_INLINE bool is_sso() const noexcept{ return d_data.d_union.sso.not_sso == 0; }
 		SEQ_ALWAYS_INLINE bool is_sso(size_t len) const noexcept { return len < (sso_max_capacity); }
 		void set_size_internal(size_t len) noexcept {
 			// set internal size for sso and non sso cases
@@ -698,6 +698,10 @@ namespace seq
 		SEQ_ALWAYS_INLINE bool isPow2(size_t len) const noexcept {
 			// check if len is a power of 2
 			return ((len - 1) & len) == 0;
+		}
+		SEQ_ALWAYS_INLINE bool isNextPow2(size_t len) const noexcept {
+			// check if len is a power of 2
+			return ((len + 1) & len) == 0;
 		}
 
 		void extend_buffer_for_push_back()
@@ -1273,19 +1277,19 @@ namespace seq
 		}
 	
 		/// @brief Append character to the back of the string
-		SEQ_ALWAYS_INLINE void push_back(char c)
+		void push_back(char c)
 		{
-			if (SEQ_LIKELY(!is_sso() && !(d_data.d_union.non_sso.exact_size || isPow2(d_data.d_union.non_sso.size + 1)))) {
+			if (SEQ_LIKELY(!is_sso() && !(d_data.d_union.non_sso.exact_size || isNextPow2(d_data.d_union.non_sso.size )))) {
 				char* p = d_data.d_union.non_sso.data + d_data.d_union.non_sso.size++;
 				p[0] = c;
 				p[1] = 0;
+				return;
 			}
-			else {
-				push_back_complex(c);
-			}
+			
+			push_back_complex(c);
 		}
 		/// @brief Removes the last character of the string
-		SEQ_ALWAYS_INLINE void pop_back()
+		void pop_back()
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "pop_back on an empty string!");
 

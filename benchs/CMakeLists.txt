@@ -10,6 +10,7 @@ add_executable(seq_benchs
 "bench_sequence.hpp"
 "bench_hash.hpp"
 "bench_map.hpp"
+"bench_mem_pool.hpp"
 )
 
 target_compile_features(seq_benchs PRIVATE cxx_std_11)
