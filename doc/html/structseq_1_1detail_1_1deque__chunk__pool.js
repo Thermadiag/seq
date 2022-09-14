@@ -1,8 +1,8 @@
 var structseq_1_1detail_1_1deque__chunk__pool =
 [
     [ "RebindAlloc", "structseq_1_1detail_1_1deque__chunk__pool.html#a55662f6f809e36eddc7585c70ed41e7a", null ],
-    [ "deque_chunk_pool", "structseq_1_1detail_1_1deque__chunk__pool.html#a983705e63a6421e614455b2dcb475c2d", null ],
-    [ "deque_chunk_pool", "structseq_1_1detail_1_1deque__chunk__pool.html#af33b2137624547469f0d784cac2596f7", null ],
+    [ "deque_chunk_pool", "structseq_1_1detail_1_1deque__chunk__pool.html#adc2e973bf4605d155e52539e74ed9590", null ],
+    [ "deque_chunk_pool", "structseq_1_1detail_1_1deque__chunk__pool.html#a82a38b367d5edd54f751f4ad39449dde", null ],
     [ "deque_chunk_pool", "structseq_1_1detail_1_1deque__chunk__pool.html#a6cfa86a53bbe786ed176d4147262648c", null ],
     [ "~deque_chunk_pool", "structseq_1_1detail_1_1deque__chunk__pool.html#addb7cacaf141e6107a8e4fc8a47d30c0", null ],
     [ "deque_chunk_pool", "structseq_1_1detail_1_1deque__chunk__pool.html#acd31c94c0b4c914c6fac3fc9df77ab6c", null ],
@@ -17,7 +17,7 @@ var structseq_1_1detail_1_1deque__chunk__pool =
     [ "rebind_for", "structseq_1_1detail_1_1deque__chunk__pool.html#a4ea83bab74f7894dec1e44cce03be841", null ],
     [ "set_next", "structseq_1_1detail_1_1deque__chunk__pool.html#ac4a7e6886019f3ce519a4436b797a2db", null ],
     [ "T_per_chunk", "structseq_1_1detail_1_1deque__chunk__pool.html#a3c25ad9752edf1a9963062e55bac942e", null ],
-    [ "allocator", "structseq_1_1detail_1_1deque__chunk__pool.html#ae8d05f7e0a786cd7fc80c2203b4d9f48", null ],
+    [ "allocator", "structseq_1_1detail_1_1deque__chunk__pool.html#ac35ff76988cf7bcc35e124c5e85e06a9", null ],
     [ "chunks", "structseq_1_1detail_1_1deque__chunk__pool.html#a8680024aba525f53e593bc6d3e19f9b4", null ],
     [ "count", "structseq_1_1detail_1_1deque__chunk__pool.html#a3e107e969a77634aa0d3bd5191ee0fbe", null ],
     [ "elems_per_chunk", "structseq_1_1detail_1_1deque__chunk__pool.html#a2595cde82492c377da69d47ec213b901", null ],

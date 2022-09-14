@@ -93,6 +93,8 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1deque__chunk__p
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="deque__allocator_8hpp_source.html">deque_allocator.hpp</a>&gt;</code></p>
+
+<p>Inherits allocator&lt; T &gt;.</p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -114,8 +116,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aea9b581b8023bd3eca424d51e2388c2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61b7823ab21f8b4080e5214e2e62bc56"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#a61b7823ab21f8b4080e5214e2e62bc56">operator=</a> (<a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html">deque_chunk_pool_alloc</a> &amp;&amp;other) noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html">deque_chunk_pool_alloc</a> &amp;</td></tr>
 <tr class="separator:a61b7823ab21f8b4080e5214e2e62bc56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21531d5aa4a67057232a55830c4ae0c4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#a21531d5aa4a67057232a55830c4ae0c4">get_allocator</a> () const noexcept -&gt; Allocator</td></tr>
-<tr class="separator:a21531d5aa4a67057232a55830c4ae0c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d489575230e184c2cc68a137c4e0421"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#a2d489575230e184c2cc68a137c4e0421">get_allocator</a> () const noexcept -&gt; const Allocator &amp;</td></tr>
+<tr class="separator:a2d489575230e184c2cc68a137c4e0421"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc035d84dabae0ace58e2a28f262327c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#adc035d84dabae0ace58e2a28f262327c">get_allocator</a> () noexcept -&gt; Allocator &amp;</td></tr>
 <tr class="separator:adc035d84dabae0ace58e2a28f262327c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15bb97634b8b7c1b39b62001e9e46e16"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#a15bb97634b8b7c1b39b62001e9e46e16">free_count</a> () const noexcept -&gt; std::size_t</td></tr>
@@ -135,8 +137,6 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a20c2994bfc94ab1988d285b155ec08e8"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structseq_1_1detail_1_1deque__chunk__pool.html">deque_chunk_pool</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#a20c2994bfc94ab1988d285b155ec08e8">pools</a></td></tr>
 <tr class="separator:a20c2994bfc94ab1988d285b155ec08e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a987e1504b359afec4ef968089d8290ef"><td class="memItemLeft" align="right" valign="top">Allocator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#a987e1504b359afec4ef968089d8290ef">allocator</a></td></tr>
-<tr class="separator:a987e1504b359afec4ef968089d8290ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe17cb13b4a628c4e4774b23ff05290e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#afe17cb13b4a628c4e4774b23ff05290e">capacity</a></td></tr>
 <tr class="separator:afe17cb13b4a628c4e4774b23ff05290e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a909075c1e0a8957e7c7ac56dd0ea7e89"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#a909075c1e0a8957e7c7ac56dd0ea7e89">objects</a></td></tr>
@@ -454,8 +454,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;&gt; </div>
 
 </div>
 </div>
-<a id="a21531d5aa4a67057232a55830c4ae0c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21531d5aa4a67057232a55830c4ae0c4">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[1/2]</span></h2>
+<a id="a2d489575230e184c2cc68a137c4e0421"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d489575230e184c2cc68a137c4e0421">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -469,7 +469,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;&gt; </div>
           <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html">seq::detail::deque_chunk_pool_alloc</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::get_allocator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; Allocator </td>
+          <td> const -&gt; const Allocator&amp; </td>
         </tr>
       </table>
   </td>
@@ -658,22 +658,6 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;&gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a987e1504b359afec4ef968089d8290ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a987e1504b359afec4ef968089d8290ef">&#9670;&nbsp;</a></span>allocator</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T , class Allocator  = std::allocator&lt;T&gt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">Allocator <a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html">seq::detail::deque_chunk_pool_alloc</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator &gt;::allocator</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="afe17cb13b4a628c4e4774b23ff05290e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afe17cb13b4a628c4e4774b23ff05290e">&#9670;&nbsp;</a></span>capacity</h2>
 

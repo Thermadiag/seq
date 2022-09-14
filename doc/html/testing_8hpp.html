@@ -116,6 +116,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1basic__nullbuf.html">seq::basic_nullbuf&lt; Ch, Traits &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1disable__ostream.html">seq::disable_ostream</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_multiply.html">seq::detail::Multiply&lt; T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_multiply_3_01long_01double_01_4.html">seq::detail::Multiply&lt; long double &gt;</a></td></tr>
@@ -150,23 +152,15 @@ Macros</h2></td></tr>
 <tr class="memitem:a1757e7800bda74b5c5eb09cfcf8ebf08"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="testing_8hpp.html#a1757e7800bda74b5c5eb09cfcf8ebf08">SEQ_TEST_MODULE</a>(name, ...)</td></tr>
 <tr class="memdesc:a1757e7800bda74b5c5eb09cfcf8ebf08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test module.  <a href="testing_8hpp.html#a1757e7800bda74b5c5eb09cfcf8ebf08">More...</a><br /></td></tr>
 <tr class="separator:a1757e7800bda74b5c5eb09cfcf8ebf08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebe76d3d4be24037885958cc523fd4ab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="testing_8hpp.html#aebe76d3d4be24037885958cc523fd4ab">system</a>&#160;&#160;&#160;std::system</td></tr>
-<tr class="separator:aebe76d3d4be24037885958cc523fd4ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:af0ec9ba1def153ac65c74abff27f2808"><td class="memItemLeft" align="right" valign="top">typedef struct timespec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#af0ec9ba1def153ac65c74abff27f2808">seq::detail::high_def_timer</a></td></tr>
-<tr class="separator:af0ec9ba1def153ac65c74abff27f2808"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a802ef6dd5cb892731a06e6699a27edf8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a802ef6dd5cb892731a06e6699a27edf8">seq::nullbuf</a> = basic_nullbuf&lt; char &gt;</td></tr>
 <tr class="memdesc:a802ef6dd5cb892731a06e6699a27edf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">For tests only, alias for null buffer, to be used with c++ iostreams.  <a href="namespaceseq.html#a802ef6dd5cb892731a06e6699a27edf8">More...</a><br /></td></tr>
 <tr class="separator:a802ef6dd5cb892731a06e6699a27edf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a11c92d944f09d0386f466990e37d8def"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a11c92d944f09d0386f466990e37d8def">seq::detail::start_timer</a> (high_def_timer *timer)</td></tr>
-<tr class="separator:a11c92d944f09d0386f466990e37d8def"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa91b6582f33e90efc496e9591647d206"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#aa91b6582f33e90efc496e9591647d206">seq::detail::elapsed_microseconds</a> (high_def_timer *timer)</td></tr>
-<tr class="separator:aa91b6582f33e90efc496e9591647d206"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad863fcfc143b646f5a2f2362a1327575"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ad863fcfc143b646f5a2f2362a1327575">seq::tick</a> ()</td></tr>
 <tr class="memdesc:ad863fcfc143b646f5a2f2362a1327575"><td class="mdescLeft">&#160;</td><td class="mdescRight">For tests only, reset timer for calling thread.  <a href="namespaceseq.html#ad863fcfc143b646f5a2f2362a1327575">More...</a><br /></td></tr>
 <tr class="separator:ad863fcfc143b646f5a2f2362a1327575"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -319,20 +313,6 @@ Functions</h2></td></tr>
 <div class="line">    }</div>
 </div><!-- fragment -->
 <p>Test if writting given argument to a std::ostream produces the string 'result', throws <a class="el" href="classseq_1_1test__error.html" title="Exception thrown for failed tests.">seq::test_error</a> if not. </p>
-
-</div>
-</div>
-<a id="aebe76d3d4be24037885958cc523fd4ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aebe76d3d4be24037885958cc523fd4ab">&#9670;&nbsp;</a></span>system</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define system&#160;&#160;&#160;std::system</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
 
 </div>
 </div>

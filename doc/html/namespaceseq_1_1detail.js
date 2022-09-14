@@ -14,6 +14,7 @@ var namespaceseq_1_1detail =
     [ "AppendHelper", "structseq_1_1detail_1_1_append_helper.html", null ],
     [ "AppendHelper< Ostream, true >", "structseq_1_1detail_1_1_append_helper_3_01_ostream_00_01true_01_4.html", null ],
     [ "apply_wrapper", "structseq_1_1detail_1_1apply__wrapper.html", "structseq_1_1detail_1_1apply__wrapper" ],
+    [ "atomic_bool_locker", "structseq_1_1detail_1_1atomic__bool__locker.html", "structseq_1_1detail_1_1atomic__bool__locker" ],
     [ "base_block", "structseq_1_1detail_1_1base__block.html", "structseq_1_1detail_1_1base__block" ],
     [ "base_list_chunk", "structseq_1_1detail_1_1base__list__chunk.html", "structseq_1_1detail_1_1base__list__chunk" ],
     [ "base_mutli_ostream_format", "classseq_1_1detail_1_1base__mutli__ostream__format.html", "classseq_1_1detail_1_1base__mutli__ostream__format" ],

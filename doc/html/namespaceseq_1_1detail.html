@@ -135,6 +135,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1apply__wrapper.html">apply_wrapper</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1atomic__bool__locker.html">atomic_bool_locker</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__block.html">base_block</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1base__list__chunk.html">base_list_chunk</a></td></tr>
@@ -559,8 +561,6 @@ Typedefs</h2></td></tr>
 <tr class="separator:a4207ab8df628223bc65ad135e4c94762"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e965e791df5b616ea81c89033637e8c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a8e965e791df5b616ea81c89033637e8c">thread_id</a> = std::thread::id</td></tr>
 <tr class="separator:a8e965e791df5b616ea81c89033637e8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0ec9ba1def153ac65c74abff27f2808"><td class="memItemLeft" align="right" valign="top">typedef struct timespec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#af0ec9ba1def153ac65c74abff27f2808">high_def_timer</a></td></tr>
-<tr class="separator:af0ec9ba1def153ac65c74abff27f2808"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3a0759bd89ba1e3f58f05841ac6f76f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#ad3a0759bd89ba1e3f58f05841ac6f76f">cbuffer_pos</a> = short</td></tr>
 <tr class="separator:ad3a0759bd89ba1e3f58f05841ac6f76f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -844,10 +844,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a59987d94d05bfef3da2943539d4e2076"><td class="memTemplParams" colspan="2">template&lt;class List &gt; </td></tr>
 <tr class="memitem:a59987d94d05bfef3da2943539d4e2076"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a59987d94d05bfef3da2943539d4e2076">operator-</a> (const <a class="el" href="classseq_1_1detail_1_1sequence__iterator.html">sequence_iterator</a>&lt; List &gt; &amp;it, typename <a class="el" href="classseq_1_1detail_1_1sequence__iterator.html">sequence_iterator</a>&lt; List &gt;::difference_type diff) noexcept -&gt; <a class="el" href="classseq_1_1detail_1_1sequence__iterator.html">sequence_iterator</a>&lt; List &gt;</td></tr>
 <tr class="separator:a59987d94d05bfef3da2943539d4e2076"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11c92d944f09d0386f466990e37d8def"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a11c92d944f09d0386f466990e37d8def">start_timer</a> (<a class="el" href="namespaceseq_1_1detail.html#af0ec9ba1def153ac65c74abff27f2808">high_def_timer</a> *timer)</td></tr>
-<tr class="separator:a11c92d944f09d0386f466990e37d8def"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa91b6582f33e90efc496e9591647d206"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#aa91b6582f33e90efc496e9591647d206">elapsed_microseconds</a> (<a class="el" href="namespaceseq_1_1detail.html#af0ec9ba1def153ac65c74abff27f2808">high_def_timer</a> *timer)</td></tr>
-<tr class="separator:aa91b6582f33e90efc496e9591647d206"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62f10ff714d85a3a14330e0a990ecb2f"><td class="memTemplParams" colspan="2">template&lt;class BucketMgr &gt; </td></tr>
 <tr class="memitem:a62f10ff714d85a3a14330e0a990ecb2f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a62f10ff714d85a3a14330e0a990ecb2f">operator+</a> (const <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html">deque_const_iterator</a>&lt; BucketMgr &gt; &amp;it, typename <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html">deque_const_iterator</a>&lt; BucketMgr &gt;::difference_type diff) noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html">deque_const_iterator</a>&lt; BucketMgr &gt;</td></tr>
 <tr class="separator:a62f10ff714d85a3a14330e0a990ecb2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -881,6 +877,18 @@ Functions</h2></td></tr>
 <tr class="memitem:a34beaff05f7f90797f6ae1af7864d2a6"><td class="memTemplParams" colspan="2">template&lt;class BucketMgr &gt; </td></tr>
 <tr class="memitem:a34beaff05f7f90797f6ae1af7864d2a6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a34beaff05f7f90797f6ae1af7864d2a6">operator&gt;=</a> (const <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html">deque_const_iterator</a>&lt; BucketMgr &gt; &amp;it1, const <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html">deque_const_iterator</a>&lt; BucketMgr &gt; &amp;it2) noexcept -&gt; bool</td></tr>
 <tr class="separator:a34beaff05f7f90797f6ae1af7864d2a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5821a250d36c17fe3f719b5b9a1d7709"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a5821a250d36c17fe3f719b5b9a1d7709">count_approximate_common_bytes</a> (const char *pIn, const char *pMatch, const char *pInLimit) -&gt; size_t</td></tr>
+<tr class="separator:a5821a250d36c17fe3f719b5b9a1d7709"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07a083b82f96e76e4a5e7724b32f440a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a07a083b82f96e76e4a5e7724b32f440a">string_inf</a> (const char *v1, const char *e1, const char *v2, const char *e2) noexcept -&gt; bool</td></tr>
+<tr class="separator:a07a083b82f96e76e4a5e7724b32f440a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80e8bf9b36c97bd9b94eea4ccd43fad6"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a80e8bf9b36c97bd9b94eea4ccd43fad6">string_compare</a> (const unsigned char *v1, size_t l1, const unsigned char *v2, size_t l2) noexcept -&gt; int</td></tr>
+<tr class="separator:a80e8bf9b36c97bd9b94eea4ccd43fad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2973df76b7a747a468d8e78d188989d7"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a2973df76b7a747a468d8e78d188989d7">string_inf_equal</a> (const char *v1, const char *e1, const char *v2, const char *e2) noexcept -&gt; bool</td></tr>
+<tr class="separator:a2973df76b7a747a468d8e78d188989d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb645eb2c2201055296d2a778f2f3a16"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#aeb645eb2c2201055296d2a778f2f3a16">string_equal</a> (const char *pIn, const char *pMatch, const char *pInLimit) noexcept -&gt; bool</td></tr>
+<tr class="separator:aeb645eb2c2201055296d2a778f2f3a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8afb9f8881a5cb441e341f4c8141789f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a8afb9f8881a5cb441e341f4c8141789f">string_equal</a> (const char *s1, size_t l1, const char *s2, size_t l2) noexcept -&gt; bool</td></tr>
+<tr class="separator:a8afb9f8881a5cb441e341f4c8141789f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab55ba7ab1c29b9bc02d77676e7b08acc"><td class="memTemplParams" colspan="2">template&lt;class String1 , class String2 , class Iter &gt; </td></tr>
 <tr class="memitem:ab55ba7ab1c29b9bc02d77676e7b08acc"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#ab55ba7ab1c29b9bc02d77676e7b08acc">join</a> (String1 &amp;out, const String2 &amp;sep, Iter <a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, Iter last)</td></tr>
 <tr class="separator:ab55ba7ab1c29b9bc02d77676e7b08acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -936,20 +944,6 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="namespaceseq_1_1detail.html#ad3a0759bd89ba1e3f58f05841ac6f76f">seq::detail::cbuffer_pos</a> = typedef short</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af0ec9ba1def153ac65c74abff27f2808"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0ec9ba1def153ac65c74abff27f2808">&#9670;&nbsp;</a></span>high_def_timer</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef struct timespec <a class="el" href="namespaceseq_1_1detail.html#af0ec9ba1def153ac65c74abff27f2808">seq::detail::high_def_timer</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1196,6 +1190,49 @@ template&lt;class T , class any_type_info &gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5821a250d36c17fe3f719b5b9a1d7709"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5821a250d36c17fe3f719b5b9a1d7709">&#9670;&nbsp;</a></span>count_approximate_common_bytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::detail::count_approximate_common_bytes </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pMatch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pInLimit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; size_t
+		</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -1474,32 +1511,6 @@ template&lt;class It &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns distance between 2 iterators, or 0 for non random access iterators. </p>
-
-</div>
-</div>
-<a id="aa91b6582f33e90efc496e9591647d206"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa91b6582f33e90efc496e9591647d206">&#9670;&nbsp;</a></span>elapsed_microseconds()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t seq::detail::elapsed_microseconds </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceseq_1_1detail.html#af0ec9ba1def153ac65c74abff27f2808">high_def_timer</a> *&#160;</td>
-          <td class="paramname"><em>timer</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>
@@ -3823,8 +3834,8 @@ template&lt;class T , class UInt &gt; </div>
 
 </div>
 </div>
-<a id="a11c92d944f09d0386f466990e37d8def"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11c92d944f09d0386f466990e37d8def">&#9670;&nbsp;</a></span>start_timer()</h2>
+<a id="a80e8bf9b36c97bd9b94eea4ccd43fad6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80e8bf9b36c97bd9b94eea4ccd43fad6">&#9670;&nbsp;</a></span>string_compare()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3833,16 +3844,227 @@ template&lt;class T , class UInt &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void seq::detail::start_timer </td>
+          <td class="memname">auto seq::detail::string_compare </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceseq_1_1detail.html#af0ec9ba1def153ac65c74abff27f2808">high_def_timer</a> *&#160;</td>
-          <td class="paramname"><em>timer</em></td><td>)</td>
+          <td class="paramtype">const unsigned char *&#160;</td>
+          <td class="paramname"><em>v1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>l1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned char *&#160;</td>
+          <td class="paramname"><em>v2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>l2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; int
+		</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeb645eb2c2201055296d2a778f2f3a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb645eb2c2201055296d2a778f2f3a16">&#9670;&nbsp;</a></span>string_equal() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::detail::string_equal </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pIn</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pMatch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pInLimit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; bool </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8afb9f8881a5cb441e341f4c8141789f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8afb9f8881a5cb441e341f4c8141789f">&#9670;&nbsp;</a></span>string_equal() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::detail::string_equal </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>s1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>l1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>s2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>l2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; bool </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07a083b82f96e76e4a5e7724b32f440a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07a083b82f96e76e4a5e7724b32f440a">&#9670;&nbsp;</a></span>string_inf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::detail::string_inf </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>v1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>e1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>v2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>e2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; bool
+		</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2973df76b7a747a468d8e78d188989d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2973df76b7a747a468d8e78d188989d7">&#9670;&nbsp;</a></span>string_inf_equal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::detail::string_inf_equal </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>v1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>e1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>v2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>e2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; bool
+		</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

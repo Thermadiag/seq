@@ -5,7 +5,7 @@ var classseq_1_1detail_1_1thread__data =
     [ "deffered_count", "classseq_1_1detail_1_1thread__data.html#a846fb19354027219e879df97a00fb32a", null ],
     [ "deffered_free", "classseq_1_1detail_1_1thread__data.html#a83800cfdbeba78fc262449738e396071", null ],
     [ "lock", "classseq_1_1detail_1_1thread__data.html#a5e5439641d4283da2ee07210047079c0", null ],
-    [ "reset_thread_data", "classseq_1_1detail_1_1thread__data.html#a30bf94454794c4930d1efe2994877178", null ],
+    [ "reset_thread_data", "classseq_1_1detail_1_1thread__data.html#a2ee3d1b964190981bb02767c2104c708", null ],
     [ "set_deffered_count", "classseq_1_1detail_1_1thread__data.html#ace932f8b197f53d49798be8dd9034b0a", null ],
     [ "set_deffered_free", "classseq_1_1detail_1_1thread__data.html#a72cf6eb84acf0c859b6af27a10741192", null ],
     [ "set_thread_id", "classseq_1_1detail_1_1thread__data.html#adc9e89e73c6e80476b9d3a2be5310710", null ],

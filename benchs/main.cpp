@@ -37,7 +37,7 @@ using namespace seq;
 
 int  main  (int , char** )
 {
-	
+		
 	test_tstring_members(20000000);
 	test_sort_strings(2000000);
 	test_tstring_operators<25>(5000000, 14);

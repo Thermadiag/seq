@@ -98,8 +98,8 @@ $(document).ready(function(){initNavTree('structseq_1_1integer__max.html',''); i
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a6b40060ea42bc6272eb18302f7f4a192"><td class="memItemLeft" align="right" valign="top">static const T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1integer__max.html#a6b40060ea42bc6272eb18302f7f4a192">value</a> = static_cast&lt;T&gt;( ~(static_cast &lt; T&gt;(1) &lt;&lt; (static_cast&lt;T&gt;(sizeof(T) * 8) - static_cast &lt; T&gt;(1))) )</td></tr>
-<tr class="separator:a6b40060ea42bc6272eb18302f7f4a192"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a696d31b451649627fecd4021f289dc4d"><td class="memItemLeft" align="right" valign="top">static constexpr T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1integer__max.html#a696d31b451649627fecd4021f289dc4d">value</a> = static_cast&lt;T&gt;( ~(static_cast &lt; T&gt;(1) &lt;&lt; (static_cast&lt;T&gt;(sizeof(T) * 8) - static_cast &lt; T&gt;(1))) )</td></tr>
+<tr class="separator:a696d31b451649627fecd4021f289dc4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class T, bool Signed = std::is_signed&lt;T&gt;::value&gt;<br />
@@ -107,8 +107,8 @@ struct seq::integer_max&lt; T, Signed &gt;</h3>
 
 <p>Compute integer type maximum value at compile time. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a6b40060ea42bc6272eb18302f7f4a192"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b40060ea42bc6272eb18302f7f4a192">&#9670;&nbsp;</a></span>value</h2>
+<a id="a696d31b451649627fecd4021f289dc4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a696d31b451649627fecd4021f289dc4d">&#9670;&nbsp;</a></span>value</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -119,12 +119,12 @@ template&lt;class T , bool Signed = std::is_signed&lt;T&gt;::value&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T <a class="el" href="structseq_1_1integer__max.html">seq::integer_max</a>&lt; T, Signed &gt;::value = static_cast&lt;T&gt;( ~(static_cast &lt; T&gt;(1) &lt;&lt; (static_cast&lt;T&gt;(sizeof(T) * 8) - static_cast &lt; T&gt;(1))) )</td>
+          <td class="memname">constexpr T <a class="el" href="structseq_1_1integer__max.html">seq::integer_max</a>&lt; T, Signed &gt;::value = static_cast&lt;T&gt;( ~(static_cast &lt; T&gt;(1) &lt;&lt; (static_cast&lt;T&gt;(sizeof(T) * 8) - static_cast &lt; T&gt;(1))) )</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

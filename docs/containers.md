@@ -16,7 +16,7 @@ Currently, the *containers* module provide 5 types of containers:
 	-	`seq::flat_multiset`: similar to `seq::flat_set` but supporting duplicate keys.
 	-	`seq::flat_multimap`: similar to `seq::flat_map` but supporting duplicate keys.
 -	Hash tables: 
-	-	`seq::ordered_set`: Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` with iterator/reference stability, and additional features (see class documentation).
+	-	`seq::ordered_set`: Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket interface) with iterator/reference stability, and additional features (see class documentation).
 	-	`seq::ordered_map`: associative version of `seq::ordered_set`.
 -	Strings:
 	-	`seq::tiny_string`: string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.

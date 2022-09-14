@@ -94,7 +94,7 @@ namespace seq
 
 	/// @brief Constants used by #object_pool, #parallel_object_pool and #object_allocator
 	enum {
-		EnoughForSharedPtr = INT_MAX, ///! MaxObjectsAllocation value for #object_pool and #parallel_object_pool to enable shared_ptr building
+		//EnoughForSharedPtr = INT_MAX, ///! MaxObjectsAllocation value for #object_pool and #parallel_object_pool to enable shared_ptr building
 		DefaultAlignment = 0 ///! Default alignment value for #object_pool, #parallel_object_pool and #object_allocator
 	};
 
@@ -2210,7 +2210,7 @@ namespace seq
 		}
 
 		/// @brief Experimental. Returns a shared_ptr object built with this object_pool.
-		template< class... Args >
+		/*template< class... Args >
 		auto make_shared(Args&&... args) -> std::shared_ptr<T>
 		{
 			static_assert(EnableUniquePtr, "this memory pool is not configured to create shared_ptr objects");
@@ -2218,7 +2218,7 @@ namespace seq
 
 			using alloc_type = detail::allocator_for_shared_ptr<T, this_type >;
 			return std::allocate_shared<T>(alloc_type(this), std::forward<Args>(args)...);
-		}
+		}*/
 	};
 
 
@@ -2876,7 +2876,7 @@ namespace seq
 			
 			block* _bl = add(idx,data);
 
-			//TEST: retry previous pools in case of deffered delete in-between
+			// retry previous pools in case of deffered delete in-between
 			block * it = data->begin(idx);
 			while (it != data->end(idx)) {
 				if (T* res = static_cast<T*>(it->pool.allocate())) {
@@ -2899,11 +2899,6 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto allocate_from_last( thread_data* data, size_t idx) -> T*
 		{
 			if (data->last[idx]) {
-				//TEST
-				/*if (SEQ_UNLIKELY(data->wait_requested)) {
-					interrupt_thread(data);
-					if (!data->last[idx]) return NULL;
-				}*/
 				return static_cast<T*>(data->last[idx]->pool.allocate());
 			}
 			return NULL;
@@ -3202,13 +3197,13 @@ namespace seq
 		}
 
 		/// @brief Experimental. Returns a shared_ptr object built with this object_pool.
-		template< class... Args >
+		/*template< class... Args >
 		auto make_shared(Args&&... args) -> std::shared_ptr<T>
 		{
 			static_assert(sizeof(T) <= 64, "creating shared_ptr with this memory pool would waste too much memory");
 			using alloc_type = detail::allocator_for_shared_ptr<T, this_type >;
 			return std::allocate_shared<T>(alloc_type(this), std::forward<Args>(args)...);
-		}
+		}*/
 	};
 
 

@@ -13,10 +13,11 @@ var structseq_1_1detail_1_1_deque_bucket_allocator =
     [ "dealloc", "structseq_1_1detail_1_1_deque_bucket_allocator.html#a6a36c06cb26a22fc719244a77df3d37c", null ],
     [ "destroy_all", "structseq_1_1detail_1_1_deque_bucket_allocator.html#a26604625321c25d9bc00802600bcd2e7", null ],
     [ "destroy_all_no_destructor", "structseq_1_1detail_1_1_deque_bucket_allocator.html#a02e8cd27b5587413ab4d94f4b31cede5", null ],
+    [ "get_allocator", "structseq_1_1detail_1_1_deque_bucket_allocator.html#a768dd900c246da7f1d7404098864fe51", null ],
+    [ "get_allocator", "structseq_1_1detail_1_1_deque_bucket_allocator.html#a425aae38d7d351034f044321ec0d7667", null ],
     [ "init", "structseq_1_1detail_1_1_deque_bucket_allocator.html#a156ee7f5098c016050f5bde2ca31d3bc", null ],
     [ "operator=", "structseq_1_1detail_1_1_deque_bucket_allocator.html#aa0b6ba8d51c27786caa5d8a8001a7301", null ],
     [ "recyclate", "structseq_1_1detail_1_1_deque_bucket_allocator.html#af3d2fcc2436c50bc5a561dec15790877", null ],
-    [ "allocator", "structseq_1_1detail_1_1_deque_bucket_allocator.html#a6a52575df5e71738aabdf607feeacf49", null ],
     [ "bucket_size", "structseq_1_1detail_1_1_deque_bucket_allocator.html#a508f7fc18e3c10646a35106390aa9a7a", null ],
     [ "pool", "structseq_1_1detail_1_1_deque_bucket_allocator.html#a65ef9908907cd2f04955918037d30a2e", null ]
 ];

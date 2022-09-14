@@ -86,23 +86,19 @@ $(document).ready(function(){initNavTree('functions_func_m.html',''); initResiza
 &#160;
 
 <h3><a id="index_m"></a>- m -</h3><ul>
-<li>make_shared()
-: <a class="el" href="classseq_1_1object__pool.html#a46c19b78510cd2becc02db55eea3dc62">seq::object_pool&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;</a>
-, <a class="el" href="classseq_1_1parallel__object__pool.html#af630748517ea5a31bb82fe00580bf339">seq::parallel_object_pool&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;</a>
-</li>
 <li>make_unique()
 : <a class="el" href="classseq_1_1object__pool.html#a6c693c5b972f21af9ab51a7fd22d15ba">seq::object_pool&lt; T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats &gt;</a>
 , <a class="el" href="classseq_1_1parallel__object__pool.html#a8e9f5603fd5d92224ba1a40b0190b173">seq::parallel_object_pool&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;</a>
 </li>
 <li>manager()
-: <a class="el" href="classseq_1_1tiered__vector.html#a18aa621d81f3842bfe95f5ce04702f68">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
+: <a class="el" href="classseq_1_1tiered__vector.html#aa3a82ff63aa8d8c679669bf0a1d09d99">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
 </li>
 <li>mark_dirty()
 : <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a42619f399691199925c8b64723df3b1c">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#aa346f7840aaec5c56d7b307ead6fbd06">seq::detail::SparseFlatNodeHashTable&lt; Key, Value, Hash, Equal, Allocator, layout &gt;</a>
 </li>
 <li>max_load_factor()
-: <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a61d12e6f0f066d5f3eebeb61be0a55df">seq::detail::SparseFlatNodeHashTable&lt; Key, Value, Hash, Equal, Allocator, layout &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#afc57e27966fa440a092c90905c84a8ae">seq::detail::SparseFlatNodeHashTable&lt; Key, Value, Hash, Equal, Allocator, layout &gt;</a>
 , <a class="el" href="classseq_1_1ordered__map.html#ae7be204853b292f8e4d283fb3df21671">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;</a>
 , <a class="el" href="classseq_1_1ordered__set.html#ac7fb96b6026596a42b0a186260086f91">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;</a>
 </li>
@@ -120,7 +116,7 @@ $(document).ready(function(){initNavTree('functions_func_m.html',''); initResiza
 , <a class="el" href="classseq_1_1ordered__set.html#a0e0e2d5eea7bd8904e5859584dc1e6cf">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;</a>
 , <a class="el" href="classseq_1_1sequence.html#a21013b95f15468be8a88bded677a45de">seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</a>
 , <a class="el" href="classseq_1_1tiered__vector.html#a4a39d4dbd7f3d8084d8ea3d9eafa85a6">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
-, <a class="el" href="classseq_1_1tiny__string.html#a493e5c95b46c2cfbaa2efcc08c638ec6">seq::tiny_string&lt; MaxStaticSize, Allocator &gt;</a>
+, <a class="el" href="classseq_1_1tiny__string.html#a9437d571f2d756cc5a9beee250eedaaa">seq::tiny_string&lt; MaxStaticSize, Allocator &gt;</a>
 , <a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#ad4f619df0ce8e23d123b48a8d90073e7">seq::tiny_string&lt; 0, view_allocator &gt;</a>
 </li>
 <li>membuf()
@@ -156,11 +152,17 @@ $(document).ready(function(){initNavTree('functions_func_m.html',''); initResiza
 <li>move_erase_right_1()
 : <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#a7c4d1d55e50e5199d64eaeb3b96d5e85">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
 </li>
+<li>move_left()
+: <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#a313c59656d60a73c19b96e7633a1a90c">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
+</li>
 <li>move_left_1()
-: <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#ae31f032f9fb27ef06a4ce29bdf62b395">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#ac5a663b713139f4055037251c1014353">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
+</li>
+<li>move_right()
+: <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#ae24f33da521d226872e34c796fa43c34">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
 </li>
 <li>move_right_1()
-: <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#a34f8665c0498d779d94688df45d3adb0">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#a95394e9dc4ebadcb2acfcf49202c010d">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
 </li>
 <li>multiply()
 : <a class="el" href="structseq_1_1detail_1_1_multiply.html#af3fd73781c8f98630707fea759949f06">seq::detail::Multiply&lt; T &gt;</a>
@@ -172,8 +174,8 @@ $(document).ready(function(){initNavTree('functions_func_m.html',''); initResiza
 : <a class="el" href="structseq_1_1detail_1_1_mutex_wrapper.html#af20ff8766fb9de6f3d579866e3ae5b3a">seq::detail::MutexWrapper</a>
 </li>
 <li>mutli_ostream_format()
-: <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#a4023ee890f6dd5f6743e6014a5df1c3e">seq::detail::mutli_ostream_format&lt; Tuple, Pos &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format_3_01_tuple_00_01_positional_3_01_ts_8_8_8_01_4_01_4.html#a178258dd8b82456b5b29e2a9aff356fc">seq::detail::mutli_ostream_format&lt; Tuple, Positional&lt; Ts... &gt; &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#ae489beca64a7366e376b4a61d6c415ea">seq::detail::mutli_ostream_format&lt; Tuple, Pos &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format_3_01_tuple_00_01_positional_3_01_ts_8_8_8_01_4_01_4.html#a9e7ac75913036d07587687849516bee0">seq::detail::mutli_ostream_format&lt; Tuple, Positional&lt; Ts... &gt; &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

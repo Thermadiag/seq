@@ -15,6 +15,7 @@ var namespaceseq =
     [ "buffer_input_stream", "classseq_1_1buffer__input__stream.html", "classseq_1_1buffer__input__stream" ],
     [ "cvalue_iterator", "classseq_1_1cvalue__iterator.html", "classseq_1_1cvalue__iterator" ],
     [ "devector", "classseq_1_1devector.html", "classseq_1_1devector" ],
+    [ "disable_ostream", "structseq_1_1disable__ostream.html", "structseq_1_1disable__ostream" ],
     [ "external_allocator", "classseq_1_1external__allocator.html", "classseq_1_1external__allocator" ],
     [ "file_input_stream", "classseq_1_1file__input__stream.html", "classseq_1_1file__input__stream" ],
     [ "flat_map", "classseq_1_1flat__map.html", "classseq_1_1flat__map" ],

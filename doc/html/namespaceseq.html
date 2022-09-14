@@ -142,6 +142,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html">devector</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Double-ending vector implementation which can be optimized for several use case.  <a href="classseq_1_1devector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1disable__ostream.html">disable_ostream</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1external__allocator.html">external_allocator</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stl conforming allocator wrapper using an external class to perform the allocation.  <a href="classseq_1_1external__allocator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -420,8 +422,7 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a04f4e48fbeeb8d86e75555957c4e270c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag indicating whether the devector is optimized for back insertion, front insertion or both.  <a href="namespaceseq.html#a04f4e48fbeeb8d86e75555957c4e270c">More...</a><br /></td></tr>
 <tr class="separator:a04f4e48fbeeb8d86e75555957c4e270c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adac07c5c5e3d6da3ebb03f7ddd1e7cde"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="namespaceseq.html#adac07c5c5e3d6da3ebb03f7ddd1e7cdead00237c7a57ddcba9f768430524651f2">EnoughForSharedPtr</a> = INT_MAX, 
-<a class="el" href="namespaceseq.html#adac07c5c5e3d6da3ebb03f7ddd1e7cdea668d551cd99226655e9e973b6d5be517">DefaultAlignment</a> = 0
+<tr class="memitem:adac07c5c5e3d6da3ebb03f7ddd1e7cde"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="namespaceseq.html#adac07c5c5e3d6da3ebb03f7ddd1e7cdea668d551cd99226655e9e973b6d5be517">DefaultAlignment</a> = 0
  }</td></tr>
 <tr class="memdesc:adac07c5c5e3d6da3ebb03f7ddd1e7cde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constants used by #object_pool, #parallel_object_pool and #object_allocator.  <a href="namespaceseq.html#adac07c5c5e3d6da3ebb03f7ddd1e7cde">More...</a><br /></td></tr>
 <tr class="separator:adac07c5c5e3d6da3ebb03f7ddd1e7cde"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1178,9 +1179,7 @@ Functions</h2></td></tr>
 
 <p>Constants used by #object_pool, #parallel_object_pool and #object_allocator. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="adac07c5c5e3d6da3ebb03f7ddd1e7cdead00237c7a57ddcba9f768430524651f2"></a>EnoughForSharedPtr&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="adac07c5c5e3d6da3ebb03f7ddd1e7cdea668d551cd99226655e9e973b6d5be517"></a>DefaultAlignment&#160;</td><td class="fielddoc"><p>! MaxObjectsAllocation value for #object_pool and #parallel_object_pool to enable shared_ptr building </p>
-</td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="adac07c5c5e3d6da3ebb03f7ddd1e7cdea668d551cd99226655e9e973b6d5be517"></a>DefaultAlignment&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -2905,7 +2904,7 @@ template&lt;class String &gt; </div>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> -&gt; size_t
-		</td>
+	</td>
         </tr>
       </table>
 </div><div class="memdoc">

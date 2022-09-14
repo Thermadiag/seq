@@ -145,7 +145,7 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a8138c63e1b50e132c7835a56cc0455a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiered__vector_8hpp.html#a8138c63e1b50e132c7835a56cc0455a5">SEQ_MIN_BUCKET_SIZE</a>(T)&#160;&#160;&#160;(sizeof(T) &lt;= 4 ? 64 : (sizeof(T) &lt;= 8 ? 32 : (sizeof(T) &lt;= 16 ? 16 : 8)))</td></tr>
+<tr class="memitem:a8138c63e1b50e132c7835a56cc0455a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiered__vector_8hpp.html#a8138c63e1b50e132c7835a56cc0455a5">SEQ_MIN_BUCKET_SIZE</a>(T)&#160;&#160;&#160;(sizeof(T) &lt;= 4 ? 64 : (sizeof(T) &lt;= 8 ? 32 : (sizeof(T) &lt;= 16 ? 16 : (sizeof(T) &lt;= 64 ? 4 : 2))))</td></tr>
 <tr class="memdesc:a8138c63e1b50e132c7835a56cc0455a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum bucket size for given type.  <a href="tiered__vector_8hpp.html#a8138c63e1b50e132c7835a56cc0455a5">More...</a><br /></td></tr>
 <tr class="separator:a8138c63e1b50e132c7835a56cc0455a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a4e63455cc57222ba6515c1866efcd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiered__vector_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">SEQ_MAX_BUCKET_SIZE</a>&#160;&#160;&#160;(1U&lt;&lt;14U)</td></tr>
@@ -221,7 +221,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">T</td><td>)</td>
-          <td>&#160;&#160;&#160;(sizeof(T) &lt;= 4 ? 64 : (sizeof(T) &lt;= 8 ? 32 : (sizeof(T) &lt;= 16 ? 16 : 8)))</td>
+          <td>&#160;&#160;&#160;(sizeof(T) &lt;= 4 ? 64 : (sizeof(T) &lt;= 8 ? 32 : (sizeof(T) &lt;= 16 ? 16 : (sizeof(T) &lt;= 64 ? 4 : 2))))</td>
         </tr>
       </table>
 </div><div class="memdoc">

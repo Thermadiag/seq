@@ -15,7 +15,6 @@ var classseq_1_1object__pool =
     [ "dump_statistics", "classseq_1_1object__pool.html#ae2eeb6dbde18dbe45eba8527db0dec52", null ],
     [ "get_allocator", "classseq_1_1object__pool.html#aa7f2219bf1f9dc09c5c1e67948febd70", null ],
     [ "get_allocator", "classseq_1_1object__pool.html#a2286444dc9ce69a944f9465f0e12b37d", null ],
-    [ "make_shared", "classseq_1_1object__pool.html#a46c19b78510cd2becc02db55eea3dc62", null ],
     [ "make_unique", "classseq_1_1object__pool.html#a6c693c5b972f21af9ab51a7fd22d15ba", null ],
     [ "memory_footprint", "classseq_1_1object__pool.html#adcb78702499af1357a871e3a0aadf0d8", null ],
     [ "peak_memory_footprint", "classseq_1_1object__pool.html#aa38fbf8d66be889bb4b075b917942c89", null ],

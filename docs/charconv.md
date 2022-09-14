@@ -1,7 +1,7 @@
 # Charconv: arithmetic value convertion from/to string
 
 The charconv module provides low-level fast routines to convert numerical values from/to string.
-This module was initially developped for very fast containers dump in files or strings.
+This module was initially developped for very fast containers dump in files or strings, where C++17 is not available.
 
 ## Low level functions
 

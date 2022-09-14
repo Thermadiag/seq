@@ -1058,7 +1058,7 @@ namespace seq
 		struct FindBucketSize
 		{
 			auto  operator() (size_t size, unsigned MinBSize, unsigned MaxBSize) const noexcept -> unsigned {
-				if (size == 0) return MinBSize;
+				if (size < MinBSize) return MinBSize;
 
 				// For now, select bigger chunk size as moving objects inside is faster than moving objects between chunks
 				{unsigned bits = (bit_scan_reverse(size) >> 1) + 2;// log2 / 2 +2

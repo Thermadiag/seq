@@ -119,7 +119,7 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a6bdbf2694be5998bea31a3451cc4637e"><td class="memItemLeft" align="right" valign="top">Allocator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1string__internal.html#a6bdbf2694be5998bea31a3451cc4637e">alloc</a></td></tr>
 <tr class="separator:a6bdbf2694be5998bea31a3451cc4637e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a610072e0b076a05a3423b0829ad4e789"><td class="memItemLeft" >union {</td></tr>
-<tr class="memitem:aed7589a8922ae3841403568e40a1d15c"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1_s_s_o.html">SSO</a>&lt; <a class="el" href="structseq_1_1detail_1_1string__internal.html#aa3cf847c9caa739449c9a000686e8512">sso_size</a> &gt;&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1string__internal.html#a3359e011e39939075dee45ff4c7ac6d4">sso</a></td></tr>
+<tr class="memitem:aed7589a8922ae3841403568e40a1d15c"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1_s_s_o.html">SSO</a>&lt; <a class="el" href="structseq_1_1detail_1_1string__internal.html#accc6592c83d5a0c41214bc8d8a5128f8">sso_size</a> &gt;&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1string__internal.html#a3359e011e39939075dee45ff4c7ac6d4">sso</a></td></tr>
 <tr class="separator:aed7589a8922ae3841403568e40a1d15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab03479afd58b4e8db9279228a3f51667"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1_none_s_s_o.html">NoneSSO</a>&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1string__internal.html#a3c40ba263b050d90e1527399859670df">non_sso</a></td></tr>
 <tr class="separator:ab03479afd58b4e8db9279228a3f51667"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,10 +128,10 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a246958943a7e2402743f94c90fc1f624"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1string__internal.html#a246958943a7e2402743f94c90fc1f624">struct_size</a> = sizeof(<a class="el" href="structseq_1_1detail_1_1string__proxy.html">string_proxy</a>&lt;MaxSSO, Allocator&gt;)</td></tr>
-<tr class="separator:a246958943a7e2402743f94c90fc1f624"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3cf847c9caa739449c9a000686e8512"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1string__internal.html#aa3cf847c9caa739449c9a000686e8512">sso_size</a> = <a class="el" href="structseq_1_1detail_1_1string__internal.html#a246958943a7e2402743f94c90fc1f624">struct_size</a> - 2</td></tr>
-<tr class="separator:aa3cf847c9caa739449c9a000686e8512"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae266811503aec6488424ee994cff9fbb"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1string__internal.html#ae266811503aec6488424ee994cff9fbb">struct_size</a> = sizeof(<a class="el" href="structseq_1_1detail_1_1string__proxy.html">string_proxy</a>&lt;MaxSSO, Allocator&gt;)</td></tr>
+<tr class="separator:ae266811503aec6488424ee994cff9fbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accc6592c83d5a0c41214bc8d8a5128f8"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1string__internal.html#accc6592c83d5a0c41214bc8d8a5128f8">sso_size</a> = <a class="el" href="structseq_1_1detail_1_1string__internal.html#ae266811503aec6488424ee994cff9fbb">struct_size</a> - 2</td></tr>
+<tr class="separator:accc6592c83d5a0c41214bc8d8a5128f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4e69d867ae22202ee21c8e16edb141f9"></a>
@@ -422,15 +422,15 @@ template&lt;size_t MaxSSO, class Allocator &gt; </div>
 template&lt;size_t MaxSSO, class Allocator &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_s_s_o.html">SSO</a>&lt;<a class="el" href="structseq_1_1detail_1_1string__internal.html#aa3cf847c9caa739449c9a000686e8512">sso_size</a>&gt; <a class="el" href="structseq_1_1detail_1_1string__internal.html">seq::detail::string_internal</a>&lt; MaxSSO, Allocator &gt;::sso</td>
+          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_s_s_o.html">SSO</a>&lt;<a class="el" href="structseq_1_1detail_1_1string__internal.html#accc6592c83d5a0c41214bc8d8a5128f8">sso_size</a>&gt; <a class="el" href="structseq_1_1detail_1_1string__internal.html">seq::detail::string_internal</a>&lt; MaxSSO, Allocator &gt;::sso</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="aa3cf847c9caa739449c9a000686e8512"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3cf847c9caa739449c9a000686e8512">&#9670;&nbsp;</a></span>sso_size</h2>
+<a id="accc6592c83d5a0c41214bc8d8a5128f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accc6592c83d5a0c41214bc8d8a5128f8">&#9670;&nbsp;</a></span>sso_size</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -441,20 +441,20 @@ template&lt;size_t MaxSSO, class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const size_t <a class="el" href="structseq_1_1detail_1_1string__internal.html">seq::detail::string_internal</a>&lt; MaxSSO, Allocator &gt;::sso_size = <a class="el" href="structseq_1_1detail_1_1string__internal.html#a246958943a7e2402743f94c90fc1f624">struct_size</a> - 2</td>
+          <td class="memname">constexpr size_t <a class="el" href="structseq_1_1detail_1_1string__internal.html">seq::detail::string_internal</a>&lt; MaxSSO, Allocator &gt;::sso_size = <a class="el" href="structseq_1_1detail_1_1string__internal.html#ae266811503aec6488424ee994cff9fbb">struct_size</a> - 2</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a246958943a7e2402743f94c90fc1f624"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a246958943a7e2402743f94c90fc1f624">&#9670;&nbsp;</a></span>struct_size</h2>
+<a id="ae266811503aec6488424ee994cff9fbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae266811503aec6488424ee994cff9fbb">&#9670;&nbsp;</a></span>struct_size</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -465,12 +465,12 @@ template&lt;size_t MaxSSO, class Allocator &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const size_t <a class="el" href="structseq_1_1detail_1_1string__internal.html">seq::detail::string_internal</a>&lt; MaxSSO, Allocator &gt;::struct_size = sizeof(<a class="el" href="structseq_1_1detail_1_1string__proxy.html">string_proxy</a>&lt;MaxSSO, Allocator&gt;)</td>
+          <td class="memname">constexpr size_t <a class="el" href="structseq_1_1detail_1_1string__internal.html">seq::detail::string_internal</a>&lt; MaxSSO, Allocator &gt;::struct_size = sizeof(<a class="el" href="structseq_1_1detail_1_1string__proxy.html">string_proxy</a>&lt;MaxSSO, Allocator&gt;)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
