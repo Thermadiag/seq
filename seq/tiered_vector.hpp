@@ -351,14 +351,14 @@ namespace seq
 		template<class T, class Allocator>
 		struct CircularBuffer : BaseCircularBuffer<T, Allocator>
 		{
-			static const size_t size_T = sizeof(T);
-			static const size_t size_BCB = sizeof(BaseCircularBuffer<T, Allocator>);
+			static constexpr size_t size_T = sizeof(T);
+			static constexpr size_t size_BCB = sizeof(BaseCircularBuffer<T, Allocator>);
 			// Start position for actual data in bytes
-			static const size_t start_data_T = (size_BCB > size_T) ?
+			static constexpr size_t start_data_T = (size_BCB > size_T) ?
 				(size_BCB / size_T + ((size_BCB % size_T) != 0u ? 1 : 0)) :
 				1;
-			static const size_t start_data = start_data_T * sizeof(T);
-			static const bool relocatable = is_relocatable<T>::value && (sizeof(T) >= sizeof(size_t));
+			static constexpr size_t start_data = start_data_T * sizeof(T);
+			static constexpr bool relocatable = is_relocatable<T>::value && (sizeof(T) >= sizeof(size_t));
 
 			using BaseCircularBuffer<T, Allocator>::size;
 			using BaseCircularBuffer<T, Allocator>::max_size1;
@@ -525,11 +525,11 @@ namespace seq
 				++size;
 				return ptr;
 			}
-			auto push_back(Allocator& allocator, const T& value) -> T* {
+			SEQ_ALWAYS_INLINE auto push_back(Allocator& allocator, const T& value) -> T* {
 				//only works for non full array
 				return emplace_back(allocator, value);
 			}
-			auto push_back(Allocator& allocator, T&& value) -> T* {
+			SEQ_ALWAYS_INLINE auto push_back(Allocator& allocator, T&& value) -> T* {
 				//only works for non full array
 				return emplace_back(allocator, std::move(value));
 			}
@@ -548,11 +548,11 @@ namespace seq
 				++size;
 				return buffer() + begin;
 			}
-			auto push_front(Allocator& allocator, const T& value) -> T*  {
+			SEQ_ALWAYS_INLINE auto push_front(Allocator& allocator, const T& value) -> T*  {
 				//only works for non full array
 				return emplace_front(allocator, value);
 			}
-			auto push_front(Allocator& allocator, T&& value) -> T*  {
+			SEQ_ALWAYS_INLINE auto push_front(Allocator& allocator, T&& value) -> T*  {
 				//only works for non full array
 				return emplace_front(allocator, std::move(value));
 			}
@@ -650,7 +650,7 @@ namespace seq
 
 			// Move buffer content toward the right by 1 element
 			// Might throw
-			SEQ_ALWAYS_INLINE void move_right_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
+			void move_right_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
 			{
 				//starting from pos, move elements toward the end
 				T* ptr1 = &at(size - 1);
@@ -688,7 +688,7 @@ namespace seq
 			}
 			// Move buffer content toward the left by 1 element
 			// Might throw
-			SEQ_ALWAYS_INLINE void move_left_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
+			void move_left_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
 			{
 				//starting from pos, move elements toward the beginning
 				T* ptr1 = &at(0);
@@ -726,7 +726,7 @@ namespace seq
 
 			// Move buffer content toward the left by 1 element
 			// Might throw
-			SEQ_NOINLINE(void) move_right(Allocator&  /*unused*/, cbuffer_pos pos)
+			void move_right(Allocator&  /*unused*/, cbuffer_pos pos)
 			{
 				if (!relocatable)
 					construct_ptr(&(*this)[size]);
@@ -738,7 +738,7 @@ namespace seq
 				//for (cbuffer_pos i = size - 1; i > pos; --i)
 				//	(*this)[i] = std::move((*this)[i - 1]);
 			}
-			SEQ_NOINLINE(void) move_left(Allocator&  /*unused*/, cbuffer_pos pos)
+			void move_left(Allocator&  /*unused*/, cbuffer_pos pos)
 			{
 				if (!relocatable)
 					construct_ptr(&(*this)[begin ? -1 : max_size1]);
@@ -1992,14 +1992,15 @@ namespace seq
 			template<class... Args>
 			auto insert(size_type pos, Args&&... args) -> T & {
 
-				SEQ_ASSERT_DEBUG(pos <= size(), "Wrong insert position");
+				SEQ_ASSERT_DEBUG(pos <= size(), "invalid insert position");
 
-				if(pos != 0 && pos != size())
+				if(SEQ_LIKELY(pos != 0 && pos != size()))
 					return *insert_middle_fwd(pos, std::forward<Args>(args)...);
-				else if (pos==0)
+				
+				if (pos==0)
 					return emplace_front(std::forward<Args>(args)...);
-				else
-					return emplace_back(std::forward<Args>(args)...);
+				
+				return emplace_back(std::forward<Args>(args)...);
 			}
 
 			void pop_back() noexcept {
@@ -2024,18 +2025,24 @@ namespace seq
 				--d_size;
 			}
 
+			void erase_extremity(size_type pos)
+			{
+				if (pos == 0)
+					pop_front();
+				else
+					pop_back();
+			}
+
 			// Erase anywhere
 			void erase(size_type pos) {
 				SEQ_ASSERT_DEBUG(pos < d_size, "tiered_vector: erase at invalid position");
 				SEQ_ASSERT_DEBUG(d_size > 0, "tiered_vector: erase element on an empty tiered_vector");
-				if (pos == 0)
-					pop_front();
-				else if (pos == d_size - 1)
-					pop_back();
-				else
-					erase_middle(pos);
+				if (SEQ_UNLIKELY(pos == 0 || pos == d_size - 1))
+					return erase_extremity(pos);
+				
+				erase_middle(pos);
 			}
-			void erase_left(size_type bucket_index, int index)
+			SEQ_ALWAYS_INLINE void erase_left(size_type bucket_index, int index)
 			{
 				//shift left values
 				T tmp = std::move((d_buckets.front().bucket)->back());
@@ -2060,7 +2067,7 @@ namespace seq
 					remove_front_bucket();
 				}
 			}
-			void erase_right(size_type bucket_index, int index) 
+			SEQ_ALWAYS_INLINE void erase_right(size_type bucket_index, int index)
 			{
 				// Shift right values
 
@@ -2673,7 +2680,7 @@ namespace seq
 	
 		// Update the bucket size if necessary, used when inserting/deleting single elements
 		SEQ_ALWAYS_INLINE void update_bucket_size() {
-			static const size_t mask = (min_block_size * min_block_size) - 1ULL;
+			static constexpr size_t mask = (min_block_size * min_block_size) - 1ULL;
 			// Check the bucket size every (min_block_size * min_block_size) insertions/deletions
 			if (SEQ_UNLIKELY(min_block_size != max_block_size && /*manager()->isPow2Size()*/(size() & mask)==0))
 				check_bucket_size();

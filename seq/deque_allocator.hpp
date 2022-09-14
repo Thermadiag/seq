@@ -316,7 +316,7 @@ namespace seq
 			using MemPoolType = deque_chunk_pool_alloc<T, Allocator>;
 			template< class U>
 			using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
-			static const size_t start_data_T = BucketType::start_data_T;
+			static constexpr size_t start_data_T = BucketType::start_data_T;
 			
 			MemPoolType pool;
 			int bucket_size;

@@ -96,6 +96,7 @@ void insert_value(C& s, const K& key)
 template<class C, class U, class Format>
 void test_set(const char * name,  const std::vector<U> & vec, Format f)
 {
+	using T = typename C::value_type;
 	C set;
 	
 	std::vector<U> success(vec.begin(), vec.begin()+vec.size()/2);
@@ -111,13 +112,18 @@ void test_set(const char * name,  const std::vector<U> & vec, Format f)
 
 	{
 		//insert
-		tick();
-		C s;
-		for (size_t i = 0; i < vec.size() / 2; ++i)
-			insert_value(s, vec[i]);
-		insert = tock_ms();
-		insert_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
-
+		if (std::is_same< boost::container::flat_set<T>, C>::value) {
+			insert = 1000000;
+			insert_mem = 0;
+		}
+		else {
+			tick();
+			C s;
+			for (size_t i = 0; i < vec.size() / 2; ++i)
+				insert_value(s, vec[i]);
+			insert = tock_ms();
+			insert_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
+		}
 	}
 	
 	reset_memory_usage();
@@ -162,16 +168,20 @@ void test_set(const char * name,  const std::vector<U> & vec, Format f)
 	size_t iterate = tock_ms();
 	print_null(sum);
 
-	
-	tick();
-	for (size_t i = 0; i < success.size(); ++i) {
-		auto it = set.find(success[i]);
-		if (it != set.end())
-			set.erase(it);
+	size_t erase = 0;
+	if (std::is_same< boost::container::flat_set<T>, C>::value) {
+		erase = 1000000;
 	}
-	size_t erase = tock_ms();
-	print_null(set.size());
-	
+	else {
+		tick();
+		for (size_t i = 0; i < success.size(); ++i) {
+			auto it = set.find(success[i]);
+			if (it != set.end())
+				set.erase(it);
+		}
+		erase = tock_ms();
+		print_null(set.size());
+	}
 	std::cout << f(name, fmt(insert_range, insert_range_mem), fmt(insert, insert_mem), insert_fail, find, find_fail, iterate, erase) << std::endl;
 }
 

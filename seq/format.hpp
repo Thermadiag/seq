@@ -1186,7 +1186,7 @@ namespace seq
 			static auto test(...)->std::false_type;
 			
 		public:
-			static const bool value = decltype(test<T>(0))::value;
+			static constexpr bool value = decltype(test<T>(0))::value;
 		};
 	}
 

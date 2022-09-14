@@ -37,24 +37,24 @@ namespace seq
 	template <class T, bool Signed = std::is_signed<T>::value>
 	struct integer_max
 	{
-		static const T value = static_cast<T>( ~(static_cast < T>(1) << (static_cast<T>(sizeof(T) * 8) - static_cast < T>(1))) );
+		static constexpr T value = static_cast<T>( ~(static_cast < T>(1) << (static_cast<T>(sizeof(T) * 8) - static_cast < T>(1))) );
 	};
 	template <class T>
 	struct integer_max<T,false>
 	{
-		static const T value = static_cast<T>(-1);
+		static constexpr T value = static_cast<T>(-1);
 	};
 
 	/// @brief Compute integer type minimum value at compile time
 	template <class T, bool Signed = std::is_signed<T>::value>
 	struct integer_min
 	{
-		static const T value =  (-integer_max<T>::value) - static_cast < T>(1) ;
+		static constexpr T value =  (-integer_max<T>::value) - static_cast < T>(1) ;
 	};
 	template <class T>
 	struct integer_min<T,false>
 	{
-		static const T value = static_cast < T>(0);
+		static constexpr T value = static_cast < T>(0);
 	};
 
 	/// @brief Define the return type of seq::negate_if_signed and seq::abs

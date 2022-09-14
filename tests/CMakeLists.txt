@@ -29,7 +29,7 @@ if (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 	# mingw
 	target_link_options(seq_tests PRIVATE -lKernel32 -lpsapi -lBcrypt)
 elseif(UNIX AND (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"))
-    target_compile_options(seq_tests PRIVATE  -lpthread )
+    target_link_options(seq_tests PRIVATE  -lpthread )
 endif()
 
 target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

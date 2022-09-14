@@ -67,13 +67,13 @@ namespace seq
 		struct base_list_chunk
 		{
 			// Max number of elements
-			static const std::uint64_t count = sizeof(T) <= 8 ? 64 : sizeof(T) <= 16 ? 32 : sizeof(T) <= 32 ? 16 : sizeof(T) <= 64 ? 8 : 4;
+			static constexpr std::uint64_t count = sizeof(T) <= 8 ? 64 : sizeof(T) <= 16 ? 32 : sizeof(T) <= 32 ? 16 : sizeof(T) <= 64 ? 8 : 4;
 			// log2(count)
-			static const std::uint64_t count_bits = sizeof(T) <= 8 ? 6 : sizeof(T) <= 16 ? 5 : sizeof(T) <= 32 ? 4 : sizeof(T) <= 64 ? 3 : 2;
+			static constexpr std::uint64_t count_bits = sizeof(T) <= 8 ? 6 : sizeof(T) <= 16 ? 5 : sizeof(T) <= 32 ? 4 : sizeof(T) <= 64 ? 3 : 2;
 			// Mask value when full
-			static const std::uint64_t full = (count == 64ULL ? static_cast<std::uint64_t>(-1) : (shift_left<count>::value - 1ULL));
+			static constexpr std::uint64_t full = (count == 64ULL ? static_cast<std::uint64_t>(-1) : (shift_left<count>::value - 1ULL));
 			// Invalid index value
-			static const std::int64_t no_index = LLONG_MIN;
+			static constexpr std::int64_t no_index = LLONG_MIN;
 
 			// Previous node
 			base_list_chunk<T>* prev;
@@ -334,7 +334,7 @@ namespace seq
 			using pos_type = difference_type;
 	#endif
 
-			static const int count = detail::list_chunk<value_type>::count;
+			static constexpr int count = detail::list_chunk<value_type>::count;
 
 			chunk_type* node;
 			pos_type pos;
@@ -646,7 +646,7 @@ namespace seq
 			using chunk_type = detail::list_chunk<value_type>;
 			using pos_type = difference_type;
 
-			static const int count = detail::list_chunk<value_type>::count;
+			static constexpr int count = detail::list_chunk<value_type>::count;
 
 			Data* data;
 			chunk_type* node;
@@ -869,10 +869,10 @@ namespace seq
 		using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 		using chunk_type = detail::list_chunk<T>;
 		using layout_manager = typename detail::select_layout<T, Allocator, layout, detail::NullChunkAllocator, ForceAlign64>::type;
-		static const size_t count = detail::list_chunk<T>::count;
-		static const size_t count1 = detail::list_chunk<T>::count - 1;
-		static const size_t count_bits = detail::list_chunk<T>::count_bits;
-		static const size_t full = detail::list_chunk<T>::full;
+		static constexpr size_t count = detail::list_chunk<T>::count;
+		static constexpr size_t count1 = detail::list_chunk<T>::count - 1;
+		static constexpr size_t count_bits = detail::list_chunk<T>::count_bits;
+		static constexpr size_t full = detail::list_chunk<T>::full;
 
 		/// Internal data 
 		/// We use a pointer to Data internally as it fasten the move copy and assignment, and simplifies th iterator implemention.

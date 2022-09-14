@@ -25,7 +25,7 @@ if (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 	# mingw
 	target_link_options(seq_benchs PRIVATE -lKernel32 -lpsapi -lBcrypt)
 elseif(UNIX AND (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"))
-    target_compile_options(seq_benchs PRIVATE  -lpthread )
+    target_link_options(seq_benchs PRIVATE  -lpthread )
 endif()
 
 

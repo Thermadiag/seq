@@ -93,11 +93,13 @@ namespace seq
 		*  Common functions
 		**************************************/
 		
+		
+
 
 		inline auto count_approximate_common_bytes(const char* pIn, const char* pMatch, const char* pInLimit) -> size_t
 		{
 			static constexpr size_t STEPSIZE = sizeof(size_t);
-			const char* const pStart = pIn;
+			const char* pStart = pIn;
 
 			while (SEQ_LIKELY(pIn < pInLimit - (STEPSIZE - 1))) {
 				size_t const diff = read_size_t(pMatch) ^ read_size_t(pIn);
@@ -133,12 +135,25 @@ namespace seq
 				if (r1 != r2) { return r1 < r2;}
 				v1 += 4; v2 += 4;
 			}
-			while (v1 != end) {
+			if ((v1 < (end - 1))) {
+				std::uint16_t r1 = read_BE_16(v1);
+				std::uint16_t r2 = read_BE_16(v2);
+				if (r1 != r2) { return r1 < r2; }
+				v1 += 2; v2 += 2;
+			}
+			if (v1 != end) {
+				if (*v1 != *v2) {
+					return static_cast<unsigned char>(*v1) < static_cast<unsigned char>(*v2);
+				}
+			}
+			return v1 == e1 && v2 != e2;
+
+			/*while (v1 != end) {
 				if (*v1 != *v2) {
 					return static_cast<unsigned char>(*v1) < static_cast<unsigned char>(*v2);}
 				++v1; ++v2;
 			}
-			return v1 == e1 && v2 != e2;
+			return v1 == e1 && v2 != e2;*/
 		}
 	
 		inline auto string_compare(const unsigned char* v1, size_t l1, const unsigned char* v2, size_t l2)noexcept -> int
@@ -276,8 +291,8 @@ namespace seq
 		struct string_internal
 		{
 			// internal storage for tiny_string and custom allocator
-			static const size_t struct_size = sizeof(string_proxy<MaxSSO, Allocator>);
-			static const size_t sso_size = struct_size - 2;
+			static constexpr size_t struct_size = sizeof(string_proxy<MaxSSO, Allocator>);
+			static constexpr size_t sso_size = struct_size - 2;
 			Allocator alloc;
 			union {
 				SSO<sso_size> sso;
@@ -303,8 +318,8 @@ namespace seq
 		struct string_internal<MaxSSO, std::allocator<char> >
 		{
 			// internal storage for tiny_string and std::allocator<char>
-			static const size_t struct_size = sizeof(string_proxy<MaxSSO, std::allocator<char> >);
-			static const size_t sso_size = struct_size - 2;
+			static constexpr size_t struct_size = sizeof(string_proxy<MaxSSO, std::allocator<char> >);
+			static constexpr size_t sso_size = struct_size - 2;
 			union {
 				SSO<sso_size> sso;
 				NoneSSO non_sso;
@@ -329,8 +344,8 @@ namespace seq
 		struct string_internal<MaxSSO, view_allocator >
 		{
 			// internal storage for tiny_string and view_allocator (tstring_view objects)
-			static const size_t struct_size = sizeof(string_proxy<MaxSSO, std::allocator<char> >);
-			static const size_t sso_size = struct_size - 2;
+			static constexpr size_t struct_size = sizeof(string_proxy<MaxSSO, std::allocator<char> >);
+			static constexpr size_t sso_size = struct_size - 2;
 			const char* data;
 			size_t size;
 
@@ -372,7 +387,7 @@ namespace seq
 	/// Motivation
 	/// ----------
 	/// 
-	/// Why another string class? I started writing tiny_string for another project (a deque like container that stores its buckets in a compressed way) where I needed a relocatable string class.
+	/// Why another string class? I started writing tiny_string for another project (a deque-like container that stores its buckets in a compressed way) where I needed a relocatable string class.
 	/// Indeed, gcc std::string implementation is not relocatable as it stores a pointer to its internal data for small strings. In addition, most std::string implementations have a size of 32 bytes 
 	/// (at least msvc and gcc ones), which was a lot for my compressed container. Therefore, I started working on a string implementation with the following specificities:
 	/// -	Relocatable,
@@ -380,7 +395,7 @@ namespace seq
 	/// -	Customizable Small String Optimization (SSO),
 	/// -	Higly optimized for small strings (fast copy/move assignment and fast comparison operators).
 	/// 
-	/// It turns out that such string implementation makes all flat containers (like std::vector or std::deque) faster as it greatly reduces cache misses.
+	/// It turns out that such string implementation makes all flat containers (like std::vector or std::deque) faster (at least for small strings) as it greatly reduces cache misses.
 	/// The Customizable Small String Optimization is also very convenient to avoid unnecessary memory allocations for different workloads.
 	/// 
 	/// 
@@ -472,11 +487,11 @@ namespace seq
 	/// Performances
 	/// ------------
 	/// 
-	/// All tiny_string members have been optimized to match or outperform most std::string implementations. They have been benchmarked against
+	/// All tiny_string members have been optimized to match or outperform (for small strings) most std::string implementations. They have been benchmarked against
 	/// gcc (10.0.1) and msvc (14.20) for members compare(), find(), rfind(), find_first_of(), find_last_of(), find_first_not_of() and find_last_not_of().
 	/// Comparison oeprators <=> are usually faster than std::string.
 	/// 
-	/// However, tiny_string is usually slower for back insertion with push_back() or append(). The pop_back() member that can also be slower than msvc and gcc implementations.
+	/// However, tiny_string is usually slower for back insertion with push_back(). The pop_back() member is also slower than msvc and gcc implementations.
 	/// 
 	/// tiny_string is usually faster when used inside flat containers simply because its size is smaller than std::string (32 bytes on gcc and msvc).
 	/// The following table shows the performances of tiny_string against std::string for sorting a vector of 1M random short string (size = 14, where both tiny_string
@@ -506,7 +521,7 @@ namespace seq
 	{
 		using internal_data = detail::string_internal<MaxStaticSize,Allocator>;
 		using this_type = tiny_string<MaxStaticSize,Allocator>;
-		static const size_t sso_max_capacity = internal_data::sso_size + 1;
+		static constexpr size_t sso_max_capacity = internal_data::sso_size + 1;
 		internal_data d_data;
 
 		template<size_t Ss, class Al>
@@ -839,8 +854,9 @@ namespace seq
 		static_assert(MaxStaticSize < 127, "tiny_string maximum static size is limited to 126 bytes");
 
 		// Maximum string length to use SSO
-		static const size_t max_static_size = sso_max_capacity - 1;
-	
+		static constexpr size_t max_static_size = sso_max_capacity - 1;
+		static constexpr size_t npos = -1;
+
 		using traits_type = std::char_traits<char>;
 		using value_type = char;
 		using reference = char&;
@@ -854,7 +870,7 @@ namespace seq
 		using size_type = size_t;
 		using difference_type = std::intptr_t;
 		using allocator_type = Allocator;
-		static const size_t npos = -1;
+		
 
 	
 		/// @brief Default constructor
@@ -2267,7 +2283,7 @@ namespace seq
 	{
 		using internal_data = detail::string_internal<0, view_allocator>;
 		using this_type = tiny_string<0, view_allocator>;
-		static const size_t sso_max_capacity = internal_data::sso_size + 1;//sizeof(internal_data) - 1;
+		static constexpr size_t sso_max_capacity = internal_data::sso_size + 1;//sizeof(internal_data) - 1;
 		internal_data d_data;
 
 		//is it a small string
@@ -2281,7 +2297,8 @@ namespace seq
 
 
 	public:
-		static const size_t max_static_size = sso_max_capacity - 1;
+		static constexpr size_t max_static_size = sso_max_capacity - 1;
+		static constexpr size_t npos = -1;
 
 		using traits_type = std::char_traits<char>;
 		using value_type = char;
@@ -2296,7 +2313,7 @@ namespace seq
 		using size_type = size_t;
 		using difference_type = std::intptr_t;
 		using allocator_type = view_allocator;
-		static const size_t npos = -1;
+		
 
 		auto data() const noexcept -> const char* { return d_data.data; }
 		auto c_str() const noexcept -> const char* { return data(); }

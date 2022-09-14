@@ -1202,12 +1202,12 @@ namespace seq
 	template<size_t Size>
 	struct static_bit_scan_reverse
 	{
-		static const size_t value = Size > 1ULL ? 1ULL + static_bit_scan_reverse<Size / 2ULL>::value : 1ULL;
+		static constexpr size_t value = Size > 1ULL ? 1ULL + static_bit_scan_reverse<Size / 2ULL>::value : 1ULL;
 	};
 	template<>
 	struct static_bit_scan_reverse<1>
 	{
-		static const size_t value = 0ULL;
+		static constexpr size_t value = 0ULL;
 	} ;
 	template<>
 	struct static_bit_scan_reverse<0ULL>

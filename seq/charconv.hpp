@@ -380,7 +380,7 @@ namespace seq
 		}
 		static SEQ_ALWAYS_INLINE auto to_upper(char c) -> char
 		{
-			static const char offset = 'a' - 'A';
+			static constexpr char offset = 'a' - 'A';
 			return c >= 'a' ? c - offset : c;
 		}
 		static SEQ_ALWAYS_INLINE auto to_digit_hex(char c) -> unsigned

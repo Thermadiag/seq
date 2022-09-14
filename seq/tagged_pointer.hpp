@@ -66,12 +66,12 @@ namespace seq
 	template< class T, TagPointerType Type = StackPointer, size_t UserDefinedAlignment = 0>
 	class tagged_pointer
 	{
-		static const std::uintptr_t align = (Type == StackPointer) ?
+		static constexpr std::uintptr_t align = (Type == StackPointer) ?
 			(alignof(T)) :
 			(Type == HeapPointer ? SEQ_DEFAULT_ALIGNMENT : UserDefinedAlignment);
 
 		static_assert( (((align & (align - 1)) == 0)), "alignment must be a non null power of 2");
-		static const std::uintptr_t bits = static_bit_scan_reverse<align>::value;
+		static constexpr std::uintptr_t bits = static_bit_scan_reverse<align>::value;
 		
 		std::uintptr_t d_ptr;
 
@@ -86,13 +86,13 @@ namespace seq
 		using const_pointer = const T*;
 
 		/// @brief tagged pointer type
-		static const TagPointerType type = Type;
+		static constexpr TagPointerType type = Type;
 		/// @brief number of bits for the tag
-		static const std::uintptr_t tag_bits = bits;
+		static constexpr std::uintptr_t tag_bits = bits;
 		/// @brief mask used to extract the pointer address
-		static const std::uintptr_t mask_high = ~((1ULL << tag_bits) - 1ULL);
+		static constexpr std::uintptr_t mask_high = ~((1ULL << tag_bits) - 1ULL);
 		/// @brief mask used to extract the tag
-		static const std::uintptr_t mask_low = ((1ULL << tag_bits) - 1ULL);
+		static constexpr std::uintptr_t mask_low = ((1ULL << tag_bits) - 1ULL);
 
 
 		/// @brief Construct from pointer
@@ -138,9 +138,9 @@ namespace seq
 	{
 		// Specialization for void* , remove the reference type and related members
 
-		static const std::uintptr_t align = (Type != CustomAlignment ? SEQ_DEFAULT_ALIGNMENT : UserDefinedAlignment);
+		static constexpr std::uintptr_t align = (Type != CustomAlignment ? SEQ_DEFAULT_ALIGNMENT : UserDefinedAlignment);
 		static_assert(align > 0 && (((align & (align - 1)) == 0)), "alignment must be a non null power of 2");
-		static const std::uintptr_t bits = static_bit_scan_reverse<align>::value;
+		static constexpr std::uintptr_t bits = static_bit_scan_reverse<align>::value;
 
 		std::uintptr_t d_ptr;
 
@@ -151,10 +151,10 @@ namespace seq
 		using pointer = void*;
 		using const_pointer = const void*;
 
-		static const TagPointerType type = Type;
-		static const std::uintptr_t tag_bits = bits;
-		static const std::uintptr_t mask_high = ~((1ULL << tag_bits) - 1ULL);
-		static const std::uintptr_t mask_low = ((1ULL << tag_bits) - 1ULL);
+		static constexpr TagPointerType type = Type;
+		static constexpr std::uintptr_t tag_bits = bits;
+		static constexpr std::uintptr_t mask_high = ~((1ULL << tag_bits) - 1ULL);
+		static constexpr std::uintptr_t mask_low = ((1ULL << tag_bits) - 1ULL);
 
 		tagged_pointer(void* ptr = nullptr) noexcept
 			:d_ptr(reinterpret_cast<std::uintptr_t>(ptr)) {}

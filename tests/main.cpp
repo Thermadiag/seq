@@ -41,7 +41,7 @@ using namespace seq;
 auto  main  (int  /*unused*/, char**  /*unused*/) -> int
 {
 	
-	SEQ_TEST_MODULE(format, test_format());
+	/*SEQ_TEST_MODULE(format, test_format());
 	SEQ_TEST_MODULE(any, test_any());
 	SEQ_TEST_MODULE(tiered_vector< seq::OptimizeForMemory>, test_tiered_vector<size_t, seq::OptimizeForMemory>(500000));
 	SEQ_TEST_MODULE(tiered_vector< seq::OptimizeForSpeed>, test_tiered_vector<size_t, seq::OptimizeForSpeed>(500000));
@@ -57,7 +57,7 @@ auto  main  (int  /*unused*/, char**  /*unused*/) -> int
 	SEQ_TEST_MODULE(ordered_map,test_ordered_map_logic());
 	SEQ_TEST_MODULE(ordered_set,test_ordered_set_logic());
 	SEQ_TEST_MODULE(tiny_string,test_tstring_logic());
-	SEQ_TEST_MODULE(charconv,test_charconv(10000, 30));
+	SEQ_TEST_MODULE(charconv,test_charconv(10000, 30));*/
 	SEQ_TEST_MODULE(memory,test_object_pool(1000000));
 	std::cout << "FINISHED TESTS SUCCESSFULLY" << std::endl;
 	return 0;

@@ -123,7 +123,7 @@ namespace seq
 		Allocator d_alloc;
 	public:
 		static_assert(Align == 0 || ((Align - 1) & Align) == 0, "wrong alignment value (must be a power of 2)");
-		static const size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
+		static constexpr size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
 
 		using value_type = T;
 		using pointer = T*;
@@ -232,7 +232,7 @@ namespace seq
 
 	public:
 		static_assert(Align == 0 || ((Align - 1) & Align) == 0, "wrong alignment value (must be a power of 2)");
-		static const size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
+		static constexpr size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
 
 		using value_type = T;
 		using pointer = T*;
@@ -632,7 +632,7 @@ namespace seq
 		using propagate_on_container_copy_assignment = std::true_type;
 		using propagate_on_container_move_assignment = std::true_type;
 		template< class U > struct rebind { using other = object_allocator<rebind_pool<U>>; };
-		static const size_t max_objects_per_allocation = Pool::max_objects;
+		static constexpr size_t max_objects_per_allocation = Pool::max_objects;
 
 		auto select_on_container_copy_construction() const noexcept -> object_allocator {
 			return *this;
@@ -720,6 +720,11 @@ namespace seq
 			bool* value;
 			bool_locker(bool* v) : value(v) { *v = true; }
 			~bool_locker() { *value = false; }
+		};
+		struct atomic_bool_locker {
+			std::atomic<bool>* value;
+			atomic_bool_locker(std::atomic<bool>* v) : value(v) { *v = true; }
+			~atomic_bool_locker() { *value = false; }
 		};
 
 
@@ -821,7 +826,7 @@ namespace seq
 		>
 		struct block_pool : public thread_data<Threaded>, public stats_data<GenerateStats>
 		{
-			static const size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
+			static constexpr size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
 
 			template< class U>
 			using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
@@ -951,7 +956,7 @@ namespace seq
 			// allocate one object
 			auto allocate() noexcept -> void*
 			{
-				static const size_t min_for_deffered = 4U;// < MaxObjects ? 4U : MaxObjects;
+				static constexpr size_t min_for_deffered = 4U;// < MaxObjects ? 4U : MaxObjects;
 				// Delete deffered object if necesary
 				if (Threaded ) {
 					if (this->deffered_count() >= min_for_deffered) {
@@ -1098,7 +1103,7 @@ namespace seq
 		>
 		struct block_pool<Allocator, Align, false, GenerateStats, false> : public thread_data<false>, public stats_data<GenerateStats>
 		{
-			static const size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
+			static constexpr size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
 
 			template< class U>
 			using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
@@ -1695,9 +1700,9 @@ namespace seq
 		using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 		using this_type = object_pool<T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats>;
 
-		static const size_t min_objects = 4U;// MaxObjectsAllocation * 4U;
-		static const size_t dword_4 = sizeof(void*) * 4; // Size of 4 pointers
-		static const size_t slots = (!std::is_same<shared_ptr_allocation, object_allocation>::value) ?
+		static constexpr size_t min_objects = 4U;// MaxObjectsAllocation * 4U;
+		static constexpr size_t dword_4 = sizeof(void*) * 4; // Size of 4 pointers
+		static constexpr size_t slots = (!std::is_same<shared_ptr_allocation, object_allocation>::value) ?
 			object_allocation::count :
 			(1 + dword_4 / sizeof(T) + ((dword_4 % sizeof(T)) != 0u ? 1 : 0));
 
@@ -1915,13 +1920,13 @@ namespace seq
 		/// @brief allocation pattern
 		using allocation_type = object_allocation;
 		/// @brief enable/disable unique_ptr support
-		static const bool enable_unique_ptr = EnableUniquePtr;
+		static constexpr bool enable_unique_ptr = EnableUniquePtr;
 		/// @brief generate temporal statistics
-		static const bool generate_statistics = GenerateStats;
+		static constexpr bool generate_statistics = GenerateStats;
 		/// @brief object alignment
-		static const size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
+		static constexpr size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
 		/// @brief maximum number of objects per allocation before going right through the allocator
-		static const size_t max_objects = object_allocation::max_objects; 
+		static constexpr size_t max_objects = object_allocation::max_objects;
 
 		/// @brief Rebind struct, used for seq::object_allocator
 		template<class U>
@@ -2358,7 +2363,7 @@ namespace seq
 			size_t			capacity[slots];
 			size_t			pool_count[slots];
 			this_type*		parent;
-			bool			wait_requested;
+			std::atomic<bool>			wait_requested;
 			bool			in_alloc;
 
 			thread_data() noexcept
@@ -2895,10 +2900,10 @@ namespace seq
 		{
 			if (data->last[idx]) {
 				//TEST
-				if (SEQ_UNLIKELY(data->wait_requested)){
+				/*if (SEQ_UNLIKELY(data->wait_requested)) {
 					interrupt_thread(data);
 					if (!data->last[idx]) return NULL;
-				}
+				}*/
 				return static_cast<T*>(data->last[idx]->pool.allocate());
 			}
 			return NULL;
@@ -2981,8 +2986,8 @@ namespace seq
 		using unique_ptr = std::unique_ptr<T, unique_ptr_deleter<T> >;
 		using shared_ptr = std::shared_ptr<T >;
 		using allocation_type = object_allocation;
-		static const size_t max_objects = object_allocation::max_objects; //Maximum object that the pool can allocate before switching to allocator
-		static const size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
+		static constexpr size_t max_objects = object_allocation::max_objects; //Maximum object that the pool can allocate before switching to allocator
+		static constexpr size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
 
 		template<class U>
 		struct rebind
