@@ -73,13 +73,14 @@ struct MimallocExternal
 };
 */
 
+static constexpr unsigned MY_RAND_MAX = (1U << 16U) - 1U;
 static inline size_t get_count(int reps, int step) {
 	static std::vector<size_t> counts;
 	if (static_cast<int>(counts.size()) != reps) {
 		counts.resize(reps);
 		srand(0);
 		for (int i = 0; i < reps; ++i)
-			counts[i] = rand();
+			counts[i] = rand() & MY_RAND_MAX;
 	}
 	return counts[step];
 }
@@ -408,7 +409,7 @@ template<class PoolType>
 void __test_mem_pool_random_pattern(PoolType* pool, int count)
 {
 	using value_type = typename PoolType::value_type;
-	std::vector<value_type*> vec(static_cast<size_t>((unsigned)RAND_MAX+1U),NULL);
+	std::vector<value_type*> vec(static_cast<size_t>(MY_RAND_MAX +1U),NULL);
 
 	for (int i = 0; i < count; ++i) {
 		int index = rand();
@@ -500,7 +501,7 @@ void __test_mem_pool_random_pattern_random_size(PoolType* pool,int /*th_index*/,
 {
 	using value_type = typename PoolType::value_type;
 	using pair = std::pair<value_type*, size_t>;
-	std::vector<pair> vec(static_cast<size_t>((unsigned)RAND_MAX + 1U), pair(NULL,0));
+	std::vector<pair> vec(static_cast<size_t>(MY_RAND_MAX + 1U), pair(NULL,0));
 
 	for (size_t i = 0; i < sizes->size(); ++i) {
 		int index = rand();
