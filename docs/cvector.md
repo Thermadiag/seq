@@ -1,4 +1,4 @@
-# cvector: compressed std::vector like container
+# Compressed std::vector like container
 
 `seq::cvector` is a is a random-access container with an interface similar to `std::vector` but storing its element in a compressed way. 
 Its goal is to reduce the memory footprint of the container while providing performances as close as possible to `std::vector`. 
@@ -104,7 +104,7 @@ std::cout << "sort: " << w.current_compression_ratio() << " in " << el << " ms" 
 
 Below is a curve representing the program memory footprint during previous operations (extracted with Visual Studio diagnostic tools):
 
-\image html cvector_memory.png
+![cvector memory](images/cvector_memory.png)
 
 ## Restrictions
 
