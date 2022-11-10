@@ -22,13 +22,11 @@ devector can be configured with the following flags:
 -	`OptimizeForBothEnds` (default): the devector has as many free space at the back and the front. Both push_back() and push_front() behave in amortized O(1).
 	When the memory storage grows (by a factor of SEQ_GROW_FACTOR), the elements are moved to the middle of the storage, leaving as much space at the front and the back.
 	When inserting an element at the back, several scenarios are checked (this is similar for front insertion):
-		1.	Free slots are available at the back and the element is inserted there.
-		2.	The devector does not have available slots at the back or the front, a new chunk of memory of size size()*SEQ_GROW_FACTOR is allocated,
-		elements are moved to this new memory location (leaving the same capacity at the back and the front) and the new element is inserted at the back.
-		3.	The devector does not have enough capacity at the back, but has free capacity at the front. In this case, there are 2 possibilities:
-			1.	front capacity is greater than size() / __SEQ_DEVECTOR_SIZE_LIMIT: elements are moved toward the front, leaving the same capacity at the back and the front. The new element is then inserted at the back.
-			2.	front capacity is lower or equal to size() / __SEQ_DEVECTOR_SIZE_LIMIT: a new chunk is allocated like in b). By default, __SEQ_DEVECTOR_SIZE_LIMIT is set to 16.
-			__SEQ_DEVECTOR_SIZE_LIMIT can be adjusted to provide a different trade-off between insertion speed and memory usage.
+	1.	Free slots are available at the back and the element is inserted there.
+	2.	The devector does not have available slots at the back or the front, a new chunk of memory of size size()*SEQ_GROW_FACTOR is allocated, elements are moved to this new memory location (leaving the same capacity at the back and the front) and the new element is inserted at the back.
+	3.	The devector does not have enough capacity at the back, but has free capacity at the front. In this case, there are 2 possibilities:
+		1.	front capacity is greater than size() / __SEQ_DEVECTOR_SIZE_LIMIT: elements are moved toward the front, leaving the same capacity at the back and the front. The new element is then inserted at the back.
+		2.	front capacity is lower or equal to size() / __SEQ_DEVECTOR_SIZE_LIMIT: a new chunk is allocated like in b). By default, __SEQ_DEVECTOR_SIZE_LIMIT is set to 16. __SEQ_DEVECTOR_SIZE_LIMIT can be adjusted to provide a different trade-off between insertion speed and memory usage.
 
 
 ## Performances
