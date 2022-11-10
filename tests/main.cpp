@@ -50,8 +50,8 @@ auto  main  (int  /*unused*/, char**  /*unused*/) -> int
 #ifdef TEST_CVECTOR
 	SEQ_TEST_MODULE(cvector, test_cvector<size_t>(50000));
 #endif
-	SEQ_TEST_MODULE(tiered_vector< seq::OptimizeForMemory>, test_tiered_vector<size_t, seq::OptimizeForMemory>(500000));
-	SEQ_TEST_MODULE(tiered_vector< seq::OptimizeForSpeed>, test_tiered_vector<size_t, seq::OptimizeForSpeed>(500000));
+	SEQ_TEST_MODULE(tiered_vector< seq::OptimizeForMemory>, test_tiered_vector<size_t, seq::OptimizeForMemory>(100000));
+	SEQ_TEST_MODULE(tiered_vector< seq::OptimizeForSpeed>, test_tiered_vector<size_t, seq::OptimizeForSpeed>(100000));
 	SEQ_TEST_MODULE(sequence<OptimizeForMemory>, test_sequence<size_t,seq::OptimizeForMemory>(1000000));
 	SEQ_TEST_MODULE(sequence<OptimizeForSpeed>, test_sequence<size_t, seq::OptimizeForSpeed>(1000000));
 	SEQ_TEST_MODULE(devector<OptimizeForBothEnds>, test_devector_logic<size_t, seq::OptimizeForBothEnds>());
