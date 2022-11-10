@@ -197,8 +197,8 @@ namespace seq
 	{
 		std::random_device rd;
 		std::mt19937 g(rd());
-		if(seed)
-			g.seed(seed)
+		if (seed)
+			g.seed(seed);
 		std::shuffle(begin,end, g);
 	}
 
