@@ -127,15 +127,24 @@ $(document).ready(function(){initNavTree('functions_func_l.html',''); initResiza
 , <a class="el" href="classseq_1_1ordered__set.html#ac6bc92e7739a3fc48b904dd1539766a3">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;</a>
 </li>
 <li>lock()
-: <a class="el" href="structseq_1_1detail_1_1_mutex_wrapper.html#abb4a5172a0031f3f51239ed53e6bc776">seq::detail::MutexWrapper</a>
+: <a class="el" href="classseq_1_1cvector.html#ac94708941b29d9913813e72ebaa0b190">seq::cvector&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a1d52680f65d1a6a2f0317259c588becf">seq::detail::CompressedVectorInternal&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_mutex_wrapper.html#abb4a5172a0031f3f51239ed53e6bc776">seq::detail::MutexWrapper</a>
 , <a class="el" href="classseq_1_1detail_1_1thread__data.html#a5e5439641d4283da2ee07210047079c0">seq::detail::thread_data&lt; Threaded &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1thread__data_3_01false_01_4.html#ace7efc39d24f916260eec2378fe7cb1e">seq::detail::thread_data&lt; false &gt;</a>
 , <a class="el" href="structseq_1_1null__lock.html#aa3b1b6ad1c8d0fde44c0b051ef05f40d">seq::null_lock</a>
+, <a class="el" href="classseq_1_1spinlock.html#a49296466bec73a7406ee3fbbe6a973c8">seq::spinlock</a>
+</li>
+<li>lock_block()
+: <a class="el" href="classseq_1_1cvector.html#a80f09115258e1046f278a6daca7c6abf">seq::cvector&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
+</li>
+<li>lock_guard()
+: <a class="el" href="classseq_1_1lock__guard.html#ab91320620e04aaae731a937b21b8c213">seq::lock_guard&lt; Lock &gt;</a>
 </li>
 <li>lower_bound()
 : <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a54ad37ee6cf59e9721c133f3064bcda2">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1flat__map.html#a19b082d726a7dcdfc6730b042a20e838">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1flat__set.html#a23b604bc495608e02a17696fed13493d">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;</a>
+, <a class="el" href="classseq_1_1flat__map.html#a299b80cf2502d7b50f2c01f84dca8e8b">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;</a>
+, <a class="el" href="classseq_1_1flat__set.html#af8ac90f96ae7a84fba51fbe80fec29b8">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;</a>
 , <a class="el" href="classseq_1_1tiered__vector.html#a735b0a3c5b783af8f8e344f21bbba693">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
 </li>
 <li>lower_bound_pos()

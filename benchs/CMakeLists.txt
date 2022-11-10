@@ -17,25 +17,37 @@ target_compile_features(seq_benchs PRIVATE cxx_std_11)
 
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_compile_options(seq_benchs PRIVATE -O3 -DNDEBUG )
+	if(CMAKE_BUILD_TYPE MATCHES Debug)
+		target_compile_options(seq_benchs PRIVATE -march=native)
+	else()
+		target_compile_options(seq_benchs PRIVATE -O3 -DNDEBUG -march=native -fopenmp)
+	endif()
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    target_compile_options(seq_benchs PRIVATE /O2 /DNDEBUG)
+	if(CMAKE_BUILD_TYPE MATCHES Debug)
+		target_compile_options(seq_benchs PRIVATE )
+	else()
+		target_compile_options(seq_benchs PRIVATE /O2 /DNDEBUG /openmp)
+	endif()
 endif()
 
 if (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 	# mingw
-	target_link_options(seq_benchs PRIVATE -lKernel32 -lpsapi -lBcrypt)
+	target_link_options(seq_benchs PRIVATE -lKernel32 -lpsapi -lBcrypt -fopenmp)
 elseif(UNIX AND (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"))
-    target_link_options(seq_benchs PRIVATE  -lpthread )
+    target_link_options(seq_benchs PRIVATE  -lpthread -fopenmp)
 endif()
 
+add_definitions(-DSEQ_HEADER_ONLY)
 
 #target_include_directories(seq_benchs PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/fast_float-main/include/fast_float)
 target_include_directories(seq_benchs PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 
 # seq library
-add_subdirectory(../ ${CMAKE_CURRENT_BINARY_DIR}/seq)
-target_link_libraries(seq_benchs PRIVATE seq)  
+target_include_directories(seq_benchs PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/../seq)
+#add_subdirectory(../ ${CMAKE_CURRENT_BINARY_DIR}/seq )
+#add_subdirectory(../ ${CMAKE_CURRENT_BINARY_DIR}/seq/internal )
+
+#target_link_libraries(seq_benchs PRIVATE seq)  
 
 

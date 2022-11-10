@@ -380,17 +380,17 @@ class seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</h3>
 <li>Its memory overhead is lower than a std::list: around 1 byte per element.</li>
 </ul>
 <p>The sequence container is a perfect candidate for std::queue and std::stack. It is used by the seq library as the backend container for <a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">seq::ordered_set</a> and <a class="el" href="classseq_1_1ordered__map.html" title="Associative container that contains key-value pairs with unique keys. Search, insertion,...">seq::ordered_map</a>.</p>
-<h2><a class="anchor" id="autotoc_md46"></a>
+<h2><a class="anchor" id="autotoc_md53"></a>
 Technical description</h2>
 <p>sequence container is implemented as a linked list of buckets. Each bucket holds (up to) 64 elements in a contiguous storage, and a 64 bits integer telling if a slot is empty or occupied.</p>
 <p>In order to retrieve the index of the first (or last) used slot in a bucket, or to get the number of occupied slots, the sequence container uses OS intrinsics to scan the 64 bits integer. For instance, on Windows, <em>_BitScanForward64</em>, <em>_BitScanRevers64</em> and <em>_mm_popcnt_u64</em> are used. Removing an element from the sequence will set the corresponding bit to 0, inserting will set the bit to 1.</p>
 <p>In addition, the sequence maintains another linked list of partially free buckets in order to perform fast unordered insertion using <a class="el" href="classseq_1_1sequence.html#a7dcbce0b90160f9479bfcb7a09f3277e" title="Insert the given element into the sequence.">insert()</a> member and therefore reuse slots previously deleted by <a class="el" href="classseq_1_1sequence.html#ac1f8636e2d4b36354c8f88e2ed7eafdb" title="Erases the specified element from the container.">erase()</a>.</p>
-<h2><a class="anchor" id="autotoc_md47"></a>
+<h2><a class="anchor" id="autotoc_md54"></a>
 Iterators</h2>
 <p>sequence iterator and const_iterator are bidirectional iterators. However, they provide all the members to behave like random access iterator, except the std::random_access_iterator_tag typedef.</p>
 <p>Indeed, using <em><a class="el" href="classseq_1_1detail_1_1sequence__iterator.html#a9ecbbe579745bd34a8b183b0000e5700">iterator::operator+=</a></em> is, for instance, much faster than <em>std::advance</em> as it can skip whole buckets to reach the required location. Likewise subtracting 2 iterators is much faster than using <em>std::distance</em>.</p>
 <p>sequence iterator also provide comparison operators &lt;, &gt;, &lt;= and &gt;=.</p>
-<h2><a class="anchor" id="autotoc_md48"></a>
+<h2><a class="anchor" id="autotoc_md55"></a>
 Memory managment</h2>
 <p>When using the <em>OptimizeForMemory</em> flag, the sequence will allocate each bucket independently using the provided allocator.</p>
 <p>When using the <em>OptimizeForSpeed</em> flag, the sequence will use a memory pool (<a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">seq::object_pool</a>) to allocate several buckets at once, still using the provided allocator. The memory pool uses a growing strategy to allocate more and more buckets based on a growth factor (SEQ_GROW_FACTOR define, defaulting to 1.6). The memory pool makes insertion tipically 50% faster than the default allocation strategy, but will consume slightly more memory.</p>

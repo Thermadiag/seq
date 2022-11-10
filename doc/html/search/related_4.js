@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['tiny_5fstring_2600',['tiny_string',['../classseq_1_1tiny__string.html#ad2f84cfec5842e04758f057c3d8a72f7',1,'seq::tiny_string']]]
+  ['object_5fallocator_2831',['object_allocator',['../classseq_1_1object__allocator.html#a565b12258ff3d3f1498582bee545d6d5',1,'seq::object_allocator']]],
+  ['ostream_5fformat_2832',['ostream_format',['../classseq_1_1ostream__format.html#a3eb7536572cddbefdbb8844bb64cafe4',1,'seq::ostream_format']]]
 ];

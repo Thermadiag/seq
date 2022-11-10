@@ -98,17 +98,16 @@ namespace seq
 
 		inline auto count_approximate_common_bytes(const char* pIn, const char* pMatch, const char* pInLimit) -> size_t
 		{
-			static constexpr size_t STEPSIZE = sizeof(size_t);
+			static constexpr size_t stepsize = sizeof(size_t);
 			const char* pStart = pIn;
 
-			while (SEQ_LIKELY(pIn < pInLimit - (STEPSIZE - 1))) {
+			while (SEQ_LIKELY(pIn < pInLimit - (stepsize - 1))) {
 				size_t const diff = read_size_t(pMatch) ^ read_size_t(pIn);
-				if (diff == 0u) { pIn += STEPSIZE; pMatch += STEPSIZE; continue; }
-				//pIn += NbCommonBytes(diff);
+				if (diff == 0u) { pIn += stepsize; pMatch += stepsize; continue; }
 				return static_cast<size_t>(pIn - pStart);
 			}
 
-			if ((STEPSIZE == 8) && (pIn < (pInLimit - 3)) && (read_32(pMatch) == read_32(pIn))) { pIn += 4; pMatch += 4; }
+			if ((stepsize == 8) && (pIn < (pInLimit - 3)) && (read_32(pMatch) == read_32(pIn))) { pIn += 4; pMatch += 4; }
 			if ((pIn < (pInLimit - 1)) && (read_16(pMatch) == read_16(pIn))) { pIn += 2; pMatch += 2; }
 			if ((pIn < pInLimit) && (*pMatch == *pIn)) { pIn++;}
 			return static_cast<size_t>(pIn - pStart);
@@ -135,25 +134,13 @@ namespace seq
 				if (r1 != r2) { return r1 < r2;}
 				v1 += 4; v2 += 4;
 			}
-			if ((v1 < (end - 1))) {
-				std::uint16_t r1 = read_BE_16(v1);
-				std::uint16_t r2 = read_BE_16(v2);
-				if (r1 != r2) { return r1 < r2; }
-				v1 += 2; v2 += 2;
-			}
-			if (v1 != end) {
-				if (*v1 != *v2) {
-					return static_cast<unsigned char>(*v1) < static_cast<unsigned char>(*v2);
-				}
-			}
-			return v1 == e1 && v2 != e2;
-
-			/*while (v1 != end) {
+			
+			while (v1 != end) {
 				if (*v1 != *v2) {
 					return static_cast<unsigned char>(*v1) < static_cast<unsigned char>(*v2);}
 				++v1; ++v2;
 			}
-			return v1 == e1 && v2 != e2;*/
+			return v1 == e1 && v2 != e2;
 		}
 	
 		inline auto string_compare(const unsigned char* v1, size_t l1, const unsigned char* v2, size_t l2)noexcept -> int
@@ -187,10 +174,10 @@ namespace seq
 
 
 		inline auto string_equal(const char* pIn, const char* pMatch, const char* pInLimit)  noexcept -> bool {
-			static constexpr size_t STEPSIZE = sizeof(size_t);
-			while ((pIn < pInLimit - (STEPSIZE - 1))) {
+			static constexpr size_t stepsize = sizeof(size_t);
+			while ((pIn < pInLimit - (stepsize - 1))) {
 				if (read_size_t(pMatch) != read_size_t(pIn)) { return false;}
-				pIn += STEPSIZE; pMatch += STEPSIZE;
+				pIn += stepsize; pMatch += stepsize;
 			}
 			while (pIn != pInLimit) {
 				if (*pIn != *pMatch) { return false;}
@@ -268,7 +255,7 @@ namespace seq
 		};
 
 		template<size_t MaxSSO, class Allocator>
-		struct string_proxy
+		struct string_proxy : private Allocator
 		{
 			//Allocator alloc;
 			union {
@@ -277,68 +264,33 @@ namespace seq
 			} d_union;
 		};
 
-		template<size_t MaxSSO>
-		struct string_proxy<MaxSSO, std::allocator<char> >
-		{
-			union {
-				SSO<MaxSSO> sso;
-				NoneSSO non_sso;
-			} d_union;
-		};
-
 
 		template<size_t MaxSSO, class Allocator>
-		struct string_internal
+		struct string_internal : private Allocator
 		{
-			// internal storage for tiny_string and custom allocator
+			// internal storage for tiny_string and allocator
 			static constexpr size_t struct_size = sizeof(string_proxy<MaxSSO, Allocator>);
 			static constexpr size_t sso_size = struct_size - 2;
-			Allocator alloc;
 			union {
 				SSO<sso_size> sso;
 				NoneSSO non_sso;
 			} d_union;
 
-			string_internal() { }
-			string_internal(const Allocator & al) :alloc(al) { }
+			string_internal():Allocator(){ }
+			string_internal(const Allocator & al) :Allocator(al) { }
 			auto allocate(size_t n) -> char* {
-				return alloc.allocate(n);
+				return this->Allocator::allocate(n);
 			}
 			void deallocate(char* p, size_t n) {
-				alloc.deallocate(p, n);
+				this->Allocator::deallocate(p, n);
 			}
-			auto get_allocator() -> Allocator &  { return alloc; }
-			auto get_allocator() const -> const Allocator& { return alloc; }
-			void set_allocator(const Allocator& al) { alloc = al; }
-			void set_allocator( Allocator&& al) { alloc = std::move(al); }
+			auto get_allocator() -> Allocator &  { return *this; }
+			auto get_allocator() const -> const Allocator& { return *this; }
+			void set_allocator(const Allocator& al) { static_cast<Allocator&>(*this) = al; }
+			void set_allocator( Allocator&& al) { static_cast<Allocator&>(*this) = std::move(al); }
 		
 		};
 
-		template< size_t MaxSSO>
-		struct string_internal<MaxSSO, std::allocator<char> >
-		{
-			// internal storage for tiny_string and std::allocator<char>
-			static constexpr size_t struct_size = sizeof(string_proxy<MaxSSO, std::allocator<char> >);
-			static constexpr size_t sso_size = struct_size - 2;
-			union {
-				SSO<sso_size> sso;
-				NoneSSO non_sso;
-			} d_union;
-
-			string_internal() {} 
-			string_internal(const std::allocator<char>& /*unused*/) {}
-
-			auto allocate(size_t n) -> char* {
-				char* p = std::allocator<char>{}.allocate(n);
-				return p;
-			}
-			void deallocate(char* p, size_t n) {
-				std::allocator<char>{}.deallocate(p, n);
-			}
-			auto get_allocator() const -> std::allocator<char> { return std::allocator<char>(); }
-			void set_allocator(const std::allocator<char>&  /*unused*/) {  }
-			void set_allocator(std::allocator<char> &&  /*unused*/) {  }
-		};
 
 		template< size_t MaxSSO>
 		struct string_internal<MaxSSO, view_allocator >
@@ -387,7 +339,7 @@ namespace seq
 	/// Motivation
 	/// ----------
 	/// 
-	/// Why another string class? I started writing tiny_string for another project (a deque-like container that stores its buckets in a compressed way) where I needed a relocatable string class.
+	/// Why another string class? I started writing tiny_string to provide a small and relocatable string class that can be used within seq::cvector.
 	/// Indeed, gcc std::string implementation is not relocatable as it stores a pointer to its internal data for small strings. In addition, most std::string implementations have a size of 32 bytes 
 	/// (at least msvc and gcc ones), which was a lot for my compressed container. Therefore, I started working on a string implementation with the following specificities:
 	/// -	Relocatable,
@@ -489,7 +441,7 @@ namespace seq
 	/// 
 	/// All tiny_string members have been optimized to match or outperform (for small strings) most std::string implementations. They have been benchmarked against
 	/// gcc (10.0.1) and msvc (14.20) for members compare(), find(), rfind(), find_first_of(), find_last_of(), find_first_not_of() and find_last_not_of().
-	/// Comparison oeprators <=> are usually faster than std::string.
+	/// Comparison operators <=> are usually faster than std::string.
 	/// 
 	/// However, tiny_string is usually slower for back insertion with push_back(). The pop_back() member is also slower than msvc and gcc implementations.
 	/// 
@@ -1962,7 +1914,8 @@ namespace seq
 				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if(common == n-1)
 					return in - begin();
-				in += common +1;
+				//in += common +1;
+				++in;
 			}
 			return npos;
 		}
@@ -2601,7 +2554,8 @@ namespace seq
 				if (common == n - 1) {
 					return in - begin();
 				}
-				in += common + 1;
+				//in += common + 1;
+				++in;
 			}
 			return npos;
 		}
@@ -2856,19 +2810,16 @@ namespace seq
 		{
 			if (len == npos || pos + len > size()) {
 				len = size() - pos;
-	}
+			}
 
 			//comparison works on unsigned !!!!
 			const unsigned char* p = reinterpret_cast<const unsigned char*>(data()) + pos;
 			const auto* s = reinterpret_cast<const unsigned char*>(_s);
 		
-			if (*p < *s) { return -1;
-	}
-			if (*p > *s) { return 1;
-	}
+			if (*p < *s) { return -1;}
+			if (*p > *s) { return 1;}
 			int r = memcmp(p, s, std::min(len, n));
-			if (r == 0) { return len < n ? -1 : (len > n ? 1 : 0);
-	}
+			if (r == 0) { return len < n ? -1 : (len > n ? 1 : 0);}
 			return r;
 		}
 
@@ -3343,6 +3294,119 @@ namespace seq
 
 	template<size_t S, class Alloc>
 	struct is_relocatable<tiny_string<S, Alloc> > : is_relocatable<Alloc> {};
+	
+	
+	
+	
+
+	/**********************************
+	* Reading/writing from/to streams
+	* ********************************/
+
+	template<class Elem,class Traits,size_t Size, class Alloc>
+	inline auto operator>>(std::basic_istream<Elem, Traits>& iss, tiny_string<Size, Alloc>& str) 
+		-> typename std::enable_if<!std::is_same<Alloc, view_allocator>::value, std::basic_istream<Elem, Traits> >::type	&
+	{	// extract a string
+		typedef std::ctype<Elem> c_type;
+		typedef std::basic_istream<Elem, Traits> stream_type;
+		typedef tiny_string<Size, Alloc> string_type;
+		typedef typename string_type::size_type size_type;
+
+		std::ios_base::iostate state = std::ios_base::goodbit;
+		bool changed = false;
+		const typename stream_type::sentry ok(iss);
+
+		if (ok)
+		{	// state okay, extract characters
+			const c_type& ctype_fac = std::use_facet< c_type >(iss.getloc());
+			str.clear();
+
+			try{
+				size_type size = 0 < iss.width()
+				&& static_cast<size_type>(iss.width()) < str.max_size()
+				? static_cast<size_type>(iss.width()) : str.max_size();
+			typename Traits::int_type _Meta = iss.rdbuf()->sgetc();
+
+			for (; 0 < size; --size, _Meta = iss.rdbuf()->snextc())
+				if (Traits::eq_int_type(Traits::eof(), _Meta))
+				{	// end of file, quit
+					state |= std::ios_base::eofbit;
+					break;
+				}
+				else if (ctype_fac.is(c_type::space,
+					Traits::to_char_type(_Meta)))
+					break;	// whitespace, quit
+				else
+				{	// add character to string
+					str.append(1, Traits::to_char_type(_Meta));
+					changed = true;
+				}
+
+			}
+			catch (...) {
+				iss.setstate(std::ios_base::badbit);
+			}
+		}
+
+		iss.width(0);
+		if (!changed)
+			state |= std::ios_base::failbit;
+		iss.setstate(state);
+		return (iss);
+	}
+
+	template<class Elem, class Traits, size_t Size, class Alloc>
+	inline	auto operator<<(std::basic_ostream<Elem, Traits>& oss, const tiny_string<Size, Alloc>& str) -> std::basic_ostream<Elem, Traits>&
+	{	// insert a string
+		typedef std::basic_ostream<Elem, Traits> myos;
+		typedef tiny_string<Size, Alloc> mystr;
+		typedef typename mystr::size_type mysizt;
+
+		std::ios_base::iostate state = std::ios_base::goodbit;
+		mysizt size = str.size();
+		mysizt pad = oss.width() <= 0 || static_cast<mysizt>(oss.width()) <= size
+			? 0 : static_cast<mysizt>(oss.width()) - size;
+		const typename myos::sentry sok(oss);
+
+		if (!sok)
+			state |= std::ios_base::badbit;
+		else
+		{	// state okay, insert characters
+			try {
+				if ((oss.flags() & std::ios_base::adjustfield) != std::ios_base::left)
+					for (; 0 < pad; --pad)	// pad on left
+						if (Traits::eq_int_type(Traits::eof(),
+							oss.rdbuf()->sputc(oss.fill())))
+						{	// insertion failed, quit
+							state |= std::ios_base::badbit;
+							break;
+						}
+
+				if (state == std::ios_base::goodbit
+					&& oss.rdbuf()->sputn(str.c_str(), static_cast<std::streamsize>(size))
+					!= static_cast<std::streamsize>(size))
+					state |= std::ios_base::badbit;
+				else
+					for (; 0 < pad; --pad)	// pad on right
+						if (Traits::eq_int_type(Traits::eof(),
+							oss.rdbuf()->sputc(oss.fill())))
+						{	// insertion failed, quit
+							state |= std::ios_base::badbit;
+							break;
+						}
+				oss.width(0);
+			}
+			catch (...)
+			{
+				oss.setstate(std::ios_base::badbit);
+				throw;
+			}
+		}
+
+		oss.setstate(state);
+		return (oss);
+	}
+
 
 }//end namespace seq
 
@@ -3351,10 +3415,7 @@ namespace seq
 
 namespace std
 {
-	/**********************************
-	* STL overloads
-	* ********************************/
-
+	// Overload std::swap for tiny_string. Illegal considering C++ standard, but works on all tested compilers and more efficient than the standard std::swap.
 	template<size_t Size, class Allocator>
 	SEQ_ALWAYS_INLINE void swap(seq::tiny_string<Size, Allocator>& a, seq::tiny_string<Size, Allocator>& b)
 	{
@@ -3391,115 +3452,6 @@ namespace std
 		}
 #endif
 	};
-
-
-	/**********************************
-	* Reading/writing from/to streams
-	* ********************************/
-
-	template<class Elem,class Traits,size_t Size, class Alloc>
-	inline auto operator>>(basic_istream<Elem, Traits>& iss, seq::tiny_string<Size, Alloc>& str) 
-		-> typename std::enable_if<!std::is_same<Alloc, seq::view_allocator>::value, basic_istream<Elem, Traits> >::type	&
-	{	// extract a string
-		typedef ctype<Elem> c_type;
-		typedef basic_istream<Elem, Traits> stream_type;
-		typedef seq::tiny_string<Size, Alloc> string_type;
-		typedef typename string_type::size_type size_type;
-
-		ios_base::iostate state = ios_base::goodbit;
-		bool changed = false;
-		const typename stream_type::sentry ok(iss);
-
-		if (ok)
-		{	// state okay, extract characters
-			const c_type& ctype_fac = use_facet< c_type >(iss.getloc());
-			str.clear();
-
-			try{
-				size_type size = 0 < iss.width()
-				&& static_cast<size_type>(iss.width()) < str.max_size()
-				? static_cast<size_type>(iss.width()) : str.max_size();
-			typename Traits::int_type _Meta = iss.rdbuf()->sgetc();
-
-			for (; 0 < size; --size, _Meta = iss.rdbuf()->snextc())
-				if (Traits::eq_int_type(Traits::eof(), _Meta))
-				{	// end of file, quit
-					state |= ios_base::eofbit;
-					break;
-				}
-				else if (ctype_fac.is(c_type::space,
-					Traits::to_char_type(_Meta)))
-					break;	// whitespace, quit
-				else
-				{	// add character to string
-					str.append(1, Traits::to_char_type(_Meta));
-					changed = true;
-				}
-
-			}
-			catch (...) {
-				iss.setstate(ios_base::badbit);
-			}
-		}
-
-		iss.width(0);
-		if (!changed)
-			state |= ios_base::failbit;
-		iss.setstate(state);
-		return (iss);
-	}
-
-	template<class Elem, class Traits, size_t Size, class Alloc>
-	inline	auto operator<<(basic_ostream<Elem, Traits>& oss, const seq::tiny_string<Size, Alloc>& str) -> basic_ostream<Elem, Traits>&
-	{	// insert a string
-		typedef basic_ostream<Elem, Traits> myos;
-		typedef seq::tiny_string<Size, Alloc> mystr;
-		typedef typename mystr::size_type mysizt;
-
-		ios_base::iostate state = ios_base::goodbit;
-		mysizt size = str.size();
-		mysizt pad = oss.width() <= 0 || static_cast<mysizt>(oss.width()) <= size
-			? 0 : static_cast<mysizt>(oss.width()) - size;
-		const typename myos::sentry sok(oss);
-
-		if (!sok)
-			state |= ios_base::badbit;
-		else
-		{	// state okay, insert characters
-			try {
-				if ((oss.flags() & ios_base::adjustfield) != ios_base::left)
-					for (; 0 < pad; --pad)	// pad on left
-						if (Traits::eq_int_type(Traits::eof(),
-							oss.rdbuf()->sputc(oss.fill())))
-						{	// insertion failed, quit
-							state |= ios_base::badbit;
-							break;
-						}
-
-				if (state == ios_base::goodbit
-					&& oss.rdbuf()->sputn(str.c_str(), static_cast<streamsize>(size))
-					!= static_cast<streamsize>(size))
-					state |= ios_base::badbit;
-				else
-					for (; 0 < pad; --pad)	// pad on right
-						if (Traits::eq_int_type(Traits::eof(),
-							oss.rdbuf()->sputc(oss.fill())))
-						{	// insertion failed, quit
-							state |= ios_base::badbit;
-							break;
-						}
-				oss.width(0);
-			}
-			catch (...)
-			{
-				oss.setstate(ios_base::badbit);
-				throw;
-			}
-		}
-
-		oss.setstate(state);
-		return (oss);
-	}
 
 } //end namespace std
 

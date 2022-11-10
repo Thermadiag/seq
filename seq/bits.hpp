@@ -57,11 +57,19 @@ See functions documentation for more details.
  *  @{
  */
 
+
+#ifdef _MSC_VER
+ // Silence msvc warning message about alignment
+#define _ENABLE_EXTENDED_ALIGNED_STORAGE
+#endif
+
+
 #include <cstdint>
 #include <cstring>
 #include <cstdlib>
 #include <cstddef>
 #include <cassert>
+#include <type_traits>
 
 
 #if defined(__APPLE__)
@@ -96,6 +104,24 @@ See functions documentation for more details.
 // Global grow factor for most containers
 #ifndef SEQ_GROW_FACTOR
 #define SEQ_GROW_FACTOR 1.6
+#endif
+
+// Error codes for compression module
+#define SEQ_ERROR_UNDEFINED (static_cast<unsigned>(-1))
+#define SEQ_ERROR_CORRUPTED_DATA (static_cast<unsigned>(-2))
+#define SEQ_ERROR_SRC_OVERFLOW (static_cast<unsigned>(-3))
+#define SEQ_ERROR_DST_OVERFLOW (static_cast<unsigned>(-4))
+#define SEQ_ERROR_ALLOC (static_cast<unsigned>(-5))
+#define SEQ_ERROR_INVALID_INPUT (static_cast<unsigned>(-6))
+#define SEQ_LAST_ERROR_CODE (static_cast<unsigned>(-10))
+
+
+
+// Fore header only (if SEQ_HEADER_ONLY is defined)
+#ifdef SEQ_HEADER_ONLY
+#define SEQ_HEADER_ONLY_EXPORT_FUNCTION inline
+#else
+#define SEQ_HEADER_ONLY_EXPORT_FUNCTION
 #endif
 
 
@@ -185,8 +211,8 @@ namespace seq {
 
 // Abort program with a last message
 #define SEQ_ABORT( ...)\
-	printf( __VA_ARGS__ ); fflush(stdout);\
-	abort();
+	{printf( __VA_ARGS__ ); fflush(stdout);\
+	abort();}
 
 // going through a variable to avoid cppcheck error with SEQ_OFFSETOF
 static const void* __dummy_ptr_with_long_name = nullptr;
@@ -263,6 +289,65 @@ static const void* __dummy_ptr_with_long_name = nullptr;
 
 #ifndef SEQ_EXTENSION 
 #define SEQ_EXTENSION 
+#endif
+
+
+
+// assume data are aligned
+#if defined(__GNUC__) && (__GNUC__>=4 && __GNUC_MINOR__>=7)
+#define SEQ_RESTRICT __restrict
+#define SEQ_ASSUME_ALIGNED(type,ptr,out,alignment) type * SEQ_RESTRICT out = (type *)__builtin_assume_aligned((ptr),alignment);
+#elif defined(__GNUC__)
+#define SEQ_RESTRICT __restrict
+#define SEQ_ASSUME_ALIGNED(type,ptr,out,alignment) type * SEQ_RESTRICT out = (ptr);
+  //on intel compiler, another way is to use #pragma vector aligned before the loop.
+#elif defined(__INTEL_COMPILER) || defined(__ICL) || defined(__ICC) || defined(__ECC)
+#define SEQ_RESTRICT restrict
+#define SEQ_ASSUME_ALIGNED(type,ptr,out,alignment) type * SEQ_RESTRICT out = ptr;__assume_aligned(out,alignment);
+#elif defined(__IBMCPP__)
+#define SEQ_RESTRICT restrict
+#define SEQ_ASSUME_ALIGNED(type,ptr,out,alignment) type __attribute__((aligned(alignment))) * SEQ_RESTRICT out = (type __attribute__((aligned(alignment))) *)(ptr);
+#elif defined(_MSC_VER)
+#define SEQ_RESTRICT __restrict
+#define SEQ_ASSUME_ALIGNED(type,ptr,out,alignment) type * SEQ_RESTRICT out = ptr;
+#endif
+
+
+
+ // Forces data to be n-byte aligned (this might be used to satisfy SIMD requirements).
+#if (defined __GNUC__) || (defined __PGI) || (defined __IBMCPP__) || (defined __ARMCC_VERSION)
+#define SEQ_ALIGN_TO_BOUNDARY(n) __attribute__((aligned(n)))
+#elif (defined _MSC_VER)
+#define SEQ_ALIGN_TO_BOUNDARY(n) __declspec(align(n))
+#elif (defined __SUNPRO_CC)
+  // FIXME not sure about this one:
+#define SEQ_ALIGN_TO_BOUNDARY(n) __attribute__((aligned(n)))
+#else
+#define SEQ_ALIGN_TO_BOUNDARY(n) SEQ_USER_ALIGN_TO_BOUNDARY(n)
+#endif
+
+
+// Export symbols
+#if defined _WIN32 || defined __CYGWIN__ || defined __MINGW32__
+	#ifdef SEQ_BUILD_LIBRARY
+	#ifdef __GNUC__
+		#define SEQ_EXPORT __attribute__ ((dllexport))
+	#else
+		#define SEQ_EXPORT __declspec(dllexport) // Note: actually gcc seems to also supports this syntax.
+	#endif
+	#else
+	#ifdef __GNUC__
+		#define SEQ_EXPORT __attribute__ ((dllimport))
+	#else
+		#define SEQ_EXPORT __declspec(dllimport) // Note: actually gcc seems to also supports this syntax.
+	#endif
+	#endif
+#else
+	#if __GNUC__ >= 4
+	#define SEQ_EXPORT __attribute__ ((visibility ("default")))
+	#else
+	#define SEQ_EXPORT
+	#endif
 #endif
 
 
@@ -939,12 +1024,12 @@ namespace seq
 #if defined(_MSC_VER) && defined(__BMI2__ )
 
 	inline unsigned nth_bit_set(std::uint64_t x, unsigned n) noexcept {
-		return (unsigned)_tzcnt_u64(_pdep_u64(1ULL << n, x));
+		return static_cast<unsigned>(_tzcnt_u64(_pdep_u64(1ULL << n, x)));
 	}
 
 #elif ((defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3))) && defined(__BMI2__ ))
 	inline unsigned nth_bit_set(std::uint64_t x, unsigned n) noexcept {
-		return (unsigned)_tzcnt_u64(_pdep_u64(1ULL << n, x));
+		return static_cast<unsigned>(_tzcnt_u64(_pdep_u64(1ULL << n, x)));
 	}
 
 #else
@@ -1066,6 +1151,15 @@ namespace seq
 	inline void write_LE_64(void* dst, std::uint64_t value)
 	{
 #if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
+		value = byte_swap_64(value);
+#endif
+		memcpy(dst, &value, sizeof(std::uint64_t));
+	}
+
+	/// @brief Write 64 bits integer value to dst in big endian order
+	inline void write_BE_64(void* dst, std::uint64_t value)
+	{
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
 		value = byte_swap_64(value);
 #endif
 		memcpy(dst, &value, sizeof(std::uint64_t));
@@ -1220,6 +1314,9 @@ namespace seq
 #ifdef __GNUC__
 //#pragma GCC diagnostic pop
 #endif
+
+#undef max
+#undef min
 
 /** @}*/
 //end bits

@@ -1,5 +1,4 @@
 var group__format =
 [
-    [ "seq", "namespaceseq.html", null ],
-    [ "std", "namespacestd.html", null ]
+    [ "seq", "namespaceseq.html", null ]
 ];

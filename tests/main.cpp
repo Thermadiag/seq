@@ -35,6 +35,10 @@
 #include "test_tiered_vector.hpp"
 #include "test_tiny_string.hpp"
 
+#ifdef TEST_CVECTOR
+#include "test_cvector.hpp"
+#endif
+
 using namespace seq;
 
 
@@ -43,6 +47,9 @@ auto  main  (int  /*unused*/, char**  /*unused*/) -> int
 	
 	SEQ_TEST_MODULE(format, test_format());
 	SEQ_TEST_MODULE(any, test_any());
+#ifdef TEST_CVECTOR
+	SEQ_TEST_MODULE(cvector, test_cvector<size_t>(50000));
+#endif
 	SEQ_TEST_MODULE(tiered_vector< seq::OptimizeForMemory>, test_tiered_vector<size_t, seq::OptimizeForMemory>(500000));
 	SEQ_TEST_MODULE(tiered_vector< seq::OptimizeForSpeed>, test_tiered_vector<size_t, seq::OptimizeForSpeed>(500000));
 	SEQ_TEST_MODULE(sequence<OptimizeForMemory>, test_sequence<size_t,seq::OptimizeForMemory>(1000000));

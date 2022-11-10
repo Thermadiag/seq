@@ -31,10 +31,10 @@ The library is divided in 7 small modules:
 -	[memory](docs/memory.md): allocators and memory pools mainly used for containers
 -	[charconv](docs/charconv.md): fast arithmetic to/from string conversion
 -	[format](docs/format.md): fast and type safe formatting tools
--	[containers](docs/containers.md): main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector...
+-	[containers](docs/containers.md): main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector, compressed vector...
 -	[any](docs/any.md): type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.
 
-seq library is header-only and self-dependent. A cmake project is provided for installation and compilation of tests/benchmarks.
+A cmake project is provided for installation and compilation of tests/benchmarks.
 
 Why C++11 ?
 -----------
@@ -50,7 +50,7 @@ Design
 ------
 
 Seq library is a small collection of header only and self dependant components. There is no restriction on internal dependencies, and a seq component can use any number of other components.
-For instance, almost all modules rely on the [bits](docs/bits.md) one.
+For instance, almost all modules rely on the [bits](docs/bits.md) one. The only exception is the `cvector` class that requires compilation, unless you define `SEQ_HEADER_ONLY`
 
 All classes and functions are defined in the `seq` namespace, and names are lower case with underscore separators, much like the STL.
 Macro names are upper case and start with the `SEQ_` prefix.
@@ -66,13 +66,15 @@ The `seq/seq/docs` directory contains documentation using markdown format, and t
 Build
 -----
 
-The seq library is header only and does not need to be built. However, a cmake file is provided for installation.
+The seq library needs compilation using cmake if you intend to use the `cvector` class (compressed vector). Note that you can still use it without compilation by defining `SEQ_HEADER_ONLY`. 
+Even on header-only mode, you should use the cmake file for installation.
 Tests can be built using cmake from the `tests` folder, and benchmarks from the `benchs` folder.
 
 Acknowledgements
 ----------------
 
 The only library dependency is <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters. The header `pdqsort.hpp` is included within the seq library.
+Seq library also uses a modified version <a href="https://github.com/lz4/lz4">LZ4</a> that could be used with `cvector` class.
 Benchmarks (in `seq/seq/benchs`) compare the performances of the seq library with other great libraries:
 -	<a href="https://plflib.org/">plf</a>: used for the plf::colony container,
 -	<a href="https://github.com/greg7mdp/parallel-hashmap">phmap</a>: used for its phmap::btree_set and phmap::node_hash_set,

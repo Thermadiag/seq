@@ -219,9 +219,63 @@ void test_map(size_t count, Gen gen)
 		fmt("Find (failed)").c(15), "|", fmt("Iterate").c(15), "|", fmt("Erase").c(15), "|") << std::endl;
 	std::cout << fmt(str().c(30).f('-'), "|", str().c(20).f('-'), "|", str().c(20).f('-'), "|", str().c(15).f('-'), "|", str().c(15).f('-'), "|", str().c(15).f('-'), "|", str().c(15).f('-'), "|", str().c(15).f('-'), "|") << std::endl;
 
-	test_set<flat_set<T> >("seq::flat_set", vec,f);
-	test_set<phmap::btree_set<T> >("phmap::btree_set", vec,f);
+	test_set<phmap::btree_set<T> >("phmap::btree_set", vec, f);
+	test_set<flat_set<T>>("seq::flat_set", vec,f);
 	test_set<boost::container::flat_set<T> >("boost::flat_set<T>", vec,f);
 	test_set<std::set<T> >("std::set", vec,f);
 	test_set<std::unordered_set<T> >("std::unordered_set", vec,f);	
+}
+
+
+
+template<class Map, class Format>
+void test_small_map_repeat(const char * name, int count, int repeat, Format f)
+{
+	using value_type = typename Map::value_type;
+	std::vector< value_type> vec;
+	for (int i = 0; i < count; ++i)
+		vec.push_back(static_cast<value_type>(i));
+	seq::random_shuffle(vec.begin(), vec.end());
+
+	tick();
+	for (int i = 0; i < repeat; ++i)
+	{
+		Map m;
+		for (size_t j = 0; j < vec.size(); ++j)
+			m.insert(vec[j]);
+
+		value_type sum = 0;
+		for (size_t j = 0; j < vec.size(); ++j)
+			sum += *m.find(vec[j]);
+
+		print_null(sum);
+
+		for (size_t j = 0; j < vec.size(); ++j)
+			m.erase(vec[j]);
+
+		print_null(m.size());
+	}
+	size_t el = tock_ms();
+	std::cout << f(name, el) << std::endl;
+}
+
+template<class T>
+void test_small_map(int count, int repeat)
+{
+	std::cout << std::endl;
+	std::cout << "Test small sorted containers with type = " << typeid(T).name() << " and size = " << count  << std::endl;
+	std::cout << std::endl;
+
+	auto f = fmt(pos<0,2>(), 
+		fmt("").l(30), "|",  //name
+		fmt<size_t>().c(20), "|"); //time
+
+	std::cout << fmt(fmt("Set name").l(30), "|", fmt("Tims (ms)").c(20), "|") << std::endl;
+	std::cout << fmt(str().c(30).f('-'), "|", str().c(20).f('-'), "|") << std::endl;
+
+	
+	test_small_map_repeat<phmap::btree_set<T > >("phmap::btree_set", count, repeat, f);
+	test_small_map_repeat < flat_set < T, std::less<T>, std::allocator<T>, seq::OptimizeForSpeed > >("seq::flat_set", count, repeat, f);
+	test_small_map_repeat<boost::container::flat_set<T> >("boost::flat_set<T>", count, repeat, f);
+	test_small_map_repeat<std::set<T> >("std::set", count, repeat, f);
 }

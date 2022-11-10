@@ -190,9 +190,11 @@ void test_tstring_logic()
 		for (size_t i = 0; i < vec.size(); ++i)
 			vec[i] = generate_random_string<std::string>(32);
 		std::vector<tiny_string<MaxStaticSize>> vec2(vec.begin(), vec.end());
+		SEQ_TEST(string_equals(vec, vec2));
 
 		std::sort(vec.begin(), vec.end());
 		std::sort(vec2.begin(), vec2.end());
+
 		SEQ_TEST(string_equals(vec, vec2));
 	}
 

@@ -225,9 +225,21 @@ namespace seq
 		struct has_is_transparent<T,
 			typename make_void<typename T::is_transparent>::type>
 			: std::true_type {};
+
+		
+		// Returns distance between 2 iterators, or 0 for non random access iterators
+		template<class Iter, class Cat>
+		auto iter_distance(const Iter& first, const Iter& last, Cat /*unused*/)  noexcept -> std::ptrdiff_t { return 0; }
+		template<class Iter>
+		auto iter_distance(const Iter& first, const Iter& last, std::random_access_iterator_tag /*unused*/)  noexcept -> std::ptrdiff_t { return last - first; }
+
 	}
 
-
+	/// @brief Returns the distance between first and last iterators for random access iterator category, 0 otherwise.
+	template<class Iter>
+	auto distance(const Iter& first, const Iter& last) noexcept -> std::ptrdiff_t {
+		return detail::iter_distance(first, last, typename std::iterator_traits<Iter>::iterator_category());
+	}
 
 
 	namespace detail

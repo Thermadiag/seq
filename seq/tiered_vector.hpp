@@ -351,11 +351,10 @@ namespace seq
 		template<class T, class Allocator>
 		struct CircularBuffer : BaseCircularBuffer<T, Allocator>
 		{
-			static constexpr size_t size_T = sizeof(T);
 			static constexpr size_t size_BCB = sizeof(BaseCircularBuffer<T, Allocator>);
 			// Start position for actual data in bytes
-			static constexpr size_t start_data_T = (size_BCB > size_T) ?
-				(size_BCB / size_T + ((size_BCB % size_T) != 0u ? 1 : 0)) :
+			static constexpr size_t start_data_T = (size_BCB > sizeof(T)) ?
+				(size_BCB / sizeof(T) + ((size_BCB % sizeof(T)) != 0u ? 1 : 0)) :
 				1;
 			static constexpr size_t start_data = start_data_T * sizeof(T);
 			static constexpr bool relocatable = is_relocatable<T>::value && (sizeof(T) >= sizeof(size_t));
@@ -619,10 +618,6 @@ namespace seq
 			}
 			// Pop front n values
 			void pop_front_n(Allocator& allocator, cbuffer_pos n) {
-				/*cbuffer_pos target = size - n;
-				while (size != target)
-					allocator.destroy(&(*this)[max_size() - size--]);
-				begin = (begin + n) & (max_size1);*/
 				for (cbuffer_pos i = 0; i != n; ++i)
 					pop_front(allocator);
 			}
@@ -1495,13 +1490,10 @@ namespace seq
 					}
 				}
 			
-				//if (!reloc_all)
-					// Destroy/deallocate the content of other
-					other.destroy_all();
-				/*else
-					// For relocatable copies, on deallocate without element destruction
-					other.destroy_all_no_destructor();*/
-
+				
+				// Destroy/deallocate the content of other
+				other.destroy_all();
+				
 				// Try to still some memory
 				if(still_memory)
 					d_ballocator.recyclate(other.d_ballocator);
@@ -1614,7 +1606,7 @@ namespace seq
 			}
 
 			// Returns true is tiered_vector size is even
-			SEQ_ALWAYS_INLINE auto isPow2Size() const noexcept -> bool { return ((d_size - 1) & d_size) == 0; }
+			SEQ_ALWAYS_INLINE auto isPow2Size() const noexcept -> bool { return isPow2Size(d_size); }
 			SEQ_ALWAYS_INLINE auto isPow2Size(size_t s) const noexcept -> bool { return ((s - 1) & s) == 0; }
 			 // Returns allocator
 			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return d_ballocator.get_allocator(); }

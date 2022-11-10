@@ -94,6 +94,8 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1string__interna
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="tiny__string_8hpp_source.html">tiny_string.hpp</a>&gt;</code></p>
+
+<p>Inherits Allocator.</p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -116,15 +118,13 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a6bdbf2694be5998bea31a3451cc4637e"><td class="memItemLeft" align="right" valign="top">Allocator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1string__internal.html#a6bdbf2694be5998bea31a3451cc4637e">alloc</a></td></tr>
-<tr class="separator:a6bdbf2694be5998bea31a3451cc4637e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a610072e0b076a05a3423b0829ad4e789"><td class="memItemLeft" >union {</td></tr>
-<tr class="memitem:aed7589a8922ae3841403568e40a1d15c"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1_s_s_o.html">SSO</a>&lt; <a class="el" href="structseq_1_1detail_1_1string__internal.html#accc6592c83d5a0c41214bc8d8a5128f8">sso_size</a> &gt;&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1string__internal.html#a3359e011e39939075dee45ff4c7ac6d4">sso</a></td></tr>
-<tr class="separator:aed7589a8922ae3841403568e40a1d15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab03479afd58b4e8db9279228a3f51667"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1_none_s_s_o.html">NoneSSO</a>&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1string__internal.html#a3c40ba263b050d90e1527399859670df">non_sso</a></td></tr>
-<tr class="separator:ab03479afd58b4e8db9279228a3f51667"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a610072e0b076a05a3423b0829ad4e789"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1string__internal.html#a610072e0b076a05a3423b0829ad4e789">d_union</a></td></tr>
-<tr class="separator:a610072e0b076a05a3423b0829ad4e789"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a573198bf92e4ce71a7da6146f7a333c8"><td class="memItemLeft" >union {</td></tr>
+<tr class="memitem:aaface4a7db8310d16bf42e3ba41d2a05"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1_s_s_o.html">SSO</a>&lt; <a class="el" href="structseq_1_1detail_1_1string__internal.html#accc6592c83d5a0c41214bc8d8a5128f8">sso_size</a> &gt;&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1string__internal.html#a3359e011e39939075dee45ff4c7ac6d4">sso</a></td></tr>
+<tr class="separator:aaface4a7db8310d16bf42e3ba41d2a05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a337c8ff3b4098cce0659a5f079d893fa"><td class="memItemLeft" >&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1_none_s_s_o.html">NoneSSO</a>&#160;&#160;&#160;<a class="el" href="structseq_1_1detail_1_1string__internal.html#a3c40ba263b050d90e1527399859670df">non_sso</a></td></tr>
+<tr class="separator:a337c8ff3b4098cce0659a5f079d893fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a573198bf92e4ce71a7da6146f7a333c8"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1string__internal.html#a573198bf92e4ce71a7da6146f7a333c8">d_union</a></td></tr>
+<tr class="separator:a573198bf92e4ce71a7da6146f7a333c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -367,24 +367,8 @@ template&lt;size_t MaxSSO, class Allocator &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a6bdbf2694be5998bea31a3451cc4637e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bdbf2694be5998bea31a3451cc4637e">&#9670;&nbsp;</a></span>alloc</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;size_t MaxSSO, class Allocator &gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">Allocator <a class="el" href="structseq_1_1detail_1_1string__internal.html">seq::detail::string_internal</a>&lt; MaxSSO, Allocator &gt;::alloc</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a610072e0b076a05a3423b0829ad4e789"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a610072e0b076a05a3423b0829ad4e789">&#9670;&nbsp;</a></span>d_union</h2>
+<a id="a573198bf92e4ce71a7da6146f7a333c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a573198bf92e4ce71a7da6146f7a333c8">&#9670;&nbsp;</a></span>d_union</h2>
 
 <div class="memitem">
 <div class="memproto">

@@ -62,8 +62,8 @@ namespace seq
 
 			DEVectorData(const Allocator & al = Allocator()) 
 				: Allocator(al), data(NULL), start(NULL), end(NULL), capacity(0){}
-			DEVectorData(DEVectorData&& other)
- noexcept 				: Allocator(std::move(static_cast<Allocator&>(other))), data(other.data), start(other.start), end(other.end), capacity(other.capacity) {
+			DEVectorData(DEVectorData&& other) noexcept 				
+				: Allocator(std::move(static_cast<Allocator&>(other))), data(other.data), start(other.start), end(other.end), capacity(other.capacity) {
 				other.data = other.start = other.end = NULL;
 				other.capacity = 0;
 			}
@@ -626,16 +626,6 @@ namespace seq
 	{
 		using base_type = detail::DEVectorData<T, Allocator, flag>;
 
-		// Returns distance between 2 iterators, or 0 for non random access iterators
-		template<class Iter, class Cat>
-		auto iter_distance(const Iter& it1, const Iter& it2, Cat /*unused*/) const noexcept -> std::ptrdiff_t { return 0; }
-		template<class Iter>
-		auto iter_distance(const Iter& it1, const Iter& it2, std::random_access_iterator_tag /*unused*/) const noexcept -> std::ptrdiff_t { return it1 - it2; }
-		template<class Iter>
-		auto distance(const Iter& it1, const Iter& it2)const noexcept -> std::ptrdiff_t {
-			return iter_distance(it1, it2, typename std::iterator_traits<Iter>::iterator_category());
-		}
-
 	public:
 
 		using value_type = T;
@@ -891,7 +881,7 @@ namespace seq
 			else if (off <= size() / 2)
 			{	// closer to front, push to front then rotate
 				try {
-					if (difference_type len = distance(last, first))
+					if (difference_type len = ::distance(first, last))
 						reserve_front(len);
 
 					for (; first != last; ++first)
@@ -910,7 +900,7 @@ namespace seq
 			else
 			{	// closer to back
 				try {
-					if (difference_type len = distance(last, first))
+					if (difference_type len = ::distance(first, last))
 						reserve_back(len);
 					
 					for (; first != last; ++first)
@@ -957,7 +947,7 @@ namespace seq
 		void assign(InputIt first, InputIt last)
 		{
 			try {
-				if (difference_type len = distance(last, first)) {
+				if (difference_type len = ::distance(first, last)) {
 					resize(len);
 					std::copy(first, last, begin());
 				}

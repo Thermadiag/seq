@@ -66,21 +66,23 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classseq_1_1aligned__allocator.html#a74801a5728b3613f4ddba990bf796e69",
-"classseq_1_1devector.html#a18b3f5a9ffc8b4b2f1391eb1b77fbb5d",
-"classseq_1_1flat__multimap.html#a289fc29af7464c67be2fff588da486ea",
-"classseq_1_1object__allocator.html#a565b12258ff3d3f1498582bee545d6d5",
-"classseq_1_1ordered__set.html#ae695e84589fc08e4c9f9bbc32ef9bc15",
-"classseq_1_1tiered__vector.html#a735b0a3c5b783af8f8e344f21bbba693",
-"classstd_1_1hash_3_01seq_1_1tiny__string_3_01_size_00_01_allocator_01_4_01_4.html#acd0f5720a9538adbd1905c6888646eb0",
-"namespacemembers_g.html",
-"structseq_1_1detail_1_1_bucket_manager.html#a3ca024ca2d0465573f2ff2069b3e3a38",
-"structseq_1_1detail_1_1_format_wrapper_3_01char_0f_n_0e_01_4.html",
-"structseq_1_1detail_1_1_value_holder_3_01ostream__format_3_01_t_01_4_00_01false_01_4.html",
-"structseq_1_1detail_1_1deque__iterator.html#a7e1a6b2656c15c3dab3ad876ad929500",
-"structseq_1_1detail_1_1sequence__ra__iterator.html#a0fb2c72543ef372f48f0b6a7feccd827",
-"structseq_1_1is__allocated__string_3_01tiny__string_3_01_s_00_01_al_01_4_01_4.html",
-"structseq_1_1width__format.html#a2443451a4fbf47e6a5263bd6ba5f5df6a9f2eddf9a5372f48525476da6051bfe5"
+"classseq_1_1aligned__allocator.html#a64336bf4ed0510834700ddac7a505e72",
+"classseq_1_1detail_1_1allocator__for__shared__ptr.html#a0678dc31dbd9f2207eb832038ae80f5c",
+"classseq_1_1file__input__stream.html#a09ee5bc58a91b43f564e2f8ea7c49a26",
+"classseq_1_1flat__set.html#a2a9923cc9ecdcc5c25c96dd5508b72c7",
+"classseq_1_1ordered__map.html#a843716fafbcd498cd03d71c2b63f5c0e",
+"classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d",
+"classseq_1_1tiny__string.html#a40961d5152d0c2b1204259e932ac61e9",
+"functions_func_h.html",
+"ordered__map_8hpp.html#ab30aadadbca04f03a4fbfafab2b975afa9ee85222ef4be71557a04ca6e1d9462a",
+"structseq_1_1detail_1_1_bucket_manager.html#a7819067b120cf1b020eaf24871f0fa73",
+"structseq_1_1detail_1_1_compressed_vector_internal.html#a7922f3b83ca110676f44ad9adc2497f8",
+"structseq_1_1detail_1_1_ostream_to_string_3_01_t_00_01false_00_01false_00_01true_00_01true_01_4.html",
+"structseq_1_1detail_1_1block__pool.html#a22ad59027608fbf56ddb4f04ed60de25",
+"structseq_1_1detail_1_1flat__tree.html#aa524b004577b47784641bead297ee34d",
+"structseq_1_1detail_1_1string__internal.html#a7ce9eb8cab7ed6fb12fd0857ddb80d64",
+"structseq_1_1ordered__map_1_1iterator.html#a9cac2595e3cb2116677ebccc29299ca5",
+"tiny__string_8hpp.html#ad9e28e6da6ec3562c1faef9ef00631d6"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

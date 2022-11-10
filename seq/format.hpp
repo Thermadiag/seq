@@ -1432,30 +1432,25 @@ namespace seq
 		}
 	};
 
-}
 
 
-
-namespace std
-{
 	/// @brief Write a ostream_format object to a std::ostream 
 	template<class Elem, class Traits, class T>
-	inline auto operator<<(basic_ostream<Elem, Traits>&  oss, const seq::ostream_format<T>&  val) -> basic_ostream<Elem, Traits>&
+	inline auto operator<<(std::basic_ostream<Elem, Traits>&  oss, const ostream_format<T>&  val) -> std::basic_ostream<Elem, Traits>&
 	{
-		std::string& tmp = seq::detail::ostream_buffer();
+		std::string& tmp = detail::ostream_buffer();
 		tmp.clear();
 		size_t s = val.to_string(tmp);
-		if (!seq::ostream_format<T>::auto_width_format) {
+		if (!ostream_format<T>::auto_width_format) {
 			// non default ostream_format, the width formatting must be applied
 			if (val.alignment()) {
-				seq::width_format::format(tmp, 0, tmp.size(), val.width_fmt());
+				width_format::format(tmp, 0, tmp.size(), val.width_fmt());
 				s = tmp.size();
 			}
 		}
 		oss.rdbuf()->sputn(tmp.data(), static_cast<std::streamsize>(s));
 		return oss;
 	}
-}
 
 
 
@@ -1467,10 +1462,6 @@ namespace std
 
 
 
-
-
-namespace seq
-{
 	namespace detail
 	{
 		//
@@ -2309,6 +2300,12 @@ namespace seq
 		return fmt<tstring_view>();
 	}
 
+	static inline auto rep(char c, int count) -> ostream_format<tstring_view>
+	{
+		// Repeat count times character c
+		return str().l(count).f(c);
+	}
+
 
 	/// @brief Check if given type is formattable using seq::fmt()
 	template<class T>
@@ -2317,30 +2314,26 @@ namespace seq
 		static constexpr bool value = ostream_format<T>::is_formattable;
 	};
 
-} // end namespace seq
 
 
 
 
-namespace std
-{
+
+
 	/// @brief Write a ostream_format object to a std::ostream object
 	template<class Elem, class Traits, class T, class P>
-	inline auto operator<<(basic_ostream<Elem, Traits>& oss, const seq::detail::mutli_ostream_format<T, P>& val) -> basic_ostream<Elem, Traits>&
+	inline auto operator<<(std::basic_ostream<Elem, Traits>& oss, const detail::mutli_ostream_format<T, P>& val) -> std::basic_ostream<Elem, Traits>&
 	{
-		/*if (val.alignment() == 0)
-			seq::detail::ToOstream<T>::convert(oss, val.d_tuple);
-		else {*/
-			std::string& tmp = seq::detail::multi_ostream_buffer();
-			tmp.clear();
-			val.append(tmp);
-			oss.rdbuf()->sputn(tmp.data(), static_cast<std::streamsize>(tmp.size()));
-		//}
+		std::string& tmp = detail::multi_ostream_buffer();
+		tmp.clear();
+		val.append(tmp);
+		oss.rdbuf()->sputn(tmp.data(), static_cast<std::streamsize>(tmp.size()));
+		
 		return oss;
 	}
-} // namespace std
 
 
+} // end namespace seq
 
 /** @}*/
 //end charconv

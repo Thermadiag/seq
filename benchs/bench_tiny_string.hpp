@@ -28,6 +28,7 @@
 #include "flat_map.hpp"
 #include "testing.hpp"
 #include "format.hpp"
+#include "cvector.hpp"
 
 #include <unordered_set>
 #include <set>
@@ -47,11 +48,19 @@ using namespace seq;
 template<class Less, class Vec>
 size_t test_sort(const Vec& v)
 {
-	static constexpr size_t width = 30;
 	Vec copy = v;
 
 	tick();
-	std::sort(copy.begin(), copy.end(), Less());
+	std::sort(copy.begin(), copy.end(), Less{});
+	return tock_ms();
+}
+template<class Vec>
+size_t test_sort2(const Vec& v)
+{
+	Vec copy = v;
+
+	tick();
+	std::sort(copy.begin(), copy.end());
 	return tock_ms();
 }
 
@@ -67,12 +76,14 @@ inline void test_sort_strings(size_t count = 1000000)
 
 	std::vector<std::string> vec(count);
 	std::vector<std::string> vec_w(count);
+	
 	for (size_t i = 0; i < vec.size(); ++i) {
 		vec[i] = generate_random_string<std::string>(14, true);
 		vec_w[i] = generate_random_string<std::string>(200, true);
 	}
 	std::vector<tstring> tvec(vec.begin(), vec.end());
 	std::vector<tstring> tvec_w(vec_w.begin(), vec_w.end());
+	
 
 	std::cout << fmt(fmt("String name").l(30), "|", fmt("sort small (std::less)").c(30), "|", fmt("sort small (tstring::less)").c(30), "|", fmt("sort wide (std::less)").c(30), "|", fmt("sort wide (tstring::less)").c(30), "|") << std::endl;
 	std::cout << fmt(str().c(30).f('-'), "|", str().c(30).f('-'), "|", str().c(30).f('-'), "|", str().c(30).f('-'), "|", str().c(30).f('-'), "|") << std::endl;
@@ -93,6 +104,14 @@ inline void test_sort_strings(size_t count = 1000000)
 		<< "|" << fmt(s2).c(30) << "|"
 		<< std::endl;
 
+	cvector<tstring> cvec(vec.begin(), vec.end());
+	cvector<tstring> cvec_w(vec_w.begin(), vec_w.end());
+
+	std::cout << fmt(fmt("Compressed short string").c(40), "|", fmt("Compressed long string").c(40), "|") << std::endl;
+	std::cout << fmt(str().c(40).f('-'), "|", str().c(40).f('-'), "|") << std::endl;
+	s1 = test_sort2(cvec);
+	s2 = test_sort2(cvec_w);
+	std::cout << fmt(fmt(s1).c(40), "|", fmt(s2).c(40), "|") << std::endl;
 }
 
 

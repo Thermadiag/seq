@@ -121,6 +121,14 @@ In additional to seq::std_input_stream, charconv module provides the similar seq
 #include "bits.hpp"
 #include "tiny_string.hpp"
 
+#ifdef min
+#undef min
+#endif
+
+#ifdef max
+#undef max
+#endif
+
 namespace seq
 {
 	/// @brief A BitmaskType used to specify floating-point formatting for seq::to_chars.
@@ -1567,7 +1575,7 @@ namespace seq
 			// We still have a precision issue, as normalize_double() might produce a remainder like 0.49999... while it should be 0.5
 			// Therefore, the value might be rounded to the lower decimal instead of the upper one, only for values ending with '5'
 			// Current fix is to add a very small value that can compensate the computation rounding errors
-			//value += 1e-9;
+			// value += 1e-9; // Disabled for now
 			
 			// reduce the number of floating point operations by outputting 2 digits at once
 			if (exponent >= 0) {

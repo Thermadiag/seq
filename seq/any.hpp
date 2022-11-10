@@ -2347,7 +2347,7 @@ namespace seq
 
 namespace std
 {
-	// swap overload for hold_any
+	// swap overload for hold_any, illegal considering C++ rules, but works on all tested compilers, and way more efficient than the the default std::swap
 	template<class Interface, size_t S, size_t A>
 	void swap(seq::hold_any<Interface,S,A>& a, seq::hold_any<Interface,S,A>& b)
 	{
@@ -2385,7 +2385,7 @@ namespace std
 			return type_inf->hash_any(&value);
 		}
 	};
-}
+} //end namespace std
 
 
 

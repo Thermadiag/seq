@@ -92,9 +92,12 @@ $(document).ready(function(){initNavTree('functions_func_b.html',''); initResiza
 </li>
 <li>back()
 : <a class="el" href="classseq_1_1buffer__input__stream.html#a0e74a63fda6ed9e034d7ce5e3a2f6378">seq::buffer_input_stream</a>
+, <a class="el" href="classseq_1_1cvector.html#a4e15c5f9108e615e519cda1a7bcf2bbe">seq::cvector&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a9e1df5f938d44a8d4156b34b370fefa8">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_buffer_list.html#af06ef3b9c7cb9fc3e5d4501a0d5084e6">seq::detail::BufferList&lt; Buffer &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1char__range.html#a92d10865f35a6919d8d92f6b339e4662">seq::detail::char_range</a>
-, <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#a1203f3ef42f6c5d135c135c4932eebb5">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#ad15e7a1244eba966f205c0d385cd0b13">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a577bfca3c22f7118c75272249f8f1f85">seq::detail::CompressedVectorInternal&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1from__chars__stream.html#a4be8046e22dca119b8c6b55496adb76e">seq::detail::from_chars_stream</a>
 , <a class="el" href="structseq_1_1detail_1_1list__chunk.html#aeb11437ad6aa0d2d66b014bb2da3993c">seq::detail::list_chunk&lt; T &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01false_00_01_is_arithmetic_01_4.html#a15230a92b881c28b37a618bb442ad19c">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, false, IsArithmetic &gt;</a>
@@ -111,6 +114,9 @@ $(document).ready(function(){initNavTree('functions_func_b.html',''); initResiza
 </li>
 <li>back_capacity()
 : <a class="el" href="classseq_1_1devector.html#a1e1272b9c9a6cafd5338eb0d8e475f63">seq::devector&lt; T, Allocator, flag &gt;</a>
+</li>
+<li>back_size()
+: <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a991a5c9721465ddb01f653d50ef87f1c">seq::detail::CompressedVectorInternal&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
 </li>
 <li>base()
 : <a class="el" href="structseq_1_1base__ostream__format.html#a8efc976e65c65679645eee433c2b690e">seq::base_ostream_format&lt; T, Derived &gt;</a>
@@ -134,14 +140,16 @@ $(document).ready(function(){initNavTree('functions_func_b.html',''); initResiza
 , <a class="el" href="structseq_1_1detail_1_1_base_tree_3_01_key_00_01_key_00_01_less_01_4.html#af16077f416fcac58d19e52786eac0bed">seq::detail::BaseTree&lt; Key, Key, Less &gt;</a>
 </li>
 <li>begin()
-: <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a06afa1675b21660bdd9a780fe16a64c1">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
+: <a class="el" href="classseq_1_1cvector.html#a96e3110c5a7986875f42d25b8d6d9246">seq::cvector&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_buffer_list.html#a12a5d45b6b4b4c72b0c59dd387e3eb00">seq::detail::BufferList&lt; Buffer &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a06afa1675b21660bdd9a780fe16a64c1">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
 , <a class="el" href="classseq_1_1devector.html#a71a66a34d6eb76ba1dc736e0de53ec58">seq::devector&lt; T, Allocator, flag &gt;</a>
 , <a class="el" href="classseq_1_1flat__map.html#ae4bbfc2dd66775d09e3fde965ff0f997">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;</a>
 , <a class="el" href="classseq_1_1flat__set.html#a2e0ae68bbfdd65d872ced19448211dc6">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;</a>
 , <a class="el" href="classseq_1_1ordered__map.html#a0fc0dbc05750e9c02e7b771769be787b">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;</a>
 , <a class="el" href="classseq_1_1ordered__set.html#a21ca04d7c527900e08c38203940889b8">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;</a>
 , <a class="el" href="classseq_1_1sequence.html#ac3c8eb8d6b9da3a1c11e5435a2f5cddd">seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</a>
-, <a class="el" href="classseq_1_1tiered__vector.html#a98812131e0d41e7a690d4695f79b22ae">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
+, <a class="el" href="classseq_1_1tiered__vector.html#a09a8317c6196fe7097f758420f4bf548">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
 , <a class="el" href="classseq_1_1tiny__string.html#adfebdbd22a6103cbde791c9a6022bc7e">seq::tiny_string&lt; MaxStaticSize, Allocator &gt;</a>
 , <a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#a190b4fb8f7cb7db7f59da3d618d103fd">seq::tiny_string&lt; 0, view_allocator &gt;</a>
 </li>
@@ -154,8 +162,14 @@ $(document).ready(function(){initNavTree('functions_func_b.html',''); initResiza
 <li>binary_search()
 : <a class="el" href="classseq_1_1tiered__vector.html#a0c25f21caf6bf3ce023c932a6ddc5036">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
 </li>
+<li>block()
+: <a class="el" href="classseq_1_1cvector.html#aa41490f1c68b5272783b217b54af71cf">seq::cvector&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
+</li>
 <li>block_allocator()
 : <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a3ca024ca2d0465573f2ff2069b3e3a38">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
+</li>
+<li>block_count()
+: <a class="el" href="classseq_1_1cvector.html#a24a89b0ab698b706c242a0b18a6b267d">seq::cvector&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
 </li>
 <li>block_it()
 : <a class="el" href="structseq_1_1detail_1_1block__it.html#aef7018ed8990188117cd9ff50a7303a5">seq::detail::block_it&lt; block_type &gt;</a>
@@ -168,7 +182,7 @@ $(document).ready(function(){initNavTree('functions_func_b.html',''); initResiza
 : <a class="el" href="structseq_1_1detail_1_1bool__locker.html#a8c595570b984daeb50cda3ed7d4b4618">seq::detail::bool_locker</a>
 </li>
 <li>bucket()
-: <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#ae4970789f978873e606212e914b33104">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#acd6859c81104344bed316320daf72c2b">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
 </li>
 <li>bucket_count()
 : <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a1f4b3d0718ba68162ba173cf6a8b795f">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
@@ -176,9 +190,11 @@ $(document).ready(function(){initNavTree('functions_func_b.html',''); initResiza
 </li>
 <li>bucket_index()
 : <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a3ad2703dd52c4a538804e363f9f77858">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
+, <a class="el" href="classseq_1_1detail_1_1_const_value_wrapper.html#afa5cbc4cdd18b7bb277fda9029fd663b">seq::detail::ConstValueWrapper&lt; Compressed &gt;</a>
 </li>
 <li>bucket_pos()
 : <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a76f65de7b639bfb6daf4408c749e254b">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
+, <a class="el" href="classseq_1_1detail_1_1_const_value_wrapper.html#a2eb50e372d24112d160026b2ba475ce0">seq::detail::ConstValueWrapper&lt; Compressed &gt;</a>
 </li>
 <li>bucket_size()
 : <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a5ba48fe2dbaa6c62e54f9ac555ba1fd5">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
@@ -186,17 +202,20 @@ $(document).ready(function(){initNavTree('functions_func_b.html',''); initResiza
 , <a class="el" href="classseq_1_1tiered__vector.html#ac258f6ce9b92168e54f8a533cc3a1b65">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
 </li>
 <li>BucketManager()
-: <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a65a74d49ace4ea6f3841a0f82af42d08">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a10c2de8c035698f4e266db7e44bd76a2">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
 </li>
 <li>buckets()
-: <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a865a32a4a541bd52bbcd5665883017b4">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a2431726344175c2a42d7aa0de81738a9">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
 </li>
 <li>buffer()
 : <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#a0b78f7f939f27e6e0b6537f405153a55">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1list__chunk.html#a0ae84e5d33e9a659651a8804a5328c6b">seq::detail::list_chunk&lt; T &gt;</a>
 </li>
 <li>buffer_input_stream()
-: <a class="el" href="classseq_1_1buffer__input__stream.html#a876b51e5671d23a2237908a946d05e19">seq::buffer_input_stream</a>
+: <a class="el" href="classseq_1_1buffer__input__stream.html#a09a24020ee23b2f3133b66a8656082c4">seq::buffer_input_stream</a>
+</li>
+<li>BufferList()
+: <a class="el" href="structseq_1_1detail_1_1_buffer_list.html#a056ea28e9acf2f8788ab4c9f7abedb04">seq::detail::BufferList&lt; Buffer &gt;</a>
 </li>
 <li>build()
 : <a class="el" href="structseq_1_1detail_1_1_build_format.html#a170244e0d824075d2a35716be20597d3">seq::detail::BuildFormat&lt; NArgs, Pos, Args &gt;</a>

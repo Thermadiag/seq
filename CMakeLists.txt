@@ -4,16 +4,67 @@ project(seq VERSION 1.0.0 LANGUAGES CXX)
 
 include(GNUInstallDirs)
 
-add_library(seq INTERFACE)
+# project options
+option(HEADER_ONLY "Do not build library, use header-only version" OFF)
+option(ENABLE_AVX2 "Enable AVX2 support" ON)
 
 
-target_include_directories(seq INTERFACE
+# add sources if HEADER_ONLY is false
+if(NOT HEADER_ONLY)
+
+	# add sources
+	add_library(seq SHARED
+		"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/block_codec.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/lz4small.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/transpose.cpp"
+	)
+	
+	# add preprocessor definitions
+	add_definitions(-DSEQ_BUILD_LIBRARY)
+	#if(BUILD_STATIC_LIB)
+	#	message("Build seq static library")
+	#	add_definitions(-DSEQ_STATIC_BUILD)
+	#endif()
+	
+	#add linker options
+	if (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+		# mingw
+		target_link_options(seq PRIVATE -lKernel32 -lpsapi -lBcrypt)
+	endif()
+
+	# add sse/avx flags
+	if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+		if(NOT ENABLE_AVX2)
+			target_compile_options(seq PRIVATE /arch:SSE2)
+		else()
+			target_compile_options(seq PRIVATE /arch:AVX2)
+		endif()
+	else()
+		target_compile_options(seq PRIVATE -march=native)
+	endif()
+	
+	target_include_directories(seq PUBLIC
                            "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/seq>"
+						   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/seq/internal>"
                            "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+						   
+else()
+	add_library(seq INTERFACE)
+	add_definitions(-DSEQ_HEADER_ONLY)
+	target_include_directories(seq INTERFACE
+                           "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/seq>"
+						   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/seq/internal>"
+                           "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+endif()
+
+
+
+
 
 list(APPEND headers "${CMAKE_CURRENT_SOURCE_DIR}/seq/any.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/bits.hpp"
                     "${CMAKE_CURRENT_SOURCE_DIR}/seq/charconv.hpp"
+					"${CMAKE_CURRENT_SOURCE_DIR}/seq/cvector.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/deque_allocator.hpp"
                     "${CMAKE_CURRENT_SOURCE_DIR}/seq/devector.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/flat_map.hpp"
@@ -30,8 +81,20 @@ list(APPEND headers "${CMAKE_CURRENT_SOURCE_DIR}/seq/any.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/tiny_string.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/type_traits.hpp"
 					"${CMAKE_CURRENT_SOURCE_DIR}/seq/utils.hpp"
+					"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/block_codec.h"
+					"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/lz4small.h"
+					"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/transpose.h"
+					"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/shuffle_table.h"
+					"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/unshuffle_table.h"
+					"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/simd.hpp"
+					"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/block_codec.cpp"
+					"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/lz4small.cpp"
+					"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/transpose.cpp"
 					)
+					
 target_sources(seq INTERFACE "$<BUILD_INTERFACE:${headers}>")
+
+configure_file(seq.pc.in seq.pc @ONLY)
 
 
 
@@ -52,6 +115,9 @@ if(${CMAKE_VERSION} VERSION_GREATER "3.2")
 
     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/seqConfig.cmake"
             DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/cmake/seq")
+			
+	install(FILES ${CMAKE_BINARY_DIR}/seq.pc
+			DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
 
 
     ## Create local seqTargets.cmake

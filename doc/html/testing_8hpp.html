@@ -170,10 +170,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a576ae74a514ded550299e48e4c32cc64"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a576ae74a514ded550299e48e4c32cc64">seq::tock_ms</a> () -&gt; std::uint64_t</td></tr>
 <tr class="memdesc:a576ae74a514ded550299e48e4c32cc64"><td class="mdescLeft">&#160;</td><td class="mdescRight">For tests only, returns elapsed milliseconds since last call to <a class="el" href="namespaceseq.html#ad863fcfc143b646f5a2f2362a1327575" title="For tests only, reset timer for calling thread.">tick()</a>  <a href="namespaceseq.html#a576ae74a514ded550299e48e4c32cc64">More...</a><br /></td></tr>
 <tr class="separator:a576ae74a514ded550299e48e4c32cc64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1ddbbfcb2c175f51fa91b7f5b70bb47"><td class="memTemplParams" colspan="2">template&lt;class Iter &gt; </td></tr>
-<tr class="memitem:ab1ddbbfcb2c175f51fa91b7f5b70bb47"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab1ddbbfcb2c175f51fa91b7f5b70bb47">seq::random_shuffle</a> (Iter begin, Iter end)</td></tr>
-<tr class="memdesc:ab1ddbbfcb2c175f51fa91b7f5b70bb47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to C++11 (and deprecated) std::random_shuffle.  <a href="namespaceseq.html#ab1ddbbfcb2c175f51fa91b7f5b70bb47">More...</a><br /></td></tr>
-<tr class="separator:ab1ddbbfcb2c175f51fa91b7f5b70bb47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8b268bc53b846426ab17a84bb756fab"><td class="memTemplParams" colspan="2">template&lt;class Iter &gt; </td></tr>
+<tr class="memitem:ad8b268bc53b846426ab17a84bb756fab"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ad8b268bc53b846426ab17a84bb756fab">seq::random_shuffle</a> (Iter begin, Iter end, uint_fast32_t seed=0)</td></tr>
+<tr class="memdesc:ad8b268bc53b846426ab17a84bb756fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to C++11 (and deprecated) std::random_shuffle.  <a href="namespaceseq.html#ad8b268bc53b846426ab17a84bb756fab">More...</a><br /></td></tr>
+<tr class="separator:ad8b268bc53b846426ab17a84bb756fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acabfa3eaf9a03808f516c1c71d521dee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#acabfa3eaf9a03808f516c1c71d521dee">seq::reset_memory_usage</a> ()</td></tr>
 <tr class="separator:acabfa3eaf9a03808f516c1c71d521dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30368dcf14dfdddd428c9ac9ec675b6f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a30368dcf14dfdddd428c9ac9ec675b6f">seq::get_memory_usage</a> () -&gt; size_t</td></tr>
@@ -318,9 +318,9 @@ Functions</h2></td></tr>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="anamespaceseq_1_1detail_html_a84d714603751dddb280584583ccdd7e3"><div class="ttname"><a href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">seq::detail::str</a></div><div class="ttdeci">Integral int char Stream &amp; str</div><div class="ttdef"><b>Definition:</b> charconv.hpp:696</div></div>
+<div class="ttc" id="anamespaceseq_1_1detail_html_a84d714603751dddb280584583ccdd7e3"><div class="ttname"><a href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">seq::detail::str</a></div><div class="ttdeci">Integral int char Stream &amp; str</div><div class="ttdef"><b>Definition:</b> charconv.hpp:704</div></div>
 <div class="ttc" id="aclassseq_1_1streambuf__size_html"><div class="ttname"><a href="classseq_1_1streambuf__size.html">seq::streambuf_size</a></div><div class="ttdoc">Streambuf that stores the number of outputed characters.</div><div class="ttdef"><b>Definition:</b> testing.hpp:59</div></div>
-<div class="ttc" id="anamespaceseq_html_a21b27d9d28ab49b4e36657f9e95013c7"><div class="ttname"><a href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a></div><div class="ttdeci">auto fmt(Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), void, Args... &gt;::return_type</div><div class="ttdef"><b>Definition:</b> format.hpp:2160</div></div>
+<div class="ttc" id="anamespaceseq_html_a21b27d9d28ab49b4e36657f9e95013c7"><div class="ttname"><a href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a></div><div class="ttdeci">auto fmt(Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), void, Args... &gt;::return_type</div><div class="ttdef"><b>Definition:</b> format.hpp:2151</div></div>
 <div class="ttc" id="aclassseq_1_1test__error_html"><div class="ttname"><a href="classseq_1_1test__error.html">seq::test_error</a></div><div class="ttdoc">Exception thrown for failed tests.</div><div class="ttdef"><b>Definition:</b> testing.hpp:51</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

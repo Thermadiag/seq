@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['object_5fallocator_2598',['object_allocator',['../classseq_1_1object__allocator.html#a565b12258ff3d3f1498582bee545d6d5',1,'seq::object_allocator']]],
-  ['ostream_5fformat_2599',['ostream_format',['../classseq_1_1ostream__format.html#a3eb7536572cddbefdbb8844bb64cafe4',1,'seq::ostream_format']]]
+  ['hold_5fany_2830',['hold_any',['../classseq_1_1any__type__info.html#aecd64dd0aec1172370b879aee1bf2d3d',1,'seq::any_type_info']]]
 ];

@@ -41,6 +41,29 @@
 using namespace seq;
 
 
+template<class C, class It>
+void erase(C& set, It it)
+{
+	set.erase(it);
+}
+/*template<class T, class H, class E, class A, class V, class It>
+void erase(tsl::ordered_set<T,H,E,A,V> & set, It it)
+{
+	set.unordered_erase(it);
+}*/
+
+
+template<class T>
+inline size_t to_size_t(const T& t) {
+	return static_cast<size_t>(t);
+}
+inline size_t to_size_t(const std::string& t) {
+	return t.size();
+}
+template<size_t S, class A>
+inline size_t to_size_t(const tiny_string<S,A>& t) {
+	return t.size();
+}
 
 
 template<class C, class T, class Format>
@@ -92,7 +115,7 @@ void test_hash_set(const char* name, C& set, const std::vector<T>& keys, Format 
 		
 		auto it = set.find(success[i]);
 		if (it != set.end())
-			sum += (int)(*it);
+			sum += to_size_t(*it);
 			
 	}
 	size_t find = tock_ms(); print_null(sum);
@@ -103,7 +126,7 @@ void test_hash_set(const char* name, C& set, const std::vector<T>& keys, Format 
 	for (int i = 0; i < failed.size(); ++i) {
 		auto it = set.find(failed[i]);
 		if (it != set.end())
-			sum+= (size_t)(*it);
+			sum+= to_size_t(*it);
 
 	}
 	size_t failed_ = tock_ms(); print_null(sum);
@@ -113,7 +136,7 @@ void test_hash_set(const char* name, C& set, const std::vector<T>& keys, Format 
 	sum = 0;
 	auto end = set.end();
 	for (auto it = set.begin(); it != end; ++it) {
-		sum += (size_t)(*it);
+		sum += to_size_t(*it);
 	}
 	size_t walk = tock_ms(); print_null(sum);
 		
@@ -124,7 +147,7 @@ void test_hash_set(const char* name, C& set, const std::vector<T>& keys, Format 
 	while (set.size() > target) {
 		auto it = set.find(success[i++]);
 		if (it != set.end())
-			set.erase(it);
+			erase(set, it);//set.erase(it);
 	}
 	size_t erase = tock_ms();
 	size_t erase_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
@@ -135,7 +158,7 @@ void test_hash_set(const char* name, C& set, const std::vector<T>& keys, Format 
 	for (int i = 0; i < success.size(); ++i) {
 		auto it = set.find(keys[i]);
 		if (it != set.end())
-			sum += (size_t)(*it);
+			sum += to_size_t(*it);
 	}
 	size_t find_again = tock_ms(); print_null(sum);
 	

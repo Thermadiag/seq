@@ -975,22 +975,28 @@ inline void test_pow2_allocation(int count)
 void test_object_pool(int rep)
 {
 	std::cout << std::endl;
-	{
+	/* {
 		disable_ostream d(std::cout);
 		test_monothread_alloc_only<size_t>(rep);
 		test_mem_pool_unique_ptr<size_t>(rep);
-	}
-	for (int nthreads = 1; nthreads < 16; ++nthreads) 
+	}*/
+	for (int nthreads = 15; nthreads < 16; ++nthreads) 
 	{
 		std::cout << "test parallel_object_pool for " << nthreads << " thread(s)" << std::endl;
 		{
 			disable_ostream d(std::cout);
 			test_mem_pool_separate_threads<size_t>(nthreads, 50);
+			//printf("tested separate_threads\n"); fflush(stdout);
 			test_alloc_dealloc_separate_threads< size_t>(nthreads, rep);
+			//printf("tested dealloc_separate_threads\n"); fflush(stdout);
 			test_mem_pool_random_patterns<size_t>(nthreads, rep);
+			//printf("tested random_patterns\n"); fflush(stdout);
 			test_mem_pool_random_patterns_random_size<32, size_t >(nthreads, rep);
+			//printf("tested random_patterns_random_size\n"); fflush(stdout);
 			test_mem_pool_interrupt_clear<size_t>(nthreads, rep);
+			//printf("tested interrupt_clear\n"); fflush(stdout);
 			test_mem_pool_interrupt_reset<size_t>(nthreads, rep);
+			//printf("tested interrupt_reset\n"); fflush(stdout);
 		}
 		
 	}

@@ -249,9 +249,9 @@ namespace seq
 		auto select_on_container_copy_construction() const noexcept -> aligned_allocator { return *this; }
 
 		aligned_allocator() {}
-		aligned_allocator(const Allocator& al ) { (void)al; }
-		aligned_allocator(const aligned_allocator& /*unused*/) {}
-		aligned_allocator(aligned_allocator&& /*unused*/)  noexcept {}
+		aligned_allocator(const Allocator& al ) : std::allocator<T>(al) { }
+		aligned_allocator(const aligned_allocator& al) : std::allocator<T>(al) {}
+		aligned_allocator(aligned_allocator&& al) noexcept : std::allocator<T>(std::move(al))  {}
 		template<class U, class V>
 		aligned_allocator(const aligned_allocator<U, std::allocator<V>, Align>& /*unused*/) {}
 
@@ -641,10 +641,10 @@ namespace seq
 
 		object_allocator(const allocator_type al = Allocator())
 			: d_data(make_data(al)), d_allocator(NULL) {}
-		object_allocator(const object_allocator& other)
+		object_allocator(const object_allocator& other) noexcept
 			:d_data(other.d_data->ref()), d_allocator(other.d_allocator) {}
 		template<class U>
-		object_allocator(const object_allocator<U>& other)
+		object_allocator(const object_allocator<U>& other) noexcept
 			: d_data(other.d_data->ref()), d_allocator(NULL) {}
 		~object_allocator() {
 			d_data->decref();

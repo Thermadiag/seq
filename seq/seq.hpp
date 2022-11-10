@@ -28,6 +28,7 @@
 
 /** @file */
 
+// include everything except cvector which is not header-only
 #include "format.hpp"
 #include "flat_map.hpp"
 #include "hash.hpp"
@@ -76,7 +77,7 @@ The library is divided in 7 small modules:
 	-	\ref memory "memory": allocators and memory pools mainly used for containers
 	-	\ref charconv "charconv": fast arithmetic to/from string conversion
 	-	\ref format "format": fast and type safe formatting tools
-	-	\ref containers "containers": main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector...
+	-	\ref containers "containers": main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector, compressed vector...
 	-	\ref any "any": type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.
 
 seq library is header-only and self-dependent. A cmake project is provided for installation and compilation of tests.

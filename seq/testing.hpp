@@ -193,10 +193,12 @@ namespace seq
 	
 	/// @brief Similar to C++11 (and deprecated) std::random_shuffle
 	template<class Iter>
-	void random_shuffle(Iter begin, Iter end)
+	void random_shuffle(Iter begin, Iter end, uint_fast32_t seed = 0)
 	{
 		std::random_device rd;
 		std::mt19937 g(rd());
+		if(seed)
+			g.seed(seed)
 		std::shuffle(begin,end, g);
 	}
 

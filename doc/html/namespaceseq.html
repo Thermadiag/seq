@@ -136,8 +136,17 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1buffer__input__stream.html">buffer_input_stream</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input stream working on a sequence of characters.  <a href="classseq_1_1buffer__input__stream.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1comp__wrapper.html">comp_wrapper</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary comparison wrapper for using STL algorithm on cvector with custom comparators. Use <a class="el" href="namespaceseq.html#ae02fc574f6876f28fef03044ed31569e" title="Create a comparison functor that can be used by algorithms working on cvector objects.">seq::make_comparator</a> to build &amp; <a class="el" href="structseq_1_1comp__wrapper.html" title="Binary comparison wrapper for using STL algorithm on cvector with custom comparators....">comp_wrapper</a> object.  <a href="structseq_1_1comp__wrapper.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1context__ratio.html">context_ratio</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the maximum number of decompression contexts a cvector can use. The number of contexts is either a fixed value or a ratio of the cvector bucket count. Use ContextRatio::Fixed to define a fixed number of contexts, or ContextRatio::Ratio to define a fraction of the bucket count. In this case (ratio), the number of contexts is equal to bucket_count/(float)ratio_value.  <a href="classseq_1_1context__ratio.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1cvalue__iterator.html">cvalue_iterator</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenient random access iterator on a constant value.  <a href="classseq_1_1cvalue__iterator.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1cvector.html">cvector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">vector like class using compression to store its elements  <a href="classseq_1_1cvector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html">devector</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Double-ending vector implementation which can be optimized for several use case.  <a href="classseq_1_1devector.html#details">More...</a><br /></td></tr>
@@ -295,6 +304,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1linear__object__allocation.html">linear_object_allocation</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate up to MaxSize objects by step of 1.  <a href="structseq_1_1linear__object__allocation.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1lock__guard.html">lock_guard</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic lock guard class.  <a href="classseq_1_1lock__guard.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1null__format.html">null_format</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Placehoder when reusing a formatting object.  <a href="structseq_1_1null__format.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -340,6 +352,9 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">sequence is an ordered container supporting constant time insertion at both end and constant time removal anywhere.  <a href="classseq_1_1sequence.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1shared__ptr__allocation.html">shared_ptr_allocation</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1spinlock.html">spinlock</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lightweight and fast spinlock implementation based on <a href="https://rigtorp.se/spinlock/">https://rigtorp.se/spinlock/</a>.  <a href="classseq_1_1spinlock.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1static__bit__scan__reverse.html">static_bit_scan_reverse</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static version of bit_scan_reverse.  <a href="structseq_1_1static__bit__scan__reverse.html#details">More...</a><br /></td></tr>
@@ -416,6 +431,11 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ac3d7eb5b00b5c7e90602aaf0e8bd23e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream object status for classes inheriting basic_input_stream.  <a href="namespaceseq.html#ac3d7eb5b00b5c7e90602aaf0e8bd23e2">More...</a><br /></td></tr>
 <tr class="separator:ac3d7eb5b00b5c7e90602aaf0e8bd23e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e3fb67407700bab4c66e60c7f7365c7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a5e3fb67407700bab4c66e60c7f7365c7">ContextRatio</a> { <a class="el" href="namespaceseq.html#a5e3fb67407700bab4c66e60c7f7365c7a82b7b69a7aecf7f511dde4bd663e72f3">Fixed</a>, 
+<a class="el" href="namespaceseq.html#a5e3fb67407700bab4c66e60c7f7365c7aead4f34f60237cc1a99223296ae6b1ef">Ratio</a>
+ }</td></tr>
+<tr class="memdesc:a5e3fb67407700bab4c66e60c7f7365c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum type used by context_ratio.  <a href="namespaceseq.html#a5e3fb67407700bab4c66e60c7f7365c7">More...</a><br /></td></tr>
+<tr class="separator:a5e3fb67407700bab4c66e60c7f7365c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04f4e48fbeeb8d86e75555957c4e270c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a04f4e48fbeeb8d86e75555957c4e270c">DEVectorFlag</a> { <a class="el" href="namespaceseq.html#a04f4e48fbeeb8d86e75555957c4e270ca3d03c9bf4b559787d1de5ac0f9a7882d">OptimizeForPushBack</a>, 
 <a class="el" href="namespaceseq.html#a04f4e48fbeeb8d86e75555957c4e270caeb903e97e2b97b410b477676babb2653">OptimizeForPushFront</a>, 
 <a class="el" href="namespaceseq.html#a04f4e48fbeeb8d86e75555957c4e270ca998ccc48808777ad90d4228cd8fb9e84">OptimizeForBothEnds</a>
@@ -665,6 +685,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a2dd16ebc1860bdc316a5f83c8210a361"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a2dd16ebc1860bdc316a5f83c8210a361">write_LE_64</a> (void *dst, std::uint64_t value)</td></tr>
 <tr class="memdesc:a2dd16ebc1860bdc316a5f83c8210a361"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 64 bits integer value to dst in little endian order.  <a href="namespaceseq.html#a2dd16ebc1860bdc316a5f83c8210a361">More...</a><br /></td></tr>
 <tr class="separator:a2dd16ebc1860bdc316a5f83c8210a361"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2480216425c6423b34df46e854b9764"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ac2480216425c6423b34df46e854b9764">write_BE_64</a> (void *dst, std::uint64_t value)</td></tr>
+<tr class="memdesc:ac2480216425c6423b34df46e854b9764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write 64 bits integer value to dst in big endian order.  <a href="namespaceseq.html#ac2480216425c6423b34df46e854b9764">More...</a><br /></td></tr>
+<tr class="separator:ac2480216425c6423b34df46e854b9764"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a052b75a0721954d5497ff1753315e997"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a052b75a0721954d5497ff1753315e997">read_LE_16</a> (const void *src) -&gt; std::uint16_t</td></tr>
 <tr class="memdesc:a052b75a0721954d5497ff1753315e997"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read 16 bits integer from src in little endian order.  <a href="namespaceseq.html#a052b75a0721954d5497ff1753315e997">More...</a><br /></td></tr>
 <tr class="separator:a052b75a0721954d5497ff1753315e997"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -793,6 +816,14 @@ Functions</h2></td></tr>
 <tr class="separator:adac4ff8894fc503318b23b05b28365ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6347c0acfbf3ae451b414e8faaf26b21"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a6347c0acfbf3ae451b414e8faaf26b21">to_chars</a> (char *first, char *last, long double value, <a class="el" href="namespaceseq.html#a19a45e1f866d73140819b9ea2280c682">chars_format</a> <a class="el" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>, int precision, char dot='.', char exp='e', bool upper=false) -&gt; <a class="el" href="structseq_1_1to__chars__result.html">to_chars_result</a></td></tr>
 <tr class="separator:a6347c0acfbf3ae451b414e8faaf26b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32e7a0c600427f614ba162d86c3c4362"><td class="memTemplParams" colspan="2">template&lt;class Lock &gt; </td></tr>
+<tr class="memitem:a32e7a0c600427f614ba162d86c3c4362"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a32e7a0c600427f614ba162d86c3c4362">make_lock_guard</a> (Lock &amp;l) -&gt; <a class="el" href="classseq_1_1lock__guard.html">lock_guard</a>&lt; Lock &gt;</td></tr>
+<tr class="memdesc:a32e7a0c600427f614ba162d86c3c4362"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a lock guard around l. Use copy elison to avoid creating copies and locking twice the lock object.  <a href="namespaceseq.html#a32e7a0c600427f614ba162d86c3c4362">More...</a><br /></td></tr>
+<tr class="separator:a32e7a0c600427f614ba162d86c3c4362"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae02fc574f6876f28fef03044ed31569e"><td class="memTemplParams" colspan="2">template&lt;class Comp &gt; </td></tr>
+<tr class="memitem:ae02fc574f6876f28fef03044ed31569e"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ae02fc574f6876f28fef03044ed31569e">make_comparator</a> (const Comp &amp;comp) -&gt; <a class="el" href="structseq_1_1comp__wrapper.html">comp_wrapper</a>&lt; Comp &gt;</td></tr>
+<tr class="memdesc:ae02fc574f6876f28fef03044ed31569e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a comparison functor that can be used by algorithms working on cvector objects.  <a href="namespaceseq.html#ae02fc574f6876f28fef03044ed31569e">More...</a><br /></td></tr>
+<tr class="separator:ae02fc574f6876f28fef03044ed31569e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5dadf0da6e85313800689b619a18843"><td class="memTemplParams" colspan="2">template&lt;class Key , class Compare , class Al1 , class Al2 , LayoutManagement L1, LayoutManagement L2, bool S1, bool S2, bool U1, bool U2&gt; </td></tr>
 <tr class="memitem:aa5dadf0da6e85313800689b619a18843"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aa5dadf0da6e85313800689b619a18843">operator==</a> (const <a class="el" href="classseq_1_1flat__set.html">flat_set</a>&lt; Key, Compare, Al1, L1, S1, U1 &gt; &amp;s1, const <a class="el" href="classseq_1_1flat__set.html">flat_set</a>&lt; Key, Compare, Al2, L2, S2, U2 &gt; &amp;s2) -&gt; bool</td></tr>
 <tr class="memdesc:aa5dadf0da6e85313800689b619a18843"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the contents of s1 and s2 are equal, that is, they have the same number of elements and each element in s1 compares equal with the element in s2 at the same position.  <a href="namespaceseq.html#aa5dadf0da6e85313800689b619a18843">More...</a><br /></td></tr>
@@ -817,6 +848,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a5904267252712a43d887d06c8c75aaaa"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a5904267252712a43d887d06c8c75aaaa">erase_if</a> (<a class="el" href="classseq_1_1flat__map.html">flat_map</a>&lt; Key, T, Compare, Al1, L1, S1, U1 &gt; &amp;s1, Pred p) -&gt; typename <a class="el" href="classseq_1_1flat__map.html">flat_map</a>&lt; Key, T, Compare, Al1, L1, S1, U1 &gt;::size_type</td></tr>
 <tr class="memdesc:a5904267252712a43d887d06c8c75aaaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erases all elements that satisfy the predicate p from the container.  <a href="namespaceseq.html#a5904267252712a43d887d06c8c75aaaa">More...</a><br /></td></tr>
 <tr class="separator:a5904267252712a43d887d06c8c75aaaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a892fa27ee42cd6f34066d399a9e7d317"><td class="memTemplParams" colspan="2">template&lt;class Elem , class Traits , class T &gt; </td></tr>
+<tr class="memitem:a892fa27ee42cd6f34066d399a9e7d317"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a892fa27ee42cd6f34066d399a9e7d317">operator&lt;&lt;</a> (std::basic_ostream&lt; Elem, Traits &gt; &amp;oss, const <a class="el" href="classseq_1_1ostream__format.html">ostream_format</a>&lt; T &gt; &amp;val) -&gt; std::basic_ostream&lt; Elem, Traits &gt; &amp;</td></tr>
+<tr class="memdesc:a892fa27ee42cd6f34066d399a9e7d317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> object to a std::ostream.  <a href="namespaceseq.html#a892fa27ee42cd6f34066d399a9e7d317">More...</a><br /></td></tr>
+<tr class="separator:a892fa27ee42cd6f34066d399a9e7d317"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab534e8a0f6ac376f61e976fe7cd65457"><td class="memTemplParams" colspan="2">template&lt;size_t... Ts&gt; </td></tr>
 <tr class="memitem:ab534e8a0f6ac376f61e976fe7cd65457"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab534e8a0f6ac376f61e976fe7cd65457">pos</a> () -&gt; <a class="el" href="structseq_1_1detail_1_1_positional.html">detail::Positional</a>&lt; Ts... &gt;</td></tr>
 <tr class="memdesc:ab534e8a0f6ac376f61e976fe7cd65457"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a positional object used either by <a class="el" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt()</a> or operator() of formatting object.  <a href="namespaceseq.html#ab534e8a0f6ac376f61e976fe7cd65457">More...</a><br /></td></tr>
@@ -830,6 +865,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a1c7f5113ac0f03f720b3a5cf96c20550"><td class="memTemplParams" colspan="2">template&lt;class ... Args&gt; </td></tr>
 <tr class="memitem:a1c7f5113ac0f03f720b3a5cf96c20550"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a1c7f5113ac0f03f720b3a5cf96c20550">fmt</a> () -&gt; typename <a class="el" href="structseq_1_1detail_1_1_build_format.html">detail::BuildFormat</a>&lt; sizeof...(Args), void, Args... &gt;::return_type</td></tr>
 <tr class="separator:a1c7f5113ac0f03f720b3a5cf96c20550"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1390c60d480ef706cb933a10356b9245"><td class="memTemplParams" colspan="2">template&lt;class Elem , class Traits , class T , class P &gt; </td></tr>
+<tr class="memitem:a1390c60d480ef706cb933a10356b9245"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a1390c60d480ef706cb933a10356b9245">operator&lt;&lt;</a> (std::basic_ostream&lt; Elem, Traits &gt; &amp;oss, const <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">detail::mutli_ostream_format</a>&lt; T, P &gt; &amp;val) -&gt; std::basic_ostream&lt; Elem, Traits &gt; &amp;</td></tr>
+<tr class="memdesc:a1390c60d480ef706cb933a10356b9245"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> object to a std::ostream object.  <a href="namespaceseq.html#a1390c60d480ef706cb933a10356b9245">More...</a><br /></td></tr>
+<tr class="separator:a1390c60d480ef706cb933a10356b9245"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e75ac2752560b9441e25dbeb0a37035"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a1e75ac2752560b9441e25dbeb0a37035">hash_combine</a> (size_t h1, size_t h2) noexcept -&gt; size_t</td></tr>
 <tr class="memdesc:a1e75ac2752560b9441e25dbeb0a37035"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combine 2 hash values. Uses either murmurhash2 for 64 bits platform or the boost version for 32 bits platform.  <a href="namespaceseq.html#a1e75ac2752560b9441e25dbeb0a37035">More...</a><br /></td></tr>
 <tr class="separator:a1e75ac2752560b9441e25dbeb0a37035"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -879,10 +918,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a576ae74a514ded550299e48e4c32cc64"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a576ae74a514ded550299e48e4c32cc64">tock_ms</a> () -&gt; std::uint64_t</td></tr>
 <tr class="memdesc:a576ae74a514ded550299e48e4c32cc64"><td class="mdescLeft">&#160;</td><td class="mdescRight">For tests only, returns elapsed milliseconds since last call to <a class="el" href="namespaceseq.html#ad863fcfc143b646f5a2f2362a1327575" title="For tests only, reset timer for calling thread.">tick()</a>  <a href="namespaceseq.html#a576ae74a514ded550299e48e4c32cc64">More...</a><br /></td></tr>
 <tr class="separator:a576ae74a514ded550299e48e4c32cc64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1ddbbfcb2c175f51fa91b7f5b70bb47"><td class="memTemplParams" colspan="2">template&lt;class Iter &gt; </td></tr>
-<tr class="memitem:ab1ddbbfcb2c175f51fa91b7f5b70bb47"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab1ddbbfcb2c175f51fa91b7f5b70bb47">random_shuffle</a> (Iter begin, Iter end)</td></tr>
-<tr class="memdesc:ab1ddbbfcb2c175f51fa91b7f5b70bb47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to C++11 (and deprecated) std::random_shuffle.  <a href="namespaceseq.html#ab1ddbbfcb2c175f51fa91b7f5b70bb47">More...</a><br /></td></tr>
-<tr class="separator:ab1ddbbfcb2c175f51fa91b7f5b70bb47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8b268bc53b846426ab17a84bb756fab"><td class="memTemplParams" colspan="2">template&lt;class Iter &gt; </td></tr>
+<tr class="memitem:ad8b268bc53b846426ab17a84bb756fab"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ad8b268bc53b846426ab17a84bb756fab">random_shuffle</a> (Iter begin, Iter end, uint_fast32_t seed=0)</td></tr>
+<tr class="memdesc:ad8b268bc53b846426ab17a84bb756fab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to C++11 (and deprecated) std::random_shuffle.  <a href="namespaceseq.html#ad8b268bc53b846426ab17a84bb756fab">More...</a><br /></td></tr>
+<tr class="separator:ad8b268bc53b846426ab17a84bb756fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acabfa3eaf9a03808f516c1c71d521dee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#acabfa3eaf9a03808f516c1c71d521dee">reset_memory_usage</a> ()</td></tr>
 <tr class="separator:acabfa3eaf9a03808f516c1c71d521dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30368dcf14dfdddd428c9ac9ec675b6f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a30368dcf14dfdddd428c9ac9ec675b6f">get_memory_usage</a> () -&gt; size_t</td></tr>
@@ -1025,6 +1064,12 @@ Functions</h2></td></tr>
 <tr class="separator:ac404d9958f2200e3e6588b5601759b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada0db3e95c769979401e3c88ec361613"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ada0db3e95c769979401e3c88ec361613">string_size</a> (const <a class="el" href="namespaceseq.html#a2bede5ff16f5bb9f856b3b2d78303f69">tstring_view</a> &amp;str) -&gt; size_t</td></tr>
 <tr class="separator:ada0db3e95c769979401e3c88ec361613"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc51a3f40a4cee1e71e1d831ee8dc681"><td class="memTemplParams" colspan="2">template&lt;class Elem , class Traits , size_t Size, class Alloc &gt; </td></tr>
+<tr class="memitem:afc51a3f40a4cee1e71e1d831ee8dc681"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#afc51a3f40a4cee1e71e1d831ee8dc681">operator&gt;&gt;</a> (std::basic_istream&lt; Elem, Traits &gt; &amp;iss, <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Alloc &gt; &amp;str) -&gt; typename std::enable_if&lt;!std::is_same&lt; Alloc, <a class="el" href="structseq_1_1view__allocator.html">view_allocator</a> &gt;::value, std::basic_istream&lt; Elem, Traits &gt; &gt;::type &amp;</td></tr>
+<tr class="separator:afc51a3f40a4cee1e71e1d831ee8dc681"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bc6f1dda9c576a66b148a346792a983"><td class="memTemplParams" colspan="2">template&lt;class Elem , class Traits , size_t Size, class Alloc &gt; </td></tr>
+<tr class="memitem:a9bc6f1dda9c576a66b148a346792a983"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a9bc6f1dda9c576a66b148a346792a983">operator&lt;&lt;</a> (std::basic_ostream&lt; Elem, Traits &gt; &amp;oss, const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Alloc &gt; &amp;str) -&gt; std::basic_ostream&lt; Elem, Traits &gt; &amp;</td></tr>
+<tr class="separator:a9bc6f1dda9c576a66b148a346792a983"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c279fa143d4e6216df953924ce47406"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a7c279fa143d4e6216df953924ce47406"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a7c279fa143d4e6216df953924ce47406">negate_if_signed</a> (T v) -&gt; typename <a class="el" href="structseq_1_1integer__abs__return.html">integer_abs_return</a>&lt; T &gt;::type</td></tr>
 <tr class="memdesc:a7c279fa143d4e6216df953924ce47406"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns -v if v is signed, v otherwise.  <a href="namespaceseq.html#a7c279fa143d4e6216df953924ce47406">More...</a><br /></td></tr>
@@ -1062,6 +1107,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a48515fc69dc7f83f81c6e0715999ba16"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a48515fc69dc7f83f81c6e0715999ba16">construct_ptr</a> (T *p, Args &amp;&amp;... args)</td></tr>
 <tr class="memdesc:a48515fc69dc7f83f81c6e0715999ba16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simply call new (p) T(...), used as a replacement to std::allocator::construct() which was removed in C++20.  <a href="namespaceseq.html#a48515fc69dc7f83f81c6e0715999ba16">More...</a><br /></td></tr>
 <tr class="separator:a48515fc69dc7f83f81c6e0715999ba16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0670d7b308c6a99a75f4d112934aa3f"><td class="memTemplParams" colspan="2">template&lt;class Iter &gt; </td></tr>
+<tr class="memitem:ae0670d7b308c6a99a75f4d112934aa3f"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ae0670d7b308c6a99a75f4d112934aa3f">distance</a> (const Iter &amp;first, const Iter &amp;last) noexcept -&gt; std::ptrdiff_t</td></tr>
+<tr class="memdesc:ae0670d7b308c6a99a75f4d112934aa3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the distance between first and last iterators for random access iterator category, 0 otherwise.  <a href="namespaceseq.html#ae0670d7b308c6a99a75f4d112934aa3f">More...</a><br /></td></tr>
+<tr class="separator:ae0670d7b308c6a99a75f4d112934aa3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60b1a14cbf28e77e92a346892ef8531c"><td class="memTemplParams" colspan="2">template&lt;bool IsL1, class L1 , class L2 , class... Args&gt; </td></tr>
 <tr class="memitem:a60b1a14cbf28e77e92a346892ef8531c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a60b1a14cbf28e77e92a346892ef8531c">constexpr_if</a> (const L1 &amp;l1, const L2 &amp;l2, Args &amp;&amp;... args) -&gt; decltype(std::declval&lt; <a class="el" href="structseq_1_1detail_1_1_call_lambda.html">detail::CallLambda</a>&lt; L1, L2, IsL1 &gt; &amp; &gt;()(std::declval&lt; L1 &amp; &gt;(), std::declval&lt; L2 &amp; &gt;(), std::declval&lt; Args &gt;()...))</td></tr>
 <tr class="memdesc:a60b1a14cbf28e77e92a346892ef8531c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation of C++17 if constexpr.  <a href="namespaceseq.html#a60b1a14cbf28e77e92a346892ef8531c">More...</a><br /></td></tr>
@@ -1201,6 +1250,28 @@ Functions</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a19a45e1f866d73140819b9ea2280c682af715ab801ec116cdbb4a7f7541e46166"></a>scientific&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a19a45e1f866d73140819b9ea2280c682abfc5cfa7d975226254b5443690d9f918"></a>fixed&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a19a45e1f866d73140819b9ea2280c682a37dc0b5d725475e8b304b312a07c079d"></a>general&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a5e3fb67407700bab4c66e60c7f7365c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e3fb67407700bab4c66e60c7f7365c7">&#9670;&nbsp;</a></span>ContextRatio</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceseq.html#a5e3fb67407700bab4c66e60c7f7365c7">seq::ContextRatio</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enum type used by <a class="el" href="classseq_1_1context__ratio.html" title="Define the maximum number of decompression contexts a cvector can use. The number of contexts is eith...">context_ratio</a>. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5e3fb67407700bab4c66e60c7f7365c7a82b7b69a7aecf7f511dde4bd663e72f3"></a>Fixed&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5e3fb67407700bab4c66e60c7f7365c7aead4f34f60237cc1a99223296ae6b1ef"></a>Ratio&#160;</td><td class="fielddoc"><p>Fixed number of decompression context. </p>
+<p>Ratio of total number of chunks </p>
+</td></tr>
 </table>
 
 </div>
@@ -1953,6 +2024,46 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Simply call p-&gt;~T(), used as a replacement to std::allocator::destroy() which was removed in C++20. </p>
+
+</div>
+</div>
+<a id="ae0670d7b308c6a99a75f4d112934aa3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0670d7b308c6a99a75f4d112934aa3f">&#9670;&nbsp;</a></span>distance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Iter &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::distance </td>
+          <td>(</td>
+          <td class="paramtype">const Iter &amp;&#160;</td>
+          <td class="paramname"><em>first</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Iter &amp;&#160;</td>
+          <td class="paramname"><em>last</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; std::ptrdiff_t </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the distance between first and last iterators for random access iterator category, 0 otherwise. </p>
 
 </div>
 </div>
@@ -3875,6 +3986,65 @@ template&lt;class Any , class T , class U , class... Args&gt; </div>
 
 </div>
 </div>
+<a id="ae02fc574f6876f28fef03044ed31569e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae02fc574f6876f28fef03044ed31569e">&#9670;&nbsp;</a></span>make_comparator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Comp &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::make_comparator </td>
+          <td>(</td>
+          <td class="paramtype">const Comp &amp;&#160;</td>
+          <td class="paramname"><em>comp</em></td><td>)</td>
+          <td> -&gt; <a class="el" href="structseq_1_1comp__wrapper.html">comp_wrapper</a>&lt;Comp&gt;
+	</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a comparison functor that can be used by algorithms working on cvector objects. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Comp</td><td>actual comparison function type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">comp</td><td>comparison function </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>comparison wrapper </dd></dl>
+
+</div>
+</div>
+<a id="a32e7a0c600427f614ba162d86c3c4362"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32e7a0c600427f614ba162d86c3c4362">&#9670;&nbsp;</a></span>make_lock_guard()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Lock &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::make_lock_guard </td>
+          <td>(</td>
+          <td class="paramtype">Lock &amp;&#160;</td>
+          <td class="paramname"><em>l</em></td><td>)</td>
+          <td> -&gt; <a class="el" href="classseq_1_1lock__guard.html">lock_guard</a>&lt;Lock&gt;
+	</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a lock guard around l. Use copy elison to avoid creating copies and locking twice the lock object. </p>
+
+</div>
+</div>
 <a id="a7c279fa143d4e6216df953924ce47406"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7c279fa143d4e6216df953924ce47406">&#9670;&nbsp;</a></span>negate_if_signed()</h2>
 
@@ -4940,8 +5110,129 @@ template&lt;size_t Size, class Al , size_t Size2, class Al2 &gt; </div>
 
 </div>
 </div>
+<a id="a1390c60d480ef706cb933a10356b9245"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1390c60d480ef706cb933a10356b9245">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Elem , class Traits , class T , class P &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::basic_ostream&lt; Elem, Traits &gt; &amp;&#160;</td>
+          <td class="paramname"><em>oss</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html">detail::mutli_ostream_format</a>&lt; T, P &gt; &amp;&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; std::basic_ostream&lt;Elem, Traits&gt;&amp;
+	</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write a <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> object to a std::ostream object. </p>
+
+</div>
+</div>
+<a id="a892fa27ee42cd6f34066d399a9e7d317"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a892fa27ee42cd6f34066d399a9e7d317">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Elem , class Traits , class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::basic_ostream&lt; Elem, Traits &gt; &amp;&#160;</td>
+          <td class="paramname"><em>oss</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classseq_1_1ostream__format.html">ostream_format</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; std::basic_ostream&lt;Elem, Traits&gt;&amp;
+	</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write a <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> object to a std::ostream. </p>
+
+</div>
+</div>
+<a id="a9bc6f1dda9c576a66b148a346792a983"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bc6f1dda9c576a66b148a346792a983">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Elem , class Traits , size_t Size, class Alloc &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">std::basic_ostream&lt; Elem, Traits &gt; &amp;&#160;</td>
+          <td class="paramname"><em>oss</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Alloc &gt; &amp;&#160;</td>
+          <td class="paramname"><em>str</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; std::basic_ostream&lt;Elem, Traits&gt;&amp;
+	</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a110ce7828a4cf726d001fe58fa6983cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a110ce7828a4cf726d001fe58fa6983cf">&#9670;&nbsp;</a></span>operator&lt;&lt;()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a110ce7828a4cf726d001fe58fa6983cf">&#9670;&nbsp;</a></span>operator&lt;&lt;() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6241,8 +6532,47 @@ template&lt;size_t Size, class Al , size_t Size2, class Al2 &gt; </div>
 
 </div>
 </div>
+<a id="afc51a3f40a4cee1e71e1d831ee8dc681"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc51a3f40a4cee1e71e1d831ee8dc681">&#9670;&nbsp;</a></span>operator&gt;&gt;() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Elem , class Traits , size_t Size, class Alloc &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::operator&gt;&gt; </td>
+          <td>(</td>
+          <td class="paramtype">std::basic_istream&lt; Elem, Traits &gt; &amp;&#160;</td>
+          <td class="paramname"><em>iss</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; Size, Alloc &gt; &amp;&#160;</td>
+          <td class="paramname"><em>str</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; typename std::enable_if&lt;!std::is_same&lt;Alloc, <a class="el" href="structseq_1_1view__allocator.html">view_allocator</a>&gt;::value, std::basic_istream&lt;Elem, Traits&gt; &gt;::type	&amp;
+	</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a7083aa58832400e4ec4cd4baaf5b39d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7083aa58832400e4ec4cd4baaf5b39d0">&#9670;&nbsp;</a></span>operator&gt;&gt;()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7083aa58832400e4ec4cd4baaf5b39d0">&#9670;&nbsp;</a></span>operator&gt;&gt;() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6420,8 +6750,8 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="ab1ddbbfcb2c175f51fa91b7f5b70bb47"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab1ddbbfcb2c175f51fa91b7f5b70bb47">&#9670;&nbsp;</a></span>random_shuffle()</h2>
+<a id="ad8b268bc53b846426ab17a84bb756fab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8b268bc53b846426ab17a84bb756fab">&#9670;&nbsp;</a></span>random_shuffle()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6438,7 +6768,13 @@ template&lt;class Iter &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Iter&#160;</td>
-          <td class="paramname"><em>end</em>&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint_fast32_t&#160;</td>
+          <td class="paramname"><em>seed</em> = <code>0</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -8515,6 +8851,44 @@ template&lt;class T &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ac2480216425c6423b34df46e854b9764"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2480216425c6423b34df46e854b9764">&#9670;&nbsp;</a></span>write_BE_64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void seq::write_BE_64 </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint64_t&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write 64 bits integer value to dst in big endian order. </p>
 
 </div>
 </div>
