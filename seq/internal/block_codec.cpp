@@ -268,6 +268,7 @@ namespace seq
 			seq::write_LE_64(dst + bits, v2);
 #else
 
+#define _U64(val) reinterpret_cast<std::uint64_t>(val)
 
 			switch (bits) {
 			case 1:
@@ -290,12 +291,15 @@ namespace seq
 				break;
 			default:
 				seq::write_LE_64(dst, v[0] | (v[1] << bits) | (v[2] << bits * 2) | (v[3] << bits * 3)
-					| ((std::uint64_t)v[4] << bits * 4) | ((std::uint64_t)v[5] << bits * 5) | ((std::uint64_t)v[6] << bits * 6) | ((std::uint64_t)v[7] << bits * 7));
-				seq::write_LE_64(dst + bits, v[8] | (v[9] << bits) | (v[10] << bits * 2) | (v[11] << bits * 3)
-					| ((std::uint64_t)v[12] << bits * 4) | ((std::uint64_t)v[13] << bits * 5) | ((std::uint64_t)v[14] << bits * 6) | ((std::uint64_t)v[15] << bits * 7));
+					| (_U64(v[4]) << bits * 4) | (_U64(v[5]) << bits * 5) | (_U64(v[6]) << bits * 6) | (_U64(v[7]) << bits * 7));
+				seq::write_LE_64(dst + bits, v[8] | (_U64(v[9]) << bits) | (_U64(v[10]) << bits * 2) | (_U64(v[11]) << bits * 3)
+					| (_U64(v[12]) << bits * 4) | (_U64(v[13]) << bits * 5) | (_U64(v[14]) << bits * 6) | (_U64(v[15]) << bits * 7));
 
 				break;
 			}
+
+#undef _U64
+
 #endif
 
 #ifdef SEQ_DEBUG
