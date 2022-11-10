@@ -31,7 +31,7 @@ namespace seq
 {
 	/// @brief Compile time maximum size taken by a compressed block of 256 element.
 	template<class T>
-	struct block_bound
+	struct BlockBound
 	{
 		static constexpr unsigned value = 256 * sizeof(T) + sizeof(T) + sizeof(T) / 2 + sizeof(T) % 2 ;
 	};

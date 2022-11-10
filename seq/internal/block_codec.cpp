@@ -271,14 +271,14 @@ namespace seq
 
 			switch (bits) {
 			case 1:
-				dst[0] = v[0] | (v[1] << (unsigned char)1) | (v[2] << (unsigned char)2) | (v[3] << (unsigned char)3) | (v[4] << (unsigned char)4) | (v[5] << (unsigned char)5) | (v[6] << (unsigned char)6) | (v[7] << (unsigned char)7);
-				dst[1] = v[8] | (v[9] << (unsigned char)1) | (v[10] << (unsigned char)2) | (v[11] << (unsigned char)3) | (v[12] << (unsigned char)4) | (v[13] << (unsigned char)5) | (v[14] << (unsigned char)6) | (v[15] << (unsigned char)7);
+				dst[0] = v[0] | (v[1] << 1U) | (v[2] << 2U) | (v[3] << 3U) | (v[4] << 4U) | (v[5] << 5U) | (v[6] << 6U) | (v[7] << 7U);
+				dst[1] = v[8] | (v[9] << 1U) | (v[10] << 2U) | (v[11] << 3U) | (v[12] << 4U) | (v[13] << 5U) | (v[14] << 6U) | (v[15] << 7U);
 				break;
 			case 2:
-				dst[0] = v[0] | (v[1] << (unsigned char)2) | (v[2] << (unsigned char)4) | (v[3] << (unsigned char)6);
-				dst[1] = v[4] | (v[5] << (unsigned char)2) | (v[6] << (unsigned char)4) | (v[7] << (unsigned char)6);
-				dst[2] = v[8] | (v[9] << (unsigned char)2) | (v[10] << (unsigned char)4) | (v[11] << (unsigned char)6);
-				dst[3] = v[12] | (v[13] << (unsigned char)2) | (v[14] << (unsigned char)4) | (v[15] << (unsigned char)6);
+				dst[0] = v[0] | (v[1] << 2U) | (v[2] << 4U) | (v[3] << 6U);
+				dst[1] = v[4] | (v[5] << 2U) | (v[6] << 4U) | (v[7] << 6U);
+				dst[2] = v[8] | (v[9] << 2U) | (v[10] << 4U) | (v[11] << 6U);
+				dst[3] = v[12] | (v[13] << 2U) | (v[14] << 4U) | (v[15] << 6U);
 				break;
 			case 3:
 				seq::write_LE_32(dst, (v[0] | (v[1] << 3U) | (v[2] << 6U) | (v[3] << 9U) | (v[4] << 12U) | (v[5] << 15U) | (v[6] << 18U) | (v[7] << 21U)));
@@ -301,7 +301,7 @@ namespace seq
 #ifdef SEQ_DEBUG
 			unsigned char read_b[16];
 			unsigned char vv[16]; memcpy(vv, v, 16);
-			read_16_bits((const unsigned char*)saved, (const unsigned char*)saved + bits * 2, read_b, bits);
+			read_16_bits(reinterpret_cast<const unsigned char*>(saved), reinterpret_cast<const unsigned char*>(saved) + bits * 2, read_b, bits);
 			if (!(read_b[0] == v[0] && read_b[1] == v[1] && read_b[2] == v[2] && read_b[3] == v[3] && read_b[4] == v[4] && read_b[5] == v[5] && read_b[6] == v[6] && read_b[7] == v[7] &&
 				read_b[8] == v[8] && read_b[9] == v[9] && read_b[10] == v[10] && read_b[11] == v[11] && read_b[12] == v[12] && read_b[13] == v[13] && read_b[14] == v[14] && read_b[15] == v[15]))
 				throw std::runtime_error("");
@@ -900,8 +900,10 @@ namespace seq
 			unsigned char min;
 			alignas(16) unsigned char column[16];
 			unsigned char headers[16];
-			const unsigned char* end_fast = end - 13;
 
+#ifdef __BMI2__
+			const unsigned char* end_fast = end - 13;
+#endif
 
 			// decode rows
 			for (int i = 0; i < 16; i += 2)
