@@ -384,7 +384,7 @@ void test_cvector(size_t count = 5000000)
 
 	SEQ_TEST(equal_cvec(deq, cvec));
 
-	size_t stop = static_cast<size_t>(deq.size() * 0.75);
+	size_t stop = static_cast<size_t>(deq.size() * 0.9);
 	// Test pop_front
 	while (deq.size() > stop) {
 		deq.pop_front(); 
@@ -418,7 +418,7 @@ void test_cvector(size_t count = 5000000)
 	}
 
 
-	int insert_count = static_cast<int>(std::max(static_cast<size_t>(50), count / 100));
+	int insert_count = static_cast<int>(std::max(static_cast<size_t>(50), count / 50));
 	std::vector<size_t> in_pos;
 	int ss = static_cast<int>(deq.size());
 	srand(0);

@@ -980,7 +980,7 @@ void test_object_pool(int rep)
 		test_monothread_alloc_only<size_t>(rep);
 		test_mem_pool_unique_ptr<size_t>(rep);
 	}*/
-	for (int nthreads = 15; nthreads < 16; ++nthreads) 
+	for (int nthreads = 1; nthreads < 16; ++nthreads) 
 	{
 		std::cout << "test parallel_object_pool for " << nthreads << " thread(s)" << std::endl;
 		{

@@ -396,12 +396,15 @@ void test_tstring_logic()
 		int len = count - static_cast<int>(find1.size());
 		f = 0;
 		for (int i = 0; i < len; ++i) {
-			f += tstr.compare(i, find1.size(), find1);
+			int c = tstr.compare(i, find1.size(), find1);
+			f += c < 0 ? -1 : (c > 0 ? 1 : 0);
 		}
 
 		f2 = 0;
-		for (int i = 0; i < len; ++i)
-			f2 += str.compare(i, find1.size(), find1);
+		for (int i = 0; i < len; ++i) {
+			int c = str.compare(i, find1.size(), find1);
+			f2 += c < 0 ? -1 : (c > 0 ? 1 : 0);
+		}
 		SEQ_TEST(f == f2);
 
 		//test pop back

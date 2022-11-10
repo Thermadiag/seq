@@ -727,7 +727,7 @@ namespace seq
 
 		
 
-		static const wint_t scan_reverse_8[] =
+		static const std::uint8_t scan_reverse_8[] =
 		{ 8, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4,
 			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5,
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
@@ -747,7 +747,7 @@ namespace seq
 
 	}
 
-	inline auto bit_scan_forward_8(wint_t  val) -> unsigned int
+	inline auto bit_scan_forward_8(std::uint8_t  val) -> unsigned int
 	{
 		static const std::uint8_t scan_forward_8[] =
 		{ 8, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 4,
