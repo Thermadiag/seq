@@ -60,13 +60,13 @@ const int & d = vec[600];
 ``` 
 
 In order for cvector to work with all STL algorithms, some latitudes with C++ standard were taken:
-		-	`std::swap` is overloaded for reference wrapper types. Overloading `std::swap` is forbidden by the standard, but works in practive with msvc and gcc at least.
-		-	`std::move` is overloaded for reference wrapper types. This was mandatory for algorithms like `std::move(first,last,dst)` to work on move-only types.
+-	`std::swap` is overloaded for reference wrapper types. Overloading `std::swap` is forbidden by the standard, but works in practive with msvc and gcc at least.
+-	`std::move` is overloaded for reference wrapper types. This was mandatory for algorithms like `std::move(first,last,dst)` to work on move-only types.
 
 Thanks to this, it is possible to call `std::sort` or std::random_shuffle on a `cvector`. For instance, the following code snippet successively:
-		-	Call `cvector::push_back` to fill the cvector with sorted data. In this case the compression ratio is very low due to high values correlation.
-		-	Call `std::random_shuffle` to shuffle the cvector: the compresion ratio become very high as compressing random data is not possible.
-		-	Sort again the cvector with `std::sort` to get back the initial compression ratio.
+-	Call `cvector::push_back` to fill the cvector with sorted data. In this case the compression ratio is very low due to high values correlation.
+-	Call `std::random_shuffle` to shuffle the cvector: the compresion ratio become very high as compressing random data is not possible.
+-	Sort again the cvector with `std::sort` to get back the initial compression ratio.
 
 ```cpp
 
@@ -116,9 +116,9 @@ types if you are certain they are indeed relocatable.
 ## Compression algorithm
 
 In order for cvector to have any interset over a standard `std::vector` or `std::deque`, its compression algorithm must be:
-		-	very fast or the performance gap will be to high compared to STL counterparts,
-		-	symetric if possible, as compression is performed almost as often as decompression,
-		-	efficient on small blocks of data to allow fast random access.
+-	very fast or the performance gap will be to high compared to STL counterparts,
+-	symetric if possible, as compression is performed almost as often as decompression,
+-	efficient on small blocks of data to allow fast random access.
 
 It turns out I developed a compression algorithm a while back for lossless image compression that worked on small blocks of 16*16 pixels. I just had
 to adjust it to work on flat input and blocks of 256 elements. This algorithm relies on well known compression methods: it uses bit packing, delta coding
