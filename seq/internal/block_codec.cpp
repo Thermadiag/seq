@@ -268,7 +268,7 @@ namespace seq
 			seq::write_LE_64(dst + bits, v2);
 #else
 
-#define _U64(val) reinterpret_cast<std::uint64_t>(val)
+#define _U64(val) static_cast<std::uint64_t>(val)
 
 			switch (bits) {
 			case 1:
