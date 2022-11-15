@@ -46,7 +46,7 @@ var bits_8hpp =
     [ "bit_scan_forward", "bits_8hpp.html#aeb73db39e1609aef776bd9499a838c85", null ],
     [ "bit_scan_forward_32", "bits_8hpp.html#adaee03ba305545aff518038a6037813b", null ],
     [ "bit_scan_forward_64", "bits_8hpp.html#aea82743e4a07a05aad9c2226c85c5925", null ],
-    [ "bit_scan_forward_8", "bits_8hpp.html#af6ba1bdf7d8e86f8aedd900676c80238", null ],
+    [ "bit_scan_forward_8", "bits_8hpp.html#a33b62146c2dc50a03ca53b97ace8bd99", null ],
     [ "bit_scan_reverse", "bits_8hpp.html#ab2a4aaad9e6e5b58b9ae8bc9a0a8df09", null ],
     [ "bit_scan_reverse_32", "bits_8hpp.html#a89b01e43cd0234954034486359baa02f", null ],
     [ "bit_scan_reverse_64", "bits_8hpp.html#aaea603fed30d1318a1a13ee9a6181c1a", null ],

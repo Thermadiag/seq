@@ -693,7 +693,16 @@ namespace seq
 		/// @param other another container to be used as source to initialize the elements of the container with
 		/// @param alloc allocator to use for all memory allocations of this container
 		devector(devector&& other, const Allocator& alloc)
-			:base_type(std::move(static_cast<base_type&>(other)), alloc) {}
+			:base_type(alloc)
+		{
+			if (alloc == other.get_allocator()) {
+				swap(other);
+			}
+			else {
+				resize(other.size());
+				std::move(other.begin(), other.end(), begin());
+			}
+		}
 		/// @brief Constructs the container with the contents of the initializer list init
 		/// @param init initializer list to initialize the elements of the container with
 		/// @param alloc allocator to use for all memory allocations of this container

@@ -30,7 +30,10 @@
 
 #include "deque_allocator.hpp"
 #include "devector.hpp"
+#include "pdqsort.hpp"
 #include "utils.hpp"
+
+#include <algorithm>
 
 
 #ifndef SEQ_MIN_BUCKET_SIZE
@@ -49,6 +52,47 @@ namespace seq
 
 	namespace detail
 	{
+		template<class T, bool Wide = (sizeof(T) > 8) >
+		struct lower_bound
+		{
+			template<class U, class Le>
+			SEQ_ALWAYS_INLINE static int apply(const T* ptr, int size, const U & value, const Le & le)
+			{
+				// This is always faster with msvc
+				return static_cast<int>(std::lower_bound(ptr, ptr + size, value, le) - ptr);
+			}
+		};
+
+#ifndef _MSC_VER
+		template<class T>
+		struct lower_bound<T,false>
+		{
+			template<class U, class Le>
+			SEQ_ALWAYS_INLINE static int apply(const T* ptr, int size, const U& value, const Le& le)
+			{
+				int low = 0;
+				while ((size > 16)) {
+					int half = size / 2;
+					int other_half = size - half;
+					int probe = low + half;
+					int other_low = low + other_half;
+					size = half;
+					low = le(ptr[probe], value) ? other_low : low;
+
+					half = size / 2;
+					other_half = size - half;
+					probe = low + half;
+					other_low = low + other_half;
+					size = half;
+					low = le(ptr[probe], value) ? other_low : low;
+				}
+				size += low;
+				while (low < size && le(ptr[low], value))
+					++low;
+				return low;
+			}
+		};
+#endif
 
 		using cbuffer_pos = short; //index type within circular buffer, must be signed
 
@@ -322,6 +366,223 @@ namespace seq
 			return it1.pos >= it2.pos;
 		}
 
+
+
+
+
+		// 
+		// Random access  iterator for sequence class, used to sort the sequence
+		//
+		/*template< class BucketMgr>
+		struct tvector_ra_iterator
+		{
+			
+			using iterator_category = std::random_access_iterator_tag;
+			using value_type = typename BucketMgr::value_type;
+			using difference_type = typename BucketMgr::difference_type;
+			using pointer = typename BucketMgr::pointer;
+			using reference = value_type&;
+			using pos_type = difference_type;
+			using chunk_type = typename BucketMgr::StoreBucketType;
+
+			BucketMgr* data;
+			difference_type abs_pos;
+			chunk_type* node;
+			pos_type pos;
+
+			tvector_ra_iterator() noexcept {}
+			tvector_ra_iterator(const BucketMgr* d) noexcept //begin
+				:data(const_cast<BucketMgr*>(d)), node(const_cast<chunk_type*>(d->d_buckets.data())), abs_pos(0), pos(0) {}
+			tvector_ra_iterator(const BucketMgr* d, size_t) noexcept //end
+				:data(const_cast<BucketMgr*>(d)), abs_pos(d->d_size) {
+				if (data->d_buckets.back().bucket->size == data->d_bucket_size) {
+					node = data->d_buckets.data() + data->d_buckets.size();
+					pos = 0;
+				}
+				else {
+					node = data->d_buckets.data() + data->d_buckets.size() -1;
+					pos = data->d_buckets.back().bucket->size;
+				}
+			}
+			tvector_ra_iterator(const BucketMgr* d, const chunk_type* node, pos_type pos, difference_type abs_pos) noexcept
+				:data(const_cast<BucketMgr*>(d)), node(const_cast<chunk_type*>(node)), abs_pos(abs_pos), pos(pos) {}
+
+
+			SEQ_ALWAYS_INLINE auto absolutePos() const noexcept -> difference_type {
+				return abs_pos;
+			}
+			SEQ_ALWAYS_INLINE void setAbsolutePos(difference_type abs_pos) noexcept
+			{
+				SEQ_ASSERT_DEBUG(static_cast<size_t>(abs_pos) <= (data->d_size), "invalid iterator position");
+				this->node = data->d_buckets.data() + (abs_pos >> data->d_bucket_size_bits);
+				this->pos = abs_pos & data->d_bucket_size1;
+				this->abs_pos = abs_pos;
+			}
+			SEQ_ALWAYS_INLINE auto operator*()  -> reference {
+
+				SEQ_ASSERT_DEBUG(static_cast<size_t>(abs_pos) <= (data->d_size), "invalid iterator position");
+				return node->bucket->buffer()[pos];
+			}
+			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer {
+				return std::pointer_traits<pointer>::pointer_to(**this);
+			}
+			SEQ_ALWAYS_INLINE auto operator++() noexcept -> tvector_ra_iterator& {
+				++pos;
+				++abs_pos;
+				if (pos >= data->d_bucket_size) {
+					++node;
+					pos = 0;
+				}
+				return *this;
+			}
+			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> tvector_ra_iterator {
+				tvector_ra_iterator _Tmp = *this;
+				++(*this);
+				return _Tmp;
+			}
+			SEQ_ALWAYS_INLINE auto operator--() noexcept -> tvector_ra_iterator& {
+				SEQ_ASSERT_DEBUG(abs_pos > 0, "invalid iterator position");
+				--pos;
+				--abs_pos;
+				if ( pos < 0) {
+					--node;
+					pos = data->d_bucket_size1;
+				}
+				return*this;
+			}
+			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> tvector_ra_iterator {
+				tvector_ra_iterator _Tmp = *this;
+				--(*this);
+				return _Tmp;
+			}
+			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> tvector_ra_iterator& {
+				setAbsolutePos(abs_pos + diff);
+				return *this;
+			}
+			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> tvector_ra_iterator& {
+				setAbsolutePos(abs_pos - diff);
+				return *this;
+			}
+
+			SEQ_ALWAYS_INLINE bool operator==(const tvector_ra_iterator& other) const noexcept { return abs_pos == other.abs_pos; }
+			SEQ_ALWAYS_INLINE bool operator!=(const tvector_ra_iterator& other) const noexcept { return abs_pos != other.abs_pos; }
+			SEQ_ALWAYS_INLINE bool operator<(const tvector_ra_iterator& other) const noexcept { return abs_pos < other.abs_pos; }
+			SEQ_ALWAYS_INLINE bool operator>(const tvector_ra_iterator& other) const noexcept { return abs_pos > other.abs_pos; }
+			SEQ_ALWAYS_INLINE bool operator<=(const tvector_ra_iterator& other) const noexcept { return abs_pos <= other.abs_pos; }
+			SEQ_ALWAYS_INLINE bool operator>=(const tvector_ra_iterator& other) const noexcept { return abs_pos >= other.abs_pos; }
+			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> tvector_ra_iterator {
+				tvector_ra_iterator tmp = *this;
+				tmp += diff;
+				return tmp;
+			}
+			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> tvector_ra_iterator {
+				tvector_ra_iterator tmp = *this;
+				tmp -= diff;
+				return tmp;
+			}
+			SEQ_ALWAYS_INLINE auto operator-(const tvector_ra_iterator& other) const noexcept -> difference_type { return abs_pos - other.abs_pos; }
+		};*/
+
+		template< class BucketMgr>
+		struct tvector_ra_iterator
+		{
+
+			using iterator_category = std::random_access_iterator_tag;
+			using value_type = typename BucketMgr::value_type;
+			using difference_type = typename BucketMgr::difference_type;
+			using pointer = typename BucketMgr::pointer;
+			using reference = value_type&;
+			using pos_type = difference_type;
+			using chunk_type = typename BucketMgr::StoreBucketType;
+
+			BucketMgr* data;
+			chunk_type* node;
+			int pos;
+
+			tvector_ra_iterator() noexcept {}
+			tvector_ra_iterator(const BucketMgr* d) noexcept //begin
+				:data(const_cast<BucketMgr*>(d)), node(const_cast<chunk_type*>(d->d_buckets.data())), pos(0){}
+			tvector_ra_iterator(const BucketMgr* d, size_t) noexcept //end
+				:data(const_cast<BucketMgr*>(d)){
+				if (data->d_buckets.back().bucket->size == data->d_bucket_size) {
+					node = data->d_buckets.data() + data->d_buckets.size();
+					pos = 0;
+				}
+				else {
+					node = data->d_buckets.data() + data->d_buckets.size() - 1;
+					pos = data->d_buckets.back().bucket->size;
+				}
+			}
+
+			auto computeAbsolutePos() const noexcept -> difference_type {
+				return ((node - data->d_buckets.data()) << data->d_bucket_size_bits) + pos;
+			}
+			void add(difference_type diff) noexcept{
+				difference_type abs = computeAbsolutePos();
+				abs += diff;
+				this->node = data->d_buckets.data() + (abs >> data->d_bucket_size_bits);
+				this->pos = abs & data->d_bucket_size1;
+			}
+			auto operator*() noexcept  -> reference {
+				return node->bucket->buffer()[pos];
+			}
+			auto operator->() noexcept -> pointer {
+				return std::pointer_traits<pointer>::pointer_to(**this);
+			}
+			auto operator++() noexcept -> tvector_ra_iterator& {
+				++pos;
+				if (SEQ_UNLIKELY(pos >= data->d_bucket_size)) {
+					++node;
+					pos = 0;
+				}
+				return *this;
+			}
+			auto operator++(int) noexcept -> tvector_ra_iterator {
+				tvector_ra_iterator _Tmp = *this;
+				++(*this);
+				return _Tmp;
+			}
+			auto operator--() noexcept -> tvector_ra_iterator& {
+				--pos;
+				if (SEQ_UNLIKELY(pos < 0)) {
+					--node;
+					pos = data->d_bucket_size1;
+				}
+				return*this;
+			}
+			auto operator--(int) noexcept -> tvector_ra_iterator {
+				tvector_ra_iterator _Tmp = *this;
+				--(*this);
+				return _Tmp;
+			}
+			auto operator+=(difference_type diff) noexcept -> tvector_ra_iterator& {
+				add( diff);
+				return *this;
+			}
+			auto operator-=(difference_type diff) noexcept -> tvector_ra_iterator& {
+				add(-diff);
+				return *this;
+			}
+			bool operator==(const tvector_ra_iterator& other) const noexcept { return node == other.node && pos == other.pos; }
+			bool operator!=(const tvector_ra_iterator& other) const noexcept { return node != other.node || pos != other.pos; }
+			bool operator<(const tvector_ra_iterator& other) const noexcept { return node < other.node || (node == other.node && pos < other.pos); }
+			bool operator>(const tvector_ra_iterator& other) const noexcept { return node > other.node || (node == other.node && pos > other.pos); }
+			bool operator<=(const tvector_ra_iterator& other) const noexcept { return !(*this > other); }
+			bool operator>=(const tvector_ra_iterator& other) const noexcept { return !(other > *this); }
+			auto operator+(difference_type diff) const noexcept -> tvector_ra_iterator {
+				tvector_ra_iterator tmp = *this;
+				tmp += diff;
+				return tmp;
+			}
+			auto operator-(difference_type diff) const noexcept -> tvector_ra_iterator {
+				tvector_ra_iterator tmp = *this;
+				tmp -= diff;
+				return tmp;
+			}
+			auto operator-(const tvector_ra_iterator& other) const noexcept -> difference_type {
+				return ((node - other.node) << data->d_bucket_size_bits) + (pos - other.pos);
+			}
+		};
 
 	} //end detail
 
@@ -1058,11 +1319,6 @@ namespace seq
 				// For now, select bigger chunk size as moving objects inside is faster than moving objects between chunks
 				{unsigned bits = (bit_scan_reverse(size) >> 1) + 2;// log2 / 2 +2
 				return std::max(MinBSize, std::min(MaxBSize, 1U << bits)); }
-
-				/*unsigned bs = std::ceil(std::sqrt((double)size));
-				unsigned bit = bit_scan_reverse(bs) +1U;
-				return std::max(MinBSize, std::min(MaxBSize, 1U << bit));*/
-
 			}
 		};
 
@@ -1147,9 +1403,16 @@ namespace seq
 		};
 
 
+		template<class KeyType>
+		struct StorePlainKey
+		{
+			static constexpr bool value = (std::is_nothrow_copy_constructible<KeyType>::value && sizeof(KeyType) <= 16);
+		};
+
+
 		//Store a CircularBuffer pointer and an optional back value (pointer to the back value of the CircularBuffer)
 		//Storing the back pointer is only used for sorted tiered_vector
-		template< class T, class Allocator, class ValueCompare, bool StoreBackValues, bool IsArithmetic = std::is_arithmetic<typename ValueCompare::key_type>::value >
+		template< class T, class Allocator, class ValueCompare, bool StoreBackValues, bool IsArithmetic = StorePlainKey<typename ValueCompare::key_type>::value >
 		struct StoreBucket {};
 
 		template< class T, class Allocator, class ValueCompare, bool IsArithmetic>//, bool SimpleType = (sizeof(T) <= 16 && std::is_trivially_copyable<T>::value)>
@@ -3524,7 +3787,7 @@ namespace seq
 		/// @brief Optimized version of std::lower_bound(begin(),end(),value,le);
 		/// Only works for sorted tiered_vector.
 		template<class U, class Less = std::less<T> >
-		auto lower_bound( const U & value, const Less & le = Less()) const noexcept -> size_t
+		auto lower_bound_old( const U & value, const Less & le = Less()) const noexcept -> size_t
 		{
 			static_assert(!std::is_same< detail::NullValueCompare<T>, ValueCompare>::value, "lower_bound can only be used by flat_map/set containers");
 
@@ -3568,6 +3831,7 @@ namespace seq
 			//find inside bucket
 			bucket_pos_type b_index = low;
 			auto * bucket = buckets[low].bucket;
+
 			{
 				using pos_type = int;//detail::cbuffer_pos
 				pos_type size = bucket->size;
@@ -3595,6 +3859,79 @@ namespace seq
 				
 				return  static_cast<size_t>(low) + (b_index != 0 ? static_cast<size_t>(buckets[0]->size) + static_cast<size_t>(b_index - 1) * static_cast<size_t>(bucket->max_size_) : 0);
 			}
+		}
+
+
+
+		/// @brief Optimized version of std::lower_bound(begin(),end(),value,le);
+		/// Only works for sorted tiered_vector.
+		template<class U, class Less = std::less<T> >
+		auto lower_bound(const U& value, const Less& le = Less()) const noexcept -> size_t
+		{
+			static_assert(!std::is_same< detail::NullValueCompare<T>, ValueCompare>::value, "lower_bound can only be used by flat_map/set containers");
+
+			if (!d_manager)
+				return 0;
+			// Inspired by https://academy.realm.io/posts/how-we-beat-cpp-stl-binary-search/
+
+			using BucketVector = typename bucket_manager::BucketVector;
+			const BucketVector& buckets = manager()->buckets();
+
+			//find bucket
+			using bucket_pos_type = size_t;
+
+			//bucket_pos_type low = std::lower_bound(buckets.begin(), buckets.end(),value, [&le](const auto& a, const auto& b) {return le(a.back() ,b); }) - buckets.begin();
+			bucket_pos_type low = 0;
+			bucket_pos_type size = buckets.size();
+			while ((size > 8)) {
+				bucket_pos_type half = size / 2;
+				bucket_pos_type other_half = size - half;
+				bucket_pos_type probe = low + half;
+				bucket_pos_type other_low = low + other_half;
+				size = half;
+				low = le(buckets[probe].back(), value) ? other_low : low;
+
+				half = size / 2;
+				other_half = size - half;
+				probe = low + half;
+				other_low = low + other_half;
+				size = half;
+				low = le(buckets[probe].back(), value) ? other_low : low;
+			}
+			size += low;
+			while (low < size && le(buckets[low].back(), value))
+				++low;
+			
+
+			if (SEQ_UNLIKELY(low == buckets.size()))
+				return this->size();
+
+			//find inside bucket
+			bucket_pos_type b_index = low;
+			auto* bucket = buckets[low].bucket;
+
+			{
+				// Partition the bucket into left/right side based on the circular buffer begin position, 
+				// and apply the lower bound on the one of the 2.
+
+				using pos_type = int;
+				const T* begin_ptr = bucket->begin_ptr();
+
+				const bool low_half = 
+					begin_ptr != bucket->buffer() && // begin is not 0
+					(bucket->begin + bucket->size) > bucket->max_size_ && // begin + size overflow
+					le(*(bucket->buffer() + bucket->max_size1), value); // value to took for is not in the upper half (between begin and buffer end)
+
+				const T* ptr = low_half ? bucket->buffer() : begin_ptr;
+				pos_type size = low_half ? 
+					((bucket->begin + bucket->size) & bucket->max_size1) : 
+					(std::min(bucket->size,static_cast<detail::cbuffer_pos>(bucket->max_size_ - bucket->begin)));
+				pos_type low = detail::lower_bound<T>::apply(ptr, size, value, le);
+
+				low = ptr == begin_ptr ? low : low + (bucket->max_size_ - bucket->begin);
+				return static_cast<size_t>(low) + (b_index != 0 ? static_cast<size_t>(buckets[0]->size) + static_cast<size_t>(b_index - 1) * static_cast<size_t>(bucket->max_size_) : 0);
+			}
+
 		}
 
 
@@ -3681,6 +4018,60 @@ namespace seq
 				low += buckets[0]->size + (b_index - 1) * (bucket)->max_size_;
 			return low;
 		}
+
+
+		template<class Less  >
+		void sort(const Less& le = Less()) 
+		{
+			static constexpr bool nothrow = std::is_nothrow_move_constructible<T>::value;
+			if (size() == 0)
+				return;
+
+			if (!nothrow)
+			{
+				pdqsort_branchless(begin(),end(), le);
+				return;
+			}
+
+			// Fill front bucket
+			while (d_manager->d_buckets.size() > 1 && d_manager->d_buckets[0].bucket->size != d_manager->d_bucket_size)
+			{
+				T tmp = std::move(back());
+				this->pop_back();
+				this->push_front(std::move(tmp));
+			}
+			SEQ_ASSERT_DEBUG(d_manager->d_buckets[0].bucket->size == d_manager->d_bucket_size || d_manager->d_buckets.size() == 1, "");
+
+			if (d_manager->d_buckets.back().bucket->size != d_manager->d_bucket_size)
+			{
+				// If the back bucket is not full, make it start at 0
+				auto* bucket = d_manager->d_buckets.back().bucket;
+				auto al = get_allocator();
+				while (bucket->begin != 0) {
+					T tmp = std::move(bucket->back());
+					bucket->pop_back(al);
+					bucket->push_front(al, std::move(tmp));
+				}
+			}
+			
+
+			auto b = detail::tvector_ra_iterator<bucket_manager>(d_manager);
+			auto e = detail::tvector_ra_iterator<bucket_manager>(d_manager,0);
+			pdqsort_branchless(b, e, le);
+
+			for (size_t i = 0; i < d_manager->d_buckets.size(); ++i)
+			{
+				auto& bucket = d_manager->d_buckets[i];
+				bucket.bucket->begin = 0;
+				if (StoreBackValues)
+					bucket.update();
+			}
+		}
+		void sort()
+		{
+			this->sort(std::less<T>{});
+		}
+		
 	};
 
 

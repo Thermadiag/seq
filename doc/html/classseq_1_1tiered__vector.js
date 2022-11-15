@@ -75,6 +75,7 @@ var classseq_1_1tiered__vector =
     [ "iterator_at", "classseq_1_1tiered__vector.html#aba312bbc11e9a8a0d11864ad9411e539", null ],
     [ "iterator_at", "classseq_1_1tiered__vector.html#a1308e21d6695ba4fe0de0c992a8724b7", null ],
     [ "lower_bound", "classseq_1_1tiered__vector.html#a735b0a3c5b783af8f8e344f21bbba693", null ],
+    [ "lower_bound_old", "classseq_1_1tiered__vector.html#a800f6015e79b3a17ac57b4ee36c82cf5", null ],
     [ "manager", "classseq_1_1tiered__vector.html#aa3a82ff63aa8d8c679669bf0a1d09d99", null ],
     [ "manager", "classseq_1_1tiered__vector.html#a18aa621d81f3842bfe95f5ce04702f68", null ],
     [ "max_size", "classseq_1_1tiered__vector.html#a4a39d4dbd7f3d8084d8ea3d9eafa85a6", null ],
@@ -98,6 +99,8 @@ var classseq_1_1tiered__vector =
     [ "resize_front", "classseq_1_1tiered__vector.html#aacb5d8d747178d01887da6333a2ec349", null ],
     [ "shrink_to_fit", "classseq_1_1tiered__vector.html#a381dfa730a7fed2835c671d1173e0df4", null ],
     [ "size", "classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb", null ],
+    [ "sort", "classseq_1_1tiered__vector.html#aa6e7abc66d3082e955d8409dfcca5d86", null ],
+    [ "sort", "classseq_1_1tiered__vector.html#ae6f1805215dfe158dfe0735c5943cad6", null ],
     [ "swap", "classseq_1_1tiered__vector.html#ab0801e52dd8fbf13d342f2e1fc3db6b0", null ],
     [ "upper_bound", "classseq_1_1tiered__vector.html#a94048ce5ab585f2665dbc602aac528fb", null ]
 ];

@@ -255,9 +255,9 @@ namespace seq
 		};
 
 		template<size_t MaxSSO, class Allocator>
-		struct string_proxy : private Allocator
+		struct string_proxy
+			//: private Allocator
 		{
-			//Allocator alloc;
 			union {
 				SSO<MaxSSO> sso;
 				NoneSSO non_sso;
@@ -942,8 +942,14 @@ namespace seq
 			:d_data(al)
 		{
 			memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
-			if (!is_sso())
-				memset(&other.d_data.d_union, 0, sizeof(d_data.d_union));
+			if (!is_sso()) {
+				if (!std::is_same<std::allocator<char>, Allocator>::value && al != other.get_allocator()) {
+					memcpy(initialize(other.size()), other.data(), other.size());
+				}
+				else {
+					memset(&other.d_data.d_union, 0, sizeof(d_data.d_union));
+				}
+			}
 		}
 		/// @brief Construct by copying the range [first,last)
 		template<class Iter>

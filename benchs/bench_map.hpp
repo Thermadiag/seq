@@ -42,6 +42,21 @@ using namespace seq;
 
 
 
+template<class T>
+inline size_t convert_to_size_t(const T& v)
+{
+	return static_cast<size_t>(v);
+}
+template<size_t S, class Al>
+inline size_t convert_to_size_t(const tiny_string<S, Al>& v)
+{
+	return static_cast<size_t>(v.size());
+}
+inline size_t convert_to_size_t(const std::string& v)
+{
+	return static_cast<size_t>(v.size());
+}
+
 template<class C>
 struct is_boost_map : std::false_type {};
 template<class C>
@@ -50,21 +65,27 @@ struct is_boost_map<boost::container::flat_set<C> > : std::true_type {};
 template<class C, class K>
 struct find_val
 {
-	static void find(const C& s,const K & key, size_t& out)
+	static bool find(const C& s,const K & key, size_t& out)
 	{
 		auto it = s.find(key);
-		if (it != s.end())
-			out += (size_t)(*it);
+		if (it != s.end()) {
+			out += convert_to_size_t(*it);
+			return true;
+		}
+		return false;
 	}
 };
 template<class C, class K>
 struct find_val<flat_set<C>,K>
 {
-	static void find(const flat_set<C>& s, const K& key, size_t& out)
+	static bool find(const flat_set<C>& s, const K& key, size_t& out)
 	{
 		auto it = s.find_pos(key);
-		if (it != s.size())
-			out += (size_t)(s.pos(it));
+		if (it != s.size()) {
+			out += convert_to_size_t(s.pos(it));
+			return true;
+		}
+		return false;
 	}
 };
 
@@ -92,6 +113,23 @@ void insert_value(C& s, const K& key)
 }
 
 
+template<class C>
+void check_sorted(C& set)
+{
+	if (!std::is_sorted(set.begin(), set.end()))
+		throw std::runtime_error("set class not sorted");
+}
+
+template<class T, class hash, class equal, class allocator>
+void check_sorted(std::unordered_set<T,hash,equal,allocator>& )
+{
+}
+
+template<class T, class hash, class equal, class allocator>
+void check_sorted(seq::ordered_set<T, hash, equal, allocator>&)
+{
+}
+
 
 template<class C, class U, class Format>
 void test_set(const char * name,  const std::vector<U> & vec, Format f)
@@ -112,17 +150,22 @@ void test_set(const char * name,  const std::vector<U> & vec, Format f)
 
 	{
 		//insert
+#ifndef TEST_BOOST_INSERT_ERASE
 		if (std::is_same< boost::container::flat_set<T>, C>::value) {
 			insert = 1000000;
 			insert_mem = 0;
 		}
-		else {
+		else
+#endif
+		{
 			tick();
 			C s;
 			for (size_t i = 0; i < vec.size() / 2; ++i)
 				insert_value(s, vec[i]);
 			insert = tock_ms();
 			insert_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
+
+			check_sorted(s);
 		}
 	}
 	
@@ -135,6 +178,7 @@ void test_set(const char * name,  const std::vector<U> & vec, Format f)
 	insert_range = tock_ms();
 	insert_range_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
 	
+	check_sorted(set);
 	
 
 	//insert fail
@@ -144,11 +188,13 @@ void test_set(const char * name,  const std::vector<U> & vec, Format f)
 	size_t insert_fail = tock_ms();
 	size_t insert_fail_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
 
+	check_sorted(set);
+
 	//find success
 	tick();
 	size_t sum = 0;
 	for (size_t i = 0; i < success.size(); ++i)
-		find_val<C, U>::find(set, success[i], sum);
+		SEQ_TEST(find_val<C, U>::find(set, success[i], sum));
 	size_t find = tock_ms();
 	print_null(sum);
 
@@ -164,23 +210,34 @@ void test_set(const char * name,  const std::vector<U> & vec, Format f)
 	tick();
 	sum = 0;
 	for (auto it = set.begin(); it != set.end(); ++it)
-		sum += (size_t)(*it);
+		sum += convert_to_size_t(*it);
 	size_t iterate = tock_ms();
 	print_null(sum);
 
 	size_t erase = 0;
+#ifndef TEST_BOOST_INSERT_ERASE
 	if (std::is_same< boost::container::flat_set<T>, C>::value) {
 		erase = 1000000;
 	}
-	else {
+	else
+#endif
+	{
 		tick();
 		for (size_t i = 0; i < success.size(); ++i) {
 			auto it = set.find(success[i]);
 			if (it != set.end())
 				set.erase(it);
 		}
+		/*for (auto it = set.begin(); it != set.end(); ++it)
+		{
+			it = set.erase(it);
+			if (it == set.end())
+				break;
+		}*/
 		erase = tock_ms();
 		print_null(set.size());
+
+		check_sorted(set);
 	}
 	std::cout << f(name, fmt(insert_range, insert_range_mem), fmt(insert, insert_mem), insert_fail, find, find_fail, iterate, erase) << std::endl;
 }
@@ -219,8 +276,8 @@ void test_map(size_t count, Gen gen)
 		fmt("Find (failed)").c(15), "|", fmt("Iterate").c(15), "|", fmt("Erase").c(15), "|") << std::endl;
 	std::cout << fmt(str().c(30).f('-'), "|", str().c(20).f('-'), "|", str().c(20).f('-'), "|", str().c(15).f('-'), "|", str().c(15).f('-'), "|", str().c(15).f('-'), "|", str().c(15).f('-'), "|", str().c(15).f('-'), "|") << std::endl;
 
+	test_set<flat_set<T>>("seq::flat_set", vec, f);
 	test_set<phmap::btree_set<T> >("phmap::btree_set", vec, f);
-	test_set<flat_set<T>>("seq::flat_set", vec,f);
 	test_set<boost::container::flat_set<T> >("boost::flat_set<T>", vec,f);
 	test_set<std::set<T> >("std::set", vec,f);
 	test_set<std::unordered_set<T> >("std::unordered_set", vec,f);	
@@ -240,9 +297,10 @@ void test_small_map_repeat(const char * name, int count, int repeat, Format f)
 	tick();
 	for (int i = 0; i < repeat; ++i)
 	{
-		Map m;
-		for (size_t j = 0; j < vec.size(); ++j)
+		Map m ;
+		for (size_t j = 0; j < vec.size()/2; ++j)
 			m.insert(vec[j]);
+		m.insert(vec.begin() + vec.size() / 2, vec.end());
 
 		value_type sum = 0;
 		for (size_t j = 0; j < vec.size(); ++j)
@@ -275,7 +333,7 @@ void test_small_map(int count, int repeat)
 
 	
 	test_small_map_repeat<phmap::btree_set<T > >("phmap::btree_set", count, repeat, f);
-	test_small_map_repeat < flat_set < T, std::less<T>, std::allocator<T>, seq::OptimizeForSpeed > >("seq::flat_set", count, repeat, f);
+	test_small_map_repeat < flat_set < T, std::less<T>, std::allocator<T> > >("seq::flat_set", count, repeat, f);
 	test_small_map_repeat<boost::container::flat_set<T> >("boost::flat_set<T>", count, repeat, f);
 	test_small_map_repeat<std::set<T> >("std::set", count, repeat, f);
 }

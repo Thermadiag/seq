@@ -333,7 +333,7 @@ namespace seq
 			using value_type = typename extract_key::value_type;
 			using key_type = typename extract_key::key_type;
 			using mapped_type = typename extract_key::mapped_type;
-			using sequence_type = sequence<Value, std::allocator<Value>, layout, true>;
+			using sequence_type = sequence<Value, RebindAlloc<Value>, layout, true>;
 			using iterator = typename sequence_type::iterator;
 			using const_iterator = typename sequence_type::const_iterator;
 
@@ -595,10 +595,17 @@ namespace seq
 				d_next_target(other.d_next_target), d_max_dist(other.d_max_dist),
 				d_load_factor(other.d_load_factor)
 			{
-				other.d_buckets = null_node();
-				other.d_hash_mask = 0;
-				other.d_next_target = 0;
-				other.d_max_dist = 1;
+				if (alloc == other.d_seq.get_allocator()) {
+					other.d_buckets = null_node();
+					other.d_hash_mask = 0;
+					other.d_next_target = 0;
+					other.d_max_dist = 1;
+				}
+				else {
+					// rehash
+					d_buckets = null_node();
+					rehash(0,true);
+				}
 			}
 
 			~SparseFlatNodeHashTable()
@@ -608,7 +615,7 @@ namespace seq
 
 			void swap(SparseFlatNodeHashTable& other) noexcept
 			{
-				if (this != std::addressof(other)) {
+				if (this != std::addressof(other)) {&
 					std::swap(static_cast<base_type&>(*this), static_cast<base_type&>(other));
 					std::swap(d_buckets, other.d_buckets);
 					std::swap(d_hash_mask, other.d_hash_mask);
@@ -651,7 +658,7 @@ namespace seq
 				// - the new hash table size is different from the current one
 				// - force is true
 
-				const bool null_size = size == 0;
+				const bool null_size = (size == 0);
 
 				if(null_size)
 					size = static_cast<size_t>(this->size() / static_cast<double>(d_load_factor));
@@ -1287,12 +1294,7 @@ namespace seq
 		/// @param other another container to be used as source to initialize the elements of the container with
 		ordered_set(const ordered_set& other)
 			:ordered_set(other, other.get_allocator())
-		{
-			this->d_seq = other.sequence();
-			if (other.dirty()) base_type::mark_dirty();
-			max_load_factor(other.max_load_factor());
-			rehash();
-		}
+		{}
 		/// @brief Move constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
 		ordered_set(ordered_set&& other)
@@ -1948,10 +1950,6 @@ namespace seq
 		ordered_map(const ordered_map& other)
 			:ordered_map(other, other.get_allocator())
 		{
-			this->d_seq = other.sequence();
-			if (other.dirty()) base_type::mark_dirty();
-			max_load_factor(other.max_load_factor());
-			rehash();
 		}
 		ordered_map(ordered_map&& other)
 			:base_type(std::move(other))

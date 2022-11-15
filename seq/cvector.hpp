@@ -59,6 +59,7 @@ namespace std
 #include <limits>
 
 #include "internal/block_codec.h"
+#include "internal/transpose.h"
 #include "memory.hpp"
 #include "bits.hpp"
 #include "utils.hpp"
@@ -1714,7 +1715,7 @@ namespace seq
 			}
 
 			/// @brief Remove back value
-			void pop_back() noexcept
+			void pop_back() 
 			{
 				SEQ_ASSERT_DEBUG(size() > 0, "calling pop_back on empty container");
 
