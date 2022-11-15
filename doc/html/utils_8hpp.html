@@ -92,7 +92,8 @@ $(document).ready(function(){initNavTree('utils_8hpp.html',''); initResizable();
 <div class="title">utils.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="bits_8hpp_source.html">bits.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;memory&gt;</code><br />
+<code>#include &quot;<a class="el" href="bits_8hpp_source.html">bits.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="type__traits_8hpp_source.html">type_traits.hpp</a>&quot;</code><br />
 </div>
 <p><a href="utils_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -125,6 +126,10 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_call_lambda.html">seq::detail::CallLambda&lt; L1, L2, IsL1 &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_call_lambda_3_01_l1_00_01_l2_00_01false_01_4.html">seq::detail::CallLambda&lt; L1, L2, false &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1assign__alloc.html">seq::assign_alloc&lt; Allocator &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1move__alloc.html">seq::move_alloc&lt; Allocator &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
@@ -188,6 +193,22 @@ Functions</h2></td></tr>
 <tr class="memitem:a60b1a14cbf28e77e92a346892ef8531c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a60b1a14cbf28e77e92a346892ef8531c">seq::constexpr_if</a> (const L1 &amp;l1, const L2 &amp;l2, Args &amp;&amp;... args) -&gt; decltype(std::declval&lt; detail::CallLambda&lt; L1, L2, IsL1 &gt; &amp; &gt;()(std::declval&lt; L1 &amp; &gt;(), std::declval&lt; L2 &amp; &gt;(), std::declval&lt; Args &gt;()...))</td></tr>
 <tr class="memdesc:a60b1a14cbf28e77e92a346892ef8531c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation of C++17 if constexpr.  <a href="namespaceseq.html#a60b1a14cbf28e77e92a346892ef8531c">More...</a><br /></td></tr>
 <tr class="separator:a60b1a14cbf28e77e92a346892ef8531c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab79240f9c8c5a8da1a3c5770d18b44f0"><td class="memTemplParams" colspan="2">template&lt;class Allocator &gt; </td></tr>
+<tr class="memitem:ab79240f9c8c5a8da1a3c5770d18b44f0"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab79240f9c8c5a8da1a3c5770d18b44f0">seq::copy_allocator</a> (const Allocator &amp;alloc)</td></tr>
+<tr class="memdesc:ab79240f9c8c5a8da1a3c5770d18b44f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy allocator for container copy constructor.  <a href="namespaceseq.html#ab79240f9c8c5a8da1a3c5770d18b44f0">More...</a><br /></td></tr>
+<tr class="separator:ab79240f9c8c5a8da1a3c5770d18b44f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76e83b922f85075d41cf05cbf365dc07"><td class="memTemplParams" colspan="2">template&lt;class Allocator &gt; </td></tr>
+<tr class="memitem:a76e83b922f85075d41cf05cbf365dc07"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a76e83b922f85075d41cf05cbf365dc07">seq::swap_allocator</a> (Allocator &amp;left, Allocator &amp;right) noexcept</td></tr>
+<tr class="memdesc:a76e83b922f85075d41cf05cbf365dc07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swap allocators for container.swap member.  <a href="namespaceseq.html#a76e83b922f85075d41cf05cbf365dc07">More...</a><br /></td></tr>
+<tr class="separator:a76e83b922f85075d41cf05cbf365dc07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ed508491a96866338895cf1b5900292"><td class="memTemplParams" colspan="2">template&lt;class Allocator &gt; </td></tr>
+<tr class="memitem:a3ed508491a96866338895cf1b5900292"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a3ed508491a96866338895cf1b5900292">seq::assign_allocator</a> (Allocator &amp;left, const Allocator &amp;right) noexcept</td></tr>
+<tr class="memdesc:a3ed508491a96866338895cf1b5900292"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign allocator for container copy operator.  <a href="namespaceseq.html#a3ed508491a96866338895cf1b5900292">More...</a><br /></td></tr>
+<tr class="separator:a3ed508491a96866338895cf1b5900292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81932472ffd88a08d7b6f0aaf2c123e9"><td class="memTemplParams" colspan="2">template&lt;class Allocator &gt; </td></tr>
+<tr class="memitem:a81932472ffd88a08d7b6f0aaf2c123e9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a81932472ffd88a08d7b6f0aaf2c123e9">seq::move_allocator</a> (Allocator &amp;left, Allocator &amp;right) noexcept</td></tr>
+<tr class="memdesc:a81932472ffd88a08d7b6f0aaf2c123e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move allocator for container move assignment.  <a href="namespaceseq.html#a81932472ffd88a08d7b6f0aaf2c123e9">More...</a><br /></td></tr>
+<tr class="separator:a81932472ffd88a08d7b6f0aaf2c123e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>MIT License</p>

@@ -333,7 +333,7 @@ namespace seq
 			using value_type = typename extract_key::value_type;
 			using key_type = typename extract_key::key_type;
 			using mapped_type = typename extract_key::mapped_type;
-			using sequence_type = sequence<Value, RebindAlloc<Value>, layout, true>;
+			using sequence_type = sequence<Value, Allocator, layout, true>;
 			using iterator = typename sequence_type::iterator;
 			using const_iterator = typename sequence_type::const_iterator;
 
@@ -615,14 +615,14 @@ namespace seq
 
 			void swap(SparseFlatNodeHashTable& other) noexcept
 			{
-				if (this != std::addressof(other)) {&
+				if (this != std::addressof(other)) {
 					std::swap(static_cast<base_type&>(*this), static_cast<base_type&>(other));
 					std::swap(d_buckets, other.d_buckets);
 					std::swap(d_hash_mask, other.d_hash_mask);
 					std::swap(d_next_target, other.d_next_target);
 					std::swap(d_max_dist, other.d_max_dist);
 					std::swap(d_load_factor, other.d_load_factor);
-					std::swap(d_seq, other.d_seq);
+					d_seq.swap(other.d_seq);
 				}
 			}
 
@@ -1285,7 +1285,8 @@ namespace seq
 		ordered_set(const ordered_set& other, const Allocator& alloc)
 			:base_type(other.hash_function(), other.key_eq(), alloc)
 		{
-			this->d_seq = other.sequence();
+			this->d_seq.resize(other.size());
+			std::copy(other.sequence().begin(), other.sequence().end(), this->d_seq.begin());
 			if (other.dirty()) base_type::mark_dirty();
 			max_load_factor(other.max_load_factor());
 			rehash();
@@ -1293,7 +1294,7 @@ namespace seq
 		/// @brief Copy constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
 		ordered_set(const ordered_set& other)
-			:ordered_set(other, other.get_allocator())
+			:ordered_set(other, copy_allocator(other.get_allocator()))
 		{}
 		/// @brief Move constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
@@ -1366,7 +1367,7 @@ namespace seq
 		/// @brief Returns the container allocator object
 		auto get_allocator() noexcept -> allocator_type& { return this->d_seq.get_allocator(); }
 		/// @brief Returns the container allocator object
-		auto get_allocator() const noexcept -> allocator_type { return this->d_seq.get_allocator(); }
+		auto get_allocator() const noexcept -> const allocator_type & { return this->d_seq.get_allocator(); }
 		/// @brief Returns the hash function
 		auto hash_function() const -> hasher { return this->base_type::hash_function(); }
 		/// @brief Returns the equality comparison function
@@ -1772,7 +1773,7 @@ namespace seq
 		class T,
 		class Hash = std::hash<Key>,
 		class KeyEqual = std::equal_to<Key>,
-		class Allocator = std::allocator< std::pair<const Key, T> >,
+		class Allocator = std::allocator< std::pair<Key, T> >,
 		LayoutManagement Layout = OptimizeForSpeed
 	>
 		class ordered_map : private detail::SparseFlatNodeHashTable<Key, std::pair< Key, T>, Hash, KeyEqual, Allocator, Layout>
@@ -1942,13 +1943,14 @@ namespace seq
 		ordered_map(const ordered_map& other, const Allocator& alloc)
 			:base_type(other.hash_function(), other.key_eq(), alloc)
 		{
-			this->d_seq = other.sequence();
+			this->d_seq.resize(other.size());
+			std::copy(other.sequence().begin(), other.sequence().end(), this->d_seq.begin());
 			if (other.dirty()) base_type::mark_dirty();
 			max_load_factor(other.max_load_factor());
 			rehash();
 		}
 		ordered_map(const ordered_map& other)
-			:ordered_map(other, other.get_allocator())
+			:ordered_map(other, copy_allocator( other.get_allocator()))
 		{
 		}
 		ordered_map(ordered_map&& other)
@@ -2000,7 +2002,7 @@ namespace seq
 		void max_load_factor(float f) noexcept { base_type::max_load_factor(f); }
 
 		auto get_allocator() noexcept -> allocator_type& { return this->d_seq.get_allocator(); }
-		auto get_allocator() const noexcept -> allocator_type { return this->d_seq.get_allocator(); }
+		auto get_allocator() const noexcept -> const allocator_type & { return this->d_seq.get_allocator(); }
 
 		auto hash_function() const -> hasher { return this->base_type::hash_function(); }
 		auto key_eq() const -> key_equal { return this->base_type::key_eq(); }

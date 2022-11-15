@@ -2515,7 +2515,7 @@ namespace seq
 	/// 
 	/// 
 	template<class T, class Allocator = std::allocator<T>, unsigned Acceleration = 0 , class Encoder = detail::DefaultEncoder, unsigned block_size = 256>
-	class cvector
+	class cvector : private Allocator
 	{
 		using internal_type = detail::CompressedVectorInternal<T, Allocator, Acceleration, Encoder, block_size>;
 		using bucket_type = typename internal_type::BucketType;
@@ -2524,7 +2524,6 @@ namespace seq
 
 
 		internal_type* d_data;	// Store a pointer to internal data, easier to provide noexcept move constructor/copy and iterator stability on swap
-		Allocator d_alloc;
 
 		internal_type* make_internal(const Allocator& al)
 		{
@@ -2545,14 +2544,14 @@ namespace seq
 		void destroy_internal(internal_type* data)
 		{
 			destroy_ptr(data);
-			RebindAlloc< internal_type> a = d_alloc;
+			RebindAlloc< internal_type> a = get_allocator();
 			a.deallocate(data, 1);
 		}
 
 		void make_data_if_null()
 		{
 			if (!d_data)
-				d_data = make_internal(d_alloc);
+				d_data = make_internal(get_allocator());
 		}
 
 
@@ -2614,13 +2613,13 @@ namespace seq
 
 		/// @brief Default constructor, initialize the internal bucket manager.
 		cvector()
-			:d_data(NULL)
+			:Allocator(), d_data(NULL)
 		{
 		}
 		/// @brief Constructs an empty container with the given allocator alloc.
 		/// @param alloc allocator object
 		explicit cvector(const Allocator& alloc)
-			:d_data(make_internal(alloc)), d_alloc(alloc)
+			:Allocator(alloc), d_data(make_internal(alloc))
 		{
 		}
 		/// @brief Constructs the container with \a count copies of elements with value \a value.
@@ -2628,7 +2627,7 @@ namespace seq
 		/// @param value the value to initialize elements of the container with
 		/// @param alloc allocator object 
 		cvector(size_type count, const T& value, const Allocator& alloc = Allocator())
-			:d_data(make_internal(alloc)), d_alloc(alloc)
+			:Allocator(alloc), d_data(make_internal(alloc))
 		{
 			resize(count, value);
 		}
@@ -2636,14 +2635,14 @@ namespace seq
 		/// @param count new cvector size
 		/// @param alloc allocator object
 		explicit cvector(size_type count, const Allocator& alloc = Allocator())
-			:d_data(make_internal(alloc))
+			:Allocator(alloc), d_data(make_internal(alloc))
 		{
 			resize(count);
 		}
 		/// @brief Copy constructor. Constructs the container with the copy of the contents of other.
 		/// @param other another container to be used as source to initialize the elements of the container with
 		cvector(const cvector& other)
-			:d_data(NULL), d_alloc(other.d_alloc)
+			:Allocator(copy_allocator(other.get_allocator())), d_data(NULL)
 		{
 			if (other.size()) {
 				d_data = make_internal(other.get_allocator());
@@ -2657,7 +2656,7 @@ namespace seq
 		/// @param other other another container to be used as source to initialize the elements of the container with
 		/// @param alloc allcoator object
 		cvector(const cvector& other, const Allocator& alloc)
-			:d_data(NULL), d_alloc(alloc)
+			:Allocator(alloc), d_data(NULL)
 		{
 			if (other.size()) {
 				d_data = make_internal(alloc);
@@ -2669,7 +2668,7 @@ namespace seq
 		/// @brief Move constructor. Constructs the container with the contents of other using move semantics. Allocator is obtained by move-construction from the allocator belonging to other.
 		/// @param other another container to be used as source to initialize the elements of the container with
 		cvector(cvector&& other) noexcept
-			:d_data(other.d_data)
+			:Allocator(std::move(other.get_allocator())), d_data(other.d_data)
 		{
 			other.d_data = NULL;
 		}
@@ -2677,7 +2676,7 @@ namespace seq
 		/// @param other another container to be used as source to initialize the elements of the container with
 		/// @param alloc allocator object
 		cvector(cvector&& other, const Allocator& alloc)
-			:d_data(make_internal(alloc)), d_alloc(alloc)
+			:Allocator(alloc), d_data(make_internal(alloc))
 		{
 			if (alloc == other.get_allocator()) {
 				std::swap(d_data, other.d_data);
@@ -2694,7 +2693,7 @@ namespace seq
 		/// @param lst initializer list
 		/// @param alloc allocator object
 		cvector(const std::initializer_list<T>& lst, const Allocator& alloc = Allocator())
-			:d_data(make_internal(alloc)), d_alloc(alloc)
+			:Allocator(alloc), d_data(make_internal(alloc))
 		{
 			assign(lst.begin(), lst.end());
 		}
@@ -2705,7 +2704,7 @@ namespace seq
 		/// @param alloc allocator object
 		template< class Iter>
 		cvector(Iter first, Iter last, const Allocator& alloc = Allocator())
-			: d_data(make_internal(alloc)), d_alloc(alloc)
+			:Allocator(alloc), d_data(make_internal(alloc))
 		{
 			assign(first, last);
 		}
@@ -2722,8 +2721,7 @@ namespace seq
 		/// @return reference to this
 		auto operator=(cvector&& other) noexcept -> cvector&
 		{
-			if (this != std::addressof(other))
-				std::swap(d_data, other.d_data);
+			this->swap(other);
 			return *this;
 		}
 
@@ -2733,10 +2731,20 @@ namespace seq
 		auto operator=(const cvector& other) -> cvector&
 		{
 			if (this != std::addressof(other)) {
+
+				if SEQ_CONSTEXPR(assign_alloc<Allocator>::value)
+				{
+					if (get_allocator() != other.get_allocator()) {
+						destroy_internal(d_data);
+						d_data = NULL;
+					}
+				}
+				assign_allocator(get_allocator(), other.get_allocator());
+
 				if (other.size() == 0)
 					clear();
 				else {
-					internal_type* tmp = make_internal(d_alloc);
+					internal_type* tmp = make_internal(get_allocator());
 					try {
 						auto lock = detail::lock_context_ratio(tmp, context_ratio(3));
 						try {
@@ -2806,12 +2814,12 @@ namespace seq
 		/// @brief Returns the allocator associated with the container.
 		auto get_allocator() const noexcept -> const Allocator&
 		{
-			return d_alloc;
+			return static_cast<const Allocator&>(*this);
 		}
 		/// @brief Returns the allocator associated with the container.
 		auto get_allocator() noexcept -> Allocator&
 		{
-			return d_alloc;
+			return static_cast< Allocator&>(*this);
 		}
 		/// @brief Exchanges the contents of the container with those of other. Does not invoke any move, copy, or swap operations on individual elements.
 		/// @param other other sequence to swap with
@@ -2819,8 +2827,10 @@ namespace seq
 		/// An iterator holding the past-the-end value in this container will refer to the other container after the operation.
 		void swap(cvector& other) noexcept
 		{
-			if (this != std::addressof(other))
+			if (this != std::addressof(other)) {
 				std::swap(d_data, other.d_data);
+				swap_allocator(get_allocator(), other.get_allocator());
+			}
 		}
 
 		/// @brief Release all unused memory, and compress all dirty blocks.

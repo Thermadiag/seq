@@ -15,6 +15,7 @@ var group__bits =
     [ "SEQ_ASSERT_DEBUG", "group__bits.html#ga9989f32616a05af18ff62830566e4b2f", null ],
     [ "SEQ_BYTEORDER_BIG_ENDIAN", "group__bits.html#ga458a6f1416c90c631f1b457abca13345", null ],
     [ "SEQ_BYTEORDER_LITTLE_ENDIAN", "group__bits.html#gaa8746e6e0550da0ff0e313d3937d6c3a", null ],
+    [ "SEQ_CONSTEXPR", "group__bits.html#gaf427dbbb22afdab4e465d9f62bb68ba9", null ],
     [ "SEQ_DEFAULT_ALIGNMENT", "group__bits.html#ga4358957bf3c41e772ade27671699c4e6", null ],
     [ "SEQ_ERROR_ALLOC", "group__bits.html#ga7fcb9cdceaaee010cedfa87de0f0fa69", null ],
     [ "SEQ_ERROR_CORRUPTED_DATA", "group__bits.html#ga10ac05fc4c1d30f0843d0d49b3e70c90", null ],

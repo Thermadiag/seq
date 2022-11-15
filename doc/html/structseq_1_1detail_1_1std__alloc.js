@@ -12,6 +12,5 @@ var structseq_1_1detail_1_1std__alloc =
     [ "get_capacity", "structseq_1_1detail_1_1std__alloc.html#a9284c684544580479395b47b98d9f6cb", null ],
     [ "memory_footprint", "structseq_1_1detail_1_1std__alloc.html#a3dbc374e54396efacd49fe6b3d2a7138", null ],
     [ "resize", "structseq_1_1detail_1_1std__alloc.html#a6289030e17ab8e5423b09817f3a07e5e", null ],
-    [ "allocator", "structseq_1_1detail_1_1std__alloc.html#a1d04edf26555a6a22b6366fa57d76be5", null ],
     [ "chunks", "structseq_1_1detail_1_1std__alloc.html#aca10c90b4fa5a126c2f9603a11dc22e4", null ]
 ];

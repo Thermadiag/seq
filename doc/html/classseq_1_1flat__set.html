@@ -181,9 +181,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aad22c9c9dad8a9720aa3c1f6dee76430"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__set.html#aad22c9c9dad8a9720aa3c1f6dee76430">operator=</a> (const std::initializer_list&lt; <a class="el" href="classseq_1_1flat__set.html#a423dfd403dcf1078aa0400ceb34aca10">value_type</a> &gt; &amp;init) -&gt; <a class="el" href="classseq_1_1flat__set.html">flat_set</a> &amp;</td></tr>
 <tr class="memdesc:aad22c9c9dad8a9720aa3c1f6dee76430"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign initializer-list.  <a href="classseq_1_1flat__set.html#aad22c9c9dad8a9720aa3c1f6dee76430">More...</a><br /></td></tr>
 <tr class="separator:aad22c9c9dad8a9720aa3c1f6dee76430"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a050ce6bc5285419473b22f7aade304ae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__set.html#a050ce6bc5285419473b22f7aade304ae">get_allocator</a> () const noexcept -&gt; Allocator</td></tr>
-<tr class="memdesc:a050ce6bc5285419473b22f7aade304ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns container's allocator.  <a href="classseq_1_1flat__set.html#a050ce6bc5285419473b22f7aade304ae">More...</a><br /></td></tr>
-<tr class="separator:a050ce6bc5285419473b22f7aade304ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57e551ccf83dceb6c2c66c45ec2e566d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__set.html#a57e551ccf83dceb6c2c66c45ec2e566d">get_allocator</a> () const noexcept -&gt; const Allocator &amp;</td></tr>
+<tr class="memdesc:a57e551ccf83dceb6c2c66c45ec2e566d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns container's allocator.  <a href="classseq_1_1flat__set.html#a57e551ccf83dceb6c2c66c45ec2e566d">More...</a><br /></td></tr>
+<tr class="separator:a57e551ccf83dceb6c2c66c45ec2e566d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab581732ead7ec585e8f0b6fbb79cad71"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__set.html#ab581732ead7ec585e8f0b6fbb79cad71">get_allocator</a> () noexcept -&gt; Allocator &amp;</td></tr>
+<tr class="separator:ab581732ead7ec585e8f0b6fbb79cad71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2096ed6a791d86016655b8ea6806405"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__set.html#ab2096ed6a791d86016655b8ea6806405">empty</a> () const noexcept -&gt; bool</td></tr>
 <tr class="memdesc:ab2096ed6a791d86016655b8ea6806405"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if container is empty, false otherwise.  <a href="classseq_1_1flat__set.html#ab2096ed6a791d86016655b8ea6806405">More...</a><br /></td></tr>
 <tr class="separator:ab2096ed6a791d86016655b8ea6806405"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -2457,8 +2459,8 @@ template&lt;class Key , class Compare  = std::less&lt;Key&gt;, class Allocator  
 
 </div>
 </div>
-<a id="a050ce6bc5285419473b22f7aade304ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a050ce6bc5285419473b22f7aade304ae">&#9670;&nbsp;</a></span>get_allocator()</h2>
+<a id="a57e551ccf83dceb6c2c66c45ec2e566d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57e551ccf83dceb6c2c66c45ec2e566d">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2472,7 +2474,7 @@ template&lt;class Key , class Compare  = std::less&lt;Key&gt;, class Allocator  
           <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__set.html">seq::flat_set</a>&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::get_allocator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; Allocator </td>
+          <td> const -&gt; const Allocator &amp; </td>
         </tr>
       </table>
   </td>
@@ -2483,6 +2485,33 @@ template&lt;class Key , class Compare  = std::less&lt;Key&gt;, class Allocator  
 </div><div class="memdoc">
 
 <p>Returns container's allocator. </p>
+
+</div>
+</div>
+<a id="ab581732ead7ec585e8f0b6fbb79cad71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab581732ead7ec585e8f0b6fbb79cad71">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Key&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false, bool Unique = true&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__set.html">seq::flat_set</a>&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::get_allocator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> -&gt; Allocator&amp; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

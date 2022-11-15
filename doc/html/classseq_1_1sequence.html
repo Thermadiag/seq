@@ -98,6 +98,8 @@ $(document).ready(function(){initNavTree('classseq_1_1sequence.html',''); initRe
  <a href="classseq_1_1sequence.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="sequence_8hpp_source.html">sequence.hpp</a>&gt;</code></p>
+
+<p>Inherits allocator&lt; T &gt;.</p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -180,9 +182,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a065df7dfb6b5495249346d377d94b0dc"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a065df7dfb6b5495249346d377d94b0dc">get_allocator</a> () noexcept -&gt; Allocator &amp;</td></tr>
 <tr class="memdesc:a065df7dfb6b5495249346d377d94b0dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the allocator associated with the container.  <a href="classseq_1_1sequence.html#a065df7dfb6b5495249346d377d94b0dc">More...</a><br /></td></tr>
 <tr class="separator:a065df7dfb6b5495249346d377d94b0dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f868260d86160cfb072ad362db4b6d3"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#a9f868260d86160cfb072ad362db4b6d3">get_allocator</a> () const noexcept -&gt; Allocator</td></tr>
-<tr class="memdesc:a9f868260d86160cfb072ad362db4b6d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the allocator associated with the container.  <a href="classseq_1_1sequence.html#a9f868260d86160cfb072ad362db4b6d3">More...</a><br /></td></tr>
-<tr class="separator:a9f868260d86160cfb072ad362db4b6d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae45cd2e228481ea6503d24dbfa297b0a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#ae45cd2e228481ea6503d24dbfa297b0a">get_allocator</a> () const noexcept -&gt; const Allocator &amp;</td></tr>
+<tr class="memdesc:ae45cd2e228481ea6503d24dbfa297b0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the allocator associated with the container.  <a href="classseq_1_1sequence.html#ae45cd2e228481ea6503d24dbfa297b0a">More...</a><br /></td></tr>
+<tr class="separator:ae45cd2e228481ea6503d24dbfa297b0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1171dafc78357c61afd896f15d87884"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1sequence.html#af1171dafc78357c61afd896f15d87884">size</a> () const noexcept -&gt; <a class="el" href="classseq_1_1sequence.html#a7dd184f2899a4f88b9c0f4ae80c4c87d">size_type</a></td></tr>
 <tr class="memdesc:af1171dafc78357c61afd896f15d87884"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns thenumber of elements in this sequence.  <a href="classseq_1_1sequence.html#af1171dafc78357c61afd896f15d87884">More...</a><br /></td></tr>
 <tr class="separator:af1171dafc78357c61afd896f15d87884"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1990,8 +1992,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 
 </div>
 </div>
-<a id="a9f868260d86160cfb072ad362db4b6d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f868260d86160cfb072ad362db4b6d3">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[1/2]</span></h2>
+<a id="ae45cd2e228481ea6503d24dbfa297b0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae45cd2e228481ea6503d24dbfa297b0a">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2005,7 +2007,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
           <td class="memname">auto <a class="el" href="classseq_1_1sequence.html">seq::sequence</a>&lt; T, Allocator, layout, ForceAlign64 &gt;::get_allocator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; Allocator</td>
+          <td> const -&gt; const Allocator&amp; </td>
         </tr>
       </table>
   </td>

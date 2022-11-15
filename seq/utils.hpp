@@ -29,6 +29,7 @@
 
 /** @file */
 
+#include <memory>
 
 #include "bits.hpp"
 #include "type_traits.hpp"
@@ -279,7 +280,60 @@ namespace seq
 		return detail::CallLambda<L1, L2, IsL1>{}(l1,l2, std::forward<Args>(args)...);
 	}
 
+	/// @brief Copy allocator for container copy constructor
+	template<class Allocator>
+	auto copy_allocator(const Allocator& alloc)
+	{
+		return std::allocator_traits< Allocator>::select_on_container_copy_construction(alloc);
+	}
+
+	/// @brief Swap allocators for container.swap member
+	template <class Allocator>
+	void swap_allocator(Allocator& left, Allocator& right) noexcept {
+		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_swap::value) {
+			std::swap(left, right);
+		}
+		else {
+			SEQ_ASSERT_DEBUG(left == right, "containers incompatible for swap");
+		}
+	}
+
+	/// @brief Assign allocator for container copy operator
+	template <class Allocator>
+	void assign_allocator(Allocator& left, const Allocator& right) noexcept 
+	{
+		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value) {
+			left = right;
+		}
+	}
+
+	/// @brief Move allocator for container move assignment
+	template <class Allocator>
+	void move_allocator(Allocator& left, Allocator& right) noexcept 
+	{
+		// (maybe) propagate on container move assignment
+		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value) {
+			left = std::move(right);
+		}
+	}
+
+	// Returns whether an attempt to propagate allocators is necessary in copy assignment operations.
+	// Note that even when false_type, callers should call assign_allocator as we want to assign allocators even when equal.
+	template <class Allocator>
+	struct assign_alloc
+	{
+		static constexpr bool value = std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value
+			&& !std::allocator_traits<Allocator>::is_always_equal::value;
+	};
+
+	template <class Allocator>
+	struct move_alloc
+	{
+		static constexpr bool value = std::allocator_traits<Allocator>::propagate_on_container_move_assignment::type
+			&& !std::allocator_traits<Allocator>::is_always_equal::value;
+	};
 
 
 }//end namespace seq
+
 #endif

@@ -122,6 +122,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__typed__type__info.html">any_typed_type_info</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of <a class="el" href="classseq_1_1any__type__info.html" title="Base class representing a type and related functions.">any_type_info</a> for specific type (Type Erasure)  <a href="structseq_1_1any__typed__type__info.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1assign__alloc.html">assign_alloc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1base__ostream__format.html">base_ostream_format</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for formatting objects.  <a href="structseq_1_1base__ostream__format.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -268,6 +270,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__relocatable_3_01detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compdf720ebec973c8da48b23df61e3cbc7a.html">is_relocatable&lt; detail::StoreBucket&lt; T, Allocator, ValueCompare, StoreBackValues, IsArithmetic &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__relocatable_3_01detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compa4c3de8b1ed892809670dad1cad5c7f7.html">is_relocatable&lt; detail::StoreBucket&lt; T, Allocator, ValueCompare, true, true &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__relocatable_3_01devector_3_01_t_00_01_alloc_00_01_f_01_4_01_4.html">is_relocatable&lt; devector&lt; T, Alloc, F &gt; &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization of <a class="el" href="structseq_1_1is__relocatable.html" title="Type trait telling if a class is relocatable or not.">is_relocatable</a> for devector.  <a href="structseq_1_1is__relocatable_3_01devector_3_01_t_00_01_alloc_00_01_f_01_4_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -306,6 +310,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1lock__guard.html">lock_guard</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic lock guard class.  <a href="classseq_1_1lock__guard.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1move__alloc.html">move_alloc</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1null__format.html">null_format</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Placehoder when reusing a formatting object.  <a href="structseq_1_1null__format.html#details">More...</a><br /></td></tr>
@@ -1115,6 +1121,22 @@ Functions</h2></td></tr>
 <tr class="memitem:a60b1a14cbf28e77e92a346892ef8531c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a60b1a14cbf28e77e92a346892ef8531c">constexpr_if</a> (const L1 &amp;l1, const L2 &amp;l2, Args &amp;&amp;... args) -&gt; decltype(std::declval&lt; <a class="el" href="structseq_1_1detail_1_1_call_lambda.html">detail::CallLambda</a>&lt; L1, L2, IsL1 &gt; &amp; &gt;()(std::declval&lt; L1 &amp; &gt;(), std::declval&lt; L2 &amp; &gt;(), std::declval&lt; Args &gt;()...))</td></tr>
 <tr class="memdesc:a60b1a14cbf28e77e92a346892ef8531c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation of C++17 if constexpr.  <a href="namespaceseq.html#a60b1a14cbf28e77e92a346892ef8531c">More...</a><br /></td></tr>
 <tr class="separator:a60b1a14cbf28e77e92a346892ef8531c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab79240f9c8c5a8da1a3c5770d18b44f0"><td class="memTemplParams" colspan="2">template&lt;class Allocator &gt; </td></tr>
+<tr class="memitem:ab79240f9c8c5a8da1a3c5770d18b44f0"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab79240f9c8c5a8da1a3c5770d18b44f0">copy_allocator</a> (const Allocator &amp;alloc)</td></tr>
+<tr class="memdesc:ab79240f9c8c5a8da1a3c5770d18b44f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy allocator for container copy constructor.  <a href="namespaceseq.html#ab79240f9c8c5a8da1a3c5770d18b44f0">More...</a><br /></td></tr>
+<tr class="separator:ab79240f9c8c5a8da1a3c5770d18b44f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76e83b922f85075d41cf05cbf365dc07"><td class="memTemplParams" colspan="2">template&lt;class Allocator &gt; </td></tr>
+<tr class="memitem:a76e83b922f85075d41cf05cbf365dc07"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a76e83b922f85075d41cf05cbf365dc07">swap_allocator</a> (Allocator &amp;left, Allocator &amp;right) noexcept</td></tr>
+<tr class="memdesc:a76e83b922f85075d41cf05cbf365dc07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swap allocators for container.swap member.  <a href="namespaceseq.html#a76e83b922f85075d41cf05cbf365dc07">More...</a><br /></td></tr>
+<tr class="separator:a76e83b922f85075d41cf05cbf365dc07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ed508491a96866338895cf1b5900292"><td class="memTemplParams" colspan="2">template&lt;class Allocator &gt; </td></tr>
+<tr class="memitem:a3ed508491a96866338895cf1b5900292"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a3ed508491a96866338895cf1b5900292">assign_allocator</a> (Allocator &amp;left, const Allocator &amp;right) noexcept</td></tr>
+<tr class="memdesc:a3ed508491a96866338895cf1b5900292"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assign allocator for container copy operator.  <a href="namespaceseq.html#a3ed508491a96866338895cf1b5900292">More...</a><br /></td></tr>
+<tr class="separator:a3ed508491a96866338895cf1b5900292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81932472ffd88a08d7b6f0aaf2c123e9"><td class="memTemplParams" colspan="2">template&lt;class Allocator &gt; </td></tr>
+<tr class="memitem:a81932472ffd88a08d7b6f0aaf2c123e9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a81932472ffd88a08d7b6f0aaf2c123e9">move_allocator</a> (Allocator &amp;left, Allocator &amp;right) noexcept</td></tr>
+<tr class="memdesc:a81932472ffd88a08d7b6f0aaf2c123e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move allocator for container move assignment.  <a href="namespaceseq.html#a81932472ffd88a08d7b6f0aaf2c123e9">More...</a><br /></td></tr>
+<tr class="separator:a81932472ffd88a08d7b6f0aaf2c123e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>MIT License</p>
@@ -1560,6 +1582,46 @@ template&lt;class T , class Interface , size_t S, size_t A&gt; </div>
 
 </div>
 </div>
+<a id="a3ed508491a96866338895cf1b5900292"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ed508491a96866338895cf1b5900292">&#9670;&nbsp;</a></span>assign_allocator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Allocator &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void seq::assign_allocator </td>
+          <td>(</td>
+          <td class="paramtype">Allocator &amp;&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Allocator &amp;&#160;</td>
+          <td class="paramname"><em>right</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Assign allocator for container copy operator. </p>
+
+</div>
+</div>
 <a id="aeb73db39e1609aef776bd9499a838c85"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeb73db39e1609aef776bd9499a838c85">&#9670;&nbsp;</a></span>bit_scan_forward()</h2>
 
@@ -1973,6 +2035,28 @@ template&lt;class T , class... Args&gt; </div>
 </div><div class="memdoc">
 
 <p>Simply call new (p) T(...), used as a replacement to std::allocator::construct() which was removed in C++20. </p>
+
+</div>
+</div>
+<a id="ab79240f9c8c5a8da1a3c5770d18b44f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab79240f9c8c5a8da1a3c5770d18b44f0">&#9670;&nbsp;</a></span>copy_allocator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Allocator &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto seq::copy_allocator </td>
+          <td>(</td>
+          <td class="paramtype">const Allocator &amp;&#160;</td>
+          <td class="paramname"><em>alloc</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Copy allocator for container copy constructor. </p>
 
 </div>
 </div>
@@ -4042,6 +4126,46 @@ template&lt;class Lock &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns a lock guard around l. Use copy elison to avoid creating copies and locking twice the lock object. </p>
+
+</div>
+</div>
+<a id="a81932472ffd88a08d7b6f0aaf2c123e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81932472ffd88a08d7b6f0aaf2c123e9">&#9670;&nbsp;</a></span>move_allocator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Allocator &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void seq::move_allocator </td>
+          <td>(</td>
+          <td class="paramtype">Allocator &amp;&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Allocator &amp;&#160;</td>
+          <td class="paramname"><em>right</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Move allocator for container move assignment. </p>
 
 </div>
 </div>
@@ -7562,6 +7686,46 @@ template&lt;size_t S, class Al &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76e83b922f85075d41cf05cbf365dc07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76e83b922f85075d41cf05cbf365dc07">&#9670;&nbsp;</a></span>swap_allocator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Allocator &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void seq::swap_allocator </td>
+          <td>(</td>
+          <td class="paramtype">Allocator &amp;&#160;</td>
+          <td class="paramname"><em>left</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Allocator &amp;&#160;</td>
+          <td class="paramname"><em>right</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Swap allocators for container.swap member. </p>
 
 </div>
 </div>

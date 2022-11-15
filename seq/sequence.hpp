@@ -29,22 +29,13 @@
 
 /** @file */
 
+#include <climits>
+
 #include "memory.hpp"
-
-// Disable old style cast warning for gcc
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wold-style-cast"
-#endif
 #include "pdqsort.hpp"
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
-
 #include "type_traits.hpp"
 #include "utils.hpp"
 
-#include <climits>
 
 
 namespace seq
@@ -168,7 +159,7 @@ namespace seq
 			chunk_pool_alloc(const chunk_pool_alloc&) = delete;
 			auto operator=(const chunk_pool_alloc&) -> chunk_pool_alloc& = delete;
 
-			auto get_allocator() const noexcept -> Allocator {
+			auto get_allocator() const noexcept -> const Allocator& {
 				return *this;
 			}
 			auto get_allocator() noexcept -> Allocator& {
@@ -240,23 +231,22 @@ namespace seq
 		// Standard list_chunk allocator for OptimizeForMemory
 		// Keep track of the list_chunk number for fast memory footprint
 		template< class T, class Allocator = std::allocator<T>, bool Align64 = false >
-		struct std_alloc
+		struct std_alloc : private Allocator
 		{
 			template< class U>
 			using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 
-			Allocator allocator;
 			size_t chunks;
-			std_alloc() noexcept :chunks(0) {}
-			std_alloc(const Allocator& alloc) noexcept :allocator(alloc), chunks(0) {}
-			std_alloc(size_t /*unused*/) noexcept :chunks(0) {}
+			std_alloc() noexcept :Allocator(), chunks(0) {}
+			std_alloc(const Allocator& alloc) noexcept :Allocator(alloc), chunks(0) {}
+			std_alloc(size_t /*unused*/) noexcept : Allocator(), chunks(0) {}
 
-			auto get_allocator() noexcept -> Allocator& { return allocator; }
-			auto get_allocator() const noexcept -> const Allocator& { return allocator; }
+			auto get_allocator() noexcept -> Allocator& { return static_cast<Allocator&>(*this); }
+			auto get_allocator() const noexcept -> const Allocator& { return static_cast<const Allocator&>(*this); }
 			void resize(size_t /*unused*/) {}
 			auto allocate_chunk() -> list_chunk<T>*
 			{
-				rebind_alloc< list_chunk<T> > _al = allocator;
+				rebind_alloc< list_chunk<T> > _al = get_allocator();
 				list_chunk<T>* res;
 				if (Align64) {
 					aligned_allocator< list_chunk<T>, rebind_alloc< list_chunk<T> >, list_chunk<T>::count> al = _al;
@@ -269,7 +259,7 @@ namespace seq
 			}
 			void deallocate_chunk(list_chunk<T>* ptr)
 			{
-				rebind_alloc< list_chunk<T> > _al = allocator;
+				rebind_alloc< list_chunk<T> > _al = get_allocator();
 				if (Align64) {
 					aligned_allocator< list_chunk<T>, rebind_alloc< list_chunk<T> >, list_chunk<T>::count> al = _al;
 					al.deallocate(ptr, 1);
@@ -844,7 +834,7 @@ namespace seq
 	/// the sequence releases the occupied memory.
 	/// 
 	template<class T, class Allocator = std::allocator<T>, LayoutManagement layout = OptimizeForSpeed, bool ForceAlign64 = false >
-	class sequence 
+	class sequence : private Allocator
 	{
 		using this_type = sequence<T, Allocator, layout, ForceAlign64>;
 
@@ -1490,13 +1480,13 @@ namespace seq
 
 		/// @brief Default constructor, initialize internal data
 		sequence()
-			: d_data(NULL)
+			: Allocator(), d_data(NULL)
 		{
 		}
 		/// @brief Constructor from an allocator object
 		/// @param al allocator object
 		explicit sequence(const Allocator& al)
-			: d_data(make_data(al))
+			: Allocator(al), d_data(make_data(al))
 		{
 		}
 		/// @brief Construct with an initial size and a fill value
@@ -1504,7 +1494,7 @@ namespace seq
 		/// @param value fill value
 		/// @param al allocator object
 		sequence(size_type count, const T& value, const Allocator& al = Allocator())
-			:d_data(make_data(al))
+			:Allocator(al), d_data(make_data(al))
 		{
 			resize(count, value);
 		}
@@ -1512,14 +1502,14 @@ namespace seq
 		/// @param count initial size
 		/// @param al allocator object
 		explicit sequence(size_type count, const Allocator& al = Allocator())
-			:d_data(make_data(al))
+			:Allocator(al), d_data(make_data(al))
 		{
 			resize(count);
 		}
 		/// @brief Copy constructor
 		/// @param other input sequence to copy
 		sequence(const sequence& other)
-			:d_data(NULL)
+			:Allocator(copy_allocator(other.get_allocator())), d_data(NULL)
 		{
 			if(other.size())
 				import(other);
@@ -1528,14 +1518,15 @@ namespace seq
 		/// @param other input sequence to copy
 		/// @param al allocator object
 		sequence(const sequence& other, const Allocator& al)
-			:d_data(make_data(al))
+			:Allocator(al), d_data(NULL)
 		{
-			import(other);
+			if (other.size())
+				import(other);
 		}
 		/// @brief Move constructor
 		/// @param other 
 		sequence(sequence&& other) noexcept
-			:d_data(other.d_data)
+			:Allocator(std::move(other.get_allocator())), d_data(other.d_data)
 		{
 			other.d_data = NULL;
 		}
@@ -1543,7 +1534,7 @@ namespace seq
 		/// @param other another container to be used as source to initialize the elements of the container with
 		/// @param alloc allocator object
 		sequence(sequence&& other, const Allocator& alloc) 
-			:d_data(make_data(alloc))
+			:Allocator(alloc), d_data(make_data(alloc))
 		{
 			if(alloc == other.get_allocator())
 				std::swap(other.d_data, d_data);
@@ -1556,7 +1547,7 @@ namespace seq
 		/// @param lst initializer list
 		/// @param al allocator object
 		sequence(const std::initializer_list<T>& lst, const Allocator& al = Allocator())
-			:d_data(make_data(al))
+			:Allocator(al), d_data(make_data(al))
 		{
 			assign(lst.begin(), lst.end());
 		}
@@ -1567,7 +1558,7 @@ namespace seq
 		/// @param al allocator object
 		template< class Iter>
 		sequence(Iter first, Iter last, const Allocator& al = Allocator())
-			: d_data(make_data(al))
+			: Allocator(al), d_data(make_data(al))
 		{
 			assign(first, last);
 		}
@@ -1583,6 +1574,16 @@ namespace seq
 		auto operator=(const sequence& other) -> sequence&
 		{
 			if (this != std::addressof(other)) {
+
+				if SEQ_CONSTEXPR(assign_alloc<Allocator>::value)
+				{
+					if (get_allocator() != other.get_allocator()) {
+						destroy_data(d_data);
+						d_data = NULL;
+					}
+				}
+				assign_allocator(get_allocator(), other.get_allocator());
+
 				if (other.size()) {
 					import(other);
 				}
@@ -1597,9 +1598,7 @@ namespace seq
 		/// @return reference to this
 		auto operator=( sequence&& other) noexcept -> sequence&
 		{
-			if (this != std::addressof(other)) {
-				std::swap(d_data, other.d_data);
-			}
+			this->swap(other);
 			return *this;
 		}
 
@@ -1611,6 +1610,7 @@ namespace seq
 		{
 			if (this != std::addressof(other)) {
 				std::swap(d_data, other.d_data);
+				swap_allocator(get_allocator(), other.get_allocator());
 			}
 		}
 
@@ -1625,12 +1625,11 @@ namespace seq
 
 		/// @brief Returns the allocator associated with the container.
 		auto get_allocator() noexcept -> Allocator&{
-			static Allocator unused;
-			return d_data ? d_data->get_allocator() : unused;
+			return static_cast<Allocator&>(*this);
 		}
 		/// @brief Returns the allocator associated with the container.
-		auto get_allocator() const noexcept -> Allocator{
-			return d_data ? d_data->get_allocator() : Allocator{};
+		auto get_allocator() const noexcept -> const Allocator& {
+			return static_cast<const Allocator&>(*this);
 		}
 
 		/// @brief Returns the sequence maximum size.
@@ -1874,7 +1873,8 @@ namespace seq
 				return;
 			}
 
-			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+			if (SEQ_UNLIKELY(!d_data)) 
+				d_data = make_data();
 
 			if (count > size()) {
 				reserve(count);
@@ -2675,7 +2675,7 @@ namespace seq
 
 	/// @brief Specialization of is_relocatable for sequence type.
 	template<class T, class Al, LayoutManagement L, bool A>
-	struct is_relocatable<sequence<T,Al,L,A> > : std::true_type {};
+	struct is_relocatable<sequence<T,Al,L,A> > : is_relocatable<Al> {};
 
 
 }//end namespace seq

@@ -2,7 +2,6 @@ var structseq_1_1detail_1_1_d_e_vector_data =
 [
     [ "DEVectorData", "structseq_1_1detail_1_1_d_e_vector_data.html#a31305ca2cf607d5bf68a40383125b556", null ],
     [ "DEVectorData", "structseq_1_1detail_1_1_d_e_vector_data.html#a6c46edc1e1752c5766df6962803b29dd", null ],
-    [ "DEVectorData", "structseq_1_1detail_1_1_d_e_vector_data.html#a7e47655c1db91a769f30708185d37f0f", null ],
     [ "~DEVectorData", "structseq_1_1detail_1_1_d_e_vector_data.html#a79c1549854f3ff1df5c6f611ef12153a", null ],
     [ "allocate", "structseq_1_1detail_1_1_d_e_vector_data.html#af7a1a3b298b90459840a84aca7d0bc81", null ],
     [ "clear", "structseq_1_1detail_1_1_d_e_vector_data.html#af954396d9e95ff2f9271cb755343dea3", null ],

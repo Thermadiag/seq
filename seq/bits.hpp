@@ -232,6 +232,12 @@ static const void* __dummy_ptr_with_long_name = nullptr;
 	#endif
 #endif
 
+// If constexpr
+#ifdef SEQ_HAS_CPP_17
+	#define SEQ_CONSTEXPR constexpr
+#else
+	#define SEQ_CONSTEXPR
+#endif
 
 
 //pragma directive might be different between compilers, so define a generic SEQ_PRAGMA macro.

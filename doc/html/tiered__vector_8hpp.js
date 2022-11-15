@@ -17,6 +17,7 @@ var tiered__vector_8hpp =
     [ "StoreBucket< T, Allocator, ValueCompare, true, false >", "structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01false_01_4.html", "structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01false_01_4" ],
     [ "StoreBucket< T, Allocator, ValueCompare, true, true >", "structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01true_01_4.html", "structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01true_01_4" ],
     [ "is_relocatable< detail::StoreBucket< T, Allocator, ValueCompare, StoreBackValues, IsArithmetic > >", "structseq_1_1is__relocatable_3_01detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compdf720ebec973c8da48b23df61e3cbc7a.html", null ],
+    [ "is_relocatable< detail::StoreBucket< T, Allocator, ValueCompare, true, true > >", "structseq_1_1is__relocatable_3_01detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compa4c3de8b1ed892809670dad1cad5c7f7.html", null ],
     [ "BucketManager", "structseq_1_1detail_1_1_bucket_manager.html", "structseq_1_1detail_1_1_bucket_manager" ],
     [ "NullValueCompare", "structseq_1_1detail_1_1_null_value_compare.html", "structseq_1_1detail_1_1_null_value_compare" ],
     [ "tiered_vector", "classseq_1_1tiered__vector.html", "classseq_1_1tiered__vector" ],

@@ -58,7 +58,7 @@ var classseq_1_1ordered__map =
     [ "find", "classseq_1_1ordered__map.html#a9054d4652ab691d6c062b6d252ed65f7", null ],
     [ "find", "classseq_1_1ordered__map.html#abcfab744f54e19d24b08ed59d4840616", null ],
     [ "find", "classseq_1_1ordered__map.html#a8ef609adb4b8b666f6208bca6d4a2a88", null ],
-    [ "get_allocator", "classseq_1_1ordered__map.html#a52652646786cb0c62edaa281cbf7d000", null ],
+    [ "get_allocator", "classseq_1_1ordered__map.html#a0428d3be5b1a2491d43355002bd898c1", null ],
     [ "get_allocator", "classseq_1_1ordered__map.html#a1dab5caaa59d4eca1d5a578debe61932", null ],
     [ "hash_function", "classseq_1_1ordered__map.html#a7a46bcb834ca0fa30ffa143e1f8b5076", null ],
     [ "insert", "classseq_1_1ordered__map.html#a6b33c19d4b5d2f899618cff206e1f40e", null ],

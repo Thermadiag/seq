@@ -1487,6 +1487,10 @@ namespace seq
 	{
 		static constexpr bool value = true;
 	};
+	// Specialization of is_relocatable for StoreBucket
+	template< class T, class Allocator, class ValueCompare >
+	struct is_relocatable<detail::StoreBucket<T, Allocator, ValueCompare, true, true> > : is_relocatable<typename ValueCompare::key_type> {};
+	
 
 	namespace detail
 	{
@@ -1558,7 +1562,7 @@ namespace seq
 			// Move construct
 			BucketManager(BucketManager&& other, const Allocator& al) noexcept(alloc_traits::is_always_equal::value) // strengthened
 				:d_ballocator(std::move(other.d_ballocator),al),
-				d_buckets(std::move(other.d_buckets)),
+				d_buckets(std::move(other.d_buckets), RebindAlloc<StoreBucketType>(al)),
 				d_size(other.d_size),
 				d_bucket_size(other.d_bucket_size),
 				d_bucket_size1(other.d_bucket_size1),
@@ -1786,7 +1790,7 @@ namespace seq
 			{
 				if (this != std::addressof(other)) {
 					std::swap(d_ballocator, other.d_ballocator);
-					std::swap(d_buckets, other.d_buckets);
+					d_buckets.swap( other.d_buckets);
 					std::swap(d_bucket_size, other.d_bucket_size);
 					std::swap(d_bucket_size1, other.d_bucket_size1);
 					std::swap(d_bucket_size_bits, other.d_bucket_size_bits);
@@ -2873,7 +2877,7 @@ namespace seq
 		bool StoreBackValues = false,						///! Internal parameter used by flat_*map classes
 		class ValueCompare = detail::NullValueCompare<T>	///! Internal parameter used by flat_*map classes
 	>
-	class tiered_vector
+	class tiered_vector : private Allocator
 	{
 		template< class U>
 		using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
@@ -3059,20 +3063,20 @@ namespace seq
 		SEQ_ALWAYS_INLINE void make_manager_if_null()
 		{
 			if (SEQ_UNLIKELY(!d_manager))
-				d_manager = make_manager(Allocator(), min_block_size, Allocator());
+				d_manager = make_manager(get_allocator(), min_block_size, get_allocator());
 		}
 
 	public:
 
 		/// @brief Default constructor, initialize the internal bucket manager.
 		tiered_vector()
-			:d_manager(NULL)
+			:Allocator(), d_manager(NULL)
 		{
 		}
 		/// @brief Constructs an empty container with the given allocator alloc.
 		/// @param alloc allocator object
 		explicit tiered_vector(const Allocator& alloc)
-			:d_manager(make_manager(alloc, min_block_size, alloc))
+			:Allocator(alloc), d_manager(make_manager(alloc, min_block_size, alloc))
 		{
 		}
 		/// @brief Constructs the container with \a count copies of elements with value \a value.
@@ -3080,7 +3084,7 @@ namespace seq
 		/// @param value the value to initialize elements of the container with
 		/// @param alloc allocator object 
 		tiered_vector(size_type count,const T& value ,const Allocator& alloc = Allocator())
-			:d_manager(make_manager(alloc, min_block_size, alloc))
+			:Allocator(alloc), d_manager(make_manager(alloc, min_block_size, alloc))
 		{
 			resize(count, value);
 		}
@@ -3088,33 +3092,31 @@ namespace seq
 		/// @param count new tiered_vector size
 		/// @param alloc allocator object
 		explicit tiered_vector(size_type count, const Allocator& alloc = Allocator())
-			:d_manager(make_manager(alloc, min_block_size, alloc))
+			:Allocator(alloc), d_manager(make_manager(alloc, min_block_size, alloc))
 		{
 			resize(count);
 		}
 		/// @brief Copy constructor. Constructs the container with the copy of the contents of other.
 		/// @param other another container to be used as source to initialize the elements of the container with
 		tiered_vector(const tiered_vector& other)
-			:d_manager(NULL)
+			:Allocator(copy_allocator(other.get_allocator())), d_manager(NULL)
 		{
 			if (other.size())
-				d_manager = make_manager(other.manager()->get_allocator(), *other.manager(), other.manager()->bucket_size(), 0, -1, other.manager()->get_allocator());
+				d_manager = make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0, -1, get_allocator());
 		}
 		/// @brief Constructs the container with the copy of the contents of other, using alloc as the allocator.
 		/// @param other other another container to be used as source to initialize the elements of the container with
 		/// @param alloc allcoator object
 		tiered_vector(const tiered_vector& other, const Allocator & alloc)
-			:d_manager(NULL)
+			:Allocator(alloc), d_manager(NULL)
 		{
 			if (other.size())
-				d_manager = make_manager(alloc, *other.manager(), other.manager()->bucket_size(), 0, -1, alloc);
-			else
-				d_manager = make_manager(alloc, min_block_size, alloc);
+				d_manager = make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0, -1, get_allocator());
 		}
 		/// @brief Move constructor. Constructs the container with the contents of other using move semantics. Allocator is obtained by move-construction from the allocator belonging to other.
 		/// @param other another container to be used as source to initialize the elements of the container with
 		tiered_vector(tiered_vector&& other) noexcept
-			:d_manager(other.manager())
+			:Allocator(std::move(other.get_allocator())), d_manager(other.manager())
 		{
 			other.d_manager = NULL;
 		}
@@ -3122,7 +3124,7 @@ namespace seq
 		/// @param other another container to be used as source to initialize the elements of the container with
 		/// @param alloc allocator object
 		tiered_vector(tiered_vector&& other, const Allocator & alloc) 
-			:d_manager(make_manager(alloc, min_block_size, alloc))
+			:Allocator(alloc), d_manager(make_manager(alloc, min_block_size, alloc))
 		{
 			if (alloc == other.get_allocator()) {
 				std::swap(d_manager, other.d_manager);
@@ -3136,7 +3138,7 @@ namespace seq
 		/// @param lst initializer list
 		/// @param alloc allocator object
 		tiered_vector(const std::initializer_list<T>& lst, const Allocator & alloc = Allocator())
-			:d_manager(make_manager(alloc, min_block_size, alloc))
+			:Allocator(alloc), d_manager(make_manager(alloc, min_block_size, alloc))
 		{
 			assign(lst.begin(), lst.end());
 		}
@@ -3147,7 +3149,7 @@ namespace seq
 		/// @param alloc allocator object
 		template< class Iter>
 		tiered_vector(Iter first, Iter last, const Allocator& alloc = Allocator())
-			: d_manager(make_manager(alloc, min_block_size, alloc))
+			: Allocator(alloc), d_manager(make_manager(alloc, min_block_size, alloc))
 		{
 			assign(first, last);
 		}
@@ -3163,8 +3165,7 @@ namespace seq
 		/// @return reference to this
 		auto operator=(tiered_vector&& other) noexcept -> tiered_vector&
 		{
-			if (this != std::addressof(other)) 
-				std::swap(d_manager, other.d_manager);
+			this->swap(other);
 			return *this;
 		}
 
@@ -3173,11 +3174,21 @@ namespace seq
 		/// @return reference to this
 		auto operator=(const tiered_vector& other) -> tiered_vector& 
 		{
-			if (this != std::addressof(other)) {
+			if (this != std::addressof(other)) 
+			{
+				if SEQ_CONSTEXPR(assign_alloc<Allocator>::value)
+				{
+					if (get_allocator() != other.get_allocator()) {
+						destroy_manager(d_manager);
+						d_manager = NULL;
+					}
+				}
+				assign_allocator(get_allocator(), other.get_allocator());
+
 				if (other.size() == 0)
 					clear();
 				else {
-					bucket_manager* tmp = (make_manager(other.manager()->get_allocator(), *other.manager(), other.manager()->bucket_size(), 0, -1, other.manager()->get_allocator()));
+					bucket_manager* tmp = (make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0, -1, get_allocator()));
 					destroy_manager(d_manager);
 					d_manager = tmp;
 				}
@@ -3220,14 +3231,12 @@ namespace seq
 		/// @brief Returns the allocator associated with the container.
 		auto get_allocator() const noexcept -> const Allocator& 
 		{
-			static Allocator unused;
-			return d_manager ? manager()->get_allocator() : unused;
+			return static_cast<const Allocator&>(*this);
 		}
 		/// @brief Returns the allocator associated with the container.
 		auto get_allocator() noexcept -> Allocator&  
 		{
-			static Allocator unused;
-			return d_manager ? manager()->get_allocator() : unused;
+			return static_cast<Allocator&>(*this);
 		}
 		/// @brief Exchanges the contents of the container with those of other. Does not invoke any move, copy, or swap operations on individual elements.
 		/// @param other other sequence to swap with
@@ -3235,8 +3244,10 @@ namespace seq
 		/// An iterator holding the past-the-end value in this container will refer to the other container after the operation.
 		void swap(tiered_vector& other) noexcept 
 		{
-			if (this != std::addressof(other)) 
+			if (this != std::addressof(other)) {
 				std::swap(d_manager, other.d_manager);
+				swap_allocator(get_allocator(), other.get_allocator());
+			}
 		}
 	
 		/// @brief Release all unused memory, and move the tiered_vector content to the smallest possible storage.
@@ -3366,9 +3377,6 @@ namespace seq
 
 			destroy_manager(d_manager);
 			d_manager = NULL;
-			//bucket_manager* tmp = make_manager(get_allocator(), min_block_size, get_allocator());
-			//*d_manager = std::move(*tmp);
-			//destroy_manager(tmp);
 		}
 
 		/// @brief Appends the given element value to the end of the container.

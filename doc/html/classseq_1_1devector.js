@@ -51,7 +51,7 @@ var classseq_1_1devector =
     [ "front", "classseq_1_1devector.html#ad109e7a751c2497387cfb6a918718118", null ],
     [ "front", "classseq_1_1devector.html#a121af25ef810799cded1cd6c1a2f9752", null ],
     [ "front_capacity", "classseq_1_1devector.html#a88f2c04e94fa56abdfb97aa5d9cafcbb", null ],
-    [ "get_allocator", "classseq_1_1devector.html#a4a510404b5646faebfb957e1bc1229cd", null ],
+    [ "get_allocator", "classseq_1_1devector.html#a4c07930f81ee5e0e938fa253b8353268", null ],
     [ "get_allocator", "classseq_1_1devector.html#ac109c3059d33f23c6028e1d4a66f61fc", null ],
     [ "insert", "classseq_1_1devector.html#a49e8014a6a6c06633fffffc422a9fb7d", null ],
     [ "insert", "classseq_1_1devector.html#a22da41b8f106da3e3b63972729c0e08a", null ],

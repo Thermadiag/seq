@@ -31,6 +31,7 @@
 
 #include "type_traits.hpp"
 #include "bits.hpp"
+#include "utils.hpp"
 
 // Value used to define the limit between moving elements and reallocating new elements for push_back/front
 #define SEQ_DEVECTOR_SIZE_LIMIT 16U
@@ -67,11 +68,11 @@ namespace seq
 				other.data = other.start = other.end = NULL;
 				other.capacity = 0;
 			}
-			DEVectorData(DEVectorData&& other, const Allocator & al)
+			/*DEVectorData(DEVectorData&& other, const Allocator& al)
 				: Allocator(al), data(other.data), start(other.start), end(other.end), capacity(other.capacity) {
 				other.data = other.start = other.end = NULL;
 				other.capacity = 0;
-			}
+			}*/
 			~DEVectorData() {
 				destroy_range(start, end);
 				deallocate(data, capacity);
@@ -675,7 +676,7 @@ namespace seq
 		/// @brief Copy constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
 		devector(const devector& other)
-			:base_type(other.get_allocator()) {
+			:base_type(copy_allocator(other.get_allocator())) {
 			assign(other.begin(), other.end());
 		}
 		/// @brief Copy constructor
@@ -726,7 +727,7 @@ namespace seq
 		/// @brief Returns the container allocator object
 		auto get_allocator() noexcept -> Allocator& { return this->base_type::get_allocator(); }
 		/// @brief Returns the container allocator object
-		auto get_allocator() const -> Allocator { return this->base_type::get_allocator(); }
+		auto get_allocator() const -> const Allocator & { return this->base_type::get_allocator(); }
 
 		/// @brief Clear the container, but does not deallocate the storage
 		void clear() noexcept
@@ -1049,6 +1050,7 @@ namespace seq
 				std::swap(base_type::start, other.base_type::start);
 				std::swap(base_type::end, other.base_type::end);
 				std::swap(base_type::capacity, other.base_type::capacity);
+				swap_allocator(get_allocator(), other.get_allocator());
 			}
 		}
 
@@ -1188,7 +1190,15 @@ namespace seq
 		/// @brief Copy operator
 		auto operator=(const devector& other) -> devector&
 		{
-			if (this != std::addressof(other)) {
+			if (this != std::addressof(other)) 
+			{
+				if SEQ_CONSTEXPR(assign_alloc<Allocator>::value)
+				{
+					if (get_allocator() != other.get_allocator()) {
+						clear();
+					}
+				}
+				assign_allocator(get_allocator(), other.get_allocator());
 				resize(other.size());
 				std::copy(other.begin(), other.end(), begin());
 			}

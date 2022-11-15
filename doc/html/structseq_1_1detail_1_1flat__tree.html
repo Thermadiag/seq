@@ -197,8 +197,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6dee7d23f68f4dd1735d530507ef9757"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64b34748e7942481628d1ec339b5b5c2"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a64b34748e7942481628d1ec339b5b5c2">operator=</a> (const std::initializer_list&lt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac8ea95d1a08cdcde3d0afc3f22c18b07">value_type</a> &gt; &amp;init) -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html">flat_tree</a> &amp;</td></tr>
 <tr class="separator:a64b34748e7942481628d1ec339b5b5c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae235e159e329e94e99207b08ecc448bd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ae235e159e329e94e99207b08ecc448bd">get_allocator</a> () const noexcept -&gt; Allocator</td></tr>
-<tr class="separator:ae235e159e329e94e99207b08ecc448bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37d0f8023459285eb17c6933055736f4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a37d0f8023459285eb17c6933055736f4">get_allocator</a> () const noexcept -&gt; const Allocator &amp;</td></tr>
+<tr class="separator:a37d0f8023459285eb17c6933055736f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac23ccd500fbd838a0a9ced7d40233bda"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#ac23ccd500fbd838a0a9ced7d40233bda">get_allocator</a> () noexcept -&gt; Allocator &amp;</td></tr>
+<tr class="separator:ac23ccd500fbd838a0a9ced7d40233bda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f8737ec783f8d58ca1aba083de25036"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a6f8737ec783f8d58ca1aba083de25036">empty</a> () const noexcept -&gt; bool</td></tr>
 <tr class="separator:a6f8737ec783f8d58ca1aba083de25036"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96e1fe054bc7bcf2bd8bd7bbdd53ebb2"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1flat__tree.html#a96e1fe054bc7bcf2bd8bd7bbdd53ebb2">size</a> () const noexcept -&gt; <a class="el" href="structseq_1_1detail_1_1flat__tree.html#abffaa05b80d449da958b9f194f9791af">size_type</a></td></tr>
@@ -2147,8 +2149,8 @@ template&lt;class K &gt; </div>
 
 </div>
 </div>
-<a id="ae235e159e329e94e99207b08ecc448bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae235e159e329e94e99207b08ecc448bd">&#9670;&nbsp;</a></span>get_allocator()</h2>
+<a id="a37d0f8023459285eb17c6933055736f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37d0f8023459285eb17c6933055736f4">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2162,7 +2164,34 @@ template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt
           <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::get_allocator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const -&gt; Allocator </td>
+          <td> const -&gt; const Allocator &amp; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac23ccd500fbd838a0a9ced7d40233bda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac23ccd500fbd838a0a9ced7d40233bda">&#9670;&nbsp;</a></span>get_allocator() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value  = Key, class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;Value&gt;, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1flat__tree.html">seq::detail::flat_tree</a>&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::get_allocator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> -&gt; Allocator&amp; </td>
         </tr>
       </table>
   </td>

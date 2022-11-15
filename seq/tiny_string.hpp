@@ -278,6 +278,7 @@ namespace seq
 
 			string_internal():Allocator(){ }
 			string_internal(const Allocator & al) :Allocator(al) { }
+			string_internal( Allocator&& al) :Allocator(std::move(al)) { }
 			auto allocate(size_t n) -> char* {
 				return this->Allocator::allocate(n);
 			}
@@ -288,6 +289,12 @@ namespace seq
 			auto get_allocator() const -> const Allocator& { return *this; }
 			void set_allocator(const Allocator& al) { static_cast<Allocator&>(*this) = al; }
 			void set_allocator( Allocator&& al) { static_cast<Allocator&>(*this) = std::move(al); }
+
+			void swap(string_internal& other)
+			{
+				std::swap(d_union, other.d_union);
+				swap_allocator(get_allocator(), other.get_allocator());
+			}
 		
 		};
 
@@ -312,6 +319,12 @@ namespace seq
 			auto get_allocator() const -> view_allocator { return view_allocator(); }
 			void set_allocator(const view_allocator& /*unused*/) {  }
 			void set_allocator(view_allocator&& /*unused*/) {  }
+
+			void swap(string_internal& other)
+			{
+				std::swap(data, other.data);
+				std::swap(size, other.size);
+			}
 		};
 
 	
@@ -879,7 +892,7 @@ namespace seq
 
 		/// @brief Copy constructor
 		tiny_string(const tiny_string& other)
-			:d_data(other.d_data.get_allocator())
+			:d_data(copy_allocator(other.d_data.get_allocator()))
 		{
 			if (other.is_sso())
 				// for SSO and read only string 
@@ -931,7 +944,7 @@ namespace seq
 		}
 		/// @brief Move constructor
 		tiny_string(tiny_string&& other) noexcept
-			:d_data(other.d_data.get_allocator())
+			:d_data(std::move(other.d_data.get_allocator()))
 		{
 			memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
 			if (!is_sso())
@@ -943,7 +956,7 @@ namespace seq
 		{
 			memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
 			if (!is_sso()) {
-				if (!std::is_same<std::allocator<char>, Allocator>::value && al != other.get_allocator()) {
+				if (!std::allocator_traits<Allocator>::is_always_equal::value && al != other.get_allocator()) {
 					memcpy(initialize(other.size()), other.data(), other.size());
 				}
 				else {
@@ -992,7 +1005,8 @@ namespace seq
 		/// @brief Returns true if the string is empty, false otherwise
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return size() == 0; }
 		/// @brief Returns the string allocator
-		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> allocator_type { return d_data.get_allocator(); }
+		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const allocator_type & { return d_data.get_allocator(); }
+		SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> allocator_type & { return d_data.get_allocator(); }
 
 
 		/// @brief Assign the range [first,last) to this string
@@ -1008,6 +1022,14 @@ namespace seq
 			if (is_sso() && other.is_sso())
 				memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
 			else {
+				if SEQ_CONSTEXPR(assign_alloc<Allocator>::value)
+				{
+					if (get_allocator() != other.get_allocator()) {
+						clear();
+					}
+				}
+				assign_allocator(get_allocator(), other.get_allocator());
+
 				resize_uninitialized(other.size(), false, true);
 				memcpy(this->data(), other.c_str(), other.size());
 			}
@@ -1078,7 +1100,7 @@ namespace seq
 		/// @brief Move the content of other to this string. Equivalent to tiny_string::operator=.
 		SEQ_ALWAYS_INLINE auto assign(tiny_string&& other) noexcept -> tiny_string&
 		{
-			std::swap(d_data, other.d_data);
+			d_data.swap(other.d_data);
 			return *this;
 		}
 
@@ -1146,7 +1168,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE void swap(tiny_string& other) 
 		{
 			if (this != std::addressof(other)) 
-				std::swap(d_data, other.d_data);
+				d_data.swap(other.d_data);
 		}
 
 		/// @brief Clear the string and deallocate memory for wide strings
@@ -2182,7 +2204,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto operator=(tiny_string && other) noexcept -> tiny_string&
 		{
 			if (this != std::addressof(other)) 
-				std::swap(d_data, other.d_data);
+				d_data.swap( other.d_data);
 			return *this;
 		}
 		auto operator=(const char * other) -> tiny_string&
@@ -2345,7 +2367,7 @@ namespace seq
 	
 		SEQ_ALWAYS_INLINE void swap(tiny_string& other)
 		{
-			std::swap(d_data, other.d_data);
+			d_data.swap( other.d_data);
 		}
 
 		auto begin() const noexcept -> const_iterator { return data(); }

@@ -519,7 +519,9 @@ namespace seq
 				return *this;
 			}
 
-			auto get_allocator() const noexcept -> Allocator { return d_deque.get_allocator(); }
+			auto get_allocator() const noexcept -> const Allocator & { return d_deque.get_allocator(); }
+			auto get_allocator() noexcept -> Allocator& { return d_deque.get_allocator(); }
+
 			auto empty() const noexcept -> bool { return d_deque.empty(); }
 			auto size() const noexcept -> size_type { return d_deque.size(); }
 			auto max_size() const noexcept -> size_type { return d_deque.max_size(); }
@@ -1234,7 +1236,9 @@ namespace seq
 		}
 
 		/// @brief Returns container's allocator
-		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> Allocator { return d_tree.get_allocator(); }
+		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator & { return d_tree.get_allocator(); }
+		SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return d_tree.get_allocator(); }
+
 		/// @brief Returns true if container is empty, false otherwise
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return d_tree.empty(); }
 		/// @brief Returns the container size
@@ -1800,7 +1804,9 @@ namespace seq
 			return *this;
 		}
 
-		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> Allocator { return d_tree.get_allocator(); }
+		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator & { return d_tree.get_allocator(); }
+		SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator & { return d_tree.get_allocator(); }
+
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return d_tree.empty(); }
 		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_type { return d_tree.size(); }
 		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_type { return d_tree.max_size(); }
