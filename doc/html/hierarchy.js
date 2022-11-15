@@ -24,8 +24,7 @@ var hierarchy =
       [ "seq::detail::CompressedVectorInternal< T, Allocator, Acceleration, Encoder, block_size >", "structseq_1_1detail_1_1_compressed_vector_internal.html", null ],
       [ "seq::detail::DEVectorData< T, Allocator, flag >", "structseq_1_1detail_1_1_d_e_vector_data.html", null ],
       [ "seq::detail::SmallBucketAllocator< T, Allocator >", "structseq_1_1detail_1_1_small_bucket_allocator.html", null ],
-      [ "seq::detail::string_internal< MaxSSO, Allocator >", "structseq_1_1detail_1_1string__internal.html", null ],
-      [ "seq::detail::string_proxy< MaxSSO, Allocator >", "structseq_1_1detail_1_1string__proxy.html", null ]
+      [ "seq::detail::string_internal< MaxSSO, Allocator >", "structseq_1_1detail_1_1string__internal.html", null ]
     ] ],
     [ "seq::detail::allocator_data< Allocator, IsThreaded >", "structseq_1_1detail_1_1allocator__data.html", null ],
     [ "seq::detail::allocator_for_shared_ptr< T, Pool >", "classseq_1_1detail_1_1allocator__for__shared__ptr.html", null ],
@@ -393,9 +392,9 @@ var hierarchy =
     [ "seq::detail::SelectAlloc< T, Allocator, OptimizeForMemory >", "structseq_1_1detail_1_1_select_alloc_3_01_t_00_01_allocator_00_01_optimize_for_memory_01_4.html", null ],
     [ "seq::detail::SelectAlloc< T, Allocator, OptimizeForSpeed >", "structseq_1_1detail_1_1_select_alloc.html", null ],
     [ "seq::sequence< T, Allocator, layout, ForceAlign64 >", "classseq_1_1sequence.html", null ],
-    [ "seq::sequence< Key, std::allocator< Key >, layout, true >", "classseq_1_1sequence.html", null ],
-    [ "seq::sequence< std::pair< Key, T >, std::allocator< std::pair< Key, T > >, layout, true >", "classseq_1_1sequence.html", null ],
-    [ "seq::sequence< Value, std::allocator< Value >, layout, true >", "classseq_1_1sequence.html", null ],
+    [ "seq::sequence< Key, RebindAlloc< Key >, layout, true >", "classseq_1_1sequence.html", null ],
+    [ "seq::sequence< std::pair< Key, T >, RebindAlloc< std::pair< Key, T > >, layout, true >", "classseq_1_1sequence.html", null ],
+    [ "seq::sequence< Value, RebindAlloc< Value >, layout, true >", "classseq_1_1sequence.html", null ],
     [ "seq::detail::sequence_const_iterator< List >", "classseq_1_1detail_1_1sequence__const__iterator.html", [
       [ "seq::detail::sequence_iterator< List >", "classseq_1_1detail_1_1sequence__iterator.html", null ]
     ] ],
@@ -430,6 +429,7 @@ var hierarchy =
       [ "seq::streambuf_size", "classseq_1_1streambuf__size.html", null ]
     ] ],
     [ "seq::detail::string_internal< MaxSSO, view_allocator >", "structseq_1_1detail_1_1string__internal_3_01_max_s_s_o_00_01view__allocator_01_4.html", null ],
+    [ "seq::detail::string_proxy< MaxSSO, Allocator >", "structseq_1_1detail_1_1string__proxy.html", null ],
     [ "seq::detail::string_range< String >", "structseq_1_1detail_1_1string__range.html", null ],
     [ "seq::tagged_pointer< T, Type, UserDefinedAlignment >", "classseq_1_1tagged__pointer.html", null ],
     [ "seq::tagged_pointer< TypeInfo, CustomAlignment, 32 >", "classseq_1_1tagged__pointer.html", null ],

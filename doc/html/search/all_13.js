@@ -64,6 +64,6 @@ var searchData=
   ['type_5finfo_1276',['type_info',['../structseq_1_1any__default__interface.html#a9eb71d0ae6230f2aabf072ca33871015',1,'seq::any_default_interface::type_info()'],['../structseq_1_1any__no__hash__interface.html#a32e3c079d1096656dff25859e1a0cb68',1,'seq::any_no_hash_interface::type_info()']]],
   ['type_5finfo_5ftype_1277',['type_info_type',['../structseq_1_1any__base.html#ad510dce17e4652ba69bab072541e6e6e',1,'seq::any_base::type_info_type()'],['../classseq_1_1hold__any.html#a23d29fc7c99e55af995fa4de7596c5c3',1,'seq::hold_any::type_info_type()']]],
   ['type_5ftraits_2ehpp_1278',['type_traits.hpp',['../type__traits_8hpp.html',1,'']]],
-  ['typed_5ftype_5finfo_1279',['typed_type_info',['../structseq_1_1any__default__interface_1_1typed__type__info.html',1,'seq::any_default_interface::typed_type_info&lt; T &gt;'],['../structseq_1_1any__no__hash__interface_1_1typed__type__info.html',1,'seq::any_no_hash_interface::typed_type_info&lt; T &gt;']]],
+  ['typed_5ftype_5finfo_1279',['typed_type_info',['../structseq_1_1any__no__hash__interface_1_1typed__type__info.html',1,'seq::any_no_hash_interface::typed_type_info&lt; T &gt;'],['../structseq_1_1any__default__interface_1_1typed__type__info.html',1,'seq::any_default_interface::typed_type_info&lt; T &gt;']]],
   ['typed_5ftype_5finfo_5ftype_1280',['typed_type_info_type',['../classseq_1_1hold__any.html#abdcce1fa954bad763a29b08b8db95bf3',1,'seq::hold_any']]]
 ];
