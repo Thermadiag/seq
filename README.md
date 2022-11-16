@@ -2,11 +2,11 @@
 Purpose
 -------
 
-The Seq library is a collection of original C++11 STL-like containers and related tools.
+The *seq* library is a collection of original C++11 STL-like containers and related tools.
 
-Seq library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) std. Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.
+*seq* library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) std. Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.
 
-The seq library was developped based on my growing frustration when using standard containers (mainly whose of STD) on a large scale professional project. The biggest concerning points were:
+The *seq* library was developped based on my growing frustration when using standard containers (mainly whose of STD) on a large scale professional project. The biggest concerning points were:
 
 -	The default hash table (`std::unordered_set/map`) is quite slow for all operations on almost all implementations.
 -	`std::unordered_map` has a big memory overhead.
@@ -22,27 +22,27 @@ The seq library was developped based on my growing frustration when using standa
 
 Some of my concerns were already takled by external libraries. For instance, I use <a href="https://github.com/greg7mdp/parallel-hashmap">phmap::flat_hash_set/map</a> (based on <a href="https://github.com/abseil/abseil-cpp">absl::flat_hash_map</a>) when I need a fast hash map with low memory overhead (and when iterators/references stability is not a concern). The Seq library is an attempt to work around the other points.
 
-Along other things (see below), the Seq library defines several container classes as alternatives to STL containers or providing features not present in the STL.
+Among other things (see modules below), the *seq* library defines several container classes as alternatives to STL containers or providing features not present in the STL.
 These containers generally adhere to the properties of STL containers (in C++17 version), though there are often some associated API differences and/or implementation details which differ from the standard library.
 
 The *seq* containers are not necessarly drop-in replacement for their STL counterparts as they usually provide different iterator/reference statibility rules or different exception guarantees.
 
-Currently, the Seq library provides 5 types of containers:
+Currently, the *seq* library provides 5 types of containers:
 -	Sequential random-access containers: 
-	-	[seq::devector](devector.md): double ended vector that can be optimized for front operations, back operations or both. Similar interface to `std::deque`.
-	-	[seq::tiered_vector](tiered_vector.md): tiered vector implementation optimized for fast insertion and deletion in the middle. Similar interface to `std::deque`.
-	-	[seq::cvector](cvector.md): vector-like class storing its values in a compressed way to reduce program memory footprint. Similar interface to `std::vector`.
+	-	[seq::devector](docs/devector.md): double ended vector that can be optimized for front operations, back operations or both. Similar interface to `std::deque`.
+	-	[seq::tiered_vector](docs/tiered_vector.md): tiered vector implementation optimized for fast insertion and deletion in the middle. Similar interface to `std::deque`.
+	-	[seq::cvector](docs/cvector.md): vector-like class storing its values in a compressed way to reduce program memory footprint. Similar interface to `std::vector`.
 -	Sequential stable non random-access container: `seq::sequence`, fast stable list-like container.
 -	Sorted containers: 
-	-	[seq::flat_set](flat_set.md) : flat set container similar to boost::flat_set but based on seq::tiered_vector and providing fast insertion/deletion of single elements.
+	-	[seq::flat_set](docs/flat_set.md) : flat set container similar to boost::flat_set but based on seq::tiered_vector and providing fast insertion/deletion of single elements.
 	-	`seq::flat_map`: associative version of `seq::flat_set`.
 	-	`seq::flat_multiset`: similar to `seq::flat_set` but supporting duplicate keys.
 	-	`seq::flat_multimap`: similar to `seq::flat_map` but supporting duplicate keys.
 -	Hash tables: 
-	-	[seq::ordered_set](ordered_set.md): Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket interface) with iterator/reference stability, and additional features (see class documentation).
+	-	[seq::ordered_set](docs/ordered_set.md): Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket interface) with iterator/reference stability, and additional features (see class documentation).
 	-	`seq::ordered_map`: associative version of `seq::ordered_set`.
 -	Strings:
-	-	[seq::tiny_string](tiny_string.md): string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
+	-	[seq::tiny_string](docs/tiny_string.md): string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
 	-	`seq::tstring_view`: similar to `std::string_view`.
 
 See the <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/group__containers.html">documentation</a> of each class for more details.
@@ -64,17 +64,17 @@ A cmake project is provided for installation and compilation of tests/benchmarks
 Why C++11 ?
 -----------
 
-For now the seq library is developped and maintained in order to remain compatible with C++11 only compilers.
+For now the *seq* library is developped and maintained in order to remain compatible with C++11 only compilers.
 While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11.
 
 For instance, the [charconv](docs/charconv.md) and [format](docs/format.md) modules were developped because C++11 only compilers do not provide similar functionalities. They still provide their own specifities for more recent compilers.
 
-Seq library was tested with gcc/10.1.0 (Windows, mingw), gcc/8.4.0 (Linux) and msvc/14.20 (Windows).
+*seq* library was tested with gcc/10.1.0 (Windows, mingw), gcc/8.4.0 (Linux) and msvc/14.20 (Windows).
 
 Design
 ------
 
-Seq library is a small collection of header only and self dependant components. There is no restriction on internal dependencies, and a seq component can use any number of other components.
+*seq* library is a small collection of header only and self dependant components. There is no restriction on internal dependencies, and a seq component can use any number of other components.
 For instance, almost all modules rely on the [bits](docs/bits.md) one. The only exception is the `cvector` class that requires compilation, unless you define `SEQ_HEADER_ONLY`
 
 All classes and functions are defined in the `seq` namespace, and names are lower case with underscore separators, much like the STL.
@@ -91,16 +91,16 @@ The `seq/seq/docs` directory contains documentation using markdown format, and t
 Build
 -----
 
-The seq library needs compilation using cmake if you intend to use the `cvector` class (compressed vector). Note that you can still use it without compilation by defining `SEQ_HEADER_ONLY`. 
+The *seq* library needs compilation using cmake if you intend to use the `cvector` class (compressed vector). Note that you can still use it without compilation by defining `SEQ_HEADER_ONLY`. 
 Even on header-only mode, you should use the cmake file for installation.
 Tests can be built using cmake from the `tests` folder, and benchmarks from the `benchs` folder.
 
 Acknowledgements
 ----------------
 
-The only library dependency is <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters. The header `pdqsort.hpp` is included within the seq library.
-Seq library also uses a modified version <a href="https://github.com/lz4/lz4">LZ4</a> that could be used with `cvector` class.
-Benchmarks (in `seq/seq/benchs`) compare the performances of the seq library with other great libraries:
+The only library dependency is <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters. The header `pdqsort.hpp` is included within the *seq* library.
+*seq* library also uses a modified version <a href="https://github.com/lz4/lz4">LZ4</a> that could be used with `cvector` class.
+Benchmarks (in `seq/seq/benchs`) compare the performances of the *seq* library with other great libraries:
 -	<a href="https://plflib.org/">plf</a>: used for the plf::colony container,
 -	<a href="https://github.com/greg7mdp/parallel-hashmap">phmap</a>: used for its phmap::btree_set and phmap::node_hash_set,
 -	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set and boost::unordered_set,
