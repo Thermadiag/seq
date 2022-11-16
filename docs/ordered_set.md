@@ -25,7 +25,7 @@ The underlying sequence object stores plain non const Key objects. However, in o
 ## Direct access to sequence
 
 Unlike most hash table implementations, it it possible to access and modify the underlying value storage directly (a seq::sequence object). 
-This possibility musy be used with great care, as modifying directly the sequence might break the hashing. 
+This possibility must be used with great care, as modifying directly the sequence might break the hashing. 
 When calling the non-const version of ordered_set::sequence(), the ordered_set will be marked as dirty, and further attempts to call functions like ordered_set::find() of ordered_set::insert() (functions based on hash value) will throw a std::logic_error.
 
 Therefore, after finishing modifying the sequence, you must call `ordered_set::rehash()` to rehash the sequence, remove potential duplicates, and mark the ordered_set as non dirty anymore.

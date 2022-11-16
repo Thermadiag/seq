@@ -29,11 +29,11 @@
 #include <limits>
 #include <random>
 
-#include "tiny_string.hpp"
-#include "charconv.hpp"
-#include "format.hpp"
-#include "utils.hpp"
-#include "testing.hpp"
+#include <seq/tiny_string.hpp>
+#include <seq/charconv.hpp>
+#include <seq/format.hpp>
+#include <seq/utils.hpp>
+#include <seq/testing.hpp>
 
 
 using namespace seq;

@@ -1,7 +1,7 @@
 # Containers: original STL-like containers
 
 The *containers* module defines several container classes as alternatives to STL containers or providing features not present in the STL.
-These containers generally adhere to the properties of STL containers, though there are often some associated API differences and/or implementation details which differ from the standard library.
+These containers generally adhere to the properties of STL containers (in C++17 version), though there are often some associated API differences and/or implementation details which differ from the standard library.
 
 The *seq* containers are not necessarly drop-in replacement for their STL counterparts as they usually provide different iterator/reference statibility rules or different exception guarantees.
 

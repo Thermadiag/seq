@@ -26,9 +26,8 @@
 #include <vector>
 #include <iostream>
 
-#include "testing.hpp"
- //#include "mimalloc.h"
-#include "memory.hpp"
+#include <seq/testing.hpp>
+#include <seq/memory.hpp>
 
 using namespace seq;
 

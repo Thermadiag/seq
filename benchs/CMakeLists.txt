@@ -44,7 +44,7 @@ target_include_directories(seq_benchs PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 
 # seq library
-target_include_directories(seq_benchs PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/../seq)
+target_include_directories(seq_benchs PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/..)
 #add_subdirectory(../ ${CMAKE_CURRENT_BINARY_DIR}/seq )
 #add_subdirectory(../ ${CMAKE_CURRENT_BINARY_DIR}/seq/internal )
 

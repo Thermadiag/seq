@@ -26,9 +26,9 @@
 
 
 
-#include "flat_map.hpp"
-#include "format.hpp"
-#include "testing.hpp"
+#include <seq/flat_map.hpp>
+#include <seq/format.hpp>
+#include <seq/testing.hpp>
 
 #include "phmap/btree.h"
 #include "boost/container/flat_set.hpp"

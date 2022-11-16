@@ -24,11 +24,11 @@
 
 #pragma once
 
-#include "sequence.hpp"
-#include "tiered_vector.hpp"
-#include "format.hpp"
-#include "testing.hpp"
-#include "memory.hpp"
+#include <seq/sequence.hpp>
+#include <seq/tiered_vector.hpp>
+#include <seq/format.hpp>
+#include <seq/testing.hpp>
+#include <seq/memory.hpp>
 #include "plf/plf_colony.hpp"
 
 #include <list>

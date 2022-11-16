@@ -34,9 +34,9 @@
 #include "boost/unordered_set.hpp"
 #include "phmap/phmap.h"
 
-#include "testing.hpp"
-#include "ordered_map.hpp"
-#include "format.hpp"
+#include <seq/testing.hpp>
+#include <seq/ordered_map.hpp>
+#include <seq/format.hpp>
 
 using namespace seq;
 

@@ -24,11 +24,11 @@
 
 #pragma once
 
-#include "tiered_vector.hpp"
-#include "devector.hpp"
-#include "cvector.hpp"
-#include "testing.hpp"
-#include "format.hpp"
+#include <seq/tiered_vector.hpp>
+#include <seq/devector.hpp>
+#include <seq/cvector.hpp>
+#include <seq/testing.hpp>
+#include <seq/format.hpp>
 
 #include <deque> 
 #include <algorithm>
@@ -344,7 +344,7 @@ void test_tiered_vector(size_t count = 10000000)
 			cvec.push_back(i);
 		}
 
-		T sum = 0, sum2=0, sum3=0;
+		size_t sum = 0, sum2=0, sum3=0;
 		tick();
 		for (size_t i = 0; i < count; ++i)
 			sum += deq[i];
@@ -371,7 +371,7 @@ void test_tiered_vector(size_t count = 10000000)
 		tick();
 		sum3 = 0;
 		for (size_t i = 0; i < count; ++i)
-			sum3 += cvec[i];
+			sum3 += (T)cvec[i];
 		cvec_t = tock_ms(); print_null(sum3);
 
 		SEQ_TEST(sum == sum2);
@@ -407,7 +407,7 @@ void test_tiered_vector(size_t count = 10000000)
 		tick();
 		sum3 = 0;
 		for (auto it = cvec.cbegin(); it != cvec.cend(); ++it) {
-			sum3 += *it;
+			sum3 += (T)*it;
 		}
 		cvec_t = tock_ms(); print_null(sum3);
 

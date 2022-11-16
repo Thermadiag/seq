@@ -24,11 +24,11 @@
 
 #pragma once
 
-#include "tiny_string.hpp"
-#include "flat_map.hpp"
-#include "testing.hpp"
-#include "format.hpp"
-#include "cvector.hpp"
+#include <seq/tiny_string.hpp>
+#include <seq/flat_map.hpp>
+#include <seq/testing.hpp>
+#include <seq/format.hpp>
+#include <seq/cvector.hpp>
 
 #include <unordered_set>
 #include <set>

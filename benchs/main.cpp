@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-#include "cvector.hpp"
  
 #include "bench_hash.hpp"
 #include "bench_map.hpp"
@@ -42,10 +41,33 @@ struct test
 {
 	size_t data[N];
 	test() {}
-	test(size_t i) { data[0] = i; }
+	test(size_t v) { 
+		data[0] = v;
+		for (size_t i = 1; i < N; ++i)
+			data[i] = v * (i + 1);
+	}
+	test(const test& other)
+	{
+		memcpy(data, other.data, sizeof(data));
+	}
 	operator size_t() const { return data[0]; }
-	bool operator<(const test& other) { return data[0] < other.data[0]; }
 };
+
+template<size_t N>
+bool operator < (const test<N>& a, const test<N>& b)
+{
+	return a.data[0] < b.data[0];
+}
+template<size_t N>
+bool operator == (const test<N>& a, const test<N>& b)
+{
+	//return a.data[0] == b.data[0];
+	return memcmp(a.data, b.data, sizeof(a.data)) == 0;
+}
+
+template<size_t N>
+struct seq::is_relocatable<test<N>> : std::true_type {};
+
 namespace std
 {
 	template<size_t N>
@@ -92,7 +114,9 @@ struct statefull_alloc : public std::allocator<T>
 
 int  main  (int , char** )
 { 
-	
+	test_tiered_vector_algorithms<size_t>(5000000);
+	test_tiered_vector<size_t>();
+
 
 	test_tstring_members(20000000);
 	test_sort_strings(2000000);
@@ -100,9 +124,7 @@ int  main  (int , char** )
 
 	test_sequence_vs_colony<size_t>(5000000);
 	
-	test_tiered_vector_algorithms<size_t>(5000000);
-	test_tiered_vector<size_t>();
-
+	
 	test_map<double>(1000000, [](size_t i) { return (i * UINT64_C(0xc4ceb9fe1a85ec53)); });
 	test_map<tiny_string<>>(1000000, [](size_t i) { return generate_random_string<tiny_string<>>(14, true); });
 
