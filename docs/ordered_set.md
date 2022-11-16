@@ -24,7 +24,7 @@ The underlying sequence object stores plain non const Key objects. However, in o
 
 ## Direct access to sequence
 
-Unlike most hash table implementations, it it possible to access and modify the underlying value storage directly (a seq::sequence object). 
+Unlike most hash table implementations, it it possible to access and modify the underlying value storage directly (a `seq::sequence` object). 
 This possibility must be used with great care, as modifying directly the sequence might break the hashing. 
 When calling the non-const version of ordered_set::sequence(), the ordered_set will be marked as dirty, and further attempts to call functions like ordered_set::find() of ordered_set::insert() (functions based on hash value) will throw a std::logic_error.
 
@@ -38,6 +38,8 @@ Example:
 std::vector<double> keys = ...
 
 seq::ordered_set<double> set;
+
+// Insert keys directly in the underlying sequence objecy
 for(size_t i=0; i < keys.size(); ++i)
 	set.sequence().insert(keys[i]);
 
@@ -58,7 +60,7 @@ Most members of `seq::ordered_set` provide *strong exception guarantee*, except 
 In some cases, the actual load factor can exceed the provided maximum load factor. This holds when the keys are very well distributed, and the maximum distance of a key to its computed location is low (below 8). This strategy avoids some unnecessary rehash for very strong hash function (or well distributed keys).
 Note however that the load factor will never exceed 0.95.
 
-On rehash, the old table is deallocated before allocating the new (twice as big) one. This is possible thanks to the double storage strategy (values are stored in an independant seq::sequence object) and avoid memory peaks.
+On rehash, the old table is deallocated before allocating the new (twice as big) one. This is possible thanks to the double storage strategy (values are stored in an independant `seq::sequence` object) and **avoid memory peaks**.
 
 
 ## Handling of bad hash function
@@ -75,7 +77,7 @@ Therefore, a (very) bad hash function will only make the table slower but will n
 
 ## Deleting entries
 
-`seq::ordered_set` uses backward shift deletion to avoid introducing tombstone, except for bad hash functions (see section above).
+`seq::ordered_set` uses backward shift deletion to avoid introducing tombstones, except for bad hash functions (see section above).
 The key lookup remains fast when deleting lots of entries, and mixed scenarios involving lots of interleaved insertion/deletion are well supported.
 
 Note however that removing a key will never trigger a rehash. The user is free to rehash the ordered_set at any point using ordered_set::rehash() member.
@@ -84,7 +86,7 @@ Note however that removing a key will never trigger a rehash. The user is free t
 ## Sorting
 
 Since the ordered_set is ordered by key insertion order, it makes sense to provide a function to sort it.
-The members ordered_set::sort() and ordered_set::stable_sort() are provided and call respectively seq::sequence::sort() and seq::sequence::stable_sort().
+The members ordered_set::sort() and ordered_set::stable_sort() are provided and call respectively `seq::sequence::sort()` and `seq::sequence::stable_sort()`.
 These functions rehash the full table after sorting.
 
 

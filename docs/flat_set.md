@@ -90,6 +90,6 @@ Lookup functions (find, lower_bound, upper_bound...) still perform in O(log(N)) 
 flat_set will almost always be slower for element lookup than boost::flat_set wich uses a single dense array, except for very small keys (like in above benchmark).
 
 Several factors will impact the performances of `seq::flat_set`:
--	Relocatable types (where seq::is_relocatable<T>::value is true) are faster than other types for insertion/deletion, as tiered_vector will use memmove to move around objects. Therefore, a flat_set of seq::tstring will always be faster than std::string.
--	Performances of insertion/deletion decrease as sizeof(value_type) increases. This is especially true for insertion/deletion, much less for lookup functions which remain (more or less) as fast as boost::flat_set.
+-	Relocatable types (where `seq::is_relocatable<value_type>::value` is true) are faster than other types for insertion/deletion, as tiered_vector will use memmove to move around objects. Therefore, a flat_set of seq::tstring will always be faster than std::string.
+-	Performances of insertion/deletion decrease as `sizeof(value_type)` increases. This is especially true for insertion/deletion, much less for lookup functions which remain (more or less) as fast as boost::flat_set.
 -	All members using the '_pos' prefix are usually slightly faster than their iterator based counterparts.
