@@ -84,6 +84,9 @@ using namespace seq;
 std::cout << fmt(fmt(fmt(fmt("surrounded text")).c(20).f('*')).c(30).f('#')).c(40).f('-') << std::endl;
 
 ```
+Output:
+
+> -----#####**surrounded text***#####-----
 
 
 ## Formatting several values
@@ -193,6 +196,11 @@ auto f = fmt(
 	) << std::endl;
 
 ```
+Output:
+
+> We have 2 couples:
+> Animal/Species:   Tiger/P. tigris
+> Animal/Species: Panda/A. melanoleuca
 
 
 ## Formatting to string or buffer
