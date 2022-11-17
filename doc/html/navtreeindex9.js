@@ -1,6 +1,5 @@
 var NAVTREEINDEX9 =
 {
-"namespaceutils.html":[2,0,3],
 "ordered__map_8hpp.html":[4,0,0,10],
 "ordered__map_8hpp.html#a12a8e4ca5bdbbf2cd53645c2733449d0":[4,0,0,10,25],
 "ordered__map_8hpp.html#a345460864d8e607d34f3547e6d1e01fd":[4,0,0,10,22],
@@ -249,5 +248,6 @@ var NAVTREEINDEX9 =
 "structseq_1_1detail_1_1_bucket_manager.html#a60144b8a23f6753824e5e324f99641de":[3,0,0,0,26,3],
 "structseq_1_1detail_1_1_bucket_manager.html#a6371fbf703e6af2458eefb4106bb8525":[3,0,0,0,26,70],
 "structseq_1_1detail_1_1_bucket_manager.html#a65a74d49ace4ea6f3841a0f82af42d08":[3,0,0,0,26,16],
-"structseq_1_1detail_1_1_bucket_manager.html#a663899d7be63746ae38ea2665bcba6b8":[3,0,0,0,26,11]
+"structseq_1_1detail_1_1_bucket_manager.html#a663899d7be63746ae38ea2665bcba6b8":[3,0,0,0,26,11],
+"structseq_1_1detail_1_1_bucket_manager.html#a67fee900bf7e8d2df5859f50063806ed":[3,0,0,0,26,31]
 };

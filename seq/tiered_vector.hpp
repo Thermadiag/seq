@@ -3792,9 +3792,8 @@ namespace seq
 			return l;
 		}
 	
-		/// @brief Optimized version of std::lower_bound(begin(),end(),value,le);
-		/// Only works for sorted tiered_vector.
-		template<class U, class Less = std::less<T> >
+		// Keep for later usage
+		/*template<class U, class Less = std::less<T> >
 		auto lower_bound_old( const U & value, const Less & le = Less()) const noexcept -> size_t
 		{
 			static_assert(!std::is_same< detail::NullValueCompare<T>, ValueCompare>::value, "lower_bound can only be used by flat_map/set containers");
@@ -3867,7 +3866,7 @@ namespace seq
 				
 				return  static_cast<size_t>(low) + (b_index != 0 ? static_cast<size_t>(buckets[0]->size) + static_cast<size_t>(b_index - 1) * static_cast<size_t>(bucket->max_size_) : 0);
 			}
-		}
+		}*/
 
 
 
@@ -4027,7 +4026,13 @@ namespace seq
 			return low;
 		}
 
-
+		/// @brief Unstable sorting
+		/// @tparam Less comparison function
+		/// @param le comparison function
+		/// 
+		/// Sort the tiered vector using pdqsort. This function is faster to sort the full vector than pdqsort(tvector.begin(),tvector.end())
+		/// as it drops the current value ordering to provide faster iterators.
+		/// 
 		template<class Less  >
 		void sort(const Less& le = Less()) 
 		{

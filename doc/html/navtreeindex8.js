@@ -1,6 +1,5 @@
 var NAVTREEINDEX8 =
 {
-"functions_func_b.html":[3,3,1,2],
 "functions_func_c.html":[3,3,1,3],
 "functions_func_d.html":[3,3,1,4],
 "functions_func_e.html":[3,3,1,5],
@@ -192,8 +191,8 @@ var NAVTREEINDEX8 =
 "memory_8hpp.html#adac07c5c5e3d6da3ebb03f7ddd1e7cdea668d551cd99226655e9e973b6d5be517":[4,0,0,9,48],
 "memory_8hpp_source.html":[4,0,0,9],
 "modules.html":[1],
-"namespacemembers.html":[2,1,0,0],
 "namespacemembers.html":[2,1,0],
+"namespacemembers.html":[2,1,0,0],
 "namespacemembers_a.html":[2,1,0,1],
 "namespacemembers_b.html":[2,1,0,2],
 "namespacemembers_c.html":[2,1,0,3],
@@ -249,5 +248,6 @@ var NAVTREEINDEX8 =
 "namespaceseq_1_1detail_1_1metafunction.html":[3,0,0,0,0],
 "namespaceseq_1_1detail_1_1metafunction.html":[2,0,1,0,0],
 "namespacestd.html":[3,0,1],
-"namespacestd.html":[2,0,2]
+"namespacestd.html":[2,0,2],
+"namespaceutils.html":[2,0,3]
 };

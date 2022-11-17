@@ -75,7 +75,6 @@ var classseq_1_1tiered__vector =
     [ "iterator_at", "classseq_1_1tiered__vector.html#aba312bbc11e9a8a0d11864ad9411e539", null ],
     [ "iterator_at", "classseq_1_1tiered__vector.html#a1308e21d6695ba4fe0de0c992a8724b7", null ],
     [ "lower_bound", "classseq_1_1tiered__vector.html#a735b0a3c5b783af8f8e344f21bbba693", null ],
-    [ "lower_bound_old", "classseq_1_1tiered__vector.html#a800f6015e79b3a17ac57b4ee36c82cf5", null ],
     [ "manager", "classseq_1_1tiered__vector.html#aa3a82ff63aa8d8c679669bf0a1d09d99", null ],
     [ "manager", "classseq_1_1tiered__vector.html#a18aa621d81f3842bfe95f5ce04702f68", null ],
     [ "max_size", "classseq_1_1tiered__vector.html#a4a39d4dbd7f3d8084d8ea3d9eafa85a6", null ],

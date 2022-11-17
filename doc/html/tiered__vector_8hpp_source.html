@@ -3499,295 +3499,295 @@ $(document).ready(function(){initNavTree('tiered__vector_8hpp_source.html',''); 
 <div class="line"><a name="l03792"></a><span class="lineno"> 3792</span>&#160;            <span class="keywordflow">return</span> l;</div>
 <div class="line"><a name="l03793"></a><span class="lineno"> 3793</span>&#160;        }</div>
 <div class="line"><a name="l03794"></a><span class="lineno"> 3794</span>&#160;    </div>
-<div class="line"><a name="l03797"></a><span class="lineno"> 3797</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">class</span> U, <span class="keyword">class</span> Less = std::less&lt;T&gt; &gt;</div>
-<div class="line"><a name="l03798"></a><span class="lineno"><a class="line" href="classseq_1_1tiered__vector.html#a800f6015e79b3a17ac57b4ee36c82cf5"> 3798</a></span>&#160;        <span class="keyword">auto</span> <a class="code" href="classseq_1_1tiered__vector.html#a800f6015e79b3a17ac57b4ee36c82cf5">lower_bound_old</a>( <span class="keyword">const</span> U &amp; value, <span class="keyword">const</span> Less &amp; le = Less()) const noexcept -&gt; <span class="keywordtype">size_t</span></div>
-<div class="line"><a name="l03799"></a><span class="lineno"> 3799</span>&#160;        {</div>
-<div class="line"><a name="l03800"></a><span class="lineno"> 3800</span>&#160;            static_assert(!std::is_same&lt; <a class="code" href="structseq_1_1detail_1_1_null_value_compare.html">detail::NullValueCompare&lt;T&gt;</a>, ValueCompare&gt;::value, <span class="stringliteral">&quot;lower_bound can only be used by flat_map/set containers&quot;</span>);</div>
-<div class="line"><a name="l03801"></a><span class="lineno"> 3801</span>&#160; </div>
-<div class="line"><a name="l03802"></a><span class="lineno"> 3802</span>&#160;            <span class="keywordflow">if</span> (!d_manager)</div>
-<div class="line"><a name="l03803"></a><span class="lineno"> 3803</span>&#160;                <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l03804"></a><span class="lineno"> 3804</span>&#160;            <span class="comment">// Inspired by https://academy.realm.io/posts/how-we-beat-cpp-stl-binary-search/</span></div>
-<div class="line"><a name="l03805"></a><span class="lineno"> 3805</span>&#160; </div>
-<div class="line"><a name="l03806"></a><span class="lineno"> 3806</span>&#160;            <span class="keyword">using</span> BucketVector = <span class="keyword">typename</span> <a class="code" href="structseq_1_1detail_1_1_bucket_manager.html#a60144b8a23f6753824e5e324f99641de">bucket_manager::BucketVector</a>;</div>
-<div class="line"><a name="l03807"></a><span class="lineno"> 3807</span>&#160;            <span class="comment">//using BucketType = typename BucketVector::value_type;</span></div>
-<div class="line"><a name="l03808"></a><span class="lineno"> 3808</span>&#160;            <span class="keyword">const</span> BucketVector &amp; buckets = <a class="code" href="classseq_1_1tiered__vector.html#a18aa621d81f3842bfe95f5ce04702f68">manager</a>()-&gt;buckets();</div>
-<div class="line"><a name="l03809"></a><span class="lineno"> 3809</span>&#160; </div>
-<div class="line"><a name="l03810"></a><span class="lineno"> 3810</span>&#160;            <span class="comment">//find bucket</span></div>
-<div class="line"><a name="l03811"></a><span class="lineno"> 3811</span>&#160;            <span class="keyword">using</span> bucket_pos_type = size_t;</div>
-<div class="line"><a name="l03812"></a><span class="lineno"> 3812</span>&#160; </div>
-<div class="line"><a name="l03813"></a><span class="lineno"> 3813</span>&#160;            bucket_pos_type low = 0;</div>
-<div class="line"><a name="l03814"></a><span class="lineno"> 3814</span>&#160;            bucket_pos_type <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = buckets.size();</div>
-<div class="line"><a name="l03815"></a><span class="lineno"> 3815</span>&#160; </div>
-<div class="line"><a name="l03816"></a><span class="lineno"> 3816</span>&#160;            <span class="keywordflow">while</span> ((<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt; 16)) {</div>
-<div class="line"><a name="l03817"></a><span class="lineno"> 3817</span>&#160;                bucket_pos_type half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> / 2;</div>
-<div class="line"><a name="l03818"></a><span class="lineno"> 3818</span>&#160;                bucket_pos_type other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
-<div class="line"><a name="l03819"></a><span class="lineno"> 3819</span>&#160;                bucket_pos_type probe = low + half;</div>
-<div class="line"><a name="l03820"></a><span class="lineno"> 3820</span>&#160;                bucket_pos_type other_low = low + other_half;</div>
-<div class="line"><a name="l03821"></a><span class="lineno"> 3821</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
-<div class="line"><a name="l03822"></a><span class="lineno"> 3822</span>&#160;                low = le(buckets[probe].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>() , value) ? other_low : low;</div>
-<div class="line"><a name="l03823"></a><span class="lineno"> 3823</span>&#160; </div>
-<div class="line"><a name="l03824"></a><span class="lineno"> 3824</span>&#160;                half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> / 2;</div>
-<div class="line"><a name="l03825"></a><span class="lineno"> 3825</span>&#160;                other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
-<div class="line"><a name="l03826"></a><span class="lineno"> 3826</span>&#160;                probe = low + half;</div>
-<div class="line"><a name="l03827"></a><span class="lineno"> 3827</span>&#160;                other_low = low + other_half;</div>
-<div class="line"><a name="l03828"></a><span class="lineno"> 3828</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
-<div class="line"><a name="l03829"></a><span class="lineno"> 3829</span>&#160;                low = le(buckets[probe].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>(), value) ? other_low : low;</div>
-<div class="line"><a name="l03830"></a><span class="lineno"> 3830</span>&#160;            }</div>
-<div class="line"><a name="l03831"></a><span class="lineno"> 3831</span>&#160;            <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> += low ;</div>
-<div class="line"><a name="l03832"></a><span class="lineno"> 3832</span>&#160;            <span class="keywordflow">while</span> (low &lt; <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &amp;&amp; le(buckets[low].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>(), value))</div>
-<div class="line"><a name="l03833"></a><span class="lineno"> 3833</span>&#160;                ++low;</div>
-<div class="line"><a name="l03834"></a><span class="lineno"> 3834</span>&#160;            </div>
-<div class="line"><a name="l03835"></a><span class="lineno"> 3835</span>&#160;            </div>
-<div class="line"><a name="l03836"></a><span class="lineno"> 3836</span>&#160;            <span class="keywordflow">if</span>(<a class="code" href="group__bits.html#ga371649b7712afb0bb3b2781aeddf45d9">SEQ_UNLIKELY</a>(low == buckets.size()))</div>
-<div class="line"><a name="l03837"></a><span class="lineno"> 3837</span>&#160;                <span class="keywordflow">return</span> this-&gt;<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>();</div>
-<div class="line"><a name="l03838"></a><span class="lineno"> 3838</span>&#160; </div>
-<div class="line"><a name="l03839"></a><span class="lineno"> 3839</span>&#160;            <span class="comment">//find inside bucket</span></div>
-<div class="line"><a name="l03840"></a><span class="lineno"> 3840</span>&#160;            bucket_pos_type b_index = low;</div>
-<div class="line"><a name="l03841"></a><span class="lineno"> 3841</span>&#160;            <span class="keyword">auto</span> * bucket = buckets[low].bucket;</div>
-<div class="line"><a name="l03842"></a><span class="lineno"> 3842</span>&#160; </div>
-<div class="line"><a name="l03843"></a><span class="lineno"> 3843</span>&#160;            {</div>
-<div class="line"><a name="l03844"></a><span class="lineno"> 3844</span>&#160;                <span class="keyword">using</span> pos_type = int;<span class="comment">//detail::cbuffer_pos</span></div>
-<div class="line"><a name="l03845"></a><span class="lineno"> 3845</span>&#160;                pos_type <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = bucket-&gt;size;</div>
-<div class="line"><a name="l03846"></a><span class="lineno"> 3846</span>&#160;                pos_type low = 0;</div>
-<div class="line"><a name="l03847"></a><span class="lineno"> 3847</span>&#160; </div>
-<div class="line"><a name="l03848"></a><span class="lineno"> 3848</span>&#160;                <span class="keywordflow">while</span> ((<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt; 16) ) {</div>
-<div class="line"><a name="l03849"></a><span class="lineno"> 3849</span>&#160;                    pos_type half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> / 2;</div>
-<div class="line"><a name="l03850"></a><span class="lineno"> 3850</span>&#160;                    pos_type other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
-<div class="line"><a name="l03851"></a><span class="lineno"> 3851</span>&#160;                    pos_type probe = low + half;</div>
-<div class="line"><a name="l03852"></a><span class="lineno"> 3852</span>&#160;                    pos_type other_low = low + other_half;</div>
-<div class="line"><a name="l03853"></a><span class="lineno"> 3853</span>&#160;                    <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
-<div class="line"><a name="l03854"></a><span class="lineno"> 3854</span>&#160;                    low = le((*bucket)[probe], value) ? other_low : low;</div>
-<div class="line"><a name="l03855"></a><span class="lineno"> 3855</span>&#160; </div>
-<div class="line"><a name="l03856"></a><span class="lineno"> 3856</span>&#160;                    half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> / 2;</div>
-<div class="line"><a name="l03857"></a><span class="lineno"> 3857</span>&#160;                    other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
-<div class="line"><a name="l03858"></a><span class="lineno"> 3858</span>&#160;                    probe = low + half;</div>
-<div class="line"><a name="l03859"></a><span class="lineno"> 3859</span>&#160;                    other_low = low + other_half;</div>
-<div class="line"><a name="l03860"></a><span class="lineno"> 3860</span>&#160;                    <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
-<div class="line"><a name="l03861"></a><span class="lineno"> 3861</span>&#160;                    low = le((*bucket)[probe], value) ? other_low : low;</div>
-<div class="line"><a name="l03862"></a><span class="lineno"> 3862</span>&#160;                }</div>
-<div class="line"><a name="l03863"></a><span class="lineno"> 3863</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> += low;</div>
-<div class="line"><a name="l03864"></a><span class="lineno"> 3864</span>&#160;                <span class="keywordflow">while</span> (low &lt; <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &amp;&amp; le((*bucket)[low], value))</div>
-<div class="line"><a name="l03865"></a><span class="lineno"> 3865</span>&#160;                    ++low;</div>
-<div class="line"><a name="l03866"></a><span class="lineno"> 3866</span>&#160;                </div>
-<div class="line"><a name="l03867"></a><span class="lineno"> 3867</span>&#160;                </div>
-<div class="line"><a name="l03868"></a><span class="lineno"> 3868</span>&#160;                <span class="keywordflow">return</span>  <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(low) + (b_index != 0 ? <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(buckets[0]-&gt;<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>) + <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(b_index - 1) * <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(bucket-&gt;max_size_) : 0);</div>
-<div class="line"><a name="l03869"></a><span class="lineno"> 3869</span>&#160;            }</div>
-<div class="line"><a name="l03870"></a><span class="lineno"> 3870</span>&#160;        }</div>
+<div class="line"><a name="l03795"></a><span class="lineno"> 3795</span>&#160;        <span class="comment">// Keep for later usage</span></div>
+<div class="line"><a name="l03796"></a><span class="lineno"> 3796</span>&#160;        <span class="comment">/*template&lt;class U, class Less = std::less&lt;T&gt; &gt;</span></div>
+<div class="line"><a name="l03797"></a><span class="lineno"> 3797</span>&#160;<span class="comment">        auto lower_bound_old( const U &amp; value, const Less &amp; le = Less()) const noexcept -&gt; size_t</span></div>
+<div class="line"><a name="l03798"></a><span class="lineno"> 3798</span>&#160;<span class="comment">        {</span></div>
+<div class="line"><a name="l03799"></a><span class="lineno"> 3799</span>&#160;<span class="comment">            static_assert(!std::is_same&lt; detail::NullValueCompare&lt;T&gt;, ValueCompare&gt;::value, &quot;lower_bound can only be used by flat_map/set containers&quot;);</span></div>
+<div class="line"><a name="l03800"></a><span class="lineno"> 3800</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l03801"></a><span class="lineno"> 3801</span>&#160;<span class="comment">            if (!d_manager)</span></div>
+<div class="line"><a name="l03802"></a><span class="lineno"> 3802</span>&#160;<span class="comment">                return 0;</span></div>
+<div class="line"><a name="l03803"></a><span class="lineno"> 3803</span>&#160;<span class="comment">            // Inspired by https://academy.realm.io/posts/how-we-beat-cpp-stl-binary-search/</span></div>
+<div class="line"><a name="l03804"></a><span class="lineno"> 3804</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l03805"></a><span class="lineno"> 3805</span>&#160;<span class="comment">            using BucketVector = typename bucket_manager::BucketVector;</span></div>
+<div class="line"><a name="l03806"></a><span class="lineno"> 3806</span>&#160;<span class="comment">            //using BucketType = typename BucketVector::value_type;</span></div>
+<div class="line"><a name="l03807"></a><span class="lineno"> 3807</span>&#160;<span class="comment">            const BucketVector &amp; buckets = manager()-&gt;buckets();</span></div>
+<div class="line"><a name="l03808"></a><span class="lineno"> 3808</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l03809"></a><span class="lineno"> 3809</span>&#160;<span class="comment">            //find bucket</span></div>
+<div class="line"><a name="l03810"></a><span class="lineno"> 3810</span>&#160;<span class="comment">            using bucket_pos_type = size_t;</span></div>
+<div class="line"><a name="l03811"></a><span class="lineno"> 3811</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l03812"></a><span class="lineno"> 3812</span>&#160;<span class="comment">            bucket_pos_type low = 0;</span></div>
+<div class="line"><a name="l03813"></a><span class="lineno"> 3813</span>&#160;<span class="comment">            bucket_pos_type size = buckets.size();</span></div>
+<div class="line"><a name="l03814"></a><span class="lineno"> 3814</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l03815"></a><span class="lineno"> 3815</span>&#160;<span class="comment">            while ((size &gt; 16)) {</span></div>
+<div class="line"><a name="l03816"></a><span class="lineno"> 3816</span>&#160;<span class="comment">                bucket_pos_type half = size / 2;</span></div>
+<div class="line"><a name="l03817"></a><span class="lineno"> 3817</span>&#160;<span class="comment">                bucket_pos_type other_half = size - half;</span></div>
+<div class="line"><a name="l03818"></a><span class="lineno"> 3818</span>&#160;<span class="comment">                bucket_pos_type probe = low + half;</span></div>
+<div class="line"><a name="l03819"></a><span class="lineno"> 3819</span>&#160;<span class="comment">                bucket_pos_type other_low = low + other_half;</span></div>
+<div class="line"><a name="l03820"></a><span class="lineno"> 3820</span>&#160;<span class="comment">                size = half;</span></div>
+<div class="line"><a name="l03821"></a><span class="lineno"> 3821</span>&#160;<span class="comment">                low = le(buckets[probe].back() , value) ? other_low : low;</span></div>
+<div class="line"><a name="l03822"></a><span class="lineno"> 3822</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l03823"></a><span class="lineno"> 3823</span>&#160;<span class="comment">                half = size / 2;</span></div>
+<div class="line"><a name="l03824"></a><span class="lineno"> 3824</span>&#160;<span class="comment">                other_half = size - half;</span></div>
+<div class="line"><a name="l03825"></a><span class="lineno"> 3825</span>&#160;<span class="comment">                probe = low + half;</span></div>
+<div class="line"><a name="l03826"></a><span class="lineno"> 3826</span>&#160;<span class="comment">                other_low = low + other_half;</span></div>
+<div class="line"><a name="l03827"></a><span class="lineno"> 3827</span>&#160;<span class="comment">                size = half;</span></div>
+<div class="line"><a name="l03828"></a><span class="lineno"> 3828</span>&#160;<span class="comment">                low = le(buckets[probe].back(), value) ? other_low : low;</span></div>
+<div class="line"><a name="l03829"></a><span class="lineno"> 3829</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l03830"></a><span class="lineno"> 3830</span>&#160;<span class="comment">            size += low ;</span></div>
+<div class="line"><a name="l03831"></a><span class="lineno"> 3831</span>&#160;<span class="comment">            while (low &lt; size &amp;&amp; le(buckets[low].back(), value))</span></div>
+<div class="line"><a name="l03832"></a><span class="lineno"> 3832</span>&#160;<span class="comment">                ++low;</span></div>
+<div class="line"><a name="l03833"></a><span class="lineno"> 3833</span>&#160;<span class="comment">            </span></div>
+<div class="line"><a name="l03834"></a><span class="lineno"> 3834</span>&#160;<span class="comment">            </span></div>
+<div class="line"><a name="l03835"></a><span class="lineno"> 3835</span>&#160;<span class="comment">            if(SEQ_UNLIKELY(low == buckets.size()))</span></div>
+<div class="line"><a name="l03836"></a><span class="lineno"> 3836</span>&#160;<span class="comment">                return this-&gt;size();</span></div>
+<div class="line"><a name="l03837"></a><span class="lineno"> 3837</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l03838"></a><span class="lineno"> 3838</span>&#160;<span class="comment">            //find inside bucket</span></div>
+<div class="line"><a name="l03839"></a><span class="lineno"> 3839</span>&#160;<span class="comment">            bucket_pos_type b_index = low;</span></div>
+<div class="line"><a name="l03840"></a><span class="lineno"> 3840</span>&#160;<span class="comment">            auto * bucket = buckets[low].bucket;</span></div>
+<div class="line"><a name="l03841"></a><span class="lineno"> 3841</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l03842"></a><span class="lineno"> 3842</span>&#160;<span class="comment">            {</span></div>
+<div class="line"><a name="l03843"></a><span class="lineno"> 3843</span>&#160;<span class="comment">                using pos_type = int;//detail::cbuffer_pos</span></div>
+<div class="line"><a name="l03844"></a><span class="lineno"> 3844</span>&#160;<span class="comment">                pos_type size = bucket-&gt;size;</span></div>
+<div class="line"><a name="l03845"></a><span class="lineno"> 3845</span>&#160;<span class="comment">                pos_type low = 0;</span></div>
+<div class="line"><a name="l03846"></a><span class="lineno"> 3846</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l03847"></a><span class="lineno"> 3847</span>&#160;<span class="comment">                while ((size &gt; 16) ) {</span></div>
+<div class="line"><a name="l03848"></a><span class="lineno"> 3848</span>&#160;<span class="comment">                    pos_type half = size / 2;</span></div>
+<div class="line"><a name="l03849"></a><span class="lineno"> 3849</span>&#160;<span class="comment">                    pos_type other_half = size - half;</span></div>
+<div class="line"><a name="l03850"></a><span class="lineno"> 3850</span>&#160;<span class="comment">                    pos_type probe = low + half;</span></div>
+<div class="line"><a name="l03851"></a><span class="lineno"> 3851</span>&#160;<span class="comment">                    pos_type other_low = low + other_half;</span></div>
+<div class="line"><a name="l03852"></a><span class="lineno"> 3852</span>&#160;<span class="comment">                    size = half;</span></div>
+<div class="line"><a name="l03853"></a><span class="lineno"> 3853</span>&#160;<span class="comment">                    low = le((*bucket)[probe], value) ? other_low : low;</span></div>
+<div class="line"><a name="l03854"></a><span class="lineno"> 3854</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l03855"></a><span class="lineno"> 3855</span>&#160;<span class="comment">                    half = size / 2;</span></div>
+<div class="line"><a name="l03856"></a><span class="lineno"> 3856</span>&#160;<span class="comment">                    other_half = size - half;</span></div>
+<div class="line"><a name="l03857"></a><span class="lineno"> 3857</span>&#160;<span class="comment">                    probe = low + half;</span></div>
+<div class="line"><a name="l03858"></a><span class="lineno"> 3858</span>&#160;<span class="comment">                    other_low = low + other_half;</span></div>
+<div class="line"><a name="l03859"></a><span class="lineno"> 3859</span>&#160;<span class="comment">                    size = half;</span></div>
+<div class="line"><a name="l03860"></a><span class="lineno"> 3860</span>&#160;<span class="comment">                    low = le((*bucket)[probe], value) ? other_low : low;</span></div>
+<div class="line"><a name="l03861"></a><span class="lineno"> 3861</span>&#160;<span class="comment">                }</span></div>
+<div class="line"><a name="l03862"></a><span class="lineno"> 3862</span>&#160;<span class="comment">                size += low;</span></div>
+<div class="line"><a name="l03863"></a><span class="lineno"> 3863</span>&#160;<span class="comment">                while (low &lt; size &amp;&amp; le((*bucket)[low], value))</span></div>
+<div class="line"><a name="l03864"></a><span class="lineno"> 3864</span>&#160;<span class="comment">                    ++low;</span></div>
+<div class="line"><a name="l03865"></a><span class="lineno"> 3865</span>&#160;<span class="comment">                </span></div>
+<div class="line"><a name="l03866"></a><span class="lineno"> 3866</span>&#160;<span class="comment">                </span></div>
+<div class="line"><a name="l03867"></a><span class="lineno"> 3867</span>&#160;<span class="comment">                return  static_cast&lt;size_t&gt;(low) + (b_index != 0 ? static_cast&lt;size_t&gt;(buckets[0]-&gt;size) + static_cast&lt;size_t&gt;(b_index - 1) * static_cast&lt;size_t&gt;(bucket-&gt;max_size_) : 0);</span></div>
+<div class="line"><a name="l03868"></a><span class="lineno"> 3868</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l03869"></a><span class="lineno"> 3869</span>&#160;<span class="comment">        }*/</span></div>
+<div class="line"><a name="l03870"></a><span class="lineno"> 3870</span>&#160; </div>
 <div class="line"><a name="l03871"></a><span class="lineno"> 3871</span>&#160; </div>
 <div class="line"><a name="l03872"></a><span class="lineno"> 3872</span>&#160; </div>
-<div class="line"><a name="l03873"></a><span class="lineno"> 3873</span>&#160; </div>
-<div class="line"><a name="l03876"></a><span class="lineno"> 3876</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">class</span> U, <span class="keyword">class</span> Less = std::less&lt;T&gt; &gt;</div>
-<div class="line"><a name="l03877"></a><span class="lineno"><a class="line" href="classseq_1_1tiered__vector.html#a735b0a3c5b783af8f8e344f21bbba693"> 3877</a></span>&#160;        <span class="keyword">auto</span> <a class="code" href="classseq_1_1tiered__vector.html#a735b0a3c5b783af8f8e344f21bbba693">lower_bound</a>(<span class="keyword">const</span> U&amp; value, <span class="keyword">const</span> Less&amp; le = Less()) const noexcept -&gt; <span class="keywordtype">size_t</span></div>
-<div class="line"><a name="l03878"></a><span class="lineno"> 3878</span>&#160;        {</div>
-<div class="line"><a name="l03879"></a><span class="lineno"> 3879</span>&#160;            static_assert(!std::is_same&lt; <a class="code" href="structseq_1_1detail_1_1_null_value_compare.html">detail::NullValueCompare&lt;T&gt;</a>, ValueCompare&gt;::value, <span class="stringliteral">&quot;lower_bound can only be used by flat_map/set containers&quot;</span>);</div>
-<div class="line"><a name="l03880"></a><span class="lineno"> 3880</span>&#160; </div>
-<div class="line"><a name="l03881"></a><span class="lineno"> 3881</span>&#160;            <span class="keywordflow">if</span> (!d_manager)</div>
-<div class="line"><a name="l03882"></a><span class="lineno"> 3882</span>&#160;                <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l03883"></a><span class="lineno"> 3883</span>&#160;            <span class="comment">// Inspired by https://academy.realm.io/posts/how-we-beat-cpp-stl-binary-search/</span></div>
-<div class="line"><a name="l03884"></a><span class="lineno"> 3884</span>&#160; </div>
-<div class="line"><a name="l03885"></a><span class="lineno"> 3885</span>&#160;            <span class="keyword">using</span> BucketVector = <span class="keyword">typename</span> <a class="code" href="structseq_1_1detail_1_1_bucket_manager.html#a60144b8a23f6753824e5e324f99641de">bucket_manager::BucketVector</a>;</div>
-<div class="line"><a name="l03886"></a><span class="lineno"> 3886</span>&#160;            <span class="keyword">const</span> BucketVector&amp; buckets = <a class="code" href="classseq_1_1tiered__vector.html#a18aa621d81f3842bfe95f5ce04702f68">manager</a>()-&gt;buckets();</div>
-<div class="line"><a name="l03887"></a><span class="lineno"> 3887</span>&#160; </div>
-<div class="line"><a name="l03888"></a><span class="lineno"> 3888</span>&#160;            <span class="comment">//find bucket</span></div>
-<div class="line"><a name="l03889"></a><span class="lineno"> 3889</span>&#160;            <span class="keyword">using</span> bucket_pos_type = size_t;</div>
-<div class="line"><a name="l03890"></a><span class="lineno"> 3890</span>&#160; </div>
-<div class="line"><a name="l03891"></a><span class="lineno"> 3891</span>&#160;            <span class="comment">//bucket_pos_type low = std::lower_bound(buckets.begin(), buckets.end(),value, [&amp;le](const auto&amp; a, const auto&amp; b) {return le(a.back() ,b); }) - buckets.begin();</span></div>
-<div class="line"><a name="l03892"></a><span class="lineno"> 3892</span>&#160;            bucket_pos_type low = 0;</div>
-<div class="line"><a name="l03893"></a><span class="lineno"> 3893</span>&#160;            bucket_pos_type <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = buckets.size();</div>
-<div class="line"><a name="l03894"></a><span class="lineno"> 3894</span>&#160;            <span class="keywordflow">while</span> ((<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt; 8)) {</div>
-<div class="line"><a name="l03895"></a><span class="lineno"> 3895</span>&#160;                bucket_pos_type half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> / 2;</div>
-<div class="line"><a name="l03896"></a><span class="lineno"> 3896</span>&#160;                bucket_pos_type other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
-<div class="line"><a name="l03897"></a><span class="lineno"> 3897</span>&#160;                bucket_pos_type probe = low + half;</div>
-<div class="line"><a name="l03898"></a><span class="lineno"> 3898</span>&#160;                bucket_pos_type other_low = low + other_half;</div>
-<div class="line"><a name="l03899"></a><span class="lineno"> 3899</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
-<div class="line"><a name="l03900"></a><span class="lineno"> 3900</span>&#160;                low = le(buckets[probe].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>(), value) ? other_low : low;</div>
-<div class="line"><a name="l03901"></a><span class="lineno"> 3901</span>&#160; </div>
-<div class="line"><a name="l03902"></a><span class="lineno"> 3902</span>&#160;                half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> / 2;</div>
-<div class="line"><a name="l03903"></a><span class="lineno"> 3903</span>&#160;                other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
-<div class="line"><a name="l03904"></a><span class="lineno"> 3904</span>&#160;                probe = low + half;</div>
-<div class="line"><a name="l03905"></a><span class="lineno"> 3905</span>&#160;                other_low = low + other_half;</div>
-<div class="line"><a name="l03906"></a><span class="lineno"> 3906</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
-<div class="line"><a name="l03907"></a><span class="lineno"> 3907</span>&#160;                low = le(buckets[probe].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>(), value) ? other_low : low;</div>
-<div class="line"><a name="l03908"></a><span class="lineno"> 3908</span>&#160;            }</div>
-<div class="line"><a name="l03909"></a><span class="lineno"> 3909</span>&#160;            <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> += low;</div>
-<div class="line"><a name="l03910"></a><span class="lineno"> 3910</span>&#160;            <span class="keywordflow">while</span> (low &lt; <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &amp;&amp; le(buckets[low].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>(), value))</div>
-<div class="line"><a name="l03911"></a><span class="lineno"> 3911</span>&#160;                ++low;</div>
-<div class="line"><a name="l03912"></a><span class="lineno"> 3912</span>&#160;            </div>
-<div class="line"><a name="l03913"></a><span class="lineno"> 3913</span>&#160; </div>
-<div class="line"><a name="l03914"></a><span class="lineno"> 3914</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="group__bits.html#ga371649b7712afb0bb3b2781aeddf45d9">SEQ_UNLIKELY</a>(low == buckets.size()))</div>
-<div class="line"><a name="l03915"></a><span class="lineno"> 3915</span>&#160;                <span class="keywordflow">return</span> this-&gt;<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>();</div>
-<div class="line"><a name="l03916"></a><span class="lineno"> 3916</span>&#160; </div>
-<div class="line"><a name="l03917"></a><span class="lineno"> 3917</span>&#160;            <span class="comment">//find inside bucket</span></div>
-<div class="line"><a name="l03918"></a><span class="lineno"> 3918</span>&#160;            bucket_pos_type b_index = low;</div>
-<div class="line"><a name="l03919"></a><span class="lineno"> 3919</span>&#160;            <span class="keyword">auto</span>* bucket = buckets[low].bucket;</div>
-<div class="line"><a name="l03920"></a><span class="lineno"> 3920</span>&#160; </div>
-<div class="line"><a name="l03921"></a><span class="lineno"> 3921</span>&#160;            {</div>
-<div class="line"><a name="l03922"></a><span class="lineno"> 3922</span>&#160;                <span class="comment">// Partition the bucket into left/right side based on the circular buffer begin position, </span></div>
-<div class="line"><a name="l03923"></a><span class="lineno"> 3923</span>&#160;                <span class="comment">// and apply the lower bound on the one of the 2.</span></div>
-<div class="line"><a name="l03924"></a><span class="lineno"> 3924</span>&#160; </div>
-<div class="line"><a name="l03925"></a><span class="lineno"> 3925</span>&#160;                <span class="keyword">using</span> pos_type = int;</div>
-<div class="line"><a name="l03926"></a><span class="lineno"> 3926</span>&#160;                <span class="keyword">const</span> <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>* begin_ptr = bucket-&gt;begin_ptr();</div>
-<div class="line"><a name="l03927"></a><span class="lineno"> 3927</span>&#160; </div>
-<div class="line"><a name="l03928"></a><span class="lineno"> 3928</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">bool</span> low_half = </div>
-<div class="line"><a name="l03929"></a><span class="lineno"> 3929</span>&#160;                    begin_ptr != bucket-&gt;buffer() &amp;&amp; <span class="comment">// begin is not 0</span></div>
-<div class="line"><a name="l03930"></a><span class="lineno"> 3930</span>&#160;                    (bucket-&gt;begin + bucket-&gt;size) &gt; bucket-&gt;max_size_ &amp;&amp; <span class="comment">// begin + size overflow</span></div>
-<div class="line"><a name="l03931"></a><span class="lineno"> 3931</span>&#160;                    le(*(bucket-&gt;buffer() + bucket-&gt;max_size1), value); <span class="comment">// value to took for is not in the upper half (between begin and buffer end)</span></div>
-<div class="line"><a name="l03932"></a><span class="lineno"> 3932</span>&#160; </div>
-<div class="line"><a name="l03933"></a><span class="lineno"> 3933</span>&#160;                <span class="keyword">const</span> <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>* ptr = low_half ? bucket-&gt;buffer() : begin_ptr;</div>
-<div class="line"><a name="l03934"></a><span class="lineno"> 3934</span>&#160;                pos_type <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = low_half ? </div>
-<div class="line"><a name="l03935"></a><span class="lineno"> 3935</span>&#160;                    ((bucket-&gt;begin + bucket-&gt;size) &amp; bucket-&gt;max_size1) : </div>
-<div class="line"><a name="l03936"></a><span class="lineno"> 3936</span>&#160;                    (std::min(bucket-&gt;size,<span class="keyword">static_cast&lt;</span><a class="code" href="namespaceseq_1_1detail.html#ad3a0759bd89ba1e3f58f05841ac6f76f">detail::cbuffer_pos</a><span class="keyword">&gt;</span>(bucket-&gt;max_size_ - bucket-&gt;begin)));</div>
-<div class="line"><a name="l03937"></a><span class="lineno"> 3937</span>&#160;                pos_type low = <a class="code" href="structseq_1_1detail_1_1lower__bound.html#ae7b21cfc2e7dbce9f09fc939712a3dc7">detail::lower_bound&lt;T&gt;::apply</a>(ptr, <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>, value, le);</div>
-<div class="line"><a name="l03938"></a><span class="lineno"> 3938</span>&#160; </div>
-<div class="line"><a name="l03939"></a><span class="lineno"> 3939</span>&#160;                low = ptr == begin_ptr ? low : low + (bucket-&gt;max_size_ - bucket-&gt;begin);</div>
-<div class="line"><a name="l03940"></a><span class="lineno"> 3940</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(low) + (b_index != 0 ? <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(buckets[0]-&gt;<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>) + <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(b_index - 1) * <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(bucket-&gt;max_size_) : 0);</div>
-<div class="line"><a name="l03941"></a><span class="lineno"> 3941</span>&#160;            }</div>
-<div class="line"><a name="l03942"></a><span class="lineno"> 3942</span>&#160; </div>
-<div class="line"><a name="l03943"></a><span class="lineno"> 3943</span>&#160;        }</div>
+<div class="line"><a name="l03875"></a><span class="lineno"> 3875</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">class</span> U, <span class="keyword">class</span> Less = std::less&lt;T&gt; &gt;</div>
+<div class="line"><a name="l03876"></a><span class="lineno"><a class="line" href="classseq_1_1tiered__vector.html#a735b0a3c5b783af8f8e344f21bbba693"> 3876</a></span>&#160;        <span class="keyword">auto</span> <a class="code" href="classseq_1_1tiered__vector.html#a735b0a3c5b783af8f8e344f21bbba693">lower_bound</a>(<span class="keyword">const</span> U&amp; value, <span class="keyword">const</span> Less&amp; le = Less()) const noexcept -&gt; <span class="keywordtype">size_t</span></div>
+<div class="line"><a name="l03877"></a><span class="lineno"> 3877</span>&#160;        {</div>
+<div class="line"><a name="l03878"></a><span class="lineno"> 3878</span>&#160;            static_assert(!std::is_same&lt; <a class="code" href="structseq_1_1detail_1_1_null_value_compare.html">detail::NullValueCompare&lt;T&gt;</a>, ValueCompare&gt;::value, <span class="stringliteral">&quot;lower_bound can only be used by flat_map/set containers&quot;</span>);</div>
+<div class="line"><a name="l03879"></a><span class="lineno"> 3879</span>&#160; </div>
+<div class="line"><a name="l03880"></a><span class="lineno"> 3880</span>&#160;            <span class="keywordflow">if</span> (!d_manager)</div>
+<div class="line"><a name="l03881"></a><span class="lineno"> 3881</span>&#160;                <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l03882"></a><span class="lineno"> 3882</span>&#160;            <span class="comment">// Inspired by https://academy.realm.io/posts/how-we-beat-cpp-stl-binary-search/</span></div>
+<div class="line"><a name="l03883"></a><span class="lineno"> 3883</span>&#160; </div>
+<div class="line"><a name="l03884"></a><span class="lineno"> 3884</span>&#160;            <span class="keyword">using</span> BucketVector = <span class="keyword">typename</span> <a class="code" href="structseq_1_1detail_1_1_bucket_manager.html#a60144b8a23f6753824e5e324f99641de">bucket_manager::BucketVector</a>;</div>
+<div class="line"><a name="l03885"></a><span class="lineno"> 3885</span>&#160;            <span class="keyword">const</span> BucketVector&amp; buckets = <a class="code" href="classseq_1_1tiered__vector.html#a18aa621d81f3842bfe95f5ce04702f68">manager</a>()-&gt;buckets();</div>
+<div class="line"><a name="l03886"></a><span class="lineno"> 3886</span>&#160; </div>
+<div class="line"><a name="l03887"></a><span class="lineno"> 3887</span>&#160;            <span class="comment">//find bucket</span></div>
+<div class="line"><a name="l03888"></a><span class="lineno"> 3888</span>&#160;            <span class="keyword">using</span> bucket_pos_type = size_t;</div>
+<div class="line"><a name="l03889"></a><span class="lineno"> 3889</span>&#160; </div>
+<div class="line"><a name="l03890"></a><span class="lineno"> 3890</span>&#160;            <span class="comment">//bucket_pos_type low = std::lower_bound(buckets.begin(), buckets.end(),value, [&amp;le](const auto&amp; a, const auto&amp; b) {return le(a.back() ,b); }) - buckets.begin();</span></div>
+<div class="line"><a name="l03891"></a><span class="lineno"> 3891</span>&#160;            bucket_pos_type low = 0;</div>
+<div class="line"><a name="l03892"></a><span class="lineno"> 3892</span>&#160;            bucket_pos_type <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = buckets.size();</div>
+<div class="line"><a name="l03893"></a><span class="lineno"> 3893</span>&#160;            <span class="keywordflow">while</span> ((<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt; 8)) {</div>
+<div class="line"><a name="l03894"></a><span class="lineno"> 3894</span>&#160;                bucket_pos_type half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> / 2;</div>
+<div class="line"><a name="l03895"></a><span class="lineno"> 3895</span>&#160;                bucket_pos_type other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
+<div class="line"><a name="l03896"></a><span class="lineno"> 3896</span>&#160;                bucket_pos_type probe = low + half;</div>
+<div class="line"><a name="l03897"></a><span class="lineno"> 3897</span>&#160;                bucket_pos_type other_low = low + other_half;</div>
+<div class="line"><a name="l03898"></a><span class="lineno"> 3898</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
+<div class="line"><a name="l03899"></a><span class="lineno"> 3899</span>&#160;                low = le(buckets[probe].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>(), value) ? other_low : low;</div>
+<div class="line"><a name="l03900"></a><span class="lineno"> 3900</span>&#160; </div>
+<div class="line"><a name="l03901"></a><span class="lineno"> 3901</span>&#160;                half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> / 2;</div>
+<div class="line"><a name="l03902"></a><span class="lineno"> 3902</span>&#160;                other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
+<div class="line"><a name="l03903"></a><span class="lineno"> 3903</span>&#160;                probe = low + half;</div>
+<div class="line"><a name="l03904"></a><span class="lineno"> 3904</span>&#160;                other_low = low + other_half;</div>
+<div class="line"><a name="l03905"></a><span class="lineno"> 3905</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
+<div class="line"><a name="l03906"></a><span class="lineno"> 3906</span>&#160;                low = le(buckets[probe].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>(), value) ? other_low : low;</div>
+<div class="line"><a name="l03907"></a><span class="lineno"> 3907</span>&#160;            }</div>
+<div class="line"><a name="l03908"></a><span class="lineno"> 3908</span>&#160;            <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> += low;</div>
+<div class="line"><a name="l03909"></a><span class="lineno"> 3909</span>&#160;            <span class="keywordflow">while</span> (low &lt; <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &amp;&amp; le(buckets[low].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>(), value))</div>
+<div class="line"><a name="l03910"></a><span class="lineno"> 3910</span>&#160;                ++low;</div>
+<div class="line"><a name="l03911"></a><span class="lineno"> 3911</span>&#160;            </div>
+<div class="line"><a name="l03912"></a><span class="lineno"> 3912</span>&#160; </div>
+<div class="line"><a name="l03913"></a><span class="lineno"> 3913</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="group__bits.html#ga371649b7712afb0bb3b2781aeddf45d9">SEQ_UNLIKELY</a>(low == buckets.size()))</div>
+<div class="line"><a name="l03914"></a><span class="lineno"> 3914</span>&#160;                <span class="keywordflow">return</span> this-&gt;<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>();</div>
+<div class="line"><a name="l03915"></a><span class="lineno"> 3915</span>&#160; </div>
+<div class="line"><a name="l03916"></a><span class="lineno"> 3916</span>&#160;            <span class="comment">//find inside bucket</span></div>
+<div class="line"><a name="l03917"></a><span class="lineno"> 3917</span>&#160;            bucket_pos_type b_index = low;</div>
+<div class="line"><a name="l03918"></a><span class="lineno"> 3918</span>&#160;            <span class="keyword">auto</span>* bucket = buckets[low].bucket;</div>
+<div class="line"><a name="l03919"></a><span class="lineno"> 3919</span>&#160; </div>
+<div class="line"><a name="l03920"></a><span class="lineno"> 3920</span>&#160;            {</div>
+<div class="line"><a name="l03921"></a><span class="lineno"> 3921</span>&#160;                <span class="comment">// Partition the bucket into left/right side based on the circular buffer begin position, </span></div>
+<div class="line"><a name="l03922"></a><span class="lineno"> 3922</span>&#160;                <span class="comment">// and apply the lower bound on the one of the 2.</span></div>
+<div class="line"><a name="l03923"></a><span class="lineno"> 3923</span>&#160; </div>
+<div class="line"><a name="l03924"></a><span class="lineno"> 3924</span>&#160;                <span class="keyword">using</span> pos_type = int;</div>
+<div class="line"><a name="l03925"></a><span class="lineno"> 3925</span>&#160;                <span class="keyword">const</span> <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>* begin_ptr = bucket-&gt;begin_ptr();</div>
+<div class="line"><a name="l03926"></a><span class="lineno"> 3926</span>&#160; </div>
+<div class="line"><a name="l03927"></a><span class="lineno"> 3927</span>&#160;                <span class="keyword">const</span> <span class="keywordtype">bool</span> low_half = </div>
+<div class="line"><a name="l03928"></a><span class="lineno"> 3928</span>&#160;                    begin_ptr != bucket-&gt;buffer() &amp;&amp; <span class="comment">// begin is not 0</span></div>
+<div class="line"><a name="l03929"></a><span class="lineno"> 3929</span>&#160;                    (bucket-&gt;begin + bucket-&gt;size) &gt; bucket-&gt;max_size_ &amp;&amp; <span class="comment">// begin + size overflow</span></div>
+<div class="line"><a name="l03930"></a><span class="lineno"> 3930</span>&#160;                    le(*(bucket-&gt;buffer() + bucket-&gt;max_size1), value); <span class="comment">// value to took for is not in the upper half (between begin and buffer end)</span></div>
+<div class="line"><a name="l03931"></a><span class="lineno"> 3931</span>&#160; </div>
+<div class="line"><a name="l03932"></a><span class="lineno"> 3932</span>&#160;                <span class="keyword">const</span> <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>* ptr = low_half ? bucket-&gt;buffer() : begin_ptr;</div>
+<div class="line"><a name="l03933"></a><span class="lineno"> 3933</span>&#160;                pos_type <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = low_half ? </div>
+<div class="line"><a name="l03934"></a><span class="lineno"> 3934</span>&#160;                    ((bucket-&gt;begin + bucket-&gt;size) &amp; bucket-&gt;max_size1) : </div>
+<div class="line"><a name="l03935"></a><span class="lineno"> 3935</span>&#160;                    (std::min(bucket-&gt;size,<span class="keyword">static_cast&lt;</span><a class="code" href="namespaceseq_1_1detail.html#ad3a0759bd89ba1e3f58f05841ac6f76f">detail::cbuffer_pos</a><span class="keyword">&gt;</span>(bucket-&gt;max_size_ - bucket-&gt;begin)));</div>
+<div class="line"><a name="l03936"></a><span class="lineno"> 3936</span>&#160;                pos_type low = <a class="code" href="structseq_1_1detail_1_1lower__bound.html#ae7b21cfc2e7dbce9f09fc939712a3dc7">detail::lower_bound&lt;T&gt;::apply</a>(ptr, <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>, value, le);</div>
+<div class="line"><a name="l03937"></a><span class="lineno"> 3937</span>&#160; </div>
+<div class="line"><a name="l03938"></a><span class="lineno"> 3938</span>&#160;                low = ptr == begin_ptr ? low : low + (bucket-&gt;max_size_ - bucket-&gt;begin);</div>
+<div class="line"><a name="l03939"></a><span class="lineno"> 3939</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(low) + (b_index != 0 ? <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(buckets[0]-&gt;<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>) + <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(b_index - 1) * <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(bucket-&gt;max_size_) : 0);</div>
+<div class="line"><a name="l03940"></a><span class="lineno"> 3940</span>&#160;            }</div>
+<div class="line"><a name="l03941"></a><span class="lineno"> 3941</span>&#160; </div>
+<div class="line"><a name="l03942"></a><span class="lineno"> 3942</span>&#160;        }</div>
+<div class="line"><a name="l03943"></a><span class="lineno"> 3943</span>&#160; </div>
 <div class="line"><a name="l03944"></a><span class="lineno"> 3944</span>&#160; </div>
 <div class="line"><a name="l03945"></a><span class="lineno"> 3945</span>&#160; </div>
-<div class="line"><a name="l03946"></a><span class="lineno"> 3946</span>&#160; </div>
-<div class="line"><a name="l03949"></a><span class="lineno"> 3949</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">class</span> U, <span class="keyword">class</span> Less = std::less&lt;T&gt; &gt;</div>
-<div class="line"><a name="l03950"></a><span class="lineno"><a class="line" href="classseq_1_1tiered__vector.html#a94048ce5ab585f2665dbc602aac528fb"> 3950</a></span>&#160;        <span class="keyword">auto</span> <a class="code" href="classseq_1_1tiered__vector.html#a94048ce5ab585f2665dbc602aac528fb">upper_bound</a>(<span class="keyword">const</span> U&amp; value, <span class="keyword">const</span> Less &amp; le = Less()) const noexcept -&gt; <span class="keywordtype">size_t</span></div>
-<div class="line"><a name="l03951"></a><span class="lineno"> 3951</span>&#160;        {</div>
-<div class="line"><a name="l03952"></a><span class="lineno"> 3952</span>&#160;            static_assert(!std::is_same&lt; <a class="code" href="structseq_1_1detail_1_1_null_value_compare.html">detail::NullValueCompare&lt;T&gt;</a>, ValueCompare&gt;::value, <span class="stringliteral">&quot;upper_bound can only be used by flat_map/set containers&quot;</span>);</div>
-<div class="line"><a name="l03953"></a><span class="lineno"> 3953</span>&#160; </div>
-<div class="line"><a name="l03954"></a><span class="lineno"> 3954</span>&#160;            <span class="keywordflow">if</span> (!d_manager)</div>
-<div class="line"><a name="l03955"></a><span class="lineno"> 3955</span>&#160;                <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l03956"></a><span class="lineno"> 3956</span>&#160; </div>
-<div class="line"><a name="l03957"></a><span class="lineno"> 3957</span>&#160;            <span class="keyword">using</span> BucketVector = <span class="keyword">typename</span> <a class="code" href="structseq_1_1detail_1_1_bucket_manager.html#a60144b8a23f6753824e5e324f99641de">bucket_manager::BucketVector</a>;</div>
-<div class="line"><a name="l03958"></a><span class="lineno"> 3958</span>&#160;            <span class="keyword">const</span> BucketVector&amp; buckets = <a class="code" href="classseq_1_1tiered__vector.html#a18aa621d81f3842bfe95f5ce04702f68">manager</a>()-&gt;buckets();</div>
-<div class="line"><a name="l03959"></a><span class="lineno"> 3959</span>&#160; </div>
-<div class="line"><a name="l03960"></a><span class="lineno"> 3960</span>&#160;            <span class="keywordtype">size_t</span> b_index;</div>
-<div class="line"><a name="l03961"></a><span class="lineno"> 3961</span>&#160;            <span class="comment">//find bucket</span></div>
-<div class="line"><a name="l03962"></a><span class="lineno"> 3962</span>&#160;            <span class="keywordtype">size_t</span> low = 0;</div>
-<div class="line"><a name="l03963"></a><span class="lineno"> 3963</span>&#160;            <span class="keywordtype">size_t</span> <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = (buckets.size() - low);</div>
+<div class="line"><a name="l03948"></a><span class="lineno"> 3948</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">class</span> U, <span class="keyword">class</span> Less = std::less&lt;T&gt; &gt;</div>
+<div class="line"><a name="l03949"></a><span class="lineno"><a class="line" href="classseq_1_1tiered__vector.html#a94048ce5ab585f2665dbc602aac528fb"> 3949</a></span>&#160;        <span class="keyword">auto</span> <a class="code" href="classseq_1_1tiered__vector.html#a94048ce5ab585f2665dbc602aac528fb">upper_bound</a>(<span class="keyword">const</span> U&amp; value, <span class="keyword">const</span> Less &amp; le = Less()) const noexcept -&gt; <span class="keywordtype">size_t</span></div>
+<div class="line"><a name="l03950"></a><span class="lineno"> 3950</span>&#160;        {</div>
+<div class="line"><a name="l03951"></a><span class="lineno"> 3951</span>&#160;            static_assert(!std::is_same&lt; <a class="code" href="structseq_1_1detail_1_1_null_value_compare.html">detail::NullValueCompare&lt;T&gt;</a>, ValueCompare&gt;::value, <span class="stringliteral">&quot;upper_bound can only be used by flat_map/set containers&quot;</span>);</div>
+<div class="line"><a name="l03952"></a><span class="lineno"> 3952</span>&#160; </div>
+<div class="line"><a name="l03953"></a><span class="lineno"> 3953</span>&#160;            <span class="keywordflow">if</span> (!d_manager)</div>
+<div class="line"><a name="l03954"></a><span class="lineno"> 3954</span>&#160;                <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l03955"></a><span class="lineno"> 3955</span>&#160; </div>
+<div class="line"><a name="l03956"></a><span class="lineno"> 3956</span>&#160;            <span class="keyword">using</span> BucketVector = <span class="keyword">typename</span> <a class="code" href="structseq_1_1detail_1_1_bucket_manager.html#a60144b8a23f6753824e5e324f99641de">bucket_manager::BucketVector</a>;</div>
+<div class="line"><a name="l03957"></a><span class="lineno"> 3957</span>&#160;            <span class="keyword">const</span> BucketVector&amp; buckets = <a class="code" href="classseq_1_1tiered__vector.html#a18aa621d81f3842bfe95f5ce04702f68">manager</a>()-&gt;buckets();</div>
+<div class="line"><a name="l03958"></a><span class="lineno"> 3958</span>&#160; </div>
+<div class="line"><a name="l03959"></a><span class="lineno"> 3959</span>&#160;            <span class="keywordtype">size_t</span> b_index;</div>
+<div class="line"><a name="l03960"></a><span class="lineno"> 3960</span>&#160;            <span class="comment">//find bucket</span></div>
+<div class="line"><a name="l03961"></a><span class="lineno"> 3961</span>&#160;            <span class="keywordtype">size_t</span> low = 0;</div>
+<div class="line"><a name="l03962"></a><span class="lineno"> 3962</span>&#160;            <span class="keywordtype">size_t</span> <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = (buckets.size() - low);</div>
+<div class="line"><a name="l03963"></a><span class="lineno"> 3963</span>&#160; </div>
 <div class="line"><a name="l03964"></a><span class="lineno"> 3964</span>&#160; </div>
-<div class="line"><a name="l03965"></a><span class="lineno"> 3965</span>&#160; </div>
-<div class="line"><a name="l03966"></a><span class="lineno"> 3966</span>&#160;            <span class="keywordflow">while</span> (<a class="code" href="group__bits.html#gaac3e750dd623d4a1ef045f0faa734e08">SEQ_LIKELY</a>(<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt; 16)) {</div>
-<div class="line"><a name="l03967"></a><span class="lineno"> 3967</span>&#160;                <span class="keywordtype">size_t</span> half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt;&gt; 1ULL;</div>
-<div class="line"><a name="l03968"></a><span class="lineno"> 3968</span>&#160;                <span class="keywordtype">size_t</span> other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
-<div class="line"><a name="l03969"></a><span class="lineno"> 3969</span>&#160;                <span class="keywordtype">size_t</span> probe = low + half;</div>
-<div class="line"><a name="l03970"></a><span class="lineno"> 3970</span>&#160;                <span class="keywordtype">size_t</span> other_low = low + other_half;</div>
-<div class="line"><a name="l03971"></a><span class="lineno"> 3971</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
-<div class="line"><a name="l03972"></a><span class="lineno"> 3972</span>&#160;                low = le( value, buckets[probe].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>()) ? low : other_low;</div>
-<div class="line"><a name="l03973"></a><span class="lineno"> 3973</span>&#160; </div>
-<div class="line"><a name="l03974"></a><span class="lineno"> 3974</span>&#160;                half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt;&gt; 1ULL;</div>
-<div class="line"><a name="l03975"></a><span class="lineno"> 3975</span>&#160;                other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
-<div class="line"><a name="l03976"></a><span class="lineno"> 3976</span>&#160;                probe = low + half;</div>
-<div class="line"><a name="l03977"></a><span class="lineno"> 3977</span>&#160;                other_low = low + other_half;</div>
-<div class="line"><a name="l03978"></a><span class="lineno"> 3978</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
-<div class="line"><a name="l03979"></a><span class="lineno"> 3979</span>&#160;                low = le(value, buckets[probe].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>()) ? low : other_low;</div>
-<div class="line"><a name="l03980"></a><span class="lineno"> 3980</span>&#160; </div>
-<div class="line"><a name="l03981"></a><span class="lineno"> 3981</span>&#160;            }</div>
-<div class="line"><a name="l03982"></a><span class="lineno"> 3982</span>&#160; </div>
-<div class="line"><a name="l03983"></a><span class="lineno"> 3983</span>&#160;            <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> += low;</div>
-<div class="line"><a name="l03984"></a><span class="lineno"> 3984</span>&#160;            <span class="keywordflow">for</span> (; low &lt; <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>; ++low) {</div>
-<div class="line"><a name="l03985"></a><span class="lineno"> 3985</span>&#160;                <span class="keywordflow">if</span> (le(value, buckets[low].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>()))</div>
-<div class="line"><a name="l03986"></a><span class="lineno"> 3986</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l03987"></a><span class="lineno"> 3987</span>&#160;            }</div>
-<div class="line"><a name="l03988"></a><span class="lineno"> 3988</span>&#160; </div>
-<div class="line"><a name="l03989"></a><span class="lineno"> 3989</span>&#160;            b_index = low;</div>
-<div class="line"><a name="l03990"></a><span class="lineno"> 3990</span>&#160;            <span class="keywordflow">if</span> (low == buckets.size())</div>
-<div class="line"><a name="l03991"></a><span class="lineno"> 3991</span>&#160;                <span class="keywordflow">return</span> this-&gt;<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>();</div>
+<div class="line"><a name="l03965"></a><span class="lineno"> 3965</span>&#160;            <span class="keywordflow">while</span> (<a class="code" href="group__bits.html#gaac3e750dd623d4a1ef045f0faa734e08">SEQ_LIKELY</a>(<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt; 16)) {</div>
+<div class="line"><a name="l03966"></a><span class="lineno"> 3966</span>&#160;                <span class="keywordtype">size_t</span> half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt;&gt; 1ULL;</div>
+<div class="line"><a name="l03967"></a><span class="lineno"> 3967</span>&#160;                <span class="keywordtype">size_t</span> other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
+<div class="line"><a name="l03968"></a><span class="lineno"> 3968</span>&#160;                <span class="keywordtype">size_t</span> probe = low + half;</div>
+<div class="line"><a name="l03969"></a><span class="lineno"> 3969</span>&#160;                <span class="keywordtype">size_t</span> other_low = low + other_half;</div>
+<div class="line"><a name="l03970"></a><span class="lineno"> 3970</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
+<div class="line"><a name="l03971"></a><span class="lineno"> 3971</span>&#160;                low = le( value, buckets[probe].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>()) ? low : other_low;</div>
+<div class="line"><a name="l03972"></a><span class="lineno"> 3972</span>&#160; </div>
+<div class="line"><a name="l03973"></a><span class="lineno"> 3973</span>&#160;                half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt;&gt; 1ULL;</div>
+<div class="line"><a name="l03974"></a><span class="lineno"> 3974</span>&#160;                other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
+<div class="line"><a name="l03975"></a><span class="lineno"> 3975</span>&#160;                probe = low + half;</div>
+<div class="line"><a name="l03976"></a><span class="lineno"> 3976</span>&#160;                other_low = low + other_half;</div>
+<div class="line"><a name="l03977"></a><span class="lineno"> 3977</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
+<div class="line"><a name="l03978"></a><span class="lineno"> 3978</span>&#160;                low = le(value, buckets[probe].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>()) ? low : other_low;</div>
+<div class="line"><a name="l03979"></a><span class="lineno"> 3979</span>&#160; </div>
+<div class="line"><a name="l03980"></a><span class="lineno"> 3980</span>&#160;            }</div>
+<div class="line"><a name="l03981"></a><span class="lineno"> 3981</span>&#160; </div>
+<div class="line"><a name="l03982"></a><span class="lineno"> 3982</span>&#160;            <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> += low;</div>
+<div class="line"><a name="l03983"></a><span class="lineno"> 3983</span>&#160;            <span class="keywordflow">for</span> (; low &lt; <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>; ++low) {</div>
+<div class="line"><a name="l03984"></a><span class="lineno"> 3984</span>&#160;                <span class="keywordflow">if</span> (le(value, buckets[low].<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>()))</div>
+<div class="line"><a name="l03985"></a><span class="lineno"> 3985</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l03986"></a><span class="lineno"> 3986</span>&#160;            }</div>
+<div class="line"><a name="l03987"></a><span class="lineno"> 3987</span>&#160; </div>
+<div class="line"><a name="l03988"></a><span class="lineno"> 3988</span>&#160;            b_index = low;</div>
+<div class="line"><a name="l03989"></a><span class="lineno"> 3989</span>&#160;            <span class="keywordflow">if</span> (low == buckets.size())</div>
+<div class="line"><a name="l03990"></a><span class="lineno"> 3990</span>&#160;                <span class="keywordflow">return</span> this-&gt;<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>();</div>
+<div class="line"><a name="l03991"></a><span class="lineno"> 3991</span>&#160; </div>
 <div class="line"><a name="l03992"></a><span class="lineno"> 3992</span>&#160; </div>
-<div class="line"><a name="l03993"></a><span class="lineno"> 3993</span>&#160; </div>
-<div class="line"><a name="l03994"></a><span class="lineno"> 3994</span>&#160;            <span class="comment">//find inside bucket</span></div>
-<div class="line"><a name="l03995"></a><span class="lineno"> 3995</span>&#160;            <span class="keyword">auto</span>* bucket = buckets[b_index].bucket;</div>
+<div class="line"><a name="l03993"></a><span class="lineno"> 3993</span>&#160;            <span class="comment">//find inside bucket</span></div>
+<div class="line"><a name="l03994"></a><span class="lineno"> 3994</span>&#160;            <span class="keyword">auto</span>* bucket = buckets[b_index].bucket;</div>
+<div class="line"><a name="l03995"></a><span class="lineno"> 3995</span>&#160; </div>
 <div class="line"><a name="l03996"></a><span class="lineno"> 3996</span>&#160; </div>
-<div class="line"><a name="l03997"></a><span class="lineno"> 3997</span>&#160; </div>
-<div class="line"><a name="l03998"></a><span class="lineno"> 3998</span>&#160;            <span class="comment">//find bucket</span></div>
-<div class="line"><a name="l03999"></a><span class="lineno"> 3999</span>&#160;            <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = bucket-&gt;size;</div>
-<div class="line"><a name="l04000"></a><span class="lineno"> 4000</span>&#160;            low = 0;</div>
+<div class="line"><a name="l03997"></a><span class="lineno"> 3997</span>&#160;            <span class="comment">//find bucket</span></div>
+<div class="line"><a name="l03998"></a><span class="lineno"> 3998</span>&#160;            <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = bucket-&gt;size;</div>
+<div class="line"><a name="l03999"></a><span class="lineno"> 3999</span>&#160;            low = 0;</div>
+<div class="line"><a name="l04000"></a><span class="lineno"> 4000</span>&#160; </div>
 <div class="line"><a name="l04001"></a><span class="lineno"> 4001</span>&#160; </div>
-<div class="line"><a name="l04002"></a><span class="lineno"> 4002</span>&#160; </div>
-<div class="line"><a name="l04003"></a><span class="lineno"> 4003</span>&#160;            <span class="keywordflow">while</span> (<a class="code" href="group__bits.html#gaac3e750dd623d4a1ef045f0faa734e08">SEQ_LIKELY</a>(<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt; 16)) {</div>
-<div class="line"><a name="l04004"></a><span class="lineno"> 4004</span>&#160;                <span class="keywordtype">size_t</span> half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt;&gt; 1LL;</div>
-<div class="line"><a name="l04005"></a><span class="lineno"> 4005</span>&#160;                <span class="keywordtype">size_t</span> other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
-<div class="line"><a name="l04006"></a><span class="lineno"> 4006</span>&#160;                <span class="keywordtype">size_t</span> probe = low + half;</div>
-<div class="line"><a name="l04007"></a><span class="lineno"> 4007</span>&#160;                <span class="keywordtype">size_t</span> other_low = low + other_half;</div>
-<div class="line"><a name="l04008"></a><span class="lineno"> 4008</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
-<div class="line"><a name="l04009"></a><span class="lineno"> 4009</span>&#160;                low = le(value, (*bucket)[<span class="keyword">static_cast&lt;</span><a class="code" href="namespaceseq_1_1detail.html#ad3a0759bd89ba1e3f58f05841ac6f76f">detail::cbuffer_pos</a><span class="keyword">&gt;</span>(probe)]) ? low : other_low;</div>
-<div class="line"><a name="l04010"></a><span class="lineno"> 4010</span>&#160; </div>
-<div class="line"><a name="l04011"></a><span class="lineno"> 4011</span>&#160;                half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt;&gt; 1LL;</div>
-<div class="line"><a name="l04012"></a><span class="lineno"> 4012</span>&#160;                other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
-<div class="line"><a name="l04013"></a><span class="lineno"> 4013</span>&#160;                probe = low + half;</div>
-<div class="line"><a name="l04014"></a><span class="lineno"> 4014</span>&#160;                other_low = low + other_half;</div>
-<div class="line"><a name="l04015"></a><span class="lineno"> 4015</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
-<div class="line"><a name="l04016"></a><span class="lineno"> 4016</span>&#160;                low = le(value, (*bucket)[<span class="keyword">static_cast&lt;</span><a class="code" href="namespaceseq_1_1detail.html#ad3a0759bd89ba1e3f58f05841ac6f76f">detail::cbuffer_pos</a><span class="keyword">&gt;</span>(probe)]) ? low : other_low;</div>
-<div class="line"><a name="l04017"></a><span class="lineno"> 4017</span>&#160;            }</div>
-<div class="line"><a name="l04018"></a><span class="lineno"> 4018</span>&#160; </div>
-<div class="line"><a name="l04019"></a><span class="lineno"> 4019</span>&#160;            <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> += low;</div>
-<div class="line"><a name="l04020"></a><span class="lineno"> 4020</span>&#160;            <span class="keywordflow">for</span> (; low &lt; <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>; ++low) {</div>
-<div class="line"><a name="l04021"></a><span class="lineno"> 4021</span>&#160;                <span class="keywordflow">if</span> (le(value, (*bucket)[<span class="keyword">static_cast&lt;</span><a class="code" href="namespaceseq_1_1detail.html#ad3a0759bd89ba1e3f58f05841ac6f76f">detail::cbuffer_pos</a><span class="keyword">&gt;</span>(low)]))</div>
-<div class="line"><a name="l04022"></a><span class="lineno"> 4022</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l04023"></a><span class="lineno"> 4023</span>&#160;            }</div>
-<div class="line"><a name="l04024"></a><span class="lineno"> 4024</span>&#160; </div>
-<div class="line"><a name="l04025"></a><span class="lineno"> 4025</span>&#160;            <span class="keywordflow">if</span> (b_index != 0)</div>
-<div class="line"><a name="l04026"></a><span class="lineno"> 4026</span>&#160;                low += buckets[0]-&gt;size + (b_index - 1) * (bucket)-&gt;max_size_;</div>
-<div class="line"><a name="l04027"></a><span class="lineno"> 4027</span>&#160;            <span class="keywordflow">return</span> low;</div>
-<div class="line"><a name="l04028"></a><span class="lineno"> 4028</span>&#160;        }</div>
-<div class="line"><a name="l04029"></a><span class="lineno"> 4029</span>&#160; </div>
-<div class="line"><a name="l04030"></a><span class="lineno"> 4030</span>&#160; </div>
-<div class="line"><a name="l04031"></a><span class="lineno"> 4031</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">class</span> Less  &gt;</div>
-<div class="line"><a name="l04032"></a><span class="lineno"><a class="line" href="classseq_1_1tiered__vector.html#ae6f1805215dfe158dfe0735c5943cad6"> 4032</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classseq_1_1tiered__vector.html#ae6f1805215dfe158dfe0735c5943cad6">sort</a>(<span class="keyword">const</span> Less&amp; le = Less()) </div>
-<div class="line"><a name="l04033"></a><span class="lineno"> 4033</span>&#160;        {</div>
-<div class="line"><a name="l04034"></a><span class="lineno"> 4034</span>&#160;            <span class="keyword">static</span> constexpr <span class="keywordtype">bool</span> nothrow = std::is_nothrow_move_constructible&lt;T&gt;::value;</div>
-<div class="line"><a name="l04035"></a><span class="lineno"> 4035</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>() == 0)</div>
-<div class="line"><a name="l04036"></a><span class="lineno"> 4036</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l04037"></a><span class="lineno"> 4037</span>&#160; </div>
-<div class="line"><a name="l04038"></a><span class="lineno"> 4038</span>&#160;            <span class="keywordflow">if</span> (!nothrow)</div>
-<div class="line"><a name="l04039"></a><span class="lineno"> 4039</span>&#160;            {</div>
-<div class="line"><a name="l04040"></a><span class="lineno"> 4040</span>&#160;                <a class="code" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a>(<a class="code" href="classseq_1_1tiered__vector.html#a09a8317c6196fe7097f758420f4bf548">begin</a>(),<a class="code" href="classseq_1_1tiered__vector.html#a80db09b20de5aa84c205e69a8c74b273">end</a>(), le);</div>
+<div class="line"><a name="l04002"></a><span class="lineno"> 4002</span>&#160;            <span class="keywordflow">while</span> (<a class="code" href="group__bits.html#gaac3e750dd623d4a1ef045f0faa734e08">SEQ_LIKELY</a>(<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt; 16)) {</div>
+<div class="line"><a name="l04003"></a><span class="lineno"> 4003</span>&#160;                <span class="keywordtype">size_t</span> half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt;&gt; 1LL;</div>
+<div class="line"><a name="l04004"></a><span class="lineno"> 4004</span>&#160;                <span class="keywordtype">size_t</span> other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
+<div class="line"><a name="l04005"></a><span class="lineno"> 4005</span>&#160;                <span class="keywordtype">size_t</span> probe = low + half;</div>
+<div class="line"><a name="l04006"></a><span class="lineno"> 4006</span>&#160;                <span class="keywordtype">size_t</span> other_low = low + other_half;</div>
+<div class="line"><a name="l04007"></a><span class="lineno"> 4007</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
+<div class="line"><a name="l04008"></a><span class="lineno"> 4008</span>&#160;                low = le(value, (*bucket)[<span class="keyword">static_cast&lt;</span><a class="code" href="namespaceseq_1_1detail.html#ad3a0759bd89ba1e3f58f05841ac6f76f">detail::cbuffer_pos</a><span class="keyword">&gt;</span>(probe)]) ? low : other_low;</div>
+<div class="line"><a name="l04009"></a><span class="lineno"> 4009</span>&#160; </div>
+<div class="line"><a name="l04010"></a><span class="lineno"> 4010</span>&#160;                half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> &gt;&gt; 1LL;</div>
+<div class="line"><a name="l04011"></a><span class="lineno"> 4011</span>&#160;                other_half = <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> - half;</div>
+<div class="line"><a name="l04012"></a><span class="lineno"> 4012</span>&#160;                probe = low + half;</div>
+<div class="line"><a name="l04013"></a><span class="lineno"> 4013</span>&#160;                other_low = low + other_half;</div>
+<div class="line"><a name="l04014"></a><span class="lineno"> 4014</span>&#160;                <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> = half;</div>
+<div class="line"><a name="l04015"></a><span class="lineno"> 4015</span>&#160;                low = le(value, (*bucket)[<span class="keyword">static_cast&lt;</span><a class="code" href="namespaceseq_1_1detail.html#ad3a0759bd89ba1e3f58f05841ac6f76f">detail::cbuffer_pos</a><span class="keyword">&gt;</span>(probe)]) ? low : other_low;</div>
+<div class="line"><a name="l04016"></a><span class="lineno"> 4016</span>&#160;            }</div>
+<div class="line"><a name="l04017"></a><span class="lineno"> 4017</span>&#160; </div>
+<div class="line"><a name="l04018"></a><span class="lineno"> 4018</span>&#160;            <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a> += low;</div>
+<div class="line"><a name="l04019"></a><span class="lineno"> 4019</span>&#160;            <span class="keywordflow">for</span> (; low &lt; <a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>; ++low) {</div>
+<div class="line"><a name="l04020"></a><span class="lineno"> 4020</span>&#160;                <span class="keywordflow">if</span> (le(value, (*bucket)[<span class="keyword">static_cast&lt;</span><a class="code" href="namespaceseq_1_1detail.html#ad3a0759bd89ba1e3f58f05841ac6f76f">detail::cbuffer_pos</a><span class="keyword">&gt;</span>(low)]))</div>
+<div class="line"><a name="l04021"></a><span class="lineno"> 4021</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l04022"></a><span class="lineno"> 4022</span>&#160;            }</div>
+<div class="line"><a name="l04023"></a><span class="lineno"> 4023</span>&#160; </div>
+<div class="line"><a name="l04024"></a><span class="lineno"> 4024</span>&#160;            <span class="keywordflow">if</span> (b_index != 0)</div>
+<div class="line"><a name="l04025"></a><span class="lineno"> 4025</span>&#160;                low += buckets[0]-&gt;size + (b_index - 1) * (bucket)-&gt;max_size_;</div>
+<div class="line"><a name="l04026"></a><span class="lineno"> 4026</span>&#160;            <span class="keywordflow">return</span> low;</div>
+<div class="line"><a name="l04027"></a><span class="lineno"> 4027</span>&#160;        }</div>
+<div class="line"><a name="l04028"></a><span class="lineno"> 4028</span>&#160; </div>
+<div class="line"><a name="l04036"></a><span class="lineno"> 4036</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">class</span> Less  &gt;</div>
+<div class="line"><a name="l04037"></a><span class="lineno"><a class="line" href="classseq_1_1tiered__vector.html#ae6f1805215dfe158dfe0735c5943cad6"> 4037</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classseq_1_1tiered__vector.html#ae6f1805215dfe158dfe0735c5943cad6">sort</a>(<span class="keyword">const</span> Less&amp; le = Less()) </div>
+<div class="line"><a name="l04038"></a><span class="lineno"> 4038</span>&#160;        {</div>
+<div class="line"><a name="l04039"></a><span class="lineno"> 4039</span>&#160;            <span class="keyword">static</span> constexpr <span class="keywordtype">bool</span> nothrow = std::is_nothrow_move_constructible&lt;T&gt;::value;</div>
+<div class="line"><a name="l04040"></a><span class="lineno"> 4040</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">size</a>() == 0)</div>
 <div class="line"><a name="l04041"></a><span class="lineno"> 4041</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l04042"></a><span class="lineno"> 4042</span>&#160;            }</div>
-<div class="line"><a name="l04043"></a><span class="lineno"> 4043</span>&#160; </div>
-<div class="line"><a name="l04044"></a><span class="lineno"> 4044</span>&#160;            <span class="comment">// Fill front bucket</span></div>
-<div class="line"><a name="l04045"></a><span class="lineno"> 4045</span>&#160;            <span class="keywordflow">while</span> (d_manager-&gt;d_buckets.size() &gt; 1 &amp;&amp; d_manager-&gt;d_buckets[0].bucket-&gt;size != d_manager-&gt;d_bucket_size)</div>
-<div class="line"><a name="l04046"></a><span class="lineno"> 4046</span>&#160;            {</div>
-<div class="line"><a name="l04047"></a><span class="lineno"> 4047</span>&#160;                <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> tmp = <a class="code" href="namespacestd.html#af8821d6dc8543af6dc30cddfe0bd0584">std::move</a>(<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>());</div>
-<div class="line"><a name="l04048"></a><span class="lineno"> 4048</span>&#160;                this-&gt;<a class="code" href="classseq_1_1tiered__vector.html#aebbfb66c36a48f7c68e8ee6a36fedbfa">pop_back</a>();</div>
-<div class="line"><a name="l04049"></a><span class="lineno"> 4049</span>&#160;                this-&gt;<a class="code" href="classseq_1_1tiered__vector.html#a312a16493aa0b324786ed30ec951be34">push_front</a>(<a class="code" href="namespacestd.html#af8821d6dc8543af6dc30cddfe0bd0584">std::move</a>(tmp));</div>
-<div class="line"><a name="l04050"></a><span class="lineno"> 4050</span>&#160;            }</div>
-<div class="line"><a name="l04051"></a><span class="lineno"> 4051</span>&#160;            <a class="code" href="group__bits.html#ga9989f32616a05af18ff62830566e4b2f">SEQ_ASSERT_DEBUG</a>(d_manager-&gt;d_buckets[0].bucket-&gt;size == d_manager-&gt;d_bucket_size || d_manager-&gt;d_buckets.size() == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l04052"></a><span class="lineno"> 4052</span>&#160; </div>
-<div class="line"><a name="l04053"></a><span class="lineno"> 4053</span>&#160;            <span class="keywordflow">if</span> (d_manager-&gt;d_buckets.back().bucket-&gt;size != d_manager-&gt;d_bucket_size)</div>
-<div class="line"><a name="l04054"></a><span class="lineno"> 4054</span>&#160;            {</div>
-<div class="line"><a name="l04055"></a><span class="lineno"> 4055</span>&#160;                <span class="comment">// If the back bucket is not full, make it start at 0</span></div>
-<div class="line"><a name="l04056"></a><span class="lineno"> 4056</span>&#160;                <span class="keyword">auto</span>* bucket = d_manager-&gt;d_buckets.back().bucket;</div>
-<div class="line"><a name="l04057"></a><span class="lineno"> 4057</span>&#160;                <span class="keyword">auto</span> al = <a class="code" href="classseq_1_1tiered__vector.html#addb79ebe5c38d0d5c3512fcc271ea884">get_allocator</a>();</div>
-<div class="line"><a name="l04058"></a><span class="lineno"> 4058</span>&#160;                <span class="keywordflow">while</span> (bucket-&gt;begin != 0) {</div>
-<div class="line"><a name="l04059"></a><span class="lineno"> 4059</span>&#160;                    <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> tmp = <a class="code" href="namespacestd.html#af8821d6dc8543af6dc30cddfe0bd0584">std::move</a>(bucket-&gt;back());</div>
-<div class="line"><a name="l04060"></a><span class="lineno"> 4060</span>&#160;                    bucket-&gt;pop_back(al);</div>
-<div class="line"><a name="l04061"></a><span class="lineno"> 4061</span>&#160;                    bucket-&gt;push_front(al, <a class="code" href="namespacestd.html#af8821d6dc8543af6dc30cddfe0bd0584">std::move</a>(tmp));</div>
-<div class="line"><a name="l04062"></a><span class="lineno"> 4062</span>&#160;                }</div>
-<div class="line"><a name="l04063"></a><span class="lineno"> 4063</span>&#160;            }</div>
-<div class="line"><a name="l04064"></a><span class="lineno"> 4064</span>&#160;            </div>
-<div class="line"><a name="l04065"></a><span class="lineno"> 4065</span>&#160; </div>
-<div class="line"><a name="l04066"></a><span class="lineno"> 4066</span>&#160;            <span class="keyword">auto</span> b = <a class="code" href="structseq_1_1detail_1_1tvector__ra__iterator.html">detail::tvector_ra_iterator&lt;bucket_manager&gt;</a>(d_manager);</div>
-<div class="line"><a name="l04067"></a><span class="lineno"> 4067</span>&#160;            <span class="keyword">auto</span> e = <a class="code" href="structseq_1_1detail_1_1tvector__ra__iterator.html">detail::tvector_ra_iterator&lt;bucket_manager&gt;</a>(d_manager,0);</div>
-<div class="line"><a name="l04068"></a><span class="lineno"> 4068</span>&#160;            <a class="code" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a>(b, e, le);</div>
-<div class="line"><a name="l04069"></a><span class="lineno"> 4069</span>&#160; </div>
-<div class="line"><a name="l04070"></a><span class="lineno"> 4070</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; d_manager-&gt;d_buckets.size(); ++i)</div>
-<div class="line"><a name="l04071"></a><span class="lineno"> 4071</span>&#160;            {</div>
-<div class="line"><a name="l04072"></a><span class="lineno"> 4072</span>&#160;                <span class="keyword">auto</span>&amp; bucket = d_manager-&gt;d_buckets[i];</div>
-<div class="line"><a name="l04073"></a><span class="lineno"> 4073</span>&#160;                bucket.bucket-&gt;begin = 0;</div>
-<div class="line"><a name="l04074"></a><span class="lineno"> 4074</span>&#160;                <span class="keywordflow">if</span> (StoreBackValues)</div>
-<div class="line"><a name="l04075"></a><span class="lineno"> 4075</span>&#160;                    bucket.update();</div>
-<div class="line"><a name="l04076"></a><span class="lineno"> 4076</span>&#160;            }</div>
-<div class="line"><a name="l04077"></a><span class="lineno"> 4077</span>&#160;        }</div>
-<div class="line"><a name="l04078"></a><span class="lineno"><a class="line" href="classseq_1_1tiered__vector.html#aa6e7abc66d3082e955d8409dfcca5d86"> 4078</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classseq_1_1tiered__vector.html#aa6e7abc66d3082e955d8409dfcca5d86">sort</a>()</div>
-<div class="line"><a name="l04079"></a><span class="lineno"> 4079</span>&#160;        {</div>
-<div class="line"><a name="l04080"></a><span class="lineno"> 4080</span>&#160;            this-&gt;<a class="code" href="classseq_1_1tiered__vector.html#aa6e7abc66d3082e955d8409dfcca5d86">sort</a>(std::less&lt;T&gt;{});</div>
-<div class="line"><a name="l04081"></a><span class="lineno"> 4081</span>&#160;        }</div>
-<div class="line"><a name="l04082"></a><span class="lineno"> 4082</span>&#160;        </div>
-<div class="line"><a name="l04083"></a><span class="lineno"> 4083</span>&#160;    };</div>
-<div class="line"><a name="l04084"></a><span class="lineno"> 4084</span>&#160; </div>
-<div class="line"><a name="l04085"></a><span class="lineno"> 4085</span>&#160; </div>
-<div class="line"><a name="l04086"></a><span class="lineno"> 4086</span>&#160; </div>
-<div class="line"><a name="l04087"></a><span class="lineno"> 4087</span>&#160; </div>
-<div class="line"><a name="l04088"></a><span class="lineno"> 4088</span>&#160;} <span class="comment">//end namespace seq</span></div>
-<div class="line"><a name="l04089"></a><span class="lineno"> 4089</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l04042"></a><span class="lineno"> 4042</span>&#160; </div>
+<div class="line"><a name="l04043"></a><span class="lineno"> 4043</span>&#160;            <span class="keywordflow">if</span> (!nothrow)</div>
+<div class="line"><a name="l04044"></a><span class="lineno"> 4044</span>&#160;            {</div>
+<div class="line"><a name="l04045"></a><span class="lineno"> 4045</span>&#160;                <a class="code" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a>(<a class="code" href="classseq_1_1tiered__vector.html#a09a8317c6196fe7097f758420f4bf548">begin</a>(),<a class="code" href="classseq_1_1tiered__vector.html#a80db09b20de5aa84c205e69a8c74b273">end</a>(), le);</div>
+<div class="line"><a name="l04046"></a><span class="lineno"> 4046</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l04047"></a><span class="lineno"> 4047</span>&#160;            }</div>
+<div class="line"><a name="l04048"></a><span class="lineno"> 4048</span>&#160; </div>
+<div class="line"><a name="l04049"></a><span class="lineno"> 4049</span>&#160;            <span class="comment">// Fill front bucket</span></div>
+<div class="line"><a name="l04050"></a><span class="lineno"> 4050</span>&#160;            <span class="keywordflow">while</span> (d_manager-&gt;d_buckets.size() &gt; 1 &amp;&amp; d_manager-&gt;d_buckets[0].bucket-&gt;size != d_manager-&gt;d_bucket_size)</div>
+<div class="line"><a name="l04051"></a><span class="lineno"> 4051</span>&#160;            {</div>
+<div class="line"><a name="l04052"></a><span class="lineno"> 4052</span>&#160;                <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> tmp = <a class="code" href="namespacestd.html#af8821d6dc8543af6dc30cddfe0bd0584">std::move</a>(<a class="code" href="classseq_1_1tiered__vector.html#ad4ac2e71087dece71c9c1f686b67c4f1">back</a>());</div>
+<div class="line"><a name="l04053"></a><span class="lineno"> 4053</span>&#160;                this-&gt;<a class="code" href="classseq_1_1tiered__vector.html#aebbfb66c36a48f7c68e8ee6a36fedbfa">pop_back</a>();</div>
+<div class="line"><a name="l04054"></a><span class="lineno"> 4054</span>&#160;                this-&gt;<a class="code" href="classseq_1_1tiered__vector.html#a312a16493aa0b324786ed30ec951be34">push_front</a>(<a class="code" href="namespacestd.html#af8821d6dc8543af6dc30cddfe0bd0584">std::move</a>(tmp));</div>
+<div class="line"><a name="l04055"></a><span class="lineno"> 4055</span>&#160;            }</div>
+<div class="line"><a name="l04056"></a><span class="lineno"> 4056</span>&#160;            <a class="code" href="group__bits.html#ga9989f32616a05af18ff62830566e4b2f">SEQ_ASSERT_DEBUG</a>(d_manager-&gt;d_buckets[0].bucket-&gt;size == d_manager-&gt;d_bucket_size || d_manager-&gt;d_buckets.size() == 1, <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l04057"></a><span class="lineno"> 4057</span>&#160; </div>
+<div class="line"><a name="l04058"></a><span class="lineno"> 4058</span>&#160;            <span class="keywordflow">if</span> (d_manager-&gt;d_buckets.back().bucket-&gt;size != d_manager-&gt;d_bucket_size)</div>
+<div class="line"><a name="l04059"></a><span class="lineno"> 4059</span>&#160;            {</div>
+<div class="line"><a name="l04060"></a><span class="lineno"> 4060</span>&#160;                <span class="comment">// If the back bucket is not full, make it start at 0</span></div>
+<div class="line"><a name="l04061"></a><span class="lineno"> 4061</span>&#160;                <span class="keyword">auto</span>* bucket = d_manager-&gt;d_buckets.back().bucket;</div>
+<div class="line"><a name="l04062"></a><span class="lineno"> 4062</span>&#160;                <span class="keyword">auto</span> al = <a class="code" href="classseq_1_1tiered__vector.html#addb79ebe5c38d0d5c3512fcc271ea884">get_allocator</a>();</div>
+<div class="line"><a name="l04063"></a><span class="lineno"> 4063</span>&#160;                <span class="keywordflow">while</span> (bucket-&gt;begin != 0) {</div>
+<div class="line"><a name="l04064"></a><span class="lineno"> 4064</span>&#160;                    <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> tmp = <a class="code" href="namespacestd.html#af8821d6dc8543af6dc30cddfe0bd0584">std::move</a>(bucket-&gt;back());</div>
+<div class="line"><a name="l04065"></a><span class="lineno"> 4065</span>&#160;                    bucket-&gt;pop_back(al);</div>
+<div class="line"><a name="l04066"></a><span class="lineno"> 4066</span>&#160;                    bucket-&gt;push_front(al, <a class="code" href="namespacestd.html#af8821d6dc8543af6dc30cddfe0bd0584">std::move</a>(tmp));</div>
+<div class="line"><a name="l04067"></a><span class="lineno"> 4067</span>&#160;                }</div>
+<div class="line"><a name="l04068"></a><span class="lineno"> 4068</span>&#160;            }</div>
+<div class="line"><a name="l04069"></a><span class="lineno"> 4069</span>&#160;            </div>
+<div class="line"><a name="l04070"></a><span class="lineno"> 4070</span>&#160; </div>
+<div class="line"><a name="l04071"></a><span class="lineno"> 4071</span>&#160;            <span class="keyword">auto</span> b = <a class="code" href="structseq_1_1detail_1_1tvector__ra__iterator.html">detail::tvector_ra_iterator&lt;bucket_manager&gt;</a>(d_manager);</div>
+<div class="line"><a name="l04072"></a><span class="lineno"> 4072</span>&#160;            <span class="keyword">auto</span> e = <a class="code" href="structseq_1_1detail_1_1tvector__ra__iterator.html">detail::tvector_ra_iterator&lt;bucket_manager&gt;</a>(d_manager,0);</div>
+<div class="line"><a name="l04073"></a><span class="lineno"> 4073</span>&#160;            <a class="code" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a>(b, e, le);</div>
+<div class="line"><a name="l04074"></a><span class="lineno"> 4074</span>&#160; </div>
+<div class="line"><a name="l04075"></a><span class="lineno"> 4075</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; d_manager-&gt;d_buckets.size(); ++i)</div>
+<div class="line"><a name="l04076"></a><span class="lineno"> 4076</span>&#160;            {</div>
+<div class="line"><a name="l04077"></a><span class="lineno"> 4077</span>&#160;                <span class="keyword">auto</span>&amp; bucket = d_manager-&gt;d_buckets[i];</div>
+<div class="line"><a name="l04078"></a><span class="lineno"> 4078</span>&#160;                bucket.bucket-&gt;begin = 0;</div>
+<div class="line"><a name="l04079"></a><span class="lineno"> 4079</span>&#160;                <span class="keywordflow">if</span> (StoreBackValues)</div>
+<div class="line"><a name="l04080"></a><span class="lineno"> 4080</span>&#160;                    bucket.update();</div>
+<div class="line"><a name="l04081"></a><span class="lineno"> 4081</span>&#160;            }</div>
+<div class="line"><a name="l04082"></a><span class="lineno"> 4082</span>&#160;        }</div>
+<div class="line"><a name="l04083"></a><span class="lineno"><a class="line" href="classseq_1_1tiered__vector.html#aa6e7abc66d3082e955d8409dfcca5d86"> 4083</a></span>&#160;        <span class="keywordtype">void</span> <a class="code" href="classseq_1_1tiered__vector.html#aa6e7abc66d3082e955d8409dfcca5d86">sort</a>()</div>
+<div class="line"><a name="l04084"></a><span class="lineno"> 4084</span>&#160;        {</div>
+<div class="line"><a name="l04085"></a><span class="lineno"> 4085</span>&#160;            this-&gt;<a class="code" href="classseq_1_1tiered__vector.html#aa6e7abc66d3082e955d8409dfcca5d86">sort</a>(std::less&lt;T&gt;{});</div>
+<div class="line"><a name="l04086"></a><span class="lineno"> 4086</span>&#160;        }</div>
+<div class="line"><a name="l04087"></a><span class="lineno"> 4087</span>&#160;        </div>
+<div class="line"><a name="l04088"></a><span class="lineno"> 4088</span>&#160;    };</div>
+<div class="line"><a name="l04089"></a><span class="lineno"> 4089</span>&#160; </div>
+<div class="line"><a name="l04090"></a><span class="lineno"> 4090</span>&#160; </div>
+<div class="line"><a name="l04091"></a><span class="lineno"> 4091</span>&#160; </div>
+<div class="line"><a name="l04092"></a><span class="lineno"> 4092</span>&#160; </div>
+<div class="line"><a name="l04093"></a><span class="lineno"> 4093</span>&#160;} <span class="comment">//end namespace seq</span></div>
+<div class="line"><a name="l04094"></a><span class="lineno"> 4094</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="aclassseq_1_1tiered__vector_html_a8de3daa2bab53b24154ba50a95e22d67"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a8de3daa2bab53b24154ba50a95e22d67">seq::tiered_vector::for_each</a></div><div class="ttdeci">auto for_each(size_type first, size_type last, Fun fun) -&gt; Fun</div><div class="ttdoc">Apply unary function fun to all elements within the range [first,last).</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3693</div></div>
@@ -3907,7 +3907,6 @@ $(document).ready(function(){initNavTree('tiered__vector_8hpp_source.html',''); 
 <div class="ttc" id="astructseq_1_1detail_1_1_bucket_manager_html_a228d404d16ff1608ebb356383b8f025d"><div class="ttname"><a href="structseq_1_1detail_1_1_bucket_manager.html#a228d404d16ff1608ebb356383b8f025d">seq::detail::BucketManager::insert_left</a></div><div class="ttdeci">auto insert_left(size_type pos, size_type bucket_index, int index, Args &amp;&amp;... args) -&gt; T *</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:2077</div></div>
 <div class="ttc" id="aclassseq_1_1tiered__vector_html_a32dd5e1fefc8ccccfefd654b78bf2373"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a32dd5e1fefc8ccccfefd654b78bf2373">seq::tiered_vector::push_front</a></div><div class="ttdeci">void push_front(T &amp;&amp;value)</div><div class="ttdoc">Appends the given element value to the beginning of the container using move semantic.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3428</div></div>
 <div class="ttc" id="aclassseq_1_1tiered__vector_html_a6e74dab33a2325a19fb880475d9d8591"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a6e74dab33a2325a19fb880475d9d8591">seq::tiered_vector::crend</a></div><div class="ttdeci">SEQ_ALWAYS_INLINE auto crend() const noexcept -&gt; const_reverse_iterator</div><div class="ttdoc">Returns a reverse iterator to the element following the last element of the reversed list.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3770</div></div>
-<div class="ttc" id="aclassseq_1_1tiered__vector_html_a800f6015e79b3a17ac57b4ee36c82cf5"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a800f6015e79b3a17ac57b4ee36c82cf5">seq::tiered_vector::lower_bound_old</a></div><div class="ttdeci">auto lower_bound_old(const U &amp;value, const Less &amp;le=Less()) const noexcept -&gt; size_t</div><div class="ttdoc">Optimized version of std::lower_bound(begin(),end(),value,le); Only works for sorted tiered_vector.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3798</div></div>
 <div class="ttc" id="anamespaceseq_html"><div class="ttname"><a href="namespaceseq.html">seq</a></div><div class="ttdef"><b>Definition:</b> any.hpp:58</div></div>
 <div class="ttc" id="astructseq_1_1detail_1_1_null_value_compare_html_a5f735c1f01cc1390154187e262be50ed"><div class="ttname"><a href="structseq_1_1detail_1_1_null_value_compare.html#a5f735c1f01cc1390154187e262be50ed">seq::detail::NullValueCompare::key</a></div><div class="ttdeci">static auto key(T &amp;v) noexcept -&gt; T &amp;</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:2723</div></div>
 <div class="ttc" id="aclassseq_1_1tiered__vector_html_aacb5d8d747178d01887da6333a2ec349"><div class="ttname"><a href="classseq_1_1tiered__vector.html#aacb5d8d747178d01887da6333a2ec349">seq::tiered_vector::resize_front</a></div><div class="ttdeci">void resize_front(size_type count, const T &amp;value)</div><div class="ttdoc">Resizes the container to contain count elements.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3351</div></div>
@@ -3916,7 +3915,7 @@ $(document).ready(function(){initNavTree('tiered__vector_8hpp_source.html',''); 
 <div class="ttc" id="astructseq_1_1detail_1_1_circular_buffer_html_a833e3b5cf09278dd731f6d0e9fb9ec3d"><div class="ttname"><a href="structseq_1_1detail_1_1_circular_buffer.html#a833e3b5cf09278dd731f6d0e9fb9ec3d">seq::detail::CircularBuffer::begin_ptr</a></div><div class="ttdeci">SEQ_ALWAYS_INLINE auto begin_ptr() noexcept -&gt; T *</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:669</div></div>
 <div class="ttc" id="aclassseq_1_1tiered__vector_html_acf869fd6b455ddf0ccc0098ef99fedd3"><div class="ttname"><a href="classseq_1_1tiered__vector.html#acf869fd6b455ddf0ccc0098ef99fedd3">seq::tiered_vector::insert</a></div><div class="ttdeci">auto insert(const_iterator it, T &amp;&amp;value) -&gt; iterator</div><div class="ttdoc">Insert value before it using move semantic.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3485</div></div>
 <div class="ttc" id="aclassseq_1_1devector_html_a2dd8e493ecbca5aab0672e8dba51038d"><div class="ttname"><a href="classseq_1_1devector.html#a2dd8e493ecbca5aab0672e8dba51038d">seq::devector::erase</a></div><div class="ttdeci">auto erase(const_iterator first, const_iterator last) -&gt; const_iterator</div><div class="ttdoc">Removes the elements in the range [first, last). Basic exception guarantee.</div><div class="ttdef"><b>Definition:</b> devector.hpp:1011</div></div>
-<div class="ttc" id="aclassseq_1_1tiered__vector_html_a94048ce5ab585f2665dbc602aac528fb"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a94048ce5ab585f2665dbc602aac528fb">seq::tiered_vector::upper_bound</a></div><div class="ttdeci">auto upper_bound(const U &amp;value, const Less &amp;le=Less()) const noexcept -&gt; size_t</div><div class="ttdoc">Optimized version of std::upper_bound(begin(),end(),value,le); Only works for sorted tiered_vector.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3950</div></div>
+<div class="ttc" id="aclassseq_1_1tiered__vector_html_a94048ce5ab585f2665dbc602aac528fb"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a94048ce5ab585f2665dbc602aac528fb">seq::tiered_vector::upper_bound</a></div><div class="ttdeci">auto upper_bound(const U &amp;value, const Less &amp;le=Less()) const noexcept -&gt; size_t</div><div class="ttdoc">Optimized version of std::upper_bound(begin(),end(),value,le); Only works for sorted tiered_vector.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3949</div></div>
 <div class="ttc" id="aclassseq_1_1devector_html_a121af25ef810799cded1cd6c1a2f9752"><div class="ttname"><a href="classseq_1_1devector.html#a121af25ef810799cded1cd6c1a2f9752">seq::devector::front</a></div><div class="ttdeci">auto front() noexcept -&gt; T &amp;</div><div class="ttdoc">Returns a reference to the front element.</div><div class="ttdef"><b>Definition:</b> devector.hpp:1135</div></div>
 <div class="ttc" id="astructseq_1_1detail_1_1_bucket_manager_html_a6eec745df451f79e6a6ae6b48d82b1a2"><div class="ttname"><a href="structseq_1_1detail_1_1_bucket_manager.html#a6eec745df451f79e6a6ae6b48d82b1a2">seq::detail::BucketManager::d_bucket_size_bits</a></div><div class="ttdeci">cbuffer_pos d_bucket_size_bits</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:1526</div></div>
 <div class="ttc" id="astructseq_1_1detail_1_1_circular_buffer_html_a1203f3ef42f6c5d135c135c4932eebb5"><div class="ttname"><a href="structseq_1_1detail_1_1_circular_buffer.html#a1203f3ef42f6c5d135c135c4932eebb5">seq::detail::CircularBuffer::back</a></div><div class="ttdeci">SEQ_ALWAYS_INLINE auto back() const noexcept -&gt; const T &amp;</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:716</div></div>
@@ -3957,7 +3956,7 @@ $(document).ready(function(){initNavTree('tiered__vector_8hpp_source.html',''); 
 <div class="ttc" id="astructseq_1_1detail_1_1_circular_buffer_html_a49e50868ce05c926c62a8babfd4107a0"><div class="ttname"><a href="structseq_1_1detail_1_1_circular_buffer.html#a49e50868ce05c926c62a8babfd4107a0">seq::detail::CircularBuffer::emplace</a></div><div class="ttdeci">auto emplace(Allocator &amp;allocator, cbuffer_pos pos, Args &amp;&amp;... args) -&gt; T *</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:1013</div></div>
 <div class="ttc" id="astructseq_1_1detail_1_1_bucket_manager_html_a87fa45fa41a02396d3b7ad7c3a263b25"><div class="ttname"><a href="structseq_1_1detail_1_1_bucket_manager.html#a87fa45fa41a02396d3b7ad7c3a263b25">seq::detail::BucketManager::push_back</a></div><div class="ttdeci">void push_back(const T &amp;value)</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:2025</div></div>
 <div class="ttc" id="astructseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01false_01_4_html_a5b16e720a56bc828fc3e3ac1c4ddd329"><div class="ttname"><a href="structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01false_01_4.html#a5b16e720a56bc828fc3e3ac1c4ddd329">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, true, false &gt;::bucket</a></div><div class="ttdeci">CircularBuffer&lt; T, Allocator &gt; * bucket</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:1437</div></div>
-<div class="ttc" id="aclassseq_1_1tiered__vector_html_ae6f1805215dfe158dfe0735c5943cad6"><div class="ttname"><a href="classseq_1_1tiered__vector.html#ae6f1805215dfe158dfe0735c5943cad6">seq::tiered_vector::sort</a></div><div class="ttdeci">void sort(const Less &amp;le=Less())</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:4032</div></div>
+<div class="ttc" id="aclassseq_1_1tiered__vector_html_ae6f1805215dfe158dfe0735c5943cad6"><div class="ttname"><a href="classseq_1_1tiered__vector.html#ae6f1805215dfe158dfe0735c5943cad6">seq::tiered_vector::sort</a></div><div class="ttdeci">void sort(const Less &amp;le=Less())</div><div class="ttdoc">Unstable sorting.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:4037</div></div>
 <div class="ttc" id="astructseq_1_1detail_1_1tvector__ra__iterator_html_ab17f029960c2fac41f905a68caaf3acb"><div class="ttname"><a href="structseq_1_1detail_1_1tvector__ra__iterator.html#ab17f029960c2fac41f905a68caaf3acb">seq::detail::tvector_ra_iterator::reference</a></div><div class="ttdeci">value_type &amp; reference</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:494</div></div>
 <div class="ttc" id="astructseq_1_1detail_1_1_bucket_manager_html_a3d950e937052ba913760a0c4177e42fe"><div class="ttname"><a href="structseq_1_1detail_1_1_bucket_manager.html#a3d950e937052ba913760a0c4177e42fe">seq::detail::BucketManager::push_back</a></div><div class="ttdeci">void push_back(T &amp;&amp;value)</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:2028</div></div>
 <div class="ttc" id="astructseq_1_1detail_1_1_small_bucket_allocator_html_aca499e861f6af2333475fe80f9d46ecb"><div class="ttname"><a href="structseq_1_1detail_1_1_small_bucket_allocator.html#aca499e861f6af2333475fe80f9d46ecb">seq::detail::SmallBucketAllocator::SmallBucketAllocator</a></div><div class="ttdeci">SmallBucketAllocator(const Allocator &amp;al) noexcept</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:1336</div></div>
@@ -4009,7 +4008,7 @@ $(document).ready(function(){initNavTree('tiered__vector_8hpp_source.html',''); 
 <div class="ttc" id="astructseq_1_1detail_1_1_bucket_manager_html_a76f644e735b0b18db04f68f6f8f66df8"><div class="ttname"><a href="structseq_1_1detail_1_1_bucket_manager.html#a76f644e735b0b18db04f68f6f8f66df8">seq::detail::BucketManager::emplace_back</a></div><div class="ttdeci">auto emplace_back(Args &amp;&amp;... args) -&gt; T &amp;</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:2012</div></div>
 <div class="ttc" id="aclassseq_1_1tiered__vector_html"><div class="ttname"><a href="classseq_1_1tiered__vector.html">seq::tiered_vector</a></div><div class="ttdoc">seq::tiered_vector is a std::deque like container implemented as a tiered-vector.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:2881</div></div>
 <div class="ttc" id="astructseq_1_1detail_1_1_small_bucket_allocator_html_aeffc86f7265a2c186a0a3cf15e15acd5"><div class="ttname"><a href="structseq_1_1detail_1_1_small_bucket_allocator.html#aeffc86f7265a2c186a0a3cf15e15acd5">seq::detail::SmallBucketAllocator::get_allocator</a></div><div class="ttdeci">SEQ_ALWAYS_INLINE auto get_allocator() noexcept -&gt; Allocator &amp;</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:1390</div></div>
-<div class="ttc" id="aclassseq_1_1tiered__vector_html_aa6e7abc66d3082e955d8409dfcca5d86"><div class="ttname"><a href="classseq_1_1tiered__vector.html#aa6e7abc66d3082e955d8409dfcca5d86">seq::tiered_vector::sort</a></div><div class="ttdeci">void sort()</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:4078</div></div>
+<div class="ttc" id="aclassseq_1_1tiered__vector_html_aa6e7abc66d3082e955d8409dfcca5d86"><div class="ttname"><a href="classseq_1_1tiered__vector.html#aa6e7abc66d3082e955d8409dfcca5d86">seq::tiered_vector::sort</a></div><div class="ttdeci">void sort()</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:4083</div></div>
 <div class="ttc" id="aclassseq_1_1tiered__vector_html_a55e50977fb890dd61611473584b2bdac"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a55e50977fb890dd61611473584b2bdac">seq::tiered_vector::assign</a></div><div class="ttdeci">void assign(size_type count, const T &amp;value)</div><div class="ttdoc">Replaces the contents with count copies of value value Basic exception guarantee.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3663</div></div>
 <div class="ttc" id="astructseq_1_1detail_1_1_base_circular_buffer_html_a8e93a4ac8717f9ef129476ad37900488"><div class="ttname"><a href="structseq_1_1detail_1_1_base_circular_buffer.html#a8e93a4ac8717f9ef129476ad37900488">seq::detail::BaseCircularBuffer::size</a></div><div class="ttdeci">cbuffer_pos size</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:600</div></div>
 <div class="ttc" id="aclassseq_1_1devector_html_a9d5862c6f0eb0be9c0a63e3aab2ab9fd"><div class="ttname"><a href="classseq_1_1devector.html#a9d5862c6f0eb0be9c0a63e3aab2ab9fd">seq::devector::empty</a></div><div class="ttdeci">auto empty() const noexcept -&gt; bool</div><div class="ttdoc">Returns true if the container is empty, false otherwise.</div><div class="ttdef"><b>Definition:</b> devector.hpp:726</div></div>
@@ -4089,7 +4088,7 @@ $(document).ready(function(){initNavTree('tiered__vector_8hpp_source.html',''); 
 <div class="ttc" id="astructseq_1_1is__relocatable_html"><div class="ttname"><a href="structseq_1_1is__relocatable.html">seq::is_relocatable</a></div><div class="ttdoc">Type trait telling if a class is relocatable or not.</div><div class="ttdef"><b>Definition:</b> type_traits.hpp:162</div></div>
 <div class="ttc" id="apdqsort_8hpp_html"><div class="ttname"><a href="pdqsort_8hpp.html">pdqsort.hpp</a></div></div>
 <div class="ttc" id="aclassseq_1_1tiered__vector_html_a09a8317c6196fe7097f758420f4bf548"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a09a8317c6196fe7097f758420f4bf548">seq::tiered_vector::begin</a></div><div class="ttdeci">SEQ_ALWAYS_INLINE auto begin() const noexcept -&gt; const_iterator</div><div class="ttdoc">Returns an iterator to the first element of the tiered_vector.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3748</div></div>
-<div class="ttc" id="aclassseq_1_1tiered__vector_html_a735b0a3c5b783af8f8e344f21bbba693"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a735b0a3c5b783af8f8e344f21bbba693">seq::tiered_vector::lower_bound</a></div><div class="ttdeci">auto lower_bound(const U &amp;value, const Less &amp;le=Less()) const noexcept -&gt; size_t</div><div class="ttdoc">Optimized version of std::lower_bound(begin(),end(),value,le); Only works for sorted tiered_vector.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3877</div></div>
+<div class="ttc" id="aclassseq_1_1tiered__vector_html_a735b0a3c5b783af8f8e344f21bbba693"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a735b0a3c5b783af8f8e344f21bbba693">seq::tiered_vector::lower_bound</a></div><div class="ttdeci">auto lower_bound(const U &amp;value, const Less &amp;le=Less()) const noexcept -&gt; size_t</div><div class="ttdoc">Optimized version of std::lower_bound(begin(),end(),value,le); Only works for sorted tiered_vector.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3876</div></div>
 <div class="ttc" id="aclassseq_1_1devector_html_a8cdd4a389d12386193a8e027210df1b0"><div class="ttname"><a href="classseq_1_1devector.html#a8cdd4a389d12386193a8e027210df1b0">seq::devector::swap</a></div><div class="ttdeci">void swap(devector &amp;other) noexcept</div><div class="ttdoc">Swap this container with other Does not invalidated iterators, including end() iterator.</div><div class="ttdef"><b>Definition:</b> devector.hpp:1046</div></div>
 <div class="ttc" id="aclassseq_1_1cvalue__iterator_html"><div class="ttname"><a href="classseq_1_1cvalue__iterator.html">seq::cvalue_iterator</a></div><div class="ttdoc">Convenient random access iterator on a constant value.</div><div class="ttdef"><b>Definition:</b> utils.hpp:52</div></div>
 <div class="ttc" id="aclassseq_1_1tiered__vector_html_afa6237d50e0df9563a1d44030e0e9700"><div class="ttname"><a href="classseq_1_1tiered__vector.html#afa6237d50e0df9563a1d44030e0e9700">seq::tiered_vector::assign</a></div><div class="ttdeci">void assign(Iter first, Iter last)</div><div class="ttdoc">Replaces the contents with copies of those in the range [first, last). The behavior is undefined if e...</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3671</div></div>

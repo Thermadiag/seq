@@ -1,6 +1,5 @@
 var NAVTREEINDEX14 =
 {
-"structseq_1_1detail_1_1flat__tree.html#a8b098ab602065b3294068df2f92fb87d":[3,0,0,0,92,101],
 "structseq_1_1detail_1_1flat__tree.html#a96e1fe054bc7bcf2bd8bd7bbdd53ebb2":[3,0,0,0,92,94],
 "structseq_1_1detail_1_1flat__tree.html#a990b2bda1e3170abc0557c0443c5b436":[3,0,0,0,92,89],
 "structseq_1_1detail_1_1flat__tree.html#a9a464ae5dfd949988c1f07ecc3ef211f":[3,0,0,0,92,61],
@@ -249,5 +248,6 @@ var NAVTREEINDEX14 =
 "structseq_1_1detail_1_1std__alloc.html#a9284c684544580479395b47b98d9f6cb":[3,0,0,0,201,9],
 "structseq_1_1detail_1_1std__alloc.html#a92ecc80b50d0b94c01bc840928a84e1c":[3,0,0,0,201,5],
 "structseq_1_1detail_1_1std__alloc.html#aca10c90b4fa5a126c2f9603a11dc22e4":[3,0,0,0,201,12],
-"structseq_1_1detail_1_1std__alloc.html#ad58378c6ad1cfe4d402e2064bae53a2d":[3,0,0,0,201,4]
+"structseq_1_1detail_1_1std__alloc.html#ad58378c6ad1cfe4d402e2064bae53a2d":[3,0,0,0,201,4],
+"structseq_1_1detail_1_1std__alloc.html#ae9eb015c32d05ff94db1674e36514e26":[3,0,0,0,201,6]
 };
