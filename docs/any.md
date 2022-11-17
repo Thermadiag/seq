@@ -182,12 +182,15 @@ Example:
 #include <seq/tiny_string.hpp>
 #include <seq/any.hpp>
 
+// For transparent equal_to in C++11
+#include <seq/utils.hpp>
+
 //...
 
 using namespace seq;
 
 // build an ordered set than supports heterogeneous lookup 
-seq::ordered_set<any,std::hash<any> , std::equal_to<void> > set;
+seq::ordered_set<any,std::hash<any> , seq::equal_to<void> > set;
 
 set.insert(3);						// insert integer
 set.insert(2.5);					// insert double

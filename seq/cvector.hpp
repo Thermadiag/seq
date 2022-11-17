@@ -2503,7 +2503,7 @@ namespace seq
 	///		// Now we want to sort by pointed value. 
 	///		// We need a custom comparison function that will be passed to seq::make_comparator
 	///		
-	///		std::sort(vec.begin(),vec.end(), make_comparator([](const auto & a, const auto & b){return *a < *b; }));
+	///		std::sort(vec.begin(),vec.end(), make_comparator([](const ptr_type & a, const ptr_type & b){return *a < *b; }));
 	/// 
 	///		// print again the compression ratio
 	///		std::cout<< vec.current_compression_ratio() <<std::endl;

@@ -109,26 +109,10 @@ struct statefull_alloc : public std::allocator<T>
 };
 
 
-
+#include <seq/any.hpp>
 
 int  main  (int , char** )
 { 
-	// Build a formatting functor used to display 2 couples animal/species
-	auto f = fmt(
-		pos<1, 3>(), //we can modifies positions 1 and 3 (the 2 couples animal/species)
-		"We have 2 couples:\nAnimal/Species: ",
-		fmt(pos<0, 2>(), "", "/", "").c(20),	//A couple Animal/Species centered on a 20 characters width string
-		"\nAnimal/Species: ",
-		fmt(pos<0, 2>(), "", "/", "").c(20)		//Another couple Animal/Species centered on a 20 characters width string
-	);
-
-	// Use this functor with custom values.
-	// fmt calls are also used to replace arguments in a multi-formatting functor
-	std::cout << f(
-		fmt("Tiger", "P. tigris"),
-		fmt("Panda", "A. melanoleuca")
-	) << std::endl;
-
 
 	test_tiered_vector_algorithms<size_t>(5000000);
 	test_tiered_vector<size_t>();

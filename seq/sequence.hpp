@@ -963,7 +963,7 @@ namespace seq
 					//remove from free list
 					node->next_free = node->prev_free = endNode();
 
-					size_type saved_size = size;
+					size_t saved_size = this->size;
 
 					try {
 						// Loop until the end
@@ -979,7 +979,7 @@ namespace seq
 							}
 							else {
 								construct_ptr(node->buffer() + index, std::move(*it));
-								++size; // Increment size just in case of exception thrown
+								++this->size; // Increment size just in case of exception thrown
 							}
 
 							// Update used mask
@@ -1009,7 +1009,7 @@ namespace seq
 						throw;
 					}
 
-					size = saved_size;
+					this->size = saved_size;
 
 					// Destroy last elements in last node
 					while (index != count) {
@@ -1068,18 +1068,18 @@ namespace seq
 			// Returns a const_iterator at given position
 			auto iterator_at(size_t pos) const noexcept -> const_iterator
 			{
-				if (pos < size / 2)
+				if (pos < this->size / 2)
 					return const_iterator(static_cast<chunk_type*>(end.next), end.next->start) + pos;
 				else
-					return const_iterator(static_cast<chunk_type*>(&end), 0) - (size - pos);
+					return const_iterator(static_cast<chunk_type*>(&end), 0) - (this->size - pos);
 			}
 			// Returns an iterator at given position
 			auto iterator_at(size_t pos)  noexcept -> iterator
 			{
-				if (pos < size / 2)
+				if (pos < this->size / 2)
 					return iterator(static_cast<chunk_type*>(end.next), end.next->start) + pos;
 				else
-					return iterator(static_cast<chunk_type*>(&end), 0) - (size - pos);
+					return iterator(static_cast<chunk_type*>(&end), 0) - (this->size - pos);
 			}
 		
 			// Returns distance between 2 iterators, or 0 for non random access iterators

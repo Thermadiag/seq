@@ -272,13 +272,35 @@ namespace seq
 		};
 	}
 
-	/// @brief Simulation of C++17 if constexpr
+	/// @brief Simulation of C++17 if constexpr in C++14
 	template<bool IsL1, class L1, class L2, class... Args>
 	auto constexpr_if( const L1& l1,  const L2& l2, Args&&... args) 
 		-> decltype(std::declval<detail::CallLambda<L1, L2, IsL1>&>()(std::declval<L1&>(), std::declval<L2&>(),std::declval<Args>()...))
 	{
 		return detail::CallLambda<L1, L2, IsL1>{}(l1,l2, std::forward<Args>(args)...);
 	}
+
+	// C++11 equal_to
+	template <class _Ty = void>
+	struct equal_to {
+		typedef _Ty first_argument_type;
+		typedef _Ty second_argument_type;
+		typedef bool result_type;;
+		constexpr bool operator()(const _Ty& left, const _Ty& right) const {
+			return left == right;
+		}
+	};
+	template <>
+	struct equal_to<void> {
+		template <class _Ty1, class _Ty2>
+		constexpr auto operator()(_Ty1&& left, _Ty2&& right) const
+			noexcept(noexcept(static_cast<_Ty1&&>(left) == static_cast<_Ty2&&>(right))) 
+			-> decltype(static_cast<_Ty1&&>(left) == static_cast<_Ty2&&>(right)) {
+			return static_cast<_Ty1&&>(left) == static_cast<_Ty2&&>(right);
+		}
+
+		using is_transparent = int;
+	};
 
 	/// @brief Copy allocator for container copy constructor
 	template<class Allocator>

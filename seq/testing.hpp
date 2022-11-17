@@ -43,6 +43,7 @@
 
 #include "bits.hpp"
 #include "format.hpp"
+#include "utils.hpp"
 
 namespace seq
 {
@@ -201,7 +202,44 @@ namespace seq
 			g.seed(seed);
 		std::shuffle(begin,end, g);
 	}
+	
+	/// @brief Similar to C++14 std::equal
+	template<class Iter1, class Iter2, class BinaryPredicate >
+	bool equal(Iter1 first, Iter1 last, Iter2 first2, Iter2 last2, BinaryPredicate pred)
+	{
+		if (first == last && first2 == last2)
+			return true;
+		if (first == last || first2 == last2)
+			return false;
+		if (size_t len = seq::distance(first, last))
+			if (size_t len2 = seq::distance(first2, last2))
+				if (len != len2)
+					return false;
 
+		for (; first != last; ++first, ++first2)
+		{
+			if (first2 == last2 || !pred(*first, *first2))
+				return false;
+		}
+		return true;
+	}
+	template<class Iter1, class Iter2 >
+	bool equal(Iter1 first, Iter1 last, Iter2 first2, Iter2 last2)
+	{
+		using T1 = typename std::iterator_traits<Iter1>::value_type;
+		using T2 = typename std::iterator_traits<Iter2>::value_type;
+		return seq::equal(first, last, first2, last2, [](const T1& a, const T2 & b) {return a == b; });
+	}
+	template<class Iter1, class Iter2 >
+	bool equal(Iter1 first, Iter1 last, Iter2 first2)
+	{
+		for (; first != last; ++first, ++first2) {
+			if (!(*first == *first2)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	void reset_memory_usage()
 	{

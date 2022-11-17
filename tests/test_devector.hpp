@@ -31,7 +31,7 @@ bool vector_equals(const V1& v1, const V2& v2)
 {
 	if (v1.size() != v2.size())
 		return false;
-	return std::equal(v1.begin(), v1.end(), v2.begin(), v2.end());
+	return seq::equal(v1.begin(), v1.end(), v2.begin(), v2.end());
 }
 
 using namespace seq;

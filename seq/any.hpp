@@ -479,24 +479,28 @@ namespace seq
 		
 
 
+		
+
 		/// @brief Stream object to std::ostream or throw std::bad_function_call
 		template<class T>
-		SEQ_ALWAYS_INLINE void ostream_any(std::ostream& oss, const void* in)
-		{
-			constexpr_if<is_ostreamable<T>::value>(
-				[](auto &oss, const auto& in) {oss << in; },
-				[](auto &, const auto& ) {throw std::bad_function_call(); },
-				oss, *static_cast<const T*>(in));
+		SEQ_ALWAYS_INLINE typename std::enable_if< is_ostreamable<T>::value,void>::type ostream_any(std::ostream& oss, const void* in){
+			oss << *static_cast<const T*>(in);
 		}
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< !is_ostreamable<T>::value, void>::type ostream_any(std::ostream& , const void* ){
+			throw std::bad_function_call();
+		}
+
 		/// @brief Read object to std::istream or throw std::bad_function_call
 		template<class T>
-		SEQ_ALWAYS_INLINE void istream_any(std::istream& iss, void* in)
-		{
-			constexpr_if<is_istreamable<T>::value>(
-				[](auto& iss, auto& in) {iss >> in; },
-				[](auto& , auto& ) {throw std::bad_function_call(); },
-				iss, *static_cast<T*>(in));
+		SEQ_ALWAYS_INLINE typename std::enable_if< is_istreamable<T>::value, void>::type istream_any(std::istream& iss, void* in){
+			iss >> *static_cast<T*>(in);
 		}
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< !is_istreamable<T>::value, void>::type istream_any(std::istream& , void* ) {
+			throw std::bad_function_call();
+		}
+
 		/// @brief Hash object using std::hash or throw std::bad_function_call
 		template<class T, bool SupportHash>
 		SEQ_ALWAYS_INLINE auto hash_any(const void* in) -> size_t
@@ -506,23 +510,24 @@ namespace seq
 		}
 		/// @brief Compare equal 2 objects of same type
 		template<class T>
-		SEQ_ALWAYS_INLINE auto compare_equal_any(const void* a, const void * b) -> bool
-		{
-			// Comparing types that are not comparable should return false instead of throwing an exception
-			return constexpr_if<is_equal_comparable<T>::value>(
-				[](const auto& a, const auto& b) -> bool {return a == b; },
-				[](const auto& , const auto& ) -> bool {/*throw std::bad_function_call();*/ return false; },
-				* static_cast<const T*>(a), * static_cast<const T*>(b));
+		SEQ_ALWAYS_INLINE typename std::enable_if< is_equal_comparable<T>::value, bool>::type compare_equal_any(const void* a, const void* b) {
+			return *static_cast<const T*>(a) == *static_cast<const T*>(b);
 		}
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< !is_equal_comparable<T>::value, bool>::type compare_equal_any(const void* , const void* ) {
+			return false;
+		}
+		
 		/// @brief Compare 2 objects of same type for less than, or throw std::bad_function_call
 		template<class T>
-		SEQ_ALWAYS_INLINE auto compare_less_any(const void* a, const void* b) -> bool
-		{
-			return constexpr_if<is_less_comparable<T>::value>(
-				[](const auto& a, const auto& b) -> bool {return a < b; },
-				[](const auto& , const auto& ) -> bool {throw std::bad_function_call(); return false; },
-				*static_cast<const T*>(a), *static_cast<const T*>(b));
+		SEQ_ALWAYS_INLINE typename std::enable_if< is_less_comparable<T>::value, bool>::type compare_less_any(const void* a, const void* b){
+			return *static_cast<const T*>(a) < *static_cast<const T*>(b);
 		}
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< !is_less_comparable<T>::value, bool>::type compare_less_any(const void* , const void* ) {
+			throw std::bad_function_call(); return false;
+		}
+
 		/// @brief Format object or throw std::bad_function_call
 		template<class T>
 		SEQ_ALWAYS_INLINE void format_any(std::string& out, const void* in, const width_format& wfmt, const numeric_format& nfmt)
@@ -530,6 +535,38 @@ namespace seq
 			FormatType<T>::apply(out, in, wfmt, nfmt);
 		}
 
+
+
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< std::is_copy_assignable<T>::value, void>::type assign_value(T &dst, const T & src) {
+			dst = src;
+		}
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< !std::is_copy_assignable<T>::value, void>::type assign_value(T& , const T& ) {}
+
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< std::is_move_assignable<T>::value, void>::type move_assign_value(T& dst,  T& src) {
+			dst = std::move(src);
+		}
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< !std::is_move_assignable<T>::value, void>::type move_assign_value(T&,  T&) {}
+
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< std::is_copy_constructible<T>::value, void>::type copy_construct_value(void* dst, const T& src) {
+			new (dst) T(src);
+		}
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< !std::is_copy_constructible<T>::value, void>::type copy_construct_value(void*, const T&) {}
+
+
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< std::is_arithmetic<T>::value, bool>::type compare_equal_arithmetic(long double a, const T& b) {
+			return a == static_cast<long double>(b);
+		}
+		template<class T>
+		SEQ_ALWAYS_INLINE typename std::enable_if< !std::is_arithmetic<T>::value, bool>::type compare_equal_arithmetic(long double , const T& ) {
+			return false;
+		}
 
 
 		template<class T, class any_type_info>
@@ -546,12 +583,7 @@ namespace seq
 				//get the dst pointer
 				void* dst = sizeof(T) > out_storage_size ? read_void_p(out_storage) : out_storage;
 				// might throw, fine
-				// use constexpr_if to avoid compile error for non assignable types (but still copy constructible)
-				constexpr_if<std::is_copy_assignable<T>::value>(
-					[](auto& a, const auto& b) {a = b; },
-					[](auto& , const auto& ) {},
-					*static_cast<T*>(dst), *static_cast<const T*>(in)
-					);
+				assign_value(*static_cast<T*>(dst), *static_cast<const T*>(in));
 			}
 			else
 			{
@@ -563,11 +595,7 @@ namespace seq
 					memcpy(out_storage, &dst, sizeof(void*));
 				}
 				try {
-					constexpr_if<std::is_copy_constructible<T>::value>(
-						[](void * dst, const auto& in) {new (dst) T(in); },
-						[](void * , const auto& ) {},
-						dst, *static_cast<const T*>(in)
-						);
+					copy_construct_value(dst, *static_cast<const T*>(in));
 				}
 				catch (...) {
 					if (sizeof(T) > out_storage_size)
@@ -588,12 +616,7 @@ namespace seq
 				//get the dst pointer
 				void* dst = sizeof(T) > out_storage_size ? read_void_p(out_storage) : out_storage;
 				// might throw, fine
-				// use constexpr_if to avoid compile error for non move assignable types (but still move constructible)
-				constexpr_if<std::is_move_assignable<T>::value>(
-					[](auto& a,  auto& b) {a = std::move(b); },
-					[](auto& ,  auto& ) {},
-					*static_cast<T*>(dst), *static_cast<T*>(in)
-					);
+				move_assign_value(*static_cast<T*>(dst), *static_cast<T*>(in));
 			}
 			else
 			{
@@ -1223,7 +1246,7 @@ namespace seq
 	/// using namespace seq;
 	/// 
 	/// // build an ordered set than supports heterogeneous lookup 
-	/// seq::ordered_set<any,std::hash<any> , std::equal_to<void> > set;
+	/// seq::ordered_set<any,std::hash<any> , seq::equal_to<void> > set;
 	/// 
 	/// set.insert(3);
 	/// set.insert(2.5);
@@ -1509,7 +1532,7 @@ namespace seq
 	/// 		{
 	/// 			virtual R call(const void* data, As... as) const
 	/// 			{
-	/// 				// C++11 emulation of if constexpr
+	/// 				// C++14 emulation of if constexpr
 	/// 				// Make sure that this interface is still suitable for non invocable types
 	/// 				return constexpr_if<is_invocable<T, As ...>::value>(
 	/// 					[&as...](const auto& fun) {return fun(std::forward<As>(as)...); },
@@ -1902,10 +1925,7 @@ namespace seq
 			
 			// arithmetic comparison
 			if (is_arithmetic_type(a_id) && std::is_arithmetic<type>::value) {
-				return constexpr_if< std::is_arithmetic<type>::value >(
-					[](auto a, auto b) {return a == b; },
-					[](auto , auto ) {return false; },
-					this->template cast<long double>(), std::forward<T>(other));
+				return detail::compare_equal_arithmetic(this->template cast<long double>(), std::forward<T>(other));
 			}
 
 			// string comparison

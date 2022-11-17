@@ -206,11 +206,11 @@ void test_cvector_move_only(size_t count)
 
 	deq.resize(deq.size() / 2);
 	cvec.resize(cvec.size() / 2);
-	SEQ_TEST(std::equal(deq.begin(), deq.end(), cvec.begin(), cvec.end(), make_comparator([](const auto& a, const auto& b) {return *a == *b; })));
+	SEQ_TEST(seq::equal(deq.begin(), deq.end(), cvec.begin(), cvec.end(), make_comparator([](const auto& a, const auto& b) {return *a == *b; })));
 
 	deq.resize(deq.size() * 2);
 	cvec.resize(cvec.size() * 2);
-	SEQ_TEST(std::equal(deq.begin(), deq.end(), cvec.begin(), cvec.end(), make_comparator([](const auto& a, const auto& b) {return a == b || *a == *b; })));
+	SEQ_TEST(seq::equal(deq.begin(), deq.end(), cvec.begin(), cvec.end(), make_comparator([](const auto& a, const auto& b) {return a == b || *a == *b; })));
 
 }
 

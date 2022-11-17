@@ -123,7 +123,7 @@ bool string_equals(const S1& s1, const S2& s2)
 {
 	if (s1.size() != s2.size())
 		return false;
-	return std::equal(s1.begin(), s1.end(), s2.begin(), s2.end());
+	return memcmp(s1.data(), s2.data(), s1.size()) == 0;
 }
 
 
@@ -318,7 +318,7 @@ void test_tstring_members(size_t count = 5000000)
 		std::copy(vec.begin(), vec.end(), tmp.begin());
 		std_t = tock_ms();
 
-		SEQ_TEST(std::equal(tmp.begin(), tmp.end(), ttmp.begin()));
+		SEQ_TEST(seq::equal(tmp.begin(), tmp.end(), ttmp.begin()));
 		std::cout << format("copy lots of small strings", std_t, tstr_t) << std::endl;
 
 		std::vector<tstring> ttmp2(count);
@@ -331,7 +331,7 @@ void test_tstring_members(size_t count = 5000000)
 		std::move(vec.begin(), vec.end(), tmp2.begin());
 		std_t = tock_ms();
 
-		SEQ_TEST(std::equal(tmp2.begin(), tmp2.end(), ttmp2.begin()));
+		SEQ_TEST(seq::equal(tmp2.begin(), tmp2.end(), ttmp2.begin()));
 		std::cout << format("move lots of small strings", std_t, tstr_t) << std::endl;
 	}
 	{
@@ -351,7 +351,7 @@ void test_tstring_members(size_t count = 5000000)
 		std::copy(vec.begin(), vec.end(), tmp.begin());
 		std_t = tock_ms();
 
-		SEQ_TEST(std::equal(tmp.begin(), tmp.end(), ttmp.begin()));
+		SEQ_TEST(seq::equal(tmp.begin(), tmp.end(), ttmp.begin()));
 		std::cout << format("copy lots of big strings", std_t, tstr_t) << std::endl;
 		*/
 		std::vector<tstring> ttmp2(count);
@@ -364,7 +364,7 @@ void test_tstring_members(size_t count = 5000000)
 		std::move(vec.begin(), vec.end(), tmp2.begin());
 		std_t = tock_ms();
 
-		SEQ_TEST(std::equal(tmp2.begin(), tmp2.end(), ttmp2.begin()));
+		SEQ_TEST(seq::equal(tmp2.begin(), tmp2.end(), ttmp2.begin()));
 		std::cout << format("move lots of big strings", std_t, tstr_t) << std::endl;
 	}
 

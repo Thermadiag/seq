@@ -35,7 +35,7 @@ bool string_equals(const S1& s1, const S2& s2)
 {
 	if (s1.size() != s2.size())
 		return false;
-	return std::equal(s1.begin(), s1.end(), s2.begin(), s2.end());
+	return seq::equal(s1.begin(), s1.end(), s2.begin(), s2.end());
 }
 
 template<size_t MaxStaticSize = 0>
@@ -233,7 +233,7 @@ void test_tstring_logic()
 			std::sort(data.begin(), data.end());
 			std::sort(tdata.begin(), tdata.end());
 			
-			SEQ_TEST(std::equal(data.begin(), data.end(), tdata.begin(), tdata.end()));
+			SEQ_TEST(seq::equal(data.begin(), data.end(), tdata.begin(), tdata.end()));
 			
 			std::vector<std::string> tmp;
 			for (int i = 0; i < count; ++i)
