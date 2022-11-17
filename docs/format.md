@@ -199,7 +199,9 @@ auto f = fmt(
 Output:
 
 > We have 2 couples:
+>
 > Animal/Species:   Tiger/P. tigris
+>
 > Animal/Species: Panda/A. melanoleuca
 
 
