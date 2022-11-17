@@ -371,7 +371,7 @@ namespace seq
 	/// For small strings (below the preallocated threshold), tiny_string only store one additional byte for bookkeeping: 7 bits for string length
 	/// and 1 bit to tell if the string is allocated in-place or on the heap. It means that the default tiny_string size is 16 bytes, which is half
 	/// the size of std::string on gcc and msvc. This small footprint is what makes tiny_string very fast on flat containers like std::vector ot std::deque,
-	/// while node based container (like std::map) are less impacted. Note that this tiny size is only reach when using std::allocator<char>. 
+	/// while node based container (like std::map) are less impacted. Note that this tiny size is only reach when using an empty allocator class like std::allocator<char>. 
 	/// 
 	/// When the tiny_string grows beyong the preallocated threshold, memory is allocated on the heap based on provided allocator, and the bookkeeping part is divided as follow:
 	///		-	still 1 bit to tell is the memory is heap allocated or not,
@@ -395,9 +395,6 @@ namespace seq
 	/// The maximum preallocated space can be increased up to 126 bytes. To have a tiny_string of 32 bytes like std::string on gcc and msvc, you could use, for instance, tiny_string<28>.
 	/// In this case, the maximum string size (excluding null-terminated character) to use SSO would be 30 bytes (!).
 	/// 
-	/// For std::allocator<char>, the allocator object is not stored inside the tiny_string, ensuring a minimal space overhead.
-	/// If a custom allocator is provided, it will be stored as part of the string object and used for heap allocations/deallocations.
-	/// 
 	/// 
 	/// Relocatable type
 	/// ----------------
@@ -412,6 +409,7 @@ namespace seq
 	/// 
 	/// Within the seq library, a relocatable type must statify seq::is_relocatable<type>::value == true.
 	/// 
+	/// Note that tiny_string is only relocatable if the allocator itself is relocatable (which is the case for the default std::allocator<char>).
 	/// 
 	/// Interface
 	/// ---------
@@ -3485,10 +3483,83 @@ namespace std
 
 
 
+/*#include "memory.hpp"
 
+namespace seq
+{
+	namespace detail
+	{
+		using string_pool_type = parallel_object_pool<char, std::allocator<char>, 0, pow_object_allocation<1024, 32> >;
 
+		static inline string_pool_type& get_string_pool()
+		{
+			static string_pool_type pool;
+			return pool;
+		}
 
+		class string_allocator {
+		public:
+			
+			using value_type = char;
+			typedef char* pointer;
+			typedef const char* const_pointer;
+			typedef char& reference;
+			typedef const char& const_reference;
+			using size_type = size_t;
+			using difference_type = ptrdiff_t;
 
+			using propagate_on_container_move_assignment = std::true_type;
+			using is_always_equal = std::true_type;
+
+			template <class _Other>
+			struct rebind {
+				using other = string_allocator;
+			};
+
+			char* address(char& _Val) const noexcept {
+				return std::addressof(_Val);
+			}
+
+			const char* address(const char& _Val) const noexcept {
+				return std::addressof(_Val);
+			}
+
+			constexpr string_allocator() noexcept {}
+			constexpr string_allocator(const string_allocator&) noexcept = default;
+			~string_allocator() = default;
+			string_allocator& operator=(const string_allocator&) = default;
+
+			void deallocate(char* ptr, const size_t count) {
+				get_string_pool().deallocate(ptr, count);
+			}
+
+			char* allocate( size_t count) {
+				return get_string_pool().allocate(count);
+			}
+
+			char* allocate(size_t count, const void*) {
+				return get_string_pool().allocate(count);
+			}
+
+			template <class _Objty, class... _Types>
+			void construct(_Objty* const _Ptr, _Types&&... _Args) {
+				::new (_Ptr) _Objty(std::forward<_Types>(_Args)...);
+			}
+
+			template <class _Uty>
+			void destroy(_Uty* const _Ptr) {
+				_Ptr->~_Uty();
+			}
+
+			size_t max_size() const noexcept {
+				return static_cast<size_t>(-1) ;
+			}
+		};
+	}
+
+	using ftstring = tiny_string<0, detail::string_allocator>;
+}
+*/
 
 
 

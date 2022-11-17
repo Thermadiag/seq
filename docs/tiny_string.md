@@ -24,7 +24,7 @@ The Customizable Small String Optimization is also very convenient to avoid unne
 ## Size and bookkeeping
 
 By default, a tiny_string contains enough room to store a 15 bytes string, therefore a length of 14 bytes for null terminated strings.
-For small strings (below the preallocated threshold), tiny_string only store one additional byte for bookkeeping: 7 bits for string length and 1 bit to tell if the string is allocated in-place or on the heap. It means that the default tiny_string size is 16 bytes, which is half the size of std::string on gcc and msvc. This small footprint is what makes tiny_string very fast on flat containers like std::vector, std::deque or open addressing hash tables, while node based container (like std::map) are less impacted. Note that this tiny size is only reach when using std::allocator<char>. 
+For small strings (below the preallocated threshold), tiny_string only store one additional byte for bookkeeping: 7 bits for string length and 1 bit to tell if the string is allocated in-place or on the heap. It means that the default tiny_string size is 16 bytes, which is half the size of std::string on gcc and msvc. This small footprint is what makes tiny_string very fast on flat containers like std::vector, std::deque or open addressing hash tables, while node based container (like std::map) are less impacted. Note that this tiny size is only reach when using an empty allocator like std::allocator<char>. 
 
 When the tiny_string grows beyong the preallocated threshold, memory is allocated on the heap based on provided allocator, and the bookkeeping part is divided as follow:
 -	still 1 bit to tell is the memory is heap allocated or not,
@@ -45,10 +45,6 @@ Therefore, the maximum in-place capacity is either 7 or 15 bytes.
 The maximum preallocated space can be increased up to 126 bytes. To have a tiny_string of 32 bytes like std::string on gcc and msvc, you could use, for instance, tiny_string<28>.
 In this case, the maximum string size (excluding null-terminated character) to use SSO would be 30 bytes (!).
 
-For std::allocator<char>, the allocator object is not stored inside the tiny_string, ensuring a minimal space overhead.
-If a custom allocator is provided, it will be stored as part of the string object and used for heap allocations/deallocations.
-
-
 ## Relocatable type
 
 `seq::tiny_string` is relocatable, meaning that it does not store pointer to internal data.
@@ -58,6 +54,7 @@ Msvc implementation of std::string is also relocatable, while gcc implementation
 
 Within the *seq* library, a relocatable type must statify `seq::is_relocatable<type>::value == true`.
 
+Note that tiny_string is only relocatable if the allocator itself is relocatable (which is the case for the default std::allocator<char>).
 
 ## Interface
 
