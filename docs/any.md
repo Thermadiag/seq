@@ -112,21 +112,23 @@ It is possible to register additional conversion functions for custom types usin
 
 ```cpp
 
+// Dumy pair of int defining an implicit conversion operator to std::string
 struct my_int_pair
 {
 		int a, b;
 		my_int_pair(int a = 0, int b = 0)
-:a(a), b(b) {}
+		:a(a), b(b) {}
 	
 		// define conversion operator to std::string
 		operator std::string() const {
-std::string res;
-seq::fmt(a).append(res);
-seq::fmt(b).append(res);
-return res;
+			std::string res;
+			seq::fmt(a).append(res);
+			seq::fmt(b).append(res);
+			return res;
 		}
 };
-	
+
+// Conversion function from std::pair<int, int> to std::string
 std::string pair_to_string(const std::pair<int, int>& p)
 {
 		std::string res;
@@ -137,18 +139,23 @@ std::string pair_to_string(const std::pair<int, int>& p)
 	
 
 
-// register conversion that already exists 
+// Register implicit conversion (from my_int_pair to std::string)
 seq::register_any_conversion<my_int_pair, std::string>();
-// register conversion function
+
+// Register explicit conversion function (from std::pair<int, int> to std::string)
 seq::register_any_conversion<std::pair<int, int>, std::string>(pair_to_string);
 	
-// disable hashing interface
+// Disable hashing interface
 using my_any = seq::nh_any;
 	
+// Create any object containing a std::pair<int, int>
 my_any a = std::pair<int, int>(1, 2);
-my_any b = my_int_pair(1, 2);
-	
+// Cast a to std::string
 std::cout << a.cast<std::string>() << std::endl;
+
+// Create any object containing a my_int_pair
+my_any b = my_int_pair(1, 2);
+// Cast a to std::string
 std::cout << b.cast<std::string>() << std::endl;
 
 ```
@@ -171,9 +178,9 @@ Example:
 ```cpp
 
 #include <iostream>
-#include "ordered_set.hpp"
-#include "tiny_string.hpp"
-#include "any.hpp"
+#include <seq/ordered_set.hpp>
+#include <seq/tiny_string.hpp>
+#include <seq/any.hpp>
 
 //...
 
@@ -182,23 +189,25 @@ using namespace seq;
 // build an ordered set than supports heterogeneous lookup 
 seq::ordered_set<any,std::hash<any> , std::equal_to<void> > set;
 
-set.insert(3);
-set.insert(2.5);
-set.insert(tstring("hello"));
-set.insert(1);
-set.insert(std::string("world"));
-set.insert("ok");
+set.insert(3);						// insert integer
+set.insert(2.5);					// insert double
+set.insert(tstring("hello"));		// insert seq::tstring
+set.insert(1);						// insert integer
+set.insert(std::string("world"));	// insert std::string
+set.insert("ok");					// insert const char*
 	
 // print the set content
 for (auto val : set)
-std::cout << val << std::endl;
+	std::cout << val << std::endl;
 	
-assert(set.find(3) != set.end());			// use heterogeneous lookup 
-assert(set.find(2.5) != set.end());			// use heterogeneous lookup 
-assert(set.find("hello")  != set.end());	// use heterogeneous lookup 
+assert(set.find(any(3)) != set.end());				// standard lookup 
+assert(set.find(3) != set.end());					// use heterogeneous lookup 
+assert(set.find(2.5) != set.end());					// use heterogeneous lookup 
+assert(set.find("hello")  != set.end());			// use heterogeneous lookup 
 assert(set.find(tstring("world")) != set.end());	// use heterogeneous lookup 
-assert(set.find("ok") == set.end()) ;			//"ok" not found has we compare 2 const char* -> pointer comparison, not string comparison
-assert(set.find("no") == set.end());			//failed lookup
+assert(set.find(tstring_view("ok")) != set.end()) ;	// use heterogeneous lookup 
+assert(set.find("ok") == set.end()) ;				// "ok" not found has we compare 2 const char* -> pointer comparison, not string comparison
+assert(set.find("no") == set.end());				// failed lookup
 
 ```
 
@@ -435,11 +444,13 @@ Below is a more complex example that transform `hold_any` into a `std::function`
 // for std::plus and std::multiplies (C++14)
 #include <functional>
 
-#include "any.hpp"
+#include <seq/any.hpp>
+
 // for seq::is_invocable
-#include "type_traits.hpp"
+#include <seq/type_traits.hpp>
+
 // for seq::constexpr_if
-#include "utils.hpp"
+#include <seq/utils.hpp>
 
 namespace seq
 {
@@ -496,19 +507,19 @@ namespace seq
 		};
 	};
 	
-// Define the seq::function type
+	// Define the seq::function type
 	template<class Signature>
 	using function = hold_any< FunInterface< Signature> >;
 	
 }
 
 
-// dumy function 
+// Divide function 
 int divide(int a, int b) {return a / b;}
 
 
 
-// usage
+// Usage
 
 seq::function<int(int,int)> plus_fun = std::plus<int>{};					// affect functor
 seq::function<int(int,int)> minus_fun = [](int a, int b){return a - b;}	;	// affect lambda

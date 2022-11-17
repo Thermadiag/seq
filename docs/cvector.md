@@ -65,14 +65,18 @@ In order for cvector to work with all STL algorithms, some latitudes with C++ st
 
 Thanks to this, it is possible to call `std::sort` or std::random_shuffle on a `cvector`. For instance, the following code snippet successively:
 -	Call `cvector::push_back` to fill the cvector with sorted data. In this case the compression ratio is very low due to high values correlation.
--	Call `std::random_shuffle` to shuffle the cvector: the compresion ratio become very high as compressing random data is not possible.
+-	Call `std::random_shuffle` to shuffle the cvector: the compresion ratio becomes very high as compressing random data is basically impossible.
 -	Sort again the cvector with `std::sort` to get back the initial compression ratio.
 
 ```cpp
 
-#include "cvector.hpp"
-#include "utils.hpp"
-#include "testing.hpp"
+#include <seq/cvector.hpp>
+
+// for seq::random_shuffle
+#include <seq/utils.hpp>
+
+// for tick() and tock_ms()
+#include <seq/testing.hpp>
 
 #include <iostream>
 
@@ -152,8 +156,10 @@ to all elements of a cvector, including multi-threading based on openmp and use 
 
 ```cpp
 
-#include "cvector.hpp"
-#include "testing.hpp"
+#include <seq/cvector.hpp>
+
+// for tick() and tock_ms()
+#include <seq/testing.hpp>
 
 #include <vector>
 #include <cstdlib>
@@ -287,7 +293,7 @@ Example:
 
 ```cpp
 
-#include "cvector.hpp"
+#include <seq/cvector.hpp>
 
 #include <string>
 #include <iostream>
@@ -301,36 +307,36 @@ using namespace seq;
 int  main  (int , char** )
 {
 
-// Create values we want to serialize
-std::vector<int> content(10000000);
-for (size_t i = 0; i < content.size(); ++i)
-	content[i] = i;
+	// Create values we want to serialize
+	std::vector<int> content(10000000);
+	for (size_t i = 0; i < content.size(); ++i)
+		content[i] = i;
 
 
-std::string saved;
-{
-	// Create a cvector, fill it
+	std::string saved;
+	{
+		// Create a cvector, fill it
+		cvector<int> vec;
+		std::copy(content.begin(), content.end(), std::back_inserter(vec));
+
+		// Save cvector in 'saved' string
+		std::ostringstream oss;
+		vec.serialize(oss);
+		saved = oss.str();
+
+		// print the compression ratio based on 'saved'
+		std::cout << "serialize compression ratio: " << saved.size() / (double)(sizeof(int) * vec.size()) << std::endl;
+	}
+
+	// Deserialize 'saved' string
+	std::istringstream iss(saved);
 	cvector<int> vec;
-	std::copy(content.begin(), content.end(), std::back_inserter(vec));
+	vec.deserialize(iss);
 
-	// Save cvector in 'saved' string
-	std::ostringstream oss;
-	vec.serialize(oss);
-	saved = oss.str();
+	// Make sure the deserialized cvector is equal to the original vector
+	std::cout << "deserialization valid: " << std::equal(vec.begin(), vec.end(), content.begin(), content.end()) << std::endl;
 
-	// print the compression ratio based on 'saved'
-	std::cout << "serialize compression ratio: " << saved.size() / (double)(sizeof(int) * vec.size()) << std::endl;
-}
-
-// Deserialize 'saved' string
-std::istringstream iss(saved);
-cvector<int> vec;
-vec.deserialize(iss);
-
-// Make sure the deserialized cvector is equal to the original vector
-std::cout << "deserialization valid: " << std::equal(vec.begin(), vec.end(), content.begin(), content.end()) << std::endl;
-
-return 0;
+	return 0;
 }
 
 ```
@@ -346,7 +352,7 @@ Example:
 
 ```cpp
 
-#include "cvector.hpp"
+#include <seq/cvector.hpp>
 
 #include <algorithm>
 #include <memory>
@@ -358,32 +364,32 @@ using namespace seq;
 
 int  main  (int , char** )
 {
-		using ptr_type = std::unique_ptr<size_t>;
+	using ptr_type = std::unique_ptr<size_t>;
 
-		// Create a cvector of unique_ptr with random integers
-		cvector<ptr_type> vec;
-		std::srand(0);
-		for(size_t i = 0; i < 1000000; ++i)
-			vec.emplace_back(new size_t(std::rand()));
+	// Create a cvector of unique_ptr with random integers
+	cvector<ptr_type> vec;
+	std::srand(0);
+	for(size_t i = 0; i < 1000000; ++i)
+		vec.emplace_back(new size_t(std::rand()));
 
-		// print the compression ratio
-		std::cout<< vec.current_compression_ratio() <<std::endl;
+	// print the compression ratio
+	std::cout<< vec.current_compression_ratio() <<std::endl;
 
-		// sort the cvector using the defined comparison operator between 2 std::unique_ptr objects (sort by pointer address)
-		std::sort(vec.begin(),vec.end());
+	// sort the cvector using the defined comparison operator between 2 std::unique_ptr objects (sort by pointer address)
+	std::sort(vec.begin(),vec.end());
 
-		// print again the compression ratio
-		std::cout<< vec.current_compression_ratio() <<std::endl;
+	// print again the compression ratio
+	std::cout<< vec.current_compression_ratio() <<std::endl;
 
-		// Now we want to sort by pointed value. 
-		// We need a custom comparison function that will be passed to seq::make_comparator
-		
-		std::sort(vec.begin(),vec.end(), make_comparator([](const auto & a, const auto & b){return *a < *b; }));
+	// Now we want to sort by pointed value. 
+	// We need a custom comparison function that will be passed to seq::make_comparator
+	
+	std::sort(vec.begin(),vec.end(), make_comparator([](const auto & a, const auto & b){return *a < *b; }));
 
-		// print again the compression ratio
-		std::cout<< vec.current_compression_ratio() <<std::endl;
+	// print again the compression ratio
+	std::cout<< vec.current_compression_ratio() <<std::endl;
 
-		return 0;
+	return 0;
 }
 
 ```

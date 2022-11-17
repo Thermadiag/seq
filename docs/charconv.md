@@ -35,7 +35,7 @@ They aim to provide a faster alternative to C++ streams for converting floating 
 
 To write numerical values to C++ `std::ostream` objects, see the [format](format.md) module.
 
-To read numerical values from `std::istream` object, the charconv module provides the stream adapter `seq::std_input_stream`.
+To read numerical values from `std::istream` object, the charconv module provides the stream adaptor `seq::std_input_stream`.
 It was developped to read huge tables or matrices from ascii files or strings.
 
 Basic usage:

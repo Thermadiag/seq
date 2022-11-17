@@ -1,6 +1,6 @@
 # Format: Type safe formatting module
 
-The *format* module provides fast routines for object formatting to string/streams. It is strongly typed and does not rely on string parsing to find the output format. Therefore, almost all possible formatting errors are detected at compilation instead of runtime.
+The *format* module provides fast routines for object formatting to string/streams using C++11 only. It is strongly typed and does not rely on string parsing to find the output format. Therefore, almost all possible formatting errors are detected at compilation instead of runtime.
 
 There are already several great C++ formatting libraries available in <a href="https://abseil.io/">Abseil</a>, <a href="https://github.com/facebook/folly">Folly</a> or the <a href="https://fmt.dev/latest/index.html">fmt</a> library.
 Furtheremore, C++20 will provide a new text formatting library similar to the {fmt} one. The *format* module is an attempt to provide (yet) another formatting library which does not rely on string parsing, is compatible with c++ streams and is <b>fast</b>.
@@ -95,35 +95,41 @@ The `seq::fmt` function can be used to format any number of values at once:
 
 // Formatting multiple values
 
-// Direct stream
+// Stream a formatting object composed of multiple arguments
 std::cout << fmt("The answer is ", 43," ...") << std::endl;
-// Direct stream with nested formatting
+// Stream a formatting object composed of multiple arguments with nested formatting
 std::cout << fmt("...Or it could be", fmt(43.3,'e').c(10) ) << std::endl;
 
 std::cout << std::endl;
 
-// Reuse a formatting object built without arguments
+
+// Create and use a formatting object (basically a functor) built without arguments
 auto f = fmt<int, tstring_view, double, tstring_view, double>();
+// use the functor to stream values
 std::cout << f(1, " + ", 2.2, " = ", 3.2) << std::endl;
 
 std::cout << std::endl;
 
-// Reuse a formatting object and use seq::null to only update some arguments
+
+// Create a formatting object built without arguments and use seq::null to only update some arguments
 auto f2 = fmt(int(), " + ", fmt<double>().format('g'), " = ", fmt<double>().format('e'));
 std::cout << f2(1, null, 2.2, null, 3.2) << std::endl;
 
 std::cout << std::endl;
 
-// Convert to string or tstring
+
+// Convert to std::string or seq::tstring
 std::string s1 = f2(1, null, 2.2, null, 3.2);	//equivalent to s1 = f2(1, null, 2.2, null, 3.2).str();
 tstring s2 = f2(1, null, 2.2, null, 3.2);		//equivalent to s2 = f2(1, null, 2.2, null, 3.2).str<tstring>();
 
-// Append to string
+
+// Append to existing string
 s2 += ", repeat-> ";
 f2(1, null, 2.2, null, 3.2).append(s2);			// append formatted result to s2
 std::cout << s2 <<std::endl;
 
 std::cout << std::endl;
+
 
 // Modify formatting object using get() and/or set()
 f2.set<0>(fmt<int>().base(16).h().u()); // reset the formatting object at position 0
@@ -132,22 +138,27 @@ std::cout << f2(1, null, 2.2, null, 3.2) << std::endl;
 
 std::cout << std::endl;
 
-// Use positional argument
+
+// Use positional argument with seq::pos function
 std::cout << f2(pos<0, 2, 4>(), 1, 2.2, 3.2) << std::endl; // provided arguments are used for positions 0, 2 and 4
 
-// Positional directly in the fmt call
+// Use positional directly in the seq::fmt call
 auto f3 = fmt(pos<0, 2, 4>(), int(), " + ", seq::g<double>(), " = ", seq::e<double>());
 std::cout << f3(1, 2.2, 3.2) << std::endl;
 
 std::cout << std::endl;
 
-// Building tables
 
-// header/trailer format, 2 columns of width 20 centered, separated by a '|'
+
+// Use formatting module to build tables
+
+// Create header/trailer functor, 2 columns of width 20 centered, separated by a '|'
 auto header = fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
-//line format, 2 columns of width 20 centered, separated by a '|'
+
+// Create the line functor, 2 columns of width 20 centered, separated by a '|'
 auto line = fmt(pos<1, 3>(),"|", seq::fmt<double>().c(20), "|", seq::fmt<double>().c(20), "|");
-// write table
+
+// Write very simple table composed of a 2 columns header, 2 lines of actual data, and & 2 columns trailer
 std::cout << header( "Header 1", "Header 2") << std::endl;
 std::cout << line( 1.1, 2.2) << std::endl;
 std::cout << line( 3.3, 4.4) << std::endl;
@@ -241,7 +252,7 @@ Example of custom type formatting:
 
 ```cpp
 
-#include "format.hpp"
+#include <seq/format.hpp>
 #include <iostream>
 #include <utility>
 
@@ -343,8 +354,8 @@ The following code is a simple benchmark on writing a 4 * 1000000 table of doubl
 #include <iostream>
 #include <iomanip>
 #include <vector>
-#include "testing.hpp"
-#include "format.hpp"
+#include <seq/testing.hpp>
+#include <seq/format.hpp>
 
 int main(int argc, char ** argv)
 {
@@ -388,7 +399,7 @@ int main(int argc, char ** argv)
 	std::cout << "Write table with seq formatting module: " << el << " ms" << std::endl;
 
 
-	// Use std::format
+	// Compare to std::format for C++20 compilers
 	// tick();
 	// for (size_t i = 0; i < vec_d.size() / 4; ++i)
 	// 	std::format_to(std::ostreambuf_iterator<char>(oss), "{:^20.6g} | {:^20.6g} | {:^20.6g} | {:^20.6g}\n", vec_d[i * 4], vec_d[i * 4 + 1], vec_d[i * 4 + 2], vec_d[i * 4 + 3]);
