@@ -117,9 +117,11 @@ In additional to seq::std_input_stream, charconv module provides the similar seq
 
 #include <cmath>
 #include <cfloat>
+#include <system_error>
 
 #include "bits.hpp"
 #include "tiny_string.hpp"
+
 
 #ifdef min
 #undef min

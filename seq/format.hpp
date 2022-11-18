@@ -481,6 +481,7 @@ Above example compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10 on a Intel(
 #include <iostream>
 #include <iomanip>
 #include <tuple>
+#include <sstream>
 
 #include "charconv.hpp"
 
@@ -1883,13 +1884,16 @@ namespace seq
 				:base_type(), d_tuple()
 			{}
 
-			
 			template<class ...Args, class = typename std::enable_if<((sizeof...(Args)) > 1),void>::type>
 			explicit mutli_ostream_format(Args&&... args)
 				// Construct from multiple values.
 				// Mark as explicit otherwise it replaces the default copy constructor.
 				// Note: explicit is not enough, SFINAE is required
+#if __GNUG__ && __GNUC__ < 5
+				: base_type(), d_tuple( std::allocator_arg_t{}, std::allocator<char>{},std::forward<Args>(args)...)
+#else
 				: base_type(), d_tuple( std::forward<Args>(args)...)
+#endif
 			{}
 
 			
@@ -2007,7 +2011,11 @@ namespace seq
 			explicit mutli_ostream_format(Args&&... args)
 				// Construct from multiple values.
 				// Mark as explicit otherwise it replaces the default copy constructor
-				: base_type(), d_tuple(std::forward<Args>(args)...)
+				#if __GNUG__ && __GNUC__ < 5
+				: base_type(), d_tuple( std::allocator_arg_t{}, std::allocator<char>{},std::forward<Args>(args)...)
+#else
+				: base_type(), d_tuple( std::forward<Args>(args)...)
+#endif
 			{}
 
 			template<class ...Args>

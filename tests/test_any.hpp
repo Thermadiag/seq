@@ -16,6 +16,17 @@
 
  namespace seq
  {
+	template<class R, class T, class... As>
+	SEQ_ALWAYS_INLINE typename std::enable_if< is_invocable<T, As ...>::value,R>::type call_fun(const T & fun,  As... as){
+		return fun(std::forward<As>(as)...);
+	}
+	template<class R, class T, class... As>
+	SEQ_ALWAYS_INLINE typename std::enable_if< !is_invocable<T, As ...>::value,R>::type call_fun(const T & fun,  As... as){
+		(void)fun;		
+		throw std::bad_function_call(); return R(); 
+	}	
+
+
  	template<class Fun>
  	struct FunInterface;
 
@@ -37,12 +48,9 @@
  		{
  			virtual R call(const void* data, As... as) const
  			{
- 				// C++11 emulation of if constexpr
  				// Make sure that this interface is still suitable for non invocable types
- 				return constexpr_if<is_invocable<T, As ...>::value>(
- 					[&as...](const auto& fun) {return fun(std::forward<As>(as)...); },
- 					[](const auto&) {throw std::bad_function_call(); return R(); },
- 					* static_cast<const T*>(data));
+				return call_fun<R>(* static_cast<const T*>(data), std::forward<As>(as)...);
+ 				
  			}
  			virtual const std::type_info& target_type() const
  			{
@@ -613,7 +621,7 @@ void test_any()
 	}
 	{
 		// build an ordered set than supports heterogeneous lookup 
-		 ordered_set<any,std::hash<any> , std::equal_to<void> > set;
+		 ordered_set<any,std::hash<any> , seq::equal_to<void> > set;
 	 
 		 set.insert(3);
 		 set.insert(2.5);

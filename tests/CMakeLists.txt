@@ -29,7 +29,7 @@ endif()
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     target_compile_options(seq_tests PRIVATE /bigobj /WX /W3 /UNDEBUG)
 else()
-    target_compile_options(seq_tests PRIVATE -Werror -Wall -Wextra -Wold-style-cast -march=native -UNDEBUG  )
+    target_compile_options(seq_tests PRIVATE -std=c++11 -Werror -Wall -Wextra -Wold-style-cast -march=native -UNDEBUG  )
 endif()
 
 if (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")

@@ -567,19 +567,19 @@ namespace seq
 		}
 		template<class List>
 		SEQ_ALWAYS_INLINE bool operator>(const sequence_const_iterator<List>& a, const sequence_const_iterator<List>& b) noexcept {
-			return a.node->node_index > b.node->node_index || (a.node->node_index == b.node->node_index && a.pos > b.pos);
+			return (a.node->node_index > b.node->node_index) || ((a.node->node_index == b.node->node_index) && ((a.pos) > (b.pos)));
 		}
 		template<class List>
 		SEQ_ALWAYS_INLINE bool operator<(const sequence_const_iterator<List>& a, const sequence_const_iterator<List>& b) noexcept {
-			return a.node->node_index < b.node->node_index || (a.node->node_index == b.node->node_index && a.pos < b.pos);
+			return (a.node->node_index < b.node->node_index) || ((a.node->node_index == b.node->node_index) && ((a.pos) < (b.pos)));
 		}
 		template<class List>
 		SEQ_ALWAYS_INLINE bool operator>=(const sequence_const_iterator<List>& a, const sequence_const_iterator<List>& b) noexcept {
-			return a == b || a > b;
+			return (a == b) || (a > b);
 		}
 		template<class List>
 		SEQ_ALWAYS_INLINE bool operator<=(const sequence_const_iterator<List>& a, const sequence_const_iterator<List>& b) noexcept {
-			return a == b || a < b;
+			return (a == b) || (a < b);
 		}
 		template<class List>
 		SEQ_ALWAYS_INLINE auto operator-(const sequence_const_iterator<List>& a, const sequence_const_iterator<List>& b) noexcept -> typename sequence_const_iterator<List>::difference_type {

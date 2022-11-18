@@ -30,6 +30,27 @@
 #include <type_traits>
 #include <functional>
 
+namespace std
+{
+#if __GNUG__ && __GNUC__ < 5
+
+	// Reimplement the wheel for older gcc
+
+	template<class T>
+	struct is_trivially_copyable
+	{
+		static constexpr bool value = __has_trivial_copy(T);
+	};
+	
+	template< class T>
+	struct is_trivially_move_assignable : is_trivially_copyable<T> {};
+	    //: std::is_trivially_assignable< typename std::add_lvalue_reference<T>::type,
+		//                            typename std::add_rvalue_reference<T>::type> {};
+	 
+
+#endif
+}
+
 namespace seq
 {
 

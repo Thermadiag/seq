@@ -64,6 +64,44 @@ namespace seq
 			static std::atomic<int> cnt = { 21 }; //start index for custom types
 			return cnt++;
 		}
+
+		template<class T> struct type_id_val {static constexpr int value=0;};
+		template<> struct type_id_val<char> {static constexpr int value=1;};
+		template<> struct type_id_val<signed char> {static constexpr int value=2;};
+		template<> struct type_id_val<short> {static constexpr int value=3;};
+		template<> struct type_id_val<int> {static constexpr int value=4;};
+		template<> struct type_id_val<long> {static constexpr int value=5;};
+		template<> struct type_id_val<long long> {static constexpr int value=6;};
+		template<> struct type_id_val<unsigned char> {static constexpr int value=7;};
+		template<> struct type_id_val<unsigned short> {static constexpr int value=8;};
+		template<> struct type_id_val<unsigned int> {static constexpr int value=9;};
+		template<> struct type_id_val<unsigned long> {static constexpr int value=10;};
+		template<> struct type_id_val<unsigned long long> {static constexpr int value=11;};
+		template<> struct type_id_val<float> {static constexpr int value=12;};
+		template<> struct type_id_val<double> {static constexpr int value=13;};
+		template<> struct type_id_val<long double> {static constexpr int value=14;};
+		template<> struct type_id_val<std::string> {static constexpr int value=15;};
+		template<> struct type_id_val<tstring> {static constexpr int value=16;};
+		template<> struct type_id_val<tstring_view> {static constexpr int value=17;};
+		template<> struct type_id_val<const char*> {static constexpr int value=18;};
+		template<> struct type_id_val<char*> {static constexpr int value=19;};
+#ifdef SEQ_HAS_CPP_17
+		template<> struct type_id_val<std::string_view> {static constexpr int value=20;};
+#endif
+
+		template<class T, int Val=type_id_val<T>::value>
+		struct get_type_id_val
+		{
+			static constexpr int get() {return Val;}
+		};
+		template<class T>
+		struct get_type_id_val<T,0>
+		{
+			static int get() {
+				static int id = build_type_id();
+				return id;
+			}
+		};
 	} // namespace detail
 
 	/// @brief Returns type Id used by hold_any as a unique type identifier
@@ -72,35 +110,9 @@ namespace seq
 	template<class T>
 	auto get_type_id() noexcept -> int
 	{
-		static int id = detail::build_type_id();
-		return id;
+		return detail::get_type_id_val<T>::get();
 	}
-	template<> inline constexpr auto get_type_id<char>() noexcept -> int { return 1; }
-	template<> inline constexpr auto get_type_id<signed char>() noexcept -> int { return 2; }
-	template<> inline constexpr auto get_type_id<short>()noexcept -> int { return 3; }
-	template<> inline constexpr auto get_type_id<int>() noexcept -> int { return 4; }
-	template<> inline constexpr auto get_type_id<long>() noexcept -> int { return 5; }
-	template<> inline constexpr auto get_type_id<long long>() noexcept -> int { return 6; }
-
-	template<> inline constexpr auto get_type_id<unsigned char>() noexcept -> int { return 7; }
-	template<> inline constexpr auto get_type_id<unsigned short>() noexcept -> int { return 8; }
-	template<> inline constexpr auto get_type_id<unsigned int>() noexcept -> int { return 9; }
-	template<> inline constexpr auto get_type_id<unsigned long>()noexcept -> int { return 10; }
-	template<> inline constexpr auto get_type_id<unsigned long long>() noexcept -> int { return 11; }
-
-	template<> inline constexpr auto get_type_id<float>() noexcept -> int { return 12; }
-	template<> inline constexpr auto get_type_id<double>() noexcept -> int { return 13; }
-	template<> inline constexpr auto get_type_id<long double>() noexcept -> int { return 14; }
-
-	template<> inline constexpr auto get_type_id<std::string >() noexcept -> int { return 15; }
-	template<> inline constexpr auto get_type_id<tstring >() noexcept -> int { return 16; }
-	template<> inline constexpr auto get_type_id<tstring_view >() noexcept -> int { return 17; }
-	template<> inline constexpr auto get_type_id<const char* >() noexcept -> int { return 18; }
-	template<> inline constexpr auto get_type_id<char* >() noexcept -> int { return 19; }
-#ifdef SEQ_HAS_CPP_17
-	template<> inline constexpr int get_type_id<std::string_view>() noexcept { return 20; }
-#endif
-
+	
 	/// @brief Returns true if given type id corresponds to a signed integral type
 	inline auto is_signed_integral_type(int id) noexcept -> bool
 	{
@@ -250,20 +262,20 @@ namespace seq
 			static auto apply(const void* in, const TypeInfo* in_p) -> T
 			{
 				switch (in_p->type_id()) {
-					case get_type_id<char>() : {return static_cast<T>(*static_cast<const char*>(in)); }
-					case get_type_id<signed char>() : {return static_cast<T>(*static_cast<const signed char*>(in)); }
-					case get_type_id<unsigned char>() : {return static_cast<T>(*static_cast<const unsigned char*>(in)); }
-					case get_type_id<short>() : {return static_cast<T>(*static_cast<const short*>(in)); }
-					case get_type_id<unsigned short>() : {return static_cast<T>(*static_cast<const unsigned short*>(in)); }
-					case get_type_id<int>() : {return static_cast<T>(*static_cast<const int*>(in)); }
-					case get_type_id<unsigned int>() : {return static_cast<T>(*static_cast<const unsigned int*>(in)); }
-					case get_type_id<long>() : {return static_cast<T>(*static_cast<const long*>(in)); }
-					case get_type_id<unsigned long>() : {return static_cast<T>(*static_cast<const unsigned long*>(in)); }
-					case get_type_id<long long>() : {return static_cast<T>(*static_cast<const long long*>(in)); }
-					case get_type_id<unsigned long long>() : {return static_cast<T>(*static_cast<const unsigned long long*>(in)); }
-					case get_type_id<float>() : {return static_cast<T>(*static_cast<const float*>(in)); }
-					case get_type_id<double>() : {return static_cast<T>(*static_cast<const double*>(in)); }
-					case get_type_id<long double>() : {return static_cast<T>(*static_cast<const long double*>(in)); }
+					case type_id_val<char>::value : {return static_cast<T>(*static_cast<const char*>(in)); }
+					case type_id_val<signed char>::value : {return static_cast<T>(*static_cast<const signed char*>(in)); }
+					case type_id_val<unsigned char>::value : {return static_cast<T>(*static_cast<const unsigned char*>(in)); }
+					case type_id_val<short>::value : {return static_cast<T>(*static_cast<const short*>(in)); }
+					case type_id_val<unsigned short>::value : {return static_cast<T>(*static_cast<const unsigned short*>(in)); }
+					case type_id_val<int>::value : {return static_cast<T>(*static_cast<const int*>(in)); }
+					case type_id_val<unsigned int>::value : {return static_cast<T>(*static_cast<const unsigned int*>(in)); }
+					case type_id_val<long>::value : {return static_cast<T>(*static_cast<const long*>(in)); }
+					case type_id_val<unsigned long>::value : {return static_cast<T>(*static_cast<const unsigned long*>(in)); }
+					case type_id_val<long long>::value : {return static_cast<T>(*static_cast<const long long*>(in)); }
+					case type_id_val<unsigned long long>::value : {return static_cast<T>(*static_cast<const unsigned long long*>(in)); }
+					case type_id_val<float>::value : {return static_cast<T>(*static_cast<const float*>(in)); }
+					case type_id_val<double>::value : {return static_cast<T>(*static_cast<const double*>(in)); }
+					case type_id_val<long double>::value : {return static_cast<T>(*static_cast<const long double*>(in)); }
 				}
 				throw std::bad_cast();
 				return T();
@@ -313,20 +325,20 @@ namespace seq
 			{
 				String res;
 				switch (in_p->type_id()) {
-					case get_type_id<char>() : { fmt(*static_cast<const char*>(in)).append(res);  break; }
-					case get_type_id<signed char>() : { fmt(*static_cast<const signed char*>(in)).append(res);  break; }
-					case get_type_id<unsigned char>() : { fmt(*static_cast<const unsigned char*>(in)).append(res);  break; }
-					case get_type_id<short>() : { fmt(*static_cast<const short*>(in)).append(res);  break; }
-					case get_type_id<unsigned short>() : { fmt(*static_cast<const unsigned short*>(in)).append(res);  break; }
-					case get_type_id<int>() : { fmt(*static_cast<const int*>(in)).append(res);  break; }
-					case get_type_id<unsigned int>() : { fmt(*static_cast<const unsigned int*>(in)).append(res);  break; }
-					case get_type_id<long>() : { fmt(*static_cast<const long*>(in)).append(res);  break; }
-					case get_type_id<unsigned long>() : { fmt(*static_cast<const unsigned long*>(in)).append(res);  break; }
-					case get_type_id<long long>() : { fmt(*static_cast<const long long*>(in)).append(res);  break; }
-					case get_type_id<unsigned long long>() : { fmt(*static_cast<const unsigned long long*>(in)).append(res);  break; }
-					case get_type_id<float>() : { fmt(*static_cast<const float*>(in)).append(res);  break; }
-					case get_type_id<double>() : { fmt(*static_cast<const double*>(in)).append(res);  break; }
-					case get_type_id<long double>() : { fmt(*static_cast<const long double*>(in)).append(res);  break; }
+					case type_id_val<char>::value : { fmt(*static_cast<const char*>(in)).append(res);  break; }
+					case type_id_val<signed char>::value : { fmt(*static_cast<const signed char*>(in)).append(res);  break; }
+					case type_id_val<unsigned char>::value : { fmt(*static_cast<const unsigned char*>(in)).append(res);  break; }
+					case type_id_val<short>::value : { fmt(*static_cast<const short*>(in)).append(res);  break; }
+					case type_id_val<unsigned short>::value : { fmt(*static_cast<const unsigned short*>(in)).append(res);  break; }
+					case type_id_val<int>::value : { fmt(*static_cast<const int*>(in)).append(res);  break; }
+					case type_id_val<unsigned int>::value : { fmt(*static_cast<const unsigned int*>(in)).append(res);  break; }
+					case type_id_val<long>::value : { fmt(*static_cast<const long*>(in)).append(res);  break; }
+					case type_id_val<unsigned long>::value : { fmt(*static_cast<const unsigned long*>(in)).append(res);  break; }
+					case type_id_val<long long>::value : { fmt(*static_cast<const long long*>(in)).append(res);  break; }
+					case type_id_val<unsigned long long>::value : { fmt(*static_cast<const unsigned long long*>(in)).append(res);  break; }
+					case type_id_val<float>::value : { fmt(*static_cast<const float*>(in)).append(res);  break; }
+					case type_id_val<double>::value : { fmt(*static_cast<const double*>(in)).append(res);  break; }
+					case type_id_val<long double>::value : { fmt(*static_cast<const long double*>(in)).append(res);  break; }
 					default: throw std::bad_cast(); break;
 				}
 				return res;

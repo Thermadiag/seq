@@ -65,8 +65,11 @@ bool operator == (const test<N>& a, const test<N>& b)
 	return memcmp(a.data, b.data, sizeof(a.data)) == 0;
 }
 
-template<size_t N>
-struct seq::is_relocatable<test<N>> : std::true_type {};
+namespace seq
+{
+	template<size_t N>
+	struct is_relocatable<test<N>> : std::true_type {};
+}
 
 namespace std
 {

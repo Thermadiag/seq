@@ -32,6 +32,8 @@
 
 using namespace seq;
 
+
+
 template<class T>
 struct StdPool
 {
@@ -46,8 +48,8 @@ struct StdPool
 	void reserve(size_t){}
 	template<class U>
 	std::unique_ptr<T> make_unique(const U& v) {
-		//return std::unique_ptr<T>(new T(v));
-		return std::make_unique<T>(v);
+		return std::unique_ptr<T>(new T(v));
+		//return std::make_unique<T>(v);
 	}
 	template<class U>
 	std::shared_ptr<T> make_shared(const U& v) {

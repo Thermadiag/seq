@@ -243,7 +243,7 @@ namespace seq
 			static constexpr size_t storage_size = block_size * sizeof(T);//BlockBound<T>::value;
 			static constexpr size_t invalid_index = std::numeric_limits<size_t>::max();//(1ULL << (sizeof(size_t) * 8 - 10)) - 1ULL;
 
-			alignas(alignment) char storage[storage_size]; //data storage, aligned on 16 bytes at least
+			alignas((alignof(T) > 16 ? alignof(T) : 16)) char storage[storage_size]; //data storage, aligned on 16 bytes at least
 			unsigned short		size;				// size is used for front and back buffer
 			unsigned short		dirty;				// dirty (modified) buffer
 			size_t				block_index;		// block index in list of blocks

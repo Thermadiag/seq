@@ -227,6 +227,28 @@ namespace seq
 			typename make_void<typename T::is_transparent>::type>
 			: std::true_type {};
 
+
+		template <class T, class = void>
+		struct has_is_always_equal : std::false_type {};
+
+		template <class T>
+		struct has_is_always_equal<T,
+			typename make_void<typename T::is_always_equal>::type>
+			: std::true_type {};
+
+		/// Provide a is_always_equal type traits for allocators in case current compiler 
+		/// std::allocator_traits::is_always_equal is not present.
+		template<class Alloc, bool HasIsAlwaysEqual = has_is_always_equal<Alloc>::value>
+		struct is_always_equal
+		{
+			static constexpr bool value = Alloc::is_always_equal::value;
+		};
+		template<class Alloc>
+		struct is_always_equal<Alloc,false>
+		{
+			static constexpr bool value = std::is_empty<Alloc>::value;
+		};
+
 		
 		// Returns distance between 2 iterators, or 0 for non random access iterators
 		template<class Iter, class Cat>
@@ -304,7 +326,7 @@ namespace seq
 
 	/// @brief Copy allocator for container copy constructor
 	template<class Allocator>
-	auto copy_allocator(const Allocator& alloc)
+	auto copy_allocator(const Allocator& alloc) -> Allocator
 	{
 		return std::allocator_traits< Allocator>::select_on_container_copy_construction(alloc);
 	}
@@ -345,14 +367,14 @@ namespace seq
 	struct assign_alloc
 	{
 		static constexpr bool value = std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value
-			&& !std::allocator_traits<Allocator>::is_always_equal::value;
+			&& !detail::is_always_equal<Allocator>::value;
 	};
 
 	template <class Allocator>
 	struct move_alloc
 	{
 		static constexpr bool value = std::allocator_traits<Allocator>::propagate_on_container_move_assignment::type
-			&& !std::allocator_traits<Allocator>::is_always_equal::value;
+			&& !detail::is_always_equal<Allocator>::value;
 	};
 
 

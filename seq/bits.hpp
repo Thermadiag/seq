@@ -69,6 +69,7 @@ See functions documentation for more details.
 #include <cstdlib>
 #include <cstddef>
 #include <cassert>
+#include <cstddef>
 #include <type_traits>
 
 
@@ -203,9 +204,15 @@ namespace seq {
 }
 #endif
 #else
-#define SEQ_DEFAULT_ALIGNMENT alignof(std::max_align_t)
+
 namespace seq {
+#if defined(__GNUC__) && (__GNUC__< 5 && __GNUC_MINOR__ < 9)
+	#define SEQ_DEFAULT_ALIGNMENT alignof(double)
+	using max_align_t = double;
+#else
+	#define SEQ_DEFAULT_ALIGNMENT alignof(std::max_align_t)
 	using max_align_t = std::max_align_t;
+#endif
 } // namespace seq
 #endif
 
@@ -215,7 +222,7 @@ namespace seq {
 	abort();}
 
 // going through a variable to avoid cppcheck error with SEQ_OFFSETOF
-static const void* __dummy_ptr_with_long_name = nullptr;
+static constexpr void* __dummy_ptr_with_long_name = nullptr;
 // Redefine offsetof to get rid of warning "'offsetof' within non-standard-layout type ...."
 #define SEQ_OFFSETOF(s,m) (reinterpret_cast<::size_t>(&reinterpret_cast<char const volatile&>(((static_cast<const s*>(__dummy_ptr_with_long_name))->m))))
 

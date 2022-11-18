@@ -351,11 +351,11 @@ namespace seq
 		}
 		template < class BucketMgr>
 		SEQ_ALWAYS_INLINE auto operator<(const deque_const_iterator< BucketMgr>& it1, const deque_const_iterator< BucketMgr>& it2)noexcept -> bool {
-			return it1.pos < it2.pos;
+			return (it1.pos) < (it2.pos);
 		}
 		template < class BucketMgr>
 		SEQ_ALWAYS_INLINE auto operator>(const deque_const_iterator< BucketMgr>& it1, const deque_const_iterator< BucketMgr>& it2) noexcept -> bool {
-			return it1.pos > it2.pos;
+			return (it1.pos) > (it2.pos);
 		}
 		template < class BucketMgr>
 		SEQ_ALWAYS_INLINE auto operator<=(const deque_const_iterator< BucketMgr>& it1, const deque_const_iterator< BucketMgr>& it2)noexcept -> bool {
