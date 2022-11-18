@@ -29,8 +29,11 @@
 #include <iostream>
 
 #include "robin_hood/robin_hood.h"
+#if !defined( __GNUG__ ) || (__GNUC__ > 4)
 #include "ska/flat_hash_map.hpp"
 #include "ska/unordered_map.hpp"
+#endif
+
 #include "boost/unordered_set.hpp"
 #include "phmap/phmap.h"
 
@@ -212,10 +215,12 @@ void test_hash(int count, Gen gen)
 		robin_hood::unordered_node_set<T, Hash, std::equal_to<T>> set;
 		test_hash_set("robin_hood::unordered_node_set", set, keys, f);
 	}
+#if !defined( __GNUG__ ) || (__GNUC__ > 4)
 	{
 		ska::unordered_set<T, Hash, std::equal_to<T>> set;
 		test_hash_set("ska::unordered_set", set, keys, f);
 	}
+#endif
 	{
 		boost::unordered_set<T, Hash, std::equal_to<T>> set;
 		test_hash_set("boost::unordered_set", set, keys, f);
