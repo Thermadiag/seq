@@ -1671,7 +1671,7 @@ namespace seq
 		using typed_type_info_type =  typename Interface::template typed_type_info<T>;
 
 		/// Maximum size for Small Buffer Optimization
-		static constexpr size_t static_size = sizeof(base_type::d_storage);
+		static constexpr size_t static_size = sizeof(typename std::aligned_storage< StaticSize, Alignment>::type);
 
 		/// @brief Returns the type info for given type
 		template<class T>
