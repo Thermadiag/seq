@@ -352,7 +352,7 @@ namespace seq
 				return NULL;
 
 			//const unsigned char* end_for_raw = end - 16;
-			const __m128i mask = _mm_setr_epi8(static_cast<char>(0xFF), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+			const __m128i mask = _mm_setr_epi8(-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 			// copy headers (by group of 2) and mins to destination
 			for (int i = 0; i < 16; i += 2)

@@ -29,6 +29,7 @@
 #include <memory>
 #include <type_traits>
 #include <functional>
+#include <limits>
 
 namespace std
 {
@@ -58,7 +59,7 @@ namespace seq
 	template <class T, bool Signed = std::is_signed<T>::value>
 	struct integer_max
 	{
-		static constexpr T value = static_cast<T>( ~(static_cast < T>(1) << (static_cast<T>(sizeof(T) * 8) - static_cast < T>(1))) );
+		static constexpr T value = std::numeric_limits<T>::max();//static_cast<T>( ~(static_cast < T>(1) << (static_cast<T>(sizeof(T) * 8) - static_cast < T>(1))) );
 	};
 	template <class T>
 	struct integer_max<T,false>

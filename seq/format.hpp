@@ -1306,7 +1306,7 @@ namespace seq
 				for (;;) {
 					f = detail::write_integral(detail::char_range(const_cast<char*>(tmp.data()), const_cast<char*>(tmp.data()) + tmp.capacity()), val.value(),
 						val.base(),
-						integral_chars_format(0, val.formatting() & detail::f_prefix, val.formatting() & detail::f_upper)
+						integral_chars_format(0, (val.formatting() & detail::f_prefix) != 0, (val.formatting() & detail::f_upper) != 0)
 					);
 					if (SEQ_LIKELY(f.ec == std::errc()))
 						break;

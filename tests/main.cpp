@@ -45,7 +45,7 @@ using namespace seq;
 
 auto  main  (int  /*unused*/, char**  /*unused*/) -> int
 {
-
+	
 	SEQ_TEST_MODULE(format, test_format());
 	SEQ_TEST_MODULE(any, test_any());
 #ifdef TEST_CVECTOR

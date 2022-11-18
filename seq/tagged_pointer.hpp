@@ -49,6 +49,27 @@ namespace seq
 		CustomAlignment
 	};
 
+
+	namespace detail
+	{
+		// We need to specialize a structure to get tagged_pointer actual alignment value because msvc 2015 does not support alignof on abstract class...
+		template<TagPointerType Type , size_t UserDefinedAlignment >
+		struct FindAlignment
+		{
+			static constexpr std::uintptr_t value = alignof(T);
+		};
+		template<size_t UserDefinedAlignment >
+		struct FindAlignment<HeapPointer, UserDefinedAlignment>
+		{
+			static constexpr std::uintptr_t value = SEQ_DEFAULT_ALIGNMENT;
+		};
+		template<size_t UserDefinedAlignment >
+		struct FindAlignment<CustomAlignment, UserDefinedAlignment>
+		{
+			static constexpr std::uintptr_t value = UserDefinedAlignment;
+		};
+	}
+
 	
 	/// @brief Tagged pointer class.
 	///
@@ -66,9 +87,7 @@ namespace seq
 	template< class T, TagPointerType Type = StackPointer, size_t UserDefinedAlignment = 0>
 	class tagged_pointer
 	{
-		static constexpr std::uintptr_t align = (Type == StackPointer) ?
-			(alignof(T)) :
-			(Type == HeapPointer ? SEQ_DEFAULT_ALIGNMENT : UserDefinedAlignment);
+		static constexpr std::uintptr_t align = detail::FindAlignment<Type, UserDefinedAlignment>::value; 
 
 		static_assert( (((align & (align - 1)) == 0)), "alignment must be a non null power of 2");
 		static constexpr std::uintptr_t bits = static_bit_scan_reverse<align>::value;

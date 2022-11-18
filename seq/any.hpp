@@ -1607,10 +1607,10 @@ namespace seq
 	class hold_any : public Interface::template any_interface< any_base <hold_any<Interface, StaticSize, Alignment>,  typename Interface::type_info, StaticSize, Alignment> >
 	{
 
-		SEQ_ALWAYS_INLINE auto complex_destroy() const noexcept -> bool { return this->d_type_info.full() & detail::complex_destroy; }
-		SEQ_ALWAYS_INLINE auto complex_copy() const noexcept -> bool { return this->d_type_info.full() & detail::complex_copy; }
-		SEQ_ALWAYS_INLINE auto big_size() const noexcept -> bool { return this->d_type_info.full() & detail::big_size; }
-		SEQ_ALWAYS_INLINE auto non_relocatable() const noexcept -> bool { return this->d_type_info.full() & detail::non_relocatable; }
+		SEQ_ALWAYS_INLINE auto complex_destroy() const noexcept -> bool { return (this->d_type_info.full() & detail::complex_destroy) !=0; }
+		SEQ_ALWAYS_INLINE auto complex_copy() const noexcept -> bool { return (this->d_type_info.full() & detail::complex_copy) != 0; }
+		SEQ_ALWAYS_INLINE auto big_size() const noexcept -> bool { return (this->d_type_info.full() & detail::big_size) != 0; }
+		SEQ_ALWAYS_INLINE auto non_relocatable() const noexcept -> bool { return (this->d_type_info.full() & detail::non_relocatable) != 0; }
 
 		template<class T>
 		auto get_null_out() -> T* {
@@ -1671,7 +1671,7 @@ namespace seq
 		using typed_type_info_type =  typename Interface::template typed_type_info<T>;
 
 		/// Maximum size for Small Buffer Optimization
-		static constexpr size_t static_size = sizeof(hold_any::d_storage);
+		static constexpr size_t static_size = sizeof(base_type::d_storage);
 
 		/// @brief Returns the type info for given type
 		template<class T>

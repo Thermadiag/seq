@@ -96,14 +96,14 @@ void test_tstring_logic()
 
 	//test insertion
 	size_t pos[4] = { rand() % v.size(),rand() % v.size(),rand() % v.size(),rand() % v.size() };
-	v.insert(v.begin() + pos[0], static_cast<char>(1234));
-	v.insert(v.begin() + pos[0], static_cast < char>(1235));
-	v.insert(v.begin() + pos[0], static_cast < char>(1236));
-	v.insert(v.begin() + pos[0], static_cast < char>(1237));
-	dv.insert(dv.begin() + pos[0], static_cast < char>(1234));
-	dv.insert(dv.begin() + pos[0], static_cast < char>(1235));
-	dv.insert(dv.begin() + pos[0], static_cast < char>(1236));
-	dv.insert(dv.begin() + pos[0], static_cast < char>(1237));
+	v.insert(v.begin() + pos[0], static_cast<char>(-46));
+	v.insert(v.begin() + pos[0], static_cast < char>(-45));
+	v.insert(v.begin() + pos[0], static_cast < char>(-44));
+	v.insert(v.begin() + pos[0], static_cast < char>(-43));
+	dv.insert(dv.begin() + pos[0], static_cast < char>(-46));
+	dv.insert(dv.begin() + pos[0], static_cast < char>(-45));
+	dv.insert(dv.begin() + pos[0], static_cast < char>(-44));
+	dv.insert(dv.begin() + pos[0], static_cast < char>(-43));
 	SEQ_TEST(string_equals(v, dv));
 
 	//test range insertion

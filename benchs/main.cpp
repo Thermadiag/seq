@@ -112,14 +112,13 @@ struct statefull_alloc : public std::allocator<T>
 };
 
 
-#include <seq/any.hpp>
 
 int  main  (int , char** )
 { 
-
+	
 	test_tiered_vector_algorithms<size_t>(5000000);
 	test_tiered_vector<size_t>();
-
+	 
 
 	test_tstring_members(20000000);
 	test_sort_strings(2000000);

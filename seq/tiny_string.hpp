@@ -37,6 +37,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <iterator>
 
 
 #include "hash.hpp"
