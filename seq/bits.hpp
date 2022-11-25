@@ -58,10 +58,10 @@ See functions documentation for more details.
  */
 
 
-#ifdef _MSC_VER
+/*#ifdef _MSC_VER
  // Silence msvc warning message about alignment
 #define _ENABLE_EXTENDED_ALIGNED_STORAGE
-#endif
+#endif*/
 
 
 #include <cstdint>
@@ -70,6 +70,7 @@ See functions documentation for more details.
 #include <cstddef>
 #include <cassert>
 #include <cstddef>
+#include <cstdio>
 #include <type_traits>
 
 
@@ -180,7 +181,9 @@ See functions documentation for more details.
 
 // BIM2 instruction set is not properly defined on msvc
 #if defined(_MSC_VER) && defined(__AVX2__)
+#ifndef __BMI2__
 #define __BMI2__
+#endif
 #endif
 
 // __MINGW32__ doesn't seem to be properly defined, so define it.
@@ -229,7 +232,7 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 
 
 // Check for C++17
-#ifdef _MSC_VER
+#if defined( _MSC_VER) && !defined(__clang__)
 	#if _MSVC_LANG >= 201703L
 		#define SEQ_HAS_CPP_17
 	#endif
@@ -249,15 +252,15 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 
 //pragma directive might be different between compilers, so define a generic SEQ_PRAGMA macro.
 //Use SEQ_PRAGMA with no quotes around argument (ex: SEQ_PRAGMA(omp parallel) and not SEQ_PRAGMA("omp parallel") ).
-#ifdef _MSC_VER
-#define _SEQ_PRAGMA(text) __pragma(text)
+#if defined( _MSC_VER) && !defined(__clang__)
+#define SEQ_INTERNAL_PRAGMA(text) __pragma(text)
 #else
-#define _SEQ_PRAGMA(text) _Pragma(#text)
+#define SEQ_INTERNAL_PRAGMA(text) _Pragma(#text)
 #endif
-#define SEQ_PRAGMA(text) _SEQ_PRAGMA(text)
+#define SEQ_PRAGMA(text) SEQ_INTERNAL_PRAGMA(text)
 
 // no inline
-#ifdef _MSC_VER
+#if defined( _MSC_VER) && !defined(__clang__)
 #define SEQ_NOINLINE(...) __declspec(noinline) __VA_ARGS__
 #else
 #define SEQ_NOINLINE(...) __VA_ARGS__ __attribute__((noinline))
@@ -276,9 +279,10 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #endif
 
 // likely/unlikely definition
-#ifndef _MSC_VER
+#if !defined( _MSC_VER) || defined(__clang__)
 #define SEQ_LIKELY(x)    __builtin_expect (!!(x), 1)
 #define SEQ_UNLIKELY(x)  __builtin_expect (!!(x), 0)
+#define SEQ_HAS_EXPECT
 #else
 #define SEQ_LIKELY(x) x
 #define SEQ_UNLIKELY(x) x
@@ -288,13 +292,15 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #define SEQ_INLINE inline
 
 // Strongest available function inlining
-#if defined(__GNUC__) && (__GNUC__>=4)
+#if (defined(__GNUC__) && (__GNUC__>=4)) || defined(__clang__)
 #define SEQ_ALWAYS_INLINE __attribute__((always_inline)) inline
 #define SEQ_EXTENSION __extension__
+#define SEQ_HAS_ALWAYS_INLINE
 #elif defined(__GNUC__)
 #define SEQ_ALWAYS_INLINE  inline
 #define SEQ_EXTENSION __extension__
 #elif (defined _MSC_VER) || (defined __INTEL_COMPILER)
+#define SEQ_HAS_ALWAYS_INLINE
 #define SEQ_ALWAYS_INLINE __forceinline
 #else
 #define SEQ_ALWAYS_INLINE inline
@@ -328,7 +334,7 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 
 
  // Forces data to be n-byte aligned (this might be used to satisfy SIMD requirements).
-#if (defined __GNUC__) || (defined __PGI) || (defined __IBMCPP__) || (defined __ARMCC_VERSION)
+#if (defined __GNUC__) || (defined __PGI) || (defined __IBMCPP__) || (defined __ARMCC_VERSION) || (defined __clang__)
 #define SEQ_ALIGN_TO_BOUNDARY(n) __attribute__((aligned(n)))
 #elif (defined _MSC_VER)
 #define SEQ_ALIGN_TO_BOUNDARY(n) __declspec(align(n))
@@ -408,12 +414,20 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #define SEQ_HAS_MINGW_ALIGNED_MALLOC 0
 #endif
 
+
+
+#if defined(SEQ_HAS_POSIX_MEMALIGN) || defined(SEQ_HAS_MM_MALLOC) || defined(SEQ_HAS_ALIGNED_MALLOC) || defined(SEQ_HAS_MINGW_ALIGNED_MALLOC)
+#define SEQ_HAS_ALIGNED_ALLOCATION
+#endif
+
+
+
 namespace seq
 {
 	namespace detail
 	{
 
-		/// \internal Like malloc, but the returned pointer is guaranteed to be alignment-byte aligned.
+		/// Like malloc, but the returned pointer is guaranteed to be alignment-byte aligned.
 		/// Fast, but wastes alignment additional bytes of memory. Does not throw any exception.
 		inline auto handmade_aligned_malloc(size_t size, size_t alignment) -> void*
 		{
@@ -443,7 +457,7 @@ namespace seq
 			return ptr;
 		}
 
-		/// \internal Frees memory allocated with handmade_aligned_malloc
+		/// Frees memory allocated with handmade_aligned_malloc
 		inline void handmade_aligned_free(void* ptr)
 		{
 			// Generic implementation has malloced pointer stored in front of used area 
@@ -586,10 +600,12 @@ namespace seq
 #if defined(HAVE_ASM_POPCNT) && \
 		defined(__x86_64__)
 
+#define SEQ_HAS_ASM_POPCNT
+
 	inline auto popcnt64(std::uint64_t x) -> unsigned
 	{
 		__asm__("popcnt %1, %0" : "=r" (x) : "0" (x));
-		return x;
+		return static_cast<unsigned>(x);
 	}
 
 	inline auto popcnt32(uint32_t x) -> unsigned
@@ -599,6 +615,8 @@ namespace seq
 
 #elif defined(HAVE_ASM_POPCNT) && \
 		  defined(__i386__)
+
+#define SEQ_HAS_ASM_POPCNT
 
 	inline unsigned popcnt32(uint32_t x)
 	{
@@ -615,6 +633,8 @@ namespace seq
 #elif defined(_MSC_VER) && \
 		  defined(_M_X64)
 
+#define SEQ_HAS_BUILTIN_POPCNT
+
 	inline unsigned popcnt64(std::uint64_t x)
 	{
 		return (unsigned)_mm_popcnt_u64(x);
@@ -628,6 +648,7 @@ namespace seq
 #elif defined(_MSC_VER) && \
 		  defined(_M_IX86)
 
+#define SEQ_HAS_BUILTIN_POPCNT
 
 	inline unsigned popcnt64(std::uint64_t x)
 	{
@@ -641,6 +662,8 @@ namespace seq
 
 	/* non x86 CPUs */
 #elif defined(HAVE_BUILTIN_POPCOUNT)
+
+#define SEQ_HAS_BUILTIN_POPCNT
 
 	inline std::uint64_t popcnt64(std::uint64_t x)
 	{
@@ -710,6 +733,12 @@ namespace seq
 	/// @function unsigned popcnt64(unsigned long long value)
 	/// @brief Returns the number of set bits in \a value.
 	///
+	
+
+
+#if defined(_MSC_VER)   || ( (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3))) )
+#define SEQ_HAS_BUILTIN_BITSCAN
+#endif
 
 
 	namespace detail
@@ -1084,18 +1113,28 @@ namespace seq
 	}
 
 
+#if defined(_MSC_VER)   || ( (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3))) )
+#define SEQ_HAS_BUILTIN_BITSCAN
+#endif
+
+
 	/// @brief Returns a byte-swapped representation of the 16-bit argument.
 	inline auto byte_swap_16(std::uint16_t value) -> std::uint16_t {
 #if defined(_MSC_VER) && !defined(_DEBUG)
 		return _byteswap_ushort(value);
 #else
-		return (value << 8) | (value >> 8);
+		return static_cast <std::uint16_t>((value << 8U) | (value >> 8U));
 #endif
 	}
 
+
+#if (defined(__GNUC__) && !defined(__ICC)) || defined(__APPLE__) || defined(__sun) || defined(sun) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || (defined(_MSC_VER) && !defined(_DEBUG))
+#define SEQ_HAS_BUILTIN_BYTESWAP
+#endif
+
 	/// @brief Returns a byte-swapped representation of the 32-bit argument.
 	inline auto byte_swap_32(std::uint32_t value) -> std::uint32_t {
-#if  defined(__GNUC__) && (__GNUC__>=4 && __GNUC_MINOR__>=3) && !defined(__ICC)
+#if  defined(__GNUC__) && !defined(__ICC)
 		return __builtin_bswap32(value);
 #elif defined(__APPLE__)
 		return OSSwapInt32(value);
@@ -1117,7 +1156,7 @@ namespace seq
 
 	/// @brief Returns a byte-swapped representation of the 64-bit argument.
 	inline auto byte_swap_64(std::uint64_t value) -> std::uint64_t {
-#if  defined(__GNUC__) && (__GNUC__>=4 && __GNUC_MINOR__>=3) && !defined(__ICC)
+#if  defined(__GNUC__) && !defined(__ICC)
 		return __builtin_bswap64(value);
 #elif defined(__APPLE__)
 		return OSSwapInt64(value);
@@ -1286,7 +1325,7 @@ namespace seq
 	{
 		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
-#if SEQ_BYTEORDER_ENDIAN != BYTEORDER_LITTEL_ENDIAN
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
 		if (sizeof(size_t) == 8) res = byte_swap_64(res);
 		else res = byte_swap_32(res);
 #endif
@@ -1320,6 +1359,67 @@ namespace seq
 	struct static_bit_scan_reverse<0ULL>
 	{
 	} ;
+
+
+	inline void print_features()
+	{
+		std::printf("Has builtin expect: ");
+#ifdef	SEQ_HAS_EXPECT
+		std::printf("yes\n");
+#else
+		std::printf("no\n");
+#endif
+
+std::printf("Has aligned malloc: ");
+#ifdef	SEQ_HAS_ALIGNED_ALLOCATION
+std::printf("yes\n");
+#else
+std::printf("no\n");
+#endif
+
+std::printf("Has always inline: ");
+#ifdef	SEQ_HAS_ALWAYS_INLINE
+std::printf("yes\n");
+#else
+std::printf("no\n");
+#endif
+
+std::printf("Has asm popcnt: ");
+#ifdef	SEQ_HAS_ASM_POPCNT
+std::printf("yes\n");
+#else
+std::printf("no\n");
+#endif			
+
+std::printf("Has builtin popcnt: ");
+#ifdef	SEQ_HAS_BUILTIN_POPCNT
+std::printf("yes\n");
+#else
+std::printf("no\n");
+#endif	
+			
+std::printf("Has builtin bit scan forward/backward: ");
+#ifdef	SEQ_HAS_BUILTIN_BITSCAN
+std::printf("yes\n");
+#else
+std::printf("no\n");
+#endif	
+
+std::printf("Has builtin byte swap: ");
+#ifdef	SEQ_HAS_BUILTIN_BYTESWAP
+std::printf("yes\n");
+#else
+std::printf("no\n");
+#endif				
+
+std::printf("Has BMI2: ");
+#ifdef __BMI2__
+std::printf("yes\n");
+#else
+std::printf("no\n");
+#endif	
+
+	}
 
 }//end namespace seq
 

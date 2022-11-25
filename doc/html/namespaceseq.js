@@ -20,6 +20,8 @@ var namespaceseq =
     [ "cvector", "classseq_1_1cvector.html", "classseq_1_1cvector" ],
     [ "devector", "classseq_1_1devector.html", "classseq_1_1devector" ],
     [ "disable_ostream", "structseq_1_1disable__ostream.html", "structseq_1_1disable__ostream" ],
+    [ "equal_to", "structseq_1_1equal__to.html", "structseq_1_1equal__to" ],
+    [ "equal_to< void >", "structseq_1_1equal__to_3_01void_01_4.html", "structseq_1_1equal__to_3_01void_01_4" ],
     [ "external_allocator", "classseq_1_1external__allocator.html", "classseq_1_1external__allocator" ],
     [ "file_input_stream", "classseq_1_1file__input__stream.html", "classseq_1_1file__input__stream" ],
     [ "flat_map", "classseq_1_1flat__map.html", "classseq_1_1flat__map" ],

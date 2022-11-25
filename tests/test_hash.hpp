@@ -43,7 +43,7 @@
 #include <random>
 #include "tiny_string.hpp"
 
-using namespace seq;
+
 
 
 template<class HMap1, class HMap2>
@@ -108,6 +108,7 @@ bool hash_map_sorted(const HMap1& h)
 
 inline void test_ordered_set_logic()
 {
+	using namespace seq;
 	{
 		//test construct from initializer list
 		ordered_set<double> set = { 1,9,2,8,3,7,4,6,5,2, 7 };
@@ -315,6 +316,7 @@ inline void test_ordered_set_logic()
 
 inline void test_ordered_map_logic()
 {
+	using namespace seq;
 	using map_type = ordered_map<double, double>;
 	using umap_type = std::unordered_map<double, double>;
 	{

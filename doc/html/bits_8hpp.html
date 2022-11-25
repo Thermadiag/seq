@@ -99,6 +99,7 @@ $(document).ready(function(){initNavTree('bits_8hpp.html',''); initResizable(); 
 <code>#include &lt;cstdlib&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;cassert&gt;</code><br />
+<code>#include &lt;cstdio&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
 </div>
 <p><a href="bits_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -147,17 +148,17 @@ Macros</h2></td></tr>
 <tr class="separator:ga458a6f1416c90c631f1b457abca13345"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1cbb44da4a53751136f4dc9e91955349"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga1cbb44da4a53751136f4dc9e91955349">SEQ_ARCH_32</a></td></tr>
 <tr class="separator:ga1cbb44da4a53751136f4dc9e91955349"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4358957bf3c41e772ade27671699c4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a>&#160;&#160;&#160;alignof(std::max_align_t)</td></tr>
-<tr class="separator:ga4358957bf3c41e772ade27671699c4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4358957bf3c41e772ade27671699c4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bits_8hpp.html#a4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a>&#160;&#160;&#160;alignof(std::max_align_t)</td></tr>
+<tr class="separator:a4358957bf3c41e772ade27671699c4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga72391f4e9dec6b03cd65e4fa6e737b47"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga72391f4e9dec6b03cd65e4fa6e737b47">SEQ_ABORT</a>(...)</td></tr>
 <tr class="separator:ga72391f4e9dec6b03cd65e4fa6e737b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3af9d45fb1cb5d6a17fdb3404b472f78"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga3af9d45fb1cb5d6a17fdb3404b472f78">SEQ_OFFSETOF</a>(s,  m)&#160;&#160;&#160;(reinterpret_cast&lt;::size_t&gt;(&amp;reinterpret_cast&lt;char const volatile&amp;&gt;(((static_cast&lt;const s*&gt;(__dummy_ptr_with_long_name))-&gt;m))))</td></tr>
 <tr class="separator:ga3af9d45fb1cb5d6a17fdb3404b472f78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf427dbbb22afdab4e465d9f62bb68ba9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#gaf427dbbb22afdab4e465d9f62bb68ba9">SEQ_CONSTEXPR</a></td></tr>
 <tr class="separator:gaf427dbbb22afdab4e465d9f62bb68ba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae4a7019ba7c6381482288d4f2a24246a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#gae4a7019ba7c6381482288d4f2a24246a">_SEQ_PRAGMA</a>(text)&#160;&#160;&#160;_Pragma(#text)</td></tr>
-<tr class="separator:gae4a7019ba7c6381482288d4f2a24246a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga06eb095185f16889bec1c2207f0e101d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga06eb095185f16889bec1c2207f0e101d">SEQ_PRAGMA</a>(text)&#160;&#160;&#160;<a class="el" href="group__bits.html#gae4a7019ba7c6381482288d4f2a24246a">_SEQ_PRAGMA</a>(text)</td></tr>
+<tr class="memitem:ga3927d2081afc2b471ef8a17517830271"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga3927d2081afc2b471ef8a17517830271">SEQ_INTERNAL_PRAGMA</a>(text)&#160;&#160;&#160;_Pragma(#text)</td></tr>
+<tr class="separator:ga3927d2081afc2b471ef8a17517830271"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga06eb095185f16889bec1c2207f0e101d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga06eb095185f16889bec1c2207f0e101d">SEQ_PRAGMA</a>(text)&#160;&#160;&#160;<a class="el" href="group__bits.html#ga3927d2081afc2b471ef8a17517830271">SEQ_INTERNAL_PRAGMA</a>(text)</td></tr>
 <tr class="separator:ga06eb095185f16889bec1c2207f0e101d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaaf29ff69ae3d251b8e68651482bdc280"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#gaaf29ff69ae3d251b8e68651482bdc280">SEQ_NOINLINE</a>(...)&#160;&#160;&#160;__VA_ARGS__ __attribute__((noinline))</td></tr>
 <tr class="separator:gaaf29ff69ae3d251b8e68651482bdc280"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -169,6 +170,8 @@ Macros</h2></td></tr>
 <tr class="separator:gaac3e750dd623d4a1ef045f0faa734e08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga371649b7712afb0bb3b2781aeddf45d9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga371649b7712afb0bb3b2781aeddf45d9">SEQ_UNLIKELY</a>(x)&#160;&#160;&#160;__builtin_expect (!!(x), 0)</td></tr>
 <tr class="separator:ga371649b7712afb0bb3b2781aeddf45d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2ef4db29c4c12c8f5d9203243649dc71"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga2ef4db29c4c12c8f5d9203243649dc71">SEQ_HAS_EXPECT</a></td></tr>
+<tr class="separator:ga2ef4db29c4c12c8f5d9203243649dc71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga55ced08c31bd12c443136cc314819992"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga55ced08c31bd12c443136cc314819992">SEQ_INLINE</a>&#160;&#160;&#160;<a class="el" href="group__bits.html#ga00d24c7231be28dbaf71f5408f30e44c">inline</a></td></tr>
 <tr class="separator:ga55ced08c31bd12c443136cc314819992"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga68ad5ff4a759a2a341569a42f9ba2e44"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a>&#160;&#160;&#160;<a class="el" href="group__bits.html#ga00d24c7231be28dbaf71f5408f30e44c">inline</a></td></tr>
@@ -193,6 +196,8 @@ Macros</h2></td></tr>
 <tr class="separator:gaca71eb8581a4867a6eb7fc1d5e65b9b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga15b108df9e786a28e99c8a6e70d51b57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga15b108df9e786a28e99c8a6e70d51b57">SEQ_HAS_MINGW_ALIGNED_MALLOC</a>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:ga15b108df9e786a28e99c8a6e70d51b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0dde73fc6be57dafdd73b027dcef79a0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga0dde73fc6be57dafdd73b027dcef79a0">SEQ_HAS_ALIGNED_ALLOCATION</a></td></tr>
+<tr class="separator:ga0dde73fc6be57dafdd73b027dcef79a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2e12dfd1209d2791136221bb807e8b21"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga2e12dfd1209d2791136221bb807e8b21">GNUC_PREREQ</a>(x,  y)&#160;&#160;&#160;0</td></tr>
 <tr class="separator:ga2e12dfd1209d2791136221bb807e8b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac95dddc8d05cdc27531e99aa65535c53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#gac95dddc8d05cdc27531e99aa65535c53">CLANG_PREREQ</a>(x,  y)&#160;&#160;&#160;0</td></tr>
@@ -210,6 +215,7 @@ Functions</h2></td></tr>
 <tr class="memitem:af3b033e21d6cdae8599040df4a8e2166"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#af3b033e21d6cdae8599040df4a8e2166">seq::detail::handmade_aligned_malloc</a> (size_t size, size_t alignment) -&gt; void *</td></tr>
 <tr class="separator:af3b033e21d6cdae8599040df4a8e2166"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f7345d54076f3c6b286dec507e4d001"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a9f7345d54076f3c6b286dec507e4d001">seq::detail::handmade_aligned_free</a> (void *ptr)</td></tr>
+<tr class="memdesc:a9f7345d54076f3c6b286dec507e4d001"><td class="mdescLeft">&#160;</td><td class="mdescRight">Frees memory allocated with handmade_aligned_malloc.  <a href="namespaceseq_1_1detail.html#a9f7345d54076f3c6b286dec507e4d001">More...</a><br /></td></tr>
 <tr class="separator:a9f7345d54076f3c6b286dec507e4d001"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac67ee9a9d6039de2b50c631129a0a1bc"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ac67ee9a9d6039de2b50c631129a0a1bc">seq::aligned_malloc</a> (size_t size, size_t align) -&gt; void *</td></tr>
 <tr class="memdesc:ac67ee9a9d6039de2b50c631129a0a1bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocates <em>size</em> bytes. The returned pointer is guaranteed to have <em>align</em> bytes alignment.  <a href="namespaceseq.html#ac67ee9a9d6039de2b50c631129a0a1bc">More...</a><br /></td></tr>
@@ -328,6 +334,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a79fbedb52aef41b37b7b243497ead642"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a79fbedb52aef41b37b7b243497ead642">seq::read_BE_size_t</a> (const void *src) -&gt; size_t</td></tr>
 <tr class="memdesc:a79fbedb52aef41b37b7b243497ead642"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads size_t object from src in big endian order.  <a href="namespaceseq.html#a79fbedb52aef41b37b7b243497ead642">More...</a><br /></td></tr>
 <tr class="separator:a79fbedb52aef41b37b7b243497ead642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6c8fd38b49f17879d09232a8e640bbb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aa6c8fd38b49f17879d09232a8e640bbb">seq::print_features</a> ()</td></tr>
+<tr class="separator:aa6c8fd38b49f17879d09232a8e640bbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -342,7 +350,22 @@ Variables</h2></td></tr>
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 <p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
 <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a4358957bf3c41e772ade27671699c4e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4358957bf3c41e772ade27671699c4e6">&#9670;&nbsp;</a></span>SEQ_DEFAULT_ALIGNMENT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SEQ_DEFAULT_ALIGNMENT&#160;&#160;&#160;alignof(std::max_align_t)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

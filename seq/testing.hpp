@@ -58,18 +58,18 @@ namespace seq
 	/// @brief Streambuf that stores the number of outputed characters
 	class streambuf_size : public std::streambuf 
 	{
-		std::streambuf* sbuf{ NULL };
-		std::ostream* oss{ NULL };
+		std::streambuf* sbuf{ nullptr };
+		std::ostream* oss{ nullptr };
 		size_t size{ 0 };
 
-		int overflow(int c) {
+		virtual int overflow(int c) override {
 			size++;
-			return sbuf->sputc(c);
+			return sbuf->sputc(static_cast<char>(c));
 		}
-		int sync() { return sbuf->pubsync(); }
+		virtual int sync() override { return sbuf->pubsync(); }
 	public:
 		streambuf_size(std::ostream& o) : sbuf(o.rdbuf()), oss(&o) { oss->rdbuf(this); }
-		~streambuf_size() { oss->rdbuf(sbuf); }
+		virtual ~streambuf_size() noexcept override { oss->rdbuf(sbuf); }
 		size_t get_size() const { return size; }
 	};
 }
@@ -78,7 +78,7 @@ namespace seq
 
 /// @brief Very basic testing macro that throws seq::test_error if condition is not met.
 #define SEQ_TEST( ... ) \
-	if(! (__VA_ARGS__) ) {std::string v =seq::fmt(__LINE__);  throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): "  #__VA_ARGS__).c_str()); }
+	if(! (__VA_ARGS__) ) {throw seq::test_error("testing error at file " __FILE__ "(" + seq::fmt(__LINE__).str() + "): "  #__VA_ARGS__); }
 
 /// @brief Test if writting given argument to a std::ostream produces the string 'result', throws seq::test_error if not.
 #define SEQ_TEST_TO_OSTREAM( result, ... ) \
@@ -113,10 +113,10 @@ namespace seq
 {
 	namespace detail
 	{
-		static inline auto msecs_since_epoch() -> int64_t
+		static inline auto msecs_since_epoch() -> uint64_t
 		{
 			using namespace std::chrono;
-			return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+			return static_cast<uint64_t>(duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count());
 		}
 
 
@@ -174,21 +174,21 @@ namespace seq
 
 
 	/// @brief For tests only, reset timer for calling thread
-	void tick()
+	inline void tick()
 	{
 		detail::get_clock() = std::chrono::high_resolution_clock::now();
 		//detail::start_timer(&detail::get_timer());
 	}
 	/// @brief For tests only, returns elapsed microseconds since last call to tick()
-	auto tock_us() -> std::uint64_t
+	inline auto tock_us() -> std::uint64_t
 	{
-		return  std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::high_resolution_clock::now() - detail::get_clock()).count();
+		return  static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::high_resolution_clock::now() - detail::get_clock()).count());
 		//return detail::elapsed_microseconds(&detail::get_timer());
 	}
 	/// @brief For tests only, returns elapsed milliseconds since last call to tick()
-	auto tock_ms() -> std::uint64_t
+	inline auto tock_ms() -> std::uint64_t
 	{
-		return  std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - detail::get_clock()).count();
+		return static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - detail::get_clock()).count());
 		//return detail::elapsed_microseconds(&detail::get_timer()) / 1000ULL;
 	}
 	
@@ -241,14 +241,14 @@ namespace seq
 		return true;
 	}
 
-	void reset_memory_usage()
+	inline void reset_memory_usage()
 	{
 #if defined( WIN32) || defined(_WIN32)
-			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
+			SetProcessWorkingSetSize(GetCurrentProcess(), static_cast<SIZE_T>(-1), static_cast<SIZE_T>(-1));
 #endif
 	}
 
-	auto get_memory_usage() -> size_t
+	inline auto get_memory_usage() -> size_t
 	{
 #if defined( WIN32) || defined(_WIN32)
 			Sleep(50);
@@ -274,7 +274,7 @@ namespace seq
 		using int_type = typename base_type::int_type;
 		using traits_type = typename base_type::traits_type;
 
-		virtual auto overflow(int_type c) -> int_type {
+		virtual auto overflow(int_type c) -> int_type override {
 			return traits_type::not_eof(c);
 		}
 	};
@@ -353,7 +353,7 @@ namespace seq
 		struct Multiply<float>
 		{
 			static auto multiply(float value) -> float {
-				return static_cast<float>((static_cast<float>(rand()) + static_cast<float>(rand())) * 1.4695981039346656037 * value);
+				return static_cast<float>((static_cast<double>(rand()) + static_cast<double>(rand())) * 1.4695981039346656037 * static_cast<double>(value));
 			}
 			template<class Stream>
 			static auto read(Stream& str) -> float { float r;  seq::from_stream(str, r); return r; }
@@ -381,9 +381,9 @@ namespace seq
 			Float sign1 = (rand() & 1) ? static_cast<Float>(-1) : static_cast<Float>(1);
 			Float res;
 			if (type)
-				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * rand()))));
+				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * static_cast<unsigned>(rand())))));
 			else
-				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * rand())) * std::pow(static_cast<Float>(10.), static_cast<Float>(sign1) * (rand() & mask))));
+				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * static_cast<unsigned>(rand()))) * std::pow(static_cast<Float>(10.), static_cast<Float>(sign1) * static_cast<Float>(static_cast<unsigned>(rand()) & mask))));
 
 			return res;
 		}

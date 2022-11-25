@@ -252,15 +252,17 @@ namespace seq
 		
 		// Returns distance between 2 iterators, or 0 for non random access iterators
 		template<class Iter, class Cat>
-		auto iter_distance(const Iter& first, const Iter& last, Cat /*unused*/)  noexcept -> std::ptrdiff_t { return 0; }
+		auto iter_distance(const Iter& , const Iter& , Cat /*unused*/)  noexcept -> size_t { return 0; }
 		template<class Iter>
-		auto iter_distance(const Iter& first, const Iter& last, std::random_access_iterator_tag /*unused*/)  noexcept -> std::ptrdiff_t { return last - first; }
+		auto iter_distance(const Iter& first, const Iter& last, std::random_access_iterator_tag /*unused*/)  noexcept -> size_t { 
+			return (last > first) ?  static_cast<size_t>(last - first) : 0; 
+		}
 
 	}
 
 	/// @brief Returns the distance between first and last iterators for random access iterator category, 0 otherwise.
 	template<class Iter>
-	auto distance(const Iter& first, const Iter& last) noexcept -> std::ptrdiff_t {
+	auto distance(const Iter& first, const Iter& last) noexcept -> size_t {
 		return detail::iter_distance(first, last, typename std::iterator_traits<Iter>::iterator_category());
 	}
 
@@ -307,7 +309,7 @@ namespace seq
 	struct equal_to {
 		typedef _Ty first_argument_type;
 		typedef _Ty second_argument_type;
-		typedef bool result_type;;
+		typedef bool result_type;
 		constexpr bool operator()(const _Ty& left, const _Ty& right) const {
 			return left == right;
 		}

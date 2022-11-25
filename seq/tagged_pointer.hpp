@@ -115,7 +115,7 @@ namespace seq
 
 
 		/// @brief Construct from pointer
-		tagged_pointer(T* ptr = NULL) noexcept
+		tagged_pointer(T* ptr = nullptr) noexcept
 			:d_ptr(reinterpret_cast<std::uintptr_t>(ptr)) {}
 		/// @brief Construct from pointer and tag
 		tagged_pointer(T* ptr, tag_type t) noexcept

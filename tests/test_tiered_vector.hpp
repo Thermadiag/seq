@@ -31,7 +31,7 @@
 #include "testing.hpp"
 
 
-using namespace seq;
+
 
 
 
@@ -65,6 +65,7 @@ bool equal_deq(const Deq1& d1, const Deq2& d2)
 template<seq::LayoutManagement lay>
 void test_deque_algorithms(size_t count = 5000000)
 {
+	using namespace seq;
 	// Test algorithms on tiered_vector, some of them requiring random access iterators
 	
 	typedef size_t type;
@@ -89,8 +90,8 @@ void test_deque_algorithms(size_t count = 5000000)
 	// Test unique after sorting
 	auto it1 = std::unique(deq.begin(), deq.end());
 	auto it2 = std::unique(tvec.begin(), tvec.end());
-	deq.resize(it1 - deq.begin());
-	tvec.resize(it2 - tvec.begin());
+	deq.resize(static_cast<size_t>(it1 - deq.begin()));
+	tvec.resize(static_cast<size_t>(it2 - tvec.begin()));
 		
 	SEQ_TEST(equal_deq(deq, tvec));
 
@@ -142,7 +143,8 @@ void test_deque_algorithms(size_t count = 5000000)
 template<class T, seq::LayoutManagement lay>
 void test_tiered_vector(size_t count = 5000000)
 {
-	
+	using namespace seq;
+
 	// First, test some stl algorithms
 	test_deque_algorithms<lay>(count);
 	
@@ -325,8 +327,8 @@ void test_tiered_vector(size_t count = 5000000)
 			d[i] = dd[i] = static_cast<T>(i);
 		}
 		SEQ_TEST(equal_deq(d, dd));
-		d.insert(10, -1);
-		dd.insert(dd.begin() + 10, -1);
+		d.insert(10, static_cast<type>(-1));
+		dd.insert(dd.begin() + 10, static_cast<type>(-1));
 		SEQ_TEST(equal_deq(d, dd));
 		for (size_t i = 0; i < 128; ++i) {
 			d.erase(0);
@@ -340,19 +342,19 @@ void test_tiered_vector(size_t count = 5000000)
 	}
 
 
-	int insert_count = static_cast<int>( std::max(static_cast<size_t>(50), count / 100));
-	std::vector<size_t> in_pos;
+	unsigned insert_count = static_cast<unsigned>( std::max(static_cast<size_t>(50), count / 100));
+	std::vector<std::ptrdiff_t> in_pos;
 	int ss= static_cast<int>(deq.size());
 	srand(0);
-	for(int i=0; i< insert_count; ++i)
+	for(unsigned i=0; i< insert_count; ++i)
 		in_pos.push_back(rand() % ss++);
 
 	// Test insert single value at random position
-	for (int i = 0; i < insert_count; ++i) {
+	for (unsigned i = 0; i < insert_count; ++i) {
 		deq.insert(deq.begin() + in_pos[i], static_cast<T>(i));
 	}
-	for (int i = 0; i < insert_count; ++i) {
-		tvec.insert(in_pos[i], static_cast<T>(i));
+	for (unsigned i = 0; i < insert_count; ++i) {
+		tvec.insert(static_cast<size_t>(in_pos[i]), static_cast<T>(i));
 	}
 	SEQ_TEST(equal_deq(deq, tvec));
 
@@ -370,10 +372,10 @@ void test_tiered_vector(size_t count = 5000000)
 
 		for (int i = 0; i < 50; ++i) {
 			int pos = i % 5;
-			pos = static_cast<int>(d.size() * pos / 4);
+			pos = static_cast<int>(d.size()) * pos / 4;
 			if (pos == static_cast<int>(d.size()) )--pos;
 			dd.erase(dd.begin() + pos);
-			d.erase(pos);
+			d.erase(static_cast<size_t>(pos));
 			SEQ_TEST(equal_deq(d, dd));
 		}
 	}
@@ -395,7 +397,7 @@ void test_tiered_vector(size_t count = 5000000)
 
 	// Test erase single values at random position
 	size_t erase_count =  deq.size()/2;
-	std::vector<size_t> er_pos;
+	std::vector<std::ptrdiff_t> er_pos;
 	size_t sss= count;
 	srand(0);
 	for(size_t i=0; i< erase_count; ++i)
@@ -406,7 +408,7 @@ void test_tiered_vector(size_t count = 5000000)
 		deq.erase(deq.begin() + er_pos[i]);
 	}
 	for (size_t i = 0; i < erase_count; ++i) {
-		tvec.erase( er_pos[i]);
+		tvec.erase(static_cast<size_t>(er_pos[i]));
 	}
 	SEQ_TEST(equal_deq(deq, tvec));
 

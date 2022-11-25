@@ -104,6 +104,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa2d9911ec31a7cb9b5749d242f349d12"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1any__type__info.html#aa2d9911ec31a7cb9b5749d242f349d12">type_id</a> () const noexcept -&gt; int</td></tr>
 <tr class="memdesc:aa2d9911ec31a7cb9b5749d242f349d12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrurns the type id.  <a href="classseq_1_1any__type__info.html#aa2d9911ec31a7cb9b5749d242f349d12">More...</a><br /></td></tr>
 <tr class="separator:aa2d9911ec31a7cb9b5749d242f349d12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18ae9a2f39c26e85f081537c04451666"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1any__type__info.html#a18ae9a2f39c26e85f081537c04451666">~any_type_info</a> ()</td></tr>
+<tr class="separator:a18ae9a2f39c26e85f081537c04451666"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a781973d1ade79f62c6a68a269178afc4"><td class="memItemLeft" align="right" valign="top">virtual auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1any__type__info.html#a781973d1ade79f62c6a68a269178afc4">sizeof_type</a> () const noexcept -&gt; size_t=0</td></tr>
 <tr class="memdesc:a781973d1ade79f62c6a68a269178afc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of underlying type.  <a href="classseq_1_1any__type__info.html#a781973d1ade79f62c6a68a269178afc4">More...</a><br /></td></tr>
 <tr class="separator:a781973d1ade79f62c6a68a269178afc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,7 +143,33 @@ Friends</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class representing a type and related functions. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a18ae9a2f39c26e85f081537c04451666"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18ae9a2f39c26e85f081537c04451666">&#9670;&nbsp;</a></span>~any_type_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual seq::any_type_info::~any_type_info </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a98097b5fd6c2f3ee41093fd02ca8a6a0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a98097b5fd6c2f3ee41093fd02ca8a6a0">&#9670;&nbsp;</a></span>copy_any()</h2>
 
@@ -194,7 +222,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#a0c7308783312568d1b6e6b30673e3c16">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#a0c7308783312568d1b6e6b30673e3c16">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#a0c7308783312568d1b6e6b30673e3c16">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
+<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#ad0bbf1ae928e56edf5ededfd62b30a47">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#ad0bbf1ae928e56edf5ededfd62b30a47">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#ad0bbf1ae928e56edf5ededfd62b30a47">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
 
 </div>
 </div>
@@ -224,7 +252,7 @@ Friends</h2></td></tr>
 
 <p>Destroy object. </p>
 
-<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#a6e3a2bb84d15debc4cb75f27e5171f72">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#a6e3a2bb84d15debc4cb75f27e5171f72">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#a6e3a2bb84d15debc4cb75f27e5171f72">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
+<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#a76ab8871342be29255b058b50851438f">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#a76ab8871342be29255b058b50851438f">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#a76ab8871342be29255b058b50851438f">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
 
 </div>
 </div>
@@ -264,7 +292,7 @@ Friends</h2></td></tr>
 
 <p>Compare 2 objects of same type for equality. </p>
 
-<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#a3324e6994b50ceb4021b59c079d1b679">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#a3324e6994b50ceb4021b59c079d1b679">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#a3324e6994b50ceb4021b59c079d1b679">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
+<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#a757dfa5d48807d2fe9ca8128d313cd63">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#a757dfa5d48807d2fe9ca8128d313cd63">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#a757dfa5d48807d2fe9ca8128d313cd63">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
 
 </div>
 </div>
@@ -316,7 +344,7 @@ Friends</h2></td></tr>
 
 <p>Format object of underlying type into output string. </p>
 
-<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#a863cb55adb4fda78648907a4c8d7c56b">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#a863cb55adb4fda78648907a4c8d7c56b">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#a863cb55adb4fda78648907a4c8d7c56b">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
+<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#adf5e3466620d605ee37e8450cbff56a3">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#adf5e3466620d605ee37e8450cbff56a3">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#adf5e3466620d605ee37e8450cbff56a3">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
 
 </div>
 </div>
@@ -346,7 +374,7 @@ Friends</h2></td></tr>
 
 <p>Hash object of underlying type. </p>
 
-<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#a22b7544c534b15f5877b6e3756819009">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#a22b7544c534b15f5877b6e3756819009">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#a22b7544c534b15f5877b6e3756819009">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
+<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#aa052e0c0ea1908e3252071f3bffe0069">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#aa052e0c0ea1908e3252071f3bffe0069">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#aa052e0c0ea1908e3252071f3bffe0069">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
 
 </div>
 </div>
@@ -386,7 +414,7 @@ Friends</h2></td></tr>
 
 <p>Read object of underlying type from a std::istream object. </p>
 
-<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#aad6a8da6fa3e8ae8e70941af7e951669">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#aad6a8da6fa3e8ae8e70941af7e951669">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#aad6a8da6fa3e8ae8e70941af7e951669">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
+<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#acad14926717109a4288074e9e7d31640">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#acad14926717109a4288074e9e7d31640">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#acad14926717109a4288074e9e7d31640">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
 
 </div>
 </div>
@@ -426,7 +454,7 @@ Friends</h2></td></tr>
 
 <p>Compare 2 objects of same type for less than. </p>
 
-<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#aee111f11aeae5bdfb2b8a27f4c04ce96">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#aee111f11aeae5bdfb2b8a27f4c04ce96">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#aee111f11aeae5bdfb2b8a27f4c04ce96">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
+<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#af93742f5a5a7ce0817a02f9de37479cd">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#af93742f5a5a7ce0817a02f9de37479cd">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#af93742f5a5a7ce0817a02f9de37479cd">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
 
 </div>
 </div>
@@ -482,7 +510,7 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#aefd9a3ec064ee48541c2b3b956b8a211">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#aefd9a3ec064ee48541c2b3b956b8a211">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#aefd9a3ec064ee48541c2b3b956b8a211">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
+<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#aee026e5021743a7dd03fe4171b7b754d">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#aee026e5021743a7dd03fe4171b7b754d">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#aee026e5021743a7dd03fe4171b7b754d">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
 
 </div>
 </div>
@@ -522,7 +550,7 @@ Friends</h2></td></tr>
 
 <p>Stream object of underlying type to a std::ostream object. </p>
 
-<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#a03cb3c2a8c3ff46f080ffc55ef1109e9">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#a03cb3c2a8c3ff46f080ffc55ef1109e9">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#a03cb3c2a8c3ff46f080ffc55ef1109e9">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
+<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#a4cb615a82290541ed2d0c90b87bc3aa4">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>, <a class="el" href="structseq_1_1any__typed__type__info.html#a4cb615a82290541ed2d0c90b87bc3aa4">seq::any_typed_type_info&lt; T &gt;</a>, and <a class="el" href="structseq_1_1any__typed__type__info.html#a4cb615a82290541ed2d0c90b87bc3aa4">seq::any_typed_type_info&lt; T, false &gt;</a>.</p>
 
 </div>
 </div>
@@ -551,7 +579,7 @@ Friends</h2></td></tr>
 
 <p>Returns the size of underlying type. </p>
 
-<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#a7091b3f131f70b5e0919f5244fc57dac">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>.</p>
+<p>Implemented in <a class="el" href="structseq_1_1any__typed__type__info.html#a70d6c5002526eb9115c528390bb3c2c0">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>.</p>
 
 </div>
 </div>

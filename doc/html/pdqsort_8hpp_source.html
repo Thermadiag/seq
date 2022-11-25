@@ -224,7 +224,7 @@ $(document).ready(function(){initNavTree('pdqsort_8hpp_source.html',''); initRes
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="keywordflow">do</span> { *sift-- = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*sift_1); } <span class="keywordflow">while</span> (sift != begin &amp;&amp; comp(tmp, *--sift_1));</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                *sift = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(tmp);</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                limit += cur - sift;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                limit += <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(cur - sift);</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            }</div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <span class="keywordflow">if</span> (limit &gt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4aab89097901f2f898e6bb3c528cabc55a">partial_insertion_sort_limit</a>) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -253,401 +253,409 @@ $(document).ready(function(){initNavTree('pdqsort_8hpp_source.html',''); initRes
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="preprocessor">#else</span></div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        std::size_t ip = <span class="keyword">reinterpret_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(p);</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        ip = (ip + <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4ae9d9eaf23e2582ffabe6d5c94635932d">cacheline_size</a> - 1) &amp; -<a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4ae9d9eaf23e2582ffabe6d5c94635932d">cacheline_size</a>;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>*<span class="keyword">&gt;</span>(ip);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    }</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter&gt;</div>
-<div class="line"><a name="l00172"></a><span class="lineno"><a class="line" href="namespacepdqsort__detail.html#a9fb8c4c6e7cae1781d127e70e47a8016">  172</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacepdqsort__detail.html#a9fb8c4c6e7cae1781d127e70e47a8016">swap_offsets</a>(Iter <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, Iter last,</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* offsets_l, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* offsets_r,</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keywordtype">size_t</span> num, <span class="keywordtype">bool</span> use_swaps) {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="keywordflow">if</span> (use_swaps) {</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            <span class="comment">// This case is needed for the descending distribution, where we need</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <span class="comment">// to have proper swapping for pdqsort to remain O(n).</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; num; ++i) {</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                std::iter_swap(<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> + offsets_l[i], last - offsets_r[i]);</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        }</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (num &gt; 0) {</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            Iter l = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> + offsets_l[0]; Iter r = last - offsets_r[0];</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> tmp(<a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*l)); *l = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*r);</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 1; i &lt; num; ++i) {</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                l = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> + offsets_l[i]; *r = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*l);</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                r = last - offsets_r[i]; *l = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*r);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="preprocessor">#ifdef __clang__</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="preprocessor">#pragma clang diagnostic push</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="preprocessor">#pragma clang diagnostic ignored &quot;-Wsign-conversion&quot;</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        ip =  (ip + <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4ae9d9eaf23e2582ffabe6d5c94635932d">cacheline_size</a> - 1) &amp; -<a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4ae9d9eaf23e2582ffabe6d5c94635932d">cacheline_size</a>;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">reinterpret_cast&lt;</span><a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>*<span class="keyword">&gt;</span>(ip);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">#ifdef __clang__</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="preprocessor">#pragma clang diagnostic pop</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    }</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter&gt;</div>
+<div class="line"><a name="l00180"></a><span class="lineno"><a class="line" href="namespacepdqsort__detail.html#a9fb8c4c6e7cae1781d127e70e47a8016">  180</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacepdqsort__detail.html#a9fb8c4c6e7cae1781d127e70e47a8016">swap_offsets</a>(Iter <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, Iter last,</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* offsets_l, <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* offsets_r,</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="keywordtype">size_t</span> num, <span class="keywordtype">bool</span> use_swaps) {</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <span class="keywordflow">if</span> (use_swaps) {</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            <span class="comment">// This case is needed for the descending distribution, where we need</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            <span class="comment">// to have proper swapping for pdqsort to remain O(n).</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; num; ++i) {</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                std::iter_swap(<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> + offsets_l[i], last - offsets_r[i]);</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            }</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            *r = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(tmp);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        }</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    }</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160; </div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="comment">// Partitions [begin, end) around pivot *begin using comparison function comp. Elements equal</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="comment">// to the pivot are put in the right-hand partition. Returns the position of the pivot after</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="comment">// partitioning and whether the passed sequence already was correctly partitioned. Assumes the</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="comment">// pivot is a median of at least 3 elements and that [begin, end) is at least</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="comment">// insertion_sort_threshold long. Uses branchless partitioning.</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare&gt;</div>
-<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="namespacepdqsort__detail.html#ac9bc0d86b2906d79ae5fd1e8432d40e5">  200</a></span>&#160;    <span class="keyword">inline</span> std::pair&lt;Iter, bool&gt; <a class="code" href="namespacepdqsort__detail.html#ac9bc0d86b2906d79ae5fd1e8432d40e5">partition_right_branchless</a>(Iter begin, Iter end, Compare comp) {</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        <span class="comment">// Move pivot into local for speed.</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> pivot(<a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*begin));</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        Iter <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> = begin;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        Iter last = end;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="comment">// Find the first element greater than or equal than the pivot (the median of 3 guarantees</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="comment">// this exists).</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <span class="keywordflow">while</span> (comp(*++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot));</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <span class="comment">// Find the first element strictly smaller than the pivot. We have to guard this search if</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        <span class="comment">// there was no element before *first.</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> - 1 == begin) <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last &amp;&amp; !comp(*--last, pivot));</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        <span class="keywordflow">else</span>                    <span class="keywordflow">while</span> (!comp(*--last, pivot));</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <span class="comment">// If the first pair of elements that should be swapped to partition are the same element,</span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="comment">// the passed in sequence already was correctly partitioned.</span></div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="keywordtype">bool</span> already_partitioned = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &gt;= last;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="keywordflow">if</span> (!already_partitioned) {</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            std::iter_swap(<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, last);</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="comment">// The following branchless partitioning is derived from &quot;BlockQuicksort: How Branch</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="comment">// Mispredictions don’t affect Quicksort&quot; by Stefan Edelkamp and Armin Weiss, but</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            <span class="comment">// heavily micro-optimized.</span></div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> offsets_l_storage[<a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a> + <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4ae9d9eaf23e2582ffabe6d5c94635932d">cacheline_size</a>];</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> offsets_r_storage[<a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a> + <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4ae9d9eaf23e2582ffabe6d5c94635932d">cacheline_size</a>];</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* offsets_l = <a class="code" href="namespacepdqsort__detail.html#a5cfbd74545cae92930540b5042146308">align_cacheline</a>(offsets_l_storage);</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* offsets_r = <a class="code" href="namespacepdqsort__detail.html#a5cfbd74545cae92930540b5042146308">align_cacheline</a>(offsets_r_storage);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        }</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (num &gt; 0) {</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            Iter l = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> + offsets_l[0]; Iter r = last - offsets_r[0];</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> tmp(<a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*l)); *l = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*r);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 1; i &lt; num; ++i) {</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                l = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> + offsets_l[i]; *r = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*l);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                r = last - offsets_r[i]; *l = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*r);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            }</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            *r = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(tmp);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        }</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    }</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="comment">// Partitions [begin, end) around pivot *begin using comparison function comp. Elements equal</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="comment">// to the pivot are put in the right-hand partition. Returns the position of the pivot after</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="comment">// partitioning and whether the passed sequence already was correctly partitioned. Assumes the</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="comment">// pivot is a median of at least 3 elements and that [begin, end) is at least</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="comment">// insertion_sort_threshold long. Uses branchless partitioning.</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare&gt;</div>
+<div class="line"><a name="l00208"></a><span class="lineno"><a class="line" href="namespacepdqsort__detail.html#ac9bc0d86b2906d79ae5fd1e8432d40e5">  208</a></span>&#160;    <span class="keyword">inline</span> std::pair&lt;Iter, bool&gt; <a class="code" href="namespacepdqsort__detail.html#ac9bc0d86b2906d79ae5fd1e8432d40e5">partition_right_branchless</a>(Iter begin, Iter end, Compare comp) {</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="comment">// Move pivot into local for speed.</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> pivot(<a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*begin));</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        Iter <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> = begin;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        Iter last = end;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="comment">// Find the first element greater than or equal than the pivot (the median of 3 guarantees</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <span class="comment">// this exists).</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="keywordflow">while</span> (comp(*++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot));</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160; </div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="comment">// Find the first element strictly smaller than the pivot. We have to guard this search if</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="comment">// there was no element before *first.</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> - 1 == begin) <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last &amp;&amp; !comp(*--last, pivot));</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        <span class="keywordflow">else</span>                    <span class="keywordflow">while</span> (!comp(*--last, pivot));</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="comment">// If the first pair of elements that should be swapped to partition are the same element,</span></div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="comment">// the passed in sequence already was correctly partitioned.</span></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keywordtype">bool</span> already_partitioned = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &gt;= last;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="keywordflow">if</span> (!already_partitioned) {</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            std::iter_swap(<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, last);</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160; </div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            Iter offsets_l_base = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            Iter offsets_r_base = last;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            <span class="keywordtype">size_t</span> num_l, num_r, start_l, start_r;</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            num_l = num_r = start_l = start_r = 0;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160; </div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last) {</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                <span class="comment">// Fill up offset blocks with elements that are on the wrong side.</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                <span class="comment">// First we determine how much elements are considered for each offset block.</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                <span class="keywordtype">size_t</span> num_unknown = last - <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                <span class="keywordtype">size_t</span> left_split = num_l == 0 ? (num_r == 0 ? num_unknown / 2 : num_unknown) : 0;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                <span class="keywordtype">size_t</span> right_split = num_r == 0 ? (num_unknown - left_split) : 0;</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                <span class="comment">// Fill the offset blocks.</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                <span class="keywordflow">if</span> (left_split &gt;= <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a>) {</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a>;) {</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                    }</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                }</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; left_split;) {</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            <span class="comment">// The following branchless partitioning is derived from &quot;BlockQuicksort: How Branch</span></div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            <span class="comment">// Mispredictions don’t affect Quicksort&quot; by Stefan Edelkamp and Armin Weiss, but</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            <span class="comment">// heavily micro-optimized.</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> offsets_l_storage[<a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a> + <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4ae9d9eaf23e2582ffabe6d5c94635932d">cacheline_size</a>];</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> offsets_r_storage[<a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a> + <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4ae9d9eaf23e2582ffabe6d5c94635932d">cacheline_size</a>];</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* offsets_l = <a class="code" href="namespacepdqsort__detail.html#a5cfbd74545cae92930540b5042146308">align_cacheline</a>(offsets_l_storage);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span>* offsets_r = <a class="code" href="namespacepdqsort__detail.html#a5cfbd74545cae92930540b5042146308">align_cacheline</a>(offsets_r_storage);</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            Iter offsets_l_base = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            Iter offsets_r_base = last;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            <span class="keywordtype">size_t</span> num_l, num_r, start_l, start_r;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            num_l = num_r = start_l = start_r = 0;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last) {</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                <span class="comment">// Fill up offset blocks with elements that are on the wrong side.</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                <span class="comment">// First we determine how much elements are considered for each offset block.</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                <span class="keywordtype">size_t</span> num_unknown = <span class="keyword">static_cast&lt;</span><span class="keywordtype">size_t</span><span class="keyword">&gt;</span>(last - <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                <span class="keywordtype">size_t</span> left_split = num_l == 0 ? (num_r == 0 ? num_unknown / 2 : num_unknown) : 0;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                <span class="keywordtype">size_t</span> right_split = num_r == 0 ? (num_unknown - left_split) : 0;</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                <span class="comment">// Fill the offset blocks.</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                <span class="keywordflow">if</span> (left_split &gt;= <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a>) {</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a>;) {</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                    }</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                }</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                <span class="keywordflow">if</span> (right_split &gt;= <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a>) {</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a>;) {</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                    }</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                }</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; right_split;) {</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                    }</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                }</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; left_split;) {</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                        offsets_l[num_l] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(i++); num_l += !comp(*<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot); ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                    }</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                }</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                <span class="keywordflow">if</span> (right_split &gt;= <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a>) {</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">block_size</a>;) {</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                    }</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                }</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                <span class="comment">// Swap elements and update block sizes and first/last boundaries.</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                <span class="keywordtype">size_t</span> num = std::min(num_l, num_r);</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                <a class="code" href="namespacepdqsort__detail.html#a9fb8c4c6e7cae1781d127e70e47a8016">swap_offsets</a>(offsets_l_base, offsets_r_base,</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                    offsets_l + start_l, offsets_r + start_r,</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                    num, num_l == num_r);</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                num_l -= num; num_r -= num;</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                start_l += num; start_r += num;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                    }</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                }</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; right_split;) {</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                        offsets_r[num_r] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(++i); num_r += comp(*--last, pivot);</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                    }</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                }</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160; </div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                <span class="keywordflow">if</span> (num_l == 0) {</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                    start_l = 0;</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                    offsets_l_base = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                }</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                <span class="keywordflow">if</span> (num_r == 0) {</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                    start_r = 0;</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                    offsets_r_base = last;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                }</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;            }</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            <span class="comment">// We have now fully identified [first, last)&#39;s proper position. Swap the last elements.</span></div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            <span class="keywordflow">if</span> (num_l) {</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                offsets_l += start_l;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                <span class="keywordflow">while</span> (num_l--) std::iter_swap(offsets_l_base + offsets_l[num_l], --last);</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> = last;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            }</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            <span class="keywordflow">if</span> (num_r) {</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                offsets_r += start_r;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                <span class="keywordflow">while</span> (num_r--) std::iter_swap(offsets_r_base - offsets_r[num_r], <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>), ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                last = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;            }</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        }</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; </div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        <span class="comment">// Put the pivot in the right place.</span></div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        Iter pivot_pos = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> - 1;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        *begin = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*pivot_pos);</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        *pivot_pos = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(pivot);</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160; </div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        <span class="keywordflow">return</span> std::make_pair(pivot_pos, already_partitioned);</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    }</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                <span class="comment">// Swap elements and update block sizes and first/last boundaries.</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                <span class="keywordtype">size_t</span> num = std::min(num_l, num_r);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                <a class="code" href="namespacepdqsort__detail.html#a9fb8c4c6e7cae1781d127e70e47a8016">swap_offsets</a>(offsets_l_base, offsets_r_base,</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                    offsets_l + start_l, offsets_r + start_r,</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                    num, num_l == num_r);</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                num_l -= num; num_r -= num;</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                start_l += num; start_r += num;</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160; </div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                <span class="keywordflow">if</span> (num_l == 0) {</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                    start_l = 0;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                    offsets_l_base = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                }</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160; </div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                <span class="keywordflow">if</span> (num_r == 0) {</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                    start_r = 0;</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                    offsets_r_base = last;</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                }</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            }</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160; </div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;            <span class="comment">// We have now fully identified [first, last)&#39;s proper position. Swap the last elements.</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            <span class="keywordflow">if</span> (num_l) {</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                offsets_l += start_l;</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                <span class="keywordflow">while</span> (num_l--) std::iter_swap(offsets_l_base + offsets_l[num_l], --last);</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> = last;</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            }</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            <span class="keywordflow">if</span> (num_r) {</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                offsets_r += start_r;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                <span class="keywordflow">while</span> (num_r--) std::iter_swap(offsets_r_base - offsets_r[num_r], <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>), ++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                last = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            }</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        }</div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160; </div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160; </div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="comment">// Partitions [begin, end) around pivot *begin using comparison function comp. Elements equal</span></div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="comment">// to the pivot are put in the right-hand partition. Returns the position of the pivot after</span></div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="comment">// partitioning and whether the passed sequence already was correctly partitioned. Assumes the</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    <span class="comment">// pivot is a median of at least 3 elements and that [begin, end) is at least</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    <span class="comment">// insertion_sort_threshold long.</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare&gt;</div>
-<div class="line"><a name="l00329"></a><span class="lineno"><a class="line" href="namespacepdqsort__detail.html#ae2958caba202615154b809d3781b2cd7">  329</a></span>&#160;    <span class="keyword">inline</span> std::pair&lt;Iter, bool&gt; <a class="code" href="namespacepdqsort__detail.html#ae2958caba202615154b809d3781b2cd7">partition_right</a>(Iter begin, Iter end, Compare comp) {</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        <span class="comment">// Move pivot into local for speed.</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> pivot(<a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*begin));</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160; </div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        Iter <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> = begin;</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        Iter last = end;</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160; </div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <span class="comment">// Find the first element greater than or equal than the pivot (the median of 3 guarantees</span></div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        <span class="comment">// this exists).</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        <span class="keywordflow">while</span> (comp(*++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot));</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160; </div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        <span class="comment">// Find the first element strictly smaller than the pivot. We have to guard this search if</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        <span class="comment">// there was no element before *first.</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> - 1 == begin) <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last &amp;&amp; !comp(*--last, pivot));</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        <span class="keywordflow">else</span>                    <span class="keywordflow">while</span> (!comp(*--last, pivot));</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        <span class="comment">// If the first pair of elements that should be swapped to partition are the same element,</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        <span class="comment">// the passed in sequence already was correctly partitioned.</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        <span class="keywordtype">bool</span> already_partitioned = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &gt;= last;</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160; </div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        <span class="comment">// Keep swapping pairs of elements that are on the wrong side of the pivot. Previously</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        <span class="comment">// swapped pairs guard the searches, which is why the first iteration is special-cased</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        <span class="comment">// above.</span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;        <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last) {</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;            std::iter_swap(<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, last);</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;            <span class="keywordflow">while</span> (comp(*++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot));</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;            <span class="keywordflow">while</span> (!comp(*--last, pivot));</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        }</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160; </div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        <span class="comment">// Put the pivot in the right place.</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;        Iter pivot_pos = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> - 1;</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        *begin = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*pivot_pos);</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        *pivot_pos = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(pivot);</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160; </div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;        <span class="keywordflow">return</span> std::make_pair(pivot_pos, already_partitioned);</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    }</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        <span class="comment">// Put the pivot in the right place.</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        Iter pivot_pos = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> - 1;</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        *begin = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*pivot_pos);</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        *pivot_pos = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(pivot);</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160; </div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        <span class="keywordflow">return</span> std::make_pair(pivot_pos, already_partitioned);</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    }</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160; </div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160; </div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160; </div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    <span class="comment">// Partitions [begin, end) around pivot *begin using comparison function comp. Elements equal</span></div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    <span class="comment">// to the pivot are put in the right-hand partition. Returns the position of the pivot after</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    <span class="comment">// partitioning and whether the passed sequence already was correctly partitioned. Assumes the</span></div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <span class="comment">// pivot is a median of at least 3 elements and that [begin, end) is at least</span></div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="comment">// insertion_sort_threshold long.</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare&gt;</div>
+<div class="line"><a name="l00337"></a><span class="lineno"><a class="line" href="namespacepdqsort__detail.html#ae2958caba202615154b809d3781b2cd7">  337</a></span>&#160;    <span class="keyword">inline</span> std::pair&lt;Iter, bool&gt; <a class="code" href="namespacepdqsort__detail.html#ae2958caba202615154b809d3781b2cd7">partition_right</a>(Iter begin, Iter end, Compare comp) {</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        <span class="comment">// Move pivot into local for speed.</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> pivot(<a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*begin));</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160; </div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        Iter <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> = begin;</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        Iter last = end;</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160; </div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        <span class="comment">// Find the first element greater than or equal than the pivot (the median of 3 guarantees</span></div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        <span class="comment">// this exists).</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        <span class="keywordflow">while</span> (comp(*++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot));</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160; </div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        <span class="comment">// Find the first element strictly smaller than the pivot. We have to guard this search if</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        <span class="comment">// there was no element before *first.</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> - 1 == begin) <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last &amp;&amp; !comp(*--last, pivot));</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        <span class="keywordflow">else</span>                    <span class="keywordflow">while</span> (!comp(*--last, pivot));</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160; </div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        <span class="comment">// If the first pair of elements that should be swapped to partition are the same element,</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;        <span class="comment">// the passed in sequence already was correctly partitioned.</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        <span class="keywordtype">bool</span> already_partitioned = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &gt;= last;</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160; </div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        <span class="comment">// Keep swapping pairs of elements that are on the wrong side of the pivot. Previously</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        <span class="comment">// swapped pairs guard the searches, which is why the first iteration is special-cased</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;        <span class="comment">// above.</span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last) {</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;            std::iter_swap(<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, last);</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;            <span class="keywordflow">while</span> (comp(*++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, pivot));</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            <span class="keywordflow">while</span> (!comp(*--last, pivot));</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        }</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="comment">// Similar function to the one above, except elements equal to the pivot are put to the left of</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    <span class="comment">// the pivot and it doesn&#39;t check or return if the passed sequence already was partitioned.</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="comment">// Since this is rarely used (the many equal case), and in that case pdqsort already has O(n)</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    <span class="comment">// performance, no block quicksort is applied here for simplicity.</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare&gt;</div>
-<div class="line"><a name="l00373"></a><span class="lineno"><a class="line" href="namespacepdqsort__detail.html#af7961c01faadc35189ac84f9b03e837f">  373</a></span>&#160;    <span class="keyword">inline</span> Iter <a class="code" href="namespacepdqsort__detail.html#af7961c01faadc35189ac84f9b03e837f">partition_left</a>(Iter begin, Iter end, Compare comp) {</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        <span class="comment">// Put the pivot in the right place.</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        Iter pivot_pos = <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> - 1;</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        *begin = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*pivot_pos);</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        *pivot_pos = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(pivot);</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160; </div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        <span class="keywordflow">return</span> std::make_pair(pivot_pos, already_partitioned);</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    }</div>
 <div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160; </div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> pivot(<a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*begin));</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        Iter <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> = begin;</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        Iter last = end;</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160; </div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        <span class="keywordflow">while</span> (comp(pivot, *--last));</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160; </div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="keywordflow">if</span> (last + 1 == end) <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last &amp;&amp; !comp(pivot, *++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>));</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <span class="keywordflow">else</span>                 <span class="keywordflow">while</span> (!comp(pivot, *++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>));</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160; </div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last) {</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            std::iter_swap(<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, last);</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            <span class="keywordflow">while</span> (comp(pivot, *--last));</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            <span class="keywordflow">while</span> (!comp(pivot, *++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>));</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        }</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160; </div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        Iter pivot_pos = last;</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        *begin = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*pivot_pos);</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        *pivot_pos = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(pivot);</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160; </div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <span class="keywordflow">return</span> pivot_pos;</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    }</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160; </div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="comment">// Similar function to the one above, except elements equal to the pivot are put to the left of</span></div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="comment">// the pivot and it doesn&#39;t check or return if the passed sequence already was partitioned.</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="comment">// Since this is rarely used (the many equal case), and in that case pdqsort already has O(n)</span></div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    <span class="comment">// performance, no block quicksort is applied here for simplicity.</span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare&gt;</div>
+<div class="line"><a name="l00381"></a><span class="lineno"><a class="line" href="namespacepdqsort__detail.html#af7961c01faadc35189ac84f9b03e837f">  381</a></span>&#160;    <span class="keyword">inline</span> Iter <a class="code" href="namespacepdqsort__detail.html#af7961c01faadc35189ac84f9b03e837f">partition_left</a>(Iter begin, Iter end, Compare comp) {</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160; </div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> pivot(<a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*begin));</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        Iter <a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> = begin;</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        Iter last = end;</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160; </div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        <span class="keywordflow">while</span> (comp(pivot, *--last));</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160; </div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <span class="keywordflow">if</span> (last + 1 == end) <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last &amp;&amp; !comp(pivot, *++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>));</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        <span class="keywordflow">else</span>                 <span class="keywordflow">while</span> (!comp(pivot, *++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>));</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160; </div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        <span class="keywordflow">while</span> (<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a> &lt; last) {</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;            std::iter_swap(<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, last);</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;            <span class="keywordflow">while</span> (comp(pivot, *--last));</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;            <span class="keywordflow">while</span> (!comp(pivot, *++<a class="code" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>));</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        }</div>
 <div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160; </div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare, <span class="keywordtype">bool</span> Branchless&gt;</div>
-<div class="line"><a name="l00400"></a><span class="lineno"><a class="line" href="namespacepdqsort__detail.html#a2c5ecdf1abb3b6e3fc02cd157512ac11">  400</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacepdqsort__detail.html#a2c5ecdf1abb3b6e3fc02cd157512ac11">pdqsort_loop</a>(Iter begin, Iter end, Compare comp, <span class="keywordtype">int</span> bad_allowed, <span class="keywordtype">bool</span> leftmost = <span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::difference_type diff_t;</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        Iter pivot_pos = last;</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;        *begin = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(*pivot_pos);</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        *pivot_pos = <a class="code" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(pivot);</div>
 <div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160; </div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;        <span class="comment">// Use a while loop for tail recursion elimination.</span></div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;        <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;            diff_t size = end - begin;</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;        <span class="keywordflow">return</span> pivot_pos;</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;    }</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160; </div>
 <div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160; </div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;            <span class="comment">// Insertion sort is faster for small arrays.</span></div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            <span class="keywordflow">if</span> (size &lt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a93aa19e909e1c9aac3476145eac01d08">insertion_sort_threshold</a>) {</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                <span class="keywordflow">if</span> (leftmost) <a class="code" href="namespacepdqsort__detail.html#adc095280baf9194391b8fd781bf22c05">insertion_sort</a>(begin, end, comp);</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                <span class="keywordflow">else</span> <a class="code" href="namespacepdqsort__detail.html#a3f1c34cdc137010052833aa50f03950d">unguarded_insertion_sort</a>(begin, end, comp);</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;            }</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160; </div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;            <span class="comment">// Choose pivot as median of 3 or pseudomedian of 9.</span></div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;            diff_t s2 = size / 2;</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            <span class="keywordflow">if</span> (size &gt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a2e33aab6bd526c39448030168613bb78">ninther_threshold</a>) {</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                <a class="code" href="namespacepdqsort__detail.html#ae1afda154c9e98c0f24589f4aa5f703f">sort3</a>(begin, begin + s2, end - 1, comp);</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;                <a class="code" href="namespacepdqsort__detail.html#ae1afda154c9e98c0f24589f4aa5f703f">sort3</a>(begin + 1, begin + (s2 - 1), end - 2, comp);</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                <a class="code" href="namespacepdqsort__detail.html#ae1afda154c9e98c0f24589f4aa5f703f">sort3</a>(begin + 2, begin + (s2 + 1), end - 3, comp);</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                <a class="code" href="namespacepdqsort__detail.html#ae1afda154c9e98c0f24589f4aa5f703f">sort3</a>(begin + (s2 - 1), begin + s2, begin + (s2 + 1), comp);</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                std::iter_swap(begin, begin + s2);</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            }</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            <span class="keywordflow">else</span> <a class="code" href="namespacepdqsort__detail.html#ae1afda154c9e98c0f24589f4aa5f703f">sort3</a>(begin + s2, begin, end - 1, comp);</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160; </div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;            <span class="comment">// If *(begin - 1) is the end of the right partition of a previous partition operation</span></div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;            <span class="comment">// there is no element in [begin, end) that is smaller than *(begin - 1). Then if our</span></div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;            <span class="comment">// pivot compares equal to *(begin - 1) we change strategy, putting equal elements in</span></div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            <span class="comment">// the left partition, greater elements in the right partition. We do not have to</span></div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;            <span class="comment">// recurse on the left partition, since it&#39;s sorted (all equal).</span></div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            <span class="keywordflow">if</span> (!leftmost &amp;&amp; !comp(*(begin - 1), *begin)) {</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                begin = <a class="code" href="namespacepdqsort__detail.html#af7961c01faadc35189ac84f9b03e837f">partition_left</a>(begin, end, comp) + 1;</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            }</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160; </div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            <span class="comment">// Partition and get results.</span></div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            std::pair&lt;Iter, bool&gt; part_result =</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;                Branchless ? <a class="code" href="namespacepdqsort__detail.html#ac9bc0d86b2906d79ae5fd1e8432d40e5">partition_right_branchless</a>(begin, end, comp)</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;                : <a class="code" href="namespacepdqsort__detail.html#ae2958caba202615154b809d3781b2cd7">partition_right</a>(begin, end, comp);</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;            Iter pivot_pos = part_result.first;</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;            <span class="keywordtype">bool</span> already_partitioned = part_result.second;</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160; </div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;            <span class="comment">// Check for a highly unbalanced partition.</span></div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;            diff_t l_size = pivot_pos - begin;</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            diff_t r_size = end - (pivot_pos + 1);</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;            <span class="keywordtype">bool</span> highly_unbalanced = l_size &lt; size / 8 || r_size &lt; size / 8;</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160; </div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            <span class="comment">// If we got a highly unbalanced partition we shuffle elements to break many patterns.</span></div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;            <span class="keywordflow">if</span> (highly_unbalanced) {</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;                <span class="comment">// If we had too many bad partitions, switch to heapsort to guarantee O(n log n).</span></div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;                <span class="keywordflow">if</span> (--bad_allowed == 0) {</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;                    std::make_heap(begin, end, comp);</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;                    std::sort_heap(begin, end, comp);</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                    <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;                }</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160; </div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;                <span class="keywordflow">if</span> (l_size &gt;= <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a93aa19e909e1c9aac3476145eac01d08">insertion_sort_threshold</a>) {</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                    std::iter_swap(begin, begin + l_size / 4);</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;                    std::iter_swap(pivot_pos - 1, pivot_pos - l_size / 4);</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160; </div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;                    <span class="keywordflow">if</span> (l_size &gt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a2e33aab6bd526c39448030168613bb78">ninther_threshold</a>) {</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;                        std::iter_swap(begin + 1, begin + (l_size / 4 + 1));</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;                        std::iter_swap(begin + 2, begin + (l_size / 4 + 2));</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;                        std::iter_swap(pivot_pos - 2, pivot_pos - (l_size / 4 + 1));</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;                        std::iter_swap(pivot_pos - 3, pivot_pos - (l_size / 4 + 2));</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;                    }</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;                }</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare, <span class="keywordtype">bool</span> Branchless&gt;</div>
+<div class="line"><a name="l00408"></a><span class="lineno"><a class="line" href="namespacepdqsort__detail.html#a2c5ecdf1abb3b6e3fc02cd157512ac11">  408</a></span>&#160;    <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="namespacepdqsort__detail.html#a2c5ecdf1abb3b6e3fc02cd157512ac11">pdqsort_loop</a>(Iter begin, Iter end, Compare comp, <span class="keywordtype">int</span> bad_allowed, <span class="keywordtype">bool</span> leftmost = <span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::difference_type diff_t;</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160; </div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;        <span class="comment">// Use a while loop for tail recursion elimination.</span></div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;            diff_t size = end - begin;</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160; </div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;            <span class="comment">// Insertion sort is faster for small arrays.</span></div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            <span class="keywordflow">if</span> (size &lt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a93aa19e909e1c9aac3476145eac01d08">insertion_sort_threshold</a>) {</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                <span class="keywordflow">if</span> (leftmost) <a class="code" href="namespacepdqsort__detail.html#adc095280baf9194391b8fd781bf22c05">insertion_sort</a>(begin, end, comp);</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;                <span class="keywordflow">else</span> <a class="code" href="namespacepdqsort__detail.html#a3f1c34cdc137010052833aa50f03950d">unguarded_insertion_sort</a>(begin, end, comp);</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            }</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160; </div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            <span class="comment">// Choose pivot as median of 3 or pseudomedian of 9.</span></div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            diff_t s2 = size / 2;</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;            <span class="keywordflow">if</span> (size &gt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a2e33aab6bd526c39448030168613bb78">ninther_threshold</a>) {</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                <a class="code" href="namespacepdqsort__detail.html#ae1afda154c9e98c0f24589f4aa5f703f">sort3</a>(begin, begin + s2, end - 1, comp);</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                <a class="code" href="namespacepdqsort__detail.html#ae1afda154c9e98c0f24589f4aa5f703f">sort3</a>(begin + 1, begin + (s2 - 1), end - 2, comp);</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;                <a class="code" href="namespacepdqsort__detail.html#ae1afda154c9e98c0f24589f4aa5f703f">sort3</a>(begin + 2, begin + (s2 + 1), end - 3, comp);</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;                <a class="code" href="namespacepdqsort__detail.html#ae1afda154c9e98c0f24589f4aa5f703f">sort3</a>(begin + (s2 - 1), begin + s2, begin + (s2 + 1), comp);</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;                std::iter_swap(begin, begin + s2);</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            }</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;            <span class="keywordflow">else</span> <a class="code" href="namespacepdqsort__detail.html#ae1afda154c9e98c0f24589f4aa5f703f">sort3</a>(begin + s2, begin, end - 1, comp);</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160; </div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            <span class="comment">// If *(begin - 1) is the end of the right partition of a previous partition operation</span></div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;            <span class="comment">// there is no element in [begin, end) that is smaller than *(begin - 1). Then if our</span></div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            <span class="comment">// pivot compares equal to *(begin - 1) we change strategy, putting equal elements in</span></div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            <span class="comment">// the left partition, greater elements in the right partition. We do not have to</span></div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;            <span class="comment">// recurse on the left partition, since it&#39;s sorted (all equal).</span></div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;            <span class="keywordflow">if</span> (!leftmost &amp;&amp; !comp(*(begin - 1), *begin)) {</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                begin = <a class="code" href="namespacepdqsort__detail.html#af7961c01faadc35189ac84f9b03e837f">partition_left</a>(begin, end, comp) + 1;</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;            }</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160; </div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;            <span class="comment">// Partition and get results.</span></div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            std::pair&lt;Iter, bool&gt; part_result =</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;                Branchless ? <a class="code" href="namespacepdqsort__detail.html#ac9bc0d86b2906d79ae5fd1e8432d40e5">partition_right_branchless</a>(begin, end, comp)</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;                : <a class="code" href="namespacepdqsort__detail.html#ae2958caba202615154b809d3781b2cd7">partition_right</a>(begin, end, comp);</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            Iter pivot_pos = part_result.first;</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;            <span class="keywordtype">bool</span> already_partitioned = part_result.second;</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160; </div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;            <span class="comment">// Check for a highly unbalanced partition.</span></div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            diff_t l_size = pivot_pos - begin;</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            diff_t r_size = end - (pivot_pos + 1);</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;            <span class="keywordtype">bool</span> highly_unbalanced = l_size &lt; size / 8 || r_size &lt; size / 8;</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160; </div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;            <span class="comment">// If we got a highly unbalanced partition we shuffle elements to break many patterns.</span></div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;            <span class="keywordflow">if</span> (highly_unbalanced) {</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;                <span class="comment">// If we had too many bad partitions, switch to heapsort to guarantee O(n log n).</span></div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;                <span class="keywordflow">if</span> (--bad_allowed == 0) {</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;                    std::make_heap(begin, end, comp);</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;                    std::sort_heap(begin, end, comp);</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;                    <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;                }</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160; </div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;                <span class="keywordflow">if</span> (l_size &gt;= <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a93aa19e909e1c9aac3476145eac01d08">insertion_sort_threshold</a>) {</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;                    std::iter_swap(begin, begin + l_size / 4);</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;                    std::iter_swap(pivot_pos - 1, pivot_pos - l_size / 4);</div>
 <div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160; </div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;                <span class="keywordflow">if</span> (r_size &gt;= <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a93aa19e909e1c9aac3476145eac01d08">insertion_sort_threshold</a>) {</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;                    std::iter_swap(pivot_pos + 1, pivot_pos + (1 + r_size / 4));</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;                    std::iter_swap(end - 1, end - r_size / 4);</div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160; </div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;                    <span class="keywordflow">if</span> (r_size &gt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a2e33aab6bd526c39448030168613bb78">ninther_threshold</a>) {</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;                        std::iter_swap(pivot_pos + 2, pivot_pos + (2 + r_size / 4));</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;                        std::iter_swap(pivot_pos + 3, pivot_pos + (3 + r_size / 4));</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;                        std::iter_swap(end - 2, end - (1 + r_size / 4));</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;                        std::iter_swap(end - 3, end - (2 + r_size / 4));</div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;                    }</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;                }</div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;            }</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;            <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;                <span class="comment">// If we were decently balanced and we tried to sort an already partitioned</span></div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;                <span class="comment">// sequence try to use insertion sort.</span></div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;                <span class="keywordflow">if</span> (already_partitioned &amp;&amp; <a class="code" href="namespacepdqsort__detail.html#a01d434ba2a54a3abc238517e4cb7519a">partial_insertion_sort</a>(begin, pivot_pos, comp)</div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;                    &amp;&amp; <a class="code" href="namespacepdqsort__detail.html#a01d434ba2a54a3abc238517e4cb7519a">partial_insertion_sort</a>(pivot_pos + 1, end, comp)) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;            }</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160; </div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;            <span class="comment">// Sort the left partition first using recursion and do tail recursion elimination for</span></div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;            <span class="comment">// the right-hand partition.</span></div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;            pdqsort_loop&lt;Iter, Compare, Branchless&gt;(begin, pivot_pos, comp, bad_allowed, leftmost);</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;            begin = pivot_pos + 1;</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;            leftmost = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;        }</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;    }</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;}</div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160; </div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160; </div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare&gt;</div>
-<div class="line"><a name="l00498"></a><span class="lineno"><a class="line" href="pdqsort_8hpp.html#a9a4675f3c4f61ef1aa7d808c984d5f35">  498</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="pdqsort_8hpp.html#a9a4675f3c4f61ef1aa7d808c984d5f35">pdqsort</a>(Iter begin, Iter end, Compare comp) {</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    <span class="keywordflow">if</span> (begin == end) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160; </div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;<span class="preprocessor">#if __cplusplus &gt;= 201103L</span></div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;    <a class="code" href="namespacepdqsort__detail.html#a2c5ecdf1abb3b6e3fc02cd157512ac11">pdqsort_detail::pdqsort_loop</a>&lt;Iter, Compare,</div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;        pdqsort_detail::is_default_compare&lt;typename std::decay&lt;Compare&gt;::type&gt;::value&amp;&amp;</div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;        std::is_arithmetic&lt;typename std::iterator_traits&lt;Iter&gt;::value_type&gt;::value&gt;(</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;            begin, end, comp, <a class="code" href="namespacepdqsort__detail.html#a92efcfdf1e8d68b3874edff8b80076ed">pdqsort_detail::log2</a>(end - begin));</div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;    pdqsort_detail::pdqsort_loop&lt;Iter, Compare, false&gt;(</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;        begin, end, comp, <a class="code" href="namespacepdqsort__detail.html#a92efcfdf1e8d68b3874edff8b80076ed">pdqsort_detail::log2</a>(end - begin));</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;}</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160; </div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter&gt;</div>
-<div class="line"><a name="l00513"></a><span class="lineno"><a class="line" href="pdqsort_8hpp.html#acc9c6dee9ea3572a997cbd085a0f3265">  513</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="pdqsort_8hpp.html#a9a4675f3c4f61ef1aa7d808c984d5f35">pdqsort</a>(Iter begin, Iter end) {</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    <a class="code" href="pdqsort_8hpp.html#a9a4675f3c4f61ef1aa7d808c984d5f35">pdqsort</a>(begin, end, std::less&lt;T&gt;());</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;}</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160; </div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare&gt;</div>
-<div class="line"><a name="l00519"></a><span class="lineno"><a class="line" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">  519</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a>(Iter begin, Iter end, Compare comp) {</div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;    <span class="keywordflow">if</span> (begin == end) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;    pdqsort_detail::pdqsort_loop&lt;Iter, Compare, true&gt;(</div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;        begin, end, comp, <a class="code" href="namespacepdqsort__detail.html#a92efcfdf1e8d68b3874edff8b80076ed">pdqsort_detail::log2</a>(end - begin));</div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;}</div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160; </div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter&gt;</div>
-<div class="line"><a name="l00526"></a><span class="lineno"><a class="line" href="pdqsort_8hpp.html#a256e806ad89928e707d145a6282cf049">  526</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a>(Iter begin, Iter end) {</div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;    <a class="code" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a>(begin, end, std::less&lt;T&gt;());</div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;}</div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160; </div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160; </div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;<span class="preprocessor">#undef PDQSORT_PREFER_MOVE</span></div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160; </div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;                    <span class="keywordflow">if</span> (l_size &gt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a2e33aab6bd526c39448030168613bb78">ninther_threshold</a>) {</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;                        std::iter_swap(begin + 1, begin + (l_size / 4 + 1));</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;                        std::iter_swap(begin + 2, begin + (l_size / 4 + 2));</div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;                        std::iter_swap(pivot_pos - 2, pivot_pos - (l_size / 4 + 1));</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;                        std::iter_swap(pivot_pos - 3, pivot_pos - (l_size / 4 + 2));</div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;                    }</div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;                }</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160; </div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;                <span class="keywordflow">if</span> (r_size &gt;= <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a93aa19e909e1c9aac3476145eac01d08">insertion_sort_threshold</a>) {</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;                    std::iter_swap(pivot_pos + 1, pivot_pos + (1 + r_size / 4));</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;                    std::iter_swap(end - 1, end - r_size / 4);</div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160; </div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;                    <span class="keywordflow">if</span> (r_size &gt; <a class="code" href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a2e33aab6bd526c39448030168613bb78">ninther_threshold</a>) {</div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;                        std::iter_swap(pivot_pos + 2, pivot_pos + (2 + r_size / 4));</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;                        std::iter_swap(pivot_pos + 3, pivot_pos + (3 + r_size / 4));</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;                        std::iter_swap(end - 2, end - (1 + r_size / 4));</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;                        std::iter_swap(end - 3, end - (2 + r_size / 4));</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;                    }</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;                }</div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;            }</div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;            <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;                <span class="comment">// If we were decently balanced and we tried to sort an already partitioned</span></div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;                <span class="comment">// sequence try to use insertion sort.</span></div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;                <span class="keywordflow">if</span> (already_partitioned &amp;&amp; <a class="code" href="namespacepdqsort__detail.html#a01d434ba2a54a3abc238517e4cb7519a">partial_insertion_sort</a>(begin, pivot_pos, comp)</div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;                    &amp;&amp; <a class="code" href="namespacepdqsort__detail.html#a01d434ba2a54a3abc238517e4cb7519a">partial_insertion_sort</a>(pivot_pos + 1, end, comp)) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;            }</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160; </div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;            <span class="comment">// Sort the left partition first using recursion and do tail recursion elimination for</span></div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;            <span class="comment">// the right-hand partition.</span></div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;            pdqsort_loop&lt;Iter, Compare, Branchless&gt;(begin, pivot_pos, comp, bad_allowed, leftmost);</div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;            begin = pivot_pos + 1;</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;            leftmost = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;        }</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;    }</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;}</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160; </div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160; </div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare&gt;</div>
+<div class="line"><a name="l00506"></a><span class="lineno"><a class="line" href="pdqsort_8hpp.html#a9a4675f3c4f61ef1aa7d808c984d5f35">  506</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="pdqsort_8hpp.html#a9a4675f3c4f61ef1aa7d808c984d5f35">pdqsort</a>(Iter begin, Iter end, Compare comp) {</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;    <span class="keywordflow">if</span> (begin == end) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160; </div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;<span class="preprocessor">#if __cplusplus &gt;= 201103L</span></div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;    <a class="code" href="namespacepdqsort__detail.html#a2c5ecdf1abb3b6e3fc02cd157512ac11">pdqsort_detail::pdqsort_loop</a>&lt;Iter, Compare,</div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;        pdqsort_detail::is_default_compare&lt;typename std::decay&lt;Compare&gt;::type&gt;::value&amp;&amp;</div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;        std::is_arithmetic&lt;typename std::iterator_traits&lt;Iter&gt;::value_type&gt;::value&gt;(</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;            begin, end, comp, <a class="code" href="namespacepdqsort__detail.html#a92efcfdf1e8d68b3874edff8b80076ed">pdqsort_detail::log2</a>(end - begin));</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    pdqsort_detail::pdqsort_loop&lt;Iter, Compare, false&gt;(</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;        begin, end, comp, <a class="code" href="namespacepdqsort__detail.html#a92efcfdf1e8d68b3874edff8b80076ed">pdqsort_detail::log2</a>(end - begin));</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;}</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160; </div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter&gt;</div>
+<div class="line"><a name="l00521"></a><span class="lineno"><a class="line" href="pdqsort_8hpp.html#acc9c6dee9ea3572a997cbd085a0f3265">  521</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="pdqsort_8hpp.html#a9a4675f3c4f61ef1aa7d808c984d5f35">pdqsort</a>(Iter begin, Iter end) {</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;    <a class="code" href="pdqsort_8hpp.html#a9a4675f3c4f61ef1aa7d808c984d5f35">pdqsort</a>(begin, end, std::less&lt;T&gt;());</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;}</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160; </div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter, <span class="keyword">class</span> Compare&gt;</div>
+<div class="line"><a name="l00527"></a><span class="lineno"><a class="line" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">  527</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a>(Iter begin, Iter end, Compare comp) {</div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;    <span class="keywordflow">if</span> (begin == end) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;    pdqsort_detail::pdqsort_loop&lt;Iter, Compare, true&gt;(</div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;        begin, end, comp, <a class="code" href="namespacepdqsort__detail.html#a92efcfdf1e8d68b3874edff8b80076ed">pdqsort_detail::log2</a>(end - begin));</div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;}</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160; </div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">class</span> Iter&gt;</div>
+<div class="line"><a name="l00534"></a><span class="lineno"><a class="line" href="pdqsort_8hpp.html#a256e806ad89928e707d145a6282cf049">  534</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a>(Iter begin, Iter end) {</div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">typename</span> std::iterator_traits&lt;Iter&gt;::value_type <a class="code" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>;</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;    <a class="code" href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a>(begin, end, std::less&lt;T&gt;());</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;}</div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160; </div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160; </div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;<span class="preprocessor">#undef PDQSORT_PREFER_MOVE</span></div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160; </div>
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacepdqsort__detail_html_a3daafaa0f44a7507d138749b7311dcaa"><div class="ttname"><a href="namespacepdqsort__detail.html#a3daafaa0f44a7507d138749b7311dcaa">pdqsort_detail::sort2</a></div><div class="ttdeci">void sort2(Iter a, Iter b, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:148</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html_a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37"><div class="ttname"><a href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a7a05f9a339ce440ec2bee00a69947e37">pdqsort_detail::block_size</a></div><div class="ttdeci">@ block_size</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:54</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html_a01d434ba2a54a3abc238517e4cb7519a"><div class="ttname"><a href="namespacepdqsort__detail.html#a01d434ba2a54a3abc238517e4cb7519a">pdqsort_detail::partial_insertion_sort</a></div><div class="ttdeci">bool partial_insertion_sort(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:122</div></div>
-<div class="ttc" id="anamespacepdqsort__detail_html_a2c5ecdf1abb3b6e3fc02cd157512ac11"><div class="ttname"><a href="namespacepdqsort__detail.html#a2c5ecdf1abb3b6e3fc02cd157512ac11">pdqsort_detail::pdqsort_loop</a></div><div class="ttdeci">void pdqsort_loop(Iter begin, Iter end, Compare comp, int bad_allowed, bool leftmost=true)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:400</div></div>
-<div class="ttc" id="anamespacepdqsort__detail_html_af7961c01faadc35189ac84f9b03e837f"><div class="ttname"><a href="namespacepdqsort__detail.html#af7961c01faadc35189ac84f9b03e837f">pdqsort_detail::partition_left</a></div><div class="ttdeci">Iter partition_left(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:373</div></div>
-<div class="ttc" id="anamespacepdqsort__detail_html_a9fb8c4c6e7cae1781d127e70e47a8016"><div class="ttname"><a href="namespacepdqsort__detail.html#a9fb8c4c6e7cae1781d127e70e47a8016">pdqsort_detail::swap_offsets</a></div><div class="ttdeci">void swap_offsets(Iter first, Iter last, unsigned char *offsets_l, unsigned char *offsets_r, size_t num, bool use_swaps)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:172</div></div>
+<div class="ttc" id="anamespacepdqsort__detail_html_a2c5ecdf1abb3b6e3fc02cd157512ac11"><div class="ttname"><a href="namespacepdqsort__detail.html#a2c5ecdf1abb3b6e3fc02cd157512ac11">pdqsort_detail::pdqsort_loop</a></div><div class="ttdeci">void pdqsort_loop(Iter begin, Iter end, Compare comp, int bad_allowed, bool leftmost=true)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:408</div></div>
+<div class="ttc" id="anamespacepdqsort__detail_html_af7961c01faadc35189ac84f9b03e837f"><div class="ttname"><a href="namespacepdqsort__detail.html#af7961c01faadc35189ac84f9b03e837f">pdqsort_detail::partition_left</a></div><div class="ttdeci">Iter partition_left(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:381</div></div>
+<div class="ttc" id="anamespacepdqsort__detail_html_a9fb8c4c6e7cae1781d127e70e47a8016"><div class="ttname"><a href="namespacepdqsort__detail.html#a9fb8c4c6e7cae1781d127e70e47a8016">pdqsort_detail::swap_offsets</a></div><div class="ttdeci">void swap_offsets(Iter first, Iter last, unsigned char *offsets_l, unsigned char *offsets_r, size_t num, bool use_swaps)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:180</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html_ae1afda154c9e98c0f24589f4aa5f703f"><div class="ttname"><a href="namespacepdqsort__detail.html#ae1afda154c9e98c0f24589f4aa5f703f">pdqsort_detail::sort3</a></div><div class="ttdeci">void sort3(Iter a, Iter b, Iter c, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:154</div></div>
-<div class="ttc" id="anamespaceseq_1_1detail_html_a4abc955e0a77f9f1a5d4b9fa147745e1"><div class="ttname"><a href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">seq::detail::first</a></div><div class="ttdeci">int first</div><div class="ttdef"><b>Definition:</b> charconv.hpp:713</div></div>
+<div class="ttc" id="anamespaceseq_1_1detail_html_a4abc955e0a77f9f1a5d4b9fa147745e1"><div class="ttname"><a href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">seq::detail::first</a></div><div class="ttdeci">int first</div><div class="ttdef"><b>Definition:</b> charconv.hpp:725</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html_a43a547dca0fb0dc8329dcc90fbaeabe4a93aa19e909e1c9aac3476145eac01d08"><div class="ttname"><a href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a93aa19e909e1c9aac3476145eac01d08">pdqsort_detail::insertion_sort_threshold</a></div><div class="ttdeci">@ insertion_sort_threshold</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:44</div></div>
-<div class="ttc" id="anamespaceseq_1_1detail_html_a12c9a7db6862be66b508b7cc80e12a2d"><div class="ttname"><a href="namespaceseq_1_1detail.html#a12c9a7db6862be66b508b7cc80e12a2d">seq::detail::n</a></div><div class="ttdeci">char n</div><div class="ttdef"><b>Definition:</b> charconv.hpp:672</div></div>
+<div class="ttc" id="anamespaceseq_1_1detail_html_a12c9a7db6862be66b508b7cc80e12a2d"><div class="ttname"><a href="namespaceseq_1_1detail.html#a12c9a7db6862be66b508b7cc80e12a2d">seq::detail::n</a></div><div class="ttdeci">char n</div><div class="ttdef"><b>Definition:</b> charconv.hpp:674</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html_a43a547dca0fb0dc8329dcc90fbaeabe4a2e33aab6bd526c39448030168613bb78"><div class="ttname"><a href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a2e33aab6bd526c39448030168613bb78">pdqsort_detail::ninther_threshold</a></div><div class="ttdeci">@ ninther_threshold</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:47</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html_a3f1c34cdc137010052833aa50f03950d"><div class="ttname"><a href="namespacepdqsort__detail.html#a3f1c34cdc137010052833aa50f03950d">pdqsort_detail::unguarded_insertion_sort</a></div><div class="ttdeci">void unguarded_insertion_sort(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:99</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html_a92efcfdf1e8d68b3874edff8b80076ed"><div class="ttname"><a href="namespacepdqsort__detail.html#a92efcfdf1e8d68b3874edff8b80076ed">pdqsort_detail::log2</a></div><div class="ttdeci">int log2(T n)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:69</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html_adc095280baf9194391b8fd781bf22c05"><div class="ttname"><a href="namespacepdqsort__detail.html#adc095280baf9194391b8fd781bf22c05">pdqsort_detail::insertion_sort</a></div><div class="ttdeci">void insertion_sort(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:77</div></div>
 <div class="ttc" id="apdqsort_8hpp_html_a3de8fb7a53a7399f2b28c51e73b80dd0"><div class="ttname"><a href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a></div><div class="ttdeci">#define PDQSORT_PREFER_MOVE(x)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:37</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html_a5cfbd74545cae92930540b5042146308"><div class="ttname"><a href="namespacepdqsort__detail.html#a5cfbd74545cae92930540b5042146308">pdqsort_detail::align_cacheline</a></div><div class="ttdeci">T * align_cacheline(T *p)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:161</div></div>
-<div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> any.hpp:2349</div></div>
-<div class="ttc" id="apdqsort_8hpp_html_a9a4675f3c4f61ef1aa7d808c984d5f35"><div class="ttname"><a href="pdqsort_8hpp.html#a9a4675f3c4f61ef1aa7d808c984d5f35">pdqsort</a></div><div class="ttdeci">void pdqsort(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:498</div></div>
-<div class="ttc" id="anamespacepdqsort__detail_html_ac9bc0d86b2906d79ae5fd1e8432d40e5"><div class="ttname"><a href="namespacepdqsort__detail.html#ac9bc0d86b2906d79ae5fd1e8432d40e5">pdqsort_detail::partition_right_branchless</a></div><div class="ttdeci">std::pair&lt; Iter, bool &gt; partition_right_branchless(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:200</div></div>
-<div class="ttc" id="anamespaceseq_1_1detail_html_ae4e48f51c85e7a3a935596cba71a7355"><div class="ttname"><a href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">seq::detail::T</a></div><div class="ttdeci">Stream &amp;str T</div><div class="ttdef"><b>Definition:</b> charconv.hpp:669</div></div>
-<div class="ttc" id="anamespacepdqsort__detail_html_ae2958caba202615154b809d3781b2cd7"><div class="ttname"><a href="namespacepdqsort__detail.html#ae2958caba202615154b809d3781b2cd7">pdqsort_detail::partition_right</a></div><div class="ttdeci">std::pair&lt; Iter, bool &gt; partition_right(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:329</div></div>
+<div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div><div class="ttdef"><b>Definition:</b> any.hpp:2382</div></div>
+<div class="ttc" id="apdqsort_8hpp_html_a9a4675f3c4f61ef1aa7d808c984d5f35"><div class="ttname"><a href="pdqsort_8hpp.html#a9a4675f3c4f61ef1aa7d808c984d5f35">pdqsort</a></div><div class="ttdeci">void pdqsort(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:506</div></div>
+<div class="ttc" id="anamespacepdqsort__detail_html_ac9bc0d86b2906d79ae5fd1e8432d40e5"><div class="ttname"><a href="namespacepdqsort__detail.html#ac9bc0d86b2906d79ae5fd1e8432d40e5">pdqsort_detail::partition_right_branchless</a></div><div class="ttdeci">std::pair&lt; Iter, bool &gt; partition_right_branchless(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:208</div></div>
+<div class="ttc" id="anamespaceseq_1_1detail_html_ae4e48f51c85e7a3a935596cba71a7355"><div class="ttname"><a href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">seq::detail::T</a></div><div class="ttdeci">Stream &amp;str T</div><div class="ttdef"><b>Definition:</b> charconv.hpp:671</div></div>
+<div class="ttc" id="anamespacepdqsort__detail_html_ae2958caba202615154b809d3781b2cd7"><div class="ttname"><a href="namespacepdqsort__detail.html#ae2958caba202615154b809d3781b2cd7">pdqsort_detail::partition_right</a></div><div class="ttdeci">std::pair&lt; Iter, bool &gt; partition_right(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:337</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html"><div class="ttname"><a href="namespacepdqsort__detail.html">pdqsort_detail</a></div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:41</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html_a43a547dca0fb0dc8329dcc90fbaeabe4aab89097901f2f898e6bb3c528cabc55a"><div class="ttname"><a href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4aab89097901f2f898e6bb3c528cabc55a">pdqsort_detail::partial_insertion_sort_limit</a></div><div class="ttdeci">@ partial_insertion_sort_limit</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:51</div></div>
 <div class="ttc" id="anamespacepdqsort__detail_html_a43a547dca0fb0dc8329dcc90fbaeabe4ae9d9eaf23e2582ffabe6d5c94635932d"><div class="ttname"><a href="namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4ae9d9eaf23e2582ffabe6d5c94635932d">pdqsort_detail::cacheline_size</a></div><div class="ttdeci">@ cacheline_size</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:57</div></div>
-<div class="ttc" id="apdqsort_8hpp_html_a29ab6c05f20769083e8140b392c41189"><div class="ttname"><a href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a></div><div class="ttdeci">void pdqsort_branchless(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:519</div></div>
+<div class="ttc" id="apdqsort_8hpp_html_a29ab6c05f20769083e8140b392c41189"><div class="ttname"><a href="pdqsort_8hpp.html#a29ab6c05f20769083e8140b392c41189">pdqsort_branchless</a></div><div class="ttdeci">void pdqsort_branchless(Iter begin, Iter end, Compare comp)</div><div class="ttdef"><b>Definition:</b> pdqsort.hpp:527</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

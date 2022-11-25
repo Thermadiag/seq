@@ -980,5 +980,5 @@ void test_object_pool(int rep)
 	test_mem_pool_random_patterns(rep);
 	test_mem_pool_random_patterns_random_size(rep );
 	test_mem_pool_interrupt_clear(rep);
-	test_mem_pool_interrupt_reset( rep);
+	test_mem_pool_interrupt_reset(rep);
 }

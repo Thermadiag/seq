@@ -95,6 +95,7 @@ $(document).ready(function(){initNavTree('tiny__string_8hpp.html',''); initResiz
 <div class="textblock"><code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
 <code>#include &quot;<a class="el" href="hash_8hpp_source.html">hash.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="type__traits_8hpp_source.html">type_traits.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="utils_8hpp_source.html">utils.hpp</a>&quot;</code><br />
@@ -110,6 +111,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">String class with a similar interface and requirements than std::string.  <a href="classseq_1_1tiny__string.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1membuf.html">seq::detail::membuf</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">streambuf working on a const char*  <a href="structseq_1_1detail_1_1membuf.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1ibufferstream.html">seq::detail::ibufferstream</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Input stream working on a memory buffer, only used for reading from a <a class="el" href="classseq_1_1tiny__string.html" title="String class with a similar interface and requirements than std::string.">tiny_string</a>.  <a href="structseq_1_1detail_1_1ibufferstream.html#details">More...</a><br /></td></tr>
@@ -225,6 +227,8 @@ Functions</h2></td></tr>
 <tr class="separator:a5821a250d36c17fe3f719b5b9a1d7709"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07a083b82f96e76e4a5e7724b32f440a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a07a083b82f96e76e4a5e7724b32f440a">seq::detail::string_inf</a> (const char *v1, const char *e1, const char *v2, const char *e2) noexcept -&gt; bool</td></tr>
 <tr class="separator:a07a083b82f96e76e4a5e7724b32f440a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8cdaa0b08299834bc22818fd5bf3004"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#ad8cdaa0b08299834bc22818fd5bf3004">seq::detail::string_inf</a> (const char *v1, size_t l1, const char *v2, size_t l2)</td></tr>
+<tr class="separator:ad8cdaa0b08299834bc22818fd5bf3004"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80e8bf9b36c97bd9b94eea4ccd43fad6"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a80e8bf9b36c97bd9b94eea4ccd43fad6">seq::detail::string_compare</a> (const unsigned char *v1, size_t l1, const unsigned char *v2, size_t l2) noexcept -&gt; int</td></tr>
 <tr class="separator:a80e8bf9b36c97bd9b94eea4ccd43fad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2973df76b7a747a468d8e78d188989d7"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a2973df76b7a747a468d8e78d188989d7">seq::detail::string_inf_equal</a> (const char *v1, const char *e1, const char *v2, const char *e2) noexcept -&gt; bool</td></tr>

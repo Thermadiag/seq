@@ -31,7 +31,6 @@
 #include "testing.hpp"
 
 
-using namespace seq;
 
 
 
@@ -62,8 +61,10 @@ bool equal_cvec(const Deq1& d1, const Deq2& d2)
 	return true;
 }
 
-void test_cvector_algorithms(size_t count = 5000000)
+inline void test_cvector_algorithms(size_t count = 5000000)
 {
+	using namespace seq;
+
 	// Test algorithms on tiered_vector, some of them requiring random access iterators
 
 	typedef size_t type;
@@ -74,7 +75,7 @@ void test_cvector_algorithms(size_t count = 5000000)
 	std::deque<type> deq;
 	srand(0);// time(NULL));
 	for (size_t i = 0; i < count; ++i) {
-		unsigned r = rand();// static_cast<unsigned>(count - i - 1);//rand() & ((1U << 16U) - 1U);
+		unsigned r = static_cast<unsigned>(rand());// static_cast<unsigned>(count - i - 1);//rand() & ((1U << 16U) - 1U);
 		deq.push_back(static_cast<type>(r));
 		cvec.push_back(static_cast<type>(r));
 	}
@@ -100,8 +101,8 @@ void test_cvector_algorithms(size_t count = 5000000)
 	// Test unique after sorting
 	auto it1 = std::unique(deq.begin(), deq.end());
 	auto it2 = std::unique(cvec.begin(), cvec.end());
-	deq.resize(it1 - deq.begin());
-	cvec.resize(it2 - cvec.begin());
+	deq.resize(static_cast<size_t>(it1 - deq.begin()));
+	cvec.resize(static_cast<size_t>(it2 - cvec.begin()));
 
 	SEQ_TEST(equal_cvec(deq, cvec));
 
@@ -148,9 +149,10 @@ void test_cvector_algorithms(size_t count = 5000000)
 
 
 
-void test_cvector_move_only(size_t count)
+inline void test_cvector_move_only(size_t count)
 {
-	
+	using namespace seq;
+
 	typedef cvector<std::unique_ptr<size_t> > cvec_type;
 
 	std::deque<std::unique_ptr<size_t> > deq;
@@ -159,7 +161,7 @@ void test_cvector_move_only(size_t count)
 	srand(0);
 	for (size_t i = 0; i < count; ++i)
 	{
-		unsigned r = rand();
+		unsigned r = static_cast<unsigned>(rand());
 		deq.emplace_back(new size_t(r));
 		cvec.emplace_back(new size_t(r));
 	}
@@ -219,6 +221,7 @@ void test_cvector_move_only(size_t count)
 template<class T>
 void test_cvector(size_t count = 5000000)
 {
+	using namespace seq;
 
 	// First, test some stl algorithms
 	test_cvector_algorithms(count);
@@ -384,7 +387,7 @@ void test_cvector(size_t count = 5000000)
 
 	SEQ_TEST(equal_cvec(deq, cvec));
 
-	size_t stop = static_cast<size_t>(deq.size() * 0.9);
+	size_t stop = static_cast<size_t>(static_cast<double>(deq.size()) * 0.9);
 	// Test pop_front
 	while (deq.size() > stop) {
 		deq.pop_front(); 
@@ -403,8 +406,8 @@ void test_cvector(size_t count = 5000000)
 			d[i] = dd[i] = static_cast<T>(i);
 		}
 		SEQ_TEST(equal_cvec(d, dd));
-		d.insert(d.begin() + 10, -1);
-		dd.insert(dd.begin() + 10, -1);
+		d.insert(d.begin() + 10, static_cast<type>(-1));
+		dd.insert(dd.begin() + 10, static_cast<type>(-1));
 		SEQ_TEST(equal_cvec(d, dd));
 		for (size_t i = 0; i < 128; ++i) {
 			d.erase(d.begin());
@@ -418,18 +421,18 @@ void test_cvector(size_t count = 5000000)
 	}
 
 
-	int insert_count = static_cast<int>(std::max(static_cast<size_t>(50), count / 50));
-	std::vector<size_t> in_pos;
+	unsigned insert_count = static_cast<unsigned>(std::max(static_cast<size_t>(50), count / 50));
+	std::vector<std::ptrdiff_t> in_pos;
 	int ss = static_cast<int>(deq.size());
 	srand(0);
-	for (int i = 0; i < insert_count; ++i)
+	for (unsigned i = 0; i < insert_count; ++i)
 		in_pos.push_back(rand() % ss++);
 
 	// Test insert single value at random position
-	for (int i = 0; i < insert_count; ++i) {
+	for (unsigned i = 0; i < insert_count; ++i) {
 		deq.insert(deq.begin() + in_pos[i], static_cast<T>(i));
 	}
-	for (int i = 0; i < insert_count; ++i) {
+	for (unsigned i = 0; i < insert_count; ++i) {
 		cvec.insert(cvec.begin() + in_pos[i], static_cast<T>(i));
 	}
 	SEQ_TEST(equal_cvec(deq, cvec));
@@ -448,7 +451,7 @@ void test_cvector(size_t count = 5000000)
 
 		for (int i = 0; i < 50; ++i) {
 			int pos = i % 5;
-			pos = static_cast<int>(d.size() * pos / 4);
+			pos = static_cast<int>(d.size()) * pos / 4;
 			if (pos == static_cast<int>(d.size()))--pos;
 			dd.erase(dd.begin() + pos);
 			d.erase(d.begin() + pos);
@@ -472,7 +475,7 @@ void test_cvector(size_t count = 5000000)
 
 	// Test erase single values at random position
 	size_t erase_count = deq.size() / 8;
-	std::vector<size_t> er_pos;
+	std::vector<std::ptrdiff_t> er_pos;
 	size_t sss = count;
 	srand(0);
 	for (size_t i = 0; i < erase_count; ++i)

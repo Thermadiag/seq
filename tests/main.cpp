@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 
+#if defined( _MSC_VER ) && !defined(__clang__)
 #define SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS
+#endif
 
 #include "test_hash.hpp"
 #include "test_any.hpp"
@@ -45,7 +47,8 @@ using namespace seq;
 
 auto  main  (int  /*unused*/, char**  /*unused*/) -> int
 {
-	
+	print_features();
+
 	SEQ_TEST_MODULE(format, test_format());
 	SEQ_TEST_MODULE(any, test_any());
 #ifdef TEST_CVECTOR

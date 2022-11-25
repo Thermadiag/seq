@@ -114,13 +114,11 @@ namespace seq
 			return static_cast<size_t>(pIn - pStart);
 		}
 
+
 	
 		inline auto string_inf(const char* v1, const char* e1, const char* v2, const char* e2)noexcept -> bool
 		{
 			//comparison works on unsigned !!!!
-		
-			if (*v1 != *v2) { return static_cast<unsigned char>(*v1) < static_cast<unsigned char>(*v2);}
-
 			const char* end = v1 + std::min(e1 - v1, e2 - v2);
 			while ((v1 < end - (8 - 1))) {
 				std::uint64_t r1 = read_BE_64(v1);
@@ -143,6 +141,21 @@ namespace seq
 			}
 			return v1 == e1 && v2 != e2;
 		}
+
+
+		inline bool string_inf(const char* v1, size_t l1, const char* v2, size_t l2) 
+		{
+			if (*v1 != *v2) { return static_cast<unsigned char>(*v1) < static_cast<unsigned char>(*v2); }
+
+#ifdef __clang__
+			// This approach is faster with clang compared to gcc and msvc
+			int cmp = memcmp(v1, v2, std::min(l1, l2));
+			return cmp < 0 ? true : (cmp > 0 ? false : (l1 < l2));
+#else
+			return string_inf(v1, v1 + l1, v2, v2 + l2);
+#endif
+		}
+
 	
 		inline auto string_compare(const unsigned char* v1, size_t l1, const unsigned char* v2, size_t l2)noexcept -> int
 		{
@@ -219,7 +232,7 @@ namespace seq
 		}
 
 
-		/// @internal streambuf working on a const char*
+		/// streambuf working on a const char*
 		struct membuf : std::streambuf {
 			membuf(char const* base, size_t size) {
 				char* p(const_cast<char*>(base));
@@ -291,7 +304,7 @@ namespace seq
 			void set_allocator(const Allocator& al) { static_cast<Allocator&>(*this) = al; }
 			void set_allocator( Allocator&& al) { static_cast<Allocator&>(*this) = std::move(al); }
 
-			void swap(string_internal& other)
+			SEQ_ALWAYS_INLINE void swap(string_internal& other)
 			{
 				std::swap(d_union, other.d_union);
 				swap_allocator(get_allocator(), other.get_allocator());
@@ -547,7 +560,7 @@ namespace seq
 				}*/
 				memset(d_data.d_union.sso.data + len, 0, sizeof(d_data.d_union.sso.data) - (len));
 				d_data.d_union.sso.not_sso = 0;
-				d_data.d_union.sso.size = len;
+				d_data.d_union.sso.size = static_cast<unsigned char>(len);
 			}
 			//non sso, might throw
 			else {
@@ -567,7 +580,7 @@ namespace seq
 					d_data.d_union.non_sso.exact_size = exact_size;
 				
 					//clear additionals
-					size_t start = reinterpret_cast<char*>((&d_data.d_union.non_sso.data) + 1) - reinterpret_cast<char*>(this);
+					size_t start = static_cast<size_t>( reinterpret_cast<char*>((&d_data.d_union.non_sso.data) + 1) - reinterpret_cast<char*>(this) );
 					memset(reinterpret_cast<char*>(this) + start, 0, sizeof(*this) - start);
 				
 				}
@@ -610,7 +623,7 @@ namespace seq
 		void assign_cat(Iter first, Iter last, std::random_access_iterator_tag /*unused*/)
 		{
 			// assign range for random access iterators
-			resize_uninitialized(last - first,false,true);
+			resize_uninitialized(static_cast<size_t>(last - first),false,true);
 			std::copy(first, last, data());
 		}
 
@@ -639,7 +652,7 @@ namespace seq
 				return;
 
 			if (pos < size() / 2) {
-				size_type to_insert = last - first;
+				size_type to_insert = static_cast<size_t>(last - first);
 				// Might throw, fine
 				resize_front(size() + to_insert);
 				iterator beg = begin();
@@ -650,7 +663,7 @@ namespace seq
 			}
 			else {
 				// Might throw, fine
-				size_type to_insert = last - first;
+				size_type to_insert = static_cast<size_t>(last - first);
 				resize(size() + to_insert);
 				char* p = data();
 				size_t s = size();
@@ -711,7 +724,7 @@ namespace seq
 			// pop_back(), transition from non SSO to SSO
 			char* ptr = d_data.d_union.non_sso.data;
 			size_t cap = capacity_internal();
-			d_data.d_union.sso.size = d_data.d_union.non_sso.size;
+			d_data.d_union.sso.size = static_cast<unsigned char>(d_data.d_union.non_sso.size);
 			d_data.d_union.sso.not_sso = 0;
 			memcpy(d_data.d_union.sso.data, ptr, max_static_size + 1);
 			d_data.deallocate(ptr, cap);
@@ -794,7 +807,7 @@ namespace seq
 			if (is_sso(size))
 			{
 				d_data.d_union.sso.not_sso = 0;
-				d_data.d_union.sso.size = size;
+				d_data.d_union.sso.size = static_cast<unsigned char>(size);
 				return d_data.d_union.sso.data;
 			}
 			else {
@@ -823,7 +836,7 @@ namespace seq
 
 		// Maximum string length to use SSO
 		static constexpr size_t max_static_size = sso_max_capacity - 1;
-		static constexpr size_t npos = -1;
+		static constexpr size_t npos = static_cast<size_t>( -1);
 
 		using traits_type = std::char_traits<char>;
 		using value_type = char;
@@ -1166,8 +1179,8 @@ namespace seq
 		/// @brief Swap the content of this string with other
 		SEQ_ALWAYS_INLINE void swap(tiny_string& other) 
 		{
-			if (this != std::addressof(other)) 
-				d_data.swap(other.d_data);
+			// Do not check for same address as this is counter productive
+			d_data.swap(other.d_data);
 		}
 
 		/// @brief Clear the string and deallocate memory for wide strings
@@ -1477,7 +1490,7 @@ namespace seq
 		template <class InputIterator>
 		auto insert(const_iterator p, InputIterator first, InputIterator last) -> iterator
 		{
-			size_t pos = p - cbegin();
+			size_t pos = static_cast<size_t>(p - cbegin());
 			insert_cat(pos, first, last, typename std::iterator_traits<InputIterator>::iterator_category());
 			return begin() + pos;
 		}
@@ -1500,15 +1513,15 @@ namespace seq
 		/// @brief Remove character at position p
 		auto erase(const_iterator p) -> iterator
 		{
-			size_type f = p - begin();
+			size_type f = static_cast<size_t>(p - begin());
 			erase_internal(f, f+1);
 			return begin() + f;
 		}
 		/// @brief Removes the range [first,last)
 		auto erase(const_iterator first, const_iterator last) -> iterator
 		{
-			size_type f = first - begin();
-			erase_internal(f, last - begin());
+			size_type f = static_cast<size_t>(first - begin());
+			erase_internal(f, static_cast<size_t>(last - begin()));
 			return begin() + f;
 		}
 
@@ -1934,13 +1947,13 @@ namespace seq
 			const char* end = in + (size() - pos - n) +1;
 			char c = *s;
 			for(;;) {
-				in = static_cast<const char*>(memchr(in, c, end - in));
+				in = static_cast<const char*>(memchr(in, c, static_cast<size_t>(end - in)));
 				if (!in) return npos;
 			
 				//start searching, count_approximate_common_bytes returns (usually) an underestimation of the common bytes, except if equal
 				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if(common == n-1)
-					return in - begin();
+					return  static_cast<size_t>(in - begin());
 				//in += common +1;
 				++in;
 			}
@@ -1982,12 +1995,12 @@ namespace seq
 			const char* in = std::min(beg + pos, end()-n) ;
 			char c = *s;
 			for (;;) {
-				in = static_cast<const char*>(memrchr(beg, c, in - beg +1));
+				in = static_cast<const char*>(memrchr(beg, c, static_cast<size_t>(in - beg +1)));
 				if (!in) return npos;
 				//start searching
 				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if (common == n - 1)
-					return in - begin();
+					return  static_cast<size_t>(in - begin());
 				--in;
 			}
 			return npos;
@@ -2007,7 +2020,7 @@ namespace seq
 				const char* send = s + n;
 				for (const char* p = data() + pos; p != end; ++p)
 					for (const char* m = s; m != send; ++m)
-						if (*m == *p) return p - data();
+						if (*m == *p) return  static_cast<size_t>(p - data());
 			}
 			else {
 				char buff[256];
@@ -2015,7 +2028,7 @@ namespace seq
 				for (size_t i = 0; i < n; ++i) buff[static_cast<unsigned char>(s[i])] = 1;
 				for (const char* p = data() + pos; p != end; ++p)
 					if (buff[static_cast<unsigned char>(*p)])
-						return p - data();
+						return  static_cast<size_t>(p - data());
 			}
 			return npos;
 		}
@@ -2051,7 +2064,7 @@ namespace seq
 				const char* send = s + n;
 				for (const char* in = p + pos; in >= p; --in) {
 					for (const char* m = s; m != send; ++m)
-						if (*m == *in) return in - p;
+						if (*m == *in) return  static_cast<size_t>(in - p);
 				}
 			}
 			else {
@@ -2060,7 +2073,7 @@ namespace seq
 				for (size_t i = 0; i < n; ++i) buff[static_cast<unsigned char>(s[i])] = 1;
 				for (const char* in = p + pos; in >= p; --in) {
 					if (buff[static_cast<unsigned char>(*in)])
-						return in - p;
+						return  static_cast<size_t>(in - p);
 				}
 			}
 			return npos;
@@ -2202,8 +2215,8 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE auto operator=(tiny_string && other) noexcept -> tiny_string&
 		{
-			if (this != std::addressof(other)) 
-				d_data.swap( other.d_data);
+			// Do not test for same address, which is counter productive
+			d_data.swap( other.d_data);
 			return *this;
 		}
 		auto operator=(const char * other) -> tiny_string&
@@ -2282,7 +2295,7 @@ namespace seq
 
 	public:
 		static constexpr size_t max_static_size = sso_max_capacity - 1;
-		static constexpr size_t npos = -1;
+		static constexpr size_t npos = static_cast<size_t>(-1);
 
 		using traits_type = std::char_traits<char>;
 		using value_type = char;
@@ -2308,7 +2321,7 @@ namespace seq
 		auto get_allocator() const noexcept -> allocator_type { return d_data.get_allocator(); }
 
 		tiny_string()
-			:d_data(NULL,0) {}
+			:d_data(nullptr,0) {}
 	
 		tiny_string(const char* data)
 			:d_data(data, strlen(data)) {}
@@ -2573,13 +2586,13 @@ namespace seq
 			const char* end = in + (size() - pos - n) + 1;
 			char c = *s;
 			for (;;) {
-				in = static_cast<const char*>(memchr(in, c, end - in));
+				in = static_cast<const char*>(memchr(in, c, static_cast<size_t>( end - in)));
 				if (in == nullptr) { return npos;}
 
 				//start searching
 				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if (common == n - 1) {
-					return in - begin();
+					return static_cast<size_t>(in - begin());
 				}
 				//in += common + 1;
 				++in;
@@ -2589,7 +2602,7 @@ namespace seq
 		auto find(char c, size_t pos = 0) const noexcept -> size_t
 		{
 			const char* p = static_cast<const char*>(memchr(data() + pos, c, size() - pos));
-			return p == nullptr ? npos : p - begin();
+			return p == nullptr ? npos : static_cast<size_t>(p - begin());
 		}
 
 
@@ -2624,13 +2637,13 @@ namespace seq
 			const char* in = std::min(beg + pos, end() - n);
 			char c = *s;
 			for (;;) {
-				in = static_cast<const char*>(memrchr(beg, c, in - beg + 1));
+				in = static_cast<const char*>(memrchr(beg, c, static_cast<size_t>(in - beg + 1)));
 				if (in == nullptr) { return npos;
 				}
 				//start searching
 				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if (common == n - 1) {
-					return in - begin();
+					return static_cast<size_t>(in - begin());
 				}
 				--in;
 			}
@@ -2641,7 +2654,7 @@ namespace seq
 			if (pos >= size()) { pos = size() - 1;
 			}
 			const char* p = static_cast<const char*>(memrchr(data(), c, pos + 1));
-			return p == nullptr ? npos : p - data();
+			return p == nullptr ? npos : static_cast<size_t>(p - data());
 		}
 
 
@@ -2653,7 +2666,7 @@ namespace seq
 				const char* send = s + n;
 				for (const char* p = data() + pos; p != end; ++p) {
 					for (const char* m = s; m != send; ++m) {
-						if (*m == *p) { return p - data();}
+						if (*m == *p) { return static_cast<size_t>(p - data());}
 					}
 				}
 			}
@@ -2663,7 +2676,7 @@ namespace seq
 				for (size_t i = 0; i < n; ++i) { buff[static_cast<unsigned char>(s[i])] = 1;}
 				for (const char* p = data() + pos; p != end; ++p) {
 					if (buff[static_cast<unsigned char>(*p)] != 0) {
-						return p - data();
+						return static_cast<size_t>(p - data());
 						}
 					}
 			}
@@ -2693,29 +2706,25 @@ namespace seq
 		}
 		auto find_last_of(const char* s, size_t pos, size_t n) const noexcept -> size_t
 		{
-			if (size() == 0) { return npos;
-	}
-			if (pos >= size()) { pos = size() - 1;
-	}
+			if (size() == 0) { return npos;}
+			if (pos >= size()) { pos = size() - 1;}
 			const char* p = data();
 			if (size() < 512) {
 				const char* send = s + n;
 				for (const char* in = p + pos; in >= p; --in) {
 					for (const char* m = s; m != send; ++m) {
-						if (*m == *in) { return in - p;
-	}
-	}
+						if (*m == *in) { return static_cast<size_t>(in - p);}
+					}
 				}
 			}
 			else {
 				char buff[256];
 				memset(buff, 0, sizeof(buff));
-				for (size_t i = 0; i < n; ++i) { buff[static_cast<unsigned char>(s[i])] = 1;
-	}
+				for (size_t i = 0; i < n; ++i) { buff[static_cast<unsigned char>(s[i])] = 1;}
 				for (const char* in = p + pos; in >= p; --in) {
 					if (buff[static_cast<unsigned char>(*in)] != 0) {
-						return in - p;
-	}
+						return static_cast<size_t>(in - p);
+					}
 				}
 			}
 			return npos;
@@ -2744,7 +2753,7 @@ namespace seq
 					if (*m == *p) { break;}
 				}
 				if (m == send) {
-					return p - data();
+					return static_cast<size_t>(p - data());
 				}
 			}
 			return npos;
@@ -2753,7 +2762,7 @@ namespace seq
 		{
 			const char* e = end();
 			for (const char* p = data() + pos; p != e; ++p) {
-				if (*p != c) { return p - data();}
+				if (*p != c) { return static_cast<size_t>(p - data());}
 			}
 			return npos;
 		}
@@ -2779,7 +2788,7 @@ namespace seq
 					if (*m == *in) { break;}
 				}
 				if (m == send) {
-					return in - p;
+					return static_cast<size_t>(in - p);
 				}
 			}
 			return npos;
@@ -2791,7 +2800,7 @@ namespace seq
 			const char* p = data();
 			for (const char* in = p + pos; in >= p; --in) {
 				if (*in != c) {
-					return in - p;
+					return static_cast<size_t>(in - p);
 				}
 			}
 			return npos;
@@ -2986,32 +2995,32 @@ namespace seq
 
 	template<size_t Size, class Al, size_t Size2, class Al2>
 	SEQ_ALWAYS_INLINE bool operator< (const tiny_string<Size,Al>& lhs, const tiny_string<Size2,Al2>& rhs) noexcept {
-		return detail::string_inf(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+		return detail::string_inf(lhs.data(), lhs.size(), rhs.data(), rhs.size());
 	}
 	template<size_t Size, class Al>
 	SEQ_ALWAYS_INLINE bool operator< (const char* lhs, const tiny_string<Size,Al>& rhs) noexcept {
-		return detail::string_inf(lhs, lhs+strlen(lhs), rhs.begin(), rhs.end());
+		return detail::string_inf(lhs, strlen(lhs), rhs.data(), rhs.size());
 	}
 	template<size_t Size, class Al>
 	SEQ_ALWAYS_INLINE bool operator< (const tiny_string<Size,Al>& lhs, const char* rhs) noexcept {
-		return detail::string_inf(lhs.begin(), lhs.end(), rhs, rhs+strlen(rhs));
+		return detail::string_inf(lhs.data(), lhs.size(), rhs, strlen(rhs));
 	}
 	template<size_t Size, class Al>
 	SEQ_ALWAYS_INLINE bool operator< (const std::string &lhs, const tiny_string<Size,Al>& rhs)noexcept {
-		return detail::string_inf(lhs.data(), lhs.data() + lhs.size(), rhs.begin(), rhs.end());
+		return detail::string_inf(lhs.data(),  lhs.size(), rhs.data(), rhs.size());
 	}
 	template<size_t Size, class Al>
 	SEQ_ALWAYS_INLINE bool operator< (const tiny_string<Size,Al>& lhs, const std::string& rhs) noexcept {
-		return detail::string_inf(lhs.begin(), lhs.end(), rhs.data(), rhs.data() + rhs.size());
+		return detail::string_inf(lhs.data(), lhs.size(), rhs.data(), rhs.size());
 	}
 	#ifdef SEQ_HAS_CPP_17
 	template<size_t Size, class Al>
 	SEQ_ALWAYS_INLINE bool operator< (const std::string_view& lhs, const tiny_string<Size, Al>& rhs)noexcept {
-		return detail::string_inf(lhs.data(), lhs.data() + lhs.size(), rhs.begin(), rhs.end());
+		return detail::string_inf(lhs.data(), lhs.size(), rhs.data(), rhs.size());
 	}
 	template<size_t Size, class Al>
 	SEQ_ALWAYS_INLINE bool operator< (const tiny_string<Size, Al>& lhs, const std::string_view& rhs) noexcept {
-		return detail::string_inf(lhs.begin(), lhs.end(), rhs.data(), rhs.data() + rhs.size());
+		return detail::string_inf(lhs.data(), lhs.size(), rhs.data(), rhs.size());
 	}
 	#endif
 
@@ -3233,23 +3242,23 @@ namespace seq
 	}
 
 	/// @brief Returns the string data (const char*) for given string object
-	auto string_data(const std::string& str) -> const char* { return str.data(); }
+	inline auto string_data(const std::string& str) -> const char* { return str.data(); }
 	template<size_t S, class Al>
-	auto string_data(const tiny_string<S, Al>& str) -> const char* { return str.data(); }
-	auto string_data(const char* str) -> const char* { return str; }
-	auto string_data(const tstring_view& str) -> const char* { return str.data(); }
+	inline auto string_data(const tiny_string<S, Al>& str) -> const char* { return str.data(); }
+	inline auto string_data(const char* str) -> const char* { return str; }
+	inline auto string_data(const tstring_view& str) -> const char* { return str.data(); }
 	#ifdef SEQ_HAS_CPP_17
-	auto string_data(const std::string_view& str) -> const char* { return str.data(); }
+	inline auto string_data(const std::string_view& str) -> const char* { return str.data(); }
 	#endif
 
 	/// @brief Returns the string size for given string object
-	auto string_size(const std::string& str) -> size_t { return str.size(); }
+	inline auto string_size(const std::string& str) -> size_t { return str.size(); }
 	template<size_t S, class Al>
-	auto string_size(const tiny_string<S, Al>& str) -> size_t { return str.size(); }
-	auto string_size(const char* str) -> size_t { return strlen(str); }
-	auto string_size(const tstring_view& str) -> size_t { return str.size(); }
+	inline auto string_size(const tiny_string<S, Al>& str) -> size_t { return str.size(); }
+	inline auto string_size(const char* str) -> size_t { return strlen(str); }
+	inline auto string_size(const tstring_view& str) -> size_t { return str.size(); }
 	#ifdef SEQ_HAS_CPP_17
-	auto string_size(const std::string_view& str) -> size_t { return str.size(); }
+	inline auto string_size(const std::string_view& str) -> size_t { return str.size(); }
 	#endif
 
 

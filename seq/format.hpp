@@ -813,7 +813,7 @@ namespace seq
 		/// @brief Set the base for integral types
 		auto base(char b) noexcept -> numeric_format& {
 			//static_assert(std::is_integral<T>::value, "'base' property only supported for integral types");
-			_base_or_format = static_cast<uchar>(b);
+			_base_or_format = (b);
 			return *this;
 		}
 		/// @brief Set the base for integral types
@@ -822,7 +822,7 @@ namespace seq
 		/// @brief Set the format for floating point types
 		auto format(char b) noexcept -> numeric_format& {
 			//static_assert(std::is_floating_point<T>::value, "'format' property only supported for floating point types");
-			_base_or_format = static_cast<uchar>(b);
+			_base_or_format = (b);
 			return *this;
 		}
 		/// @brief Set the format for floating point types
@@ -1312,7 +1312,7 @@ namespace seq
 						break;
 					tmp.reserve(tmp.capacity() * 2);
 				}
-				size = f.ptr - tmp.data();
+				size = static_cast<size_t>(f.ptr - tmp.data());
 			}
 
 			
@@ -1355,7 +1355,7 @@ namespace seq
 				tmp.reserve(tmp.capacity() * 2);
 			}
 #endif
-			size_t size = f.ptr - tmp.data();
+			size_t size = static_cast<size_t>(f.ptr - tmp.data());
 			if (val.width() > size) {
 				detail::format_width(tmp, size, val.width_fmt());
 				size = val.width();
@@ -1889,7 +1889,7 @@ namespace seq
 				// Construct from multiple values.
 				// Mark as explicit otherwise it replaces the default copy constructor.
 				// Note: explicit is not enough, SFINAE is required
-#if __GNUG__ && __GNUC__ < 5
+#if defined(__GNUG__) && __GNUC__ < 5
 				: base_type(), d_tuple( std::allocator_arg_t{}, std::allocator<char>{},std::forward<Args>(args)...)
 #else
 				: base_type(), d_tuple( std::forward<Args>(args)...)
@@ -2011,7 +2011,7 @@ namespace seq
 			explicit mutli_ostream_format(Args&&... args)
 				// Construct from multiple values.
 				// Mark as explicit otherwise it replaces the default copy constructor
-				#if __GNUG__ && __GNUC__ < 5
+#if defined(__GNUG__) && __GNUC__ < 5
 				: base_type(), d_tuple( std::allocator_arg_t{}, std::allocator<char>{},std::forward<Args>(args)...)
 #else
 				: base_type(), d_tuple( std::forward<Args>(args)...)

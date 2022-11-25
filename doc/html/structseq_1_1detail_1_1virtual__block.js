@@ -1,5 +1,6 @@
 var structseq_1_1detail_1_1virtual__block =
 [
+    [ "~virtual_block", "structseq_1_1detail_1_1virtual__block.html#a631e9f60246cf3bd7e11905792eac720", null ],
     [ "deallocate", "structseq_1_1detail_1_1virtual__block.html#a68901a44802a21f03975ebe4dae05c45", null ],
     [ "parent", "structseq_1_1detail_1_1virtual__block.html#adb524782c8e2e03e1593a32a67d32b9f", null ],
     [ "ref", "structseq_1_1detail_1_1virtual__block.html#a9aca191b1158bf414ee07f1acea9d3bd", null ],

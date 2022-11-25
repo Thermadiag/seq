@@ -85,16 +85,17 @@ struct WideType
 	bool operator==(const WideType& other) const { return data[0] == other.data[0]; }
 	bool operator!=(const WideType& other) const { return data[0] != other.data[0]; }
 };
-bool operator==(const WideType& a, size_t b)  { return a.data[0] == b; }
-bool operator!=(const WideType& a, size_t b)  { return a.data[0] != b; }
-bool operator==(const size_t& a, WideType b) { return a == b.data[0]; }
-bool operator!=(const size_t& a, WideType b) { return a != b.data[0]; }
+inline bool operator==(const WideType& a, size_t b)  { return a.data[0] == b; }
+inline bool operator!=(const WideType& a, size_t b)  { return a.data[0] != b; }
+inline bool operator==(const size_t& a, WideType b) { return a == b.data[0]; }
+inline bool operator!=(const size_t& a, WideType b) { return a != b.data[0]; }
 
 
 template<class T, seq::LayoutManagement lay>
-void test_sequence(int size = 50000000)
+void test_sequence(unsigned size = 50000000U)
 {
-	const int count = size;
+	using namespace seq;
+	const unsigned count = size;
 
 	{
 
@@ -126,9 +127,9 @@ void test_sequence(int size = 50000000)
 		SEQ_TEST(equal_seq(sf, bf));
 		SEQ_TEST(equal_seq(ss, bf));
 
-		std::vector<size_t> erase_pos(c / 10);
+		std::vector<std::ptrdiff_t> erase_pos(c / 10);
 		for (size_t i = 0; i < erase_pos.size(); ++i) {
-			erase_pos[i] = i;
+			erase_pos[i] = static_cast<std::ptrdiff_t>(i);
 		}
 		seq::random_shuffle(erase_pos.begin(), erase_pos.end());
 		seq::random_shuffle(erase_pos.begin(), erase_pos.end());
@@ -184,15 +185,15 @@ void test_sequence(int size = 50000000)
 
 	// Test push_back
 
-	for (int i = 0; i < count; ++i)
-		deq.push_back(i);
+	for (unsigned i = 0; i < count; ++i)
+		deq.push_back(static_cast<type>(i));
 
-	vec.reserve(count);
-	for (int i = 0; i < count; ++i)
-		vec.push_back(i);
+	vec.reserve(static_cast<size_t>(count));
+	for (unsigned i = 0; i < count; ++i)
+		vec.push_back(static_cast<type>(i));
 
-	for (int i = 0; i < count; ++i)
-		seq.push_back(i);
+	for (unsigned i = 0; i < count; ++i)
+		seq.push_back(static_cast<type>(i));
 
 
 	SEQ_TEST( equal_seq(deq, seq) )
@@ -204,8 +205,8 @@ void test_sequence(int size = 50000000)
 	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test resize upper
-	deq.resize(count, 0);
-	seq.resize(count, 0);
+	deq.resize(static_cast<size_t>(count), 0);
+	seq.resize(static_cast<size_t>(count), 0);
 		
 	SEQ_TEST(equal_seq(deq, seq));
 
@@ -224,8 +225,8 @@ void test_sequence(int size = 50000000)
 	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test resize front upper
-	deq.resize_front(count, 0);
-	seq.resize_front(count, 0);
+	deq.resize_front(static_cast<size_t>(count), 0);
+	seq.resize_front(static_cast<size_t>(count), 0);
 		
 	SEQ_TEST(equal_seq(deq, seq));
 
@@ -245,11 +246,11 @@ void test_sequence(int size = 50000000)
 		{
 			auto itd = deq.begin();
 			auto its = seq.begin();
-			int i = 0;
+			type j = 0;
 			while (itd != deq.end()) {
-				*itd++ = i;
-				*its++ = i;
-				++i;
+				*itd++ = j;
+				*its++ = j;
+				++j;
 			}
 		}
 			
@@ -260,8 +261,8 @@ void test_sequence(int size = 50000000)
 		seq.erase(seq.begin() + seq.size() / 4, seq.begin() + seq.size() / 2);
 		SEQ_TEST(equal_seq(deq, seq));
 
-		deq.resize(count, 0);
-		seq.resize(count, 0);
+		deq.resize(static_cast<size_t>(count), 0);
+		seq.resize(static_cast<size_t>(count), 0);
 
 		// Test erase range right side
 		deq.erase(deq.begin() + deq.size() / 2, deq.begin() + deq.size() * 3 / 4);
@@ -290,8 +291,8 @@ void test_sequence(int size = 50000000)
 	}
 	{
 		std::list<type> lst;
-		for (int i = 0; i < count; ++i)
-			lst.push_back(i);
+		for (unsigned j = 0; j < count; ++j)
+			lst.push_back(static_cast<type>(j));
 
 		deq.resize(lst.size() / 2, 0);
 		seq.resize(lst.size() / 2, 0);
@@ -324,11 +325,11 @@ void test_sequence(int size = 50000000)
 	{
 		auto itd = deq.begin();
 		auto its = seq.begin();
-		int i = static_cast<int>(deq.size())-1;
+		type j = static_cast<type>(deq.size())-1;
 		while (itd != deq.end()) {
-			*itd++ = i;
-			*its++ = i;
-			--i;
+			*itd++ = j;
+			*its++ = j;
+			--j;
 		}
 	}
 
@@ -350,11 +351,11 @@ void test_sequence(int size = 50000000)
 	{
 		auto itd = deq.begin();
 		auto its = seq.begin();
-		int i = static_cast<int>(deq.size()) - 1;
+		type j = static_cast<type>(deq.size()) - 1;
 		while (itd != deq.end()) {
-			*itd++ = i;
-			*its++ = i;
-			--i;
+			*itd++ = j;
+			*its++ = j;
+			--j;
 		}
 	}
 
@@ -380,16 +381,16 @@ void test_sequence(int size = 50000000)
 		{
 			auto itd = d.begin();
 			auto its = dd.begin();
-			int i = 0;
+			type j = 0;
 			while (itd != d.end()) {
-				*itd++ = i;
-				*its++ = i;
-				++i;
+				*itd++ = j;
+				*its++ = j;
+				++j;
 			}
 		}
 
-		for (int i = 0; i < 50; ++i) {
-			int pos = i % 5;
+		for (int j = 0; j < 50; ++j) {
+			int pos = j % 5;
 			pos = static_cast<int>(d.size()) * pos / 4;
 			if (pos == static_cast<int>(d.size())) --pos;
 			dd.erase(dd.begin() + pos);
@@ -409,11 +410,11 @@ void test_sequence(int size = 50000000)
 	{
 		auto itd = deq.begin();
 		auto its = seq.begin();
-		int i = static_cast<int>(deq.size()) - 1;;
+		type j = static_cast<type>(deq.size()) - 1;;
 		while (itd != deq.end()) {
-			*itd++ = i;
-			*its++ = i;
-			--i;
+			*itd++ = j;
+			*its++ = j;
+			--j;
 		}
 	}
 
@@ -425,8 +426,8 @@ void test_sequence(int size = 50000000)
 	seq.resize(count);
 	deq.resize(count);
 	vec.resize(count);
-	for (size_t i = 0; i < vec.size(); ++i)
-		vec[i] = static_cast<type>(i);
+	for (size_t j = 0; j < vec.size(); ++j)
+		vec[j] = static_cast<type>(j);
 	seq::random_shuffle(vec.begin(), vec.end());
 	{
 		auto itd = deq.begin();
@@ -441,17 +442,17 @@ void test_sequence(int size = 50000000)
 	std::vector<int> ran_pos;
 	int ssize = static_cast<int>(vec.size());
 	srand(0);
-	for (int i = 0; i < /*100000*/count/10; ++i) {
+	for (unsigned j = 0; j < /*100000*/count/10; ++j) {
 		ran_pos.push_back(rand() % ssize--);
 	}
 
 	// Test erase random position
-	for (size_t i = 0; i < ran_pos.size(); ++i)
-		deq.erase(deq.begin() + ran_pos[i]);
+	for (size_t j = 0; j < ran_pos.size(); ++j)
+		deq.erase(deq.begin() + ran_pos[j]);
 	
 	auto tmp = seq.begin();
-	for (size_t i = 0; i < ran_pos.size(); ++i) {
-		tmp = seq.erase(seq.iterator_at(ran_pos[i]));
+	for (size_t j = 0; j < ran_pos.size(); ++j) {
+		tmp = seq.erase(seq.iterator_at(static_cast<size_t>(ran_pos[j])));
 	}
 	
 	SEQ_TEST(equal_seq(deq, seq));

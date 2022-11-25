@@ -135,7 +135,7 @@ namespace pdqsort_detail {
                 do { *sift-- = PDQSORT_PREFER_MOVE(*sift_1); } while (sift != begin && comp(tmp, *--sift_1));
 
                 *sift = PDQSORT_PREFER_MOVE(tmp);
-                limit += cur - sift;
+                limit += static_cast<size_t>(cur - sift);
             }
 
             if (limit > partial_insertion_sort_limit) return false;
@@ -164,8 +164,16 @@ namespace pdqsort_detail {
 #else
         std::size_t ip = reinterpret_cast<std::size_t>(p);
 #endif
-        ip = (ip + cacheline_size - 1) & -cacheline_size;
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#endif
+        ip =  (ip + cacheline_size - 1) & -cacheline_size;
         return reinterpret_cast<T*>(ip);
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
     }
 
     template<class Iter>
@@ -237,7 +245,7 @@ namespace pdqsort_detail {
             while (first < last) {
                 // Fill up offset blocks with elements that are on the wrong side.
                 // First we determine how much elements are considered for each offset block.
-                size_t num_unknown = last - first;
+                size_t num_unknown = static_cast<size_t>(last - first);
                 size_t left_split = num_l == 0 ? (num_r == 0 ? num_unknown / 2 : num_unknown) : 0;
                 size_t right_split = num_r == 0 ? (num_unknown - left_split) : 0;
 

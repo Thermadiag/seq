@@ -1,5 +1,6 @@
 var memory_8hpp =
 [
+    [ "spinlock", "classseq_1_1spinlock.html", "classseq_1_1spinlock" ],
     [ "MallocFree", "structseq_1_1detail_1_1_malloc_free.html", null ],
     [ "aligned_allocator", "classseq_1_1aligned__allocator.html", "classseq_1_1aligned__allocator" ],
     [ "rebind", "structseq_1_1aligned__allocator_1_1rebind.html", "structseq_1_1aligned__allocator_1_1rebind" ],
@@ -47,6 +48,7 @@ var memory_8hpp =
     [ "rebind", "structseq_1_1parallel__object__pool_1_1rebind.html", "structseq_1_1parallel__object__pool_1_1rebind" ],
     [ "is_parallel_object_pool", "structseq_1_1is__parallel__object__pool.html", null ],
     [ "is_parallel_object_pool< parallel_object_pool< T, Al, A, O, G > >", "structseq_1_1is__parallel__object__pool_3_01parallel__object__pool_3_01_t_00_01_al_00_01_a_00_01_o_00_01_g_01_4_01_4.html", null ],
+    [ "lock_type", "memory_8hpp.html#a08b2d69dbcef70f497dddb78e67603e6", null ],
     [ "thread_id", "memory_8hpp.html#a8e965e791df5b616ea81c89033637e8c", null ],
     [ "DefaultAlignment", "memory_8hpp.html#adac07c5c5e3d6da3ebb03f7ddd1e7cdea668d551cd99226655e9e973b6d5be517", null ],
     [ "deallocate_virtual_pool", "memory_8hpp.html#ad47ea97ae6d22ba92788429119e1d212", null ],

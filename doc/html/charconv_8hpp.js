@@ -7,6 +7,8 @@ var charconv_8hpp =
     [ "float_chars_format", "structseq_1_1detail_1_1float__chars__format.html", "structseq_1_1detail_1_1float__chars__format" ],
     [ "char_range", "structseq_1_1detail_1_1char__range.html", "structseq_1_1detail_1_1char__range" ],
     [ "string_range", "structseq_1_1detail_1_1string__range.html", "structseq_1_1detail_1_1string__range" ],
+    [ "NullValue", "structseq_1_1detail_1_1_null_value.html", null ],
+    [ "NullValue< Integral, true >", "structseq_1_1detail_1_1_null_value_3_01_integral_00_01true_01_4.html", null ],
     [ "float_tables", "structseq_1_1detail_1_1float__tables.html", "structseq_1_1detail_1_1float__tables" ],
     [ "from_chars_stream", "classseq_1_1detail_1_1from__chars__stream.html", "classseq_1_1detail_1_1from__chars__stream" ],
     [ "buffer_input_stream", "classseq_1_1buffer__input__stream.html", "classseq_1_1buffer__input__stream" ],

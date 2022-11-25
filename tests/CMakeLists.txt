@@ -28,6 +28,10 @@ endif()
 #set the most drastic flags    
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     target_compile_options(seq_tests PRIVATE /bigobj /WX /W3 /UNDEBUG)
+elseif(WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+	target_compile_options(seq_tests PRIVATE /std:c++14 -Wno-documentation-unknown-command -Wno-sizeof-pointer-memaccess -Wno-format-nonliteral -Wno-microsoft-cast -Wno-reserved-id-macro -Wno-float-equal -Wno-extra-semi-stmt -Wno-exit-time-destructors -Wno-documentation -Wno-c++98-compat -Wno-c++98-compat-pedantic -Werror -Wall -Wextra -Wold-style-cast -march=native -UNDEBUG  )
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+	target_compile_options(seq_tests PRIVATE -std=c++11 -Wno-documentation-unknown-command -Wno-sizeof-pointer-memaccess -Wno-format-nonliteral -Wno-reserved-id-macro -Wno-float-equal -Wno-error,-Wextra-semi-stmt -Wno-exit-time-destructors -Wno-documentation -Wno-c++98-compat -Wno-c++98-compat-pedantic -Werror -Wall -Wextra -Wold-style-cast -march=native -UNDEBUG  )
 else()
     target_compile_options(seq_tests PRIVATE -std=c++11 -Werror -Wall -Wextra -Wold-style-cast -march=native -UNDEBUG  )
 endif()
@@ -38,7 +42,7 @@ if (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 elseif(UNIX AND (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"))
     target_link_options(seq_tests PRIVATE  -lpthread )
 endif()
-
+ 
 add_definitions(-DSEQ_HEADER_ONLY)
 
 target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR})

@@ -68,7 +68,7 @@ void test_sequence_vs_colony(size_t count)
 
 	for (size_t i = 0; i < count; ++i)
 		shufle.push_back((T)i);
-	std::random_shuffle(shufle.begin(), shufle.end());
+	seq::random_shuffle(shufle.begin(), shufle.end());
 
 	
 

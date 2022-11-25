@@ -63,7 +63,7 @@ namespace seq
 }
 
 
-void test_format()
+inline void test_format()
 {
 
 	using namespace seq;

@@ -36,7 +36,7 @@
 struct Less
 {
 	bool operator()(const std::string& v1, const std::string& v2) const noexcept{
-		return seq::detail::string_inf(v1.data(), v1.data()+v1.size(), v2.data(), v2.data()+v2.size());
+		return seq::detail::string_inf(v1.data(), v1.size(), v2.data(), v2.size());
 	}
 	bool operator()(const tstring& s1, const tstring& s2) const noexcept {
 		return s1 < s2;
@@ -104,6 +104,8 @@ inline void test_sort_strings(size_t count = 1000000)
 		<< "|" << fmt(s2).c(30) << "|"
 		<< std::endl;
 
+	
+
 	cvector<tstring> cvec(vec.begin(), vec.end());
 	cvector<tstring> cvec_w(vec_w.begin(), vec_w.end());
 
@@ -112,6 +114,14 @@ inline void test_sort_strings(size_t count = 1000000)
 	s1 = test_sort2(cvec);
 	s2 = test_sort2(cvec_w);
 	std::cout << fmt(fmt(s1).c(40), "|", fmt(s2).c(40), "|") << std::endl;
+
+	std::sort(tvec.begin(), tvec.end());
+	std::sort(vec.begin(), vec.end());
+	std::sort(tvec_w.begin(), tvec_w.end());
+	std::sort(vec_w.begin(), vec_w.end());
+
+	SEQ_TEST(seq::equal(tvec.begin(), tvec.end(), vec.begin(), vec.end()) == true);
+	SEQ_TEST(seq::equal(tvec_w.begin(), tvec_w.end(), vec_w.begin(), vec_w.end()) == true);
 }
 
 

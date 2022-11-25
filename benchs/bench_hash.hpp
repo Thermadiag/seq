@@ -208,6 +208,10 @@ void test_hash(int count, Gen gen)
 		test_hash_set("seq::ordered_set", set, keys,f);
 	}
 	{
+		robin_hood::unordered_flat_set<T, Hash, std::equal_to<T>> set;
+		test_hash_set("robin_hood::unordered_flat_set", set, keys, f);
+	}
+	{
 		phmap::node_hash_set<T, Hash, std::equal_to<T>> set;
 		test_hash_set("phmap::node_hash_set", set, keys,f);
 	}

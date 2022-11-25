@@ -22,5 +22,9 @@ var structseq_1_1ordered__map_1_1iterator =
     [ "operator--", "structseq_1_1ordered__map_1_1iterator.html#a49119d751e6895d2e900020762ecaad8", null ],
     [ "operator-=", "structseq_1_1ordered__map_1_1iterator.html#a2a0164ea250197d46eb08deb297c896e", null ],
     [ "operator->", "structseq_1_1ordered__map_1_1iterator.html#a2ef51ea46ccdbf638f941ecd700e2247", null ],
-    [ "operator==", "structseq_1_1ordered__map_1_1iterator.html#a5d42ac83c1385b7fe46f992e6143a8f7", null ]
+    [ "operator<", "structseq_1_1ordered__map_1_1iterator.html#a6b195fbb7e7c656d3d22c721b0e96692", null ],
+    [ "operator<=", "structseq_1_1ordered__map_1_1iterator.html#aec9757da93b30393158f340368635007", null ],
+    [ "operator==", "structseq_1_1ordered__map_1_1iterator.html#a5d42ac83c1385b7fe46f992e6143a8f7", null ],
+    [ "operator>", "structseq_1_1ordered__map_1_1iterator.html#a90d52c576a2f6f384149e933ec9d0cf7", null ],
+    [ "operator>=", "structseq_1_1ordered__map_1_1iterator.html#ad1dd4ab46f56b977e53c05fbfdfba4d3", null ]
 ];

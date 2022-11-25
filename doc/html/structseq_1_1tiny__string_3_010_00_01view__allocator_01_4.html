@@ -338,7 +338,7 @@ Static Public Attributes</h2></td></tr>
 <tr class="separator:a6aa72c4944173d701e9303dae2ecba41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae29f05ece4da9467b0d29222f2248765"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#ae29f05ece4da9467b0d29222f2248765">max_static_size</a> = <a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#a6aa72c4944173d701e9303dae2ecba41">sso_max_capacity</a> - 1</td></tr>
 <tr class="separator:ae29f05ece4da9467b0d29222f2248765"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a5e76745567eb05f8907502b438e6dc"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#a7a5e76745567eb05f8907502b438e6dc">npos</a> = -1</td></tr>
+<tr class="memitem:a7a5e76745567eb05f8907502b438e6dc"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#a7a5e76745567eb05f8907502b438e6dc">npos</a> = static_cast&lt;size_t&gt;(-1)</td></tr>
 <tr class="separator:a7a5e76745567eb05f8907502b438e6dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -3599,7 +3599,7 @@ template&lt;class Iter &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr size_t <a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; 0, <a class="el" href="structseq_1_1view__allocator.html">view_allocator</a> &gt;::npos = -1</td>
+          <td class="memname">constexpr size_t <a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; 0, <a class="el" href="structseq_1_1view__allocator.html">view_allocator</a> &gt;::npos = static_cast&lt;size_t&gt;(-1)</td>
         </tr>
       </table>
   </td>

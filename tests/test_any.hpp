@@ -46,13 +46,13 @@
  		template<class T>
  		struct typed_type_info : type_info, any_typed_type_info<T, false> //disable hashing support
  		{
- 			virtual R call(const void* data, As... as) const
+ 			virtual R call(const void* data, As... as) const override
  			{
  				// Make sure that this interface is still suitable for non invocable types
 				return call_fun<R>(* static_cast<const T*>(data), std::forward<As>(as)...);
  				
  			}
- 			virtual const std::type_info& target_type() const
+ 			virtual const std::type_info& target_type() const override
  			{
  				return typeid(T);
  			}
@@ -85,7 +85,7 @@
  
  
  // dumy function 
- int divide(int a, int b) {return a / b;}
+ inline int divide(int a, int b) {return a / b;}
 
  template<class T>
  struct multiplies
@@ -104,7 +104,7 @@
 
 
 
-using namespace seq;
+
 
 template<size_t S>
 struct padding
@@ -134,14 +134,14 @@ struct Str : padding<S>
 	char* d_data;
 
 	Str()
-		:d_data(NULL) {}
+		:d_data(nullptr) {}
 	Str(const char* str)
-		:d_data(NULL) {
+		:d_data(nullptr) {
 		d_data = new char[strlen(str)+1];
 		my_strcpy(d_data, str);
 	}
 	Str(const Str& other)
-		:d_data(NULL) {
+		:d_data(nullptr) {
 		if (other.d_data) {
 			d_data = new char[strlen(other.d_data)+1];
 			my_strcpy(d_data, other.d_data);
@@ -149,7 +149,7 @@ struct Str : padding<S>
 	}
 	Str( Str&& other) noexcept
 		:d_data(other.d_data) {
-		other.d_data = NULL;
+		other.d_data = nullptr;
 	}
 	~Str() {
 		if (d_data)
@@ -161,7 +161,7 @@ struct Str : padding<S>
 	Str& operator=(const Str& other) {
 		if (d_data) {
 			delete[] d_data;
-			d_data = NULL;
+			d_data = nullptr;
 		}
 		if (other.d_data) {
 			d_data = new char[strlen(other.d_data)+1];
@@ -209,7 +209,7 @@ namespace std
 	{
 		size_t operator()(const Str<S, R>& s)
 		{
-			return s.empty() ? 0 : std::hash<tstring>{}(s.c_str());
+			return s.empty() ? 0 : std::hash<seq::tstring>{}(s.c_str());
 		}
 	};
 }
@@ -235,8 +235,8 @@ using big_non_pod = Str<4, false>;
  struct my_int_pair
 {
 	int a, b;
-	my_int_pair(int a = 0, int b = 0)
-		:a(a), b(b) {}
+	my_int_pair(int _a = 0, int _b = 0)
+		:a(_a), b(_b) {}
 	
 	// define conversion operator to std::string
 	operator std::string() const {
@@ -247,7 +247,7 @@ using big_non_pod = Str<4, false>;
 	}
 };
 	
-std::string pair_to_string(const std::pair<int, int>& p)
+inline std::string pair_to_string(const std::pair<int, int>& p)
 {
 	std::string res;
 	seq::fmt(p.first).append(res);
@@ -257,8 +257,10 @@ std::string pair_to_string(const std::pair<int, int>& p)
 
 
 
-void test_any()
+inline void test_any()
 {
+	using namespace seq;
+
 	static_assert(sizeof(small_pod) <= sizeof(double),"");
 	static_assert(sizeof(small_non_pod) <= sizeof(double),"");
 	static_assert(sizeof(big_pod) > sizeof(double), "");

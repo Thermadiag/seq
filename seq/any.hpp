@@ -668,6 +668,7 @@ namespace seq
 	public:
 		/// @brief Retrurns the type id
 		auto type_id() const noexcept -> int { return d_type_id; }
+		virtual ~any_type_info() {}
 		/// @brief Returns the size of underlying type
 		virtual auto sizeof_type() const noexcept -> size_t = 0;
 		/// @brief Destroy object
@@ -692,43 +693,43 @@ namespace seq
 	template<class T, bool SupportHash = true>
 	struct any_typed_type_info : virtual any_type_info
 	{
-		auto sizeof_type() const noexcept  -> size_t
+		auto sizeof_type() const noexcept  -> size_t override
 		{
 			return sizeof(T);
 		}
-		void destroy_any( void* in) const noexcept 
+		void destroy_any( void* in) const noexcept override
 		{
 			static_cast<T*>(in)->~T();
 		}
-		auto equal_any(const void* a, const void* b) const  -> bool
+		auto equal_any(const void* a, const void* b) const  -> bool override
 		{
 			return detail::compare_equal_any<T>(a, b);
 		}
-		auto less_any(const void* a, const void* b) const  -> bool
+		auto less_any(const void* a, const void* b) const  -> bool override
 		{
 			return detail::compare_less_any<T>(a, b);
 		}
-		auto hash_any(const void* in) const  -> size_t
+		auto hash_any(const void* in) const  -> size_t override
 		{
 			return detail::hash_any<T, SupportHash>(in);
 		}
-		void format_any(std::string& out,  const void* in, const width_format& wfmt, const numeric_format& nfmt) const 
+		void format_any(std::string& out,  const void* in, const width_format& wfmt, const numeric_format& nfmt) const  override
 		{
 			detail::format_any<T>(out, in, wfmt, nfmt);
 		}
-		void ostream_any( const void* in, std::ostream& oss) const 
+		void ostream_any( const void* in, std::ostream& oss) const override
 		{
 			return detail::ostream_any<T>(oss, in);
 		}
-		void istream_any( void* in, std::istream& iss) const 
+		void istream_any( void* in, std::istream& iss) const override
 		{
 			return detail::istream_any<T>(iss, in);
 		}
-		void copy_any(const any_type_info* in_p, const void* in, const any_type_info* out_p, void* out_storage, unsigned out_storage_size) const 
+		void copy_any(const any_type_info* in_p, const void* in, const any_type_info* out_p, void* out_storage, unsigned out_storage_size) const override
 		{
 			detail::copy_any<T>(in_p, in, out_p, out_storage, out_storage_size);
 		}
-		void move_any(const any_type_info* in_p, void* in, const any_type_info* out_p, void* out_storage, unsigned out_storage_size) const 
+		void move_any(const any_type_info* in_p, void* in, const any_type_info* out_p, void* out_storage, unsigned out_storage_size) const override
 		{
 			detail::move_any<T>(in_p, in, out_p, out_storage, out_storage_size);
 		}
@@ -845,7 +846,7 @@ namespace seq
 			void* d = &d_storage;
 			if (tag & detail::big_size) {
 				d = SEQ_ANY_MALLOC(size_T);
-				if (d == NULL)
+				if (d == nullptr)
 					throw std::bad_alloc();
 				memcpy(&d_storage, &d, sizeof(void*));
 			}
@@ -953,12 +954,12 @@ namespace seq
 			if(in_id >= static_cast<int>( detail::get_converters().size()))
 				throw std::bad_cast();
 			int out_id = out_p->type_id();
-			const auto& converts = detail::get_converters()[in_id];//info->d_convert;
-			if (out_id >= static_cast<int>(converts.size()) || !converts[out_id])
+			const auto& converts = detail::get_converters()[static_cast<size_t>(in_id)];//info->d_convert;
+			if (out_id >= static_cast<int>(converts.size()) || !converts[static_cast<size_t>(out_id)])
 				throw std::bad_cast();
 
 			type out;
-			converts[out_id](this->data(), &out);
+			converts[static_cast<size_t>(out_id)](this->data(), &out);
 			return out;
 		}
 
@@ -966,21 +967,21 @@ namespace seq
 
 		using type_info_type = TypeInfo;
 
-		/// @brief Returns the underlying object as a void*. Never returns a NULL pointer, even for empty object.
+		/// @brief Returns the underlying object as a void*. Never returns a nullptr pointer, even for empty object.
 		SEQ_ALWAYS_INLINE auto data() const noexcept -> const void* {
 			return (d_type_info.full() & detail::big_size) ? detail::read_void_p(&d_storage) : &d_storage;
 		}
-		/// @brief Returns the underlying object as a void*. Never returns a NULL pointer, even for empty object.
+		/// @brief Returns the underlying object as a void*. Never returns a nullptr pointer, even for empty object.
 		SEQ_ALWAYS_INLINE auto data() noexcept -> void* {
 			return (d_type_info.full() & detail::big_size) ? detail::read_void_p(&d_storage) : &d_storage;
 		}
 		/// @brief Returns the type information as a TypeInfo pointer. 
-		/// Returns NULL if the object is empty.
+		/// Returns nullptr if the object is empty.
 		SEQ_ALWAYS_INLINE auto type() noexcept -> TypeInfo* {
 			return d_type_info; 
 		}
 		/// @brief Returns the type information as a TypeInfo pointer. 
-		/// Returns NULL if the object is empty.
+		/// Returns nullptr if the object is empty.
 		SEQ_ALWAYS_INLINE auto type() const noexcept -> const TypeInfo* {
 			return d_type_info;
 		}
@@ -1627,7 +1628,7 @@ namespace seq
 
 			auto* i_t = this->type();
 			auto* o_t = get_type<type>();
-			type* out = NULL;
+			type* out = nullptr;
 			if (o_t == i_t) {
 				// same type
 				out = static_cast<type*>(this->data());
@@ -1639,7 +1640,7 @@ namespace seq
 				reset();
 				// set type info pointer
 				this->d_type_info = o_t;
-				void* d = NULL;
+				void* d = nullptr;
 				try {
 					// create memory chunk and tags, might throw
 					d = this->template alloc<type>();
@@ -1706,7 +1707,7 @@ namespace seq
 			}
 			else {
 				//copy data, might throw
-				other.type()->copy_any(other.type(), other.data(), NULL, &this->d_storage, static_size);
+				other.type()->copy_any(other.type(), other.data(), nullptr, &this->d_storage, static_size);
 			}
 			//copy type info
 			this->d_type_info = other.d_type_info;
@@ -1725,7 +1726,7 @@ namespace seq
 			}
 			else {
 				//move data, might throw
-				other.type()->move_any(other.type(), other.data(), NULL, &this->d_storage, (static_size));
+				other.type()->move_any(other.type(), other.data(), nullptr, &this->d_storage, (static_size));
 				// copy tag and info pointer on success
 				this->d_type_info = other.d_type_info;
 			}
@@ -1741,9 +1742,9 @@ namespace seq
 			// set the type info pointer
 			this->d_type_info = get_type<type>();
 
-			SEQ_ASSERT_DEBUG(this->d_type_info != NULL, "NULL type info");
+			SEQ_ASSERT_DEBUG(this->d_type_info != nullptr, "nullptr type info");
 
-			void* d = NULL;
+			void* d = nullptr;
 			try {
 				// returns (and potentially allocate) memory storage, might throw
 				d = this->template alloc<type>();
@@ -1776,7 +1777,7 @@ namespace seq
 			if (i_t != o_t) {
 				// reset this object content if its type is different than other's type
 				reset();
-				i_t = NULL;
+				i_t = nullptr;
 			}
 
 			if (!other.big_size() && !other.complex_copy()) {
@@ -1818,7 +1819,7 @@ namespace seq
 				// different type, clear this object
 				reset();
 				// move, might throw
-				o_t->move_any(o_t, other.data(), NULL, &this->d_storage, static_size);
+				o_t->move_any(o_t, other.data(), nullptr, &this->d_storage, static_size);
 				// copy type info with tags
 				this->d_type_info = other.d_type_info;
 			}
@@ -1842,7 +1843,7 @@ namespace seq
 				reset();
 				// set type info pointer
 				this->d_type_info = o_t;
-				void* d = NULL;
+				void* d = nullptr;
 				try {
 					// create memory chunk and tags, might throw
 					d = this->template alloc<type>();
@@ -1948,11 +1949,11 @@ namespace seq
 			// use registered comparison
 			if (a_id >= static_cast<int>(detail::get_equal_comparison().size()))
 				return false;
-			const auto& converts = detail::get_equal_comparison()[a_id];//info->d_convert;
+			const auto& converts = detail::get_equal_comparison()[static_cast<size_t>(a_id)];//info->d_convert;
 			int b_id = get_type_id<type>();
-			if (b_id >= static_cast<int>(converts.size()) || !converts[b_id])
+			if (b_id >= static_cast<int>(converts.size()) || !converts[static_cast<size_t>(b_id)])
 				return false;
-			return converts[b_id](this->data(), &other);
+			return converts[static_cast<size_t>(b_id)](this->data(), &other);
 		}
 
 		/// @brief Returns true if underlying object compares less than other
@@ -1992,10 +1993,10 @@ namespace seq
 			int b_id = get_type_id<type>();
 			if (a_id >= static_cast<int>(detail::get_less_comparison().size()))
 				return a_id < b_id;
-			const auto& converts = detail::get_less_comparison()[a_id];//info->d_convert;
-			if (b_id >= static_cast<int>(converts.size()) || !converts[b_id])
+			const auto& converts = detail::get_less_comparison()[static_cast<size_t>(a_id)];//info->d_convert;
+			if (b_id >= static_cast<int>(converts.size()) || !converts[static_cast<size_t>(b_id)])
 				return a_id < b_id;
-			return converts[b_id](this->data(), &other);
+			return converts[static_cast<size_t>(b_id)](this->data(), &other);
 		}
 
 		/// @brief Returns true if underlying object compares greater than other
@@ -2035,10 +2036,10 @@ namespace seq
 			int b_id = get_type_id<type>();
 			if (b_id >= static_cast<int>(detail::get_less_comparison().size()))
 				return b_id < a_id;
-			const auto& converts = detail::get_less_comparison()[b_id];//info->d_convert;
-			if (a_id >= static_cast<int>(converts.size()) || !converts[a_id])
+			const auto& converts = detail::get_less_comparison()[static_cast<size_t>(b_id)];//info->d_convert;
+			if (a_id >= static_cast<int>(converts.size()) || !converts[static_cast<size_t>(a_id)])
 				return b_id < a_id;
-			return converts[a_id](&other, this->data());
+			return converts[static_cast<size_t>(a_id)](&other, this->data());
 		}
 
 		/// @brief Equality comparison operator
@@ -2074,10 +2075,10 @@ namespace seq
 			// use registered comparison
 			if (a_id >= static_cast<int>(detail::get_equal_comparison().size()))
 				return false;
-			const auto& converts = detail::get_equal_comparison()[a_id];//info->d_convert;
-			if (b_id >= static_cast<int>(converts.size()) || !converts[b_id])
+			const auto& converts = detail::get_equal_comparison()[static_cast<size_t>(a_id)];//info->d_convert;
+			if (b_id >= static_cast<int>(converts.size()) || !converts[static_cast<size_t>(b_id)])
 				return false;
-			return converts[b_id](this->data(),other.data());
+			return converts[static_cast<size_t>(b_id)](this->data(),other.data());
 		}
 		auto operator != (const hold_any& other) const -> bool
 		{
@@ -2121,10 +2122,10 @@ namespace seq
 			// use registered comparison
 			if (a_id >= static_cast<int>( detail::get_less_comparison().size()))
 				return a_id < b_id;
-			const auto& converts = detail::get_less_comparison()[a_id];//info->d_convert;
-			if (b_id >= static_cast<int>(converts.size()) || !converts[b_id])
+			const auto& converts = detail::get_less_comparison()[static_cast<size_t>(a_id)];//info->d_convert;
+			if (b_id >= static_cast<int>(converts.size()) || !converts[static_cast<size_t>(b_id)])
 				return a_id < b_id;
-			return converts[b_id](this->data(), other.data());
+			return converts[static_cast<size_t>(b_id)](this->data(), other.data());
 		}
 		auto operator <= (const hold_any& other) const -> bool
 		{
@@ -2146,26 +2147,26 @@ namespace seq
 	template<class T, class U>
 	void register_any_conversion()
 	{
-		const int in_id = get_type_id<T>();
-		const int out_id = get_type_id<U>();
-		if (static_cast<int>(detail::get_converters().size()) <= in_id)
-			detail::get_converters().resize(static_cast<size_t>(in_id + 1));
+		const size_t in_id = static_cast<size_t>(get_type_id<T>());
+		const size_t out_id = static_cast<size_t>(get_type_id<U>());
+		if (detail::get_converters().size() <= in_id)
+			detail::get_converters().resize(in_id + 1);
 		auto& converts = detail::get_converters()[in_id];
-		if (static_cast<int>(converts.size()) <= out_id)
-			converts.resize(static_cast<size_t>(out_id + 1));
+		if (converts.size() <= out_id)
+			converts.resize(out_id + 1);
 		converts[out_id] = std::function<void(const void*, void*)>(detail::default_convert<T, U>);
 	}
 	/// @brief Register a conversion function using given functor
 	template<class T, class U, class Fun>
 	void register_any_conversion(Fun  fun)
 	{
-		const int in_id = get_type_id<T>();
-		const int out_id = get_type_id<U>();
-		if (static_cast<int>(detail::get_converters().size()) <= in_id)
-			detail::get_converters().resize(static_cast<size_t>(in_id + 1));
+		const size_t in_id = static_cast<size_t>(get_type_id<T>());
+		const size_t out_id = static_cast<size_t>(get_type_id<U>());
+		if (detail::get_converters().size() <= in_id)
+			detail::get_converters().resize(in_id + 1);
 		auto& converts = detail::get_converters()[in_id];
-		if (static_cast<int>(converts.size()) <= out_id)
-			converts.resize(static_cast<size_t>(out_id + 1));
+		if (converts.size() <= out_id)
+			converts.resize(out_id + 1);
 		converts[out_id] = std::function<void(const void*, void*)>(std::bind(detail::default_convert_with_functor<T, U, Fun>, fun, std::placeholders::_1, std::placeholders::_2));
 	}
 
@@ -2173,26 +2174,26 @@ namespace seq
 	template<class T, class U>
 	void register_any_less_comparison()
 	{
-		const int in_id = get_type_id<T>();
-		const int out_id = get_type_id<U>();
-		if (static_cast<int>(detail::get_less_comparison().size()) <= in_id)
-			detail::get_less_comparison().resize(static_cast<size_t>(in_id + 1));
+		const size_t in_id = static_cast<size_t>(get_type_id<T>());
+		const size_t out_id = static_cast<size_t>(get_type_id<U>());
+		if (detail::get_less_comparison().size() <= in_id)
+			detail::get_less_comparison().resize(in_id + 1);
 		auto& converts = detail::get_less_comparison()[in_id];
-		if (static_cast<int>(converts.size()) <= out_id)
-			converts.resize(static_cast<size_t>(out_id + 1));
+		if (converts.size() <= out_id)
+			converts.resize(out_id + 1);
 		converts[out_id] = std::function<bool(const void*, const void*)>(detail::default_less_comparison<T, U>);
 	}
 	/// @brief Register a comparison function between types T and U based on given functor
 	template<class T, class U, class Fun>
 	void register_any_less_comparison(Fun  fun)
 	{
-		const int in_id = get_type_id<T>();
-		const int out_id = get_type_id<U>();
-		if (static_cast<int>(detail::get_less_comparison().size()) <= in_id)
-			detail::get_less_comparison().resize(static_cast<size_t>(in_id + 1));
+		const size_t in_id = static_cast<size_t>(get_type_id<T>());
+		const size_t out_id = static_cast<size_t>(get_type_id<U>());
+		if (detail::get_less_comparison().size() <= in_id)
+			detail::get_less_comparison().resize(in_id + 1);
 		auto& converts = detail::get_less_comparison()[in_id];
-		if (static_cast<int>(converts.size()) <= out_id)
-			converts.resize(static_cast<size_t>(out_id + 1));
+		if (converts.size() <= out_id)
+			converts.resize(out_id + 1);
 		converts[out_id] = std::function<bool(const void*, const void*)>(std::bind(detail::default_less_comparison_with_functor<T, U, Fun>, fun, std::placeholders::_1, std::placeholders::_2));
 	}
 
@@ -2201,13 +2202,13 @@ namespace seq
 	template<class T, class U>
 	void register_any_equal_comparison()
 	{
-		const int in_id = get_type_id<T>();
-		const int out_id = get_type_id<U>();
-		if (static_cast<int>(detail::get_equal_comparison().size()) <= in_id)
-			detail::get_equal_comparison().resize(static_cast<size_t>(in_id + 1));
+		const size_t in_id = static_cast<size_t>(get_type_id<T>());
+		const size_t out_id = static_cast<size_t>(get_type_id<U>());
+		if (detail::get_equal_comparison().size() <= in_id)
+			detail::get_equal_comparison().resize(in_id + 1);
 		auto& converts = detail::get_equal_comparison()[in_id];
-		if (static_cast<int>(converts.size()) <= out_id)
-			converts.resize(static_cast<size_t>(out_id + 1));
+		if (converts.size() <= out_id)
+			converts.resize(out_id + 1);
 		converts[out_id] = std::function<bool(const void*, const void*)>(detail::default_equal_comparison<T, U>);
 	}
 
@@ -2215,13 +2216,13 @@ namespace seq
 	template<class T, class U, class Fun>
 	void register_any_equal_comparison(Fun  fun)
 	{
-		const int in_id = get_type_id<T>();
-		const int out_id = get_type_id<U>();
-		if (static_cast<int>(detail::get_equal_comparison().size()) <= in_id)
-			detail::get_equal_comparison().resize(static_cast<size_t>(in_id + 1));
+		const size_t in_id = static_cast<size_t>(get_type_id<T>());
+		const size_t out_id = static_cast<size_t>(get_type_id<U>());
+		if (detail::get_equal_comparison().size() <= in_id)
+			detail::get_equal_comparison().resize(in_id + 1);
 		auto& converts = detail::get_equal_comparison()[in_id];
-		if (static_cast<int>(converts.size()) <= out_id)
-			converts.resize(static_cast<size_t>(out_id + 1));
+		if (converts.size() <= out_id)
+			converts.resize(out_id + 1);
 		converts[out_id] = std::function<bool(const void*, const void*)>(std::bind(detail::default_equal_comparison_with_functor<T, U, Fun>, fun, std::placeholders::_1, std::placeholders::_2));
 	}
 
@@ -2327,7 +2328,7 @@ namespace seq
 	{
 		if (operand->type() == hold_any<Interface>::template get_type<T>())
 			return static_cast<const T*>(operand->data());
-		return NULL;
+		return nullptr;
 	}
 
 	template<class T, class Interface, size_t S, size_t A>
@@ -2335,7 +2336,7 @@ namespace seq
 	{
 		if (operand->type() == hold_any<Interface>::template get_type<T>())
 			return static_cast<T*>(operand->data());
-		return NULL;
+		return nullptr;
 	}
 
 	template< class Any, class T, class... Args >

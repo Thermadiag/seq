@@ -33,7 +33,7 @@
 
 namespace std
 {
-#if __GNUG__ && __GNUC__ < 5
+#if defined(__GNUG__) && (__GNUC__ < 5)
 
 	// Reimplement the wheel for older gcc
 

@@ -6,7 +6,7 @@ var classseq_1_1tagged__pointer =
     [ "reference", "classseq_1_1tagged__pointer.html#a0a31a311f202587b722bf475ab5ff871", null ],
     [ "tag_type", "classseq_1_1tagged__pointer.html#afa5b19ccdcafd6238084881b8e58e62d", null ],
     [ "value_type", "classseq_1_1tagged__pointer.html#a6d6537c17ad6575a90d6c31a45fe5fd4", null ],
-    [ "tagged_pointer", "classseq_1_1tagged__pointer.html#a241a36a71af404759c07a47ae917f611", null ],
+    [ "tagged_pointer", "classseq_1_1tagged__pointer.html#af95548bb752ea512bfb8350e12371b68", null ],
     [ "tagged_pointer", "classseq_1_1tagged__pointer.html#a4b31c6d20319ea3f80c3eea458e21129", null ],
     [ "full", "classseq_1_1tagged__pointer.html#af53c2efa11db5991efdb04dc41441e5c", null ],
     [ "operator const_pointer", "classseq_1_1tagged__pointer.html#ab6649ff2f8ca5946df1f5717133cfd3e", null ],

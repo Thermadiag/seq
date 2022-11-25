@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef _MSC_VER
+#if defined( _MSC_VER) && !defined(__clang__)
  // Silence msvc warning message about alignment
 #define _ENABLE_EXTENDED_ALIGNED_STORAGE
 #endif

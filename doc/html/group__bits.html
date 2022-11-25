@@ -125,17 +125,15 @@ Macros</h2></td></tr>
 <tr class="separator:ga458a6f1416c90c631f1b457abca13345"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1cbb44da4a53751136f4dc9e91955349"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga1cbb44da4a53751136f4dc9e91955349">SEQ_ARCH_32</a></td></tr>
 <tr class="separator:ga1cbb44da4a53751136f4dc9e91955349"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4358957bf3c41e772ade27671699c4e6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a>&#160;&#160;&#160;alignof(std::max_align_t)</td></tr>
-<tr class="separator:ga4358957bf3c41e772ade27671699c4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga72391f4e9dec6b03cd65e4fa6e737b47"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga72391f4e9dec6b03cd65e4fa6e737b47">SEQ_ABORT</a>(...)</td></tr>
 <tr class="separator:ga72391f4e9dec6b03cd65e4fa6e737b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3af9d45fb1cb5d6a17fdb3404b472f78"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga3af9d45fb1cb5d6a17fdb3404b472f78">SEQ_OFFSETOF</a>(s,  m)&#160;&#160;&#160;(reinterpret_cast&lt;::size_t&gt;(&amp;reinterpret_cast&lt;char const volatile&amp;&gt;(((static_cast&lt;const s*&gt;(__dummy_ptr_with_long_name))-&gt;m))))</td></tr>
 <tr class="separator:ga3af9d45fb1cb5d6a17fdb3404b472f78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf427dbbb22afdab4e465d9f62bb68ba9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#gaf427dbbb22afdab4e465d9f62bb68ba9">SEQ_CONSTEXPR</a></td></tr>
 <tr class="separator:gaf427dbbb22afdab4e465d9f62bb68ba9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae4a7019ba7c6381482288d4f2a24246a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#gae4a7019ba7c6381482288d4f2a24246a">_SEQ_PRAGMA</a>(text)&#160;&#160;&#160;_Pragma(#text)</td></tr>
-<tr class="separator:gae4a7019ba7c6381482288d4f2a24246a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga06eb095185f16889bec1c2207f0e101d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga06eb095185f16889bec1c2207f0e101d">SEQ_PRAGMA</a>(text)&#160;&#160;&#160;<a class="el" href="group__bits.html#gae4a7019ba7c6381482288d4f2a24246a">_SEQ_PRAGMA</a>(text)</td></tr>
+<tr class="memitem:ga3927d2081afc2b471ef8a17517830271"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga3927d2081afc2b471ef8a17517830271">SEQ_INTERNAL_PRAGMA</a>(text)&#160;&#160;&#160;_Pragma(#text)</td></tr>
+<tr class="separator:ga3927d2081afc2b471ef8a17517830271"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga06eb095185f16889bec1c2207f0e101d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga06eb095185f16889bec1c2207f0e101d">SEQ_PRAGMA</a>(text)&#160;&#160;&#160;<a class="el" href="group__bits.html#ga3927d2081afc2b471ef8a17517830271">SEQ_INTERNAL_PRAGMA</a>(text)</td></tr>
 <tr class="separator:ga06eb095185f16889bec1c2207f0e101d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaaf29ff69ae3d251b8e68651482bdc280"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#gaaf29ff69ae3d251b8e68651482bdc280">SEQ_NOINLINE</a>(...)&#160;&#160;&#160;__VA_ARGS__ __attribute__((noinline))</td></tr>
 <tr class="separator:gaaf29ff69ae3d251b8e68651482bdc280"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,6 +145,8 @@ Macros</h2></td></tr>
 <tr class="separator:gaac3e750dd623d4a1ef045f0faa734e08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga371649b7712afb0bb3b2781aeddf45d9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga371649b7712afb0bb3b2781aeddf45d9">SEQ_UNLIKELY</a>(x)&#160;&#160;&#160;__builtin_expect (!!(x), 0)</td></tr>
 <tr class="separator:ga371649b7712afb0bb3b2781aeddf45d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2ef4db29c4c12c8f5d9203243649dc71"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga2ef4db29c4c12c8f5d9203243649dc71">SEQ_HAS_EXPECT</a></td></tr>
+<tr class="separator:ga2ef4db29c4c12c8f5d9203243649dc71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga55ced08c31bd12c443136cc314819992"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga55ced08c31bd12c443136cc314819992">SEQ_INLINE</a>&#160;&#160;&#160;<a class="el" href="group__bits.html#ga00d24c7231be28dbaf71f5408f30e44c">inline</a></td></tr>
 <tr class="separator:ga55ced08c31bd12c443136cc314819992"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga68ad5ff4a759a2a341569a42f9ba2e44"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a>&#160;&#160;&#160;<a class="el" href="group__bits.html#ga00d24c7231be28dbaf71f5408f30e44c">inline</a></td></tr>
@@ -171,6 +171,8 @@ Macros</h2></td></tr>
 <tr class="separator:gaca71eb8581a4867a6eb7fc1d5e65b9b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga15b108df9e786a28e99c8a6e70d51b57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga15b108df9e786a28e99c8a6e70d51b57">SEQ_HAS_MINGW_ALIGNED_MALLOC</a>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:ga15b108df9e786a28e99c8a6e70d51b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0dde73fc6be57dafdd73b027dcef79a0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga0dde73fc6be57dafdd73b027dcef79a0">SEQ_HAS_ALIGNED_ALLOCATION</a></td></tr>
+<tr class="separator:ga0dde73fc6be57dafdd73b027dcef79a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2e12dfd1209d2791136221bb807e8b21"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#ga2e12dfd1209d2791136221bb807e8b21">GNUC_PREREQ</a>(x,  y)&#160;&#160;&#160;0</td></tr>
 <tr class="separator:ga2e12dfd1209d2791136221bb807e8b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac95dddc8d05cdc27531e99aa65535c53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__bits.html#gac95dddc8d05cdc27531e99aa65535c53">CLANG_PREREQ</a>(x,  y)&#160;&#160;&#160;0</td></tr>
@@ -248,24 +250,6 @@ Macros</h2></td></tr>
           <td class="paramtype">&#160;</td>
           <td class="paramname">x</td><td>)</td>
           <td>&#160;&#160;&#160;0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="gae4a7019ba7c6381482288d4f2a24246a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae4a7019ba7c6381482288d4f2a24246a">&#9670;&nbsp;</a></span>_SEQ_PRAGMA</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define _SEQ_PRAGMA</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">text</td><td>)</td>
-          <td>&#160;&#160;&#160;_Pragma(#text)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -478,20 +462,6 @@ Macros</h2></td></tr>
 
 </div>
 </div>
-<a id="ga4358957bf3c41e772ade27671699c4e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga4358957bf3c41e772ade27671699c4e6">&#9670;&nbsp;</a></span>SEQ_DEFAULT_ALIGNMENT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define SEQ_DEFAULT_ALIGNMENT&#160;&#160;&#160;alignof(std::max_align_t)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ga7fcb9cdceaaee010cedfa87de0f0fa69"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga7fcb9cdceaaee010cedfa87de0f0fa69">&#9670;&nbsp;</a></span>SEQ_ERROR_ALLOC</h2>
 
@@ -635,6 +605,20 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a id="ga0dde73fc6be57dafdd73b027dcef79a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0dde73fc6be57dafdd73b027dcef79a0">&#9670;&nbsp;</a></span>SEQ_HAS_ALIGNED_ALLOCATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SEQ_HAS_ALIGNED_ALLOCATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="gaca71eb8581a4867a6eb7fc1d5e65b9b7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaca71eb8581a4867a6eb7fc1d5e65b9b7">&#9670;&nbsp;</a></span>SEQ_HAS_ALIGNED_MALLOC</h2>
 
@@ -643,6 +627,20 @@ Macros</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define SEQ_HAS_ALIGNED_MALLOC&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga2ef4db29c4c12c8f5d9203243649dc71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2ef4db29c4c12c8f5d9203243649dc71">&#9670;&nbsp;</a></span>SEQ_HAS_EXPECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SEQ_HAS_EXPECT</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -713,6 +711,24 @@ Macros</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">#define SEQ_INLINE&#160;&#160;&#160;<a class="el" href="group__bits.html#ga00d24c7231be28dbaf71f5408f30e44c">inline</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ga3927d2081afc2b471ef8a17517830271"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3927d2081afc2b471ef8a17517830271">&#9670;&nbsp;</a></span>SEQ_INTERNAL_PRAGMA</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SEQ_INTERNAL_PRAGMA</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">text</td><td>)</td>
+          <td>&#160;&#160;&#160;_Pragma(#text)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -808,7 +824,7 @@ Macros</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">text</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="group__bits.html#gae4a7019ba7c6381482288d4f2a24246a">_SEQ_PRAGMA</a>(text)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="group__bits.html#ga3927d2081afc2b471ef8a17517830271">SEQ_INTERNAL_PRAGMA</a>(text)</td>
         </tr>
       </table>
 </div><div class="memdoc">

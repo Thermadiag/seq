@@ -644,7 +644,7 @@ Public Member Functions</h2></td></tr>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a934a22fba51d21df5a9e14aa91b1e664"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiny__string.html#a934a22fba51d21df5a9e14aa91b1e664">max_static_size</a> = sso_max_capacity - 1</td></tr>
 <tr class="separator:a934a22fba51d21df5a9e14aa91b1e664"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa36fb6e1186f077111b5529b3a92bc7"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiny__string.html#afa36fb6e1186f077111b5529b3a92bc7">npos</a> = -1</td></tr>
+<tr class="memitem:afa36fb6e1186f077111b5529b3a92bc7"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiny__string.html#afa36fb6e1186f077111b5529b3a92bc7">npos</a> = static_cast&lt;size_t&gt;( -1)</td></tr>
 <tr class="separator:afa36fb6e1186f077111b5529b3a92bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
@@ -7662,7 +7662,7 @@ template&lt;size_t MaxStaticSize = 0, class Allocator  = std::allocator&lt;char&
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr size_t <a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; MaxStaticSize, Allocator &gt;::npos = -1</td>
+          <td class="memname">constexpr size_t <a class="el" href="classseq_1_1tiny__string.html">seq::tiny_string</a>&lt; MaxStaticSize, Allocator &gt;::npos = static_cast&lt;size_t&gt;( -1)</td>
         </tr>
       </table>
   </td>

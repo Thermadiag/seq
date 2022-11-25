@@ -29,10 +29,14 @@
 #include "utils.hpp"
 #include "testing.hpp"
 
+inline double promote(float val) { return static_cast<double>(val); }
+inline double promote(double val) { return val; }
+inline long double promote(long double val) { return val; }
 
 template<class T>
 int __float_to_string_seq(T val, seq::chars_format fmt, int prec, char *dst, char * end)
 {
+	using namespace seq;
 	int size = static_cast<int>(seq::to_chars(dst, end, val, fmt, prec).ptr - dst);
 	dst[size] = 0;
 	return size;
@@ -40,6 +44,7 @@ int __float_to_string_seq(T val, seq::chars_format fmt, int prec, char *dst, cha
 template<class T>
 int __float_to_string_printf(T val, seq::chars_format fmt, int prec, char* dst, char* end)
 {
+	using namespace seq;
 	std::ostringstream oss;
 	if (fmt == seq::general) {
 		if(std::is_same<T,long double>::value)
@@ -60,13 +65,14 @@ int __float_to_string_printf(T val, seq::chars_format fmt, int prec, char* dst, 
 			oss << "%." << prec<< "f";
 	}
 
-	snprintf(dst,end-dst, oss.str().c_str(), val);
+	snprintf(dst,static_cast<size_t>(end-dst), oss.str().c_str(), promote(val));
 	return static_cast<int>(strlen(dst));
 }
 
 template<class T>
 bool __test_read_val(const char* src)
 {
+	using namespace seq;
 	std::istringstream iss(src);
 	T v;
 	iss >> v;
@@ -90,6 +96,7 @@ int exponent(T v)
 template<class T>
 bool __test_equal(const char* s1, const char* s2, seq::chars_format fmt, int prec)
 {	
+	using namespace seq;
 	int l1 = static_cast<int>(strlen(s1));
 	//int l2 = (int)strlen(s2);
 
@@ -164,19 +171,20 @@ bool __test_equal(const char* s1, const char* s2, seq::chars_format fmt, int pre
 
 
 template<class T>
-void test_to_chars(int count, seq::chars_format fmt, int p)
+void test_to_chars(unsigned count, seq::chars_format fmt, int p)
 {
+	using namespace seq;
 	std::cout << "test charconv for " << count << " random " << typeid(T).name() << " with precision " << p << " and type " << (fmt == seq::scientific ? "scientific" : (fmt == seq::fixed ? "fixed" : "general")) << std::endl;
 
 	random_float_genertor<T> rgn;
 	std::vector<T> vals;
-	for (int i = 0; i < count; ++i)
+	for (unsigned i = 0; i < count; ++i)
 		vals.push_back(rgn());
 
 	char dst1[1000];
 	char dst2[1000];
 	
-	for (int i = 0; i < count; ++i)
+	for (unsigned i = 0; i < count; ++i)
 	{
 		
 
@@ -193,7 +201,7 @@ void test_to_chars(int count, seq::chars_format fmt, int p)
 		catch (...)
 		{
 			//SEQ_TEST(__test_equal<T>(dst1, dst2,fmt, p));
-			std::cout << "error while parsing " << dst1 << " (seq) and " << dst2 << " (printf) for value " << std::setprecision(p+6) << vals[i]<<  std::endl;
+			std::cout << "error while parsing " << dst1 << " (seq) and " << dst2 << " (printf) for value " << std::setprecision(static_cast<unsigned>(p+6)) << vals[i]<<  std::endl;
 			throw;
 		}
 		
@@ -201,7 +209,7 @@ void test_to_chars(int count, seq::chars_format fmt, int p)
 }
 
 
-void test_charconv(int count = 100000, int max_precision = 50)
+inline void test_charconv(unsigned count = 100000, int max_precision = 50)
 {
 
 	for (int p = 0; p < max_precision; ++p)

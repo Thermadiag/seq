@@ -29,7 +29,7 @@
 #include "flat_map.hpp"
 #include <iostream>
 
-using namespace seq;
+
 
 template<class T, class U>
 bool set_equals(const T& s1, const U& s2)
@@ -63,14 +63,14 @@ struct rebind
 {
 };
 template<class T, class U>
-struct rebind<flat_set<T> ,U>
+struct rebind<seq::flat_set<T> ,U>
 {
-	using type = flat_set<U>;
+	using type = seq::flat_set<U>;
 };
 template<class T, class U>
-struct rebind<flat_multiset<T>, U>
+struct rebind<seq::flat_multiset<T>, U>
 {
-	using type = flat_multiset<U>;
+	using type = seq::flat_multiset<U>;
 };
 template<class T, class U>
 struct rebind<std::set<T>, U>
@@ -89,7 +89,8 @@ struct rebind<std::multiset<T>, U>
 template<class set_type, class std_set_type, bool Unique>
 inline void test_flat_set_or_multi_logic()
 {
-	
+	using namespace seq;
+	using value_type = typename set_type::value_type;
 	{
 		//test construct from initializer list
 		set_type set = { 1,9,2,8,3,7,4,6,5,2, 7 };
@@ -291,15 +292,147 @@ inline void test_flat_set_or_multi_logic()
 		uset.clear();
 		SEQ_TEST(set_equals(set, uset));
 	}
+
+
+	{
+		std::vector<value_type> vals;
+		for (int i = 0; i < 100000; ++i)
+			vals.push_back(static_cast<value_type>(i));
+		seq::random_shuffle(vals.begin(), vals.end());
+
+		std_set_type ref;
+		ref.insert(vals.begin(), vals.begin() + vals.size() / 2);
+
+		
+		set_type set;
+		set.insert(vals.begin(), vals.begin() + vals.size() / 2);
+
+		//compare flat_set with std::set
+		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
+
+		// add already existing values
+		set.insert(vals.begin(), vals.begin() + vals.size() / 2);
+		ref.insert(vals.begin(), vals.begin() + vals.size() / 2);
+		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
+
+		// add already existing values one by one
+		for (size_t i = 0; i < vals.size() / 2; ++i)
+		{
+			set.insert(vals[i]);
+			ref.insert(vals[i]);
+		}
+		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
+
+		// test find_pos
+		for (size_t i = 0; i < vals.size() / 2; ++i)
+		{
+			SEQ_TEST(set.find_pos(vals[i]) != set.size());
+		}
+		for (size_t i = vals.size() / 2; i < vals.size() ; ++i)
+			SEQ_TEST(set.find_pos(vals[i]) == set.size());
+	}
+
+	{
+		// do the same as above with sorted values
+		std::vector<value_type> vals;
+		for (int i = 0; i < 100000; ++i)
+			vals.push_back(static_cast<value_type>(i));
+
+		std_set_type ref;
+		ref.insert(vals.begin(), vals.begin() + vals.size() / 2);
+
+		set_type set;
+		set.insert(vals.begin(), vals.begin() + vals.size() / 2);
+
+		//compare flat_set with std::set
+		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
+
+		// add already existing values one by one
+		for (size_t i = 0; i < vals.size() / 2; ++i)
+		{
+			set.insert(vals[i]);
+			ref.insert(vals[i]);
+		}
+		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
+
+		// test find_pos
+		for (size_t i = 0; i < vals.size() / 2; ++i)
+			SEQ_TEST(set.find_pos(vals[i]) != set.size());
+		for (size_t i = vals.size() / 2; i < vals.size() ; ++i)
+			SEQ_TEST(set.find_pos(vals[i]) == set.size());
+	}
+	{
+		// do the same as above with sorted values abnd insert one by one
+		std::vector<value_type> vals;
+		for (int i = 0; i < 100000; ++i)
+			vals.push_back(static_cast<value_type>(i));
+
+		std_set_type ref;
+		ref.insert(vals.begin(), vals.begin() + vals.size() / 2);
+
+		set_type set;
+		for (size_t i = 0; i < vals.size() / 2; ++i)
+			set.insert(vals[i]);
+
+		//compare flat_set with std::set
+		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
+
+		// add already existing values one by one
+		for (size_t i = 0; i < vals.size() / 2; ++i)
+		{
+			set.insert(vals[i]);
+			ref.insert(vals[i]);
+		}
+		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
+
+		// test find_pos
+		for (size_t i = 0; i < vals.size() / 2; ++i)
+			SEQ_TEST(set.find_pos(vals[i]) != set.size());
+		for (size_t i = vals.size() / 2; i < vals.size() ; ++i)
+			SEQ_TEST(set.find_pos(vals[i]) == set.size());
+	}
+	{
+		// do the same as above with random values and insert one by one
+		std::vector<value_type> vals;
+		for (int i = 0; i < 100000; ++i)
+			vals.push_back(static_cast<value_type>(i));
+		seq::random_shuffle(vals.begin(), vals.end());
+
+		std_set_type ref;
+		ref.insert(vals.begin(), vals.begin() + vals.size() / 2);
+
+		set_type set;
+		for (size_t i = 0; i < vals.size() / 2; ++i)
+			set.insert(vals[i]);
+
+		//compare flat_set with std::set
+		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
+
+		// add already existing values one by one
+		for (size_t i = 0; i < vals.size() / 2; ++i)
+		{
+			set.insert(vals[i]);
+			ref.insert(vals[i]);
+		}
+		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
+
+		// test find_pos
+		for (size_t i = 0; i < vals.size() / 2; ++i)
+			SEQ_TEST(set.find_pos(vals[i]) != set.size());
+		for (size_t i = vals.size() / 2; i < vals.size() ; ++i)
+			SEQ_TEST(set.find_pos(vals[i]) == set.size());
+	}
 }
 
 
 inline void test_flat_set_logic()
 {
+	using namespace seq;
 	test_flat_set_or_multi_logic<flat_set<double>, std::set<double>, true>();
 }
 inline void test_flat_multiset_logic()
 {
+	using namespace seq;
 	test_flat_set_or_multi_logic<flat_multiset<double>, std::multiset<double>, false>();
 }
 
@@ -309,6 +442,7 @@ inline void test_flat_multiset_logic()
 template<class map_type, class umap_type, bool Unique>
 inline void test_flat_map_or_multi_logic()
 {
+	using namespace seq;
 	{
 		//test construct from initializer list
 		map_type set = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
@@ -546,6 +680,7 @@ inline void test_flat_map_or_multi_logic()
 template<class map_type, class umap_type>
 inline void test_flat_multimap_logic()
 {
+	using namespace seq;
 	{
 		//test construct from initializer list
 		map_type set = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
@@ -724,10 +859,12 @@ inline void test_flat_multimap_logic()
 
 inline void test_flat_map_logic()
 {
+	using namespace seq;
 	test_flat_map_or_multi_logic<flat_map<double,double>, std::map<double,double>, true>();
 }
 inline void test_flat_multimap_logic()
 {
+	using namespace seq;
 	test_flat_multimap_logic < flat_multimap<double, double>, std::multimap<double, double >  > ();
 }
 

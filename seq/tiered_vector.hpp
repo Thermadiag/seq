@@ -52,7 +52,7 @@ namespace seq
 
 	namespace detail
 	{
-		template<class T, bool Wide = (sizeof(T) > 8) >
+		template<class T, bool Wide = (sizeof(T) > 16) >
 		struct lower_bound
 		{
 			template<class U, class Le>
@@ -63,15 +63,17 @@ namespace seq
 			}
 		};
 
-#ifndef _MSC_VER
+#if !defined( _MSC_VER) || defined(__clang__)
 		template<class T>
 		struct lower_bound<T,false>
 		{
 			template<class U, class Le>
 			SEQ_ALWAYS_INLINE static int apply(const T* ptr, int size, const U& value, const Le& le)
 			{
+				static constexpr int end_of_probe =  sizeof(T) >= 16 ? 8 : 16;
+
 				int low = 0;
-				while ((size > 16)) {
+				while ((size > end_of_probe)) {
 					int half = size / 2;
 					int other_half = size - half;
 					int probe = low + half;
@@ -94,7 +96,7 @@ namespace seq
 		};
 #endif
 
-		using cbuffer_pos = short; //index type within circular buffer, must be signed
+		using cbuffer_pos = int; //index type within circular buffer, must be signed
 
 		// Deque const iterator
 		template<class BucketMgr >
@@ -119,14 +121,14 @@ namespace seq
 			SEQ_ALWAYS_INLINE deque_const_iterator() noexcept {}
 			SEQ_ALWAYS_INLINE deque_const_iterator(const bucket_manager* d) noexcept
 				: mgr(const_cast<bucket_manager*>(d)),
-				bucket(d ? const_cast<bucket_type*>(d->d_buckets.data() + d->d_buckets.size()) : NULL),
-				pos(d ? d->size() : 0),
+				bucket(d ? const_cast<bucket_type*>(d->d_buckets.data() + d->d_buckets.size()) : nullptr),
+				pos(d ? static_cast<difference_type>(d->size()) : 0),
 				ptr(0),
 				begin_ptr(0)
 			{} //end()
 			SEQ_ALWAYS_INLINE deque_const_iterator(const bucket_manager* d, size_type /*unused*/) noexcept
 				: mgr(const_cast<bucket_manager*>(d)),
-				bucket(d ? const_cast<bucket_type*>(d->d_buckets.data()) : NULL),
+				bucket(d ? const_cast<bucket_type*>(d->d_buckets.data()) : nullptr),
 				pos(0),
 				ptr(d ? (d->d_buckets.empty() ? 0 : d->d_buckets.front()->begin_index()) : 0)
 			{
@@ -141,16 +143,16 @@ namespace seq
 			} //any pos
 
 			SEQ_ALWAYS_INLINE auto absolutePos() const noexcept -> size_type {
-				return pos;
+				return static_cast<size_t>(pos);
 			}
 
-			SEQ_ALWAYS_INLINE void setPos(difference_type new_pos) noexcept 
+			SEQ_ALWAYS_INLINE void setPos(size_t new_pos) noexcept 
 			{
-				SEQ_ASSERT_DEBUG(new_pos >= 0 && new_pos <= static_cast<difference_type>(mgr->d_size), "wrong iterator position");
+				SEQ_ASSERT_DEBUG(new_pos >= 0 && new_pos <= static_cast<size_t>(mgr->d_size), "wrong iterator position");
 
-				size_type front_size = mgr->d_buckets.front()->size;
-				size_type bindex = (new_pos + (mgr->d_bucket_size - front_size)) >> mgr->d_bucket_size_bits;
-				size_type index_in_bucket = (new_pos - (new_pos < static_cast<difference_type>(front_size) ? 0 : front_size)) & mgr->d_bucket_size1;
+				size_type front_size = static_cast<size_t>(mgr->d_buckets.front()->size);
+				size_type bindex = (new_pos + (static_cast<size_t>(mgr->d_bucket_size) - front_size)) >> static_cast<size_t>(mgr->d_bucket_size_bits);
+				size_type index_in_bucket = (new_pos - (new_pos < (front_size) ? 0 : front_size)) & static_cast<size_t>(mgr->d_bucket_size1);
 
 				bucket = mgr->d_buckets.data() + bindex;
 
@@ -164,12 +166,12 @@ namespace seq
 					begin_ptr = (*bucket)->begin_index();
 					first_stop = (ptr < begin_ptr) ? (*bucket)->second_stop() : (*bucket)->first_stop();
 				}
-				pos = new_pos;
+				pos = static_cast<difference_type>(new_pos);
 			}
 
 			SEQ_ALWAYS_INLINE void offset(difference_type diff) noexcept
 			{
-				setPos(pos + diff);
+				setPos(static_cast<size_t>(pos + diff));
 			}
 			SEQ_ALWAYS_INLINE void go_next() noexcept
 			{
@@ -369,120 +371,6 @@ namespace seq
 
 
 
-
-		// 
-		// Random access  iterator for sequence class, used to sort the sequence
-		//
-		/*template< class BucketMgr>
-		struct tvector_ra_iterator
-		{
-			
-			using iterator_category = std::random_access_iterator_tag;
-			using value_type = typename BucketMgr::value_type;
-			using difference_type = typename BucketMgr::difference_type;
-			using pointer = typename BucketMgr::pointer;
-			using reference = value_type&;
-			using pos_type = difference_type;
-			using chunk_type = typename BucketMgr::StoreBucketType;
-
-			BucketMgr* data;
-			difference_type abs_pos;
-			chunk_type* node;
-			pos_type pos;
-
-			tvector_ra_iterator() noexcept {}
-			tvector_ra_iterator(const BucketMgr* d) noexcept //begin
-				:data(const_cast<BucketMgr*>(d)), node(const_cast<chunk_type*>(d->d_buckets.data())), abs_pos(0), pos(0) {}
-			tvector_ra_iterator(const BucketMgr* d, size_t) noexcept //end
-				:data(const_cast<BucketMgr*>(d)), abs_pos(d->d_size) {
-				if (data->d_buckets.back().bucket->size == data->d_bucket_size) {
-					node = data->d_buckets.data() + data->d_buckets.size();
-					pos = 0;
-				}
-				else {
-					node = data->d_buckets.data() + data->d_buckets.size() -1;
-					pos = data->d_buckets.back().bucket->size;
-				}
-			}
-			tvector_ra_iterator(const BucketMgr* d, const chunk_type* node, pos_type pos, difference_type abs_pos) noexcept
-				:data(const_cast<BucketMgr*>(d)), node(const_cast<chunk_type*>(node)), abs_pos(abs_pos), pos(pos) {}
-
-
-			SEQ_ALWAYS_INLINE auto absolutePos() const noexcept -> difference_type {
-				return abs_pos;
-			}
-			SEQ_ALWAYS_INLINE void setAbsolutePos(difference_type abs_pos) noexcept
-			{
-				SEQ_ASSERT_DEBUG(static_cast<size_t>(abs_pos) <= (data->d_size), "invalid iterator position");
-				this->node = data->d_buckets.data() + (abs_pos >> data->d_bucket_size_bits);
-				this->pos = abs_pos & data->d_bucket_size1;
-				this->abs_pos = abs_pos;
-			}
-			SEQ_ALWAYS_INLINE auto operator*()  -> reference {
-
-				SEQ_ASSERT_DEBUG(static_cast<size_t>(abs_pos) <= (data->d_size), "invalid iterator position");
-				return node->bucket->buffer()[pos];
-			}
-			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer {
-				return std::pointer_traits<pointer>::pointer_to(**this);
-			}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> tvector_ra_iterator& {
-				++pos;
-				++abs_pos;
-				if (pos >= data->d_bucket_size) {
-					++node;
-					pos = 0;
-				}
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> tvector_ra_iterator {
-				tvector_ra_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> tvector_ra_iterator& {
-				SEQ_ASSERT_DEBUG(abs_pos > 0, "invalid iterator position");
-				--pos;
-				--abs_pos;
-				if ( pos < 0) {
-					--node;
-					pos = data->d_bucket_size1;
-				}
-				return*this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> tvector_ra_iterator {
-				tvector_ra_iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> tvector_ra_iterator& {
-				setAbsolutePos(abs_pos + diff);
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> tvector_ra_iterator& {
-				setAbsolutePos(abs_pos - diff);
-				return *this;
-			}
-
-			SEQ_ALWAYS_INLINE bool operator==(const tvector_ra_iterator& other) const noexcept { return abs_pos == other.abs_pos; }
-			SEQ_ALWAYS_INLINE bool operator!=(const tvector_ra_iterator& other) const noexcept { return abs_pos != other.abs_pos; }
-			SEQ_ALWAYS_INLINE bool operator<(const tvector_ra_iterator& other) const noexcept { return abs_pos < other.abs_pos; }
-			SEQ_ALWAYS_INLINE bool operator>(const tvector_ra_iterator& other) const noexcept { return abs_pos > other.abs_pos; }
-			SEQ_ALWAYS_INLINE bool operator<=(const tvector_ra_iterator& other) const noexcept { return abs_pos <= other.abs_pos; }
-			SEQ_ALWAYS_INLINE bool operator>=(const tvector_ra_iterator& other) const noexcept { return abs_pos >= other.abs_pos; }
-			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> tvector_ra_iterator {
-				tvector_ra_iterator tmp = *this;
-				tmp += diff;
-				return tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> tvector_ra_iterator {
-				tvector_ra_iterator tmp = *this;
-				tmp -= diff;
-				return tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator-(const tvector_ra_iterator& other) const noexcept -> difference_type { return abs_pos - other.abs_pos; }
-		};*/
-
 		template< class BucketMgr>
 		struct tvector_ra_iterator
 		{
@@ -521,7 +409,7 @@ namespace seq
 				difference_type abs = computeAbsolutePos();
 				abs += diff;
 				this->node = data->d_buckets.data() + (abs >> data->d_bucket_size_bits);
-				this->pos = abs & data->d_bucket_size1;
+				this->pos = static_cast<int>(abs & data->d_bucket_size1);
 			}
 			auto operator*() noexcept  -> reference {
 				return node->bucket->buffer()[pos];
@@ -921,7 +809,7 @@ namespace seq
 					}
 				}
 				else {
-					memmove(static_cast<void*>(stop + 1), static_cast<void*>(stop), (ptr1 - stop) * sizeof(T)); ptr1 = stop;
+					memmove(static_cast<void*>(stop + 1), static_cast<void*>(stop), static_cast<size_t>(ptr1 - stop) * sizeof(T)); ptr1 = stop;
 				}
 
 				if (ptr1 != &at(pos)) {
@@ -938,7 +826,7 @@ namespace seq
 						}
 					}
 					else {
-						memmove(static_cast<void*>(stop + 1), static_cast<void*>(stop), (ptr1 - stop) * sizeof(T));
+						memmove(static_cast<void*>(stop + 1), static_cast<void*>(stop), static_cast<size_t>(ptr1 - stop) * sizeof(T));
 					}
 				}
 			}
@@ -959,7 +847,7 @@ namespace seq
 					}
 				}
 				else {
-					memmove(static_cast<void*>(ptr1), static_cast<void*>(ptr1 + 1), (stop - ptr1) * sizeof(T)); ptr1 = stop;
+					memmove(static_cast<void*>(ptr1), static_cast<void*>(ptr1 + 1), static_cast<size_t>(stop - ptr1) * sizeof(T)); ptr1 = stop;
 				}
 				if (ptr1 != buffer() + ((begin + pos - 1) & max_size1)) {
 					if (!relocatable)
@@ -975,7 +863,7 @@ namespace seq
 						}
 					}
 					else {
-						memmove(static_cast<void*>(ptr1), static_cast<void*>(ptr1 + 1), (stop - ptr1) * sizeof(T));
+						memmove(static_cast<void*>(ptr1), static_cast<void*>(ptr1 + 1), static_cast<size_t>(stop - ptr1) * sizeof(T));
 					}
 				}
 			}
@@ -1145,7 +1033,7 @@ namespace seq
 						*ptr1 = std::move(ptr1[1]); ++ptr1;
 					}
 				}
-				else { memmove(static_cast<void*>(ptr1), static_cast<void*>(ptr1 + 1), (stop - ptr1) * sizeof(T)); ptr1 = stop; }
+				else { memmove(static_cast<void*>(ptr1), static_cast<void*>(ptr1 + 1), static_cast<size_t>(stop - ptr1) * sizeof(T)); ptr1 = stop; }
 				if (ptr1 != &at(size)) {
 					if (!relocatable)
 						*ptr1 = std::move(*(buffer()));
@@ -1158,7 +1046,7 @@ namespace seq
 							*ptr1 = std::move(ptr1[1]); ++ptr1;
 						}
 					}
-					else { memmove(static_cast<void*>(ptr1), static_cast<void*>(ptr1 + 1), (stop - ptr1) * sizeof(T)); }
+					else { memmove(static_cast<void*>(ptr1), static_cast<void*>(ptr1 + 1), static_cast<size_t>(stop - ptr1) * sizeof(T)); }
 				}
 			}
 			void move_erase_left_1(int pos)
@@ -1173,7 +1061,7 @@ namespace seq
 						*ptr1 = std::move(ptr1[-1]); --ptr1;
 					}
 				}
-				else { memmove(static_cast<void*>(stop + 1), static_cast<void*>(stop), (ptr1 - stop) * sizeof(T)); ptr1 = stop; }
+				else { memmove(static_cast<void*>(stop + 1), static_cast<void*>(stop), static_cast<size_t>(ptr1 - stop) * sizeof(T)); ptr1 = stop; }
 
 				if (ptr1 != &at(0)) {
 					if (!relocatable)
@@ -1187,7 +1075,7 @@ namespace seq
 							*ptr1 = std::move(ptr1[-1]); --ptr1;
 						}
 					}
-					else { memmove(static_cast<void*>(stop + 1), static_cast<void*>(stop), (ptr1 - stop) * sizeof(T)); }
+					else { memmove(static_cast<void*>(stop + 1), static_cast<void*>(stop), static_cast<size_t>(ptr1 - stop) * sizeof(T)); }
 				}
 			}
 
@@ -1313,12 +1201,12 @@ namespace seq
 		template<class T>
 		struct FindBucketSize
 		{
-			auto  operator() (size_t size, unsigned MinBSize, unsigned MaxBSize) const noexcept -> unsigned {
-				if (size < MinBSize) return MinBSize;
+			auto  operator() (size_t size, cbuffer_pos MinBSize, cbuffer_pos MaxBSize) const noexcept -> cbuffer_pos {
+				if (size < static_cast<size_t>(MinBSize)) return static_cast<cbuffer_pos>(MinBSize);
 
 				// For now, select bigger chunk size as moving objects inside is faster than moving objects between chunks
 				{unsigned bits = (bit_scan_reverse(size) >> 1) + 2;// log2 / 2 +2
-				return std::max(MinBSize, std::min(MaxBSize, 1U << bits)); }
+				return static_cast<cbuffer_pos>(std::max(MinBSize, std::min(MaxBSize, static_cast<cbuffer_pos>(1U << bits)))); }
 			}
 		};
 
@@ -1342,32 +1230,32 @@ namespace seq
 				return *this;
 			}
 			auto alloc(int max_size) -> BucketType* {
-				BucketType* res = reinterpret_cast<BucketType*>(this->allocate(SizeofHeader + max_size));
+				BucketType* res = reinterpret_cast<BucketType*>(this->allocate(static_cast<size_t>(SizeofHeader + max_size)));
 				// Never throw
 				construct_ptr(res, max_size);
 				return res;
 			}
 			auto alloc(int max_size, const T& val) -> BucketType* {
-				BucketType* res = reinterpret_cast<BucketType*>(this->allocate(SizeofHeader + max_size));
+				BucketType* res = reinterpret_cast<BucketType*>(this->allocate(static_cast<size_t>(SizeofHeader + max_size)));
 				// Might throw
 				try {
 					construct_ptr(res, max_size, val, *this);
 				}
 				catch (...) {
-					this->deallocate(reinterpret_cast<T*>(res), SizeofHeader + max_size);
+					this->deallocate(reinterpret_cast<T*>(res), static_cast<size_t>(SizeofHeader + max_size));
 					throw;
 				}
 				return res;
 			}
 			void dealloc(BucketType* buff) noexcept {
 				buff->destroy(*this);
-				this->deallocate(reinterpret_cast<T*>(buff), SizeofHeader + buff->max_size());
+				this->deallocate(reinterpret_cast<T*>(buff), static_cast<size_t>(SizeofHeader + buff->max_size()));
 			}
 			template<class StoreBucket>
 			void destroy_all(StoreBucket* bs, size_t count) noexcept {
 				for (size_t i = 0; i < count; ++i) {
 					bs[i].bucket->destroy(*this);
-					this->deallocate(reinterpret_cast<T*>(bs[i].bucket), SizeofHeader + bs[i]->max_size());
+					this->deallocate(reinterpret_cast<T*>(bs[i].bucket), static_cast<size_t>( SizeofHeader + bs[i]->max_size()));
 				}
 			}
 			// Deallocate all without destroying. Only used for relocatable types
@@ -1426,8 +1314,8 @@ namespace seq
 				:bucket(b) {}
 			void update()noexcept {}
 			auto back() const noexcept -> const T& { return bucket->back(); }
-			auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; };
-			auto operator->() const noexcept -> const CircularBuffer<T, Allocator>* { return bucket; };
+			auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; }
+			auto operator->() const noexcept -> const CircularBuffer<T, Allocator>* { return bucket; }
 		};
 		template< class T, class Allocator, class ValueCompare>
 		struct StoreBucket<T, Allocator, ValueCompare, true, false>
@@ -1446,8 +1334,8 @@ namespace seq
 			auto back() const noexcept -> const typename ValueCompare::key_type& { 
 				return ValueCompare::key(*back_value); 
 			}
-			auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; };
-			auto operator->() const noexcept -> const CircularBuffer<T, Allocator>* { return bucket; };
+			auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; }
+			auto operator->() const noexcept -> const CircularBuffer<T, Allocator>* { return bucket; }
 		};
 
 		
@@ -1475,8 +1363,8 @@ namespace seq
 				back_value = ValueCompare::key((bucket)->back());
 			}
 			auto back() const noexcept -> typename ValueCompare::key_type { return back_value; }
-			auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; };
-			auto operator->() const noexcept -> const CircularBuffer<T, Allocator>* { return bucket; };
+			auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; }
+			auto operator->() const noexcept -> const CircularBuffer<T, Allocator>* { return bucket; }
 		};
 
 	}
@@ -1536,13 +1424,13 @@ namespace seq
 
 		public:
 			// Construct from bucket size and allocator
-			BucketManager(int bucket_size, const Allocator& al = Allocator()) noexcept
+			BucketManager(cbuffer_pos bucket_size, const Allocator& al = Allocator()) noexcept
 				:d_ballocator(al),
 				d_buckets(al),
 				d_size(0),
-				d_bucket_size(bucket_size),
-				d_bucket_size1(bucket_size - 1),
-				d_bucket_size_bits(bit_scan_reverse(static_cast<size_t>(bucket_size)))
+				d_bucket_size((bucket_size)),
+				d_bucket_size1((bucket_size - 1)),
+				d_bucket_size_bits(static_cast<cbuffer_pos>(bit_scan_reverse(static_cast<size_t>(bucket_size))))
 			{
 			}
 			// Move construct
@@ -1575,16 +1463,16 @@ namespace seq
 			}
 			// Construct by copying the content of other
 			BucketManager(const this_type& other,
-				int new_bucket_size,
+				cbuffer_pos new_bucket_size,
 				size_type start = 0,
-				size_type size = -1,
+				size_type size = static_cast<size_t>( -1),
 				const Allocator& al = Allocator())
 				:d_ballocator(al),
 				d_buckets(al),
 				d_size(0),
 				d_bucket_size(new_bucket_size),
 				d_bucket_size1(new_bucket_size - 1),
-				d_bucket_size_bits(bit_scan_reverse(new_bucket_size))
+				d_bucket_size_bits(static_cast<cbuffer_pos>(bit_scan_reverse(static_cast<size_t>(new_bucket_size))))
 			{
 				// Retrieve size 
 				size_type full_size = size;
@@ -1597,7 +1485,7 @@ namespace seq
 				SEQ_ASSERT_DEBUG(start + full_size <= other.size(), "invalid end position");
 
 				// Get new bucket count
-				size_type bucket_count = full_size / new_bucket_size + (full_size % new_bucket_size ? 1 : 0);
+				size_type bucket_count = full_size / static_cast<size_t>(new_bucket_size) + (full_size % static_cast<size_t>(new_bucket_size) ? 1 : 0);
 
 				// Init bucket allocator, might throw, fine
 				d_ballocator.init(bucket_count, new_bucket_size);
@@ -1622,12 +1510,11 @@ namespace seq
 						T* ptr = current->buffer();
 
 						// Compute end
-						size_type end = pos + new_bucket_size;
+						size_type end = pos + static_cast<size_t>(new_bucket_size);
 						if (end > end_pos)
 							end = end_pos;
 
 						// If this throw, d_size won't be updated (which is fine)
-						Allocator al = get_allocator();
 						try {
 							other.for_each(pos, end, [&](const T& v) {construct_ptr(ptr++, v); });
 						}
@@ -1663,17 +1550,17 @@ namespace seq
 
 			// Construct by moving the content of other and destroying other's elements
 			BucketManager(this_type&& other,
-				int new_bucket_size,
+				cbuffer_pos new_bucket_size,
 				size_type start = 0,
-				size_type size = -1,
+				size_type size = static_cast<size_t>(-1),
 				const Allocator& al = Allocator(),
 				bool still_memory = true)
 				:d_ballocator(al),
 				d_buckets(al),
 				d_size(0),
-				d_bucket_size(new_bucket_size),
-				d_bucket_size1(new_bucket_size - 1),
-				d_bucket_size_bits(bit_scan_reverse(new_bucket_size))
+				d_bucket_size(static_cast<cbuffer_pos>(new_bucket_size)),
+				d_bucket_size1(static_cast<cbuffer_pos>(new_bucket_size - 1)),
+				d_bucket_size_bits(static_cast<cbuffer_pos>(bit_scan_reverse(static_cast<size_t>(new_bucket_size))))
 			{
 				// Check if we can use relocatable copies
 				//const bool reloc_all = BucketType::relocatable && sizeof(T)>8U &&  (start == (size_type)0 && size == (size_type)-1);
@@ -1689,7 +1576,7 @@ namespace seq
 				SEQ_ASSERT_DEBUG(start + full_size <= other.size(), "invalid end position");
 
 
-				size_type bucket_count = full_size / new_bucket_size + (full_size % new_bucket_size ? 1 : 0);
+				size_type bucket_count = full_size / static_cast<size_type>(new_bucket_size) + ((full_size % static_cast<size_type>(new_bucket_size)) ? 1 : 0);
 				// Might throw, fine
 				d_ballocator.init(bucket_count, new_bucket_size);
 
@@ -1724,12 +1611,11 @@ namespace seq
 					BucketType* current = create_back_bucket();
 					T* ptr = current->buffer();
 					// Compute end
-					size_type end = pos + new_bucket_size;
+					size_type end = pos + static_cast<size_t>(new_bucket_size);
 					if (end > end_pos)
 						end = end_pos;
 
 					// If this throw, d_size won't be updated (which is fine)
-					Allocator al = get_allocator();
 					try {
 						other.for_each(pos, end, [&]( T& v) {construct_ptr(ptr++, std::move(v)); });
 					}
@@ -1812,7 +1698,7 @@ namespace seq
 				while (remaining) {
 					const BucketType* cur = d_buckets[bindex].bucket;
 
-					size_type offset = cur->begin + pos;
+					size_type offset = static_cast<size_t>(cur->begin) + pos;
 					const T* b_end = cur->buffer() + cur->max_size();
 					const T* _start = cur->buffer() + offset;
 					if (_start > b_end)
@@ -1825,7 +1711,7 @@ namespace seq
 
 					if (_send > b_end) {
 						_start = cur->buffer();
-						_end = _start + to_copy - (cur->max_size() - offset);
+						_end = _start + to_copy - (static_cast<size_t>(cur->max_size()) - offset);
 						while (_start < _end)
 							fun(*_start++);
 					}
@@ -1848,7 +1734,7 @@ namespace seq
 				while (remaining) {
 					BucketType* cur = d_buckets[bindex].bucket;
 
-					size_type offset = cur->begin + pos;
+					size_type offset = static_cast<size_t>(cur->begin) + pos;
 					T* b_end = cur->buffer() + cur->max_size();
 					T* _start = cur->buffer() + offset;
 					if (_start > b_end)
@@ -1861,7 +1747,7 @@ namespace seq
 
 					if (_send > b_end) {
 						_start = cur->buffer();
-						_end = _start + to_copy - (cur->max_size() - offset);
+						_end = _start + to_copy - (static_cast<size_t>(cur->max_size()) - offset);
 						while (_start < _end)
 							fun(*_start++);
 					}
@@ -1892,7 +1778,7 @@ namespace seq
 			// Returns position within bucket for global position in tiered_vector
 			SEQ_ALWAYS_INLINE auto bucket_pos(size_type pos) const noexcept -> int { 
 				SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "invalid bucket position");
-				return (pos - (pos < static_cast<size_type>(d_buckets.front()->size) ? 0 : d_buckets.front()->size)) & d_bucket_size1;
+				return static_cast<int>((pos - (pos < static_cast<size_type>(d_buckets.front()->size) ? 0 : static_cast<size_t>(d_buckets.front()->size))) & static_cast<size_t>(d_bucket_size1));
 			}
 			// Returns the bucket size (always power of 2)
 			SEQ_ALWAYS_INLINE auto bucket_size() const noexcept -> int { return d_bucket_size; }
@@ -1914,17 +1800,17 @@ namespace seq
 				SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "empty container");
 				//It seems that using d_buckets.front()->size instead of d_first_bucket_size
 				//and (d_bucket_size - d_buckets.front()->size) instead of d_first_bcket_rem is as fast
-				size_t front_size = d_buckets.front()->size;
-				size_t bucket = (pos + (d_bucket_size - front_size)) >> d_bucket_size_bits;
-				size_t index = (pos - (pos < front_size ? 0 : front_size)) & d_bucket_size1;
+				size_t front_size = static_cast<size_t>(d_buckets.front()->size);
+				size_t bucket = (pos + (static_cast<size_t>(d_bucket_size) - front_size)) >> static_cast<size_t>(d_bucket_size_bits);
+				size_t index = (pos - (pos < front_size ? 0 : front_size)) & static_cast<size_t>(d_bucket_size1);
 				return (*d_buckets[bucket].bucket)[static_cast<cbuffer_pos>(index)];
 
 			}
 			auto at(size_type pos) const noexcept -> const T& {
 				SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "empty container");
-				size_t front_size = d_buckets.front()->size;
-				size_t bucket = (pos + (d_bucket_size - front_size)) >> d_bucket_size_bits;
-				size_t index = (pos - (pos < front_size ? 0 : front_size)) & d_bucket_size1;
+				size_t front_size = static_cast<size_t>(d_buckets.front()->size);
+				size_t bucket = (pos + (static_cast<size_t>(d_bucket_size) - front_size)) >> static_cast<size_t>(d_bucket_size_bits);
+				size_t index = (pos - (pos < front_size ? 0 : front_size)) & static_cast<size_t>(d_bucket_size1);
 				return (*d_buckets[bucket].bucket)[static_cast<cbuffer_pos>(index)];
 			}
 
@@ -2055,7 +1941,7 @@ namespace seq
 			template< class... Args >
 			auto insert_one_bucket(size_type bucket_index, int index, Args&&... args) -> T*
 			{
-				T* res = NULL;
+				T* res = nullptr;
 				SEQ_ASSERT_DEBUG(bucket_index == 0, "Corrupted tiered_vector");
 				if (d_buckets[0]->isFull()) {
 
@@ -2076,7 +1962,7 @@ namespace seq
 			template< class... Args >
 			auto insert_left(size_type pos, size_type bucket_index, int index, Args&&... args) -> T*
 			{
-				T* res = NULL;
+				T* res = nullptr;
 				//bucket is on the left side
 				if (SEQ_UNLIKELY(index == 0)) {
 					--bucket_index; //we work on the previous bucket
@@ -2109,7 +1995,7 @@ namespace seq
 				}
 				else {
 					//we are going to loose value at index 0, save it
-					std::int64_t bindex = bucket_index;
+					size_t bindex = bucket_index;
 					//T tmp = std::move((*bucket(bindex))[0]);
 					//bucket(bucket_index)->insert<false>(index, value);
 
@@ -2157,7 +2043,7 @@ namespace seq
 			template< class... Args >
 			auto insert_right(size_type pos, size_type bucket_index, int index, Args&&... args) -> T*
 			{
-				T* res = NULL;
+				T* res = nullptr;
 				if (SEQ_UNLIKELY(bucket(bucket_index)->size < d_bucket_size)) {
 					SEQ_ASSERT_DEBUG(bucket_index == 0 || bucket_index == d_buckets.size() - 1, "Corrupted tiered_vector structure");
 					// Might throw, fine
@@ -2225,11 +2111,11 @@ namespace seq
 			template< class... Args >
 			auto insert_middle_fwd(size_type pos, Args&&... args) -> T *
 			{
-				T* res = NULL;
+				T* res = nullptr;
 
-				size_t front_size = d_buckets.front()->size;
-				size_t bucket_index = (pos + (d_bucket_size - front_size)) >> d_bucket_size_bits;
-				int index = (pos - (pos < front_size ? 0 : front_size)) & d_bucket_size1;
+				size_t front_size = static_cast<size_t>(d_buckets.front()->size);
+				size_t bucket_index = (pos + (static_cast<size_t>(d_bucket_size) - front_size)) >> static_cast<size_t>(d_bucket_size_bits);
+				int index = static_cast<int>((pos - (pos < front_size ? 0 : front_size)) & static_cast<size_t>(d_bucket_size1));
 
 				if (SEQ_UNLIKELY(d_buckets.size() == 1)) {
 					res = insert_one_bucket(bucket_index, index, std::forward<Args>(args)...);
@@ -2353,7 +2239,7 @@ namespace seq
 				//find index in bucket
 				int index = this->bucket_pos(/*bucket_index,*/ pos);
 
-				if ((bucket_index == 0)) {
+				if (bucket_index == 0) {
 					//remove from first bucket
 					BucketType* bucket = d_buckets.front().bucket;
 					SEQ_ASSERT_DEBUG(bucket->size > 0, "erase on an empty tiered_vector");
@@ -2365,7 +2251,7 @@ namespace seq
 					else if (StoreBackValues) d_buckets.front().update();
 
 				}
-				else if ((bucket_index == d_buckets.size() - 1)) {
+				else if (bucket_index == d_buckets.size() - 1) {
 					//remove from last bucket
 					BucketType* bucket = d_buckets.back().bucket;
 					SEQ_ASSERT_DEBUG(bucket->size > 0, "erase on an empty tiered_vector");
@@ -2396,8 +2282,8 @@ namespace seq
 					ensure_has_bucket();
 
 					//add missing buckets
-					size_type missing = size - d_size;
-					size_type last_bucket_rem = bucket_size() - d_buckets.back()->size;
+					size_type missing = static_cast<size_t>(size - d_size);
+					size_type last_bucket_rem = static_cast<size_t>(bucket_size() - d_buckets.back()->size);
 
 					//d_ballocator.reserve(missing / bucket_size() + 1, bucket_size());
 
@@ -2416,21 +2302,21 @@ namespace seq
 						missing -= last_bucket_rem;
 						d_size += last_bucket_rem;
 
-						size_type new_bucket_count = missing / bucket_size();
-						int last_bucket_size = missing % bucket_size();
+						size_type new_bucket_count = missing / static_cast<size_t>(bucket_size());
+						int last_bucket_size = static_cast<int>(missing % static_cast<size_t>(bucket_size()));
 
 						try {
 							//add full buckets
 							for (size_type i = 0; i < new_bucket_count; ++i) {
 								BucketType* b = create_back_bucket();
 								b->resize(bucket_size(), get_allocator());
-								d_size += bucket_size();
+								d_size += static_cast<size_t>(bucket_size());
 						
 							}
 							//add last
 							if (last_bucket_size) {
 								create_back_bucket()->resize(last_bucket_size, get_allocator());
-								d_size += last_bucket_size;
+								d_size += static_cast<size_t>(last_bucket_size);
 							}	
 						}
 						catch (...) {
@@ -2443,7 +2329,7 @@ namespace seq
 				}
 				else {
 					size_type to_remove = d_size - size;
-					size_type last_bucket_size = bucket_size(bucket_count() - 1);
+					size_type last_bucket_size = static_cast<size_t>(bucket_size(bucket_count() - 1));
 
 					if (last_bucket_size > to_remove) {
 						//the last bucket has enough space: just resize it
@@ -2457,7 +2343,7 @@ namespace seq
 
 						//dealloc buckets starting to the last one
 						while (to_remove >= static_cast<size_type>(bucket_size())) {
-							to_remove -= bucket_size(bucket_count() - 1);
+							to_remove -= static_cast<size_t>(bucket_size(bucket_count() - 1));
 							remove_back_bucket();
 						}
 
@@ -2480,13 +2366,13 @@ namespace seq
 
 					//add missing buckets
 					size_type missing = size - d_size;
-					size_type last_bucket_rem = bucket_size() - d_buckets.back()->size;
+					size_type last_bucket_rem = static_cast<size_t>(bucket_size() - d_buckets.back()->size);
 
 					//d_ballocator.reserve(missing / bucket_size() + 1, bucket_size());
 
 					if (missing < last_bucket_rem) {
 						//the last bucket has enough space: just resize it
-						d_buckets.back()->resize(static_cast<cbuffer_pos>(d_buckets.back()->size + missing), val, get_allocator());
+						d_buckets.back()->resize(d_buckets.back()->size + static_cast<cbuffer_pos>(missing), val, get_allocator());
 						d_size += missing;
 					}
 					else {
@@ -2496,19 +2382,19 @@ namespace seq
 						missing -= last_bucket_rem;
 						d_size += last_bucket_rem;
 
-						size_type new_bucket_count = missing / bucket_size();
-						int last_bucket_size = missing % bucket_size();
+						size_type new_bucket_count = missing / static_cast<size_t>(bucket_size());
+						cbuffer_pos last_bucket_size = static_cast<cbuffer_pos>(missing % static_cast<size_t>(bucket_size()));
 
 						try {
 							//add full buckets
 							for (size_type i = 0; i < new_bucket_count; ++i) {
 								create_back_bucket(val);
-								d_size += bucket_size();
+								d_size += static_cast<size_t>(bucket_size());
 							}
 							//add last
 							if (last_bucket_size) {
 								create_back_bucket(val)->resize(last_bucket_size, get_allocator());
-								d_size += last_bucket_size;
+								d_size += static_cast<size_t>(last_bucket_size);
 							}
 						}
 						catch (...) {
@@ -2521,7 +2407,7 @@ namespace seq
 				}
 				else {
 					size_type to_remove = d_size - size;
-					size_type last_bucket_size = bucket_size(bucket_count() - 1);
+					size_type last_bucket_size = static_cast<size_t>(bucket_size(bucket_count() - 1));
 
 					if (last_bucket_size > to_remove) {
 						//the last bucket has enough space: just resize it
@@ -2535,12 +2421,12 @@ namespace seq
 
 						//dealloc buckets starting to the last one
 						while (to_remove >= static_cast<size_type>(bucket_size())) {
-							to_remove -= bucket_size(bucket_count() - 1);
+							to_remove -= static_cast<size_t>(bucket_size(bucket_count() - 1));
 							remove_back_bucket();
 						}
 
 						//resize last bucket
-						d_buckets.back()->resize(static_cast<cbuffer_pos>( bucket_size(bucket_count() - 1) - to_remove), get_allocator());
+						d_buckets.back()->resize(bucket_size(bucket_count() - 1) - static_cast<cbuffer_pos>(to_remove), get_allocator());
 					}
 					d_size = size;
 				}
@@ -2558,7 +2444,7 @@ namespace seq
 
 					//add missing buckets
 					size_type missing = size - d_size;
-					size_type first_bucket_rem = bucket_size() - d_buckets.front()->size;
+					size_type first_bucket_rem = static_cast<size_t>(bucket_size() - d_buckets.front()->size);
 
 					//d_ballocator.reserve(missing / bucket_size() + 1, bucket_size());
 
@@ -2575,21 +2461,21 @@ namespace seq
 						missing -= first_bucket_rem;
 						d_size += first_bucket_rem;
 
-						size_type new_bucket_count = missing / bucket_size();
-						int first_bucket_size = missing % bucket_size();
+						size_type new_bucket_count = missing / static_cast<size_t>(bucket_size());
+						cbuffer_pos first_bucket_size = static_cast<cbuffer_pos>(missing % static_cast<size_t>(bucket_size()));
 
 						try {
 							//add full buckets
 							for (size_type i = 0; i < new_bucket_count; ++i) {
 								create_front_bucket()->resize(bucket_size(), get_allocator());
-								d_size += bucket_size();
+								d_size += static_cast<size_t>(bucket_size());
 
 							}
 
 							//add last
 							if (first_bucket_size) {
 								create_front_bucket()->push_front_n(get_allocator(), first_bucket_size);
-								d_size += first_bucket_size;
+								d_size += static_cast<size_t>(first_bucket_size);
 							}
 						}
 						catch (...) {
@@ -2602,7 +2488,7 @@ namespace seq
 				}
 				else {
 					size_type to_remove = d_size - size;
-					size_type first_bucket_size = bucket_size(0);
+					size_type first_bucket_size = static_cast<size_t>(bucket_size(0));
 
 					if (first_bucket_size > to_remove) {
 						//the last bucket has enough space: just resize it
@@ -2618,7 +2504,7 @@ namespace seq
 
 						//dealloc buckets starting to the last one
 						while (to_remove >= static_cast<size_type>(bucket_size())) {
-							size_type s = bucket_size(0);
+							size_type s = static_cast<size_t>(bucket_size(0));
 							to_remove -= s;
 							remove_front_bucket();
 							d_size -= s;
@@ -2642,7 +2528,7 @@ namespace seq
 
 					//add missing buckets
 					size_type missing = size - d_size;
-					size_type first_bucket_rem = bucket_size() - d_buckets.front()->size;
+					size_type first_bucket_rem = static_cast<size_t>(bucket_size() - d_buckets.front()->size);
 
 					//d_ballocator.reserve(missing / bucket_size() + 1, bucket_size());
 
@@ -2658,20 +2544,20 @@ namespace seq
 						missing -= first_bucket_rem;
 						d_size += first_bucket_rem;
 
-						size_type new_bucket_count = missing / bucket_size();
-						int first_bucket_size = missing % bucket_size();
+						size_type new_bucket_count = missing / static_cast<size_t>(bucket_size());
+						cbuffer_pos first_bucket_size = static_cast<cbuffer_pos>(missing % static_cast<size_t>(bucket_size()));
 
 						try {
 							//add full buckets
 							for (size_type i = 0; i < new_bucket_count; ++i) {
 								create_front_bucket(val);
-								d_size += bucket_size();
+								d_size += static_cast<size_t>(bucket_size());
 							}
 
 							//add last
 							if (first_bucket_size) {
 								create_front_bucket()->push_front_n(get_allocator(), first_bucket_size, val);
-								d_size += first_bucket_size;
+								d_size += static_cast<size_t>(first_bucket_size);
 							}
 						}
 						catch (...) {
@@ -2684,7 +2570,7 @@ namespace seq
 				}
 				else {
 					size_type to_remove = d_size - size;
-					size_type first_bucket_size = bucket_size(0);
+					size_type first_bucket_size = static_cast<size_t>(bucket_size(0));
 
 					if (first_bucket_size > to_remove) {
 						//the last bucket has enough space: just resize it
@@ -2700,7 +2586,7 @@ namespace seq
 
 						//dealloc buckets starting to the last one
 						while (to_remove >= static_cast<size_type>(bucket_size())) {
-							size_type s = bucket_size(0);
+							size_type s = static_cast<size_type>(bucket_size(0));
 							to_remove -= s;
 							remove_front_bucket();
 							d_size -= s;
@@ -2945,13 +2831,13 @@ namespace seq
 				check_bucket_size();
 		}
 		// Find bucket size based on full tiered_vector size
-		auto findBSize(size_type size) const noexcept -> int {
-			return FindBSize()(size, min_block_size, max_block_size);
+		auto findBSize(size_type size) const noexcept -> detail::cbuffer_pos {
+			return FindBSize()(size, static_cast<detail::cbuffer_pos>(min_block_size), static_cast<detail::cbuffer_pos>(max_block_size));
 		}
 		// Force the bucket size
 		void set_bucket_size(int bsize) {
 			if (bsize != manager()->bucket_size()) {
-				bucket_manager* tmp = make_manager(get_allocator(), std::move(*manager()), bsize, 0, -1, get_allocator());
+				bucket_manager* tmp = make_manager(get_allocator(), std::move(*manager()), bsize, 0U, static_cast<size_t>(-1), get_allocator());
 				destroy_manager(d_manager);
 				d_manager = tmp;
 			}
@@ -2959,7 +2845,7 @@ namespace seq
 		// Check the bucket size, set the new one if necessary
 		void check_bucket_size()
 		{
-			int bucket_size = findBSize(size());
+			detail::cbuffer_pos bucket_size = (findBSize(size()));
 			if (bucket_size != manager()->bucket_size()) {
 				set_bucket_size(bucket_size);
 			}
@@ -3001,7 +2887,7 @@ namespace seq
 				return;
 
 			if (pos < size() / 2) {
-				size_type to_insert = last - first;
+				size_type to_insert = static_cast<size_t>(last - first);
 				// Might throw, fine
 				resize_front(size() + to_insert);
 				iterator beg = begin();
@@ -3011,10 +2897,10 @@ namespace seq
 			}
 			else {
 				// Might throw, fine
-				size_type to_insert = last - first;
+				size_type to_insert = static_cast<size_t>(last - first);
 				resize(size() + to_insert);
-				std::move_backward(begin() + pos, begin() + (size() - to_insert), end());
-				std::copy(first, last, begin() + pos);
+				std::move_backward(begin() + static_cast<difference_type>(pos), begin() + static_cast<difference_type>(size() - to_insert), end());
+				std::copy(first, last, begin() + static_cast<difference_type>(pos));
 			}
 		}
 
@@ -3039,7 +2925,7 @@ namespace seq
 		// Assign range for random-access iterators
 		template<class Iter>
 		void assign_cat(Iter first, Iter last, std::random_access_iterator_tag /*unused*/) {
-			size_type count = last - first;
+			size_type count = static_cast<size_t>(last - first);
 			if (size() != count && size() > 0 && findBSize(count) != manager()->bucket_size()) {
 				// Create an empty manager, might throw
 				bucket_manager* tmp = make_manager(get_allocator(), findBSize(count), get_allocator());
@@ -3070,7 +2956,7 @@ namespace seq
 
 		/// @brief Default constructor, initialize the internal bucket manager.
 		tiered_vector()
-			:Allocator(), d_manager(NULL)
+			:Allocator(), d_manager(nullptr)
 		{
 		}
 		/// @brief Constructs an empty container with the given allocator alloc.
@@ -3099,16 +2985,16 @@ namespace seq
 		/// @brief Copy constructor. Constructs the container with the copy of the contents of other.
 		/// @param other another container to be used as source to initialize the elements of the container with
 		tiered_vector(const tiered_vector& other)
-			:Allocator(copy_allocator(other.get_allocator())), d_manager(NULL)
+			:Allocator(copy_allocator(other.get_allocator())), d_manager(nullptr)
 		{
 			if (other.size())
-				d_manager = make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0, -1, get_allocator());
+				d_manager = make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0U, static_cast<size_t>(-1), get_allocator());
 		}
 		/// @brief Constructs the container with the copy of the contents of other, using alloc as the allocator.
 		/// @param other other another container to be used as source to initialize the elements of the container with
 		/// @param alloc allcoator object
 		tiered_vector(const tiered_vector& other, const Allocator & alloc)
-			:Allocator(alloc), d_manager(NULL)
+			:Allocator(alloc), d_manager(nullptr)
 		{
 			if (other.size())
 				d_manager = make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0, -1, get_allocator());
@@ -3118,7 +3004,7 @@ namespace seq
 		tiered_vector(tiered_vector&& other) noexcept
 			:Allocator(std::move(other.get_allocator())), d_manager(other.manager())
 		{
-			other.d_manager = NULL;
+			other.d_manager = nullptr;
 		}
 		/// @brief  Allocator-extended move constructor. Using alloc as the allocator for the new container, moving the contents from other; if alloc != other.get_allocator(), this results in an element-wise move.
 		/// @param other another container to be used as source to initialize the elements of the container with
@@ -3180,7 +3066,7 @@ namespace seq
 				{
 					if (get_allocator() != other.get_allocator()) {
 						destroy_manager(d_manager);
-						d_manager = NULL;
+						d_manager = nullptr;
 					}
 				}
 				assign_allocator(get_allocator(), other.get_allocator());
@@ -3188,7 +3074,7 @@ namespace seq
 				if (other.size() == 0)
 					clear();
 				else {
-					bucket_manager* tmp = (make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0, -1, get_allocator()));
+					bucket_manager* tmp = (make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0U, static_cast<size_t>(-1), get_allocator()));
 					destroy_manager(d_manager);
 					d_manager = tmp;
 				}
@@ -3280,10 +3166,10 @@ namespace seq
 				clear();
 			else {
 				make_manager_if_null();
-				int bucket_size = findBSize(count);
+				detail::cbuffer_pos bucket_size = findBSize(count);
 				// Update bucket size if necessary
 				if (bucket_size != manager()->bucket_size()) {
-					bucket_manager* tmp = make_manager(get_allocator(), std::move(*manager()), bucket_size, 0,std::min(count, this->size()), get_allocator());
+					bucket_manager* tmp = make_manager(get_allocator(), std::move(*manager()), bucket_size, 0U,std::min(count, this->size()), get_allocator());
 					*d_manager = std::move(*tmp);
 					destroy_manager(tmp);
 				}
@@ -3308,7 +3194,7 @@ namespace seq
 				int bucket_size = findBSize(count);
 				// Update bucket size if necessary
 				if (bucket_size != manager()->bucket_size()) {
-					bucket_manager* tmp = make_manager(get_allocator(), std::move(*manager()), bucket_size, 0, std::min(count,this->size()), get_allocator());
+					bucket_manager* tmp = make_manager(get_allocator(), std::move(*manager()), bucket_size, 0U, std::min(count,this->size()), get_allocator());
 					*d_manager = std::move(*tmp);
 					destroy_manager(tmp);
 				}
@@ -3329,11 +3215,11 @@ namespace seq
 				clear();
 			else {
 				make_manager_if_null();
-				int bucket_size = findBSize(count);
+				detail::cbuffer_pos bucket_size = findBSize(count);
 				// Update bucket size if necessary
 				if (bucket_size != manager()->bucket_size()) {
 					size_type fsize = std::min(count, this->size());
-					size_type fstart = std::max(static_cast<difference_type>(this->size()) - static_cast<difference_type>(fsize), static_cast<difference_type>(0));
+					size_type fstart = static_cast<size_t>(std::max(static_cast<difference_type>(this->size()) - static_cast<difference_type>(fsize), static_cast<difference_type>(0)));
 					bucket_manager* tmp = make_manager(get_allocator(), std::move(*manager()), bucket_size, fstart, fsize, get_allocator());
 					*d_manager = std::move(*tmp);
 					destroy_manager(tmp);
@@ -3360,7 +3246,7 @@ namespace seq
 				// Update bucket size if necessary
 				if (bucket_size != manager()->bucket_size()) {
 					size_type fsize = std::min(count, this->size());
-					size_type fstart = std::max(static_cast<difference_type>(this->size()) - static_cast<difference_type>(fsize), static_cast<difference_type>(0));
+					size_type fstart = static_cast<size_t>(std::max(static_cast<difference_type>(this->size()) - static_cast<difference_type>(fsize), static_cast<difference_type>(0)));
 					bucket_manager* tmp = make_manager(get_allocator(), std::move(*manager()), bucket_size, fstart, fsize, get_allocator());
 					*d_manager = std::move(*tmp);
 					destroy_manager(tmp);
@@ -3376,7 +3262,7 @@ namespace seq
 				return;
 
 			destroy_manager(d_manager);
-			d_manager = NULL;
+			d_manager = nullptr;
 		}
 
 		/// @brief Appends the given element value to the end of the container.
@@ -3632,17 +3518,14 @@ namespace seq
 			size_type space_after = size() - last;
 
 			if (space_before < space_after) {
-				std::move_backward(begin(), begin() + first, begin() + last);
-				resize_front(size() - (last - first));
-				//size_t target = size() - (last - first);
-				//while (size() != target)
-					//pop_front();
+				std::move_backward(begin(), begin() + static_cast<difference_type>(first), begin() + static_cast<difference_type>(last));
+				resize_front(size() - static_cast<size_t>(last - first));
 			}
 			else {
 				//std::move(begin() + last, end(), begin() + first);
-				iterator it = begin() + first;
+				iterator it = begin() + static_cast<difference_type>(first);
 				manager()->for_each(last, size(), [&](T& v) {*it = std::move(v); ++it; });
-				resize(size() - (last - first));
+				resize(size() - static_cast<size_t>(last - first));
 			}
 		}
 
@@ -3876,6 +3759,7 @@ namespace seq
 		auto lower_bound(const U& value, const Less& le = Less()) const noexcept -> size_t
 		{
 			static_assert(!std::is_same< detail::NullValueCompare<T>, ValueCompare>::value, "lower_bound can only be used by flat_map/set containers");
+			static constexpr size_t end_of_probe = sizeof(T) >= 16 ? 8 : 32;
 
 			if (!d_manager)
 				return 0;
@@ -3890,7 +3774,7 @@ namespace seq
 			//bucket_pos_type low = std::lower_bound(buckets.begin(), buckets.end(),value, [&le](const auto& a, const auto& b) {return le(a.back() ,b); }) - buckets.begin();
 			bucket_pos_type low = 0;
 			bucket_pos_type size = buckets.size();
-			while ((size > 8)) {
+			while ((size > end_of_probe)) {
 				bucket_pos_type half = size / 2;
 				bucket_pos_type other_half = size - half;
 				bucket_pos_type probe = low + half;
@@ -3930,13 +3814,13 @@ namespace seq
 					le(*(bucket->buffer() + bucket->max_size1), value); // value to took for is not in the upper half (between begin and buffer end)
 
 				const T* ptr = low_half ? bucket->buffer() : begin_ptr;
-				pos_type size = low_half ? 
+				pos_type partition_size = low_half ? 
 					((bucket->begin + bucket->size) & bucket->max_size1) : 
 					(std::min(bucket->size,static_cast<detail::cbuffer_pos>(bucket->max_size_ - bucket->begin)));
-				pos_type low = detail::lower_bound<T>::apply(ptr, size, value, le);
+				pos_type _low = detail::lower_bound<T>::apply(ptr, partition_size, value, le);
 
-				low = ptr == begin_ptr ? low : low + (bucket->max_size_ - bucket->begin);
-				return static_cast<size_t>(low) + (b_index != 0 ? static_cast<size_t>(buckets[0]->size) + static_cast<size_t>(b_index - 1) * static_cast<size_t>(bucket->max_size_) : 0);
+				_low = ptr == begin_ptr ? _low : _low + (bucket->max_size_ - bucket->begin);
+				return static_cast<size_t>(_low) + (b_index != 0 ? static_cast<size_t>(buckets[0]->size) + static_cast<size_t>(b_index - 1) * static_cast<size_t>(bucket->max_size_) : 0);
 			}
 
 		}
@@ -3962,7 +3846,7 @@ namespace seq
 			size_t size = (buckets.size() - low);
 
 
-			while (SEQ_LIKELY(size > 16)) {
+			while (SEQ_LIKELY(size > 8)) {
 				size_t half = size >> 1ULL;
 				size_t other_half = size - half;
 				size_t probe = low + half;
@@ -3995,11 +3879,11 @@ namespace seq
 
 
 			//find bucket
-			size = bucket->size;
+			size = static_cast<size_t>(bucket->size);
 			low = 0;
 
 
-			while (SEQ_LIKELY(size > 16)) {
+			while (SEQ_LIKELY(size > 8)) {
 				size_t half = size >> 1LL;
 				size_t other_half = size - half;
 				size_t probe = low + half;
@@ -4022,7 +3906,7 @@ namespace seq
 			}
 
 			if (b_index != 0)
-				low += buckets[0]->size + (b_index - 1) * (bucket)->max_size_;
+				low += static_cast<size_t>(buckets[0]->size) + (b_index - 1) * static_cast<size_t>((bucket)->max_size_);
 			return low;
 		}
 

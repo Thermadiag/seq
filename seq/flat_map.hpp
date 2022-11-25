@@ -114,7 +114,7 @@ namespace seq
 				if (begin == 0 && end == d.size())
 					d.sort(less);
 				else
-					pdqsort_branchless(d.begin() + begin, d.begin() + end, less);
+					pdqsort_branchless(d.begin() + static_cast<std::ptrdiff_t>(begin), d.begin() + static_cast<std::ptrdiff_t>(end), less);
 			}
 		};
 		
@@ -136,22 +136,6 @@ namespace seq
 		}
 
 
-		template< class It, class Cat>
-		auto internal_distance(It first, It last, Cat /*unused*/) -> std::ptrdiff_t
-		{
-			return 0;
-		}
-		template< class It>
-		auto internal_distance(It first, It last, std::random_access_iterator_tag /*unused*/) -> std::ptrdiff_t
-		{
-			return last - first;
-		}
-		/// @brief Returns distance between 2 iterators, or 0 for non random access iterators
-		template< class It>
-		auto distance(It first, It last) -> std::ptrdiff_t
-		{
-			return internal_distance(first, last, typename std::iterator_traits<It>::iterator_category());
-		}
 
 	
 
@@ -165,8 +149,8 @@ namespace seq
 		template<class Deque, class InputIt1, class InputIt2, class Less, class Deque2 = Deque>
 		void unique_merge_move(Deque& out, InputIt1 first1, InputIt1 last1, InputIt2 first2, InputIt2 last2, Less less, Deque2 * remaining = NULL)
 		{
-			size_t len1 = distance(first1, last1);
-			size_t len2 = distance(first2, last2);
+			size_t len1 = seq::distance(first1, last1);
+			size_t len2 = seq::distance(first2, last2);
 			if (len1 && len2) {
 				out.resize(len1 + len2);
 				typename Deque::iterator it_rem;
@@ -304,7 +288,7 @@ namespace seq
 			struct Equal
 			{
 				flat_tree* c;
-				Equal(flat_tree * c):c(c) {}
+				Equal(flat_tree * _c):c(_c) {}
 				SEQ_ALWAYS_INLINE auto operator()(const Value& a, const Value& b) const -> bool { return c->equal((a), (b)); }
 			};
 			// Structure for less than comparison
@@ -313,7 +297,7 @@ namespace seq
 				using key_type = Key;
 				using compare = Compare;
 				flat_tree* c;
-				Less(flat_tree* c) :c(c) {}
+				Less(flat_tree* _c) :c(_c) {}
 				SEQ_ALWAYS_INLINE auto operator()(const Value& a, const Value& b) const -> bool { return (*c)((a), (b)); }
 			};
 
@@ -418,15 +402,14 @@ namespace seq
 					iterator it = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
 					d_deque.erase(it, d_deque.end());
 				}
-				if (!sorted || (Unique && (!sorted || !unique)))
-					d_deque.manager()->update_all_back_values();
+				d_deque.manager()->update_all_back_values();
 			}
 
 			template<class Iter>
 			void assign_cat(Iter first, Iter last, std::random_access_iterator_tag /*unused*/)
 			{
 				//d_deque.clear();
-				d_deque.resize(last - first);
+				d_deque.resize(static_cast<size_t>(last - first));
 				auto it = d_deque.begin();
 				bool sorted = true;
 				bool unique = true;
@@ -456,11 +439,10 @@ namespace seq
 				if (!sorted)
 					sort_deque<Stable>(d_deque, 0, d_deque.size(), Less(this));
 				if (Unique && (!sorted || !unique)) {
-					iterator it = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
-					d_deque.erase(it, d_deque.end());
+					iterator l = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
+					d_deque.erase(l, d_deque.end());
 				}
-				if(!sorted || (Unique && (!sorted || !unique)))
-					d_deque.manager()->update_all_back_values();
+				d_deque.manager()->update_all_back_values();
 			}
 
 
@@ -664,14 +646,14 @@ namespace seq
 					return;
 				}
 			
-				size_t len = detail::distance(first, last);
+				size_t len = seq::distance(first, last);
 				size_t size_before = d_deque.size();
 
 				// Resize tiered_vector
 				d_deque.resize(len + size_before);
 
 				// Append input to tiered_vector
-				auto dit = d_deque.begin() + size_before;
+				auto dit = d_deque.begin() + static_cast<difference_type>(size_before);
 				if(len)
 					std::copy(first, last, dit);
 				else {
@@ -685,7 +667,7 @@ namespace seq
 				sort_deque<Stable>(d_deque, size_before, d_deque.size(), Less(this));
 
 				// Merge
-				std::inplace_merge(d_deque.begin(), d_deque.begin() + size_before, d_deque.end(), Less(this));
+				std::inplace_merge(d_deque.begin(), d_deque.begin() + static_cast<difference_type>(size_before), d_deque.end(), Less(this));
 
 				if (Unique) {
 					// Remove duplicates
@@ -932,8 +914,8 @@ namespace seq
 				if (!sorted) 
 					sort_deque<Stable>(d_deque, 0, d_deque.size(), Less(this));
 				if (Unique && (!sorted || !unique)){
-					iterator it = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
-					d_deque.erase(it, d_deque.end());
+					iterator l = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
+					d_deque.erase(l, d_deque.end());
 				}
 				d_deque.manager()->update_all_back_values();
 
@@ -1122,6 +1104,12 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const noexcept -> bool { return iter == it.iter; }
 			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const noexcept -> bool { return iter != it.iter; }
+
+			SEQ_ALWAYS_INLINE auto operator>(const const_iterator& it) const noexcept -> bool { return iter > it.iter; }
+			SEQ_ALWAYS_INLINE auto operator<(const const_iterator& it) const noexcept -> bool { return iter < it.iter; }
+			SEQ_ALWAYS_INLINE auto operator>=(const const_iterator& it) const noexcept -> bool { return iter >= it.iter; }
+			SEQ_ALWAYS_INLINE auto operator<=(const const_iterator& it) const noexcept -> bool { return iter <= it.iter; }
+
 			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
 			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
 			SEQ_ALWAYS_INLINE auto operator-(const const_iterator & other) const noexcept -> difference_type { return iter - other.iter; }
@@ -1692,6 +1680,10 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const noexcept -> bool { return iter == it.iter; }
 			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const noexcept -> bool { return iter != it.iter; }
+			SEQ_ALWAYS_INLINE auto operator>(const const_iterator& it) const noexcept -> bool { return iter > it.iter; }
+			SEQ_ALWAYS_INLINE auto operator<(const const_iterator& it) const noexcept -> bool { return iter < it.iter; }
+			SEQ_ALWAYS_INLINE auto operator>=(const const_iterator& it) const noexcept -> bool { return iter >= it.iter; }
+			SEQ_ALWAYS_INLINE auto operator<=(const const_iterator& it) const noexcept -> bool { return iter <= it.iter; }
 			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
 			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
 			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) const noexcept -> difference_type { return iter - other.iter; }
@@ -1737,11 +1729,15 @@ namespace seq
 				this->iter -= diff;
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const -> bool { return this->iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const -> bool { return this->iter != it.iter; }
-			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) -> iterator { return this->iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) -> iterator { return this->iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) -> difference_type { return this->iter - other.iter; }
+			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const noexcept -> bool { return this->iter == it.iter; }
+			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const noexcept -> bool { return this->iter != it.iter; }
+			SEQ_ALWAYS_INLINE auto operator>(const const_iterator& it) const noexcept -> bool { return this->iter > it.iter; }
+			SEQ_ALWAYS_INLINE auto operator<(const const_iterator& it) const noexcept -> bool { return this->iter < it.iter; }
+			SEQ_ALWAYS_INLINE auto operator>=(const const_iterator& it) const noexcept -> bool { return this->iter >= it.iter; }
+			SEQ_ALWAYS_INLINE auto operator<=(const const_iterator& it) const noexcept -> bool { return this->iter <= it.iter; }
+			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> iterator { return this->iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> iterator { return this->iter + diff; }
+			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) const noexcept -> difference_type { return this->iter - other.iter; }
 		};
 
 

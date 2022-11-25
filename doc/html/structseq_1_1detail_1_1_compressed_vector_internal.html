@@ -199,21 +199,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8f649a89fbe4816af17a775d51d6b9fa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a8f649a89fbe4816af17a775d51d6b9fa">allocate_buffer_for_compression</a> (unsigned <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#aba22a9bd018fbb9f6fbd9466b70d0773">size</a>, <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ad64cd5f4ae0bc270f022931fcd7ee584">BucketType</a> *bucket, size_t bucket_index, <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *context) -&gt; char *</td></tr>
 <tr class="memdesc:a8f649a89fbe4816af17a775d51d6b9fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate and return buffer of given size. In case of exception, decompress and destroy values, deallocate previous buffer, remove bucket, remove decompression context and rethrow.  <a href="structseq_1_1detail_1_1_compressed_vector_internal.html#a8f649a89fbe4816af17a775d51d6b9fa">More...</a><br /></td></tr>
 <tr class="separator:a8f649a89fbe4816af17a775d51d6b9fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e08acd818720c05339d5126a01d0188"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a5e08acd818720c05339d5126a01d0188">make_or_find_free_context</a> (<a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *exclude=NULL) -&gt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *</td></tr>
-<tr class="memdesc:a5e08acd818720c05339d5126a01d0188"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a decompression context either by creating a new one, or by reusing an existing one.  <a href="structseq_1_1detail_1_1_compressed_vector_internal.html#a5e08acd818720c05339d5126a01d0188">More...</a><br /></td></tr>
-<tr class="separator:a5e08acd818720c05339d5126a01d0188"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb7c4e98497e615107d95f9fb150a4b2"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#acb7c4e98497e615107d95f9fb150a4b2">find_free_context</a> (<a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *exclude=NULL, typename ContextType::iterator *start=NULL) -&gt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *</td></tr>
-<tr class="memdesc:acb7c4e98497e615107d95f9fb150a4b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reuse and return an existing decompression context that cannot be exclude one.  <a href="structseq_1_1detail_1_1_compressed_vector_internal.html#acb7c4e98497e615107d95f9fb150a4b2">More...</a><br /></td></tr>
-<tr class="separator:acb7c4e98497e615107d95f9fb150a4b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8baa977f3e6df431632b4906428a4f81"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a8baa977f3e6df431632b4906428a4f81">make_or_find_free_context</a> (<a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *exclude=nullptr) -&gt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *</td></tr>
+<tr class="memdesc:a8baa977f3e6df431632b4906428a4f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a decompression context either by creating a new one, or by reusing an existing one.  <a href="structseq_1_1detail_1_1_compressed_vector_internal.html#a8baa977f3e6df431632b4906428a4f81">More...</a><br /></td></tr>
+<tr class="separator:a8baa977f3e6df431632b4906428a4f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a331d8d507484235318b58c4bdbcf3fcb"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a331d8d507484235318b58c4bdbcf3fcb">find_free_context</a> (<a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *exclude=nullptr, typename ContextType::iterator *start=nullptr) -&gt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *</td></tr>
+<tr class="memdesc:a331d8d507484235318b58c4bdbcf3fcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reuse and return an existing decompression context that cannot be exclude one.  <a href="structseq_1_1detail_1_1_compressed_vector_internal.html#a331d8d507484235318b58c4bdbcf3fcb">More...</a><br /></td></tr>
+<tr class="separator:a331d8d507484235318b58c4bdbcf3fcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dba411f762b107fc3a8f488e5a34a7f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a3dba411f762b107fc3a8f488e5a34a7f">compress_bucket</a> (size_t index) -&gt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *</td></tr>
 <tr class="memdesc:a3dba411f762b107fc3a8f488e5a34a7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compress bucket using its own context.  <a href="structseq_1_1detail_1_1_compressed_vector_internal.html#a3dba411f762b107fc3a8f488e5a34a7f">More...</a><br /></td></tr>
 <tr class="separator:a3dba411f762b107fc3a8f488e5a34a7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1daad609bf2ce2d2fbe46f5d3c32f390"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a1daad609bf2ce2d2fbe46f5d3c32f390">ensure_has_back_bucket</a> ()</td></tr>
 <tr class="memdesc:a1daad609bf2ce2d2fbe46f5d3c32f390"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensure that a back bucket is available for back insertion.  <a href="structseq_1_1detail_1_1_compressed_vector_internal.html#a1daad609bf2ce2d2fbe46f5d3c32f390">More...</a><br /></td></tr>
 <tr class="separator:a1daad609bf2ce2d2fbe46f5d3c32f390"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36bd4ab49615832a09f10e56580dc179"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a36bd4ab49615832a09f10e56580dc179">decompress_bucket</a> (size_t index, size_t exclude=-1)</td></tr>
-<tr class="memdesc:a36bd4ab49615832a09f10e56580dc179"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decompress given bucket. If necessary, use an existing context or create a new one (which cannot be the exclude one)  <a href="structseq_1_1detail_1_1_compressed_vector_internal.html#a36bd4ab49615832a09f10e56580dc179">More...</a><br /></td></tr>
-<tr class="separator:a36bd4ab49615832a09f10e56580dc179"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a684043365956cc66205f40244b8cdd7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a684043365956cc66205f40244b8cdd7a">decompress_bucket</a> (size_t index, size_t exclude=static_cast&lt; size_t &gt;(-1))</td></tr>
+<tr class="memdesc:a684043365956cc66205f40244b8cdd7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decompress given bucket. If necessary, use an existing context or create a new one (which cannot be the exclude one)  <a href="structseq_1_1detail_1_1_compressed_vector_internal.html#a684043365956cc66205f40244b8cdd7a">More...</a><br /></td></tr>
+<tr class="separator:a684043365956cc66205f40244b8cdd7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b831c5f18a6c2d3f3005bc4a669544a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a9b831c5f18a6c2d3f3005bc4a669544a">memory_footprint</a> () const noexcept -&gt; size_t</td></tr>
 <tr class="memdesc:a9b831c5f18a6c2d3f3005bc4a669544a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the class total memory footprint, including sizeof(*this)  <a href="structseq_1_1detail_1_1_compressed_vector_internal.html#a9b831c5f18a6c2d3f3005bc4a669544a">More...</a><br /></td></tr>
 <tr class="separator:a9b831c5f18a6c2d3f3005bc4a669544a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -306,8 +306,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a7b92c1d3e94843a31a18cbefca84ea40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad95ae67af355ffd2f2ce759d8a54be51"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classseq_1_1spinlock.html">spinlock</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ad95ae67af355ffd2f2ce759d8a54be51">d_lock</a></td></tr>
 <tr class="separator:ad95ae67af355ffd2f2ce759d8a54be51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2aecfe5a5c251991c7726518eb4d5a6"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ae2aecfe5a5c251991c7726518eb4d5a6">d_disp</a></td></tr>
-<tr class="separator:ae2aecfe5a5c251991c7726518eb4d5a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87cde1c306771989768c79327432e4bd"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; short &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a87cde1c306771989768c79327432e4bd">d_disp</a></td></tr>
+<tr class="separator:a87cde1c306771989768c79327432e4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -1068,8 +1068,8 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
 
 </div>
 </div>
-<a id="a36bd4ab49615832a09f10e56580dc179"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36bd4ab49615832a09f10e56580dc179">&#9670;&nbsp;</a></span>decompress_bucket()</h2>
+<a id="a684043365956cc66205f40244b8cdd7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a684043365956cc66205f40244b8cdd7a">&#9670;&nbsp;</a></span>decompress_bucket()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1089,7 +1089,7 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>exclude</em> = <code>-1</code>&#160;</td>
+          <td class="paramname"><em>exclude</em> = <code>static_cast&lt;size_t&gt;(-1)</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1343,8 +1343,8 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
 
 </div>
 </div>
-<a id="acb7c4e98497e615107d95f9fb150a4b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb7c4e98497e615107d95f9fb150a4b2">&#9670;&nbsp;</a></span>find_free_context()</h2>
+<a id="a331d8d507484235318b58c4bdbcf3fcb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a331d8d507484235318b58c4bdbcf3fcb">&#9670;&nbsp;</a></span>find_free_context()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1358,13 +1358,13 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
           <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">seq::detail::CompressedVectorInternal</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Acceleration, Encoder, block_size &gt;::find_free_context </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *&#160;</td>
-          <td class="paramname"><em>exclude</em> = <code>NULL</code>, </td>
+          <td class="paramname"><em>exclude</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">typename ContextType::iterator *&#160;</td>
-          <td class="paramname"><em>start</em> = <code>NULL</code>&#160;</td>
+          <td class="paramname"><em>start</em> = <code>nullptr</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1680,8 +1680,8 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
 
 </div>
 </div>
-<a id="a5e08acd818720c05339d5126a01d0188"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e08acd818720c05339d5126a01d0188">&#9670;&nbsp;</a></span>make_or_find_free_context()</h2>
+<a id="a8baa977f3e6df431632b4906428a4f81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8baa977f3e6df431632b4906428a4f81">&#9670;&nbsp;</a></span>make_or_find_free_context()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1695,7 +1695,7 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
           <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">seq::detail::CompressedVectorInternal</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Acceleration, Encoder, block_size &gt;::make_or_find_free_context </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> *&#160;</td>
-          <td class="paramname"><em>exclude</em> = <code>NULL</code></td><td>)</td>
+          <td class="paramname"><em>exclude</em> = <code>nullptr</code></td><td>)</td>
           <td> -&gt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a>*
 			</td>
         </tr>
@@ -2404,8 +2404,8 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
 
 </div>
 </div>
-<a id="ae2aecfe5a5c251991c7726518eb4d5a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2aecfe5a5c251991c7726518eb4d5a6">&#9670;&nbsp;</a></span>d_disp</h2>
+<a id="a87cde1c306771989768c79327432e4bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87cde1c306771989768c79327432e4bd">&#9670;&nbsp;</a></span>d_disp</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2413,7 +2413,7 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
 template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder  = DefaultEncoder, unsigned block_size = 256&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">short <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">seq::detail::CompressedVectorInternal</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Acceleration, Encoder, block_size &gt;::d_disp</td>
+          <td class="memname">std::atomic&lt;short&gt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">seq::detail::CompressedVectorInternal</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Acceleration, Encoder, block_size &gt;::d_disp</td>
         </tr>
       </table>
 </div><div class="memdoc">

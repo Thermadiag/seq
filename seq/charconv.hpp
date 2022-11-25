@@ -179,8 +179,8 @@ namespace seq
 
 		integral_chars_format()
 			:integral_min_width(0), hex_prefix(false), upper_case(false) {}
-		integral_chars_format(unsigned char min_width , bool hex_prefix , bool upper_case )
-			:integral_min_width(min_width), hex_prefix(hex_prefix), upper_case(upper_case) {}
+		integral_chars_format(unsigned char min_width , bool hp , bool uc )
+			:integral_min_width(min_width), hex_prefix(hp), upper_case(uc) {}
 	};
 
 
@@ -247,8 +247,8 @@ namespace seq
 			char exp;			//! Exponent character for float to string conversion, default to 'e'.
 			char upper;			//! Upper/lower case for nan and inf values
 
-			float_chars_format(chars_format fmt = general, char dot = '.', char exp = 'e', char upper = 0)
-				:fmt(fmt), dot(dot), exp(exp), upper(upper){}
+			float_chars_format(chars_format fm = general, char d = '.', char e = 'e', char u = 0)
+				:fmt(fm), dot(d), exp(e), upper(u){}
 		} ;
 
 		struct char_range
@@ -257,8 +257,8 @@ namespace seq
 			static constexpr bool extendible = false;
 			char* pos;
 			char* end;
-			char_range(char* start , char* end )
-				:pos(start), end(end) {}
+			char_range(char* start , char* en )
+				:pos(start), end(en) {}
 			SEQ_ALWAYS_INLINE auto add_size(size_t count) const noexcept -> char* { 
 				const char* tmp = pos;
 				const_cast<char_range*>(this)->pos += count;
@@ -371,11 +371,11 @@ namespace seq
 		}
 
 
-		static SEQ_ALWAYS_INLINE auto digit_value(char c)  noexcept -> unsigned
+		static SEQ_ALWAYS_INLINE auto digit_value(int c)  noexcept -> unsigned
 		{
 			return static_cast<unsigned>(c - '0');
 		}
-		static SEQ_ALWAYS_INLINE auto is_digit(char c) noexcept -> bool
+		static SEQ_ALWAYS_INLINE auto is_digit(int c) noexcept -> bool
 		{
 			return digit_value(c) <= 9;
 		}
@@ -388,17 +388,17 @@ namespace seq
 		{
 			return c == '\n' || c == '\r';
 		}
-		static SEQ_ALWAYS_INLINE auto to_upper(char c) -> char
+		static SEQ_ALWAYS_INLINE auto to_upper(int c) -> char
 		{
 			static constexpr char offset = 'a' - 'A';
-			return c >= 'a' ? c - offset : c;
+			return static_cast<char>(c >= 'a' ? c - offset : c);
 		}
-		static SEQ_ALWAYS_INLINE auto to_digit_hex(char c) -> unsigned
+		static SEQ_ALWAYS_INLINE auto to_digit_hex(int c) -> unsigned
 		{
 			c = to_upper(c);
 			return (c < ':' && c > '/') ?
-				c - '0'
-				: ((c >= 'A' && c <= 'Z') ? (c - 'A' + 10) : static_cast<unsigned>(-1));
+				static_cast<unsigned>(c - '0')
+				: ((c >= 'A' && c <= 'Z') ? static_cast<unsigned>(c - 'A' + 10) : static_cast<unsigned>(-1));
 		}
 
 
@@ -595,7 +595,7 @@ namespace seq
 
 
 
-		static constexpr unsigned _EOF = 4294967247; // EOF - '0'
+		static constexpr unsigned _EOF = static_cast<unsigned>(4294967247U);//  EOF - '0';
 
 		template<class Stream>
 		SEQ_ALWAYS_INLINE auto read_int64(Stream& str) -> std::int64_t
@@ -620,7 +620,7 @@ namespace seq
 			std::int64_t x = 0;
 			int count = 0;
 			// get frist character
-			unsigned first = str.getc() - '0';
+			unsigned first = static_cast<unsigned>(str.getc() - '0');
 			unsigned second;
 
 			// check EOF
@@ -628,13 +628,13 @@ namespace seq
 				goto error;
 			}
 			
-			second = str.getc() - '0';
+			second = static_cast<unsigned>(str.getc() - '0');
 			count = 0;
 			while ((first <= 9) && (second <= 9))
 			{
 				x = x * static_cast<int64_t>(100) + static_cast<int64_t>(integral_read_table[first][second] );
-				first = str.getc() - '0';
-				second = str.getc() - '0';
+				first = static_cast<unsigned>(str.getc() - '0');
+				second = static_cast<unsigned>(str.getc() - '0');
 				count += 2;
 				if (SEQ_UNLIKELY(count > 18)) {
 					goto too_long_int;
@@ -702,6 +702,16 @@ namespace seq
 			return 0;
 		}
 
+
+		template<class Integral, bool Pointer = std::is_pointer<Integral>::value>
+		struct NullValue{
+			static constexpr Integral value = 0;
+		};
+		template<class Integral>
+		struct NullValue<Integral,true>{
+			static constexpr Integral value = nullptr;
+		};
+
 		template<class T, class Integral, class Stream>
 		SEQ_NOINLINE(auto) read_long_double(T res, Integral saved, int sign, char dot, Stream& str, const chars_format& fmt) -> T
 		{
@@ -711,7 +721,7 @@ namespace seq
 				res = 0;
 			}
 
-			Integral save_point = 0;
+			Integral save_point = NullValue<Integral>::value;
 			int first = str.getc();
 
 			//read decimal
@@ -918,7 +928,7 @@ namespace seq
 					return sign_value(res, sign);
 				}
 				int dist = static_cast<int>(str.tell() - new_check_point);
-				res += decimal * get_pow<T>(-dist);
+				res += static_cast<T>(decimal) * get_pow<T>(-dist);
 				c = str.getc();
 			}
 			if (c == 'e' || c == 'E') {
@@ -942,11 +952,11 @@ namespace seq
 					}
 				}
 				// read exponent value
-				unsigned cc = c- '0';
+				unsigned cc = static_cast<unsigned>(c- '0');
 				do {
-					exp = (exp * 10) + (cc);
-					cc = str.getc() - '0';
-				} while (cc <= 9);
+					exp = (exp * 10) + static_cast<int>(cc);
+					cc = static_cast<unsigned>(str.getc() - '0');
+				} while (cc <= 9U);
 				if (cc != _EOF) {
 					str.back();
 				} else {
@@ -1077,7 +1087,7 @@ namespace seq
 			
 			if (!_val) {
 				int size = fmt.integral_min_width ? static_cast<int>(fmt.integral_min_width) : 1;
-				char* dst = range.add_size(size);
+				char* dst = range.add_size(static_cast<size_t>(size));
 				if (SEQ_UNLIKELY(!dst)) {
 					return { range.end_ptr(), std::errc::value_too_large };
 }
@@ -1125,7 +1135,7 @@ namespace seq
 				tmp[--index] = '-';
 			}
 
-			size_t size = sizeof(tmp) - index - 1;
+			size_t size = sizeof(tmp) - static_cast<size_t>(index) - 1;
 			char* dst = range.add_size(size);
 			if (SEQ_UNLIKELY(!dst) ) {
 				return { range.end_ptr(), std::errc::value_too_large };
@@ -1441,7 +1451,7 @@ namespace seq
 			static constexpr int max_exp_for_fixed = sizeof(T) <= 4 ? 8 : 17;
 
 			T saved = value;
-			exponent = normalize_double(value, fmt);
+			exponent = static_cast<int16_t>(normalize_double(value, fmt));
 
 			if (fmt.fmt == seq::general) {
 				//see https://stackoverflow.com/questions/30658919/the-precision-of-printf-with-specifier-g
@@ -1462,7 +1472,7 @@ namespace seq
 			}
 
 			integral = static_cast<UInt>(value);
-			T remainder = value - integral;
+			T remainder = value - static_cast<T>(integral);
 
 			null_first = false;
 			if (remainder != 0 && remainder < 0.1) {
@@ -1477,7 +1487,7 @@ namespace seq
 			decimals = static_cast<UInt>(remainder);
 
 			// rounding
-			remainder -= decimals;
+			remainder -= static_cast<T>(decimals);
 			if (remainder >= 0.5) {
 				decimals++;
 				const UInt max_val = static_cast<UInt>(get_pow<T>(p) + static_cast<T>(0.5));
@@ -1501,7 +1511,7 @@ namespace seq
 
 			// extract full exponent
 			fmt.fmt = scientific;
-			std::int16_t exponent = normalize_double(value, fmt);
+			std::int16_t exponent = static_cast<std::int16_t>(normalize_double(value, fmt));
 
 			// output sign
 			
@@ -1532,7 +1542,7 @@ namespace seq
 						dst[1] = d[0];
 						exp -= 2;
 						// for big exponents, we end up with a value of 0, therefore avoid the useless floating point math
-						if (v || value) {
+						if (v != 0 || value != 0) {
 							value -= v;
 							value *= 100;
 						}
@@ -1593,7 +1603,7 @@ namespace seq
 						dst[0] = d[1];
 						dst[1] = d[0];
 						width -= 2;
-						if (v || value) {
+						if (v != 0 || value != 0) {
 							value -= v;
 							value *= 100;
 						}
@@ -1628,14 +1638,14 @@ namespace seq
 
 				if (last != start) {
 					//remove leading 0
-					memmove(start, start + 1, saved_last - start );
+					memmove(start, start + 1, static_cast<size_t>(saved_last - start ));
 					--saved_last;
 				}
 				last = saved_last;
 			}
 			else {
 				//remove leading 0
-				memmove(start, start + 1, last - start - 1);
+				memmove(start, start + 1, static_cast<size_t>(last - start - 1));
 				last -= 2;
 			}
 
@@ -1713,14 +1723,14 @@ namespace seq
 					return { range.end_ptr(), std::errc::value_too_large };
 				}
 
-				char* tmp = range.current();
+				char* t = range.current();
 				r = write_integer_decimal_part(range, (decimals), width, decrement_first);
 				if (SEQ_UNLIKELY(r.ec == std::errc::value_too_large)) {
 					return r;
 				}
 
 				// if nothing was outputed, remove the dot
-				if (r.ptr == tmp) {
+				if (r.ptr == t) {
 					r.ptr = range.back();
 				}
 			}
@@ -1785,7 +1795,6 @@ namespace seq
 
 
 
-		/// @internal
 		/// @brief Input stream working on a sequence of characters. Lighter version of buffer_input_stream.
 		///
 		/// buffer_input_stream is a #basic_input_stream used to extract numbers, words and lines from a sequence of characters.
@@ -2608,7 +2617,7 @@ namespace seq
 	inline auto from_chars(const char* first, const char* last, T& value, int base = 10) -> from_chars_result
 	{
 		detail::from_chars_stream str(first, last);
-		value = detail::read_integral<T>(str, base);
+		value = detail::read_integral<T>(str, static_cast<unsigned>(base));
 		return { str ? str.tell() : first, str.error() };
 	}
 

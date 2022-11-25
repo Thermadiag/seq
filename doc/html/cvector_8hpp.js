@@ -1,7 +1,6 @@
 var cvector_8hpp =
 [
     [ "ValueWrapper", "classseq_1_1detail_1_1_value_wrapper.html", "classseq_1_1detail_1_1_value_wrapper" ],
-    [ "spinlock", "classseq_1_1spinlock.html", "classseq_1_1spinlock" ],
     [ "lock_guard", "classseq_1_1lock__guard.html", "classseq_1_1lock__guard" ],
     [ "context_ratio", "classseq_1_1context__ratio.html", "classseq_1_1context__ratio" ],
     [ "ContextRatioGuard", "structseq_1_1detail_1_1_context_ratio_guard.html", "structseq_1_1detail_1_1_context_ratio_guard" ],

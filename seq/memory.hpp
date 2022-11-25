@@ -26,7 +26,6 @@
 #define SEQ_MEMORY_HPP
 
 
-
 /** @file */
 
 /**\defgroup memory Memory: collection of tools for memory management
@@ -75,6 +74,79 @@ The class seq::tagged_pointer stores a pointer and tag value on 4-8 bytes (depen
 
 namespace seq
 {
+	/// @brief Lightweight and fast spinlock implementation based on https://rigtorp.se/spinlock/
+	///
+	/// spinlock is a lightweight spinlock implementation following the TimedMutex requirements.
+	///  
+	class spinlock {
+
+		spinlock(const spinlock&) = delete;
+		spinlock(spinlock&&) = delete;
+		spinlock& operator=(const spinlock&) = delete;
+		spinlock& operator=(spinlock&&) = delete;
+
+		std::atomic<bool> d_lock;
+
+	public:
+		spinlock() : d_lock(0) {}
+
+		~spinlock()
+		{
+			if (is_locked()) {
+				SEQ_ABORT("spinlock destroyed while locked!");
+			}
+		}
+
+		void lock() noexcept {
+			for (;;) {
+				// Optimistically assume the lock is free on the first try
+				if (!d_lock.exchange(true, std::memory_order_acquire)) {
+					return;
+				}
+
+				// Wait for lock to be released without generating cache misses
+				while (d_lock.load(std::memory_order_relaxed)) {
+					// Issue X86 PAUSE or ARM YIELD instruction to reduce contention between
+					// hyper-threads
+
+					std::this_thread::yield();
+				}
+			}
+		}
+
+		bool is_locked() const noexcept { return d_lock.load(std::memory_order_relaxed); }
+		bool try_lock() noexcept {
+			// First do a relaxed load to check if lock is free in order to prevent
+			// unnecessary cache misses if someone does while(!try_lock())
+			return !d_lock.load(std::memory_order_relaxed) &&
+				!d_lock.exchange(true, std::memory_order_acquire);
+		}
+
+		void unlock() noexcept {
+			d_lock.store(false, std::memory_order_release);
+		}
+
+		template<class Rep, class Period>
+		bool try_lock_for(const std::chrono::duration<Rep, Period>& duration) noexcept
+		{
+			return try_lock_until(std::chrono::system_clock::now() + duration);
+		}
+
+		template<class Clock, class Duration>
+		bool try_lock_until(const std::chrono::time_point<Clock, Duration>& timePoint) noexcept
+		{
+			for (;;) {
+				if (!d_lock.exchange(true, std::memory_order_acquire))
+					return true;
+
+				while (d_lock.load(std::memory_order_relaxed)) {
+					if (std::chrono::system_clock::now() > timePoint)
+						return false;
+					std::this_thread::yield();
+				}
+			}
+		}
+	};
 
 	namespace detail
 	{
@@ -89,6 +161,8 @@ namespace seq
 		{
 			return std::this_thread::get_id();
 		}
+
+
 	}
 
 
@@ -189,7 +263,7 @@ namespace seq
 
 			// Avoid integer overflow 
 			if (size > (SIZE_MAX - overhead))
-				return NULL;
+				return nullptr;
 
 			std::uint8_t* mem = al.allocate(size + overhead);
 
@@ -206,7 +280,7 @@ namespace seq
 				rebind_alloc<T> al = get_allocator();
 				return al.deallocate(p, n);
 			}
-			if (p != NULL) {
+			if (p != nullptr) {
 				rebind_alloc<std::uint8_t> al = get_allocator();
 				al.deallocate(reinterpret_cast<std::uint8_t*>((reinterpret_cast<void**>(p))[-1]), n * sizeof(T) + alignment - 1ULL + sizeof(void*));
 			}
@@ -391,10 +465,7 @@ namespace seq
 			auto memory_footprint() const  -> size_t { return pool.memory_footprint(); }
 		};
 
-		/**
-		* \internal
-		* Create a unique identifier for given type using its size and alignment
-		*/
+		/// Create a unique identifier for given type using its size and alignment
 		template<class T>
 		static constexpr auto make_type_key() -> size_t {
 			//No need to use the type alignment
@@ -422,10 +493,7 @@ namespace seq
 			alloc.deallocate(static_cast<Pool*>(pool), 1);
 		}
 
-		/**
-		* \internal
-		* Internal data structure shared among object_allocator copies
-		* */
+		/// Internal data structure shared among object_allocator copies
 		template<class Allocator, bool IsThreaded>
 		struct allocator_data
 		{
@@ -486,14 +554,14 @@ namespace seq
 				for (size_t i = 0; i < data.size(); ++i)
 					if (data[i].key == k)
 						return data[i].pool;
-				return NULL;
+				return nullptr;
 			}
 			// Find virtual_mem_pool with given key
 			auto find(size_t k) const noexcept -> const virtual_mem_pool* {
 				for (size_t i = 0; i < data.size(); ++i)
 					if (data[i].key == k)
 						return data[i].pool;
-				return NULL;
+				return nullptr;
 			}
 			// Push back a memory pool for type U
 			template<class PoolType>
@@ -544,6 +612,7 @@ namespace seq
 				return false;
 			}
 		};
+		using lock_type = MutexWrapper;
 		
 	}
 
@@ -640,12 +709,12 @@ namespace seq
 		
 
 		object_allocator(const allocator_type al = Allocator())
-			: d_data(make_data(al)), d_allocator(NULL) {}
+			: d_data(make_data(al)), d_allocator(nullptr) {}
 		object_allocator(const object_allocator& other) noexcept
 			:d_data(other.d_data->ref()), d_allocator(other.d_allocator) {}
 		template<class U>
 		object_allocator(const object_allocator<U>& other) noexcept
-			: d_data(other.d_data->ref()), d_allocator(NULL) {}
+			: d_data(other.d_data->ref()), d_allocator(nullptr) {}
 		~object_allocator() {
 			d_data->decref();
 		}
@@ -736,12 +805,12 @@ namespace seq
 			void*							d_deffered_free;
 			unsigned						d_deffered_count;
 			detail::thread_id				d_id;
-			detail::MutexWrapper			d_lock;
+			detail::lock_type				d_lock;
 			
 		public:
-			using lock_type = detail::MutexWrapper;
+			using lock_type = detail::lock_type;
 			explicit thread_data(detail::thread_id _id)noexcept
-				:d_deffered_free(NULL), d_deffered_count(0), d_id(_id) {}
+				:d_deffered_free(nullptr), d_deffered_count(0), d_id(_id) {}
 
 			SEQ_ALWAYS_INLINE auto deffered_free() noexcept -> void* { return d_deffered_free; }
 			SEQ_ALWAYS_INLINE auto deffered_count() const noexcept -> unsigned { return d_deffered_count; }
@@ -751,7 +820,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE void set_deffered_count(unsigned c) noexcept { d_deffered_count = c; }
 			SEQ_ALWAYS_INLINE void set_thread_id(detail::thread_id id) noexcept { d_id = id; }
 			SEQ_ALWAYS_INLINE void reset_thread_data() {
-				d_deffered_free = NULL;
+				d_deffered_free = nullptr;
 				d_deffered_count = 0;
 			}
 		};
@@ -812,11 +881,8 @@ namespace seq
 			void add_to(stats_data &  /*unused*/) noexcept {}
 		} ;
 
-		/**
-		*  \internal Contiguous  block of memory
-		* 
-		* Contiguous block of memory used as building blocks for object_pool and parallel object pool
-		*/
+		/// Contiguous  block of memory
+		/// Contiguous block of memory used as building blocks for object_pool and parallel object pool
 		template<
 			class Allocator,	//allocator class
 			size_t Align,		//allocation alignment
@@ -874,8 +940,8 @@ namespace seq
 			{
 				objects = tail = 0;
 				//create chain of free slots
-				set_next(chunks, NULL);
-				first_free = NULL;
+				set_next(chunks, nullptr);
+				first_free = nullptr;
 				thread_data<Threaded>::reset_thread_data();
 			}
 
@@ -891,7 +957,7 @@ namespace seq
 			// Only one constructor provided, use an object count, the size of an object and an allcoator
 			block_pool(size_t elems, unsigned _elem_size, const Allocator& alloc)
 				: thread_data<Threaded>(detail::get_thread_id()), stats_data<GenerateStats>(), 
-				capacity(0), objects(0), tail(0), chunk_bytes(0), chunks(NULL), first_free(NULL), elem_size(_elem_size), allocator(alloc)
+				capacity(0), objects(0), tail(0), chunk_bytes(0), chunks(nullptr), first_free(nullptr), elem_size(_elem_size), allocator(alloc)
 			{
 
 				if (elems) {
@@ -906,8 +972,8 @@ namespace seq
 #endif
 					capacity = elems;
 					//create chain of free 
-					set_next(chunks, NULL);
-					first_free = NULL;
+					set_next(chunks, nullptr);
+					first_free = nullptr;
 				}
 			}
 			//disable copy and move semantic
@@ -976,7 +1042,7 @@ namespace seq
 					tail++;
 				}
 				else {
-					return NULL;
+					return nullptr;
 				}
 					
 
@@ -997,8 +1063,8 @@ namespace seq
 				char* o = (static_cast<char*>(ptr) - alignment);
 				if (SEQ_UNLIKELY(--objects == 0)) {
 					// no more objects: reset tail to restart from scratch
-					set_next(chunks, NULL);
-					first_free = NULL;
+					set_next(chunks, nullptr);
+					first_free = nullptr;
 					tail = 0;
 				}
 				else {
@@ -1038,7 +1104,7 @@ namespace seq
 			void delete_deffered()
 			{
 				if (this->deffered_count() == 0) {
-					this->set_deffered_free(NULL);
+					this->set_deffered_free(nullptr);
 					return;
 				}
 				while (this->deffered_free()) {
@@ -1124,8 +1190,8 @@ namespace seq
 				memcpy(o, &next, sizeof(next));
 			}
 			SEQ_ALWAYS_INLINE auto next(char* o) -> char* {
-				char* res;
-				memcpy(&res, o, sizeof(o));
+				char* res = nullptr;
+				memcpy(&res, o, sizeof(std::uintptr_t));
 				return res;
 			}
 
@@ -1138,8 +1204,8 @@ namespace seq
 					return false;
 				objects = tail = 0;
 				//create chain of free 
-				set_next(chunks, NULL);
-				first_free = NULL;
+				set_next(chunks, nullptr);
+				first_free = nullptr;
 				return true;
 			}
 
@@ -1147,13 +1213,13 @@ namespace seq
 			{
 				objects = tail = 0;
 				//create chain of free 
-				set_next(chunks, NULL);
-				first_free = NULL;
+				set_next(chunks, nullptr);
+				first_free = nullptr;
 			}
 
 			// Only one constructor provided
 			block_pool(size_t elems, unsigned _elem_size, const Allocator& alloc)
-				: thread_data<false>(), stats_data<GenerateStats>(), capacity(0), objects(0), tail(0), chunk_bytes(0), chunks(NULL), first_free(NULL), allocator(alloc), elem_size(_elem_size)
+				: thread_data<false>(), stats_data<GenerateStats>(), capacity(0), objects(0), tail(0), chunk_bytes(0), chunks(nullptr), first_free(nullptr), allocator(alloc), elem_size(_elem_size)
 			{
 
 				if (elems) {
@@ -1167,8 +1233,8 @@ namespace seq
 #endif
 					capacity = elems;
 					//create chain of free 
-					set_next(chunks, NULL);
-					first_free = NULL;
+					set_next(chunks, nullptr);
+					first_free = nullptr;
 				}
 			}
 			//disable copy and move semantic
@@ -1203,7 +1269,7 @@ namespace seq
 				return objects ;
 			}
 			static SEQ_ALWAYS_INLINE auto from_ptr(void*  /*unused*/)  noexcept -> block_pool* {
-				return NULL;
+				return nullptr;
 			}
 
 			// allocate one Obj
@@ -1221,7 +1287,7 @@ namespace seq
 					tail++;
 				}
 				else
-					return NULL;
+					return nullptr;
 
 				this->increment_created();
 				objects++;
@@ -1252,8 +1318,8 @@ namespace seq
 			{
 				if (SEQ_UNLIKELY(--objects == 0)) {
 					// no more objects: reset tail to restart from scratch
-					set_next(chunks, NULL);
-					first_free = NULL;
+					set_next(chunks, nullptr);
+					first_free = nullptr;
 					tail = 0;
 				}
 				else {
@@ -1273,7 +1339,7 @@ namespace seq
 		{
 			block_type* left;
 			block_type* right;
-			block_it() : left(NULL), right(NULL) {}
+			block_it() : left(nullptr), right(nullptr) {}
 		};
 		// Base class for object pool
 		template<class T>
@@ -1287,6 +1353,7 @@ namespace seq
 		template<class T>
 		struct virtual_block
 		{
+			virtual ~virtual_block() {}
 			virtual void remove() = 0;
 			virtual void ref() = 0;
 			virtual void unref() = 0;
@@ -1295,7 +1362,7 @@ namespace seq
 			virtual auto parent() const -> base_object_pool<T>* = 0;
 		};
 
-		// Block structure, contains a pool, a ref count and the parent thread_data (might be NULL)
+		// Block structure, contains a pool, a ref count and the parent thread_data (might be nullptr)
 		template<class T, class Allocator, class block_pool_type, class derived>
 		struct base_block : public block_it<derived>, public virtual_block<T>
 		{
@@ -1310,30 +1377,30 @@ namespace seq
 			base_block(void* th, size_t elems, unsigned elem_size, const Allocator& al)
 				:block_it<derived>(), pool(elems, elem_size, al), th_data(th), ref_cnt(1)
 			{}
-			void insert(derived* left, derived* right)
+			void insert(derived* l, derived* r)
 			{
-				this->left = left;
-				this->right = right;
-				left->right = right->left = static_cast<derived*>(this);
+				this->left = l;
+				this->right = r;
+				l->right = r->left = static_cast<derived*>(this);
 			}
-			virtual void remove()
+			virtual void remove() override
 			{
 				this->left->right = this->right;
 				this->right->left = this->left;
-				this->left = this->right = NULL;
+				this->left = this->right = nullptr;
 			}
-			virtual void ref()
+			virtual void ref() override
 			{
 				++ref_cnt;
 			}
-			virtual void remove_and_unref()
+			virtual void remove_and_unref() override
 			{
 				this->left->right = this->right;
 				this->right->left = this->left;
-				this->left = this->right = NULL;
+				this->left = this->right = nullptr;
 				unref();
 			}
-			virtual void unref()
+			virtual void unref() override
 			{
 				if (ref_cnt.fetch_sub(static_cast<size_t>(1)) == static_cast<size_t>(1)) {
 					if (this->left && this->right)
@@ -1343,7 +1410,7 @@ namespace seq
 					al.deallocate(static_cast<derived*>(this), 1);
 				}
 			}
-			virtual void deallocate(value_type* p, size_t /*unused*/)
+			virtual void deallocate(value_type* p, size_t /*unused*/) override
 			{
 				pool.deallocate_ptr(p, detail::get_thread_id());
 			}
@@ -1406,7 +1473,7 @@ namespace seq
 
 	namespace detail
 	{
-		/// @internal custom allocator class to use with std::allocate_shared
+		/// Custom allocator class to use with std::allocate_shared
 		template<class T, class  Pool>
 		class allocator_for_shared_ptr //: public std::allocator<T>
 		{
@@ -1431,7 +1498,7 @@ namespace seq
 			template< class U > struct rebind { using other = allocator_for_shared_ptr<U, Pool>; };
 
 			auto select_on_container_copy_construction() const noexcept -> allocator_for_shared_ptr { return *this; }
-			allocator_for_shared_ptr() noexcept : d_pool(NULL) {}
+			allocator_for_shared_ptr() noexcept : d_pool(nullptr) {}
 			allocator_for_shared_ptr(Pool* p ) noexcept : d_pool(p) {}
 			allocator_for_shared_ptr(const allocator_for_shared_ptr& other)noexcept :d_pool(other.d_pool) {}
 			template<class U>
@@ -1716,7 +1783,7 @@ namespace seq
 				: detail::base_block<T,Allocator, chunk_type, block>(data, elems, elem_size, al)
 			{}
 
-			virtual auto parent() const -> detail::base_object_pool<T>* {
+			virtual auto parent() const -> detail::base_object_pool<T>* override {
 				return static_cast<this_type*>(this->th_data);
 			}
 		};
@@ -1739,7 +1806,7 @@ namespace seq
 
 			// Allocate chunk_mem_pool
 			rebind_alloc< block> al = get_allocator();//d_allocator;
-			block* res = NULL;
+			block* res = nullptr;
 			try {
 				res = al.allocate(1);
 				construct_ptr(res, this, chunk_capacity, static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)), get_allocator());
@@ -1774,7 +1841,7 @@ namespace seq
 				d_capacity[idx] += bl->pool.capacity;
 				return static_cast<T*>(bl->pool.allocate());
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		SEQ_NOINLINE(auto) empty(size_t idx, block* bl) noexcept -> block*
@@ -1784,7 +1851,7 @@ namespace seq
 			d_capacity[idx] -= bl->pool.capacity;
 			
 			if (d_last[idx] == bl)
-				d_last[idx] = NULL;
+				d_last[idx] = nullptr;
 
 			bl->pool.add_to(*this);
 			if (d_reclaim_memory) {
@@ -1809,7 +1876,7 @@ namespace seq
 						d_bytes -= sizeof(block) + it->pool.memory_footprint();
 						it->pool.add_to(*this);
 						it->remove_and_unref();
-						d_last[i] = NULL;
+						d_last[i] = nullptr;
 					}
 					it = next;
 				}
@@ -1826,7 +1893,7 @@ namespace seq
 
 		SEQ_NOINLINE(auto) allocate_from_new_block(size_t idx) -> T*
 		{
-			size_t to_allocate = static_cast<size_t>(d_capacity[idx] *  SEQ_GROW_FACTOR);
+			size_t to_allocate = static_cast<size_t>(static_cast<double>(d_capacity[idx]) *  SEQ_GROW_FACTOR);
 			if (to_allocate < object_allocation::min_capacity) {
 				//for the start, try not to exceed objs_per_alloc T values
 				to_allocate = object_allocation::min_capacity;
@@ -1867,7 +1934,7 @@ namespace seq
 		auto allocate_big(size_t size) -> T*
 		{
 			//size too big to use the pools, use allocator
-			T* res = NULL;
+			T* res = nullptr;
 			if (alignment <= SEQ_DEFAULT_ALIGNMENT) {
 				rebind_alloc<T> al = get_allocator();
 				res = al.allocate(size);
@@ -1942,12 +2009,12 @@ namespace seq
 		{
 			for (size_t i = 0; i < slots; ++i) {
 				d_pools[i].left = d_pools[i].right = static_cast<block*>(&d_pools[i]);
-				d_last[i] = NULL;
+				d_last[i] = nullptr;
 				d_capacity[i] = 0;
 			}
 			d_free.left = d_free.right = static_cast<block*>(&d_free);
 		}
-		~object_pool() 
+		virtual ~object_pool() override
 		{
 			clear();
 		}
@@ -1970,15 +2037,15 @@ namespace seq
 				it = next;
 			}
 			for (size_t i = 0; i < slots; ++i) {
-				block* it = d_pools[i].right;
-				while (it != static_cast<block*>(&d_pools[i])) {
-					block* next = it->right;
-					it->pool.add_to(*this);
-					it->remove_and_unref();
-					it = next;
+				block* bl = d_pools[i].right;
+				while (bl != static_cast<block*>(&d_pools[i])) {
+					block* next = bl->right;
+					bl->pool.add_to(*this);
+					bl->remove_and_unref();
+					bl = next;
 				}
 				d_capacity[i] = (0);
-				d_last[i] = NULL;
+				d_last[i] = nullptr;
 				d_bytes = 0;
 				d_pools[i].left = d_pools[i].right = static_cast<block*>(&d_pools[i]);
 			}
@@ -2008,7 +2075,7 @@ namespace seq
 					}
 					it = next;
 				}
-				d_last[i] = NULL;
+				d_last[i] = nullptr;
 			}
 		}
 
@@ -2116,7 +2183,7 @@ namespace seq
 		/// 
 		/// Might throw std::bad_alloc.
 		/// 
-		auto allocate( size_t size) -> T*
+		virtual auto allocate( size_t size) -> T* override
 		{
 			if (SEQ_UNLIKELY(!object_allocation::fits(size))) {
 				//size too big to use the pools, use allocator
@@ -2136,7 +2203,7 @@ namespace seq
 		/// @param ptr pointer to objects to deallocate
 		/// @param size number of objects to deallocate
 		/// 
-		void deallocate(T* ptr, size_t size)
+		virtual void deallocate(T* ptr, size_t size) override
 		{
 			if (SEQ_UNLIKELY(!object_allocation::fits(size))) {
 				//size too big to use the pools, use allocator
@@ -2184,7 +2251,7 @@ namespace seq
 		{
 			size_t idx = object_allocation::size_to_idx(alloc_size);
 			if (count > d_capacity[idx]) {
-				size_t to_allocate = static_cast<size_t>( d_capacity[idx] * SEQ_GROW_FACTOR);
+				size_t to_allocate = static_cast<size_t>( static_cast<double>(d_capacity[idx]) * SEQ_GROW_FACTOR);
 				if (to_allocate < object_allocation::min_capacity) 
 					to_allocate = object_allocation::min_capacity;
 				else if (to_allocate == d_capacity[idx]) 
@@ -2340,13 +2407,13 @@ namespace seq
 				size_t cap = this->pool.capacity;
 				if (thread_data* data = static_cast<thread_data*>(this->th_data)) {
 					if (data->last[idx] == this)
-						data->last[idx] = NULL;
+						data->last[idx] = nullptr;
 					data->capacity[idx] -= cap;
 				}
 				this->remove_and_unref();
 				return cap;
 			}
-			virtual auto parent() const -> detail::base_object_pool<T>* 
+			virtual auto parent() const -> detail::base_object_pool<T>* override
 			{
 				return static_cast<thread_data*>(this->th_data)->parent;
 			}
@@ -2354,7 +2421,7 @@ namespace seq
 
 		using block_iterator = detail::block_it<block>;
 		using pool_lock = typename block_pool_type::lock_type;
-		using lock_type = detail::MutexWrapper;
+		using lock_type = detail::lock_type;
 
 		struct thread_data
 		{
@@ -2400,7 +2467,7 @@ namespace seq
 				parent = p;
 				for (size_t i = 0; i < slots; ++i) {
 					pools[i].left = pools[i].right = static_cast<block*>(&pools[i]);
-					last[i] = NULL;
+					last[i] = nullptr;
 					capacity[i] = 0;
 					pool_count[i] = 0;
 				}
@@ -2423,11 +2490,11 @@ namespace seq
 					for (size_t i = 0; i < slots; ++i) {
 						// Move empty blocks to the shared free list.
 						// Move non empty block 'other' list in order to be cleaned later.
-						// In any case, set their th_data attribute to NULL
+						// In any case, set their th_data attribute to nullptr
 						block* b = pools[i].right;
 						while (static_cast<block_iterator*>(b) != /*static_cast<block*>*/(&pools[i])) {
 							block* next = b->right;
-							b->th_data = NULL;
+							b->th_data = nullptr;
 
 							//retrieve stats
 							parent->grab_from(b->pool);
@@ -2501,7 +2568,7 @@ namespace seq
 			while (it != tls.data.end()) {
 				if (it->parent == this)
 					return tls.last = &(*it);
-				else if (it->parent == NULL)
+				else if (it->parent == nullptr)
 					it = tls.data.erase(it);
 				else
 					++it;
@@ -2581,7 +2648,7 @@ namespace seq
 			}
 
 			d_lock.unlock(); // Unlock
-			return NULL;
+			return nullptr;
 		}
 
 		SEQ_NOINLINE(auto) empty(size_t idx, thread_data* data, block* bl) noexcept -> block*
@@ -2591,10 +2658,10 @@ namespace seq
 			// Remove block from its list and delete it if d_reclaim_memory is true,
 			// or add it to the shared free list/
 
-			// Note that data might be NULL if the block was created in a thread that does not exist anymore.
+			// Note that data might be nullptr if the block was created in a thread that does not exist anymore.
 			block* right = bl->right;
 			bl->remove();
-			bl->th_data = NULL;
+			bl->th_data = nullptr;
 
 			//retrieve stats
 			this->grab_from(bl->pool);
@@ -2603,7 +2670,7 @@ namespace seq
 				data->pool_count[idx]--;
 				data->capacity[idx] -= bl->pool.capacity;
 				if (data->last[idx] == bl)
-					data->last[idx] = NULL;
+					data->last[idx] = nullptr;
 			}
 
 			if (d_reclaim_memory) {
@@ -2626,7 +2693,7 @@ namespace seq
 			// Creates a new block for given thread data
 			// Uses the global SEQ_GROW_FACTOR
 			// throw on error
-			size_t to_allocate = static_cast<size_t>( data->capacity[idx] * SEQ_GROW_FACTOR);
+			size_t to_allocate = static_cast<size_t>(static_cast<double>(data->capacity[idx]) * SEQ_GROW_FACTOR);
 			if (to_allocate < object_allocation::min_capacity) {
 				//for the start, try not to exceed objs_per_alloc T values
 				to_allocate = object_allocation::min_capacity;
@@ -2636,7 +2703,7 @@ namespace seq
 
 			}
 
-			block * res = NULL;
+			block * res = nullptr;
 			rebind_alloc<block> al = get_allocator();
 
 			try {
@@ -2692,6 +2759,8 @@ namespace seq
 			// Wait for all threads to be interrupted
 			bool keep_going = true;
 			auto it = d_pools.begin();
+
+			
 			while (keep_going) {
 				keep_going = false;
 				for (; it != d_pools.end(); ++it)
@@ -2699,6 +2768,8 @@ namespace seq
 						keep_going = true;
 						break;
 					}
+				// Leave some room to other threads to do their jobs
+				std::this_thread::yield();
 			}
 
 		}
@@ -2793,7 +2864,7 @@ namespace seq
 						p = next;
 					}
 					if (destroy)
-						(*it)->parent = NULL;
+						(*it)->parent = nullptr;
 					else
 						(*it)->init(this);
 				}
@@ -2842,7 +2913,7 @@ namespace seq
 						p = next;
 					}
 					if (destroy)
-						(*it)->parent = NULL;
+						(*it)->parent = nullptr;
 					else
 						(*it)->init(this);
 				}
@@ -2868,7 +2939,7 @@ namespace seq
 		{
 			if ((data->last[idx] = extract_free_block(idx,data)))
 				return static_cast<T*>(data->last[idx]->pool.allocate());
-			return NULL;
+			return nullptr;
 		}
 
 		auto allocate_from_new_block(thread_data* data, size_t idx) -> T*
@@ -2901,7 +2972,7 @@ namespace seq
 			if (data->last[idx]) {
 				return static_cast<T*>(data->last[idx]->pool.allocate());
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		auto allocate_from_other(thread_data* data, size_t idx ) -> T*
@@ -2999,7 +3070,7 @@ namespace seq
 			d_clean.left = d_clean.right = static_cast<block*>(&d_clean);
 		}
 
-		~parallel_object_pool()
+		~parallel_object_pool() override
 		{
 			std::lock_guard<lock_type> l(d_lock);
 			clear_no_pause(true);
@@ -3139,7 +3210,7 @@ namespace seq
 		/// 
 		/// Might throw std::bad_alloc.
 		/// 
-		SEQ_ALWAYS_INLINE auto allocate(size_t size ) -> T*
+		auto allocate(size_t size ) -> T* override
 		{
 			return allocate(get_data(), object_allocation::size_to_idx(size));
 		}
@@ -3149,7 +3220,7 @@ namespace seq
 		/// @param ptr pointer to objects to deallocate
 		/// @param size number of objects to deallocate
 		/// 
-		SEQ_ALWAYS_INLINE void deallocate(T* ptr, size_t size)
+		void deallocate(T* ptr, size_t size) override
 		{
 			size_t idx = object_allocation::size_to_idx(size);
 			detail::thread_id id = detail::get_thread_id();
@@ -3162,7 +3233,7 @@ namespace seq
 			// In practice this is not an issue as calling clear() in parallel to deallocate() will crash anyway, and calling
 			// release_unused_memory() will not touch a block with deffered deletion (as objects > 0)
 
-			// Note that data might be NULL if the block was created in a thread that does not exist anymore.
+			// Note that data might be nullptr if the block was created in a thread that does not exist anymore.
 			// In such case, the block is in the d_clean list.
 			const bool check_interrupt = id == p->thread_id() && data;
 

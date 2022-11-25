@@ -62,15 +62,15 @@ namespace seq
 			size_t capacity;	// memory storage capacity
 
 			DEVectorData(const Allocator & al = Allocator()) 
-				: Allocator(al), data(NULL), start(NULL), end(NULL), capacity(0){}
+				: Allocator(al), data(nullptr), start(nullptr), end(nullptr), capacity(0){}
 			DEVectorData(DEVectorData&& other) noexcept 				
 				: Allocator(std::move(static_cast<Allocator&>(other))), data(other.data), start(other.start), end(other.end), capacity(other.capacity) {
-				other.data = other.start = other.end = NULL;
+				other.data = other.start = other.end = nullptr;
 				other.capacity = 0;
 			}
 			/*DEVectorData(DEVectorData&& other, const Allocator& al)
 				: Allocator(al), data(other.data), start(other.start), end(other.end), capacity(other.capacity) {
-				other.data = other.start = other.end = NULL;
+				other.data = other.start = other.end = nullptr;
 				other.capacity = 0;
 			}*/
 			~DEVectorData() {
@@ -82,51 +82,51 @@ namespace seq
 
 			auto get_allocator() noexcept -> Allocator& { return *this; }
 			auto get_allocator() const noexcept -> const Allocator& { return *this; }
-			auto allocate(size_t n) -> T* {return n ? get_allocator().allocate(n) : NULL;}
+			auto allocate(size_t n) -> T* {return n ? get_allocator().allocate(n) : nullptr;}
 			void deallocate(T* p, size_t n) { if(p) get_allocator().deallocate(p, n);}
 
-			void destroy_range(T* begin, T* end)
+			void destroy_range(T* begin, T* en)
 			{
 				// destroy values in the range [begin,end)
 				if (!std::is_trivially_destructible<T>::value) {
-					while (begin != end) {
+					while (begin != en) {
 						destroy_ptr(begin++);
 					}
 				}
 			}
 
 			template< class... Args >
-			void construct_range(T* begin, T* end, Args&&... args)
+			void construct_range(T* first, T* last, Args&&... args)
 			{
 				// construct values in the range [begin,end) with given arguments
 				// in case of exception, destroy created values
-				T* saved = begin;
+				T* saved = first;
 				try {
-					while (begin != end) {
-						construct_ptr(begin, std::forward<Args>(args)...);
-						++begin;
+					while (first != last) {
+						construct_ptr(first, std::forward<Args>(args)...);
+						++first;
 					}
 				}
 				catch (...) {
-					destroy_range(saved, begin);
+					destroy_range(saved, first);
 					throw;
 				}
 			}
 
 
-			void copy_destroy_input( T* begin,  T* end, T* dst) {
-				// Copy range [begin, end) to non overlapping dst, and destroy input range.
+			void copy_destroy_input( T* first,  T* last, T* dst) {
+				// Copy range [first, last) to non overlapping dst, and destroy input range.
 				// In case of exception, input is not detroyed, and created values are destroyed
 				// Strong exception guarantee
 				if (relocatable)
-					memcpy(static_cast<void*>(dst), static_cast<void*>(begin), (end - begin) * sizeof(T));
+					memcpy(static_cast<void*>(dst), static_cast<void*>(first), static_cast<size_t>(last - first) * sizeof(T));
 				else {
-					T* saved = begin;
+					T* saved = first;
 					T* saved_dst = dst;
 					try {
-						while (begin != end) {
-							construct_ptr(dst, std::move_if_noexcept(*begin));
-							++begin;
+						while (first != last) {
+							construct_ptr(dst, std::move_if_noexcept(*first));
+							++first;
 							++dst;
 						}
 					}
@@ -136,13 +136,13 @@ namespace seq
 						throw;
 					}
 					//no exception thrown, destroy input
-					destroy_range(saved, end);
+					destroy_range(saved, last);
 				}
 			}
 
 			auto grow_capacity() const -> size_t
 			{
-				size_t c = static_cast<size_t>(capacity * SEQ_GROW_FACTOR);
+				size_t c = static_cast<size_t>(static_cast<double>(capacity) * SEQ_GROW_FACTOR);
 				if (c == capacity)
 					++c;
 				if (c < 2)
@@ -150,54 +150,54 @@ namespace seq
 				return c;
 			}
 
-			void move_destroy_input(T* begin, T* end, T* dst) {
-				// Move range [begin, end) to overlapping dst and destroy input
+			void move_destroy_input(T* first, T* last, T* dst) {
+				// Move range [first, last) to overlapping dst and destroy input
 				// Basic exception guarantee only
 
-				size_t size = end - begin;
-				if (dst + size < begin || dst >= end)
+				size_t size = static_cast<size_t>(last - first);
+				if (dst + size < first || dst >= last)
 					//no overlapp, use copy_destroy_input
-					return copy_destroy_input(begin, end, dst);
+					return copy_destroy_input(first, last, dst);
 
-				if (dst == begin || begin == end)
+				if (dst == first || first == last)
 					return; //no op
 
-				if (dst < begin) {
+				if (dst < first) {
 					T* saved = dst;
 					
 					try {
 						// Construct first part
-						while (dst < begin && begin != end) {
-							construct_ptr(dst, std::move(*begin));
+						while (dst < first && first != last) {
+							construct_ptr(dst, std::move(*first));
 							++dst;
-							++begin;
+							++first;
 						}
 						// move second part
-						while (begin != end) {
-							*dst = std::move(*begin);
+						while (first != last) {
+							*dst = std::move(*first);
 							++dst;
-							++begin;
+							++first;
 						}
-						// destroy from dst to end
-						destroy_range(dst, end);
+						// destroy from dst to last
+						destroy_range(dst, last);
 					}
 					catch (...) {
-						// destroy previously created values (first part only, before begin)
-						while (saved != dst && saved != begin) {
+						// destroy previously created values (first part only, before first)
+						while (saved != dst && saved != first) {
 							destroy_ptr(saved++);
 						}
 						throw;
 					}
 				}
 				else {
-					// dst is in between begin and end
+					// dst is in between first and last
 					
 					T* end_dst = dst + size;
 					T* saved = end_dst;
-					T* src_end = end;
+					T* src_end = last;
 					try {
 						//construct first (right) part
-						while (end_dst != end) {
+						while (end_dst != last) {
 							construct_ptr(end_dst -1, std::move(*(src_end-1)));
 							--end_dst;
 							--src_end;
@@ -208,11 +208,11 @@ namespace seq
 							--end_dst;
 							--src_end;
 						}
-						destroy_range(begin, dst);
+						destroy_range(first, dst);
 					}
 					catch (...) {
 						//destroy previously created values
-						while (saved != end_dst && saved != end) {
+						while (saved != end_dst && saved != last) {
 							destroy_ptr(--saved);
 						}
 						throw;
@@ -230,7 +230,7 @@ namespace seq
 			void shrink_to_fit()
 			{
 				// Strong exception guarantee
-				size_t size = end - start;
+				size_t size = static_cast<size_t>(end - start);
 				if (size == capacity)
 					return;
 
@@ -254,7 +254,7 @@ namespace seq
 				if (new_capacity <= capacity)
 					return;
 
-				size_t size = end - start;
+				size_t size = static_cast<size_t>(end - start);
 				T* _new = allocate(new_capacity);
 				T* _new_start = flag == OptimizeForPushBack ? _new : flag == OptimizeForPushFront ? _new + new_capacity - size : (_new + (new_capacity - size) / 2);
 				T* _new_end = _new_start + size;
@@ -280,8 +280,8 @@ namespace seq
 			void reserve_back(size_t new_back_capacity)
 			{
 				// Basic exception guarantee
-				size_t size = end - start;
-				size_t back_capacity = (data + capacity) - end;
+				size_t size = static_cast<size_t>(end - start);
+				size_t back_capacity = static_cast<size_t>((data + capacity) - end);
 				if (back_capacity >= new_back_capacity)
 					return;
 
@@ -315,8 +315,8 @@ namespace seq
 			void reserve_front(size_t new_front_capacity)
 			{
 				// Basic exception guarantee
-				size_t size = end - start;
-				size_t front_capacity = start - data;
+				size_t size = static_cast<size_t>(end - start);
+				size_t front_capacity = static_cast<size_t>(start - data);
 				if (front_capacity >= new_front_capacity)
 					return;
 
@@ -353,14 +353,14 @@ namespace seq
 			{
 				// Strong exception guarantee
 
-				size_t size = end - start;
+				size_t size = static_cast<size_t>(end - start);
 				if (size == new_size)
 					return;
 
 				if (new_size > size)
 				{
 					// Grow
-					size_t remaining = (data + capacity) - end;
+					size_t remaining = static_cast<size_t>((data + capacity) - end);
 					if (remaining >= (new_size - size)) {
 						// no need to allocate, just construct
 						T* new_end = end + (new_size - size);
@@ -473,8 +473,8 @@ namespace seq
 				// grow_back is only called when there is no more room on the back
 				SEQ_ASSERT_DEBUG(end == data + capacity, "");
 
-				size_t size = end - start;
-				size_t remaining_front = start - data;
+				size_t size = static_cast<size_t>(end - start);
+				size_t remaining_front = static_cast<size_t>(start - data);
 
 				// Check if we have enough space at the front to move data
 				if (remaining_front)
@@ -523,8 +523,8 @@ namespace seq
 				// grow_front is only called when there is no more room on the back
 				SEQ_ASSERT_DEBUG(start == data, "");
 
-				size_t size = end - start;
-				size_t remaining_back = data + capacity - end;
+				size_t size = static_cast<size_t>(end - start);
+				size_t remaining_back = static_cast<size_t>((data + capacity) - end);
 
 				// Check if we have enough space at the front to move data
 				if (remaining_back)
@@ -713,7 +713,7 @@ namespace seq
 		}
 
 		/// @brief Returns the container size
-		auto size() const noexcept -> size_t { return this->base_type::end - this->start; }
+		auto size() const noexcept -> size_t { return static_cast<size_t>(this->base_type::end - this->start); }
 		/// @brief Returns the container full capacity (back_capacity() + size() + front_capacity())
 		auto capacity() const noexcept -> size_t { return this->base_type::capacity; }
 		/// @brief Returns the container back capacity
@@ -838,7 +838,7 @@ namespace seq
 		template< class... Args >
 		auto emplace(const_iterator pos, Args&&... args) -> iterator
 		{
-			size_t dist = pos - begin();
+			size_t dist = static_cast<size_t>(pos - begin());
 			SEQ_ASSERT_DEBUG(dist <= size() , "devector: invalid insertion location");
 
 			if (dist < size() / 2) {
@@ -882,7 +882,7 @@ namespace seq
 		template< class InputIt >
 		auto insert(const_iterator pos, InputIt first, InputIt last) -> iterator
 		{	
-			size_type off = pos - begin();
+			size_type off = static_cast<size_t>(pos - begin());
 			SEQ_ASSERT_DEBUG(off <= size() , "devector insert iterator outside range");
 			size_type oldsize = size();
 
@@ -891,7 +891,7 @@ namespace seq
 			else if (off <= size() / 2)
 			{	// closer to front, push to front then rotate
 				try {
-					if (difference_type len = ::distance(first, last))
+					if (size_t len = seq::distance(first, last))
 						reserve_front(len);
 
 					for (; first != last; ++first)
@@ -903,14 +903,14 @@ namespace seq
 					throw;
 				}
 
-				size_type num = size() - oldsize;
+				difference_type num = static_cast<difference_type>(size() - oldsize);
 				std::reverse(begin(), begin() + num);	// flip new stuff in place
-				std::rotate(begin(), begin() + num, begin() + num + off);
+				std::rotate(begin(), begin() + num, begin() + num + static_cast<difference_type>(off));
 			}
 			else
 			{	// closer to back
 				try {
-					if (difference_type len = ::distance(first, last))
+					if (size_t len = seq::distance(first, last))
 						reserve_back(len);
 					
 					for (; first != last; ++first)
@@ -957,7 +957,7 @@ namespace seq
 		void assign(InputIt first, InputIt last)
 		{
 			try {
-				if (difference_type len = ::distance(first, last)) {
+				if (size_t len = seq::distance(first, last)) {
 					resize(len);
 					std::copy(first, last, begin());
 				}
@@ -1014,8 +1014,8 @@ namespace seq
 			if (first == last)
 				return last;
 
-			size_type off = first - begin();
-			size_type count = last - first;
+			size_type off = static_cast<size_t>(first - begin());
+			size_type count = static_cast<size_t>(last - first);
 
 			if (off < static_cast<size_type>(end() - last))
 			{	// closer to front

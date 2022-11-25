@@ -34,20 +34,22 @@ bool vector_equals(const V1& v1, const V2& v2)
 	return seq::equal(v1.begin(), v1.end(), v2.begin(), v2.end());
 }
 
-using namespace seq;
 
-template<class T, DEVectorFlag flag>
+
+template<class T, seq::DEVectorFlag flag>
 void test_devector_logic()
 {
+	using namespace seq;
+
 	std::vector<T> v;
 	devector<T, std::allocator<T>, flag> dv;
 
 	//test push_back
-	for (int i = 0; i < 200; ++i)
+	for (T i = 0; i < 200; ++i)
 		v.push_back(i);
-	for (int i = 0; i < 100; ++i)
+	for (T i = 0; i < 100; ++i)
 		dv.push_back(i);
-	for (int i = 100; i < 200; ++i)
+	for (T i = 100; i < 200; ++i)
 		dv.emplace_back(i);
 
 	SEQ_TEST(vector_equals(v, dv));
@@ -57,12 +59,12 @@ void test_devector_logic()
 	dv.clear();
 	v.reserve(200);
 	dv.reserve(200);
-	for (int i = 0; i < 200; ++i)
-		v.push_back(i);
-	for (int i = 0; i < 100; ++i)
-		dv.push_back(i);
-	for (int i = 100; i < 200; ++i)
-		dv.emplace_back(i);
+	for (T i = 0; i < 200; ++i)
+		v.push_back(static_cast<T>(i));
+	for (T i = 0; i < 100; ++i)
+		dv.push_back(static_cast<T>(i));
+	for (T i = 100; i < 200; ++i)
+		dv.emplace_back(static_cast<T>(i));
 
 	SEQ_TEST(vector_equals(v, dv));
 
@@ -72,11 +74,11 @@ void test_devector_logic()
 	v.reserve(200);
 	dv.reserve_back(200);
 	for (int i = 0; i < 200; ++i)
-		v.push_back(i);
+		v.push_back(static_cast<T>(i));
 	for (int i = 0; i < 100; ++i)
-		dv.push_back(i);
+		dv.push_back(static_cast<T>(i));
 	for (int i = 100; i < 200; ++i)
-		dv.emplace_back(i);
+		dv.emplace_back(static_cast<T>(i));
 
 	SEQ_TEST(vector_equals(v, dv));
 
@@ -86,22 +88,22 @@ void test_devector_logic()
 	v.reserve(200);
 	dv.reserve_front(200);
 	for (int i = 0; i < 200; ++i)
-		v.push_back(i);
+		v.push_back(static_cast<T>(i));
 	for (int i = 0; i < 100; ++i)
-		dv.push_back(i);
+		dv.push_back(static_cast<T>(i));
 	for (int i = 100; i < 200; ++i)
-		dv.emplace_back(i);
+		dv.emplace_back(static_cast<T>(i));
 
 	SEQ_TEST(vector_equals(v, dv));
 
 
 
 	//test push front
-	for (int i = 0; i < 200; ++i)
+	for (T i = 0; i < 200; ++i)
 		v.insert(v.begin(),i);
-	for (int i = 0; i < 100; ++i)
+	for (T i = 0; i < 100; ++i)
 		dv.push_front(i);
-	for (int i = 100; i < 200; ++i)
+	for (T i = 100; i < 200; ++i)
 		dv.emplace_front(i);
 
 	SEQ_TEST(vector_equals(v, dv));
@@ -111,11 +113,11 @@ void test_devector_logic()
 	dv.clear();
 	v.reserve(200);
 	dv.reserve(200);
-	for (int i = 0; i < 200; ++i)
+	for (T i = 0; i < 200; ++i)
 		v.insert(v.begin(), i);
-	for (int i = 0; i < 100; ++i)
+	for (T i = 0; i < 100; ++i)
 		dv.push_front(i);
-	for (int i = 100; i < 200; ++i)
+	for (T i = 100; i < 200; ++i)
 		dv.emplace_front(i);
 
 	SEQ_TEST(vector_equals(v, dv));
@@ -125,11 +127,11 @@ void test_devector_logic()
 	dv.clear();
 	v.reserve(200);
 	dv.reserve_back(200);
-	for (int i = 0; i < 200; ++i)
+	for (T i = 0; i < 200; ++i)
 		v.insert(v.begin(), i);
-	for (int i = 0; i < 100; ++i)
+	for (T i = 0; i < 100; ++i)
 		dv.push_front(i);
-	for (int i = 100; i < 200; ++i)
+	for (T i = 100; i < 200; ++i)
 		dv.emplace_front(i);
 
 	SEQ_TEST(vector_equals(v, dv));
@@ -139,11 +141,11 @@ void test_devector_logic()
 	dv.clear();
 	v.reserve(200);
 	dv.reserve_front(200);
-	for (int i = 0; i < 200; ++i)
+	for (T i = 0; i < 200; ++i)
 		v.insert(v.begin(), i);
-	for (int i = 0; i < 100; ++i)
+	for (T i = 0; i < 100; ++i)
 		dv.push_front(i);
-	for (int i = 100; i < 200; ++i)
+	for (T i = 100; i < 200; ++i)
 		dv.emplace_front(i);
 
 	SEQ_TEST(vector_equals(v, dv));
@@ -181,15 +183,19 @@ void test_devector_logic()
 
 
 	//test insertion
-	size_t pos[4] = { rand() % v.size(),rand() % v.size(),rand() % v.size(),rand() % v.size() };
-	v.insert(v.begin() + pos[0], 1234);
-	v.insert(v.begin() + pos[0], 1235);
-	v.insert(v.begin() + pos[0], 1236);
-	v.insert(v.begin() + pos[0], 1237);
-	dv.insert(dv.begin() + pos[0], 1234);
-	dv.insert(dv.begin() + pos[0], 1235);
-	dv.insert(dv.begin() + pos[0], 1236);
-	dv.insert(dv.begin() + pos[0], 1237);
+	std::ptrdiff_t pos[4] = { 
+		rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()) };
+	v.insert(v.begin() + pos[0], static_cast<T>(1234));
+	v.insert(v.begin() + pos[0], static_cast<T>(1235));
+	v.insert(v.begin() + pos[0], static_cast<T>(1236));
+	v.insert(v.begin() + pos[0], static_cast<T>(1237));
+	dv.insert(dv.begin() + pos[0], static_cast<T>(1234));
+	dv.insert(dv.begin() + pos[0], static_cast<T>(1235));
+	dv.insert(dv.begin() + pos[0], static_cast<T>(1236));
+	dv.insert(dv.begin() + pos[0], static_cast<T>(1237));
 	SEQ_TEST(vector_equals(v, dv));
 
 	//test range insertion
@@ -204,9 +210,12 @@ void test_devector_logic()
 	SEQ_TEST(vector_equals(v, dv));
 
 	// test erase
-	size_t err[4] = { rand() % v.size(),rand() % v.size(),rand() % v.size(),rand() % v.size() };
+	std::ptrdiff_t err[4] = { rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()) };
 	for (int i = 0; i < 4; ++i) {
-		if (err[i] > v.size() - 200)
+		if (err[i] > static_cast<std::ptrdiff_t>(v.size() - 200))
 			err[i] -= 200;
 	}
 	v.erase(v.begin() + err[0]);

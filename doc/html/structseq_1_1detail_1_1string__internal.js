@@ -9,7 +9,7 @@ var structseq_1_1detail_1_1string__internal =
     [ "get_allocator", "structseq_1_1detail_1_1string__internal.html#abb0efd2d38569444a48c27a7a364d450", null ],
     [ "set_allocator", "structseq_1_1detail_1_1string__internal.html#a2c8069f23a613f4533ee972dd3245780", null ],
     [ "set_allocator", "structseq_1_1detail_1_1string__internal.html#a06f674a275e3287a9adbbdf0b361fead", null ],
-    [ "swap", "structseq_1_1detail_1_1string__internal.html#a1d12586bed79c2009460a36057283f71", null ],
+    [ "swap", "structseq_1_1detail_1_1string__internal.html#abe9e3c55c12ba19939b06f1178a9ab0f", null ],
     [ "d_union", "structseq_1_1detail_1_1string__internal.html#a573198bf92e4ce71a7da6146f7a333c8", null ],
     [ "non_sso", "structseq_1_1detail_1_1string__internal.html#a3c40ba263b050d90e1527399859670df", null ],
     [ "sso", "structseq_1_1detail_1_1string__internal.html#a3359e011e39939075dee45ff4c7ac6d4", null ]

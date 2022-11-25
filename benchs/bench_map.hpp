@@ -147,40 +147,46 @@ void test_set(const char * name,  const std::vector<U> & vec, Format f)
 	size_t insert_range, insert_range_mem;
 	size_t insert, insert_mem;
 
-
 	{
+		C s;
+		reset_memory_usage();
+		start_mem = get_memory_usage();
+
+		//insert range
+		tick();
+		s.insert(vec.begin(), vec.begin() + vec.size() / 2);
+		insert_range = tock_ms();
+		insert_range_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
+
+		check_sorted(s);
+	}
+
+	
 		//insert
 #ifndef TEST_BOOST_INSERT_ERASE
 		if (std::is_same< boost::container::flat_set<T>, C>::value) {
 			insert = 1000000;
 			insert_mem = 0;
+			set.insert(vec.begin(), vec.begin() + vec.size() / 2);
 		}
 		else
 #endif
 		{
+			reset_memory_usage();
+			start_mem = get_memory_usage();
+
 			tick();
-			C s;
 			for (size_t i = 0; i < vec.size() / 2; ++i)
-				insert_value(s, vec[i]);
+				insert_value(set, vec[i]);
 			insert = tock_ms();
 			insert_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
 
-			check_sorted(s);
+			check_sorted(set);
+
 		}
-	}
 	
-	reset_memory_usage();
-	start_mem = get_memory_usage();
-
-	//insert range
-	tick();
-	set.insert(vec.begin(), vec.begin() + vec.size() / 2);
-	insert_range = tock_ms();
-	insert_range_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
 	
-	check_sorted(set);
 	
-
 	//insert fail
 	tick();
 	for (size_t i = 0; i < vec.size() / 2; ++i)

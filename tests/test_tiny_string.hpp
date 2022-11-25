@@ -27,7 +27,7 @@
 #include <unordered_set>
 #include <set>
 
-using namespace seq;
+
 
 
 template<class S1, class S2>
@@ -41,14 +41,16 @@ bool string_equals(const S1& s1, const S2& s2)
 template<size_t MaxStaticSize = 0>
 void test_tstring_logic()
 {
+	using namespace seq;
+
 	std::string v;
 	seq::tiny_string<MaxStaticSize> dv;
 
 	//test push_back
 	for (int i = 0; i < 200; ++i)
-		v.push_back(i);
+		v.push_back(static_cast<char>(i));
 	for (int i = 0; i < 200; ++i)
-		dv.push_back(i);
+		dv.push_back(static_cast<char>(i));
 	
 	SEQ_TEST(string_equals(v, dv));
 
@@ -56,9 +58,9 @@ void test_tstring_logic()
 
 	//test push front
 	for (int i = 0; i < 200; ++i)
-		v.insert(v.begin(), i);
+		v.insert(v.begin(), static_cast<char>(i));
 	for (int i = 0; i < 200; ++i)
-		dv.insert(dv.begin(), i);
+		dv.insert(dv.begin(), static_cast<char>(i));
 	
 	SEQ_TEST(string_equals(v, dv));
 
@@ -95,7 +97,10 @@ void test_tstring_logic()
 
 
 	//test insertion
-	size_t pos[4] = { rand() % v.size(),rand() % v.size(),rand() % v.size(),rand() % v.size() };
+	std::ptrdiff_t pos[4] = { rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()) };
 	v.insert(v.begin() + pos[0], static_cast<char>(-46));
 	v.insert(v.begin() + pos[0], static_cast < char>(-45));
 	v.insert(v.begin() + pos[0], static_cast < char>(-44));
@@ -118,9 +123,12 @@ void test_tstring_logic()
 	SEQ_TEST(string_equals(v, dv));
 
 	// test erase
-	size_t err[4] = { rand() % v.size(),rand() % v.size(),rand() % v.size(),rand() % v.size() };
+	std::ptrdiff_t err[4] = { rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()),
+		rand() % static_cast<std::ptrdiff_t>(v.size()) };
 	for (int i = 0; i < 4; ++i) {
-		if (err[i] > v.size() - 200)
+		if (err[i] > static_cast<std::ptrdiff_t>(v.size()) - 200)
 			err[i] -= 200;
 	}
 	v.erase(v.begin() + err[0]);
@@ -199,7 +207,7 @@ void test_tstring_logic()
 	}
 
 
-	const int count = 100000;
+	const unsigned count = 100000;
 
 	//test consecutive append
 	{
@@ -225,7 +233,7 @@ void test_tstring_logic()
 			//TEST sort SSO
 			std::vector<std::string> data(count);
 			std::vector<tiny_string<MaxStaticSize>> tdata(count);
-			for (int i = 0; i < count; ++i) {
+			for (unsigned i = 0; i < count; ++i) {
 				data[i] = generate_random_string<std::string>(14, true);
 				tdata[i] = data[i];
 			}
@@ -236,7 +244,7 @@ void test_tstring_logic()
 			SEQ_TEST(seq::equal(data.begin(), data.end(), tdata.begin(), tdata.end()));
 			
 			std::vector<std::string> tmp;
-			for (int i = 0; i < count; ++i)
+			for (unsigned i = 0; i < count; ++i)
 				tmp.push_back(generate_random_string<std::string>(63, true));
 
 			data.clear();
@@ -245,12 +253,12 @@ void test_tstring_logic()
 			tdata.resize(count);
 
 			// test copy using operator[]
-			for (int i = 0; i < count; ++i)
+			for (unsigned i = 0; i < count; ++i)
 			{
 				data[i] = tmp[i];
 			}
 			
-			for (int i = 0; i < count; ++i)
+			for (unsigned i = 0; i < count; ++i)
 			{
 				tdata[i] = tmp[i];
 			}
@@ -271,37 +279,37 @@ void test_tstring_logic()
 		
 		//test push back
 		tiny_string<MaxStaticSize> tstr;
-		for (int i = 0; i < count; ++i)
-			tstr.push_back(std::max(static_cast<unsigned char>(i), static_cast < unsigned char>(1)));
+		for (unsigned i = 0; i < count; ++i)
+			tstr.push_back(std::max(static_cast< char>(i), static_cast <  char>(1)));
 		
 		std::string str;
-		for (int i = 0; i < count; ++i)
-			str.push_back(std::max(static_cast<unsigned char>(i), static_cast < unsigned char>(1)));
+		for (unsigned i = 0; i < count; ++i)
+			str.push_back(std::max(static_cast< char>(i), static_cast <  char>(1)));
 		
 		SEQ_TEST(string_equals(str, tstr));
 
 
 		int sum1 = 0;
-		for (int i = 0; i < count; ++i)
+		for (unsigned i = 0; i < count; ++i)
 			sum1 += tstr[i];
 		
 		int sum2 = 0;
-		for (int i = 0; i < count; ++i)
-			sum2 += str[i];
+		for (unsigned i = 0; i < count; ++i)
+			sum2 += static_cast<char>(str[i]);
 
 		SEQ_TEST(sum1==sum2);
 
 		// test find
 		size_t f = 0;
-		size_t pos = 0;
+		size_t pos1 = 0;
 		std::string find1 = "abcdefghijklmnop"; //does exists
 		std::string find2 = "kdpohdsifgugcvbfd"; //does not exists
 
 		for (int i = 0; i < 10; ++i) {
-			pos = tstr.find((i & 1) ? find1 : find2);
-			f += pos;
-			if (pos == std::string::npos) pos = 0;
-			else pos++;
+			pos1 = tstr.find((i & 1) ? find1 : find2);
+			f += pos1;
+			if (pos1 == std::string::npos) pos1 = 0;
+			else pos1++;
 		}
 		
 		size_t f2 = 0;
@@ -314,15 +322,15 @@ void test_tstring_logic()
 		}
 		
 		SEQ_TEST(f == f2);
-		SEQ_TEST(pos == pos2);
+		SEQ_TEST(pos1 == pos2);
 
 		// test rfind
 		f = 0;
-		pos = std::string::npos;
+		pos1 = std::string::npos;
 		for (int i = 0; i < 10; ++i) {
-			pos = tstr.rfind((i & 1) ? find1 : find2);
-			f += pos;
-			if (pos != std::string::npos) --pos;
+			pos1 = tstr.rfind((i & 1) ? find1 : find2);
+			f += pos1;
+			if (pos1 != std::string::npos) --pos1;
 		}
 		
 		f2 = 0;
@@ -333,7 +341,7 @@ void test_tstring_logic()
 			if (pos2 != std::string::npos) --pos2;
 		}
 		SEQ_TEST(f == f2);
-		SEQ_TEST(pos == pos2);
+		SEQ_TEST(pos1 == pos2);
 
 
 
@@ -345,12 +353,12 @@ void test_tstring_logic()
 		tiny_string<MaxStaticSize> tfirst_of = "lqhgsdsfhg";
 		std::string first_of = "lqhgsdsfhg";
 		f = 0;
-		pos = 0;
+		pos1 = 0;
 		for (int i = 0; i < 10; ++i) {
-			pos = tstr.find_first_of(tfirst_of, pos);
-			f += pos;
-			if (pos == std::string::npos) pos = 0;
-			else pos++;
+			pos1 = tstr.find_first_of(tfirst_of, pos1);
+			f += pos1;
+			if (pos1 == std::string::npos) pos1 = 0;
+			else pos1++;
 		}
 		
 		f2 = 0;
@@ -362,24 +370,24 @@ void test_tstring_logic()
 			else pos2++;
 		}
 		SEQ_TEST(f == f2);
-		SEQ_TEST(pos == pos2);
+		SEQ_TEST(pos1 == pos2);
 
 
 
-		for (int i = 0; i < count; ++i) {
-			tstr[i] = (std::max(static_cast<unsigned char>(i), static_cast < unsigned char>(1)));
-			str[i] = (std::max(static_cast<unsigned char>(i), static_cast < unsigned char>(1)));
+		for (unsigned i = 0; i < count; ++i) {
+			tstr[i] = (std::max(static_cast< char>(i), static_cast <  char>(1)));
+			str[i] = (std::max(static_cast< char>(i), static_cast <  char>(1)));
 		}
 		memset(tstr.data() + tstr.size() / 2, 0, tstr.size() - tstr.size() / 2);
 		memset(const_cast<char*>(str.data()) + str.size() / 2, 0, str.size() - str.size() / 2);
 
 
 		f = 0;
-		pos = std::string::npos;
+		pos1 = std::string::npos;
 		for (int i = 0; i < 10; ++i) {
-			pos = tstr.find_last_of(tfirst_of, pos);
-			f += pos;
-			if (pos != std::string::npos) --pos;
+			pos1 = tstr.find_last_of(tfirst_of, pos1);
+			f += pos1;
+			if (pos1 != std::string::npos) --pos1;
 		}
 		
 		f2 = 0;
@@ -390,28 +398,28 @@ void test_tstring_logic()
 			if (pos2 != std::string::npos) --pos2;
 		}
 		SEQ_TEST(f == f2);
-		SEQ_TEST(pos == pos2);
+		SEQ_TEST(pos1 == pos2);
 		
 		//test compare
-		int len = count - static_cast<int>(find1.size());
+		unsigned len = count - static_cast<unsigned>(find1.size());
 		f = 0;
-		for (int i = 0; i < len; ++i) {
+		for (unsigned i = 0; i < len; ++i) {
 			int c = tstr.compare(i, find1.size(), find1);
-			f += c < 0 ? -1 : (c > 0 ? 1 : 0);
+			f += static_cast<size_t>(c < 0 ? -1 : (c > 0 ? 1 : 0));
 		}
 
 		f2 = 0;
-		for (int i = 0; i < len; ++i) {
+		for (unsigned i = 0; i < len; ++i) {
 			int c = str.compare(i, find1.size(), find1);
-			f2 += c < 0 ? -1 : (c > 0 ? 1 : 0);
+			f2 += static_cast<size_t>(c < 0 ? -1 : (c > 0 ? 1 : 0));
 		}
 		SEQ_TEST(f == f2);
 
 		//test pop back
-		for (int i = 0; i < count; ++i)
+		for (unsigned i = 0; i < count; ++i)
 			tstr.pop_back();
 		
-		for (int i = 0; i < count; ++i)
+		for (unsigned i = 0; i < count; ++i)
 			str.pop_back();
 		SEQ_TEST(str==tstr);
 	}

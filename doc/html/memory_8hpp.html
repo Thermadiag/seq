@@ -106,6 +106,9 @@ $(document).ready(function(){initNavTree('memory_8hpp.html',''); initResizable()
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1spinlock.html">seq::spinlock</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lightweight and fast spinlock implementation based on <a href="https://rigtorp.se/spinlock/">https://rigtorp.se/spinlock/</a>.  <a href="classseq_1_1spinlock.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_malloc_free.html">seq::detail::MallocFree</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1aligned__allocator.html">seq::aligned_allocator&lt; T, Allocator, Align &gt;</a></td></tr>
@@ -133,6 +136,7 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1select__ref__cnt__type_3_01true_01_4.html">seq::detail::select_ref_cnt_type&lt; true &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1allocator__data.html">seq::detail::allocator_data&lt; Allocator, IsThreaded &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal data structure shared among <a class="el" href="classseq_1_1object__allocator.html" title="Stl conforming allocator based on an object pool class.">object_allocator</a> copies.  <a href="structseq_1_1detail_1_1allocator__data.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1allocator__data_1_1_vector_data.html">seq::detail::allocator_data&lt; Allocator, IsThreaded &gt;::VectorData</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,6 +181,7 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deleter class for std::unique_ptr when used with #object_pool or #parallel_object_pool.  <a href="structseq_1_1unique__ptr__deleter.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1allocator__for__shared__ptr.html">seq::detail::allocator_for_shared_ptr&lt; T, Pool &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom allocator class to use with std::allocate_shared.  <a href="classseq_1_1detail_1_1allocator__for__shared__ptr.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1allocator__for__shared__ptr_1_1rebind.html">seq::detail::allocator_for_shared_ptr&lt; T, Pool &gt;::rebind&lt; U &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -229,6 +234,8 @@ Namespaces</h2></td></tr>
 Typedefs</h2></td></tr>
 <tr class="memitem:a8e965e791df5b616ea81c89033637e8c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a8e965e791df5b616ea81c89033637e8c">seq::detail::thread_id</a> = std::thread::id</td></tr>
 <tr class="separator:a8e965e791df5b616ea81c89033637e8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08b2d69dbcef70f497dddb78e67603e6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a08b2d69dbcef70f497dddb78e67603e6">seq::detail::lock_type</a> = MutexWrapper</td></tr>
+<tr class="separator:a08b2d69dbcef70f497dddb78e67603e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>

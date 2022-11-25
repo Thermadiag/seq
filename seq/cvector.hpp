@@ -25,7 +25,7 @@
 #ifndef SEQ_CVECTOR_HPP
 #define SEQ_CVECTOR_HPP
 
- /** @file */
+/** @file */
 
 
 namespace seq
@@ -69,79 +69,7 @@ namespace std
 
 namespace seq
 {
-	/// @brief Lightweight and fast spinlock implementation based on https://rigtorp.se/spinlock/
-	///
-	/// spinlock is a lightweight spinlock implementation following the TimedMutex requirements.
-	///  
-	class spinlock {
-
-		spinlock(const spinlock&) = delete;
-		spinlock(spinlock&&) = delete;
-		spinlock& operator=(const spinlock&) = delete;
-		spinlock& operator=(spinlock&&) = delete;
-
-		std::atomic<bool> d_lock;
-
-	public:
-		spinlock() : d_lock(0) {}
-
-		~spinlock()
-		{
-			if (is_locked()) {
-				SEQ_ABORT("spinlock destroyed while locked!");
-			}
-		}
-
-		void lock() noexcept {
-			for (;;) {
-				// Optimistically assume the lock is free on the first try
-				if (!d_lock.exchange(true, std::memory_order_acquire)) {
-					return;
-				}
-
-				// Wait for lock to be released without generating cache misses
-				while (d_lock.load(std::memory_order_relaxed)) {
-					// Issue X86 PAUSE or ARM YIELD instruction to reduce contention between
-					// hyper-threads
-
-					std::this_thread::yield();
-				}
-			}
-		}
-
-		bool is_locked() const noexcept { return d_lock.load(std::memory_order_relaxed); }
-		bool try_lock() noexcept {
-			// First do a relaxed load to check if lock is free in order to prevent
-			// unnecessary cache misses if someone does while(!try_lock())
-			return !d_lock.load(std::memory_order_relaxed) &&
-				!d_lock.exchange(true, std::memory_order_acquire);
-		}
-
-		void unlock() noexcept {
-			d_lock.store(false, std::memory_order_release);
-		}
-
-		template<class Rep, class Period>
-		bool try_lock_for(const std::chrono::duration<Rep, Period>& duration) noexcept
-		{
-			return try_lock_until(std::chrono::system_clock::now() + duration);
-		}
-
-		template<class Clock, class Duration>
-		bool try_lock_until(const std::chrono::time_point<Clock, Duration>& timePoint) noexcept
-		{
-			for (;;) {
-				if (!d_lock.exchange(true, std::memory_order_acquire))
-					return true;
-
-				while (d_lock.load(std::memory_order_relaxed)) {
-					if (std::chrono::system_clock::now() > timePoint)
-						return false;
-					std::this_thread::yield();
-				}
-			}
-		}
-	};
+	
 
 	/// @brief Basic lock guard class
 	template<class Lock>
@@ -150,6 +78,7 @@ namespace seq
 		Lock* lock;
 	public:
 		lock_guard(Lock& l) : lock(&l) { lock->lock(); }
+		lock_guard(const lock_guard&) = default;
 		~lock_guard() { lock->unlock(); }
 	};
 
@@ -186,7 +115,7 @@ namespace seq
 		unsigned ratio() const noexcept { return d_ratio; }
 		ContextRatio type() const noexcept { return static_cast<ContextRatio>(d_type); }
 		size_t context_count(size_t bucket_count) const noexcept {
-			return static_cast<size_t>(d_type == 0 ? d_ratio : bucket_count / static_cast<float>(d_ratio));
+			return d_type == 0 ? static_cast<size_t>(d_ratio) : static_cast<size_t>(static_cast<float>(bucket_count) / static_cast<float>(d_ratio));
 		}
 	};
 
@@ -204,6 +133,7 @@ namespace seq
 			ContextRatioGuard(Compress* c, context_ratio new_ratio) : compress(c), old_ratio(c->max_contexts()) {
 				compress->set_max_contexts(new_ratio);
 			}
+			ContextRatioGuard(const ContextRatioGuard&) = default;
 			~ContextRatioGuard() {
 				compress->set_max_contexts(old_ratio);
 			}
@@ -301,7 +231,7 @@ namespace seq
 			struct iterator
 			{
 				Iterator* it;
-				iterator(Iterator* i = NULL) : it(i) {}
+				iterator(Iterator* i = nullptr) : it(i) {}
 				auto operator++() noexcept -> iterator&
 				{
 					it = it->right;
@@ -416,15 +346,15 @@ namespace seq
 			// Compressed size
 			unsigned csize;
 
-			PackBuffer(RawBuffer<T,block_size>* dec = NULL, char* buff = NULL, unsigned csize = 0) noexcept
-				: decompressed(dec), buffer(buff), csize(csize) {}
+			PackBuffer(RawBuffer<T,block_size>* dec = nullptr, char* buff = nullptr, unsigned _csize = 0) noexcept
+				: decompressed(dec), buffer(buff), csize(_csize) {}
 
 			// Move semantic for usage inside std::vector
 			PackBuffer(PackBuffer&& other) noexcept
 				:decompressed(other.decompressed), buffer(other.buffer), csize(other.csize)
 			{
-				other.decompressed = NULL;
-				other.buffer = NULL;
+				other.decompressed = nullptr;
+				other.buffer = nullptr;
 				other.csize = 0;
 			}
 			PackBuffer& operator=(PackBuffer&& other) noexcept
@@ -460,7 +390,7 @@ namespace seq
 			res->dirty = 0;
 			res->block_index = 0;
 #ifndef NDEBUG
-			res->left = res->right = NULL;
+			res->left = res->right = nullptr;
 #endif
 			return res;
 		}
@@ -565,7 +495,7 @@ namespace seq
 			auto _bucket() noexcept -> BucketType* { return &_c()->d_buckets[bucket]; }
 			auto _c() const noexcept -> Compressed* { return const_cast<Compressed*>(c); }
 
-			SEQ_ALWAYS_INLINE void decompress_if_needed(size_t exclude = -1) const
+			SEQ_ALWAYS_INLINE void decompress_if_needed(size_t exclude = static_cast<size_t>(-1)) const
 			{
 				if (!this->_bucket()->decompressed) {
 					_c()->decompress_bucket(bucket, exclude);
@@ -579,9 +509,9 @@ namespace seq
 			using reference = const T&;
 			using const_reference = const T&;
 
-			ConstValueWrapper() noexcept : c(NULL), bucket(0), bpos(0) {}
-			ConstValueWrapper(const Compressed* c, size_t bucket, unsigned short pos) noexcept
-				:c(const_cast<Compressed*>(c)), bucket(bucket), bpos(pos) {}
+			ConstValueWrapper() noexcept : c(nullptr), bucket(0), bpos(0) {}
+			ConstValueWrapper(const Compressed* _c, size_t b, unsigned short pos) noexcept
+				:c(const_cast<Compressed*>(_c)), bucket(b), bpos(pos) {}
 			ConstValueWrapper(const ConstValueWrapper& other) noexcept
 				:c(other.c), bucket(other.bucket), bpos(other.bpos) {}
 
@@ -652,8 +582,8 @@ namespace seq
 			using base_type::get;
 
 			ValueWrapper() noexcept : base_type() {}
-			ValueWrapper(const Compressed* c, size_t bucket, unsigned short pos) noexcept
-				:base_type(c, bucket, pos) {}
+			ValueWrapper(const Compressed* _c, size_t b, unsigned short pos) noexcept
+				:base_type(_c, b, pos) {}
 			ValueWrapper(const ValueWrapper& other) noexcept
 				:base_type(other) {}
 			ValueWrapper(const base_type& other) noexcept
@@ -744,7 +674,7 @@ namespace seq
 		bool operator<(const ConstValueWrapper<Compressed>& a, const ConstValueWrapper<Compressed>& b)
 		{
 			using T = typename Compressed::value_type;
-			return a.compare(b, [](const T& a, const T& b) {return a < b; });
+			return a.compare(b, [](const T& _a, const T& _b) {return _a < _b; });
 		}
 		template<class Compressed>
 		bool operator<(const ConstValueWrapper<Compressed>& a, const typename Compressed::value_type& b)
@@ -761,7 +691,7 @@ namespace seq
 		bool operator>(const ConstValueWrapper<Compressed>& a, const ConstValueWrapper<Compressed>& b)
 		{
 			using T = typename Compressed::value_type;
-			return a.compare(b, [](const T& a, const T& b) {return a > b; });
+			return a.compare(b, [](const T& _a, const T& _b) {return _a > _b; });
 		}
 		template<class Compressed>
 		bool operator>(const ConstValueWrapper<Compressed>& a, const typename Compressed::value_type& b)
@@ -778,7 +708,7 @@ namespace seq
 		bool operator<=(const ConstValueWrapper<Compressed>& a, const ConstValueWrapper<Compressed>& b)
 		{
 			using T = typename Compressed::value_type;
-			return a.compare(b, [](const T& a, const T& b) {return a <= b; });
+			return a.compare(b, [](const T& _a, const T& _b) {return _a <= _b; });
 		}
 		template<class Compressed>
 		bool operator<=(const ConstValueWrapper<Compressed>& a, const typename Compressed::value_type& b)
@@ -795,7 +725,7 @@ namespace seq
 		bool operator>=(const ConstValueWrapper<Compressed>& a, const ConstValueWrapper<Compressed>& b)
 		{
 			using T = typename Compressed::value_type;
-			return a.compare(b, [](const T& a, const T& b) {return a >= b; });
+			return a.compare(b, [](const T& _a, const T& _b) {return _a >= _b; });
 		}
 		template<class Compressed>
 		bool operator>=(const ConstValueWrapper<Compressed>& a, const typename Compressed::value_type& b)
@@ -812,7 +742,7 @@ namespace seq
 		bool operator==(const ConstValueWrapper<Compressed>& a, const ConstValueWrapper<Compressed>& b)
 		{
 			using T = typename Compressed::value_type;
-			return a.compare(b, [](const T& a, const T& b) {return a == b; });
+			return a.compare(b, [](const T& _a, const T& _b) {return _a == _b; });
 		}
 		template<class Compressed>
 		bool operator==(const ConstValueWrapper<Compressed>& a, const typename Compressed::value_type& b)
@@ -829,7 +759,7 @@ namespace seq
 		bool operator!=(const ConstValueWrapper<Compressed>& a, const ConstValueWrapper<Compressed>& b)
 		{
 			using T = typename Compressed::value_type;
-			return a.compare(b, [](const T& a, const T& b) {return a != b; });
+			return a.compare(b, [](const T& _a, const T& _b) {return _a != _b; });
 		}
 		template<class Compressed>
 		bool operator!=(const ConstValueWrapper<Compressed>& a, const typename Compressed::value_type& b)
@@ -867,7 +797,7 @@ namespace seq
 
 			CompressedConstIter() noexcept : abspos(0) {}
 			CompressedConstIter(const Compressed* c, difference_type p) noexcept : data(const_cast<Compressed*>(c)), abspos(p) {  } //begin
-			CompressedConstIter(const Compressed* c) noexcept : data(const_cast<Compressed*>(c)), abspos(c->d_size) {} //end()
+			CompressedConstIter(const Compressed* c) noexcept : data(const_cast<Compressed*>(c)), abspos(static_cast<difference_type>(c->d_size)) {} //end()
 
 			auto operator++() noexcept -> CompressedConstIter& {
 				++abspos;
@@ -890,15 +820,15 @@ namespace seq
 
 			auto operator*() noexcept -> ConstValueWrapper<Compressed> {
 				SEQ_ASSERT_DEBUG(this->abspos >= 0 && this->abspos < static_cast<difference_type>(this->data->size()), "attempt to dereference an invalid iterator");
-				return data->at(abspos);
+				return data->at(static_cast<size_t>(abspos));
 			}
 			auto operator*() const noexcept -> ConstValueWrapper<Compressed> {
 				SEQ_ASSERT_DEBUG(this->abspos >= 0 && this->abspos < static_cast<difference_type>(this->data->size()), "attempt to dereference an invalid iterator");
-				return data->at(abspos);
+				return data->at(static_cast<size_t>(abspos));
 			}
 			auto operator->() const noexcept -> const T* {
 				SEQ_ASSERT_DEBUG(this->abspos >= 0 && this->abspos < static_cast<difference_type>(this->data->size()), "attempt to dereference an invalid iterator");
-				return &data->at(abspos).get();
+				return &data->at(static_cast<size_t>(abspos)).get();
 			}
 			auto operator+=(difference_type diff) noexcept -> CompressedConstIter& {
 				this->abspos += diff;
@@ -942,19 +872,19 @@ namespace seq
 
 			auto operator*()  noexcept -> ValueWrapper<Compressed> {
 				SEQ_ASSERT_DEBUG(this->abspos >= 0 && this->abspos < static_cast<difference_type>(this->data->size()), "attempt to dereference an invalid iterator");
-				return this->data->at(this->abspos);
+				return this->data->at(static_cast<size_t>(this->abspos));
 			}
 			auto operator->()  noexcept -> value_type* {
 				SEQ_ASSERT_DEBUG(this->abspos >= 0 && this->abspos < static_cast<difference_type>(this->data->size()), "attempt to dereference an invalid iterator");
-				return (&this->data->at(this->abspos).get());
+				return (&this->data->at(static_cast<size_t>(this->abspos)).get());
 			}
 			auto operator*() const noexcept -> ConstValueWrapper<Compressed> {
 				SEQ_ASSERT_DEBUG(this->abspos >= 0 && this->abspos < static_cast<difference_type>(this->data->size()), "attempt to dereference an invalid iterator");
-				return this->data->at(this->abspos);
+				return this->data->at(static_cast<size_t>(this->abspos));
 			}
 			auto operator->() const noexcept -> const value_type* {
 				SEQ_ASSERT_DEBUG(this->abspos >= 0 && this->abspos < static_cast<difference_type>(this->data->size()), "attempt to dereference an invalid iterator");
-				return &this->data->at(this->abspos).get();
+				return &this->data->at(static_cast<size_t>(this->abspos)).get();
 			}
 			auto operator++() noexcept -> CompressedIter& {
 				base_type::operator++();
@@ -1172,7 +1102,7 @@ namespace seq
 			size_t d_size;						// number of values
 			context_ratio d_max_contexts;		// maximum number of contexts (fixed value or ratio of bucket count)
 			spinlock d_lock;					// global spinlock
-			short d_disp;						// dispersion value, try to catch the current access pattern to release decompression contexts
+			std::atomic<short> d_disp;						// dispersion value, try to catch the current access pattern to release decompression contexts
 
 		public:
 
@@ -1190,12 +1120,18 @@ namespace seq
 			/// @brief Increase dispersion value
 			SEQ_ALWAYS_INLINE void incr_disp()noexcept {
 				static constexpr short max = std::numeric_limits<short>::max() - 64 * 8;
-				/*if (acceleration == 0)*/ d_disp = (d_disp < max) ? d_disp + 64 * 8 : d_disp;
+				short disp = d_disp.load(std::memory_order_relaxed);
+				if (SEQ_LIKELY(disp < max))
+					d_disp.store(disp + 64 * 8,std::memory_order_relaxed);
+				///*if (acceleration == 0)*/ d_disp = (d_disp < max) ? d_disp + 64 * 8 : d_disp;
 			}
 			/// @brief Decrease dispersion value
 			SEQ_ALWAYS_INLINE void decr_disp() noexcept {
 				static constexpr short min = std::numeric_limits<short>::min() + 4;
-				/*if (acceleration == 0)*/ d_disp = (d_disp > min) ? d_disp - 4 : d_disp;
+				short disp = d_disp.load(std::memory_order_relaxed);
+				if (SEQ_LIKELY(disp > min))
+					d_disp.store( disp - 4, std::memory_order_relaxed);
+				///*if (acceleration == 0)*/ d_disp = (d_disp > min) ? d_disp - 4 : d_disp;
 			}
 			/// @brief Reset dispersion value
 			SEQ_ALWAYS_INLINE void reset_disp() noexcept {
@@ -1210,7 +1146,7 @@ namespace seq
 					RebindAlloc<char>(*this).deallocate(d_buckets[index].buffer, d_buckets[index].csize);
 					d_compress_size -= d_buckets[index].csize;
 					d_buckets[index].csize = 0;
-					d_buckets[index].buffer = NULL;
+					d_buckets[index].buffer = nullptr;
 				}
 			}
 
@@ -1218,7 +1154,7 @@ namespace seq
 			void clear() noexcept
 			{
 				reset_disp();
-				RawType* tmp = NULL;
+				RawType* tmp = nullptr;
 				// First, try to find a valid context that we can reuse to destroy all compressed buffer
 				if (d_buckets.size())
 				{
@@ -1350,7 +1286,7 @@ namespace seq
 						// Reuse a non dirty decompression context
 						new_contexts.push_back(raw);
 						if (raw->block_index != RawType::invalid_index)
-							d_buckets[raw->block_index].decompressed = NULL;
+							d_buckets[raw->block_index].decompressed = nullptr;
 						raw->reset();
 						continue;
 					}
@@ -1387,7 +1323,7 @@ namespace seq
 
 					// Unlink this decompression context with its compressed buffer
 					if (raw->block_index != RawType::invalid_index)
-						d_buckets[raw->block_index].decompressed = NULL;
+						d_buckets[raw->block_index].decompressed = nullptr;
 
 					if (new_contexts.size() < max_buffers) {
 						// Add this decompression  context to the new ones
@@ -1433,7 +1369,7 @@ namespace seq
 			/// In case of exception, decompress and destroy values, deallocate previous buffer, remove bucket, remove decompression context and rethrow.
 			auto allocate_buffer_for_compression(unsigned size, BucketType* bucket, size_t bucket_index, RawType* context) -> char*
 			{
-				char* buff = NULL;
+				char* buff = nullptr;
 				try {
 					buff = RebindAlloc<char>(*this).allocate(size); //(char*)malloc(r);
 				}
@@ -1456,7 +1392,7 @@ namespace seq
 					//remove context
 					erase_context(context);
 					//remove bucket
-					d_buckets.erase(d_buckets.begin() + bucket_index);
+					d_buckets.erase(d_buckets.begin() + static_cast<difference_type>(bucket_index));
 
 					//update indexes
 					for (size_t i = bucket_index; i < d_buckets.size(); ++i)
@@ -1469,12 +1405,12 @@ namespace seq
 			}
 
 			/// @brief Returns a decompression context either by creating a new one, or by reusing an existing one
-			auto make_or_find_free_context(RawType* exclude = NULL) -> RawType*
+			auto make_or_find_free_context(RawType* exclude = nullptr) -> RawType*
 			{
 				if (SEQ_LIKELY(d_contexts.size() >= 2))
 				{
 					size_t max_buffers = std::max(static_cast<size_t>(2), d_max_contexts.context_count(d_buckets.size()));
-					if (d_contexts.size() >= max_buffers || (/*acceleration == 0 &&*/ d_disp < 0))
+					if (d_contexts.size() >= max_buffers || (/*acceleration == 0 &&*/ d_disp.load() < 0))
 						return find_free_context(exclude);
 				}
 
@@ -1486,7 +1422,7 @@ namespace seq
 			}
 
 			/// @brief Reuse and return an existing decompression context that cannot be exclude one
-			auto find_free_context(RawType* exclude = NULL, typename ContextType::iterator* start = NULL) -> RawType*
+			auto find_free_context(RawType* exclude = nullptr, typename ContextType::iterator* start = nullptr) -> RawType*
 			{
 				// All contexts used, compress one of them, if possible an empty or not dirty one
 
@@ -1507,7 +1443,7 @@ namespace seq
 
 				if (found == d_contexts.end()) {
 					if (start)
-						return NULL;
+						return nullptr;
 					// Cannot find one: create a new one, might throw (fine)
 					RawType* raw = make_raw();
 
@@ -1520,7 +1456,7 @@ namespace seq
 
 
 				RawType* found_raw = *found;
-				BucketType* found_bucket = (*found)->block_index == RawType::invalid_index ? NULL : &d_buckets[(*found)->block_index];
+				BucketType* found_bucket = (*found)->block_index == RawType::invalid_index ? nullptr : &d_buckets[(*found)->block_index];
 				size_t saved_index = (*found)->block_index;
 
 				// Compress context if dirty
@@ -1558,7 +1494,7 @@ namespace seq
 						memcpy(found_bucket->buffer, found_raw->storage, r);
 
 					//TEST
-					if (/*acceleration == 0 &&*/ d_disp < 0 && !start) {
+					if (/*acceleration == 0 &&*/ d_disp.load() < 0 && !start) {
 						RawType* raw = find_free_context(exclude, &found);
 						if (raw)
 							erase_context(raw);
@@ -1574,7 +1510,7 @@ namespace seq
 
 				// Unlink
 				if (found_bucket)
-					found_bucket->decompressed = NULL;
+					found_bucket->decompressed = nullptr;
 
 				// Reset, unlock and return
 				unlock(found_raw);
@@ -1609,7 +1545,7 @@ namespace seq
 				else
 					memcpy(bucket->buffer, decompressed->storage, r);
 
-				bucket->decompressed = NULL;
+				bucket->decompressed = nullptr;
 				//free buckets
 				d_compress_size -= bucket->csize;
 				d_compress_size += bucket->csize = r;
@@ -1637,16 +1573,16 @@ namespace seq
 
 			/// @brief Decompress given bucket.
 			/// If necessary, use an existing context or create a new one (which cannot be the exclude one)
-			void decompress_bucket(size_t index, size_t exclude = -1)
+			void decompress_bucket(size_t index, size_t exclude = static_cast<size_t>(-1))
 			{
 				if (!d_buckets[index].decompressed)
 				{
-					BucketType* pack = NULL;
-					RawType* raw = NULL;
+					BucketType* pack = nullptr;
+					RawType* raw = nullptr;
 					{
 						std::lock_guard<spinlock> lock(d_lock);
 						pack = &d_buckets[index];
-						raw = make_or_find_free_context(exclude == static_cast<size_t>(-1) ? NULL : d_buckets[exclude].decompressed);
+						raw = make_or_find_free_context(exclude == static_cast<size_t>(-1) ? nullptr : d_buckets[exclude].decompressed);
 						raw->block_index = index;
 					}
 					
@@ -1819,11 +1755,11 @@ namespace seq
 							else if (has_error(r))
 								SEQ_ABORT("cvector: abort on compression error"); // no way to recover from this
 
-							char* buff = NULL;
+							char* buff = nullptr;
 							try {
 								// might throw, see below
 								buff = RebindAlloc<char>(*this).allocate(r);
-								d_buckets.push_back(BucketType(NULL, buff, r));
+								d_buckets.push_back(BucketType(nullptr, buff, r));
 								if (r == block_size * sizeof(T))
 									Encoder::restore(raw.storage, buff, sizeof(T), block_size);
 									//transpose_inv_256_rows((char*)get_comp_buffer(0), buff, sizeof(T));
@@ -1886,10 +1822,10 @@ namespace seq
 							else if (has_error(r))
 								SEQ_ABORT("cvector: abort on compression error");// no way to recover from this
 
-							char* buff = NULL;
+							char* buff = nullptr;
 							try {
 								buff = RebindAlloc<char>(*this).allocate(r);
-								d_buckets.push_back(BucketType(NULL, buff, r));
+								d_buckets.push_back(BucketType(nullptr, buff, r));
 								if (r == block_size * sizeof(T))
 									Encoder::restore(raw.storage, buff, sizeof(T), block_size);
 									//transpose_inv_256_rows((char*)get_comp_buffer(0), buff, sizeof(T));
@@ -1929,11 +1865,11 @@ namespace seq
 
 				// We need at least 3 contexts
 				auto lock = lock_context_ratio(this, context_ratio(3));
-				size_t off = first - const_iterator(this, 0);
-				size_t count = last - first;
+				difference_type off = first - const_iterator(this, 0);
+				size_t count = static_cast<size_t>(last - first);
 
 				iterator it = first;
-				this->for_each(last - const_iterator(this, 0), size(), [&it](T& v) {*it = std::move(v); ++it; });
+				this->for_each(static_cast<size_t>(last - const_iterator(this, 0)), size(), [&it](T& v) {*it = std::move(v); ++it; });
 				if (count == 1)
 					pop_back();
 				else
@@ -1952,8 +1888,8 @@ namespace seq
 			template< class... Args >
 			auto emplace(const_iterator pos, Args&&... args) -> iterator
 			{
-				size_t dist = pos - const_iterator(this, 0);
-				SEQ_ASSERT_DEBUG(dist <= size(), "cvector: invalid insertion location");
+				difference_type dist = pos - const_iterator(this, 0);
+				SEQ_ASSERT_DEBUG(static_cast<size_t>(dist) <= size(), "cvector: invalid insertion location");
 
 				// We need at least 3 contexts
 				auto lock = lock_context_ratio(this, context_ratio(3));
@@ -1972,10 +1908,10 @@ namespace seq
 			{
 				reset_disp();
 
-				size_t off = pos - const_iterator(this, 0);
+				difference_type off = (pos - const_iterator(this, 0));
 				size_t oldsize = size();
 
-				SEQ_ASSERT_DEBUG(off <= size(), "cvector insert iterator outside range");
+				SEQ_ASSERT_DEBUG(static_cast<size_t>(off) <= size(), "cvector insert iterator outside range");
 
 				// We need at least 3 contexts
 				auto lock = lock_context_ratio(this, context_ratio(3));
@@ -1986,7 +1922,7 @@ namespace seq
 
 					try {
 						resize(size() + len);
-						std::move_backward(iterator(this, 0) + off, iterator(this, 0) + (size() - len), iterator(this));
+						std::move_backward(iterator(this, 0) + off, iterator(this, 0) + static_cast<difference_type>(size() - len), iterator(this));
 						std::copy(first, last, iterator(this, 0) + off);
 					}
 					catch (...) {
@@ -2013,7 +1949,7 @@ namespace seq
 						throw;
 					}
 
-					std::rotate(iterator(this, 0) + off, iterator(this, 0) + oldsize, iterator(this));
+					std::rotate(iterator(this, 0) + off, iterator(this, 0) + static_cast<difference_type>(oldsize), iterator(this));
 				}
 				return (iterator(this, 0) + off);
 			}
@@ -2068,8 +2004,8 @@ namespace seq
 						cur = d_buckets[bindex].decompressed;
 					}
 					remaining -= to_process;
-					size_t end = pos + to_process;
-					for (size_t p = pos; p != end; ++p)
+					size_t en = pos + to_process;
+					for (size_t p = pos; p != en; ++p)
 						fun(cur->at(p));
 					pos = 0;
 					++bindex;
@@ -2094,8 +2030,8 @@ namespace seq
 						cur = d_buckets[bindex].decompressed;
 					}
 					remaining -= to_process;
-					size_t end = pos + to_process;
-					for (size_t p = pos; p != end; ++p)
+					size_t en = pos + to_process;
+					for (size_t p = pos; p != en; ++p)
 						fun(cur->at(p));
 					pos = 0;
 					++bindex;
@@ -2528,7 +2464,7 @@ namespace seq
 		internal_type* make_internal(const Allocator& al)
 		{
 			RebindAlloc< internal_type> a = al;
-			internal_type* ret = NULL;
+			internal_type* ret = nullptr;
 			try {
 				ret = a.allocate(1);
 				construct_ptr(ret, al);
@@ -2613,7 +2549,7 @@ namespace seq
 
 		/// @brief Default constructor, initialize the internal bucket manager.
 		cvector()
-			:Allocator(), d_data(NULL)
+			:Allocator(), d_data(nullptr)
 		{
 		}
 		/// @brief Constructs an empty container with the given allocator alloc.
@@ -2642,7 +2578,7 @@ namespace seq
 		/// @brief Copy constructor. Constructs the container with the copy of the contents of other.
 		/// @param other another container to be used as source to initialize the elements of the container with
 		cvector(const cvector& other)
-			:Allocator(copy_allocator(other.get_allocator())), d_data(NULL)
+			:Allocator(copy_allocator(other.get_allocator())), d_data(nullptr)
 		{
 			if (other.size()) {
 				d_data = make_internal(other.get_allocator());
@@ -2656,7 +2592,7 @@ namespace seq
 		/// @param other other another container to be used as source to initialize the elements of the container with
 		/// @param alloc allcoator object
 		cvector(const cvector& other, const Allocator& alloc)
-			:Allocator(alloc), d_data(NULL)
+			:Allocator(alloc), d_data(nullptr)
 		{
 			if (other.size()) {
 				d_data = make_internal(alloc);
@@ -2670,7 +2606,7 @@ namespace seq
 		cvector(cvector&& other) noexcept
 			:Allocator(std::move(other.get_allocator())), d_data(other.d_data)
 		{
-			other.d_data = NULL;
+			other.d_data = nullptr;
 		}
 		/// @brief  Allocator-extended move constructor. Using alloc as the allocator for the new container, moving the contents from other; if alloc != other.get_allocator(), this results in an element-wise move.
 		/// @param other another container to be used as source to initialize the elements of the container with
@@ -2736,7 +2672,7 @@ namespace seq
 				{
 					if (get_allocator() != other.get_allocator()) {
 						destroy_internal(d_data);
-						d_data = NULL;
+						d_data = nullptr;
 					}
 				}
 				assign_allocator(get_allocator(), other.get_allocator());
@@ -3094,9 +3030,9 @@ namespace seq
 		/// @brief Returns an iterator to the first element of the cvector.
 		auto begin() noexcept -> iterator { return iterator(d_data, 0); }
 		/// @brief Returns an iterator to the element following the last element of the cvector.
-		auto end() const noexcept -> const_iterator { return const_iterator(d_data, d_data ? d_data->d_size : 0); }
+		auto end() const noexcept -> const_iterator { return const_iterator(d_data, d_data ? static_cast<difference_type>(d_data->d_size) : 0); }
 		/// @brief Returns an iterator to the element following the last element of the cvector.
-		auto end() noexcept -> iterator { return iterator(d_data, d_data ? d_data->d_size : 0); }
+		auto end() noexcept -> iterator { return iterator(d_data, d_data ? static_cast<difference_type>(d_data->d_size) : 0); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		auto rbegin() noexcept -> reverse_iterator { return reverse_iterator(end()); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
@@ -3169,7 +3105,7 @@ namespace seq
 					d_data->decompress_bucket(pos);
 				return std::pair<const T*, unsigned>(reinterpret_cast<const T*>(bucket->decompressed->storage), bucket->decompressed->size);
 			}
-			return std::pair<const T*, unsigned>(NULL, 0);
+			return std::pair<const T*, unsigned>(nullptr, 0);
 		}
 		/// @brief Returns a pair (block data pointer, block size) for given block position.
 		/// This let you apply low level functions on this block like simd based computations.
@@ -3182,7 +3118,7 @@ namespace seq
 					d_data->decompress_bucket(pos);
 				return std::pair<T*, unsigned>(reinterpret_cast<T*>(bucket->decompressed->storage), bucket->decompressed->size);
 			}
-			return std::pair<T*, unsigned>(NULL, 0);
+			return std::pair<T*, unsigned>(nullptr, 0);
 		}
 
 		///////////////////////////
@@ -3268,7 +3204,7 @@ namespace seq
 				}
 				d_data->d_buckets.back().buffer = data;
 				d_data->d_buckets.back().csize = bsize;
-				d_data->d_buckets.back().decompressed = NULL;
+				d_data->d_buckets.back().decompressed = nullptr;
 				d_data->d_size += internal_type::elems_per_block;
 				d_data->d_compress_size += bsize;
 			}
@@ -3292,7 +3228,7 @@ namespace seq
 
 				// might throw, fine
 				d_data->d_buckets.push_back(bucket_type());
-				d_data->d_buckets.back().buffer = NULL;
+				d_data->d_buckets.back().buffer = nullptr;
 				d_data->d_buckets.back().csize = 0;
 				d_data->d_buckets.back().decompressed = raw;
 

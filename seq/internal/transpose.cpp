@@ -304,16 +304,23 @@ namespace seq
 			}
 		}
 
+		static inline std::int64_t read_L_64(const void* src)
+		{
+			std::int64_t value;
+			memcpy(&value, src, sizeof(std::uint64_t));
+			return value;
+		}
+
 		static inline void tp128_8x8(const unsigned char* A, unsigned char* B, const int lda, const int ldb)
 		{
 			//see https://stackoverflow.com/questions/42162270/a-better-8x8-bytes-matrix-transpose-with-sse?rq=1
 			static const __m128i pshufbcnst = _mm_set_epi8(15, 11, 7, 3, 14, 10, 6, 2, 13, 9, 5, 1, 12, 8, 4, 0);
 			__m128i B0, B1, B2, B3, T0, T1, T2, T3;
 
-			B0 = _mm_set_epi64x(seq::read_64(A + 1 * lda), seq::read_64(A + 0 * lda));//_mm_shuffle_epi8(_mm_loadu_si128((__m128i*)A), sv);
-			B1 = _mm_set_epi64x(seq::read_64(A + 3 * lda), seq::read_64(A + 2 * lda));
-			B2 = _mm_set_epi64x(seq::read_64(A + 5 * lda), seq::read_64(A + 4 * lda));
-			B3 = _mm_set_epi64x(seq::read_64(A + 7 * lda), seq::read_64(A + 6 * lda));
+			B0 = _mm_set_epi64x(read_L_64(A + 1 * lda), read_L_64(A + 0 * lda));//_mm_shuffle_epi8(_mm_loadu_si128((__m128i*)A), sv);
+			B1 = _mm_set_epi64x(read_L_64(A + 3 * lda), read_L_64(A + 2 * lda));
+			B2 = _mm_set_epi64x(read_L_64(A + 5 * lda), read_L_64(A + 4 * lda));
+			B3 = _mm_set_epi64x(read_L_64(A + 7 * lda), read_L_64(A + 6 * lda));
 
 			T0 = _mm_castps_si128(_mm_shuffle_ps(_mm_castsi128_ps(B0), _mm_castsi128_ps(B1), 0b10001000));
 			T1 = _mm_castps_si128(_mm_shuffle_ps(_mm_castsi128_ps(B2), _mm_castsi128_ps(B3), 0b10001000));
@@ -331,14 +338,14 @@ namespace seq
 			T3 = _mm_unpackhi_epi32(B2, B3);
 
 
-			*(reinterpret_cast<uint64_t*>(B + 0 * ldb)) = _mm_extract_epi64(T0, 0);
-			*(reinterpret_cast<uint64_t*>(B + 1 * ldb)) = _mm_extract_epi64(T0, 1);
-			*(reinterpret_cast<uint64_t*>(B + 2 * ldb)) = _mm_extract_epi64(T1, 0);
-			*(reinterpret_cast<uint64_t*>(B + 3 * ldb)) = _mm_extract_epi64(T1, 1);
-			*(reinterpret_cast<uint64_t*>(B + 4 * ldb)) = _mm_extract_epi64(T2, 0);
-			*(reinterpret_cast<uint64_t*>(B + 5 * ldb)) = _mm_extract_epi64(T2, 1);
-			*(reinterpret_cast<uint64_t*>(B + 6 * ldb)) = _mm_extract_epi64(T3, 0);
-			*(reinterpret_cast<uint64_t*>(B + 7 * ldb)) = _mm_extract_epi64(T3, 1);
+			*(reinterpret_cast<int64_t*>(B + 0 * ldb)) = _mm_extract_epi64(T0, 0);
+			*(reinterpret_cast<int64_t*>(B + 1 * ldb)) = _mm_extract_epi64(T0, 1);
+			*(reinterpret_cast<int64_t*>(B + 2 * ldb)) = _mm_extract_epi64(T1, 0);
+			*(reinterpret_cast<int64_t*>(B + 3 * ldb)) = _mm_extract_epi64(T1, 1);
+			*(reinterpret_cast<int64_t*>(B + 4 * ldb)) = _mm_extract_epi64(T2, 0);
+			*(reinterpret_cast<int64_t*>(B + 5 * ldb)) = _mm_extract_epi64(T2, 1);
+			*(reinterpret_cast<int64_t*>(B + 6 * ldb)) = _mm_extract_epi64(T3, 0);
+			*(reinterpret_cast<int64_t*>(B + 7 * ldb)) = _mm_extract_epi64(T3, 1);
 		}
 
 		static inline void transpose_block_SSE8x8(const unsigned char* A, unsigned char* B, const int n, const int m) {
@@ -371,10 +378,10 @@ namespace seq
 	SEQ_HEADER_ONLY_EXPORT_FUNCTION void transpose_256_rows(const char* src, char* aligned_dst, unsigned BPP)
 	{
 		if (BPP >= 16 && (BPP & 15) == 0) {
-			detail::transpose_block_SSE16x16(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(aligned_dst), 256, BPP);
+			detail::transpose_block_SSE16x16(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(aligned_dst), 256, static_cast<int>(BPP));
 		}
 		else if (BPP >= 8 && (BPP & 7) == 0) {
-			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(aligned_dst), 256, BPP);
+			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(aligned_dst), 256, static_cast<int>(BPP));
 		}
 		else {
 			switch (BPP) {
@@ -390,10 +397,10 @@ namespace seq
 	SEQ_HEADER_ONLY_EXPORT_FUNCTION void transpose_inv_256_rows(const char* src, char* dst, unsigned BPP)
 	{
 		if (BPP >= 16 && (BPP & 15) == 0) {
-			detail::transpose_block_SSE16x16_u(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), BPP, 256);
+			detail::transpose_block_SSE16x16_u(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), 256);
 		}
 		else if (BPP >= 8 && (BPP & 7) == 0 ) {
-			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), BPP, 256);
+			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), 256);
 		}
 		else {
 			for (unsigned y = 0; y < BPP; ++y) {
@@ -411,10 +418,10 @@ namespace seq
 	{
 		SEQ_ASSERT_DEBUG((block_size & 15) == 0, "block_size must be a multiple of 16");
 		if (BPP >= 16 && (BPP & 15) == 0) {
-			detail::transpose_block_SSE16x16(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), block_size, BPP);
+			detail::transpose_block_SSE16x16(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(block_size), static_cast<int>(BPP));
 		}
 		else if (BPP >= 8 && (BPP & 7) == 0) {
-			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), block_size, BPP);
+			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(block_size), static_cast<int>(BPP));
 		}
 		else {
 			for (unsigned y = 0; y < block_size; ++y)
@@ -427,10 +434,10 @@ namespace seq
 	{
 		SEQ_ASSERT_DEBUG((block_size & 15) == 0, "block_size must be a multiple of 16");
 		if (BPP >= 16 && (BPP & 15) == 0) {
-			detail::transpose_block_SSE16x16_u(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), BPP, block_size);
+			detail::transpose_block_SSE16x16_u(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), static_cast<int>(block_size));
 		}
 		else if (BPP >= 8 && (BPP & 7) == 0) {
-			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), BPP, block_size);
+			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), static_cast<int>(block_size));
 		}
 		else {
 			

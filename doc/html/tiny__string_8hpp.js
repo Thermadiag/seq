@@ -93,6 +93,7 @@ var tiny__string_8hpp =
     [ "string_equal", "tiny__string_8hpp.html#aeb645eb2c2201055296d2a778f2f3a16", null ],
     [ "string_equal", "tiny__string_8hpp.html#a8afb9f8881a5cb441e341f4c8141789f", null ],
     [ "string_inf", "tiny__string_8hpp.html#a07a083b82f96e76e4a5e7724b32f440a", null ],
+    [ "string_inf", "tiny__string_8hpp.html#ad8cdaa0b08299834bc22818fd5bf3004", null ],
     [ "string_inf_equal", "tiny__string_8hpp.html#a2973df76b7a747a468d8e78d188989d7", null ],
     [ "string_size", "tiny__string_8hpp.html#ac404d9958f2200e3e6588b5601759b1c", null ],
     [ "string_size", "tiny__string_8hpp.html#a8cb962f97eeea267d9b1e420879eb1ff", null ],

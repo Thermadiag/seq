@@ -127,8 +127,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aebc6eeb70110313ccfbf7bfd982b24a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#aebc6eeb70110313ccfbf7bfd982b24a4">parallel_object_pool</a> (const Allocator &amp;alloc=Allocator())</td></tr>
 <tr class="memdesc:aebc6eeb70110313ccfbf7bfd982b24a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="classseq_1_1parallel__object__pool.html#aebc6eeb70110313ccfbf7bfd982b24a4">More...</a><br /></td></tr>
 <tr class="separator:aebc6eeb70110313ccfbf7bfd982b24a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12ad2b1f748dc1ff76c06432f56f0643"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a12ad2b1f748dc1ff76c06432f56f0643">~parallel_object_pool</a> ()</td></tr>
-<tr class="separator:a12ad2b1f748dc1ff76c06432f56f0643"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f6a93f944b87af8dcdb554c87711ea3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a2f6a93f944b87af8dcdb554c87711ea3">~parallel_object_pool</a> () override</td></tr>
+<tr class="separator:a2f6a93f944b87af8dcdb554c87711ea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7308d1a796b49fb4b421eb289cc0701"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#ad7308d1a796b49fb4b421eb289cc0701">parallel_object_pool</a> (const <a class="el" href="classseq_1_1parallel__object__pool.html">parallel_object_pool</a> &amp;)=delete</td></tr>
 <tr class="separator:ad7308d1a796b49fb4b421eb289cc0701"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5981bb92e28d5ccc7ee2792fdc18cde1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a5981bb92e28d5ccc7ee2792fdc18cde1">operator=</a> (const <a class="el" href="classseq_1_1parallel__object__pool.html">parallel_object_pool</a> &amp;) -&gt; <a class="el" href="classseq_1_1parallel__object__pool.html">parallel_object_pool</a> &amp;=delete</td></tr>
@@ -169,12 +169,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a19202a94fcef784bd4eed942387c73e1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a19202a94fcef784bd4eed942387c73e1">release_unused_memory</a> () -&gt; size_t</td></tr>
 <tr class="memdesc:a19202a94fcef784bd4eed942387c73e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocate all unused memory blocks. This only makes sense if <a class="el" href="classseq_1_1parallel__object__pool.html#a743de3a7f26697b9924b8283e9d133fa" title="Returns true if this pool reclaims freed memory, false otherwise.">reclaim_memory()</a> is false.  <a href="classseq_1_1parallel__object__pool.html#a19202a94fcef784bd4eed942387c73e1">More...</a><br /></td></tr>
 <tr class="separator:a19202a94fcef784bd4eed942387c73e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a128d1dead3c25a24d4ae746a007e28ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a128d1dead3c25a24d4ae746a007e28ea">allocate</a> (size_t size) -&gt; T *</td></tr>
-<tr class="memdesc:a128d1dead3c25a24d4ae746a007e28ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate size objects.  <a href="classseq_1_1parallel__object__pool.html#a128d1dead3c25a24d4ae746a007e28ea">More...</a><br /></td></tr>
-<tr class="separator:a128d1dead3c25a24d4ae746a007e28ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53c39c2c5cf32251dd27f5947058e167"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a53c39c2c5cf32251dd27f5947058e167">deallocate</a> (T *ptr, size_t size)</td></tr>
-<tr class="memdesc:a53c39c2c5cf32251dd27f5947058e167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocate size objects. Non POD objects must have been destroyed previously.  <a href="classseq_1_1parallel__object__pool.html#a53c39c2c5cf32251dd27f5947058e167">More...</a><br /></td></tr>
-<tr class="separator:a53c39c2c5cf32251dd27f5947058e167"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad087e256162adf206b4f96543f72ced8"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#ad087e256162adf206b4f96543f72ced8">allocate</a> (size_t size) -&gt; T *override</td></tr>
+<tr class="memdesc:ad087e256162adf206b4f96543f72ced8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate size objects.  <a href="classseq_1_1parallel__object__pool.html#ad087e256162adf206b4f96543f72ced8">More...</a><br /></td></tr>
+<tr class="separator:ad087e256162adf206b4f96543f72ced8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc70e5475bf4408c611f1806c9165f9d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#afc70e5475bf4408c611f1806c9165f9d">deallocate</a> (T *ptr, size_t size) override</td></tr>
+<tr class="memdesc:afc70e5475bf4408c611f1806c9165f9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocate size objects. Non POD objects must have been destroyed previously.  <a href="classseq_1_1parallel__object__pool.html#afc70e5475bf4408c611f1806c9165f9d">More...</a><br /></td></tr>
+<tr class="separator:afc70e5475bf4408c611f1806c9165f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e9f5603fd5d92224ba1a40b0190b173"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
 <tr class="memitem:a8e9f5603fd5d92224ba1a40b0190b173"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a8e9f5603fd5d92224ba1a40b0190b173">make_unique</a> (Args &amp;&amp;... args) -&gt; <a class="el" href="classseq_1_1parallel__object__pool.html#a3939d98c0364bb96f9e787740bdabf0d">unique_ptr</a></td></tr>
 <tr class="memdesc:a8e9f5603fd5d92224ba1a40b0190b173"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a unique_ptr object constructed from the forwarded argument.  <a href="classseq_1_1parallel__object__pool.html#a8e9f5603fd5d92224ba1a40b0190b173">More...</a><br /></td></tr>
@@ -187,7 +187,7 @@ Public Member Functions</h2></td></tr>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a5b5384326e4223342454ce9dbbbc81e7"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a5b5384326e4223342454ce9dbbbc81e7">max_objects</a> = object_allocation::max_objects</td></tr>
 <tr class="separator:a5b5384326e4223342454ce9dbbbc81e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7540dbb9a515ff198c9171030f82a022"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a7540dbb9a515ff198c9171030f82a022">alignment</a> = (Align == 0 || Align &lt; <a class="el" href="group__bits.html#ga4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a>) ? <a class="el" href="group__bits.html#ga4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a> : Align</td></tr>
+<tr class="memitem:a7540dbb9a515ff198c9171030f82a022"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1parallel__object__pool.html#a7540dbb9a515ff198c9171030f82a022">alignment</a> = (Align == 0 || Align &lt; <a class="el" href="bits_8hpp.html#a4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a>) ? <a class="el" href="bits_8hpp.html#a4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a> : Align</td></tr>
 <tr class="separator:a7540dbb9a515ff198c9171030f82a022"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
@@ -213,7 +213,7 @@ class seq::parallel_object_pool&lt; T, Allocator, Align, object_allocation, Gene
 <p><a class="el" href="classseq_1_1parallel__object__pool.html" title="Lock-free parallel object pool.">seq::parallel_object_pool</a> relies on independant thread-local memory blocks. Allocating is quite straightforward, and is very similar to using a thread_local <a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">object_pool</a>.</p>
 <p>Deallocating is more complex, as a memory region can only be deallocated by the thread that created it (except if the thread was destroyed). Therefore, <a class="el" href="classseq_1_1parallel__object__pool.html" title="Lock-free parallel object pool.">parallel_object_pool</a> uses the notion of deffered deletion:</p><ul>
 <li>The deletion request is added to a list of requests</li>
-<li>On further calls to parallel_object_pool::allocate() or <a class="el" href="classseq_1_1parallel__object__pool.html#a53c39c2c5cf32251dd27f5947058e167" title="Deallocate size objects. Non POD objects must have been destroyed previously.">parallel_object_pool::deallocate()</a>, all pending deletion are processed for this thread.</li>
+<li>On further calls to parallel_object_pool::allocate() or <a class="el" href="classseq_1_1parallel__object__pool.html#afc70e5475bf4408c611f1806c9165f9d" title="Deallocate size objects. Non POD objects must have been destroyed previously.">parallel_object_pool::deallocate()</a>, all pending deletion are processed for this thread.</li>
 </ul>
 <p>When a thread is destroyed, several options are checked:</p><ul>
 <li>All memory blocks belonging to this thread are gathered</li>
@@ -357,8 +357,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
 
 </div>
 </div>
-<a id="a12ad2b1f748dc1ff76c06432f56f0643"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12ad2b1f748dc1ff76c06432f56f0643">&#9670;&nbsp;</a></span>~parallel_object_pool()</h2>
+<a id="a2f6a93f944b87af8dcdb554c87711ea3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f6a93f944b87af8dcdb554c87711ea3">&#9670;&nbsp;</a></span>~parallel_object_pool()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -377,7 +377,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -413,8 +413,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a128d1dead3c25a24d4ae746a007e28ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a128d1dead3c25a24d4ae746a007e28ea">&#9670;&nbsp;</a></span>allocate()</h2>
+<a id="ad087e256162adf206b4f96543f72ced8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad087e256162adf206b4f96543f72ced8">&#9670;&nbsp;</a></span>allocate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -425,17 +425,16 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1parallel__object__pool.html">seq::parallel_object_pool</a>&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;::allocate </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1parallel__object__pool.html">seq::parallel_object_pool</a>&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;::allocate </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>size</em></td><td>)</td>
-          <td> -&gt; T*
-		</td>
+          <td> -&gt; T*</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -487,8 +486,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
 
 </div>
 </div>
-<a id="a53c39c2c5cf32251dd27f5947058e167"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53c39c2c5cf32251dd27f5947058e167">&#9670;&nbsp;</a></span>deallocate()</h2>
+<a id="afc70e5475bf4408c611f1806c9165f9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc70e5475bf4408c611f1806c9165f9d">&#9670;&nbsp;</a></span>deallocate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -499,7 +498,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void <a class="el" href="classseq_1_1parallel__object__pool.html">seq::parallel_object_pool</a>&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;::deallocate </td>
+          <td class="memname">void <a class="el" href="classseq_1_1parallel__object__pool.html">seq::parallel_object_pool</a>&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;::deallocate </td>
           <td>(</td>
           <td class="paramtype">T *&#160;</td>
           <td class="paramname"><em>ptr</em>, </td>
@@ -518,7 +517,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -655,7 +654,7 @@ template&lt;class... Args&gt; </div>
 </div><div class="memdoc">
 
 <p>Returns a unique_ptr object constructed from the forwarded argument. </p>
-<p>This function is similar to std::make_unique(), except that it relies on the <a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">object_pool</a> to allocate the memory. The created unique_ptr will outlive the <a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">object_pool</a>. Never deallocate a unique_ptr pointer with <a class="el" href="classseq_1_1object__pool.html#a99af259462a246f9b6c46a6b00a9a782" title="Deallocate size objects. Non POD objects must have been destroyed previously.">object_pool::deallocate()</a>. If unique_ptr::release() is called, the pointer must be destroyed with <a class="el" href="namespaceseq.html#a1349a44a2ff37300a5c72a03780780fe" title="Deallocate pointer previously held by a std::unqiue_ptr&lt;T,unique_ptr_deleter&lt;T&gt; &gt;">seq::unique_ptr_delete()</a>, which calls the object destructor and release the memory if needed. </p>
+<p>This function is similar to std::make_unique(), except that it relies on the <a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">object_pool</a> to allocate the memory. The created unique_ptr will outlive the <a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">object_pool</a>. Never deallocate a unique_ptr pointer with <a class="el" href="classseq_1_1object__pool.html#a298a62e82b2d3417fd72bee90184f5b7" title="Deallocate size objects. Non POD objects must have been destroyed previously.">object_pool::deallocate()</a>. If unique_ptr::release() is called, the pointer must be destroyed with <a class="el" href="namespaceseq.html#a1349a44a2ff37300a5c72a03780780fe" title="Deallocate pointer previously held by a std::unqiue_ptr&lt;T,unique_ptr_deleter&lt;T&gt; &gt;">seq::unique_ptr_delete()</a>, which calls the object destructor and release the memory if needed. </p>
 
 </div>
 </div>
@@ -941,7 +940,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
 </div><div class="memdoc">
 
 <p>Set the reclaim_memory flag. </p>
-<p>If false, the <a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">object_pool</a> will not deallocate memory on calls to <a class="el" href="classseq_1_1parallel__object__pool.html#a53c39c2c5cf32251dd27f5947058e167" title="Deallocate size objects. Non POD objects must have been destroyed previously.">deallocate()</a>. Instead, free memory blocks will be added to an internal list and reuse on calls to allocate(). This is the only way to move a memory block dedicated to an object count for another object count.</p>
+<p>If false, the <a class="el" href="classseq_1_1object__pool.html" title="Object pool class used to allocate objects of type T.">object_pool</a> will not deallocate memory on calls to <a class="el" href="classseq_1_1parallel__object__pool.html#afc70e5475bf4408c611f1806c9165f9d" title="Deallocate size objects. Non POD objects must have been destroyed previously.">deallocate()</a>. Instead, free memory blocks will be added to an internal list and reuse on calls to allocate(). This is the only way to move a memory block dedicated to an object count for another object count.</p>
 <p>If true, calls to deallocate will deallocate any free block. </p>
 
 </div>
@@ -986,7 +985,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr size_t <a class="el" href="classseq_1_1parallel__object__pool.html">seq::parallel_object_pool</a>&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;::alignment = (Align == 0 || Align &lt; <a class="el" href="group__bits.html#ga4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a>) ? <a class="el" href="group__bits.html#ga4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a> : Align</td>
+          <td class="memname">constexpr size_t <a class="el" href="classseq_1_1parallel__object__pool.html">seq::parallel_object_pool</a>&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;::alignment = (Align == 0 || Align &lt; <a class="el" href="bits_8hpp.html#a4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a>) ? <a class="el" href="bits_8hpp.html#a4358957bf3c41e772ade27671699c4e6">SEQ_DEFAULT_ALIGNMENT</a> : Align</td>
         </tr>
       </table>
   </td>

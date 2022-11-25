@@ -106,7 +106,7 @@ struct statefull_alloc : public std::allocator<T>
 	statefull_alloc(const statefull_alloc& other) : my_val(other.my_val) {}
 	template<class U>
 	statefull_alloc(const statefull_alloc<U> & other) : my_val(other.my_val) {}
-
+	 
 	bool operator==(const statefull_alloc& other) const { return my_val == other.my_val; }
 	bool operator!=(const statefull_alloc& other) const { return my_val != other.my_val; }
 };
@@ -116,27 +116,30 @@ struct statefull_alloc : public std::allocator<T>
 int  main  (int , char** )
 { 
 	
-	test_tiered_vector_algorithms<size_t>(5000000);
-	test_tiered_vector<size_t>();
-	 
-
-	test_tstring_members(20000000);
-	test_sort_strings(2000000);
-	test_tstring_operators<25>(5000000, 14);
-
-	test_sequence_vs_colony<size_t>(5000000);
 	
-	
+
+	test_hash<double, std::hash<double> >(10000000, [](size_t i) { return (i * UINT64_C(0xc4ceb9fe1a85ec53)); });
+	test_hash<std::string, std::hash<std::string> >(5000000, [](size_t i) { return generate_random_string<std::string>(14, true); });
+	test_hash<tstring, std::hash<tstring> >(5000000, [](size_t i) { return generate_random_string<tstring>(14, true); });
+
 	test_map<double>(1000000, [](size_t i) { return (i * UINT64_C(0xc4ceb9fe1a85ec53)); });
 	test_map<tiny_string<>>(1000000, [](size_t i) { return generate_random_string<tiny_string<>>(14, true); });
 
 
-	test_hash<std::string, std::hash<tstring> >(5000000, [](size_t i) { return generate_random_string<std::string>(14, true); });
-	test_hash<tstring, std::hash<tstring> >(5000000, [](size_t i) { return generate_random_string<tstring>(14, true); });
-	test_hash<double, std::hash<double> >(10000000, [](size_t i) { return (i * UINT64_C(0xc4ceb9fe1a85ec53)); });
+	test_tiered_vector_algorithms<size_t>(5000000);
+	test_tiered_vector<size_t>();
+	 
+	
+	test_sort_strings(2000000);
+	test_tstring_members(20000000);
+	test_tstring_operators<25>(5000000, 14);
 
+	test_sequence_vs_colony<size_t>(5000000);
+
+	
 	test_object_pool(1000000);
 
+	
 	test_write_numeric<std::int64_t>(1000000);
 	test_write_numeric<float,seq::general>(1000000,12);
 	test_write_numeric<double, seq::general>(1000000, 12);
@@ -147,6 +150,9 @@ int  main  (int , char** )
 
 	// last benchmark, as strtold is buggy on gcc
 	test_read_numeric<long double>(1000000);
+
+	
+
 
 	return 0;
 

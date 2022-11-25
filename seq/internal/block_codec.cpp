@@ -104,8 +104,8 @@ namespace seq
 			shift = _mm_or_si128(shift, _mm_srli_si128(prev_row, 15));
 			__m128i diff = _mm_sub_epi8(row, shift);
 			__m128i compare = _mm_cmpeq_epi8(diff, _mm_setzero_si128());
-			p->rle_masks[index] = _mm_movemask_epi8(compare);
-			p->rle_pop_cnt[index] = 16 - popcnt16(p->rle_masks[index]);
+			p->rle_masks[index] = static_cast<std::uint16_t>(_mm_movemask_epi8(compare));
+			p->rle_pop_cnt[index] = static_cast<std::uint8_t>(16 - popcnt16(p->rle_masks[index]));
 		}
 
 		/// @brief Write rle encoded row (compute_rle_row musty be called before)
@@ -122,7 +122,7 @@ namespace seq
 		static inline uint32_t _mm_sum_epu8(__m128i v)
 		{
 			__m128i vsum = _mm_sad_epu8(v, _mm_setzero_si128());
-			return _mm_extract_epi16(vsum, 0) + _mm_extract_epi16(vsum, 4);
+			return static_cast<uint32_t>( _mm_extract_epi16(vsum, 0) + _mm_extract_epi16(vsum, 4));
 		}
 
 		/// @brief Multiplication of 16 bytes
@@ -150,7 +150,7 @@ namespace seq
 			__m128i sub, min_sub, max_sub, t0, bits0, bits1;
 			__m128i tr_row = __get(trs[0]);
 			__m128i max = tr_row, min = max;
-			__m128i first_val = _mm_set1_epi8(first);
+			__m128i first_val = _mm_set1_epi8(static_cast<char>(first));
 			__m128i tr_prev = tr_row;
 
 			pack->all_same = _mm_movemask_epi8(_mm_cmpeq_epi32(tr_row, first_val)) == 0xFFFF;
@@ -200,7 +200,7 @@ namespace seq
 				prev = _mm_setzero_si128();
 				memset(pack->rle_pop_cnt, 16, sizeof(pack->rle_pop_cnt));
 
-				for (int i = 0; i < 16; ++i) {
+				for (unsigned i = 0; i < 16; ++i) {
 					row = __get(src[i]);
 					if (SEQ_LIKELY(check_for_rle.i8[i])) {
 						compute_rle_row(pack, i, row, prev);
@@ -215,7 +215,7 @@ namespace seq
 				pack->has_rle = false;
 				memset(&pack->use_rle, 0, sizeof(pack->use_rle));
 				//count number of 8
-				unsigned count_8 = seq::popcnt16(_mm_movemask_epi8(_mm_cmpeq_epi8(bits, _mm_set1_epi8(8))));
+				unsigned count_8 = seq::popcnt16(static_cast<unsigned short>(_mm_movemask_epi8(_mm_cmpeq_epi8(bits, _mm_set1_epi8(8)))));
 				unsigned full_size = (_mm_sum_epu8(bits)) * 2 + 16 + 8 - count_8;
 				return full_size;
 			}
@@ -230,7 +230,7 @@ namespace seq
 			
 			__m128i use_rle = _mm_cmplt_epi8(rle_size, sizes);
 			__set(pack->use_rle, use_rle);
-			unsigned mmask = _mm_movemask_epi8(use_rle);
+			unsigned mmask = static_cast<unsigned>(_mm_movemask_epi8(use_rle));
 			pack->has_rle = mmask != 0;
 
 			sizes = _mm_min_epi8(sizes, rle_size);
@@ -323,7 +323,7 @@ namespace seq
 		{
 			// check dst overflow
 			if (SEQ_UNLIKELY((end - dst) < 256))
-				return NULL;
+				return nullptr;
 			// direct copy to destination
 			for (int i = 0; i < 16; ++i) {
 				memcpy(dst, &src[i], 16);
@@ -341,7 +341,7 @@ namespace seq
 			if (pack->all_same) {
 				// check dst overflow
 				if (SEQ_UNLIKELY(end == dst))
-					return NULL;
+					return nullptr;
 				// copy first byte to destination
 				*dst++ = first;
 				return dst;
@@ -349,17 +349,17 @@ namespace seq
 			
 			// max headers + mins size: 8 + 16 bytes
 			if (end && ((end - dst) < 24))
-				return NULL;
+				return nullptr;
 
 			//const unsigned char* end_for_raw = end - 16;
 			const __m128i mask = _mm_setr_epi8(-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 			// copy headers (by group of 2) and mins to destination
-			for (int i = 0; i < 16; i += 2)
+			for (unsigned i = 0; i < 16; i += 2)
 			{
 				unsigned char h0 =  pack->use_rle.u8[i] ? 7 : header_0[pack->types.u8[i]][pack->_bits.u8[i]];
 				unsigned char h1 = pack->use_rle.u8[i+1] ? 7 : header_0[pack->types.u8[i+1]][pack->_bits.u8[i+1]];
-				*dst++ = h0 | (h1 << 4);
+				*dst++ = h0 | static_cast<unsigned char>(h1 << 4U);
 
 				//if (SEQ_UNLIKELY(end && dst > end_for_raw))
 				//	return write_raw(src, saved_dst, end);
@@ -429,7 +429,7 @@ namespace seq
 		static inline unsigned computeBlock_generic(BlockEncoder* encoder, char first, unsigned index, unsigned level, unsigned acceleration)
 		{
 			transpose_16x16(reinterpret_cast<const __m128i*>( & encoder->arrays[index][0]), reinterpret_cast<__m128i*>( & (*encoder->tr[0])));
-			return findPackBitsParams(encoder->arrays[index], encoder->tr[0], first, encoder->packs + index, level, acceleration);
+			return findPackBitsParams(encoder->arrays[index], encoder->tr[0], static_cast<unsigned char>(first), encoder->packs + index, level, acceleration);
 		}
 
 
@@ -438,7 +438,7 @@ namespace seq
 		{
 			void* buffer;
 			size_t size;
-			CompressedBuffer() : buffer(0), size(0) {}
+			CompressedBuffer() : buffer(nullptr), size(0) {}
 			~CompressedBuffer() {
 				if (buffer)
 					seq::aligned_free(buffer);
@@ -474,7 +474,7 @@ namespace seq
 	static SEQ_ALWAYS_INLINE unsigned block_encode_256_full(const void* __src, unsigned BPP, unsigned block_count, void* __dst, unsigned dst_size, unsigned level, unsigned acceleration)
 	{
 
-		void* buff_src = NULL;
+		void* buff_src = nullptr;
 		const char* _src = static_cast<const char*>(__src);
 		char* dst = static_cast<char*>(__dst);
 		char* dst_end = dst + dst_size;
@@ -521,7 +521,7 @@ namespace seq
 					dst = reinterpret_cast<char*>(detail::write_raw(encoder->arrays[i], reinterpret_cast<unsigned char*>(dst), reinterpret_cast<unsigned char*>(dst_end)));
 				}
 				else {
-					dst = reinterpret_cast<char*>(detail::encode16x16_2(encoder->arrays[i], e.firsts[i], encoder->packs + i, reinterpret_cast<unsigned char*>(dst), reinterpret_cast<unsigned char*>(dst_end)));
+					dst = reinterpret_cast<char*>(detail::encode16x16_2(encoder->arrays[i], static_cast<unsigned char>(e.firsts[i]), encoder->packs + i, reinterpret_cast<unsigned char*>(dst), reinterpret_cast<unsigned char*>(dst_end)));
 				}
 				if (SEQ_UNLIKELY(!dst)) {
 					return SEQ_ERROR_DST_OVERFLOW;
@@ -756,7 +756,7 @@ namespace seq
 		}
 		static inline void fast_copy_stridded_16(unsigned char* SEQ_RESTRICT dst,  unsigned char* SEQ_RESTRICT src, unsigned char offset, unsigned  stride)
 		{
-			_mm_store_si128(reinterpret_cast<__m128i*>(src), _mm_add_epi8(_mm_load_si128(reinterpret_cast<const __m128i*>(src)), _mm_set1_epi8(offset)));
+			_mm_store_si128(reinterpret_cast<__m128i*>(src), _mm_add_epi8(_mm_load_si128(reinterpret_cast<const __m128i*>(src)), _mm_set1_epi8(static_cast<char>(offset))));
 			fast_copy_stridded_0_16(dst, src, stride);
 
 		}
@@ -780,7 +780,7 @@ namespace seq
 			*dst = val;
 
 		}
-		static inline void fast_copyleft_stridded_16(unsigned char* SEQ_RESTRICT dst, const unsigned char* SEQ_RESTRICT src, const unsigned char first, unsigned  offset, unsigned  inner)
+		static inline void fast_copyleft_stridded_16(unsigned char* SEQ_RESTRICT dst, const unsigned char* SEQ_RESTRICT src, unsigned char first, unsigned char offset, unsigned  inner)
 		{
 			unsigned pos = 0;
 			dst[0] = src[0] + first + offset;
@@ -804,7 +804,7 @@ namespace seq
 		}
 
 
-		static inline void fast_copyleft_inner_stridded_16(unsigned char* dst, const unsigned char first, unsigned char min, unsigned  inner)
+		static inline void fast_copyleft_inner_stridded_16(unsigned char* dst, unsigned char first, unsigned char min, unsigned  inner)
 		{
 			dst[0] = first + min;
 			unsigned pos = 0;
@@ -830,7 +830,7 @@ namespace seq
 		{
 			// check for src overflow
 			if (SEQ_UNLIKELY((end - src) < 256))
-				return NULL;
+				return nullptr;
 
 			for (unsigned i = 0; i < 16; ++i)
 			{
@@ -847,7 +847,7 @@ namespace seq
 
 			// check overflow
 			if (SEQ_UNLIKELY(src >= end))
-				return NULL;
+				return nullptr;
 
 			// set the block to the same unique value
 			same = *src++;
@@ -865,7 +865,7 @@ namespace seq
 
 			unsigned remaining = static_cast<unsigned>(end - src);
 			if (SEQ_UNLIKELY(remaining < 2))
-				return NULL;
+				return nullptr;
 
 			std::uint16_t mask = read_LE_16(src);
 			src += 2;
@@ -873,7 +873,7 @@ namespace seq
 
 			unsigned size = 16 - popcnt16(mask);
 			if (SEQ_UNLIKELY(size > remaining))
-				return NULL;
+				return nullptr;
 
 			hse_vector buff;
 			__m128i __src;
@@ -910,29 +910,29 @@ namespace seq
 #endif
 
 			// decode rows
-			for (int i = 0; i < 16; i += 2)
+			for (unsigned i = 0; i < 16; i += 2)
 			{
 				// check overflow
 				if (SEQ_UNLIKELY(src >= end))
-					return NULL;
+					return nullptr;
 
 				headers[i] = *src & 0xF;
 				headers[i + 1] = *src >> 4;
 				++src;
 
-				for (int x = i; x < i + 2; ++x)
+				for (unsigned x = i; x < i + 2; ++x)
 				{
 					if (headers[x] == 7) {
 						// rle
 						src = decode_rle(src, end, dst + x * outer_stride, x == 0 ? 0 : dst[(x - 1) * outer_stride + 15 * inner_stride], inner_stride);
 						if (SEQ_UNLIKELY(!src))
-							return NULL;
+							return nullptr;
 					}
 					else if (headers[x] == 15) {
 						// raw row
 						// check overflow
 						if (SEQ_UNLIKELY(end - src < 16))
-							return NULL;
+							return nullptr;
 						fast_copy_stridded_0_16(dst + x * outer_stride, src, inner_stride);
 						src += 16;
 					}
@@ -943,7 +943,7 @@ namespace seq
 						if (cnt > 0) {
 							// check overflow
 							if (SEQ_UNLIKELY(end < src + cnt * 2 + 1))
-								return NULL;
+								return nullptr;
 
 							min = *src++;
 #ifdef __BMI2__
@@ -960,7 +960,7 @@ namespace seq
 						}
 						else {
 							if (SEQ_UNLIKELY(src >= end))
-								return NULL;
+								return nullptr;
 
 							min = *src++;
 							if (headers[x] < 8) // type 0

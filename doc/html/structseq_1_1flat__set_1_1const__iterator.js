@@ -21,6 +21,10 @@ var structseq_1_1flat__set_1_1const__iterator =
     [ "operator--", "structseq_1_1flat__set_1_1const__iterator.html#aa4aa000bc2d19ea94aa743714d3b32d2", null ],
     [ "operator-=", "structseq_1_1flat__set_1_1const__iterator.html#a85656118fc6036403857766da9ed0b63", null ],
     [ "operator->", "structseq_1_1flat__set_1_1const__iterator.html#a89ba9a8c43e31c4ff8fe4c813893af94", null ],
+    [ "operator<", "structseq_1_1flat__set_1_1const__iterator.html#a6bc1905d42f90491b5ce0c013401a110", null ],
+    [ "operator<=", "structseq_1_1flat__set_1_1const__iterator.html#a9810210d8d1f138eb9c3ce4059a59a3a", null ],
     [ "operator==", "structseq_1_1flat__set_1_1const__iterator.html#aeb5148664dbbc4d2c615fce7de5a3ca4", null ],
+    [ "operator>", "structseq_1_1flat__set_1_1const__iterator.html#ad119cb9b140534e6efaca112479779da", null ],
+    [ "operator>=", "structseq_1_1flat__set_1_1const__iterator.html#a22788517360f58a066ecf91e68d0cb0e", null ],
     [ "iter", "structseq_1_1flat__set_1_1const__iterator.html#abddb952abb30d749e782cae06172e216", null ]
 ];
