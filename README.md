@@ -69,7 +69,7 @@ While C++14, C++17 and even C++20 are now widely supported by the main compilers
 
 For instance, the [charconv](docs/charconv.md) and [format](docs/format.md) modules were developped because C++11 only compilers do not provide similar functionalities. They still provide their own specifities for more recent compilers.
 
-*seq* library was tested with gcc/10.1.0 (Windows, mingw), gcc/8.4.0 (Linux), gcc/4.8.5 (!) (Linux), msvc/14.20 and msvc/14.0 (Windows).
+*seq* library was tested with gcc/10.1.0 (Windows, mingw), gcc/8.4.0 (Linux), gcc/4.8.5 (!) (Linux), msvc/14.20, msvc/14.0 (Windows), ClangCL/12.0.0 (Windows).
 
 Design
 ------
