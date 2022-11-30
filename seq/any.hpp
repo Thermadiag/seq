@@ -58,6 +58,26 @@ namespace seq
 {
 	namespace detail
 	{
+
+		// Forward declaration of ValueWrapper and ConstValueWrapper used by cvector class.
+		// hold_any must take care of this type or it won't work properly with cvector.
+
+		template<class Compressed>
+		class ValueWrapper;
+
+		template<class Compressed>
+		class ConstValueWrapper;
+		
+		template<class T>
+		struct is_value_wrapper : std::false_type {};
+		template<class Compressed>
+		struct is_value_wrapper<ValueWrapper<Compressed>> : std::true_type {};
+		template<class Compressed>
+		struct is_value_wrapper<ConstValueWrapper<Compressed>> : std::true_type {};
+		
+
+
+
 		inline auto build_type_id() noexcept -> int
 		{
 			// Generate a unique id starting from 20
@@ -661,7 +681,7 @@ namespace seq
 	/// @brief Base class representing a type and related functions
 	class alignas(32) any_type_info
 	{
-		template<class I, size_t S, size_t A>
+		template<class I, size_t S, size_t A, bool R>
 		friend class hold_any;
 
 		int d_type_id{};
@@ -801,6 +821,19 @@ namespace seq
 		{
 			return fun(*static_cast<const T*>(a), *static_cast<const U*>(b));
 		}
+
+
+		/// @brief Check if given type required a separated (heap allocated) storage
+		template<class T, size_t SizeofStorage, bool ForceRelocatable>
+		struct need_separate_storage
+		{
+			static constexpr bool value = sizeof(T) > SizeofStorage;
+		};
+		template<class T, size_t SizeofStorage>
+		struct need_separate_storage<T, SizeofStorage, true>
+		{
+			static constexpr bool value = (sizeof(T) > SizeofStorage) || (!seq::is_relocatable<T>::value);
+		};
 	}
 
 
@@ -819,7 +852,7 @@ namespace seq
 	/// 
 	/// It is possible to inherit any_base in order to provide an extended interface to hold_any (see hold_any documentation for an example).
 	/// 
-	template<class Derived, class TypeInfo, size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)>
+	template<class Derived, class TypeInfo, size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false>
 	struct any_base : public detail::null_policy
 	{
 	protected:
@@ -839,7 +872,7 @@ namespace seq
 				(std::is_trivially_destructible<T>::value ? 0 : 1) |
 				(std::is_trivially_copyable<T>::value ? 0 : 2) |
 				(is_relocatable<T>::value ? 0 : 4) |
-				(size_T > sizeof(storage_type) ? 8 : 0) |
+				(detail::need_separate_storage<T, sizeof(storage_type), ForceRelocatable>::value ? 8 : 0) |
 				(std::is_pointer<T>::value ? 16 : 0);
 
 			// create object storage with allocation if sizeof(T) > StaticSize
@@ -966,6 +999,7 @@ namespace seq
 	public:
 
 		using type_info_type = TypeInfo;
+		static constexpr bool relocatable = ForceRelocatable;
 
 		/// @brief Returns the underlying object as a void*. Never returns a nullptr pointer, even for empty object.
 		SEQ_ALWAYS_INLINE auto data() const noexcept -> const void* {
@@ -1073,7 +1107,6 @@ namespace seq
 			// inherited by any
 		};
 	};
-
 
 
 	
@@ -1415,7 +1448,11 @@ namespace seq
 	/// 
 	/// These information are used to optimize the copy, move assignment and destruction of hold_any objects.
 	/// 
-	/// Note that hold_any itself is NOT relocatable as it might hold a non relocatable type inside its small buffer.
+	/// Note that, by default, hold_any itself is NOT relocatable as it might hold a non relocatable type inside its small buffer.
+	/// It is possible to force hold_any type to be relocatable by setting the template parameter *ForceRelocatable* to true.
+	/// In this case, small but non relocatable types will be allocated on the heap instead of being stored in the small buffer.
+	/// The global typedef seq::r_any and seq::r_nh_any are defined to provide relocatable alternatives to seq::any and seq::nh_any.
+	/// Note that some containers (seq::tiered_vector, seq::devector, seq::flat_set/map) are faster with relocatable types. Furthermore, seq::cvector only works with relocatable types.
 	/// 
 	/// 
 	/// Move only types
@@ -1604,8 +1641,8 @@ namespace seq
 	/// 
 	/// \endcode 
 	/// 
-	template<class Interface = any_default_interface, size_t StaticSize = sizeof(double), size_t Alignment = alignof(double) >
-	class hold_any : public Interface::template any_interface< any_base <hold_any<Interface, StaticSize, Alignment>,  typename Interface::type_info, StaticSize, Alignment> >
+	template<class Interface = any_default_interface, size_t StaticSize = sizeof(double), size_t Alignment = alignof(double), bool Relocatable = false >
+	class hold_any : public Interface::template any_interface< any_base <hold_any<Interface, StaticSize, Alignment, Relocatable>,  typename Interface::type_info, StaticSize, Alignment, Relocatable> >
 	{
 
 		SEQ_ALWAYS_INLINE auto complex_destroy() const noexcept -> bool { return (this->d_type_info.full() & detail::complex_destroy) !=0; }
@@ -1664,7 +1701,7 @@ namespace seq
 
 	public:
 		/// Base public type
-		using base_type = typename Interface::template any_interface< any_base <hold_any<Interface, StaticSize, Alignment>, typename Interface::type_info, StaticSize, Alignment> >;
+		using base_type = typename Interface::template any_interface< any_base <hold_any<Interface, StaticSize, Alignment, Relocatable>, typename Interface::type_info, StaticSize, Alignment, Relocatable> >;
 		/// Type info as returned by type()
 		using type_info_type = typename Interface::type_info;
 		/// Actual implementation of type info
@@ -1712,6 +1749,20 @@ namespace seq
 			//copy type info
 			this->d_type_info = other.d_type_info;
 		}
+
+		/// @brief Constructor taking a ValueWrapper as parameter (mandatory to make hold_any work with cvector)
+		template<class Compressed>
+		hold_any(detail::ValueWrapper<Compressed>&& wrapper)
+			:hold_any(wrapper.get())
+		{
+		}
+		/// @brief Constructor taking a ConstValueWrapper as parameter (mandatory to make hold_any work with cvector)
+		template<class Compressed>
+		hold_any(detail::ConstValueWrapper<Compressed>&& wrapper)
+			: hold_any(wrapper.get())
+		{
+		}
+		
 
 		/// @brief Move constructor
 		/// Move constructor is NOT noexcept as move_any() might throw
@@ -1791,6 +1842,17 @@ namespace seq
 			this->d_type_info = other.d_type_info;
 
 			return *this;
+		}
+
+		template<class Compressed>
+		auto operator=(detail::ValueWrapper<Compressed> && wrapper)->hold_any&
+		{
+			return *this = wrapper.get();
+		}
+		template<class Compressed>
+		auto operator=(detail::ConstValueWrapper<Compressed>&& wrapper)->hold_any&
+		{
+			return *this = wrapper.get();
 		}
 
 		/// @brief Move assignment, MIGHT THROW!
@@ -2228,73 +2290,74 @@ namespace seq
 
 
 
-	// Additional == operators, mandatory for heterogeneous lookup in hash table
+	// Additional operators, but disable them for ValueWrapper and ConstValueWrapper (instead use the ones defined in cvector.hpp)
 
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator == (const hold_any<Interface,S,A>& a, const T& b) -> bool
+	// operator == with any other type, mandatory for heterogeneous lookup in hash table
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value,void>::type >
+	auto operator == (const hold_any<Interface,S,A,R>& a, const T& b) -> bool
 	{
 		return a.equal_to(b);
 	}
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator == (const T& b, const hold_any<Interface,S,A>& a) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type >
+	auto operator == (const T& b, const hold_any<Interface,S,A,R>& a) -> bool
 	{
 		return a.equal_to(b);
 	}
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator != (const hold_any<Interface,S,A>& a, const T& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type >
+	auto operator != (const hold_any<Interface,S,A,R>& a, const T& b) -> bool
 	{
 		return !a.equal_to(b);
 	}
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator != (const T& b, const hold_any<Interface,S,A>& a) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type >
+	auto operator != (const T& b, const hold_any<Interface,S,A,R>& a) -> bool
 	{
 		return !a.equal_to(b);
 	}
 
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator < (const hold_any<Interface,S,A>& a, const T& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type >
+	auto operator < (const hold_any<Interface,S,A,R>& a, const T& b) -> bool
 	{
 		return a.less_than(b);
 	}
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator > (const hold_any<Interface,S,A>& a, const T& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type >
+	auto operator > (const hold_any<Interface,S,A,R>& a, const T& b) -> bool
 	{
 		return a.greater_than(b);
 	}
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator <= (const hold_any<Interface,S,A>& a, const T& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type >
+	auto operator <= (const hold_any<Interface,S,A,R>& a, const T& b) -> bool
 	{
 		return !(b < a);
 	}
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator >= (const hold_any<Interface,S,A>& a, const T& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type >
+	auto operator >= (const hold_any<Interface,S,A,R>& a, const T& b) -> bool
 	{
 		return !(a < b);
 	}
 
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator < (const T& a, const hold_any<Interface,S,A>& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type >
+	auto operator < (const T& a, const hold_any<Interface,S,A,R>& b) -> bool
 	{
 		return b.greater_than(a);
 	}
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator > (const T& a, const hold_any<Interface,S,A>& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type >
+	auto operator > (const T& a, const hold_any<Interface,S,A,R>& b) -> bool
 	{
 		return b.less_than(a);
 	}
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator <= (const T& a, const hold_any<Interface,S,A>& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type >
+	auto operator <= (const T& a, const hold_any<Interface,S,A,R>& b) -> bool
 	{
 		return !(b < a);
 	}
-	template<class Interface, size_t S, size_t A, class T>
-	auto operator >= (const T& a, const hold_any<Interface,S,A>& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type >
+	auto operator >= (const T& a, const hold_any<Interface,S,A,R>& b) -> bool
 	{
 		return !(a < b);
 	}
 
-	template<class Interface, size_t S, size_t A>
-	auto operator << (std::ostream& oss, const hold_any< Interface,S,A> & a) -> std::ostream& 
+	template<class Interface, size_t S, size_t A, bool R>
+	auto operator << (std::ostream& oss, const hold_any< Interface,S,A,R> & a) -> std::ostream& 
 	{
 		if (a.empty()) 
 			throw std::bad_function_call();
@@ -2302,8 +2365,8 @@ namespace seq
 		return oss;
 	}
 
-	template<class Interface, size_t S, size_t A>
-	auto operator >> (std::istream& iss, hold_any< Interface,S,A>& a) -> std::istream&
+	template<class Interface, size_t S, size_t A, bool R>
+	auto operator >> (std::istream& iss, hold_any< Interface,S,A,R>& a) -> std::istream&
 	{
 		if (a.empty()) 
 			throw std::bad_function_call();
@@ -2311,28 +2374,28 @@ namespace seq
 		return iss;
 	}
 
-	template<class T, class Interface, size_t S, size_t A>
-	auto any_cast(const hold_any<Interface,S,A>& operand) -> T
+	template<class T, class Interface, size_t S, size_t A, bool R>
+	auto any_cast(const hold_any<Interface,S,A,R>& operand) -> T
 	{
 		return operand.template cast<T>();
 	}
 
-	template<class T, class Interface, size_t S, size_t A>
-	auto any_cast( hold_any<Interface,S,A>& operand) -> T
+	template<class T, class Interface, size_t S, size_t A, bool R>
+	auto any_cast( hold_any<Interface,S,A,R>& operand) -> T
 	{
 		return operand.template cast<T>();
 	}
 
-	template<class T, class Interface, size_t S, size_t A>
-	auto any_cast(const hold_any<Interface,S,A>* operand) noexcept -> const T*
+	template<class T, class Interface, size_t S, size_t A, bool R>
+	auto any_cast(const hold_any<Interface,S,A,R>* operand) noexcept -> const T*
 	{
 		if (operand->type() == hold_any<Interface>::template get_type<T>())
 			return static_cast<const T*>(operand->data());
 		return nullptr;
 	}
 
-	template<class T, class Interface, size_t S, size_t A>
-	auto any_cast( hold_any<Interface,S,A>* operand) noexcept -> T*
+	template<class T, class Interface, size_t S, size_t A, bool R>
+	auto any_cast( hold_any<Interface,S,A,R>* operand) noexcept -> T*
 	{
 		if (operand->type() == hold_any<Interface>::template get_type<T>())
 			return static_cast<T*>(operand->data());
@@ -2356,15 +2419,15 @@ namespace seq
 	}
 	
 
-	template<class Interface, size_t S, size_t A>
-	class ostream_format<hold_any<Interface,S,A> > : 
-		public base_ostream_format<hold_any<Interface,S,A>, ostream_format<hold_any<Interface,S,A> > >
+	template<class Interface, size_t S, size_t A, bool R>
+	class ostream_format<hold_any<Interface,S,A,R> > : 
+		public base_ostream_format<hold_any<Interface,S,A,R>, ostream_format<hold_any<Interface,S,A,R> > >
 	{
-		using base_type = base_ostream_format<hold_any<Interface, S, A>, ostream_format<hold_any<Interface, S, A> > >;
+		using base_type = base_ostream_format<hold_any<Interface, S, A,R>, ostream_format<hold_any<Interface, S, A,R> > >;
 	public:
 
 		ostream_format() : base_type() {}
-		explicit ostream_format(const hold_any<Interface,S,A>& v) : base_type(v) {}
+		explicit ostream_format(const hold_any<Interface,S,A,R>& v) : base_type(v) {}
 
 		auto to_string(std::string& out) const -> size_t
 		{
@@ -2375,26 +2438,35 @@ namespace seq
 	};
 
 	using any = hold_any<>;
+	using r_any = hold_any< any_default_interface, sizeof(double), alignof(double), true>;
 	using nh_any = hold_any<any_no_hash_interface>;
+	using r_nh_any = hold_any<any_no_hash_interface, sizeof(double), alignof(double), true>;
+
+
+	template<class Interface, size_t S, size_t A, bool R>
+	struct is_relocatable<hold_any<Interface, S, A, R> >
+	{
+		static constexpr bool value = hold_any<Interface, S, A, R>::relocatable;
+	};
 }
 
 namespace std
 {
 	// swap overload for hold_any, illegal considering C++ rules, but works on all tested compilers, and way more efficient than the the default std::swap
-	template<class Interface, size_t S, size_t A>
-	void swap(seq::hold_any<Interface,S,A>& a, seq::hold_any<Interface,S,A>& b)
+	template<class Interface, size_t S, size_t A, bool R>
+	void swap(seq::hold_any<Interface,S,A,R>& a, seq::hold_any<Interface,S,A,R>& b)
 	{
 		a.swap(b);
 	}
 
 	// specialization of std hash for hold_any
-	template<class Interface, size_t S, size_t A>
-	class hash< seq::hold_any<Interface,S,A> >
+	template<class Interface, size_t S, size_t A, bool R>
+	class hash< seq::hold_any<Interface,S,A,R> >
 	{
 	public:
 		using is_transparent = void;
 
-		auto operator()(const seq::hold_any<Interface,S,A>& a) const -> size_t
+		auto operator()(const seq::hold_any<Interface,S,A,R>& a) const -> size_t
 		{
 			return a.hash();
 		}
@@ -2404,7 +2476,7 @@ namespace std
 		{
 			using type = typename std::decay<T>::type;
 			// For any type, use the type info for this type and call hash_any
-			const auto* type_inf = seq::hold_any<Interface,S,A>::template get_type<type*>();
+			const auto* type_inf = seq::hold_any<Interface,S,A,R>::template get_type<type*>();
 			std::uintptr_t p = reinterpret_cast<std::uintptr_t>(value);
 			return type_inf->hash_any(&p);
 		}
@@ -2414,7 +2486,7 @@ namespace std
 		{
 			using type = T;
 			// For any type, use the type info for this type and call hash_any
-			const auto * type_inf = seq::hold_any<Interface,S,A>::template get_type<type>();
+			const auto * type_inf = seq::hold_any<Interface,S,A,R>::template get_type<type>();
 			return type_inf->hash_any(&value);
 		}
 	};

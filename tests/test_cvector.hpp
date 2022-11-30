@@ -28,6 +28,7 @@
 
 
 #include "cvector.hpp"
+#include "any.hpp"
 #include "testing.hpp"
 
 
@@ -149,6 +150,8 @@ inline void test_cvector_algorithms(size_t count = 5000000)
 
 
 
+
+
 inline void test_cvector_move_only(size_t count)
 {
 	using namespace seq;
@@ -218,10 +221,46 @@ inline void test_cvector_move_only(size_t count)
 
 
 
+template<class CVec>
+void from_const_wrapper(const CVec& vec)
+{
+	seq::r_any a = vec[0];
+	SEQ_TEST(a == 2);
+}
+
+
+
 template<class T>
 void test_cvector(size_t count = 5000000)
 {
 	using namespace seq;
+
+	{
+		// Test cvector with seq::r_any
+		seq::cvector<seq::r_any> vec;
+
+		vec.push_back(2);
+		vec.push_back(std::unique_ptr<int>(new int(2)));
+
+		from_const_wrapper(vec);
+
+		seq::r_any a = std::move(vec[0]);
+		SEQ_TEST(a == 2);
+
+		vec[0] = a;
+		seq::r_any b = (vec[0]);
+		SEQ_TEST(b == 2);
+
+		seq::r_any c;
+		c = vec[0];
+		SEQ_TEST(c == 2);
+
+		seq::r_any d = std::move(vec[1]);
+		SEQ_TEST(*d.cast<std::unique_ptr<int>&>() == 2);
+		vec[1] = std::move(d);
+
+		SEQ_TEST_THROW(std::bad_function_call, seq::r_any e = vec[1]);
+	}
 
 	// First, test some stl algorithms
 	test_cvector_algorithms(count);
@@ -506,6 +545,9 @@ void test_cvector(size_t count = 5000000)
 	deq = std::move(deq2);
 	cvec = std::move(tvec2);
 	SEQ_TEST(equal_cvec(deq, cvec) && cvec.size() > 0 && tvec2.size() == 0 && deq2.size() == 0);
+
+
+	
 }
 
 

@@ -29,7 +29,7 @@ var searchData=
   ['get_5fpow_5ftable_3c_20long_20double_20_3e_538',['get_pow_table&lt; long double &gt;',['../namespaceseq_1_1detail.html#a83d00e7d4eb97c576adac08410939bc1',1,'seq::detail']]],
   ['get_5fsize_539',['get_size',['../classseq_1_1streambuf__size.html#ad067eacd317df7bc9c9acef361d55dce',1,'seq::streambuf_size']]],
   ['get_5fstorage_540',['get_storage',['../structseq_1_1detail_1_1list__chunk.html#a625395e8d1133fa98f508147f7e51bf3',1,'seq::detail::list_chunk::get_storage() noexcept'],['../structseq_1_1detail_1_1list__chunk.html#aee42ab4f7b1b6420148e87f76666c274',1,'seq::detail::list_chunk::get_storage() const noexcept']]],
-  ['get_5ftype_541',['get_type',['../classseq_1_1hold__any.html#a91e38de782f33532cef590a05661f9e3',1,'seq::hold_any']]],
+  ['get_5ftype_541',['get_type',['../classseq_1_1hold__any.html#a5423ee4cfb30780c5f5ba7a054bf128e',1,'seq::hold_any']]],
   ['get_5ftype_5fid_542',['get_type_id',['../namespaceseq.html#a3ca5fac631207b6d7245eab5a6bfe8b7',1,'seq']]],
   ['get_5ftype_5fid_5fval_543',['get_type_id_val',['../structseq_1_1detail_1_1get__type__id__val.html',1,'seq::detail']]],
   ['get_5ftype_5fid_5fval_3c_20t_2c_200_20_3e_544',['get_type_id_val&lt; T, 0 &gt;',['../structseq_1_1detail_1_1get__type__id__val_3_01_t_00_010_01_4.html',1,'seq::detail']]],
@@ -45,7 +45,7 @@ var searchData=
   ['go_5fprev_554',['go_prev',['../structseq_1_1detail_1_1deque__const__iterator.html#af6f73adc94ff90a662b05eeac3a077fb',1,'seq::detail::deque_const_iterator']]],
   ['grab_5ffrom_555',['grab_from',['../structseq_1_1detail_1_1parallel__stats__data.html#a09977261a3b7dd42256089f08c229854',1,'seq::detail::parallel_stats_data::grab_from()'],['../structseq_1_1detail_1_1parallel__stats__data_3_01false_01_4.html#a0cbfe73f5859de26142f4d9fe1021d3f',1,'seq::detail::parallel_stats_data&lt; false &gt;::grab_from()']]],
   ['greater_556',['greater',['../structseq_1_1detail_1_1_compare_greater_arithmetic.html#a4d7cb8d08f7fdfd6e6f8d1a64c381672',1,'seq::detail::CompareGreaterArithmetic::greater()'],['../structseq_1_1detail_1_1_compare_greater_arithmetic_3_01_t_00_01_cast_00_01false_01_4.html#aff6f0323d52512668817622c01a5b792',1,'seq::detail::CompareGreaterArithmetic&lt; T, Cast, false &gt;::greater()'],['../structseq_1_1detail_1_1_compare_greater_string.html#a9d85acf62898d19fc1f2e89737db5584',1,'seq::detail::CompareGreaterString::greater()'],['../structseq_1_1detail_1_1_compare_greater_string_3_01_t_00_01false_01_4.html#a2c2d4ccf1dfd34f981aaa3fa26ea727b',1,'seq::detail::CompareGreaterString&lt; T, false &gt;::greater()']]],
-  ['greater_5fthan_557',['greater_than',['../classseq_1_1hold__any.html#a309289b8f08a2a8c3e587a07e35d1b15',1,'seq::hold_any']]],
+  ['greater_5fthan_557',['greater_than',['../classseq_1_1hold__any.html#abf7112de69dddb67f1610b0dc45a0a21',1,'seq::hold_any']]],
   ['grow_5fback_558',['grow_back',['../structseq_1_1detail_1_1_d_e_vector_data.html#a250846d13200002645f89ef4e3a2b451',1,'seq::detail::DEVectorData']]],
   ['grow_5fcapacity_559',['grow_capacity',['../structseq_1_1detail_1_1_d_e_vector_data.html#ab76370951195d31d66f84389e521defc',1,'seq::detail::DEVectorData']]],
   ['grow_5ffront_560',['grow_front',['../structseq_1_1detail_1_1_d_e_vector_data.html#a992c6ec7fb9658b1e7ec2625a4f4006e',1,'seq::detail::DEVectorData::grow_front()'],['../structseq_1_1detail_1_1_circular_buffer.html#ac9c693a5526b8d1417ff70f6f1105ceb',1,'seq::detail::CircularBuffer::grow_front()']]]

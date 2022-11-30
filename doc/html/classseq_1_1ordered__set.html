@@ -403,7 +403,7 @@ class seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;</h3>
 <li><a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">seq::ordered_set</a> uses robin hood probing with backward shift deletion. It does not rely on tombstones and supports high load factors.</li>
 <li>It is fast and memory efficient compared to other node based hash tables (see section <b>Performances</b>), but still slower than most open addressing hash tables due to the additional indirection.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md40"></a>
+<h2><a class="anchor" id="autotoc_md41"></a>
 Interface</h2>
 <p><a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">seq::ordered_set</a> provides a similar interface to std::unordered_set with the following differences:</p><ul>
 <li>The bucket related functions are not implemented,</li>
@@ -414,7 +414,7 @@ Interface</h2>
 <li>Its iterator and <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html">const_iterator</a> types are bidirectional iterators.</li>
 </ul>
 <p>The underlying sequence object stores plain non const Key objects. However, in order to avoid modifying the keys through iterators (and potentially invalidating the order), both iterator and <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html">const_iterator</a> types can only return const references.</p>
-<h2><a class="anchor" id="autotoc_md41"></a>
+<h2><a class="anchor" id="autotoc_md42"></a>
 Direct access to sequence</h2>
 <p>Unlike most hash table implementations, it it possible to access and modify the underlying value storage directly (a <a class="el" href="classseq_1_1sequence.html" title="sequence is an ordered container supporting constant time insertion at both end and constant time rem...">seq::sequence</a> object). This possibility musy be used with great care, as modifying directly the sequence might break the hashing. When calling the non-const version of <a class="el" href="classseq_1_1ordered__set.html#af1b1dd7454c03a4b6a4d8e5f08dc7adb" title="Returns the underlying sequence object. Calling this function will mark the container as dirty....">ordered_set::sequence()</a>, the <a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">ordered_set</a> will be marked as dirty, and further attempts to call functions like <a class="el" href="classseq_1_1ordered__set.html#ac7b344d232a85339ae3633c6aaefd1e3" title="Finds an element with key equivalent to key.">ordered_set::find()</a> of <a class="el" href="classseq_1_1ordered__set.html#afbc6c320f13dbfe438907cac9a787f6c" title="Inserts element into the container, if the container doesn&#39;t already contain an element with an equiv...">ordered_set::insert()</a> (functions based on hash value) will throw a std::logic_error.</p>
 <p>Therefore, after finishing modifying the sequence, you must call <a class="el" href="classseq_1_1ordered__set.html#a2bb1f28b32c0c6c0422540b7986a49b0" title="Rehash the container. This function triggers a full rehash if:">ordered_set::rehash()</a> to rehash the sequence, remove potential duplicates, and mark the <a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">ordered_set</a> as non dirty anymore.</p>
@@ -427,15 +427,15 @@ Direct access to sequence</h2>
 <div class="line"> </div>
 <div class="line"><span class="comment">// rehash the set and remove potential duplicate values in a stable way</span></div>
 <div class="line">set.rehash();</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md42"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md43"></a>
 Exception guarantee</h2>
 <p>Most members of <a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">seq::ordered_set</a> provide <b>strong exception guarantee</b>, except if specified otherwise (mentionned in function documentation).</p>
-<h2><a class="anchor" id="autotoc_md43"></a>
+<h2><a class="anchor" id="autotoc_md44"></a>
 Growth policy and load factor</h2>
 <p><a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">seq::ordered_set</a> uses a growth factor of 2 to use the fast modulo. The hash table size is multiplied by 2 each time the table load factor exceeds the given <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a61d12e6f0f066d5f3eebeb61be0a55df">max_load_factor()</a>. The default maximum load factor is set to 0.6 and can by set up to 0.95, which is well supported thanks to the robin hood hashing.</p>
 <p>In some cases, the actual load factor can exceed the provided maximum load factor. This holds when the keys are very well distributed, and the maximum distance of a key to its computed location is low (below 8). This strategy avoids some unnecessary rehash for very strong hash function (or well distributed keys). Note however that the load factor will never exceed 0.95.</p>
 <p>On rehash, the old table is deallocated before allocating the new (twice as big) one. This is possible thanks to the double storage strategy (values are stored in an independant <a class="el" href="classseq_1_1sequence.html" title="sequence is an ordered container supporting constant time insertion at both end and constant time rem...">seq::sequence</a> object) and avoid memory peaks.</p>
-<h2><a class="anchor" id="autotoc_md44"></a>
+<h2><a class="anchor" id="autotoc_md45"></a>
 Handling of bad hash function</h2>
 <p>Like most robin hood based hash tables (ska::flat_hash_set, tsl::robin_set...), <a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">seq::ordered_set</a> uses 8 bits to store the node distance to its computed location. For a bad hash function leading to strong clustering, this 8 bits distance quickly overflows. The usual strategy in this case is to rehash the table based on the growth strategy, hopping for a better key distribution.</p>
 <p>For very bad hash function (or in case of DOS attack), hash tables like ska::flat_hash_set and tsl::robin_set will keep rehashing its values and reallocating the table, until a fatal std::bad_alloc is thrown. <a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">seq::ordered_set</a> uses a different strategy to cope with such situation:</p><ul>
@@ -444,14 +444,14 @@ Handling of bad hash function</h2>
 <li>The linear probing behavior is kept until a call to <a class="el" href="classseq_1_1ordered__set.html#a2bb1f28b32c0c6c0422540b7986a49b0" title="Rehash the container. This function triggers a full rehash if:">ordered_set::rehash()</a> that might switch back the behavior to robin hood hashing.</li>
 </ul>
 <p>Therefore, a (very) bad hash function will only make the table slower but will never explode with a std::bad_alloc exception</p>
-<h2><a class="anchor" id="autotoc_md45"></a>
+<h2><a class="anchor" id="autotoc_md46"></a>
 Deleting entries</h2>
 <p><a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">seq::ordered_set</a> uses backward shift deletion to avoid introducing tombstone, except for bad hash functions (see section above). The key lookup remains fast when deleting lots of entries, and mixed scenarios involving lots of interleaved insertion/deletion are well supported.</p>
 <p>Note however that removing a key will never trigger a rehash. The user is free to rehash the <a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">ordered_set</a> at any point using <a class="el" href="classseq_1_1ordered__set.html#a2bb1f28b32c0c6c0422540b7986a49b0" title="Rehash the container. This function triggers a full rehash if:">ordered_set::rehash()</a> member.</p>
-<h2><a class="anchor" id="autotoc_md46"></a>
+<h2><a class="anchor" id="autotoc_md47"></a>
 Sorting</h2>
 <p>Since the <a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">ordered_set</a> is ordered by key insertion order, it makes sense to provide a function to sort it. The members <a class="el" href="classseq_1_1ordered__set.html#a36a66b34dafa44d2f963a201272b2d24" title="Sort the container using std::less&lt;Key&gt;. The full container is rehashed afterward....">ordered_set::sort()</a> and <a class="el" href="classseq_1_1ordered__set.html#ae64707af69a6b261413d1325c8f35d30" title="Sort the container based on std::less&lt;Key&gt; and using std::stable_sort. The full container is rehashed...">ordered_set::stable_sort()</a> are provided and call respectively <a class="el" href="classseq_1_1sequence.html#a0c2005c28e8537de74b4c1e588180463" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">seq::sequence::sort()</a> and <a class="el" href="classseq_1_1sequence.html#a5aaca3cd0a83c4637c28599ac55d70a0" title="Sort the sequence. The sequence is sorted using the std::less&lt;value_type&gt; comparator....">seq::sequence::stable_sort()</a>. These functions rehash the full table after sorting.</p>
-<h2><a class="anchor" id="autotoc_md47"></a>
+<h2><a class="anchor" id="autotoc_md48"></a>
 Performances</h2>
 <p>Performances of <a class="el" href="classseq_1_1ordered__set.html" title="Associative container that contains a set of unique objects of type Key. Search, insertion,...">seq::ordered_set</a> has been measured and compared to other node based hash tables: std::unordered_set, <a href="https://github.com/skarupke/flat_hash_map/blob/master/unordered_map.hpp">ska::unordered_set</a>, <a href="https://github.com/martinus/robin-hood-hashing">robin_hood::unordered_node_set</a>, <a href="https://github.com/greg7mdp/parallel-hashmap">phmap::node_hash_set</a> (based on abseil hash table) and <a href="https://www.boost.org/doc/libs/1_51_0/doc/html/boost/unordered_set.html">boost::unordered_set</a>. The following table show the results when compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10, using Intel(R) Core(TM) i7-10850H at 2.70GHz. Measured operations are:</p><ul>
 <li>Insert successfully 5M unique double randomly shuffled in an empty table using hash_table::insert()</li>

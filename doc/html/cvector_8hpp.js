@@ -21,6 +21,8 @@ var cvector_8hpp =
     [ "DefaultEncoder", "structseq_1_1detail_1_1_default_encoder.html", null ],
     [ "NullEncoder", "structseq_1_1detail_1_1_null_encoder.html", null ],
     [ "CompressedVectorInternal", "structseq_1_1detail_1_1_compressed_vector_internal.html", "structseq_1_1detail_1_1_compressed_vector_internal" ],
+    [ "is_hashable< detail::ConstValueWrapper< Compressed > >", "structseq_1_1is__hashable_3_01detail_1_1_const_value_wrapper_3_01_compressed_01_4_01_4.html", null ],
+    [ "is_hashable< detail::ValueWrapper< Compressed > >", "structseq_1_1is__hashable_3_01detail_1_1_value_wrapper_3_01_compressed_01_4_01_4.html", null ],
     [ "cvector", "classseq_1_1cvector.html", "classseq_1_1cvector" ],
     [ "comp_wrapper", "structseq_1_1comp__wrapper.html", "structseq_1_1comp__wrapper" ],
     [ "MoveObject", "structseq_1_1detail_1_1_move_object.html", null ],

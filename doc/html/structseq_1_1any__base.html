@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.18"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SEQ library: seq::any_base&lt; Derived, TypeInfo, StaticSize, Alignment &gt; Struct Template Reference</title>
+<title>SEQ library: seq::any_base&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -86,12 +86,13 @@ $(document).ready(function(){initNavTree('structseq_1_1any__base.html',''); init
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-types">Protected Types</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="structseq_1_1any__base-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">seq::any_base&lt; Derived, TypeInfo, StaticSize, Alignment &gt; Struct Template Reference</div>  </div>
+<div class="title">seq::any_base&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -104,103 +105,108 @@ $(document).ready(function(){initNavTree('structseq_1_1any__base.html',''); init
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ad510dce17e4652ba69bab072541e6e6e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#ad510dce17e4652ba69bab072541e6e6e">type_info_type</a> = TypeInfo</td></tr>
-<tr class="separator:ad510dce17e4652ba69bab072541e6e6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4998c2023a5a5f92aa186757568079e3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a4998c2023a5a5f92aa186757568079e3">type_info_type</a> = TypeInfo</td></tr>
+<tr class="separator:a4998c2023a5a5f92aa186757568079e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3527bca3e8f7bde999a673cda0153984"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a3527bca3e8f7bde999a673cda0153984">data</a> () const noexcept -&gt; const void *</td></tr>
-<tr class="memdesc:a3527bca3e8f7bde999a673cda0153984"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the underlying object as a void*. Never returns a nullptr pointer, even for empty object.  <a href="structseq_1_1any__base.html#a3527bca3e8f7bde999a673cda0153984">More...</a><br /></td></tr>
-<tr class="separator:a3527bca3e8f7bde999a673cda0153984"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedd95adcc077a6da9fe533536b5cb666"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#aedd95adcc077a6da9fe533536b5cb666">data</a> () noexcept -&gt; void *</td></tr>
-<tr class="memdesc:aedd95adcc077a6da9fe533536b5cb666"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the underlying object as a void*. Never returns a nullptr pointer, even for empty object.  <a href="structseq_1_1any__base.html#aedd95adcc077a6da9fe533536b5cb666">More...</a><br /></td></tr>
-<tr class="separator:aedd95adcc077a6da9fe533536b5cb666"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac2c4d5db6ed03c10bf68a41241aed7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#aac2c4d5db6ed03c10bf68a41241aed7e">type</a> () noexcept -&gt; TypeInfo *</td></tr>
-<tr class="memdesc:aac2c4d5db6ed03c10bf68a41241aed7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type information as a TypeInfo pointer. Returns nullptr if the object is empty.  <a href="structseq_1_1any__base.html#aac2c4d5db6ed03c10bf68a41241aed7e">More...</a><br /></td></tr>
-<tr class="separator:aac2c4d5db6ed03c10bf68a41241aed7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b765bbdc5c6b038b9946e2acd26459d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a2b765bbdc5c6b038b9946e2acd26459d">type</a> () const noexcept -&gt; const TypeInfo *</td></tr>
-<tr class="memdesc:a2b765bbdc5c6b038b9946e2acd26459d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type information as a TypeInfo pointer. Returns nullptr if the object is empty.  <a href="structseq_1_1any__base.html#a2b765bbdc5c6b038b9946e2acd26459d">More...</a><br /></td></tr>
-<tr class="separator:a2b765bbdc5c6b038b9946e2acd26459d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e342f8a439ceb4b029f132f165f9b12"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a6e342f8a439ceb4b029f132f165f9b12">type_id</a> () const noexcept -&gt; int</td></tr>
-<tr class="memdesc:a6e342f8a439ceb4b029f132f165f9b12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type id for this object. Returns 0 if the object is empty.  <a href="structseq_1_1any__base.html#a6e342f8a439ceb4b029f132f165f9b12">More...</a><br /></td></tr>
-<tr class="separator:a6e342f8a439ceb4b029f132f165f9b12"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bcd83acbdad242551f34712a04b6620"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a6bcd83acbdad242551f34712a04b6620">empty</a> () const noexcept -&gt; bool</td></tr>
-<tr class="memdesc:a6bcd83acbdad242551f34712a04b6620"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if this object is empty, false otherwise.  <a href="structseq_1_1any__base.html#a6bcd83acbdad242551f34712a04b6620">More...</a><br /></td></tr>
-<tr class="separator:a6bcd83acbdad242551f34712a04b6620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb32f55e6be210edd38852f9a1d2f2e0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#adb32f55e6be210edd38852f9a1d2f2e0">sizeof_type</a> () const noexcept -&gt; size_t</td></tr>
-<tr class="memdesc:adb32f55e6be210edd38852f9a1d2f2e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of underlying type, 0 if empty.  <a href="structseq_1_1any__base.html#adb32f55e6be210edd38852f9a1d2f2e0">More...</a><br /></td></tr>
-<tr class="separator:adb32f55e6be210edd38852f9a1d2f2e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a141aeee69218388ff6e50385362c2416"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:a141aeee69218388ff6e50385362c2416"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a141aeee69218388ff6e50385362c2416">cast</a> () -&gt; T</td></tr>
-<tr class="memdesc:a141aeee69218388ff6e50385362c2416"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cast any object to given type. Throw a std::bad_cast on error.  <a href="structseq_1_1any__base.html#a141aeee69218388ff6e50385362c2416">More...</a><br /></td></tr>
-<tr class="separator:a141aeee69218388ff6e50385362c2416"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a69a6f33b5d62da04573def9d32a1c4"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:a1a69a6f33b5d62da04573def9d32a1c4"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a1a69a6f33b5d62da04573def9d32a1c4">cast</a> () const -&gt; const T</td></tr>
-<tr class="memdesc:a1a69a6f33b5d62da04573def9d32a1c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cast any object to given type. Throw a std::bad_cast on error.  <a href="structseq_1_1any__base.html#a1a69a6f33b5d62da04573def9d32a1c4">More...</a><br /></td></tr>
-<tr class="separator:a1a69a6f33b5d62da04573def9d32a1c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addefd392a885fd2575fe7522be6b2be7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#addefd392a885fd2575fe7522be6b2be7">hash</a> () const -&gt; size_t</td></tr>
-<tr class="memdesc:addefd392a885fd2575fe7522be6b2be7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the hash value for underlying object based on std::hash. Might throw a std::bad_function_call.  <a href="structseq_1_1any__base.html#addefd392a885fd2575fe7522be6b2be7">More...</a><br /></td></tr>
-<tr class="separator:addefd392a885fd2575fe7522be6b2be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6810c60130f8b9cd213fdb52b31e8338"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a6810c60130f8b9cd213fdb52b31e8338">data</a> () const noexcept -&gt; const void *</td></tr>
+<tr class="memdesc:a6810c60130f8b9cd213fdb52b31e8338"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the underlying object as a void*. Never returns a nullptr pointer, even for empty object.  <a href="structseq_1_1any__base.html#a6810c60130f8b9cd213fdb52b31e8338">More...</a><br /></td></tr>
+<tr class="separator:a6810c60130f8b9cd213fdb52b31e8338"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0232333c43d69a7a4db094a82b30196b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a0232333c43d69a7a4db094a82b30196b">data</a> () noexcept -&gt; void *</td></tr>
+<tr class="memdesc:a0232333c43d69a7a4db094a82b30196b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the underlying object as a void*. Never returns a nullptr pointer, even for empty object.  <a href="structseq_1_1any__base.html#a0232333c43d69a7a4db094a82b30196b">More...</a><br /></td></tr>
+<tr class="separator:a0232333c43d69a7a4db094a82b30196b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae20139bf2fb96807010beca476c345f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#aae20139bf2fb96807010beca476c345f">type</a> () noexcept -&gt; TypeInfo *</td></tr>
+<tr class="memdesc:aae20139bf2fb96807010beca476c345f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type information as a TypeInfo pointer. Returns nullptr if the object is empty.  <a href="structseq_1_1any__base.html#aae20139bf2fb96807010beca476c345f">More...</a><br /></td></tr>
+<tr class="separator:aae20139bf2fb96807010beca476c345f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5613014e69680f00ded4042e10d18ee8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a5613014e69680f00ded4042e10d18ee8">type</a> () const noexcept -&gt; const TypeInfo *</td></tr>
+<tr class="memdesc:a5613014e69680f00ded4042e10d18ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type information as a TypeInfo pointer. Returns nullptr if the object is empty.  <a href="structseq_1_1any__base.html#a5613014e69680f00ded4042e10d18ee8">More...</a><br /></td></tr>
+<tr class="separator:a5613014e69680f00ded4042e10d18ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09a36641097dc81aa881a40faf5489b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a09a36641097dc81aa881a40faf5489b0">type_id</a> () const noexcept -&gt; int</td></tr>
+<tr class="memdesc:a09a36641097dc81aa881a40faf5489b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type id for this object. Returns 0 if the object is empty.  <a href="structseq_1_1any__base.html#a09a36641097dc81aa881a40faf5489b0">More...</a><br /></td></tr>
+<tr class="separator:a09a36641097dc81aa881a40faf5489b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7c2f8322685c8076c2972c63e10ad38"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#ad7c2f8322685c8076c2972c63e10ad38">empty</a> () const noexcept -&gt; bool</td></tr>
+<tr class="memdesc:ad7c2f8322685c8076c2972c63e10ad38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if this object is empty, false otherwise.  <a href="structseq_1_1any__base.html#ad7c2f8322685c8076c2972c63e10ad38">More...</a><br /></td></tr>
+<tr class="separator:ad7c2f8322685c8076c2972c63e10ad38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f8d920a1253664227655b485e8c3ef1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a9f8d920a1253664227655b485e8c3ef1">sizeof_type</a> () const noexcept -&gt; size_t</td></tr>
+<tr class="memdesc:a9f8d920a1253664227655b485e8c3ef1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of underlying type, 0 if empty.  <a href="structseq_1_1any__base.html#a9f8d920a1253664227655b485e8c3ef1">More...</a><br /></td></tr>
+<tr class="separator:a9f8d920a1253664227655b485e8c3ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3d6be17579282d666a78153014fc4a6"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:af3d6be17579282d666a78153014fc4a6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#af3d6be17579282d666a78153014fc4a6">cast</a> () -&gt; T</td></tr>
+<tr class="memdesc:af3d6be17579282d666a78153014fc4a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cast any object to given type. Throw a std::bad_cast on error.  <a href="structseq_1_1any__base.html#af3d6be17579282d666a78153014fc4a6">More...</a><br /></td></tr>
+<tr class="separator:af3d6be17579282d666a78153014fc4a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab03ded0d91223a6ba0a766e5afa5268b"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ab03ded0d91223a6ba0a766e5afa5268b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#ab03ded0d91223a6ba0a766e5afa5268b">cast</a> () const -&gt; const T</td></tr>
+<tr class="memdesc:ab03ded0d91223a6ba0a766e5afa5268b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cast any object to given type. Throw a std::bad_cast on error.  <a href="structseq_1_1any__base.html#ab03ded0d91223a6ba0a766e5afa5268b">More...</a><br /></td></tr>
+<tr class="separator:ab03ded0d91223a6ba0a766e5afa5268b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab23140c46adc6fc813c668b8c6aaf4e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#aab23140c46adc6fc813c668b8c6aaf4e">hash</a> () const -&gt; size_t</td></tr>
+<tr class="memdesc:aab23140c46adc6fc813c668b8c6aaf4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the hash value for underlying object based on std::hash. Might throw a std::bad_function_call.  <a href="structseq_1_1any__base.html#aab23140c46adc6fc813c668b8c6aaf4e">More...</a><br /></td></tr>
+<tr class="separator:aab23140c46adc6fc813c668b8c6aaf4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a5fcefeb0eec8519490435f3bd12c12ba"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a5fcefeb0eec8519490435f3bd12c12ba">relocatable</a> = ForceRelocatable</td></tr>
+<tr class="separator:a5fcefeb0eec8519490435f3bd12c12ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-types"></a>
 Protected Types</h2></td></tr>
-<tr class="memitem:aa16c27b3120359d1f80ff0930199dfd8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#aa16c27b3120359d1f80ff0930199dfd8">storage_type</a> = typename std::aligned_storage&lt; StaticSize, Alignment &gt;::<a class="el" href="structseq_1_1any__base.html#aac2c4d5db6ed03c10bf68a41241aed7e">type</a></td></tr>
-<tr class="separator:aa16c27b3120359d1f80ff0930199dfd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc0890d85192860e6b3d72bdfb1e4d37"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#abc0890d85192860e6b3d72bdfb1e4d37">pointer_type</a> = <a class="el" href="classseq_1_1tagged__pointer.html">tagged_pointer</a>&lt; TypeInfo, <a class="el" href="namespaceseq.html#affae767f96f2af9924f7c6f3bdd4c72aad297c23409b392745ce5f3024304a8e8">CustomAlignment</a>, 32 &gt;</td></tr>
-<tr class="separator:abc0890d85192860e6b3d72bdfb1e4d37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f0e2a1a98b43f6efd2023b68e7059b0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a6f0e2a1a98b43f6efd2023b68e7059b0">storage_type</a> = typename std::aligned_storage&lt; StaticSize, Alignment &gt;::<a class="el" href="structseq_1_1any__base.html#aae20139bf2fb96807010beca476c345f">type</a></td></tr>
+<tr class="separator:a6f0e2a1a98b43f6efd2023b68e7059b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cd10e6052449d62f4ac7b473ca39366"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a9cd10e6052449d62f4ac7b473ca39366">pointer_type</a> = <a class="el" href="classseq_1_1tagged__pointer.html">tagged_pointer</a>&lt; TypeInfo, <a class="el" href="namespaceseq.html#affae767f96f2af9924f7c6f3bdd4c72aad297c23409b392745ce5f3024304a8e8">CustomAlignment</a>, 32 &gt;</td></tr>
+<tr class="separator:a9cd10e6052449d62f4ac7b473ca39366"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:ae69d9c307535cd2fa76eb26ed4b967db"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:ae69d9c307535cd2fa76eb26ed4b967db"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#ae69d9c307535cd2fa76eb26ed4b967db">alloc</a> () -&gt; void *</td></tr>
-<tr class="memdesc:ae69d9c307535cd2fa76eb26ed4b967db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate storage for given type, returns pointer to object in order to be constructed.  <a href="structseq_1_1any__base.html#ae69d9c307535cd2fa76eb26ed4b967db">More...</a><br /></td></tr>
-<tr class="separator:ae69d9c307535cd2fa76eb26ed4b967db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9197c890b48f4414996a62f8f6f181ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a9197c890b48f4414996a62f8f6f181ec">dealloc</a> () noexcept</td></tr>
-<tr class="memdesc:a9197c890b48f4414996a62f8f6f181ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocate storage.  <a href="structseq_1_1any__base.html#a9197c890b48f4414996a62f8f6f181ec">More...</a><br /></td></tr>
-<tr class="separator:a9197c890b48f4414996a62f8f6f181ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9cc3e6cece7e75d7322d156b0c35782"><td class="memTemplParams" colspan="2">template&lt;class T , class  = typename std::enable_if&lt;std::is_reference&lt;T&gt;::value, void&gt;::type&gt; </td></tr>
-<tr class="memitem:ad9cc3e6cece7e75d7322d156b0c35782"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#ad9cc3e6cece7e75d7322d156b0c35782">convert</a> (const TypeInfo *, const TypeInfo *, std::uintptr_t) const -&gt; T</td></tr>
-<tr class="separator:ad9cc3e6cece7e75d7322d156b0c35782"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaced3f89b1d1018f849073d4a0719fa9"><td class="memTemplParams" colspan="2">template&lt;class T , class  = typename std::enable_if&lt;!std::is_reference&lt;T&gt;::value, void&gt;::type&gt; </td></tr>
-<tr class="memitem:aaced3f89b1d1018f849073d4a0719fa9"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#aaced3f89b1d1018f849073d4a0719fa9">convert</a> (const TypeInfo *info, const TypeInfo *out_p, std::uintptr_t tags) const -&gt; typename std::decay&lt; T &gt;::<a class="el" href="structseq_1_1any__base.html#aac2c4d5db6ed03c10bf68a41241aed7e">type</a></td></tr>
-<tr class="separator:aaced3f89b1d1018f849073d4a0719fa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7d2425b3d1b8724b94a5eaf33d8111b"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:af7d2425b3d1b8724b94a5eaf33d8111b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#af7d2425b3d1b8724b94a5eaf33d8111b">alloc</a> () -&gt; void *</td></tr>
+<tr class="memdesc:af7d2425b3d1b8724b94a5eaf33d8111b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate storage for given type, returns pointer to object in order to be constructed.  <a href="structseq_1_1any__base.html#af7d2425b3d1b8724b94a5eaf33d8111b">More...</a><br /></td></tr>
+<tr class="separator:af7d2425b3d1b8724b94a5eaf33d8111b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0720e40dd431920a92157c8d4e13eb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#af0720e40dd431920a92157c8d4e13eb2">dealloc</a> () noexcept</td></tr>
+<tr class="memdesc:af0720e40dd431920a92157c8d4e13eb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deallocate storage.  <a href="structseq_1_1any__base.html#af0720e40dd431920a92157c8d4e13eb2">More...</a><br /></td></tr>
+<tr class="separator:af0720e40dd431920a92157c8d4e13eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1a62109e1b0753df13ee6f0926717b9"><td class="memTemplParams" colspan="2">template&lt;class T , class  = typename std::enable_if&lt;std::is_reference&lt;T&gt;::value, void&gt;::type&gt; </td></tr>
+<tr class="memitem:aa1a62109e1b0753df13ee6f0926717b9"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#aa1a62109e1b0753df13ee6f0926717b9">convert</a> (const TypeInfo *, const TypeInfo *, std::uintptr_t) const -&gt; T</td></tr>
+<tr class="separator:aa1a62109e1b0753df13ee6f0926717b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02812d655de3b813bd9f94c65b383983"><td class="memTemplParams" colspan="2">template&lt;class T , class  = typename std::enable_if&lt;!std::is_reference&lt;T&gt;::value, void&gt;::type&gt; </td></tr>
+<tr class="memitem:a02812d655de3b813bd9f94c65b383983"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a02812d655de3b813bd9f94c65b383983">convert</a> (const TypeInfo *info, const TypeInfo *out_p, std::uintptr_t tags) const -&gt; typename std::decay&lt; T &gt;::<a class="el" href="structseq_1_1any__base.html#aae20139bf2fb96807010beca476c345f">type</a></td></tr>
+<tr class="separator:a02812d655de3b813bd9f94c65b383983"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a2b615cf6c1416d7c6b3929f0458acb30"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1any__base.html#abc0890d85192860e6b3d72bdfb1e4d37">pointer_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a2b615cf6c1416d7c6b3929f0458acb30">d_type_info</a></td></tr>
-<tr class="separator:a2b615cf6c1416d7c6b3929f0458acb30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0112aaddf25246d85bc678eb3fb1567"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1any__base.html#aa16c27b3120359d1f80ff0930199dfd8">storage_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#aa0112aaddf25246d85bc678eb3fb1567">d_storage</a></td></tr>
-<tr class="separator:aa0112aaddf25246d85bc678eb3fb1567"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7b8a6ddccfb0b4c2aa63ec245e86f2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1any__base.html#a9cd10e6052449d62f4ac7b473ca39366">pointer_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#af7b8a6ddccfb0b4c2aa63ec245e86f2c">d_type_info</a></td></tr>
+<tr class="separator:af7b8a6ddccfb0b4c2aa63ec245e86f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e1d27e57c4cc499564778318572b285"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1any__base.html#a6f0e2a1a98b43f6efd2023b68e7059b0">storage_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1any__base.html#a9e1d27e57c4cc499564778318572b285">d_storage</a></td></tr>
+<tr class="separator:a9e1d27e57c4cc499564778318572b285"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;class Derived, class TypeInfo, size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt;<br />
-struct seq::any_base&lt; Derived, TypeInfo, StaticSize, Alignment &gt;</h3>
+<div class="textblock"><h3>template&lt;class Derived, class TypeInfo, size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt;<br />
+struct seq::any_base&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;</h3>
 
 <p>Base interface for <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> class. </p>
 <p><a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> will directly inherit <a class="el" href="structseq_1_1any__base.html" title="Base interface for hold_any class.">any_base</a> that provides the following members:</p><ul>
-<li><a class="el" href="structseq_1_1any__base.html#a6bcd83acbdad242551f34712a04b6620" title="Returns true if this object is empty, false otherwise.">any_base::empty()</a> : check for empty any</li>
-<li><a class="el" href="structseq_1_1any__base.html#aedd95adcc077a6da9fe533536b5cb666" title="Returns the underlying object as a void*. Never returns a nullptr pointer, even for empty object.">any_base::data()</a> : returns underlying object as a void*</li>
-<li><a class="el" href="structseq_1_1any__base.html#aac2c4d5db6ed03c10bf68a41241aed7e" title="Returns the type information as a TypeInfo pointer. Returns nullptr if the object is empty.">any_base::type()</a> : returns the type as a TypeInfo pointer</li>
-<li><a class="el" href="structseq_1_1any__base.html#a6e342f8a439ceb4b029f132f165f9b12" title="Returns the type id for this object. Returns 0 if the object is empty.">any_base::type_id()</a> : returns the type id (as <a class="el" href="namespaceseq.html#a3ca5fac631207b6d7245eab5a6bfe8b7" title="Returns type Id used by hold_any as a unique type identifier.">get_type_id()</a>)</li>
-<li><a class="el" href="structseq_1_1any__base.html#a141aeee69218388ff6e50385362c2416" title="Cast any object to given type. Throw a std::bad_cast on error.">any_base::cast()</a> : cast to template type</li>
-<li><a class="el" href="structseq_1_1any__base.html#adb32f55e6be210edd38852f9a1d2f2e0" title="Returns the size of underlying type, 0 if empty.">any_base::sizeof_type()</a>: returns the size of underlying type</li>
-<li><a class="el" href="structseq_1_1any__base.html#addefd392a885fd2575fe7522be6b2be7" title="Returns the hash value for underlying object based on std::hash. Might throw a std::bad_function_call...">any_base::hash()</a>: returns a hash value (based on std::hash) for underlying object</li>
+<li><a class="el" href="structseq_1_1any__base.html#ad7c2f8322685c8076c2972c63e10ad38" title="Returns true if this object is empty, false otherwise.">any_base::empty()</a> : check for empty any</li>
+<li><a class="el" href="structseq_1_1any__base.html#a0232333c43d69a7a4db094a82b30196b" title="Returns the underlying object as a void*. Never returns a nullptr pointer, even for empty object.">any_base::data()</a> : returns underlying object as a void*</li>
+<li><a class="el" href="structseq_1_1any__base.html#aae20139bf2fb96807010beca476c345f" title="Returns the type information as a TypeInfo pointer. Returns nullptr if the object is empty.">any_base::type()</a> : returns the type as a TypeInfo pointer</li>
+<li><a class="el" href="structseq_1_1any__base.html#a09a36641097dc81aa881a40faf5489b0" title="Returns the type id for this object. Returns 0 if the object is empty.">any_base::type_id()</a> : returns the type id (as <a class="el" href="namespaceseq.html#a3ca5fac631207b6d7245eab5a6bfe8b7" title="Returns type Id used by hold_any as a unique type identifier.">get_type_id()</a>)</li>
+<li><a class="el" href="structseq_1_1any__base.html#af3d6be17579282d666a78153014fc4a6" title="Cast any object to given type. Throw a std::bad_cast on error.">any_base::cast()</a> : cast to template type</li>
+<li><a class="el" href="structseq_1_1any__base.html#a9f8d920a1253664227655b485e8c3ef1" title="Returns the size of underlying type, 0 if empty.">any_base::sizeof_type()</a>: returns the size of underlying type</li>
+<li><a class="el" href="structseq_1_1any__base.html#aab23140c46adc6fc813c668b8c6aaf4e" title="Returns the hash value for underlying object based on std::hash. Might throw a std::bad_function_call...">any_base::hash()</a>: returns a hash value (based on std::hash) for underlying object</li>
 </ul>
 <p>It is possible to inherit <a class="el" href="structseq_1_1any__base.html" title="Base interface for hold_any class.">any_base</a> in order to provide an extended interface to <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> (see <a class="el" href="classseq_1_1hold__any.html" title="std::any like class optimized to build heterogeneous containers.">hold_any</a> documentation for an example). </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="abc0890d85192860e6b3d72bdfb1e4d37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc0890d85192860e6b3d72bdfb1e4d37">&#9670;&nbsp;</a></span>pointer_type</h2>
+<a id="a9cd10e6052449d62f4ac7b473ca39366"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cd10e6052449d62f4ac7b473ca39366">&#9670;&nbsp;</a></span>pointer_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::<a class="el" href="structseq_1_1any__base.html#abc0890d85192860e6b3d72bdfb1e4d37">pointer_type</a> =  <a class="el" href="classseq_1_1tagged__pointer.html">tagged_pointer</a>&lt;TypeInfo, <a class="el" href="namespaceseq.html#affae767f96f2af9924f7c6f3bdd4c72aad297c23409b392745ce5f3024304a8e8">CustomAlignment</a>, 32&gt;</td>
+          <td class="memname">using <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::<a class="el" href="structseq_1_1any__base.html#a9cd10e6052449d62f4ac7b473ca39366">pointer_type</a> =  <a class="el" href="classseq_1_1tagged__pointer.html">tagged_pointer</a>&lt;TypeInfo, <a class="el" href="namespaceseq.html#affae767f96f2af9924f7c6f3bdd4c72aad297c23409b392745ce5f3024304a8e8">CustomAlignment</a>, 32&gt;</td>
         </tr>
       </table>
   </td>
@@ -212,19 +218,19 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 
 </div>
 </div>
-<a id="aa16c27b3120359d1f80ff0930199dfd8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa16c27b3120359d1f80ff0930199dfd8">&#9670;&nbsp;</a></span>storage_type</h2>
+<a id="a6f0e2a1a98b43f6efd2023b68e7059b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f0e2a1a98b43f6efd2023b68e7059b0">&#9670;&nbsp;</a></span>storage_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::<a class="el" href="structseq_1_1any__base.html#aa16c27b3120359d1f80ff0930199dfd8">storage_type</a> =  typename std::aligned_storage&lt; StaticSize, Alignment&gt;::<a class="el" href="structseq_1_1any__base.html#aac2c4d5db6ed03c10bf68a41241aed7e">type</a></td>
+          <td class="memname">using <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::<a class="el" href="structseq_1_1any__base.html#a6f0e2a1a98b43f6efd2023b68e7059b0">storage_type</a> =  typename std::aligned_storage&lt; StaticSize, Alignment&gt;::<a class="el" href="structseq_1_1any__base.html#aae20139bf2fb96807010beca476c345f">type</a></td>
         </tr>
       </table>
   </td>
@@ -236,16 +242,16 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 
 </div>
 </div>
-<a id="ad510dce17e4652ba69bab072541e6e6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad510dce17e4652ba69bab072541e6e6e">&#9670;&nbsp;</a></span>type_info_type</h2>
+<a id="a4998c2023a5a5f92aa186757568079e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4998c2023a5a5f92aa186757568079e3">&#9670;&nbsp;</a></span>type_info_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::<a class="el" href="structseq_1_1any__base.html#ad510dce17e4652ba69bab072541e6e6e">type_info_type</a> =  TypeInfo</td>
+          <td class="memname">using <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::<a class="el" href="structseq_1_1any__base.html#a4998c2023a5a5f92aa186757568079e3">type_info_type</a> =  TypeInfo</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -253,13 +259,13 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ae69d9c307535cd2fa76eb26ed4b967db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae69d9c307535cd2fa76eb26ed4b967db">&#9670;&nbsp;</a></span>alloc()</h2>
+<a id="af7d2425b3d1b8724b94a5eaf33d8111b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7d2425b3d1b8724b94a5eaf33d8111b">&#9670;&nbsp;</a></span>alloc()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class T &gt; </div>
 <table class="mlabels">
@@ -267,7 +273,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::alloc </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::alloc </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> -&gt; void*
@@ -285,13 +291,13 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a141aeee69218388ff6e50385362c2416"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a141aeee69218388ff6e50385362c2416">&#9670;&nbsp;</a></span>cast() <span class="overload">[1/2]</span></h2>
+<a id="af3d6be17579282d666a78153014fc4a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3d6be17579282d666a78153014fc4a6">&#9670;&nbsp;</a></span>cast() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class T &gt; </div>
 <table class="mlabels">
@@ -299,7 +305,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::cast </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::cast </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> -&gt; T
@@ -317,13 +323,13 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a1a69a6f33b5d62da04573def9d32a1c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a69a6f33b5d62da04573def9d32a1c4">&#9670;&nbsp;</a></span>cast() <span class="overload">[2/2]</span></h2>
+<a id="ab03ded0d91223a6ba0a766e5afa5268b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab03ded0d91223a6ba0a766e5afa5268b">&#9670;&nbsp;</a></span>cast() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class T &gt; </div>
 <table class="mlabels">
@@ -331,7 +337,7 @@ template&lt;class T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::cast </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::cast </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const -&gt; const T
@@ -349,13 +355,13 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="ad9cc3e6cece7e75d7322d156b0c35782"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9cc3e6cece7e75d7322d156b0c35782">&#9670;&nbsp;</a></span>convert() <span class="overload">[1/2]</span></h2>
+<a id="aa1a62109e1b0753df13ee6f0926717b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1a62109e1b0753df13ee6f0926717b9">&#9670;&nbsp;</a></span>convert() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class T , class  = typename std::enable_if&lt;std::is_reference&lt;T&gt;::value, void&gt;::type&gt; </div>
 <table class="mlabels">
@@ -363,7 +369,7 @@ template&lt;class T , class  = typename std::enable_if&lt;std::is_reference&lt;T
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::convert </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::convert </td>
           <td>(</td>
           <td class="paramtype">const TypeInfo *&#160;</td>
           <td class="paramname">, </td>
@@ -396,13 +402,13 @@ template&lt;class T , class  = typename std::enable_if&lt;std::is_reference&lt;T
 
 </div>
 </div>
-<a id="aaced3f89b1d1018f849073d4a0719fa9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaced3f89b1d1018f849073d4a0719fa9">&#9670;&nbsp;</a></span>convert() <span class="overload">[2/2]</span></h2>
+<a id="a02812d655de3b813bd9f94c65b383983"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02812d655de3b813bd9f94c65b383983">&#9670;&nbsp;</a></span>convert() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class T , class  = typename std::enable_if&lt;!std::is_reference&lt;T&gt;::value, void&gt;::type&gt; </div>
 <table class="mlabels">
@@ -410,7 +416,7 @@ template&lt;class T , class  = typename std::enable_if&lt;!std::is_reference&lt;
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::convert </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::convert </td>
           <td>(</td>
           <td class="paramtype">const TypeInfo *&#160;</td>
           <td class="paramname"><em>info</em>, </td>
@@ -430,7 +436,7 @@ template&lt;class T , class  = typename std::enable_if&lt;!std::is_reference&lt;
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> const -&gt; typename std::decay&lt;T&gt;::<a class="el" href="structseq_1_1any__base.html#aac2c4d5db6ed03c10bf68a41241aed7e">type</a>
+          <td></td><td> const -&gt; typename std::decay&lt;T&gt;::<a class="el" href="structseq_1_1any__base.html#aae20139bf2fb96807010beca476c345f">type</a>
 		</td>
         </tr>
       </table>
@@ -443,19 +449,19 @@ template&lt;class T , class  = typename std::enable_if&lt;!std::is_reference&lt;
 
 </div>
 </div>
-<a id="a3527bca3e8f7bde999a673cda0153984"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3527bca3e8f7bde999a673cda0153984">&#9670;&nbsp;</a></span>data() <span class="overload">[1/2]</span></h2>
+<a id="a6810c60130f8b9cd213fdb52b31e8338"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6810c60130f8b9cd213fdb52b31e8338">&#9670;&nbsp;</a></span>data() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::data </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::data </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const -&gt; const void* </td>
@@ -472,19 +478,19 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 
 </div>
 </div>
-<a id="aedd95adcc077a6da9fe533536b5cb666"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedd95adcc077a6da9fe533536b5cb666">&#9670;&nbsp;</a></span>data() <span class="overload">[2/2]</span></h2>
+<a id="a0232333c43d69a7a4db094a82b30196b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0232333c43d69a7a4db094a82b30196b">&#9670;&nbsp;</a></span>data() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::data </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::data </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> -&gt; void* </td>
@@ -501,19 +507,19 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 
 </div>
 </div>
-<a id="a9197c890b48f4414996a62f8f6f181ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9197c890b48f4414996a62f8f6f181ec">&#9670;&nbsp;</a></span>dealloc()</h2>
+<a id="af0720e40dd431920a92157c8d4e13eb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0720e40dd431920a92157c8d4e13eb2">&#9670;&nbsp;</a></span>dealloc()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::dealloc </td>
+          <td class="memname">void <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::dealloc </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -530,19 +536,19 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 
 </div>
 </div>
-<a id="a6bcd83acbdad242551f34712a04b6620"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bcd83acbdad242551f34712a04b6620">&#9670;&nbsp;</a></span>empty()</h2>
+<a id="ad7c2f8322685c8076c2972c63e10ad38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7c2f8322685c8076c2972c63e10ad38">&#9670;&nbsp;</a></span>empty()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::empty </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::empty </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const -&gt; bool </td>
@@ -559,19 +565,19 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 
 </div>
 </div>
-<a id="addefd392a885fd2575fe7522be6b2be7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addefd392a885fd2575fe7522be6b2be7">&#9670;&nbsp;</a></span>hash()</h2>
+<a id="aab23140c46adc6fc813c668b8c6aaf4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab23140c46adc6fc813c668b8c6aaf4e">&#9670;&nbsp;</a></span>hash()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::hash </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::hash </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const -&gt; size_t
@@ -589,19 +595,19 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 
 </div>
 </div>
-<a id="adb32f55e6be210edd38852f9a1d2f2e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb32f55e6be210edd38852f9a1d2f2e0">&#9670;&nbsp;</a></span>sizeof_type()</h2>
+<a id="a9f8d920a1253664227655b485e8c3ef1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f8d920a1253664227655b485e8c3ef1">&#9670;&nbsp;</a></span>sizeof_type()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::sizeof_type </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::sizeof_type </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const -&gt; size_t </td>
@@ -618,19 +624,19 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 
 </div>
 </div>
-<a id="a2b765bbdc5c6b038b9946e2acd26459d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b765bbdc5c6b038b9946e2acd26459d">&#9670;&nbsp;</a></span>type() <span class="overload">[1/2]</span></h2>
+<a id="a5613014e69680f00ded4042e10d18ee8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5613014e69680f00ded4042e10d18ee8">&#9670;&nbsp;</a></span>type() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::type </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::type </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const -&gt; const TypeInfo* </td>
@@ -647,19 +653,19 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 
 </div>
 </div>
-<a id="aac2c4d5db6ed03c10bf68a41241aed7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac2c4d5db6ed03c10bf68a41241aed7e">&#9670;&nbsp;</a></span>type() <span class="overload">[2/2]</span></h2>
+<a id="aae20139bf2fb96807010beca476c345f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae20139bf2fb96807010beca476c345f">&#9670;&nbsp;</a></span>type() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::type </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::type </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> -&gt; TypeInfo* </td>
@@ -676,19 +682,19 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 
 </div>
 </div>
-<a id="a6e342f8a439ceb4b029f132f165f9b12"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e342f8a439ceb4b029f132f165f9b12">&#9670;&nbsp;</a></span>type_id()</h2>
+<a id="a09a36641097dc81aa881a40faf5489b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09a36641097dc81aa881a40faf5489b0">&#9670;&nbsp;</a></span>type_id()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::type_id </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::type_id </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const -&gt; int </td>
@@ -706,19 +712,19 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="aa0112aaddf25246d85bc678eb3fb1567"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0112aaddf25246d85bc678eb3fb1567">&#9670;&nbsp;</a></span>d_storage</h2>
+<a id="a9e1d27e57c4cc499564778318572b285"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e1d27e57c4cc499564778318572b285">&#9670;&nbsp;</a></span>d_storage</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1any__base.html#aa16c27b3120359d1f80ff0930199dfd8">storage_type</a> <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::d_storage</td>
+          <td class="memname"><a class="el" href="structseq_1_1any__base.html#a6f0e2a1a98b43f6efd2023b68e7059b0">storage_type</a> <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::d_storage</td>
         </tr>
       </table>
   </td>
@@ -730,24 +736,48 @@ template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), 
 
 </div>
 </div>
-<a id="a2b615cf6c1416d7c6b3929f0458acb30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b615cf6c1416d7c6b3929f0458acb30">&#9670;&nbsp;</a></span>d_type_info</h2>
+<a id="af7b8a6ddccfb0b4c2aa63ec245e86f2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7b8a6ddccfb0b4c2aa63ec245e86f2c">&#9670;&nbsp;</a></span>d_type_info</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*)&gt; </div>
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1any__base.html#abc0890d85192860e6b3d72bdfb1e4d37">pointer_type</a> <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment &gt;::d_type_info</td>
+          <td class="memname"><a class="el" href="structseq_1_1any__base.html#a9cd10e6052449d62f4ac7b473ca39366">pointer_type</a> <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::d_type_info</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5fcefeb0eec8519490435f3bd12c12ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fcefeb0eec8519490435f3bd12c12ba">&#9670;&nbsp;</a></span>relocatable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Derived , class TypeInfo , size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool <a class="el" href="structseq_1_1any__base.html">seq::any_base</a>&lt; Derived, TypeInfo, StaticSize, Alignment, ForceRelocatable &gt;::relocatable = ForceRelocatable</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

@@ -393,3 +393,55 @@ int  main  (int , char** )
 }
 
 ```
+
+
+## Heterogeneous container
+
+cvector works with [seq::hold_any](any.md) to provide Heterogeneous compressed vector. However it only works with `seq::r_any` instead of `seq::any` as it requires a relocatable type.
+Example:
+
+```cpp
+
+#include "cvector.hpp"
+#include "any.hpp"
+
+#include <algorithm>
+#include <iostream>
+#include <cstdlib>
+
+using namespace seq;
+
+
+int  main  (int , char** )
+{
+	// Construct a cvector of r_any filled with various values of type size_t, double, std::string or tstring.
+	seq::cvector<seq::r_any> vec;
+	for (size_t i = 0; i < 100000; ++i)
+	{
+		size_t idx = i & 3U;
+		switch (idx) {
+		case 0: vec.push_back(seq::r_any(i * UINT64_C(0xc4ceb9fe1a85ec53)));
+		case 1: vec.push_back(seq::r_any((double)(i * UINT64_C(0xc4ceb9fe1a85ec53))));
+		case 2: vec.push_back(seq::r_any(generate_random_string<std::string>(14, true)));
+		default: vec.push_back(seq::r_any(generate_random_string<tstring>(14, true)));
+	}
+
+	// Print the compression ratio
+	std::cout << vec.current_compression_ratio() << std::endl;
+	
+	// Sort the heterogeneous container (see hold_any documentation for more details on its comparison operators)
+	std::sort(vec.begin(), vec.end());
+
+	// Print the compression ratio
+	std::cout << vec.current_compression_ratio() << std::endl;
+	
+	// Ensure the container is well sorted
+	std::cout << std::is_sorted(vec.begin(), vec.end()) << std::endl;
+
+	return 0;
+}
+
+\endcode
+
+```
+

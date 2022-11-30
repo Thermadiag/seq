@@ -377,7 +377,7 @@ class seq::devector&lt; T, Allocator, flag &gt;</h3>
 <p>Almost all members provide basic exception guarantee, except if the value type has a noexcept move constructor and move assignment operator, in which case members provide strong exception guarantee.</p>
 <p>References and iterators are invalidated by insertion/removal of elements.</p>
 <p><a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a> is used by <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a> for bucket storage.</p>
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md19"></a>
 Optimization flags</h2>
 <p>devector can be configured with the following flags:</p><ul>
 <li>OptimizeForPushBack: the devector behaves like a std::vector, adding free space at the back based on the growth factor SEQ_GROW_FACTOR. In this case, inserting elements at the front is as slow as for std::vector as it require to move all elements toward the back.</li>
@@ -393,7 +393,7 @@ Optimization flags</h2>
 </ol>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md19"></a>
+<h2><a class="anchor" id="autotoc_md20"></a>
 Performances</h2>
 <p>Internal benchmarks show that devector is as fast as std::vector when inserting at the back with OptimizeForPushBack, or inserting at the front with OptimizeForPushFront. Using OptimizeForBothEnds makes insertion at both ends usually twice as slow as back insertion for std::vector.</p>
 <p><a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a> is faster than std::vector for relocatable types (where <a class="el" href="structseq_1_1is__relocatable.html#a9bc3104d310961a601c2185957f846ad">seq::is_relocatable&lt;T&gt;::value</a> is true) as memcpy and memmove can be used instead of std::copy or <a class="el" href="namespacestd.html#af8821d6dc8543af6dc30cddfe0bd0584">std::move</a> on reallocation.</p>

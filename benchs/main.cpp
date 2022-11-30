@@ -29,7 +29,7 @@
 #include "bench_tiered_vector.hpp"
 #include "bench_sequence.hpp"
 #include "bench_mem_pool.hpp"
-
+#include <seq/any.hpp>
 
 
 
@@ -112,15 +112,41 @@ struct statefull_alloc : public std::allocator<T>
 };
 
 
+struct TTest {
+	std::unique_ptr<int> val;
+};
+namespace seq
+{
+	template<>
+	struct is_hashable<TTest> : std::false_type {};
+}
+
+template<class CVec>
+void from_const_wrapper(const CVec& vec)
+{
+	seq::r_any a = vec[0];
+	SEQ_TEST(a == 2);
+}
 
 int  main  (int , char** )
 { 
 	
-	
-
 	test_hash<double, std::hash<double> >(10000000, [](size_t i) { return (i * UINT64_C(0xc4ceb9fe1a85ec53)); });
 	test_hash<std::string, std::hash<std::string> >(5000000, [](size_t i) { return generate_random_string<std::string>(14, true); });
 	test_hash<tstring, std::hash<tstring> >(5000000, [](size_t i) { return generate_random_string<tstring>(14, true); });
+	// Test hash set with seq::any
+	test_hash<seq::any, std::hash<seq::any> >(10000000, [](size_t i)
+		{
+			size_t idx = i & 3U;
+			switch (idx) {
+			case 0:return seq::any(i * UINT64_C(0xc4ceb9fe1a85ec53));
+			case 1:return seq::any((double)(i * UINT64_C(0xc4ceb9fe1a85ec53)));
+			case 2:return seq::any(generate_random_string<std::string>(14, true));
+			default:return seq::any(generate_random_string<tstring>(14, true));
+			}
+		}
+	);
+
 
 	test_map<double>(1000000, [](size_t i) { return (i * UINT64_C(0xc4ceb9fe1a85ec53)); });
 	test_map<tiny_string<>>(1000000, [](size_t i) { return generate_random_string<tiny_string<>>(14, true); });

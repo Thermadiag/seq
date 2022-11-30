@@ -40,12 +40,13 @@
 #include <seq/testing.hpp>
 #include <seq/ordered_map.hpp>
 #include <seq/format.hpp>
+#include <seq/any.hpp>
 
 using namespace seq;
 
 
-template<class C, class It>
-void erase(C& set, It it)
+template<class C>
+void erase(C& set, typename C::const_iterator it)
 {
 	set.erase(it);
 }
@@ -67,6 +68,11 @@ template<size_t S, class A>
 inline size_t to_size_t(const tiny_string<S,A>& t) {
 	return t.size();
 }
+template<class Interface, size_t S, size_t A, bool R>
+inline size_t to_size_t(const seq::hold_any<Interface,S,A,R>& t) {
+	return reinterpret_cast<size_t>(t.data());
+}
+
 
 
 template<class C, class T, class Format>
@@ -152,7 +158,7 @@ void test_hash_set(const char* name, C& set, const std::vector<T>& keys, Format 
 		if (it != set.end())
 			erase(set, it);//set.erase(it);
 	}
-	size_t erase = tock_ms();
+	size_t eraset = tock_ms();
 	size_t erase_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
 
 	// mixed failed/successfull lookups
@@ -165,7 +171,7 @@ void test_hash_set(const char* name, C& set, const std::vector<T>& keys, Format 
 	}
 	size_t find_again = tock_ms(); print_null(sum);
 	
-	std::cout << f(name, fmt(insert, insert_mem), fmt(insert_reserve, insert_reserve_mem), find, failed_, walk, fmt(erase, erase_mem), find_again) << std::endl;
+	std::cout << f(name, fmt(insert, insert_mem), fmt(insert_reserve, insert_reserve_mem), find, failed_, walk, fmt(eraset, erase_mem), find_again) << std::endl;
 }
 
 
@@ -204,33 +210,33 @@ void test_hash(int count, Gen gen)
 #ifdef SEQ_NO_COMPRESSED_PTR
 		std::cout << "SEQ_NO_COMPRESSED_PTR" << std::endl;
 #endif
-		ordered_set<T, Hash, std::equal_to<T>, std::allocator<T>> set;
+		ordered_set<T, Hash, seq::equal_to<> , std::allocator<T>> set;
 		test_hash_set("seq::ordered_set", set, keys,f);
 	}
-	{
-		robin_hood::unordered_flat_set<T, Hash, std::equal_to<T>> set;
+	/* {
+		robin_hood::unordered_flat_set<T, Hash, seq::equal_to<> > set;
 		test_hash_set("robin_hood::unordered_flat_set", set, keys, f);
-	}
+	}*/
 	{
-		phmap::node_hash_set<T, Hash, std::equal_to<T>> set;
+		phmap::node_hash_set<T, Hash, seq::equal_to<> > set;
 		test_hash_set("phmap::node_hash_set", set, keys,f);
 	}
 	{
-		robin_hood::unordered_node_set<T, Hash, std::equal_to<T>> set;
+		robin_hood::unordered_node_set<T, Hash, seq::equal_to<> > set;
 		test_hash_set("robin_hood::unordered_node_set", set, keys, f);
 	}
 #if !defined( __GNUG__ ) || (__GNUC__ > 4)
 	{
-		ska::unordered_set<T, Hash, std::equal_to<T>> set;
+		ska::unordered_set<T, Hash, seq::equal_to<> > set;
 		test_hash_set("ska::unordered_set", set, keys, f);
 	}
 #endif
 	{
-		boost::unordered_set<T, Hash, std::equal_to<T>> set;
+		boost::unordered_set<T, Hash, seq::equal_to<> > set;
 		test_hash_set("boost::unordered_set", set, keys, f);
 	}
 	{
-		std::unordered_set<T, Hash> set;
+		std::unordered_set<T, Hash, seq::equal_to<> > set;
 		//set.reserve(keys.size() / 2);
 		test_hash_set("std::unordered_set", set, keys, f);
 	}
