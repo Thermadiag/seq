@@ -149,7 +149,7 @@ for cvector of seq::tiny_string.
 ## Multithreading
 
 By default, cvector does not support multi-threaded access, even on read-only mode. Indeed, retrieving an element might trigger a block decompression, which in
-turn might trigger a recompression of another block in order to still its decompression context.
+turn might trigger a recompression of another block in order to steal its decompression context.
 
 cvector supports a locking mechanism at the block level for concurrent accesses. Below is a commented example of several ways to apply `std::cos` function
 to all elements of a cvector, including multi-threading based on openmp and use of the low level block API.
