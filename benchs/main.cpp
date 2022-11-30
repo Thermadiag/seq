@@ -112,21 +112,8 @@ struct statefull_alloc : public std::allocator<T>
 };
 
 
-#include <fstream>
-#include <seq/internal/lz4small.h>
 int  main  (int , char** )
 { 
-	{
-		std::ifstream fin("C:/Users/VM213788/Desktop/save_compressed_deque.txt");
-		cvector<char, std::allocator<char>, 0, seq::Lz4FlatEncoder, 1024 * 2> vec;(
-			std::istreambuf_iterator<char>(fin),
-			std::istreambuf_iterator<char>());
-
-		std::cout <<vec.size() << " "<< vec.current_compression_ratio() << std::endl;
-		std::sort(vec.begin(), vec.end());
-		std::cout << vec.size() << " " << vec.current_compression_ratio() << std::endl;
-		return 0;
-	}
 	
 	test_hash<double, std::hash<double> >(10000000, [](size_t i) { return (i * UINT64_C(0xc4ceb9fe1a85ec53)); });
 	test_hash<std::string, std::hash<std::string> >(5000000, [](size_t i) { return generate_random_string<std::string>(14, true); });
