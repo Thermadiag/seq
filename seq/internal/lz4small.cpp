@@ -34,7 +34,7 @@
 
 
 
-#include "internal/lz4small.h"
+#include "lz4small.h"
 
 namespace seq
 {

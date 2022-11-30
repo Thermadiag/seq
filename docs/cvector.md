@@ -446,3 +446,35 @@ int  main  (int , char** )
 
 ```
 
+
+## Text compression
+
+The default block comrpessor provided with cvector works great for arbitrary structures, but compresses poorly raw ascii text.
+Using a `seq::cvector<char>` in order to compress raw text is a bad idea as it resulting compression ratio will be very low.
+Instead, you should use provided `Lz4FlatEncoder` (even provide your own encoder) with a bigger block size.
+
+Example:
+
+```cpp
+
+#include <seq/cvector.hpp>
+#include <seq/internal/lz4small.h>
+
+#include <fstream>
+#include <iostream>
+
+using namespace seq;
+
+int  main  (int , char** )
+{
+	std::ifstream fin("my_text_file.txt");
+	
+	// create a cvector of char and fill it with provided file content
+	cvector<char, std::allocator<char>, 0, seq::Lz4FlatEncoder, 2048> vec;(
+		std::istreambuf_iterator<char>(fin),
+		std::istreambuf_iterator<char>());
+
+	std::cout <<vec.size() << " "<< vec.current_compression_ratio() << std::endl;
+	return 0;
+}
+```
