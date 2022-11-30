@@ -397,13 +397,14 @@ int  main  (int , char** )
 
 ## Heterogeneous container
 
-cvector works with [seq::hold_any](any.md) to provide Heterogeneous compressed vector. However it only works with `seq::r_any` instead of `seq::any` as it requires a relocatable type.
+cvector works with [seq::hold_any](any.md) to provide heterogeneous compressed vector. However it only works with `seq::r_any` instead of `seq::any` as it requires a relocatable type.
 Example:
 
 ```cpp
 
 #include "cvector.hpp"
 #include "any.hpp"
+#include "testing.hpp"
 
 #include <algorithm>
 #include <iostream>
