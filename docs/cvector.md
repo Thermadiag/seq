@@ -449,9 +449,9 @@ int  main  (int , char** )
 
 ## Text compression
 
-The default block comrpessor provided with cvector works great for arbitrary structures, but compresses poorly raw ascii text.
-Using a `seq::cvector<char>` in order to compress raw text is a bad idea as it resulting compression ratio will be very low.
-Instead, you should use provided `Lz4FlatEncoder` (or provide your own encoder) with a bigger block size.
+The default block compressor provided with cvector works great for arbitrary structures, but compresses poorly raw ascii text.
+Using a `seq::cvector<char>` in order to compress raw text is a bad idea as the resulting compression ratio will be very low.
+Instead, you should use the provided `Lz4FlatEncoder` (or provide your own encoder) with a bigger block size.
 
 Example:
 
