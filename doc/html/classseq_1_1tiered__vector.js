@@ -16,7 +16,6 @@ var classseq_1_1tiered__vector =
     [ "size_type", "classseq_1_1tiered__vector.html#a7220571f7fcbd8ec0b23acc88d630525", null ],
     [ "this_type", "classseq_1_1tiered__vector.html#a343b05858859573c31cded6b1d65dd43", null ],
     [ "value_type", "classseq_1_1tiered__vector.html#a18b2cf821e5c1b41874068a6f6de6067", null ],
-    [ "min_block_size", "classseq_1_1tiered__vector.html#a2aaa20913d8c2931c7da304f3212d92ba10dbae124d01fc518a51912d5e7e5a3d", null ],
     [ "tiered_vector", "classseq_1_1tiered__vector.html#a9b0cabe8c187f4ab664460c7e15095cf", null ],
     [ "tiered_vector", "classseq_1_1tiered__vector.html#a180dc0690c981e1df962f0ae0bb26a43", null ],
     [ "tiered_vector", "classseq_1_1tiered__vector.html#acd220c90962b7f3d4705be14724cc2cf", null ],

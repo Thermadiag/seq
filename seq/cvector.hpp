@@ -2271,7 +2271,7 @@ namespace seq
 	/// 
 	/// 
 	/// // Use cvector::for_each (mono threaded, but supports concurrent access).
-	/// // This should be as fast as working on a std::vector directly.
+	/// // This is the fastest non multithreaded way to access cvector values.
 	/// tick();
 	/// vec.for_each(0, vec.size(), [](float& v) {v = std::cos(v); });
 	/// el = tock_ms();

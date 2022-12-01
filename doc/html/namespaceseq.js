@@ -9,6 +9,7 @@ var namespaceseq =
     [ "any_type_info", "classseq_1_1any__type__info.html", "classseq_1_1any__type__info" ],
     [ "any_typed_type_info", "structseq_1_1any__typed__type__info.html", "structseq_1_1any__typed__type__info" ],
     [ "assign_alloc", "structseq_1_1assign__alloc.html", null ],
+    [ "bad_any_function_call", "classseq_1_1bad__any__function__call.html", "classseq_1_1bad__any__function__call" ],
     [ "base_ostream_format", "structseq_1_1base__ostream__format.html", "structseq_1_1base__ostream__format" ],
     [ "basic_input_stream", "classseq_1_1basic__input__stream.html", "classseq_1_1basic__input__stream" ],
     [ "basic_nullbuf", "structseq_1_1basic__nullbuf.html", "structseq_1_1basic__nullbuf" ],

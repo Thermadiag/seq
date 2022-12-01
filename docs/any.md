@@ -352,6 +352,8 @@ It is possible to force `hold_any` type to be relocatable by setting the templat
 In this case, small but non relocatable types will be allocated on the heap instead of being stored in the small buffer.
 The global typedef `seq::r_any` and `seq::r_nh_any` are defined to provide relocatable alternatives to `seq::any` and `seq::nh_any`.
 Note that some containers (`seq::tiered_vector`, `seq::devector`, `seq::flat_set/map`) are faster with relocatable types. Furthermore, `seq::cvector` only works with relocatable types.
+
+In some situations, a relocatable hold_any will be faster than a standard hold_any as its move copy/assignement operators are faster, as well as its swap member. For instance, a `seq::flat_set` of `seq::r_any` is WAY faster than for `seq::any`.
  
 
 ## Move only types

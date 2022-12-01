@@ -86,6 +86,7 @@ $(document).ready(function(){initNavTree('classseq_1_1tiered__vector.html',''); 
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="classseq_1_1tiered__vector-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt; Class Template Reference</div>  </div>
@@ -101,14 +102,11 @@ $(document).ready(function(){initNavTree('classseq_1_1tiered__vector.html',''); 
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a2aaa20913d8c2931c7da304f3212d92b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="classseq_1_1tiered__vector.html#a2aaa20913d8c2931c7da304f3212d92ba10dbae124d01fc518a51912d5e7e5a3d">min_block_size</a> = MinBSize
- }</td></tr>
-<tr class="separator:a2aaa20913d8c2931c7da304f3212d92b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac803f2e3dfd52cfa6ef36ce08e9da378"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiered__vector.html#ac803f2e3dfd52cfa6ef36ce08e9da378">bucket_manager</a> = <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html">detail::BucketManager</a>&lt; T, Allocator, <a class="el" href="classseq_1_1tiered__vector.html#a2aaa20913d8c2931c7da304f3212d92ba10dbae124d01fc518a51912d5e7e5a3d">min_block_size</a>, max_block_size, StoreBackValues, ValueCompare, layout &gt;</td></tr>
+<tr class="memitem:ac803f2e3dfd52cfa6ef36ce08e9da378"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiered__vector.html#ac803f2e3dfd52cfa6ef36ce08e9da378">bucket_manager</a> = <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html">detail::BucketManager</a>&lt; T, Allocator, <a class="el" href="classseq_1_1tiered__vector.html#a8203939c5407b374c0ad3c761a935592">min_block_size</a>, <a class="el" href="classseq_1_1tiered__vector.html#a8bb0079b787556ae20ab5eec54a68c3f">max_block_size</a>, StoreBackValues, ValueCompare, layout &gt;</td></tr>
 <tr class="separator:ac803f2e3dfd52cfa6ef36ce08e9da378"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37deaf87460ced25c171495d7ac2d65a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiered__vector.html#a37deaf87460ced25c171495d7ac2d65a">alloc_traits</a> = std::allocator_traits&lt; Allocator &gt;</td></tr>
 <tr class="separator:a37deaf87460ced25c171495d7ac2d65a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a343b05858859573c31cded6b1d65dd43"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiered__vector.html#a343b05858859573c31cded6b1d65dd43">this_type</a> = <a class="el" href="classseq_1_1tiered__vector.html">tiered_vector</a>&lt; T, Allocator, layout, <a class="el" href="classseq_1_1tiered__vector.html#a2aaa20913d8c2931c7da304f3212d92ba10dbae124d01fc518a51912d5e7e5a3d">min_block_size</a>, max_block_size, FindBSize, StoreBackValues, ValueCompare &gt;</td></tr>
+<tr class="memitem:a343b05858859573c31cded6b1d65dd43"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiered__vector.html#a343b05858859573c31cded6b1d65dd43">this_type</a> = <a class="el" href="classseq_1_1tiered__vector.html">tiered_vector</a>&lt; T, Allocator, layout, <a class="el" href="classseq_1_1tiered__vector.html#a8203939c5407b374c0ad3c761a935592">min_block_size</a>, <a class="el" href="classseq_1_1tiered__vector.html#a8bb0079b787556ae20ab5eec54a68c3f">max_block_size</a>, FindBSize, StoreBackValues, ValueCompare &gt;</td></tr>
 <tr class="separator:a343b05858859573c31cded6b1d65dd43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69ac460fb875d4d8e849186385843cd9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiered__vector.html#a69ac460fb875d4d8e849186385843cd9">find_bsize_type</a> = FindBSize</td></tr>
 <tr class="separator:a69ac460fb875d4d8e849186385843cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -408,6 +406,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae6f1805215dfe158dfe0735c5943cad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6e7abc66d3082e955d8409dfcca5d86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiered__vector.html#aa6e7abc66d3082e955d8409dfcca5d86">sort</a> ()</td></tr>
 <tr class="separator:aa6e7abc66d3082e955d8409dfcca5d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a8203939c5407b374c0ad3c761a935592"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="namespaceseq_1_1detail.html#aaedaea8d6400347af3ef580d65677abb">detail::cbuffer_pos</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiered__vector.html#a8203939c5407b374c0ad3c761a935592">min_block_size</a> = static_cast&lt;<a class="el" href="namespaceseq_1_1detail.html#aaedaea8d6400347af3ef580d65677abb">detail::cbuffer_pos</a>&gt;(MinBSize)</td></tr>
+<tr class="separator:a8203939c5407b374c0ad3c761a935592"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bb0079b787556ae20ab5eec54a68c3f"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="namespaceseq_1_1detail.html#aaedaea8d6400347af3ef580d65677abb">detail::cbuffer_pos</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiered__vector.html#a8bb0079b787556ae20ab5eec54a68c3f">max_block_size</a> = MaxBSize &gt; <a class="el" href="tiered__vector_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">SEQ_MAX_BUCKET_SIZE</a> ? static_cast&lt;<a class="el" href="namespaceseq_1_1detail.html#aaedaea8d6400347af3ef580d65677abb">detail::cbuffer_pos</a>&gt;(<a class="el" href="tiered__vector_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">SEQ_MAX_BUCKET_SIZE</a>) : static_cast&lt;<a class="el" href="namespaceseq_1_1detail.html#aaedaea8d6400347af3ef580d65677abb">detail::cbuffer_pos</a>&gt;(MaxBSize)</td></tr>
+<tr class="separator:a8bb0079b787556ae20ab5eec54a68c3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class T, class Allocator = std::allocator&lt;T&gt;, LayoutManagement layout = OptimizeForSpeed, unsigned MinBSize = SEQ_MIN_BUCKET_SIZE(T), unsigned MaxBSize = SEQ_MAX_BUCKET_SIZE, class FindBSize = detail::FindBucketSize&lt;T&gt;, bool StoreBackValues = false, class ValueCompare = detail::NullValueCompare&lt;T&gt;&gt;<br />
@@ -518,7 +523,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManagement layout = OptimizeForSpeed, unsigned MinBSize = SEQ_MIN_BUCKET_SIZE(T), unsigned MaxBSize = SEQ_MAX_BUCKET_SIZE, class FindBSize  = detail::FindBucketSize&lt;T&gt;, bool StoreBackValues = false, class ValueCompare  = detail::NullValueCompare&lt;T&gt;&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1tiered__vector.html">seq::tiered_vector</a>&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;::<a class="el" href="classseq_1_1tiered__vector.html#ac803f2e3dfd52cfa6ef36ce08e9da378">bucket_manager</a> =  <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html">detail::BucketManager</a>&lt;T, Allocator, <a class="el" href="classseq_1_1tiered__vector.html#a2aaa20913d8c2931c7da304f3212d92ba10dbae124d01fc518a51912d5e7e5a3d">min_block_size</a>, max_block_size, StoreBackValues, ValueCompare, layout&gt;</td>
+          <td class="memname">using <a class="el" href="classseq_1_1tiered__vector.html">seq::tiered_vector</a>&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;::<a class="el" href="classseq_1_1tiered__vector.html#ac803f2e3dfd52cfa6ef36ce08e9da378">bucket_manager</a> =  <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html">detail::BucketManager</a>&lt;T, Allocator, <a class="el" href="classseq_1_1tiered__vector.html#a8203939c5407b374c0ad3c761a935592">min_block_size</a>, <a class="el" href="classseq_1_1tiered__vector.html#a8bb0079b787556ae20ab5eec54a68c3f">max_block_size</a>, StoreBackValues, ValueCompare, layout&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -710,7 +715,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
 template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManagement layout = OptimizeForSpeed, unsigned MinBSize = SEQ_MIN_BUCKET_SIZE(T), unsigned MaxBSize = SEQ_MAX_BUCKET_SIZE, class FindBSize  = detail::FindBucketSize&lt;T&gt;, bool StoreBackValues = false, class ValueCompare  = detail::NullValueCompare&lt;T&gt;&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1tiered__vector.html">seq::tiered_vector</a>&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;::<a class="el" href="classseq_1_1tiered__vector.html#a343b05858859573c31cded6b1d65dd43">this_type</a> =  <a class="el" href="classseq_1_1tiered__vector.html">tiered_vector</a>&lt;T, Allocator, layout, <a class="el" href="classseq_1_1tiered__vector.html#a2aaa20913d8c2931c7da304f3212d92ba10dbae124d01fc518a51912d5e7e5a3d">min_block_size</a>, max_block_size, FindBSize, StoreBackValues, ValueCompare&gt;</td>
+          <td class="memname">using <a class="el" href="classseq_1_1tiered__vector.html">seq::tiered_vector</a>&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;::<a class="el" href="classseq_1_1tiered__vector.html#a343b05858859573c31cded6b1d65dd43">this_type</a> =  <a class="el" href="classseq_1_1tiered__vector.html">tiered_vector</a>&lt;T, Allocator, layout, <a class="el" href="classseq_1_1tiered__vector.html#a8203939c5407b374c0ad3c761a935592">min_block_size</a>, <a class="el" href="classseq_1_1tiered__vector.html#a8bb0079b787556ae20ab5eec54a68c3f">max_block_size</a>, FindBSize, StoreBackValues, ValueCompare&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -730,26 +735,6 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManageme
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a2aaa20913d8c2931c7da304f3212d92b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2aaa20913d8c2931c7da304f3212d92b">&#9670;&nbsp;</a></span>anonymous enum</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManagement layout = OptimizeForSpeed, unsigned MinBSize = SEQ_MIN_BUCKET_SIZE(T), unsigned MaxBSize = SEQ_MAX_BUCKET_SIZE, class FindBSize  = detail::FindBucketSize&lt;T&gt;, bool StoreBackValues = false, class ValueCompare  = detail::NullValueCompare&lt;T&gt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">anonymous enum</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2aaa20913d8c2931c7da304f3212d92ba10dbae124d01fc518a51912d5e7e5a3d"></a>min_block_size&#160;</td><td class="fielddoc"></td></tr>
-</table>
 
 </div>
 </div>
@@ -3988,12 +3973,61 @@ template&lt;class U , class Less  = std::less&lt;T&gt;&gt; </div>
 
 </div>
 </div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a8bb0079b787556ae20ab5eec54a68c3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bb0079b787556ae20ab5eec54a68c3f">&#9670;&nbsp;</a></span>max_block_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManagement layout = OptimizeForSpeed, unsigned MinBSize = SEQ_MIN_BUCKET_SIZE(T), unsigned MaxBSize = SEQ_MAX_BUCKET_SIZE, class FindBSize  = detail::FindBucketSize&lt;T&gt;, bool StoreBackValues = false, class ValueCompare  = detail::NullValueCompare&lt;T&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespaceseq_1_1detail.html#aaedaea8d6400347af3ef580d65677abb">detail::cbuffer_pos</a> <a class="el" href="classseq_1_1tiered__vector.html">seq::tiered_vector</a>&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;::max_block_size = MaxBSize &gt; <a class="el" href="tiered__vector_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">SEQ_MAX_BUCKET_SIZE</a> ? static_cast&lt;<a class="el" href="namespaceseq_1_1detail.html#aaedaea8d6400347af3ef580d65677abb">detail::cbuffer_pos</a>&gt;(<a class="el" href="tiered__vector_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">SEQ_MAX_BUCKET_SIZE</a>) : static_cast&lt;<a class="el" href="namespaceseq_1_1detail.html#aaedaea8d6400347af3ef580d65677abb">detail::cbuffer_pos</a>&gt;(MaxBSize)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8203939c5407b374c0ad3c761a935592"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8203939c5407b374c0ad3c761a935592">&#9670;&nbsp;</a></span>min_block_size</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, LayoutManagement layout = OptimizeForSpeed, unsigned MinBSize = SEQ_MIN_BUCKET_SIZE(T), unsigned MaxBSize = SEQ_MAX_BUCKET_SIZE, class FindBSize  = detail::FindBucketSize&lt;T&gt;, bool StoreBackValues = false, class ValueCompare  = detail::NullValueCompare&lt;T&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="namespaceseq_1_1detail.html#aaedaea8d6400347af3ef580d65677abb">detail::cbuffer_pos</a> <a class="el" href="classseq_1_1tiered__vector.html">seq::tiered_vector</a>&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;::min_block_size = static_cast&lt;<a class="el" href="namespaceseq_1_1detail.html#aaedaea8d6400347af3ef580d65677abb">detail::cbuffer_pos</a>&gt;(MinBSize)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>seq/<a class="el" href="tiered__vector_8hpp_source.html">tiered_vector.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
-<div class="ttc" id="aclassseq_1_1tiered__vector_html_a4703b4f2463d0d19f6313f6b1fb81edb"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">seq::tiered_vector::size</a></div><div class="ttdeci">auto size() const noexcept -&gt; size_type</div><div class="ttdoc">Returns the container size.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3093</div></div>
+<div class="ttc" id="aclassseq_1_1tiered__vector_html_a4703b4f2463d0d19f6313f6b1fb81edb"><div class="ttname"><a href="classseq_1_1tiered__vector.html#a4703b4f2463d0d19f6313f6b1fb81edb">seq::tiered_vector::size</a></div><div class="ttdeci">auto size() const noexcept -&gt; size_type</div><div class="ttdoc">Returns the container size.</div><div class="ttdef"><b>Definition:</b> tiered_vector.hpp:3102</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

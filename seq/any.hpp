@@ -56,6 +56,19 @@ The <i>any</i> module provides the seq::hold_any class and related functions to 
 
 namespace seq
 {
+	/// @brief Exception class similar to std::bad_function_call but storing a custom message
+	class bad_any_function_call : public std::bad_function_call 
+	{
+		const char* d_what;
+	public:
+		bad_any_function_call(const char * wh = NULL) noexcept : d_what(wh){}
+
+		virtual const char* __CLR_OR_THIS_CALL what() const noexcept override {
+			// return pointer to message string
+			return d_what ? d_what : "";
+		}
+	};
+
 	namespace detail
 	{
 
@@ -248,7 +261,7 @@ namespace seq
 		{
 			static SEQ_ALWAYS_INLINE auto apply(const void* /*unused*/) -> size_t
 			{
-				throw std::bad_function_call();
+				throw seq::bad_any_function_call("data type is not hashable");
 				return 0;
 			}
 		};
@@ -270,7 +283,7 @@ namespace seq
 		{
 			static SEQ_ALWAYS_INLINE void apply(std::string&  /*unused*/, const void*  /*unused*/, const width_format&  /*unused*/, const numeric_format&  /*unused*/)
 			{
-				throw std::bad_function_call();
+				throw seq::bad_any_function_call("data type is not formattable");
 			}
 		};
 
@@ -520,7 +533,7 @@ namespace seq
 		}
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if< !is_ostreamable<T>::value, void>::type ostream_any(std::ostream& , const void* ){
-			throw std::bad_function_call();
+			throw seq::bad_any_function_call("data type does not streamable to std::ostream");
 		}
 
 		/// @brief Read object to std::istream or throw std::bad_function_call
@@ -530,7 +543,7 @@ namespace seq
 		}
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if< !is_istreamable<T>::value, void>::type istream_any(std::istream& , void* ) {
-			throw std::bad_function_call();
+			throw seq::bad_any_function_call("data type does not streamable from std::istream");
 		}
 
 		/// @brief Hash object using std::hash or throw std::bad_function_call
@@ -557,7 +570,7 @@ namespace seq
 		}
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if< !is_less_comparable<T>::value, bool>::type compare_less_any(const void* , const void* ) {
-			throw std::bad_function_call(); return false;
+			throw seq::bad_any_function_call("data type does not provide a less operator"); return false;
 		}
 
 		/// @brief Format object or throw std::bad_function_call
@@ -607,7 +620,7 @@ namespace seq
 			// Copy object to destination buffer, allocating buffer if dst size is not big enough
 
 			if (!std::is_copy_assignable<T>::value && !std::is_copy_constructible<T>::value)
-				throw std::bad_function_call();
+				throw seq::bad_any_function_call("data type is not copyable");
 			
 			if (in_p == out_p && std::is_copy_assignable<T>::value)
 			{
@@ -1769,7 +1782,7 @@ namespace seq
 		hold_any(hold_any&& other) 
   			:base_type()
 		{
-			if (other.big_size() || !other.non_relocatable()) {
+			if (Relocatable || other.big_size() || !other.non_relocatable()) {
 				// for big types or relocatable types, simple memcpy and reset other tags
 				memcpy(&this->d_storage, &other.d_storage, static_size);
 				this->d_type_info = other.d_type_info;
@@ -1858,6 +1871,14 @@ namespace seq
 		/// @brief Move assignment, MIGHT THROW!
 		auto operator=(hold_any&& other)  -> hold_any&
   		{
+			if (Relocatable)
+			{
+				// Move assignment is much more simple with relocatable hold_any
+				std::swap(this->d_storage, other.d_storage);
+				std::swap(this->d_type_info, other.d_type_info);
+				return *this;
+			}
+
 			if (other.empty()) {
 				// move empty object
 				reset();
@@ -1953,7 +1974,7 @@ namespace seq
 		{
 			// swap cannot be noexcept as there is no guarantee that move assignment of underlying types are noexcept
 
-			if ((!non_relocatable() && !other.non_relocatable()) || (big_size() && other.big_size()))
+			if (Relocatable || (!non_relocatable() && !other.non_relocatable()) || (big_size() && other.big_size()))
 			{
 				// 2 relocatable types or big types: just swap storage and type info
 				std::swap(this->d_type_info, other.d_type_info);
@@ -2360,7 +2381,7 @@ namespace seq
 	auto operator << (std::ostream& oss, const hold_any< Interface,S,A,R> & a) -> std::ostream& 
 	{
 		if (a.empty()) 
-			throw std::bad_function_call();
+			throw seq::bad_any_function_call("attempt to write empty hold_any to std::ostream");
 		a.type()->ostream_any(a.data(), oss);
 		return oss;
 	}
@@ -2369,7 +2390,7 @@ namespace seq
 	auto operator >> (std::istream& iss, hold_any< Interface,S,A,R>& a) -> std::istream&
 	{
 		if (a.empty()) 
-			throw std::bad_function_call();
+			throw seq::bad_any_function_call("attempt to read empty hold_any from std::ostream");
 		a.type()->istream_any(a.data(), iss);
 		return iss;
 	}

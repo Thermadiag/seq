@@ -60,7 +60,7 @@ const int & d = vec[600];
 ``` 
 
 In order for cvector to work with all STL algorithms, some latitudes with C++ standard were taken:
--	`std::swap` is overloaded for reference wrapper types. Overloading `std::swap` is forbidden by the standard, but works in practive with msvc and gcc at least.
+-	`std::swap` is overloaded for reference wrapper types. Overloading `std::swap` is forbidden by the standard, but works in practice with latest versions of msvc, gcc and clang.
 -	`std::move` is overloaded for reference wrapper types. This was mandatory for algorithms like `std::move(first,last,dst)` to work on move-only types.
 
 Thanks to this, it is possible to call `std::sort` or std::random_shuffle on a `cvector`. For instance, the following code snippet successively:
@@ -137,11 +137,11 @@ The compression algorithm supports an acceleration factor ranging from 0 (maximu
 blocks are handled. The acceleration factor is given as a template parameter of cvector class.
 
 It is possible to specify a different compression method using the **Encoder** template argument of cvector. For instance one can use the `seq::detail::NullEncoder`
-that encode/decode blocks using... memcpy (transforming cvector to a poor deque-like class). For custom encoder, it is possible to specify a different block size 
+that encode/decode blocks using... memcpy (transforming cvector into a poor deque-like class). For custom encoder, it is possible to specify a different block size 
 instead of the default 256 elements (it must remain a power of 2). Note that increasing the block size might increase the compression ratio and bidirectional access patterns,
 but will slow down random-access patterns.
 
-seq library provides `seq::Lz4FlatEncoder` and `seq::Lz4TransposeEncoder` (in `internal/lz4small.h`) as example of custom encoders that can be passed to cvector.
+seq library provides `seq::Lz4FlatEncoder` and `seq::Lz4TransposeEncoder` (in `<seq/internal/lz4small.h>`) as example of custom encoders that can be passed to cvector.
 They rely on a modified version of LZ4 compression algorithm suitable for small input length. `seq::Lz4FlatEncoder` is sometimes better than the default block encoder 
 for cvector of seq::tiny_string.
 
@@ -213,7 +213,7 @@ std::copy(random_vals.begin(), random_vals.end(), vec.begin());
 
 
 // Use cvector::for_each (mono threaded, but supports concurrent access).
-// This should be as fast as working on a std::vector directly.
+// This is the fastest non multithreaded way to access cvector values.
 tick();
 vec.for_each(0, vec.size(), [](float& v) {v = std::cos(v); });
 el = tock_ms();
@@ -470,7 +470,7 @@ int  main  (int , char** )
 	std::ifstream fin("my_text_file.txt");
 	
 	// create a cvector of char and fill it with provided file's content
-	cvector<char, std::allocator<char>, 0, seq::Lz4FlatEncoder, 2048> vec;(
+	cvector<char, std::allocator<char>, 0, seq::Lz4FlatEncoder, 2048> vec(
 		std::istreambuf_iterator<char>(fin),
 		std::istreambuf_iterator<char>());
 

@@ -10,7 +10,7 @@ All references and iterators are invalidated when inserting/removing keys.
 
 ``seq::flat_set`` provides a similar interface to std::set (C++17) with the following differences:
 -	The node related functions are not implemented,
--	The member `flat_set::pos()` is used to access to a random location,
+-	The member `flat_set::pos()` is used to access elements at a random location,
 -	The members `flat_set::tvector()` returns a reference to the underlying seq::tiered_vector object,
 -	Its iterator and const_iterator types are random access iterators.
 
@@ -60,7 +60,7 @@ The following table show the results when compiled with gcc 10.1.0 (-O3) for msy
 -	Walk through the full set (1M double) using iterators
 -	Successfull find and erase all 1M double one by one using set_class::erase(iterator)
 
-Note the the given memory is NOT the memory foorprint of the container, but the one of the full program. It should be used relatively to compare memory usage difference between each container.
+Note the the given memory is NOT the memory footprint of the container, but the one of the full program. It should be used relatively to compare memory usage difference between each container.
 
 Set name                      |   Insert(range)    |       Insert       |Insert(failed) |Find (success) | Find (failed) |    Iterate    |     Erase     |
 ------------------------------|--------------------|--------------------|---------------|---------------|---------------|---------------|---------------|

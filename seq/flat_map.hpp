@@ -1010,7 +1010,7 @@ namespace seq
 	///		-	Walk through the full set (1M double) using iterators
 	///		-	Successfull find and erase all 1M double one by one using set_class::erase(iterator)
 	/// 
-	/// Note the the given memory is NOT the memory foorprint of the container, but the one of the full program. It should be used relatively to compare
+	/// Note the the given memory is NOT the memory footprint of the container, but the one of the full program. It should be used relatively to compare
 	/// memory usage difference between each container.
 	/// 
 	///	Set name                      |   Insert(range)    |       Insert       |Insert(failed) |Find (success) | Find (failed) |    Iterate    |     Erase     |

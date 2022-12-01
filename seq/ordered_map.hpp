@@ -992,7 +992,7 @@ namespace seq
 	/// @tparam Layout memory layout used by the underlying sequence object
 	/// 
 	/// seq::ordered_set is a open addressing hash table using robin hood hashing and backward shift deletion. Its main properties are:
-	///		-	Keys are ordered by insertion order. Therefore, ordered_set provides the additional members push_back(), push_front(), emplace_back() and emplace_front() to constrol key ordering.
+	///		-	Keys are ordered by insertion order. Therefore, ordered_set provides the additional members push_back(), push_front(), emplace_back() and emplace_front() to control key ordering.
 	///		-	Since the container is ordered, it is also sortable. ordered_set provides the additional members sort() and stable_sort() for this purpose.
 	///		-	The hash table itself basically stores iterators to a seq::sequence object storing the actual values. Therefore, seq::ordered_set provides <b>stable references
 	///			and iterators, even on rehash</b> (unlike std::unordered_set that invalidates iterators on rehash).

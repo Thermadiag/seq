@@ -52,7 +52,7 @@ namespace seq
 
 	namespace detail
 	{
-		template<class T, bool Wide = (sizeof(T) > 16) >
+		template<class T, bool Wide = (sizeof(T) >= 16) >
 		struct lower_bound
 		{
 			template<class U, class Le>
@@ -3842,6 +3842,7 @@ namespace seq
 		auto upper_bound(const U& value, const Less & le = Less()) const noexcept -> size_t
 		{
 			static_assert(!std::is_same< detail::NullValueCompare<T>, ValueCompare>::value, "upper_bound can only be used by flat_map/set containers");
+			static constexpr size_t end_of_probe = sizeof(T) >= 16 ? 8 : 32;
 
 			if (!d_manager)
 				return 0;
@@ -3855,7 +3856,7 @@ namespace seq
 			size_t size = (buckets.size() - low);
 
 
-			while (SEQ_LIKELY(size > 8)) {
+			while (SEQ_LIKELY(size > end_of_probe)) {
 				size_t half = size >> 1ULL;
 				size_t other_half = size - half;
 				size_t probe = low + half;
@@ -3871,7 +3872,6 @@ namespace seq
 				low = le(value, buckets[probe].back()) ? low : other_low;
 
 			}
-
 			size += low;
 			for (; low < size; ++low) {
 				if (le(value, buckets[low].back()))
@@ -3887,36 +3887,23 @@ namespace seq
 			auto* bucket = buckets[b_index].bucket;
 
 
-			//find bucket
-			size = static_cast<size_t>(bucket->size);
-			low = 0;
+			{
+				int _size = static_cast<int>(bucket->size);
+				int _low = 0;
 
+				while (SEQ_LIKELY(_size > 0)) {
+					int half = _size >> 1LL;
+					int other_half = _size - half;
+					int probe = _low + half;
+					int other_low = _low + other_half;
+					_size = half;
+					_low = le(value, (*bucket)[static_cast<detail::cbuffer_pos>(probe)]) ? _low : other_low;
+				}
 
-			while (SEQ_LIKELY(size > 8)) {
-				size_t half = size >> 1LL;
-				size_t other_half = size - half;
-				size_t probe = low + half;
-				size_t other_low = low + other_half;
-				size = half;
-				low = le(value, (*bucket)[static_cast<detail::cbuffer_pos>(probe)]) ? low : other_low;
-
-				half = size >> 1LL;
-				other_half = size - half;
-				probe = low + half;
-				other_low = low + other_half;
-				size = half;
-				low = le(value, (*bucket)[static_cast<detail::cbuffer_pos>(probe)]) ? low : other_low;
+				if (b_index != 0)
+					return static_cast<size_t>(_low) + static_cast<size_t>(buckets[0]->size) + (b_index - 1) * static_cast<size_t>((bucket)->max_size_);
+				return static_cast<size_t>(_low);
 			}
-
-			size += low;
-			for (; low < size; ++low) {
-				if (le(value, (*bucket)[static_cast<detail::cbuffer_pos>(low)]))
-					break;
-			}
-
-			if (b_index != 0)
-				low += static_cast<size_t>(buckets[0]->size) + (b_index - 1) * static_cast<size_t>((bucket)->max_size_);
-			return low;
 		}
 
 		/// @brief Unstable sorting

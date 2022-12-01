@@ -54,6 +54,9 @@ var hierarchy =
     [ "seq::detail::apply_wrapper< Element >", "structseq_1_1detail_1_1apply__wrapper.html", null ],
     [ "seq::assign_alloc< Allocator >", "structseq_1_1assign__alloc.html", null ],
     [ "seq::detail::atomic_bool_locker", "structseq_1_1detail_1_1atomic__bool__locker.html", null ],
+    [ "bad_function_call", null, [
+      [ "seq::bad_any_function_call", "classseq_1_1bad__any__function__call.html", null ]
+    ] ],
     [ "Base", null, [
       [ "seq::any_default_interface::any_interface< Base >", "structseq_1_1any__default__interface_1_1any__interface.html", null ],
       [ "seq::any_no_hash_interface::any_interface< Base >", "structseq_1_1any__no__hash__interface_1_1any__interface.html", null ]
@@ -258,13 +261,13 @@ var hierarchy =
     [ "seq::detail::GetP< N, T1, Ts... >", "structseq_1_1detail_1_1_get_p_3_01_n_00_01_t1_00_01_ts_8_8_8_01_4.html", null ],
     [ "seq::detail::GetStaticSize< T >", "structseq_1_1detail_1_1_get_static_size.html", null ],
     [ "seq::detail::GetStaticSize< tiny_string< Size, Al > >", "structseq_1_1detail_1_1_get_static_size_3_01tiny__string_3_01_size_00_01_al_01_4_01_4.html", null ],
-    [ "hash", null, [
-      [ "seq::detail::HashEqual< std::hash< Key >, std::equal_to< Key > >", "structseq_1_1detail_1_1_hash_equal.html", null ]
-    ] ],
     [ "Hash", null, [
       [ "seq::detail::HashEqual< Hash, Equal >", "structseq_1_1detail_1_1_hash_equal.html", null ],
       [ "seq::detail::HashEqual< Hash, Equal, EmptyHash, EmptyEqual >", "structseq_1_1detail_1_1_hash_equal.html", null ],
       [ "seq::detail::HashEqual< Hash, Equal, false, true >", "structseq_1_1detail_1_1_hash_equal_3_01_hash_00_01_equal_00_01false_00_01true_01_4.html", null ]
+    ] ],
+    [ "hash", null, [
+      [ "seq::detail::HashEqual< std::hash< Key >, std::equal_to< Key > >", "structseq_1_1detail_1_1_hash_equal.html", null ]
     ] ],
     [ "std::hash< seq::hold_any< Interface, S, A, R > >", "classstd_1_1hash_3_01seq_1_1hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_01_4.html", null ],
     [ "std::hash< seq::tiny_string< Size, Allocator > >", "classstd_1_1hash_3_01seq_1_1tiny__string_3_01_size_00_01_allocator_01_4_01_4.html", null ],
@@ -334,6 +337,10 @@ var hierarchy =
       [ "seq::detail::RawBuffer< T, block_size >", "structseq_1_1detail_1_1_raw_buffer.html", null ]
     ] ],
     [ "seq::detail::flat_tree< Key, Value, Compare, Allocator, layout, Stable, Unique >::Less", "structseq_1_1detail_1_1flat__tree_1_1_less.html", null ],
+    [ "Less", null, [
+      [ "seq::detail::BaseTree< Key, Value, Less >", "structseq_1_1detail_1_1_base_tree.html", null ],
+      [ "seq::detail::BaseTree< Key, Key, Less >", "structseq_1_1detail_1_1_base_tree_3_01_key_00_01_key_00_01_less_01_4.html", null ]
+    ] ],
     [ "less", null, [
       [ "seq::detail::BaseTree< Key, Key, std::less< Key > >", "structseq_1_1detail_1_1_base_tree.html", [
         [ "seq::detail::flat_tree< Key, Key, std::less< Key >, std::allocator< Key >, layout, Stable, Unique >", "structseq_1_1detail_1_1flat__tree.html", null ],
@@ -343,10 +350,6 @@ var hierarchy =
       [ "seq::detail::BaseTree< Key, std::pair< Key, T >, std::less< Key > >", "structseq_1_1detail_1_1_base_tree.html", [
         [ "seq::detail::flat_tree< Key, std::pair< Key, T >, std::less< Key >, std::allocator< std::pair< Key, T > >, OptimizeForMemory, false, true >", "structseq_1_1detail_1_1flat__tree.html", null ]
       ] ]
-    ] ],
-    [ "Less", null, [
-      [ "seq::detail::BaseTree< Key, Value, Less >", "structseq_1_1detail_1_1_base_tree.html", null ],
-      [ "seq::detail::BaseTree< Key, Key, Less >", "structseq_1_1detail_1_1_base_tree_3_01_key_00_01_key_00_01_less_01_4.html", null ]
     ] ],
     [ "seq::linear_object_allocation< MaxSize, MinCapacity >", "structseq_1_1linear__object__allocation.html", null ],
     [ "seq::linear_object_allocation< 64 >", "structseq_1_1linear__object__allocation.html", [
@@ -401,12 +404,12 @@ var hierarchy =
     [ "seq::pow_object_allocation< MaxSize, MinSize, MinCapacity >", "structseq_1_1pow__object__allocation.html", null ],
     [ "seq::random_float_genertor< Float >", "classseq_1_1random__float__genertor.html", null ],
     [ "seq::detail::allocator_for_shared_ptr< T, Pool >::rebind< U >", "structseq_1_1detail_1_1allocator__for__shared__ptr_1_1rebind.html", null ],
+    [ "seq::aligned_allocator< T, std::allocator< T >, Align >::rebind< U >", "structseq_1_1aligned__allocator_3_01_t_00_01std_1_1allocator_3_01_t_01_4_00_01_align_01_4_1_1rebind.html", null ],
     [ "seq::object_pool< T, Allocator, Align, object_allocation, EnableUniquePtr, GenerateStats >::rebind< U >", "structseq_1_1object__pool_1_1rebind.html", null ],
-    [ "seq::external_allocator< T, External >::rebind< U >", "structseq_1_1external__allocator_1_1rebind.html", null ],
-    [ "seq::parallel_object_pool< T, Allocator, Align, object_allocation, GenerateStats >::rebind< U >", "structseq_1_1parallel__object__pool_1_1rebind.html", null ],
     [ "seq::object_allocator< Pool >::rebind< U >", "structseq_1_1object__allocator_1_1rebind.html", null ],
     [ "seq::aligned_allocator< T, Allocator, Align >::rebind< U >", "structseq_1_1aligned__allocator_1_1rebind.html", null ],
-    [ "seq::aligned_allocator< T, std::allocator< T >, Align >::rebind< U >", "structseq_1_1aligned__allocator_3_01_t_00_01std_1_1allocator_3_01_t_01_4_00_01_align_01_4_1_1rebind.html", null ],
+    [ "seq::parallel_object_pool< T, Allocator, Align, object_allocation, GenerateStats >::rebind< U >", "structseq_1_1parallel__object__pool_1_1rebind.html", null ],
+    [ "seq::external_allocator< T, External >::rebind< U >", "structseq_1_1external__allocator_1_1rebind.html", null ],
     [ "RebindAlloc", null, [
       [ "seq::detail::DEVectorData< StoreBucketType, RebindAlloc< StoreBucketType >, OptimizeForBothEnds >", "structseq_1_1detail_1_1_d_e_vector_data.html", [
         [ "seq::devector< StoreBucketType, RebindAlloc< StoreBucketType > >", "classseq_1_1devector.html", null ]

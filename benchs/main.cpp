@@ -114,7 +114,19 @@ struct statefull_alloc : public std::allocator<T>
 
 int  main  (int , char** )
 { 
-	test_hash<double, std::hash<double> >(10000000, [](size_t i) { return (i * UINT64_C(0xc4ceb9fe1a85ec53)); });
+	// Test hash set with seq::any
+	test_map<seq::r_any>(1000000, [](size_t i)
+		{
+			size_t idx = i & 3U;
+			switch (idx) {
+			case 0:return seq::r_any(i * UINT64_C(0xc4ceb9fe1a85ec53));
+			case 1:return seq::r_any((double)(i * UINT64_C(0xc4ceb9fe1a85ec53)));
+			default:return seq::r_any(generate_random_string<tstring>(14, true));
+			}
+		}
+	);
+
+	/*test_hash<double, std::hash<double> >(10000000, [](size_t i) { return (i * UINT64_C(0xc4ceb9fe1a85ec53)); });
 	test_hash<std::string, std::hash<std::string> >(5000000, [](size_t i) { return generate_random_string<std::string>(14, true); });
 	test_hash<tstring, std::hash<tstring> >(5000000, [](size_t i) { return generate_random_string<tstring>(14, true); });
 	// Test hash set with seq::any
@@ -130,7 +142,7 @@ int  main  (int , char** )
 		}
 	);
 
-
+	
 	test_map<double>(1000000, [](size_t i) { return (i * UINT64_C(0xc4ceb9fe1a85ec53)); });
 	test_map<tiny_string<>>(1000000, [](size_t i) { return generate_random_string<tiny_string<>>(14, true); });
 
@@ -159,7 +171,7 @@ int  main  (int , char** )
 
 	// last benchmark, as strtold is buggy on gcc
 	test_read_numeric<long double>(1000000);
-
+	*/
 	
 
 

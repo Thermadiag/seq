@@ -56,6 +56,10 @@ inline size_t convert_to_size_t(const std::string& v)
 {
 	return static_cast<size_t>(v.size());
 }
+template<class Interface, size_t S, size_t A, bool R>
+inline size_t convert_to_size_t(const seq::hold_any<Interface, S, A, R>& t) {
+	return reinterpret_cast<size_t>(t.data());
+}
 
 template<class C>
 struct is_boost_map : std::false_type {};
@@ -230,7 +234,7 @@ void test_set(const char * name,  const std::vector<U> & vec, Format f)
 	{
 		tick();
 		for (size_t i = 0; i < success.size(); ++i) {
-			auto it = set.find(success[i]);
+			typename C::const_iterator it = set.find(success[i]);
 			if (it != set.end())
 				set.erase(it);
 		}

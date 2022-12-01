@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ratio_2918',['Ratio',['../namespaceseq.html#a5e3fb67407700bab4c66e60c7f7365c7aead4f34f60237cc1a99223296ae6b1ef',1,'seq']]]
+  ['scientific_2923',['scientific',['../namespaceseq.html#a19a45e1f866d73140819b9ea2280c682af715ab801ec116cdbb4a7f7541e46166',1,'seq']]],
+  ['stackpointer_2924',['StackPointer',['../namespaceseq.html#affae767f96f2af9924f7c6f3bdd4c72aafb05ed7193c8b361ae6679027a774673',1,'seq']]]
 ];
