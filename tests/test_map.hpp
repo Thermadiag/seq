@@ -93,15 +93,15 @@ inline void test_flat_set_or_multi_logic()
 	using value_type = typename set_type::value_type;
 	{
 		//test construct from initializer list
-		set_type set = { 1,9,2,8,3,7,4,6,5,2, 7 };
-		std_set_type uset = { 1,9,2,8,3,7,4,6,5, 2, 7 };
+		set_type set = { 1.,9.,2.,8.,3.,7.,4.,6.,5.,2., 7. };
+		std_set_type uset = { 1.,9.,2.,8.,3.,7.,4.,6.,5.,2., 7. };
 		SEQ_TEST(set_equals(set, uset));
 		SEQ_TEST(!set.empty());
 		SEQ_TEST(set.max_size() > 0);
 	}
 	{
 		//construct from range
-		std::vector<double> v = { 1,9,2,8,3,7,4,6,5,2, 7 };
+		std::vector<double> v = { 1.,9.,2.,8.,3.,7.,4.,6.,5.,2., 7. };
 		set_type set(v.begin(), v.end());
 		std_set_type uset(v.begin(), v.end());
 		SEQ_TEST(set_equals(set, uset));
@@ -193,8 +193,8 @@ inline void test_flat_set_or_multi_logic()
 	
 	{
 		//test swap/move
-		set_type set, set2 = { 1,9,2,8,3,7,4,6,5,2, 7 };
-		std_set_type uset, uset2 = { 1,9,2,8,3,7,4,6,5, 2, 7 };
+		set_type set, set2 = { 1.,9.,2.,8.,3.,7.,4.,6.,5.,2., 7. };
+		std_set_type uset, uset2 = { 1.,9.,2.,8.,3.,7.,4.,6.,5.,2., 7. };
 
 		{
 			//manual move
@@ -445,15 +445,15 @@ inline void test_flat_map_or_multi_logic()
 	using namespace seq;
 	{
 		//test construct from initializer list
-		map_type set = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
-		umap_type uset = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
+		map_type set = { {1.,1.},{9.,9.},{2.,2.},{8.,8.},{3.,3.},{7.,7.},{4.,4.},{6.,6.},{5.,5.},{2.,2.}, {7.,7.} };
+		umap_type uset = { {1.,1.},{9.,9.},{2.,2.},{8.,8.},{3.,3.},{7.,7.},{4.,4.},{6.,6.},{5.,5.},{2.,2.}, {7.,7.} };
 		SEQ_TEST(map_equals(set, uset));
 		SEQ_TEST(!set.empty());
 		SEQ_TEST(set.max_size() > 0);
 	}
 	{
 		//construct from range
-		std::vector<std::pair<double, double> > v = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
+		std::vector<std::pair<double, double> > v = { {1.,1.},{9.,9.},{2.,2.},{8.,8.},{3.,3.},{7.,7.},{4.,4.},{6.,6.},{5.,5.},{2.,2.}, {7.,7.} };
 		map_type set(v.begin(), v.end());
 		umap_type uset(v.begin(), v.end());
 		SEQ_TEST(map_equals(set, uset));
@@ -614,8 +614,8 @@ inline void test_flat_map_or_multi_logic()
 	}
 	{
 		//test swap/move
-		map_type set, set2 = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
-		umap_type uset, uset2 = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
+		map_type set, set2 = { {1.,1.},{9.,9.},{2.,2.},{8.,8.},{3.,3.},{7.,7.},{4.,4.},{6.,6.},{5.,5.},{2.,2.}, {7.,7.} };
+		umap_type uset, uset2 = { {1.,1.},{9.,9.},{2.,2.},{8.,8.},{3.,3.},{7.,7.},{4.,4.},{6.,6.},{5.,5.},{2.,2.}, {7.,7.} };
 
 		{
 			//manual move
@@ -683,15 +683,15 @@ inline void test_flat_multimap_logic()
 	using namespace seq;
 	{
 		//test construct from initializer list
-		map_type set = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
-		umap_type uset = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
+		map_type set = { {1.,1.},{9.,9.},{2.,2.},{8.,8.},{3.,3.},{7.,7.},{4.,4.},{6.,6.},{5.,5.},{2.,2.}, {7.,7.} };
+		umap_type uset = { {1.,1.},{9.,9.},{2.,2.},{8.,8.},{3.,3.},{7.,7.},{4.,4.},{6.,6.},{5.,5.},{2.,2.}, {7.,7.} };
 		SEQ_TEST(map_equals(set, uset));
 		SEQ_TEST(!set.empty());
 		SEQ_TEST(set.max_size() > 0);
 	}
 	{
 		//construct from range
-		std::vector<std::pair<double, double> > v = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
+		std::vector<std::pair<double, double> > v = { {1.,1.},{9.,9.},{2.,2.},{8.,8.},{3.,3.},{7.,7.},{4.,4.},{6.,6.},{5.,5.},{2.,2.}, {7.,7.} };
 		map_type set(v.begin(), v.end());
 		umap_type uset(v.begin(), v.end());
 		SEQ_TEST(map_equals(set, uset));
@@ -798,8 +798,8 @@ inline void test_flat_multimap_logic()
 	}
 	{
 		//test swap/move
-		map_type set, set2 = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
-		umap_type uset, uset2 = { {1,1},{9,9},{2,2},{8,8},{3,3},{7,7},{4,4},{6,6},{5,5},{2,2}, {7,7} };
+		map_type set, set2 = { {1.,1.},{9.,9.},{2.,2.},{8.,8.},{3.,3.},{7.,7.},{4.,4.},{6.,6.},{5.,5.},{2.,2.}, {7.,7.} };
+		umap_type uset, uset2 = { {1.,1.},{9.,9.},{2.,2.},{8.,8.},{3.,3.},{7.,7.},{4.,4.},{6.,6.},{5.,5.},{2.,2.}, {7.,7.} };
 
 		{
 			//manual move

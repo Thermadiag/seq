@@ -1202,11 +1202,16 @@ namespace seq
 		struct FindBucketSize
 		{
 			auto  operator() (size_t size, cbuffer_pos MinBSize, cbuffer_pos MaxBSize) const noexcept -> cbuffer_pos {
-				if (size < static_cast<size_t>(MinBSize)) return static_cast<cbuffer_pos>(MinBSize);
-
-				// For now, select bigger chunk size as moving objects inside is faster than moving objects between chunks
-				{unsigned bits = (bit_scan_reverse(size) >> 1) + 2;// log2 / 2 +2
-				return static_cast<cbuffer_pos>(std::max(MinBSize, std::min(MaxBSize, static_cast<cbuffer_pos>(1U << bits)))); }
+				cbuffer_pos res;
+				if (size < static_cast<size_t>(MinBSize)) 
+					res = static_cast<cbuffer_pos>(MinBSize);
+				else {
+					// For now, select bigger chunk size as moving objects inside is faster than moving objects between chunks
+					unsigned bits = (bit_scan_reverse(size) >> 1) + 2;// log2 / 2 +2
+					res = static_cast<cbuffer_pos>(std::max(MinBSize, std::min(MaxBSize, static_cast<cbuffer_pos>(1U << bits))));
+				}
+				//std::cout << size << ": " << res << " ("<< MinBSize<<","<< MaxBSize<<")"<<std::endl;
+				return res;
 			}
 		};
 
@@ -2770,10 +2775,13 @@ namespace seq
 
 	public:
 
-		enum {
+		/*enum {
 			min_block_size = MinBSize,
 			max_block_size = MaxBSize > SEQ_MAX_BUCKET_SIZE ? SEQ_MAX_BUCKET_SIZE : MaxBSize
-		};
+		};*/
+		static constexpr detail::cbuffer_pos min_block_size = static_cast<detail::cbuffer_pos>(MinBSize);
+		static constexpr detail::cbuffer_pos max_block_size = MaxBSize > SEQ_MAX_BUCKET_SIZE ? static_cast<detail::cbuffer_pos>(SEQ_MAX_BUCKET_SIZE) : static_cast<detail::cbuffer_pos>(MaxBSize);
+
 		static_assert(((min_block_size - 1)& min_block_size) == 0, "Minimum block size must be a power of 2");
 		static_assert(((max_block_size - 1)& max_block_size) == 0, "Maximum block size must be a power of 2");
 
@@ -2825,9 +2833,10 @@ namespace seq
 	
 		// Update the bucket size if necessary, used when inserting/deleting single elements
 		SEQ_ALWAYS_INLINE void update_bucket_size() {
-			static constexpr size_t mask = (min_block_size * min_block_size) - 1ULL;
+			static constexpr size_t mul_factor = (min_block_size < 8U) ? 8U : min_block_size;
+			static constexpr size_t mask = (mul_factor * mul_factor) - 1ULL;
 			// Check the bucket size every (min_block_size * min_block_size) insertions/deletions
-			if (SEQ_UNLIKELY(min_block_size != max_block_size && /*manager()->isPow2Size()*/(size() & mask)==0))
+			if (SEQ_UNLIKELY(min_block_size != max_block_size && /*manager()->isPow2Size()*/(size() < 64U || (size() & mask)==0)))
 				check_bucket_size();
 		}
 		// Find bucket size based on full tiered_vector size

@@ -114,7 +114,6 @@ struct statefull_alloc : public std::allocator<T>
 
 int  main  (int , char** )
 { 
-	
 	test_hash<double, std::hash<double> >(10000000, [](size_t i) { return (i * UINT64_C(0xc4ceb9fe1a85ec53)); });
 	test_hash<std::string, std::hash<std::string> >(5000000, [](size_t i) { return generate_random_string<std::string>(14, true); });
 	test_hash<tstring, std::hash<tstring> >(5000000, [](size_t i) { return generate_random_string<tstring>(14, true); });

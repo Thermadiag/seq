@@ -1804,7 +1804,7 @@ namespace seq
 			}
 			catch (...) {
 				// free memory if needed
-				if (d && sizeof(type) > static_size)
+				if (d && (this->d_type_info.tag() & detail::big_size))
 					SEQ_ANY_FREE(d);
 				// reset type info
 				this->d_type_info.set_full(0);
@@ -1914,7 +1914,7 @@ namespace seq
 				}
 				catch (...) {
 					// free memory chunk if needed
-					if (d && sizeof(type) > static_size)
+					if (d && (this->d_type_info.tag() & detail::big_size))
 						SEQ_ANY_FREE(d);
 					// reset type info pointer and tags
 					this->d_type_info.set_full(0);

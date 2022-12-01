@@ -48,6 +48,7 @@ using namespace seq;
 auto  main  (int  /*unused*/, char**  /*unused*/) -> int
 {
 	print_features();
+	print_simd_features();
 
 	SEQ_TEST_MODULE(format, test_format());
 	SEQ_TEST_MODULE(any, test_any());

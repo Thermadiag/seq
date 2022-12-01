@@ -101,10 +101,10 @@
 
 
 	// other x86 intrinsics
-#if defined(VIP_PROCESSOR_X86) && ((defined(VIP_CC_GNU) && (VIP_CC_GNU >= 404)) \
-    || (defined(VIP_CC_CLANG) && (VIP_CC_CLANG >= 208)) \
-    || defined(VIP_CC_INTEL))
-#  ifdef VIP_CC_INTEL
+#if defined(_M_IX86) && ((defined(__GNUC__) && (__GNUC__ >= 4)) \
+    || (defined(__clang_major__) && (__clang_major__ >= 2)) \
+    || defined(__INTEL_COMPILER))
+#  ifdef __INTEL_COMPILER
 	// The Intel compiler has no <x86intrin.h> -- all intrinsics are in <immintrin.h>;
 #    include <immintrin.h>
 #  else
@@ -124,24 +124,48 @@
 #endif
 #endif
 	// AArch64/ARM64
-#if defined(VIP_PROCESSOR_ARM_V8) && defined(__ARM_FEATURE_CRC32)
+#if (defined(_M_ARM64) || defined(__arm__)) && defined(__ARM_FEATURE_CRC32)
 #  include <arm_acle.h>
 #endif
 
 #include <cstdint>
 #include <type_traits>
+#include <iostream>
 
-union alignas(16) hse_vector {
-	char i8[16];
-	unsigned char u8[16];
-	unsigned short u16[8];
-	std::uint32_t u32[4];
-	//__m128i simd;
-} ; //assume always aligned to 16 bytes
+namespace seq
+{
+	inline void print_simd_features()
+	{
+#ifdef __SSE2__
+		std::printf("Has SSE2\n");
+#endif
+#ifdef __SSE3__
+		std::printf("Has SSE3\n");
+#endif
+#ifdef __SSE4_1__
+		std::printf("Has SSE4.1\n");
+#endif
+#ifdef __AVX__
+		std::printf("Has AVX\n");
+#endif
+#ifdef __AVX2__
+		std::printf("Has AVX2\n");
+#endif
+	}
 
-static inline const __m128i& __get(const hse_vector& v) {
-	return *reinterpret_cast<const __m128i*>( & v); }
-static inline void __set(hse_vector& v, const __m128i& sse) {
-	_mm_store_si128(reinterpret_cast<__m128i*>( &v), sse); }
+	union alignas(16) hse_vector {
+		char i8[16];
+		unsigned char u8[16];
+		unsigned short u16[8];
+		std::uint32_t u32[4];
+	};
 
-typedef hse_vector hse_array_type[16];
+	static inline const __m128i& __get(const hse_vector& v) {
+		return *reinterpret_cast<const __m128i*>(&v);
+	}
+	static inline void __set(hse_vector& v, const __m128i& sse) {
+		_mm_store_si128(reinterpret_cast<__m128i*>(&v), sse);
+	}
+
+	typedef hse_vector hse_array_type[16];
+}

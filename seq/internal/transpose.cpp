@@ -311,6 +311,8 @@ namespace seq
 			return value;
 		}
 
+#ifdef __SSE4_1__ // for _mm_extract_epi64
+
 		static inline void tp128_8x8(const unsigned char* A, unsigned char* B, const int lda, const int ldb)
 		{
 			//see https://stackoverflow.com/questions/42162270/a-better-8x8-bytes-matrix-transpose-with-sse?rq=1
@@ -363,6 +365,8 @@ namespace seq
 			}
 		}
 
+#endif
+
 		static inline void extractBytes_generic(std::uint32_t BPP, const char* src, std::uint32_t , hse_array_type* out_arrays)
 		{
 			char* out = reinterpret_cast<char*>(out_arrays);
@@ -380,9 +384,11 @@ namespace seq
 		if (BPP >= 16 && (BPP & 15) == 0) {
 			detail::transpose_block_SSE16x16(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(aligned_dst), 256, static_cast<int>(BPP));
 		}
+#ifdef __SSE4_1__
 		else if (BPP >= 8 && (BPP & 7) == 0) {
 			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(aligned_dst), 256, static_cast<int>(BPP));
 		}
+#endif
 		else {
 			switch (BPP) {
 			case 1: detail::extract1Byte(src, reinterpret_cast<hse_array_type*>(aligned_dst)); break;
@@ -399,9 +405,11 @@ namespace seq
 		if (BPP >= 16 && (BPP & 15) == 0) {
 			detail::transpose_block_SSE16x16_u(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), 256);
 		}
+#ifdef __SSE4_1__
 		else if (BPP >= 8 && (BPP & 7) == 0 ) {
 			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), 256);
 		}
+#endif
 		else {
 			for (unsigned y = 0; y < BPP; ++y) {
 				char* d = dst + y;
@@ -420,9 +428,11 @@ namespace seq
 		if (BPP >= 16 && (BPP & 15) == 0) {
 			detail::transpose_block_SSE16x16(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(block_size), static_cast<int>(BPP));
 		}
+#ifdef __SSE4_1__
 		else if (BPP >= 8 && (BPP & 7) == 0) {
 			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(block_size), static_cast<int>(BPP));
 		}
+#endif
 		else {
 			for (unsigned y = 0; y < block_size; ++y)
 				for (unsigned x = 0; x < BPP; x++) {
@@ -436,9 +446,11 @@ namespace seq
 		if (BPP >= 16 && (BPP & 15) == 0) {
 			detail::transpose_block_SSE16x16_u(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), static_cast<int>(block_size));
 		}
+#ifdef __SSE4_1__
 		else if (BPP >= 8 && (BPP & 7) == 0) {
 			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), static_cast<int>(block_size));
 		}
+#endif
 		else {
 			
 			for (unsigned y = 0; y < BPP; ++y) {

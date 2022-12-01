@@ -119,7 +119,7 @@ namespace seq
 		}
 
 		/// @brief Horizontal sum of 16 unsigned bytes
-		static inline uint32_t _mm_sum_epu8(__m128i v)
+		static inline uint32_t hsum_epu8(__m128i v)
 		{
 			__m128i vsum = _mm_sad_epu8(v, _mm_setzero_si128());
 			return static_cast<uint32_t>( _mm_extract_epi16(vsum, 0) + _mm_extract_epi16(vsum, 4));
@@ -141,6 +141,36 @@ namespace seq
 			return _mm_or_si128(_mm_slli_epi16(dst_odd, 8), _mm_srli_epi16(_mm_slli_epi16(dst_even, 8), 8));
 #endif
 		}
+
+
+
+		static inline __m128i min_epi8(__m128i a, __m128i b)
+		{
+#ifdef __SSE4_1__
+			return _mm_min_epi8(a, b);
+#else
+			// simulate _mm_min_epi8 with SSE3 at most
+			__m128i _a = _mm_add_epi8(a, _mm_set1_epi8(static_cast<char>(128)));
+			__m128i _b = _mm_add_epi8(b, _mm_set1_epi8(static_cast<char>(128)));
+			__m128i r = _mm_min_epu8(_a, _b);
+			return _mm_sub_epi8(r, _mm_set1_epi8(static_cast<char>(128)));
+#endif
+		}
+
+		static inline __m128i max_epi8(__m128i a, __m128i b)
+		{
+#ifdef __SSE4_1__
+			return _mm_max_epi8(a, b);
+#else
+			// simulate _mm_max_epi8 with SSE3 at most
+			__m128i _a = _mm_add_epi8(a, _mm_set1_epi8(static_cast<char>(128)));
+			__m128i _b = _mm_add_epi8(b, _mm_set1_epi8(static_cast<char>(128)));
+			__m128i r = _mm_max_epu8(_a, _b);
+			return _mm_sub_epi8(r, _mm_set1_epi8(static_cast<char>(128)));
+#endif
+		}
+
+
 
 		/// @brief Process block of 256 elements and find the best compression method for each row of 16 elements: bit packing, delta coding or rle.
 		static inline unsigned findPackBitsParams(hse_vector* src, hse_vector* trs, unsigned char first, PackBits* pack, unsigned level, unsigned acceleration)
@@ -165,11 +195,11 @@ namespace seq
 				tr_row = __get(trs[i]);
 				if (pack->all_same)
 					pack->all_same &= (_mm_movemask_epi8(_mm_cmpeq_epi32(tr_row, first_val)) == 0xFFFF);
-				min = _mm_min_epi8(min, tr_row);
-				max = _mm_max_epi8(max, tr_row);
+				min = min_epi8(min, tr_row);
+				max = max_epi8(max, tr_row);
 				sub = _mm_sub_epi8(tr_row, tr_prev);
-				min_sub = _mm_min_epi8(min_sub, sub);
-				max_sub = _mm_max_epi8(max_sub, sub);
+				min_sub = min_epi8(min_sub, sub);
+				max_sub = max_epi8(max_sub, sub);
 				tr_prev = tr_row;
 			}
 
@@ -216,7 +246,7 @@ namespace seq
 				memset(&pack->use_rle, 0, sizeof(pack->use_rle));
 				//count number of 8
 				unsigned count_8 = seq::popcnt16(static_cast<unsigned short>(_mm_movemask_epi8(_mm_cmpeq_epi8(bits, _mm_set1_epi8(8)))));
-				unsigned full_size = (_mm_sum_epu8(bits)) * 2 + 16 + 8 - count_8;
+				unsigned full_size = (hsum_epu8(bits)) * 2 + 16 + 8 - count_8;
 				return full_size;
 			}
 
@@ -233,8 +263,8 @@ namespace seq
 			unsigned mmask = static_cast<unsigned>(_mm_movemask_epi8(use_rle));
 			pack->has_rle = mmask != 0;
 
-			sizes = _mm_min_epi8(sizes, rle_size);
-			unsigned sum = _mm_sum_epu8(sizes) + 8;
+			sizes = min_epi8(sizes, rle_size);
+			unsigned sum = hsum_epu8(sizes) + 8;
 			return sum;
 		}
 

@@ -870,6 +870,7 @@ namespace seq
 		/// 
 		struct Data : layout_manager
 		{
+			using difference_type = typename std::allocator_traits<Allocator>::difference_type;
 			using chunk_type = detail::list_chunk<T>;
 			detail::base_list_chunk<T> end;									//end chunk
 			std::size_t size;												//full size
