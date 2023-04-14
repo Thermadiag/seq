@@ -59,19 +59,19 @@ Note that tiny_string is only relocatable if the allocator itself is relocatable
 
 A (very) simple test to measure potential performance gain using tstring is to push back small tstring objects in a std::vector object. The following table displays performance measurements when inserting 10000000 std::string and tstring objects of size 13 in std::vector and seq::devector (gcc 10.1.0 (-O3) for msys2 on Windows 10, using Intel(R) Core(TM) i7-10850H at 2.70GHz):
 
-    String type     |    std::vector     |   seq::devector    |
---------------------|--------------------|--------------------|
-    std::string     |        205 ms      |        202 ms      |
-    seq::tstring    |         98 ms      |         85 ms      |
+String type     |    std::vector     |   seq::devector    |
+----------------|--------------------|--------------------|
+std::string     |        205 ms      |        202 ms      |
+seq::tstring    |         98 ms      |         85 ms      |
 	
 The std::vector is faster when inserting tstring simply because the memory required is half the one of std::string. seq::devector is about 15% faster than std::vector for tstring objects as it is aware of its relocatable property and uses memcpy internally when the storage is growing.
 
 The performance difference is even more drastic when inserting 1000000 strings in a `seq::flat_set` container:
 
-    String type     | Insert (flat_set)  |
---------------------|--------------------|
-    std::string     |        2642 ms     |
-    seq::tstring    |        819 ms      |
+String type     | Insert (flat_set)  |
+----------------|--------------------|
+std::string     |        2642 ms     |
+seq::tstring    |        819 ms      |
 	
 Within the `seq` library, the following containers provide optimizations for relocatable types:
 -	random access containers: `seq::tiered_vector`, `seq::devector`, `seq::cvector`
