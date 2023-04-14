@@ -13,24 +13,24 @@ The *seq* containers are not necessarly drop-in replacement for their STL counte
 
 Currently, the *containers* module provide 5 types of containers:
 -	Sequential random-access containers: 
-	-	[seq::devector](devector.md): double ended vector that can be optimized for front operations, back operations or both. Similar interface to `std::deque`.
+	-	[seq::devector](docs/devector.md): double ended vector that can be optimized for front operations, back operations or both. Similar interface to `std::deque`.
 	-	[seq::tiered_vector](tiered_vector.md): tiered vector implementation optimized for fast insertion and deletion in the middle. Similar interface to `std::deque`.
-	-	[seq::cvector](cvector.md): vector-like class storing its values in a compressed way to reduce program memory footprint. Similar interface to `std::vector`.
+	-	[seq::cvector](docs/cvector.md): vector-like class storing its values in a compressed way to reduce program memory footprint. Similar interface to `std::vector`.
 -	Sequential stable non random-access container: `seq::sequence`, fast stable list-like container.
 -	Sorted containers: 
-	-	[seq::flat_set](flat_set.md) : flat set container similar to boost::flat_set but based on seq::tiered_vector and providing fast insertion/deletion of single elements.
+	-	[seq::flat_set](docs/flat_set.md) : flat set container similar to boost::flat_set but based on seq::tiered_vector and providing fast insertion/deletion of single elements.
 	-	`seq::flat_map`: associative version of `seq::flat_set`.
 	-	`seq::flat_multiset`: similar to `seq::flat_set` but supporting duplicate keys.
 	-	`seq::flat_multimap`: similar to `seq::flat_map` but supporting duplicate keys.
-	-	[seq::radix_set](radix_tree.md) : radix based sorted container with a similar interface to std::set. Provides very fast lookup.
+	-	[seq::radix_set](docs/radix_tree.md) : radix based sorted container with a similar interface to std::set. Provides very fast lookup.
 	-	`seq::radix_map`: associative version of `seq::radix_set`.
 -	Hash tables: 
-	-	[seq::ordered_set](ordered_set.md): Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket interface) with iterator/reference stability, and additional features (see class documentation).
+	-	[seq::ordered_set](docs/ordered_set.md): Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket interface) with iterator/reference stability, and additional features (see class documentation).
 	-	`seq::ordered_map`: associative version of `seq::ordered_set`.
-	-	[seq::radix_hash_set](radix_tree.md): radix based hash table with a similar interface to `std::unordered_set`. Uses incremental rehash, no memory peak.
+	-	[seq::radix_hash_set](docs/radix_tree.md): radix based hash table with a similar interface to `std::unordered_set`. Uses incremental rehash, no memory peak.
 	-	`seq::radix_hash_map`: associative version of `seq::radix_hash_set`.
 -	Strings:
-	-	[seq::tiny_string](tiny_string.md): string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
+	-	[seq::tiny_string](docs/tiny_string.md): string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
 
 See the <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/group__containers.html">documentation</a> of each class for more details.
 
@@ -69,9 +69,9 @@ Macro names are upper case and start with the `SEQ_` prefix.
 The directory structure is flat and use the "stuttering" scheme `seq/seq` used by many other libraries like boost.
 Including a file has the following syntax: `#include <seq/tiered_vector.hpp>`
 
-The `seq/seq/tests` subdirectory includes tests for all components, usually named `test_modulename.cpp`, and rely on CTest (shipped with CMake). The tests try to cover as much features as possible, but bugs might still be present. Do not hesitate to contact me if you discover something unusual.
-The `seq/seq/benchs` subdirectory includes benchmarks for some components, usually named `bench_modulename.cpp`, and rely on CTest. The benchmarks are performed against other libraries that are provided in the 'benchs' folder.
-The `seq/seq/docs` directory contains documentation using markdown format, and the `seq/seq/doc` directory contains the html documentation generated with doxygen (available <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/index.html">here</a>).
+The `seq/tests` subdirectory includes tests for all components, usually named `test_modulename.cpp`, and rely on CTest (shipped with CMake). The tests try to cover as much features as possible, but bugs might still be present. Do not hesitate to contact me if you discover something unusual.
+The `seq/benchs` subdirectory includes benchmarks for some components, usually named `bench_modulename.cpp`, and rely on CTest. The benchmarks are performed against other libraries that are provided in the 'benchs' folder.
+The `seq/docs` directory contains documentation using markdown format, and the `seq/doc` directory contains the html documentation generated with doxygen (available <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/index.html">here</a>).
 
 Build
 -----
@@ -85,14 +85,14 @@ Acknowledgements
 
 The only library dependency is <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters. The header `pdqsort.hpp` is included within the *seq* library.
 *seq* library also uses a modified version <a href="https://github.com/lz4/lz4">LZ4</a> that could be used with `cvector` class.
-Benchmarks (in `seq/seq/benchs`) compare the performances of the *seq* library with other great libraries that I use in personnal or professional projects:
+Benchmarks (in `seq/benchs`) compare the performances of the *seq* library with other great libraries that I use in personnal or professional projects:
 -	<a href="https://plflib.org/">plf</a>: used for the plf::colony container,
 -	<a href="https://github.com/greg7mdp/parallel-hashmap">phmap</a>: used for its phmap::btree_set and phmap::node_hash_set,
 -	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set and boost::unordered_set,
 -	<a href="https://github.com/martinus/robin-hood-hashing">robin-hood</a>: used for robin_hood::unordered_node_set,
 -	<a href="https://github.com/skarupke/flat_hash_map">ska</a>: used for ska::unordered_set.
 
-These libraries are included in the `seq/seq/benchs` folder (only a subset of boost is provided).
+These libraries are included in the `seq/benchs` folder (only a subset of boost is provided).
 
 
 seq:: library and this page Copyright (c) 2022, Victor Moncada
