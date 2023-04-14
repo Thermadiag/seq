@@ -11,6 +11,7 @@ var testing_8hpp =
     [ "random_float_genertor", "classseq_1_1random__float__genertor.html", "classseq_1_1random__float__genertor" ],
     [ "SEQ_TEST", "testing_8hpp.html#a1fa1eacbb3cf21c82eebe0860292981b", null ],
     [ "SEQ_TEST_MODULE", "testing_8hpp.html#a1757e7800bda74b5c5eb09cfcf8ebf08", null ],
+    [ "SEQ_TEST_MODULE_RETURN", "testing_8hpp.html#ab163a3d9744f2022e17b5357d584296d", null ],
     [ "SEQ_TEST_THROW", "testing_8hpp.html#a92443e3f00bd386a24a1ab0d8734b98c", null ],
     [ "SEQ_TEST_TO_OSTREAM", "testing_8hpp.html#af76e66d1fd59b54b9372cc08ee854fe0", null ],
     [ "nullbuf", "testing_8hpp.html#a802ef6dd5cb892731a06e6699a27edf8", null ],
@@ -23,6 +24,5 @@ var testing_8hpp =
     [ "random_shuffle", "testing_8hpp.html#ad8b268bc53b846426ab17a84bb756fab", null ],
     [ "reset_memory_usage", "testing_8hpp.html#acabfa3eaf9a03808f516c1c71d521dee", null ],
     [ "tick", "testing_8hpp.html#ad863fcfc143b646f5a2f2362a1327575", null ],
-    [ "tock_ms", "testing_8hpp.html#a576ae74a514ded550299e48e4c32cc64", null ],
-    [ "tock_us", "testing_8hpp.html#aa113bfd5dcde4ed36475a4f3ba164e54", null ]
+    [ "tock_ms", "testing_8hpp.html#a576ae74a514ded550299e48e4c32cc64", null ]
 ];

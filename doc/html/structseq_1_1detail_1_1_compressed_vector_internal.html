@@ -136,16 +136,16 @@ Public Types</h2></td></tr>
 <tr class="memitem:a042ede67b673e9934ea51821bd5529b2"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
 <tr class="memitem:a042ede67b673e9934ea51821bd5529b2"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a042ede67b673e9934ea51821bd5529b2">RebindAlloc</a> = typename std::allocator_traits&lt; Allocator &gt;::template rebind_alloc&lt; U &gt;</td></tr>
 <tr class="separator:a042ede67b673e9934ea51821bd5529b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac829cd0fd773a51b76122c8bb9fa8854"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
-<tr class="memitem:ac829cd0fd773a51b76122c8bb9fa8854"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ac829cd0fd773a51b76122c8bb9fa8854">RebindAlignedAlloc</a> = typename std::allocator_traits&lt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a23832c2979ca25333af451d5d22fa289">AlignedAllocator</a> &gt;::template rebind_alloc&lt; U &gt;</td></tr>
-<tr class="separator:ac829cd0fd773a51b76122c8bb9fa8854"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c7d81f6e4865cdc7bd92a697c374ec3"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
+<tr class="memitem:a7c7d81f6e4865cdc7bd92a697c374ec3"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7c7d81f6e4865cdc7bd92a697c374ec3">RebindAlignedAlloc</a> = <a class="el" href="classseq_1_1aligned__allocator.html">aligned_allocator</a>&lt; U, <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a042ede67b673e9934ea51821bd5529b2">RebindAlloc</a>&lt; U &gt;, <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a21ed2f31842c3aebd7f0533d9193289d">alignment</a> &gt;</td></tr>
+<tr class="separator:a7c7d81f6e4865cdc7bd92a697c374ec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a854ed3b6e21e98fb88f957e975775a54"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a854ed3b6e21e98fb88f957e975775a54">ContextType</a> = <a class="el" href="structseq_1_1detail_1_1_buffer_list.html">BufferList</a>&lt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7f6305f74363e2f97b2cac0a16eafaf7">RawType</a> &gt;</td></tr>
 <tr class="separator:a854ed3b6e21e98fb88f957e975775a54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af4c7fc96cac06d8f9bb6b38a041d3022"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#af4c7fc96cac06d8f9bb6b38a041d3022">CompressedVectorInternal</a> (const Allocator &amp;al=Allocator()) noexcept</td></tr>
-<tr class="separator:af4c7fc96cac06d8f9bb6b38a041d3022"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2134f73db28ee3c066b6b911db2b9a3f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a2134f73db28ee3c066b6b911db2b9a3f">CompressedVectorInternal</a> (const Allocator &amp;al) noexcept</td></tr>
+<tr class="separator:a2134f73db28ee3c066b6b911db2b9a3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6457bb65ad9f8676884aa3fb5ddb7511"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a6457bb65ad9f8676884aa3fb5ddb7511">~CompressedVectorInternal</a> ()</td></tr>
 <tr class="separator:a6457bb65ad9f8676884aa3fb5ddb7511"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac725ff40618c30919d3aa9ee389ec14c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ac725ff40618c30919d3aa9ee389ec14c">incr_disp</a> () noexcept</td></tr>
@@ -291,11 +291,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a02daa62a487b58bb978b71ae47f5badb"><td class="memTemplParams" colspan="2">template&lt;class Functor &gt; </td></tr>
 <tr class="memitem:a02daa62a487b58bb978b71ae47f5badb"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a02daa62a487b58bb978b71ae47f5badb">for_each</a> (size_t start, size_t end, Functor fun) -&gt; Functor</td></tr>
 <tr class="separator:a02daa62a487b58bb978b71ae47f5badb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d2455eac796a0969a381d2d93854081"><td class="memTemplParams" colspan="2">template&lt;class Functor &gt; </td></tr>
+<tr class="memitem:a6d2455eac796a0969a381d2d93854081"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a6d2455eac796a0969a381d2d93854081">const_for_each_backward</a> (size_t <a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, size_t last, Functor fun) const -&gt; Functor</td></tr>
+<tr class="separator:a6d2455eac796a0969a381d2d93854081"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a084357c0e1425cd78a2e27029abe1565"><td class="memTemplParams" colspan="2">template&lt;class Functor &gt; </td></tr>
+<tr class="memitem:a084357c0e1425cd78a2e27029abe1565"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a084357c0e1425cd78a2e27029abe1565">for_each_backward</a> (size_t <a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, size_t last, Functor fun) -&gt; Functor</td></tr>
+<tr class="separator:a084357c0e1425cd78a2e27029abe1565"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a722e61796ce71093288ad141dad22da8"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ad64cd5f4ae0bc270f022931fcd7ee584">BucketType</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a722e61796ce71093288ad141dad22da8">d_buckets</a></td></tr>
-<tr class="separator:a722e61796ce71093288ad141dad22da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa760748a8f0de3010b13ada542eb7961"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ad64cd5f4ae0bc270f022931fcd7ee584">BucketType</a>, <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a042ede67b673e9934ea51821bd5529b2">RebindAlloc</a>&lt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ad64cd5f4ae0bc270f022931fcd7ee584">BucketType</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#aa760748a8f0de3010b13ada542eb7961">d_buckets</a></td></tr>
+<tr class="separator:aa760748a8f0de3010b13ada542eb7961"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe9a507d22b8af09315cd1d70716264c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a854ed3b6e21e98fb88f957e975775a54">ContextType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#afe9a507d22b8af09315cd1d70716264c">d_contexts</a></td></tr>
 <tr class="separator:afe9a507d22b8af09315cd1d70716264c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2334440c279e87c32f9812cde67f974a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a2334440c279e87c32f9812cde67f974a">d_compress_size</a></td></tr>
@@ -522,8 +528,8 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
 
 </div>
 </div>
-<a id="ac829cd0fd773a51b76122c8bb9fa8854"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac829cd0fd773a51b76122c8bb9fa8854">&#9670;&nbsp;</a></span>RebindAlignedAlloc</h2>
+<a id="a7c7d81f6e4865cdc7bd92a697c374ec3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c7d81f6e4865cdc7bd92a697c374ec3">&#9670;&nbsp;</a></span>RebindAlignedAlloc</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -533,7 +539,7 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
 template&lt;class U &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">seq::detail::CompressedVectorInternal</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Acceleration, Encoder, block_size &gt;::<a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ac829cd0fd773a51b76122c8bb9fa8854">RebindAlignedAlloc</a> =  typename std::allocator_traits&lt;<a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a23832c2979ca25333af451d5d22fa289">AlignedAllocator</a>&gt;::template rebind_alloc&lt;U&gt;</td>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">seq::detail::CompressedVectorInternal</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Acceleration, Encoder, block_size &gt;::<a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a7c7d81f6e4865cdc7bd92a697c374ec3">RebindAlignedAlloc</a> =  <a class="el" href="classseq_1_1aligned__allocator.html">aligned_allocator</a>&lt;U, <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a042ede67b673e9934ea51821bd5529b2">RebindAlloc</a>&lt;U&gt;, <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a21ed2f31842c3aebd7f0533d9193289d">alignment</a>&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -623,8 +629,8 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="af4c7fc96cac06d8f9bb6b38a041d3022"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4c7fc96cac06d8f9bb6b38a041d3022">&#9670;&nbsp;</a></span>CompressedVectorInternal()</h2>
+<a id="a2134f73db28ee3c066b6b911db2b9a3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2134f73db28ee3c066b6b911db2b9a3f">&#9670;&nbsp;</a></span>CompressedVectorInternal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -638,7 +644,7 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
           <td class="memname"><a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">seq::detail::CompressedVectorInternal</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Acceleration, Encoder, block_size &gt;::<a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">CompressedVectorInternal</a> </td>
           <td>(</td>
           <td class="paramtype">const Allocator &amp;&#160;</td>
-          <td class="paramname"><em>al</em> = <code>Allocator()</code></td><td>)</td>
+          <td class="paramname"><em>al</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -985,6 +991,53 @@ template&lt;class Functor &gt; </div>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Functor&#160;</td>
+          <td class="paramname"><em>fun</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const -&gt; Functor
+			</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6d2455eac796a0969a381d2d93854081"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d2455eac796a0969a381d2d93854081">&#9670;&nbsp;</a></span>const_for_each_backward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder  = DefaultEncoder, unsigned block_size = 256&gt; </div>
+<div class="memtemplate">
+template&lt;class Functor &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">seq::detail::CompressedVectorInternal</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Acceleration, Encoder, block_size &gt;::const_for_each_backward </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>first</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>last</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1408,6 +1461,53 @@ template&lt;class Functor &gt; </div>
           <td></td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Functor&#160;</td>
+          <td class="paramname"><em>fun</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; Functor
+			</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a084357c0e1425cd78a2e27029abe1565"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a084357c0e1425cd78a2e27029abe1565">&#9670;&nbsp;</a></span>for_each_backward()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder  = DefaultEncoder, unsigned block_size = 256&gt; </div>
+<div class="memtemplate">
+template&lt;class Functor &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">seq::detail::CompressedVectorInternal</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Acceleration, Encoder, block_size &gt;::for_each_backward </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>first</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>last</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -2356,8 +2456,8 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
 
 </div>
 </div>
-<a id="a722e61796ce71093288ad141dad22da8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a722e61796ce71093288ad141dad22da8">&#9670;&nbsp;</a></span>d_buckets</h2>
+<a id="aa760748a8f0de3010b13ada542eb7961"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa760748a8f0de3010b13ada542eb7961">&#9670;&nbsp;</a></span>d_buckets</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2365,7 +2465,7 @@ template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder
 template&lt;class T , class Allocator , unsigned Acceleration = 0, class Encoder  = DefaultEncoder, unsigned block_size = 256&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ad64cd5f4ae0bc270f022931fcd7ee584">BucketType</a>&gt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">seq::detail::CompressedVectorInternal</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Acceleration, Encoder, block_size &gt;::d_buckets</td>
+          <td class="memname">std::vector&lt;<a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ad64cd5f4ae0bc270f022931fcd7ee584">BucketType</a>, <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a042ede67b673e9934ea51821bd5529b2">RebindAlloc</a>&lt;<a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#ad64cd5f4ae0bc270f022931fcd7ee584">BucketType</a>&gt; &gt; <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html">seq::detail::CompressedVectorInternal</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Acceleration, Encoder, block_size &gt;::d_buckets</td>
         </tr>
       </table>
 </div><div class="memdoc">

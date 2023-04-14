@@ -24,7 +24,7 @@ The underlying sequence object stores plain non const Key objects. However, in o
 
 ## Direct access to sequence
 
-Unlike most hash table implementations, it it possible to access and modify the underlying value storage directly (a `seq::sequence` object). 
+Unlike most hash table implementations, it is possible to access and modify the underlying value storage directly (a `seq::sequence` object). 
 This possibility must be used with great care, as modifying directly the sequence might break the hashing. 
 When calling the non-const version of ordered_set::sequence(), the ordered_set will be marked as dirty, and further attempts to call functions like ordered_set::find() of ordered_set::insert() (functions based on hash value) will throw a std::logic_error.
 
@@ -65,9 +65,9 @@ On rehash, the old table is deallocated before allocating the new (twice as big)
 
 ## Handling of bad hash function
 
-Like most robin hood based hash tables (<a href="https://github.com/skarupke/flat_hash_map/blob/master/flat_hash_set.hpp">ska::flat_hash_set</a>, <a href="https://github.com/Tessil/robin-map/blob/master/include/tsl/robin_set.h">tsl::robin_set</a>...), `seq::ordered_set` uses 8 bits to store the node distance to its computed location. For a bad hash function leading to strong clustering, this 8 bits distance quickly overflows. The usual strategy in this case is to rehash the table based on the growth strategy, hopping for a better key distribution.
+Like most robin hood based hash tables, `seq::ordered_set` uses 8 bits to store the node distance to its computed location. For a bad hash function leading to strong clustering, this 8 bits distance quickly overflows. The usual strategy in this case is to rehash the table based on the growth strategy, hopping for a better key distribution.
 
-For very bad hash function (or in case of DOS attack), hash tables like ska::flat_hash_set and tsl::robin_set will keep rehashing its values and reallocating the table, until a fatal std::bad_alloc is thrown. `seq::ordered_set` uses a different strategy to cope with such situation:
+For very bad hash function (or in case of DOS attack), hash tables like <a href="https://github.com/skarupke/flat_hash_map/blob/master/flat_hash_set.hpp">ska::flat_hash_set</a> and <a href="https://github.com/Tessil/robin-map/blob/master/include/tsl/robin_set.h">tsl::robin_set</a> will keep rehashing its values and reallocating the table, until a fatal std::bad_alloc is thrown. `seq::ordered_set` uses a different strategy to cope with such situation:
 -	When the distance value overflows, it is discarded and the table relies on pure linear hashing.
 -	In this case, deleting an entry will create a tombstone instead of the standard backward shift deletion.
 -	The linear probing behavior is kept until a call to ordered_set::rehash() that might switch back the behavior to robin hood hashing.

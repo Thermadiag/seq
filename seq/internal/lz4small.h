@@ -71,7 +71,7 @@ namespace seq
 				return SEQ_ERROR_DST_OVERFLOW;
 			memcpy(in_out, get_comp_buffer(0), r);
 			return r;
-			}
+		}
 		// restore values in case of failed compression
 		static void restore(void* in_out, void* dst, unsigned BPP, unsigned block_size)
 		{

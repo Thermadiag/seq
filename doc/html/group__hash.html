@@ -102,9 +102,9 @@ Namespaces</h2></td></tr>
 <p>The hash module provides several hash-related functions: </p>
 <ul>
 <li><a class="el" href="namespaceseq.html#a1e75ac2752560b9441e25dbeb0a37035" title="Combine 2 hash values. Uses either murmurhash2 for 64 bits platform or the boost version for 32 bits ...">seq::hash_combine</a>: combine 2 hash values</li>
-<li><a class="el" href="namespaceseq.html#a7b21f8567341968f120686ab59a18a86" title="Compute a hash value for input data using the murmurhash2 algorithm.">seq::hash_bytes_murmur64</a>: murmurhash2 algorithm</li>
-<li><a class="el" href="namespaceseq.html#a08d5414cdd66534c903b9667391934f2" title="Compute a hash value for input data using the fnv1a algorithm. This version reads the input buffer by...">seq::hash_bytes_fnv1a</a>: fnv1a hash algorithm working on chunks of 4 to 8 bytes</li>
-<li><a class="el" href="namespaceseq.html#ab48356b6277c4d0a4eae3e8df71928e9" title="Compute a hash value for input data using the fnv1a algorithm.">seq::hash_bytes_fnv1a_slow</a>: standard fnv1a hash algorithm</li>
+<li><a class="el" href="namespaceseq.html#a73d484b65f61026ac2f11b34b371cce1">seq::hash_bytes_murmur64</a>: murmurhash2 algorithm</li>
+<li><a class="el" href="namespaceseq.html#aa143c1836c024422e735b68350a8c58d">seq::hash_bytes_fnv1a</a>: fnv1a hash algorithm working on chunks of 4 to 8 bytes</li>
+<li>seq::hash_bytes_fnv1a_slow: standard fnv1a hash algorithm</li>
 </ul>
 <p>Note that the specialization of std::hash for <a class="el" href="classseq_1_1tiny__string.html" title="String class with a similar interface and requirements than std::string.">seq::tiny_string</a> uses murmurhash2 algorithm. </p>
 </div><!-- contents -->

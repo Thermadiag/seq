@@ -49,6 +49,9 @@ namespace std
 
 	template<class Compress>
 	typename Compress::value_type move(seq::detail::ValueWrapper<Compress>&& other);
+
+	template<class Compressed>
+	void swap(seq::detail::ValueWrapper<Compressed>&& a, seq::detail::ValueWrapper<Compressed>&& b);
 }
 
 
@@ -1022,6 +1025,7 @@ namespace seq
 				(void)block_size;
 				return block_decode_256(src, src_size, BPP, 1, dst);
 			}
+
 		};
 
 		/// @brief Encoder that relies on memcpy
@@ -1080,7 +1084,7 @@ namespace seq
 			using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 			// Rebind aligned allocator
 			template< class U>
-			using RebindAlignedAlloc = typename std::allocator_traits<AlignedAllocator>::template rebind_alloc<U>;
+			using RebindAlignedAlloc = aligned_allocator<U, RebindAlloc<U>, alignment>;//typename std::allocator_traits<AlignedAllocator>::template rebind_alloc<U>;
 			// List of decompression contexts
 			using ContextType = BufferList<RawType>;
 
@@ -1096,7 +1100,7 @@ namespace seq
 			static constexpr unsigned max_csize = block_size * sizeof(T) - 15 * sizeof(T) * acceleration - 1;
 
 
-			std::vector<BucketType> d_buckets;	// compressed buckets
+			std::vector<BucketType, RebindAlloc<BucketType> > d_buckets;	// compressed buckets
 			ContextType d_contexts;				// decompression contexts
 			size_t d_compress_size;				// compressed size in bytes
 			size_t d_size;						// number of values
@@ -1106,9 +1110,7 @@ namespace seq
 
 		public:
 
-
-
-			CompressedVectorInternal(const Allocator& al = Allocator()) noexcept
+			CompressedVectorInternal(const Allocator& al ) noexcept
 				:Allocator(al), d_buckets(RebindAlloc<BucketType>(al)), d_compress_size(0), d_size(0), d_max_contexts(8 - acceleration / 2, Ratio), d_disp(0)
 			{}
 			
@@ -1731,6 +1733,8 @@ namespace seq
 					return;
 				else if (new_size > size())
 				{
+					
+
 					//finish filling back buffer
 					while (size() < new_size && (size() & (block_size-1)))
 						emplace_back();
@@ -1739,21 +1743,32 @@ namespace seq
 					if (new_size > block_size) {
 
 						// temporary storage for chunks of block_size elements
+						T value{};
 						RawType raw;
+						raw.size = 0;
 
 						while (size() < new_size - block_size)
 						{
-							raw.size = block_size;
-							// construct, might throw, fine
-							for (unsigned i = 0; i < block_size; ++i)
-								construct_ptr(&raw.at(i));
-							//compress 
-							unsigned r = Encoder::compress(raw.storage, sizeof(T), block_size, max_csize, acceleration);
-							if (r == SEQ_ERROR_DST_OVERFLOW) {
-								r = block_size * sizeof(T);
+							unsigned r = 0;
+							if SEQ_CONSTEXPR (!std::is_same<detail::DefaultEncoder, Encoder>::value || !std::is_trivially_constructible<T>::value)
+							{
+								// Generic way to compress one value repeated
+								raw.size = block_size;
+								// construct, might throw, fine
+								for (unsigned i = 0; i < block_size; ++i)
+									construct_ptr(&raw.at(i));
+								//compress 
+								r = Encoder::compress(raw.storage, sizeof(T), block_size, max_csize, acceleration);
+								if (r == SEQ_ERROR_DST_OVERFLOW) {
+									r = block_size * sizeof(T);
+								}
+								else if (has_error(r))
+									SEQ_ABORT("cvector: abort on compression error"); // no way to recover from this
 							}
-							else if (has_error(r))
-								SEQ_ABORT("cvector: abort on compression error"); // no way to recover from this
+							else {
+								MinimalBlockBound<T>::compress(value, raw.storage);
+								r = MinimalBlockBound<T>::value;
+							}
 
 							char* buff = nullptr;
 							try {
@@ -1808,19 +1823,29 @@ namespace seq
 
 						// temporary storage for chunks of block_size elements
 						RawType raw;
+						raw.size = 0;
 
 						while (size() < new_size - block_size)
 						{
-							raw.size = block_size;
-							// construct, might throw, fine
-							for (unsigned i = 0; i < block_size; ++i)
-								construct_ptr(&raw.at(i), val);
-							//compress 
-							unsigned r = Encoder::compress(raw.storage, sizeof(T), block_size, max_csize, acceleration);
-							if (r == SEQ_ERROR_DST_OVERFLOW) 
-								r = block_size * sizeof(T);
-							else if (has_error(r))
-								SEQ_ABORT("cvector: abort on compression error");// no way to recover from this
+							unsigned r = 0;
+							if SEQ_CONSTEXPR(!std::is_same<detail::DefaultEncoder, Encoder>::value || !std::is_trivially_constructible<T>::value)
+							{
+								raw.size = block_size;
+								// construct, might throw, fine
+								for (unsigned i = 0; i < block_size; ++i)
+									construct_ptr(&raw.at(i), val);
+								//compress 
+								r = Encoder::compress(raw.storage, sizeof(T), block_size, max_csize, acceleration);
+								if (r == SEQ_ERROR_DST_OVERFLOW)
+									r = block_size * sizeof(T);
+								else if (has_error(r))
+									SEQ_ABORT("cvector: abort on compression error");// no way to recover from this
+							}
+							else
+							{
+								MinimalBlockBound<T>::compress(val, raw.storage);
+								r = MinimalBlockBound<T>::value;
+							}
 
 							char* buff = nullptr;
 							try {
@@ -1868,8 +1893,9 @@ namespace seq
 				difference_type off = first - const_iterator(this, 0);
 				size_t count = static_cast<size_t>(last - first);
 
-				iterator it = first;
-				this->for_each(static_cast<size_t>(last - const_iterator(this, 0)), size(), [&it](T& v) {*it = std::move(v); ++it; });
+				//iterator it = first;
+				//this->const_for_each(static_cast<size_t>(last - const_iterator(this, 0)), size(), [&it](const T& v) {*it = std::move(const_cast<T&>(v)); ++it; });
+				std::move(iterator(last), iterator(this), iterator(first));
 				if (count == 1)
 					pop_back();
 				else
@@ -1922,8 +1948,12 @@ namespace seq
 
 					try {
 						resize(size() + len);
+
 						std::move_backward(iterator(this, 0) + off, iterator(this, 0) + static_cast<difference_type>(size() - len), iterator(this));
-						std::copy(first, last, iterator(this, 0) + off);
+						
+						// std::copy(first, last, iterator(this, 0) + off);
+						// use for_each instead of std::copy
+						for_each(static_cast<size_t>(off), static_cast<size_t>(off) + len, [&first](T& v) {v = *first; ++first; });
 					}
 					catch (...) {
 						for (; oldsize < size(); )
@@ -1991,6 +2021,10 @@ namespace seq
 			auto const_for_each(size_t start, size_t end, Functor fun) const -> Functor
 			{
 				SEQ_ASSERT_DEBUG(start <= end, "const_for_each: invalid range");
+				SEQ_ASSERT_DEBUG(end <= d_size, "const_for_each: invalid range");
+				if (start == end)
+					return fun;
+
 				size_t remaining = end - start;
 				size_t bindex = start >> shift;
 				size_t pos = start & mask;
@@ -2017,6 +2051,10 @@ namespace seq
 			auto for_each(size_t start, size_t end, Functor fun) -> Functor
 			{
 				SEQ_ASSERT_DEBUG(start <= end, "for_each: invalid range");
+				SEQ_ASSERT_DEBUG(end <= d_size, "for_each: invalid range");
+				if (start == end)
+					return fun;
+
 				size_t remaining = end - start;
 				size_t bindex = start >> shift;
 				size_t pos = start & mask;
@@ -2037,6 +2075,69 @@ namespace seq
 					++bindex;
 					cur->mark_dirty(this);
 				}
+				return fun;
+			}
+
+			template<class Functor>
+			auto const_for_each_backward(size_t first, size_t last, Functor fun) const -> Functor
+			{
+				SEQ_ASSERT_DEBUG(first <= last, "for_each_backward: invalid range");
+				SEQ_ASSERT_DEBUG(last <= d_size, "for_each_backward: invalid range");
+				if (first == last)
+					return fun;
+
+				--last;
+				difference_type last_bucket = static_cast<difference_type>(last >> shift);
+				int last_index = static_cast<int>(last & mask);
+				difference_type first_bucket = static_cast<difference_type>(first >> shift);
+				int first_index = static_cast<int>(first & mask);
+
+				for (difference_type bindex = last_bucket; bindex >= first_bucket; --bindex)
+				{
+					auto lock = const_cast<ThisType*>(this)->make_block_lock(bindex);
+					const RawType* cur = d_buckets[bindex].decompressed;
+					if (!cur) {
+						const_cast<ThisType*>(this)->decompress_bucket(bindex);
+						cur = d_buckets[bindex].decompressed;
+					}
+					int low = bindex == first_bucket ? first_index : 0;
+					int high = bindex == last_bucket ? last_index : static_cast<int>(block_size-1);
+					for (int i = high; i >= low; --i)
+						fun(cur->at(i));
+				}
+
+				return fun;
+			}
+
+			template<class Functor>
+			auto for_each_backward(size_t first, size_t last, Functor fun) -> Functor
+			{
+				SEQ_ASSERT_DEBUG(first <= last, "for_each_backward: invalid range");
+				SEQ_ASSERT_DEBUG(last <= d_size, "for_each_backward: invalid range");
+				if (first == last)
+					return fun;
+
+				--last;
+				difference_type last_bucket = static_cast<difference_type>(last >> shift);
+				int last_index = static_cast<int>(last & mask);
+				difference_type first_bucket = static_cast<difference_type>(first >> shift);
+				int first_index = static_cast<int>(first & mask);
+
+				for (difference_type bindex = last_bucket; bindex >= first_bucket; --bindex)
+				{
+					auto lock = this->make_block_lock(bindex);
+					RawType* cur = d_buckets[bindex].decompressed;
+					if (!cur) {
+						this->decompress_bucket(bindex);
+						cur = d_buckets[bindex].decompressed;
+					}
+					int low = bindex == first_bucket ? first_index : 0;
+					int high = bindex == last_bucket ? last_index : static_cast<int>(block_size-1);
+					for(int i= high; i>= low; --i)
+						fun(cur->at(i));
+					cur->mark_dirty(this);
+				}
+
 				return fun;
 			}
 
@@ -2636,9 +2737,23 @@ namespace seq
 			:Allocator(copy_allocator(other.get_allocator())), d_data(nullptr)
 		{
 			if (other.size()) {
-				d_data = make_internal(other.get_allocator());
-				auto lock = detail::lock_context_ratio(d_data, context_ratio(3));
-				other.for_each(0, other.size(), [this](const T& v) { this->push_back(v); });
+
+				// Use the block API for faster copy
+				resize(other.size());
+				auto lock1 = detail::lock_context_ratio(d_data, context_ratio(3));
+				auto lock2 = detail::lock_context_ratio(const_cast<internal_type*>(other.d_data), context_ratio(3));
+				
+				for (size_t i = 0; i < other.block_count(); ++i)
+				{
+					auto blo = other.block(i);
+					auto bl = this->block(i);
+					std::copy(blo.first, blo.first + blo.second, bl.first);
+					this->mark_dirty_block(i);
+				}
+
+				//d_data = make_internal(other.get_allocator());
+				//auto lock = detail::lock_context_ratio(d_data, context_ratio(3));
+				//other.for_each(0, other.size(), [this](const T& v) { this->push_back(v); });
 				//for (auto it = other.begin(); it != other.end(); ++it)
 				//	push_back(*it);
 			}
@@ -3010,7 +3125,9 @@ namespace seq
 		/// Basic exception guarantee.
 		void assign(size_type count, const T& value)
 		{
-			assign(cvalue_iterator<T>(0, value), cvalue_iterator<T>(count, value));
+			clear();
+			resize(count, value);
+			//assign(cvalue_iterator<T>(0, value), cvalue_iterator<T>(count, value));
 		}
 
 		/// @brief Replaces the contents with copies of those in the range [first, last). The behavior is undefined if either argument is an iterator into *this.
@@ -3018,12 +3135,30 @@ namespace seq
 		template< class Iter >
 		void assign(Iter first, Iter last)
 		{
-			// It is faster to just dump everything and use push_back
-			clear();
-			make_data_if_null();
-			while (first != last) {
-				d_data->push_back(*first);
-				++first;
+			if (size_t len = seq::distance(first, last))
+			{
+				// For random access iterators
+				resize(len);
+				auto lock1 = detail::lock_context_ratio(d_data, context_ratio(2));
+				for (size_t i = 0; i < block_count(); ++i)
+				{
+					auto bl = block(i);
+					for (unsigned j = 0; j < bl.second; ++j, ++first) {
+						bl.first[j] = *first;
+					}
+					mark_dirty_block(i);
+				}
+			}
+			else
+			{
+				// For forward iterators
+				// It is faster to just dump everything and use push_back
+				clear();
+				make_data_if_null();
+				while (first != last) {
+					d_data->push_back(*first);
+					++first;
+				}
 			}
 		}
 
@@ -3108,25 +3243,49 @@ namespace seq
 
 
 		template<class Functor>
-		auto for_each(size_t start, size_t end, Functor fun) -> Functor
+		auto for_each(size_t first, size_t last, Functor fun) -> Functor
 		{
 			if (d_data)
-				return d_data->for_each(start, end, fun);
+				return d_data->for_each(first, last, fun);
 			return fun;
 		}
 		
 		template<class Functor>
-		auto for_each(size_t start, size_t end, Functor fun) const -> Functor
+		auto for_each(size_t first, size_t last, Functor fun) const -> Functor
 		{
 			if (d_data)
-				return d_data->const_for_each(start, end, fun);
+				return d_data->const_for_each(first, last, fun);
 			return fun;
 		}
 		template<class Functor>
-		auto const_for_each(size_t start, size_t end, Functor fun) const -> Functor
+		auto const_for_each(size_t first, size_t last, Functor fun) const -> Functor
 		{
 			if (d_data)
-				return d_data->const_for_each(start, end, fun);
+				return d_data->const_for_each(first, last, fun);
+			return fun;
+		}
+
+
+		template<class Functor>
+		auto for_each_backward(size_t first, size_t last, Functor fun) -> Functor
+		{
+			if (d_data)
+				return d_data->for_each_backward(first, last, fun);
+			return fun;
+		}
+
+		template<class Functor>
+		auto for_each_backward(size_t first, size_t last, Functor fun) const -> Functor
+		{
+			if (d_data)
+				return d_data->const_for_each_backward(first, last, fun);
+			return fun;
+		}
+		template<class Functor>
+		auto const_for_each_backward(size_t first, size_t last, Functor fun) const -> Functor
+		{
+			if (d_data)
+				return d_data->const_for_each_backward(first, last, fun);
 			return fun;
 		}
 
@@ -3155,9 +3314,9 @@ namespace seq
 		std::pair<const T*, unsigned> block(size_t pos) const
 		{
 			if (d_data) {
-				auto* bucket = &d_data->d_buckets[pos];
+				const auto* bucket = &d_data->d_buckets[pos];
 				if (!bucket->decompressed)
-					d_data->decompress_bucket(pos);
+					const_cast<internal_type*>(d_data)->decompress_bucket(pos);
 				return std::pair<const T*, unsigned>(reinterpret_cast<const T*>(bucket->decompressed->storage), bucket->decompressed->size);
 			}
 			return std::pair<const T*, unsigned>(nullptr, 0);

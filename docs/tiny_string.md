@@ -5,21 +5,22 @@ It provides a customizable Small String Optimization (SSO) much like boost::smal
 
 `seq::tiny_string` contains some preallocated elements in-place, which can avoid the use of dynamic storage allocation when the actual number of elements is below that preallocated threshold (*MaxStaticSize* parameter).
 
-`seq::tiny_string` only supports characters of type char, not wchar_t.
+`seq::tiny_string` supports any type of character.
 
 
 ## Motivation
 
 Why another string class? I started writing tiny_string to provide a small and relocatable string class that can be used within [seq::cvector](cvector.md).
-Indeed, gcc std::string implementation is not relocatable as it stores a pointer to its internal data for small strings. In addition, most std::string implementations have a size of 32 bytes (at least msvc and gcc ones), which was a lot for my compressed container. Therefore, I started working on a string implementation with the following specificities:
+Indeed, gcc std::string implementation is not relocatable as it stores a pointer to its internal data for small strings. In addition, most std::string implementations have a size of 32 bytes (at least msvc and gcc ones), which unnecessary high, especially when considering a compressed container. Therefore, I started working on a string implementation with the following specificities:
 -	Relocatable,
 -	Small footprint (16 bytes on 64 bits machine if possible),
 -	Customizable Small String Optimization (SSO),
 -	Higly optimized for small strings (fast copy/move assignment and fast comparison operators).
 
-It turns out that such string implementation makes all flat containers (like `std::vector` or `std::deque`) faster (at least for small strings) as it greatly reduces cache misses.
+It turns out that such string implementation makes all flat containers (like `std::vector` or `std::deque`) faster (at least for small strings) as it greatly reduces cache misses, memory allocations, and allows optimization tricks for relocatable types.
 The Customizable Small String Optimization is also very convenient to avoid unnecessary memory allocations for different workloads.
 
+For the rest of the documentation, only standard char strings are considered.
 
 ## Size and bookkeeping
 
@@ -34,15 +35,15 @@ When the tiny_string grows beyong the preallocated threshold, memory is allocate
 
 `seq::tiny_string` does not store the memory capacity, and always use a grow factor of 2. The capacity is always deduced from the string length using compiler intrinsics (like `_BitScanReverse` on msvc). In some cases (like copy construction), the allocated capacity is the same as the string length, in which case a 1 bit flag is set to track this information.
 
-The global typedef `seq::tstring` is provided for convenience, and is equivalent to `seq::tiny_string<0,std::allocator<char>>`.
+The global typedef `seq::tstring` is provided for convenience, and is equivalent to `seq::tiny_string<char,std::char_traits<char>,std::allocator<char>,0>`.
 
 ## Static size
 
 The maximum preallocated space is specified as a template parameter (*MaxStaticSize*).
-By default, this value is set to 0, meaning that the tiny_string only uses 2 word of either 32 or 64 bits depending on the architecture.
-Therefore, the maximum in-place capacity is either 7 or 15 bytes.
+By default, this value is set to 0, meaning that the tiny_string only uses 2 words of either 32 or 64 bits depending on the architecture (whatever the char type is).
+Therefore, the maximum in-place capacity is either 7 or 15 bytes for 1 byte char type.
 
-The maximum preallocated space can be increased up to 126 bytes. To have a tiny_string of 32 bytes like std::string on gcc and msvc, you could use, for instance, tiny_string<28>.
+The maximum preallocated space can be increased up to 127 elements (size of 126 since the string is null terminated). To have a tiny_string of 32 bytes like std::string on gcc and msvc, you could use, for instance, tiny_string<28>.
 In this case, the maximum string size (excluding null-terminated character) to use SSO would be 30 bytes (!).
 
 ## Relocatable type
@@ -56,18 +57,33 @@ Within the *seq* library, a relocatable type must statify `seq::is_relocatable<t
 
 Note that tiny_string is only relocatable if the allocator itself is relocatable (which is the case for the default std::allocator<char>).
 
+A (very) simple test to measure potential performance gain using tstring is to push back small tstring objects in a std::vector object. The following table displays performance measurements when inserting 10000000 std::string and tstring objects of size 13 in std::vector and seq::devector (gcc 10.1.0 (-O3) for msys2 on Windows 10, using Intel(R) Core(TM) i7-10850H at 2.70GHz):
+
+    String type     |    std::vector     |   seq::devector    |
+--------------------|--------------------|--------------------|
+    std::string     |        205 ms      |        202 ms      |
+    seq::tstring    |         98 ms      |         85 ms      |
+	
+The std::vector is faster when inserting tstring simply because the memory required is half the one of std::string. seq::devector is about 15% faster than std::vector for tstring objects as it is aware of its relocatable property and uses memcpy internally when the storage is growing.
+
+The performance difference is even more drastic when inserting 1000000 strings in a `seq::flat_set` container:
+
+    String type     | Insert (flat_set)  |
+--------------------|--------------------|
+    std::string     |        2642 ms     |
+    seq::tstring    |        819 ms      |
+	
+Within the `seq` library, the following containers provide optimizations for relocatable types:
+-	random access containers: `seq::tiered_vector`, `seq::devector`, `seq::cvector`
+-	sorted containers: `seq::flat_set`, `seq::flat_map`, `seq::flat_multiset`, `seq::flat_mutlimap`, `seq::radix_set`, `seq::radix_map`
+-	hash tables: `seq::radix_hash_set`, `seq::radix_hash_map`
+
+
 ## Interface
 
 `seq::tiny_string` provides the same interface as std::string.
 Functions working on other strings like find(), compare()... are overloaded to also work on std::string.
 The comparison operators are also overloaded to work with std::string.
-
-`seq::tiny_string` provides the following additional members for convenience:
--	join(): merge several strings with a common separator
--	split(): split string based on separator
--	replace(): replace a string by another one
--	convert(): convert the string to another type using streams
--	sprintf(): format string
 
 `seq::tiny_string` also works with std::istream/std::ostream exactly like std::string.
 A specialization of std::hash is provided for tiny_string types which relies on murmurhash2. This specialization is transparent and supports hashing std::string, tiny_string and const char*.
@@ -84,7 +100,7 @@ Likewise, shrink_to_fit() and reserve() are no-ops.
 `seq::tiny_string` is specialized for seq::view_allocator in order to provide a `std::string_view` like class.
 It is provided for compilers that do not support (yet) std::string_view, and provides a similar interface.
 
-The global typedef `seq::tstring_view` is provided  for convenience, and is equivalent to `seq::tiny_string<0,seq::view_allocator>`.
+The global typedef `seq::tstring_view` is provided  for convenience, and is equivalent to `seq::tiny_string<char,std::char_traits<char>,seq::view_allocator<char>,0>`.
 tstring_view is also hashable and can be compared to other tiny_string types as well as std::string.
 
 

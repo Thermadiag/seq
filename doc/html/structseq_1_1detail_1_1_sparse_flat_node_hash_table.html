@@ -137,7 +137,7 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5bffd2ec246ae63e9a968e6024000a0b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a5bffd2ec246ae63e9a968e6024000a0b">SparseFlatNodeHashTable</a> (const Hash &amp;<a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a7783d856c913420c1ee4b2a921b48b2f">hash</a>, const Equal &amp;<a class="el" href="namespaceseq.html#a2c99841240cccf7ffccabb7ba9d0649c">equal</a>, const Allocator &amp;alloc) noexcept</td></tr>
+<tr class="memitem:a5bffd2ec246ae63e9a968e6024000a0b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a5bffd2ec246ae63e9a968e6024000a0b">SparseFlatNodeHashTable</a> (const Hash &amp;<a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ade6e72b1389f597c71717c5034d9cf8b">hash</a>, const Equal &amp;<a class="el" href="namespaceseq.html#a2c99841240cccf7ffccabb7ba9d0649c">equal</a>, const Allocator &amp;alloc) noexcept</td></tr>
 <tr class="separator:a5bffd2ec246ae63e9a968e6024000a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac098d7455dfd3ef93a6cc4ef40d93337"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ac098d7455dfd3ef93a6cc4ef40d93337">SparseFlatNodeHashTable</a> (<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">SparseFlatNodeHashTable</a> &amp;&amp;other) noexcept</td></tr>
 <tr class="separator:ac098d7455dfd3ef93a6cc4ef40d93337"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,9 +159,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a145b3683d6d3a369e323331d6e5f52a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afba1e0ca66bfd5f91b0fae63be4faf16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#afba1e0ca66bfd5f91b0fae63be4faf16">rehash</a> (size_t <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a33b90cbe0d2ec376fa39a573d401fc72">size</a>=0, bool force=false)</td></tr>
 <tr class="separator:afba1e0ca66bfd5f91b0fae63be4faf16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92ff01cea20d41e5107d425f5d768be7"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:a92ff01cea20d41e5107d425f5d768be7"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a92ff01cea20d41e5107d425f5d768be7">hash_key</a> (Args &amp;&amp;... args) const noexcept -&gt; size_t</td></tr>
-<tr class="separator:a92ff01cea20d41e5107d425f5d768be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08eec51668cc3c491dfbfbc4e4deb6e1"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:a08eec51668cc3c491dfbfbc4e4deb6e1"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a08eec51668cc3c491dfbfbc4e4deb6e1">hash_key</a> (const K &amp;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af09c9dda83c39b2e54fce12f60411042">key</a>) const noexcept -&gt; size_t</td></tr>
+<tr class="separator:a08eec51668cc3c491dfbfbc4e4deb6e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61d12e6f0f066d5f3eebeb61be0a55df"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a61d12e6f0f066d5f3eebeb61be0a55df">max_load_factor</a> () const noexcept -&gt; float</td></tr>
 <tr class="separator:a61d12e6f0f066d5f3eebeb61be0a55df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc57e27966fa440a092c90905c84a8ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#afc57e27966fa440a092c90905c84a8ae">max_load_factor</a> (float <a class="el" href="namespaceseq_1_1detail.html#a76fa776653402382e316c7b6715856af">f</a>) noexcept</td></tr>
@@ -170,33 +170,40 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a25a473359df7ba4e43284c918af81a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ed23ae06a433ed94768867fdab86ddd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a5ed23ae06a433ed94768867fdab86ddd">bucket_size</a> () const noexcept -&gt; size_t</td></tr>
 <tr class="separator:a5ed23ae06a433ed94768867fdab86ddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dffcf54010aa93ebb87c83894c2facd"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:a7dffcf54010aa93ebb87c83894c2facd"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a7dffcf54010aa93ebb87c83894c2facd">find_linear_hash</a> (size_t <a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a7783d856c913420c1ee4b2a921b48b2f">hash</a>, Args &amp;&amp;... args) const -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a></td></tr>
-<tr class="separator:a7dffcf54010aa93ebb87c83894c2facd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d8fbd17dd696ccf0b346a7d1ce52aa9"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:a5d8fbd17dd696ccf0b346a7d1ce52aa9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a5d8fbd17dd696ccf0b346a7d1ce52aa9">find_hash</a> (size_t <a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a7783d856c913420c1ee4b2a921b48b2f">hash</a>, Args &amp;&amp;... args) const -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a></td></tr>
-<tr class="separator:a5d8fbd17dd696ccf0b346a7d1ce52aa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd854ced0ae4823dc0c6324109614bf9"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:afd854ced0ae4823dc0c6324109614bf9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#afd854ced0ae4823dc0c6324109614bf9">find</a> (Args &amp;&amp;... args) const -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a></td></tr>
-<tr class="separator:afd854ced0ae4823dc0c6324109614bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8abaa9a7d1eea522c148eeac3ecf452"><td class="memTemplParams" colspan="2">template&lt;Location loc, class... Args&gt; </td></tr>
-<tr class="memitem:ad8abaa9a7d1eea522c148eeac3ecf452"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ad8abaa9a7d1eea522c148eeac3ecf452">insert_linear</a> (Args &amp;&amp;... args) -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool &gt;</td></tr>
-<tr class="separator:ad8abaa9a7d1eea522c148eeac3ecf452"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e3fe07901446b681c499c2fab50b953"><td class="memTemplParams" colspan="2">template&lt;Location loc, class... Args&gt; </td></tr>
-<tr class="memitem:a0e3fe07901446b681c499c2fab50b953"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a0e3fe07901446b681c499c2fab50b953">insert</a> (Args &amp;&amp;... args) -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool &gt;</td></tr>
-<tr class="separator:a0e3fe07901446b681c499c2fab50b953"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4c9f68e3f0abca66438007e59d7d2bd"><td class="memTemplParams" colspan="2">template&lt;Location loc, class... Args&gt; </td></tr>
-<tr class="memitem:ae4c9f68e3f0abca66438007e59d7d2bd"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ae4c9f68e3f0abca66438007e59d7d2bd">insert_no_check</a> (Args &amp;&amp;... args) -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool &gt;</td></tr>
-<tr class="separator:ae4c9f68e3f0abca66438007e59d7d2bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3ecda62af58b4c512308d8638e4b50b"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:aa3ecda62af58b4c512308d8638e4b50b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#aa3ecda62af58b4c512308d8638e4b50b">find_hash</a> (size_t <a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ade6e72b1389f597c71717c5034d9cf8b">hash</a>, const K &amp;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af09c9dda83c39b2e54fce12f60411042">key</a>) const -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a></td></tr>
+<tr class="separator:aa3ecda62af58b4c512308d8638e4b50b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0c6ed7e9d3e36f08fcf5dc2ac9ae087"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:ac0c6ed7e9d3e36f08fcf5dc2ac9ae087"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ac0c6ed7e9d3e36f08fcf5dc2ac9ae087">find</a> (const K &amp;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af09c9dda83c39b2e54fce12f60411042">key</a>) const -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a></td></tr>
+<tr class="separator:ac0c6ed7e9d3e36f08fcf5dc2ac9ae087"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b3267aa28a4ce3992dcdf378ca5c5ec"><td class="memTemplParams" colspan="2">template&lt;class Policy , class K , class... Args&gt; </td></tr>
+<tr class="memitem:a1b3267aa28a4ce3992dcdf378ca5c5ec"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1b3267aa28a4ce3992dcdf378ca5c5ec">SEQ_NOINLINE</a> (auto) insert_linear(Policy</td></tr>
+<tr class="separator:a1b3267aa28a4ce3992dcdf378ca5c5ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a779c6d25d4f7fb2fc2a2533cf39fdf6e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a779c6d25d4f7fb2fc2a2533cf39fdf6e">while</a> (!<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#aff9f68b62b45dc2190c9268e8da298ce">d_buckets</a>[<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1323f6bf7f0931231e7c81253c346258">index</a>].null() &amp;&amp;!<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#aff9f68b62b45dc2190c9268e8da298ce">d_buckets</a>[<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1323f6bf7f0931231e7c81253c346258">index</a>].is_tombstone())</td></tr>
+<tr class="separator:a779c6d25d4f7fb2fc2a2533cf39fdf6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ab4924dc73fde59f680743d2bbb77d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceseq_1_1detail.html#a71a01c8d491d7c793e8bffdc81ac8bfb">return</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a7ab4924dc73fde59f680743d2bbb77d8">std::pair</a> (<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ad64631327af9b0ee5b20c7a6accb73d4">tmp_it</a>, true)</td></tr>
+<tr class="separator:a7ab4924dc73fde59f680743d2bbb77d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a27d088c462a5eea723f3f53be524aa"><td class="memTemplParams" colspan="2">template&lt;class Policy , class K , class... Args&gt; </td></tr>
+<tr class="memitem:a8a27d088c462a5eea723f3f53be524aa"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a8a27d088c462a5eea723f3f53be524aa">insert_fast</a> (<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a46e317b74d2bc98cba1a7618378ea430">node_type</a> *it, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a6d4530a3259f0a6de1e292b313d8eac4">tiny_hash</a> <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a94a69a5c572128f1ceb458104433205a">h</a>, Policy, K &amp;&amp;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af09c9dda83c39b2e54fce12f60411042">key</a>, Args &amp;&amp;... args) -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool &gt;</td></tr>
+<tr class="separator:a8a27d088c462a5eea723f3f53be524aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76a415feb52e2b2bbf84cb747d463daa"><td class="memTemplParams" colspan="2">template&lt;class Policy , class K , class... Args&gt; </td></tr>
+<tr class="memitem:a76a415feb52e2b2bbf84cb747d463daa"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a76a415feb52e2b2bbf84cb747d463daa">insert_slow</a> (<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a46e317b74d2bc98cba1a7618378ea430">node_type</a> *it, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a6d4530a3259f0a6de1e292b313d8eac4">tiny_hash</a> <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a94a69a5c572128f1ceb458104433205a">h</a>, Policy, K &amp;&amp;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af09c9dda83c39b2e54fce12f60411042">key</a>, Args &amp;&amp;... args) -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool &gt;</td></tr>
+<tr class="separator:a76a415feb52e2b2bbf84cb747d463daa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad9511a21359813f6221d158b8547770"><td class="memTemplParams" colspan="2">template&lt;Location loc, class K , class... Args&gt; </td></tr>
+<tr class="memitem:aad9511a21359813f6221d158b8547770"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#aad9511a21359813f6221d158b8547770">emplace</a> (K &amp;&amp;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af09c9dda83c39b2e54fce12f60411042">key</a>, Args &amp;&amp;... args) -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool &gt;</td></tr>
+<tr class="separator:aad9511a21359813f6221d158b8547770"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0dfbc391a91cf690559c9789e6b8392"><td class="memTemplParams" colspan="2">template&lt;Location loc, class K , class... Args&gt; </td></tr>
+<tr class="memitem:ae0dfbc391a91cf690559c9789e6b8392"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ae0dfbc391a91cf690559c9789e6b8392">try_emplace</a> (K &amp;&amp;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af09c9dda83c39b2e54fce12f60411042">key</a>, Args &amp;&amp;... args) -&gt; std::pair&lt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool &gt;</td></tr>
+<tr class="separator:ae0dfbc391a91cf690559c9789e6b8392"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9961f7ba08dd676b07f0c3d357ee87d2"><td class="memTemplParams" colspan="2">template&lt;class Iter &gt; </td></tr>
 <tr class="memitem:a9961f7ba08dd676b07f0c3d357ee87d2"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a9961f7ba08dd676b07f0c3d357ee87d2">insert</a> (Iter <a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, Iter last)</td></tr>
 <tr class="separator:a9961f7ba08dd676b07f0c3d357ee87d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3fe4d5d7613cb5220bf899dd909a492"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ac3fe4d5d7613cb5220bf899dd909a492">erase_hash</a> (size_t <a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a7783d856c913420c1ee4b2a921b48b2f">hash</a>, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a> it) -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a></td></tr>
+<tr class="memitem:ac3fe4d5d7613cb5220bf899dd909a492"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ac3fe4d5d7613cb5220bf899dd909a492">erase_hash</a> (size_t <a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ade6e72b1389f597c71717c5034d9cf8b">hash</a>, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a> it) -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a></td></tr>
 <tr class="separator:ac3fe4d5d7613cb5220bf899dd909a492"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eb9f107ef1a41e6f58e41089df5c10c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a4eb9f107ef1a41e6f58e41089df5c10c">erase</a> (<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a> it) -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a></td></tr>
-<tr class="separator:a4eb9f107ef1a41e6f58e41089df5c10c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab49138b6f5e0cc5e5f6710213eef3e2c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ab49138b6f5e0cc5e5f6710213eef3e2c">erase</a> (<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a> it) -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a></td></tr>
+<tr class="separator:ab49138b6f5e0cc5e5f6710213eef3e2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf187436fd6834c61a611e09dbd5e4e8"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
-<tr class="memitem:abf187436fd6834c61a611e09dbd5e4e8"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#abf187436fd6834c61a611e09dbd5e4e8">erase</a> (const K &amp;key) -&gt; size_t</td></tr>
+<tr class="memitem:abf187436fd6834c61a611e09dbd5e4e8"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#abf187436fd6834c61a611e09dbd5e4e8">erase</a> (const K &amp;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af09c9dda83c39b2e54fce12f60411042">key</a>) -&gt; size_t</td></tr>
 <tr class="separator:abf187436fd6834c61a611e09dbd5e4e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8ad670d6a4097b4bdc3c4b368e433b4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ad8ad670d6a4097b4bdc3c4b368e433b4">erase</a> (<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a> <a class="el" href="namespaceseq_1_1detail.html#a4abc955e0a77f9f1a5d4b9fa147745e1">first</a>, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a> last) -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a></td></tr>
 <tr class="separator:ad8ad670d6a4097b4bdc3c4b368e433b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -213,10 +220,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa4c4444ca6d01ec0cafcc261e1b40e11 inherit pub_methods_structseq_1_1detail_1_1_hash_equal"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2ac19ce25ada5b96c990471cc0ab702 inherit pub_methods_structseq_1_1detail_1_1_hash_equal"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ad2ac19ce25ada5b96c990471cc0ab702">key_eq</a> () const -&gt; Equal</td></tr>
 <tr class="separator:ad2ac19ce25ada5b96c990471cc0ab702 inherit pub_methods_structseq_1_1detail_1_1_hash_equal"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7783d856c913420c1ee4b2a921b48b2f inherit pub_methods_structseq_1_1detail_1_1_hash_equal"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a7783d856c913420c1ee4b2a921b48b2f">hash</a> (Args &amp;&amp;... args) const noexcept -&gt; size_t</td></tr>
-<tr class="separator:a7783d856c913420c1ee4b2a921b48b2f inherit pub_methods_structseq_1_1detail_1_1_hash_equal"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8eb48330247ff1cb0eade67e08cacb17 inherit pub_methods_structseq_1_1detail_1_1_hash_equal"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a8eb48330247ff1cb0eade67e08cacb17">operator()</a> (Args &amp;&amp;... args) const noexcept</td></tr>
-<tr class="separator:a8eb48330247ff1cb0eade67e08cacb17 inherit pub_methods_structseq_1_1detail_1_1_hash_equal"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade6e72b1389f597c71717c5034d9cf8b inherit pub_methods_structseq_1_1detail_1_1_hash_equal"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ade6e72b1389f597c71717c5034d9cf8b">hash</a> (Args &amp;&amp;... args) const noexcept -&gt; size_t</td></tr>
+<tr class="separator:ade6e72b1389f597c71717c5034d9cf8b inherit pub_methods_structseq_1_1detail_1_1_hash_equal"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6292548019beaa005da081512e97a5d7 inherit pub_methods_structseq_1_1detail_1_1_hash_equal"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a6292548019beaa005da081512e97a5d7">operator()</a> (Args &amp;&amp;... args) const noexcept</td></tr>
+<tr class="separator:a6292548019beaa005da081512e97a5d7 inherit pub_methods_structseq_1_1detail_1_1_hash_equal"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -226,12 +233,24 @@ Public Attributes</h2></td></tr>
 <tr class="separator:aff9f68b62b45dc2190c9268e8da298ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a668bebf8423fd0dccb82c798045298"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a8a668bebf8423fd0dccb82c798045298">d_hash_mask</a></td></tr>
 <tr class="separator:a8a668bebf8423fd0dccb82c798045298"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b8ca5be160442e81c20c82eedf71ec4"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a0b8ca5be160442e81c20c82eedf71ec4">d_hash_len</a></td></tr>
+<tr class="separator:a0b8ca5be160442e81c20c82eedf71ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af91492cf16584877960dec88f1d23ec7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af91492cf16584877960dec88f1d23ec7">d_next_target</a></td></tr>
 <tr class="separator:af91492cf16584877960dec88f1d23ec7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4151cb318e1cdd603754a296c6cf0d9e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a4151cb318e1cdd603754a296c6cf0d9e">d_max_dist</a></td></tr>
 <tr class="separator:a4151cb318e1cdd603754a296c6cf0d9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b5ed4333adb1211d695a3bb48ffabee"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a5b5ed4333adb1211d695a3bb48ffabee">d_load_factor</a></td></tr>
 <tr class="separator:a5b5ed4333adb1211d695a3bb48ffabee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af09c9dda83c39b2e54fce12f60411042"><td class="memItemLeft" align="right" valign="top">K &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af09c9dda83c39b2e54fce12f60411042">key</a></td></tr>
+<tr class="separator:af09c9dda83c39b2e54fce12f60411042"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1323f6bf7f0931231e7c81253c346258"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1323f6bf7f0931231e7c81253c346258">index</a> = mask_hash(<a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ade6e72b1389f597c71717c5034d9cf8b">hash</a> , <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a8a668bebf8423fd0dccb82c798045298">d_hash_mask</a>, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a0b8ca5be160442e81c20c82eedf71ec4">d_hash_len</a>)</td></tr>
+<tr class="separator:a1323f6bf7f0931231e7c81253c346258"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94a69a5c572128f1ceb458104433205a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a6d4530a3259f0a6de1e292b313d8eac4">tiny_hash</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a94a69a5c572128f1ceb458104433205a">h</a> = <a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a7f898c78c4354aa6d9307b737cae51bd">node_type::small_hash</a>(<a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ade6e72b1389f597c71717c5034d9cf8b">hash</a>)</td></tr>
+<tr class="separator:a94a69a5c572128f1ceb458104433205a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad64631327af9b0ee5b20c7a6accb73d4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ad64631327af9b0ee5b20c7a6accb73d4">tmp_it</a> = Policy::emplace(<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a5301b06dd6df95633c49bddd5f19eda5">d_seq</a>, std::forward&lt;K&gt;(<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af09c9dda83c39b2e54fce12f60411042">key</a>), std::forward&lt;Args&gt;(args)...)</td></tr>
+<tr class="separator:ad64631327af9b0ee5b20c7a6accb73d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad26004d8298084cf11058ca294f0ccf7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ad26004d8298084cf11058ca294f0ccf7">d_buckets</a> [<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1323f6bf7f0931231e7c81253c346258">index</a>] = <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a46e317b74d2bc98cba1a7618378ea430">node_type</a>(<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a94a69a5c572128f1ceb458104433205a">h</a>, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1323f6bf7f0931231e7c81253c346258">index</a> == mask_hash(<a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ade6e72b1389f597c71717c5034d9cf8b">hash</a> , <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a8a668bebf8423fd0dccb82c798045298">d_hash_mask</a>, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a0b8ca5be160442e81c20c82eedf71ec4">d_hash_len</a>) ? 0 : <a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a0956b4b4fcdcba73d1abdeb7f70e211e">node_type::max_distance</a>, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ad64631327af9b0ee5b20c7a6accb73d4">tmp_it</a>)</td></tr>
+<tr class="separator:ad26004d8298084cf11058ca294f0ccf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -734,6 +753,47 @@ template&lt;class Key , class Value , class Hash , class Equal , class Allocator
 
 </div>
 </div>
+<a id="aad9511a21359813f6221d158b8547770"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad9511a21359813f6221d158b8547770">&#9670;&nbsp;</a></span>emplace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
+<div class="memtemplate">
+template&lt;Location loc, class K , class... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::emplace </td>
+          <td>(</td>
+          <td class="paramtype">K &amp;&amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool&gt;
+			</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="abf187436fd6834c61a611e09dbd5e4e8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abf187436fd6834c61a611e09dbd5e4e8">&#9670;&nbsp;</a></span>erase() <span class="overload">[1/3]</span></h2>
 
@@ -804,8 +864,8 @@ template&lt;class Key , class Value , class Hash , class Equal , class Allocator
 
 </div>
 </div>
-<a id="a4eb9f107ef1a41e6f58e41089df5c10c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4eb9f107ef1a41e6f58e41089df5c10c">&#9670;&nbsp;</a></span>erase() <span class="overload">[3/3]</span></h2>
+<a id="ab49138b6f5e0cc5e5f6710213eef3e2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab49138b6f5e0cc5e5f6710213eef3e2c">&#9670;&nbsp;</a></span>erase() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -816,7 +876,7 @@ template&lt;class Key , class Value , class Hash , class Equal , class Allocator
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::erase </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::erase </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a>&#160;</td>
           <td class="paramname"><em>it</em></td><td>)</td>
@@ -872,15 +932,15 @@ template&lt;class Key , class Value , class Hash , class Equal , class Allocator
 
 </div>
 </div>
-<a id="afd854ced0ae4823dc0c6324109614bf9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd854ced0ae4823dc0c6324109614bf9">&#9670;&nbsp;</a></span>find()</h2>
+<a id="ac0c6ed7e9d3e36f08fcf5dc2ac9ae087"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0c6ed7e9d3e36f08fcf5dc2ac9ae087">&#9670;&nbsp;</a></span>find()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
 <div class="memtemplate">
-template&lt;class... Args&gt; </div>
+template&lt;class K &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -888,8 +948,8 @@ template&lt;class... Args&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::find </td>
           <td>(</td>
-          <td class="paramtype">Args &amp;&amp;...&#160;</td>
-          <td class="paramname"><em>args</em></td><td>)</td>
+          <td class="paramtype">const K &amp;&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
           <td> const -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a>
 			</td>
         </tr>
@@ -903,15 +963,15 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a5d8fbd17dd696ccf0b346a7d1ce52aa9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d8fbd17dd696ccf0b346a7d1ce52aa9">&#9670;&nbsp;</a></span>find_hash()</h2>
+<a id="aa3ecda62af58b4c512308d8638e4b50b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3ecda62af58b4c512308d8638e4b50b">&#9670;&nbsp;</a></span>find_hash()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
 <div class="memtemplate">
-template&lt;class... Args&gt; </div>
+template&lt;class K &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -925,8 +985,8 @@ template&lt;class... Args&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Args &amp;&amp;...&#160;</td>
-          <td class="paramname"><em>args</em>&#160;</td>
+          <td class="paramtype">const K &amp;&#160;</td>
+          <td class="paramname"><em>key</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -944,56 +1004,15 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a7dffcf54010aa93ebb87c83894c2facd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7dffcf54010aa93ebb87c83894c2facd">&#9670;&nbsp;</a></span>find_linear_hash()</h2>
+<a id="a08eec51668cc3c491dfbfbc4e4deb6e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08eec51668cc3c491dfbfbc4e4deb6e1">&#9670;&nbsp;</a></span>hash_key()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
 <div class="memtemplate">
-template&lt;class... Args&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::find_linear_hash </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>hash</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Args &amp;&amp;...&#160;</td>
-          <td class="paramname"><em>args</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td> const -&gt; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a235f79c38fe367a0150b65ef8ec28b62">const_iterator</a>
-			</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a92ff01cea20d41e5107d425f5d768be7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92ff01cea20d41e5107d425f5d768be7">&#9670;&nbsp;</a></span>hash_key()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
-<div class="memtemplate">
-template&lt;class... Args&gt; </div>
+template&lt;class K &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -1001,8 +1020,8 @@ template&lt;class... Args&gt; </div>
         <tr>
           <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::hash_key </td>
           <td>(</td>
-          <td class="paramtype">Args &amp;&amp;...&#160;</td>
-          <td class="paramname"><em>args</em></td><td>)</td>
+          <td class="paramtype">const K &amp;&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
           <td> const -&gt; size_t
 			</td>
         </tr>
@@ -1016,39 +1035,8 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a0e3fe07901446b681c499c2fab50b953"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e3fe07901446b681c499c2fab50b953">&#9670;&nbsp;</a></span>insert() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
-<div class="memtemplate">
-template&lt;Location loc, class... Args&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::insert </td>
-          <td>(</td>
-          <td class="paramtype">Args &amp;&amp;...&#160;</td>
-          <td class="paramname"><em>args</em></td><td>)</td>
-          <td> -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool&gt;
-			</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a9961f7ba08dd676b07f0c3d357ee87d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9961f7ba08dd676b07f0c3d357ee87d2">&#9670;&nbsp;</a></span>insert() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9961f7ba08dd676b07f0c3d357ee87d2">&#9670;&nbsp;</a></span>insert()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1087,25 +1075,53 @@ template&lt;class Iter &gt; </div>
 
 </div>
 </div>
-<a id="ad8abaa9a7d1eea522c148eeac3ecf452"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8abaa9a7d1eea522c148eeac3ecf452">&#9670;&nbsp;</a></span>insert_linear()</h2>
+<a id="a8a27d088c462a5eea723f3f53be524aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a27d088c462a5eea723f3f53be524aa">&#9670;&nbsp;</a></span>insert_fast()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
 <div class="memtemplate">
-template&lt;Location loc, class... Args&gt; </div>
+template&lt;class Policy , class K , class... Args&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::insert_linear </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::insert_fast </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a46e317b74d2bc98cba1a7618378ea430">node_type</a> *&#160;</td>
+          <td class="paramname"><em>it</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a6d4530a3259f0a6de1e292b313d8eac4">tiny_hash</a>&#160;</td>
+          <td class="paramname"><em>h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Policy&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">K &amp;&amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
-          <td class="paramname"><em>args</em></td><td>)</td>
-          <td> -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool&gt;
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool&gt;
 			</td>
         </tr>
       </table>
@@ -1118,25 +1134,53 @@ template&lt;Location loc, class... Args&gt; </div>
 
 </div>
 </div>
-<a id="ae4c9f68e3f0abca66438007e59d7d2bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4c9f68e3f0abca66438007e59d7d2bd">&#9670;&nbsp;</a></span>insert_no_check()</h2>
+<a id="a76a415feb52e2b2bbf84cb747d463daa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76a415feb52e2b2bbf84cb747d463daa">&#9670;&nbsp;</a></span>insert_slow()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
 <div class="memtemplate">
-template&lt;Location loc, class... Args&gt; </div>
+template&lt;class Policy , class K , class... Args&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::insert_no_check </td>
+          <td class="memname">auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::insert_slow </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a46e317b74d2bc98cba1a7618378ea430">node_type</a> *&#160;</td>
+          <td class="paramname"><em>it</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a6d4530a3259f0a6de1e292b313d8eac4">tiny_hash</a>&#160;</td>
+          <td class="paramname"><em>h</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Policy&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">K &amp;&amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
-          <td class="paramname"><em>args</em></td><td>)</td>
-          <td> -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool&gt;
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool&gt;
 			</td>
         </tr>
       </table>
@@ -1326,6 +1370,28 @@ template&lt;class Key , class Value , class Hash , class Equal , class Allocator
 
 </div>
 </div>
+<a id="a1b3267aa28a4ce3992dcdf378ca5c5ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b3267aa28a4ce3992dcdf378ca5c5ec">&#9670;&nbsp;</a></span>SEQ_NOINLINE()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
+<div class="memtemplate">
+template&lt;class Policy , class K , class... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::SEQ_NOINLINE </td>
+          <td>(</td>
+          <td class="paramtype">auto&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a33b90cbe0d2ec376fa39a573d401fc72"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a33b90cbe0d2ec376fa39a573d401fc72">&#9670;&nbsp;</a></span>size()</h2>
 
@@ -1350,6 +1416,36 @@ template&lt;class Key , class Value , class Hash , class Equal , class Allocator
 <span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7ab4924dc73fde59f680743d2bbb77d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ab4924dc73fde59f680743d2bbb77d8">&#9670;&nbsp;</a></span>std::pair()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceseq_1_1detail.html#a71a01c8d491d7c793e8bffdc81ac8bfb">return</a> <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::std::pair </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ad64631327af9b0ee5b20c7a6accb73d4">tmp_it</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">true&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -1382,9 +1478,78 @@ template&lt;class Key , class Value , class Hash , class Equal , class Allocator
 
 </div>
 </div>
+<a id="ae0dfbc391a91cf690559c9789e6b8392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0dfbc391a91cf690559c9789e6b8392">&#9670;&nbsp;</a></span>try_emplace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
+<div class="memtemplate">
+template&lt;Location loc, class K , class... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::try_emplace </td>
+          <td>(</td>
+          <td class="paramtype">K &amp;&amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; std::pair&lt;<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a>, bool&gt;
+			</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a779c6d25d4f7fb2fc2a2533cf39fdf6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a779c6d25d4f7fb2fc2a2533cf39fdf6e">&#9670;&nbsp;</a></span>while()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::while </td>
+          <td>(</td>
+          <td class="paramtype">!d_buckets.&#160;</td>
+          <td class="paramname"><em>null</em>() &amp;&amp;!d_buckets.is_tombstone()[index][index]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="aff9f68b62b45dc2190c9268e8da298ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff9f68b62b45dc2190c9268e8da298ce">&#9670;&nbsp;</a></span>d_buckets</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aff9f68b62b45dc2190c9268e8da298ce">&#9670;&nbsp;</a></span>d_buckets <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1393,6 +1558,38 @@ template&lt;class Key , class Value , class Hash , class Equal , class Allocator
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a46e317b74d2bc98cba1a7618378ea430">node_type</a>* <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::d_buckets</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad26004d8298084cf11058ca294f0ccf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad26004d8298084cf11058ca294f0ccf7">&#9670;&nbsp;</a></span>d_buckets <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::d_buckets[<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1323f6bf7f0931231e7c81253c346258">index</a>] = <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a46e317b74d2bc98cba1a7618378ea430">node_type</a>(<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a94a69a5c572128f1ceb458104433205a">h</a>, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1323f6bf7f0931231e7c81253c346258">index</a> == mask_hash(<a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ade6e72b1389f597c71717c5034d9cf8b">hash</a> , <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a8a668bebf8423fd0dccb82c798045298">d_hash_mask</a>, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a0b8ca5be160442e81c20c82eedf71ec4">d_hash_len</a>) ? 0 : <a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a0956b4b4fcdcba73d1abdeb7f70e211e">node_type::max_distance</a>, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#ad64631327af9b0ee5b20c7a6accb73d4">tmp_it</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b8ca5be160442e81c20c82eedf71ec4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b8ca5be160442e81c20c82eedf71ec4">&#9670;&nbsp;</a></span>d_hash_len</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::d_hash_len</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1479,6 +1676,54 @@ template&lt;class Key , class Value , class Hash , class Equal , class Allocator
 
 </div>
 </div>
+<a id="a94a69a5c572128f1ceb458104433205a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94a69a5c572128f1ceb458104433205a">&#9670;&nbsp;</a></span>h</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a6d4530a3259f0a6de1e292b313d8eac4">tiny_hash</a> <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::h = <a class="el" href="structseq_1_1detail_1_1_sequence_node.html#a7f898c78c4354aa6d9307b737cae51bd">node_type::small_hash</a>(<a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ade6e72b1389f597c71717c5034d9cf8b">hash</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1323f6bf7f0931231e7c81253c346258"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1323f6bf7f0931231e7c81253c346258">&#9670;&nbsp;</a></span>index</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::index = mask_hash(<a class="el" href="structseq_1_1detail_1_1_hash_equal.html#ade6e72b1389f597c71717c5034d9cf8b">hash</a> , <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a8a668bebf8423fd0dccb82c798045298">d_hash_mask</a>, <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a0b8ca5be160442e81c20c82eedf71ec4">d_hash_len</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af09c9dda83c39b2e54fce12f60411042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af09c9dda83c39b2e54fce12f60411042">&#9670;&nbsp;</a></span>key</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">K&amp;&amp; <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::key</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa9941bd1d37289ba169ba1b347be8314"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa9941bd1d37289ba169ba1b347be8314">&#9670;&nbsp;</a></span>mask_dirty</h2>
 
@@ -1499,6 +1744,22 @@ template&lt;class Key , class Value , class Hash , class Equal , class Allocator
 <span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad64631327af9b0ee5b20c7a6accb73d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad64631327af9b0ee5b20c7a6accb73d4">&#9670;&nbsp;</a></span>tmp_it</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class Value , class Hash , class Equal , class Allocator , LayoutManagement layout&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a1be869581d5a6e81f3de782cd206e091">iterator</a> <a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html">seq::detail::SparseFlatNodeHashTable</a>&lt; Key, Value, Hash, Equal, Allocator, layout &gt;::tmp_it = Policy::emplace(<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#a5301b06dd6df95633c49bddd5f19eda5">d_seq</a>, std::forward&lt;K&gt;(<a class="el" href="structseq_1_1detail_1_1_sparse_flat_node_hash_table.html#af09c9dda83c39b2e54fce12f60411042">key</a>), std::forward&lt;Args&gt;(args)...)</td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>

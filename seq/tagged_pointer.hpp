@@ -33,6 +33,7 @@
  *  @{
  */
 
+#include <utility>
 
 #include "bits.hpp"
 
@@ -135,6 +136,13 @@ namespace seq
 		auto full() const noexcept -> std::uintptr_t { return d_ptr; }
 		void set_full(std::uintptr_t p)noexcept { d_ptr = p; }
 
+		auto split() const noexcept -> std::pair<const T*, unsigned> {
+			return std::pair<const T*, unsigned>(ptr(), tag());
+		}
+		auto split() noexcept -> std::pair<T*, unsigned> {
+			return std::pair<T*, unsigned>(ptr(), tag());
+		}
+
 		/// @brief cast operator to pointer
 		operator pointer() noexcept { return ptr(); }
 		/// @brief cast operator to pointer
@@ -186,6 +194,13 @@ namespace seq
 		auto set_tag(tag_type tag)noexcept -> tag_type { d_ptr = tag | (d_ptr & mask_high); return tag; }
 		auto full() const noexcept -> std::uintptr_t { return d_ptr; }
 		void set_full(std::uintptr_t p)noexcept { d_ptr = p; }
+
+		auto split() const noexcept -> std::pair<const void*, unsigned> {
+			return std::pair<const void*, unsigned>(ptr(),tag());
+		}
+		auto split() noexcept -> std::pair<void*, unsigned> {
+			return std::pair<void*, unsigned>(ptr(), tag());
+		}
 
 		operator pointer() noexcept { return ptr(); }
 		operator const_pointer() const noexcept { return ptr(); }

@@ -484,6 +484,7 @@ Above example compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10 on a Intel(
 #include <sstream>
 
 #include "charconv.hpp"
+#include "range.hpp"
 
 #undef min
 #undef max
@@ -496,7 +497,7 @@ namespace seq
 	static const null_format null;
 
 	//forward declaration
-	template<class T>
+	template<class T, bool Slot>
 	class ostream_format;
 
 	/// @brief Class representing the width formatting for a any formatting object.
@@ -526,29 +527,38 @@ namespace seq
 		explicit width_format(unsigned short w = 0, char align = 0, char f = ' ') noexcept : width(w), alignment(align), pad(f) {}
 
 		/// @brief Align to the left with given width
-		void left(unsigned short w) noexcept {
+		width_format& left(unsigned short w) noexcept {
 			width = w;
 			alignment = align_left;
+			return *this;
 		}
+		width_format& l(unsigned short w) noexcept {return left(w);}
 		/// @brief Align to the right with given width
-		void right(unsigned short w) noexcept {
+		width_format& right(unsigned short w) noexcept {
 			width = w;
 			alignment = align_right;
+			return *this;
 		}
+		width_format& r(unsigned short w) noexcept { return right(w); }
 		/// @brief Align to the center with given width
-		void center(unsigned short w) noexcept {
+		width_format& center(unsigned short w) noexcept {
 			width = w;
 			alignment = align_center;
+			return *this;
 		}
+		width_format& c(unsigned short w) noexcept { return center(w); }
 		/// @brief Set the filling character
-		void fill(char c) noexcept {
+		width_format& fill(char c) noexcept {
 			pad = c;
+			return *this;
 		}
+		width_format& f(char c) noexcept { return fill(c); }
 		/// @brief Reset alignment anf fill character
-		void reset()noexcept {
+		width_format& reset()noexcept {
 			width = 0;
 			alignment = 0;
 			pad = ' ';
+			return *this;
 		}
 
 		bool has_format() const noexcept {
@@ -622,7 +632,7 @@ namespace seq
 	{
 		enum FormatFlags
 		{
-			// Internal flag used by the numeric_format struct
+			// Internal flags used by the numeric_format struct
 			f_upper = 64,
 			f_prefix = 128,
 		};
@@ -714,26 +724,16 @@ namespace seq
 		};
 
 
-		/*struct StringSlice
+		/// @brief Can be specialized to force inline storage of value inside ValueHolder
+		/// @tparam T 
+		template<class T>
+		struct inline_value_storage : std::false_type
 		{
-			char* d_data{ nullptr };
-			char* d_end{ nullptr };
-			size_t d_size{ 0 };
-
-			static constexpr size_t npos = (size_t)-1;
-			static constexpr size_t max_capacity = (size_t)-2;
-
-			StringSlice() {}
-			StringSlice(std::string& str, size_t size = npos) : d_data((char*)str.data()), d_end(d_data + (size != npos ? size : str.size())), d_size(0) {}
-			template<size_t Ss, class Al>
-			StringSlice(tiny_string<Ss,Al> & str, size_t size = npos) : d_data((char*)str.data()), d_end(d_data + (size != npos ? size : str.size())), d_size(0) {}
-			StringSlice(char * d, size_t size = npos) : d_data(d), d_end(d_data + (size != npos ? size : strlen(d))), d_size(0) {}
-		};*/
-
+		};
 
 
 		/// @brief Tells if T is one of format library basic type (arithmetic or tstring_view types)
-		template<class T, bool IsBasicType = (std::is_arithmetic<T>::value || is_tiny_string<T>::value) >
+		template<class T, bool IsBasicType = (std::is_arithmetic<T>::value || is_tiny_string<T>::value || inline_value_storage<T>::value) >
 		struct is_fmt_basic_type
 		{
 			static constexpr bool value = IsBasicType;
@@ -748,31 +748,39 @@ namespace seq
 			explicit ValueHolder(const T& value) : _value(value) {}
 			auto value() noexcept -> T& { return _value; }
 			auto value() const noexcept -> const T& { return _value; }
-			void set_value(const T& value) { _value = value; }
+			template<class U>
+			void set_value(const U& value) { _value = value; }
+			void reset() {_value = T();}
 		};
 		template<class T >
 		struct ValueHolder<T, false>
 		{
 			const T * _value;
-			ValueHolder() : _value(NULL) {}
-			explicit ValueHolder(const T& value) : _value(&value) {}
+			ValueHolder() 
+				: _value(nullptr) {}
+			explicit ValueHolder(const T& value) 
+				: _value(&value) {}
 			auto value() noexcept -> T& { return *_value; }
 			auto value() const noexcept -> const T& { return *_value; }
-			void set_value(const T& value) { _value = &value; }
+			void set_value(const T& value) { 
+				_value = &value; 
+			}
+			void reset() {}
 		};
 
-		template<class T >
-		struct ValueHolder<ostream_format<T>, false>
+		template<class T , bool Slot>
+		struct ValueHolder<ostream_format<T, Slot>, false>
 		{
 			// Handle properly nested formats
-			ostream_format<T> _value;
+			ostream_format<T, Slot> _value;
 			ValueHolder() : _value() {}
-			explicit ValueHolder(const ostream_format<T>& value) : _value(value) {}
-			auto value() noexcept -> ostream_format<T>& { return _value; }
-			auto value() const noexcept -> const ostream_format<T>& { return _value; }
-			void set_value(const ostream_format<T>& value) { _value( value); }
+			explicit ValueHolder(const ostream_format<T, Slot>& value) : _value(value) {}
+			auto value() noexcept -> ostream_format<T, Slot>& { return _value; }
+			auto value() const noexcept -> const ostream_format<T, Slot>& { return _value; }
+			void set_value(const ostream_format<T, Slot>& value) { _value( value); }
 			template<class U>
 			void set_value(const U& value) { _value( value); }
+			void reset() {_value.reset();}
 		};
 
 
@@ -872,6 +880,18 @@ namespace seq
 	};
 
 
+	/// @brief Filler character
+	struct filler
+	{
+		char c;
+	};
+	/// @brief Returns a filler object used to fill a string slot within a formatting expression
+	/// @param c filler character
+	/// @return filler object
+	inline filler fill(char c) {
+		return filler{ c };
+	}
+
 	
 	/// @brief Base class for formatting objects
 	/// @tparam T type to format
@@ -903,6 +923,10 @@ namespace seq
 		base_ostream_format(const T& val, char base_or_format) : _value(val), _width(), _format(base_or_format) {}
 		base_ostream_format(const T& val, const numeric_format& fmt) : _value(val), _width(), _format(fmt) {}
 
+		/// reset content
+		void reset() {
+			_value.reset();
+		}
 
 		//getters
 		auto base() const noexcept -> char { return _format.base(); }
@@ -1060,21 +1084,31 @@ namespace seq
 		auto operator()(const Derived& other) -> Derived& {
 			return derived() = other;
 		}
-		template<class U, class D>
-		auto operator()(const base_ostream_format<U,D>& other) -> Derived& {
+		template<class U, bool S>
+		auto operator()(const ostream_format<U,S>& other) -> Derived& {
 			_value.set_value(static_cast<T>(other.value()));
+			set_numeric_format(other.numeric_fmt());
+			set_width_format(other.width_fmt());
+			return derived();
+		}
+
+		/// @brief Set the fill character with the parenthesis operator 
+		auto operator()(filler v) -> Derived& {
+			this->fill(v.c);
+			_value.reset();
 			return derived();
 		}
 
 
 		/// @brief Conversion operator to std::string
-		operator std::string() const {
-			return str();
+		template<class Traits, class Al>
+		operator std::basic_string<char,Traits,Al>() const {
+			return str<std::basic_string<char, Traits, Al> >();
 		}
 		/// @brief Conversion operator to tiny_string
-		template<size_t Ss, class Al>
-		operator tiny_string<Ss, Al>() const {
-			return str<tiny_string<Ss, Al>>();
+		template<class Traits, size_t Ss, class Al>
+		operator tiny_string<char,Traits,Al, Ss>() const {
+			return str<tiny_string<char, Traits, Al, Ss> >();
 		}
 
 		/// @brief Convert the formatting object to String
@@ -1113,6 +1147,17 @@ namespace seq
 			return { dst + tmp.size(),tmp.size() };
 		}
 
+		template<class Iter>
+		auto to_iter(Iter dst) -> Iter
+		{
+			std::string& tmp = detail::to_chars_buffer();
+			tmp.clear();
+			this->append(tmp);
+			return std::copy(tmp.begin(), tmp.end(), dst);
+		}
+
+		// Unused, but needed by join()
+		Derived& set_separator(...) noexcept { return derived(); }
 	};
 
 
@@ -1142,7 +1187,8 @@ namespace seq
 		};
 		template<class T>
 		struct OstreamToString<T,false,false,false,false>
-		{};
+		{
+		};
 		template<class T>
 		struct OstreamToString<T, false, false, true, true>
 		{
@@ -1241,12 +1287,12 @@ namespace seq
 	/// be used in another thread.
 	/// 
 	/// 
-	template<class T>
-	class ostream_format : public base_ostream_format<T, ostream_format<T> >
+	template<class T, bool Slot = false>
+	class ostream_format : public base_ostream_format<T, ostream_format<T, Slot> >
 	{
-		using base_type = base_ostream_format<T, ostream_format<T> >;
+		using base_type = base_ostream_format<T, ostream_format<T, Slot> >;
 
-		template<class U>
+		template<class U, bool S>
 		friend class ostream_format;
 
 		template<class U, bool IsIntegral, bool IsFloat, bool IsString, bool IsStreamable>
@@ -1254,10 +1300,11 @@ namespace seq
 
 	public:
 
+		static constexpr bool is_slot = Slot;
 		static constexpr bool auto_width_format = true;
 
 		// set flag telling if type T can be formatted with ostream_format
-		static constexpr bool is_formattable = detail::is_default_formattable<T, ostream_format<T> >::value;
+		static constexpr bool is_formattable = detail::is_default_formattable<T, ostream_format<T,Slot> >::value;
 
 		/// @brief Default constructor. 
 		///
@@ -1287,8 +1334,8 @@ namespace seq
 
 	private:
 
-		template<class String, class U>
-		auto write_integral_to_string(String& tmp, const ostream_format<U>& val) const -> size_t
+		template<class String, class U, bool S>
+		auto write_integral_to_string(String& tmp, const ostream_format<U,S>& val) const -> size_t
 		{
 			to_chars_result f;
 			size_t size;
@@ -1323,8 +1370,8 @@ namespace seq
 			return size;
 		}
 
-		template<class String, class U>
-		auto write_float_to_string(String& tmp, const ostream_format<U>& val) const -> size_t
+		template<class String, class U, bool S>
+		auto write_float_to_string(String& tmp, const ostream_format<U,S>& val) const -> size_t
 		{
 			size_t min_cap = std::max(static_cast<size_t>(14), static_cast<size_t>(val.width()));
 			if (SEQ_UNLIKELY(tmp.capacity() < min_cap)) {
@@ -1363,8 +1410,8 @@ namespace seq
 			return size;
 		}
 
-		template<class String, class U>
-		auto write_string_to_string(String& tmp, const ostream_format<U>& val) const -> size_t
+		template<class String, class U,bool S>
+		auto write_string_to_string(String& tmp, const ostream_format<U,S>& val) const -> size_t
 		{
 			size_t prev = tmp.size();
 			size_t size = val.value().size();
@@ -1411,17 +1458,17 @@ namespace seq
 	
 	
 	/// @brief Nested ostream_format
-	template<class T>
-	class ostream_format<ostream_format<T> > : public base_ostream_format<ostream_format<T>, ostream_format<ostream_format<T> > >
+	template<class T, bool S1, bool S2>
+	class ostream_format<ostream_format<T,S1>, S2 > : public base_ostream_format<ostream_format<T,S1>, ostream_format<ostream_format<T,S1>,S2 > >
 	{
-		using base_type = base_ostream_format<ostream_format<T>, ostream_format<ostream_format<T> > >;
+		using base_type = base_ostream_format<ostream_format<T, S1>, ostream_format<ostream_format<T, S1>, S2 > >;
 
 	public:
 
 		ostream_format()
 			: base_type() {}
 
-		explicit ostream_format(const ostream_format<T>& value)
+		explicit ostream_format(const ostream_format<T,S1>& value)
 			:base_type(value) {}
 
 		template<class String>
@@ -1436,13 +1483,13 @@ namespace seq
 
 
 	/// @brief Write a ostream_format object to a std::ostream 
-	template<class Elem, class Traits, class T>
-	inline auto operator<<(std::basic_ostream<Elem, Traits>&  oss, const ostream_format<T>&  val) -> std::basic_ostream<Elem, Traits>&
+	template<class Elem, class Traits, class T, bool S>
+	inline auto operator<<(std::basic_ostream<Elem, Traits>&  oss, const ostream_format<T,S>&  val) -> std::basic_ostream<Elem, Traits>&
 	{
 		std::string& tmp = detail::ostream_buffer();
 		tmp.clear();
 		size_t s = val.to_string(tmp);
-		if (!ostream_format<T>::auto_width_format) {
+		if (!ostream_format<T,S>::auto_width_format) {
 			// non default ostream_format, the width formatting must be applied
 			if (val.alignment()) {
 				width_format::format(tmp, 0, tmp.size(), val.width_fmt());
@@ -1454,122 +1501,121 @@ namespace seq
 	}
 
 
-
-
-
-
-
-
-
-
-
 	namespace detail
 	{
 		//
 		// Helper structure used to build a ostream_format based on a type T
 		//
 
-		template<typename T>
+		template<typename T, bool S>
 		struct FormatWrapper
 		{
 			// Default behavior: use ostream_format<T>
-			using type = ostream_format<T>;
+			using type = ostream_format<T,S>;
 		};
-		template<typename T>
-		struct FormatWrapper<const T&>
+		template<typename T, bool S>
+		struct FormatWrapper<const T&,S>
 		{
-			using type = ostream_format<T>;
+			using type = ostream_format<T, S>;
 		};
-		template<typename T>
-		struct FormatWrapper<T&>
+		template<typename T, bool S>
+		struct FormatWrapper<T&,S>
 		{
-			using type = ostream_format<T>;
+			using type = ostream_format<T, S>;
 		};
 
-
-		
-
-		template<>
-		struct FormatWrapper<char*>
+		template<bool S>
+		struct FormatWrapper<char*,S>
 		{
 			// Literal strings should produce ostream_format<tstring_view>
-			using type = ostream_format<tstring_view>;
+			using type = ostream_format<tstring_view, S>;
 		} ;
-		template<>
-		struct FormatWrapper<const char*>
+		template<bool S>
+		struct FormatWrapper<const char*,S>
 		{
-			using type = ostream_format<tstring_view>;
+			using type = ostream_format<tstring_view, S>;
 		} ;
-		template<>
-		struct FormatWrapper<std::string>
+		template<class Traits, class Al, bool S>
+		struct FormatWrapper<std::basic_string<char,Traits,Al>,S>
 		{
 			// ALL string classes should produce ostream_format<tstring_view>
-			using type = ostream_format<tstring_view>;
+			using type = ostream_format<tstring_view, S>;
 		} ;
 
 #ifdef SEQ_HAS_CPP_17
-		template<>
-		struct FormatWrapper<std::string_view>
+		template<class Traits, bool S>
+		struct FormatWrapper<std::basic_string_view<char,Traits>,S>
 		{
 			// ALL string classes should produce ostream_format<tstring_view>
-			using type = ostream_format<tstring_view>;
+			using type = ostream_format<tstring_view, S>;
 		};
 #endif
 
-		template<size_t S, class Alloc>
-		struct FormatWrapper<tiny_string<S, Alloc> >
+		template<class Traits, size_t S, class Alloc, bool Slot>
+		struct FormatWrapper<tiny_string<char,Traits,Alloc,S> , Slot>
 		{
-			using type = ostream_format<tstring_view>;
+			using type = ostream_format<tstring_view, Slot>;
 		};
-		template<size_t N>
-		struct FormatWrapper<char[N] >
+		template<size_t N, bool S>
+		struct FormatWrapper<char[N] ,S>
 		{
-			using type = ostream_format<tstring_view>;
+			using type = ostream_format<tstring_view, S>;
 		};
-		template<size_t N>
-		struct FormatWrapper<const char[N] >
+		template<size_t N, bool S>
+		struct FormatWrapper<const char[N] ,S>
 		{
-			using type = ostream_format<tstring_view>;
+			using type = ostream_format<tstring_view, S>;
 		};
-		template<size_t N>
-		struct FormatWrapper<char const (&)[N] >
+		template<size_t N, bool S>
+		struct FormatWrapper<char const (&)[N] ,S>
 		{
-			using type = ostream_format<tstring_view>;
+			using type = ostream_format<tstring_view, S>;
+		};
+
+		template<class T, bool S>
+		struct FormatWrapper<ostream_format<T,S>, S >
+		{
+			using type = ostream_format<T, S>;
 		};
 
 		// forward declaration
-		template<class Tuple, class Pos >
+		template<class Tuple, bool HS, class Pos, bool Slot >
 		struct mutli_ostream_format;
 
 		// Specialize FormatWrapper for mutli_ostream_format (for nesting purpose)
-		template<class Tuple, class Pos>
-		struct FormatWrapper<mutli_ostream_format<Tuple, Pos> >
+		template<class Tuple, bool HS, class Pos, bool Slot>
+		struct FormatWrapper<mutli_ostream_format<Tuple, HS, Pos, Slot> , Slot>
 		{
-			using type = mutli_ostream_format<Tuple, Pos>;
+			using type = mutli_ostream_format<Tuple, HS, Pos, Slot>;
 		};
 				
 
 
 
+		/// @brief Tells if given type is a slot
 		template<class T>
-		struct remove_ostream_format
-		{
-			using type = T;
-		};
-		template<class T>
-		struct remove_ostream_format<ostream_format<T> >
-		{
-			using type = T;
-		};
+		struct is_slot : std::false_type {};
+		template<class T, bool S>
+		struct is_slot<ostream_format<T,S> > : std::integral_constant<bool,S> {};
+		template<class T, bool S>
+		struct is_slot<ostream_format<T, S> &> : std::integral_constant<bool, S> {};
+		template<class T, bool S>
+		struct is_slot<const ostream_format<T, S> &> : std::integral_constant<bool, S> {};
+		template<class Tuple, bool HS, class Pos, bool S >
+		struct is_slot<mutli_ostream_format<Tuple, HS, Pos, S> > : std::integral_constant<bool, S> {};
+		template<class Tuple, bool HS, class Pos, bool S >
+		struct is_slot<mutli_ostream_format<Tuple, HS, Pos, S>& > : std::integral_constant<bool, S> {};
+		template<class Tuple, bool HS, class Pos, bool S >
+		struct is_slot<const mutli_ostream_format<Tuple, HS, Pos, S>& > : std::integral_constant<bool, S> {};
+
+
 
 		// meta-function which yields FormatWrapper<Element>::type from Element
 		template<class Element>
 		struct apply_wrapper
 		{
 			using tmp_type = typename std::remove_const< typename std::remove_reference<Element>::type >::type;
-			// remove possible ostream_format
-			using raw_type = typename remove_ostream_format< tmp_type>::type;
-			using result = typename FormatWrapper<raw_type>::type;
+			using result = typename FormatWrapper<tmp_type, is_slot<tmp_type>::value>::type;
 		};
 
 		namespace metafunction
@@ -1609,63 +1655,84 @@ namespace seq
 
 
 
-		/// @brief Convert a tuple of ostream_format to string 
+		/// @brief Get the full string size if the tuple only contains tstring_view objects. Otherwise return -1.
 		template<class Tuple, int N = std::tuple_size<Tuple>::value >
+		struct GetStringSize
+		{
+			static constexpr int tuple_size = std::tuple_size<Tuple>::value;
+			static constexpr int pos = tuple_size - N;
+			static constexpr size_t invalid = static_cast<size_t>(-1);
+
+			template<class T>
+			static inline size_t get_string_size(const T&) noexcept {
+				return static_cast<size_t>(-1);
+			}
+			template<class OtherTuple, bool HS, class Pos, bool S>
+			static inline size_t get_string_size(const mutli_ostream_format<OtherTuple, HS,Pos,S>& m) noexcept {
+				return GetStringSize< OtherTuple>::get(0, m.d_tuple);
+			}
+			template<bool S>
+			static inline size_t get_string_size(const ostream_format<tstring_view,S>& s) noexcept {
+				return s.value().size();
+			}
+			static size_t get(size_t prev, const Tuple& t) noexcept
+			{
+				size_t s = get_string_size(std::get<pos>(t));
+				if (s == invalid)
+					return  invalid;
+				return GetStringSize<Tuple, N - 1>::get(s + prev, t);
+			}
+		};
+		template<class Tuple>
+		struct GetStringSize<Tuple, 0>
+		{
+			static size_t get(size_t s, const Tuple& /*unused*/) noexcept {
+				return s;
+			}
+		};
+
+
+		template<class Tuple, class Derived, bool HasSeparator>
+		class base_mutli_ostream_format;
+
+		template<class Tuple, class Derived, bool HasSeparator>
+		size_t get_multi_ostream_size(const base_mutli_ostream_format<Tuple, Derived, HasSeparator>& m) noexcept
+		{
+			static constexpr size_t invalid = static_cast<size_t>(-1);
+			size_t res = GetStringSize<Tuple>::get(0, m.d_tuple);
+			if SEQ_CONSTEXPR(HasSeparator) {
+				if (res != invalid) {
+					res += (std::tuple_size<Tuple>::value - 1) * m.separator().size();
+				}
+			}
+			return res;
+		}
+
+
+		/// @brief Convert a tuple of ostream_format to string 
+		template<bool HasSeparator, class Tuple, int N = std::tuple_size<Tuple>::value >
 		struct Converter
 		{
 			static constexpr int tuple_size = std::tuple_size<Tuple>::value;
 
 			template<class String>
-			static void convert(String& out, const Tuple& t)
+			static void convert(String& out, const Tuple& t, tstring_view sep)
 			{
 				static constexpr int pos = tuple_size - N;
 				std::get<pos>(t).append(out);
-				Converter<Tuple, N - 1>::convert(out, t);
+				if SEQ_CONSTEXPR(HasSeparator && pos != (tuple_size - 1)) {
+					out.append(sep);
+				}
+				Converter<HasSeparator,Tuple, N - 1>::convert(out, t,sep);
 			}
 		};
-		template<class Tuple>
-		struct Converter<Tuple, 0>
+		template<bool HasSeparator, class Tuple>
+		struct Converter<HasSeparator,Tuple, 0>
 		{
 			template<class String>
-			static void convert(String& /*unused*/, const Tuple& /*unused*/)
+			static void convert(String& /*unused*/, const Tuple& /*unused*/, tstring_view)
 			{}
 		};
-
-		/// @brief Write tuple of ostream_format to string 
-		template<class Tuple, int N = std::tuple_size<Tuple>::value >
-		struct ToOstream
-		{
-			static constexpr int tuple_size = std::tuple_size<Tuple>::value;
-
-			template<class Stream>
-			static void convert(Stream& out, const Tuple& t)
-			{
-				std::string& tmp = multi_ostream_buffer();
-				tmp.clear();
-
-				const auto& v = std::get<tuple_size - N>(t);
-				size_t s = v.to_string(tmp);
-
-				using ostream_type = typename std::tuple_element<tuple_size - N, Tuple>::type;
-				if (!ostream_type::auto_width_format) {
-					// non default ostream_format, the width formatting must be applied
-					if (v.alignment()) {
-						width_format::format(tmp, 0, tmp.size(), v.width_fmt());
-						s = tmp.size();
-					}
-				}
-				out.rdbuf()->sputn(tmp.data(), static_cast<std::streamsize>(s));
-				ToOstream<Tuple, N - 1>::convert(out, t);
-			}
-		};
-		template<class Tuple>
-		struct ToOstream<Tuple, 0>
-		{
-			template<class Stream>
-			static void convert(Stream& /*unused*/, const Tuple& /*unused*/)
-			{}
-		};
-
 
 
 
@@ -1747,6 +1814,62 @@ namespace seq
 
 
 
+
+
+		/// @brief Prepend value to a Positional argument
+		/// @tparam Type 
+		template<size_t Val, class Type>
+		struct PrependPos
+		{
+			using type = Positional<Val>;
+		};
+		template<size_t Val, size_t... T>
+		struct PrependPos<Val, Positional< T...> >
+		{
+			using type = Positional<Val, T...>;
+		};
+
+		/// @brief Returns type at given position for given variadic template, avoid using std::tuple
+		template<size_t N, typename T, typename... types>
+		struct get_type
+		{
+			using type = typename get_type<N - 1, types...>::type;
+		};
+		template<typename T, typename... types>
+		struct get_type<0, T, types...>
+		{
+			using type = T;
+		};
+
+		template<size_t Index, class Start, class ...Args>
+		struct FindSlotPos
+		{
+			using type_at_index = typename get_type<Index, Args...>::type;
+			using type =
+
+				typename FindSlotPos<Index - 1,
+				typename std::conditional< is_slot<type_at_index>::value, typename PrependPos<Index, Start>::type, Start>::type,
+				Args...>::type;
+		};
+		template<class Start, class ...Args>
+		struct FindSlotPos<0, Start, Args...>
+		{
+			using type_at_index = typename get_type<0, Args...>::type;
+			using type = typename std::conditional< is_slot<type_at_index>::value, typename PrependPos<0, Start>::type, Start>::type;
+		};
+
+		/// @brief Find all indexes of slot_format types and return them as a Positional type
+		/// @tparam ...Args 
+		template<class ...Args>
+		struct find_slots
+		{
+			using type = typename FindSlotPos<(sizeof...(Args)) - 1, void, Args...>::type;
+		};
+
+
+
+
+
 		/// @brief Affect new values to all members of a tuple of ostream_format objects.
 		/// Use a Positional object to only updated some members of the tuple.
 		/// 
@@ -1801,10 +1924,34 @@ namespace seq
 
 
 
-		template<class Derived>
-		class base_mutli_ostream_format
+
+		/// @brief Store separator string (only if HasSeparator is true) used by join() function
+		template<class Derived, bool HasSeparator>
+		class format_separator
 		{
-		protected:
+			tstring_view sep;
+		public:
+			static constexpr bool has_separator = true;
+			format_separator() {}
+			tstring_view separator() const noexcept {return sep;}
+			Derived& set_separator(tstring_view s) noexcept { sep = s; return static_cast<Derived&>(*this); }
+		};
+		template<class Derived>
+		class format_separator<Derived,false>
+		{
+		public:
+			static constexpr bool has_separator = false;
+			format_separator() {}
+			tstring_view separator() const noexcept { return tstring_view(); }
+			Derived& set_separator(tstring_view ) noexcept { return static_cast<Derived&>(*this); }
+		};
+
+		/// @brief Base class for mutli_ostream_format
+		template<class Tuple, class Derived, bool HasSeparator = false>
+		class base_mutli_ostream_format : public format_separator<Derived, HasSeparator>
+		{
+		public:
+			Tuple d_tuple;
 			width_format d_width;
 			Derived& derived() noexcept { return static_cast<Derived&>(*this); }
 			const Derived& derived() const noexcept { return static_cast<const Derived&>(*this); }
@@ -1812,8 +1959,19 @@ namespace seq
 		public:
 			//static constexpr bool auto_width_format = true;
 
-			base_mutli_ostream_format() : d_width() {}
+			base_mutli_ostream_format() : d_tuple(), d_width() {}
 
+			template<class ...Args, class = typename std::enable_if<((sizeof...(Args)) > 1), void>::type>
+			explicit base_mutli_ostream_format(Args&&... args)
+				// Construct from multiple values.
+				// Mark as explicit otherwise it replaces the default copy constructor.
+				// Note: explicit is not enough, SFINAE is required
+#if defined(__GNUG__) && __GNUC__ < 5
+				: d_tuple(std::allocator_arg_t{}, std::allocator<char>{}, std::forward<Args>(args)...), d_width()
+#else
+				: d_tuple(std::forward<Args>(args)...), d_width()
+#endif
+			{}
 
 			/// @brief Returns the width format options
 			auto width_fmt() const noexcept -> width_format { return d_width; }
@@ -1865,78 +2023,26 @@ namespace seq
 			/// @brief Set the fill character, used with left(), right() and center()
 			auto f(char _f) noexcept -> Derived& { return fill(_f); }
 
-			
-		};
-
-		/// @brief Formatting class for multiple values, returned by seq::fmt(... , ...).
-		/// @tparam Tuple tuple of ostream_format
-		/// @tparam Pos possible Positional type
-		template<class Tuple, class Pos = void>
-		struct mutli_ostream_format : public base_mutli_ostream_format<mutli_ostream_format<Tuple,Pos>>
-		{
-			using base_type = base_mutli_ostream_format<mutli_ostream_format<Tuple, Pos>>;
-			using this_type = mutli_ostream_format<Tuple, Pos>;
-			using tuple_type = Tuple;
-			tuple_type d_tuple;
-			
-
-			mutli_ostream_format()
-				:base_type(), d_tuple()
-			{}
-
-			template<class ...Args, class = typename std::enable_if<((sizeof...(Args)) > 1),void>::type>
-			explicit mutli_ostream_format(Args&&... args)
-				// Construct from multiple values.
-				// Mark as explicit otherwise it replaces the default copy constructor.
-				// Note: explicit is not enough, SFINAE is required
-#if defined(__GNUG__) && __GNUC__ < 5
-				: base_type(), d_tuple( std::allocator_arg_t{}, std::allocator<char>{},std::forward<Args>(args)...)
-#else
-				: base_type(), d_tuple( std::forward<Args>(args)...)
-#endif
-			{}
-
-			
-			template<class ...Args>
-			auto operator()(Args&&... args) -> mutli_ostream_format&
-			{
-				// Update internal tuple with new values.
-				AffectValues<Tuple>::convert(d_tuple, std::forward<Args>(args)...);
-				return *this;
-			}
-			template<size_t ...T, class ...Args>
-			auto operator()(Positional<T...> /*unused*/, Args&&... args) -> mutli_ostream_format&
-			{
-				// update internal tuple with new values for given indexes
-				AffectValuesWithPos<Positional<T...>, Tuple>::convert(d_tuple, std::forward<Args>(args)...);
-				return *this;
-			}
-			template<size_t ...T, class TT, class PP>
-			auto operator()(Positional<T...> /*unused*/, const mutli_ostream_format<TT, PP>& o) -> mutli_ostream_format&
-			{
-				// update internal tuple with new values for given indexes
-				AffectValuesWithPosFromTuple<Positional<T...>, Tuple,TT>::convert(d_tuple, o.d_tuple);
-				return *this;
-			}
-			template<class T, class P>
-			auto operator()(const mutli_ostream_format<T,P> & o) -> mutli_ostream_format&
-			{
-				// Affect values based on another mutli_ostream_format, for nested formatting
-				AffectValuesFromTuple<Tuple,T>::convert(d_tuple, o.d_tuple);
-				return *this;
-			}
 
 			template<size_t N, class T>
 			void set(const T& value) {
-				std::get<N>(d_tuple)(value);
+				std::get<N>(this->d_tuple)(value);
 			}
 			template<size_t N>
 			auto get() noexcept -> typename std::tuple_element<N, Tuple>::type& {
-				return std::get<N>(d_tuple);
+				return std::get<N>(this->d_tuple);
 			}
 			template<size_t N>
 			auto get() const noexcept -> const typename std::tuple_element<N, Tuple>::type& {
-				return std::get<N>(d_tuple);
+				return std::get<N>(this->d_tuple);
+			}
+
+			template<class String>
+			void reserve_string(String& str) const
+			{
+				size_t s = get_multi_ostream_size(*this);
+				if (s != static_cast<size_t>(-1))
+					str.reserve(s);
 			}
 
 			template<class String = std::string>
@@ -1944,7 +2050,7 @@ namespace seq
 			{
 				// append the content of this formatting object to a string-like object
 				size_t prev = out.size();
-				Converter<Tuple>::convert(out, d_tuple);
+				Converter<HasSeparator, Tuple>::convert(out, d_tuple, this->separator());
 				if (this->d_width.has_format()) {
 					width_format::format(out, prev, out.size(), this->d_width);
 				}
@@ -1953,17 +2059,14 @@ namespace seq
 
 			auto to_chars(char* dst) -> char*
 			{
-				std::string& tmp = detail::to_chars_buffer();
-				tmp.clear();
-				this->append(tmp);
-				memcpy(dst, tmp.data(), tmp.size());
-				return dst + tmp.size();
+				return to_iter(dst);
 			}
 
 			auto to_chars(char* dst, size_t max) -> std::pair<char*, size_t>
 			{
 				std::string& tmp = detail::to_chars_buffer();
 				tmp.clear();
+				reserve_string(tmp);
 				this->append(tmp);
 				if (tmp.size() > max) {
 					memcpy(dst, tmp.data(), max);
@@ -1971,6 +2074,15 @@ namespace seq
 				}
 				memcpy(dst, tmp.data(), tmp.size());
 				return { dst + tmp.size(),tmp.size() };
+			}
+
+			template<class Iter>
+			auto to_iter(Iter dst) -> Iter {
+				std::string& tmp = detail::to_chars_buffer();
+				tmp.clear();
+				reserve_string(tmp);
+				this->append(tmp);
+				return std::copy(tmp.begin(), tmp.end(), dst);
 			}
 
 			template<class String = std::string>
@@ -1978,137 +2090,139 @@ namespace seq
 			{
 				// convert this formatting object to string-like object
 				String res;
+				reserve_string(res);
 				return append(res);
 			}
 
-			operator std::string() const
+			template<class Traits, class Al>
+			operator std::basic_string<char,Traits,Al>() const
 			{
 				// convertion operator to std::string
-				return str();
+				return str<std::basic_string<char, Traits, Al> >();
 			}
-			template<size_t S, class Al>
-			operator tiny_string<S, Al>() const
+			template<class Traits, size_t S, class Al>
+			operator tiny_string<char,Traits, Al,S>() const
 			{
 				// convertion operator to tiny_string
-				return str< tiny_string<S, Al> >();
+				return str< tiny_string<char, Traits, Al, S> >();
 			}
 		};
 
-		template<class Tuple, size_t ...Ts>
-		struct mutli_ostream_format<Tuple, Positional<Ts...>> : public base_mutli_ostream_format<mutli_ostream_format<Tuple, Positional<Ts...>>>
+		/// @brief Formatting class for multiple values, returned by seq::fmt(... , ...).
+		/// @tparam Tuple tuple of ostream_format
+		/// @tparam Pos possible Positional type
+		template<class Tuple, bool HasSeparator = false, class Pos = void, bool Slot = false>
+		struct mutli_ostream_format : public base_mutli_ostream_format<Tuple,mutli_ostream_format<Tuple, HasSeparator,Pos, Slot> , HasSeparator>
 		{
-			// Partial specialization of mutli_ostream_format that supports Positional type as template argument
+			static constexpr bool is_slot = Slot;
 
-			using base_type = base_mutli_ostream_format<mutli_ostream_format<Tuple, Positional<Ts...>>>;
+			using base_type = base_mutli_ostream_format<Tuple, mutli_ostream_format<Tuple, HasSeparator, Pos, Slot>, HasSeparator>;
+			using this_type = mutli_ostream_format<Tuple, HasSeparator, Pos, Slot>;
 			using tuple_type = Tuple;
-			using pos_type = Positional<Ts...>;
-			tuple_type d_tuple;
+			
 
 			mutli_ostream_format()
-				:base_type(), d_tuple()
-			{}
-			template<class ...Args, class = typename std::enable_if<((sizeof...(Args)) > 1), void>::type>
-			explicit mutli_ostream_format(Args&&... args)
-				// Construct from multiple values.
-				// Mark as explicit otherwise it replaces the default copy constructor
-#if defined(__GNUG__) && __GNUC__ < 5
-				: base_type(), d_tuple( std::allocator_arg_t{}, std::allocator<char>{},std::forward<Args>(args)...)
-#else
-				: base_type(), d_tuple( std::forward<Args>(args)...)
-#endif
+				:base_type()
 			{}
 
+			template<class ...Args, class = typename std::enable_if<((sizeof...(Args)) > 1),void>::type>
+			explicit mutli_ostream_format(Args&&... args)
+				// Construct from multiple values.
+				// Mark as explicit otherwise it replaces the default copy constructor.
+				// Note: explicit is not enough, SFINAE is required
+			: base_type(std::forward<Args>(args)...)
+			{}
+
+			
 			template<class ...Args>
 			auto operator()(Args&&... args) -> mutli_ostream_format&
 			{
-				AffectValuesWithPos<pos_type, Tuple>::convert(d_tuple, std::forward<Args>(args)...);
+				static_assert((sizeof...(Args)) == std::tuple_size<Tuple>::value, "format: invalid number of arguments");
+				// Update internal tuple with new values.
+				AffectValues<Tuple>::convert(this->d_tuple, std::forward<Args>(args)...);
 				return *this;
 			}
 			template<size_t ...T, class ...Args>
 			auto operator()(Positional<T...> /*unused*/, Args&&... args) -> mutli_ostream_format&
 			{
-				AffectValuesWithPos<Positional<T...>, Tuple>::convert(d_tuple, std::forward<Args>(args)...);
+				static_assert((sizeof...(Args)) == (sizeof...(T)), "format with positional argument: invalid number of arguments");
+				// update internal tuple with new values for given indexes
+				AffectValuesWithPos<Positional<T...>, Tuple>::convert(this->d_tuple, std::forward<Args>(args)...);
 				return *this;
 			}
-			template<size_t ...T, class TT, class PP>
-			auto operator()(Positional<T...> /*unused*/, const mutli_ostream_format<TT, PP>& o) -> mutli_ostream_format&
+			template<size_t ...T, class TT, bool HS, class PP, bool S>
+			auto operator()(Positional<T...> /*unused*/, const mutli_ostream_format<TT, HS, PP,S>& o) -> mutli_ostream_format&
 			{
 				// update internal tuple with new values for given indexes
-				AffectValuesWithPosFromTuple<Positional<T...>, Tuple, TT>::convert(d_tuple, o.d_tuple);
+				AffectValuesWithPosFromTuple<Positional<T...>, Tuple,TT>::convert(this->d_tuple, o.d_tuple);
 				return *this;
 			}
-			template<class T, class P>
-			auto operator()(const mutli_ostream_format<T, P>& o) -> mutli_ostream_format&
+			template<class T,bool HS, class P, bool S>
+			auto operator()(const mutli_ostream_format<T,HS,P,S> & o) -> mutli_ostream_format&
 			{
 				// Affect values based on another mutli_ostream_format, for nested formatting
-				AffectValuesWithPosFromTuple<pos_type, Tuple, T>::convert(d_tuple, o.d_tuple);
+				AffectValuesFromTuple<Tuple,T>::convert(this->d_tuple, o.d_tuple);
 				return *this;
 			}
 
-			template<size_t N, class T>
-			void set(const T& value){
-				std::get<N>(d_tuple)(value);
-			}
-			template<size_t N>
-			auto get() noexcept -> typename std::tuple_element<N, Tuple>::type& {
-				return std::get<N>(d_tuple);
-			}
-			template<size_t N>
-			auto get() const noexcept -> const typename std::tuple_element<N, Tuple>::type& {
-				return std::get<N>(d_tuple);
-			}
-
-			template<class String = std::string>
-			auto append(String& out) const -> String&
-			{
-				size_t prev = out.size();
-				Converter<Tuple>::convert(out, d_tuple);
-				if (this->d_width.has_format()) {
-					width_format::format(out, prev, out.size(), this->d_width);
-				}
-				return out;
-			}
-
-			auto to_chars(char* dst) -> char*
-			{
-				std::string& tmp = detail::to_chars_buffer();
-				tmp.clear();
-				this->append(tmp);
-				memcpy(dst, tmp.data(), tmp.size());
-				return dst + tmp.size();
-			}
-
-			auto to_chars(char* dst, size_t max) -> std::pair<char*, size_t>
-			{
-				std::string& tmp = detail::to_chars_buffer();
-				tmp.clear();
-				this->append(tmp);
-				if (tmp.size() > max) {
-					memcpy(dst, tmp.data(), max);
-					return { dst + max,tmp.size() };
-				}
-				memcpy(dst, tmp.data(), tmp.size());
-				return { dst + tmp.size(),tmp.size() };
-			}
-
-			template<class String = std::string>
-			auto str() const -> String
-			{
-				String res;
-				return append(res);
-			}
-
-			explicit operator std::string() const
-			{
-				return str();
-			}
-			template<size_t S, class Al>
-			explicit operator tiny_string<S, Al>() const
-			{
-				return str< tiny_string<S, Al> >();
-			}
 		};
 
+		template<class Tuple, bool HasSeparator, size_t ...Ts, bool Slot>
+		struct mutli_ostream_format<Tuple, HasSeparator, Positional<Ts...>,Slot> : public base_mutli_ostream_format<Tuple, mutli_ostream_format<Tuple, HasSeparator, Positional<Ts...>, Slot>, HasSeparator>
+		{
+			// Partial specialization of mutli_ostream_format that supports Positional type as template argument
+
+			static constexpr bool is_slot = Slot;
+
+			using base_type = base_mutli_ostream_format<Tuple, mutli_ostream_format<Tuple, HasSeparator, Positional<Ts...>, Slot>, HasSeparator>;
+			using tuple_type = Tuple;
+			using pos_type = Positional<Ts...>;
+
+			mutli_ostream_format()
+				:base_type()
+			{}
+			template<class ...Args, class = typename std::enable_if<((sizeof...(Args)) > 1), void>::type>
+			explicit mutli_ostream_format(Args&&... args)
+				// Construct from multiple values.
+				// Mark as explicit otherwise it replaces the default copy constructor
+				: base_type(std::forward<Args>(args)...)
+			{}
+
+			template<class ...Args>
+			auto operator()(Args&&... args) -> mutli_ostream_format&
+			{
+				static_assert((sizeof...(Args)) == (sizeof...(Ts)), "format with positional argument: invalid number of arguments");
+				AffectValuesWithPos<pos_type, Tuple>::convert(this->d_tuple, std::forward<Args>(args)...);
+				return *this;
+			}
+			template<size_t ...T, class ...Args>
+			auto operator()(Positional<T...> /*unused*/, Args&&... args) -> mutli_ostream_format&
+			{
+				static_assert((sizeof...(Args)) == (sizeof...(T)), "format with positional argument: invalid number of arguments");
+				AffectValuesWithPos<Positional<T...>, Tuple>::convert(this->d_tuple, std::forward<Args>(args)...);
+				return *this;
+			}
+			template<size_t ...T, class TT, bool HS, class PP, bool S>
+			auto operator()(Positional<T...> /*unused*/, const mutli_ostream_format<TT,HS, PP,S>& o) -> mutli_ostream_format&
+			{
+				// update internal tuple with new values for given indexes
+				AffectValuesWithPosFromTuple<Positional<T...>, Tuple, TT>::convert(this->d_tuple, o.d_tuple);
+				return *this;
+			}
+			template<class T, bool HS, class P, bool S>
+			auto operator()(const mutli_ostream_format<T,HS, P,S>& o) -> mutli_ostream_format&
+			{
+				// Affect values based on another mutli_ostream_format, for nested formatting
+				AffectValuesWithPosFromTuple<pos_type, Tuple, T>::convert(this->d_tuple, o.d_tuple);
+				return *this;
+			}
+
+		};
+
+		/// @brief Used to specialize ostream_format for iterable types
+		/// @tparam T 
+		template<class T>
+		struct Iterable {};
 
 	}// end namespace detail
 
@@ -2127,11 +2241,11 @@ namespace seq
 		// Helper class to build a mutli_ostream_format when multiple arguments are given to seq::fmt(),
 		// or a ostream_format when only one argument is given to seq::fmt().
 
-		template<size_t NArgs, class Pos, class ...Args>
+		template<size_t NArgs, bool HS, class Pos, bool Slot, class ...Args>
 		struct BuildFormat
 		{
 			using wrapped_tuple = metafunction::result_of<metafunction::transform_elements<std::tuple<Args...>, apply_wrapper>>;
-			using return_type = mutli_ostream_format< wrapped_tuple, Pos>;
+			using return_type = mutli_ostream_format< wrapped_tuple, HS, Pos, Slot>;
 
 			static return_type build(Args&&... args)
 			{
@@ -2140,11 +2254,11 @@ namespace seq
 		};
 
 		
-		template<class ...Args>
-		struct BuildFormat<1, void, Args...>
+		template<bool HS, bool Slot, class ...Args>
+		struct BuildFormat<1, HS, void, Slot, Args...>
 		{
 			using type =  typename std::remove_const< typename std::remove_reference<Args...>::type >::type;
-			using return_type = typename FormatWrapper<type>::type;
+			using return_type = typename FormatWrapper<type,Slot>::type;
 
 			static auto build(Args&&... args) -> return_type
 			{
@@ -2152,34 +2266,75 @@ namespace seq
 			}
 		};
 
+		// Check that the first type of variadict template is iterable
+		template<class T, class ...Args>
+		struct IsFirstIterable : is_iterable<typename std::decay<T>::type>{
+			using type = typename std::decay<T>::type;
+		};
+
+
 	}// end namespace detail
 
 	
 	template<class ...Args>
-	auto fmt(Args&&... args) -> typename detail::BuildFormat< sizeof...(Args), void, Args...>::return_type
+	auto fmt(Args&&... args) -> typename detail::BuildFormat< sizeof...(Args),false, typename detail::find_slots<Args...>::type, false, Args...>::return_type
 	{
 		// Returns a formatting object (multi_ostream_format or ostream_format) for given input values
-		using return_type = typename detail::BuildFormat< sizeof...(Args) , void, Args...>::return_type;
+		using return_type = typename detail::BuildFormat< sizeof...(Args) ,false, typename detail::find_slots<Args...>::type, false, Args...>::return_type;
 		return return_type(std::forward<Args>(args)...);
 	}
 
 	template<size_t ...Ts, class ...Args>
-	auto fmt(detail::Positional<Ts...> /*unused*/, Args&&... args) -> typename detail::BuildFormat< sizeof...(Args), detail::Positional<Ts...>, Args...>::return_type
+	auto fmt(detail::Positional<Ts...> /*unused*/, Args&&... args) -> typename detail::BuildFormat< sizeof...(Args),false, detail::Positional<Ts...>, false, Args...>::return_type
 	{
 		// Returns a formatting object (multi_ostream_format or ostream_format) for given input values
 		// The Positional type is embedded within the multi_ostream_format type.
-		using return_type = typename detail::BuildFormat< sizeof...(Args), detail::Positional<Ts...>, Args...>::return_type;
+		using return_type = typename detail::BuildFormat< sizeof...(Args),false, detail::Positional<Ts...>, false, Args...>::return_type;
 		return return_type(std::forward<Args>(args)...);
 	}
 
 
 	template<class ...Args>
-	auto fmt() ->  typename detail::BuildFormat< sizeof...(Args), void, Args...>::return_type
+	auto fmt() ->  typename detail::BuildFormat< sizeof...(Args),false, typename detail::find_slots<Args...>::type, false, Args...>::return_type
 	{
 		// Returns a default-initialized formatting object (multi_ostream_format or ostream_format) for given types
-		using return_type = typename detail::BuildFormat< sizeof...(Args), void, Args...>::return_type;
+		using return_type = typename detail::BuildFormat< sizeof...(Args),false, typename detail::find_slots<Args...>::type, false, Args...>::return_type;
 		return return_type();
 	}
+
+	template<class T, bool S>
+	auto fmt( ostream_format<T, S> && o) -> ostream_format< ostream_format<T, S>, false >
+	{
+		return ostream_format< ostream_format<T, S>, false >(o);
+	}
+	template<class T, bool S>
+	auto fmt( ostream_format<T, S>& o) -> ostream_format< ostream_format<T, S>, false >
+	{
+		return ostream_format< ostream_format<T, S>, false >(o);
+	}
+
+
+
+	template<class ...Args>
+	auto _fmt(Args&&... args) -> typename detail::BuildFormat< sizeof...(Args), false, typename detail::find_slots<Args...>::type, true, Args...>::return_type
+	{
+		// Returns a formatting object (multi_ostream_format or ostream_format) for given input values
+		using return_type = typename detail::BuildFormat< sizeof...(Args), false, typename detail::find_slots<Args...>::type, true, Args...>::return_type;
+		return return_type(std::forward<Args>(args)...);
+	}
+
+	template<class ...Args>
+	auto _fmt() ->  typename detail::BuildFormat< sizeof...(Args), false, typename detail::find_slots<Args...>::type, true, Args...>::return_type
+	{
+		// Returns a default-initialized formatting object (multi_ostream_format or ostream_format) for given types
+		using return_type = typename detail::BuildFormat< sizeof...(Args), false, typename detail::find_slots<Args...>::type, true, Args...>::return_type;
+		return return_type();
+	}
+
+
+
+
+
 
 
 	static inline auto fmt(float value, char format) -> ostream_format<float>
@@ -2187,17 +2342,32 @@ namespace seq
 		// Floating point formatting
 		return ostream_format<float>(value, format);
 	}
+	static inline auto _fmt(float value, char format) -> ostream_format<float,true>
+	{
+		// Floating point formatting
+		return ostream_format<float,true>(value, format);
+	}
 	
 	static inline auto fmt(double value, char format) -> ostream_format<double>
 	{
 		// Floating point formatting
 		return ostream_format<double>(value, format);
 	}
+	static inline auto _fmt(double value, char format) -> ostream_format<double,true>
+	{
+		// Floating point formatting
+		return ostream_format<double,true>(value, format);
+	}
 	
 	static inline auto fmt(long double value, char format) -> ostream_format<long double>
 	{
 		// Floating point formatting
 		return ostream_format<long double>(value, format);
+	}
+	static inline auto _fmt(long double value, char format) -> ostream_format<long double,true>
+	{
+		// Floating point formatting
+		return ostream_format<long double,true>(value, format);
 	}
 
 	
@@ -2206,10 +2376,19 @@ namespace seq
 		// String formatting
 		return ostream_format<tstring_view>(tstring_view(str));
 	}
+	static inline auto _fmt(const char* str) -> ostream_format<tstring_view,true>
+	{
+		// String formatting
+		return ostream_format<tstring_view,true>(tstring_view(str));
+	}
 	
 	static inline auto fmt(const char* str, size_t size) -> ostream_format<tstring_view>
 	{
 		return ostream_format<tstring_view>(tstring_view(str, size));
+	}
+	static inline auto _fmt(const char* str, size_t size) -> ostream_format<tstring_view,true>
+	{
+		return ostream_format<tstring_view,true>(tstring_view(str, size));
 	}
 	
 	static inline auto fmt(const std::string& str) -> ostream_format<tstring_view>
@@ -2217,12 +2396,23 @@ namespace seq
 		// String formatting
 		return ostream_format<tstring_view>(tstring_view(str.data(), str.size()));
 	}
+	static inline auto _fmt(const std::string& str) -> ostream_format<tstring_view,true>
+	{
+		// String formatting
+		return ostream_format<tstring_view,true>(tstring_view(str.data(), str.size()));
+	}
 	
-	template<size_t Ss, class Al>
-	static inline auto fmt(const tiny_string<Ss, Al>& str) -> ostream_format<tstring_view>
+	template<class Traits, size_t Ss, class Al>
+	static inline auto fmt(const tiny_string<char,Traits, Al,Ss>& str) -> ostream_format<tstring_view>
 	{
 		// String formatting
 		return ostream_format<tstring_view>(tstring_view(str.data(), str.size()));
+	}
+	template<class Traits, size_t Ss, class Al>
+	static inline auto _fmt(const tiny_string<char, Traits, Al, Ss>& str) -> ostream_format<tstring_view,true>
+	{
+		// String formatting
+		return ostream_format<tstring_view,true>(tstring_view(str.data(), str.size()));
 	}
 
 	static inline auto fmt(const tstring_view& str) -> ostream_format<tstring_view>
@@ -2230,75 +2420,226 @@ namespace seq
 		// String formatting
 		return ostream_format<tstring_view>(str);
 	}
+	static inline auto _fmt(const tstring_view& str) -> ostream_format<tstring_view,true>
+	{
+		// String formatting
+		return ostream_format<tstring_view,true>(str);
+	}
+
 #ifdef SEQ_HAS_CPP_17
 	static inline ostream_format<tstring_view> fmt(const std::string_view& str)
 	{
 		// String formatting
 		return ostream_format<tstring_view>(tstring_view(str.data(), str.size()));
 	}
+	static inline ostream_format<tstring_view,true> _fmt(const std::string_view& str)
+	{
+		// String formatting
+		return ostream_format<tstring_view,true>(tstring_view(str.data(), str.size()));
+	}
 #endif
 
-	template<class T>
+	template<class T = double>
 	static inline auto e(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val,'e');
 	}
-	template<class T>
+	template<class T = double>
+	static inline auto _e(T val = T()) -> ostream_format<T,true>
+	{
+		// Helper function for floating point formatting
+		return _fmt(val, 'e');
+	}
+
+	template<class T = double>
 	static inline auto E(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'E');
 	}
-	template<class T>
+	template<class T = double>
+	static inline auto _E(T val = T()) -> ostream_format<T,true>
+	{
+		// Helper function for floating point formatting
+		return _fmt(val, 'E');
+	}
+
+	template<class T = double>
 	static inline auto g(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'g');
 	}
-	template<class T>
+	template<class T = double>
+	static inline auto _g(T val = T()) -> ostream_format<T,true>
+	{
+		// Helper function for floating point formatting
+		return _fmt(val, 'g');
+	}
+
+	template<class T = double>
 	static inline auto G(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'G');
 	}
-	template<class T>
+	template<class T = double>
+	static inline auto _G(T val = T()) -> ostream_format<T,true>
+	{
+		// Helper function for floating point formatting
+		return _fmt(val, 'G');
+	}
+
+	template<class T = double>
 	static inline auto f(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'f');
 	}
-	template<class T>
+	template<class T = double>
+	static inline auto _f(T val = T()) -> ostream_format<T,true>
+	{
+		// Helper function for floating point formatting
+		return _fmt(val, 'f');
+	}
+
+	template<class T = double>
 	static inline auto F(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'F');
 	}
+	template<class T = double>
+	static inline auto _F(T val = T()) -> ostream_format<T,true>
+	{
+		// Helper function for floating point formatting
+		return _fmt(val, 'F');
+	}
 
-	template<class T>
+	template<class T = typename std::make_signed<size_t>::type >
+	static inline auto dec(T val = T()) -> ostream_format<T>
+	{
+		// Helper function for integral formatting
+		return fmt(val);
+	}
+	template<class T = typename std::make_signed<size_t>::type >
+	static inline auto _dec(T val = T()) -> ostream_format<T,true>
+	{
+		// Helper function for integral formatting
+		return _fmt(val);
+	}
+
+	template<class T = typename std::make_signed<size_t>::type>
+	static inline auto d(T val = T()) -> ostream_format<T>
+	{
+		// Helper function for integral formatting
+		return fmt(val);
+	}
+	template<class T = typename std::make_signed<size_t>::type>
+	static inline auto _d(T val = T()) -> ostream_format<T,true>
+	{
+		// Helper function for integral formatting
+		return _fmt(val);
+	}
+
+	template<class T = size_t>
+	static inline auto u(T val = T()) -> ostream_format<T>
+	{
+		return fmt(val);
+	}
+	template<class T = size_t>
+	static inline auto _u(T val = T()) -> ostream_format<T, true>
+	{
+		return _fmt(val);
+	}
+
+
+	template<class T = size_t>
 	static inline auto hex(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for integral formatting
 		return fmt(val).base(16);
 	}
-	template<class T>
+	template<class T = size_t>
+	static inline auto _hex(T val = T()) -> ostream_format<T,true>
+	{
+		// Helper function for integral formatting
+		return _fmt(val).base(16);
+	}
+
+	template<class T = size_t>
+	static inline auto x(T val = T()) -> ostream_format<T>
+	{
+		return fmt(val).base(16);
+	}
+	template<class T = size_t>
+	static inline auto _x(T val = T()) -> ostream_format<T,true>
+	{
+		return _fmt(val).base(16);
+	}
+
+	template<class T = size_t>
+	static inline auto X(T val = T()) -> ostream_format<T>
+	{
+		return fmt(val).base(16).upper();
+	}
+	template<class T = size_t>
+	static inline auto _X(T val = T()) -> ostream_format<T,true>
+	{
+		return _fmt(val).base(16).upper();
+	}
+
+
+	template<class T = size_t>
 	static inline auto oct(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for integral formatting
 		return fmt(val).base(8);
 	}
-	template<class T>
+	template<class T = size_t>
+	static inline auto _oct(T val = T()) -> ostream_format<T,true>
+	{
+		// Helper function for integral formatting
+		return _fmt(val).base(8);
+	}
+
+	template<class T = size_t>
+	static inline auto o(T val = T()) -> ostream_format<T>
+	{
+		return fmt(val).base(8);
+	}
+	template<class T = size_t>
+	static inline auto _o(T val = T()) -> ostream_format<T,true>
+	{
+		return _fmt(val).base(8);
+	}
+	
+
+	template<class T = typename std::make_signed<size_t>::type >
 	static inline auto bin(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for integral formatting
 		return fmt(val).base(2);
 	}
+	template<class T = typename std::make_signed<size_t>::type >
+	static inline auto _bin(T val = T()) -> ostream_format<T,true>
+	{
+		// Helper function for integral formatting
+		return _fmt(val).base(2);
+	}
 
-	template<class T>
+	template<class T = char>
 	static inline auto ch(T val = T()) -> ostream_format<T>
 	{
 		// Format an integral value as a character
 		return fmt(val).c();
+	}
+	template<class T = char>
+	static inline auto _ch(T val = T()) -> ostream_format<T,true>
+	{
+		// Format an integral value as a character
+		return _fmt(val).c();
 	}
 
 	static inline auto str() -> ostream_format<tstring_view>
@@ -2307,7 +2648,26 @@ namespace seq
 		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
 		return fmt<tstring_view>();
 	}
+	static inline auto s() -> ostream_format<tstring_view>
+	{
+		// Null string formatting, used with seq::fmt().
+		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
+		return fmt<tstring_view>();
+	}
+	static inline auto _str() -> ostream_format<tstring_view,true>
+	{
+		// Null string formatting, used with seq::fmt().
+		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
+		return _fmt<tstring_view>();
+	}
+	static inline auto _s() -> ostream_format<tstring_view, true>
+	{
+		// Null string formatting, used with seq::fmt().
+		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
+		return _fmt<tstring_view>();
+	}
 
+	/// @brief Repeat count times character c
 	static inline auto rep(char c, int count) -> ostream_format<tstring_view>
 	{
 		// Repeat count times character c
@@ -2319,18 +2679,107 @@ namespace seq
 	template<class T>
 	struct is_formattable
 	{
-		static constexpr bool value = ostream_format<T>::is_formattable;
+		static constexpr bool value = ostream_format<T,false>::is_formattable;
 	};
 
 
 
+	
+
+	/// @brief Specialize ostream_format for detail::Iterable to provide a join() function working on iterables
+	template<class T, bool Slot>
+	class ostream_format<detail::Iterable<T>, Slot > : public base_ostream_format<T, ostream_format<detail::Iterable<T>, Slot > >
+	{
+		using base_type = base_ostream_format<T, ostream_format<detail::Iterable<T>, Slot > >;
+		using this_type = ostream_format<detail::Iterable<T>, Slot >;
+
+	public:
+		tstring_view separator;
+		width_format wfmt;
+
+		ostream_format(tstring_view s, const T& v) : base_type(v), separator(s) {}
+		template<class U, bool S>
+		ostream_format(tstring_view s, const T& v, const ostream_format<U,S> & wf) : base_type(v), separator(s), wfmt(wf.width_fmt()) {
+			this->set_numeric_format(wf.numeric_fmt());
+		}
+
+		size_t to_string(std::string& out) const
+		{
+			using val_type = typename T::value_type;
+			 
+			size_t prev = out.size();
+			auto first = this->value().begin();
+			auto last = this->value().end();
+
+			if (first == last)
+				return prev;
+
+			auto f = seq::fmt<val_type>();
+			f.set_numeric_format(this->numeric_fmt());
+			f.set_width_format(wfmt);
+
+			f(*first).append(out);
+			++first;
+			while (first != last) {
+				out.append(separator.c_str(), separator.size());
+				f(*first).append(out);
+				++first;
+			}
+
+			return out.size() - prev;
+		}
+	};
+
+
+
+	template<class ...Args, class K = typename std::enable_if<!detail::IsFirstIterable<Args...>::value, void>::type >
+	auto join(tstring_view sep, Args&&... args) -> typename detail::BuildFormat< sizeof...(Args), true, typename detail::find_slots<Args...>::type,false, Args...>::return_type
+	{
+		// Returns a formatting object (multi_ostream_format or ostream_format) for given input values
+		using return_type = typename detail::BuildFormat< sizeof...(Args), true, typename detail::find_slots<Args...>::type, false, Args...>::return_type;
+		return return_type(std::forward<Args>(args)...).set_separator(sep);
+	}
+
+	template<class IterRange>
+	auto join(tstring_view sep, const IterRange& c) noexcept -> ostream_format<detail::Iterable<IterRange> >
+	{
+		return ostream_format<detail::Iterable<IterRange> >(sep, c);
+	}
+
+	template<class IterRange, class T, bool S>
+	auto join(tstring_view sep, const IterRange& c, const ostream_format<T,S>& wf) noexcept -> ostream_format<detail::Iterable<IterRange> >
+	{
+		return ostream_format<detail::Iterable<IterRange> >(sep, c, wf);
+	}
+
+
+
+	template<class ...Args, class K = typename std::enable_if<!detail::IsFirstIterable<Args...>::value, void>::type >
+	auto _join(tstring_view sep, Args&&... args) -> typename detail::BuildFormat< sizeof...(Args), true, typename detail::find_slots<Args...>::type, true, Args...>::return_type
+	{
+		// Returns a formatting object (multi_ostream_format or ostream_format) for given input values
+		using return_type = typename detail::BuildFormat< sizeof...(Args), true, typename detail::find_slots<Args...>::type, true, Args...>::return_type;
+		return return_type(std::forward<Args>(args)...).set_separator(sep);
+	}
+
+	template<class IterRange>
+	auto _join(tstring_view sep, const IterRange& c) noexcept -> ostream_format<detail::Iterable<IterRange>,true >
+	{
+		return ostream_format<detail::Iterable<IterRange> ,true>(sep, c);
+	}
+
+	template<class IterRange, class T, bool S>
+	auto _join(tstring_view sep, const IterRange& c, const ostream_format<T,S>& wf) noexcept -> ostream_format<detail::Iterable<IterRange>,true >
+	{
+		return ostream_format<detail::Iterable<IterRange> ,true>(sep, c, wf);
+	}
 
 
 
 
 	/// @brief Write a ostream_format object to a std::ostream object
-	template<class Elem, class Traits, class T, class P>
-	inline auto operator<<(std::basic_ostream<Elem, Traits>& oss, const detail::mutli_ostream_format<T, P>& val) -> std::basic_ostream<Elem, Traits>&
+	template<class Elem, class Traits, class T, bool HS, class P, bool S>
+	inline auto operator<<(std::basic_ostream<Elem, Traits>& oss, const detail::mutli_ostream_format<T,HS, P, S>& val) -> std::basic_ostream<Elem, Traits>&
 	{
 		std::string& tmp = detail::multi_ostream_buffer();
 		tmp.clear();
@@ -2340,6 +2789,217 @@ namespace seq
 		return oss;
 	}
 
+
+
+	/// @brief Base class for match finders used by split() function
+	/// @tparam Derived derived class
+	template<class Derived>
+	struct match_base {};
+
+	/// @brief String matcher used by split() function
+	struct by_string : match_base<by_string>
+	{
+		tstring_view match;
+		by_string(tstring_view m) : match(m) {}
+		by_string() {}
+		size_t find(tstring_view v, size_t start) const noexcept{return v.find(match, start);}
+		size_t next(size_t pos) const noexcept {return pos + match.size();}
+		bool full_split() const noexcept { return match.size() == 0; }
+	};
+
+	/// @brief String matcher used by split() function, match a single character
+	struct by_char : match_base<by_char>
+	{
+		char match;
+		by_char(char m) : match(m) {}
+		by_char(): match(0) {}
+		size_t find(tstring_view v, size_t start) const noexcept {return v.find(match, start);}
+		size_t next(size_t pos) const noexcept {return pos + 1;}
+		bool full_split() const noexcept { return false; }
+	};
+
+	/// @brief String matcher used by split() function, match any of given set of characters
+	struct by_any_char : match_base<by_any_char>
+	{
+		tstring_view match;
+		by_any_char(tstring_view m) : match(m) {}
+		by_any_char() {}
+		size_t find(tstring_view v, size_t start) const noexcept {return v.find_first_of(match, start);}
+		size_t next(size_t pos) const noexcept {return pos + 1;}
+		bool full_split() const noexcept { return match.size() == 0; }
+	};
+
+	/// @brief String matcher used by split() function, match any character not present in given set of characters
+	struct by_not_any_char : match_base<by_not_any_char>
+	{
+		tstring_view match;
+		by_not_any_char(tstring_view m) : match(m) {}
+		by_not_any_char() {}
+		size_t find(tstring_view v, size_t start) const noexcept {return v.find_first_not_of(match, start);}
+		size_t next(size_t pos) const noexcept {return pos + 1;}
+		bool full_split() const noexcept { return false; }
+	};
+
+	/// @brief String matcher used by split() function, match word break. 
+	/// Should be used in conjunction with skip_empty to extract words from text content.
+	struct by_word : match_base<by_word>
+	{
+		by_word() {}
+		size_t find(tstring_view v, size_t start) const noexcept {
+			for (; start != v.size(); ++start)
+				if (detail::is_space(v[start]))
+					return start;
+			return tstring::npos;
+		}
+		size_t next(size_t pos) const noexcept { return pos + 1; }
+		bool full_split() const noexcept { return false; }
+	};
+
+	/// @brief Skip function used by split() function
+	struct no_skip
+	{
+		static bool skip(const char* , size_t ) noexcept {
+			return false;
+		}
+	};
+
+	/// @brief Skip empty strings
+	struct skip_empty
+	{
+		static bool skip(const char* , size_t len) noexcept {
+			return len == 0;
+		}
+	};
+
+	/// @brief Skip empty strings and whitespaces
+	struct skip_whitespace
+	{
+		static bool skip(const char* src, size_t len) noexcept {
+			for (size_t i = 0; i != len; ++i)
+				if (src[i] != ' ')
+					return false;
+			return true;
+		}
+	};
+
+	/// @brief Skip empty strings and spaces (' ', '\t', '\n', '\v', '\f', '\r');
+	struct skip_space
+	{
+		static bool skip(const char* src, size_t len) noexcept {
+			for (size_t i = 0; i != len; ++i)
+				if (!detail::is_space(src[i]))
+					return false;
+			return true;
+		}
+	};
+
+
+	namespace detail
+	{
+		// Iterator for split function
+		template<class Match, class Skip>
+		struct SplitIter
+		{
+			tstring_view source;
+			tstring_view current; // current match
+			Match match;
+			size_t start;
+
+			using value_type = tstring_view;
+			using reference = const tstring_view&;
+			using pointer = const tstring_view*;
+			using iterator_category = std::forward_iterator_tag;
+			using size_type = size_t;
+			using difference_type = std::ptrdiff_t;
+
+			void find_next() noexcept
+			{
+				// Special case: split all characters
+				if (match.full_split()) {
+					if(start == source.size())
+						start = tstring::npos;
+					else {
+						current = tstring_view(source.data() + start, 1);
+						++start;
+					}
+					return;
+				}
+
+				// end condition
+				if (SEQ_UNLIKELY(start == tstring::npos - 1)) {
+					start = tstring::npos;
+					return;
+				}
+
+				do {
+					size_t found = match.find(source, start);
+					if (SEQ_UNLIKELY(found == tstring::npos)) {
+						//last occurence
+						current = source.substr(start, source.size() - start);
+						start = tstring::npos - 1;
+						return;
+					}
+					else {
+						current = source.substr(start,found - start);
+						start = match.next(found);
+					}
+				} while (Skip::skip(current.data(), current.size()));
+			}
+
+			SplitIter(tstring_view src, Match m)
+				:source(src), match(m), start(0){
+				// Find first match
+				find_next();
+			}
+			SplitIter(size_t st)
+				:start(st) {}
+			SplitIter() : start(tstring::npos) {}
+
+			auto operator++() noexcept -> SplitIter& {
+				find_next();
+				return *this;
+			}
+			auto operator++(int) noexcept -> SplitIter {
+				SplitIter _Tmp = *this;
+				++(*this);
+				return _Tmp;
+			}
+			auto operator*() const noexcept -> reference { return current; }
+			auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
+			bool operator==(const SplitIter& it) const noexcept { return start == it.start; }
+			bool operator!=(const SplitIter& it) const noexcept { return start != it.start; }
+		};
+
+
+		template<class Match, class Skip = no_skip>
+		auto internal_split(tstring_view str, Match match, Skip ) -> iterator_range< SplitIter<Match, Skip> >
+		{
+			return iterator_range< SplitIter<Match, Skip> >(SplitIter<Match, Skip>(str,match),SplitIter<Match, Skip>(tstring::npos));
+		}
+	}
+	
+
+	template<class Skip = no_skip>
+	auto split(tstring_view str, tstring_view match, Skip skip = Skip()) -> iterator_range< detail::SplitIter<by_string, Skip> >
+	{
+		return detail::internal_split(str, by_string(match), skip);
+	}
+	template<class Skip = no_skip>
+	auto split(tstring_view str, char match, Skip skip = Skip()) -> iterator_range< detail::SplitIter<by_char, Skip> >
+	{
+		return detail::internal_split(str, by_char(match), skip);
+	}
+	template<class Match, class Skip = no_skip>
+	auto split(tstring_view str, const match_base<Match>& match, Skip skip = Skip()) -> iterator_range< detail::SplitIter<Match, Skip> >
+	{
+		return detail::internal_split(str, static_cast<const Match&> (match), skip);
+	}
+
+	inline auto replace(tstring_view src, tstring_view match, tstring_view _new) -> std::string
+	{
+		auto r = split(src, match);
+		return join(_new,r ).str();
+	}
 
 } // end namespace seq
 

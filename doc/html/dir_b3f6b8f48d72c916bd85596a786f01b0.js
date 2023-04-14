@@ -4,11 +4,6 @@ var dir_b3f6b8f48d72c916bd85596a786f01b0 =
     [ "bits.hpp", "bits_8hpp.html", "bits_8hpp" ],
     [ "charconv.hpp", "charconv_8hpp.html", "charconv_8hpp" ],
     [ "cvector.hpp", "cvector_8hpp.html", "cvector_8hpp" ],
-    [ "deque_allocator.hpp", "deque__allocator_8hpp.html", [
-      [ "deque_chunk_pool", "structseq_1_1detail_1_1deque__chunk__pool.html", "structseq_1_1detail_1_1deque__chunk__pool" ],
-      [ "deque_chunk_pool_alloc", "structseq_1_1detail_1_1deque__chunk__pool__alloc.html", "structseq_1_1detail_1_1deque__chunk__pool__alloc" ],
-      [ "DequeBucketAllocator", "structseq_1_1detail_1_1_deque_bucket_allocator.html", "structseq_1_1detail_1_1_deque_bucket_allocator" ]
-    ] ],
     [ "devector.hpp", "devector_8hpp.html", "devector_8hpp" ],
     [ "flat_map.hpp", "flat__map_8hpp.html", "flat__map_8hpp" ],
     [ "format.hpp", "format_8hpp.html", "format_8hpp" ],
@@ -16,6 +11,9 @@ var dir_b3f6b8f48d72c916bd85596a786f01b0 =
     [ "memory.hpp", "memory_8hpp.html", "memory_8hpp" ],
     [ "ordered_map.hpp", "ordered__map_8hpp.html", "ordered__map_8hpp" ],
     [ "pdqsort.hpp", "pdqsort_8hpp.html", "pdqsort_8hpp" ],
+    [ "radix_hash_map.hpp", "radix__hash__map_8hpp.html", "radix__hash__map_8hpp" ],
+    [ "radix_map.hpp", "radix__map_8hpp.html", "radix__map_8hpp" ],
+    [ "range.hpp", "range_8hpp.html", "range_8hpp" ],
     [ "seq.hpp", "seq_8hpp.html", null ],
     [ "sequence.hpp", "sequence_8hpp.html", "sequence_8hpp" ],
     [ "tagged_pointer.hpp", "tagged__pointer_8hpp.html", "tagged__pointer_8hpp" ],

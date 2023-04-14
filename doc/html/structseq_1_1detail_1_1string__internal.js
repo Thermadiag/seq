@@ -1,16 +1,15 @@
 var structseq_1_1detail_1_1string__internal =
 [
-    [ "string_internal", "structseq_1_1detail_1_1string__internal.html#a4e69d867ae22202ee21c8e16edb141f9", null ],
-    [ "string_internal", "structseq_1_1detail_1_1string__internal.html#a47ccb3fbab9e484481a557c228c0f4ae", null ],
-    [ "string_internal", "structseq_1_1detail_1_1string__internal.html#ab69edbed76e87f6be5dd76bad808976b", null ],
-    [ "allocate", "structseq_1_1detail_1_1string__internal.html#a5da5fe909d6b6eb78d493f8d02a3f6a0", null ],
-    [ "deallocate", "structseq_1_1detail_1_1string__internal.html#a7ce9eb8cab7ed6fb12fd0857ddb80d64", null ],
-    [ "get_allocator", "structseq_1_1detail_1_1string__internal.html#a7c6004df54a5c575ae4b2375fdc68800", null ],
-    [ "get_allocator", "structseq_1_1detail_1_1string__internal.html#abb0efd2d38569444a48c27a7a364d450", null ],
-    [ "set_allocator", "structseq_1_1detail_1_1string__internal.html#a2c8069f23a613f4533ee972dd3245780", null ],
-    [ "set_allocator", "structseq_1_1detail_1_1string__internal.html#a06f674a275e3287a9adbbdf0b361fead", null ],
-    [ "swap", "structseq_1_1detail_1_1string__internal.html#abe9e3c55c12ba19939b06f1178a9ab0f", null ],
-    [ "d_union", "structseq_1_1detail_1_1string__internal.html#afb85d45d9c7195d6dd6ad5eb7701ef7f", null ],
-    [ "non_sso", "structseq_1_1detail_1_1string__internal.html#a3c40ba263b050d90e1527399859670df", null ],
-    [ "sso", "structseq_1_1detail_1_1string__internal.html#a3359e011e39939075dee45ff4c7ac6d4", null ]
+    [ "U", "unionseq_1_1detail_1_1string__internal_1_1_u.html", "unionseq_1_1detail_1_1string__internal_1_1_u" ],
+    [ "string_internal", "structseq_1_1detail_1_1string__internal.html#a7062344c55bf1d5ab7397f5a90356966", null ],
+    [ "string_internal", "structseq_1_1detail_1_1string__internal.html#a6e58e1c263bffb8a0bdba4dd7b0c98d8", null ],
+    [ "string_internal", "structseq_1_1detail_1_1string__internal.html#a1e4b9cb10d12ea7d28e1ed885d993e5e", null ],
+    [ "allocate", "structseq_1_1detail_1_1string__internal.html#a874d52bfc931883517ed127cb6b71dbc", null ],
+    [ "deallocate", "structseq_1_1detail_1_1string__internal.html#a0660a2c2897288ea568990a52265a2e2", null ],
+    [ "get_allocator", "structseq_1_1detail_1_1string__internal.html#af9b4885cf1db4f306333793d5295a7c8", null ],
+    [ "get_allocator", "structseq_1_1detail_1_1string__internal.html#a8307e4b67c66b5912d7333066e546034", null ],
+    [ "set_allocator", "structseq_1_1detail_1_1string__internal.html#a835e19a3f437c8c5fe5f41a42c27fd5d", null ],
+    [ "set_allocator", "structseq_1_1detail_1_1string__internal.html#ad40a0add63b8bc405417fbfb23564e92", null ],
+    [ "swap", "structseq_1_1detail_1_1string__internal.html#a20828251d2ef153046c98931540a66e7", null ],
+    [ "d_union", "structseq_1_1detail_1_1string__internal.html#a17a735e52dd940182a3e7526bf5ff2d9", null ]
 ];

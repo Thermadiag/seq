@@ -16,5 +16,7 @@ var classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment
     [ "set_full", "classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a57f16df90c9336feaf00b652ec4a4d2b", null ],
     [ "set_ptr", "classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a56263c8ad4cac3a8d13a5292d3608045", null ],
     [ "set_tag", "classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a0be12508cb3903b3047f9967ba1e3ff9", null ],
+    [ "split", "classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a9d811122afa3e39e9ce58acdd4fc7eef", null ],
+    [ "split", "classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#ab6e42f67535d3d247ff652c45810ab97", null ],
     [ "tag", "classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a0ff4836f869147856de50203854398ab", null ]
 ];

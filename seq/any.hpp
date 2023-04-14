@@ -39,13 +39,15 @@ The <i>any</i> module provides the seq::hold_any class and related functions to 
 #include "tagged_pointer.hpp"
 #include "tiny_string.hpp"
 
+#include <atomic>
+
 
 #ifndef SEQ_ANY_MALLOC
-#define SEQ_ANY_MALLOC malloc // allocation function used within seq::hold_any
+#define SEQ_ANY_MALLOC operator new // allocation function used within seq::hold_any
 #endif
 
 #ifndef SEQ_ANY_FREE
-#define SEQ_ANY_FREE free // deallocation function used within seq::hold_any
+#define SEQ_ANY_FREE operator delete // deallocation function used within seq::hold_any
 #endif
 
 #ifdef _MSC_VER
@@ -61,9 +63,9 @@ namespace seq
 	{
 		const char* d_what;
 	public:
-		bad_any_function_call(const char * wh = NULL) noexcept : d_what(wh){}
+		bad_any_function_call(const char * wh = nullptr) noexcept : d_what(wh){}
 
-		virtual const char* __CLR_OR_THIS_CALL what() const noexcept override {
+		virtual const char* what() const noexcept override {
 			// return pointer to message string
 			return d_what ? d_what : "";
 		}
@@ -232,12 +234,12 @@ namespace seq
 		};
 
 		/// @brief Specializations for std::string and const char* that use std::hash<tstring>
-		template<>
-		struct HashType<std::string,true>
+		template<class Char, class Traits, class Al>
+		struct HashType<std::basic_string<Char,Traits,Al>,true>
 		{
 			static SEQ_ALWAYS_INLINE auto apply(const void* in) -> size_t
 			{
-				return std::hash<tstring>{}(*static_cast<const std::string*>(in));
+				return std::hash<tiny_string<Char,Traits> >{}(*static_cast<const std::basic_string<Char, Traits, Al>*>(in));
 			}
 		} ;
 		template<>
@@ -256,6 +258,22 @@ namespace seq
 				return std::hash<tstring>{}(static_cast<const char*>(read_void_p(in)));
 			}
 		} ;
+		template<>
+		struct HashType<const wchar_t*, true>
+		{
+			static SEQ_ALWAYS_INLINE auto apply(const void* in) -> size_t
+			{
+				return std::hash<tiny_string<wchar_t> >{}(static_cast<const wchar_t*>(read_void_p(in)));
+			}
+		};
+		template<>
+		struct HashType< wchar_t*, true>
+		{
+			static SEQ_ALWAYS_INLINE auto apply(const void* in) -> size_t
+			{
+				return std::hash<tiny_string<wchar_t> >{}(static_cast<const wchar_t*>(read_void_p(in)));
+			}
+		};
 		template<class T>
 		struct HashType<T, false>
 		{
@@ -389,7 +407,7 @@ namespace seq
 		};
 
 		/// @brief Cast string types between them
-		template<class String, class InString, bool IsString = is_allocated_string<String>::value && is_generic_string<InString>::value>
+		template<class String, class InString, bool IsString = is_allocated_string<String>::value && is_generic_char_string<InString>::value>
 		struct CastStringToString
 		{
 			static SEQ_ALWAYS_INLINE auto apply(const InString& str) -> String
@@ -408,7 +426,7 @@ namespace seq
 		};
 
 		/// @brief Cast string types to string_view
-		template<class String, class InString, bool IsString = is_generic_string_view<String>::value && is_generic_string<InString>::value >
+		template<class String, class InString, bool IsString = is_generic_string_view<String>::value && is_generic_char_string<InString>::value >
 		struct CastStringToStringView
 		{
 			static SEQ_ALWAYS_INLINE auto apply(const InString& str) -> String
@@ -489,7 +507,7 @@ namespace seq
 		};
 
 		/// @brief Equality comparison for hold_any::equal_to
-		template<class T, bool IsString = is_generic_string<T>::value>
+		template<class T, bool IsString = is_generic_char_string<T>::value>
 		struct CompareEqualString
 		{
 			static SEQ_ALWAYS_INLINE auto equal(const tstring_view& a, const T& b) -> bool { return a == b; }
@@ -500,7 +518,7 @@ namespace seq
 			static SEQ_ALWAYS_INLINE auto equal(const tstring_view& /*unused*/, const T& /*unused*/) -> bool { return false; }
 		};
 		/// @brief Less than comparison for hold_any::less_than
-		template<class T, bool IsString = is_generic_string<T>::value>
+		template<class T, bool IsString = is_generic_char_string<T>::value>
 		struct CompareLessString
 		{
 			static SEQ_ALWAYS_INLINE auto less(const tstring_view& a, const T& b) -> bool { return a < b; }
@@ -511,7 +529,7 @@ namespace seq
 			static SEQ_ALWAYS_INLINE auto less(const tstring_view& /*unused*/, const T& /*unused*/) -> bool { return false; }
 		};
 		/// @brief Greater than comparison for hold_any::greater_than
-		template<class T, bool IsString = is_generic_string<T>::value>
+		template<class T, bool IsString = is_generic_char_string<T>::value>
 		struct CompareGreaterString
 		{
 			static SEQ_ALWAYS_INLINE auto greater(const tstring_view& a, const T& b) -> bool { return a > b; }
@@ -1778,8 +1796,8 @@ namespace seq
 		
 
 		/// @brief Move constructor
-		/// Move constructor is NOT noexcept as move_any() might throw
-		hold_any(hold_any&& other) 
+		/// Move constructor is NOT noexcept as move_any() might throw (except if Relocatable is true)
+		hold_any(hold_any&& other) noexcept(Relocatable)
   			:base_type()
 		{
 			if (Relocatable || other.big_size() || !other.non_relocatable()) {
@@ -1868,8 +1886,8 @@ namespace seq
 			return *this = wrapper.get();
 		}
 
-		/// @brief Move assignment, MIGHT THROW!
-		auto operator=(hold_any&& other)  -> hold_any&
+		/// @brief Move assignment, MIGHT THROW if Relocatable is false !
+		auto operator=(hold_any&& other)  noexcept(Relocatable) -> hold_any&
   		{
 			if (Relocatable)
 			{
@@ -2025,7 +2043,7 @@ namespace seq
 			}
 
 			// string comparison
-			if (is_string_type(a_id) && is_generic_string<type>::value ) {
+			if (is_string_type(a_id) && is_generic_char_string<type>::value ) {
 				return detail::CompareEqualString<type>::equal(this->template cast<tstring_view>(), std::forward<T>(other));
 			}
 
@@ -2068,7 +2086,7 @@ namespace seq
 			}
 
 			// string comparison
-			if (is_string_type(a_id) && is_generic_string<type>::value ) {
+			if (is_string_type(a_id) && is_generic_char_string<type>::value ) {
 				return detail::CompareLessString<type>::less(this->template cast<tstring_view>(), other);
 			}
 
@@ -2111,7 +2129,7 @@ namespace seq
 			}
 
 			// string comparison
-			if (is_string_type(a_id) && is_generic_string<type>::value ) {
+			if (is_string_type(a_id) && is_generic_char_string<type>::value ) {
 				return detail::CompareGreaterString<type>::greater(this->template cast<tstring_view>(), other);
 			}
 
@@ -2440,11 +2458,16 @@ namespace seq
 	}
 	
 
-	template<class Interface, size_t S, size_t A, bool R>
-	class ostream_format<hold_any<Interface,S,A,R> > : 
-		public base_ostream_format<hold_any<Interface,S,A,R>, ostream_format<hold_any<Interface,S,A,R> > >
+
+
+
+
+
+	template<class Interface, size_t S, size_t A, bool R, bool Slot>
+	class ostream_format<hold_any<Interface,S,A,R>, Slot > :
+		public base_ostream_format<hold_any<Interface,S,A,R>, ostream_format<hold_any<Interface,S,A,R>, Slot > >
 	{
-		using base_type = base_ostream_format<hold_any<Interface, S, A,R>, ostream_format<hold_any<Interface, S, A,R> > >;
+		using base_type = base_ostream_format<hold_any<Interface, S, A,R>, ostream_format<hold_any<Interface, S, A,R> , Slot> >;
 	public:
 
 		ostream_format() : base_type() {}
@@ -2469,6 +2492,33 @@ namespace seq
 	{
 		static constexpr bool value = hold_any<Interface, S, A, R>::relocatable;
 	};
+
+
+	template<class T>
+	struct is_hold_any : std::false_type {};
+
+	template< class Interface, size_t S, size_t A, bool R>
+	struct is_hold_any< hold_any<Interface, S, A, R> > : std::true_type {};
+
+
+	namespace detail
+	{
+		// Force type nh_any to be stored inline in formatting object
+		template<class Interface, size_t S, size_t A, bool R>
+		struct inline_value_storage< hold_any<Interface, S, A, R> > : std::true_type
+		{
+		};
+	}
+
+	/// @brief Create placeholder for any type for the formatting module
+	inline auto _any() -> ostream_format< nh_any, true>
+	{
+		return ostream_format< nh_any, true>();
+	}
+	inline auto _a() -> ostream_format< nh_any, true>
+	{
+		return ostream_format< nh_any, true>();
+	}
 }
 
 namespace std

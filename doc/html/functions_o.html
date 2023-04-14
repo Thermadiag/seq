@@ -98,7 +98,6 @@ $(document).ready(function(){initNavTree('functions_o.html',''); initResizable()
 <li>objects
 : <a class="el" href="structseq_1_1detail_1_1block__pool.html#a1ec76c0ae831d663c9270e16298cb3f0">seq::detail::block_pool&lt; Allocator, Align, Threaded, GenerateStats, StoreHeader &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1block__pool_3_01_allocator_00_01_align_00_01false_00_01_generate_stats_00_01false_01_4.html#a57896ca7b25ab6d5dfd3ad0a52c0f763">seq::detail::block_pool&lt; Allocator, Align, false, GenerateStats, false &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#a909075c1e0a8957e7c7ac56dd0ea7e89">seq::detail::deque_chunk_pool_alloc&lt; T, Allocator &gt;</a>
 , <a class="el" href="structseq_1_1object__pool__stats.html#aeae0b8132b0d44578b2c8dd9ad3264cd">seq::object_pool_stats</a>
 </li>
 <li>objects_minus_deffered()
@@ -112,7 +111,7 @@ $(document).ready(function(){initNavTree('functions_o.html',''); initResizable()
 : <a class="el" href="structseq_1_1detail_1_1_context_ratio_guard.html#a5ad7f8ececbf4d277dd7a83e3ed8da0d">seq::detail::ContextRatioGuard&lt; Compress &gt;</a>
 </li>
 <li>open()
-: <a class="el" href="classseq_1_1file__input__stream.html#a2ced05345606f5037947e89321b46a52">seq::file_input_stream&lt; buff_size &gt;</a>
+: <a class="el" href="classseq_1_1file__input__stream.html#ade143e57168399d1fa1c8ec73bec6984">seq::file_input_stream&lt; buff_size &gt;</a>
 , <a class="el" href="classseq_1_1std__input__stream.html#af412ba219a0d3c00dc460745950fbbdc">seq::std_input_stream&lt; buff_size &gt;</a>
 </li>
 <li>operator bool()
@@ -128,6 +127,9 @@ $(document).ready(function(){initNavTree('functions_o.html',''); initResizable()
 : <a class="el" href="classseq_1_1tagged__pointer.html#ab6649ff2f8ca5946df1f5717133cfd3e">seq::tagged_pointer&lt; T, Type, UserDefinedAlignment &gt;</a>
 , <a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a6dcd62e5a3018e138ad331cb91519347">seq::tagged_pointer&lt; void, Type, UserDefinedAlignment &gt;</a>
 </li>
+<li>operator Container()
+: <a class="el" href="classseq_1_1iterator__range.html#a2e7fa7a2d8f30aeb501d1531801ca5e1">seq::iterator_range&lt; Iter &gt;</a>
+</li>
 <li>operator conv_type()
 : <a class="el" href="classseq_1_1detail_1_1_value_wrapper.html#a65d42d0a594fde6cd73d942260e9d5b9">seq::detail::ValueWrapper&lt; Compressed &gt;</a>
 </li>
@@ -135,78 +137,104 @@ $(document).ready(function(){initNavTree('functions_o.html',''); initResizable()
 : <a class="el" href="classseq_1_1tagged__pointer.html#a6d926b922ba7dfe4ebcf716a0ad9124f">seq::tagged_pointer&lt; T, Type, UserDefinedAlignment &gt;</a>
 , <a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a0cd3557cd81094cca0fb17bb5d9eb1ca">seq::tagged_pointer&lt; void, Type, UserDefinedAlignment &gt;</a>
 </li>
-<li>operator std::string()
-: <a class="el" href="structseq_1_1base__ostream__format.html#ab7fb3b47b0b57ffcbcdbbcfd9174b4fc">seq::base_ostream_format&lt; T, Derived &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#aebb4ee8beefc38223046f756367cd4a5">seq::detail::mutli_ostream_format&lt; Tuple, Pos &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format_3_01_tuple_00_01_positional_3_01_ts_8_8_8_01_4_01_4.html#a79aeeb44f9c0ae3ead5aab46eda6d391">seq::detail::mutli_ostream_format&lt; Tuple, Positional&lt; Ts... &gt; &gt;</a>
-, <a class="el" href="classseq_1_1tiny__string.html#a77867cbff2d9bf044f5d155ea039c219">seq::tiny_string&lt; MaxStaticSize, Allocator &gt;</a>
-, <a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#a35fe6a7f80e9992f67dc67e22ad30b97">seq::tiny_string&lt; 0, view_allocator &gt;</a>
+<li>operator std::basic_string&lt; char, Traits, Al &gt;()
+: <a class="el" href="structseq_1_1base__ostream__format.html#a2336d6def1a507fa00dca2ca1687dede">seq::base_ostream_format&lt; T, Derived &gt;</a>
+, <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a2afa27bb4b5411a2724b7dd9e7424dab">seq::detail::base_mutli_ostream_format&lt; Tuple, Derived, HasSeparator &gt;</a>
 </li>
-<li>operator tiny_string&lt; S, Al &gt;()
-: <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#aa4fa4eb47258468c2357ff6d747d24cd">seq::detail::mutli_ostream_format&lt; Tuple, Pos &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format_3_01_tuple_00_01_positional_3_01_ts_8_8_8_01_4_01_4.html#a4d121bf1244de8a82f74d38cccbb6d42">seq::detail::mutli_ostream_format&lt; Tuple, Positional&lt; Ts... &gt; &gt;</a>
+<li>operator std::basic_string&lt; Char, Traits, Al &gt;()
+: <a class="el" href="classseq_1_1tiny__string.html#a6cf595d1bfe1360654cfdafd73c6f533">seq::tiny_string&lt; Char, Traits, Allocator, MaxStaticSize &gt;</a>
+, <a class="el" href="structseq_1_1tiny__string_3_01_char_00_01_traits_00_01view__allocator_3_01_char_01_4_00_010_01_4.html#a5186373abca3feebb34452baaf782de5">seq::tiny_string&lt; Char, Traits, view_allocator&lt; Char &gt;, 0 &gt;</a>
 </li>
-<li>operator tiny_string&lt; Ss, Al &gt;()
-: <a class="el" href="structseq_1_1base__ostream__format.html#abc5679a0d934f148f336cda8e7046a1c">seq::base_ostream_format&lt; T, Derived &gt;</a>
+<li>operator std::pair&lt; T, T &gt;()
+: <a class="el" href="classseq_1_1iterator__range.html#af8bc0e1cf544d5ffbc9003ef29a16eaa">seq::iterator_range&lt; Iter &gt;</a>
+</li>
+<li>operator tiny_string&lt; char, Traits, Al, S &gt;()
+: <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#accc3d7a9e745d597823b20df8a72aaa8">seq::detail::base_mutli_ostream_format&lt; Tuple, Derived, HasSeparator &gt;</a>
+</li>
+<li>operator tiny_string&lt; char, Traits, Al, Ss &gt;()
+: <a class="el" href="structseq_1_1base__ostream__format.html#aed860415b3af7d70cbd27f97732aacf8">seq::base_ostream_format&lt; T, Derived &gt;</a>
 </li>
 <li>operator!=()
 : <a class="el" href="classseq_1_1aligned__allocator.html#afb45a19861ecd3bd22c6239f29f44d84">seq::aligned_allocator&lt; T, Allocator, Align &gt;</a>
 , <a class="el" href="classseq_1_1aligned__allocator_3_01_t_00_01std_1_1allocator_3_01_t_01_4_00_01_align_01_4.html#a4e7773c4c76d72feafa4be351f4d70c0">seq::aligned_allocator&lt; T, std::allocator&lt; T &gt;, Align &gt;</a>
 , <a class="el" href="classseq_1_1cvalue__iterator.html#ad6a58d94efd064e65221a746867d0173">seq::cvalue_iterator&lt; T &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1allocator__for__shared__ptr.html#adbf5b3fcae94b1630fd779cc9161bfd1">seq::detail::allocator_for_shared_ptr&lt; T, Pool &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_arithmetic_iterator.html#a63fd313871383a55338fbd2f5e2b8847">seq::detail::ArithmeticIterator&lt; Type &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_buffer_list_1_1iterator.html#af6098d5764037220d0fb85c28ee8520e">seq::detail::BufferList&lt; Buffer &gt;::iterator</a>
+, <a class="el" href="structseq_1_1detail_1_1_flatten_pair.html#ad4d26b06b8f7664c25be6fd8487baac5">seq::detail::FlattenPair&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_integral_iterator.html#ae01e62bfb482abdb37fa57fd6307357e">seq::detail::IntegralIterator&lt; Integral &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator.html#af3e6f1c1bf5bf1e19d0bf28baa510591">seq::detail::NIterator&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_ref.html#a6d3ab8e2bbb5b71fad83fb849eed0060">seq::detail::NIteratorRef&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_repeat.html#a6b24af632ef8fa356d77ca77549c8f96">seq::detail::NIteratorRepeat&lt; T &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_wrap.html#a9b71c4cc84279a233c20d760e791e506">seq::detail::NIteratorWrap&lt; Iter &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a61b92e6e8e334391d66fb3e62dff2e9c">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_split_iter.html#af6a3f62b0a5f3b25d082face233f0a9f">seq::detail::SplitIter&lt; Match, Skip &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#a581ca66aa1537645c7a5c62d00547e37">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_zip_iterator.html#abfa88bb59c66f7480b625fc5f4109e43">seq::detail::ZipIterator&lt; Iter1, Iter2 &gt;</a>
 , <a class="el" href="classseq_1_1external__allocator.html#a3bac26c10eef58d7e2a0dc2c83696a91">seq::external_allocator&lt; T, External &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#a9b35f42c14a2cda0e2ab2d5ed03eca5b">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#a7c762fa5625f820b86f868dbb93496b7">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#a0ca1f016e2ad6262a08f7fb435b52db1">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
 , <a class="el" href="classseq_1_1hold__any.html#aae6c83eb0c36495d47d3b5d03623fe90">seq::hold_any&lt; Interface, StaticSize, Alignment, Relocatable &gt;</a>
+, <a class="el" href="classseq_1_1iterator__range.html#a250d2980be41c63c4438259810e64301">seq::iterator_range&lt; Iter &gt;</a>
 , <a class="el" href="classseq_1_1object__allocator.html#a4779a90758c4d86be3ea69b5c11ea365">seq::object_allocator&lt; Pool &gt;</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#ae87172a10bf06c439445379d922a9ff2">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#a2b6d930aee23921597fa81eddbcc9458">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#ac2e1e81187202107d117eb4bf13eccf6">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
+, <a class="el" href="group__containers.html#ga8c9914f1ae155f8e1f6e6315cd03bb08">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="group__containers.html#gaf98db0e49feb16b14401033d15d9dda3">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::iterator</a>
+, <a class="el" href="group__containers.html#gad0981cb9f7d653d498dc078da87db70c">seq::radix_hash_set&lt; Key, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1const__iterator.html#a7ea1dc311bf0ea9ada354df5009c469b">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1iterator.html#afd1227423556bf79a9b54f01ea1b9d17">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::iterator</a>
+, <a class="el" href="structseq_1_1radix__set_1_1const__iterator.html#a879b602d52f3882d7a603fa80b362b73">seq::radix_set&lt; Key, ExtractKey, Allocator &gt;::const_iterator</a>
 </li>
 <li>operator()()
-: <a class="el" href="structseq_1_1base__ostream__format.html#a47881bdf7f7e19305fd88cd8c7a63aae">seq::base_ostream_format&lt; T, Derived &gt;</a>
+: <a class="el" href="structseq_1_1base__ostream__format.html#a0de10add989f928d4bbd3ed9f3480eda">seq::base_ostream_format&lt; T, Derived &gt;</a>
 , <a class="el" href="structseq_1_1comp__wrapper.html#a5503ea82da5f34db4d9c2eaa29313ab3">seq::comp_wrapper&lt; Comp &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_base_tree.html#a0b6930f381ccbdbaec17d09abd3a2882">seq::detail::BaseTree&lt; Key, Value, Less &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_base_tree_3_01_key_00_01_key_00_01_less_01_4.html#a1fa5ee4105a2377ee4ef929c353ca104">seq::detail::BaseTree&lt; Key, Key, Less &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1base__tree.html#ac5fd3c6a6933acba6a376adbb2a20e5d">seq::detail::base_tree&lt; Key, Value, Less &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1base__tree_3_01_key_00_01_key_00_01_less_01_4.html#a0490860b4d8178890b5d08a317ff57a0">seq::detail::base_tree&lt; Key, Key, Less &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_call_lambda.html#a68231cd93e108f17d8f1938be2df5ce6">seq::detail::CallLambda&lt; L1, L2, IsL1 &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_call_lambda_3_01_l1_00_01_l2_00_01false_01_4.html#a5eda506a52ee2a8f43336b34310fb520">seq::detail::CallLambda&lt; L1, L2, false &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_find_bucket_size.html#ad6972f0dfa7525b7253e26ea9344a2da">seq::detail::FindBucketSize&lt; T &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1flat__tree_1_1_equal.html#a9d12079ab862198f5d4134666fc9f870">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::Equal</a>
-, <a class="el" href="structseq_1_1detail_1_1flat__tree_1_1_less.html#a395f477b5581db3eb6e5cea74299b9e1">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;::Less</a>
-, <a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a8eb48330247ff1cb0eade67e08cacb17">seq::detail::HashEqual&lt; Hash, Equal, EmptyHash, EmptyEqual &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_hash_equal_3_01_hash_00_01_equal_00_01false_00_01true_01_4.html#a4f3b429a3c51db1a9686d222116bbf55">seq::detail::HashEqual&lt; Hash, Equal, false, true &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_hash_equal_3_01_hash_00_01_equal_00_01true_00_01false_01_4.html#ab96212da1803aa68e0a34989babc3c4c">seq::detail::HashEqual&lt; Hash, Equal, true, false &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_hash_equal_3_01_hash_00_01_equal_00_01true_00_01true_01_4.html#a96d931a29e339a7afc1361d20fd76743">seq::detail::HashEqual&lt; Hash, Equal, true, true &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#a58d6eb4b6194f05b1114aaf526216bc8">seq::detail::mutli_ostream_format&lt; Tuple, Pos &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format_3_01_tuple_00_01_positional_3_01_ts_8_8_8_01_4_01_4.html#a925be2785d2ca1046b667c2cd29788d2">seq::detail::mutli_ostream_format&lt; Tuple, Positional&lt; Ts... &gt; &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1flat__tree_1_1_equal.html#a3131bb6ef0463911ec284e58412e0673">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, Stable, Unique &gt;::Equal</a>
+, <a class="el" href="structseq_1_1detail_1_1flat__tree_1_1_less.html#ac2a6e2e27521ee378568645a4c929bf5">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, Stable, Unique &gt;::Less</a>
+, <a class="el" href="structseq_1_1detail_1_1_hash_equal.html#a6292548019beaa005da081512e97a5d7">seq::detail::HashEqual&lt; Hash, Equal, EmptyHash, EmptyEqual &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_hash_equal_3_01_hash_00_01_equal_00_01false_00_01true_01_4.html#aa22348837c67009448f0d67289c44888">seq::detail::HashEqual&lt; Hash, Equal, false, true &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_hash_equal_3_01_hash_00_01_equal_00_01true_00_01false_01_4.html#a6d7b46c830b85152d43780def71da1e9">seq::detail::HashEqual&lt; Hash, Equal, true, false &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_hash_equal_3_01_hash_00_01_equal_00_01true_00_01true_01_4.html#a1799ee834d0aca0e62604701d3f23335">seq::detail::HashEqual&lt; Hash, Equal, true, true &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html#ab3a9244fada52bc1cf09d8b51d087306">seq::detail::mutli_ostream_format&lt; Tuple, HasSeparator, Pos, Slot &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format_3_01_tuple_00_01_has_separator_00_01_positional_3_eafeb19cc41adb8964cfb45452310b5b.html#a689eef96c381a8238f70925859ce2eaf">seq::detail::mutli_ostream_format&lt; Tuple, HasSeparator, Positional&lt; Ts... &gt;, Slot &gt;</a>
 , <a class="el" href="structseq_1_1equal__to.html#aa82392a698e38e8997ff04375352309a">seq::equal_to&lt; _Ty &gt;</a>
 , <a class="el" href="structseq_1_1equal__to_3_01void_01_4.html#a8a93f58f1f4120a2c6fa001292863bbf">seq::equal_to&lt; void &gt;</a>
+, <a class="el" href="structseq_1_1greater.html#a9680090742cca9f22921f2f29811ea83">seq::greater&lt; _Ty &gt;</a>
+, <a class="el" href="structseq_1_1greater_3_01void_01_4.html#a432c4706296216c438252606bfb7f65b">seq::greater&lt; void &gt;</a>
+, <a class="el" href="structseq_1_1less.html#a14b8600d6dc7248dde9575f7f33ba924">seq::less&lt; _Ty &gt;</a>
+, <a class="el" href="structseq_1_1less_3_01void_01_4.html#a17bd1d7615803794744ba092119655ca">seq::less&lt; void &gt;</a>
 , <a class="el" href="classseq_1_1random__float__genertor.html#a41cdfd6da4a94011befee824f5fe34ff">seq::random_float_genertor&lt; Float &gt;</a>
 , <a class="el" href="structseq_1_1unique__ptr__deleter.html#a961ac09847728c5dcf225c0f5dce6dd9">seq::unique_ptr_deleter&lt; T &gt;</a>
 , <a class="el" href="classstd_1_1hash_3_01seq_1_1hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_01_4.html#a410f240e4dbb8237bcfc54234a1c9321">std::hash&lt; seq::hold_any&lt; Interface, S, A, R &gt; &gt;</a>
-, <a class="el" href="classstd_1_1hash_3_01seq_1_1tiny__string_3_01_size_00_01_allocator_01_4_01_4.html#a5b85b68ff9ee3cc640eceb5b8dd3cd6e">std::hash&lt; seq::tiny_string&lt; Size, Allocator &gt; &gt;</a>
+, <a class="el" href="classstd_1_1hash_3_01seq_1_1tiny__string_3_01_char_00_01_traits_00_01_allocator_00_01_size_01_4_01_4.html#a03db1688d5434ba19ad932295c07c2ae">std::hash&lt; seq::tiny_string&lt; Char, Traits, Allocator, Size &gt; &gt;</a>
 </li>
 <li>operator*()
 : <a class="el" href="classseq_1_1cvalue__iterator.html#a5abfed241b70f842f6b2f1c02fb85e9c">seq::cvalue_iterator&lt; T &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_arithmetic_iterator.html#ad7a17e16aeb3bbfe8d84a7ea83f32a5a">seq::detail::ArithmeticIterator&lt; Type &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_buffer_list_1_1iterator.html#aa04f7f449cc060fd61b4317fce010561">seq::detail::BufferList&lt; Buffer &gt;::iterator</a>
 , <a class="el" href="structseq_1_1detail_1_1_compressed_const_iter.html#aa2fda5458d61414a544544ab2cfa977b">seq::detail::CompressedConstIter&lt; Compressed &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_compressed_iter.html#aeccf1e7ec9a50446a25594dc56fe5178">seq::detail::CompressedIter&lt; Compressed &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html#afe331b0d037bd3460b0c71bc5fb96c09">seq::detail::deque_const_iterator&lt; BucketMgr &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1deque__iterator.html#a5122ac099f8fe1f6fab9239ffaa9f543">seq::detail::deque_iterator&lt; BucketMgr &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_flatten_pair.html#a042d0c5f7e383a5964ef1f7b35a32e6b">seq::detail::FlattenPair&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_integral_iterator.html#a00d405ea24f2c1bf7d87969c97c3addb">seq::detail::IntegralIterator&lt; Integral &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator.html#a523999ff63abb938defe226ea81f0043">seq::detail::NIterator&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_ref.html#a0ec60e59f7a3f0b748168c23997a64b1">seq::detail::NIteratorRef&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_repeat.html#a843dbc21a0b233f72646881034b10525">seq::detail::NIteratorRepeat&lt; T &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_wrap.html#a04e34b21498d7b6b0b32f5a71140dd46">seq::detail::NIteratorWrap&lt; Iter &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1sequence__const__iterator.html#afb61a0a1049e715f4aa116e647ab5469">seq::detail::sequence_const_iterator&lt; List &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1sequence__iterator.html#a51c7b24e08318b24d9546f7260932214">seq::detail::sequence_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#ad6b897af0f289814349ca53e2abeecad">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_split_iter.html#aa5c4988ea4e870a10bb387d229edb62c">seq::detail::SplitIter&lt; Match, Skip &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#a142cb6e02f96bf966a2f86e6c2c2bab2">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#a58e42394121ddf2cb2df2c03cd5f83b9">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#aa0f0177eb25385e9569178a449da7e10">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#af4c648f2d3296e4fc80cde5e247680cc">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#a5102c27d96ed7f148515e5f85abd3d0d">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#a1fac7a326b972572c8e94ff36deeaf56">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#a5ab0ea1c1bb5fcbedefa0fc296f1973b">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1detail_1_1_zip_iterator.html#a477597b96ddb6963b50f4e3ffba78e7e">seq::detail::ZipIterator&lt; Iter1, Iter2 &gt;</a>
+, <a class="el" href="group__containers.html#ga97aae02476fe2ae2d85e1f397efeb726">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="group__containers.html#gacb134dcce869f3135b94a6dfbe96b04e">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::iterator</a>
+, <a class="el" href="group__containers.html#gad791ea273e4b6de8c1f7287e5cc9f3bb">seq::radix_hash_set&lt; Key, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1const__iterator.html#a035919cd00cf0a38df8a701e2ce0b430">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1iterator.html#a8cd507500bb61d1e7a3227a8929902a8">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::iterator</a>
+, <a class="el" href="structseq_1_1radix__set_1_1const__iterator.html#a6336dd368c4e8e46597c0002a51047cc">seq::radix_set&lt; Key, ExtractKey, Allocator &gt;::const_iterator</a>
 , <a class="el" href="classseq_1_1tagged__pointer.html#a80b3c058cc18ff93ff04f2c3e5cff5ed">seq::tagged_pointer&lt; T, Type, UserDefinedAlignment &gt;</a>
 </li>
 <li>operator+()
@@ -214,30 +242,33 @@ $(document).ready(function(){initNavTree('functions_o.html',''); initResizable()
 , <a class="el" href="structseq_1_1detail_1_1_compressed_iter.html#a7ec54e6cd9e752463233f839c3514735">seq::detail::CompressedIter&lt; Compressed &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a3db436d41ebdb1e351178bb406a3ce22">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#a464ee6f0259c6fff33eaada402893748">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#a77c8b162f156e5662e6817000f0e0e83">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#a107d1cd209a3e4e4ffb7b7ea09990e58">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#a1d066295797c491ef0e1a0a76f0ad660">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#a0d206ef10de8865a2b017e3950e4e8ec">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#af41bebc1facec00e585a32fd92fbd7e6">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#ad913dd0cf15f37cf639720ec92245e5a">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
 </li>
 <li>operator++()
 : <a class="el" href="classseq_1_1cvalue__iterator.html#acd715923c6d902d4334164856feba7bc">seq::cvalue_iterator&lt; T &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_arithmetic_iterator.html#a87a8329f8d61f5c400c06032c09c74fa">seq::detail::ArithmeticIterator&lt; Type &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_buffer_list_1_1iterator.html#adeb8d9c005c902e9052c641a77eaf3a4">seq::detail::BufferList&lt; Buffer &gt;::iterator</a>
 , <a class="el" href="structseq_1_1detail_1_1_compressed_const_iter.html#a066384acda80d86185d3a9310a008fa0">seq::detail::CompressedConstIter&lt; Compressed &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_compressed_iter.html#ac56189777ce35f19adb95f0f7b72a8f0">seq::detail::CompressedIter&lt; Compressed &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html#ae9495832c11e5b7875f1c2602b1e3b87">seq::detail::deque_const_iterator&lt; BucketMgr &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1deque__iterator.html#a11066dffa8b7980481a7e94b1e229c00">seq::detail::deque_iterator&lt; BucketMgr &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_flatten_pair.html#aacee13ac4d07095efaf7e01df40f0523">seq::detail::FlattenPair&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_integral_iterator.html#a9d53667d307715787c520524860c15b4">seq::detail::IntegralIterator&lt; Integral &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator.html#ad58028a20b147d928e4d93e75d7de9fd">seq::detail::NIterator&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_ref.html#a5f9a34b30df8116169245ebada66b71e">seq::detail::NIteratorRef&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_repeat.html#ae98aae8e0fb06b86af77f67076fc7862">seq::detail::NIteratorRepeat&lt; T &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_wrap.html#afb41afce2ed640f8c3dc989be7bd4d8c">seq::detail::NIteratorWrap&lt; Iter &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1sequence__const__iterator.html#a20d1a14f8d7bd4819784d1f4c299b54f">seq::detail::sequence_const_iterator&lt; List &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1sequence__iterator.html#a11d3dc1fb2112462ac26cf38d39f9f5f">seq::detail::sequence_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a6db25540957ff73bdd6c8a02899fb4e1">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_split_iter.html#aa2a10677e148583de20dd4214ac84e06">seq::detail::SplitIter&lt; Match, Skip &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#a1320f8888ad24b1af4e3c8b7cb9804ee">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#a00973f4fa365d67797a06c0cf5da77cb">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#ae7311dadabd7d1082c1cf443762321a4">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#ab7e4a029f7a38b817b7df94a84c09247">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#af88e856ed4e78577ef42f2a8554749a4">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#a960cd1e85f7cbb420f73c4c3cb21bd2c">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#a4720f3d7d0554035be2f32d5200d1432">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1detail_1_1_zip_iterator.html#af0cf5b5f37453ad791c089d8e2827ca5">seq::detail::ZipIterator&lt; Iter1, Iter2 &gt;</a>
+, <a class="el" href="group__containers.html#ga28a30c4fdff6aa4309ccf01662198430">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="group__containers.html#gaefe57a9d53d09942dc686e6387474fff">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::iterator</a>
+, <a class="el" href="group__containers.html#gab54b88441dad9f01d0b3019bce17f04a">seq::radix_hash_set&lt; Key, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1const__iterator.html#a724375fd8cbf111e99ceb680a2e37491">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1iterator.html#acabe87ff00651bc2a6620336aa898f9e">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::iterator</a>
+, <a class="el" href="structseq_1_1radix__set_1_1const__iterator.html#a04fce64411695f05cd6a9ea6edcfc448">seq::radix_set&lt; Key, ExtractKey, Allocator &gt;::const_iterator</a>
 </li>
 <li>operator+=()
 : <a class="el" href="classseq_1_1cvalue__iterator.html#a2f2149acdd7231b34cf0cfa4253a566d">seq::cvalue_iterator&lt; T &gt;</a>
@@ -249,25 +280,13 @@ $(document).ready(function(){initNavTree('functions_o.html',''); initResizable()
 , <a class="el" href="classseq_1_1detail_1_1sequence__iterator.html#a9ecbbe579745bd34a8b183b0000e5700">seq::detail::sequence_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#ad9c1e87b5acc86ae20a3614352dc86c7">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#a19916689db6001dcae89d9d1adf44fd8">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#ab77be02a1dd827878e7137a45fb87f81">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#ad46888452487b3165bc270f3b838254b">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#ae39a3f22af705f0236984d0c7b9d9857">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#a706fb0aed82c3e03610e76025e811456">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#ada1f809ffac0df341f830c53ae53a3ed">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#a826d20934ab838f209f2df0946edd342">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="classseq_1_1tiny__string.html#aa6149ed3215526ab70b6f73a92bfcd16">seq::tiny_string&lt; MaxStaticSize, Allocator &gt;</a>
+, <a class="el" href="classseq_1_1tiny__string.html#a48e65ec5fe95460965869b6082bc8765">seq::tiny_string&lt; Char, Traits, Allocator, MaxStaticSize &gt;</a>
 </li>
 <li>operator-()
 : <a class="el" href="structseq_1_1detail_1_1_compressed_const_iter.html#a3c2e960729e5bc8f013803ef0ef4b5f1">seq::detail::CompressedConstIter&lt; Compressed &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_compressed_iter.html#ae1fb8fcbc170a5b9f830b1480f5ef4e7">seq::detail::CompressedIter&lt; Compressed &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a0fb2c72543ef372f48f0b6a7feccd827">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#a0bccccc05532db25826d05544feef898">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#a65396ee2eabbde3b4ab0ad4978d9a627">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#a3b9bae070d4c40fef49b0fb56c201f66">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#a63bb39e7f56814fe90c4092d46df8195">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#a6072843eb10f9eb8fb605ecb1781d02e">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#a854593c47536d3a2b2c1108e055b6885">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#a369f28dab27b65373d5ae27c02fff743">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
 </li>
 <li>operator--()
 : <a class="el" href="classseq_1_1cvalue__iterator.html#a7f15e7ed48b2c61c9929589f8f3686ca">seq::cvalue_iterator&lt; T &gt;</a>
@@ -280,12 +299,12 @@ $(document).ready(function(){initNavTree('functions_o.html',''); initResizable()
 , <a class="el" href="classseq_1_1detail_1_1sequence__iterator.html#a924fcc7c8dae608549a1bf7f40c98d8d">seq::detail::sequence_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#aa7c38638ee88cea8afa8c0a49f1f58c2">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#a2309e802868a769787a315580f897f20">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#a3ec1c2c4068269210f0be393df576519">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#a9c19de1ef51a9ad4eecfcdad0e0f9462">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#a6b2d9fbe945d7bd5d4e4711b9d3ae319">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#a39d30e68dc14eab63f3b9782a82b120a">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#a9cac2595e3cb2116677ebccc29299ca5">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#a89e4214365a4d3c4613b2b4d960d4501">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
+, <a class="el" href="group__containers.html#ga4e3d57cad8eadc6673d6c3b06e46a601">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="group__containers.html#ga793fd01be489de308b0a56aec7fc8bd6">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::iterator</a>
+, <a class="el" href="group__containers.html#gad692ff191a44bb9493deff013863616f">seq::radix_hash_set&lt; Key, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1const__iterator.html#a9e22927712d078593d636a54617c4ebf">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1iterator.html#ae362fd6d0cda0ec8832f71cad9dfb85f">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::iterator</a>
+, <a class="el" href="structseq_1_1radix__set_1_1const__iterator.html#af181c215776447aaa4b20cfa55e140bf">seq::radix_set&lt; Key, ExtractKey, Allocator &gt;::const_iterator</a>
 </li>
 <li>operator-=()
 : <a class="el" href="classseq_1_1cvalue__iterator.html#a1e56521a42ec584e7cbac978e67b080e">seq::cvalue_iterator&lt; T &gt;</a>
@@ -297,156 +316,148 @@ $(document).ready(function(){initNavTree('functions_o.html',''); initResizable()
 , <a class="el" href="classseq_1_1detail_1_1sequence__iterator.html#a15dcbcc199ceea74bd4cee0aa504c010">seq::detail::sequence_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a7cdb31aa29bddb3ca7b9dbf6459fd004">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#a143cdd49e6d6a217dd51fd28c4e865a2">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#abe41b478d38ff9db91689f8666a1bf82">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#ab1aa7743549be332796b04c192a95f21">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#a85656118fc6036403857766da9ed0b63">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#ab4d30010c0f391875b388011a526b614">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#a2a0164ea250197d46eb08deb297c896e">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#a9ee8d174d7fb81bbcd9ef2d17fe70656">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
 </li>
 <li>operator-&gt;()
 : <a class="el" href="classseq_1_1cvalue__iterator.html#adf7c7aad22b5c82dee0fb86da7968b8d">seq::cvalue_iterator&lt; T &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_arithmetic_iterator.html#a11ebf9900783b5e78aa5aacd61f21901">seq::detail::ArithmeticIterator&lt; Type &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_compressed_const_iter.html#a701b5f7a48e1d0c7c1b4a12357399564">seq::detail::CompressedConstIter&lt; Compressed &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_compressed_iter.html#a64e982824e5de6e51c5b845facb63841">seq::detail::CompressedIter&lt; Compressed &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html#ac7f40504e2b1fafc679316a472a242ee">seq::detail::deque_const_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1deque__iterator.html#a05b90bee269e54e423ba34c808541c82">seq::detail::deque_iterator&lt; BucketMgr &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1deque__iterator.html#a69143d4fc413b745ef8da9c901d69dae">seq::detail::deque_iterator&lt; BucketMgr &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_flatten_pair.html#a8912518d4d0d858b4e56b01ea165a554">seq::detail::FlattenPair&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_integral_iterator.html#a2f712d33939841ee22d519e4962048f0">seq::detail::IntegralIterator&lt; Integral &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator.html#ab028b4b0b401ba20a2663464524bdff9">seq::detail::NIterator&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_ref.html#a6dcb9f1a3508ae58eb5fc5e246e6cb38">seq::detail::NIteratorRef&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_repeat.html#ab6b95324da68bc787f5a99500f6e6b66">seq::detail::NIteratorRepeat&lt; T &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_wrap.html#aa089c279885e09d1e4cc8999c1642779">seq::detail::NIteratorWrap&lt; Iter &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1sequence__const__iterator.html#a74e81ced86957c45963a073a324ef22a">seq::detail::sequence_const_iterator&lt; List &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1sequence__iterator.html#a9d996b4ff6d9085f9587a134832f09b4">seq::detail::sequence_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a0a43b3a2e6f9893ade20d9b7b383d312">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01false_00_01_is_arithmetic_01_4.html#abb99d1008f2d73b31d1dc93b9c16b7f9">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, false, IsArithmetic &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_split_iter.html#ac922d85d056084a0afc3c19831a17311">seq::detail::SplitIter&lt; Match, Skip &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_store_bucket.html#af37c51d1870eee5301da804c14ba28ae">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, StoreBackValues, IsArithmetic &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01false_01_4.html#a42a349a2d31199ce8d735aae29645fbe">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, true, false &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01true_01_4.html#a6abc96490706742a2992d8e9c6ac3f6e">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, true, true &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#aba2f6ea38add96e7640c2fc86f5dd77f">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#ab73f6898afdc296215d381675780b1a3">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#a2d089b11dd04fd56f36a8ec9d15f341b">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#a89ba9a8c43e31c4ff8fe4c813893af94">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#aa41323af5f7646c59513483098d4588f">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#a2ef51ea46ccdbf638f941ecd700e2247">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#a585651c3584c1b48211a189b70a74651">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="classseq_1_1tagged__pointer.html#a0d5fafd51ff80d4d72b4143b445b60bf">seq::tagged_pointer&lt; T, Type, UserDefinedAlignment &gt;</a>
-, <a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#ad8d78236c438dc8be21ce180550ef773">seq::tagged_pointer&lt; void, Type, UserDefinedAlignment &gt;</a>
+, <a class="el" href="group__containers.html#ga61a960deeeb860a647ec8ae803051446">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="group__containers.html#gabe9dc16beda5c89c7330df3c87b84adc">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::iterator</a>
+, <a class="el" href="group__containers.html#gaa5de596f73999ea3f43215b5633a60d3">seq::radix_hash_set&lt; Key, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1const__iterator.html#ac45f83ab3eae76cbc337f48780b52673">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1iterator.html#a6d0be641d3393789fe34049d82bcdc67">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::iterator</a>
+, <a class="el" href="structseq_1_1radix__set_1_1const__iterator.html#ad4a4b928646ef84317a2e37037d59481">seq::radix_set&lt; Key, ExtractKey, Allocator &gt;::const_iterator</a>
+, <a class="el" href="classseq_1_1tagged__pointer.html#ad6e13a48f7cf43fe2d32d291ba17d937">seq::tagged_pointer&lt; T, Type, UserDefinedAlignment &gt;</a>
+, <a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a959ac58090bcf326ed014ceb456beea7">seq::tagged_pointer&lt; void, Type, UserDefinedAlignment &gt;</a>
 </li>
 <li>operator&lt;()
 : <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a83e47d9510bb41c8e99ce78c34473af3">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#a78e228f27c4c845c8ae65390a83cdfaf">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#af5e15e1bbb2772acc31d925295a31738">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#a3a3d5673fd42240a942f29def5430091">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#a6bc1905d42f90491b5ce0c013401a110">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
 , <a class="el" href="classseq_1_1hold__any.html#a1c6b6146240425e1069fdb1ab07dc8cf">seq::hold_any&lt; Interface, StaticSize, Alignment, Relocatable &gt;</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#a04ff2707f68386b3861378d91c4398fa">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#a6b195fbb7e7c656d3d22c721b0e96692">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#a132d0dd1a427f7771b1f9082623f9eeb">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
 </li>
 <li>operator&lt;=()
 : <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a461c317de46a23b0e5806ad933cfe395">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#a81356d0b0abc7f2c7447af75a306185b">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#ad9557bd8cef8bbb060b05ec600aa3bfe">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#a3829dd9b2bf4644ee9b0901a0b48e5ee">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#a9810210d8d1f138eb9c3ce4059a59a3a">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
 , <a class="el" href="classseq_1_1hold__any.html#a7ab0c3edc60af93b6820e121d85344e5">seq::hold_any&lt; Interface, StaticSize, Alignment, Relocatable &gt;</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#aa340f69d2c936600fd38b0aa8ad7f80f">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#aec9757da93b30393158f340368635007">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#a289fc2f64eaa5d9b33e6d9466283cb73">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
 </li>
 <li>operator=()
-: <a class="el" href="classseq_1_1aligned__allocator.html#a83ec65a20312435773de37e80c4c4338">seq::aligned_allocator&lt; T, Allocator, Align &gt;</a>
+: <a class="el" href="classseq_1_1aligned__allocator.html#adf22bb59832dd6f6fd646434af904943">seq::aligned_allocator&lt; T, Allocator, Align &gt;</a>
 , <a class="el" href="classseq_1_1aligned__allocator_3_01_t_00_01std_1_1allocator_3_01_t_01_4_00_01_align_01_4.html#ab1cb459fcf8fcaa1d5b2d50f63dedfbe">seq::aligned_allocator&lt; T, std::allocator&lt; T &gt;, Align &gt;</a>
 , <a class="el" href="classseq_1_1cvector.html#aec990e71a2ef05b2fcc9ad93d1349a6c">seq::cvector&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_base_tree.html#a944c6080cd296f1853e8d3293d2ef3e3">seq::detail::BaseTree&lt; Key, Value, Less &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_base_tree_3_01_key_00_01_key_00_01_less_01_4.html#ac43c432a336ad5d1a011b4f6fea18bde">seq::detail::BaseTree&lt; Key, Key, Less &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1base__tree.html#aed64761b0ffffdf97eba7c22ca25a21a">seq::detail::base_tree&lt; Key, Value, Less &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1base__tree_3_01_key_00_01_key_00_01_less_01_4.html#a2c500c53f6c29baf92736b3cda8abf8d">seq::detail::base_tree&lt; Key, Key, Less &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1block__pool.html#a6e1f8d9c882bffb3f467f778ffb23f8f">seq::detail::block_pool&lt; Allocator, Align, Threaded, GenerateStats, StoreHeader &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1block__pool_3_01_allocator_00_01_align_00_01false_00_01_generate_stats_00_01false_01_4.html#a461c5912178dad53008f47acc5f1300c">seq::detail::block_pool&lt; Allocator, Align, false, GenerateStats, false &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#af7553d846a70ac9cf3138ed7872f0ef9">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a90b49aa3aea010060aad103388b087ff">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1chunk__pool__alloc.html#ab28295c0497e7acead94ded509b398d4">seq::detail::chunk_pool_alloc&lt; T, Allocator &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#a814731242322d64f91f0d1c753867d12">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1deque__chunk__pool.html#ad18d76acd39e931c1ee3b34fa3041d74">seq::detail::deque_chunk_pool&lt; T, Allocator &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1deque__chunk__pool__alloc.html#af746a326a4fbbdd9d59cfbf72ee523ce">seq::detail::deque_chunk_pool_alloc&lt; T, Allocator &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_deque_bucket_allocator.html#aa0b6ba8d51c27786caa5d8a8001a7301">seq::detail::DequeBucketAllocator&lt; T, Allocator, Bucket &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#aafa8a9ca17b4f6f16df83a983d9912db">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a13333616b6fea4f8e73598f5e94f8d60">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, Stable, Unique &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_pack_buffer.html#a1ee4cf1f82a951a4f7bc908bfc767509">seq::detail::PackBuffer&lt; T, Encoder, block_size &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html#a63c15b3c6c45521c5da69714d1bcde0c">seq::detail::SmallBucketAllocator&lt; T, Allocator &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01true_01_4.html#a681b6f6cf81b8872e0e8178d1fe17775">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, true, true &gt;</a>
-, <a class="el" href="classseq_1_1detail_1_1_value_wrapper.html#ac0bf22c3857ea2947167fba65da70eb2">seq::detail::ValueWrapper&lt; Compressed &gt;</a>
-, <a class="el" href="classseq_1_1devector.html#af73cd0b1843f4ad189035d8481be1340">seq::devector&lt; T, Allocator, flag &gt;</a>
-, <a class="el" href="classseq_1_1flat__map.html#a820eacbe3775660acea173f289af7c38">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1flat__multimap.html#ad38e4e305420e7474cc73e75bf384444">seq::flat_multimap&lt; Key, T, Compare, Allocator, layout, Stable &gt;</a>
-, <a class="el" href="classseq_1_1flat__multiset.html#a0424f77ef1ea305834e4789fb6e77acf">seq::flat_multiset&lt; Key, Compare, Allocator, layout, Stable &gt;</a>
-, <a class="el" href="classseq_1_1flat__set.html#aad22c9c9dad8a9720aa3c1f6dee76430">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1hold__any.html#ac382f0d7d7482e7950cf79bc0feded8c">seq::hold_any&lt; Interface, StaticSize, Alignment, Relocatable &gt;</a>
+, <a class="el" href="classseq_1_1detail_1_1_value_wrapper.html#a6044edd078c3dadbd062a6af0224a692">seq::detail::ValueWrapper&lt; Compressed &gt;</a>
+, <a class="el" href="classseq_1_1devector.html#a9a2758872a1c1a4c9fc5bcd9f59fff9c">seq::devector&lt; T, Allocator, flag &gt;</a>
+, <a class="el" href="classseq_1_1flat__map.html#a4cbbd0b3645239b59beb571ff665fd63">seq::flat_map&lt; Key, T, Compare, Allocator, Stable, Unique &gt;</a>
+, <a class="el" href="classseq_1_1flat__multimap.html#a89d5e3577ecc178d7fcd327b72ca348d">seq::flat_multimap&lt; Key, T, Compare, Allocator, Stable &gt;</a>
+, <a class="el" href="classseq_1_1flat__multiset.html#a3df8e3b44107daf11fe77aae2691395f">seq::flat_multiset&lt; Key, Compare, Allocator, Stable &gt;</a>
+, <a class="el" href="classseq_1_1flat__set.html#a1b9cc850f1e573e675f3d3245db82485">seq::flat_set&lt; Key, Compare, Allocator, Stable, Unique &gt;</a>
+, <a class="el" href="classseq_1_1hold__any.html#a1b105348d1f5a27dce5d29d561679e29">seq::hold_any&lt; Interface, StaticSize, Alignment, Relocatable &gt;</a>
 , <a class="el" href="classseq_1_1ordered__map.html#a5e6d11dc6c150d101c833d016590ab39">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;</a>
 , <a class="el" href="classseq_1_1ordered__set.html#a6be5fbe03ed3b3f03b71348550985d09">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;</a>
 , <a class="el" href="classseq_1_1parallel__object__pool.html#a5981bb92e28d5ccc7ee2792fdc18cde1">seq::parallel_object_pool&lt; T, Allocator, Align, object_allocation, GenerateStats &gt;</a>
+, <a class="el" href="group__containers.html#ga9617217ece4405d92140c5297d567f4e">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;</a>
+, <a class="el" href="group__containers.html#gaa9f3cfd26a1cd56ea148018c2f70d0da">seq::radix_hash_set&lt; Key, Hash, KeyEqual, Allocator, KeyLess &gt;</a>
+, <a class="el" href="classseq_1_1radix__map.html#a0990bab9c14cad90a4eb2b6591c93dc3">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;</a>
+, <a class="el" href="classseq_1_1radix__set.html#a1e3163f422b3d04cdf07a58cccbe635c">seq::radix_set&lt; Key, ExtractKey, Allocator &gt;</a>
 , <a class="el" href="classseq_1_1sequence.html#a3fe31dfa20f873fe2e541d37efacb6d4">seq::sequence&lt; T, Allocator, layout, ForceAlign64 &gt;</a>
-, <a class="el" href="classseq_1_1tiered__vector.html#a37e43526a3ed54c8f95a6946a3f00283">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
-, <a class="el" href="classseq_1_1tiny__string.html#a39c53f94054223b70e21d6c6e2a4e071">seq::tiny_string&lt; MaxStaticSize, Allocator &gt;</a>
-, <a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#ae88822f51f05924060e671a909ecd9cb">seq::tiny_string&lt; 0, view_allocator &gt;</a>
+, <a class="el" href="classseq_1_1tiered__vector.html#ac6bf2bd99d1c1a25bf13f2fb9d781ee4">seq::tiered_vector&lt; T, Allocator, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
+, <a class="el" href="classseq_1_1tiny__string.html#ae2d597339eb74ebd9df9171d7505e568">seq::tiny_string&lt; Char, Traits, Allocator, MaxStaticSize &gt;</a>
+, <a class="el" href="structseq_1_1tiny__string_3_01_char_00_01_traits_00_01view__allocator_3_01_char_01_4_00_010_01_4.html#a8d1768cba07e690796cf533d78a65b59">seq::tiny_string&lt; Char, Traits, view_allocator&lt; Char &gt;, 0 &gt;</a>
+, <a class="el" href="structseq_1_1view__allocator.html#a178fe560ecb1f474f25f195b502226c0">seq::view_allocator&lt; Char &gt;</a>
 </li>
 <li>operator==()
 : <a class="el" href="classseq_1_1aligned__allocator.html#a04e1f02c9c2585d8a9a17c4591ff0d49">seq::aligned_allocator&lt; T, Allocator, Align &gt;</a>
 , <a class="el" href="classseq_1_1aligned__allocator_3_01_t_00_01std_1_1allocator_3_01_t_01_4_00_01_align_01_4.html#a7b257c3a212b2630885a8fd3f575329a">seq::aligned_allocator&lt; T, std::allocator&lt; T &gt;, Align &gt;</a>
 , <a class="el" href="classseq_1_1cvalue__iterator.html#a48584cbc4594dca385c5de55b70b22b6">seq::cvalue_iterator&lt; T &gt;</a>
 , <a class="el" href="classseq_1_1detail_1_1allocator__for__shared__ptr.html#a871c5757bc0c261c0f5a593eba94ea77">seq::detail::allocator_for_shared_ptr&lt; T, Pool &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_arithmetic_iterator.html#a33f097a8f759b203c3d8f43440ddd2e9">seq::detail::ArithmeticIterator&lt; Type &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_buffer_list_1_1iterator.html#a1fbfa19674cd7133a7e1048754f79f91">seq::detail::BufferList&lt; Buffer &gt;::iterator</a>
+, <a class="el" href="structseq_1_1detail_1_1_flatten_pair.html#a3225d74f7e23164d8f3484a7673100d0">seq::detail::FlattenPair&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_integral_iterator.html#a4cc4f7a44a896cd8d6f627d35c8dc2f8">seq::detail::IntegralIterator&lt; Integral &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator.html#af48edf7340ba9a21ad5c8cb00fe980b0">seq::detail::NIterator&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_ref.html#ac29b86acc5c1c78445a15e3db99e894c">seq::detail::NIteratorRef&lt; Iter &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_repeat.html#ab5a5578af7e58a2b2c8f61826093ec68">seq::detail::NIteratorRepeat&lt; T &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_n_iterator_wrap.html#ae7eb16cd1e9cd6bf0f68d385b33bcff5">seq::detail::NIteratorWrap&lt; Iter &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a5c11cd77535d3fea5f259130495f3406">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_split_iter.html#a23e9fd133d17cd500447daa75f139964">seq::detail::SplitIter&lt; Match, Skip &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#aa8cb70cd78d47393b5a9fa45a91cc371">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_zip_iterator.html#a8aca6fa7e3aec9031ccd9228c170a6ec">seq::detail::ZipIterator&lt; Iter1, Iter2 &gt;</a>
 , <a class="el" href="classseq_1_1external__allocator.html#a6e60392adae029b7fcdbb279ba6eecd3">seq::external_allocator&lt; T, External &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#a6a81a59f30b6c1de3e79c38733116a94">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#aa8780279d7235dbb00a8304ea845c86f">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#aeb5148664dbbc4d2c615fce7de5a3ca4">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
 , <a class="el" href="classseq_1_1hold__any.html#a49bbc89bc0c328e41f72e5b65f57ea21">seq::hold_any&lt; Interface, StaticSize, Alignment, Relocatable &gt;</a>
+, <a class="el" href="classseq_1_1iterator__range.html#a8cfde7fd310b636d1795503acc0eb6ac">seq::iterator_range&lt; Iter &gt;</a>
 , <a class="el" href="classseq_1_1object__allocator.html#a3d3ff1e44e59851f86c24efd3addb979">seq::object_allocator&lt; Pool &gt;</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#abc2a7a53096bda48f3a1c849b2cd9237">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#a5d42ac83c1385b7fe46f992e6143a8f7">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#ae50e141625e2baea97478eb2ca56a8ae">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
+, <a class="el" href="group__containers.html#gabf39db16d2c7edf0bc5b2c15114a3344">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="group__containers.html#ga531e2c96f3196548ce73fd8b121f2873">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;::iterator</a>
+, <a class="el" href="group__containers.html#gabfd576a2b224cf51b9a6976b45484f90">seq::radix_hash_set&lt; Key, Hash, KeyEqual, Allocator, KeyLess &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1const__iterator.html#a25a67f55f7914a0027a2df9769d04210">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::const_iterator</a>
+, <a class="el" href="structseq_1_1radix__map_1_1iterator.html#ab8483d6d7c578f9d560ae42b6ad31c5f">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;::iterator</a>
+, <a class="el" href="structseq_1_1radix__set_1_1const__iterator.html#a63e8d836f13e794bc02254d4b11ada1a">seq::radix_set&lt; Key, ExtractKey, Allocator &gt;::const_iterator</a>
 </li>
 <li>operator&gt;()
 : <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#ad5758280dc60df1589b187bd5b998118">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#a0954e053151fc40b15d8ee1b1e9adf9d">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#a321f670a90865b145521603d6f90e0f8">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#a896f374758a5c683f8e05475fdd25dce">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#ad119cb9b140534e6efaca112479779da">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
 , <a class="el" href="classseq_1_1hold__any.html#ad710c1eecc8960cf04315e678acce6f0">seq::hold_any&lt; Interface, StaticSize, Alignment, Relocatable &gt;</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#ad1c5afcf9a4e21e28f3fa70b99d07512">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#a90d52c576a2f6f384149e933ec9d0cf7">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#aa943c426f04ae4748100dd7da1dd6048">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
 </li>
 <li>operator&gt;=()
 : <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a129a9311b1b2f340ec3a58af1b56ccd4">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1tvector__ra__iterator.html#af377ce984e4537b5b9020e0d0e7d12b1">seq::detail::tvector_ra_iterator&lt; BucketMgr &gt;</a>
-, <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html#a95db1e7864002e7e830e6c324f2a0194">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1flat__map_1_1iterator.html#a9db145b2b8eb7de0e1ec7b47825878af">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::iterator</a>
-, <a class="el" href="structseq_1_1flat__set_1_1const__iterator.html#a22788517360f58a066ecf91e68d0cb0e">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;::const_iterator</a>
 , <a class="el" href="classseq_1_1hold__any.html#a35196c072cad14695fad49610ee2c731">seq::hold_any&lt; Interface, StaticSize, Alignment, Relocatable &gt;</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1const__iterator.html#a693e0706f1adf315497132c5159fb3dd">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
-, <a class="el" href="structseq_1_1ordered__map_1_1iterator.html#ad1dd4ab46f56b977e53c05fbfdfba4d3">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;::iterator</a>
-, <a class="el" href="structseq_1_1ordered__set_1_1const__iterator.html#acb47f6d5c19388dbe8006138cae990e5">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;::const_iterator</a>
 </li>
 <li>operator[]()
 : <a class="el" href="classseq_1_1cvalue__iterator.html#ace3129ed8a7f535e1532fc5d9243e95f">seq::cvalue_iterator&lt; T &gt;</a>
 , <a class="el" href="classseq_1_1cvector.html#aeda907cd780d2cd7d66a38431d378911">seq::cvector&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#ab3a7c0b0fe51af371efa581316202726">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_circular_buffer.html#aa28fc9892999f870fde5b40a0d95ff81">seq::detail::CircularBuffer&lt; T, Allocator &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a66bc966db8364154a183b6a9ca8c7814">seq::detail::CompressedVectorInternal&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
-, <a class="el" href="classseq_1_1devector.html#aadb6f4581d68003e8668c97632ce1355">seq::devector&lt; T, Allocator, flag &gt;</a>
-, <a class="el" href="classseq_1_1flat__map.html#a33e32fd051b86f0ead475d366a573f9a">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1ordered__map.html#aa5dab8c345c163d73358741ed1baf2ca">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;</a>
-, <a class="el" href="classseq_1_1tiered__vector.html#ac281e7c184bce6b56ff186e8a59e0e11">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
-, <a class="el" href="classseq_1_1tiny__string.html#a6f8ac899b3e0aef980ec20ada8a35da3">seq::tiny_string&lt; MaxStaticSize, Allocator &gt;</a>
-, <a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#ab8fd37ed3622dd3d9ae5cb263d59f686">seq::tiny_string&lt; 0, view_allocator &gt;</a>
+, <a class="el" href="classseq_1_1devector.html#ac66d9d49271299b1824418271b2cc072">seq::devector&lt; T, Allocator, flag &gt;</a>
+, <a class="el" href="classseq_1_1flat__map.html#a065857bf23178dfc551b65d791063fa2">seq::flat_map&lt; Key, T, Compare, Allocator, Stable, Unique &gt;</a>
+, <a class="el" href="classseq_1_1ordered__map.html#a2a82e8bdd92a4cb4ad1d521cad444cb8">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;</a>
+, <a class="el" href="group__containers.html#ga37ae01431869cfdd6981d0c0b04705b0">seq::radix_hash_map&lt; Key, T, Hash, KeyEqual, Allocator, KeyLess &gt;</a>
+, <a class="el" href="classseq_1_1radix__map.html#a00e0464403e0d5aba38be6b739e4966a">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;</a>
+, <a class="el" href="classseq_1_1tiered__vector.html#a51d52ff7a8509c102a492799986154f7">seq::tiered_vector&lt; T, Allocator, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
+, <a class="el" href="classseq_1_1tiny__string.html#a4640c223baf55560aff5c9b756a8feb7">seq::tiny_string&lt; Char, Traits, Allocator, MaxStaticSize &gt;</a>
+, <a class="el" href="structseq_1_1tiny__string_3_01_char_00_01_traits_00_01view__allocator_3_01_char_01_4_00_010_01_4.html#a83d64da9d8211926d3d94daf12920c72">seq::tiny_string&lt; Char, Traits, view_allocator&lt; Char &gt;, 0 &gt;</a>
 </li>
 <li>ordered_map()
-: <a class="el" href="classseq_1_1ordered__map.html#aa8c6f1a4faf32b4b1bfd54d9ff7e5a1d">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;</a>
+: <a class="el" href="classseq_1_1ordered__map.html#a8e8373645de9b36270c1588d807c2630">seq::ordered_map&lt; Key, T, Hash, KeyEqual, Allocator, Layout &gt;</a>
 </li>
 <li>ordered_set()
-: <a class="el" href="classseq_1_1ordered__set.html#a2bdb40f76a9f82431b70484dc786c25f">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;</a>
+: <a class="el" href="classseq_1_1ordered__set.html#a1e87480d5c9721a44724f350abcbd2bb">seq::ordered_set&lt; Key, Hash, KeyEqual, Allocator, Layout &gt;</a>
 </li>
 <li>ostream_any()
 : <a class="el" href="classseq_1_1any__type__info.html#afe4fd18d85c203f2a28fb15ee1cc7065">seq::any_type_info</a>
 , <a class="el" href="structseq_1_1any__typed__type__info.html#a4cb615a82290541ed2d0c90b87bc3aa4">seq::any_typed_type_info&lt; T, SupportHash &gt;</a>
 </li>
 <li>ostream_format
-: <a class="el" href="classseq_1_1ostream__format.html#a3eb7536572cddbefdbb8844bb64cafe4">seq::ostream_format&lt; T &gt;</a>
-, <a class="el" href="classseq_1_1ostream__format_3_01hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_01_4.html#a2007886092b18cd05499fe1a381be6ad">seq::ostream_format&lt; hold_any&lt; Interface, S, A, R &gt; &gt;</a>
-, <a class="el" href="classseq_1_1ostream__format_3_01ostream__format_3_01_t_01_4_01_4.html#addbb9e3627982ff4145bb7841d8fb4c4">seq::ostream_format&lt; ostream_format&lt; T &gt; &gt;</a>
+: <a class="el" href="classseq_1_1ostream__format.html#acdebc7d7d87e263787ebc6a00a0748df">seq::ostream_format&lt; T, Slot &gt;</a>
+, <a class="el" href="classseq_1_1ostream__format_3_01detail_1_1_iterable_3_01_t_01_4_00_01_slot_01_4.html#a4f9a6ed36e220c814ef744ec0b233edc">seq::ostream_format&lt; detail::Iterable&lt; T &gt;, Slot &gt;</a>
+, <a class="el" href="classseq_1_1ostream__format_3_01hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_00_01_slot_01_4.html#abba69683af52ae5aa159279aa8f5f794">seq::ostream_format&lt; hold_any&lt; Interface, S, A, R &gt;, Slot &gt;</a>
+, <a class="el" href="classseq_1_1ostream__format_3_01ostream__format_3_01_t_00_01_s1_01_4_00_01_s2_01_4.html#ac1a31045deb23b23fd1109b3da98eb8b">seq::ostream_format&lt; ostream_format&lt; T, S1 &gt;, S2 &gt;</a>
 </li>
 <li>other
 : <a class="el" href="structseq_1_1aligned__allocator_1_1rebind.html#a75e9e1a617afb7352319e240a5fa62fa">seq::aligned_allocator&lt; T, Allocator, Align &gt;::rebind&lt; U &gt;</a>
@@ -454,6 +465,7 @@ $(document).ready(function(){initNavTree('functions_o.html',''); initResizable()
 , <a class="el" href="structseq_1_1detail_1_1allocator__for__shared__ptr_1_1rebind.html#a21faa4049933713246104d55a95d7feb">seq::detail::allocator_for_shared_ptr&lt; T, Pool &gt;::rebind&lt; U &gt;</a>
 , <a class="el" href="structseq_1_1external__allocator_1_1rebind.html#ad8cc6779a500221ae3da085f21373346">seq::external_allocator&lt; T, External &gt;::rebind&lt; U &gt;</a>
 , <a class="el" href="structseq_1_1object__allocator_1_1rebind.html#a60ffb1440906fedd1878c8d895313b4a">seq::object_allocator&lt; Pool &gt;::rebind&lt; U &gt;</a>
+, <a class="el" href="structseq_1_1view__allocator_1_1rebind.html#a72f89d3b3d6e281b97d1afdf0c447405">seq::view_allocator&lt; Char &gt;::rebind&lt; Other &gt;</a>
 </li>
 <li>overflow()
 : <a class="el" href="structseq_1_1basic__nullbuf.html#a3ec14ae13104b5efdc62d738472d021a">seq::basic_nullbuf&lt; Ch, Traits &gt;</a>

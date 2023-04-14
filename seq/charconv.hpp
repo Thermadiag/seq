@@ -675,9 +675,9 @@ namespace seq
 			if (a == 'A' && n == 'N') {
 				return std::numeric_limits<T>::quiet_NaN();
 			} 
-				str.set_state(BadInputFormat);
-				str.seek(saved_pos);
-				return 0;
+			str.set_state(BadInputFormat);
+			str.seek(saved_pos);
+			return 0;
 		
 		}
 		template<class T, class Integral, class Stream>
@@ -689,9 +689,9 @@ namespace seq
 			if (n == 'N' && f == 'F') {
 				return sign_value(std::numeric_limits<T>::infinity(), sign);
 			} 
-				str.set_state(BadInputFormat);
-				str.seek(saved_pos);
-				return 0;
+			str.set_state(BadInputFormat);
+			str.seek(saved_pos);
+			return 0;
 		
 		}
 		template<class T, class Integral, class Stream>
@@ -2532,10 +2532,10 @@ namespace seq
 	/// If no string was read because the get position was after the last stream character, the value string is cleared and stream state is set
 	/// to #EndOfFile.
 	/// 
-	template<class Stream>
-	inline auto from_stream(Stream& str, std::string& value) -> Stream&
+	template<class Stream, class Traits, class Al>
+	inline auto from_stream(Stream& str, std::basic_string<char,Traits,Al>& value) -> Stream&
 	{
-		value = detail::read_string<std::string>(str);
+		value = detail::read_string<std::basic_string<char, Traits, Al>>(str);
 		return str;
 	}
 
@@ -2548,10 +2548,10 @@ namespace seq
 	/// If no string was read because the get position was after the last stream character, the value string is cleared and stream state is set
 	/// to #EndOfFile.
 	/// 
-	template<class Stream, size_t Ss, class Al>
-	inline auto from_stream(Stream& str, tiny_string<Ss,Al>& value) -> Stream&
+	template<class Stream, class Traits, size_t Ss, class Al>
+	inline auto from_stream(Stream& str, tiny_string<char,Traits,Al,Ss>& value) -> Stream&
 	{
-		value = detail::read_string<tiny_string<Ss, Al>>(str);
+		value = detail::read_string<tiny_string<char, Traits, Al, Ss>>(str);
 		return str;
 	}
 
@@ -2564,10 +2564,10 @@ namespace seq
 	/// If no string was read because the get position was after the last stream character, the value string is cleared and stream state is set
 	/// to #EndOfFile.
 	/// 
-	template<class Stream>
-	inline auto read_line_from_stream(Stream& str, std::string& value) -> Stream&
+	template<class Stream, class Traits, class Al>
+	inline auto read_line_from_stream(Stream& str, std::basic_string<char,Traits,Al>& value) -> Stream&
 	{
-		value = detail::read_line<std::string>(str);
+		value = detail::read_line<std::basic_string<char, Traits, Al>>(str);
 		return str;
 	}
 
@@ -2580,13 +2580,19 @@ namespace seq
 	/// If no string was read because the get position was after the last stream character, the value string is cleared and stream state is set
 	/// to #EndOfFile.
 	/// 
-	template<class Stream, size_t Ss, class Al>
-	inline auto read_line_from_stream(Stream& str, tiny_string<Ss, Al>& value) -> Stream&
+	template<class Stream, class Traits, size_t Ss, class Al>
+	inline auto read_line_from_stream(Stream& str, tiny_string<char,Traits, Al,Ss>& value) -> Stream&
 	{
-		value = detail::read_line<tiny_string<Ss, Al>>(str);
+		value = detail::read_line<tiny_string<char, Traits, Al, Ss> >(str);
 		return str;
 	}
 
+} //end namespace seq
+
+#ifndef SEQ_HEADER_ONLY
+
+namespace seq
+{
 	/// @brief Read an integral value from the sequence of characters [first,last).
 	/// @param first first character of the sequence
 	/// @param last past-the-end character
@@ -2613,13 +2619,17 @@ namespace seq
 	/// value is set to 0. 
 	/// 
 	/// 
-	template<class T>
-	inline auto from_chars(const char* first, const char* last, T& value, int base = 10) -> from_chars_result
-	{
-		detail::from_chars_stream str(first, last);
-		value = detail::read_integral<T>(str, static_cast<unsigned>(base));
-		return { str ? str.tell() : first, str.error() };
-	}
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, char& value, int base = 10)->from_chars_result;
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, signed char& value, int base = 10)->from_chars_result;
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, unsigned char& value, int base = 10)->from_chars_result;
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, short& value, int base = 10)->from_chars_result;
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, unsigned short& value, int base = 10)->from_chars_result;
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, int& value, int base = 10)->from_chars_result;
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, unsigned int& value, int base = 10)->from_chars_result;
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, long& value, int base = 10)->from_chars_result;
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, unsigned long& value, int base = 10)->from_chars_result;
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, long long& value, int base = 10)->from_chars_result;
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, unsigned long long& value, int base = 10)->from_chars_result;
 
 	/// @brief Read a floating point value from the sequence of characters [first,last).
 	/// @param first first character of the sequence
@@ -2649,12 +2659,7 @@ namespace seq
 	/// value is set to 0. 
 	/// 
 	/// 
-	inline  auto from_chars(const char* first, const char* last, float& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result
-	{
-		detail::from_chars_stream str(first, last);
-		value = detail::read_double<float>(str, fmt, dot);
-		return { str ? str.tell() : first, str.error() };
-	}
+	SEQ_EXPORT  auto from_chars(const char* first, const char* last, float& value, chars_format fmt = seq::general, char dot = '.')->from_chars_result;
 
 	/// @brief Read a floating point value from the sequence of characters [first,last).
 	/// @param first first character of the sequence
@@ -2684,12 +2689,7 @@ namespace seq
 	/// value is set to 0. 
 	/// 
 	/// 
-	inline auto from_chars(const char* first, const char* last, double& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result
-	{
-		detail::from_chars_stream str(first, last);
-		value = detail::read_double<double>(str,fmt, dot);
-		return { str ? str.tell() : first, str.error() };
-	}
+	SEQ_EXPORT auto from_chars(const char* first, const char* last, double& value, chars_format fmt = seq::general, char dot = '.')->from_chars_result;
 
 	/// @brief Read a floating point value from the sequence of characters [first,last).
 	/// @param first first character of the sequence
@@ -2719,12 +2719,7 @@ namespace seq
 	/// value is set to 0. 
 	/// 
 	/// 
-	inline  auto from_chars(const char* first, const char* last, long double& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result
-	{
-		detail::from_chars_stream str(first, last);
-		value = detail::read_double<long double>(str, fmt, dot);
-		return { str ? str.tell() : first, str.error() };
-	}
+	SEQ_EXPORT  auto from_chars(const char* first, const char* last, long double& value, chars_format fmt = seq::general, char dot = '.')->from_chars_result;
 
 
 
@@ -2760,51 +2755,17 @@ namespace seq
 	/// On error, returns a value of type seq::to_chars_result holding std::errc::value_too_large in ec, 
 	/// a copy of the value last in ptr, and leaves the contents of the range[first, last) in unspecified state.
 	/// 
-	inline auto to_chars(char* first, char* last, char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
-	{
-		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
-	}
-	inline auto to_chars(char* first, char* last, signed char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
-	{
-		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
-	}
-	inline auto to_chars(char* first, char* last, unsigned char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
-	{
-		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
-	}
-	inline auto to_chars(char* first, char* last, short value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
-	{
-		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
-	}
-	inline auto to_chars(char* first, char* last, unsigned short value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
-	{
-		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
-	}
-	inline auto to_chars(char* first, char* last, int value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
-	{
-		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
-	}
-	inline auto to_chars(char* first, char* last, unsigned int value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
-	{
-		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
-	}
-	inline auto to_chars(char* first, char* last, long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
-	{
-		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
-	}
-	inline auto to_chars(char* first, char* last, unsigned long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
-	{
-		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
-	}
-	inline auto to_chars(char* first, char* last, long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
-	{
-		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
-	}
-	inline auto to_chars(char* first, char* last, unsigned long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result
-	{
-		return detail::write_integral(detail::char_range(first, last), value, base, fmt);
-	}
-	auto to_chars(char* first, char* last, bool value, int base = 10, const integral_chars_format& fmt = integral_chars_format())-> to_chars_result = delete;
+	SEQ_EXPORT auto to_chars(char* first, char* last, char value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, signed char value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, unsigned char value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, short value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, unsigned short value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, int value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, unsigned int value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, long value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, unsigned long value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, unsigned long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result;
 
 
 
@@ -2860,47 +2821,26 @@ namespace seq
 	/// Use this function when you need very fast formatting of a huge amount of floating point values without exact formatting requirement.
 	/// 
 	/// 
-	inline auto to_chars(char* first, char* last, float value) -> to_chars_result
-	{
-		return detail::write_double(detail::char_range(first, last), static_cast<double>(value));
-	}
-	inline auto to_chars(char* first, char* last, double value) -> to_chars_result
-	{
-		return detail::write_double(detail::char_range(first, last), value);
-	}
-	inline auto to_chars(char* first, char* last, long double value) -> to_chars_result
-	{
-		return detail::write_double(detail::char_range(first, last), value);
-	}
-	inline auto to_chars(char* first, char* last, float value, chars_format fmt) -> to_chars_result
-	{
-		return detail::write_double(detail::char_range(first, last), static_cast<double>(value), 6, fmt);
-	}
-	inline auto to_chars(char* first, char* last, double value, chars_format fmt) -> to_chars_result
-	{
-		return detail::write_double(detail::char_range(first, last), value, 6, fmt);
-	}
-	inline auto to_chars(char* first, char* last, long double value, chars_format fmt) -> to_chars_result
-	{
-		return detail::write_double(detail::char_range(first, last), value, 6, fmt);
-	}
-	inline auto to_chars(char* first, char* last, float value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result
-	{
-		return detail::write_double(detail::char_range(first, last), static_cast<double>(value), precision, detail::float_chars_format(fmt, dot, exp,static_cast<char>(upper)));
-	}
-	inline auto to_chars(char* first, char* last, double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result
-	{
-		return detail::write_double(detail::char_range(first, last), value, precision, detail::float_chars_format(fmt, dot, exp, static_cast<char>(upper)));
-	}
-	inline auto to_chars(char* first, char* last, long double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result
-	{
-		return detail::write_double(detail::char_range(first, last), value, precision, detail::float_chars_format(fmt, dot, exp, static_cast<char>(upper)));
-	}
+	SEQ_EXPORT auto to_chars(char* first, char* last, float value)->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, double value)->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, long double value)->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, float value, chars_format fmt)->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, double value, chars_format fmt)->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, long double value, chars_format fmt)->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, float value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false)->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false)->to_chars_result;
+	SEQ_EXPORT auto to_chars(char* first, char* last, long double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false)->to_chars_result;
+
+}// end namespace seq
+
+#else
+#include "internal/charconv.cpp"
+#endif
 
 
-
-
-
+namespace seq
+{
+	auto to_chars(char* first, char* last, bool value, int base = 10, const integral_chars_format& fmt = integral_chars_format())->to_chars_result = delete;
 }// end namespace seq
 
 

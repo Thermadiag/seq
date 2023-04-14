@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['ninther_5fthreshold_2912',['ninther_threshold',['../namespacepdqsort__detail.html#a43a547dca0fb0dc8329dcc90fbaeabe4a2e33aab6bd526c39448030168613bb78',1,'pdqsort_detail']]],
-  ['non_5frelocatable_2913',['non_relocatable',['../namespaceseq_1_1detail.html#ac216a6fbe88ca4064ad3d0229eb05c94a9b05fc20c73a1af005b549bee05cac7f',1,'seq::detail']]]
+  ['min_5fblock_5fsize_3149',['min_block_size',['../classseq_1_1tiered__vector.html#a2aaa20913d8c2931c7da304f3212d92ba1a939f2c09253547e3fff0d8506a145e',1,'seq::tiered_vector']]]
 ];

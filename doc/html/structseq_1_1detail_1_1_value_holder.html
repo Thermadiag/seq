@@ -107,8 +107,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9a00a03500b260f1876f3ff4a0eb7683"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91c7cc1cf540b61305a68e8fad0e93dd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_value_holder.html#a91c7cc1cf540b61305a68e8fad0e93dd">value</a> () const noexcept -&gt; const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;</td></tr>
 <tr class="separator:a91c7cc1cf540b61305a68e8fad0e93dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a943f9961d9f1785bfbb1389753e5c13b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_value_holder.html#a943f9961d9f1785bfbb1389753e5c13b">set_value</a> (const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;<a class="el" href="structseq_1_1detail_1_1_value_holder.html#a9a00a03500b260f1876f3ff4a0eb7683">value</a>)</td></tr>
-<tr class="separator:a943f9961d9f1785bfbb1389753e5c13b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a087adabd17d7687205222e9b06ce902f"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
+<tr class="memitem:a087adabd17d7687205222e9b06ce902f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_value_holder.html#a087adabd17d7687205222e9b06ce902f">set_value</a> (const U &amp;<a class="el" href="structseq_1_1detail_1_1_value_holder.html#a9a00a03500b260f1876f3ff4a0eb7683">value</a>)</td></tr>
+<tr class="separator:a087adabd17d7687205222e9b06ce902f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91882c22fea8b80d5915369bfcb05b17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_value_holder.html#a91882c22fea8b80d5915369bfcb05b17">reset</a> ()</td></tr>
+<tr class="separator:a91882c22fea8b80d5915369bfcb05b17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -177,8 +180,8 @@ template&lt;class T , bool IsBasicType = is_fmt_basic_type&lt;T&gt;::value&gt; <
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a943f9961d9f1785bfbb1389753e5c13b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a943f9961d9f1785bfbb1389753e5c13b">&#9670;&nbsp;</a></span>set_value()</h2>
+<a id="a91882c22fea8b80d5915369bfcb05b17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91882c22fea8b80d5915369bfcb05b17">&#9670;&nbsp;</a></span>reset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -189,9 +192,38 @@ template&lt;class T , bool IsBasicType = is_fmt_basic_type&lt;T&gt;::value&gt; <
   <td class="mlabels-left">
       <table class="memname">
         <tr>
+          <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_value_holder.html">seq::detail::ValueHolder</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, IsBasicType &gt;::reset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a087adabd17d7687205222e9b06ce902f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a087adabd17d7687205222e9b06ce902f">&#9670;&nbsp;</a></span>set_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , bool IsBasicType = is_fmt_basic_type&lt;T&gt;::value&gt; </div>
+<div class="memtemplate">
+template&lt;class U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
           <td class="memname">void <a class="el" href="structseq_1_1detail_1_1_value_holder.html">seq::detail::ValueHolder</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, IsBasicType &gt;::set_value </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;&#160;</td>
+          <td class="paramtype">const U &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td></td>
         </tr>

@@ -20,5 +20,7 @@ var classseq_1_1tagged__pointer =
     [ "set_full", "classseq_1_1tagged__pointer.html#ab6e2cf11d71ce1e45b6bd3eb78229863", null ],
     [ "set_ptr", "classseq_1_1tagged__pointer.html#a4ce57a45cf6c743079adce45b5a8c1da", null ],
     [ "set_tag", "classseq_1_1tagged__pointer.html#a435ae112b045e7d335a313e6fa5eb84c", null ],
+    [ "split", "classseq_1_1tagged__pointer.html#a145366bd7616d110fa5c872bc2664308", null ],
+    [ "split", "classseq_1_1tagged__pointer.html#ab4fe65318dcf14b8851f7b118e6b35c0", null ],
     [ "tag", "classseq_1_1tagged__pointer.html#a0b2cd075a64e9c854668f8655e07dfea", null ]
 ];

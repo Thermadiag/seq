@@ -13,6 +13,7 @@ var structseq_1_1detail_1_1_sequence_node =
     [ "hash", "structseq_1_1detail_1_1_sequence_node.html#affccaea559036ccbf148ebb931b021e1", null ],
     [ "is_same", "structseq_1_1detail_1_1_sequence_node.html#a9ae1cd1776fcb8ce6e636546e9f43ab9", null ],
     [ "is_tombstone", "structseq_1_1detail_1_1_sequence_node.html#a23b5c0a4756c3afae58ec9b226e48740", null ],
+    [ "mark_empty", "structseq_1_1detail_1_1_sequence_node.html#a5d9dab955223e817d180fafff193770a", null ],
     [ "node", "structseq_1_1detail_1_1_sequence_node.html#a24bd67c170a3cda1a13baf5c502b9249", null ],
     [ "null", "structseq_1_1detail_1_1_sequence_node.html#ab4f49b1f8c6bd5b70796aefb8d2f50f8", null ],
     [ "null_for_search", "structseq_1_1detail_1_1_sequence_node.html#a99975d91feb1a80e5427029888bc5417", null ],

@@ -102,12 +102,12 @@ $(document).ready(function(){initNavTree('functions_func_u.html',''); initResiza
 , <a class="el" href="structseq_1_1detail_1_1virtual__block.html#a50d593d5bc13693fc793770d7e64602b">seq::detail::virtual_block&lt; T &gt;</a>
 </li>
 <li>update()
-: <a class="el" href="structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01false_00_01_is_arithmetic_01_4.html#ab8118002bdf48cce6f9ac07241643c95">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, false, IsArithmetic &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1_store_bucket.html#a08aef59e3f42160dc8b18595953e0fea">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, StoreBackValues, IsArithmetic &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01false_01_4.html#a3afdddbae83df2a08df1dc80d2a25a7b">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, true, false &gt;</a>
 , <a class="el" href="structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01true_01_4.html#a0471effe7bf6dd5d6d4e2b1608e8c175">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, true, true &gt;</a>
 </li>
 <li>update_all_back_values()
-: <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a3f584c3984011aec538ec8444d18e2ce">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a58fb70c847175be373191797249af8df">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare &gt;</a>
 </li>
 <li>update_decr()
 : <a class="el" href="structseq_1_1detail_1_1sequence__ra__iterator.html#a6d69fc336c9a9635c087a75a1cdd1879">seq::detail::sequence_ra_iterator&lt; List &gt;</a>
@@ -126,15 +126,16 @@ $(document).ready(function(){initNavTree('functions_func_u.html',''); initResiza
 , <a class="el" href="classseq_1_1numeric__format.html#a183781be0d27eff3db5dbb1d94b2d3f8">seq::numeric_format</a>
 </li>
 <li>upper_bound()
-: <a class="el" href="structseq_1_1detail_1_1flat__tree.html#ad8c06deebba9e390b837277a5401151f">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1flat__map.html#a2798044345f525591ced4bfeb702737e">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1flat__set.html#ac41bad49d5d46802758f61ec0e1b74ae">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1tiered__vector.html#a94048ce5ab585f2665dbc602aac528fb">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a0f4deaa1b2849d74071065e73e3abecb">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, Stable, Unique &gt;</a>
+, <a class="el" href="classseq_1_1flat__map.html#aa67d697cad7868985223be3644c5241b">seq::flat_map&lt; Key, T, Compare, Allocator, Stable, Unique &gt;</a>
+, <a class="el" href="classseq_1_1flat__set.html#a98e42fb2055408052db9f10750994e69">seq::flat_set&lt; Key, Compare, Allocator, Stable, Unique &gt;</a>
+, <a class="el" href="classseq_1_1radix__map.html#a3ccdb90dfa74ce8c82ffcf4e0a250752">seq::radix_map&lt; Key, T, ExtractKey, Allocator &gt;</a>
+, <a class="el" href="classseq_1_1radix__set.html#a98fa9bbb4a20b1f1f32ee3fafb0a14a9">seq::radix_set&lt; Key, ExtractKey, Allocator &gt;</a>
 </li>
 <li>upper_bound_pos()
-: <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a8b098ab602065b3294068df2f92fb87d">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1flat__map.html#aaa2235e5dce9aa6d3ae56f3c88974ae3">seq::flat_map&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;</a>
-, <a class="el" href="classseq_1_1flat__set.html#a157af0b66ff9eb5a8892a052b5437039">seq::flat_set&lt; Key, Compare, Allocator, layout, Stable, Unique &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1flat__tree.html#a196ddbdccd50986c68e5a62d6d6bd9e4">seq::detail::flat_tree&lt; Key, Value, Compare, Allocator, Stable, Unique &gt;</a>
+, <a class="el" href="classseq_1_1flat__map.html#a82cf0ee3b7e2310194f7ced81e285405">seq::flat_map&lt; Key, T, Compare, Allocator, Stable, Unique &gt;</a>
+, <a class="el" href="classseq_1_1flat__set.html#a9d86c7d68a8ff523e82232be2b0eb404">seq::flat_set&lt; Key, Compare, Allocator, Stable, Unique &gt;</a>
 </li>
 </ul>
 </div><!-- contents -->

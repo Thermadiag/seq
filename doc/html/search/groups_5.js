@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['memory_3a_20collection_20of_20tools_20for_20memory_20management_2954',['Memory: collection of tools for memory management',['../group__memory.html',1,'']]]
+  ['iterator_5frange_3a_20define_20iterable_20ranges_20over_20arithmetic_20values_20or_20containers_3193',['iterator_range: define iterable ranges over arithmetic values or containers',['../group__range.html',1,'']]]
 ];

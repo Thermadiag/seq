@@ -4,6 +4,7 @@ var classseq_1_1aligned__allocator =
     [ "const_pointer", "classseq_1_1aligned__allocator.html#aa926b1d5c48d5fc25ff55b2d4b9ff735", null ],
     [ "const_reference", "classseq_1_1aligned__allocator.html#a74801a5728b3613f4ddba990bf796e69", null ],
     [ "difference_type", "classseq_1_1aligned__allocator.html#a4f8f9ef336b49da03b3dc8c7e8ad1c22", null ],
+    [ "is_always_equal", "classseq_1_1aligned__allocator.html#ae7f831c26314e22c4d8c30f0db161fe6", null ],
     [ "pointer", "classseq_1_1aligned__allocator.html#aa53da316195c73c7b0038eb579949a22", null ],
     [ "propagate_on_container_copy_assignment", "classseq_1_1aligned__allocator.html#a7c9468c1848b3a1dee2769403fc9d555", null ],
     [ "propagate_on_container_move_assignment", "classseq_1_1aligned__allocator.html#a5d2621a750f7cf8c83dba4f0f768c5ab", null ],

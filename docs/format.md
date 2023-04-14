@@ -68,9 +68,15 @@ std::cout << f(1.2) << std::endl;	//equivalent to fmt(1.2,'f') or fmt(1.2).forma
 std::cout << F(1.2) << std::endl;	//equivalent to fmt(1.2,'F') or fmt(1.2).format('F') or fmt(1.2).t('F')
 std::cout << g(1.2) << std::endl;	//equivalent to fmt(1.2,'g') or fmt(1.2).format('g') or fmt(1.2).t('g')
 std::cout << G(1.2) << std::endl;	//equivalent to fmt(1.2,'G') or fmt(1.2).format('G') or fmt(1.2).t('G')
+std::cout << d(1) << std::endl;		//equivalent to fmt(1)
+std::cout << u(1) << std::endl;		//equivalent to fmt(1)
 std::cout << hex(100) << std::endl;	//equivalent to fmt(100).base(16) or fmt(100).b(16)
+std::cout << x(100) << std::endl;	//equivalent to fmt(100).base(16) or fmt(100).b(16)
+std::cout << X(100) << std::endl;	//equivalent to fmt(100).base(16).upper() or fmt(100).b(16).u()
 std::cout << oct(100) << std::endl;	//equivalent to fmt(100).base(8) or fmt(100).b(8)
+std::cout << o(100) << std::endl;	//equivalent to fmt(100).base(8) or fmt(100).b(8)
 std::cout << bin(100) << std::endl;	//equivalent to fmt(100).base(2) or fmt(100).b(2)
+std::cout << str("hello world") << std::endl;	//equivalent to fmt("hello world")
 
 ```
 
@@ -92,16 +98,18 @@ Output:
 ## Formatting several values
 
 
-The `seq::fmt` function can be used to format any number of values at once:
+The `seq::fmt` function can be used to format any number of values at once.
+The following example displays a few possibilities of multiple formatting: 
 
 ```cpp
 
 // Formatting multiple values
 
 // Stream a formatting object composed of multiple arguments
-std::cout << fmt("The answer is ", 43," ...") << std::endl;
+std::cout << fmt("The answer is ", 42 ," ...") << std::endl;
+
 // Stream a formatting object composed of multiple arguments with nested formatting
-std::cout << fmt("...Or it could be", fmt(43.3,'e').c(10) ) << std::endl;
+std::cout << fmt("...Or it could be", fmt(42.3,'e').c(10) ) << std::endl;
 
 std::cout << std::endl;
 
@@ -172,6 +180,92 @@ std::cout << std::endl;
 ```
 
 
+## Using formatting objects as functor
+
+As seen above, a formatting object can be used as a functor. This way, the formatting object arguments are replaced by new values, but the formatting options are preserved:
+
+```cpp
+
+// build formatting functor
+auto f = seq::fmt("PI is: ", E(3.14159265359));
+
+// print the formatting functor with its default arguments :'PI is: 3.141593E+00'
+std::cout<< f << std::endl;
+
+// Print 'PI is not 3E+00'
+std::cout<< f("PI is not ", 3) <<std::endl;
+
+```
+
+An argument can be skipped using `seq::none` argument:
+
+```cpp
+
+auto f = seq::fmt("PI is: ", E(3.14159265359));
+
+// Print 'PI is: 3E+00'
+std::cout<< f(seq::none, 3) <<std::endl;
+
+```
+
+Optionally, the functor can be built with a positional object as first parameter to only accept modifying some of its arguments:
+
+```cpp
+
+auto f = seq::fmt(seq::pos<1>(), "PI is: ", E(3.14159265359));
+
+// Print 'PI is: 3E+00'
+std::cout<< f(3) <<std::endl;
+
+```
+
+The format module provides an alternative solution to build custom formatting objects: slot arguments. A slot argument is defined with the function `_fmt`, and tells to the functor that only slot arguments can be modified.
+All convient functions seen above provide a version starting with an underscore to build slots. Example:
+
+```cpp
+
+using namespace seq;
+
+// in this example, _E() is equivalent to _fmt<double>().format('E').
+auto f = fmt("The sum of ", _E(), " and ", _E(), " is equal to ",_E() );
+
+// print 'The sum of 1.1E+00 and 2.2E+00 is equal to 3.3E+00'
+std::cout<< f(1.1,2.2,3.3) <<std::endl;
+
+// print 'The sum of 4E+00 and 5E+00 is equal to 9E+00'
+std::cout<< f(4,5,9) <<std::endl;
+
+
+// another example with string and custom string formatting
+auto f2 = fmt("Hi, my name is ", _str().c(20).f('-'));
+
+// print 'Hi, my name is -------Victor-------'
+std::cout<<f2("Victor")<<std::endl;
+
+```
+
+The slot mechanism supports dynamically typed arguments using  the `seq::_any()` slot (or `seq::_a()`):
+
+```cpp
+
+auto f = seq::fmt("The result is :", _a());
+
+// print 'The result is : 1'
+std::cout<< f(1) <<std::endl;
+
+// print 'The result is : 1.3'
+std::cout<< f(1.3) <<std::endl;
+
+// print 'The result is : this'
+std::cout<< f("this") <<std::endl;
+
+// print 'The result is : 1.3E00'
+std::cout<< f(E(1.3)) <<std::endl;
+
+
+```
+
+
 ## Nested formatting
 
 Nested formatting occurs when using *fmt* calls within other *fmt* calls. The complexity comes from the argument replacement when using formatting objects as functors.
@@ -181,11 +275,10 @@ The following example shows how to use nested *fmt* calls with multiple argument
 
 // Build a formatting functor used to display 2 couples animal/species
 auto f = fmt(
-		pos<1,3>(), //we can modifies positions 1 and 3 (the 2 couples animal/species)
 		"We have 2 couples:\nAnimal/Species: ",
-		fmt(pos<0,2>(),"","/","").c(20),	//A couple Animal/Species centered on a 20 characters width string
+		_fmt(_str(),"/",_str()).c(20),		//A couple Animal/Species centered on a 20 characters width string
 		"\nAnimal/Species: ",
-		fmt(pos<0,2>(),"","/","").c(20)		//Another couple Animal/Species centered on a 20 characters width string
+		_fmt(_str(),"/",_str()).c(20)		//Another couple Animal/Species centered on a 20 characters width string
 	);
 
 // Use this functor with custom values.
@@ -222,7 +315,7 @@ Example:
 std::cout<< seq::fmt(1.123456789,'g') << std::endl;
 
 // Convert to string
-std::string str = seq::fmt(1.123456789,'g').str<std::string>();
+std::string str = seq::fmt(1.123456789,'g');
 std::cout<< str << std::endl;
 
 // Append to an existing string
@@ -271,10 +364,10 @@ namespace seq
 {
 	// Specialization of ostream_format for std::pair<T,T>
 
-	template<class T>
-	class ostream_format<std::pair<T, T> >: public base_ostream_format<std::pair<T, T> , ostream_format<std::pair<T, T> > >
+	template<class T, bool Slot>
+	class ostream_format<std::pair<T, T>, Slot >: public base_ostream_format<std::pair<T, T> , ostream_format<std::pair<T, T>, Slot > >
 	{
-		using base_type = base_ostream_format<std::pair<T, T>, ostream_format<std::pair<T, T> > >;
+		using base_type = base_ostream_format<std::pair<T, T> , ostream_format<std::pair<T, T>, Slot > >;
 
 	public:
 
@@ -295,6 +388,7 @@ namespace seq
 			ostream_format<T>(this->value().second, this->numeric_fmt()).append(out);
 			out.append(")");
 
+			// Returns the number of bytes written
 			return out.size() - prev;
 		}
 	};
@@ -312,6 +406,11 @@ int main(int argc, char ** argv)
 
 	// Formatting custom types with custom format and alignment
 	std::cout << fmt("Print a pair of double centered: ", fmt(std::make_pair(1.2, 3.4)).t('e').c(30).f('*')) << std::endl;
+
+
+	// Formatting custom types using a formatting functor
+	auto f = fmt("Print a pair of float: ", _fmt<std::pair<float, float> >());
+	std::cout << f(std::make_pair(1.2f, 3.4f)) << std::endl;
 
 	return 0;
 }
@@ -349,6 +448,59 @@ std::cout << f2 << std::endl;									//UNSAFE: attempt to format the temporay s
 The *format* module is thread safe: formatting objects in different threads is allowed, as the module only uses (few) global variables with the <i>thread_local</i> specifier.
 However, a formatting object returned by `seq::fmt` is not thread safe and you must pass copies of this object to other threads.
 
+
+## Merging arguments
+
+
+The *format* module provides the `seq::join` function to merge several arguments with a string delimiter:
+
+```cpp
+
+// print '1, 2, 3'
+std::cout<< seq::join(", ", 1,2,3) <<std::endl;
+
+```
+
+`seq::join` can be used to merge any iterable object:
+
+```cpp
+
+std::vector<int> vec = {1,2,3};
+
+// print '1, 2, 3'
+std::cout<< seq::join(", ", vec) <<std::endl;
+
+// join a sub-part only
+// print '1, 2'
+std::cout<< seq::join(", ", seq::range(vec.begin(),vec.begin()+1) ) <<std::endl;
+
+```
+
+The object returned by `seq::join` is of the same type as the one returned by `seq::fmt`. Therefore it provides the same functionalities: positional arguments, slots, conversion to string...
+
+```cpp
+
+using namespace seq;
+
+// Build functor with slots
+auto f = join(", ", _d(), _d(), _d());
+
+// print '1, 2, 3'
+std::cout<< f(1,2,3) <<std::endl;
+
+
+// conversion to string
+std::string str = f(1,2,3);
+// print '1, 2, 3'
+std::cout<< str << std::endl;
+
+
+// using _join as a slot argument
+auto f2 = fmt( "Here is a list of ", _d() ," numbers: ", _join("," ,_d(), _d(), _d() ) );
+// print 'Here is a list of 3 numbers: 1,2,3'
+std::cout<< f2( 3, fmt(1,2,3) ) <<std::endl;
+
+```
 
 ## Performances
 

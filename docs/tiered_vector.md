@@ -6,7 +6,7 @@ Instead of maintaining a vector of fixed size buckets, `seq::tiered_vector` uses
 Furtheremore, the bucket is not a linear buffer but is instead implemented as a circular buffer.
 This allows a complexity of O(sqrt(N)) for insertion and deletion in the middle of the tiered_vector instead of O(N) for std::deque. Inserting and deleting elements at both ends is still O(1).
 
-`seq::tiered_vector` internally uses seq::devector to store the buckets.
+`seq::tiered_vector` internally uses `seq::devector` to store the buckets.
 `seq::tiered_vector` is used as the backend container for [seq::flat_set](flat_set.md), `seq::flat_map`, `seq::flat_multiset` and `seq::flat_multimap`.
 
 
@@ -66,19 +66,10 @@ The only exception is when providing a minimum bucket size (*MinBSize*) equals t
 In this case, inserting/deleting elements will <em>never</em> change the bucket size and move all elements within new buckets. This affects the members emplace_back(), push_back(), emplace_front() and push_front() that provide the same invalidation rules as for std::deque.
 
 
-## Memory layout
-
-If the *layout* template parameter is `OptimizeForMemory`, each bucket is independantly allocated using the provided allocator, and the buckets are automatically deallocated when empty.
-
-When using the `OptimizeForSpeed` flag, the `seq::tiered_vector` will use a memory pool to allocate several buckets at once, still using the provided allocator. The memory pool uses a growing strategy to allocate more and more buckets based on a growth factor (SEQ_GROW_FACTOR define, defaulting to 1.6). Whenever the bucket size changes, memory chunks used to store the previous buckets are kept as long as they are big enough to hold buckets of the new size. This avoid a lot of unnecessary allocations when continuously extending the `seq::tiered_vector`. The memory pool makes insertion tipically 50% faster (depending on value_type size) than the default allocation strategy, but will consume slightly more memory.
-
-With `OptimizeForSpeed` flag, the tiered_vector will almost never release memory, except on calls to shrink_to_fit().
-
-
 ## Performances
 
 `seq::tiered_vector` was optimized to match libstdc++ `std::deque` performances as close as possible.
-My benchmarhs show that most members are actually faster than libstdc++ `std::deque`, except for push_back(), push_front(), pop_back() and pop_front() which are slightly slower due to the need to move all elements when the bucket size changes. This can be alievated by the `OptimizeForSpeed` flag that makes both operations as fast as their std::deque counterparts (see `seq/seq/benchs/bench_tiered_vector.hpp` for more details).
+My benchmarhs show that most members are actually as fast or faster than libstdc++ `std::deque`.
 
 Usually, iterating through a `seq::tiered_vector` is faster than through a std::deque, and the random-access `operator[](size_t)` is also faster. Making a lot of random access based on iterators can be slightly slower with `seq::tiered_vector` depending on the use case. For instance, sorting a `seq::tiered_vector` is slower than sorting a `std::deque`.
 

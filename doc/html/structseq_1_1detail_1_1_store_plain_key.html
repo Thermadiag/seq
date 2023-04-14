@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.18"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SEQ library: seq::detail::StorePlainKey&lt; KeyType &gt; Struct Template Reference</title>
+<title>SEQ library: seq::detail::StorePlainKey&lt; KeyType, class &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -84,34 +84,57 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_store_plain_ke
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="structseq_1_1detail_1_1_store_plain_key-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">seq::detail::StorePlainKey&lt; KeyType &gt; Struct Template Reference</div>  </div>
+<div class="title">seq::detail::StorePlainKey&lt; KeyType, class &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="tiered__vector_8hpp_source.html">tiered_vector.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a87c5827ba48cdf4bf6ffab596c39b1c3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_store_plain_key.html#a87c5827ba48cdf4bf6ffab596c39b1c3">key_type</a> = KeyType</td></tr>
+<tr class="separator:a87c5827ba48cdf4bf6ffab596c39b1c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a470cd82ca69b45e0d692b0eca438118d"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_store_plain_key.html#a470cd82ca69b45e0d692b0eca438118d">value</a> = (std::is_nothrow_copy_constructible&lt;KeyType&gt;::value &amp;&amp; sizeof(KeyType) &lt;= 16)</td></tr>
-<tr class="separator:a470cd82ca69b45e0d692b0eca438118d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4577030cf9b94ab788c054f444825e08"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_store_plain_key.html#a4577030cf9b94ab788c054f444825e08">value</a></td></tr>
+<tr class="separator:a4577030cf9b94ab788c054f444825e08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a470cd82ca69b45e0d692b0eca438118d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a470cd82ca69b45e0d692b0eca438118d">&#9670;&nbsp;</a></span>value</h2>
+<h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a87c5827ba48cdf4bf6ffab596c39b1c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87c5827ba48cdf4bf6ffab596c39b1c3">&#9670;&nbsp;</a></span>key_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class KeyType &gt; </div>
+template&lt;class KeyType , class  = void&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structseq_1_1detail_1_1_store_plain_key.html">seq::detail::StorePlainKey</a>&lt; KeyType, class &gt;::<a class="el" href="structseq_1_1detail_1_1_store_plain_key.html#a87c5827ba48cdf4bf6ffab596c39b1c3">key_type</a> =  KeyType</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a4577030cf9b94ab788c054f444825e08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4577030cf9b94ab788c054f444825e08">&#9670;&nbsp;</a></span>value</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class KeyType , class  = void&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr bool <a class="el" href="structseq_1_1detail_1_1_store_plain_key.html">seq::detail::StorePlainKey</a>&lt; KeyType &gt;::value = (std::is_nothrow_copy_constructible&lt;KeyType&gt;::value &amp;&amp; sizeof(KeyType) &lt;= 16)</td>
+          <td class="memname">constexpr bool <a class="el" href="structseq_1_1detail_1_1_store_plain_key.html">seq::detail::StorePlainKey</a>&lt; KeyType, class &gt;::value</td>
         </tr>
       </table>
   </td>
@@ -120,7 +143,10 @@ template&lt;class KeyType &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-
+<b>Initial value:</b><div class="fragment"><div class="line">= (std::is_copy_constructible&lt;KeyType&gt;::value &amp;&amp; </div>
+<div class="line">                std::is_nothrow_copy_constructible&lt;KeyType&gt;::value &amp;&amp; </div>
+<div class="line">                <span class="keyword">sizeof</span>(KeyType) &lt;= 16)</div>
+</div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>

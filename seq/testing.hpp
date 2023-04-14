@@ -102,10 +102,21 @@ namespace seq
 #define SEQ_TEST_MODULE(name, ... ) \
 	{ seq::streambuf_size str(std::cout); size_t size = 0; bool ok = true; \
 	try { std::cout << "TEST MODULE " << #name << "... " ; std::cout.flush(); size = str.get_size(); __VA_ARGS__; } \
-	catch (const test_error& e) {std::cout<< std::endl; ok = false; std::cerr << "TEST FAILURE IN MODULE " << #name << ": " << e.what() << std::endl; } \
+	catch (const seq::test_error& e) {std::cout<< std::endl; ok = false; std::cerr << "TEST FAILURE IN MODULE " << #name << ": " << e.what() << std::endl; } \
 	catch (const std::exception& e) { std::cout<< std::endl; ok = false; std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << " (std::exception): " << e.what() << std::endl; } \
 	catch (...) { std::cout<< std::endl; ok = false;  std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << std::endl; }\
 	if(ok) { if(str.get_size() != size) std::cout<<std::endl; std::cout<< "SUCCESS" << std::endl; } \
+	}
+
+/// @brief Test module
+#define SEQ_TEST_MODULE_RETURN(name, ret_value, ... ) \
+	{ seq::streambuf_size str(std::cout); size_t size = 0; bool ok = true; \
+	try { std::cout << "TEST MODULE " << #name << "... " ; std::cout.flush(); size = str.get_size(); __VA_ARGS__; } \
+	catch (const seq::test_error& e) {std::cout<< std::endl; ok = false; std::cerr << "TEST FAILURE IN MODULE " << #name << ": " << e.what() << std::endl; } \
+	catch (const std::exception& e) { std::cout<< std::endl; ok = false; std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << " (std::exception): " << e.what() << std::endl; } \
+	catch (...) { std::cout<< std::endl; ok = false;  std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << std::endl; }\
+	if(ok) { if(str.get_size() != size) std::cout<<std::endl; std::cout<< "SUCCESS" << std::endl; } \
+	else return ret_value;\
 	}
 
 
@@ -119,55 +130,15 @@ namespace seq
 			return static_cast<uint64_t>(duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count());
 		}
 
-
-#if defined( WIN32) || defined(_WIN32)
-
-
-		/*using high_def_timer = struct high_def_timer {
-			LARGE_INTEGER timer;
-			LARGE_INTEGER freq;
-		};
-
-		inline void start_timer(high_def_timer* timer)
+		static inline std::chrono::time_point<std::chrono::steady_clock >& get_clock()
 		{
-			QueryPerformanceCounter(&timer->timer);
-			QueryPerformanceFrequency(&timer->freq);
+			thread_local std::chrono::time_point<std::chrono::steady_clock > clock;
+			return clock;
 		}
 
-		inline auto elapsed_microseconds(high_def_timer* timer) -> std::uint64_t
+		static inline std::int64_t& get_msec_clock()
 		{
-			LARGE_INTEGER end;
-			QueryPerformanceCounter(&end);
-			std::uint64_t quad = end.QuadPart - timer->timer.QuadPart;
-			return (quad * 1000000ULL) / timer->freq.QuadPart;
-		}*/
-#else
-
-
-		/*typedef struct timespec high_def_timer;
-
-		inline void start_timer(high_def_timer* timer)
-		{
-			clock_gettime(CLOCK_PROCESS_CPUTIME_ID, timer);
-		}
-
-		// call this function to end a timer, returning nanoseconds elapsed as a long
-		inline std::uint64_t elapsed_microseconds(high_def_timer* timer) {
-			struct timespec end_time;
-			clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end_time);
-			return (end_time.tv_sec - timer->tv_sec) * (std::uint64_t)1e6 + (end_time.tv_nsec - timer->tv_nsec) / 1000ULL;
-		}*/
-
-#endif
-
-		/*static inline auto get_timer() -> high_def_timer&
-		{
-			static thread_local high_def_timer timer;
-			return timer;
-		}*/
-		static inline std::chrono::time_point<std::chrono::high_resolution_clock>& get_clock()
-		{
-			thread_local std::chrono::time_point<std::chrono::high_resolution_clock> clock;
+			thread_local std::int64_t clock;
 			return clock;
 		}
 	}
@@ -176,20 +147,24 @@ namespace seq
 	/// @brief For tests only, reset timer for calling thread
 	inline void tick()
 	{
-		detail::get_clock() = std::chrono::high_resolution_clock::now();
-		//detail::start_timer(&detail::get_timer());
+#ifdef _MSC_VER
+		detail::get_clock() = std::chrono::steady_clock::now();
+#else
+		detail::get_msec_clock() = detail::msecs_since_epoch();
+#endif
 	}
-	/// @brief For tests only, returns elapsed microseconds since last call to tick()
-	inline auto tock_us() -> std::uint64_t
-	{
-		return  static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::microseconds>( std::chrono::high_resolution_clock::now() - detail::get_clock()).count());
-		//return detail::elapsed_microseconds(&detail::get_timer());
-	}
+	
 	/// @brief For tests only, returns elapsed milliseconds since last call to tick()
 	inline auto tock_ms() -> std::uint64_t
 	{
-		return static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - detail::get_clock()).count());
-		//return detail::elapsed_microseconds(&detail::get_timer()) / 1000ULL;
+#ifdef _MSC_VER
+		return  static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - detail::get_clock()).count());
+#else
+		// on gcc/mingw, this is the noly workin way (??)
+		return  detail::msecs_since_epoch() - detail::get_msec_clock();
+#endif
+		//return (std::chrono::system_clock::now().time_since_epoch().count() - detail::get_clock().time_since_epoch().count()) / 1000000LL;
+		//
 	}
 	
 	/// @brief Similar to C++11 (and deprecated) std::random_shuffle
@@ -310,10 +285,11 @@ namespace seq
 	template<class String>
 	auto generate_random_string(int max_size, bool fixed = false) -> String
 	{
+		using value_type = typename String::value_type;
 		size_t size = static_cast<size_t>(fixed ? max_size : rand() % max_size);
 		String res(size, 0);
 		for (size_t i = 0; i < size; ++i)
-			res[i] = (rand() & 63) + 33;
+			res[i] = static_cast<value_type>((rand() & 63) + 33);
 
 		return res;
 	}
@@ -365,25 +341,30 @@ namespace seq
 	class random_float_genertor
 	{
 		static constexpr unsigned mask = sizeof(Float) == 4 ? 31 : sizeof(Float) == 8 ? 255 : 4095;
-
+		std::mt19937_64 d_rand;
 		unsigned count;
 
+		unsigned get_rand() {
+			return (d_rand()) & 0xFFFFFFFFu;
+			//return rand();
+		}
 	public:
 		random_float_genertor(unsigned seed=0)
-			:count(0)
+			: d_rand(seed), count(0)
 		{
-			srand(seed);
+			//srand(seed);
 		}
+
 
 		auto operator()() -> Float
 		{
-			const bool type = rand() & 1;
-			Float sign1 = (rand() & 1) ? static_cast<Float>(-1) : static_cast<Float>(1);
+			const bool type = get_rand() & 1;
+			Float sign1 = (get_rand() & 1) ? static_cast<Float>(-1) : static_cast<Float>(1);
 			Float res;
 			if (type)
-				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * static_cast<unsigned>(rand())))));
+				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * static_cast<unsigned>(get_rand())))));
 			else
-				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * static_cast<unsigned>(rand()))) * std::pow(static_cast<Float>(10.), static_cast<Float>(sign1) * static_cast<Float>(static_cast<unsigned>(rand()) & mask))));
+				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * static_cast<unsigned>(get_rand()))) * std::pow(static_cast<Float>(10.), static_cast<Float>(sign1) * static_cast<Float>(static_cast<unsigned>(get_rand()) & mask))));
 
 			return res;
 		}

@@ -49,6 +49,7 @@ See the documentation of each class for more details.
 
 
 #include "tiered_vector.hpp"
+#include "internal/binary_search.hpp"
 
 // Disable old style cast warning for gcc
 #ifdef __GNUC__
@@ -81,60 +82,262 @@ namespace seq
 		template<class T>
 		struct is_less_or_greater<std::greater<T> > : std::true_type {};
 
-		template<class Sequence, class Value>
-		struct MapInserter
+		
+		
+		/// @brief Policy used when inserting new key
+		struct FlatEmplacePolicy
 		{
-			// Insert value into tiered_vector while trying to avoid constructing a new value_type
-			static SEQ_ALWAYS_INLINE auto insert_pos(Sequence& seq, Value& value) -> std::pair<size_t,bool> { return seq.insert_pos(std::move(value)); }
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, Value& value) -> std::pair<typename Sequence::iterator, bool> { return seq.insert(std::move(value)); }
+			template<class Vector, class K, class... Args >
+			static typename Vector::value_type& emplace(Vector& v, size_t pos, K&& key, Args&&... args)
+			{
+				return v.emplace(pos, std::forward<K>(key), std::forward<Args>(args)...);
+			}
 		};
-		template<class Sequence, class Value>
-		struct MapInserter<Sequence, const Value&>
+		/// @brief Policy used when inserting new key using try_emplace
+		struct TryFlatEmplacePolicy
 		{
-			static SEQ_ALWAYS_INLINE auto insert_pos(Sequence& seq, const Value& value) -> std::pair<size_t, bool> { return seq.insert_pos((value)); }
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, const Value& value) -> std::pair<typename Sequence::iterator, bool> { return seq.insert((value)); }
-		};
-
-		template<class Sequence, class Value>
-		struct MapInserter<Sequence, Value&&>
-		{
-			static SEQ_ALWAYS_INLINE auto insert_pos(Sequence& seq, Value& value) -> std::pair<size_t, bool> { return seq.insert_pos(std::move(value)); }
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, Value& value) -> std::pair<typename Sequence::iterator, bool> { return seq.insert(std::move(value)); }
-		};
-	
-
-
-		template<bool Stable, class Less >
-		struct DequeSorter
-		{
-			// Sort tiered_vector using pdqsort.
-			// For now, always uses pdqsort_branchless as it seems to be faster event with non trivial comparison operator.
-			template<class Deque>
-			static void sort(Deque& d, size_t begin, size_t end, const Less & less) {
-				if (begin == 0 && end == d.size())
-					d.sort(less);
-				else
-					pdqsort_branchless(d.begin() + static_cast<std::ptrdiff_t>(begin), d.begin() + static_cast<std::ptrdiff_t>(end), less);
+			template<class Vector, class K, class... Args >
+			static typename Vector::value_type& emplace(Vector& v, size_t pos, K&& key, Args&&... args)
+			{
+				return v.emplace(pos, typename Vector::value_type(std::piecewise_construct,
+					std::forward_as_tuple(std::forward<K>(key)),
+					std::forward_as_tuple(std::forward<Args>(args)...)));
 			}
 		};
 		
-		template<class Less >
-		struct DequeSorter<true,Less>
+
+		template<class KeyType, class Less, bool Branchless = std::is_arithmetic<KeyType>::value>
+		struct Pdqsorter
+		{
+			template<class Iter>
+			static void apply(Iter first, Iter last, const Less &le)
+			{
+				pdqsort_branchless(first, last, le);
+			}
+		};
+		template<class KeyType, class Less>
+		struct Pdqsorter<KeyType,Less,false>
+		{
+			template<class Iter>
+			static void apply(Iter first, Iter last, const Less & le)
+			{
+				pdqsort(first, last, le);
+			}
+		};
+
+
+		template<class Deque, bool Stable, class Less>
+		struct DequeSorter
+		{
+			// Sort tiered_vector using pdqsort or pdqsort_branchless (for arithmetic types).
+			static void sort(Deque& d, size_t begin, size_t end, const Less & le) 
+			{
+				using key_type = typename Deque::value_compare::key_type;
+				Pdqsorter< key_type, Less>::apply(d.begin() + static_cast<std::ptrdiff_t>(begin), d.begin() + static_cast<std::ptrdiff_t>(end), le);
+			}
+
+			static void sort_full(Deque& d, const Less& le) 
+			{
+				// Sort a full deque.
+				// Instead of using default tiered vector iterators, this version drops vector ordering to use faster iterators.
+				// Only working for non stable sort.
+
+				using T = typename Deque::value_type;
+				using key_type = typename Deque::value_compare::key_type;
+				using bucket_manager = typename Deque::bucket_manager;
+				static constexpr bool nothrow = std::is_nothrow_move_constructible<T>::value && std::is_nothrow_move_assignable<T>::value;
+				
+				if (d.size() == 0)
+					return;
+
+				if SEQ_CONSTEXPR (!nothrow)
+				{
+					Pdqsorter< key_type, Less>::apply(d.begin(), d.end(), le);
+				}
+				else
+				{
+					// Fill front bucket
+					while (d.manager()->d_buckets.size() > 1 && d.manager()->d_buckets[0].bucket->size != d.manager()->d_bucket_size)
+					{
+						T tmp = std::move(d.back());
+						d.pop_back();
+						d.push_front(std::move(tmp));
+					}
+					SEQ_ASSERT_DEBUG(d.manager()->d_buckets[0].bucket->size == d.manager()->d_bucket_size || d.manager()->d_buckets.size() == 1, "");
+
+					if (d.manager()->d_buckets.back().bucket->size != d.manager()->d_bucket_size)
+					{
+						// If the back bucket is not full, make it start at 0
+						auto* bucket = d.manager()->d_buckets.back().bucket;
+						auto al = d.get_allocator();
+						while (bucket->begin != 0) {
+							T tmp = std::move(bucket->back());
+							bucket->pop_back(al);
+							bucket->push_front(al, std::move(tmp));
+						}
+					}
+
+					auto b = detail::tvector_ra_iterator<bucket_manager>(d.manager());
+					auto e = detail::tvector_ra_iterator<bucket_manager>(d.manager(), 0);
+					Pdqsorter< key_type, Less>::apply(b, e, le);
+
+					for (size_t i = 0; i < d.manager()->d_buckets.size(); ++i)
+					{
+						auto& bucket = d.manager()->d_buckets[i];
+						bucket.bucket->begin = 0;
+						bucket.update();
+					}
+				}
+			}
+		};
+
+		
+		template<class Deque, class Less >
+		struct DequeSorter<Deque,true,Less>
 		{
 			// Sort tiered_vector in a stable way
-			template<class Deque>
-			static void sort(Deque& d, size_t begin, size_t end, const Less& less) {
-
-				std::stable_sort(d.begin() + begin, d.begin() + end, less);
+			static void sort(Deque& d, size_t begin, size_t end, const Less& le)
+			{
+				std::stable_sort(d.begin() + begin, d.begin() + end, le);
+			}
+			static void sort_full(Deque& d, const Less& le)
+			{
+				std::stable_sort(d.begin() , d.end(), le);
 			}
 		};
 
 		template<bool Stable, class Deque, class Less>
 		void sort_deque(Deque & d, size_t begin, size_t end, Less less)
 		{
-			DequeSorter<Stable,Less>::sort(d, begin, end, less);
+			DequeSorter<Deque,Stable,Less>::sort(d, begin, end, less);
+		}
+		template<bool Stable, class Deque, class Less>
+		void sort_full_deque(Deque& d, Less less)
+		{
+			DequeSorter<Deque, Stable, Less>::sort_full(d, less);
 		}
 
+
+
+
+
+		/// @brief Optimized version of std::lower_bound(begin(),end(),value,le);
+		/// Only works for sorted tiered_vector.
+		template<class Deque, class U, class Less >
+		__SEQ_INLINE_LOOKUP auto tvector_lower_bound(const Deque & d, const U& value, const Less& le ) noexcept -> size_t
+		{
+			if (SEQ_UNLIKELY(!d.manager()))
+				return 0;
+
+			using T = typename Deque::value_type;
+			using bucket_manager = typename Deque::bucket_manager;
+			using BucketVector = typename bucket_manager::BucketVector;
+			using BucketType = typename BucketVector::value_type;
+			using ValueCompare = typename Deque::value_compare;
+			using KeyType = typename ValueCompare::key_type;
+			const BucketVector& buckets = d.manager()->buckets();
+
+			//find bucket
+			const size_t b_index = lower_bound_internal<KeyType>::apply(buckets.data(), buckets.size(), value,
+				[&le](const BucketType& a, const U& b) {return le(a.back(), b); }
+			);
+
+			if (SEQ_UNLIKELY(b_index == buckets.size()))
+				return d.size();
+
+			{
+				//find inside bucket
+				const auto* bucket = buckets[b_index].bucket;
+
+				// Partition the bucket into left/right side based on the circular buffer begin position, 
+				// and apply the lower bound on the one of the 2.
+
+				using pos_type = int;
+				const T* begin_ptr = bucket->begin_ptr();
+
+				const bool low_half =
+					begin_ptr != bucket->buffer() && // begin is not 0
+					(bucket->begin + bucket->size) > bucket->max_size_ && // begin + size overflow
+					le(*(bucket->buffer() + bucket->max_size1), value); // value to took for is not in the upper half (between begin and buffer end)
+
+				const T* ptr = low_half ? bucket->buffer() : begin_ptr;
+				const pos_type partition_size = low_half ?
+					((bucket->begin + bucket->size) & bucket->max_size1) :
+					(std::min(bucket->size, static_cast<detail::cbuffer_pos>(bucket->max_size_ - bucket->begin)));
+
+				pos_type _low = lower_bound_internal<KeyType>::apply(ptr, partition_size, value, le);
+
+				_low = ptr == begin_ptr ? _low : _low + (bucket->max_size_ - bucket->begin);
+				return static_cast<size_t>(_low) + (b_index != 0 ? static_cast<size_t>(buckets[0]->size) + static_cast<size_t>(b_index - 1) * static_cast<size_t>(bucket->max_size_) : 0);
+			}
+
+		}
+
+
+
+
+		/// @brief Optimized version of std::upper_bound(begin(),end(),value,le);
+		/// Only works for sorted tiered_vector.
+		template<class Deque, class U, class Less >
+		__SEQ_INLINE_LOOKUP auto tvector_upper_bound(const Deque & d, const U& value, const Less& le ) noexcept -> size_t
+		{
+			if (SEQ_UNLIKELY(!d.manager()))
+				return 0;
+
+			using T = typename Deque::value_type;
+			using bucket_manager = typename Deque::bucket_manager;
+			using BucketVector = typename bucket_manager::BucketVector;
+			using BucketType = typename BucketVector::value_type;
+			using ValueCompare = typename Deque::value_compare;
+			using KeyType = typename ValueCompare::key_type;
+			const BucketVector& buckets = d.manager()->buckets();
+
+			//find bucket
+			const size_t b_index = upper_bound_internal<KeyType>::apply(buckets.data(), buckets.size(), value,
+				[&le](const U& b, const BucketType& a) {return le(b, a.back()); }
+			);
+
+			if (SEQ_UNLIKELY(b_index == buckets.size()))
+				return d.size();
+
+			{
+				//find inside bucket
+				const auto* bucket = buckets[b_index].bucket;
+
+				// Partition the bucket into left/right side based on the circular buffer begin position, 
+				// and apply the upper bound on the one of the 2.
+
+				using pos_type = int;
+				const T* begin_ptr = bucket->begin_ptr();
+
+				const bool low_half =
+					begin_ptr != bucket->buffer() && // begin is not 0
+					(bucket->begin + bucket->size) > bucket->max_size_ && // begin + size overflow
+					!le(value, *(bucket->buffer() + bucket->max_size1)); // value to took for is not in the upper half (between begin and buffer end)
+
+				const T* ptr = low_half ? bucket->buffer() : begin_ptr;
+				const pos_type partition_size = low_half ?
+					((bucket->begin + bucket->size) & bucket->max_size1) :
+					(std::min(bucket->size, static_cast<detail::cbuffer_pos>(bucket->max_size_ - bucket->begin)));
+
+				pos_type _low = upper_bound_internal<KeyType>::apply(ptr, partition_size, value, le);
+
+				_low = ptr == begin_ptr ? _low : _low + (bucket->max_size_ - bucket->begin);
+				return static_cast<size_t>(_low) + (b_index != 0 ? static_cast<size_t>(buckets[0]->size) + static_cast<size_t>(b_index - 1) * static_cast<size_t>(bucket->max_size_) : 0);
+			}
+
+		}
+
+
+		/// @brief Optimized version of std::binary_search(begin(),end(),value,le);
+		/// Only works for sorted tiered_vector.
+		template<class Deque, class U, class Less >
+		__SEQ_INLINE_LOOKUP auto tvector_binary_search(const Deque & d, const U& value, const Less& le = Less()) noexcept -> size_t
+		{
+			size_t l = tvector_lower_bound(d, value, le);
+			if (l != d.size() && le(value, d[l])) l = d.size();
+			return l;
+		}
 
 
 	
@@ -221,21 +424,21 @@ namespace seq
 	
 		/// @brief Base class for flat_tree
 		template<class Key, class Value, class Less>
-		struct BaseTree : Less
+		struct base_tree : Less
 		{
 			// Base class for flat_tree, directly inherit Less and provides basic comparison functions
 			using extract_key = ExtractKey<Key, Value>;
 
-			BaseTree() {}
-			BaseTree(const Less& l) : Less(l) {}
-			BaseTree(const BaseTree& other) : Less(other) {}
-			BaseTree(BaseTree&& other)  noexcept : Less(std::move(static_cast<Less&>(other))) {}
+			base_tree() {}
+			base_tree(const Less& l) : Less(l) {}
+			base_tree(const base_tree& other) : Less(other) {}
+			base_tree(base_tree&& other)  noexcept : Less(std::move(static_cast<Less&>(other))) {}
 
-			auto operator=(const BaseTree& other) -> BaseTree& {
+			auto operator=(const base_tree& other) -> base_tree& {
 				static_cast<Less&>(*this) = static_cast<const Less&>(other);
 				return *this;
 			}
-			auto operator=( BaseTree&& other) noexcept -> BaseTree&   {
+			auto operator=( base_tree&& other) noexcept -> base_tree&   {
 				static_cast<Less&>(*this) = std::move(static_cast<Less&>(other));
 				return *this;
 			}
@@ -248,20 +451,20 @@ namespace seq
 		};
 		/// @brief Base class for flat_tree in case of simple set (no associative container)
 		template<class Key, class Less>
-		struct BaseTree<Key,Key,Less> : Less
+		struct base_tree<Key,Key,Less> : Less
 		{
 			using extract_key = ExtractKey<Key, Key>;
 
-			BaseTree() {}
-			BaseTree(const Less& l) : Less(l) {}
-			BaseTree(const BaseTree& other) : Less(other) {}
-			BaseTree(BaseTree&& other)  noexcept : Less(std::move(static_cast<Less&>(other))) {}
+			base_tree() {}
+			base_tree(const Less& l) : Less(l) {}
+			base_tree(const base_tree& other) : Less(other) {}
+			base_tree(base_tree&& other)  noexcept : Less(std::move(static_cast<Less&>(other))) {}
 
-			auto operator=(const BaseTree& other) -> BaseTree& {
+			auto operator=(const base_tree& other) -> base_tree& {
 				static_cast<Less&>(*this) = static_cast<const Less&>(other);
 				return *this;
 			}
-			auto operator=(BaseTree&& other) noexcept -> BaseTree&   {
+			auto operator=(base_tree&& other) noexcept -> base_tree&   {
 				static_cast<Less&>(*this) = std::move(static_cast<Less&>(other));
 				return *this;
 			}
@@ -276,13 +479,13 @@ namespace seq
 	
 		/// @brief Base class for flat_map/set
 		/// Uses a seq::tiered_vector to store the values and provide faster insertion/deletion of unique elements.
-		template<class Key, class Value = Key, class Compare = std::less<Key>, class Allocator = std::allocator<Value>, LayoutManagement layout = OptimizeForSpeed, bool Stable = true, bool Unique = true>
-		struct flat_tree : private BaseTree<Key,Value,Compare>
+		template<class Key, class Value = Key, class Compare = std::less<Key>, class Allocator = std::allocator<Value>, bool Stable = true, bool Unique = true>
+		struct flat_tree : private base_tree<Key,Value,Compare>
 		{
 			
 			using extract_key = ExtractKey<Key, Value>;
-			using base_type = BaseTree<Key, Value, Compare>;
-			using this_type = flat_tree<Key, Value, Compare, Allocator, layout, Stable, Unique>;
+			using base_type = base_tree<Key, Value, Compare>;
+			using this_type = flat_tree<Key, Value, Compare, Allocator, Stable, Unique>;
 
 			// Structure for equality comparison
 			struct Equal
@@ -306,7 +509,7 @@ namespace seq
 
 		public:
 		
-			using deque_type = tiered_vector<Value, Allocator, layout, SEQ_MIN_BUCKET_SIZE(Value), SEQ_MAX_BUCKET_SIZE, FindBucketSize<Value>, true, ExtractKey<Key,Value> >;
+			using deque_type = tiered_vector<Value, Allocator, SEQ_MIN_BUCKET_SIZE(Value), SEQ_MAX_BUCKET_SIZE, FindBucketSize<Value>, true, ExtractKey<Key,Value> >;
 			using key_type = Key;
 			using value_type = Value;
 			using difference_type = typename std::allocator_traits<Allocator>::difference_type;
@@ -328,11 +531,11 @@ namespace seq
 			// check if dirty (in case of calls to flat_tree::tvector())
 			int d_dirty;
 
-			void mark_dirty()
+			SEQ_ALWAYS_INLINE void mark_dirty()
 			{
 				d_dirty = 1;
 			}
-			auto dirty() const -> bool
+			SEQ_ALWAYS_INLINE auto dirty() const -> bool
 			{
 				return d_dirty != 0;
 			}
@@ -397,11 +600,12 @@ namespace seq
 
 				// Sort if necessary, remove non unique values if necessary
 				if (!sorted)
-					sort_deque<Stable>(d_deque, 0, d_deque.size(), Less(this));
-				if (Unique && (!sorted || !unique)) {
-					iterator it = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
-					d_deque.erase(it, d_deque.end());
-				}
+					sort_full_deque<Stable>(d_deque, Less(this));
+				if SEQ_CONSTEXPR (Unique)
+					if ( (!sorted || !unique)) {
+						iterator it = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
+						d_deque.erase(it, d_deque.end());
+					}
 				d_deque.manager()->update_all_back_values();
 			}
 
@@ -437,11 +641,12 @@ namespace seq
 				}
 
 				if (!sorted)
-					sort_deque<Stable>(d_deque, 0, d_deque.size(), Less(this));
-				if (Unique && (!sorted || !unique)) {
-					iterator l = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
-					d_deque.erase(l, d_deque.end());
-				}
+					sort_full_deque<Stable>(d_deque, Less(this));
+				if SEQ_CONSTEXPR (Unique )
+					if((!sorted || !unique)) {
+						iterator l = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
+						d_deque.erase(l, d_deque.end());
+					}
 				d_deque.manager()->update_all_back_values();
 			}
 
@@ -520,121 +725,81 @@ namespace seq
 					std::swap(base(), other.base());
 				}
 			}
-			template<class U>
-			auto insert_pos_multi(U && value) -> std::pair<size_t, bool>
+
+			iterator iterator_at(size_t pos)noexcept { return d_deque.iterator_at(pos); }
+			const_iterator iterator_at(size_t pos) const noexcept { return d_deque.iterator_at(pos); }
+
+			template<class Policy, class K, class... Args >
+			auto emplace_pos_multi(Policy, K&& key, Args&&... args) -> std::pair<size_t, bool>
 			{
-				size_t pos = d_deque.upper_bound(value, base());
-				d_deque.insert(pos, std::move(value));
+				size_t pos = tvector_upper_bound(d_deque, key, base());
+				Policy::emplace(d_deque, pos, std::forward<K>(key), std::forward<Args>(args)...);
 				return std::pair<size_t, bool>(pos, true);
 			}
-			auto insert_pos(const value_type& value) -> std::pair<size_t, bool> {
+			template<class Policy, class K, class... Args >
+			auto emplace_pos(Policy p, K&& key, Args&&... args) -> std::pair<size_t, bool> {
+
 				check_dirty();
-				if (!Unique) 
-					return insert_pos_multi(value);
+				if SEQ_CONSTEXPR (!Unique)
+					return emplace_pos_multi(p, std::forward<K>(key), std::forward<Args>(args)...);
 			
 				std::pair<size_t, bool> res;
-				res.first = d_deque.lower_bound(value, base());
-				res.second = !(res.first != d_deque.size() && !(*this)(value, d_deque[res.first]));
+				res.first = tvector_lower_bound(d_deque, key, base());
+				res.second = !(res.first != d_deque.size() && !(*this)(key, d_deque[res.first]));
 				if(res.second)
-					d_deque.insert(res.first, value);
+					Policy::emplace(d_deque, res.first, std::forward<K>(key), std::forward<Args>(args)...);
 				return res;
 			}
-			auto insert_pos( value_type&& value) -> std::pair<size_t, bool> {
-				check_dirty();
-				if (!Unique)
-					return insert_pos_multi(std::move(value));
-
-				size_t pos = d_deque.lower_bound(value, base());
-				if (pos != d_deque.size() && !(*this)(value, d_deque[pos]))//!(value < tiered_vector[pos]))
-					return std::pair<size_t, bool>(pos, false);
-				else {
-					d_deque.insert(pos, std::move(value));
-					return std::pair<size_t, bool>(pos, true);
-
-				}
-			}
-			auto insert(const value_type& value) -> std::pair<iterator, bool> {
-				check_dirty();
-				if (!Unique) {
-					size_t pos = d_deque.upper_bound(value, base());
-					d_deque.insert(pos, value);
-					return std::pair<iterator, bool>(d_deque.iterator_at(pos), true);
-				}
-				size_t pos = d_deque.lower_bound(value, base());
-				if (pos != d_deque.size() && !(*this)(value, d_deque[pos]))//!(value < tiered_vector[pos]))
-					return std::pair<iterator, bool>(d_deque.iterator_at(pos), false);
-				else {
-					d_deque.insert(pos, value);
-					return std::pair<iterator, bool>(d_deque.iterator_at(pos), true);
-				
-				}
-			}
-			template< class... Args >
-			auto emplace(Args&&... args) -> std::pair<iterator, bool>
+			template<class K, class... Args >
+			auto emplace(K&& key, Args&&... args) -> std::pair<size_t, bool> 
 			{
-				using store_type = typename BuildValue<Value, Args&&...>::type;
-				store_type st = BuildValue<Value, Args&&...>::build(std::forward<Args>(args)...);
-				return MapInserter<this_type, store_type>::insert(*this, st);
+				return emplace_pos(FlatEmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
 			}
-			template< class... Args >
-			auto emplace_pos(Args&&... args) -> std::pair<size_t, bool>
+			template<class K, class... Args >
+			auto try_emplace(K&& key, Args&&... args) -> std::pair<size_t, bool>
 			{
-				using store_type = typename BuildValue<Value, Args&&...>::type;
-				store_type st = BuildValue<Value, Args&&...>::build(std::forward<Args>(args)...);
-				return MapInserter<this_type, store_type>::insert_pos(*this, st);
+				return emplace_pos(TryFlatEmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
 			}
-			template <class... Args>
-			auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
+			
+			template<class Policy, class K, class... Args >
+			auto emplace_pos_hint(const_iterator hint, Policy p, K&& key, Args&&... args) -> std::pair<size_t, bool>
 			{
-				return insert(hint, Value(std::forward<Args>(args)...));
-			}
-			auto insert(value_type&& value) -> std::pair<iterator, bool> {
 				check_dirty();
-				if (!Unique) {
-					size_t pos = d_deque.upper_bound(value, base());
-					d_deque.insert(pos, std::move(value));
-					return std::pair<iterator, bool>(d_deque.iterator_at(pos), true);
-				}
-				size_t pos = d_deque.lower_bound(value, base());
-				if (pos != d_deque.size() && !(*this)(value, d_deque[pos]))//!(value < tiered_vector[pos]))
-					return std::pair<iterator, bool>(d_deque.iterator_at(pos), false);
-				else {
-					d_deque.insert(pos, std::move(value));
-					return std::pair<iterator, bool>(d_deque.iterator_at(pos), true);
-				}
-			}
-			auto insert(const_iterator hint, const value_type& value) -> iterator {
-				check_dirty();
-				if (!Unique) {
-					if ((*this)(value, *hint)) {
-						if (!(*this)( value, *(hint - 1)))
-							return d_deque.insert(hint, value);
+				if SEQ_CONSTEXPR (!Unique) {
+					if (hint != end() && (*this)(key, *hint)) {
+						auto h = hint;
+						if (hint != begin() && !(*this)(key, *(--hint))) {
+							Policy::emplace(d_deque, static_cast<size_t>(h.pos), std::forward<K>(key), std::forward<Args>(args)...);
+							return std::pair<size_t, bool>(static_cast<size_t>(h.pos), true);
+						}
 					}
-					return insert(value).first;
+					return emplace_pos(p, std::forward<K>(key), std::forward<Args>(args)...);
 				}
-				if ((*this)(value, *hint)) {
+				if (hint != end() && (*this)(key, *hint)) {
 					//value is < hint, check that value before hint is smaller
-					if ((*this)(*(hint - 1), value))
-						return d_deque.insert(hint, value);
-				}
-				return insert(value).first;
-			}
-			auto insert(const_iterator hint, value_type&& value) -> iterator {
-				check_dirty();
-				if (!Unique) {
-					if ((*this)(value, *hint)) {
-						if (!(*this)(value, *(hint - 1)))
-							return d_deque.insert(hint, std::move(value));
+					auto h = hint;
+					if (hint == begin() || (*this)(*(--hint), key))
+					{
+						Policy::emplace(d_deque, static_cast<size_t>(h.pos), std::forward<K>(key), std::forward<Args>(args)...);
+						return std::pair<size_t, bool>(static_cast<size_t>(h.pos), true);
 					}
-					return insert(std::move(value)).first;
 				}
-				if ((*this)(value, *hint)) {
-					//value is < hint, check that value before hint is smaller
-					if ((*this)(*(hint - 1), value))
-						return d_deque.insert(hint, std::move(value));
-				}
-				return insert(std::move(value)).first;
+				return emplace_pos(p, std::forward<K>(key), std::forward<Args>(args)...);
 			}
+			template<class K, class... Args >
+			auto emplace_hint(const_iterator hint, K&& key, Args&&... args) -> std::pair<size_t, bool>
+			{
+				return emplace_pos_hint(hint, FlatEmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
+			}
+			
+
+
+			template<class K, class... Args >
+			auto try_emplace_hint(const_iterator hint, K&& key, Args&&... args) -> std::pair<size_t, bool>
+			{
+				return emplace_pos_hint(hint, TryFlatEmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
+			}
+			
 			template< class InputIt >
 			void insert(InputIt first, InputIt last)
 			{
@@ -669,7 +834,7 @@ namespace seq
 				// Merge
 				std::inplace_merge(d_deque.begin(), d_deque.begin() + static_cast<difference_type>(size_before), d_deque.end(), Less(this));
 
-				if (Unique) {
+				if SEQ_CONSTEXPR (Unique) {
 					// Remove duplicates
 					auto it = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
 					d_deque.erase(it.absolutePos(), d_deque.size());
@@ -684,7 +849,8 @@ namespace seq
 				insert(ilist.begin(), ilist.end());
 			}
 			template< class Iter >
-			void assign(Iter first, Iter last) {
+			void assign(Iter first, Iter last)
+			{
 				if (first == last) {
 					d_deque.clear();
 					return;
@@ -717,8 +883,8 @@ namespace seq
 			auto erase(const K& key) -> size_type
 			{
 				check_dirty();
-				if (Unique) {
-					size_t pos = d_deque.binary_search(key, base());
+				if SEQ_CONSTEXPR (Unique) {
+					size_t pos = tvector_binary_search(d_deque,key, base());
 					if (pos == d_deque.size()) return 0;
 					d_deque.erase(pos);
 					return 1;
@@ -733,22 +899,22 @@ namespace seq
 				}
 			}
 			template< class K>
-			auto find(const K& x) -> iterator 
+			__SEQ_INLINE_LOOKUP auto find(const K& x) -> iterator
 			{
 				check_dirty();
-				return d_deque.iterator_at(d_deque.binary_search(x, base()));
+				return d_deque.iterator_at(tvector_binary_search(d_deque,x, base()));
 			}
 			template< class K>
-			auto find(const K& x) const -> const_iterator 
+			__SEQ_INLINE_LOOKUP auto find(const K& x) const -> const_iterator
 			{
 				check_dirty();
-				return d_deque.iterator_at(d_deque.binary_search(x, base()));
+				return d_deque.iterator_at(tvector_binary_search(d_deque,x, base()));
 			}
 			template< class K>
-			auto find_pos(const K& x) const -> size_t 
+			__SEQ_INLINE_LOOKUP auto find_pos(const K& x) const -> size_t
 			{
 				check_dirty();
-				return (d_deque.binary_search(x, base()));
+				return tvector_binary_search(d_deque,x, base());
 			}
 			SEQ_ALWAYS_INLINE auto pos(size_t i) const noexcept -> const Value&
 			{
@@ -759,88 +925,88 @@ namespace seq
 				return d_deque[i];
 			}
 			template< class K >
-			auto lower_bound(const K& x) -> iterator 
+			__SEQ_INLINE_LOOKUP auto lower_bound(const K& x) -> iterator
 			{
 				check_dirty();
-				return d_deque.iterator_at(d_deque.lower_bound(x, base()));
+				return d_deque.iterator_at(tvector_lower_bound(d_deque,x, base()));
 			}
 			template< class K >
-			auto lower_bound(const K& x) const -> const_iterator 
+			__SEQ_INLINE_LOOKUP auto lower_bound(const K& x) const -> const_iterator
 			{
 				check_dirty();
-				return d_deque.iterator_at(d_deque.lower_bound(x, base()));
+				return d_deque.iterator_at(tvector_lower_bound(d_deque,x, base()));
 			}
 			template< class K >
-			auto lower_bound_pos(const K& x) const -> size_t 
+			__SEQ_INLINE_LOOKUP auto lower_bound_pos(const K& x) const -> size_t
 			{
 				check_dirty();
-				return d_deque.lower_bound(x, base());
+				return tvector_lower_bound(d_deque,x, base());
 			}
 			template< class K >
-			auto upper_bound(const K& x) -> iterator 
+			__SEQ_INLINE_LOOKUP auto upper_bound(const K& x) -> iterator
 			{
 				check_dirty();
-				return d_deque.iterator_at(d_deque.upper_bound(x, base()));
+				return d_deque.iterator_at(tvector_upper_bound(d_deque,x, base()));
 			}
 			template< class K >
-			auto upper_bound(const K& x) const -> const_iterator 
+			__SEQ_INLINE_LOOKUP auto upper_bound(const K& x) const -> const_iterator
 			{
 				check_dirty();
-				return d_deque.iterator_at(d_deque.upper_bound(x, base()));
+				return d_deque.iterator_at(tvector_upper_bound(d_deque,x, base()));
 			}
 			template< class K >
-			auto upper_bound_pos(const K& x) const -> size_t 
+			__SEQ_INLINE_LOOKUP auto upper_bound_pos(const K& x) const -> size_t
 			{
 				check_dirty();
-				return d_deque.upper_bound(x, base());
+				return tvector_upper_bound(d_deque,x, base());
 			}
 			template< class K >
-			auto contains(const K& x) const -> bool 
+			__SEQ_INLINE_LOOKUP auto contains(const K& x) const -> bool
 			{
 				check_dirty();
-				return d_deque.binary_search(x, base()) != size();
+				return tvector_binary_search(d_deque,x, base()) != size();
 			}
 			template< class K >
-			auto count(const K& x) const -> size_type 
+			__SEQ_INLINE_LOOKUP auto count(const K& x) const -> size_type
 			{
 				check_dirty();
-				if (Unique) {
-					size_t pos = d_deque.binary_search(x, base());
+				if SEQ_CONSTEXPR (Unique) {
+					size_t pos = tvector_binary_search(d_deque,x, base());
 					return (pos == d_deque.size() ? 0 : 1);
 				}
-				size_t low = d_deque.lower_bound(x, base());
+				size_t low = tvector_lower_bound(d_deque,x, base());
 				if (low == d_deque.size()) return 0;
-				return d_deque.upper_bound(x, base()) - low;
+				return tvector_upper_bound(d_deque,x, base()) - low;
 			}
 			template< class K >
-			auto equal_range(const K& x) -> std::pair<iterator, iterator> 
+			__SEQ_INLINE_LOOKUP auto equal_range(const K& x) -> std::pair<iterator, iterator>
 			{
 				iterator low = lower_bound(x);
 				if (low == end())
 					return std::pair<iterator, iterator>(low, low);
-				if (Unique) 
+				if SEQ_CONSTEXPR (Unique)
 					return std::pair<iterator, iterator>(low, low+1);
 				iterator up = upper_bound(x);
 				return std::pair<iterator, iterator>(low, up);
 			}
 			template< class K >
-			auto equal_range(const K& x) const -> std::pair<const_iterator, const_iterator> 
+			__SEQ_INLINE_LOOKUP auto equal_range(const K& x) const -> std::pair<const_iterator, const_iterator>
 			{
 				const_iterator low = lower_bound(x);
 				if (low == end())
 					return std::pair<iterator, iterator>(low, low);
-				if (Unique) 
+				if SEQ_CONSTEXPR (Unique)
 					return std::pair<iterator, iterator>(low, low + 1);
 				const_iterator up = upper_bound(x);
 				return std::pair<iterator, iterator>(low, up);
 			}
 			template< class K >
-			auto equal_range_pos(const K& x) const -> std::pair<size_t, size_t> 
+			__SEQ_INLINE_LOOKUP auto equal_range_pos(const K& x) const -> std::pair<size_t, size_t>
 			{
 				size_t low = lower_bound_pos(x);
 				if (low == size())
 					return std::pair<size_t, size_t>(low, low);
-				if (Unique)
+				if SEQ_CONSTEXPR (Unique)
 					return std::pair<size_t, size_t>(low, low + 1);
 				size_t up = upper_bound_pos(x);
 				return std::pair<size_t, size_t>(low, up);
@@ -850,7 +1016,7 @@ namespace seq
 			void merge(flat_tree<Key, Key, C2, Allocator, layout2, Unique2>& source)
 			{
 				check_dirty();
-				if (Unique) {
+				if SEQ_CONSTEXPR (Unique) {
 					deque_type out;
 					typename flat_tree<Key, Key, C2, Allocator, layout2, Unique2>::deque_type rem;
 					detail::unique_merge_move(out, begin(), end(), source.begin(), source.end(), Less(this), &rem);
@@ -912,11 +1078,12 @@ namespace seq
 				// Sort if necessary, remove non unique values if necessary
 
 				if (!sorted) 
-					sort_deque<Stable>(d_deque, 0, d_deque.size(), Less(this));
-				if (Unique && (!sorted || !unique)){
-					iterator l = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
-					d_deque.erase(l, d_deque.end());
-				}
+					sort_full_deque<Stable>(d_deque, Less(this));
+				if SEQ_CONSTEXPR (Unique )
+					if((!sorted || !unique)){
+						iterator l = std::unique(d_deque.begin(), d_deque.end(), Equal(this));
+						d_deque.erase(l, d_deque.end());
+					}
 				d_deque.manager()->update_all_back_values();
 
 				d_dirty = 0;
@@ -931,7 +1098,6 @@ namespace seq
 	/// @tparam Key key type
 	/// @tparam Compare comparison function
 	/// @tparam Allocator allocator
-	/// @tparam layout memory layout of the underlying seq::tiered_vector
 	/// @tparam Stable insertion order stability
 	/// 
 	/// 
@@ -1047,10 +1213,10 @@ namespace seq
 	///		remain (more or less) as fast as boost::flat_set.
 	/// -	All members using the '_pos' prefix are usually slightly faster than their iterator based counterparts.
 	/// 
-	template<class Key, class Compare = std::less<Key>, class Allocator = std::allocator<Key>, LayoutManagement layout = OptimizeForMemory, bool Stable = false, bool Unique = true>
+	template<class Key, class Compare = std::less<Key>, class Allocator = std::allocator<Key>, bool Stable = false, bool Unique = true>
 	class flat_set
 	{
-		using flat_tree_type = detail::flat_tree<Key, Key, Compare, Allocator, layout,Stable, Unique>;
+		using flat_tree_type = detail::flat_tree<Key, Key, Compare, Allocator,Stable, Unique>;
 		flat_tree_type d_tree;
 
 		template <typename U>
@@ -1059,62 +1225,10 @@ namespace seq
 
 	public:
 		using deque_type = typename flat_tree_type::deque_type;
-
-		/// @brief Random access const iterator class
-		struct const_iterator
-		{
-			using iter_type = typename deque_type::const_iterator;
-			using value_type = Key;
-			using iterator_category = std::random_access_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = const value_type*;
-			using reference = const value_type&;
-			iter_type iter;
-
-			const_iterator() {}
-			const_iterator(iter_type it) : iter(it) {}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_iterator& {
-				++iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_iterator {
-				const_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> const_iterator& {
-				--iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> const_iterator {
-				const_iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference {return *iter;}
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer {return  std::pointer_traits<pointer>::pointer_to(**this);}
-			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> const_iterator& {
-				iter += diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> const_iterator& {
-				iter -= diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const noexcept -> bool { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const noexcept -> bool { return iter != it.iter; }
-
-			SEQ_ALWAYS_INLINE auto operator>(const const_iterator& it) const noexcept -> bool { return iter > it.iter; }
-			SEQ_ALWAYS_INLINE auto operator<(const const_iterator& it) const noexcept -> bool { return iter < it.iter; }
-			SEQ_ALWAYS_INLINE auto operator>=(const const_iterator& it) const noexcept -> bool { return iter >= it.iter; }
-			SEQ_ALWAYS_INLINE auto operator<=(const const_iterator& it) const noexcept -> bool { return iter <= it.iter; }
-
-			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(const const_iterator & other) const noexcept -> difference_type { return iter - other.iter; }
-		};
-		using iterator = const_iterator;
+		using iterator = typename deque_type::const_iterator;
+		using const_iterator = typename deque_type::const_iterator;
+		using reverse_iterator = typename deque_type::const_reverse_iterator;
+		using const_reverse_iterator = typename deque_type::const_reverse_iterator;
 
 		using key_type = Key;
 		using value_type = Key;
@@ -1126,8 +1240,6 @@ namespace seq
 		using const_reference = const Key&;
 		using pointer = typename std::allocator_traits<Allocator>::pointer;
 		using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
-		using reverse_iterator = std::reverse_iterator<iterator>;
-		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 		/// @brief Default constructor
 		flat_set():d_tree(){}
@@ -1250,30 +1362,52 @@ namespace seq
 		/// The container will NOT be marked as dirty.
 		SEQ_ALWAYS_INLINE auto ctvector() const noexcept -> const deque_type& { return d_tree.ctvector(); }
 
-		/// @brief See std::set::insert
-		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> std::pair<iterator, bool> {	return d_tree.insert(value);}
-		/// @brief See std::set::insert
-		SEQ_ALWAYS_INLINE auto insert(value_type&& value) -> std::pair<iterator, bool> { return d_tree.insert(std::move(value)); }
-
-		/// @brief Same as insert(), but returns the inserted object position instead of iterator (or size() if no element was inserted).
-		SEQ_ALWAYS_INLINE auto insert_pos(const value_type& value) -> std::pair<size_t, bool> { return d_tree.insert_pos(value); }
-		/// @brief Same as insert(), but returns the inserted object position instead of iterator (or size() if no element was inserted).
-		SEQ_ALWAYS_INLINE auto insert_pos(value_type&& value) -> std::pair<size_t, bool> { return d_tree.insert_pos(std::move(value)); }
 
 		/// @brief See std::set::emplace().
 		template< class... Args >
-		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool> { return d_tree.emplace(std::forward<Args>(args)...); }
+		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool>
+		{
+			auto p = d_tree.emplace(std::forward<Args>(args)...);
+			return std::pair<iterator, bool>(d_tree.iterator_at(p.first), p.second);
+		}
+
+		/// @brief See std::set::insert
+		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> std::pair<iterator, bool> 
+		{	
+			return emplace(value);
+		}
+		/// @brief See std::set::insert
+		SEQ_ALWAYS_INLINE auto insert(value_type&& value) -> std::pair<iterator, bool> 
+		{ 
+			return emplace(std::move(value));
+		}
+
+		/// @brief Same as insert(), but returns the inserted object position instead of iterator (or size() if no element was inserted).
+		SEQ_ALWAYS_INLINE auto insert_pos(const value_type& value) -> std::pair<size_t, bool> { return d_tree.emplace(value); }
+		/// @brief Same as insert(), but returns the inserted object position instead of iterator (or size() if no element was inserted).
+		SEQ_ALWAYS_INLINE auto insert_pos(value_type&& value) -> std::pair<size_t, bool> { return d_tree.emplace(std::move(value)); }
+
 		/// @brief Same as emplace(), but returns the inserted object position instead of iterator (or size() if no element was inserted).
 		template< class... Args >
-		SEQ_ALWAYS_INLINE auto emplace_pos(Args&&... args) -> std::pair<size_t, bool> { return d_tree.emplace_pos(std::forward<Args>(args)...); }
+		SEQ_ALWAYS_INLINE auto emplace_pos(Args&&... args) -> std::pair<size_t, bool> { return d_tree.emplace(std::forward<Args>(args)...); }
+		
 		/// @brief Same as std::set::emplace_hint
 		template <class... Args>
-		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator { return d_tree.emplace_hint(hint.iter,std::forward<Args>(args)...); }
-
+		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator 
+		{ 
+			auto p = d_tree.emplace_hint(hint,std::forward<Args>(args)...); 
+			return d_tree.iterator_at(p.first);
+		}
 		/// @brief Same as std::set::insert()
-		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator { return d_tree.insert(hint.iter,value); }
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator 
+		{ 
+			return emplace_hint(hint, value);
+		}
 		/// @brief Same as std::set::insert()
-		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator { return d_tree.insert(hint.iter, std::move(value)); }
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator 
+		{ 
+			return emplace_hint(hint, std::move(value));
+		}
 
 		/// @brief Inserts elements from range [first, last). If multiple elements in the range have keys that compare equivalent, 
 		/// it is unspecified which element is inserted, except if template parameter Stable is true.
@@ -1293,9 +1427,9 @@ namespace seq
 		/// @brief Erase element at given position in the container. This is slightly faster than calling erase(iterator).
 		SEQ_ALWAYS_INLINE void erase_pos(size_type pos) { d_tree.erase_pos(pos); }
 		/// @brief Erase element at given location.
-		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator{return d_tree.erase(pos.iter);}
+		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator{return d_tree.erase(pos);}
 		/// @brief Erase elements in the range [first, last)
-		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator{ return d_tree.erase(first.iter, last.iter);}
+		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator{ return d_tree.erase(first, last);}
 		/// @brief Erase elements in the range [first, last)
 		SEQ_ALWAYS_INLINE void erase(size_t first, size_t last) { d_tree.erase(first, last); }
 
@@ -1509,7 +1643,6 @@ namespace seq
 	/// @tparam Key key type
 	/// @tparam Compare comparison function
 	/// @tparam Allocator allocator
-	/// @tparam layout memory layout of the underlying seq::tiered_vector
 	/// @tparam Stable insertion order stability
 	/// 
 	/// 
@@ -1521,10 +1654,10 @@ namespace seq
 	/// 
 	/// All references and iterators are invalidated when inserting/removing keys.
 	/// 
-	template<class Key, class Compare = std::less<Key>, class Allocator = std::allocator<Key>, LayoutManagement layout = OptimizeForMemory, bool Stable = false>
-	class flat_multiset : public flat_set<Key,Compare,Allocator,layout, Stable, false>
+	template<class Key, class Compare = std::less<Key>, class Allocator = std::allocator<Key>, bool Stable = false>
+	class flat_multiset : public flat_set<Key,Compare,Allocator, Stable, false>
 	{
-		using base_type = flat_set<Key, Compare, Allocator, layout, Stable, false>;
+		using base_type = flat_set<Key, Compare, Allocator, Stable, false>;
 	public:
 		using key_type = Key;
 		using value_type = Key;
@@ -1608,7 +1741,6 @@ namespace seq
 	/// @tparam T mapped type
 	/// @tparam Compare comparison function
 	/// @tparam Allocator allocator
-	/// @tparam layout memory layout of the underlying seq::tiered_vector
 	/// @tparam Stable insertion order stability
 	/// 
 	/// 
@@ -1624,10 +1756,10 @@ namespace seq
 	/// To avoid modifying the key value through iterators or using flat_map::pos(), the value is reinterpreted to std::pair<const Key,T>.
 	/// Although quite ugly, this solution works on all tested compilers.
 	/// 
-	template<class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<Key,T> >, LayoutManagement layout = OptimizeForMemory, bool Stable = false, bool Unique = true>
+	template<class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<Key,T> >, bool Stable = false, bool Unique = true>
 	class flat_map
 	{
-		using flat_tree_type = detail::flat_tree<Key, std::pair<Key, T> , Compare, Allocator, layout, Stable, Unique>;
+		using flat_tree_type = detail::flat_tree<Key, std::pair<Key, T> , Compare, Allocator, Stable, Unique>;
 		flat_tree_type d_tree;
 
 		template <typename U>
@@ -1636,109 +1768,10 @@ namespace seq
 
 	public:
 		using deque_type = typename flat_tree_type::deque_type;
-
-		struct const_iterator
-		{
-			using iter_type = typename deque_type::const_iterator;
-			using value_type = std::pair<const Key, T>;
-			using iterator_category = std::random_access_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = const value_type*;
-			using reference = const value_type&;
-			iter_type iter;
-
-			const_iterator() {}
-			const_iterator(const iter_type & it) : iter(it) {}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_iterator& {
-				++iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_iterator {
-				const_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> const_iterator& {
-				--iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> const_iterator {
-				const_iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return reinterpret_cast<const value_type&>(*iter); }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return  std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> const_iterator& {
-				iter += diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> const_iterator& {
-				iter -= diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const noexcept -> bool { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const noexcept -> bool { return iter != it.iter; }
-			SEQ_ALWAYS_INLINE auto operator>(const const_iterator& it) const noexcept -> bool { return iter > it.iter; }
-			SEQ_ALWAYS_INLINE auto operator<(const const_iterator& it) const noexcept -> bool { return iter < it.iter; }
-			SEQ_ALWAYS_INLINE auto operator>=(const const_iterator& it) const noexcept -> bool { return iter >= it.iter; }
-			SEQ_ALWAYS_INLINE auto operator<=(const const_iterator& it) const noexcept -> bool { return iter <= it.iter; }
-			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) const noexcept -> difference_type { return iter - other.iter; }
-		};
-		struct iterator : public const_iterator
-		{
-			using iter_type = typename deque_type::const_iterator;
-			using value_type = std::pair<const Key, T>;
-			using iterator_category = std::random_access_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = value_type*;
-			using reference = value_type&;
-
-			iterator() : const_iterator() {}
-			iterator(const iter_type & it) : const_iterator(it)  {}
-			iterator(const const_iterator & it) : const_iterator(it) {}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> iterator& {
-				++this->iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> iterator {
-				iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> iterator& {
-				--this->iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> iterator {
-				iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference { return reinterpret_cast<value_type&>(const_cast<std::pair<Key, T>&>(*this->iter)); }
-			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return  std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> iterator& {
-				this->iter += diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> iterator& {
-				this->iter -= diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const noexcept -> bool { return this->iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const noexcept -> bool { return this->iter != it.iter; }
-			SEQ_ALWAYS_INLINE auto operator>(const const_iterator& it) const noexcept -> bool { return this->iter > it.iter; }
-			SEQ_ALWAYS_INLINE auto operator<(const const_iterator& it) const noexcept -> bool { return this->iter < it.iter; }
-			SEQ_ALWAYS_INLINE auto operator>=(const const_iterator& it) const noexcept -> bool { return this->iter >= it.iter; }
-			SEQ_ALWAYS_INLINE auto operator<=(const const_iterator& it) const noexcept -> bool { return this->iter <= it.iter; }
-			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> iterator { return this->iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> iterator { return this->iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) const noexcept -> difference_type { return this->iter - other.iter; }
-		};
+		using iterator = typename deque_type::iterator;
+		using const_iterator = typename deque_type::const_iterator;
+		using reverse_iterator = typename deque_type::reverse_iterator;
+		using const_reverse_iterator = typename deque_type::const_reverse_iterator;
 
 
 		using key_type = Key;
@@ -1753,8 +1786,6 @@ namespace seq
 		using const_reference = const value_type&;
 		using pointer = typename std::allocator_traits<Allocator>::pointer;
 		using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
-		using reverse_iterator = std::reverse_iterator<iterator>;
-		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 		flat_map() {}
 		explicit flat_map(const Compare& comp,
@@ -1813,168 +1844,138 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto tvector() const noexcept -> const deque_type& { return d_tree.tvector(); }
 		SEQ_ALWAYS_INLINE auto ctvector() const noexcept -> const deque_type& { return d_tree.ctvector(); }
 
-		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> std::pair<iterator, bool> { return d_tree.insert(value); }
-		SEQ_ALWAYS_INLINE auto insert(value_type&& value) -> std::pair<iterator, bool> { return d_tree.insert(std::move(value)); }
-		template< class P >
-		SEQ_ALWAYS_INLINE auto insert(P&& value) -> std::pair<iterator, bool>{return d_tree.insert(std::forward<P>(value));}
-		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator { return d_tree.insert(hint.iter, value); }
-		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator { return d_tree.insert(hint.iter, std::move(value)); }
-		template< class P >
-		auto insert(const_iterator hint, P&& value) -> iterator { return d_tree.insert(hint.iter, std::forward<P>(value)); }
-
-		SEQ_ALWAYS_INLINE auto insert_pos(const value_type& value) -> std::pair<size_t, bool> { return d_tree.insert_pos(value); }
-		SEQ_ALWAYS_INLINE auto insert_pos(value_type&& value) -> std::pair<size_t, bool> { return d_tree.insert_pos(std::move(value)); }
-		template< class P >
-		SEQ_ALWAYS_INLINE auto insert_pos(P&& value) -> std::pair<size_t, bool> { return d_tree.insert_pos(std::forward<P>(value)); }
-
 		template< class... Args >
-		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool> { return d_tree.emplace(std::forward<Args>(args)...); }
+		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool> 
+		{
+			auto p= d_tree.emplace(std::forward<Args>(args)...); 
+			return std::pair<iterator, bool>(d_tree.iterator_at(p.first), p.second);
+		}
+		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> std::pair<iterator, bool> { return emplace(value); }
+		SEQ_ALWAYS_INLINE auto insert(value_type&& value) -> std::pair<iterator, bool> { return emplace(std::move(value)); }
+		template< class P >
+		SEQ_ALWAYS_INLINE auto insert(P&& value) -> std::pair<iterator, bool>{return emplace(std::forward<P>(value));}
+
+
 		template <class... Args>
-		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator { return d_tree.emplace_hint(hint.iter, std::forward<Args>(args)...); }
-		template< class... Args >
-		SEQ_ALWAYS_INLINE auto emplace_pos(Args&&... args) -> std::pair<size_t, bool> { return d_tree.emplace_pos(std::forward<Args>(args)...); }
+		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator 
+		{ 
+			auto p = d_tree.emplace_hint(hint, std::forward<Args>(args)...); 
+			return d_tree.iterator_at(p.first);
+		}
+		
 
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator { return emplace_hint(hint, value); }
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator { return emplace_hint(hint, std::move(value)); }
+		template< class P >
+		auto insert(const_iterator hint, P&& value) -> iterator { return emplace_hint(hint, std::forward<P>(value)); }
 
 		template< class... Args >
-		auto try_emplace(const Key& k, Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto emplace_pos(Args&&... args) -> std::pair<size_t, bool> { return d_tree.emplace(std::forward<Args>(args)...); }
+		SEQ_ALWAYS_INLINE auto insert_pos(const value_type& value) -> std::pair<size_t, bool> { return d_tree.emplace(value); }
+		SEQ_ALWAYS_INLINE auto insert_pos(value_type&& value) -> std::pair<size_t, bool> { return d_tree.emplace(std::move(value)); }
+		template< class P >
+		SEQ_ALWAYS_INLINE auto insert_pos(P&& value) -> std::pair<size_t, bool> { return d_tree.emplace(std::forward<P>(value)); }
+
+		
+		template< class... Args >
+		SEQ_ALWAYS_INLINE auto try_emplace(const Key& k, Args&&... args) -> std::pair<iterator, bool>
 		{
-			size_t pos = d_tree.lower_bound_pos(k);
-			if (pos != size() && !d_tree.key_comp()(k, this->pos(pos).first))//!(value < tiered_vector[pos]))
-				return std::pair<iterator, bool>(d_tree.d_deque.iterator_at(pos), false);
-			else {
-				d_tree.d_deque.insert(pos, value_type(std::piecewise_construct,
-					std::forward_as_tuple(k),
-					std::forward_as_tuple(std::forward<Args>(args)...)));
-				return std::pair<iterator, bool>(d_tree.d_deque.iterator_at(pos), true);
-			}
+			auto p = d_tree.try_emplace(k, std::forward<Args>(args)...);
+			return std::pair<iterator, bool>(d_tree.iterator_at(p.first), p.second);
 		}
 		template< class... Args >
-		auto try_emplace(Key&& k, Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto try_emplace(Key&& k, Args&&... args) -> std::pair<iterator, bool>
 		{
-			size_t pos = d_tree.lower_bound_pos(k);
-			if (pos != size() && !d_tree.key_comp()(k, this->pos(pos).first))//!(value < tiered_vector[pos]))
-				return std::pair<iterator, bool>(d_tree.d_deque.iterator_at(pos), false);
-			else {
-				d_tree.d_deque.insert(pos, value_type(std::piecewise_construct,
-					std::forward_as_tuple(std::move(k)),
-					std::forward_as_tuple(std::forward<Args>(args)...)));
-				return std::pair<iterator, bool>(d_tree.d_deque.iterator_at(pos), true);
-			}
+			auto p = d_tree.try_emplace(std::move(k), std::forward<Args>(args)...);
+			return std::pair<iterator, bool>(d_tree.iterator_at(p.first), p.second);
 		}
 		template< class... Args >
-		auto try_emplace_pos(const Key& k, Args&&... args) -> std::pair<size_t, bool>
+		SEQ_ALWAYS_INLINE auto try_emplace_pos(const Key& k, Args&&... args) -> std::pair<size_t, bool>
 		{
-			size_t pos = d_tree.lower_bound_pos(k);
-			if (pos != size() && !d_tree.key_comp()(k, this->pos(pos).first))//!(value < tiered_vector[pos]))
-				return std::pair<size_t, bool>(pos, false);
-			else {
-				d_tree.d_deque.insert(pos, value_type(std::piecewise_construct,
-					std::forward_as_tuple(k),
-					std::forward_as_tuple(std::forward<Args>(args)...)));
-				return std::pair<size_t, bool>(pos, true);
-			}
+			return d_tree.try_emplace(k, std::forward<Args>(args)...);
 		}
 		template< class... Args >
-		auto try_emplace_pos(Key&& k, Args&&... args) -> std::pair<size_t, bool>
+		SEQ_ALWAYS_INLINE auto try_emplace_pos(Key&& k, Args&&... args) -> std::pair<size_t, bool>
 		{
-			size_t pos = d_tree.lower_bound_pos(k);
-			if (pos != size() && !d_tree.key_comp()(k, this->pos(pos).first))//!(value < tiered_vector[pos]))
-				return std::pair<size_t, bool>(pos, false);
-			else {
-				d_tree.d_deque.insert(pos, value_type(std::piecewise_construct,
-					std::forward_as_tuple(std::move(k)),
-					std::forward_as_tuple(std::forward<Args>(args)...)));
-				return std::pair<size_t, bool>(pos, true);
-			}
+			return d_tree.try_emplace(std::move(k), std::forward<Args>(args)...);
+		}
+
+		template< class... Args >
+		SEQ_ALWAYS_INLINE auto try_emplace(const_iterator hint, const Key& k, Args&&... args) -> iterator
+		{
+			auto p = d_tree.try_emplace_hint(hint, k, std::forward<Args>(args)...);
+			return d_tree.iterator_at(p.first);
 		}
 		template< class... Args >
-		auto try_emplace(const_iterator hint, const Key& k, Args&&... args) -> iterator
+		SEQ_ALWAYS_INLINE auto try_emplace(const_iterator hint, Key&& k, Args&&... args) -> iterator
 		{
-			(void)hint;
-			return try_emplace(k, std::forward<Args>(args)...).first;
+			auto p = d_tree.try_emplace_hint(hint, std::move(k), std::forward<Args>(args)...);
+			return d_tree.iterator_at(p.first);
 		}
 		template< class... Args >
-		auto try_emplace(const_iterator hint, Key&& k, Args&&... args) -> iterator
+		SEQ_ALWAYS_INLINE auto try_emplace_pos(const_iterator hint, const Key& k, Args&&... args) -> size_t
 		{
-			(void)hint;
-			return try_emplace(std::move(k), std::forward<Args>(args)...).first;
+			return d_tree.try_emplace_hint(hint, k, std::forward<Args>(args)...).first;
+		}
+		template< class... Args >
+		SEQ_ALWAYS_INLINE auto try_emplace_pos(const_iterator hint, Key&& k, Args&&... args) -> size_t
+		{
+			return d_tree.try_emplace_hint(hint, std::move(k), std::forward<Args>(args)...).first;
 		}
 
 
 		template <class M>
-		auto insert_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto insert_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
 		{
-			size_t pos = d_tree.lower_bound_pos(k);
-			if (pos != size() && !d_tree.key_comp()(k, this->pos(pos).first)) {
-				d_tree.pos(pos).second = std::forward<M>(obj);
-				return std::pair<iterator, bool>(d_tree.d_deque.iterator_at(pos), false);
-			}
-			else {
-				d_tree.d_deque.insert(pos, value_type(k, std::forward<M>(obj)));
-				return std::pair<iterator, bool>(d_tree.d_deque.iterator_at(pos), true);
-			}
+			auto inserted = try_emplace(k, std::forward<M>(obj));
+			if (!inserted.second)
+				inserted.first->second = std::forward<M>(obj);
+			return inserted;
 		}
 		template <class M>
-		auto insert_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto insert_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
 		{
-			size_t pos = d_tree.lower_bound_pos(k);
-			if (pos != size() && !d_tree.key_comp()(k, this->pos(pos).first)) {
-				d_tree.pos(pos).second = std::forward<M>(obj);
-				return std::pair<iterator, bool>(d_tree.d_deque.iterator_at(pos), false);
-			}
-			else {
-				d_tree.d_deque.insert(pos, value_type(std::move(k), std::forward<M>(obj)));
-				return std::pair<iterator, bool>(d_tree.d_deque.iterator_at(pos), true);
-			}
+			auto inserted = try_emplace(std::move(k), std::forward<M>(obj));
+			if (!inserted.second)
+				inserted.first->second = std::forward<M>(obj);
+			return inserted;
 		}
 		template <class M>
-		auto insert_or_assign_pos(const Key& k, M&& obj) -> std::pair<size_t, bool>
+		SEQ_ALWAYS_INLINE auto insert_or_assign_pos(const Key& k, M&& obj) -> std::pair<size_t, bool>
 		{
-			size_t pos = d_tree.lower_bound_pos(k);
-			if (pos != size() && !d_tree.key_comp()(k, this->pos(pos).first)) {
-				d_tree.pos(pos).second = std::forward<M>(obj);
-				return std::pair<size_t, bool>((pos), false);
-			}
-			else {
-				d_tree.d_deque.insert(pos, value_type(k, std::forward<M>(obj)));
-				return std::pair<size_t, bool>((pos), true);
-			}
+			auto inserted = try_emplace_pos(k, std::forward<M>(obj));
+			if (!inserted.second)
+				pos(inserted.first).second = std::forward<M>(obj);
+			return inserted;
 		}
 		template <class M>
-		auto insert_or_assign_pos(Key&& k, M&& obj) -> std::pair<size_t, bool>
+		SEQ_ALWAYS_INLINE auto insert_or_assign_pos(Key&& k, M&& obj) -> std::pair<size_t, bool>
 		{
-			size_t pos = d_tree.lower_bound_pos(k);
-			if (pos != size() && !d_tree.key_comp()(k, this->pos(pos).first)) {
-				d_tree.pos(pos).second = std::forward<M>(obj);
-				return std::pair<size_t, bool>((pos), false);
-			}
-			else {
-				d_tree.d_deque.insert(pos, value_type(std::move(k), std::forward<M>(obj)));
-				return std::pair<size_t, bool>((pos), true);
-			}
+			auto inserted = try_emplace_pos(std::move(k), std::forward<M>(obj));
+			if (!inserted.second)
+				pos(inserted.first).second = std::forward<M>(obj);
+			return inserted;
 		}
 		template <class M>
-		auto insert_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
+		SEQ_ALWAYS_INLINE auto insert_or_assign(const_iterator , const Key& k, M&& obj) -> iterator
 		{
-			(void)hint;
 			return insert_or_assign(k, std::forward<M>(obj)).first;
 		}
 		template <class M>
-		auto insert_or_assign(const_iterator hint, Key&& k, M&& obj) -> iterator
+		SEQ_ALWAYS_INLINE auto insert_or_assign(const_iterator , Key&& k, M&& obj) -> iterator
 		{
-			(void)hint;
 			return insert_or_assign(std::move(k), std::forward<M>(obj)).first;
 		}
 
 
-		auto at(const Key& key) -> T&
+		SEQ_ALWAYS_INLINE auto at(const Key& key) -> T&
 		{
 			size_t pos = find_pos(key);
 			if (pos == size())
 				throw  std::out_of_range("flat_map::at : invalid key");
 			return d_tree.pos(pos).second;
 		}
-		auto at(const Key& key) const -> const T&
+		SEQ_ALWAYS_INLINE auto at(const Key& key) const -> const T&
 		{
 			size_t pos = find_pos(key);
 			if (pos == size())
@@ -1982,32 +1983,18 @@ namespace seq
 			return d_tree.pos(pos).second;
 		}
 
-		auto operator[](const Key& k) -> T&
+		SEQ_ALWAYS_INLINE auto operator[](const Key& k) -> T&
 		{
-			size_t pos = d_tree.lower_bound_pos(k);
-			if (pos != size() && !d_tree.key_comp()(k, this->pos(pos).first)) {
-				return d_tree.pos(pos).second;
-			}
-			else {
-				d_tree.d_deque.insert(pos, value_type(k, T()));
-				return d_tree.pos(pos).second;
-			}
+			return try_emplace(k).first->second;
 		}
-		auto operator[](Key&& k) -> T&
+		SEQ_ALWAYS_INLINE auto operator[](Key&& k) -> T&
 		{
-			size_t pos = d_tree.lower_bound_pos(k);
-			if (pos != size() && !d_tree.key_comp()(k, this->pos(pos).first)) {
-				return d_tree.pos(pos).second;
-			}
-			else {
-				d_tree.d_deque.insert(pos, value_type(std::move(k), T()));
-				return d_tree.pos(pos).second;
-			}
+			return try_emplace(std::move(k)).first->second;
 		}
 
 
 		SEQ_ALWAYS_INLINE auto pos(size_t i) const noexcept -> const value_type& {return d_tree.d_deque[i];}
-		SEQ_ALWAYS_INLINE auto pos(size_t i) noexcept -> std::pair<const Key,T> & {return reinterpret_cast<std::pair<const Key, T>&>(d_tree.d_deque[i]);}
+		SEQ_ALWAYS_INLINE auto pos(size_t i) noexcept -> value_type& {return d_tree.d_deque[i];}
 
 	
 		template< class InputIt >
@@ -2018,9 +2005,9 @@ namespace seq
 		SEQ_ALWAYS_INLINE void assign(Iter first, Iter last) { d_tree.assign(first, last); }
 
 		SEQ_ALWAYS_INLINE void erase_pos(size_type pos) { d_tree.erase_pos(pos); }
-		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos.iter); }
-		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return d_tree.erase(pos.iter); }
-		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator { return d_tree.erase(first.iter, last.iter); }
+		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos); }
+		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return d_tree.erase(pos); }
+		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator { return d_tree.erase(first, last); }
 		SEQ_ALWAYS_INLINE void erase(size_t first, size_t last) { d_tree.erase(first, last); }
 
 		template <class K, class LE = Compare, typename std::enable_if<has_is_transparent<LE>::value>::type* = nullptr>
@@ -2115,7 +2102,6 @@ namespace seq
 	/// @tparam T mapped type
 	/// @tparam Compare comparison function
 	/// @tparam Allocator allocator
-	/// @tparam layout memory layout of the underlying seq::tiered_vector
 	/// @tparam Stable insertion order stability
 	/// 
 	/// 
@@ -2130,10 +2116,10 @@ namespace seq
 	/// To avoid modifying the key value through iterators or using flat_multimap::pos(), the value is reinterpreted to std::pair<const Key,T>.
 	/// Although quite ugly, this solution works on all tested compilers.
 	/// 
-	template<class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<Key,T>>, LayoutManagement layout = OptimizeForMemory, bool Stable = false>
-	class flat_multimap : public flat_map<Key, T, Compare, Allocator, layout, Stable, false>
+	template<class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<Key,T>>, bool Stable = false>
+	class flat_multimap : public flat_map<Key, T, Compare, Allocator, Stable, false>
 	{
-		using base_type = flat_map<Key, T, Compare, Allocator, layout, Stable, false>;
+		using base_type = flat_map<Key, T, Compare, Allocator, Stable, false>;
 	public:
 		using deque_type = typename base_type::deque_type;
 		using key_type = Key;
@@ -2215,6 +2201,11 @@ namespace seq
 
 		template< class... Args >
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> iterator { return base_type::emplace(std::forward<Args>(args)...).first; }
+
+		SEQ_ALWAYS_INLINE auto emplace(const value_type& value) -> iterator { return base_type::insert(value).first; }
+		SEQ_ALWAYS_INLINE auto emplace(value_type&& value) -> iterator { return base_type::insert(std::move(value)).first; }
+		template< class K >
+		SEQ_ALWAYS_INLINE auto emplace(K && value) -> iterator { return base_type::emplace(value_type(std::forward<K>(value))).first; }
 	
 		template< class... Args >
 		SEQ_ALWAYS_INLINE auto emplace_pos(Args&&... args) -> size_t { return base_type::emplace_pos(std::forward<Args>(args)...).first; }
@@ -2227,8 +2218,8 @@ namespace seq
 
 
 	/// @brief Checks if the contents of s1 and s2 are equal, that is, they have the same number of elements and each element in s1 compares equal with the element in s2 at the same position.
-	template<class Key, class Compare , class Al1, class Al2 , LayoutManagement L1, LayoutManagement L2, bool S1 , bool S2, bool U1, bool U2 >
-	auto operator==(const flat_set<Key, Compare, Al1, L1, S1, U1>& s1, const flat_set<Key, Compare, Al2, L2, S2, U2>& s2) -> bool
+	template<class Key, class Compare , class Al1, class Al2 , bool S1 , bool S2, bool U1, bool U2 >
+	auto operator==(const flat_set<Key, Compare, Al1, S1, U1>& s1, const flat_set<Key, Compare, Al2, S2, U2>& s2) -> bool
 	{
 		if (s1.size() != s2.size())
 			return false;
@@ -2241,16 +2232,16 @@ namespace seq
 		return true;
 	}
 	/// @brief Checks if the contents of s1 and s2 are not equals.
-	template<class Key, class Compare, class Al1, class Al2, LayoutManagement L1, LayoutManagement L2, bool S1, bool S2, bool U1, bool U2 >
-	auto operator!=(const flat_set<Key, Compare, Al1, L1, S1, U1>& s1, const flat_set<Key, Compare, Al2, L2, S2, U2>& s2) -> bool
+	template<class Key, class Compare, class Al1, class Al2,bool S1, bool S2, bool U1, bool U2 >
+	auto operator!=(const flat_set<Key, Compare, Al1, S1, U1>& s1, const flat_set<Key, Compare, Al2, S2, U2>& s2) -> bool
 	{
 		return !(s1==s2);
 	}
 	/// @brief Erases all elements that satisfy the predicate p from the container.
-	template<class Key, class Compare, class Al1, LayoutManagement L1, bool S1, bool U1, class Pred >
-	auto erase_if(flat_set<Key, Compare, Al1, L1, S1, U1>& s1,  Pred p) -> typename flat_set<Key, Compare, Al1, L1, S1, U1>::size_type
+	template<class Key, class Compare, class Al1, bool S1, bool U1, class Pred >
+	auto erase_if(flat_set<Key, Compare, Al1, S1, U1>& s1,  Pred p) -> typename flat_set<Key, Compare, Al1, S1, U1>::size_type
 	{
-		using deque_type = typename flat_set<Key, Compare, Al1, L1, S1, U1>::deque_type;
+		using deque_type = typename flat_set<Key, Compare, Al1, S1, U1>::deque_type;
 		// use const_cast to avoid flagging the flat_set as dirty
 		deque_type& d = const_cast<deque_type&>(s1.cdeque());
 		auto it = std::remove_if(d.begin(), d.end(), p);
@@ -2261,8 +2252,8 @@ namespace seq
 	}
 
 	/// @brief Checks if the contents of s1 and s2 are equal, that is, they have the same number of elements and each element in s1 compares equal with the element in s2 at the same position.
-	template<class Key, class T, class Compare, class Al1, class Al2, LayoutManagement L1, LayoutManagement L2, bool S1, bool S2, bool U1, bool U2 >
-	auto operator==(const flat_map<Key, T, Compare, Al1, L1, S1, U1>& s1, const flat_map<Key, T, Compare, Al2, L2, S2, U2>& s2) -> bool
+	template<class Key, class T, class Compare, class Al1, class Al2, bool S1, bool S2, bool U1, bool U2 >
+	auto operator==(const flat_map<Key, T, Compare, Al1, S1, U1>& s1, const flat_map<Key, T, Compare, Al2, S2, U2>& s2) -> bool
 	{
 		if (s1.size() != s2.size())
 			return false;
@@ -2277,16 +2268,16 @@ namespace seq
 		return true;
 	}
 	/// @brief Checks if the contents of s1 and s2 are not equals.
-	template<class Key, class T, class Compare, class Al1, class Al2, LayoutManagement L1, LayoutManagement L2, bool S1, bool S2, bool U1, bool U2 >
-	auto operator!=(const flat_map<Key, T, Compare, Al1, L1, S1, U1>& s1, const flat_map<Key, T, Compare, Al2, L2, S2, U2>& s2) -> bool
+	template<class Key, class T, class Compare, class Al1, class Al2, bool S1, bool S2, bool U1, bool U2 >
+	auto operator!=(const flat_map<Key, T, Compare, Al1, S1, U1>& s1, const flat_map<Key, T, Compare, Al2, S2, U2>& s2) -> bool
 	{
 		return !(s1 == s2);
 	}
 	/// @brief Erases all elements that satisfy the predicate p from the container.
-	template<class Key, class T, class Compare, class Al1, LayoutManagement L1, bool S1, bool U1, class Pred >
-	auto erase_if(flat_map<Key, T, Compare, Al1, L1, S1, U1>& s1, Pred p) -> typename flat_map<Key, T, Compare, Al1, L1, S1, U1>::size_type
+	template<class Key, class T, class Compare, class Al1, bool S1, bool U1, class Pred >
+	auto erase_if(flat_map<Key, T, Compare, Al1, S1, U1>& s1, Pred p) -> typename flat_map<Key, T, Compare, Al1, S1, U1>::size_type
 	{
-		using deque_type = typename flat_map<Key, T, Compare, Al1, L1, S1, U1>::deque_type;
+		using deque_type = typename flat_map<Key, T, Compare, Al1, S1, U1>::deque_type;
 		// use const_cast to avoid flagging the flat_set as dirty
 		deque_type& d = const_cast<deque_type&>(s1.cdeque());
 		auto it = std::remove_if(d.begin(), d.end(), p);

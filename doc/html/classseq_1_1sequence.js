@@ -46,7 +46,7 @@ var classseq_1_1sequence =
     [ "end", "classseq_1_1sequence.html#a5be22cdbf4dc4c8e7a04ca4cb10f678a", null ],
     [ "end", "classseq_1_1sequence.html#a99c7dc5ed7ae9b77b1f03d62598e6c85", null ],
     [ "erase", "classseq_1_1sequence.html#aed4660a1a0547cbdac749b20f59f251c", null ],
-    [ "erase", "classseq_1_1sequence.html#a6ba992c29b9b99a1e422d3d5a6ee07cf", null ],
+    [ "erase", "classseq_1_1sequence.html#ac1f8636e2d4b36354c8f88e2ed7eafdb", null ],
     [ "front", "classseq_1_1sequence.html#a41b2a98cd2c9a3249e6cc592f774a720", null ],
     [ "front", "classseq_1_1sequence.html#acaaf970d1c536112aec1153bd5d8c0e8", null ],
     [ "get_allocator", "classseq_1_1sequence.html#ae45cd2e228481ea6503d24dbfa297b0a", null ],

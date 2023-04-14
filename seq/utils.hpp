@@ -142,14 +142,14 @@ namespace seq
 
 	/// @brief Simply call p->~T(), used as a replacement to std::allocator::destroy() which was removed in C++20
 	template<class T>
-	inline void destroy_ptr(T* p)
+	SEQ_ALWAYS_INLINE void destroy_ptr(T* p)
 	{
 		p->~T();
 	}
 
 	/// @brief Simply call new (p) T(...), used as a replacement to std::allocator::construct() which was removed in C++20
 	template<class T, class... Args >
-	inline void construct_ptr(T* p, Args&&... args)
+	SEQ_ALWAYS_INLINE void construct_ptr(T* p, Args&&... args)
 	{
 		new (p) T(std::forward<Args>(args)...);
 	}
@@ -165,6 +165,8 @@ namespace seq
 			using value_type = T;
 			using mapped_type = typename T::second_type;
 			SEQ_ALWAYS_INLINE static auto key(const value_type& value) noexcept -> const key_type& { return value.first; }
+			template<class U, class V>
+			SEQ_ALWAYS_INLINE static auto key(const std::pair<U,V>& value) noexcept -> const U& { return value.first; }
 			template<class U>
 			SEQ_ALWAYS_INLINE static auto key(const U& value) noexcept -> const U& { return value; }
 		};
@@ -214,11 +216,7 @@ namespace seq
 
 		// Helper class to detect is_transparent typedef in hash functor or comparison functor
 
-		template <class T>
-		struct make_void {
-			using type = void;
-		};
-
+		
 		template <class T, class = void>
 		struct has_is_transparent : std::false_type {};
 
@@ -321,6 +319,50 @@ namespace seq
 			noexcept(noexcept(static_cast<_Ty1&&>(left) == static_cast<_Ty2&&>(right))) 
 			-> decltype(static_cast<_Ty1&&>(left) == static_cast<_Ty2&&>(right)) {
 			return static_cast<_Ty1&&>(left) == static_cast<_Ty2&&>(right);
+		}
+
+		using is_transparent = int;
+	};
+
+	// C++11 less
+	template <class _Ty = void>
+	struct less {
+		typedef _Ty first_argument_type;
+		typedef _Ty second_argument_type;
+		typedef bool result_type;
+		constexpr bool operator()(const _Ty& left, const _Ty& right) const {
+			return left < right;
+		}
+	};
+	template <>
+	struct less<void> {
+		template <class _Ty1, class _Ty2>
+		constexpr auto operator()(_Ty1&& left, _Ty2&& right) const
+			noexcept(noexcept(static_cast<_Ty1&&>(left) < static_cast<_Ty2&&>(right)))
+			-> decltype(static_cast<_Ty1&&>(left) < static_cast<_Ty2&&>(right)) {
+			return static_cast<_Ty1&&>(left) < static_cast<_Ty2&&>(right);
+		}
+
+		using is_transparent = int;
+	};
+
+	// C++11 greater
+	template <class _Ty = void>
+	struct greater {
+		typedef _Ty first_argument_type;
+		typedef _Ty second_argument_type;
+		typedef bool result_type;
+		constexpr bool operator()(const _Ty& left, const _Ty& right) const {
+			return left > right;
+		}
+	};
+	template <>
+	struct greater<void> {
+		template <class _Ty1, class _Ty2>
+		constexpr auto operator()(_Ty1&& left, _Ty2&& right) const
+			noexcept(noexcept(static_cast<_Ty1&&>(left) > static_cast<_Ty2&&>(right)))
+			-> decltype(static_cast<_Ty1&&>(left) > static_cast<_Ty2&&>(right)) {
+			return static_cast<_Ty1&&>(left) > static_cast<_Ty2&&>(right);
 		}
 
 		using is_transparent = int;

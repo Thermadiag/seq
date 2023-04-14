@@ -126,6 +126,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:affb673ed2a4e6f90454b349a9990c6da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57f16df90c9336feaf00b652ec4a4d2b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a57f16df90c9336feaf00b652ec4a4d2b">set_full</a> (std::uintptr_t p) noexcept</td></tr>
 <tr class="separator:a57f16df90c9336feaf00b652ec4a4d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d811122afa3e39e9ce58acdd4fc7eef"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a9d811122afa3e39e9ce58acdd4fc7eef">split</a> () const noexcept -&gt; std::pair&lt; const void *, unsigned &gt;</td></tr>
+<tr class="separator:a9d811122afa3e39e9ce58acdd4fc7eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6e42f67535d3d247ff652c45810ab97"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#ab6e42f67535d3d247ff652c45810ab97">split</a> () noexcept -&gt; std::pair&lt; void *, unsigned &gt;</td></tr>
+<tr class="separator:ab6e42f67535d3d247ff652c45810ab97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cd3557cd81094cca0fb17bb5d9eb1ca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a0cd3557cd81094cca0fb17bb5d9eb1ca">operator pointer</a> () noexcept</td></tr>
 <tr class="separator:a0cd3557cd81094cca0fb17bb5d9eb1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6dcd62e5a3018e138ad331cb91519347"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a6dcd62e5a3018e138ad331cb91519347">operator const_pointer</a> () const noexcept</td></tr>
@@ -541,6 +545,60 @@ template&lt;TagPointerType Type, size_t UserDefinedAlignment&gt; </div>
           <td class="paramtype"><a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#ab4cad4bff9391d5a223c86497cee4693">tag_type</a>&#160;</td>
           <td class="paramname"><em>tag</em></td><td>)</td>
           <td> -&gt; <a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#ab4cad4bff9391d5a223c86497cee4693">tag_type</a> </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9d811122afa3e39e9ce58acdd4fc7eef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d811122afa3e39e9ce58acdd4fc7eef">&#9670;&nbsp;</a></span>split() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;TagPointerType Type, size_t UserDefinedAlignment&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1tagged__pointer.html">seq::tagged_pointer</a>&lt; void, Type, UserDefinedAlignment &gt;::split </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt; std::pair&lt;const void*, unsigned&gt; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab6e42f67535d3d247ff652c45810ab97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6e42f67535d3d247ff652c45810ab97">&#9670;&nbsp;</a></span>split() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;TagPointerType Type, size_t UserDefinedAlignment&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1tagged__pointer.html">seq::tagged_pointer</a>&lt; void, Type, UserDefinedAlignment &gt;::split </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> -&gt; std::pair&lt;void*, unsigned&gt; </td>
         </tr>
       </table>
   </td>

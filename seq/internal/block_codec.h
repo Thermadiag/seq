@@ -36,6 +36,18 @@ namespace seq
 		static constexpr unsigned value = 256 * sizeof(T) + sizeof(T) + sizeof(T) / 2 + sizeof(T) % 2 ;
 	};
 
+	template<class T>
+	struct MinimalBlockBound
+	{
+		static constexpr unsigned sizeof_header = sizeof(T) / 2 + sizeof(T) % 2;
+		static constexpr unsigned value = sizeof_header + sizeof(T);
+		static void compress(const T& v, void * dst)
+		{
+			memset(dst, 0, sizeof_header);
+			memcpy(static_cast<char*>(dst) + sizeof_header, &v, sizeof(T));
+		}
+	};
+
 };
 
 

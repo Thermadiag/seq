@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.18"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SEQ library: seq::detail::SSO&lt; MaxSSO &gt; Struct Template Reference</title>
+<title>SEQ library: seq::detail::SSO&lt; Char, MaxSSO &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -87,7 +87,7 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_s_s_o.html',''
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structseq_1_1detail_1_1_s_s_o-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">seq::detail::SSO&lt; MaxSSO &gt; Struct Template Reference</div>  </div>
+<div class="title">seq::detail::SSO&lt; Char, MaxSSO &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -95,56 +95,56 @@ $(document).ready(function(){initNavTree('structseq_1_1detail_1_1_s_s_o.html',''
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a79a12815db5652fc76ca644f7b06383b"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_s_s_o.html#a79a12815db5652fc76ca644f7b06383b">not_sso</a>: 1</td></tr>
-<tr class="separator:a79a12815db5652fc76ca644f7b06383b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d5fd84c007fc8eb51483ee429094d0f"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_s_s_o.html#a1d5fd84c007fc8eb51483ee429094d0f">size</a>: 7</td></tr>
-<tr class="separator:a1d5fd84c007fc8eb51483ee429094d0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2109835e5f772d1a33a4b5bad77942e4"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_s_s_o.html#a2109835e5f772d1a33a4b5bad77942e4">data</a> [MaxSSO+1]</td></tr>
-<tr class="separator:a2109835e5f772d1a33a4b5bad77942e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7aa89e0bd908e4f4cb7175ceae0aa075"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_s_s_o.html#a7aa89e0bd908e4f4cb7175ceae0aa075">not_sso</a>: 1</td></tr>
+<tr class="separator:a7aa89e0bd908e4f4cb7175ceae0aa075"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c1efeae6fa9a4285bcb84b8b320b7fa"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_s_s_o.html#a5c1efeae6fa9a4285bcb84b8b320b7fa">size</a>: 7</td></tr>
+<tr class="separator:a5c1efeae6fa9a4285bcb84b8b320b7fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f4e1124e471e06490aa4f85b9d640e5"><td class="memItemLeft" align="right" valign="top">Char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_s_s_o.html#a0f4e1124e471e06490aa4f85b9d640e5">data</a> [MaxSSO+1]</td></tr>
+<tr class="separator:a0f4e1124e471e06490aa4f85b9d640e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a2109835e5f772d1a33a4b5bad77942e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2109835e5f772d1a33a4b5bad77942e4">&#9670;&nbsp;</a></span>data</h2>
+<a id="a0f4e1124e471e06490aa4f85b9d640e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f4e1124e471e06490aa4f85b9d640e5">&#9670;&nbsp;</a></span>data</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t MaxSSO = 14&gt; </div>
+template&lt;class Char , size_t MaxSSO = ( (sizeof(NoneSSO&lt;Char&gt;) - alignof(Char))/sizeof(Char) - 1)&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">char <a class="el" href="structseq_1_1detail_1_1_s_s_o.html">seq::detail::SSO</a>&lt; MaxSSO &gt;::data[MaxSSO+1]</td>
+          <td class="memname">Char <a class="el" href="structseq_1_1detail_1_1_s_s_o.html">seq::detail::SSO</a>&lt; Char, MaxSSO &gt;::data[MaxSSO+1]</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a79a12815db5652fc76ca644f7b06383b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79a12815db5652fc76ca644f7b06383b">&#9670;&nbsp;</a></span>not_sso</h2>
+<a id="a7aa89e0bd908e4f4cb7175ceae0aa075"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7aa89e0bd908e4f4cb7175ceae0aa075">&#9670;&nbsp;</a></span>not_sso</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t MaxSSO = 14&gt; </div>
+template&lt;class Char , size_t MaxSSO = ( (sizeof(NoneSSO&lt;Char&gt;) - alignof(Char))/sizeof(Char) - 1)&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">unsigned char <a class="el" href="structseq_1_1detail_1_1_s_s_o.html">seq::detail::SSO</a>&lt; MaxSSO &gt;::not_sso</td>
+          <td class="memname">unsigned char <a class="el" href="structseq_1_1detail_1_1_s_s_o.html">seq::detail::SSO</a>&lt; Char, MaxSSO &gt;::not_sso</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a1d5fd84c007fc8eb51483ee429094d0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d5fd84c007fc8eb51483ee429094d0f">&#9670;&nbsp;</a></span>size</h2>
+<a id="a5c1efeae6fa9a4285bcb84b8b320b7fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c1efeae6fa9a4285bcb84b8b320b7fa">&#9670;&nbsp;</a></span>size</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;size_t MaxSSO = 14&gt; </div>
+template&lt;class Char , size_t MaxSSO = ( (sizeof(NoneSSO&lt;Char&gt;) - alignof(Char))/sizeof(Char) - 1)&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">unsigned char <a class="el" href="structseq_1_1detail_1_1_s_s_o.html">seq::detail::SSO</a>&lt; MaxSSO &gt;::size</td>
+          <td class="memname">unsigned char <a class="el" href="structseq_1_1detail_1_1_s_s_o.html">seq::detail::SSO</a>&lt; Char, MaxSSO &gt;::size</td>
         </tr>
       </table>
 </div><div class="memdoc">

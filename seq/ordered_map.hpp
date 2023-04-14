@@ -53,6 +53,14 @@ namespace seq
 			using dist_type = std::int16_t;
 			using value_type = T;
 			using store_type = void*;
+
+#if SEQ_BYTEORDER_ENDIAN == SEQ_BYTEORDER_LITTLE_ENDIAN
+			static constexpr int index_dist = 6;
+			static constexpr int index_hash = 7;
+#else
+			static constexpr int index_dist = 1;
+			static constexpr int index_hash = 0;
+#endif
 		
 			static constexpr std::uint64_t pos_bits = base_list_chunk<T>::count_bits;
 			static constexpr dist_type max_distance = 126;
@@ -65,16 +73,18 @@ namespace seq
 
 			// Extract part of hash value
 			static SEQ_ALWAYS_INLINE auto small_hash(size_t h) noexcept -> tiny_hash {
-				return ((h) >> (64U - 8U));// *16777619U;
+				// TEST: small can never be 0
+				tiny_hash res = ((h ) >> (sizeof(h)*8U - 8U));
+				return res == 0 ? 1 : res;
 			}
 		
-			SEQ_ALWAYS_INLINE SequenceNode() : val(0) { (reinterpret_cast<char*>(&val))[6] = -1; /*set_distance(-1);*/ }
+			SEQ_ALWAYS_INLINE SequenceNode() : val(0) { (reinterpret_cast<char*>(&val))[6] = -1; }
 			template< class Iter>
 			SEQ_ALWAYS_INLINE SequenceNode(tiny_hash h, dist_type dist, const Iter& it)
 			{
 				val = static_cast<std::uint64_t>(it.pos) | (reinterpret_cast<std::uint64_t>(it.node));
-				(reinterpret_cast<unsigned char*>(&val))[7] = h;
-				(reinterpret_cast<char*>(&val))[6] = static_cast<char>(dist);
+				(reinterpret_cast<unsigned char*>(&val))[index_hash] = h;
+				(reinterpret_cast<char*>(&val))[index_dist] = static_cast<char>(dist);
 			}
 			
 			// Check if node is a tombstone (only for pure linear hashing)
@@ -91,9 +101,11 @@ namespace seq
 				return node()->buffer()[pos()]; 
 			}
 			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash {
-				return (reinterpret_cast<const unsigned char*>(&val))[7];
+				return (reinterpret_cast<const unsigned char*>(&val))[index_hash];
 			}
-			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { return  (reinterpret_cast< const char*>(&val))[6];}
+			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { 
+				return  (reinterpret_cast< const char*>(&val))[index_dist];
+			}
 			template<class Iter>
 			SEQ_ALWAYS_INLINE bool is_same(const Iter& it) const noexcept {
 				//check iterator equality
@@ -103,18 +115,107 @@ namespace seq
 			SEQ_ALWAYS_INLINE void empty() noexcept {
 				// mark the node as null
 				val = 0;
-				(reinterpret_cast<char*>(&val))[6] = -1;
+				(reinterpret_cast<char*>(&val))[index_dist] = -1;
 			}
 			SEQ_ALWAYS_INLINE void empty_tombstone() noexcept {
 				// mark the node as tombstone
 				val = 0;
-				(reinterpret_cast<char*>(&val))[6] = static_cast<char>(tombstone);
+				(reinterpret_cast<char*>(&val))[index_dist] = static_cast<char>(tombstone);
+			}
+			SEQ_ALWAYS_INLINE void mark_empty(bool linear)
+			{
+				val = 0;
+				set_distance(linear ? tombstone : -1);
 			}
 			SEQ_ALWAYS_INLINE void set_distance(dist_type dist) noexcept {
-				(reinterpret_cast< char*>(&val))[6] = static_cast<char>(dist);
+				(reinterpret_cast< char*>(&val))[index_dist] = static_cast<char>(dist);
 			}	
 
 		};
+
+
+		/*template<class T, class Extract>
+		struct SequenceNode
+		{
+			// Node stored in flat hash table. Based on tagged pointer : the last 16 bits are used to store part of the hash value and the distance.
+			using tiny_hash = std::uint8_t;
+			using dist_type = std::int16_t;
+			using value_type = T;
+			using store_type = void*;
+
+			static constexpr std::uint64_t pos_bits = base_list_chunk<T>::count_bits;
+			static constexpr dist_type max_distance = 126;
+			static constexpr dist_type tombstone = 127;
+			static constexpr std::uint8_t mask_pos = (1ULL << pos_bits) - 1ULL;
+			static constexpr std::uint64_t mask_node = ~((1ULL << pos_bits) - 1ULL) & ((1ULL << (64ULL - 16ULL)) - 1ULL);
+			static constexpr std::uint64_t mask_node_and_pos = ((1ULL << (64ULL - 16ULL)) - 1ULL);
+
+			alignas(alignof(std::uint64_t)) char vals[8];
+
+			// Extract part of hash value
+			static SEQ_ALWAYS_INLINE auto small_hash(size_t h) noexcept -> tiny_hash {
+				// TEST: small can never be 0
+				tiny_hash res = ((h ) >> (sizeof(h)*8U - 8U));
+				return res == 0 ? 1 : res;
+			}
+
+			SEQ_ALWAYS_INLINE SequenceNode() { memset(vals, 0, sizeof(vals)); vals[6] = -1; }
+			template< class Iter>
+			SEQ_ALWAYS_INLINE SequenceNode(tiny_hash h, dist_type dist, const Iter& it)
+			{
+				reinterpret_cast<std::uint64_t&>(vals) = static_cast<std::uint64_t>(it.pos) | (reinterpret_cast<std::uint64_t>(it.node));
+				vals[7] = static_cast<char>(h);
+				vals[6] = static_cast<char>(dist);
+			}
+
+			// Check if node is a tombstone (only for pure linear hashing)
+			SEQ_ALWAYS_INLINE bool is_tombstone() const noexcept { return distance() == tombstone; }
+			// check if node is not null
+			SEQ_ALWAYS_INLINE bool null() const noexcept { return (reinterpret_cast<const std::uint64_t&>(vals) & ((1ULL << 48ULL) - 1ULL)) == 0; }
+			// position withing sequence chunk (max == 63)
+			SEQ_ALWAYS_INLINE auto pos() const noexcept -> std::uint8_t { return static_cast<std::uint8_t>(vals[0]) & mask_pos; }
+			// sequence chunk, aligned on 64 bytes at most
+			SEQ_ALWAYS_INLINE auto node() const noexcept -> detail::list_chunk<T>* { 
+				return reinterpret_cast<detail::list_chunk<T>*>(reinterpret_cast<const std::uint64_t&>(vals) & mask_node); 
+			}
+			SEQ_ALWAYS_INLINE auto value() const noexcept -> const T& {
+				return node()->buffer()[pos()];
+			}
+			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash {
+				return static_cast<tiny_hash>(vals[7]);
+			}
+			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { return  vals[6]; }
+			template<class Iter>
+			SEQ_ALWAYS_INLINE bool is_same(const Iter& it) const noexcept {
+				//check iterator equality
+				std::uint64_t v = reinterpret_cast<const std::uint64_t&>(it.node) | static_cast<std::uint8_t>(it.pos);
+				return memcmp(&v, vals, 6) == 0;
+			}
+			SEQ_ALWAYS_INLINE bool is_same(std::uint64_t it) const noexcept {
+				//check iterator equality
+				return memcmp(&it, vals, 6) == 0;
+			}
+
+			SEQ_ALWAYS_INLINE void empty() noexcept {
+				// mark the node as null
+				memset(vals, 0, sizeof(vals));
+				vals[6] = -1;
+			}
+			SEQ_ALWAYS_INLINE void empty_tombstone() noexcept {
+				// mark the node as tombstone
+				memset(vals, 0, sizeof(vals));
+				vals[6] = static_cast<char>(tombstone);
+			}
+			SEQ_ALWAYS_INLINE void mark_empty(bool linear)
+			{
+				memset(vals, 0, sizeof(vals));
+				set_distance(linear ? tombstone : -1);
+			}
+			SEQ_ALWAYS_INLINE void set_distance(dist_type dist) noexcept {
+				vals[6] = static_cast<char>(dist);
+			}
+
+	};*/
 
 	#else
 
@@ -133,7 +234,11 @@ namespace seq
 			static constexpr std::uint64_t tag_bits = pos_bits;// tag_ptr::tag_bits;
 			static constexpr std::uint64_t mask_high = (~((1ULL << tag_bits) - 1ULL));
 			static constexpr std::uint8_t mask_low = ((1U << static_cast<unsigned>(tag_bits)) - 1U);
-			static SEQ_ALWAYS_INLINE tiny_hash small_hash(size_t h) { return h >> (64U - 8U); }
+			static SEQ_ALWAYS_INLINE tiny_hash small_hash(size_t h) 
+			{ 
+				tiny_hash res = ((h) >> (64U - 8U));
+				return res == 0 ? 1 : res;
+			}
 
 			std::uint8_t storage[sizeof(void*)];
 			std::uint8_t _hash;
@@ -161,6 +266,12 @@ namespace seq
 			template<class Iter>
 			SEQ_ALWAYS_INLINE bool is_same(const Iter& it) const noexcept {
 				return node() == it.node && pos() == it.pos;
+			}
+			SEQ_ALWAYS_INLINE void mark_empty(bool linear)
+			{
+				memset(storage, 0, sizeof(storage));
+				_hash = 0;
+				_dist = linear ? tombstone : -1;
 			}
 			SEQ_ALWAYS_INLINE void empty() noexcept {
 				memset(storage, 0, sizeof(storage));
@@ -197,9 +308,9 @@ namespace seq
 			auto key_eq() const -> Equal { return static_cast<Equal&>(*this); }
 
 			template< class... Args >
-			SEQ_ALWAYS_INLINE auto hash(Args&&... args) const noexcept -> size_t { return (Hash::operator()(std::forward<Args>(args)...)); }
+			 auto hash(Args&&... args) const noexcept -> size_t { return (Hash::operator()(std::forward<Args>(args)...)); }
 			template< class... Args >
-			SEQ_ALWAYS_INLINE bool operator()(Args&&... args) const noexcept { return Equal::operator()(std::forward<Args>(args)...); }
+			 bool operator()(Args&&... args) const noexcept { return Equal::operator()(std::forward<Args>(args)...); }
 		};
 		template< class Hash, class Equal>
 		struct HashEqual<Hash,Equal,true,true>
@@ -212,9 +323,9 @@ namespace seq
 			auto key_eq() const -> Equal { return Equal(); }
 
 			template< class... Args >
-			SEQ_ALWAYS_INLINE auto hash(Args&&... args) const noexcept -> size_t { return (Hash{}(std::forward<Args>(args)...)); }
+			 auto hash(Args&&... args) const noexcept -> size_t { return (Hash{}(std::forward<Args>(args)...)); }
 			template< class... Args >
-			SEQ_ALWAYS_INLINE bool operator()(Args&&... args) const noexcept { return Equal{}(std::forward<Args>(args)...); }
+			 bool operator()(Args&&... args) const noexcept { return Equal{}(std::forward<Args>(args)...); }
 		};
 		template< class Hash, class Equal>
 		struct HashEqual<Hash, Equal, true,false> : private Equal
@@ -227,9 +338,9 @@ namespace seq
 			auto key_eq() const -> Equal { return static_cast<Equal&>(*this); }
 
 			template< class... Args >
-			SEQ_ALWAYS_INLINE auto hash(Args&&... args) const noexcept -> size_t { return (Hash{}(std::forward<Args>(args)...)); }
+			 auto hash(Args&&... args) const noexcept -> size_t { return (Hash{}(std::forward<Args>(args)...)); }
 			template< class... Args >
-			SEQ_ALWAYS_INLINE bool operator()(Args&&... args) const noexcept { return Equal::operator()(std::forward<Args>(args)...); }
+			 bool operator()(Args&&... args) const noexcept { return Equal::operator()(std::forward<Args>(args)...); }
 		};
 		template< class Hash, class Equal>
 		struct HashEqual<Hash, Equal, false, true> : private Hash
@@ -242,9 +353,9 @@ namespace seq
 			auto key_eq() const -> Equal { return Equal(); }
 
 			template< class... Args >
-			SEQ_ALWAYS_INLINE auto hash(Args&&... args) const noexcept -> size_t { return (Hash::operator()(std::forward<Args>(args)...)); }
+			 auto hash(Args&&... args) const noexcept -> size_t { return (Hash::operator()(std::forward<Args>(args)...)); }
 			template< class... Args >
-			SEQ_ALWAYS_INLINE bool operator()(Args&&... args) const noexcept { return Equal{}(std::forward<Args>(args)...); }
+			 bool operator()(Args&&... args) const noexcept { return Equal{}(std::forward<Args>(args)...); }
 		};
 
 		
@@ -258,62 +369,74 @@ namespace seq
 		};
 
 		// Insert value into a sequence at the back, front, or anywhere
-		template<class Sequence, Location Loc, class Value>
-		struct Inserter
+		template<Location Loc>
+		struct InsertPolicy{};
+		template<Location Loc>
+		struct TryInsertPolicy{};
+
+		template<>
+		struct InsertPolicy<Front>
 		{
+			template<class Seq, class K, class... Args >
+			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
+			{
+				return s.emplace_front_iter(std::forward<K>(key), std::forward<Args>(args)...);
+			}
+		};
+		template<>
+		struct TryInsertPolicy<Front>
+		{
+			template<class Seq, class K, class... Args >
+			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
+			{
+				return s.emplace_front_iter(typename Seq::value_type(std::piecewise_construct,
+					std::forward_as_tuple(std::forward<K>(key)),
+					std::forward_as_tuple(std::forward<Args>(args)...)));
+			}
 		};
 
-		// Insert by copy
-		template<class Sequence, class Value>
-		struct Inserter<Sequence, Back, const Value&>
+		template<>
+		struct InsertPolicy<Back>
 		{
-			
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, const Value& value) -> typename Sequence::iterator {return seq.emplace_back_iter((value));}
+			template<class Seq, class K, class... Args >
+			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
+			{
+				return s.emplace_back_iter(std::forward<K>(key), std::forward<Args>(args)...);
+			}
 		};
-		template<class Sequence, class Value>
-		struct Inserter<Sequence, Front, const Value&>
+		template<>
+		struct TryInsertPolicy<Back>
 		{
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, const Value& value) -> typename Sequence::iterator { return seq.emplace_front_iter((value)); }
-		};
-		template<class Sequence, class Value>
-		struct Inserter<Sequence, Anywhere, const Value&>
-		{
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, const Value& value) -> typename Sequence::iterator { return seq.emplace((value)); }
-		};
-
-		// Insert by move semantic for value constructed on the stack
-		template<class Sequence, class Value>
-		struct Inserter<Sequence, Back,  Value>
-		{
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq,  Value& value) -> typename Sequence::iterator { return seq.emplace_back_iter(std::move(value)); }
-		};
-		template<class Sequence, class Value>
-		struct Inserter<Sequence, Front,  Value>
-		{
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq,  Value& value) -> typename Sequence::iterator { return seq.emplace_front_iter(std::move(value)); }
-		};
-		template<class Sequence, class Value>
-		struct Inserter<Sequence, Anywhere,  Value>
-		{
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq,  Value& value) -> typename Sequence::iterator { return seq.emplace(std::move(value)); }
+			template<class Seq, class K, class... Args >
+			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
+			{
+				return s.emplace_back_iter(typename Seq::value_type(std::piecewise_construct,
+					std::forward_as_tuple(std::forward<K>(key)),
+					std::forward_as_tuple(std::forward<Args>(args)...)));
+			}
 		};
 
-		// Insert by move semantic for move insertion
-		template<class Sequence, class Value>
-		struct Inserter<Sequence,Back,Value&&>
+		template<>
+		struct InsertPolicy<Anywhere>
 		{
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, Value& value) -> typename Sequence::iterator {return seq.emplace_back_iter(std::move(value));}
+			template<class Seq, class K, class... Args >
+			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
+			{
+				return s.emplace(std::forward<K>(key), std::forward<Args>(args)...);
+			}
 		};
-		template<class Sequence, class Value>
-		struct Inserter<Sequence, Front, Value&&>
+		template<>
+		struct TryInsertPolicy<Anywhere>
 		{
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, Value& value) -> typename Sequence::iterator { return seq.emplace_front_iter(std::move(value)); }
+			template<class Seq, class K, class... Args >
+			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
+			{
+				return s.emplace(typename Seq::value_type(std::piecewise_construct,
+					std::forward_as_tuple(std::forward<K>(key)),
+					std::forward_as_tuple(std::forward<Args>(args)...)));
+			}
 		};
-		template<class Sequence, class Value>
-		struct Inserter<Sequence, Anywhere, Value&&>
-		{
-			static SEQ_ALWAYS_INLINE auto insert(Sequence& seq, Value& value) -> typename Sequence::iterator { return seq.emplace(std::move(value)); }
-		};
+
 		
 
 
@@ -346,6 +469,7 @@ namespace seq
 			sequence_type	d_seq;			// sequence object holding the actual values
 			node_type*		d_buckets;		// hash table with robin-hood probing
 			size_t			d_hash_mask;	// hash mask
+			size_t			d_hash_len;
 			size_t			d_next_target;	// next size before rehash
 			int				d_max_dist;		// current maximum distance of a node to its theoric best location
 			float			d_load_factor;	// maximum load factor
@@ -358,15 +482,29 @@ namespace seq
 				return &null;
 			}
 
+			SEQ_ALWAYS_INLINE size_t mask_hash(size_t hash, size_t hash_mask, size_t hash_len) const noexcept
+			{
+				(void)hash_len;
+				return hash & hash_mask;
+
+				//hash ^= hash >> 33U;
+				//hash *= UINT64_C(0xff51afd7ed558ccd);
+				//return hash >> (64ULL - hash_len);
+
+				//(void)hash_mask;
+				//return (11400714819323198485ull * hash) >> (64ULL - hash_len);
+			}
+
 			SEQ_ALWAYS_INLINE auto find_node(size_t hash, const const_iterator& it) -> node_type*
 			{
+				
 				// Find an existing node based on a sequence iterator and the hash value
-				size_t index = hash & d_hash_mask;
-				//std::uintptr_t addr = static_cast<std::uintptr_t>(it.pos) | reinterpret_cast<std::uintptr_t>(it.node);
-				while (!d_buckets[index].is_same(it)) {
-					SEQ_ASSERT_DEBUG(d_max_dist == node_type::max_distance || !d_buckets[index].null(), "corrupted hash map");
-					if (SEQ_UNLIKELY(++index == bucket_size()))
-						index = 0;
+				size_t index = mask_hash(hash,d_hash_mask, d_hash_len);
+				for (;;) {
+					for (; index <= d_hash_mask; ++index)
+						if (d_buckets[index].is_same(it))
+							return d_buckets + index;
+					index = 0;
 				}
 				return d_buckets + index;
 			}
@@ -376,8 +514,10 @@ namespace seq
 				return find_node(hash_key(extract_key::key(*it)), it);
 			}
 
+
+
 			template<class Iter>
-			void rehash(size_t new_hash_mask, Iter first, Iter last)
+			void rehash(size_t new_hash_mask, size_t new_hash_len, Iter first, Iter last)
 			{
 				// Rehash the table for given mask value.
 				// The old table is dropped before creating the new one, avoiding memory peaks.
@@ -386,7 +526,7 @@ namespace seq
 				try {
 					free_buckets(d_buckets);
 					d_buckets = null_node();
-					d_next_target = d_hash_mask = 0;
+					d_next_target = d_hash_mask = d_hash_len = 0;
 					d_max_dist = 1;
 					d_buckets = make_buckets((new_hash_mask + 1ULL));
 				}
@@ -396,54 +536,62 @@ namespace seq
 					throw;
 				}
 
-				typename node_type::dist_type dist;
 				size_t hash, index;
-				size_t bsize = new_hash_mask + 1ULL;
+				size_t hmask = new_hash_mask ;
+				typename node_type::dist_type dist = 0;
 
 				// Loop through values
-				for (auto it = first; it != last; ++it) {
+				for (; (first != last) && (d_max_dist != node_type::max_distance); ++first) {
 
 					// Hash value
-					hash = hash_key(extract_key::key(*it));
+					hash = hash_key(extract_key::key(*first));
 					// Compute index
-					index = (hash & new_hash_mask);
+					index = mask_hash(hash , new_hash_mask,new_hash_len);
 
-					if (SEQ_UNLIKELY(d_max_dist == node_type::max_distance)) {
-						//Pure linear hashing
-						while (!d_buckets[index].null() ) {
-							if (SEQ_UNLIKELY(++index == bsize))
-								index = 0;
-						}
-						// Insert
-						d_buckets[index] = node_type(node_type::small_hash(hash), index == (hash & new_hash_mask) ? 0 : node_type::max_distance, it);
+					if (d_buckets[index].distance() == -1) {
+						d_buckets[index] = node_type(node_type::small_hash(hash), 0, first);
 						continue;
 					}
 
 					// Robin-hood probing
 					dist = 0;
 					while (dist <= d_buckets[index].distance()) {
-						if (SEQ_UNLIKELY(++index == bsize))
-							index = 0;
+						index = (index == hmask) ? 0 : index + 1;
 						dist++;
-					}
-					if (SEQ_UNLIKELY(dist > d_max_dist))
-						d_max_dist = dist; // Update maximum distance
 
+					}
+					d_max_dist = (dist > d_max_dist) ? dist : d_max_dist;
 					node_type n = d_buckets[index];
-					d_buckets[index] = node_type(node_type::small_hash(hash), dist, it);
+					d_buckets[index] = node_type(node_type::small_hash(hash), dist, first);
 
 					// Insert node
-					if (dist)
-						start_insert(d_buckets, bsize, index, dist, n);
+					//if (dist)
+						start_insert(d_buckets, new_hash_mask, index, dist, n);
 
+				}
+				
+				for (; first != last ; ++first) {
+					// Hash value
+					hash = hash_key(extract_key::key(*first));
+					// Compute index
+					index = mask_hash(hash, new_hash_mask, new_hash_len);
+					
+					//Pure linear hashing
+					while (!d_buckets[index].null()) {
+						index = (index == hmask) ? 0 : index + 1;
+					}
+					// Insert
+					d_buckets[index] = node_type(node_type::small_hash(hash), index == mask_hash(hash, new_hash_mask, new_hash_len) ? 0 : node_type::max_distance, first);
+					
 				}
 
 				d_hash_mask = new_hash_mask;
+				d_hash_len = new_hash_len;
 				d_next_target = static_cast<size_t>(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor));
 			}
 
 			template<class Iter>
-			void rehash_remove_duplicates(size_t new_hash_mask, Iter first, Iter last)
+			void rehash_remove_duplicates(size_t new_hash_mask, size_t new_hash_len, Iter first, Iter last)
 			{
 				// Rehash the table for given mask value.
 				// The old table is dropped before creating the new one, avoiding memory peaks.
@@ -452,7 +600,7 @@ namespace seq
 				try {
 					free_buckets(d_buckets);
 					d_buckets = null_node();
-					d_next_target = d_hash_mask = 0;
+					d_next_target = d_hash_mask = d_hash_len = 0;
 					d_max_dist = 1;
 					d_buckets = make_buckets((new_hash_mask + 1ULL));
 				}
@@ -461,8 +609,6 @@ namespace seq
 					throw;
 				}
 
-
-
 				size_t hash, index, dist;
 				size_t bsize = new_hash_mask + 1ULL;
 
@@ -470,7 +616,7 @@ namespace seq
 
 					hash = hash_key(extract_key::key(*it));
 					tiny_hash h = node_type::small_hash(hash);
-					index = (hash & new_hash_mask);
+					index = mask_hash(hash , new_hash_mask, new_hash_len);
 
 					dist = 0;
 					while (!d_buckets[index].null() && static_cast<difference_type>(dist) <= static_cast<difference_type>(d_buckets[index].distance())) {
@@ -506,7 +652,7 @@ namespace seq
 					}
 
 					if (SEQ_UNLIKELY(d_max_dist == node_type::max_distance)) {
-						d_buckets[index] = node_type(static_cast<tiny_hash>(h), index == (hash & new_hash_mask) ? 0 : node_type::max_distance, it);
+						d_buckets[index] = node_type(static_cast<tiny_hash>(h), index == mask_hash(hash , new_hash_mask, new_hash_len) ? 0 : node_type::max_distance, it);
 					}
 					else {
 						if (dist > static_cast<size_t>(d_max_dist))
@@ -521,11 +667,12 @@ namespace seq
 				}
 
 				d_hash_mask = new_hash_mask;
+				d_hash_len = new_hash_len;
 				d_next_target = static_cast<size_t>(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor));
 			}
 
 
-			void start_insert(node_type* buckets, size_t bucket_size, size_t index, typename node_type::dist_type dist, node_type node) noexcept
+			SEQ_ALWAYS_INLINE void start_insert(node_type* buckets, size_t hash_mask, size_t index, typename node_type::dist_type dist, node_type node) noexcept
 			{
 				// Use robin-hood hashing to move keys on insertion
 				dist_type od;
@@ -533,8 +680,7 @@ namespace seq
 				while (dist != -1) {
 					do {
 						++dist;
-						if (SEQ_UNLIKELY(++index == bucket_size))
-							index = 0;
+						index = (index == hash_mask) ? 0 : index + 1;
 						od = buckets[index].distance();
 					} while (od >= dist);
 					if (dist > d_max_dist )
@@ -570,29 +716,31 @@ namespace seq
 			explicit SparseFlatNodeHashTable(const Hash& hash,
 				const Equal& equal,
 				const Allocator& alloc) noexcept
-				:base_type(hash,equal), d_seq(alloc), d_buckets(null_node()), d_hash_mask(0), d_next_target(0), d_max_dist(1), d_load_factor(0.6f)
+				:base_type(hash,equal), d_seq(alloc), d_buckets(null_node()), d_hash_mask(0), d_hash_len(0), d_next_target(0), d_max_dist(1), d_load_factor(0.6f)
 			{
 			}
 			SparseFlatNodeHashTable(SparseFlatNodeHashTable&& other) noexcept 				
 				:base_type(other.hash_function(), other.key_eq()), d_seq(std::move(other.d_seq)),
-				d_buckets(other.d_buckets), d_hash_mask(other.d_hash_mask),
+				d_buckets(other.d_buckets), d_hash_mask(other.d_hash_mask), d_hash_len(other.d_hash_len),
 				d_next_target(other.d_next_target), d_max_dist(other.d_max_dist),
 				d_load_factor(other.d_load_factor)
 			{
 				other.d_buckets = null_node();
 				other.d_hash_mask = 0;
+				other.d_hash_len = 0;
 				other.d_next_target = 0;
 				other.d_max_dist = 1;
 			}
 			SparseFlatNodeHashTable(SparseFlatNodeHashTable&& other, const Allocator & alloc)
 				:base_type(other.hash_function(), other.key_eq()), d_seq(std::move(other.d_seq),alloc),
-				d_buckets(other.d_buckets), d_hash_mask(other.d_hash_mask),
+				d_buckets(other.d_buckets), d_hash_mask(other.d_hash_mask), d_hash_len(other.d_hash_len),
 				d_next_target(other.d_next_target), d_max_dist(other.d_max_dist),
 				d_load_factor(other.d_load_factor)
 			{
 				if (alloc == other.d_seq.get_allocator()) {
 					other.d_buckets = null_node();
 					other.d_hash_mask = 0;
+					other.d_hash_len = 0;
 					other.d_next_target = 0;
 					other.d_max_dist = 1;
 				}
@@ -614,6 +762,7 @@ namespace seq
 					std::swap(static_cast<base_type&>(*this), static_cast<base_type&>(other));
 					std::swap(d_buckets, other.d_buckets);
 					std::swap(d_hash_mask, other.d_hash_mask);
+					std::swap(d_hash_len, other.d_hash_len);
 					std::swap(d_next_target, other.d_next_target);
 					std::swap(d_max_dist, other.d_max_dist);
 					std::swap(d_load_factor, other.d_load_factor);
@@ -631,7 +780,7 @@ namespace seq
 				// mark the table as dirty
 				d_max_dist = mask_dirty;
 			}
-			SEQ_ALWAYS_INLINE void check_hash_operation() const 
+			SEQ_ALWAYS_INLINE void check_hash_operation() const
 			{
 				if (SEQ_UNLIKELY(dirty()))
 					throw std::logic_error("ordered hash table is dirty");
@@ -658,27 +807,28 @@ namespace seq
 				if(null_size)
 					size = static_cast<size_t>(static_cast<double>(this->size()) / static_cast<double>(d_load_factor));
 				if (size == 0)
-					return rehash(63, d_seq.end(), d_seq.end()); // Minimum size is 64
+					return rehash(63,6, d_seq.end(), d_seq.end()); // Minimum size is 64
 				size_t new_hash_mask;
+				size_t new_hash_len;
 				if ((size & (size - 1ULL)) == 0ULL) new_hash_mask = size - 1ULL;
 				else new_hash_mask = (1ULL << (1ULL + (bit_scan_reverse_64(size)))) - 1ULL;
+				new_hash_len = bit_scan_reverse_64(new_hash_mask) + 1U;
 				if(dirty())
-					rehash_remove_duplicates(new_hash_mask, d_seq.begin(), d_seq.end());
+					rehash_remove_duplicates(new_hash_mask, new_hash_len, d_seq.begin(), d_seq.end());
 				else if (force || new_hash_mask != d_hash_mask || d_max_dist == node_type::max_distance) {
 					if (d_max_dist == node_type::max_distance && null_size) {
 						// linear hashing behavior: make sure to increase hash table size
 						new_hash_mask = ((new_hash_mask + 1U) * 2U) - 1U;
 					}
-					rehash(new_hash_mask, d_seq.begin(), d_seq.end());
+					rehash(new_hash_mask, new_hash_len, d_seq.begin(), d_seq.end());
 				}
 			}
 			
-			template< class... Args >
-			SEQ_ALWAYS_INLINE auto hash_key(Args&&... args) const noexcept -> size_t
+			template< class K >
+			SEQ_ALWAYS_INLINE auto hash_key(const K & key) const noexcept -> size_t
 			{
 				// Hash the key and multiply the result.
-				// The multiplication is mandatory for very bad hash functions that do not distribute well their values (like libstdc++ default hash function for integers)
-				return this->hash(std::forward<Args>(args)...);// *14313749767032793493ULL;
+				return this->hash(key)  * 0xc4ceb9fe1a85ec53ull;
 			}
 
 			auto max_load_factor() const noexcept -> float
@@ -706,83 +856,128 @@ namespace seq
 				return  d_hash_mask+1; 
 			}
 			
-
-			template< class... Args >
-			auto find_linear_hash(size_t hash, Args&&... args) const -> const_iterator
-			{
-				// Search for given value considering he hash table to be purely linear (no robin hood probing and potential tombstones)
-				check_hash_operation();
-				size_t index = (hash & d_hash_mask);
-				const tiny_hash h = node_type::small_hash(hash);
-
-				while (SEQ_LIKELY(!d_buckets[index].null_for_search())) {
-					if (!d_buckets[index].is_tombstone() && h == d_buckets[index].hash() && 
-						(*this)(extract_key::key(d_buckets[index].value()), std::forward<Args>(args)...))
-						return const_iterator(d_buckets[index].node(), d_buckets[index].pos());
-					if (SEQ_UNLIKELY(++index == bucket_size()))
-						index = 0;
-				}
-				return d_seq.end();
-			}
-
-			template< class... Args >
-			SEQ_ALWAYS_INLINE auto find_hash(size_t hash, Args&&... args) const -> const_iterator
+			
+			template< class K>
+			SEQ_ALWAYS_INLINE auto find_hash(size_t hash, const K & key) const -> const_iterator
 			{
 				// Key lookup
-
-				// Check for linear probing and dirty cases
-				if (SEQ_UNLIKELY(d_max_dist == node_type::max_distance || dirty()))
-					return find_linear_hash(hash, std::forward<Args>(args)...);
-
-				size_t index = (hash & d_hash_mask);
-				dist_type dist = 0;
+				
+				const bool robin_hood = d_max_dist < (node_type::max_distance );
 				const tiny_hash h = node_type::small_hash(hash);
+				const auto* it = d_buckets + mask_hash(hash , d_hash_mask, d_hash_len);
+				const auto* end = d_buckets + d_hash_mask ;
 
-				// Probe until null node or until a node with a greater distance than the current one
-				while (dist <= d_buckets[index].distance())
+				//TEST: comment first part
+				if (SEQ_UNLIKELY(!robin_hood)) {
+					// Linear probing
+					check_hash_operation();
+					while (-1 != it->distance()) {
+						if (h == it->hash() && (*this)(extract_key::key(it->value()), key))
+							return const_iterator(it->node(), it->pos());
+						it = it == end ? d_buckets : it + 1;
+					}
+				}
+				else {
+					dist_type dist = 0;
+					// Robin hood probing
+					while(dist <= it->distance()) {
+							
+						// Check for equality (first the hash part and then the key itself).
+						if (h == it->hash() && (*this)(extract_key::key(it->value()), key))
+							return const_iterator(it->node(), it->pos());
+						it = it == end ? d_buckets : it + 1;
+						++dist;
+					}
+					
+				}
+
+				// Combination of linear and robin-hood probing in the same loop. Slightly slower than 2 different loop like above.
+				// An empty node has a distance of -1 and break the probe chain.
+				// A tombstone has a value 127 and never break the probe chain 
+				// (it is superior to node_type::max_distance which is 126, and dist is never incremented when tombstones are present: linear situation)
+				// A tombstone value is never checked as its tiny hash is 0 (which is invalid).
+				/*dist_type dist = 0;
+				while (dist <= it->distance())
 				{
 					// Check for equality (first the hash part and then the key itself).
-					if (h == d_buckets[index].hash() && (*this)(extract_key::key(d_buckets[index].value()), std::forward<Args>(args)...))
-						return const_iterator(d_buckets[index].node(), d_buckets[index].pos());
-					//if (SEQ_UNLIKELY(index++ == d_hash_mask))
-					//	index = 0;
-					index = (index + 1) & d_hash_mask;
-					++dist;
-				}
+					if (h == it->hash() && (*this)(extract_key::key(it->value()), std::forward<Args>(args)...))
+						return const_iterator(it->node(), it->pos());
+					it = it == end ? d_buckets : it + 1;
+					dist = robin_hood ? dist + 1 : 0;
+				}	*/
 				// Failed lookup
 				return d_seq.end();
+				
 			}
-			template< class... Args >
-			SEQ_ALWAYS_INLINE auto find(Args&&... args) const  -> const_iterator
+			template< class K >
+			SEQ_ALWAYS_INLINE auto find(const K & key) const  -> const_iterator
 			{
-				return find_hash(hash_key(std::forward<Args>(args)...), std::forward<Args>(args)...);
+				return find_hash(hash_key(key), key);
 			}
 
-			template<Location loc, class... Args >
-			auto insert_linear(Args&&... args) -> std::pair<iterator, bool>
+			template<class Policy, class K, class... Args >
+			SEQ_NOINLINE(auto) insert_linear(Policy, K && key, Args&&... args) -> std::pair<iterator, bool>
 			{
 				// Insert value using linear probing
 
-				using store_type = typename BuildValue<Value, Args&&...>::type;
-				store_type value = BuildValue<Value, Args&&...>::build(std::forward<Args>(args)...);
-				const size_t hash = hash_key(extract_key::key(value));
-				size_t index = (hash & d_hash_mask);
+				const size_t hash = hash_key(extract_key::key(key));
+				size_t index = mask_hash(hash , d_hash_mask, d_hash_len);
 				const tiny_hash h = node_type::small_hash(hash);
 
 				// Pure linear hashing
 				while (!d_buckets[index].null() && !d_buckets[index].is_tombstone()) {
-					if (d_buckets[index].hash() == h && (*this)(extract_key::key(d_buckets[index].value()), extract_key::key(value)))
+					if (d_buckets[index].hash() == h && (*this)(extract_key::key(d_buckets[index].value()), extract_key::key(key)))
 						return std::pair< iterator, bool>(iterator(d_buckets[index].node(), d_buckets[index].pos()), false);
 					if (SEQ_UNLIKELY(++index == bucket_size()))
 						index = 0;
 				}
-				iterator tmp_it = Inserter<sequence_type, loc, store_type>::insert(d_seq, value);
-				d_buckets[index] = node_type(h, index == (hash & d_hash_mask) ? 0 : node_type::max_distance, tmp_it);
+
+				iterator tmp_it = Policy::emplace(d_seq, std::forward<K>(key), std::forward<Args>(args)...);
+				d_buckets[index] = node_type(h, index == mask_hash(hash , d_hash_mask, d_hash_len) ? 0 : node_type::max_distance, tmp_it);
 				return std::pair< iterator, bool>(tmp_it, true);
 			}
 
-			template<Location loc, class... Args >
-			auto insert(Args&&... args) -> std::pair<iterator, bool>
+			template<class Policy, class K, class... Args >
+			SEQ_ALWAYS_INLINE auto insert_fast(node_type * it, tiny_hash h, Policy, K&& key, Args&&... args)->std::pair<iterator, bool>
+			{
+				iterator tmp_it = Policy::emplace(d_seq, std::forward<K>(key), std::forward<Args>(args)...);
+				*it = node_type(h, 0, tmp_it);
+				return std::pair< iterator, bool>(tmp_it, true);
+			}
+
+			template<class Policy, class K, class... Args >
+			auto insert_slow(node_type* it, tiny_hash h, Policy, K&& key, Args&&... args)->std::pair<iterator, bool>
+			{
+				const auto* end = d_buckets + d_hash_mask;
+				dist_type dist = 0;
+
+				// Find start insert location and check for equal value
+				while (dist <= it->distance()) {
+					if (it->hash() == h && (*this)(extract_key::key(it->value()), extract_key::key(key)))
+						return std::pair< iterator, bool>(iterator(it->node(), it->pos()), false);
+					it = (it == end) ? d_buckets : it + 1;
+					++dist;
+				}
+
+				// At this point, we are sure the key does not already exist in the table, let's proceed to the insertion
+				// Insert in sequence, might throw (fine)
+				iterator tmp_it = Policy::emplace(d_seq, std::forward<K>(key), std::forward<Args>(args)...);
+
+				// Update maximum distance
+				d_max_dist = dist > d_max_dist ? dist : d_max_dist;
+
+
+				// Move nodes based on distance (robin hood hashing), only if computed distance is not null
+				node_type n = *it;
+				*it = node_type(h, dist, tmp_it);
+				//if (dist ) 
+				start_insert(d_buckets, d_hash_mask, static_cast<size_t>(it - d_buckets), dist, n);
+
+				return std::pair< iterator, bool>(tmp_it, true);
+			}
+
+			template<Location loc, class K, class... Args >
+			SEQ_ALWAYS_INLINE auto emplace(K && key, Args&&... args) -> std::pair<iterator, bool>
 			{
 				// Insert new key
 
@@ -791,99 +986,48 @@ namespace seq
 
 				// Check for potential rehash.
 				// Avoid rehashing if the maximum distance is below 7.
-				if (SEQ_UNLIKELY(size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target) )) {
+				if (SEQ_UNLIKELY(size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target)))
 					rehash(size() * 2U);
-				}
-
+				
 				// Check for purely linear hash table
 				if (SEQ_UNLIKELY(d_max_dist == node_type::max_distance))
-					return insert_linear<loc>(std::forward<Args>(args)...);
+					return insert_linear(InsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
 				
-				// Build/extract value to insert (avoid building value on the stack if possible)
-				using store_type = typename BuildValue<Value, Args&&...>::type;
-				store_type value = BuildValue<Value, Args&&...>::build(std::forward<Args>(args)...);
-
 				// Compute hash value
-				const size_t hash = hash_key(extract_key::key(value));
-				size_t index = (hash & d_hash_mask);
-				dist_type dist = 0;
-				tiny_hash h = node_type::small_hash(hash);
-
-				// Find start insert location and check for equal value
-				while (dist <= d_buckets[index].distance()) {
-					if (SEQ_UNLIKELY(d_buckets[index].hash() == h && (*this)(extract_key::key(d_buckets[index].value()), extract_key::key(value))))
-						return std::pair< iterator, bool>(iterator(d_buckets[index].node(), d_buckets[index].pos()), false);
-					if (SEQ_UNLIKELY(++index == bucket_size()))
-						index = 0;
-					++dist;
-				}
-
-				// At this point, we are sure the key does not already exist in the table, let's proceed to the insertion
-
-				// Update maximum distance
-				if (SEQ_UNLIKELY(dist > d_max_dist))
-					d_max_dist = dist;
+				const size_t hash = hash_key(extract_key::key(key));
+				const tiny_hash h = node_type::small_hash(hash);
+				auto* it = d_buckets + mask_hash(hash , d_hash_mask, d_hash_len);
 				
-				// Insert in sequence, might throw (fine)
-				iterator tmp_it = Inserter<sequence_type, loc, store_type>::insert(d_seq, value);
-
-				// Move nodes based on distance (robin hood hashing), only if computed distance is not null
-				node_type n = d_buckets[index];
-				d_buckets[index] = node_type(h, dist, tmp_it);
-				if (dist ) 
-					start_insert(d_buckets,bucket_size(), index, dist, n);
-				
-				return std::pair< iterator, bool>(tmp_it,true);
+				if (it->distance() == -1)
+					return insert_fast(it, h, InsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
+				return insert_slow(it, h, InsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
 			}
 
-			template<Location loc, class... Args >
-			auto insert_no_check(Args&&... args) -> std::pair<iterator, bool>
+			template<Location loc, class K, class... Args >
+			SEQ_ALWAYS_INLINE auto try_emplace(K&& key, Args&&... args) -> std::pair<iterator, bool>
 			{
-				// Insert new key without checking for existing equal key
+				// Insert new key
 
 				// Check for dirty
 				check_hash_operation();
 
-				// Check for potential rehash
-				if (SEQ_UNLIKELY(size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target))) {
+				// Check for potential rehash.
+				// Avoid rehashing if the maximum distance is below 7.
+				if (SEQ_UNLIKELY(size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target)))
 					rehash(size() * 2U);
-				}
 
-				// Check for purely linear hash map
+				// Check for purely linear hash table
 				if (SEQ_UNLIKELY(d_max_dist == node_type::max_distance))
-					return insert_linear<loc>(std::forward<Args>(args)...);
+					return insert_linear(TryInsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
 
-				// Build/extract value to insert (avoid copy if possible)
-				using store_type = typename BuildValue<Value, Args&&...>::type;
-				store_type value = BuildValue<Value, Args&&...>::build(std::forward<Args>(args)...);
+				// Compute hash value
+				const size_t hash = hash_key(extract_key::key(key));
+				const tiny_hash h = node_type::small_hash(hash);
+				auto* it = d_buckets + mask_hash(hash, d_hash_mask, d_hash_len);
 
-
-				const size_t hash = hash_key(extract_key::key(value));
-				size_t index = (hash & d_hash_mask);
-				dist_type dist = 0;
-				tiny_hash h = node_type::small_hash(hash);
-
-				// Find start insert location and check for equal value
-				while (dist <= d_buckets[index].distance()) {
-					if (SEQ_UNLIKELY(++index == bucket_size()))
-						index = 0;
-					++dist;
-				}
-
-				// Update max distance
-				if (SEQ_UNLIKELY(dist > d_max_dist))
-					d_max_dist = dist;
-
-				// Insert in sequence
-				iterator tmp_it = Inserter<sequence_type, loc, store_type>::insert(d_seq, value);
-
-				// Move nodes based on distance
-				node_type n = d_buckets[index];
-				d_buckets[index] = node_type(h, dist, tmp_it);
-				if (dist)
-					start_insert(d_buckets, bucket_size(), index, dist, n);
-
-				return std::pair< iterator, bool>(tmp_it, true);
+				if (it->distance() == -1)
+					return insert_fast(it, h, TryInsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
+				return insert_slow(it, h, TryInsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
 			}
 
 			template<class Iter>
@@ -901,8 +1045,9 @@ namespace seq
 				// and then rehashing while removing duplicates. However, it would be way slower in some scenarios,
 				// like small range or lots of similar keys.
 				for (; first != last; ++first)
-					insert<Anywhere>(*first);
+					emplace<Anywhere>(*first);
 			}
+			
 			
 			auto erase_hash(size_t hash, const_iterator it) -> iterator
 			{
@@ -914,10 +1059,10 @@ namespace seq
 				check_hash_operation();
 
 				// Find the node corresponding to this iterator
-				node_type* n = find_node(hash,it);
+				node_type* n = find_node(hash, it);
 				node_type* prev = n++;
 				const node_type* end = d_buckets + bucket_size();
-				
+
 				if (SEQ_UNLIKELY(n == end))
 					n = d_buckets;
 
@@ -927,7 +1072,7 @@ namespace seq
 					prev->empty_tombstone();
 					return d_seq.erase(it);//return res;
 				}
-				
+
 				// Robin hood backward shift deletion
 				dist_type dist = n->distance();
 				while (dist > 0) {
@@ -939,12 +1084,12 @@ namespace seq
 					dist = n->distance();
 				}
 				prev->empty();
-				
+
 				return d_seq.erase(it); //return res;
 			}
-			SEQ_ALWAYS_INLINE auto erase(const_iterator it) -> iterator
+			auto erase(const_iterator it) -> iterator
 			{
-				return erase_hash(hash_key(extract_key::key (*it)), it);
+				return erase_hash(hash_key(extract_key::key(*it)), it);
 			}
 
 			template<class K>
@@ -972,7 +1117,7 @@ namespace seq
 				d_seq.clear();
 				free_buckets(d_buckets);
 				d_buckets = null_node();
-				d_hash_mask = d_next_target = 0;
+				d_hash_mask = d_next_target = d_hash_len = 0;
 				d_max_dist = 1;
 			}
 		};
@@ -1152,60 +1297,11 @@ namespace seq
 	public:
 
 		using sequence_type = typename base_type::sequence_type;
-
-		struct const_iterator
-		{
-			using iter_type = typename sequence_type::const_iterator;
-			using value_type = Key;
-			using iterator_category = std::bidirectional_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = const value_type*;
-			using reference = const value_type&;
-			iter_type iter;
-
-			const_iterator() {}
-			const_iterator(iter_type it) : iter(it) {}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_iterator& {
-				++iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_iterator {
-				const_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> const_iterator& {
-				--iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> const_iterator {
-				const_iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return *iter; }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return  std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> const_iterator& {
-				iter += diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> const_iterator& {
-				iter -= diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE bool operator==(const const_iterator& it) const noexcept { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE bool operator!=(const const_iterator& it) const noexcept { return iter != it.iter; }
-			SEQ_ALWAYS_INLINE bool operator<(const const_iterator& it) const noexcept { return iter < it.iter; }
-			SEQ_ALWAYS_INLINE bool operator>(const const_iterator& it) const noexcept { return iter > it.iter; }
-			SEQ_ALWAYS_INLINE bool operator<=(const const_iterator& it) const noexcept { return iter <= it.iter; }
-			SEQ_ALWAYS_INLINE bool operator>=(const const_iterator& it) const noexcept { return iter >= it.iter; }
-			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) const noexcept -> difference_type { return iter - other.iter; }
-		};
-
+		using const_iterator = typename sequence_type::const_iterator;
 		using iterator = const_iterator;
+		using const_reverse_iterator = typename sequence_type::const_reverse_iterator;
+		using reverse_iterator = const_reverse_iterator;
+
 		using key_type = Key;
 		using value_type = Key;
 		using allocator_type = Allocator;
@@ -1217,8 +1313,6 @@ namespace seq
 		using const_reference= const value_type&;
 		using pointer= typename std::allocator_traits<Allocator>::pointer;
 		using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
-		using reverse_iterator = std::reverse_iterator<iterator>;
-		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 		/// @brief Constructs empty container. Sets max_load_factor() to 0.6.
 		/// @param hash hash function to use
@@ -1491,17 +1585,17 @@ namespace seq
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
 		template< class... Args >
-		auto emplace(Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Anywhere>(std::forward<Args>(args)...);
+			return this->base_type::template emplace<detail::Anywhere>(std::forward<Args>(args)...);
 		}
 		/// @brief Inserts a new element into the container constructed in-place with the given args if there is no element with the key in the container.
 		/// Same as ordered_set::emplace().
 		template <class... Args>
-		auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
+		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
 			(void)hint;
-			return this->base_type::template insert<detail::Anywhere>(std::forward<Args>(args)...).first;
+			return this->base_type::template emplace<detail::Anywhere>(std::forward<Args>(args)...).first;
 		}
 		/// @brief Inserts element into the container, if the container doesn't already contain an element with an equivalent key.
 		/// Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than max_load_factor()*size().
@@ -1510,9 +1604,9 @@ namespace seq
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		auto insert(const value_type& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Anywhere>(value);
+			return this->base_type::template emplace<detail::Anywhere>(value);
 		}
 		/// @brief Inserts element into the container using move semantic, if the container doesn't already contain an element with an equivalent key.
 		/// Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than max_load_factor()*size().
@@ -1521,23 +1615,23 @@ namespace seq
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		auto insert( value_type&& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto insert( value_type&& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Anywhere>(std::move(value));
+			return this->base_type::template emplace<detail::Anywhere>(std::move(value));
 		}
 		/// @brief Inserts element into the container, if the container doesn't already contain an element with an equivalent key.
 		/// Same as ordered_set::insert().
-		auto insert(const_iterator hint, const value_type& value) -> iterator
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator
 		{
 			(void)hint;
-			return insert(value).first;
+			return emplace(value).first;
 		}
 		/// @brief Inserts element into the container using move semantic, if the container doesn't already contain an element with an equivalent key.
 		/// Same as ordered_set::insert().
-		auto insert(const_iterator hint, value_type&& value) -> iterator
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator
 		{
 			(void)hint;
-			return insert(std::move(value)).first;
+			return emplace(std::move(value)).first;
 		}
 		/// @brief Inserts elements from range [first, last). If multiple elements in the range have keys that compare equivalent, only the first occurence is inserted.
 		/// Elements are inserted in any order.
@@ -1570,27 +1664,27 @@ namespace seq
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
 		template< class... Args >
-		auto emplace_back(Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto emplace_back(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Back>(std::forward<Args>(args)...);
+			return this->base_type::template emplace<detail::Back>(std::forward<Args>(args)...);
 		}
 		/// @brief Inserts element at the back of the container, if the container doesn't already contain an element with an equivalent key.
 		/// Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than max_load_factor()*size().
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		auto push_back(const value_type& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto push_back(const value_type& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Back>(value);
+			return this->base_type::template emplace<detail::Back>(value);
 		}
 		/// @brief Inserts element at the back of the container use move semantic, if the container doesn't already contain an element with an equivalent key.
 		/// Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than max_load_factor()*size().
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		auto push_back(value_type&& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto push_back(value_type&& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Back>(std::move(value));
+			return this->base_type::template emplace<detail::Back>(std::move(value));
 		}
 
 
@@ -1604,27 +1698,27 @@ namespace seq
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
 		template< class... Args >
-		auto emplace_front(Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto emplace_front(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Front>(std::forward<Args>(args)...);
+			return this->base_type::template emplace<detail::Front>(std::forward<Args>(args)...);
 		}
 		/// @brief Inserts element at the front of the container, if the container doesn't already contain an element with an equivalent key.
 		/// Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than max_load_factor()*size().
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		auto push_front(const value_type& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto push_front(const value_type& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Front>(value);
+			return this->base_type::template emplace<detail::Front>(value);
 		}
 		/// @brief Inserts element at the front of the container using move semantic, if the container doesn't already contain an element with an equivalent key.
 		/// Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than max_load_factor()*size().
 		/// @param value value to be inserted
 		/// @return pair consisting of an iterator to the inserted element, or the already-existing element if no insertion happened, 
 		/// and a bool denoting whether the insertion took place (true if insertion happened, false if it did not).
-		auto push_front(value_type&& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto push_front(value_type&& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Front>(std::move(value));
+			return this->base_type::template emplace<detail::Front>(std::move(value));
 		}
 
 
@@ -1632,15 +1726,15 @@ namespace seq
 		/// Iterators and references are not invalidated. Rehashing never occurs.
 		/// @param pos iterator to the element to erase
 		/// @return iterator to the next element
-		auto erase(const_iterator pos) -> iterator
+		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator
 		{
-			return this->base_type::erase(pos.iter);
+			return this->base_type::erase(pos);
 		}
 		/// @brief Erase element comparing equal to given key (if any).
 		/// Iterators and references are not invalidated. Rehashing never occurs.
 		/// @param key key to be erased
 		/// @return number of erased elements (0 or 1)
-		auto erase(const Key& key) -> size_type
+		SEQ_ALWAYS_INLINE auto erase(const Key& key) -> size_type
 		{
 			return this->base_type::erase(key);
 		}
@@ -1652,7 +1746,7 @@ namespace seq
 		/// @return number of erased elements (0 or 1)
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-		auto erase(const K& x) -> size_type
+			SEQ_ALWAYS_INLINE auto erase(const K& x) -> size_type
 		{
 			return this->base_type::erase(x);
 		}
@@ -1662,7 +1756,7 @@ namespace seq
 		/// @return Iterator following the last removed element
 		auto erase(const_iterator first, const_iterator last) -> iterator
 		{
-			return this->base_type::erase(first.iter,last.iter);
+			return this->base_type::erase(first,last);
 		}
 		
 
@@ -1688,7 +1782,7 @@ namespace seq
 		/// @return iterator pointing to found key on success, end iterator on failure.
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value && has_is_transparent<H>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE auto find(const K& x) const -> const_iterator
+			SEQ_ALWAYS_INLINE auto find(const K& x) const -> const_iterator
 		{
 			return const_cast<this_type*>(this)->base_type::find(x);
 		}
@@ -1700,7 +1794,7 @@ namespace seq
 		/// @return iterator pointing to found key on success, end iterator on failure.
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
+			SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
 		{
 			return static_cast<iterator>(const_cast<this_type*>(this)->base_type::find(key));
 		}
@@ -1798,109 +1892,10 @@ namespace seq
 
 	public:
 		using sequence_type = typename base_type::sequence_type;
-
-		struct const_iterator
-		{
-			using iter_type = typename sequence_type::const_iterator;
-			using value_type = std::pair<const Key, T>;
-			using iterator_category = std::bidirectional_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = const value_type*;
-			using reference = const value_type&;
-			iter_type iter;
-
-			const_iterator() {}
-			const_iterator(const iter_type& it) : iter(it) {}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_iterator& {
-				++iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_iterator {
-				const_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> const_iterator& {
-				--iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> const_iterator {
-				const_iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return reinterpret_cast<const value_type&>(*iter); }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return  std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> const_iterator& {
-				iter += diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> const_iterator& {
-				iter -= diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE bool operator==(const const_iterator& it) const noexcept { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE bool operator!=(const const_iterator& it) const noexcept { return iter != it.iter; }
-			SEQ_ALWAYS_INLINE bool operator<(const const_iterator& it) const noexcept { return iter < it.iter; }
-			SEQ_ALWAYS_INLINE bool operator>(const const_iterator& it) const noexcept { return iter > it.iter; }
-			SEQ_ALWAYS_INLINE bool operator<=(const const_iterator& it) const noexcept { return iter <= it.iter; }
-			SEQ_ALWAYS_INLINE bool operator>=(const const_iterator& it) const noexcept { return iter >= it.iter; }
-			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> const_iterator { return iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) const noexcept -> difference_type { return iter - other.iter; }
-		};
-		struct iterator : public const_iterator
-		{
-			using iter_type = typename sequence_type::const_iterator;
-			using value_type = std::pair<const Key, T>;
-			using iterator_category = std::random_access_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = value_type*;
-			using reference = value_type&;
-
-			iterator() : const_iterator() {}
-			iterator(const iter_type& it) : const_iterator(it) {}
-			iterator(const const_iterator& it) : const_iterator(it) {}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> iterator& {
-				++this->iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> iterator {
-				iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> iterator& {
-				--this->iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> iterator {
-				iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference { return reinterpret_cast<value_type&>(const_cast<std::pair<Key, T>&>(*this->iter)); }
-			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return  std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> iterator& {
-				this->iter += diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> iterator& {
-				this->iter -= diff;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE bool operator==(const const_iterator& it) const noexcept { return this->iter == it.iter; }
-			SEQ_ALWAYS_INLINE bool operator!=(const const_iterator& it) const noexcept { return this->iter != it.iter; }
-			SEQ_ALWAYS_INLINE bool operator<(const const_iterator& it) const noexcept { return this->iter < it.iter; }
-			SEQ_ALWAYS_INLINE bool operator>(const const_iterator& it) const noexcept { return this->iter > it.iter; }
-			SEQ_ALWAYS_INLINE bool operator<=(const const_iterator& it) const noexcept { return this->iter <= it.iter; }
-			SEQ_ALWAYS_INLINE bool operator>=(const const_iterator& it) const noexcept { return this->iter >= it.iter; }
-			SEQ_ALWAYS_INLINE auto operator+(difference_type diff) const noexcept -> iterator { return this->iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(difference_type diff) const noexcept -> iterator { return this->iter + diff; }
-			SEQ_ALWAYS_INLINE auto operator-(const const_iterator& other) const noexcept -> difference_type { return this->iter - other.iter; }
-		};
+		using iterator = typename sequence_type::iterator;
+		using const_iterator = typename sequence_type::const_iterator;
+		using reverse_iterator = typename sequence_type::reverse_iterator;
+		using const_reverse_iterator = typename sequence_type::const_reverse_iterator;
 
 		using key_type = Key;
 		using mapped_type = T;
@@ -1914,8 +1909,6 @@ namespace seq
 		using const_reference = const value_type&;
 		using pointer = typename std::allocator_traits<Allocator>::pointer;
 		using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
-		using reverse_iterator = std::reverse_iterator<iterator>;
-		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 		ordered_map(const Hash& hash = Hash(),
 			const KeyEqual& equal = KeyEqual(),
@@ -2081,44 +2074,44 @@ namespace seq
 
 
 		template< class... Args >
-		auto emplace(Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Anywhere>(std::forward<Args>(args)...);
+			return this->base_type::template emplace<detail::Anywhere>(std::forward<Args>(args)...);
 		}
 		template <class... Args>
-		auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
+		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
 			(void)hint;
-			return this->base_type::template insert<detail::Anywhere>(std::forward<Args>(args)...).first;
+			return this->base_type::template emplace<detail::Anywhere>(std::forward<Args>(args)...).first;
 		}
-		auto insert(const value_type& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Anywhere>(value);
+			return this->base_type::template emplace<detail::Anywhere>(value);
 		}
-		auto insert(value_type&& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto insert(value_type&& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Anywhere>(std::move(value));
+			return this->base_type::template emplace<detail::Anywhere>(std::move(value));
 		}
 		template< class P >
-		auto insert(P&& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto insert(P&& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Anywhere>(std::forward<P>(value));
+			return this->base_type::template emplace<detail::Anywhere>(std::forward<P>(value));
 		}
-		auto insert(const_iterator hint, const value_type& value) -> iterator
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator
 		{
 			(void)hint;
 			return insert(value).first;
 		}
-		auto insert(const_iterator hint, value_type&& value) -> iterator
+		SEQ_ALWAYS_INLINE 	auto insert(const_iterator hint, value_type&& value) -> iterator
 		{
 			(void)hint;
 			return insert(std::move(value)).first;
 		}
 		template< class P >
-		auto insert(const_iterator hint, P&& value) -> iterator
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, P&& value) -> iterator
 		{
 			(void)hint;
-			return this->base_type::template insert<detail::Anywhere>(std::forward<P>(value));
+			return this->base_type::template emplace<detail::Anywhere>(std::forward<P>(value));
 		}
 		template< class InputIt >
 		void insert(InputIt first, InputIt last)
@@ -2136,22 +2129,18 @@ namespace seq
 		template <class M>
 		auto insert_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end()) {
-				it->second = std::forward<M>(obj);
-				return std::pair<iterator, bool>(it, false);
-			}
-			return this->base_type::template insert_no_check<detail::Anywhere>(k, std::forward<M>(obj));
+			auto inserted = try_emplace(k, std::forward<M>(obj));
+			if (!inserted.second)
+				inserted.first->second = std::forward<M>(obj);
+			return inserted;
 		}
 		template <class M>
 		auto insert_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end()) {
-				it->second = std::forward<M>(obj);
-				return std::pair<iterator, bool>(it, false);
-			}
-			return this->base_type::template insert_no_check<detail::Anywhere>(std::move(k), std::forward<M>(obj));
+			auto inserted = try_emplace(std::move(k), std::forward<M>(obj));
+			if (!inserted.second)
+				inserted.first->second = std::forward<M>(obj);
+			return inserted;
 		}
 		template <class M>
 		auto insert_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
@@ -2170,22 +2159,18 @@ namespace seq
 		template <class M>
 		auto push_back_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end()) {
-				it->second = std::forward<M>(obj);
-				return std::pair<iterator, bool>(it, false);
-			}
-			return this->base_type::template insert_no_check<detail::Back>(k, std::forward<M>(obj));
+			auto inserted = try_emplace_back(k, std::forward<M>(obj));
+			if (!inserted.second)
+				inserted.first->second = std::forward<M>(obj);
+			return inserted;
 		}
 		template <class M>
 		auto push_back_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end()) {
-				it->second = std::forward<M>(obj);
-				return std::pair<iterator, bool>(it, false);
-			}
-			return this->base_type::template insert_no_check<detail::Back>(std::move(k), std::forward<M>(obj));
+			auto inserted = try_emplace_back(std::move(k), std::forward<M>(obj));
+			if (!inserted.second)
+				inserted.first->second = std::forward<M>(obj);
+			return inserted;
 		}
 		template <class M>
 		auto push_back_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
@@ -2205,22 +2190,18 @@ namespace seq
 		template <class M>
 		auto push_front_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end()) {
-				it->second = std::forward<M>(obj);
-				return std::pair<iterator, bool>(it, false);
-			}
-			return this->base_type::template insert_no_check<detail::Front>(k, std::forward<M>(obj));
+			auto inserted = try_emplace_front(k, std::forward<M>(obj));
+			if (!inserted.second)
+				inserted.first->second = std::forward<M>(obj);
+			return inserted;
 		}
 		template <class M>
 		auto push_front_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end()) {
-				it->second = std::forward<M>(obj);
-				return std::pair<iterator, bool>(it, false);
-			}
-			return this->base_type::template insert_no_check<detail::Front>(std::move(k), std::forward<M>(obj));
+			auto inserted = try_emplace_front(std::move(k), std::forward<M>(obj));
+			if (!inserted.second)
+				inserted.first->second = std::forward<M>(obj);
+			return inserted;
 		}
 		template <class M>
 		auto push_front_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
@@ -2237,167 +2218,126 @@ namespace seq
 
 
 		template< class... Args >
-		auto emplace_back(Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto emplace_back(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Back>(std::forward<Args>(args)...);
+			return this->base_type::template emplace<detail::Back>(std::forward<Args>(args)...);
 		}
-		auto push_back(const value_type& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto push_back(const value_type& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Back>(value);
+			return this->base_type::template emplace<detail::Back>(value);
 		}
-		auto push_back(value_type&& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto push_back(value_type&& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Back>(std::move(value));
-		}
-		template<class P>
-		auto push_back(P&& value) -> std::pair<iterator, bool>
-		{
-			return this->base_type::template insert<detail::Back>(std::forward<P>(value));
-		}
-
-		template< class... Args >
-		auto emplace_front(Args&&... args) -> std::pair<iterator, bool>
-		{
-			return this->base_type::template insert<detail::Front>(std::forward<Args>(args)...);
-		}
-		auto push_front(const value_type& value) -> std::pair<iterator, bool>
-		{
-			return this->base_type::template insert<detail::Front>(value);
-		}
-		auto push_front(value_type&& value) -> std::pair<iterator, bool>
-		{
-			return this->base_type::template insert<detail::Front>(std::move(value));
+			return this->base_type::template emplace<detail::Back>(std::move(value));
 		}
 		template<class P>
-		auto push_front(P&& value) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto push_back(P&& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template insert<detail::Front>(std::forward<P>(value));
+			return this->base_type::template emplace<detail::Back>(std::forward<P>(value));
+		}
+
+		template< class... Args >
+		SEQ_ALWAYS_INLINE auto emplace_front(Args&&... args) -> std::pair<iterator, bool>
+		{
+			return this->base_type::template emplace<detail::Front>(std::forward<Args>(args)...);
+		}
+		SEQ_ALWAYS_INLINE auto push_front(const value_type& value) -> std::pair<iterator, bool>
+		{
+			return this->base_type::template emplace<detail::Front>(value);
+		}
+		SEQ_ALWAYS_INLINE auto push_front(value_type&& value) -> std::pair<iterator, bool>
+		{
+			return this->base_type::template emplace<detail::Front>(std::move(value));
+		}
+		template<class P>
+		SEQ_ALWAYS_INLINE auto push_front(P&& value) -> std::pair<iterator, bool>
+		{
+			return this->base_type::template emplace<detail::Front>(std::forward<P>(value));
 		}
 
 
 
 
 		template< class... Args >
-		auto try_emplace(const Key& k, Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto try_emplace(const Key& k, Args&&... args) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end())
-				return std::pair<iterator, bool>(it, false);
-			return this->base_type::template insert_no_check<detail::Anywhere>(
-				value_type(std::piecewise_construct,
-				std::forward_as_tuple(k),
-				std::forward_as_tuple(std::forward<Args>(args)...)));
+			return this->base_type::template try_emplace<detail::Anywhere>(k, std::forward<Args>(args)...);
 		}
 		template< class... Args >
-		auto try_emplace(Key&& k, Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto try_emplace(Key&& k, Args&&... args) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end())
-				return std::pair<iterator, bool>(it, false);
-			return this->base_type::template insert_no_check<detail::Anywhere>(
-				value_type(std::piecewise_construct,
-					std::forward_as_tuple(std::move(k)),
-					std::forward_as_tuple(std::forward<Args>(args)...)));
+			return this->base_type::template try_emplace<detail::Anywhere>(std::move(k), std::forward<Args>(args)...);
 		}
 		template< class... Args >
-		auto try_emplace(const_iterator hint, const Key& k, Args&&... args) -> iterator
+		SEQ_ALWAYS_INLINE auto try_emplace(const_iterator hint, const Key& k, Args&&... args) -> iterator
 		{
 			(void)hint;
-			return try_emplace(k, std::forward<Args>(args)...).first;
+			return this->base_type::template try_emplace<detail::Anywhere>(k, std::forward<Args>(args)...).first;
 		}
 		template< class... Args >
-		auto try_emplace(const_iterator hint, Key&& k, Args&&... args) -> iterator
+		SEQ_ALWAYS_INLINE auto try_emplace(const_iterator hint, Key&& k, Args&&... args) -> iterator
 		{
 			(void)hint;
-			return try_emplace(std::move(k), std::forward<Args>(args)...).first;
+			return this->base_type::template try_emplace<detail::Anywhere>(std::move(k), std::forward<Args>(args)...).first;
 		}
 
 
-
-
 		template< class... Args >
-		auto try_emplace_back(const Key& k, Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto try_emplace_back(const Key& k, Args&&... args) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end())
-				return std::pair<iterator, bool>(it, false);
-			return this->base_type::template insert_no_check<detail::Back>(
-				value_type(std::piecewise_construct,
-					std::forward_as_tuple(k),
-					std::forward_as_tuple(std::forward<Args>(args)...)));
+			return this->base_type::template try_emplace<detail::Back>(k, std::forward<Args>(args)...);
 		}
 		template< class... Args >
-		auto try_emplace_back(Key&& k, Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto try_emplace_back(Key&& k, Args&&... args) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end())
-				return std::pair<iterator, bool>(it, false);
-			return this->base_type::template insert_no_check<detail::Back>(
-				value_type(std::piecewise_construct,
-					std::forward_as_tuple(std::move(k)),
-					std::forward_as_tuple(std::forward<Args>(args)...)));
+			return this->base_type::template try_emplace<detail::Back>(std::move(k), std::forward<Args>(args)...);
 		}
 		template< class... Args >
-		auto try_emplace_back(const_iterator hint, const Key& k, Args&&... args) -> iterator
+		SEQ_ALWAYS_INLINE auto try_emplace_back(const_iterator hint, const Key& k, Args&&... args) -> iterator
 		{
 			(void)hint;
-			return try_emplace_back(k, std::forward<Args>(args)...).first;
+			return this->base_type::template try_emplace<detail::Back>(k, std::forward<Args>(args)...).first;
 		}
 		template< class... Args >
-		auto try_emplace_back(const_iterator hint, Key&& k, Args&&... args) -> iterator
+		SEQ_ALWAYS_INLINE auto try_emplace_back(const_iterator hint, Key&& k, Args&&... args) -> iterator
 		{
 			(void)hint;
-			return try_emplace_back(std::move(k), std::forward<Args>(args)...).first;
+			return this->base_type::template try_emplace<detail::Back>(std::move(k), std::forward<Args>(args)...).first;
 		}
 
 
-
-
 		template< class... Args >
-		auto try_emplace_front(const Key& k, Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto try_emplace_front(const Key& k, Args&&... args) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end())
-				return std::pair<iterator, bool>(it, false);
-			return this->base_type::template insert_no_check<detail::Front>(
-				value_type(std::piecewise_construct,
-					std::forward_as_tuple(k),
-					std::forward_as_tuple(std::forward<Args>(args)...)));
+			return this->base_type::template try_emplace<detail::Front>(k, std::forward<Args>(args)...);
 		}
 		template< class... Args >
-		auto try_emplace_front(Key&& k, Args&&... args) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto try_emplace_front(Key&& k, Args&&... args) -> std::pair<iterator, bool>
 		{
-			auto it = find(k);
-			if (it != end())
-				return std::pair<iterator, bool>(it, false);
-			return this->base_type::template insert_no_check<detail::Front>(
-				value_type(std::piecewise_construct,
-					std::forward_as_tuple(std::move(k)),
-					std::forward_as_tuple(std::forward<Args>(args)...)));
+			return this->base_type::template try_emplace<detail::Front>(std::move(k), std::forward<Args>(args)...);
 		}
 		template< class... Args >
-		auto try_emplace_front(const_iterator hint, const Key& k, Args&&... args) -> iterator
+		SEQ_ALWAYS_INLINE auto try_emplace_front(const_iterator hint, const Key& k, Args&&... args) -> iterator
 		{
 			(void)hint;
-			return try_emplace_front(k, std::forward<Args>(args)...).first;
+			return this->base_type::template try_emplace<detail::Front>(k, std::forward<Args>(args)...).first;
 		}
 		template< class... Args >
-		auto try_emplace_front(const_iterator hint, Key&& k, Args&&... args) -> iterator
+		SEQ_ALWAYS_INLINE auto try_emplace_front(const_iterator hint, Key&& k, Args&&... args) -> iterator
 		{
 			(void)hint;
-			return try_emplace_front(std::move(k), std::forward<Args>(args)...).first;
+			return this->base_type::template try_emplace<detail::Front>(std::move(k), std::forward<Args>(args)...).first;
 		}
 
 
-
-		auto at(const Key& key) -> T&
+		SEQ_ALWAYS_INLINE auto at(const Key& key) -> T&
 		{
 			auto it = find(key);
 			if (it == end())
 				throw std::out_of_range("ordered_map: key not found");
 			return it->second;
 		}
-		auto at(const Key& key) const -> const T&
+		SEQ_ALWAYS_INLINE auto at(const Key& key) const -> const T&
 		{
 			auto it = find(key);
 			if (it == end())
@@ -2406,43 +2346,33 @@ namespace seq
 		}
 
 
-
-		auto operator[](const Key& key) -> T&
+		SEQ_ALWAYS_INLINE auto operator[](const Key& k) -> T&
 		{
-			auto it = find(key);
-			if (it != end())
-				return it->second;
-			return this->base_type::template insert_no_check<detail::Anywhere>(
-				value_type(std::piecewise_construct, std::forward_as_tuple(key), std::tuple<>())).first->second;
+			return try_emplace(k).first->second;
 		}
-		auto operator[](Key&& key) -> T&
+		SEQ_ALWAYS_INLINE 	auto operator[](Key&& k) -> T&
 		{
-			auto it = find(key);
-			if (it != end())
-				return it->second;
-			return this->base_type::template insert_no_check<detail::Anywhere>(
-				value_type(std::piecewise_construct, std::forward_as_tuple(std::move(key)), std::tuple<>())).first->second;
+			return try_emplace(std::move(k)).first->second;
 		}
 
 
-
-		auto erase(const_iterator pos) -> iterator
+		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator
 		{
-			return this->base_type::erase(pos.iter);
+			return this->base_type::erase(pos);
 		}
-		auto erase(const Key& key) -> size_type
+		SEQ_ALWAYS_INLINE auto erase(const Key& key) -> size_type
 		{
 			return this->base_type::erase(key);
 		}
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-			auto erase(const K& key) -> size_type
+			SEQ_ALWAYS_INLINE	auto erase(const K& key) -> size_type
 		{
 			return this->base_type::erase(key);
 		}
-		auto erase(const_iterator first, const_iterator last) -> iterator
+		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator
 		{
-			return this->base_type::erase(first.iter, last.iter);
+			return this->base_type::erase(first, last);
 		}
 
 		SEQ_ALWAYS_INLINE auto find(const Key& value) const -> const_iterator
@@ -2456,38 +2386,38 @@ namespace seq
 
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE auto find(const K& key) const -> const_iterator
+			SEQ_ALWAYS_INLINE auto find(const K& key) const -> const_iterator
 		{
 			return const_cast<this_type*>(this)->base_type::find(key);
 		}
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
+			SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
 		{
 			return static_cast<iterator>(const_cast<this_type*>(this)->base_type::find(key));
 		}
 
 
-		auto count(const Key& key) const -> size_type
+		SEQ_ALWAYS_INLINE auto count(const Key& key) const -> size_type
 		{
 			return find(key) != end();
 		}
 
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-		auto count(const K& key) const -> size_type
+			SEQ_ALWAYS_INLINE auto count(const K& key) const -> size_type
 		{
 			return find(key) != end();
 		}
 
-		bool contains(const Key& key) const
+		SEQ_ALWAYS_INLINE bool contains(const Key& key) const
 		{
 			return find(key) != end();
 		}
 
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-		bool contains(const K& key) const
+			SEQ_ALWAYS_INLINE bool contains(const K& key) const
 		{
 			return find(key) != end();
 		}

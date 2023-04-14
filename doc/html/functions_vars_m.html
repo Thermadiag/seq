@@ -103,10 +103,16 @@ $(document).ready(function(){initNavTree('functions_vars_m.html',''); initResiza
 , <a class="el" href="classseq_1_1tagged__pointer.html#ab01b529694dd0dd22b83015a58392a0d">seq::tagged_pointer&lt; T, Type, UserDefinedAlignment &gt;</a>
 , <a class="el" href="classseq_1_1tagged__pointer_3_01void_00_01_type_00_01_user_defined_alignment_01_4.html#a532cd1b86fee2895b9c29db18946bca1">seq::tagged_pointer&lt; void, Type, UserDefinedAlignment &gt;</a>
 </li>
+<li>match
+: <a class="el" href="structseq_1_1by__any__char.html#a010d3ecc303ed9f42f73b46f9839599d">seq::by_any_char</a>
+, <a class="el" href="structseq_1_1by__char.html#ab3e1f3e4224a69898238c9ca37f2db05">seq::by_char</a>
+, <a class="el" href="structseq_1_1by__not__any__char.html#ab0baed759ca5ac39dd4e852a605704ef">seq::by_not_any_char</a>
+, <a class="el" href="structseq_1_1by__string.html#aab3885f699f2471e7922167a110d502a">seq::by_string</a>
+, <a class="el" href="structseq_1_1detail_1_1_split_iter.html#a27aac08e705d989ab930705bbef0b2bf">seq::detail::SplitIter&lt; Match, Skip &gt;</a>
+</li>
 <li>max_block_size
 : <a class="el" href="classseq_1_1cvector.html#a45d786b615987043cc5873317810d2db">seq::cvector&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
-, <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a4f65eb96ebbf8451e5002b690c2f3bfd">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
-, <a class="el" href="classseq_1_1tiered__vector.html#a8bb0079b787556ae20ab5eec54a68c3f">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
+, <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a19e7036a19450837c03d27fdb8645b81">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare &gt;</a>
 </li>
 <li>max_csize
 : <a class="el" href="structseq_1_1detail_1_1_compressed_vector_internal.html#a8955fd748866ae78feb0d433adf84289">seq::detail::CompressedVectorInternal&lt; T, Allocator, Acceleration, Encoder, block_size &gt;</a>
@@ -131,8 +137,8 @@ $(document).ready(function(){initNavTree('functions_vars_m.html',''); initResiza
 : <a class="el" href="structseq_1_1detail_1_1_base_circular_buffer.html#a672d52ccf0e3c226c995238118f289ee">seq::detail::BaseCircularBuffer&lt; T, Allocator &gt;</a>
 </li>
 <li>max_static_size
-: <a class="el" href="classseq_1_1tiny__string.html#a934a22fba51d21df5a9e14aa91b1e664">seq::tiny_string&lt; MaxStaticSize, Allocator &gt;</a>
-, <a class="el" href="structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#ae29f05ece4da9467b0d29222f2248765">seq::tiny_string&lt; 0, view_allocator &gt;</a>
+: <a class="el" href="classseq_1_1tiny__string.html#a00171cdeed307930244cabfd46e78d35">seq::tiny_string&lt; Char, Traits, Allocator, MaxStaticSize &gt;</a>
+, <a class="el" href="structseq_1_1tiny__string_3_01_char_00_01_traits_00_01view__allocator_3_01_char_01_4_00_010_01_4.html#a1b9c7ae8cadb7430028b3b92076dacad">seq::tiny_string&lt; Char, Traits, view_allocator&lt; Char &gt;, 0 &gt;</a>
 </li>
 <li>memory
 : <a class="el" href="structseq_1_1object__pool__stats.html#a642470abdce63e20f167567a1b1b82b8">seq::object_pool_stats</a>
@@ -141,8 +147,7 @@ $(document).ready(function(){initNavTree('functions_vars_m.html',''); initResiza
 : <a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html#a853d5c7d9159bde98091766294f57477">seq::detail::deque_const_iterator&lt; BucketMgr &gt;</a>
 </li>
 <li>min_block_size
-: <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#a21c672ea565d0280aec10c99d205ceac">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a>
-, <a class="el" href="classseq_1_1tiered__vector.html#a8203939c5407b374c0ad3c761a935592">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a>
+: <a class="el" href="structseq_1_1detail_1_1_bucket_manager.html#ad23a887012aead7086f7783dbcaad1bc">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare &gt;</a>
 </li>
 <li>min_capacity
 : <a class="el" href="structseq_1_1block__object__allocation.html#aca9cac811490af40232ba4744f0474d5">seq::block_object_allocation&lt; MaxSize, BlockSize, MinCapacity &gt;</a>

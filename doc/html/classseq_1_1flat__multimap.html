@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.18"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SEQ library: seq::flat_multimap&lt; Key, T, Compare, Allocator, layout, Stable &gt; Class Template Reference</title>
+<title>SEQ library: seq::flat_multimap&lt; Key, T, Compare, Allocator, Stable &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -88,7 +88,7 @@ $(document).ready(function(){initNavTree('classseq_1_1flat__multimap.html',''); 
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classseq_1_1flat__multimap-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">seq::flat_multimap&lt; Key, T, Compare, Allocator, layout, Stable &gt; Class Template Reference</div>  </div>
+<div class="title">seq::flat_multimap&lt; Key, T, Compare, Allocator, Stable &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -97,124 +97,131 @@ $(document).ready(function(){initNavTree('classseq_1_1flat__multimap.html',''); 
 
 <p><code>#include &lt;<a class="el" href="flat__map_8hpp_source.html">flat_map.hpp</a>&gt;</code></p>
 
-<p>Inherits flat_map&lt; Key, T, std::less&lt; Key &gt;, std::allocator&lt; std::pair&lt; Key, T &gt;&gt;, OptimizeForMemory, false, false &gt;.</p>
+<p>Inherits flat_map&lt; Key, T, std::less&lt; Key &gt;, std::allocator&lt; std::pair&lt; Key, T &gt;&gt;, false, false &gt;.</p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:af20166ba66768fa1334b274123c063c9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#af20166ba66768fa1334b274123c063c9">deque_type</a> = typename <a class="el" href="classseq_1_1flat__map.html#aa1000b7197b0ce9a7fccb22421000d49">base_type::deque_type</a></td></tr>
-<tr class="separator:af20166ba66768fa1334b274123c063c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81d0e334bffd811d9ed60b8051d35fd1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a81d0e334bffd811d9ed60b8051d35fd1">key_type</a> = Key</td></tr>
-<tr class="separator:a81d0e334bffd811d9ed60b8051d35fd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc6b6bbe856f7904f508c3cd6cbe5115"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#adc6b6bbe856f7904f508c3cd6cbe5115">mapped_type</a> = T</td></tr>
-<tr class="separator:adc6b6bbe856f7904f508c3cd6cbe5115"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a7302a86a03c7cd64945bd252ddaf9b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> = std::pair&lt; Key, T &gt;</td></tr>
-<tr class="separator:a8a7302a86a03c7cd64945bd252ddaf9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8532d39c47d8352d059de3c5bd91dac4"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a8532d39c47d8352d059de3c5bd91dac4">difference_type</a> = typename std::allocator_traits&lt; Allocator &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a8532d39c47d8352d059de3c5bd91dac4">difference_type</a></td></tr>
-<tr class="separator:a8532d39c47d8352d059de3c5bd91dac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bc564dedccf5ad31b6d09569f284155"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a9bc564dedccf5ad31b6d09569f284155">size_type</a> = typename std::allocator_traits&lt; Allocator &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a9bc564dedccf5ad31b6d09569f284155">size_type</a></td></tr>
-<tr class="separator:a9bc564dedccf5ad31b6d09569f284155"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab694fe581ff7034a27bcee3ac2b23a81"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ab694fe581ff7034a27bcee3ac2b23a81">key_compare</a> = Compare</td></tr>
-<tr class="separator:ab694fe581ff7034a27bcee3ac2b23a81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa824e9f67d5ac5688fe48f8395e8f0df"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#aa824e9f67d5ac5688fe48f8395e8f0df">value_compare</a> = typename <a class="el" href="classseq_1_1flat__map.html#a09e066e37fed1b8db9e27105bb0fa1c3">base_type::value_compare</a></td></tr>
-<tr class="separator:aa824e9f67d5ac5688fe48f8395e8f0df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a565572febff5eedc45db5c4ccb2db97e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a565572febff5eedc45db5c4ccb2db97e">allocator_type</a> = Allocator</td></tr>
-<tr class="separator:a565572febff5eedc45db5c4ccb2db97e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4743f9c11106cb97c2fda175c2003fe1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a4743f9c11106cb97c2fda175c2003fe1">reference</a> = <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;</td></tr>
-<tr class="separator:a4743f9c11106cb97c2fda175c2003fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15366414d6968b26d920a25624ee6742"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a15366414d6968b26d920a25624ee6742">const_reference</a> = const <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;</td></tr>
-<tr class="separator:a15366414d6968b26d920a25624ee6742"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a471a8c4383b6659e9507af96823452b5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a471a8c4383b6659e9507af96823452b5">pointer</a> = typename std::allocator_traits&lt; Allocator &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a471a8c4383b6659e9507af96823452b5">pointer</a></td></tr>
-<tr class="separator:a471a8c4383b6659e9507af96823452b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a817f17861933007683e72ef43e98896a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a817f17861933007683e72ef43e98896a">const_pointer</a> = typename std::allocator_traits&lt; Allocator &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a817f17861933007683e72ef43e98896a">const_pointer</a></td></tr>
-<tr class="separator:a817f17861933007683e72ef43e98896a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a267f74fdfee4b4bb326b72d09d6f1c3e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a> = typename <a class="el" href="structseq_1_1flat__map_1_1iterator.html">base_type::iterator</a></td></tr>
-<tr class="separator:a267f74fdfee4b4bb326b72d09d6f1c3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d5149066d78f4c53fcc5a687e42d769"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a2d5149066d78f4c53fcc5a687e42d769">const_iterator</a> = typename <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html">base_type::const_iterator</a></td></tr>
-<tr class="separator:a2d5149066d78f4c53fcc5a687e42d769"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7352662cba400725ab21cbbe8f9f0681"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a7352662cba400725ab21cbbe8f9f0681">reverse_iterator</a> = typename <a class="el" href="classseq_1_1flat__map.html#af8524920a7a887a9723e77274fb49eea">base_type::reverse_iterator</a></td></tr>
-<tr class="separator:a7352662cba400725ab21cbbe8f9f0681"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83bfd4468b2fc90bc43fa91231358aed"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a83bfd4468b2fc90bc43fa91231358aed">const_reverse_iterator</a> = typename <a class="el" href="classseq_1_1flat__map.html#a0dd5adf9d421decefdd0ab4206f23708">base_type::const_reverse_iterator</a></td></tr>
-<tr class="separator:a83bfd4468b2fc90bc43fa91231358aed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e11cf69e194185a1307318e2e541fe7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a3e11cf69e194185a1307318e2e541fe7">deque_type</a> = typename <a class="el" href="classseq_1_1flat__map.html#ad4232fb3e1021569109c2bb9b08cdd81">base_type::deque_type</a></td></tr>
+<tr class="separator:a3e11cf69e194185a1307318e2e541fe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75133154a45bc57709918d1cacf2bef5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a75133154a45bc57709918d1cacf2bef5">key_type</a> = Key</td></tr>
+<tr class="separator:a75133154a45bc57709918d1cacf2bef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e972679a078e1163ced2b111af08a15"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a5e972679a078e1163ced2b111af08a15">mapped_type</a> = T</td></tr>
+<tr class="separator:a5e972679a078e1163ced2b111af08a15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2805a21e83ef48f4fe7a6bd3a8761873"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> = std::pair&lt; Key, T &gt;</td></tr>
+<tr class="separator:a2805a21e83ef48f4fe7a6bd3a8761873"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4d5468557f4cfd7fc8ec7be91a5201f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ac4d5468557f4cfd7fc8ec7be91a5201f">difference_type</a> = typename std::allocator_traits&lt; Allocator &gt;::<a class="el" href="classseq_1_1flat__multimap.html#ac4d5468557f4cfd7fc8ec7be91a5201f">difference_type</a></td></tr>
+<tr class="separator:ac4d5468557f4cfd7fc8ec7be91a5201f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd1061477e6464fc470069fff73b11da"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#afd1061477e6464fc470069fff73b11da">size_type</a> = typename std::allocator_traits&lt; Allocator &gt;::<a class="el" href="classseq_1_1flat__multimap.html#afd1061477e6464fc470069fff73b11da">size_type</a></td></tr>
+<tr class="separator:afd1061477e6464fc470069fff73b11da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b182907f4ca27dabfcdcce704dee104"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a0b182907f4ca27dabfcdcce704dee104">key_compare</a> = Compare</td></tr>
+<tr class="separator:a0b182907f4ca27dabfcdcce704dee104"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ca9e09b652b2e5afbeef3eb07740e96"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a9ca9e09b652b2e5afbeef3eb07740e96">value_compare</a> = typename <a class="el" href="classseq_1_1flat__map.html#ad98d3b55d86d8c95f7ae5812e327874d">base_type::value_compare</a></td></tr>
+<tr class="separator:a9ca9e09b652b2e5afbeef3eb07740e96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf0024fb3abbf2324fe6957aa1bc66e2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#adf0024fb3abbf2324fe6957aa1bc66e2">allocator_type</a> = Allocator</td></tr>
+<tr class="separator:adf0024fb3abbf2324fe6957aa1bc66e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbc921a1ff2d3ff60b1a7f184fcddc89"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#adbc921a1ff2d3ff60b1a7f184fcddc89">reference</a> = <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;</td></tr>
+<tr class="separator:adbc921a1ff2d3ff60b1a7f184fcddc89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeef1eaeaaed3b7a7609047387384bc2e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#aeef1eaeaaed3b7a7609047387384bc2e">const_reference</a> = const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;</td></tr>
+<tr class="separator:aeef1eaeaaed3b7a7609047387384bc2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a200a1398d17171c97c115f8725d695fe"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a200a1398d17171c97c115f8725d695fe">pointer</a> = typename std::allocator_traits&lt; Allocator &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a200a1398d17171c97c115f8725d695fe">pointer</a></td></tr>
+<tr class="separator:a200a1398d17171c97c115f8725d695fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa74c357e22804074a991cde7da4cc4b7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#aa74c357e22804074a991cde7da4cc4b7">const_pointer</a> = typename std::allocator_traits&lt; Allocator &gt;::<a class="el" href="classseq_1_1flat__multimap.html#aa74c357e22804074a991cde7da4cc4b7">const_pointer</a></td></tr>
+<tr class="separator:aa74c357e22804074a991cde7da4cc4b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93d609ddef05695a3f68afe0e4432bf0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a> = typename <a class="el" href="classseq_1_1flat__map.html#ae55f394629edffaa8d1f32e480418675">base_type::iterator</a></td></tr>
+<tr class="separator:a93d609ddef05695a3f68afe0e4432bf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75e24df9a2f37bb1d848ee85dd667184"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a75e24df9a2f37bb1d848ee85dd667184">const_iterator</a> = typename <a class="el" href="classseq_1_1flat__map.html#abefdcaaad9b67bc1d13f088a74c9eccc">base_type::const_iterator</a></td></tr>
+<tr class="separator:a75e24df9a2f37bb1d848ee85dd667184"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51736b9c2d0ee263e4258e454ee3b904"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a51736b9c2d0ee263e4258e454ee3b904">reverse_iterator</a> = typename <a class="el" href="classseq_1_1flat__map.html#a4e0cf3231b545ab44b1710e8b325e15f">base_type::reverse_iterator</a></td></tr>
+<tr class="separator:a51736b9c2d0ee263e4258e454ee3b904"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69f5847d515ec29c483a3151b2e09786"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a69f5847d515ec29c483a3151b2e09786">const_reverse_iterator</a> = typename <a class="el" href="classseq_1_1flat__map.html#ade6ddf05bf0542246720d1db5d277037">base_type::const_reverse_iterator</a></td></tr>
+<tr class="separator:a69f5847d515ec29c483a3151b2e09786"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a17a90e9b4e161463cc3deccadf8700be"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a17a90e9b4e161463cc3deccadf8700be">flat_multimap</a> ()</td></tr>
-<tr class="separator:a17a90e9b4e161463cc3deccadf8700be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb06e9325317cfa1891900b85961e5bc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#abb06e9325317cfa1891900b85961e5bc">flat_multimap</a> (const Compare &amp;comp, const Allocator &amp;alloc=Allocator())</td></tr>
-<tr class="separator:abb06e9325317cfa1891900b85961e5bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f310a30348c1bfb1e01d35f4ef935a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a9f310a30348c1bfb1e01d35f4ef935a6">flat_multimap</a> (const Allocator &amp;alloc)</td></tr>
-<tr class="separator:a9f310a30348c1bfb1e01d35f4ef935a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb754513872c59e0923febca26f5159d"><td class="memTemplParams" colspan="2">template&lt;class InputIt &gt; </td></tr>
-<tr class="memitem:abb754513872c59e0923febca26f5159d"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#abb754513872c59e0923febca26f5159d">flat_multimap</a> (InputIt first, InputIt last, const Compare &amp;comp=Compare(), const Allocator &amp;alloc=Allocator())</td></tr>
-<tr class="separator:abb754513872c59e0923febca26f5159d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac68cc9631bcdd65769f2aa64913e9e18"><td class="memTemplParams" colspan="2">template&lt;class InputIt &gt; </td></tr>
-<tr class="memitem:ac68cc9631bcdd65769f2aa64913e9e18"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ac68cc9631bcdd65769f2aa64913e9e18">flat_multimap</a> (InputIt first, InputIt last, const Allocator &amp;alloc)</td></tr>
-<tr class="separator:ac68cc9631bcdd65769f2aa64913e9e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac067bcd0d12865470f5008f2cecbb4ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ac067bcd0d12865470f5008f2cecbb4ea">flat_multimap</a> (const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;other)</td></tr>
-<tr class="separator:ac067bcd0d12865470f5008f2cecbb4ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1d8dac5e356eaad70638c2eb0943abf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#af1d8dac5e356eaad70638c2eb0943abf">flat_multimap</a> (const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;other, const Allocator &amp;alloc)</td></tr>
-<tr class="separator:af1d8dac5e356eaad70638c2eb0943abf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41c22cbbb078e1783b71df55d1550ad0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a41c22cbbb078e1783b71df55d1550ad0">flat_multimap</a> (<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="separator:a41c22cbbb078e1783b71df55d1550ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9cdfd4717c7ecf776a0b563612c102e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ad9cdfd4717c7ecf776a0b563612c102e">flat_multimap</a> (<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;&amp;other, const Allocator &amp;alloc)</td></tr>
-<tr class="separator:ad9cdfd4717c7ecf776a0b563612c102e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafb7eb9ace0cae71bf3339f27ed903fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#aafb7eb9ace0cae71bf3339f27ed903fe">flat_multimap</a> (std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &gt; init, const Compare &amp;comp=Compare(), const Allocator &amp;alloc=Allocator())</td></tr>
-<tr class="separator:aafb7eb9ace0cae71bf3339f27ed903fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e071c6308db213ee6a3d43af98275ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a7e071c6308db213ee6a3d43af98275ad">flat_multimap</a> (std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &gt; init, const Allocator &amp;alloc)</td></tr>
-<tr class="separator:a7e071c6308db213ee6a3d43af98275ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80fb38b647187313f0faed1711d8f7cd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a80fb38b647187313f0faed1711d8f7cd">operator=</a> (<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;&amp;other) noexcept -&gt; <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;</td></tr>
-<tr class="separator:a80fb38b647187313f0faed1711d8f7cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad38e4e305420e7474cc73e75bf384444"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ad38e4e305420e7474cc73e75bf384444">operator=</a> (const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;other) -&gt; <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;</td></tr>
-<tr class="separator:ad38e4e305420e7474cc73e75bf384444"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ef920937e3a77d88bdc6e07f1a24bed"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a4ef920937e3a77d88bdc6e07f1a24bed">operator=</a> (const std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &gt; &amp;init) -&gt; <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;</td></tr>
-<tr class="separator:a4ef920937e3a77d88bdc6e07f1a24bed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7968b0790ce8ca756b0055cb1a0f2077"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a7968b0790ce8ca756b0055cb1a0f2077">insert</a> (const <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a></td></tr>
-<tr class="separator:a7968b0790ce8ca756b0055cb1a0f2077"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8900b0e66f7dab665dc7fb270cd455f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a8900b0e66f7dab665dc7fb270cd455f6">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a></td></tr>
-<tr class="separator:a8900b0e66f7dab665dc7fb270cd455f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab167c0716439cb94d4156fa95430132f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ab167c0716439cb94d4156fa95430132f">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a2d5149066d78f4c53fcc5a687e42d769">const_iterator</a> hint, const <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a></td></tr>
-<tr class="separator:ab167c0716439cb94d4156fa95430132f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ca297cfd4196d8e077a7d8c6b98e298"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a6ca297cfd4196d8e077a7d8c6b98e298">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a2d5149066d78f4c53fcc5a687e42d769">const_iterator</a> hint, <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a></td></tr>
-<tr class="separator:a6ca297cfd4196d8e077a7d8c6b98e298"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a016da7551cf868920218ea657be8708a"><td class="memTemplParams" colspan="2">template&lt;class P &gt; </td></tr>
-<tr class="memitem:a016da7551cf868920218ea657be8708a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a016da7551cf868920218ea657be8708a">insert</a> (P &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a></td></tr>
-<tr class="separator:a016da7551cf868920218ea657be8708a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8318d7a85fe1761541d68df7e016d307"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a8318d7a85fe1761541d68df7e016d307">insert_pos</a> (const <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;value) -&gt; size_t</td></tr>
-<tr class="separator:a8318d7a85fe1761541d68df7e016d307"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa14ea5cafada5e46723df4412bcdfce1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#aa14ea5cafada5e46723df4412bcdfce1">insert_pos</a> (<a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;&amp;value) -&gt; size_t</td></tr>
-<tr class="separator:aa14ea5cafada5e46723df4412bcdfce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a936d903b35847c0254dfa73100b9219e"><td class="memTemplParams" colspan="2">template&lt;class P &gt; </td></tr>
-<tr class="memitem:a936d903b35847c0254dfa73100b9219e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a936d903b35847c0254dfa73100b9219e">insert_pos</a> (P &amp;&amp;value) -&gt; size_t</td></tr>
-<tr class="separator:a936d903b35847c0254dfa73100b9219e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a575cfaeb9a123d042a571acd2b7c6a51"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:a575cfaeb9a123d042a571acd2b7c6a51"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a575cfaeb9a123d042a571acd2b7c6a51">emplace</a> (Args &amp;&amp;... args) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a></td></tr>
-<tr class="separator:a575cfaeb9a123d042a571acd2b7c6a51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38ff8460ad769098d3fd91d6dec0cfd6"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:a38ff8460ad769098d3fd91d6dec0cfd6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a38ff8460ad769098d3fd91d6dec0cfd6">emplace_pos</a> (Args &amp;&amp;... args) -&gt; size_t</td></tr>
-<tr class="separator:a38ff8460ad769098d3fd91d6dec0cfd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9a46a666c41894c206bcb4b88f742dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ab9a46a666c41894c206bcb4b88f742dd">insert</a> (const <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;value) -&gt; std::pair&lt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a>, bool &gt;</td></tr>
-<tr class="separator:ab9a46a666c41894c206bcb4b88f742dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a289fc29af7464c67be2fff588da486ea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a289fc29af7464c67be2fff588da486ea">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;&amp;value) -&gt; std::pair&lt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a>, bool &gt;</td></tr>
-<tr class="separator:a289fc29af7464c67be2fff588da486ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3578fac8d4c9ba170ef1bc099e751d03"><td class="memTemplParams" colspan="2">template&lt;class P &gt; </td></tr>
-<tr class="memitem:a3578fac8d4c9ba170ef1bc099e751d03"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a3578fac8d4c9ba170ef1bc099e751d03">insert</a> (P &amp;&amp;value) -&gt; std::pair&lt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a>, bool &gt;</td></tr>
-<tr class="separator:a3578fac8d4c9ba170ef1bc099e751d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade541f9fc01669b70f6f3834bb7088ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ade541f9fc01669b70f6f3834bb7088ff">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a2d5149066d78f4c53fcc5a687e42d769">const_iterator</a> hint, const <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a></td></tr>
-<tr class="separator:ade541f9fc01669b70f6f3834bb7088ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4be759b891672db27fc0e1b69bf12cd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a4be759b891672db27fc0e1b69bf12cd0">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a2d5149066d78f4c53fcc5a687e42d769">const_iterator</a> hint, <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a></td></tr>
-<tr class="separator:a4be759b891672db27fc0e1b69bf12cd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65895c968a33bc974635085fce8b084b"><td class="memTemplParams" colspan="2">template&lt;class P &gt; </td></tr>
-<tr class="memitem:a65895c968a33bc974635085fce8b084b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a65895c968a33bc974635085fce8b084b">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a2d5149066d78f4c53fcc5a687e42d769">const_iterator</a> hint, P &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a></td></tr>
-<tr class="separator:a65895c968a33bc974635085fce8b084b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6f7b4bf1e5328f5b19ffbc3ede6c81c"><td class="memTemplParams" colspan="2">template&lt;class InputIt &gt; </td></tr>
-<tr class="memitem:ac6f7b4bf1e5328f5b19ffbc3ede6c81c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ac6f7b4bf1e5328f5b19ffbc3ede6c81c">insert</a> (InputIt first, InputIt last)</td></tr>
-<tr class="separator:ac6f7b4bf1e5328f5b19ffbc3ede6c81c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa234e536efce7150a5c7fe92bc0fdc82"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#aa234e536efce7150a5c7fe92bc0fdc82">insert</a> (std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &gt; ilist)</td></tr>
-<tr class="separator:aa234e536efce7150a5c7fe92bc0fdc82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c39fa84fb17c41f0dc3d0afb3fc7669"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a6c39fa84fb17c41f0dc3d0afb3fc7669">flat_multimap</a> ()</td></tr>
+<tr class="separator:a6c39fa84fb17c41f0dc3d0afb3fc7669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba36b5c69c3138d792069f8fd362f967"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#aba36b5c69c3138d792069f8fd362f967">flat_multimap</a> (const Compare &amp;comp, const Allocator &amp;alloc=Allocator())</td></tr>
+<tr class="separator:aba36b5c69c3138d792069f8fd362f967"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8da8764e694e03fc62fab19c492dc578"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a8da8764e694e03fc62fab19c492dc578">flat_multimap</a> (const Allocator &amp;alloc)</td></tr>
+<tr class="separator:a8da8764e694e03fc62fab19c492dc578"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab36897984905aa3e96c58254c5b71002"><td class="memTemplParams" colspan="2">template&lt;class InputIt &gt; </td></tr>
+<tr class="memitem:ab36897984905aa3e96c58254c5b71002"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ab36897984905aa3e96c58254c5b71002">flat_multimap</a> (InputIt first, InputIt last, const Compare &amp;comp=Compare(), const Allocator &amp;alloc=Allocator())</td></tr>
+<tr class="separator:ab36897984905aa3e96c58254c5b71002"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a504271ed8f8f43641fc5b2bffc82a10d"><td class="memTemplParams" colspan="2">template&lt;class InputIt &gt; </td></tr>
+<tr class="memitem:a504271ed8f8f43641fc5b2bffc82a10d"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a504271ed8f8f43641fc5b2bffc82a10d">flat_multimap</a> (InputIt first, InputIt last, const Allocator &amp;alloc)</td></tr>
+<tr class="separator:a504271ed8f8f43641fc5b2bffc82a10d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f183a813e0b799c5fe2aa49bd088af7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a8f183a813e0b799c5fe2aa49bd088af7">flat_multimap</a> (const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;other)</td></tr>
+<tr class="separator:a8f183a813e0b799c5fe2aa49bd088af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2044207c9dcf0b5395acc063018d66c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#aa2044207c9dcf0b5395acc063018d66c">flat_multimap</a> (const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;other, const Allocator &amp;alloc)</td></tr>
+<tr class="separator:aa2044207c9dcf0b5395acc063018d66c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ae4435ac36c734cb26d4372534f2175"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a5ae4435ac36c734cb26d4372534f2175">flat_multimap</a> (<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;&amp;other) noexcept</td></tr>
+<tr class="separator:a5ae4435ac36c734cb26d4372534f2175"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27e8b06b228aae064639a637bcb2525c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a27e8b06b228aae064639a637bcb2525c">flat_multimap</a> (<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;&amp;other, const Allocator &amp;alloc)</td></tr>
+<tr class="separator:a27e8b06b228aae064639a637bcb2525c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a530b13a757a1baef2230ac72c01e49ec"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a530b13a757a1baef2230ac72c01e49ec">flat_multimap</a> (std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &gt; init, const Compare &amp;comp=Compare(), const Allocator &amp;alloc=Allocator())</td></tr>
+<tr class="separator:a530b13a757a1baef2230ac72c01e49ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace9b5fa65bad8e3b59d6b06382a0a5e2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ace9b5fa65bad8e3b59d6b06382a0a5e2">flat_multimap</a> (std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &gt; init, const Allocator &amp;alloc)</td></tr>
+<tr class="separator:ace9b5fa65bad8e3b59d6b06382a0a5e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08c1c2acee03fddc2c6f7963f8711520"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a08c1c2acee03fddc2c6f7963f8711520">operator=</a> (<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;&amp;other) noexcept -&gt; <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;</td></tr>
+<tr class="separator:a08c1c2acee03fddc2c6f7963f8711520"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab012686613e5887c80106c4c378f4361"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ab012686613e5887c80106c4c378f4361">operator=</a> (const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;other) -&gt; <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;</td></tr>
+<tr class="separator:ab012686613e5887c80106c4c378f4361"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89d5e3577ecc178d7fcd327b72ca348d"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a89d5e3577ecc178d7fcd327b72ca348d">operator=</a> (const std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &gt; &amp;init) -&gt; <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> &amp;</td></tr>
+<tr class="separator:a89d5e3577ecc178d7fcd327b72ca348d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0193f0b040459aad771a326483d95c41"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a0193f0b040459aad771a326483d95c41">insert</a> (const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:a0193f0b040459aad771a326483d95c41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ffc36063dff280b31c6ed603cc7aaf5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a4ffc36063dff280b31c6ed603cc7aaf5">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:a4ffc36063dff280b31c6ed603cc7aaf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a500b1bae5177dcc20fd457927f18f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a7a500b1bae5177dcc20fd457927f18f7">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a75e24df9a2f37bb1d848ee85dd667184">const_iterator</a> hint, const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:a7a500b1bae5177dcc20fd457927f18f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a414a72cda250e3666cff3072eee6c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a6a414a72cda250e3666cff3072eee6c0">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a75e24df9a2f37bb1d848ee85dd667184">const_iterator</a> hint, <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:a6a414a72cda250e3666cff3072eee6c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f91fe1eb2e9987e1770414ad0b2725b"><td class="memTemplParams" colspan="2">template&lt;class P &gt; </td></tr>
+<tr class="memitem:a4f91fe1eb2e9987e1770414ad0b2725b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a4f91fe1eb2e9987e1770414ad0b2725b">insert</a> (P &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:a4f91fe1eb2e9987e1770414ad0b2725b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02a0243c8ceb730a1359a8cbccdb2412"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a02a0243c8ceb730a1359a8cbccdb2412">insert_pos</a> (const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;value) -&gt; size_t</td></tr>
+<tr class="separator:a02a0243c8ceb730a1359a8cbccdb2412"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6f15098930be198ec8c0be366db742f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ac6f15098930be198ec8c0be366db742f">insert_pos</a> (<a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&amp;value) -&gt; size_t</td></tr>
+<tr class="separator:ac6f15098930be198ec8c0be366db742f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a725f2c1c0c46f2ab5d868cb853a7d57c"><td class="memTemplParams" colspan="2">template&lt;class P &gt; </td></tr>
+<tr class="memitem:a725f2c1c0c46f2ab5d868cb853a7d57c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a725f2c1c0c46f2ab5d868cb853a7d57c">insert_pos</a> (P &amp;&amp;value) -&gt; size_t</td></tr>
+<tr class="separator:a725f2c1c0c46f2ab5d868cb853a7d57c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bea86a292a957633200bdbd57c13b11"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:a0bea86a292a957633200bdbd57c13b11"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a0bea86a292a957633200bdbd57c13b11">emplace</a> (Args &amp;&amp;... args) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:a0bea86a292a957633200bdbd57c13b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48942df748370e32370e8b7a45e0bd36"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a48942df748370e32370e8b7a45e0bd36">emplace</a> (const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:a48942df748370e32370e8b7a45e0bd36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1b670811d6870ad79d75bb25f8ee96d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ac1b670811d6870ad79d75bb25f8ee96d">emplace</a> (<a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:ac1b670811d6870ad79d75bb25f8ee96d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a822d0603a9f3742eb99016f53ea089d2"><td class="memTemplParams" colspan="2">template&lt;class K &gt; </td></tr>
+<tr class="memitem:a822d0603a9f3742eb99016f53ea089d2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a822d0603a9f3742eb99016f53ea089d2">emplace</a> (K &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:a822d0603a9f3742eb99016f53ea089d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27332f5ab775b34877620e03356ec4d6"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:a27332f5ab775b34877620e03356ec4d6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a27332f5ab775b34877620e03356ec4d6">emplace_pos</a> (Args &amp;&amp;... args) -&gt; size_t</td></tr>
+<tr class="separator:a27332f5ab775b34877620e03356ec4d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a235c4feab31f785a277cfa5f8f2492da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a235c4feab31f785a277cfa5f8f2492da">insert</a> (const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;value) -&gt; std::pair&lt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a>, bool &gt;</td></tr>
+<tr class="separator:a235c4feab31f785a277cfa5f8f2492da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97610098689bdb7fb3af6090b359f8a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a97610098689bdb7fb3af6090b359f8a5">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&amp;value) -&gt; std::pair&lt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a>, bool &gt;</td></tr>
+<tr class="separator:a97610098689bdb7fb3af6090b359f8a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a663026632f5a88ab2437df948444e906"><td class="memTemplParams" colspan="2">template&lt;class P &gt; </td></tr>
+<tr class="memitem:a663026632f5a88ab2437df948444e906"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a663026632f5a88ab2437df948444e906">insert</a> (P &amp;&amp;value) -&gt; std::pair&lt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a>, bool &gt;</td></tr>
+<tr class="separator:a663026632f5a88ab2437df948444e906"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a889aa24e5c55b9e074e28d4b12ebc9c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a889aa24e5c55b9e074e28d4b12ebc9c8">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a75e24df9a2f37bb1d848ee85dd667184">const_iterator</a> hint, const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:a889aa24e5c55b9e074e28d4b12ebc9c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6af86d771d93bceba4a225b0b47e974"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#ab6af86d771d93bceba4a225b0b47e974">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a75e24df9a2f37bb1d848ee85dd667184">const_iterator</a> hint, <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:ab6af86d771d93bceba4a225b0b47e974"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00abe18868bb4474649564ec7bd4cafc"><td class="memTemplParams" colspan="2">template&lt;class P &gt; </td></tr>
+<tr class="memitem:a00abe18868bb4474649564ec7bd4cafc"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a00abe18868bb4474649564ec7bd4cafc">insert</a> (<a class="el" href="classseq_1_1flat__multimap.html#a75e24df9a2f37bb1d848ee85dd667184">const_iterator</a> hint, P &amp;&amp;value) -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a></td></tr>
+<tr class="separator:a00abe18868bb4474649564ec7bd4cafc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4564ac1ab0f8bd8efea6411bbcbe5303"><td class="memTemplParams" colspan="2">template&lt;class InputIt &gt; </td></tr>
+<tr class="memitem:a4564ac1ab0f8bd8efea6411bbcbe5303"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a4564ac1ab0f8bd8efea6411bbcbe5303">insert</a> (InputIt first, InputIt last)</td></tr>
+<tr class="separator:a4564ac1ab0f8bd8efea6411bbcbe5303"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6596dbc6b580907abe8cb607e1689426"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1flat__multimap.html#a6596dbc6b580907abe8cb607e1689426">insert</a> (std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &gt; ilist)</td></tr>
+<tr class="separator:a6596dbc6b580907abe8cb607e1689426"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;class Key, class T, class Compare = std::less&lt;Key&gt;, class Allocator = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt;<br />
-class seq::flat_multimap&lt; Key, T, Compare, Allocator, layout, Stable &gt;</h3>
+<div class="textblock"><h3>template&lt;class Key, class T, class Compare = std::less&lt;Key&gt;, class Allocator = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt;<br />
+class seq::flat_multimap&lt; Key, T, Compare, Allocator, Stable &gt;</h3>
 
 <p>flat sorted container similar to boost::flat_multimap with faster insertion/deletion of single values </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -223,7 +230,6 @@ class seq::flat_multimap&lt; Key, T, Compare, Allocator, layout, Stable &gt;</h3
     <tr><td class="paramname">T</td><td>mapped type </td></tr>
     <tr><td class="paramname">Compare</td><td>comparison function </td></tr>
     <tr><td class="paramname">Allocator</td><td>allocator </td></tr>
-    <tr><td class="paramname">layout</td><td>memory layout of the underlying <a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a> </td></tr>
     <tr><td class="paramname">Stable</td><td>insertion order stability</td></tr>
   </table>
   </dd>
@@ -233,272 +239,272 @@ class seq::flat_multimap&lt; Key, T, Compare, Allocator, layout, Stable &gt;</h3
 <p>All references and iterators are invalidated when inserting/removing keys.</p>
 <p>Unlike std::multimap which stores objects of type std::pair&lt;const Key,T&gt;, <a class="el" href="classseq_1_1flat__multimap.html" title="flat sorted container similar to boost::flat_multimap with faster insertion/deletion of single values">flat_multimap</a> stores objects of type std::pair&lt;Key,T&gt;. To avoid modifying the key value through iterators or using <a class="el" href="namespaceseq.html#ab534e8a0f6ac376f61e976fe7cd65457" title="Returns a positional object used either by seq::fmt() or operator() of formatting object.">flat_multimap::pos()</a>, the value is reinterpreted to std::pair&lt;const Key,T&gt;. Although quite ugly, this solution works on all tested compilers. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a565572febff5eedc45db5c4ccb2db97e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a565572febff5eedc45db5c4ccb2db97e">&#9670;&nbsp;</a></span>allocator_type</h2>
+<a id="adf0024fb3abbf2324fe6957aa1bc66e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf0024fb3abbf2324fe6957aa1bc66e2">&#9670;&nbsp;</a></span>allocator_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a565572febff5eedc45db5c4ccb2db97e">allocator_type</a> =  Allocator</td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#adf0024fb3abbf2324fe6957aa1bc66e2">allocator_type</a> =  Allocator</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a2d5149066d78f4c53fcc5a687e42d769"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d5149066d78f4c53fcc5a687e42d769">&#9670;&nbsp;</a></span>const_iterator</h2>
+<a id="a75e24df9a2f37bb1d848ee85dd667184"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75e24df9a2f37bb1d848ee85dd667184">&#9670;&nbsp;</a></span>const_iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a2d5149066d78f4c53fcc5a687e42d769">const_iterator</a> =  typename <a class="el" href="structseq_1_1flat__map_1_1const__iterator.html">base_type::const_iterator</a></td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a75e24df9a2f37bb1d848ee85dd667184">const_iterator</a> =  typename <a class="el" href="classseq_1_1flat__map.html#abefdcaaad9b67bc1d13f088a74c9eccc">base_type::const_iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a817f17861933007683e72ef43e98896a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a817f17861933007683e72ef43e98896a">&#9670;&nbsp;</a></span>const_pointer</h2>
+<a id="aa74c357e22804074a991cde7da4cc4b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa74c357e22804074a991cde7da4cc4b7">&#9670;&nbsp;</a></span>const_pointer</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a817f17861933007683e72ef43e98896a">const_pointer</a> =  typename std::allocator_traits&lt;Allocator&gt;::<a class="el" href="classseq_1_1flat__multimap.html#a817f17861933007683e72ef43e98896a">const_pointer</a></td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#aa74c357e22804074a991cde7da4cc4b7">const_pointer</a> =  typename std::allocator_traits&lt;Allocator&gt;::<a class="el" href="classseq_1_1flat__multimap.html#aa74c357e22804074a991cde7da4cc4b7">const_pointer</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a15366414d6968b26d920a25624ee6742"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15366414d6968b26d920a25624ee6742">&#9670;&nbsp;</a></span>const_reference</h2>
+<a id="aeef1eaeaaed3b7a7609047387384bc2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeef1eaeaaed3b7a7609047387384bc2e">&#9670;&nbsp;</a></span>const_reference</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a15366414d6968b26d920a25624ee6742">const_reference</a> =  const <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a>&amp;</td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#aeef1eaeaaed3b7a7609047387384bc2e">const_reference</a> =  const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a>&amp;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a83bfd4468b2fc90bc43fa91231358aed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83bfd4468b2fc90bc43fa91231358aed">&#9670;&nbsp;</a></span>const_reverse_iterator</h2>
+<a id="a69f5847d515ec29c483a3151b2e09786"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69f5847d515ec29c483a3151b2e09786">&#9670;&nbsp;</a></span>const_reverse_iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a83bfd4468b2fc90bc43fa91231358aed">const_reverse_iterator</a> =  typename <a class="el" href="classseq_1_1flat__map.html#a0dd5adf9d421decefdd0ab4206f23708">base_type::const_reverse_iterator</a></td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a69f5847d515ec29c483a3151b2e09786">const_reverse_iterator</a> =  typename <a class="el" href="classseq_1_1flat__map.html#ade6ddf05bf0542246720d1db5d277037">base_type::const_reverse_iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="af20166ba66768fa1334b274123c063c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af20166ba66768fa1334b274123c063c9">&#9670;&nbsp;</a></span>deque_type</h2>
+<a id="a3e11cf69e194185a1307318e2e541fe7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e11cf69e194185a1307318e2e541fe7">&#9670;&nbsp;</a></span>deque_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#af20166ba66768fa1334b274123c063c9">deque_type</a> =  typename <a class="el" href="classseq_1_1flat__map.html#aa1000b7197b0ce9a7fccb22421000d49">base_type::deque_type</a></td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a3e11cf69e194185a1307318e2e541fe7">deque_type</a> =  typename <a class="el" href="classseq_1_1flat__map.html#ad4232fb3e1021569109c2bb9b08cdd81">base_type::deque_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a8532d39c47d8352d059de3c5bd91dac4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8532d39c47d8352d059de3c5bd91dac4">&#9670;&nbsp;</a></span>difference_type</h2>
+<a id="ac4d5468557f4cfd7fc8ec7be91a5201f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4d5468557f4cfd7fc8ec7be91a5201f">&#9670;&nbsp;</a></span>difference_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a8532d39c47d8352d059de3c5bd91dac4">difference_type</a> =  typename std::allocator_traits&lt;Allocator&gt;::<a class="el" href="classseq_1_1flat__multimap.html#a8532d39c47d8352d059de3c5bd91dac4">difference_type</a></td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#ac4d5468557f4cfd7fc8ec7be91a5201f">difference_type</a> =  typename std::allocator_traits&lt;Allocator&gt;::<a class="el" href="classseq_1_1flat__multimap.html#ac4d5468557f4cfd7fc8ec7be91a5201f">difference_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a267f74fdfee4b4bb326b72d09d6f1c3e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a267f74fdfee4b4bb326b72d09d6f1c3e">&#9670;&nbsp;</a></span>iterator</h2>
+<a id="a93d609ddef05695a3f68afe0e4432bf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93d609ddef05695a3f68afe0e4432bf0">&#9670;&nbsp;</a></span>iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a> =  typename <a class="el" href="structseq_1_1flat__map_1_1iterator.html">base_type::iterator</a></td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a> =  typename <a class="el" href="classseq_1_1flat__map.html#ae55f394629edffaa8d1f32e480418675">base_type::iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ab694fe581ff7034a27bcee3ac2b23a81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab694fe581ff7034a27bcee3ac2b23a81">&#9670;&nbsp;</a></span>key_compare</h2>
+<a id="a0b182907f4ca27dabfcdcce704dee104"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b182907f4ca27dabfcdcce704dee104">&#9670;&nbsp;</a></span>key_compare</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#ab694fe581ff7034a27bcee3ac2b23a81">key_compare</a> =  Compare</td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a0b182907f4ca27dabfcdcce704dee104">key_compare</a> =  Compare</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a81d0e334bffd811d9ed60b8051d35fd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81d0e334bffd811d9ed60b8051d35fd1">&#9670;&nbsp;</a></span>key_type</h2>
+<a id="a75133154a45bc57709918d1cacf2bef5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75133154a45bc57709918d1cacf2bef5">&#9670;&nbsp;</a></span>key_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a81d0e334bffd811d9ed60b8051d35fd1">key_type</a> =  Key</td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a75133154a45bc57709918d1cacf2bef5">key_type</a> =  Key</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="adc6b6bbe856f7904f508c3cd6cbe5115"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc6b6bbe856f7904f508c3cd6cbe5115">&#9670;&nbsp;</a></span>mapped_type</h2>
+<a id="a5e972679a078e1163ced2b111af08a15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e972679a078e1163ced2b111af08a15">&#9670;&nbsp;</a></span>mapped_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#adc6b6bbe856f7904f508c3cd6cbe5115">mapped_type</a> =  T</td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a5e972679a078e1163ced2b111af08a15">mapped_type</a> =  T</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a471a8c4383b6659e9507af96823452b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a471a8c4383b6659e9507af96823452b5">&#9670;&nbsp;</a></span>pointer</h2>
+<a id="a200a1398d17171c97c115f8725d695fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a200a1398d17171c97c115f8725d695fe">&#9670;&nbsp;</a></span>pointer</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a471a8c4383b6659e9507af96823452b5">pointer</a> =  typename std::allocator_traits&lt;Allocator&gt;::<a class="el" href="classseq_1_1flat__multimap.html#a471a8c4383b6659e9507af96823452b5">pointer</a></td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a200a1398d17171c97c115f8725d695fe">pointer</a> =  typename std::allocator_traits&lt;Allocator&gt;::<a class="el" href="classseq_1_1flat__multimap.html#a200a1398d17171c97c115f8725d695fe">pointer</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a4743f9c11106cb97c2fda175c2003fe1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4743f9c11106cb97c2fda175c2003fe1">&#9670;&nbsp;</a></span>reference</h2>
+<a id="adbc921a1ff2d3ff60b1a7f184fcddc89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbc921a1ff2d3ff60b1a7f184fcddc89">&#9670;&nbsp;</a></span>reference</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a4743f9c11106cb97c2fda175c2003fe1">reference</a> =  <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a>&amp;</td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#adbc921a1ff2d3ff60b1a7f184fcddc89">reference</a> =  <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a>&amp;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a7352662cba400725ab21cbbe8f9f0681"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7352662cba400725ab21cbbe8f9f0681">&#9670;&nbsp;</a></span>reverse_iterator</h2>
+<a id="a51736b9c2d0ee263e4258e454ee3b904"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51736b9c2d0ee263e4258e454ee3b904">&#9670;&nbsp;</a></span>reverse_iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a7352662cba400725ab21cbbe8f9f0681">reverse_iterator</a> =  typename <a class="el" href="classseq_1_1flat__map.html#af8524920a7a887a9723e77274fb49eea">base_type::reverse_iterator</a></td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a51736b9c2d0ee263e4258e454ee3b904">reverse_iterator</a> =  typename <a class="el" href="classseq_1_1flat__map.html#a4e0cf3231b545ab44b1710e8b325e15f">base_type::reverse_iterator</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a9bc564dedccf5ad31b6d09569f284155"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bc564dedccf5ad31b6d09569f284155">&#9670;&nbsp;</a></span>size_type</h2>
+<a id="afd1061477e6464fc470069fff73b11da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd1061477e6464fc470069fff73b11da">&#9670;&nbsp;</a></span>size_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a9bc564dedccf5ad31b6d09569f284155">size_type</a> =  typename std::allocator_traits&lt;Allocator&gt;::<a class="el" href="classseq_1_1flat__multimap.html#a9bc564dedccf5ad31b6d09569f284155">size_type</a></td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#afd1061477e6464fc470069fff73b11da">size_type</a> =  typename std::allocator_traits&lt;Allocator&gt;::<a class="el" href="classseq_1_1flat__multimap.html#afd1061477e6464fc470069fff73b11da">size_type</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="aa824e9f67d5ac5688fe48f8395e8f0df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa824e9f67d5ac5688fe48f8395e8f0df">&#9670;&nbsp;</a></span>value_compare</h2>
+<a id="a9ca9e09b652b2e5afbeef3eb07740e96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ca9e09b652b2e5afbeef3eb07740e96">&#9670;&nbsp;</a></span>value_compare</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#aa824e9f67d5ac5688fe48f8395e8f0df">value_compare</a> =  typename <a class="el" href="classseq_1_1flat__map.html#a09e066e37fed1b8db9e27105bb0fa1c3">base_type::value_compare</a></td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a9ca9e09b652b2e5afbeef3eb07740e96">value_compare</a> =  typename <a class="el" href="classseq_1_1flat__map.html#ad98d3b55d86d8c95f7ae5812e327874d">base_type::value_compare</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a8a7302a86a03c7cd64945bd252ddaf9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a7302a86a03c7cd64945bd252ddaf9b">&#9670;&nbsp;</a></span>value_type</h2>
+<a id="a2805a21e83ef48f4fe7a6bd3a8761873"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2805a21e83ef48f4fe7a6bd3a8761873">&#9670;&nbsp;</a></span>value_type</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> =  std::pair&lt;Key, T&gt;</td>
+          <td class="memname">using <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> =  std::pair&lt;Key, T&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -506,19 +512,19 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a17a90e9b4e161463cc3deccadf8700be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17a90e9b4e161463cc3deccadf8700be">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[1/11]</span></h2>
+<a id="a6c39fa84fb17c41f0dc3d0afb3fc7669"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c39fa84fb17c41f0dc3d0afb3fc7669">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[1/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -533,19 +539,19 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="abb06e9325317cfa1891900b85961e5bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb06e9325317cfa1891900b85961e5bc">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[2/11]</span></h2>
+<a id="aba36b5c69c3138d792069f8fd362f967"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba36b5c69c3138d792069f8fd362f967">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[2/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
           <td>(</td>
           <td class="paramtype">const Compare &amp;&#160;</td>
           <td class="paramname"><em>comp</em>, </td>
@@ -571,19 +577,19 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="a9f310a30348c1bfb1e01d35f4ef935a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f310a30348c1bfb1e01d35f4ef935a6">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[3/11]</span></h2>
+<a id="a8da8764e694e03fc62fab19c492dc578"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8da8764e694e03fc62fab19c492dc578">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[3/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
           <td>(</td>
           <td class="paramtype">const Allocator &amp;&#160;</td>
           <td class="paramname"><em>alloc</em></td><td>)</td>
@@ -599,13 +605,13 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="abb754513872c59e0923febca26f5159d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb754513872c59e0923febca26f5159d">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[4/11]</span></h2>
+<a id="ab36897984905aa3e96c58254c5b71002"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab36897984905aa3e96c58254c5b71002">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[4/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class InputIt &gt; </div>
 <table class="mlabels">
@@ -613,7 +619,7 @@ template&lt;class InputIt &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
           <td>(</td>
           <td class="paramtype">InputIt&#160;</td>
           <td class="paramname"><em>first</em>, </td>
@@ -651,13 +657,13 @@ template&lt;class InputIt &gt; </div>
 
 </div>
 </div>
-<a id="ac68cc9631bcdd65769f2aa64913e9e18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac68cc9631bcdd65769f2aa64913e9e18">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[5/11]</span></h2>
+<a id="a504271ed8f8f43641fc5b2bffc82a10d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a504271ed8f8f43641fc5b2bffc82a10d">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[5/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class InputIt &gt; </div>
 <table class="mlabels">
@@ -665,7 +671,7 @@ template&lt;class InputIt &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
           <td>(</td>
           <td class="paramtype">InputIt&#160;</td>
           <td class="paramname"><em>first</em>, </td>
@@ -697,21 +703,21 @@ template&lt;class InputIt &gt; </div>
 
 </div>
 </div>
-<a id="ac067bcd0d12865470f5008f2cecbb4ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac067bcd0d12865470f5008f2cecbb4ea">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[6/11]</span></h2>
+<a id="a8f183a813e0b799c5fe2aa49bd088af7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f183a813e0b799c5fe2aa49bd088af7">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[6/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt; &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -725,21 +731,21 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="af1d8dac5e356eaad70638c2eb0943abf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1d8dac5e356eaad70638c2eb0943abf">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[7/11]</span></h2>
+<a id="aa2044207c9dcf0b5395acc063018d66c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2044207c9dcf0b5395acc063018d66c">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[7/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt; &amp;&#160;</td>
           <td class="paramname"><em>other</em>, </td>
         </tr>
         <tr>
@@ -763,21 +769,21 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="a41c22cbbb078e1783b71df55d1550ad0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41c22cbbb078e1783b71df55d1550ad0">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[8/11]</span></h2>
+<a id="a5ae4435ac36c734cb26d4372534f2175"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ae4435ac36c734cb26d4372534f2175">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[8/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt; &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td></td>
         </tr>
@@ -791,21 +797,21 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="ad9cdfd4717c7ecf776a0b563612c102e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9cdfd4717c7ecf776a0b563612c102e">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[9/11]</span></h2>
+<a id="a27e8b06b228aae064639a637bcb2525c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27e8b06b228aae064639a637bcb2525c">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[9/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt; &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>other</em>, </td>
         </tr>
         <tr>
@@ -829,21 +835,21 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="aafb7eb9ace0cae71bf3339f27ed903fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aafb7eb9ace0cae71bf3339f27ed903fe">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[10/11]</span></h2>
+<a id="a530b13a757a1baef2230ac72c01e49ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a530b13a757a1baef2230ac72c01e49ec">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[10/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
           <td>(</td>
-          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &gt;&#160;</td>
+          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &gt;&#160;</td>
           <td class="paramname"><em>init</em>, </td>
         </tr>
         <tr>
@@ -873,21 +879,21 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="a7e071c6308db213ee6a3d43af98275ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e071c6308db213ee6a3d43af98275ad">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[11/11]</span></h2>
+<a id="ace9b5fa65bad8e3b59d6b06382a0a5e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace9b5fa65bad8e3b59d6b06382a0a5e2">&#9670;&nbsp;</a></span>flat_multimap() <span class="overload">[11/11]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::<a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a> </td>
           <td>(</td>
-          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &gt;&#160;</td>
+          <td class="paramtype">std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &gt;&#160;</td>
           <td class="paramname"><em>init</em>, </td>
         </tr>
         <tr>
@@ -912,13 +918,13 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a575cfaeb9a123d042a571acd2b7c6a51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a575cfaeb9a123d042a571acd2b7c6a51">&#9670;&nbsp;</a></span>emplace()</h2>
+<a id="a0bea86a292a957633200bdbd57c13b11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bea86a292a957633200bdbd57c13b11">&#9670;&nbsp;</a></span>emplace() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class... Args&gt; </div>
 <table class="mlabels">
@@ -926,11 +932,11 @@ template&lt;class... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::emplace </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::emplace </td>
           <td>(</td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
-          <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a> </td>
+          <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -942,13 +948,99 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a38ff8460ad769098d3fd91d6dec0cfd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38ff8460ad769098d3fd91d6dec0cfd6">&#9670;&nbsp;</a></span>emplace_pos()</h2>
+<a id="a48942df748370e32370e8b7a45e0bd36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48942df748370e32370e8b7a45e0bd36">&#9670;&nbsp;</a></span>emplace() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::emplace </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a> </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a822d0603a9f3742eb99016f53ea089d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a822d0603a9f3742eb99016f53ea089d2">&#9670;&nbsp;</a></span>emplace() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
+<div class="memtemplate">
+template&lt;class K &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::emplace </td>
+          <td>(</td>
+          <td class="paramtype">K &amp;&amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a> </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac1b670811d6870ad79d75bb25f8ee96d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1b670811d6870ad79d75bb25f8ee96d">&#9670;&nbsp;</a></span>emplace() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::emplace </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a> </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a27332f5ab775b34877620e03356ec4d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27332f5ab775b34877620e03356ec4d6">&#9670;&nbsp;</a></span>emplace_pos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class... Args&gt; </div>
 <table class="mlabels">
@@ -956,7 +1048,7 @@ template&lt;class... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::emplace_pos </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::emplace_pos </td>
           <td>(</td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
@@ -972,23 +1064,23 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a7968b0790ce8ca756b0055cb1a0f2077"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7968b0790ce8ca756b0055cb1a0f2077">&#9670;&nbsp;</a></span>insert() <span class="overload">[1/13]</span></h2>
+<a id="a0193f0b040459aad771a326483d95c41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0193f0b040459aad771a326483d95c41">&#9670;&nbsp;</a></span>insert() <span class="overload">[1/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::insert </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::insert </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a> </td>
+          <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1000,19 +1092,19 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="ab9a46a666c41894c206bcb4b88f742dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9a46a666c41894c206bcb4b88f742dd">&#9670;&nbsp;</a></span>insert() <span class="overload">[2/13]</span></h2>
+<a id="a235c4feab31f785a277cfa5f8f2492da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a235c4feab31f785a277cfa5f8f2492da">&#9670;&nbsp;</a></span>insert() <span class="overload">[2/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::insert</td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, Stable, Unique &gt;::insert</td>
         </tr>
       </table>
   </td>
@@ -1024,19 +1116,19 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="ade541f9fc01669b70f6f3834bb7088ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade541f9fc01669b70f6f3834bb7088ff">&#9670;&nbsp;</a></span>insert() <span class="overload">[3/13]</span></h2>
+<a id="a889aa24e5c55b9e074e28d4b12ebc9c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a889aa24e5c55b9e074e28d4b12ebc9c8">&#9670;&nbsp;</a></span>insert() <span class="overload">[3/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::insert</td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, Stable, Unique &gt;::insert</td>
         </tr>
       </table>
   </td>
@@ -1048,33 +1140,33 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="ab167c0716439cb94d4156fa95430132f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab167c0716439cb94d4156fa95430132f">&#9670;&nbsp;</a></span>insert() <span class="overload">[4/13]</span></h2>
+<a id="a7a500b1bae5177dcc20fd457927f18f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a500b1bae5177dcc20fd457927f18f7">&#9670;&nbsp;</a></span>insert() <span class="overload">[4/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::insert </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::insert </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html#a2d5149066d78f4c53fcc5a687e42d769">const_iterator</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html#a75e24df9a2f37bb1d848ee85dd667184">const_iterator</a>&#160;</td>
           <td class="paramname"><em>hint</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a> </td>
+          <td></td><td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1086,13 +1178,13 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="a65895c968a33bc974635085fce8b084b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65895c968a33bc974635085fce8b084b">&#9670;&nbsp;</a></span>insert() <span class="overload">[5/13]</span></h2>
+<a id="a00abe18868bb4474649564ec7bd4cafc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00abe18868bb4474649564ec7bd4cafc">&#9670;&nbsp;</a></span>insert() <span class="overload">[5/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class P &gt; </div>
 <table class="mlabels">
@@ -1100,7 +1192,7 @@ template&lt;class P &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::insert </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, Stable, Unique &gt;::insert </td>
           <td>(</td>
           <td class="paramtype">class P&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -1116,19 +1208,19 @@ template&lt;class P &gt; </div>
 
 </div>
 </div>
-<a id="a4be759b891672db27fc0e1b69bf12cd0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4be759b891672db27fc0e1b69bf12cd0">&#9670;&nbsp;</a></span>insert() <span class="overload">[6/13]</span></h2>
+<a id="ab6af86d771d93bceba4a225b0b47e974"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6af86d771d93bceba4a225b0b47e974">&#9670;&nbsp;</a></span>insert() <span class="overload">[6/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::insert</td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, Stable, Unique &gt;::insert</td>
         </tr>
       </table>
   </td>
@@ -1140,33 +1232,33 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="a6ca297cfd4196d8e077a7d8c6b98e298"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ca297cfd4196d8e077a7d8c6b98e298">&#9670;&nbsp;</a></span>insert() <span class="overload">[7/13]</span></h2>
+<a id="a6a414a72cda250e3666cff3072eee6c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a414a72cda250e3666cff3072eee6c0">&#9670;&nbsp;</a></span>insert() <span class="overload">[7/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::insert </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::insert </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html#a2d5149066d78f4c53fcc5a687e42d769">const_iterator</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html#a75e24df9a2f37bb1d848ee85dd667184">const_iterator</a>&#160;</td>
           <td class="paramname"><em>hint</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a> </td>
+          <td></td><td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1178,13 +1270,13 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="ac6f7b4bf1e5328f5b19ffbc3ede6c81c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6f7b4bf1e5328f5b19ffbc3ede6c81c">&#9670;&nbsp;</a></span>insert() <span class="overload">[8/13]</span></h2>
+<a id="a4564ac1ab0f8bd8efea6411bbcbe5303"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4564ac1ab0f8bd8efea6411bbcbe5303">&#9670;&nbsp;</a></span>insert() <span class="overload">[8/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class InputIt &gt; </div>
 <table class="mlabels">
@@ -1192,7 +1284,7 @@ template&lt;class InputIt &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::insert </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, Stable, Unique &gt;::insert </td>
           <td>(</td>
           <td class="paramtype">class InputIt&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -1208,13 +1300,13 @@ template&lt;class InputIt &gt; </div>
 
 </div>
 </div>
-<a id="a016da7551cf868920218ea657be8708a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a016da7551cf868920218ea657be8708a">&#9670;&nbsp;</a></span>insert() <span class="overload">[9/13]</span></h2>
+<a id="a4f91fe1eb2e9987e1770414ad0b2725b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f91fe1eb2e9987e1770414ad0b2725b">&#9670;&nbsp;</a></span>insert() <span class="overload">[9/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class P &gt; </div>
 <table class="mlabels">
@@ -1222,11 +1314,11 @@ template&lt;class P &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::insert </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::insert </td>
           <td>(</td>
           <td class="paramtype">P &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a> </td>
+          <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1238,13 +1330,13 @@ template&lt;class P &gt; </div>
 
 </div>
 </div>
-<a id="a3578fac8d4c9ba170ef1bc099e751d03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3578fac8d4c9ba170ef1bc099e751d03">&#9670;&nbsp;</a></span>insert() <span class="overload">[10/13]</span></h2>
+<a id="a663026632f5a88ab2437df948444e906"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a663026632f5a88ab2437df948444e906">&#9670;&nbsp;</a></span>insert() <span class="overload">[10/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class P &gt; </div>
 <table class="mlabels">
@@ -1252,7 +1344,7 @@ template&lt;class P &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::insert </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, Stable, Unique &gt;::insert </td>
           <td>(</td>
           <td class="paramtype">class P&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -1268,19 +1360,19 @@ template&lt;class P &gt; </div>
 
 </div>
 </div>
-<a id="aa234e536efce7150a5c7fe92bc0fdc82"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa234e536efce7150a5c7fe92bc0fdc82">&#9670;&nbsp;</a></span>insert() <span class="overload">[11/13]</span></h2>
+<a id="a6596dbc6b580907abe8cb607e1689426"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6596dbc6b580907abe8cb607e1689426">&#9670;&nbsp;</a></span>insert() <span class="overload">[11/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::insert</td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, Stable, Unique &gt;::insert</td>
         </tr>
       </table>
   </td>
@@ -1292,23 +1384,23 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="a8900b0e66f7dab665dc7fb270cd455f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8900b0e66f7dab665dc7fb270cd455f6">&#9670;&nbsp;</a></span>insert() <span class="overload">[12/13]</span></h2>
+<a id="a4ffc36063dff280b31c6ed603cc7aaf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ffc36063dff280b31c6ed603cc7aaf5">&#9670;&nbsp;</a></span>insert() <span class="overload">[12/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::insert </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::insert </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
-          <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a267f74fdfee4b4bb326b72d09d6f1c3e">iterator</a> </td>
+          <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html#a93d609ddef05695a3f68afe0e4432bf0">iterator</a> </td>
         </tr>
       </table>
   </td>
@@ -1320,19 +1412,19 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="a289fc29af7464c67be2fff588da486ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a289fc29af7464c67be2fff588da486ea">&#9670;&nbsp;</a></span>insert() <span class="overload">[13/13]</span></h2>
+<a id="a97610098689bdb7fb3af6090b359f8a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97610098689bdb7fb3af6090b359f8a5">&#9670;&nbsp;</a></span>insert() <span class="overload">[13/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, layout, Stable, Unique &gt;::insert</td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__map.html">seq::flat_map</a>&lt; Key, T, Compare, Allocator, Stable, Unique &gt;::insert</td>
         </tr>
       </table>
   </td>
@@ -1344,21 +1436,21 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="a8318d7a85fe1761541d68df7e016d307"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8318d7a85fe1761541d68df7e016d307">&#9670;&nbsp;</a></span>insert_pos() <span class="overload">[1/3]</span></h2>
+<a id="a02a0243c8ceb730a1359a8cbccdb2412"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02a0243c8ceb730a1359a8cbccdb2412">&#9670;&nbsp;</a></span>insert_pos() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::insert_pos </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::insert_pos </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td> -&gt; size_t </td>
         </tr>
@@ -1372,13 +1464,13 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="a936d903b35847c0254dfa73100b9219e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a936d903b35847c0254dfa73100b9219e">&#9670;&nbsp;</a></span>insert_pos() <span class="overload">[2/3]</span></h2>
+<a id="a725f2c1c0c46f2ab5d868cb853a7d57c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a725f2c1c0c46f2ab5d868cb853a7d57c">&#9670;&nbsp;</a></span>insert_pos() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <div class="memtemplate">
 template&lt;class P &gt; </div>
 <table class="mlabels">
@@ -1386,7 +1478,7 @@ template&lt;class P &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::insert_pos </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::insert_pos </td>
           <td>(</td>
           <td class="paramtype">P &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -1402,21 +1494,21 @@ template&lt;class P &gt; </div>
 
 </div>
 </div>
-<a id="aa14ea5cafada5e46723df4412bcdfce1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa14ea5cafada5e46723df4412bcdfce1">&#9670;&nbsp;</a></span>insert_pos() <span class="overload">[3/3]</span></h2>
+<a id="ac6f15098930be198ec8c0be366db742f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6f15098930be198ec8c0be366db742f">&#9670;&nbsp;</a></span>insert_pos() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::insert_pos </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::insert_pos </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td> -&gt; size_t </td>
         </tr>
@@ -1430,21 +1522,21 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="ad38e4e305420e7474cc73e75bf384444"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad38e4e305420e7474cc73e75bf384444">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/3]</span></h2>
+<a id="ab012686613e5887c80106c4c378f4361"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab012686613e5887c80106c4c378f4361">&#9670;&nbsp;</a></span>operator=() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::operator= </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::operator= </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt; &amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&amp; </td>
         </tr>
@@ -1458,21 +1550,21 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="a4ef920937e3a77d88bdc6e07f1a24bed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ef920937e3a77d88bdc6e07f1a24bed">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/3]</span></h2>
+<a id="a89d5e3577ecc178d7fcd327b72ca348d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89d5e3577ecc178d7fcd327b72ca348d">&#9670;&nbsp;</a></span>operator=() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::operator= </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::operator= </td>
           <td>(</td>
-          <td class="paramtype">const std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a8a7302a86a03c7cd64945bd252ddaf9b">value_type</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::initializer_list&lt; <a class="el" href="classseq_1_1flat__multimap.html#a2805a21e83ef48f4fe7a6bd3a8761873">value_type</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>init</em></td><td>)</td>
           <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&amp;
 		</td>
@@ -1487,21 +1579,21 @@ template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class A
 
 </div>
 </div>
-<a id="a80fb38b647187313f0faed1711d8f7cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80fb38b647187313f0faed1711d8f7cd">&#9670;&nbsp;</a></span>operator=() <span class="overload">[3/3]</span></h2>
+<a id="a08c1c2acee03fddc2c6f7963f8711520"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08c1c2acee03fddc2c6f7963f8711520">&#9670;&nbsp;</a></span>operator=() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, LayoutManagement layout = OptimizeForMemory, bool Stable = false&gt; </div>
+template&lt;class Key , class T , class Compare  = std::less&lt;Key&gt;, class Allocator  = std::allocator&lt;std::pair&lt;Key,T&gt;&gt;, bool Stable = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt;::operator= </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1flat__multimap.html">seq::flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt;::operator= </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, layout, Stable &gt; &amp;&amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&lt; Key, T, Compare, Allocator, Stable &gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>other</em></td><td>)</td>
           <td> -&gt; <a class="el" href="classseq_1_1flat__multimap.html">flat_multimap</a>&amp; </td>
         </tr>

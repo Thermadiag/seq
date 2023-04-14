@@ -1,5 +1,8 @@
 var pdqsort_8hpp =
 [
+    [ "is_default_compare", "structpdqsort__detail_1_1is__default__compare.html", null ],
+    [ "is_default_compare< std::less< T > >", "structpdqsort__detail_1_1is__default__compare_3_01std_1_1less_3_01_t_01_4_01_4.html", null ],
+    [ "is_default_compare< std::greater< T > >", "structpdqsort__detail_1_1is__default__compare_3_01std_1_1greater_3_01_t_01_4_01_4.html", null ],
     [ "PDQSORT_PREFER_MOVE", "pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0", null ],
     [ "insertion_sort_threshold", "pdqsort_8hpp.html#a43a547dca0fb0dc8329dcc90fbaeabe4a93aa19e909e1c9aac3476145eac01d08", null ],
     [ "ninther_threshold", "pdqsort_8hpp.html#a43a547dca0fb0dc8329dcc90fbaeabe4a2e33aab6bd526c39448030168613bb78", null ],

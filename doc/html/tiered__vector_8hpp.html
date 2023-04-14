@@ -93,20 +93,18 @@ $(document).ready(function(){initNavTree('tiered__vector_8hpp.html',''); initRes
 <div class="title">tiered_vector.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="deque__allocator_8hpp_source.html">deque_allocator.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="devector_8hpp_source.html">devector.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="devector_8hpp_source.html">devector.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="pdqsort_8hpp_source.html">pdqsort.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="utils_8hpp_source.html">utils.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="tiny__string_8hpp_source.html">tiny_string.hpp</a>&quot;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
 </div>
 <p><a href="tiered__vector_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1lower__bound.html">seq::detail::lower_bound&lt; T, Wide &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1lower__bound_3_01_t_00_01false_01_4.html">seq::detail::lower_bound&lt; T, false &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__const__iterator.html">seq::detail::deque_const_iterator&lt; BucketMgr &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1deque__iterator.html">seq::detail::deque_iterator&lt; BucketMgr &gt;</a></td></tr>
@@ -119,17 +117,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_find_bucket_size.html">seq::detail::FindBucketSize&lt; T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_small_bucket_allocator.html">seq::detail::SmallBucketAllocator&lt; T, Allocator &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_select_alloc.html">seq::detail::SelectAlloc&lt; T, Allocator, layout &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_select_alloc_3_01_t_00_01_allocator_00_01_optimize_for_memory_01_4.html">seq::detail::SelectAlloc&lt; T, Allocator, OptimizeForMemory &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_store_plain_key.html">seq::detail::StorePlainKey&lt; KeyType &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_store_plain_key.html">seq::detail::StorePlainKey&lt; KeyType, class &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_store_bucket.html">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, StoreBackValues, IsArithmetic &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01false_00_01_is_arithmetic_01_4.html">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, false, IsArithmetic &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01false_01_4.html">seq::detail::StoreBucket&lt; T, Allocator, ValueCompare, true, false &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -139,11 +129,11 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__relocatable_3_01detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compa4c3de8b1ed892809670dad1cad5c7f7.html">seq::is_relocatable&lt; detail::StoreBucket&lt; T, Allocator, ValueCompare, true, true &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_bucket_manager.html">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare, layout &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_bucket_manager.html">seq::detail::BucketManager&lt; T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_null_value_compare.html">seq::detail::NullValueCompare&lt; T &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiered__vector.html">seq::tiered_vector&lt; T, Allocator, layout, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tiered__vector.html">seq::tiered_vector&lt; T, Allocator, MinBSize, MaxBSize, FindBSize, StoreBackValues, ValueCompare &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classseq_1_1tiered__vector.html" title="seq::tiered_vector is a std::deque like container implemented as a tiered-vector.">seq::tiered_vector</a> is a std::deque like container implemented as a tiered-vector.  <a href="classseq_1_1tiered__vector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -160,8 +150,8 @@ Macros</h2></td></tr>
 <tr class="memitem:a8138c63e1b50e132c7835a56cc0455a5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiered__vector_8hpp.html#a8138c63e1b50e132c7835a56cc0455a5">SEQ_MIN_BUCKET_SIZE</a>(T)&#160;&#160;&#160;(sizeof(T) &lt;= 4 ? 64 : (sizeof(T) &lt;= 8 ? 32 : (sizeof(T) &lt;= 16 ? 16 : (sizeof(T) &lt;= 64 ? 4 : 2))))</td></tr>
 <tr class="memdesc:a8138c63e1b50e132c7835a56cc0455a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Minimum bucket size for given type.  <a href="tiered__vector_8hpp.html#a8138c63e1b50e132c7835a56cc0455a5">More...</a><br /></td></tr>
 <tr class="separator:a8138c63e1b50e132c7835a56cc0455a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a4e63455cc57222ba6515c1866efcd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiered__vector_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">SEQ_MAX_BUCKET_SIZE</a>&#160;&#160;&#160;(1U&lt;&lt;14U)</td></tr>
-<tr class="memdesc:a8a4e63455cc57222ba6515c1866efcd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum bucket size (default to 1&lt;&lt;14)  <a href="tiered__vector_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">More...</a><br /></td></tr>
+<tr class="memitem:a8a4e63455cc57222ba6515c1866efcd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tiered__vector_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">SEQ_MAX_BUCKET_SIZE</a>&#160;&#160;&#160;(1U&lt;&lt;16U)</td></tr>
+<tr class="memdesc:a8a4e63455cc57222ba6515c1866efcd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum bucket size (default to 1&lt;&lt;16)  <a href="tiered__vector_8hpp.html#a8a4e63455cc57222ba6515c1866efcd0">More...</a><br /></td></tr>
 <tr class="separator:a8a4e63455cc57222ba6515c1866efcd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -213,12 +203,12 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SEQ_MAX_BUCKET_SIZE&#160;&#160;&#160;(1U&lt;&lt;14U)</td>
+          <td class="memname">#define SEQ_MAX_BUCKET_SIZE&#160;&#160;&#160;(1U&lt;&lt;16U)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Maximum bucket size (default to 1&lt;&lt;14) </p>
+<p>Maximum bucket size (default to 1&lt;&lt;16) </p>
 
 </div>
 </div>

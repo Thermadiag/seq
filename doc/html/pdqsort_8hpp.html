@@ -84,6 +84,7 @@ $(document).ready(function(){initNavTree('pdqsort_8hpp.html',''); initResizable(
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
@@ -97,9 +98,20 @@ $(document).ready(function(){initNavTree('pdqsort_8hpp.html',''); initResizable(
 <code>#include &lt;functional&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;type_traits&gt;</code><br />
 </div>
 <p><a href="pdqsort_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpdqsort__detail_1_1is__default__compare.html">pdqsort_detail::is_default_compare&lt; T &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpdqsort__detail_1_1is__default__compare_3_01std_1_1less_3_01_t_01_4_01_4.html">pdqsort_detail::is_default_compare&lt; std::less&lt; T &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpdqsort__detail_1_1is__default__compare_3_01std_1_1greater_3_01_t_01_4_01_4.html">pdqsort_detail::is_default_compare&lt; std::greater&lt; T &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacepdqsort__detail"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacepdqsort__detail.html">pdqsort_detail</a></td></tr>
@@ -107,7 +119,7 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a3de8fb7a53a7399f2b28c51e73b80dd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(x)&#160;&#160;&#160;(x)</td></tr>
+<tr class="memitem:a3de8fb7a53a7399f2b28c51e73b80dd0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pdqsort_8hpp.html#a3de8fb7a53a7399f2b28c51e73b80dd0">PDQSORT_PREFER_MOVE</a>(x)&#160;&#160;&#160;<a class="el" href="namespacestd.html#af8821d6dc8543af6dc30cddfe0bd0584">std::move</a>(x)</td></tr>
 <tr class="separator:a3de8fb7a53a7399f2b28c51e73b80dd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -186,7 +198,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;(x)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="namespacestd.html#af8821d6dc8543af6dc30cddfe0bd0584">std::move</a>(x)</td>
         </tr>
       </table>
 </div><div class="memdoc">

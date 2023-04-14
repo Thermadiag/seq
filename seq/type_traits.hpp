@@ -31,6 +31,8 @@
 #include <functional>
 #include <limits>
 
+
+
 namespace std
 {
 #if defined(__GNUG__) && (__GNUC__ < 5)
@@ -207,12 +209,12 @@ namespace seq
 
 
 	// On msvc, std::string is relocatable, as opposed to gcc implementation that stores a pointer to its internal data
-#if defined( _MSC_VER) 
+/*#if defined( _MSC_VER) 
 	template<class T, class Traits, class Alloc>
 	struct is_relocatable<std::basic_stringbuf<T, Traits, Alloc> > {
 		static constexpr bool value = true;
 	};
-#endif
+#endif*/
 
 	/// @brief Tells if given type is hashable with std::hash.
 	/// True by default, optimistically assume that all types are hashable.
@@ -226,7 +228,7 @@ namespace seq
 	{
 		template<class SS, class TT>
 		static auto test(int)
-			-> decltype(std::declval<SS&>() << std::declval<TT>(), std::true_type());
+			-> decltype(std::declval<SS&>() << std::declval<const TT&>(), std::true_type());
 
 		template<class, class>
 		static auto test(...)->std::false_type;
@@ -300,6 +302,38 @@ namespace seq
 		std::reference_wrapper<typename std::remove_reference<F>::type>
 		>
 	{
+	};
+
+
+
+	namespace detail
+	{
+		template <class T>
+		struct make_void {
+			using type = void;
+		};
+
+		template <class T, class = void>
+		struct has_iterator : std::false_type {};
+
+		template <class T>
+		struct has_iterator<T,
+			typename make_void<typename T::iterator>::type>
+			: std::true_type {};
+
+		template <class T, class = void>
+		struct has_value_type : std::false_type {};
+
+		template <class T>
+		struct has_value_type<T,
+			typename make_void<typename T::value_type>::type>
+			: std::true_type {};
+	}
+
+	template<class C>
+	struct is_iterable
+	{
+		static constexpr bool value = detail::has_iterator<C>::value && detail::has_value_type<C>::value;
 	};
 }
 #endif

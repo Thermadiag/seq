@@ -237,9 +237,8 @@ namespace seq
 			using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 
 			size_t chunks;
-			std_alloc() noexcept :Allocator(), chunks(0) {}
 			std_alloc(const Allocator& alloc) noexcept :Allocator(alloc), chunks(0) {}
-			std_alloc(size_t /*unused*/) noexcept : Allocator(), chunks(0) {}
+			std_alloc(size_t /*unused*/, const Allocator& alloc) noexcept : Allocator(alloc), chunks(0) {}
 
 			auto get_allocator() noexcept -> Allocator& { return static_cast<Allocator&>(*this); }
 			auto get_allocator() const noexcept -> const Allocator& { return static_cast<const Allocator&>(*this); }
@@ -874,10 +873,9 @@ namespace seq
 			using chunk_type = detail::list_chunk<T>;
 			detail::base_list_chunk<T> end;									//end chunk
 			std::size_t size;												//full size
-			chunk_type* dirty;												//first dirty chunk (for random access and shrink_to_fit)
 
-			Data(const Allocator& al = Allocator()) noexcept
-				:layout_manager(al), size(0), dirty(nullptr) {
+			Data(const Allocator& al ) noexcept
+				:layout_manager(al), size(0) {
 				endNode()->prev = endNode()->next = endNode();
 				endNode()->prev_free = endNode()->next_free = endNode();
 				endNode()->used = full;
@@ -901,7 +899,7 @@ namespace seq
 				}
 
 				// Does nothing if the sequence is alreay compact
-				if (size == 0 || !dirty) {
+				if (size == 0 ) {
 					//fill vec_chunk
 					if (vec_chunk) {
 						chunk_type* chunk = static_cast<chunk_type*>(endNode()->next);
@@ -914,27 +912,9 @@ namespace seq
 				}
 
 				// Make sure dirty node is valid
-				if (dirty == endNode())
-					dirty = static_cast<chunk_type*>(endNode()->next);
+				chunk_type*	dirty = static_cast<chunk_type*>(endNode()->next);
 
 				std::size_t chunks = 0; // chunk index
-
-				// Build chunk array for nodes before the dirty one
-				chunk_type* start = static_cast<chunk_type*>(endNode()->next);
-				// First one (maybe not full due to push front)
-				if (start != dirty) {
-					start->node_index = static_cast<std::int64_t>(chunks++);
-					if (vec_chunk) vec_chunk->push_back(start);
-					//remove all free nodes
-					start->next_free = start->prev_free = endNode();
-					start = static_cast<chunk_type*>(start->next);
-					while (start != dirty) {
-						start->node_index = static_cast<std::int64_t>(chunks++);
-						if (vec_chunk) vec_chunk->push_back(start);
-						start->next_free = start->prev_free = endNode();
-						start = static_cast<chunk_type*>(start->next);
-					}
-				}
 
 				// Push dirty to the right while nodes are full (already compact)
 				while (dirty != endNode() && dirty->used == full) {
@@ -1061,8 +1041,6 @@ namespace seq
 				else
 					endNode()->prev_free = endNode()->next_free = last;
 
-				// Mark as not dirty anymore
-				dirty = nullptr;
 			}
 
 			// Returns a const_iterator at given position
@@ -1081,16 +1059,8 @@ namespace seq
 				else
 					return iterator(static_cast<chunk_type*>(&end), 0) - static_cast<difference_type>(this->size - pos);
 			}
-		
+
 		};
-
-		// Mark the sequence as dirty giving the first dirty node
-		SEQ_ALWAYS_INLINE void markDirty(chunk_type* start_node) noexcept {
-
-			if (!d_data->dirty || !start_node || start_node == &d_data->end || d_data->dirty->node_index > start_node->node_index) {
-				d_data->dirty = start_node;
-			}
-		}
 
 		// Allocate and build a chunk with uninitialized storage
 		auto make_chunk(chunk_type* prev, chunk_type* next, std::int64_t index = chunk_type::no_index) -> chunk_type*
@@ -1156,6 +1126,30 @@ namespace seq
 			node->start = node->end = 0;
 			node->used = 0;
 		}
+
+
+		template <class... Args>
+		auto emplace_anywhere(Args&&... args)->iterator
+		{
+			chunk_type* node = static_cast<chunk_type*>(d_data->end.next_free);
+			std::uint64_t index = static_cast<std::uint64_t>(node->start != 0 ? node->start - 1 : (node->end != count ? node->end : static_cast<int>(node->firstFree())));
+			T* res = node->buffer() + index;
+			// Construct first as it might throw
+			construct_ptr(res, std::forward<Args>(args)...);
+
+			// Remove from list of free chunks if necessary
+			node->used |= (1ULL << index);
+			if (node->used == full)
+				remove_free_node(node);
+
+			// Update boundaries
+			if (static_cast<int>(index) == node->end) node->end++;
+			else if (static_cast<int>(index) < node->start) node->start = static_cast<int>(index);
+
+			++d_data->size;
+			return iterator(node, static_cast<int>(res - node->buffer()));
+		}
+
 
 		// Returns pointer to back value
 		SEQ_ALWAYS_INLINE auto back_ptr() const noexcept -> const T* { SEQ_ASSERT_DEBUG(d_data->size > 0,"empty container"); return &((static_cast<chunk_type*>(d_data->end.prev))->back()); }
@@ -1247,7 +1241,7 @@ namespace seq
 		void import(const sequence<T,Alloc,L,Align> & other)
 		{
 			if (!d_data)
-				d_data = make_data();
+				d_data = make_data(get_allocator());
 
 			// Assign another sequence
 
@@ -1395,14 +1389,7 @@ namespace seq
 		void pop_front_remove_chunk(chunk_type* node) noexcept
 		{
 			// Remove chunk due to pop_front() call
-			// Update dirty flags
-			if (d_data->dirty == node) {
-				if (node->next != d_data->endNode())
-					d_data->dirty = static_cast<chunk_type*>(node->next);
-				else
-					d_data->dirty = nullptr;
-			}
-
+			
 			//remove from list
 			remove_node(node);
 			//remove from free list
@@ -1413,13 +1400,7 @@ namespace seq
 		void pop_back_remove_chunk(chunk_type* node) noexcept
 		{
 			// Remove chunk due to pop_front() call
-			// Update dirty flags
-			if (d_data->dirty == node) {
-				if (node->prev != d_data->endNode())
-					d_data->dirty = static_cast<chunk_type*>(node->prev);
-				else
-					d_data->dirty = nullptr;
-			}
+			
 			//remove from list
 			remove_node(node);
 			//remove from free list
@@ -1428,16 +1409,7 @@ namespace seq
 		}
 
 		void erase_remove_chunk(chunk_type* node) noexcept
-		{
-			// Remove chunk due to erase() call
-			if (node == d_data->dirty)
-				markDirty(nullptr);
-			else if (node->prev != &d_data->end)
-				markDirty(static_cast<chunk_type*>(node->prev));
-			else if (node->next != &d_data->end)
-				markDirty(static_cast<chunk_type*>(node->next));
-			else // sequence is empty
-				markDirty(nullptr);
+		{			
 			//remove from list
 			remove_node(node);
 			//remove from free list
@@ -1450,7 +1422,7 @@ namespace seq
 		// Sequence object internal data
 		Data* d_data;
 
-		auto make_data(const Allocator& al = Allocator()) -> Data*
+		auto make_data(const Allocator& al ) -> Data*
 		{
 			rebind_alloc<Data> a = al;
 			Data * d = a.allocate(1);
@@ -1696,7 +1668,7 @@ namespace seq
 		template <class... Args>
 		auto emplace_back(Args&&... args) -> T&
 		{
-			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data(get_allocator());
 			chunk_type* last = static_cast<chunk_type*>(d_data->end.prev);
 			if (SEQ_UNLIKELY(last->used & (1ULL << (count - 1ULL))))
 				return emplace_back_new_chunk(last,std::forward<Args>(args)...);
@@ -1741,7 +1713,7 @@ namespace seq
 		template <class... Args>
 		auto emplace_front(Args&&... args) -> T&
 		{
-			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data(get_allocator());
 			chunk_type* first = static_cast<chunk_type*>(d_data->end.next);
 			if (SEQ_UNLIKELY(first->used & 1)) 
 				return emplace_front_new_chunk(first, std::forward<Args>(args)...);
@@ -1780,6 +1752,8 @@ namespace seq
 		void push_front(T&& value) { emplace_front(std::move(value)); }
 
 
+		
+
 		/// @brief Constructs an element in-place anywhere into the sequence.
 		/// @tparam ...Args 
 		/// @param ...args 
@@ -1792,32 +1766,13 @@ namespace seq
 		template <class... Args>
 		auto emplace(Args&&... args) -> iterator
 		{
-			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+			if (SEQ_UNLIKELY(!d_data)) d_data = make_data(get_allocator());
 
 			if (d_data->end.next_free == &d_data->end)
-				// If no free slot, deafult to emplace_back
+				// If no free slot, default to emplace_back
 				return emplace_back_iter(std::forward<Args>(args)...);
 			
-			chunk_type* node = static_cast<chunk_type*>( d_data->end.next_free);
-			std::uint64_t index = static_cast<std::uint64_t>( node->start != 0 ? node->start-1 : (node->end != count ? node->end : static_cast<int>(node->firstFree())));
-			T* res = node->buffer() + index;
-			// Construct first as it might throw
-			construct_ptr(res, std::forward<Args>(args)...);
-
-			// Remove from list of free chunks if necessary
-			node->used |= (1ULL << index);
-			if (node->used == full)
-				remove_free_node(node);
-		
-			// Update boundaries
-			if (static_cast<int>(index) == node->end) node->end++;
-			else if (static_cast<int>(index) < node->start) node->start = static_cast<int>(index);
-
-			// No need to mark dirty as we insert a new object
-			//markDirty(node);
-		
-			++d_data->size;
-			return iterator(node, static_cast<int>(res - node->buffer()));
+			return emplace_anywhere(std::forward<Args>(args)...);
 		}
 	
 		/// @brief Insert the given element into the sequence.
@@ -1864,7 +1819,7 @@ namespace seq
 			}
 
 			if (SEQ_UNLIKELY(!d_data)) 
-				d_data = make_data();
+				d_data = make_data(get_allocator());
 
 			if (new_size > size()) {
 				reserve(new_size);
@@ -1985,7 +1940,8 @@ namespace seq
 				return;
 			}
 
-			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+			if (SEQ_UNLIKELY(!d_data)) 
+				d_data = make_data(get_allocator());
 
 			if (new_size > size()) {
 				reserve(new_size);
@@ -2106,7 +2062,8 @@ namespace seq
 				return;
 			}
 
-			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+			if (SEQ_UNLIKELY(!d_data))
+				d_data = make_data(get_allocator());
 
 			if (new_size > size()) {
 				reserve(new_size);
@@ -2231,7 +2188,8 @@ namespace seq
 				return;
 			}
 
-			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+			if (SEQ_UNLIKELY(!d_data)) 
+				d_data = make_data(get_allocator());
 
 			if (new_size > size()) {
 				reserve(new_size);
@@ -2346,7 +2304,8 @@ namespace seq
 		template<class Iter>
 		void assign(Iter first, Iter last)
 		{
-			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+			if (SEQ_UNLIKELY(!d_data)) 
+				d_data = make_data(get_allocator());
 			assign_cat(first, last, typename std::iterator_traits<Iter>::iterator_category());
 		}
 
@@ -2355,7 +2314,8 @@ namespace seq
 		/// Basic exception guarantee. 
 		void assign(const std::initializer_list<T>& lst)
 		{
-			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+			if (SEQ_UNLIKELY(!d_data)) 
+				d_data = make_data(get_allocator());
 			assign_cat(lst.begin(), lst.end(), std::random_access_iterator_tag());
 		}
 
@@ -2365,7 +2325,8 @@ namespace seq
 		/// Basic exception guarantee. 
 		void assign(size_type new_size, const T& value)
 		{
-			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+			if (SEQ_UNLIKELY(!d_data))
+				d_data = make_data(get_allocator());
 			assign_cat(cvalue_iterator<T>(0, value), cvalue_iterator<T>(new_size, value), std::random_access_iterator_tag());
 		}
 
@@ -2389,7 +2350,8 @@ namespace seq
 		/// Basic exception guarantee. 
 		void reserve(size_t new_cap)
 		{
-			if (SEQ_UNLIKELY(!d_data)) d_data = make_data();
+			if (SEQ_UNLIKELY(!d_data)) 
+				d_data = make_data(get_allocator());
 			if (new_cap > d_data->size) {
 				size_t chunks = new_cap / count + (new_cap % count ? 1 : 0);
 				d_data->resize(chunks);
@@ -2473,7 +2435,7 @@ namespace seq
 		/// This function performs in O(1).
 		/// Iterators and references to the erased element are invalidated.
 		/// Iterators and references to other elements in the sequence remain valid.
-		SEQ_ALWAYS_INLINE auto erase(const_iterator it) noexcept -> iterator
+		auto erase(const_iterator it) noexcept -> iterator
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "erase() on an empty container");
 			SEQ_ASSERT_DEBUG(it.node->used & (1ULL << (it.pos)), "invalide erase position");
@@ -2494,7 +2456,6 @@ namespace seq
 			
 			if(SEQ_LIKELY(it.node->used != 0)) 
 			{
-				markDirty(it.node);
 				if (it.pos == it.node->start)
 					it.node->start = static_cast<int>(bit_scan_forward_64(it.node->used));
 				if (it.pos == it.node->end - 1)
@@ -2525,16 +2486,6 @@ namespace seq
 			}
 
 			iterator res = last;
-
-			//select node to mark as dirty
-			if (first == begin()) {
-				if (last == end()) markDirty(nullptr);
-				else markDirty(last.node); 
-			}
-			else {
-				// mark the node before first as dirty (could be end node)
-				markDirty(static_cast<chunk_type*>(first.node->prev));
-			}
 
 			chunk_type* node = first.node;
 			bool was_full = first.node->used == chunk_type::full;

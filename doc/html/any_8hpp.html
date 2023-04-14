@@ -97,6 +97,7 @@ $(document).ready(function(){initNavTree('any_8hpp.html',''); initResizable(); }
 <div class="textblock"><code>#include &quot;<a class="el" href="format_8hpp_source.html">format.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="tagged__pointer_8hpp_source.html">tagged_pointer.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="tiny__string_8hpp_source.html">tiny_string.hpp</a>&quot;</code><br />
+<code>#include &lt;atomic&gt;</code><br />
 </div>
 <p><a href="any_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -166,12 +167,16 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_type_3_01_t_00_01true_00_01typename_01std_1_1enable__if_3_01std_1_15afd7044be60c89666e3f8a99d32f652.html">seq::detail::HashType&lt; T, true, typename std::enable_if&lt; std::is_integral&lt; T &gt;::value, void &gt;::type &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hash integral types.  <a href="structseq_1_1detail_1_1_hash_type_3_01_t_00_01true_00_01typename_01std_1_1enable__if_3_01std_1_15afd7044be60c89666e3f8a99d32f652.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_type_3_01std_1_1string_00_01true_01_4.html">seq::detail::HashType&lt; std::string, true &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specializations for std::string and const char* that use std::hash&lt;tstring&gt;  <a href="structseq_1_1detail_1_1_hash_type_3_01std_1_1string_00_01true_01_4.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_type_3_01std_1_1basic__string_3_01_char_00_01_traits_00_01_al_01_4_00_01true_01_4.html">seq::detail::HashType&lt; std::basic_string&lt; Char, Traits, Al &gt;, true &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specializations for std::string and const char* that use std::hash&lt;tstring&gt;  <a href="structseq_1_1detail_1_1_hash_type_3_01std_1_1basic__string_3_01_char_00_01_traits_00_01_al_01_4_00_01true_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_type_3_01const_01char_01_5_00_01true_01_4.html">seq::detail::HashType&lt; const char *, true &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_type_3_01char_01_5_00_01true_01_4.html">seq::detail::HashType&lt; char *, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_type_3_01const_01wchar__t_01_5_00_01true_01_4.html">seq::detail::HashType&lt; const wchar_t *, true &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_type_3_01wchar__t_01_5_00_01true_01_4.html">seq::detail::HashType&lt; wchar_t *, true &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_hash_type_3_01_t_00_01false_01_4.html">seq::detail::HashType&lt; T, false &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -271,9 +276,15 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1hold__any.html">seq::hold_any&lt; Interface, StaticSize, Alignment, Relocatable &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::any like class optimized to build heterogeneous containers.  <a href="classseq_1_1hold__any.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format_3_01hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_01_4.html">seq::ostream_format&lt; hold_any&lt; Interface, S, A, R &gt; &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format_3_01hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_00_01_slot_01_4.html">seq::ostream_format&lt; hold_any&lt; Interface, S, A, R &gt;, Slot &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__relocatable_3_01hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_01_4.html">seq::is_relocatable&lt; hold_any&lt; Interface, S, A, R &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__hold__any.html">seq::is_hold_any&lt; T &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1is__hold__any_3_01hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_01_4.html">seq::is_hold_any&lt; hold_any&lt; Interface, S, A, R &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1inline__value__storage_3_01hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_01_4.html">seq::detail::inline_value_storage&lt; hold_any&lt; Interface, S, A, R &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classstd_1_1hash_3_01seq_1_1hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_01_4.html">std::hash&lt; seq::hold_any&lt; Interface, S, A, R &gt; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -290,9 +301,9 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a9dd8b331e651b5ee46e95c268b7dcfb2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="any_8hpp.html#a9dd8b331e651b5ee46e95c268b7dcfb2">SEQ_ANY_MALLOC</a>&#160;&#160;&#160;malloc</td></tr>
+<tr class="memitem:a9dd8b331e651b5ee46e95c268b7dcfb2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="any_8hpp.html#a9dd8b331e651b5ee46e95c268b7dcfb2">SEQ_ANY_MALLOC</a>&#160;&#160;&#160;operator new</td></tr>
 <tr class="separator:a9dd8b331e651b5ee46e95c268b7dcfb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a520345ba4d5ef1497bb909b68db9a40d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="any_8hpp.html#a520345ba4d5ef1497bb909b68db9a40d">SEQ_ANY_FREE</a>&#160;&#160;&#160;free</td></tr>
+<tr class="memitem:a520345ba4d5ef1497bb909b68db9a40d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="any_8hpp.html#a520345ba4d5ef1497bb909b68db9a40d">SEQ_ANY_FREE</a>&#160;&#160;&#160;operator delete</td></tr>
 <tr class="separator:a520345ba4d5ef1497bb909b68db9a40d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -528,6 +539,11 @@ Functions</h2></td></tr>
 <tr class="memitem:ab5417e4eca78972288f212c355f07923"><td class="memTemplParams" colspan="2">template&lt;class Any , class T , class U , class... Args&gt; </td></tr>
 <tr class="memitem:ab5417e4eca78972288f212c355f07923"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ab5417e4eca78972288f212c355f07923">seq::make_any</a> (std::initializer_list&lt; U &gt; il, Args &amp;&amp;... args) -&gt; Any</td></tr>
 <tr class="separator:ab5417e4eca78972288f212c355f07923"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e6841d57616cc1144f3347fe0113f82"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a0e6841d57616cc1144f3347fe0113f82">seq::_any</a> () -&gt; ostream_format&lt; nh_any, true &gt;</td></tr>
+<tr class="memdesc:a0e6841d57616cc1144f3347fe0113f82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create placeholder for any type for the formatting module.  <a href="namespaceseq.html#a0e6841d57616cc1144f3347fe0113f82">More...</a><br /></td></tr>
+<tr class="separator:a0e6841d57616cc1144f3347fe0113f82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef0653a43b827bc896829c70bfb47ab9"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceseq.html#aef0653a43b827bc896829c70bfb47ab9">seq::_a</a> () -&gt; ostream_format&lt; nh_any, true &gt;</td></tr>
+<tr class="separator:aef0653a43b827bc896829c70bfb47ab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a329f45f7b720ea03385d290b3dfe80"><td class="memTemplParams" colspan="2">template&lt;class Interface , size_t S, size_t A, bool R&gt; </td></tr>
 <tr class="memitem:a6a329f45f7b720ea03385d290b3dfe80"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacestd.html#a6a329f45f7b720ea03385d290b3dfe80">std::swap</a> (<a class="el" href="classseq_1_1hold__any.html">seq::hold_any</a>&lt; Interface, S, A, R &gt; &amp;a, <a class="el" href="classseq_1_1hold__any.html">seq::hold_any</a>&lt; Interface, S, A, R &gt; &amp;b)</td></tr>
 <tr class="separator:a6a329f45f7b720ea03385d290b3dfe80"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -546,7 +562,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SEQ_ANY_FREE&#160;&#160;&#160;free</td>
+          <td class="memname">#define SEQ_ANY_FREE&#160;&#160;&#160;operator delete</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -560,7 +576,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define SEQ_ANY_MALLOC&#160;&#160;&#160;malloc</td>
+          <td class="memname">#define SEQ_ANY_MALLOC&#160;&#160;&#160;operator new</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.18"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SEQ library: seq::ostream_format&lt; T &gt; Class Template Reference</title>
+<title>SEQ library: seq::ostream_format&lt; T, Slot &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -89,7 +89,7 @@ $(document).ready(function(){initNavTree('classseq_1_1ostream__format.html','');
 <a href="#friends">Friends</a> &#124;
 <a href="classseq_1_1ostream__format-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">seq::ostream_format&lt; T &gt; Class Template Reference</div>  </div>
+<div class="title">seq::ostream_format&lt; T, Slot &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -100,39 +100,41 @@ $(document).ready(function(){initNavTree('classseq_1_1ostream__format.html','');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa92d4f21903e6f12faa3f0cec4962b96"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#aa92d4f21903e6f12faa3f0cec4962b96">ostream_format</a> ()</td></tr>
-<tr class="memdesc:aa92d4f21903e6f12faa3f0cec4962b96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="classseq_1_1ostream__format.html#aa92d4f21903e6f12faa3f0cec4962b96">More...</a><br /></td></tr>
-<tr class="separator:aa92d4f21903e6f12faa3f0cec4962b96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9c6fcff5360952a2d20f78440bd9260"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#aa9c6fcff5360952a2d20f78440bd9260">ostream_format</a> (const T &amp;value)</td></tr>
-<tr class="separator:aa9c6fcff5360952a2d20f78440bd9260"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0ade56c4a611ab110236a86dc795474"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#af0ade56c4a611ab110236a86dc795474">ostream_format</a> (const T &amp;value, char base_or_format)</td></tr>
-<tr class="memdesc:af0ade56c4a611ab110236a86dc795474"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct from a value and a base or format value.  <a href="classseq_1_1ostream__format.html#af0ade56c4a611ab110236a86dc795474">More...</a><br /></td></tr>
-<tr class="separator:af0ade56c4a611ab110236a86dc795474"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae92f6180eebb702f017de526573309f5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#ae92f6180eebb702f017de526573309f5">ostream_format</a> (const T &amp;value, const <a class="el" href="classseq_1_1numeric__format.html">numeric_format</a> &amp;<a class="el" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>)</td></tr>
-<tr class="separator:ae92f6180eebb702f017de526573309f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c30d958ce8fb82d6509acc7e23f2648"><td class="memTemplParams" colspan="2">template&lt;class String &gt; </td></tr>
-<tr class="memitem:a3c30d958ce8fb82d6509acc7e23f2648"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#a3c30d958ce8fb82d6509acc7e23f2648">to_string</a> (String &amp;str) const -&gt; size_t</td></tr>
-<tr class="separator:a3c30d958ce8fb82d6509acc7e23f2648"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b87475b82ef47e1d9ce0418c2ef1ce2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#a7b87475b82ef47e1d9ce0418c2ef1ce2">ostream_format</a> ()</td></tr>
+<tr class="memdesc:a7b87475b82ef47e1d9ce0418c2ef1ce2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="classseq_1_1ostream__format.html#a7b87475b82ef47e1d9ce0418c2ef1ce2">More...</a><br /></td></tr>
+<tr class="separator:a7b87475b82ef47e1d9ce0418c2ef1ce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa57f95c1c77eb6cfa81b6046bc700577"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#aa57f95c1c77eb6cfa81b6046bc700577">ostream_format</a> (const T &amp;value)</td></tr>
+<tr class="separator:aa57f95c1c77eb6cfa81b6046bc700577"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3582982d3e94b902936fe75edface0e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#a3582982d3e94b902936fe75edface0e3">ostream_format</a> (const T &amp;value, char base_or_format)</td></tr>
+<tr class="memdesc:a3582982d3e94b902936fe75edface0e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct from a value and a base or format value.  <a href="classseq_1_1ostream__format.html#a3582982d3e94b902936fe75edface0e3">More...</a><br /></td></tr>
+<tr class="separator:a3582982d3e94b902936fe75edface0e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a686829857ff18ea83e13ee4fe9ccaac5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#a686829857ff18ea83e13ee4fe9ccaac5">ostream_format</a> (const T &amp;value, const <a class="el" href="classseq_1_1numeric__format.html">numeric_format</a> &amp;<a class="el" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>)</td></tr>
+<tr class="separator:a686829857ff18ea83e13ee4fe9ccaac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab06042e131e39e98824f766196754f1b"><td class="memTemplParams" colspan="2">template&lt;class String &gt; </td></tr>
+<tr class="memitem:ab06042e131e39e98824f766196754f1b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#ab06042e131e39e98824f766196754f1b">to_string</a> (String &amp;str) const -&gt; size_t</td></tr>
+<tr class="separator:ab06042e131e39e98824f766196754f1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:ad17739787fa96a1f4d1ae1a42a66d6e1"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#ad17739787fa96a1f4d1ae1a42a66d6e1">auto_width_format</a> = true</td></tr>
-<tr class="separator:ad17739787fa96a1f4d1ae1a42a66d6e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a032bd8fe0c7b16c3883b5a4195d4a6c7"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#a032bd8fe0c7b16c3883b5a4195d4a6c7">is_formattable</a> = <a class="el" href="classseq_1_1detail_1_1is__default__formattable.html">detail::is_default_formattable</a>&lt;T, <a class="el" href="classseq_1_1ostream__format.html">ostream_format</a>&lt;T&gt; &gt;::value</td></tr>
-<tr class="separator:a032bd8fe0c7b16c3883b5a4195d4a6c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b472cf77227f0de98bd26a87ba4f069"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#a3b472cf77227f0de98bd26a87ba4f069">is_slot</a> = Slot</td></tr>
+<tr class="separator:a3b472cf77227f0de98bd26a87ba4f069"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ba83a5dd95bb4656acbcf1051aa2726"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#a4ba83a5dd95bb4656acbcf1051aa2726">auto_width_format</a> = true</td></tr>
+<tr class="separator:a4ba83a5dd95bb4656acbcf1051aa2726"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f6982855923b29e0b01ae2fc714397f"><td class="memItemLeft" align="right" valign="top">static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#a7f6982855923b29e0b01ae2fc714397f">is_formattable</a> = <a class="el" href="classseq_1_1detail_1_1is__default__formattable.html">detail::is_default_formattable</a>&lt;T, <a class="el" href="classseq_1_1ostream__format.html">ostream_format</a>&lt;T,Slot&gt; &gt;::value</td></tr>
+<tr class="separator:a7f6982855923b29e0b01ae2fc714397f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a3eb7536572cddbefdbb8844bb64cafe4"><td class="memTemplParams" colspan="2">template&lt;class U &gt; </td></tr>
-<tr class="memitem:a3eb7536572cddbefdbb8844bb64cafe4"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#a3eb7536572cddbefdbb8844bb64cafe4">ostream_format</a></td></tr>
-<tr class="separator:a3eb7536572cddbefdbb8844bb64cafe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdebc7d7d87e263787ebc6a00a0748df"><td class="memTemplParams" colspan="2">template&lt;class U , bool S&gt; </td></tr>
+<tr class="memitem:acdebc7d7d87e263787ebc6a00a0748df"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#acdebc7d7d87e263787ebc6a00a0748df">ostream_format</a></td></tr>
+<tr class="separator:acdebc7d7d87e263787ebc6a00a0748df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c0adfd156b0d18b57fc8cc3f0c477a1"><td class="memTemplParams" colspan="2">template&lt;class U , bool IsIntegral, bool IsFloat, bool IsString, bool IsStreamable&gt; </td></tr>
 <tr class="memitem:a4c0adfd156b0d18b57fc8cc3f0c477a1"><td class="memTemplItemLeft" align="right" valign="top">struct&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1ostream__format.html#a4c0adfd156b0d18b57fc8cc3f0c477a1">detail::OstreamToString</a></td></tr>
 <tr class="separator:a4c0adfd156b0d18b57fc8cc3f0c477a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;class T&gt;<br />
-class seq::ostream_format&lt; T &gt;</h3>
+<div class="textblock"><h3>template&lt;class T, bool Slot = false&gt;<br />
+class seq::ostream_format&lt; T, Slot &gt;</h3>
 
 <p>Number and string formatting class. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -146,19 +148,19 @@ class seq::ostream_format&lt; T &gt;</h3>
 <li>Speed: streaming numerical values with fmt is an order of magnitude faster than the default std::ostream behavior. The integral and floating point formatting is obtained with to_chars.</li>
 <li>Local formatting: each call to fmt produces output with its own formatting options, without switching the std::ostream options like std::ostream::width() or std::ostream::left(). fmt does not use locale either. Note that you can still use a global <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> object to format several values with the same formatting options.</li>
 </ul>
-<p>The following examples give a better idea of <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> usage. </p><div class="fragment"><div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(1.2) &lt;&lt; std::endl;</div>
-<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(1.2,<span class="charliteral">&#39;E&#39;</span>) &lt;&lt; std::endl;                     <span class="comment">//scientific notation</span></div>
-<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(1.23456789,<span class="charliteral">&#39;E&#39;</span>).precision(4) &lt;&lt; std::endl; <span class="comment">//bounded maximum precision</span></div>
-<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(1.2).dot(<span class="charliteral">&#39;,&#39;</span>) &lt;&lt; std::endl;                    <span class="comment">//change dot</span></div>
-<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(1.2).right(10).fill(<span class="charliteral">&#39;-&#39;</span>) &lt;&lt; std::endl;     <span class="comment">//align to the right</span></div>
-<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(1.2).left(10).fill(<span class="charliteral">&#39;-&#39;</span>) &lt;&lt; std::endl;          <span class="comment">//align to the left</span></div>
-<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(1.2).center(10).fill(<span class="charliteral">&#39;-&#39;</span>) &lt;&lt; std::endl;        <span class="comment">//align to the center</span></div>
-<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(123456,16).hex_prefix().upper() &lt;&lt; std::endl;  <span class="comment">//hexadecimal upper case with &#39;0x&#39; prefix</span></div>
-<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(<span class="stringliteral">&quot;hello&quot;</span>).c(10).f(<span class="charliteral">&#39;*&#39;</span>) &lt;&lt; std::endl;            <span class="comment">//center string, use dense notation</span></div>
-<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(<span class="stringliteral">&quot;hello&quot;</span>).c(3) &lt;&lt; std::endl;                    <span class="comment">//center and truncate string</span></div>
+<p>The following examples give a better idea of <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> usage. </p><div class="fragment"><div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(1.2) &lt;&lt; std::endl;</div>
+<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(1.2,<span class="charliteral">&#39;E&#39;</span>) &lt;&lt; std::endl;                     <span class="comment">//scientific notation</span></div>
+<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(1.23456789,<span class="charliteral">&#39;E&#39;</span>).precision(4) &lt;&lt; std::endl; <span class="comment">//bounded maximum precision</span></div>
+<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(1.2).dot(<span class="charliteral">&#39;,&#39;</span>) &lt;&lt; std::endl;                    <span class="comment">//change dot</span></div>
+<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(1.2).right(10).fill(<span class="charliteral">&#39;-&#39;</span>) &lt;&lt; std::endl;     <span class="comment">//align to the right</span></div>
+<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(1.2).left(10).fill(<span class="charliteral">&#39;-&#39;</span>) &lt;&lt; std::endl;          <span class="comment">//align to the left</span></div>
+<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(1.2).center(10).fill(<span class="charliteral">&#39;-&#39;</span>) &lt;&lt; std::endl;        <span class="comment">//align to the center</span></div>
+<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(123456,16).hex_prefix().upper() &lt;&lt; std::endl;  <span class="comment">//hexadecimal upper case with &#39;0x&#39; prefix</span></div>
+<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(<span class="stringliteral">&quot;hello&quot;</span>).c(10).f(<span class="charliteral">&#39;*&#39;</span>) &lt;&lt; std::endl;            <span class="comment">//center string, use dense notation</span></div>
+<div class="line">std::cout &lt;&lt; <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(<span class="stringliteral">&quot;hello&quot;</span>).c(3) &lt;&lt; std::endl;                    <span class="comment">//center and truncate string</span></div>
 <div class="line"> </div>
-<div class="line">std::string <a class="code" href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">str</a> = <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(1.2);                                 <span class="comment">//direct string conversion</span></div>
-<div class="line">std::string str2 = <span class="stringliteral">&quot;the value is &quot;</span> + <a class="code" href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">fmt</a>(1.2).str();            <span class="comment">//direct string conversion</span></div>
+<div class="line">std::string <a class="code" href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">str</a> = <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(1.2);                                 <span class="comment">//direct string conversion</span></div>
+<div class="line">std::string str2 = <span class="stringliteral">&quot;the value is &quot;</span> + <a class="code" href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">fmt</a>(1.2).str();            <span class="comment">//direct string conversion</span></div>
 </div><!-- fragment --><p>A <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> can be stored in order to format several values using the same formatting options:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code" href="namespaceseq_1_1detail.html#a76fa776653402382e316c7b6715856af">f</a> = fmt&lt;int&gt;().b(16).h().u();  <span class="comment">//integer formatting : hexadecimal upper case with &#39;0x&#39; prefix</span></div>
 <div class="line"> </div>
@@ -166,19 +168,19 @@ class seq::ostream_format&lt; T &gt;</h3>
 <div class="line">    std::cout&lt;&lt;<a class="code" href="namespaceseq_1_1detail.html#a76fa776653402382e316c7b6715856af">f</a>(i)&lt;&lt;std::endl;     <span class="comment">//use the same formatting options for all values</span></div>
 </div><!-- fragment --><p>A <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> object can be converted to a tstring_view. This is possible as the <a class="el" href="classseq_1_1ostream__format.html" title="Number and string formatting class.">ostream_format</a> object is internally written inside a global thread_local string. Therefore, the tstring_view is only valid within the current thread, and should NOT be used in another thread. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aa92d4f21903e6f12faa3f0cec4962b96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa92d4f21903e6f12faa3f0cec4962b96">&#9670;&nbsp;</a></span>ostream_format() <span class="overload">[1/4]</span></h2>
+<a id="a7b87475b82ef47e1d9ce0418c2ef1ce2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b87475b82ef47e1d9ce0418c2ef1ce2">&#9670;&nbsp;</a></span>ostream_format() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;class T , bool Slot = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T &gt;::<a class="el" href="classseq_1_1ostream__format.html">ostream_format</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T, Slot &gt;::<a class="el" href="classseq_1_1ostream__format.html">ostream_format</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -196,19 +198,19 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="aa9c6fcff5360952a2d20f78440bd9260"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9c6fcff5360952a2d20f78440bd9260">&#9670;&nbsp;</a></span>ostream_format() <span class="overload">[2/4]</span></h2>
+<a id="aa57f95c1c77eb6cfa81b6046bc700577"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa57f95c1c77eb6cfa81b6046bc700577">&#9670;&nbsp;</a></span>ostream_format() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;class T , bool Slot = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T &gt;::<a class="el" href="classseq_1_1ostream__format.html">ostream_format</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T, Slot &gt;::<a class="el" href="classseq_1_1ostream__format.html">ostream_format</a> </td>
           <td>(</td>
           <td class="paramtype">const T &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -224,19 +226,19 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="af0ade56c4a611ab110236a86dc795474"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0ade56c4a611ab110236a86dc795474">&#9670;&nbsp;</a></span>ostream_format() <span class="overload">[3/4]</span></h2>
+<a id="a3582982d3e94b902936fe75edface0e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3582982d3e94b902936fe75edface0e3">&#9670;&nbsp;</a></span>ostream_format() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;class T , bool Slot = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T &gt;::<a class="el" href="classseq_1_1ostream__format.html">ostream_format</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T, Slot &gt;::<a class="el" href="classseq_1_1ostream__format.html">ostream_format</a> </td>
           <td>(</td>
           <td class="paramtype">const T &amp;&#160;</td>
           <td class="paramname"><em>value</em>, </td>
@@ -271,19 +273,19 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="ae92f6180eebb702f017de526573309f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae92f6180eebb702f017de526573309f5">&#9670;&nbsp;</a></span>ostream_format() <span class="overload">[4/4]</span></h2>
+<a id="a686829857ff18ea83e13ee4fe9ccaac5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a686829857ff18ea83e13ee4fe9ccaac5">&#9670;&nbsp;</a></span>ostream_format() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;class T , bool Slot = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T &gt;::<a class="el" href="classseq_1_1ostream__format.html">ostream_format</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T, Slot &gt;::<a class="el" href="classseq_1_1ostream__format.html">ostream_format</a> </td>
           <td>(</td>
           <td class="paramtype">const T &amp;&#160;</td>
           <td class="paramname"><em>value</em>, </td>
@@ -310,13 +312,13 @@ template&lt;class T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3c30d958ce8fb82d6509acc7e23f2648"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c30d958ce8fb82d6509acc7e23f2648">&#9670;&nbsp;</a></span>to_string()</h2>
+<a id="ab06042e131e39e98824f766196754f1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab06042e131e39e98824f766196754f1b">&#9670;&nbsp;</a></span>to_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;class T , bool Slot = false&gt; </div>
 <div class="memtemplate">
 template&lt;class String &gt; </div>
 <table class="mlabels">
@@ -324,7 +326,7 @@ template&lt;class String &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T &gt;::to_string </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T, Slot &gt;::to_string </td>
           <td>(</td>
           <td class="paramtype">String &amp;&#160;</td>
           <td class="paramname"><em>str</em></td><td>)</td>
@@ -348,7 +350,7 @@ template&lt;class String &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;class T , bool Slot = false&gt; </div>
 <div class="memtemplate">
 template&lt;class U , bool IsIntegral, bool IsFloat, bool IsString, bool IsStreamable&gt; </div>
 <table class="mlabels">
@@ -368,15 +370,15 @@ template&lt;class U , bool IsIntegral, bool IsFloat, bool IsString, bool IsStrea
 
 </div>
 </div>
-<a id="a3eb7536572cddbefdbb8844bb64cafe4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3eb7536572cddbefdbb8844bb64cafe4">&#9670;&nbsp;</a></span>ostream_format</h2>
+<a id="acdebc7d7d87e263787ebc6a00a0748df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdebc7d7d87e263787ebc6a00a0748df">&#9670;&nbsp;</a></span>ostream_format</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;class T , bool Slot = false&gt; </div>
 <div class="memtemplate">
-template&lt;class U &gt; </div>
+template&lt;class U , bool S&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -395,19 +397,19 @@ template&lt;class U &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ad17739787fa96a1f4d1ae1a42a66d6e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad17739787fa96a1f4d1ae1a42a66d6e1">&#9670;&nbsp;</a></span>auto_width_format</h2>
+<a id="a4ba83a5dd95bb4656acbcf1051aa2726"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ba83a5dd95bb4656acbcf1051aa2726">&#9670;&nbsp;</a></span>auto_width_format</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;class T , bool Slot = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr bool <a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T &gt;::auto_width_format = true</td>
+          <td class="memname">constexpr bool <a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T, Slot &gt;::auto_width_format = true</td>
         </tr>
       </table>
   </td>
@@ -419,19 +421,43 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a032bd8fe0c7b16c3883b5a4195d4a6c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a032bd8fe0c7b16c3883b5a4195d4a6c7">&#9670;&nbsp;</a></span>is_formattable</h2>
+<a id="a7f6982855923b29e0b01ae2fc714397f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f6982855923b29e0b01ae2fc714397f">&#9670;&nbsp;</a></span>is_formattable</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;class T , bool Slot = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr bool <a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T &gt;::<a class="el" href="structseq_1_1is__formattable.html">is_formattable</a> = <a class="el" href="classseq_1_1detail_1_1is__default__formattable.html">detail::is_default_formattable</a>&lt;T, <a class="el" href="classseq_1_1ostream__format.html">ostream_format</a>&lt;T&gt; &gt;::value</td>
+          <td class="memname">constexpr bool <a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T, Slot &gt;::<a class="el" href="structseq_1_1is__formattable.html">is_formattable</a> = <a class="el" href="classseq_1_1detail_1_1is__default__formattable.html">detail::is_default_formattable</a>&lt;T, <a class="el" href="classseq_1_1ostream__format.html">ostream_format</a>&lt;T,Slot&gt; &gt;::value</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3b472cf77227f0de98bd26a87ba4f069"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b472cf77227f0de98bd26a87ba4f069">&#9670;&nbsp;</a></span>is_slot</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , bool Slot = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool <a class="el" href="classseq_1_1ostream__format.html">seq::ostream_format</a>&lt; T, Slot &gt;::is_slot = Slot</td>
         </tr>
       </table>
   </td>
@@ -450,7 +476,7 @@ template&lt;class T &gt; </div>
 </div><!-- doc-content -->
 <div class="ttc" id="anamespaceseq_1_1detail_html_a84d714603751dddb280584583ccdd7e3"><div class="ttname"><a href="namespaceseq_1_1detail.html#a84d714603751dddb280584583ccdd7e3">seq::detail::str</a></div><div class="ttdeci">Integral int char Stream &amp; str</div><div class="ttdef"><b>Definition:</b> charconv.hpp:716</div></div>
 <div class="ttc" id="anamespaceseq_1_1detail_html_a76fa776653402382e316c7b6715856af"><div class="ttname"><a href="namespaceseq_1_1detail.html#a76fa776653402382e316c7b6715856af">seq::detail::f</a></div><div class="ttdeci">char f</div><div class="ttdef"><b>Definition:</b> charconv.hpp:688</div></div>
-<div class="ttc" id="anamespaceseq_html_a21b27d9d28ab49b4e36657f9e95013c7"><div class="ttname"><a href="namespaceseq.html#a21b27d9d28ab49b4e36657f9e95013c7">seq::fmt</a></div><div class="ttdeci">auto fmt(Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), void, Args... &gt;::return_type</div><div class="ttdef"><b>Definition:</b> format.hpp:2159</div></div>
+<div class="ttc" id="anamespaceseq_html_a6121df4185303d9c1babf573d914e4d1"><div class="ttname"><a href="namespaceseq.html#a6121df4185303d9c1babf573d914e4d1">seq::fmt</a></div><div class="ttdeci">auto fmt(Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), false, typename detail::find_slots&lt; Args... &gt;::type, false, Args... &gt;::return_type</div><div class="ttdef"><b>Definition:</b> format.hpp:2280</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

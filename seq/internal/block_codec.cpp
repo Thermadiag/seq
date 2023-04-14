@@ -1022,6 +1022,7 @@ namespace seq
 		const unsigned char* src = reinterpret_cast<const unsigned char*>(_src);
 		const unsigned char* saved = src;
 		const unsigned char* end = src + size;
+		const unsigned header_len = (BPP >> 1) + (BPP & 1);
 		unsigned outer_stride = BPP * 16;
 		unsigned inner_stride = BPP;
 
@@ -1033,7 +1034,23 @@ namespace seq
 		{
 			unsigned char* dst = reinterpret_cast<unsigned char*>(_dst) + bcount * 256 * BPP;
 			const unsigned char* anchor = (src);
-			src += (BPP >> 1) + (BPP & 1);
+			src += header_len;
+
+			// Check for the same value repeated 256 times
+			unsigned j;
+			for (j = 0; j < header_len; ++j) {
+				if (anchor[j] != __SEQ_BLOCK_ALL_SAME)
+					break;
+			}
+			if (j == header_len) {
+				//decode all same
+				for (unsigned i = 0; i < 256; ++i) {
+					unsigned char* d = dst + i * BPP;
+					for (unsigned b = 0; b < BPP; ++b)
+						*d++ = src[b];
+				}
+				return static_cast<unsigned>(src + BPP - saved);
+			}
 
 			for (unsigned i = 0; i < BPP; ++i)
 			{

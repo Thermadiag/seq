@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.18"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>SEQ library: seq::detail::base_mutli_ostream_format&lt; Derived &gt; Class Template Reference</title>
+<title>SEQ library: seq::detail::base_mutli_ostream_format&lt; Tuple, Derived, HasSeparator &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -85,90 +85,130 @@ $(document).ready(function(){initNavTree('classseq_1_1detail_1_1base__mutli__ost
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="classseq_1_1detail_1_1base__mutli__ostream__format-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">seq::detail::base_mutli_ostream_format&lt; Derived &gt; Class Template Reference</div>  </div>
+<div class="title">seq::detail::base_mutli_ostream_format&lt; Tuple, Derived, HasSeparator &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Base class for <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html" title="Formatting class for multiple values, returned by seq::fmt(... , ...).">mutli_ostream_format</a>.  
+ <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="format_8hpp_source.html">format.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4e2f8ed9322da7d648a95a287297f142"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a4e2f8ed9322da7d648a95a287297f142">base_mutli_ostream_format</a> ()</td></tr>
-<tr class="separator:a4e2f8ed9322da7d648a95a287297f142"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b5eb027cc23818432fea1b5d464f394"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a7b5eb027cc23818432fea1b5d464f394">width_fmt</a> () const noexcept -&gt; <a class="el" href="structseq_1_1width__format.html">width_format</a></td></tr>
-<tr class="memdesc:a7b5eb027cc23818432fea1b5d464f394"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the width format options.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a7b5eb027cc23818432fea1b5d464f394">More...</a><br /></td></tr>
-<tr class="separator:a7b5eb027cc23818432fea1b5d464f394"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0db5093672cc5bb964ff61dbc58a235"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ab0db5093672cc5bb964ff61dbc58a235">set_width_format</a> (const <a class="el" href="structseq_1_1width__format.html">width_format</a> &amp;<a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a34709cb1bbe75c04a16ebf96949cfdbc">f</a>)</td></tr>
-<tr class="separator:ab0db5093672cc5bb964ff61dbc58a235"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50c95bb808373ba7ab330d24e0b34a0d"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a50c95bb808373ba7ab330d24e0b34a0d">width</a> () const noexcept -&gt; unsigned short</td></tr>
-<tr class="memdesc:a50c95bb808373ba7ab330d24e0b34a0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns width value of the width formatting options.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a50c95bb808373ba7ab330d24e0b34a0d">More...</a><br /></td></tr>
-<tr class="separator:a50c95bb808373ba7ab330d24e0b34a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8881f1f349999869d4e510338073fd65"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a8881f1f349999869d4e510338073fd65">fill_character</a> () const noexcept -&gt; char</td></tr>
-<tr class="memdesc:a8881f1f349999869d4e510338073fd65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns fill character of the width formatting options.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a8881f1f349999869d4e510338073fd65">More...</a><br /></td></tr>
-<tr class="separator:a8881f1f349999869d4e510338073fd65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab492457fcdc0b0bd9b0f9c54750c0830"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ab492457fcdc0b0bd9b0f9c54750c0830">alignment</a> () const noexcept -&gt; char</td></tr>
-<tr class="memdesc:ab492457fcdc0b0bd9b0f9c54750c0830"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns alignment value of the width formatting options.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ab492457fcdc0b0bd9b0f9c54750c0830">More...</a><br /></td></tr>
-<tr class="separator:ab492457fcdc0b0bd9b0f9c54750c0830"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa09ed672dcfb5a40d67e1c2087e6fcee"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa09ed672dcfb5a40d67e1c2087e6fcee">left</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
-<tr class="memdesc:aa09ed672dcfb5a40d67e1c2087e6fcee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa09ed672dcfb5a40d67e1c2087e6fcee">More...</a><br /></td></tr>
-<tr class="separator:aa09ed672dcfb5a40d67e1c2087e6fcee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5c477333e1427b86a929ebeb4f0ad69"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ae5c477333e1427b86a929ebeb4f0ad69">l</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
-<tr class="memdesc:ae5c477333e1427b86a929ebeb4f0ad69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ae5c477333e1427b86a929ebeb4f0ad69">More...</a><br /></td></tr>
-<tr class="separator:ae5c477333e1427b86a929ebeb4f0ad69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7f8d6db349cf00e4dbeb99bc6f4f613"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#af7f8d6db349cf00e4dbeb99bc6f4f613">ll</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
-<tr class="separator:af7f8d6db349cf00e4dbeb99bc6f4f613"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeffd63f22ac83464b63ebaaec24afdb2"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aeffd63f22ac83464b63ebaaec24afdb2">right</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
-<tr class="memdesc:aeffd63f22ac83464b63ebaaec24afdb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aeffd63f22ac83464b63ebaaec24afdb2">More...</a><br /></td></tr>
-<tr class="separator:aeffd63f22ac83464b63ebaaec24afdb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa54b55a0e89c550abfa75873ac331bf1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa54b55a0e89c550abfa75873ac331bf1">r</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
-<tr class="memdesc:aa54b55a0e89c550abfa75873ac331bf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa54b55a0e89c550abfa75873ac331bf1">More...</a><br /></td></tr>
-<tr class="separator:aa54b55a0e89c550abfa75873ac331bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a658dff6063b9452c3447cdfbe58ab6fe"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a658dff6063b9452c3447cdfbe58ab6fe">center</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
-<tr class="memdesc:a658dff6063b9452c3447cdfbe58ab6fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a658dff6063b9452c3447cdfbe58ab6fe">More...</a><br /></td></tr>
-<tr class="separator:a658dff6063b9452c3447cdfbe58ab6fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97b6953fa24081a5a24287de4b585881"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a97b6953fa24081a5a24287de4b585881">c</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
-<tr class="memdesc:a97b6953fa24081a5a24287de4b585881"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a97b6953fa24081a5a24287de4b585881">More...</a><br /></td></tr>
-<tr class="separator:a97b6953fa24081a5a24287de4b585881"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad8c89cdb917c814e0818d0f87551b156"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ad8c89cdb917c814e0818d0f87551b156">no_align</a> () noexcept -&gt; Derived &amp;</td></tr>
-<tr class="memdesc:ad8c89cdb917c814e0818d0f87551b156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset alignment options.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ad8c89cdb917c814e0818d0f87551b156">More...</a><br /></td></tr>
-<tr class="separator:ad8c89cdb917c814e0818d0f87551b156"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac39b5494db921db939354af06a88dbfa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ac39b5494db921db939354af06a88dbfa">fill</a> (char <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a34709cb1bbe75c04a16ebf96949cfdbc">f</a>) noexcept -&gt; Derived &amp;</td></tr>
-<tr class="memdesc:ac39b5494db921db939354af06a88dbfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the fill character, used with <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa09ed672dcfb5a40d67e1c2087e6fcee" title="Set the exact width and the alignment.">left()</a>, <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aeffd63f22ac83464b63ebaaec24afdb2" title="Set the exact width and the alignment.">right()</a> and <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a658dff6063b9452c3447cdfbe58ab6fe" title="Set the exact width and the alignment.">center()</a>  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ac39b5494db921db939354af06a88dbfa">More...</a><br /></td></tr>
-<tr class="separator:ac39b5494db921db939354af06a88dbfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34709cb1bbe75c04a16ebf96949cfdbc"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a34709cb1bbe75c04a16ebf96949cfdbc">f</a> (char _f) noexcept -&gt; Derived &amp;</td></tr>
-<tr class="memdesc:a34709cb1bbe75c04a16ebf96949cfdbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the fill character, used with <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa09ed672dcfb5a40d67e1c2087e6fcee" title="Set the exact width and the alignment.">left()</a>, <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aeffd63f22ac83464b63ebaaec24afdb2" title="Set the exact width and the alignment.">right()</a> and <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a658dff6063b9452c3447cdfbe58ab6fe" title="Set the exact width and the alignment.">center()</a>  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a34709cb1bbe75c04a16ebf96949cfdbc">More...</a><br /></td></tr>
-<tr class="separator:a34709cb1bbe75c04a16ebf96949cfdbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98cc0d035819c071ed106dc8324a9123"><td class="memItemLeft" align="right" valign="top">Derived &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a98cc0d035819c071ed106dc8324a9123">derived</a> () noexcept</td></tr>
+<tr class="separator:a98cc0d035819c071ed106dc8324a9123"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac60f7b7cf08262dc6affa0c26dcb410"><td class="memItemLeft" align="right" valign="top">const Derived &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aac60f7b7cf08262dc6affa0c26dcb410">derived</a> () const noexcept</td></tr>
+<tr class="separator:aac60f7b7cf08262dc6affa0c26dcb410"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cf32de35c9687d6418533035ccd8a50"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a6cf32de35c9687d6418533035ccd8a50">base_mutli_ostream_format</a> ()</td></tr>
+<tr class="separator:a6cf32de35c9687d6418533035ccd8a50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a046a3f77f6c0539db6b073ae5d88da6a"><td class="memTemplParams" colspan="2">template&lt;class ... Args, class  = typename std::enable_if&lt;((sizeof...(Args)) &gt; 1), void&gt;::type&gt; </td></tr>
+<tr class="memitem:a046a3f77f6c0539db6b073ae5d88da6a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a046a3f77f6c0539db6b073ae5d88da6a">base_mutli_ostream_format</a> (Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a046a3f77f6c0539db6b073ae5d88da6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a117bdc00963ae5dc54e08c09ea47af84"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a117bdc00963ae5dc54e08c09ea47af84">width_fmt</a> () const noexcept -&gt; <a class="el" href="structseq_1_1width__format.html">width_format</a></td></tr>
+<tr class="memdesc:a117bdc00963ae5dc54e08c09ea47af84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the width format options.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a117bdc00963ae5dc54e08c09ea47af84">More...</a><br /></td></tr>
+<tr class="separator:a117bdc00963ae5dc54e08c09ea47af84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae015a4b68c0758b83f9064e2d9cad6dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ae015a4b68c0758b83f9064e2d9cad6dd">set_width_format</a> (const <a class="el" href="structseq_1_1width__format.html">width_format</a> &amp;<a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aca52f0ef767ec07172eb7ffd476502aa">f</a>)</td></tr>
+<tr class="separator:ae015a4b68c0758b83f9064e2d9cad6dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10488fa0d0ad84de8beb91ee701a7ca5"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a10488fa0d0ad84de8beb91ee701a7ca5">width</a> () const noexcept -&gt; unsigned short</td></tr>
+<tr class="memdesc:a10488fa0d0ad84de8beb91ee701a7ca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns width value of the width formatting options.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a10488fa0d0ad84de8beb91ee701a7ca5">More...</a><br /></td></tr>
+<tr class="separator:a10488fa0d0ad84de8beb91ee701a7ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb5fc253be083c7b121846f1241502e0"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#afb5fc253be083c7b121846f1241502e0">fill_character</a> () const noexcept -&gt; char</td></tr>
+<tr class="memdesc:afb5fc253be083c7b121846f1241502e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns fill character of the width formatting options.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#afb5fc253be083c7b121846f1241502e0">More...</a><br /></td></tr>
+<tr class="separator:afb5fc253be083c7b121846f1241502e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b057a97a7cca635937d57dcfeb7aebb"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a2b057a97a7cca635937d57dcfeb7aebb">alignment</a> () const noexcept -&gt; char</td></tr>
+<tr class="memdesc:a2b057a97a7cca635937d57dcfeb7aebb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns alignment value of the width formatting options.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a2b057a97a7cca635937d57dcfeb7aebb">More...</a><br /></td></tr>
+<tr class="separator:a2b057a97a7cca635937d57dcfeb7aebb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf53c72f7fcb02390bbe6459fbce3a81"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#adf53c72f7fcb02390bbe6459fbce3a81">left</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
+<tr class="memdesc:adf53c72f7fcb02390bbe6459fbce3a81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#adf53c72f7fcb02390bbe6459fbce3a81">More...</a><br /></td></tr>
+<tr class="separator:adf53c72f7fcb02390bbe6459fbce3a81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf66dffaccce6fd4568b861418134122"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#acf66dffaccce6fd4568b861418134122">l</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
+<tr class="memdesc:acf66dffaccce6fd4568b861418134122"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#acf66dffaccce6fd4568b861418134122">More...</a><br /></td></tr>
+<tr class="separator:acf66dffaccce6fd4568b861418134122"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f8c946f189d5b4563507408b3d313dd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a6f8c946f189d5b4563507408b3d313dd">ll</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
+<tr class="separator:a6f8c946f189d5b4563507408b3d313dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c1ef99a9775b9e527ff1e7de36a34ad"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a6c1ef99a9775b9e527ff1e7de36a34ad">right</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
+<tr class="memdesc:a6c1ef99a9775b9e527ff1e7de36a34ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a6c1ef99a9775b9e527ff1e7de36a34ad">More...</a><br /></td></tr>
+<tr class="separator:a6c1ef99a9775b9e527ff1e7de36a34ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6c22c30e773f0858f43d0778a43f0fa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ad6c22c30e773f0858f43d0778a43f0fa">r</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
+<tr class="memdesc:ad6c22c30e773f0858f43d0778a43f0fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ad6c22c30e773f0858f43d0778a43f0fa">More...</a><br /></td></tr>
+<tr class="separator:ad6c22c30e773f0858f43d0778a43f0fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5b0c4505dd32040fe392ef4ff98bf3a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa5b0c4505dd32040fe392ef4ff98bf3a">center</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
+<tr class="memdesc:aa5b0c4505dd32040fe392ef4ff98bf3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa5b0c4505dd32040fe392ef4ff98bf3a">More...</a><br /></td></tr>
+<tr class="separator:aa5b0c4505dd32040fe392ef4ff98bf3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a020ee4278eef97441e96158168a50cc4"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a020ee4278eef97441e96158168a50cc4">c</a> (int w) noexcept -&gt; Derived &amp;</td></tr>
+<tr class="memdesc:a020ee4278eef97441e96158168a50cc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the exact width and the alignment.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a020ee4278eef97441e96158168a50cc4">More...</a><br /></td></tr>
+<tr class="separator:a020ee4278eef97441e96158168a50cc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae749c0af7c7a4b83cb3c8541aeec45cc"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ae749c0af7c7a4b83cb3c8541aeec45cc">no_align</a> () noexcept -&gt; Derived &amp;</td></tr>
+<tr class="memdesc:ae749c0af7c7a4b83cb3c8541aeec45cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset alignment options.  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ae749c0af7c7a4b83cb3c8541aeec45cc">More...</a><br /></td></tr>
+<tr class="separator:ae749c0af7c7a4b83cb3c8541aeec45cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affcf3c4f25881e3f018225a67c4bd25d"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#affcf3c4f25881e3f018225a67c4bd25d">fill</a> (char <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aca52f0ef767ec07172eb7ffd476502aa">f</a>) noexcept -&gt; Derived &amp;</td></tr>
+<tr class="memdesc:affcf3c4f25881e3f018225a67c4bd25d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the fill character, used with <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#adf53c72f7fcb02390bbe6459fbce3a81" title="Set the exact width and the alignment.">left()</a>, <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a6c1ef99a9775b9e527ff1e7de36a34ad" title="Set the exact width and the alignment.">right()</a> and <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa5b0c4505dd32040fe392ef4ff98bf3a" title="Set the exact width and the alignment.">center()</a>  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#affcf3c4f25881e3f018225a67c4bd25d">More...</a><br /></td></tr>
+<tr class="separator:affcf3c4f25881e3f018225a67c4bd25d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca52f0ef767ec07172eb7ffd476502aa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aca52f0ef767ec07172eb7ffd476502aa">f</a> (char _f) noexcept -&gt; Derived &amp;</td></tr>
+<tr class="memdesc:aca52f0ef767ec07172eb7ffd476502aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the fill character, used with <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#adf53c72f7fcb02390bbe6459fbce3a81" title="Set the exact width and the alignment.">left()</a>, <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a6c1ef99a9775b9e527ff1e7de36a34ad" title="Set the exact width and the alignment.">right()</a> and <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa5b0c4505dd32040fe392ef4ff98bf3a" title="Set the exact width and the alignment.">center()</a>  <a href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aca52f0ef767ec07172eb7ffd476502aa">More...</a><br /></td></tr>
+<tr class="separator:aca52f0ef767ec07172eb7ffd476502aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98248d45458ed950a673dcc30b37effe"><td class="memTemplParams" colspan="2">template&lt;size_t N, class T &gt; </td></tr>
+<tr class="memitem:a98248d45458ed950a673dcc30b37effe"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a98248d45458ed950a673dcc30b37effe">set</a> (const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;value)</td></tr>
+<tr class="separator:a98248d45458ed950a673dcc30b37effe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a462d4d019f410e4abe615a8812553b5b"><td class="memTemplParams" colspan="2">template&lt;size_t N&gt; </td></tr>
+<tr class="memitem:a462d4d019f410e4abe615a8812553b5b"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a462d4d019f410e4abe615a8812553b5b">get</a> () noexcept -&gt; typename std::tuple_element&lt; N, Tuple &gt;::type &amp;</td></tr>
+<tr class="separator:a462d4d019f410e4abe615a8812553b5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7afa386e7acdbdc9b61e851958485560"><td class="memTemplParams" colspan="2">template&lt;size_t N&gt; </td></tr>
+<tr class="memitem:a7afa386e7acdbdc9b61e851958485560"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a7afa386e7acdbdc9b61e851958485560">get</a> () const noexcept -&gt; const typename std::tuple_element&lt; N, Tuple &gt;::type &amp;</td></tr>
+<tr class="separator:a7afa386e7acdbdc9b61e851958485560"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4462679b58ed3984b31120d88488130f"><td class="memTemplParams" colspan="2">template&lt;class String &gt; </td></tr>
+<tr class="memitem:a4462679b58ed3984b31120d88488130f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a4462679b58ed3984b31120d88488130f">reserve_string</a> (String &amp;<a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a560d92c0bc60398940402e78926554b0">str</a>) const</td></tr>
+<tr class="separator:a4462679b58ed3984b31120d88488130f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad19705f9242aff8263ad99b595efdfbb"><td class="memTemplParams" colspan="2">template&lt;class String  = std::string&gt; </td></tr>
+<tr class="memitem:ad19705f9242aff8263ad99b595efdfbb"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ad19705f9242aff8263ad99b595efdfbb">append</a> (String &amp;out) const -&gt; String &amp;</td></tr>
+<tr class="separator:ad19705f9242aff8263ad99b595efdfbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5039f8f4196cc30d6de1b4e966afce99"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a5039f8f4196cc30d6de1b4e966afce99">to_chars</a> (char *dst) -&gt; char *</td></tr>
+<tr class="separator:a5039f8f4196cc30d6de1b4e966afce99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae721753d585f26b8993c9d881cd1c1c1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ae721753d585f26b8993c9d881cd1c1c1">to_chars</a> (char *dst, size_t max) -&gt; std::pair&lt; char *, size_t &gt;</td></tr>
+<tr class="separator:ae721753d585f26b8993c9d881cd1c1c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a815036cf94358ea60e04c4ef76e49cf3"><td class="memTemplParams" colspan="2">template&lt;class Iter &gt; </td></tr>
+<tr class="memitem:a815036cf94358ea60e04c4ef76e49cf3"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a815036cf94358ea60e04c4ef76e49cf3">to_iter</a> (Iter dst) -&gt; Iter</td></tr>
+<tr class="separator:a815036cf94358ea60e04c4ef76e49cf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a560d92c0bc60398940402e78926554b0"><td class="memTemplParams" colspan="2">template&lt;class String  = std::string&gt; </td></tr>
+<tr class="memitem:a560d92c0bc60398940402e78926554b0"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a560d92c0bc60398940402e78926554b0">str</a> () const -&gt; String</td></tr>
+<tr class="separator:a560d92c0bc60398940402e78926554b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2afa27bb4b5411a2724b7dd9e7424dab"><td class="memTemplParams" colspan="2">template&lt;class Traits , class Al &gt; </td></tr>
+<tr class="memitem:a2afa27bb4b5411a2724b7dd9e7424dab"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a2afa27bb4b5411a2724b7dd9e7424dab">operator std::basic_string&lt; char, Traits, Al &gt;</a> () const</td></tr>
+<tr class="separator:a2afa27bb4b5411a2724b7dd9e7424dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accc3d7a9e745d597823b20df8a72aaa8"><td class="memTemplParams" colspan="2">template&lt;class Traits , size_t S, class Al &gt; </td></tr>
+<tr class="memitem:accc3d7a9e745d597823b20df8a72aaa8"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#accc3d7a9e745d597823b20df8a72aaa8">operator tiny_string&lt; char, Traits, Al, S &gt;</a> () const</td></tr>
+<tr class="separator:accc3d7a9e745d597823b20df8a72aaa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a0c7493e5fe1fa1bb99c41eba678d68db"><td class="memItemLeft" align="right" valign="top">Derived &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a0c7493e5fe1fa1bb99c41eba678d68db">derived</a> () noexcept</td></tr>
-<tr class="separator:a0c7493e5fe1fa1bb99c41eba678d68db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a052345bdc773af00f1bb86b05c9e6c6c"><td class="memItemLeft" align="right" valign="top">const Derived &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a052345bdc773af00f1bb86b05c9e6c6c">derived</a> () const noexcept</td></tr>
-<tr class="separator:a052345bdc773af00f1bb86b05c9e6c6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:ad3850f8367697b8fb31129191a941e3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1width__format.html">width_format</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ad3850f8367697b8fb31129191a941e3c">d_width</a></td></tr>
-<tr class="separator:ad3850f8367697b8fb31129191a941e3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ad54a52b432cc281e0c19c34f1f07de5f"><td class="memItemLeft" align="right" valign="top">Tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#ad54a52b432cc281e0c19c34f1f07de5f">d_tuple</a></td></tr>
+<tr class="separator:ad54a52b432cc281e0c19c34f1f07de5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24fa42a3cdb96b34c75630065c1899a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structseq_1_1width__format.html">width_format</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a24fa42a3cdb96b34c75630065c1899a5">d_width</a></td></tr>
+<tr class="separator:a24fa42a3cdb96b34c75630065c1899a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a4e2f8ed9322da7d648a95a287297f142"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e2f8ed9322da7d648a95a287297f142">&#9670;&nbsp;</a></span>base_mutli_ostream_format()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;class Tuple, class Derived, bool HasSeparator = false&gt;<br />
+class seq::detail::base_mutli_ostream_format&lt; Tuple, Derived, HasSeparator &gt;</h3>
+
+<p>Base class for <a class="el" href="structseq_1_1detail_1_1mutli__ostream__format.html" title="Formatting class for multiple values, returned by seq::fmt(... , ...).">mutli_ostream_format</a>. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a6cf32de35c9687d6418533035ccd8a50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cf32de35c9687d6418533035ccd8a50">&#9670;&nbsp;</a></span>base_mutli_ostream_format() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::<a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">base_mutli_ostream_format</a> </td>
+          <td class="memname"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::<a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">base_mutli_ostream_format</a> </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -183,20 +223,50 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab492457fcdc0b0bd9b0f9c54750c0830"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab492457fcdc0b0bd9b0f9c54750c0830">&#9670;&nbsp;</a></span>alignment()</h2>
+<a id="a046a3f77f6c0539db6b073ae5d88da6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a046a3f77f6c0539db6b073ae5d88da6a">&#9670;&nbsp;</a></span>base_mutli_ostream_format() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<div class="memtemplate">
+template&lt;class ... Args, class  = typename std::enable_if&lt;((sizeof...(Args)) &gt; 1), void&gt;::type&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::alignment </td>
+          <td class="memname"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::<a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">base_mutli_ostream_format</a> </td>
+          <td>(</td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a2b057a97a7cca635937d57dcfeb7aebb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b057a97a7cca635937d57dcfeb7aebb">&#9670;&nbsp;</a></span>alignment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::alignment </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const -&gt; char </td>
@@ -213,19 +283,50 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="a97b6953fa24081a5a24287de4b585881"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97b6953fa24081a5a24287de4b585881">&#9670;&nbsp;</a></span>c()</h2>
+<a id="ad19705f9242aff8263ad99b595efdfbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad19705f9242aff8263ad99b595efdfbb">&#9670;&nbsp;</a></span>append()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<div class="memtemplate">
+template&lt;class String  = std::string&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::c </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::append </td>
+          <td>(</td>
+          <td class="paramtype">String &amp;&#160;</td>
+          <td class="paramname"><em>out</em></td><td>)</td>
+          <td> const -&gt; String&amp;
+			</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a020ee4278eef97441e96158168a50cc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a020ee4278eef97441e96158168a50cc4">&#9670;&nbsp;</a></span>c()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::c </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>w</em></td><td>)</td>
@@ -243,19 +344,19 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="a658dff6063b9452c3447cdfbe58ab6fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a658dff6063b9452c3447cdfbe58ab6fe">&#9670;&nbsp;</a></span>center()</h2>
+<a id="aa5b0c4505dd32040fe392ef4ff98bf3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5b0c4505dd32040fe392ef4ff98bf3a">&#9670;&nbsp;</a></span>center()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::center </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::center </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>w</em></td><td>)</td>
@@ -273,19 +374,19 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="a052345bdc773af00f1bb86b05c9e6c6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a052345bdc773af00f1bb86b05c9e6c6c">&#9670;&nbsp;</a></span>derived() <span class="overload">[1/2]</span></h2>
+<a id="aac60f7b7cf08262dc6affa0c26dcb410"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac60f7b7cf08262dc6affa0c26dcb410">&#9670;&nbsp;</a></span>derived() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const Derived&amp; <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::derived </td>
+          <td class="memname">const Derived&amp; <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::derived </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -293,26 +394,26 @@ template&lt;class Derived &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a0c7493e5fe1fa1bb99c41eba678d68db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c7493e5fe1fa1bb99c41eba678d68db">&#9670;&nbsp;</a></span>derived() <span class="overload">[2/2]</span></h2>
+<a id="a98cc0d035819c071ed106dc8324a9123"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98cc0d035819c071ed106dc8324a9123">&#9670;&nbsp;</a></span>derived() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Derived&amp; <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::derived </td>
+          <td class="memname">Derived&amp; <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::derived </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -320,26 +421,26 @@ template&lt;class Derived &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a34709cb1bbe75c04a16ebf96949cfdbc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34709cb1bbe75c04a16ebf96949cfdbc">&#9670;&nbsp;</a></span>f()</h2>
+<a id="aca52f0ef767ec07172eb7ffd476502aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca52f0ef767ec07172eb7ffd476502aa">&#9670;&nbsp;</a></span>f()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::f </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::f </td>
           <td>(</td>
           <td class="paramtype">char&#160;</td>
           <td class="paramname"><em>_f</em></td><td>)</td>
@@ -353,23 +454,23 @@ template&lt;class Derived &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Set the fill character, used with <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa09ed672dcfb5a40d67e1c2087e6fcee" title="Set the exact width and the alignment.">left()</a>, <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aeffd63f22ac83464b63ebaaec24afdb2" title="Set the exact width and the alignment.">right()</a> and <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a658dff6063b9452c3447cdfbe58ab6fe" title="Set the exact width and the alignment.">center()</a> </p>
+<p>Set the fill character, used with <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#adf53c72f7fcb02390bbe6459fbce3a81" title="Set the exact width and the alignment.">left()</a>, <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a6c1ef99a9775b9e527ff1e7de36a34ad" title="Set the exact width and the alignment.">right()</a> and <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa5b0c4505dd32040fe392ef4ff98bf3a" title="Set the exact width and the alignment.">center()</a> </p>
 
 </div>
 </div>
-<a id="ac39b5494db921db939354af06a88dbfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac39b5494db921db939354af06a88dbfa">&#9670;&nbsp;</a></span>fill()</h2>
+<a id="affcf3c4f25881e3f018225a67c4bd25d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affcf3c4f25881e3f018225a67c4bd25d">&#9670;&nbsp;</a></span>fill()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::fill </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::fill </td>
           <td>(</td>
           <td class="paramtype">char&#160;</td>
           <td class="paramname"><em>f</em></td><td>)</td>
@@ -383,23 +484,23 @@ template&lt;class Derived &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Set the fill character, used with <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa09ed672dcfb5a40d67e1c2087e6fcee" title="Set the exact width and the alignment.">left()</a>, <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aeffd63f22ac83464b63ebaaec24afdb2" title="Set the exact width and the alignment.">right()</a> and <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a658dff6063b9452c3447cdfbe58ab6fe" title="Set the exact width and the alignment.">center()</a> </p>
+<p>Set the fill character, used with <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#adf53c72f7fcb02390bbe6459fbce3a81" title="Set the exact width and the alignment.">left()</a>, <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#a6c1ef99a9775b9e527ff1e7de36a34ad" title="Set the exact width and the alignment.">right()</a> and <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html#aa5b0c4505dd32040fe392ef4ff98bf3a" title="Set the exact width and the alignment.">center()</a> </p>
 
 </div>
 </div>
-<a id="a8881f1f349999869d4e510338073fd65"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8881f1f349999869d4e510338073fd65">&#9670;&nbsp;</a></span>fill_character()</h2>
+<a id="afb5fc253be083c7b121846f1241502e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb5fc253be083c7b121846f1241502e0">&#9670;&nbsp;</a></span>fill_character()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::fill_character </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::fill_character </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const -&gt; char </td>
@@ -416,19 +517,77 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="ae5c477333e1427b86a929ebeb4f0ad69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5c477333e1427b86a929ebeb4f0ad69">&#9670;&nbsp;</a></span>l()</h2>
+<a id="a7afa386e7acdbdc9b61e851958485560"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7afa386e7acdbdc9b61e851958485560">&#9670;&nbsp;</a></span>get() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<div class="memtemplate">
+template&lt;size_t N&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::l </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::get </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt; const typename std::tuple_element&lt;N, Tuple&gt;::type&amp; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a462d4d019f410e4abe615a8812553b5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a462d4d019f410e4abe615a8812553b5b">&#9670;&nbsp;</a></span>get() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<div class="memtemplate">
+template&lt;size_t N&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::get </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> -&gt; typename std::tuple_element&lt;N, Tuple&gt;::type&amp; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acf66dffaccce6fd4568b861418134122"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf66dffaccce6fd4568b861418134122">&#9670;&nbsp;</a></span>l()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::l </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>w</em></td><td>)</td>
@@ -446,19 +605,19 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="aa09ed672dcfb5a40d67e1c2087e6fcee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa09ed672dcfb5a40d67e1c2087e6fcee">&#9670;&nbsp;</a></span>left()</h2>
+<a id="adf53c72f7fcb02390bbe6459fbce3a81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf53c72f7fcb02390bbe6459fbce3a81">&#9670;&nbsp;</a></span>left()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::left </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::left </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>w</em></td><td>)</td>
@@ -476,19 +635,19 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="af7f8d6db349cf00e4dbeb99bc6f4f613"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7f8d6db349cf00e4dbeb99bc6f4f613">&#9670;&nbsp;</a></span>ll()</h2>
+<a id="a6f8c946f189d5b4563507408b3d313dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f8c946f189d5b4563507408b3d313dd">&#9670;&nbsp;</a></span>ll()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::ll </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::ll </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>w</em></td><td>)</td>
@@ -504,19 +663,19 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="ad8c89cdb917c814e0818d0f87551b156"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8c89cdb917c814e0818d0f87551b156">&#9670;&nbsp;</a></span>no_align()</h2>
+<a id="ae749c0af7c7a4b83cb3c8541aeec45cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae749c0af7c7a4b83cb3c8541aeec45cc">&#9670;&nbsp;</a></span>no_align()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::no_align </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::no_align </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> -&gt; Derived&amp; </td>
@@ -533,19 +692,77 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="aa54b55a0e89c550abfa75873ac331bf1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa54b55a0e89c550abfa75873ac331bf1">&#9670;&nbsp;</a></span>r()</h2>
+<a id="a2afa27bb4b5411a2724b7dd9e7424dab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2afa27bb4b5411a2724b7dd9e7424dab">&#9670;&nbsp;</a></span>operator std::basic_string&lt; char, Traits, Al &gt;()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<div class="memtemplate">
+template&lt;class Traits , class Al &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::r </td>
+          <td class="memname"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::operator std::basic_string&lt; char, Traits, Al &gt; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="accc3d7a9e745d597823b20df8a72aaa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accc3d7a9e745d597823b20df8a72aaa8">&#9670;&nbsp;</a></span>operator tiny_string&lt; char, Traits, Al, S &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<div class="memtemplate">
+template&lt;class Traits , size_t S, class Al &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::operator <a class="el" href="classseq_1_1tiny__string.html">tiny_string</a>&lt; char, Traits, Al, S &gt; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad6c22c30e773f0858f43d0778a43f0fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6c22c30e773f0858f43d0778a43f0fa">&#9670;&nbsp;</a></span>r()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::r </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>w</em></td><td>)</td>
@@ -563,19 +780,49 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="aeffd63f22ac83464b63ebaaec24afdb2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeffd63f22ac83464b63ebaaec24afdb2">&#9670;&nbsp;</a></span>right()</h2>
+<a id="a4462679b58ed3984b31120d88488130f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4462679b58ed3984b31120d88488130f">&#9670;&nbsp;</a></span>reserve_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<div class="memtemplate">
+template&lt;class String &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::right </td>
+          <td class="memname">void <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::reserve_string </td>
+          <td>(</td>
+          <td class="paramtype">String &amp;&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6c1ef99a9775b9e527ff1e7de36a34ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c1ef99a9775b9e527ff1e7de36a34ad">&#9670;&nbsp;</a></span>right()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::right </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>w</em></td><td>)</td>
@@ -593,19 +840,49 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="ab0db5093672cc5bb964ff61dbc58a235"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0db5093672cc5bb964ff61dbc58a235">&#9670;&nbsp;</a></span>set_width_format()</h2>
+<a id="a98248d45458ed950a673dcc30b37effe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98248d45458ed950a673dcc30b37effe">&#9670;&nbsp;</a></span>set()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<div class="memtemplate">
+template&lt;size_t N, class T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::set_width_format </td>
+          <td class="memname">void <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::set </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae015a4b68c0758b83f9064e2d9cad6dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae015a4b68c0758b83f9064e2d9cad6dd">&#9670;&nbsp;</a></span>set_width_format()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::set_width_format </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structseq_1_1width__format.html">width_format</a> &amp;&#160;</td>
           <td class="paramname"><em>f</em></td><td>)</td>
@@ -621,19 +898,147 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="a50c95bb808373ba7ab330d24e0b34a0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50c95bb808373ba7ab330d24e0b34a0d">&#9670;&nbsp;</a></span>width()</h2>
+<a id="a560d92c0bc60398940402e78926554b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a560d92c0bc60398940402e78926554b0">&#9670;&nbsp;</a></span>str()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<div class="memtemplate">
+template&lt;class String  = std::string&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::width </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::str </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt; String
+			</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5039f8f4196cc30d6de1b4e966afce99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5039f8f4196cc30d6de1b4e966afce99">&#9670;&nbsp;</a></span>to_chars() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::to_chars </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>dst</em></td><td>)</td>
+          <td> -&gt; char*
+			</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae721753d585f26b8993c9d881cd1c1c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae721753d585f26b8993c9d881cd1c1c1">&#9670;&nbsp;</a></span>to_chars() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::to_chars </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>max</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; std::pair&lt;char*, size_t&gt;
+			</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a815036cf94358ea60e04c4ef76e49cf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a815036cf94358ea60e04c4ef76e49cf3">&#9670;&nbsp;</a></span>to_iter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<div class="memtemplate">
+template&lt;class Iter &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::to_iter </td>
+          <td>(</td>
+          <td class="paramtype">Iter&#160;</td>
+          <td class="paramname"><em>dst</em></td><td>)</td>
+          <td> -&gt; Iter </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a10488fa0d0ad84de8beb91ee701a7ca5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10488fa0d0ad84de8beb91ee701a7ca5">&#9670;&nbsp;</a></span>width()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::width </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const -&gt; unsigned short </td>
@@ -650,19 +1055,19 @@ template&lt;class Derived &gt; </div>
 
 </div>
 </div>
-<a id="a7b5eb027cc23818432fea1b5d464f394"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b5eb027cc23818432fea1b5d464f394">&#9670;&nbsp;</a></span>width_fmt()</h2>
+<a id="a117bdc00963ae5dc54e08c09ea47af84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a117bdc00963ae5dc54e08c09ea47af84">&#9670;&nbsp;</a></span>width_fmt()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::width_fmt </td>
+          <td class="memname">auto <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::width_fmt </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const -&gt; <a class="el" href="structseq_1_1width__format.html">width_format</a> </td>
@@ -680,26 +1085,34 @@ template&lt;class Derived &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ad3850f8367697b8fb31129191a941e3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3850f8367697b8fb31129191a941e3c">&#9670;&nbsp;</a></span>d_width</h2>
+<a id="ad54a52b432cc281e0c19c34f1f07de5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad54a52b432cc281e0c19c34f1f07de5f">&#9670;&nbsp;</a></span>d_tuple</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class Derived &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structseq_1_1width__format.html">width_format</a> <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Derived &gt;::d_width</td>
+          <td class="memname">Tuple <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::d_tuple</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a24fa42a3cdb96b34c75630065c1899a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24fa42a3cdb96b34c75630065c1899a5">&#9670;&nbsp;</a></span>d_width</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Tuple , class Derived , bool HasSeparator = false&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structseq_1_1width__format.html">width_format</a> <a class="el" href="classseq_1_1detail_1_1base__mutli__ostream__format.html">seq::detail::base_mutli_ostream_format</a>&lt; Tuple, Derived, HasSeparator &gt;::d_width</td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>

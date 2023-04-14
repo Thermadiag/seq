@@ -105,12 +105,10 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6c8ff6f23fa75644af764768d9d1ca2c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1std__alloc.html#a6c8ff6f23fa75644af764768d9d1ca2c">std_alloc</a> () noexcept</td></tr>
-<tr class="separator:a6c8ff6f23fa75644af764768d9d1ca2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42d7ed3e455a0629b9cf27c5176ef2b2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1std__alloc.html#a42d7ed3e455a0629b9cf27c5176ef2b2">std_alloc</a> (const Allocator &amp;alloc) noexcept</td></tr>
 <tr class="separator:a42d7ed3e455a0629b9cf27c5176ef2b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f5b8148fafa65448b5ab492d4760b3c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1std__alloc.html#a7f5b8148fafa65448b5ab492d4760b3c">std_alloc</a> (size_t) noexcept</td></tr>
-<tr class="separator:a7f5b8148fafa65448b5ab492d4760b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2201616578e1ee396d2201041aebb21d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1std__alloc.html#a2201616578e1ee396d2201041aebb21d">std_alloc</a> (size_t, const Allocator &amp;alloc) noexcept</td></tr>
+<tr class="separator:a2201616578e1ee396d2201041aebb21d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a9f7601da5fddbc93aa620547e01f34"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1std__alloc.html#a0a9f7601da5fddbc93aa620547e01f34">get_allocator</a> () noexcept -&gt; Allocator &amp;</td></tr>
 <tr class="separator:a0a9f7601da5fddbc93aa620547e01f34"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d20a3c47d2608aab7e7c669b8478b8b"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1std__alloc.html#a4d20a3c47d2608aab7e7c669b8478b8b">get_allocator</a> () const noexcept -&gt; const Allocator &amp;</td></tr>
@@ -153,35 +151,8 @@ template&lt;class U &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a6c8ff6f23fa75644af764768d9d1ca2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c8ff6f23fa75644af764768d9d1ca2c">&#9670;&nbsp;</a></span>std_alloc() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, bool Align64 = false&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structseq_1_1detail_1_1std__alloc.html">seq::detail::std_alloc</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Align64 &gt;::<a class="el" href="structseq_1_1detail_1_1std__alloc.html">std_alloc</a> </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a42d7ed3e455a0629b9cf27c5176ef2b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42d7ed3e455a0629b9cf27c5176ef2b2">&#9670;&nbsp;</a></span>std_alloc() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a42d7ed3e455a0629b9cf27c5176ef2b2">&#9670;&nbsp;</a></span>std_alloc() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -208,8 +179,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, bool Align64 =
 
 </div>
 </div>
-<a id="a7f5b8148fafa65448b5ab492d4760b3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f5b8148fafa65448b5ab492d4760b3c">&#9670;&nbsp;</a></span>std_alloc() <span class="overload">[3/3]</span></h2>
+<a id="a2201616578e1ee396d2201041aebb21d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2201616578e1ee396d2201041aebb21d">&#9670;&nbsp;</a></span>std_alloc() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -223,8 +194,18 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, bool Align64 =
           <td class="memname"><a class="el" href="structseq_1_1detail_1_1std__alloc.html">seq::detail::std_alloc</a>&lt; <a class="el" href="namespaceseq_1_1detail.html#ae4e48f51c85e7a3a935596cba71a7355">T</a>, Allocator, Align64 &gt;::<a class="el" href="structseq_1_1detail_1_1std__alloc.html">std_alloc</a> </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const Allocator &amp;&#160;</td>
+          <td class="paramname"><em>alloc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

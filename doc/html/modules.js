@@ -5,12 +5,14 @@ var modules =
       [ "Content", "index.html#autotoc_md50", null ],
       [ "Why C++11 ?", "index.html#autotoc_md51", null ],
       [ "Design", "index.html#autotoc_md52", null ],
-      [ "Build", "index.html#autotoc_md53", null ]
+      [ "Build", "index.html#autotoc_md53", null ],
+      [ "Acknowledgements", "index.html#autotoc_md54", null ]
     ] ],
     [ "Bits: collection of functions for low level bits manipulation.", "group__bits.html", "group__bits" ],
     [ "Charconv: arithmetic value convertion from/to string", "group__charconv.html", "group__charconv" ],
     [ "Containers: original STL-like containers", "group__containers.html", "group__containers" ],
     [ "Format: Type safe formatting module", "group__format.html", "group__format" ],
     [ "Hash: small collection of hash utilities", "group__hash.html", "group__hash" ],
-    [ "Memory: collection of tools for memory management", "group__memory.html", "group__memory" ]
+    [ "Memory: collection of tools for memory management", "group__memory.html", "group__memory" ],
+    [ "iterator_range: define iterable ranges over arithmetic values or containers", "group__range.html", null ]
 ];

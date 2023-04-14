@@ -122,8 +122,10 @@ See functions documentation for more details.
 // Fore header only (if SEQ_HEADER_ONLY is defined)
 #ifdef SEQ_HEADER_ONLY
 #define SEQ_HEADER_ONLY_EXPORT_FUNCTION inline
+#define SEQ_HEADER_ONLY_ARG( ... ) __VA_ARGS__
 #else
 #define SEQ_HEADER_ONLY_EXPORT_FUNCTION
+#define SEQ_HEADER_ONLY_ARG( ... )
 #endif
 
 
@@ -369,9 +371,14 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 	#endif
 #endif
 
+#ifndef SEQ_DEBUG
+#ifndef NDEBUG
+#define SEQ_DEBUG
+#endif
+#endif
 
 // Debug assertion
-#ifdef NDEBUG
+#ifndef SEQ_DEBUG
 #define SEQ_ASSERT_DEBUG(condition, msg) 
 #else
 #define SEQ_ASSERT_DEBUG(condition, ... )  assert((condition) && (__VA_ARGS__))
@@ -1119,7 +1126,7 @@ namespace seq
 
 
 	/// @brief Returns a byte-swapped representation of the 16-bit argument.
-	inline auto byte_swap_16(std::uint16_t value) -> std::uint16_t {
+	SEQ_ALWAYS_INLINE auto byte_swap_16(std::uint16_t value) -> std::uint16_t {
 #if defined(_MSC_VER) && !defined(_DEBUG)
 		return _byteswap_ushort(value);
 #else
@@ -1133,7 +1140,7 @@ namespace seq
 #endif
 
 	/// @brief Returns a byte-swapped representation of the 32-bit argument.
-	inline auto byte_swap_32(std::uint32_t value) -> std::uint32_t {
+	SEQ_ALWAYS_INLINE auto byte_swap_32(std::uint32_t value) -> std::uint32_t {
 #if  defined(__GNUC__) && !defined(__ICC)
 		return __builtin_bswap32(value);
 #elif defined(__APPLE__)
@@ -1155,7 +1162,7 @@ namespace seq
 	}
 
 	/// @brief Returns a byte-swapped representation of the 64-bit argument.
-	inline auto byte_swap_64(std::uint64_t value) -> std::uint64_t {
+	SEQ_ALWAYS_INLINE auto byte_swap_64(std::uint64_t value) -> std::uint64_t {
 #if  defined(__GNUC__) && !defined(__ICC)
 		return __builtin_bswap64(value);
 #elif defined(__APPLE__)
@@ -1168,7 +1175,7 @@ namespace seq
 		return swap64(value);
 #elif defined(__NetBSD__)
 		return bswap64(value);
-#elif defined(_MSC_VER) && !defined(_DEBUG)
+#elif defined(_MSC_VER) //&& !defined(_DEBUG)
 		return _byteswap_uint64(value);
 #else
 		return (SEQ_EXTENSION((((value) & 0xff00000000000000ull) >> 56)
@@ -1343,6 +1350,41 @@ namespace seq
 #endif
 		return res;
 	}
+	
+		
+	template<typename T>
+	SEQ_ALWAYS_INLINE T reverse_bits(T n) {
+		// we force the passed-in type to its unsigned equivalent, because C++ may
+		// perform arithmetic right shift instead of logical right shift, depending
+		// on the compiler implementation.
+		typedef typename std::make_unsigned<T>::type unsigned_T;
+		unsigned_T v = static_cast<unsigned_T>(n);
+
+		// swap every bit with its neighbor
+		v = ((v & 0xAAAAAAAAAAAAAAAAULL) >> 1ULL) | ((v & 0x5555555555555555ULL) << 1ULL);
+
+		// swap every pair of bits
+		v = ((v & 0xCCCCCCCCCCCCCCCCULL) >> 2ULL) | ((v & 0x3333333333333333ULL) << 2ULL);
+
+		// swap every nybble
+		v = ((v & 0xF0F0F0F0F0F0F0F0ULL) >> 4ULL) | ((v & 0x0F0F0F0F0F0F0F0FULL) << 4ULL);
+		// bail out if we've covered the word size already
+		if (sizeof(T) == 1) return static_cast<T>(v);
+
+		// swap every byte
+		v = ((v & 0xFF00FF00FF00FF00ULL) >> 8ULL) | ((v & 0x00FF00FF00FF00FFULL) << 8ULL);
+		if (sizeof(T) == 2) return static_cast<T>(v);
+
+		// etc...
+		v = ((v & 0xFFFF0000FFFF0000ULL) >> 16ULL) | ((v & 0x0000FFFF0000FFFFULL) << 16ULL);
+		if (sizeof(T) <= 4) return static_cast<T>(v);
+
+		v = ((v & 0xFFFFFFFF00000000ULL) >> 32ULL) | ((v & 0x00000000FFFFFFFFULL) << 32ULL);
+
+		// explictly cast back to the original type just to be pedantic
+		return static_cast<T>(v);
+	}
+
 
 	/// @brief Static version of bit_scan_reverse
 	template<size_t Size>

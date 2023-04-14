@@ -117,8 +117,6 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1_build_value_3_01_t_00_01const_01_t_01_6_01_4.html">seq::detail::BuildValue&lt; T, const T &amp; &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1make__void.html">seq::detail::make_void&lt; T &gt;</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1has__is__transparent.html">seq::detail::has_is_transparent&lt; T, class &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1detail_1_1has__is__transparent_3_01_t_00_01typename_01make__void_3_01typename_01_t_731b4c47406019f529ad05a7741846ca.html">seq::detail::has_is_transparent&lt; T, typename make_void&lt; typename T::is_transparent &gt;::type &gt;</a></td></tr>
@@ -138,6 +136,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1equal__to.html">seq::equal_to&lt; _Ty &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1equal__to_3_01void_01_4.html">seq::equal_to&lt; void &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1less.html">seq::less&lt; _Ty &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1less_3_01void_01_4.html">seq::less&lt; void &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1greater.html">seq::greater&lt; _Ty &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1greater_3_01void_01_4.html">seq::greater&lt; void &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structseq_1_1assign__alloc.html">seq::assign_alloc&lt; Allocator &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,14 +189,14 @@ Functions</h2></td></tr>
 <tr class="memitem:a93bda8a7271df48555e68fe9d51ebf37"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
 <tr class="memitem:a93bda8a7271df48555e68fe9d51ebf37"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a93bda8a7271df48555e68fe9d51ebf37">seq::operator&gt;=</a> (const cvalue_iterator&lt; T &gt; &amp;it1, const cvalue_iterator&lt; T &gt; &amp;it2) noexcept -&gt; bool</td></tr>
 <tr class="separator:a93bda8a7271df48555e68fe9d51ebf37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae09f4c319b21510f90dae6dc5b7d8656"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:ae09f4c319b21510f90dae6dc5b7d8656"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#ae09f4c319b21510f90dae6dc5b7d8656">seq::destroy_ptr</a> (T *p)</td></tr>
-<tr class="memdesc:ae09f4c319b21510f90dae6dc5b7d8656"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simply call p-&gt;~T(), used as a replacement to std::allocator::destroy() which was removed in C++20.  <a href="namespaceseq.html#ae09f4c319b21510f90dae6dc5b7d8656">More...</a><br /></td></tr>
-<tr class="separator:ae09f4c319b21510f90dae6dc5b7d8656"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48515fc69dc7f83f81c6e0715999ba16"><td class="memTemplParams" colspan="2">template&lt;class T , class... Args&gt; </td></tr>
-<tr class="memitem:a48515fc69dc7f83f81c6e0715999ba16"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a48515fc69dc7f83f81c6e0715999ba16">seq::construct_ptr</a> (T *p, Args &amp;&amp;... args)</td></tr>
-<tr class="memdesc:a48515fc69dc7f83f81c6e0715999ba16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simply call new (p) T(...), used as a replacement to std::allocator::construct() which was removed in C++20.  <a href="namespaceseq.html#a48515fc69dc7f83f81c6e0715999ba16">More...</a><br /></td></tr>
-<tr class="separator:a48515fc69dc7f83f81c6e0715999ba16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4059063640bce7cc2340cfbaae099c1a"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a4059063640bce7cc2340cfbaae099c1a"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a4059063640bce7cc2340cfbaae099c1a">seq::destroy_ptr</a> (T *p)</td></tr>
+<tr class="memdesc:a4059063640bce7cc2340cfbaae099c1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simply call p-&gt;~T(), used as a replacement to std::allocator::destroy() which was removed in C++20.  <a href="namespaceseq.html#a4059063640bce7cc2340cfbaae099c1a">More...</a><br /></td></tr>
+<tr class="separator:a4059063640bce7cc2340cfbaae099c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c3434a259385c92c1f7654356a66b4e"><td class="memTemplParams" colspan="2">template&lt;class T , class... Args&gt; </td></tr>
+<tr class="memitem:a3c3434a259385c92c1f7654356a66b4e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq.html#a3c3434a259385c92c1f7654356a66b4e">seq::construct_ptr</a> (T *p, Args &amp;&amp;... args)</td></tr>
+<tr class="memdesc:a3c3434a259385c92c1f7654356a66b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simply call new (p) T(...), used as a replacement to std::allocator::construct() which was removed in C++20.  <a href="namespaceseq.html#a3c3434a259385c92c1f7654356a66b4e">More...</a><br /></td></tr>
+<tr class="separator:a3c3434a259385c92c1f7654356a66b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7afc02b808fb4276b6d2eec5f7fe53da"><td class="memTemplParams" colspan="2">template&lt;class Iter , class Cat &gt; </td></tr>
 <tr class="memitem:a7afc02b808fb4276b6d2eec5f7fe53da"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceseq_1_1detail.html#a7afc02b808fb4276b6d2eec5f7fe53da">seq::detail::iter_distance</a> (const Iter &amp;, const Iter &amp;, Cat) noexcept -&gt; size_t</td></tr>
 <tr class="separator:a7afc02b808fb4276b6d2eec5f7fe53da"><td class="memSeparator" colspan="2">&#160;</td></tr>

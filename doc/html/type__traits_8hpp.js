@@ -28,6 +28,12 @@ var type__traits_8hpp =
     [ "is_less_comparable", "classseq_1_1is__less__comparable.html", null ],
     [ "is_invocable", "structseq_1_1is__invocable.html", null ],
     [ "is_invocable_r", "structseq_1_1is__invocable__r.html", null ],
+    [ "make_void", "structseq_1_1detail_1_1make__void.html", "structseq_1_1detail_1_1make__void" ],
+    [ "has_iterator", "structseq_1_1detail_1_1has__iterator.html", null ],
+    [ "has_iterator< T, typename make_void< typename T::iterator >::type >", "structseq_1_1detail_1_1has__iterator_3_01_t_00_01typename_01make__void_3_01typename_01_t_1_1iterator_01_4_1_1type_01_4.html", null ],
+    [ "has_value_type", "structseq_1_1detail_1_1has__value__type.html", null ],
+    [ "has_value_type< T, typename make_void< typename T::value_type >::type >", "structseq_1_1detail_1_1has__value__type_3_01_t_00_01typename_01make__void_3_01typename_01_t_1_1value__type_01_4_1_1type_01_4.html", null ],
+    [ "is_iterable", "structseq_1_1is__iterable.html", null ],
     [ "abs", "type__traits_8hpp.html#ab6f8f4791e95dce2f0a4298ff8e82797", null ],
     [ "negate_if_signed", "type__traits_8hpp.html#a7c279fa143d4e6216df953924ce47406", null ]
 ];

@@ -98,8 +98,6 @@ $(document).ready(function(){initNavTree('classseq_1_1aligned__allocator.html','
  <a href="classseq_1_1aligned__allocator.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="memory_8hpp_source.html">memory.hpp</a>&gt;</code></p>
-
-<p>Inherits allocator&lt; T &gt;.</p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -128,6 +126,8 @@ Public Types</h2></td></tr>
 <tr class="separator:a7c9468c1848b3a1dee2769403fc9d555"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d2621a750f7cf8c83dba4f0f768c5ab"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1aligned__allocator.html#a5d2621a750f7cf8c83dba4f0f768c5ab">propagate_on_container_move_assignment</a> = typename std::allocator_traits&lt; Allocator &gt;::<a class="el" href="classseq_1_1aligned__allocator.html#a5d2621a750f7cf8c83dba4f0f768c5ab">propagate_on_container_move_assignment</a></td></tr>
 <tr class="separator:a5d2621a750f7cf8c83dba4f0f768c5ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7f831c26314e22c4d8c30f0db161fe6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1aligned__allocator.html#ae7f831c26314e22c4d8c30f0db161fe6">is_always_equal</a> = typename std::allocator_traits&lt; Allocator &gt;::<a class="el" href="classseq_1_1aligned__allocator.html#ae7f831c26314e22c4d8c30f0db161fe6">is_always_equal</a></td></tr>
+<tr class="separator:ae7f831c26314e22c4d8c30f0db161fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -235,6 +235,22 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align =
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="classseq_1_1aligned__allocator.html">seq::aligned_allocator</a>&lt; T, Allocator, Align &gt;::<a class="el" href="classseq_1_1aligned__allocator.html#a4f8f9ef336b49da03b3dc8c7e8ad1c22">difference_type</a> =  std::ptrdiff_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae7f831c26314e22c4d8c30f0db161fe6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7f831c26314e22c4d8c30f0db161fe6">&#9670;&nbsp;</a></span>is_always_equal</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, size_t Align = DefaultAlignment&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classseq_1_1aligned__allocator.html">seq::aligned_allocator</a>&lt; T, Allocator, Align &gt;::<a class="el" href="classseq_1_1aligned__allocator.html#ae7f831c26314e22c4d8c30f0db161fe6">is_always_equal</a> =  typename std::allocator_traits&lt;Allocator&gt;::<a class="el" href="classseq_1_1aligned__allocator.html#ae7f831c26314e22c4d8c30f0db161fe6">is_always_equal</a></td>
         </tr>
       </table>
 </div><div class="memdoc">

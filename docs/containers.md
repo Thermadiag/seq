@@ -16,11 +16,14 @@ Currently, the *containers* module provide 5 types of containers:
 	-	`seq::flat_map`: associative version of `seq::flat_set`.
 	-	`seq::flat_multiset`: similar to `seq::flat_set` but supporting duplicate keys.
 	-	`seq::flat_multimap`: similar to `seq::flat_map` but supporting duplicate keys.
+	-	[seq::radix_set](radix_tree.md) : radix based sorted container with a similar interface to std::set. Provides very fast lookup.
+	-	`seq::radix_map`: associative version of `seq::radix_set`.
 -	Hash tables: 
 	-	[seq::ordered_set](ordered_set.md): Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket interface) with iterator/reference stability, and additional features (see class documentation).
 	-	`seq::ordered_map`: associative version of `seq::ordered_set`.
+	-	[seq::radix_hash_set](radix_tree.md): radix based hash table with a similar interface to `std::unordered_set`. Uses incremental rehash, no memory peak.
+	-	`seq::radix_hash_map`: associative version of `seq::radix_hash_set`.
 -	Strings:
 	-	[seq::tiny_string](tiny_string.md): string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
-	-	`seq::tstring_view`: similar to `std::string_view`.
 
 See the <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/group__containers.html">documentation</a> of each class for more details.

@@ -188,7 +188,7 @@ namespace seq
 	/// use seq::aligned_malloc and seq::aligned_free.
 	/// 
 	template< class T, class Allocator = std::allocator<T>, size_t Align = DefaultAlignment>
-	class aligned_allocator : std::allocator<T>
+	class aligned_allocator 
 	{
 
 		template< class U>
@@ -209,6 +209,8 @@ namespace seq
 		using propagate_on_container_swap = typename std::allocator_traits<Allocator>::propagate_on_container_swap;
 		using propagate_on_container_copy_assignment = typename std::allocator_traits<Allocator>::propagate_on_container_copy_assignment;
 		using propagate_on_container_move_assignment = typename std::allocator_traits<Allocator>::propagate_on_container_move_assignment;
+		using is_always_equal = typename std::allocator_traits<Allocator>::is_always_equal;
+
 		template< class U > struct rebind { using other = aligned_allocator<U, Allocator, Align>; };
 
 		auto select_on_container_copy_construction() const noexcept -> aligned_allocator { return *this; }
@@ -919,8 +921,9 @@ namespace seq
 			}
 			// linked list of free slots
 			SEQ_ALWAYS_INLINE auto next(char* o) -> char* {
+				static constexpr size_t sizeof_pointer = sizeof(char*);
 				char* res;
-				memcpy(&res, o, sizeof(o));
+				memcpy(&res, o, sizeof_pointer);
 				return res;
 			}
 

@@ -102,8 +102,8 @@ Namespaces</h2></td></tr>
 <p>The charconv module provides fast routines to convert numerical values from/to string. This module was initially developped for very fast containers dump in files or strings. </p>
 <h2><a class="anchor" id="autotoc_md9"></a>
 Low level functions</h2>
-<p>The main functions of charconv module are <a class="el" href="namespaceseq.html#a9e1cfb2de75c85497d57702430705b1c" title="Converts value into a character string by successively filling the range [first, last),...">seq::to_chars</a> and <a class="el" href="namespaceseq.html#ac422fc75d3e6f011374ffeed3683da55" title="Read an integral value from the sequence of characters [first,last).">seq::from_chars</a> which provide a similar interface to C++17 functions std::from_chars and std::to_chars. They aim to provide a faster alternative to C++ streams for converting floating point and integer types from/to string. Note that they were developped to accomodate my needs, and might not be used in all circumstances.</p>
-<p><a class="el" href="namespaceseq.html#ac422fc75d3e6f011374ffeed3683da55" title="Read an integral value from the sequence of characters [first,last).">seq::from_chars()</a> is similar to std::from_chars with the following differences:</p><ul>
+<p>The main functions of charconv module are <a class="el" href="namespaceseq.html#aaade1f4ec092684337563886384d3aaf" title="Converts value into a character string by successively filling the range [first, last),...">seq::to_chars</a> and <a class="el" href="namespaceseq.html#aa1718699b0708da31869470b90309a5b" title="Read an integral value from the sequence of characters [first,last).">seq::from_chars</a> which provide a similar interface to C++17 functions std::from_chars and std::to_chars. They aim to provide a faster alternative to C++ streams for converting floating point and integer types from/to string. Note that they were developped to accomodate my needs, and might not be used in all circumstances.</p>
+<p><a class="el" href="namespaceseq.html#aa1718699b0708da31869470b90309a5b" title="Read an integral value from the sequence of characters [first,last).">seq::from_chars()</a> is similar to std::from_chars with the following differences:</p><ul>
 <li>Leading spaces are consumed.</li>
 <li>For integral types, a leading '0x' prefix is considered valid.</li>
 <li>For floating point values: if the pattern is a valid floating point text representation too large or too small to be stored in given output value, value will be set to (+-)inf or (+-)0, and the full pattern will be consumed. Therefore, std::errc::result_out_of_range is never returned.</li>
@@ -111,7 +111,7 @@ Low level functions</h2>
 <li>Custom 'dot' character can be passed as argument.</li>
 <li>For floating point values: this function IS NOT AN EXACT PARSER. In some cases it relies on unprecise floating point arithmetic wich might produce different roundings than strtod() function. Note that the result is almost always equal to the result of strtod(), and potential differences are located in the last digits. Use this function when the speed factor is more important than 100% perfect exactitude.</li>
 </ul>
-<p><a class="el" href="namespaceseq.html#a9e1cfb2de75c85497d57702430705b1c" title="Converts value into a character string by successively filling the range [first, last),...">seq::to_chars</a> is similar to std::to_chars with the following differences</p><ul>
+<p><a class="el" href="namespaceseq.html#aaade1f4ec092684337563886384d3aaf" title="Converts value into a character string by successively filling the range [first, last),...">seq::to_chars</a> is similar to std::to_chars with the following differences</p><ul>
 <li>For integral types, additional options on the form of a <a class="el" href="structseq_1_1integral__chars__format.html" title="Parameters for integer to string conversion using seq::to_chars.">seq::integral_chars_format</a> object can be passed. They add the possibility to output a leading '0x' for hexadecimal formatting, a minimum width (with zeros padding), upper case outputs for hexadecimal formatting.</li>
 <li>For floating point values, the 'dot' character can be specified.</li>
 <li>For floating point values, this function is NOT AN EXACT FORMATTER. There are currently a lot of different algorithms to provide fast convertion of floating point values to strings with round-trip guarantees: ryu, grisu-exact, dragonbox... This function tries to provide a faster and lighter alternative when perfect round-trip is not a requirement (which is my case). When converting double values, obtained strings are similar to the result of printf in 100% of the cases when the required precision is below 12. After that, the ratio decreases to 86% of exactitude for a precision of 17. Converting a very high (or very small) value with the 'f' specifier will usually produce slightly different output, especially in the "garbage" digits.</li>
@@ -126,7 +126,7 @@ Working with C++ streams</h2>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Read trailing lines</span></div>
 <div class="line">std::string trailer;</div>
-<div class="line"><a class="code" href="namespaceseq.html#add85486f09f54fba24d5f3cc4737474c">seq::read_line_from_stream</a>(istream, trailer);</div>
+<div class="line"><a class="code" href="namespaceseq.html#acbab83476e9a93ab4a0fe3626a3c27ab">seq::read_line_from_stream</a>(istream, trailer);</div>
 <div class="line"><span class="comment">//...</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Read words</span></div>
@@ -144,13 +144,13 @@ Working with C++ streams</h2>
 <div class="line">    <span class="keywordflow">else</span></div>
 <div class="line">        <span class="keywordflow">break</span>;</div>
 <div class="line">}</div>
-</div><!-- fragment --><p>Internal benchmarks show that using <a class="el" href="namespaceseq.html#ac2d0cf3592690ba5924d6eb3f5cf48a8" title="Read a word from a #basic_input_stream object.">from_stream()</a> is around 20 faster (or more) than using <a class="el" href="namespaceseq.html#af63e912eb6011acc4393a84d8a70da27">std::istream::operator&gt;&gt;()</a> when reading floating point values from a huge string.</p>
+</div><!-- fragment --><p>Internal benchmarks show that using <a class="el" href="namespaceseq.html#a0e0e5ed9d968a2eb03774cfacb2a4001" title="Read a word from a #basic_input_stream object.">from_stream()</a> is around 20 faster (or more) than using <a class="el" href="namespaceseq.html#af63e912eb6011acc4393a84d8a70da27">std::istream::operator&gt;&gt;()</a> when reading floating point values from a huge string.</p>
 <p>In additional to <a class="el" href="classseq_1_1std__input__stream.html" title="Input stream working on a std::istream.">seq::std_input_stream</a>, charconv module provides the similar <a class="el" href="classseq_1_1buffer__input__stream.html" title="Input stream working on a sequence of characters.">seq::buffer_input_stream</a> and <a class="el" href="classseq_1_1file__input__stream.html" title="Input stream working on a FILE pointer.">seq::file_input_stream</a>. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div class="ttc" id="anamespaceseq_html_acbab83476e9a93ab4a0fe3626a3c27ab"><div class="ttname"><a href="namespaceseq.html#acbab83476e9a93ab4a0fe3626a3c27ab">seq::read_line_from_stream</a></div><div class="ttdeci">auto read_line_from_stream(Stream &amp;str, std::basic_string&lt; char, Traits, Al &gt; &amp;value) -&gt; Stream &amp;</div><div class="ttdoc">Read a line from a #basic_input_stream object.</div><div class="ttdef"><b>Definition:</b> charconv.hpp:2568</div></div>
 <div class="ttc" id="anamespaceseq_html_ade167dcc6d29b420964a6be1498889ac"><div class="ttname"><a href="namespaceseq.html#ade167dcc6d29b420964a6be1498889ac">seq::from_stream</a></div><div class="ttdeci">auto from_stream(Stream &amp;str, T &amp;value, int base=10) -&gt; Stream &amp;</div><div class="ttdoc">Read an integral value from a seq::basic_input_stream object.</div><div class="ttdef"><b>Definition:</b> charconv.hpp:2409</div></div>
 <div class="ttc" id="aclassseq_1_1std__input__stream_html"><div class="ttname"><a href="classseq_1_1std__input__stream.html">seq::std_input_stream</a></div><div class="ttdoc">Input stream working on a std::istream.</div><div class="ttdef"><b>Definition:</b> charconv.hpp:2029</div></div>
-<div class="ttc" id="anamespaceseq_html_add85486f09f54fba24d5f3cc4737474c"><div class="ttname"><a href="namespaceseq.html#add85486f09f54fba24d5f3cc4737474c">seq::read_line_from_stream</a></div><div class="ttdeci">auto read_line_from_stream(Stream &amp;str, std::string &amp;value) -&gt; Stream &amp;</div><div class="ttdoc">Read a line from a #basic_input_stream object.</div><div class="ttdef"><b>Definition:</b> charconv.hpp:2568</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>

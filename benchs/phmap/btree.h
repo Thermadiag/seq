@@ -3434,6 +3434,10 @@ namespace priv {
         using node_type = typename super_type::node_type;
         using insert_return_type = InsertReturnType<iterator, node_type>;
         using super_type::super_type;
+
+        //defined for tests
+        void reserve(size_t) {}
+
         btree_set_container() {}
 
         template <class InputIterator>

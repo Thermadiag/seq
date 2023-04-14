@@ -159,6 +159,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad3500ca8da2e7fd7d39523e948cceded"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#ad3500ca8da2e7fd7d39523e948cceded">devector</a> (std::initializer_list&lt; T &gt; init, const Allocator &amp;alloc=Allocator())</td></tr>
 <tr class="memdesc:ad3500ca8da2e7fd7d39523e948cceded"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs the container with the contents of the initializer list init.  <a href="classseq_1_1devector.html#ad3500ca8da2e7fd7d39523e948cceded">More...</a><br /></td></tr>
 <tr class="separator:ad3500ca8da2e7fd7d39523e948cceded"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94dc927505581fe4e72463694989ab56"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#a94dc927505581fe4e72463694989ab56">~devector</a> ()</td></tr>
+<tr class="separator:a94dc927505581fe4e72463694989ab56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8aa176a3fe4a875d60709aa6a10906dc"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#a8aa176a3fe4a875d60709aa6a10906dc">size</a> () const noexcept -&gt; size_t</td></tr>
 <tr class="memdesc:a8aa176a3fe4a875d60709aa6a10906dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the container size.  <a href="classseq_1_1devector.html#a8aa176a3fe4a875d60709aa6a10906dc">More...</a><br /></td></tr>
 <tr class="separator:a8aa176a3fe4a875d60709aa6a10906dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -189,26 +191,26 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad7dc6ca1ccdabd0c74731209913b2090"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#ad7dc6ca1ccdabd0c74731209913b2090">shrink_to_fit</a> ()</td></tr>
 <tr class="memdesc:ad7dc6ca1ccdabd0c74731209913b2090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests the removal of unused capacity. Strong exception guarentee.  <a href="classseq_1_1devector.html#ad7dc6ca1ccdabd0c74731209913b2090">More...</a><br /></td></tr>
 <tr class="separator:ad7dc6ca1ccdabd0c74731209913b2090"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8de2d7bb6aaa6317e70c2fdf33a4890"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#ac8de2d7bb6aaa6317e70c2fdf33a4890">push_back</a> (const T &amp;value)</td></tr>
-<tr class="memdesc:ac8de2d7bb6aaa6317e70c2fdf33a4890"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element at the back of the container. The complexity is amortized O(1) for OptimizeForPushBack and OptimizeForBothEnds, O(N) for OptimizeForPushFront. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a1e1272b9c9a6cafd5338eb0d8e475f63" title="Returns the container back capacity.">back_capacity()</a> == 0.  <a href="classseq_1_1devector.html#ac8de2d7bb6aaa6317e70c2fdf33a4890">More...</a><br /></td></tr>
-<tr class="separator:ac8de2d7bb6aaa6317e70c2fdf33a4890"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab45a92dfbe1d074b7ef2ef419d0c325"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#aab45a92dfbe1d074b7ef2ef419d0c325">push_back</a> (T &amp;&amp;value)</td></tr>
-<tr class="memdesc:aab45a92dfbe1d074b7ef2ef419d0c325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element at the back of the container using move semantic. The complexity is amortized O(1) for OptimizeForPushBack and OptimizeForBothEnds, O(N) for OptimizeForPushFront. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a1e1272b9c9a6cafd5338eb0d8e475f63" title="Returns the container back capacity.">back_capacity()</a> == 0.  <a href="classseq_1_1devector.html#aab45a92dfbe1d074b7ef2ef419d0c325">More...</a><br /></td></tr>
-<tr class="separator:aab45a92dfbe1d074b7ef2ef419d0c325"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaed38ab8b88bb5fbadb9c6b3f027f823"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:aaed38ab8b88bb5fbadb9c6b3f027f823"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#aaed38ab8b88bb5fbadb9c6b3f027f823">emplace_back</a> (Args &amp;&amp;... args) -&gt; <a class="el" href="classseq_1_1devector.html#ac5da5ceeca35e724ef47bd91797bb0a2">reference</a></td></tr>
-<tr class="memdesc:aaed38ab8b88bb5fbadb9c6b3f027f823"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a new element to the end of the container. The element is constructed through std::allocator_traits::construct, which typically uses placement-new to construct the element in-place at the location provided by the container. The arguments args... are forwarded to the constructor as std::forward&lt;Args&gt;(args).... The complexity is amortized O(1) for OptimizeForPushBack and OptimizeForBothEnds, O(N) for OptimizeForPushFront. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a1e1272b9c9a6cafd5338eb0d8e475f63" title="Returns the container back capacity.">back_capacity()</a> == 0.  <a href="classseq_1_1devector.html#aaed38ab8b88bb5fbadb9c6b3f027f823">More...</a><br /></td></tr>
-<tr class="separator:aaed38ab8b88bb5fbadb9c6b3f027f823"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d10831168489b4fcd47b4dbcc9fef96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#a0d10831168489b4fcd47b4dbcc9fef96">push_front</a> (const T &amp;value)</td></tr>
-<tr class="memdesc:a0d10831168489b4fcd47b4dbcc9fef96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element at the front of the container. The complexity is amortized O(1) for OptimizeForPushFront and OptimizeForBothEnds, O(N) for OptimizeForPushBack. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a88f2c04e94fa56abdfb97aa5d9cafcbb" title="Returns the container front capacity.">front_capacity()</a> == 0.  <a href="classseq_1_1devector.html#a0d10831168489b4fcd47b4dbcc9fef96">More...</a><br /></td></tr>
-<tr class="separator:a0d10831168489b4fcd47b4dbcc9fef96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46c496edf014b84398c0e2a21a47146c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#a46c496edf014b84398c0e2a21a47146c">push_front</a> (T &amp;&amp;value)</td></tr>
-<tr class="memdesc:a46c496edf014b84398c0e2a21a47146c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element at the front of the container using move semantic. The complexity is amortized O(1) for OptimizeForPushFront and OptimizeForBothEnds, O(N) for OptimizeForPushBack. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a88f2c04e94fa56abdfb97aa5d9cafcbb" title="Returns the container front capacity.">front_capacity()</a> == 0.  <a href="classseq_1_1devector.html#a46c496edf014b84398c0e2a21a47146c">More...</a><br /></td></tr>
-<tr class="separator:a46c496edf014b84398c0e2a21a47146c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93466b8ae94da0afa221fe5dff0e4fde"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:a93466b8ae94da0afa221fe5dff0e4fde"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#a93466b8ae94da0afa221fe5dff0e4fde">emplace_front</a> (Args &amp;&amp;... args) -&gt; <a class="el" href="classseq_1_1devector.html#ac5da5ceeca35e724ef47bd91797bb0a2">reference</a></td></tr>
-<tr class="memdesc:a93466b8ae94da0afa221fe5dff0e4fde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a new element to the front of the container. The element is constructed through std::allocator_traits::construct, which typically uses placement-new to construct the element in-place at the location provided by the container. The arguments args... are forwarded to the constructor as std::forward&lt;Args&gt;(args).... The complexity is amortized O(1) for OptimizeForPushFront and OptimizeForBothEnds, O(N) for OptimizeForPushBack. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a88f2c04e94fa56abdfb97aa5d9cafcbb" title="Returns the container front capacity.">front_capacity()</a> == 0.  <a href="classseq_1_1devector.html#a93466b8ae94da0afa221fe5dff0e4fde">More...</a><br /></td></tr>
-<tr class="separator:a93466b8ae94da0afa221fe5dff0e4fde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbc22a501c459dd74b6a178fec2ab255"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#abbc22a501c459dd74b6a178fec2ab255">push_back</a> (const T &amp;value)</td></tr>
+<tr class="memdesc:abbc22a501c459dd74b6a178fec2ab255"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element at the back of the container. The complexity is amortized O(1) for OptimizeForPushBack and OptimizeForBothEnds, O(N) for OptimizeForPushFront. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a1e1272b9c9a6cafd5338eb0d8e475f63" title="Returns the container back capacity.">back_capacity()</a> == 0.  <a href="classseq_1_1devector.html#abbc22a501c459dd74b6a178fec2ab255">More...</a><br /></td></tr>
+<tr class="separator:abbc22a501c459dd74b6a178fec2ab255"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12966079a9fb03f24c6c4f5df91a8269"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#a12966079a9fb03f24c6c4f5df91a8269">push_back</a> (T &amp;&amp;value)</td></tr>
+<tr class="memdesc:a12966079a9fb03f24c6c4f5df91a8269"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element at the back of the container using move semantic. The complexity is amortized O(1) for OptimizeForPushBack and OptimizeForBothEnds, O(N) for OptimizeForPushFront. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a1e1272b9c9a6cafd5338eb0d8e475f63" title="Returns the container back capacity.">back_capacity()</a> == 0.  <a href="classseq_1_1devector.html#a12966079a9fb03f24c6c4f5df91a8269">More...</a><br /></td></tr>
+<tr class="separator:a12966079a9fb03f24c6c4f5df91a8269"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1535816a605e13633446a1a738df45d0"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:a1535816a605e13633446a1a738df45d0"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#a1535816a605e13633446a1a738df45d0">emplace_back</a> (Args &amp;&amp;... args) -&gt; <a class="el" href="classseq_1_1devector.html#ac5da5ceeca35e724ef47bd91797bb0a2">reference</a></td></tr>
+<tr class="memdesc:a1535816a605e13633446a1a738df45d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a new element to the end of the container. The element is constructed through std::allocator_traits::construct, which typically uses placement-new to construct the element in-place at the location provided by the container. The arguments args... are forwarded to the constructor as std::forward&lt;Args&gt;(args).... The complexity is amortized O(1) for OptimizeForPushBack and OptimizeForBothEnds, O(N) for OptimizeForPushFront. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a1e1272b9c9a6cafd5338eb0d8e475f63" title="Returns the container back capacity.">back_capacity()</a> == 0.  <a href="classseq_1_1devector.html#a1535816a605e13633446a1a738df45d0">More...</a><br /></td></tr>
+<tr class="separator:a1535816a605e13633446a1a738df45d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2695ed372c71fb9fcee9853423dd058d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#a2695ed372c71fb9fcee9853423dd058d">push_front</a> (const T &amp;value)</td></tr>
+<tr class="memdesc:a2695ed372c71fb9fcee9853423dd058d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element at the front of the container. The complexity is amortized O(1) for OptimizeForPushFront and OptimizeForBothEnds, O(N) for OptimizeForPushBack. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a88f2c04e94fa56abdfb97aa5d9cafcbb" title="Returns the container front capacity.">front_capacity()</a> == 0.  <a href="classseq_1_1devector.html#a2695ed372c71fb9fcee9853423dd058d">More...</a><br /></td></tr>
+<tr class="separator:a2695ed372c71fb9fcee9853423dd058d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12667fc2f115a64ef64f6c44f685a5d0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#a12667fc2f115a64ef64f6c44f685a5d0">push_front</a> (T &amp;&amp;value)</td></tr>
+<tr class="memdesc:a12667fc2f115a64ef64f6c44f685a5d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert an element at the front of the container using move semantic. The complexity is amortized O(1) for OptimizeForPushFront and OptimizeForBothEnds, O(N) for OptimizeForPushBack. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a88f2c04e94fa56abdfb97aa5d9cafcbb" title="Returns the container front capacity.">front_capacity()</a> == 0.  <a href="classseq_1_1devector.html#a12667fc2f115a64ef64f6c44f685a5d0">More...</a><br /></td></tr>
+<tr class="separator:a12667fc2f115a64ef64f6c44f685a5d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbfbce66fe046e1516f3c61aa07ac9ff"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:abbfbce66fe046e1516f3c61aa07ac9ff"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#abbfbce66fe046e1516f3c61aa07ac9ff">emplace_front</a> (Args &amp;&amp;... args) -&gt; <a class="el" href="classseq_1_1devector.html#ac5da5ceeca35e724ef47bd91797bb0a2">reference</a></td></tr>
+<tr class="memdesc:abbfbce66fe046e1516f3c61aa07ac9ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a new element to the front of the container. The element is constructed through std::allocator_traits::construct, which typically uses placement-new to construct the element in-place at the location provided by the container. The arguments args... are forwarded to the constructor as std::forward&lt;Args&gt;(args).... The complexity is amortized O(1) for OptimizeForPushFront and OptimizeForBothEnds, O(N) for OptimizeForPushBack. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee. Invalidate all references and iterators if <a class="el" href="classseq_1_1devector.html#a88f2c04e94fa56abdfb97aa5d9cafcbb" title="Returns the container front capacity.">front_capacity()</a> == 0.  <a href="classseq_1_1devector.html#abbfbce66fe046e1516f3c61aa07ac9ff">More...</a><br /></td></tr>
+<tr class="separator:abbfbce66fe046e1516f3c61aa07ac9ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af579733350f27c20b7be62612d58cf10"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
 <tr class="memitem:af579733350f27c20b7be62612d58cf10"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classseq_1_1devector.html#af579733350f27c20b7be62612d58cf10">emplace</a> (<a class="el" href="classseq_1_1devector.html#af32bd5500b6a718faf99aeda79a8c349">const_iterator</a> <a class="el" href="namespaceseq.html#ab534e8a0f6ac376f61e976fe7cd65457">pos</a>, Args &amp;&amp;... args) -&gt; <a class="el" href="classseq_1_1devector.html#aadae105c5c9770faf504a4dc6a269886">iterator</a></td></tr>
 <tr class="memdesc:af579733350f27c20b7be62612d58cf10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a new element into the container directly before pos. The element is constructed through std::allocator_traits::construct, which typically uses placement-new to construct the element in-place at a location provided by the container. However, if the required location has been occupied by an existing element, the inserted element is constructed at another location at first, and then move assigned into the required location. The arguments args... are forwarded to the constructor as std::forward&lt;Args&gt;(args).... args... may directly or indirectly refer to a value in the container. Invalidate all references and iterators. Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.  <a href="classseq_1_1devector.html#af579733350f27c20b7be62612d58cf10">More...</a><br /></td></tr>
@@ -369,7 +371,7 @@ class seq::devector&lt; T, Allocator, flag &gt;</h3>
 </dl>
 <p><a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a> is a double-ending vector class that mixes the behavior and performances of std::deque and std::vector. Elements are stored in a contiguous memory chunk exatcly like a vector, but might contain free space at the front in addition to free space at the back in order to provide O(1) insertion at the front.</p>
 <p><a class="el" href="classseq_1_1devector.html" title="Double-ending vector implementation which can be optimized for several use case.">seq::devector</a> provides a similar interface as std::vector with the following additional members:</p><ul>
-<li><a class="el" href="classseq_1_1devector.html#a0d10831168489b4fcd47b4dbcc9fef96" title="Insert an element at the front of the container. The complexity is amortized O(1) for OptimizeForPush...">push_front()</a> and <a class="el" href="classseq_1_1devector.html#a93466b8ae94da0afa221fe5dff0e4fde" title="Appends a new element to the front of the container. The element is constructed through std::allocato...">emplace_front()</a>: insert an element at the front of the devector</li>
+<li><a class="el" href="classseq_1_1devector.html#a2695ed372c71fb9fcee9853423dd058d" title="Insert an element at the front of the container. The complexity is amortized O(1) for OptimizeForPush...">push_front()</a> and <a class="el" href="classseq_1_1devector.html#abbfbce66fe046e1516f3c61aa07ac9ff" title="Appends a new element to the front of the container. The element is constructed through std::allocato...">emplace_front()</a>: insert an element at the front of the devector</li>
 <li><a class="el" href="classseq_1_1devector.html#a3089cff6cc2da56dace46cab6a666ead" title="Resizes the container to contain count elements. The container is extended by the front....">resize_front()</a>: resize the devector from the front instead of the back of the container</li>
 <li><a class="el" href="classseq_1_1devector.html#a1e1272b9c9a6cafd5338eb0d8e475f63" title="Returns the container back capacity.">back_capacity()</a>: returns the capacity (free slots) at the back of the devector</li>
 <li><a class="el" href="classseq_1_1devector.html#a88f2c04e94fa56abdfb97aa5d9cafcbb" title="Returns the container front capacity.">front_capacity()</a>: returns the capacity (free slots) at the front of the devector</li>
@@ -382,7 +384,7 @@ Optimization flags</h2>
 <p>devector can be configured with the following flags:</p><ul>
 <li>OptimizeForPushBack: the devector behaves like a std::vector, adding free space at the back based on the growth factor SEQ_GROW_FACTOR. In this case, inserting elements at the front is as slow as for std::vector as it require to move all elements toward the back.</li>
 <li>OptimizeForPushFront: the devector adds free space at the front based on the growth factor SEQ_GROW_FACTOR. Inserting elements at the front is amortized O(1), inserting at the back is O(N).</li>
-<li>OptimizeForBothEnds (default): the devector has as many free space at the back and the front. Both <a class="el" href="classseq_1_1devector.html#ac8de2d7bb6aaa6317e70c2fdf33a4890" title="Insert an element at the back of the container. The complexity is amortized O(1) for OptimizeForPushB...">push_back()</a> and <a class="el" href="classseq_1_1devector.html#a0d10831168489b4fcd47b4dbcc9fef96" title="Insert an element at the front of the container. The complexity is amortized O(1) for OptimizeForPush...">push_front()</a> behave in amortized O(1). When the memory storage grows (by a factor of SEQ_GROW_FACTOR), the elements are moved to the middle of the storage, leaving as much space at the front and the back. When inserting an element at the back, several scenarios are checked (this is similar for front insertion):<ol type="1">
+<li>OptimizeForBothEnds (default): the devector has as many free space at the back and the front. Both <a class="el" href="classseq_1_1devector.html#abbc22a501c459dd74b6a178fec2ab255" title="Insert an element at the back of the container. The complexity is amortized O(1) for OptimizeForPushB...">push_back()</a> and <a class="el" href="classseq_1_1devector.html#a2695ed372c71fb9fcee9853423dd058d" title="Insert an element at the front of the container. The complexity is amortized O(1) for OptimizeForPush...">push_front()</a> behave in amortized O(1). When the memory storage grows (by a factor of SEQ_GROW_FACTOR), the elements are moved to the middle of the storage, leaving as much space at the front and the back. When inserting an element at the back, several scenarios are checked (this is similar for front insertion):<ol type="1">
 <li>Free slots are available at the back and the element is inserted there.</li>
 <li>The devector does not have available slots at the back or the front, a new chunk of memory of size <a class="el" href="classseq_1_1devector.html#a8aa176a3fe4a875d60709aa6a10906dc" title="Returns the container size.">size()</a>*SEQ_GROW_FACTOR is allocated, elements are moved to this new memory location (leaving the same capacity at the back and the front) and the new element is inserted at the back.</li>
 <li>The devector does not have enough capacity at the back, but has free capacity at the front. In this case, there are 2 possibilities:<ol type="a">
@@ -1027,6 +1029,33 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, DEVectorFlag f
 
 </div>
 </div>
+<a id="a94dc927505581fe4e72463694989ab56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94dc927505581fe4e72463694989ab56">&#9670;&nbsp;</a></span>~devector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, DEVectorFlag flag = OptimizeForBothEnds&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::~<a class="el" href="classseq_1_1devector.html">devector</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a8de2b39307fc6d565bfd4c0ae22bfee5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8de2b39307fc6d565bfd4c0ae22bfee5">&#9670;&nbsp;</a></span>assign() <span class="overload">[1/3]</span></h2>
@@ -1623,8 +1652,8 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="aaed38ab8b88bb5fbadb9c6b3f027f823"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaed38ab8b88bb5fbadb9c6b3f027f823">&#9670;&nbsp;</a></span>emplace_back()</h2>
+<a id="a1535816a605e13633446a1a738df45d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1535816a605e13633446a1a738df45d0">&#9670;&nbsp;</a></span>emplace_back()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1637,7 +1666,7 @@ template&lt;class... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::emplace_back </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::emplace_back </td>
           <td>(</td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
@@ -1656,8 +1685,8 @@ template&lt;class... Args&gt; </div>
 
 </div>
 </div>
-<a id="a93466b8ae94da0afa221fe5dff0e4fde"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93466b8ae94da0afa221fe5dff0e4fde">&#9670;&nbsp;</a></span>emplace_front()</h2>
+<a id="abbfbce66fe046e1516f3c61aa07ac9ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbfbce66fe046e1516f3c61aa07ac9ff">&#9670;&nbsp;</a></span>emplace_front()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1670,7 +1699,7 @@ template&lt;class... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::emplace_front </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> auto <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::emplace_front </td>
           <td>(</td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
@@ -2497,8 +2526,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, DEVectorFlag f
 
 </div>
 </div>
-<a id="ac8de2d7bb6aaa6317e70c2fdf33a4890"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8de2d7bb6aaa6317e70c2fdf33a4890">&#9670;&nbsp;</a></span>push_back() <span class="overload">[1/2]</span></h2>
+<a id="abbc22a501c459dd74b6a178fec2ab255"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbc22a501c459dd74b6a178fec2ab255">&#9670;&nbsp;</a></span>push_back() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2509,7 +2538,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, DEVectorFlag f
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::push_back </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::push_back </td>
           <td>(</td>
           <td class="paramtype">const T &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -2533,8 +2562,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, DEVectorFlag f
 
 </div>
 </div>
-<a id="aab45a92dfbe1d074b7ef2ef419d0c325"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab45a92dfbe1d074b7ef2ef419d0c325">&#9670;&nbsp;</a></span>push_back() <span class="overload">[2/2]</span></h2>
+<a id="a12966079a9fb03f24c6c4f5df91a8269"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12966079a9fb03f24c6c4f5df91a8269">&#9670;&nbsp;</a></span>push_back() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2545,7 +2574,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, DEVectorFlag f
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::push_back </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::push_back </td>
           <td>(</td>
           <td class="paramtype">T &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -2569,8 +2598,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, DEVectorFlag f
 
 </div>
 </div>
-<a id="a0d10831168489b4fcd47b4dbcc9fef96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0d10831168489b4fcd47b4dbcc9fef96">&#9670;&nbsp;</a></span>push_front() <span class="overload">[1/2]</span></h2>
+<a id="a2695ed372c71fb9fcee9853423dd058d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2695ed372c71fb9fcee9853423dd058d">&#9670;&nbsp;</a></span>push_front() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2581,7 +2610,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, DEVectorFlag f
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::push_front </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::push_front </td>
           <td>(</td>
           <td class="paramtype">const T &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
@@ -2605,8 +2634,8 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, DEVectorFlag f
 
 </div>
 </div>
-<a id="a46c496edf014b84398c0e2a21a47146c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a46c496edf014b84398c0e2a21a47146c">&#9670;&nbsp;</a></span>push_front() <span class="overload">[2/2]</span></h2>
+<a id="a12667fc2f115a64ef64f6c44f685a5d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12667fc2f115a64ef64f6c44f685a5d0">&#9670;&nbsp;</a></span>push_front() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2617,7 +2646,7 @@ template&lt;class T , class Allocator  = std::allocator&lt;T&gt;, DEVectorFlag f
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::push_front </td>
+          <td class="memname"><a class="el" href="group__bits.html#ga68ad5ff4a759a2a341569a42f9ba2e44">SEQ_ALWAYS_INLINE</a> void <a class="el" href="classseq_1_1devector.html">seq::devector</a>&lt; T, Allocator, flag &gt;::push_front </td>
           <td>(</td>
           <td class="paramtype">T &amp;&amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>

@@ -33,6 +33,8 @@
 #include "bits.hpp"
 #include "utils.hpp"
 
+#include <algorithm>
+
 // Value used to define the limit between moving elements and reallocating new elements for push_back/front
 #define SEQ_DEVECTOR_SIZE_LIMIT 16U
 
@@ -89,9 +91,8 @@ namespace seq
 			{
 				// destroy values in the range [begin,end)
 				if (!std::is_trivially_destructible<T>::value) {
-					while (begin != en) {
-						destroy_ptr(begin++);
-					}
+					for (T* p = begin; p != en; ++p)
+						destroy_ptr(p);
 				}
 			}
 
@@ -114,10 +115,14 @@ namespace seq
 			}
 
 
-			void copy_destroy_input( T* first,  T* last, T* dst) {
+			void copy_destroy_input( T* first,  T* last, T* dst) 
+			{
 				// Copy range [first, last) to non overlapping dst, and destroy input range.
 				// In case of exception, input is not detroyed, and created values are destroyed
 				// Strong exception guarantee
+
+				static constexpr bool noexcept_move =  std::is_nothrow_move_constructible<T>::value;
+
 				if (relocatable)
 					memcpy(static_cast<void*>(dst), static_cast<void*>(first), static_cast<size_t>(last - first) * sizeof(T));
 				else {
@@ -126,6 +131,9 @@ namespace seq
 					try {
 						while (first != last) {
 							construct_ptr(dst, std::move_if_noexcept(*first));
+							// if T is inothrow move constructible, destroy input while iterating to avoid another loop on inputs
+							if (noexcept_move)
+								first->~T();
 							++first;
 							++dst;
 						}
@@ -136,7 +144,8 @@ namespace seq
 						throw;
 					}
 					//no exception thrown, destroy input
-					destroy_range(saved, last);
+					if(!noexcept_move)
+						destroy_range(saved, last);
 				}
 			}
 
@@ -150,9 +159,12 @@ namespace seq
 				return c;
 			}
 
-			void move_destroy_input(T* first, T* last, T* dst) {
+			void move_destroy_input(T* first, T* last, T* dst) 
+			{
 				// Move range [first, last) to overlapping dst and destroy input
 				// Basic exception guarantee only
+
+				//static constexpr bool noexcept_move = std::is_nothrow_move_constructible<T>::value && std::is_nothrow_copy_constructible<T>::value;
 
 				size_t size = static_cast<size_t>(last - first);
 				if (dst + size < first || dst >= last)
@@ -167,7 +179,8 @@ namespace seq
 					
 					try {
 						// Construct first part
-						while (dst < first && first != last) {
+						T* en = first;
+						while (dst < en && first != last) {
 							construct_ptr(dst, std::move(*first));
 							++dst;
 							++first;
@@ -712,6 +725,10 @@ namespace seq
 			assign(init.begin(), init.end());
 		}
 
+		~devector() {
+			clear();
+		}
+
 		/// @brief Returns the container size
 		auto size() const noexcept -> size_t { return static_cast<size_t>(this->base_type::end - this->start); }
 		/// @brief Returns the container full capacity (back_capacity() + size() + front_capacity())
@@ -746,7 +763,7 @@ namespace seq
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if back_capacity() == 0.
 		/// @param value value to insert
-		void push_back(const T& value) 
+		SEQ_ALWAYS_INLINE void push_back(const T& value) 
 		{
 			if (SEQ_UNLIKELY(this->base_type::end == this->base_type::data + capacity()))
 				this->grow_back();
@@ -759,7 +776,7 @@ namespace seq
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if back_capacity() == 0.
 		/// @param value value to insert
-		void push_back( T&& value)
+		SEQ_ALWAYS_INLINE void push_back( T&& value)
 		{
 			if (SEQ_UNLIKELY(this->base_type::end == this->base_type::data + capacity()))
 				this->grow_back();
@@ -774,7 +791,7 @@ namespace seq
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if back_capacity() == 0.
 		template< class... Args >
-		auto emplace_back(Args&&... args) -> reference
+		SEQ_ALWAYS_INLINE auto emplace_back(Args&&... args) -> reference
 		{
 			if (SEQ_UNLIKELY(this->base_type::end == this->base_type::data + capacity()))
 				this->grow_back();
@@ -789,7 +806,7 @@ namespace seq
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if front_capacity() == 0.
 		/// @param value value to insert
-		void push_front(const T& value)
+		SEQ_ALWAYS_INLINE void push_front(const T& value)
 		{
 			if (SEQ_UNLIKELY(this->start == this->base_type::data ))
 				this->grow_front();
@@ -802,7 +819,7 @@ namespace seq
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if front_capacity() == 0.
 		/// @param value value to insert
-		void push_front( T&& value)
+		SEQ_ALWAYS_INLINE void push_front( T&& value)
 		{
 			if (SEQ_UNLIKELY(this->start == this->base_type::data))
 				this->grow_front();
@@ -817,7 +834,7 @@ namespace seq
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if front_capacity() == 0.
 		template< class... Args >
-		auto emplace_front(Args&&... args) -> reference
+		SEQ_ALWAYS_INLINE auto emplace_front(Args&&... args) -> reference
 		{
 			if (SEQ_UNLIKELY(this->start == this->base_type::data))
 				this->grow_front();

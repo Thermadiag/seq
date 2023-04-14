@@ -141,6 +141,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af53c2efa11db5991efdb04dc41441e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6e2cf11d71ce1e45b6bd3eb78229863"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tagged__pointer.html#ab6e2cf11d71ce1e45b6bd3eb78229863">set_full</a> (std::uintptr_t p) noexcept</td></tr>
 <tr class="separator:ab6e2cf11d71ce1e45b6bd3eb78229863"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a145366bd7616d110fa5c872bc2664308"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tagged__pointer.html#a145366bd7616d110fa5c872bc2664308">split</a> () const noexcept -&gt; std::pair&lt; const T *, unsigned &gt;</td></tr>
+<tr class="separator:a145366bd7616d110fa5c872bc2664308"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4fe65318dcf14b8851f7b118e6b35c0"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tagged__pointer.html#ab4fe65318dcf14b8851f7b118e6b35c0">split</a> () noexcept -&gt; std::pair&lt; T *, unsigned &gt;</td></tr>
+<tr class="separator:ab4fe65318dcf14b8851f7b118e6b35c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d926b922ba7dfe4ebcf716a0ad9124f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classseq_1_1tagged__pointer.html#a6d926b922ba7dfe4ebcf716a0ad9124f">operator pointer</a> () noexcept</td></tr>
 <tr class="memdesc:a6d926b922ba7dfe4ebcf716a0ad9124f"><td class="mdescLeft">&#160;</td><td class="mdescRight">cast operator to pointer  <a href="classseq_1_1tagged__pointer.html#a6d926b922ba7dfe4ebcf716a0ad9124f">More...</a><br /></td></tr>
 <tr class="separator:a6d926b922ba7dfe4ebcf716a0ad9124f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -701,6 +705,60 @@ template&lt;class T , TagPointerType Type = StackPointer, size_t UserDefinedAlig
 </div><div class="memdoc">
 
 <p>Set the tag value. </p>
+
+</div>
+</div>
+<a id="a145366bd7616d110fa5c872bc2664308"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a145366bd7616d110fa5c872bc2664308">&#9670;&nbsp;</a></span>split() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , TagPointerType Type = StackPointer, size_t UserDefinedAlignment = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1tagged__pointer.html">seq::tagged_pointer</a>&lt; T, Type, UserDefinedAlignment &gt;::split </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt; std::pair&lt;const T*, unsigned&gt; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab4fe65318dcf14b8851f7b118e6b35c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4fe65318dcf14b8851f7b118e6b35c0">&#9670;&nbsp;</a></span>split() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T , TagPointerType Type = StackPointer, size_t UserDefinedAlignment = 0&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classseq_1_1tagged__pointer.html">seq::tagged_pointer</a>&lt; T, Type, UserDefinedAlignment &gt;::split </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> -&gt; std::pair&lt;T*, unsigned&gt; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

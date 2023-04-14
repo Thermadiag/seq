@@ -66,23 +66,26 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classseq_1_1aligned__allocator.html#a7c9468c1848b3a1dee2769403fc9d555",
-"classseq_1_1detail_1_1allocator__for__shared__ptr.html",
-"classseq_1_1file__input__stream.html",
-"classseq_1_1flat__set.html#a24c05caf75cab36a9867f327b36a0e1a",
-"classseq_1_1ordered__map.html#a6bb528bb8c5b7e32a43ab58ab69a2cbe",
-"classseq_1_1sequence.html#a6bc0b4e6e117b2c63c3d124068ab81ba",
-"classseq_1_1tiny__string.html#a321d02c7a86f9394fcb039783f38f49d",
-"functions_func_a.html",
-"namespaceseq_1_1detail_1_1metafunction.html",
-"structseq_1_1detail_1_1_bucket_manager.html#a5ba48fe2dbaa6c62e54f9ac555ba1fd5",
-"structseq_1_1detail_1_1_compressed_vector_internal.html#a4f5087cc2a1f92948ddba32d8c316d82",
-"structseq_1_1detail_1_1_mutex_wrapper.html#adf167873089d9ebaf9b6bdcc1fb47cf9",
-"structseq_1_1detail_1_1base__list__chunk.html#a9c86ed49912cabf967cb74150f5d326c",
-"structseq_1_1detail_1_1flat__tree.html#a6dee7d23f68f4dd1735d530507ef9757",
-"structseq_1_1detail_1_1stats__data.html#aab22cde248922aac57ffd80438173d67",
-"structseq_1_1integer__abs__return_3_01_t_00_01true_00_014_01_4.html#a7ca16e7506401031965113373c50eff6",
-"structseq_1_1tiny__string_3_010_00_01view__allocator_01_4.html#adbe7ccc4bb433272150537aa1f381d50"
+"classseq_1_1aligned__allocator.html#a1e4ce30f02e0d100b0f586a4f199a317",
+"classseq_1_1detail_1_1_value_wrapper.html#a445c5523ee77bd7c2e3562d02819c970",
+"classseq_1_1devector.html#ad109e7a751c2497387cfb6a918718118",
+"classseq_1_1flat__multiset.html#a3a71fd411a04e07080ac35125651124a",
+"classseq_1_1object__pool.html#a5ba0e2834a30fa3cbb4a1d895eb0f687",
+"classseq_1_1ostream__format_3_01hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_00_01_slot_01_4.html#ae70d0a4e043e23259215015b9302b053",
+"classseq_1_1sequence.html#ac24c875178c78f34296252d5291aada7",
+"classseq_1_1tiny__string.html#a60c5df09730813e9b5e2247f7be6d445",
+"functions_func_~.html",
+"group__containers.html#ga3eb2adf033257d83a2a61e1d3e021fba",
+"group__containers.html#gacec0185cc2fe69b4dccafcf2bd4ddfbe",
+"sequence_8hpp.html#ae442e2e755bd42be9c7a02f8453ec61a",
+"structseq_1_1detail_1_1_bucket_manager.html#a9ee3ee70820f4ee15b2cb22964e2cc6b",
+"structseq_1_1detail_1_1_compressed_vector_internal.html#a7b92c1d3e94843a31a18cbefca84ea40",
+"structseq_1_1detail_1_1_mutex_wrapper.html#ab20c640e04341acaf08aec1cbad61a38",
+"structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01true_01_4.html#a0471effe7bf6dd5d6d4e2b1608e8c175",
+"structseq_1_1detail_1_1deque__const__iterator.html#adf521690be4c25eb1ef029d5b0473118",
+"structseq_1_1detail_1_1parallel__stats__data.html#a645731cc28353f551489e019907ed4cf",
+"structseq_1_1integral__chars__format.html",
+"structseq_1_1tiny__string_3_01_char_00_01_traits_00_01view__allocator_3_01_char_01_4_00_010_01_4.html#af610f3c827e6af13901d8dbb8de0c818"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

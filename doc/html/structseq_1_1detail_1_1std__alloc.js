@@ -1,9 +1,8 @@
 var structseq_1_1detail_1_1std__alloc =
 [
     [ "rebind_alloc", "structseq_1_1detail_1_1std__alloc.html#a7745f4aac18dd94899c76113f9674193", null ],
-    [ "std_alloc", "structseq_1_1detail_1_1std__alloc.html#a6c8ff6f23fa75644af764768d9d1ca2c", null ],
     [ "std_alloc", "structseq_1_1detail_1_1std__alloc.html#a42d7ed3e455a0629b9cf27c5176ef2b2", null ],
-    [ "std_alloc", "structseq_1_1detail_1_1std__alloc.html#a7f5b8148fafa65448b5ab492d4760b3c", null ],
+    [ "std_alloc", "structseq_1_1detail_1_1std__alloc.html#a2201616578e1ee396d2201041aebb21d", null ],
     [ "allocate_chunk", "structseq_1_1detail_1_1std__alloc.html#ad58378c6ad1cfe4d402e2064bae53a2d", null ],
     [ "clear_all", "structseq_1_1detail_1_1std__alloc.html#a92ecc80b50d0b94c01bc840928a84e1c", null ],
     [ "deallocate_chunk", "structseq_1_1detail_1_1std__alloc.html#ae9eb015c32d05ff94db1674e36514e26", null ],
