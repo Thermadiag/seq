@@ -69,7 +69,6 @@ In this case, inserting/deleting elements will <em>never</em> change the bucket 
 ## Performances
 
 `seq::tiered_vector` was optimized to match libstdc++ `std::deque` performances as close as possible.
-My benchmarhs show that most members are actually as fast or faster than libstdc++ `std::deque`.
 
 Usually, iterating through a `seq::tiered_vector` is faster than through a std::deque, and the random-access `operator[](size_t)` is also faster. Making a lot of random access based on iterators can be slightly slower with `seq::tiered_vector` depending on the use case. For instance, sorting a `seq::tiered_vector` is slower than sorting a `std::deque`.
 

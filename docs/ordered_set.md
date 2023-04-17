@@ -19,8 +19,7 @@
 -	The member `ordered_set::sequence()` returns a reference to the underlying `seq::sequence` object,
 -	Its iterator and const_iterator types are bidirectional iterators.
 
-The underlying sequence object stores plain non const Key objects. However, in order to avoid modifying the keys through iterators (and potentially invalidating the order), both iterator and const_iterator types can only return const references.
-
+The underlying sequence object stores plain non const Key objects, and `seq::ordered_map` iterators return objects of type `std::pair<Key,Value>`. 
 
 ## Direct access to sequence
 
@@ -114,7 +113,7 @@ boost::unordered_set          |   1708 ms/257 MO   |   901 ms/257 MO    |    571
 std::unordered_set            |   1830 ms/238 MO   |   1134 ms/232 MO   |    847 ms     |    878 ms     |    295 ms     |   1114 ms/315 MO   |    646 ms     |
 
 
-This benchmark is available in file 'seq/benchs/bench_hash.hpp'.
+This benchmark is available in file 'seq/benchs/bench_hash.cpp'.
 `seq::ordered_set` is among the fastest hashtable for each operation except for failed lookup, and has a lower memory overhead.
 Note that this benchmark does not represent all possible workloads, and additional tests must be fullfilled for specific scenarios.
 

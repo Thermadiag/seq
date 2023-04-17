@@ -360,14 +360,15 @@ Example of custom type formatting:
 #include <utility>
 
 
+
 namespace seq
 {
 	// Specialization of ostream_format for std::pair<T,T>
 
-	template<class T, bool Slot>
-	class ostream_format<std::pair<T, T>, Slot >: public base_ostream_format<std::pair<T, T> , ostream_format<std::pair<T, T>, Slot > >
+	template<class T, bool S>
+	class ostream_format<std::pair<T, T>,S> : public base_ostream_format<std::pair<T, T>, ostream_format<std::pair<T, T>,S > >
 	{
-		using base_type = base_ostream_format<std::pair<T, T> , ostream_format<std::pair<T, T>, Slot > >;
+		using base_type = base_ostream_format<std::pair<T, T>, ostream_format<std::pair<T, T>,S > >;
 
 	public:
 
@@ -376,7 +377,7 @@ namespace seq
 
 		// The specialization must provide this member:
 
-		size_t to_string(std::string & out) const
+		size_t to_string(std::string& out) const
 		{
 			size_t prev = out.size();
 
@@ -388,11 +389,11 @@ namespace seq
 			ostream_format<T>(this->value().second, this->numeric_fmt()).append(out);
 			out.append(")");
 
-			// Returns the number of bytes written
 			return out.size() - prev;
 		}
 	};
 }
+
 
 int main(int argc, char ** argv)
 {
@@ -506,7 +507,7 @@ std::cout<< f2( 3, fmt(1,2,3) ) <<std::endl;
 
 
 The *format* module is relatively fast compared to C++ streams, mainly thanks to the [charconv](charconv.md) module.
-Usually, using `seq::fmt` to output arithmetic values to streams should be around 8 times faster than directly writing the values to a std::ostream object.
+Usually, using `seq::fmt` to output floating point values to streams should be around 8 times faster than directly writing the values to a std::ostream object, less for integer types.
 This will, of course, vary greatly depending on the considered scenario.
 
 The following code is a simple benchmark on writing a 4 * 1000000 table of double values to a std::ostream object.

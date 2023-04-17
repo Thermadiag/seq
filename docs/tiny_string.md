@@ -5,13 +5,13 @@ It provides a customizable Small String Optimization (SSO) much like boost::smal
 
 `seq::tiny_string` contains some preallocated elements in-place, which can avoid the use of dynamic storage allocation when the actual number of elements is below that preallocated threshold (*MaxStaticSize* parameter).
 
-`seq::tiny_string` supports any type of character.
+`seq::tiny_string` supports any type of character in a similar way as `std::basic_string`.
 
 
 ## Motivation
 
 Why another string class? I started writing tiny_string to provide a small and relocatable string class that can be used within [seq::cvector](cvector.md).
-Indeed, gcc std::string implementation is not relocatable as it stores a pointer to its internal data for small strings. In addition, most std::string implementations have a size of 32 bytes (at least msvc and gcc ones), which unnecessary high, especially when considering a compressed container. Therefore, I started working on a string implementation with the following specificities:
+Indeed, gcc std::string implementation is not relocatable as it stores a pointer to its internal data for small strings. In addition, most std::string implementations have a size of 32 bytes (at least msvc and gcc ones), which is unnecessary when considering a compressed container. Therefore, I started working on a string implementation with the following specificities:
 -	Relocatable,
 -	Small footprint (16 bytes on 64 bits machine if possible),
 -	Customizable Small String Optimization (SSO),
@@ -20,7 +20,7 @@ Indeed, gcc std::string implementation is not relocatable as it stores a pointer
 It turns out that such string implementation makes all flat containers (like `std::vector` or `std::deque`) faster (at least for small strings) as it greatly reduces cache misses, memory allocations, and allows optimization tricks for relocatable types.
 The Customizable Small String Optimization is also very convenient to avoid unnecessary memory allocations for different workloads.
 
-For the rest of the documentation, only standard char strings are considered.
+For the rest of the documentation, only standard `char` strings are considered.
 
 ## Size and bookkeeping
 
@@ -41,7 +41,7 @@ The global typedef `seq::tstring` is provided for convenience, and is equivalent
 
 The maximum preallocated space is specified as a template parameter (*MaxStaticSize*).
 By default, this value is set to 0, meaning that the tiny_string only uses 2 words of either 32 or 64 bits depending on the architecture (whatever the char type is).
-Therefore, the maximum in-place capacity is either 7 or 15 bytes for 1 byte char type.
+Therefore, the maximum in-place capacity is either 7 or 15 bytes for 1 byte char type, less for wchar_t string.
 
 The maximum preallocated space can be increased up to 127 elements (size of 126 since the string is null terminated). To have a tiny_string of 32 bytes like std::string on gcc and msvc, you could use, for instance, tiny_string<28>.
 In this case, the maximum string size (excluding null-terminated character) to use SSO would be 30 bytes (!).
@@ -57,21 +57,24 @@ Within the *seq* library, a relocatable type must statify `seq::is_relocatable<t
 
 Note that tiny_string is only relocatable if the allocator itself is relocatable (which is the case for the default std::allocator<char>).
 
-A (very) simple test to measure potential performance gain using tstring is to push back small tstring objects in a std::vector object. The following table displays performance measurements when inserting 10000000 std::string and tstring objects of size 13 in std::vector and seq::devector (gcc 10.1.0 (-O3) for msys2 on Windows 10, using Intel(R) Core(TM) i7-10850H at 2.70GHz):
+The tables below gives performances results when inserting and successfully finding 500k random small strings (size = 13) in a `seq::flat_set`, `phmap::btree_set` and `std::set`. The first table is for std::string, the second for seq::tstring.
+The benchmark is available in `seq/benchs/bench_tiny_string.cpp` and was compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10, using Intel(R) Core(TM) i7-10850H at 2.70GHz.
 
-String type     |    std::vector     |   seq::devector    |
-----------------|--------------------|--------------------|
-std::string     |        205 ms      |        202 ms      |
-seq::tstring    |         98 ms      |         85 ms      |
-	
-The std::vector is faster when inserting tstring simply because the memory required is half the one of std::string. seq::devector is about 15% faster than std::vector for tstring objects as it is aware of its relocatable property and uses memcpy internally when the storage is growing.
+std::string         |    seq::flat_set   |  phmap::btree_set  |     std::set       |
+--------------------|--------------------|--------------------|--------------------|
+insert              |        783 ms      |        250 ms      |        250 ms      |
+find                |        141 ms      |        234 ms      |        235 ms      |
 
-The performance difference is even more drastic when inserting 1000000 strings in a `seq::flat_set` container:
 
-String type     | Insert (flat_set)  |
-----------------|--------------------|
-std::string     |        2642 ms     |
-seq::tstring    |        819 ms      |
+seq::tstring        |    seq::flat_set   |  phmap::btree_set  |     std::set       |
+--------------------|--------------------|--------------------|--------------------|
+insert              |        265 ms      |        109 ms      |        219 ms      |
+find                |         94 ms      |         94 ms      |        203 ms      |
+
+
+`seq::flat_set` internally uses a `seq::tiered_vector` which is very sensible to the value type size for inserting/erasing. Furtheremore, it is aware of the relocatable property of its value type, which is why there is a factor 3 speadup when inserting tstring instead of std::string. Even its lookup performance benefits from the small size of tstring as it reduces cache misses for the last stages of the find operation.
+A pure stable node based container like `std::set` does not benefit greatly from using tstring as it only reduces the size of allocated nodes. Observed speedup for find operation is probably due to the comparison operator for tstring which is slightly faster than the std::string one for small strings.
+`phmap::btree_set` is also a node based container, but each node can contain several elements. Note that btree_set uses a fix sized node in bytes, and its arity is computed from this size. A similar strategy is used for std::deque in most implementation to get its bucket size. Using tstring instead of std::string doubles the btree arity, increasing its overall performances for both insertion and lookup.
 	
 Within the `seq` library, the following containers provide optimizations for relocatable types:
 -	random access containers: `seq::tiered_vector`, `seq::devector`, `seq::cvector`
@@ -102,30 +105,4 @@ It is provided for compilers that do not support (yet) std::string_view, and pro
 
 The global typedef `seq::tstring_view` is provided  for convenience, and is equivalent to `seq::tiny_string<char,std::char_traits<char>,seq::view_allocator<char>,0>`.
 tstring_view is also hashable and can be compared to other tiny_string types as well as std::string.
-
-
-## Performances
-
-All tiny_string members have been optimized to match or outperform (for small strings) most std::string implementations. They have been benchmarked against gcc (10.0.1) and msvc (14.20) for members compare(), find(), rfind(), find_first_of(), find_last_of(), find_first_not_of() and find_last_not_of(). 
-Comparison operators <=> are usually faster than std::string. However, tiny_string is usually slower for back insertion with push_back(). The pop_back() member is also slower than msvc and gcc implementations.
-
-tiny_string is usually faster when used inside flat containers simply because its size is smaller than std::string (32 bytes on gcc and msvc).
-The following table shows the performances of tiny_string against std::string for sorting a vector of 1M random short string (size = 14, where both tiny_string and std::string use SSO) and 1M random longer strings (size = 200, both use heap allocation). Tested with gcc 10.1.0 (-O3) for msys2 on Windows 10, using Intel(R) Core(TM) i7-10850H at 2.70GHz.
-
-String class       | sort small (std::less) | sort small (tstring::less) | sort wide (std::less) | sort wide (tstring::less) |
--------------------|------------------------|----------------------------|-----------------------|---------------------------|
-std::string        |          160 ms        |          122 ms            |       382 ms          |         311 ms            |
-seq::tiny_string   |          112 ms        |          112 ms            |       306 ms          |         306 ms            |
-
-This benchmark is available in file 'seq/benchs/bench_tiny_string.hpp'.
-Note that tiny_string always uses its own comparison function. We can see that the comparison function of tiny_string is faster than the default one used
-by std::string. Even when using tiny_string comparator, std::string remains slightly slower due to the tinier memory footprint of tiny_string.
-
-The difference is wider on msvc (14.20):
-
-String class       | sort small (std::less) | sort small (tstring::less) | sort wide (std::less) | sort wide (tstring::less) |
--------------------|------------------------|----------------------------|-----------------------|---------------------------|
-std::string        |          281 ms        |          264 ms            |       454 ms          |         441 ms            |
-seq::tiny_string   |          176 ms        |          176 ms            |       390 ms          |         390 ms            |
-
 

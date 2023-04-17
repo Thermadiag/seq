@@ -68,6 +68,6 @@ while (true) {
 
 ```
 
-Internal benchmarks show that using seq::from_stream() is around 10 times faster (or more) than using *std::istream::operator>>()* when reading floating point values from a huge string.
+Internal benchmarks show that using seq::from_stream() is around 10 times faster than using *std::istream::operator>>()* when reading floating point values from a huge string.
 
 In additional to `seq::std_input_stream`, *charconv* module provides the similar `seq::buffer_input_stream` and `seq::file_input_stream`.

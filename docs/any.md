@@ -458,69 +458,78 @@ Below is a more complex example that transform `hold_any` into a `std::function`
 // for seq::is_invocable
 #include <seq/type_traits.hpp>
 
-// for seq::constexpr_if
-#include <seq/utils.hpp>
+
+
 
 namespace seq
 {
-	template<class Fun>
-	struct FunInterface;
-	
-	// Provide custom interface to `hold_any` in order to be callable like std::function
-	template<class R, class... As>
-	struct FunInterface< R(As...)>
-	{
-		// The base type info class, must inherit seq::any_type_info virtually.
-		struct type_info : virtual any_type_info
-		{
-			// Add virtual members() call and target_type()
-			virtual R call(const void* data, As... as) const = 0;
-			virtual const std::type_info& target_type() const = 0;
-		};
+	template<class R, class T, class... As>
+	SEQ_ALWAYS_INLINE typename std::enable_if< is_invocable<T, As ...>::value,R>::type call_fun(const T & fun,  As... as){
+		return fun(std::forward<As>(as)...);
+	}
+	template<class R, class T, class... As>
+	SEQ_ALWAYS_INLINE typename std::enable_if< !is_invocable<T, As ...>::value,R>::type call_fun(const T & fun,  As... as){
+		(void)fun;		
+		throw std::bad_function_call(); return R(); 
+	}	
 
-		// Concrete implementation for given type, must inherit type_info and any_typed_type_info<T> (for base implementation of common functions)
-		template<class T>
-		struct typed_type_info : type_info, any_typed_type_info<T, false> //disable hashing support
-		{
-			virtual R call(const void* data, As... as) const
-			{
-				// C++11 emulation of if constexpr
-				// Make sure that this interface is still suitable for non invocable types
-				return constexpr_if<is_invocable<T, As ...>::value>(
-					[&as...](const auto& fun) {return fun(std::forward<As>(as)...); },
-					[](const auto&) {throw std::bad_function_call(); return R(); },
-					* static_cast<const T*>(data));
-			}
-			virtual const std::type_info& target_type() const
-			{
-				return typeid(T);
-			}
-		};
-	
-		// Extended interface to seq::hold_any
-		template<class Base>
-		struct any_interface : Base
-		{
-			//add operator() to `hold_any` interface
-			R operator()(As... as) const
-			{
-				if (this->empty())
-					throw std::bad_function_call();
-				return this->type()->call(this->data(), std::forward<As>(as)...);
-			}
-			//add member target_type() to `hold_any` interface
-			const std::type_info& target_type() const
-			{
-				return this->empty() ? typeid(void) : this->type()->target_type();
-			}
-		};
-	};
-	
+
+ 	template<class Fun>
+ 	struct FunInterface;
+
+ 	// Provide custom interface to hold_any in order to be callable like std::function
+ 	template<class R, class... As>
+ 	struct FunInterface< R(As...)>
+ 	{
+ 		// The base type info class, must inherit seq::any_type_info virtually.
+ 		struct type_info : virtual any_type_info
+ 		{
+ 			// Add virtual members() call and target_type()
+ 			virtual R call(const void* data, As... as) const = 0;
+ 			virtual const std::type_info& target_type() const = 0;
+ 		};
+ 
+ 		// Concrete implementation for given type, must inherit type_info and any_typed_type_info<T> (for base implementation of common functions)
+ 		template<class T>
+ 		struct typed_type_info : type_info, any_typed_type_info<T, false> //disable hashing support
+ 		{
+ 			virtual R call(const void* data, As... as) const override
+ 			{
+ 				// Make sure that this interface is still suitable for non invocable types
+				return call_fun<R>(* static_cast<const T*>(data), std::forward<As>(as)...);
+ 				
+ 			}
+ 			virtual const std::type_info& target_type() const override
+ 			{
+ 				return typeid(T);
+ 			}
+ 		};
+
+ 		// Extended interface to seq::hold_any
+ 		template<class Base>
+ 		struct any_interface : Base
+ 		{
+ 			//add operator() to hold_any interface
+ 			R operator()(As... as) const
+ 			{
+ 				if (this->empty())
+ 					throw std::bad_function_call();
+ 				return this->type()->call(this->data(), std::forward<As>(as)...);
+ 			}
+ 			//add member target_type() to hold_any interface
+ 			const std::type_info& target_type() const
+ 			{
+ 				return this->empty() ? typeid(void) : this->type()->target_type();
+ 			}
+ 		};
+ 	};
+
 	// Define the seq::function type
-	template<class Signature>
-	using function = hold_any< FunInterface< Signature> >;
-	
+ 	template<class Signature>
+ 	using function = hold_any< FunInterface< Signature> >;
+
 }
+ 
 
 
 // Divide function 

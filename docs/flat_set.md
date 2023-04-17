@@ -14,7 +14,7 @@ All references and iterators are invalidated when inserting/removing keys.
 -	The members `flat_set::tvector()` returns a reference to the underlying seq::tiered_vector object,
 -	Its iterator and const_iterator types are random access iterators.
 
-The underlying tiered_vector object stores plain non const Key objects. However, in order to avoid modifying the keys through iterators (and potentially invalidating the order), both iterator and const_iterator types can only return const references.
+The underlying tiered_vector object stores plain non const Key objects, and `seq::flat_map` iterators return objects of type `std::pair<Key,Value>`.
 
 In addition to members returning (const_)iterator(s), the flat_set provides the same members ending with the '_pos' prefix and returning positions within the tiered_vector instead of iterators. These functions are slightly faster than the iterator based members.
 
@@ -70,7 +70,7 @@ boost::flat_set<T>            |    57 ms/15 MO     |   49344 ms/17 MO   |    133
 std::set                      |    457 ms/54 MO    |    457 ms/54 MO    |    449 ms     |    505 ms     |    502 ms     |     92 ms     |    739 ms     |
 std::unordered_set            |    187 ms/46 MO    |    279 ms/50 MO    |    100 ms     |    116 ms     |    155 ms     |     29 ms     |    312 ms     |
 
-Below is the same benchmark using random seq::tstring of length 14 (using Small String Optimization):
+Below is the same benchmark using random seq::tstring of length 13 (using Small String Optimization):
 
 Set name                      |   Insert(range)    |       Insert       |Insert(failed) |Find (success) | Find (failed) |    Iterate    |     Erase     |
 ------------------------------|--------------------|--------------------|---------------|---------------|---------------|---------------|---------------|
@@ -81,7 +81,7 @@ std::set                      |    646 ms/77 MO    |    640 ms/77 MO    |    611
 std::unordered_set            |    205 ms/54 MO    |    319 ms/57 MO    |    157 ms     |    192 ms     |    220 ms     |     34 ms     |    380 ms     |
 
 
-These benchmarks are available in file 'seq/benchs/bench_map.hpp'.
+These benchmarks are available in file 'seq/benchs/bench_map.cpp'.
 `seq::flat_set` behaves quite well compared to phmap::btree_set or boost::flat_set, and is even faster for single insertion/deletion than std::set for double type.
 
 `seq::flat_set` insertion/deletion performs in O(sqrt(N)) on average, as compared to std::set that performs in O(log(N)).

@@ -34,10 +34,10 @@ namespace seq
 {
 	// Specialization of ostream_format for std::pair<T,T>
 
-	template<class T>
-	class ostream_format<std::pair<T, T> > : public base_ostream_format<std::pair<T, T>, ostream_format<std::pair<T, T> > >
+	template<class T, bool S>
+	class ostream_format<std::pair<T, T>,S> : public base_ostream_format<std::pair<T, T>, ostream_format<std::pair<T, T>,S > >
 	{
-		using base_type = base_ostream_format<std::pair<T, T>, ostream_format<std::pair<T, T> > >;
+		using base_type = base_ostream_format<std::pair<T, T>, ostream_format<std::pair<T, T>,S > >;
 
 	public:
 

@@ -252,6 +252,72 @@ void test_insert_flat_map(size_t count)
 	std::cout << line("seq::tstring", vec_tstring) << std::endl;
 }
 
+#include "phmap/btree.h"
+template<class String>
+void test_insert_map(const char * str_name,size_t count)
+{
+	std::vector<String> vec(count);
+	for (size_t i = 0; i < count; ++i)
+		 vec[i] = generate_random_string<String>(13, true);
+
+	auto header = join("|", _str().l(20), _str().c(20), _str().c(20), _str().c(20) ,"");
+	std::cout << header(str_name, "seq::flat_set","phmap::btree_set", "std::set") << std::endl;
+	std::cout << header(fill('-'), fill('-'), fill('-'), fill('-')) << std::endl;
+
+	auto line = join("|", _str().l(20), _fmt( _u(), " ms").c(20), _fmt(_u(), " ms").c(20), _fmt(_u(), " ms").c(20), "");
+
+	size_t i_flat, i_ph, i_set, f_flat, f_ph, f_set;
+
+	
+	{
+		tick();
+		seq::flat_set<String> flat;
+		for (size_t i = 0; i < vec.size(); ++i)
+			flat.insert(vec[i]);
+		i_flat = tock_ms();
+
+		tick();
+		size_t sum = 0;
+		for (size_t i = 0; i < vec.size(); ++i)
+			sum += flat.find_pos(vec[i]);
+		f_flat = tock_ms();
+		print_null(sum);
+	}
+	{
+		tick();
+		phmap::btree_set<String> ph;
+		for (size_t i = 0; i < vec.size(); ++i)
+			ph.insert(vec[i]);
+		i_ph = tock_ms();
+
+		tick();
+		size_t sum = 0;
+		for (size_t i = 0; i < vec.size(); ++i)
+			sum += ph.find(vec[i]) != ph.end();
+		f_ph = tock_ms();
+		print_null(sum);
+	}
+	{
+		tick();
+		std::set<String> set;
+		for (size_t i = 0; i < vec.size(); ++i)
+			set.insert(vec[i]);
+		i_set = tock_ms();
+
+		tick();
+		size_t sum = 0;
+		for (size_t i = 0; i < vec.size(); ++i)
+			sum += set.find(vec[i]) != set.end();
+		f_set = tock_ms();
+		print_null(sum);
+	}
+
+
+	std::cout << line("insert", i_flat, i_ph, i_set) << std::endl;
+	std::cout << line("find", f_flat, f_ph, f_set) << std::endl;
+	std::cout << std::endl;
+}
+
 
 
 template<class S1, class S2>
@@ -720,6 +786,9 @@ int bench_tiny_string(int, char** const)
 	string2 s2; int _s2 = string2::max_static_size; int of2 = sizeof(string2);
 	string3 s3; int _s3 = string3::max_static_size; int of3 = sizeof(string3);
 	string4 s4; int _s4 = string4::max_static_size; int of4 = sizeof(string4);
+
+	test_insert_map<std::string>("std::string",500000);
+	test_insert_map<seq::tstring>("seq::tstring",500000);
 	
 	test_push_back_vector(10000000);
 	test_insert_flat_map(1000000);

@@ -64,8 +64,8 @@ In order for cvector to work with all STL algorithms, some latitudes with C++ st
 -	`std::move` is overloaded for reference wrapper types. This was mandatory for algorithms like `std::move(first,last,dst)` to work on move-only types.
 
 Thanks to this, it is possible to call `std::sort` or std::random_shuffle on a `cvector`. For instance, the following code snippet successively:
--	Call `cvector::push_back` to fill the cvector with sorted data. In this case the compression ratio is very low due to high values correlation.
--	Call `std::random_shuffle` to shuffle the cvector: the compresion ratio becomes very high as compressing random data is basically impossible.
+-	Call `cvector::push_back` to fill the cvector with sorted data. In this case the compression ratio (compressed size/raw size) is very low due to high values correlation.
+-	Call `std::random_shuffle` to shuffle the cvector: the compression ratio becomes very high as compressing random data is basically impossible.
 -	Sort again the cvector with `std::sort` to get back the initial compression ratio.
 
 ```cpp
@@ -129,7 +129,7 @@ to adjust it to work on flat input and blocks of 256 elements. This algorithm re
 and RLE (whichever is better) on the transposed block. All of this is performed using SSE3 (at least), but is faster if SSE4.1 is available, and even faster with AVX2.
 Both compression and decompression run at more or less 2GB/s  on a my laptop (Intel(R) Core(TM) i7-10850H CPU @ 2.70GHz).
 
-If compared to other compression methods working on transposed input like <a href="https://www.blosc.org/">blosc</a> with <a href="https://github.com/lz4/lz4">LZ4</a>, my compression algorithm
+If compared to other compression methods working on transposed input like <a href="https://www.blosc.org/">blosc</a> with <a href="https://github.com/lz4/lz4">LZ4</a>, cvector compression algorithm
 provides slighly lower values: it is slower and compress less by a small margin. However, it is way more efficient on small blocks (256 elements in this case)
 as it keeps its full strength: indeed, each block is compressed independently.
 	
