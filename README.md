@@ -14,7 +14,7 @@ The *seq* containers are not necessarly drop-in replacement for their STL counte
 Currently, the *containers* module provide 5 types of containers:
 -	Sequential random-access containers: 
 	-	[seq::devector](docs/devector.md): double ended vector that can be optimized for front operations, back operations or both. Similar interface to `std::deque`.
-	-	[seq::tiered_vector](tiered_vector.md): tiered vector implementation optimized for fast insertion and deletion in the middle. Similar interface to `std::deque`.
+	-	[seq::tiered_vector](docs/tiered_vector.md): tiered vector implementation optimized for fast insertion and deletion in the middle. Similar interface to `std::deque`.
 	-	[seq::cvector](docs/cvector.md): vector-like class storing its values in a compressed way to reduce program memory footprint. Similar interface to `std::vector`.
 -	Sequential stable non random-access container: `seq::sequence`, fast stable list-like container.
 -	Sorted containers: 
