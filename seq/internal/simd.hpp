@@ -70,6 +70,16 @@
 #  endif
 #endif
 
+// With msvc, __AVX__ could be defined without __SSE4_1__ or __SSE4_2__
+#if defined(__AVX__)
+#ifndef __SSE4_1__
+#define __SSE4_1__ 1
+#endif
+#ifndef __SSE4_2__
+#define __SSE4_2__ 1
+#endif
+#endif
+
 
 	// SSE3 intrinsics
 #if defined(__SSE3__)

@@ -41,7 +41,7 @@ add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 #set the most drastic flags    
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    target_compile_options(seq_tests PRIVATE /bigobj /WX /W3 /UNDEBUG)
+    target_compile_options(seq_tests PRIVATE /bigobj /WX /W3 /UNDEBUG -D_SCL_SECURE_NO_WARNINGS)
 	set_source_files_properties(seq_tests.cpp PROPERTIES COMPILE_OPTIONS /W0)
 elseif(WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 	target_compile_options(seq_tests PRIVATE /std:c++14 -Wno-unused-template -Wno-missing-prototypes -Wno-documentation-unknown-command -Wno-sizeof-pointer-memaccess -Wno-format-nonliteral -Wno-microsoft-cast -Wno-reserved-id-macro -Wno-float-equal -Wno-extra-semi-stmt -Wno-exit-time-destructors -Wno-documentation -Wno-c++98-compat -Wno-c++98-compat-pedantic -Werror -Wall -Wextra -Wold-style-cast -march=native -UNDEBUG  )

@@ -126,7 +126,7 @@ In order for cvector to have any interset over a standard `std::vector` or `std:
 
 It turns out I developed a compression algorithm a while back for lossless image compression that worked on small blocks of 16*16 pixels. I just had
 to adjust it to work on flat input and blocks of 256 elements. This algorithm relies on well known compression methods: it uses bit packing, delta coding
-and RLE (whichever is better) on the transposed block. All of this is performed using SSE3 (at least), but is faster if SSE4.1 is available, and even faster with AVX2.
+and RLE (whichever is better) on the transposed block. All of this is performed using SSE4.1 (at least), but is faster if AVX2 is available.
 Both compression and decompression run at more or less 2GB/s  on a my laptop (Intel(R) Core(TM) i7-10850H CPU @ 2.70GHz).
 
 If compared to other compression methods working on transposed input like <a href="https://www.blosc.org/">blosc</a> with <a href="https://github.com/lz4/lz4">LZ4</a>, cvector compression algorithm

@@ -7,6 +7,7 @@
 
 #include <seq/type_traits.hpp>
 
+
 namespace test_detail
 {
 	struct Unused

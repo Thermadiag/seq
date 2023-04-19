@@ -146,28 +146,28 @@ namespace seq
 
 		static inline __m128i min_epi8(__m128i a, __m128i b)
 		{
-#ifdef __SSE4_1__
+//#ifdef __SSE4_1__
 			return _mm_min_epi8(a, b);
-#else
+/*#else
 			// simulate _mm_min_epi8 with SSE3 at most
-			__m128i _a = _mm_add_epi8(a, _mm_set1_epi8(static_cast<char>(128)));
-			__m128i _b = _mm_add_epi8(b, _mm_set1_epi8(static_cast<char>(128)));
+			__m128i _a = _mm_add_epi8(a, _mm_set1_epi8(static_cast<char>(-128)));
+			__m128i _b = _mm_add_epi8(b, _mm_set1_epi8(static_cast<char>(-128)));
 			__m128i r = _mm_min_epu8(_a, _b);
-			return _mm_sub_epi8(r, _mm_set1_epi8(static_cast<char>(128)));
-#endif
+			return _mm_sub_epi8(r, _mm_set1_epi8(static_cast<char>(-128)));
+#endif*/
 		}
 
 		static inline __m128i max_epi8(__m128i a, __m128i b)
 		{
-#ifdef __SSE4_1__
+//#ifdef __SSE4_1__
 			return _mm_max_epi8(a, b);
-#else
+/*#else
 			// simulate _mm_max_epi8 with SSE3 at most
-			__m128i _a = _mm_add_epi8(a, _mm_set1_epi8(static_cast<char>(128)));
-			__m128i _b = _mm_add_epi8(b, _mm_set1_epi8(static_cast<char>(128)));
+			__m128i _a = _mm_add_epi8(a, _mm_set1_epi8(static_cast<char>(-128)));
+			__m128i _b = _mm_add_epi8(b, _mm_set1_epi8(static_cast<char>(-128)));
 			__m128i r = _mm_max_epu8(_a, _b);
-			return _mm_sub_epi8(r, _mm_set1_epi8(static_cast<char>(128)));
-#endif
+			return _mm_sub_epi8(r, _mm_set1_epi8(static_cast<char>(-128)));
+#endif*/
 		}
 
 
