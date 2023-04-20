@@ -7,7 +7,9 @@ The *any* module provides the `seq::hold_any` class and related functions to pro
 
 The seq library provides the following aliases:
 -	`seq::any`: equivalent to `seq::hold_any<seq::any_default_interface>`
+-	`seq::r_any`: relocatable version of `seq::any`
 -	`seq::nh_any`: equivalent to  `seq::hold_any<seq::any_no_hash_interface>`
+-	`seq::r_nh_any`: relocatable version of `seq::nh_any`
 
 
 ## Interface
