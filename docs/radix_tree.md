@@ -112,7 +112,7 @@ The key lookup within a leaf node is similar to what is used in swiss tables: th
 
 ## Key deletion
 
-Removing a key is straightforward. The key is first removed from its node (either a leaf or vector node) while maintaining node ordering (for sorted trees). If the leaf becomes empty it is destroying and the leaf location in the parent directory is marked as null.
+Removing a key is straightforward. The key is first removed from its node (either a leaf or vector node) while maintaining node ordering (for sorted trees). If the leaf becomes empty it is destroyed and the leaf location in the parent directory is marked as null.
 If a directory only contains null nodes, it is destroyed and its location within its parent directory is marked as null. This process keeps repeating while going upward through the tree, until a non empty directory or the root one is reached.
 
 Note that the deletion process could have benefited from the inverse strategy as the level merging (a kind of level unfolding). This would smoothen the memory pattern while deletting entries, but is also more complex and error prone.
@@ -123,8 +123,8 @@ Note that the deletion process could have benefited from the inverse strategy as
 Both `seq::radix_hash_set` and `seq::radix_hash_map` uses VART behind the scene, except that the tree structure is built upon the hashed representation of the keys instead of the keys themselves.
 The step 4 of the insertion process (key dispatching) requires to rehash the keys within a leaf node in order to find their new locations. Therefore, the tree grows using incremental rehash by chunks of 64 keys. This is very similar to *extendible hashing*, except that a poor hash function will result in an unbalanced tree (still with a low memory footprint) instead of a huge and sparsely populated root directory. With a good hash function, the tree usually becomes a flat array (root directory) of leaf nodes, ensuring fast lookups. 
 
-A `seq::radix_hash_set/map` grows rather smoothly for a hash table, with an almost linear memory pattern. The absence of memory peak makes it one of the least memory gready hash table implementation. With a 'standard' hash function like fnv1a, a `seq::radix_hash_set` has, for instance, a similar memory peak as `google::sparse_hash_set` with overall better performances.
-Another benefit of `seq::radix_hash_set/map` is its lower latency on insert/erase operations thanks to the incremental rehash, making it more suitbale for real-time applications.
+A `seq::radix_hash_set/map` grows rather smoothly for a hash table, with an almost linear memory pattern. The absence of memory peak makes it one of the least memory gready hash table implementation.
+Another benefit of `seq::radix_hash_set/map` is its lower latency on insert/erase operations thanks to the incremental rehash, making it more suitbale for firm real-time applications.
 
 ### Collision resolution
 
@@ -170,7 +170,7 @@ auto value = *set.find(1);
 
 ```
 
-`seq::radix_set` and `seq::radix_map` support keys of type `std::tuple<...>`. It is therefore possible to combine multiple elements of a key to define keys ordering. Note that this only works fir fixed size types (not string types).
+`seq::radix_set` and `seq::radix_map` support keys of type `std::tuple<...>`. It is therefore possible to combine multiple elements of a key to define keys ordering. Note that this only works for fixed size types (and therefore not string types).
 Example:
 
 ```cpp
