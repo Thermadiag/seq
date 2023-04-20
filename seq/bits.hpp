@@ -1076,11 +1076,13 @@ namespace seq
 		return static_cast<unsigned>(_tzcnt_u64(_pdep_u64(1ULL << n, x)));
 	}
 
+/*
+// This does not compile on some gcc??
 #elif ((defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3))) && defined(__BMI2__ ))
 	inline unsigned nth_bit_set(std::uint64_t x, unsigned n) noexcept {
 		return static_cast<unsigned>(_tzcnt_u64(_pdep_u64(1ULL << n, x)));
 	}
-
+*/
 #else
 	inline auto nth_bit_set(std::uint64_t x, unsigned n)noexcept -> unsigned {
 		return detail::generic_nth_bit_set(x, n);
