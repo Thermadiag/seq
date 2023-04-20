@@ -72,8 +72,10 @@ insert              |        265 ms      |        109 ms      |        219 ms   
 find                |         94 ms      |         94 ms      |        203 ms      |
 
 
-`seq::flat_set` internally uses a `seq::tiered_vector` which is very sensible to the value type size for inserting/erasing. Furtheremore, it is aware of the relocatable property of its value type, which is why there is a factor 3 speadup when inserting tstring instead of std::string. Even its lookup performance benefits from the small size of tstring as it reduces cache misses for the last stages of the find operation.
+`seq::flat_set` internally uses a `seq::tiered_vector` which is very sensible to the value type size for inserting/erasing. Furtheremore, it is aware of the relocatable property of its value type, which is why there is a factor 3 speed-up when inserting tstring instead of std::string. Even its lookup performance benefits from the small size of tstring as it reduces cache misses for the last stages of the find operation.
+
 A pure stable node based container like `std::set` does not benefit greatly from using tstring as it only reduces the size of allocated nodes. Observed speedup for find operation is probably due to the comparison operator for tstring which is slightly faster than the std::string one for small strings.
+
 `phmap::btree_set` is also a node based container, but each node can contain several elements. Note that btree_set uses a fix sized node in bytes, and its arity is computed from this size. A similar strategy is used for std::deque in most implementation to get its bucket size. Using tstring instead of std::string doubles the btree arity, increasing its overall performances for both insertion and lookup.
 	
 Within the `seq` library, the following containers provide optimizations for relocatable types:
