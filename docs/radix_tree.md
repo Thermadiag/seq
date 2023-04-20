@@ -1,6 +1,6 @@
 # Radix tree: radix based containers
 
-The `seq` library provides the conatiners `seq::radix_set`, `seq::radix_map`, `seq::radix_hash_set` and `seq::radix_hash_map` all based on the same radix tree. The First 2 ones are sorted containers while the last 2 containers are (unsorted) hash tables.
+The `seq` library provides the containers `seq::radix_set`, `seq::radix_map`, `seq::radix_hash_set` and `seq::radix_hash_map` all based on the same radix tree. The First 2 ones are sorted containers while the last 2 containers are (unsorted) hash tables.
 The Radix tree implementation provided by the `seq` library is a new kind of radix tree called VART for *Variable Arity Radix Tree*.
 
 # Radix trees
