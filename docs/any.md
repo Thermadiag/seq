@@ -331,10 +331,10 @@ The small buffer size and alignment can be changed through `hold_any` template p
 ```cpp
 
 // define an any type that can hold a tstring object on the stack
-using my_any = seq::hold_any<seq::any_default_interface, sizeof(tstring), alignof(tstring) >;
+using my_any = seq::hold_any<seq::any_default_interface, sizeof(seq::tstring), alignof(seq::tstring) >;
 
 // the tstring object is stored on the stack using the small buffer. This line does not trigger a memory allocation as tstring itself uses Small String Optimization.
-my_any a = tstring("hello");
+my_any a = seq::tstring("hello");
 
 ``` 
 
@@ -350,7 +350,7 @@ Internally, `hold_any` uses a tagged pointer to store 3 additional information o
 These information are used to optimize the copy, move assignment and destruction of `hold_any` objects.
 
 Note that, by default, `hold_any` itself is NOT relocatable as it might hold a non relocatable type inside its small buffer.
-It is possible to force `hold_any` type to be relocatable by setting the template parameter *ForceRelocatable* to true.
+It is possible to force `hold_any` type to be relocatable by setting the template parameter *Relocatable* to true.
 In this case, small but non relocatable types will be allocated on the heap instead of being stored in the small buffer.
 The global typedef `seq::r_any` and `seq::r_nh_any` are defined to provide relocatable alternatives to `seq::any` and `seq::nh_any`.
 Note that some containers (`seq::tiered_vector`, `seq::devector`, `seq::flat_set/map`) are faster with relocatable types. Furthermore, `seq::cvector` only works with relocatable types.
