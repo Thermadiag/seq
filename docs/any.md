@@ -35,7 +35,7 @@ std::cout << seq::any(std::vector<bool>()); // std::vector<bool> does not define
 
 ```
 
-The only exception is the hashing support. Indeed, there is now way in C++11 to tell at compile time if a type is hashable or not, as most implementations of `std::hash` use static_assert() in the operator() member (undetectable through SFINAE). 
+The only exception is the hashing support. Indeed, there is no way in C++11 to tell at compile time if a type is hashable or not, as most implementations of `std::hash` use static_assert() in the operator() member (undetectable through SFINAE). 
 `hold_any` optimistically assumes that all types are hashable. In order to store non hashable types, you must specialize the `seq::is_hashable` type trait for this type:
 
 ```cpp
