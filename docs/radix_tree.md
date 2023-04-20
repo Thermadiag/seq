@@ -101,7 +101,7 @@ The `seq::radix_hash_set` and `seq::radix_hash_map` classes (hash tables) use th
 
 ## Performances
 
-In term of big O notation, `seq::radix_set/map` behaves in the following way:
+In terms of big O notation, `seq::radix_set/map` behaves in the following way:
 -	Insertion is anywhere in-between O(1) and O(sqrt(N)). For evenly distributed keys (like random values), insertion will behave in O(1) thanks to the level merging. O(sqrt(N)) is the upper bound, when all entries fall into the last nodes implemented with seq::flat_set. Note that in this case, the constant factor is quite high.
 -	Likewise, lookup is anywhere in-between O(1) for evenly distributed keys and O(log(N)) (seq::flat_set behavior) with a high constant factor.
 
