@@ -38,7 +38,7 @@ The VART starts with a root directory of 4 children that contains null nodes. Wh
 4.	The child is a full leaf node with 64 keys: the leaf is removed from its parent directory, and each key is then reinserted in this directory by consuming 2 more bits. This will dispatch the keys in new leaf nodes and create intermediate directories.
 
 Therefore, as more keys are inserted, the depth of the tree will grow in a totally unbalanced way following the keys bits representation. This can be seen as a way to push the keys deeper and deeper within the tree.
-This strategy works well for arithmetic keys as they all have a unique bits representation and the depth of the tree will be bounded to (sizeof(Key)*8) / 4, therefore 16 levels at most for 64 bits keys.
+This strategy works well for arithmetic keys as they all have a unique bits representation and the depth of the tree will be bounded to (sizeof(Key)*8) / 2, therefore 32 levels at most for 64 bits keys.
 For variable length keys like strings, a couple of problem arises:
 -	Short strings bits can be exhausted at some depth of the tree. To cope with that, we consider that the remaining bits are all 0.
 -	Some sequences of input strings will always fall into the same leaf nodes. The worst possible inputs are the keys '\0', '\0\0', '\0\0\0'... as the step 4 of the insertion process (dispatch a full leaf node) will always produce a new full leaf node, that will then be dispatched to a new full leaf node, etc.

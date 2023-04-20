@@ -35,6 +35,8 @@ When the tiny_string grows beyong the preallocated threshold, memory is allocate
 
 `seq::tiny_string` does not store the memory capacity, and always use a grow factor of 2. The capacity is always deduced from the string length using compiler intrinsics (like `_BitScanReverse` on msvc). In some cases (like copy construction), the allocated capacity is the same as the string length, in which case a 1 bit flag is set to track this information.
 
+*This means that tiny_string will grow and shrink according to its content, unlike std::string that mainly releases its memory on demand (with calls to shrink_to_fit() )*. This behavior is intended, but might not fit all situations.
+
 The global typedef `seq::tstring` is provided for convenience, and is equivalent to `seq::tiny_string<char,std::char_traits<char>,std::allocator<char>,0>`.
 
 ## Static size
