@@ -39,7 +39,9 @@ namespace seq
 					++low;
 				return low;
 
-				/*SizeType start = 0, end = size;
+				/*
+				//quaternary search, keep it just in case
+				SizeType start = 0, end = size;
 				while (end > start + end_of_probe) {
 					SizeType size = end - start;
 					SizeType midFirst = (start + size / 4); //mid of first and second block

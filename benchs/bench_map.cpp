@@ -75,29 +75,17 @@ struct is_boost_map<boost::container::flat_set<C> > : std::true_type {};
 template<class C, class K>
 struct find_val
 {
-	static SEQ_ALWAYS_INLINE bool find(const C& s,const K & key, size_t& out)
+	static SEQ_ALWAYS_INLINE bool find(const C& s,const K & key)
 	{
-		auto it = s.find(key);
-		if (it != s.end()) {
-			out += convert_to_size_t(*it);
-			return true;
-		}
-		
-		return false;
+		return s.find(key) != s.end();
 	}
 };
 template<class C, class K>
 struct find_val<flat_set<C>,K>
 {
-	static SEQ_ALWAYS_INLINE bool find(const flat_set<C>& s, const K& key, size_t& out)
+	static SEQ_ALWAYS_INLINE bool find(const flat_set<C>& s, const K& key)
 	{
-		auto it = s.find_pos(key);
-		if (it != s.size()) {
-			out += convert_to_size_t(s.pos(it));
-			return true;
-		}
-		
-		return false;
+		return s.find_pos(key) != s.size();
 	}
 };
 
@@ -230,27 +218,24 @@ struct LaunchTest
 		tick();
 		size_t sum = 0;
 		for (size_t i = 0; i < success.size(); ++i)
-			SEQ_TEST(find_val<C, U>::find(set, success[i], sum));
+			SEQ_TEST(find_val<C, U>::find(set, success[i]));
 		size_t find = tock_ms();
-		print_null(sum);
-
+		
 		//find success
 		tick();
 		sum = 0;
 		for (size_t i = 0; i < success.size(); ++i)
 			SEQ_TEST(set.lower_bound( success[i]) != set.end());
 		size_t lower_bound = tock_ms();
-		print_null(sum);
-
+		
 		//find fail
 		tick();
 		sum = 0;
 		for (size_t i = 0; i < fail.size(); ++i)
-			SEQ_TEST(!find_val<C, U>::find(set, fail[i], sum));
+			SEQ_TEST(!find_val<C, U>::find(set, fail[i]));
 			//SEQ_TEST(set.lower_bound(fail[i]) != typename C::const_iterator());
 		size_t find_fail = tock_ms();
-		print_null(sum);
-
+		
 		//walk
 		tick();
 		sum = 0;
