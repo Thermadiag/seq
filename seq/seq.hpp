@@ -82,13 +82,13 @@ Content
 -------
 
 The library is divided in 7 small modules:
--	\ref bits: low-level bits manipulation utilities
--	\ref hash: implementation of fnv1a and murmurhash2 algorithms
--	\ref memory: allocators and memory pools mainly used for containers
--	\ref charconv: fast arithmetic to/from string conversion
--	\ref format: fast and type safe formatting tools
--	\ref containers: main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector, compressed vector...
--	\ref any: type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.
+-	\ref bits "bits": low-level bits manipulation utilities
+-	\ref hash "hash": implementation of fnv1a and murmurhash2 algorithms
+-	\ref memory "memory": allocators and memory pools mainly used for containers
+-	\ref charconv "charconv": fast arithmetic to/from string conversion
+-	\ref format "format": fast and type safe formatting tools
+-	\ref containers "containers": main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector, compressed vector...
+-	\ref any "any": type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.
 
 A cmake project is provided for installation and compilation of tests/benchmarks.
 
@@ -98,7 +98,7 @@ Why C++11 ?
 For now the *seq* library is developped and maintained in order to remain compatible with C++11 only compilers.
 While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11.
 
-For instance, the \ref charconv and \ref format modules were developped because C++11 only compilers do not provide similar functionalities. They still provide their own specifities for more recent compilers.
+For instance, the \ref charconv "charconv" and \ref format "format" modules were developped because C++11 only compilers do not provide similar functionalities. They still provide their own specifities for more recent compilers.
 
 *seq* library was tested with gcc/10.1.0 (Windows, mingw), gcc/8.4.0 (Linux), gcc/4.8.5 (!) (Linux), msvc/14.20, msvc/14.0 (Windows), ClangCL/12.0.0 (Windows).
 

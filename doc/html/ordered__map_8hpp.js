@@ -21,10 +21,10 @@ var ordered__map_8hpp =
       [ "Front", "ordered__map_8hpp.html#ab30aadadbca04f03a4fbfafab2b975afa9ee85222ef4be71557a04ca6e1d9462a", null ],
       [ "Anywhere", "ordered__map_8hpp.html#ab30aadadbca04f03a4fbfafab2b975afaf0e0359e700bf7b06a32567d0da335ed", null ]
     ] ],
-    [ "erase_if", "ordered__map_8hpp.html#a345460864d8e607d34f3547e6d1e01fd", null ],
     [ "erase_if", "ordered__map_8hpp.html#ac8c9030a8049270841c9d1ceb949ed16", null ],
-    [ "operator!=", "ordered__map_8hpp.html#ac8a77517d376eeb44fc2615040f226b3", null ],
+    [ "erase_if", "ordered__map_8hpp.html#a345460864d8e607d34f3547e6d1e01fd", null ],
     [ "operator!=", "ordered__map_8hpp.html#a12a8e4ca5bdbbf2cd53645c2733449d0", null ],
-    [ "operator==", "ordered__map_8hpp.html#a3debed99e1f30055ff02d9d0ee009727", null ],
-    [ "operator==", "ordered__map_8hpp.html#a4308e82af69325da59bf1abe2e9b30d1", null ]
+    [ "operator!=", "ordered__map_8hpp.html#ac8a77517d376eeb44fc2615040f226b3", null ],
+    [ "operator==", "ordered__map_8hpp.html#a4308e82af69325da59bf1abe2e9b30d1", null ],
+    [ "operator==", "ordered__map_8hpp.html#a3debed99e1f30055ff02d9d0ee009727", null ]
 ];

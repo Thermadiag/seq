@@ -8,8 +8,8 @@ var structseq_1_1detail_1_1string__internal =
     [ "deallocate", "structseq_1_1detail_1_1string__internal.html#a0660a2c2897288ea568990a52265a2e2", null ],
     [ "get_allocator", "structseq_1_1detail_1_1string__internal.html#af9b4885cf1db4f306333793d5295a7c8", null ],
     [ "get_allocator", "structseq_1_1detail_1_1string__internal.html#a8307e4b67c66b5912d7333066e546034", null ],
-    [ "set_allocator", "structseq_1_1detail_1_1string__internal.html#a835e19a3f437c8c5fe5f41a42c27fd5d", null ],
     [ "set_allocator", "structseq_1_1detail_1_1string__internal.html#ad40a0add63b8bc405417fbfb23564e92", null ],
+    [ "set_allocator", "structseq_1_1detail_1_1string__internal.html#a835e19a3f437c8c5fe5f41a42c27fd5d", null ],
     [ "swap", "structseq_1_1detail_1_1string__internal.html#a20828251d2ef153046c98931540a66e7", null ],
     [ "d_union", "structseq_1_1detail_1_1string__internal.html#a17a735e52dd940182a3e7526bf5ff2d9", null ]
 ];

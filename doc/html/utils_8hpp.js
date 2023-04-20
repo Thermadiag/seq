@@ -29,7 +29,7 @@ var utils_8hpp =
       [ "OptimizeForMemory", "utils_8hpp.html#a209c3fd2e66f43ecc90862f2ee5e3dd5a51407649077d79765e15397347a57432", null ]
     ] ],
     [ "assign_allocator", "utils_8hpp.html#a3ed508491a96866338895cf1b5900292", null ],
-    [ "constexpr_if", "utils_8hpp.html#a60b1a14cbf28e77e92a346892ef8531c", null ],
+    [ "constexpr_if", "utils_8hpp.html#a377e0223950bcd7f974c1ffcd47beaf4", null ],
     [ "construct_ptr", "utils_8hpp.html#a3c3434a259385c92c1f7654356a66b4e", null ],
     [ "copy_allocator", "utils_8hpp.html#a60bee86af84ec8c55228d0b9cd79c733", null ],
     [ "destroy_ptr", "utils_8hpp.html#a4059063640bce7cc2340cfbaae099c1a", null ],

@@ -1,34 +1,10 @@
-/*
- @licstart  The following is the entire license notice for the JavaScript code in this file.
-
- The MIT License (MIT)
-
- Copyright (C) 1997-2020 by Dimitri van Heesch
-
- Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- and associated documentation files (the "Software"), to deal in the Software without restriction,
- including without limitation the rights to use, copy, modify, merge, publish, distribute,
- sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in all copies or
- substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
- @licend  The above is the entire license notice for the JavaScript code in this file
-*/
 var NAVTREE =
 [
   [ "SEQ library", "index.html", [
     [ "Seq library: original STL-like containers and container related tools", "index.html", null ],
     [ "Modules", "modules.html", "modules" ],
-    [ "Namespaces", "namespaces.html", [
-      [ "Namespace List", "namespaces.html", "namespaces_dup" ],
+    [ "Namespaces", null, [
+      [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", "namespacemembers_dup" ],
         [ "Functions", "namespacemembers_func.html", "namespacemembers_func" ],
@@ -52,8 +28,8 @@ var NAVTREE =
         [ "Related Functions", "functions_rela.html", null ]
       ] ]
     ] ],
-    [ "Files", "files.html", [
-      [ "File List", "files.html", "files_dup" ],
+    [ "Files", null, [
+      [ "File List", "files.html", "files" ],
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
@@ -68,24 +44,24 @@ var NAVTREEINDEX =
 "annotated.html",
 "classseq_1_1aligned__allocator.html#a1e4ce30f02e0d100b0f586a4f199a317",
 "classseq_1_1detail_1_1_value_wrapper.html#a445c5523ee77bd7c2e3562d02819c970",
-"classseq_1_1devector.html#ad109e7a751c2497387cfb6a918718118",
-"classseq_1_1flat__multiset.html#a3a71fd411a04e07080ac35125651124a",
-"classseq_1_1object__pool.html#a5ba0e2834a30fa3cbb4a1d895eb0f687",
-"classseq_1_1ostream__format_3_01hold__any_3_01_interface_00_01_s_00_01_a_00_01_r_01_4_00_01_slot_01_4.html#ae70d0a4e043e23259215015b9302b053",
-"classseq_1_1sequence.html#ac24c875178c78f34296252d5291aada7",
-"classseq_1_1tiny__string.html#a60c5df09730813e9b5e2247f7be6d445",
-"functions_func_~.html",
-"group__containers.html#ga3eb2adf033257d83a2a61e1d3e021fba",
-"group__containers.html#gacec0185cc2fe69b4dccafcf2bd4ddfbe",
-"sequence_8hpp.html#ae442e2e755bd42be9c7a02f8453ec61a",
-"structseq_1_1detail_1_1_bucket_manager.html#a9ee3ee70820f4ee15b2cb22964e2cc6b",
-"structseq_1_1detail_1_1_compressed_vector_internal.html#a7b92c1d3e94843a31a18cbefca84ea40",
-"structseq_1_1detail_1_1_mutex_wrapper.html#ab20c640e04341acaf08aec1cbad61a38",
-"structseq_1_1detail_1_1_store_bucket_3_01_t_00_01_allocator_00_01_value_compare_00_01true_00_01true_01_4.html#a0471effe7bf6dd5d6d4e2b1608e8c175",
-"structseq_1_1detail_1_1deque__const__iterator.html#adf521690be4c25eb1ef029d5b0473118",
-"structseq_1_1detail_1_1parallel__stats__data.html#a645731cc28353f551489e019907ed4cf",
-"structseq_1_1integral__chars__format.html",
-"structseq_1_1tiny__string_3_01_char_00_01_traits_00_01view__allocator_3_01_char_01_4_00_010_01_4.html#af610f3c827e6af13901d8dbb8de0c818"
+"classseq_1_1devector.html#ad3500ca8da2e7fd7d39523e948cceded",
+"classseq_1_1flat__multiset.html#aa5303e7efe773475176936142c7c2ba4",
+"classseq_1_1object__pool.html#aef410e4c552ff1e537ee2fe40d07c5c0",
+"classseq_1_1parallel__object__pool.html#a5012d96f9197c1d254db6753aeec177b",
+"classseq_1_1sequence.html#af358418e79ad4c4839bd2516bd44a945",
+"classseq_1_1tiny__string.html#a727d93961812cc6ba7ea894b478ef718",
+"functions_type.html",
+"group__containers.html#ga453d37cea176e7cbc113c5b94fe8319a",
+"group__containers.html#gad543d19f7faa1b5b39cdc5363778e0ef",
+"structseq_1_1any__base.html#a6810c60130f8b9cd213fdb52b31e8338",
+"structseq_1_1detail_1_1_bucket_manager.html#ad3de45f826161a70542b47606fae0dc3",
+"structseq_1_1detail_1_1_compressed_vector_internal.html#a9b831c5f18a6c2d3f3005bc4a669544a",
+"structseq_1_1detail_1_1_n_iterator.html#ab028b4b0b401ba20a2663464524bdff9",
+"structseq_1_1detail_1_1_try_insert_policy_3_01_anywhere_01_4.html",
+"structseq_1_1detail_1_1deque__iterator.html#a4f5481ff010c15165e64ca9133666766",
+"structseq_1_1detail_1_1sequence__ra__iterator.html#a05874f2784ab52dc8bfaa9307b6e62b5",
+"structseq_1_1is__generic__string__view_3_01_char_01_5_01_4.html",
+"structseq_1_1view__allocator.html#ac9d437adead782ff44bc722e07a08702"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

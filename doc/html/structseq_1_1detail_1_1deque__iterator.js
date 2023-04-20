@@ -16,14 +16,14 @@ var structseq_1_1detail_1_1deque__iterator =
     [ "deque_iterator", "structseq_1_1detail_1_1deque__iterator.html#a96e250c6d832d0cfc38c4d0961b4be3d", null ],
     [ "deque_iterator", "structseq_1_1detail_1_1deque__iterator.html#acba31f714a86b1e2730bed02b43fdec7", null ],
     [ "deque_iterator", "structseq_1_1detail_1_1deque__iterator.html#a4f5481ff010c15165e64ca9133666766", null ],
-    [ "operator*", "structseq_1_1detail_1_1deque__iterator.html#a5a33daf33d871c6664121d020d694cc5", null ],
     [ "operator*", "structseq_1_1detail_1_1deque__iterator.html#a5122ac099f8fe1f6fab9239ffaa9f543", null ],
+    [ "operator*", "structseq_1_1detail_1_1deque__iterator.html#a5a33daf33d871c6664121d020d694cc5", null ],
     [ "operator++", "structseq_1_1detail_1_1deque__iterator.html#a11066dffa8b7980481a7e94b1e229c00", null ],
     [ "operator++", "structseq_1_1detail_1_1deque__iterator.html#ae6ada8d292acc79e5a1cc8ea36e214a3", null ],
     [ "operator+=", "structseq_1_1detail_1_1deque__iterator.html#a0b767a1998b15f6a243eddeddbbbe8cd", null ],
     [ "operator--", "structseq_1_1detail_1_1deque__iterator.html#a4d560a9cb7090448a5a79917e33ae6da", null ],
     [ "operator--", "structseq_1_1detail_1_1deque__iterator.html#a2c25d24fb752cc1de7644ec10c005e52", null ],
     [ "operator-=", "structseq_1_1detail_1_1deque__iterator.html#a7e1a6b2656c15c3dab3ad876ad929500", null ],
-    [ "operator->", "structseq_1_1detail_1_1deque__iterator.html#a05b90bee269e54e423ba34c808541c82", null ],
-    [ "operator->", "structseq_1_1detail_1_1deque__iterator.html#a69143d4fc413b745ef8da9c901d69dae", null ]
+    [ "operator->", "structseq_1_1detail_1_1deque__iterator.html#a69143d4fc413b745ef8da9c901d69dae", null ],
+    [ "operator->", "structseq_1_1detail_1_1deque__iterator.html#a05b90bee269e54e423ba34c808541c82", null ]
 ];

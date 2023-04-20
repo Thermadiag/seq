@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tagpointertype_3126',['TagPointerType',['../namespaceseq.html#affae767f96f2af9924f7c6f3bdd4c72a',1,'seq']]]
+  ['tagpointertype',['TagPointerType',['../namespaceseq.html#affae767f96f2af9924f7c6f3bdd4c72a',1,'seq']]]
 ];

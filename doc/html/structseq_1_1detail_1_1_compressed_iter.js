@@ -13,8 +13,8 @@ var structseq_1_1detail_1_1_compressed_iter =
     [ "CompressedIter", "structseq_1_1detail_1_1_compressed_iter.html#a718203502ef0f5f0f815eedb5589e31e", null ],
     [ "CompressedIter", "structseq_1_1detail_1_1_compressed_iter.html#aec65d4f9a06c26403008011f8aa32567", null ],
     [ "CompressedIter", "structseq_1_1detail_1_1_compressed_iter.html#a9855a9cc5e40975862b8543b8cadbbf1", null ],
-    [ "operator*", "structseq_1_1detail_1_1_compressed_iter.html#a7aafdd659f99e435a699714a0191d00c", null ],
     [ "operator*", "structseq_1_1detail_1_1_compressed_iter.html#aeccf1e7ec9a50446a25594dc56fe5178", null ],
+    [ "operator*", "structseq_1_1detail_1_1_compressed_iter.html#a7aafdd659f99e435a699714a0191d00c", null ],
     [ "operator+", "structseq_1_1detail_1_1_compressed_iter.html#a7ec54e6cd9e752463233f839c3514735", null ],
     [ "operator++", "structseq_1_1detail_1_1_compressed_iter.html#ac56189777ce35f19adb95f0f7b72a8f0", null ],
     [ "operator++", "structseq_1_1detail_1_1_compressed_iter.html#a4ee8acc49ef8001af4844ea29660da6a", null ],
@@ -23,6 +23,6 @@ var structseq_1_1detail_1_1_compressed_iter =
     [ "operator--", "structseq_1_1detail_1_1_compressed_iter.html#a35987b966b16ffe73071825155f28d19", null ],
     [ "operator--", "structseq_1_1detail_1_1_compressed_iter.html#a1949cc0e95aae8200dd537a142025a7e", null ],
     [ "operator-=", "structseq_1_1detail_1_1_compressed_iter.html#aa64d7812411c69442c1ac32e444b3074", null ],
-    [ "operator->", "structseq_1_1detail_1_1_compressed_iter.html#ad515a1c66a6184b5cc39de0640f74b6f", null ],
-    [ "operator->", "structseq_1_1detail_1_1_compressed_iter.html#a64e982824e5de6e51c5b845facb63841", null ]
+    [ "operator->", "structseq_1_1detail_1_1_compressed_iter.html#a64e982824e5de6e51c5b845facb63841", null ],
+    [ "operator->", "structseq_1_1detail_1_1_compressed_iter.html#ad515a1c66a6184b5cc39de0640f74b6f", null ]
 ];

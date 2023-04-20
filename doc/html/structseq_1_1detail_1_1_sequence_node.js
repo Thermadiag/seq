@@ -19,8 +19,8 @@ var structseq_1_1detail_1_1_sequence_node =
     [ "null_for_search", "structseq_1_1detail_1_1_sequence_node.html#a99975d91feb1a80e5427029888bc5417", null ],
     [ "pos", "structseq_1_1detail_1_1_sequence_node.html#a780a12c0f749b29ae2ee725057407cf9", null ],
     [ "set_distance", "structseq_1_1detail_1_1_sequence_node.html#a919ee37d5055092dc729f2769246476c", null ],
-    [ "value", "structseq_1_1detail_1_1_sequence_node.html#afeaa2cc8b50475b63684c3d55f2c37f1", null ],
     [ "value", "structseq_1_1detail_1_1_sequence_node.html#a001522ca01ac255630c43b9afd512c09", null ],
+    [ "value", "structseq_1_1detail_1_1_sequence_node.html#afeaa2cc8b50475b63684c3d55f2c37f1", null ],
     [ "_dist", "structseq_1_1detail_1_1_sequence_node.html#adbbcfd2cdbc15346a39988973445e198", null ],
     [ "_hash", "structseq_1_1detail_1_1_sequence_node.html#a26b204fcba80255bcfc90825e1c474f9", null ],
     [ "storage", "structseq_1_1detail_1_1_sequence_node.html#aa44ffbd97d38f24db07e5d8a4f478791", null ]
