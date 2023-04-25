@@ -22,9 +22,11 @@
  * SOFTWARE.
  */
 
-#ifdef TEST_CVECTOR
+
 
 #include "seq/cvector.hpp"
+
+
 
 #include <deque>
 #include <list>
@@ -36,6 +38,7 @@
 #include "seq/testing.hpp"
 #include "tests.hpp"
 
+#ifdef  __SSE4_1__
 
 template<class Alloc, class U>
 using RebindAlloc = typename std::allocator_traits<Alloc>::template rebind_alloc<U>;
@@ -570,15 +573,20 @@ void test_cvector(size_t count = 5000000, const Alloc al = Alloc())
 
 int test_cvector(int , char*[])
 {
-	CountAlloc<size_t> al;
+	
 
-#ifdef TEST_CVECTOR
+#ifdef __SSE4_1__
+	CountAlloc<size_t> al;
 	// Test cvector and potential memory leak or wrong allocator propagation
 	SEQ_TEST_MODULE_RETURN(cvector, 1, test_cvector<size_t>(50000, al));
 	SEQ_TEST(get_alloc_bytes(al) == 0);
 	// Test cvector and potential memory leak on object destruction
 	SEQ_TEST_MODULE_RETURN(cvector_destroy, 1, test_cvector<TestDestroy<size_t> >(50000));
 	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+#else
+	std::cout << "cvector not available on this platform" << std::endl;
 #endif
+
+
 	return 0;
 }
