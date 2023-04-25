@@ -38,8 +38,8 @@ struct Convert
 		String wc;
 		wc.resize(cSize);
 
-		size_t cSize1;
-		mbstowcs_s(&cSize1, reinterpret_cast<wchar_t*>(&wc[0]), cSize, value, cSize);
+		/*size_t cSize1 =*/ mbstowcs(reinterpret_cast<wchar_t*>(&wc[0]), value, cSize);
+		//mbstowcs_s(&cSize1, reinterpret_cast<wchar_t*>(&wc[0]), cSize, value, cSize);
 
 		wc.pop_back();
 
