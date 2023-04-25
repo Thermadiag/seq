@@ -27,6 +27,7 @@
 #include "seq/testing.hpp"
 #include <unordered_set>
 #include <set>
+#include <cstdlib>
 
 template<class String, class Char = typename String::value_type>
 struct Convert
