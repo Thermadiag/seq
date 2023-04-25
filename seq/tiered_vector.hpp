@@ -110,7 +110,7 @@ namespace seq
 
 			SEQ_ALWAYS_INLINE void setPos(size_t new_pos) noexcept 
 			{
-				SEQ_ASSERT_DEBUG(new_pos >= 0 && new_pos <= static_cast<size_t>(mgr->d_size), "wrong iterator position");
+				SEQ_ASSERT_DEBUG( new_pos <= static_cast<size_t>(mgr->d_size), "invalid iterator position");
 
 				size_type front_size = static_cast<size_t>(mgr->d_buckets.front()->size);
 				size_type bindex = (new_pos + (static_cast<size_t>(mgr->d_bucket_size) - front_size)) >> static_cast<size_t>(mgr->d_bucket_size_bits);

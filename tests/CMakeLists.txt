@@ -69,6 +69,7 @@ add_definitions(-DSEQ_HEADER_ONLY)
 
 target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/..)
+target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/../..)
 #target_include_directories(seq_tests PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/mimalloc/include)
 
 
