@@ -57,6 +57,8 @@ namespace seq
 #include "block_codec.h"
 #include "transpose.h"
 
+#ifdef __SSE4_1__
+
 namespace seq
 {
 	/// @brief Encoder struct to be used with cvector.
@@ -116,5 +118,7 @@ namespace seq
 		}
 	};
 }
+
+#endif //__SSE4_1__
 
 #endif
