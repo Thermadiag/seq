@@ -26,6 +26,9 @@
 #define SEQ_BLOCK_CODEC_H
 
 #include "../bits.hpp"
+#include "simd.hpp"
+
+#ifdef __SSE4_1__
 
 namespace seq
 {
@@ -77,5 +80,7 @@ namespace seq
 #else
 #include "block_codec.cpp"
 #endif
+
+#endif //__SSE4_1__
 
 #endif

@@ -35,6 +35,7 @@
 #include <string>
 #include <algorithm>
 #include <iterator>
+#include <climits>
 
 
 #include "hash.hpp"

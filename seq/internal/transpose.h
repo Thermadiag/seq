@@ -28,6 +28,31 @@
 #include "simd.hpp"
 #include "../bits.hpp"
 
+#ifdef __SSE4_1__
+
+namespace seq
+{
+	namespace detail
+	{
+
+		union alignas(16) hse_vector {
+			char i8[16];
+			unsigned char u8[16];
+			unsigned short u16[8];
+			std::uint32_t u32[4];
+		};
+
+		static inline const __m128i& __get(const hse_vector& v) {
+			return *reinterpret_cast<const __m128i*>(&v);
+		}
+		static inline void __set(hse_vector& v, const __m128i& sse) {
+			_mm_store_si128(reinterpret_cast<__m128i*>(&v), sse);
+		}
+
+		typedef hse_vector hse_array_type[16];
+
+	}
+}
 
 #ifndef SEQ_HEADER_ONLY
 namespace seq
@@ -44,5 +69,6 @@ namespace seq
 #include "transpose.cpp"
 #endif
 
+#endif //__SSE4_1__
 
 #endif

@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+#ifdef __SSE4_1__
+
 #include <utility>
 #include <cstdio>
 
@@ -39,8 +41,10 @@
 
 namespace seq
 {
+
 	namespace detail
 	{
+
 		static const unsigned char header_0[2][9] = {
 			{ 0,1,2,3,4,5,6,15,15 },
 			{ 8,9,10,11,12,13,14,15,15 }
@@ -1083,3 +1087,4 @@ namespace seq
 }// end namespace seq
 
 
+#endif //__SSE4_1__

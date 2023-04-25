@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+#ifdef __SSE4_1__
+
 #include "transpose.h"
 
 namespace seq
@@ -367,7 +369,7 @@ namespace seq
 
 #endif
 
-		static inline void extractBytes_generic(std::uint32_t BPP, const char* src, std::uint32_t , hse_array_type* out_arrays)
+		static inline void extractBytes_generic(std::uint32_t BPP, const char* src, std::uint32_t , detail::hse_array_type* out_arrays)
 		{
 			char* out = reinterpret_cast<char*>(out_arrays);
 			for (unsigned y = 0; y < 256; ++y)
@@ -391,10 +393,10 @@ namespace seq
 #endif
 		else {
 			switch (BPP) {
-			case 1: detail::extract1Byte(src, reinterpret_cast<hse_array_type*>(aligned_dst)); break;
-			case 2: detail::extract2Bytes_sse3(src,  reinterpret_cast<hse_array_type*>(aligned_dst)); break;
-			case 4: detail::extract4Bytes_sse3(src,  reinterpret_cast<hse_array_type*>(aligned_dst)); break;
-			default: detail::extractBytes_generic(BPP, src, BPP, reinterpret_cast<hse_array_type*>(aligned_dst)); break;
+			case 1: detail::extract1Byte(src, reinterpret_cast<detail::hse_array_type*>(aligned_dst)); break;
+			case 2: detail::extract2Bytes_sse3(src,  reinterpret_cast<detail::hse_array_type*>(aligned_dst)); break;
+			case 4: detail::extract4Bytes_sse3(src,  reinterpret_cast<detail::hse_array_type*>(aligned_dst)); break;
+			default: detail::extractBytes_generic(BPP, src, BPP, reinterpret_cast<detail::hse_array_type*>(aligned_dst)); break;
 			}
 		}
 	}
@@ -465,3 +467,6 @@ namespace seq
 
 
 }//end namespace seq
+
+
+#endif //__SSE4_1__

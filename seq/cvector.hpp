@@ -28,6 +28,7 @@
 /** @file */
 
 
+
 namespace seq
 {
 	namespace detail
@@ -68,7 +69,7 @@ namespace std
 #include "utils.hpp"
 #include "tiny_string.hpp"
 
-
+#ifdef __SSE4_1__
 
 namespace seq
 {
@@ -3553,5 +3554,7 @@ namespace std
 	}
 
 }
+
+#endif //#ifdef __SSE4_1__
 
 #endif
