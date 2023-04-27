@@ -2476,7 +2476,8 @@ namespace seq
 		auto to_string(std::string& out) const -> size_t
 		{
 			size_t prev = out.size();
-			this->value().type()->format_any(out, this->value().data(), this->width_fmt(), this->numeric_fmt());
+			if(!this->value().empty())
+				this->value().type()->format_any(out, this->value().data(), this->width_fmt(), this->numeric_fmt());
 			return out.size() - prev;
 		}
 	};

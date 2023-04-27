@@ -24,9 +24,12 @@
 
 
 #include <utility>
-
-#include "seq/format.hpp"
-#include "seq/testing.hpp"
+#include <list>
+#include <deque>
+#include <vector>
+#include <seq/testing.hpp>
+#include <seq/any.hpp>
+#include <seq/format.hpp>
 
 
 
@@ -207,6 +210,105 @@ inline void test_format()
 
 		// Formatting custom types with custom format and alignment
 		SEQ_TEST_TO_OSTREAM("Print a pair of double centered: ******(1.2e+00, 3.4e+00)******", fmt("Print a pair of double centered: ", fmt(std::make_pair(1.2, 3.4)).t('e').c(30).f('*')));
+	}
+
+
+	{
+		// Create table. Make sure this compile without warning.
+		// Example used within format documentation.
+		
+		using namespace seq;
+
+		// Build the line format. Use join() to add a '|' character in between columns. Use _a() to format anything with the supplied width modifiers.
+		// The first column is left aligned with a width of 20 characters. The 3 remaining columns are centered on a 15 characters width.
+		auto line = join("|", _a().l(20), _a().c(15), _a().c(15), _a().c(15), "");
+		// Slot argument passed to line object. Displays a time measurement as unsigned integer followed by " ms" string
+		auto slot = fmt(_u(), "ms");
+		// Another slot argument passed to line object. Displays a time measurment as unsigned integer followed by " ms" string, and a memory measurement as unsigned integer followed by " MO" string.
+		auto slot2 = fmt(_u(), "ms / ", _u(), "MO");
+
+		// Output table header using the 'line' format object
+		std::cout << line("Operation type", "std::vector", "std::deque", "std::list") << std::endl;
+
+		// Output the  separator between table header and actual table content (something like ----|----|----|). 
+		// Use reset() to clear the line content and set the fill character to '-'
+		std::cout << line.reset('-') << std::endl;
+
+		// Reset the fill character to ' ' (blank space)
+		line.reset(' ');
+
+
+
+		// Containers to benchmark
+		std::vector<size_t> vec;
+		std::deque<size_t> deq;
+		std::list<size_t> lst;
+
+
+
+		// Benchmark back insertion for std::vector, std::deque, std::list.
+		// We measure the time spent and the program memory footprint afterward.
+
+		reset_memory_usage();
+		tick();
+		for (size_t i = 0; i < 10000000; ++i)
+			vec.push_back(i);
+		size_t tvec = tock_ms(); //measure elapsed time
+		size_t mvec = get_memory_usage() / 1000000; // measure program memory usage
+
+		reset_memory_usage();
+		tick();
+		for (size_t i = 0; i < 10000000; ++i)
+			deq.push_back(i);
+		size_t tdeq = tock_ms();
+		size_t mdeq = get_memory_usage() / 1000000; // measure program memory usage
+
+		reset_memory_usage();
+		tick();
+		for (size_t i = 0; i < 10000000; ++i)
+			lst.push_back(i);
+		size_t tlst = tock_ms();
+		size_t mlst = get_memory_usage() / 1000000;
+
+
+		// Output measurments using the 'line' format object.
+		// Note that in this situation, we must use the operator*() of the slot objects to create copies.
+		// Indeed, passing values to the slot will modify it and return a reference. By calling slot2(...) several times
+		// in the same instruction, the line object will only receive the last set values in slot2 (depending on function evaluation order).
+		std::cout << line(
+			"push_back",		// type of operation (left aligned on 20 characters)
+			*slot2(tvec, mvec), // time and memory (centered on 15 characters)
+			*slot2(tdeq, mdeq), // time and memory (centered on 15 characters)
+			*slot2(tlst, mlst)	// time and memory (centered on 15 characters)
+		) << std::endl;
+
+
+		// Benchmark iteration
+
+		tick();
+		for (auto it = vec.begin(); it != vec.end(); ++it)
+			SEQ_TEST(*it != 10000000); // Use SEQ_TEST to make sure the compiler wont 'optimize' the loop (and remove it)
+		tvec = tock_ms();
+
+		tick();
+		for (auto it = deq.begin(); it != deq.end(); ++it)
+			SEQ_TEST(*it != 10000000);
+		tdeq = tock_ms();
+
+		tick();
+		for (auto it = lst.begin(); it != lst.end(); ++it)
+			SEQ_TEST(*it != 10000000);
+		tlst = tock_ms();
+
+		// Output measurments
+		std::cout << line(
+			"iterate",		// type of operation (left aligned on 20 characters)
+			*slot(tvec),	// time (centered on 15 characters)
+			*slot(tdeq),	// time (centered on 15 characters)
+			*slot(tlst)		// time (centered on 15 characters)
+		) << std::endl;
+
+		
 	}
 }
 

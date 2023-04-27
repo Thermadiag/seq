@@ -368,8 +368,38 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 
 
 
+#include <seq/radix_map.hpp>
+#include <fstream>
+
+
+
 int bench_map(int , char ** const)
 {
+	
+	/* {
+		std::ifstream fin("words.txt");
+		std::vector<seq::tstring> vec;
+		while (true) {
+			seq::tstring s;
+			fin >> s;
+			if (fin)vec.push_back(s);
+			else
+				break;
+		}
+		{
+			std::ifstream fin("uuid.txt");
+			while (true) {
+				seq::tstring s;
+				fin >> s;
+				if (fin)vec.push_back(s);
+				else
+					break;
+			}
+		}
+
+		test_map<seq::tstring>(vec.size(), [&vec](size_t i) {return vec[i]; });
+	}*/
+
 	test_map<size_t>(4000000, [](size_t i) { return (i); });
 		 
 	random_float_genertor<double> rng;

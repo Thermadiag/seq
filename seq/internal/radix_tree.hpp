@@ -2818,7 +2818,7 @@ namespace seq
 
 			/// @brief Insert new value based on its hash value and a hint
 			template<  bool EnsureSorted, class Policy, class K, class... Args >
-			std::pair<const_iterator, bool> emplace_hash_hint(const_iterator hint, const_hash_ref h, Policy p, K && key, Args&&... args)
+			SEQ_ALWAYS_INLINE std::pair<const_iterator, bool> emplace_hash_hint(const_iterator hint, const_hash_ref h, Policy p, K && key, Args&&... args)
 			{
 				SEQ_ASSERT_DEBUG(hint.data == d_data, "");
 
@@ -2874,8 +2874,8 @@ namespace seq
 				{
 					it = this->template emplace_hash_hint<false>(it, hash_key(ExtractKey{}(*start)), EmplacePolicy{}, *start).first;
 				}
-				if(_sort_leaves)
-					sort_leaves();
+				if (_sort_leaves)
+					 sort_leaves();
 			}
 
 			/// @brief Erase range

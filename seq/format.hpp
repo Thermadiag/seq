@@ -923,10 +923,7 @@ namespace seq
 		base_ostream_format(const T& val, char base_or_format) : _value(val), _width(), _format(base_or_format) {}
 		base_ostream_format(const T& val, const numeric_format& fmt) : _value(val), _width(), _format(fmt) {}
 
-		/// reset content
-		void reset() {
-			_value.reset();
-		}
+		
 
 		//getters
 		auto base() const noexcept -> char { return _format.base(); }
@@ -944,6 +941,14 @@ namespace seq
 		auto derived() noexcept -> Derived& { return static_cast<Derived&>(*this); }
 		/// @brief Returns derived object
 		auto derived() const noexcept -> const Derived& { return static_cast<const Derived&>(*this); }
+
+		
+		/// @brief reset content while setting the fill character
+		auto reset(char c = 0) -> Derived& {
+			_value.reset();
+			if(c) fill(c);
+			return derived();
+		}
 
 		/// @brief Returns the arithmetic format options
 		auto numeric_fmt() const -> numeric_format { return _format; }
@@ -1158,6 +1163,12 @@ namespace seq
 
 		// Unused, but needed by join()
 		Derived& set_separator(...) noexcept { return derived(); }
+
+		// copy
+		Derived operator*() const {
+			return derived();
+		}
+
 	};
 
 
@@ -1925,6 +1936,28 @@ namespace seq
 
 
 
+		/// @brief Affect new values (taken from another tuple) to all members of a tuple of ostream_format objects
+		template<class Tuple, int N = std::tuple_size<Tuple>::value >
+		struct ResetTuple
+		{
+			static constexpr int tuple_size = std::tuple_size<Tuple>::value;
+
+			static void reset(Tuple& out, char c)
+			{
+				std::get<tuple_size - N>(out).reset(c);
+				ResetTuple<Tuple,  N - 1>::reset(out, c);
+			}
+		};
+		template<class Tuple>
+		struct ResetTuple<Tuple, 0>
+		{
+			static void reset(Tuple& , char )
+			{}
+		};
+
+
+
+
 		/// @brief Store separator string (only if HasSeparator is true) used by join() function
 		template<class Derived, bool HasSeparator>
 		class format_separator
@@ -1973,10 +2006,24 @@ namespace seq
 #endif
 			{}
 
+			// copy
+			Derived operator*() const {
+				return derived();
+			}
+
+
+			auto reset(char c = 0) -> Derived {
+				ResetTuple<Tuple>::reset(d_tuple, c);
+				return derived();
+			}
+
 			/// @brief Returns the width format options
 			auto width_fmt() const noexcept -> width_format { return d_width; }
 
 			void set_width_format(const width_format& f) { d_width = f; }
+
+			// Just provided for compatibility in order to store a mutli_ostream_format object in seq::any
+			void set_numeric_format(const numeric_format&) {}
 
 			/// @brief Returns width value of the width formatting options
 			auto width() const noexcept -> unsigned short { return d_width.width; }
