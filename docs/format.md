@@ -623,10 +623,12 @@ int main(int, char ** const)
 
 This displays the following table (tested with msvc):
 
-> Operation type      |  std::vector  |  std::deque   |   std::list   |
-> --------------------|---------------|---------------|---------------|
-> push_back           |  55ms / 81MO  | 212ms / 228MO | 359ms / 322MO |
-> iterate             |     19ms      |     58ms      |     72ms      |
+<!-- language: lang-none -->
+
+	Operation type      |  std::vector  |  std::deque   |   std::list   |
+	--------------------|---------------|---------------|---------------|
+	push_back           |  55ms / 81MO  | 212ms / 228MO | 359ms / 322MO |
+	iterate             |     19ms      |     58ms      |     72ms      |
 
 
 ## Performances
