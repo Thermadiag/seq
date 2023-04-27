@@ -506,7 +506,7 @@ std::cout<< f2( 3, fmt(1,2,3) ) <<std::endl;
 
 ## Build tables
 
-The *format* module provides ways to simply the process of building a markdown table. Note that all tables displayed in benchmarks are built using the format module.
+The *format* module provides ways to simply the process of building a markdown table. Note that all tables displayed in benchmarks and provided in this documentation are built using the format module.
 The following complete example builds a table that displays the performances of std::vector, std::deque and std::list for back insertion and iteration.
 
 ```cpp
