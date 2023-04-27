@@ -8,6 +8,7 @@ enable_testing()
 # create the testing file and list of tests
 create_test_sourcelist (Benchs
   seq_benchs.cpp
+  bench_format.cpp
   bench_hash.cpp
   bench_mem_pool.cpp
   bench_map.cpp

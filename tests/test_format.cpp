@@ -316,6 +316,7 @@ inline void test_format()
 
 int test_format(int , char*[])
 {
+	
 	SEQ_TEST_MODULE_RETURN(format, 1, test_format());
 	return 0;
 }

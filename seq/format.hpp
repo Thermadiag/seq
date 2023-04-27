@@ -2384,102 +2384,102 @@ namespace seq
 
 
 
-	static inline auto fmt(float value, char format) -> ostream_format<float>
+	inline auto fmt(float value, char format) -> ostream_format<float>
 	{
 		// Floating point formatting
 		return ostream_format<float>(value, format);
 	}
-	static inline auto _fmt(float value, char format) -> ostream_format<float,true>
+	inline auto _fmt(float value, char format) -> ostream_format<float,true>
 	{
 		// Floating point formatting
 		return ostream_format<float,true>(value, format);
 	}
 	
-	static inline auto fmt(double value, char format) -> ostream_format<double>
+	inline auto fmt(double value, char format) -> ostream_format<double>
 	{
 		// Floating point formatting
 		return ostream_format<double>(value, format);
 	}
-	static inline auto _fmt(double value, char format) -> ostream_format<double,true>
+	inline auto _fmt(double value, char format) -> ostream_format<double,true>
 	{
 		// Floating point formatting
 		return ostream_format<double,true>(value, format);
 	}
 	
-	static inline auto fmt(long double value, char format) -> ostream_format<long double>
+	inline auto fmt(long double value, char format) -> ostream_format<long double>
 	{
 		// Floating point formatting
 		return ostream_format<long double>(value, format);
 	}
-	static inline auto _fmt(long double value, char format) -> ostream_format<long double,true>
+	inline auto _fmt(long double value, char format) -> ostream_format<long double,true>
 	{
 		// Floating point formatting
 		return ostream_format<long double,true>(value, format);
 	}
 
 	
-	static inline auto fmt(const char* str) -> ostream_format<tstring_view>
+	inline auto fmt(const char* str) -> ostream_format<tstring_view>
 	{
 		// String formatting
 		return ostream_format<tstring_view>(tstring_view(str));
 	}
-	static inline auto _fmt(const char* str) -> ostream_format<tstring_view,true>
+	inline auto _fmt(const char* str) -> ostream_format<tstring_view,true>
 	{
 		// String formatting
 		return ostream_format<tstring_view,true>(tstring_view(str));
 	}
 	
-	static inline auto fmt(const char* str, size_t size) -> ostream_format<tstring_view>
+	inline auto fmt(const char* str, size_t size) -> ostream_format<tstring_view>
 	{
 		return ostream_format<tstring_view>(tstring_view(str, size));
 	}
-	static inline auto _fmt(const char* str, size_t size) -> ostream_format<tstring_view,true>
+	inline auto _fmt(const char* str, size_t size) -> ostream_format<tstring_view,true>
 	{
 		return ostream_format<tstring_view,true>(tstring_view(str, size));
 	}
 	
-	static inline auto fmt(const std::string& str) -> ostream_format<tstring_view>
+	inline auto fmt(const std::string& str) -> ostream_format<tstring_view>
 	{
 		// String formatting
 		return ostream_format<tstring_view>(tstring_view(str.data(), str.size()));
 	}
-	static inline auto _fmt(const std::string& str) -> ostream_format<tstring_view,true>
+	inline auto _fmt(const std::string& str) -> ostream_format<tstring_view,true>
 	{
 		// String formatting
 		return ostream_format<tstring_view,true>(tstring_view(str.data(), str.size()));
 	}
 	
 	template<class Traits, size_t Ss, class Al>
-	static inline auto fmt(const tiny_string<char,Traits, Al,Ss>& str) -> ostream_format<tstring_view>
+	inline auto fmt(const tiny_string<char,Traits, Al,Ss>& str) -> ostream_format<tstring_view>
 	{
 		// String formatting
 		return ostream_format<tstring_view>(tstring_view(str.data(), str.size()));
 	}
 	template<class Traits, size_t Ss, class Al>
-	static inline auto _fmt(const tiny_string<char, Traits, Al, Ss>& str) -> ostream_format<tstring_view,true>
+	inline auto _fmt(const tiny_string<char, Traits, Al, Ss>& str) -> ostream_format<tstring_view,true>
 	{
 		// String formatting
 		return ostream_format<tstring_view,true>(tstring_view(str.data(), str.size()));
 	}
 
-	static inline auto fmt(const tstring_view& str) -> ostream_format<tstring_view>
+	inline auto fmt(const tstring_view& str) -> ostream_format<tstring_view>
 	{
 		// String formatting
 		return ostream_format<tstring_view>(str);
 	}
-	static inline auto _fmt(const tstring_view& str) -> ostream_format<tstring_view,true>
+	inline auto _fmt(const tstring_view& str) -> ostream_format<tstring_view,true>
 	{
 		// String formatting
 		return ostream_format<tstring_view,true>(str);
 	}
 
 #ifdef SEQ_HAS_CPP_17
-	static inline ostream_format<tstring_view> fmt(const std::string_view& str)
+	inline ostream_format<tstring_view> fmt(const std::string_view& str)
 	{
 		// String formatting
 		return ostream_format<tstring_view>(tstring_view(str.data(), str.size()));
 	}
-	static inline ostream_format<tstring_view,true> _fmt(const std::string_view& str)
+	inline ostream_format<tstring_view,true> _fmt(const std::string_view& str)
 	{
 		// String formatting
 		return ostream_format<tstring_view,true>(tstring_view(str.data(), str.size()));
@@ -2487,227 +2487,227 @@ namespace seq
 #endif
 
 	template<class T = double>
-	static inline auto e(T val = T()) -> ostream_format<T>
+	inline auto e(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val,'e');
 	}
 	template<class T = double>
-	static inline auto _e(T val = T()) -> ostream_format<T,true>
+	inline auto _e(T val = T()) -> ostream_format<T,true>
 	{
 		// Helper function for floating point formatting
 		return _fmt(val, 'e');
 	}
 
 	template<class T = double>
-	static inline auto E(T val = T()) -> ostream_format<T>
+	inline auto E(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'E');
 	}
 	template<class T = double>
-	static inline auto _E(T val = T()) -> ostream_format<T,true>
+	inline auto _E(T val = T()) -> ostream_format<T,true>
 	{
 		// Helper function for floating point formatting
 		return _fmt(val, 'E');
 	}
 
 	template<class T = double>
-	static inline auto g(T val = T()) -> ostream_format<T>
+	inline auto g(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'g');
 	}
 	template<class T = double>
-	static inline auto _g(T val = T()) -> ostream_format<T,true>
+	inline auto _g(T val = T()) -> ostream_format<T,true>
 	{
 		// Helper function for floating point formatting
 		return _fmt(val, 'g');
 	}
 
 	template<class T = double>
-	static inline auto G(T val = T()) -> ostream_format<T>
+	inline auto G(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'G');
 	}
 	template<class T = double>
-	static inline auto _G(T val = T()) -> ostream_format<T,true>
+	inline auto _G(T val = T()) -> ostream_format<T,true>
 	{
 		// Helper function for floating point formatting
 		return _fmt(val, 'G');
 	}
 
 	template<class T = double>
-	static inline auto f(T val = T()) -> ostream_format<T>
+	inline auto f(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'f');
 	}
 	template<class T = double>
-	static inline auto _f(T val = T()) -> ostream_format<T,true>
+	inline auto _f(T val = T()) -> ostream_format<T,true>
 	{
 		// Helper function for floating point formatting
 		return _fmt(val, 'f');
 	}
 
 	template<class T = double>
-	static inline auto F(T val = T()) -> ostream_format<T>
+	inline auto F(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for floating point formatting
 		return fmt(val, 'F');
 	}
 	template<class T = double>
-	static inline auto _F(T val = T()) -> ostream_format<T,true>
+	inline auto _F(T val = T()) -> ostream_format<T,true>
 	{
 		// Helper function for floating point formatting
 		return _fmt(val, 'F');
 	}
 
 	template<class T = typename std::make_signed<size_t>::type >
-	static inline auto dec(T val = T()) -> ostream_format<T>
+	inline auto dec(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for integral formatting
 		return fmt(val);
 	}
 	template<class T = typename std::make_signed<size_t>::type >
-	static inline auto _dec(T val = T()) -> ostream_format<T,true>
+	inline auto _dec(T val = T()) -> ostream_format<T,true>
 	{
 		// Helper function for integral formatting
 		return _fmt(val);
 	}
 
 	template<class T = typename std::make_signed<size_t>::type>
-	static inline auto d(T val = T()) -> ostream_format<T>
+	inline auto d(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for integral formatting
 		return fmt(val);
 	}
 	template<class T = typename std::make_signed<size_t>::type>
-	static inline auto _d(T val = T()) -> ostream_format<T,true>
+	inline auto _d(T val = T()) -> ostream_format<T,true>
 	{
 		// Helper function for integral formatting
 		return _fmt(val);
 	}
 
 	template<class T = size_t>
-	static inline auto u(T val = T()) -> ostream_format<T>
+	inline auto u(T val = T()) -> ostream_format<T>
 	{
 		return fmt(val);
 	}
 	template<class T = size_t>
-	static inline auto _u(T val = T()) -> ostream_format<T, true>
+	inline auto _u(T val = T()) -> ostream_format<T, true>
 	{
 		return _fmt(val);
 	}
 
 
 	template<class T = size_t>
-	static inline auto hex(T val = T()) -> ostream_format<T>
+	inline auto hex(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for integral formatting
 		return fmt(val).base(16);
 	}
 	template<class T = size_t>
-	static inline auto _hex(T val = T()) -> ostream_format<T,true>
+	inline auto _hex(T val = T()) -> ostream_format<T,true>
 	{
 		// Helper function for integral formatting
 		return _fmt(val).base(16);
 	}
 
 	template<class T = size_t>
-	static inline auto x(T val = T()) -> ostream_format<T>
+	inline auto x(T val = T()) -> ostream_format<T>
 	{
 		return fmt(val).base(16);
 	}
 	template<class T = size_t>
-	static inline auto _x(T val = T()) -> ostream_format<T,true>
+	inline auto _x(T val = T()) -> ostream_format<T,true>
 	{
 		return _fmt(val).base(16);
 	}
 
 	template<class T = size_t>
-	static inline auto X(T val = T()) -> ostream_format<T>
+	inline auto X(T val = T()) -> ostream_format<T>
 	{
 		return fmt(val).base(16).upper();
 	}
 	template<class T = size_t>
-	static inline auto _X(T val = T()) -> ostream_format<T,true>
+	inline auto _X(T val = T()) -> ostream_format<T,true>
 	{
 		return _fmt(val).base(16).upper();
 	}
 
 
 	template<class T = size_t>
-	static inline auto oct(T val = T()) -> ostream_format<T>
+	inline auto oct(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for integral formatting
 		return fmt(val).base(8);
 	}
 	template<class T = size_t>
-	static inline auto _oct(T val = T()) -> ostream_format<T,true>
+	inline auto _oct(T val = T()) -> ostream_format<T,true>
 	{
 		// Helper function for integral formatting
 		return _fmt(val).base(8);
 	}
 
 	template<class T = size_t>
-	static inline auto o(T val = T()) -> ostream_format<T>
+	inline auto o(T val = T()) -> ostream_format<T>
 	{
 		return fmt(val).base(8);
 	}
 	template<class T = size_t>
-	static inline auto _o(T val = T()) -> ostream_format<T,true>
+	inline auto _o(T val = T()) -> ostream_format<T,true>
 	{
 		return _fmt(val).base(8);
 	}
 	
 
 	template<class T = typename std::make_signed<size_t>::type >
-	static inline auto bin(T val = T()) -> ostream_format<T>
+	inline auto bin(T val = T()) -> ostream_format<T>
 	{
 		// Helper function for integral formatting
 		return fmt(val).base(2);
 	}
 	template<class T = typename std::make_signed<size_t>::type >
-	static inline auto _bin(T val = T()) -> ostream_format<T,true>
+	inline auto _bin(T val = T()) -> ostream_format<T,true>
 	{
 		// Helper function for integral formatting
 		return _fmt(val).base(2);
 	}
 
 	template<class T = char>
-	static inline auto ch(T val = T()) -> ostream_format<T>
+	inline auto ch(T val = T()) -> ostream_format<T>
 	{
 		// Format an integral value as a character
 		return fmt(val).c();
 	}
 	template<class T = char>
-	static inline auto _ch(T val = T()) -> ostream_format<T,true>
+	inline auto _ch(T val = T()) -> ostream_format<T,true>
 	{
 		// Format an integral value as a character
 		return _fmt(val).c();
 	}
 
-	static inline auto str() -> ostream_format<tstring_view>
+	inline auto str() -> ostream_format<tstring_view>
 	{
 		// Null string formatting, used with seq::fmt().
 		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
 		return fmt<tstring_view>();
 	}
-	static inline auto s() -> ostream_format<tstring_view>
+	inline auto s() -> ostream_format<tstring_view>
 	{
 		// Null string formatting, used with seq::fmt().
 		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
 		return fmt<tstring_view>();
 	}
-	static inline auto _str() -> ostream_format<tstring_view,true>
+	inline auto _str() -> ostream_format<tstring_view,true>
 	{
 		// Null string formatting, used with seq::fmt().
 		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
 		return _fmt<tstring_view>();
 	}
-	static inline auto _s() -> ostream_format<tstring_view, true>
+	inline auto _s() -> ostream_format<tstring_view, true>
 	{
 		// Null string formatting, used with seq::fmt().
 		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
@@ -2715,7 +2715,7 @@ namespace seq
 	}
 
 	/// @brief Repeat count times character c
-	static inline auto rep(char c, int count) -> ostream_format<tstring_view>
+	inline auto rep(char c, int count) -> ostream_format<tstring_view>
 	{
 		// Repeat count times character c
 		return str().l(count).f(c);

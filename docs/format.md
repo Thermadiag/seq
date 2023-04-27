@@ -648,14 +648,19 @@ The following code is a simple benchmark on writing a 4 * 1000000 table of doubl
 #include <seq/testing.hpp>
 #include <seq/format.hpp>
 
+#ifdef SEQ_HAS_CPP_20
+#include <format>
+#endif
+
+
 int main(int argc, char ** argv)
 {
 	using namespace seq;
 
 	// Generate 4M double values
-	using float_type = double;
-	random_float_genertor<float_type> rgn;
-	std::vector<float_type> vec_d;
+	using ftype = double;
+	random_float_genertor<ftype> rgn;
+	std::vector<ftype> vec_d;
 	for (int i = 0; i < 4000000; ++i)
 		vec_d.push_back(rgn());
 
@@ -667,50 +672,55 @@ int main(int argc, char ** argv)
 	// Build a table of 4 * 1000000 double values separated by a '|'. All values are centered on a 20 characters space
 	tick();
 	oss << std::setprecision(6);
-	for (size_t i = 0; i < vec_d.size()/4; ++i)
+	for (size_t i = 0; i < vec_d.size() / 4; ++i)
 	{
 		oss << std::left << std::setw(20) << vec_d[i * 4] << "|";
-		oss << std::left << std::setw(20) << vec_d[i * 4+1] << "|";
-		oss << std::left << std::setw(20) << vec_d[i * 4+2] << "|";
-		oss << std::left << std::setw(20) << vec_d[i * 4+3] << "|";
+		oss << std::left << std::setw(20) << vec_d[i * 4 + 1] << "|";
+		oss << std::left << std::setw(20) << vec_d[i * 4 + 2] << "|";
+		oss << std::left << std::setw(20) << vec_d[i * 4 + 3] << "|";
 		oss << std::endl;
 	}
 	size_t el = tock_ms();
-	std::cout << "Write table with streams: " <<el<<" ms"<< std::endl;
+	std::cout << "Write table with streams: " << el << " ms" << std::endl;
 
 
 	// Build the same table with format module
 
 	// Create the format object
-	auto f = fmt(pos<0, 2, 4, 6>(), g<float_type>().p(6).c(20), "|", g<float_type>().p(6).c(20), "|", g<float_type>().p(6).c(20), "|", g<float_type>().p(6).c(20), "|");
+	auto slot = _g<ftype>().p(6).l(20); // floating point slot with a precision of 6 and left-aligned on a 20 characters width
+	auto f = join("|",slot,  slot, slot,  slot, "");
 	tick();
 	for (size_t i = 0; i < vec_d.size() / 4; ++i)
-		oss << f(vec_d[i * 4], vec_d[i * 4+1], vec_d[i * 4+2], vec_d[i * 4+3]) << std::endl;
+		oss << f(vec_d[i * 4], vec_d[i * 4 + 1], vec_d[i * 4 + 2], vec_d[i * 4 + 3]) << std::endl;
 	el = tock_ms();
 	std::cout << "Write table with seq formatting module: " << el << " ms" << std::endl;
 
 
 	// Compare to std::format for C++20 compilers
-	// tick();
-	// for (size_t i = 0; i < vec_d.size() / 4; ++i)
-	// 	std::format_to(std::ostreambuf_iterator<char>(oss), "{:^20.6g} | {:^20.6g} | {:^20.6g} | {:^20.6g}\n", vec_d[i * 4], vec_d[i * 4 + 1], vec_d[i * 4 + 2], vec_d[i * 4 + 3]);
-	// el = tock_ms();
-	// std::cout << "Write table with std::format : " << el << " ms" << std::endl;
+#ifdef SEQ_HAS_CPP_20
+	tick();
+	for (size_t i = 0; i < vec_d.size() / 4; ++i)
+	 	std::format_to(
+			std::ostreambuf_iterator<char>(oss), 
+			"{:^20.6g} | {:^20.6g} | {:^20.6g} | {:^20.6g}\n", 
+			vec_d[i * 4], vec_d[i * 4 + 1], vec_d[i * 4 + 2], vec_d[i * 4 + 3]);
+	el = tock_ms();
+	std::cout << "Write table with std::format : " << el << " ms" << std::endl;
+#endif
 
-
-	// Just for comparison, directly dump the double values without the '|' character (but keeping centering)
+	// Just for comparison, directly dump the double values without the '|' character (but keeping alignment)
 
 	tick();
-	auto f2 = seq::fmt(float_type(), 'g').c(20);
+	auto f2 = g<ftype>().l(20);
 	for (size_t i = 0; i < vec_d.size(); ++i)
 		oss << f2(vec_d[i]);
 	el = tock_ms();
-	std::cout << "Write centered double with seq::fmt: " << el << " ms" << std::endl;
+	std::cout << "Write left-aligned double with seq::fmt: " << el << " ms" << std::endl;
 
 
-	
+
 	// use std::ostream::bad() to make sure the above tests are not simply ignored by the compiler
-	if ((int)oss.bad())
+	if (oss.bad())
 		std::cout << "error" << std::endl;
 
 
@@ -719,10 +729,12 @@ int main(int argc, char ** argv)
 
 ```
 
-Above example compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10 on a Intel(R) Core(TM) i7-10850H at 2.70GHz gives the following output:
+Above example compiled with msvc 14.20 (all optimization flags, C++20 support) on Windows 10 on a Intel(R) Core(TM) i7-10850H at 2.70GHz gives the following output:
 
-> Write table with streams: 3469 ms
+> Write table with streams: 4482 ms
 >
-> Write table with seq formatting module: 413 ms
+> Write table with seq formatting module: 677 ms
 >
-> Write centered double with seq::fmt: 366 ms
+> Write table with std::format : 1107 ms
+>
+> Write left-aligned double with seq::fmt: 519 ms

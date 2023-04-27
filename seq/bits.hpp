@@ -238,9 +238,15 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 	#if _MSVC_LANG >= 201703L
 		#define SEQ_HAS_CPP_17
 	#endif
+	#if _MSVC_LANG >= 202002L
+		#define SEQ_HAS_CPP_20
+	#endif
 #else
 	#if __cplusplus >= 201703L
 		#define SEQ_HAS_CPP_17
+	#endif
+	#if __cplusplus >= 202002L
+		#define SEQ_HAS_CPP_20
 	#endif
 #endif
 
