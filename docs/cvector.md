@@ -71,39 +71,43 @@ Thanks to this, it is possible to call `std::sort` or std::random_shuffle on a `
 ```cpp
 
 #include <seq/cvector.hpp>
-
-// for seq::random_shuffle
-#include <seq/utils.hpp>
-
-// for tick() and tock_ms()
-#include <seq/testing.hpp>
+#include <seq/utils.hpp>	// for seq::random_shuffle
+#include <seq/testing.hpp>	// for tick() and tock_ms()
 
 #include <iostream>
 
-//...
 
-using namespace seq;
-///
-cvector<int> w;
+int main(int, char** const)
+{
+	// The goal of this example is to keep track of the program memory footprint will performing some operations on a compressed vector
 
-// fill with consecutive values
-for (size_t i = 0; i < 10000000; ++i)
-	w.push_back((int)i);
+	using namespace seq;
+	cvector<int> w;
 
-std::cout << "push_back: " << w.current_compression_ratio() << std::endl;
+	// fill with consecutive values
+	for (size_t i = 0; i < 10000000; ++i)
+		w.push_back((int)i);
 
-// shuffle the cvector
-tick();
-seq::random_shuffle(w.begin(), w.end());
-size_t el = tock_ms();
-std::cout << "random_shuffle: " << w.current_compression_ratio() << " in " << el << " ms" << std::endl;
+	// very good compression ratio as data are sorted
+	std::cout << "push_back: " << w.current_compression_ratio() << std::endl;
 
-// sort the cvector
-tick();
-std::sort(w.begin(), w.end());
-el = tock_ms();
-std::cout << "sort: " << w.current_compression_ratio() << " in " << el << " ms" << std::endl;
+	// shuffle the cvector
+	tick();
+	seq::random_shuffle(w.begin(), w.end());
+	size_t el = tock_ms();
+	
+	// Bad compression ratio on random values (but still better than 1)
+	std::cout << "random_shuffle: " << w.current_compression_ratio() << " in " << el << " ms" << std::endl;
 
+	// sort the cvector
+	tick();
+	std::sort(w.begin(), w.end());
+	el = tock_ms();
+	// Go back to original ratio
+	std::cout << "sort: " << w.current_compression_ratio() << " in " << el << " ms" << std::endl;
+
+	return 0;
+}
 ``` 
 
 Below is a curve representing the program memory footprint during previous operations (extracted with Visual Studio diagnostic tools):

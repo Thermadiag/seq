@@ -1,3 +1,5 @@
+[![CTest](https://github.com/Thermadiag/seq/actions/workflows/cmake.yml/badge.svg?branch=master)](https://github.com/Thermadiag/seq/actions/workflows/cmake.yml)
+
 
 Purpose
 -------
