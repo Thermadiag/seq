@@ -80,6 +80,40 @@ Build
 The *seq* library requires compilation using cmake, but you can still use it without compilation by defining `SEQ_HEADER_ONLY`. 
 Even in header-only mode, you should use the cmake file for installation.
 Tests can be built using cmake from the `tests` folder, and benchmarks from the `benchs` folder.
+Note that for msvc build, AVX2 support is enabled by default. You should call cmake with `-DENABLE_AVX2=OFF` to disable it.
+
+Using Seq library with CMake
+----------------------------
+
+The follwing example shows how to use the *seq* library within a CMake project:
+
+```cmake
+# Dummy test project
+project(test)
+
+# Add seq installation folder
+list(APPEND CMAKE_PREFIX_PATH "path_to_seq_installation/lib/cmake/seq")
+
+# Find package seq
+find_package(seq REQUIRED)
+
+# Add include directory
+include_directories("${SEQ_INCLUDE_DIR}")
+# Add lib directory
+link_directories("${SEQ_LIB_DIR}")
+# Add sources
+add_executable(test test.cpp)
+
+# Add sse/avx flags
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+	target_compile_options(test PRIVATE /arch:AVX2)
+else()
+	target_compile_options(test PRIVATE -march=native)
+endif()
+
+# Link with seq
+target_link_libraries(test ${SEQ_LIBRARY} )
+```
 
 Acknowledgements
 ----------------

@@ -22,9 +22,11 @@
  * SOFTWARE.
  */
 
-#ifdef __SSE4_1__
+
 
 #include "transpose.h"
+
+#ifdef __SSE4_1__
 
 namespace seq
 {

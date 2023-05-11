@@ -1,9 +1,15 @@
-# This module sets the following variables:
-# * seq_FOUND - true if seq found on the system
-# * seq_INCLUDE_DIRS - the directory containing seq headers
+
 @PACKAGE_INIT@
 
-if(NOT TARGET seq)
-  include("${CMAKE_CURRENT_LIST_DIR}/seqTargets.cmake")
-  get_target_property(seq_INCLUDE_DIRS seq INTERFACE_INCLUDE_DIRECTORIES)
-endif()
+set_and_check(SEQ_INCLUDE_DIR "${PACKAGE_PREFIX_DIR}/include")
+
+math(EXPR BITS "8*${CMAKE_SIZEOF_VOID_P}")
+IF(${BITS} MATCHES "64" AND UNIX)
+	set_and_check(SEQ_LIB_DIR "${PACKAGE_PREFIX_DIR}/lib64")
+ELSE()
+	set_and_check(SEQ_LIB_DIR "${PACKAGE_PREFIX_DIR}/lib")
+ENDIF()
+
+set(SEQ_LIBRARY seq)
+
+check_required_components(seq)

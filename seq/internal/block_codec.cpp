@@ -22,10 +22,14 @@
  * SOFTWARE.
  */
 
-#ifdef __SSE4_1__
-
 #include <utility>
 #include <cstdio>
+
+#include "simd.hpp"
+
+#ifdef __SSE4_1__
+
+
 
 #include "block_codec.h"
 #include "transpose.h"
