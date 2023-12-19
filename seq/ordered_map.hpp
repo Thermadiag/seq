@@ -29,31 +29,29 @@
 
 /** @file */
 
+#include "internal/hash_utils.hpp"
 #include "sequence.hpp"
 #include "utils.hpp"
-
+#include "hash.hpp"
 
 namespace seq
 {
-	
-	
 	namespace detail
 	{
-	
-	#if (defined (__x86_64__) || defined (_M_X64)) && !defined(SEQ_NO_COMPRESSED_PTR)
-		
-		/// @brief Node type used by ordered_map/set. Stores an iterator to the underlying seq::sequence object, a part of the hash value and the distance to the right location (for robin-hood probing)
+
+
+#if (defined (__x86_64__) || defined (_M_X64)) && !defined(SEQ_NO_COMPRESSED_PTR)
+
+		/// @brief Node type used by RobinHashTable. Stores an iterator to the underlying Sequence object, a part of the hash value and the distance to the right location (for robin-hood probing)
 		/// @tparam T Object type
 		/// @tparam Extract Key extractor
-		template<class T, class Extract>
-		struct SequenceNode
+		template<class T, class Node, unsigned PosBits>
+		struct RobinNode
 		{
 			// Node stored in flat hash table. Based on tagged pointer : the last 16 bits are used to store part of the hash value and the distance.
 			using tiny_hash = std::uint8_t;
 			using dist_type = std::int16_t;
 			using value_type = T;
-			using store_type = void*;
-
 #if SEQ_BYTEORDER_ENDIAN == SEQ_BYTEORDER_LITTLE_ENDIAN
 			static constexpr int index_dist = 6;
 			static constexpr int index_hash = 7;
@@ -61,57 +59,42 @@ namespace seq
 			static constexpr int index_dist = 1;
 			static constexpr int index_hash = 0;
 #endif
-		
-			static constexpr std::uint64_t pos_bits = base_list_chunk<T>::count_bits;
+			static constexpr std::uint64_t pos_bits = PosBits;
 			static constexpr dist_type max_distance = 126;
 			static constexpr dist_type tombstone = 127;
 			static constexpr std::uint8_t mask_pos = (1ULL << pos_bits) - 1ULL;
-			static constexpr std::uint64_t mask_node = ~((1ULL << pos_bits) - 1ULL) & ((1ULL<<(64ULL- 16ULL ))-1ULL);
-			static constexpr std::uint64_t mask_node_and_pos = ((1ULL << (64ULL -16ULL)) - 1ULL);
+			static constexpr std::uint64_t mask_node = ~((1ULL << pos_bits) - 1ULL) & ((1ULL << (64ULL - 16ULL)) - 1ULL);
+			static constexpr std::uint64_t mask_node_and_pos = ((1ULL << (64ULL - 16ULL)) - 1ULL);
 
 			std::uint64_t val;
 
 			// Extract part of hash value
 			static SEQ_ALWAYS_INLINE auto small_hash(size_t h) noexcept -> tiny_hash {
-				// TEST: small can never be 0
-				tiny_hash res = ((h ) >> (sizeof(h)*8U - 8U));
+				tiny_hash res = ((h) >> (sizeof(h) * 8U - 8U));
 				return res == 0 ? 1 : res;
 			}
-		
-			SEQ_ALWAYS_INLINE SequenceNode() : val(0) { (reinterpret_cast<char*>(&val))[6] = -1; }
-			template< class Iter>
-			SEQ_ALWAYS_INLINE SequenceNode(tiny_hash h, dist_type dist, const Iter& it)
+			SEQ_ALWAYS_INLINE RobinNode() : val(0) { (reinterpret_cast<char*>(&val))[6] = -1; }
+			SEQ_ALWAYS_INLINE RobinNode(tiny_hash h, dist_type dist, std::uintptr_t it)
 			{
-				val = static_cast<std::uint64_t>(it.pos) | (reinterpret_cast<std::uint64_t>(it.node));
+				val = it;
 				(reinterpret_cast<unsigned char*>(&val))[index_hash] = h;
 				(reinterpret_cast<char*>(&val))[index_dist] = static_cast<char>(dist);
 			}
-			
+			SEQ_ALWAYS_INLINE std::uint64_t as_iter() const noexcept { return val & mask_node_and_pos; }
 			// Check if node is a tombstone (only for pure linear hashing)
-			SEQ_ALWAYS_INLINE bool is_tombstone() const noexcept {return distance() == tombstone;}
-			// check if node is valid and not a tombstone
-			SEQ_ALWAYS_INLINE bool null_for_search() const noexcept { return (val & ((1ULL << 48ULL) - 1ULL)) == 0 && distance() != tombstone; }
+			SEQ_ALWAYS_INLINE bool is_tombstone() const noexcept { return distance() == tombstone; }
 			// check if node is not null
-			SEQ_ALWAYS_INLINE bool null() const noexcept { return (val & ((1ULL << 48ULL)-1ULL)) == 0; }
+			SEQ_ALWAYS_INLINE bool null() const noexcept { return (val & ((1ULL << 48ULL) - 1ULL)) == 0; }
 			// position withing sequence chunk (max == 63)
-			SEQ_ALWAYS_INLINE auto pos() const noexcept -> std::uint8_t {return val & mask_pos;}
+			SEQ_ALWAYS_INLINE auto pos() const noexcept -> std::uint8_t { return val & mask_pos; }
 			// sequence chunk, aligned on 64 bytes at most
-			SEQ_ALWAYS_INLINE auto node() const noexcept -> detail::list_chunk<T>* {return reinterpret_cast<detail::list_chunk<T>*>(val & mask_node);}
-			SEQ_ALWAYS_INLINE auto value() const noexcept -> const T& {
-				return node()->buffer()[pos()]; 
-			}
-			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash {
-				return (reinterpret_cast<const unsigned char*>(&val))[index_hash];
-			}
-			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { 
-				return  (reinterpret_cast< const char*>(&val))[index_dist];
-			}
-			template<class Iter>
-			SEQ_ALWAYS_INLINE bool is_same(const Iter& it) const noexcept {
+			SEQ_ALWAYS_INLINE auto node() const noexcept -> Node* { return reinterpret_cast<Node*>(val & mask_node); }
+			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash { return (reinterpret_cast<const unsigned char*>(&val))[index_hash]; }
+			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { return  (reinterpret_cast<const char*>(&val))[index_dist]; }
+			SEQ_ALWAYS_INLINE bool is_same(std::uintptr_t it) const noexcept {
 				//check iterator equality
-				return node() == it.node && pos() == it.pos;
+				return (val & mask_node_and_pos) == it;
 			}
-			
 			SEQ_ALWAYS_INLINE void empty() noexcept {
 				// mark the node as null
 				val = 0;
@@ -122,121 +105,29 @@ namespace seq
 				val = 0;
 				(reinterpret_cast<char*>(&val))[index_dist] = static_cast<char>(tombstone);
 			}
-			SEQ_ALWAYS_INLINE void mark_empty(bool linear)
-			{
-				val = 0;
-				set_distance(linear ? tombstone : -1);
-			}
 			SEQ_ALWAYS_INLINE void set_distance(dist_type dist) noexcept {
-				(reinterpret_cast< char*>(&val))[index_dist] = static_cast<char>(dist);
-			}	
-
+				(reinterpret_cast<char*>(&val))[index_dist] = static_cast<char>(dist);
+			}
 		};
 
+#else
 
-		/*template<class T, class Extract>
-		struct SequenceNode
-		{
-			// Node stored in flat hash table. Based on tagged pointer : the last 16 bits are used to store part of the hash value and the distance.
-			using tiny_hash = std::uint8_t;
-			using dist_type = std::int16_t;
-			using value_type = T;
-			using store_type = void*;
-
-			static constexpr std::uint64_t pos_bits = base_list_chunk<T>::count_bits;
-			static constexpr dist_type max_distance = 126;
-			static constexpr dist_type tombstone = 127;
-			static constexpr std::uint8_t mask_pos = (1ULL << pos_bits) - 1ULL;
-			static constexpr std::uint64_t mask_node = ~((1ULL << pos_bits) - 1ULL) & ((1ULL << (64ULL - 16ULL)) - 1ULL);
-			static constexpr std::uint64_t mask_node_and_pos = ((1ULL << (64ULL - 16ULL)) - 1ULL);
-
-			alignas(alignof(std::uint64_t)) char vals[8];
-
-			// Extract part of hash value
-			static SEQ_ALWAYS_INLINE auto small_hash(size_t h) noexcept -> tiny_hash {
-				// TEST: small can never be 0
-				tiny_hash res = ((h ) >> (sizeof(h)*8U - 8U));
-				return res == 0 ? 1 : res;
-			}
-
-			SEQ_ALWAYS_INLINE SequenceNode() { memset(vals, 0, sizeof(vals)); vals[6] = -1; }
-			template< class Iter>
-			SEQ_ALWAYS_INLINE SequenceNode(tiny_hash h, dist_type dist, const Iter& it)
-			{
-				reinterpret_cast<std::uint64_t&>(vals) = static_cast<std::uint64_t>(it.pos) | (reinterpret_cast<std::uint64_t>(it.node));
-				vals[7] = static_cast<char>(h);
-				vals[6] = static_cast<char>(dist);
-			}
-
-			// Check if node is a tombstone (only for pure linear hashing)
-			SEQ_ALWAYS_INLINE bool is_tombstone() const noexcept { return distance() == tombstone; }
-			// check if node is not null
-			SEQ_ALWAYS_INLINE bool null() const noexcept { return (reinterpret_cast<const std::uint64_t&>(vals) & ((1ULL << 48ULL) - 1ULL)) == 0; }
-			// position withing sequence chunk (max == 63)
-			SEQ_ALWAYS_INLINE auto pos() const noexcept -> std::uint8_t { return static_cast<std::uint8_t>(vals[0]) & mask_pos; }
-			// sequence chunk, aligned on 64 bytes at most
-			SEQ_ALWAYS_INLINE auto node() const noexcept -> detail::list_chunk<T>* { 
-				return reinterpret_cast<detail::list_chunk<T>*>(reinterpret_cast<const std::uint64_t&>(vals) & mask_node); 
-			}
-			SEQ_ALWAYS_INLINE auto value() const noexcept -> const T& {
-				return node()->buffer()[pos()];
-			}
-			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash {
-				return static_cast<tiny_hash>(vals[7]);
-			}
-			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { return  vals[6]; }
-			template<class Iter>
-			SEQ_ALWAYS_INLINE bool is_same(const Iter& it) const noexcept {
-				//check iterator equality
-				std::uint64_t v = reinterpret_cast<const std::uint64_t&>(it.node) | static_cast<std::uint8_t>(it.pos);
-				return memcmp(&v, vals, 6) == 0;
-			}
-			SEQ_ALWAYS_INLINE bool is_same(std::uint64_t it) const noexcept {
-				//check iterator equality
-				return memcmp(&it, vals, 6) == 0;
-			}
-
-			SEQ_ALWAYS_INLINE void empty() noexcept {
-				// mark the node as null
-				memset(vals, 0, sizeof(vals));
-				vals[6] = -1;
-			}
-			SEQ_ALWAYS_INLINE void empty_tombstone() noexcept {
-				// mark the node as tombstone
-				memset(vals, 0, sizeof(vals));
-				vals[6] = static_cast<char>(tombstone);
-			}
-			SEQ_ALWAYS_INLINE void mark_empty(bool linear)
-			{
-				memset(vals, 0, sizeof(vals));
-				set_distance(linear ? tombstone : -1);
-			}
-			SEQ_ALWAYS_INLINE void set_distance(dist_type dist) noexcept {
-				vals[6] = static_cast<char>(dist);
-			}
-
-	};*/
-
-	#else
-
-		template<class T, class Extract>
-		struct SequenceNode
+		template<class T, class Node, unsigned PosBits>
+		struct RobinNode
 		{
 			// Node stored in flat hash table. Part of the hash value and the distance are stored in additinoal 8 bits integers.
 			using tiny_hash = std::uint8_t;
 			using dist_type = std::int16_t;
 			using value_type = T;
-			using key_type = T;
-			using store_type = void*;
-			static constexpr std::uint64_t pos_bits = base_list_chunk<T>::count_bits;
+			static constexpr std::uint64_t pos_bits = PosBits;
 			static constexpr dist_type max_distance = 126;
 			static constexpr dist_type tombstone = 127;
 			static constexpr std::uint64_t tag_bits = pos_bits;// tag_ptr::tag_bits;
 			static constexpr std::uint64_t mask_high = (~((1ULL << tag_bits) - 1ULL));
 			static constexpr std::uint8_t mask_low = ((1U << static_cast<unsigned>(tag_bits)) - 1U);
-			static SEQ_ALWAYS_INLINE tiny_hash small_hash(size_t h) 
-			{ 
-				tiny_hash res = ((h) >> (64U - 8U));
+			static SEQ_ALWAYS_INLINE tiny_hash small_hash(size_t h)
+			{
+				tiny_hash res = ((h) >> (sizeof(size_t)*8u - 8u));
 				return res == 0 ? 1 : res;
 			}
 
@@ -244,38 +135,29 @@ namespace seq
 			std::uint8_t _hash;
 			std::int8_t _dist;
 
-			SEQ_ALWAYS_INLINE SequenceNode():_hash(0),_dist(-1) { memset(storage, 0, sizeof(storage)); }
-			template< class Iter>
-			SEQ_ALWAYS_INLINE SequenceNode(tiny_hash h, size_t dist, const Iter& it)
+			SEQ_ALWAYS_INLINE RobinNode() :_hash(0), _dist(-1) { memset(storage, 0, sizeof(storage)); }
+			SEQ_ALWAYS_INLINE RobinNode(tiny_hash h, size_t dist, const  std::uintptr_t it)
 			{
-				std::uintptr_t p = (reinterpret_cast<std::uintptr_t>(it.node)) | (it.pos);
+				std::uintptr_t p = it;
 				memcpy(storage, &p, sizeof(p));
 				_hash = h;
 				_dist = static_cast<char>(dist);
 			}
-
-			SEQ_ALWAYS_INLINE bool is_tombstone() const noexcept { return distance() == tombstone; }
-			SEQ_ALWAYS_INLINE bool null_for_search() const noexcept { return null() && distance() != tombstone; }
-			SEQ_ALWAYS_INLINE bool null() const noexcept { return read_ptr_t(storage) == 0; }
-			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type {return _dist;}
-			SEQ_ALWAYS_INLINE auto pos() const noexcept -> std::uint8_t { return storage[0] & mask_low; }
-			SEQ_ALWAYS_INLINE auto node() const noexcept -> detail::list_chunk<T>* {return reinterpret_cast<detail::list_chunk<T>*>(read_size_t(storage) & mask_high);}
-			SEQ_ALWAYS_INLINE auto value() noexcept -> T& { return node()->buffer()[pos()]; }
-			SEQ_ALWAYS_INLINE auto value() const noexcept -> const T& { return node()->buffer()[pos()]; }
-			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash { return _hash; }// flags >> max_dist_bits;
-			template<class Iter>
-			SEQ_ALWAYS_INLINE bool is_same(const Iter& it) const noexcept {
-				return node() == it.node && pos() == it.pos;
+			SEQ_ALWAYS_INLINE std::uint64_t as_iter() const noexcept {
+				return read_size_t(storage);
 			}
-			SEQ_ALWAYS_INLINE void mark_empty(bool linear)
-			{
-				memset(storage, 0, sizeof(storage));
-				_hash = 0;
-				_dist = linear ? tombstone : -1;
+			SEQ_ALWAYS_INLINE bool is_tombstone() const noexcept { return distance() == tombstone; }
+			SEQ_ALWAYS_INLINE bool null() const noexcept { return read_ptr_t(storage) == 0; }
+			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { return _dist; }
+			SEQ_ALWAYS_INLINE auto pos() const noexcept -> std::uint8_t { return storage[0] & mask_low; }
+			SEQ_ALWAYS_INLINE auto node() const noexcept -> Node* { return reinterpret_cast<Node*>(read_size_t(storage) & mask_high); }
+			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash { return _hash; }
+			SEQ_ALWAYS_INLINE bool is_same(std::uintptr_t it) const noexcept {
+				return *reinterpret_cast<const std::uintptr_t*>(storage) == it;
 			}
 			SEQ_ALWAYS_INLINE void empty() noexcept {
 				memset(storage, 0, sizeof(storage));
-				_hash =  0;
+				_hash = 0;
 				_dist = -1;
 			}
 			SEQ_ALWAYS_INLINE void empty_tombstone() noexcept {
@@ -288,77 +170,8 @@ namespace seq
 			}
 		};
 
-	#endif
+#endif
 
-
-
-
-
-		
-		/// @brief Gather hash class and equal_to class in the same struct. Inherits both for non empty classes.
-		/// This is a simple way to handle statefull hash function or equality comparison function.
-		template< class Hash, class Equal, bool EmptyHash = std::is_empty<Hash>::value, bool EmptyEqual = std::is_empty<Equal>::value>
-		struct HashEqual : private Hash, private Equal
-		{
-			HashEqual() {}
-			HashEqual(const Hash& h, const Equal& e) : Hash(h), Equal(e) {}
-			HashEqual(const HashEqual& other) : Hash(other), Equal(other) {}
-
-			auto hash_function() const -> Hash { return static_cast<Hash&>(*this); }
-			auto key_eq() const -> Equal { return static_cast<Equal&>(*this); }
-
-			template< class... Args >
-			 auto hash(Args&&... args) const noexcept -> size_t { return (Hash::operator()(std::forward<Args>(args)...)); }
-			template< class... Args >
-			 bool operator()(Args&&... args) const noexcept { return Equal::operator()(std::forward<Args>(args)...); }
-		};
-		template< class Hash, class Equal>
-		struct HashEqual<Hash,Equal,true,true>
-		{
-			HashEqual() {}
-			HashEqual(const Hash&  /*unused*/, const Equal&  /*unused*/)  {}
-			HashEqual(const HashEqual&  /*unused*/) {}
-
-			auto hash_function() const -> Hash { return Hash(); }
-			auto key_eq() const -> Equal { return Equal(); }
-
-			template< class... Args >
-			 auto hash(Args&&... args) const noexcept -> size_t { return (Hash{}(std::forward<Args>(args)...)); }
-			template< class... Args >
-			 bool operator()(Args&&... args) const noexcept { return Equal{}(std::forward<Args>(args)...); }
-		};
-		template< class Hash, class Equal>
-		struct HashEqual<Hash, Equal, true,false> : private Equal
-		{
-			HashEqual() {}
-			HashEqual(const Hash&  /*unused*/, const Equal& e) :  Equal(e) {}
-			HashEqual(const HashEqual& other) : Equal(other) {}
-
-			auto hash_function() const -> Hash { return Hash(); }
-			auto key_eq() const -> Equal { return static_cast<Equal&>(*this); }
-
-			template< class... Args >
-			 auto hash(Args&&... args) const noexcept -> size_t { return (Hash{}(std::forward<Args>(args)...)); }
-			template< class... Args >
-			 bool operator()(Args&&... args) const noexcept { return Equal::operator()(std::forward<Args>(args)...); }
-		};
-		template< class Hash, class Equal>
-		struct HashEqual<Hash, Equal, false, true> : private Hash
-		{
-			HashEqual() {}
-			HashEqual(const Hash& h, const Equal&  /*unused*/) : Hash(h) {}
-			HashEqual(const HashEqual& other) : Hash(other) {}
-
-			auto hash_function() const -> Hash { return static_cast<Hash&>(*this); }
-			auto key_eq() const -> Equal { return Equal(); }
-
-			template< class... Args >
-			 auto hash(Args&&... args) const noexcept -> size_t { return (Hash::operator()(std::forward<Args>(args)...)); }
-			template< class... Args >
-			 bool operator()(Args&&... args) const noexcept { return Equal{}(std::forward<Args>(args)...); }
-		};
-
-		
 
 		/// @brief Insertion location within a seq::sequence object
 		enum Location
@@ -437,7 +250,12 @@ namespace seq
 			}
 		};
 
-		
+		/// @brief Extract value from a RobinNode
+		template<class T, class Node, unsigned PosBits>
+		SEQ_ALWAYS_INLINE auto sequence_node_value(const RobinNode<T, Node, PosBits>& n) noexcept -> const T&
+		{
+			return n.node()->buffer()[n.pos()];
+		}
 
 
 		/// @brief Base class for robin-hood hash table.
@@ -451,12 +269,11 @@ namespace seq
 			using extract_key = ExtractKey<Key, Value>;
 			template< class U>
 			using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
-			using node_type = SequenceNode<Value, extract_key>;
+			using node_type = RobinNode<Value, list_chunk<Value>, base_list_chunk<Value>::count_bits>;
 			using dist_type = typename node_type::dist_type;
 			using difference_type = std::ptrdiff_t;
 			using tiny_hash = typename node_type::tiny_hash;
 			using node_allocator = RebindAlloc<node_type>;
-			using bucket_vector = std::vector<node_type, RebindAlloc<node_type> >;
 			using value_type = typename extract_key::value_type;
 			using key_type = typename extract_key::key_type;
 			using mapped_type = typename extract_key::mapped_type;
@@ -486,29 +303,24 @@ namespace seq
 			{
 				(void)hash_len;
 				return hash & hash_mask;
-
-				//hash ^= hash >> 33U;
-				//hash *= UINT64_C(0xff51afd7ed558ccd);
-				//return hash >> (64ULL - hash_len);
-
-				//(void)hash_mask;
-				//return (11400714819323198485ull * hash) >> (64ULL - hash_len);
 			}
 
-			SEQ_ALWAYS_INLINE auto find_node(size_t hash, const const_iterator& it) -> node_type*
+			SEQ_ALWAYS_INLINE auto find_node(size_t hash, const const_iterator& it) noexcept -> node_type*
 			{
 				
 				// Find an existing node based on a sequence iterator and the hash value
 				size_t index = mask_hash(hash,d_hash_mask, d_hash_len);
 				for (;;) {
 					for (; index <= d_hash_mask; ++index)
-						if (d_buckets[index].is_same(it))
+						if (d_buckets[index].is_same(it.as_uint()))
 							return d_buckets + index;
 					index = 0;
 				}
 				return d_buckets + index;
 			}
-			auto find_node(const const_iterator& it) -> node_type*
+			auto find_node(const const_iterator& it) 
+				noexcept(noexcept(hash_key(std::declval<Key&>())))
+				-> node_type*
 			{
 				// Find an existing node based on a sequence iterator
 				return find_node(hash_key(extract_key::key(*it)), it);
@@ -549,7 +361,7 @@ namespace seq
 					index = mask_hash(hash , new_hash_mask,new_hash_len);
 
 					if (d_buckets[index].distance() == -1) {
-						d_buckets[index] = node_type(node_type::small_hash(hash), 0, first);
+						d_buckets[index] = node_type(node_type::small_hash(hash), 0, first.as_uint());
 						continue;
 					}
 
@@ -562,7 +374,7 @@ namespace seq
 					}
 					d_max_dist = (dist > d_max_dist) ? dist : d_max_dist;
 					node_type n = d_buckets[index];
-					d_buckets[index] = node_type(node_type::small_hash(hash), dist, first);
+					d_buckets[index] = node_type(node_type::small_hash(hash), dist, first.as_uint());
 
 					// Insert node
 					//if (dist)
@@ -581,7 +393,7 @@ namespace seq
 						index = (index == hmask) ? 0 : index + 1;
 					}
 					// Insert
-					d_buckets[index] = node_type(node_type::small_hash(hash), index == mask_hash(hash, new_hash_mask, new_hash_len) ? 0 : node_type::max_distance, first);
+					d_buckets[index] = node_type(node_type::small_hash(hash), index == mask_hash(hash, new_hash_mask, new_hash_len) ? 0 : node_type::max_distance, first.as_uint());
 					
 				}
 
@@ -620,7 +432,7 @@ namespace seq
 
 					dist = 0;
 					while (!d_buckets[index].null() && static_cast<difference_type>(dist) <= static_cast<difference_type>(d_buckets[index].distance())) {
-						if (h == d_buckets[index].hash() && (*this)(extract_key::key(d_buckets[index].value()), extract_key::key (*it)))
+						if (h == d_buckets[index].hash() && (*this)(extract_key::key(sequence_node_value(d_buckets[index])), extract_key::key (*it)))
 						{
 							dist = static_cast<size_t>(-1);
 							break;
@@ -634,7 +446,7 @@ namespace seq
 						// linear hash table, we must go up to an empty node
 						while (!d_buckets[index].null()) {
 
-							if (h == d_buckets[index].hash() && (*this)(extract_key::key(d_buckets[index].value()), extract_key::key(*it)))
+							if (h == d_buckets[index].hash() && (*this)(extract_key::key(sequence_node_value(d_buckets[index])), extract_key::key(*it)))
 							{
 								dist = static_cast<size_t>(-1);
 								break;
@@ -652,13 +464,13 @@ namespace seq
 					}
 
 					if (SEQ_UNLIKELY(d_max_dist == node_type::max_distance)) {
-						d_buckets[index] = node_type(static_cast<tiny_hash>(h), index == mask_hash(hash , new_hash_mask, new_hash_len) ? 0 : node_type::max_distance, it);
+						d_buckets[index] = node_type(static_cast<tiny_hash>(h), index == mask_hash(hash , new_hash_mask, new_hash_len) ? 0 : node_type::max_distance, it.as_uint());
 					}
 					else {
 						if (dist > static_cast<size_t>(d_max_dist))
 							d_max_dist = static_cast<int>(dist);// = (dist > node_type::max_distance) ? node_type::max_distance : dist;
 
-						node_type n = node_type(static_cast<tiny_hash>(h), static_cast<dist_type>(dist), it);
+						node_type n = node_type(static_cast<tiny_hash>(h), static_cast<dist_type>(dist), it.as_uint());
 						std::swap(n, d_buckets[index]);
 						if (dist)
 							start_insert(d_buckets, bsize, index, static_cast<dist_type>(dist), n);
@@ -683,7 +495,7 @@ namespace seq
 						index = (index == hash_mask) ? 0 : index + 1;
 						od = buckets[index].distance();
 					} while (od >= dist);
-					if (dist > d_max_dist )
+					if (SEQ_UNLIKELY(dist > d_max_dist ))
 						d_max_dist = dist = dist > node_type::max_distance ? node_type::max_distance : dist;
 
 					node.set_distance(dist);
@@ -715,12 +527,13 @@ namespace seq
 
 			explicit SparseFlatNodeHashTable(const Hash& hash,
 				const Equal& equal,
-				const Allocator& alloc) noexcept
+				const Allocator& alloc) 
 				:base_type(hash,equal), d_seq(alloc), d_buckets(null_node()), d_hash_mask(0), d_hash_len(0), d_next_target(0), d_max_dist(1), d_load_factor(0.6f)
 			{
 			}
-			SparseFlatNodeHashTable(SparseFlatNodeHashTable&& other) noexcept 				
-				:base_type(other.hash_function(), other.key_eq()), d_seq(std::move(other.d_seq)),
+			SparseFlatNodeHashTable(SparseFlatNodeHashTable&& other) 
+				noexcept(std::is_nothrow_copy_constructible<base_type>::value && std::is_nothrow_move_constructible< sequence_type>::value)
+				:base_type(other), d_seq(std::move(other.d_seq)),
 				d_buckets(other.d_buckets), d_hash_mask(other.d_hash_mask), d_hash_len(other.d_hash_len),
 				d_next_target(other.d_next_target), d_max_dist(other.d_max_dist),
 				d_load_factor(other.d_load_factor)
@@ -756,7 +569,8 @@ namespace seq
 				free_buckets(d_buckets);
 			}
 
-			void swap(SparseFlatNodeHashTable& other) noexcept
+			void swap(SparseFlatNodeHashTable& other)
+				noexcept(noexcept(std::declval<sequence_type&>().swap(std::declval<sequence_type&>())) && noexcept(std::declval<base_type&>().swap(std::declval<base_type&>())))
 			{
 				if (this != std::addressof(other)) {
 					std::swap(static_cast<base_type&>(*this), static_cast<base_type&>(other));
@@ -767,6 +581,7 @@ namespace seq
 					std::swap(d_max_dist, other.d_max_dist);
 					std::swap(d_load_factor, other.d_load_factor);
 					d_seq.swap(other.d_seq);
+					base_type::swap(other);
 				}
 			}
 
@@ -825,10 +640,10 @@ namespace seq
 			}
 			
 			template< class K >
-			SEQ_ALWAYS_INLINE auto hash_key(const K & key) const noexcept -> size_t
+			SEQ_ALWAYS_INLINE auto hash_key(const K& key) const noexcept(noexcept(std::declval<Hash&>().operator()(std::declval<K&>())))
+				-> size_t
 			{
-				// Hash the key and multiply the result.
-				return this->hash(key)  * 0xc4ceb9fe1a85ec53ull;
+				return hash_value(this->hash_function(), key);
 			}
 
 			auto max_load_factor() const noexcept -> float
@@ -856,61 +671,42 @@ namespace seq
 				return  d_hash_mask+1; 
 			}
 			
-			
 			template< class K>
-			SEQ_ALWAYS_INLINE auto find_hash(size_t hash, const K & key) const -> const_iterator
+			SEQ_ALWAYS_INLINE auto find_hash(size_t hash, const K& key) const -> const_iterator
 			{
 				// Key lookup
 				
 				const bool robin_hood = d_max_dist < (node_type::max_distance );
 				const tiny_hash h = node_type::small_hash(hash);
-				const auto* it = d_buckets + mask_hash(hash , d_hash_mask, d_hash_len);
-				const auto* end = d_buckets + d_hash_mask ;
+				const auto* it = d_buckets + mask_hash(hash, d_hash_mask, d_hash_len);
+				const auto* end = d_buckets + d_hash_mask;
+				dist_type dist = 0;
 
-				//TEST: comment first part
-				if (SEQ_UNLIKELY(!robin_hood)) {
-					// Linear probing
-					check_hash_operation();
-					while (-1 != it->distance()) {
-						if (h == it->hash() && (*this)(extract_key::key(it->value()), key))
-							return const_iterator(it->node(), it->pos());
-						it = it == end ? d_buckets : it + 1;
-					}
-				}
-				else {
-					dist_type dist = 0;
-					// Robin hood probing
-					while(dist <= it->distance()) {
-							
-						// Check for equality (first the hash part and then the key itself).
-						if (h == it->hash() && (*this)(extract_key::key(it->value()), key))
-							return const_iterator(it->node(), it->pos());
-						it = it == end ? d_buckets : it + 1;
-						++dist;
-					}
-					
-				}
-
-				// Combination of linear and robin-hood probing in the same loop. Slightly slower than 2 different loop like above.
+				// Combination of linear and robin-hood probing in the same loop. 
 				// An empty node has a distance of -1 and break the probe chain.
 				// A tombstone has a value 127 and never break the probe chain 
 				// (it is superior to node_type::max_distance which is 126, and dist is never incremented when tombstones are present: linear situation)
 				// A tombstone value is never checked as its tiny hash is 0 (which is invalid).
-				/*dist_type dist = 0;
-				while (dist <= it->distance())
+
+				if (SEQ_UNLIKELY(!robin_hood))
+					check_hash_operation();
+
+				while (!(dist > it->distance()))
 				{
 					// Check for equality (first the hash part and then the key itself).
-					if (h == it->hash() && (*this)(extract_key::key(it->value()), std::forward<Args>(args)...))
+					if (h == it->hash() && (*this)(extract_key::key(sequence_node_value(*it)), key))
 						return const_iterator(it->node(), it->pos());
 					it = it == end ? d_buckets : it + 1;
-					dist = robin_hood ? dist + 1 : 0;
-				}	*/
+					if (SEQ_LIKELY(robin_hood))
+						++dist;
+				}
 				// Failed lookup
 				return d_seq.end();
-				
 			}
+
 			template< class K >
-			SEQ_ALWAYS_INLINE auto find(const K & key) const  -> const_iterator
+			SEQ_ALWAYS_INLINE auto find(const K& key) const
+				-> const_iterator
 			{
 				return find_hash(hash_key(key), key);
 			}
@@ -926,14 +722,14 @@ namespace seq
 
 				// Pure linear hashing
 				while (!d_buckets[index].null() && !d_buckets[index].is_tombstone()) {
-					if (d_buckets[index].hash() == h && (*this)(extract_key::key(d_buckets[index].value()), extract_key::key(key)))
+					if (d_buckets[index].hash() == h && (*this)(extract_key::key(sequence_node_value(d_buckets[index])), extract_key::key(key)))
 						return std::pair< iterator, bool>(iterator(d_buckets[index].node(), d_buckets[index].pos()), false);
 					if (SEQ_UNLIKELY(++index == bucket_size()))
 						index = 0;
 				}
 
 				iterator tmp_it = Policy::emplace(d_seq, std::forward<K>(key), std::forward<Args>(args)...);
-				d_buckets[index] = node_type(h, index == mask_hash(hash , d_hash_mask, d_hash_len) ? 0 : node_type::max_distance, tmp_it);
+				d_buckets[index] = node_type(h, index == mask_hash(hash , d_hash_mask, d_hash_len) ? 0 : node_type::max_distance, tmp_it.as_uint());
 				return std::pair< iterator, bool>(tmp_it, true);
 			}
 
@@ -941,7 +737,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto insert_fast(node_type * it, tiny_hash h, Policy, K&& key, Args&&... args)->std::pair<iterator, bool>
 			{
 				iterator tmp_it = Policy::emplace(d_seq, std::forward<K>(key), std::forward<Args>(args)...);
-				*it = node_type(h, 0, tmp_it);
+				*it = node_type(h, 0, tmp_it.as_uint());
 				return std::pair< iterator, bool>(tmp_it, true);
 			}
 
@@ -953,7 +749,7 @@ namespace seq
 
 				// Find start insert location and check for equal value
 				while (dist <= it->distance()) {
-					if (it->hash() == h && (*this)(extract_key::key(it->value()), extract_key::key(key)))
+					if (it->hash() == h && (*this)(extract_key::key(sequence_node_value(*it)), extract_key::key(key)))
 						return std::pair< iterator, bool>(iterator(it->node(), it->pos()), false);
 					it = (it == end) ? d_buckets : it + 1;
 					++dist;
@@ -969,7 +765,7 @@ namespace seq
 
 				// Move nodes based on distance (robin hood hashing), only if computed distance is not null
 				node_type n = *it;
-				*it = node_type(h, dist, tmp_it);
+				*it = node_type(h, dist, tmp_it.as_uint());
 				//if (dist ) 
 				start_insert(d_buckets, d_hash_mask, static_cast<size_t>(it - d_buckets), dist, n);
 
@@ -1281,8 +1077,8 @@ namespace seq
 	/// 
 	template<
 		class Key,
-		class Hash = std::hash<Key>,
-		class KeyEqual = std::equal_to<Key>,
+		class Hash = hasher<Key>,
+		class KeyEqual = equal_to<>,
 		class Allocator = std::allocator<Key>,
 		LayoutManagement Layout = OptimizeForSpeed
 	>
@@ -1391,7 +1187,7 @@ namespace seq
 		{}
 		/// @brief Move constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
-		ordered_set(ordered_set&& other)
+		ordered_set(ordered_set&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value)
 			:base_type(std::move(other))
 		{}
 		/// @brief Move constructor
@@ -1437,7 +1233,7 @@ namespace seq
 		}
 
 		/// @brief Move assignment operator
-		auto operator=( ordered_set&& other) noexcept -> ordered_set&
+		auto operator=( ordered_set&& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) -> ordered_set&
   		{
 			base_type::swap(other);
 			return *this;
@@ -1462,9 +1258,9 @@ namespace seq
 		/// @brief Returns the container allocator object
 		auto get_allocator() const noexcept -> const allocator_type & { return this->d_seq.get_allocator(); }
 		/// @brief Returns the hash function
-		auto hash_function() const -> hasher { return this->base_type::hash_function(); }
+		auto hash_function() const noexcept -> const hasher& { return this->base_type::hash_function(); }
 		/// @brief Returns the equality comparison function
-		auto key_eq() const -> key_equal { return this->base_type::key_eq(); }
+		auto key_eq() const noexcept -> const key_equal& { return this->base_type::key_eq(); }
 		/// @brief Returns the underlying sequence object.
 		/// Calling this function will mark the container as dirty. Any further attempts to call members like find() or insert() (relying on the hash function)
 		/// will raise a std::logic_error. To mark the container as non dirty anymore, the user must call ordered_set::rehash().
@@ -1511,6 +1307,7 @@ namespace seq
 		/// Otherwise, this function does nothing.
 		/// 
 		void rehash() {this->base_type::rehash();}
+		void rehash(size_t n) { this->base_type::rehash(n); }
 		
 		/// @brief Sets the number of nodes to the number needed to accomodate at least count elements without exceeding maximum load factor and rehashes the container.
 		/// @param count new capacity of the container
@@ -1569,7 +1366,7 @@ namespace seq
 		}
 
 		/// @brief Swap this container with other
-		void swap(ordered_set& other)
+		void swap(ordered_set& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>())))
 		{
 			base_type::swap(other);
 		}
@@ -1754,7 +1551,7 @@ namespace seq
 		/// @param first range of elements to remove
 		/// @param last range of elements to remove
 		/// @return Iterator following the last removed element
-		auto erase(const_iterator first, const_iterator last) -> iterator
+		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator
 		{
 			return this->base_type::erase(first,last);
 		}
@@ -1800,27 +1597,27 @@ namespace seq
 		}
 
 		/// @brief Returns 1 of key exists, 0 otherwise
-		auto count(const Key& key) const -> size_type
+		SEQ_ALWAYS_INLINE auto count(const Key& key) const -> size_type
 		{
 			return find(key) != end();
 		}
 		/// @brief Returns 1 of key exists, 0 otherwise
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-		auto count(const K& key) const -> size_type
+			SEQ_ALWAYS_INLINE auto count(const K& key) const -> size_type
 		{
 			return find(key) != end();
 		}
 
 		/// @brief Returns true of key exists, false otherwise
-		bool contains(const Key& key) const
+		SEQ_ALWAYS_INLINE bool contains(const Key& key) const
 		{
 			return find(key) != end();
 		}
 		/// @brief Returns true of key exists, false otherwise
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>
-		bool contains(const K& key) const
+			SEQ_ALWAYS_INLINE bool contains(const K& key) const
 		{
 			return find(key) != end();
 		}
@@ -1864,8 +1661,8 @@ namespace seq
 	template<
 		class Key,
 		class T,
-		class Hash = std::hash<Key>,
-		class KeyEqual = std::equal_to<Key>,
+		class Hash = hasher<Key>,
+		class KeyEqual = equal_to<>,
 		class Allocator = std::allocator< std::pair<Key, T> >,
 		LayoutManagement Layout = OptimizeForSpeed
 	>
@@ -1953,7 +1750,7 @@ namespace seq
 			:ordered_map(other, copy_allocator( other.get_allocator()))
 		{
 		}
-		ordered_map(ordered_map&& other)
+		ordered_map(ordered_map&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value)
 			:base_type(std::move(other))
 		{}
 		ordered_map(ordered_map&& other, const Allocator& alloc)
@@ -1985,7 +1782,7 @@ namespace seq
 			}
 			return *this;
 		}
-		auto operator=(ordered_map&& other) noexcept -> ordered_map&
+		auto operator=(ordered_map&& other)  noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) -> ordered_map&
   		{
 			base_type::swap(other);
 			return *this;
@@ -2004,8 +1801,8 @@ namespace seq
 		auto get_allocator() noexcept -> allocator_type& { return this->d_seq.get_allocator(); }
 		auto get_allocator() const noexcept -> const allocator_type & { return this->d_seq.get_allocator(); }
 
-		auto hash_function() const -> hasher { return this->base_type::hash_function(); }
-		auto key_eq() const -> key_equal { return this->base_type::key_eq(); }
+		auto hash_function() const noexcept -> const hasher& { return this->base_type::hash_function(); }
+		auto key_eq() const noexcept -> const key_equal& { return this->base_type::key_eq(); }
 
 		auto sequence() noexcept -> sequence_type& { this->base_type::mark_dirty(); return this->d_seq; }
 		auto sequence() const noexcept -> const sequence_type& { return this->d_seq; }
@@ -2035,6 +1832,10 @@ namespace seq
 		{
 			this->base_type::rehash();
 		}
+		void rehash(size_t n)
+		{
+			this->base_type::rehash(n);
+		}
 		void reserve(size_t size)
 		{
 			this->base_type::reserve(size);
@@ -2043,31 +1844,31 @@ namespace seq
 		void sort(Less le)
 		{
 			sequence().sort(LessAdapter<Less>(le));
-			rehash();
+			this->base_type::rehash();
 		}
 		void sort()
 		{
 			sequence().sort(LessAdapter<std::less<Key>>());
-			rehash();
+			this->base_type::rehash();
 		}
 		template<class Less>
 		void stable_sort(Less le)
 		{
 			sequence().stable_sort(LessAdapter<Less>(le));
-			rehash();
+			this->base_type::rehash();
 		}
 		void stable_sort()
 		{
 			sequence().stable_sort(LessAdapter<std::less<Key>>());
-			rehash();
+			this->base_type::rehash();
 		}
 		void shrink_to_fit()
 		{
 			sequence().shrink_to_fit();
-			rehash();
+			this->base_type::rehash();
 		}
 
-		void swap(ordered_map& other)
+		void swap(ordered_map& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>())))
 		{
 			base_type::swap(other);
 		}
@@ -2092,7 +1893,7 @@ namespace seq
 		{
 			return this->base_type::template emplace<detail::Anywhere>(std::move(value));
 		}
-		template< class P >
+		template< class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0 >
 		SEQ_ALWAYS_INLINE auto insert(P&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template emplace<detail::Anywhere>(std::forward<P>(value));
@@ -2107,7 +1908,7 @@ namespace seq
 			(void)hint;
 			return insert(std::move(value)).first;
 		}
-		template< class P >
+		template< class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0 >
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, P&& value) -> iterator
 		{
 			(void)hint;
@@ -2127,7 +1928,7 @@ namespace seq
 
 
 		template <class M>
-		auto insert_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto insert_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto inserted = try_emplace(k, std::forward<M>(obj));
 			if (!inserted.second)
@@ -2135,7 +1936,7 @@ namespace seq
 			return inserted;
 		}
 		template <class M>
-		auto insert_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto insert_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto inserted = try_emplace(std::move(k), std::forward<M>(obj));
 			if (!inserted.second)
@@ -2143,13 +1944,13 @@ namespace seq
 			return inserted;
 		}
 		template <class M>
-		auto insert_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
+		SEQ_ALWAYS_INLINE auto insert_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return insert_or_assign(k, std::forward<M>(obj)).first;
 		}
 		template <class M>
-		auto insert_or_assign(const_iterator hint, Key&& k, M&& obj) -> iterator
+		SEQ_ALWAYS_INLINE auto insert_or_assign(const_iterator hint, Key&& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return insert_or_assign(std::move(k), std::forward<M>(obj)).first;
@@ -2157,7 +1958,7 @@ namespace seq
 
 
 		template <class M>
-		auto push_back_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto push_back_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto inserted = try_emplace_back(k, std::forward<M>(obj));
 			if (!inserted.second)
@@ -2165,7 +1966,7 @@ namespace seq
 			return inserted;
 		}
 		template <class M>
-		auto push_back_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto push_back_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto inserted = try_emplace_back(std::move(k), std::forward<M>(obj));
 			if (!inserted.second)
@@ -2173,13 +1974,13 @@ namespace seq
 			return inserted;
 		}
 		template <class M>
-		auto push_back_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
+		SEQ_ALWAYS_INLINE auto push_back_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return push_back_or_assign(k, std::forward<M>(obj)).first;
 		}
 		template <class M>
-		auto push_back_or_assign(const_iterator hint, Key&& k, M&& obj) -> iterator
+		SEQ_ALWAYS_INLINE auto push_back_or_assign(const_iterator hint, Key&& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return push_back_or_assign(std::move(k), std::forward<M>(obj)).first;
@@ -2188,7 +1989,7 @@ namespace seq
 
 
 		template <class M>
-		auto push_front_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto push_front_or_assign(const Key& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto inserted = try_emplace_front(k, std::forward<M>(obj));
 			if (!inserted.second)
@@ -2196,7 +1997,7 @@ namespace seq
 			return inserted;
 		}
 		template <class M>
-		auto push_front_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
+		SEQ_ALWAYS_INLINE auto push_front_or_assign(Key&& k, M&& obj) -> std::pair<iterator, bool>
 		{
 			auto inserted = try_emplace_front(std::move(k), std::forward<M>(obj));
 			if (!inserted.second)
@@ -2204,13 +2005,13 @@ namespace seq
 			return inserted;
 		}
 		template <class M>
-		auto push_front_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
+		SEQ_ALWAYS_INLINE auto push_front_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return push_front_or_assign(k, std::forward<M>(obj)).first;
 		}
 		template <class M>
-		auto push_front_or_assign(const_iterator hint, Key&& k, M&& obj) -> iterator
+		SEQ_ALWAYS_INLINE auto push_front_or_assign(const_iterator hint, Key&& k, M&& obj) -> iterator
 		{
 			(void)hint;
 			return push_front_or_assign(std::move(k), std::forward<M>(obj)).first;
@@ -2230,7 +2031,7 @@ namespace seq
 		{
 			return this->base_type::template emplace<detail::Back>(std::move(value));
 		}
-		template<class P>
+		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto push_back(P&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template emplace<detail::Back>(std::forward<P>(value));
@@ -2249,7 +2050,7 @@ namespace seq
 		{
 			return this->base_type::template emplace<detail::Front>(std::move(value));
 		}
-		template<class P>
+		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto push_front(P&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template emplace<detail::Front>(std::forward<P>(value));

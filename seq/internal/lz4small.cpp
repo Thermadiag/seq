@@ -355,49 +355,12 @@ static inline reg_t LZ4_read_ARCH(const void* memPtr)
     reg_t val; memcpy(&val, memPtr, sizeof(val)); return val;
 }
 
-static inline void LZ4_write16(void* memPtr, U16 value)
-{
-    memcpy(memPtr, &value, sizeof(value));
-}
-
 static inline void LZ4_write32(void* memPtr, U32 value)
 {
     memcpy(memPtr, &value, sizeof(value));
 }
 
 
-
-static inline U16 LZ4_readLE16(const void* memPtr)
-{
-    if (LZ4_isLittleEndian()) {
-        return LZ4_read16(memPtr);
-    } else {
-        const BYTE* p = (const BYTE*)memPtr;
-        return (U16)((U16)p[0] + (p[1]<<8));
-    }
-}
-
-static inline U32 LZ4_readLE32(const void* memPtr)
-{
-    U32 value;
-    memcpy(&value, memPtr, sizeof(U32));
-#if BYTEORDER_ENDIAN != BYTEORDER_LITTLE_ENDIAN
-    value = bswap_32(value);
-#endif
-    return value;
-    
-}
-
-static inline void LZ4_writeLE16(void* memPtr, U16 value)
-{
-    if (LZ4_isLittleEndian()) {
-        LZ4_write16(memPtr, value);
-    } else {
-        BYTE* p = (BYTE*)memPtr;
-        p[0] = (BYTE) value;
-        p[1] = (BYTE)(value>>8);
-    }
-}
 
 /* customized variant of memcpy, which can overwrite up to 8 bytes beyond dstEnd */
 LZ4_FORCE_O2_INLINE_GCC_PPC64LE inline
@@ -645,10 +608,10 @@ LZ4_FORCE_INLINE int LZ4_compress_generic(
     const BYTE* ip = (const BYTE*) source;
     const BYTE* base;
     const BYTE* lowLimit;
-    const BYTE* const lowRefLimit = ip - cctx->dictSize;
-    const BYTE* const dictionary = cctx->dictionary;
-    const BYTE* const dictEnd = dictionary + cctx->dictSize;
-    const ptrdiff_t dictDelta = dictEnd - (const BYTE*)source;
+    //const BYTE* const lowRefLimit = ip - cctx->dictSize;
+    //const BYTE* const dictionary = cctx->dictionary;
+    //const BYTE* const dictEnd = dictionary + cctx->dictSize;
+    //const ptrdiff_t dictDelta = dictEnd - (const BYTE*)source;
     const BYTE* anchor = (const BYTE*) source;
     const BYTE* const iend = ip + inputSize;
     const BYTE* const mflimit = iend - MFLIMIT;
@@ -889,7 +852,7 @@ LZ4_FORCE_INLINE int LZ4_decompress_generic(
     BYTE* cpy;
     BYTE* oexit = op + targetOutputSize;
 
-    const BYTE* const dictEnd = (const BYTE*)dictStart + dictSize;
+    //const BYTE* const dictEnd = (const BYTE*)dictStart + dictSize;
     const unsigned inc32table[8] = {0, 1, 2,  1,  0,  4, 4, 4};
     const int      dec64table[8] = {0, 0, 0, -1, -4,  1, 2, 3};
 

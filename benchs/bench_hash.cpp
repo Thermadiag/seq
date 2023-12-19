@@ -23,43 +23,51 @@
  */
 
 
-
 #include <unordered_set>
 #include <iostream>
 #include <fstream>
 
-#include "robin_hood/robin_hood.h"
-#if !defined( __GNUG__ ) || (__GNUC__ > 4)
-#include "ska/flat_hash_map.hpp"
-#include "ska/unordered_map.hpp"
+#ifdef _MSC_VER
+#include <concurrent_unordered_set.h>
 #endif
 
-#include "boost/unordered_set.hpp"
-#include "phmap/phmap.h"
+#include "robin_hood/robin_hood.h"
+
+
+
+#ifdef BOOST_CONCURRENT_MAP_FOUND
+#include <boost/unordered/unordered_flat_set.hpp>
+#endif
 
 
 #include <seq/testing.hpp>
 #include <seq/ordered_map.hpp>
 #include <seq/radix_hash_map.hpp>
+#include <seq/radix_map.hpp>
 #include <seq/format.hpp>
 #include <seq/any.hpp>
 #include <seq/tiny_string.hpp>
+#include <seq/concurrent_map.hpp>
+
+#ifdef SEQ_HAS_CPP_17
+#include "ankerl/unordered_dense.h"
+#include <gtl/phmap.hpp>
+#endif
+
+using namespace seq; 
 
 
-using namespace seq;
 
-
-
-template<class C>
-void erase(C& set, typename C::const_iterator it)
+template<class C, class Iter>
+void erase(C& set, Iter it)
 {
 	set.erase(it);
 }
-/*template<class T, class H, class E, class A, class V, class It>
-void erase(tsl::ordered_set<T,H,E,A,V> & set, It it)
+template<class C>
+void reserve(C& set, size_t count)
 {
-	set.unordered_erase(it);
-}*/
+	set.reserve(count);
+}
 
 
 template<class T>
@@ -89,6 +97,35 @@ size_t count_iter(Iter start, Iter end)
 	return count;
 }
 
+
+template<class C>
+size_t walk_set(C& set)
+{
+	size_t sum = 0;
+	auto end = set.end();
+	for (auto it = set.begin(); it != end; ++it) 
+		sum += to_size_t(*it);
+	return sum;
+}
+
+template<
+	class Key,
+	class Hash ,
+	class Equal ,
+	class Allocator,
+	unsigned Shards
+>
+size_t walk_set(concurrent_set<Key, Hash, Equal, Allocator, Shards>& set)
+{
+	size_t sum = 0;
+	set.cvisit_all([&](const auto& v) {sum += to_size_t(v); });
+	return sum;
+}
+
+
+inline bool test_insert(bool v) { return v; }
+template<class T>
+inline bool test_insert(const std::pair<T,bool> & v) { return v.second; }
 
 template<class C>
 struct is_radix_set : std::false_type {};
@@ -126,8 +163,10 @@ struct LaunchTest
 			start_mem = get_memory_usage();
 			C s;
 			tick();
-			s.reserve(success.size());
+			//s.reserve(success.size());
+			reserve(s, success.size());
 			for (int i = 0; i < success.size(); ++i) {
+				
 				s.insert(success[i]);
 			}
 			insert_reserve = tock_ms();
@@ -141,7 +180,6 @@ struct LaunchTest
 		tick();
 		for (size_t i = 0; i < success.size(); ++i)
 		{
-
 			set.insert(success[i]);
 
 		}
@@ -162,8 +200,7 @@ struct LaunchTest
 		tick();
 		for (size_t i = 0; i < success.size(); ++i) {
 
-
-			if (set.insert(success[i]).second)
+			if (test_insert(set.insert(success[i])))
 				SEQ_TEST(false);
 		}
 		size_t insert_fail = tock_ms();
@@ -179,11 +216,17 @@ struct LaunchTest
 		tick();
 		for (size_t i = 0; i < success.size(); ++i) {
 
-			auto it = set.find(success[i]);
+			/*auto it = set.find(success[i]);
 			if (it != set.end())
 				sum += to_size_t(*it);
 			else
+				SEQ_TEST(false);*/
+			if (set.count(success[i]))
+				++sum;
+			else {
+				//set.count(success[i]);
 				SEQ_TEST(false);
+			}
 
 		}
 		size_t find = tock_ms(); print_null(sum);
@@ -194,12 +237,16 @@ struct LaunchTest
 		tick();
 		sum = 0;
 		for (size_t i = 0; i < failed.size(); ++i) {
-			auto it = set.find(failed[i]);
+			/*auto it = set.find(failed[i]);
 			if (it != set.end()) {
 				SEQ_TEST(false);
 				sum += to_size_t(*it);
+			}*/
+			if (set.count(failed[i])) {
+				SEQ_TEST(false)
 			}
-
+			else
+				++sum;
 		}
 		size_t failed_ = tock_ms(); print_null(sum);
 
@@ -207,11 +254,8 @@ struct LaunchTest
 
 		// walk through using iterators
 		tick();
-		sum = 0;
-		auto end = set.cend();
-		for (auto it = set.cbegin(); it != end; ++it) {
-			sum += to_size_t(*it);
-		}
+		sum = walk_set(set);
+		
 		size_t walk = tock_ms(); print_null(sum);
 
 		//std::cout << "D" << std::endl;
@@ -221,21 +265,18 @@ struct LaunchTest
 		//std::vector<T> to_erase(success);
 		//seq::random_shuffle(to_erase.begin(), to_erase.end(), 1);
 
-
+		size_t eraset = 0;
+		size_t erase_mem = 0, find_again = 0;
 		tick();
 		int i = 0;
 		size_t target = set.size() / 2;
 		while (set.size() > target) {
-			auto it = set.find(success[i]);
-			if (it != set.end()) {
-				erase(set, it);
-			}
-			else
+			if (set.erase(success[i]) != 1)
 				SEQ_TEST(false);
 			i++;
 		}
-		size_t eraset = tock_ms();
-		size_t erase_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
+		eraset = tock_ms();
+		erase_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
 
 
 		//sum = 0;
@@ -246,27 +287,18 @@ struct LaunchTest
 		tick();
 		sum = 0;
 		for (int i = 0; i < success.size(); ++i) {
-			auto it = set.find(success[i]);
-			if (it != set.end())
-				sum += to_size_t(*it);
+
+			sum += set.count(success[i]);
 		}
-		size_t find_again = tock_ms(); print_null(sum);
+		find_again = tock_ms(); print_null(sum);
 		//std::cout << sum << std::endl;
-
-
+		
+		
 		if (write)
 			std::cout << f(name, fmt(insert, insert_mem), fmt(insert_fail, insert_fail_mem), fmt(insert_reserve, insert_reserve_mem), find, failed_, walk, fmt(eraset, erase_mem), find_again) << std::endl;
 	}
 };
 
-
-
-/*template<class C, class T>
-struct LaunchTest<C, T, false>
-{
-	template<class Format>
-	static void test(const char* name, C& set, const std::vector<T>& keys, Format f, bool write) {}
-};*/
 
 
 
@@ -319,121 +351,74 @@ void test_hash(int count, Gen gen,bool save_keys=false)
 		test_hash_set("seq::ordered_set", set, keys, f, false);
 	}
 
-	// Test different tables
-	/* {
-		google::sparse_hash_set<T, Hash> set;
-		test_hash_set("google::sparse_hash_set", set, keys, f);
-	}*/
-	
-	
-	
-	/* {
-		std::unordered_set<T, Hash, seq::equal_to<> > set;
-		//set.reserve(keys.size() / 2);
-		test_hash_set("std::unordered_set", set, keys, f);
-	}*/
 	
 	{
 		ordered_set<T, Hash, seq::equal_to<> > set;
 		test_hash_set("seq::ordered_set", set, keys, f);
 	}
+#ifdef SEQ_HAS_CPP_17
+	{
+		ankerl::unordered_dense::set<T, Hash, seq::equal_to<> > set;
+		test_hash_set("ankerl::unordered_dense::set", set, keys, f);
+	}
+#endif
+	 {
+		concurrent_set<T, Hash, seq::equal_to<>, std::allocator<T>, seq::no_concurrency > set;
+		test_hash_set("seq::concurrent_set", set, keys, f);
+	}
+	
 	
 	
 	 {
 		 radix_hash_set<T, Hash, seq::equal_to<> > set;
-		  test_hash_set("radix_hash_set", set, keys, f);
+		 //radix_set<T> set;
+		  test_hash_set("seq::radix_hash_set", set, keys, f);
 	 } 
-	 
-	  /* {
-		 tsl::sparse_set<T, Hash, seq::equal_to<> > set;
-		 //spp::sparse_hash_set<T, Hash, seq::equal_to<> > set;
-		 //google::sparse_hash_set<T, Hash, seq::equal_to<> > set;
-		 //seq::ordered_set< T, Hash, seq::equal_to<> > set;
-		 test_hash_set("tsl::sparse_set", set, keys, f);
-	 }*/
-	  {
-		 phmap::flat_hash_set<T, Hash, seq::equal_to<> > set;
-		 test_hash_set("phmap::flat_hash_set", set, keys, f);
+	 {
+		 robin_hood::unordered_flat_set<T, Hash, seq::equal_to<> > set;
+		 test_hash_set("robin_hood::unordered_flat_set", set, keys, f);
 	 }
-	  /* {
-		 phmap::btree_set<T > set;
-		 test_hash_set("phmap::btree_set", set, keys, f);
-	 }*/
+#ifdef SEQ_HAS_CPP_17
+	  {
+		 gtl::flat_hash_set<T, Hash, seq::equal_to<> > set;
+		 test_hash_set("gtl::flat_hash_set", set, keys, f);
+	 }
+#endif
+#ifdef BOOST_CONCURRENT_MAP_FOUND
+	  {
+		 boost::unordered_flat_set<T, Hash, seq::equal_to<> > set;
+		  test_hash_set("boost::unordered_flat_set", set, keys, f);
+	  }
+#endif
+	 
 	  {
 		std::unordered_set <T, Hash, seq::equal_to<> > set;
 		 test_hash_set("std::unordered_set", set, keys, f);
-	 }
-	
-	 
-	
-	/* {
-		//tsl::sparse_set<T, Hash, seq::equal_to<> > set;
-		spp::sparse_hash_set<T, Hash, seq::equal_to<> > set;
-		//google::sparse_hash_set<T, Hash, seq::equal_to<> > set;
-		test_hash_set("spp::sparse_hash_set", set, keys, f);
-	}*/
-	/* {
-		tsl::sparse_set<T, Hash, seq::equal_to<> > set;
-		test_hash_set("tsl::sparse_set", set, keys, f);
-	}*/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/* {
-		ordered_set<T, Hash, seq::equal_to<> , std::allocator<T>> set;
-		test_hash_set("seq::ordered_set", set, keys,f);
-	}*/
-	
-	/* {
-		phmap::flat_hash_set<T, Hash, seq::equal_to<> > set;
-		test_hash_set("phmap::flat_hash_set", set, keys, f);
-	}*/
-	
-	/* {
-		phmap::node_hash_set<T, Hash, seq::equal_to<> > set;
-		test_hash_set("phmap::node_hash_set", set, keys,f);
 	}
-	{
-		robin_hood::unordered_node_set<T, Hash, seq::equal_to<> > set;
-		test_hash_set("robin_hood::unordered_node_set", set, keys, f);
-	}
-#if !defined( __GNUG__ ) || (__GNUC__ > 4)
-	{
-		ska::unordered_set<T, Hash, seq::equal_to<> > set;
-		test_hash_set("ska::unordered_set", set, keys, f);
-	}
-#endif
-	{
-		std::unordered_set<T, Hash, seq::equal_to<> > set;
-		//set.reserve(keys.size() / 2);
-		test_hash_set("std::unordered_set", set, keys, f);
-	}*/
 }
+
+
 
 
 int bench_hash(int, char** const)
 {
+	seq::concurrent_set<size_t, seq::hasher<size_t>, std::equal_to<>, std::allocator<size_t>, seq::no_concurrency> ss;
+	ss.emplace(2);
 	
-	test_hash<int, std::hash<int> >(8000000, [](size_t i) { return (i); });
-	test_hash<size_t, std::hash<size_t> >(8000000, [](size_t i) { return (i); });
+	test_hash<int, seq::hasher<int> >(8000000, [](size_t i) { return (i); });
+	test_hash<size_t, seq::hasher<size_t> >(8000000, [](size_t i) { return (i); });
 
 	random_float_genertor<double> rng;
-	test_hash<double, std::hash<double> >(8000000, [&rng](size_t i) { return rng(); });
+	test_hash<double, seq::hasher<double> >(8000000, [&rng](size_t i) { return rng(); });
+	
+	test_hash<tstring, seq::hasher<tstring > >(2500000, [](size_t i) { return generate_random_string<tstring >(63, false); });
 
-	test_hash<tstring, std::hash<tstring > >(2500000, [](size_t i) { return generate_random_string<tstring >(63, false); });
+	test_hash<tstring, seq::hasher<tstring> >(4000000, [](size_t i) { return generate_random_string<tstring>(1, true) + (tstring(12, ' ') + generate_random_string<tstring>(13, true)); });
 
-	test_hash<tstring, std::hash<tstring> >(4000000, [](size_t i) { return generate_random_string<tstring>(1, true) + (tstring(12, ' ') + generate_random_string<tstring>(13, true)); });
+	test_hash<tstring, seq::hasher<tstring> >(4000000, [](size_t i) { return generate_random_string<tstring>(13, true); });
+	
 
-	test_hash<tstring, std::hash<tstring> >(4000000, [](size_t i) { return generate_random_string<tstring>(13, true); });
-
-	test_hash<seq::r_any, std::hash<seq::r_any> >(2500000, [](size_t i)
+	test_hash<seq::r_any, seq::hasher<seq::r_any> >(2500000, [](size_t i)
 		{
 			size_t idx = i & 3U;
 			switch (idx) {
@@ -443,6 +428,6 @@ int bench_hash(int, char** const)
 			}
 		}
 	);
-
+	
 	return 0;
 }

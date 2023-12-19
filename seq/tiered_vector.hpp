@@ -86,7 +86,8 @@ namespace seq
 				bucket(d ? const_cast<bucket_type*>(d->d_buckets.data() + d->d_buckets.size()) : nullptr),
 				pos(d ? static_cast<difference_type>(d->size()) : 0),
 				ptr(0),
-				begin_ptr(0)
+				begin_ptr(0),
+				first_stop(0)
 			{} //end()
 			SEQ_ALWAYS_INLINE deque_const_iterator(const bucket_manager* d, size_type /*unused*/) noexcept
 				: mgr(const_cast<bucket_manager*>(d)),
@@ -718,17 +719,17 @@ namespace seq
 			}
 
 			// Pop back/front
-			void pop_back(Allocator&  /*unused*/) {
+			void pop_back(Allocator&  /*unused*/) noexcept {
 				destroy_ptr(&back());
 				--size;
 			}
-			void pop_front(Allocator&  /*unused*/) {
+			void pop_front(Allocator&  /*unused*/) noexcept {
 				destroy_ptr(buffer() + begin);
 				begin = (begin + 1) & (max_size1);
 				--size;
 			}
 			// Pop front n values
-			void pop_front_n(Allocator& allocator, cbuffer_pos n) {
+			void pop_front_n(Allocator& allocator, cbuffer_pos n) noexcept {
 				for (cbuffer_pos i = 0; i != n; ++i)
 					pop_front(allocator);
 			}
@@ -832,7 +833,7 @@ namespace seq
 
 			// Move buffer content toward the left by 1 element
 			// Might throw
-			void move_right(Allocator&  /*unused*/, cbuffer_pos pos)
+			void move_right(Allocator&  /*unused*/, cbuffer_pos pos) noexcept((std::is_nothrow_move_assignable<T>::value&& std::is_nothrow_default_constructible<T>::value) || relocatable)
 			{
 				if (!relocatable)
 					construct_ptr(&(*this)[size]);
@@ -844,7 +845,7 @@ namespace seq
 				//for (cbuffer_pos i = size - 1; i > pos; --i)
 				//	(*this)[i] = std::move((*this)[i - 1]);
 			}
-			void move_left(Allocator&  /*unused*/, cbuffer_pos pos)
+			void move_left(Allocator&  /*unused*/, cbuffer_pos pos) noexcept((std::is_nothrow_move_assignable<T>::value&& std::is_nothrow_default_constructible<T>::value) || relocatable)
 			{
 				if (!relocatable)
 					construct_ptr(&(*this)[begin ? -1 : max_size1]);
@@ -983,7 +984,7 @@ namespace seq
 				return res;
 			}
 
-			void move_erase_right_1(int pos)
+			void move_erase_right_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
 			{
 				//starting from pos, move elements toward the end
 				T* ptr1 = &at(pos);
@@ -1011,7 +1012,7 @@ namespace seq
 					else { memmove(static_cast<void*>(ptr1), static_cast<void*>(ptr1 + 1), static_cast<size_t>(stop - ptr1) * sizeof(T)); }
 				}
 			}
-			void move_erase_left_1(int pos)
+			void move_erase_left_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
 			{
 				//starting from pos, move elements toward the beginning
 				T* ptr1 = &at(pos);
@@ -1123,7 +1124,7 @@ namespace seq
 
 
 			//Erase value at given position.
-			void erase(Allocator&  /*unused*/, cbuffer_pos pos)
+			void erase(Allocator&  /*unused*/, cbuffer_pos pos) 
 			{
 				//for relocatable type, destroy value at pos since it will be memcpied over
 				if (relocatable)
@@ -1192,7 +1193,6 @@ namespace seq
 					}
 					res = static_cast<cbuffer_pos>(std::max(MinBSize, std::min(MaxBSize, res)));
 				}
-				//std::cout << size << ": " << res << " ("<< MinBSize<<","<< MaxBSize<<")"<<std::endl;
 				return res;
 			}
 		};
@@ -1223,9 +1223,8 @@ namespace seq
 			// No back value storage
 			CircularBuffer<T, Allocator>* bucket;
 
-			StoreBucket()noexcept {}
-			StoreBucket(CircularBuffer<T, Allocator>* b) noexcept
-				:bucket(b) {}
+			StoreBucket()noexcept :bucket(nullptr){}
+			StoreBucket(CircularBuffer<T, Allocator>* b) noexcept :bucket(b) {}
 			void update()noexcept {}
 			auto back() const noexcept -> const T& { return bucket->back(); }
 			auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; }
@@ -1342,7 +1341,7 @@ namespace seq
 
 		public:
 			// Construct from bucket size and allocator
-			BucketManager(cbuffer_pos bucket_size,  const Allocator & al = Allocator() ) noexcept
+			BucketManager(cbuffer_pos bucket_size,  const Allocator & al = Allocator() ) noexcept(std::is_nothrow_copy_constructible<Allocator>::value)
 				:Allocator(al),
 				d_buckets(al),
 				d_size(0),
@@ -1352,7 +1351,7 @@ namespace seq
 			{
 			}
 			// Move construct
-			BucketManager(BucketManager&& other) noexcept
+			BucketManager(BucketManager&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
 				:Allocator(std::move(other.get_allocator())),
 				d_buckets(std::move(other.d_buckets)),
 				d_size(other.d_size),
@@ -1625,10 +1624,10 @@ namespace seq
 			}
 			
 			// Move copy
-			auto operator=(BucketManager&& other) noexcept -> BucketManager&
+			auto operator=(BucketManager&& other) noexcept(noexcept(swap_allocator(std::declval<Allocator&>(), std::declval<Allocator&>()))) -> BucketManager&
 			{
 				if (this != std::addressof(other)) {
-					std::swap(get_allocator(), other.get_allocator());
+					swap_allocator(get_allocator(), other.get_allocator());
 					d_buckets.swap( other.d_buckets);
 					std::swap(d_bucket_size, other.d_bucket_size);
 					std::swap(d_bucket_size1, other.d_bucket_size1);
@@ -1972,7 +1971,7 @@ namespace seq
 				else if (SEQ_UNLIKELY(bucket_index == 0)) {
 					//insert into full first bucket
 					// Might throw, fine
-					T tmp = std::move(d_buckets[0]->insert_pop_front(get_allocator(), index, std::forward<Args>(args)...));
+					T tmp = d_buckets[0]->insert_pop_front(get_allocator(), index, std::forward<Args>(args)...);
 					try {
 						res = create_front_bucket()->push_back(get_allocator(), std::move(tmp));
 					}
@@ -1994,7 +1993,7 @@ namespace seq
 					//bucket(bucket_index)->insert<false>(index, value);
 
 					// Might throw, fine
-					T tmp = std::move(bucket(bucket_index)->insert_pop_front(get_allocator(), index, std::forward<Args>(args)...));
+					T tmp = bucket(bucket_index)->insert_pop_front(get_allocator(), index, std::forward<Args>(args)...);
 					if (StoreBackValues) d_buckets[bucket_index].update();
 
 					//propagate down to left side
@@ -2003,7 +2002,7 @@ namespace seq
 						if (BucketType::relocatable)
 							bucket(bindex)->push_back_pop_front_relocatable(tmp);
 						else
-							tmp = std::move(bucket(bindex)->push_back_pop_front(std::move(tmp)));
+							tmp = bucket(bindex)->push_back_pop_front(std::move(tmp));
 						if (StoreBackValues) d_buckets[bindex].update();
 					}
 					//first bucket
@@ -2017,7 +2016,7 @@ namespace seq
 						if (BucketType::relocatable)
 							bucket->push_back_pop_front_relocatable(tmp);
 						else
-							tmp = std::move(bucket->push_back_pop_front(std::move(tmp)));
+							tmp = bucket->push_back_pop_front(std::move(tmp));
 						if (StoreBackValues) d_buckets[0].update();
 						bucket = create_front_bucket();
 						try {
@@ -2048,7 +2047,7 @@ namespace seq
 				else if (SEQ_UNLIKELY(bucket_index == d_buckets.size() - 1)) {
 					// Inserting into last (full) bucket
 					// Might throw, fine
-					T tmp = std::move(bucket(bucket_index)->insert_pop_back(get_allocator(), index, std::forward<Args>(args)...));
+					T tmp = bucket(bucket_index)->insert_pop_back(get_allocator(), index, std::forward<Args>(args)...);
 					if (StoreBackValues) d_buckets[bucket_index].update();
 					try {
 						res = create_back_bucket()->push_back(get_allocator(), std::move(tmp));
@@ -2065,7 +2064,7 @@ namespace seq
 				
 					size_type bindex = bucket_index;
 					// Might throw, fine
-					T tmp = std::move(bucket(bindex)->insert_pop_back(get_allocator(), index, std::forward<Args>(args)...));
+					T tmp = bucket(bindex)->insert_pop_back(get_allocator(), index, std::forward<Args>(args)...);
 					if (StoreBackValues) d_buckets[bindex].update();
 
 					// Propagate to right buckets with successive push_front
@@ -2074,7 +2073,7 @@ namespace seq
 						if (BucketType::relocatable)
 							bucket(bindex)->push_front_pop_back_relocatable(tmp);
 						else
-							tmp = std::move(bucket(bindex)->push_front_pop_back(std::move(tmp)));
+							tmp = bucket(bindex)->push_front_pop_back(std::move(tmp));
 						if (StoreBackValues) d_buckets[bindex].update();
 					}
 				
@@ -2090,7 +2089,7 @@ namespace seq
 						if (BucketType::relocatable)
 							bucket->push_front_pop_back_relocatable(tmp);
 						else
-							tmp = std::move(bucket->push_front_pop_back(std::move(tmp)));
+							tmp = bucket->push_front_pop_back(std::move(tmp));
 						if (StoreBackValues) d_buckets.back().update();
 						bucket = create_back_bucket();
 						bucket->push_front(get_allocator(), std::move(tmp));
@@ -2164,7 +2163,7 @@ namespace seq
 				--d_size;
 			}
 
-			void erase_extremity(size_type pos)
+			void erase_extremity(size_type pos) noexcept
 			{
 				if (pos == 0)
 					pop_front();
@@ -2925,7 +2924,7 @@ namespace seq
 	public:
 
 		/// @brief Default constructor, initialize the internal bucket manager.
-		tiered_vector()
+		tiered_vector() noexcept(std::is_nothrow_default_constructible<Allocator>::value)
 			:Allocator(), d_manager(nullptr)
 		{
 		}
@@ -2971,7 +2970,7 @@ namespace seq
 		}
 		/// @brief Move constructor. Constructs the container with the contents of other using move semantics. Allocator is obtained by move-construction from the allocator belonging to other.
 		/// @param other another container to be used as source to initialize the elements of the container with
-		tiered_vector(tiered_vector&& other) noexcept
+		tiered_vector(tiered_vector&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
 			:Allocator(std::move(other.get_allocator())), d_manager(other.manager())
 		{
 			other.d_manager = nullptr;
@@ -3019,7 +3018,7 @@ namespace seq
 		/// @brief Move assignment operator.
 		/// @param other another container to use as data source
 		/// @return reference to this
-		auto operator=(tiered_vector&& other) noexcept -> tiered_vector&
+		auto operator=(tiered_vector&& other) noexcept(noexcept(std::declval< tiered_vector&>().swap(std::declval< tiered_vector&>()))) -> tiered_vector&
 		{
 			this->swap(other);
 			return *this;
@@ -3098,7 +3097,7 @@ namespace seq
 		/// @param other other sequence to swap with
 		/// All iterators and references remain valid.
 		/// An iterator holding the past-the-end value in this container will refer to the other container after the operation.
-		void swap(tiered_vector& other) noexcept 
+		void swap(tiered_vector& other) noexcept (noexcept(swap_allocator(std::declval<Allocator&>(), std::declval<Allocator&>())))
 		{
 			if (this != std::addressof(other)) {
 				std::swap(d_manager, other.d_manager);

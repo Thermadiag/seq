@@ -1,22 +1,31 @@
 #pragma once
 
-#include <type_traits>
+#include "../type_traits.hpp"
 #include <algorithm>
 
 
-#define __SEQ_INLINE_LOOKUP //SEQ_ALWAYS_INLINE
+#define __SEQ_INLINE_LOOKUP 
 
 
 namespace seq
 {
 	namespace detail
 	{
+		template <class T, class = void>
+		struct has_comparable : std::false_type {};
 
-		template<class Key, bool Branchless = std::is_arithmetic<Key>::value >
+		template <class T>
+		struct has_comparable<T,
+			typename make_void<typename T::comparable>::type>
+			: std::true_type {};
+
+
+
+		template<class Key, bool Multi, bool Comparable, bool Branchless = std::is_arithmetic<Key>::value >
 		struct lower_bound_internal
 		{
 			template<class T, class SizeType, class U, class Le>
-			static __SEQ_INLINE_LOOKUP SizeType apply(const T* ptr, SizeType size, const U& value, const Le& le)
+			static __SEQ_INLINE_LOOKUP std::pair<SizeType,bool> apply(const T* ptr, SizeType size, const U& value, const Le& le)
 			{
 				// This unrolled and branchless variant is faster than std::lower_bound for arithmetic types.
 				// The end_of_probe value is selected so that the linear search part fits within a cache line.
@@ -37,46 +46,16 @@ namespace seq
 				size += low;
 				while (low < size && le(ptr[low], value))
 					++low;
-				return low;
-
-				/*
-				//quaternary search, keep it just in case
-				SizeType start = 0, end = size;
-				while (end > start + end_of_probe) {
-					SizeType size = end - start;
-					SizeType midFirst = (start + size / 4); //mid of first and second block
-					SizeType midSecond = (start + size / 2); //mid of first and second block
-					SizeType midThird = (start + size * 3 / 4);
-
-
-					if (le( ptr[midThird], value )) {
-						start = midThird + 1;
-					}
-					else if (le(ptr[midSecond],value) ) {
-						start = midSecond + 1;
-						end = midThird;
-					}
-					else if (le( ptr[midFirst], value)) {
-						start = midFirst + 1;
-						end = midSecond;
-					}
-					else {
-						end = midFirst;
-					}
-
-				}
-				while (start < end && le(ptr[start], value))
-					++start;
-				return start;*/
+				return { low,false };
 			}
 
 		};
 
-		template<class Key>
-		struct lower_bound_internal<Key, false>
+		template<class Key, bool Multi>
+		struct lower_bound_internal<Key,Multi, false, false>
 		{
 			template<class T, class SizeType, class U, class Le>
-			static __SEQ_INLINE_LOOKUP SizeType apply(const T* ptr, SizeType size, const U& value, const Le& le)
+			static __SEQ_INLINE_LOOKUP std::pair<SizeType, bool> apply(const T* ptr, SizeType size, const U& value, const Le& le)
 			{
 				const T* p = ptr;
 				SizeType count = size;
@@ -89,54 +68,73 @@ namespace seq
 					else
 						count = half;
 				}
-				return static_cast<SizeType>(p - ptr);
+				return { static_cast<SizeType>(p - ptr),false };
 			}
 
 		};
 
 
-
-		template<class Key, bool Branchless = std::is_arithmetic<Key>::value >
-		struct upper_bound_internal
+		template<class Key, bool Multi>
+		struct lower_bound_internal<Key, Multi, true, false>
 		{
 			template<class T, class SizeType, class U, class Le>
-			static __SEQ_INLINE_LOOKUP SizeType apply(const T* ptr, SizeType size, const U& value, const Le& le)
+			static __SEQ_INLINE_LOOKUP std::pair<SizeType, bool> apply(const T* ptr, SizeType size, const U& k, const Le& le)
 			{
-				// This unrolled and branchless variant is faster than std::upper_bound for arithmetic types.
-				// The end_of_probe value is selected so that the linear search part fits within a cache line.
-
-				static constexpr SizeType end_of_probe = (sizeof(T) > 16U ? 8 : (sizeof(T) > 8U ? 16 : 32));
-				SizeType low = 0;
-				while (size > end_of_probe) {
-					SizeType half = size / 2;
-					low = le(value, ptr[low + half]) ? low : (low + size - half);
-					size = half;
-
-					half = size / 2;
-					low = le(value, ptr[low + half]) ? low : (low + size - half);
-					size = half;
+				SizeType s = 0;
+				SizeType e = size;
+				if (Multi) {
+					bool exact_match = false;
+					while (s != e) {
+						const SizeType mid = (s + e) >> 1;
+						const int c = le.compare(ptr[mid], k);
+						if (c < 0) {
+							s = mid + 1;
+						}
+						else {
+							e = mid;
+							if (c == 0) {
+								// Need to return the first value whose key is not less than k,
+								// which requires continuing the binary search if this is a
+								// multi-container.
+								exact_match = true;
+							}
+						}
+					}
+					return { s, exact_match };
 				}
-
-				size += low;
-				for (; low < size; ++low) {
-					if (le(value, ptr[low]))
-						break;
+				else {  // Not a multi-container.
+					while (s != e) {
+						const SizeType mid = (s + e) >> 1;
+						const int c = le.compare(ptr[mid], k);
+						if (c < 0) {
+							s = mid + 1;
+						}
+						else if (c > 0) {
+							e = mid;
+						}
+						else {
+							return { mid, true };
+						}
+					}
+					return { s,false };
 				}
-				return low;
 			}
 
 		};
 
-		template<class Key>
-		struct upper_bound_internal<Key, false>
+
+
+		template<bool Multi, class Key, class T, class SizeType, class U, class Le>
+		__SEQ_INLINE_LOOKUP std::pair<SizeType, bool> lower_bound(const T* ptr, SizeType size, const U& k, const Le& le)
 		{
-			template<class T, class SizeType, class U, class Le>
-			static __SEQ_INLINE_LOOKUP SizeType apply(const T* ptr, SizeType size, const U& value, const Le& le)
-			{
-				return static_cast<SizeType>(std::upper_bound(ptr, ptr + size, value, le) - ptr);
-			}
+			return lower_bound_internal<Key, Multi, has_comparable<Le>::value>::apply(ptr, size, k, le);
+		}
 
-		};
+		template<bool Multi, class Key, class T, class SizeType, class U, class Le>
+		__SEQ_INLINE_LOOKUP SizeType upper_bound(const T* ptr, SizeType size, const U& k, const Le& le)
+		{
+			return lower_bound_internal<Key, Multi, false>::apply(ptr, size, k, [&le](const auto& a, const auto& b) {return !le(b, a); }).first;
+		}
 
 	}//end detail
 }//end seq

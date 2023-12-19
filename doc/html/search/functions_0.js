@@ -1,9 +1,0 @@
-var searchData=
-[
-  ['_5fa',['_a',['../namespaceseq.html#aef0653a43b827bc896829c70bfb47ab9',1,'seq']]],
-  ['_5fany',['_any',['../namespaceseq.html#a0e6841d57616cc1144f3347fe0113f82',1,'seq']]],
-  ['_5fbucket',['_bucket',['../classseq_1_1detail_1_1_const_value_wrapper.html#a8bab109f375b82241bf67dea7122a224',1,'seq::detail::ConstValueWrapper::_bucket() const noexcept -&gt; const BucketType *'],['../classseq_1_1detail_1_1_const_value_wrapper.html#a0555974e7a04ceff057d9d9a1df87eb6',1,'seq::detail::ConstValueWrapper::_bucket() noexcept -&gt; BucketType *']]],
-  ['_5fc',['_c',['../classseq_1_1detail_1_1_const_value_wrapper.html#a0f9d6ab0437be42de791e1cfc22a270b',1,'seq::detail::ConstValueWrapper']]],
-  ['_5ffmt',['_fmt',['../namespaceseq.html#a191cf765becd8f118827fc7329aecb76',1,'seq::_fmt(Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), false, typename detail::find_slots&lt; Args... &gt;::type, true, Args... &gt;::return_type'],['../namespaceseq.html#afbfe91dbf0ec2b4565fedd6d93097645',1,'seq::_fmt() -&gt; typename detail::BuildFormat&lt; sizeof...(Args), false, typename detail::find_slots&lt; Args... &gt;::type, true, Args... &gt;::return_type']]],
-  ['_5fjoin',['_join',['../namespaceseq.html#a1dca10eb469071a8f8264b8f567b4da5',1,'seq::_join(tstring_view sep, Args &amp;&amp;... args) -&gt; typename detail::BuildFormat&lt; sizeof...(Args), true, typename detail::find_slots&lt; Args... &gt;::type, true, Args... &gt;::return_type'],['../namespaceseq.html#afbf9bdd5513aeeb0ddb7ff2b3a1aa3c0',1,'seq::_join(tstring_view sep, const IterRange &amp;c) noexcept -&gt; ostream_format&lt; detail::Iterable&lt; IterRange &gt;, true &gt;'],['../namespaceseq.html#a900c6edb6afef4c5681f9bf11a20cb4f',1,'seq::_join(tstring_view sep, const IterRange &amp;c, const ostream_format&lt; T, S &gt; &amp;wf) noexcept -&gt; ostream_format&lt; detail::Iterable&lt; IterRange &gt;, true &gt;']]]
-];

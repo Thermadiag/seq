@@ -28,18 +28,7 @@
 
 /** @file */
 
-// include everything except cvector
-#include "format.hpp"
-#include "flat_map.hpp"
-#include "hash.hpp"
-#include "memory.hpp"
-#include "ordered_map.hpp"
-#include "sequence.hpp"
-#include "tagged_pointer.hpp"
-#include "tiered_vector.hpp"
-#include "tiny_string.hpp"
-#include "radix_map.hpp"
-#include "radix_hash_map.hpp"
+
 
 /** \mainpage Seq library: original STL-like containers and container related tools
 
@@ -69,6 +58,7 @@ Currently, the *containers* module provide 5 types of containers:
 	-	seq::flat_multimap: similar to `seq::flat_map` but supporting duplicate keys.
 	-	seq::radix_set: radix based sorted container with a similar interface to std::set. Provides very fast lookup.
 	-	seq::radix_map: associative version of `seq::radix_set`.
+	-	seq::concurrent_map and seq::concurrent_set: higly scalable concurrent hash tables.
 -	Hash tables: 
 	-	seq::ordered_set: Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket interface) with iterator/reference stability, and additional features (see class documentation).
 	-	seq::ordered_map: associative version of `seq::ordered_set`.
@@ -92,52 +82,26 @@ The library is divided in 7 small modules:
 
 A cmake project is provided for installation and compilation of tests/benchmarks.
 
-Why C++11 ?
------------
-
-For now the *seq* library is developped and maintained in order to remain compatible with C++11 only compilers.
-While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11.
-
-For instance, the \ref charconv "charconv" and \ref format "format" modules were developped because C++11 only compilers do not provide similar functionalities. They still provide their own specifities for more recent compilers.
-
-*seq* library was tested with gcc/10.1.0 (Windows, mingw), gcc/8.4.0 (Linux), gcc/4.8.5 (!) (Linux), msvc/14.20, msvc/14.0 (Windows), ClangCL/12.0.0 (Windows).
-
-Design
-------
-
-*seq* library is a small collection of self dependant components. There is no restriction on internal dependencies, and a seq component can use any number of other components. For instance, almost all modules rely on the [bits](docs/bits.md) one.
-
-All classes and functions are defined in the `seq` namespace, and names are lower case with underscore separators, much like the STL.
-Macro names are upper case and start with the `SEQ_` prefix.
-
-The directory structure is flat and use the "stuttering" scheme `seq/seq` used by many other libraries like boost.
-Including a file has the following syntax: `#include <seq/tiered_vector.hpp>`
-
-The `seq/seq/tests` subdirectory includes tests for all components, usually named `test_modulename.cpp`, and rely on CTest (shipped with CMake). The tests try to cover as much features as possible, but bugs might still be present. Do not hesitate to contact me if you discover something unusual.
-The `seq/seq/benchs` subdirectory includes benchmarks for some components, usually named `bench_modulename.cpp`, and rely on CTest. The benchmarks are performed against other libraries that are provided in the 'benchs' folder.
-The `seq/seq/docs` directory contains documentation using markdown format, and the `seq/seq/doc` directory contains the html documentation generated with doxygen (available <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/index.html">here</a>).
-
-Build
------
-
-The *seq* library requires compilation using cmake, but you can still use it without compilation by defining `SEQ_HEADER_ONLY`. 
-Even in header-only mode, you should use the cmake file for installation.
-Tests can be built using cmake from the `tests` folder, and benchmarks from the `benchs` folder.
-
-Acknowledgements
-----------------
-
-The only library dependency is <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters. The header `pdqsort.hpp` is included within the *seq* library.
-*seq* library also uses a modified version <a href="https://github.com/lz4/lz4">LZ4</a> that could be used with `cvector` class.
-Benchmarks (in `seq/seq/benchs`) compare the performances of the *seq* library with other great libraries that I use in personnal or professional projects:
--	<a href="https://plflib.org/">plf</a>: used for the plf::colony container,
--	<a href="https://github.com/greg7mdp/parallel-hashmap">phmap</a>: used for its phmap::btree_set and phmap::node_hash_set,
--	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set and boost::unordered_set,
--	<a href="https://github.com/martinus/robin-hood-hashing">robin-hood</a>: used for robin_hood::unordered_node_set,
--	<a href="https://github.com/skarupke/flat_hash_map">ska</a>: used for ska::unordered_set.
-
-These libraries are included in the `seq/seq/benchs` folder (only a subset of boost is provided).
-
 */
+
+
+/// This is the default seq.hpp file, just in case people will use the seq folder directly without installing the library
+
+
+#define SEQ_VERSION_MAJOR 0
+#define SEQ_VERSION_MINOR 0
+#define SEQ_VERSION "0.0"
+
+#ifndef SEQ_BUILD_LIBRARY
+	#define __SEQ_IS_HEADER_ONLY 1
+#else
+	#define __SEQ_IS_HEADER_ONLY 0
+#endif
+
+#if __SEQ_IS_HEADER_ONLY == 1
+	#ifndef SEQ_HEADER_ONLY
+		#define SEQ_HEADER_ONLY
+	#endif
+#endif
 
 #endif

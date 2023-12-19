@@ -4,7 +4,7 @@
 Purpose
 -------
 
-The *seq* library is a collection of original C++11 STL-like containers and related tools.
+The *seq* library is a collection of original C++14 STL-like containers and related tools.
 
 *seq* library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) std. Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.
 
@@ -31,6 +31,7 @@ Currently, the *containers* module provide 5 types of containers:
 	-	`seq::ordered_map`: associative version of `seq::ordered_set`.
 	-	[seq::radix_hash_set](docs/radix_tree.md): radix based hash table with a similar interface to `std::unordered_set`. Uses incremental rehash, no memory peak.
 	-	`seq::radix_hash_map`: associative version of `seq::radix_hash_set`.
+	-	[seq::concurrent_map](docs/concurrent_map.md) and `seq::concurrent_set`: higly scalable concurrent hash tables.
 -	Strings:
 	-	[seq::tiny_string](docs/tiny_string.md): string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
 
@@ -40,7 +41,7 @@ Content
 
 The library is divided in 7 small modules:
 -	[bits](docs/bits.md): low-level bits manipulation utilities
--	[hash](docs/hash.md): implementation of fnv1a and murmurhash2 algorithms
+-	[hash](docs/hash.md): tiny hashing framework
 -	[memory](docs/memory.md): allocators and memory pools mainly used for containers
 -	[charconv](docs/charconv.md): fast arithmetic to/from string conversion
 -	[format](docs/format.md): fast and type safe formatting tools
@@ -49,15 +50,15 @@ The library is divided in 7 small modules:
 
 A cmake project is provided for installation and compilation of tests/benchmarks.
 
-Why C++11 ?
+Why C++14 ?
 -----------
 
-For now the *seq* library is developped and maintained in order to remain compatible with C++11 only compilers.
-While C++14, C++17 and even C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++11.
+For now the *seq* library is developped and maintained in order to remain compatible with C++14 only compilers.
+While C++17 and C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++14.
 
 For instance, the [charconv](docs/charconv.md) and [format](docs/format.md) modules were developped because C++11 only compilers do not provide similar functionalities. They still provide their own specifities for more recent compilers.
 
-*seq* library was tested with gcc/10.1.0 (Windows, mingw), gcc/8.4.0 (Linux), gcc/4.8.5 (!) (Linux), msvc/14.20, msvc/14.0 (Windows), ClangCL/12.0.0 (Windows).
+*seq* library was tested with gcc/10.1.0, gcc/13.2.0 (Windows, mingw), gcc/8.4.0 (Linux), gcc/6.4.0 (Linux), msvc/19.29 (Windows), ClangCL/12.0.0 (Windows).
 
 Design
 ------
@@ -72,14 +73,21 @@ Including a file has the following syntax: `#include <seq/tiered_vector.hpp>`
 
 The `seq/tests` subdirectory includes tests for all components, usually named `test_modulename.cpp`, and rely on CTest (shipped with CMake). The tests try to cover as much features as possible, *but bugs might still be present*. Do not hesitate to contact me if you discover something unusual.
 The `seq/benchs` subdirectory includes benchmarks for some components, usually named `bench_modulename.cpp`, and rely on CTest. The benchmarks are performed against other libraries that are provided in the 'benchs' folder.
-The `seq/docs` directory contains documentation using markdown format, and the `seq/doc` directory contains the html documentation generated with doxygen (available <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/index.html">here</a>).
 
 Build
 -----
 
-The *seq* library requires compilation using cmake, but you can still use it without compilation by defining `SEQ_HEADER_ONLY`. 
+The *seq* library requires compilation using cmake, but you can still use it without compilation by using `-DHEADER_ONLY=ON`. 
 Even in header-only mode, you should use the cmake file for installation.
-Tests can be built using cmake from the `tests` folder, and benchmarks from the `benchs` folder.
+
+Currently, the following options are provided:
+
+-	HEADER_ONLY(OFF): header only version of the *seq* library
+-	ENABLE_AVX2(ON): enable AVX2 support, usefull (but not mandatory) for `seq::radix_(map/set/hash_map/hash_set)` as well as `seq::cvector`
+-	BUILD_TESTS(OFF): build all tests
+-	BUILD_BENCHS(OFF): build all benchmarks
+-	TEST_CVECTOR(ON): if building tests, add the `seq::cvector` class tests
+
 Note that for msvc build, AVX2 support is enabled by default. You should call cmake with `-DENABLE_AVX2=OFF` to disable it.
 
 Using Seq library with CMake
@@ -88,31 +96,34 @@ Using Seq library with CMake
 The follwing example shows how to use the *seq* library within a CMake project:
 
 ```cmake
+
+cmake_minimum_required(VERSION 3.8)
+
 # Dummy test project
 project(test)
 
-# Add seq installation folder
-list(APPEND CMAKE_PREFIX_PATH "path_to_seq_installation/lib/cmake/seq")
-
-# Find package seq
-find_package(seq REQUIRED)
-
-# Add include directory
-include_directories("${SEQ_INCLUDE_DIR}")
-# Add lib directory
-link_directories("${SEQ_LIB_DIR}")
 # Add sources
 add_executable(test test.cpp)
 
-# Add sse/avx flags
-if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-	target_compile_options(test PRIVATE /arch:AVX2)
-else()
-	target_compile_options(test PRIVATE -march=native)
+# Find package seq
+find_package(seq REQUIRED)
+	
+# SEQ_FOUND is set to TRUE if found
+if(${SEQ_FOUND})
+	message(STATUS "Seq library found, version ${SEQ_VERSION}")
 endif()
 
-# Link with seq
-target_link_libraries(test ${SEQ_LIBRARY} )
+# Add include directory
+target_include_directories(test PRIVATE ${SEQ_INCLUDE_DIR})
+
+# Link with seq library if not header only
+if(DEFINED SEQ_LIBRARY)
+	# Add lib directory
+	target_link_directories(test PRIVATE ${SEQ_LIB_DIR})
+	# Add lib
+	target_link_libraries(test ${SEQ_LIBRARY} )
+endif()
+
 ```
 
 Acknowledgements
@@ -120,14 +131,16 @@ Acknowledgements
 
 The only library dependency is <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters. The header `pdqsort.hpp` is included within the *seq* library.
 *seq* library also uses a modified version <a href="https://github.com/lz4/lz4">LZ4</a> that could be used with `cvector` class.
+Finaly, *seq* library uses a simplified version of the [komihash](https://github.com/avaneev/komihash) hash function for its hashing framework.
+
 Benchmarks (in `seq/benchs`) compare the performances of the *seq* library with other great libraries that I use in personnal or professional projects:
 -	<a href="https://plflib.org/">plf</a>: used for the plf::colony container,
--	<a href="https://github.com/greg7mdp/parallel-hashmap">phmap</a>: used for its phmap::btree_set and phmap::node_hash_set,
--	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set and boost::unordered_set,
--	<a href="https://github.com/martinus/robin-hood-hashing">robin-hood</a>: used for robin_hood::unordered_node_set,
--	<a href="https://github.com/skarupke/flat_hash_map">ska</a>: used for ska::unordered_set.
+-	<a href="https://github.com/greg7mdp/gtl">gtl</a>: used for its gtl::btree_set and gtl::parallel_flat_hash_map,
+-	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set, boost::unordered_flat_set and boost::concurrent_flat_map,
+-	<a href="https://github.com/martinus/unordered_dense">unordered_dense</a>: used for ankerl::unordered_dense::set,
+-	<a href="https://github.com/oneapi-src/oneTBB">TBB</a>: used for tbb::concurrent_unordered_map and tbb::concurrent_hash_map.
 
-These libraries are included in the `seq/benchs` folder (only a subset of boost is provided).
+Some of these libraries are included in the `seq/benchs` folder.
 
 
-seq:: library and this page Copyright (c) 2022, Victor Moncada
+seq:: library and this page Copyright (c) 2023, Victor Moncada

@@ -2,6 +2,7 @@
 #include <seq/flat_map.hpp>
 #include <seq/radix_map.hpp>
 #include <seq/radix_hash_map.hpp>
+#include <seq/concurrent_map.hpp>
 
 
 template<class Map>
@@ -38,5 +39,6 @@ int test_all_maps(int, char** const)
 	test_map<seq::flat_multimap<std::string, std::string> >();
 	test_map<seq::radix_map<std::string, std::string> >();
 	test_map<seq::radix_hash_map<std::string, std::string> >();
+	test_map<seq::concurrent_map<std::string, std::string> >();
 	return 0;
 }

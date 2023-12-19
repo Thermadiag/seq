@@ -1,4 +1,0 @@
-var structseq_1_1detail_1_1_format_wrapper_3_01tiny__string_3_01char_00_01_traits_00_01_alloc_00_01_s_01_4_00_01_slot_01_4 =
-[
-    [ "type", "structseq_1_1detail_1_1_format_wrapper_3_01tiny__string_3_01char_00_01_traits_00_01_alloc_00_01_s_01_4_00_01_slot_01_4.html#a12dc522b4b80e0f5d1ec1fcfa33edadc", null ]
-];

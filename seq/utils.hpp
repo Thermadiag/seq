@@ -142,14 +142,14 @@ namespace seq
 
 	/// @brief Simply call p->~T(), used as a replacement to std::allocator::destroy() which was removed in C++20
 	template<class T>
-	SEQ_ALWAYS_INLINE void destroy_ptr(T* p)
+	SEQ_ALWAYS_INLINE void destroy_ptr(T* p) noexcept
 	{
 		p->~T();
 	}
 
 	/// @brief Simply call new (p) T(...), used as a replacement to std::allocator::construct() which was removed in C++20
 	template<class T, class... Args >
-	SEQ_ALWAYS_INLINE void construct_ptr(T* p, Args&&... args)
+	SEQ_ALWAYS_INLINE void construct_ptr(T* p, Args&&... args) noexcept(noexcept(T(std::forward<Args>(args)...)))
 	{
 		new (p) T(std::forward<Args>(args)...);
 	}
@@ -164,11 +164,30 @@ namespace seq
 			using key_type = Key;
 			using value_type = T;
 			using mapped_type = typename T::second_type;
+			static constexpr bool has_value = true;
 			SEQ_ALWAYS_INLINE static auto key(const value_type& value) noexcept -> const key_type& { return value.first; }
 			template<class U, class V>
 			SEQ_ALWAYS_INLINE static auto key(const std::pair<U,V>& value) noexcept -> const U& { return value.first; }
+			template<class U, class V>
+			SEQ_ALWAYS_INLINE static auto key(const std::pair<const U, V>& value) noexcept -> const U& { return value.first; }
 			template<class U>
 			SEQ_ALWAYS_INLINE static auto key(const U& value) noexcept -> const U& { return value; }
+
+			SEQ_ALWAYS_INLINE static auto value(const value_type& value) noexcept -> const key_type& { return value.second; }
+			template<class U, class V>
+			SEQ_ALWAYS_INLINE static auto value(const std::pair<U, V>& value) noexcept -> const U& { return value.second; }
+			template<class U, class V>
+			SEQ_ALWAYS_INLINE static auto value(const std::pair<const U, V>& value) noexcept -> const U& { return value.second; }
+			template<class U>
+			SEQ_ALWAYS_INLINE static auto value(const U& value) noexcept -> const U& { return value; }
+
+			SEQ_ALWAYS_INLINE auto operator()(const value_type& value) noexcept -> const key_type& { return value.first; }
+			template<class U, class V>
+			SEQ_ALWAYS_INLINE auto operator()(const std::pair<U, V>& value) noexcept -> const U& { return value.first; }
+			template<class U, class V>
+			SEQ_ALWAYS_INLINE auto operator()(const std::pair<const U, V>& value) noexcept -> const U& { return value.first; }
+			template<class U>
+			SEQ_ALWAYS_INLINE auto operator()(const U& value) noexcept -> const U& { return value; }
 		};
 		template<class T>
 		struct ExtractKey<T, T>
@@ -176,9 +195,18 @@ namespace seq
 			using key_type = T;
 			using value_type = T;
 			using mapped_type = T;
+			static constexpr bool has_value = false;
 			SEQ_ALWAYS_INLINE static auto key(const T& value) noexcept -> const T& { return value; }
 			template<class U>
 			SEQ_ALWAYS_INLINE static auto key(const U& value) noexcept -> const U& { return value; }
+
+			SEQ_ALWAYS_INLINE static auto value(const T& value) noexcept -> const T& { return value; }
+			template<class U>
+			SEQ_ALWAYS_INLINE static auto value(const U& value) noexcept -> const U& { return value; }
+
+			SEQ_ALWAYS_INLINE auto operator()(const T& value) noexcept -> const T& { return value; }
+			template<class U>
+			SEQ_ALWAYS_INLINE auto operator()(const U& value) noexcept -> const U& { return value; }
 		};
 
 		// Build a std::pair or Key value from forwarded arguments
@@ -227,6 +255,15 @@ namespace seq
 
 
 		template <class T, class = void>
+		struct key_transparent : std::true_type {};
+
+		template <class T>
+		struct key_transparent<T,
+			typename make_void<typename T::seq_unused_huge_typedef>::type>
+			: std::true_type {};
+
+
+		template <class T, class = void>
 		struct has_is_always_equal : std::false_type {};
 
 		template <class T>
@@ -239,7 +276,8 @@ namespace seq
 		template<class Alloc, bool HasIsAlwaysEqual = has_is_always_equal<Alloc>::value>
 		struct is_always_equal
 		{
-			static constexpr bool value = Alloc::is_always_equal::value;
+			using equal = typename std::allocator_traits<Alloc>::is_always_equal;
+			static constexpr bool value = equal::value;
 		};
 		template<class Alloc>
 		struct is_always_equal<Alloc,false>
@@ -370,14 +408,19 @@ namespace seq
 
 	/// @brief Copy allocator for container copy constructor
 	template<class Allocator>
-	auto copy_allocator(const Allocator& alloc) -> Allocator
+	auto copy_allocator(const Allocator& alloc)
+		noexcept(std::is_nothrow_copy_constructible<Allocator>::value)
+		-> Allocator
 	{
 		return std::allocator_traits< Allocator>::select_on_container_copy_construction(alloc);
 	}
 
 	/// @brief Swap allocators for container.swap member
 	template <class Allocator>
-	void swap_allocator(Allocator& left, Allocator& right) noexcept {
+	void swap_allocator(Allocator& left, Allocator& right) 
+		noexcept(!std::allocator_traits<Allocator>::propagate_on_container_swap::value || 
+			std::allocator_traits<Allocator>::is_always_equal::value)
+	{
 		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_swap::value) {
 			std::swap(left, right);
 		}
@@ -388,7 +431,9 @@ namespace seq
 
 	/// @brief Assign allocator for container copy operator
 	template <class Allocator>
-	void assign_allocator(Allocator& left, const Allocator& right) noexcept 
+	void assign_allocator(Allocator& left, const Allocator& right)
+		noexcept (!std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value ||
+			std::is_nothrow_copy_assignable<Allocator>::value)
 	{
 		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value) {
 			left = right;
@@ -397,7 +442,9 @@ namespace seq
 
 	/// @brief Move allocator for container move assignment
 	template <class Allocator>
-	void move_allocator(Allocator& left, Allocator& right) noexcept 
+	void move_allocator(Allocator& left, Allocator& right) 
+		noexcept(!std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value ||
+			std::is_nothrow_move_assignable<Allocator>::value)
 	{
 		// (maybe) propagate on container move assignment
 		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value) {

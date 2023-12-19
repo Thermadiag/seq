@@ -73,6 +73,7 @@ See functions documentation for more details.
 #include <cstdio>
 #include <type_traits>
 
+#include "seq.hpp"
 
 #if defined(__APPLE__)
 // Mac OS X / Darwin features
@@ -258,6 +259,14 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #endif
 
 
+
+// Unreachable code
+#ifdef _MSC_VER
+#define SEQ_UNREACHABLE() __assume(0)
+#else
+#define SEQ_UNREACHABLE() __builtin_unreachable()
+#endif
+
 //pragma directive might be different between compilers, so define a generic SEQ_PRAGMA macro.
 //Use SEQ_PRAGMA with no quotes around argument (ex: SEQ_PRAGMA(omp parallel) and not SEQ_PRAGMA("omp parallel") ).
 #if defined( _MSC_VER) && !defined(__clang__)
@@ -272,6 +281,35 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #define SEQ_NOINLINE(...) __declspec(noinline) __VA_ARGS__
 #else
 #define SEQ_NOINLINE(...) __VA_ARGS__ __attribute__((noinline))
+#endif
+
+
+
+//For msvc, define __SSE__ and __SSE2__ manually
+#if !defined(__SSE2__) && defined(_MSC_VER) && (defined(_M_X64) || _M_IX86_FP >= 2)
+#  define __SSE__ 1
+#  define __SSE2__ 1
+#endif
+
+// prefetching
+#if (defined(__GNUC__)||defined(__clang__)) && !defined(_MSC_VER)
+#define SEQ_PREFETCH(p) __builtin_prefetch(reinterpret_cast<const char*>(p))
+#elif defined(__SSE2__)
+#define SEQ_PREFETCH(p) _mm_prefetch(reinterpret_cast<const char*>(p),_MM_HINT_T0)
+#else
+#define SEQ_PREFETCH(p) 
+#endif
+
+// SSE intrinsics
+#if defined(__SSE2__) 
+#if defined(__unix ) || defined(__linux ) || defined(__posix )
+#include <emmintrin.h>
+#include <xmmintrin.h>
+#else
+#include <emmintrin.h>
+#include <xmmintrin.h>
+#endif
+
 #endif
 
 // fallthrough
@@ -524,6 +562,113 @@ namespace seq
 }//end namespace seq
 
 
+
+
+#if defined( __SIZEOF_INT128__ )
+
+namespace seq
+{
+	SEQ_ALWAYS_INLINE void umul128(const uint64_t m1, const uint64_t m2,
+		uint64_t* const rl, uint64_t* const rh)
+	{
+		const unsigned __int128 r = static_cast<unsigned __int128>(m1) * m2;
+
+		*rh = static_cast<uint64_t>(r >> 64);
+		*rl = static_cast<uint64_t>(r);
+	}
+}
+#define SEQ_HAS_FAST_UMUL128 1
+
+#elif ( defined( __IBMC__ ) || defined( __IBMCPP__ )) && defined( __LP64__ )
+
+namespace seq
+{
+	SEQ_ALWAYS_INLINE void umul128(const uint64_t m1, const uint64_t m2,
+		uint64_t* const rl, uint64_t* const rh)
+	{
+		*rh = __mulhdu(m1, m2);
+		*rl = m1 * m2;
+	}
+}
+#define SEQ_HAS_FAST_UMUL128 1
+
+#elif defined( _MSC_VER ) && ( defined( _M_ARM64 ) || \
+	( defined( _M_X64 ) && defined( __INTEL_COMPILER )))
+
+#include <intrin.h>
+
+namespace seq
+{
+	SEQ_ALWAYS_INLINE void umul128(const uint64_t m1, const uint64_t m2,
+		uint64_t* const rl, uint64_t* const rh)
+	{
+		*rh = __umulh(m1, m2);
+		*rl = m1 * m2;
+	}
+}
+#define SEQ_HAS_FAST_UMUL128 1
+
+#elif defined( _MSC_VER ) && ( defined( _M_X64 ) || defined( _M_IA64 ))
+
+#include <intrin.h>
+#pragma intrinsic(_umul128)
+
+namespace seq
+{
+	static SEQ_ALWAYS_INLINE void umul128(const uint64_t m1, const uint64_t m2,
+		uint64_t* const rl, uint64_t* const rh)
+	{
+		*rl = _umul128(m1, m2, rh);
+	}
+}
+#define SEQ_HAS_FAST_UMUL128 1
+
+#else // defined( _MSC_VER )
+
+	// _umul128() code for 32-bit systems, adapted from Hacker's Delight,
+	// Henry S. Warren, Jr.
+
+#if defined( _MSC_VER ) && !defined( __INTEL_COMPILER )
+
+#include <intrin.h>
+#pragma intrinsic(__emulu)
+#define __SEQ_EMULU( x, y ) __emulu( x, y )
+
+#else // defined( _MSC_VER ) && !defined( __INTEL_COMPILER )
+
+#define __SEQ_EMULU( x, y ) ( (uint64_t) ( x ) * ( y ))
+
+#endif // defined( _MSC_VER ) && !defined( __INTEL_COMPILER )
+
+namespace seq
+{
+	static inline void umul128(const uint64_t u, const uint64_t v,
+		uint64_t* const rl, uint64_t* const rh)
+	{
+		*rl = u * v;
+
+		const uint32_t u0 = static_cast<uint32_t>(u);
+		const uint32_t v0 = static_cast<uint32_t>(v);
+		const uint64_t w0 = __SEQ_EMULU(u0, v0);
+		const uint32_t u1 = static_cast<uint32_t>(u >> 32);
+		const uint32_t v1 = static_cast<uint32_t>(v >> 32);
+		const uint64_t t = __SEQ_EMULU(u1, v0) + static_cast<uint32_t>(w0 >> 32);
+		const uint64_t w1 = __SEQ_EMULU(u0, v1) + static_cast<uint32_t>(t);
+
+		*rh = __SEQ_EMULU(u1, v1) + static_cast<uint32_t>(w1 >> 32) +
+			static_cast<uint32_t>(t >> 32);
+	}
+}
+
+
+#endif
+
+
+
+
+
+
+
 #ifdef __GNUC__
 #define GNUC_PREREQ(x, y) \
       (__GNUC__ > x || (__GNUC__ == x && __GNUC_MINOR__ >= y))
@@ -587,7 +732,7 @@ namespace seq
 		// implementation on machines with fast multiplication.
 		// It uses 12 arithmetic operations, one of which is a multiply.
 		// http://en.wikipedia.org/wiki/Hamming_weight#Efficient_implementation
-		inline auto popcount64(std::uint64_t x) -> unsigned
+		SEQ_ALWAYS_INLINE auto popcount64(std::uint64_t x) -> unsigned
 		{
 			std::uint64_t m1 = 0x5555555555555555LL;
 			std::uint64_t m2 = 0x3333333333333333LL;
@@ -600,7 +745,7 @@ namespace seq
 
 			return (x * h01) >> 56;
 		}
-		inline auto popcount32(uint32_t i) -> unsigned
+		SEQ_ALWAYS_INLINE auto popcount32(uint32_t i) -> unsigned
 		{
 			i = i - ((i >> 1) & 0x55555555);        // add pairs of bits
 			i = (i & 0x33333333) + ((i >> 2) & 0x33333333);  // quads
@@ -615,13 +760,13 @@ namespace seq
 
 #define SEQ_HAS_ASM_POPCNT
 
-	inline auto popcnt64(std::uint64_t x) -> unsigned
+	SEQ_ALWAYS_INLINE auto popcnt64(std::uint64_t x) -> unsigned
 	{
 		__asm__("popcnt %1, %0" : "=r" (x) : "0" (x));
 		return static_cast<unsigned>(x);
 	}
 
-	inline auto popcnt32(uint32_t x) -> unsigned
+	SEQ_ALWAYS_INLINE auto popcnt32(uint32_t x) -> unsigned
 	{
 		return detail::popcount32(x);
 	}
@@ -631,13 +776,13 @@ namespace seq
 
 #define SEQ_HAS_ASM_POPCNT
 
-	inline unsigned popcnt32(uint32_t x)
+	SEQ_ALWAYS_INLINE unsigned popcnt32(uint32_t x)
 	{
 		__asm__("popcnt %1, %0" : "=r" (x) : "0" (x));
 		return x;
 	}
 
-	inline unsigned popcnt64(std::uint64_t x)
+	SEQ_ALWAYS_INLINE unsigned popcnt64(std::uint64_t x)
 	{
 		return popcnt32((uint32_t)x) +
 			popcnt32((uint32_t)(x >> 32));
@@ -648,12 +793,12 @@ namespace seq
 
 #define SEQ_HAS_BUILTIN_POPCNT
 
-	inline unsigned popcnt64(std::uint64_t x)
+	SEQ_ALWAYS_INLINE unsigned popcnt64(std::uint64_t x)
 	{
 		return (unsigned)_mm_popcnt_u64(x);
 	}
 
-	inline unsigned popcnt32(uint32_t x)
+	SEQ_ALWAYS_INLINE unsigned popcnt32(uint32_t x)
 	{
 		return (unsigned)_mm_popcnt_u32(x);
 	}
@@ -663,12 +808,12 @@ namespace seq
 
 #define SEQ_HAS_BUILTIN_POPCNT
 
-	inline unsigned popcnt64(std::uint64_t x)
+	SEQ_ALWAYS_INLINE unsigned popcnt64(std::uint64_t x)
 	{
 		return _mm_popcnt_u32((uint32_t)x) +
 			_mm_popcnt_u32((uint32_t)(x >> 32));
 	}
-	inline unsigned popcnt32(uint32_t x)
+	SEQ_ALWAYS_INLINE unsigned popcnt32(uint32_t x)
 	{
 		return _mm_popcnt_u32(x);
 	}
@@ -678,11 +823,11 @@ namespace seq
 
 #define SEQ_HAS_BUILTIN_POPCNT
 
-	inline std::uint64_t popcnt64(std::uint64_t x)
+	SEQ_ALWAYS_INLINE std::uint64_t popcnt64(std::uint64_t x)
 	{
 		return __builtin_popcountll(x);
 	}
-	inline uint32_t popcnt32(uint32_t x)
+	SEQ_ALWAYS_INLINE uint32_t popcnt32(uint32_t x)
 	{
 		return __builtin_popcount(x);
 	}
@@ -691,18 +836,18 @@ namespace seq
 	 * use pure integer algorithm */
 #else
 
-	inline std::uint64_t popcnt64(std::uint64_t x)
+	SEQ_ALWAYS_INLINE std::uint64_t popcnt64(std::uint64_t x)
 	{
 		return detail::popcount64(x);
 	}
-	inline uint32_t popcnt32(uint32_t x)
+	SEQ_ALWAYS_INLINE uint32_t popcnt32(uint32_t x)
 	{
 		return detail::popcount32(x);
 	}
 
 #endif
 
-	inline auto popcnt8(unsigned char value) -> unsigned
+	SEQ_ALWAYS_INLINE auto popcnt8(unsigned char value) -> unsigned
 	{
 		static const unsigned char ones[256] =
 		{ 0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4,
@@ -721,7 +866,7 @@ namespace seq
 			5,6,6,7,5,6,6,7,6,7,7,8 };
 		return ones[value];
 	}
-	inline auto popcnt16(unsigned short value) -> unsigned
+	SEQ_ALWAYS_INLINE auto popcnt16(unsigned short value) -> unsigned
 	{
 #ifdef _MSC_VER
 		return __popcnt16(value);
@@ -802,7 +947,7 @@ namespace seq
 
 	}
 
-	inline auto bit_scan_forward_8(std::uint8_t  val) -> unsigned int
+	SEQ_ALWAYS_INLINE auto bit_scan_forward_8(std::uint8_t  val) -> unsigned int
 	{
 		static const std::uint8_t scan_forward_8[] =
 		{ 8, 0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 4,
@@ -822,9 +967,10 @@ namespace seq
 			0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 4,
 			0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0
 		};
+		SEQ_PREFETCH(scan_forward_8);
 		return scan_forward_8[val];
 	}
-	inline auto bit_scan_reverse_8(std::uint8_t  val) -> unsigned int
+	SEQ_ALWAYS_INLINE auto bit_scan_reverse_8(std::uint8_t  val) -> unsigned int
 	{
 		return detail::scan_reverse_8[val];
 	}
@@ -832,7 +978,7 @@ namespace seq
 
 	/// @brief Returns the lowest set bit index in \a val
 	/// Undefined if val==0.
-	inline auto bit_scan_forward_32(std::uint32_t  val) -> unsigned int
+	SEQ_ALWAYS_INLINE auto bit_scan_forward_32(std::uint32_t  val) -> unsigned int
 	{
 #   if defined(_MSC_VER)   /* Visual */
 		unsigned long r = 0;
@@ -852,7 +998,7 @@ namespace seq
 
 	/// @brief Returns the highest set bit index in \a val
 	/// Undefined if val==0.
-	inline auto bit_scan_reverse_32(std::uint32_t  val) -> unsigned int
+	SEQ_ALWAYS_INLINE auto bit_scan_reverse_32(std::uint32_t  val) -> unsigned int
 	{
 #   if defined(_MSC_VER)   /* Visual */
 		unsigned long r = 0;
@@ -880,7 +1026,7 @@ namespace seq
 	/// @brief Returns the lowest set bit index in \a bb.
 	/// Developed by Kim Walisch (2012).
 	/// Undefined if bb==0.
-	inline auto bit_scan_forward_64(std::uint64_t bb)noexcept -> unsigned {
+	SEQ_ALWAYS_INLINE auto bit_scan_forward_64(std::uint64_t bb)noexcept -> unsigned {
 #       if defined(_MSC_VER) && defined(_WIN64) 
 		unsigned long r = 0;
 		_BitScanForward64(&r, bb);
@@ -897,7 +1043,7 @@ namespace seq
 	/// @brief Returns the highest set bit index in \a bb.
 	/// Developed by Kim Walisch, Mark Dickinson.
 	/// Undefined if bb==0.
-	inline auto bit_scan_reverse_64(std::uint64_t  bb)noexcept -> unsigned {
+	SEQ_ALWAYS_INLINE auto bit_scan_reverse_64(std::uint64_t  bb)noexcept -> unsigned {
 #       if (defined(_MSC_VER) && defined(_WIN64) ) //|| defined(__MINGW64_VERSION_MAJOR)
 		unsigned long r = 0;
 		_BitScanReverse64(&r, bb);
@@ -920,7 +1066,7 @@ namespace seq
 
 	/// @brief Returns the lowest set bit index in \a bb.
 	/// Undefined if bb==0.
-	inline auto bit_scan_forward(size_t bb)noexcept -> unsigned {
+	SEQ_ALWAYS_INLINE auto bit_scan_forward(size_t bb)noexcept -> unsigned {
 #ifdef SEQ_ARCH_64
 		return bit_scan_forward_64(bb);
 #else
@@ -930,7 +1076,7 @@ namespace seq
 
 	/// @brief Returns the highest set bit index in \a bb.
 	/// Undefined if bb==0.
-	inline auto bit_scan_reverse(size_t bb)noexcept -> unsigned {
+	SEQ_ALWAYS_INLINE auto bit_scan_reverse(size_t bb)noexcept -> unsigned {
 #ifdef SEQ_ARCH_64
 		return bit_scan_reverse_64(bb);
 #else
@@ -1136,7 +1282,11 @@ namespace seq
 	/// @brief Returns a byte-swapped representation of the 16-bit argument.
 	SEQ_ALWAYS_INLINE auto byte_swap_16(std::uint16_t value) -> std::uint16_t {
 #if defined(_MSC_VER) && !defined(_DEBUG)
+	#if defined __clang__ //clang-cl
+		return __builtin_bswap16(value);
+	#else
 		return _byteswap_ushort(value);
+	#endif
 #else
 		return static_cast <std::uint16_t>((value << 8U) | (value >> 8U));
 #endif
@@ -1162,7 +1312,11 @@ namespace seq
 #elif defined(__NetBSD__)
 		return bswap32(value);
 #elif defined(_MSC_VER) && !defined(_DEBUG)
+	#if defined __clang__ //clang-cl
+		return __builtin_bswap32(value);
+	#else
 		return _byteswap_ulong(value);
+	#endif
 #else
 		return  ((((value) & 0xff000000) >> 24) | (((value) & 0x00ff0000) >> 8) |
 			(((value) & 0x0000ff00) << 8) | (((value) & 0x000000ff) << 24));
@@ -1184,7 +1338,11 @@ namespace seq
 #elif defined(__NetBSD__)
 		return bswap64(value);
 #elif defined(_MSC_VER) //&& !defined(_DEBUG)
+	#if defined __clang__ //clang-cl
+		return __builtin_bswap64(value);
+	#else
 		return _byteswap_uint64(value);
+	#endif
 #else
 		return (SEQ_EXTENSION((((value) & 0xff00000000000000ull) >> 56)
 			| (((value) & 0x00ff000000000000ull) >> 40)
@@ -1198,8 +1356,24 @@ namespace seq
 	}
 
 
+
+#if  defined(__GNUC__) && !defined(__ICC)
+#elif defined(__APPLE__)
+#elif defined(__sun) || defined(sun)
+#elif defined(__FreeBSD__)
+#elif defined(__OpenBSD__)
+#elif defined(__NetBSD__)
+#elif defined(_MSC_VER)
+#else
+#define SEQ_NO_FAST_BSWAP
+#endif
+
+
+
+
+
 	/// @brief Write 16 bits integer value to dst in little endian order
-	inline void write_LE_16(void* dst, std::uint16_t value)
+	SEQ_ALWAYS_INLINE void write_LE_16(void* dst, std::uint16_t value)
 	{
 #if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
 		value = byte_swap_16(value);
@@ -1207,7 +1381,7 @@ namespace seq
 		memcpy(dst, &value, sizeof(std::uint16_t));
 	}
 	/// @brief Write 32 bits integer value to dst in little endian order
-	inline void write_LE_32(void* dst, std::uint32_t value)
+	SEQ_ALWAYS_INLINE void write_LE_32(void* dst, std::uint32_t value)
 	{
 #if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
 		value = byte_swap_32(value);
@@ -1215,7 +1389,7 @@ namespace seq
 		memcpy(dst, &value, sizeof(std::uint32_t));
 	}
 	/// @brief Write 64 bits integer value to dst in little endian order
-	inline void write_LE_64(void* dst, std::uint64_t value)
+	SEQ_ALWAYS_INLINE void write_LE_64(void* dst, std::uint64_t value)
 	{
 #if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
 		value = byte_swap_64(value);
@@ -1224,7 +1398,7 @@ namespace seq
 	}
 
 	/// @brief Write 64 bits integer value to dst in big endian order
-	inline void write_BE_64(void* dst, std::uint64_t value)
+	SEQ_ALWAYS_INLINE void write_BE_64(void* dst, std::uint64_t value)
 	{
 #if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
 		value = byte_swap_64(value);
@@ -1232,9 +1406,14 @@ namespace seq
 		memcpy(dst, &value, sizeof(std::uint64_t));
 	}
 
+	/// @brief Write size_t object to dst
+	SEQ_ALWAYS_INLINE void write_size_t(void* dst, size_t value)
+	{
+		memcpy(dst, &value, sizeof(size_t));
+	}
 
 	/// @brief Read 16 bits integer from src in little endian order
-	inline auto read_LE_16(const void* src) -> std::uint16_t
+	SEQ_ALWAYS_INLINE auto read_LE_16(const void* src) -> std::uint16_t
 	{
 		std::uint16_t value = 0;
 		memcpy(&value, src, sizeof(std::uint16_t));
@@ -1244,7 +1423,7 @@ namespace seq
 		return value;
 	}
 	/// @brief Read 32 bits integer from src in little endian order
-	inline auto read_LE_32(const void* src) -> std::uint32_t
+	SEQ_ALWAYS_INLINE auto read_LE_32(const void* src) -> std::uint32_t
 	{
 		std::uint32_t value = 0;
 		memcpy(&value, src, sizeof(std::uint32_t));
@@ -1254,7 +1433,7 @@ namespace seq
 		return value;
 	}
 	/// @brief Read 64 bits integer from src in little endian order
-	inline auto read_LE_64(const void* src) -> std::uint64_t
+	SEQ_ALWAYS_INLINE auto read_LE_64(const void* src) -> std::uint64_t
 	{
 		std::uint64_t value = 0;
 		memcpy(&value, src, sizeof(std::uint64_t));
@@ -1266,21 +1445,21 @@ namespace seq
 
 
 	/// @brief Reads 16 bits integer from src
-	inline auto read_16(const void* src) -> std::uint16_t
+	SEQ_ALWAYS_INLINE auto read_16(const void* src) -> std::uint16_t
 	{
 		std::uint16_t value = 0;
 		memcpy(&value, src, sizeof(std::uint16_t));
 		return value;
 	}
 	/// @brief Reads 32 bits integer from src
-	inline auto read_32(const void* src) -> std::uint32_t
+	SEQ_ALWAYS_INLINE auto read_32(const void* src) -> std::uint32_t
 	{
 		std::uint32_t value = 0;
 		memcpy(&value, src, sizeof(std::uint32_t));
 		return value;
 	}
 	/// @brief Reads 64 bits integer from src
-	inline auto read_64(const void* src) -> std::uint64_t
+	SEQ_ALWAYS_INLINE auto read_64(const void* src) -> std::uint64_t
 	{
 		std::uint64_t value = 0;
 		memcpy(&value, src, sizeof(std::uint64_t));
@@ -1288,7 +1467,7 @@ namespace seq
 	}
 
 	/// @brief Reads uintptr_t integer from src
-	inline auto read_ptr_t(const void* src) -> std::uintptr_t
+	SEQ_ALWAYS_INLINE auto read_ptr_t(const void* src) -> std::uintptr_t
 	{
 		std::uintptr_t value = 0;
 		memcpy(&value, src, sizeof(std::uintptr_t));
@@ -1297,7 +1476,7 @@ namespace seq
 
 
 	/// @brief Reads 16 bits integer from src in big endian order
-	inline auto read_BE_16(const void* src) -> std::uint16_t
+	SEQ_ALWAYS_INLINE auto read_BE_16(const void* src) -> std::uint16_t
 	{
 		std::uint16_t value = 0;
 		memcpy(&value, src, sizeof(std::uint16_t));
@@ -1307,7 +1486,7 @@ namespace seq
 		return value;
 	}
 	/// @brief Reads 32 bits integer from src in big endian order
-	inline auto read_BE_32(const void* src) -> std::uint32_t
+	SEQ_ALWAYS_INLINE auto read_BE_32(const void* src) -> std::uint32_t
 	{
 		std::uint32_t value = 0;
 		memcpy(&value, src, sizeof(std::uint32_t));
@@ -1317,7 +1496,7 @@ namespace seq
 		return value;
 	}
 	/// @brief Reads 64 bits integer from src in big endian order
-	inline auto read_BE_64(const void* src) -> std::uint64_t
+	SEQ_ALWAYS_INLINE auto read_BE_64(const void* src) -> std::uint64_t
 	{
 		std::uint64_t value = 0;
 		memcpy(&value, src, sizeof(std::uint64_t));
@@ -1329,14 +1508,14 @@ namespace seq
 
 
 	/// @brief Reads size_t object from src 
-	inline auto read_size_t(const void* src) -> size_t
+	SEQ_ALWAYS_INLINE auto read_size_t(const void* src) -> size_t
 	{
 		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
 		return res;
 	}
 	/// @brief Reads size_t object from src in little endian order
-	inline auto read_LE_size_t(const void* src) -> size_t
+	SEQ_ALWAYS_INLINE auto read_LE_size_t(const void* src) -> size_t
 	{
 		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
@@ -1347,12 +1526,12 @@ namespace seq
 		return res;
 	}
 	/// @brief Reads size_t object from src in big endian order
-	inline auto read_BE_size_t(const void* src) -> size_t
+	SEQ_ALWAYS_INLINE auto read_BE_size_t(const void* src) -> size_t
 	{
 		size_t res = 0;
 		memcpy(&res, src, sizeof(size_t));
 #if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
-		if (sizeof(size_t) == 8) { res = byte_swap_64(res);
+		if (sizeof(size_t) == 8) { res = static_cast<size_t>(byte_swap_64(res));
 		} else { res = static_cast<size_t>(byte_swap_32(static_cast<std::uint32_t>(res)));
 }
 #endif

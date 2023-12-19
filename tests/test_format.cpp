@@ -253,22 +253,22 @@ inline void test_format()
 		tick();
 		for (size_t i = 0; i < 10000000; ++i)
 			vec.push_back(i);
-		size_t tvec = tock_ms(); //measure elapsed time
-		size_t mvec = get_memory_usage() / 1000000; // measure program memory usage
+		std::uint64_t tvec = tock_ms(); //measure elapsed time
+		std::uint64_t mvec = get_memory_usage() / 1000000; // measure program memory usage
 
 		reset_memory_usage();
 		tick();
 		for (size_t i = 0; i < 10000000; ++i)
 			deq.push_back(i);
-		size_t tdeq = tock_ms();
-		size_t mdeq = get_memory_usage() / 1000000; // measure program memory usage
+		std::uint64_t tdeq = tock_ms();
+		std::uint64_t mdeq = get_memory_usage() / 1000000; // measure program memory usage
 
 		reset_memory_usage();
 		tick();
 		for (size_t i = 0; i < 10000000; ++i)
 			lst.push_back(i);
-		size_t tlst = tock_ms();
-		size_t mlst = get_memory_usage() / 1000000;
+		std::uint64_t tlst = tock_ms();
+		std::uint64_t mlst = get_memory_usage() / 1000000;
 
 
 		// Output measurments using the 'line' format object.

@@ -37,13 +37,22 @@
 #include <intrin.h>
 #endif
 
+
+// With msvc, try to auto detect AVX and thus sse4.2
+#if (defined (_M_IX86) || defined (_M_X64)) && !defined(_CHPE_ONLY_) && (!defined(_M_ARM64EC) || !defined(_DISABLE_SOFTINTRIN_))
+#ifndef __AVX__
+#define __AVX__
+#endif
+#endif
+
+
 //For msvc, define __SSE__ and __SSE2__ manually
 #if defined(_MSC_VER) && (defined(_M_X64) || _M_IX86_FP >= 2)
 #  define __SSE__ 1
 #  define __SSE2__ 1
 #endif
 
-	// SSE intrinsics
+// SSE intrinsics
 #if defined(__SSE2__) 
 #if defined(__unix ) || defined(__linux ) || defined(__posix )
 #include <emmintrin.h>

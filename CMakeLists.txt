@@ -1,22 +1,27 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(seq
-    VERSION 1.1.0
-    DESCRIPTION "Collection of C++11 original containers"
+    VERSION 1.2
+    DESCRIPTION "Collection of C++14 original containers"
     HOMEPAGE_URL "https://github.com/Thermadiag/seq"
     LANGUAGES CXX
 )
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(GNUInstallDirs)
 
 # project options
 option(HEADER_ONLY "Do not build library, use header-only version" OFF)
 option(ENABLE_AVX2 "Enable AVX2 support" ON)
+option(BUILD_TESTS "Build tests" OFF)
+option(BUILD_BENCHS "Build benchmarks" OFF)
 
+set(PROJECT_HEADER_ONLY 1)
 
 # add sources if HEADER_ONLY is false
 if(NOT HEADER_ONLY)
-
+	set(PROJECT_HEADER_ONLY 0)
 	# add sources
 	add_library(seq SHARED
 		"${CMAKE_CURRENT_SOURCE_DIR}/seq/internal/block_codec.cpp"
@@ -28,7 +33,7 @@ if(NOT HEADER_ONLY)
 	)
 	
 	# add preprocessor definitions
-	add_definitions(-DSEQ_BUILD_LIBRARY)
+	target_compile_definitions(seq PRIVATE -DSEQ_BUILD_LIBRARY)
 	#if(BUILD_STATIC_LIB)
 	#	message("Build seq static library")
 	#	add_definitions(-DSEQ_STATIC_BUILD)
@@ -42,9 +47,7 @@ if(NOT HEADER_ONLY)
 
 	# add sse/avx flags
 	if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-		if(NOT ENABLE_AVX2)
-			target_compile_options(seq PRIVATE /arch:SSE2)
-		else()
+		if(ENABLE_AVX2)
 			target_compile_options(seq PRIVATE /arch:AVX2)
 		endif()
 	else()
@@ -66,6 +69,15 @@ else()
 endif()
 
 
+# add tests
+if(BUILD_TESTS)
+	add_subdirectory(tests)
+endif()
+
+# add benchmarks
+if(BUILD_BENCHS)
+	add_subdirectory(benchs)
+endif()
 
 # Install headers and sources (for header-only mode)
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/seq"
@@ -75,17 +87,36 @@ install (TARGETS seq LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} )
 install (TARGETS seq RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} )
 
 # Configure and install seq.pc
-configure_file(seq.pc.in seq.pc @ONLY)
-install(FILES ${CMAKE_BINARY_DIR}/seq.pc
-			DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+if(NOT HEADER_ONLY)
+	configure_file(seq.pc.in seq.pc @ONLY)
+	install(FILES ${CMAKE_BINARY_DIR}/seq.pc
+				DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+else()
+	configure_file(seq_ho.pc.in seq.pc @ONLY)
+	install(FILES ${CMAKE_BINARY_DIR}/seq.pc
+				DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+endif()
 
+
+# Configure and install seq.hpp
+configure_file(seq.hpp.in seq.hpp @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/seq.hpp
+			DESTINATION "${CMAKE_INSTALL_PREFIX}/include/seq")
 
 # Configure and install seqConfig.cmake and seqConfigVersion.cmake
 include(CMakePackageConfigHelpers)
-configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/seqConfig.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/seqConfig.cmake"
-  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/seq
-  PATH_VARS )
+
+if(NOT HEADER_ONLY)
+	configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/seqConfig.cmake.in"
+	  "${CMAKE_CURRENT_BINARY_DIR}/seqConfig.cmake"
+	  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/seq
+	  PATH_VARS )
+else()
+	configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/seqConfigHeaderOnly.cmake.in"
+	  "${CMAKE_CURRENT_BINARY_DIR}/seqConfig.cmake"
+	  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/seq
+	  PATH_VARS )
+endif()
   
 # Generate seqConfigVersion.cmake
 write_basic_package_version_file(

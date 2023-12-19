@@ -46,8 +46,8 @@ namespace seq
 	/// @tparam KeyLess optional less than comparison
 	template<
 		class Key,
-		class Hash = std::hash<Key>,
-		class KeyEqual = std::equal_to<Key>,
+		class Hash = hasher<Key>,
+		class KeyEqual = equal_to<>,
 		class Allocator = std::allocator<Key>,
 		class KeyLess = default_less
 	>
@@ -125,11 +125,11 @@ namespace seq
 		/// @param alloc allocator to use for all memory allocations of this container
 		radix_hash_set(const Hash& hash =Hash() ,
 			const KeyEqual&  = KeyEqual(),
-			const Allocator& alloc = Allocator()) noexcept
+			const Allocator& alloc = Allocator()) 
 			:d_tree(hash, alloc)
 		{}
 		radix_hash_set(const Hash& hash,
-			const Allocator& alloc) noexcept
+			const Allocator& alloc) 
 			:d_tree(hash, alloc)
 		{}
 		/// @brief Constructs empty container.
@@ -193,7 +193,7 @@ namespace seq
 		{}
 		/// @brief Move constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
-		radix_hash_set(radix_hash_set&& other) noexcept
+		radix_hash_set(radix_hash_set&& other) noexcept(std::is_nothrow_move_constructible<radix_tree_type>::value)
 			:d_tree(std::move(other.d_tree))
 		{}
 		/// @brief Move constructor
@@ -238,7 +238,7 @@ namespace seq
 		}
 
 		/// @brief Move assignment operator
-		auto operator=(radix_hash_set&& other) noexcept -> radix_hash_set&
+		auto operator=(radix_hash_set&& other) noexcept(std::is_nothrow_move_assignable<radix_tree_type>::value) -> radix_hash_set&
 		{
 			d_tree = std::move(other.d_tree);
 			return *this;
@@ -255,9 +255,9 @@ namespace seq
 		/// @brief Returns the container allocator object
 		auto get_allocator() const noexcept -> const allocator_type& { return d_tree.get_allocator(); }
 		/// @brief Returns the hash function
-		auto hash_function() const -> hasher { return d_tree.hash_function(); }
+		auto hash_function() const noexcept -> const hasher& { return d_tree.hash_function(); }
 		/// @brief Returns the equality comparison function
-		auto key_eq() const -> key_equal { return key_equal{}; }
+		auto key_eq() const noexcept -> key_equal { return key_equal{}; }
 
 		/// @brief Returns an iterator to the first element of the container.
 		auto end() noexcept -> iterator { return d_tree.end(); }
@@ -553,8 +553,8 @@ namespace seq
 	template<
 		class Key,
 		class T,
-		class Hash = std::hash<Key>,
-		class KeyEqual = std::equal_to<Key>,
+		class Hash = hasher<Key>,
+		class KeyEqual = equal_to<>,
 		class Allocator = std::allocator< std::pair<Key, T> >,
 		class KeyLess = default_less
 	>
@@ -680,7 +680,7 @@ namespace seq
 
 		radix_hash_map(const Hash& hash = Hash(),
 			const KeyEqual&  = KeyEqual(),
-			const Allocator& alloc = Allocator()) noexcept
+			const Allocator& alloc = Allocator()) 
 			:d_tree(hash,  alloc)
 		{}
 
@@ -717,7 +717,7 @@ namespace seq
 			:d_tree(other.d_tree)
 		{
 		}
-		radix_hash_map(radix_hash_map&& other) noexcept
+		radix_hash_map(radix_hash_map&& other) noexcept(std::is_nothrow_move_constructible< radix_tree_type>::value)
 			:d_tree(std::move(other.d_tree))
 		{}
 		radix_hash_map(radix_hash_map&& other, const Allocator& alloc)
@@ -744,7 +744,7 @@ namespace seq
 			d_tree = other.d_tree;
 			return *this;
 		}
-		auto operator=(radix_hash_map&& other) noexcept -> radix_hash_map&
+		auto operator=(radix_hash_map&& other) noexcept(std::is_nothrow_move_assignable< radix_tree_type>::value) -> radix_hash_map&
 		{
 			d_tree = std::move(other.d_tree);
 			return *this;
@@ -807,7 +807,7 @@ namespace seq
 		{
 			return d_tree.emplace(std::move(value));
 		}
-		template< class P >
+		template< class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0 >
 		SEQ_ALWAYS_INLINE auto insert(P&& value) -> std::pair<iterator, bool>
 		{
 			return d_tree.emplace(std::forward<P>(value));
@@ -825,7 +825,7 @@ namespace seq
 			(void)hint;
 			return d_tree.emplace(std::move( value)).first;
 		}
-		template< class P >
+		template< class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0 >
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, P&& value) -> iterator
 		{
 			(void)hint;

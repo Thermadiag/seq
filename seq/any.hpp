@@ -38,6 +38,7 @@ The <i>any</i> module provides the seq::hold_any class and related functions to 
 #include "format.hpp"
 #include "tagged_pointer.hpp"
 #include "tiny_string.hpp"
+#include "hash.hpp"
 
 #include <atomic>
 
@@ -887,7 +888,10 @@ namespace seq
 	struct any_base : public detail::null_policy
 	{
 	protected:
-		using storage_type = typename std::aligned_storage< StaticSize, Alignment>::type;
+		//using storage_type = typename std::aligned_storage< StaticSize, Alignment>::type;
+		struct alignas(Alignment) storage_type {
+			char data[StaticSize];
+		};
 		using pointer_type = tagged_pointer<TypeInfo, CustomAlignment, 32>;
 
 		pointer_type d_type_info;
@@ -2520,6 +2524,40 @@ namespace seq
 	{
 		return ostream_format< nh_any, true>();
 	}
+
+
+	// specialization of seq::hasher for hold_any
+	template<class Interface, size_t S, size_t A, bool R>
+	class hasher< seq::hold_any<Interface, S, A, R> >
+	{
+	public:
+		using is_transparent = void;
+		using is_avalanching = void;
+
+		auto operator()(const seq::hold_any<Interface, S, A, R>& a) const -> size_t
+		{
+			return hash_finalize(a.hash());
+		}
+
+		template<class T>
+		auto operator()(const T* value) const -> size_t
+		{
+			using type = typename std::decay<T>::type;
+			// For any type, use the type info for this type and call hash_any
+			const auto* type_inf = seq::hold_any<Interface, S, A, R>::template get_type<type*>();
+			std::uintptr_t p = reinterpret_cast<std::uintptr_t>(value);
+			return hash_finalize(type_inf->hash_any(&p));
+		}
+
+		template<class T>
+		auto operator()(const T& value) const -> size_t
+		{
+			using type = T;
+			// For any type, use the type info for this type and call hash_any
+			const auto* type_inf = seq::hold_any<Interface, S, A, R>::template get_type<type>();
+			return hash_finalize(type_inf->hash_any(&value));
+		}
+	};
 }
 
 namespace std

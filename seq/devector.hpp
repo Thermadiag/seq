@@ -65,7 +65,7 @@ namespace seq
 
 			DEVectorData(const Allocator & al = Allocator()) 
 				: Allocator(al), data(nullptr), start(nullptr), end(nullptr), capacity(0){}
-			DEVectorData(DEVectorData&& other) noexcept 				
+			DEVectorData(DEVectorData&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
 				: Allocator(std::move(static_cast<Allocator&>(other))), data(other.data), start(other.start), end(other.end), capacity(other.capacity) {
 				other.data = other.start = other.end = nullptr;
 				other.capacity = 0;
@@ -701,7 +701,7 @@ namespace seq
 		}
 		/// @brief Move constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
-		devector(devector&& other) noexcept
+		devector(devector&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value)
 			:base_type(std::move(static_cast<base_type&>(other))) {}
 		/// @brief Move constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
@@ -1060,7 +1060,7 @@ namespace seq
 
 		/// @brief Swap this container with other
 		/// Does not invalidated iterators, including end() iterator.
-		void swap(devector& other) noexcept
+		void swap(devector& other) noexcept(noexcept(swap_allocator(std::declval<Allocator&>(), std::declval<Allocator&>())))
 		{
 			if (this != std::addressof(other)) {
 				std::swap(base_type::data, other.base_type::data);
@@ -1222,7 +1222,7 @@ namespace seq
 			return *this;
 		}
 		/// @brief Move assignment operator
-		auto operator=( devector&& other) noexcept -> devector&
+		auto operator=( devector&& other) noexcept(noexcept(std::declval<devector&>().swap(std::declval<devector&>()))) -> devector&
 		{
 			swap(other);
 			return *this;

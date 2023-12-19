@@ -33,17 +33,28 @@
 #include <time.h>
 #endif
 
+#include <atomic>
 #include <chrono>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <stdexcept>
 #include <sstream>
 #include <random>
 #include <algorithm>
+#include <iomanip>
 
 #include "bits.hpp"
-#include "format.hpp"
 #include "utils.hpp"
+#include "charconv.hpp"
+
+#ifdef max
+#undef max
+#endif
+
+#ifdef min
+#undef min
+#endif
 
 namespace seq
 {
@@ -72,20 +83,31 @@ namespace seq
 		virtual ~streambuf_size() noexcept override { oss->rdbuf(sbuf); }
 		size_t get_size() const { return size; }
 	};
+
+	namespace detail
+	{
+		template<class T>
+		std::string to_string(const T& value) {
+			std::ostringstream ss;
+			ss << value;
+			return ss.str();
+		}
+	}
+
 }
 
 
 
 /// @brief Very basic testing macro that throws seq::test_error if condition is not met.
 #define SEQ_TEST( ... ) \
-	if(! (__VA_ARGS__) ) {throw seq::test_error("testing error at file " __FILE__ "(" + seq::fmt(__LINE__).str() + "): "  #__VA_ARGS__); }
+	if(! (__VA_ARGS__) ) {throw seq::test_error("testing error at file " __FILE__ "(" + seq::detail::to_string(__LINE__) + "): "  #__VA_ARGS__); }
 
 /// @brief Test if writting given argument to a std::ostream produces the string 'result', throws seq::test_error if not.
 #define SEQ_TEST_TO_OSTREAM( result, ... ) \
 	{std::ostringstream oss; \
 	oss <<(__VA_ARGS__) ; oss.flush() ; \
 	if( oss.str() != result) \
-		{std::string v =seq::fmt(__LINE__);  throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): \"" + std::string(result) + "\" == "  #__VA_ARGS__).c_str());} \
+		{std::string v =seq::detail::to_string(__LINE__);  throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): \"" + std::string(result) + "\" == "  #__VA_ARGS__).c_str());} \
 	}
 
 /// @brief Test if given statement throws a 'exception' object. If not, throws seq::test_error.
@@ -94,7 +116,7 @@ namespace seq
 	try { __VA_ARGS__; } \
 	catch(const exception &) {has_thrown = true;} \
 	catch(...) {} \
-	if(! has_thrown ) {std::string v =seq::fmt(__LINE__);  \
+	if(! has_thrown ) {std::string v =seq::detail::to_string(__LINE__);  \
 		throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): "  #__VA_ARGS__).c_str()); } \
 	}
 
@@ -371,5 +393,68 @@ namespace seq
 	};
 
 
+	template<class T>
+	struct debug_allocator
+	{
+		typedef T value_type;
+		typedef T* pointer;
+		typedef const T* const_pointer;
+		typedef T& reference;
+		typedef const T& const_reference;
+		using size_type = size_t;
+		using difference_type = ptrdiff_t;
+		using is_always_equal = std::false_type;
+		using propagate_on_container_swap = std::true_type;
+		using propagate_on_container_copy_assignment = std::true_type;
+		using propagate_on_container_move_assignment = std::true_type;
+
+		template <class Other>
+		struct rebind {
+			using other = debug_allocator<Other>;
+		};
+
+		std::shared_ptr<std::atomic<std::int64_t> > d_count;
+
+		debug_allocator() :d_count(new std::atomic<std::int64_t>(0)) {}
+		debug_allocator(const debug_allocator& other)
+			:d_count(other.d_count) {}
+		template <class Other>
+		debug_allocator(const debug_allocator<Other>& other)
+			: d_count(other.d_count) {}
+		~debug_allocator() {}
+		debug_allocator& operator=(const debug_allocator& other) {
+			d_count = other.d_count;
+			return *this;
+		}
+
+		bool operator==(const debug_allocator& other) const { return d_count == other.d_count; }
+		bool operator!=(const debug_allocator& other) const { return d_count != other.d_count; }
+
+		void deallocate(T* p, const size_t count) {
+			std::allocator<T>{}.deallocate(p, count);
+			(*d_count) -= count * sizeof(T);
+			//printf("deallocate %i elems (%i B) of type %s\n", (int)count, (int)(count * sizeof(T)), typeid(T).name());
+			SEQ_ASSERT_DEBUG(*d_count >= 0, "");
+		}
+		T* allocate(const size_t count) {
+			T* p = std::allocator<T>{}.allocate(count);
+			(*d_count) += count * sizeof(T);
+			//printf("allocate %i elems (%i B) of type %s\n", (int)count,(int)(count*sizeof(T)), typeid(T).name());
+			return p;
+		}
+		T* allocate(const size_t count, const void*) { return allocate(count); }
+		size_t max_size() const noexcept { return static_cast<size_t>(-1) / sizeof(T); }
+	};
+
+	template<class T>
+	std::int64_t get_alloc_bytes(const debug_allocator<T>& al)
+	{
+		return *al.d_count;
+	}
+	template<class T>
+	std::int64_t get_alloc_bytes(const T&)
+	{
+		return 0;
+	}
 }
 #endif

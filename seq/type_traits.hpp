@@ -30,6 +30,7 @@
 #include <type_traits>
 #include <functional>
 #include <limits>
+#include <cstdint>
 
 
 

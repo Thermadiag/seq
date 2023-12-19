@@ -22,6 +22,10 @@
  * SOFTWARE.
  */
 
+// Silence warnings on deprecated functions in C++17
+#if (defined( _MSC_VER) && !defined(__clang__))
+#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+#endif
 
 #include "seq/radix_map.hpp"
 #include "seq/testing.hpp"
@@ -90,6 +94,7 @@ public:
 	dummy_alloc(const dummy_alloc& other):std::allocator<T>(other){}
 	template<class U>
 	dummy_alloc(const dummy_alloc<U>& other): std::allocator<T>(other){}
+	dummy_alloc & operator=(const dummy_alloc&) = default;
 	auto operator == (const dummy_alloc& ) const noexcept -> bool { return true; }
 	auto operator != (const dummy_alloc& ) const noexcept -> bool { return false; }
 	auto allocate(size_t n, const void* /*unused*/) -> T* {
@@ -155,15 +160,27 @@ struct rebind<seq::radix_set<T,Extract,Al>, U>
 };
 
 
+
 template<class C>
 void check_sorted(C& set)
 {
+	
 	size_t dist = static_cast<size_t>(std::distance(set.begin(), set.end()));
 	SEQ_TEST(dist == set.size());
 	SEQ_TEST(std::is_sorted(set.begin(), set.end()));
 	SEQ_TEST(std::is_sorted(set.rbegin(), set.rend(), seq::greater<>{}));
+	
+	// build keys
+	std::vector<typename C::value_type> vec;
 	for (auto it = set.begin(); it != set.end(); ++it)
-		SEQ_TEST(set.find(*it) != set.end());
+		vec.push_back(*it);
+
+	
+	for (size_t i = 0; i < vec.size(); ++i) {
+		SEQ_TEST(set.find(vec[i]) != set.end());
+		
+	}
+	
 }
 
 inline void test_radix_set_common()
@@ -275,9 +292,14 @@ inline void test_radix_set_common()
 		//test lower_bound
 		size_t mul = 100;
 		seq::radix_set<size_t> set;
+		size_t count = 0;
 
-		for (size_t i = 1000 * mul; i < 2000 * mul; i += 5)
+		for (size_t i = 1000 * mul; i < 2000 * mul; i += 5, ++count) {
+
+			
 			set.insert(i);
+			
+		}
 
 		// make sure the set is valid
 		SEQ_TEST(std::distance(set.begin(), set.end()) == static_cast<std::ptrdiff_t>(set.size()));
@@ -292,11 +314,27 @@ inline void test_radix_set_common()
 			SEQ_TEST(it != set.end() && *it == i);
 		}
 
+		{
+			//verify with find
+			std::vector<size_t> vec;
+			for (size_t i : set)
+				vec.push_back(i);
+			for (size_t i : vec) {
+				SEQ_TEST(set.find(i) != set.end());
+
+			}
+			
+		}
+
 		// mix existing/non existing values
 		for (size_t i = 0; i < 4000 * mul; i++)
 		{
-
+			
+			set.lower_bound(i);
+			
 			auto it = set.lower_bound(i);
+
+			
 
 			// test bit position
 			if (it != set.end())
@@ -1192,6 +1230,7 @@ void test_heavy_set(size_t count)
 	//erase remaining keys
 	for (size_t i = 0; i < count; ++i)
 	{
+		
 		auto it = s.find(keys[i]);
 		if (it != s.end())
 			s.erase(it);
@@ -1250,6 +1289,9 @@ struct Extract
 
 int test_radix_tree(int , char*[])
 {
+	//TODO: remove
+	SEQ_TEST_MODULE_RETURN(heavy_radix_set, 1, test_heavy_set<seq::radix_set<size_t> >(1000));
+
 	SEQ_TEST_MODULE_RETURN(radix_set_string, 1, test_string_key());
 	SEQ_TEST_MODULE_RETURN(test_worst_string_key_a, 1, test_worst_string_key('a'));
 	SEQ_TEST_MODULE_RETURN(test_worst_string_key_0, 1, test_worst_string_key(static_cast<char>(0)));

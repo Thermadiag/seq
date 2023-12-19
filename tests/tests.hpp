@@ -94,13 +94,17 @@ public:
 		return t;
 	}
 	operator T() const { return value; }
-	bool operator==(const TestDestroy& other) const {return other.value == value;}
-	bool operator!=(const TestDestroy& other) const { return other.value != value; }
-	bool operator<(const TestDestroy& other) const { return value < other.value; }
-	bool operator>(const TestDestroy& other) const { return value > other.value; }
-	bool operator<=(const TestDestroy& other) const { return value <= other.value; }
-	bool operator>=(const TestDestroy& other) const { return value >= other.value; }
+	const T& val() const { return value; }
 };
+
+template<class T, bool R> inline bool operator==(const TestDestroy<T,R>& l, const TestDestroy<T, R>& r)  { return l.val() == r.val(); }
+template<class T, bool R> inline bool operator!=(const TestDestroy<T, R>& l, const TestDestroy<T, R>& r)  { return l.val() != r.val(); }
+template<class T, bool R> inline bool operator<(const TestDestroy<T, R>& l, const TestDestroy<T, R>& r)  { return l.val() < r.val(); }
+template<class T, bool R> inline bool operator>(const TestDestroy<T, R>& l, const TestDestroy<T, R>& r)  { return l.val() > r.val(); }
+template<class T, bool R> inline bool operator<=(const TestDestroy<T, R>& l, const TestDestroy<T, R>& r)  { return l.val() <= r.val(); }
+template<class T, bool R> inline bool operator>=(const TestDestroy<T, R>& l, const TestDestroy<T, R>& r)  { return l.val() >= r.val(); }
+
+template<class T, bool R> inline TestDestroy<T, R> operator*(const TestDestroy<T, R>& v, T val) { return TestDestroy<T, R>(v.val() * val); }
 
 namespace seq
 {

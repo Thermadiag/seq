@@ -118,19 +118,19 @@ void test_tiered_vector_algorithms(size_t count = 5000000)
 	std::cout << f("std::sort", vec_t, deq_t, tvec_t, cvec_t) << std::endl;
 
 	tick();
-	std::unique(vec.begin(), vec.end());
+	auto it1 = std::unique(vec.begin(), vec.end());
 	vec_t = tock_ms();
 
 	tick();
-	std::unique(deq.begin(), deq.end());
+	auto it2 = std::unique(deq.begin(), deq.end());
 	deq_t = tock_ms();
 
 	tick();
-	std::unique(tvec.begin(), tvec.end());
+	auto it3 = std::unique(tvec.begin(), tvec.end());
 	tvec_t = tock_ms();
 
 	tick();
-	std::unique(cvec.begin(), cvec.end());
+	auto it4 = std::unique(cvec.begin(), cvec.end());
 	cvec_t = tock_ms();
 
 	assert_equal(deq, tvec);
@@ -235,7 +235,7 @@ void test_tiered_vector_algorithms(size_t count = 5000000)
 }
 
 
-
+//#include "segmented_tree/include/boost/segmented_tree/seq.hpp"
 
 /// @brief Compare performances of std::vector, std::deque, seq::tiered_vector and seq::devector
 /// A value of 1000000000 means that the container has not been tested against a particular operation because too slow (for instance pop front on a std::vector).
@@ -262,7 +262,7 @@ void test_tiered_vector(size_t count = 10000000)
 		using cvec_type = seq::cvector<type, std::allocator<type>, 0>;
 		cvec_type cvec;
 
-		using deque_type = tiered_vector<type, std::allocator<T> > ;
+		using deque_type =  tiered_vector<type, std::allocator<T> > ;
 		deque_type tvec;
 
 
@@ -593,7 +593,7 @@ void test_tiered_vector(size_t count = 10000000)
 			devec_t = tock_ms();
 
 			tick();
-			tvec.erase(tvec.size() / 4, tvec.size() / 2);
+			tvec.erase(tvec.begin() + tvec.size() / 4, tvec.begin() + tvec.size() / 2);
 			tvec_t = tock_ms();
 
 			tick();
@@ -625,7 +625,7 @@ void test_tiered_vector(size_t count = 10000000)
 			devec_t = tock_ms();
 
 			tick();
-			tvec.erase(tvec.size() / 2, tvec.size() * 3 / 4);
+			tvec.erase(tvec.begin() + tvec.size() / 2, tvec.begin() + tvec.size() * 3 / 4);
 			tvec_t = tock_ms();
 
 			tick();
@@ -895,7 +895,7 @@ void test_tiered_vector(size_t count = 10000000)
 
 		tick();
 		for (size_t i = 0; i < insert_count; ++i) {
-			tvec.insert(in_pos[i], i);
+			tvec.insert(tvec.begin() + in_pos[i], i);
 		}
 		tvec_t = tock_ms();
 
@@ -939,7 +939,7 @@ void test_tiered_vector(size_t count = 10000000)
 
 		tick();
 		for (size_t i = 0; i < erase_count; ++i) {
-			tvec.erase(er_pos[i]);
+			tvec.erase(tvec.begin() + er_pos[i]);
 		}
 		tvec_t = tock_ms();
 

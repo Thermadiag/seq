@@ -288,7 +288,7 @@ namespace seq
 #endif
 
 
-#ifdef  __BMI2__
+#if defined(  __BMI2__) && defined (SEQ_ARCH_64)
 			static const std::uint64_t mask[9] = {
 				0,
 				0x0101010101010101ULL,
@@ -523,7 +523,7 @@ namespace seq
 		unsigned target = 256 - diff[acceleration];
 		char* saved = dst;// dst++;//save the compression method on 1 byte
 
-		if (dst_end - saved < minimum_size)
+		if (static_cast<size_t>(dst_end - saved) < minimum_size)
 			return SEQ_ERROR_DST_OVERFLOW;
 
 		buff_src = get_comp_buffer(detail::compressionBufferSize(BPP));
@@ -732,7 +732,7 @@ namespace seq
 				std::uint64_t r1 = seq::read_LE_64(src);
 				src += bits;
 				std::uint64_t r2 = seq::read_LE_64(src);
-				std::uint64_t mask = (1 << bits) - 1;
+				std::uint64_t mask = (1ull << static_cast<std::uint64_t>(bits)) - 1ull;
 				std::uint64_t _bits = bits;
 				out[0] = _UCH(r1 & mask); out[1] = _UCH((r1 >> _bits) & mask); out[2] = _UCH((r1 >> _bits * 2ULL) & mask); out[3] = _UCH((r1 >> _bits * 3ULL) & mask);
 				out[4] = _UCH((r1 >> _bits * 4ULL) & mask); out[5] = _UCH((r1 >> _bits * 5ULL) & mask); out[6] = _UCH((r1 >> _bits * 6ULL) & mask); out[7] = _UCH((r1 >> _bits * 7ULL) & mask);
@@ -749,7 +749,7 @@ namespace seq
 		static inline const unsigned char* read_16_bits(const unsigned char* src, const unsigned char* end, unsigned char* out, unsigned bits)
 		{
 
-#ifdef  __BMI2__
+#if defined(  __BMI2__) && defined(SEQ_ARCH_64)
 			(void)end;
 			static const std::uint64_t mask[9] = {
 				0,

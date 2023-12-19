@@ -23,7 +23,7 @@ Currently, the *containers* module provide 5 types of containers:
 	-	`seq::ordered_map`: associative version of `seq::ordered_set`.
 	-	[seq::radix_hash_set](radix_tree.md): radix based hash table with a similar interface to `std::unordered_set`. Uses incremental rehash, no memory peak.
 	-	`seq::radix_hash_map`: associative version of `seq::radix_hash_set`.
+	-	[seq::concurrent_map](concurrent_map.md) and `seq::concurrent_set`: higly scalable concurrent hash tables.
 -	Strings:
 	-	[seq::tiny_string](tiny_string.md): string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
 
-See the <a href="https://raw.githack.com/Thermadiag/seq/master/doc/html/group__containers.html">documentation</a> of each class for more details.

@@ -28,6 +28,7 @@
 
 #include <seq/testing.hpp>
 #include <seq/memory.hpp>
+#include <seq/format.hpp>
 
 using namespace seq;
 

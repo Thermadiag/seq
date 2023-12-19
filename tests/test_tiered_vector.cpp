@@ -32,7 +32,8 @@
 #include "tests.hpp"
 
 
-
+#undef min
+#undef max
 
 
 template<class Deq1, class Deq2>

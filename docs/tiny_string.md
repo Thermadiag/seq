@@ -24,34 +24,35 @@ For the rest of the documentation, only standard `char` strings are considered.
 
 ## Size and bookkeeping
 
-By default, a tiny_string contains enough room to store a 15 bytes string, therefore a length of 14 bytes for null terminated strings.
-For small strings (below the preallocated threshold), tiny_string only store one additional byte for bookkeeping: 7 bits for string length and 1 bit to tell if the string is allocated in-place or on the heap. It means that the default tiny_string size is 16 bytes, which is half the size of std::string on gcc and msvc. This small footprint is what makes tiny_string very fast on flat containers like std::vector, std::deque or open addressing hash tables, while node based container (like std::map) are less impacted. Note that this tiny size is only reach when using an empty allocator like std::allocator<char>. 
+By default on 64 bits machines, a tiny_string contains enough room to store a 16 bytes string, therefore a length of 15 bytes for null terminated strings.
+Starting version 1.2 of *seq* library, tiny_string does not store any additional bytes for internal bookkeeping. The fact that a string MUST be null terminated allows some tricks in order to use the full string size for SSO.
 
-When the tiny_string grows beyong the preallocated threshold, memory is allocated on the heap based on provided allocator, and the bookkeeping part is divided as follow:
--	still 1 bit to tell is the memory is heap allocated or not,
--	1 bit to tell if the string capacity is exactly equal to the string size + 1 (as tiny_string is always null terminated),
--	sizeof(size_t)*8 - 2 bits to store the string size. Therefore, the maximum size of tiny_string is slightly lower than std::string.
--	a pointer (4 to 8 bytes) to the actual memory chunk.
+This means that the default `seq::tstring` has a size of 16 bytes and can hold a small string of... 16 bytes (including trailing 0).
+Likewise, `seq::tiny_string<char, std::char_traits<char>, std::allocator<char>, 31>` has a size of 32 bytes and can hold a small string of 32 bytes.
 
-`seq::tiny_string` does not store the memory capacity, and always use a grow factor of 2. The capacity is always deduced from the string length using compiler intrinsics (like `_BitScanReverse` on msvc). In some cases (like copy construction), the allocated capacity is the same as the string length, in which case a 1 bit flag is set to track this information.
+When the tiny_string grows beyong the preallocated threshold, memory is allocated on the heap based on provided allocator using a grow factor of 2.
 
-*This means that tiny_string will grow and shrink according to its content, unlike std::string that mainly releases its memory on demand (with calls to shrink_to_fit() )*. This behavior is intended, but might not fit all situations.
+Starting version 1.2 of *seq* library, tiny_string behaves exactly like std::string and does not deallocate memory on shrinking, except on calls to `shrink_to_fit()`.
 
-The global typedef `seq::tstring` is provided for convenience, and is equivalent to `seq::tiny_string<char,std::char_traits<char>,std::allocator<char>,0>`.
+Several typedefs are provided for convenience:
+
+-	`seq::tstring`: equivalent to `seq::tiny_string<char, std::char_traits<char>, std::allocator<char>, 0 >`
+-	`seq::wtstring`: equivalent to `seq::tiny_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t>, 0 >`
+
 
 ## Static size
 
 The maximum preallocated space is specified as a template parameter (*MaxStaticSize*).
 By default, this value is set to 0, meaning that the tiny_string only uses 2 words of either 32 or 64 bits depending on the architecture (whatever the char type is).
-Therefore, the maximum in-place capacity is either 7 or 15 bytes for 1 byte char type, less for wchar_t string.
+Therefore, the maximum in-place capacity is either 8 or 16 bytes for 1 byte char type, less for wchar_t string.
 
-The maximum preallocated space can be increased up to 127 elements (size of 126 since the string is null terminated). To have a tiny_string of 32 bytes like std::string on gcc and msvc, you could use, for instance, tiny_string<28>.
-In this case, the maximum string size (excluding null-terminated character) to use SSO would be 30 bytes (!).
+The maximum preallocated space can be increased up to 120 elements (size of 119 since the string is null terminated) for char type. 
+Use `seq::tiny_string<char_type>::max_allowed_static_size` to retrieve the maximum static size for a given char type.
 
 ## Relocatable type
 
 `seq::tiny_string` is relocatable, meaning that it does not store pointer to internal data.
-Relocatable types can be used more efficiently in containers that are aware of this property. For instance, `seq::devector`, `seq::tiered_vector` and `seq::flat_map` are faster when working with relocatable types, as the process to move one object from a memory layout about to be destroyed to a new one can be accomplished through a simple memcpy.
+Relocatable types can be used more efficiently in containers that are aware of this property. For instance, `seq::devector`, `seq::tiered_vector`, `seq::flat_map/set`, `seq::radix_map/set` and `seq::radix_hash_map/set` are faster when working with relocatable types, as the process to move one object from a memory layout about to be destroyed to a new one can be accomplished through a simple memcpy.
 
 Msvc implementation of std::string is also relocatable, while gcc implementation is not as it stores a pointer to its internal data for small strings.
 
@@ -93,14 +94,11 @@ Functions working on other strings like find(), compare()... are overloaded to a
 The comparison operators are also overloaded to work with std::string.
 
 `seq::tiny_string` also works with std::istream/std::ostream exactly like std::string.
-A specialization of std::hash is provided for tiny_string types which relies on murmurhash2. This specialization is transparent and supports hashing std::string, tiny_string and const char*.
+A specialization of std::hash is provided for tiny_string types which relies on [komihash](https://github.com/avaneev/komihash). This specialization is transparent and supports hashing std::string, tiny_string and const char*.
 
 `seq::tiny_string` provides the same invalidation rules as std::string as well as the same exception guarantees.
 
-The main difference compared to std::string is memory deallocation. As tiny_string does not store the capacity internally, its capacity is deduced from the size and must be the closest greater or equal power of 2 (except for a few situations where the capacity is excatly the length +1).
-Therefore, tiny_string must release memory when its size decreases due, for instance, to calls to tiny_string::pop_back().
-Likewise, shrink_to_fit() and reserve() are no-ops.
-
+`seq::tiny_string` is hashable using `std::hash` or [`seq::hasher`](hash.md).
 
 ## String view
 

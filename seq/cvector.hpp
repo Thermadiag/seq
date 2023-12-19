@@ -81,15 +81,15 @@ namespace seq
 	{
 		Lock* lock;
 	public:
-		lock_guard(Lock& l) : lock(&l) { lock->lock(); }
-		lock_guard(const lock_guard&) = default;
-		~lock_guard() { lock->unlock(); }
+		lock_guard(Lock& l) noexcept : lock(&l) { lock->lock(); }
+		lock_guard(const lock_guard&) noexcept = default;
+		~lock_guard() noexcept { lock->unlock(); }
 	};
 
 	/// @brief Returns a lock guard around l.
 	/// Use copy elison to avoid creating copies and locking twice the lock object.
 	template<class Lock>
-	auto make_lock_guard(Lock& l) -> lock_guard<Lock>
+	auto make_lock_guard(Lock& l) noexcept -> lock_guard<Lock>
 	{
 		return lock_guard<Lock>(l);
 	}
@@ -111,9 +111,9 @@ namespace seq
 		unsigned d_ratio : sizeof(unsigned) * 8 - 1;
 		unsigned d_type : 1;
 	public:
-		context_ratio()
+		context_ratio() noexcept
 			:d_ratio(8), d_type(Ratio) {} // 12.5% by default
-		context_ratio(unsigned ratio_or_count, ContextRatio type = Fixed)
+		context_ratio(unsigned ratio_or_count, ContextRatio type = Fixed) noexcept
 			:d_ratio(ratio_or_count == 0 ? 1 : ratio_or_count), d_type(type) {}
 
 		unsigned ratio() const noexcept { return d_ratio; }
@@ -134,16 +134,16 @@ namespace seq
 		{
 			Compress* compress;
 			context_ratio old_ratio;
-			ContextRatioGuard(Compress* c, context_ratio new_ratio) : compress(c), old_ratio(c->max_contexts()) {
+			ContextRatioGuard(Compress* c, context_ratio new_ratio) noexcept : compress(c), old_ratio(c->max_contexts()) {
 				compress->set_max_contexts(new_ratio);
 			}
-			ContextRatioGuard(const ContextRatioGuard&) = default;
-			~ContextRatioGuard() {
+			ContextRatioGuard(const ContextRatioGuard&) noexcept = default;
+			~ContextRatioGuard() noexcept {
 				compress->set_max_contexts(old_ratio);
 			}
 		};
 		template<class Compress>
-		ContextRatioGuard< Compress> lock_context_ratio(Compress* c, context_ratio new_ratio) {
+		ContextRatioGuard< Compress> lock_context_ratio(Compress* c, context_ratio new_ratio) noexcept {
 			return ContextRatioGuard< Compress>(c, new_ratio);
 		}
 
@@ -153,13 +153,13 @@ namespace seq
 			Iterator* left;
 			Iterator* right;
 
-			void erase()
+			void erase() noexcept
 			{
 				// remove from linked list
 				left->right = right;
 				right->left = left;
 			}
-			void insert(Iterator* _left, Iterator* _right)
+			void insert(Iterator* _left, Iterator* _right) noexcept
 			{
 				// insert in linked list
 				this->left = _left;
@@ -213,7 +213,7 @@ namespace seq
 				size = 0;
 			}
 
-			void reset()
+			void reset() noexcept
 			{
 				size = 0;
 				dirty = 0;
@@ -235,7 +235,7 @@ namespace seq
 			struct iterator
 			{
 				Iterator* it;
-				iterator(Iterator* i = nullptr) : it(i) {}
+				iterator(Iterator* i = nullptr) noexcept : it(i) {}
 				auto operator++() noexcept -> iterator&
 				{
 					it = it->right;
@@ -266,14 +266,14 @@ namespace seq
 			Iterator d_end;
 			size_t d_size;
 
-			BufferList()
+			BufferList() noexcept
 				:d_size(0) {
 				d_end.left = d_end.right = &d_end;
 			}
 			auto size() const noexcept ->size_t { return d_size; }
 			auto begin() noexcept -> iterator { return iterator(d_end.right); }
 			auto end() noexcept -> iterator { return iterator(&d_end); }
-			void assign(BufferList&& other)
+			void assign(BufferList&& other) noexcept
 			{
 				auto l = other.d_end.left;
 				auto r = other.d_end.right;
@@ -1111,7 +1111,7 @@ namespace seq
 
 		public:
 
-			CompressedVectorInternal(const Allocator& al ) noexcept
+			CompressedVectorInternal(const Allocator& al ) noexcept(std::is_nothrow_copy_constructible<Allocator>::value)
 				:Allocator(al), d_buckets(RebindAlloc<BucketType>(al)), d_compress_size(0), d_size(0), d_max_contexts(8 - acceleration / 2, Ratio), d_disp(0)
 			{}
 			
@@ -2774,7 +2774,7 @@ namespace seq
 		}
 		/// @brief Move constructor. Constructs the container with the contents of other using move semantics. Allocator is obtained by move-construction from the allocator belonging to other.
 		/// @param other another container to be used as source to initialize the elements of the container with
-		cvector(cvector&& other) noexcept
+		cvector(cvector&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
 			:Allocator(std::move(other.get_allocator())), d_data(other.d_data)
 		{
 			other.d_data = nullptr;
@@ -2826,7 +2826,7 @@ namespace seq
 		/// @brief Move assignment operator.
 		/// @param other another container to use as data source
 		/// @return reference to this
-		auto operator=(cvector&& other) noexcept -> cvector&
+		auto operator=(cvector&& other) noexcept(noexcept(std::declval<cvector&>().swap(std::declval<cvector&>()))) -> cvector&
 		{
 			this->swap(other);
 			return *this;
@@ -2932,7 +2932,7 @@ namespace seq
 		/// @param other other sequence to swap with
 		/// All iterators and references remain valid.
 		/// An iterator holding the past-the-end value in this container will refer to the other container after the operation.
-		void swap(cvector& other) noexcept
+		void swap(cvector& other) noexcept(noexcept(swap_allocator(std::declval<Allocator&>(), std::declval<Allocator&>())))
 		{
 			if (this != std::addressof(other)) {
 				std::swap(d_data, other.d_data);
@@ -3318,6 +3318,7 @@ namespace seq
 				const auto* bucket = &d_data->d_buckets[pos];
 				if (!bucket->decompressed)
 					const_cast<internal_type*>(d_data)->decompress_bucket(pos);
+				SEQ_ASSERT_DEBUG(bucket->decompressed != nullptr, "");
 				return std::pair<const T*, unsigned>(reinterpret_cast<const T*>(bucket->decompressed->storage), bucket->decompressed->size);
 			}
 			return std::pair<const T*, unsigned>(nullptr, 0);
@@ -3331,6 +3332,7 @@ namespace seq
 				auto* bucket = &d_data->d_buckets[pos];
 				if (!bucket->decompressed)
 					d_data->decompress_bucket(pos);
+				SEQ_ASSERT_DEBUG(bucket->decompressed != nullptr, "");
 				return std::pair<T*, unsigned>(reinterpret_cast<T*>(bucket->decompressed->storage), bucket->decompressed->size);
 			}
 			return std::pair<T*, unsigned>(nullptr, 0);
@@ -3531,7 +3533,7 @@ namespace std
 	/////////////////////////////
 
 	template<class Compressed>
-	void swap(seq::detail::ValueWrapper<Compressed>&& a, seq::detail::ValueWrapper<Compressed>&& b)
+	void swap(seq::detail::ValueWrapper<Compressed>&& a, seq::detail::ValueWrapper<Compressed>&& b) 
 	{
 		a.swap(b);
 	}

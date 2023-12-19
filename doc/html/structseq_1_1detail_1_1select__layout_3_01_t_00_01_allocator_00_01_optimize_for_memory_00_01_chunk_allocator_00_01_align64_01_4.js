@@ -1,4 +1,0 @@
-var structseq_1_1detail_1_1select__layout_3_01_t_00_01_allocator_00_01_optimize_for_memory_00_01_chunk_allocator_00_01_align64_01_4 =
-[
-    [ "type", "structseq_1_1detail_1_1select__layout_3_01_t_00_01_allocator_00_01_optimize_for_memory_00_01_chunk_allocator_00_01_align64_01_4.html#af491d3f217e75c68c143eecef576685f", null ]
-];

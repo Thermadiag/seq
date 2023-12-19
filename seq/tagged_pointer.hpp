@@ -110,9 +110,9 @@ namespace seq
 		/// @brief number of bits for the tag
 		static constexpr std::uintptr_t tag_bits = bits;
 		/// @brief mask used to extract the pointer address
-		static constexpr std::uintptr_t mask_high = ~((1ULL << tag_bits) - 1ULL);
+		static constexpr std::uintptr_t mask_high = static_cast<std::uintptr_t>(~((1ULL << tag_bits) - 1ULL));
 		/// @brief mask used to extract the tag
-		static constexpr std::uintptr_t mask_low = ((1ULL << tag_bits) - 1ULL);
+		static constexpr std::uintptr_t mask_low = static_cast<std::uintptr_t>(((1ULL << tag_bits) - 1ULL));
 
 
 		/// @brief Construct from pointer
@@ -132,9 +132,11 @@ namespace seq
 		void set_ptr(pointer ptr)noexcept { d_ptr = tag() | reinterpret_cast<std::uintptr_t>(ptr); }
 		/// @brief Set the tag value
 		auto set_tag(tag_type tag)noexcept -> tag_type { d_ptr = tag | (d_ptr & mask_high); return tag; }
+		
+		void set(pointer ptr, tag_type tag) noexcept {d_ptr = reinterpret_cast<std::uintptr_t>(ptr) | (tag & mask_low);}
 
 		auto full() const noexcept -> std::uintptr_t { return d_ptr; }
-		void set_full(std::uintptr_t p)noexcept { d_ptr = p; }
+		std::uintptr_t set_full(std::uintptr_t p)noexcept { return d_ptr = p; }
 
 		auto split() const noexcept -> std::pair<const T*, unsigned> {
 			return std::pair<const T*, unsigned>(ptr(), tag());
@@ -180,8 +182,8 @@ namespace seq
 
 		static constexpr TagPointerType type = Type;
 		static constexpr std::uintptr_t tag_bits = bits;
-		static constexpr std::uintptr_t mask_high = ~((1ULL << tag_bits) - 1ULL);
-		static constexpr std::uintptr_t mask_low = ((1ULL << tag_bits) - 1ULL);
+		static constexpr std::uintptr_t mask_high = static_cast<std::uintptr_t>(~((1ULL << tag_bits) - 1ULL));
+		static constexpr std::uintptr_t mask_low = static_cast<std::uintptr_t>(((1ULL << tag_bits) - 1ULL));
 
 		tagged_pointer(void* ptr = nullptr) noexcept
 			:d_ptr(reinterpret_cast<std::uintptr_t>(ptr)) {}
@@ -192,8 +194,10 @@ namespace seq
 		auto tag() const noexcept -> tag_type { return d_ptr & mask_low; }
 		void set_ptr(pointer ptr)noexcept { d_ptr = tag() | reinterpret_cast<tag_type>(ptr); }
 		auto set_tag(tag_type tag)noexcept -> tag_type { d_ptr = tag | (d_ptr & mask_high); return tag; }
+		void set(pointer ptr, tag_type tag) noexcept { d_ptr = reinterpret_cast<std::uintptr_t>(ptr) | (tag & mask_low); }
 		auto full() const noexcept -> std::uintptr_t { return d_ptr; }
-		void set_full(std::uintptr_t p)noexcept { d_ptr = p; }
+		auto rfull() noexcept -> std::uintptr_t& { return d_ptr; }
+		std::uintptr_t set_full(std::uintptr_t p)noexcept { return d_ptr = p; }
 
 		auto split() const noexcept -> std::pair<const void*, unsigned> {
 			return std::pair<const void*, unsigned>(ptr(),tag());

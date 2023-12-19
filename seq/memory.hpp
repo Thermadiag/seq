@@ -59,14 +59,14 @@ The class seq::tagged_pointer stores a pointer and tag value on 4-8 bytes (depen
 */
 
 #include <thread>
-#include <mutex>
 #include <list>
 #include <vector>
-#include <atomic>
 #include <climits>
+#include <mutex>
 
 #include "bits.hpp"
 #include "utils.hpp"
+#include "lock.hpp"
 
 #undef min
 #undef max
@@ -74,80 +74,7 @@ The class seq::tagged_pointer stores a pointer and tag value on 4-8 bytes (depen
 
 namespace seq
 {
-	/// @brief Lightweight and fast spinlock implementation based on https://rigtorp.se/spinlock/
-	///
-	/// spinlock is a lightweight spinlock implementation following the TimedMutex requirements.
-	///  
-	class spinlock {
-
-		spinlock(const spinlock&) = delete;
-		spinlock(spinlock&&) = delete;
-		spinlock& operator=(const spinlock&) = delete;
-		spinlock& operator=(spinlock&&) = delete;
-
-		std::atomic<bool> d_lock;
-
-	public:
-		spinlock() : d_lock(0) {}
-
-		~spinlock()
-		{
-			if (is_locked()) {
-				SEQ_ABORT("spinlock destroyed while locked!");
-			}
-		}
-
-		void lock() noexcept {
-			for (;;) {
-				// Optimistically assume the lock is free on the first try
-				if (!d_lock.exchange(true, std::memory_order_acquire)) {
-					return;
-				}
-
-				// Wait for lock to be released without generating cache misses
-				while (d_lock.load(std::memory_order_relaxed)) {
-					// Issue X86 PAUSE or ARM YIELD instruction to reduce contention between
-					// hyper-threads
-
-					std::this_thread::yield();
-				}
-			}
-		}
-
-		bool is_locked() const noexcept { return d_lock.load(std::memory_order_relaxed); }
-		bool try_lock() noexcept {
-			// First do a relaxed load to check if lock is free in order to prevent
-			// unnecessary cache misses if someone does while(!try_lock())
-			return !d_lock.load(std::memory_order_relaxed) &&
-				!d_lock.exchange(true, std::memory_order_acquire);
-		}
-
-		void unlock() noexcept {
-			d_lock.store(false, std::memory_order_release);
-		}
-
-		template<class Rep, class Period>
-		bool try_lock_for(const std::chrono::duration<Rep, Period>& duration) noexcept
-		{
-			return try_lock_until(std::chrono::system_clock::now() + duration);
-		}
-
-		template<class Clock, class Duration>
-		bool try_lock_until(const std::chrono::time_point<Clock, Duration>& timePoint) noexcept
-		{
-			for (;;) {
-				if (!d_lock.exchange(true, std::memory_order_acquire))
-					return true;
-
-				while (d_lock.load(std::memory_order_relaxed)) {
-					if (std::chrono::system_clock::now() > timePoint)
-						return false;
-					std::this_thread::yield();
-				}
-			}
-		}
-	};
-
+	
 	namespace detail
 	{
 		struct MallocFree
@@ -155,12 +82,6 @@ namespace seq
 			static auto allocate(size_t bytes) -> void* { return malloc(bytes); }
 			static void deallocate(void* p, size_t bytes) { (void)bytes; free(p); }
 		} ;
-
-		using thread_id = std::thread::id;
-		static inline auto get_thread_id() -> thread_id
-		{
-			return std::this_thread::get_id();
-		}
 
 
 	}
@@ -216,17 +137,17 @@ namespace seq
 		auto select_on_container_copy_construction() const noexcept -> aligned_allocator { return *this; }
 
 		aligned_allocator(const Allocator al)
-			: d_alloc(al) {}
+			:d_alloc(al) {}
 		aligned_allocator(const aligned_allocator& other)
 			:d_alloc(other.d_alloc) {}
-		aligned_allocator(aligned_allocator&& other)
- noexcept 			:d_alloc(std::move(other.d_alloc)) {}
+		aligned_allocator(aligned_allocator&& other) noexcept 			
+			:d_alloc(std::move(other.d_alloc)) {}
 		template<class U>
 		aligned_allocator(const aligned_allocator<U, Allocator, Align>& other)
 			: d_alloc(other.get_allocator()) {}
 		~aligned_allocator() {}
 
-		auto get_allocator() -> Allocator& { return d_alloc; }
+		auto get_allocator() noexcept -> Allocator& { return d_alloc; }
 		auto get_allocator() const noexcept -> Allocator { return d_alloc; }
 
 		auto operator=(const aligned_allocator& other) -> aligned_allocator& {
@@ -331,7 +252,7 @@ namespace seq
 		template<class U, class V>
 		aligned_allocator(const aligned_allocator<U, std::allocator<V>, Align>& /*unused*/) {}
 
-		auto get_allocator() -> Allocator& { return *this; }
+		auto get_allocator() noexcept-> Allocator& { return *this; }
 		auto get_allocator() const noexcept -> Allocator { return *this; }
 
 		auto operator=(const aligned_allocator& /*unused*/) -> aligned_allocator& { return *this; }
@@ -523,6 +444,8 @@ namespace seq
 			Allocator allocator;
 			// vector of virtual_mem_pool, one for each type the allocator rebound to.
 			std::vector <VectorData , rebind_alloc<VectorData > > data;
+			// lock used by allocator to find the propert type
+			spinlock lock;
 			
 			allocator_data(const Allocator& al = Allocator())
 				:ref_cnt{ 1 }, allocator(al), data(al) {}
@@ -588,33 +511,8 @@ namespace seq
 			}
 		};
 
-		/// @brief Small wrapper around std::mutex just to get its lock status
-		struct MutexWrapper
-		{
-			std::mutex d_mutex;
-			bool d_lock{false};
-		public:
-			MutexWrapper()  {}
-			void lock() {
-				d_mutex.lock();
-				d_lock = true;
-			}
-			void unlock() {
-				d_lock = false;
-				d_mutex.unlock();
-			}
-			auto is_locked() const -> bool {
-				return d_lock;
-			}
-			auto try_lock() -> bool {
-				if (d_mutex.try_lock()) {
-					d_lock = true;
-					return true;
-				}
-				return false;
-			}
-		};
-		using lock_type = MutexWrapper;
+		
+		using lock_type = spinlock;
 		
 	}
 
@@ -649,13 +547,13 @@ namespace seq
 	class object_allocator
 	{
 		using type = typename Pool::value_type;
-		using Allocator = typename Pool::allocator_type;
+		using InternAllocator = typename Pool::allocator_type;
 		template< class U>
-		using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
+		using rebind_alloc = typename std::allocator_traits<InternAllocator>::template rebind_alloc<U>;
 		template< class U>
 		using rebind_pool = typename Pool::template rebind<U>::type;
 
-		using data_type = detail::allocator_data<Allocator, !is_object_pool<Pool>::value>;
+		using data_type = detail::allocator_data<InternAllocator, !is_object_pool<Pool>::value>;
 		template<class U>
 		friend class object_allocator;
 
@@ -663,19 +561,24 @@ namespace seq
 		detail::virtual_mem_pool* d_allocator;
 
 		void ensure_valid() {
-			if (!(d_allocator = d_data->find(detail::make_type_key<value_type>()))) {
-				d_allocator = d_data->template emplace_back< rebind_pool<value_type> >();
+			std::unique_lock<spinlock> lock(d_data->lock);
+			if (!d_allocator) {
+				if (!(d_allocator = d_data->find(detail::make_type_key<value_type>()))) {
+					d_allocator = d_data->template emplace_back< rebind_pool<value_type> >();
+				}
 			}
+			SEQ_ASSERT_DEBUG(d_allocator, "");
 		}
 
-		auto find_pool() -> detail::virtual_mem_pool* {
+		/*auto find_pool() -> detail::virtual_mem_pool* {
+			std::unique_lock<spinlock> lock(d_data->lock);
 			detail::virtual_mem_pool* pool = d_data->find(detail::make_type_key<value_type>());
 			if (!pool)
 				pool = d_data->template emplace_back< rebind_pool<value_type> >();
 			return pool;
-		}
+		}*/
 
-		auto make_data(const Allocator & alloc) -> data_type* {
+		auto make_data(const InternAllocator& alloc) -> data_type* {
 			rebind_alloc<data_type> al = alloc;
 			data_type* d = al.allocate(1);
 			try {
@@ -691,7 +594,7 @@ namespace seq
 	public:
 		
 		using pool_type = Pool;
-		using allocator_type = Allocator;
+		using internal_allocator_type = InternAllocator;
 		using value_type = type;
 		using pointer = type*;
 		using const_pointer = const type*;
@@ -702,6 +605,7 @@ namespace seq
 		using propagate_on_container_swap = std::true_type;
 		using propagate_on_container_copy_assignment = std::true_type;
 		using propagate_on_container_move_assignment = std::true_type;
+		using is_always_equal  = std::false_type;
 		template< class U > struct rebind { using other = object_allocator<rebind_pool<U>>; };
 		static constexpr size_t max_objects_per_allocation = Pool::max_objects;
 
@@ -709,26 +613,31 @@ namespace seq
 			return *this;
 		}
 		
-
-		object_allocator(const allocator_type al = Allocator())
-			: d_data(make_data(al)), d_allocator(nullptr) {}
+		object_allocator()
+			: d_data(make_data(InternAllocator())), d_allocator(nullptr) {
+			ensure_valid();
+		}
+		object_allocator(const internal_allocator_type &al )
+			: d_data(make_data(al)), d_allocator(nullptr) {
+			ensure_valid();
+		}
 		object_allocator(const object_allocator& other) noexcept
 			:d_data(other.d_data->ref()), d_allocator(other.d_allocator) {}
 		template<class U>
 		object_allocator(const object_allocator<U>& other) noexcept
-			: d_data(other.d_data->ref()), d_allocator(nullptr) {}
+			: d_data(other.d_data->ref()), d_allocator(nullptr) {
+			ensure_valid();
+		}
 		~object_allocator() {
 			d_data->decref();
 		}
 
 		// TODO(VM213788): add function set_reclaim_memory, reclaim_memory, memory_footprint...
 
-		auto get_allocator() noexcept -> allocator_type& { return d_data->allocator; }
-		auto get_allocator() const noexcept -> allocator_type { return d_data->allocator; }
+		auto get_internal_allocator() noexcept -> internal_allocator_type& { return d_data->allocator; }
+		auto get_internal_allocator() const noexcept -> const internal_allocator_type& { return d_data->allocator; }
 
 		auto get_pool() -> pool_type* {
-			if (!d_allocator)
-				ensure_valid();
 			return static_cast<pool_type*>(d_allocator);
 		}
 		auto operator == (const object_allocator& other) const noexcept -> bool {
@@ -747,16 +656,10 @@ namespace seq
 			return allocate(n);
 		}
 		auto allocate(size_t n) -> value_type* {
-			
-				if (!d_allocator) ensure_valid();
-				return static_cast<value_type*>(d_allocator->allocate_N(n));
-			
+			return static_cast<value_type*>(d_allocator->allocate_N(n));
 		}
 		void deallocate(value_type* p, size_t n) {
-			
-				if (!d_allocator) ensure_valid();
-				d_allocator->deallocate_N(p,n);
-			
+			d_allocator->deallocate_N(p,n);
 		}
 		template<  class... Args >
 		void construct(type* p, Args&&... args) {
@@ -768,20 +671,7 @@ namespace seq
 	};
 
 
-	/// @brief Dumy lock class that basically does nothing
-	///
-	struct null_lock
-	{
-		void lock()noexcept {}
-		void unlock()noexcept {}
-		static auto try_lock() noexcept -> bool { return false; }
-		static auto is_locked() noexcept -> bool { return false; }
-		template<class Rep, class Period>
-		auto try_lock_for(const std::chrono::duration<Rep, Period>& duration) -> bool { return false; }
-		template<class Clock, class Duration>
-		auto try_lock_until(const std::chrono::time_point<Clock, Duration>& timePoint) -> bool { return false; }
-	} ;
-
+	
 
 	namespace detail
 	{
@@ -806,21 +696,21 @@ namespace seq
 
 			void*							d_deffered_free;
 			unsigned						d_deffered_count;
-			detail::thread_id				d_id;
+			std::thread::id				d_id;
 			detail::lock_type				d_lock;
 			
 		public:
 			using lock_type = detail::lock_type;
-			explicit thread_data(detail::thread_id _id)noexcept
+			explicit thread_data(std::thread::id _id)noexcept
 				:d_deffered_free(nullptr), d_deffered_count(0), d_id(_id) {}
 
 			SEQ_ALWAYS_INLINE auto deffered_free() noexcept -> void* { return d_deffered_free; }
 			SEQ_ALWAYS_INLINE auto deffered_count() const noexcept -> unsigned { return d_deffered_count; }
-			SEQ_ALWAYS_INLINE auto thread_id() const noexcept -> detail::thread_id { return d_id; }
+			SEQ_ALWAYS_INLINE auto thread_id() const noexcept -> std::thread::id { return d_id; }
 			SEQ_ALWAYS_INLINE auto lock() noexcept -> lock_type* { return &d_lock; }
 			SEQ_ALWAYS_INLINE void set_deffered_free(void* d) noexcept { d_deffered_free = d; }
 			SEQ_ALWAYS_INLINE void set_deffered_count(unsigned c) noexcept { d_deffered_count = c; }
-			SEQ_ALWAYS_INLINE void set_thread_id(detail::thread_id id) noexcept { d_id = id; }
+			SEQ_ALWAYS_INLINE void set_thread_id(std::thread::id id) noexcept { d_id = id; }
 			SEQ_ALWAYS_INLINE void reset_thread_data() {
 				d_deffered_free = nullptr;
 				d_deffered_count = 0;
@@ -833,15 +723,15 @@ namespace seq
 			// Specialization for thread unsafe pool: contains nothing, does nothing
 		public:
 			using lock_type = null_lock;
-			explicit thread_data(detail::thread_id /*unused*/)noexcept {}
+			explicit thread_data(std::thread::id /*unused*/)noexcept {}
 			thread_data() noexcept = default;
 			static auto deffered_free() noexcept -> void* { return nullptr; }
 			static auto deffered_count() noexcept -> unsigned { return 0; }
-			static auto thread_id() noexcept -> detail::thread_id { return {}; }
+			static auto thread_id() noexcept -> std::thread::id { return {}; }
 			static auto lock() noexcept -> lock_type* { return nullptr; }
 			void set_deffered_free(void*  /*unused*/) noexcept {  }
 			void set_deffered_count(unsigned  /*unused*/) noexcept {  }
-			void set_thread_id(detail::thread_id  /*unused*/) noexcept {}
+			void set_thread_id(std::thread::id  /*unused*/) noexcept {}
 			void reset_thread_data() {}
 		};
 
@@ -936,6 +826,7 @@ namespace seq
 				if (capacity == 0)
 					return false;
 				reset();
+				memset(chunks, 0, chunk_bytes);
 				return true;
 			}
 
@@ -956,10 +847,14 @@ namespace seq
 				this->set_in_alloc(true);
 				this->lock()->unlock();
 			}*/
+
+			static unsigned elem_size_for_size(unsigned _elem_size) noexcept {
+				return (_elem_size / alignment) * alignment + (_elem_size % alignment ? alignment : 0) + alignment;
+			}
 			
 			// Only one constructor provided, use an object count, the size of an object and an allcoator
 			block_pool(size_t elems, unsigned _elem_size, const Allocator& alloc)
-				: thread_data<Threaded>(detail::get_thread_id()), stats_data<GenerateStats>(), 
+				: thread_data<Threaded>(std::this_thread::get_id()), stats_data<GenerateStats>(), 
 				capacity(0), objects(0), tail(0), chunk_bytes(0), chunks(nullptr), first_free(nullptr), elem_size(_elem_size), allocator(alloc)
 			{
 
@@ -969,10 +864,13 @@ namespace seq
 					// Might throw, fine
 					chunk_bytes = elems * (elem_size);
 					chunks = allocator.allocate(chunk_bytes);
-#ifdef SEQ_DEBUG_MEM_POOL
+/*#ifdef SEQ_DEBUG_MEM_POOL
 					// Debug mode, set the memory block to SEQ_DEBUG_UNINIT
 					memset(chunks, SEQ_DEBUG_UNINIT, chunk_bytes);
-#endif
+#endif*/
+					// reset block to 0 as this is mandatory for concurrent_map
+					memset(chunks, 0, chunk_bytes);
+
 					capacity = elems;
 					//create chain of free 
 					set_next(chunks, nullptr);
@@ -1079,7 +977,7 @@ namespace seq
 
 			SEQ_NOINLINE(void) add_deffered_delete(void* ptr)
 			{
-				std::lock_guard<lock_type> l(*this->lock());
+				std::unique_lock<lock_type> l(*this->lock());
 
 				//write address of next deffered_free directly inside the object
 				void* d = this->deffered_free();
@@ -1123,16 +1021,16 @@ namespace seq
 			SEQ_NOINLINE(void) delete_deffered_locked()
 			{
 				// Faster with SEQ_NOINLINE (?)
-				std::lock_guard<lock_type> l(*this->lock());
+				std::unique_lock<lock_type> l(*this->lock());
 				delete_deffered();
 			}
 
 			SEQ_NOINLINE(void) deallocate(void* ptr)
 			{
-				deallocate_ptr(ptr, detail::thread_id());
+				deallocate_ptr(ptr, std::thread::id());
 			}
 
-			SEQ_ALWAYS_INLINE auto deallocate_ptr_no_thread(void* ptr, detail::thread_id current_id) -> bool
+			SEQ_ALWAYS_INLINE auto deallocate_ptr_no_thread(void* ptr, std::thread::id current_id) -> bool
 			{
 				(void)current_id;
 				SEQ_ASSERT_DEBUG(is_inside(ptr), "chunk does not belong to this block_pool");
@@ -1140,7 +1038,7 @@ namespace seq
 				return true;
 			}
 			//deallocate one Obj
-			auto deallocate_ptr(void* ptr, detail::thread_id current_id) -> bool
+			auto deallocate_ptr(void* ptr, std::thread::id current_id) -> bool
 			{
 				SEQ_ASSERT_DEBUG(is_inside(ptr), "chunk does not belong to this block_pool");
 #ifdef SEQ_DEBUG_MEM_POOL
@@ -1307,12 +1205,12 @@ namespace seq
 			void delete_deffered_locked()
 			{
 			}
-			auto deallocate_ptr(void* ptr, detail::thread_id /*unused*/) -> bool
+			auto deallocate_ptr(void* ptr, std::thread::id /*unused*/) -> bool
 			{
 				deallocate(ptr);
 				return true;
 			}
-			auto deallocate_ptr_no_thread(void* ptr, detail::thread_id /*unused*/) -> bool
+			auto deallocate_ptr_no_thread(void* ptr, std::thread::id /*unused*/) -> bool
 			{
 				deallocate(ptr);
 				return true;
@@ -1333,6 +1231,7 @@ namespace seq
 			}
 		};
 
+		using _pool_shared_lock = shared_spinlock;
 
 
 
@@ -1340,9 +1239,42 @@ namespace seq
 		template<class block_type>
 		struct block_it
 		{
+			// left and right block for internal pool walk
 			block_type* left;
 			block_type* right;
-			block_it() : left(nullptr), right(nullptr) {}
+
+			// only used for parallel pool in order to iterate through the pool
+			std::shared_ptr<_pool_shared_lock> lock;
+			block_it<block_type>* prev_block;
+			block_it<block_type>* next_block;
+			
+
+			block_it() : left(nullptr), right(nullptr), prev_block(nullptr), next_block(nullptr) {}
+
+			void remove_for_iteration()
+			{
+				if (next_block) {
+					std::unique_lock<_pool_shared_lock> l(*lock);
+					if (next_block) {
+						this->prev_block->next_block = this->next_block;
+						this->next_block->prev_block = this->prev_block;
+						this->prev_block = this->next_block = nullptr;
+					}
+				}
+			}
+			void add_for_iteration(block_it<block_type>* other)
+			{
+				if (other->next_block && !this->next_block) {
+					
+					std::unique_lock<_pool_shared_lock> l(*other->lock);
+					if (other->next_block && !this->next_block) {
+						this->prev_block = other;
+						this->next_block = other->next_block;
+						other->next_block = this;
+						this->next_block->prev_block = this;
+					}
+				}
+			}
 		};
 		// Base class for object pool
 		template<class T>
@@ -1391,6 +1323,13 @@ namespace seq
 				this->left->right = this->right;
 				this->right->left = this->left;
 				this->left = this->right = nullptr;
+				this->remove_for_iteration();
+			}
+			virtual void remove_keep_iteration() 
+			{
+				this->left->right = this->right;
+				this->right->left = this->left;
+				this->left = this->right = nullptr;
 			}
 			virtual void ref() override
 			{
@@ -1415,7 +1354,7 @@ namespace seq
 			}
 			virtual void deallocate(value_type* p, size_t /*unused*/) override
 			{
-				pool.deallocate_ptr(p, detail::get_thread_id());
+				pool.deallocate_ptr(p, std::this_thread::get_id());
 			}
 
 
@@ -1565,10 +1504,22 @@ namespace seq
 		static constexpr size_t count = MaxSize;
 		static constexpr size_t min_capacity = MinCapacity;
 		static constexpr size_t max_objects = MaxSize;
-		static SEQ_ALWAYS_INLINE auto fits(size_t size) -> bool { return size <= MaxSize; }
-		static SEQ_ALWAYS_INLINE auto size_to_idx(size_t size) -> size_t { return size == 0 ? 0 : size - 1; }
-		static SEQ_ALWAYS_INLINE auto idx_to_size(size_t idx) -> size_t { return idx + 1; }
+		static constexpr auto fits(size_t size) -> bool { return size <= MaxSize; }
+		static constexpr auto size_to_idx(size_t size) -> size_t { return size == 0 ? 0 : size - 1; }
+		static constexpr auto idx_to_size(size_t idx) -> size_t { return idx + 1; }
 	} ;
+
+	/// @brief Allocate up to MaxSize objects by step of 1
+	template<size_t MinCapacity = 4U >
+	struct one_object_allocation
+	{
+		static constexpr size_t count = 1;
+		static constexpr size_t min_capacity = MinCapacity;
+		static constexpr size_t max_objects = 1;
+		static constexpr auto fits(size_t ) -> bool { return true; }
+		static constexpr auto size_to_idx(size_t ) -> size_t { return 0; }
+		static constexpr auto idx_to_size(size_t ) -> size_t { return 1; }
+	};
 
 	/// @brief Allocate up to MaxSize objects by step of BlockSize
 	template<size_t MaxSize , size_t BlockSize, size_t MinCapacity = 4U >
@@ -1578,9 +1529,9 @@ namespace seq
 		static constexpr size_t count = MaxSize/ BlockSize;
 		static constexpr size_t min_capacity = MinCapacity;
 		static constexpr size_t max_objects = MaxSize;
-		static SEQ_ALWAYS_INLINE auto fits(size_t size) -> bool { return size <= MaxSize; }
-		static SEQ_ALWAYS_INLINE auto size_to_idx(size_t size) -> size_t { return (size / BlockSize + (size % BlockSize ? 1 : 0)) - 1; }
-		static SEQ_ALWAYS_INLINE auto idx_to_size(size_t idx) -> size_t { return (idx+1) * BlockSize; }
+		static constexpr auto fits(size_t size) -> bool { return size <= MaxSize; }
+		static constexpr auto size_to_idx(size_t size) -> size_t { return (size / BlockSize + (size % BlockSize ? 1 : 0)) - 1; }
+		static constexpr auto idx_to_size(size_t idx) -> size_t { return (idx+1) * BlockSize; }
 	};
 
 	/// @brief Allocate up to MaxSize objects using power of 2 steps
@@ -1592,8 +1543,8 @@ namespace seq
 		static constexpr size_t max_objects = MaxSize;
 		static constexpr size_t min_capacity = MinCapacity;
 		static constexpr size_t count = seq::static_bit_scan_reverse<MaxSize>::value - seq::static_bit_scan_reverse<MinSize>::value + 1U;
-		static SEQ_ALWAYS_INLINE auto fits(size_t size) -> bool { return size <= MaxSize; }
-		static SEQ_ALWAYS_INLINE auto nonPow2(size_t size) -> size_t { return (size & (size - 1)) != 0; }
+		static constexpr auto fits(size_t size) -> bool { return size <= MaxSize; }
+		static constexpr auto nonPow2(size_t size) -> size_t { return (size & (size - 1)) != 0; }
 		static SEQ_ALWAYS_INLINE auto size_to_idx(size_t size) -> size_t { 
 			if (size < MinSize) return 0;
 			size_t log_2 = bit_scan_reverse(size);
@@ -1601,7 +1552,7 @@ namespace seq
 			log_2 -= seq::static_bit_scan_reverse<MinSize>::value;
 			return log_2;
 		}
-		static SEQ_ALWAYS_INLINE auto idx_to_size(size_t idx) -> size_t { return 1ULL << (idx + seq::static_bit_scan_reverse<MinSize>::value); }
+		static constexpr auto idx_to_size(size_t idx) -> size_t { return 1ULL << (idx + seq::static_bit_scan_reverse<MinSize>::value); }
 	};
 
 	struct shared_ptr_allocation : linear_object_allocation<64>{} ;
@@ -2017,6 +1968,10 @@ namespace seq
 			}
 			d_free.left = d_free.right = static_cast<block*>(&d_free);
 		}
+		object_pool(bool ReclaimMemory, const Allocator& al = Allocator()) noexcept
+			:object_pool(al) {
+			set_reclaim_memory(ReclaimMemory);
+		}
 		virtual ~object_pool() override
 		{
 			clear();
@@ -2216,7 +2171,7 @@ namespace seq
 			size_t idx = object_allocation::size_to_idx(size);
 			if (EnableUniquePtr) {
 				chunk_type* p = chunk_type::from_ptr(ptr);
-				p->deallocate_ptr_no_thread(ptr, detail::thread_id());
+				p->deallocate_ptr_no_thread(ptr, std::thread::id());
 				block* b = reinterpret_cast<block*>(reinterpret_cast<char*>(p) - SEQ_OFFSETOF(block, pool));
 
 				if (SEQ_UNLIKELY( p->objects == 0)) {
@@ -2338,6 +2293,9 @@ namespace seq
 			static auto get_cum_freed() noexcept -> size_t { return 0; }
 			void reset_statistics() {}
 		} ;
+
+
+
 	} //end namespace detail
 
 
@@ -2375,14 +2333,16 @@ namespace seq
 		class Allocator= std::allocator<T>,
 		size_t Align = 0, //allocation alignment
 		class object_allocation = linear_object_allocation<1>, //how much objects can be queried by a single allocation
-		bool GenerateStats = false
+		bool GenerateStats = false , // generate complete statistics
+		bool HandleInterrupt = true // internal use only
 	>
 	class parallel_object_pool : public detail::base_object_pool<T>, private detail::parallel_stats_data<GenerateStats>
 	{
+		
 		template< class U>
 		using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 		using block_pool_type = detail::block_pool< Allocator, Align, true, GenerateStats, true>;
-		using this_type = parallel_object_pool<T, Allocator, Align, object_allocation, GenerateStats>;
+		using this_type = parallel_object_pool<T, Allocator, Align, object_allocation, GenerateStats, HandleInterrupt>;
 	
 		template<class U, class Pool>
 		friend class detail::allocator_for_shared_ptr;
@@ -2433,7 +2393,7 @@ namespace seq
 			size_t			capacity[slots];
 			size_t			pool_count[slots];
 			this_type*		parent;
-			std::atomic<bool>			wait_requested;
+			std::atomic<bool> wait_requested;
 			bool			in_alloc;
 
 			thread_data() noexcept
@@ -2479,15 +2439,22 @@ namespace seq
 			auto begin(size_t idx) noexcept -> block* { return pools[idx].right; }
 			auto end(size_t idx) noexcept -> block* { return static_cast<block*>(&pools[idx]); }
 		
+			template<class It, class U>
+			static It find_data(It begin, It end, const U& val) noexcept {
+				for (; begin != end; ++begin)
+					if (*begin == val)
+						return begin;
+				return end;
+			}
 			~thread_data() 
 			{
 				// Called on TLS destruction
 				if (!parent) {
 					return;
 				}
-				std::lock_guard<lock_type> l(parent->d_lock);
+				std::unique_lock<lock_type> l(parent->d_lock);
 				
-				auto it = std::find(parent->d_pools.begin(), parent->d_pools.end(), this);
+				auto it = find_data(parent->d_pools.begin(), parent->d_pools.end(), this);
 				if (it != parent->d_pools.end()) {
 
 					for (size_t i = 0; i < slots; ++i) {
@@ -2505,6 +2472,7 @@ namespace seq
 							// Check empty
 							if (b->pool.objects == 0) {
 								b->remove();
+								//b->remove_for_iteration();
 								if (!parent->d_reclaim_memory) {
 									// Destroy if not shared
 									parent->d_bytes -= sizeof(block) + b->pool.memory_footprint();
@@ -2517,7 +2485,7 @@ namespace seq
 							}
 							else {
 								// Add to clean list
-								b->remove();
+								b->remove_keep_iteration();
 								b->insert(parent->d_clean.left, static_cast<block*>(&parent->d_clean));
 							}
 
@@ -2557,7 +2525,7 @@ namespace seq
 
 			tls.data.emplace_back();
 			tls.data.back().init(this);
-			std::lock_guard <lock_type> l(d_lock);
+			std::unique_lock <lock_type> l(d_lock);
 			d_pools.push_back(&tls.data.back());
 			d_bytes += sizeof(TLS) + sizeof(thread_data);
 			if (d_bytes > d_peak_memory) d_peak_memory.store( static_cast<size_t>( d_bytes ));
@@ -2596,7 +2564,7 @@ namespace seq
 			// Acquire d_lock while taking care of possible interrup request
 			for (;;) {
 				while (d_lock.is_locked()) {
-					if (SEQ_UNLIKELY(data->wait_requested))
+					if (SEQ_UNLIKELY(data->wait_requested.load(std::memory_order_relaxed)))
 						interrupt_thread(data);
 					std::this_thread::yield();
 				}
@@ -2622,7 +2590,7 @@ namespace seq
 				bl->remove();
 				d_lock.unlock(); // Unlock
 				bl->insert(data->pools[idx].left, static_cast<block*>(&data->pools[idx]));
-				bl->pool.set_thread_id(detail::get_thread_id());
+				bl->pool.set_thread_id(std::this_thread::get_id());
 				bl->pool.init(static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)));
 				bl->th_data = data;
 				data->capacity[idx] += bl->pool.capacity;
@@ -2632,22 +2600,38 @@ namespace seq
 
 			//Look in d_clean
 			bl = d_clean.right;
-			while (bl != static_cast<block*>(&d_clean)) {
-				if (bl->pool.objects - bl->pool.deffered_count())
-				{
-					bl = bl->right;
-					continue;
+			// get single element size
+			const unsigned elem_size = block_pool_type::elem_size_for_size(static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)));
+			while (bl != static_cast<block*>(&d_clean)) 
+			{
+				size_t objects = bl->pool.objects - bl->pool.deffered_count();
+				
+				if (objects == 0) {
+					// Empty block: reuse it
+					data->last[idx] = bl;
+					bl->remove_keep_iteration();
+					d_lock.unlock(); // Unlock
+					bl->insert(data->pools[idx].left, static_cast<block*>(&data->pools[idx]));
+					bl->pool.set_thread_id(std::this_thread::get_id());
+					bl->pool.init(static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)));
+					bl->th_data = data;
+					data->capacity[idx] += bl->pool.capacity;
+					data->pool_count[idx]++;
+					return bl;
 				}
-				data->last[idx] = bl;
-				bl->remove();
-				d_lock.unlock(); // Unlock
-				bl->insert(data->pools[idx].left, static_cast<block*>(&data->pools[idx]));
-				bl->pool.set_thread_id(detail::get_thread_id());
-				bl->pool.init(static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)));
-				bl->th_data = data;
-				data->capacity[idx] += bl->pool.capacity;
-				data->pool_count[idx]++;
-				return bl;
+				else if (objects < bl->pool.capacity / 2u && elem_size == bl->pool.elem_size) {
+					// Non empty block of same element size: reuse it
+					data->last[idx] = bl;
+					bl->remove_keep_iteration();
+					d_lock.unlock(); // Unlock
+					bl->insert(data->pools[idx].left, static_cast<block*>(&data->pools[idx]));
+					bl->pool.set_thread_id(std::this_thread::get_id());
+					bl->th_data = data;
+					data->capacity[idx] += bl->pool.capacity;
+					data->pool_count[idx]++;
+					return bl;
+				}
+				bl = bl->right;
 			}
 
 			d_lock.unlock(); // Unlock
@@ -2664,6 +2648,7 @@ namespace seq
 			// Note that data might be nullptr if the block was created in a thread that does not exist anymore.
 			block* right = bl->right;
 			bl->remove();
+			//bl->remove_for_iteration();
 			bl->th_data = nullptr;
 
 			//retrieve stats
@@ -2718,6 +2703,7 @@ namespace seq
 					al.deallocate(res, 1);
 				throw;
 			}
+			res->lock = d_iter.lock;
 			d_bytes += sizeof(block) + res->pool.memory_footprint();
 			if (d_bytes > d_peak_memory) d_peak_memory.store(static_cast<size_t>( d_bytes));
 			return res;
@@ -2738,8 +2724,10 @@ namespace seq
 			// Deallocate in the same thread as allocation
 			data->in_alloc = true;
 			// Check interrupt_thread
-			if (SEQ_UNLIKELY(data->wait_requested))
-				interrupt_thread(data);
+			if (HandleInterrupt) {
+				if (SEQ_UNLIKELY(data->wait_requested.load(std::memory_order_relaxed)))
+					interrupt_thread(data);
+			}
 			p->deallocate_ptr_no_thread(ptr, id);
 			if (SEQ_UNLIKELY(p->objects == 0))
 				empty(idx, data, bl);
@@ -2801,7 +2789,7 @@ namespace seq
 
 						// Delete deffered object if necesary
 						if (p->pool.deffered_count()) {
-							std::lock_guard<pool_lock> l(*p->pool.lock());
+							std::unique_lock<pool_lock> l(*p->pool.lock());
 							p->pool.delete_deffered();
 						}
 
@@ -2824,7 +2812,7 @@ namespace seq
 				block* next = p->right;
 				// Delete deffered object if necesary
 				if (p->pool.deffered_count()) {
-					std::lock_guard<pool_lock> l(*p->pool.lock());
+					std::unique_lock<pool_lock> l(*p->pool.lock());
 					p->pool.delete_deffered();
 				}
 				//retrieve stats
@@ -2849,6 +2837,32 @@ namespace seq
 			d_chunks.right = d_chunks.left = static_cast<block*>(&d_chunks);
 			resume_all();
 			return res;
+		}
+
+		auto contains_no_pause(void * val) -> bool
+		{
+			for (auto it = d_pools.begin(); it != d_pools.end(); ++it) {
+				for (size_t i = 0; i < slots; ++i) {
+					block* p = (*it)->begin(i);
+					while (p != (*it)->end(i)) {
+						block* next = p->right;
+						if (p->pool.is_inside(val))
+							return true;
+						p = next;
+					}
+					
+				}
+			}
+			
+			// Check blocks to clean
+			block* p = d_clean.right;
+			while (p != static_cast<block*>(&d_clean)) {
+				block* next = p->right;
+				if (p->pool.is_inside(val))
+					return true;
+				p = next;
+			}
+			return false;
 		}
 
 		auto clear_no_pause(bool destroy = false) -> size_t
@@ -2940,8 +2954,10 @@ namespace seq
 
 		auto allocate_from_free(thread_data* data, size_t idx) -> T*
 		{
-			if ((data->last[idx] = extract_free_block(idx,data)))
+			if ((data->last[idx] = extract_free_block(idx, data))) {
+				data->last[idx]->add_for_iteration(&d_iter);
 				return static_cast<T*>(data->last[idx]->pool.allocate());
+			}
 			return nullptr;
 		}
 
@@ -2954,6 +2970,7 @@ namespace seq
 			block * it = data->begin(idx);
 			while (it != data->end(idx)) {
 				if (T* res = static_cast<T*>(it->pool.allocate())) {
+					it->add_for_iteration(&d_iter);
 					data->last[idx] = it;
 					// Lock while taking care of interrupt requests
 					lock_with_interrup(data);
@@ -2964,6 +2981,7 @@ namespace seq
 				it = it->right;
 			}
 
+			_bl->add_for_iteration(&d_iter);
 			_bl->insert(data->pools[idx].left, static_cast<block*>(&data->pools[idx]));
 			data->capacity[idx] += _bl->pool.capacity;
 			data->pool_count[idx]++;
@@ -2972,7 +2990,7 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE auto allocate_from_last( thread_data* data, size_t idx) -> T*
 		{
-			if (data->last[idx]) {
+			if (SEQ_LIKELY(data->last[idx])) {
 				return static_cast<T*>(data->last[idx]->pool.allocate());
 			}
 			return nullptr;
@@ -2989,6 +3007,7 @@ namespace seq
 				}
 				
 				if (T* res = static_cast<T*>(it->pool.allocate())) {
+					it->add_for_iteration(&d_iter);
 					data->last[idx] = it;
 					return res;
 				}
@@ -2997,7 +3016,8 @@ namespace seq
 			}
 
 			// Find a free block in the shared free list
-			if (d_chunks.left != static_cast<block*>(&d_chunks)) {
+			if (d_chunks.left != static_cast<block*>(&d_chunks) ||
+				d_clean.left != static_cast<block*>(&d_clean)) {
 				if (T* res = allocate_from_free(data, idx))
 					return res;
 			}
@@ -3009,20 +3029,22 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto allocate(thread_data* data, size_t idx ) -> T*
 		{
 			detail::bool_locker bl(&data->in_alloc);
-			if (SEQ_UNLIKELY(data->wait_requested))
-				interrupt_thread(data);
+			if SEQ_CONSTEXPR (HandleInterrupt) {
+				if (SEQ_UNLIKELY(data->wait_requested.load(std::memory_order_relaxed)))
+					interrupt_thread(data);
+			}
 
 			// Fastest path, use last used block
-			if (T* res = allocate_from_last(data, idx))
-				return res;
-			
+			T* res = allocate_from_last(data, idx);
+			if(SEQ_LIKELY(res))
+				return res;			
 			return allocate_from_other(data, idx);
 		}
 
 
 		// Allocate for usage through unique_ptr or shared_ptr.
 		// This does incerase the ref count of the block.
-		auto allocate_for_shared(size_t size) -> T*
+		SEQ_ALWAYS_INLINE auto allocate_for_shared(size_t size) -> T*
 		{
 			thread_data* data = get_data();
 			size_t idx = object_allocation::size_to_idx(size);
@@ -3030,6 +3052,34 @@ namespace seq
 			data->last[idx]->ref();
 			return p;
 		}
+
+		auto allocate_big(size_t size) -> T*
+		{
+			//size too big to use the pools, use allocator
+			T* res = nullptr;
+			if (alignment <= SEQ_DEFAULT_ALIGNMENT) {
+				rebind_alloc<T> al = get_allocator();
+				res = al.allocate(size);
+			}
+			else {
+				aligned_allocator<T, Allocator, alignment> al = get_allocator();
+				res = al.allocate(size);
+			}
+			return res;
+		}
+
+		void deallocate_big(T* ptr, size_t size)
+		{
+			if (alignment <= SEQ_DEFAULT_ALIGNMENT) {
+				rebind_alloc<T> al = get_allocator();
+				al.deallocate(ptr, size);
+			}
+			else {
+				aligned_allocator<T, Allocator, alignment> al = get_allocator();
+				al.deallocate(ptr, size);
+			}
+		}
+
 
 
 
@@ -3040,6 +3090,8 @@ namespace seq
 		block_iterator d_chunks;
 		// List of blocks released on thread_data destruction and non empty. Kept for cleaning.
 		block_iterator d_clean;
+		// REAL iterator other non empy blocks
+		block_iterator d_iter;
 		// List of pools
 		std::vector<thread_data*, rebind_alloc<thread_data*> > d_pools;
 
@@ -3055,6 +3107,7 @@ namespace seq
 		using unique_ptr = std::unique_ptr<T, unique_ptr_deleter<T> >;
 		using shared_ptr = std::shared_ptr<T >;
 		using allocation_type = object_allocation;
+		using block_type = block;
 		static constexpr size_t max_objects = object_allocation::max_objects; //Maximum object that the pool can allocate before switching to allocator
 		static constexpr size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
 
@@ -3071,11 +3124,19 @@ namespace seq
 		{
 			d_chunks.left = d_chunks.right = static_cast<block*>(&d_chunks);
 			d_clean.left = d_clean.right = static_cast<block*>(&d_clean);
+			d_iter.next_block = d_iter.prev_block = static_cast<block*>(&d_iter);
+			d_iter.lock = std::allocate_shared<detail::_pool_shared_lock>(rebind_alloc<detail::_pool_shared_lock>(alloc));
+		}
+
+		parallel_object_pool(bool ReclaimMemory, const Allocator& alloc = Allocator())
+			:parallel_object_pool(alloc) {
+			set_reclaim_memory(ReclaimMemory);
 		}
 
 		~parallel_object_pool() override
 		{
-			std::lock_guard<lock_type> l(d_lock);
+			d_iter.remove_for_iteration();
+			std::unique_lock<lock_type> l(d_lock);
 			clear_no_pause(true);
 		}
 
@@ -3084,7 +3145,46 @@ namespace seq
 		auto operator=(const parallel_object_pool&) -> parallel_object_pool& = delete;
 
 		/// @brief No-op, only provided for compatibility with object_pool.
-		void reserve(size_t /*unused*/, size_t /*unused*/) {}
+		void reserve(size_t alloc_size, size_t count)
+		{
+			std::unique_lock<lock_type> ll(d_lock);
+
+			// Compute current capacity for given size
+			size_t idx = object_allocation::size_to_idx(alloc_size);
+			size_t capacity = 0;
+			for (auto it = d_pools.begin(); it != d_pools.end(); ++it) {
+				capacity += (*it)->capacity[idx];
+			}
+
+			while (capacity < count)
+			{
+				size_t to_allocate = static_cast<size_t>(static_cast<double>(capacity) * SEQ_GROW_FACTOR);
+				if (to_allocate < object_allocation::min_capacity)
+					//for the start, try not to exceed objs_per_alloc T values
+					to_allocate = object_allocation::min_capacity;
+				else if (to_allocate == capacity) to_allocate++;
+
+				block* res = nullptr;
+				rebind_alloc<block> al = get_allocator();
+
+				try {
+					res = al.allocate(1);
+					construct_ptr(res, nullptr, to_allocate, static_cast<unsigned>(object_allocation::idx_to_size(idx) * sizeof(T)), d_alloc);
+				}
+				catch (...) {
+					if (res)
+						al.deallocate(res, 1);
+					throw;
+				}
+				res->lock = d_iter.lock;
+				d_bytes += sizeof(block) + res->pool.memory_footprint();
+				if (d_bytes > d_peak_memory) d_peak_memory.store(static_cast<size_t>(d_bytes));
+				capacity += to_allocate;
+
+				// add to the list of free chunks
+				res->insert(d_chunks.left, static_cast<block*>(&d_chunks));
+			}
+		}
 
 		/// @brief Returns the underlying allocator
 		auto get_allocator() const noexcept -> Allocator 
@@ -3121,7 +3221,7 @@ namespace seq
 		/// 
 		void set_reclaim_memory(bool reclaim)
 		{
-			std::lock_guard<lock_type> l(d_lock);
+			std::unique_lock<lock_type> l(d_lock);
 			d_reclaim_memory = reclaim;
 			if (reclaim) {
 				release_unused_memory_internal();
@@ -3135,7 +3235,7 @@ namespace seq
 			stats.total_created = this->get_cum_created();
 			stats.total_freed = this->get_cum_freed();
 
-			std::lock_guard<lock_type> l(d_lock);
+			std::unique_lock<lock_type> l(d_lock);
 			pause_all();
 			stats.thread_count = d_pools.size();
 			stats.memory = d_bytes;
@@ -3154,7 +3254,7 @@ namespace seq
 		/// 
 		void reset_statistics(object_pool_stats& stats)
 		{
-			std::lock_guard<lock_type> l(d_lock);
+			std::unique_lock<lock_type> l(d_lock);
 			this->detail::parallel_stats_data<GenerateStats>::reset_statistics();
 			pause_all();
 			d_peak_memory = d_bytes;
@@ -3162,6 +3262,15 @@ namespace seq
 				d_pools[i]->reset_statistics();
 
 			resume_all();
+		}
+
+		bool contains(T * ptr)
+		{
+			std::unique_lock<lock_type> l(d_lock);
+			pause_all();
+			bool res = contains_no_pause(ptr);
+			resume_all();
+			return res;
 		}
 	
 		/// @brief Free all blocks
@@ -3173,7 +3282,7 @@ namespace seq
 		/// 
 		auto clear() -> size_t 
 		{
-			std::lock_guard<lock_type> l(d_lock);
+			std::unique_lock<lock_type> l(d_lock);
 			pause_all();
 			size_t res = clear_no_pause();
 			resume_all();
@@ -3189,7 +3298,7 @@ namespace seq
 		/// 
 		auto reset() -> size_t
 		{
-			std::lock_guard<lock_type> l(d_lock);
+			std::unique_lock<lock_type> l(d_lock);
 			pause_all();
 			size_t res = reset_no_pause();
 			resume_all();
@@ -3200,7 +3309,7 @@ namespace seq
 		/// This only makes sense if #reclaim_memory() is false.
 		auto release_unused_memory() -> size_t
 		{
-			std::lock_guard<lock_type> l(d_lock);
+			std::unique_lock<lock_type> l(d_lock);
 			return release_unused_memory_internal();
 		}
 
@@ -3215,6 +3324,10 @@ namespace seq
 		/// 
 		auto allocate(size_t size ) -> T* override
 		{
+			if (SEQ_UNLIKELY(!object_allocation::fits(size))) {
+				//size too big to use the pools, use allocator
+				return allocate_big(size);
+			}
 			return allocate(get_data(), object_allocation::size_to_idx(size));
 		}
 
@@ -3225,8 +3338,12 @@ namespace seq
 		/// 
 		void deallocate(T* ptr, size_t size) override
 		{
+			if (SEQ_UNLIKELY(!object_allocation::fits(size))) {
+				//size too big to use the pools, use allocator
+				return deallocate_big(ptr, size);
+			}
 			size_t idx = object_allocation::size_to_idx(size);
-			detail::thread_id id = detail::get_thread_id();
+			std::thread::id id = std::this_thread::get_id();
 			block_pool_type* p = block_pool_type::from_ptr(ptr);
 			block* bl = reinterpret_cast<block*>(reinterpret_cast<char*>(p) - SEQ_OFFSETOF(block, pool));
 			thread_data* data = static_cast<thread_data*>(bl->th_data);
@@ -3251,7 +3368,7 @@ namespace seq
 					data->last[idx] = bl;
 			}
 
-			// TODO(VM213788): in case of no data (allocation thread is dead), use a custom locked deletetion without deffered.
+			// TODO(VM): in case of no data (allocation thread is dead), use a custom locked deletetion without deffered.
 			// If this make the block empty, remove from clean list and destroy
 		}
 
@@ -3266,8 +3383,39 @@ namespace seq
 		auto make_unique(Args&&... args) -> unique_ptr
 		{
 			T* p = allocate_for_shared(1);
-			construct_ptr(p, std::forward<Args>(args)...);
+			try {
+				construct_ptr(p, std::forward<Args>(args)...);
+			}
+			catch (...) {
+				detail::virtual_block<T>* v = detail::get_virtual_block(p);
+				v->deallocate(p, 1);
+				// Note: unref() will never deallocate the block as long as it belong to a valid memory pool
+				v->unref();
+			}
 			return unique_ptr(p);
+		}
+
+		template< class... Args >
+		SEQ_ALWAYS_INLINE auto make(Args&&... args) -> T*
+		{
+			T* p = allocate_for_shared(1);
+			try {
+				construct_ptr(p, std::forward<Args>(args)...);
+			}
+			catch (...) {
+				detail::virtual_block<T>* v = detail::get_virtual_block(p);
+				v->deallocate(p, 1);
+				// Note: unref() will never deallocate the block as long as it belong to a valid memory pool
+				v->unref();
+			}
+			return p;
+		}
+
+		block_iterator* end_block_iterator() noexcept {
+			return &d_iter;
+		}
+		const block_iterator* end_block_iterator() const noexcept {
+			return &d_iter;
 		}
 
 		/// @brief Experimental. Returns a shared_ptr object built with this object_pool.
@@ -3285,9 +3433,10 @@ namespace seq
 	template<class T>
 	struct is_parallel_object_pool : std::false_type {};
 
-	template<class T,class Al,size_t A,class O,bool G>
-	struct	is_parallel_object_pool<parallel_object_pool<T, Al, A, O, G> > : std::true_type {};
+	template<class T,class Al,size_t A,class O,bool G, bool H>
+	struct	is_parallel_object_pool<parallel_object_pool<T, Al, A, O, G, H> > : std::true_type {};
 
 
 }//end namespace seq
+
 #endif

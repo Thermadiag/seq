@@ -171,7 +171,7 @@ void test_mem_pool_separate_threads(size_t nthreads, size_t repetitions)
 	std::cout << "test alloc/dealloc in separate threads (" << nthreads << ") with the same pool" << std::endl;;
 
 	get_count(repetitions, 0);
-	size_t mem, start, el;
+	std::uint64_t mem, start, el;
 
 	reset_memory_usage();
 	mem = get_memory_usage();
@@ -275,7 +275,7 @@ void test_alloc_dealloc_separate_threads(size_t nthreads, size_t count)
 {
 	using namespace seq;
 	std::cout << "test alloc in one thread, deallocate in another thread (" << nthreads << ") with the same pool"<<std::endl;
-	size_t mem, start, el;
+	std::uint64_t mem, start, el;
 	
 	reset_memory_usage();
 	mem = get_memory_usage();
@@ -287,8 +287,8 @@ void test_alloc_dealloc_separate_threads(size_t nthreads, size_t count)
 	std::cout << "malloc/free: " << el << " ms  " << (mem / (1024 * 1024)) << " MO" << std::endl;
 	
 
-	
-	{
+	//TEST: comment
+	 {
 		reset_memory_usage();
 		mem = get_memory_usage();
 		start = detail::msecs_since_epoch();
@@ -301,16 +301,7 @@ void test_alloc_dealloc_separate_threads(size_t nthreads, size_t count)
 		std::cout << "parallel_object_pool: " << el << " ms  " <<(mem / (1024 * 1024)) << " MO" << std::endl;
 	}
 	
-	/*
-#ifndef __MINGW32__
-	mem = get_memory_usage();
-	start = detail::msecs_since_epoch();
-	MimallocPool<T> mp;
-	r = test_alloc_dealloc_separate_threads(mp, nthreads, count);
-	el = detail::msecs_since_epoch() - start;
-	mem = get_memory_usage() - mem;
-	std::cout<<"mi_malloc/mi_free " << << " threads: " << << " ms  " << << " MO   " << << "\n", nthreads, (int)el, (int)(mem / (1024 * 1024)), r);
-#endif*/
+	
 }
 
 
@@ -452,7 +443,7 @@ void test_mem_pool_random_patterns(size_t nthreads, size_t repetitions)
 {
 	using namespace seq;
 	std::cout << "test randomly mixing alloc/dealloc in " << nthreads << " separate threads with the same pool" << std::endl;
-	size_t mem, start, el;
+	std::uint64_t mem, start, el;
 
 	reset_memory_usage();
 	mem = get_memory_usage();
@@ -549,7 +540,7 @@ void test_mem_pool_random_patterns_random_size(size_t nthreads, size_t repetitio
 	using namespace seq;
 	std::cout << "test randomly mixing alloc/dealloc of random size (up to " << MaxSize << ") in " << nthreads << " separate threads with the same pool" << std::endl;
 
-	size_t mem, start, el;
+	std::uint64_t mem, start, el;
 
 	reset_memory_usage();
 	mem = get_memory_usage();
@@ -649,7 +640,7 @@ void test_mem_pool_interrupt_clear(size_t nthreads, size_t count)
 {
 	using namespace seq;
 	std::cout << "test allocating in " << nthreads << " threads while calling clear() every ms in another thread" << std::endl;
-	size_t mem, start, el;
+	std::uint64_t mem, start, el;
 	
 	{
 		reset_memory_usage();
@@ -727,7 +718,7 @@ void test_mem_pool_interrupt_reset(size_t nthreads, size_t count)
 {
 	using namespace seq;
 	std::cout << "test allocating in " << nthreads << " threads while calling reset() every ms in another thread" << std::endl;
-	size_t mem, start, el;
+	std::uint64_t mem, start, el;
 
 	{
 		reset_memory_usage();
@@ -910,7 +901,7 @@ void test_multipl_size_monthread(size_t count)
 inline void test_pow2_allocation(size_t count)
 {
 	using namespace seq;
-	size_t mem, mem_alloc, mem_dealloc, start, el;
+	std::uint64_t mem, mem_alloc, mem_dealloc, start, el;
 	reset_memory_usage();
 	//size_t start_mem = get_memory_usage();
 

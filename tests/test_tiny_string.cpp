@@ -29,6 +29,9 @@
 #include <set>
 #include <cstdlib>
 
+#undef min
+#undef max
+
 template<class String, class Char = typename String::value_type>
 struct Convert
 {
@@ -81,6 +84,9 @@ void test_tstring_logic()
 		v.push_back(static_cast<Char>(i));
 	for (int i = 0; i < 200; ++i)
 		dv.push_back(static_cast<Char>(i));
+
+	char ddata[300];
+	memcpy(ddata, dv.data(), dv.size() + 1);
 	
 	SEQ_TEST(string_equals(v, dv));
 
@@ -125,6 +131,17 @@ void test_tstring_logic()
 	dv.shrink_to_fit();
 	SEQ_TEST(string_equals(v, dv));
 
+	v.reserve(10);
+	dv.reserve(10);
+	SEQ_TEST(string_equals(v, dv));
+
+	v.reserve(10000);
+	dv.reserve(10000);
+	SEQ_TEST(string_equals(v, dv));
+
+	v.shrink_to_fit();
+	dv.shrink_to_fit();
+	SEQ_TEST(string_equals(v, dv));
 
 	//test insertion
 	std::ptrdiff_t pos[4] = { rand() % static_cast<std::ptrdiff_t>(v.size()),

@@ -144,7 +144,8 @@ namespace seq
 			auto pool_allocated() const noexcept -> bool { return d_pool > 4; }
 
 		public:
-			chunk_pool_alloc(const Allocator& alloc) noexcept : Allocator(alloc), d_pool(0) {}
+			chunk_pool_alloc(const Allocator& alloc) noexcept(std::is_nothrow_copy_constructible<Allocator>::value) 
+				: Allocator(alloc), d_pool(0) {}
 			chunk_pool_alloc(size_t elem_count, const Allocator& alloc) : Allocator(alloc), d_pool(0) {
 				//resize(elem_count);
 			}
@@ -237,7 +238,8 @@ namespace seq
 			using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 
 			size_t chunks;
-			std_alloc(const Allocator& alloc) noexcept :Allocator(alloc), chunks(0) {}
+			std_alloc(const Allocator& alloc) noexcept(std::is_nothrow_copy_constructible<Allocator>::value)
+				:Allocator(alloc), chunks(0) {}
 			std_alloc(size_t /*unused*/, const Allocator& alloc) noexcept : Allocator(alloc), chunks(0) {}
 
 			auto get_allocator() noexcept -> Allocator& { return static_cast<Allocator&>(*this); }
@@ -334,6 +336,13 @@ namespace seq
 			sequence_const_iterator(const chunk_type* n, pos_type p) noexcept
 				:node(const_cast<chunk_type*>(n)), pos(p) {}
 
+			SEQ_ALWAYS_INLINE std::uintptr_t as_uint() const noexcept{
+				return (reinterpret_cast<std::uintptr_t>(node)) | static_cast<std::uintptr_t>(pos);
+			}
+			SEQ_ALWAYS_INLINE void from_uint(std::uintptr_t p) noexcept {
+				node = reinterpret_cast<chunk_type*>(p & ~(chunk_type::count - 1));
+				pos = static_cast<pos_type>(p & (chunk_type::count - 1));
+			}
 
 			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference {
 				SEQ_ASSERT_DEBUG(pos >= node->start && pos < node->end, "invalid iterator position");
@@ -403,7 +412,7 @@ namespace seq
 			{
 				if (diff > 0) {
 					unsigned rem = pos == count - 1 ? 0 : popcnt64(node->used >> (static_cast<unsigned>(pos) + 1ULL));
-					if (diff <= rem) {
+					if (static_cast<unsigned>(diff) <= rem) {
 						while (diff--)
 							++(*this);
 					}
@@ -431,7 +440,7 @@ namespace seq
 				else if (diff < 0) {
 					diff = -diff;
 					unsigned rem = popcnt64((*this).node->used & ((1ULL << (*this).pos) - 1ULL));
-					if (diff <= rem) {
+					if (static_cast<unsigned>(diff) <= rem) {
 						while (diff--)
 							--(*this);
 					}
@@ -858,10 +867,10 @@ namespace seq
 		using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 		using chunk_type = detail::list_chunk<T>;
 		using layout_manager = typename detail::select_layout<T, Allocator, layout, detail::NullChunkAllocator, ForceAlign64>::type;
-		static constexpr size_t count = detail::list_chunk<T>::count;
-		static constexpr size_t count1 = detail::list_chunk<T>::count - 1;
-		static constexpr size_t count_bits = detail::list_chunk<T>::count_bits;
-		static constexpr size_t full = detail::list_chunk<T>::full;
+		static constexpr std::uint64_t count = detail::list_chunk<T>::count;
+		static constexpr std::uint64_t count1 = detail::list_chunk<T>::count - 1;
+		static constexpr std::uint64_t count_bits = detail::list_chunk<T>::count_bits;
+		static constexpr std::uint64_t full = detail::list_chunk<T>::full;
 
 		/// Internal data 
 		/// We use a pointer to Data internally as it fasten the move copy and assignment, and simplifies th iterator implemention.
@@ -874,7 +883,7 @@ namespace seq
 			detail::base_list_chunk<T> end;									//end chunk
 			std::size_t size;												//full size
 
-			Data(const Allocator& al ) noexcept
+			Data(const Allocator& al ) noexcept(std::is_nothrow_copy_constructible<Allocator>::value)
 				:layout_manager(al), size(0) {
 				endNode()->prev = endNode()->next = endNode();
 				endNode()->prev_free = endNode()->next_free = endNode();
@@ -914,7 +923,7 @@ namespace seq
 				// Make sure dirty node is valid
 				chunk_type*	dirty = static_cast<chunk_type*>(endNode()->next);
 
-				std::size_t chunks = 0; // chunk index
+				std::uint64_t chunks = 0; // chunk index
 
 				// Push dirty to the right while nodes are full (already compact)
 				while (dirty != endNode() && dirty->used == full) {
@@ -936,7 +945,7 @@ namespace seq
 					// current node
 					chunk_type* node = dirty;
 					// current index in current node
-					size_t index = 0;
+					std::uint64_t index = 0;
 					
 					// set current node index
 					node->node_index = static_cast<std::int64_t>(chunks++);
@@ -949,7 +958,7 @@ namespace seq
 						// Loop until the end
 						while (it != it_end) {
 
-							size_t mask = 1ULL << index;
+							std::uint64_t mask = 1ULL << index;
 
 							// This might throw
 							if (SEQ_LIKELY(node->used & mask)) {
@@ -972,6 +981,7 @@ namespace seq
 								// First, update node bounds
 								node->start = 0;
 								node->end = count;
+								SEQ_ASSERT_DEBUG(node->size() == count,"");
 								// Remove from free nodes
 								node->next_free = node->prev_free = endNode();
 								node = static_cast<chunk_type*>(node->next);
@@ -993,7 +1003,7 @@ namespace seq
 
 					// Destroy last elements in last node
 					while (index != count) {
-						size_t mask = 1ULL << index;
+						std::uint64_t mask = 1ULL << index;
 						if (node->used & mask) {
 							destroy_ptr(node->buffer() + index);
 							node->used &= ~mask;
@@ -1017,9 +1027,9 @@ namespace seq
 					while (_del != endNode()) {
 						// Only call destructor if necessary
 						if (!std::is_trivially_destructible<T>::value && _del->used != 0) {
-							size_t id = 0;
+							std::uint64_t id = 0;
 							while (id != count) {
-								size_t mask = 1ULL << id;
+								std::uint64_t mask = 1ULL << id;
 								if (_del->used & mask) {
 									destroy_ptr(_del->buffer() + id);
 									_del->used &= ~mask;
@@ -1115,7 +1125,7 @@ namespace seq
 			node->next->prev = node->prev;
 			node->next = node->prev = &d_data->end;
 		}
-		void destroy_node_elements(chunk_type* node)
+		void destroy_node_elements(chunk_type* node) noexcept
 		{
 			// Destroy all valid (constructed) elements of a node
 			if (!std::is_trivially_destructible<T>::value && node->used) {
@@ -1441,7 +1451,7 @@ namespace seq
 	public:
 
 		/// @brief Default constructor, initialize internal data
-		sequence()
+		sequence() noexcept(std::is_nothrow_default_constructible<Allocator>::value)
 			: Allocator(), d_data(nullptr)
 		{
 		}
@@ -1487,7 +1497,7 @@ namespace seq
 		}
 		/// @brief Move constructor
 		/// @param other 
-		sequence(sequence&& other) noexcept
+		sequence(sequence&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
 			:Allocator(std::move(other.get_allocator())), d_data(other.d_data)
 		{
 			other.d_data = nullptr;
@@ -1558,7 +1568,7 @@ namespace seq
 		/// @brief Move assignment operator
 		/// @param other input sequence object
 		/// @return reference to this
-		auto operator=( sequence&& other) noexcept -> sequence&
+		auto operator=( sequence&& other) noexcept(noexcept(std::declval<sequence&>().swap(std::declval<sequence&>()))) -> sequence&
 		{
 			this->swap(other);
 			return *this;
@@ -1568,11 +1578,11 @@ namespace seq
 		/// @param other other sequence to swap with
 		/// All iterators and references remain valid.
 		/// An iterator holding the past-the-end value in this container will refer to the other container after the operation.
-		void swap(sequence& other) noexcept
+		void swap(sequence& other) noexcept(noexcept(swap_allocator(std::declval < Allocator&>(), std::declval < Allocator&>())))
 		{
 			if (this != std::addressof(other)) {
-				std::swap(d_data, other.d_data);
 				swap_allocator(get_allocator(), other.get_allocator());
+				std::swap(d_data, other.d_data);
 			}
 		}
 

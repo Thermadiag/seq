@@ -63,10 +63,10 @@ namespace seq
 				:data(d), size(s), hash_shift(sh) {
 			}
 			size_t get_shift() const noexcept {
-				return hash_shift;
+				return static_cast<size_t>(hash_shift);
 			}
 			size_t get_size() const noexcept {
-				return size * 8ULL;
+				return static_cast<size_t>(size * 8ULL);
 			}
 
 			SEQ_ALWAYS_INLINE std::uint64_t read_from_byte(size_t byte_pos) const noexcept
@@ -78,7 +78,7 @@ namespace seq
 				if (SEQ_LIKELY(size  >= char_offset + 8U / sizeof(CharT)))
 					memcpy(&hash, data + char_offset, 8U);
 				else if (char_offset < size )
-					memcpy(&hash, data + char_offset, (size  - char_offset) * sizeof(CharT));
+					memcpy(&hash, data + char_offset, static_cast<size_t>((size  - char_offset) * sizeof(CharT)));
 
 #if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
 				if SEQ_CONSTEXPR (sizeof(CharT) == 2) 
@@ -102,7 +102,7 @@ namespace seq
 
 			SEQ_ALWAYS_INLINE unsigned n_bits(size_t count) const noexcept
 			{
-				return n_bits(hash_shift, count);
+				return n_bits(static_cast<size_t>(hash_shift), count);
 			}
 			SEQ_ALWAYS_INLINE unsigned n_bits(size_t start, size_t count) const noexcept
 			{
@@ -121,7 +121,7 @@ namespace seq
 			}
 			unsigned get() const noexcept
 			{
-				return n_bits(hash_shift, 32);
+				return n_bits(static_cast<size_t>(hash_shift), 32);
 			}
 
 			template<unsigned BitStep, class ExtractKey, class Hasher, class Iter>
@@ -316,15 +316,15 @@ namespace seq
 				size = GetTupleSize<Tuple>::get(0, t);
 			}
 			size_t get_shift() const noexcept {
-				return hash_shift;
+				return static_cast<size_t>(hash_shift);
 			}
 			size_t get_size() const noexcept {
-				return size;
+				return static_cast<size_t>(size);
 			}
 			
 			SEQ_ALWAYS_INLINE unsigned n_bits(size_t count) const noexcept
 			{
-				return n_bits(hash_shift, count);
+				return n_bits(static_cast<size_t>(hash_shift), count);
 			}
 			SEQ_ALWAYS_INLINE unsigned n_bits(size_t start, size_t count) const noexcept
 			{
@@ -339,7 +339,7 @@ namespace seq
 			}
 			unsigned get() const noexcept
 			{
-				return n_bits(hash_shift, 32);
+				return n_bits(static_cast<size_t>(hash_shift), 32);
 			}
 
 			template<unsigned BitStep, class ExtractKey, class Hasher, class Iter>

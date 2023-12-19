@@ -739,6 +739,18 @@ namespace seq
 			static constexpr bool value = IsBasicType;
 		};
 
+
+		template<class Out, class In>
+		typename std::enable_if<std::is_convertible<In,Out>::value, Out>::type HolderConvert(const In& v)
+		{
+			return static_cast<Out>(v);
+		}
+		template<class Out, class In>
+		typename std::enable_if<!std::is_convertible<In, Out>::value, const In&>::type HolderConvert(const In& v)
+		{
+			return v;
+		}
+
 		/// @brief Hold a value (basic type) or a const pointer (complex types)
 		template<class T, bool IsBasicType = is_fmt_basic_type<T>::value >
 		struct ValueHolder
@@ -749,7 +761,7 @@ namespace seq
 			auto value() noexcept -> T& { return _value; }
 			auto value() const noexcept -> const T& { return _value; }
 			template<class U>
-			void set_value(const U& value) { _value = value; }
+			void set_value(const U& value) { _value = HolderConvert<T>(value); }
 			void reset() {_value = T();}
 		};
 		template<class T >

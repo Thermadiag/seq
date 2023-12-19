@@ -29,15 +29,18 @@
 #include <seq/format.hpp>
 #include <seq/testing.hpp>
 #include <seq/any.hpp>
-#include <seq/ordered_map.hpp>
 
+#ifdef SEQ_HAS_CPP_17
+#include "gtl/btree.hpp"
+#endif
 
-#include "phmap/btree.h"
+#ifdef BOOST_FOUND
 #include "boost/container/flat_set.hpp"
+#endif
 
 #include <iostream>
-#include <unordered_set>
 #include <set>
+#include <fstream>
 
 using namespace seq;
 
@@ -67,17 +70,28 @@ inline size_t convert_to_size_t(const seq::hold_any<Interface, S, A, R>& t) {
 	return reinterpret_cast<size_t>(t.data());
 }
 
+
 template<class C>
 struct is_boost_map : std::false_type {};
+#ifdef BOOST_FOUND
 template<class C>
 struct is_boost_map<boost::container::flat_set<C> > : std::true_type {};
+#endif
 
 template<class C, class K>
 struct find_val
 {
-	static SEQ_ALWAYS_INLINE bool find(const C& s,const K & key)
+	static SEQ_ALWAYS_INLINE bool find(const C& s, const K& key)
 	{
 		return s.find(key) != s.end();
+	}
+};
+template<class C, class E, class K>
+struct find_val<seq::radix_set<C,E>,K>
+{
+	static SEQ_ALWAYS_INLINE bool find(const seq::radix_set<C,E>& s,const K & key)
+	{
+		return s.contains(key) ;
 	}
 };
 template<class C, class K>
@@ -124,17 +138,6 @@ void check_sorted(C& set)
 		SEQ_TEST(set.find(*it) != set.end());
 }
 
-template<class T, class hash, class equal, class allocator>
-void check_sorted(std::unordered_set<T,hash,equal,allocator>& )
-{
-}
-
-template<class T, class hash, class equal, class allocator>
-void check_sorted(seq::ordered_set<T, hash, equal, allocator>&)
-{
-}
-
-
 template<class C>
 struct is_radix_set: std::false_type{};
 
@@ -148,7 +151,7 @@ struct LaunchTest
 	template<class Format>
 	static void test(const char * name,  const std::vector<U> & vec, Format f, bool write = true)
 	{
-		using T = typename C::value_type;
+		//using T = typename C::value_type;
 		C set;
 		
 		std::vector<U> success(vec.begin(), vec.begin()+vec.size()/2);
@@ -179,7 +182,7 @@ struct LaunchTest
 		
 			//insert
 	#ifndef TEST_BOOST_INSERT_ERASE
-			if (std::is_same< boost::container::flat_set<T>, C>::value) {
+			if (is_boost_map< C>::value) {
 				insert = 1000000;
 				insert_mem = 0;
 				set.insert(success.begin(), success.end());
@@ -221,7 +224,7 @@ struct LaunchTest
 			SEQ_TEST(find_val<C, U>::find(set, success[i]));
 		size_t find = tock_ms();
 		
-		//find success
+		//lower_bound success
 		tick();
 		sum = 0;
 		for (size_t i = 0; i < success.size(); ++i)
@@ -246,12 +249,14 @@ struct LaunchTest
 
 		size_t erase = 0;
 	#ifndef TEST_BOOST_INSERT_ERASE
-		if (std::is_same< boost::container::flat_set<T>, C>::value) {
+		if (is_boost_map< C>::value) {
 			erase = 1000000;
 		}
 		else
 	#endif
 		{
+			erase = 0;
+			//std::cout << "erase: " << success.size() / 2 << " elems" << std::endl;
 			tick();
 			for (size_t i = 0; i < success.size()/2; ++i) {
 				typename C::const_iterator it = set.find(success[i]);
@@ -263,7 +268,7 @@ struct LaunchTest
 			print_null(set.size());
 			SEQ_TEST(set.size() == (success.size()/2 + success.size() % 2));
 			check_sorted(set);
-
+			
 			for (size_t i = 0; i < success.size()/2; ++i)
 				SEQ_TEST(set.find(success[i]) == set.end());
 			for (size_t i = success.size() / 2; i < success.size(); ++i)
@@ -275,6 +280,7 @@ struct LaunchTest
 			check_sorted(set);
 			for (size_t i = 0; i < success.size() ; ++i)
 				SEQ_TEST(set.find(success[i]) != set.end());
+				
 		}
 		if(write)
 			std::cout << f(name, fmt(insert_range, insert_range_mem), fmt(insert, insert_mem), insert_fail, find, lower_bound, find_fail, iterate, erase) << std::endl;
@@ -295,8 +301,6 @@ void test_set(const char * name,  const std::vector<U> & vec, Format f, bool wri
 {
 	LaunchTest<C,U>::test(name,vec,f,write);
 }
-
-
 
 
 /// @brief Compare various operations on seq::flat_set, phmap::btree_set, boost::container::flat_set, std::set and std::unordered_set<T>
@@ -321,25 +325,10 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 	auto it = std::unique(vec.begin(), vec.end());
 	vec.resize(it - vec.begin());
 	seq::random_shuffle(vec.begin(), vec.end(),1);
+	//std::reverse(vec.begin(), vec.end());
 
 	std::cout << "vector size: " << vec.size() << std::endl;
 	
-	/*std::ofstream out("points.bin", std::ios::binary);
-	for (size_t i = 0; i < vec.size(); ++i)
-	{
-		write(out, vec[i]);
-	}
-	out.close();*/
-	/*std::ifstream fin("points.bin", std::ios::binary);
-	vec.clear();
-	while (true) {
-		T p = read<T>(fin);
-		if (!fin)
-			break; 
-		vec.push_back(p);
-	}
-	*/
-
 	auto f = join("|",
 		_s().l(30),  //name
 		_fmt(_u(), " ms/", _u(), " MO").c(20),  //insert(range)
@@ -359,28 +348,40 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 	//test_set<flat_set<T>>("seq::flat_set", vec, f, false);
 	
 	test_set<flat_set<T>>("seq::flat_set", vec, f);
-	test_set<phmap::btree_set<T> >("phmap::btree_set", vec, f);
+#ifdef SEQ_HAS_CPP_17
+	test_set<gtl::btree_set<T> >("phmap::btree_set", vec, f);
+#endif
+#ifdef BOOST_FOUND
 	test_set<boost::container::flat_set<T> >("boost::flat_set<T>", vec,f);
+#endif
 	test_set<radix_set<T, Extract>>("seq::radix_set", vec, f);
 	test_set<std::set<T> >("std::set", vec,f);
 	//test_set<std::unordered_set<T> >("std::unordered_set", vec,f);	
+
 }
 
 
 
-#include <seq/radix_map.hpp>
-#include <fstream>
 
-
-
+#include <map>
 int bench_map(int , char ** const)
 {
+	{
+		std::map<std::string, std::string> m;
+		m.insert(std::make_pair("toto", "tutu"));
+
+		seq::flat_map<std::string, std::string> m2;
+		m2.insert(std::make_pair("toto", "tutu"));
+	}
 	
-	/* {
+	using string = tstring;
+
+	// Test list or words and uuid if available
+	  {
 		std::ifstream fin("words.txt");
-		std::vector<seq::tstring> vec;
+		std::vector<string> vec;
 		while (true) {
-			seq::tstring s;
+			string s;
 			fin >> s;
 			if (fin)vec.push_back(s);
 			else
@@ -389,32 +390,74 @@ int bench_map(int , char ** const)
 		{
 			std::ifstream fin("uuid.txt");
 			while (true) {
-				seq::tstring s;
+				string s;
 				fin >> s;
 				if (fin)vec.push_back(s);
 				else
 					break;
 			}
 		}
+		//TEST
+		vec.clear();
 
-		test_map<seq::tstring>(vec.size(), [&vec](size_t i) {return vec[i]; });
-	}*/
+		std::vector<string> vec2 = vec;
+		seq::random_shuffle(vec2.begin(), vec2.end());
+		vec.reserve(vec.size() * 2);
+		for (size_t i = 0; i < vec2.size(); ++i)
+			vec.push_back(vec[i] + " " + vec2[i]);
 
-	test_map<size_t>(4000000, [](size_t i) { return (i); });
+		seq::random_shuffle(vec.begin(), vec.end());
+
+		std::vector<string> vec3 = vec;
+		seq::random_shuffle(vec3.begin(), vec3.end());
+		vec.reserve(vec.size() * 2);
+		for (size_t i = 0; i < vec3.size(); ++i)
+			vec.push_back(vec[i] + " " + vec3[i]);
+
+		test_map<string>(vec.size(), [&vec](size_t i) {return vec[i]; });
+
+		
+	}
+
+	  // test random IP addresses
+	{
+		
+		srand(0);
+		test_map<string>(4000000, [](size_t i) {
+			string s= join(".", (rand() & 255), (rand() & 255), (rand() & 255), (rand() & 255));
+			return s;
+			 });
+	}
+	// test random integers
+	 {
+		std::random_device dev;
+		std::mt19937 rngi(dev());
+		std::uniform_int_distribution<size_t> dist;
+		test_map<size_t>(4000000, [&](size_t i) { return dist(rngi); });
+	}
+	 // test random floating point values
+	{
+		std::random_device rd;
+		std::mt19937 e2(rd());
+		std::uniform_real_distribution<> dist;
+		test_map<double>(4000000, [&](size_t i) { return dist(e2); });
+	}
 		 
-	random_float_genertor<double> rng;
-	test_map<double>(4000000, [&rng](size_t i) { return rng(); });
+	//random_float_genertor<double> rng;
+	//test_map<double>(4000000, [&rng](size_t i) { return rng(); });
 	
-	test_map<tstring>(4000000, [](size_t i) { return generate_random_string<tstring>(13, true); });
-	test_map<tstring>(2000000, [](size_t i) { return generate_random_string<tstring>(63, false); });
-	 // Test flat set with seq::r_any
-	test_map<seq::r_any>(1000000, [](size_t i)
+	// Random short strings
+	test_map<string>(4000000, [](size_t i) { return generate_random_string<string>(13, true); });
+	// random mix of short and long strings
+	test_map<string>(2000000, [](size_t i) { return generate_random_string<string>(63, false); });
+	 // Test with seq::r_any
+	test_map<seq::r_any>(4000000, [](size_t i)
 		 {
 			 size_t idx = i & 3U; 
 			 switch (idx) {
 			 case 0:return seq::r_any(i * UINT64_C(0xc4ceb9fe1a85ec53));
-			 case 1:return seq::r_any((double)(i * UINT64_C(0xc4ceb9fe1a85ec53)));
-			 default:return seq::r_any(generate_random_string<tstring>(14, true));
+			 case 1:return seq::r_any((double)i * UINT64_C(0xc4ceb9fe1a85ec53));
+			 default:return seq::r_any(generate_random_string<seq::tstring>(13, true));
 			 }
 		 }
 	 );

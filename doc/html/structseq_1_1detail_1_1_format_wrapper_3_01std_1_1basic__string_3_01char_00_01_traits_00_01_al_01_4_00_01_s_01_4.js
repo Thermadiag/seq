@@ -1,4 +1,0 @@
-var structseq_1_1detail_1_1_format_wrapper_3_01std_1_1basic__string_3_01char_00_01_traits_00_01_al_01_4_00_01_s_01_4 =
-[
-    [ "type", "structseq_1_1detail_1_1_format_wrapper_3_01std_1_1basic__string_3_01char_00_01_traits_00_01_al_01_4_00_01_s_01_4.html#a065131b4cb775e6cea4c3f3e57cce12a", null ]
-];

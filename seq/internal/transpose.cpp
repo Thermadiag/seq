@@ -92,7 +92,7 @@ namespace seq
 		_mm_store_si128(&r2, _128i_shuffle(x1, x3, 0, 2, 0, 2));
 		_mm_store_si128(&r3, _128i_shuffle(x1, x3, 1, 3, 1, 3));
 	}
-	static inline void transpose_16x16(
+	/*static inline void transpose_16x16(
 		__m128i& x0, __m128i& x1, __m128i& x2, __m128i& x3,
 		__m128i& x4, __m128i& x5, __m128i& x6, __m128i& x7,
 		__m128i& x8, __m128i& x9, __m128i& x10, __m128i& x11,
@@ -127,7 +127,7 @@ namespace seq
 		transpose_4x4_dwords(w01, w11, w21, w31, x4, x5, x6, x7);
 		transpose_4x4_dwords(w02, w12, w22, w32, x8, x9, x10, x11);
 		transpose_4x4_dwords(w03, w13, w23, w33, x12, x13, x14, x15);
-	}
+	}*/
 
 	SEQ_HEADER_ONLY_EXPORT_FUNCTION void transpose_16x16(const __m128i* in, __m128i* out)
 	{
@@ -315,7 +315,7 @@ namespace seq
 			return value;
 		}
 
-#ifdef __SSE4_1__ // for _mm_extract_epi64
+#if defined( __SSE4_1__ ) && defined (SEQ_ARCH_64)// for _mm_extract_epi64
 
 		static inline void tp128_8x8(const unsigned char* A, unsigned char* B, const int lda, const int ldb)
 		{
@@ -388,7 +388,7 @@ namespace seq
 		if (BPP >= 16 && (BPP & 15) == 0) {
 			detail::transpose_block_SSE16x16(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(aligned_dst), 256, static_cast<int>(BPP));
 		}
-#ifdef __SSE4_1__
+#if defined( __SSE4_1__) && defined(SEQ_ARCH_64)
 		else if (BPP >= 8 && (BPP & 7) == 0) {
 			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(aligned_dst), 256, static_cast<int>(BPP));
 		}
@@ -409,7 +409,7 @@ namespace seq
 		if (BPP >= 16 && (BPP & 15) == 0) {
 			detail::transpose_block_SSE16x16_u(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), 256);
 		}
-#ifdef __SSE4_1__
+#if defined( __SSE4_1__) && defined(SEQ_ARCH_64)
 		else if (BPP >= 8 && (BPP & 7) == 0 ) {
 			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), 256);
 		}
@@ -432,7 +432,7 @@ namespace seq
 		if (BPP >= 16 && (BPP & 15) == 0) {
 			detail::transpose_block_SSE16x16(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(block_size), static_cast<int>(BPP));
 		}
-#ifdef __SSE4_1__
+#if defined( __SSE4_1__) && defined(SEQ_ARCH_64)
 		else if (BPP >= 8 && (BPP & 7) == 0) {
 			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(block_size), static_cast<int>(BPP));
 		}
@@ -450,7 +450,7 @@ namespace seq
 		if (BPP >= 16 && (BPP & 15) == 0) {
 			detail::transpose_block_SSE16x16_u(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), static_cast<int>(block_size));
 		}
-#ifdef __SSE4_1__
+#if defined( __SSE4_1__) && defined (SEQ_ARCH_64)
 		else if (BPP >= 8 && (BPP & 7) == 0) {
 			detail::transpose_block_SSE8x8(reinterpret_cast<const unsigned char*>(src), reinterpret_cast<unsigned char*>(dst), static_cast<int>(BPP), static_cast<int>(block_size));
 		}
