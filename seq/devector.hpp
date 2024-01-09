@@ -1092,7 +1092,7 @@ namespace seq
 		/// @brief Ensure that the devector has at least new_front_capacity free slots at the front, no matter what is the optimization flag.
 		/// Invalidate iterators and references if a new storage is allocated.
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
-		/// @param new_back_capacity minimum front capacity
+		/// @param new_front_capacity minimum front capacity
 		void reserve_front(size_t new_front_capacity)
 		{
 			this->base_type::reserve_front(new_front_capacity);

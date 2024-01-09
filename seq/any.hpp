@@ -548,7 +548,14 @@ namespace seq
 		/// @brief Stream object to std::ostream or throw std::bad_function_call
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if< is_ostreamable<T>::value,void>::type ostream_any(std::ostream& oss, const void* in){
+#if defined( __clang__ ) && defined(_MSC_VER)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmicrosoft-cast"
+#endif
 			oss << *static_cast<const T*>(in);
+#if defined( __clang__ ) && defined(_MSC_VER)
+#pragma clang diagnostic pop
+#endif
 		}
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if< !is_ostreamable<T>::value, void>::type ostream_any(std::ostream& , const void* ){
@@ -575,7 +582,7 @@ namespace seq
 		/// @brief Compare equal 2 objects of same type
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if< is_equal_comparable<T>::value, bool>::type compare_equal_any(const void* a, const void* b) {
-			return *static_cast<const T*>(a) == *static_cast<const T*>(b);
+			SEQ_COMPARE_FLOAT(return *static_cast<const T*>(a) == *static_cast<const T*>(b);)
 		}
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if< !is_equal_comparable<T>::value, bool>::type compare_equal_any(const void* , const void* ) {
@@ -625,7 +632,7 @@ namespace seq
 
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if< std::is_arithmetic<T>::value, bool>::type compare_equal_arithmetic(long double a, const T& b) {
-			return a == static_cast<long double>(b);
+			SEQ_COMPARE_FLOAT( return a == static_cast<long double>(b);)
 		}
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if< !std::is_arithmetic<T>::value, bool>::type compare_equal_arithmetic(long double , const T& ) {
@@ -795,8 +802,15 @@ namespace seq
 		/// @brief Returns registered conversion functions
 		inline auto get_converters() -> std::vector < std::vector < std::function<void(const void*, void*)> > >&
 		{
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			// global converter functions
 			static std::vector < std::vector < std::function<void(const void*, void*)> > > inst;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			return inst;
 		}
 		/// @brief Default conversion function, use explicit cast
@@ -817,8 +831,15 @@ namespace seq
 		/// @brief Returns registered less comparison functions
 		inline auto get_less_comparison() -> std::vector < std::vector < std::function<bool(const void*, const void*)> > >&
 		{
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			// global comparison functions for less than comparison
 			static std::vector < std::vector < std::function<bool(const void*, const void*)> > > inst;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			return inst;
 		}
 		/// @brief Default less comparison
@@ -837,8 +858,15 @@ namespace seq
 		/// @brief Returns registered equal comparison functions
 		inline auto get_equal_comparison() -> std::vector < std::vector < std::function<bool(const void*, const void*)> > >&
 		{
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			// global comparison functions for equality comparison
 			static std::vector < std::vector < std::function<bool(const void*, const void*)> > > inst;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			return inst;
 		}
 		/// @brief Default equal comparison
@@ -894,8 +922,8 @@ namespace seq
 		};
 		using pointer_type = tagged_pointer<TypeInfo, CustomAlignment, 32>;
 
-		pointer_type d_type_info;
-		storage_type d_storage;
+		pointer_type d_type_info{};
+		storage_type d_storage{};
 
 		/// @brief Allocate storage for given type, returns pointer to object in order to be constructed
 		template<class T>
@@ -940,7 +968,14 @@ namespace seq
 		auto convert(const TypeInfo*  /*unused*/, const TypeInfo*  /*unused*/, std::uintptr_t  /*unused*/) const -> T
 		{
 			throw std::bad_cast();
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			static typename std::decay<T>::type ref;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			return ref;
 		}
 
@@ -1688,7 +1723,14 @@ namespace seq
 		template<class T>
 		auto get_null_out() -> T* {
 			// Returns pointer to T*, never reached (just here to avoid compile warning)
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			static T t;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			return &t;
 		}
 
@@ -1757,7 +1799,14 @@ namespace seq
 					instance.d_type_id = get_type_id<T>();
 				}
 			};
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			static Holder h;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			return &h.instance;
 		}
 		
@@ -2169,7 +2218,7 @@ namespace seq
 
 			// arithmetic comparison
 			if (is_arithmetic_type(a_id) && is_arithmetic_type(b_id)) {
-				return this->template cast<long double>() == other.template cast<long double>();
+				SEQ_COMPARE_FLOAT(return this->template cast<long double>() == other.template cast<long double>());
 			}
 
 			// string comparison

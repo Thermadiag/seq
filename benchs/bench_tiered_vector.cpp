@@ -119,18 +119,22 @@ void test_tiered_vector_algorithms(size_t count = 5000000)
 
 	tick();
 	auto it1 = std::unique(vec.begin(), vec.end());
+	(void)it1;
 	vec_t = tock_ms();
 
 	tick();
 	auto it2 = std::unique(deq.begin(), deq.end());
+	(void)it2;
 	deq_t = tock_ms();
 
 	tick();
 	auto it3 = std::unique(tvec.begin(), tvec.end());
+	(void)it3;
 	tvec_t = tock_ms();
 
 	tick();
 	auto it4 = std::unique(cvec.begin(), cvec.end());
+	(void)it4;
 	cvec_t = tock_ms();
 
 	assert_equal(deq, tvec);

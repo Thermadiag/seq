@@ -286,7 +286,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE bool add_shift(size_type shift) const noexcept
 			{
 				const_cast<StringHash*>(this)->hash_shift += shift;
-				return (hash_shift) <= size * 8U;; //still valid
+				return (hash_shift) <= size * 8U; //still valid
 			}
 			unsigned get(size_t shift) const noexcept
 			{
@@ -429,7 +429,7 @@ namespace seq
 		struct BaseSortedHasher
 		{
 			using less_type = seq::less<>;
-			template<class A, class B> static bool equal(const A& a, const B& b)noexcept { return a == b; }
+			template<class A, class B> static bool equal(const A& a, const B& b)noexcept { SEQ_COMPARE_FLOAT( return a == b;) }
 			template<class A, class B> static bool less(const A& a, const B& b) noexcept { return a < b; }
 		};
 
@@ -1333,7 +1333,7 @@ namespace seq
 			node* allocate(unsigned hash_size, unsigned capacity)
 			{
 
-				RebindAlloc<Allocator, std::uint64_t> al = get_allocator();;
+				RebindAlloc<Allocator, std::uint64_t> al = get_allocator();
 				size_t bytes = hash_size + sizeof(T) * capacity;
 				size_t to_alloc = bytes / alloc_size + (bytes % alloc_size ? 1 : 0);
 
@@ -1349,7 +1349,7 @@ namespace seq
 			void deallocate(node* node, unsigned hash_size, unsigned capacity)
 			{
 
-				RebindAlloc<Allocator, std::uint64_t> al = get_allocator();;
+				RebindAlloc<Allocator, std::uint64_t> al = get_allocator();
 				size_t bytes = hash_size + sizeof(T) * capacity;
 				size_t to_dealloc = bytes / alloc_size + (bytes % alloc_size ? 1 : 0);
 
@@ -1913,7 +1913,7 @@ namespace seq
 		/// @tparam Allocator allocator type
 		/// @tparam NodeType leaf node type
 		/// @tparam Hash Hasher type, either Hasher or SortedHasher
-		/// @tparam ExtractKey extract key from value type
+		/// @tparam Extract extract key from value type
 		template<
 			class T, 
 			class Hash,  
@@ -3121,13 +3121,13 @@ namespace seq
 			}
 
 #if defined( __GNUC__) && __GNUC__ >= 13
-#define _GET_RADIX_KEY(key, k) \
+#define SEQ_GET_RADIX_KEY(key, k) \
 	SEQ_PRAGMA(GCC diagnostic push) \
 	SEQ_PRAGMA(GCC diagnostic ignored "-Wdangling-reference") \
 	const auto& key = extract_key_type{}(k);\
 	SEQ_PRAGMA(GCC diagnostic pop)
 #else
-#define _GET_RADIX_KEY(key, k) const auto& key = extract_key_type{}(k);
+#define SEQ_GET_RADIX_KEY(key, k) const auto& key = extract_key_type{}(k);
 #endif
 
 			/// @brief Returns iterator pointing to given key, or end() if not found
@@ -3135,14 +3135,14 @@ namespace seq
 			SEQ_ALWAYS_INLINE const_iterator find(const U & k) const
 			{
 				//const auto& key = extract_key_type{}(k);
-				_GET_RADIX_KEY(key,k)
+				SEQ_GET_RADIX_KEY(key,k)
 				return find_hash(hash_key(key), key);
 			}
 			template< class U >
 			SEQ_ALWAYS_INLINE const T* find_ptr(const U & k) const
 			{
 				//const auto& key = extract_key_type{}(k);
-				_GET_RADIX_KEY(key, k)
+				SEQ_GET_RADIX_KEY(key, k)
 				return find_ptr_hash(hash_key(key), key);
 			}
 
@@ -3223,7 +3223,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE const_iterator lower_bound(const U & k) const
 			{
 				//const auto& key = extract_key_type{}(k);
-				_GET_RADIX_KEY(key, k)
+				SEQ_GET_RADIX_KEY(key, k)
 				return lower_bound_hash(hash_key(key), key);
 			}
 
@@ -3239,7 +3239,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE const_iterator upper_bound(const U & k) const
 			{
 				//const auto& key = extract_key_type{}(k);
-				_GET_RADIX_KEY(key, k)
+				SEQ_GET_RADIX_KEY(key, k)
 				return upper_bound_hash(hash_key(key), key);
 			}
 
@@ -3259,7 +3259,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE const_iterator prefix(const U& k) const
 			{
 				//const auto& key = extract_key_type{}(k);
-				_GET_RADIX_KEY(key, k)
+				SEQ_GET_RADIX_KEY(key, k)
 				return prefix_hash(hash_key(key), key);
 			}
 
@@ -3309,5 +3309,7 @@ namespace seq
 
 	}
 }
+
+#undef SEQ_GET_RADIX_KEY
 
 #endif

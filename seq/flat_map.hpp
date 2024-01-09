@@ -285,7 +285,7 @@ namespace seq
 		/// @brief Optimized version of std::lower_bound(begin(),end(),value,le);
 		/// Only works for sorted tiered_vector.
 		template<bool Multi, class Deque, class U, class Less >
-		__SEQ_INLINE_LOOKUP auto tvector_lower_bound(const Deque & d, const U& value, const Less& le ) noexcept -> std::pair<size_t,bool>
+		SEQ_INLINE_BINARY_SEARCH auto tvector_lower_bound(const Deque & d, const U& value, const Less& le ) noexcept -> std::pair<size_t,bool>
 		{
 			if (SEQ_UNLIKELY(!d.manager()))
 				return { 0,false };
@@ -973,19 +973,19 @@ namespace seq
 				}
 			}
 			template< class K>
-			__SEQ_INLINE_LOOKUP auto find(const K& x) -> iterator
+			SEQ_INLINE_BINARY_SEARCH auto find(const K& x) -> iterator
 			{
 				check_dirty();
 				return d_deque.iterator_at(tvector_binary_search<!Unique>(d_deque,x, base()));
 			}
 			template< class K>
-			__SEQ_INLINE_LOOKUP auto find(const K& x) const -> const_iterator
+			SEQ_INLINE_BINARY_SEARCH auto find(const K& x) const -> const_iterator
 			{
 				check_dirty();
 				return d_deque.iterator_at(tvector_binary_search(d_deque,x, base()));
 			}
 			template< class K>
-			__SEQ_INLINE_LOOKUP auto find_pos(const K& x) const -> size_t
+			SEQ_INLINE_BINARY_SEARCH auto find_pos(const K& x) const -> size_t
 			{
 				check_dirty();
 				return tvector_binary_search<!Unique>(d_deque,x, base());
@@ -999,49 +999,49 @@ namespace seq
 				return d_deque[i];
 			}
 			template< class K >
-			__SEQ_INLINE_LOOKUP auto lower_bound(const K& x) -> iterator
+			SEQ_INLINE_BINARY_SEARCH auto lower_bound(const K& x) -> iterator
 			{
 				check_dirty();
 				return d_deque.iterator_at(tvector_lower_bound<!Unique>(d_deque,x, base()).first);
 			}
 			template< class K >
-			__SEQ_INLINE_LOOKUP auto lower_bound(const K& x) const -> const_iterator
+			SEQ_INLINE_BINARY_SEARCH auto lower_bound(const K& x) const -> const_iterator
 			{
 				check_dirty();
 				return d_deque.iterator_at(tvector_lower_bound<!Unique>(d_deque,x, base()).first);
 			}
 			template< class K >
-			__SEQ_INLINE_LOOKUP auto lower_bound_pos(const K& x) const -> size_t
+			SEQ_INLINE_BINARY_SEARCH auto lower_bound_pos(const K& x) const -> size_t
 			{
 				check_dirty();
 				return tvector_lower_bound<!Unique>(d_deque,x, base()).first;
 			}
 			template< class K >
-			__SEQ_INLINE_LOOKUP auto upper_bound(const K& x) -> iterator
+			SEQ_INLINE_BINARY_SEARCH auto upper_bound(const K& x) -> iterator
 			{
 				check_dirty();
 				return d_deque.iterator_at(tvector_upper_bound(d_deque,x, base()));
 			}
 			template< class K >
-			__SEQ_INLINE_LOOKUP auto upper_bound(const K& x) const -> const_iterator
+			SEQ_INLINE_BINARY_SEARCH auto upper_bound(const K& x) const -> const_iterator
 			{
 				check_dirty();
 				return d_deque.iterator_at(tvector_upper_bound(d_deque,x, base()));
 			}
 			template< class K >
-			__SEQ_INLINE_LOOKUP auto upper_bound_pos(const K& x) const -> size_t
+			SEQ_INLINE_BINARY_SEARCH auto upper_bound_pos(const K& x) const -> size_t
 			{
 				check_dirty();
 				return tvector_upper_bound(d_deque,x, base());
 			}
 			template< class K >
-			__SEQ_INLINE_LOOKUP auto contains(const K& x) const -> bool
+			SEQ_INLINE_BINARY_SEARCH auto contains(const K& x) const -> bool
 			{
 				check_dirty();
 				return tvector_binary_search<!Unique>(d_deque,x, base()) != size();
 			}
 			template< class K >
-			__SEQ_INLINE_LOOKUP auto count(const K& x) const -> size_type
+			SEQ_INLINE_BINARY_SEARCH auto count(const K& x) const -> size_type
 			{
 				check_dirty();
 				if SEQ_CONSTEXPR (Unique) {
@@ -1053,7 +1053,7 @@ namespace seq
 				return tvector_upper_bound(d_deque,x, base()) - low;
 			}
 			template< class K >
-			__SEQ_INLINE_LOOKUP auto equal_range(const K& x) -> std::pair<iterator, iterator>
+			SEQ_INLINE_BINARY_SEARCH auto equal_range(const K& x) -> std::pair<iterator, iterator>
 			{
 				iterator low = lower_bound(x);
 				if (low == end())
@@ -1064,7 +1064,7 @@ namespace seq
 				return std::pair<iterator, iterator>(low, up);
 			}
 			template< class K >
-			__SEQ_INLINE_LOOKUP auto equal_range(const K& x) const -> std::pair<const_iterator, const_iterator>
+			SEQ_INLINE_BINARY_SEARCH auto equal_range(const K& x) const -> std::pair<const_iterator, const_iterator>
 			{
 				const_iterator low = lower_bound(x);
 				if (low == end())
@@ -1075,7 +1075,7 @@ namespace seq
 				return std::pair<iterator, iterator>(low, up);
 			}
 			template< class K >
-			__SEQ_INLINE_LOOKUP auto equal_range_pos(const K& x) const -> std::pair<size_t, size_t>
+			SEQ_INLINE_BINARY_SEARCH auto equal_range_pos(const K& x) const -> std::pair<size_t, size_t>
 			{
 				size_t low = lower_bound_pos(x);
 				if (low == size())
@@ -1553,7 +1553,7 @@ namespace seq
 		template <class K, class LE = Compare, typename std::enable_if<has_is_transparent<LE>::value>::type* = nullptr>
 		SEQ_ALWAYS_INLINE auto find_pos(const K& key) const -> size_t {return d_tree.find_pos(key);}
 		/// @brief Finds an element with key equivalent to key.
-		/// @param key value to look for
+		/// @param x value to look for
 		/// @return position of found value, or size()
 		SEQ_ALWAYS_INLINE auto find_pos(const Key& x) const -> size_t  { return d_tree.find_pos(x); }
 
@@ -2187,7 +2187,7 @@ namespace seq
 	/// @tparam Stable insertion order stability
 	/// 
 	/// 
-	/// @brief flat sorted associative container that contains key-value pairs similar to boost::flat_multimap with faster insertion/deletion of single values. It supports multiple equal keys.
+	/// Flat sorted associative container that contains key-value pairs similar to boost::flat_multimap with faster insertion/deletion of single values. It supports multiple equal keys.
 	/// 
 	/// seq::flat_multimap directly inherits seq::flat_map and behaves similarly, except for the support of multiple equal keys.
 	/// Its interface is similar to std::multimap, except for the node based members.
@@ -2352,8 +2352,10 @@ namespace seq
 		for (auto it2 = s2.begin(); it2 != s2.end(); ++it2, ++it1) {
 			if (cmp(it1->first, it2->first) || cmp(it2->first, it1->first))
 				return false;
+			SEQ_COMPARE_FLOAT(
 			if (it1->second != it2->second)
 				return false;
+			)
 		}
 		return true;
 	}

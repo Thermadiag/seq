@@ -347,7 +347,7 @@ namespace seq
 		typedef _Ty second_argument_type;
 		typedef bool result_type;
 		constexpr bool operator()(const _Ty& left, const _Ty& right) const {
-			return left == right;
+			SEQ_COMPARE_FLOAT( return left == right;)
 		}
 	};
 	template <>
@@ -355,8 +355,10 @@ namespace seq
 		template <class _Ty1, class _Ty2>
 		constexpr auto operator()(_Ty1&& left, _Ty2&& right) const
 			noexcept(noexcept(static_cast<_Ty1&&>(left) == static_cast<_Ty2&&>(right))) 
-			-> decltype(static_cast<_Ty1&&>(left) == static_cast<_Ty2&&>(right)) {
+		{
+			SEQ_COMPARE_FLOAT(
 			return static_cast<_Ty1&&>(left) == static_cast<_Ty2&&>(right);
+			)
 		}
 
 		using is_transparent = int;

@@ -32,7 +32,7 @@ void test_map()
 	m.try_emplace("toto", "ok");
 }
 
-int test_all_maps(int, char** const)
+SEQ_PROTOTYPE( int test_all_maps(int, char** const))
 {
 	test_map<seq::ordered_map<std::string, std::string> >();
 	test_map<seq::flat_map<std::string, std::string> >();

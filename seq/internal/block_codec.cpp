@@ -30,6 +30,12 @@
 #ifdef __SSE4_1__
 
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
+#endif
+
+
 
 #include "block_codec.h"
 #include "transpose.h"
@@ -490,7 +496,15 @@ namespace seq
 
 	SEQ_HEADER_ONLY_EXPORT_FUNCTION void* get_comp_buffer(size_t size)
 	{
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 		static thread_local detail::CompressedBuffer buf;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 		if (buf.size < size) {
 			if (buf.buffer)
 				seq::aligned_free(buf.buffer);
@@ -1077,7 +1091,6 @@ namespace seq
 					break;
 				default:
 					return SEQ_ERROR_CORRUPTED_DATA;
-					break;
 				}
 
 			}
@@ -1090,5 +1103,8 @@ namespace seq
 
 }// end namespace seq
 
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #endif //__SSE4_1__

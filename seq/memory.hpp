@@ -2507,7 +2507,14 @@ namespace seq
 
 			// Null thread_data
 			static auto null() noexcept -> thread_data* {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 				static thread_data inst;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 				return &inst;
 			}
 			thread_data* last;
@@ -2553,7 +2560,14 @@ namespace seq
 		{
 			// Returns the thread_data for current thread
 			// might throw std::bad_alloc
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			static thread_local TLS tls(d_alloc);
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			if (tls.last->parent == this)
 				return tls.last;
 			return find_this(tls);

@@ -121,7 +121,6 @@ namespace seq
 		
 		/// @brief Constructs empty container.
 		/// @param hash hash function to use
-		/// @param equal comparison function to use for all key comparisons of this container
 		/// @param alloc allocator to use for all memory allocations of this container
 		radix_hash_set(const Hash& hash =Hash() ,
 			const KeyEqual&  = KeyEqual(),
@@ -402,7 +401,7 @@ namespace seq
 
 
 		/// @brief Finds an element with key equivalent to key
-		/// @param value key value to search for
+		/// @param key key value to search for
 		/// @return iterator pointing to found key on success, end iterator on failure.
 		SEQ_ALWAYS_INLINE auto find(const Key& key) const -> const_iterator
 		{

@@ -3328,9 +3328,7 @@ namespace seq
 		}
 
 		/// @brief Inserts a new element into the container directly before \a pos.
-		/// @tparam ...Args 
 		/// @param pos absolute position within the tiered_vector
-		/// @param ...args T constructor arguments
 		/// @return reference to inserted element
 		/// Basic exception guarantee.
 		template<class... Args>

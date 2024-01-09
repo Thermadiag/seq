@@ -551,10 +551,12 @@ void test_concurrent_hash_maps(size_t count, const Gen & gen)
 	
 	test_concurrent_map<K, libcuckoo::cuckoohash_map<K, size_t, seq::hasher<K>, std::equal_to<K>> >(count, "libcuckoo::cuckoohash_map", gen);
 
+#ifdef NDEBUG
 #ifdef TBB_FOUND
 	test_concurrent_map<K, tbb::concurrent_hash_map<K, size_t, my_tbb_hash_compare<K> >  >(count, "tbb::concurrent_hash_map", gen); //safe erase
 
 	//test_concurrent_map<K, tbb::concurrent_unordered_map <K, size_t>  >(count, "tbb::concurrent_unordered_map ", gen); //safe iteration
+#endif
 #endif
 
 #ifdef SEQ_HAS_CPP_17

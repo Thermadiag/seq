@@ -181,7 +181,6 @@ namespace seq
 		/// If multiple elements in the range have keys that compare equivalent, it is unspecified which element is inserted,
 		/// except if template parameter Stable is true.
 		/// @param init initializer list to initialize the elements of the container with
-		/// @param comp comparison function object to use for all comparisons of keys
 		/// @param alloc allocator to use for all memory allocations of this container
 		radix_set(std::initializer_list<value_type> init,
 			const Allocator& alloc = Allocator())
@@ -368,8 +367,10 @@ namespace seq
 			return false;
 		auto it1 = s1.begin();
 		for (auto it2 = s2.begin(); it2 != s2.end(); ++it2, ++it1) {
+			SEQ_COMPARE_FLOAT(
 			if (ExtractKey{}(*it1) != ExtractKey{}(*it2))
 				return false;
+			)
 		}
 		return true;
 	}
@@ -857,8 +858,10 @@ namespace seq
 			return false;
 		auto it1 = s1.begin();
 		for (auto it2 = s2.begin(); it2 != s2.end(); ++it2, ++it1) {
+			SEQ_COMPARE_FLOAT(
 			if (value_type_extract{}(*it1) != value_type_extract{}(*it2) || it1->second != it2->second)
 				return false;
+			)
 		}
 		return true;
 	}

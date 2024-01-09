@@ -79,7 +79,14 @@ struct MimallocExternal
 
 static constexpr unsigned MY_RAND_MAX = (1U << 16U) - 1U;
 static inline size_t get_count(size_t reps, size_t step) {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 	static std::vector<size_t> counts;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 	if (static_cast<size_t>(counts.size()) != reps) {
 		counts.resize(static_cast<size_t>(reps));
 		srand(0);
@@ -168,7 +175,7 @@ template<class T>
 void test_mem_pool_separate_threads(size_t nthreads, size_t repetitions)
 {
 	using namespace seq;
-	std::cout << "test alloc/dealloc in separate threads (" << nthreads << ") with the same pool" << std::endl;;
+	std::cout << "test alloc/dealloc in separate threads (" << nthreads << ") with the same pool" << std::endl;
 
 	get_count(repetitions, 0);
 	std::uint64_t mem, start, el;
@@ -999,7 +1006,7 @@ inline void test_object_pool(size_t rep)
 
 
 
-int test_mem_pool(int , char*[])
+SEQ_PROTOTYPE( int test_mem_pool(int , char*[]))
 {
 	SEQ_TEST_MODULE_RETURN(memory,1,test_object_pool(1000000));
 	

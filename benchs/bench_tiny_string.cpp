@@ -48,7 +48,7 @@ struct Convert
 		String wc;
 		wc.resize(cSize);
 
-		size_t cSize1;
+		//size_t cSize1;
 		//mbstowcs_s(&cSize1, (wchar_t*)&wc[0], cSize, value, cSize);
 		mbstowcs((wchar_t*)&wc[0], value, cSize);
 

@@ -25,8 +25,6 @@
 #ifndef SEQ_CVECTOR_HPP
 #define SEQ_CVECTOR_HPP
 
-/** @file */
-
 
 
 namespace seq
@@ -425,7 +423,7 @@ namespace seq
 						//we must decompress first
 						unsigned r = pack->decompress(tmp->storage);
 						if (has_error(r))
-							SEQ_ABORT("cvector: abort on decompression error");//
+							SEQ_ABORT("cvector: abort on decompression error")
 						// destroy
 						tmp->size = block_size;
 						tmp->clear_values();
@@ -878,10 +876,6 @@ namespace seq
 				SEQ_ASSERT_DEBUG(this->abspos >= 0 && this->abspos < static_cast<difference_type>(this->data->size()), "attempt to dereference an invalid iterator");
 				return this->data->at(static_cast<size_t>(this->abspos));
 			}
-			auto operator->()  noexcept -> value_type* {
-				SEQ_ASSERT_DEBUG(this->abspos >= 0 && this->abspos < static_cast<difference_type>(this->data->size()), "attempt to dereference an invalid iterator");
-				return (&this->data->at(static_cast<size_t>(this->abspos)).get());
-			}
 			auto operator*() const noexcept -> ConstValueWrapper<Compressed> {
 				SEQ_ASSERT_DEBUG(this->abspos >= 0 && this->abspos < static_cast<difference_type>(this->data->size()), "attempt to dereference an invalid iterator");
 				return this->data->at(static_cast<size_t>(this->abspos));
@@ -1304,7 +1298,7 @@ namespace seq
 						if (r == SEQ_ERROR_DST_OVERFLOW)
 							r = block_size * sizeof(T);
 						else if (has_error(r))
-							SEQ_ABORT("cvector: abort on compression error"); // no way to recover from this
+							SEQ_ABORT("cvector: abort on compression error") // no way to recover from this
 
 						if (r != d_buckets[index].csize) {
 							// Free old buffer, alloc new one, update compressed size, might throw (fine)
@@ -1386,7 +1380,7 @@ namespace seq
 							context->size = block_size;
 							unsigned r = bucket->decompress(context->storage);
 							if (has_error(r))
-								SEQ_ABORT("cvector: abort on decompression error"); //
+								SEQ_ABORT("cvector: abort on decompression error") //
 							context->clear_values();
 						}
 						RebindAlloc<char>(*this).deallocate(bucket->buffer, bucket->csize);
@@ -1478,7 +1472,7 @@ namespace seq
 						r = block_size * sizeof(T);
 					}
 					else if (has_error(r))
-						SEQ_ABORT("cvector: abort on compression error"); // no way to recover from this
+						SEQ_ABORT("cvector: abort on compression error") // no way to recover from this
 
 					if (r != found_bucket->csize) {
 						// Free old memory, alloc new one
@@ -1534,7 +1528,7 @@ namespace seq
 					r = block_size * sizeof(T);
 				}
 				else if (has_error(r))
-					SEQ_ABORT("cvector: abort on compression error"); // no way to recover from this
+					SEQ_ABORT("cvector: abort on compression error") // no way to recover from this
 
 				if (r != bucket->csize) {
 					char* buff = allocate_buffer_for_compression(r, bucket, index, decompressed);
@@ -1591,7 +1585,7 @@ namespace seq
 					
 					unsigned r = pack->decompress(raw->storage);
 					if (SEQ_UNLIKELY(has_error(r)))
-						SEQ_ABORT("cvector: abort on compression error"); //no way to recover from this
+						SEQ_ABORT("cvector: abort on compression error") //no way to recover from this
 
 					pack->decompressed = raw;
 					raw->dirty = 0;
@@ -1764,7 +1758,7 @@ namespace seq
 									r = block_size * sizeof(T);
 								}
 								else if (has_error(r))
-									SEQ_ABORT("cvector: abort on compression error"); // no way to recover from this
+									SEQ_ABORT("cvector: abort on compression error") // no way to recover from this
 							}
 							else {
 								MinimalBlockBound<T>::compress(value, raw.storage);
@@ -1840,7 +1834,7 @@ namespace seq
 								if (r == SEQ_ERROR_DST_OVERFLOW)
 									r = block_size * sizeof(T);
 								else if (has_error(r))
-									SEQ_ABORT("cvector: abort on compression error");// no way to recover from this
+									SEQ_ABORT("cvector: abort on compression error")// no way to recover from this
 							}
 							else
 							{
@@ -2267,7 +2261,7 @@ namespace seq
 	/// 
 	/// Below is a curve representing the program memory footprint during previous operations (extracted with Visual Studio diagnostic tools):
 	/// 
-	/// \image html cvector_memory.png
+	/// @image html cvector_memory.png
 	/// 
 	/// Restrictions
 	/// ------------
@@ -3011,8 +3005,6 @@ namespace seq
 		}
 
 		/// @brief Appends a new element to the end of the container
-		/// @tparam ...Args 
-		/// @param ...args T constructor arguments
 		/// @return reference to inserted element
 		/// Strong exception guarantee.
 		template< class... Args >
@@ -3041,9 +3033,7 @@ namespace seq
 			return emplace(it, std::move(value));
 		}
 		/// @brief Inserts a new element into the container directly before \a pos.
-		/// @tparam ...Args 
 		/// @param pos iterator within the cvector
-		/// @param ...args T constructor arguments
 		/// @return reference to inserted element
 		/// Basic exception guarantee.
 		template<class... Args>

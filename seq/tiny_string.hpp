@@ -1458,7 +1458,7 @@ namespace seq
 				d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal() + char_offset);
 			d_data.reset();
 		}
-		/// @brief 
+
 		void shrink_to_fit() 
 		{ 
 			size_t s = size();
@@ -1479,7 +1479,7 @@ namespace seq
 				d_data.setSize(s);
 			}
 		} 
-		/// @brief 
+
 		void reserve(size_t new_capacity)
 		{
 			size_t s = size();

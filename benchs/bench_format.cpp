@@ -9,7 +9,6 @@
 
 int bench_format(int, char ** const)
 {
-
 	using namespace seq;
 
 	// Generate 4M double values
@@ -37,7 +36,7 @@ int bench_format(int, char ** const)
 	}
 	size_t el = tock_ms();
 	std::cout << "Write table with streams: " << el << " ms" << std::endl;
-
+	
 
 	// Build the same table with format module
 
@@ -50,7 +49,7 @@ int bench_format(int, char ** const)
 	el = tock_ms();
 	std::cout << "Write table with seq formatting module: " << el << " ms" << std::endl;
 
-
+	
 	// Compare to std::format for C++20 compilers
 #ifdef SEQ_HAS_CPP_20
 	tick();
@@ -71,7 +70,7 @@ int bench_format(int, char ** const)
 		oss << f2(vec_d[i]);
 	el = tock_ms();
 	std::cout << "Write left-aligned double with seq::fmt: " << el << " ms" << std::endl;
-
+	
 
 
 	// use std::ostream::bad() to make sure the above tests are not simply ignored by the compiler

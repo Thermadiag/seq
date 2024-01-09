@@ -29,7 +29,7 @@ namespace seq
 {
 
 	/// @brief Compute a hash value for input data using the murmurhash2 algorithm.
-	/// @param ptr input buffer
+	/// @param _ptr input buffer
 	/// @param len input buffer size
 	/// @return computed hash value
 	SEQ_HEADER_ONLY_EXPORT_FUNCTION auto hash_bytes_murmur64(const void* _ptr, size_t len) noexcept -> size_t
@@ -88,8 +88,8 @@ namespace seq
 	}
 
 	/// @brief Compute a hash value for input data using the fnv1a algorithm.
-	/// @param ptr input buffer
-	/// @param len input buffer size
+	/// @param _ptr input buffer
+	/// @param size input buffer size
 	/// @return computed hash value
 	SEQ_HEADER_ONLY_EXPORT_FUNCTION auto hash_bytes_fnv1a(const void* _ptr, size_t size)noexcept -> size_t
 	{
@@ -125,7 +125,7 @@ namespace seq
 		 * @return Final byte-padded value from the message.
 		 */
 
-#define _HU64(v) static_cast<uint64_t>(v)
+#define SEQ_HU64(v) static_cast<uint64_t>(v)
 
 		static SEQ_ALWAYS_INLINE uint64_t kh_lpu64ec_l3(const uint8_t* const Msg,
 			const size_t MsgLen)
@@ -133,13 +133,13 @@ namespace seq
 			const int ml8 = static_cast<int>(MsgLen * 8);
 			if (MsgLen < 4) {
 				const uint8_t* const Msg3 = Msg + MsgLen - 3;
-				const uint64_t m = _HU64(Msg3[0]) | _HU64(Msg3[1]) << 8 | _HU64(Msg3[2]) << 16;
-				return(_HU64(1) << ml8 | m >> (24 - ml8));
+				const uint64_t m = SEQ_HU64(Msg3[0]) | SEQ_HU64(Msg3[1]) << 8 | SEQ_HU64(Msg3[2]) << 16;
+				return(SEQ_HU64(1) << ml8 | m >> (24 - ml8));
 			}
 
 			const uint64_t mh = read_LE_32(Msg + MsgLen - 4);
 			const uint64_t ml = read_LE_32(Msg);
-			return(_HU64(1) << ml8 | ml | (mh >> (64 - ml8)) << 32);
+			return(SEQ_HU64(1) << ml8 | ml | (mh >> (64 - ml8)) << 32);
 		}
 
 		/**
@@ -160,16 +160,16 @@ namespace seq
 			if (MsgLen < 4) {
 				uint64_t m = Msg[0];
 				if (MsgLen > 1) {
-					m |= _HU64(Msg[1]) << 8;
+					m |= SEQ_HU64(Msg[1]) << 8;
 					if (MsgLen > 2)
-						m |= _HU64(Msg[2]) << 16;
+						m |= SEQ_HU64(Msg[2]) << 16;
 				}
-				return(_HU64(1) << ml8 | m);
+				return(SEQ_HU64(1) << ml8 | m);
 			}
 
 			const uint64_t mh = read_LE_32(Msg + MsgLen - 4);
 			const uint64_t ml = read_LE_32(Msg);
-			return(_HU64(1) << ml8 | ml | (mh >> (64 - ml8)) << 32);
+			return(SEQ_HU64(1) << ml8 | ml | (mh >> (64 - ml8)) << 32);
 		}
 
 		/**
@@ -189,25 +189,25 @@ namespace seq
 			const int ml8 = static_cast<int>(MsgLen * 8);
 			if (MsgLen < 5) {
 				const uint64_t m = read_LE_32(Msg + MsgLen - 4);
-				return(_HU64(1) << ml8 | m >> (32 - ml8));
+				return(SEQ_HU64(1) << ml8 | m >> (32 - ml8));
 			}
 			const uint64_t m = read_LE_64(Msg + MsgLen - 8);
-			return(_HU64(1) << ml8 | m >> (64 - ml8));
+			return(SEQ_HU64(1) << ml8 | m >> (64 - ml8));
 		}
 
 #define KOMIHASH_HASH16( m ) \
 	umul128( Seed1 ^ read_LE_64( m ), Seed5 ^ read_LE_64( m + 8 ), &Seed1, &r1h ); \
-	Seed5 += r1h; Seed1 ^= Seed5;
+	Seed5 += r1h; Seed1 ^= Seed5
 
 #define KOMIHASH_HASHROUND() \
 	umul128( Seed1, Seed5, &Seed1, &r2h ); \
-	Seed5 += r2h; Seed1 ^= Seed5;
+	Seed5 += r2h; Seed1 ^= Seed5
 
 #define KOMIHASH_HASHFIN() \
 	umul128( r1h, r2h, &Seed1, &r1h ); \
 	Seed5 += r1h; Seed1 ^= Seed5; \
 	KOMIHASH_HASHROUND(); \
-	return static_cast<size_t>( Seed1 );
+	return static_cast<size_t>( Seed1 )
 
 		/**
 		 * The hashing epilogue function (for internal use).
@@ -330,3 +330,5 @@ namespace seq
 		return static_cast<size_t>(detail::komihash_long(Msg, MsgLen, Seed1, Seed5));
 	}
 }
+
+#undef SEQ_HU64

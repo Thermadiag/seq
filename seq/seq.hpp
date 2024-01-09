@@ -93,12 +93,12 @@ A cmake project is provided for installation and compilation of tests/benchmarks
 #define SEQ_VERSION "0.0"
 
 #ifndef SEQ_BUILD_LIBRARY
-	#define __SEQ_IS_HEADER_ONLY 1
+	#define SEQ_DETECT_IS_HEADER_ONLY 1
 #else
-	#define __SEQ_IS_HEADER_ONLY 0
+	#define SEQ_DETECT_IS_HEADER_ONLY 0
 #endif
 
-#if __SEQ_IS_HEADER_ONLY == 1
+#if SEQ_DETECT_IS_HEADER_ONLY == 1
 	#ifndef SEQ_HEADER_ONLY
 		#define SEQ_HEADER_ONLY
 	#endif

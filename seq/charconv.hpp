@@ -439,7 +439,6 @@ namespace seq
 		
 
 		
-		
 
 		template< class T, class Stream>
 		auto read_integral_base_10(Stream& str) -> T
@@ -1475,7 +1474,7 @@ namespace seq
 			T remainder = value - static_cast<T>(integral);
 
 			null_first = false;
-			if (remainder != 0 && remainder < 0.1) {
+			if (SEQ_COMPARE_FLOAT(remainder != 0 && remainder < 0.1)) {
 				// remainder is inf to 0.1, we must add 0.1 to avoid truncating the leading zeros
 				remainder += 0.1;
 				null_first = true;
@@ -1542,7 +1541,7 @@ namespace seq
 						dst[1] = d[0];
 						exp -= 2;
 						// for big exponents, we end up with a value of 0, therefore avoid the useless floating point math
-						if (v != 0 || value != 0) {
+						if (SEQ_COMPARE_FLOAT(v != 0 || value != 0)) {
 							value -= v;
 							value *= 100;
 						}
@@ -1603,7 +1602,7 @@ namespace seq
 						dst[0] = d[1];
 						dst[1] = d[0];
 						width -= 2;
-						if (v != 0 || value != 0) {
+						if (SEQ_COMPARE_FLOAT(v != 0 || value != 0)) {
 							value -= v;
 							value *= 100;
 						}
@@ -1774,9 +1773,10 @@ namespace seq
 				}
 				value = -value;
 			}
+			SEQ_COMPARE_FLOAT(
 			if (SEQ_UNLIKELY(/*std::isinf(value))*/value == std::numeric_limits<double>::infinity())) {
 				return write_inf(range, fmt);
-			}
+			})
 			
 			if (width < 0) { 
 				width = 6;
@@ -1874,7 +1874,6 @@ namespace seq
 				--d_start;
 			}
 			/// @brief Seek at given position
-			/// @return The new read position
 			SEQ_ALWAYS_INLINE void seek(const char* pos) noexcept
 			{
 				d_start = pos;

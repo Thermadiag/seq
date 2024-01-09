@@ -204,7 +204,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		seq.push_back(static_cast<type>(i));
 
 
-	SEQ_TEST( equal_seq(deq, seq) )
+	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test resize lower
 	deq.resize(deq.size() / 10);
@@ -420,7 +420,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 	{
 		auto itd = deq.begin();
 		auto its = seq.begin();
-		type j = static_cast<type>(deq.size()) - 1;;
+		type j = static_cast<type>(deq.size()) - 1;
 		while (itd != deq.end()) {
 			*itd++ = j;
 			*its++ = j;
@@ -497,7 +497,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 
 
 
-int test_sequence(int , char*[])
+SEQ_PROTOTYPE( int test_sequence(int , char*[]))
 {
 	// Test sequence and detect potential memory leak or wrong allocator propagation
 	CountAlloc<size_t> al;

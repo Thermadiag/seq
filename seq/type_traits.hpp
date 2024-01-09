@@ -57,6 +57,13 @@ namespace std
 
 namespace seq
 {
+	namespace detail
+	{
+		template <class T>
+		struct make_void {
+			using type = void;
+		};
+	}
 
 	/// @brief Compute integer type maximum value at compile time
 	template <class T, bool Signed = std::is_signed<T>::value>
@@ -209,14 +216,6 @@ namespace seq
 
 
 
-	// On msvc, std::string is relocatable, as opposed to gcc implementation that stores a pointer to its internal data
-/*#if defined( _MSC_VER) 
-	template<class T, class Traits, class Alloc>
-	struct is_relocatable<std::basic_stringbuf<T, Traits, Alloc> > {
-		static constexpr bool value = true;
-	};
-#endif*/
-
 	/// @brief Tells if given type is hashable with std::hash.
 	/// True by default, optimistically assume that all types are hashable.
 	/// Used by seq::hold_any.
@@ -224,43 +223,36 @@ namespace seq
 	struct is_hashable : std::true_type {};
 
 	/// @brief Tells if given type can be streamed to a std::ostream object
+	template<class T, class = void>
+	struct is_ostreamable : std::false_type {};
+
 	template<class T>
-	class is_ostreamable
-	{
-		template<class SS, class TT>
-		static auto test(int)
-			-> decltype(std::declval<SS&>() << std::declval<const TT&>(), std::true_type());
+	struct is_ostreamable<T, typename detail::make_void<decltype(std::declval<std::ostream&>() << std::declval<const T&>())>::type > : std::true_type {};
 
-		template<class, class>
-		static auto test(...)->std::false_type;
-
-	public:
-		static constexpr bool value = decltype(test<std::ostream, T>(0))::value;
-	};
 
 	/// @brief Tells if given type can be read from a std::istream object
+	template<class T, class = void>
+	struct is_istreamable : std::false_type {};
+
 	template<class T>
-	class is_istreamable
-	{
-		template<class SS, class TT>
-		static auto test(int)
-			-> decltype(std::declval<SS&>() >> std::declval<TT&>(), std::true_type());
+	struct is_istreamable<T, typename detail::make_void<decltype(std::declval<std::istream&>() >> std::declval<T&>())>::type > : std::true_type {};
 
-		template<class, class>
-		static auto test(...)->std::false_type;
 
-	public:
-		static constexpr bool value = decltype(test<std::istream, T>(0))::value;
-	};
 
 	/// @brief Tells if given type supports equality comparison with operator ==
 	template<class T>
 	class is_equal_comparable
 	{
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
 		template<class TT>
 		static auto test(int)
 			-> decltype(std::declval<TT&>() == std::declval<TT&>(), std::true_type());
-
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 		template<class>
 		static auto test(...)->std::false_type;
 
@@ -309,10 +301,7 @@ namespace seq
 
 	namespace detail
 	{
-		template <class T>
-		struct make_void {
-			using type = void;
-		};
+		
 
 		template <class T, class = void>
 		struct has_iterator : std::false_type {};

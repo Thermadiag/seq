@@ -568,14 +568,54 @@ void test_cvector(size_t count = 5000000, const Alloc al = Alloc())
 	
 }
 
+
+template<class T>
+void copy_to_cvector(const seq::cvector<T>& in, seq::cvector<T>& out)
+{
+	out.resize(in.size());
+	std::copy(in.begin(), in.end(), out.begin());
+
+}
+template<class T>
+void copy_to_vector(const seq::cvector<T>& in, std::vector<T>& out)
+{
+	out.resize(in.size());
+	std::copy(in.begin(), in.end(), out.begin());
+}
+
+static inline void test_copy()
+{
+	{
+		seq::cvector<int> vec;
+		for (size_t i = 0; i < vec.size(); ++i)
+			vec.push_back(static_cast<int>(i));
+
+		seq::cvector<int> out1;
+		std::vector<int> out2;
+		copy_to_cvector(vec, out1);
+		copy_to_vector(vec, out2);
+	}
+	{
+		seq::cvector<seq::tstring> vec;
+		vec.emplace_back("hello");
+		vec.begin()->size();
+		vec.cbegin()->size();
+	}
+
+}
+
+
 #endif
 
 
-int test_cvector(int , char*[])
+SEQ_PROTOTYPE( int test_cvector(int , char*[]))
 {
 	
 
 #ifdef __SSE4_1__
+
+	test_copy();
+
 	CountAlloc<size_t> al;
 	// Test cvector and potential memory leak or wrong allocator propagation
 	SEQ_TEST_MODULE_RETURN(cvector, 1, test_cvector<size_t>(50000, al));

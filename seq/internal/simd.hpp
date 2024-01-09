@@ -23,7 +23,14 @@
  */
 
 
-#pragma once
+#ifndef SEQ_SIMD_HPP
+#define SEQ_SIMD_HPP
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
+#endif
+
 
 #include "../bits.hpp"
 
@@ -269,3 +276,10 @@ namespace seq
 	}
 
 }
+
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
+#endif //SEQ_SIMD_HPP

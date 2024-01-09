@@ -1496,7 +1496,6 @@ namespace seq
 				import(other);
 		}
 		/// @brief Move constructor
-		/// @param other 
 		sequence(sequence&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
 			:Allocator(std::move(other.get_allocator())), d_data(other.d_data)
 		{
@@ -1670,8 +1669,6 @@ namespace seq
 		}
 
 		/// @brief Constructs an element in-place at the end
-		/// @tparam ...Args 
-		/// @param ...args 
 		/// @return reference to the newly constructed object
 		/// No iterators or references are invalidated.
 		/// Strong exception guarantee.
@@ -1693,9 +1690,8 @@ namespace seq
 		}
 
 		/// @brief Constructs an element in-place at the end and returns an iterator pointing to this element.
-		/// @tparam ...Args 
-		/// @param ...args 
 		/// @return iterator to the inserted element
+		/// 
 		/// No iterators or references are invalidated.
 		/// Strong exception guarantee.
 		template <class... Args>
@@ -1711,12 +1707,9 @@ namespace seq
 		void push_back(const T& value) { emplace_back(value); }
 
 		/// @brief Appends the given element value to the end of the sequence. value is moved into the new element.
-		/// @param value 
 		void push_back(T&& value) { emplace_back(std::move(value)); }
 
 		/// @brief Constructs an element in-place at the beginning
-		/// @tparam ...Args 
-		/// @param ...args 
 		/// @return reference to the newly constructed object
 		/// No iterators or references are invalidated.
 		/// Strong exception guarantee.
@@ -1738,8 +1731,6 @@ namespace seq
 		}
 
 		/// @brief Constructs an element in-place at the beginning and returns an iterator pointing to this element.
-		/// @tparam ...Args 
-		/// @param ...args 
 		/// @return iterator to the inserted element
 		/// No iterators or references are invalidated.
 		/// Strong exception guarantee.
@@ -1765,9 +1756,8 @@ namespace seq
 		
 
 		/// @brief Constructs an element in-place anywhere into the sequence.
-		/// @tparam ...Args 
-		/// @param ...args 
 		/// @return iterator to newly inserted element
+		/// 
 		/// The element could be inserted anywhere inside the sequence, including at the back or front.
 		/// This function tries to recyclate free slots after calls to erase().
 		/// You should favor this function if you don't care about the sequence ordering.
@@ -1786,8 +1776,6 @@ namespace seq
 		}
 	
 		/// @brief Insert the given element into the sequence.
-		/// @tparam ...Args 
-		/// @param ...args 
 		/// @return iterator to newly inserted element
 		/// The element could be inserted anywhere inside the sequence, including at the back or front.
 		/// This function tries to recyclate free slots after calls to erase().
@@ -1813,7 +1801,7 @@ namespace seq
 
 
 		/// @brief Resizes the container to contain count elements.
-		/// @param count new size of the container
+		/// @param new_size new size of the container
 		/// If the current size is greater than count, the container is reduced to its first count elements.
 		/// If the current size is less than count, additional default-inserted elements are appended.
 		/// Basic exception guarantee.
@@ -1934,7 +1922,7 @@ namespace seq
 		}
 
 		/// @brief Resizes the container to contain count elements.
-		/// @param count new size of the container
+		/// @param new_size new size of the container
 		/// @param value the value to initialize the new elements with
 		/// If the current size is greater than count, the container is reduced to its first count elements.
 		/// If the current size is less than count, additional copies of value are appended.
@@ -2057,7 +2045,7 @@ namespace seq
 
 
 		/// @brief Resizes the container to contain count elements.
-		/// @param count new size of the container
+		/// @param new_size new size of the container
 		/// If the current size is greater than count, the container is reduced to its last count elements.
 		/// If the current size is less than count, additional default-inserted elements are prepended.
 		/// Basic exception guarantee.

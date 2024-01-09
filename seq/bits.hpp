@@ -26,6 +26,12 @@
 #define SEQ_BITS_HPP
 
 
+#ifdef __clang__
+// Get rid of VERY annoying and useless warnings (clang does not recognize some doxygen commands)
+#pragma clang diagnostic ignored  "-Wdocumentation-unknown-command"
+#pragma clang diagnostic ignored  "-Wfloat-equal"
+#endif
+
 
 /** @file */
 
@@ -95,12 +101,6 @@ See functions documentation for more details.
 #if defined(__NetBSD__)
 #include <sys/types.h>
 #include <machine/bswap.h>
-#endif
-
-// Disable old style cast warning for gcc
-#ifdef __GNUC__
-//#pragma GCC diagnostic push
-//#pragma GCC diagnostic ignored "-Wold-style-cast"
 #endif
 
 
@@ -227,10 +227,20 @@ namespace seq {
 	{printf( __VA_ARGS__ ); fflush(stdout);\
 	abort();}
 
+#ifdef __clang__
+		// clang produces " unused function template" warning with this one (?)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-const-variable"
+#endif
 // going through a variable to avoid cppcheck error with SEQ_OFFSETOF
 static constexpr void* __dummy_ptr_with_long_name = nullptr;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 // Redefine offsetof to get rid of warning "'offsetof' within non-standard-layout type ...."
 #define SEQ_OFFSETOF(s,m) (reinterpret_cast<::size_t>(&reinterpret_cast<char const volatile&>(((static_cast<const s*>(__dummy_ptr_with_long_name))->m))))
+
+
 
 
 
@@ -473,8 +483,35 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 
 
 
+
+
+#if defined(__clang__)
+
+#define SEQ_COMPARE_FLOAT(...) \
+	__pragma(clang diagnostic push) \
+	__pragma(clang diagnostic ignored "-Wfloat-equal") \
+	__VA_ARGS__ \
+	__pragma(clang diagnostic pop)
+
+#else
+#define SEQ_COMPARE_FLOAT(...) __VA_ARGS__
+#endif
+
+#if defined(__clang__)
+
+#define SEQ_PROTOTYPE(...) \
+	__pragma(clang diagnostic push) \
+	__pragma(clang diagnostic ignored "-Wmissing-prototypes") \
+	__VA_ARGS__ \
+	__pragma(clang diagnostic pop)
+
+#else
+#define SEQ_PROTOTYPE(...) __VA_ARGS__
+#endif
+
 namespace seq
 {
+
 	namespace detail
 	{
 
@@ -899,54 +936,6 @@ namespace seq
 #endif
 
 
-	namespace detail
-	{
-		const unsigned forward_index64[64] = {
-			0, 47,  1, 56, 48, 27,  2, 60,
-		   57, 49, 41, 37, 28, 16,  3, 61,
-		   54, 58, 35, 52, 50, 42, 21, 44,
-		   38, 32, 29, 23, 17, 11,  4, 62,
-		   46, 55, 26, 59, 40, 36, 15, 53,
-		   34, 51, 20, 43, 31, 22, 10, 45,
-		   25, 39, 14, 33, 19, 30,  9, 24,
-		   13, 18,  8, 12,  7,  6,  5, 63
-		};
-
-
-		const unsigned backward_index64[64] = {
-		0, 47,  1, 56, 48, 27,  2, 60,
-		57, 49, 41, 37, 28, 16,  3, 61,
-		54, 58, 35, 52, 50, 42, 21, 44,
-		38, 32, 29, 23, 17, 11,  4, 62,
-		46, 55, 26, 59, 40, 36, 15, 53,
-		34, 51, 20, 43, 31, 22, 10, 45,
-		25, 39, 14, 33, 19, 30,  9, 24,
-		13, 18,  8, 12,  7,  6,  5, 63
-		};
-
-
-		
-
-		static const std::uint8_t scan_reverse_8[] =
-		{ 8, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4,
-			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5,
-			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6,
-			6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-			6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-			6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-			6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7,
-			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 };
-
-	}
-
 	SEQ_ALWAYS_INLINE auto bit_scan_forward_8(std::uint8_t  val) -> unsigned int
 	{
 		static const std::uint8_t scan_forward_8[] =
@@ -972,7 +961,24 @@ namespace seq
 	}
 	SEQ_ALWAYS_INLINE auto bit_scan_reverse_8(std::uint8_t  val) -> unsigned int
 	{
-		return detail::scan_reverse_8[val];
+		static const std::uint8_t scan_reverse_8[] =
+		{ 8, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4,
+			4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5,
+			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6,
+			6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+			6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+			6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+			6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7,
+			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+			7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 };
+		return scan_reverse_8[val];
 	}
 	
 
@@ -1034,8 +1040,18 @@ namespace seq
 #       elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3)))
 		return __builtin_ctzll(bb);
 #       else
+		static const unsigned forward_index64[64] = {
+			0, 47,  1, 56, 48, 27,  2, 60,
+		   57, 49, 41, 37, 28, 16,  3, 61,
+		   54, 58, 35, 52, 50, 42, 21, 44,
+		   38, 32, 29, 23, 17, 11,  4, 62,
+		   46, 55, 26, 59, 40, 36, 15, 53,
+		   34, 51, 20, 43, 31, 22, 10, 45,
+		   25, 39, 14, 33, 19, 30,  9, 24,
+		   13, 18,  8, 12,  7,  6,  5, 63
+	};
 		const std::uint64_t debruijn64 = std::int64_t(0x03f79d71b4cb0a89);
-		return detail::forward_index64[((bb ^ (bb - 1)) * debruijn64) >> 58];
+		return forward_index64[((bb ^ (bb - 1)) * debruijn64) >> 58];
 #endif
 	}
 
@@ -1051,6 +1067,16 @@ namespace seq
 #       elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__>=3)))
 		return  63 - __builtin_clzll(bb);
 #       else
+		static const unsigned backward_index64[64] = {
+		0, 47,  1, 56, 48, 27,  2, 60,
+		57, 49, 41, 37, 28, 16,  3, 61,
+		54, 58, 35, 52, 50, 42, 21, 44,
+		38, 32, 29, 23, 17, 11,  4, 62,
+		46, 55, 26, 59, 40, 36, 15, 53,
+		34, 51, 20, 43, 31, 22, 10, 45,
+		25, 39, 14, 33, 19, 30,  9, 24,
+		13, 18,  8, 12,  7,  6,  5, 63
+		};
 		const std::uint64_t  debruijn64 = std::int64_t(0x03f79d71b4cb0a89);
 		//assert(bb != 0);
 		bb |= bb >> 1;
@@ -1059,7 +1085,7 @@ namespace seq
 		bb |= bb >> 8;
 		bb |= bb >> 16;
 		bb |= bb >> 32;
-		return detail::backward_index64[(bb * debruijn64) >> 58];
+		return backward_index64[(bb * debruijn64) >> 58];
 #endif
 	}
 
@@ -1236,6 +1262,7 @@ namespace seq
 	}
 */
 #else
+	/// @brief Returns the index of the nth set bit in \a x, or 64 if such bit does not exist.
 	inline auto nth_bit_set(std::uint64_t x, unsigned n)noexcept -> unsigned {
 		return detail::generic_nth_bit_set(x, n);
 	}
@@ -1248,8 +1275,7 @@ namespace seq
 #endif
 
 
-	/// @function unsigned nth_bit_set(std::uint64_t x, unsigned n)
-	/// @brief Returns the index of the nth set bit in \a x, or 64 if such bit does not exist.
+	
 
 	namespace detail
 	{
@@ -1662,5 +1688,6 @@ std::printf("no\n");
 
 /** @}*/
 //end bits
+
 
 #endif

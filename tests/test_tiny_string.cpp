@@ -473,7 +473,7 @@ void test_tstring_logic()
 }
 
 
-int test_tiny_string(int , char*[])
+SEQ_PROTOTYPE( int test_tiny_string(int , char*[]))
 {
 	SEQ_TEST_MODULE_RETURN(tiny_string_char, 1, test_tstring_logic<char>());
 	SEQ_TEST_MODULE_RETURN(tiny_string_wchar_t, 1, test_tstring_logic<wchar_t>());

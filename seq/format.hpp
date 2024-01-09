@@ -637,8 +637,16 @@ namespace seq
 			f_prefix = 128,
 		};
 
+#ifdef __clang__
+		// clang produces " unused function template" warning with this one (?)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-template"
+#endif
 		template<class String>
 		static void format_width(String& str, size_t size, width_format w)
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 		{
 			// Alignment formatting for numerical values
 
@@ -665,20 +673,42 @@ namespace seq
 
 		static inline auto ostream_buffer() -> std::string&
 		{
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			// Returns buffer suitable to write values into a std::ostream
 			static thread_local std::string tmp;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+
 			return tmp;
 		}
 		static inline auto numeric_buffer() -> std::string&
 		{
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			// Returns buffer suitable to write numerical values to string
 			static thread_local std::string tmp;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			return tmp;
 		}
 		static inline auto to_chars_buffer() -> std::string&
 		{
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			// Returns buffer suitable to write multi_ostream_format values into a std::ostream
 			static thread_local std::string tmp;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			return tmp;
 		}
 
@@ -725,7 +755,6 @@ namespace seq
 
 
 		/// @brief Can be specialized to force inline storage of value inside ValueHolder
-		/// @tparam T 
 		template<class T>
 		struct inline_value_storage : std::false_type
 		{
@@ -1197,7 +1226,14 @@ namespace seq
 				// Default implementation: use ostringstream
 
 				std::ostringstream oss;
+#if defined( __clang__ ) && defined(_MSC_VER)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmicrosoft-cast"
+#endif
 				oss << val.value();
+#if defined( __clang__ ) && defined(_MSC_VER)
+#pragma clang diagnostic pop
+#endif
 				size_t prev = out.size();
 				out.append(oss.str());
 
@@ -1671,8 +1707,15 @@ namespace seq
 
 		static inline auto multi_ostream_buffer() -> std::string&
 		{
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			// Returns buffer suitable to write multi_ostream_format values into a std::ostream
 			static thread_local std::string tmp;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			return tmp;
 		}
 
@@ -1840,7 +1883,6 @@ namespace seq
 
 
 		/// @brief Prepend value to a Positional argument
-		/// @tparam Type 
 		template<size_t Val, class Type>
 		struct PrependPos
 		{
@@ -1882,7 +1924,6 @@ namespace seq
 		};
 
 		/// @brief Find all indexes of slot_format types and return them as a Positional type
-		/// @tparam ...Args 
 		template<class ...Args>
 		struct find_slots
 		{
@@ -2279,7 +2320,6 @@ namespace seq
 		};
 
 		/// @brief Used to specialize ostream_format for iterable types
-		/// @tparam T 
 		template<class T>
 		struct Iterable {};
 
@@ -2941,7 +2981,7 @@ namespace seq
 		}
 	};
 
-	/// @brief Skip empty strings and spaces (' ', '\t', '\n', '\v', '\f', '\r');
+	/// @brief Skip empty strings and spaces (' ', '\\t', '\\n', '\\v', '\\f', '\\r');
 	struct skip_space
 	{
 		static bool skip(const char* src, size_t len) noexcept {

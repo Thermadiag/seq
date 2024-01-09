@@ -442,7 +442,7 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 
 
 
-int test_tiered_vector(int , char*[])
+SEQ_PROTOTYPE( int test_tiered_vector(int , char*[]))
 {
 	// Test tiered_vector and detect potential memory leak or wrong allocator propagation
 	CountAlloc<size_t> al;

@@ -284,7 +284,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 #include "tests.hpp"
 
-int test_devector(int , char*[])
+SEQ_PROTOTYPE( int test_devector(int , char*[]))
 {
 	// Test devector and potential memory leak or wrong allocator propagation
 	CountAlloc<size_t> al;

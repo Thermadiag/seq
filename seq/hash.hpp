@@ -59,7 +59,6 @@ namespace seq
 {
 
 	/// @brief Detect is_avalanching typedef 
-	/// @tparam T 
 	template <typename T>
 	struct hash_is_avalanching {
 	private:
@@ -135,9 +134,8 @@ namespace seq
 	}
 
 	/// @brief Combine 2 hash values. Uses murmurhash2 mixin.
-	/// @param h1 first hash value
-	/// @param h2 second hash value
-	/// @return combination of both hash value
+	/// @param seed in/out seed value
+	/// @param h2 hash value to combine with
 	SEQ_ALWAYS_INLINE void hash_combine(size_t & seed, size_t h2) noexcept 
 	{
 #ifdef SEQ_ARCH_64
@@ -193,27 +191,27 @@ namespace seq
 		}
 	};
 
-#define _SEQ_INTEGRAL_HASH_FUNCTION(T) \
+#define SEQ_INTEGRAL_HASH_FUNCTION(T) \
 	template<> struct hasher <T> { \
 		using is_avalanching = int;\
 		SEQ_ALWAYS_INLINE size_t operator()(T v) const noexcept {return hash_finalize(static_cast<size_t>(v));} \
 	}
 
-	_SEQ_INTEGRAL_HASH_FUNCTION(bool);
-	_SEQ_INTEGRAL_HASH_FUNCTION(char);
-	_SEQ_INTEGRAL_HASH_FUNCTION(signed char);
-	_SEQ_INTEGRAL_HASH_FUNCTION(unsigned char);
-	_SEQ_INTEGRAL_HASH_FUNCTION(short);
-	_SEQ_INTEGRAL_HASH_FUNCTION(unsigned short);
-	_SEQ_INTEGRAL_HASH_FUNCTION(int);
-	_SEQ_INTEGRAL_HASH_FUNCTION(unsigned int);
-	_SEQ_INTEGRAL_HASH_FUNCTION(long);
-	_SEQ_INTEGRAL_HASH_FUNCTION(unsigned long);
-	_SEQ_INTEGRAL_HASH_FUNCTION(long long);
-	_SEQ_INTEGRAL_HASH_FUNCTION(unsigned long long);
-	_SEQ_INTEGRAL_HASH_FUNCTION(wchar_t);
-	_SEQ_INTEGRAL_HASH_FUNCTION(char16_t);
-	_SEQ_INTEGRAL_HASH_FUNCTION(char32_t);
+	SEQ_INTEGRAL_HASH_FUNCTION(bool);
+	SEQ_INTEGRAL_HASH_FUNCTION(char);
+	SEQ_INTEGRAL_HASH_FUNCTION(signed char);
+	SEQ_INTEGRAL_HASH_FUNCTION(unsigned char);
+	SEQ_INTEGRAL_HASH_FUNCTION(short);
+	SEQ_INTEGRAL_HASH_FUNCTION(unsigned short);
+	SEQ_INTEGRAL_HASH_FUNCTION(int);
+	SEQ_INTEGRAL_HASH_FUNCTION(unsigned int);
+	SEQ_INTEGRAL_HASH_FUNCTION(long);
+	SEQ_INTEGRAL_HASH_FUNCTION(unsigned long);
+	SEQ_INTEGRAL_HASH_FUNCTION(long long);
+	SEQ_INTEGRAL_HASH_FUNCTION(unsigned long long);
+	SEQ_INTEGRAL_HASH_FUNCTION(wchar_t);
+	SEQ_INTEGRAL_HASH_FUNCTION(char16_t);
+	SEQ_INTEGRAL_HASH_FUNCTION(char32_t);
 
 	template<> 
 	struct hasher <float> {

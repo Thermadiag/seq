@@ -231,7 +231,7 @@ inline void test_charconv(unsigned count = 100000, int max_precision = 50)
 }
 
 
-int test_charconv(int , char*[])
+SEQ_PROTOTYPE(int test_charconv(int , char*[]))
 {
 	SEQ_TEST_MODULE_RETURN(charconv, 1, test_charconv(10000, 30));
 	return 0;

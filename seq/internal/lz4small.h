@@ -68,11 +68,11 @@ namespace seq
 		// inplace compression
 		static unsigned compress(void* in_out, unsigned BPP, unsigned block_size, unsigned dst_size, unsigned acceleration)
 		{
-			int r = lz4_compress_fast((char*)in_out, (char*)get_comp_buffer(dst_size), block_size * BPP , dst_size, acceleration + 1, NULL);
+			int r = lz4_compress_fast(static_cast<char*>(in_out), static_cast<char*>(get_comp_buffer(dst_size)), static_cast<int>(block_size * BPP) , static_cast<int>(dst_size), static_cast<int>(acceleration) + 1, nullptr);
 			if (r <= 0)
 				return SEQ_ERROR_DST_OVERFLOW;
-			memcpy(in_out, get_comp_buffer(0), r);
-			return r;
+			memcpy(in_out, get_comp_buffer(0), static_cast<unsigned>(r));
+			return static_cast<unsigned>(r);
 		}
 		// restore values in case of failed compression
 		static void restore(void* in_out, void* dst, unsigned BPP, unsigned block_size)
@@ -82,10 +82,11 @@ namespace seq
 		// decompress
 		static unsigned decompress(const void* src, unsigned src_size, unsigned BPP, unsigned block_size, void* dst)
 		{
-			int r = lz4_decompress_fast((const char*)src, (char*)dst, BPP * block_size );
+			(void)src_size;
+			int r = lz4_decompress_fast(static_cast<const char*>(src), static_cast<char*>(dst), static_cast<int>(BPP * block_size ));
 			if (r <= 0)
 				return SEQ_ERROR_CORRUPTED_DATA;
-			return r;
+			return static_cast<unsigned>(r);
 		}
 	};
 
@@ -96,25 +97,27 @@ namespace seq
 		// inplace compression
 		static unsigned compress(void* in_out, unsigned BPP, unsigned block_size, unsigned dst_size, unsigned acceleration)
 		{
-			transpose_generic((char*)in_out, (char*)get_comp_buffer(BPP * block_size ), block_size, BPP);
-			int r = lz4_compress_fast((char*)get_comp_buffer(0), (char*)in_out, block_size * BPP , dst_size, acceleration + 1, NULL);
+			transpose_generic(static_cast<char*>(in_out), static_cast<char*>(get_comp_buffer(BPP * block_size )), block_size, BPP);
+			int r = lz4_compress_fast(static_cast<char*>(get_comp_buffer(0)), static_cast<char*>(in_out), static_cast<int>(block_size * BPP) , static_cast<int>(dst_size), static_cast<int>(acceleration) + 1, nullptr);
 			if (r <= 0)
 				return SEQ_ERROR_DST_OVERFLOW;
-			return r;
+			return static_cast<unsigned>(r);
 		}
 		// restore values in case of failed compression
 		static void restore(void* in_out, void* dst, unsigned BPP, unsigned block_size)
 		{
-			transpose_inv_generic((char*)get_comp_buffer(0), (char*)dst, block_size, BPP);
+			(void)in_out;
+			transpose_inv_generic(static_cast<char*>(get_comp_buffer(0)), static_cast<char*>(dst), block_size, BPP);
 		}
 		// decompress
 		static unsigned decompress(const void* src, unsigned src_size, unsigned BPP, unsigned block_size, void* dst)
 		{
-			int r = lz4_decompress_fast((const char*)src, (char*)get_comp_buffer(BPP * block_size ), BPP * block_size );
+			(void)src_size;
+			int r = lz4_decompress_fast(static_cast<const char*>(src), static_cast<char*>(get_comp_buffer(BPP * block_size )), static_cast<int>(BPP * block_size ));
 			if (r <= 0)
 				return SEQ_ERROR_CORRUPTED_DATA;
-			transpose_inv_generic((char*)get_comp_buffer(0), (char*)dst, block_size, BPP);
-			return r;
+			transpose_inv_generic(static_cast<char*>(get_comp_buffer(0)), static_cast<char*>(dst), block_size, BPP);
+			return static_cast<unsigned>(r);
 		}
 	};
 }

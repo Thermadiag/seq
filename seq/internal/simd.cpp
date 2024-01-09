@@ -57,7 +57,14 @@ namespace seq
 	{
 		SEQ_HEADER_ONLY_EXPORT_FUNCTION void compute_cpu_feature(CPUFeatures & features, bool & initialized)
 		{
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
 			static std::mutex mutex;
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			mutex.lock();
 			initialized = true;
 

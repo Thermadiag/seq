@@ -257,7 +257,7 @@ inline std::string pair_to_string(const std::pair<int, int>& p)
 
 
 
-inline void test_any()
+static void test_hold_any()
 {
 	using namespace seq;
 
@@ -511,7 +511,7 @@ inline void test_any()
 	 
 		 register_any_equal_comparison<std::pair<int,int>, int>(equal_pair{});
 	 
-		 nh_any pair = std::pair<int,int>(2,2);
+		 nh_any pair = std::make_pair(2,2);
 		 nh_any integer = 2;
 		 SEQ_TEST(pair == integer);
 	 
@@ -530,7 +530,7 @@ inline void test_any()
 	 
 		 register_any_less_comparison<std::pair<int,int>, int>(less_pair{});
 	 
-		 nh_any pair = std::pair<int,int>(1,2);
+		 nh_any pair = std::make_pair(1,2);
 		 nh_any integer = 3;
 		 SEQ_TEST(pair < integer);
 	}
@@ -557,7 +557,7 @@ inline void test_any()
 		SEQ_TEST(a == small_pod("toto"));
 
 		//test print
-		SEQ_TEST_TO_OSTREAM("toto", a );
+		SEQ_TEST_TO_OSTREAM("toto", a);
 	}
 	{
 		//test istream
@@ -597,7 +597,7 @@ inline void test_any()
 	
 		 // conversion to arithmetic
 		 double d = a.cast<double>(); // d holds 1.2
-		 SEQ_TEST(d == 1.2);
+		 SEQ_COMPARE_FLOAT(SEQ_TEST((d == 1.2));)
 
 		 int i = a.cast<int>(); // i holds 1
 		 SEQ_TEST(i == 1);
@@ -615,11 +615,11 @@ inline void test_any()
 		 // register conversion function
 		 register_any_conversion<std::pair<int, int>, std::string>(pair_to_string);
 		
-		 nh_any a = std::pair<int, int>(1, 2);
+		 nh_any a = std::make_pair(1, 2);
 		 nh_any b = my_int_pair(1, 2);
 	
-		 SEQ_TEST_TO_OSTREAM("12", a.cast<std::string>() );
-		 SEQ_TEST_TO_OSTREAM("12", b.cast<std::string>() );
+		 SEQ_TEST_TO_OSTREAM("12", a.cast<std::string>());
+		 SEQ_TEST_TO_OSTREAM("12", b.cast<std::string>());
 	}
 	{
 		// build an ordered set than supports heterogeneous lookup 
@@ -684,9 +684,15 @@ inline void test_any()
 	}
 }
 
-
-int test_any(int , char*[])
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-prototypes"
+#endif
+int test_any(int, char* [])
 {
-	SEQ_TEST_MODULE_RETURN(any, 1, test_any());
+	SEQ_TEST_MODULE_RETURN(any, 1, test_hold_any());
 	return 0;
 }
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif

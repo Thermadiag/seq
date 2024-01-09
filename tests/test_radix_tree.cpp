@@ -72,12 +72,11 @@ void test_destroy(T count)
 }
 
 
-#undef SEQ_TEST
-#define SEQ_TEST(...) if(!(__VA_ARGS__)) throw std::runtime_error("");
+//#undef SEQ_TEST
+//#define SEQ_TEST(...) if(!(__VA_ARGS__)) throw std::runtime_error("");
 
 
 /// @brief Allocator that allows only one allocation
-/// @tparam T 
 template< class T>
 class dummy_alloc : public std::allocator<T>
 {
@@ -1241,7 +1240,7 @@ void test_heavy_set(size_t count)
 
 
 
-void test_string_key()
+static void test_string_key()
 {
 	std::vector<std::string> vec(1000);
 	for (size_t i = 0; i < 1000; ++i)
@@ -1255,9 +1254,9 @@ void test_string_key()
 		set.insert(vec[i]);
 
 	check_sorted(set);
-	SEQ_TEST(set_equals(sorted, set))
+	SEQ_TEST(set_equals(sorted, set));
 }
-void test_worst_string_key(char c)
+static void test_worst_string_key(char c)
 {
 	std::vector<std::string> vec(1000);
 	std::string str;
@@ -1274,7 +1273,7 @@ void test_worst_string_key(char c)
 		set.insert(vec[i]);
 
 	check_sorted(set);
-	SEQ_TEST(set_equals(sorted, set))
+	SEQ_TEST(set_equals(sorted, set));
 }
 
 
@@ -1287,7 +1286,7 @@ struct Extract
 	T operator()(const TestDestroy<T>& v) const { return static_cast<T>( v); }
 };
 
-int test_radix_tree(int , char*[])
+SEQ_PROTOTYPE( int test_radix_tree(int , char*[]))
 {
 	//TODO: remove
 	SEQ_TEST_MODULE_RETURN(heavy_radix_set, 1, test_heavy_set<seq::radix_set<size_t> >(1000));

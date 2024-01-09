@@ -52,18 +52,18 @@ public:
 		:value(val.value) {
 		++test_detail::get_count();
 	}
-	TestDestroy( TestDestroy&& val)
+	TestDestroy( TestDestroy&& val) noexcept
 		:value(std::move(val.value)) {
 		++test_detail::get_count();
 	}
-	~TestDestroy() {
+	~TestDestroy() noexcept {
 		--test_detail::get_count();
 	}
 	TestDestroy& operator=(const T& other) {
 		value = other;
 		return *this;
 	}
-	TestDestroy& operator=( T&& other) {
+	TestDestroy& operator=( T&& other) noexcept {
 		value = std::move(other);
 		return *this;
 	}

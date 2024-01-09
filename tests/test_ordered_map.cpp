@@ -723,7 +723,7 @@ struct DummyHash
 
 
 
-int test_ordered_map(int , char*[])
+SEQ_PROTOTYPE( int test_ordered_map(int , char*[]))
 { 
 	//Test ordered_map and detect potential memory leak or wrong allocator propagation
 	SEQ_TEST_MODULE_RETURN(heavy_ordered_set,1, test_heavy_set<seq::ordered_set<size_t> >(10000));

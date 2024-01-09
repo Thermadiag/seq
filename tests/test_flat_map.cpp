@@ -1016,7 +1016,7 @@ void test_heavy_set(size_t count)
 
 
 
-int test_flat_map(int , char*[])
+SEQ_PROTOTYPE( int test_flat_map(int , char*[]))
 {
 	// Test various map.multimap functions and potential memory leak or wrong allocator propagation
 	CountAlloc<double> al;

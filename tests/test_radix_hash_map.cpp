@@ -606,7 +606,7 @@ struct DummyHash
 	}
 };
 
-int test_radix_hash_map(int , char*[])
+SEQ_PROTOTYPE( int test_radix_hash_map(int , char*[]))
 {
 	
 	// Test radix hash map and detect potential memory leak or wrong allocator propagation

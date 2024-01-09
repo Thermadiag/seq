@@ -1,10 +1,11 @@
-#pragma once
+#ifndef SEQ_BINARY_SEARCH_HPP
+#define SEQ_BINARY_SEARCH_HPP
 
 #include "../type_traits.hpp"
 #include <algorithm>
 
 
-#define __SEQ_INLINE_LOOKUP 
+#define SEQ_INLINE_BINARY_SEARCH 
 
 
 namespace seq
@@ -25,7 +26,7 @@ namespace seq
 		struct lower_bound_internal
 		{
 			template<class T, class SizeType, class U, class Le>
-			static __SEQ_INLINE_LOOKUP std::pair<SizeType,bool> apply(const T* ptr, SizeType size, const U& value, const Le& le)
+			static SEQ_INLINE_BINARY_SEARCH std::pair<SizeType,bool> apply(const T* ptr, SizeType size, const U& value, const Le& le)
 			{
 				// This unrolled and branchless variant is faster than std::lower_bound for arithmetic types.
 				// The end_of_probe value is selected so that the linear search part fits within a cache line.
@@ -55,7 +56,7 @@ namespace seq
 		struct lower_bound_internal<Key,Multi, false, false>
 		{
 			template<class T, class SizeType, class U, class Le>
-			static __SEQ_INLINE_LOOKUP std::pair<SizeType, bool> apply(const T* ptr, SizeType size, const U& value, const Le& le)
+			static SEQ_INLINE_BINARY_SEARCH std::pair<SizeType, bool> apply(const T* ptr, SizeType size, const U& value, const Le& le)
 			{
 				const T* p = ptr;
 				SizeType count = size;
@@ -78,7 +79,7 @@ namespace seq
 		struct lower_bound_internal<Key, Multi, true, false>
 		{
 			template<class T, class SizeType, class U, class Le>
-			static __SEQ_INLINE_LOOKUP std::pair<SizeType, bool> apply(const T* ptr, SizeType size, const U& k, const Le& le)
+			static SEQ_INLINE_BINARY_SEARCH std::pair<SizeType, bool> apply(const T* ptr, SizeType size, const U& k, const Le& le)
 			{
 				SizeType s = 0;
 				SizeType e = size;
@@ -125,16 +126,19 @@ namespace seq
 
 
 		template<bool Multi, class Key, class T, class SizeType, class U, class Le>
-		__SEQ_INLINE_LOOKUP std::pair<SizeType, bool> lower_bound(const T* ptr, SizeType size, const U& k, const Le& le)
+		SEQ_INLINE_BINARY_SEARCH std::pair<SizeType, bool> lower_bound(const T* ptr, SizeType size, const U& k, const Le& le)
 		{
 			return lower_bound_internal<Key, Multi, has_comparable<Le>::value>::apply(ptr, size, k, le);
 		}
 
 		template<bool Multi, class Key, class T, class SizeType, class U, class Le>
-		__SEQ_INLINE_LOOKUP SizeType upper_bound(const T* ptr, SizeType size, const U& k, const Le& le)
+		SEQ_INLINE_BINARY_SEARCH SizeType upper_bound(const T* ptr, SizeType size, const U& k, const Le& le)
 		{
 			return lower_bound_internal<Key, Multi, false>::apply(ptr, size, k, [&le](const auto& a, const auto& b) {return !le(b, a); }).first;
 		}
 
 	}//end detail
 }//end seq
+
+
+#endif

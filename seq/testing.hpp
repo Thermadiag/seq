@@ -56,6 +56,12 @@
 #undef min
 #endif
 
+#ifdef __clang__
+// remove these warnings for testing
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+#endif
+
 namespace seq
 {
 	/// @brief Exception thrown for failed tests
@@ -100,46 +106,48 @@ namespace seq
 
 /// @brief Very basic testing macro that throws seq::test_error if condition is not met.
 #define SEQ_TEST( ... ) \
-	if(! (__VA_ARGS__) ) {throw seq::test_error("testing error at file " __FILE__ "(" + seq::detail::to_string(__LINE__) + "): "  #__VA_ARGS__); }
+	do {if(! (__VA_ARGS__) ) {throw seq::test_error("testing error at file " __FILE__ "(" + seq::detail::to_string(__LINE__) + "): "  #__VA_ARGS__); }} while(false)
+	//if(! (__VA_ARGS__) ) {throw seq::test_error("testing error at file " __FILE__ "(" + seq::detail::to_string(__LINE__) + "): "  #__VA_ARGS__); }
+
 
 /// @brief Test if writting given argument to a std::ostream produces the string 'result', throws seq::test_error if not.
 #define SEQ_TEST_TO_OSTREAM( result, ... ) \
-	{std::ostringstream oss; \
+	do{std::ostringstream oss; \
 	oss <<(__VA_ARGS__) ; oss.flush() ; \
 	if( oss.str() != result) \
 		{std::string v =seq::detail::to_string(__LINE__);  throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): \"" + std::string(result) + "\" == "  #__VA_ARGS__).c_str());} \
-	}
+	}while(false)
 
 /// @brief Test if given statement throws a 'exception' object. If not, throws seq::test_error.
 #define SEQ_TEST_THROW(exception, ...) \
-	{bool has_thrown = false;  \
+	do{bool has_thrown = false;  \
 	try { __VA_ARGS__; } \
 	catch(const exception &) {has_thrown = true;} \
 	catch(...) {} \
 	if(! has_thrown ) {std::string v =seq::detail::to_string(__LINE__);  \
 		throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): "  #__VA_ARGS__).c_str()); } \
-	}
+	}while(false)
 
 /// @brief Test module
 #define SEQ_TEST_MODULE(name, ... ) \
-	{ seq::streambuf_size str(std::cout); size_t size = 0; bool ok = true; \
+	do{ seq::streambuf_size str(std::cout); size_t size = 0; bool ok = true; \
 	try { std::cout << "TEST MODULE " << #name << "... " ; std::cout.flush(); size = str.get_size(); __VA_ARGS__; } \
 	catch (const seq::test_error& e) {std::cout<< std::endl; ok = false; std::cerr << "TEST FAILURE IN MODULE " << #name << ": " << e.what() << std::endl; } \
 	catch (const std::exception& e) { std::cout<< std::endl; ok = false; std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << " (std::exception): " << e.what() << std::endl; } \
 	catch (...) { std::cout<< std::endl; ok = false;  std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << std::endl; }\
 	if(ok) { if(str.get_size() != size) std::cout<<std::endl; std::cout<< "SUCCESS" << std::endl; } \
-	}
+	}while(false)
 
 /// @brief Test module
 #define SEQ_TEST_MODULE_RETURN(name, ret_value, ... ) \
-	{ seq::streambuf_size str(std::cout); size_t size = 0; bool ok = true; \
+	do{ seq::streambuf_size str(std::cout); size_t size = 0; bool ok = true; \
 	try { std::cout << "TEST MODULE " << #name << "... " ; std::cout.flush(); size = str.get_size(); __VA_ARGS__; } \
 	catch (const seq::test_error& e) {std::cout<< std::endl; ok = false; std::cerr << "TEST FAILURE IN MODULE " << #name << ": " << e.what() << std::endl; } \
 	catch (const std::exception& e) { std::cout<< std::endl; ok = false; std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << " (std::exception): " << e.what() << std::endl; } \
 	catch (...) { std::cout<< std::endl; ok = false;  std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << std::endl; }\
 	if(ok) { if(str.get_size() != size) std::cout<<std::endl; std::cout<< "SUCCESS" << std::endl; } \
 	else return ret_value;\
-	}
+	}while(false)
 
 
 namespace seq

@@ -117,7 +117,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE bool add_shift(size_type shift) const noexcept
 			{
 				const_cast<WStringHash*>(this)->hash_shift += shift;
-				return (hash_shift) <= size * 8U;; //still valid
+				return (hash_shift) <= size * 8U; //still valid
 			}
 			unsigned get() const noexcept
 			{

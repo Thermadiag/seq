@@ -243,7 +243,7 @@ struct LaunchTest
 				sum += to_size_t(*it);
 			}*/
 			if (set.count(failed[i])) {
-				SEQ_TEST(false)
+				SEQ_TEST(false);
 			}
 			else
 				++sum;

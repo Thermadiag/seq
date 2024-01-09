@@ -16,6 +16,7 @@ option(HEADER_ONLY "Do not build library, use header-only version" OFF)
 option(ENABLE_AVX2 "Enable AVX2 support" ON)
 option(BUILD_TESTS "Build tests" OFF)
 option(BUILD_BENCHS "Build benchmarks" OFF)
+option(NO_WARNINGS "Treat warnings as errors" OFF)
 
 set(PROJECT_HEADER_ONLY 1)
 
@@ -52,6 +53,16 @@ if(NOT HEADER_ONLY)
 		endif()
 	else()
 		target_compile_options(seq PRIVATE -march=native)
+	endif()
+	
+	if(NO_WARNINGS)
+		if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+			target_compile_options(seq PRIVATE  /WX /W3 )
+		elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+			target_compile_options(seq PRIVATE -Werror -Wall -Wno-c++98-compat -Wno-c++98-compat-pedantic)
+		else()
+			target_compile_options(seq PRIVATE -Werror -Wall)
+		endif()
 	endif()
 	
 	target_include_directories(seq PUBLIC

@@ -456,7 +456,7 @@ int bench_map(int , char ** const)
 			 size_t idx = i & 3U; 
 			 switch (idx) {
 			 case 0:return seq::r_any(i * UINT64_C(0xc4ceb9fe1a85ec53));
-			 case 1:return seq::r_any((double)i * UINT64_C(0xc4ceb9fe1a85ec53));
+			 case 1:return seq::r_any((double)i * (double)UINT64_C(0xc4ceb9fe1a85ec53));
 			 default:return seq::r_any(generate_random_string<seq::tstring>(13, true));
 			 }
 		 }

@@ -43,8 +43,6 @@ namespace seq
 #if (defined (__x86_64__) || defined (_M_X64)) && !defined(SEQ_NO_COMPRESSED_PTR)
 
 		/// @brief Node type used by RobinHashTable. Stores an iterator to the underlying Sequence object, a part of the hash value and the distance to the right location (for robin-hood probing)
-		/// @tparam T Object type
-		/// @tparam Extract Key extractor
 		template<class T, class Node, unsigned PosBits>
 		struct RobinNode
 		{
@@ -1558,7 +1556,7 @@ namespace seq
 		
 
 		/// @brief Finds an element with key equivalent to key
-		/// @param value key value to search for
+		/// @param key key value to search for
 		/// @return iterator pointing to found key on success, end iterator on failure.
 		SEQ_ALWAYS_INLINE auto find(const Key& key) const -> const_iterator
 		{
@@ -1587,7 +1585,7 @@ namespace seq
 		/// Finds an element with key that compares equivalent to the value x. 
 		/// This overload participates in overload resolution only if Hash::is_transparent and KeyEqual::is_transparent are valid and each denotes a type. 
 		/// This assumes that such Hash is callable with both K and Key type, and that the KeyEqual is transparent, which, together, allows calling this function without constructing an instance of Key.
-		/// @param value key value to search for
+		/// @param key value to search for
 		/// @return iterator pointing to found key on success, end iterator on failure.
 		template <class K, class KE = KeyEqual, class H = Hash,
 			typename std::enable_if<has_is_transparent<KE>::value&& has_is_transparent<H>::value>::type* = nullptr>

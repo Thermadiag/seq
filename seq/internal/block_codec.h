@@ -70,7 +70,7 @@ namespace seq
 	/// @param BPP size of one element in bytes
 	/// @param dst compressed output
 	/// @param dst_size size of compressed output buffer
-	/// @param buffer buffer allocated with alloc_block_buffer
+	/// @param acceleration acceleration factor, from 0 to 7
 	/// Returns the size of compressed block.
 	SEQ_EXPORT unsigned block_encode_256(const void* src, unsigned BPP, unsigned block_count, void* dst, unsigned dst_size, unsigned acceleration = 0);
 	SEQ_EXPORT unsigned block_decode_256(const void* src, unsigned size, unsigned BPP, unsigned block_count, void* dst);
