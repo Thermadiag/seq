@@ -924,38 +924,38 @@ namespace seq
 
 		template<class C>
 		auto operator-(const CompressedConstIter<C>& a, const CompressedConstIter<C>& b)  noexcept -> typename CompressedConstIter<C>::difference_type {
-			SEQ_ASSERT_DEBUG(a.data == b.data, "comparing iterators from different containers");
+			SEQ_ASSERT_DEBUG(a.data == b.data || a.data == nullptr || b.data == nullptr, "comparing iterators from different containers");
 			return a.abspos - b.abspos;
 		}
 
 		template<class C>
 		bool operator==(const CompressedConstIter<C>& a, const CompressedConstIter<C>& b)  noexcept {
-			SEQ_ASSERT_DEBUG(a.data == b.data, "comparing iterators from different containers");
+			SEQ_ASSERT_DEBUG(a.data == b.data || a.data == nullptr || b.data == nullptr, "comparing iterators from different containers");
 			return a.abspos == b.abspos;
 		}
 		template<class C>
 		bool operator!=(const CompressedConstIter<C>& a, const CompressedConstIter<C>& b)  noexcept {
-			SEQ_ASSERT_DEBUG(a.data == b.data, "comparing iterators from different containers");
+			SEQ_ASSERT_DEBUG(a.data == b.data || a.data == nullptr || b.data == nullptr, "comparing iterators from different containers");
 			return a.abspos != b.abspos;
 		}
 		template<class C>
 		bool operator<(const CompressedConstIter<C>& a, const CompressedConstIter<C>& b)  noexcept {
-			SEQ_ASSERT_DEBUG(a.data == b.data, "comparing iterators from different containers");
+			SEQ_ASSERT_DEBUG(a.data == b.data || a.data == nullptr || b.data == nullptr, "comparing iterators from different containers");
 			return a.abspos < b.abspos;
 		}
 		template<class C>
 		bool operator>(const CompressedConstIter<C>& a, const CompressedConstIter<C>& b)  noexcept {
-			SEQ_ASSERT_DEBUG(a.data == b.data, "comparing iterators from different containers");
+			SEQ_ASSERT_DEBUG(a.data == b.data || a.data == nullptr || b.data == nullptr, "comparing iterators from different containers");
 			return a.abspos > b.abspos;
 		}
 		template<class C>
 		bool operator<=(const CompressedConstIter<C>& a, const CompressedConstIter<C>& b)  noexcept {
-			SEQ_ASSERT_DEBUG(a.data == b.data, "comparing iterators from different containers");
+			SEQ_ASSERT_DEBUG(a.data == b.data || a.data == nullptr || b.data == nullptr, "comparing iterators from different containers");
 			return a.abspos <= b.abspos;
 		}
 		template<class C>
 		bool operator>=(const CompressedConstIter<C>& a, const CompressedConstIter<C>& b)  noexcept {
-			SEQ_ASSERT_DEBUG(a.data == b.data, "comparing iterators from different containers");
+			SEQ_ASSERT_DEBUG(a.data == b.data || a.data == nullptr || b.data == nullptr, "comparing iterators from different containers");
 			return a.abspos >= b.abspos;
 		}
 
@@ -1929,7 +1929,7 @@ namespace seq
 			{
 				reset_disp();
 
-				difference_type off = (pos - const_iterator(this, 0));
+				difference_type off =  (pos - const_iterator(this, 0));
 				size_t oldsize = size();
 
 				SEQ_ASSERT_DEBUG(static_cast<size_t>(off) <= size(), "cvector insert iterator outside range");

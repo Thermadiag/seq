@@ -987,6 +987,7 @@ void test_object_pool(int rep)
 
 int bench_mem_pool(int, char** const)
 {
+	
 	test_object_pool(1000000);
 	return 0;
 }

@@ -55,8 +55,12 @@
 
 //For msvc, define __SSE__ and __SSE2__ manually
 #if defined(_MSC_VER) && (defined(_M_X64) || _M_IX86_FP >= 2)
+#ifndef __SSE__
 #  define __SSE__ 1
+#endif
+#ifndef __SSE2__
 #  define __SSE2__ 1
+#endif
 #endif
 
 // SSE intrinsics

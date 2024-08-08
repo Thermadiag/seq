@@ -50,6 +50,10 @@
 #include <string_view>
 #endif
 
+#ifdef min
+#undef min
+#undef max
+#endif
 
 #define SEQ_STR_INLINE inline
 #define SEQ_STR_INLINE_STRONG SEQ_ALWAYS_INLINE
