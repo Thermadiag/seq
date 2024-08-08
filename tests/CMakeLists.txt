@@ -15,7 +15,6 @@ create_test_sourcelist (Tests
   test_devector.cpp
   test_flat_map.cpp
   test_ordered_map.cpp
-  test_mem_pool.cpp
   test_radix_hash_map.cpp
   test_radix_tree.cpp
   test_sequence.cpp

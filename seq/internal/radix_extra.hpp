@@ -25,8 +25,6 @@
 #ifndef SEQ_RADIX_EXTRA_HPP
 #define SEQ_RADIX_EXTRA_HPP
 
-
-
 /** @file */
 
 /** \addtogroup containers
@@ -56,42 +54,41 @@ namespace seq
 
 			WStringHash() {}
 			WStringHash(const CharT* d, size_type s) noexcept
-				:data(d), size(s), hash_shift(0)
+			  : data(d)
+			  , size(s)
+			  , hash_shift(0)
 			{
 			}
 			WStringHash(size_t sh, const CharT* d, size_type s) noexcept
-				:data(d), size(s), hash_shift(sh) {
+			  : data(d)
+			  , size(s)
+			  , hash_shift(sh)
+			{
 			}
-			size_t get_shift() const noexcept {
-				return static_cast<size_t>(hash_shift);
-			}
-			size_t get_size() const noexcept {
-				return static_cast<size_t>(size * 8ULL);
-			}
+			size_t get_shift() const noexcept { return static_cast<size_t>(hash_shift); }
+			size_t get_size() const noexcept { return static_cast<size_t>(size * 8ULL); }
 
 			SEQ_ALWAYS_INLINE std::uint64_t read_from_byte(size_t byte_pos) const noexcept
 			{
 				size_t char_offset = (byte_pos) / sizeof(CharT);
 				size_t byte_offset = (byte_pos) % sizeof(CharT);
 				std::uint64_t hash = 0;
-				
-				if (SEQ_LIKELY(size  >= char_offset + 8U / sizeof(CharT)))
+
+				if (SEQ_LIKELY(size >= char_offset + 8U / sizeof(CharT)))
 					memcpy(&hash, data + char_offset, 8U);
-				else if (char_offset < size )
-					memcpy(&hash, data + char_offset, static_cast<size_t>((size  - char_offset) * sizeof(CharT)));
+				else if (char_offset < size)
+					memcpy(&hash, data + char_offset, static_cast<size_t>((size - char_offset) * sizeof(CharT)));
 
 #if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
-				if SEQ_CONSTEXPR (sizeof(CharT) == 2) 
-				{
+				if SEQ_CONSTEXPR (sizeof(CharT) == 2) {
 					unsigned short* p = reinterpret_cast<unsigned short*>(&hash);
 					p[0] = byte_swap_16(p[0]);
 					p[1] = byte_swap_16(p[1]);
 					p[2] = byte_swap_16(p[2]);
 					p[3] = byte_swap_16(p[3]);
 				}
-				else 
-				{
-					unsigned * p = reinterpret_cast<unsigned*>(&hash);
+				else {
+					unsigned* p = reinterpret_cast<unsigned*>(&hash);
 					p[0] = byte_swap_32(p[0]);
 					p[1] = byte_swap_32(p[1]);
 				}
@@ -100,29 +97,23 @@ namespace seq
 				return hash << (byte_offset * 8U);
 			}
 
-			SEQ_ALWAYS_INLINE unsigned n_bits(size_t count) const noexcept
-			{
-				return n_bits(static_cast<size_t>(hash_shift), count);
-			}
+			SEQ_ALWAYS_INLINE unsigned n_bits(size_t count) const noexcept { return n_bits(static_cast<size_t>(hash_shift), count); }
 			SEQ_ALWAYS_INLINE unsigned n_bits(size_t start, size_t count) const noexcept
 			{
-				if (count == 0) return 0;
+				if (count == 0)
+					return 0;
 
 				size_t byte_offset = start / 8U;
-				size_t bit_offset = (start) & 7U;
+				size_t bit_offset = (start)&7U;
 				std::uint64_t hash = read_from_byte(byte_offset);
 				return static_cast<unsigned>((hash << bit_offset) >> (64U - count));
-
 			}
 			SEQ_ALWAYS_INLINE bool add_shift(size_type shift) const noexcept
 			{
 				const_cast<WStringHash*>(this)->hash_shift += shift;
-				return (hash_shift) <= size * 8U; //still valid
+				return (hash_shift) <= size * 8U; // still valid
 			}
-			unsigned get() const noexcept
-			{
-				return n_bits(static_cast<size_t>(hash_shift), 32);
-			}
+			unsigned get() const noexcept { return n_bits(static_cast<size_t>(hash_shift), 32); }
 
 			template<unsigned BitStep, class ExtractKey, class Hasher, class Iter>
 			static size_t nb_common_bits(const Hasher& h, size_t start_bit, Iter start, Iter end) noexcept
@@ -130,8 +121,7 @@ namespace seq
 
 				size_t max_bits = ExtractKey{}(*start).size() * sizeof(CharT) * 8U > start_bit ? ExtractKey{}(*start).size() * sizeof(CharT) * 8U - start_bit : 0;
 				for (Iter it = start; it != end; ++it) {
-					if (ExtractKey{}(*it).size() * sizeof(CharT) * 8U > start_bit)
-					{
+					if (ExtractKey{}(*it).size() * sizeof(CharT) * 8U > start_bit) {
 						size_t bits = ExtractKey{}(*it).size() * sizeof(CharT) * 8U - start_bit;
 						max_bits = std::max(max_bits, bits);
 					}
@@ -141,8 +131,7 @@ namespace seq
 				++start;
 				size_t bits = max_bits;
 
-				for (; start != end && bits > 0; ++start)
-				{
+				for (; start != end && bits > 0; ++start) {
 					auto fi = h.hash(first);
 					auto tmp = h.hash(ExtractKey{}(*start));
 
@@ -169,7 +158,6 @@ namespace seq
 					}
 					bits = std::min(bits, common);
 					bits = (bits / BitStep) * BitStep;
-
 				}
 
 				return bits;
@@ -187,12 +175,11 @@ namespace seq
 				}
 
 				size_t words = bits / 32U;
-				for (size_t i = 0; i < words; ++i)
-				{
-					if (hash.get() != match.get()) return false;
+				for (size_t i = 0; i < words; ++i) {
+					if (hash.get() != match.get())
+						return false;
 					hash.add_shift(32U);
 					match.add_shift(32U);
-
 				}
 				if (size_t rem = bits & 31U) {
 					if (hash.n_bits(rem) != match.n_bits(rem))
@@ -201,12 +188,9 @@ namespace seq
 				}
 				return true;
 			}
-
 		};
 
-
-
-		template<class Tuple, int N = std::tuple_size<Tuple>::value >
+		template<class Tuple, int N = std::tuple_size<Tuple>::value>
 		struct GetTupleSize
 		{
 			static constexpr int tuple_size = std::tuple_size<Tuple>::value;
@@ -215,21 +199,18 @@ namespace seq
 			static size_t get(size_t prev, const Tuple& t) noexcept
 			{
 				using type = typename std::tuple_element<pos, Tuple>::type;
-				using key = typename ExtractKeyResultType< default_key<type>, type >::type;
-				size_t s = SortedHasher< key>{}.hash(std::get<pos>(t)).get_size();
+				using key = typename ExtractKeyResultType<default_key<type>, type>::type;
+				size_t s = SortedHasher<key>{}.hash(std::get<pos>(t)).get_size();
 				return GetTupleSize<Tuple, N - 1>::get(s + prev, t);
 			}
 		};
 		template<class Tuple>
 		struct GetTupleSize<Tuple, 0>
 		{
-			static size_t get(size_t s, const Tuple& /*unused*/) noexcept {
-				return s;
-			}
+			static size_t get(size_t s, const Tuple& /*unused*/) noexcept { return s; }
 		};
 
-
-		template<class Tuple, int N = std::tuple_size<Tuple>::value >
+		template<class Tuple, int N = std::tuple_size<Tuple>::value>
 		struct GetNBits
 		{
 			static constexpr int tuple_size = std::tuple_size<Tuple>::value;
@@ -238,20 +219,20 @@ namespace seq
 			static unsigned get(unsigned prev, unsigned prev_offset, const Tuple& t, size_t start, size_t count) noexcept
 			{
 				using type = typename std::tuple_element<pos, Tuple>::type;
-				using key = typename ExtractKeyResultType< default_key<type>, type >::type;
+				using key = typename ExtractKeyResultType<default_key<type>, type>::type;
 
-				static_assert(SortedHasher< key>::variable_length == false, "composite keys only accept types of fixed size");
+				static_assert(SortedHasher<key>::variable_length == false, "composite keys only accept types of fixed size");
 
-				auto hash = SortedHasher< key>{}.hash(std::get<pos>(t));
+				auto hash = SortedHasher<key>{}.hash(std::get<pos>(t));
 				size_t size = hash.get_size();
 
-				if(N !=1 && start >= size)
+				if (N != 1 && start >= size)
 					return GetNBits<Tuple, N - 1>::get(prev, prev_offset, t, start - size, count);
-				
+
 				// for the last element of the tuple, read_bits == count
 				size_t read_bits = (N == 1) ? count : std::min(count, size - start);
 				unsigned tmp = hash.n_bits(start, read_bits);
-				
+
 				prev = (prev << read_bits) | tmp;
 				count -= read_bits;
 				if (count == 0)
@@ -263,15 +244,10 @@ namespace seq
 		template<class Tuple>
 		struct GetNBits<Tuple, 0>
 		{
-			static unsigned get(unsigned prev, unsigned , const Tuple& , size_t , size_t ) noexcept
-			{
-				return prev;
-			}
+			static unsigned get(unsigned prev, unsigned, const Tuple&, size_t, size_t) noexcept { return prev; }
 		};
 
-
-
-		template<class Tuple, int N = std::tuple_size<Tuple>::value >
+		template<class Tuple, int N = std::tuple_size<Tuple>::value>
 		struct GetTinyHash
 		{
 			static constexpr int tuple_size = std::tuple_size<Tuple>::value;
@@ -280,20 +256,16 @@ namespace seq
 			static unsigned char get(unsigned char prev, const Tuple& t) noexcept
 			{
 				using type = typename std::tuple_element<pos, Tuple>::type;
-				using key = typename ExtractKeyResultType< default_key<type>, type >::type;
-				unsigned char s = SortedHasher< key>::tiny_hash(SortedHasher< key>{}.hash(std::get<pos>(t)), std::get<pos>(t));
+				using key = typename ExtractKeyResultType<default_key<type>, type>::type;
+				unsigned char s = SortedHasher<key>::tiny_hash(SortedHasher<key>{}.hash(std::get<pos>(t)), std::get<pos>(t));
 				return GetTinyHash<Tuple, N - 1>::get(s ^ prev, t);
 			}
 		};
 		template<class Tuple>
 		struct GetTinyHash<Tuple, 0>
 		{
-			static unsigned char get(unsigned char s, const Tuple& /*unused*/) noexcept {
-				return s;
-			}
+			static unsigned char get(unsigned char s, const Tuple& /*unused*/) noexcept { return s; }
 		};
-
-
 
 		/// @brief Hash value type for strings of wide char types and sorted radix tree
 		template<class Tuple>
@@ -306,41 +278,33 @@ namespace seq
 
 			TupleHash() {}
 			TupleHash(const Tuple& t) noexcept
-				:tuple(t),  hash_shift(0)
+			  : tuple(t)
+			  , hash_shift(0)
 			{
 				size = GetTupleSize<Tuple>::get(0, t);
 			}
 			TupleHash(size_t sh, const Tuple& t) noexcept
-				:tuple(t), hash_shift(sh) 
+			  : tuple(t)
+			  , hash_shift(sh)
 			{
 				size = GetTupleSize<Tuple>::get(0, t);
 			}
-			size_t get_shift() const noexcept {
-				return static_cast<size_t>(hash_shift);
-			}
-			size_t get_size() const noexcept {
-				return static_cast<size_t>(size);
-			}
-			
-			SEQ_ALWAYS_INLINE unsigned n_bits(size_t count) const noexcept
-			{
-				return n_bits(static_cast<size_t>(hash_shift), count);
-			}
+			size_t get_shift() const noexcept { return static_cast<size_t>(hash_shift); }
+			size_t get_size() const noexcept { return static_cast<size_t>(size); }
+
+			SEQ_ALWAYS_INLINE unsigned n_bits(size_t count) const noexcept { return n_bits(static_cast<size_t>(hash_shift), count); }
 			SEQ_ALWAYS_INLINE unsigned n_bits(size_t start, size_t count) const noexcept
 			{
-				if (count == 0) return 0;
+				if (count == 0)
+					return 0;
 				return GetNBits<Tuple>::get(0, 0, tuple, start, count);
-
 			}
 			SEQ_ALWAYS_INLINE bool add_shift(size_type shift) const noexcept
 			{
 				const_cast<TupleHash*>(this)->hash_shift += shift;
-				return (hash_shift) <= size ; //still valid
+				return (hash_shift) <= size; // still valid
 			}
-			unsigned get() const noexcept
-			{
-				return n_bits(static_cast<size_t>(hash_shift), 32);
-			}
+			unsigned get() const noexcept { return n_bits(static_cast<size_t>(hash_shift), 32); }
 
 			template<unsigned BitStep, class ExtractKey, class Hasher, class Iter>
 			static size_t nb_common_bits(const Hasher& h, size_t start_bit, Iter start, Iter end) noexcept
@@ -349,8 +313,7 @@ namespace seq
 				size_t max_bits = TupleHash(ExtractKey{}(*start)).get_size();
 				for (Iter it = start; it != end; ++it) {
 					size_t bits = TupleHash(ExtractKey{}(*start)).get_size();
-					if (bits > start_bit)
-					{
+					if (bits > start_bit) {
 						bits -= start_bit;
 						max_bits = std::max(max_bits, bits);
 					}
@@ -360,8 +323,7 @@ namespace seq
 				++start;
 				size_t bits = max_bits;
 
-				for (; start != end && bits > 0; ++start)
-				{
+				for (; start != end && bits > 0; ++start) {
 					auto fi = h.hash(first);
 					auto tmp = h.hash(ExtractKey{}(*start));
 
@@ -388,7 +350,6 @@ namespace seq
 					}
 					bits = std::min(bits, common);
 					bits = (bits / BitStep) * BitStep;
-
 				}
 
 				return bits;
@@ -406,12 +367,11 @@ namespace seq
 				}
 
 				size_t words = bits / 32U;
-				for (size_t i = 0; i < words; ++i)
-				{
-					if (hash.get() != match.get()) return false;
+				for (size_t i = 0; i < words; ++i) {
+					if (hash.get() != match.get())
+						return false;
 					hash.add_shift(32U);
 					match.add_shift(32U);
-
 				}
 				if (size_t rem = bits & 31U) {
 					if (hash.n_bits(rem) != match.n_bits(rem))
@@ -420,40 +380,35 @@ namespace seq
 				}
 				return true;
 			}
-
 		};
 
-
-
-
 		template<class CharT>
-		struct is_wstring : std::false_type {};
+		struct is_wstring : std::false_type
+		{
+		};
 
 		template<class CharT, class Traits>
-		struct is_wstring< tiny_string<CharT,Traits,view_allocator<CharT>,0> >
+		struct is_wstring<tiny_string<CharT, Traits, view_allocator<CharT>, 0>>
 		{
 			static constexpr bool value = sizeof(CharT) > 1;
 		};
 
 		template<class CharT, class Traits, class Allocator>
-		struct is_wstring<std::basic_string<CharT, Traits, Allocator> >
+		struct is_wstring<std::basic_string<CharT, Traits, Allocator>>
 		{
 			static constexpr bool value = sizeof(CharT) > 1;
 		};
 #ifdef SEQ_HAS_CPP_17
 		template<class CharT, class Traits>
-		struct is_wstring<std::basic_string_view<CharT, Traits> >
+		struct is_wstring<std::basic_string_view<CharT, Traits>>
 		{
 			static constexpr bool value = sizeof(CharT) > 1;
 		};
 #endif
 
-
-
-
 		/// @brief Hash function for string types and sorted radix tree
 		template<class CharT>
-		struct SortedHasher<basic_tstring_view<CharT>, void > : BaseSortedHasher
+		struct SortedHasher<basic_tstring_view<CharT>, void> : BaseSortedHasher
 		{
 			using type = WStringHash<CharT>;
 			using const_reference = const type&;
@@ -461,16 +416,10 @@ namespace seq
 			static constexpr bool variable_length = true;
 			static constexpr size_t max_bits = static_cast<size_t>(-1);
 
-			SEQ_ALWAYS_INLINE type hash(const basic_tstring_view<CharT>& k) const noexcept
-			{
-				return type(k.data(), k.size());
-			}
-			SEQ_ALWAYS_INLINE type hash_shift(size_t shift, const  basic_tstring_view<CharT>& k) const noexcept
-			{
-				return type(shift, k.data(), k.size());
-			}
+			SEQ_ALWAYS_INLINE type hash(const basic_tstring_view<CharT>& k) const noexcept { return type(k.data(), k.size()); }
+			SEQ_ALWAYS_INLINE type hash_shift(size_t shift, const basic_tstring_view<CharT>& k) const noexcept { return type(shift, k.data(), k.size()); }
 			template<class Hash>
-			static std::uint8_t tiny_hash(const Hash&, const  basic_tstring_view<CharT>& v) noexcept
+			static std::uint8_t tiny_hash(const Hash&, const basic_tstring_view<CharT>& v) noexcept
 			{
 				std::uint64_t h = 14695981039346656037ULL;
 				const std::uint8_t* ptr = reinterpret_cast<const std::uint8_t*>(v.data());
@@ -495,61 +444,54 @@ namespace seq
 					h ^= *ptr;
 				return static_cast<std::uint8_t>((h * 0xc4ceb9fe1a85ec53ull) >> 56U);
 			}
-
 		};
-
-
-
 
 		/// @brief Hash function for composite types and sorted radix tree
 		template<class... Args>
-		struct SortedHasher<std::tuple<Args...>, void > : BaseSortedHasher
+		struct SortedHasher<std::tuple<Args...>, void> : BaseSortedHasher
 		{
 			using tuple_type = std::tuple<Args...>;
 			using type = TupleHash<tuple_type>;
 			using const_reference = const type&;
 			static constexpr bool prefix_search = true;
-			static constexpr bool variable_length = false;// true;
+			static constexpr bool variable_length = false; // true;
 			static constexpr size_t max_bits = static_cast<size_t>(-1);
 
-			SEQ_ALWAYS_INLINE type hash(const tuple_type& k) const noexcept
-			{
-				return type(k);
-			}
-			SEQ_ALWAYS_INLINE type hash_shift(size_t shift, const tuple_type& k) const noexcept
-			{
-				return type(shift, k);
-			}
+			SEQ_ALWAYS_INLINE type hash(const tuple_type& k) const noexcept { return type(k); }
+			SEQ_ALWAYS_INLINE type hash_shift(size_t shift, const tuple_type& k) const noexcept { return type(shift, k); }
 			template<class Hash>
 			static std::uint8_t tiny_hash(const Hash&, const tuple_type& v) noexcept
 			{
-				return GetTinyHash< tuple_type>::get(0, v);
+				return GetTinyHash<tuple_type>::get(0, v);
 			}
-
 		};
 
-	}// end radix_detail
+	} // end radix_detail
 
 	/// @brief Key extractor for wide string types
 	/// @tparam T wide string type
 	template<class T>
-	struct default_key<T, typename std::enable_if<radix_detail::is_wstring<T>::value, void>::type >
+	struct default_key<T, typename std::enable_if<radix_detail::is_wstring<T>::value, void>::type>
 	{
 		template<class CharT>
-		basic_tstring_view<CharT> operator()(const basic_tstring_view<CharT>& val) const noexcept {
+		basic_tstring_view<CharT> operator()(const basic_tstring_view<CharT>& val) const noexcept
+		{
 			return val;
 		}
 		template<class CharT, class Traits, class Allocator>
-		basic_tstring_view<CharT> operator()(const std::basic_string<CharT, Traits, Allocator>& val) const noexcept {
+		basic_tstring_view<CharT> operator()(const std::basic_string<CharT, Traits, Allocator>& val) const noexcept
+		{
 			return val;
 		}
 		template<class CharT>
-		basic_tstring_view<CharT> operator()(const CharT* val) const noexcept {
+		basic_tstring_view<CharT> operator()(const CharT* val) const noexcept
+		{
 			return basic_tstring_view<CharT>(val);
 		}
 #ifdef SEQ_HAS_CPP_17
 		template<class CharT, class Traits>
-		basic_tstring_view<CharT> operator()(const std::basic_string_view<CharT, Traits> & val) const noexcept {
+		basic_tstring_view<CharT> operator()(const std::basic_string_view<CharT, Traits>& val) const noexcept
+		{
 			return val;
 		}
 #endif
@@ -557,6 +499,6 @@ namespace seq
 }
 
 /** @}*/
-//end containers
+// end containers
 
 #endif

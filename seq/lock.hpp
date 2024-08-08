@@ -25,7 +25,6 @@
 #ifndef SEQ_LOCK_HPP
 #define SEQ_LOCK_HPP
 
-
 /** @file */
 
 #include <atomic>
@@ -36,31 +35,34 @@
 
 #include "bits.hpp"
 
-
 namespace seq
 {
 	/// @brief Lightweight and fast spinlock implementation based on https://rigtorp.se/spinlock/
 	///
 	/// spinlock is a lightweight spinlock implementation following the TimedMutex requirements.
-	///  
-	class spinlock 
-    {
+	///
+	class spinlock
+	{
 		std::atomic<bool> d_lock;
 
 	public:
-		constexpr spinlock() : d_lock(0) {}
+		constexpr spinlock()
+		  : d_lock(0)
+		{
+		}
 
-        spinlock(spinlock const&) = delete;
-        spinlock& operator=(spinlock const&) = delete;
+		spinlock(spinlock const&) = delete;
+		spinlock& operator=(spinlock const&) = delete;
 
-		void lock() noexcept {
+		void lock() noexcept
+		{
 			for (;;) {
 				// Optimistically assume the lock is free on the first try
-				if (!d_lock.exchange(true, std::memory_order_acquire)) 
+				if (!d_lock.exchange(true, std::memory_order_acquire))
 					return;
-				
+
 				// Wait for lock to be released without generating cache misses
-				while (d_lock.load(std::memory_order_relaxed)) 
+				while (d_lock.load(std::memory_order_relaxed))
 					// Issue X86 PAUSE or ARM YIELD instruction to reduce contention between
 					// hyper-threads
 					std::this_thread::yield();
@@ -68,16 +70,14 @@ namespace seq
 		}
 
 		bool is_locked() const noexcept { return d_lock.load(std::memory_order_relaxed); }
-		bool try_lock() noexcept {
+		bool try_lock() noexcept
+		{
 			// First do a relaxed load to check if lock is free in order to prevent
 			// unnecessary cache misses if someone does while(!try_lock())
-			return !d_lock.load(std::memory_order_relaxed) &&
-				!d_lock.exchange(true, std::memory_order_acquire);
+			return !d_lock.load(std::memory_order_relaxed) && !d_lock.exchange(true, std::memory_order_acquire);
 		}
 
-		void unlock() noexcept {
-			d_lock.store(false, std::memory_order_release);
-		}
+		void unlock() noexcept { d_lock.store(false, std::memory_order_release); }
 
 		template<class Rep, class Period>
 		bool try_lock_for(const std::chrono::duration<Rep, Period>& duration) noexcept
@@ -100,16 +100,12 @@ namespace seq
 			}
 		}
 
-
 		void lock_shared() { lock(); }
 		void unlock_shared() { unlock(); }
 	};
-	
-	
-
 
 	/// @brief An unfaire read-write spinlock class that favors write operations
-	/// 
+	///
 	template<class LockType = std::uint32_t>
 	class shared_spinner
 	{
@@ -129,27 +125,27 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE bool try_lock(lock_type& expect)
 		{
-			if (SEQ_UNLIKELY(!d_lock.compare_exchange_strong(
-				expect, write, std::memory_order_acq_rel))) {
+			if (SEQ_UNLIKELY(!d_lock.compare_exchange_strong(expect, write, std::memory_order_acq_rel))) {
 				return failed_lock(expect);
 			}
 			return true;
 		}
-		SEQ_ALWAYS_INLINE void yield() {
-			std::this_thread::yield();
-		}
+		SEQ_ALWAYS_INLINE void yield() { std::this_thread::yield(); }
 
 		std::atomic<lock_type> d_lock;
 
 	public:
-		constexpr shared_spinner() : d_lock(0) {}
+		constexpr shared_spinner()
+		  : d_lock(0)
+		{
+		}
 		shared_spinner(shared_spinner const&) = delete;
 		shared_spinner& operator=(shared_spinner const&) = delete;
 
 		SEQ_ALWAYS_INLINE void lock()
 		{
 			lock_type expect = 0;
-			while (SEQ_UNLIKELY(!try_lock(expect))) 
+			while (SEQ_UNLIKELY(!try_lock(expect)))
 				yield();
 		}
 		SEQ_ALWAYS_INLINE void unlock()
@@ -173,8 +169,7 @@ namespace seq
 			if (d_lock.load(std::memory_order_relaxed) & (need_lock | write))
 				return false;
 			lock_type expect = 0;
-			return d_lock.compare_exchange_strong(
-				expect, write, std::memory_order_acq_rel);
+			return d_lock.compare_exchange_strong(expect, write, std::memory_order_acq_rel);
 		}
 		SEQ_ALWAYS_INLINE bool try_lock_shared()
 		{
@@ -194,34 +189,33 @@ namespace seq
 				return false;
 			}
 		}
-
 	};
 
 	using shared_spinlock = shared_spinner<>;
-
 
 	/// @brief Dumy lock class that basically does nothing
 	///
 	struct null_lock
 	{
-		void lock()noexcept {}
-		void unlock()noexcept {}
+		void lock() noexcept {}
+		void unlock() noexcept {}
 		bool try_lock() noexcept { return true; }
 		template<class Rep, class Period>
-		bool try_lock_for(const std::chrono::duration<Rep, Period>& ) noexcept { return true; }
+		bool try_lock_for(const std::chrono::duration<Rep, Period>&) noexcept
+		{
+			return true;
+		}
 		template<class Clock, class Duration>
-		bool try_lock_until(const std::chrono::time_point<Clock, Duration>& ) noexcept { return true; }
+		bool try_lock_until(const std::chrono::time_point<Clock, Duration>&) noexcept
+		{
+			return true;
+		}
 
 		void lock_shared() noexcept {}
 		bool try_lock_shared() noexcept { return true; }
 		void unlock_shared() noexcept {}
 	};
 
-
 }
-
-
-
-
 
 #endif

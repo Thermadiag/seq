@@ -25,11 +25,10 @@
 #ifndef SEQ_TESTING_HPP
 #define SEQ_TESTING_HPP
 
-
-#if defined( WIN32) || defined(_WIN32)
+#if defined(WIN32) || defined(_WIN32)
 #include <Windows.h>
 #include <Psapi.h>
-#else 
+#else
 #include <time.h>
 #endif
 
@@ -68,24 +67,33 @@ namespace seq
 	class test_error : public std::runtime_error
 	{
 	public:
-		test_error(const std::string & str)
-			:std::runtime_error(str) {}
+		test_error(const std::string& str)
+		  : std::runtime_error(str)
+		{
+		}
 	};
 
 	/// @brief Streambuf that stores the number of outputed characters
-	class streambuf_size : public std::streambuf 
+	class streambuf_size : public std::streambuf
 	{
 		std::streambuf* sbuf{ nullptr };
 		std::ostream* oss{ nullptr };
 		size_t size{ 0 };
 
-		virtual int overflow(int c) override {
+		virtual int overflow(int c) override
+		{
 			size++;
 			return sbuf->sputc(static_cast<char>(c));
 		}
 		virtual int sync() override { return sbuf->pubsync(); }
+
 	public:
-		streambuf_size(std::ostream& o) : sbuf(o.rdbuf()), oss(&o) { oss->rdbuf(this); }
+		streambuf_size(std::ostream& o)
+		  : sbuf(o.rdbuf())
+		  , oss(&o)
+		{
+			oss->rdbuf(this);
+		}
 		virtual ~streambuf_size() noexcept override { oss->rdbuf(sbuf); }
 		size_t get_size() const { return size; }
 	};
@@ -93,7 +101,8 @@ namespace seq
 	namespace detail
 	{
 		template<class T>
-		std::string to_string(const T& value) {
+		std::string to_string(const T& value)
+		{
 			std::ostringstream ss;
 			ss << value;
 			return ss.str();
@@ -102,53 +111,114 @@ namespace seq
 
 }
 
-
-
 /// @brief Very basic testing macro that throws seq::test_error if condition is not met.
-#define SEQ_TEST( ... ) \
-	do {if(! (__VA_ARGS__) ) {throw seq::test_error("testing error at file " __FILE__ "(" + seq::detail::to_string(__LINE__) + "): "  #__VA_ARGS__); }} while(false)
-	//if(! (__VA_ARGS__) ) {throw seq::test_error("testing error at file " __FILE__ "(" + seq::detail::to_string(__LINE__) + "): "  #__VA_ARGS__); }
-
+#define SEQ_TEST(...)                                                                                                                                                                                  \
+	do {                                                                                                                                                                                           \
+		if (!(__VA_ARGS__)) {                                                                                                                                                                  \
+			throw seq::test_error("testing error at file " __FILE__ "(" + seq::detail::to_string(__LINE__) + "): " #__VA_ARGS__);                                                          \
+		}                                                                                                                                                                                      \
+	} while (false)
+// if(! (__VA_ARGS__) ) {throw seq::test_error("testing error at file " __FILE__ "(" + seq::detail::to_string(__LINE__) + "): "  #__VA_ARGS__); }
 
 /// @brief Test if writting given argument to a std::ostream produces the string 'result', throws seq::test_error if not.
-#define SEQ_TEST_TO_OSTREAM( result, ... ) \
-	do{std::ostringstream oss; \
-	oss <<(__VA_ARGS__) ; oss.flush() ; \
-	if( oss.str() != result) \
-		{std::string v =seq::detail::to_string(__LINE__);  throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): \"" + std::string(result) + "\" == "  #__VA_ARGS__).c_str());} \
-	}while(false)
+#define SEQ_TEST_TO_OSTREAM(result, ...)                                                                                                                                                               \
+	do {                                                                                                                                                                                           \
+		std::ostringstream oss;                                                                                                                                                                \
+		oss << (__VA_ARGS__);                                                                                                                                                                  \
+		oss.flush();                                                                                                                                                                           \
+		if (oss.str() != result) {                                                                                                                                                             \
+			std::string v = seq::detail::to_string(__LINE__);                                                                                                                              \
+			throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): \"" + std::string(result) + "\" == " #__VA_ARGS__).c_str());                                            \
+		}                                                                                                                                                                                      \
+	} while (false)
 
 /// @brief Test if given statement throws a 'exception' object. If not, throws seq::test_error.
-#define SEQ_TEST_THROW(exception, ...) \
-	do{bool has_thrown = false;  \
-	try { __VA_ARGS__; } \
-	catch(const exception &) {has_thrown = true;} \
-	catch(...) {} \
-	if(! has_thrown ) {std::string v =seq::detail::to_string(__LINE__);  \
-		throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): "  #__VA_ARGS__).c_str()); } \
-	}while(false)
+#define SEQ_TEST_THROW(exception, ...)                                                                                                                                                                 \
+	do {                                                                                                                                                                                           \
+		bool has_thrown = false;                                                                                                                                                               \
+		try {                                                                                                                                                                                  \
+			__VA_ARGS__;                                                                                                                                                                   \
+		}                                                                                                                                                                                      \
+		catch (const exception&) {                                                                                                                                                             \
+			has_thrown = true;                                                                                                                                                             \
+		}                                                                                                                                                                                      \
+		catch (...) {                                                                                                                                                                          \
+		}                                                                                                                                                                                      \
+		if (!has_thrown) {                                                                                                                                                                     \
+			std::string v = seq::detail::to_string(__LINE__);                                                                                                                              \
+			throw seq::test_error(("testing error at file " __FILE__ "(" + v + "): " #__VA_ARGS__).c_str());                                                                               \
+		}                                                                                                                                                                                      \
+	} while (false)
 
 /// @brief Test module
-#define SEQ_TEST_MODULE(name, ... ) \
-	do{ seq::streambuf_size str(std::cout); size_t size = 0; bool ok = true; \
-	try { std::cout << "TEST MODULE " << #name << "... " ; std::cout.flush(); size = str.get_size(); __VA_ARGS__; } \
-	catch (const seq::test_error& e) {std::cout<< std::endl; ok = false; std::cerr << "TEST FAILURE IN MODULE " << #name << ": " << e.what() << std::endl; } \
-	catch (const std::exception& e) { std::cout<< std::endl; ok = false; std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << " (std::exception): " << e.what() << std::endl; } \
-	catch (...) { std::cout<< std::endl; ok = false;  std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << std::endl; }\
-	if(ok) { if(str.get_size() != size) std::cout<<std::endl; std::cout<< "SUCCESS" << std::endl; } \
-	}while(false)
+#define SEQ_TEST_MODULE(name, ...)                                                                                                                                                                     \
+	do {                                                                                                                                                                                           \
+		seq::streambuf_size str(std::cout);                                                                                                                                                    \
+		size_t size = 0;                                                                                                                                                                       \
+		bool ok = true;                                                                                                                                                                        \
+		try {                                                                                                                                                                                  \
+			std::cout << "TEST MODULE " << #name << "... ";                                                                                                                                \
+			std::cout.flush();                                                                                                                                                             \
+			size = str.get_size();                                                                                                                                                         \
+			__VA_ARGS__;                                                                                                                                                                   \
+		}                                                                                                                                                                                      \
+		catch (const seq::test_error& e) {                                                                                                                                                     \
+			std::cout << std::endl;                                                                                                                                                        \
+			ok = false;                                                                                                                                                                    \
+			std::cerr << "TEST FAILURE IN MODULE " << #name << ": " << e.what() << std::endl;                                                                                              \
+		}                                                                                                                                                                                      \
+		catch (const std::exception& e) {                                                                                                                                                      \
+			std::cout << std::endl;                                                                                                                                                        \
+			ok = false;                                                                                                                                                                    \
+			std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << " (std::exception): " << e.what() << std::endl;                                                                         \
+		}                                                                                                                                                                                      \
+		catch (...) {                                                                                                                                                                          \
+			std::cout << std::endl;                                                                                                                                                        \
+			ok = false;                                                                                                                                                                    \
+			std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << std::endl;                                                                                                              \
+		}                                                                                                                                                                                      \
+		if (ok) {                                                                                                                                                                              \
+			if (str.get_size() != size)                                                                                                                                                    \
+				std::cout << std::endl;                                                                                                                                                \
+			std::cout << "SUCCESS" << std::endl;                                                                                                                                           \
+		}                                                                                                                                                                                      \
+	} while (false)
 
 /// @brief Test module
-#define SEQ_TEST_MODULE_RETURN(name, ret_value, ... ) \
-	do{ seq::streambuf_size str(std::cout); size_t size = 0; bool ok = true; \
-	try { std::cout << "TEST MODULE " << #name << "... " ; std::cout.flush(); size = str.get_size(); __VA_ARGS__; } \
-	catch (const seq::test_error& e) {std::cout<< std::endl; ok = false; std::cerr << "TEST FAILURE IN MODULE " << #name << ": " << e.what() << std::endl; } \
-	catch (const std::exception& e) { std::cout<< std::endl; ok = false; std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << " (std::exception): " << e.what() << std::endl; } \
-	catch (...) { std::cout<< std::endl; ok = false;  std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << std::endl; }\
-	if(ok) { if(str.get_size() != size) std::cout<<std::endl; std::cout<< "SUCCESS" << std::endl; } \
-	else return ret_value;\
-	}while(false)
-
+#define SEQ_TEST_MODULE_RETURN(name, ret_value, ...)                                                                                                                                                   \
+	do {                                                                                                                                                                                           \
+		seq::streambuf_size str(std::cout);                                                                                                                                                    \
+		size_t size = 0;                                                                                                                                                                       \
+		bool ok = true;                                                                                                                                                                        \
+		try {                                                                                                                                                                                  \
+			std::cout << "TEST MODULE " << #name << "... ";                                                                                                                                \
+			std::cout.flush();                                                                                                                                                             \
+			size = str.get_size();                                                                                                                                                         \
+			__VA_ARGS__;                                                                                                                                                                   \
+		}                                                                                                                                                                                      \
+		catch (const seq::test_error& e) {                                                                                                                                                     \
+			std::cout << std::endl;                                                                                                                                                        \
+			ok = false;                                                                                                                                                                    \
+			std::cerr << "TEST FAILURE IN MODULE " << #name << ": " << e.what() << std::endl;                                                                                              \
+		}                                                                                                                                                                                      \
+		catch (const std::exception& e) {                                                                                                                                                      \
+			std::cout << std::endl;                                                                                                                                                        \
+			ok = false;                                                                                                                                                                    \
+			std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << " (std::exception): " << e.what() << std::endl;                                                                         \
+		}                                                                                                                                                                                      \
+		catch (...) {                                                                                                                                                                          \
+			std::cout << std::endl;                                                                                                                                                        \
+			ok = false;                                                                                                                                                                    \
+			std::cerr << "UNEXPECTED ERROR IN MODULE " << #name << std::endl;                                                                                                              \
+		}                                                                                                                                                                                      \
+		if (ok) {                                                                                                                                                                              \
+			if (str.get_size() != size)                                                                                                                                                    \
+				std::cout << std::endl;                                                                                                                                                \
+			std::cout << "SUCCESS" << std::endl;                                                                                                                                           \
+		}                                                                                                                                                                                      \
+		else                                                                                                                                                                                   \
+			return ret_value;                                                                                                                                                              \
+	} while (false)
 
 namespace seq
 {
@@ -160,9 +230,9 @@ namespace seq
 			return static_cast<uint64_t>(duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count());
 		}
 
-		static inline std::chrono::time_point<std::chrono::steady_clock >& get_clock()
+		static inline std::chrono::time_point<std::chrono::steady_clock>& get_clock()
 		{
-			thread_local std::chrono::time_point<std::chrono::steady_clock > clock;
+			thread_local std::chrono::time_point<std::chrono::steady_clock> clock;
 			return clock;
 		}
 
@@ -173,7 +243,6 @@ namespace seq
 		}
 	}
 
-
 	/// @brief For tests only, reset timer for calling thread
 	inline void tick()
 	{
@@ -183,20 +252,20 @@ namespace seq
 		detail::get_msec_clock() = detail::msecs_since_epoch();
 #endif
 	}
-	
+
 	/// @brief For tests only, returns elapsed milliseconds since last call to tick()
 	inline auto tock_ms() -> std::uint64_t
 	{
 #ifdef _MSC_VER
-		return  static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - detail::get_clock()).count());
+		return static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - detail::get_clock()).count());
 #else
 		// on gcc/mingw, this is the noly workin way (??)
-		return  detail::msecs_since_epoch() - detail::get_msec_clock();
+		return detail::msecs_since_epoch() - detail::get_msec_clock();
 #endif
-		//return (std::chrono::system_clock::now().time_since_epoch().count() - detail::get_clock().time_since_epoch().count()) / 1000000LL;
+		// return (std::chrono::system_clock::now().time_since_epoch().count() - detail::get_clock().time_since_epoch().count()) / 1000000LL;
 		//
 	}
-	
+
 	/// @brief Similar to C++11 (and deprecated) std::random_shuffle
 	template<class Iter>
 	void random_shuffle(Iter begin, Iter end, uint_fast32_t seed = 0)
@@ -205,11 +274,11 @@ namespace seq
 		std::mt19937 g(rd());
 		if (seed)
 			g.seed(seed);
-		std::shuffle(begin,end, g);
+		std::shuffle(begin, end, g);
 	}
-	
+
 	/// @brief Similar to C++14 std::equal
-	template<class Iter1, class Iter2, class BinaryPredicate >
+	template<class Iter1, class Iter2, class BinaryPredicate>
 	bool equal(Iter1 first, Iter1 last, Iter2 first2, Iter2 last2, BinaryPredicate pred)
 	{
 		if (first == last && first2 == last2)
@@ -221,21 +290,20 @@ namespace seq
 				if (len != len2)
 					return false;
 
-		for (; first != last; ++first, ++first2)
-		{
+		for (; first != last; ++first, ++first2) {
 			if (first2 == last2 || !pred(*first, *first2))
 				return false;
 		}
 		return true;
 	}
-	template<class Iter1, class Iter2 >
+	template<class Iter1, class Iter2>
 	bool equal(Iter1 first, Iter1 last, Iter2 first2, Iter2 last2)
 	{
 		using T1 = typename std::iterator_traits<Iter1>::value_type;
 		using T2 = typename std::iterator_traits<Iter2>::value_type;
-		return seq::equal(first, last, first2, last2, [](const T1& a, const T2 & b) {return a == b; });
+		return seq::equal(first, last, first2, last2, [](const T1& a, const T2& b) { return a == b; });
 	}
-	template<class Iter1, class Iter2 >
+	template<class Iter1, class Iter2>
 	bool equal(Iter1 first, Iter1 last, Iter2 first2)
 	{
 		for (; first != last; ++first, ++first2) {
@@ -248,40 +316,35 @@ namespace seq
 
 	inline void reset_memory_usage()
 	{
-#if defined( WIN32) || defined(_WIN32)
-			SetProcessWorkingSetSize(GetCurrentProcess(), static_cast<SIZE_T>(-1), static_cast<SIZE_T>(-1));
+#if defined(WIN32) || defined(_WIN32)
+		SetProcessWorkingSetSize(GetCurrentProcess(), static_cast<SIZE_T>(-1), static_cast<SIZE_T>(-1));
 #endif
 	}
 
 	inline auto get_memory_usage() -> size_t
 	{
-#if defined( WIN32) || defined(_WIN32)
-			Sleep(50);
-			HANDLE currentProcessHandle = GetCurrentProcess();
-			PROCESS_MEMORY_COUNTERS_EX   memoryCounters;// = { 0 };;
-			memset(&memoryCounters, 0, sizeof(memoryCounters));
-			if (GetProcessMemoryInfo(currentProcessHandle, reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&memoryCounters), sizeof(memoryCounters)))
-			{
-				return /*memoryCounters.PrivateUsage + */memoryCounters.WorkingSetSize;
-			}
-			return 0;
+#if defined(WIN32) || defined(_WIN32)
+		Sleep(50);
+		HANDLE currentProcessHandle = GetCurrentProcess();
+		PROCESS_MEMORY_COUNTERS_EX memoryCounters; // = { 0 };;
+		memset(&memoryCounters, 0, sizeof(memoryCounters));
+		if (GetProcessMemoryInfo(currentProcessHandle, reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&memoryCounters), sizeof(memoryCounters))) {
+			return /*memoryCounters.PrivateUsage + */ memoryCounters.WorkingSetSize;
+		}
+		return 0;
 #else
-			return 0;
+		return 0;
 #endif
-
 	}
 
-
-
-	template<typename Ch, typename Traits = std::char_traits<Ch> >
-	struct basic_nullbuf : std::basic_streambuf<Ch, Traits> {
+	template<typename Ch, typename Traits = std::char_traits<Ch>>
+	struct basic_nullbuf : std::basic_streambuf<Ch, Traits>
+	{
 		using base_type = std::basic_streambuf<Ch, Traits>;
 		using int_type = typename base_type::int_type;
 		using traits_type = typename base_type::traits_type;
 
-		virtual auto overflow(int_type c) -> int_type override {
-			return traits_type::not_eof(c);
-		}
+		virtual auto overflow(int_type c) -> int_type override { return traits_type::not_eof(c); }
 	};
 
 	/// @brief For tests only, alias for null buffer, to be used with c++ iostreams
@@ -292,13 +355,13 @@ namespace seq
 		std::ostream* d_oss;
 		std::streambuf* d_buf;
 		nullbuf d_null;
-		disable_ostream(std::ostream& oss) : d_oss(&oss) {
+		disable_ostream(std::ostream& oss)
+		  : d_oss(&oss)
+		{
 			d_buf = oss.rdbuf();
 			oss.rdbuf(&d_null);
 		}
-		~disable_ostream() {
-			d_oss->rdbuf(d_buf);
-		}
+		~disable_ostream() { d_oss->rdbuf(d_buf); }
 	};
 
 	template<class T>
@@ -309,7 +372,6 @@ namespace seq
 		std::cout << v << std::endl;
 		std::cout.rdbuf(b);
 	}
-
 
 	/// @brief For tests only, generate a random string of given max size
 	template<class String>
@@ -324,46 +386,62 @@ namespace seq
 		return res;
 	}
 
-
-
 	namespace detail
 	{
 		template<class T>
 		struct Multiply
 		{
-			static auto multiply(T value) -> T {
-				return static_cast<T>((static_cast<int>(rand()) + static_cast<int>(rand())) * 14695981039346656037ULL * value);
-			}
+			static auto multiply(T value) -> T { return static_cast<T>((static_cast<int>(rand()) + static_cast<int>(rand())) * 14695981039346656037ULL * value); }
 			template<class Stream>
-			static auto read(Stream& str) -> T { T r;  seq::from_stream(str, r); return r; }
+			static auto read(Stream& str) -> T
+			{
+				T r;
+				seq::from_stream(str, r);
+				return r;
+			}
 		};
 		template<>
 		struct Multiply<long double>
 		{
-			static auto multiply(long double value) -> long double {
+			static auto multiply(long double value) -> long double
+			{
 				return static_cast<long double>((static_cast<long double>(rand()) + static_cast<long double>(rand()))) * 1.4695981039346656037 * value;
 			}
 			template<class Stream>
-			static auto read(Stream& str) -> long double { long double r; seq::from_stream(str, r); return r; }
-		} ;
+			static auto read(Stream& str) -> long double
+			{
+				long double r;
+				seq::from_stream(str, r);
+				return r;
+			}
+		};
 		template<>
 		struct Multiply<double>
 		{
-			static auto multiply(double value) -> double {
-				return static_cast<double>((static_cast<double>(rand()) + static_cast<double>(rand()))) * 1.4695981039346656037 * value;
-			}
+			static auto multiply(double value) -> double { return static_cast<double>((static_cast<double>(rand()) + static_cast<double>(rand()))) * 1.4695981039346656037 * value; }
 			template<class Stream>
-			static auto read(Stream& str) -> double { double r; seq::from_stream(str, r); return r; }
-		} ;
+			static auto read(Stream& str) -> double
+			{
+				double r;
+				seq::from_stream(str, r);
+				return r;
+			}
+		};
 		template<>
 		struct Multiply<float>
 		{
-			static auto multiply(float value) -> float {
+			static auto multiply(float value) -> float
+			{
 				return static_cast<float>((static_cast<double>(rand()) + static_cast<double>(rand())) * 1.4695981039346656037 * static_cast<double>(value));
 			}
 			template<class Stream>
-			static auto read(Stream& str) -> float { float r;  seq::from_stream(str, r); return r; }
-		} ;
+			static auto read(Stream& str) -> float
+			{
+				float r;
+				seq::from_stream(str, r);
+				return r;
+			}
+		};
 	}
 
 	/// @brief For tests only, generate random floating point number on the whole representable range (including potential infinit values)
@@ -374,17 +452,19 @@ namespace seq
 		std::mt19937_64 d_rand;
 		unsigned count;
 
-		unsigned get_rand() {
-			return (d_rand()) & 0xFFFFFFFFu;
-			//return rand();
-		}
-	public:
-		random_float_genertor(unsigned seed=0)
-			: d_rand(seed), count(0)
+		unsigned get_rand()
 		{
-			//srand(seed);
+			return (d_rand()) & 0xFFFFFFFFu;
+			// return rand();
 		}
 
+	public:
+		random_float_genertor(unsigned seed = 0)
+		  : d_rand(seed)
+		  , count(0)
+		{
+			// srand(seed);
+		}
 
 		auto operator()() -> Float
 		{
@@ -394,12 +474,12 @@ namespace seq
 			if (type)
 				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * static_cast<unsigned>(get_rand())))));
 			else
-				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * static_cast<unsigned>(get_rand()))) * std::pow(static_cast<Float>(10.), static_cast<Float>(sign1) * static_cast<Float>(static_cast<unsigned>(get_rand()) & mask))));
+				res = (sign1 * static_cast<Float>(detail::Multiply<Float>::multiply(static_cast<Float>(count++ * static_cast<unsigned>(get_rand()))) *
+								  std::pow(static_cast<Float>(10.), static_cast<Float>(sign1) * static_cast<Float>(static_cast<unsigned>(get_rand()) & mask))));
 
 			return res;
 		}
 	};
-
 
 	template<class T>
 	struct debug_allocator
@@ -416,21 +496,30 @@ namespace seq
 		using propagate_on_container_copy_assignment = std::true_type;
 		using propagate_on_container_move_assignment = std::true_type;
 
-		template <class Other>
-		struct rebind {
+		template<class Other>
+		struct rebind
+		{
 			using other = debug_allocator<Other>;
 		};
 
-		std::shared_ptr<std::atomic<std::int64_t> > d_count;
+		std::shared_ptr<std::atomic<std::int64_t>> d_count;
 
-		debug_allocator() :d_count(new std::atomic<std::int64_t>(0)) {}
+		debug_allocator()
+		  : d_count(new std::atomic<std::int64_t>(0))
+		{
+		}
 		debug_allocator(const debug_allocator& other)
-			:d_count(other.d_count) {}
-		template <class Other>
+		  : d_count(other.d_count)
+		{
+		}
+		template<class Other>
 		debug_allocator(const debug_allocator<Other>& other)
-			: d_count(other.d_count) {}
+		  : d_count(other.d_count)
+		{
+		}
 		~debug_allocator() {}
-		debug_allocator& operator=(const debug_allocator& other) {
+		debug_allocator& operator=(const debug_allocator& other)
+		{
 			d_count = other.d_count;
 			return *this;
 		}
@@ -438,16 +527,18 @@ namespace seq
 		bool operator==(const debug_allocator& other) const { return d_count == other.d_count; }
 		bool operator!=(const debug_allocator& other) const { return d_count != other.d_count; }
 
-		void deallocate(T* p, const size_t count) {
+		void deallocate(T* p, const size_t count)
+		{
 			std::allocator<T>{}.deallocate(p, count);
 			(*d_count) -= count * sizeof(T);
-			//printf("deallocate %i elems (%i B) of type %s\n", (int)count, (int)(count * sizeof(T)), typeid(T).name());
+			// printf("deallocate %i elems (%i B) of type %s\n", (int)count, (int)(count * sizeof(T)), typeid(T).name());
 			SEQ_ASSERT_DEBUG(*d_count >= 0, "");
 		}
-		T* allocate(const size_t count) {
+		T* allocate(const size_t count)
+		{
 			T* p = std::allocator<T>{}.allocate(count);
 			(*d_count) += count * sizeof(T);
-			//printf("allocate %i elems (%i B) of type %s\n", (int)count,(int)(count*sizeof(T)), typeid(T).name());
+			// printf("allocate %i elems (%i B) of type %s\n", (int)count,(int)(count*sizeof(T)), typeid(T).name());
 			return p;
 		}
 		T* allocate(const size_t count, const void*) { return allocate(count); }

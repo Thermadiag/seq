@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2024 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,36 @@
  * SOFTWARE.
  */
 
-#ifndef SEQ_SEQ_HPP
-#define SEQ_SEQ_HPP
+#ifndef SEQ_EXPORT_HPP
+#define SEQ_EXPORT_HPP
 
+#include "seq_config.hpp"
 
-/** @file */
-
-
-#define SEQ_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
-#define SEQ_VERSION_MINOR @PROJECT_VERSION_MINOR@
-#define SEQ_VERSION "@PROJECT_VERSION@"
-
-#define SEQ_DETECT_IS_HEADER_ONLY @PROJECT_HEADER_ONLY@
-
-#if SEQ_DETECT_IS_HEADER_ONLY == 1
-	#ifndef SEQ_HEADER_ONLY
-		#define SEQ_HEADER_ONLY
-	#endif
+// Export symbols
+#if defined _WIN32 || defined __CYGWIN__ || defined __MINGW32__
+#ifdef SEQ_BUILD_SHARED_LIBRARY
+#ifdef __GNUC__
+#define SEQ_EXPORT __attribute__((dllexport))
+#else
+#define SEQ_EXPORT __declspec(dllexport) // Note: actually gcc seems to also supports this syntax.
+#endif
+#else
+#if !defined(SEQ_BUILD_STATIC_LIBRARY) && !defined(SEQ_STATIC) // For static build, the user must define SEQ_STATIC in its project
+#ifdef __GNUC__
+#define SEQ_EXPORT __attribute__((dllimport))
+#else
+#define SEQ_EXPORT __declspec(dllimport) // Note: actually gcc seems to also supports this syntax.
+#endif
+#else
+#define SEQ_EXPORT
+#endif
+#endif
+#else
+#if __GNUC__ >= 4
+#define SEQ_EXPORT __attribute__((visibility("default")))
+#else
+#define SEQ_EXPORT
+#endif
 #endif
 
 #endif

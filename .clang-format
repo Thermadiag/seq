@@ -1,0 +1,31 @@
+---
+# We'll use defaults from the Mozilla style, but with 8 columns indentation.
+BasedOnStyle: Mozilla
+ColumnLimit: 200
+UseTab: Always
+IndentWidth: 8
+TabWidth: 8
+AlignTrailingComments: true
+AccessModifierOffset: -8
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+NamespaceIndentation: All
+SortIncludes: false
+
+BraceWrapping:
+  AfterClass:      true
+  AfterControlStatement: false
+  AfterEnum:       true
+  AfterFunction:   true
+  AfterNamespace:  true
+  AfterObjCDeclaration: true
+  AfterStruct:     true
+  AfterUnion:      true
+  BeforeCatch:     true
+  BeforeElse:      true
+  IndentBraces:    false
+BreakBeforeBraces: Custom
+
+---
+Language: Cpp
+# Force pointers to the type for C++.

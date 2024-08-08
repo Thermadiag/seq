@@ -56,18 +56,23 @@ namespace seq
 			using reference = const value_type&;
 			Integral val;
 			IntegralIterator() {}
-			IntegralIterator(Integral v) : val(v) {}
-			auto operator++() noexcept -> IntegralIterator& {
+			IntegralIterator(Integral v)
+			  : val(v)
+			{
+			}
+			auto operator++() noexcept -> IntegralIterator&
+			{
 				++val;
 				return *this;
 			}
-			auto operator++(int) noexcept -> IntegralIterator {
+			auto operator++(int) noexcept -> IntegralIterator
+			{
 				IntegralIterator _Tmp = *this;
 				++(*this);
 				return _Tmp;
 			}
 			auto operator*() const noexcept -> reference { return val; }
-			auto operator->() const noexcept -> pointer { return  std::pointer_traits<pointer>::pointer_to(**this); }
+			auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
 			bool operator==(const IntegralIterator& it) const noexcept { return val == it.val; }
 			bool operator!=(const IntegralIterator& it) const noexcept { return val != it.val; }
 		};
@@ -84,20 +89,25 @@ namespace seq
 			Type val;
 			Type incr;
 			ArithmeticIterator() {}
-			ArithmeticIterator(Type v, Type i) : val(v), incr(i) {
+			ArithmeticIterator(Type v, Type i)
+			  : val(v)
+			  , incr(i)
+			{
 				SEQ_ASSERT_DEBUG(i != 0, "invalid zero increment");
 			}
-			auto operator++() noexcept -> ArithmeticIterator& {
+			auto operator++() noexcept -> ArithmeticIterator&
+			{
 				val += incr;
 				return *this;
 			}
-			auto operator++(int) noexcept -> ArithmeticIterator {
+			auto operator++(int) noexcept -> ArithmeticIterator
+			{
 				ArithmeticIterator _Tmp = *this;
 				++(*this);
 				return _Tmp;
 			}
 			auto operator*() const noexcept -> reference { return val; }
-			auto operator->() const noexcept -> pointer { return  std::pointer_traits<pointer>::pointer_to(**this); }
+			auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
 			bool operator==(const ArithmeticIterator& it) const noexcept { return !(*this != it); }
 			bool operator!=(const ArithmeticIterator& it) const noexcept { return incr > 0 ? (val < it.val) : (val > it.val); }
 		};
@@ -113,13 +123,19 @@ namespace seq
 			using reference = const value_type&;
 			Iter iter;
 			size_t count;
-			NIterator(Iter it, size_t c) : iter(it), count(c) {}
-			auto operator++() noexcept -> NIterator& {
+			NIterator(Iter it, size_t c)
+			  : iter(it)
+			  , count(c)
+			{
+			}
+			auto operator++() noexcept -> NIterator&
+			{
 				++iter;
 				++count;
 				return *this;
 			}
-			auto operator++(int) noexcept -> NIterator {
+			auto operator++(int) noexcept -> NIterator
+			{
 				NIterator _Tmp = *this;
 				++(*this);
 				return _Tmp;
@@ -128,7 +144,6 @@ namespace seq
 			auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
 			bool operator==(const NIterator& it) const noexcept { return count == it.count || iter == it.iter; }
 			bool operator!=(const NIterator& it) const noexcept { return count != it.count && iter != it.iter; }
-
 		};
 		/// @brief Iterate N times over a given iterator
 		template<class Iter>
@@ -142,13 +157,19 @@ namespace seq
 			using reference = const value_type&;
 			Iter* iter;
 			size_t count;
-			NIteratorRef(Iter* it, size_t c) : iter(it), count(c) {}
-			auto operator++() noexcept -> NIteratorRef& {
+			NIteratorRef(Iter* it, size_t c)
+			  : iter(it)
+			  , count(c)
+			{
+			}
+			auto operator++() noexcept -> NIteratorRef&
+			{
 				++(*iter);
 				++count;
 				return *this;
 			}
-			auto operator++(int) noexcept -> NIteratorRef {
+			auto operator++(int) noexcept -> NIteratorRef
+			{
 				NIteratorRef _Tmp = *this;
 				++(*this);
 				return _Tmp;
@@ -157,7 +178,6 @@ namespace seq
 			auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
 			bool operator==(const NIteratorRef& it) const noexcept { return count == it.count || *iter == *it.iter; }
 			bool operator!=(const NIteratorRef& it) const noexcept { return count != it.count && *iter != *it.iter; }
-
 		};
 		/// @brief Iterate over 2 iterators to create a std::pair
 		template<class Iter1, class Iter2>
@@ -173,27 +193,26 @@ namespace seq
 			using reference = value_type;
 			Iter1 iter1;
 			Iter2 iter2;
-			ZipIterator(Iter1 it1, Iter2 it2) : iter1(it1), iter2(it2) {}
-			auto operator++() noexcept -> ZipIterator& {
+			ZipIterator(Iter1 it1, Iter2 it2)
+			  : iter1(it1)
+			  , iter2(it2)
+			{
+			}
+			auto operator++() noexcept -> ZipIterator&
+			{
 				++iter1;
 				++iter2;
 				return *this;
 			}
-			auto operator++(int) noexcept -> ZipIterator {
+			auto operator++(int) noexcept -> ZipIterator
+			{
 				ZipIterator _Tmp = *this;
 				++(*this);
 				return _Tmp;
 			}
-			auto operator*() const noexcept -> reference { 
-				return std::make_pair(*iter1,*iter2); 
-			}
-			bool operator==(const ZipIterator& it) const noexcept { 
-				return iter1 == it.iter1 || iter2 == it.iter2; 
-			}
-			bool operator!=(const ZipIterator& it) const noexcept { 
-				return iter1 != it.iter1 && iter2 != it.iter2; 
-			}
-
+			auto operator*() const noexcept -> reference { return std::make_pair(*iter1, *iter2); }
+			bool operator==(const ZipIterator& it) const noexcept { return iter1 == it.iter1 || iter2 == it.iter2; }
+			bool operator!=(const ZipIterator& it) const noexcept { return iter1 != it.iter1 && iter2 != it.iter2; }
 		};
 		/// @brief Iterate N times over a given iterator with boundary wrapping
 		template<class Iter>
@@ -209,15 +228,26 @@ namespace seq
 			Iter begin;
 			Iter end;
 			size_t count;
-			NIteratorWrap(size_t c) : count(c) {}
-			NIteratorWrap(Iter it, Iter en, size_t c) : iter(it), begin(it), end(en), count(c) {}
-			auto operator++() noexcept -> NIteratorWrap& {
-				if (++iter == end) 
+			NIteratorWrap(size_t c)
+			  : count(c)
+			{
+			}
+			NIteratorWrap(Iter it, Iter en, size_t c)
+			  : iter(it)
+			  , begin(it)
+			  , end(en)
+			  , count(c)
+			{
+			}
+			auto operator++() noexcept -> NIteratorWrap&
+			{
+				if (++iter == end)
 					iter = begin;
 				++count;
 				return *this;
 			}
-			auto operator++(int) noexcept -> NIteratorWrap {
+			auto operator++(int) noexcept -> NIteratorWrap
+			{
 				NIteratorWrap _Tmp = *this;
 				++(*this);
 				return _Tmp;
@@ -226,7 +256,6 @@ namespace seq
 			auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
 			bool operator==(const NIteratorWrap& it) const noexcept { return count == it.count; }
 			bool operator!=(const NIteratorWrap& it) const noexcept { return count != it.count; }
-
 		};
 		/// @brief Iterate N times over a given iterator with boundary wrapping
 		template<class T>
@@ -240,14 +269,27 @@ namespace seq
 			using reference = const T&;
 			T value;
 			size_t count;
-			NIteratorRepeat(size_t c) : count(c) {}
-			NIteratorRepeat(const T & val, size_t) : value(val), count(0) {}
-			NIteratorRepeat( T&& val, size_t) : value(std::move(val)), count(0) {}
-			auto operator++() noexcept -> NIteratorRepeat& {
+			NIteratorRepeat(size_t c)
+			  : count(c)
+			{
+			}
+			NIteratorRepeat(const T& val, size_t)
+			  : value(val)
+			  , count(0)
+			{
+			}
+			NIteratorRepeat(T&& val, size_t)
+			  : value(std::move(val))
+			  , count(0)
+			{
+			}
+			auto operator++() noexcept -> NIteratorRepeat&
+			{
 				++count;
 				return *this;
 			}
-			auto operator++(int) noexcept -> NIteratorRepeat {
+			auto operator++(int) noexcept -> NIteratorRepeat
+			{
 				NIteratorRepeat _Tmp = *this;
 				++(*this);
 				return _Tmp;
@@ -272,30 +314,33 @@ namespace seq
 			using reference = const value_type&;
 			Iter iter;
 			bool is_first;
-			FlattenPair(Iter it) : iter(it), is_first(true){}
-			auto operator++() noexcept -> FlattenPair& {
+			FlattenPair(Iter it)
+			  : iter(it)
+			  , is_first(true)
+			{
+			}
+			auto operator++() noexcept -> FlattenPair&
+			{
 				is_first = !is_first;
-				if(is_first)
+				if (is_first)
 					++iter;
 				return *this;
 			}
-			auto operator++(int) noexcept -> FlattenPair {
+			auto operator++(int) noexcept -> FlattenPair
+			{
 				FlattenPair _Tmp = *this;
 				++(*this);
 				return _Tmp;
 			}
 			auto operator*() const noexcept -> reference { return is_first ? (*iter).first : (*iter).second; }
 			auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-			bool operator==(const FlattenPair& it) const noexcept { return iter == it.iter ; }
-			bool operator!=(const FlattenPair& it) const noexcept { return iter != it.iter ; }
-
+			bool operator==(const FlattenPair& it) const noexcept { return iter == it.iter; }
+			bool operator!=(const FlattenPair& it) const noexcept { return iter != it.iter; }
 		};
-		
+
 	} // end namespace detail
 
-
-
-	///iterator_range class used to join iterables
+	/// iterator_range class used to join iterables
 	template<class Iter>
 	class iterator_range
 	{
@@ -311,7 +356,11 @@ namespace seq
 		using iterator = Iter;
 		using const_iterator = Iter;
 
-		iterator_range(Iter f, Iter l) : first(f), last(l) {}
+		iterator_range(Iter f, Iter l)
+		  : first(f)
+		  , last(l)
+		{
+		}
 
 		Iter begin() const noexcept { return first; }
 		Iter end() const noexcept { return last; }
@@ -319,14 +368,16 @@ namespace seq
 		Iter cend() const noexcept { return last; }
 
 		// Implicit conversion to container type
-		template<class Container, class = typename std::enable_if<is_iterable<Container>::value, void>::type >
-		operator Container() const {
+		template<class Container, class = typename std::enable_if<is_iterable<Container>::value, void>::type>
+		operator Container() const
+		{
 			return Container(begin(), end());
 		}
 
 		// Implicit conversion to std::pair<T,T>
 		template<class T>
-		operator std::pair<T, T>() const {
+		operator std::pair<T, T>() const
+		{
 			std::pair<T, T> res;
 			auto b = begin();
 			if (b != last) {
@@ -340,7 +391,8 @@ namespace seq
 
 		// Comparison operators
 		template<class Iter2>
-		bool operator!=(const iterator_range<Iter2>& other) const {
+		bool operator!=(const iterator_range<Iter2>& other) const
+		{
 			auto it = begin();
 			auto oit = other.begin();
 			auto e = end();
@@ -353,12 +405,11 @@ namespace seq
 			return it != e || oit != oe;
 		}
 		template<class Iter2>
-		bool operator==(const iterator_range<Iter2>& other) const {
+		bool operator==(const iterator_range<Iter2>& other) const
+		{
 			return !(*this != other);
 		}
 	};
-
-
 
 	/// @brief Build and return an iterable object over the range [first,last)
 	/// @tparam Iter iterator type
@@ -387,7 +438,7 @@ namespace seq
 	/// @brief Build and return an iterable object over the integral range [first, last) with a step of 1
 	/// @tparam Integral integral type
 	template<class Integral, class = typename std::enable_if<std::is_integral<Integral>::value, void>::type>
-	auto range(Integral first, Integral last) noexcept -> iterator_range<detail::IntegralIterator<Integral> >
+	auto range(Integral first, Integral last) noexcept -> iterator_range<detail::IntegralIterator<Integral>>
 	{
 		using Iter = detail::IntegralIterator<Integral>;
 		return iterator_range<Iter>(Iter(first), Iter(last));
@@ -397,7 +448,7 @@ namespace seq
 	/// @tparam Arithmetic arithmetic type
 	/// It is possible to provide a negative step, in which case first should be greater than last.
 	template<class Arithmetic, class = typename std::enable_if<std::is_arithmetic<Arithmetic>::value, void>::type>
-	auto range(Arithmetic first, Arithmetic last, Arithmetic step) noexcept -> iterator_range<detail::ArithmeticIterator<Arithmetic> >
+	auto range(Arithmetic first, Arithmetic last, Arithmetic step) noexcept -> iterator_range<detail::ArithmeticIterator<Arithmetic>>
 	{
 		using Iter = detail::ArithmeticIterator<Arithmetic>;
 		return iterator_range<Iter>(Iter(first, step), Iter(last, step));
@@ -427,16 +478,16 @@ namespace seq
 	}
 
 	template<class Iterable1, class Iterable2>
-	auto zip(const Iterable1& r1, const Iterable2 & r2) -> iterator_range<detail::ZipIterator<typename Iterable1::const_iterator, typename Iterable2::const_iterator>>
+	auto zip(const Iterable1& r1, const Iterable2& r2) -> iterator_range<detail::ZipIterator<typename Iterable1::const_iterator, typename Iterable2::const_iterator>>
 	{
 		using Iter1 = typename Iterable1::const_iterator;
 		using Iter2 = typename Iterable2::const_iterator;
 		using ZipIter = detail::ZipIterator<Iter1, Iter2>;
-		return iterator_range<ZipIter>(ZipIter(r1.begin(),r2.begin()), ZipIter(r1.end(), r2.end()));
+		return iterator_range<ZipIter>(ZipIter(r1.begin(), r2.begin()), ZipIter(r1.end(), r2.end()));
 	}
 
 	template<class Iterable>
-	auto cycle(const Iterable & r, size_t count) -> iterator_range<detail::NIteratorWrap<typename Iterable::const_iterator>>
+	auto cycle(const Iterable& r, size_t count) -> iterator_range<detail::NIteratorWrap<typename Iterable::const_iterator>>
 	{
 		using Iter = typename Iterable::const_iterator;
 		using IterCycle = detail::NIteratorWrap<Iter>;
@@ -444,23 +495,21 @@ namespace seq
 	}
 
 	template<class T>
-	auto repeat(T&& value, size_t count) -> iterator_range<detail::NIteratorRepeat<typename std::decay<T>::type> >
+	auto repeat(T&& value, size_t count) -> iterator_range<detail::NIteratorRepeat<typename std::decay<T>::type>>
 	{
 		using type = typename std::decay<T>::type;
-		using iter = detail::NIteratorRepeat < type>;
-		return  iterator_range < iter>(iter(std::forward<T&&>(value),0), iter(count));
+		using iter = detail::NIteratorRepeat<type>;
+		return iterator_range<iter>(iter(std::forward<T&&>(value), 0), iter(count));
 	}
 
 	template<class Iterable>
-	auto flatten(const Iterable & r) -> iterator_range <detail::FlattenPair<typename Iterable::const_iterator> >
+	auto flatten(const Iterable& r) -> iterator_range<detail::FlattenPair<typename Iterable::const_iterator>>
 	{
 		using Iter = typename Iterable::const_iterator;
 		using FlatIter = detail::FlattenPair<Iter>;
 		return iterator_range<FlatIter>(FlatIter(r.begin()), FlatIter(r.end()));
 	}
-	
 
-}//end namespace seq
-
+} // end namespace seq
 
 #endif

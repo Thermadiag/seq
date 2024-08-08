@@ -26,7 +26,6 @@
 
 #include "seq/sequence.hpp"
 #include "seq/tiered_vector.hpp"
-#include "seq/memory.hpp"
 #include "seq/testing.hpp"
 #include "tests.hpp"
 #include <list>

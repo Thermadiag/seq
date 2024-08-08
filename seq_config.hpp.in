@@ -22,50 +22,23 @@
  * SOFTWARE.
  */
 
-#ifndef SEQ_TRANSPOSE_H
-#define SEQ_TRANSPOSE_H
+#ifndef SEQ_CONFIG_HPP
+#define SEQ_CONFIG_HPP
 
-#include "simd.hpp"
-#include "../bits.hpp"
 
-#ifdef __SSE4_1__
+/** @file */
 
-namespace seq
-{
-	namespace detail
-	{
 
-		union alignas(16) hse_vector
-		{
-			char i8[16];
-			unsigned char u8[16];
-			unsigned short u16[8];
-			std::uint32_t u32[4];
-		};
+#define SEQ_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define SEQ_VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define SEQ_VERSION "@PROJECT_VERSION@"
 
-		static inline const __m128i& __get(const hse_vector& v) { return *reinterpret_cast<const __m128i*>(&v); }
-		static inline void __set(hse_vector& v, const __m128i& sse) { _mm_store_si128(reinterpret_cast<__m128i*>(&v), sse); }
+#define SEQ_DETECT_IS_HEADER_ONLY @PROJECT_HEADER_ONLY@
 
-		typedef hse_vector hse_array_type[16];
-
-	}
-}
-
-#ifndef SEQ_HEADER_ONLY
-namespace seq
-{
-	SEQ_EXPORT void transpose_16x16(const __m128i* in, __m128i* out);
-
-	SEQ_EXPORT void transpose_256_rows(const char* src, char* aligned_dst, unsigned BPP);
-	SEQ_EXPORT void transpose_inv_256_rows(const char* src, char* dst, unsigned BPP);
-
-	SEQ_EXPORT void transpose_generic(const char* src, char* dst, unsigned block_size, unsigned BPP);
-	SEQ_EXPORT void transpose_inv_generic(const char* src, char* dst, unsigned block_size, unsigned BPP);
-}
-#else
-#include "transpose.cpp"
+#if SEQ_DETECT_IS_HEADER_ONLY == 1
+	#ifndef SEQ_HEADER_ONLY
+		#define SEQ_HEADER_ONLY
+	#endif
 #endif
-
-#endif //__SSE4_1__
 
 #endif

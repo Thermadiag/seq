@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-
 #include "simd.hpp"
 
 #include <mutex>
@@ -31,13 +30,14 @@
 
 #include "Windows.h"
 //  Windows
-#define cpuid(info, x)    __cpuidex(info, x, 0)
+#define cpuid(info, x) __cpuidex(info, x, 0)
 
 #else
 
 //  GCC Intrinsics
 #include <cpuid.h>
-inline void cpuid(int info[4], int InfoType) {
+inline void cpuid(int info[4], int InfoType)
+{
 	__cpuid_count(InfoType, 0, info[0], info[1], info[2], info[3]);
 }
 
@@ -55,7 +55,7 @@ namespace seq
 {
 	namespace detail
 	{
-		SEQ_HEADER_ONLY_EXPORT_FUNCTION void compute_cpu_feature(CPUFeatures & features, bool & initialized)
+		SEQ_HEADER_ONLY_EXPORT_FUNCTION void compute_cpu_feature(CPUFeatures& features, bool& initialized)
 		{
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -73,7 +73,7 @@ namespace seq
 			int nIds = info[0];
 
 			cpuid(info, static_cast<int>(0x80000000));
-			unsigned nExIds = static_cast<unsigned>( info[0]);
+			unsigned nExIds = static_cast<unsigned>(info[0]);
 
 			//  Detect Features
 			if (nIds >= 0x00000001) {

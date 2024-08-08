@@ -4,29 +4,27 @@
 #include "../type_traits.hpp"
 #include <algorithm>
 
-
-#define SEQ_INLINE_BINARY_SEARCH 
-
+#define SEQ_INLINE_BINARY_SEARCH
 
 namespace seq
 {
 	namespace detail
 	{
-		template <class T, class = void>
-		struct has_comparable : std::false_type {};
+		template<class T, class = void>
+		struct has_comparable : std::false_type
+		{
+		};
 
-		template <class T>
-		struct has_comparable<T,
-			typename make_void<typename T::comparable>::type>
-			: std::true_type {};
+		template<class T>
+		struct has_comparable<T, typename make_void<typename T::comparable>::type> : std::true_type
+		{
+		};
 
-
-
-		template<class Key, bool Multi, bool Comparable, bool Branchless = std::is_arithmetic<Key>::value >
+		template<class Key, bool Multi, bool Comparable, bool Branchless = std::is_arithmetic<Key>::value>
 		struct lower_bound_internal
 		{
 			template<class T, class SizeType, class U, class Le>
-			static SEQ_INLINE_BINARY_SEARCH std::pair<SizeType,bool> apply(const T* ptr, SizeType size, const U& value, const Le& le)
+			static SEQ_INLINE_BINARY_SEARCH std::pair<SizeType, bool> apply(const T* ptr, SizeType size, const U& value, const Le& le)
 			{
 				// This unrolled and branchless variant is faster than std::lower_bound for arithmetic types.
 				// The end_of_probe value is selected so that the linear search part fits within a cache line.
@@ -47,13 +45,12 @@ namespace seq
 				size += low;
 				while (low < size && le(ptr[low], value))
 					++low;
-				return { low,false };
+				return { low, false };
 			}
-
 		};
 
 		template<class Key, bool Multi>
-		struct lower_bound_internal<Key,Multi, false, false>
+		struct lower_bound_internal<Key, Multi, false, false>
 		{
 			template<class T, class SizeType, class U, class Le>
 			static SEQ_INLINE_BINARY_SEARCH std::pair<SizeType, bool> apply(const T* ptr, SizeType size, const U& value, const Le& le)
@@ -69,11 +66,9 @@ namespace seq
 					else
 						count = half;
 				}
-				return { static_cast<SizeType>(p - ptr),false };
+				return { static_cast<SizeType>(p - ptr), false };
 			}
-
 		};
-
 
 		template<class Key, bool Multi>
 		struct lower_bound_internal<Key, Multi, true, false>
@@ -103,7 +98,7 @@ namespace seq
 					}
 					return { s, exact_match };
 				}
-				else {  // Not a multi-container.
+				else { // Not a multi-container.
 					while (s != e) {
 						const SizeType mid = (s + e) >> 1;
 						const int c = le.compare(ptr[mid], k);
@@ -117,13 +112,10 @@ namespace seq
 							return { mid, true };
 						}
 					}
-					return { s,false };
+					return { s, false };
 				}
 			}
-
 		};
-
-
 
 		template<bool Multi, class Key, class T, class SizeType, class U, class Le>
 		SEQ_INLINE_BINARY_SEARCH std::pair<SizeType, bool> lower_bound(const T* ptr, SizeType size, const U& k, const Le& le)
@@ -134,11 +126,10 @@ namespace seq
 		template<bool Multi, class Key, class T, class SizeType, class U, class Le>
 		SEQ_INLINE_BINARY_SEARCH SizeType upper_bound(const T* ptr, SizeType size, const U& k, const Le& le)
 		{
-			return lower_bound_internal<Key, Multi, false>::apply(ptr, size, k, [&le](const auto& a, const auto& b) {return !le(b, a); }).first;
+			return lower_bound_internal<Key, Multi, false>::apply(ptr, size, k, [&le](const auto& a, const auto& b) { return !le(b, a); }).first;
 		}
 
-	}//end detail
-}//end seq
-
+	} // end detail
+} // end seq
 
 #endif
