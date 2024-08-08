@@ -39,10 +39,9 @@ Currently, the *containers* module provide 5 types of containers:
 Content
 -------
 
-The library is divided in 7 small modules:
+The library is divided in 6 small modules:
 -	[bits](docs/bits.md): low-level bits manipulation utilities
 -	[hash](docs/hash.md): tiny hashing framework
--	[memory](docs/memory.md): allocators and memory pools mainly used for containers
 -	[charconv](docs/charconv.md): fast arithmetic to/from string conversion
 -	[format](docs/format.md): fast and type safe formatting tools
 -	[containers](docs/containers.md): main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector, compressed vector...
@@ -82,13 +81,14 @@ Even in header-only mode, you should use the cmake file for installation.
 
 Currently, the following options are provided:
 
--	HEADER_ONLY(OFF): header only version of the *seq* library
--	ENABLE_AVX2(ON): enable AVX2 support, usefull (but not mandatory) for `seq::radix_(map/set/hash_map/hash_set)` as well as `seq::cvector`
--	BUILD_TESTS(OFF): build all tests
--	BUILD_BENCHS(OFF): build all benchmarks
--	TEST_CVECTOR(ON): if building tests, add the `seq::cvector` class tests
+-	SEQ_ENABLE_AVX2(ON): enable AVX2 support, usefull (but not mandatory) for `seq::radix_(map/set/hash_map/hash_set)` as well as `seq::cvector`
+-	SEQ_BUILD_TESTS(OFF): build all tests
+-	SEQ_BUILD_BENCHS(OFF): build all benchmarks
+-	SEQ_TEST_CVECTOR(ON): if building tests, add the `seq::cvector` class tests
+-	SEQ_BUILD_SHARED(ON): build the shared version of seq library
+-	SEQ_BUILD_STATIC(ON): build the static version of seq library
 
-Note that for msvc build, AVX2 support is enabled by default. You should call cmake with `-DENABLE_AVX2=OFF` to disable it.
+Note that for msvc build, AVX2 support is enabled by default. You should call cmake with `-DSEQ_ENABLE_AVX2=OFF` to disable it.
 
 Using Seq library with CMake
 ----------------------------
