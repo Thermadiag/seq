@@ -93,38 +93,8 @@ Note that for msvc build, AVX2 support is enabled by default. You should call cm
 Using Seq library with CMake
 ----------------------------
 
-The follwing example shows how to use the *seq* library within a CMake project:
+This [cmake example](tests/test_cmake/CMakeLists.txt) shows how to use the *seq* library within a cmake project. It creates 3 targets using the shared seq library, the static one, and the header only mode.
 
-```cmake
-
-cmake_minimum_required(VERSION 3.8)
-
-# Dummy test project
-project(test)
-
-# Add sources
-add_executable(test test.cpp)
-
-# Find package seq
-find_package(seq REQUIRED)
-	
-# SEQ_FOUND is set to TRUE if found
-if(${SEQ_FOUND})
-	message(STATUS "Seq library found, version ${SEQ_VERSION}")
-endif()
-
-# Add include directory
-target_include_directories(test PRIVATE ${SEQ_INCLUDE_DIR})
-
-# Link with seq library if not header only
-if(DEFINED SEQ_LIBRARY)
-	# Add lib directory
-	target_link_directories(test PRIVATE ${SEQ_LIB_DIR})
-	# Add lib
-	target_link_libraries(test ${SEQ_LIBRARY} )
-endif()
-
-```
 
 Acknowledgements
 ----------------
