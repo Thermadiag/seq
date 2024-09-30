@@ -35,6 +35,7 @@
 #include <cstdio>
 #include <vector>
 #include <iostream>
+#include <list>
 
 using namespace seq;
 
