@@ -26,7 +26,6 @@
 #include <seq/tiny_string.hpp>
 #include <seq/testing.hpp>
 #include <seq/format.hpp>
-#include <seq/cvector.hpp>
 #include <seq/pdqsort.hpp>
 
 #include <unordered_set>
@@ -145,22 +144,6 @@ inline void test_sort_strings(size_t count = 1000000)
 		<< "|" << fmt(s2).c(30) << "|"
 		<< std::endl;
 
-	
-
-	cvector<t_string> cvec(vec.begin(), vec.end());
-	cvector<t_string> cvec_w(vec_w.begin(), vec_w.end());
-
-	std::cout << fmt(fmt("Compressed short string").c(40), "|", fmt("Compressed long string").c(40), "|") << std::endl;
-	std::cout << fmt(str().c(40).f('-'), "|", str().c(40).f('-'), "|") << std::endl;
-	s1 = test_sort2(cvec);
-	s2 = test_sort2(cvec_w);
-	std::cout << fmt(fmt(s1).c(40), "|", fmt(s2).c(40), "|") << std::endl;
-
-	std::sort(tvec.begin(), tvec.end());
-	std::sort(vec.begin(), vec.end());
-	std::sort(tvec_w.begin(), tvec_w.end());
-	std::sort(vec_w.begin(), vec_w.end());
-
 	SEQ_TEST(seq::equal(tvec.begin(), tvec.end(), vec.begin(), vec.end()) == true);
 	SEQ_TEST(seq::equal(tvec_w.begin(), tvec_w.end(), vec_w.begin(), vec_w.end()) == true);
 }
@@ -187,8 +170,8 @@ void test_push_back_vector(size_t count)
 
 	std::vector<std::string> vs; 
 	std::vector<tstring> vt; 
-	seq::devector<std::string, std::allocator<std::string>, OptimizeForPushBack> ds;
-	seq::devector<tstring, std::allocator<tstring>, OptimizeForPushBack> dt; 
+	seq::devector<std::string, std::allocator<std::string>> ds;
+	seq::devector<tstring, std::allocator<tstring>> dt; 
 	{
 		tick();
 		for (size_t i = 0; i < vec.size(); ++i)
@@ -837,7 +820,6 @@ void test_tstring_members(size_t count = 5000000)
 
 int bench_tiny_string(int, char** const)
 {
-	
 	/*using Char = char32_t;
 	using string = tiny_string<Char>;
 	using string1 = tiny_string<Char,std::char_traits<Char>,std::allocator<Char>, 0>;

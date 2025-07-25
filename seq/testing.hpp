@@ -46,6 +46,7 @@
 #include "bits.hpp"
 #include "utils.hpp"
 #include "charconv.hpp"
+#include "timer.hpp"
 
 #ifdef max
 #undef max
@@ -230,15 +231,9 @@ namespace seq
 			return static_cast<uint64_t>(duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count());
 		}
 
-		static inline std::chrono::time_point<std::chrono::steady_clock>& get_clock()
+		static inline timer& get_clock()
 		{
-			thread_local std::chrono::time_point<std::chrono::steady_clock> clock;
-			return clock;
-		}
-
-		static inline std::int64_t& get_msec_clock()
-		{
-			thread_local std::int64_t clock;
+			thread_local timer clock;
 			return clock;
 		}
 	}
@@ -246,24 +241,15 @@ namespace seq
 	/// @brief For tests only, reset timer for calling thread
 	inline void tick()
 	{
-#ifdef _MSC_VER
-		detail::get_clock() = std::chrono::steady_clock::now();
-#else
-		detail::get_msec_clock() = detail::msecs_since_epoch();
-#endif
+
+		detail::get_clock().tick();
+
 	}
 
 	/// @brief For tests only, returns elapsed milliseconds since last call to tick()
 	inline auto tock_ms() -> std::uint64_t
 	{
-#ifdef _MSC_VER
-		return static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - detail::get_clock()).count());
-#else
-		// on gcc/mingw, this is the noly workin way (??)
-		return detail::msecs_since_epoch() - detail::get_msec_clock();
-#endif
-		// return (std::chrono::system_clock::now().time_since_epoch().count() - detail::get_clock().time_since_epoch().count()) / 1000000LL;
-		//
+		return detail::get_clock().tock() / 1000000;
 	}
 
 	/// @brief Similar to C++11 (and deprecated) std::random_shuffle

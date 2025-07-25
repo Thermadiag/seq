@@ -139,7 +139,7 @@ void test_read_numeric(size_t count)
 	//test buffer_input_stream
 	tick();
 	sum = 0;
-	seq::buffer_input_stream in(str);
+	seq::buffer_input_stream<char> in(str);
 	while (in) {
 		type i;
 		seq::from_stream(in, i);
@@ -154,7 +154,7 @@ void test_read_numeric(size_t count)
 	tick();
 	sum = 0;
 	std::istringstream sin(str);
-	seq::std_input_stream<> seqin(sin);
+	seq::std_input_stream<char> seqin(sin);
 	while (seqin) {
 		type i;
 		seq::from_stream(seqin, i);
@@ -213,7 +213,7 @@ void test_read_numeric(size_t count)
 template<class T, seq::chars_format format, bool IsIntegral = std::is_integral<T>::value>
 struct Writer
 {
-	static seq::to_chars_result write(char * first, char * last, const T& v, int )
+	static auto write(char * first, char * last, const T& v, int )
 	{
 		return seq::to_chars(first, last, v);
 	}
@@ -221,7 +221,7 @@ struct Writer
 template<class T, seq::chars_format format>
 struct Writer<T,format,false>
 {
-	static seq::to_chars_result write(char* first, char* last, const T& v, int precision)
+	static auto write(char* first, char* last, const T& v, int precision)
 	{
 		return seq::to_chars(first, last, v, format, precision);
 	}

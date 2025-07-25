@@ -110,52 +110,52 @@ namespace seq
 		static constexpr std::uintptr_t mask_low = static_cast<std::uintptr_t>(((1ULL << tag_bits) - 1ULL));
 
 		/// @brief Construct from pointer
-		tagged_pointer(T* ptr = nullptr) noexcept
+		SEQ_ALWAYS_INLINE tagged_pointer(T* ptr = nullptr) noexcept
 		  : d_ptr(reinterpret_cast<std::uintptr_t>(ptr))
 		{
 		}
 		/// @brief Construct from pointer and tag
-		tagged_pointer(T* ptr, tag_type t) noexcept
+		SEQ_ALWAYS_INLINE tagged_pointer(T* ptr, tag_type t) noexcept
 		  : d_ptr(reinterpret_cast<std::uintptr_t>(ptr) | (t & mask_low))
 		{
 		}
 		/// @brief Returns the pointer
-		auto ptr() noexcept -> pointer { return reinterpret_cast<T*>(d_ptr & mask_high); }
+		SEQ_ALWAYS_INLINE auto ptr() noexcept -> pointer { return reinterpret_cast<T*>(d_ptr & mask_high); }
 		/// @brief Returns the pointer
-		auto ptr() const noexcept -> const_pointer { return reinterpret_cast<T*>(d_ptr & mask_high); }
+		SEQ_ALWAYS_INLINE auto ptr() const noexcept -> const_pointer { return reinterpret_cast<T*>(d_ptr & mask_high); }
 		/// @brief Returns the tag
-		auto tag() const noexcept -> tag_type { return d_ptr & mask_low; }
+		SEQ_ALWAYS_INLINE auto tag() const noexcept -> tag_type { return d_ptr & mask_low; }
 
 		/// @brief Set the pointer value
-		void set_ptr(pointer ptr) noexcept { d_ptr = tag() | reinterpret_cast<std::uintptr_t>(ptr); }
+		SEQ_ALWAYS_INLINE void set_ptr(pointer ptr) noexcept { d_ptr = tag() | reinterpret_cast<std::uintptr_t>(ptr); }
 		/// @brief Set the tag value
-		auto set_tag(tag_type tag) noexcept -> tag_type
+		SEQ_ALWAYS_INLINE auto set_tag(tag_type tag) noexcept -> tag_type
 		{
 			d_ptr = tag | (d_ptr & mask_high);
 			return tag;
 		}
 
-		void set(pointer ptr, tag_type tag) noexcept { d_ptr = reinterpret_cast<std::uintptr_t>(ptr) | (tag & mask_low); }
+		SEQ_ALWAYS_INLINE void set(pointer ptr, tag_type tag) noexcept { d_ptr = reinterpret_cast<std::uintptr_t>(ptr) | (tag & mask_low); }
 
-		auto full() const noexcept -> std::uintptr_t { return d_ptr; }
-		std::uintptr_t set_full(std::uintptr_t p) noexcept { return d_ptr = p; }
+		SEQ_ALWAYS_INLINE auto full() const noexcept -> std::uintptr_t { return d_ptr; }
+		SEQ_ALWAYS_INLINE std::uintptr_t set_full(std::uintptr_t p) noexcept { return d_ptr = p; }
 
-		auto split() const noexcept -> std::pair<const T*, unsigned> { return std::pair<const T*, unsigned>(ptr(), tag()); }
-		auto split() noexcept -> std::pair<T*, unsigned> { return std::pair<T*, unsigned>(ptr(), tag()); }
+		SEQ_ALWAYS_INLINE auto split() const noexcept -> std::pair<const T*, unsigned> { return std::pair<const T*, unsigned>(ptr(), tag()); }
+		SEQ_ALWAYS_INLINE auto split() noexcept -> std::pair<T*, unsigned> { return std::pair<T*, unsigned>(ptr(), tag()); }
 
 		/// @brief cast operator to pointer
-		operator pointer() noexcept { return ptr(); }
+		SEQ_ALWAYS_INLINE operator pointer() noexcept { return ptr(); }
 		/// @brief cast operator to pointer
-		operator const_pointer() const noexcept { return ptr(); }
+		SEQ_ALWAYS_INLINE operator const_pointer() const noexcept { return ptr(); }
 
 		/// @brief Returns the pointer
-		auto operator->() noexcept -> pointer { return ptr(); }
+		SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return ptr(); }
 		/// @brief Returns the pointer
-		auto operator->() const noexcept -> const_pointer { return ptr(); }
+		SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const_pointer { return ptr(); }
 		/// @brief Returns a reference to the pointed value
-		auto operator*() noexcept -> reference { return *ptr(); }
+		SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference { return *ptr(); }
 		/// @brief Returns a reference to the pointed value
-		auto operator*() const noexcept -> const_reference { return *ptr(); }
+		SEQ_ALWAYS_INLINE auto operator*() const noexcept -> const_reference { return *ptr(); }
 	};
 
 	template<TagPointerType Type, size_t UserDefinedAlignment>
@@ -180,35 +180,35 @@ namespace seq
 		static constexpr std::uintptr_t mask_high = static_cast<std::uintptr_t>(~((1ULL << tag_bits) - 1ULL));
 		static constexpr std::uintptr_t mask_low = static_cast<std::uintptr_t>(((1ULL << tag_bits) - 1ULL));
 
-		tagged_pointer(void* ptr = nullptr) noexcept
+		SEQ_ALWAYS_INLINE tagged_pointer(void* ptr = nullptr) noexcept
 		  : d_ptr(reinterpret_cast<std::uintptr_t>(ptr))
 		{
 		}
-		tagged_pointer(void* ptr, tag_type t) noexcept
+		SEQ_ALWAYS_INLINE tagged_pointer(void* ptr, tag_type t) noexcept
 		  : d_ptr(reinterpret_cast<std::uintptr_t>(ptr) | (t & mask_low))
 		{
 		}
-		auto ptr() noexcept -> pointer { return reinterpret_cast<void*>(d_ptr & mask_high); }
-		auto ptr() const noexcept -> const_pointer { return reinterpret_cast<void*>(d_ptr & mask_high); }
-		auto tag() const noexcept -> tag_type { return d_ptr & mask_low; }
-		void set_ptr(pointer ptr) noexcept { d_ptr = tag() | reinterpret_cast<tag_type>(ptr); }
-		auto set_tag(tag_type tag) noexcept -> tag_type
+		SEQ_ALWAYS_INLINE auto ptr() noexcept -> pointer { return reinterpret_cast<void*>(d_ptr & mask_high); }
+		SEQ_ALWAYS_INLINE auto ptr() const noexcept -> const_pointer { return reinterpret_cast<void*>(d_ptr & mask_high); }
+		SEQ_ALWAYS_INLINE auto tag() const noexcept -> tag_type { return d_ptr & mask_low; }
+		SEQ_ALWAYS_INLINE void set_ptr(pointer ptr) noexcept { d_ptr = tag() | reinterpret_cast<tag_type>(ptr); }
+		SEQ_ALWAYS_INLINE auto set_tag(tag_type tag) noexcept -> tag_type
 		{
 			d_ptr = tag | (d_ptr & mask_high);
 			return tag;
 		}
-		void set(pointer ptr, tag_type tag) noexcept { d_ptr = reinterpret_cast<std::uintptr_t>(ptr) | (tag & mask_low); }
-		auto full() const noexcept -> std::uintptr_t { return d_ptr; }
-		auto rfull() noexcept -> std::uintptr_t& { return d_ptr; }
-		std::uintptr_t set_full(std::uintptr_t p) noexcept { return d_ptr = p; }
+		SEQ_ALWAYS_INLINE void set(pointer ptr, tag_type tag) noexcept { d_ptr = reinterpret_cast<std::uintptr_t>(ptr) | (tag & mask_low); }
+		SEQ_ALWAYS_INLINE auto full() const noexcept -> std::uintptr_t { return d_ptr; }
+		SEQ_ALWAYS_INLINE auto rfull() noexcept -> std::uintptr_t& { return d_ptr; }
+		SEQ_ALWAYS_INLINE std::uintptr_t set_full(std::uintptr_t p) noexcept { return d_ptr = p; }
 
-		auto split() const noexcept -> std::pair<const void*, unsigned> { return std::pair<const void*, unsigned>(ptr(), tag()); }
-		auto split() noexcept -> std::pair<void*, unsigned> { return std::pair<void*, unsigned>(ptr(), tag()); }
+		SEQ_ALWAYS_INLINE auto split() const noexcept -> std::pair<const void*, unsigned> { return std::pair<const void*, unsigned>(ptr(), tag()); }
+		SEQ_ALWAYS_INLINE auto split() noexcept -> std::pair<void*, unsigned> { return std::pair<void*, unsigned>(ptr(), tag()); }
 
-		operator pointer() noexcept { return ptr(); }
-		operator const_pointer() const noexcept { return ptr(); }
-		auto operator->() noexcept -> pointer { return ptr(); }
-		auto operator->() const noexcept -> const_pointer { return ptr(); }
+		SEQ_ALWAYS_INLINE operator pointer() noexcept { return ptr(); }
+		SEQ_ALWAYS_INLINE operator const_pointer() const noexcept { return ptr(); }
+		SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return ptr(); }
+		SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const_pointer { return ptr(); }
 	};
 
 }

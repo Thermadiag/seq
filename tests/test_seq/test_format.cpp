@@ -49,22 +49,26 @@ namespace seq
 
 		// The specialization must provide this member:
 
-		size_t to_string(std::string& out) const
+		template<class Out>
+		size_t to_string(Out& out) const
 		{
+			using Char = typename character_type<Out>::type;
 			size_t prev = out.size();
 
-			out.append("(");
+			out.push_back((Char)'(');
 			// Format the first member of the pair using the internal numeric format
-			ostream_format<T>(this->value().first, this->numeric_fmt()).append(out);
-			out.append(", ");
+			fmt(this->value().first).set_numeric_format(this->numeric_fmt()).append(out);
+			out.push_back((Char)',');
+			out.push_back((Char)' ');
 			// Format the second member of the pair using the internal numeric format
-			ostream_format<T>(this->value().second, this->numeric_fmt()).append(out);
-			out.append(")");
+			fmt(this->value().second).set_numeric_format(this->numeric_fmt()).append(out);
+			out.push_back((Char)')');
 
 			return out.size() - prev;
 		}
 	};
 }
+
 
 
 inline void test_format()
@@ -74,7 +78,7 @@ inline void test_format()
 
 	const double PI = 3.14159265358979323846;
 
-	{
+	{ 
 		// Test formatting single values
 
 		SEQ_TEST_TO_OSTREAM("3.14159", fmt(PI)); //default double formatting

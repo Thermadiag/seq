@@ -457,36 +457,26 @@ namespace seq
 			}
 		};
 
-		// Build a std::pair or Key value from forwarded arguments
-		template<class T, class... Args>
+		/// @brief Build value from any kind of argument,
+		/// used by emplace() member of containers 
+		template<class T, bool IsTransparent>
 		struct BuildValue
 		{
-			using type = T;
-			SEQ_ALWAYS_INLINE static T build(Args&&... args) { return T(std::forward<Args>(args)...); }
-		};
-		template<class T>
-		struct BuildValue<T, T>
-		{
-			using type = const T&;
-			SEQ_ALWAYS_INLINE static const T& build(const T& v) { return v; }
-		};
-		template<class T>
-		struct BuildValue<T, T&>
-		{
-			using type = const T&;
-			SEQ_ALWAYS_INLINE static const T& build(const T& v) { return v; }
-		};
-		template<class T>
-		struct BuildValue<T, T&&>
-		{
-			using type = T&&;
-			SEQ_ALWAYS_INLINE static T&& build(T&& v) { return std::move(v); }
-		};
-		template<class T>
-		struct BuildValue<T, const T&>
-		{
-			using type = const T&;
-			SEQ_ALWAYS_INLINE static const T& build(const T& v) { return v; }
+			template<class U>
+			static auto make(U&& u) -> typename std::enable_if<IsTransparent, U&&>::type
+			{
+				// For one argument and transparency: perfect forwarding
+				return std::forward<U>(u);
+			}
+			template<class... Args>
+			static SEQ_ALWAYS_INLINE T make(Args&&... args)
+			{
+				// For several arguments or no transparency: construct from args
+				return T(std::forward<Args>(args)...);
+			}
+			static SEQ_ALWAYS_INLINE T&& make(T&& val) noexcept { return std::move(val); }
+			static SEQ_ALWAYS_INLINE const T& make(const T& val) noexcept { return val; }
+			static SEQ_ALWAYS_INLINE T& make(T& val) noexcept { return val; }
 		};
 
 		// Helper class to detect is_transparent typedef in hash functor or comparison functor
@@ -498,6 +488,16 @@ namespace seq
 
 		template<class T>
 		struct has_is_transparent<T, typename make_void<typename T::is_transparent>::type> : std::true_type
+		{
+		};
+
+		template<class T, class = void>
+		struct has_is_avalanching : std::false_type
+		{
+		};
+
+		template<class T>
+		struct has_is_avalanching<T, typename make_void<typename T::is_avalanching>::type> : std::true_type
 		{
 		};
 

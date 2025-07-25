@@ -38,17 +38,9 @@
 
 namespace seq
 {
-	/// @brief Flag indicating whether the devector is optimized for back insertion, front insertion or both.
-	enum DEVectorFlag
-	{
-		OptimizeForPushBack,
-		OptimizeForPushFront,
-		OptimizeForBothEnds
-	};
-
 	namespace detail
 	{
-		template<class T, class Allocator, DEVectorFlag flag>
+		template<class T, class Allocator>
 		struct DEVectorData : private Allocator
 		{
 			// internal devector implementation
@@ -78,12 +70,37 @@ namespace seq
 				other.data = other.start = other.end = nullptr;
 				other.capacity = 0;
 			}
-			/*DEVectorData(DEVectorData&& other, const Allocator& al)
-				: Allocator(al), data(other.data), start(other.start), end(other.end), capacity(other.capacity) {
-				other.data = other.start = other.end = nullptr;
-				other.capacity = 0;
-			}*/
-			~DEVectorData()
+
+			DEVectorData(const DEVectorData& other, const Allocator& al)
+			  : Allocator(al)
+			  , data(nullptr)
+			  , start(nullptr)
+			  , end(nullptr)
+			  , capacity(0)
+			{
+				size_t size = capacity = static_cast<size_t>(other.end - other.start);
+				if (size) {
+					data = start = allocate(size);
+					end = start + size;
+					
+					if SEQ_CONSTEXPR(std::is_trivial<T>::value)
+						memcpy(data, other.start, size * sizeof(T));
+					else {
+						size_t i = 0;
+						try {
+							for (; i != size; ++i)
+								construct_ptr(data + i, other.start[i]);
+						}
+						catch (...) {
+							destroy_range(data, data + i);
+							deallocate(data, size);
+							throw;
+						}
+					}
+				}
+			}
+
+			~DEVectorData() noexcept
 			{
 				destroy_range(start, end);
 				deallocate(data, capacity);
@@ -101,7 +118,7 @@ namespace seq
 			void destroy_range(T* begin, T* en)
 			{
 				// destroy values in the range [begin,end)
-				if (!std::is_trivially_destructible<T>::value) {
+				if SEQ_CONSTEXPR (!std::is_trivially_destructible<T>::value) {
 					for (T* p = begin; p != en; ++p)
 						destroy_ptr(p);
 				}
@@ -133,7 +150,7 @@ namespace seq
 
 				static constexpr bool noexcept_move = std::is_nothrow_move_constructible<T>::value;
 
-				if (relocatable)
+				if SEQ_CONSTEXPR (relocatable)
 					memcpy(static_cast<void*>(dst), static_cast<void*>(first), static_cast<size_t>(last - first) * sizeof(T));
 				else {
 					T* saved = first;
@@ -264,6 +281,8 @@ namespace seq
 					deallocate(_new, size);
 					throw;
 				}
+				deallocate(data, capacity);
+
 				data = _new;
 				start = _new;
 				capacity = size;
@@ -278,7 +297,7 @@ namespace seq
 
 				size_t size = static_cast<size_t>(end - start);
 				T* _new = allocate(new_capacity);
-				T* _new_start = flag == OptimizeForPushBack ? _new : flag == OptimizeForPushFront ? _new + new_capacity - size : (_new + (new_capacity - size) / 2);
+				T* _new_start = _new + (start - data); // keep previous left position
 				T* _new_end = _new_start + size;
 
 				try {
@@ -311,7 +330,7 @@ namespace seq
 
 				if (required_capacity <= capacity) {
 					// move data
-					T* _new_start = flag == OptimizeForPushBack ? data : data + capacity - required_capacity;
+					T* _new_start = data + capacity - required_capacity;
 					move_destroy_input(start, end, _new_start);
 					start = _new_start;
 					end = start + size;
@@ -345,7 +364,7 @@ namespace seq
 
 				if (required_capacity <= capacity) {
 					// move data
-					T* _new_start = flag == OptimizeForPushFront ? data + capacity - size : data + new_front_capacity;
+					T* _new_start = data + new_front_capacity;
 					move_destroy_input(start, end, _new_start);
 					start = _new_start;
 					end = start + size;
@@ -390,9 +409,7 @@ namespace seq
 						// reallocate, might throw, fine
 						size_t _new_capacity = new_size;
 						T* _new = allocate(_new_capacity);
-						T* _new_start = flag == OptimizeForPushBack    ? _new
-								: flag == OptimizeForPushFront ? _new + _new_capacity - new_size
-											       : (_new + (_new_capacity - new_size) / 2);
+						T* _new_start = (_new + (_new_capacity - new_size) / 2); // good balance: leave as much space at the left and the right
 						T* _new_end = _new_start + new_size;
 
 						try {
@@ -450,9 +467,7 @@ namespace seq
 						// reallocate, might throw, fine
 						size_t _new_capacity = new_size;
 						T* _new = allocate(_new_capacity);
-						T* _new_start = flag == OptimizeForPushBack    ? _new
-								: flag == OptimizeForPushFront ? _new + _new_capacity - new_size
-											       : (_new + (_new_capacity - new_size) / 2);
+						T* _new_start = (_new + (_new_capacity - new_size) / 2); // good balance: leave as much space at the left and the right
 						T* _new_end = _new_start + new_size;
 
 						try {
@@ -482,8 +497,8 @@ namespace seq
 					start = _new_start;
 				}
 			}
-
-			void grow_back()
+			template<class... Args>
+			void grow_back(Args&&... args) 
 			{
 				// Strong exception guarantee if move constructor and move assignation operator are noexcept
 				// Otherwise basic exception guarantee
@@ -492,35 +507,40 @@ namespace seq
 				SEQ_ASSERT_DEBUG(end == data + capacity, "");
 
 				size_t size = static_cast<size_t>(end - start);
-				size_t remaining_front = static_cast<size_t>(start - data);
 
-				// Check if we have enough space at the front to move data
-				if (remaining_front)
-					if (remaining_front > size / SEQ_DEVECTOR_SIZE_LIMIT || flag == OptimizeForPushFront) {
-						// Move data toward the front
-						T* new_start = flag == OptimizeForPushBack ? data : flag == OptimizeForBothEnds ? (data + remaining_front / 2) : start;
-						if (new_start == start)
-							--new_start;
-						move_destroy_input(start, end, new_start);
-						start = new_start;
-						end = start + size;
-						return;
-					}
+				if (static_cast<size_t>(start - data) > size)
+				{
+					// Front capacity is greater than current size:
+					// move data to front
+					copy_destroy_input(start, end, data);
+					start = data;
+					end = data + size;
+					construct_ptr(end, std::forward<Args>(args)...);
+					return;
+				}
 
 				// reallocate
 				size_t new_capacity = grow_capacity();
 				T* _new = allocate(new_capacity);
-				T* _new_start = flag == OptimizeForPushBack ? _new : flag == OptimizeForPushFront ? _new + new_capacity - size : (_new + (new_capacity - size) / 2);
+				T* _new_start = _new + (start - data); // keep previous left position
 				if (_new_start + size == _new + new_capacity)
 					--_new_start;
 				T* _new_end = _new_start + size;
 
 				try {
-
+					try {
+						new (_new_end) T(std::forward<Args>(args)...);
+					}
+					catch (...) {
+						_new_end = nullptr;
+						throw;
+					}
 					// copy from old to new
 					copy_destroy_input(start, end, _new_start);
 				}
 				catch (...) {
+					if (_new_end)
+						destroy_ptr(_new_end);
 					deallocate(_new, new_capacity);
 					throw;
 				}
@@ -532,8 +552,8 @@ namespace seq
 				end = _new_end;
 				capacity = new_capacity;
 			}
-
-			void grow_front()
+			template<class... Args>
+			void grow_front(Args&&... args)
 			{
 				// Strong exception guarantee if move constructor and move assignation operator are noexcept
 				// Otherwise basic exception guarantee
@@ -542,35 +562,42 @@ namespace seq
 				SEQ_ASSERT_DEBUG(start == data, "");
 
 				size_t size = static_cast<size_t>(end - start);
-				size_t remaining_back = static_cast<size_t>((data + capacity) - end);
 
-				// Check if we have enough space at the front to move data
-				if (remaining_back)
-					if (remaining_back > size / SEQ_DEVECTOR_SIZE_LIMIT || flag == OptimizeForPushBack) {
-						// Move data toward the back
-						T* new_start = flag == OptimizeForPushBack ? data : flag == OptimizeForBothEnds ? (data + remaining_back / 2) : start;
-						if (new_start == start)
-							++new_start;
-						move_destroy_input(start, end, new_start);
-						start = new_start;
-						end = start + size;
-						return;
-					}
-
+				if (static_cast<size_t>((capacity - size)) > size) {
+					// Back capacity is greater than current size:
+					// move data to back
+					copy_destroy_input(start, end, data + (capacity - size));
+					start = data + (capacity - size);
+					end = data + capacity;
+					construct_ptr(start-1, std::forward<Args>(args)...);
+					return;
+				}
+				
 				// reallocate
 				size_t new_capacity = grow_capacity();
 				T* _new = allocate(new_capacity);
-				T* _new_start = flag == OptimizeForPushBack ? _new : flag == OptimizeForPushFront ? _new + new_capacity - size : (_new + (new_capacity - size) / 2);
+				T* _new_start =
+				  _new +
+				  (new_capacity -
+				   ((data + capacity) - start));// keep previous right position 
 				if (_new_start == _new)
 					++_new_start;
 				T* _new_end = _new_start + size;
 
 				try {
-
+					try {
+						new (_new_start - 1) T(std::forward<Args>(args)...);
+					}
+					catch (...) {
+						_new_start = nullptr;
+						throw;
+					}
 					// copy from old to new
 					copy_destroy_input(start, end, _new_start);
 				}
 				catch (...) {
+					if (_new_start)
+						destroy_ptr(_new_start - 1);
 					deallocate(_new, new_capacity);
 					throw;
 				}
@@ -588,7 +615,6 @@ namespace seq
 	/// @brief Double-ending vector implementation which can be optimized for several use case.
 	/// @tparam T value type
 	/// @tparam Allocator allocator type
-	/// @tparam flag optimization flag
 	///
 	/// seq::devector is a double-ending vector class that mixes the behavior and performances of std::deque and std::vector.
 	/// Elements are stored in a contiguous memory chunk exatcly like a vector, but might contain free space at the front in addition to free
@@ -607,43 +633,11 @@ namespace seq
 	///
 	/// seq::devector is used by seq::tiered_vector for bucket storage.
 	///
-	/// Optimization flags
-	/// ------------------
 	///
-	/// devector can be configured with the following flags:
-	///		-	OptimizeForPushBack: the devector behaves like a std::vector, adding free space at the back based on the growth factor SEQ_GROW_FACTOR.
-	///			In this case, inserting elements at the front is as slow as for std::vector as it require to move all elements toward the back.
-	///		-	OptimizeForPushFront: the devector adds free space at the front based on the growth factor SEQ_GROW_FACTOR. Inserting elements at the front
-	///			is amortized O(1), inserting at the back is O(N).
-	///		-	OptimizeForBothEnds (default): the devector has as many free space at the back and the front. Both push_back() and push_front() behave in amortized O(1).
-	///			When the memory storage grows (by a factor of SEQ_GROW_FACTOR), the elements are moved to the middle of the storage, leaving as much space at the front and the back.
-	///			When inserting an element at the back, several scenarios are checked (this is similar for front insertion):
-	///				-#	Free slots are available at the back and the element is inserted there.
-	///				-#	The devector does not have available slots at the back or the front, a new chunk of memory of size size()*SEQ_GROW_FACTOR is allocated,
-	///				elements are moved to this new memory location (leaving the same capacity at the back and the front) and the new element is inserted at the back.
-	///				-#	The devector does not have enough capacity at the back, but has free capacity at the front. In this case, there are 2 possibilities:
-	///					1.	front capacity is greater than size() / __SEQ_DEVECTOR_SIZE_LIMIT: elements are moved toward the front, leaving the same capacity at the back and the
-	///front. 					The new element is then inserted at the back. 					2.	front capacity is lower or equal to size() / __SEQ_DEVECTOR_SIZE_LIMIT: a new chunk is allocated like in b). By default,
-	///__SEQ_DEVECTOR_SIZE_LIMIT is set to 16.
-	///					__SEQ_DEVECTOR_SIZE_LIMIT can be adjusted to provide a different trade-off between insertion speed and memory usage.
-	///
-	///
-	/// Performances
-	/// ------------
-	///
-	/// Internal benchmarks show that devector is as fast as std::vector when inserting at the back with OptimizeForPushBack, or inserting at the front with OptimizeForPushFront.
-	/// Using OptimizeForBothEnds makes insertion at both ends usually twice as slow as back insertion for std::vector.
-	///
-	/// seq::devector is faster than std::vector for relocatable types (where seq::is_relocatable<T>::value is true) as memcpy and memmove can be used instead of std::copy or std::move on
-	/// reallocation.
-	///
-	/// Inserting a new element in the middle of a devector is on average twice as fast as on std::vector, since the values can be pushed to either ends, whichever is faster (at least with
-	/// OptimizeForBothEnds).
-	///
-	template<class T, class Allocator = std::allocator<T>, DEVectorFlag flag = OptimizeForBothEnds>
-	class devector : private detail::DEVectorData<T, Allocator, flag>
+	template<class T, class Allocator = std::allocator<T>>
+	class devector : private detail::DEVectorData<T, Allocator>
 	{
-		using base_type = detail::DEVectorData<T, Allocator, flag>;
+		using base_type = detail::DEVectorData<T, Allocator>;
 
 	public:
 		using value_type = T;
@@ -700,17 +694,15 @@ namespace seq
 		/// @brief Copy constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
 		devector(const devector& other)
-		  : base_type(copy_allocator(other.get_allocator()))
+		  : base_type(other, copy_allocator(other.get_allocator()))
 		{
-			assign(other.begin(), other.end());
 		}
 		/// @brief Copy constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
 		/// @param alloc allocator to use for all memory allocations of this container
 		devector(const devector& other, const Allocator& alloc)
-		  : base_type(alloc)
+		  : base_type(other, alloc)
 		{
-			assign(other.begin(), other.end());
 		}
 		/// @brief Move constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
@@ -744,21 +736,21 @@ namespace seq
 		~devector() { clear(); }
 
 		/// @brief Returns the container size
-		auto size() const noexcept -> size_t { return static_cast<size_t>(this->base_type::end - this->start); }
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return static_cast<size_t>(this->base_type::end - this->start); }
 		/// @brief Returns the container full capacity (back_capacity() + size() + front_capacity())
-		auto capacity() const noexcept -> size_t { return this->base_type::capacity; }
+		SEQ_ALWAYS_INLINE auto capacity() const noexcept -> size_t { return this->base_type::capacity; }
 		/// @brief Returns the container back capacity
-		auto back_capacity() const noexcept -> size_t { return this->data + capacity() - this->base_type::end; }
+		SEQ_ALWAYS_INLINE auto back_capacity() const noexcept -> size_t { return this->data + capacity() - this->base_type::end; }
 		/// @brief Returns the container front capacity
-		auto front_capacity() const noexcept -> size_t { return this->start - this->data; }
+		SEQ_ALWAYS_INLINE auto front_capacity() const noexcept -> size_t { return this->start - this->data; }
 		/// @brief Returns the container maximum size
-		auto max_size() const noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
 		/// @brief Returns true if the container is empty, false otherwise
-		auto empty() const noexcept -> bool { return this->base_type::end == this->start; }
+		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return this->base_type::end == this->start; }
 		/// @brief Returns the container allocator object
-		auto get_allocator() noexcept -> Allocator& { return this->base_type::get_allocator(); }
+		SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return this->base_type::get_allocator(); }
 		/// @brief Returns the container allocator object
-		auto get_allocator() const -> const Allocator& { return this->base_type::get_allocator(); }
+		SEQ_ALWAYS_INLINE auto get_allocator() const -> const Allocator& { return this->base_type::get_allocator(); }
 
 		/// @brief Clear the container, but does not deallocate the storage
 		void clear() noexcept { this->base_type::clear(); }
@@ -772,25 +764,17 @@ namespace seq
 		/// Invalidate all references and iterators if back_capacity() == 0.
 		/// @param value value to insert
 		SEQ_ALWAYS_INLINE void push_back(const T& value)
-		{
-			if (SEQ_UNLIKELY(this->base_type::end == this->base_type::data + capacity()))
-				this->grow_back();
-
-			construct_ptr(this->base_type::end, value);
-			++this->base_type::end;
+		{ 
+			emplace_back(value);
 		}
 		/// @brief Insert an element at the back of the container using move semantic.
 		/// The complexity is amortized O(1) for OptimizeForPushBack and OptimizeForBothEnds, O(N) for OptimizeForPushFront.
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if back_capacity() == 0.
 		/// @param value value to insert
-		SEQ_ALWAYS_INLINE void push_back(T&& value)
-		{
-			if (SEQ_UNLIKELY(this->base_type::end == this->base_type::data + capacity()))
-				this->grow_back();
-
-			construct_ptr(this->base_type::end, std::move(value));
-			++this->base_type::end;
+		SEQ_ALWAYS_INLINE void push_back(T&& value) 
+		{ 
+			emplace_back(std::move(value));
 		}
 		/// @brief Appends a new element to the end of the container.
 		/// The element is constructed through std::allocator_traits::construct, which typically uses placement-new to construct the element in-place at the location provided by the container.
@@ -801,51 +785,45 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_back(Args&&... args) -> reference
 		{
-			if (SEQ_UNLIKELY(this->base_type::end == this->base_type::data + capacity()))
-				this->grow_back();
-			construct_ptr(this->base_type::end, std::forward<Args>(args)...);
+			if SEQ_UNLIKELY(this->base_type::end == this->base_type::data + capacity())
+				this->grow_back(std::forward<Args>(args)...);
+			else
+				construct_ptr(this->base_type::end, std::forward<Args>(args)...);
 			++this->base_type::end;
 			return *(this->base_type::end - 1);
 		}
 
 		/// @brief Insert an element at the front of the container.
-		/// The complexity is amortized O(1) for OptimizeForPushFront and OptimizeForBothEnds, O(N) for OptimizeForPushBack.
+		/// The complexity is amortized O(1) .
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if front_capacity() == 0.
 		/// @param value value to insert
 		SEQ_ALWAYS_INLINE void push_front(const T& value)
-		{
-			if (SEQ_UNLIKELY(this->start == this->base_type::data))
-				this->grow_front();
-
-			construct_ptr(this->start - 1, value);
-			--this->start;
+		{ 
+			emplace_front(value);
 		}
 		/// @brief Insert an element at the front of the container using move semantic.
-		/// The complexity is amortized O(1) for OptimizeForPushFront and OptimizeForBothEnds, O(N) for OptimizeForPushBack.
+		/// The complexity is amortized O(1) .
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if front_capacity() == 0.
 		/// @param value value to insert
-		SEQ_ALWAYS_INLINE void push_front(T&& value)
-		{
-			if (SEQ_UNLIKELY(this->start == this->base_type::data))
-				this->grow_front();
-
-			construct_ptr(this->start - 1, std::move(value));
-			--this->start;
+		SEQ_ALWAYS_INLINE void push_front(T&& value) 
+		{ 
+			emplace_front(std::move(value));
 		}
 		/// @brief Appends a new element to the front of the container.
 		/// The element is constructed through std::allocator_traits::construct, which typically uses placement-new to construct the element in-place at the location provided by the container.
 		/// The arguments args... are forwarded to the constructor as std::forward<Args>(args)....
-		/// The complexity is amortized O(1) for OptimizeForPushFront and OptimizeForBothEnds, O(N) for OptimizeForPushBack.
+		/// The complexity is amortized O(1).
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// Invalidate all references and iterators if front_capacity() == 0.
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_front(Args&&... args) -> reference
 		{
-			if (SEQ_UNLIKELY(this->start == this->base_type::data))
-				this->grow_front();
-			construct_ptr(this->start - 1, std::forward<Args>(args)...);
+			if SEQ_UNLIKELY(this->start == this->base_type::data)
+				this->grow_front(std::forward<Args>(args)...);
+			else
+				construct_ptr(this->start - 1, std::forward<Args>(args)...);
 			--this->start;
 			return *this->start;
 		}
@@ -866,9 +844,13 @@ namespace seq
 
 			if (dist < size() / 2) {
 				// insert on the left side
+				T tmp = T(std::forward<Args>(args)...); //handle aliasing
 				emplace_front();
-				std::move(begin() + 1, begin() + 1 + dist, begin());
-				*(begin() + dist) = T(std::forward<Args>(args)...);
+				if (std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value)
+					memmove(begin(), begin() + 1, dist * sizeof(T));
+				else
+					std::move(begin() + 1, begin() + 1 + dist, begin());
+				*(begin() + dist) = std::move(tmp);
 			}
 			else {
 				// insert on the right side
@@ -990,14 +972,14 @@ namespace seq
 
 		/// @brief Removes the last element of the container
 		/// Iterators and references to the last element, as well as the end() iterator, are invalidated.
-		void pop_back() noexcept
+		SEQ_ALWAYS_INLINE void pop_back() noexcept
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "pop_back() on empty devector");
 			destroy_ptr(--this->base_type::end);
 		}
 		/// @brief Removes the first element of the container
 		/// Iterators and references to the first element are invalidated.
-		void pop_front() noexcept
+		SEQ_ALWAYS_INLINE void pop_front() noexcept
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "pop_front() on empty devector");
 			destroy_ptr(this->base_type::start++);
@@ -1017,15 +999,30 @@ namespace seq
 			size_type off = static_cast<size_t>(first - begin());
 			size_type count = static_cast<size_t>(last - first);
 
-			if (off < static_cast<size_type>(end() - last)) {					      // closer to front
-				std::move_backward(begin(), const_cast<iterator>(first), const_cast<iterator>(last)); // copy over hole
-				for (; 0 < count; --count)
-					pop_front(); // pop copied elements
+			if (off < static_cast<size_type>(end() - last)) {	// closer to front
+
+				if SEQ_CONSTEXPR(std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value) {
+					this->destroy_range(const_cast<T*>(first), const_cast<T*>(last));
+					memmove(begin() + count, begin(), off * sizeof(T));
+					this->base_type::start += count;
+				}
+				else {
+					std::move_backward(begin(), const_cast<iterator>(first), const_cast<iterator>(last)); // copy over hole
+					for (; 0 < count; --count)
+						pop_front(); // pop copied elements
+				}
 			}
-			else {										   // closer to back
-				std::move(const_cast<iterator>(last), end(), const_cast<iterator>(first)); // copy over hole
-				for (; 0 < count; --count)
-					pop_back(); // pop copied elements
+			else {	// closer to back
+				if SEQ_CONSTEXPR (std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value) {
+					this->destroy_range(const_cast<T*>(first), const_cast<T*>(last));
+					memmove(static_cast<void*>(const_cast<T*>(first)), last, (end() - last) * sizeof(T));
+					this->base_type::end -= count;
+				}
+				else {
+					std::move(const_cast<iterator>(last), end(), const_cast<iterator>(first)); // copy over hole
+					for (; 0 < count; --count)
+						pop_back(); // pop copied elements
+				}
 			}
 
 			return cbegin() + off;
@@ -1041,27 +1038,26 @@ namespace seq
 		void swap(devector& other) noexcept(noexcept(swap_allocator(std::declval<Allocator&>(), std::declval<Allocator&>())))
 		{
 			if (this != std::addressof(other)) {
+				swap_allocator(get_allocator(), other.get_allocator());
 				std::swap(base_type::data, other.base_type::data);
 				std::swap(base_type::start, other.base_type::start);
 				std::swap(base_type::end, other.base_type::end);
 				std::swap(base_type::capacity, other.base_type::capacity);
-				swap_allocator(get_allocator(), other.get_allocator());
 			}
 		}
 
 		/// @brief Increase the capacity of the devector (the total number of elements that the devector can hold without requiring reallocation) to a value that's greater or equal to new_cap.
 		/// If new_cap is greater than the current capacity(), new storage is allocated, otherwise the function does nothing.
-		/// When reallocating, the front and back capacity is adjusted depending on the optimization flag.
 		/// Invalidate iterators and references if a new storage is allocated.
 		/// Strong exception guarantee.
 		void reserve(size_t new_cap) { this->base_type::reserve(new_cap); }
 
-		/// @brief Ensure that the devector has at least new_back_capacity free slots at the back, no matter what is the optimization flag.
+		/// @brief Ensure that the devector has at least new_back_capacity free slots at the back.
 		/// Invalidate iterators and references if a new storage is allocated.
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// @param new_back_capacity minimum back capacity
 		void reserve_back(size_t new_back_capacity) { this->base_type::reserve_back(new_back_capacity); }
-		/// @brief Ensure that the devector has at least new_front_capacity free slots at the front, no matter what is the optimization flag.
+		/// @brief Ensure that the devector has at least new_front_capacity free slots at the front.
 		/// Invalidate iterators and references if a new storage is allocated.
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// @param new_front_capacity minimum front capacity
@@ -1095,45 +1091,45 @@ namespace seq
 
 		/// @brief Returns pointer to the underlying array serving as element storage. The pointer is such that range [data(); data() + size()) is always a valid range,
 		/// even if the container is empty (data() is not dereferenceable in that case).
-		auto data() noexcept -> T* { return this->start; }
+		SEQ_ALWAYS_INLINE auto data() noexcept -> T* { return this->start; }
 		/// @brief Returns pointer to the underlying array serving as element storage. The pointer is such that range [data(); data() + size()) is always a valid range,
 		/// even if the container is empty (data() is not dereferenceable in that case).
-		auto data() const noexcept -> const T* { return this->start; }
+		SEQ_ALWAYS_INLINE auto data() const noexcept -> const T* { return this->start; }
 
 		/// @brief Returns a reference to the back element
-		auto back() noexcept -> T&
+		SEQ_ALWAYS_INLINE auto back() noexcept -> T&
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container");
 			return *(this->base_type::end - 1);
 		}
 		/// @brief Returns a reference to the back element
-		auto back() const noexcept -> const T&
+		SEQ_ALWAYS_INLINE auto back() const noexcept -> const T&
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container");
 			return *(this->base_type::end - 1);
 		}
 
 		/// @brief Returns a reference to the front element
-		auto front() noexcept -> T&
+		SEQ_ALWAYS_INLINE auto front() noexcept -> T&
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container");
 			return *(this->start);
 		}
 		/// @brief Returns a reference to the front element
-		auto front() const noexcept -> const T&
+		SEQ_ALWAYS_INLINE auto front() const noexcept -> const T&
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container");
 			return *(this->start);
 		}
 
 		/// @brief Returns a reference to the element at pos
-		auto operator[](size_t pos) const noexcept -> const T&
+		SEQ_ALWAYS_INLINE auto operator[](size_t pos) const noexcept -> const T&
 		{
 			SEQ_ASSERT_DEBUG(pos < size(), "invalid position");
 			return this->start[pos];
 		}
 		/// @brief Returns a reference to the element at pos
-		auto operator[](size_t pos) noexcept -> T&
+		SEQ_ALWAYS_INLINE auto operator[](size_t pos) noexcept -> T&
 		{
 			SEQ_ASSERT_DEBUG(pos < size(), "invalid position");
 			return this->start[pos];
@@ -1141,7 +1137,7 @@ namespace seq
 
 		/// @brief Returns a reference to the element at pos.
 		/// Throw std::out_of_range if pos is invalid.
-		auto at(size_t pos) const -> const T&
+		SEQ_ALWAYS_INLINE auto at(size_t pos) const -> const T&
 		{
 			if (pos >= size())
 				throw std::out_of_range("devector out of range");
@@ -1149,7 +1145,7 @@ namespace seq
 		}
 		/// @brief Returns a reference to the element at pos.
 		/// Throw std::out_of_range if pos is invalid.
-		auto at(size_t pos) -> T&
+		SEQ_ALWAYS_INLINE auto at(size_t pos) -> T&
 		{
 			if (pos >= size())
 				throw std::out_of_range("devector out of range");
@@ -1157,33 +1153,33 @@ namespace seq
 		}
 
 		/// @brief Returns an iterator to the first element of the devector.
-		auto begin() const noexcept -> const_iterator { return this->start; }
+		SEQ_ALWAYS_INLINE auto begin() const noexcept -> const_iterator { return this->start; }
 		/// @brief Returns an iterator to the first element of the devector.
-		auto begin() noexcept -> iterator { return this->start; }
+		SEQ_ALWAYS_INLINE auto begin() noexcept -> iterator { return this->start; }
 		/// @brief Returns an iterator to the element following the last element of the devector.
-		auto end() const noexcept -> const_iterator { return this->base_type::end; }
+		SEQ_ALWAYS_INLINE auto end() const noexcept -> const_iterator { return this->base_type::end; }
 		/// @brief Returns an iterator to the element following the last element of the devector.
-		auto end() noexcept -> iterator { return this->base_type::end; }
+		SEQ_ALWAYS_INLINE auto end() noexcept -> iterator { return this->base_type::end; }
 		/// @brief Returns a reverse iterator to the first element of the reversed devector.
-		auto rbegin() noexcept -> reverse_iterator { return reverse_iterator(end()); }
+		SEQ_ALWAYS_INLINE auto rbegin() noexcept -> reverse_iterator { return reverse_iterator(end()); }
 		/// @brief Returns a reverse iterator to the first element of the reversed devector.
-		auto rbegin() const noexcept -> const_reverse_iterator { return const_reverse_iterator(end()); }
+		SEQ_ALWAYS_INLINE auto rbegin() const noexcept -> const_reverse_iterator { return const_reverse_iterator(end()); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed devector.
-		auto rend() noexcept -> reverse_iterator { return reverse_iterator(begin()); }
+		SEQ_ALWAYS_INLINE auto rend() noexcept -> reverse_iterator { return reverse_iterator(begin()); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed devector.
-		auto rend() const noexcept -> const_reverse_iterator { return const_reverse_iterator(begin()); }
+		SEQ_ALWAYS_INLINE auto rend() const noexcept -> const_reverse_iterator { return const_reverse_iterator(begin()); }
 		/// @brief Returns an iterator to the first element of the devector.
-		auto cbegin() const noexcept -> const_iterator { return begin(); }
+		SEQ_ALWAYS_INLINE auto cbegin() const noexcept -> const_iterator { return begin(); }
 		/// @brief Returns an iterator to the element following the last element of the devector.
-		auto cend() const noexcept -> const_iterator { return end(); }
+		SEQ_ALWAYS_INLINE auto cend() const noexcept -> const_iterator { return end(); }
 		/// @brief Returns a reverse iterator to the first element of the reversed devector.
-		auto crbegin() const noexcept -> const_reverse_iterator { return rbegin(); }
+		SEQ_ALWAYS_INLINE auto crbegin() const noexcept -> const_reverse_iterator { return rbegin(); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed devector.
-		auto crend() const noexcept -> const_reverse_iterator { return rend(); }
+		SEQ_ALWAYS_INLINE auto crend() const noexcept -> const_reverse_iterator { return rend(); }
 
 		/// @brief Copy operator
-		template<class Alloc, DEVectorFlag F>
-		auto operator=(const devector<T, Alloc, F>& other) -> devector&
+		template<class Alloc>
+		auto operator=(const devector<T, Alloc>& other) -> devector&
 		{
 			resize(other.size());
 			std::copy(other.begin(), other.end(), begin());
@@ -1195,7 +1191,9 @@ namespace seq
 			if (this != std::addressof(other)) {
 				if SEQ_CONSTEXPR (assign_alloc<Allocator>::value) {
 					if (get_allocator() != other.get_allocator()) {
+						// clear and deallocate
 						clear();
+						shrink_to_fit();
 					}
 				}
 				assign_allocator(get_allocator(), other.get_allocator());
@@ -1213,8 +1211,8 @@ namespace seq
 	};
 
 	/// @brief  Specialization of is_relocatable for devector
-	template<class T, class Alloc, DEVectorFlag F>
-	struct is_relocatable<devector<T, Alloc, F>> : std::true_type
+	template<class T, class Alloc>
+	struct is_relocatable<devector<T, Alloc>> : std::true_type
 	{
 	};
 

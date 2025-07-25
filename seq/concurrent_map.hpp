@@ -66,6 +66,8 @@ namespace seq
 			}
 		};
 
+		using Policy = detail::BuildValue<Key,detail::has_is_transparent<Hash>::value && detail::has_is_transparent<Equal>::value >;
+
 	public:
 		using key_type = Key;
 		using value_type = Key;
@@ -273,7 +275,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> bool
 		{
-			return base_type::emplace(std::forward<Args>(args)...);
+			return base_type::emplace(Policy::make(std::forward<Args>(args)...));
 		}
 		template<class... Args>
 		SEQ_ALWAYS_INLINE bool emplace_or_visit(Args&&... args)
@@ -301,7 +303,7 @@ namespace seq
 		template<class Ty, class F>
 		SEQ_ALWAYS_INLINE bool insert_or_visit(Ty&& value, F&& f)
 		{
-			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>(std::forward<F>(f), std::forward<Ty>(value));
+			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>(std::forward<F>(f), Policy::make(std::forward<Ty>(value)));
 		}
 		template<class InputIterator, class F>
 		void insert_or_visit(InputIterator first, InputIterator last, F&& f)
@@ -318,7 +320,8 @@ namespace seq
 		template<class Ty, class F>
 		SEQ_ALWAYS_INLINE bool insert_or_cvisit(Ty&& value, F&& f)
 		{
-			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { std::forward<F>(f)(v); }, std::forward<Ty>(value));
+			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) {
+				std::forward<F>(f)(v); }, Policy::make(std::forward<Ty>(value)));
 		}
 		template<class InputIterator, class F>
 		void insert_or_cvisit(InputIterator first, InputIterator last, F&& f)
@@ -488,6 +491,8 @@ namespace seq
 				return _this->base_type::template emplace_policy<detail::TryInsertConcurrentPolicy>([&](const auto& v) { std::forward<F>(f)(v); }, std::forward<A>(a)...);
 			}
 		};
+
+		using Policy = detail::BuildValue<std::pair<Key, T>, detail::has_is_transparent<Hash>::value && detail::has_is_transparent<Equal>::value >;
 
 	public:
 		using key_type = Key;
@@ -697,7 +702,7 @@ namespace seq
 		template<class... Args>
 		SEQ_CONCURRENT_INLINE auto emplace(Args&&... args) -> bool
 		{
-			return base_type::emplace(std::forward<Args>(args)...);
+			return base_type::emplace(Policy::make(std::forward<Args>(args)...));
 		}
 
 		template<class... Args>
@@ -708,7 +713,7 @@ namespace seq
 		template<class... Args>
 		SEQ_CONCURRENT_INLINE bool emplace_or_cvisit(Args&&... args)
 		{
-			return detail::ApplyFLast(emplace_or_cvisit_impl{ this }, std::forward<Args>(args)...);
+			return detail::ApplyFLast(emplace_or_cvisit_impl{ this },std::forward<Args>(args)...);
 		}
 
 		SEQ_CONCURRENT_INLINE auto insert(const value_type& value) -> bool { return base_type::emplace(value); }
@@ -718,7 +723,7 @@ namespace seq
 		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
 		SEQ_CONCURRENT_INLINE auto insert(P&& value) -> bool
 		{
-			return base_type::emplace(std::forward<P>(value));
+			return base_type::emplace(Policy::make(std::forward<P>(value)));
 		}
 
 		template<class InputIt>
@@ -750,7 +755,7 @@ namespace seq
 		template<class Ty, class F>
 		SEQ_CONCURRENT_INLINE bool insert_or_visit(Ty&& value, F&& f)
 		{
-			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>(std::forward<F>(f), std::forward<Ty>(value));
+			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>(std::forward<F>(f), Policy::make(std::forward<Ty>(value)));
 		}
 		template<class InputIterator, class F>
 		void insert_or_visit(InputIterator first, InputIterator last, F&& f)
@@ -767,7 +772,8 @@ namespace seq
 		template<class Ty, class F>
 		SEQ_CONCURRENT_INLINE bool insert_or_cvisit(Ty&& value, F&& f)
 		{
-			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { std::forward<F>(f)(v); }, std::forward<Ty>(value));
+			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) {
+				std::forward<F>(f)(v); }, Policy::make(std::forward<Ty>(value)));
 		}
 		template<class InputIterator, class F>
 		void insert_or_cvisit(InputIterator first, InputIterator last, F&& f)

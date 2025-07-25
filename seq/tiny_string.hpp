@@ -131,7 +131,7 @@ namespace seq
 			const char* pInLimit = static_cast<const char*>(_pInLimit);
 			const char* pStart = pIn;
 
-			while (SEQ_LIKELY(pIn < pInLimit - (stepsize - 1))) {
+			while SEQ_LIKELY(pIn < pInLimit - (stepsize - 1)) {
 				size_t const diff = read_size_t(pMatch) ^ read_size_t(pIn);
 				if (diff == 0u) {
 					pIn += stepsize;
@@ -282,6 +282,9 @@ namespace seq
 		template<class Traits, class Char>
 		inline auto traits_string_find_first_of(const Char* data, size_t pos, size_t size, const Char* s, size_t n, size_t npos) noexcept -> size_t
 		{
+#ifdef SEQ_HAS_CPP_17
+			return std::basic_string_view<Char, Traits>(data, size).find_first_of(s, pos, n);
+#endif
 			if (pos >= size)
 				return npos;
 			const Char* end = data + size;
@@ -311,6 +314,9 @@ namespace seq
 		template<class Traits, class Char>
 		inline auto traits_string_find_last_of(const Char* data, size_t pos, size_t size, const Char* s, size_t n, size_t npos) noexcept -> size_t
 		{
+#ifdef SEQ_HAS_CPP_17
+			return std::basic_string_view<Char, Traits>(data, size).find_last_of(s, pos, n);
+#endif
 			if (size == 0)
 				return npos;
 			if (pos >= size)
@@ -343,6 +349,9 @@ namespace seq
 		template<class Traits, class Char>
 		inline auto traits_string_find_first_not_of(const Char* data, size_t pos, size_t size, const Char* s, size_t n, size_t npos) noexcept -> size_t
 		{
+#ifdef SEQ_HAS_CPP_17
+			return std::basic_string_view<Char, Traits>(data, size).find_first_not_of(s, pos, n);
+#endif
 			const Char* end = data + size;
 			const Char* send = s + n;
 			for (const Char* p = data + pos; p != end; ++p) {
@@ -359,6 +368,9 @@ namespace seq
 		template<class Traits, class Char>
 		inline auto traits_string_find_last_not_of(const Char* data, size_t pos, size_t size, const Char* s, size_t n, size_t npos) noexcept -> size_t
 		{
+#ifdef SEQ_HAS_CPP_17
+			return std::basic_string_view<Char, Traits>(data, size).find_last_not_of(s, pos, n);
+#endif
 			if (size == 0)
 				return npos;
 			if (pos >= size)
@@ -405,6 +417,9 @@ namespace seq
 		template<class Traits, class Char>
 		inline auto traits_string_rfind(const Char* data, size_t pos, size_t size, const Char* s, size_t n, size_t npos) noexcept -> size_t
 		{
+#ifdef SEQ_HAS_CPP_17
+			return std::basic_string_view<Char, Traits>(data, size).rfind(s, pos, n);
+#endif
 			if (n > size || pos < n || n == 0)
 				return npos;
 			if (pos > size)
@@ -635,7 +650,7 @@ namespace seq
 			auto allocate(size_t n) -> Char*
 			{
 				throw std::bad_alloc();
-				return NULL;
+				return nullptr;
 			}
 			void deallocate(Char* /*unused*/, size_t /*unused*/) noexcept {}
 			auto get_allocator() const noexcept -> view_allocator<Char> { return view_allocator<Char>(); }
@@ -835,8 +850,8 @@ namespace seq
 		SEQ_STR_INLINE_STRONG Char* resize_grow(size_t len, bool exact_size = false)
 		{
 			// Resize for growing, keep old data
-			if (SEQ_UNLIKELY(is_sso())) {
-				if (SEQ_UNLIKELY(len > sso_max_size)) {
+			if SEQ_UNLIKELY(is_sso()) {
+				if SEQ_UNLIKELY(len > sso_max_size) {
 					internal_resize(len, true, exact_size);
 					return d_data.d_union.non_sso.data + char_offset;
 				}
@@ -846,7 +861,7 @@ namespace seq
 				}
 			}
 			else {
-				if (SEQ_UNLIKELY(len > *reinterpret_cast<const size_t*>(d_data.d_union.non_sso.data) - 1))
+				if SEQ_UNLIKELY(len > *reinterpret_cast<const size_t*>(d_data.d_union.non_sso.data) - 1)
 					internal_resize(len, true, exact_size);
 				else
 					d_data.setSizeNonSSO(len);
@@ -1338,7 +1353,7 @@ namespace seq
 			if SEQ_CONSTEXPR (!noexcept(move_allocator(std::declval<Allocator&>(), std::declval<Allocator&>())))
 				// Use internal_data.swap() for small static size or if moving allocator is NOT noexcept
 				d_data.swap(other.d_data);
-			else if (SEQ_LIKELY(this != std::addressof(other))) {
+			else if SEQ_LIKELY(this != std::addressof(other)) {
 				if (!is_sso())
 					d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal() + char_offset);
 				memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
@@ -1539,7 +1554,7 @@ namespace seq
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "pop_back on an empty string!");
 
-			if (SEQ_LIKELY(!is_sso())) {
+			if SEQ_LIKELY(!is_sso()) {
 				size_t s = d_data.sizeNonSSO() - 1;
 				d_data.setSizeNonSSO(s);
 				d_data.d_union.non_sso.data[s + char_offset] = 0;
@@ -1602,7 +1617,7 @@ namespace seq
 		/// @brief Append buffer content to this string
 		auto append(const Char* s, size_t n) -> tiny_string&
 		{
-			if (SEQ_UNLIKELY(n == 0))
+			if SEQ_UNLIKELY(n == 0)
 				return *this;
 			size_t old_size = size();
 			size_t new_size = old_size + n;
@@ -1614,7 +1629,7 @@ namespace seq
 		/// @brief Append n copies of character c to the string
 		auto append(size_t n, Char c) -> tiny_string&
 		{
-			if (SEQ_UNLIKELY(n == 0))
+			if SEQ_UNLIKELY(n == 0)
 				return *this;
 			size_t old_size = size();
 			size_t new_size = old_size + n;
@@ -2019,10 +2034,19 @@ namespace seq
 		size_t rfind(const std::basic_string_view<Char, Traits>& str, size_t pos = npos) const noexcept { return rfind(str.data(), pos, str.size()); }
 #endif
 
-		auto rfind(const Char* s, size_t pos = npos) const noexcept -> size_t { return rfind(s, pos, Traits::length(s)); }
-		auto rfind(const Char* s, size_t pos, size_type n) const noexcept -> size_t { return detail::traits_string_rfind<Traits>(data(), pos, size(), s, n, npos); }
+		auto rfind(const Char* s, size_t pos = npos) const noexcept -> size_t
+		{ 
+			return rfind(s, pos, Traits::length(s)); 
+		}
+		auto rfind(const Char* s, size_t pos, size_type n) const noexcept -> size_t 
+		{ 
+			return detail::traits_string_rfind<Traits>(data(), pos, size(), s, n, npos); 
+		}
 		auto rfind(Char c, size_t pos = npos) const noexcept -> size_t
 		{
+#ifdef SEQ_HAS_CPP_17
+			return std::basic_string_view<Char, Traits>(data(), size()).rfind(c, pos);
+#endif
 			if (pos >= size())
 				pos = size() - 1;
 			const Char* p = detail::string_memrchr(data(), c, pos + 1);
@@ -2044,7 +2068,10 @@ namespace seq
 			return find_last_of(str.data(), pos, str.size());
 		}
 		auto find_last_of(const Char* s, size_t pos = npos) const noexcept -> size_t { return find_last_of(s, pos, Traits::length(s)); }
-		auto find_last_of(const Char* s, size_t pos, size_t n = npos) const noexcept -> size_t { return detail::traits_string_find_last_of<Traits>(data(), pos, size(), s, n, npos); }
+		auto find_last_of(const Char* s, size_t pos, size_t n = npos) const noexcept -> size_t 
+		{ 
+			return detail::traits_string_find_last_of<Traits>(data(), pos, size(), s, n, npos); 
+		}
 		auto find_last_of(Char c, size_t pos = npos) const noexcept -> size_t { return rfind(c, pos); }
 
 		template<class Al, size_t S>
@@ -2422,9 +2449,15 @@ namespace seq
 #endif
 
 		auto rfind(const Char* s, size_t pos = npos) const noexcept -> size_t { return rfind(s, pos, Traits::length(s)); }
-		auto rfind(const Char* s, size_t pos, size_type n) const noexcept -> size_t { return detail::traits_string_rfind(data(), pos, size(), s, n, npos); }
+		auto rfind(const Char* s, size_t pos, size_type n) const noexcept -> size_t 
+		{
+			return detail::traits_string_rfind(data(), pos, size(), s, n, npos); 
+		}
 		auto rfind(Char c, size_t pos = npos) const noexcept -> size_t
 		{
+#ifdef SEQ_HAS_CPP_17
+			return std::basic_string_view<Char, Traits>(data(), size()).rfind(c, pos);
+#endif
 			if (pos >= size())
 				pos = size() - 1;
 			const Char* p = detail::string_memrchr(data(), c, pos + 1);
@@ -2446,7 +2479,10 @@ namespace seq
 			return find_last_of(str.data(), pos, str.size());
 		}
 		auto find_last_of(const Char* s, size_t pos = npos) const noexcept -> size_t { return find_last_of(s, pos, Traits::length(s)); }
-		auto find_last_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t { return detail::traits_string_find_last_of(data(), pos, size(), s, n, npos); }
+		auto find_last_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t 
+		{ 
+			return detail::traits_string_find_last_of(data(), pos, size(), s, n, npos); 
+		}
 		auto find_last_of(Char c, size_t pos = npos) const noexcept -> size_t { return rfind(c, pos); }
 
 		template<class A, size_t S>
@@ -2944,6 +2980,35 @@ namespace seq
 	}
 #endif
 
+
+
+	//////
+	// String related type traits
+	//////
+
+	/// @brief Detect if T is a char type (removing const and reference)
+	template<class T>
+	struct is_character_type
+	{
+		using C = typename std::decay<T>::type;
+		static constexpr bool value = std::is_same<C, char>::value || std::is_same<C, wchar_t>::value || std::is_same<C, char16_t>::value || std::is_same<C, char32_t>::value
+#ifdef SEQ_HAS_CPP_20
+					      || std::is_same<C, char8_t>::value
+#endif
+		  ;
+	};
+
+	/// @brief Detect if T if a char pointer or array
+	template<class T>
+	struct is_character_pointer
+	{
+		using c_type = typename std::remove_pointer<typename std::decay<T>::type>::type;
+		using char_type = typename std::remove_const<c_type>::type;
+		static constexpr bool value = (std::is_pointer<T>::value || std::is_array<T>::value) && is_character_type<char_type>::value;
+	};
+
+
+
 	/// @brief Detect tiny_string
 	template<class T>
 	struct is_tiny_string : std::false_type
@@ -2991,66 +3056,95 @@ namespace seq
 	{
 	};
 
-	template<class C>
-	struct is_char : std::integral_constant<bool, std::is_same<C, char>::value || std::is_same<C, char16_t>::value || std::is_same<C, char32_t>::value || std::is_same<C, wchar_t>::value>
+
+	/// @brief Detect all possible string types (std::string, tstring, tstring_view, std::string_view, const char*, char*,...
+	template<class T>
+	struct is_generic_string2 
 	{
+		static constexpr bool value = is_character_pointer<T>::value || is_tiny_string<T>::value || is_basic_string<T>::value || is_basic_string_view<T>::value;
 	};
 
-	/// @brief Detect all possible string types (std::string, tstring, tstring_view, std::string_view, const char*, char*
-	template<class T>
-	struct is_generic_string2 : std::false_type
+	/// @brief Find char type for given generic string
+	template<class T, class  = void>
+	struct character_type
 	{
+		using type = void;
 	};
 	template<class T>
-	struct is_generic_string2<T*> : is_char<T>
+	struct character_type<T, typename std::enable_if<is_character_pointer<T>::value, void>::type>
 	{
+		using type = typename is_character_pointer<T>::char_type;
 	};
 	template<class T>
-	struct is_generic_string2<const T*> : is_char<T>
+	struct character_type<T, typename std::enable_if<is_tiny_string<T>::value, void>::type>
 	{
+		using type = typename T::value_type;
 	};
-	template<class Char, class Traits, class Allocator>
-	struct is_generic_string2<std::basic_string<Char, Traits, Allocator>> : std::true_type
+	template<class T>
+	struct character_type<T, typename std::enable_if<is_basic_string<T>::value, void>::type>
 	{
+		using type = typename T::value_type;
 	};
-	template<class Char, class Traits, class Al, size_t S>
-	struct is_generic_string2<tiny_string<Char, Traits, Al, S>> : std::true_type
+	template<class T>
+	struct character_type<T, typename std::enable_if<is_basic_string_view<T>::value, void>::type>
 	{
+		using type = typename T::value_type;
 	};
-#ifdef SEQ_HAS_CPP_17
-	template<class Char, class Traits>
-	struct is_generic_string2<std::basic_string_view<Char, Traits>> : std::true_type
-	{
-	};
-#endif
+
+	
 
 	/// @brief Detect all possible string types (std::string, tstring, tstring_view, std::string_view, const char*, char*
-	template<class T>
+	template<class T, class  = void>
 	struct is_generic_char_string : std::false_type
 	{
 	};
-	template<>
-	struct is_generic_char_string<char*> : std::true_type
+	template<class T>
+	struct is_generic_char_string<T, typename std::enable_if<is_character_pointer<T>::value, void>::type>
 	{
+		static constexpr bool value = std::is_same<char, typename is_character_pointer<T>::char_type>::value;
 	};
-	template<>
-	struct is_generic_char_string<const char*> : std::true_type
-	{
-	};
+	
 	template<class Traits, class Allocator>
-	struct is_generic_char_string<std::basic_string<char, Traits, Allocator>> : std::true_type
+	struct is_generic_char_string<std::basic_string<char, Traits, Allocator>, void> : std::true_type
 	{
 	};
 	template<class Traits, class Al, size_t S>
-	struct is_generic_char_string<tiny_string<char, Traits, Al, S>> : std::true_type
+	struct is_generic_char_string<tiny_string<char, Traits, Al, S>, void> : std::true_type
 	{
 	};
 #ifdef SEQ_HAS_CPP_17
 	template<class Traits>
-	struct is_generic_char_string<std::basic_string_view<char, Traits>> : std::true_type
+	struct is_generic_char_string<std::basic_string_view<char, Traits>, void> : std::true_type
 	{
 	};
 #endif
+
+
+
+	/// @brief Detect all possible string types of any character type (std::basic_string, basic_tstring, basic_tstring_view, std::basic_string_view, const Char*, Char*
+	template<class T, class = void>
+	struct is_generic_string : std::false_type
+	{
+	};
+	template<class T>
+	struct is_generic_string<T, typename std::enable_if<is_character_pointer<T>::value, void>::type> : std::true_type
+	{
+	};
+	template<class Char, class Traits, class Allocator>
+	struct is_generic_string<std::basic_string<Char, Traits, Allocator>, void> : std::true_type
+	{
+	};
+	template<class Char, class Traits, class Al, size_t S>
+	struct is_generic_string<tiny_string<Char, Traits, Al, S>, void> : std::true_type
+	{
+	};
+#ifdef SEQ_HAS_CPP_17
+	template<class Char, class Traits>
+	struct is_generic_string<std::basic_string_view<Char, Traits>, void> : std::true_type
+	{
+	};
+#endif
+
 
 	/// @brief Detect tstring_view or std::string_view
 	template<class T>
@@ -3070,19 +3164,12 @@ namespace seq
 
 	/// @brief Detect generic string view: tstring_view, std::string_view, char*, const char*
 	template<class T>
-	struct is_generic_string_view : std::false_type
+	struct is_generic_string_view 
 	{
+		static constexpr bool value = is_character_pointer<T>::value;
 	};
 	template<class Char, class Traits>
 	struct is_generic_string_view<tiny_string<Char, Traits, view_allocator<Char>, 0>> : std::true_type
-	{
-	};
-	template<class Char>
-	struct is_generic_string_view<Char*> : is_char<Char>
-	{
-	};
-	template<class Char>
-	struct is_generic_string_view<const Char*> : is_char<Char>
 	{
 	};
 #ifdef SEQ_HAS_CPP_17

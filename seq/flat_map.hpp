@@ -47,6 +47,7 @@ See the documentation of each class for more details.
 
 #include "tiered_vector.hpp"
 #include "tiny_string.hpp"
+#include "utils.hpp"
 #include "internal/binary_search.hpp"
 
 // Disable old style cast warning for gcc
@@ -122,7 +123,7 @@ namespace seq
 		struct FlatEmplacePolicy
 		{
 			template<class Vector, class K, class... Args>
-			static typename Vector::value_type& emplace(Vector& v, size_t pos, K&& key, Args&&... args)
+			static SEQ_ALWAYS_INLINE auto& emplace(Vector& v, size_t pos, K&& key, Args&&... args)
 			{
 				return v.emplace(pos, std::forward<K>(key), std::forward<Args>(args)...);
 			}
@@ -131,7 +132,7 @@ namespace seq
 		struct TryFlatEmplacePolicy
 		{
 			template<class Vector, class K, class... Args>
-			static typename Vector::value_type& emplace(Vector& v, size_t pos, K&& key, Args&&... args)
+			static SEQ_ALWAYS_INLINE auto& emplace(Vector& v, size_t pos, K&& key, Args&&... args)
 			{
 				return v.emplace(
 				  pos, typename Vector::value_type(std::piecewise_construct, std::forward_as_tuple(std::forward<K>(key)), std::forward_as_tuple(std::forward<Args>(args)...)));
@@ -292,7 +293,7 @@ namespace seq
 		template<bool Multi, class Deque, class U, class Less>
 		SEQ_INLINE_BINARY_SEARCH auto tvector_lower_bound(const Deque& d, const U& value, const Less& le) noexcept -> std::pair<size_t, bool>
 		{
-			if (SEQ_UNLIKELY(!d.manager()))
+			if SEQ_UNLIKELY(!d.manager())
 				return { 0, false };
 
 			using T = typename Deque::value_type;
@@ -309,7 +310,7 @@ namespace seq
 						      )
 			    .first;
 
-			if (SEQ_UNLIKELY(b_index == buckets.size()))
+			if SEQ_UNLIKELY(b_index == buckets.size())
 				return { d.size(), false };
 
 			{
@@ -651,7 +652,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE bool dirty() const noexcept { return d_dirty != 0; }
 			SEQ_ALWAYS_INLINE void check_dirty() const
 			{
-				if (SEQ_UNLIKELY(dirty()))
+				if SEQ_UNLIKELY(dirty())
 					throw std::logic_error("flat_tree is dirty");
 			}
 
@@ -1352,6 +1353,8 @@ namespace seq
 		template<typename U>
 		using has_is_transparent = detail::has_is_transparent<U>;
 
+		using Policy = detail::BuildValue<Key, has_is_transparent<Compare>::value >;
+
 	public:
 		using deque_type = typename flat_tree_type::deque_type;
 		using iterator = typename deque_type::const_iterator;
@@ -1515,7 +1518,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool>
 		{
-			auto p = d_tree.emplace(std::forward<Args>(args)...);
+			auto p = d_tree.emplace(Policy::make(std::forward<Args>(args)...));
 			return std::pair<iterator, bool>(d_tree.iterator_at(p.first), p.second);
 		}
 
@@ -1533,14 +1536,14 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_pos(Args&&... args) -> std::pair<size_t, bool>
 		{
-			return d_tree.emplace(std::forward<Args>(args)...);
+			return d_tree.emplace(Policy::make(std::forward<Args>(args)...));
 		}
 
 		/// @brief Same as std::set::emplace_hint
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
-			auto p = d_tree.emplace_hint(hint, std::forward<Args>(args)...);
+			auto p = d_tree.emplace_hint(hint,Policy::make(std::forward<Args>(args)...));
 			return d_tree.iterator_at(p.first);
 		}
 		/// @brief Same as std::set::insert()
@@ -1981,6 +1984,8 @@ namespace seq
 		template<typename U>
 		using has_is_transparent = detail::has_is_transparent<U>;
 
+		using Policy = detail::BuildValue<std::pair<Key, T>, detail::has_is_transparent<Compare>::value>;
+
 	public:
 		using deque_type = typename flat_tree_type::deque_type;
 		using iterator = typename deque_type::iterator;
@@ -2078,7 +2083,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool>
 		{
-			auto p = d_tree.emplace(std::forward<Args>(args)...);
+			auto p = d_tree.emplace(Policy::make(std::forward<Args>(args)...));
 			return std::pair<iterator, bool>(d_tree.iterator_at(p.first), p.second);
 		}
 		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> std::pair<iterator, bool> { return emplace(value); }
@@ -2092,7 +2097,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
-			auto p = d_tree.emplace_hint(hint, std::forward<Args>(args)...);
+			auto p = d_tree.emplace_hint(hint, Policy::make(std::forward<Args>(args)...));
 			return d_tree.iterator_at(p.first);
 		}
 
@@ -2107,14 +2112,14 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_pos(Args&&... args) -> std::pair<size_t, bool>
 		{
-			return d_tree.emplace(std::forward<Args>(args)...);
+			return d_tree.emplace(Policy::make(std::forward<Args>(args)...));
 		}
 		SEQ_ALWAYS_INLINE auto insert_pos(const value_type& value) -> std::pair<size_t, bool> { return d_tree.emplace(value); }
 		SEQ_ALWAYS_INLINE auto insert_pos(value_type&& value) -> std::pair<size_t, bool> { return d_tree.emplace(std::move(value)); }
 		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert_pos(P&& value) -> std::pair<size_t, bool>
 		{
-			return d_tree.emplace(std::forward<P>(value));
+			return emplace_pos(std::forward<P>(value));
 		}
 
 		template<class... Args>

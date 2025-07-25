@@ -1,5 +1,9 @@
 [![CTest](https://github.com/Thermadiag/seq/actions/workflows/cmake.yml/badge.svg?branch=master)](https://github.com/Thermadiag/seq/actions/workflows/cmake.yml)
 
+Transitioning to v2.0
+---------------------
+
+*seq* v2.0 introduced a lot of changes. See this [note](docs/v2.md) for more details and explanations.
 
 Purpose
 -------
@@ -17,7 +21,6 @@ Currently, the *containers* module provide 5 types of containers:
 -	Sequential random-access containers: 
 	-	[seq::devector](docs/devector.md): double ended vector that can be optimized for front operations, back operations or both. Similar interface to `std::deque`.
 	-	[seq::tiered_vector](docs/tiered_vector.md): tiered vector implementation optimized for fast insertion and deletion in the middle. Similar interface to `std::deque`.
-	-	[seq::cvector](docs/cvector.md): vector-like class storing its values in a compressed way to reduce program memory footprint. Similar interface to `std::vector`.
 -	Sequential stable non random-access container: `seq::sequence`, fast stable list-like container.
 -	Sorted containers: 
 	-	[seq::flat_set](docs/flat_set.md) : flat set container similar to boost::flat_set but based on seq::tiered_vector and providing fast insertion/deletion of single elements.
@@ -76,24 +79,12 @@ The `seq/benchs` subdirectory includes benchmarks for some components, usually n
 Build
 -----
 
-The *seq* library requires compilation using cmake, but you can still use it without compilation by using `-DHEADER_ONLY=ON`. 
-Even in header-only mode, you should use the cmake file for installation.
+The *seq* library is header-only, but a cmake file is provided for installation and build of tests and benchmarks. 
 
 Currently, the following options are provided:
 
--	SEQ_ENABLE_AVX2(ON): enable AVX2 support, usefull (but not mandatory) for `seq::radix_(map/set/hash_map/hash_set)` as well as `seq::cvector`
 -	SEQ_BUILD_TESTS(OFF): build all tests
 -	SEQ_BUILD_BENCHS(OFF): build all benchmarks
--	SEQ_TEST_CVECTOR(ON): if building tests, add the `seq::cvector` class tests
--	SEQ_BUILD_SHARED(ON): build the shared version of seq library
--	SEQ_BUILD_STATIC(ON): build the static version of seq library
-
-Note that for msvc build, AVX2 support is enabled by default. You should call cmake with `-DSEQ_ENABLE_AVX2=OFF` to disable it.
-
-Using Seq library with CMake
-----------------------------
-
-This [cmake example](tests/test_cmake/CMakeLists.txt) shows how to use the *seq* library within a cmake project. It creates 3 targets using the shared seq library, the static one, and the header only mode.
 
 
 Acknowledgements

@@ -371,8 +371,7 @@ void test_hash(int count, Gen gen,bool save_keys=false)
 	
 	 {
 		 radix_hash_set<T, Hash, seq::equal_to<> > set;
-		 //radix_set<T> set;
-		  test_hash_set("seq::radix_hash_set", set, keys, f);
+		 test_hash_set("seq::radix_hash_set", set, keys, f);
 	 } 
 	 {
 		 robin_hood::unordered_flat_set<T, Hash, seq::equal_to<> > set;
@@ -399,11 +398,8 @@ void test_hash(int count, Gen gen,bool save_keys=false)
 
 
 
-
 int bench_hash(int, char** const)
 {
-	seq::concurrent_set<size_t, seq::hasher<size_t>, std::equal_to<>, std::allocator<size_t>, seq::no_concurrency> ss;
-	ss.emplace(2);
 	
 	test_hash<int, seq::hasher<int> >(8000000, [](size_t i) { return (i); });
 	test_hash<size_t, seq::hasher<size_t> >(8000000, [](size_t i) { return (i); });
@@ -418,7 +414,7 @@ int bench_hash(int, char** const)
 	test_hash<tstring, seq::hasher<tstring> >(4000000, [](size_t i) { return generate_random_string<tstring>(13, true); });
 	
 
-	test_hash<seq::r_any, seq::hasher<seq::r_any> >(2500000, [](size_t i)
+	/* test_hash<seq::r_any, seq::hasher<seq::r_any>>(2500000, [](size_t i)
 		{
 			size_t idx = i & 3U;
 			switch (idx) {
@@ -427,7 +423,7 @@ int bench_hash(int, char** const)
 			default:return seq::r_any(generate_random_string<tstring>(63, false));
 			}
 		}
-	);
+	);*/
 	
 	return 0;
 }

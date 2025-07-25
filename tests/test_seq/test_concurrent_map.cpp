@@ -1007,6 +1007,7 @@ struct DummyHash
 
 SEQ_PROTOTYPE( int test_concurrent_map(int , char*[]))
 {
+	unsigned a = (int)-2;
 	SEQ_TEST_MODULE_RETURN(concurrent_map_members_low_concurrency, 1, test_concurrent_map_members<seq::low_concurrency>());
 	SEQ_TEST_MODULE_RETURN(concurrent_map_members_medium_concurrency, 1, test_concurrent_map_members<seq::medium_concurrency>());
 	SEQ_TEST_MODULE_RETURN(concurrent_map_members_high_concurrency, 1, test_concurrent_map_members<seq::high_concurrency>());

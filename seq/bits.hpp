@@ -74,7 +74,7 @@ See functions documentation for more details.
 #include <cstdio>
 #include <type_traits>
 
-#include "seq_export.hpp"
+#include "seq_config.hpp"
 
 #if defined(__APPLE__)
 // Mac OS X / Darwin features
@@ -324,15 +324,25 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #define SEQ_FALLTHROUGH()
 #endif
 
+
 // likely/unlikely definition
 #if !defined(_MSC_VER) || defined(__clang__)
-#define SEQ_LIKELY(x) __builtin_expect(!!(x), 1)
-#define SEQ_UNLIKELY(x) __builtin_expect(!!(x), 0)
+#define SEQ_LIKELY(...) (__builtin_expect(!!(__VA_ARGS__), 1))
+#define SEQ_UNLIKELY(...) (__builtin_expect(!!(__VA_ARGS__), 0))
 #define SEQ_HAS_EXPECT
 #else
-#define SEQ_LIKELY(x) x
-#define SEQ_UNLIKELY(x) x
+
+#ifdef SEQ_HAS_CPP_20
+#define SEQ_LIKELY(...) (__VA_ARGS__) [[likely]]
+#define SEQ_UNLIKELY(...) (__VA_ARGS__) [[unlikely]]
+#define SEQ_HAS_EXPECT
+#else
+#define SEQ_LIKELY(...) (__VA_ARGS__)
+#define SEQ_UNLIKELY(...) (__VA_ARGS__)
 #endif
+#endif
+
+
 
 // Simple function inlining
 #define SEQ_INLINE inline
@@ -400,6 +410,12 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #define SEQ_ASSERT_DEBUG(condition, msg)
 #else
 #define SEQ_ASSERT_DEBUG(condition, ...) assert((condition) && (__VA_ARGS__))
+#endif
+
+#ifndef SEQ_DEBUG
+#define SEQ_DEBUG_ONLY(...)
+#else
+#define SEQ_DEBUG_ONLY(...) __VA_ARGS__
 #endif
 
 // Support for __has_builtin
@@ -1414,6 +1430,83 @@ namespace seq
 	struct static_bit_scan_reverse<0ULL>
 	{
 	};
+
+
+
+	/// @brief Fast psudo random number generator.
+	/// Generates 32 bits random integers.
+	class fast_rand
+	{
+#if SEQ_HAS_FAST_UMUL128
+		// komihash implementation: https://github.com/avaneev/komihash
+		struct Seeds
+		{
+			uint64_t Seed1;
+			uint64_t Seed2;
+		};
+		Seeds seeds;
+
+	public:
+		fast_rand(size_t seed) noexcept
+		  : seeds{ seed, seed }
+		{
+		}
+
+		unsigned operator()() noexcept
+		{
+			uint64_t s1 = seeds.Seed1;
+			uint64_t s2 = seeds.Seed2;
+
+			umul128(s1, s2, &s1, &s2);
+
+			s2 += 0xAAAAAAAAAAAAAAAA;
+			s1 ^= s2;
+
+			seeds.Seed1 = s2;
+			seeds.Seed2 = s1;
+
+			return static_cast<unsigned>(s1 ^ (s1 << 32u));
+		}
+
+#else
+		// Use Marsaglia's xorshf generator: https://github.com/raylee/xorshf96/blob/master/xorshf96.c
+		unsigned x;
+		unsigned y{ 362436069 };
+		unsigned z{ 521288629 };
+
+	public:
+		fast_rand(size_t seed) noexcept
+		  : x(static_cast<unsigned>(seed))
+		{
+			if (x == 0)
+				x = 123456789;
+		}
+
+		unsigned operator()() noexcept
+		{ // period 2^96-1
+			unsigned t;
+			x ^= x << 16;
+			x ^= x >> 5;
+			x ^= x << 1;
+
+			t = x;
+			x = y;
+			y = z;
+			z = t ^ x ^ y;
+
+			return z;
+		}
+#endif
+	};
+
+	static SEQ_ALWAYS_INLINE unsigned random_uint32()
+	{
+		thread_local int seed = 0;
+		thread_local fast_rand rng(static_cast<size_t>(reinterpret_cast<std::uintptr_t>(&seed)));
+		return rng();
+	}
+
+
 
 	inline void print_features()
 	{

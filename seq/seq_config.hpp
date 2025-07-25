@@ -33,18 +33,5 @@
 #define SEQ_VERSION_MINOR 0
 #define SEQ_VERSION "0.0"
 
-#if !defined(SEQ_BUILD_SHARED_LIBRARY) && !defined(SEQ_BUILD_STATIC_LIBRARY)
-#define SEQ_DETECT_IS_HEADER_ONLY 1
-#else
-#define SEQ_DETECT_IS_HEADER_ONLY 0
-#endif
-
-#if SEQ_DETECT_IS_HEADER_ONLY == 1
-#if !defined(SEQ_HEADER_ONLY) && !defined(SEQ_NO_HEADER_ONLY)
-#define SEQ_HEADER_ONLY
-#elif defined(SEQ_NO_HEADER_ONLY) && defined(SEQ_HEADER_ONLY)
-#undef SEQ_HEADER_ONLY
-#endif
-#endif
 
 #endif

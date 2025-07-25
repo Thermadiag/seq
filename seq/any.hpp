@@ -75,29 +75,7 @@ namespace seq
 	namespace detail
 	{
 
-		// Forward declaration of ValueWrapper and ConstValueWrapper used by cvector class.
-		// hold_any must take care of this type or it won't work properly with cvector.
-
-		template<class Compressed>
-		class ValueWrapper;
-
-		template<class Compressed>
-		class ConstValueWrapper;
-
-		template<class T>
-		struct is_value_wrapper : std::false_type
-		{
-		};
-		template<class Compressed>
-		struct is_value_wrapper<ValueWrapper<Compressed>> : std::true_type
-		{
-		};
-		template<class Compressed>
-		struct is_value_wrapper<ConstValueWrapper<Compressed>> : std::true_type
-		{
-		};
-
-		inline auto build_type_id() noexcept -> int
+		SEQ_ALWAYS_INLINE auto build_type_id() noexcept -> int
 		{
 			// Generate a unique id starting from 20
 			static std::atomic<int> cnt = { 21 }; // start index for custom types
@@ -215,12 +193,12 @@ namespace seq
 		template<class T, int Val = type_id_val<T>::value>
 		struct get_type_id_val
 		{
-			static constexpr int get() { return Val; }
+			static SEQ_ALWAYS_INLINE constexpr int get() noexcept { return Val; }
 		};
 		template<class T>
 		struct get_type_id_val<T, 0>
 		{
-			static int get()
+			static SEQ_ALWAYS_INLINE int get() noexcept
 			{
 				static int id = build_type_id();
 				return id;
@@ -232,23 +210,38 @@ namespace seq
 	/// @tparam T type
 	/// @return unique Id for type T
 	template<class T>
-	auto get_type_id() noexcept -> int
+	SEQ_ALWAYS_INLINE auto get_type_id() noexcept 
 	{
 		return detail::get_type_id_val<T>::get();
 	}
 
 	/// @brief Returns true if given type id corresponds to a signed integral type
-	inline auto is_signed_integral_type(int id) noexcept -> bool { return id != 0 && id <= get_type_id<long long>(); }
+	SEQ_ALWAYS_INLINE auto is_signed_integral_type(int id) noexcept -> bool
+	{
+		return id != 0 && id <= get_type_id<long long>();
+	}
 	/// @brief Returns true if given type id corresponds to an unsigned integral type
-	inline auto is_unsigned_integral_type(int id) noexcept -> bool { return id >= get_type_id<unsigned char>() && id <= get_type_id<unsigned long long>(); }
+	SEQ_ALWAYS_INLINE auto is_unsigned_integral_type(int id) noexcept -> bool
+	{
+		return id >= get_type_id<unsigned char>() && id <= get_type_id<unsigned long long>();
+	}
 	/// @brief Returns true if given type id corresponds to an integral type
-	inline auto is_integral_type(int id) noexcept -> bool { return id != 0 && id <= get_type_id<unsigned long long>(); }
+	SEQ_ALWAYS_INLINE auto is_integral_type(int id) noexcept -> bool
+	{
+		return id != 0 && id <= get_type_id<unsigned long long>();
+	}
 	/// @brief Returns true if given type id corresponds to a floating point type
-	inline auto is_floating_point_type(int id) noexcept -> bool { return id >= get_type_id<float>() && id <= get_type_id<long double>(); }
+	SEQ_ALWAYS_INLINE auto is_floating_point_type(int id) noexcept -> bool
+	{
+		return id >= get_type_id<float>() && id <= get_type_id<long double>();
+	}
 	/// @brief Returns true if given type id corresponds to an arithmetic type (floating point or integral)
-	inline auto is_arithmetic_type(int id) noexcept -> bool { return id != 0 && id <= get_type_id<long double>(); }
+	SEQ_ALWAYS_INLINE auto is_arithmetic_type(int id) noexcept -> bool
+	{
+		return id != 0 && id <= get_type_id<long double>();
+	}
 	/// @brief Returns true if given type id corresponds to a string type (std::string, tstring, tstring_view or const char*)
-	inline auto is_string_type(int id) noexcept -> bool
+	SEQ_ALWAYS_INLINE auto is_string_type(int id) noexcept -> bool
 	{
 #ifdef SEQ_HAS_CPP_17
 		return id >= get_type_id<std::string>() && id <= get_type_id<std::string_view>();
@@ -259,7 +252,7 @@ namespace seq
 
 	namespace detail
 	{
-		static auto read_void_p(const void* in) -> void*
+		static SEQ_ALWAYS_INLINE auto read_void_p(const void* in) noexcept -> void*
 		{
 			// read pointer address from memory block
 			void* res = nullptr;
@@ -287,40 +280,43 @@ namespace seq
 		template<class T, bool Valid = is_hashable<T>::value, class = void>
 		struct HashType
 		{
-			static SEQ_ALWAYS_INLINE auto apply(const void* in) -> size_t { return std::hash<T>{}(*static_cast<const T*>(in)); }
+			static SEQ_ALWAYS_INLINE auto apply(const void* in) noexcept -> size_t { return std::hash<T>{}(*static_cast<const T*>(in)); }
 		};
 		/// @brief Hash integral types
 		template<class T>
 		struct HashType<T, true, typename std::enable_if<std::is_integral<T>::value, void>::type>
 		{
-			static SEQ_ALWAYS_INLINE auto apply(const void* in) -> size_t { return std::hash<std::uint64_t>{}(static_cast<std::uint64_t>(*static_cast<const T*>(in))); }
+			static SEQ_ALWAYS_INLINE auto apply(const void* in) noexcept -> size_t { return std::hash<std::uint64_t>{}(static_cast<std::uint64_t>(*static_cast<const T*>(in))); }
 		};
 
 		/// @brief Specializations for std::string and const char* that use std::hash<tstring>
 		template<class Char, class Traits, class Al>
 		struct HashType<std::basic_string<Char, Traits, Al>, true>
 		{
-			static SEQ_ALWAYS_INLINE auto apply(const void* in) -> size_t { return std::hash<tiny_string<Char, Traits>>{}(*static_cast<const std::basic_string<Char, Traits, Al>*>(in)); }
+			static SEQ_ALWAYS_INLINE auto apply(const void* in) noexcept -> size_t
+			{
+				return std::hash<tiny_string<Char, Traits>>{}(*static_cast<const std::basic_string<Char, Traits, Al>*>(in));
+			}
 		};
 		template<>
 		struct HashType<const char*, true>
 		{
-			static SEQ_ALWAYS_INLINE auto apply(const void* in) -> size_t { return std::hash<tstring>{}(static_cast<const char*>(read_void_p(in))); }
+			static SEQ_ALWAYS_INLINE auto apply(const void* in) noexcept -> size_t { return std::hash<tstring>{}(static_cast<const char*>(read_void_p(in))); }
 		};
 		template<>
 		struct HashType<char*, true>
 		{
-			static SEQ_ALWAYS_INLINE auto apply(const void* in) -> size_t { return std::hash<tstring>{}(static_cast<const char*>(read_void_p(in))); }
+			static SEQ_ALWAYS_INLINE auto apply(const void* in) noexcept -> size_t { return std::hash<tstring>{}(static_cast<const char*>(read_void_p(in))); }
 		};
 		template<>
 		struct HashType<const wchar_t*, true>
 		{
-			static SEQ_ALWAYS_INLINE auto apply(const void* in) -> size_t { return std::hash<tiny_string<wchar_t>>{}(static_cast<const wchar_t*>(read_void_p(in))); }
+			static SEQ_ALWAYS_INLINE auto apply(const void* in) noexcept -> size_t { return std::hash<tiny_string<wchar_t>>{}(static_cast<const wchar_t*>(read_void_p(in))); }
 		};
 		template<>
 		struct HashType<wchar_t*, true>
 		{
-			static SEQ_ALWAYS_INLINE auto apply(const void* in) -> size_t { return std::hash<tiny_string<wchar_t>>{}(static_cast<const wchar_t*>(read_void_p(in))); }
+			static SEQ_ALWAYS_INLINE auto apply(const void* in) noexcept -> size_t { return std::hash<tiny_string<wchar_t>>{}(static_cast<const wchar_t*>(read_void_p(in))); }
 		};
 		template<class T>
 		struct HashType<T, false>
@@ -527,7 +523,7 @@ namespace seq
 		};
 
 		/// @brief Cast string types between them
-		template<class String, class InString, bool IsString = is_allocated_string<String>::value&& is_generic_char_string<InString>::value>
+		template<class String, class InString, bool IsString = is_allocated_string<String>::value && is_generic_char_string<InString>::value>
 		struct CastStringToString
 		{
 			static SEQ_ALWAYS_INLINE auto apply(const InString& str) -> String { return String(string_data(str), string_size(str)); }
@@ -543,7 +539,7 @@ namespace seq
 		};
 
 		/// @brief Cast string types to string_view
-		template<class String, class InString, bool IsString = is_generic_string_view<String>::value&& is_generic_char_string<InString>::value>
+		template<class String, class InString, bool IsString = is_generic_string_view<String>::value && is_generic_char_string<InString>::value>
 		struct CastStringToStringView
 		{
 			static SEQ_ALWAYS_INLINE auto apply(const InString& str) -> String { return String(string_data(str), string_size(str)); }
@@ -816,7 +812,7 @@ namespace seq
 				void* dst = out_storage;
 				if (sizeof(T) > out_storage_size) {
 					dst = SEQ_ANY_MALLOC(sizeof(T));
-					if (!dst)
+					if SEQ_UNLIKELY(!dst)
 						throw std::bad_alloc();
 					memcpy(out_storage, &dst, sizeof(void*));
 				}
@@ -893,7 +889,7 @@ namespace seq
 	namespace detail
 	{
 		/// @brief Returns registered conversion functions
-		inline auto get_converters() -> std::vector<std::vector<std::function<void(const void*, void*)>>>&
+		SEQ_ALWAYS_INLINE auto get_converters() noexcept -> std::vector<std::vector<std::function<void(const void*, void*)>>>&
 		{
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -908,21 +904,21 @@ namespace seq
 		}
 		/// @brief Default conversion function, use explicit cast
 		template<class T, class U>
-		void default_convert(const void* in, void* out)
+		SEQ_ALWAYS_INLINE void default_convert(const void* in, void* out)
 		{
 			// default conversion function for castable types
 			*static_cast<U*>(out) = static_cast<U>(*static_cast<const T*>(in));
 		}
 		/// @brief Conversion function based on a functor
 		template<class T, class U, class Fun>
-		void default_convert_with_functor(const Fun& fun, const void* in, void* out)
+		SEQ_ALWAYS_INLINE void default_convert_with_functor(const Fun& fun, const void* in, void* out)
 		{
 			// conversion function using a functor
 			*static_cast<U*>(out) = fun(*static_cast<const T*>(in));
 		}
 
 		/// @brief Returns registered less comparison functions
-		inline auto get_less_comparison() -> std::vector<std::vector<std::function<bool(const void*, const void*)>>>&
+		SEQ_ALWAYS_INLINE auto get_less_comparison() noexcept -> std::vector<std::vector<std::function<bool(const void*, const void*)>>>&
 		{
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -937,19 +933,19 @@ namespace seq
 		}
 		/// @brief Default less comparison
 		template<class T, class U>
-		auto default_less_comparison(const void* a, const void* b) -> bool
+		SEQ_ALWAYS_INLINE auto default_less_comparison(const void* a, const void* b) -> bool
 		{
 			return *static_cast<const T*>(a) < *static_cast<const U*>(b);
 		}
 		/// @brief Less comparison based on functor
 		template<class T, class U, class Fun>
-		auto default_less_comparison_with_functor(const Fun& fun, const void* a, const void* b) -> bool
+		SEQ_ALWAYS_INLINE auto default_less_comparison_with_functor(const Fun& fun, const void* a, const void* b) -> bool
 		{
 			return fun(*static_cast<const T*>(a), *static_cast<const U*>(b));
 		}
 
 		/// @brief Returns registered equal comparison functions
-		inline auto get_equal_comparison() -> std::vector<std::vector<std::function<bool(const void*, const void*)>>>&
+		SEQ_ALWAYS_INLINE auto get_equal_comparison() noexcept -> std::vector<std::vector<std::function<bool(const void*, const void*)>>>&
 		{
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -964,13 +960,13 @@ namespace seq
 		}
 		/// @brief Default equal comparison
 		template<class T, class U>
-		auto default_equal_comparison(const void* a, const void* b) -> bool
+		SEQ_ALWAYS_INLINE auto default_equal_comparison(const void* a, const void* b) -> bool
 		{
 			return *static_cast<const T*>(a) == *static_cast<const U*>(b);
 		}
 		/// @brief Equal comparison based on functor
 		template<class T, class U, class Fun>
-		auto default_equal_comparison_with_functor(const Fun& fun, const void* a, const void* b) -> bool
+		SEQ_ALWAYS_INLINE auto default_equal_comparison_with_functor(const Fun& fun, const void* a, const void* b) -> bool
 		{
 			return fun(*static_cast<const T*>(a), *static_cast<const U*>(b));
 		}
@@ -1028,7 +1024,7 @@ namespace seq
 			void* d = &d_storage;
 			if (tag & detail::big_size) {
 				d = SEQ_ANY_MALLOC(size_T);
-				if (d == nullptr)
+				if SEQ_UNLIKELY(d == nullptr)
 					throw std::bad_alloc();
 				memcpy(&d_storage, &d, sizeof(void*));
 			}
@@ -1456,7 +1452,7 @@ namespace seq
 	///		-	They both hold an arithmetic value of possibly different types, and these values compare equals.
 	///		-	They both hold a string like object (std::string, seq::tstring, seq::tstring_view, std::string_view, char*, const char*) that compare equals.
 	///			Note that a const char* can be compared to another string object (like std::string) using string comparison, but comparing two const char* will result in a pointer
-	///comparison!
+	/// comparison!
 	///
 	/// It is possible to register a comparison function for unrelated types using seq::register_any_equal_comparison() function.
 	///
@@ -1782,7 +1778,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto non_relocatable() const noexcept -> bool { return (this->d_type_info.full() & detail::non_relocatable) != 0; }
 
 		template<class T>
-		auto get_null_out() -> T*
+		SEQ_ALWAYS_INLINE auto get_null_out() noexcept -> T*
 		{
 			// Returns pointer to T*, never reached (just here to avoid compile warning)
 #ifdef __clang__
@@ -1852,7 +1848,7 @@ namespace seq
 
 		/// @brief Returns the type info for given type
 		template<class T>
-		static auto get_type() -> type_info_type*
+		static SEQ_ALWAYS_INLINE auto get_type() noexcept -> type_info_type*
 		{
 			struct Holder
 			{
@@ -1893,19 +1889,6 @@ namespace seq
 			}
 			// copy type info
 			this->d_type_info = other.d_type_info;
-		}
-
-		/// @brief Constructor taking a ValueWrapper as parameter (mandatory to make hold_any work with cvector)
-		template<class Compressed>
-		hold_any(detail::ValueWrapper<Compressed>&& wrapper)
-		  : hold_any(wrapper.get())
-		{
-		}
-		/// @brief Constructor taking a ConstValueWrapper as parameter (mandatory to make hold_any work with cvector)
-		template<class Compressed>
-		hold_any(detail::ConstValueWrapper<Compressed>&& wrapper)
-		  : hold_any(wrapper.get())
-		{
 		}
 
 		/// @brief Move constructor
@@ -1982,17 +1965,6 @@ namespace seq
 			this->d_type_info = other.d_type_info;
 
 			return *this;
-		}
-
-		template<class Compressed>
-		auto operator=(detail::ValueWrapper<Compressed>&& wrapper) -> hold_any&
-		{
-			return *this = wrapper.get();
-		}
-		template<class Compressed>
-		auto operator=(detail::ConstValueWrapper<Compressed>&& wrapper) -> hold_any&
-		{
-			return *this = wrapper.get();
 		}
 
 		/// @brief Move assignment, MIGHT THROW if Relocatable is false !
@@ -2074,23 +2046,23 @@ namespace seq
 
 		/// @brief Emplace construction
 		template<class ValueType, class... Args>
-		auto emplace(Args&&... args) -> typename std::decay<ValueType>::type&
+		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> typename std::decay<ValueType>::type&
 		{
 			return emplace_args<ValueType>(std::forward<Args>(args)...);
 		}
 		/// @brief Emplace construction
 		template<class ValueType, class U, class... Args>
-		auto emplace(std::initializer_list<U> il, Args&&... args) -> typename std::decay<ValueType>::type&
+		SEQ_ALWAYS_INLINE auto emplace(std::initializer_list<U> il, Args&&... args) -> typename std::decay<ValueType>::type&
 		{
 			return emplace_args<ValueType>(il, std::forward<Args>(args)...);
 		}
 		/// @brief Returns true if hold_any holds an object
-		auto has_value() const noexcept -> bool { return !this->empty(); }
+		SEQ_ALWAYS_INLINE auto has_value() const noexcept -> bool { return !this->empty(); }
 		/// @brief Explicit conversion to bool
-		explicit operator bool() const noexcept { return has_value(); }
+		SEQ_ALWAYS_INLINE explicit operator bool() const noexcept { return has_value(); }
 		/// @brief Swap content with another hold_any.
 		/// Swap cannot be noexcept as there is no guarantee that move assignment of underlying types are noexcept
-		void swap(hold_any& other)
+		SEQ_ALWAYS_INLINE void swap(hold_any& other)
 		{
 			// swap cannot be noexcept as there is no guarantee that move assignment of underlying types are noexcept
 
@@ -2280,7 +2252,7 @@ namespace seq
 				return false;
 			return converts[static_cast<size_t>(b_id)](this->data(), other.data());
 		}
-		auto operator!=(const hold_any& other) const -> bool { return !(*this == other); }
+		SEQ_ALWAYS_INLINE auto operator!=(const hold_any& other) const->bool { return !(*this == other); }
 		auto operator<(const hold_any& other) const -> bool
 		{
 			const bool a_empty = this->empty();
@@ -2324,9 +2296,9 @@ namespace seq
 				return a_id < b_id;
 			return converts[static_cast<size_t>(b_id)](this->data(), other.data());
 		}
-		auto operator<=(const hold_any& other) const -> bool { return !(other < *this); }
-		auto operator>(const hold_any& other) const -> bool { return other < *this; }
-		auto operator>=(const hold_any& other) const -> bool { return !(*this < other); }
+		SEQ_ALWAYS_INLINE auto operator<=(const hold_any& other) const->bool { return !(other < *this); }
+		SEQ_ALWAYS_INLINE auto operator>(const hold_any& other) const->bool { return other < *this; }
+		SEQ_ALWAYS_INLINE auto operator>=(const hold_any& other) const->bool { return !(*this < other); }
 	};
 
 	/// @brief Register a conversion function based on explicit conversion from type T to type U
@@ -2412,74 +2384,72 @@ namespace seq
 		  std::function<bool(const void*, const void*)>(std::bind(detail::default_equal_comparison_with_functor<T, U, Fun>, fun, std::placeholders::_1, std::placeholders::_2));
 	}
 
-	// Additional operators, but disable them for ValueWrapper and ConstValueWrapper (instead use the ones defined in cvector.hpp)
-
 	// operator == with any other type, mandatory for heterogeneous lookup in hash table
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator==(const hold_any<Interface, S, A, R>& a, const T& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator==(const hold_any<Interface, S, A, R>& a, const T& b)->bool
 	{
 		return a.equal_to(b);
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator==(const T& b, const hold_any<Interface, S, A, R>& a) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator==(const T& b, const hold_any<Interface, S, A, R>& a)->bool
 	{
 		return a.equal_to(b);
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator!=(const hold_any<Interface, S, A, R>& a, const T& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator!=(const hold_any<Interface, S, A, R>& a, const T& b)->bool
 	{
 		return !a.equal_to(b);
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator!=(const T& b, const hold_any<Interface, S, A, R>& a) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator!=(const T& b, const hold_any<Interface, S, A, R>& a)->bool
 	{
 		return !a.equal_to(b);
 	}
 
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator<(const hold_any<Interface, S, A, R>& a, const T& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator<(const hold_any<Interface, S, A, R>& a, const T& b)->bool
 	{
 		return a.less_than(b);
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator>(const hold_any<Interface, S, A, R>& a, const T& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator>(const hold_any<Interface, S, A, R>& a, const T& b)->bool
 	{
 		return a.greater_than(b);
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator<=(const hold_any<Interface, S, A, R>& a, const T& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator<=(const hold_any<Interface, S, A, R>& a, const T& b)->bool
 	{
 		return !(b < a);
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator>=(const hold_any<Interface, S, A, R>& a, const T& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator>=(const hold_any<Interface, S, A, R>& a, const T& b)->bool
 	{
 		return !(a < b);
 	}
 
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator<(const T& a, const hold_any<Interface, S, A, R>& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator<(const T& a, const hold_any<Interface, S, A, R>& b)->bool
 	{
 		return b.greater_than(a);
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator>(const T& a, const hold_any<Interface, S, A, R>& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator>(const T& a, const hold_any<Interface, S, A, R>& b)->bool
 	{
 		return b.less_than(a);
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator<=(const T& a, const hold_any<Interface, S, A, R>& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator<=(const T& a, const hold_any<Interface, S, A, R>& b)->bool
 	{
 		return !(b < a);
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, class = typename std::enable_if<!detail::is_value_wrapper<T>::value, void>::type>
-	auto operator>=(const T& a, const hold_any<Interface, S, A, R>& b) -> bool
+	template<class Interface, size_t S, size_t A, bool R, class T>
+	SEQ_ALWAYS_INLINE auto operator>=(const T& a, const hold_any<Interface, S, A, R>& b)->bool
 	{
 		return !(a < b);
 	}
 
 	template<class Interface, size_t S, size_t A, bool R>
-	auto operator<<(std::ostream& oss, const hold_any<Interface, S, A, R>& a) -> std::ostream&
+	SEQ_ALWAYS_INLINE auto operator<<(std::ostream& oss, const hold_any<Interface, S, A, R>& a)->std::ostream&
 	{
 		if (a.empty())
 			throw seq::bad_any_function_call("attempt to write empty hold_any to std::ostream");
@@ -2488,7 +2458,7 @@ namespace seq
 	}
 
 	template<class Interface, size_t S, size_t A, bool R>
-	auto operator>>(std::istream& iss, hold_any<Interface, S, A, R>& a) -> std::istream&
+	SEQ_ALWAYS_INLINE auto operator>>(std::istream& iss, hold_any<Interface, S, A, R>& a)->std::istream&
 	{
 		if (a.empty())
 			throw seq::bad_any_function_call("attempt to read empty hold_any from std::ostream");
@@ -2497,19 +2467,19 @@ namespace seq
 	}
 
 	template<class T, class Interface, size_t S, size_t A, bool R>
-	auto any_cast(const hold_any<Interface, S, A, R>& operand) -> T
+	SEQ_ALWAYS_INLINE auto any_cast(const hold_any<Interface, S, A, R>& operand) -> T
 	{
 		return operand.template cast<T>();
 	}
 
 	template<class T, class Interface, size_t S, size_t A, bool R>
-	auto any_cast(hold_any<Interface, S, A, R>& operand) -> T
+	SEQ_ALWAYS_INLINE auto any_cast(hold_any<Interface, S, A, R>& operand) -> T
 	{
 		return operand.template cast<T>();
 	}
 
 	template<class T, class Interface, size_t S, size_t A, bool R>
-	auto any_cast(const hold_any<Interface, S, A, R>* operand) noexcept -> const T*
+	SEQ_ALWAYS_INLINE auto any_cast(const hold_any<Interface, S, A, R>* operand) noexcept -> const T*
 	{
 		if (operand->type() == hold_any<Interface>::template get_type<T>())
 			return static_cast<const T*>(operand->data());
@@ -2517,7 +2487,7 @@ namespace seq
 	}
 
 	template<class T, class Interface, size_t S, size_t A, bool R>
-	auto any_cast(hold_any<Interface, S, A, R>* operand) noexcept -> T*
+	SEQ_ALWAYS_INLINE auto any_cast(hold_any<Interface, S, A, R>* operand) noexcept -> T*
 	{
 		if (operand->type() == hold_any<Interface>::template get_type<T>())
 			return static_cast<T*>(operand->data());
@@ -2525,7 +2495,7 @@ namespace seq
 	}
 
 	template<class Any, class T, class... Args>
-	auto make_any(Args&&... args) -> Any
+	SEQ_ALWAYS_INLINE auto make_any(Args&&... args) -> Any
 	{
 		Any res;
 		res.template emplace<T>(std::forward<Args>(args)...);
@@ -2533,7 +2503,7 @@ namespace seq
 	}
 
 	template<class Any, class T, class U, class... Args>
-	auto make_any(std::initializer_list<U> il, Args&&... args) -> Any
+	SEQ_ALWAYS_INLINE auto make_any(std::initializer_list<U> il, Args&&... args) -> Any
 	{
 		Any res;
 		res.template emplace<T>(il, std::forward<Args>(args)...);
@@ -2595,8 +2565,14 @@ namespace seq
 	}
 
 	/// @brief Create placeholder for any type for the formatting module
-	inline auto _any() -> ostream_format<nh_any, true> { return ostream_format<nh_any, true>(); }
-	inline auto _a() -> ostream_format<nh_any, true> { return ostream_format<nh_any, true>(); }
+	SEQ_ALWAYS_INLINE auto _any() -> ostream_format<nh_any, true>
+	{
+		return ostream_format<nh_any, true>();
+	}
+	SEQ_ALWAYS_INLINE auto _a() -> ostream_format<nh_any, true>
+	{
+		return ostream_format<nh_any, true>();
+	}
 
 	// specialization of seq::hasher for hold_any
 	template<class Interface, size_t S, size_t A, bool R>
@@ -2627,17 +2603,20 @@ namespace seq
 			return hash_finalize(type_inf->hash_any(&value));
 		}
 	};
-}
 
-namespace std
-{
-	// swap overload for hold_any, illegal considering C++ rules, but works on all tested compilers, and way more efficient than the the default std::swap
+
+	// swap overload for hold_any
 	template<class Interface, size_t S, size_t A, bool R>
 	void swap(seq::hold_any<Interface, S, A, R>& a, seq::hold_any<Interface, S, A, R>& b)
 	{
 		a.swap(b);
 	}
 
+}
+
+namespace std
+{
+	
 	// specialization of std hash for hold_any
 	template<class Interface, size_t S, size_t A, bool R>
 	class hash<seq::hold_any<Interface, S, A, R>>

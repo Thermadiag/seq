@@ -47,14 +47,6 @@ if(${TBB_FOUND})
 endif()
 
  
- 
-if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-		if(ENABLE_AVX2)
-			target_compile_options(seq_benchs PRIVATE /arch:AVX2)
-		endif()
-else()
-	target_compile_options(seq_benchs PRIVATE -march=native)
-endif()
 
 # Test boost::container::flat_set insert and erase performances (very slow)
 if(TEST_BOOST_INSERT_ERASE)

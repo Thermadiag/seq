@@ -43,7 +43,8 @@ Note that the specialization of std::hash for seq::tiny_string uses murmurhash2 
  *  @{
  */
 
-#include "bits.hpp"
+#include "utils.hpp"
+#include "internal/hash_impl.hpp"
 #include <string>
 #include <type_traits>
 #include <tuple>
@@ -55,19 +56,14 @@ namespace seq
 
 	/// @brief Detect is_avalanching typedef
 	template<typename T>
-	struct hash_is_avalanching
+	struct hash_is_avalanching : detail::has_is_avalanching<T>
 	{
-	private:
-		template<typename T1>
-		static typename T1::is_avalanching test(int);
-		template<typename>
-		static void test(...);
+	};
 
-	public:
-		enum
-		{
-			value = !std::is_void<decltype(test<T>(0))>::value
-		};
+	/// @brief Detect is_transparent typedef
+	template<typename T>
+	struct hash_is_transparent : detail::has_is_transparent<T>
+	{
 	};
 
 	namespace detail
@@ -151,21 +147,20 @@ namespace seq
 		return detail::HashVal<Hasher>::hash(h, v);
 	}
 
-}
 
-#ifndef SEQ_HEADER_ONLY
-namespace seq
-{
-	SEQ_EXPORT auto hash_bytes_murmur64(const void* ptr, size_t len) noexcept -> size_t;
-	SEQ_EXPORT auto hash_bytes_fnv1a(const void* ptr, size_t size) noexcept -> size_t;
-	SEQ_EXPORT auto hash_bytes_komihash(const void* ptr, size_t size) noexcept -> size_t;
-}
-#else
-#include "internal/hash.cpp"
-#endif
+	inline auto hash_bytes_murmur64(const void* ptr, size_t size) noexcept
+	{
+		return detail::hash_bytes_murmur64_impl(ptr, size);
+	}
+	inline auto hash_bytes_fnv1a(const void* ptr, size_t size) noexcept
+	{
+		return detail::hash_bytes_fnv1a_impl(ptr, size);
+	}
+	inline auto hash_bytes_komihash(const void* ptr, size_t size) noexcept
+	{
+		return detail::hash_bytes_komihash_impl(ptr, size);
+	}
 
-namespace seq
-{
 
 	template<class T, class Enable = void>
 	struct hasher : public std::hash<T>
@@ -196,6 +191,9 @@ namespace seq
 	SEQ_INTEGRAL_HASH_FUNCTION(wchar_t);
 	SEQ_INTEGRAL_HASH_FUNCTION(char16_t);
 	SEQ_INTEGRAL_HASH_FUNCTION(char32_t);
+#ifdef SEQ_HAS_CPP_20
+	SEQ_INTEGRAL_HASH_FUNCTION(char8_t);
+#endif
 
 	template<>
 	struct hasher<float>
@@ -242,7 +240,7 @@ namespace seq
 		using is_avalanching = int;
 		using is_transparent = int;
 		SEQ_ALWAYS_INLINE size_t operator()(const std::unique_ptr<T>& ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr.get())); }
-		SEQ_ALWAYS_INLINE size_t operator()(T* ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr)); }
+		SEQ_ALWAYS_INLINE size_t operator()(const T* ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr)); }
 	};
 
 	template<class T>
@@ -251,7 +249,7 @@ namespace seq
 		using is_avalanching = int;
 		using is_transparent = int;
 		SEQ_ALWAYS_INLINE size_t operator()(const std::shared_ptr<T>& ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr.get())); }
-		SEQ_ALWAYS_INLINE size_t operator()(T* ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr)); }
+		SEQ_ALWAYS_INLINE size_t operator()(const T* ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr)); }
 	};
 
 	template<typename Enum>

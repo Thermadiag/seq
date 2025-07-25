@@ -25,29 +25,25 @@
 #ifndef SEQ_RADIX_TREE_HPP
 #define SEQ_RADIX_TREE_HPP
 
+#include <tuple>
+
 #include "../bits.hpp"
 #include "../tagged_pointer.hpp"
 #include "../hash.hpp"
 #include "../flat_map.hpp"
+#include "../type_traits.hpp"
 #include "simd.hpp"
 
 namespace seq
 {
-	namespace radix_detail
+	struct default_key
 	{
-		/// @brief Find result type of ExtractKey::operator() on T object
-		template<class ExtractKey, class T>
-		struct ExtractKeyResultType
+		template<class U>
+		SEQ_ALWAYS_INLINE const U& operator()(const U& v) const
 		{
-			using rtype = decltype(ExtractKey{}(std::declval<T>()));
-			using type = typename std::decay<rtype>::type;
-		};
-		template<class ExtractKey, class T>
-		struct ExtractCVKeyResultType
-		{
-			using type = decltype(ExtractKey{}(std::declval<T>()));
-		};
-	}
+			return v;
+		}
+	};
 
 	/// @brief Default (dummy) less functor for radix hash tree
 	struct default_less
@@ -59,42 +55,643 @@ namespace seq
 		}
 	};
 
-	/// @brief Default key extractor for radix tree
-	template<class T, class = void>
-	struct default_key
+	namespace radix_detail
 	{
-		const T& operator()(const T& val) const noexcept { return val; }
-		// Define for heterogeneous lookup
-		template<class Key>
-		T operator()(const Key& val) const noexcept
-		{
-			return static_cast<T>(val);
-		}
-	};
 
-	/// @brief Default key extractor for string keys and radix tree
-	template<class T>
-	struct default_key<T, typename std::enable_if<is_generic_char_string<T>::value, void>::type>
-	{
-		template<class Traits, size_t S, class A>
-		tstring_view operator()(const tiny_string<char, Traits, A, S>& val) const noexcept
+		/// @brief Find result type of ExtractKey::operator() on T object
+		template<class ExtractKey, class T>
+		struct ExtractKeyResultType
 		{
+			using rtype = decltype(ExtractKey{}(std::declval<const T&>()));
+			using type = typename std::decay<rtype>::type;
+		};
+
+		template<class T, class = void>
+		struct has_data_pointer : std::false_type
+		{
+			using type = char;
+		};
+		template<class T>
+		struct has_data_pointer<T, typename detail::make_void<decltype(std::declval<T&>().data())>::type>
+		{
+			using pointer = decltype(std::declval<T&>().data());
+			using ctype = typename std::remove_pointer<pointer>::type;
+			using type = typename std::remove_const<ctype>::type;
+			static constexpr bool value = std::is_pointer<pointer>::value;
+		};
+		template<class T, class = void>
+		struct has_size : std::false_type
+		{
+			using type = char;
+		};
+		template<class T>
+		struct has_size<T, typename detail::make_void<decltype(std::declval<T&>().size())>::type>
+		{
+			using type = decltype(std::declval<T&>().size());
+			static constexpr bool value = std::is_integral<type>::value;
+		};
+		template<class T>
+		struct is_native_type : std::bool_constant<std::is_pointer<T>::value || std::is_arithmetic<T>::value>
+		{
+		};
+		template<class T>
+		struct has_native_data_pointer
+		{
+			using data = has_data_pointer<T>;
+			using type = typename data::type;
+			static constexpr bool value = (data::value && has_size<T>::value && is_native_type<type>::value);
+		};
+
+		static SEQ_ALWAYS_INLINE auto byte_swap(std::uint8_t v) noexcept
+		{
+			return v;
+		}
+		static SEQ_ALWAYS_INLINE auto byte_swap(std::uint16_t v) noexcept
+		{
+			return byte_swap_16(v);
+		}
+		static SEQ_ALWAYS_INLINE auto byte_swap(std::uint32_t v) noexcept
+		{
+			return byte_swap_32(v);
+		}
+		static SEQ_ALWAYS_INLINE auto byte_swap(std::uint64_t v) noexcept
+		{
+			return byte_swap_64(v);
+		}
+		template<class T>
+		static SEQ_ALWAYS_INLINE auto byte_swap(const T* v) noexcept
+		{
+			if constexpr (sizeof(T*) == 8)
+				return byte_swap_64(reinterpret_cast<std::uintptr_t>(v));
+			else
+				return byte_swap_32(reinterpret_cast<std::uint32_t>(v));
+		}
+
+		//
+		// Convert arithmetic types and pointers to unsigned integers
+		// while keeping ordering.
+		//
+
+		template<class T>
+		static SEQ_ALWAYS_INLINE auto to_uint(T k) noexcept
+		{
+			using type = typename std::make_unsigned<T>::type;
+			type val = static_cast<type>(k);
+			if SEQ_CONSTEXPR (std::is_signed<T>::value)
+				// wrap around to keep an unsigned value in the same order as the signed one
+				val += (static_cast<type>(1) << (static_cast<type>(sizeof(T) * 8 - 1)));
 			return val;
 		}
-		template<class Traits, class A>
-		tstring_view operator()(const std::basic_string<char, Traits, A>& val) const noexcept
+		template<class T>
+		static SEQ_ALWAYS_INLINE auto to_uint(const T* p) noexcept
 		{
-			return val;
+			// Convert pointer to uintptr_t
+			return reinterpret_cast<std::uintptr_t>(p);
 		}
-		tstring_view operator()(const char* val) const noexcept { return tstring_view(val); }
-#ifdef SEQ_HAS_CPP_17
-		template<class Traits>
-		tstring_view operator()(const std::basic_string_view<char, Traits>& val) const noexcept
+		template<class T>
+		static SEQ_ALWAYS_INLINE auto to_uint(T* p) noexcept
 		{
-			return val;
+			// Convert pointer to uintptr_t
+			return reinterpret_cast<std::uintptr_t>(p);
 		}
+		static SEQ_ALWAYS_INLINE auto to_uint(wchar_t k) noexcept
+		{
+			// Convert wchar_t to its unsigned representation.
+			// That's because wchar_t string comparison works
+			// on the unsigned character.
+			// Other character types (char8_t, char16_t, char32_t)
+			// are already unsigned.
+			return static_cast<std::make_unsigned<wchar_t>::type>(k);
+		}
+		static SEQ_ALWAYS_INLINE bool to_uint(bool k) noexcept
+		{
+			return k;
+		}
+		static SEQ_ALWAYS_INLINE std::uint32_t to_uint(float k) noexcept
+		{
+			union
+			{
+				float d;
+				std::uint32_t u;
+			} u = { k };
+			// Flip all except top if top bit is set.
+			u.u ^= ((static_cast<unsigned>((static_cast<int>(u.u)) >> 31)) >> 1);
+			// Flip top bit.
+			return (u.u ^ (1u << 31u));
+		}
+		static SEQ_ALWAYS_INLINE std::uint64_t to_uint(double k) noexcept
+		{
+			// Interpret double as 64-bit unsigned.
+			union
+			{
+				double d;
+				std::uint64_t u;
+			} u = { k };
+			// Flip all except top if top bit is set.
+			u.u ^= ((static_cast<std::uint64_t>((static_cast<std::int64_t>(u.u)) >> 63ll)) >> 1ll);
+			// Flip top bit.
+			return (u.u ^ (1ull << 63ull));
+		}
+
+		//
+		// Radix hasher classes
+		//
+
+		template<class T>
+		struct make_unsigned_or_bool : std::make_unsigned<T>
+		{
+			// make_unsigned that also work on bool type
+			using type = typename std::conditional<std::is_same<T, bool>::value, bool, typename std::make_unsigned<T>::type>::type;
+		};
+		template<class T>
+		struct make_unsigned_from_float
+		{
+			// Unsigned type with the same size as float type
+			using type = typename std::conditional<std::is_same<T, float>::value, uint32_t, uint64_t>::type;
+		};
+
+		/// @brief Default invalid hash class for the radix tree
+		template<class Key, class = void>
+		struct RadixHasher
+		{
+			static constexpr size_t max_bits = 0; // invalid value
+		};
+
+		template<class UIntegral, bool Small = sizeof(UIntegral) < 4>
+		struct NBits
+		{
+			static constexpr UIntegral integral_bits = sizeof(UIntegral) * 8U;
+			static SEQ_ALWAYS_INLINE unsigned apply(UIntegral value, size_t start, size_t count) noexcept
+			{
+				return static_cast<unsigned>((value << static_cast<UIntegral>(start)) >> (integral_bits - static_cast<UIntegral>(count)));
+			}
+		};
+		template<class UIntegral>
+		struct NBits<UIntegral, true>
+		{
+			static constexpr UIntegral integral_bits = sizeof(UIntegral) * 8U;
+			static SEQ_ALWAYS_INLINE unsigned apply(UIntegral value, size_t start, size_t count) noexcept
+			{
+				// Special trick for 16 and 8 bits integers
+				unsigned v = static_cast<unsigned>(value) << (32u - sizeof(UIntegral) * 8u);
+				return (v << static_cast<unsigned>(start)) >> (32u - static_cast<unsigned>(count));
+			}
+		};
+
+		/// @brief Integral hash class
+		template<class Integral>
+		struct RadixHasher<Integral, typename std::enable_if<std::is_integral<Integral>::value, void>::type>
+		{
+
+			using integral_type = typename make_unsigned_or_bool<Integral>::type;
+			static constexpr integral_type integral_bits = sizeof(integral_type) * 8U;
+			static constexpr bool variable_length = false;
+			static constexpr bool prefix_search = true;
+			static constexpr size_t max_bits = sizeof(Integral) * 8U;
+			static constexpr size_t bit_step = 2;
+			static constexpr bool is_transparent = true;
+
+			integral_type value = 0;
+
+			SEQ_ALWAYS_INLINE auto n_bits(size_t start, size_t count) const noexcept { return NBits<integral_type>::apply(value, start, count); }
+
+			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash() const noexcept { return static_cast<std::uint8_t>(hash_finalize(static_cast<size_t>(value))); }
+
+			// Retuns the total number of bits
+			SEQ_ALWAYS_INLINE constexpr size_t get_size() const noexcept { return static_cast<size_t>(integral_bits); }
+			template<class U>
+			SEQ_ALWAYS_INLINE auto hash(const U& k) const noexcept
+			{
+				return RadixHasher<Integral>{ to_uint(static_cast<Integral>(k)) };
+			}
+
+			template<class U>
+			static SEQ_ALWAYS_INLINE bool check_prefix(RadixHasher<U> hash, RadixHasher<U> match, size_t start, size_t bits) noexcept
+			{
+				// Faster check_prefix() version
+				if SEQ_CONSTEXPR (sizeof(U) < 4u)
+					return hash.n_bits(start, bits) == match.n_bits(start, bits);
+				else {
+					auto shift = (RadixHasher<U>::max_bits - bits);
+					return ((hash.value << start) >> shift) == ((match.value << start) >> shift);
+				}
+			}
+			template<class U, class V>
+			static SEQ_ALWAYS_INLINE bool less(const U& l, const V& r) noexcept
+			{
+				return static_cast<Integral>(l) < static_cast<Integral>(r);
+			}
+			template<class U, class V>
+			SEQ_ALWAYS_INLINE bool equal(const U& l, const V& r) const noexcept
+			{
+				return static_cast<Integral>(l) == static_cast<Integral>(r);
+			}
+		};
+
+		/// @brief Hash class for float and double
+		template<class T>
+		struct RadixHasher<T, typename std::enable_if<std::is_floating_point<T>::value, void>::type> : RadixHasher<typename make_unsigned_from_float<T>::type>
+		{
+			static_assert(std::numeric_limits<T>::is_iec559, "");
+			using unsigned_type = typename make_unsigned_from_float<T>::type;
+
+			SEQ_ALWAYS_INLINE RadixHasher(unsigned_type v = 0) noexcept
+			  : RadixHasher<unsigned_type>{ v }
+			{
+			}
+			template<class U>
+			SEQ_ALWAYS_INLINE auto hash(U k) const noexcept
+			{
+				return RadixHasher<T>{ to_uint(static_cast<T>(k)) };
+			}
+			template<class U, class V>
+			static SEQ_ALWAYS_INLINE bool less(const U& l, const V& r) noexcept
+			{
+				return static_cast<T>(l) < static_cast<T>(r);
+			}
+			template<class U, class V>
+			SEQ_ALWAYS_INLINE bool equal(const U& l, const V& r) const noexcept
+			{
+				return static_cast<T>(l) == static_cast<T>(r);
+			}
+		};
+
+		/// @brief Hash class for pointers
+		template<class T>
+		struct RadixHasher<T, typename std::enable_if<std::is_pointer<T>::value, void>::type> : RadixHasher<uintptr_t>
+		{
+			SEQ_ALWAYS_INLINE RadixHasher(uintptr_t v = 0) noexcept
+			  : RadixHasher<uintptr_t>{ v }
+			{
+			}
+			template<class U>
+			SEQ_ALWAYS_INLINE auto hash(const U& k) const noexcept
+			{
+				return RadixHasher<T>{ to_uint(static_cast<T>(k)) };
+			}
+			template<class U, class V>
+			static SEQ_ALWAYS_INLINE bool less(const U& l, const V& r) noexcept
+			{
+				return static_cast<T>(l) < static_cast<T>(r);
+			}
+			template<class U, class V>
+			SEQ_ALWAYS_INLINE bool equal(const U& l, const V& r) const noexcept
+			{
+				return static_cast<T>(l) == static_cast<T>(r);
+			}
+		};
+
+		/// @brief Hash class for any kind of array of primitive type (std::string, std::wstring, std::vector, std::array...)
+		template<class T>
+		struct RadixHasher<T, typename std::enable_if<has_native_data_pointer<T>::value, void>::type>
+		{
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
+#define swap_b(v) byte_swap(v)
+#else
+#define swap_b(v) v
 #endif
-	};
+			static constexpr bool variable_length = true;
+			static constexpr bool prefix_search = true;
+			static constexpr size_t max_bits = static_cast<size_t>(-1); // unlimited
+			static constexpr size_t bit_step = 4;
+			using type = typename has_native_data_pointer<T>::type;
+			const type* data{ nullptr };
+			size_t size{ 0 };
+
+			SEQ_ALWAYS_INLINE auto get_size() const noexcept -> size_t { return static_cast<size_t>(size * sizeof(type) * 8ULL); }
+
+			SEQ_ALWAYS_INLINE auto n_bits(size_t shift, size_t count) const noexcept -> unsigned
+			{
+				if SEQ_UNLIKELY (count == 0)
+					return 0;
+
+				size_t byte_offset = shift >> 3u;
+				size_t bit_offset = (shift) & 7U;
+
+				if SEQ_CONSTEXPR (sizeof(type) == 1) {
+					// One byte: string
+					uint64_t hash = 0;
+					if (size >= byte_offset + 8u)
+						memcpy(&hash, data + byte_offset, 8u);
+					else if (byte_offset < size)
+						memcpy(&hash, data + byte_offset, static_cast<unsigned>(size - byte_offset));
+					return static_cast<unsigned>((swap_b(hash) << bit_offset) >> (64u - count));
+				}
+				else {
+					uint64_t hash = 0;
+					size_t char_offset = byte_offset / sizeof(type);
+					byte_offset = (byte_offset) % sizeof(type);
+
+					if (size >= char_offset + 8U / sizeof(type))
+						memcpy(&hash, data + char_offset, 8U);
+					else if (char_offset < size)
+						memcpy(&hash, data + char_offset, static_cast<size_t>((size - char_offset) * sizeof(type)));
+
+					// That's easier in big endian as all the bytes
+					// are already in the right order...
+					using unsigned_type = typename RadixHasher<type>::integral_type;
+					type* p = reinterpret_cast<type*>(&hash);
+					unsigned_type* up = reinterpret_cast<unsigned_type*>(&hash);
+					static_assert(!std::is_const<T>::value, " const type!");
+					if SEQ_CONSTEXPR (sizeof(type) == 2) {
+						up[0] = swap_b(to_uint(p[0]));
+						up[1] = swap_b(to_uint(p[1]));
+						up[2] = swap_b(to_uint(p[2]));
+						up[3] = swap_b(to_uint(p[3]));
+						hash = swap_b(hash);
+					}
+					else if SEQ_CONSTEXPR (sizeof(type) == 4) {
+						up[0] = swap_b(to_uint(p[0]));
+						up[1] = swap_b(to_uint(p[1]));
+						hash = swap_b(hash);
+					}
+					else {
+						// no byte swap here, just plain old bits manipulation
+						up[0] = to_uint(p[0]);
+						if (shift > 32 && (char_offset + 1) < size) {
+							auto hash2 = to_uint(data[char_offset + 1]);
+							hash = (hash << (byte_offset << 3u)) | (hash2 >> (64u - (byte_offset << 3u)));
+							return static_cast<unsigned>((hash << bit_offset) >> (64u - count));
+						}
+					}
+					return static_cast<unsigned>((hash << ((byte_offset << 3u) + bit_offset)) >> (64u - count));
+				}
+			}
+
+			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash() const noexcept { return static_cast<std::uint8_t>(hash_bytes_komihash(data, size * sizeof(type))); }
+
+			SEQ_ALWAYS_INLINE auto hash(const type* p) const noexcept { return RadixHasher<T>{ p, std::char_traits<type>::length(p) }; }
+			template<class U>
+			SEQ_ALWAYS_INLINE auto hash(const U& k) const noexcept
+			{
+				return RadixHasher<T>{ static_cast<const type*>(k.data()), k.size() };
+			}
+
+			static SEQ_ALWAYS_INLINE bool less(const type* v1, size_t l1, const type* v2, size_t l2) noexcept
+			{
+				size_t l = l1 < l2 ? l1 : l2;
+				if SEQ_CONSTEXPR (sizeof(type) == 1) {
+					// Comparison for one byte string
+					using unsigned_char = typename std::make_unsigned<type>::type;
+					if (l && *v1 != *v2)
+						return (static_cast<unsigned_char>(*v1) < static_cast<unsigned_char>(*v2));
+					const type* end = v1 + l;
+					while ((v1 < end - (8 - 1))) {
+						uint64_t r1 = read_64(v1);
+						uint64_t r2 = read_64(v2);
+						if (r1 != r2)
+							return swap_b(r1) < swap_b(r2);
+						v1 += 8;
+						v2 += 8;
+					}
+					if ((v1 < (end - 3))) {
+						uint32_t r1 = read_32(v1);
+						uint32_t r2 = read_32(v2);
+						if (r1 != r2)
+							return swap_b(r1) < swap_b(r2);
+						v1 += 4;
+						v2 += 4;
+					}
+					if ((v1 < (end - 1))) {
+						uint16_t r1 = read_16(v1);
+						uint16_t r2 = read_16(v2);
+						if (r1 != r2)
+							return swap_b(r1) < swap_b(r2);
+						v1 += 2;
+						v2 += 2;
+					}
+					if (v1 != end && *v1 != *v2)
+						return static_cast<unsigned_char>(*v1) < static_cast<unsigned_char>(*v2);
+				}
+				else {
+					// For multi byte character string,
+					// use standard lexicographic comparison
+					if (l && *v1 != *v2)
+						return (*v1) < (*v2);
+					for (size_t i = 1; i < l; ++i)
+						if (v1[i] != v2[i])
+							return v1[i] < v2[i];
+				}
+				return l1 < l2;
+			}
+			template<class L, class R>
+			static SEQ_ALWAYS_INLINE bool less(const L& l, const R& r) noexcept
+			{
+				auto lh = RadixHasher<T>{}.hash(l);
+				auto rh = RadixHasher<T>{}.hash(r);
+				return less(lh.data, lh.size, rh.data, rh.size);
+			}
+
+			static SEQ_ALWAYS_INLINE bool equal(const type* v1, size_t l1, const type* v2, size_t l2) noexcept
+			{
+				if (l1 != l2)
+					return false;
+
+				if SEQ_CONSTEXPR (sizeof(type) == 1) {
+					using unsigned_char = typename std::make_unsigned<type>::type;
+					if (l1 && *v1 != *v2)
+						return false;
+					const type* end = v1 + l1;
+					while ((v1 < end - (8 - 1))) {
+						if (read_64(v1) != read_64(v2))
+							return false;
+						v1 += 8;
+						v2 += 8;
+					}
+					if ((v1 < (end - 3))) {
+						if (read_32(v1) != read_32(v2))
+							return false;
+						v1 += 4;
+						v2 += 4;
+					}
+					if ((v1 < (end - 1))) {
+						if (read_16(v1) != read_16(v2))
+							return false;
+						v1 += 2;
+						v2 += 2;
+					}
+					if (v1 != end && *v1 != *v2)
+						return false;
+				}
+				else {
+					if (l1 && *v1 != *v2)
+						return false;
+					for (size_t i = 1; i < l1; ++i)
+						if (v1[i] != v2[i])
+							return false;
+				}
+				return true;
+			}
+			template<class L, class R>
+			SEQ_ALWAYS_INLINE bool equal(const L& l, const R& r) const noexcept
+			{
+				auto lh = RadixHasher<T>{}.hash(l);
+				auto rh = RadixHasher<T>{}.hash(r);
+				return equal(lh.data, lh.size, rh.data, rh.size);
+			}
+
+			template<class U>
+			static bool check_prefix(RadixHasher<U>, RadixHasher<U>, size_t, size_t) noexcept
+			{
+				// Just because we cannot use if constexpr
+				return false;
+			}
+		};
+
+		template<class Tuple, size_t N = std::tuple_size<Tuple>::value>
+		struct TupleInfo
+		{
+			static constexpr size_t tuple_size = std::tuple_size<Tuple>::value;
+			static constexpr size_t pos = tuple_size - N;
+			using type = typename std::tuple_element<pos, Tuple>::type;
+			static constexpr size_t size = sizeof(type) + TupleInfo<Tuple, N - 1>::size;
+			static_assert(!RadixHasher<type>::variable_length, "tuple key only works with fixed size types");
+
+			static SEQ_ALWAYS_INLINE void build_hash(char* dst, const Tuple& t) noexcept
+			{
+				// compute tiny hash
+				auto s = swap_b(RadixHasher<type>{}.hash(std::get<pos>(t)).value);
+				memcpy(dst, &s, sizeof(s));
+				return TupleInfo<Tuple, N - 1>::build_hash(dst + sizeof(type), t);
+			}
+			static SEQ_ALWAYS_INLINE uint8_t build_tiny_hash(uint8_t h, const char* src) noexcept
+			{
+				if SEQ_CONSTEXPR (sizeof(type) == 1)
+					h ^= *reinterpret_cast<const uint8_t*>(src);
+				else if SEQ_CONSTEXPR (sizeof(type) == 2)
+					h ^= static_cast<uint8_t>(*reinterpret_cast<const uint16_t*>(src) * 14313749767032793493ULL);
+				else if SEQ_CONSTEXPR (sizeof(type) == 4)
+					h ^= static_cast<uint8_t>(*reinterpret_cast<const uint32_t*>(src) * 14313749767032793493ULL);
+				else if SEQ_CONSTEXPR (sizeof(type) == 8)
+					h ^= static_cast<uint8_t>(*reinterpret_cast<const uint64_t*>(src) * 14313749767032793493ULL);
+				return TupleInfo<Tuple, N - 1>::build_tiny_hash(h, src + sizeof(type));
+			}
+		};
+		template<class Tuple>
+		struct TupleInfo<Tuple, 0>
+		{
+			static constexpr size_t size = 0;
+			static SEQ_ALWAYS_INLINE void build_hash(char*, const Tuple&) {}
+			static SEQ_ALWAYS_INLINE uint8_t build_tiny_hash(uint8_t h, const char*) noexcept { return h; }
+		};
+
+		template<class T>
+		struct is_tuple : std::bool_constant<false>
+		{
+		};
+		template<class... Args>
+		struct is_tuple<std::tuple<Args...>> : std::bool_constant<true>
+		{
+		};
+
+		/// @brief Hash class for tuple
+		template<class T>
+		struct RadixHasher<T, typename std::enable_if<is_tuple<T>::value, void>::type>
+		{
+			static constexpr bool variable_length = false;
+			static constexpr bool prefix_search = true;
+			static constexpr size_t size = TupleInfo<T>::size;
+			static constexpr size_t max_bits = size * 8;
+			static constexpr size_t bit_step = 2;
+			static constexpr bool is_transparent = true;
+
+			char data[size];
+
+			template<class U>
+			auto as() const noexcept
+			{
+				return RadixHasher<U>{ swap_b(*reinterpret_cast<const U*>(data)) };
+			}
+
+			RadixHasher() {}
+			SEQ_ALWAYS_INLINE RadixHasher(const T& val) { TupleInfo<T>::build_hash(data, val); }
+
+			SEQ_ALWAYS_INLINE constexpr auto get_size() const noexcept -> size_t { return max_bits; }
+
+			SEQ_ALWAYS_INLINE auto n_bits(size_t shift, size_t count) const noexcept -> unsigned
+			{
+				if SEQ_CONSTEXPR (size == 2)
+					return as<uint16_t>().n_bits(shift, count);
+				else if SEQ_CONSTEXPR (size == 4)
+					return as<uint32_t>().n_bits(shift, count);
+				else if SEQ_CONSTEXPR (size == 8)
+					return as<uint64_t>().n_bits(shift, count);
+				else {
+					if SEQ_UNLIKELY (count == 0)
+						return 0;
+					size_t byte_offset = shift >> 3u;
+					size_t bit_offset = (shift) & 7U;
+					uint64_t hash = 0;
+					if (size >= byte_offset + 8u)
+						memcpy(&hash, data + byte_offset, 8u);
+					else if (byte_offset < size)
+						memcpy(&hash, data + byte_offset, static_cast<unsigned>(size - byte_offset));
+					return static_cast<unsigned>((swap_b(hash) << bit_offset) >> (64u - count));
+				}
+			}
+
+			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash() const noexcept { return TupleInfo<T>::build_tiny_hash(0, data); }
+
+			SEQ_ALWAYS_INLINE auto hash(const T& v) const noexcept { return RadixHasher<T>(v); }
+
+			template<class U, class V>
+			static SEQ_ALWAYS_INLINE bool less(const U& l, const V& r) noexcept
+			{
+				return l < r;
+			}
+			template<class U, class V>
+			static SEQ_ALWAYS_INLINE bool equal(const U& l, const V& r) noexcept
+			{
+				return l == r;
+			}
+
+			template<class U>
+			static bool check_prefix(RadixHasher<U>, RadixHasher<U>, size_t, size_t) noexcept
+			{
+				// Just because we cannot use if constexpr
+				return false;
+			}
+		};
+
+#undef swap_b
+
+		/// @brief Hasher using a hash function
+		template<class T, class Hash, class Less, class Equal>
+		struct RadixHasherUnordered
+		  : RadixHasher<size_t>
+		  , Hash
+		  , Equal
+		{
+			using this_type = RadixHasherUnordered<T, Hash, Less, Equal>;
+			static constexpr bool is_transparent = hash_is_transparent<Hash>::value;
+			static constexpr bool prefix_search = false;
+
+			SEQ_ALWAYS_INLINE RadixHasherUnordered(size_t val = 0, const Hash& h = Hash(), const Equal& eq = Equal()) noexcept
+			  : RadixHasher<size_t>{ val }
+			  , Hash(h)
+			  , Equal(eq)
+			{
+			}
+
+			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash() const noexcept { return static_cast<std::uint8_t>(this->value >> ((sizeof(size_t) - 8) * 8)); }
+			template<class U>
+			SEQ_ALWAYS_INLINE auto hash(const U& k) const noexcept
+			{
+				return this_type(hash_value(*this, k), *this, *this);
+			}
+			template<class L, class R>
+			static SEQ_ALWAYS_INLINE bool less(const L& l, const R& r) noexcept
+			{
+				return Less{}(l, r);
+			}
+			template<class L, class R>
+			SEQ_ALWAYS_INLINE bool equal(const L& l, const R& r) const noexcept
+			{
+				return Equal::operator()(l, r);
+			}
+		};
+
+	}
 
 	namespace radix_detail
 	{
@@ -141,487 +738,11 @@ namespace seq
 			}
 		};
 
-		/// @brief Less functor for lower bound search in a leaf node
-		template<class ExtractKey, class Le>
-		struct Less
+		template<class ExtractKey, class Hasher, class T, class SizeType, class K>
+		static inline SizeType compute_lower_bound(const T* vals, SizeType size, const K& key)
 		{
-			template<class A, class B>
-			bool operator()(const A& a, const B& b) const noexcept
-			{
-				return Le{}(ExtractKey{}(a), ExtractKey{}(b));
-			}
-		};
-
-		/// @brief Lower bound function for leaf nodes
-		template<class T, class ExtractKey, class Le>
-		struct LowerBound
-		{
-			template<class SizeType, class K>
-			static SizeType apply(size_t, const T* vals, SizeType size, const K& key) noexcept
-			{
-				return seq::detail::lower_bound<false, T>(vals, size, key, Less<ExtractKey, Le>{}).first;
-				// return seq::detail::lower_bound_internal<T>::apply(vals, size, key, Less<ExtractKey, Le>{});
-			}
-		};
-
-		/// @brief Hash function for sorted radix tree
-		template<class Key, class = void>
-		struct SortedHasher
-		{
-		};
-
-		/// @brief Hash value type for intergal types and sorted radix tree
-		template<class Integral>
-		struct IntegralHash
-		{
-			static constexpr Integral integral_bits = sizeof(Integral) * 8U;
-			Integral hash;		 // Hash value
-			std::uint8_t hash_shift; // Current shift
-			IntegralHash() {}
-			IntegralHash(Integral h) noexcept
-			  : hash(h)
-			  , hash_shift(0)
-			{
-			}
-			IntegralHash(Integral h, size_t sh) noexcept
-			  : hash(h)
-			  , hash_shift(static_cast<std::uint8_t>(sh))
-			{
-			}
-
-			SEQ_ALWAYS_INLINE bool add_shift(size_t shift) const noexcept
-			{
-				const_cast<IntegralHash*>(this)->hash_shift += static_cast<std::uint8_t>(shift);
-				return hash_shift <= sizeof(Integral) * 8U; // still valid
-			}
-			SEQ_ALWAYS_INLINE unsigned get() const noexcept { return n_bits(32U); }
-			SEQ_ALWAYS_INLINE size_t get_shift() const noexcept { return hash_shift; }
-			SEQ_ALWAYS_INLINE unsigned n_bits(size_t count) const noexcept { return n_bits(hash_shift, count); }
-			SEQ_ALWAYS_INLINE unsigned n_bits(size_t start, size_t count) const noexcept
-			{
-				if (count == 0)
-					return 0;
-				Integral res = static_cast<Integral>(hash << static_cast<Integral>(start));
-				res >>= (integral_bits - static_cast<Integral>(count));
-				return static_cast<unsigned>(res);
-			}
-			SEQ_ALWAYS_INLINE size_t get_size() const noexcept { return integral_bits; }
-
-			/// @brief Extract common bits from several integral keys
-			template<unsigned BitStep, class ExtractKey, class Hasher, class Iter>
-			static size_t nb_common_bits(const Hasher& h, size_t start_bit, Iter start, Iter end) noexcept
-			{
-				size_t bits = sizeof(Integral) * 8U - start_bit;
-				Integral prefix = (h.hash(ExtractKey{}(*start)).hash) << static_cast<Integral>(start_bit);
-				++start;
-				for (; start != end && bits > 0; ++start) {
-					Integral tmp = ((h.hash(ExtractKey{}(*start)).hash) << static_cast<Integral>(start_bit));
-					std::uint64_t x = tmp ^ prefix;
-
-					if (x) {
-						bits = std::min(bits, sizeof(Integral) * 8U - static_cast<size_t>(bit_scan_reverse_64(x)) - 1U);
-						bits = (bits / BitStep) * BitStep;
-					}
-				}
-				return bits;
-			}
-
-			template<class Key>
-			static SEQ_ALWAYS_INLINE bool check_prefix(const IntegralHash& hash, const Key& key, size_t bits) noexcept
-			{
-				IntegralHash match = SortedHasher<Key>{}.hash(key);
-				if (hash.n_bits(hash.hash_shift, bits) == match.n_bits(hash.hash_shift, bits)) {
-					hash.add_shift(bits);
-					return true;
-				}
-				return false;
-			}
-		};
-
-		/// @brief Hash value type for unordered radix tree (hash table)
-		struct SizeTHash
-		{
-			static constexpr size_t integral_bits = sizeof(size_t) * 8U;
-			size_t hash{ 0 };
-			SizeTHash() {}
-			SizeTHash(size_t h) noexcept
-			  : hash(h)
-			{
-			}
-			bool add_shift(size_t shift) const noexcept
-			{
-				const_cast<SizeTHash*>(this)->hash <<= shift;
-				return true; // still valid
-			}
-			unsigned get() const noexcept { return n_bits(32U); }
-			size_t get_shift() const noexcept { return 0; }
-			unsigned n_bits(size_t count) const noexcept { return static_cast<unsigned>(count == 0 ? 0 : ((hash) >> (integral_bits - count))); }
-			unsigned n_bits(size_t start, size_t count) const noexcept { return static_cast<unsigned>(count == 0 ? 0 : (hash << start) >> (integral_bits - count)); }
-			size_t get_size() const noexcept { return integral_bits; }
-			template<unsigned BitStep, class ExtractKey, class Hasher, class Iter>
-			static size_t nb_common_bits(const Hasher&, size_t, Iter, Iter) noexcept
-			{
-				return 0;
-			}
-			template<class Key>
-			static bool check_prefix(const SizeTHash&, const Key&, size_t) noexcept
-			{
-				return false;
-			}
-		};
-
-		/// @brief Hash value type for strings and sorted radix tree
-		struct StringHash
-		{
-			using size_type = std::uint64_t;
-			const char* data{ nullptr };
-			std::uint64_t size{ 0 };
-			std::uint64_t hash_shift{ 0 };
-
-			StringHash() {}
-			StringHash(const char* d, size_type s) noexcept
-			  : data(d)
-			  , size(s)
-			  , hash_shift(0)
-			{
-			}
-			StringHash(size_t sh, const char* d, size_type s) noexcept
-			  : data(d)
-			  , size(s)
-			  , hash_shift(sh)
-			{
-			}
-			size_t get_shift() const noexcept { return static_cast<size_t>(hash_shift); }
-			size_t get_size() const noexcept { return static_cast<size_t>(size * 8ULL); }
-			SEQ_ALWAYS_INLINE unsigned n_bits(size_t count) const noexcept { return n_bits(static_cast<size_t>(hash_shift), count); }
-			SEQ_ALWAYS_INLINE unsigned n_bits(size_t start, size_t count) const noexcept
-			{
-				if (count == 0)
-					return 0;
-				if (count == 4) {
-					unsigned char byte = (start / 8U) >= size ? 0 : static_cast<unsigned char>(data[(start / 8U)]);
-					return ((start)&7U) ? (byte & 0xFU) : (byte >> 4U);
-				}
-				if (count == 32)
-					return get(start);
-				// We can afford to read only 4 bytes, which represents up to 28 bits of usefull data.
-				// And the maximum size of a directory is on 27 bits...
-				std::uint64_t byte_offset = (start) / 8U;
-				std::uint64_t bit_offset = (start)&7U;
-				unsigned hash = 0;
-				if (SEQ_LIKELY(size >= byte_offset + 4U))
-					memcpy(&hash, data + byte_offset, 4);
-				else if (byte_offset < size)
-					memcpy(&hash, data + byte_offset, static_cast<size_t>(size - byte_offset));
-#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
-				hash = seq::byte_swap_32(hash);
-#endif
-				return static_cast<unsigned>((hash << bit_offset) >> (32U - count));
-			}
-			SEQ_ALWAYS_INLINE bool add_shift(size_type shift) const noexcept
-			{
-				const_cast<StringHash*>(this)->hash_shift += shift;
-				return (hash_shift) <= size * 8U; // still valid
-			}
-			unsigned get(size_t shift) const noexcept
-			{
-				std::uint64_t byte_offset = (shift) / 8U;
-				std::uint64_t bit_offset = (shift)&7U;
-				std::uint64_t hash = 0;
-				if (SEQ_LIKELY(size >= byte_offset + 8U))
-					memcpy(&hash, data + byte_offset, 8);
-				else if (byte_offset < size)
-					memcpy(&hash, data + byte_offset, static_cast<size_t>(size - byte_offset));
-#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
-				hash = seq::byte_swap_64(hash);
-#endif
-				return static_cast<unsigned>((hash << bit_offset) >> (64U - 32U));
-			}
-			unsigned get() const noexcept { return get(static_cast<size_t>(hash_shift)); }
-
-			template<unsigned BitStep, class ExtractKey, class Hasher, class Iter>
-			static size_t nb_common_bits(const Hasher& h, size_t start_bit, Iter start, Iter end) noexcept
-			{
-
-				size_t max_bits = ExtractKey{}(*start).size() * 8U > start_bit ? ExtractKey{}(*start).size() * 8U - start_bit : 0;
-				for (Iter it = start; it != end; ++it) {
-					tstring_view tmp = ExtractKey{}(*it);
-					if (tmp.size() * 8U > start_bit) {
-						size_t bits = tmp.size() * 8U - start_bit;
-						max_bits = std::max(max_bits, bits);
-					}
-				}
-
-				tstring_view first = ExtractKey{}(*start);
-				++start;
-				size_t bits = max_bits;
-
-				for (; start != end && bits > 0; ++start) {
-					auto fi = h.hash(first);
-					auto tmp = h.hash(ExtractKey{}(*start));
-
-					fi.add_shift(start_bit);
-					tmp.add_shift(start_bit);
-
-					size_t common = 0;
-
-					for (;;) {
-						unsigned x = fi.get() ^ tmp.get();
-						if (x == 0) {
-							common += 32;
-							bool l1 = fi.add_shift(32);
-							bool l2 = tmp.add_shift(32);
-							if (!l1 && !l2) {
-								common = max_bits;
-								break;
-							}
-						}
-						else {
-							common += 32U - bit_scan_reverse_32(x) - 1U;
-							break;
-						}
-					}
-					bits = std::min(bits, common);
-					bits = (bits / BitStep) * BitStep;
-				}
-
-				return bits;
-			}
-
-			template<class Key>
-			static SEQ_ALWAYS_INLINE bool check_prefix(const StringHash& hash, const Key& val, size_t bits) noexcept
-			{
-				// get hash to compare to
-				auto match = StringHash(hash.get_shift(), val.data(), val.size());
-
-				if (match.get_shift() >= match.get_size() && hash.get_shift() >= hash.get_size()) {
-					hash.add_shift(bits);
-					return true;
-				}
-				size_t words = bits / 32U;
-				for (size_t i = 0; i < words; ++i) {
-					if (hash.get() != match.get())
-						return false;
-					hash.add_shift(32U);
-					match.add_shift(32U);
-				}
-				if (size_t rem = bits & 31U) {
-					if (hash.n_bits(rem) != match.n_bits(rem))
-						return false;
-					hash.add_shift(rem);
-				}
-				return true;
-			}
-		};
-
-		/// @brief Hash class for unordered radix tree
-		/// @tparam Hash hash function to be used, usually std::hash<>
-		template<class Hash, class Equal, class Less = default_less>
-		struct Hasher : public Hash
-		{
-			static constexpr bool prefix_search = false;
-			static constexpr bool variable_length = false;
-			static constexpr size_t max_bits = sizeof(size_t) * 8U;
-			using type = SizeTHash;
-			using const_reference = type;
-			using less_type = Less;
-
-			template<class A, class B>
-			static bool equal(const A& a, const B& b)
-			{
-				return Equal{}(a, b);
-			}
-			template<class A, class B>
-			static bool less(const A& a, const B& b)
-			{
-				return Less{}(a, b);
-			}
-
-			Hasher()
-			  : Hash()
-			{
-			}
-			Hasher(const Hasher& h)
-			  : Hash(h)
-			{
-			}
-			Hasher(const Hash& h)
-			  : Hash(h)
-			{
-			}
-
-			const Hash& hash_function() const noexcept { return *this; }
-
-			template<class Key>
-			type hash(const Key& k) const
-			{
-				return hash_value(*this, k);
-			}
-			template<class Key>
-			type hash_shift(size_t shift, const Key& k) const
-			{
-				return hash(k).hash << shift;
-			}
-			template<class HashType, class Key>
-			static std::uint8_t tiny_hash(HashType hash, const Key&) noexcept
-			{
-				return static_cast<std::uint8_t>((hash.hash) & 255U);
-			}
-		};
-
-		/// @brief Base class for sorted hashers, only provide equality and less comparisons
-		struct BaseSortedHasher
-		{
-			using less_type = seq::less<>;
-			template<class A, class B>
-			static bool equal(const A& a, const B& b) noexcept
-			{
-				SEQ_COMPARE_FLOAT(return a == b;)
-			}
-			template<class A, class B>
-			static bool less(const A& a, const B& b) noexcept
-			{
-				return a < b;
-			}
-		};
-
-		/// @brief Hash function for integral types and sorted radix tree
-		template<class Key>
-		struct SortedHasher<Key, typename std::enable_if<std::is_integral<Key>::value, void>::type> : BaseSortedHasher
-		{
-			using integral_type = typename std::make_unsigned<Key>::type;
-			using type = IntegralHash<integral_type>;
-			using const_reference = const type&;
-			static constexpr bool prefix_search = true;
-			static constexpr bool variable_length = false;
-			static constexpr size_t max_bits = sizeof(Key) * 8U;
-
-			SEQ_ALWAYS_INLINE type hash(Key k) const noexcept
-			{
-				integral_type val = static_cast<integral_type>(k);
-				if (std::is_signed<Key>::value)
-					// wrap around to keep an unsigned value in the same order as the signed one
-					val += (static_cast<integral_type>(1) << (static_cast<integral_type>(sizeof(Key) * 8 - 1)));
-				return type(val);
-			}
-			SEQ_ALWAYS_INLINE type hash_shift(size_t shift, const Key& k) const noexcept
-			{
-				integral_type val = static_cast<integral_type>(k);
-				if (std::is_signed<Key>::value)
-					// wrap around to keep an unsigned value in the same order as the signed one
-					val += (static_cast<integral_type>(1) << (static_cast<integral_type>(sizeof(Key) * 8 - 1)));
-				return type(val, shift);
-			}
-			template<class Hash>
-			static SEQ_ALWAYS_INLINE std::uint8_t tiny_hash(Hash hash, const Key&) noexcept
-			{
-				return static_cast<std::uint8_t>(hash_finalize(hash.hash) & 255u);
-			}
-		};
-
-		/// @brief Hash function for float type and sorted radix tree
-		template<>
-		struct SortedHasher<float, void> : BaseSortedHasher
-		{
-			using type = IntegralHash<unsigned>;
-			using const_reference = const type&;
-			static constexpr bool prefix_search = true;
-			static constexpr bool variable_length = false;
-			static constexpr size_t max_bits = sizeof(float) * 8U;
-
-			SEQ_ALWAYS_INLINE type hash(float k) const noexcept
-			{
-				union U
-				{
-					float d;
-					std::uint32_t u;
-				};
-				U u = { k };
-				// Interpret float as 32-bit unsigned.
-				// Flip all except top if top bit is set.
-				u.u ^= ((static_cast<unsigned>((static_cast<int>(u.u)) >> 31)) >> 1);
-				// Flip top bit.
-				u.u ^= (1u << 31u);
-				return type(u.u);
-			}
-			SEQ_ALWAYS_INLINE type hash_shift(size_t shift, float k) const noexcept { return type(hash(k).hash, shift); }
-			template<class Hash>
-			static SEQ_ALWAYS_INLINE std::uint8_t tiny_hash(Hash hash, float) noexcept
-			{
-				return static_cast<std::uint8_t>(hash_finalize(hash.hash) & 255u);
-			}
-		};
-
-		/// @brief Hash function for double type and sorted radix tree
-		template<>
-		struct SortedHasher<double, void> : BaseSortedHasher
-		{
-			using type = IntegralHash<std::uint64_t>;
-			using const_reference = const type&;
-			static constexpr bool prefix_search = true;
-			static constexpr bool variable_length = false;
-			static constexpr size_t max_bits = sizeof(double) * 8U;
-
-			SEQ_ALWAYS_INLINE type hash(double k) const noexcept
-			{
-				union U
-				{
-					double d;
-					std::uint64_t u;
-				};
-				U u = { k };
-				// Interpret double as 64-bit unsigned.
-				// Flip all except top if top bit is set.
-				u.u ^= ((static_cast<std::uint64_t>((static_cast<std::int64_t>(u.u)) >> 63ll)) >> 1ll);
-				// Flip top bit.
-				u.u ^= (1ull << 63ull);
-				return type(u.u);
-			}
-			SEQ_ALWAYS_INLINE type hash_shift(size_t shift, double k) const noexcept { return type(hash(k).hash, shift); }
-			template<class Hash>
-			static SEQ_ALWAYS_INLINE std::uint8_t tiny_hash(Hash hash, double) noexcept
-			{
-				return static_cast<std::uint8_t>(hash_finalize(static_cast<size_t>(hash.hash)) & 255u);
-			}
-		};
-
-		/// @brief Hash function for string types and sorted radix tree
-		template<>
-		struct SortedHasher<tstring_view, void> : BaseSortedHasher
-		{
-			using type = StringHash;
-			using const_reference = const StringHash&;
-			static constexpr bool prefix_search = true;
-			static constexpr bool variable_length = true;
-			static constexpr size_t max_bits = static_cast<size_t>(-1);
-
-			SEQ_ALWAYS_INLINE type hash(const tstring_view& k) const noexcept { return StringHash(k.data(), k.size()); }
-			SEQ_ALWAYS_INLINE type hash_shift(size_t shift, const tstring_view& k) const noexcept { return StringHash(shift, k.data(), k.size()); }
-			template<class Hash>
-			static SEQ_ALWAYS_INLINE std::uint8_t tiny_hash(const Hash&, const tstring_view& v) noexcept
-			{
-				return static_cast<std::uint8_t>(hash_bytes_komihash(v.data(), v.size()));
-			}
-		};
-
-		/// @brief Hash function for pointer and sorted radix tree
-		template<class T>
-		struct SortedHasher<T, typename std::enable_if<std::is_pointer<T>::value, void>::type> : BaseSortedHasher
-		{
-			using type = IntegralHash<std::uintptr_t>;
-			using const_reference = const type&;
-			static constexpr bool prefix_search = true;
-			static constexpr bool variable_length = false;
-			static constexpr size_t max_bits = sizeof(std::uintptr_t) * 8U;
-
-			SEQ_ALWAYS_INLINE type hash(T p) const noexcept { return type(reinterpret_cast<std::uintptr_t>(p)); }
-			SEQ_ALWAYS_INLINE type hash_shift(size_t shift, T p) const noexcept { return type(hash(p).hash, shift); }
-			template<class Hash>
-			static SEQ_ALWAYS_INLINE std::uint8_t tiny_hash(Hash hash, T) noexcept
-			{
-				return static_cast<std::uint8_t>(hash_finalize(hash.hash) & 255u);
-			}
-		};
+			return seq::detail::lower_bound<false, T>(vals, size, key, [](const auto& l, const auto& r) { return Hasher::less(ExtractKey{}(l), ExtractKey{}(r)); }).first;
+		}
 
 		/// @brief Copy count elements from src to dst while destroying elements in src
 		/// In case of exception, destroy all elements in in src and dst.
@@ -651,27 +772,6 @@ namespace seq
 			}
 		}
 
-		template<class T>
-		SEQ_ALWAYS_INLINE void small_memmove_right(T* dst, const T* src, size_t count)
-		{
-			if SEQ_CONSTEXPR (sizeof(T) >= 8U) {
-				T* last = dst + count;
-				src += count;
-				while (last != dst) {
-					--last;
-					--src;
-					memcpy(static_cast<void*>(last), static_cast<const void*>(src), sizeof(T));
-				}
-			}
-			else
-				memmove(static_cast<void*>(dst), static_cast<const void*>(src), count * sizeof(T));
-		}
-		template<>
-		SEQ_ALWAYS_INLINE void small_memmove_right(std::uint8_t* dst, const std::uint8_t* src, size_t count)
-		{
-			memmove(dst, src, count);
-		}
-
 		/// @brief Insert element at src position while moving elements to the right at dst.
 		/// Basic exception guarantee.
 		template<class U, class Policy, class... Args>
@@ -681,10 +781,8 @@ namespace seq
 			// In case of exception, values are in undefined state, but no new value created (basic exception guarantee)
 
 			if SEQ_CONSTEXPR (is_relocatable<U>::value) {
-				if (count) {
-					// memmove(dst, src, count * sizeof(U));
-					small_memmove_right(dst, src, count);
-				}
+				if (count)
+					memmove(dst, src, count * sizeof(U));
 				try {
 					Policy::emplace(src, std::forward<Args>(args)...);
 				}
@@ -736,164 +834,79 @@ namespace seq
 			std::uint64_t tmp = (word & 0x7F7F7F7F7F7F7F7FULL) + 0x7F7F7F7F7F7F7F7FULL;
 			return ~(tmp | word | 0x7F7F7F7F7F7F7F7FULL);
 		}
-
-		/// @brief Swiss table like find without SSE
-		template<bool UseLowerBound, class ExtractKey, class Equal, class Less, class T, class U>
-		static unsigned find_value8(const Equal& eq, const T* values, const unsigned char* ths, unsigned size, unsigned char th, unsigned* insert_pos, const U& val)
+#ifdef __SSE3__
+		static SEQ_ALWAYS_INLINE unsigned movemask32(const unsigned char* hashs, unsigned char th) noexcept
 		{
-			/*
-			// keep this version just in case
-			if (!UseLowerBound)
-			{
-				const unsigned char* end = ths + size;
-				const unsigned char* found = (const unsigned char* )memchr(ths, (char)th, end - ths);
-				while(found) {
-
-					if (eq(ExtractKey{}(values[found - ths]), val)) return  found - ths;
-					found = (const unsigned char* )memchr(found +1, (char)th, end - found -1);
-				}
-				return -1;
-			}
-			*/
-
-			unsigned count = size & ~7U;
-			std::uint64_t _th;
-			memset(&_th, th, sizeof(_th));
-			for (unsigned i = 0; i < count; i += 8) {
-				std::uint64_t found = movemask8((read_64(ths + i) ^ _th));
-				while (found) {
-					unsigned pos = bit_scan_forward_64(found) >> 3;
-					if (eq(ExtractKey{}(values[i + pos]), val))
-						return i + pos;
-					reinterpret_cast<unsigned char*>(&found)[pos] = 0;
-				}
-				if (UseLowerBound) {
-					// not found, check for lower bound
-					if (Less{}(val, ExtractKey{}(values[i + 7]))) {
-						*insert_pos = i + LowerBound<T, ExtractKey, Less>::apply(0, values + i, 8U, val);
-						return static_cast<unsigned>(-1);
-					}
-				}
-			}
-
-			if (count != size) {
-				std::uint64_t found = movemask8((read_64(ths + count) ^ _th)) & ((1ULL << (size - count) * 8ULL) - 1ULL);
-				while (found) {
-					unsigned pos = bit_scan_forward_64(found) >> 3;
-					if (eq(ExtractKey{}(values[count + pos]), val))
-						return count + pos;
-					reinterpret_cast<unsigned char*>(&found)[pos] = 0;
-				}
-			}
-			if (UseLowerBound) {
-				// not found, check for lower bound
-				*insert_pos = size;
-				if (size != count && Less{}(val, ExtractKey{}(values[size - 1])))
-					*insert_pos = count + LowerBound<T, ExtractKey, Less>::apply(0, values + count, size - count, val);
-			}
-			return static_cast<unsigned>(-1);
+			auto left = static_cast<unsigned short>(_mm_movemask_epi8(_mm_cmpeq_epi8(_mm_loadu_si128(reinterpret_cast<const __m128i*>(hashs)), _mm_set1_epi8(static_cast<char>(th)))));
+			auto right =
+			  static_cast<unsigned short>(_mm_movemask_epi8(_mm_cmpeq_epi8(_mm_loadu_si128(reinterpret_cast<const __m128i*>(hashs + 16)), _mm_set1_epi8(static_cast<char>(th)))));
+			return static_cast<unsigned>(left) | (static_cast<unsigned>(right) << 16);
 		}
-
-		template<bool UseLowerBound, class ExtractKey, class Equal, class Less, class T, class U>
-		static SEQ_ALWAYS_INLINE unsigned find_value_AVX2(const Equal& eq, const T* values, const unsigned char* ths, unsigned size, unsigned char th, unsigned* insert_pos, const U& val)
-		{
-#if defined(__AVX2__)
-
-			if (UseLowerBound)
-				*insert_pos = size;
-			for (unsigned i = 0; i < size; i += 32) {
-				unsigned c = std::min(size - i, 32U); // i + 32 > size ? (size - i) : 32U;
-				unsigned found = static_cast<unsigned>(
-				  _mm256_movemask_epi8(_mm256_cmpeq_epi8(_mm256_loadu_si256(reinterpret_cast<const __m256i*>(ths + i)), _mm256_set1_epi8(static_cast<char>(th)))));
-				if (c != 32U)
-					found &= ((1U << c) - 1U);
-				if (found) {
-					SEQ_PREFETCH(values + i);
-					do {
-						unsigned pos = bit_scan_forward_32(found);
-						if (eq(ExtractKey{}(values[i + pos]), val))
-							return i + pos;
-						found = found & ~(1U << pos);
-					} while (found);
-				}
-
-				if SEQ_CONSTEXPR (UseLowerBound) {
-					// not found, check for lower bound
-					if (Less{}(val, ExtractKey{}(values[i + c - 1]))) {
-						*insert_pos = i + LowerBound<T, ExtractKey, Less>::apply(0, values + i, c, val);
-						return static_cast<unsigned>(-1);
-					}
-				}
-			}
-
 #endif
-			return static_cast<unsigned>(-1);
-		}
-
-		template<bool UseLowerBound, class ExtractKey, class Equal, class Less, class T, class U>
-		static unsigned find_value_SSE3(const Equal& eq, const T* values, const unsigned char* ths, unsigned size, unsigned char th, unsigned* insert_pos, const U& val)
-		{
-#if defined(__SSE2__)
-			unsigned count = size & ~15U;
-			for (unsigned i = 0; i < count; i += 16) {
-				unsigned short found =
-				  static_cast<unsigned short>(_mm_movemask_epi8(_mm_cmpeq_epi8(_mm_loadu_si128(reinterpret_cast<const __m128i*>(ths + i)), _mm_set1_epi8(static_cast<char>(th)))));
-				if (found) {
-					SEQ_PREFETCH(values + i);
-					do {
-						unsigned pos = bit_scan_forward_32(found);
-						if (eq(ExtractKey{}(values[i + pos]), val))
-							return i + pos;
-						found = found & ~(1U << pos);
-					} while (found);
-				}
-				if (UseLowerBound) {
-					// not found, check for lower bound
-					if (Less{}(val, ExtractKey{}(values[i + 15]))) {
-						*insert_pos = i + LowerBound<T, ExtractKey, Less>::apply(0, values + i, 16U, val);
-						return static_cast<unsigned>(-1);
-					}
-				}
-			}
-
-			if (count != size) {
-				unsigned found =
-				  static_cast<unsigned short>(_mm_movemask_epi8(_mm_cmpeq_epi8(_mm_loadu_si128(reinterpret_cast<const __m128i*>(ths + count)), _mm_set1_epi8(static_cast<char>(th))))) &
-				  ((1U << (size - count)) - 1U);
-				if (found) {
-					SEQ_PREFETCH(values + count);
-					do {
-						unsigned pos = bit_scan_forward_32(found);
-						if (eq(ExtractKey{}(values[count + pos]), val))
-							return count + pos;
-						found = found & ~(1U << pos);
-					} while (found);
-				}
-			}
-			if (UseLowerBound) {
-				// not found, check for lower bound
-				*insert_pos = size;
-				if (size != count && Less{}(val, ExtractKey{}(values[size - 1])))
-					*insert_pos = count + LowerBound<T, ExtractKey, Less>::apply(0, values + count, size - count, val);
-			}
-
-#endif
-			return static_cast<unsigned>(-1);
-		}
 
 		/// @brief Swiss table like find using AVX2, SSE3, or 8 byte movemask.
 		template<bool UseLowerBound, class ExtractKey, class Equal, class Less, class T, class U>
 		static SEQ_ALWAYS_INLINE unsigned find_value(const Equal& eq, const T* values, const unsigned char* ths, unsigned size, unsigned char th, unsigned* insert_pos, const U& val)
 		{
-#if defined(__AVX2__)
-			// if (cpu_features().HAS_AVX2) //runtime check
-			return find_value_AVX2<UseLowerBound, ExtractKey, Equal, Less>(eq, values, ths, size, th, insert_pos, val);
+			if SEQ_CONSTEXPR (UseLowerBound) {
+				*insert_pos = size;
+				if (Less{}(ExtractKey{}(values[size - 1]), val))
+					return static_cast<unsigned>(-1);
+			}
+#ifdef __SSE3__
+			if (cpu_features().HAS_SSE3) {
+				unsigned size32 = size & ~31u;
+				for (unsigned i = 0; i < size32; i += 32) {
+					if (unsigned found = movemask32(ths + i, th)) {
+						do {
+							unsigned pos = bit_scan_forward_32(found);
+							if (eq(ExtractKey{}(values[i + pos]), val))
+								return i + pos;
+							found = found & ~(1U << pos);
+						} while (found);
+					}
+				}
+				if (unsigned rem = size - size32) {
+					if (unsigned found = movemask32(ths + size32, th) & ((1U << rem) - 1U)) {
+						do {
+							unsigned pos = bit_scan_forward_32(found);
+							if (eq(ExtractKey{}(values[size32 + pos]), val))
+								return size32 + pos;
+							found = found & ~(1U << pos);
+						} while (found);
+					}
+				}
+			}
+			else
 #endif
-#if defined(__SSE2__)
-			// if (cpu_features().HAS_SSE3) //runtime check
-			return find_value_SSE3<UseLowerBound, ExtractKey, Equal, Less>(eq, values, ths, size, th, insert_pos, val);
-#endif
-			return find_value8<UseLowerBound, ExtractKey, Equal, Less>(eq, values, ths, size, th, insert_pos, val);
+			{
+				unsigned count = size & ~7U;
+				uint64_t _th;
+				memset(&_th, th, sizeof(_th));
+				for (unsigned i = 0; i < count; i += 8) {
+					uint64_t found = movemask8((read_64(ths + i) ^ _th));
+					while (found) {
+						unsigned pos = bit_scan_forward_64(found) >> 3;
+						if (eq(ExtractKey{}(values[i + pos]), val))
+							return i + pos;
+						reinterpret_cast<unsigned char*>(&found)[pos] = 0;
+					}
+				}
+				if (unsigned rem = size - count) {
+					uint64_t found = movemask8((read_64(ths + count) ^ _th)) & ((1ULL << (rem) * 8ULL) - 1ULL);
+					while (found) {
+						unsigned pos = bit_scan_forward_64(found) >> 3;
+						if (eq(ExtractKey{}(values[count + pos]), val))
+							return count + pos;
+						reinterpret_cast<unsigned char*>(&found)[pos] = 0;
+					}
+				}
+			}
+
+			if SEQ_CONSTEXPR (UseLowerBound)
+				*insert_pos = compute_lower_bound<ExtractKey, Less>(values, size, val);
+
+			return static_cast<unsigned>(-1);
 		}
 
 		/// @brief Insertion sort algorithm based on values and maintaining hash values order
@@ -930,7 +943,6 @@ namespace seq
 			// header size on 64 bits
 			static constexpr unsigned header_size = sizeof(std::uint64_t);
 			// minimum capacity, depends on sizeof(T) to allow an AVX (32 bytes) load
-			// static constexpr unsigned min_capacity = sizeof(T) == 1 ? 32 : sizeof(T) <= 3 ? 16 : sizeof(T) >= 8 ? 4 : 8;
 			static constexpr unsigned min_capacity = sizeof(T) == 1 ? 32 : sizeof(T) <= 3 ? 16 : sizeof(T) <= 8 ? 8 : sizeof(T) <= 16 ? 4 : 2;
 			// maximum capacity (and size), lower for sorted elements
 			static constexpr unsigned max_capacity = Sorted ? 64 : 96;
@@ -951,49 +963,28 @@ namespace seq
 				if (HasMaxCapacity && cap > max_capacity)
 					cap = max_capacity;
 				return cap;
-
-				/*if (size <= 4) return 4;
-				if (size <= 8) return 8;
-				return (size / 16) * 16 + (size % 16 ? 16 : 0);
-				if (size <= 16) return 16;
-				if (size <= 32) return 32;
-				if (size <= 48) return 48;
-				if (size <= 64) return 64;
-				if (size <= 80) return 80;
-				if (size <= 96) return 96;
-				if (size <= 112) return 112;
-				if (size <= 128) return 128;*/
 			}
 
-			bool full() const noexcept { return count() >= max_capacity; }
-			std::uint32_t* toint32() noexcept { return reinterpret_cast<std::uint32_t*>(this); }
-			const std::uint32_t* toint32() const noexcept { return reinterpret_cast<const std::uint32_t*>(this); }
-			std::uint32_t* size() noexcept { return toint32(); }
-			const std::uint32_t* size() const noexcept { return toint32(); }
-			std::uint32_t* capacity() noexcept { return toint32() + 1; }
-			const std::uint32_t* capacity() const noexcept { return toint32() + 1; }
-			const std::uint8_t* hashs() const noexcept { return reinterpret_cast<const std::uint8_t*>(toint32() + 2); }
-			std::uint8_t* hashs() noexcept { return reinterpret_cast<std::uint8_t*>(toint32() + 2); }
-			unsigned count() const noexcept { return *size(); }
-			T* values() noexcept { return reinterpret_cast<T*>(hashs() + *capacity()); }
-			const T* values() const noexcept { return reinterpret_cast<const T*>(hashs() + *capacity()); }
-			const T& back() const noexcept { return values()[count() - 1]; }
-			std::uint8_t get_tiny_hash(unsigned pos) const { return hashs()[pos]; }
+			SEQ_ALWAYS_INLINE bool full() const noexcept { return count() >= max_capacity; }
+			SEQ_ALWAYS_INLINE std::uint32_t* toint32() noexcept { return reinterpret_cast<std::uint32_t*>(this); }
+			SEQ_ALWAYS_INLINE const std::uint32_t* toint32() const noexcept { return reinterpret_cast<const std::uint32_t*>(this); }
+			SEQ_ALWAYS_INLINE std::uint32_t* size() noexcept { return toint32(); }
+			SEQ_ALWAYS_INLINE const std::uint32_t* size() const noexcept { return toint32(); }
+			SEQ_ALWAYS_INLINE std::uint32_t* capacity() noexcept { return toint32() + 1; }
+			SEQ_ALWAYS_INLINE const std::uint32_t* capacity() const noexcept { return toint32() + 1; }
+			SEQ_ALWAYS_INLINE const std::uint8_t* hashs() const noexcept { return reinterpret_cast<const std::uint8_t*>(toint32() + 2); }
+			SEQ_ALWAYS_INLINE std::uint8_t* hashs() noexcept { return reinterpret_cast<std::uint8_t*>(toint32() + 2); }
+			SEQ_ALWAYS_INLINE unsigned count() const noexcept { return *size(); }
+			SEQ_ALWAYS_INLINE T* values() noexcept { return reinterpret_cast<T*>(hashs() + *capacity()); }
+			SEQ_ALWAYS_INLINE const T* values() const noexcept { return reinterpret_cast<const T*>(hashs() + *capacity()); }
+			SEQ_ALWAYS_INLINE const T& back() const noexcept { return values()[count() - 1]; }
+			SEQ_ALWAYS_INLINE std::uint8_t get_tiny_hash(unsigned pos) const { return hashs()[pos]; }
 
-			// Compute tiny hash
-			template<class Hasher, class HashType, class U>
-			static std::uint8_t tiny_hash(HashType h, const U& val) noexcept
-			{
-				return Hasher::tiny_hash(h, val);
-			}
 			// Returns lower bound for sorted leaf only
 			template<class ExtractKey, class Less, class Equal, class K>
-			unsigned lower_bound(size_t start_bit, unsigned, const K& key) const
+			SEQ_ALWAYS_INLINE unsigned lower_bound(size_t start_bit, unsigned, const K& key) const
 			{
-				return LowerBound<T, ExtractKey, Less>::apply(start_bit, values(), count(), key);
-				// unsigned insert_pos = -1;
-				// unsigned pos = find_value<true, ExtractKey, Equal, Less>(Equal{}, values(), hashs(), count(), th, &insert_pos, std::forward<Args>(args)...);
-				// return pos == -1 ? insert_pos : pos;
+				return compute_lower_bound<ExtractKey, Less>(/* start_bit,*/ values(), count(), key);
 			}
 			// Check if given value already exists, and return insertion position for sorted leaf only
 			template<bool EnsureSorted, class ExtractKey, class Equal, class Less, class U>
@@ -1028,6 +1019,7 @@ namespace seq
 			{
 				insertion_sort<T, ExtractKey>(values(), hashs(), 0, static_cast<int>(count()), le);
 			}
+
 			// Reallocate leaf on insertion
 			template<class NodeAllocator, class Policy, class... Args>
 			std::pair<LeafNode*, unsigned> switch_buffer(NodeAllocator& al, unsigned old_size, unsigned pos, std::uint8_t th, Policy, Args&&... args)
@@ -1078,12 +1070,12 @@ namespace seq
 
 				if SEQ_CONSTEXPR (Sorted) {
 					if (pos > size)
-						pos = LowerBound<T, ExtractKey, Less>::apply(start_bit, values(), count(), key);
+						pos = compute_lower_bound<ExtractKey, Less>(/* start_bit,*/ values(), count(), key);
 				}
 				else
 					pos = size;
 
-				if (SEQ_UNLIKELY(*capacity() == size)) {
+				if SEQ_UNLIKELY (*capacity() == size) {
 					// might throw, fine
 					auto res = switch_buffer(al, size, pos, th, p, std::forward<K>(key), std::forward<Args>(args)...);
 					(*res.first->size())++;
@@ -1185,31 +1177,31 @@ namespace seq
 		struct ChildPtr : public tagged_pointer<void, CustomAlignment, 8>
 		{
 			using base = tagged_pointer<void, CustomAlignment, 8>;
-			ChildPtr()
+			SEQ_ALWAYS_INLINE ChildPtr()
 			  : base()
 			{
 			}
-			ChildPtr(void* ptr) noexcept
+			SEQ_ALWAYS_INLINE ChildPtr(void* ptr) noexcept
 			  : base(ptr)
 			{
 			}
-			ChildPtr(void* ptr, std::uintptr_t t) noexcept
+			SEQ_ALWAYS_INLINE ChildPtr(void* ptr, std::uintptr_t t) noexcept
 			  : base(ptr, t)
 			{
 			}
-			const Dir* to_dir() const noexcept { return static_cast<const Dir*>(this->ptr()); }
-			const Node* to_node() const noexcept { return static_cast<const Node*>(this->ptr()); }
-			const Vector* to_vector() const noexcept { return static_cast<const Vector*>(this->ptr()); }
-			Dir* to_dir() noexcept { return static_cast<Dir*>(this->ptr()); }
-			Node* to_node() noexcept { return static_cast<Node*>(this->ptr()); }
-			Vector* to_vector() noexcept { return static_cast<Vector*>(this->ptr()); }
-			unsigned size() const { return this->tag() == Dir::IsLeaf ? to_node()->count() : to_vector()->size(); }
-			const typename Node::value_type& front() const { return this->tag() == Dir::IsLeaf ? *to_node()->values() : to_vector()->front(); }
+			SEQ_ALWAYS_INLINE const Dir* to_dir() const noexcept { return static_cast<const Dir*>(this->ptr()); }
+			SEQ_ALWAYS_INLINE const Node* to_node() const noexcept { return static_cast<const Node*>(this->ptr()); }
+			SEQ_ALWAYS_INLINE const Vector* to_vector() const noexcept { return static_cast<const Vector*>(this->ptr()); }
+			SEQ_ALWAYS_INLINE Dir* to_dir() noexcept { return static_cast<Dir*>(this->ptr()); }
+			SEQ_ALWAYS_INLINE Node* to_node() noexcept { return static_cast<Node*>(this->ptr()); }
+			SEQ_ALWAYS_INLINE Vector* to_vector() noexcept { return static_cast<Vector*>(this->ptr()); }
+			SEQ_ALWAYS_INLINE unsigned size() const { return this->tag() == Dir::IsLeaf ? to_node()->count() : to_vector()->size(); }
+			SEQ_ALWAYS_INLINE const typename Node::value_type& front() const { return this->tag() == Dir::IsLeaf ? *to_node()->values() : to_vector()->front(); }
 		};
 
 		/// @brief Directory within a radix tree.
 		/// A directory stores a power of 2 number of children that could be either directories, leaves or vectors.
-		template<class T, class Node, class Vector, bool VariableLength>
+		template<class T, class Node, class Vector, class Hasher>
 		struct Directory
 		{
 			using value_type = T;
@@ -1225,21 +1217,26 @@ namespace seq
 			static constexpr std::uint8_t IsVector = 3;
 			static constexpr unsigned alloc_size = sizeof(std::uint64_t);
 
-			unsigned hash_len : 5;	    // hash len in bits, size = 1 << hash_len
-			unsigned dir_count : 27;    // number of directories inside
-			unsigned child_count;	    // total number of children
-			unsigned parent_pos;	    // position within parent directory
-			unsigned first_valid_child; // position of the first valid child, if possible a leaf node.
+			unsigned hash_len = 0;			   // hash len in bits, size = 1 << hash_len
+			unsigned dir_count = 0;			   // number of directories inside
+			unsigned child_count = 0;		   // total number of children
+			unsigned parent_pos = 0;		   // position within parent directory
+			uint64_t first_valid_child = (uint64_t)-1; // position of the first valid child, if possible a leaf node.
+			uint64_t prefix_len = 0;		   // prefix len in bits.
+			Directory* parent = nullptr;		   // parent directory (null for root leaf)
 
-			size_t prefix_len; // prefix len in bits.
-			Directory* parent; // parent directory (if not root leaf)
-
-			SEQ_ALWAYS_INLINE const T& any_child() const noexcept
+			const T& any_child() const noexcept
 			{
+				if (first_valid_child == (uint64_t)-1)
+					const_cast<Directory*>(this)->compute_first_valid();
 				SEQ_ASSERT_DEBUG(first_valid_child < size(), "");
-				child_ptr ch = const_child(first_valid_child);
-				while (ch.tag() == IsDir)
-					ch = ch.to_dir()->const_child(ch.to_dir()->first_valid_child);
+				child_ptr ch = const_child((unsigned)first_valid_child);
+				while (ch.tag() == IsDir) {
+					auto dir = ch.to_dir();
+					if (dir->first_valid_child == (uint64_t)-1)
+						dir->compute_first_valid();
+					ch = dir->const_child((unsigned)dir->first_valid_child);
+				}
 
 				if (ch.tag() == IsLeaf)
 					return ch.to_node()->back();
@@ -1248,31 +1245,48 @@ namespace seq
 			/// @brief Recompute the first valid position within the directory, and if possible a leaf node
 			void compute_first_valid() noexcept
 			{
-				//
-				first_valid_child = static_cast<unsigned>(-1);
+				first_valid_child = static_cast<uint64_t>(-1);
 				for (unsigned i = 0; i < size(); ++i) {
 					if (const_child(i).tag() == IsLeaf) {
 						first_valid_child = i;
 						break;
 					}
-					else if (const_child(i).tag() && first_valid_child == static_cast<unsigned>(-1))
+					else if (const_child(i).tag() && first_valid_child == static_cast<uint64_t>(-1))
 						first_valid_child = i;
 				}
 			}
+			SEQ_ALWAYS_INLINE void invalidate_first_valid() noexcept { first_valid_child = (uint64_t)-1; }
+
+			template<class Fun>
+			void for_each_leaf(Fun f)
+			{
+				for (unsigned i = 0; i < size(); ++i) {
+					auto tag = child(i).tag();
+					if (tag == IsDir) {
+						child(i).to_dir()->for_each_leaf(f);
+						continue;
+					}
+					if (tag != 0) {
+						f(this, i);
+					}
+				}
+			}
+
 			/// @brief Returns the full size of the directory
-			unsigned size() const noexcept { return (1U << hash_len); }
+			SEQ_ALWAYS_INLINE unsigned size() const noexcept { return (1U << hash_len); }
 			/// @brief Returns the children pointer
-			child_ptr* children() noexcept { return (reinterpret_cast<child_ptr*>(this + 1)); }
-			const child_ptr* children() const noexcept { return (reinterpret_cast<const child_ptr*>(this + 1)); }
+			SEQ_ALWAYS_INLINE child_ptr* children() noexcept { return (reinterpret_cast<child_ptr*>(this + 1)); }
+			SEQ_ALWAYS_INLINE const child_ptr* children() const noexcept { return (reinterpret_cast<const child_ptr*>(this + 1)); }
 			/// @brief Returns child at given position
-			child_ptr& child(unsigned pos) noexcept { return children()[pos]; }
-			child_ptr const_child(unsigned pos) const noexcept { return children()[pos]; }
+			SEQ_ALWAYS_INLINE child_ptr& child(unsigned pos) noexcept { return children()[pos]; }
+			SEQ_ALWAYS_INLINE child_ptr const_child(unsigned pos) const noexcept { return children()[pos]; }
 			/// @brief Allocate, initialize and return a directory with given bit length (log2(size))
 			template<class NodeAllocator>
 			static Directory* make(NodeAllocator& alloc, unsigned hash_len)
 			{
 				Directory* dir = alloc.allocate_dir(hash_len);
 				dir->hash_len = hash_len;
+				dir->first_valid_child = (uint64_t)-1;
 				return dir;
 			}
 			/// @brief Destroy and deallocate directory recursively
@@ -1332,12 +1346,13 @@ namespace seq
 			const Allocator& get_allocator() const noexcept { return *this; }
 
 			/// @brief Allocate and construct a vector
-			vector_type* make_vector()
+			template<class Hash>
+			vector_type* make_vector(const Hash& h)
 			{
 				RebindAlloc<Allocator, vector_type> al = get_allocator();
 				vector_type* res = al.allocate(1);
 				try {
-					construct_ptr(res, get_allocator());
+					construct_ptr(res, get_allocator(), h);
 				}
 				catch (...) {
 					al.deallocate(res, 1);
@@ -1428,19 +1443,19 @@ namespace seq
 			unsigned child;	   // node position in directory
 			unsigned node_pos; // position within node
 
-			const node* to_node() const noexcept { return static_cast<const node*>(dir->const_child(child).ptr()); }
-			const VectorType* to_vector() const noexcept { return static_cast<const VectorType*>(dir->const_child(child).ptr()); }
+			SEQ_ALWAYS_INLINE const node* to_node() const noexcept { return static_cast<const node*>(dir->const_child(child).ptr()); }
+			SEQ_ALWAYS_INLINE const VectorType* to_vector() const noexcept { return static_cast<const VectorType*>(dir->const_child(child).ptr()); }
 
 			/// @brief Returns the bit position of given directory
 			static size_t get_bit_pos(const Dir* dir) noexcept
 			{
-				const Dir* d = dir;
-				size_t bit_pos = 0;
-				while (d->parent) {
-					bit_pos += d->parent->hash_len + d->parent->prefix_len;
-					d = d->parent;
+				// Returns the bit position of given directory
+				size_t bit_pos = dir->prefix_len;
+				while (dir->parent) {
+					bit_pos += dir->parent->hash_len + dir->parent->prefix_len;
+					dir = dir->parent;
 				}
-				return bit_pos + dir->prefix_len;
+				return bit_pos;
 			}
 
 		public:
@@ -1461,43 +1476,31 @@ namespace seq
 
 			static PosInDir find_next(const Dir* current, unsigned current_pos, size_t bit_pos) noexcept
 			{
-				// for (;;)
-				{
-					// go right on the directory
-					size_t dir_size = current->size();
-					for (; current_pos != dir_size; ++current_pos) {
-						if (current->const_child(current_pos))
-							break;
-					}
-					child_ptr found = current_pos != dir_size ? current->const_child(current_pos) : child_ptr();
-
-					// found a valid non dir node: return
-					if (found && found.tag() != Dir::IsDir)
-						return PosInDir{ const_cast<Dir*>(current), current_pos, bit_pos };
-
-					if (found.tag() == Dir::IsDir) {
-
-						// we found a directory: investigate it
-						auto tmp = find_next(found.to_dir(), 0, bit_pos + current->hash_len + found.to_dir()->prefix_len);
-						if (tmp.dir)
-							return tmp; // we found a node in this directory
-						// current_pos = 0;
-						// bit_pos += current->hash_len + found.to_dir()->prefix_len;
-						// current = found.to_dir();
-						// continue;
-					}
-
-					// we reach the end of this directory: try in parent
-					if (current->parent && current) {
-						return find_next(current->parent, current->parent_pos + 1, bit_pos - current->prefix_len - current->parent->hash_len);
-						// bit_pos -= current->prefix_len + current->parent->hash_len;
-						// current_pos = current->parent_pos + 1;
-						// current = current->parent;
-						// continue;
-					}
-
-					return { nullptr, 0, 0 }; // end of iteration
+				// go right on the directory
+				size_t dir_size = current->size();
+				for (; current_pos != dir_size; ++current_pos) {
+					if (current->const_child(current_pos))
+						break;
 				}
+				child_ptr found = current_pos != dir_size ? current->const_child(current_pos) : child_ptr();
+
+				// found a valid non dir node: return
+				if (found && found.tag() != Dir::IsDir)
+					return PosInDir{ const_cast<Dir*>(current), current_pos, bit_pos };
+
+				if (found.tag() == Dir::IsDir) {
+
+					// we found a directory: investigate it
+					auto tmp = find_next(found.to_dir(), 0, bit_pos + current->hash_len + found.to_dir()->prefix_len);
+					if (tmp.dir)
+						return tmp;
+				}
+
+				// we reach the end of this directory: try in parent
+				if (current->parent && current)
+					return find_next(current->parent, current->parent_pos + 1, bit_pos - current->prefix_len - current->parent->hash_len);
+
+				return { nullptr, 0, 0 }; // end of iteration
 			}
 
 			static PosInDir find_prev(const Dir* current, unsigned current_pos, size_t bit_pos) noexcept
@@ -1533,15 +1536,13 @@ namespace seq
 
 			auto next() noexcept -> RadixConstIter&
 			{
-				if (dir == data->end.dir && child == data->end.child) {
+				auto tmp = find_next(dir, child + 1, bit_pos);
+				if SEQ_UNLIKELY(!tmp.dir) {
 					dir = nullptr;
 					child = 0;
 					node_pos = 0;
 					return *this; // end of iteration
 				}
-
-				auto tmp = find_next(dir, child + 1, bit_pos);
-				SEQ_ASSERT_DEBUG(tmp.dir, "");
 				SEQ_ASSERT_DEBUG(!node::is_sorted || tmp.bit_pos == get_bit_pos(tmp.dir), "");
 				// we found a valid node
 				dir = tmp.dir;
@@ -1568,7 +1569,7 @@ namespace seq
 				return *this;
 			}
 
-			RadixConstIter(const Data* dt, const Dir* d, unsigned c, unsigned np, size_t bp) noexcept
+			SEQ_ALWAYS_INLINE RadixConstIter(const Data* dt, const Dir* d, unsigned c, unsigned np, size_t bp) noexcept
 			  : data(const_cast<Data*>(dt))
 			  , dir(const_cast<Dir*>(d))
 			  , bit_pos(bp)
@@ -1576,7 +1577,7 @@ namespace seq
 			  , node_pos(np)
 			{
 			}
-			RadixConstIter(const Data* dt = nullptr) noexcept // end
+			SEQ_ALWAYS_INLINE RadixConstIter(const Data* dt = nullptr) noexcept // end
 			  : data(const_cast<Data*>(dt))
 			  , dir(nullptr)
 			  , bit_pos(0)
@@ -1584,22 +1585,18 @@ namespace seq
 			  , node_pos(0)
 			{
 			}
+			RadixConstIter(const RadixConstIter&) noexcept = default;
+			RadixConstIter& operator=(const RadixConstIter&) noexcept = default;
 
-			bool is_null() const noexcept { return dir == nullptr; }
-
-			auto get() const noexcept -> reference
+			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference
 			{
 				SEQ_ASSERT_DEBUG(dir, "dereferencing null iterator");
 				return const_cast<value_type&>(dir->const_child(child).tag() == Dir::IsVector ? to_vector()->at(node_pos) : to_node()->values()[node_pos]);
 			}
-
-			auto operator*() const noexcept -> reference { return get(); }
-			auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-
+			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
 			SEQ_ALWAYS_INLINE auto operator++() noexcept -> RadixConstIter&
 			{
 				SEQ_ASSERT_DEBUG(data, "");
-
 				++node_pos;
 				if (node_pos != (dir->const_child(child).tag() == Dir::IsVector ? to_vector()->size() : to_node()->count()))
 					return *this;
@@ -1615,12 +1612,13 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto operator--() noexcept -> RadixConstIter&
 			{
 				SEQ_ASSERT_DEBUG(data, "");
-				if (SEQ_UNLIKELY(dir == nullptr)) {
-					// end iterator
-					dir = data->end.dir;
-					child = data->end.child;
-					bit_pos = data->end.bit_pos;
+				if (!dir) {
+					// end iterator: got to last element
+					auto tmp = find_prev(data->base.root, data->base.root->size(), 0);
+					dir = tmp.dir;
+					child = tmp.child;
 					node_pos = dir->const_child(child).tag() == Dir::IsVector ? static_cast<unsigned>(to_vector()->size()) - 1 : to_node()->count() - 1;
+					bit_pos = tmp.bit_pos;
 					return *this;
 				}
 				--node_pos;
@@ -1636,12 +1634,12 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE bool operator==(const RadixConstIter& other) const noexcept
 			{
-				SEQ_ASSERT_DEBUG(data == other.data, "comparing iterators from different radix trees");
+				SEQ_ASSERT_DEBUG(data == other.data || !data || !other.data, "comparing iterators from different radix trees");
 				return dir == other.dir && child == other.child && node_pos == other.node_pos;
 			}
 			SEQ_ALWAYS_INLINE bool operator!=(const RadixConstIter& other) const noexcept
 			{
-				SEQ_ASSERT_DEBUG(data == other.data, "comparing iterators from different radix trees");
+				SEQ_ASSERT_DEBUG(data == other.data || !data || !other.data, "comparing iterators from different radix trees");
 				return dir != other.dir || child != other.child || node_pos != other.node_pos;
 			}
 		};
@@ -1654,51 +1652,33 @@ namespace seq
 		}
 
 		/// @brief Less functor used by vector nodes
-		template<class Hasher, class ExtractKey, class Key, class T> //, bool Convertible = std::is_convertible<T,Key>::value>
+		template<class Hasher, class ExtractKey>
 		struct VectorLess
 		{
 			using is_transparent = int;
-			/*bool operator()(const Key& a, const T& b) const { return Hasher::less(a, ExtractKey{}(b)); }
-			bool operator()(const T& a, const Key& b) const {return Hasher::less(ExtractKey{}(a), b);}
-			bool operator()(const Key& a, const Key& b) const { return Hasher::less(a, b); }
-			bool operator()(const T& a, const T& b) const { return Hasher::less(ExtractKey{}(a), ExtractKey{}(b)); }*/
 			template<class U, class V>
 			bool operator()(const U& a, const V& b) const
 			{
 				return Hasher::less(ExtractKey{}(a), ExtractKey{}(b));
 			}
-		};
-		/*template<class Hasher, class ExtractKey, class Key, class T>
-		struct VectorLess< Hasher, ExtractKey,Key,T,true>
-		{
-			using is_transparent = int;
-			bool operator()(const Key& a, const Key& b) const {return Hasher::less(a, b);}
 			template<class U, class V>
-			bool operator()(const U& a, const V& b) const { return Hasher::less(ExtractKey{}(a), ExtractKey{}(b)); }
-		};*/
+			static bool less(const U& a, const V& b)
+			{
+				return Hasher::less(ExtractKey{}(a), ExtractKey{}(b));
+			}
+		};
+
 		/// @brief Equal functor used by vector nodes
-		template<class Hasher, class ExtractKey, class Key, class T> //, bool Convertible = std::is_convertible<T, Key>::value>
-		struct VectorEqual
+		template<class Hasher, class ExtractKey>
+		struct VectorEqual : Hasher
 		{
 			using is_transparent = int;
-			/*bool operator()(const Key& a, const T& b) const { return Hasher::equal(a, ExtractKey{}(b)); }
-			bool operator()(const T& a, const Key& b) const { return Hasher::equal(ExtractKey{}(a), b); }
-			bool operator()(const Key& a, const Key& b) const { return Hasher::equal(a, b); }
-			bool operator()(const T& a, const T& b) const { return Hasher::equal(ExtractKey{}(a), ExtractKey{}(b)); }*/
 			template<class U, class V>
 			bool operator()(const U& a, const V& b) const
 			{
-				return Hasher::equal(ExtractKey{}(a), ExtractKey{}(b));
+				return this->Hasher::equal(ExtractKey{}(a), ExtractKey{}(b));
 			}
 		};
-		/*template<class Hasher, class ExtractKey, class Key, class T>
-		struct VectorEqual< Hasher, ExtractKey, Key, T, true>
-		{
-			using is_transparent = int;
-			bool operator()(const Key& a, const Key& b) const { return Hasher::equal(a, b); }
-			template<class U, class V>
-			bool operator()(const U& a, const V& b) const { return Hasher::equal(a, b); }
-		};*/
 
 		/// @brief Sorted vector node based on seq::flat_set
 		template<class T, class Hasher, class ExtractKey, class Allocator, bool sorted = true>
@@ -1706,47 +1686,47 @@ namespace seq
 		{
 			using key_type = typename ExtractKeyResultType<ExtractKey, T>::type;
 			using value_type = T;
-			using Less = VectorLess<Hasher, ExtractKey, key_type, T>;
+			using Less = VectorLess<Hasher, ExtractKey>;
 
 			flat_set<T, Less, Allocator> set;
 
-			VectorNode(const Allocator& al)
+			VectorNode(const Allocator& al, const Hasher&)
 			  : set(al)
 			{
 			}
 
-			size_t size() const noexcept { return set.size(); }
-			const T& front() const noexcept { return set.pos(0); }
-			const T& back() const noexcept { return set.pos(set.size() - 1); }
+			SEQ_ALWAYS_INLINE size_t size() const noexcept { return set.size(); }
+			SEQ_ALWAYS_INLINE const T& front() const noexcept { return set.pos(0); }
+			SEQ_ALWAYS_INLINE const T& back() const noexcept { return set.pos(set.size() - 1); }
 			template<class... Args>
-			std::pair<size_t, bool> emplace(Args&&... args)
+			SEQ_ALWAYS_INLINE std::pair<size_t, bool> emplace(Args&&... args)
 			{
 				check_vector_size(size());
 				return set.emplace_pos(std::forward<Args>(args)...);
 			}
 			template<class... Args>
-			std::pair<size_t, bool> emplace_no_check(Args&&... args)
+			SEQ_ALWAYS_INLINE std::pair<size_t, bool> emplace_no_check(Args&&... args)
 			{
 				check_vector_size(size());
 				return set.emplace_pos(std::forward<Args>(args)...);
 			}
-			void erase(size_t pos) { set.erase_pos(pos); }
+			SEQ_ALWAYS_INLINE void erase(size_t pos) { set.erase_pos(pos); }
 			template<class K>
-			size_t find(const K& key) const
+			SEQ_ALWAYS_INLINE size_t find(const K& key) const
 			{
 				return set.find_pos(key);
 			}
 			template<class K>
-			size_t lower_bound(const K& key) const
+			SEQ_ALWAYS_INLINE size_t lower_bound(const K& key) const
 			{
 				return set.lower_bound_pos(key);
 			}
 			template<class K>
-			size_t upper_bound(const K& key) const
+			SEQ_ALWAYS_INLINE size_t upper_bound(const K& key) const
 			{
 				return set.upper_bound_pos(key);
 			}
-			const T& at(size_t pos) const { return set.pos(pos); }
+			SEQ_ALWAYS_INLINE const T& at(size_t pos) const { return set.pos(pos); }
 		};
 
 		/// @brief Unsorted vector node based on seq::dvector
@@ -1755,20 +1735,22 @@ namespace seq
 		{
 			using key_type = typename ExtractKeyResultType<ExtractKey, T>::type;
 			using value_type = T;
-			using Equal = VectorEqual<Hasher, ExtractKey, key_type, T>;
+			using Equal = VectorEqual<Hasher, ExtractKey>;
 
-			seq::devector<T, Allocator, seq::OptimizeForPushBack> vector;
+			seq::devector<T, Allocator> vector;
+			Equal equal;
 
-			VectorNode(const Allocator& al)
+			VectorNode(const Allocator& al, const Hasher& h)
 			  : vector(al)
+			  , equal(h)
 			{
 			}
 
-			size_t size() const noexcept { return vector.size(); }
-			const T& front() const noexcept { return vector.front(); }
-			const T& back() const noexcept { return vector.back(); }
+			SEQ_ALWAYS_INLINE size_t size() const noexcept { return vector.size(); }
+			SEQ_ALWAYS_INLINE const T& front() const noexcept { return vector.front(); }
+			SEQ_ALWAYS_INLINE const T& back() const noexcept { return vector.back(); }
 			template<class K, class... Args>
-			std::pair<size_t, bool> emplace(K&& key, Args&&... args)
+			SEQ_ALWAYS_INLINE std::pair<size_t, bool> emplace(K&& key, Args&&... args)
 			{
 				check_vector_size(size());
 				size_t found = find(key);
@@ -1779,15 +1761,15 @@ namespace seq
 				return std::pair<size_t, bool>(found, false);
 			}
 			template<class... Args>
-			std::pair<size_t, bool> emplace_no_check(Args&&... args)
+			SEQ_ALWAYS_INLINE std::pair<size_t, bool> emplace_no_check(Args&&... args)
 			{
 				check_vector_size(size());
 				vector.emplace_back(std::forward<Args>(args)...);
 				return std::pair<size_t, bool>(vector.size() - 1, true);
 			}
-			void erase(size_t pos) { vector.erase(vector.begin() + pos); }
+			SEQ_ALWAYS_INLINE void erase(size_t pos) { vector.erase(vector.begin() + pos); }
 			template<class K>
-			size_t find(const K& key) const
+			SEQ_ALWAYS_INLINE size_t find(const K& key) const
 			{
 				for (size_t i = 0; i < vector.size(); ++i)
 					if (Equal{}(vector[i], key))
@@ -1795,16 +1777,16 @@ namespace seq
 				return vector.size();
 			}
 			template<class... Args>
-			size_t lower_bound(Args&&... args) const noexcept
+			SEQ_ALWAYS_INLINE size_t lower_bound(Args&&... args) const noexcept
 			{
 				return vector.size();
 			}
 			template<class... Args>
-			size_t upper_bound(Args&&... args) const noexcept
+			SEQ_ALWAYS_INLINE size_t upper_bound(Args&&... args) const noexcept
 			{
 				return vector.size();
 			}
-			const T& at(size_t pos) const noexcept { return vector[pos]; }
+			SEQ_ALWAYS_INLINE const T& at(size_t pos) const noexcept { return vector[pos]; }
 		};
 
 		/// @brief Root of a radix tree
@@ -1821,198 +1803,52 @@ namespace seq
 			}
 		};
 
-		/// @brief Store a leaf position for begin and last leaves in a radix tree
-		template<class Dir>
-		struct BeginEndDir
-		{
-			using value_type = typename Dir::value_type;
-			Dir* dir;
-			unsigned child;
-			size_t bit_pos;
-			BeginEndDir() noexcept
-			  : dir(nullptr)
-			  , child(0)
-			  , bit_pos(0)
-			{
-			}
-			void reset() noexcept
-			{
-				dir = nullptr;
-				child = 0;
-			}
-			bool is_null() const noexcept { return dir == nullptr; }
-			const value_type& get_value() const
-			{
-				auto ch = this->dir->children()[this->child];
-				return ch.tag() == Dir::IsLeaf ? *ch.to_node()->values() : ch.to_vector()->front();
-			}
-			const value_type& get_back_value() const
-			{
-				auto ch = this->dir->children()[this->child];
-				return ch.tag() == Dir::IsLeaf ? ch.to_node()->back() : ch.to_vector()->back();
-			}
-		};
-		/// @brief Store a leaf position for begin and last leaves in a sorted radix tree
-		template<class Dir, class Hasher, class ExtractKey, class Less, class KeyType, bool IsSorted, class = void>
-		struct StoreMinMaxKey : public BeginEndDir<Dir>
-		{
-			template<class Key, class Hash>
-			void store_value(Dir* d, unsigned c, size_t bp, const Key&, const Hash&)
-			{
-				this->dir = d;
-				this->child = c;
-				this->bit_pos = bp;
-			}
-			void store_value(Dir* d, unsigned c, size_t bp, const Hasher&)
-			{
-				this->dir = d;
-				this->child = c;
-				this->bit_pos = bp;
-			}
-			template<class Hash, class U>
-			SEQ_ALWAYS_INLINE bool less_than(const Hash&, const U& value) const
-			{
-				return Less{}(ExtractKey{}(this->get_value()), ExtractKey{}(value));
-			}
-			template<class Hash, class U>
-			SEQ_ALWAYS_INLINE bool greater_than(const Hash&, const U& value) const
-			{
-				return Less{}(ExtractKey{}(value), ExtractKey{}(this->get_value()));
-			}
-		};
-		/// @brief Store a leaf position for begin and last leaves in an unsorted radix tree
-		template<class Dir, class Hasher, class ExtractKey, class Less, class KeyType>
-		struct StoreMinMaxKey<Dir, Hasher, ExtractKey, Less, KeyType, false, void> : public BeginEndDir<Dir>
-		{
-			size_t hash_value;
-			template<class Key, class Hash>
-			void store_value(Dir* d, unsigned c, size_t bp, const Key&, const Hash& h)
-			{
-				this->dir = d;
-				this->child = c;
-				this->bit_pos = bp;
-				this->hash_value = h.hash;
-			}
-			void store_value(Dir* d, unsigned c, size_t bp, const Hasher& h)
-			{
-				this->dir = d;
-				this->child = c;
-				this->bit_pos = bp;
-				this->hash_value = h.hash(ExtractKey{}(this->get_value())).hash;
-			}
-			template<class Hash, class U>
-			SEQ_ALWAYS_INLINE bool less_than(const Hash& h, const U&) const
-			{
-				return this->hash_value < h.hash;
-			}
-			template<class Hash, class U>
-			SEQ_ALWAYS_INLINE bool greater_than(const Hash& h, const U&) const
-			{
-				return this->hash_value > h.hash;
-			}
-		};
-		/// @brief Store a leaf position for begin and last leaves in a sorted radix tree with arithmetic keys
-		template<class Dir, class Hasher, class ExtractKey, class Less, class KeyType>
-		struct StoreMinMaxKey<Dir, Hasher, ExtractKey, Less, KeyType, true, typename std::enable_if<std::is_arithmetic<KeyType>::value, void>::type> : public BeginEndDir<Dir>
-		{
-			KeyType value;
-			template<class Key, class Hash>
-			void store_value(Dir* d, unsigned c, size_t bp, const Key& k, const Hash&)
-			{
-				this->dir = d;
-				this->child = c;
-				this->bit_pos = bp;
-				this->value = ExtractKey{}(k);
-			}
-			void store_value(Dir* d, unsigned c, size_t bp, const Hasher&)
-			{
-				this->dir = d;
-				this->child = c;
-				this->bit_pos = bp;
-				this->value = ExtractKey{}(this->get_value());
-			}
-			template<class Hash, class U>
-			SEQ_ALWAYS_INLINE bool less_than(const Hash&, const U& v) const
-			{
-				return this->value < ExtractKey{}(v);
-			}
-			template<class Hash, class U>
-			SEQ_ALWAYS_INLINE bool greater_than(const Hash&, const U& v) const
-			{
-				return this->value > ExtractKey{}(v);
-			}
-		};
-
-		template<class T, class ExtractKey>
-		struct ExtractWrapper
-		{
-			using key_type = typename ExtractKeyResultType<ExtractKey, T>::type;
-
-			template<class U>
-			typename ExtractKeyResultType<ExtractKey, T>::type operator()(const U& value) const
-			{
-				return ExtractKey{}(value);
-			}
-			const key_type& operator()(const key_type& value) const { return value; }
-		};
-
 		/// @brief Radix tree container using Variable Arity Radix Tree
 		/// @tparam T value type
 		/// @tparam Allocator allocator type
 		/// @tparam NodeType leaf node type
 		/// @tparam Hash Hasher type, either Hasher or SortedHasher
 		/// @tparam Extract extract key from value type
-		template<class T,
-			 class Hash,
-			 class Extract = default_key<T>,
-			 class Allocator = std::allocator<T>,
-			 class NodeType = LeafNode<T>,
-			 unsigned StartArity = Hash::variable_length ? 4 : 2, // 1 to start as a binary tree
-			 unsigned MaxDepth = 16>
+		template<class T, class Hash, class ExtractKey = default_key, class Allocator = std::allocator<T>, class NodeType = LeafNode<T>, unsigned MaxDepth = 16>
 		struct RadixTree
 		  : public Hash
 		  , public Allocator
 		{
-			static constexpr unsigned start_arity = StartArity;
+			static constexpr unsigned start_arity = Hash::bit_step;
 			static constexpr bool prefix_search = Hash::prefix_search;
 			static constexpr bool variable_length = Hash::variable_length;
-
+			static constexpr bool is_sorted = NodeType::is_sorted;
 			static constexpr size_t minus_one_size_t = static_cast<size_t>(-1);
-
-			using ExtractKey = ExtractWrapper<T, Extract>;
 
 			using node = NodeType;
 			using key_type = typename ExtractKeyResultType<ExtractKey, T>::type;
-			using vector_less_type = typename Hash::less_type;
-			using vector_type = VectorNode<T, Hash, ExtractKey, Allocator, !std::is_same<vector_less_type, default_less>::value>;
-			using directory = Directory<T, NodeType, vector_type, variable_length>;
+			using vector_type = VectorNode<T, Hash, ExtractKey, Allocator>;
+			using directory = Directory<T, NodeType, vector_type, Hash>;
 			using child_ptr = typename directory::child_ptr;
 			using root_type = RootTree<Allocator, T, directory, NodeType>;
-			using this_type = RadixTree<T, Hash, ExtractKey, Allocator, NodeType, StartArity, MaxDepth>;
+			using this_type = RadixTree<T, Hash, ExtractKey, Allocator, NodeType, MaxDepth>;
 
 			template<class U>
 			using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 
-			/// @brief Equal structure operating on keys
-			using Less = VectorLess<Hash, ExtractKey, key_type, T>;
 			/// @brief Less structure operating on keys
-			using Equal = VectorEqual<Hash, ExtractKey, key_type, T>;
-
-			/// @brief Store position of begin and end leaves
-			using MinMaxPos = StoreMinMaxKey<directory, Hash, ExtractKey, Less, key_type, node::is_sorted>;
+			using Less = VectorLess<Hash, ExtractKey>;
+			/// @brief Equal structure operating on keys
+			using Equal = VectorEqual<Hash, ExtractKey>;
 
 			/// @brief Internal data
 			struct PrivateData
 			{
 				root_type base;
-				MinMaxPos begin;
-				MinMaxPos end;
 				PrivateData(const Allocator& al, unsigned start_len = start_arity)
 				  : base(al)
 				{
 					base.root = directory::make(base, start_len);
 				}
-				~PrivateData() { directory::destroy(base, base.root); }
+				~PrivateData() 
+				{ 
+					directory::destroy(base, base.root); 
+				}
 			};
 
 			/// @brief Returns an empty directory used to initialize a radix tree
@@ -2022,7 +1858,6 @@ namespace seq
 				{
 					directory dir;
 					typename directory::child_ptr child;
-					null_dir() { dir.hash_len = dir.dir_count = dir.child_count = dir.first_valid_child = 0; }
 				};
 				static null_dir inst;
 				return &inst.dir;
@@ -2058,47 +1893,10 @@ namespace seq
 				d_root = d->base.root;
 			}
 
-			/// @brief Reset begin/end position in order to be recomputed
-			void reset_ends()
-			{
-				if (!d_data)
-					return;
-				d_data->begin.reset();
-				d_data->end.reset();
-			}
-
-			/// @brief Compute the begin/end position
-			void compute_ends() noexcept
-			{
-				reset_ends();
-				if (size() == 0)
-					return;
-				compute_begin();
-				compute_end();
-			}
-			/// @brief Compute begin leaf position
-			void compute_begin() // directory* updated_dir, unsigned updated_child)
-			{
-				// if (!updated_dir || !d_data->begin.dir || (d_data->begin.dir == updated_dir && updated_child < d_data->begin.child)) {
-				auto tmp = const_iterator::find_next(d_data->base.root, 0, 0);
-				SEQ_ASSERT_DEBUG(tmp.dir, "");
-				d_data->begin.store_value(tmp.dir, tmp.child, tmp.bit_pos, *this);
-				//}
-			}
-			/// @brief Compute end leaf position
-			void compute_end() // directory* updated_dir, unsigned updated_child)
-			{
-				// if (!updated_dir || !d_data->end.dir || (d_data->end.dir == updated_dir && updated_child > d_data->end.child)) {
-				auto tmp = const_iterator::find_prev(d_data->base.root, d_data->base.root->size(), 0);
-				SEQ_ASSERT_DEBUG(tmp.dir, "");
-				d_data->end.store_value(tmp.dir, tmp.child, tmp.bit_pos, *this);
-				//}
-			}
-
 		public:
 			using value_type = T;
-			using hash_type = typename Hash::type;
-			using const_hash_ref = typename Hash::const_reference;
+			using hash_type = Hash;
+			using const_hash_ref = const Hash&;
 			using extract_key_type = ExtractKey;
 			using const_iterator = RadixConstIter<T, PrivateData, directory, vector_type>;
 			using iterator = const_iterator;
@@ -2142,7 +1940,7 @@ namespace seq
 					insert(other.begin(), other.end(), false);
 			}
 
-			RadixTree(RadixTree&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value&& std::is_nothrow_copy_constructible<Hash>::value)
+			RadixTree(RadixTree&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value && std::is_nothrow_copy_constructible<Hash>::value)
 			  : Hash(other)
 			  , Allocator(std::move(other.get_allocator()))
 			  , d_data(nullptr)
@@ -2222,21 +2020,27 @@ namespace seq
 
 			// Iterators
 
-			const_iterator begin() const noexcept { return size() ? const_iterator(d_data, d_data->begin.dir, d_data->begin.child, 0, d_data->begin.bit_pos) : const_iterator(d_data); }
-			const_iterator end() const noexcept { return const_iterator(d_data); }
-			const_iterator cbegin() const noexcept { return begin(); }
-			const_iterator cend() const noexcept { return end(); }
+			SEQ_ALWAYS_INLINE const_iterator begin() const noexcept
+			{
+				if (size() == 0)
+					return end();
+				auto tmp = const_iterator::find_next(d_data->base.root, 0, 0);
+				return const_iterator(d_data, tmp.dir, tmp.child, 0, tmp.bit_pos);
+			}
+			SEQ_ALWAYS_INLINE const_iterator end() const noexcept { return const_iterator(d_data); }
+			SEQ_ALWAYS_INLINE const_iterator cbegin() const noexcept { return begin(); }
+			SEQ_ALWAYS_INLINE const_iterator cend() const noexcept { return end(); }
 
 			// Alloctor
 
-			Allocator& get_allocator() noexcept { return static_cast<Allocator&>(*this); }
-			const Allocator& get_allocator() const noexcept { return static_cast<const Allocator&>(*this); }
+			SEQ_ALWAYS_INLINE Allocator& get_allocator() noexcept { return static_cast<Allocator&>(*this); }
+			SEQ_ALWAYS_INLINE const Allocator& get_allocator() const noexcept { return static_cast<const Allocator&>(*this); }
 
 			// Size functions
 
-			bool empty() const noexcept { return !d_data || d_data->base.size == 0; }
-			size_t size() const noexcept { return d_data ? d_data->base.size : 0; }
-			size_t max_size() const noexcept { return std::numeric_limits<size_t>::max(); }
+			SEQ_ALWAYS_INLINE bool empty() const noexcept { return !d_data || d_data->base.size == 0; }
+			SEQ_ALWAYS_INLINE size_t size() const noexcept { return d_data ? d_data->base.size : 0; }
+			SEQ_ALWAYS_INLINE size_t max_size() const noexcept { return std::numeric_limits<size_t>::max(); }
 
 			/// @brief Destroy and deallocate all values, directories and nodes
 			void clear() { destroy_data(); }
@@ -2282,26 +2086,16 @@ namespace seq
 				other.swap(*this);
 			}
 
-			/// @brief Apply functor to each leaf node or vector node
-			template<class Fun>
-			void for_each_leaf(Fun&& fun)
-			{
-				if (size() == 0)
-					return;
-				auto it = begin();
-				while (true) {
-					fun(it.dir->children()[it.child]);
-					if (it.dir == d_data->end.dir && it.child == d_data->end.child)
-						return;
-					it.next();
-				}
-			}
 			/// @brief Sort all leaves
 			void sort_leaves()
 			{
 				if (!node::is_sorted)
 					return;
-				for_each_leaf([](child_ptr child) {
+				if (size() == 0)
+					return;
+
+				d_data->base.root->for_each_leaf([](directory* dir, unsigned pos) {
+					auto child = dir->child(pos);
 					if (child.tag() == directory::IsLeaf)
 						child.to_node()->template sort<extract_key_type>(Less{});
 				});
@@ -2311,29 +2105,16 @@ namespace seq
 			template<class U>
 			SEQ_ALWAYS_INLINE hash_type hash_key(const U& val) const
 			{
-				return this->hash((val));
+				return this->hash(ExtractKey{}(val));
 			}
-			/// @brief Hash key and return the hash value at given bit position
-			template<class U>
-			SEQ_ALWAYS_INLINE hash_type hash_key_shift(size_t shift, const U& val) const
-			{
-				return this->hash_shift(shift, (val));
-			}
-			/// @brief Returns the value tiny hash based on its hash representation
-			template<class U>
-			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash(const_hash_ref hash, const U& val) const noexcept
-			{
-				return node::template tiny_hash<Hash>(hash, (val));
-			}
+			SEQ_ALWAYS_INLINE const hash_type& hash_key(const hash_type& val) const { return val; }
 
-			/// @brief Returns the count first bits starting at given directory based on any of its children
-			unsigned get_prefix_first_bits(directory* dir, unsigned count, size_t bit_pos)
+			auto get_prefix_first_bits(directory* dir, unsigned count, size_t bit_pos) noexcept -> unsigned
 			{
-				if (bit_pos == static_cast<size_t>(-1))
+				// Returns the count first bits starting at given directory based on any of its children
+				if (bit_pos == minus_one_size_t)
 					bit_pos = iterator::get_bit_pos(dir);
-				auto h = this->hash(extract_key_type{}(dir->any_child()));
-				h.add_shift(bit_pos);
-				return h.n_bits(count);
+				return hash_key(dir->any_child()).n_bits(bit_pos, count);
 			}
 
 			directory* make_intermediate(directory* parent, unsigned hash_len, unsigned parent_pos)
@@ -2341,7 +2122,6 @@ namespace seq
 				directory* intermediate = directory::make(d_data->base, hash_len);
 				intermediate->parent = parent;
 				intermediate->parent_pos = parent_pos;
-				intermediate->first_valid_child = static_cast<unsigned>(-1);
 				parent->children()[parent_pos] = child_ptr(intermediate, directory::IsDir);
 				parent->dir_count++;
 				parent->child_count++;
@@ -2359,7 +2139,7 @@ namespace seq
 				// new directory hash len
 				unsigned new_hash_len = start_arity + dir->hash_len;
 
-				if (SEQ_UNLIKELY(new_hash_len >= 27))
+				if SEQ_UNLIKELY (new_hash_len >= 32)
 					// we are above maximum allowed size for a directory
 					return nullptr;
 
@@ -2404,7 +2184,7 @@ namespace seq
 								if ((intermediate->children()[j & mask] = child->children()[j])) // take high bits of j
 								{
 									intermediate->child_count++;
-									if (intermediate->first_valid_child == static_cast<unsigned>(-1))
+									if (intermediate->first_valid_child == static_cast<uint64_t>(-1))
 										intermediate->first_valid_child = j & mask;
 								}
 								if (child->children()[j].tag() == directory::IsDir) {
@@ -2452,9 +2232,6 @@ namespace seq
 					throw;
 				}
 
-				// compute first valid child
-				new_dir->compute_first_valid();
-
 				// destroy old directory
 				directory::destroy(d_data->base, dir, false);
 
@@ -2465,7 +2242,7 @@ namespace seq
 						new_dir->parent = parent_dir;
 						new_dir->parent_pos = parent_pos;
 						if (parent_dir->first_valid_child == parent_pos)
-							parent_dir->compute_first_valid();
+							parent_dir->invalidate_first_valid();
 					}
 					directory* d = merge_dir(new_dir);
 					if (!d)
@@ -2478,7 +2255,7 @@ namespace seq
 					new_dir->parent = parent_dir;
 					new_dir->parent_pos = parent_pos;
 					if (parent_dir->first_valid_child == parent_pos)
-						parent_dir->compute_first_valid();
+						parent_dir->invalidate_first_valid();
 
 					// try to merge up
 					if (parent_dir->dir_count == (1ULL << parent_dir->hash_len))
@@ -2491,34 +2268,83 @@ namespace seq
 			}
 
 			/// @brief Returns the number of common bits from start_pos in the range [first,last)
-			size_t compute_common_bits(size_t start_pos, const T* first, const T* last) const
+			template<unsigned BitStep, class Iter>
+			auto nb_common_bits(size_t start_bit, Iter start, Iter end) noexcept -> size_t
 			{
-				return hash_type::template nb_common_bits<StartArity, extract_key_type>(*this, start_pos, first, last);
+				// Compute number of common bits from start_bits for given range
+				// The result is rounded down to the previous BitStep multiplier
+
+				size_t max_bits = hash_type::max_bits;
+
+				if SEQ_CONSTEXPR (variable_length) {
+					// Compute maximum possible common bits
+					auto hstart = hash_key((*start));
+					max_bits = hstart.get_size() > start_bit ? hstart.get_size() - start_bit : 0;
+					Iter it = start;
+					++it;
+					for (; it != end; ++it) {
+						auto size = hash_key((*it)).get_size();
+						if (size > start_bit) {
+							size_t bits = size - start_bit;
+							max_bits = std::max(max_bits, bits);
+						}
+					}
+				}
+
+				auto first = hash_key((*start));
+
+				++start;
+				size_t bits = max_bits;
+				size_t i = 1;
+				for (; start != end && bits > 0; ++start, ++i) {
+					auto tmp = hash_key(*start);
+					size_t start = start_bit;
+					size_t common = 0;
+
+					for (;;) {
+						if (unsigned x = first.n_bits(start, 32u) ^ tmp.n_bits(start, 32u)) {
+							common += 32U - bit_scan_reverse_32(x) - 1U;
+							break;
+						}
+						common += 32u;
+						start += 32u;
+						if (start > first.get_size() && start > tmp.get_size()) {
+							common = max_bits;
+							break;
+						}
+					}
+					bits = std::min(bits, common);
+					bits = (bits / BitStep) * BitStep;
+				}
+
+				return bits;
+			}
+
+			template<class Iter>
+			auto compute_common_bits(size_t start_pos, Iter first, Iter last) noexcept -> size_t
+			{
+				// Returns the number of common bits from start_pos in the range [first,last)
+				return nb_common_bits<start_arity>(start_pos, first, last);
 			}
 
 			/// @brief Returns the number of common bits from start_pos between first and second
-			// template<class K>
-			size_t compute_common_bits(size_t start_bits, const key_type& first, const key_type& second) const
+			template<class K1, class K2>
+			auto compute_common_bits_2(size_t start_bits, const K1& first, const K2& second) noexcept -> size_t
 			{
+				// Returns the number of common bits from start_pos between first and second
 				struct Iter
 				{
-					const key_type** vals;
-					unsigned char pos;
-					Iter(const key_type** v, unsigned char p)
-					  : vals(v)
-					  , pos(p)
+					const hash_type* vals;
+					bool operator!=(const Iter& o) const noexcept { return vals != o.vals; }
+					Iter& operator++() noexcept
 					{
-					}
-					bool operator!=(const Iter& o) const { return pos != o.pos; }
-					Iter& operator++()
-					{
-						++pos;
+						++vals;
 						return *this;
 					}
-					const key_type& operator*() const { return *vals[pos]; }
+					const hash_type& operator*() const noexcept { return (*vals); }
 				};
-				const key_type* vals[2] = { &first, &second };
-				return hash_type::template nb_common_bits<StartArity, extract_key_type>(*this, start_bits, Iter(vals, 0), Iter(vals, 2));
+				const hash_type vals[2] = { hash_key(first), hash_key(second) };
+				return compute_common_bits(start_bits, Iter{ vals }, Iter{ vals + 2 });
 			}
 
 			/// @brief Move all elements within given leaf into a newly created vector, and insert given new value
@@ -2526,7 +2352,7 @@ namespace seq
 			const_iterator insert_in_vector(directory* dir, size_t bit_pos, node* child, unsigned pos, Policy, K&& key, Args&&... args)
 			{
 				// turn node into a vector and move values
-				vector_type* vec = d_data->base.make_vector();
+				vector_type* vec = d_data->base.make_vector(*this);
 				unsigned position = 0;
 				try {
 					T* vals = child->values();
@@ -2545,10 +2371,6 @@ namespace seq
 
 				dir->children()[pos] = child_ptr(vec, directory::IsVector);
 				++d_data->base.size;
-
-				// recompute bounds if needed
-				if (!d_data->begin.dir)
-					compute_ends();
 
 				return const_iterator(d_data, dir, pos, position, bit_pos);
 			}
@@ -2581,13 +2403,14 @@ namespace seq
 				hash_bits += dir->hash_len;
 				size_t prev_hash_bits = hash_bits;
 
-				if ((!variable_length && hash_bits > Hash::max_bits - StartArity) || (variable_length && get_depth(dir) > MaxDepth))
+				if ((!variable_length && hash_bits > Hash::max_bits - start_arity) || (variable_length && get_depth(dir) > MaxDepth))
 					// We exhausted all available bits, no choice but to turn this leaf into a vector
 					return insert_in_vector(dir, hash_bits, child, pos, policy, std::forward<K>(key), std::forward<Args>(args)...);
 
 				// create new child directory, might throw, fine
 				directory* child_dir = directory::make(d_data->base, start_arity);
 
+				node* n = nullptr;
 				try {
 					// Rehash node and insert its values inside the new directory
 					T* vals = child->values();
@@ -2603,16 +2426,16 @@ namespace seq
 
 					for (unsigned i = 0; i < count; ++i) {
 
-						// compute hash value for current bit position
-						hash_type h = hash_key_shift(hash_bits, ExtractKey{}(vals[i]));
-						// compute position in directory
-						unsigned new_pos = h.n_bits(start_arity);
+						// Compute position in directory.
+						// This actually recompute the hash value (potentially costly).
+						unsigned new_pos = hash_key(vals[i]).n_bits(hash_bits, start_arity);
+
 						// get the tiny hash
 						std::uint8_t cth = child->get_tiny_hash(i);
 
 						if (!child_dir->const_child(new_pos).full()) {
 							// create node. If this throw, the new directory is destroyed (basic exception guarantee)
-							node* n = node::make(d_data->base, cth, EmplacePolicy{}, std::move(vals[i])).first;
+							n = node::make(d_data->base, cth, EmplacePolicy{}, std::move(vals[i])).first;
 							child_dir->child(new_pos) = child_ptr(n, directory::IsLeaf);
 							child_dir->child_count++;
 							child_dir->first_valid_child = new_pos;
@@ -2620,10 +2443,10 @@ namespace seq
 						else {
 							// move value in leaf.
 							// if Sort is false, insert the value at the end of the leaf (only for sorted nodes)
-							node* n = static_cast<node*>(child_dir->const_child(new_pos).ptr());
+							n = static_cast<node*>(child_dir->const_child(new_pos).ptr());
 							auto p = n->template insert<extract_key_type, Less>(
 							  d_data->base, hash_bits, Sort ? static_cast<unsigned>(-1) : n->count(), cth, EmplacePolicy{}, std::move(vals[i]));
-							child_dir->child(new_pos) = child_ptr(p.first, directory::IsLeaf);
+							child_dir->child(new_pos) = child_ptr(n = p.first, directory::IsLeaf);
 						}
 					}
 				}
@@ -2643,14 +2466,10 @@ namespace seq
 				dir->child(pos) = child_ptr(child_dir, directory::IsDir);
 				dir->dir_count++;
 
-				if ((dir == d_data->begin.dir && pos == d_data->begin.child) || (dir == d_data->end.dir && pos == d_data->end.child))
-					reset_ends();
-
 				// now, check if the current directory contains only directories, and merge it if possible
 				if (dir->dir_count == dir->size()) {
 
 					if (merge_dir(dir, prev_hash_bits)) {
-						reset_ends();
 						// directory merging succeded, now insert the new value starting from the root
 						return this->insert_hash_with_tiny<EnsureSorted>(d_data->base.root, 0, hash, th, policy, std::forward<K>(key), std::forward<Args>(args)...).first;
 					}
@@ -2658,12 +2477,10 @@ namespace seq
 
 				// update first valid position
 				if (dir->first_valid_child == pos)
-					dir->compute_first_valid();
+					dir->invalidate_first_valid();
 
 				// insert new value starting from dir
-				return this
-				  ->insert_hash_with_tiny<EnsureSorted>(
-				    dir, prev_hash_bits - dir->hash_len, this->hash(ExtractKey{}(key)), th, policy, std::forward<K>(key), std::forward<Args>(args)...)
+				return this->insert_hash_with_tiny<EnsureSorted>(dir, prev_hash_bits - dir->hash_len, hash_key((key)), th, policy, std::forward<K>(key), std::forward<Args>(args)...)
 				  .first;
 			}
 
@@ -2678,8 +2495,6 @@ namespace seq
 				dir->first_valid_child = pos;
 				++d_data->base.size;
 
-				// recompute begin/end position
-				compute_ends();
 				return std::pair<const_iterator, bool>(const_iterator(d_data, dir, pos, 0, bit_pos), true);
 			}
 
@@ -2701,59 +2516,85 @@ namespace seq
 			directory* check_prefix_create_intermediate(directory* dir, directory* d, size_t& hash_bits, unsigned pos, const hash_type&, const U& value)
 			{
 				// compute the number of common bits starting at hash_bits
-				std::uint64_t common = compute_common_bits(hash_bits, ExtractKey{}(value), ExtractKey{}(d->any_child()));
+				const T& any_child = d->any_child();
+				std::uint64_t common = compute_common_bits_2(hash_bits, value, any_child);
 
 				// create intermediate directory with a new prefix length
 
 				// might throw, fine
-				directory* new_dir = directory::make(d_data->base, StartArity);
+				directory* new_dir = directory::make(d_data->base, start_arity);
 				d->parent->child(pos) = child_ptr(new_dir, directory::IsDir);
 				new_dir->parent = d->parent;
 				new_dir->parent_pos = pos;
 				new_dir->child_count = new_dir->dir_count = 1;
 				new_dir->prefix_len = static_cast<size_t>(common);
 
-				hash_type h = this->hash(ExtractKey{}(d->any_child()));
 				hash_bits += static_cast<size_t>(common);
-				h.add_shift(hash_bits);
-				unsigned new_pos = h.n_bits(StartArity);
+				unsigned new_pos = hash_key(any_child).n_bits(hash_bits, start_arity);
 				new_dir->child(new_pos) = child_ptr(d, directory::IsDir);
 				new_dir->first_valid_child = new_pos;
 				d->parent = new_dir;
 				d->parent_pos = new_pos;
 
 				// detect nasty bug where prefix_len wrap around
-				SEQ_ASSERT_DEBUG(d->prefix_len >= (StartArity + common), "");
-				d->prefix_len -= StartArity + static_cast<size_t>(common);
+				SEQ_ASSERT_DEBUG(d->prefix_len >= (start_arity + common), "");
+				d->prefix_len -= start_arity + static_cast<size_t>(common);
 				hash_bits -= dir->hash_len;
-
-				SEQ_ASSERT_DEBUG(dir->first_valid_child < dir->size(), "");
-				SEQ_ASSERT_DEBUG(d->first_valid_child < d->size(), "");
-				SEQ_ASSERT_DEBUG(new_dir->first_valid_child < new_dir->size(), "");
 
 				return new_dir;
 			}
 
-			/// @brief Check if the value to insert follows the directory prefix.
-			/// If not, create an intermediate directory with a new prefix.
-			/// Update the bit position if the prefix matches.
-			template<class U>
-			directory* check_prefix_insert(directory* dir, directory* d, size_t& hash_bits, unsigned pos, const hash_type& hash, const U& value)
+			static SEQ_ALWAYS_INLINE bool generic_check_prefix(const hash_type& hash, const hash_type& match, size_t start, size_t bits) noexcept
 			{
+				// Check equal prefix for hash and match.
+				// Only check from start for given bits length.
+
+				if (bits == 0)
+					return true;
+
+				if SEQ_CONSTEXPR (std::is_arithmetic<key_type>::value) {
+					// faster version for arithmetic types
+					return hash_type::check_prefix(hash, match, start, bits);
+				}
+				// strings, tuples...
+				if SEQ_CONSTEXPR (variable_length) {
+					if (start >= match.get_size() && start >= hash.get_size()) {
+						return true;
+					}
+				}
+				while (bits > 32u) {
+					if (hash.n_bits(start, 32u) != match.n_bits(start, 32u))
+						return false;
+					start += 32u;
+					bits -= 32u;
+				}
+				return hash.n_bits(start, bits) == match.n_bits(start, bits);
+			}
+			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, size_t start_bit, directory* d) const noexcept
+			{
+				// Check if given hash value share the same prefix as d
+				return generic_check_prefix(hash, hash_key(d->any_child()), start_bit, d->prefix_len);
+			}
+			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const hash_type& h2, size_t bit_len) const noexcept { return generic_check_prefix(hash, h2, 0, bit_len); }
+			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const key_type& k, size_t bit_len) const noexcept { return generic_check_prefix(hash, hash_key(k), 0, bit_len); }
+
+			template<class U>
+			SEQ_ALWAYS_INLINE auto check_prefix_insert(directory* dir, directory* d, size_t& hash_bits, unsigned pos, const hash_type& hash, const U& value) noexcept -> directory*
+			{
+				// Check if the value to insert follows the directory prefix.
+				// If not, create an intermediate directory with a new prefix.
+				// Update the bit position if the prefix matches.
+
 				// increment bit position
 				hash_bits += dir->hash_len;
-				// make hash value at this position
-				hash_type h = hash;
-				h.add_shift(hash_bits);
 
 				// check prefix
-				if (check_prefix(h, d)) {
+				if (check_prefix(hash, hash_bits, d)) {
 					// the value follows the directory prefix: update the bit position
 					hash_bits -= dir->hash_len;
 					hash_bits += d->prefix_len;
 					return d;
 				}
-
 				return check_prefix_create_intermediate(dir, d, hash_bits, pos, hash, value);
 			}
 
@@ -2770,13 +2611,14 @@ namespace seq
 					return std::pair<const_iterator, bool>(const_iterator(d_data, dir, pos, static_cast<unsigned>(found.first - child->values()), hash_bits), false);
 
 				// check if the node is full and needs to be rehashed
-				if (SEQ_UNLIKELY(child->full()))
+				if SEQ_UNLIKELY (child->full())
 					return std::pair<const_iterator, bool>(
 					  rehash_node_and_insert<EnsureSorted>(dir, hash_bits, hash, th, policy, std::forward<K>(key), std::forward<Args>(args)...), true);
 
 				// add to leaf
 				auto p = child->template insert<extract_key_type, Less>(
 				  d_data->base, hash_bits, EnsureSorted ? found.second : child->count(), th, policy, std::forward<K>(key), std::forward<Args>(args)...);
+
 				// update first_valid_child
 				dir->first_valid_child = pos;
 				// increment size
@@ -2784,23 +2626,6 @@ namespace seq
 				// update child at pos
 				dir->child(pos) = child_ptr(p.first, directory::IsLeaf);
 
-				// recompute ends
-				if (size() == 1) {
-					// First element
-					d_data->begin.store_value(dir, pos, hash_bits, *this);
-					d_data->end.store_value(dir, pos, hash_bits, *this);
-				}
-				else if (!d_data->begin.dir) {
-					// Invalid begin/end position due to a rehash
-					compute_ends();
-				}
-				else {
-					// Update for value outside current range
-					if (d_data->begin.greater_than(hash, key))
-						d_data->begin.store_value(dir, pos, hash_bits, key, hash);
-					else if (d_data->end.less_than(hash, key))
-						d_data->end.store_value(dir, pos, hash_bits, key, hash);
-				}
 				return std::pair<const_iterator, bool>(const_iterator(d_data, dir, pos, p.second, hash_bits), true);
 			}
 
@@ -2846,92 +2671,64 @@ namespace seq
 			template<bool EnsureSorted, class Policy, class K, class... Args>
 			SEQ_ALWAYS_INLINE std::pair<const_iterator, bool> emplace_hash(const_hash_ref hash, Policy p, K&& key, Args&&... args)
 			{
-				if (SEQ_UNLIKELY(!d_data))
+				if SEQ_UNLIKELY (!d_data)
 					// initialize root
 					make_data();
-				// compute tiny hash
-				std::uint8_t th = tiny_hash(hash, ExtractKey{}(key));
 				// insert
-				return insert_hash_with_tiny<EnsureSorted>(d_data->base.root, 0, hash, th, p, std::forward<K>(key), std::forward<Args>(args)...);
+				return insert_hash_with_tiny<EnsureSorted>(d_data->base.root, 0, hash, hash.tiny_hash(), p, std::forward<K>(key), std::forward<Args>(args)...);
 			}
 
 			/// @brief Construct emplace and insert
 			template<class K, class... Args>
 			SEQ_ALWAYS_INLINE std::pair<const_iterator, bool> emplace(K&& key, Args&&... args)
 			{
-				return this->template emplace_hash<true>(hash_key(ExtractKey{}(key)), EmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
-			}
-			/// @brief Construct emplace and insert
-			template<class K, class... Args>
-			SEQ_ALWAYS_INLINE std::pair<const_iterator, bool> emplace_with_hash(const_hash_ref hash, K&& key, Args&&... args)
-			{
-				return this->template emplace_hash<true>(hash, EmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
+				return this->template emplace_hash<true>(hash_key((key)), EmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
 			}
 
 			/// @brief Insert new value based on its hash value and a hint
 			template<bool EnsureSorted, class Policy, class K, class... Args>
 			SEQ_ALWAYS_INLINE std::pair<const_iterator, bool> emplace_hash_hint(const_iterator hint, const_hash_ref h, Policy p, K&& key, Args&&... args)
 			{
-				SEQ_ASSERT_DEBUG(hint.data == d_data, "");
+				SEQ_ASSERT_DEBUG(hint.data == d_data || !hint.data, "");
 
-				// Make sure the hint points to the right leaf
-				if (node::is_sorted && hint != end()) {
-					// check if iterator points to a non full, non vector node
-					child_ptr ch = hint.dir->children()[hint.child];
-					if (ch.tag() == directory::IsLeaf && !ch.to_node()->full()) {
-						// position within directory
-						if (h.n_bits(hint.bit_pos, hint.dir->hash_len) == hint.child) {
-							// check that this is the right directory
-							if (compute_common_bits(0, ExtractKey{}(*hint), ExtractKey{}(key)) >= hint.bit_pos)
-								// insert in this child
-								return this->template insert_in_leaf<EnsureSorted>(hint.dir,
-														   ch.to_node(),
-														   hint.bit_pos,
-														   hint.child,
-														   h,
-														   tiny_hash(h, ExtractKey{}(key)),
-														   p,
-														   std::forward<K>(key),
-														   std::forward<Args>(args)...);
-						}
-					}
+				// Insert value and try to reuse the previous position information.
+				// This makes sorted insertion (ascending or desending order) way faster.
+
+				// We must ensure that the previous position is valid,
+				// and that the key prefix is the same as the directory one.
+				// In addition, we only do that for fixed length keys
+				// to avoid potential cache misses in check_prefix().
+
+				if SEQ_UNLIKELY (!d_data)
+					// initialize root
+					make_data();
+				// compute tiny hash
+				std::uint8_t th = h.tiny_hash();
+				if (/* variable_length ||*/ hint == end() || !check_prefix(h, hash_key(hint.dir->any_child()), hint.bit_pos)) {
+					// Reset position to insert from the root directory
+					hint.dir = d_data->base.root;
+					hint.bit_pos = 0;
 				}
-
-				// standard insertion
-				return this->template emplace_hash<EnsureSorted>(h, p, std::forward<K>(key), std::forward<Args>(args)...);
+				// insert
+				return insert_hash_with_tiny<EnsureSorted>(hint.dir, hint.bit_pos, h, th, p, std::forward<K>(key), std::forward<Args>(args)...);
 			}
 
 			template<class K, class... Args>
 			SEQ_ALWAYS_INLINE const_iterator emplace_hint(const_iterator hint, K&& key, Args&&... args)
 			{
-				return this->template emplace_hash_hint<true>(hint, hash_key(ExtractKey{}(key)), EmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...).first;
-			}
-			template<class K, class... Args>
-			SEQ_ALWAYS_INLINE const_iterator emplace_hint_with_hash(const_hash_ref hash, const_iterator hint, K&& key, Args&&... args)
-			{
-				return this->template emplace_hash_hint<true>(hint, hash, EmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...).first;
+				return this->template emplace_hash_hint<true>(hint, hash_key((key)), EmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...).first;
 			}
 
 			template<class K, class... Args>
 			SEQ_ALWAYS_INLINE auto try_emplace(K&& key, Args&&... args) -> std::pair<iterator, bool>
 			{
-				return this->template emplace_hash<true>(hash_key(ExtractKey{}(key)), TryEmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
-			}
-			template<class K, class... Args>
-			SEQ_ALWAYS_INLINE auto try_emplace_with_hash(const_hash_ref hash, K&& key, Args&&... args) -> std::pair<iterator, bool>
-			{
-				return this->template emplace_hash<true>(hash, TryEmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
+				return this->template emplace_hash<true>(hash_key((key)), TryEmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
 			}
 
 			template<class K, class... Args>
 			SEQ_ALWAYS_INLINE auto try_emplace_hint(const_iterator hint, K&& key, Args&&... args) -> std::pair<iterator, bool>
 			{
-				return this->template emplace_hash_hint<true>(hint, hash_key(ExtractKey{}(key)), TryEmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
-			}
-			template<class K, class... Args>
-			SEQ_ALWAYS_INLINE auto try_emplace_hint_with_hash(const_hash_ref hash, const_iterator hint, K&& key, Args&&... args) -> std::pair<iterator, bool>
-			{
-				return this->template emplace_hash_hint<true>(hint, hash, TryEmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
+				return this->template emplace_hash_hint<true>(hint, hash_key((key)), TryEmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
 			}
 
 			/// @brief Range insertion.
@@ -2943,13 +2740,10 @@ namespace seq
 					return;
 
 				const_iterator it = this->end();
-				for (; start != end; ++start) {
-					if (std::is_arithmetic<key_type>::value)
-						it = this->template emplace_hash_hint<false>(it, hash_key(ExtractKey{}(*start)), EmplacePolicy{}, *start).first;
-					else
-						this->template emplace_hash<false>(hash_key(ExtractKey{}(*start)), EmplacePolicy{}, *start);
-				}
-				if (_sort_leaves)
+				for (; start != end; ++start)
+					it = this->template emplace_hash_hint<false>(it, hash_key((*start)), EmplacePolicy{}, *start).first;
+
+				if (is_sorted && _sort_leaves)
 					sort_leaves();
 			}
 
@@ -2967,8 +2761,133 @@ namespace seq
 				return first;
 			}
 
+			size_t remove_directory(directory* d)
+			{
+				// Remove the directory from the tree
+				// and returns the total number fo removed elements.
+				// The directory itself and its values are not destroyed
+				// and can be used afterward.
+				//
+				// This leave the tree in a valid state.
+
+				if (!d->parent) {
+					// Root dir
+					// Create a new root of half the size, might throw, fine
+					auto* new_root = directory::make(d_data->base, d->hash_len - start_arity);
+					d_data->base.root = d_root = new_root;
+				}
+
+				// The remaining does not throw
+
+				auto* p = d->parent;
+				// Detach directory
+				if (d->parent) {
+					d->parent->child(d->parent_pos) = child_ptr();
+					d->parent->child_count--;
+					d->parent->dir_count--;
+					d->parent->invalidate_first_valid();
+					d->parent = nullptr;
+
+					// Destroy empty directories until root directory
+					while (p->parent && p->child_count == 0) {
+						directory* parent = p->parent;
+						unsigned parent_pos = p->parent_pos;
+
+						directory::destroy(d_data->base, p, false);
+						parent->children()[parent_pos] = child_ptr();
+						parent->child_count--;
+						parent->dir_count--;
+						if (parent->first_valid_child == parent_pos)
+							parent->invalidate_first_valid();
+						p = parent;
+					}
+				}
+
+				// Update container size
+				size_t count = 0;
+				d->for_each_leaf([this, &count](directory* dir, unsigned pos) {
+					auto tag = dir->child(pos).tag();
+					if (tag == directory::IsLeaf)
+						count += dir->child(pos).to_node()->count();
+					else
+						count += dir->child(pos).to_vector()->size();
+				});
+				this->d_data->base.size -= count;
+				
+				return count;
+			}
+
+			const_iterator rebalance(directory* d, const_iterator it)
+			{
+				const_iterator res = end();
+
+				// Move iterator value to tmp storage
+				char alignas(T) data[sizeof(T)];
+				T* value = it == end() ? nullptr : (T*)data;
+				if (value) {
+					new (value) T(std::move(*it));
+				}
+
+				// Check if 'it' is inside d.
+				// If not, remove it from the tree.
+				if (it != end()) {
+					auto dir = it.dir;
+					while (dir) {
+						if (dir == d)
+							break;
+						dir = dir->parent;
+					}
+					if (!dir) {
+						// NOT inside d
+						erase(it, false);
+					}
+				}
+
+				try {
+					remove_directory(d);
+					// Reinsert all values inside directory into the tree
+					d->for_each_leaf([this, &res, &it](directory* dir, unsigned pos) {
+						auto tag = dir->child(pos).tag();
+						if (tag == directory::IsLeaf) {
+							// Standard leaf
+							auto node = dir->child(pos).to_node();
+							for (unsigned i = 0; i < node->count(); ++i) {
+								// Insert all values except the moved one
+								if (it.dir != dir || it.child != pos || it.node_pos != i)
+									this->insert_hash_with_tiny<true>(
+									  d_data->base.root, 0, hash_key(node->values()[i]), node->hashs()[i], EmplacePolicy{}, std::move(node->values()[i]));
+							}
+						}
+						else {
+							// Vector node
+							auto* vec = dir->child(pos).to_vector();
+							for (unsigned i = 0; i < vec->size(); ++i) {
+								if (it.dir != dir || it.child != pos || it.node_pos != i)
+									this->emplace(std::move(vec->at(i)));
+							}
+						}
+					});
+
+					if (value) {
+						res = this->emplace(std::move(*value)).first;
+						value->~T();
+					}
+				}
+				catch (...) {
+					// Destroy the directory and recompute ends
+					// to leave the tree in a valid state
+					directory::destroy(d_data->base, d);
+					if (value)
+						value->~T();
+					throw;
+				}
+
+				directory::destroy(d_data->base, d);
+				return res;
+			}
+
 			/// @brief Erase a single element
-			const_iterator erase(const_iterator it)
+			const_iterator erase(const_iterator it, bool with_rebalance = true)
 			{
 				SEQ_ASSERT_DEBUG(it != end(), "");
 
@@ -3015,15 +2934,14 @@ namespace seq
 
 				// If we reach that point, the directory might be empty
 
+				// Invalidate first valid position
+				if (d->first_valid_child == dpos)
+					d->invalidate_first_valid();
+
 				if (d->child_count) {
-					// First valid position
-					if (d->first_valid_child == dpos)
-						d->compute_first_valid();
-					// Update begin/end position
-					if (d_data->begin.dir == d && d_data->begin.child == dpos)
-						compute_begin();
-					if (d_data->end.dir == d && d_data->end.child == dpos)
-						compute_end();
+					// Rebalance
+					if (is_sorted && with_rebalance && d->hash_len != start_arity && d->child_count < (1ull << (d->hash_len - start_arity)))
+						return rebalance(d, next);
 					return next;
 				}
 
@@ -3037,10 +2955,13 @@ namespace seq
 					parent->child_count--;
 					parent->dir_count--;
 					if (parent->first_valid_child == parent_pos)
-						parent->compute_first_valid();
+						parent->invalidate_first_valid();
 					d = parent;
 				}
-				compute_ends();
+
+				// Rebalance
+				if (is_sorted && with_rebalance && d->hash_len != start_arity && d->child_count < (1ull << (d->hash_len - start_arity)))
+					return rebalance(d, next);
 				if (size() == 0)
 					return end();
 				return next;
@@ -3057,7 +2978,7 @@ namespace seq
 			}
 
 			/// @brief Check if given hash value share the same prefix as d
-			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const directory* d) const { return hash_type::check_prefix(hash, ExtractKey{}(d->any_child()), d->prefix_len); }
+			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const directory* d) const noexcept { return check_prefix(hash, hash_key(d->any_child()), d->prefix_len); }
 
 			/// @brief Find key in vector node
 			template<class U>
@@ -3086,30 +3007,35 @@ namespace seq
 				// start directory
 				const directory* d = d_root;
 				// tiny hash
-				unsigned th = tiny_hash(hash, key);
+				unsigned th = hash.tiny_hash();
 				// start position within start directory
-				unsigned pos = hash.n_bits(d->hash_len);
+				size_t bit_pos = 0;
+				unsigned pos = hash.n_bits(bit_pos, d->hash_len);
 
 				// walk through the tree as long as we keep finding directories
 				while (std::uintptr_t tag = d->children()[pos].tag()) {
 					switch (tag) {
 						case directory::IsDir:
-							hash.add_shift(d->hash_len);
+							bit_pos += (d->hash_len);
 							d = d->children()[pos].to_dir();
 
 							// check directory prefix
-							if (prefix_search && d->prefix_len && !check_prefix(hash, d))
-								return cend();
+							if (prefix_search && d->prefix_len) {
+								if (!check_prefix(hash, d))
+									return cend();
+								else
+									bit_pos += d->prefix_len;
+							}
 
 							// compute new position within current directory
-							pos = hash.n_bits(d->hash_len);
+							pos = hash.n_bits(bit_pos, d->hash_len);
 							continue;
 						case directory::IsVector:
-							return find_in_vector(d, hash.get_shift(), pos, d->children()[pos].to_vector(), key);
+							return find_in_vector(d, bit_pos, pos, d->children()[pos].to_vector(), key);
 						case directory::IsLeaf:
-							th = d->children()[pos].to_node()->template find<extract_key_type, Equal, Less>(Equal{}, hash.get_shift(), static_cast<std::uint8_t>(th), key);
+							th = d->children()[pos].to_node()->template find<extract_key_type, Equal, Less>(Equal{}, bit_pos, static_cast<std::uint8_t>(th), key);
 							if (th != static_cast<unsigned>(-1))
-								return const_iterator(d_data, d, pos, th, hash.get_shift());
+								return const_iterator(d_data, d, pos, th, bit_pos);
 							return cend();
 					}
 				}
@@ -3123,28 +3049,33 @@ namespace seq
 				// start directory
 				const directory* d = d_root;
 				// tiny hash
-				unsigned th = tiny_hash(hash, key);
+				unsigned th = hash.tiny_hash();
 				// start position within start directory
-				unsigned pos = hash.n_bits(d->hash_len);
+				size_t bit_pos = 0;
+				unsigned pos = hash.n_bits(0, d->hash_len);
 
 				// walk through the tree as long as we keep finding directories
 				while (std::uintptr_t tag = d->children()[pos].tag()) {
 					switch (tag) {
 						case directory::IsDir:
-							hash.add_shift(d->hash_len);
+							bit_pos += (d->hash_len);
 							d = d->children()[pos].to_dir();
 
 							// check directory prefix
-							if (prefix_search && d->prefix_len && !check_prefix(hash, d))
-								return nullptr;
+							if (prefix_search && d->prefix_len) {
+								if (!check_prefix(hash, d))
+									return nullptr;
+								else
+									bit_pos += d->prefix_len;
+							}
 
 							// compute new position within current directory
-							pos = hash.n_bits(d->hash_len);
+							pos = hash.n_bits(bit_pos, d->hash_len);
 							continue;
 						case directory::IsVector:
-							return find_in_vector_ptr(d, hash.get_shift(), pos, d->children()[pos].to_vector(), key);
+							return find_in_vector_ptr(d, bit_pos, pos, d->children()[pos].to_vector(), key);
 						case directory::IsLeaf:
-							th = d->children()[pos].to_node()->template find<extract_key_type, Equal, Less>(Equal{}, hash.get_shift(), static_cast<std::uint8_t>(th), key);
+							th = d->children()[pos].to_node()->template find<extract_key_type, Equal, Less>(Equal{}, bit_pos, static_cast<std::uint8_t>(th), key);
 							if (th != static_cast<unsigned>(-1))
 								return d->children()[pos].to_node()->values() + th;
 							return nullptr;
@@ -3154,59 +3085,41 @@ namespace seq
 				return nullptr;
 			}
 
-#if defined(__GNUC__) && __GNUC__ >= 13
-#define SEQ_GET_RADIX_KEY(key, k)                                                                                                                                                                      \
-	SEQ_PRAGMA(GCC diagnostic push)                                                                                                                                                                \
-	SEQ_PRAGMA(GCC diagnostic ignored "-Wdangling-reference")                                                                                                                                      \
-	const auto& key = extract_key_type{}(k);                                                                                                                                                       \
-	SEQ_PRAGMA(GCC diagnostic pop)
-#else
-#define SEQ_GET_RADIX_KEY(key, k) const auto& key = extract_key_type{}(k);
-#endif
-
 			/// @brief Returns iterator pointing to given key, or end() if not found
 			template<class U>
 			SEQ_ALWAYS_INLINE const_iterator find(const U& k) const
 			{
-				// const auto& key = extract_key_type{}(k);
-				SEQ_GET_RADIX_KEY(key, k)
-				return find_hash(hash_key(key), key);
+				return find_hash(hash_key(k), k);
 			}
 			template<class U>
 			SEQ_ALWAYS_INLINE const T* find_ptr(const U& k) const
 			{
-				// const auto& key = extract_key_type{}(k);
-				SEQ_GET_RADIX_KEY(key, k)
-				return find_ptr_hash(hash_key(key), key);
+				return find_ptr_hash(hash_key(k), k);
 			}
 
-			const_iterator lower_bound_in_vector(const directory* d, unsigned pos, const_hash_ref hash, const key_type& key) const
+			const_iterator lower_bound_in_vector(const directory* d, unsigned pos, size_t bit_pos, const key_type& key) const
 			{
 				const vector_type* v = d->children()[pos].to_vector();
 				unsigned p = static_cast<unsigned>(v->lower_bound(key));
 				if (p != v->size())
-					return const_iterator(d_data, d, pos, p, hash.get_shift());
-				return ++const_iterator(d_data, d, pos, p - 1, hash.get_shift());
+					return const_iterator(d_data, d, pos, p, bit_pos);
+				return ++const_iterator(d_data, d, pos, p - 1, bit_pos);
 			}
 
 			/// @brief Find key based on its hash value
 			SEQ_ALWAYS_INLINE const_iterator lower_bound_hash(const_hash_ref hash, const key_type& key) const
 			{
-				if (SEQ_UNLIKELY(empty() || Less{}(ExtractKey{}(d_data->end.get_back_value()), key)))
-					return end();
-				if (SEQ_UNLIKELY(Less{}(key, ExtractKey{}(d_data->begin.get_value()))))
-					return begin();
-
 				// start directory
 				const directory* d = d_root;
 				// tiny hash
-				unsigned th = tiny_hash(hash, key);
+				unsigned th = hash.tiny_hash();
 				// start position within start directory
-				unsigned pos = hash.n_bits(d->hash_len);
+				size_t bit_pos = 0;
+				unsigned pos = hash.n_bits(bit_pos, d->hash_len);
 
 				// walk through the tree as long as we keep finding directories
 				while (d->children()[pos].tag() == directory::IsDir) {
-					hash.add_shift(d->hash_len);
+					bit_pos += (d->hash_len);
 
 					// compute new directory
 					d = d->children()[pos].to_dir();
@@ -3214,44 +3127,43 @@ namespace seq
 					if SEQ_CONSTEXPR (prefix_search) {
 						// check directory prefix
 						if (d->prefix_len) {
-							size_t shift = hash.get_shift();
 							if (!check_prefix(hash, d)) {
 								bool less = Less{}(ExtractKey{}(d->any_child()), key);
 								auto tmp = const_iterator::find_next(
-								  less ? d->parent : d, less ? d->parent_pos + 1 : 0, less ? shift - d->parent->hash_len : shift + d->prefix_len);
+								  less ? d->parent : d, less ? d->parent_pos + 1 : 0, less ? bit_pos - d->parent->hash_len : bit_pos + d->prefix_len);
 								// Note: could be end() iterator
 								return const_iterator(d_data, tmp.dir, tmp.child, 0, tmp.bit_pos);
 							}
+							else
+								bit_pos += d->prefix_len;
 						}
 					}
 					// compute new position within current directory
-					pos = hash.n_bits(d->hash_len);
+					pos = hash.n_bits(bit_pos, d->hash_len);
 				}
 
 				if (d->children()[pos].tag() == 0) {
 					// return next item
-					auto tmp = const_iterator::find_next(d, pos + 1, hash.get_shift());
+					auto tmp = const_iterator::find_next(d, pos + 1, bit_pos);
 					// Note: could be end() iterator
 					return const_iterator(d_data, tmp.dir, tmp.child, 0, tmp.bit_pos);
 				}
 
 				// at this point, the position within current directory hold either a standard leaf or a vector
 
-				if (SEQ_UNLIKELY(d->children()[pos].tag() == directory::IsVector))
-					return lower_bound_in_vector(d, pos, hash, key);
+				if SEQ_UNLIKELY (d->children()[pos].tag() == directory::IsVector)
+					return lower_bound_in_vector(d, pos, bit_pos, key);
 
 				const node* n = d->children()[pos].to_node();
-				unsigned p = n->template lower_bound<ExtractKey, Less, Equal>(hash.get_shift(), th, key);
+				unsigned p = n->template lower_bound<ExtractKey, Less, Equal>(bit_pos, th, key);
 				if (p != n->count())
-					return const_iterator(d_data, d, pos, p, hash.get_shift());
-				return ++const_iterator(d_data, d, pos, p - 1, hash.get_shift());
+					return const_iterator(d_data, d, pos, p, bit_pos);
+				return ++const_iterator(d_data, d, pos, p - 1, bit_pos);
 			}
 			template<class U>
 			SEQ_ALWAYS_INLINE const_iterator lower_bound(const U& k) const
 			{
-				// const auto& key = extract_key_type{}(k);
-				SEQ_GET_RADIX_KEY(key, k)
-				return lower_bound_hash(hash_key(key), key);
+				return lower_bound_hash(hash_key(k), k);
 			}
 
 			SEQ_ALWAYS_INLINE const_iterator upper_bound_hash(const_hash_ref hash, const key_type& key) const
@@ -3264,9 +3176,7 @@ namespace seq
 			template<class U>
 			SEQ_ALWAYS_INLINE const_iterator upper_bound(const U& k) const
 			{
-				// const auto& key = extract_key_type{}(k);
-				SEQ_GET_RADIX_KEY(key, k)
-				return upper_bound_hash(hash_key(key), key);
+				return upper_bound_hash(hash_key(k), k);
 			}
 
 			/// @brief Find key based on its hash value
@@ -3282,9 +3192,7 @@ namespace seq
 			template<class U>
 			SEQ_ALWAYS_INLINE const_iterator prefix(const U& k) const
 			{
-				// const auto& key = extract_key_type{}(k);
-				SEQ_GET_RADIX_KEY(key, k)
-				return prefix_hash(hash_key(key), key);
+				return prefix_hash(hash_key(k), k);
 			}
 
 			class const_prefix_iterator
@@ -3301,29 +3209,31 @@ namespace seq
 				using pointer = value_type*;
 				using reference = value_type&;
 
-				const_prefix_iterator(const const_iterator& i = const_iterator(), const key_type& pr = key_type()) noexcept
+				SEQ_ALWAYS_INLINE const_prefix_iterator(const const_iterator& i = const_iterator(), const key_type& pr = key_type()) noexcept
 				  : it(i)
 				  , prefix(pr)
 				{
 				}
+				const_prefix_iterator(const const_prefix_iterator&) = default;
+				const_prefix_iterator& operator=(const const_prefix_iterator&) = default;
 
-				auto operator*() const noexcept -> reference { return *it; }
-				auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-				auto operator++() noexcept -> const_prefix_iterator&
+				SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return *it; }
+				SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
+				SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_prefix_iterator&
 				{
 					++it;
 					if (it != const_iterator(it.data) && ExtractKey{}(*it).find(prefix.data(), 0, prefix.size()) != 0)
 						it = const_iterator(it.data); // end
 					return *this;
 				}
-				auto operator++(int) noexcept -> const_prefix_iterator
+				SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_prefix_iterator
 				{
 					const_prefix_iterator _Tmp = *this;
 					++(*this);
 					return _Tmp;
 				}
-				bool operator==(const const_prefix_iterator& other) const noexcept { return it == other.it; }
-				bool operator!=(const const_prefix_iterator& other) const noexcept { return it != other.it; }
+				SEQ_ALWAYS_INLINE bool operator==(const const_prefix_iterator& other) const noexcept { return it == other.it; }
+				SEQ_ALWAYS_INLINE bool operator!=(const const_prefix_iterator& other) const noexcept { return it != other.it; }
 			};
 
 			template<class U>
@@ -3333,10 +3243,7 @@ namespace seq
 				return std::make_pair(const_prefix_iterator(it, extract_key_type{}(k)), const_prefix_iterator(end()));
 			}
 		};
-
 	}
 }
-
-#undef SEQ_GET_RADIX_KEY
 
 #endif

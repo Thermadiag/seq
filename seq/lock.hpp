@@ -34,9 +34,86 @@
 #include <type_traits>
 
 #include "bits.hpp"
+#include "hash.hpp"
 
 namespace seq
 {
+	/// @brief One byte mutex class.
+	///
+	/// tiny_mutex is a one byte mutex class that
+	/// should be used when a LOT of mutexes are
+	/// required (as sizeof(std::mutex) could be 
+	/// relatively big) and c++20 is not available.
+	/// 
+	class tiny_mutex
+	{
+		std::atomic<uint8_t> d_lock{ 0 };
+
+		struct Cond
+		{
+			std::condition_variable condition;
+			std::mutex mutex;
+		};
+		SEQ_ALWAYS_INLINE Cond& this_condition()
+		{
+			static Cond cond[1024];
+			return cond[hasher<tiny_mutex*>{}(this) & 1023u];
+		}
+		void acquire()
+		{
+			static constexpr uint8_t max_value = 255;
+
+			// increment waiter
+			auto prev = d_lock.load(std::memory_order_relaxed);
+			while ((prev & 1) && prev < (max_value - 1) && !d_lock.compare_exchange_weak(prev, prev + 2))
+				std::this_thread::yield();
+
+			const bool saturate = prev > (max_value - 2);
+			if ((prev & 1) == 0 && d_lock.compare_exchange_strong(prev, prev | 1, std::memory_order_acquire))
+				// already unlocked: try to lock
+				return;
+
+			auto& cond = this_condition();
+			std::unique_lock<std::mutex> ll(cond.mutex);
+			while (!cond.condition.wait_for(ll, std::chrono::milliseconds(1), [this]() { return this->try_lock(); }))
+				std::this_thread::yield();
+
+			if (!saturate)
+				// decrement waiters
+				d_lock.fetch_sub(2, std::memory_order_relaxed);
+		}
+
+	public:
+		constexpr tiny_mutex() noexcept
+		  : d_lock(0)
+		{
+		}
+		tiny_mutex(tiny_mutex const&) = delete;
+		tiny_mutex& operator=(tiny_mutex const&) = delete;
+
+
+		SEQ_ALWAYS_INLINE bool is_locked() const noexcept { return d_lock.load(std::memory_order_relaxed) & 1; }
+		SEQ_ALWAYS_INLINE bool try_lock() noexcept
+		{
+			uint8_t val = d_lock.load(std::memory_order_relaxed);
+			return (val & 1) == 0 && d_lock.compare_exchange_strong(val, val | 1, std::memory_order_acquire);
+		}
+		SEQ_ALWAYS_INLINE bool try_lock_shared() noexcept { return try_lock(); }
+		SEQ_ALWAYS_INLINE void unlock()
+		{
+			if (d_lock.fetch_and((uint8_t)(~1u), std::memory_order_release) > 1)
+				this_condition().condition.notify_all();
+		}
+		SEQ_ALWAYS_INLINE void lock()
+		{
+			if (!try_lock())
+				acquire();
+		}
+
+		SEQ_ALWAYS_INLINE void lock_shared() { lock(); }
+		SEQ_ALWAYS_INLINE void unlock_shared() { unlock(); }
+	};
+
 	/// @brief Lightweight and fast spinlock implementation based on https://rigtorp.se/spinlock/
 	///
 	/// spinlock is a lightweight spinlock implementation following the TimedMutex requirements.
@@ -46,7 +123,7 @@ namespace seq
 		std::atomic<bool> d_lock;
 
 	public:
-		constexpr spinlock()
+		constexpr spinlock() noexcept
 		  : d_lock(0)
 		{
 		}
@@ -54,7 +131,7 @@ namespace seq
 		spinlock(spinlock const&) = delete;
 		spinlock& operator=(spinlock const&) = delete;
 
-		void lock() noexcept
+		SEQ_ALWAYS_INLINE void lock() noexcept
 		{
 			for (;;) {
 				// Optimistically assume the lock is free on the first try
@@ -69,24 +146,25 @@ namespace seq
 			}
 		}
 
-		bool is_locked() const noexcept { return d_lock.load(std::memory_order_relaxed); }
-		bool try_lock() noexcept
+		SEQ_ALWAYS_INLINE bool is_locked() const noexcept { return d_lock.load(std::memory_order_relaxed); }
+		SEQ_ALWAYS_INLINE bool try_lock() noexcept
 		{
 			// First do a relaxed load to check if lock is free in order to prevent
 			// unnecessary cache misses if someone does while(!try_lock())
 			return !d_lock.load(std::memory_order_relaxed) && !d_lock.exchange(true, std::memory_order_acquire);
 		}
+		SEQ_ALWAYS_INLINE bool try_lock_shared() noexcept { return try_lock(); }
 
-		void unlock() noexcept { d_lock.store(false, std::memory_order_release); }
+		SEQ_ALWAYS_INLINE void unlock() noexcept { d_lock.store(false, std::memory_order_release); }
 
 		template<class Rep, class Period>
-		bool try_lock_for(const std::chrono::duration<Rep, Period>& duration) noexcept
+		SEQ_ALWAYS_INLINE bool try_lock_for(const std::chrono::duration<Rep, Period>& duration) noexcept
 		{
 			return try_lock_until(std::chrono::system_clock::now() + duration);
 		}
 
 		template<class Clock, class Duration>
-		bool try_lock_until(const std::chrono::time_point<Clock, Duration>& timePoint) noexcept
+		SEQ_ALWAYS_INLINE bool try_lock_until(const std::chrono::time_point<Clock, Duration>& timePoint) noexcept
 		{
 			for (;;) {
 				if (!d_lock.exchange(true, std::memory_order_acquire))
@@ -100,8 +178,8 @@ namespace seq
 			}
 		}
 
-		void lock_shared() { lock(); }
-		void unlock_shared() { unlock(); }
+		SEQ_ALWAYS_INLINE void lock_shared() { lock(); }
+		SEQ_ALWAYS_INLINE void unlock_shared() { unlock(); }
 	};
 
 	/// @brief An unfaire read-write spinlock class that favors write operations
@@ -125,7 +203,7 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE bool try_lock(lock_type& expect)
 		{
-			if (SEQ_UNLIKELY(!d_lock.compare_exchange_strong(expect, write, std::memory_order_acq_rel))) {
+			if SEQ_UNLIKELY(!d_lock.compare_exchange_strong(expect, write, std::memory_order_acq_rel)) {
 				return failed_lock(expect);
 			}
 			return true;
@@ -145,7 +223,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE void lock()
 		{
 			lock_type expect = 0;
-			while (SEQ_UNLIKELY(!try_lock(expect)))
+			while SEQ_UNLIKELY(!try_lock(expect))
 				yield();
 		}
 		SEQ_ALWAYS_INLINE void unlock()
@@ -155,7 +233,7 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE void lock_shared()
 		{
-			while (SEQ_UNLIKELY(!try_lock_shared()))
+			while SEQ_UNLIKELY(!try_lock_shared())
 				yield();
 		}
 		SEQ_ALWAYS_INLINE void unlock_shared()
@@ -171,6 +249,7 @@ namespace seq
 			lock_type expect = 0;
 			return d_lock.compare_exchange_strong(expect, write, std::memory_order_acq_rel);
 		}
+		SEQ_ALWAYS_INLINE bool try_lock_fast() { return try_lock();}
 		SEQ_ALWAYS_INLINE bool try_lock_shared()
 		{
 			// This version might be slightly slower in some situations (low concurrency).
@@ -182,13 +261,15 @@ namespace seq
 			else {
 				// Version based on fetch_add
 				if (!(d_lock.load(std::memory_order_relaxed) & (need_lock | write))) {
-					if (SEQ_LIKELY(!(d_lock.fetch_add(read, std::memory_order_acquire) & (need_lock | write))))
+					if SEQ_LIKELY(!(d_lock.fetch_add(read, std::memory_order_acquire) & (need_lock | write)))
 						return true;
 					d_lock.fetch_add(-read, std::memory_order_release);
 				}
 				return false;
 			}
 		}
+		SEQ_ALWAYS_INLINE bool is_locked() const noexcept { return d_lock.load(std::memory_order_relaxed) != 0; }
+		SEQ_ALWAYS_INLINE bool is_locked_shared() const noexcept { return d_lock.load(std::memory_order_relaxed) & write; }
 	};
 
 	using shared_spinlock = shared_spinner<>;
@@ -210,7 +291,7 @@ namespace seq
 		{
 			return true;
 		}
-
+		bool is_locked() const noexcept { return false; }
 		void lock_shared() noexcept {}
 		bool try_lock_shared() noexcept { return true; }
 		void unlock_shared() noexcept {}

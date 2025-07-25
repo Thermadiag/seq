@@ -37,11 +37,27 @@
 #endif
 #include <limits>
 #include <type_traits>
+#include <condition_variable>
 
 #define SEQ_CONCURRENT_INLINE SEQ_ALWAYS_INLINE
 
+// likely/unlikely definition
+#if !defined(_MSC_VER) || defined(__clang__)
+#define SEQ_CONCURRENT_LIKELY(x) (__builtin_expect(!!(x), 1))
+#define SEQ_CONCURRENT_UNLIKELY(x) (__builtin_expect(!!(x), 0))
+#define SEQ_HAS_EXPECT
+#elif defined(SEQ_HAS_CPP_20)
+#define SEQ_CONCURRENT_LIKELY(x) (x) [[likely]]
+#define SEQ_CONCURRENT_UNLIKELY(x) (x) [[unlikely]]
+#define SEQ_HAS_EXPECT
+#else
+#define SEQ_CONCURRENT_LIKELY(x) (x)
+#define SEQ_CONCURRENT_UNLIKELY(x) (x)
+#endif
+
 namespace seq
 {
+
 	/// @brief Predefined concurrency levels for concurrent_set and concurrent_map.
 	/// Higher concurrency value usually means lower raw performances on most primitives.
 	/// If shared_concurrency is set, the concurrent_map will use a shared_spinlock per bucket instead of a write-only spinlock.
@@ -65,7 +81,7 @@ namespace seq
 	};
 
 	namespace detail
-	{
+	{		
 
 #if defined(__SSE2__)
 		// Node size with and without SSE2
@@ -105,7 +121,7 @@ namespace seq
 			SEQ_CONCURRENT_INLINE LockShared(Lock& l) noexcept
 			  : _l(&l)
 			{
-				_l->lock_shared();
+				_l->lock_shared(); 
 			}
 			SEQ_CONCURRENT_INLINE LockShared(Lock* l, bool) noexcept
 			  : _l(l)
@@ -119,7 +135,7 @@ namespace seq
 			}
 			SEQ_CONCURRENT_INLINE ~LockShared() noexcept
 			{
-				if (_l)
+				if SEQ_CONCURRENT_LIKELY (_l)
 					_l->unlock_shared();
 			}
 		};
@@ -152,7 +168,7 @@ namespace seq
 			}
 			SEQ_CONCURRENT_INLINE ~LockUnique() noexcept
 			{
-				if (SEQ_LIKELY(_l))
+				if SEQ_CONCURRENT_LIKELY(_l)
 					_l->unlock();
 			}
 			SEQ_CONCURRENT_INLINE void init(Lock& l) noexcept
@@ -166,13 +182,6 @@ namespace seq
 				SEQ_ASSERT_DEBUG(!_l, "LockUnique::init can only be called on default constructed LockUnique object");
 				_l = &l;
 			}
-			SEQ_CONCURRENT_INLINE void unlock_and_forget() noexcept
-			{
-				if (_l) {
-					_l->unlock();
-					_l = nullptr;
-				}
-			}
 		};
 		template<>
 		struct LockUnique<null_lock>
@@ -182,7 +191,6 @@ namespace seq
 			LockUnique(null_lock*, bool) noexcept {}
 			void init(null_lock&) noexcept {}
 			void init(null_lock&, bool) noexcept {}
-			void unlock_and_forget() noexcept {}
 		};
 
 		/// @brief RAII atomic boolean locker
@@ -248,7 +256,7 @@ namespace seq
 				auto operator*() const noexcept -> Lock&
 				{
 					lock_type* l = array->arrays[array_index].load(std::memory_order_relaxed);
-					if (SEQ_UNLIKELY(!l))
+					if SEQ_CONCURRENT_UNLIKELY (!l)
 						l = array->make_array(array_index);
 					return l[index];
 				}
@@ -294,7 +302,7 @@ namespace seq
 				unsigned ar_index = bit_scan_reverse_32(static_cast<unsigned>(i + 1u));
 				unsigned in_array = static_cast<unsigned>(i) - ((1u << ar_index) - 1u);
 				lock_type* l = arrays[ar_index].load(std::memory_order_relaxed);
-				if (SEQ_UNLIKELY(!l))
+				if SEQ_CONCURRENT_UNLIKELY (!l)
 					l = const_cast<SharedLockArray*>(this)->make_array(ar_index);
 				return l[in_array];
 			}
@@ -366,6 +374,7 @@ namespace seq
 #endif
 				return static_cast<unsigned>(-1);
 			}
+			
 			SEQ_UNREACHABLE();
 		}
 
@@ -388,7 +397,7 @@ namespace seq
 					SEQ_PREFETCH(values);
 					do {
 						unsigned pos = bit_scan_forward_64(found) >> 3u;
-						if (SEQ_LIKELY(eq(ExtractKey::key(values[pos]), std::forward<K>(key))))
+						if (eq(ExtractKey::key(values[pos]), std::forward<K>(key)))
 							return values + pos;
 						reinterpret_cast<unsigned char*>(&found)[pos] = 0;
 					} while (found);
@@ -407,14 +416,16 @@ namespace seq
 					SEQ_PREFETCH(values);
 					do {
 						unsigned pos = bit_scan_forward_32(static_cast<unsigned>(mask));
-						if (SEQ_LIKELY(eq(ExtractKey::key(values[pos]), std::forward<K>(key))))
+						if (eq(ExtractKey::key(values[pos]), std::forward<K>(key)))
 							return values + pos;
 						mask &= mask - 1;
 					} while (mask);
 				}
-#endif
 				return nullptr;
+#endif
 			}
+			
+			SEQ_UNREACHABLE();
 		}
 
 		/// @brief Dense node of chain_concurrent_node_size hashs and values
@@ -541,7 +552,7 @@ namespace seq
 				std::forward<F>(f)(const_cast<Value&>(*v));
 				return 1;
 			}
-			if (SEQ_UNLIKELY(node->full() && values->right))
+			if (node->full() && values->right)
 				return FindInDense<ExtractKey>(th, eq, std::forward<K>(key), values->right, std::forward<F>(f));
 			return 0;
 		}
@@ -575,20 +586,18 @@ namespace seq
 			ConcurrentDenseNode<value_type>* d = a.allocate(1);
 			memset(d, 0, sizeof(ConcurrentDenseNode<value_type>));
 			d->left = reinterpret_cast<ConcurrentDenseNode<value_type>*>(n);
-			n->right = d;
-			++counter;
-
+			
 			try {
 				Policy::emplace(d->values(), std::forward<K>(key), std::forward<Args>(args)...);
-				d->hashs[++d->hashs[0]] = th;
 			}
 			catch (...) {
 				// destroy dense node
-				n->right = nullptr;
 				a.deallocate(d, 1);
-				--counter;
 				throw;
 			}
+			d->hashs[++d->hashs[0]] = th;
+			n->right = d;
+			++counter;
 			return { d->values(), true };
 		}
 
@@ -598,14 +607,14 @@ namespace seq
 		{
 			auto valid = n;
 			do {
-				if (CheckExists) {
+				if SEQ_CONSTEXPR(CheckExists) {
 					auto v = FindWithTh<ExtractKey, chain_concurrent_node_size>(th, eq, ExtractKey::key(std::forward<K>(key)), n->hashs, n->values());
 					if (v)
 						return { const_cast<Value*>(v), false };
 				}
 				valid = n;
 			} while ((n = n->right));
-			if (SEQ_UNLIKELY(valid->full()))
+			if (valid->full())
 				return InsertNewDense<Policy>(counter, al, th, valid, std::forward<K>(key), std::forward<Args>(args)...);
 
 			// might throw, fine
@@ -620,12 +629,12 @@ namespace seq
 		FindInsertNode(ChainCount& counter, const Allocator& al, std::uint8_t th, const Equal& eq, ConcurrentHashNode* node, ConcurrentValueNode<Value>* values, K&& key, Args&&... args)
 		  -> std::pair<Value*, bool>
 		{
-			if (CheckExists) {
+			if SEQ_CONSTEXPR(CheckExists) {
 				auto v = FindWithTh<ExtractKey, max_concurrent_node_size>(th, eq, ExtractKey::key(std::forward<K>(key)), node->hashs, values->values());
 				if (v)
 					return { const_cast<Value*>(v), false };
 			}
-			if (SEQ_UNLIKELY(node->full())) {
+			if (node->full()) {
 				if (values->right)
 					return FindInsertDense<ExtractKey, Policy, CheckExists>(counter, al, th, eq, values->right, std::forward<K>(key), std::forward<Args>(args)...);
 				return InsertNewDense<Policy>(counter, al, th, values, std::forward<K>(key), std::forward<Args>(args)...);
@@ -704,6 +713,8 @@ namespace seq
 			size_t d_hash_mask;		// hash mask
 			node_lock d_rehash_lock;	// unique lock for rehash
 			std::atomic<bool> d_in_rehash;	// tells if we are in rehash
+			std::mutex d_rehash_mutex;
+			std::condition_variable d_rehash_condition;
 			chain_count_type d_chain_count; // number of chained nodes, used to optimize detection of needed rehash on insert
 
 			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept { return d_data->get_allocator(); }
@@ -745,6 +756,34 @@ namespace seq
 						construct_ptr(loc.first, std::move(v));
 						*loc.second = hashs[j + 1];
 					});
+				}
+			}
+
+			SEQ_ALWAYS_INLINE void lock(node_lock& lock) 
+			{ 
+				if (lock.try_lock())
+					return;
+				while (!lock.try_lock()) {
+					if (d_in_rehash.load(std::memory_order_relaxed)) {
+						std::unique_lock<std::mutex> ll(d_rehash_mutex);
+						d_rehash_condition.wait_for(ll, std::chrono::milliseconds(1), [&lock]() { return !lock.is_locked(); });
+					}
+					else
+						std::this_thread::yield();
+				}
+			}
+			SEQ_ALWAYS_INLINE void lock_shared(node_lock& lock) const
+			{
+				if (lock.try_lock())
+					return;
+				this_type* _this = const_cast<this_type*>(this);
+				while (!lock.try_lock_shared()) {
+					if (d_in_rehash.load(std::memory_order_relaxed)) {
+						std::unique_lock<std::mutex> ll(_this->d_rehash_mutex);
+						_this->d_rehash_condition.wait_for(ll, std::chrono::milliseconds(1), [&lock]() { return !lock.is_locked(); });
+					}
+					else
+						std::this_thread::yield();
 				}
 			}
 
@@ -790,12 +829,6 @@ namespace seq
 						// Lock position
 						if (is_concurrent && locks)
 							iter->lock();
-
-						if (new_hash_mask + 1 == (d_hash_mask + 1) * 2) {
-							// Grow by factor 2: prefetch the 2 possible destination nodes
-							SEQ_PREFETCH(buckets + i);
-							SEQ_PREFETCH(buckets + i + d_hash_mask + 1);
-						}
 
 						d_buckets[i].for_each(d_values + i, [&](std::uint8_t* hashs, unsigned j, Value& val) {
 							auto pos = hash_key(extract_key::key(val)) & new_hash_mask;
@@ -862,6 +895,8 @@ namespace seq
 					construct_ptr(locks, get_allocator());
 					d_locks = (locks);
 				}
+
+				d_rehash_condition.notify_all();
 			}
 
 			void destroy_buckets(node_type* buckets, value_node_type* values, size_t count, bool destroy_values = true)
@@ -918,10 +953,9 @@ namespace seq
 			{
 				// Rehash on insert
 				size_t s = AtomicLoad(d_size);
-				if (SEQ_UNLIKELY(s >= d_next_target))
+				if SEQ_CONCURRENT_UNLIKELY ((s >= d_next_target) && (d_buckets == get_static_node() || AtomicLoad(d_chain_count) > ((d_hash_mask + 1) >> 5)))
 					// delay rehash as long as there are few chains
-					if (d_buckets == get_static_node() || AtomicLoad(d_chain_count) > ((d_hash_mask + 1) >> 5))
-						rehash_on_next_target(s);
+					rehash_on_next_target(s);
 			}
 
 			SEQ_NOINLINE(auto) update_lock(lock_array* locks, size_t hash, size_t& hash_mask, size_t& pos, node_lock*& l)
@@ -931,7 +965,7 @@ namespace seq
 					pos = (hash & hash_mask);
 					l->unlock();
 					l = &locks->at(pos);
-					l->lock();
+					this->lock(*l);
 				}
 			}
 			SEQ_NOINLINE(auto) update_lock_shared(lock_array* locks, size_t hash, size_t& hash_mask, size_t& pos, node_lock*& l) const
@@ -941,7 +975,7 @@ namespace seq
 					pos = (hash & hash_mask);
 					l->unlock_shared();
 					l = &locks->at(pos);
-					l->lock_shared();
+					this->lock_shared(*l);
 				}
 			}
 
@@ -963,14 +997,14 @@ namespace seq
 			template<bool WaitForBucket = true>
 			SEQ_CONCURRENT_INLINE auto get_node(lock_array* locks, size_t hash, node_lock*& l) -> size_t
 			{
-				if (SEQ_UNLIKELY(!locks))
+				if SEQ_CONCURRENT_UNLIKELY(!locks)
 					return this->template get_node_global_lock<WaitForBucket>(locks, hash, l);
 				// Returns node locked for given hash value
 				size_t hash_mask = d_hash_mask;
 				size_t pos = hash & hash_mask;
 				l = &locks->at(pos);
-				l->lock();
-				while (SEQ_UNLIKELY((WaitForBucket && d_buckets == get_static_node()) || hash_mask != d_hash_mask))
+				this->lock(*l);
+				while ((WaitForBucket && d_buckets == get_static_node()) || hash_mask != d_hash_mask)
 					update_lock(locks, hash, hash_mask, pos, l);
 				return pos;
 			}
@@ -987,14 +1021,14 @@ namespace seq
 			}
 			SEQ_CONCURRENT_INLINE auto get_node_shared(lock_array* locks, size_t hash, node_lock*& l) const -> size_t
 			{
-				if (SEQ_UNLIKELY(!locks))
+				if SEQ_CONCURRENT_UNLIKELY (!locks)
 					return get_node_shared_global_lock(locks, hash, l);
 				// Returns node locked for given hash value
 				size_t hash_mask = d_hash_mask;
 				size_t pos = hash & hash_mask;
 				l = &locks->at(pos);
-				l->lock_shared();
-				while (SEQ_UNLIKELY(hash_mask != d_hash_mask))
+				this->lock_shared(*l);
+				while (hash_mask != d_hash_mask)
 					update_lock_shared(locks, hash, hash_mask, pos, l);
 				return pos;
 			}
@@ -1015,7 +1049,7 @@ namespace seq
 
 				auto p = FindInsertNode<extract_key, Policy, true>(
 				  d_chain_count, get_allocator(), th, key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
-				if (SEQ_UNLIKELY(!p.second)) {
+				if (!p.second) {
 					// Key exist: call functor
 					std::forward<F>(fun)(*p.first);
 					return false;
@@ -1294,13 +1328,35 @@ namespace seq
 			/// @brief Erase key if found AND is fun(value) returns true.
 			/// Returns number of erased entries (1 or 0).
 			template<class F, class K>
-			auto erase_key(size_t hash, F&& fun, const K& key) -> size_t
+			auto erase_key_dense(node_type* bucket, value_node_type* values, uint8_t th, F&& fun, const K& key) -> size_t
+			{
+				auto* d = values->right;
+				do {
+					// Look in dense node
+					auto found = FindWithTh<extract_key, chain_concurrent_node_size>(th, d_data->key_eq(), key, d->hashs, d->values());
+					if (found) {
+						// Erase from dense node if functor returns true
+						if (!std::forward<F>(fun)(*found))
+							return 0;
+
+						erase_from_dense(bucket, values, d, static_cast<unsigned>(found - d->values()));
+						--d_size;
+						return 1;
+					}
+				} while ((d = d->right));
+				return 0;
+			}
+
+			/// @brief Erase key if found AND is fun(value) returns true.
+			/// Returns number of erased entries (1 or 0).
+			template<class F, class K>
+			SEQ_CONCURRENT_INLINE auto erase_key(size_t hash, F&& fun, const K& key) -> size_t
 			{
 				node_lock* lock = nullptr;
 				size_t pos = is_concurrent ? this->template get_node<false>(AtomicLoad(d_locks), hash, lock) : (hash & d_hash_mask);
 				LockUnique<node_lock> ll(lock, true);
 
-				if (SEQ_UNLIKELY(d_buckets == get_static_node()))
+				if SEQ_CONCURRENT_UNLIKELY (d_buckets == get_static_node())
 					return 0;
 
 				auto th = node_type::tiny_hash(hash);
@@ -1308,7 +1364,6 @@ namespace seq
 				auto bucket = d_buckets + pos;
 				// Find in main bucket
 				auto found = FindWithTh<extract_key, max_concurrent_node_size>(th, d_data->key_eq(), key, bucket->hashs, values->values());
-
 				if (found) {
 					// Erase from main bucket if functor returns true
 					if (!std::forward<F>(fun)(*found))
@@ -1322,21 +1377,7 @@ namespace seq
 				if (!bucket->full() || !values->right)
 					return 0;
 
-				auto d = values->right;
-				do {
-					// Look in dense node
-					found = FindWithTh<extract_key, chain_concurrent_node_size>(th, d_data->key_eq(), key, d->hashs, d->values());
-					if (found) {
-						// Erase from dense node if functor returns true
-						if (!std::forward<F>(fun)(*found))
-							return 0;
-
-						erase_from_dense(bucket, values, d, static_cast<unsigned>(found - d->values()));
-						--d_size;
-						return 1;
-					}
-				} while ((d = d->right));
-				return 0;
+				return erase_key_dense(bucket, values, th, std::forward<F>(fun), key);
 			}
 
 			/// @brief Erase all entries for which given functor returns true
@@ -1591,7 +1632,7 @@ namespace seq
 			SEQ_CONCURRENT_INLINE PrivateData* get_data()
 			{
 				PrivateData* d = AtomicLoad(d_data);
-				if (SEQ_UNLIKELY(!d)) {
+				if SEQ_UNLIKELY(!d) {
 					LockUnique<data_lock_type> ll(d_data_lock);
 					d = make_data();
 				}
@@ -1600,9 +1641,9 @@ namespace seq
 			SEQ_CONCURRENT_INLINE PrivateData* get_data_no_lock()
 			{
 				PrivateData* d = AtomicLoad(d_data);
-				if (SEQ_UNLIKELY(!d)) {
+				if SEQ_UNLIKELY (!d) 
 					d = make_data();
-				}
+				
 				return d;
 			}
 			SEQ_CONCURRENT_INLINE const PrivateData* get_data() const noexcept { return AtomicLoad(d_data); }
@@ -1614,7 +1655,9 @@ namespace seq
 				if SEQ_CONSTEXPR (shards == 0)
 					return 0;
 #ifdef SEQ_ARCH_64
-				return (hash >> (55u - shards)) & ((1u << shards) - 1u);
+				return static_cast<unsigned>(((hash >> 47)) & ((1u << shards) - 1u));
+				//return (hash * 14313749767032793493ULL) >> (64 - (shards ? shards : 1));
+				//return static_cast<unsigned>(((hash >> 51) ^ (hash >> 41)) & ((1u << shards) - 1u));
 #else
 				return ((hash >> 24) ^ (hash >> 26) ^ (hash >> 8)) & ((1u << shards) - 1u);
 #endif
@@ -1702,7 +1745,7 @@ namespace seq
 			bool visit_all(F&& fun)
 			{
 				const PrivateData* d = cget_data();
-				if (SEQ_UNLIKELY(!d))
+				if (!d)
 					return true;
 				for (unsigned i = 0; i < PrivateData::map_count; ++i)
 					if (!const_cast<PrivateData*>(d)->at(i).visit_all(std::forward<F>(fun)))
@@ -1713,7 +1756,7 @@ namespace seq
 			bool visit_all(F&& fun) const
 			{
 				const PrivateData* d = get_data();
-				if (SEQ_UNLIKELY(!d))
+				if (!d)
 					return true;
 				for (unsigned i = 0; i < PrivateData::map_count; ++i)
 					if (!d->at(i).visit_all([&fun](const Value& v) { std::forward<F>(fun)(v); }))
@@ -1728,7 +1771,7 @@ namespace seq
 				if (!is_concurrent)
 					return visit_all(std::forward<F>(fun));
 				const PrivateData* d = cget_data();
-				if (SEQ_UNLIKELY(!d))
+				if (!d)
 					return true;
 				std::atomic<bool> res{ true };
 				std::for_each(std::forward<ExecPolicy>(p), d->maps, d->maps + PrivateData::map_count, [&](const auto& m) {
@@ -1743,7 +1786,7 @@ namespace seq
 				if (!is_concurrent)
 					return visit_all(std::forward<F>(fun));
 				const PrivateData* d = get_data();
-				if (SEQ_UNLIKELY(!d))
+				if (!d)
 					return true;
 				std::atomic<bool> res{ true };
 				std::for_each(std::forward<ExecPolicy>(p), d->maps, d->maps + PrivateData::map_count, [&](auto& m) {
@@ -1775,7 +1818,7 @@ namespace seq
 			void clear()
 			{
 				const PrivateData* d = cget_data();
-				if (SEQ_UNLIKELY(!d))
+				if (!d)
 					return;
 				for (unsigned i = 0; i < PrivateData::map_count; ++i)
 					const_cast<PrivateData*>(d)->at(i).clear();
@@ -1800,7 +1843,7 @@ namespace seq
 			auto load_factor() const -> float
 			{
 				const PrivateData* d = get_data();
-				if (SEQ_UNLIKELY(!d))
+				if (!d)
 					return 0.f;
 				float f = 0;
 				for (unsigned i = 0; i < PrivateData::map_count; ++i)
@@ -1878,7 +1921,7 @@ namespace seq
 			SEQ_CONCURRENT_INLINE auto visit(const K& key, F&& fun) const -> size_t
 			{
 				const PrivateData* d = get_data();
-				if (SEQ_UNLIKELY(!d))
+				if SEQ_CONCURRENT_UNLIKELY (!d)
 					return 0;
 				size_t hash = d->hash_key((key));
 				return d->at(index_from_hash(hash)).visit_hash(hash, key, std::forward<F>(fun));
@@ -1887,7 +1930,7 @@ namespace seq
 			SEQ_CONCURRENT_INLINE auto visit(const K& key, F&& fun) -> size_t
 			{
 				PrivateData* d = const_cast<PrivateData*>(cget_data());
-				if (SEQ_UNLIKELY(!d))
+				if SEQ_CONCURRENT_UNLIKELY (!d) 
 					return 0;
 				size_t hash = d->hash_key((key));
 				return d->at(index_from_hash(hash)).visit_hash(hash, key, std::forward<F>(fun));
@@ -1906,7 +1949,7 @@ namespace seq
 			SEQ_CONCURRENT_INLINE auto erase(const K& key, F&& fun) -> size_t
 			{
 				PrivateData* d = const_cast<PrivateData*>(cget_data());
-				if (SEQ_UNLIKELY(!d))
+				if SEQ_CONCURRENT_UNLIKELY(!d)
 					return 0;
 				size_t hash = d->hash_key(key);
 				return d->at(index_from_hash(hash)).erase_key(hash, std::forward<F>(fun), key);
@@ -1916,7 +1959,7 @@ namespace seq
 			auto erase_if(F&& fun) -> size_t
 			{
 				const PrivateData* d = cget_data();
-				if (SEQ_UNLIKELY(!d))
+				if SEQ_CONCURRENT_UNLIKELY (!d)
 					return 0;
 				size_t res = 0;
 				for (unsigned i = 0; i < PrivateData::map_count; ++i)
@@ -1930,7 +1973,7 @@ namespace seq
 				if (!is_concurrent)
 					return erase_if(std::forward<F>(fun));
 				const PrivateData* d = cget_data();
-				if (SEQ_UNLIKELY(!d))
+				if SEQ_CONCURRENT_UNLIKELY (!d)
 					return 0;
 				std::atomic<size_t> res{ 0 };
 				std::for_each(std::forward<ExecPolicy>(p), d->maps, d->maps + PrivateData::map_count, [&](const auto& m) {

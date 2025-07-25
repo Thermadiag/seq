@@ -39,13 +39,13 @@ bool vector_equals(const V1& v1, const V2& v2)
 
 
 
-template<class T, seq::DEVectorFlag flag, class Alloc = std::allocator<T> >
+template<class T, class Alloc = std::allocator<T> >
 void test_devector_logic(const Alloc & al = Alloc())
 {
 	using namespace seq;
 
 	std::vector<T> v;
-	devector<T, Alloc, flag> dv(al);
+	devector<T, Alloc> dv(al);
 
 	//test push_back
 	for (size_t i = 0; i < 200; ++i)
@@ -246,7 +246,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 	//test copy
 	{
 		std::vector<T> vv = v;
-		devector<T, Alloc, flag> dvv(dv,al);
+		devector<T, Alloc> dvv(dv,al);
 		SEQ_TEST(vector_equals(vv, dvv));
 
 		vv.clear();
@@ -258,7 +258,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 	//test move
 	{
 		std::vector<T> vv = std::move(v);
-		devector<T, Alloc, flag> dvv (std::move(dv),al);
+		devector<T, Alloc> dvv (std::move(dv),al);
 		SEQ_TEST(vector_equals(vv, dvv));
 		SEQ_TEST(vector_equals(v, dv));
 
@@ -277,7 +277,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 	//range construct
 	{
 		std::vector<T> vv(v1.begin(), v1.end());
-		devector<T, Alloc, flag> dvv(v1.begin(), v1.end(), al);
+		devector<T, Alloc> dvv(v1.begin(), v1.end(), al);
 		SEQ_TEST(vector_equals(vv, dvv));
 	}
 }
@@ -286,34 +286,33 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 SEQ_PROTOTYPE( int test_devector(int , char*[]))
 {
+	{
+		seq::devector<int> vec;
+		vec.push_back(1);
+		for (int i = 0; i < 100000000; ++i) {
+			vec.push_back(i);
+			vec.pop_front();
+		}
+		getchar();
+		getchar();
+	}
+
+
 	// Test devector and potential memory leak or wrong allocator propagation
 	CountAlloc<size_t> al;
-	SEQ_TEST_MODULE_RETURN(devector<OptimizeForBothEnds>, 1, test_devector_logic<size_t, seq::OptimizeForBothEnds,CountAlloc<size_t> >(al));
+	SEQ_TEST_MODULE_RETURN(devector, 1, test_devector_logic<size_t,CountAlloc<size_t> >(al));
 	SEQ_TEST(get_alloc_bytes(al) == 0);
-	SEQ_TEST_MODULE_RETURN(devector<OptimizeForPushBack>, 1, test_devector_logic<size_t, seq::OptimizeForPushBack, CountAlloc<size_t>>(al));
-	SEQ_TEST(get_alloc_bytes(al) == 0);
-	SEQ_TEST_MODULE_RETURN(devector<OptimizeForPushFront>, 1, test_devector_logic<size_t, seq::OptimizeForPushFront, CountAlloc<size_t>>(al));
-	SEQ_TEST(get_alloc_bytes(al) == 0);
-
+	
 	// Test devector and potential memory leak on object destruction
-	SEQ_TEST_MODULE_RETURN(devector<OptimizeForBothEnds>destroy, 1, test_devector_logic<TestDestroy<size_t>, seq::OptimizeForBothEnds>());
+	SEQ_TEST_MODULE_RETURN(devector_destroy, 1, test_devector_logic<TestDestroy<size_t>>());
 	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-	SEQ_TEST_MODULE_RETURN(devector<OptimizeForPushBack>destroy, 1, test_devector_logic<TestDestroy<size_t>, seq::OptimizeForPushBack>());
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-	SEQ_TEST_MODULE_RETURN(devector<OptimizeForPushFront>destroy, 1, test_devector_logic<TestDestroy<size_t>, seq::OptimizeForPushFront>());
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-
+	
 	// Test devector and potential memory leak or wrong allocator propagation with non relocatable type
 	CountAlloc<TestDestroy<size_t, false>> al2;
-	SEQ_TEST_MODULE_RETURN(devector<OptimizeForBothEnds>destroy_no_relocatable, 1, test_devector_logic<TestDestroy<size_t,false>, seq::OptimizeForBothEnds>(al2));
+	SEQ_TEST_MODULE_RETURN(devector_destroy_no_relocatable, 1, test_devector_logic<TestDestroy<size_t,false>>(al2));
 	SEQ_TEST(get_alloc_bytes(al2) == 0);
 	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-	SEQ_TEST_MODULE_RETURN(devector<OptimizeForPushBack>destroy_no_relocatable, 1, test_devector_logic<TestDestroy<size_t, false>, seq::OptimizeForPushBack>(al2));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-	SEQ_TEST(get_alloc_bytes(al2) == 0);
-	SEQ_TEST_MODULE_RETURN(devector<OptimizeForPushFront>destroy_no_relocatable, 1, test_devector_logic<TestDestroy<size_t, false>, seq::OptimizeForPushFront>(al2));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-	SEQ_TEST(get_alloc_bytes(al2) == 0);
+	
 
 	return 0;
 }

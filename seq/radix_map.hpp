@@ -32,7 +32,7 @@
  */
 
 #include "internal/radix_tree.hpp"
-#include "internal/radix_extra.hpp"
+#include "utils.hpp"
 
 namespace seq
 {
@@ -41,12 +41,24 @@ namespace seq
 	/// @tparam Key key type
 	/// @tparam ExtractKey Functor extracting a suitable key for the radix tree
 	/// @tparam Allocator allocator
-	template<class Key, class ExtractKey = default_key<Key>, class Allocator = std::allocator<Key>>
+	template<class Key, class ExtractKey = default_key, class Allocator = std::allocator<Key>>
 	class radix_set
 	{
 		using radix_key_type = typename radix_detail::ExtractKeyResultType<ExtractKey, Key>::type;
-		using radix_tree_type = radix_detail::RadixTree<Key, radix_detail::SortedHasher<radix_key_type>, ExtractKey, Allocator, radix_detail::LeafNode<Key>>;
+		struct Extract
+		{
+			SEQ_ALWAYS_INLINE const radix_key_type& operator()(const radix_key_type& p) const noexcept { return p; }
+			template<class U>
+			SEQ_ALWAYS_INLINE auto operator()(const U& p) const noexcept
+			{
+				return ExtractKey{}(p);
+			}
+		};
+
+		using Policy = detail::BuildValue<Key, true>;
+		using radix_tree_type = radix_detail::RadixTree<Key, radix_detail::RadixHasher<radix_key_type>, Extract, Allocator, radix_detail::LeafNode<Key>>;
 		radix_tree_type d_tree;
+
 
 	public:
 		/// @brief const iterator class
@@ -168,7 +180,7 @@ namespace seq
 		/// @param alloc allocator to use for all memory allocations of this container
 		template<class InputIt>
 		radix_set(InputIt first, InputIt last, const Allocator& alloc = Allocator())
-		  : d_tree(alloc)
+		  : radix_set(alloc)
 		{
 			d_tree.insert(first, last);
 		}
@@ -261,13 +273,13 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return d_tree.emplace(std::forward<Args>(args)...);
+			return d_tree.emplace(Policy::make(std::forward<Args>(args)...));
 		}
 		/// @brief Same as std::set::emplace_hint
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
-			return d_tree.emplace_hint(hint.iter, std::forward<Args>(args)...);
+			return d_tree.emplace_hint(hint.iter, Policy::make(std::forward<Args>(args)...));
 		}
 
 		/// @brief Same as std::set::insert()
@@ -444,33 +456,46 @@ namespace seq
 		return count;
 	}
 
+	template<class T>
+	struct is_pair : std::false_type
+	{
+	};
+	template<class L, class R>
+	struct is_pair<std::pair<L, R>>: std::true_type
+	{
+	};
+
 	/// @brief Radix based sorted container using Variable Arity Radix Tree (VART). Same interface as std::map.
 	/// @tparam Key key type
 	/// @tparam T mapped type
 	/// @tparam ExtractKey Functor extracting a suitable key for the radix tree
 	/// @tparam Allocator allocator
 	///
-	template<class Key, class T, class ExtractKey = default_key<Key>, class Allocator = std::allocator<std::pair<Key, T>>>
+	template<class Key, class T, class ExtractKey = default_key, class Allocator = std::allocator<std::pair<Key, T>>>
 	class radix_map
 	{
 		using radix_key_type = typename radix_detail::ExtractKeyResultType<ExtractKey, Key>::type;
+		using return_type = typename radix_detail::ExtractKeyResultType<ExtractKey, Key>::rtype;
 		struct Extract
 		{
-			radix_key_type operator()(const std::pair<Key, T>& p) const noexcept { return ExtractKey{}(p.first); }
-			radix_key_type operator()(const std::pair<const Key, T>& p) const noexcept { return ExtractKey{}(p.first); }
+			SEQ_ALWAYS_INLINE return_type operator()(const std::pair<Key, T>& p) const noexcept { return ExtractKey{}(p.first); }
+			SEQ_ALWAYS_INLINE return_type operator()(const std::pair<const Key, T>& p) const noexcept { return ExtractKey{}(p.first); }
 			template<class U, class V>
-			radix_key_type operator()(const std::pair<U, V>& p) const noexcept
+			SEQ_ALWAYS_INLINE typename radix_detail::ExtractKeyResultType<ExtractKey, U>::rtype operator()(const std::pair<U, V>& p) const noexcept
 			{
 				return ExtractKey{}(p.first);
 			}
-			const radix_key_type& operator()(const radix_key_type& p) const noexcept { return p; }
+			SEQ_ALWAYS_INLINE const radix_key_type& operator()(const radix_key_type& p) const noexcept { return p; }
 			template<class U>
-			radix_key_type operator()(const U& p) const noexcept
+			SEQ_ALWAYS_INLINE auto operator()(const U& p) const noexcept
 			{
 				return ExtractKey{}(p);
 			}
+			
 		};
-		using radix_tree_type = radix_detail::RadixTree<std::pair<Key, T>, radix_detail::SortedHasher<radix_key_type>, Extract, Allocator>;
+
+		using Policy = detail::BuildValue<std::pair<Key, T>, true >;
+		using radix_tree_type = radix_detail::RadixTree<std::pair<Key, T>, radix_detail::RadixHasher<radix_key_type>, Extract, Allocator>;
 		radix_tree_type d_tree;
 
 	public:
@@ -742,25 +767,25 @@ namespace seq
 		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert(P&& value) -> std::pair<iterator, bool>
 		{
-			return d_tree.emplace(std::forward<P>(value));
+			return d_tree.emplace(Policy::make(std::forward<P>(value)));
 		}
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator { return d_tree.emplace_hint(hint.iter, value); }
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator { return d_tree.emplace_hint(hint.iter, std::move(value)); }
 		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
 		auto insert(const_iterator hint, P&& value) -> iterator
 		{
-			return d_tree.emplace_hint(hint.iter, std::forward<P>(value));
+			return d_tree.emplace_hint(hint.iter, Policy::make(std::forward<P>(value)));
 		}
 
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return d_tree.emplace(std::forward<Args>(args)...);
+			return d_tree.emplace(Policy::make(std::forward<Args>(args)...));
 		}
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
-			return d_tree.emplace_hint(hint.iter, std::forward<Args>(args)...);
+			return d_tree.emplace_hint(hint.iter, Policy::make(std::forward<Args>(args)...));
 		}
 
 		template<class... Args>

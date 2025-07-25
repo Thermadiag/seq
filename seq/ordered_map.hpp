@@ -430,12 +430,12 @@ namespace seq
 							dist = static_cast<size_t>(-1);
 							break;
 						}
-						if (SEQ_UNLIKELY(++index == bsize))
+						if SEQ_UNLIKELY(++index == bsize)
 							index = 0;
 						dist++;
 					}
 
-					if (SEQ_UNLIKELY(d_max_dist == static_cast<int>(node_type::max_distance) && dist != static_cast<size_t>(-1))) {
+					if SEQ_UNLIKELY(d_max_dist == static_cast<int>(node_type::max_distance) && dist != static_cast<size_t>(-1)) {
 						// linear hash table, we must go up to an empty node
 						while (!d_buckets[index].null()) {
 
@@ -443,7 +443,7 @@ namespace seq
 								dist = static_cast<size_t>(-1);
 								break;
 							}
-							if (SEQ_UNLIKELY(++index == bsize))
+							if SEQ_UNLIKELY(++index == bsize)
 								index = 0;
 						}
 					}
@@ -454,7 +454,7 @@ namespace seq
 						continue;
 					}
 
-					if (SEQ_UNLIKELY(d_max_dist == node_type::max_distance)) {
+					if SEQ_UNLIKELY(d_max_dist == node_type::max_distance) {
 						d_buckets[index] =
 						  node_type(static_cast<tiny_hash>(h), index == mask_hash(hash, new_hash_mask, new_hash_len) ? 0 : node_type::max_distance, it.as_uint());
 					}
@@ -486,7 +486,7 @@ namespace seq
 						index = (index == hash_mask) ? 0 : index + 1;
 						od = buckets[index].distance();
 					} while (od >= dist);
-					if (SEQ_UNLIKELY(dist > d_max_dist))
+					if SEQ_UNLIKELY(dist > d_max_dist)
 						d_max_dist = dist = dist > node_type::max_distance ? node_type::max_distance : dist;
 
 					node.set_distance(dist);
@@ -596,7 +596,7 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE void check_hash_operation() const
 			{
-				if (SEQ_UNLIKELY(dirty()))
+				if SEQ_UNLIKELY(dirty())
 					throw std::logic_error("ordered hash table is dirty");
 			}
 			SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return d_seq.size(); }
@@ -687,7 +687,7 @@ namespace seq
 				// (it is superior to node_type::max_distance which is 126, and dist is never incremented when tombstones are present: linear situation)
 				// A tombstone value is never checked as its tiny hash is 0 (which is invalid).
 
-				if (SEQ_UNLIKELY(!robin_hood))
+				if SEQ_UNLIKELY(!robin_hood)
 					check_hash_operation();
 
 				while (!(dist > it->distance())) {
@@ -695,7 +695,7 @@ namespace seq
 					if (h == it->hash() && (*this)(extract_key::key(sequence_node_value(*it)), key))
 						return const_iterator(it->node(), it->pos());
 					it = it == end ? d_buckets : it + 1;
-					if (SEQ_LIKELY(robin_hood))
+					if SEQ_LIKELY(robin_hood)
 						++dist;
 				}
 				// Failed lookup
@@ -722,7 +722,7 @@ namespace seq
 				while (!d_buckets[index].null() && !d_buckets[index].is_tombstone()) {
 					if (d_buckets[index].hash() == h && (*this)(extract_key::key(sequence_node_value(d_buckets[index])), extract_key::key(key)))
 						return std::pair<iterator, bool>(iterator(d_buckets[index].node(), d_buckets[index].pos()), false);
-					if (SEQ_UNLIKELY(++index == bucket_size()))
+					if SEQ_UNLIKELY(++index == bucket_size())
 						index = 0;
 				}
 
@@ -779,11 +779,11 @@ namespace seq
 
 				// Check for potential rehash.
 				// Avoid rehashing if the maximum distance is below 7.
-				if (SEQ_UNLIKELY(size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target)))
+				if SEQ_UNLIKELY(size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target))
 					rehash(size() * 2U);
 
 				// Check for purely linear hash table
-				if (SEQ_UNLIKELY(d_max_dist == node_type::max_distance))
+				if SEQ_UNLIKELY(d_max_dist == node_type::max_distance)
 					return insert_linear(InsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
 
 				// Compute hash value
@@ -806,11 +806,11 @@ namespace seq
 
 				// Check for potential rehash.
 				// Avoid rehashing if the maximum distance is below 7.
-				if (SEQ_UNLIKELY(size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target)))
+				if SEQ_UNLIKELY(size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target))
 					rehash(size() * 2U);
 
 				// Check for purely linear hash table
-				if (SEQ_UNLIKELY(d_max_dist == node_type::max_distance))
+				if SEQ_UNLIKELY(d_max_dist == node_type::max_distance)
 					return insert_linear(TryInsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
 
 				// Compute hash value
@@ -855,10 +855,10 @@ namespace seq
 				node_type* prev = n++;
 				const node_type* end = d_buckets + bucket_size();
 
-				if (SEQ_UNLIKELY(n == end))
+				if SEQ_UNLIKELY(n == end)
 					n = d_buckets;
 
-				if (SEQ_UNLIKELY(d_max_dist == node_type::max_distance)) {
+				if SEQ_UNLIKELY(d_max_dist == node_type::max_distance) {
 					// Pure linear hash map: use tombstone
 					prev->empty_tombstone();
 					return d_seq.erase(it); // return res;
@@ -870,7 +870,7 @@ namespace seq
 					*prev = *n;
 					prev->set_distance(dist - 1);
 					prev = n++;
-					if (SEQ_UNLIKELY(n == end))
+					if SEQ_UNLIKELY(n == end)
 						n = d_buckets;
 					dist = n->distance();
 				}
@@ -1070,6 +1070,8 @@ namespace seq
 
 		template<typename U>
 		using has_is_transparent = detail::has_is_transparent<U>;
+
+		using Policy = detail::BuildValue<Key, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
 
 	public:
 		using sequence_type = typename base_type::sequence_type;
@@ -1362,7 +1364,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template emplace<detail::Anywhere>(std::forward<Args>(args)...);
+			return this->base_type::template emplace<detail::Anywhere>(Policy::make(std::forward<Args>(args)...));
 		}
 		/// @brief Inserts a new element into the container constructed in-place with the given args if there is no element with the key in the container.
 		/// Same as ordered_set::emplace().
@@ -1370,7 +1372,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
 			(void)hint;
-			return this->base_type::template emplace<detail::Anywhere>(std::forward<Args>(args)...).first;
+			return this->base_type::template emplace<detail::Anywhere>(Policy::make(std::forward<Args>(args)...)).first;
 		}
 		/// @brief Inserts element into the container, if the container doesn't already contain an element with an equivalent key.
 		/// Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than max_load_factor()*size().
@@ -1430,7 +1432,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_back(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template emplace<detail::Back>(std::forward<Args>(args)...);
+			return this->base_type::template emplace<detail::Back>(Policy::make(std::forward<Args>(args)...));
 		}
 		/// @brief Inserts element at the back of the container, if the container doesn't already contain an element with an equivalent key.
 		/// Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than max_load_factor()*size().
@@ -1456,7 +1458,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_front(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template emplace<detail::Front>(std::forward<Args>(args)...);
+			return this->base_type::template emplace<detail::Front>(Policy::make(std::forward<Args>(args)...));
 		}
 		/// @brief Inserts element at the front of the container, if the container doesn't already contain an element with an equivalent key.
 		/// Iterators and references are not invalidated. Rehashing occurs only if the new number of elements is greater than max_load_factor()*size().
@@ -1600,6 +1602,8 @@ namespace seq
 				return l(extract_key::key(v1), extract_key::key(v2));
 			}
 		};
+
+		using Policy = detail::BuildValue<std::pair<Key, T>, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
 
 	public:
 		using sequence_type = typename base_type::sequence_type;
@@ -1776,20 +1780,20 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template emplace<detail::Anywhere>(std::forward<Args>(args)...);
+			return this->base_type::template emplace<detail::Anywhere>(Policy::make(std::forward<Args>(args)...));
 		}
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
 			(void)hint;
-			return this->base_type::template emplace<detail::Anywhere>(std::forward<Args>(args)...).first;
+			return this->base_type::template emplace<detail::Anywhere>(Policy::make(std::forward<Args>(args)...)).first;
 		}
 		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Anywhere>(value); }
 		SEQ_ALWAYS_INLINE auto insert(value_type&& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Anywhere>(std::move(value)); }
 		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert(P&& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template emplace<detail::Anywhere>(std::forward<P>(value));
+			return this->base_type::template emplace<detail::Anywhere>(Policy::make(std::forward<P>(value)));
 		}
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator
 		{
@@ -1805,7 +1809,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, P&& value) -> iterator
 		{
 			(void)hint;
-			return this->base_type::template emplace<detail::Anywhere>(std::forward<P>(value));
+			return this->base_type::template emplace<detail::Anywhere>(Policy::make(std::forward<P>(value)));
 		}
 		template<class InputIt>
 		void insert(InputIt first, InputIt last)
@@ -1904,27 +1908,27 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_back(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template emplace<detail::Back>(std::forward<Args>(args)...);
+			return this->base_type::template emplace<detail::Back>(Policy::make(std::forward<Args>(args)...));
 		}
 		SEQ_ALWAYS_INLINE auto push_back(const value_type& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Back>(value); }
 		SEQ_ALWAYS_INLINE auto push_back(value_type&& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Back>(std::move(value)); }
 		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto push_back(P&& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template emplace<detail::Back>(std::forward<P>(value));
+			return this->base_type::template emplace<detail::Back>(Policy::make(std::forward<P>(value)));
 		}
 
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_front(Args&&... args) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template emplace<detail::Front>(std::forward<Args>(args)...);
+			return this->base_type::template emplace<detail::Front>(Policy::make(std::forward<Args>(args)...));
 		}
 		SEQ_ALWAYS_INLINE auto push_front(const value_type& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Front>(value); }
 		SEQ_ALWAYS_INLINE auto push_front(value_type&& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Front>(std::move(value)); }
 		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto push_front(P&& value) -> std::pair<iterator, bool>
 		{
-			return this->base_type::template emplace<detail::Front>(std::forward<P>(value));
+			return this->base_type::template emplace<detail::Front>(Policy::make(std::forward<P>(value)));
 		}
 
 		template<class... Args>

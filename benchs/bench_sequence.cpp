@@ -28,7 +28,6 @@
 #include <seq/sequence.hpp>
 #include <seq/format.hpp>
 #include <seq/testing.hpp>
-#include <seq/memory.hpp>
 #include "plf/plf_colony.hpp"
 
 #include <list>

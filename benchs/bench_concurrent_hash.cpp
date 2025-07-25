@@ -544,13 +544,19 @@ public:
 template<class K, class Gen>
 void test_concurrent_hash_maps(size_t count, const Gen & gen)
 { 
-	test_concurrent_map<K, concurrent_map < K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t> > > >(count, "seq::concurrent_map", gen);
+	test_concurrent_map<K, concurrent_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>>>>(count, "seq::concurrent_map", gen);
+	/*
+#ifdef SEQ_HAS_CPP_17
+	test_concurrent_map<K, gtl::parallel_flat_hash_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>>, 5, std::shared_mutex>>(
+	  count, "gtl::parallel_flat_hash_map", gen);
+#endif
+	
 #ifdef BOOST_CONCURRENT_MAP_FOUND
 	test_concurrent_map<K, boost::concurrent_flat_map<K, size_t, seq::hasher<K>, std::equal_to<K> > >(count, "boost::concurrent_flat_map", gen);
 #endif
 	
 	test_concurrent_map<K, libcuckoo::cuckoohash_map<K, size_t, seq::hasher<K>, std::equal_to<K>> >(count, "libcuckoo::cuckoohash_map", gen);
-
+	
 #ifdef NDEBUG
 #ifdef TBB_FOUND
 	test_concurrent_map<K, tbb::concurrent_hash_map<K, size_t, my_tbb_hash_compare<K> >  >(count, "tbb::concurrent_hash_map", gen); //safe erase
@@ -559,9 +565,8 @@ void test_concurrent_hash_maps(size_t count, const Gen & gen)
 #endif
 #endif
 
-#ifdef SEQ_HAS_CPP_17
-	test_concurrent_map < K, gtl::parallel_flat_hash_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>>, 5, std::shared_mutex > >(count, "gtl::parallel_flat_hash_map", gen);
-#endif
+	*/
+	
 }
 
 

@@ -146,16 +146,18 @@ namespace seq
 	};
 
 	/// @brief Return type for seq::to_chars functions, similar to std::to_chars_result
+	template<class Char>
 	struct to_chars_result
 	{
-		char* ptr;
+		Char* ptr;
 		std::errc ec;
 	};
 
 	/// @brief Return type for seq::from_chars functions, similar to std::from_chars_result
+	template<class Char>
 	struct from_chars_result
 	{
-		const char* ptr;
+		const Char* ptr;
 		std::errc ec;
 	};
 
@@ -204,13 +206,15 @@ namespace seq
 	 * Note that it is still possible to use the optimized read function on a std::istream object using the
 	 * std_input_stream class. This is still several times faster than using the raw std::istream.
 	 */
-	template<class Derived>
+	template<class Char, class Derived>
 	class basic_input_stream
 	{
 		SEQ_ALWAYS_INLINE auto derived() noexcept -> Derived& { return static_cast<Derived&>(*this); }
 		SEQ_ALWAYS_INLINE auto derived() const noexcept -> const Derived& { return static_cast<const Derived&>(*this); }
 
 	public:
+		using char_type = Char;
+
 		/*
 		Mandatory members of derived classes:
 
@@ -252,29 +256,31 @@ namespace seq
 			}
 		};
 
+		template<class Char>
 		struct char_range
 		{
+			using char_type = Char;
 			// Write value in a bounded sequence of character
 			static constexpr bool extendible = false;
-			char* pos;
-			char* end;
-			char_range(char* start, char* en)
+			Char* pos;
+			Char* end;
+			char_range(Char* start, Char* en)
 			  : pos(start)
 			  , end(en)
 			{
 			}
-			SEQ_ALWAYS_INLINE auto add_size(size_t count) const noexcept -> char*
+			SEQ_ALWAYS_INLINE auto add_size(size_t count) const noexcept -> Char*
 			{
-				const char* tmp = pos;
+				const Char* tmp = pos;
 				const_cast<char_range*>(this)->pos += count;
-				return (pos > end) ? nullptr : const_cast<char*>(tmp);
+				return (pos > end) ? nullptr : const_cast<Char*>(tmp);
 			}
-			SEQ_ALWAYS_INLINE auto current() const noexcept -> char* { return const_cast<char*>(pos); } // current position
-			SEQ_ALWAYS_INLINE auto end_ptr() const noexcept -> char* { return const_cast<char*>(end); } // end ptr for error
-			SEQ_ALWAYS_INLINE auto back() const noexcept -> char* { return --const_cast<char_range*>(this)->pos; }
-			SEQ_ALWAYS_INLINE auto append(char v) const noexcept -> bool
+			SEQ_ALWAYS_INLINE auto current() const noexcept -> Char* { return const_cast<Char*>(pos); } // current position
+			SEQ_ALWAYS_INLINE auto end_ptr() const noexcept -> Char* { return const_cast<Char*>(end); } // end ptr for error
+			SEQ_ALWAYS_INLINE auto back() const noexcept -> Char* { return --const_cast<char_range*>(this)->pos; }
+			SEQ_ALWAYS_INLINE auto append(Char v) const noexcept -> bool
 			{
-				if (SEQ_UNLIKELY(pos == end)) {
+				if SEQ_UNLIKELY (pos == end) {
 					return false;
 				}
 				*const_cast<char_range*>(this)->pos++ = v;
@@ -285,6 +291,8 @@ namespace seq
 		template<class String>
 		struct string_range
 		{
+			using Char = typename String::value_type;
+			using char_type = Char;
 			// Write value into a string-like object
 			static constexpr bool extendible = true;
 			String* str;
@@ -292,20 +300,20 @@ namespace seq
 			  : str(str)
 			{
 			}
-			SEQ_ALWAYS_INLINE auto add_size(size_t count) const -> char*
+			SEQ_ALWAYS_INLINE auto add_size(size_t count) const -> Char*
 			{
 				size_t size = str->size();
 				const_cast<String*>(str)->resize(size + count);
-				return const_cast<char*>(str->data()) + size;
+				return const_cast<Char*>(str->data()) + size;
 			}
-			SEQ_ALWAYS_INLINE auto current() const noexcept -> char* { return const_cast<char*>(&const_cast<String*>(str)->back()); } // current position
-			SEQ_ALWAYS_INLINE auto end_ptr() const noexcept -> char* { return NULL; }						  // end ptr for error
-			SEQ_ALWAYS_INLINE auto back() const noexcept -> char*
+			SEQ_ALWAYS_INLINE auto current() const noexcept -> Char* { return const_cast<Char*>(&const_cast<String*>(str)->back()); } // current position
+			SEQ_ALWAYS_INLINE auto end_ptr() const noexcept -> Char* { return NULL; }						  // end ptr for error
+			SEQ_ALWAYS_INLINE auto back() const noexcept -> Char*
 			{
 				const_cast<String*>(str)->pop_back();
 				return current();
 			}
-			SEQ_ALWAYS_INLINE constexpr auto append(char v) const -> bool
+			SEQ_ALWAYS_INLINE constexpr auto append(Char v) const -> bool
 			{
 				const_cast<String*>(str)->push_back(v);
 				return true;
@@ -360,17 +368,44 @@ namespace seq
 		{
 			return sign == -1 ? -val : val;
 		}
-		static SEQ_ALWAYS_INLINE auto sign_value(unsigned char val, int sign) noexcept -> unsigned char { return sign == -1 ? (0U - val) : val; }
-		static SEQ_ALWAYS_INLINE auto sign_value(unsigned short val, int sign) noexcept -> unsigned short { return sign == -1 ? (0U - val) : val; }
-		static SEQ_ALWAYS_INLINE auto sign_value(unsigned int val, int sign) noexcept -> unsigned int { return sign == -1 ? (0U - val) : val; }
-		static SEQ_ALWAYS_INLINE auto sign_value(unsigned long val, int sign) noexcept -> unsigned long { return sign == -1 ? (0U - val) : val; }
-		static SEQ_ALWAYS_INLINE auto sign_value(unsigned long long val, int sign) noexcept -> unsigned long long { return sign == -1 ? (0ULL - val) : val; }
+		static SEQ_ALWAYS_INLINE auto sign_value(unsigned char val, int sign) noexcept -> unsigned char
+		{
+			return sign == -1 ? (0U - val) : val;
+		}
+		static SEQ_ALWAYS_INLINE auto sign_value(unsigned short val, int sign) noexcept -> unsigned short
+		{
+			return sign == -1 ? (0U - val) : val;
+		}
+		static SEQ_ALWAYS_INLINE auto sign_value(unsigned int val, int sign) noexcept -> unsigned int
+		{
+			return sign == -1 ? (0U - val) : val;
+		}
+		static SEQ_ALWAYS_INLINE auto sign_value(unsigned long val, int sign) noexcept -> unsigned long
+		{
+			return sign == -1 ? (0U - val) : val;
+		}
+		static SEQ_ALWAYS_INLINE auto sign_value(unsigned long long val, int sign) noexcept -> unsigned long long
+		{
+			return sign == -1 ? (0ULL - val) : val;
+		}
 
-		static SEQ_ALWAYS_INLINE auto digit_value(int c) noexcept -> unsigned { return static_cast<unsigned>(c - '0'); }
-		static SEQ_ALWAYS_INLINE auto is_digit(int c) noexcept -> bool { return digit_value(c) <= 9; }
+		static SEQ_ALWAYS_INLINE auto digit_value(int c) noexcept -> unsigned
+		{
+			return static_cast<unsigned>(c - '0');
+		}
+		static SEQ_ALWAYS_INLINE auto is_digit(int c) noexcept -> bool
+		{
+			return digit_value(c) <= 9;
+		}
 
-		static SEQ_ALWAYS_INLINE auto is_space(int c) noexcept -> bool { return c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r'; }
-		static SEQ_ALWAYS_INLINE auto is_eol(int c) noexcept -> bool { return c == '\n' || c == '\r'; }
+		static SEQ_ALWAYS_INLINE auto is_space(int c) noexcept -> bool
+		{
+			return c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r';
+		}
+		static SEQ_ALWAYS_INLINE auto is_eol(int c) noexcept -> bool
+		{
+			return c == '\n' || c == '\r';
+		}
 		static SEQ_ALWAYS_INLINE auto to_upper(int c) -> char
 		{
 			static constexpr char offset = 'a' - 'A';
@@ -458,38 +493,38 @@ namespace seq
 			T x = 0;
 			int sign = 1;
 
-			// get frist character
-			int first = str.getc();
+			// get first character
+			int first = (int)str.getc();
 
 			// skip spaces
 			while (is_space(first))
-				first = str.getc();
+				first = (int)str.getc();
 
 			// check EOF
-			if (SEQ_UNLIKELY(first == EOF))
+			if SEQ_UNLIKELY (first == EOF)
 				return 0;
 
 			// check sign
 			if (first == '+') {
 				sign = 1;
-				first = str.getc();
+				first = (int)str.getc();
 			}
 			else if (first == '-') {
 				if (!std::is_signed<T>::value)
 					goto error;
 				sign = -1;
-				first = str.getc();
+				first = (int)str.getc();
 			}
-			else if (SEQ_UNLIKELY(!is_digit(first)))
+			else if SEQ_UNLIKELY (!is_digit(first))
 				goto error;
 			else {
 				x = static_cast<T>(first - '0');
-				first = str.getc();
+				first = (int)str.getc();
 			}
 
 			while (is_digit(first)) {
 				x = (x * static_cast<T>(10)) + static_cast<T>(first - '0');
-				first = str.getc();
+				first = (int)str.getc();
 			}
 			if (first != EOF)
 				str.back();
@@ -523,37 +558,37 @@ namespace seq
 			int sign = 1;
 			unsigned val;
 			// get frist character
-			int first = str.getc();
+			int first = (int)str.getc();
 
 			// skip spaces
 			while (is_space(first))
-				first = str.getc();
+				first = (int)str.getc();
 
 			// check EOF
-			if (SEQ_UNLIKELY(first == EOF))
+			if SEQ_UNLIKELY (first == EOF)
 				return 0;
 
 			// check sign
 			if (first == '+') {
 				sign = 1;
-				first = str.getc();
+				first = (int)str.getc();
 			}
 			else if (first == '-') {
-				if (SEQ_UNLIKELY(!std::is_signed<T>::value))
+				if SEQ_UNLIKELY (!std::is_signed<T>::value)
 					goto error;
 				sign = -1;
-				first = str.getc();
+				first = (int)str.getc();
 			}
 
 			{
 				// read first digit
 				val = to_digit_hex(first);
-				if (SEQ_UNLIKELY(val >= base))
+				if SEQ_UNLIKELY (val >= base)
 					goto error;
 				x = static_cast<T>(val);
 
 				// read second one
-				first = str.getc();
+				first = (int)str.getc();
 				if (base == 16 && to_upper(first) == 'X') {
 					// hexadecimal starting with '0x' or '0X'
 					if (x != 0) {
@@ -561,28 +596,28 @@ namespace seq
 						str.back();
 						return sign_value(x, sign); // sign == -1 ? -x : x;
 					}
-					first = str.getc();
+					first = (int)str.getc();
 					val = to_digit_hex(first);
-					if (SEQ_UNLIKELY(val >= base))
+					if SEQ_UNLIKELY (val >= base)
 						// next char after '0x' is not a valid hex digit
 						goto error;
 				}
 				else
 					val = to_digit_hex(first);
 
-				if (SEQ_UNLIKELY(val >= base)) {
+				if SEQ_UNLIKELY (val >= base) {
 					// invalid char
 					str.back();
 					return sign_value(x, sign); // sign == -1 ? -x : x;
 				}
 				x = (x * static_cast<T>(base)) + static_cast<T>(val);
-				first = str.getc();
+				first = (int)str.getc();
 				val = to_digit_hex(first);
 			}
 
 			while (val < base) {
 				x = (x * static_cast<T>(base)) + static_cast<T>(val);
-				first = str.getc();
+				first = (int)str.getc();
 				val = to_digit_hex(first);
 			}
 			if (first != EOF)
@@ -616,22 +651,22 @@ namespace seq
 			std::int64_t x = 0;
 			int count = 0;
 			// get frist character
-			unsigned first = static_cast<unsigned>(str.getc() - '0');
+			unsigned first = static_cast<unsigned>((int)str.getc() - '0');
 			unsigned second;
 
 			// check EOF
-			if (SEQ_UNLIKELY(first == _EOF || !(first <= 9))) {
+			if SEQ_UNLIKELY (first == _EOF || !(first <= 9)) {
 				goto error;
 			}
 
-			second = static_cast<unsigned>(str.getc() - '0');
+			second = static_cast<unsigned>((int)str.getc() - '0');
 			count = 0;
 			while ((first <= 9) && (second <= 9)) {
 				x = x * static_cast<int64_t>(100) + static_cast<int64_t>(integral_read_table[first][second]);
-				first = static_cast<unsigned>(str.getc() - '0');
-				second = static_cast<unsigned>(str.getc() - '0');
+				first = static_cast<unsigned>((int)str.getc() - '0');
+				second = static_cast<unsigned>((int)str.getc() - '0');
 				count += 2;
-				if (SEQ_UNLIKELY(count > 18)) {
+				if SEQ_UNLIKELY (count > 18) {
 					goto too_long_int;
 				}
 			}
@@ -664,8 +699,8 @@ namespace seq
 		read_nan(Integral saved_pos, Stream& str) -> T
 		{
 			// read 'nan'
-			char a = to_upper(str.getc());
-			char n = to_upper(str.getc());
+			char a = to_upper((int)str.getc());
+			char n = to_upper((int)str.getc());
 			if (a == 'A' && n == 'N') {
 				return std::numeric_limits<T>::quiet_NaN();
 			}
@@ -678,8 +713,8 @@ namespace seq
 		read_inf(Integral saved_pos, int sign, Stream& str) -> T
 		{
 			// read 'inf'
-			char n = to_upper(str.getc());
-			char f = to_upper(str.getc());
+			char n = to_upper((int)str.getc());
+			char f = to_upper((int)str.getc());
 			if (n == 'N' && f == 'F') {
 				return sign_value(std::numeric_limits<T>::infinity(), sign);
 			}
@@ -718,15 +753,15 @@ namespace seq
 			}
 
 			Integral save_point = NullValue<Integral>::value;
-			int first = str.getc();
+			int first = (int)str.getc();
 
 			// read decimal
 			while (is_digit(first)) {
 				res = (res * static_cast<T>(10)) + static_cast<T>(first - '0');
-				first = str.getc();
+				first = (int)str.getc();
 			}
 			if (first == EOF) {
-				if (SEQ_UNLIKELY((fmt & scientific) && !(fmt & fixed))) {
+				if SEQ_UNLIKELY ((fmt & scientific) && !(fmt & fixed)) {
 					str.set_state(BadInputFormat);
 					goto error;
 				}
@@ -737,15 +772,15 @@ namespace seq
 			if (first == dot) {
 
 				// read fractional part
-				first = str.getc();
+				first = (int)str.getc();
 				T factor = static_cast<T>(0.1);
 				while (is_digit(first)) {
 					res = res + static_cast<T>(first - '0') * factor;
 					factor *= static_cast<T>(0.1);
-					first = str.getc();
+					first = (int)str.getc();
 				}
 				if (first == EOF) {
-					if (SEQ_UNLIKELY((fmt & scientific) && !(fmt & fixed))) {
+					if SEQ_UNLIKELY ((fmt & scientific) && !(fmt & fixed)) {
 						str.set_state(BadInputFormat);
 						goto error;
 					}
@@ -756,25 +791,25 @@ namespace seq
 			}
 
 			if (first == 'e' || first == 'E') {
-				if (SEQ_UNLIKELY((fmt & scientific) == 0)) {
+				if SEQ_UNLIKELY ((fmt & scientific) == 0) {
 					str.back();
 					return sign_value(res, sign);
 				}
 
 				save_point = str.tell() - 1;
 				// read exponent part
-				first = str.getc();
+				first = (int)str.getc();
 				int exp_sign = 1;
 				int exp = 0;
 				if (first == '-') {
 					exp_sign = -1;
-					first = str.getc();
+					first = (int)str.getc();
 					if (!is_digit(first)) {
 						goto partial;
 					}
 				}
 				else if (first == '+') {
-					first = str.getc();
+					first = (int)str.getc();
 					if (!is_digit(first)) {
 						goto partial;
 					}
@@ -785,7 +820,7 @@ namespace seq
 
 				do {
 					exp = (exp * 10) + static_cast<int>(first - '0');
-					first = str.getc();
+					first = (int)str.getc();
 				} while (is_digit(first));
 				exp = exp_sign == -1 ? -exp : exp;
 				if (exp < -323 || exp > 308) {
@@ -805,7 +840,7 @@ namespace seq
 				}
 			}
 			else {
-				if (SEQ_UNLIKELY((fmt & scientific) && !(fmt & fixed))) {
+				if SEQ_UNLIKELY ((fmt & scientific) && !(fmt & fixed)) {
 					str.set_state(BadInputFormat);
 					goto error;
 				}
@@ -836,46 +871,46 @@ namespace seq
 
 			str.reset();
 			Integral saved = str.tell();
-			int first = str.getc();
+			int first = (int)str.getc();
 			int sign = 1;
 			int c;
 			T res = 0;
 
 			// skip spaces
 			while (is_space(first)) {
-				first = str.getc();
+				first = (int)str.getc();
 			}
 			// check EOF
-			if (SEQ_UNLIKELY(first == EOF)) {
+			if SEQ_UNLIKELY (first == EOF) {
 				return 0;
 			}
 
 			if (first == '-') {
 				// first character is a sign
 				sign = -1;
-				first = str.getc();
-				if (SEQ_UNLIKELY(first == EOF)) {
+				first = (int)str.getc();
+				if SEQ_UNLIKELY (first == EOF) {
 					return 0;
 				}
 			}
 			else if (first == '+') {
 				// first character is a sign
-				first = str.getc();
-				if (SEQ_UNLIKELY(first == EOF)) {
+				first = (int)str.getc();
+				if SEQ_UNLIKELY (first == EOF) {
 					return 0;
 				}
 			}
 			// potential nan
-			else if (SEQ_UNLIKELY(to_upper(first) == 'N')) {
+			else if SEQ_UNLIKELY (to_upper(first) == 'N') {
 				// read 'nan'
 				return read_nan<T>(saved, str);
 			}
 			// read potential infinity
-			if (SEQ_UNLIKELY(first == 'i' || first == 'I')) {
+			if SEQ_UNLIKELY (first == 'i' || first == 'I') {
 				// read 'inf'
 				return read_inf<T>(saved, sign, str);
 			}
-			if (SEQ_UNLIKELY(!is_digit(first) && first != dot))
+			if SEQ_UNLIKELY (!is_digit(first) && first != dot)
 			// first character must be either the dot or a digit
 			{
 				return return_bad_format<T>(saved, str);
@@ -886,7 +921,7 @@ namespace seq
 			Integral check_point = str.tell();
 			// read intergal part
 			int64_t integral = read_int64(str);
-			if (SEQ_UNLIKELY(!str)) {
+			if SEQ_UNLIKELY (!str) {
 				if (integral == -1) {
 					// too big: switch to the default slower version
 					goto slow_path;
@@ -901,12 +936,12 @@ namespace seq
 			res = static_cast<T>(integral);
 			check_point = str.tell();
 
-			c = str.getc();
+			c = (int)str.getc();
 			if (c == dot) {
 				// read decimal part
 				Integral new_check_point = str.tell();
 				int64_t decimal = read_int64(str);
-				if (SEQ_UNLIKELY(!str)) {
+				if SEQ_UNLIKELY (!str) {
 					if (decimal == -1) {
 						// too big: switch to the default slower version
 						goto slow_path;
@@ -920,26 +955,26 @@ namespace seq
 				}
 				int dist = static_cast<int>(str.tell() - new_check_point);
 				res += static_cast<T>(decimal) * get_pow<T>(-dist);
-				c = str.getc();
+				c = (int)str.getc();
 			}
 			if (c == 'e' || c == 'E') {
-				if (SEQ_UNLIKELY(fmt == fixed)) {
+				if SEQ_UNLIKELY (fmt == fixed) {
 					// exponent forbiden
 					return return_bad_format<T>(saved, str);
 				}
 				// read exponent
 				int exp = 0;
 				int esign = 1;
-				c = str.getc();
+				c = (int)str.getc();
 				if (!is_digit(c)) {
 					// read exponent sign
 					if (c == '-') {
 						esign = -1;
 					}
-					else if (SEQ_UNLIKELY(c != '+')) {
+					else if SEQ_UNLIKELY (c != '+') {
 						return return_bad_format<T>(saved, str);
 					}
-					c = str.getc();
+					c = (int)str.getc();
 					if (!is_digit(c)) {
 						return return_bad_format<T>(saved, str);
 					}
@@ -948,7 +983,7 @@ namespace seq
 				unsigned cc = static_cast<unsigned>(c - '0');
 				do {
 					exp = (exp * 10) + static_cast<int>(cc);
-					cc = static_cast<unsigned>(str.getc() - '0');
+					cc = static_cast<unsigned>((int)str.getc() - '0');
 				} while (cc <= 9U);
 				if (cc != _EOF) {
 					str.back();
@@ -959,10 +994,10 @@ namespace seq
 
 				exp = sign_value(exp, esign);
 				// check exponent validity
-				if (SEQ_UNLIKELY(exp > std::numeric_limits<T>::max_exponent10)) {
+				if SEQ_UNLIKELY (exp > std::numeric_limits<T>::max_exponent10) {
 					return sign_value(std::numeric_limits<T>::infinity(), sign);
 				}
-				if (SEQ_UNLIKELY(exp < std::numeric_limits<T>::min_exponent10))
+				if SEQ_UNLIKELY (exp < std::numeric_limits<T>::min_exponent10)
 					return sign_value(static_cast<T>(0), sign);
 
 				// success
@@ -970,7 +1005,7 @@ namespace seq
 				res = sign_value(res * p, sign);
 				return res;
 			}
-			if (SEQ_UNLIKELY(fmt == scientific)) {
+			if SEQ_UNLIKELY (fmt == scientific) {
 				// exponent is mandatory
 				return return_bad_format<T>(saved, str);
 			}
@@ -992,24 +1027,28 @@ namespace seq
 		template<class T, class Stream>
 		auto read_string(Stream& str) -> T
 		{
+			using StreamChar = typename Stream::char_type;
+			using StringChar = typename T::value_type;
+			static_assert(std::is_same<StreamChar, StringChar>::value, "read_string: cannot mix different char types");
+
 			// Read a string object (std::string or seq::tiny_string) from input stream
 			str.reset();
 
-			int first = str.getc();
+			int first = (int)str.getc();
 
 			// skip spaces
 			while (is_space(first))
-				first = str.getc();
+				first = (int)str.getc();
 			// check EOF
-			if (SEQ_UNLIKELY(first == EOF))
+			if SEQ_UNLIKELY (first == EOF)
 				return T();
 
 			T res;
-			res.push_back(static_cast<char>(first));
+			res.push_back(static_cast<StringChar>(first));
 			for (;;) {
-				first = str.getc();
+				first = (int)str.getc();
 				if (!is_space(first) && first != EOF)
-					res.push_back(first);
+					res.push_back((StringChar)first);
 				else
 					break;
 			}
@@ -1024,25 +1063,30 @@ namespace seq
 		template<class T, class Stream>
 		auto read_line(Stream& str) -> T
 		{
+			using StreamChar = typename Stream::char_type;
+			using StringChar = typename T::value_type;
+			static_assert(std::is_same<StreamChar, StringChar>::value, "read_string: cannot mix different char types");
+
+
 			// Read a line (std::string or seq::tiny_string) from input stream
 			str.reset();
 
-			int first = str.getc();
+			int first = (int)str.getc();
 
 			// skip spaces
 			while (is_space(first)) {
-				first = str.getc();
+				first = (int)str.getc();
 			}
 			// check EOF
-			if (SEQ_UNLIKELY(first == EOF))
+			if SEQ_UNLIKELY (first == EOF)
 				return T();
 
 			T res;
-			res.push_back(static_cast<char>(first));
+			res.push_back(static_cast<StringChar>(first));
 			for (;;) {
-				first = str.getc();
+				first = (int)str.getc();
 				if (!is_eol(first) && first != EOF)
-					res.push_back(first);
+					res.push_back((StringChar)first);
 				else
 					break;
 			}
@@ -1059,11 +1103,13 @@ namespace seq
 		//////////////////////////////////////////////////////////////////////////////
 
 		template<class Range, class T>
-		SEQ_ALWAYS_INLINE auto write_integer_generic(const Range& range, T _val, int base, const integral_chars_format& fmt) -> to_chars_result
+		SEQ_ALWAYS_INLINE auto write_integer_generic(const Range& range, T _val, int base, const integral_chars_format& fmt) -> to_chars_result<typename Range::char_type>
 		{
 			// Generic version of integer to string.
 			// Write in reverse order in a temporay buffer, and copy/reverse in dst.
 			// Outputs '0x' prefix for base 16 if specified.
+
+			using Char = typename Range::char_type;
 
 			SEQ_ASSERT_DEBUG(base <= 36, "invalid 'base' value");
 
@@ -1072,12 +1118,12 @@ namespace seq
 
 			if (!_val) {
 				int size = fmt.integral_min_width ? static_cast<int>(fmt.integral_min_width) : 1;
-				char* dst = range.add_size(static_cast<size_t>(size));
-				if (SEQ_UNLIKELY(!dst)) {
+				Char* dst = range.add_size(static_cast<size_t>(size));
+				if SEQ_UNLIKELY (!dst) {
 					return { range.end_ptr(), std::errc::value_too_large };
 				}
 				while (size-- > 0) {
-					*dst++ = ('0');
+					*dst++ = (Char)('0');
 				}
 				return { dst, std::errc() };
 			}
@@ -1120,11 +1166,11 @@ namespace seq
 			}
 
 			size_t size = sizeof(tmp) - static_cast<size_t>(index) - 1;
-			char* dst = range.add_size(size);
-			if (SEQ_UNLIKELY(!dst)) {
+			Char* dst = range.add_size(size);
+			if SEQ_UNLIKELY (!dst) {
 				return { range.end_ptr(), std::errc::value_too_large };
 			}
-			memcpy(dst, tmp + index, size);
+			std::copy(tmp + index, tmp + index + size, dst);
 			return { dst + size, std::errc() };
 		}
 
@@ -1137,10 +1183,12 @@ namespace seq
 		}
 
 		template<class Range, class T>
-		SEQ_ALWAYS_INLINE auto write_integral(const Range& range, T _value, int base, const integral_chars_format& fmt) -> to_chars_result
+		SEQ_ALWAYS_INLINE auto write_integral(const Range& range, T _value, int base, const integral_chars_format& fmt) -> to_chars_result<typename Range::char_type>
 		{
 			// Write integral in any base
 			// Use well known trick to write 2 digits at once based on a lookup table (for base 10 only).
+
+			using Char = typename Range::char_type;
 
 			if (base != 10) {
 				return detail::write_integer_generic(range, _value, base, fmt);
@@ -1161,50 +1209,52 @@ namespace seq
 			}
 
 			unsigned digit = count_digits_base_10(value);
-			if (SEQ_UNLIKELY(fmt.integral_min_width > digit)) {
+			if SEQ_UNLIKELY (fmt.integral_min_width > digit) {
 				digit = fmt.integral_min_width;
 			}
 			if (std::is_signed<T>::value) {
 				digit += neg;
 			}
-			char* buffer = range.add_size(digit);
-			if (SEQ_UNLIKELY(!buffer)) {
+			Char* buffer = range.add_size(digit);
+			if SEQ_UNLIKELY (!buffer) {
 				return { range.end_ptr(), std::errc::value_too_large };
 			}
 
-			char* start = buffer + neg;
-			char* res = buffer + digit;
+			Char* start = buffer + neg;
+			Char* res = buffer + digit;
 			buffer = res;
 
 			while (value >= 100) {
 				const auto i = static_cast<unsigned>((value % 100U) * 2U);
 				value /= 100U;
 
-				*--buffer = table[i];
-				*--buffer = table[i + 1];
+				*--buffer = (Char)table[i];
+				*--buffer = (Char)table[i + 1];
 			}
 
 			if (value < 10U) {
-				*--buffer = static_cast<char>(value) + '0';
+				*--buffer = (Char)(static_cast<char>(value) + '0');
 			}
 			else {
 				const auto i = static_cast<unsigned>(value * 2U);
-				*--buffer = table[i];
-				*--buffer = table[i + 1];
+				*--buffer = (Char)table[i];
+				*--buffer = (Char)table[i + 1];
 			}
 			while (buffer > start) {
-				*--buffer = '0';
+				*--buffer = (Char)'0';
 			}
 			if (std::is_signed<T>::value && neg) {
-				*--buffer = '-';
+				*--buffer = (Char)'-';
 			}
 			return { res, std::errc() };
 		}
 
 		template<class Range, class T>
-		SEQ_ALWAYS_INLINE auto write_integer_decimal_part(const Range& range, T value, int min_width, bool null_first) -> to_chars_result
+		SEQ_ALWAYS_INLINE auto write_integer_decimal_part(const Range& range, T value, int min_width, bool null_first) -> to_chars_result<typename Range::char_type>
 		{
 			static_assert(std::is_unsigned<T>::value, "");
+
+			using Char = typename Range::char_type;
 
 			// Write decimal part of floating point number.
 			// Remove the trailling zeros.
@@ -1224,32 +1274,32 @@ namespace seq
 
 			unsigned digit = count_digits_base_10(value);
 
-			char* buffer = range.add_size(digit);
-			if (SEQ_UNLIKELY(!buffer)) {
+			Char* buffer = range.add_size(digit);
+			if SEQ_UNLIKELY (!buffer) {
 				return { range.end_ptr(), std::errc::value_too_large };
 			}
 
-			char* res = buffer + digit;
-			char* start = buffer;
+			Char* res = buffer + digit;
+			Char* start = buffer;
 			buffer = res;
 
 			while (value >= 100U) {
 				const auto i = static_cast<unsigned>((value % 100U) * 2U);
 				value /= 100U;
-				*--buffer = table[i];
-				*--buffer = table[i + 1];
+				*--buffer = (Char)table[i];
+				*--buffer = (Char)table[i + 1];
 			}
 
 			if (value < 10U) {
-				*--buffer = static_cast<char>(value) + '0';
+				*--buffer = (Char)(static_cast<char>(value) + '0');
 			}
 			else {
 				const auto i = static_cast<unsigned>(value * 2U);
-				*--buffer = table[i];
-				*--buffer = table[i + 1];
+				*--buffer = (Char)table[i];
+				*--buffer = (Char)table[i + 1];
 			}
 			while (buffer > start) {
-				*--buffer = '0';
+				*--buffer = (Char)'0';
 			}
 			if (null_first) {
 				--(*buffer);
@@ -1472,7 +1522,7 @@ namespace seq
 			if (remainder >= 0.5) {
 				decimals++;
 				const UInt max_val = static_cast<UInt>(get_pow<T>(p) + static_cast<T>(0.5));
-				if (SEQ_UNLIKELY(decimals >= max_val)) {
+				if SEQ_UNLIKELY (decimals >= max_val) {
 					decimals = 0;
 					integral++;
 					if (exponent != 0 && integral >= 10) {
@@ -1486,9 +1536,11 @@ namespace seq
 		}
 
 		template<class Range, class T>
-		SEQ_ALWAYS_INLINE auto write_double_fixed(const Range& range, T value, int width, float_chars_format fmt) -> to_chars_result
+		SEQ_ALWAYS_INLINE auto write_double_fixed(const Range& range, T value, int width, float_chars_format fmt) -> to_chars_result<typename Range::char_type>
 		{
 			// Write floating point value with fixed method (usually slower than scientific or general)
+
+			using Char = typename Range::char_type;
 
 			// extract full exponent
 			fmt.fmt = scientific;
@@ -1496,11 +1548,11 @@ namespace seq
 
 			// output sign
 
-			char* start = range.current();
+			Char* start = range.current();
 			const char* dec_table = decimal_table();
 
 			// append leading 0, just use for rounding purpose
-			if (SEQ_UNLIKELY(!range.append('0'))) {
+			if SEQ_UNLIKELY (!range.append((Char)'0')) {
 				return { range.end_ptr(), std::errc::value_too_large };
 			}
 
@@ -1513,13 +1565,13 @@ namespace seq
 					value *= 10;
 					do {
 						char v = static_cast<char>(value);
-						char* dst = range.add_size(2);
-						if (SEQ_UNLIKELY(!dst)) {
+						Char* dst = range.add_size(2);
+						if SEQ_UNLIKELY (!dst) {
 							return { range.end_ptr(), std::errc::value_too_large };
 						}
 						const char* d = dec_table + static_cast<int>(v) * 2;
-						dst[0] = d[1];
-						dst[1] = d[0];
+						dst[0] = (Char)d[1];
+						dst[1] = (Char)d[0];
 						exp -= 2;
 						// for big exponents, we end up with a value of 0, therefore avoid the useless floating point math
 						if (SEQ_COMPARE_FLOAT(v != 0 || value != 0)) {
@@ -1533,7 +1585,7 @@ namespace seq
 				}
 				while (exp >= 0) {
 					char v = static_cast<char>(value);
-					if (SEQ_UNLIKELY(!range.append(v + '0'))) {
+					if SEQ_UNLIKELY (!range.append((Char)(v + '0'))) {
 						return { range.end_ptr(), std::errc::value_too_large };
 					}
 					--exp;
@@ -1543,18 +1595,18 @@ namespace seq
 			}
 			else {
 				// output 0 for negative exponent
-				if (SEQ_UNLIKELY(!range.append('0'))) {
+				if SEQ_UNLIKELY (!range.append((Char)'0')) {
 					return { range.end_ptr(), std::errc::value_too_large };
 				}
 			}
 			// output dot
-			if (SEQ_UNLIKELY(!range.append(fmt.dot))) {
+			if SEQ_UNLIKELY (!range.append((Char)fmt.dot)) {
 				return { range.end_ptr(), std::errc::value_too_large };
 			}
 
 			// for negative exponent, output possibly LOTS of 0 before the remaining of decimal part
 			while (++exponent < 0) {
-				if (SEQ_UNLIKELY(!range.append('0'))) {
+				if SEQ_UNLIKELY (!range.append((Char)'0')) {
 					return { range.end_ptr(), std::errc::value_too_large };
 				}
 				--width;
@@ -1577,13 +1629,13 @@ namespace seq
 					value *= 10;
 					do {
 						char v = static_cast<char>(value);
-						char* dst = range.add_size(2);
-						if (SEQ_UNLIKELY(!dst)) {
+						Char* dst = range.add_size(2);
+						if SEQ_UNLIKELY (!dst) {
 							return { range.end_ptr(), std::errc::value_too_large };
 						}
 						const char* d = dec_table + static_cast<int>(v) * 2;
-						dst[0] = d[1];
-						dst[1] = d[0];
+						dst[0] = (Char)d[1];
+						dst[1] = (Char)d[0];
 						width -= 2;
 						if (SEQ_COMPARE_FLOAT(v != 0 || value != 0)) {
 							value -= v;
@@ -1596,7 +1648,7 @@ namespace seq
 				}
 				while (width >= 0) {
 					char v = static_cast<char>(value);
-					if (SEQ_UNLIKELY(!range.append(v + '0'))) {
+					if SEQ_UNLIKELY (!range.append((Char)(v + '0'))) {
 						return { range.end_ptr(), std::errc::value_too_large };
 					}
 					--width;
@@ -1606,18 +1658,18 @@ namespace seq
 			}
 
 			// round
-			char* last = range.current() - 1;
-			if (*last >= '5') {
-				char* saved_last = last - 1;
+			Char* last = range.current() - 1;
+			if (*last >= (Char)'5') {
+				Char* saved_last = last - 1;
 				do {
 					--last;
 					// skip dot to round the integral part
-					if (*last == fmt.dot) {
+					if (*last == (Char)fmt.dot) {
 						--last;
 					}
 					(*last)++;
-					if (*last == ':') {
-						*last = '0';
+					if (*last == (Char)':') {
+						*last = (Char)'0';
 					}
 					else {
 						break;
@@ -1626,24 +1678,24 @@ namespace seq
 
 				if (last != start) {
 					// remove leading 0
-					memmove(start, start + 1, static_cast<size_t>(saved_last - start));
+					memmove(start, start + 1, static_cast<size_t>(saved_last - start) * sizeof(Char));
 					--saved_last;
 				}
 				last = saved_last;
 			}
 			else {
 				// remove leading 0
-				memmove(start, start + 1, static_cast<size_t>(last - start - 1));
+				memmove(start, start + 1, static_cast<size_t>(last - start - 1) * sizeof(Char));
 				last -= 2;
 			}
 
 			// remove trailing 0(s)
-			while (*last == '0') {
+			while (*last == (Char)'0') {
 				--last;
 			}
 
 			// do not keep a dot without trailing values
-			if (*last == fmt.dot) {
+			if (*last == (Char)fmt.dot) {
 				--last;
 			}
 
@@ -1652,42 +1704,53 @@ namespace seq
 
 		template<class Range>
 		SEQ_NOINLINE(auto)
-		write_nan(const Range& range, const float_chars_format fmt) -> to_chars_result
+		write_nan(const Range& range, const float_chars_format fmt) -> to_chars_result<typename Range::char_type>
 		{
+			using Char = typename Range::char_type;
 			// outputs 'nan'
-			char* dst = range.add_size(3);
-			if (SEQ_UNLIKELY(!dst)) {
+			Char* dst = range.add_size(3);
+			if SEQ_UNLIKELY (!dst) {
 				return { range.end_ptr(), std::errc::value_too_large };
 			}
 			if (fmt.upper) {
-				memcpy(dst, "NAN", 3);
+				dst[0] = (Char)'N';
+				dst[1] = (Char)'A';
+				dst[2] = (Char)'N';
 			}
 			else {
-				memcpy(dst, "nan", 3);
+				dst[0] = (Char)'n';
+				dst[1] = (Char)'a';
+				dst[2] = (Char)'n';
 			}
 			return { dst + 3, std::errc() };
 		}
 		template<class Range>
 		SEQ_NOINLINE(auto)
-		write_inf(const Range& range, const float_chars_format fmt) -> to_chars_result
+		write_inf(const Range& range, const float_chars_format fmt) -> to_chars_result<typename Range::char_type>
 		{
+			using Char = typename Range::char_type;
 			// outputs 'inf'
-			char* dst = range.add_size(3);
-			if (SEQ_UNLIKELY(!dst)) {
+			Char* dst = range.add_size(3);
+			if SEQ_UNLIKELY (!dst) {
 				return { range.end_ptr(), std::errc::value_too_large };
 			}
 			if (fmt.upper) {
-				memcpy(dst, "INF", 3);
+				dst[0] = (Char)'I';
+				dst[1] = (Char)'N';
+				dst[2] = (Char)'F';
 			}
 			else {
-				memcpy(dst, "inf", 3);
+				dst[0] = (Char)'i';
+				dst[1] = (Char)'n';
+				dst[2] = (Char)'f';
 			}
 			return { dst + 3, std::errc() };
 		}
 
 		template<class Range, class T>
-		SEQ_ALWAYS_INLINE auto write_double_abs(const Range& range, T value, int width, float_chars_format& fmt) -> to_chars_result
+		SEQ_ALWAYS_INLINE auto write_double_abs(const Range& range, T value, int width, float_chars_format& fmt) -> to_chars_result<typename Range::char_type>
 		{
+			using Char = typename Range::char_type;
 			using UInt = std::uint64_t;
 
 			// Compute integral, decimal and exponent parts
@@ -1700,21 +1763,21 @@ namespace seq
 			// Write integral part, at least one digit
 			integral_chars_format tmp;
 			tmp.integral_min_width = 1;
-			to_chars_result r = write_integral(range, integral, 10, tmp);
-			if (SEQ_UNLIKELY(r.ec == std::errc::value_too_large)) {
+			auto r = write_integral(range, integral, 10, tmp);
+			if SEQ_UNLIKELY (r.ec == std::errc::value_too_large) {
 				return r;
 			}
 
-			if (SEQ_LIKELY(decimals)) {
+			if SEQ_LIKELY (decimals) {
 				// Write dot first
 
-				if (SEQ_UNLIKELY(!range.append(fmt.dot))) {
+				if SEQ_UNLIKELY (!range.append((Char)fmt.dot)) {
 					return { range.end_ptr(), std::errc::value_too_large };
 				}
 
-				char* t = range.current();
+				Char* t = range.current();
 				r = write_integer_decimal_part(range, (decimals), width, decrement_first);
-				if (SEQ_UNLIKELY(r.ec == std::errc::value_too_large)) {
+				if SEQ_UNLIKELY (r.ec == std::errc::value_too_large) {
 					return r;
 				}
 
@@ -1725,12 +1788,12 @@ namespace seq
 			}
 			// write exponent
 			if (exponent | (fmt.fmt == scientific)) {
-				if (SEQ_UNLIKELY(!range.append(fmt.exp))) {
+				if SEQ_UNLIKELY (!range.append((Char)fmt.exp)) {
 					return { range.end_ptr(), std::errc::value_too_large };
 				}
 				if (exponent >= 0) {
 					// For scientific notation (equivalent to 'e' or 'E'), force the '+' sign
-					if (SEQ_UNLIKELY(!range.append('+'))) {
+					if SEQ_UNLIKELY (!range.append((Char)'+')) {
 						return { range.end_ptr(), std::errc::value_too_large };
 					}
 				}
@@ -1742,23 +1805,25 @@ namespace seq
 		}
 
 		template<class Range, class T>
-		SEQ_ALWAYS_INLINE auto write_double(const Range& range, T value, int width = 6, float_chars_format fmt = float_chars_format()) -> to_chars_result
+		SEQ_ALWAYS_INLINE auto write_double(const Range& range, T value, int width = 6, float_chars_format fmt = float_chars_format()) -> to_chars_result<typename Range::char_type>
 		{
+			using Char = typename Range::char_type;
+
 			// Write floating point value based on given format.
 			// Main idea from https://blog.benoitblanchon.fr/lightweight-float-to-string/
 
 			// if (SEQ_UNLIKELY(std::isnan(value)))
-			if (SEQ_UNLIKELY(value != value)) {
+			if SEQ_UNLIKELY (value != value) {
 				return write_nan(range, fmt);
 			}
 			if (detail::signbit(value)) {
 				// extract sign, outputs '-' if negative, take abolute value
-				if (SEQ_UNLIKELY(!range.append('-'))) {
+				if SEQ_UNLIKELY (!range.append((Char)'-')) {
 					return { range.end_ptr(), std::errc::value_too_large };
 				}
 				value = -value;
 			}
-			SEQ_COMPARE_FLOAT(if (SEQ_UNLIKELY(/*std::isinf(value))*/ value == std::numeric_limits<double>::infinity())) { return write_inf(range, fmt); })
+			SEQ_COMPARE_FLOAT(if SEQ_UNLIKELY (/*std::isinf(value))*/ value == std::numeric_limits<double>::infinity()) { return write_inf(range, fmt); })
 
 			if (width < 0) {
 				width = 6;
@@ -1777,24 +1842,27 @@ namespace seq
 		/// buffer_input_stream is a #basic_input_stream used to extract numbers, words and lines from a sequence of characters.
 		/// Use seq::from_stream to extract numerical values and words, seq::read_line_from_stream to extract full lines.
 		///
+		template<class Char>
 		class from_chars_stream
 		{
 		public:
 			using State = StreamState;
-			using streamsize = const char*;
+			using streamsize = const Char*;
 
 		private:
-			const char* d_start;
-			const char* d_end;
+			const Char* d_start;
+			const Char* d_end;
 			std::errc d_state;
 
-			auto set_eof() noexcept -> char
+			auto set_eof() noexcept -> Char
 			{
 				d_state = std::errc::invalid_argument;
 				return EOF;
 			}
 
 		public:
+			using char_type = Char;
+
 			/// @brief Default ctor
 			from_chars_stream()
 			  : d_start(nullptr)
@@ -1803,7 +1871,7 @@ namespace seq
 			{
 			}
 			/// @brief Construct from sequence of characters and size
-			from_chars_stream(const char* data, const char* end)
+			from_chars_stream(const Char* data, const Char* end)
 			  : d_start(data)
 			  , d_end(end)
 			  , d_state()
@@ -1831,20 +1899,20 @@ namespace seq
 			/// @brief Returns the internal character sequence size
 			static SEQ_ALWAYS_INLINE auto size() noexcept -> size_t { return 0; }
 			/// @brief Returns the current read position in the stream
-			SEQ_ALWAYS_INLINE auto tell() const noexcept -> const char* { return d_start; }
+			SEQ_ALWAYS_INLINE auto tell() const noexcept -> const Char* { return d_start; }
 			/// @brief Go back one character (if possible)
 			SEQ_ALWAYS_INLINE void back() noexcept { --d_start; }
 			/// @brief Seek at given position
-			SEQ_ALWAYS_INLINE void seek(const char* pos) noexcept { d_start = pos; }
+			SEQ_ALWAYS_INLINE void seek(const Char* pos) noexcept { d_start = pos; }
 			/// @brief Extract a single character from the stream and put the read position to the next character
 			/// @return extracted character or EOF
-			SEQ_ALWAYS_INLINE auto getc() noexcept -> int
+			SEQ_ALWAYS_INLINE auto getc() noexcept -> Char
 			{
-				if (SEQ_LIKELY(d_start != d_end)) {
+				if SEQ_LIKELY (d_start != d_end) {
 					return *d_start++;
 				}
 				d_state = std::errc::invalid_argument;
-				return EOF;
+				return (Char)EOF;
 			}
 		};
 
@@ -1855,28 +1923,29 @@ namespace seq
 	/// buffer_input_stream is a #basic_input_stream used to extract numbers, words and lines from a sequence of characters.
 	/// Use seq::from_stream to extract numerical values and words, seq::read_line_from_stream to extract full lines.
 	///
-	class buffer_input_stream : public basic_input_stream<buffer_input_stream>
+	template<class Char>
+	class buffer_input_stream : public basic_input_stream<Char, buffer_input_stream<Char> >
 	{
 	public:
-		using base_type = basic_input_stream<buffer_input_stream>;
+		using base_type = basic_input_stream<Char,buffer_input_stream<Char> >;
 		using State = StreamState;
 		using streamsize = size_t;
 
 	private:
-		const char* d_buff;
+		const Char* d_buff;
 		streamsize d_len;
 		streamsize d_pos;
 		StreamState d_state;
 
-		auto set_eof() noexcept -> char
+		auto set_eof() noexcept -> Char
 		{
 			d_state = EndOfFile;
-			return EOF;
+			return (Char)EOF;
 		}
 
 	public:
 		/// @brief Default ctor
-		buffer_input_stream()
+		buffer_input_stream() noexcept
 		  : d_buff(nullptr)
 		  , d_len(0)
 		  , d_pos(0)
@@ -1884,7 +1953,7 @@ namespace seq
 		{
 		}
 		/// @brief Construct from sequence of characters and size
-		buffer_input_stream(const char* data, streamsize len)
+		buffer_input_stream(const Char* data, streamsize len) noexcept
 		  : d_buff(data)
 		  , d_len(len)
 		  , d_pos(0)
@@ -1892,13 +1961,13 @@ namespace seq
 		{
 		}
 		/// @brief Construct from a null terminated string
-		explicit buffer_input_stream(const char* data)
+		explicit buffer_input_stream(const Char* data) noexcept
 		  : buffer_input_stream(data, strlen(data))
 		{
 		}
 		/// @brief Construct from a string-like object (usually std::string or tiny_string)
 		template<class StringLike>
-		explicit buffer_input_stream(const StringLike& str)
+		explicit buffer_input_stream(const StringLike& str) noexcept
 		  : buffer_input_stream(str.data(), static_cast<streamsize>(str.size()))
 		{
 		}
@@ -1941,9 +2010,9 @@ namespace seq
 		}
 		/// @brief Extract a single character from the stream and put the read position to the next character
 		/// @return extracted character or EOF
-		SEQ_ALWAYS_INLINE auto getc() noexcept -> int
+		SEQ_ALWAYS_INLINE auto getc() noexcept -> Char
 		{
-			if (SEQ_LIKELY(d_pos != d_len)) {
+			if SEQ_LIKELY (d_pos != d_len) {
 				return d_buff[d_pos++];
 			}
 			return set_eof();
@@ -1951,7 +2020,7 @@ namespace seq
 		}
 		/// @brief Read several characters at once
 		/// @return The number of read characters
-		auto read(char* dst, streamsize size) noexcept -> size_t
+		auto read(Char* dst, streamsize size) noexcept -> size_t
 		{
 			streamsize rem = d_len - d_pos;
 			streamsize to_read = std::min(size, rem);
@@ -1973,29 +2042,29 @@ namespace seq
 	/// std_input_stream uses internally a buffer of size 'buff_size' to read from the underlying std::istream object by chunks.
 	/// Even if the std::istream is internally bufferized, it makes the reading of single characters several times faster.
 	///
-	template<unsigned buff_size = 32>
-	class std_input_stream : public basic_input_stream<std_input_stream<buff_size>>
+	template<class Char, unsigned buff_size = 32>
+	class std_input_stream : public basic_input_stream<Char, std_input_stream<Char, buff_size>>
 	{
 	public:
-		using base_type = basic_input_stream<std_input_stream<buff_size>>;
+		using base_type = basic_input_stream<Char, std_input_stream<Char,buff_size>>;
 		using State = StreamState;
 		using streamsize = std::uint64_t;
 
 	private:
-		std::istream* d_file;
+		std::basic_istream<Char>* d_file;
 		size_t d_pos;
-		char d_buff[buff_size];
-		char* d_buff_pos;
-		char* d_buff_end;
+		Char d_buff[buff_size];
+		Char* d_buff_pos;
+		Char* d_buff_end;
 		State d_state;
 
-		auto set_eof() noexcept -> char
+		auto set_eof() noexcept -> Char
 		{
 			set_state(EndOfFile);
-			return EOF;
+			return (Char)EOF;
 		}
 
-		auto fillbuff() -> int
+		auto fillbuff() -> Char
 		{
 			d_file->read(d_buff, buff_size);
 			size_t read = d_file->gcount();
@@ -2003,7 +2072,7 @@ namespace seq
 
 			d_buff_pos = d_buff;
 			d_buff_end = d_buff + read;
-			if (SEQ_LIKELY(read > 0)) {
+			if SEQ_LIKELY (read > 0) {
 				++d_pos;
 				return *d_buff_pos++;
 			}
@@ -2012,7 +2081,7 @@ namespace seq
 
 	public:
 		/// @brief Default ctor
-		std_input_stream()
+		std_input_stream() noexcept
 		  : d_file(NULL)
 		  , d_pos(0)
 		  , d_buff_pos(NULL)
@@ -2021,7 +2090,7 @@ namespace seq
 		{
 		}
 		/// @brief Construct from a std::istream object
-		explicit std_input_stream(std::istream& iss)
+		explicit std_input_stream(std::basic_istream<Char>& iss)
 		  : d_file(NULL)
 		  , d_pos(0)
 		  , d_buff_pos(NULL)
@@ -2031,7 +2100,7 @@ namespace seq
 			open(iss);
 		}
 		/// @brief Destructor, close the stream and update the underlying std::istream get position
-		~std_input_stream() { close(); }
+		~std_input_stream() noexcept { close(); }
 		/// @brief Set the stream state
 		void set_state(State st) noexcept { d_state = st; }
 		/// @brief Returns the stream state
@@ -2047,7 +2116,7 @@ namespace seq
 			d_state = Ok;
 		}
 		/// @brief Open based on a std::istream object
-		auto open(std::istream& iss) -> bool
+		auto open(std::basic_istream<Char>& iss) -> bool
 		{
 			close();
 			if (iss) {
@@ -2064,7 +2133,7 @@ namespace seq
 		/// @brief Go back to previous character if possible
 		void back() noexcept
 		{
-			if (SEQ_LIKELY(d_buff_pos && d_buff_pos != d_buff)) {
+			if SEQ_LIKELY (d_buff_pos && d_buff_pos != d_buff) {
 				--d_buff_pos;
 				--d_pos;
 			}
@@ -2075,26 +2144,26 @@ namespace seq
 		SEQ_NOINLINE(auto) seek(size_t pos) noexcept -> size_t
 		{
 			if (pos < d_pos) {
-				int start = d_buff_pos ? static_cast<int>(d_buff_pos - d_buff) : 0;
+				size_t start = d_buff_pos ? static_cast<size_t>(d_buff_pos - d_buff) : 0;
 				if (pos + start >= d_pos) {
 					d_buff_pos -= d_pos - pos;
 					d_pos = pos;
 				}
 				else {
-					d_buff_pos = d_buff_end = NULL;
+					d_buff_pos = d_buff_end = nullptr;
 					if (!d_file->seekg(pos, std::ios::beg))
 						return d_pos = d_file->tellg();
 					d_pos = pos;
 				}
 			}
 			else {
-				int end = d_buff_end ? static_cast<int>(d_buff_end - d_buff_pos) : 0;
+				size_t end = d_buff_end ? static_cast<size_t>(d_buff_end - d_buff_pos) : 0;
 				if (d_pos + end > pos) {
 					d_buff_pos += pos - d_pos;
 					d_pos = pos;
 				}
 				else {
-					d_buff_pos = d_buff_end = NULL;
+					d_buff_pos = d_buff_end = nullptr;
 					if (!d_file->seekg(pos, std::ios::beg))
 						return d_pos = d_file->tellg();
 					d_pos = pos;
@@ -2103,22 +2172,22 @@ namespace seq
 			return d_pos;
 		}
 		/// @brief Returns the next character from the stream and update the get position
-		SEQ_ALWAYS_INLINE auto getc() noexcept -> int
+		SEQ_ALWAYS_INLINE auto getc() noexcept -> Char
 		{
 			// We need this one to be very fast
-			if (SEQ_UNLIKELY(d_buff_pos == d_buff_end))
+			if SEQ_UNLIKELY (d_buff_pos == d_buff_end)
 				return fillbuff();
 			++d_pos;
 			return *d_buff_pos++;
 		}
 		/// @brief Read several bytes from the stream, and return the number of read bytes.
-		auto read(char* dst, size_t size) noexcept -> size_t
+		auto read(Char* dst, size_t size) noexcept -> size_t
 		{
 			size_t rem = d_buff_end - d_buff_pos;
 			size_t from_buffer = std::min(size, rem);
 			size_t read_vals = from_buffer;
 			if (from_buffer) {
-				memcpy(dst, d_buff_pos, from_buffer);
+				memcpy(dst, d_buff_pos, from_buffer * sizeof(Char));
 				d_buff_pos += from_buffer;
 				dst += from_buffer;
 			}
@@ -2144,10 +2213,10 @@ namespace seq
 	/// file_input_stream uses internally a buffer of size 'buff_size' to read from the underlying FILE object by chunks.
 	///
 	template<unsigned buff_size = 32>
-	class file_input_stream : public basic_input_stream<file_input_stream<buff_size>>
+	class file_input_stream : public basic_input_stream<char, file_input_stream<buff_size>>
 	{
 	public:
-		using base_type = basic_input_stream<file_input_stream<buff_size>>;
+		using base_type = basic_input_stream<char, file_input_stream<buff_size>>;
 		using State = StreamState;
 		using streamsize = std::uint64_t;
 
@@ -2166,12 +2235,12 @@ namespace seq
 			return EOF;
 		}
 
-		auto fillbuff() -> int
+		auto fillbuff() noexcept -> int
 		{
 			streamsize read = fread(d_buff, 1, buff_size, d_file);
 			d_buff_pos = d_buff;
 			d_buff_end = d_buff + read;
-			if (SEQ_LIKELY(read)) {
+			if SEQ_LIKELY (read) {
 				++d_pos;
 				return *d_buff_pos++;
 			}
@@ -2180,7 +2249,7 @@ namespace seq
 
 	public:
 		/// @brief Default ctor
-		file_input_stream()
+		file_input_stream() noexcept
 		  : d_file(NULL)
 		  , d_pos(0)
 		  , d_buff_pos(NULL)
@@ -2190,7 +2259,7 @@ namespace seq
 		{
 		}
 		/// @brief Construct from a filename
-		explicit file_input_stream(const char* filename, const char* format)
+		explicit file_input_stream(const char* filename, const char* format) noexcept
 		  : d_file(NULL)
 		  , d_pos(0)
 		  , d_buff_pos(NULL)
@@ -2202,7 +2271,7 @@ namespace seq
 		}
 		/// @brief Construct from a FILE object.
 		/// If 'own' is true, closing the stream will also close the FILE object.
-		explicit file_input_stream(FILE* file, bool own)
+		explicit file_input_stream(FILE* file, bool own) noexcept
 		  : d_file(file)
 		  , d_pos(0)
 		  , d_buff_pos(NULL)
@@ -2213,7 +2282,7 @@ namespace seq
 			open(file, own);
 		}
 		/// @brief Destructor. Close the stream, and close/update the FILE object based on the own strategy.
-		~file_input_stream() { close(); }
+		~file_input_stream() noexcept { close(); }
 		/// @brief Set the stream state
 		void set_state(State st) noexcept { d_state = st; }
 		/// @brief Returns the stream state
@@ -2235,7 +2304,7 @@ namespace seq
 		}
 		/// @brief Open given file
 		/// @return true on success, false otherwise.
-		auto open(const char* filename, const char* format) -> bool
+		auto open(const char* filename, const char* format) noexcept -> bool
 		{
 			close();
 			d_file = fopen(filename, format);
@@ -2247,7 +2316,7 @@ namespace seq
 		}
 		/// @brief Open the stream based on a FILE object
 		/// If 'own' is true, the FILE object will be closed in the stream destructor or with the close() member.
-		auto open(FILE* file, bool own) -> bool
+		auto open(FILE* file, bool own) noexcept -> bool
 		{
 			close();
 			d_file = file;
@@ -2265,7 +2334,7 @@ namespace seq
 		/// @brief Go back to previous character (if possible)
 		void back() noexcept
 		{
-			if (SEQ_LIKELY(d_buff_pos && d_buff_pos != d_buff)) {
+			if SEQ_LIKELY (d_buff_pos && d_buff_pos != d_buff) {
 				--d_buff_pos;
 				--d_pos;
 			}
@@ -2308,7 +2377,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto getc() noexcept -> int
 		{
 			// We need this one to be very fast
-			if (SEQ_UNLIKELY(d_buff_pos == d_buff_end))
+			if SEQ_UNLIKELY (d_buff_pos == d_buff_end)
 				return fillbuff();
 			++d_pos;
 			return *d_buff_pos++;
@@ -2483,9 +2552,9 @@ namespace seq
 	/// to #EndOfFile.
 	///
 	template<class Stream, class Traits, class Al>
-	inline auto from_stream(Stream& str, std::basic_string<char, Traits, Al>& value) -> Stream&
+	inline auto from_stream(Stream& str, std::basic_string<typename Stream::char_type, Traits, Al>& value) -> Stream&
 	{
-		value = detail::read_string<std::basic_string<char, Traits, Al>>(str);
+		value = detail::read_string<std::basic_string<typename Stream::char_type, Traits, Al>>(str);
 		return str;
 	}
 
@@ -2499,9 +2568,9 @@ namespace seq
 	/// to #EndOfFile.
 	///
 	template<class Stream, class Traits, size_t Ss, class Al>
-	inline auto from_stream(Stream& str, tiny_string<char, Traits, Al, Ss>& value) -> Stream&
+	inline auto from_stream(Stream& str, tiny_string<typename Stream::char_type, Traits, Al, Ss>& value) -> Stream&
 	{
-		value = detail::read_string<tiny_string<char, Traits, Al, Ss>>(str);
+		value = detail::read_string<tiny_string<typename Stream::char_type, Traits, Al, Ss>>(str);
 		return str;
 	}
 
@@ -2515,9 +2584,9 @@ namespace seq
 	/// to #EndOfFile.
 	///
 	template<class Stream, class Traits, class Al>
-	inline auto read_line_from_stream(Stream& str, std::basic_string<char, Traits, Al>& value) -> Stream&
+	inline auto read_line_from_stream(Stream& str, std::basic_string<typename Stream::char_type, Traits, Al>& value) -> Stream&
 	{
-		value = detail::read_line<std::basic_string<char, Traits, Al>>(str);
+		value = detail::read_line<std::basic_string<typename Stream::char_type, Traits, Al>>(str);
 		return str;
 	}
 
@@ -2531,18 +2600,19 @@ namespace seq
 	/// to #EndOfFile.
 	///
 	template<class Stream, class Traits, size_t Ss, class Al>
-	inline auto read_line_from_stream(Stream& str, tiny_string<char, Traits, Al, Ss>& value) -> Stream&
+	inline auto read_line_from_stream(Stream& str, tiny_string<typename Stream::char_type, Traits, Al, Ss>& value) -> Stream&
 	{
-		value = detail::read_line<tiny_string<char, Traits, Al, Ss>>(str);
+		value = detail::read_line<tiny_string<typename Stream::char_type, Traits, Al, Ss>>(str);
 		return str;
 	}
 
-} // end namespace seq
 
-#ifndef SEQ_HEADER_ONLY
 
-namespace seq
-{
+
+
+
+
+
 	/// @brief Read an integral value from the sequence of characters [first,last).
 	/// @param first first character of the sequence
 	/// @param last past-the-end character
@@ -2569,17 +2639,121 @@ namespace seq
 	/// value is set to 0.
 	///
 	///
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, char& value, int base = 10) -> from_chars_result;
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, signed char& value, int base = 10) -> from_chars_result;
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, unsigned char& value, int base = 10) -> from_chars_result;
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, short& value, int base = 10) -> from_chars_result;
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, unsigned short& value, int base = 10) -> from_chars_result;
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, int& value, int base = 10) -> from_chars_result;
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, unsigned int& value, int base = 10) -> from_chars_result;
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, long& value, int base = 10) -> from_chars_result;
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, unsigned long& value, int base = 10) -> from_chars_result;
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, long long& value, int base = 10) -> from_chars_result;
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, unsigned long long& value, int base = 10) -> from_chars_result;
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, char& value, int base = 10) -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_integral<char>(str, static_cast<unsigned>(base));
+		return { str ? str.tell() : first, str.error() };
+	}
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, signed char& value, int base = 10) -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_integral<signed char>(str, static_cast<unsigned>(base));
+		return { str ? str.tell() : first, str.error() };
+	}
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, unsigned char& value, int base = 10) -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_integral<unsigned char>(str, static_cast<unsigned>(base));
+		return { str ? str.tell() : first, str.error() };
+	}
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, short& value, int base = 10) -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_integral<short>(str, static_cast<unsigned>(base));
+		return { str ? str.tell() : first, str.error() };
+	}
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, unsigned short& value, int base = 10) -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_integral<unsigned short>(str, static_cast<unsigned>(base));
+		return { str ? str.tell() : first, str.error() };
+	}
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, int& value, int base = 10) -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_integral<int>(str, static_cast<unsigned>(base));
+		return { str ? str.tell() : first, str.error() };
+	}
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, unsigned int& value, int base = 10) -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_integral<unsigned int>(str, static_cast<unsigned>(base));
+		return { str ? str.tell() : first, str.error() };
+	}
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, long& value, int base = 10) -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_integral<long>(str, static_cast<unsigned>(base));
+		return { str ? str.tell() : first, str.error() };
+	}
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, unsigned long& value, int base = 10) -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_integral<unsigned long>(str, static_cast<unsigned>(base));
+		return { str ? str.tell() : first, str.error() };
+	}
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, long long& value, int base = 10) -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_integral<long long>(str, static_cast<unsigned>(base));
+		return { str ? str.tell() : first, str.error() };
+	}
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, unsigned long long& value, int base = 10) -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_integral<unsigned long long>(str, static_cast<unsigned>(base));
+		return { str ? str.tell() : first, str.error() };
+	}
+
+
+	
+	/// @brief Read a floating point value from the sequence of characters [first,last).
+	/// @param first first character of the sequence
+	/// @param last past-the-end character
+	/// @param value output read value
+	/// @param dot decimal point character
+	/// @return from_chars_result object storing a past-the-end pointer (on success) and an error code.
+	///
+	/// Analyzes the character sequence [first,last) for a floating point pattern. If no characters match the pattern, value is set to 0, otherwise
+	/// the characters matching the pattern are interpreted as a text representation of an arithmetic value, which is stored in value.
+	///
+	/// Nan and infinit values (upper or lower case) are handled by this function.
+	///
+	/// This function is simillar to C++17 std::from_chars with the following differences:
+	///		- Leading spaces are consumed.
+	///		- If the pattern is a valid floating point text representation too large or too small to be stored in given output value, value will be set to (+-)inf or (+-)0,
+	///		and the full pattern will be consumed. Therefore, std::errc::result_out_of_range is never returned.
+	///		- Leading '+' sign is considered valid.
+	///		- This function is not an exact parser. In some cases it relies on unprecise floating point arithmetic wich might produce different roundings than strtod() function.
+	///		Note that the result is almost always equal to the result of strtod, and potential differences are located in the last digits. Use this function when the speed factor is more
+	///		important than 100% perfect exactitude.
+	///
+	/// On success, returns a value of type seq::from_chars_result such that ptr points at the first character not matching the pattern,
+	/// or has the value equal to last if all characters match and ec is value-initialized.
+	///
+	/// If there is no pattern match, returns a value of type from_chars_result such that ptr equals first and ec equals std::errc::invalid_argument.
+	/// value is set to 0.
+	///
+	///
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, float& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_double<float>(str, fmt, dot);
+		return { str ? str.tell() : first, str.error() };
+	}
 
 	/// @brief Read a floating point value from the sequence of characters [first,last).
 	/// @param first first character of the sequence
@@ -2609,7 +2783,13 @@ namespace seq
 	/// value is set to 0.
 	///
 	///
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, float& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result;
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, double& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_double<double>(str, fmt, dot);
+		return { str ? str.tell() : first, str.error() };
+	}
 
 	/// @brief Read a floating point value from the sequence of characters [first,last).
 	/// @param first first character of the sequence
@@ -2639,38 +2819,16 @@ namespace seq
 	/// value is set to 0.
 	///
 	///
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, double& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result;
+	template<class Char>
+	auto from_chars(const Char* first, const Char* last, long double& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result<Char>
+	{
+		detail::from_chars_stream<Char> str(first, last);
+		value = detail::read_double<long double>(str, fmt, dot);
+		return { str ? str.tell() : first, str.error() };
+	}
 
-	/// @brief Read a floating point value from the sequence of characters [first,last).
-	/// @param first first character of the sequence
-	/// @param last past-the-end character
-	/// @param value output read value
-	/// @param dot decimal point character
-	/// @return from_chars_result object storing a past-the-end pointer (on success) and an error code.
-	///
-	/// Analyzes the character sequence [first,last) for a floating point pattern. If no characters match the pattern, value is set to 0, otherwise
-	/// the characters matching the pattern are interpreted as a text representation of an arithmetic value, which is stored in value.
-	///
-	/// Nan and infinit values (upper or lower case) are handled by this function.
-	///
-	/// This function is simillar to C++17 std::from_chars with the following differences:
-	///		- Leading spaces are consumed.
-	///		- If the pattern is a valid floating point text representation too large or too small to be stored in given output value, value will be set to (+-)inf or (+-)0,
-	///		and the full pattern will be consumed. Therefore, std::errc::result_out_of_range is never returned.
-	///		- Leading '+' sign is considered valid.
-	///		- This function is not an exact parser. In some cases it relies on unprecise floating point arithmetic wich might produce different roundings than strtod() function.
-	///		Note that the result is almost always equal to the result of strtod, and potential differences are located in the last digits. Use this function when the speed factor is more
-	///		important than 100% perfect exactitude.
-	///
-	/// On success, returns a value of type seq::from_chars_result such that ptr points at the first character not matching the pattern,
-	/// or has the value equal to last if all characters match and ec is value-initialized.
-	///
-	/// If there is no pattern match, returns a value of type from_chars_result such that ptr equals first and ec equals std::errc::invalid_argument.
-	/// value is set to 0.
-	///
-	///
-	SEQ_EXPORT auto from_chars(const char* first, const char* last, long double& value, chars_format fmt = seq::general, char dot = '.') -> from_chars_result;
 
+	
 	// integer to chars
 
 	/// @brief Converts value into a character string by successively filling the range [first, last), where [first, last) is required to be a valid range.
@@ -2698,18 +2856,65 @@ namespace seq
 	/// On error, returns a value of type seq::to_chars_result holding std::errc::value_too_large in ec,
 	/// a copy of the value last in ptr, and leaves the contents of the range[first, last) in unspecified state.
 	///
-	SEQ_EXPORT auto to_chars(char* first, char* last, char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, signed char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, unsigned char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, short value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, unsigned short value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, int value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, unsigned int value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, unsigned long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, unsigned long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result;
+	template<class Char>
+	auto to_chars(Char* first, Char* last, char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char>
+	{
+		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, signed char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char>
+	{
+		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, unsigned char value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char>
+	{
+		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, short value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char>
+	{
+		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, unsigned short value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char>
+	{
+		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, int value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char>
+	{
+		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, unsigned int value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char>
+	{
+		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char>
+	{
+		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, unsigned long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char>
+	{
+		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char>
+	{
+		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, unsigned long long value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char>
+	{
+		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
+	}
 
+
+
+	
 	// floating-point to chars
 
 	/// @brief Converts value into a character string by successively filling the range [first, last), where [first, last) is required to be a valid range.
@@ -2761,26 +2966,59 @@ namespace seq
 	/// Use this function when you need very fast formatting of a huge amount of floating point values without exact formatting requirement.
 	///
 	///
-	SEQ_EXPORT auto to_chars(char* first, char* last, float value) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, double value) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, long double value) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, float value, chars_format fmt) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, double value, chars_format fmt) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, long double value, chars_format fmt) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, float value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result;
-	SEQ_EXPORT auto to_chars(char* first, char* last, long double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result;
+	template<class Char>
+	auto to_chars(Char* first, Char* last, float value) -> to_chars_result<Char>
+	{
+		return detail::write_double(detail::char_range<Char>(first, last), static_cast<double>(value));
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, double value) -> to_chars_result<Char>
+	{
+		return detail::write_double(detail::char_range<Char>(first, last), value);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, long double value) -> to_chars_result<Char>
+	{
+		return detail::write_double(detail::char_range<Char>(first, last), value);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, float value, chars_format fmt) -> to_chars_result<Char>
+	{
+		return detail::write_double(detail::char_range<Char>(first, last), static_cast<double>(value), 6, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, double value, chars_format fmt) -> to_chars_result<Char>
+	{
+		return detail::write_double(detail::char_range<Char>(first, last), value, 6, fmt);
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, long double value, chars_format fmt) -> to_chars_result<Char>
+	{
+		return detail::write_double(detail::char_range<Char>(first, last), value, 6, fmt);
+	}
+
+	template<class Char>
+	auto to_chars(Char* first, Char* last, float value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result<Char>
+	{
+		return detail::write_double(detail::char_range<Char>(first, last), static_cast<double>(value), precision, detail::float_chars_format(fmt, dot, exp, static_cast<char>(upper)));
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result<Char>
+	{
+		return detail::write_double(detail::char_range<Char>(first, last), value, precision, detail::float_chars_format(fmt, dot, exp, static_cast<char>(upper)));
+	}
+	template<class Char>
+	auto to_chars(Char* first, Char* last, long double value, chars_format fmt, int precision, char dot = '.', char exp = 'e', bool upper = false) -> to_chars_result<Char>
+	{
+		return detail::write_double(detail::char_range<Char>(first, last), value, precision, detail::float_chars_format(fmt, dot, exp, static_cast<char>(upper)));
+	}
+
+	template<class Char>
+	auto to_chars(Char* first, Char* last, bool value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result <Char> = delete;
 
 } // end namespace seq
 
-#else
-#include "internal/charconv.cpp"
-#endif
 
-namespace seq
-{
-	auto to_chars(char* first, char* last, bool value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result = delete;
-} // end namespace seq
 
 /** @}*/
 // end charconv
