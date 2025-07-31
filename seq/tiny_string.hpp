@@ -1202,7 +1202,6 @@ namespace seq
 		SEQ_STR_INLINE_STRONG tiny_string(tiny_string&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
 		  : d_data(std::move(other.d_data.get_allocator()), other.d_data)
 		{
-			// memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
 			other.d_data.reset();
 		}
 		/// @brief Move constructor with custom allocator
@@ -3357,16 +3356,18 @@ namespace seq
 	{
 	};
 #endif
+
+	// Overload std::swap for tiny_string.
+	template<class Char, class Traits, class Allocator, size_t Size>
+	SEQ_STR_INLINE_STRONG void swap(tiny_string<Char, Traits, Allocator, Size>& a, tiny_string<Char, Traits, Allocator, Size>& b)
+	{
+		a.swap(b);
+	}
 } // end namespace seq
 
 namespace std
 {
-	// Overload std::swap for tiny_string. Illegal considering C++ standard, but works on all tested compilers and more efficient than the standard std::swap.
-	template<class Char, class Traits, class Allocator, size_t Size>
-	SEQ_STR_INLINE_STRONG void swap(seq::tiny_string<Char, Traits, Allocator, Size>& a, seq::tiny_string<Char, Traits, Allocator, Size>& b)
-	{
-		a.swap(b);
-	}
+	
 
 	/// @brief Specialization of std::hash for tiny_string
 	/// This specialization uses a (relatively) strong hash function: murmurhash2

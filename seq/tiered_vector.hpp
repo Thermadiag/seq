@@ -110,7 +110,10 @@ namespace seq
 				indexes = update();
 			}
 
-			SEQ_ALWAYS_INLINE void offset(difference_type diff) noexcept { setPos(static_cast<size_t>(static_cast<difference_type>(pos) + diff)); }
+			SEQ_ALWAYS_INLINE void offset(difference_type diff) noexcept 
+			{ 
+				setPos(static_cast<size_t>(static_cast<difference_type>(pos) + diff)); 
+			}
 
 			SEQ_ALWAYS_INLINE auto operator++() noexcept -> deque_const_iterator&
 			{
