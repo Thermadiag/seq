@@ -471,7 +471,7 @@ void test_heavy_set(size_t count, const Alloc & al, unsigned seed = 0)
 		keys[i] = static_cast<key_type>(i);
 	seq::random_shuffle(keys.begin(), keys.end(),seed);
 
-	seq::concurrent_set<T,Hash, seq::equal_to<>,Alloc, Shards> s(al);
+	seq::concurrent_set<T,Hash, std::equal_to<>,Alloc, Shards> s(al);
 
 	for(int k=0; k < 2; ++k)
 	{
@@ -576,7 +576,7 @@ void test_heavy_set(size_t count, const Alloc & al, unsigned seed = 0)
 template<unsigned Shards>
 void test_concurrent_map_members()
 {
-	using map_type = seq::concurrent_map<std::string, std::string, seq::hasher<std::string>, seq::equal_to<>, std::allocator<std::pair<std::string, std::string>>, Shards >;
+	using map_type = seq::concurrent_map<std::string, std::string, seq::hasher<std::string>, std::equal_to<>, std::allocator<std::pair<std::string, std::string>>, Shards >;
 
 	{
 		// construct and destroy empty map
@@ -595,7 +595,7 @@ void test_concurrent_map_members()
 		SEQ_TEST(map2 == map);
 	}
 	{
-		map_type map2(12345, seq::hasher<std::string>{}, seq::equal_to<>{}, std::allocator<std::pair<std::string, std::string>>{});
+		map_type map2(12345, seq::hasher<std::string>{}, std::equal_to<>{}, std::allocator<std::pair<std::string, std::string>>{});
 		map2.emplace("toto", "tutu");
 		SEQ_TEST(map2 == map);
 	}

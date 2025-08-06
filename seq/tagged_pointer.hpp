@@ -50,22 +50,17 @@ namespace seq
 
 	namespace detail
 	{
-		// We need to specialize a structure to get tagged_pointer actual alignment value because msvc 2015 does not support alignof on abstract class...
+		// Get tagged_pointer actual alignment value
 		template<class T, TagPointerType Type, size_t UserDefinedAlignment>
-		struct FindAlignment
+		constexpr uintptr_t find_alignment()
 		{
-			static constexpr std::uintptr_t value = alignof(T);
-		};
-		template<class T, size_t UserDefinedAlignment>
-		struct FindAlignment<T, HeapPointer, UserDefinedAlignment>
-		{
-			static constexpr std::uintptr_t value = SEQ_DEFAULT_ALIGNMENT;
-		};
-		template<class T, size_t UserDefinedAlignment>
-		struct FindAlignment<T, CustomAlignment, UserDefinedAlignment>
-		{
-			static constexpr std::uintptr_t value = UserDefinedAlignment;
-		};
+			if constexpr (Type == HeapPointer)
+				return SEQ_DEFAULT_ALIGNMENT;
+			else if constexpr (Type == CustomAlignment)
+				return UserDefinedAlignment;
+			else
+				return alignof(T);
+		}
 	}
 
 	/// @brief Tagged pointer class.
@@ -84,16 +79,16 @@ namespace seq
 	template<class T, TagPointerType Type = StackPointer, size_t UserDefinedAlignment = 0>
 	class tagged_pointer
 	{
-		static constexpr std::uintptr_t align = detail::FindAlignment<T, Type, UserDefinedAlignment>::value;
+		static constexpr uintptr_t align = detail::find_alignment<T, Type, UserDefinedAlignment>();
 
 		static_assert((((align & (align - 1)) == 0)), "alignment must be a non null power of 2");
-		static constexpr std::uintptr_t bits = static_bit_scan_reverse<align>::value;
+		static constexpr uintptr_t bits = static_bit_scan_reverse<align>::value;
 
-		std::uintptr_t d_ptr;
+		uintptr_t d_ptr;
 
 	public:
 		/// @brief storage and tag type
-		using tag_type = std::uintptr_t;
+		using tag_type = uintptr_t;
 		using value_type = T;
 		using reference = T&;
 		using const_reference = const T&;
@@ -103,20 +98,20 @@ namespace seq
 		/// @brief tagged pointer type
 		static constexpr TagPointerType type = Type;
 		/// @brief number of bits for the tag
-		static constexpr std::uintptr_t tag_bits = bits;
+		static constexpr uintptr_t tag_bits = bits;
 		/// @brief mask used to extract the pointer address
-		static constexpr std::uintptr_t mask_high = static_cast<std::uintptr_t>(~((1ULL << tag_bits) - 1ULL));
+		static constexpr uintptr_t mask_high = static_cast<uintptr_t>(~((1ULL << tag_bits) - 1ULL));
 		/// @brief mask used to extract the tag
-		static constexpr std::uintptr_t mask_low = static_cast<std::uintptr_t>(((1ULL << tag_bits) - 1ULL));
+		static constexpr uintptr_t mask_low = static_cast<uintptr_t>(((1ULL << tag_bits) - 1ULL));
 
 		/// @brief Construct from pointer
 		SEQ_ALWAYS_INLINE tagged_pointer(T* ptr = nullptr) noexcept
-		  : d_ptr(reinterpret_cast<std::uintptr_t>(ptr))
+		  : d_ptr(reinterpret_cast<uintptr_t>(ptr))
 		{
 		}
 		/// @brief Construct from pointer and tag
 		SEQ_ALWAYS_INLINE tagged_pointer(T* ptr, tag_type t) noexcept
-		  : d_ptr(reinterpret_cast<std::uintptr_t>(ptr) | (t & mask_low))
+		  : d_ptr(reinterpret_cast<uintptr_t>(ptr) | (t & mask_low))
 		{
 		}
 		/// @brief Returns the pointer
@@ -127,7 +122,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto tag() const noexcept -> tag_type { return d_ptr & mask_low; }
 
 		/// @brief Set the pointer value
-		SEQ_ALWAYS_INLINE void set_ptr(pointer ptr) noexcept { d_ptr = tag() | reinterpret_cast<std::uintptr_t>(ptr); }
+		SEQ_ALWAYS_INLINE void set_ptr(pointer ptr) noexcept { d_ptr = tag() | reinterpret_cast<uintptr_t>(ptr); }
 		/// @brief Set the tag value
 		SEQ_ALWAYS_INLINE auto set_tag(tag_type tag) noexcept -> tag_type
 		{
@@ -135,10 +130,10 @@ namespace seq
 			return tag;
 		}
 
-		SEQ_ALWAYS_INLINE void set(pointer ptr, tag_type tag) noexcept { d_ptr = reinterpret_cast<std::uintptr_t>(ptr) | (tag & mask_low); }
+		SEQ_ALWAYS_INLINE void set(pointer ptr, tag_type tag) noexcept { d_ptr = reinterpret_cast<uintptr_t>(ptr) | (tag & mask_low); }
 
-		SEQ_ALWAYS_INLINE auto full() const noexcept -> std::uintptr_t { return d_ptr; }
-		SEQ_ALWAYS_INLINE std::uintptr_t set_full(std::uintptr_t p) noexcept { return d_ptr = p; }
+		SEQ_ALWAYS_INLINE auto full() const noexcept -> uintptr_t { return d_ptr; }
+		SEQ_ALWAYS_INLINE uintptr_t set_full(uintptr_t p) noexcept { return d_ptr = p; }
 
 		SEQ_ALWAYS_INLINE auto split() const noexcept -> std::pair<const T*, unsigned> { return std::pair<const T*, unsigned>(ptr(), tag()); }
 		SEQ_ALWAYS_INLINE auto split() noexcept -> std::pair<T*, unsigned> { return std::pair<T*, unsigned>(ptr(), tag()); }
@@ -163,29 +158,29 @@ namespace seq
 	{
 		// Specialization for void* , remove the reference type and related members
 
-		static constexpr std::uintptr_t align = (Type != CustomAlignment ? SEQ_DEFAULT_ALIGNMENT : UserDefinedAlignment);
+		static constexpr uintptr_t align = (Type != CustomAlignment ? SEQ_DEFAULT_ALIGNMENT : UserDefinedAlignment);
 		static_assert(align > 0 && (((align & (align - 1)) == 0)), "alignment must be a non null power of 2");
-		static constexpr std::uintptr_t bits = static_bit_scan_reverse<align>::value;
+		static constexpr uintptr_t bits = static_bit_scan_reverse<align>::value;
 
-		std::uintptr_t d_ptr;
+		uintptr_t d_ptr;
 
 	public:
-		using tag_type = std::uintptr_t;
+		using tag_type = uintptr_t;
 		using value_type = void;
 		using pointer = void*;
 		using const_pointer = const void*;
 
 		static constexpr TagPointerType type = Type;
-		static constexpr std::uintptr_t tag_bits = bits;
-		static constexpr std::uintptr_t mask_high = static_cast<std::uintptr_t>(~((1ULL << tag_bits) - 1ULL));
-		static constexpr std::uintptr_t mask_low = static_cast<std::uintptr_t>(((1ULL << tag_bits) - 1ULL));
+		static constexpr uintptr_t tag_bits = bits;
+		static constexpr uintptr_t mask_high = static_cast<uintptr_t>(~((1ULL << tag_bits) - 1ULL));
+		static constexpr uintptr_t mask_low = static_cast<uintptr_t>(((1ULL << tag_bits) - 1ULL));
 
 		SEQ_ALWAYS_INLINE tagged_pointer(void* ptr = nullptr) noexcept
-		  : d_ptr(reinterpret_cast<std::uintptr_t>(ptr))
+		  : d_ptr(reinterpret_cast<uintptr_t>(ptr))
 		{
 		}
 		SEQ_ALWAYS_INLINE tagged_pointer(void* ptr, tag_type t) noexcept
-		  : d_ptr(reinterpret_cast<std::uintptr_t>(ptr) | (t & mask_low))
+		  : d_ptr(reinterpret_cast<uintptr_t>(ptr) | (t & mask_low))
 		{
 		}
 		SEQ_ALWAYS_INLINE auto ptr() noexcept -> pointer { return reinterpret_cast<void*>(d_ptr & mask_high); }
@@ -197,10 +192,10 @@ namespace seq
 			d_ptr = tag | (d_ptr & mask_high);
 			return tag;
 		}
-		SEQ_ALWAYS_INLINE void set(pointer ptr, tag_type tag) noexcept { d_ptr = reinterpret_cast<std::uintptr_t>(ptr) | (tag & mask_low); }
-		SEQ_ALWAYS_INLINE auto full() const noexcept -> std::uintptr_t { return d_ptr; }
-		SEQ_ALWAYS_INLINE auto rfull() noexcept -> std::uintptr_t& { return d_ptr; }
-		SEQ_ALWAYS_INLINE std::uintptr_t set_full(std::uintptr_t p) noexcept { return d_ptr = p; }
+		SEQ_ALWAYS_INLINE void set(pointer ptr, tag_type tag) noexcept { d_ptr = reinterpret_cast<uintptr_t>(ptr) | (tag & mask_low); }
+		SEQ_ALWAYS_INLINE auto full() const noexcept -> uintptr_t { return d_ptr; }
+		SEQ_ALWAYS_INLINE auto rfull() noexcept -> uintptr_t& { return d_ptr; }
+		SEQ_ALWAYS_INLINE uintptr_t set_full(uintptr_t p) noexcept { return d_ptr = p; }
 
 		SEQ_ALWAYS_INLINE auto split() const noexcept -> std::pair<const void*, unsigned> { return std::pair<const void*, unsigned>(ptr(), tag()); }
 		SEQ_ALWAYS_INLINE auto split() noexcept -> std::pair<void*, unsigned> { return std::pair<void*, unsigned>(ptr(), tag()); }

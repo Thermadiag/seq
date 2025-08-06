@@ -254,7 +254,7 @@ namespace seq
 		{
 			// This version might be slightly slower in some situations (low concurrency).
 			// However it works for very small lock type (like uint8_t) by avoiding overflows.
-			if SEQ_CONSTEXPR (sizeof(d_lock) == 1) {
+			if constexpr (sizeof(d_lock) == 1) {
 				lock_type content = d_lock.load(std::memory_order_relaxed);
 				return (!(content & (need_lock | write | max_read_mask)) && d_lock.compare_exchange_strong(content, content + read));
 			}

@@ -271,10 +271,10 @@ namespace seq
 			return true;
 		if (first == last || first2 == last2)
 			return false;
-		if (size_t len = seq::distance(first, last))
-			if (size_t len2 = seq::distance(first2, last2))
-				if (len != len2)
-					return false;
+		
+		if constexpr (is_random_access_v<Iter1> && is_random_access_v<Iter2>)
+			if (std::distance(first, last) != std::distance(first2, last2))
+				return false;
 
 		for (; first != last; ++first, ++first2) {
 			if (first2 == last2 || !pred(*first, *first2))

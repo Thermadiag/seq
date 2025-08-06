@@ -32,28 +32,12 @@
 #include "../hash.hpp"
 #include "../bits.hpp"
 
-#ifdef SEQ_HAS_CPP_17
 #include <execution>
-#endif
 #include <limits>
 #include <type_traits>
 #include <condition_variable>
 
 #define SEQ_CONCURRENT_INLINE SEQ_ALWAYS_INLINE
-
-// likely/unlikely definition
-#if !defined(_MSC_VER) || defined(__clang__)
-#define SEQ_CONCURRENT_LIKELY(x) (__builtin_expect(!!(x), 1))
-#define SEQ_CONCURRENT_UNLIKELY(x) (__builtin_expect(!!(x), 0))
-#define SEQ_HAS_EXPECT
-#elif defined(SEQ_HAS_CPP_20)
-#define SEQ_CONCURRENT_LIKELY(x) (x) [[likely]]
-#define SEQ_CONCURRENT_UNLIKELY(x) (x) [[unlikely]]
-#define SEQ_HAS_EXPECT
-#else
-#define SEQ_CONCURRENT_LIKELY(x) (x)
-#define SEQ_CONCURRENT_UNLIKELY(x) (x)
-#endif
 
 namespace seq
 {
@@ -99,15 +83,10 @@ namespace seq
 		};
 #endif
 
-#ifdef SEQ_HAS_CPP_17
-		// Check ig given type is an execution policy
-
+		// Check if given type is an execution policy
 		template<typename ExecutionPolicy>
 		using internal_is_execution_policy = std::is_execution_policy<typename std::remove_cv<typename std::remove_reference<ExecutionPolicy>::type>::type>;
-#else
-		template<typename ExecutionPolicy>
-		using internal_is_execution_policy = std::false_type;
-#endif
+
 
 		/// @brief Basic/lighter equivalent to std::shared_lock
 		template<class Lock>
@@ -135,7 +114,7 @@ namespace seq
 			}
 			SEQ_CONCURRENT_INLINE ~LockShared() noexcept
 			{
-				if SEQ_CONCURRENT_LIKELY (_l)
+				if SEQ_LIKELY (_l)
 					_l->unlock_shared();
 			}
 		};
@@ -168,7 +147,7 @@ namespace seq
 			}
 			SEQ_CONCURRENT_INLINE ~LockUnique() noexcept
 			{
-				if SEQ_CONCURRENT_LIKELY(_l)
+				if SEQ_LIKELY(_l)
 					_l->unlock();
 			}
 			SEQ_CONCURRENT_INLINE void init(Lock& l) noexcept
@@ -256,7 +235,7 @@ namespace seq
 				auto operator*() const noexcept -> Lock&
 				{
 					lock_type* l = array->arrays[array_index].load(std::memory_order_relaxed);
-					if SEQ_CONCURRENT_UNLIKELY (!l)
+					if SEQ_UNLIKELY (!l)
 						l = array->make_array(array_index);
 					return l[index];
 				}
@@ -271,12 +250,12 @@ namespace seq
 				}
 			};
 
-			SharedLockArray(const Allocator& al = Allocator())
+			SharedLockArray(const Allocator& al = Allocator()) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 			  : Allocator(al)
 			{
 				memset(static_cast<void*>(&arrays[0]), 0, sizeof(arrays));
 			}
-			~SharedLockArray()
+			~SharedLockArray() noexcept
 			{
 				for (size_t i = 0; i < 32; ++i) {
 					if (lock_type* l = arrays[i].load()) {
@@ -302,35 +281,23 @@ namespace seq
 				unsigned ar_index = bit_scan_reverse_32(static_cast<unsigned>(i + 1u));
 				unsigned in_array = static_cast<unsigned>(i) - ((1u << ar_index) - 1u);
 				lock_type* l = arrays[ar_index].load(std::memory_order_relaxed);
-				if SEQ_CONCURRENT_UNLIKELY (!l)
+				if SEQ_UNLIKELY (!l)
 					l = const_cast<SharedLockArray*>(this)->make_array(ar_index);
 				return l[in_array];
 			}
 		};
 
-		template<class F, class Ret, class... Args>
-		struct Apply
-		{
-			static SEQ_CONCURRENT_INLINE bool apply(F&& f, Args&&... args) noexcept(noexcept(std::forward<F>(f)(std::forward<Args>(args)...)))
-			{
-				std::forward<F>(f)(std::forward<Args>(args)...);
-				return true;
-			}
-		};
-		template<class F, class... Args>
-		struct Apply<F, bool, Args...>
-		{
-			static SEQ_CONCURRENT_INLINE bool apply(F&& f, Args&&... args) noexcept(noexcept(std::forward<F>(f)(std::forward<Args>(args)...)))
-			{
-				return std::forward<F>(f)(std::forward<Args>(args)...);
-			}
-		};
-
+		
 		/// @brief Apply functor and return boolean value (true if void() functor, functor result otherwise)
 		template<class F, class... Args>
 		static SEQ_CONCURRENT_INLINE bool ApplyFunctor(F&& f, Args&&... args) noexcept(noexcept(std::forward<F>(f)(std::forward<Args>(args)...)))
 		{
-			return Apply<F, decltype(std::declval<F>()(std::forward<Args>(args)...)), Args...>::apply(std::forward<F>(f), std::forward<Args>(args)...);
+			if constexpr (std::is_same_v<bool,decltype(std::declval<F>()(std::forward<Args>(args)...))>)
+				return std::forward<F>(f)(std::forward<Args>(args)...);
+			else {
+				std::forward<F>(f)(std::forward<Args>(args)...);
+				return true;
+			}
 		}
 
 		/// @brief Simulate atomic load on non atomic value
@@ -358,14 +325,14 @@ namespace seq
 		template<unsigned Size>
 		static SEQ_CONCURRENT_INLINE auto FindIndexZero(const std::uint8_t* hashs) noexcept -> unsigned
 		{
-			if SEQ_CONSTEXPR (Size == 8) {
+			if constexpr (Size == 8) {
 				std::uint64_t _th = 0;
 				std::uint64_t found = MoveMask8((*reinterpret_cast<const std::uint64_t*>(hashs)) ^ _th) >> 8u;
 				if (found)
 					return bit_scan_forward_64(found) >> 3u;
 				return static_cast<unsigned>(-1);
 			}
-			if SEQ_CONSTEXPR (Size == 16) {
+			if constexpr (Size == 16) {
 #if defined(__SSE2__)
 				auto hs = _mm_loadu_si128(reinterpret_cast<const __m128i*>(hashs));
 				int mask = _mm_movemask_epi8(_mm_cmpeq_epi8(hs, _mm_set1_epi8(0))) >> 1;
@@ -384,7 +351,7 @@ namespace seq
 																					     std::forward<K>(key))))
 		  -> const Value*
 		{
-			if SEQ_CONSTEXPR (Size == 8) {
+			if constexpr (Size == 8) {
 				if (!hashs[0])
 					return nullptr;
 				// no SSE variant (way slower)
@@ -405,7 +372,7 @@ namespace seq
 				return nullptr;
 			}
 
-			if SEQ_CONSTEXPR (Size == 16) {
+			if constexpr (Size == 16) {
 #if defined(__SSE2__)
 				// SSE movemask
 				if (!hashs[0])
@@ -472,7 +439,7 @@ namespace seq
 			static constexpr unsigned shift = (size == 32 ? 5 : (size == 16 ? 4 : 3));
 			std::uint8_t hashs[max_concurrent_node_size];
 
-			ConcurrentHashNode() { memset(hashs, 0, sizeof(hashs)); }
+			ConcurrentHashNode() noexcept { memset(hashs, 0, sizeof(hashs)); }
 
 			SEQ_CONCURRENT_INLINE bool full() const noexcept { return hashs[0] == size - 1; }
 			SEQ_CONCURRENT_INLINE auto count() const noexcept -> unsigned { return hashs[0]; }
@@ -607,7 +574,7 @@ namespace seq
 		{
 			auto valid = n;
 			do {
-				if SEQ_CONSTEXPR(CheckExists) {
+				if constexpr(CheckExists) {
 					auto v = FindWithTh<ExtractKey, chain_concurrent_node_size>(th, eq, ExtractKey::key(std::forward<K>(key)), n->hashs, n->values());
 					if (v)
 						return { const_cast<Value*>(v), false };
@@ -629,7 +596,7 @@ namespace seq
 		FindInsertNode(ChainCount& counter, const Allocator& al, std::uint8_t th, const Equal& eq, ConcurrentHashNode* node, ConcurrentValueNode<Value>* values, K&& key, Args&&... args)
 		  -> std::pair<Value*, bool>
 		{
-			if SEQ_CONSTEXPR(CheckExists) {
+			if constexpr(CheckExists) {
 				auto v = FindWithTh<ExtractKey, max_concurrent_node_size>(th, eq, ExtractKey::key(std::forward<K>(key)), node->hashs, values->values());
 				if (v)
 					return { const_cast<Value*>(v), false };
@@ -953,7 +920,7 @@ namespace seq
 			{
 				// Rehash on insert
 				size_t s = AtomicLoad(d_size);
-				if SEQ_CONCURRENT_UNLIKELY ((s >= d_next_target) && (d_buckets == get_static_node() || AtomicLoad(d_chain_count) > ((d_hash_mask + 1) >> 5)))
+				if SEQ_UNLIKELY ((s >= d_next_target) && (d_buckets == get_static_node() || AtomicLoad(d_chain_count) > ((d_hash_mask + 1) >> 5)))
 					// delay rehash as long as there are few chains
 					rehash_on_next_target(s);
 			}
@@ -997,7 +964,7 @@ namespace seq
 			template<bool WaitForBucket = true>
 			SEQ_CONCURRENT_INLINE auto get_node(lock_array* locks, size_t hash, node_lock*& l) -> size_t
 			{
-				if SEQ_CONCURRENT_UNLIKELY(!locks)
+				if SEQ_UNLIKELY(!locks)
 					return this->template get_node_global_lock<WaitForBucket>(locks, hash, l);
 				// Returns node locked for given hash value
 				size_t hash_mask = d_hash_mask;
@@ -1021,7 +988,7 @@ namespace seq
 			}
 			SEQ_CONCURRENT_INLINE auto get_node_shared(lock_array* locks, size_t hash, node_lock*& l) const -> size_t
 			{
-				if SEQ_CONCURRENT_UNLIKELY (!locks)
+				if SEQ_UNLIKELY (!locks)
 					return get_node_shared_global_lock(locks, hash, l);
 				// Returns node locked for given hash value
 				size_t hash_mask = d_hash_mask;
@@ -1356,7 +1323,7 @@ namespace seq
 				size_t pos = is_concurrent ? this->template get_node<false>(AtomicLoad(d_locks), hash, lock) : (hash & d_hash_mask);
 				LockUnique<node_lock> ll(lock, true);
 
-				if SEQ_CONCURRENT_UNLIKELY (d_buckets == get_static_node())
+				if SEQ_UNLIKELY (d_buckets == get_static_node())
 					return 0;
 
 				auto th = node_type::tiny_hash(hash);
@@ -1652,15 +1619,17 @@ namespace seq
 			/// @brief Given a hash value, returns the corresponding sub-table index
 			SEQ_CONCURRENT_INLINE auto index_from_hash(size_t hash) const noexcept -> unsigned
 			{
-				if SEQ_CONSTEXPR (shards == 0)
+				if constexpr (shards == 0)
 					return 0;
+				else {
 #ifdef SEQ_ARCH_64
-				return static_cast<unsigned>(((hash >> 47)) & ((1u << shards) - 1u));
-				//return (hash * 14313749767032793493ULL) >> (64 - (shards ? shards : 1));
-				//return static_cast<unsigned>(((hash >> 51) ^ (hash >> 41)) & ((1u << shards) - 1u));
+					return static_cast<unsigned>(((hash >> 47)) & ((1u << shards) - 1u));
+					// return (hash * 14313749767032793493ULL) >> (64 - (shards ? shards : 1));
+					// return static_cast<unsigned>(((hash >> 51) ^ (hash >> 41)) & ((1u << shards) - 1u));
 #else
-				return ((hash >> 24) ^ (hash >> 26) ^ (hash >> 8)) & ((1u << shards) - 1u);
+					return ((hash >> 24) ^ (hash >> 26) ^ (hash >> 8)) & ((1u << shards) - 1u);
 #endif
+				}
 			}
 			template<class Policy, class K, class... Args>
 			SEQ_CONCURRENT_INLINE auto emplace_policy_no_check(K&& key, Args&&... args) -> bool
@@ -1764,7 +1733,6 @@ namespace seq
 				return true;
 			}
 
-#ifdef SEQ_HAS_CPP_17
 			template<class ExecPolicy, class F>
 			bool visit_all(ExecPolicy&& p, F&& fun)
 			{
@@ -1795,7 +1763,6 @@ namespace seq
 				});
 				return AtomicLoad(res);
 			}
-#endif
 
 			void reserve(size_t size)
 			{
@@ -1910,9 +1877,8 @@ namespace seq
 			template<class Iter>
 			void insert(Iter first, Iter last)
 			{
-				size_t count = seq::distance(first, last);
-				if (count)
-					this->reserve(size() + count);
+				if (is_random_access_v<Iter>)
+					this->reserve(size() + std::distance(first, last));
 				for (; first != last; ++first)
 					emplace(*first);
 			}
@@ -1921,7 +1887,7 @@ namespace seq
 			SEQ_CONCURRENT_INLINE auto visit(const K& key, F&& fun) const -> size_t
 			{
 				const PrivateData* d = get_data();
-				if SEQ_CONCURRENT_UNLIKELY (!d)
+				if SEQ_UNLIKELY (!d)
 					return 0;
 				size_t hash = d->hash_key((key));
 				return d->at(index_from_hash(hash)).visit_hash(hash, key, std::forward<F>(fun));
@@ -1930,7 +1896,7 @@ namespace seq
 			SEQ_CONCURRENT_INLINE auto visit(const K& key, F&& fun) -> size_t
 			{
 				PrivateData* d = const_cast<PrivateData*>(cget_data());
-				if SEQ_CONCURRENT_UNLIKELY (!d) 
+				if SEQ_UNLIKELY (!d) 
 					return 0;
 				size_t hash = d->hash_key((key));
 				return d->at(index_from_hash(hash)).visit_hash(hash, key, std::forward<F>(fun));
@@ -1949,7 +1915,7 @@ namespace seq
 			SEQ_CONCURRENT_INLINE auto erase(const K& key, F&& fun) -> size_t
 			{
 				PrivateData* d = const_cast<PrivateData*>(cget_data());
-				if SEQ_CONCURRENT_UNLIKELY(!d)
+				if SEQ_UNLIKELY(!d)
 					return 0;
 				size_t hash = d->hash_key(key);
 				return d->at(index_from_hash(hash)).erase_key(hash, std::forward<F>(fun), key);
@@ -1959,21 +1925,21 @@ namespace seq
 			auto erase_if(F&& fun) -> size_t
 			{
 				const PrivateData* d = cget_data();
-				if SEQ_CONCURRENT_UNLIKELY (!d)
+				if SEQ_UNLIKELY (!d)
 					return 0;
 				size_t res = 0;
 				for (unsigned i = 0; i < PrivateData::map_count; ++i)
 					res += const_cast<PrivateData*>(d)->at(i).erase_if(std::forward<F>(fun));
 				return res;
 			}
-#ifdef SEQ_HAS_CPP_17
+
 			template<class ExecPolicy, class F>
 			auto erase_if(ExecPolicy&& p, F&& fun) -> size_t
 			{
 				if (!is_concurrent)
 					return erase_if(std::forward<F>(fun));
 				const PrivateData* d = cget_data();
-				if SEQ_CONCURRENT_UNLIKELY (!d)
+				if SEQ_UNLIKELY (!d)
 					return 0;
 				std::atomic<size_t> res{ 0 };
 				std::for_each(std::forward<ExecPolicy>(p), d->maps, d->maps + PrivateData::map_count, [&](const auto& m) {
@@ -1981,7 +1947,6 @@ namespace seq
 				});
 				return res;
 			}
-#endif
 
 			auto merge(ConcurrentHashTable& other) -> size_t
 			{
@@ -2003,7 +1968,6 @@ namespace seq
 				return res;
 			}
 
-#ifdef SEQ_HAS_CPP_17
 			template<class ExecPolicy>
 			auto merge(ExecPolicy&& p, ConcurrentHashTable& other) -> size_t
 			{
@@ -2027,7 +1991,6 @@ namespace seq
 				});
 				return res;
 			}
-#endif
 
 			bool operator==(const ConcurrentHashTable& other) const
 			{

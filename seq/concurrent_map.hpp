@@ -26,11 +26,12 @@
 #define SEQ_CONCURRENT_MAP_HPP
 
 #include "internal/concurrent_hash_table.hpp"
+#include "type_traits.hpp"
 
 namespace seq
 {
 
-	template<class Key, class Hash = hasher<Key>, class Equal = equal_to<>, class Allocator = std::allocator<Key>, unsigned Shards = seq::medium_concurrency>
+	template<class Key, class Hash = hasher<Key>, class Equal = std::equal_to<>, class Allocator = std::allocator<Key>, unsigned Shards = seq::medium_concurrency>
 	class concurrent_set : private detail::ConcurrentHashTable<Key, Key, Hash, Equal, Allocator, Shards>
 	{
 
@@ -39,7 +40,7 @@ namespace seq
 		using extract_key = detail::ExtractKey<Key, Key>;
 
 		template<class K, class H, class E>
-		using is_transparent = std::integral_constant<bool, detail::key_transparent<K>::value && detail::has_is_transparent<H>::value && detail::has_is_transparent<E>::value>;
+		using is_transparent = std::integral_constant<bool, !std::is_same_v<K,void> && has_is_transparent<H>::value && has_is_transparent<E>::value>;
 
 		template<class K, class H, class KE, class A, unsigned S>
 		friend bool operator==(concurrent_set<K, H, KE, A, S> const& lhs, concurrent_set<K, H, KE, A, S> const& rhs);
@@ -66,7 +67,7 @@ namespace seq
 			}
 		};
 
-		using Policy = detail::BuildValue<Key,detail::has_is_transparent<Hash>::value && detail::has_is_transparent<Equal>::value >;
+		using Policy = detail::BuildValue<Key,has_is_transparent<Hash>::value && has_is_transparent<Equal>::value >;
 
 	public:
 		using key_type = Key;
@@ -220,8 +221,6 @@ namespace seq
 			return base_type::visit_all(std::forward<F>(fun));
 		}
 
-#ifdef SEQ_HAS_CPP_17
-
 		template<class ExecPolicy, class F>
 		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, bool>::type visit_all(ExecPolicy&& p, F&& fun)
 		{
@@ -237,8 +236,6 @@ namespace seq
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
-
-#endif
 
 		template<class F>
 		SEQ_ALWAYS_INLINE size_type visit(const Key& key, F&& fun) const
@@ -364,15 +361,12 @@ namespace seq
 			return base_type::erase_if(std::forward<F>(fun));
 		}
 
-#ifdef SEQ_HAS_CPP_17
-
 		template<class ExecPolicy, class F>
 		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, size_type>::type erase_if(ExecPolicy&& p, F&& fun)
 		{
 			return base_type::erase_if(p, std::forward<F>(fun));
 		}
 
-#endif
 
 		SEQ_ALWAYS_INLINE auto count(const Key& key) const -> size_type { return base_type::count(key); }
 
@@ -403,7 +397,6 @@ namespace seq
 			return merge(x);
 		}
 
-#ifdef SEQ_HAS_CPP_17
 		template<class ExecPolicy, class H2, class P2>
 		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, size_type>::type merge(ExecPolicy&& p, concurrent_set<Key, H2, P2, Allocator, Shards>& x)
 		{
@@ -416,7 +409,6 @@ namespace seq
 		{
 			return merge(std::forward<ExecPolicy>(p), x);
 		}
-#endif
 	};
 
 	template<class Key, class Hash, class Equal, class Allocator, unsigned Shards>
@@ -437,7 +429,7 @@ namespace seq
 		set.erase_if(pred);
 	}
 
-	template<class Key, class T, class Hash = hasher<Key>, class Equal = equal_to<>, class Allocator = std::allocator<std::pair<Key, T>>, unsigned Shards = seq::medium_concurrency>
+	template<class Key, class T, class Hash = hasher<Key>, class Equal = std::equal_to<>, class Allocator = std::allocator<std::pair<Key, T>>, unsigned Shards = seq::medium_concurrency>
 	class concurrent_map : private detail::ConcurrentHashTable<Key, std::pair<Key, T>, Hash, Equal, Allocator, Shards>
 	{
 
@@ -446,7 +438,7 @@ namespace seq
 		using extract_key = detail::ExtractKey<Key, std::pair<Key, T>>;
 
 		template<class K, class H, class E>
-		using is_transparent = std::integral_constant<bool, detail::key_transparent<K>::value && detail::has_is_transparent<H>::value && detail::has_is_transparent<E>::value>;
+		using is_transparent = std::integral_constant<bool,!std::is_same_v<K,void> && has_is_transparent<H>::value && has_is_transparent<E>::value>;
 
 		template<class K, class V, class H, class KE, class A, unsigned S>
 		friend bool operator==(concurrent_map<K, V, H, KE, A, S> const& lhs, concurrent_map<K, V, H, KE, A, S> const& rhs);
@@ -492,7 +484,7 @@ namespace seq
 			}
 		};
 
-		using Policy = detail::BuildValue<std::pair<Key, T>, detail::has_is_transparent<Hash>::value && detail::has_is_transparent<Equal>::value >;
+		using Policy = detail::BuildValue<std::pair<Key, T>, has_is_transparent<Hash>::value && has_is_transparent<Equal>::value >;
 
 	public:
 		using key_type = Key;
@@ -647,8 +639,6 @@ namespace seq
 			return base_type::visit_all(std::forward<F>(fun));
 		}
 
-#ifdef SEQ_HAS_CPP_17
-
 		template<class ExecPolicy, class F>
 		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, bool>::type visit_all(ExecPolicy&& p, F&& fun)
 		{
@@ -665,7 +655,6 @@ namespace seq
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 
-#endif
 
 		template<class F>
 		SEQ_CONCURRENT_INLINE size_type visit(const Key& key, F&& fun) const
@@ -870,15 +859,11 @@ namespace seq
 			return base_type::erase_if(std::forward<F>(fun));
 		}
 
-#ifdef SEQ_HAS_CPP_17
-
 		template<class ExecPolicy, class F>
 		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, size_type>::type erase_if(ExecPolicy&& p, F&& fun)
 		{
 			return base_type::erase_if(p, std::forward<F>(fun));
 		}
-
-#endif
 
 		SEQ_CONCURRENT_INLINE auto count(const Key& key) const -> size_type { return base_type::count(key); }
 
@@ -909,7 +894,6 @@ namespace seq
 			return merge(x);
 		}
 
-#ifdef SEQ_HAS_CPP_17
 		template<class ExecPolicy, class H2, class P2>
 		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, size_type>::type merge(ExecPolicy&& p, concurrent_map<Key, T, H2, P2, Allocator, Shards>& x)
 		{
@@ -922,7 +906,7 @@ namespace seq
 		{
 			return merge(std::forward<ExecPolicy>(p), x);
 		}
-#endif
+
 	};
 
 	template<class Key, class T, class Hash, class Equal, class Allocator, unsigned Shards>

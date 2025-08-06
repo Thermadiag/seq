@@ -204,6 +204,7 @@ struct LaunchTest
 			insert_range = tock_ms();
 			insert_range_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
 
+			//std::cout << name << " " << insert_range << " ms" << std::endl;
 			check_sorted(s);
 		}
 
@@ -423,7 +424,9 @@ void indisort(T start, size_t size, Cmp c)
 		indexes[index] = (index);
 		ptrs[index] = (&(*it));
 	}
-	pdqsort(sort_array, sort_array + size, [&ptrs,c](size_t l, size_t r) { return c(*ptrs[l] , *ptrs[r]); });
+	//pdqsort(sort_array, sort_array + size, [&ptrs,c](size_t l, size_t r) { return c(*ptrs[l] , *ptrs[r]); });
+	auto le = [&ptrs, c](size_t l, size_t r) noexcept { return c(*ptrs[l], *ptrs[r]); };
+	seq::net_sort(sort_array, sort_array + size, le);
 
 	index = 0;
 
@@ -462,7 +465,7 @@ auto make_tvector(const std::vector<T>& vec)
 
 #define BENCH_SORT(vec, sorted, extr, function)                                                                                                                                                        \
 	{                                                                                                                                                                                              \
-		auto v = make_tvector(vec);                                                                                                                                                                          \
+		auto v = /*make_tvector*/(vec);                                                                                                                                                                          \
 		seq::tick();                                                                                                                                                                           \
 		function(v.begin(), v.end(), extr);                                                                                                                                                    \
 		size_t el = seq::tock_ms();                                                                                                                                                            \
@@ -548,20 +551,64 @@ void wave_sort(Iter first, Iter last, size_t longest_run)
 #include <deque>
 #include <seq/radix_hash_map.hpp>
 
-
+#include "../seq/composite_iterator.hpp"
+#include <algorithm>
+struct Toto
+{
+};
 int bench_map2(int, char** const)
 {
-	{
-		seq::radix_set<std::string> set;
-		
-		set.emplace("tutu", 4);
-		set.emplace("toto");
-		set.emplace(std::string("tata"));
-	}
+	
 	
 	{
-		seq::flat_set<std::tuple<int, int>> s;
-		s.emplace(0, 0);
+		std::vector<seq::tstring> str;
+		std::vector<int> vec;
+		for (int i = 0; i < 10000; ++i) {
+			str.push_back(seq::generate_random_string<seq::tstring>(63, true));
+			vec.push_back(i);
+		}
+
+		{
+			//auto r = seq::zip_iterators(std::make_tuple(vec.begin(), str.begin()));
+			/* auto r = seq::zip(str, vec);
+			for (std::tuple<seq::tstring&, int&>& i : r) {
+				std::cout << std::get<1>(i) << std::endl;
+			}
+			bool stop = true;*/
+		}
+
+
+		auto it = seq::zip_iterators(str.data(), vec.data());
+		auto en = it + str.size();
+
+
+		seq::net_sort(it, en, [](const auto& l, const auto& r) { return std::get<0>(l) < std::get<0>(r); });
+	}
+	{
+		std::vector<int> t(200);
+		std::vector<double> d(200);
+		for (int i = 0; i < 200; ++i) {
+		
+			t[i] = rand();
+			d[i] = t[i] + rand();
+		}
+
+		auto beg = seq::zip_iterators(t.data(), d.data());
+		auto end = beg + 200;
+		auto dist = end - beg;
+		beg > end;
+		beg < end;
+		beg == end;
+
+		//auto next = beg + 1;
+		//*beg = *next;
+		//*beg = std::move(*next);
+
+		std::cout << typeid(decltype(beg)::reference).name() << std::endl;
+
+		//seq::net_sort(beg, end, [](const auto& l, const auto& r) { return std::get<1>(l) < std::get<1>(r); });
+		*beg = std::make_tuple(25, 1.2);
+		bool stop = true;
 	}
 	/*{
 		std::mt19937 rngi(0);
@@ -600,6 +647,23 @@ int bench_map2(int, char** const)
 			return s;
 		});
 	}*/
+
+	
+	/* {
+		std::vector<size_t> vec(100000);
+		std::mt19937 rngi(0);
+		std::uniform_int_distribution<size_t> dist;
+		for (size_t i = 0; i < vec.size(); ++i)
+			vec[i] = dist(rngi);
+
+		seq::flat_set<size_t> set;
+		set.insert(vec.begin(), vec.end());
+		set.insert(vec.begin(), vec.end());
+
+		bool ok = std::is_sorted(set.begin(), set.end());
+		auto s = set.size();
+		bool stop = true;
+	}*/
 	
 	// test random tuple
 	{
@@ -623,7 +687,7 @@ int bench_map2(int, char** const)
 		std::uniform_real_distribution<> dist;
 		test_map<double>(2000000, [&](size_t i) { return dist(e2); });
 	}
-
+	
 	// random_float_genertor<double> rng;
 	// test_map<double>(4000000, [&rng](size_t i) { return rng(); });
 
@@ -650,9 +714,22 @@ int bench_map2(int, char** const)
 
 #undef cmp
 #include "seq/quadsort.h"
+#include <seq/concurrent_map.hpp>
 int bench_map(int, char** const)
 {
+	/* {
+		std::vector<std::string> vec = { "01", "03", "05", "07", "02", "04", "06", "08" };
+		std::vector<std::string> res(8);
+		seq::algo_detail::merge_move_bidirectional<4>(vec.begin(), vec.begin() + 4, vec.begin() + 4, vec.end(), res.begin(), std::less<>{});
+		bool stop = true;
+	}*/
+	{
+		seq::concurrent_set<int, seq::hasher<int>, std::equal_to<>, std::allocator<int>, seq::no_concurrency> set;
 
+		set.insert(2);
+		set.contains(2);
+		set.visit_all([](int i) {});
+	}
 	{
 		struct Test
 		{
@@ -686,7 +763,7 @@ int bench_map(int, char** const)
 		// std::sort(vec.begin(), vec.begin() + vec.size() / 2, std::less<>{});
 		// std::shuffle(vec.begin(), vec.end(), std::random_device());
 
-		std::mt19937 rng(0);
+		/* std::mt19937 rng(0);
 		std::uniform_int_distribution<unsigned> dist(0, std::numeric_limits<unsigned>::max());
 		//std::uniform_real_distribution<float> dist(0, std::numeric_limits<float>::max());
 		std::vector<unsigned> vec(3200000); 
@@ -696,7 +773,7 @@ int bench_map(int, char** const)
 			//vec[i] = dist(rng) * (float)(i&1 ? 1.f : -1.f);
 			//vec[i] = std::tuple<short, short>(t >> 16u, t & 65535u);
 			//vec[i] = (double)t * ((i & 1) ? 1 : -1);
-		}
+		}*/
 
 		/* std::vector<unsigned> tmp(vec.size());
 		vart::radix_internal(vec.begin(), vec.end(), tmp.begin(), 3);
@@ -715,7 +792,7 @@ int bench_map(int, char** const)
 		// binary
 		/* std::vector<size_t> vec(10000000);
 		for (size_t i = 0; i < vec.size(); ++i)
-			vec[i] = size_t(i % 1000);
+			vec[i] = size_t(i % 100);
 		std::shuffle(vec.begin(), vec.end(), std::random_device());
 		*/
 		// Optimize for this one
@@ -760,12 +837,12 @@ int bench_map(int, char** const)
 		std::shuffle(vec.begin(), vec.end(), mt);
 		*/
 
-		/*using strtype = seq::tstring;
+		using strtype =seq::tstring;
 		std::vector<strtype> vec(1000000);
 		for (size_t i = 0; i < vec.size(); ++i)
 			vec[i] = (generate_random_string<strtype>(63, true));
-		*/
-
+		
+		
 		//std::sort(vec.begin() , vec.begin() + vec.size() - vec.size() / 64);
 		//std::sort(vec.begin() + vec.size() - vec.size() / 64, vec.end());
 		//std::nth_element(vec.begin(), vec.begin() + vec.size()/2, vec.end(), std::less<>{});
@@ -784,7 +861,7 @@ int bench_map(int, char** const)
 		/* std::vector<seq::tstring> tmp(1000);
 		for (size_t i = 0; i < tmp.size(); ++i)
 			tmp[i] = generate_random_string<seq::tstring>(15, true);
-		std::sort(tmp.begin(), tmp.end());
+		//std::sort(tmp.begin(), tmp.end());
 		std::vector<seq::tstring> vec;
 		for (int i = 0; i < 2000; ++i) {
 			std::reverse(tmp.begin(), tmp.end());
@@ -835,28 +912,15 @@ int bench_map(int, char** const)
 			size_t el = seq::tock_ms();
 			std::cout << "indisort " << el << " " << std::is_sorted(v.begin(), v.end()) << std::endl;
 		}
-		/* {
-			std::list<type> v(vec.begin(), vec.end());
-			seq::tick();
-			v.sort();
-			size_t el = seq::tock_ms();
-			std::cout << "sequence " << el << " " << std::is_sorted(v.begin(), v.end()) << std::endl;
-		}
-		{
-			std::list<type> v(vec.begin(), vec.end());
-			seq::tick();
-			vart::merge_sort_size(v.begin(), v.size());
-			size_t el = seq::tock_ms();
-			std::cout << "sequence merge_sort_size " << el << " " << std::is_sorted(v.begin(), v.end()) << std::endl;
-		}*/
+		
 
 		BENCH_SORT(vec, sorted, inf, std::stable_sort);
 		BENCH_SORT(vec, sorted, inf, std::sort);
 		BENCH_SORT(vec, sorted, inf, seq::net_sort);
-		BENCH_SORT2(vec, sorted, quadsort, quadsort_uint32(v.data(), v.size(),nullptr));
+		//BENCH_SORT2(vec, sorted, quadsort, quadsort_uint32(v.data(), v.size(),nullptr));
 
 		BENCH_SORT(vec, sorted, inf, boost::sort::spinsort);
-		BENCH_SORT(vec, sorted, inf, boost::sort::flat_stable_sort);
+		//BENCH_SORT(vec, sorted, inf, boost::sort::flat_stable_sort);
 		//BENCH_SORT2(vec, sorted, spreadsort, boost::sort::spreadsort::spreadsort(v.begin(),v.end()));
 		BENCH_SORT(vec, sorted, inf,pdqsort);
 		// BENCH_SORT2(vec, sorted, quadsort, quadsort_uint64(v.data(), v.size(),nullptr));

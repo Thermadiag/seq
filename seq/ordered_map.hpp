@@ -187,68 +187,32 @@ namespace seq
 		template<Location Loc>
 		struct InsertPolicy
 		{
+			template<class Seq, class K, class... Args>
+			static auto emplace(Seq& s, K&& key, Args&&... args)
+			{
+				if constexpr (Loc == Front)
+					return s.emplace_front_iter(std::forward<K>(key), std::forward<Args>(args)...);
+				else if constexpr (Loc == Back)
+					return s.emplace_back_iter(std::forward<K>(key), std::forward<Args>(args)...);
+				else
+					return s.emplace(std::forward<K>(key), std::forward<Args>(args)...);
+			}
 		};
 		template<Location Loc>
 		struct TryInsertPolicy
 		{
-		};
-
-		template<>
-		struct InsertPolicy<Front>
-		{
 			template<class Seq, class K, class... Args>
 			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
 			{
-				return s.emplace_front_iter(std::forward<K>(key), std::forward<Args>(args)...);
-			}
-		};
-		template<>
-		struct TryInsertPolicy<Front>
-		{
-			template<class Seq, class K, class... Args>
-			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
-			{
-				return s.emplace_front_iter(
-				  typename Seq::value_type(std::piecewise_construct, std::forward_as_tuple(std::forward<K>(key)), std::forward_as_tuple(std::forward<Args>(args)...)));
-			}
-		};
-
-		template<>
-		struct InsertPolicy<Back>
-		{
-			template<class Seq, class K, class... Args>
-			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
-			{
-				return s.emplace_back_iter(std::forward<K>(key), std::forward<Args>(args)...);
-			}
-		};
-		template<>
-		struct TryInsertPolicy<Back>
-		{
-			template<class Seq, class K, class... Args>
-			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
-			{
-				return s.emplace_back_iter(
-				  typename Seq::value_type(std::piecewise_construct, std::forward_as_tuple(std::forward<K>(key)), std::forward_as_tuple(std::forward<Args>(args)...)));
-			}
-		};
-
-		template<>
-		struct InsertPolicy<Anywhere>
-		{
-			template<class Seq, class K, class... Args>
-			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
-			{
-				return s.emplace(std::forward<K>(key), std::forward<Args>(args)...);
-			}
-		};
-		template<>
-		struct TryInsertPolicy<Anywhere>
-		{
-			template<class Seq, class K, class... Args>
-			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
-			{
-				return s.emplace(typename Seq::value_type(std::piecewise_construct, std::forward_as_tuple(std::forward<K>(key)), std::forward_as_tuple(std::forward<Args>(args)...)));
+				if constexpr (Loc == Front)
+					return s.emplace_front_iter(
+					  typename Seq::value_type(std::piecewise_construct, std::forward_as_tuple(std::forward<K>(key)), std::forward_as_tuple(std::forward<Args>(args)...)));
+				else if constexpr (Loc == Back)
+					return s.emplace_back_iter(
+					  typename Seq::value_type(std::piecewise_construct, std::forward_as_tuple(std::forward<K>(key)), std::forward_as_tuple(std::forward<Args>(args)...)));
+				else
+					return s.emplace(
+					  typename Seq::value_type(std::piecewise_construct, std::forward_as_tuple(std::forward<K>(key)), std::forward_as_tuple(std::forward<Args>(args)...)));
 			}
 		};
 
@@ -829,9 +793,8 @@ namespace seq
 				// Insert range of values.
 
 				// Try to reserve the hash table ahead
-				if (size_t count = seq::distance(first, last)) {
-					reserve(size() + count);
-				}
+				if constexpr (is_random_access_v<Iter>)
+					reserve(size() + std::distance(first, last));
 
 				// Insert one by one.
 				// It would be faster in most scenario to insert everything in the sequence
@@ -1062,14 +1025,11 @@ namespace seq
 	/// seq::ordered_set uses internally and if possible compressed pointers to reduce its memory footprint. In such case, the last 16 bits of a pointer are used to store
 	/// metadata. Situations where this is not possible are detected at compile time, but it is possible to manually disable this optimization by defining SEQ_NO_COMPRESSED_PTR.
 	///
-	template<class Key, class Hash = hasher<Key>, class KeyEqual = equal_to<>, class Allocator = std::allocator<Key>>
+	template<class Key, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<Key>>
 	class ordered_set : private detail::SparseFlatNodeHashTable<Key, Key, Hash, KeyEqual, Allocator>
 	{
 		using base_type = detail::SparseFlatNodeHashTable<Key, Key, Hash, KeyEqual, Allocator>;
 		using this_type = ordered_set<Key, Hash, KeyEqual, Allocator>;
-
-		template<typename U>
-		using has_is_transparent = detail::has_is_transparent<U>;
 
 		using Policy = detail::BuildValue<Key, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
 
@@ -1301,42 +1261,24 @@ namespace seq
 		/// Invalidate all references and iterators.
 		/// Basic exception guarantee only.
 		/// @param le comparison function
+		template<class Less, class Buffer>
+		void sort(Less le, Buffer  buf)
+		{
+			sequence().sort(le, buf);
+			rehash();
+		}
 		template<class Less>
 		void sort(Less le)
 		{
 			sequence().sort(le);
 			rehash();
 		}
-		/// @brief Sort the container using std::less<Key>.
-		/// The full container is rehashed afterward.
-		/// Invalidate all references and iterators.
-		/// Basic exception guarantee only.
 		void sort()
 		{
 			sequence().sort();
 			rehash();
 		}
-		/// @brief Sort the container based on given comparator and using std::stable_sort.
-		/// The full container is rehashed afterward.
-		/// Invalidate all references and iterators.
-		/// Basic exception guarantee only.
-		/// @param le comparison function
-		template<class Less>
-		void stable_sort(Less le)
-		{
-			sequence().stable_sort(le);
-			rehash();
-		}
-		/// @brief Sort the container based on std::less<Key> and using std::stable_sort.
-		/// The full container is rehashed afterward.
-		/// Invalidate all references and iterators.
-		/// Basic exception guarantee only.
-		void stable_sort()
-		{
-			sequence().stable_sort();
-			rehash();
-		}
-
+		
 		/// @brief Calls seq::sequence::shrink_to_fit().
 		/// Remove potential holes in the sequence object due to calls to ordered_set::erase().
 		/// Does not allocate memory, except for the hash table itself.
@@ -1577,15 +1519,12 @@ namespace seq
 	///
 	/// For more details on its internal implementation, see #seq::ordered_set documentation.
 	///
-	template<class Key, class T, class Hash = hasher<Key>, class KeyEqual = equal_to<>, class Allocator = std::allocator<std::pair<Key, T>>>
+	template<class Key, class T, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<std::pair<Key, T>>>
 	class ordered_map : private detail::SparseFlatNodeHashTable<Key, std::pair<Key, T>, Hash, KeyEqual, Allocator>
 	{
 		using base_type = detail::SparseFlatNodeHashTable<Key, std::pair<Key, T>, Hash, KeyEqual, Allocator>;
 		using this_type = ordered_map<Key, T, Hash, KeyEqual, Allocator>;
 		using extract_key = detail::ExtractKey<Key, std::pair<Key, T>>;
-
-		template<typename U>
-		using has_is_transparent = detail::has_is_transparent<U>;
 
 		template<class Less>
 		struct LessAdapter

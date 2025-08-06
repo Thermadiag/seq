@@ -32,6 +32,7 @@
 #include "../hash.hpp"
 #include "../flat_map.hpp"
 #include "../type_traits.hpp"
+#include "../composite_iterator.hpp"
 #include "simd.hpp"
 
 namespace seq
@@ -72,7 +73,7 @@ namespace seq
 			using type = char;
 		};
 		template<class T>
-		struct has_data_pointer<T, typename detail::make_void<decltype(std::declval<T&>().data())>::type>
+		struct has_data_pointer<T, typename std::void_t<decltype(std::declval<T&>().data())>>
 		{
 			using pointer = decltype(std::declval<T&>().data());
 			using ctype = typename std::remove_pointer<pointer>::type;
@@ -85,7 +86,7 @@ namespace seq
 			using type = char;
 		};
 		template<class T>
-		struct has_size<T, typename detail::make_void<decltype(std::declval<T&>().size())>::type>
+		struct has_size<T, typename std::void_t<decltype(std::declval<T&>().size())>>
 		{
 			using type = decltype(std::declval<T&>().size());
 			static constexpr bool value = std::is_integral<type>::value;
@@ -741,7 +742,7 @@ namespace seq
 		template<class ExtractKey, class Hasher, class T, class SizeType, class K>
 		static inline SizeType compute_lower_bound(const T* vals, SizeType size, const K& key)
 		{
-			return seq::detail::lower_bound<false, T>(vals, size, key, [](const auto& l, const auto& r) { return Hasher::less(ExtractKey{}(l), ExtractKey{}(r)); }).first;
+			return lower_bound<false, T>(vals, size, key, [](const auto& l, const auto& r) { return Hasher::less(ExtractKey{}(l), ExtractKey{}(r)); }).first;
 		}
 
 		/// @brief Copy count elements from src to dst while destroying elements in src
@@ -1018,6 +1019,19 @@ namespace seq
 			void sort(Less le)
 			{
 				insertion_sort<T, ExtractKey>(values(), hashs(), 0, static_cast<int>(count()), le);
+			}
+
+			template<class ExtractKey, class Less, class Hasher, class Buffer>
+			void sort2(Less le, const Hasher& hasher, Buffer buf)
+			{
+				auto beg = zip_iterators(values(), hashs());
+				auto end = beg + count();
+				auto less = [le](const auto& l, const auto& r) { return le(ExtractKey{}(std::get<0>(l)), ExtractKey{}(std::get<0>(r))); };
+				net_sort(beg, end, less, buf);
+				
+				//net_sort_size(values(), count(), [le](const auto& l, const auto& r) { return le(ExtractKey{}(l), ExtractKey{}(r)); }, buf);
+				//for (unsigned i = 0; i < count(); ++i)
+				//	hashs()[i] = hasher.hash(ExtractKey{}(values()[i])).tiny_hash();
 			}
 
 			// Reallocate leaf on insertion
@@ -1537,7 +1551,7 @@ namespace seq
 			auto next() noexcept -> RadixConstIter&
 			{
 				auto tmp = find_next(dir, child + 1, bit_pos);
-				if SEQ_UNLIKELY(!tmp.dir) {
+				if SEQ_UNLIKELY (!tmp.dir) {
 					dir = nullptr;
 					child = 0;
 					node_pos = 0;
@@ -1845,10 +1859,7 @@ namespace seq
 				{
 					base.root = directory::make(base, start_len);
 				}
-				~PrivateData() 
-				{ 
-					directory::destroy(base, base.root); 
-				}
+				~PrivateData() { directory::destroy(base, base.root); }
 			};
 
 			/// @brief Returns an empty directory used to initialize a radix tree
@@ -2093,11 +2104,20 @@ namespace seq
 					return;
 				if (size() == 0)
 					return;
+				
+				using iterator = decltype(zip_iterators((T*)nullptr, (uint8_t*)nullptr));
+				using buf_type = typename iterator::value_type;
+				buf_type tmp[node::max_capacity / 2];
+				buffer<buf_type*> buf{ tmp, node::max_capacity / 2 };
 
-				d_data->base.root->for_each_leaf([](directory* dir, unsigned pos) {
+				d_data->base.root->for_each_leaf([this, buf](directory* dir, unsigned pos) {
 					auto child = dir->child(pos);
-					if (child.tag() == directory::IsLeaf)
-						child.to_node()->template sort<extract_key_type>(Less{});
+					if (child.tag() == directory::IsLeaf) {
+
+						// child.to_node()->template sort<extract_key_type>(Less{});
+
+						child.to_node()->template sort2<extract_key_type>(Less{}, *this, buf);
+					}
 				});
 			}
 
@@ -2813,7 +2833,7 @@ namespace seq
 						count += dir->child(pos).to_vector()->size();
 				});
 				this->d_data->base.size -= count;
-				
+
 				return count;
 			}
 

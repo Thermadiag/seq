@@ -475,7 +475,7 @@ Above example compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10 on a Intel(
 
 #include "tiny_string.hpp"
 #include "charconv.hpp"
-#include "range.hpp"
+#include "type_traits.hpp"
 
 #ifdef SEQ_HAS_CPP_17
 #include <string_view>
@@ -1817,30 +1817,7 @@ namespace seq
 			using result = typename FormatWrapper<tmp_type, is_slot<tmp_type>::value>::type;
 		};
 
-		namespace metafunction
-		{
-			template<class MetaFunction>
-			using result_of = typename MetaFunction::result;
-
-			template<class Tuple, template<class> class Function>
-			struct transform_elements;
-
-			// meta-function which takes a tuple and a unary metafunction
-			// and yields a tuple of the result of applying the metafunction
-			// to each element_type of the tuple.
-			// type: binary metafunction
-			// arg1 = the tuple of types to be wrapped
-			// arg2 = the unary metafunction to apply to each element_type
-			// returns tuple<result_of<arg2<element>>...> for each element in arg1
-
-			template<class... Elements, template<class> class UnaryMetaFunction>
-			struct transform_elements<std::tuple<Elements...>, UnaryMetaFunction>
-			{
-				template<class Arg>
-				using function = UnaryMetaFunction<Arg>;
-				using result = std::tuple<result_of<function<Elements>>...>;
-			};
-		}
+		
 
 		template<class Char>
 		static inline auto& multi_ostream_buffer()

@@ -97,7 +97,7 @@ inline bool operator==(const size_t& a, WideType b) { return a == b.data[0]; }
 inline bool operator!=(const size_t& a, WideType b) { return a != b.data[0]; }
 
 
-template<class T, seq::LayoutManagement lay, class Alloc = std::allocator<T> >
+template<class T, class Alloc = std::allocator<T> >
 void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 {
 	using namespace seq;
@@ -109,10 +109,10 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		using Al = RebindAlloc<Alloc, size_t>;
 		Al a(al);
 
-		using small_slow = sequence<size_t, Al, OptimizeForMemory>;
-		using small_fast = sequence<size_t, Al, OptimizeForSpeed>;
-		using big_slow = sequence<WideType, Al, OptimizeForMemory>;
-		using big_fast = sequence<WideType, Al, OptimizeForSpeed>;
+		using small_slow = sequence<size_t, Al>;
+		using small_fast = sequence<size_t, Al>;
+		using big_slow = sequence<WideType, Al>;
+		using big_fast = sequence<WideType, Al>;
 
 		small_slow ss(a);
 		small_fast sf(a);
@@ -179,7 +179,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 	std::vector<type> vec;
 	typedef tiered_vector<type, std::allocator<T> > deque_type;
 	deque_type deq;
-	typedef sequence<type , Alloc ,lay> sequence_type;
+	typedef sequence<type , Alloc > sequence_type;
 	sequence_type seq(al);
 
 	SEQ_TEST(seq.begin() == seq.end());
@@ -500,17 +500,13 @@ SEQ_PROTOTYPE( int test_sequence(int , char*[]))
 {
 	// Test sequence and detect potential memory leak or wrong allocator propagation
 	CountAlloc<size_t> al;
-	SEQ_TEST_MODULE_RETURN(sequence<OptimizeForMemory>,1, test_sequence<size_t,seq::OptimizeForMemory>(1000000,al));
+	SEQ_TEST_MODULE_RETURN(sequence,1, test_sequence<size_t>(1000000,al));
 	SEQ_TEST(get_alloc_bytes(al) == 0);
-	SEQ_TEST_MODULE_RETURN(sequence<OptimizeForSpeed>,1, test_sequence<size_t, seq::OptimizeForSpeed>(1000000,al));
-	SEQ_TEST(get_alloc_bytes(al) == 0);
-
+	
 	// Test sequence and detect potential memory leak (including non destroyed objects) or wrong allocator propagation
-	SEQ_TEST_MODULE_RETURN(sequence<OptimizeForMemory>destroy, 1, test_sequence<TestDestroy<size_t>, seq::OptimizeForMemory>(1000000));
+	SEQ_TEST_MODULE_RETURN(sequence_destroy, 1, test_sequence<TestDestroy<size_t>>(1000000));
 	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-	SEQ_TEST_MODULE_RETURN(sequence<OptimizeForSpeed>destroy, 1, test_sequence<TestDestroy<size_t>, seq::OptimizeForSpeed>(1000000));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-
+	
 	return 0;
 }
 

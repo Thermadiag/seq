@@ -56,13 +56,13 @@ namespace seq
 
 	/// @brief Detect is_avalanching typedef
 	template<typename T>
-	struct hash_is_avalanching : detail::has_is_avalanching<T>
+	struct hash_is_avalanching : has_is_avalanching<T>
 	{
 	};
 
 	/// @brief Detect is_transparent typedef
 	template<typename T>
-	struct hash_is_transparent : detail::has_is_transparent<T>
+	struct hash_is_transparent : has_is_transparent<T>
 	{
 	};
 

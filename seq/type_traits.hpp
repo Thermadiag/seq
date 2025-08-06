@@ -25,46 +25,18 @@
 #ifndef SEQ_TYPE_TRAITS_HPP
 #define SEQ_TYPE_TRAITS_HPP
 
-#include <iostream>
+#include <ostream>
+#include <istream>
 #include <memory>
 #include <type_traits>
 #include <functional>
 #include <limits>
 #include <cstdint>
-
-namespace std
-{
-#if defined(__GNUG__) && (__GNUC__ < 5)
-
-	// Reimplement the wheel for older gcc
-
-	template<class T>
-	struct is_trivially_copyable
-	{
-		static constexpr bool value = __has_trivial_copy(T);
-	};
-
-	template<class T>
-	struct is_trivially_move_assignable : is_trivially_copyable<T>
-	{
-	};
-	//: std::is_trivially_assignable< typename std::add_lvalue_reference<T>::type,
-	//                            typename std::add_rvalue_reference<T>::type> {};
-
-#endif
-}
+#include <tuple>
+#include <iterator>
 
 namespace seq
 {
-	namespace detail
-	{
-		template<class T>
-		struct make_void
-		{
-			using type = void;
-		};
-	}
-
 	/// @brief Compute integer type maximum value at compile time
 	template<class T, bool Signed = std::is_signed<T>::value>
 	struct integer_max
@@ -116,74 +88,61 @@ namespace seq
 		using type = std::uint64_t;
 	};
 
-	namespace detail
-	{
-		template<class T, bool Signed = std::is_signed<T>::value>
-		struct IntegerAbs
-		{
-			using type = typename integer_abs_return<T>::type;
-			static inline auto neg_if_signed(T v) -> type { return static_cast<type>(-v); }
-			static inline auto abs(T v) -> type { return static_cast<type>(v < 0 ? -v : v); }
-		};
-		template<class T>
-		struct IntegerAbs<T, false>
-		{
-			using type = T;
-			static inline auto neg_if_signed(T v) -> T { return v; }
-			static inline auto abs(T v) -> T { return v; }
-		};
-	}
-
 	/// @brief Returns -v if v is signed, v otherwise.
 	template<class T>
 	auto negate_if_signed(T v) -> typename integer_abs_return<T>::type
 	{
-		return detail::IntegerAbs<T>::neg_if_signed(v);
+		if constexpr (std::is_signed_v<T>)
+			return static_cast<std::make_unsigned_t<T>>(-v);
+		else
+			return v;
 	}
 	/// @brief Returns absolute value of v.
 	template<class T>
 	auto abs(T v) -> typename integer_abs_return<T>::type
 	{
-		return detail::IntegerAbs<T>::abs(v);
+		if constexpr (std::is_signed_v<T>)
+			return static_cast<std::make_unsigned_t<T>>(v < 0 ? -v : v);
+		else
+			return v;
 	}
+	
 
-	namespace detail
+
+	/// Check if iterator is random access
+	template<class Iter>
+	struct is_random_access : std::is_same<std::random_access_iterator_tag, typename std::iterator_traits<Iter>::iterator_category>
 	{
-		template<class T>
-		struct unique_ptr_traits
-		{
-		};
+	};
+	template<class Iter>
+	constexpr bool is_random_access_v = is_random_access<Iter>::value;
 
-		template<class T, class Del>
-		struct unique_ptr_traits<std::unique_ptr<T, Del>>
-		{
-			using value_type = T;
-			using pointer = T*;
-			using const_pointer = const T*;
-			using reference = T&;
-			using const_reference = const T&;
-		};
-		template<class T, class Del>
-		struct unique_ptr_traits<const std::unique_ptr<T, Del>>
-		{
-			using value_type = T;
-			using pointer = const T*;
-			using const_pointer = const T*;
-			using reference = const T&;
-			using const_reference = const T&;
-		};
-	}
+	/// Check if iterator is a std::reverse_iterator
+	template<class It>
+	struct is_reverse_iterator : std::false_type
+	{
+	};
+	template<class It>
+	struct is_reverse_iterator<std::reverse_iterator<It>> : std::true_type
+	{
+	};
+	template<class Iter>
+	constexpr bool is_reverse_iterator_v = is_reverse_iterator<Iter>::value;
+
+
 
 	/// @brief Inherits std::true_type is T is of type std::unique_ptr<...>, false otherwise
 	template<class T>
 	struct is_unique_ptr : std::false_type
 	{
 	};
-
 	template<class T, class Del>
 	struct is_unique_ptr<std::unique_ptr<T, Del>> : std::true_type
 	{
 	};
+	template<class T>
+	constexpr bool is_unique_ptr_v = is_unique_ptr<T>::value;
+
 
 	/// @brief Type trait telling if a class is relocatable or not.
 	///
@@ -204,6 +163,9 @@ namespace seq
 	{
 		static constexpr bool value = std::is_trivially_copyable<T>::value && std::is_trivially_destructible<T>::value;
 	};
+
+	template<class T>
+	constexpr bool is_relocatable_v = is_relocatable<T>::value;
 
 	// Specilizations for unique_ptr, shared_ptr and pair
 
@@ -228,6 +190,25 @@ namespace seq
 		static constexpr bool value = true;
 	};
 
+	namespace detail
+	{
+		template<class Tuple, size_t Pos = std::tuple_size<Tuple>::value>
+		struct is_relocatable_tupe
+		{
+			using type = typename std::tuple_element<std::tuple_size<Tuple>::value - Pos, Tuple>::type;
+			static constexpr bool value = seq::is_relocatable<type>::value && is_relocatable_tupe<Tuple, Pos - 1>::value;
+		};
+		template<class Tuple>
+		struct is_relocatable_tupe<Tuple, 0>
+		{
+			static constexpr bool value = true;
+		};
+	}
+	template<class... Args>
+	struct is_relocatable<std::tuple<Args...>> : detail::is_relocatable_tupe<std::tuple<Args...>>
+	{
+	};
+
 	/// @brief Tells if given type is hashable with std::hash.
 	/// True by default, optimistically assume that all types are hashable.
 	/// Used by seq::hold_any.
@@ -235,6 +216,8 @@ namespace seq
 	struct is_hashable : std::true_type
 	{
 	};
+	template<class T>
+	constexpr bool is_hashable_v = is_hashable<T>::value;
 
 	/// @brief Tells if given type can be streamed to a std::ostream object
 	template<class T, class = void>
@@ -243,7 +226,7 @@ namespace seq
 	};
 
 	template<class T>
-	struct is_ostreamable<T, typename detail::make_void<decltype(std::declval<std::ostream&>() << std::declval<const T&>())>::type> : std::true_type
+	struct is_ostreamable<T, std::void_t<decltype(std::declval<std::ostream&>() << std::declval<const T&>())>> : std::true_type
 	{
 	};
 
@@ -254,86 +237,148 @@ namespace seq
 	};
 
 	template<class T>
-	struct is_istreamable<T, typename detail::make_void<decltype(std::declval<std::istream&>() >> std::declval<T&>())>::type> : std::true_type
+	struct is_istreamable<T, std::void_t<decltype(std::declval<std::istream&>() >> std::declval<T&>())>> : std::true_type
 	{
 	};
 
 	/// @brief Tells if given type supports equality comparison with operator ==
-	template<class T>
-	class is_equal_comparable
+	template<class T, class  = void>
+	struct is_equal_comparable : std::false_type
 	{
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
-#endif
-		template<class TT>
-		static auto test(int) -> decltype(std::declval<TT&>() == std::declval<TT&>(), std::true_type());
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-		template<class>
-		static auto test(...) -> std::false_type;
-
-	public:
-		static constexpr bool value = decltype(test<T>(0))::value;
 	};
+	template<class T>
+	struct is_equal_comparable<T, std::void_t<decltype(std::declval<T&>() == std::declval<T&>())>> : std::true_type
+	{
+	};
+
 
 	/// @brief Tells if given type supports comparison with operator <
+	template<class T, class = void>
+	struct is_less_comparable : std::false_type
+	{
+	};
 	template<class T>
-	class is_less_comparable
-	{
-		template<class TT>
-		static auto test(int) -> decltype(std::declval<TT&>() < std::declval<TT&>(), std::true_type());
-
-		template<class>
-		static auto test(...) -> std::false_type;
-
-	public:
-		static constexpr bool value = decltype(test<T>(0))::value;
-	};
-
-	/// @brief Tells if given type supports invocation with signature void(Args ...)
-	/// Equivalent to C++17 std::is_invocable
-	template<typename F, typename... Args>
-	struct is_invocable : std::is_constructible<std::function<void(Args...)>, std::reference_wrapper<typename std::remove_reference<F>::type>>
+	struct is_less_comparable<T, std::void_t<decltype(std::declval<T&>() < std::declval<T&>())>> : std::true_type
 	{
 	};
 
-	/// @brief Tells if given type supports invocation with signature R(Args ...)
-	/// Equivalent to C++17 std::is_invocable_r
-	template<typename R, typename F, typename... Args>
-	struct is_invocable_r : std::is_constructible<std::function<R(Args...)>, std::reference_wrapper<typename std::remove_reference<F>::type>>
+
+	/// @brief Check if type provides the 'iterator' typedef
+	template<class T, class = void>
+	struct has_iterator : std::false_type
 	{
 	};
 
-	namespace detail
+	template<class T>
+	struct has_iterator<T, std::void_t<typename T::iterator>> : std::true_type
 	{
+	};
 
-		template<class T, class = void>
-		struct has_iterator : std::false_type
-		{
-		};
+	/// @brief Check if type provides the 'value_type' typedef
+	template<class T, class = void>
+	struct has_value_type : std::false_type
+	{
+	};
 
-		template<class T>
-		struct has_iterator<T, typename make_void<typename T::iterator>::type> : std::true_type
-		{
-		};
-
-		template<class T, class = void>
-		struct has_value_type : std::false_type
-		{
-		};
-
-		template<class T>
-		struct has_value_type<T, typename make_void<typename T::value_type>::type> : std::true_type
-		{
-		};
-	}
+	template<class T>
+	struct has_value_type<T, std::void_t<typename T::value_type>> : std::true_type
+	{
+	};
+	
 
 	template<class C>
 	struct is_iterable
 	{
-		static constexpr bool value = detail::has_iterator<C>::value && detail::has_value_type<C>::value;
+		static constexpr bool value = has_iterator<C>::value && has_value_type<C>::value;
 	};
+
+
+	template<class T, class = void>
+	struct has_is_transparent : std::false_type
+	{
+	};
+
+	template<class T>
+	struct has_is_transparent<T, std::void_t<typename T::is_transparent>> : std::true_type
+	{
+	};
+
+	template<class T, class = void>
+	struct has_is_avalanching : std::false_type
+	{
+	};
+
+	template<class T>
+	struct has_is_avalanching<T, std::void_t<typename T::is_avalanching>> : std::true_type
+	{
+	};
+
+	template<class T, class = void>
+	struct has_is_always_equal : std::false_type
+	{
+	};
+
+	template<class T>
+	struct has_is_always_equal<T, std::void_t<typename T::is_always_equal>> : std::true_type
+	{
+	};
+
+	template<class T, class = void>
+	struct has_comparable : std::false_type
+	{
+	};
+	template<class T>
+	struct has_comparable<T, std::void_t<typename T::comparable>> : std::true_type
+	{
+	};
+
+	template<class T, class = void>
+	struct has_plus_equal : std::false_type
+	{
+	};
+	template<class T>
+	struct has_plus_equal<T, std::void_t<decltype(std::declval<T&>() += 1)>> : std::true_type
+	{
+	};
+	
+
+	/// Provide a is_always_equal type traits for allocators in case current compiler
+	/// std::allocator_traits::is_always_equal is not present.
+	template<class Alloc, bool HasIsAlwaysEqual = has_is_always_equal<Alloc>::value>
+	struct is_always_equal
+	{
+		using equal = typename std::allocator_traits<Alloc>::is_always_equal;
+		static constexpr bool value = equal::value;
+	};
+	template<class Alloc>
+	struct is_always_equal<Alloc, false>
+	{
+		static constexpr bool value = std::is_empty_v<Alloc>;
+	};
+
+	namespace metafunction
+	{
+		template<class MetaFunction>
+		using result_of = typename MetaFunction::result;
+
+		template<class Tuple, template<class> class Function>
+		struct transform_elements;
+
+		// meta-function which takes a tuple and a unary metafunction
+		// and yields a tuple of the result of applying the metafunction
+		// to each element_type of the tuple.
+		// type: binary metafunction
+		// arg1 = the tuple of types to be wrapped
+		// arg2 = the unary metafunction to apply to each element_type
+		// returns tuple<result_of<arg2<element>>...> for each element in arg1
+
+		template<class... Elements, template<class> class UnaryMetaFunction>
+		struct transform_elements<std::tuple<Elements...>, UnaryMetaFunction>
+		{
+			template<class Arg>
+			using function = UnaryMetaFunction<Arg>;
+			using result = std::tuple<result_of<function<Elements>>...>;
+		};
+	}
 }
 #endif

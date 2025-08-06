@@ -347,51 +347,51 @@ void test_hash(int count, Gen gen,bool save_keys=false)
 	
 	// warmup
 	 {
-		ordered_set<T, Hash, seq::equal_to<>, std::allocator<T>> set;
+		ordered_set<T, Hash, std::equal_to<>, std::allocator<T>> set;
 		test_hash_set("seq::ordered_set", set, keys, f, false);
 	}
 
 	
 	{
-		ordered_set<T, Hash, seq::equal_to<> > set;
+		ordered_set<T, Hash, std::equal_to<> > set;
 		test_hash_set("seq::ordered_set", set, keys, f);
 	}
 #ifdef SEQ_HAS_CPP_17
 	{
-		ankerl::unordered_dense::set<T, Hash, seq::equal_to<> > set;
+		ankerl::unordered_dense::set<T, Hash, std::equal_to<> > set;
 		test_hash_set("ankerl::unordered_dense::set", set, keys, f);
 	}
 #endif
 	 {
-		concurrent_set<T, Hash, seq::equal_to<>, std::allocator<T>, seq::no_concurrency > set;
+		concurrent_set<T, Hash, std::equal_to<>, std::allocator<T>, seq::no_concurrency > set;
 		test_hash_set("seq::concurrent_set", set, keys, f);
 	}
 	
 	
 	
 	 {
-		 radix_hash_set<T, Hash, seq::equal_to<> > set;
+		 radix_hash_set<T, Hash, std::equal_to<> > set;
 		 test_hash_set("seq::radix_hash_set", set, keys, f);
 	 } 
 	 {
-		 robin_hood::unordered_flat_set<T, Hash, seq::equal_to<> > set;
+		 robin_hood::unordered_flat_set<T, Hash, std::equal_to<> > set;
 		 test_hash_set("robin_hood::unordered_flat_set", set, keys, f);
 	 }
 #ifdef SEQ_HAS_CPP_17
 	  {
-		 gtl::flat_hash_set<T, Hash, seq::equal_to<> > set;
+		 gtl::flat_hash_set<T, Hash, std::equal_to<> > set;
 		 test_hash_set("gtl::flat_hash_set", set, keys, f);
 	 }
 #endif
 #ifdef BOOST_CONCURRENT_MAP_FOUND
 	  {
-		 boost::unordered_flat_set<T, Hash, seq::equal_to<> > set;
+		 boost::unordered_flat_set<T, Hash, std::equal_to<> > set;
 		  test_hash_set("boost::unordered_flat_set", set, keys, f);
 	  }
 #endif
 	 
 	  {
-		std::unordered_set <T, Hash, seq::equal_to<> > set;
+		std::unordered_set <T, Hash, std::equal_to<> > set;
 		 test_hash_set("std::unordered_set", set, keys, f);
 	}
 }

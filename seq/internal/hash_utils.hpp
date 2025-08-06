@@ -80,16 +80,16 @@ namespace seq
 				std::swap(static_cast<Equal&>(*this), static_cast<Equal&>(other));
 			}
 
-			auto hash_function() const noexcept -> const Hash& { return (*this); }
-			auto key_eq() const noexcept -> const Equal& { return (*this); }
+			SEQ_ALWAYS_INLINE auto hash_function() const noexcept -> const Hash& { return (*this); }
+			SEQ_ALWAYS_INLINE auto key_eq() const noexcept -> const Equal& { return (*this); }
 
 			template<class... Args>
-			auto hash(Args&&... args) const noexcept(noexcept(std::declval<Hash&>().operator()(std::forward<Args>(args)...))) -> size_t
+			SEQ_ALWAYS_INLINE auto hash(Args&&... args) const noexcept(noexcept(std::declval<Hash&>().operator()(std::forward<Args>(args)...))) -> size_t
 			{
 				return (Hash::operator()(std::forward<Args>(args)...));
 			}
 			template<class... Args>
-			bool operator()(Args&&... args) const noexcept(noexcept(std::declval<Equal&>().operator()(std::forward<Args>(args)...)))
+			SEQ_ALWAYS_INLINE bool operator()(Args&&... args) const noexcept(noexcept(std::declval<Equal&>().operator()(std::forward<Args>(args)...)))
 			{
 				return Equal::operator()(std::forward<Args>(args)...);
 			}

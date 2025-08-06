@@ -35,14 +35,6 @@
 namespace seq
 {
 
-	/// @brief Memory Layout Management for containers like seq::sequence or seq::tiered_vector
-	enum LayoutManagement
-	{
-		OptimizeForSpeed, //! Use more memory to favor speed
-		OptimizeForMemory //! Use as few memory as possible
-	};
-
-	
 	/// @brief Constants used by #object_pool, #parallel_object_pool and #object_allocator
 	enum
 	{
@@ -246,7 +238,6 @@ namespace seq
 		}
 		void destroy(T* p) { destroy_ptr(static_cast<T*>(p)); }
 	};
-
 
 	/// @brief Convenient random access iterator on a constant value
 	template<class T>
@@ -458,7 +449,7 @@ namespace seq
 		};
 
 		/// @brief Build value from any kind of argument,
-		/// used by emplace() member of containers 
+		/// used by emplace() member of containers
 		template<class T, bool IsTransparent>
 		struct BuildValue
 		{
@@ -479,183 +470,49 @@ namespace seq
 			static SEQ_ALWAYS_INLINE T& make(T& val) noexcept { return val; }
 		};
 
-		// Helper class to detect is_transparent typedef in hash functor or comparison functor
-
-		template<class T, class = void>
-		struct has_is_transparent : std::false_type
+		template<class T, bool WithValue = true>
+		struct ResizeHelper
 		{
-		};
-
-		template<class T>
-		struct has_is_transparent<T, typename make_void<typename T::is_transparent>::type> : std::true_type
-		{
-		};
-
-		template<class T, class = void>
-		struct has_is_avalanching : std::false_type
-		{
-		};
-
-		template<class T>
-		struct has_is_avalanching<T, typename make_void<typename T::is_avalanching>::type> : std::true_type
-		{
-		};
-
-		template<class T, class = void>
-		struct key_transparent : std::true_type
-		{
-		};
-
-		template<class T>
-		struct key_transparent<T, typename make_void<typename T::seq_unused_huge_typedef>::type> : std::true_type
-		{
-		};
-
-		template<class T, class = void>
-		struct has_is_always_equal : std::false_type
-		{
-		};
-
-		template<class T>
-		struct has_is_always_equal<T, typename make_void<typename T::is_always_equal>::type> : std::true_type
-		{
-		};
-
-		/// Provide a is_always_equal type traits for allocators in case current compiler
-		/// std::allocator_traits::is_always_equal is not present.
-		template<class Alloc, bool HasIsAlwaysEqual = has_is_always_equal<Alloc>::value>
-		struct is_always_equal
-		{
-			using equal = typename std::allocator_traits<Alloc>::is_always_equal;
-			static constexpr bool value = equal::value;
-		};
-		template<class Alloc>
-		struct is_always_equal<Alloc, false>
-		{
-			static constexpr bool value = std::is_empty<Alloc>::value;
-		};
-
-		// Returns distance between 2 iterators, or 0 for non random access iterators
-		template<class Iter, class Cat>
-		auto iter_distance(const Iter&, const Iter&, Cat /*unused*/) noexcept -> size_t
-		{
-			return 0;
-		}
-		template<class Iter>
-		auto iter_distance(const Iter& first, const Iter& last, std::random_access_iterator_tag /*unused*/) noexcept -> size_t
-		{
-			return (last > first) ? static_cast<size_t>(last - first) : 0;
-		}
-
-	}
-
-	/// @brief Returns the distance between first and last iterators for random access iterator category, 0 otherwise.
-	template<class Iter>
-	auto distance(const Iter& first, const Iter& last) noexcept -> size_t
-	{
-		return detail::iter_distance(first, last, typename std::iterator_traits<Iter>::iterator_category());
-	}
-
-	namespace detail
-	{
-
-		template<class L1, class L2, bool IsL1>
-		struct CallLambda
-		{
-			template<class... Args>
-			using return_type = decltype(std::declval<L1&>()(std::declval<Args>()...));
-
-			template<class... Args>
-			auto operator()(const L1& l1, const L2& /*unused*/, Args&&... args) const -> return_type<Args...>
+			T val;
+			template<class... U>
+			ResizeHelper(const U&... vals)
+			  : val(std::forward<const U&>(vals)...)
 			{
-				return l1(std::forward<Args>(args)...);
 			}
+			ResizeHelper() noexcept(std::is_nothrow_default_constructible_v<T>) {}
+			void construct(T* dst) const noexcept(std::is_nothrow_copy_constructible_v<T>) { construct_ptr(dst, val); }
 		};
-		template<class L1, class L2>
-		struct CallLambda<L1, L2, false>
+		template<class T>
+		struct ResizeHelper<T,false>
 		{
-			template<class... Args>
-			using return_type = decltype(std::declval<L2&>()(std::declval<Args>()...));
-
-			template<class... Args>
-			auto operator()(const L1& /*unused*/, const L2& l2, Args&&... args) const -> return_type<Args...>
+			template<class... U>
+			ResizeHelper(const U&... vals)
 			{
-				return l2(std::forward<Args>(args)...);
 			}
+			ResizeHelper() noexcept(std::is_nothrow_default_constructible_v<T>) {}
+			void construct(T* dst) const noexcept(std::is_nothrow_default_constructible_v<T>) { construct_ptr(dst); }
 		};
+		template<class T>
+		struct ResizeHelperDirect
+		{
+			const T& val;
+			void construct(T* dst) const noexcept(std::is_nothrow_default_constructible_v<T>) { construct_ptr(dst,val); }
+		};
+		// Returns a helper class used by
+		// containers providing both members
+		// resize(size_t size) and resize(size_t size, const T & value)
+		template<class T, class... U>
+		auto resize_helper(const U&... vals)
+		{
+			static_assert(sizeof...(U) < 2, "invalid number of arguments for function resize()");
+			return ResizeHelper < T, sizeof...(U) == 1 > (std::forward<const U&>(vals)...);
+		}
+		template<class T>
+		auto resize_helper(const T & v)
+		{
+			return ResizeHelperDirect<T>{ v };
+		}
 	}
-
-	/// @brief Simulation of C++17 if constexpr in C++14
-	template<bool IsL1, class L1, class L2, class... Args>
-	auto constexpr_if(const L1& l1, const L2& l2, Args&&... args) -> decltype(std::declval<detail::CallLambda<L1, L2, IsL1>&>()(std::declval<L1&>(), std::declval<L2&>(), std::declval<Args>()...))
-	{
-		return detail::CallLambda<L1, L2, IsL1>{}(l1, l2, std::forward<Args>(args)...);
-	}
-
-	// C++11 equal_to
-	template<class _Ty = void>
-	struct equal_to
-	{
-		typedef _Ty first_argument_type;
-		typedef _Ty second_argument_type;
-		typedef bool result_type;
-		constexpr bool operator()(const _Ty& left, const _Ty& right) const { SEQ_COMPARE_FLOAT(return left == right;) }
-	};
-	template<>
-	struct equal_to<void>
-	{
-		template<class _Ty1, class _Ty2>
-		constexpr auto operator()(_Ty1&& left, _Ty2&& right) const noexcept(noexcept(static_cast<_Ty1&&>(left) == static_cast<_Ty2&&>(right)))
-		{
-			SEQ_COMPARE_FLOAT(return static_cast<_Ty1&&>(left) == static_cast<_Ty2&&>(right);)
-		}
-
-		using is_transparent = int;
-	};
-
-	// C++11 less
-	template<class _Ty = void>
-	struct less
-	{
-		typedef _Ty first_argument_type;
-		typedef _Ty second_argument_type;
-		typedef bool result_type;
-		constexpr bool operator()(const _Ty& left, const _Ty& right) const { return left < right; }
-	};
-	template<>
-	struct less<void>
-	{
-		template<class _Ty1, class _Ty2>
-		constexpr auto operator()(_Ty1&& left, _Ty2&& right) const noexcept(noexcept(static_cast<_Ty1&&>(left) < static_cast<_Ty2&&>(right)))
-		  -> decltype(static_cast<_Ty1&&>(left) < static_cast<_Ty2&&>(right))
-		{
-			return static_cast<_Ty1&&>(left) < static_cast<_Ty2&&>(right);
-		}
-
-		using is_transparent = int;
-	};
-
-	// C++11 greater
-	template<class _Ty = void>
-	struct greater
-	{
-		typedef _Ty first_argument_type;
-		typedef _Ty second_argument_type;
-		typedef bool result_type;
-		constexpr bool operator()(const _Ty& left, const _Ty& right) const { return left > right; }
-	};
-	template<>
-	struct greater<void>
-	{
-		template<class _Ty1, class _Ty2>
-		constexpr auto operator()(_Ty1&& left, _Ty2&& right) const noexcept(noexcept(static_cast<_Ty1&&>(left) > static_cast<_Ty2&&>(right)))
-		  -> decltype(static_cast<_Ty1&&>(left) > static_cast<_Ty2&&>(right))
-		{
-			return static_cast<_Ty1&&>(left) > static_cast<_Ty2&&>(right);
-		}
-
-		using is_transparent = int;
-	};
 
 	/// @brief Copy allocator for container copy constructor
 	template<class Allocator>
@@ -703,13 +560,13 @@ namespace seq
 	template<class Allocator>
 	struct assign_alloc
 	{
-		static constexpr bool value = std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value && !detail::is_always_equal<Allocator>::value;
+		static constexpr bool value = std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value && !is_always_equal<Allocator>::value;
 	};
 
 	template<class Allocator>
 	struct move_alloc
 	{
-		static constexpr bool value = std::allocator_traits<Allocator>::propagate_on_container_move_assignment::type && !detail::is_always_equal<Allocator>::value;
+		static constexpr bool value = std::allocator_traits<Allocator>::propagate_on_container_move_assignment::type && !is_always_equal<Allocator>::value;
 	};
 
 } // end namespace seq

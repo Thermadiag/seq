@@ -617,7 +617,7 @@ SEQ_PROTOTYPE( int test_radix_hash_map(int , char*[]))
 
 	SEQ_TEST_MODULE_RETURN(heavy_radix_set,1, test_heavy_set<seq::radix_hash_set<size_t> >(10000));
 	SEQ_TEST_MODULE_RETURN(heavy_radix_set_linear,1, test_heavy_set<seq::radix_hash_set<size_t, DummyHash> >(5000));
-	SEQ_TEST_MODULE_RETURN(heavy_radix_set_linear_less,1, test_heavy_set<seq::radix_hash_set<size_t, DummyHash, seq::equal_to<> ,std::allocator<size_t>, seq::less<> > >(5000));
+	SEQ_TEST_MODULE_RETURN(heavy_radix_set_linear_less,1, test_heavy_set<seq::radix_hash_set<size_t, DummyHash, std::equal_to<> ,std::allocator<size_t>, std::less<> > >(5000));
 
 	// Test radix hash map and detect potential memory leak (allocations and non destroyed objects) or wrong allocator propagation
 	SEQ_TEST_MODULE_RETURN(radix_hash_map_destroy, 1, test_radix_hash_map_logic<TestDestroy<double>>());
@@ -638,7 +638,7 @@ SEQ_PROTOTYPE( int test_radix_hash_map(int , char*[]))
 	SEQ_TEST(TestDestroy<size_t>::count() == 0);
 	SEQ_TEST_MODULE_RETURN(heavy_radix_set_linear_destroy, 1, test_heavy_set<seq::radix_hash_set<TestDestroy<size_t>, DummyHash> >(5000));
 	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_radix_set_linear_less_destroy, 1, test_heavy_set<seq::radix_hash_set<TestDestroy<size_t>, DummyHash, seq::equal_to<>, std::allocator<TestDestroy<size_t>>, seq::less<> > >(5000));
+	SEQ_TEST_MODULE_RETURN(heavy_radix_set_linear_less_destroy, 1, test_heavy_set<seq::radix_hash_set<TestDestroy<size_t>, DummyHash, std::equal_to<>, std::allocator<TestDestroy<size_t>>, std::less<> > >(5000));
 	SEQ_TEST(TestDestroy<size_t>::count() == 0);
 
 	return 0;

@@ -895,7 +895,6 @@ void test_heavy_set(size_t count)
 		keys[i] = i;
 	seq::random_shuffle(keys.begin(), keys.end());
 
-
 	Set s; 
 
 	for(int k=0; k < 2; ++k)
@@ -1002,6 +1001,8 @@ void test_heavy_set(size_t count)
 		}
 	}
 
+	
+
 	//erase remaining keys
 	for (size_t i = 0; i < count; ++i)
 	{
@@ -1020,7 +1021,7 @@ SEQ_PROTOTYPE( int test_flat_map(int , char*[]))
 {
 	// Test various map.multimap functions and potential memory leak or wrong allocator propagation
 	CountAlloc<double> al;
-	SEQ_TEST_MODULE_RETURN(heavy_flat_set,1, test_heavy_set<seq::flat_set<size_t> >(10000));
+	SEQ_TEST_MODULE_RETURN(heavy_flat_set, 1, test_heavy_set<seq::flat_set<size_t>>(10000));
 	SEQ_TEST_MODULE_RETURN(flat_map,1,test_flat_map_logic<double>());
 	SEQ_TEST_MODULE_RETURN(flat_multimap,1,test_flat_multimap_logic<double>());
 	SEQ_TEST_MODULE_RETURN(flat_set,1,test_flat_set_logic<double>(al));
@@ -1043,15 +1044,15 @@ SEQ_PROTOTYPE( int test_flat_map(int , char*[]))
 	// Test various map.multimap functions and potential memory leak with non relocatable type
 	CountAlloc<TestDestroy<double, false>> al2;
 	SEQ_TEST_MODULE_RETURN(heavy_flat_set_destroy_no_relocatable, 1, test_heavy_set<seq::flat_set<TestDestroy<size_t,false>> >(10000));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST(TestDestroy<size_t,false>::count() == 0);
 	SEQ_TEST_MODULE_RETURN(flat_map_destroy_no_relocatable, 1, test_flat_map_logic< TestDestroy<double, false>>());
-	SEQ_TEST(TestDestroy<double>::count() == 0);
+	SEQ_TEST(TestDestroy<double, false>::count() == 0);
 	SEQ_TEST_MODULE_RETURN(flat_multimap_destroy_no_relocatable, 1, test_flat_multimap_logic<TestDestroy<double, false>>());
-	SEQ_TEST(TestDestroy<double>::count() == 0);
+	SEQ_TEST(TestDestroy<double, false>::count() == 0);
 	SEQ_TEST_MODULE_RETURN(flat_set_destroy_no_relocatable, 1, test_flat_set_logic<TestDestroy<double, false>>(al2));
-	SEQ_TEST(TestDestroy<double>::count() == 0);
+	SEQ_TEST(TestDestroy<double, false>::count() == 0);
 	SEQ_TEST(get_alloc_bytes(al2) == 0);
 	SEQ_TEST_MODULE_RETURN(flat_multiset_destroy_no_relocatable, 1, test_flat_multiset_logic<TestDestroy<double, false>>());
-	SEQ_TEST(TestDestroy<double>::count() == 0);
+	SEQ_TEST(TestDestroy<double, false>::count() == 0);
 	return 0;
 }

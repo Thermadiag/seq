@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <type_traits>
 
 #include "seq/any.hpp"
 #include "seq/tiny_string.hpp"
@@ -17,11 +18,13 @@
  namespace seq
  {
 	template<class R, class T, class... As>
-	SEQ_ALWAYS_INLINE typename std::enable_if< is_invocable<T, As ...>::value,R>::type call_fun(const T & fun,  As... as){
+	 SEQ_ALWAYS_INLINE typename std::enable_if<std::is_invocable<T, As...>::value, R>::type call_fun(const T& fun, As... as)
+	 {
 		return fun(std::forward<As>(as)...);
 	}
 	template<class R, class T, class... As>
-	SEQ_ALWAYS_INLINE typename std::enable_if< !is_invocable<T, As ...>::value,R>::type call_fun(const T & fun,  As... as){
+	SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_invocable<T, As...>::value, R>::type call_fun(const T& fun, As... as)
+	{
 		(void)fun;		
 		throw std::bad_function_call(); return R(); 
 	}	
@@ -623,7 +626,7 @@ static void test_hold_any()
 	}
 	{
 		// build an ordered set than supports heterogeneous lookup 
-		 ordered_set<any,std::hash<any> , seq::equal_to<void> > set;
+		 ordered_set<any,std::hash<any> , std::equal_to<void> > set;
 	 
 		 set.insert(3);
 		 set.insert(2.5);

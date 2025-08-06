@@ -43,7 +43,7 @@ namespace seq
 	/// @tparam KeyEqual equality comparison functor
 	/// @tparam Allocator allocator
 	/// @tparam KeyLess optional less than comparison
-	template<class Key, class Hash = hasher<Key>, class KeyEqual = equal_to<>, class Allocator = std::allocator<Key>, class KeyLess = default_less>
+	template<class Key, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<Key>, class KeyLess = default_less>
 	class radix_hash_set
 	{
 		struct Extract
@@ -54,9 +54,6 @@ namespace seq
 				return value;
 			}
 		};
-
-		template<typename U>
-		using has_is_transparent = detail::has_is_transparent<U>;
 
 		using Policy = detail::BuildValue<Key, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
 		
@@ -483,7 +480,7 @@ namespace seq
 	/// @tparam KeyEqual equality comparison functor
 	/// @tparam Allocator allocator
 	/// @tparam KeyLess optional less than comparison
-	template<class Key, class T, class Hash = hasher<Key>, class KeyEqual = equal_to<>, class Allocator = std::allocator<std::pair<Key, T>>, class KeyLess = default_less>
+	template<class Key, class T, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<std::pair<Key, T>>, class KeyLess = default_less>
 	class radix_hash_map
 	{
 		struct Extract
@@ -502,9 +499,6 @@ namespace seq
 			SEQ_ALWAYS_INLINE const Key& operator()(const std::pair<const Key, T>& p) const noexcept { return (p.first); }
 		};
 
-		template<typename U>
-		using has_is_transparent = detail::has_is_transparent<U>;
-
 		using Policy = detail::BuildValue<std::pair<Key, T>, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
 
 		using radix_hash = radix_detail::RadixHasherUnordered<Key, Hash, KeyLess, KeyEqual>;
@@ -512,7 +506,7 @@ namespace seq
 		radix_tree_type d_tree;
 
 	public:
-		static_assert(std::is_empty<KeyEqual>::value, "radix_hash_map only supports empty KeyEqual functor");
+		static_assert(std::is_empty_v<KeyEqual>, "radix_hash_map only supports empty KeyEqual functor");
 
 		struct const_iterator
 		{

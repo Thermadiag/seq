@@ -167,7 +167,7 @@ void check_sorted(C& set)
 	size_t dist = static_cast<size_t>(std::distance(set.begin(), set.end()));
 	SEQ_TEST(dist == set.size());
 	SEQ_TEST(std::is_sorted(set.begin(), set.end()));
-	SEQ_TEST(std::is_sorted(set.rbegin(), set.rend(), seq::greater<>{}));
+	SEQ_TEST(std::is_sorted(set.rbegin(), set.rend(), std::greater<>{}));
 	
 	// build keys
 	std::vector<typename C::value_type> vec;

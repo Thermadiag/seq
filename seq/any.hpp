@@ -1418,7 +1418,7 @@ namespace seq
 	/// using namespace seq;
 	///
 	/// // build an ordered set than supports heterogeneous lookup
-	/// seq::ordered_set<any,std::hash<any> , seq::equal_to<void> > set;
+	/// seq::ordered_set<any,std::hash<any> , std::equal_to<void> > set;
 	///
 	/// set.insert(3);
 	/// set.insert(2.5);
@@ -1711,7 +1711,7 @@ namespace seq
 	/// 			{
 	/// 				// C++14 emulation of if constexpr
 	/// 				// Make sure that this interface is still suitable for non invocable types
-	/// 				return constexpr_if<is_invocable<T, As ...>::value>(
+	/// 				return constexpr_if<std::is_invocable<T, As ...>::value>(
 	/// 					[&as...](const auto& fun) {return fun(std::forward<As>(as)...); },
 	/// 					[](const auto&) {throw std::bad_function_call(); return R(); },
 	/// 					* static_cast<const T*>(data));

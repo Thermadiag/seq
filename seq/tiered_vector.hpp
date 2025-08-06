@@ -29,6 +29,7 @@
 #include "pdqsort.hpp"
 #include "utils.hpp"
 #include "tiny_string.hpp"
+#include "algorithm.hpp"
 
 #include <algorithm>
 #include <string>
@@ -103,16 +104,22 @@ namespace seq
 
 			SEQ_ALWAYS_INLINE auto absolutePos() const noexcept -> size_type { return pos; }
 
-			SEQ_ALWAYS_INLINE void setPos(size_t new_pos) noexcept
+			void setPos(size_t new_pos) noexcept
 			{
 				SEQ_ASSERT_DEBUG(new_pos <= static_cast<size_t>(mgr->d_size), "invalid iterator position");
 				pos = new_pos;
 				indexes = update();
 			}
 
-			SEQ_ALWAYS_INLINE void offset(difference_type diff) noexcept 
-			{ 
-				setPos(static_cast<size_t>(static_cast<difference_type>(pos) + diff)); 
+			SEQ_ALWAYS_INLINE void offset(difference_type diff) noexcept
+			{
+				auto idx = indexes.second + diff;
+				if (idx >= 0 && idx < mgr->d_buckets[static_cast<size_t>(indexes.first)].bucket->size) {
+					indexes.second = static_cast<int>(idx);
+					pos += diff;
+					return;
+				}
+				setPos(static_cast<size_t>(static_cast<difference_type>(pos) + diff));
 			}
 
 			SEQ_ALWAYS_INLINE auto operator++() noexcept -> deque_const_iterator&
@@ -143,6 +150,14 @@ namespace seq
 				--(*this);
 				return _Tmp;
 			}
+			SEQ_ALWAYS_INLINE reference operator[](difference_type diff) const noexcept
+			{
+				auto idx = indexes.second + diff;
+				if (idx >= 0 && idx < mgr->d_buckets[static_cast<size_t>(indexes.first)].bucket->size)
+					return mgr->d_buckets[static_cast<size_t>(indexes.first)].bucket->at(static_cast<cbuffer_pos>(idx));
+				auto p = update(static_cast<size_type>(pos + diff));
+				return mgr->d_buckets[static_cast<size_t>(p.first)].bucket->at(p.second);
+			}
 			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference
 			{
 				SEQ_ASSERT_DEBUG(pos >= 0 && pos < mgr->d_size, "dereference invalid iterator");
@@ -158,12 +173,6 @@ namespace seq
 			{
 				offset(-diff);
 				return *this;
-			}
-
-			SEQ_ALWAYS_INLINE reference operator[](difference_type diff) const noexcept
-			{ 
-				auto p = update(static_cast<size_type>(pos + diff));
-				return mgr->d_buckets[static_cast<size_t>(p.first)].bucket->at(p.second);
 			}
 		};
 
@@ -242,11 +251,7 @@ namespace seq
 				base_type::operator-=(diff);
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE reference operator[](difference_type diff) const noexcept
-			{
-				auto p = this->update(static_cast<size_type>(this->pos + diff));
-				return const_cast<reference>(this->mgr->d_buckets[static_cast<size_t>(p.first)].bucket->at(p.second));
-			}
+			SEQ_ALWAYS_INLINE reference operator[](difference_type diff) const noexcept { return const_cast<reference>(base_type::operator[](diff)); }
 		};
 
 		template<class BucketMgr>
@@ -377,21 +382,40 @@ namespace seq
 					pos = data->d_buckets.back().bucket->size;
 				}
 			}
+			SEQ_ALWAYS_INLINE tvector_ra_iterator(BucketMgr* d, chunk_type* n, int p) noexcept
+			  : data(d)
+			  , node(n)
+			  , pos(p)
+			{
+			}
 
 			SEQ_ALWAYS_INLINE auto computeAbsolutePos() const noexcept -> difference_type { return ((node - data->d_buckets.data()) << data->d_bucket_size_bits) + pos; }
 			SEQ_ALWAYS_INLINE void add(difference_type diff) noexcept
 			{
+				difference_type new_pos = pos + diff;
+				if (new_pos >= 0 && new_pos < data->d_bucket_size) {
+					this->pos = static_cast<int>(new_pos);
+					return;
+				}
+
 				difference_type abs = computeAbsolutePos();
 				abs += diff;
 				this->node = data->d_buckets.data() + (abs >> data->d_bucket_size_bits);
 				this->pos = static_cast<int>(abs & data->d_bucket_size1);
 			}
-			SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference { return node->bucket->buffer()[pos]; }
+			SEQ_ALWAYS_INLINE auto operator[](difference_type offset) const noexcept -> reference
+			{
+				difference_type new_pos = pos + offset;
+				if (new_pos >= 0 && new_pos < data->d_bucket_size)
+					return node->bucket->buffer()[new_pos];
+				return *std::next(*this, offset);
+			}
+			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return const_cast<reference>(node->bucket->buffer()[pos]); }
 			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
 			SEQ_ALWAYS_INLINE auto operator++() noexcept -> tvector_ra_iterator&
 			{
 				++pos;
-				if SEQ_UNLIKELY(pos >= data->d_bucket_size){
+				if SEQ_UNLIKELY (pos == data->d_bucket_size) {
 					++node;
 					pos = 0;
 				}
@@ -405,11 +429,11 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE auto operator--() noexcept -> tvector_ra_iterator&
 			{
-				--pos;
-				if SEQ_UNLIKELY(pos < 0) {
+				if SEQ_UNLIKELY (pos == 0) {
 					--node;
-					pos = data->d_bucket_size1;
+					pos = data->d_bucket_size;
 				}
+				--pos;
 				return *this;
 			}
 			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> tvector_ra_iterator
@@ -457,7 +481,7 @@ namespace seq
 	namespace detail
 	{
 		// Base class for circular buffer
-		template<class T, class Allocator>
+		template<class T>
 		struct alignas(alignof(T) > alignof(cbuffer_pos) ? alignof(T) : alignof(cbuffer_pos)) BaseCircularBuffer
 		{
 			cbuffer_pos size;      // buffer size
@@ -476,50 +500,31 @@ namespace seq
 
 		// Circular buffer class used internally by tiered_vector
 		// Actuall data are located in the same memory block and starts at start_data_T
-		template<class T, class Allocator>
-		struct CircularBuffer : BaseCircularBuffer<T, Allocator>
+		template<class T>
+		struct CircularBuffer : BaseCircularBuffer<T>
 		{
-			static constexpr size_t size_BCB = sizeof(BaseCircularBuffer<T, Allocator>);
+			static constexpr size_t size_BCB = sizeof(BaseCircularBuffer<T>);
 			// Start position for actual data in bytes
 			static constexpr size_t start_data_T = (size_BCB > sizeof(T)) ? (size_BCB / sizeof(T) + ((size_BCB % sizeof(T)) != 0u ? 1 : 0)) : 1;
 			static constexpr size_t start_data = start_data_T * sizeof(T);
 			static constexpr bool relocatable = is_relocatable<T>::value && (sizeof(T) >= sizeof(size_t));
 
-			using BaseCircularBuffer<T, Allocator>::size;
-			using BaseCircularBuffer<T, Allocator>::max_size1;
-			using BaseCircularBuffer<T, Allocator>::max_size_;
-			using BaseCircularBuffer<T, Allocator>::begin;
+			using BaseCircularBuffer<T>::size;
+			using BaseCircularBuffer<T>::max_size1;
+			using BaseCircularBuffer<T>::max_size_;
+			using BaseCircularBuffer<T>::begin;
 
 			// Initialize from a maximum size
 			SEQ_ALWAYS_INLINE CircularBuffer(cbuffer_pos max_size) noexcept
-			  : BaseCircularBuffer<T, Allocator>(max_size)
+			  : BaseCircularBuffer<T>(max_size)
 			{
 				// initialize empty buffer
 			}
-			// Initialize from a maximum size and a default value.
-			// This will set the buffer size to its maximum.
-			CircularBuffer(cbuffer_pos max_size, const T& val, Allocator& /*unused*/)
-			  : BaseCircularBuffer<T, Allocator>(max_size)
-			{
-				size = max_size;
-				// initialize full buffer
-				cbuffer_pos i = 0;
-				try {
-					for (; i < max_size; ++i)
-						construct_ptr(buffer() + i, val);
-				}
-				catch (...) {
-					for (cbuffer_pos j = 0; j < i; ++j)
-						destroy_ptr(buffer() + j);
-					size = 0;
-					throw;
-				}
-			}
-
+			
 			// Destroy all values within buffer
-			void destroy(Allocator& /*unused*/) noexcept
+			void destroy() noexcept
 			{
-				if (!std::is_trivially_destructible<T>::value) {
+				if constexpr (!std::is_trivially_destructible<T>::value) {
 					for (cbuffer_pos i = 0; i < size; ++i)
 						destroy_ptr(&(*this)[i]);
 				}
@@ -539,20 +544,7 @@ namespace seq
 			// Pointer on the last data
 			SEQ_ALWAYS_INLINE auto last_ptr() noexcept -> T* { return (buffer() + ((begin + size - 1) & max_size1)); }
 			SEQ_ALWAYS_INLINE auto last_ptr() const noexcept -> const T* { return (buffer() + ((begin + size - 1) & max_size1)); }
-			// Index of the first data
-			SEQ_ALWAYS_INLINE auto begin_index() const noexcept -> cbuffer_pos { return (begin)&max_size1; }
-			// Index of the first stop (either at size or max size)
-			SEQ_ALWAYS_INLINE auto first_stop() const noexcept -> cbuffer_pos
-			{
-				cbuffer_pos p = begin_index();
-				return (p + size) > max_size() ? (max_size()) : (p + size);
-			}
-			// Index of the second stop (either at size or max size)
-			SEQ_ALWAYS_INLINE auto second_stop() const noexcept -> cbuffer_pos
-			{
-				cbuffer_pos p = begin_index();
-				return (p + size) > max_size() ? (((p + size) & max_size1)) : (p + size);
-			}
+
 			// Buffer maximum size
 			SEQ_ALWAYS_INLINE auto max_size() const noexcept -> cbuffer_pos { return max_size_; }
 			// Check if full
@@ -595,10 +587,11 @@ namespace seq
 			}
 
 			// Resize buffer
-			void resize(cbuffer_pos s, Allocator& /*unused*/)
+			template<class Helper = ResizeHelper<T,false> >
+			void resize(cbuffer_pos s, const Helper & helper = Helper())
 			{
 				if (s < size) {
-					if (!std::is_trivially_destructible<T>::value) {
+					if constexpr (!std::is_trivially_destructible<T>::value) {
 						for (cbuffer_pos i = s; i < size; ++i)
 							destroy_ptr(&(*this)[i]);
 					}
@@ -608,34 +601,11 @@ namespace seq
 					// Make sure to destroy constructed values in case of exception
 					try {
 						for (; i < s; ++i)
-							construct_ptr(&(*this)[i]);
+							helper.construct(&(*this)[i]);
 					}
 					catch (...) {
 						for (cbuffer_pos j = size; j < i; ++j)
 							destroy_ptr(&(*this)[j]);
-						throw;
-					}
-				}
-				size = s;
-			}
-			void resize(cbuffer_pos s, const T& value, Allocator& /*unused*/)
-			{
-				if (s < size) {
-					if (!std::is_trivially_destructible<T>::value) {
-						for (cbuffer_pos i = s; i < size; ++i)
-							destroy_ptr(&at(i));
-					}
-				}
-				else if (s > size) {
-					cbuffer_pos i = size;
-					// Make sure to destroy constructed values in case of exception
-					try {
-						for (; i < s; ++i)
-							construct_ptr(&at(i), value);
-					}
-					catch (...) {
-						for (cbuffer_pos j = size; j < i; ++j)
-							destroy_ptr(&at(j));
 						throw;
 					}
 				}
@@ -654,7 +624,7 @@ namespace seq
 			}
 
 			template<class... Args>
-			SEQ_ALWAYS_INLINE auto emplace_back(Allocator& /*unused*/, Args&&... args) -> T*
+			SEQ_ALWAYS_INLINE auto emplace_back(Args&&... args) -> T*
 			{
 				// only works for non full array
 				T* ptr = begin ? &at(size) : (buffer() + size);
@@ -663,19 +633,9 @@ namespace seq
 				++size;
 				return ptr;
 			}
-			SEQ_ALWAYS_INLINE auto push_back(Allocator& allocator, const T& value) -> T*
-			{
-				// only works for non full array
-				return emplace_back(allocator, value);
-			}
-			SEQ_ALWAYS_INLINE auto push_back(Allocator& allocator, T&& value) -> T*
-			{
-				// only works for non full array
-				return emplace_back(allocator, std::move(value));
-			}
 
 			template<class... Args>
-			SEQ_ALWAYS_INLINE auto emplace_front(Allocator& /*unused*/, Args&&... args) -> T*
+			SEQ_ALWAYS_INLINE auto emplace_front(Args&&... args) -> T*
 			{
 				// only works for non full array
 				if (--begin < 0)
@@ -690,108 +650,77 @@ namespace seq
 				++size;
 				return buffer() + begin;
 			}
-			SEQ_ALWAYS_INLINE auto push_front(Allocator& allocator, const T& value) -> T*
-			{
-				// only works for non full array
-				return emplace_front(allocator, value);
-			}
-			SEQ_ALWAYS_INLINE auto push_front(Allocator& allocator, T&& value) -> T*
-			{
-				// only works for non full array
-				return emplace_front(allocator, std::move(value));
-			}
 
-			// Pushing front while poping back value for relocatable types
-			SEQ_ALWAYS_INLINE void push_front_pop_back_use_relocatable(T& inout) noexcept
-			{
-				typename std::aligned_storage<sizeof(T), alignof(T)>::type tmp;
-				memcpy(static_cast<void*>(&tmp), static_cast<void*>(&back()), sizeof(T));
-				if (--begin < 0)
-					begin = max_size1;
-				memcpy(static_cast<void*>(buffer() + begin), static_cast<void*>(&inout), sizeof(T));
-				memcpy(static_cast<void*>(&inout), static_cast<void*>(&tmp), sizeof(T));
-			}
-			// Pushing front while poping back value for relocatable types, except arithmetic ones
-			SEQ_ALWAYS_INLINE void push_front_pop_back_relocatable(T& inout) noexcept(std::is_nothrow_move_assignable<T>::value)
-			{
-				if (std::is_arithmetic<T>::value)
-					inout = std::move(push_front_pop_back(std::move(inout)));
-				else
-					push_front_pop_back_use_relocatable(inout);
-			}
 			// Pushing front while poping back value
 			// Might throw, but leave the buffer in a valid state
-			SEQ_ALWAYS_INLINE auto push_front_pop_back(T&& value) noexcept(std::is_nothrow_move_assignable<T>::value) -> T
+			SEQ_ALWAYS_INLINE void push_front_pop_back(T& inout) noexcept(std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value)
 			{
 				// Only works for filled array
-				T res = std::move(back());
-				if (--begin < 0)
-					begin = max_size1;
-				buffer()[begin] = std::move(value);
-				return (res);
+				if constexpr (relocatable) {
+					using namespace algo_detail;
+					auto tmp = as_bits(back());
+					if (--begin < 0)
+						begin = max_size1;
+					as_bits(buffer()[begin]) = as_bits(inout);
+					as_bits(inout) = tmp;
+				}
+				else {
+					T res = std::move(back());
+					if (--begin < 0)
+						begin = max_size1;
+					buffer()[begin] = std::move(inout);
+					inout = std::move(res);
+				}
 			}
 
-			// Pushing front while poping back for relocatable types
-			SEQ_ALWAYS_INLINE void push_back_pop_front_use_relocatable(T& inout) noexcept
-			{
-				typename std::aligned_storage<sizeof(T), alignof(T)>::type tmp;
-				memcpy(static_cast<void*>(&tmp), static_cast<void*>(&front()), sizeof(T));
-				begin = (begin + 1) & (max_size1);
-				memcpy(static_cast<void*>(&(*this)[size - 1]), static_cast<void*>(&inout), sizeof(T));
-				memcpy(static_cast<void*>(&inout), static_cast<void*>(&tmp), sizeof(T));
-			}
-			// Pushing front while poping back for relocatable types, except arithmetic ones
-			SEQ_ALWAYS_INLINE void push_back_pop_front_relocatable(T& inout) noexcept(std::is_nothrow_move_assignable<T>::value)
-			{
-				if (std::is_arithmetic<T>::value)
-					inout = std::move(push_back_pop_front(std::move(inout)));
-				else
-					push_back_pop_front_use_relocatable(inout);
-			}
 			// Pushing front while poping back
 			// Might throw, but leave the buffer in a valid state since it is already full
-			SEQ_ALWAYS_INLINE auto push_back_pop_front(T&& value) noexcept(std::is_nothrow_move_assignable<T>::value) -> T
+			SEQ_ALWAYS_INLINE void push_back_pop_front(T& inout) noexcept(std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value)
 			{
 				// Only works for filled array
-				T res = std::move(front());
-				begin = (begin + 1) & (max_size1);
-				(*this)[size - 1] = std::move(value);
-				return (res);
+				if constexpr (relocatable) {
+					using namespace algo_detail;
+					auto tmp = as_bits(front());
+					begin = (begin + 1) & (max_size1);
+					as_bits((*this)[size - 1]) = as_bits(inout);
+					as_bits(inout) = tmp;
+				}
+				else {
+					T tmp = std::move(front());
+					begin = (begin + 1) & (max_size1);
+					(*this)[size - 1] = std::move(inout);
+					inout = std::move(tmp);
+				}
 			}
 
 			// Pop back/front
-			SEQ_ALWAYS_INLINE void pop_back(Allocator& /*unused*/) noexcept
+			SEQ_ALWAYS_INLINE void pop_back() noexcept
 			{
 				destroy_ptr(&back());
 				--size;
 			}
-			SEQ_ALWAYS_INLINE void pop_front(Allocator& /*unused*/) noexcept
+			SEQ_ALWAYS_INLINE void pop_front() noexcept
 			{
 				destroy_ptr(buffer() + begin);
 				begin = (begin + 1) & (max_size1);
 				--size;
 			}
 			// Pop front n values
-			void pop_front_n(Allocator& allocator, cbuffer_pos n) noexcept
+			void pop_front_n(cbuffer_pos n) noexcept
 			{
 				for (cbuffer_pos i = 0; i != n; ++i)
-					pop_front(allocator);
+					pop_front();
 			}
-			// Push front n copies of value
-			template<class U>
-			void push_front_n(Allocator& allocator, cbuffer_pos n, const U& value)
-			{
-				for (cbuffer_pos i = 0; i < n; ++i)
-					push_front(allocator, value);
-			}
+			
 			// Push front n values
-			void push_front_n(Allocator& /*unused*/, cbuffer_pos n)
+			template<class Helper>
+			void push_front_n(cbuffer_pos n, const Helper & helper)
 			{
 				try {
 					for (cbuffer_pos i = 0; i < n; ++i) {
 						if (--begin < 0)
 							begin = max_size1;
-						construct_ptr(buffer() + begin);
+						helper.construct(buffer() + begin);
 						++size;
 					}
 				}
@@ -811,7 +740,7 @@ namespace seq
 				if (stop > ptr1)
 					stop = buffer();
 
-				if (!relocatable) {
+				if constexpr (!relocatable) {
 					while (ptr1 > stop) {
 						ptr1[0] = std::move(ptr1[-1]);
 						--ptr1;
@@ -823,7 +752,7 @@ namespace seq
 				}
 
 				if (ptr1 != &at(pos)) {
-					if (!relocatable)
+					if constexpr (!relocatable)
 						*ptr1 = std::move(*(buffer() + max_size1));
 					else
 						memcpy(static_cast<void*>(ptr1), static_cast<void*>(buffer() + max_size1), sizeof(T));
@@ -850,7 +779,7 @@ namespace seq
 				T* stop = buffer() + ((begin + pos - 1) & max_size1); //&at(pos);
 				if (stop < ptr1)
 					stop = buffer() + max_size1;
-				if (!relocatable) {
+				if constexpr (!relocatable) {
 					while (ptr1 < stop) {
 						*ptr1 = std::move(ptr1[1]);
 						++ptr1;
@@ -861,7 +790,7 @@ namespace seq
 					ptr1 = stop;
 				}
 				if (ptr1 != buffer() + ((begin + pos - 1) & max_size1)) {
-					if (!relocatable)
+					if constexpr (!relocatable)
 						*ptr1 = std::move(*(buffer()));
 					else
 						memcpy(static_cast<void*>(ptr1), static_cast<void*>(buffer()), sizeof(T));
@@ -881,9 +810,9 @@ namespace seq
 
 			// Move buffer content toward the left by 1 element
 			// Might throw
-			void move_right(Allocator& /*unused*/, cbuffer_pos pos) noexcept((std::is_nothrow_move_assignable<T>::value && std::is_nothrow_default_constructible<T>::value) || relocatable)
+			void move_right(cbuffer_pos pos) noexcept((std::is_nothrow_move_assignable<T>::value && std::is_nothrow_default_constructible<T>::value) || relocatable)
 			{
-				if (!relocatable)
+				if constexpr (!relocatable)
 					construct_ptr(&(*this)[size]);
 				// move elems after pos
 				++size;
@@ -893,9 +822,9 @@ namespace seq
 				// for (cbuffer_pos i = size - 1; i > pos; --i)
 				//	(*this)[i] = std::move((*this)[i - 1]);
 			}
-			void move_left(Allocator& /*unused*/, cbuffer_pos pos) noexcept((std::is_nothrow_move_assignable<T>::value && std::is_nothrow_default_constructible<T>::value) || relocatable)
+			void move_left(cbuffer_pos pos) noexcept((std::is_nothrow_move_assignable<T>::value && std::is_nothrow_default_constructible<T>::value) || relocatable)
 			{
-				if (!relocatable)
+				if constexpr (!relocatable)
 					construct_ptr(&(*this)[begin ? -1 : max_size1]);
 				// move elems before pos
 				if (--begin < 0)
@@ -910,18 +839,18 @@ namespace seq
 
 			// Insert value at given position. Only works if the buffer is not full.
 			template<class... Args>
-			auto emplace(Allocator& allocator, cbuffer_pos pos, Args&&... args) -> T*
+			auto emplace(cbuffer_pos pos, Args&&... args) -> T*
 			{
 				SEQ_ASSERT_DEBUG(size != max_size_, "cannot insert in a full circular buffer");
 				if (pos > size / 2) {
-					move_right(allocator, pos);
+					move_right(pos);
 				}
 				else {
-					move_left(allocator, pos);
+					move_left(pos);
 				}
 
 				T* res = &(*this)[pos];
-				if (relocatable) {
+				if constexpr (relocatable) {
 					try {
 						construct_ptr(res, std::forward<Args>(args)...);
 					}
@@ -942,12 +871,12 @@ namespace seq
 			}
 
 			// Insert value at given position. Only works if the buffer is not full.
-			auto insert(Allocator& allocator, cbuffer_pos pos, const T& value) -> T* { return emplace(allocator, pos, value); }
-			auto insert(Allocator& allocator, cbuffer_pos pos, T&& value) -> T* { return emplace(allocator, pos, std::move(value)); }
+			auto insert(cbuffer_pos pos, const T& value) -> T* { return emplace(pos, value); }
+			auto insert(cbuffer_pos pos, T&& value) -> T* { return emplace(pos, std::move(value)); }
 
 			// Insert at given position while poping back
 			template<class... Args>
-			auto insert_pop_back(Allocator& /*unused*/, cbuffer_pos pos, Args&&... args) -> T
+			auto insert_pop_back(cbuffer_pos pos, Args&&... args) -> T
 			{
 				SEQ_ASSERT_DEBUG(pos != max_size(), "invalid insertion position");
 				// move elems after pos
@@ -955,7 +884,7 @@ namespace seq
 				// Might throw, fine
 				T res = std::move(*p);
 				// For relocatable types, we must destroy the back value
-				if (relocatable && !std::is_trivially_destructible<T>::value)
+				if constexpr (relocatable && !std::is_trivially_destructible<T>::value)
 					destroy_ptr(p);
 
 				if (pos > size / 2) {
@@ -967,7 +896,7 @@ namespace seq
 					move_left_1(pos + 1);
 				}
 
-				if (relocatable) {
+				if constexpr (relocatable) {
 					try {
 						construct_ptr(&(*this)[pos], std::forward<Args>(args)...);
 					}
@@ -988,7 +917,7 @@ namespace seq
 			}
 			// Insert at given position while poping front
 			template<class... Args>
-			auto insert_pop_front(Allocator& /*unused*/, cbuffer_pos pos, Args&&... args) -> T
+			auto insert_pop_front(cbuffer_pos pos, Args&&... args) -> T
 			{
 				SEQ_ASSERT_DEBUG(pos != 0, "invalid insertion position");
 				// move elems after pos
@@ -996,7 +925,7 @@ namespace seq
 				// Might throw, fine
 				T res = std::move(*p);
 
-				if (relocatable && !std::is_trivially_destructible<T>::value)
+				if constexpr (relocatable && !std::is_trivially_destructible<T>::value)
 					destroy_ptr(p);
 
 				if (pos < size / 2) {
@@ -1008,7 +937,7 @@ namespace seq
 				}
 
 				p = &(*this)[pos - 1];
-				if (relocatable) {
+				if constexpr (relocatable) {
 					try {
 						construct_ptr(p, std::forward<Args>(args)...);
 					}
@@ -1035,7 +964,7 @@ namespace seq
 				T* stop = &at(size);
 				if (stop < ptr1)
 					stop = buffer() + max_size1;
-				if (!relocatable) {
+				if constexpr (!relocatable) {
 					while (ptr1 < stop) {
 						*ptr1 = std::move(ptr1[1]);
 						++ptr1;
@@ -1046,7 +975,7 @@ namespace seq
 					ptr1 = stop;
 				}
 				if (ptr1 != &at(size)) {
-					if (!relocatable)
+					if constexpr (!relocatable)
 						*ptr1 = std::move(*(buffer()));
 					else
 						memcpy(static_cast<void*>(ptr1), static_cast<void*>(buffer()), sizeof(T));
@@ -1070,7 +999,7 @@ namespace seq
 				T* stop = &at(0);
 				if (stop > ptr1)
 					stop = buffer();
-				if (!relocatable) {
+				if constexpr (!relocatable) {
 					while (ptr1 > stop) {
 						*ptr1 = std::move(ptr1[-1]);
 						--ptr1;
@@ -1082,7 +1011,7 @@ namespace seq
 				}
 
 				if (ptr1 != &at(0)) {
-					if (!relocatable)
+					if constexpr (!relocatable)
 						*ptr1 = std::move(*(buffer() + max_size1));
 					else
 						memcpy(static_cast<void*>(ptr1), static_cast<void*>(buffer() + max_size1), sizeof(T));
@@ -1102,10 +1031,10 @@ namespace seq
 
 			// Erase element at given position and push back value
 			// This function might throw, but always leave the buffer in a valid state
-			void erase_push_back(Allocator& /*unused*/, cbuffer_pos pos, T&& value)
+			void erase_push_back(cbuffer_pos pos, T&& value)
 			{
 				// for relocatable type, destroy value at pos since it will be memcpied over
-				if (relocatable)
+				if constexpr (relocatable)
 					destroy_ptr(&(*this)[pos]);
 
 				if (pos > size / 2) {
@@ -1119,7 +1048,7 @@ namespace seq
 						throw;
 					}
 
-					if (!relocatable)
+					if constexpr (!relocatable)
 						destroy_ptr(&(*this)[size]);
 				}
 				else {
@@ -1133,7 +1062,7 @@ namespace seq
 						throw;
 					}
 
-					if (!relocatable)
+					if constexpr (!relocatable)
 						destroy_ptr(&(*this)[0]);
 					begin = (begin + 1) & (max_size1); // increment begin
 				}
@@ -1142,10 +1071,10 @@ namespace seq
 				size++;
 			}
 
-			void erase_push_front(Allocator& allocator, cbuffer_pos pos, T&& value)
+			void erase_push_front(cbuffer_pos pos, T&& value)
 			{
 				// for relocatable type, destroy value at pos since it will be memcpied over
-				if (relocatable)
+				if constexpr (relocatable)
 					destroy_ptr(&(*this)[pos]);
 
 				if (pos > size / 2) {
@@ -1158,7 +1087,7 @@ namespace seq
 						++size;
 						throw;
 					}
-					if (!relocatable)
+					if constexpr (!relocatable)
 						destroy_ptr(&(*this)[size]);
 				}
 				else {
@@ -1171,19 +1100,19 @@ namespace seq
 						++size;
 						throw;
 					}
-					if (!relocatable)
+					if constexpr (!relocatable)
 						destroy_ptr(&(*this)[0]);
 					begin = (begin + 1) & (max_size1); // increment begin
 				}
 				// Might throw, fine
-				push_front(allocator, std::move(value));
+				emplace_front(std::move(value));
 			}
 
 			// Erase value at given position.
-			void erase(Allocator& /*unused*/, cbuffer_pos pos)
+			void erase(cbuffer_pos pos)
 			{
 				// for relocatable type, destroy value at pos since it will be memcpied over
-				if (relocatable)
+				if constexpr (relocatable)
 					destroy_ptr(&(*this)[pos]);
 				if (pos > size / 2) {
 					// move elems after pos
@@ -1195,7 +1124,7 @@ namespace seq
 						++size;
 						throw;
 					}
-					if (!relocatable)
+					if constexpr (!relocatable)
 						destroy_ptr(&(*this)[size]);
 				}
 				else {
@@ -1208,7 +1137,7 @@ namespace seq
 						++size;
 						throw;
 					}
-					if (!relocatable)
+					if constexpr (!relocatable)
 						destroy_ptr(&(*this)[0]);
 					begin = (begin + 1) & (max_size1); // increment begin
 				}
@@ -1269,36 +1198,36 @@ namespace seq
 
 		// Store a CircularBuffer pointer and an optional back value (pointer to the back value of the CircularBuffer)
 		// Storing the back pointer is only used for sorted tiered_vector
-		template<class T, class Allocator, class ValueCompare, bool StoreBackValues, bool IsArithmetic = StorePlainKey<typename ValueCompare::key_type>::value>
+		template<class T, class ValueCompare, bool StoreBackValues, bool IsPlainKey = StorePlainKey<typename ValueCompare::key_type>::value>
 		struct StoreBucket
 		{
 			// No back value storage
-			CircularBuffer<T, Allocator>* bucket;
+			CircularBuffer<T>* bucket;
 
 			SEQ_ALWAYS_INLINE StoreBucket() noexcept
 			  : bucket(nullptr)
 			{
 			}
-			SEQ_ALWAYS_INLINE StoreBucket(CircularBuffer<T, Allocator>* b) noexcept
+			SEQ_ALWAYS_INLINE StoreBucket(CircularBuffer<T>* b) noexcept
 			  : bucket(b)
 			{
 			}
 			void update() noexcept {}
 			SEQ_ALWAYS_INLINE auto back() const noexcept -> const T& { return bucket->back(); }
-			SEQ_ALWAYS_INLINE auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const CircularBuffer<T, Allocator>* { return bucket; }
+			SEQ_ALWAYS_INLINE auto operator->() noexcept -> CircularBuffer<T>* { return bucket; }
+			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const CircularBuffer<T>* { return bucket; }
 		};
 
-		template<class T, class Allocator, class ValueCompare>
-		struct StoreBucket<T, Allocator, ValueCompare, true, false>
+		template<class T, class ValueCompare>
+		struct StoreBucket<T, ValueCompare, true, false>
 		{
 			// Store back value as pointer
 			using key_type = typename StorePlainKey<typename ValueCompare::key_type>::key_type;
 			const key_type* back_value = nullptr;
-			CircularBuffer<T, Allocator>* bucket = nullptr;
+			CircularBuffer<T>* bucket = nullptr;
 
 			SEQ_ALWAYS_INLINE StoreBucket() noexcept {}
-			SEQ_ALWAYS_INLINE StoreBucket(CircularBuffer<T, Allocator>* b) noexcept
+			SEQ_ALWAYS_INLINE StoreBucket(CircularBuffer<T>* b) noexcept
 			  : bucket(b)
 			{
 			}
@@ -1311,20 +1240,20 @@ namespace seq
 			{
 				return *back_value; // ValueCompare::key(*back_value);
 			}
-			SEQ_ALWAYS_INLINE auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const CircularBuffer<T, Allocator>* { return bucket; }
+			SEQ_ALWAYS_INLINE auto operator->() noexcept -> CircularBuffer<T>* { return bucket; }
+			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const CircularBuffer<T>* { return bucket; }
 		};
 
-		template<class T, class Allocator, class ValueCompare>
-		struct StoreBucket<T, Allocator, ValueCompare, true, true>
+		template<class T, class ValueCompare>
+		struct StoreBucket<T, ValueCompare, true, true>
 		{
 			// Store plain back value
 			using key_type = typename StorePlainKey<typename ValueCompare::key_type>::key_type;
 			key_type back_value;
-			CircularBuffer<T, Allocator>* bucket = nullptr;
+			CircularBuffer<T>* bucket = nullptr;
 
 			SEQ_ALWAYS_INLINE StoreBucket() noexcept {}
-			SEQ_ALWAYS_INLINE StoreBucket(CircularBuffer<T, Allocator>* b) noexcept
+			SEQ_ALWAYS_INLINE StoreBucket(CircularBuffer<T>* b) noexcept
 			  : back_value()
 			  , bucket(b)
 			{
@@ -1340,21 +1269,21 @@ namespace seq
 				back_value = ValueCompare::key((bucket)->back());
 			}
 			SEQ_ALWAYS_INLINE auto back() const noexcept -> typename ValueCompare::key_type { return back_value; }
-			SEQ_ALWAYS_INLINE auto operator->() noexcept -> CircularBuffer<T, Allocator>* { return bucket; }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const CircularBuffer<T, Allocator>* { return bucket; }
+			SEQ_ALWAYS_INLINE auto operator->() noexcept -> CircularBuffer<T>* { return bucket; }
+			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const CircularBuffer<T>* { return bucket; }
 		};
 
 	}
 
 	// Specialization of is_relocatable for StoreBucket
-	template<class T, class Allocator, class ValueCompare, bool StoreBackValues, bool IsArithmetic>
-	struct is_relocatable<detail::StoreBucket<T, Allocator, ValueCompare, StoreBackValues, IsArithmetic>>
+	template<class T, class ValueCompare, bool StoreBackValues, bool IsPlainKey>
+	struct is_relocatable<detail::StoreBucket<T, ValueCompare, StoreBackValues, IsPlainKey>>
 	{
 		static constexpr bool value = true;
 	};
 	// Specialization of is_relocatable for StoreBucket
-	template<class T, class Allocator, class ValueCompare>
-	struct is_relocatable<detail::StoreBucket<T, Allocator, ValueCompare, true, true>> : is_relocatable<typename ValueCompare::key_type>
+	template<class T, class ValueCompare>
+	struct is_relocatable<detail::StoreBucket<T, ValueCompare, true, true>> : is_relocatable<typename ValueCompare::key_type>
 	{
 	};
 
@@ -1368,8 +1297,8 @@ namespace seq
 			template<class U>
 			using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 
-			using BucketType = CircularBuffer<T, Allocator>;
-			using StoreBucketType = StoreBucket<T, Allocator, ValueCompare, StoreBackValues>;
+			using BucketType = CircularBuffer<T>;
+			using StoreBucketType = StoreBucket<T, ValueCompare, StoreBackValues>;
 			using alloc_traits = std::allocator_traits<Allocator>;
 			using this_type = BucketManager<T, Allocator, MinBSize, MaxBSize, StoreBackValues, ValueCompare>;
 			using size_type = typename std::allocator_traits<Allocator>::size_type;
@@ -1463,7 +1392,7 @@ namespace seq
 					// Might throw, fine
 					BucketType* current = create_back_bucket();
 					for (size_type i = start; i < start + full_size; ++i, ++d_size) {
-						current->push_back(get_allocator(), other.at(i));
+						current->emplace_back(other.at(i));
 					}
 				}
 				else {
@@ -1501,7 +1430,7 @@ namespace seq
 						if (end <= end_pos || d_buckets.size() > 1) {
 							// Fill back buffer
 							current->size = static_cast<cbuffer_pos>(copied);
-							current->resize(current->size, get_allocator());
+							current->resize(current->size, resize_helper<T>());
 						}
 						else {
 							// Fill front buffer
@@ -1543,7 +1472,7 @@ namespace seq
 
 					// Might throw, fine
 					for (size_type i = start; i < start + full_size; ++i, ++d_size)
-						current->push_back(get_allocator(), std::move(other.at(i)));
+						current->emplace_back(std::move(other.at(i)));
 
 					// Destroy/deallocate the content of other
 					other.destroy_all();
@@ -1605,7 +1534,7 @@ namespace seq
 					if (end <= end_pos || d_buckets.size() > 1) {
 						// Fill back buffer
 						current->size = static_cast<cbuffer_pos>(copied);
-						current->resize(current->size, get_allocator());
+						current->resize(current->size, resize_helper<T>());
 					}
 					else {
 						// Fill front buffer
@@ -1636,7 +1565,7 @@ namespace seq
 			{
 				if (!b)
 					return;
-				b->destroy(get_allocator());
+				b->destroy();
 				get_allocator().deallocate(reinterpret_cast<T*>(b), static_cast<size_t>(b->max_size()) + BucketType::start_data_T);
 			}
 			auto make_bucket(int max_size) -> BucketType*
@@ -1651,7 +1580,7 @@ namespace seq
 				BucketType* res = reinterpret_cast<BucketType*>(get_allocator().allocate(BucketType::start_data_T + static_cast<size_t>(max_size)));
 				// Might throw
 				try {
-					construct_ptr(res, max_size, val, get_allocator());
+					construct_ptr(res, max_size, val);
 				}
 				catch (...) {
 					get_allocator().deallocate(reinterpret_cast<T*>(res), BucketType::start_data_T + static_cast<size_t>(max_size));
@@ -1908,41 +1837,13 @@ namespace seq
 				}
 				return bucket;
 			}
-			// Create bucket at the back filled with given value
-			auto create_back_bucket(const T& val) -> BucketType*
-			{
-				// bucket is full, create a new one
-				// Might throw, fine
-				BucketType* bucket = make_bucket(d_bucket_size, val);
-				try {
-					d_buckets.push_back(bucket);
-				}
-				catch (...) {
-					destroy_bucket(bucket);
-					throw;
-				}
-				return bucket;
-			}
+			
 			// Create front bucket
 			auto create_front_bucket() -> BucketType*
 			{
 				// bucket is full, create a new one
 				BucketType* bucket = make_bucket(d_bucket_size);
 				bucket->init_front();
-				try {
-					d_buckets.insert(d_buckets.begin(), bucket);
-				}
-				catch (...) {
-					destroy_bucket(bucket);
-					throw;
-				}
-				return bucket;
-			}
-			// Create bucket at the front filled with given value
-			auto create_front_bucket(const T& value) -> BucketType*
-			{
-				// bucket is full, create a new one
-				BucketType* bucket = make_bucket(d_bucket_size, value);
 				try {
 					d_buckets.insert(d_buckets.begin(), bucket);
 				}
@@ -1979,13 +1880,13 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto emplace_back(Args&&... args) -> T&
 			{
 				// All functions might throw, fine (strong guarantee)
-				if SEQ_UNLIKELY(d_buckets.empty())
+				if SEQ_UNLIKELY (d_buckets.empty())
 					create_back_bucket();
 				BucketType* bucket = d_buckets.back().bucket;
-				if SEQ_UNLIKELY(bucket->size == d_bucket_size) {
+				if SEQ_UNLIKELY (bucket->size == d_bucket_size) {
 					bucket = create_back_bucket();
 				}
-				T* ptr = bucket->emplace_back(get_allocator(), std::forward<Args>(args)...);
+				T* ptr = bucket->emplace_back(std::forward<Args>(args)...);
 				if (StoreBackValues)
 					d_buckets.back().update();
 				d_size++;
@@ -1999,13 +1900,13 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto emplace_front(Args&&... args) -> T&
 			{
 				// All functions might throw, fine
-				if SEQ_UNLIKELY(d_buckets.empty())
+				if SEQ_UNLIKELY (d_buckets.empty())
 					create_back_bucket();
 				BucketType* bucket = d_buckets.front().bucket;
-				if SEQ_UNLIKELY(bucket->size == d_bucket_size)
+				if SEQ_UNLIKELY (bucket->size == d_bucket_size)
 					bucket = create_front_bucket();
 
-				T* res = bucket->emplace_front(get_allocator(), std::forward<Args>(args)...);
+				T* res = bucket->emplace_front(std::forward<Args>(args)...);
 				if (StoreBackValues)
 					d_buckets.front().update();
 				d_size++;
@@ -2023,7 +1924,7 @@ namespace seq
 				if (d_buckets[0]->isFull()) {
 
 					// All functions might throw, fine
-					res = create_back_bucket()->push_back(get_allocator(), std::move(d_buckets[0]->insert_pop_back(get_allocator(), index, std::forward<Args>(args)...)));
+					res = create_back_bucket()->emplace_back(std::move(d_buckets[0]->insert_pop_back(index, std::forward<Args>(args)...)));
 					if (StoreBackValues) {
 						d_buckets.back().update();
 						d_buckets[0].update();
@@ -2031,7 +1932,7 @@ namespace seq
 				}
 				else {
 					// Might throw, fine
-					res = d_buckets[0].bucket->emplace(get_allocator(), index, std::forward<Args>(args)...);
+					res = d_buckets[0].bucket->emplace(index, std::forward<Args>(args)...);
 					if (StoreBackValues)
 						d_buckets.front().update();
 				}
@@ -2042,24 +1943,24 @@ namespace seq
 			{
 				T* res = nullptr;
 				// bucket is on the left side
-				if SEQ_UNLIKELY(index == 0) {
+				if SEQ_UNLIKELY (index == 0) {
 					--bucket_index; // we work on the previous bucket
 					index = bucket(bucket_index)->size;
 				}
-				if SEQ_UNLIKELY(bucket(bucket_index)->size < d_bucket_size) {
+				if SEQ_UNLIKELY (bucket(bucket_index)->size < d_bucket_size) {
 					// SEQ_ASSERT_DEBUG(bucket_index == 0, "Corrupted tiered_vector structure");
 					// We insert into the first bucket which is not full
 					// Might throw, fine
-					res = bucket(bucket_index)->emplace(get_allocator(), index, std::forward<Args>(args)...);
+					res = bucket(bucket_index)->emplace(index, std::forward<Args>(args)...);
 					if (StoreBackValues)
 						d_buckets[bucket_index].update();
 				}
-				else if SEQ_UNLIKELY(bucket_index == 0) {
+				else if SEQ_UNLIKELY (bucket_index == 0) {
 					// insert into full first bucket
 					// Might throw, fine
-					T tmp = d_buckets[0]->insert_pop_front(get_allocator(), index, std::forward<Args>(args)...);
+					T tmp = d_buckets[0]->insert_pop_front(index, std::forward<Args>(args)...);
 					try {
-						res = create_front_bucket()->push_back(get_allocator(), std::move(tmp));
+						res = create_front_bucket()->emplace_back(std::move(tmp));
 					}
 					catch (...) {
 						// check if front buffer is empty
@@ -2079,17 +1980,14 @@ namespace seq
 					// bucket(bucket_index)->insert<false>(index, value);
 
 					// Might throw, fine
-					T tmp = bucket(bucket_index)->insert_pop_front(get_allocator(), index, std::forward<Args>(args)...);
+					T tmp = bucket(bucket_index)->insert_pop_front(index, std::forward<Args>(args)...);
 					if (StoreBackValues)
 						d_buckets[bucket_index].update();
 
 					// propagate down to left side
 					while (--bindex > 0) {
 						// Might throw, fine
-						if (BucketType::relocatable)
-							bucket(bindex)->push_back_pop_front_relocatable(tmp);
-						else
-							tmp = bucket(bindex)->push_back_pop_front(std::move(tmp));
+						bucket(bindex)->push_back_pop_front(tmp); // No discard
 						if (StoreBackValues)
 							d_buckets[bindex].update();
 					}
@@ -2097,20 +1995,17 @@ namespace seq
 					BucketType* bucket = d_buckets.front().bucket;
 					if (!bucket->isFull()) {
 						// Might throw, fine
-						bucket->push_back(get_allocator(), std::move(tmp));
+						bucket->emplace_back(std::move(tmp));
 						if (StoreBackValues)
 							d_buckets[0].update();
 					}
 					else {
-						if (BucketType::relocatable)
-							bucket->push_back_pop_front_relocatable(tmp);
-						else
-							tmp = bucket->push_back_pop_front(std::move(tmp));
+						bucket->push_back_pop_front(tmp); // No discard
 						if (StoreBackValues)
 							d_buckets[0].update();
 						bucket = create_front_bucket();
 						try {
-							bucket->push_back(get_allocator(), std::move(tmp));
+							bucket->emplace_back(std::move(tmp));
 						}
 						catch (...) {
 							// remove front buffer
@@ -2128,21 +2023,21 @@ namespace seq
 			auto insert_right(size_type pos, size_type bucket_index, int index, Args&&... args) -> T*
 			{
 				T* res = nullptr;
-				if SEQ_UNLIKELY(bucket(bucket_index)->size < d_bucket_size) {
+				if SEQ_UNLIKELY (bucket(bucket_index)->size < d_bucket_size) {
 					SEQ_ASSERT_DEBUG(bucket_index == 0 || bucket_index == d_buckets.size() - 1, "Corrupted tiered_vector structure");
 					// Might throw, fine
-					res = bucket(bucket_index)->emplace(get_allocator(), index, std::forward<Args>(args)...);
+					res = bucket(bucket_index)->emplace(index, std::forward<Args>(args)...);
 					if (StoreBackValues)
 						d_buckets[bucket_index].update();
 				}
-				else if SEQ_UNLIKELY(bucket_index == d_buckets.size() - 1) {
+				else if SEQ_UNLIKELY (bucket_index == d_buckets.size() - 1) {
 					// Inserting into last (full) bucket
 					// Might throw, fine
-					T tmp = bucket(bucket_index)->insert_pop_back(get_allocator(), index, std::forward<Args>(args)...);
+					T tmp = bucket(bucket_index)->insert_pop_back(index, std::forward<Args>(args)...);
 					if (StoreBackValues)
 						d_buckets[bucket_index].update();
 					try {
-						res = create_back_bucket()->push_back(get_allocator(), std::move(tmp));
+						res = create_back_bucket()->emplace_back(std::move(tmp));
 					}
 					catch (...) {
 						// Remove empty back bucket
@@ -2157,17 +2052,14 @@ namespace seq
 
 					size_type bindex = bucket_index;
 					// Might throw, fine
-					T tmp = bucket(bindex)->insert_pop_back(get_allocator(), index, std::forward<Args>(args)...);
+					T tmp = bucket(bindex)->insert_pop_back(index, std::forward<Args>(args)...);
 					if (StoreBackValues)
 						d_buckets[bindex].update();
 
 					// Propagate to right buckets with successive push_front
 					while (++bindex < static_cast<size_type>(d_buckets.size() - 1)) {
 						// Might throw, fine
-						if (BucketType::relocatable)
-							bucket(bindex)->push_front_pop_back_relocatable(tmp);
-						else
-							tmp = bucket(bindex)->push_front_pop_back(std::move(tmp));
+						bucket(bindex)->push_front_pop_back(tmp);
 						if (StoreBackValues)
 							d_buckets[bindex].update();
 					}
@@ -2176,19 +2068,16 @@ namespace seq
 					BucketType* bucket = d_buckets.back().bucket;
 					if (!bucket->isFull()) {
 						// Might throw, fine
-						bucket->push_front(get_allocator(), std::move(tmp));
+						bucket->emplace_front(std::move(tmp));
 						// if (StoreBackValues) d_buckets.back().update();
 					}
 					else {
 						// Might throw, fine
-						if (BucketType::relocatable)
-							bucket->push_front_pop_back_relocatable(tmp);
-						else
-							tmp = bucket->push_front_pop_back(std::move(tmp));
+						bucket->push_front_pop_back(tmp);
 						if (StoreBackValues)
 							d_buckets.back().update();
 						bucket = create_back_bucket();
-						bucket->push_front(get_allocator(), std::move(tmp));
+						bucket->emplace_front(std::move(tmp));
 						if (StoreBackValues)
 							d_buckets.back().update();
 					}
@@ -2207,7 +2096,7 @@ namespace seq
 				size_t bucket_index = (pos + (static_cast<size_t>(d_bucket_size) - front_size)) >> static_cast<size_t>(d_bucket_size_bits);
 				int index = static_cast<int>((pos - (pos < front_size ? 0 : front_size)) & static_cast<size_t>(d_bucket_size1));
 
-				if SEQ_UNLIKELY(d_buckets.size() == 1) {
+				if SEQ_UNLIKELY (d_buckets.size() == 1) {
 					res = insert_one_bucket(bucket_index, index, std::forward<Args>(args)...);
 				}
 				else if (pos < d_size / 2) {
@@ -2230,7 +2119,7 @@ namespace seq
 
 				SEQ_ASSERT_DEBUG(pos <= size(), "invalid insert position");
 
-				if SEQ_LIKELY(pos != 0 && pos != size())
+				if SEQ_LIKELY (pos != 0 && pos != size())
 					return *insert_middle_fwd(pos, std::forward<Args>(args)...);
 
 				if (pos == 0)
@@ -2244,8 +2133,8 @@ namespace seq
 				// This the equivalent of above, but inlined
 				SEQ_ASSERT_DEBUG(d_buckets.size(), "pop_back on an empty tiered_vector");
 				SEQ_ASSERT_DEBUG(d_buckets.back()->size > 0, "pop_back on an empty tiered_vector");
-				d_buckets.back()->pop_back(get_allocator());
-				if SEQ_UNLIKELY(d_buckets.back()->size == 0 && d_buckets.size() > 1)
+				d_buckets.back()->pop_back();
+				if SEQ_UNLIKELY (d_buckets.back()->size == 0 && d_buckets.size() > 1)
 					remove_back_bucket();
 				else if (StoreBackValues)
 					d_buckets.back().update();
@@ -2256,8 +2145,8 @@ namespace seq
 				SEQ_ASSERT_DEBUG(d_buckets.size(), "pop_front on an empty tiered_vector");
 				BucketType* bucket = d_buckets.front().bucket;
 				SEQ_ASSERT_DEBUG(bucket->size > 0, "pop_front on an empty tiered_vector");
-				bucket->pop_front(get_allocator());
-				if SEQ_UNLIKELY(bucket->size == 0 && d_buckets.size() > 1) {
+				bucket->pop_front();
+				if SEQ_UNLIKELY (bucket->size == 0 && d_buckets.size() > 1) {
 					remove_front_bucket();
 				}
 				else if (StoreBackValues)
@@ -2278,7 +2167,7 @@ namespace seq
 			{
 				SEQ_ASSERT_DEBUG(pos < d_size, "tiered_vector: erase at invalid position");
 				SEQ_ASSERT_DEBUG(d_size > 0, "tiered_vector: erase element on an empty tiered_vector");
-				if SEQ_UNLIKELY(pos == 0 || pos == d_size - 1)
+				if SEQ_UNLIKELY (pos == 0 || pos == d_size - 1)
 					return erase_extremity(pos);
 
 				erase_middle(pos);
@@ -2287,22 +2176,19 @@ namespace seq
 			{
 				// shift left values
 				T tmp = std::move((d_buckets.front().bucket)->back());
-				d_buckets.front().bucket->pop_back(get_allocator());
+				d_buckets.front().bucket->pop_back();
 				if (StoreBackValues)
 					d_buckets.front().update();
 
 				for (size_type i = 1; i < bucket_index; ++i) {
 					// Might throw, fine
-					if (BucketType::relocatable)
-						bucket(i)->push_front_pop_back_relocatable(tmp);
-					else
-						tmp = std::move(bucket(i)->push_front_pop_back(std::move(tmp)));
+					bucket(i)->push_front_pop_back(tmp);
 					if (StoreBackValues)
 						d_buckets[i].update();
 				}
 
 				// Might throw, fine
-				bucket(bucket_index)->erase_push_front(get_allocator(), index, std::move(tmp));
+				bucket(bucket_index)->erase_push_front(index, std::move(tmp));
 
 				if (StoreBackValues)
 					d_buckets[bucket_index].update();
@@ -2315,17 +2201,17 @@ namespace seq
 				// Shift right values
 
 				// Might throw, fine
-				bucket(bucket_index)->erase_push_back(get_allocator(), index, std::move(bucket(bucket_index + 1)->front()));
+				bucket(bucket_index)->erase_push_back(index, std::move(bucket(bucket_index + 1)->front()));
 				if (StoreBackValues)
 					d_buckets[bucket_index].update();
 
 				for (size_type i = bucket_index + 1; i < d_buckets.size() - 1; ++i) {
 					// Might throw, fine
-					bucket(i)->push_back_pop_front(std::move(bucket(i + 1)->front()));
+					bucket(i)->push_back_pop_front(bucket(i + 1)->front());
 					if (StoreBackValues)
 						d_buckets[i].update();
 				}
-				d_buckets.back()->pop_front(get_allocator());
+				d_buckets.back()->pop_front();
 				if (d_buckets.back()->size == 0 && d_buckets.size() > 1) {
 					remove_back_bucket();
 				}
@@ -2344,7 +2230,7 @@ namespace seq
 					BucketType* bucket = d_buckets.front().bucket;
 					SEQ_ASSERT_DEBUG(bucket->size > 0, "erase on an empty tiered_vector");
 					// Might throw, fine
-					bucket->erase(get_allocator(), index);
+					bucket->erase(index);
 					if (bucket->size == 0) {
 						remove_front_bucket();
 					}
@@ -2356,7 +2242,7 @@ namespace seq
 					BucketType* bucket = d_buckets.back().bucket;
 					SEQ_ASSERT_DEBUG(bucket->size > 0, "erase on an empty tiered_vector");
 					// Might throw, fine
-					bucket->erase(get_allocator(), index);
+					bucket->erase(index);
 					if (bucket->size == 0 && d_buckets.size() > 1) {
 						remove_back_bucket();
 					}
@@ -2373,92 +2259,16 @@ namespace seq
 				d_size--;
 			}
 
-			void resize(size_type size)
+			template<class... U>
+			void resize(size_type size, const U&... value)
 			{
 				if (size == d_size)
 					return;
 
 				if (size > d_size) {
-					// Might throw, fine
-					ensure_has_bucket();
 
-					// add missing buckets
-					size_type missing = static_cast<size_t>(size - d_size);
-					size_type last_bucket_rem = static_cast<size_t>(bucket_size() - d_buckets.back()->size);
+					auto helper = detail::resize_helper<T>(std::forward<const U&>(value)...);
 
-					if (missing < last_bucket_rem) {
-						// The last bucket has enough space: just resize it
-						// Might throw, the bucket remains in its original form, fine
-						d_buckets.back()->resize(d_buckets.back()->size + static_cast<cbuffer_pos>(missing), get_allocator());
-
-						d_size += missing;
-					}
-					else {
-						// Resize last bucket
-						// Might throw, the bucket remains in its original form, fine
-						d_buckets.back()->resize(bucket_size(), get_allocator());
-
-						missing -= last_bucket_rem;
-						d_size += last_bucket_rem;
-
-						size_type new_bucket_count = missing / static_cast<size_t>(bucket_size());
-						int last_bucket_size = static_cast<int>(missing % static_cast<size_t>(bucket_size()));
-
-						try {
-							// add full buckets
-							for (size_type i = 0; i < new_bucket_count; ++i) {
-								BucketType* b = create_back_bucket();
-								b->resize(bucket_size(), get_allocator());
-								d_size += static_cast<size_t>(bucket_size());
-							}
-							// add last
-							if (last_bucket_size) {
-								create_back_bucket()->resize(last_bucket_size, get_allocator());
-								d_size += static_cast<size_t>(last_bucket_size);
-							}
-						}
-						catch (...) {
-							if (d_buckets.size() > 1 && d_buckets.back()->size == 0)
-								remove_back_bucket();
-							throw;
-						}
-					}
-				}
-				else {
-					size_type to_remove = d_size - size;
-					size_type last_bucket_size = static_cast<size_t>(bucket_size(bucket_count() - 1));
-
-					if (last_bucket_size > to_remove) {
-						// the last bucket has enough space: just resize it
-						d_buckets.back()->resize(static_cast<cbuffer_pos>(last_bucket_size - to_remove), get_allocator());
-					}
-					else {
-						// remove last bucket
-						remove_back_bucket();
-
-						to_remove -= last_bucket_size;
-
-						// dealloc buckets starting to the last one
-						while (to_remove >= static_cast<size_type>(bucket_size())) {
-							to_remove -= static_cast<size_t>(bucket_size(bucket_count() - 1));
-							remove_back_bucket();
-						}
-
-						// resize last bucket
-						d_buckets.back()->resize(bucket_size(bucket_count() - 1) - static_cast<cbuffer_pos>(to_remove), get_allocator());
-					}
-
-					d_size = size;
-				}
-
-				update_all_back_values();
-			}
-			void resize(size_type size, const T& val)
-			{
-				if (size == d_size)
-					return;
-
-				if (size > d_size) {
 					ensure_has_bucket();
 
 					// add missing buckets
@@ -2467,12 +2277,12 @@ namespace seq
 
 					if (missing < last_bucket_rem) {
 						// the last bucket has enough space: just resize it
-						d_buckets.back()->resize(d_buckets.back()->size + static_cast<cbuffer_pos>(missing), val, get_allocator());
+						d_buckets.back()->resize(d_buckets.back()->size + static_cast<cbuffer_pos>(missing), helper);
 						d_size += missing;
 					}
 					else {
 						// resize last bucket
-						d_buckets.back()->resize(bucket_size(), val, get_allocator());
+						d_buckets.back()->resize(bucket_size(), helper);
 
 						missing -= last_bucket_rem;
 						d_size += last_bucket_rem;
@@ -2483,12 +2293,12 @@ namespace seq
 						try {
 							// add full buckets
 							for (size_type i = 0; i < new_bucket_count; ++i) {
-								create_back_bucket(val);
+								create_back_bucket()->resize(static_cast<size_t>(bucket_size()),helper);
 								d_size += static_cast<size_t>(bucket_size());
 							}
 							// add last
 							if (last_bucket_size) {
-								create_back_bucket(val)->resize(last_bucket_size, get_allocator());
+								create_back_bucket()->resize(last_bucket_size,helper);
 								d_size += static_cast<size_t>(last_bucket_size);
 							}
 						}
@@ -2505,7 +2315,7 @@ namespace seq
 
 					if (last_bucket_size > to_remove) {
 						// the last bucket has enough space: just resize it
-						d_buckets.back()->resize(static_cast<cbuffer_pos>(last_bucket_size - to_remove), get_allocator());
+						d_buckets.back()->resize(static_cast<cbuffer_pos>(last_bucket_size - to_remove));
 					}
 					else {
 						// remove last bucket
@@ -2520,99 +2330,24 @@ namespace seq
 						}
 
 						// resize last bucket
-						d_buckets.back()->resize(bucket_size(bucket_count() - 1) - static_cast<cbuffer_pos>(to_remove), get_allocator());
+						d_buckets.back()->resize(bucket_size(bucket_count() - 1) - static_cast<cbuffer_pos>(to_remove));
 					}
 					d_size = size;
 				}
 				update_all_back_values();
 			}
 
-			void resize_front(size_type size)
+			
+			template<class... U>
+			void resize_front(size_type size, const U&... value)
 			{
 				if (size == d_size)
 					return;
 
 				if (size > d_size) {
-					ensure_has_bucket();
 
-					// add missing buckets
-					size_type missing = size - d_size;
-					size_type first_bucket_rem = static_cast<size_t>(bucket_size() - d_buckets.front()->size);
+					auto helper = detail::resize_helper<T>(std::forward<const U&>(value)...);
 
-					if (missing < first_bucket_rem) {
-						// The front bucket has enough space: just resize it
-						// Might throw, fine
-						d_buckets.front().bucket->push_front_n(get_allocator(), static_cast<cbuffer_pos>(missing));
-						d_size += missing;
-					}
-					else {
-						// resize front bucket
-						d_buckets.front().bucket->push_front_n(get_allocator(), static_cast<cbuffer_pos>(first_bucket_rem));
-
-						missing -= first_bucket_rem;
-						d_size += first_bucket_rem;
-
-						size_type new_bucket_count = missing / static_cast<size_t>(bucket_size());
-						cbuffer_pos first_bucket_size = static_cast<cbuffer_pos>(missing % static_cast<size_t>(bucket_size()));
-
-						try {
-							// add full buckets
-							for (size_type i = 0; i < new_bucket_count; ++i) {
-								create_front_bucket()->resize(bucket_size(), get_allocator());
-								d_size += static_cast<size_t>(bucket_size());
-							}
-
-							// add last
-							if (first_bucket_size) {
-								create_front_bucket()->push_front_n(get_allocator(), first_bucket_size);
-								d_size += static_cast<size_t>(first_bucket_size);
-							}
-						}
-						catch (...) {
-							if (d_buckets.size() > 1 && d_buckets[0]->size == 0)
-								remove_front_bucket();
-							throw;
-						}
-					}
-				}
-				else {
-					size_type to_remove = d_size - size;
-					size_type first_bucket_size = static_cast<size_t>(bucket_size(0));
-
-					if (first_bucket_size > to_remove) {
-						// the last bucket has enough space: just resize it
-						d_buckets.front().bucket->pop_front_n(get_allocator(), static_cast<cbuffer_pos>(to_remove));
-						d_size -= to_remove;
-					}
-					else {
-						// remove last bucket
-						remove_front_bucket();
-
-						to_remove -= first_bucket_size;
-						d_size -= first_bucket_size;
-
-						// dealloc buckets starting to the last one
-						while (to_remove >= static_cast<size_type>(bucket_size())) {
-							size_type s = static_cast<size_t>(bucket_size(0));
-							to_remove -= s;
-							remove_front_bucket();
-							d_size -= s;
-						}
-
-						// resize front bucket
-						d_buckets.front().bucket->pop_front_n(get_allocator(), static_cast<cbuffer_pos>(to_remove));
-						d_size -= to_remove;
-					}
-				}
-
-				update_all_back_values();
-			}
-			void resize_front(size_type size, const T& val)
-			{
-				if (size == d_size)
-					return;
-
-				if (size > d_size) {
 					ensure_has_bucket();
 
 					// add missing buckets
@@ -2621,12 +2356,12 @@ namespace seq
 
 					if (missing < first_bucket_rem) {
 						// the front bucket has enough space: just resize it
-						d_buckets.front()->push_front_n(get_allocator(), static_cast<cbuffer_pos>(missing), val);
+						d_buckets.front()->push_front_n(static_cast<cbuffer_pos>(missing), helper);
 						d_size += missing;
 					}
 					else {
 						// resize front bucket
-						d_buckets.front()->push_front_n(get_allocator(), static_cast<cbuffer_pos>(first_bucket_rem), val);
+						d_buckets.front()->push_front_n(static_cast<cbuffer_pos>(first_bucket_rem), helper);
 
 						missing -= first_bucket_rem;
 						d_size += first_bucket_rem;
@@ -2637,13 +2372,13 @@ namespace seq
 						try {
 							// add full buckets
 							for (size_type i = 0; i < new_bucket_count; ++i) {
-								create_front_bucket(val);
+								create_front_bucket()->resize(static_cast<size_t>(bucket_size()), helper);
 								d_size += static_cast<size_t>(bucket_size());
 							}
 
 							// add last
 							if (first_bucket_size) {
-								create_front_bucket()->push_front_n(get_allocator(), first_bucket_size, val);
+								create_front_bucket()->push_front_n(first_bucket_size, helper);
 								d_size += static_cast<size_t>(first_bucket_size);
 							}
 						}
@@ -2660,7 +2395,7 @@ namespace seq
 
 					if (first_bucket_size > to_remove) {
 						// the last bucket has enough space: just resize it
-						d_buckets.front()->pop_front_n(get_allocator(), static_cast<cbuffer_pos>(to_remove));
+						d_buckets.front()->pop_front_n(static_cast<cbuffer_pos>(to_remove));
 						d_size -= to_remove;
 					}
 					else {
@@ -2679,11 +2414,85 @@ namespace seq
 						}
 
 						// resize front bucket
-						d_buckets.front()->pop_front_n(get_allocator(), static_cast<cbuffer_pos>(to_remove));
+						d_buckets.front()->pop_front_n(static_cast<cbuffer_pos>(to_remove));
 						d_size -= to_remove;
 					}
 				}
 				update_all_back_values();
+			}
+
+			template<class Cmp>
+			size_t sort(size_t start_idx, Cmp c)
+			{
+				// Sort (unstable) the vector starting from start_idx.
+				// This sorts all buckets starting from the one containing start_idx.
+				// Then all buckets are merged together.
+				// Returns the start index from which elements are sorted (first element of start bucket).
+
+				using iterator = tvector_ra_iterator<this_type>;
+
+				if (size() == 0)
+					return 0;
+
+				size_t bucket_idx = (size_t)this->indexes(start_idx).first;
+				size_t bucket_count = d_buckets.size() - bucket_idx;
+
+				size_t size_before = 0;
+				if (bucket_idx)
+					size_before = d_buckets[0].bucket->size + (bucket_idx - 1) * d_bucket_size;
+
+				size_t count = this->size() - size_before;
+
+				if (bucket_idx == 0) {
+					// Fill front bucket
+					while (d_buckets.size() > 1 && d_buckets[0].bucket->size != d_bucket_size) {
+						T tmp = std::move(this->back());
+						this->pop_back();
+						this->push_front(std::move(tmp));
+					}
+					SEQ_ASSERT_DEBUG(d_buckets[0].bucket->size == d_bucket_size || d_buckets.size() == 1, "");
+				}
+				if (d_buckets.back().bucket->size != d_bucket_size) {
+					// If the back bucket is not full, make it start at 0
+					auto* bucket = d_buckets.back().bucket;
+					while (bucket->begin != 0) {
+						T tmp = std::move(bucket->back());
+						bucket->pop_back();
+						bucket->emplace_front(std::move(tmp));
+					}
+				}
+
+				// Create buffer to sort buckets
+				std::vector<T> buf(count / 2);
+
+				std::vector<iterator> iters(bucket_count + 1);
+				iters[0] = iterator(this, d_buckets.data() + bucket_idx, 0);
+
+				// Sort first
+				{
+					auto& b = d_buckets[bucket_idx];
+					net_sort(b.bucket->buffer(), b.bucket->buffer() + b.bucket->size, c, buffer<T*>{ buf.data(), buf.size() });
+				}
+
+				// Sort remaining buckets
+				for (size_t i = bucket_idx + 1; i < d_buckets.size(); ++i) {
+					auto& b = d_buckets[i];
+					iters[i - bucket_idx] = iterator(this, d_buckets.data() + i, 0);
+					net_sort(b.bucket->buffer(), b.bucket->buffer() + b.bucket->size, c, buffer<T*>{ buf.data(), buf.size() });
+				}
+
+				iters.back() = iterator(this, 0); // end
+
+				// Merge sorted buckets
+				inplace_merge(iters.data(), iters.size(), c, buffer<T*>{ buf.data(), buf.size() });
+
+				// Reset begin position and update back value
+				for (size_t i = bucket_idx; i < d_buckets.size(); ++i) {
+					auto& bucket = d_buckets[i];
+					bucket.bucket->begin = 0;
+					bucket.update();
+				}
+				return size_before;
 			}
 		};
 
@@ -2897,7 +2706,7 @@ namespace seq
 			static constexpr size_t mul_factor = (minb < 8U) ? 8U : minb;
 			static constexpr size_t mask = (mul_factor * mul_factor) - 1ULL;
 			// Check the bucket size every (min_block_size * min_block_size) insertions/deletions
-			if SEQ_UNLIKELY(min_block_size != maxb && /*manager()->isPow2Size()*/ (size() < 64U || (size() & mask) == 0))
+			if SEQ_UNLIKELY (min_block_size != maxb && (size() < 64U || (size() & mask) == 0))
 				check_bucket_size();
 		}
 		// Find bucket size based on full tiered_vector size
@@ -3027,7 +2836,7 @@ namespace seq
 
 		SEQ_ALWAYS_INLINE void make_manager_if_null()
 		{
-			if SEQ_UNLIKELY(!d_manager)
+			if SEQ_UNLIKELY (!d_manager)
 				d_manager = make_manager(get_allocator(), min_block_size, get_allocator());
 		}
 
@@ -3147,7 +2956,7 @@ namespace seq
 		auto operator=(const tiered_vector& other) -> tiered_vector&
 		{
 			if (this != std::addressof(other)) {
-				if SEQ_CONSTEXPR (assign_alloc<Allocator>::value) {
+				if constexpr (assign_alloc<Allocator>::value) {
 					if (get_allocator() != other.get_allocator()) {
 						destroy_manager(d_manager);
 						d_manager = nullptr;

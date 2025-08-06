@@ -35,6 +35,7 @@
 #include <algorithm>
 #include <vector>
 
+
 #define SEQ_ALGO_ASSERT_DEBUG(condition, msg) SEQ_ASSERT_DEBUG(condition, msg)
 
 namespace seq
@@ -44,130 +45,43 @@ namespace seq
 		// Unspecified length
 		static constexpr unsigned Unspecified = (unsigned)-1;
 
-		// Check if iterator is random access
-		template<class Iter>
-		struct is_random_access : std::is_same<std::random_access_iterator_tag, typename std::iterator_traits<Iter>::iterator_category>
-		{
-		};
+		
+		
+		
 
-		// Check if iterator is a std::reverse_iterator
-		template<class It>
-		struct is_reverse_iterator : std::false_type
-		{
-		};
-		template<class It>
-		struct is_reverse_iterator<std::reverse_iterator<It>> : std::true_type
-		{
-		};
-
-		// Increment iterator by an offset
-		template<class Iter, class = void>
-		struct Increment
-		{
-			template<class Diff>
-			static SEQ_ALWAYS_INLINE void incr(Iter& it, Diff d)
-			{
-				std::advance(it, d);
-			}
-		};
+		/// @brief Iterator wrapper for bidirectional iterator
 		template<class Iter>
-		struct Increment<Iter, typename seq::detail::make_void<decltype(std::declval<Iter&>() += 0)>::type>
+		class IterWrapper 
 		{
-			template<class Diff>
-			static SEQ_ALWAYS_INLINE void incr(Iter& it, Diff d)
+			template<class Iter, class Diff>
+			void increment_iter(Iter& it, Diff d)
 			{
-				it += d;
+				if constexpr (has_plus_equal<Iter>::value)
+					it += d;
+				else
+					std::advance(it, d);
 			}
-		};
 
-		// Base class for IterWrapper, store a pos integer for non random access iterator
-		// to speedup iterator difference
-		template<class Iter, class IterCat = typename std::iterator_traits<Iter>::iterator_category>
-		struct IterPos
-		{
-			Iter iter;
-			std::ptrdiff_t pos = 0;
-			SEQ_ALWAYS_INLINE IterPos(const Iter& it = Iter(), std::ptrdiff_t p = 0) noexcept
-			  : iter(it)
-			  , pos(p)
-			{
-			}
-			SEQ_ALWAYS_INLINE void incr() noexcept
-			{
-				++pos;
-				++iter;
-			}
-			SEQ_ALWAYS_INLINE void decr() noexcept
-			{
-				--pos;
-				--iter;
-			}
-			template<class Diff>
-			SEQ_ALWAYS_INLINE void incr(Diff d) noexcept
-			{
-				pos += static_cast<std::ptrdiff_t>(d);
-				Increment<Iter>::incr(iter, static_cast<std::ptrdiff_t>(d));
-			}
-			SEQ_ALWAYS_INLINE auto diff(const IterPos& r) const noexcept { return pos - r.pos; }
-			SEQ_ALWAYS_INLINE bool less(const IterPos& r) const noexcept { return pos < r.pos; }
-			SEQ_ALWAYS_INLINE bool less_eq(const IterPos& r) const noexcept { return pos <= r.pos; }
-			SEQ_ALWAYS_INLINE bool greater(const IterPos& r) const noexcept { return pos > r.pos; }
-			SEQ_ALWAYS_INLINE bool greater_eq(const IterPos& r) const noexcept { return pos >= r.pos; }
-			template<class Diff>
-			SEQ_ALWAYS_INLINE typename std::iterator_traits<Iter>::reference at(Diff d) const noexcept
-			{
-				auto it = iter;
-				Increment<Iter>::incr(it, static_cast<std::ptrdiff_t>(d));
-				return *it;
-			}
-		};
-		template<class Iter>
-		struct IterPos<Iter, std::random_access_iterator_tag>
-		{
-			Iter iter;
-			SEQ_ALWAYS_INLINE IterPos(const Iter& it = Iter(), std::ptrdiff_t = 0) noexcept
-			  : iter(it)
-			{
-			}
-			SEQ_ALWAYS_INLINE void incr() noexcept { ++iter; }
-			SEQ_ALWAYS_INLINE void decr() noexcept { --iter; }
-			template<class Diff>
-			SEQ_ALWAYS_INLINE void incr(Diff d) noexcept
-			{
-				iter += d;
-			}
-			SEQ_ALWAYS_INLINE auto diff(const IterPos& r) const noexcept { return iter - r.iter; }
-			SEQ_ALWAYS_INLINE bool less(const IterPos& r) const noexcept { return iter < r.iter; }
-			SEQ_ALWAYS_INLINE bool less_eq(const IterPos& r) const noexcept { return iter <= r.iter; }
-			SEQ_ALWAYS_INLINE bool greater(const IterPos& r) const noexcept { return iter > r.iter; }
-			SEQ_ALWAYS_INLINE bool greater_eq(const IterPos& r) const noexcept { return iter >= r.iter; }
-			template<class Diff>
-			SEQ_ALWAYS_INLINE typename std::iterator_traits<Iter>::reference at(Diff d) const noexcept
-			{
-				return iter[d];
-			}
-		};
-
-		/// @brief Iterator wrapper that provides a random access category interface
-		/// Just used to ease implementation without c++17 if constexpr;
-		template<class Iter>
-		struct IterWrapper : public IterPos<Iter>
-		{
-			using base_type = IterPos<Iter>;
+		public:
 			using value_type = typename std::iterator_traits<Iter>::value_type;
 			using iterator_category = typename std::iterator_traits<Iter>::iterator_category;
 			using difference_type = typename std::iterator_traits<Iter>::difference_type;
 			using reference = typename std::iterator_traits<Iter>::reference;
 			using pointer = typename std::iterator_traits<Iter>::pointer;
 
-			SEQ_ALWAYS_INLINE IterWrapper(Iter it = Iter(), std::ptrdiff_t pos = 0) noexcept
-			  : base_type(it, pos)
+			Iter iter;
+			ptrdiff_t pos;
+
+			SEQ_ALWAYS_INLINE IterWrapper(Iter it = Iter(), std::ptrdiff_t p = 0) noexcept
+			  : iter(it)
+			  , pos(p)
 			{
 			}
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return const_cast<reference>(*this->iter); }
+			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return (*this->iter); }
 			SEQ_ALWAYS_INLINE auto operator++() noexcept -> IterWrapper&
 			{
-				base_type::incr();
+				++iter;
+				++pos;
 				return *this;
 			}
 			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> IterWrapper
@@ -178,7 +92,8 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE auto operator--() noexcept -> IterWrapper&
 			{
-				base_type::decr();
+				--iter;
+				--pos;
 				return *this;
 			}
 			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> IterWrapper
@@ -190,19 +105,16 @@ namespace seq
 			template<class Diff>
 			SEQ_ALWAYS_INLINE auto operator+=(Diff diff) noexcept -> IterWrapper&
 			{
-				base_type::incr(diff);
+				pos += static_cast<std::ptrdiff_t>(diff);
+				increment_iter(iter, static_cast<std::ptrdiff_t>(diff));
 				return *this;
 			}
 			template<class Diff>
 			SEQ_ALWAYS_INLINE auto operator-=(Diff diff) noexcept -> IterWrapper&
 			{
-				base_type::incr(-static_cast<difference_type>(diff));
+				pos -= static_cast<std::ptrdiff_t>(diff);
+				increment_iter(iter, -static_cast<std::ptrdiff_t>(diff));
 				return *this;
-			}
-			template<class Diff>
-			SEQ_ALWAYS_INLINE reference operator[](Diff d) const noexcept
-			{
-				return base_type::at(d);
 			}
 		};
 		template<class Iter>
@@ -222,9 +134,7 @@ namespace seq
 		template<class Iter>
 		SEQ_ALWAYS_INLINE auto operator-(const IterWrapper<Iter>& it1, const IterWrapper<Iter>& it2) noexcept
 		{
-			auto d1 = it1.iter - it2.iter;
-			auto d2 = it1.diff(it2);
-			return it1.diff(it2);
+			return it1.pos - it2.pos;
 		}
 		template<class Iter>
 		SEQ_ALWAYS_INLINE auto operator==(const IterWrapper<Iter>& it1, const IterWrapper<Iter>& it2) noexcept
@@ -236,26 +146,7 @@ namespace seq
 		{
 			return it1.iter != it2.iter;
 		}
-		template<class Iter>
-		SEQ_ALWAYS_INLINE auto operator<(const IterWrapper<Iter>& it1, const IterWrapper<Iter>& it2) noexcept
-		{
-			return it1.less(it2);
-		}
-		template<class Iter>
-		SEQ_ALWAYS_INLINE auto operator>(const IterWrapper<Iter>& it1, const IterWrapper<Iter>& it2) noexcept
-		{
-			return it1.greater(it2);
-		}
-		template<class Iter>
-		SEQ_ALWAYS_INLINE auto operator<=(const IterWrapper<Iter>& it1, const IterWrapper<Iter>& it2) noexcept
-		{
-			return it1.less_eq(it2);
-		}
-		template<class Iter>
-		SEQ_ALWAYS_INLINE auto operator>=(const IterWrapper<Iter>& it1, const IterWrapper<Iter>& it2) noexcept
-		{
-			return it1.greater_eq(it2);
-		}
+		
 
 		// noexcept specifier for inplace merge/sort
 		template<class T, class Cmp>
@@ -340,6 +231,16 @@ namespace seq
 		{
 			return last - first;
 		}
+		
+		template<class Iter>
+		auto wrap_iter(Iter it, ptrdiff_t d = 0)
+		{
+			if constexpr (is_random_access<Iter>::value)
+				return it;
+			else
+				return IterWrapper<Iter>(it, d);
+		}
+
 
 		template<class Iter, class Cmp>
 		static void merge_inplace_left_subproblem(Iter f0,
@@ -407,30 +308,22 @@ namespace seq
 			n1_1 = (n1 - n0_1) - 1;
 		}
 
-		template<class Iter>
-		SEQ_ALWAYS_INLINE void init_moved_range(Iter first, Iter last)
-		{
-			// initialize invalidated range for relocatable types
-			using type = typename std::iterator_traits<Iter>::value_type;
-			if SEQ_CONSTEXPR (!std::is_trivially_move_assignable<type>::value) {
-				for (; first != last; ++first)
-					construct_ptr(&(*first));
-			}
-		}
+		
 
 		template<class Iter, class Out>
 		SEQ_ALWAYS_INLINE Out copy_internal(Iter begin, Iter end, Out out)
 		{
 			// direct std::copy call
-			return std::copy(begin, end, out);
+			return std::copy((begin), (end), (out));
 		}
 		template<class Iter, class Out>
 		SEQ_ALWAYS_INLINE Out copy_internal(std::move_iterator<Iter> begin, std::move_iterator<Iter> end, Out out)
 		{
 			// Let the compiler decide to use memmove if necesary
 			using type = typename std::iterator_traits<Iter>::value_type;
-			return std::move(begin.base(), end.base(), out);
+			return std::move((begin.base()), (end.base()), (out));
 		}
+
 
 		template<bool Overlap, class Iter1, class Iter2, class Out, class Cmp>
 		inline Out merge_forward(Iter1 first1, Iter1 end1, Iter2 first2, Iter2 end2, Out out, Cmp c)
@@ -440,7 +333,7 @@ namespace seq
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(first2, end2, c), "");
 			SEQ_DEBUG_ONLY(Out dst = out;)
 
-			if SEQ_CONSTEXPR (is_random_access<Iter1>::value && is_random_access<Iter2>::value) {
+			if constexpr (is_random_access<Iter1>::value && is_random_access<Iter2>::value) {
 
 				// Check for unbalanced merge
 				auto s1 = iter_distance(first1, end1);
@@ -486,6 +379,7 @@ namespace seq
 
 			while (first2 != end2) {
 				while (first1 != end1 && !c(*first2, *first1)) {
+					
 					*out = (*first1);
 					++out;
 					++first1;
@@ -499,6 +393,7 @@ namespace seq
 				++first2;
 
 				while (first2 != end2 && c(*first2, *first1)) {
+					
 					*out = (*first2);
 					++out;
 					++first2;
@@ -516,7 +411,7 @@ namespace seq
 				// just advance output iterator if not
 				// a std::reverse_iterator (used by
 				// merge_backward which do not use the result).
-				if (!is_reverse_iterator<Out>::value)
+				if constexpr (!is_reverse_iterator<Out>::value)
 					out = iter_next(out, iter_distance(first2, end2));
 			}
 			else
@@ -526,14 +421,15 @@ namespace seq
 			return out;
 		}
 
+		
 		template<class Iter, class Out, class Cmp>
 		static SEQ_ALWAYS_INLINE std::pair<bool, bool> merge_tails(Iter* first, Iter* second, Out& out_left, Out& out_right, Cmp c)
 		{
 			// Merge tails and advance
 			bool left_order = c(*first[1], *first[0]);
 			bool right_order = !c(*second[1], *second[0]);
-			as_bits(*out_left) = as_bits(*first[left_order]);
-			as_bits(*out_right) = as_bits(*second[right_order]);
+			*out_left = std::move(*first[left_order]);
+			*out_right = std::move(*second[right_order]);
 			++out_left;
 			--out_right;
 			first[1] += left_order;
@@ -543,95 +439,97 @@ namespace seq
 			return { left_order, right_order };
 		}
 
+		template<class Iter, class Out, class Cmp>
+		static SEQ_ALWAYS_INLINE void finish_bidirectional_merge(Iter* first, Iter* second, Out out_left, Cmp c)
+		{
+			bool finish_left = (second[0] < first[0]);
+			bool finish_right = (second[1] < first[1]);
+
+			if (!finish_left && !finish_right) {
+				merge_forward<false>(
+				  std::make_move_iterator(first[0]), std::make_move_iterator(++second[0]), std::make_move_iterator(first[1]), std::make_move_iterator(++second[1]), out_left, c);
+			}
+			else if (finish_left)
+				std::move((first[1]), (++second[1]), (out_left));
+			else if (finish_right)
+				std::move((first[0]), (++second[0]), ( out_left));
+		}
+
 		template<unsigned Count, class Iter, class Out, class Cmp>
 		static Out merge_move_bidirectional(Iter first1, Iter last1, Iter first2, Iter last2, Out out, Cmp c, Out* out_end = nullptr) noexcept(NothrowSortIter<Iter, Cmp>::value)
 		{
+			using T = typename std::iterator_traits<Iter>::value_type;
+
 			// Merge 2 sorted ranges to given output.
 			// Uses the fastest available method: standard forward merge
-			// or branchless merge from both ends for random access iterators.
+			// or branchless merge from both ends for random access iterators and relocatable types.
 
-			using type = typename std::iterator_traits<Iter>::value_type;
-			static constexpr bool bidirectional = is_random_access<Iter>::value && is_relocatable<type>::value; //&& NothrowSortIter<Iter, Cmp>::value;
-
-			if SEQ_CONSTEXPR (bidirectional) {
+			if constexpr ( is_random_access<Iter>::value  && is_relocatable<T>::value) {
 
 				// Branchless merge from both ends
-				// Only possible for relocatable types,
-				// and only more efficient for pseudo random ordering.
+				// Only truly faster with trivial comparison function,
+				// which is usually the case for relocatable types.
 
-				if SEQ_CONSTEXPR (Count < 256) {
-					Out res = out_end ? *out_end : iter_next(out, Count * 2);
-					Out out_right = iter_prev(res);
-					Iter first[2] = { first1, first2 };
-					Iter second[2] = { iter_prev(last1), iter_prev(last2) };
-					for (unsigned i = 0; i < Count; i += 2) {
-						merge_tails(first, second, out, out_right, c);
-						merge_tails(first, second, out, out_right, c);
-					}
-					// Initialize elements moved from
-					init_moved_range(first1, last1);
-					init_moved_range(first2, last2);
-					return res;
-				}
-
-				ptrdiff_t dist1 = iter_distance(first1, last1);
-				ptrdiff_t dist2 = iter_distance(first2, last2);
-
+				Out out_left = out;
 				Iter first[2] = { first1, first2 };
 				Iter second[2] = { iter_prev(last1), iter_prev(last2) };
 
-				Out out_left = out;
-				Out res = out_end ? *out_end : iter_next(out, dist1 + dist2);
-				Out out_right = iter_prev(res);
+				if constexpr (Count != Unspecified) {
+					Out res = out_end ? *out_end : iter_next(out, Count * 2);
+					Out out_right = iter_prev(res);
 
-				// Unbalanced merge from both ends.
-				// For the first part of the merge (1/16 of the smallest range),
-				// check if the order is pseud random. If not, finish with
-				// merge_forward().
+					for (unsigned i=0; i < Count/2; ++i)
+						merge_tails(first, second, out_left, out_right, c);
+					while (first[0] < second[0] && first[1] < second[1])
+						merge_tails(first, second, out_left, out_right, c);
 
-				const ptrdiff_t iter_count = std::min(dist1, dist2);
-				const ptrdiff_t stop = iter_count / 16;
-				ptrdiff_t order = 0;
-				ptrdiff_t count = 0;
-
-				std::pair<bool, bool> prev_order = { true, true };
-
-				if ((first[0] < second[0]) && (first[1] < second[1])) {
-
-					prev_order = merge_tails(first, second, out_left, out_right, c);
-
-					while (((first[0] < second[0]) && (first[1] < second[1]))) {
-						auto ord = merge_tails(first, second, out_left, out_right, c);
-
-						if (count < stop) {
-							order += (ptrdiff_t)(ord.first == prev_order.first);
-							order += (ptrdiff_t)(ord.second == prev_order.second);
-							prev_order = ord;
-							if (++count == stop) {
-								if (order > stop)
-									break;
-							}
-						}
-					}
-
-					// Initialize elements moved from
-					init_moved_range(first1, first[0]);
-					init_moved_range(iter_next(second[0]), first[1]);
-					init_moved_range(iter_next(second[1]), last2);
-
-					// Finish with merge_forward to merge
-					// the middle range
-					merge_forward<false>(std::make_move_iterator(first[0]),
-							     std::make_move_iterator(++second[0]),
-							     std::make_move_iterator(first[1]),
-							     std::make_move_iterator(++second[1]),
-							     out_left,
-							     c);
+					finish_bidirectional_merge(first, second, out_left, c);
 					SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(out, res, c), "");
 					return res;
 				}
-			}
+				else {
+					
+					ptrdiff_t dist1 = iter_distance(first1, last1);
+					ptrdiff_t dist2 = iter_distance(first2, last2);
 
+					Out res = out_end ? *out_end : iter_next(out, dist1 + dist2);
+					Out out_right = iter_prev(res);
+
+					// Unbalanced merge from both ends.
+					// For the first part of the merge (1/16 of the smallest range),
+					// check if the order is pseud random. If not, finish with
+					// merge_forward().
+
+					const ptrdiff_t iter_count = std::min(dist1, dist2);
+					const ptrdiff_t stop = iter_count / 16;
+					ptrdiff_t order = 0;
+					ptrdiff_t count = 0;
+
+					std::pair<bool, bool> prev_order = { true, true };
+
+					if (first[0] < second[0] && first[1] < second[1]) {
+
+						prev_order = merge_tails(first, second, out_left, out_right, c);
+
+						while (count < stop && first[0] < second[0] && first[1] < second[1]) {
+							auto ord = merge_tails(first, second, out_left, out_right, c);
+							order += (ptrdiff_t)(ord.first == prev_order.first) + (ptrdiff_t)(ord.second == prev_order.second);
+							prev_order = ord;
+							++count;
+						}
+						if (order <= stop + stop / 2) {
+							// Balanced merging: keep using bidirectional merge
+							while (first[0] < second[0] && first[1] < second[1])
+								merge_tails(first, second, out_left, out_right, c);
+						}
+
+						// Finish with merge_forward
+						finish_bidirectional_merge(first, second, out_left, c);
+						SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(out, res, c), "");
+						return res;
+					}
+				}
+			}
 			// Standard forward merge
 			return merge_forward<false>(std::make_move_iterator(first1), std::make_move_iterator(last1), std::make_move_iterator(first2), std::make_move_iterator(last2), out, c);
 		}
@@ -654,12 +552,12 @@ namespace seq
 			// Inplace merge 2 ranges using provided buffer.
 			// Moves as few elements as possible to the temporary buffer.
 			if (n0 <= n1) {
-				auto blast = std::move(first, middle, buffer);
+				auto blast = std::move((first), (middle), buffer);
 				merge_forward<true>(std::make_move_iterator(buffer), std::make_move_iterator(blast), std::make_move_iterator(middle), std::make_move_iterator(e1), first, r);
 			}
 			else {
 				auto last = e1;
-				auto blast = std::move(middle, last, buffer);
+				auto blast = std::move((middle), (last), buffer);
 				merge_backward<true>(std::make_move_iterator(first), std::make_move_iterator(middle), std::make_move_iterator(buffer), std::make_move_iterator(blast), last, r);
 			}
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(first, iter_next(middle, n1), r), "");
@@ -672,7 +570,7 @@ namespace seq
 			// pre: distance(mid, last) is 1
 			using type = typename std::iterator_traits<Iter>::value_type;
 			type tmp(std::move(*mid));
-			std::move_backward(first, mid, last);
+			std::move_backward((first), (mid), (last));
 			*first = std::move(tmp);
 		}
 
@@ -686,7 +584,7 @@ namespace seq
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f0, iter_next(f0, n0), r), "");
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f1, iter_next(f1, n1), r), "");
 
-			if SEQ_CONSTEXPR (FirstChecks) {
+			if constexpr (FirstChecks) {
 				// Perform the firsts, easy checks
 
 				if (!n0 || !n1 || !r(*f1, *iter_prev(f1)))
@@ -695,7 +593,7 @@ namespace seq
 
 				if (r(*iter_prev(e1), *f0)) {
 					// Simple rotation needed
-					std::rotate(f0, f1, e1);
+					std::rotate((f0),(f1), (e1));
 					return;
 				}
 
@@ -713,7 +611,7 @@ namespace seq
 					--n0;
 				}
 
-				const auto highest = iter_prev(f1);
+				auto highest = iter_prev(f1);
 				do {
 					--e1;
 					--n1;
@@ -751,6 +649,7 @@ namespace seq
 			// Standard in-place insertion sort working on bidirectional iterators,
 			// but using a number of values to sort instead of an end iterator.
 
+			using T= typename std::iterator_traits<Iter>::value_type;
 			if SEQ_UNLIKELY (count < 2)
 				return count == 0 ? begin : iter_next(begin);
 
@@ -759,7 +658,7 @@ namespace seq
 			for (; count > 1; --count) {
 				if (l(*cur, *prev)) {
 					auto sift = cur;
-					auto tmp = std::move(*sift);
+					T tmp = std::move(*sift);
 					do {
 						*sift = std::move(*prev);
 						--sift;
@@ -795,13 +694,13 @@ namespace seq
 				++begin;
 				while (begin != end && !l(*begin, *prev))
 					prev = begin++;
-				std::reverse(start_equal, begin);
+				std::reverse((start_equal), (begin));
 			}
 
 		reverse_full:
 			// Reverse the full sequence.
 			// Equal ranges will get back their natural orders.
-			std::reverse(start, end);
+			std::reverse((start), (end));
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(start, end, [l](const auto& a, const auto& b) { return l(a, b); }), "");
 		}
 
@@ -810,7 +709,7 @@ namespace seq
 		{
 			// Ping pong merge 4 sorted ranges using provided buffer.
 
-			if (it4 - it0 <= tmp.size) {
+			if ((size_t)(it4 - it0) <= tmp.size) {
 				const bool s0 = !c(*it1, *iter_prev(it1));
 				const bool s1 = !c(*it2, *iter_prev(it2));
 				const bool s2 = !c(*it3, *iter_prev(it3));
@@ -821,16 +720,21 @@ namespace seq
 				if (!s0)
 					middle = merge_move_bidirectional<Unspecified>((it0), (it1), (it1), (it2), tmp.first, c);
 				else {
-					auto dst = std::move(it0, it1, tmp.first);
-					middle = std::move(it1, it2, dst);
+					auto dst = std::move((it0), (it1), tmp.first);
+					middle = std::move((it1), (it2), dst);
 				}
 				if (!s2)
 					end = merge_move_bidirectional<Unspecified>((it2), (it3), (it3), (it4), middle, c);
 				else {
-					auto dst = std::move(it2, it3, middle);
-					end = std::move(it3, it4, dst);
+					auto dst = std::move((it2),( it3), middle);
+					end = std::move((it3), (it4), dst);
 				}
-				merge_move_bidirectional<Unspecified>(tmp.first, (middle), (middle), (end), it0, c, &it4);
+				if (c(*middle, *iter_prev(middle)))
+					merge_move_bidirectional<Unspecified>(tmp.first, (middle), (middle), (end), it0, c, &it4);
+				else {
+					auto dst = std::move((tmp.first), (middle), it0);
+					std::move((middle), (end), dst);
+				}
 			}
 			else {
 				merge_adaptive_n<true>(it0, it1 - it0, it1, it2 - it1, it2, c, tmp);
@@ -843,7 +747,7 @@ namespace seq
 		{
 			// Ping pong merge 3 sorted ranges using provided buffer.
 
-			if (it2 - it0 <= tmp.size) {
+			if ((size_t)(it2 - it0) <= tmp.size) {
 				const bool s0 = !c(*it1, *iter_prev(it1));
 				const bool s1 = !c(*it2, *iter_prev(it2));
 				if (s0 && s1)
@@ -853,10 +757,13 @@ namespace seq
 				if (!s0)
 					middle = merge_move_bidirectional<Unspecified>((it0), (it1), (it1), (it2), tmp.first, c);
 				else {
-					auto dst = std::move(it0, it1, tmp.first);
-					middle = std::move(it1, it2, dst);
+					auto dst = std::move((it0), (it1), tmp.first);
+					middle = std::move((it1), (it2), dst);
 				}
-				merge_forward<true>(std::make_move_iterator(tmp.first), std::make_move_iterator(middle), std::make_move_iterator(it2), std::make_move_iterator(it3), it0, c);
+				if (c(*it2, *iter_prev(middle)))
+					merge_forward<true>(std::make_move_iterator(tmp.first), std::make_move_iterator(middle), std::make_move_iterator(it2), std::make_move_iterator(it3), it0, c);
+				else
+					std::move((tmp.first), (middle), it0);
 			}
 			else {
 				merge_adaptive_n<true>(it0, it1 - it0, it1, it2 - it1, it2, c, tmp);
@@ -901,12 +808,12 @@ namespace seq
 		}
 
 		template<class T>
-		SEQ_ALWAYS_INLINE void swap_branchless(T& a, T& b, bool b_is_less) noexcept
+		SEQ_ALWAYS_INLINE void swap_branchless(T&& a, T&& b, bool b_is_less) noexcept
 		{
 			// Swap elements based on is_less.
 			// Uses branchless swap for relocatable types.
 
-			if SEQ_CONSTEXPR (is_relocatable<T>::value) {
+			if constexpr (is_relocatable<T>::value) {
 				auto tmp = as_bits(a);
 				as_bits(a) = b_is_less ? as_bits(b) : tmp;
 				as_bits(b) = b_is_less ? tmp : as_bits(b);
@@ -927,7 +834,7 @@ namespace seq
 	CHECK_2_NO_OVERLAPP(e, f, g, h)
 
 		template<class T, class Cmp>
-		SEQ_ALWAYS_INLINE void network_sort_8(T& a0, T& a1, T& a2, T& a3, T& a4, T& a5, T& a6, T& a7, Cmp cmp)
+		SEQ_ALWAYS_INLINE void network_sort_8(T&& a0, T&& a1, T&& a2, T&& a3, T&& a4, T&& a5, T&& a6, T&& a7, Cmp cmp)
 		{
 			CHECK_4_NO_OVERLAPP(0, 1, 2, 3, 4, 5, 6, 7);
 			CHECK_4_NO_OVERLAPP(0, 2, 1, 3, 4, 6, 5, 7);
@@ -946,14 +853,15 @@ namespace seq
 		Iter atom_sort_8(Iter vals, unsigned count, Cmp cmp) noexcept(NothrowSortIter<Iter, Cmp>::value)
 		{
 			// Sort up to 8 values
-
-			if SEQ_CONSTEXPR (is_random_access<Iter>::value && N == 8) {
-				// Sort 8 values using a sorting netork
-				network_sort_8(vals[0], vals[1], vals[2], vals[3], vals[4], vals[5], vals[6], vals[7], cmp);
-				return vals + 8;
+			if constexpr (is_random_access<Iter>::value ) {
+				if (N == 8 || count == 8) {
+					// Sort 8 values using a sorting netork
+					network_sort_8(vals[0], vals[1], vals[2], vals[3], vals[4], vals[5], vals[6], vals[7], cmp);
+					return vals + 8;
+				}
 			}
-			else
-				return insertion_sort_n(vals, N == Unspecified ? count : N, cmp);
+			
+			return insertion_sort_n(vals, N == Unspecified ? count : N, cmp);
 		}
 
 		template<class Iter, class Out, class Cmp>
@@ -1000,7 +908,7 @@ namespace seq
 				Iter src = vals;
 				while (rem) {
 					auto p = atom_sort_8<Unspecified>(src, std::min(rem, 8u), c);
-					rem -= p - src;
+					rem -= (unsigned)(p - src);
 					iters[cnt++] = src = p;
 				}
 				merge_sorted_runs_with_buffer(iters, 0, cnt - 1, c, buf);
@@ -1114,15 +1022,15 @@ namespace seq
 							// Increment it by min_size -1, starting from begin or from end
 							auto it = begin;
 
-							if SEQ_CONSTEXPR (!is_random_access<Iter>::value) {
-								auto d = iter_distance(begin, end);
+							if constexpr (!is_random_access<Iter>::value) {
+								size_t d = (size_t)iter_distance(begin, end);
 								if (min_size > d / 2)
 									it = iter_prev(end, d - min_size + 1);
 							}
 							if (it == begin)
 								it = iter_next(begin, min_size - 1);
 
-							auto p = std::is_sorted_until(it, end, l);
+							auto p = std::is_sorted_until((it), (end), l);
 							r = { p, min_size - 1 + (size_t)iter_distance(it, p) };
 						}
 						else {
@@ -1179,6 +1087,14 @@ namespace seq
 			// Small chunks of up to 128 elements are sorted using insertion sort or sorting netwrok and ping-pong merge.
 			// If possible, use wave sort on longer runs.
 			// Supports bidirectional iterators.
+
+			if (size < 128) {
+				auto r = try_wave_sort<5>(begin, size, size, l, buf);
+				if (r.first == begin) 
+					//  Failed
+					sort_128(begin, (unsigned)size, l, buf);
+				return;
+			}
 
 			generic_merge_sort_internal<65>(
 			  begin,
@@ -1242,21 +1158,6 @@ namespace seq
 	/// @brief Null buffer, uses (slow) bufferless merge sort
 	static constexpr buffer<void*> null_buffer{ nullptr, 0 };
 
-	namespace algo_detail
-	{
-		// Avoid compilation error as 'constexpr if' is not available...
-
-		template<class Key, class Buffer>
-		auto make_buffer(Buffer b) noexcept
-		{
-			return b;
-		}
-		template<class Key>
-		auto make_buffer(buffer<void*>) noexcept
-		{
-			return buffer<Key*>{ nullptr, 0 };
-		}
-	}
 
 	/// @brief Stable merge algorithm similar to std::merge.
 	///
@@ -1284,7 +1185,6 @@ namespace seq
 	{
 		using namespace algo_detail;
 		using Key = typename std::iterator_traits<Iter>::value_type;
-		using IterW = IterWrapper<Iter>;
 
 		if (middle == first || middle == last)
 			return;
@@ -1301,7 +1201,7 @@ namespace seq
 		}
 
 		// The following checks come from msvc STL implementation
-		// and help a LOT in some situations 
+		// and help a LOT in some situations
 
 		// Increment first as long as it is smaller than first value of second range
 		for (;;) {
@@ -1313,7 +1213,7 @@ namespace seq
 			++first;
 		}
 
-		const auto highest = iter_prev(middle);
+		auto highest = iter_prev(middle);
 		do {
 			--last;
 			if (middle == last) { // rotate only element remaining in right partition to the beginning, without allocating
@@ -1329,16 +1229,37 @@ namespace seq
 		auto s1 = (size_t)std::distance(first, middle);
 		auto s2 = (size_t)std::distance(middle, last);
 
-		if SEQ_CONSTEXPR (std::is_same<buffer<void*>, Buffer>::value) {
+		if constexpr (std::is_same<buffer<void*>, Buffer>::value) {
 			// Compute buffer size
 			size_t min_size = std::min(s1, s2);
 			size_t buf_size = sort_buffer_size(buf, min_size);
 			std::vector<Key> buf_(buf_size);
-			return merge_adaptive_n<false>(IterW(first), s1, IterW(middle, s1), s2, IterW(last, s1 + s2), c, buffer<Key*>{ buf_.data(), buf_.size() });
+			return merge_adaptive_n<false>(wrap_iter(first), s1, wrap_iter(middle, s1), s2, wrap_iter(last, s1 + s2), c, buffer<Key*>{ buf_.data(), buf_.size() });
 		}
 		else
 			// Use provided buffer
-			return merge_adaptive_n<false>(IterW(first), s1, IterW(middle, s1), s2, IterW(last, s1 + s2), c, make_buffer<Key>(buf));
+			return merge_adaptive_n<false>(wrap_iter(first), s1, wrap_iter(middle, s1), s2, wrap_iter(last, s1 + s2), c, buf);
+	}
+
+	template<class Iter, class Cmp = std::less<>, class Buffer = buffer<void*>>
+	void inplace_merge(Iter* iters, size_t count, Cmp c = Cmp(), Buffer buf = Buffer())
+	{
+		using namespace algo_detail;
+		using Key = typename std::iterator_traits<Iter>::value_type;
+
+		if (count <= 2)
+			// Nothing to do
+			return;
+
+		if constexpr (std::is_same<buffer<void*>, Buffer>::value) {
+			// Compute buffer size
+			size_t buf_size = sort_buffer_size(buf, std::distance(iters[0], iters[count -1])/2);
+			std::vector<Key> buf_(buf_size);
+			merge_sorted_runs_with_buffer(iters, 0, count - 1, c, buffer<Key*>{ buf_.data(), buf_.size() });
+		}
+		else
+			// Use provided buffer
+			merge_sorted_runs_with_buffer(iters, 0, count - 1, c, buf);
 	}
 
 	/// @brief Reverse a range already sorted in descending order while preserving stability.
@@ -1379,25 +1300,23 @@ namespace seq
 	{
 		using namespace algo_detail;
 		using Key = typename std::iterator_traits<Iter>::value_type;
-		using IterType = IterWrapper<Iter>;
 
-		if (size < 32) {
-			// Small input: direct insertion sort
-			insertion_sort_n(begin, size, cmp);
+		if (size < 16) {
+			insertion_sort_n(begin, (unsigned)size, cmp);
 			return;
 		}
 
-		if SEQ_CONSTEXPR (std::is_same<buffer<void*>, Buffer>::value) {
+		if constexpr (std::is_same<buffer<void*>, Buffer>::value) { 
 			// Compute buffer size
 			size_t buf_size = sort_buffer_size(buf, size / 2);
 			if (buf_size < 16)
 				buf_size = 16;
 			std::vector<Key> buf_(buf_size);
-			return merge_sort_internal(IterType(begin, 0), size, cmp, seq::buffer<Key*>{ buf_.data(), buf_.size() });
+			return merge_sort_internal(wrap_iter(begin, 0), size, cmp, seq::buffer<Key*>{ buf_.data(), buf_.size() });
 		}
 		else {
 			// Use provided buffer
-			return merge_sort_internal(IterType(begin, 0), size, cmp, make_buffer<Key>(buf));
+			return merge_sort_internal(wrap_iter(begin, 0), size, cmp, buf);
 		}
 	}
 
@@ -1457,7 +1376,7 @@ namespace seq
 	///
 	/// Like std::unique, seq::unique removes duplicate elements
 	/// from input range in a stable way.
-	/// 
+	///
 	/// Unlike std::unique, seq::unique does not need the input range
 	/// to be sorted at all. Instead, it uses a hash table to assess
 	/// if an element is a duplicate value or not. The hash table is
@@ -1486,7 +1405,7 @@ namespace seq
 
 		TableType set{ HashFn(h), EqualFn(eq) };
 
-		if SEQ_CONSTEXPR (is_random_access<Iter>::value)
+		if constexpr (is_random_access<Iter>::value)
 			set.reserve(std::distance(first, last));
 
 		// Loop over elements until with find a duplicate

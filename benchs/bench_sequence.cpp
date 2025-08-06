@@ -40,10 +40,10 @@ using namespace seq;
 /// @brief Compare performances of seq::sequence, plf::colony and std::list
 /// @tparam T 
 /// @param count 
-template<class T, LayoutManagement lay = seq::OptimizeForSpeed>
+template<class T>
 void test_sequence_vs_colony(size_t count)
 {
-	using seq_type = sequence<T, std::allocator<T>, lay>;
+	using seq_type = sequence<T, std::allocator<T>>;
 	using colony_type = plf::colony<T>;
 	using list_type = std::list<T>;
 

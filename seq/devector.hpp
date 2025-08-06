@@ -33,9 +33,6 @@
 
 #include <algorithm>
 
-// Value used to define the limit between moving elements and reallocating new elements for push_back/front
-#define SEQ_DEVECTOR_SIZE_LIMIT 16U
-
 namespace seq
 {
 	namespace detail
@@ -83,7 +80,7 @@ namespace seq
 					data = start = allocate(size);
 					end = start + size;
 					
-					if SEQ_CONSTEXPR(std::is_trivial<T>::value)
+					if constexpr(std::is_trivial<T>::value)
 						memcpy(data, other.start, size * sizeof(T));
 					else {
 						size_t i = 0;
@@ -118,21 +115,21 @@ namespace seq
 			void destroy_range(T* begin, T* en)
 			{
 				// destroy values in the range [begin,end)
-				if SEQ_CONSTEXPR (!std::is_trivially_destructible<T>::value) {
+				if constexpr (!std::is_trivially_destructible<T>::value) {
 					for (T* p = begin; p != en; ++p)
 						destroy_ptr(p);
 				}
 			}
 
-			template<class... Args>
-			void construct_range(T* first, T* last, Args&&... args)
+			template<class Helper>
+			void construct_range(T* first, T* last, const Helper & h)
 			{
 				// construct values in the range [begin,end) with given arguments
 				// in case of exception, destroy created values
 				T* saved = first;
 				try {
 					while (first != last) {
-						construct_ptr(first, std::forward<Args>(args)...);
+						h.construct(first);
 						++first;
 					}
 				}
@@ -150,7 +147,7 @@ namespace seq
 
 				static constexpr bool noexcept_move = std::is_nothrow_move_constructible<T>::value;
 
-				if SEQ_CONSTEXPR (relocatable)
+				if constexpr (relocatable)
 					memcpy(static_cast<void*>(dst), static_cast<void*>(first), static_cast<size_t>(last - first) * sizeof(T));
 				else {
 					T* saved = first;
@@ -387,8 +384,8 @@ namespace seq
 				}
 			}
 
-			template<class... Args>
-			void resize(size_t new_size, Args&&... args)
+			template<class... U>
+			void resize(size_t new_size, const U&... value)
 			{
 				// Strong exception guarantee
 
@@ -397,12 +394,15 @@ namespace seq
 					return;
 
 				if (new_size > size) {
+
+					auto helper = detail::resize_helper<T>(std::forward<const U&>(value)...);
+
 					// Grow
 					size_t remaining = static_cast<size_t>((data + capacity) - end);
 					if (remaining >= (new_size - size)) {
 						// no need to allocate, just construct
 						T* new_end = end + (new_size - size);
-						construct_range(end, new_end, std::forward<Args>(args)...);
+						construct_range(end, new_end, helper);
 						end = new_end;
 					}
 					else {
@@ -414,7 +414,7 @@ namespace seq
 
 						try {
 							// construct right elements
-							construct_range(_new_start + size, _new_end, std::forward<Args>(args)...);
+							construct_range(_new_start + size, _new_end, helper);
 						}
 						catch (...) {
 							deallocate(_new, _new_capacity);
@@ -445,8 +445,8 @@ namespace seq
 				}
 			}
 
-			template<class... Args>
-			void resize_front(size_t new_size, Args&&... args)
+			template<class... U>
+			void resize_front(size_t new_size, const U&... value)
 			{
 				// Strong exception guarantee
 
@@ -455,12 +455,15 @@ namespace seq
 					return;
 
 				if (new_size > size) {
+
+					auto helper = detail::resize_helper<T>(std::forward<const U&>(value)...);
+
 					// Grow
 					size_t remaining = start - data;
 					if (remaining >= (new_size - size)) {
 						// no need to allocate, just construct
 						T* new_start = start - (new_size - size);
-						construct_range(new_start, start, std::forward<Args>(args)...);
+						construct_range(new_start, start, helper);
 						start = new_start;
 					}
 					else {
@@ -471,7 +474,7 @@ namespace seq
 						T* _new_end = _new_start + new_size;
 
 						try {
-							construct_range(_new, _new + (new_size - size), std::forward<Args>(args)...);
+							construct_range(_new, _new + (new_size - size), helper);
 						}
 						catch (...) {
 							deallocate(_new, _new_capacity);
@@ -889,8 +892,8 @@ namespace seq
 				;
 			else if (off <= size() / 2) { // closer to front, push to front then rotate
 				try {
-					if (size_t len = seq::distance(first, last))
-						reserve_front(len);
+					if constexpr(is_random_access_v<InputIt>)
+						reserve_front(std::distance(first, last));
 
 					for (; first != last; ++first)
 						push_front(*first); // prepend flipped
@@ -907,8 +910,8 @@ namespace seq
 			}
 			else { // closer to back
 				try {
-					if (size_t len = seq::distance(first, last))
-						reserve_back(len);
+					if constexpr (is_random_access_v<InputIt>)
+						reserve_back(std::distance(first, last));
 
 					for (; first != last; ++first)
 						push_back(*first); // append
@@ -946,8 +949,8 @@ namespace seq
 		void assign(InputIt first, InputIt last)
 		{
 			try {
-				if (size_t len = seq::distance(first, last)) {
-					resize(len);
+				if constexpr (is_random_access_v<InputIt>) {
+					resize(std::distance(first, last));
 					std::copy(first, last, begin());
 				}
 				else {
@@ -1001,7 +1004,7 @@ namespace seq
 
 			if (off < static_cast<size_type>(end() - last)) {	// closer to front
 
-				if SEQ_CONSTEXPR(std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value) {
+				if constexpr(std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value) {
 					this->destroy_range(const_cast<T*>(first), const_cast<T*>(last));
 					memmove(begin() + count, begin(), off * sizeof(T));
 					this->base_type::start += count;
@@ -1013,7 +1016,7 @@ namespace seq
 				}
 			}
 			else {	// closer to back
-				if SEQ_CONSTEXPR (std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value) {
+				if constexpr (std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value) {
 					this->destroy_range(const_cast<T*>(first), const_cast<T*>(last));
 					memmove(static_cast<void*>(const_cast<T*>(first)), last, (end() - last) * sizeof(T));
 					this->base_type::end -= count;
@@ -1189,7 +1192,7 @@ namespace seq
 		auto operator=(const devector& other) -> devector&
 		{
 			if (this != std::addressof(other)) {
-				if SEQ_CONSTEXPR (assign_alloc<Allocator>::value) {
+				if constexpr (assign_alloc<Allocator>::value) {
 					if (get_allocator() != other.get_allocator()) {
 						// clear and deallocate
 						clear();
