@@ -989,7 +989,7 @@ namespace seq
 		{
 			size_t input_size = (last - first);
 			size_t new_size = size() - len + input_size;
-			if (new_size <= capacity) {
+			if (new_size <= capacity()) {
 				// do everything inplace
 				if (input_size != len)
 					memmove(data() + pos + input_size, data() + pos + len, size() - (pos + len));

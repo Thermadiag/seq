@@ -240,7 +240,7 @@ namespace seq
 			if constexpr (!is_formattable<T>::value)
 				throw seq::bad_any_function_call("data type is not formattable");
 			else if constexpr (std::is_pointer_v<T>) {
-				auto f = fmt(*static_cast<const void*>(in)); //TEST
+				auto f = fmt(static_cast<const void*>(*static_cast<const T*>(in))); // TEST
 				f.set_width_format(wfmt);
 				f.set_numeric_format(nfmt);
 				f.append(out);
