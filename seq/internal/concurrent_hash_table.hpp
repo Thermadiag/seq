@@ -85,8 +85,7 @@ namespace seq
 
 		// Check if given type is an execution policy
 		template<typename ExecutionPolicy>
-		using internal_is_execution_policy = std::is_execution_policy<typename std::remove_cv<typename std::remove_reference<ExecutionPolicy>::type>::type>;
-
+		using internal_is_execution_policy = std::is_execution_policy<std::decay_t<ExecutionPolicy> >;
 
 		/// @brief Basic/lighter equivalent to std::shared_lock
 		template<class Lock>
