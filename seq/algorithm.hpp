@@ -320,7 +320,6 @@ namespace seq
 		SEQ_ALWAYS_INLINE Out copy_internal(std::move_iterator<Iter> begin, std::move_iterator<Iter> end, Out out)
 		{
 			// Let the compiler decide to use memmove if necesary
-			using type = typename std::iterator_traits<Iter>::value_type;
 			return std::move((begin.base()), (end.base()), (out));
 		}
 

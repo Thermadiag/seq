@@ -643,7 +643,7 @@ namespace seq
 			template<class U>
 			SEQ_ALWAYS_INLINE auto hash(const U& k) const noexcept
 			{
-				return this_type(hash_value(*this, k), *this, *this);
+				return this_type(hash_value(static_cast<const Hash&>(*this), k), *this, *this);
 			}
 			template<class L, class R>
 			static SEQ_ALWAYS_INLINE bool less(const L& l, const R& r) noexcept

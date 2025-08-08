@@ -691,11 +691,17 @@ static void test_hold_any()
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-prototypes"
 #endif
-int test_any(int, char* [])
+
+int add(int a, int b)
 {
+	return a+ b;
+}
+
+	int test_any(int, char*[])
+	{
 	typedef int (*ptr)(int, int);
-	seq::any a = ptr();
-	seq::any a2 = ptr();
+		seq::any a = add;
+	seq::any a2 = add;
 	a < a2;
 	std::cout << seq::fmt(true) << std::endl;
 
