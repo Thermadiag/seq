@@ -21,6 +21,7 @@ create_test_sourcelist (Tests
   test_tiny_string.cpp
   test_all_maps.cpp
   test_concurrent_map.cpp
+  test_algorithm.cpp
   )
   
 

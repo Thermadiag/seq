@@ -39,8 +39,7 @@ Range insertion works the following way:
 -	Old keys and new keys are merged using `std::inplace_merge`
 -	Duplicate values are removed if necessary using `std::unique`.
 
-Note that flat_set used by default <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters which is not stable.
-If you need to keep stability when inserting range of values, you must set the Stable template parameter to true. `std::stable_sort` will be used instead of pdqsort (std::inplace_merge and std::unique are already stable).
+If you need to keep stability when inserting range of values, you must set the Stable template parameter to true.
 
 
 ## Exception guarantee

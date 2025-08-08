@@ -210,7 +210,7 @@ namespace std
 	template<size_t S, bool R>
 	struct hash<Str<S, R> >
 	{
-		size_t operator()(const Str<S, R>& s)
+		size_t operator()(const Str<S, R>& s) const
 		{
 			return s.empty() ? 0 : std::hash<seq::tstring>{}(s.c_str());
 		}

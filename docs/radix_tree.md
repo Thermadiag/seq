@@ -1,11 +1,12 @@
+
 # Radix tree: radix based containers
 
 The `seq` library provides the containers `seq::radix_set`, `seq::radix_map`, `seq::radix_hash_set` and `seq::radix_hash_map` all based on the same radix tree. The First 2 ones are sorted containers while the last 2 containers are (unsorted) hash tables.
-The Radix tree implementation provided by the `seq` library is a new kind of radix tree called VART for *Variable Arity Radix Tree*.
+The Radix tree implementation provided by the `seq` library is a new kind of radix tree called VART for *Variable Arity Radix Tree* which derives from the [Burst Trie](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=1627704c73fab3573bc38ab99f158822b02464b6).
 
 # Radix trees
 
-A radix tree is a kind of a space-optimized prefix tree in which each node that is the only child is merged with its parent. The radix tree uses the bits representation of a key to build a sorted tree with an arity (number of children) which is a power of 2.
+A radix tree (or trie) is a kind of a space-optimized prefix tree in which each node that is the only child is merged with its parent. The radix tree uses the bits representation of a key to build a sorted tree with an arity (number of children) which is a power of 2.
 There are already lots of radix tree implementations that we can sort by arity:
 -	*256*: ART (Adaptative Radix Tree) and Judy Array walk through keys by increment of 8 bits. This creates low depth trees, reducing the number of investigated nodes for all operations (i.e. reduce cache misses). 
 They use different techniques to reduce the memory footprint of nodes having few children, like having different types of nodes depending on the children count.
@@ -15,15 +16,17 @@ A bitmap is used to reduce the size of a node based on its children count. A fas
 
 Most implementations use common tricks to reduce the space utilization and maximize lookup speed, like path compression for nodes having only one child.
 
+The Burst Trie is another variant of radix trie where the leafs of the trie are replaced with a container which is able to store a small number of entries efficiently. The following [description](https://tessil.github.io/2017/06/22/hat-trie.html) by [tessil](https://github.com/Tessil) is a very good introduction to this data structure.
+
 # Variable Arity Radix Tree (VART)
 
-The VART has the following specificities:
+The VART is a Burst Trie with the following specificities:
 -	Unlike above radix trees, and as its name implies, each node of a VART has a variable arity. It starts at a low value, tipically 4, and grows lazily as more keys are inserted.
 -	The keys are stored in leaf nodes only, without compression.
 -	Each leaf node is a flat sorted array of keys (or pairs of key/value for the radix_map) containing at most MAX keys, where MAX depends on the key size (typically 64).
 -	Intermediate nodes are called 'directories'  and can potentially have an unlimited number of children (other directories or leaf nodes).
 -	Since keys are stored 'as is' without compression, `seq::radix_set` and `seq::radix_map` can provide the same interface as `std::set` and `std::map`.
--	Keys can be arithmetic types, pointers, standard strings or wide strings.
+-	Keys can be arithmetic types, pointers, standard strings or wide strings, vectors, arrays... (anything with a `data()` and `size()` member).
 -	Keys are unique within the tree.
 
 For the rest of the documentation, we consider a VART with a start arity of 4 and maximum leaf node size of 64 keys.
@@ -103,7 +106,7 @@ The `seq::radix_hash_set` and `seq::radix_hash_map` classes (hash tables) use th
 
 Most types of radix trees (like ART one) support O(k) operations (where k is the size of the key in bytes). `seq::radix_set/map` does not depend on the key sizes, but instead on their distribution.
 In terms of big O notation, `seq::radix_set/map` behaves in the following way:
--	Insertion is anywhere in-between O(1) and O(sqrt(N)). For evenly distributed keys (like random values), insertion will behave in O(1) thanks to the level merging. O(sqrt(N)) is the upper bound, when all entries fall into the last nodes implemented with seq::flat_set. Note that in this case, the constant factor is quite high.
+-	Insertion is anywhere in-between O(1) and O(sqrt(N)). For evenly distributed keys (like random values), insertion will behave in O(1) thanks to the level merging. O(sqrt(N)) is the upper bound, when all entries fall into the last nodes implemented with `seq::flat_set`. Note that in this case, the constant factor is quite high.
 -	Likewise, lookup is anywhere in-between O(1) for evenly distributed keys and O(log(N)) (seq::flat_set behavior) with a high constant factor.
 
 ## Key lookups
@@ -122,7 +125,7 @@ The key lookup within a leaf node is similar to what is used in swiss tables: th
 Removing a key is straightforward. The key is first removed from its node (either a leaf or vector node) while maintaining node ordering (for sorted trees). If the leaf becomes empty it is destroyed and the leaf location in the parent directory is marked as null.
 If a directory only contains null nodes, it is destroyed and its location within its parent directory is marked as null. This process keeps repeating while going upward through the tree, until a non empty directory or the root one is reached.
 
-Note that the deletion process could have benefited from the inverse strategy as the level merging (a kind of level unfolding). This would smoothen the memory pattern while deletting entries, but is also more complex and error prone.
+Starting version 2 of `seq`, the VART rebalance itself on erasure for `seq::radix_set/map`, but not for `seq::radix_hash_set/map` (as almost all hash table implementations).
 
 
 ## Hash table VART

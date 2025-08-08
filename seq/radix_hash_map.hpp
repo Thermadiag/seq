@@ -58,11 +58,10 @@ namespace seq
 		using Policy = detail::BuildValue<Key, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
 		
 		using radix_hash = radix_detail::RadixHasherUnordered<Key, Hash, KeyLess, KeyEqual>;
-		using radix_tree_type = radix_detail::RadixTree<Key, radix_hash, Extract, Allocator, radix_detail::LeafNode<Key, false>, 2>;
+		using radix_tree_type = radix_detail::RadixTree<Key, radix_hash, Extract, Allocator, radix_detail::LeafNode<Key, false>, 8>;
 		radix_tree_type d_tree;
 
 	public:
-		static_assert(std::is_empty<KeyEqual>::value, "radix_hash_set only supports empty KeyEqual functor");
 
 		struct const_iterator
 		{
@@ -502,11 +501,10 @@ namespace seq
 		using Policy = detail::BuildValue<std::pair<Key, T>, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
 
 		using radix_hash = radix_detail::RadixHasherUnordered<Key, Hash, KeyLess, KeyEqual>;
-		using radix_tree_type = radix_detail::RadixTree<std::pair<Key, T>, radix_hash, Extract, Allocator, radix_detail::LeafNode<std::pair<Key, T>, false>, 2>;
+		using radix_tree_type = radix_detail::RadixTree<std::pair<Key, T>, radix_hash, Extract, Allocator, radix_detail::LeafNode<std::pair<Key, T>, false>, 8>;
 		radix_tree_type d_tree;
 
 	public:
-		static_assert(std::is_empty_v<KeyEqual>, "radix_hash_map only supports empty KeyEqual functor");
 
 		struct const_iterator
 		{

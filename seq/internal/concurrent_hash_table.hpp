@@ -1009,8 +1009,12 @@ namespace seq
 				// Compute tiny hash and get (locked) node
 				auto th = node_type::tiny_hash(hash);
 				node_lock* ll = nullptr;
-				size_t pos = is_concurrent ? this->template get_node<true>(AtomicLoad(d_locks), hash, ll) : (hash & d_hash_mask);
-
+				//size_t pos = is_concurrent ? this->template get_node<true>(AtomicLoad(d_locks), hash, ll) : (hash & d_hash_mask);
+				size_t pos;
+				if constexpr (is_concurrent)
+					pos = this->template get_node<true>(AtomicLoad(d_locks), hash, ll);
+				else
+					pos = (hash & d_hash_mask);
 				// Grad lock
 				LockUnique<node_lock> lock(ll, true);
 
@@ -1202,7 +1206,13 @@ namespace seq
 			SEQ_CONCURRENT_INLINE size_t visit_hash(size_t hash, const K& key, F&& f) const
 			{
 				node_lock* lock = nullptr;
-				size_t pos = is_concurrent ? get_node_shared(AtomicLoad(d_locks), hash, lock) : (hash & d_hash_mask);
+				//size_t pos = is_concurrent ? get_node_shared(AtomicLoad(d_locks), hash, lock) : (hash & d_hash_mask);
+				size_t pos;
+				if constexpr (is_concurrent)
+					pos = get_node_shared(AtomicLoad(d_locks), hash, lock);
+				else
+					pos = (hash & d_hash_mask);
+
 				LockShared<node_lock> ll(lock, true);
 				return FindInNode<extract_key>(node_type::tiny_hash(hash), d_data->key_eq(), key, d_buckets + pos, d_values + pos, std::forward<F>(f));
 			}
@@ -1210,7 +1220,12 @@ namespace seq
 			SEQ_CONCURRENT_INLINE size_t visit_hash(size_t hash, const K& key, F&& f)
 			{
 				node_lock* lock = nullptr;
-				size_t pos = is_concurrent ? this->template get_node<false>(AtomicLoad(d_locks), hash, lock) : (hash & d_hash_mask);
+				//size_t pos = is_concurrent ? this->template get_node<false>(AtomicLoad(d_locks), hash, lock) : (hash & d_hash_mask);
+				size_t pos;
+				if constexpr (is_concurrent)
+					pos = this->template get_node<false>(AtomicLoad(d_locks), hash, lock);
+				else
+					pos = (hash & d_hash_mask);
 				LockUnique<node_lock> ll(lock, true);
 				return FindInNode<extract_key>(node_type::tiny_hash(hash), d_data->key_eq(), key, d_buckets + pos, d_values + pos, std::forward<F>(f));
 			}
@@ -1320,7 +1335,13 @@ namespace seq
 			SEQ_CONCURRENT_INLINE auto erase_key(size_t hash, F&& fun, const K& key) -> size_t
 			{
 				node_lock* lock = nullptr;
-				size_t pos = is_concurrent ? this->template get_node<false>(AtomicLoad(d_locks), hash, lock) : (hash & d_hash_mask);
+				//size_t pos = is_concurrent ? this->template get_node<false>(AtomicLoad(d_locks), hash, lock) : (hash & d_hash_mask);
+				size_t pos;
+				if constexpr (is_concurrent)
+					pos = this->template get_node<false>(AtomicLoad(d_locks), hash, lock);
+				else
+					pos = (hash & d_hash_mask);
+
 				LockUnique<node_lock> ll(lock, true);
 
 				if SEQ_UNLIKELY (d_buckets == get_static_node())
@@ -1736,7 +1757,7 @@ namespace seq
 			template<class ExecPolicy, class F>
 			bool visit_all(ExecPolicy&& p, F&& fun)
 			{
-				if (!is_concurrent)
+				if constexpr (!is_concurrent)
 					return visit_all(std::forward<F>(fun));
 				const PrivateData* d = cget_data();
 				if (!d)
@@ -1751,7 +1772,7 @@ namespace seq
 			template<class ExecPolicy, class F>
 			bool visit_all(ExecPolicy&& p, F&& fun) const
 			{
-				if (!is_concurrent)
+				if constexpr (!is_concurrent)
 					return visit_all(std::forward<F>(fun));
 				const PrivateData* d = get_data();
 				if (!d)
@@ -1823,7 +1844,7 @@ namespace seq
 			{
 				if (this == std::addressof(other))
 					return;
-				if (is_concurrent)
+				if constexpr (is_concurrent)
 					std::lock(d_data_lock, other.d_data_lock);
 				LockUnique<data_lock_type> l1(&d_data_lock, true);
 				LockUnique<data_lock_type> l2(&other.d_data_lock, true);
@@ -1936,22 +1957,25 @@ namespace seq
 			template<class ExecPolicy, class F>
 			auto erase_if(ExecPolicy&& p, F&& fun) -> size_t
 			{
-				if (!is_concurrent)
+				if constexpr (!is_concurrent)
 					return erase_if(std::forward<F>(fun));
-				const PrivateData* d = cget_data();
-				if SEQ_UNLIKELY (!d)
-					return 0;
-				std::atomic<size_t> res{ 0 };
-				std::for_each(std::forward<ExecPolicy>(p), d->maps, d->maps + PrivateData::map_count, [&](const auto& m) {
-					res += const_cast<hash_map*>(m.as_map())->erase_if(std::forward<F>(fun));
-				});
-				return res;
+				else {
+
+					const PrivateData* d = cget_data();
+					if SEQ_UNLIKELY (!d)
+						return 0;
+					std::atomic<size_t> res{ 0 };
+					std::for_each(std::forward<ExecPolicy>(p), d->maps, d->maps + PrivateData::map_count, [&](const auto& m) {
+						res += const_cast<hash_map*>(m.as_map())->erase_if(std::forward<F>(fun));
+					});
+					return res;
+				}
 			}
 
 			auto merge(ConcurrentHashTable& other) -> size_t
 			{
 				// Lock internal data to avoid swap or move during merging
-				if (is_concurrent)
+				if constexpr (is_concurrent)
 					std::lock(const_cast<data_lock_type&>(d_data_lock), const_cast<data_lock_type&>(other.d_data_lock));
 
 				LockUnique<data_lock_type> l1(const_cast<data_lock_type*>(&d_data_lock), true);
@@ -1972,7 +1996,7 @@ namespace seq
 			auto merge(ExecPolicy&& p, ConcurrentHashTable& other) -> size_t
 			{
 				// Lock internal data to avoid swap or move during merging
-				if (is_concurrent)
+				if constexpr (is_concurrent)
 					std::lock(const_cast<data_lock_type&>(d_data_lock), const_cast<data_lock_type&>(other.d_data_lock));
 				else
 					return merge(other);
@@ -1995,7 +2019,7 @@ namespace seq
 			bool operator==(const ConcurrentHashTable& other) const
 			{
 				// Lock internal data to avoid swap or move during comparison
-				if (is_concurrent)
+				if constexpr (is_concurrent)
 					std::lock(const_cast<data_lock_type&>(d_data_lock), const_cast<data_lock_type&>(other.d_data_lock));
 				LockUnique<data_lock_type> l1(const_cast<data_lock_type*>(&d_data_lock), true);
 				LockUnique<data_lock_type> l2(const_cast<data_lock_type*>(&other.d_data_lock), true);

@@ -15,6 +15,7 @@ create_test_sourcelist (Benchs
   bench_tiered_vector.cpp
   bench_tiny_string.cpp
   bench_boost_unordered_benchmarks.cpp
+  bench_sort.cpp
   )
 
 # add the executable

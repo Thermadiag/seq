@@ -1,3 +1,4 @@
+
 # Concurrent map
 Starting version 1.2, the *seq* library provides the unordered associative containers `seq::concurrent_map` and `seq::concurrent_set` dedicated to high-load concurrent scenarios (header: `<seq/concurrent_map.hpp>`). 
 
@@ -123,12 +124,12 @@ We see that each submap of a `seq::concurrent_map` provides a certain level of c
 
 ## Interface
 
-`seq::concurrent_map` uses the exact same interface as `boost::concurrent_flat_map`:
+`seq::concurrent_map` uses the exact same interface as [`boost::concurrent_flat_map`](https://www.boost.org/doc/libs/1_88_0/libs/unordered/doc/html/unordered/concurrent.html):
 
 -	No iterators are provided,
 -	Lookup are performed using the `visit()` or `cvisit()` members taking a functor as parameter in addition to the key,
 -	Walking through the table is performed using `visit_all()` or `cvisit_all()` members.
--	See [`boost::concurrent_flat_map`](https://www.boost.org/doc/libs/develop/libs/unordered/doc/html/unordered.html) documentation for more details.
+-	See [`boost::concurrent_flat_map`](https://www.boost.org/doc/libs/1_88_0/libs/unordered/doc/html/unordered/concurrent.html) documentation for more details.
 
 Some differences compared to `boost::concurrent_flat_map`:
 

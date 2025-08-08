@@ -1113,65 +1113,73 @@ namespace seq
 
 			SEQ_ASSERT_DEBUG(base <= 36, "invalid 'base' value");
 
-			static const char* upper_chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			static const char* lower_chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+			if constexpr (std::is_same_v<T, bool>) {
+				Char* dst = range.add_size(1);
+				*dst++ = _val ? (Char)('1') : (Char)('0');
+				return { dst, std::errc() };
+			}
+			else {
 
-			if (!_val) {
-				int size = fmt.integral_min_width ? static_cast<int>(fmt.integral_min_width) : 1;
-				Char* dst = range.add_size(static_cast<size_t>(size));
+				static const char* upper_chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+				static const char* lower_chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+
+				if (!_val) {
+					int size = fmt.integral_min_width ? static_cast<int>(fmt.integral_min_width) : 1;
+					Char* dst = range.add_size(static_cast<size_t>(size));
+					if SEQ_UNLIKELY (!dst) {
+						return { range.end_ptr(), std::errc::value_too_large };
+					}
+					while (size-- > 0) {
+						*dst++ = (Char)('0');
+					}
+					return { dst, std::errc() };
+				}
+				const char* chars = fmt.upper_case ? upper_chars : lower_chars;
+				int min_width = static_cast<int>(fmt.integral_min_width);
+				char tmp[66];
+				int index = 65;
+				tmp[index] = 0;
+				unsigned neg = 0;
+
+				using uint_type = typename integer_abs_return<T>::type;
+				uint_type val;
+
+				if (std::is_signed<T>::value && _val < 0) {
+					neg = 1;
+					val = negate_if_signed(_val);
+				}
+				else {
+					val = static_cast<uint_type>(_val);
+				}
+
+				while (val) {
+					uint_type _new = val / static_cast<uint_type>(base);
+					uint_type rem = val % static_cast<uint_type>(base);
+					tmp[--index] = chars[rem];
+					val = _new;
+				}
+				if (min_width >= 0) {
+					int count = 65 - index;
+					while (min_width-- > count && index > 0) {
+						tmp[--index] = '0';
+					}
+				}
+				if (base == 16 && fmt.hex_prefix) {
+					tmp[--index] = 'x';
+					tmp[--index] = '0';
+				}
+				if (std::is_signed<T>::value && neg) {
+					tmp[--index] = '-';
+				}
+
+				size_t size = sizeof(tmp) - static_cast<size_t>(index) - 1;
+				Char* dst = range.add_size(size);
 				if SEQ_UNLIKELY (!dst) {
 					return { range.end_ptr(), std::errc::value_too_large };
 				}
-				while (size-- > 0) {
-					*dst++ = (Char)('0');
-				}
-				return { dst, std::errc() };
+				std::copy(tmp + index, tmp + index + size, dst);
+				return { dst + size, std::errc() };
 			}
-			const char* chars = fmt.upper_case ? upper_chars : lower_chars;
-			int min_width = static_cast<int>(fmt.integral_min_width);
-			char tmp[66];
-			int index = 65;
-			tmp[index] = 0;
-			unsigned neg = 0;
-
-			using uint_type = typename integer_abs_return<T>::type;
-			uint_type val;
-
-			if (std::is_signed<T>::value && _val < 0) {
-				neg = 1;
-				val = negate_if_signed(_val);
-			}
-			else {
-				val = static_cast<uint_type>(_val);
-			}
-
-			while (val) {
-				uint_type _new = val / static_cast<uint_type>(base);
-				uint_type rem = val % static_cast<uint_type>(base);
-				tmp[--index] = chars[rem];
-				val = _new;
-			}
-			if (min_width >= 0) {
-				int count = 65 - index;
-				while (min_width-- > count && index > 0) {
-					tmp[--index] = '0';
-				}
-			}
-			if (base == 16 && fmt.hex_prefix) {
-				tmp[--index] = 'x';
-				tmp[--index] = '0';
-			}
-			if (std::is_signed<T>::value && neg) {
-				tmp[--index] = '-';
-			}
-
-			size_t size = sizeof(tmp) - static_cast<size_t>(index) - 1;
-			Char* dst = range.add_size(size);
-			if SEQ_UNLIKELY (!dst) {
-				return { range.end_ptr(), std::errc::value_too_large };
-			}
-			std::copy(tmp + index, tmp + index + size, dst);
-			return { dst + size, std::errc() };
 		}
 
 		static SEQ_ALWAYS_INLINE auto decimal_table() -> const char*
@@ -1190,63 +1198,69 @@ namespace seq
 
 			using Char = typename Range::char_type;
 
-			if (base != 10) {
+			if constexpr (std::is_same_v<T, bool>) {
 				return detail::write_integer_generic(range, _value, base, fmt);
 			}
-
-			const char* table = decimal_table();
-			unsigned neg = 0;
-
-			using uint_type = typename integer_abs_return<T>::type;
-			uint_type value;
-
-			if (std::is_signed<T>::value && _value < 0) {
-				neg = 1;
-				value = negate_if_signed(_value);
-			}
 			else {
-				value = static_cast<uint_type>(_value);
-			}
 
-			unsigned digit = count_digits_base_10(value);
-			if SEQ_UNLIKELY (fmt.integral_min_width > digit) {
-				digit = fmt.integral_min_width;
-			}
-			if (std::is_signed<T>::value) {
-				digit += neg;
-			}
-			Char* buffer = range.add_size(digit);
-			if SEQ_UNLIKELY (!buffer) {
-				return { range.end_ptr(), std::errc::value_too_large };
-			}
+				if (base != 10) {
+					return detail::write_integer_generic(range, _value, base, fmt);
+				}
 
-			Char* start = buffer + neg;
-			Char* res = buffer + digit;
-			buffer = res;
+				const char* table = decimal_table();
+				unsigned neg = 0;
 
-			while (value >= 100) {
-				const auto i = static_cast<unsigned>((value % 100U) * 2U);
-				value /= 100U;
+				using uint_type = typename integer_abs_return<T>::type;
+				uint_type value;
 
-				*--buffer = (Char)table[i];
-				*--buffer = (Char)table[i + 1];
-			}
+				if (std::is_signed<T>::value && _value < 0) {
+					neg = 1;
+					value = negate_if_signed(_value);
+				}
+				else {
+					value = static_cast<uint_type>(_value);
+				}
 
-			if (value < 10U) {
-				*--buffer = (Char)(static_cast<char>(value) + '0');
+				unsigned digit = count_digits_base_10(value);
+				if SEQ_UNLIKELY (fmt.integral_min_width > digit) {
+					digit = fmt.integral_min_width;
+				}
+				if (std::is_signed<T>::value) {
+					digit += neg;
+				}
+				Char* buffer = range.add_size(digit);
+				if SEQ_UNLIKELY (!buffer) {
+					return { range.end_ptr(), std::errc::value_too_large };
+				}
+
+				Char* start = buffer + neg;
+				Char* res = buffer + digit;
+				buffer = res;
+
+				while (value >= 100) {
+					const auto i = static_cast<unsigned>((value % 100U) * 2U);
+					value /= 100U;
+
+					*--buffer = (Char)table[i];
+					*--buffer = (Char)table[i + 1];
+				}
+
+				if (value < 10U) {
+					*--buffer = (Char)(static_cast<char>(value) + '0');
+				}
+				else {
+					const auto i = static_cast<unsigned>(value * 2U);
+					*--buffer = (Char)table[i];
+					*--buffer = (Char)table[i + 1];
+				}
+				while (buffer > start) {
+					*--buffer = (Char)'0';
+				}
+				if (std::is_signed<T>::value && neg) {
+					*--buffer = (Char)'-';
+				}
+				return { res, std::errc() };
 			}
-			else {
-				const auto i = static_cast<unsigned>(value * 2U);
-				*--buffer = (Char)table[i];
-				*--buffer = (Char)table[i + 1];
-			}
-			while (buffer > start) {
-				*--buffer = (Char)'0';
-			}
-			if (std::is_signed<T>::value && neg) {
-				*--buffer = (Char)'-';
-			}
-			return { res, std::errc() };
 		}
 
 		template<class Range, class T>

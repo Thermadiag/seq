@@ -401,12 +401,12 @@ void test_hash(int count, Gen gen,bool save_keys=false)
 int bench_hash(int, char** const)
 {
 	
-	test_hash<int, seq::hasher<int> >(8000000, [](size_t i) { return (i); });
+	/* test_hash<int, seq::hasher<int>>(8000000, [](size_t i) { return (i); });
 	test_hash<size_t, seq::hasher<size_t> >(8000000, [](size_t i) { return (i); });
 
 	random_float_genertor<double> rng;
 	test_hash<double, seq::hasher<double> >(8000000, [&rng](size_t i) { return rng(); });
-	
+	*/
 	test_hash<tstring, seq::hasher<tstring > >(2500000, [](size_t i) { return generate_random_string<tstring >(63, false); });
 
 	test_hash<tstring, seq::hasher<tstring> >(4000000, [](size_t i) { return generate_random_string<tstring>(1, true) + (tstring(12, ' ') + generate_random_string<tstring>(13, true)); });

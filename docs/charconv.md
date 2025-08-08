@@ -3,6 +3,10 @@
 The charconv module provides low-level fast routines to convert numerical values from/to string.
 This module was initially developped for very fast containers dump in files or strings, where C++17 is not available.
 
+This module is less mandatory now that `seq` requires C++17, but is still usefull for:
+-	Very fast reading/writing numerical values (when exact round trip is not mandatory for floating point values)
+-	Read/write numerical values from/to ANY kind of character type (including wchar_t, char16_t, char32_t...)
+
 ## Low level functions
 
 

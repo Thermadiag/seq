@@ -26,7 +26,6 @@
 #define SEQ_TIERED_VECTOR_HPP
 
 #include "devector.hpp"
-#include "pdqsort.hpp"
 #include "utils.hpp"
 #include "tiny_string.hpp"
 #include "algorithm.hpp"
@@ -520,7 +519,7 @@ namespace seq
 			{
 				// initialize empty buffer
 			}
-			
+
 			// Destroy all values within buffer
 			void destroy() noexcept
 			{
@@ -587,8 +586,8 @@ namespace seq
 			}
 
 			// Resize buffer
-			template<class Helper = ResizeHelper<T,false> >
-			void resize(cbuffer_pos s, const Helper & helper = Helper())
+			template<class Helper = ResizeHelper<T, false>>
+			void resize(cbuffer_pos s, const Helper& helper = Helper())
 			{
 				if (s < size) {
 					if constexpr (!std::is_trivially_destructible<T>::value) {
@@ -711,10 +710,10 @@ namespace seq
 				for (cbuffer_pos i = 0; i != n; ++i)
 					pop_front();
 			}
-			
+
 			// Push front n values
 			template<class Helper>
-			void push_front_n(cbuffer_pos n, const Helper & helper)
+			void push_front_n(cbuffer_pos n, const Helper& helper)
 			{
 				try {
 					for (cbuffer_pos i = 0; i < n; ++i) {
@@ -1837,7 +1836,7 @@ namespace seq
 				}
 				return bucket;
 			}
-			
+
 			// Create front bucket
 			auto create_front_bucket() -> BucketType*
 			{
@@ -2293,12 +2292,12 @@ namespace seq
 						try {
 							// add full buckets
 							for (size_type i = 0; i < new_bucket_count; ++i) {
-								create_back_bucket()->resize(static_cast<size_t>(bucket_size()),helper);
+								create_back_bucket()->resize(static_cast<size_t>(bucket_size()), helper);
 								d_size += static_cast<size_t>(bucket_size());
 							}
 							// add last
 							if (last_bucket_size) {
-								create_back_bucket()->resize(last_bucket_size,helper);
+								create_back_bucket()->resize(last_bucket_size, helper);
 								d_size += static_cast<size_t>(last_bucket_size);
 							}
 						}
@@ -2337,7 +2336,6 @@ namespace seq
 				update_all_back_values();
 			}
 
-			
 			template<class... U>
 			void resize_front(size_type size, const U&... value)
 			{

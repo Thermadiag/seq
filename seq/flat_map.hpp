@@ -55,7 +55,7 @@ See the documentation of each class for more details.
  */
 
 
-#define SEQ_INLINE_BINARY_SEARCH
+#define SEQ_INLINE_BINARY_SEARCH SEQ_ALWAYS_INLINE
 
 namespace seq
 {
@@ -91,7 +91,7 @@ namespace seq
 				return 0;
 		}
 
-		template<class Key, class Less, bool IsComparable = (is_string_class<Key>::value && is_std_less<Less>::value)>
+		template<class Key, class Less, bool IsComparable = (is_string_class<Key>::value && is_std_less<Less>::value) >
 		struct BaseComparable
 		{
 		};
@@ -231,31 +231,61 @@ namespace seq
 			if SEQ_UNLIKELY (b_index == buckets.size())
 				return { d.size(), false };
 
-			{
+			//TEST
+			/* {
 				// find inside bucket
 				const auto* bucket = buckets[b_index].bucket;
 
-				// Partition the bucket into left/right side based on the circular buffer begin position,
-				// and apply the lower bound on one of the 2.
-
 				using pos_type = int;
 				const T* begin_ptr = bucket->begin_ptr();
-
+				const T* ptr;
+				pos_type partition_size;
+				pos_type offset = 0;
 				const bool low_half = begin_ptr != bucket->buffer() &&			    // begin is not 0
 						      (bucket->begin + bucket->size) > bucket->max_size_ && // begin + size overflow
 						      le(*(bucket->buffer() + bucket->max_size1), value);   // value to took for is not in the upper half (between begin and buffer end)
 
-				const T* ptr = low_half ? bucket->buffer() : begin_ptr;
-				const pos_type partition_size =
-				  low_half ? ((bucket->begin + bucket->size) & bucket->max_size1) : (std::min(bucket->size, static_cast<detail::cbuffer_pos>(bucket->max_size_ - bucket->begin)));
+				if (low_half) {
+					ptr = bucket->buffer();
+					partition_size = ((bucket->begin + bucket->size) & bucket->max_size1);
+					offset =  (bucket->max_size_ - bucket->begin);
+				}
+				else {
+					ptr = begin_ptr;
+					partition_size = (std::min(bucket->size, static_cast<detail::cbuffer_pos>(bucket->max_size_ - bucket->begin)));
+				}
 
 				auto _low = lower_bound<Multi, KeyType>(ptr, partition_size, value, le);
-
-				_low.first = ptr == begin_ptr ? _low.first : _low.first + (bucket->max_size_ - bucket->begin);
+				_low.first += offset;
 				size_t r = static_cast<size_t>(_low.first) +
 					   (b_index != 0 ? static_cast<size_t>(buckets[0]->size) + static_cast<size_t>(b_index - 1) * static_cast<size_t>(bucket->max_size_) : 0);
 				return { r, _low.second };
 			}
+			*/
+			
+			// find inside bucket
+			const auto* bucket = buckets[b_index].bucket;
+
+			// Partition the bucket into left/right side based on the circular buffer begin position,
+			// and apply the lower bound on one of the 2.
+
+			using pos_type = int;
+			const T* begin_ptr = bucket->begin_ptr();
+
+			const bool low_half = begin_ptr != bucket->buffer() &&			    // begin is not 0
+						    (bucket->begin + bucket->size) > bucket->max_size_ && // begin + size overflow
+						    le(*(bucket->buffer() + bucket->max_size1), value);   // value to took for is not in the upper half (between begin and buffer end)
+
+			const T* ptr = low_half ? bucket->buffer() : begin_ptr;
+			const pos_type partition_size =
+				low_half ? ((bucket->begin + bucket->size) & bucket->max_size1) : (std::min(bucket->size, static_cast<detail::cbuffer_pos>(bucket->max_size_ - bucket->begin)));
+
+			auto _low = lower_bound<Multi, KeyType>(ptr, partition_size, value, le);
+
+			_low.first = ptr == begin_ptr ? _low.first : _low.first + (bucket->max_size_ - bucket->begin);
+			size_t r = static_cast<size_t>(_low.first) +
+					(b_index != 0 ? static_cast<size_t>(buckets[0]->size) + static_cast<size_t>(b_index - 1) * static_cast<size_t>(bucket->max_size_) : 0);
+			return { r, _low.second };
 		}
 
 		/// @brief Optimized version of std::upper_bound(begin(),end(),value,le);
@@ -797,7 +827,7 @@ namespace seq
 			SEQ_INLINE_BINARY_SEARCH auto find(const K& x) const -> const_iterator
 			{
 				check_dirty();
-				return d_deque.iterator_at(tvector_binary_search(d_deque, x, base()));
+				return d_deque.iterator_at(tvector_binary_search<!Unique>(d_deque, x, base()));
 			}
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto find_pos(const K& x) const -> size_t

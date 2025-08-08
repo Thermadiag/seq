@@ -1,3 +1,4 @@
+
 [![CTest](https://github.com/Thermadiag/seq/actions/workflows/cmake.yml/badge.svg?branch=master)](https://github.com/Thermadiag/seq/actions/workflows/cmake.yml)
 
 Transitioning to v2.0
@@ -8,7 +9,7 @@ Transitioning to v2.0
 Purpose
 -------
 
-The *seq* library is a collection of original C++14 STL-like containers and related tools.
+The *seq* library is a header-only collection of original C++17 STL-like containers and related tools.
 
 *seq* library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) std. Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.
 
@@ -27,38 +28,31 @@ Currently, the *containers* module provide 5 types of containers:
 	-	`seq::flat_map`: associative version of `seq::flat_set`.
 	-	`seq::flat_multiset`: similar to `seq::flat_set` but supporting duplicate keys.
 	-	`seq::flat_multimap`: similar to `seq::flat_map` but supporting duplicate keys.
-	-	[seq::radix_set](docs/radix_tree.md) : radix based sorted container with a similar interface to std::set. Provides very fast lookup.
+	-	[seq::radix_set](docs/radix_tree.md) : radix based (derived from the *Burst Trie*) sorted container with a similar interface to std::set. Provides very fast lookup.
 	-	`seq::radix_map`: associative version of `seq::radix_set`.
 -	Hash tables: 
-	-	[seq::ordered_set](docs/ordered_set.md): Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket interface) with iterator/reference stability, and additional features (see class documentation).
+	-	[seq::ordered_set](docs/ordered_set.md): Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket and node interface) with iterator/reference stability, and additional features (see class documentation).
 	-	`seq::ordered_map`: associative version of `seq::ordered_set`.
-	-	[seq::radix_hash_set](docs/radix_tree.md): radix based hash table with a similar interface to `std::unordered_set`. Uses incremental rehash, no memory peak.
+	-	[seq::radix_hash_set](docs/radix_tree.md): radix based hash table with a similar interface to `std::unordered_set`. Uses incremental rehash (no memory peak) with a very small memory footprint.
 	-	`seq::radix_hash_map`: associative version of `seq::radix_hash_set`.
 	-	[seq::concurrent_map](docs/concurrent_map.md) and `seq::concurrent_set`: higly scalable concurrent hash tables.
 -	Strings:
-	-	[seq::tiny_string](docs/tiny_string.md): string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
+	-	[seq::tiny_string](docs/tiny_string.md): relocatable string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
 
 
 Content
 -------
 
-The library is divided in 6 small modules:
+The library is divided in 7 small modules:
 -	[bits](docs/bits.md): low-level bits manipulation utilities
 -	[hash](docs/hash.md): tiny hashing framework
 -	[charconv](docs/charconv.md): fast arithmetic to/from string conversion
 -	[format](docs/format.md): fast and type safe formatting tools
 -	[containers](docs/containers.md): main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector, compressed vector...
 -	[any](docs/any.md): type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.
+-	[algorithm](docs/algorithm): a (small) collection of algorithm include the `net_sort` stable sorting algorithm.
 
 A cmake project is provided for installation and compilation of tests/benchmarks.
-
-Why C++14 ?
------------
-
-For now the *seq* library is developped and maintained in order to remain compatible with C++14 only compilers.
-While C++17 and C++20 are now widely supported by the main compilers (namely msvc, gcc and clang), I often have to work on constrained and old environments (mostly on Linux) where the compiler cannot be upgraded. At least they (almost) all support C++14.
-
-For instance, the [charconv](docs/charconv.md) and [format](docs/format.md) modules were developped because C++11 only compilers do not provide similar functionalities. They still provide their own specifities for more recent compilers.
 
 *seq* library was tested with gcc/10.1.0, gcc/13.2.0 (Windows, mingw), gcc/8.4.0 (Linux), gcc/6.4.0 (Linux), msvc/19.29 (Windows), ClangCL/12.0.0 (Windows).
 
@@ -90,9 +84,7 @@ Currently, the following options are provided:
 Acknowledgements
 ----------------
 
-The only library dependency is <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters. The header `pdqsort.hpp` is included within the *seq* library.
-*seq* library also uses a modified version <a href="https://github.com/lz4/lz4">LZ4</a> that could be used with `cvector` class.
-Finaly, *seq* library uses a simplified version of the [komihash](https://github.com/avaneev/komihash) hash function for its hashing framework.
+*seq* library uses a simplified version of the [komihash](https://github.com/avaneev/komihash) hash function for its hashing framework.
 
 Benchmarks (in `seq/benchs`) compare the performances of the *seq* library with other great libraries that I use in personnal or professional projects:
 -	<a href="https://plflib.org/">plf</a>: used for the plf::colony container,
@@ -104,4 +96,4 @@ Benchmarks (in `seq/benchs`) compare the performances of the *seq* library with 
 Some of these libraries are included in the `seq/benchs` folder.
 
 
-seq:: library and this page Copyright (c) 2023, Victor Moncada
+seq:: library and this page Copyright (c) 2025, Victor Moncada

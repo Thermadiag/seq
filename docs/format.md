@@ -1,9 +1,9 @@
 # Format: Type safe formatting module
 
-The *format* module provides fast routines for object formatting to string/streams using C++11 only. It is strongly typed and does not rely on string parsing to find the output format. Therefore, almost all possible formatting errors are detected at compilation instead of runtime.
+The *format* module provides fast routines for object formatting to string/streams. It is strongly typed and does not rely on string parsing to find the output format. Therefore, almost all possible formatting errors are detected at compilation instead of runtime.
 
 There are already several great C++ formatting libraries available in <a href="https://abseil.io/">Abseil</a>, <a href="https://github.com/facebook/folly">Folly</a> or the <a href="https://fmt.dev/latest/index.html">fmt</a> library.
-Furtheremore, C++20 will provide a new text formatting library similar to the {fmt} one. The *format* module is an attempt to provide (yet) another formatting library which does not rely on string parsing, is compatible with c++ streams and is <b>fast</b>.
+Furtheremore, C++20 will provide a new text formatting library similar to the {fmt} one. The *format* module is an attempt to provide (yet) another formatting library which does not rely on string parsing, is compatible with c++ streams, support all character types, and is <b>fast</b>.
 
 It was designed first to output huge matrices or tables to files and strings. *Format* module is based on the [charconv](charconv.md) module to format numerical values.
 
@@ -339,8 +339,8 @@ std::cout<< dst2 << std::endl;
 ## Using std::to_chars
 
 
-It is possible to use `std::to_chars` instead of `seq::to_chars` within the *format* module, mostly when exact round-trip guarantee is mandatory.
-For that, you must define `SEQ_FORMAT_USE_STD_TO_CHARS` and enable C++17. If C++17 is not supported by the compiler, the *format* module will always fallback to `seq::to_chars`.
+Since v2.0 of seq, `std::to_chars` is used by default instead of `seq::to_chars`. If you don't care about exact round-trip guarantee and want the fastest possible formatting, define SEQ_USE_INTERNAL_STD_TO_CHARS.
+This will internally tell the *format* module to always use `seq::to_chars`.
 
 
 ## Working with custom types

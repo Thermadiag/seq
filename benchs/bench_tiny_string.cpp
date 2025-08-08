@@ -26,7 +26,6 @@
 #include <seq/tiny_string.hpp>
 #include <seq/testing.hpp>
 #include <seq/format.hpp>
-#include <seq/pdqsort.hpp>
 
 #include <unordered_set>
 #include <set>

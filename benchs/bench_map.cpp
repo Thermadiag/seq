@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-#define SEQ_FORMAT_USE_STD_TO_CHARS
 
 #include <seq/flat_map.hpp>
 #include <seq/radix_map.hpp>
@@ -30,13 +29,11 @@
 #include <seq/testing.hpp>
 #include <seq/any.hpp>
 #include <seq/sequence.hpp>
-#define SEQ_FORMAT_USE_STD_TO_CHARS
-#ifdef SEQ_HAS_CPP_17
 #include "gtl/btree.hpp"
-#endif
 
 #ifdef BOOST_FOUND
 #include "boost/container/flat_set.hpp"
+#include "boost/container/flat_map.hpp"
 #endif
 
 #include <iostream>
@@ -283,11 +280,12 @@ struct LaunchTest
 			erase = 0;
 			// std::cout << "erase: " << success.size() / 2 << " elems" << std::endl;
 			tick();
+			using const_iterator = typename C::const_iterator;
 			for (size_t i = 0; i < success.size() / 2; ++i) {
 				auto it = set.find(success[i].first);
 				SEQ_TEST(it != set.end());
 				if (it != set.end())
-					set.erase(it);
+					set.erase((const_iterator)it);
 			}
 
 			erase = tock_ms();
@@ -313,11 +311,12 @@ struct LaunchTest
 		if (!is_boost_map<C>::value)
 #endif
 		{
+			using const_iterator = typename C::const_iterator;
 			auto beg = set.begin();
 			int count = 0;
 			while (beg != set.end()) {
 				++count;
-				beg = set.erase(beg);
+				beg = set.erase((const_iterator)beg);
 			}
 			SEQ_TEST(set.size() == 0);
 		}
@@ -389,282 +388,32 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 	// test_set<flat_set<T>>("seq::flat_set", vec, f, false);
 
 	test_set<flat_map<T, T>>("seq::flat_map", vec, f);
-#ifdef SEQ_HAS_CPP_17
 	test_set<gtl::btree_map<T, T>>("phmap::btree_map", vec, f);
-#endif
+
+
 	// TEST
-	// #ifdef BOOST_FOUND
-	//	test_set<boost::container::flat_set<T> >("boost::flat_set<T>", vec,f);
-	// #endif
+#ifdef BOOST_FOUND
+		test_set<boost::container::flat_map<T,T> >("boost::flat_map", vec,f);
+#endif
 	test_set<radix_map<T, T, Extract>>("seq::radix_map", vec, f);
+	
 	test_set<std::map<T, T>>("std::map", vec, f);
-	// test_set<std::unordered_set<T> >("std::unordered_set", vec,f);
 }
 
-#include <unordered_map>
-#include <vector>
-#include <random>
-
-#include <boost/sort/spinsort/spinsort.hpp>
-#include <boost/sort/flat_stable_sort/flat_stable_sort.hpp>
-
-template<class T, class Cmp>
-void indisort(T start, size_t size, Cmp c)
-{
-	using value_type = typename std::iterator_traits<T>::value_type;
-
-	std::vector<uintptr_t> buffer(size * 3u);
-	uintptr_t* sort_array = buffer.data();
-	uintptr_t* indexes = buffer.data() + size;
-	value_type** ptrs = (value_type**)(buffer.data() + size * 2);
-	size_t index = 0;
-	for (auto it = start; index != size; ++it, ++index) {
-
-		sort_array[index] = (index);
-		indexes[index] = (index);
-		ptrs[index] = (&(*it));
-	}
-	//pdqsort(sort_array, sort_array + size, [&ptrs,c](size_t l, size_t r) { return c(*ptrs[l] , *ptrs[r]); });
-	auto le = [&ptrs, c](size_t l, size_t r) noexcept { return c(*ptrs[l], *ptrs[r]); };
-	seq::net_sort(sort_array, sort_array + size, le);
-
-	index = 0;
-
-	for (auto current_index = sort_array; current_index != sort_array + size; ++current_index, ++index) {
-
-		size_t idx = indexes[*current_index];
-		while (idx != indexes[idx])
-			idx = indexes[idx];
-		value_type tmp = std::move(*ptrs[index]);
-		*ptrs[index] = std::move(*ptrs[idx]);
-		*ptrs[idx] = std::move(tmp);
-
-		indexes[index] = idx;
-	}
-}
-
-template<class T, class Cmp = std::less<>>
-bool sorted(const T& c, Cmp l = Cmp())
-{
-	return std::is_sorted(c.begin(), c.end(), l);
-}
-template<class T, class Extr>
-bool equals(const T& c1, const T& c2, Extr extr)
-{
-	auto eq = [](const auto& l, const auto& r) { return Extr{}(l) == Extr{}(r); };
-	return std::equal(c1.begin(), c1.end(), c2.begin(), c2.end(), eq);
-}
-
-#include "seq/tiered_vector.hpp"
-template<class T>
-auto make_tvector(const std::vector<T>& vec)
-{
-	seq::tiered_vector<T> tvec{ vec.begin(), vec.end() };
-	return tvec;
-}
-
-#define BENCH_SORT(vec, sorted, extr, function)                                                                                                                                                        \
-	{                                                                                                                                                                                              \
-		auto v = /*make_tvector*/(vec);                                                                                                                                                                          \
-		seq::tick();                                                                                                                                                                           \
-		function(v.begin(), v.end(), extr);                                                                                                                                                    \
-		size_t el = seq::tock_ms();                                                                                                                                                            \
-		std::cout << #function << " " << el << " " << std::equal(sorted.begin(), sorted.end(), v.begin()) << std::endl;                                                                        \
-	}
-#define BENCH_SORT2(vec, sorted, name, ...)                                                                                                                                                            \
-	{                                                                                                                                                                                              \
-		auto v = vec;                                                                                                                                                                          \
-		seq::tick();                                                                                                                                                                           \
-		__VA_ARGS__;                                                                                                                                                                           \
-		size_t el = seq::tock_ms();                                                                                                                                                            \
-		std::cout << #name << " " << el << " " << (v == sorted) << std::endl;                                                                                                                  \
-	}
-
-template<class T>
-struct Iter
-{
-	using iterator_category = std::bidirectional_iterator_tag;
-	using value_type = T;
-	using pointer = T*;
-	using reference = T&;
-	using difference_type = std::ptrdiff_t;
-	T* p;
-
-	Iter& operator++() noexcept
-	{
-		++p;
-		return *this;
-	}
-	Iter operator++(int) noexcept
-	{
-		Iter it = *this;
-		++(*this);
-		return it;
-	}
-	Iter& operator--() noexcept
-	{
-		--p;
-		return *this;
-	}
-	Iter operator--(int) noexcept
-	{
-		Iter it = *this;
-		--(*this);
-		return it;
-	}
-	bool operator==(Iter o) const noexcept { return o.p == p; }
-	bool operator!=(Iter o) const noexcept { return o.p != p; }
-	T& operator*() const noexcept { return const_cast<T&>(*p); }
-	T* operator->() const noexcept { return const_cast<T*>(p); }
-};
-
-template<class T>
-void ska_sort_stable(T begin, T end)
-{
-	using type = typename std::iterator_traits<T>::value_type;
-	using tuple_type = std::tuple<type&, size_t>;
-	std::vector<char> mem((end - begin) * sizeof(size_t) * 2);
-	tuple_type* data = reinterpret_cast<tuple_type*>(mem.data());
-	size_t i = 0;
-	for (auto it = begin; it != end; ++it, ++i)
-		data[i] = std::tie(*it, i);
-
-	ska_sort(data, data + (end - begin));
-}
-
-template<class Iter>
-void wave_sort(Iter first, Iter last, size_t longest_run)
-{
-	std::mt19937 rng(0);
-	std::uniform_int_distribution<size_t> dist(0, std::numeric_limits<size_t>::max());
-	auto it = first;
-	while (it != last) {
-		size_t len = dist(rng) % longest_run;
-		if (last - it < len)
-			len = last - it;
-		std::sort(it, it + len);
-		it = it + len;
-	}
-}
-
-#include <seq/algorithm.hpp>
-#include <deque>
-#include <seq/radix_hash_map.hpp>
-
-#include "../seq/composite_iterator.hpp"
-#include <algorithm>
-struct Toto
-{
-};
-int bench_map2(int, char** const)
+int bench_map(int, char** const)
 {
 	
-	
-	{
-		std::vector<seq::tstring> str;
-		std::vector<int> vec;
-		for (int i = 0; i < 10000; ++i) {
-			str.push_back(seq::generate_random_string<seq::tstring>(63, true));
-			vec.push_back(i);
-		}
-
-		{
-			//auto r = seq::zip_iterators(std::make_tuple(vec.begin(), str.begin()));
-			/* auto r = seq::zip(str, vec);
-			for (std::tuple<seq::tstring&, int&>& i : r) {
-				std::cout << std::get<1>(i) << std::endl;
-			}
-			bool stop = true;*/
-		}
-
-
-		auto it = seq::zip_iterators(str.data(), vec.data());
-		auto en = it + str.size();
-
-
-		seq::net_sort(it, en, [](const auto& l, const auto& r) { return std::get<0>(l) < std::get<0>(r); });
-	}
-	{
-		std::vector<int> t(200);
-		std::vector<double> d(200);
-		for (int i = 0; i < 200; ++i) {
-		
-			t[i] = rand();
-			d[i] = t[i] + rand();
-		}
-
-		auto beg = seq::zip_iterators(t.data(), d.data());
-		auto end = beg + 200;
-		auto dist = end - beg;
-		beg > end;
-		beg < end;
-		beg == end;
-
-		//auto next = beg + 1;
-		//*beg = *next;
-		//*beg = std::move(*next);
-
-		std::cout << typeid(decltype(beg)::reference).name() << std::endl;
-
-		//seq::net_sort(beg, end, [](const auto& l, const auto& r) { return std::get<1>(l) < std::get<1>(r); });
-		*beg = std::make_tuple(25, 1.2);
-		bool stop = true;
-	}
-	/*{
-		std::mt19937 rngi(0);
-		std::uniform_int_distribution<size_t> dist;
-		std::vector<size_t> vec(1000000);
-		for (size_t i = 0; i < vec.size(); ++i) {
-			vec[i] = dist(rngi);
-		}
-		std::cout << "start" << std::endl;
-		getchar();
-		getchar();
-		std::cout << "insert" << std::endl;
-		seq::radix_hash_set<size_t> set;
-		for (size_t i : vec)
-			set.insert(i);
-
-		std::cout << "erase" << std::endl;
-		while (set.size()) {
-			if (set.size() == 1)
-				bool stop = true;
-			set.erase(set.begin());
-		}
-
-		std::cout << "finish" << std::endl;
-		vec.clear();
-		vec.shrink_to_fit();
-		getchar();
-	}*/
 	using string = tstring;
 	// test random IP addresses
 	/* {
 
 		srand(0);
 		test_map<string>(4000000, [](size_t i) {
-			string s = join(".", (rand() & 255), (rand() & 255), (rand() & 255), (rand() & 255));
+			string s = join(".", ch(rand() & 255), ch(rand() & 255), ch(rand() & 255), ch(rand() & 255));
 			return s;
 		});
 	}*/
 
-	
-	/* {
-		std::vector<size_t> vec(100000);
-		std::mt19937 rngi(0);
-		std::uniform_int_distribution<size_t> dist;
-		for (size_t i = 0; i < vec.size(); ++i)
-			vec[i] = dist(rngi);
-
-		seq::flat_set<size_t> set;
-		set.insert(vec.begin(), vec.end());
-		set.insert(vec.begin(), vec.end());
-
-		bool ok = std::is_sorted(set.begin(), set.end());
-		auto s = set.size();
-		bool stop = true;
-	}*/
-	
 	// test random tuple
 	{
 		std::random_device dev;
@@ -688,9 +437,6 @@ int bench_map2(int, char** const)
 		test_map<double>(2000000, [&](size_t i) { return dist(e2); });
 	}
 	
-	// random_float_genertor<double> rng;
-	// test_map<double>(4000000, [&rng](size_t i) { return rng(); });
-
 	// Random short strings
 	test_map<string>(1000000, [](size_t i) { return generate_random_string<string>(13, true); });
 	
@@ -709,316 +455,6 @@ int bench_map2(int, char** const)
 		}
 	});
 
-	return 0;
-}
-
-#undef cmp
-#include "seq/quadsort.h"
-#include <seq/concurrent_map.hpp>
-int bench_map(int, char** const)
-{
-	/* {
-		std::vector<std::string> vec = { "01", "03", "05", "07", "02", "04", "06", "08" };
-		std::vector<std::string> res(8);
-		seq::algo_detail::merge_move_bidirectional<4>(vec.begin(), vec.begin() + 4, vec.begin() + 4, vec.end(), res.begin(), std::less<>{});
-		bool stop = true;
-	}*/
-	{
-		seq::concurrent_set<int, seq::hasher<int>, std::equal_to<>, std::allocator<int>, seq::no_concurrency> set;
-
-		set.insert(2);
-		set.contains(2);
-		set.visit_all([](int i) {});
-	}
-	{
-		struct Test
-		{
-			unsigned i;
-			// std::string t;
-			char data[4];
-			SEQ_ALWAYS_INLINE Test(unsigned ii = 0)
-			  : i(ii)
-			{
-			}
-			SEQ_ALWAYS_INLINE Test(const Test&) = default;
-			SEQ_ALWAYS_INLINE Test(Test&&) noexcept = default;
-			SEQ_ALWAYS_INLINE Test& operator=(const Test&) = default;
-			SEQ_ALWAYS_INLINE Test& operator=(Test&&) noexcept = default;
-			SEQ_ALWAYS_INLINE bool operator==(const Test& o) const noexcept { return i == o.i; }
-			SEQ_ALWAYS_INLINE bool operator<(const Test& r) const noexcept { return i < r.i; }
-		};
-		// wave pattern
-
-		/* std::vector<size_t> vec;
-		std::mt19937 rng(0);
-		std::uniform_int_distribution<size_t> dist(0, std::numeric_limits<size_t>::max());
-		for (size_t i = 0; i < 32000; ++i) {
-			auto start = dist(rng);
-			for (size_t j = 0; j < 256; ++j)
-				vec.push_back(start + j);
-			start = dist(rng);
-			for (int j = 253; j >= 0; --j)
-				vec.push_back((size_t)j + start);
-		}*/
-		// std::sort(vec.begin(), vec.begin() + vec.size() / 2, std::less<>{});
-		// std::shuffle(vec.begin(), vec.end(), std::random_device());
-
-		/* std::mt19937 rng(0);
-		std::uniform_int_distribution<unsigned> dist(0, std::numeric_limits<unsigned>::max());
-		//std::uniform_real_distribution<float> dist(0, std::numeric_limits<float>::max());
-		std::vector<unsigned> vec(3200000); 
-		for (size_t i = 0; i < vec.size(); ++i) {
-			//auto t = dist(rng);
-			vec[i] = (dist(rng));
-			//vec[i] = dist(rng) * (float)(i&1 ? 1.f : -1.f);
-			//vec[i] = std::tuple<short, short>(t >> 16u, t & 65535u);
-			//vec[i] = (double)t * ((i & 1) ? 1 : -1);
-		}*/
-
-		/* std::vector<unsigned> tmp(vec.size());
-		vart::radix_internal(vec.begin(), vec.end(), tmp.begin(), 3);
-		vart::radix_internal(tmp.begin(), tmp.end(), vec.begin(), 2);
-		vart::radix_internal(vec.begin(), vec.end(), tmp.begin(), 1);
-		vart::radix_internal(tmp.begin(), tmp.end(), vec.begin(), 0);
-		bool ok = std::is_sorted(vec.begin(), vec.end());
-		bool stop = true;*/
-
-		// wave_sort(vec.begin(), vec.end(), vec.size()/100);
-		// vec[i] = dist(rng) *((i & 1) ? 1 : -1);
-		// std::nth_element(vec.begin(), vec.begin() + vec.size() / 2, vec.end(), std::less<>{});
-		// std::sort(vec.begin(), vec.begin() + vec.size() , std::less<>{});
-		// std::swap(vec[0], vec[100]);
-
-		// binary
-		/* std::vector<size_t> vec(10000000);
-		for (size_t i = 0; i < vec.size(); ++i)
-			vec[i] = size_t(i % 100);
-		std::shuffle(vec.begin(), vec.end(), std::random_device());
-		*/
-		// Optimize for this one
-		/* std::mt19937 rng(0);
-		std::uniform_int_distribution<size_t> dist(0, std::numeric_limits<size_t>::max());
-		std::vector<size_t> tmp(1000);
-		for (size_t i = 0; i < tmp.size(); ++i)
-			tmp[i] = i;
-		//dist(rng);
-		std::vector<size_t> vec;
-		for (int i = 0; i < 20000; ++i) {
-			//vec.insert(vec.end(), tmp.begin(), tmp.end());
-			auto begin = tmp.begin();
-			auto end = tmp.begin() + (dist(rng) % tmp.size());
-			if (i&1)
-				vec.insert(vec.end(), begin,end);
-			else vec.insert(vec.end(), std::make_reverse_iterator(end), std::make_reverse_iterator(begin));
-		}*/
-		// std::shuffle(vec.begin(), vec.end(), std::random_device());
-		// std::sort(vec.begin(), vec.begin() + vec.size()/2, std::greater<>{});
-		// std::swap(vec[0], vec[100]);
-
-		/* std::vector<std::vector<void*>> vec;
-		std::mt19937 rng(0);
-		std::uniform_int_distribution<size_t> dist(0, std::numeric_limits<size_t>::max());
-		for (int i = 0; i < 1000000; ++i) {
-			std::vector<void*> tmp(dist(rng) % 8 );
-			for (size_t j = 0; j < tmp.size(); ++j)
-				tmp[j] = reinterpret_cast<void*>(dist(rng) );
-			vec.emplace_back(std::move(tmp));
-		}*/
-
-		/* std::vector<std::string> vec;
-		std::ifstream fin("C:\\src\\seq\\build\\words.txt");
-		while (fin) {
-			std::string line;
-			fin >> line;
-			vec.push_back(line);
-		}
-		//vec.resize(vec.size() / 10);
-		std::mt19937 mt(0);
-		std::shuffle(vec.begin(), vec.end(), mt);
-		*/
-
-		using strtype =seq::tstring;
-		std::vector<strtype> vec(1000000);
-		for (size_t i = 0; i < vec.size(); ++i)
-			vec[i] = (generate_random_string<strtype>(63, true));
-		
-		
-		//std::sort(vec.begin() , vec.begin() + vec.size() - vec.size() / 64);
-		//std::sort(vec.begin() + vec.size() - vec.size() / 64, vec.end());
-		//std::nth_element(vec.begin(), vec.begin() + vec.size()/2, vec.end(), std::less<>{});
-		// std::sort(vec.begin(), vec.begin()+vec.size(), std::less<>{});
-		// std::swap(vec[10], vec[10000]);
-
-		/* std::string str;
-		std::vector<std::string> vec;
-		for (size_t i = 0; i < 10000; ++i) {
-			vec.push_back(str);
-			str += (char)i;
-		}
-		std::shuffle(vec.begin(), vec.end(), std::random_device());
-		*/
-
-		/* std::vector<seq::tstring> tmp(1000);
-		for (size_t i = 0; i < tmp.size(); ++i)
-			tmp[i] = generate_random_string<seq::tstring>(15, true);
-		//std::sort(tmp.begin(), tmp.end());
-		std::vector<seq::tstring> vec;
-		for (int i = 0; i < 2000; ++i) {
-			std::reverse(tmp.begin(), tmp.end());
-			vec.insert(vec.end(),tmp.begin(), tmp.end());
-		}*/
-		// std::shuffle(vec.begin(), vec.end(), std::random_device());
-
-		auto inf = [](const auto& l, const auto& r)noexcept { return l < r; }; //
-		auto extr = [](const auto& t) noexcept -> const auto& { return t; };
-
-		// auto extr = [](const auto& t) [[msvc::forceinline]]->auto { return t.i; };
-		// auto inf = [extr](const auto& l, const auto& r) { return extr(l) < extr(r); };
-
-		/* auto extr = [](const auto& t) -> auto
-		{
-			const char* p = (const char*)&t;
-			return std::string_view(p, 4);
-			//return std::tuple<unsigned char, unsigned char, unsigned char, unsigned char>{ t >> 16u, t & 65535u };
-		};*/
-		// auto inf = [extr](const auto& l, const auto& r) { return extr(l) < extr(r); }; //
-
-		// auto inf = [](const Test& l, const Test& r) { return l.val < r.val; };
-		// auto extr = [](const Test& t) -> const std::string& { return t.val; };
-
-		
-
-		auto sorted = vec;
-		std::stable_sort(sorted.begin(), sorted.end(), inf);
-		using type = decltype(vec)::value_type;
-		{
-			seq::sequence<type> v(vec.begin(), vec.end());
-			seq::tick();
-			v.sort();
-			size_t el = seq::tock_ms();
-			std::cout << "list " << el << " " << std::is_sorted(v.begin(), v.end()) << std::endl;
-		}
-		{
-			seq::sequence<type> v(vec.begin(), vec.end());
-			seq::tick();
-			seq::net_sort(v.begin(), v.end());
-			size_t el = seq::tock_ms();
-			std::cout << "merge_sort_size " << el << " " << std::is_sorted(v.begin(), v.end()) << std::endl;
-		}
-		{
-			seq::sequence<type> v(vec.begin(), vec.end());
-			seq::tick();
-			indisort(v.begin(), v.size(), std::less<>{});
-			size_t el = seq::tock_ms();
-			std::cout << "indisort " << el << " " << std::is_sorted(v.begin(), v.end()) << std::endl;
-		}
-		
-
-		BENCH_SORT(vec, sorted, inf, std::stable_sort);
-		BENCH_SORT(vec, sorted, inf, std::sort);
-		BENCH_SORT(vec, sorted, inf, seq::net_sort);
-		//BENCH_SORT2(vec, sorted, quadsort, quadsort_uint32(v.data(), v.size(),nullptr));
-
-		BENCH_SORT(vec, sorted, inf, boost::sort::spinsort);
-		//BENCH_SORT(vec, sorted, inf, boost::sort::flat_stable_sort);
-		//BENCH_SORT2(vec, sorted, spreadsort, boost::sort::spreadsort::spreadsort(v.begin(),v.end()));
-		BENCH_SORT(vec, sorted, inf,pdqsort);
-		// BENCH_SORT2(vec, sorted, quadsort, quadsort_uint64(v.data(), v.size(),nullptr));
-		// BENCH_SORT(vec, sorted, extr, vart::radix_sort);
-		// BENCH_SORT(vec, sorted, extr, ska_sort);
-		
-		return 0;
-	}
-
-	/*
-	using string = tstring;
-
-	// Test list or words and uuid if available
-	  {
-		std::ifstream fin("words.txt");
-		std::vector<string> vec;
-		while (true) {
-			string s;
-			fin >> s;
-			if (fin)vec.push_back(s);
-			else
-				break;
-		}
-		{
-			std::ifstream fin("uuid.txt");
-			while (true) {
-				string s;
-				fin >> s;
-				if (fin)vec.push_back(s);
-				else
-					break;
-			}
-		}
-		//TEST
-		vec.clear();
-
-		std::vector<string> vec2 = vec;
-		seq::random_shuffle(vec2.begin(), vec2.end());
-		vec.reserve(vec.size() * 2);
-		for (size_t i = 0; i < vec2.size(); ++i)
-			vec.push_back(vec[i] + " " + vec2[i]);
-
-		seq::random_shuffle(vec.begin(), vec.end());
-
-		std::vector<string> vec3 = vec;
-		seq::random_shuffle(vec3.begin(), vec3.end());
-		vec.reserve(vec.size() * 2);
-		for (size_t i = 0; i < vec3.size(); ++i)
-			vec.push_back(vec[i] + " " + vec3[i]);
-
-		test_map<string>(vec.size(), [&vec](size_t i) {return vec[i]; });
-
-
-	}
-
-	  // test random IP addresses
-	{
-
-		srand(0);
-		test_map<string>(4000000, [](size_t i) {
-			string s= join(".", (rand() & 255), (rand() & 255), (rand() & 255), (rand() & 255));
-			return s;
-			 });
-	}
-	// test random integers
-	 {
-		std::random_device dev;
-		std::mt19937 rngi(dev());
-		std::uniform_int_distribution<size_t> dist;
-		test_map<size_t>(4000000, [&](size_t i) { return dist(rngi); });
-	}
-	 // test random floating point values
-	{
-		std::random_device rd;
-		std::mt19937 e2(rd());
-		std::uniform_real_distribution<> dist;
-		test_map<double>(4000000, [&](size_t i) { return dist(e2); });
-	}
-
-	//random_float_genertor<double> rng;
-	//test_map<double>(4000000, [&rng](size_t i) { return rng(); });
-
-	// Random short strings
-	test_map<string>(4000000, [](size_t i) { return generate_random_string<string>(13, true); });
-	// random mix of short and long strings
-	test_map<string>(2000000, [](size_t i) { return generate_random_string<string>(63, false); });
-	 // Test with seq::r_any
-	test_map<seq::r_any>(4000000, [](size_t i)
-		 {
-			 size_t idx = i & 3U;
-			 switch (idx) {
-			 case 0:return seq::r_any(i * UINT64_C(0xc4ceb9fe1a85ec53));
-			 case 1:return seq::r_any((double)i * (double)UINT64_C(0xc4ceb9fe1a85ec53));
-			 default:return seq::r_any(generate_random_string<seq::tstring>(13, true));
-			 }
-		 }
-	 );
-	 */
 	return 0;
 }
 

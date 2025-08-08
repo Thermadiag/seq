@@ -209,6 +209,16 @@ namespace seq
 	{
 	};
 
+
+	template<class T>
+	struct is_tuple : std::bool_constant<false>
+	{
+	};
+	template<class... Args>
+	struct is_tuple<std::tuple<Args...>> : std::bool_constant<true>
+	{
+	};
+
 	/// @brief Tells if given type is hashable with std::hash.
 	/// True by default, optimistically assume that all types are hashable.
 	/// Used by seq::hold_any.

@@ -693,13 +693,13 @@ namespace seq
 	/// Instead, sequence provides unordered insertion through its member #insert(), much like the <a href="https://plflib.org/colony.htm">plf::colony</a> class.
 	/// Unordered insertion is usually prefered to back or front insertion as it can reuse free slots created by erase()
 	/// and avoid potential allocations.
-	/// In addition, its sort(), stable_sort() and shrink_to_fit() members do not preserve reference and iterator stability.
+	/// In addition, its sort() and shrink_to_fit() members do not preserve reference and iterator stability.
 	///
 	/// Its main advantages other std::list (and other containers) are:
 	///		-	Insertion at both ends is faster than a std::deque or std::vector (without reserve)
 	///		-	Walking through the sequence with iterators is usually faster than walking through a std::deque
-	///		-	Sorting a sequence (with sort() or stable_sort()) is usually as fast as sorting a std::deque.
-	///			Note that #sequence::sort() uses <a href="https://github.com/orlp/pdqsort">pdqsort</a> from Orson Peters.
+	///		-	Sorting a sequence is usually as fast as sorting a std::deque.
+	///			Note that #sequence::sort() uses seq::net_sort().
 	///		-	Its memory overhead is lower than a std::list: around 1 byte per element.
 	///
 	/// The sequence container is a perfect candidate for std::queue and std::stack.
@@ -2193,7 +2193,7 @@ namespace seq
 		}
 
 		/// @brief Sort the sequence using given comparator.
-		/// sort() relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std::deque.
+		/// sort() relies on seq::net_sort().
 		/// This invalidates all iterators and references.
 		template<class Less, class Buffer  >
 		void sort(Less less, Buffer buf )

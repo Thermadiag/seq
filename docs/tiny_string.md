@@ -1,3 +1,4 @@
+
 # Tiny string
 
 `seq::tiny_string` is a string class similar to std::string but aiming at greater performances when used in containers.
@@ -10,21 +11,21 @@ It provides a customizable Small String Optimization (SSO) much like boost::smal
 
 ## Motivation
 
-Why another string class? I started writing tiny_string to provide a small and relocatable string class that can be used within [seq::cvector](cvector.md).
-Indeed, gcc std::string implementation is not relocatable as it stores a pointer to its internal data for small strings. In addition, most std::string implementations have a size of 32 bytes (at least msvc and gcc ones), which is unnecessary when considering a compressed container. Therefore, I started working on a string implementation with the following specificities:
+Why another string class? I started writing tiny_string to provide a small and relocatable string class that can be used with a compressed vector class (now moved to [stenos](https://github.com/Thermadiag/stenos) library).
+Indeed, libstdc++ std::string implementation is not relocatable as it stores a pointer to its internal data for small strings. In addition, most std::string implementations have a size of 32 bytes (at least msvc and libstdc++ ones), which is unnecessary when considering a compressed container. Therefore, I started working on a string implementation with the following specificities:
 -	Relocatable,
 -	Small footprint (16 bytes on 64 bits machine if possible),
 -	Customizable Small String Optimization (SSO),
 -	Higly optimized for small strings (fast copy/move assignment and fast comparison operators).
 
-It turns out that such string implementation makes all flat containers (like `std::vector` or `std::deque`) faster (at least for small strings) as it greatly reduces cache misses, memory allocations, and allows optimization tricks for relocatable types.
+It turns out that such string implementation makes all flat containers (like `std::vector` or `std::deque`) faster (at least for small strings) as it greatly reduces cache misses, memory allocations, and allows optimization tricks for relocatable types. Within the seq library, all containers are aware of this property and are much faster with `seq::tstring` instead of `std::string`.
 The Customizable Small String Optimization is also very convenient to avoid unnecessary memory allocations for different workloads.
 
 For the rest of the documentation, only standard `char` strings are considered.
 
 ## Size and bookkeeping
 
-By default on 64 bits machines, a tiny_string contains enough room to store a 16 bytes string, therefore a length of 15 bytes for null terminated strings.
+By default on 64 bits machines, a `tiny_string` contains enough room to store a 16 bytes string, therefore a length of 15 bytes for null terminated strings.
 Starting version 1.2 of *seq* library, tiny_string does not store any additional bytes for internal bookkeeping. The fact that a string MUST be null terminated allows some tricks in order to use the full string size for SSO.
 
 This means that the default `seq::tstring` has a size of 16 bytes and can hold a small string of... 16 bytes (including trailing 0).
@@ -54,7 +55,7 @@ Use `seq::tiny_string<char_type>::max_allowed_static_size` to retrieve the maxim
 `seq::tiny_string` is relocatable, meaning that it does not store pointer to internal data.
 Relocatable types can be used more efficiently in containers that are aware of this property. For instance, `seq::devector`, `seq::tiered_vector`, `seq::flat_map/set`, `seq::radix_map/set` and `seq::radix_hash_map/set` are faster when working with relocatable types, as the process to move one object from a memory layout about to be destroyed to a new one can be accomplished through a simple memcpy.
 
-Msvc implementation of std::string is also relocatable, while gcc implementation is not as it stores a pointer to its internal data for small strings.
+Msvc implementation of std::string is also relocatable, while libstdc++ implementation is not as it stores a pointer to its internal data for small strings.
 
 Within the *seq* library, a relocatable type must statify `seq::is_relocatable<type>::value == true`.
 
@@ -94,11 +95,10 @@ Functions working on other strings like find(), compare()... are overloaded to a
 The comparison operators are also overloaded to work with std::string.
 
 `seq::tiny_string` also works with std::istream/std::ostream exactly like std::string.
-A specialization of std::hash is provided for tiny_string types which relies on [komihash](https://github.com/avaneev/komihash). This specialization is transparent and supports hashing std::string, tiny_string and const char*.
 
 `seq::tiny_string` provides the same invalidation rules as std::string as well as the same exception guarantees.
 
-`seq::tiny_string` is hashable using `std::hash` or [`seq::hasher`](hash.md).
+A specialization of `std::hash` and `seq::hasher` is provided for tiny_string types which relies on [komihash](https://github.com/avaneev/komihash). This specialization is transparent and supports hashing std::string, tiny_string and const char*.
 
 ## String view
 

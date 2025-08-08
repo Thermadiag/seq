@@ -478,8 +478,6 @@ namespace seq
 					Out res = out_end ? *out_end : iter_next(out, Count * 2);
 					Out out_right = iter_prev(res);
 
-					for (unsigned i=0; i < Count/2; ++i)
-						merge_tails(first, second, out_left, out_right, c);
 					while (first[0] < second[0] && first[1] < second[1])
 						merge_tails(first, second, out_left, out_right, c);
 

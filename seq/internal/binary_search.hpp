@@ -6,6 +6,8 @@
 
 namespace seq
 {
+
+
 	template<bool Multi, class Key, class Iter, class SizeType, class U, class Less>
 	std::pair<SizeType, bool> lower_bound(Iter ptr, SizeType size, const U& value, const Less& le)
 	{
@@ -18,12 +20,13 @@ namespace seq
 				SizeType half = size / 2;
 				low = le(ptr[low + half], value) ? (low + size - half) : low;
 				size = half;
-
+				
 				half = size / 2;
 				low = le(ptr[low + half], value) ? (low + size - half) : low;
 				size = half;
-			}
 
+			}
+			// Finish with linear probing
 			size += low;
 			while (low < size && le(ptr[low], value))
 				++low;
@@ -86,7 +89,7 @@ namespace seq
 	}
 
 	template<bool Multi, class Key, class Iter, class SizeType, class U, class Le>
-	SizeType upper_bound(Iter ptr, SizeType size, const U& value, const Le& le)
+	SEQ_ALWAYS_INLINE SizeType upper_bound(Iter ptr, SizeType size, const U& value, const Le& le)
 	{
 		return lower_bound<Key, Multi>(ptr, size, value, [&le](const auto& a, const auto& b) { return !le(b, a); }).first;
 	}

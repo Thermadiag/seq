@@ -2,12 +2,12 @@ cmake_minimum_required(VERSION 3.16)
 
 project(seq
     VERSION 2.0
-    DESCRIPTION "Collection of C++14 original containers"
+    DESCRIPTION "Collection of C++17 original containers"
     HOMEPAGE_URL "https://github.com/Thermadiag/seq"
     LANGUAGES CXX
 )
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(GNUInstallDirs)
 

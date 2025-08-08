@@ -16,7 +16,7 @@ The *hash* module also provides its own hashing class called `seq::hasher` that,
 - Pointers
 - `std::unique_ptr` and `std::shared_ptr`
 - `std::tuple` and `std::pair`
-- `std::basic_string`, `std::basic_string_view` (if available) and `seq::tiny_string` (`<seq/tiny_string.hpp>` must be included).
+- `std::basic_string`, `std::basic_string_view` and `seq::tiny_string` (`<seq/tiny_string.hpp>` must be included).
 
 For string types, `seq::hasher` uses a seeded version of [komihash](https://github.com/avaneev/komihash). komihash is a very fast hash function that passes all [SMhasher](https://github.com/rurban/smhasher) tests, and is especially efficient on small strings.
 
