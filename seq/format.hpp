@@ -1254,14 +1254,14 @@ namespace seq
 		template<class Char, class Traits, class Al>
 		operator std::basic_string<Char, Traits, Al>() const
 		{
-			assert_char<Char>();
+			this->template assert_char<Char>();
 			return str<std::basic_string<Char, Traits, Al>>();
 		}
 		/// @brief Conversion operator to tiny_string
 		template<class Char, class Traits, size_t Ss, class Al>
 		operator tiny_string<Char, Traits, Al, Ss>() const
 		{
-			assert_char<Char>();
+			this->template assert_char<Char>();
 			return str<tiny_string<Char, Traits, Al, Ss>>();
 		}
 
@@ -1270,7 +1270,7 @@ namespace seq
 		auto str() const -> String
 		{
 			using Char = typename String::value_type;
-			assert_char<Char>();
+			this->template assert_char<Char>();
 			String res;
 			return append(res);
 		}
@@ -1280,7 +1280,7 @@ namespace seq
 		auto append(String& out) const -> String&
 		{
 			using Char = typename String::value_type;
-			assert_char<Char>();
+			this->template assert_char<Char>();
 			return detail::append_to_string(out, derived());
 		}
 
@@ -1289,7 +1289,7 @@ namespace seq
 		template<class Char>
 		auto to_chars(Char* dst) -> Char*
 		{
-			assert_char<Char>();
+			this->template assert_char<Char>();
 			auto& tmp = detail::to_chars_buffer<Char>();
 			tmp.clear();
 			this->append(tmp);
@@ -1302,7 +1302,7 @@ namespace seq
 		template<class Char>
 		auto to_chars(Char* dst, size_t max) -> std::pair<Char*, size_t>
 		{
-			assert_char<Char>();
+			this->template assert_char<Char>();
 			auto& tmp = detail::to_chars_buffer<Char>();
 			tmp.clear();
 			this->append(tmp);
@@ -1318,8 +1318,8 @@ namespace seq
 		template<class Iter>
 		auto to_iter(Iter dst) -> Iter
 		{
-			using Char = std::iterator_traits<Iter>::value_type;
-			assert_char<Char>();
+			using Char = typename std::iterator_traits<Iter>::value_type;
+			this->template assert_char<Char>();
 			auto& tmp = detail::to_chars_buffer<Char>();
 			tmp.clear();
 			this->append(tmp);
@@ -1530,7 +1530,7 @@ namespace seq
 		template<class String>
 		auto to_string(String& str) const -> size_t
 		{
-			this->assert_char<typename String::value_type>();
+			this->template assert_char<typename String::value_type>();
 			return detail::write_to_string<T>(str, *this);
 		}
 
@@ -1614,7 +1614,7 @@ namespace seq
 		auto write_string_to_string(String& tmp, const ostream_format<U, S>& val) const -> size_t
 		{
 			using Char = typename String::value_type;
-			this->assert_char<Char>();
+			this->template assert_char<Char>();
 
 			size_t prev = tmp.size();
 			size_t size = val.value().size();

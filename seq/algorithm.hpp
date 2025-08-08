@@ -53,7 +53,7 @@ namespace seq
 		template<class Iter>
 		class IterWrapper 
 		{
-			template<class Iter, class Diff>
+			template<class Diff>
 			void increment_iter(Iter& it, Diff d)
 			{
 				if constexpr (has_plus_equal<Iter>::value)
@@ -166,7 +166,7 @@ namespace seq
 		template<class T>
 		struct Bitfield
 		{
-			char alignas(T) data[sizeof(T)];
+			alignas(T) char data[sizeof(T)];
 		};
 		template<class T>
 		SEQ_ALWAYS_INLINE Bitfield<T>& as_bits(T& ref) noexcept

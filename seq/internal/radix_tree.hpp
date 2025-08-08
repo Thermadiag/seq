@@ -2797,7 +2797,7 @@ namespace seq
 				const_iterator res = end();
 
 				// Move iterator value to tmp storage
-				char alignas(T) data[sizeof(T)];
+				alignas(T) char data[sizeof(T)];
 				T* value = it == end() ? nullptr : (T*)data;
 				if (value) {
 					new (value) T(std::move(*it));
