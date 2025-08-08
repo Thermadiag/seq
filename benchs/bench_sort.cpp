@@ -236,7 +236,7 @@ int bench_sort(int, char** const)
 	test_patterns_for_type<uint64_t>(10000000, 100);
 
 	std::cout << "Test double" << std::endl;
-	test_patterns_for_type<double>(10000000, std::numeric_limits<double>::max());
+	test_patterns_for_type<double>(10000000, std::numeric_limits<size_t>::max());
 	
 	using string = std::string;
 

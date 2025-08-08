@@ -34,9 +34,7 @@ jobs:
               make -j8 
               cmake --build . --target install
           shell: bash
-          env:
-           CC:   gcc-10
-           CXX:  g++-10
+          
 
         
 
