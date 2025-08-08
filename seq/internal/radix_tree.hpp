@@ -2780,7 +2780,7 @@ namespace seq
 
 				// Update container size
 				size_t count = 0;
-				d->for_each_leaf([this, &count](directory* dir, unsigned pos) {
+				d->for_each_leaf([&count](directory* dir, unsigned pos) {
 					auto tag = dir->child(pos).tag();
 					if (tag == directory::IsLeaf)
 						count += dir->child(pos).to_node()->count();
@@ -2822,7 +2822,7 @@ namespace seq
 					remove_directory(d);
 
 					// Reinsert all values inside directory into the tree
-					d->for_each_leaf([this, &res, &it](directory* dir, unsigned pos) {
+					d->for_each_leaf([this, &it](directory* dir, unsigned pos) {
 						auto tag = dir->child(pos).tag();
 						if (tag == directory::IsLeaf) {
 							// Standard leaf

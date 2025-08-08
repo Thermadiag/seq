@@ -1398,8 +1398,6 @@ namespace seq
 		if (first == last)
 			return last;
 
-		auto start = first;
-
 		TableType set{ HashFn(h), EqualFn(eq) };
 
 		if constexpr (is_random_access<Iter>::value)
