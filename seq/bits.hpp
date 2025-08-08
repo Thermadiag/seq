@@ -467,7 +467,7 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 
 #if defined(__clang__)
 
-#define SEQ_PROTOTYPE(...) _Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wmissing-prototypes\"" __VA_ARGS__ _Pragma("clang diagnostic pop")
+#define SEQ_PROTOTYPE(...) _Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wmissing-prototypes\"") __VA_ARGS__ _Pragma("clang diagnostic pop")
 
 #else
 #define SEQ_PROTOTYPE(...) __VA_ARGS__

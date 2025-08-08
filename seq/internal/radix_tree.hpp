@@ -748,7 +748,7 @@ namespace seq
 
 			if constexpr (is_relocatable<U>::value) {
 				if (count)
-					memmove(dst, src, count * sizeof(U));
+					memmove(static_cast<void*>(dst), static_cast<void*> (src), count * sizeof(U));
 				try {
 					Policy::emplace(src, std::forward<Args>(args)...);
 				}
