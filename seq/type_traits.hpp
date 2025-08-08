@@ -269,10 +269,10 @@ namespace seq
 	struct is_function_pointer : std::false_type
 	{
 	};
-
 	template<class R, class... A>
-	struct is_function_pointer<R (*)(A...)> : std::true_type;
-	{};
+	struct is_function_pointer<R (*)(A...)> : std::true_type
+	{
+	};
 
 	/// @brief Check if type provides the 'iterator' typedef
 	template<class T, class = void>
