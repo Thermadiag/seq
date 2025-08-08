@@ -28,18 +28,14 @@
 #include <seq/format.hpp>
 #include <seq/testing.hpp>
 #include <seq/any.hpp>
-#include <seq/sequence.hpp>
 #include "gtl/btree.hpp"
 
 #ifdef BOOST_FOUND
-#include "boost/container/flat_set.hpp"
 #include "boost/container/flat_map.hpp"
 #endif
 
 #include <iostream>
-#include <set>
 #include <map>
-#include <fstream>
 #include <algorithm>
 
 using namespace seq;

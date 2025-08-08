@@ -1,0 +1,37 @@
+name: Build on Windows
+on: 
+
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev", "releases/**"  ]
+  workflow_dispatch:
+    inputs:
+      compiler:
+        required: false
+        type: string
+        default: msvc
+          
+  workflow_call:
+    inputs:
+      compiler:
+        required: true
+        type: string
+        default: msvc
+
+jobs:
+    build-windows:
+        runs-on: windows-latest
+        
+        steps:
+        - uses: actions/checkout@v4
+
+        - name: Build on Windows
+          run: |
+              mkdir build 
+              cd build 
+              cmake .. -DCMAKE_BUILD_TYPE=Debug -DSEQ_NO_WARNINGS=ON -DSEQ_BUILD_TESTS=ON -DSEQ_BUILD_BENCHS=ON -DCMAKE_INSTALL_PREFIX=./install
+              cmake --build ./ 
+              cmake --build . --target install
+
+        

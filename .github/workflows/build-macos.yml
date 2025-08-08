@@ -1,0 +1,40 @@
+name: Build on MacOS
+on: 
+
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev", "releases/**"  ]
+  workflow_dispatch:
+    inputs:
+      compiler:
+        required: false
+        type: string
+        default: clang
+          
+  workflow_call:
+    inputs:
+      compiler:
+        required: true
+        type: string
+        default: clang
+
+jobs:
+    build-macos:
+        runs-on: macos-latest
+        
+        steps:
+        - uses: actions/checkout@v4
+
+        - name: install coreutils
+          run: brew install coreutils
+
+        - name: Build on MacOS
+          run: |
+              mkdir build 
+              cd build 
+              cmake .. -DCMAKE_BUILD_TYPE=Debug -DSEQ_NO_WARNINGS=ON -DSEQ_BUILD_TESTS=ON -DSTENOS_BUILD_BENCHS=ON -DCMAKE_INSTALL_PREFIX=./install
+              cmake --build ./ 
+              cmake --build . --target install
+
+        

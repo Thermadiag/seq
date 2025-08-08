@@ -21,7 +21,7 @@ create_test_sourcelist (Benchs
 # add the executable
 add_executable (seq_benchs ${Benchs})
 
-set_property(TARGET seq_benchs PROPERTY CXX_STANDARD 14)
+set_property(TARGET seq_benchs PROPERTY CXX_STANDARD 17)
 
 # find boost for flat_set and concurrent_flat_map
 find_package(Boost)
@@ -32,7 +32,7 @@ if(${Boost_FOUND})
 		message(STATUS "Boost library version high enough to test concurrent_flat_map!")
 		target_compile_definitions(seq_benchs PRIVATE -DBOOST_CONCURRENT_MAP_FOUND)
 		#target_compile_features(seq_benchs PRIVATE cxx_std_17)
-		set_property(TARGET seq_benchs PROPERTY CXX_STANDARD 20)
+		#set_property(TARGET seq_benchs PROPERTY CXX_STANDARD 20)
 	endif()
 	target_include_directories(seq_benchs PRIVATE ${Boost_INCLUDE_DIRS})
 endif()
@@ -64,7 +64,9 @@ elseif(UNIX AND (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID 
     target_link_options(seq_benchs PRIVATE  -lpthread -fopenmp)
 endif()
 
-
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+	target_compile_options(seq_benchs PRIVATE /bigobj)
+endif()
 
 target_include_directories(seq_benchs PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(seq_benchs PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/../..)

@@ -1,0 +1,42 @@
+name: Build on Linux
+on: 
+
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev", "releases/**"  ]
+  workflow_dispatch:
+    inputs:
+      compiler:
+        required: false
+        type: string
+        default: gcc
+          
+  workflow_call:
+    inputs:
+      compiler:
+        required: true
+        type: string
+        default: gcc
+
+jobs:
+    build-linux:
+        runs-on: ubuntu-22.04
+        
+        steps:
+        - uses: actions/checkout@v4
+
+        - name: Build on Linux
+          run: |
+              mkdir build 
+              cd build 
+              cmake .. -DCMAKE_BUILD_TYPE=Debug -DSEQ_NO_WARNINGS=ON -DSEQ_BUILD_TESTS=ON -DSEQ_BUILD_BENCHS=ON -DCMAKE_INSTALL_PREFIX=./install
+              make -j8 
+              cmake --build . --target install
+          shell: bash
+          env:
+           CC:   gcc-10
+           CXX:  g++-10
+
+        
+
