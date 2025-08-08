@@ -35,7 +35,6 @@
 #include <set>
 #include <map>
 #include <string>
-#include <codecvt>
 
 
 #include "tests.hpp"
@@ -182,6 +181,14 @@ void check_sorted(C& set)
 	
 }
 
+inline std::wstring from_string(const std::string& str)
+{
+	std::wstring res(str.size(), (wchar_t)0);
+	for (size_t i = 0; i < str.size(); ++i)
+		res[i] = (wchar_t)str[i];
+	return res;
+}
+
 inline void test_radix_set_common()
 {
 	{
@@ -269,10 +276,9 @@ inline void test_radix_set_common()
 		for (size_t i = 0; i < 100000; ++i)
 			vec.push_back(seq::generate_random_string<std::string>(63, false));
 
-		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 		std::vector<std::wstring> wvec;
 		for (size_t i = 0; i < vec.size(); ++i)
-			wvec.push_back(converter.from_bytes(vec[i]));
+			wvec.push_back(from_string(vec[i]));
 
 		std::set<std::wstring> set1;
 		seq::radix_set<std::wstring> set2;
@@ -456,10 +462,9 @@ inline void test_radix_map_common()
 		for (size_t i = 0; i < 100000; ++i)
 			vec.push_back(seq::generate_random_string<std::string>(63, false));
 
-		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 		std::vector<std::wstring> wvec;
 		for (size_t i = 0; i < vec.size(); ++i)
-			wvec.push_back(converter.from_bytes(vec[i]));
+			wvec.push_back(from_string(vec[i]));
 
 		std::map<std::wstring,int> set1;
 		seq::radix_map<std::wstring,int> set2;
