@@ -289,12 +289,10 @@ SEQ_PROTOTYPE( int test_devector(int , char*[]))
 	{
 		seq::devector<int> vec;
 		vec.push_back(1);
-		for (int i = 0; i < 100000000; ++i) {
+		for (int i = 0; i < 1000000000; ++i) {
 			vec.push_back(i);
 			vec.pop_front();
 		}
-		getchar();
-		getchar();
 	}
 
 
