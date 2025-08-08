@@ -49,12 +49,6 @@
  		template<class T>
  		struct typed_type_info : type_info, any_typed_type_info<T, false> //disable hashing support
  		{
-			virtual auto less_any(const void* a, const void* b) const -> bool override
-			{
-				// For clang only, we must disable less_any (strange behavior)
-				throw seq::bad_any_function_call();
-				return false;
-			}
  			virtual R call(const void* data, As... as) const override
  			{
  				// Make sure that this interface is still suitable for non invocable types
