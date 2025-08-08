@@ -358,6 +358,35 @@ namespace seq
 		new (p) T(std::forward<Args>(args)...);
 	}
 
+	/// @brief Iterator range class, provides a valid range object from a start and end iterator.
+	template<class Iter>
+	class iterator_range
+	{
+		Iter d_begin;
+		Iter d_end;
+
+	public:
+		using iterator = Iter;
+		using value_type = typename std::iterator_traits<Iter>::value_type;
+		using reference = typename std::iterator_traits<Iter>::reference;
+		using pointer = typename std::iterator_traits<Iter>::pointer;
+		using difference_type = typename std::iterator_traits<Iter>::difference_type;
+		using size_type = difference_type;
+
+		iterator_range(const Iter& b = Iter(), const Iter& e = Iter())
+		  : d_begin(b)
+		  , d_end(e)
+		{
+		}
+		iterator_range(const iterator_range&) = default;
+		iterator_range(iterator_range&&) noexcept = default;
+		iterator_range& operator=(const iterator_range&) = default;
+		iterator_range& operator=(iterator_range&&) = default;
+
+		Iter begin() const { return d_begin; }
+		Iter end() const { return d_end; }
+	};
+
 	namespace detail
 	{
 		// Extract the key on a std::pair or a Key value

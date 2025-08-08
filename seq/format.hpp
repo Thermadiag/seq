@@ -474,15 +474,12 @@ Above example compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10 on a Intel(
 #include <tuple>
 #include <sstream>
 #include <string_view>
-
-#ifndef SEQ_USE_INTERNAL_STD_TO_CHARS
 #include <charconv>
-#endif
 
 #include "tiny_string.hpp"
 #include "type_traits.hpp"
 #include "charconv.hpp"
-
+#include "utils.hpp" // for iterator_range
 
 #undef min
 #undef max
@@ -784,7 +781,6 @@ namespace seq
 				return out;
 			}
 		}
-
 
 		/// @brief Can be specialized to force inline storage of value inside ValueHolder
 		template<class T>
@@ -1298,7 +1294,7 @@ namespace seq
 		}
 
 		/// @brief Write the formatting object to char pointer with a maximum size.
-		/// @return a pair of {past-the-end-character, actual-formatting-object-size}. 
+		/// @return a pair of {past-the-end-character, actual-formatting-object-size}.
 		template<class Char>
 		auto to_chars(Char* dst, size_t max) -> std::pair<Char*, size_t>
 		{
@@ -1329,10 +1325,8 @@ namespace seq
 		/// @brief Performs a deep copy of the formatting object
 		Derived operator*() const { return derived(); }
 
-		
 		// Unused, but needed by join()
 		Derived& set_separator(...) noexcept { return derived(); }
-
 	};
 
 	namespace detail
@@ -1375,29 +1369,23 @@ namespace seq
 				return out.size() - prev;
 			}
 			else {
-				static_assert(false, "unable to convert ostream_format to string: no conversion method found");
+				static_assert(!std::is_void_v<T>, "unable to convert ostream_format to string: no conversion method found");
 				return 0;
 			}
-
 		}
 
 		// check if type T can be formatted based on default behavior
 		template<class T, class Ostream>
 		struct is_default_formattable
 		{
-			static constexpr bool value =
-			  std::is_integral_v<T> || std::is_same_v<const void*, T> || std::is_floating_point_v<T> || is_tiny_string<T>::value || is_ostreamable<T>::value;
+			static constexpr bool value = std::is_integral_v<T> || std::is_same_v<const void*, T> || std::is_floating_point_v<T> || is_tiny_string<T>::value || is_ostreamable<T>::value;
 		};
-
-		
-
 
 		// Write floating point value to string using std::to_chars
 		template<class Char, class T, class Out>
-		static SEQ_ALWAYS_INLINE to_chars_result<Char> float_to_chars(T value, char fmt, unsigned char precision, Out& tmp)
+		static SEQ_ALWAYS_INLINE seq::to_chars_result<Char> float_to_chars(T value, char fmt, unsigned char precision, Out& tmp)
 		{
-			if constexpr (std::is_same_v<Char, char>)
-			{
+			if constexpr (std::is_same_v<Char, char>) {
 				std::to_chars_result f;
 				std::chars_format format = fmt == 'E' ? std::chars_format::scientific : (fmt == 'F' ? std::chars_format::fixed : std::chars_format::general);
 				for (;;) {
@@ -1408,8 +1396,7 @@ namespace seq
 				}
 				return { f.ptr, std::errc() };
 			}
-			else
-			{
+			else {
 				std::to_chars_result f;
 				std::chars_format format = fmt == 'E' ? std::chars_format::scientific : (fmt == 'F' ? std::chars_format::fixed : std::chars_format::general);
 				auto& std_to_chars = std_to_chars_buffer();
@@ -1428,7 +1415,6 @@ namespace seq
 			}
 		}
 
-		
 	}
 
 	/// @brief Number and string formatting class.
@@ -1588,7 +1574,7 @@ namespace seq
 			char fmt = detail::to_upper(val.format());
 			bool upper = val.format() <= 'Z';
 
-#if !defined(SEQ_USE_INTERNAL_STD_TO_CHARS) 
+#if !defined(SEQ_USE_INTERNAL_STD_TO_CHARS)
 			to_chars_result<Char> f = detail::float_to_chars<Char>(val.value(), fmt, val.precision(), tmp);
 #else
 			char exp = upper ? 'E' : 'e';
@@ -1750,7 +1736,6 @@ namespace seq
 			using type = mutli_ostream_format<Tuple, Char, HS, Pos, Slot>;
 		};
 
-
 		template<class T>
 		struct is_slot_internal : std::false_type
 		{
@@ -1768,7 +1753,6 @@ namespace seq
 		struct is_slot : is_slot_internal<typename std::decay<T>::type>
 		{
 		};
-		
 
 		// meta-function which yields FormatWrapper<Element>::type from Element
 		template<class Element>
@@ -1777,8 +1761,6 @@ namespace seq
 			using tmp_type = typename std::decay<Element>::type;
 			using result = typename FormatWrapper<tmp_type, is_slot<tmp_type>::value>::type;
 		};
-
-		
 
 		template<class Char>
 		static inline auto& multi_ostream_buffer()
@@ -2068,7 +2050,7 @@ namespace seq
 		struct mix_char_type
 		{
 			using type = void;
-			static_assert(false, "cannot mix different character types");
+			static_assert(!std::is_void_v<Char1> && !std::is_void_v<Char2>, "cannot mix different character types");
 		};
 		template<class Char1>
 		struct mix_char_type<Char1, void>
@@ -2171,8 +2153,8 @@ namespace seq
 
 			template<class... Args, class = typename std::enable_if<((sizeof...(Args)) > 1), void>::type>
 			explicit base_mutli_ostream_format(Args&&... args)
-			// Construct from multiple values.
-			// Mark as explicit otherwise it replaces the default copy constructor.
+			  // Construct from multiple values.
+			  // Mark as explicit otherwise it replaces the default copy constructor.
 			  : d_tuple(std::forward<Args>(args)...)
 			  , d_width()
 			{
@@ -2281,16 +2263,16 @@ namespace seq
 				return out;
 			}
 
-			template<class Char>
-			auto to_chars(Char* dst) -> Char*
+			template<class C>
+			auto to_chars(C* dst) -> C*
 			{
 				return to_iter(dst);
 			}
 
-			template<class Char>
-			auto to_chars(Char* dst, size_t max) -> std::pair<Char*, size_t>
+			template<class C>
+			auto to_chars(C* dst, size_t max) -> std::pair<C*, size_t>
 			{
-				auto& tmp = detail::to_chars_buffer<Char>();
+				auto& tmp = detail::to_chars_buffer<C>();
 				tmp.clear();
 				reserve_string(tmp);
 				this->append(tmp);
@@ -2322,17 +2304,17 @@ namespace seq
 				return append(res);
 			}
 
-			template<class Char, class Traits, class Al>
-			operator std::basic_string<Char, Traits, Al>() const
+			template<class C, class Traits, class Al>
+			operator std::basic_string<C, Traits, Al>() const
 			{
 				// convertion operator to std::string
-				return str<std::basic_string<Char, Traits, Al>>();
+				return str<std::basic_string<C, Traits, Al>>();
 			}
-			template<class Char, class Traits, size_t S, class Al>
-			operator tiny_string<Char, Traits, Al, S>() const
+			template<class C, class Traits, size_t S, class Al>
+			operator tiny_string<C, Traits, Al, S>() const
 			{
 				// convertion operator to tiny_string
-				return str<tiny_string<Char, Traits, Al, S>>();
+				return str<tiny_string<C, Traits, Al, S>>();
 			}
 		};
 
@@ -2464,7 +2446,7 @@ namespace seq
 
 	/// @brief Returns a positional object used either by seq::fmt() or operator() of formatting object
 	template<size_t... Ts>
-	auto pos() 
+	auto pos()
 	{
 		return detail::Positional<Ts...>();
 	}
@@ -2838,8 +2820,8 @@ namespace seq
 	template<class T, class Char, bool Slot>
 	class ostream_format<detail::Iterable<T, Char>, Slot> : public base_ostream_format<T, ostream_format<detail::Iterable<T, Char>, Slot>>
 	{
-		using base_type = base_ostream_format<T, ostream_format<detail::Iterable<T,Char>, Slot>>;
-		using this_type = ostream_format<detail::Iterable<T,Char>, Slot>;
+		using base_type = base_ostream_format<T, ostream_format<detail::Iterable<T, Char>, Slot>>;
+		using this_type = ostream_format<detail::Iterable<T, Char>, Slot>;
 
 	public:
 		using char_type = Char;
@@ -2895,12 +2877,12 @@ namespace seq
 	template<class Str, class... Args, class K = typename std::enable_if<!detail::IsFirstIterable<Args...>::value, void>::type>
 	auto join(const Str& sep, Args&&... args)
 	{
-		using Char  = typename character_type<Str>::type;
+		using Char = typename character_type<Str>::type;
 		// Returns a formatting object (multi_ostream_format or ostream_format) for given input values
 		using return_type = typename detail::BuildFormat<sizeof...(Args), Char, true, typename detail::FindSlots<Args...>::type, false, Args...>::return_type;
 		return return_type(std::forward<Args>(args)...).set_separator(sep);
 	}
-	
+
 	template<class Str, class T>
 	auto join(const Str& sep, std::initializer_list<T> lst)
 	{
@@ -2916,14 +2898,14 @@ namespace seq
 	}
 
 	template<class Str, class IterRange>
-	auto join(const Str& sep, const IterRange& c, typename std::enable_if<is_iterable<IterRange>::value, void>::type* =nullptr) noexcept
+	auto join(const Str& sep, const IterRange& c, typename std::enable_if<is_iterable<IterRange>::value, void>::type* = nullptr) noexcept
 	{
 		using Char = typename character_type<Str>::type;
 		return ostream_format<detail::Iterable<IterRange, Char>>(sep, c);
 	}
 
 	template<class Str, class IterRange, class T, bool S>
-	auto join(const Str& sep, const IterRange& c, const ostream_format<T, S>& wf, typename std::enable_if<is_iterable<IterRange>::value, void>::type* = nullptr) noexcept 
+	auto join(const Str& sep, const IterRange& c, const ostream_format<T, S>& wf, typename std::enable_if<is_iterable<IterRange>::value, void>::type* = nullptr) noexcept
 	{
 		using value_type = typename IterRange::value_type;
 		static_assert(std::is_same_v<T, value_type>, "join: cannot use a formatting object of a different type");
@@ -2932,9 +2914,9 @@ namespace seq
 	}
 
 	template<class Str, class... Args, class K = typename std::enable_if<!detail::IsFirstIterable<Args...>::value, void>::type>
-	auto _join(const Str& sep, Args&&... args) 
+	auto _join(const Str& sep, Args&&... args)
 	{
-		using Char  = typename character_type<Str>::type;
+		using Char = typename character_type<Str>::type;
 		// Returns a formatting object (multi_ostream_format or ostream_format) for given input values
 		using return_type = typename detail::BuildFormat<sizeof...(Args), Char, true, typename detail::FindSlots<Args...>::type, true, Args...>::return_type;
 		return return_type(std::forward<Args>(args)...).set_separator(sep);
@@ -2955,19 +2937,19 @@ namespace seq
 	}
 
 	template<class Str, class IterRange>
-	auto _join(const Str& sep, const IterRange& c) noexcept 
+	auto _join(const Str& sep, const IterRange& c) noexcept
 	{
-		using Char  = typename character_type<Str>::type;
-		return ostream_format<detail::Iterable<IterRange,Char>, true>(sep, c);
+		using Char = typename character_type<Str>::type;
+		return ostream_format<detail::Iterable<IterRange, Char>, true>(sep, c);
 	}
 
-	template<class Str, class IterRange, class T, bool S >
-	auto _join(const Str & sep, const IterRange& c, const ostream_format<T, S>& wf) noexcept
+	template<class Str, class IterRange, class T, bool S>
+	auto _join(const Str& sep, const IterRange& c, const ostream_format<T, S>& wf) noexcept
 	{
 		using value_type = typename IterRange::value_type;
 		static_assert(std::is_same_v<T, value_type>, "join: cannot use a formatting object of a different type");
-		using Char  = typename character_type<Str>::type;
-		return ostream_format<detail::Iterable<IterRange,Char>, true>(sep, c, wf);
+		using Char = typename character_type<Str>::type;
+		return ostream_format<detail::Iterable<IterRange, Char>, true>(sep, c, wf);
 	}
 
 	/// @brief Write a ostream_format object to a std::ostream object
@@ -3008,7 +2990,7 @@ namespace seq
 		template<class Char>
 		struct by_char_ : match_base<Char, by_char_<Char>>
 		{
-			Char match ;
+			Char match;
 			by_char_(Char s = 0) noexcept
 			  : match(s) {};
 			size_t find(const basic_tstring_view<Char>& v, size_t start) const noexcept { return v.find(match, start); }
@@ -3092,7 +3074,7 @@ namespace seq
 		using Char = typename character_type<Str>::type;
 		return detail::by_not_any_char_<Char>(str);
 	}
-	
+
 	/// @brief Split by words.
 	/// To be used with seq::split()
 	inline auto by_word()
@@ -3105,7 +3087,10 @@ namespace seq
 	struct no_skip
 	{
 		template<class Char>
-		static bool skip(const Char*, size_t) noexcept { return false; }
+		static bool skip(const Char*, size_t) noexcept
+		{
+			return false;
+		}
 	};
 
 	/// @brief Skip empty strings.
@@ -3113,7 +3098,10 @@ namespace seq
 	struct skip_empty
 	{
 		template<class Char>
-		static bool skip(const Char*, size_t len) noexcept { return len == 0; }
+		static bool skip(const Char*, size_t len) noexcept
+		{
+			return len == 0;
+		}
 	};
 
 	/// @brief Skip empty strings and whitespaces
@@ -3138,7 +3126,7 @@ namespace seq
 		static bool skip(const Char* src, size_t len) noexcept
 		{
 			for (size_t i = 0; i != len; ++i)
-				if (!is_space((int)src[i]))
+				if (!detail::is_space((int)src[i]))
 					return false;
 			return true;
 		}
@@ -3230,10 +3218,10 @@ namespace seq
 		};
 
 		template<class Str, class Match, class Skip = no_skip>
-		auto internal_split(const Str& str, const Match &match, Skip)
+		auto internal_split(const Str& str, const Match& match, Skip)
 		{
 			using Char = typename character_type<Str>::type;
-			return iterator_range<SplitIter<Char, Match, Skip>>(SplitIter<Char, Match, Skip>(str, match), SplitIter<Char,Match, Skip>());
+			return iterator_range<SplitIter<Char, Match, Skip>>(SplitIter<Char, Match, Skip>(str, match), SplitIter<Char, Match, Skip>());
 		}
 	}
 
@@ -3243,7 +3231,7 @@ namespace seq
 	/// @param skip Skip behavior, one of no_skip(), skip_empty(), skip_whitespace(), skip_space().
 	/// @return An iterator range on the splitted elements.
 	template<class Str, class Char, class Match, class Skip = no_skip>
-	auto split(const Str& str, const detail::match_base<Char,Match>& match, Skip skip = Skip()) 
+	auto split(const Str& str, const detail::match_base<Char, Match>& match, Skip skip = Skip())
 	{
 		using CharType = typename character_type<Str>::type;
 		static_assert(std::is_void<Char>::value || std::is_same<CharType, Char>::value, "split: cannot mix different character types");
@@ -3252,7 +3240,7 @@ namespace seq
 
 	/// @brief Replace a string by another
 	template<class Out, class Str1, class Str2, class Str3>
-	inline auto replace(const Str1& src, const Str2& match, const Str3& _new) 
+	inline auto replace(const Str1& src, const Str2& match, const Str3& _new)
 	{
 		auto r = split(src, by_string(match), skip_empty{});
 		return Out(join(_new, r));
