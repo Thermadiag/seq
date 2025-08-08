@@ -219,7 +219,7 @@ namespace seq
 		template<class Integral>
 		struct RadixHasher<Integral, typename std::enable_if<std::is_integral<Integral>::value, void>::type>
 		{
-
+			using less_type = default_less;
 			using integral_type = typename make_unsigned_or_bool<Integral>::type;
 			static constexpr integral_type integral_bits = sizeof(integral_type) * 8U;
 			static constexpr bool variable_length = false;
@@ -339,10 +339,11 @@ namespace seq
 #endif
 			static constexpr bool variable_length = true;
 			static constexpr bool prefix_search = true;
-			static constexpr bool has_fast_check_prefix = false; 
+			static constexpr bool has_fast_check_prefix = false;
 			static constexpr size_t max_bits = static_cast<size_t>(-1); // unlimited
 			static constexpr size_t bit_step = 4;
 			using type = typename has_native_data_pointer<T>::type;
+			using less_type = default_less;
 			const type* data{ nullptr };
 			size_t size{ 0 };
 
@@ -476,7 +477,7 @@ namespace seq
 					return false;
 
 				if constexpr (sizeof(type) == 1) {
-					//using unsigned_char = typename std::make_unsigned<type>::type;
+					// using unsigned_char = typename std::make_unsigned<type>::type;
 					if (l1 && *v1 != *v2)
 						return false;
 					const type* end = v1 + l1;
@@ -560,9 +561,10 @@ namespace seq
 		template<class T>
 		struct RadixHasher<T, typename std::enable_if<is_tuple<T>::value, void>::type>
 		{
+			using less_type = default_less;
 			static constexpr bool variable_length = false;
 			static constexpr bool prefix_search = true;
-			static constexpr bool has_fast_check_prefix = false; 
+			static constexpr bool has_fast_check_prefix = false;
 			static constexpr size_t size = TupleInfo<T>::size;
 			static constexpr size_t max_bits = size * 8;
 			static constexpr size_t bit_step = 2;
@@ -628,6 +630,7 @@ namespace seq
 		  , Hash
 		  , Equal
 		{
+			using less_type = Less;
 			using this_type = RadixHasherUnordered<T, Hash, Less, Equal>;
 			static constexpr bool is_transparent = hash_is_transparent<Hash>::value;
 			static constexpr bool prefix_search = false;
@@ -748,7 +751,7 @@ namespace seq
 
 			if constexpr (is_relocatable<U>::value) {
 				if (count)
-					memmove(static_cast<void*>(dst), static_cast<void*> (src), count * sizeof(U));
+					memmove(static_cast<void*>(dst), static_cast<void*>(src), count * sizeof(U));
 				try {
 					Policy::emplace(src, std::forward<Args>(args)...);
 				}
@@ -1185,13 +1188,13 @@ namespace seq
 			static constexpr unsigned alloc_size = sizeof(uint64_t);
 			static constexpr uint64_t invalid = static_cast<uint64_t>(-1);
 
-			unsigned hash_len = 0;						// hash len in bits, size = 1 << hash_len
-			unsigned dir_count = 0;						// number of directories inside
-			unsigned child_count = 0;					// total number of children
-			unsigned parent_pos = 0;					// position within parent directory
-			uint64_t first_valid_child = invalid;				// position of the first valid child, if possible a leaf node.
-			uint64_t prefix_len = 0;					// prefix len in bits.
-			Directory* parent = nullptr;				// parent directory (null for root leaf)
+			unsigned hash_len = 0;		      // hash len in bits, size = 1 << hash_len
+			unsigned dir_count = 0;		      // number of directories inside
+			unsigned child_count = 0;	      // total number of children
+			unsigned parent_pos = 0;	      // position within parent directory
+			uint64_t first_valid_child = invalid; // position of the first valid child, if possible a leaf node.
+			uint64_t prefix_len = 0;	      // prefix len in bits.
+			Directory* parent = nullptr;	      // parent directory (null for root leaf)
 
 			/// @brief Returns a child of this directory.
 			/// This is used to get the prefix bits of this directory.
@@ -1641,6 +1644,10 @@ namespace seq
 		struct VectorEqual : Hasher
 		{
 			using is_transparent = int;
+			VectorEqual(const Hasher& h = Hasher())
+			  : Hasher(h)
+			{
+			}
 			template<class U, class V>
 			bool operator()(const U& a, const V& b) const noexcept(noexcept(Hasher::equal(ExtractKey{}(a), ExtractKey{}(b))))
 			{
@@ -1788,9 +1795,10 @@ namespace seq
 			static constexpr bool is_sorted = NodeType::is_sorted;
 			static constexpr size_t minus_one_size_t = static_cast<size_t>(-1);
 
+			using less_type = typename Hash::less_type;
 			using node = NodeType;
 			using key_type = typename ExtractKeyResultType<ExtractKey, T>::type;
-			using vector_type = VectorNode<T, Hash, ExtractKey, Allocator>;
+			using vector_type = VectorNode<T, Hash, ExtractKey, Allocator, (is_sorted || !std::is_same_v<less_type, default_less>)>;
 			using directory = Directory<T, NodeType, vector_type, Hash>;
 			using child_ptr = typename directory::child_ptr;
 			using root_type = RootTree<Allocator, T, directory, NodeType>;
@@ -2677,7 +2685,7 @@ namespace seq
 
 				// compute tiny hash
 				std::uint8_t th = h.tiny_hash();
-				if ( variable_length || hint == end() || !check_prefix(h, hash_key(hint.dir->any_child()), hint.bit_pos)) {
+				if (variable_length || hint == end() || !check_prefix(h, hash_key(hint.dir->any_child()), hint.bit_pos)) {
 					// Reset position to insert from the root directory
 					hint.dir = d_data->base.root;
 					hint.bit_pos = 0;

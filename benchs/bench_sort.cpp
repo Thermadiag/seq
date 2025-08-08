@@ -117,7 +117,9 @@ enum Method
 	StdSort,
 	StdStableSort,
 	Pdqsort,
+#ifdef BOOST_FOUND
 	BoostSpinSort,
+#endif
 	NetSort,
 	NetSortTiny
 };

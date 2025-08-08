@@ -59,9 +59,9 @@ target_compile_definitions(seq_benchs PRIVATE -D_CRT_SECURE_NO_WARNINGS)
 
 if (WIN32 AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 	# mingw
-	target_link_options(seq_benchs PRIVATE -lKernel32 -lpsapi -lBcrypt -fopenmp)
+	target_link_options(seq_benchs PRIVATE -lKernel32 -lpsapi -lBcrypt )
 elseif(UNIX AND (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU"))
-    target_link_options(seq_benchs PRIVATE  -lpthread -fopenmp)
+    target_link_options(seq_benchs PRIVATE  -lpthread )
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
