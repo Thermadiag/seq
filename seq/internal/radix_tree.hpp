@@ -476,7 +476,7 @@ namespace seq
 					return false;
 
 				if constexpr (sizeof(type) == 1) {
-					using unsigned_char = typename std::make_unsigned<type>::type;
+					//using unsigned_char = typename std::make_unsigned<type>::type;
 					if (l1 && *v1 != *v2)
 						return false;
 					const type* end = v1 + l1;

@@ -49,6 +49,12 @@
  		template<class T>
  		struct typed_type_info : type_info, any_typed_type_info<T, false> //disable hashing support
  		{
+			virtual auto less_any(const void* a, const void* b) const -> bool override
+			{
+				// For clang only, we must disable less_any (strange behavior)
+				throw seq::bad_any_function_call();
+				return false;
+			}
  			virtual R call(const void* data, As... as) const override
  			{
  				// Make sure that this interface is still suitable for non invocable types
@@ -692,19 +698,10 @@ static void test_hold_any()
 #pragma clang diagnostic ignored "-Wmissing-prototypes"
 #endif
 
-int add(int a, int b)
+
+int test_any(int, char*[])
 {
-	return a+ b;
-}
-
-	int test_any(int, char*[])
-	{
-	typedef int (*ptr)(int, int);
-		seq::any a = add;
-	seq::any a2 = add;
-	a < a2;
-	std::cout << seq::fmt(true) << std::endl;
-
+	
 	SEQ_TEST_MODULE_RETURN(any, 1, test_hold_any());
 	return 0;
 }

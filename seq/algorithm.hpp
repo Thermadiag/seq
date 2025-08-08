@@ -258,7 +258,7 @@ namespace seq
 							  Cmp r) noexcept(NothrowSortIter<Iter, Cmp>::value)
 		{
 			// Subroutine of inplace_merge_n
-			SEQ_ALGO_ASSERT_DEBUG(iter_distance(f0, f1) == n0, "");
+			SEQ_ALGO_ASSERT_DEBUG((size_t)iter_distance(f0, f1) == n0, "");
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f0, iter_next(f0, n0), r) && std::is_sorted(f1, iter_next(f1, n1), r), "");
 			SEQ_ALGO_ASSERT_DEBUG(n0 > 0, "");
 			SEQ_ALGO_ASSERT_DEBUG(n1 > 0, "");
@@ -291,7 +291,7 @@ namespace seq
 							   Cmp r) noexcept(NothrowSortIter<Iter, Cmp>::value)
 		{
 			// Subroutine of inplace_merge_n
-			SEQ_ALGO_ASSERT_DEBUG(iter_distance(f0, f1) == n0, "");
+			SEQ_ALGO_ASSERT_DEBUG((size_t)iter_distance(f0, f1) == n0, "");
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f0, iter_next(f0, n0), r) && std::is_sorted(f1, iter_next(f1, n1), r), "");
 			SEQ_ALGO_ASSERT_DEBUG(n0 > 0, "");
 			SEQ_ALGO_ASSERT_DEBUG(n1 > 0, "");
@@ -577,7 +577,7 @@ namespace seq
 			// Inplace merge with buffer, first published by Dudzin'sky and Dydek in 1981 IPL 12(1):5-8
 			// Implementation from: https://www.jmeiners.com/efficient-programming-with-components/15_merge_inplace.html
 
-			SEQ_ALGO_ASSERT_DEBUG(iter_distance(f0, f1) == n0, "");
+			SEQ_ALGO_ASSERT_DEBUG((size_t)iter_distance(f0, f1) == n0, "");
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f0, iter_next(f0, n0), r), "");
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f1, iter_next(f1, n1), r), "");
 
@@ -769,7 +769,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class Buffer, class Out = typename std::iterator_traits<Iter>::pointer>
-		static SEQ_ALWAYS_INLINE void merge_sorted_runs_with_buffer(Iter* iters, size_t start, size_t last, Cmp cmp, Buffer buf) noexcept(NothrowSortIter<Iter, Cmp>::value)
+		static void merge_sorted_runs_with_buffer(Iter* iters, size_t start, size_t last, Cmp cmp, Buffer buf) noexcept(NothrowSortIter<Iter, Cmp>::value)
 		{
 			// Inplace merge already sorted ranges represented by an array of iterators.
 			// Supports bidirectional iterators.
