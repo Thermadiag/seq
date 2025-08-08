@@ -222,17 +222,17 @@ namespace seq
 		}
 
 		template<class ExecPolicy, class F>
-		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, bool>::type visit_all(ExecPolicy&& p, F&& fun)
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun)
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 		template<class ExecPolicy, class F>
-		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, bool>::type visit_all(ExecPolicy&& p, F&& fun) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun) const
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 		template<class ExecPolicy, class F>
-		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, bool>::type cvisit_all(ExecPolicy&& p, F&& fun) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type cvisit_all(ExecPolicy&& p, F&& fun) const
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
@@ -350,7 +350,7 @@ namespace seq
 		}
 
 		template<class K, class F>
-		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value && !detail::internal_is_execution_policy<K>::value, size_type>::type erase_if(const K& key, F&& fun)
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value && !detail::internal_is_execution_policy<K>, size_type>::type erase_if(const K& key, F&& fun)
 		{
 			return base_type::erase(key, std::forward<F>(fun));
 		}
@@ -362,7 +362,7 @@ namespace seq
 		}
 
 		template<class ExecPolicy, class F>
-		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, size_type>::type erase_if(ExecPolicy&& p, F&& fun)
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type erase_if(ExecPolicy&& p, F&& fun)
 		{
 			return base_type::erase_if(p, std::forward<F>(fun));
 		}
@@ -398,14 +398,14 @@ namespace seq
 		}
 
 		template<class ExecPolicy, class H2, class P2>
-		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, size_type>::type merge(ExecPolicy&& p, concurrent_set<Key, H2, P2, Allocator, Shards>& x)
+		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type merge(ExecPolicy&& p, concurrent_set<Key, H2, P2, Allocator, Shards>& x)
 		{
 			SEQ_ASSERT_DEBUG(get_allocator() == x.get_allocator(), "");
 			return base_type::merge(std::forward<ExecPolicy>(p), x);
 		}
 
 		template<class ExecPolicy, class H2, class P2>
-		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, size_type>::type merge(ExecPolicy&& p, concurrent_set<Key, H2, P2, Allocator, Shards>&& x)
+		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type merge(ExecPolicy&& p, concurrent_set<Key, H2, P2, Allocator, Shards>&& x)
 		{
 			return merge(std::forward<ExecPolicy>(p), x);
 		}
@@ -640,17 +640,17 @@ namespace seq
 		}
 
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, bool>::type visit_all(ExecPolicy&& p, F&& fun)
+		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun)
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, bool>::type visit_all(ExecPolicy&& p, F&& fun) const
+		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun) const
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, bool>::type cvisit_all(ExecPolicy&& p, F&& fun) const
+		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type cvisit_all(ExecPolicy&& p, F&& fun) const
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
@@ -848,7 +848,7 @@ namespace seq
 		}
 
 		template<class K, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value && !detail::internal_is_execution_policy<K>::value, size_type>::type erase_if(const K& key, F&& fun)
+		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value && !detail::internal_is_execution_policy<K>, size_type>::type erase_if(const K& key, F&& fun)
 		{
 			return base_type::erase(key, std::forward<F>(fun));
 		}
@@ -860,7 +860,7 @@ namespace seq
 		}
 
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, size_type>::type erase_if(ExecPolicy&& p, F&& fun)
+		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type erase_if(ExecPolicy&& p, F&& fun)
 		{
 			return base_type::erase_if(p, std::forward<F>(fun));
 		}
@@ -895,14 +895,14 @@ namespace seq
 		}
 
 		template<class ExecPolicy, class H2, class P2>
-		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, size_type>::type merge(ExecPolicy&& p, concurrent_map<Key, T, H2, P2, Allocator, Shards>& x)
+		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type merge(ExecPolicy&& p, concurrent_map<Key, T, H2, P2, Allocator, Shards>& x)
 		{
 			SEQ_ASSERT_DEBUG(get_allocator() == x.get_allocator(), "");
 			return base_type::merge(std::forward<ExecPolicy>(p), x);
 		}
 
 		template<class ExecPolicy, class H2, class P2>
-		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>::value, size_type>::type merge(ExecPolicy&& p, concurrent_map<Key, T, H2, P2, Allocator, Shards>&& x)
+		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type merge(ExecPolicy&& p, concurrent_map<Key, T, H2, P2, Allocator, Shards>&& x)
 		{
 			return merge(std::forward<ExecPolicy>(p), x);
 		}
