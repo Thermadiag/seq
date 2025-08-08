@@ -286,16 +286,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 SEQ_PROTOTYPE( int test_devector(int , char*[]))
 {
-	{
-		seq::devector<int> vec;
-		vec.push_back(1);
-		for (int i = 0; i < 1000000000; ++i) {
-			vec.push_back(i);
-			vec.pop_front();
-		}
-	}
-
-
+	
 	// Test devector and potential memory leak or wrong allocator propagation
 	CountAlloc<size_t> al;
 	SEQ_TEST_MODULE_RETURN(devector, 1, test_devector_logic<size_t,CountAlloc<size_t> >(al));

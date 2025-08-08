@@ -30,7 +30,6 @@
 #include <vector>
 #include <functional>
 #include <unordered_map>
-#include <thread>
 
 
 #include <seq/testing.hpp> 
@@ -334,7 +333,7 @@ void test_concurrent_map(const std::vector<K>& _keys, Set& s, size_t numthreads 
 	for (size_t i = 0; i < numthreads; ++i) {
 		size_t start = i * chunk_size;
 		size_t end = i == numthreads-1 ? keys.size() : start + chunk_size;
-		threads[i] = new std::thread(std::bind(concurrent_insert<K,Set>, std::cref(keys), std::ref(s), start, end, &start_compute));
+		threads[i] = new std::thread([&]() { concurrent_insert<K, Set>( keys, s, start, end, &start_compute); });
 	}
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
@@ -342,13 +341,13 @@ void test_concurrent_map(const std::vector<K>& _keys, Set& s, size_t numthreads 
 	size_t walked = 0;
 	std::thread* walk;
 	if(test_walk)
-		walk = new std::thread(std::bind(concurrent_walk<Set>, std::ref(s), &start_compute, &walked));
+		walk = new std::thread([&]() { concurrent_walk<Set>(s, &start_compute, &walked); });
 
 	//launch find
 	size_t found = 0;
 	std::thread* find;
 	if(test_find)
-		find = new std::thread(std::bind(concurrent_find<K, Set>, std::cref(keys_find), std::ref(s), &start_compute, &found));
+		find = new std::thread([&]() { concurrent_find<K, Set>(keys_find, s, &start_compute, &found); });
 
 
 	seq::tick();
@@ -394,7 +393,7 @@ void test_concurrent_map(const std::vector<K>& _keys, Set& s, size_t numthreads 
 	for (size_t i = 0; i < numthreads; ++i) {
 		auto k = keys_find;
 		seq::random_shuffle(k.begin(), k.end(),(unsigned) i);
-		threads[i] = new std::thread(std::bind(concurrent_find_once<K, Set>, k, std::ref(s),  &start_compute,&counts[i]));
+		threads[i] = new std::thread([&]() { concurrent_find_once<K, Set>(k, s, &start_compute, &counts[i]); });
 	}
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
@@ -413,7 +412,7 @@ void test_concurrent_map(const std::vector<K>& _keys, Set& s, size_t numthreads 
 	// parallel find failed
 	start_compute = false;
 	for (size_t i = 0; i < numthreads; ++i) {
-		threads[i] = new std::thread(std::bind(concurrent_find_once<K, Set>, keys_not_found, std::ref(s), &start_compute, &counts[i]));
+		threads[i] = new std::thread([&]() { concurrent_find_once<K, Set>(keys_not_found, s, &start_compute, &counts[i]); });
 	}
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
@@ -436,7 +435,7 @@ void test_concurrent_map(const std::vector<K>& _keys, Set& s, size_t numthreads 
 	for (size_t i = 0; i < numthreads; ++i) {
 		size_t start = i * chunk_size;
 		size_t end = i == numthreads - 1 ? keys.size() : start + chunk_size;
-		threads[i] = new std::thread(std::bind(concurrent_erase<K, Set>, std::cref(keys), std::ref(s), start, end, &start_compute));
+		threads[i] = new std::thread([&]() { concurrent_erase<K, Set>((keys), (s), start, end, &start_compute); });
 	}
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -444,12 +443,12 @@ void test_concurrent_map(const std::vector<K>& _keys, Set& s, size_t numthreads 
 	//launch walk
 	walked = 0;
 	if (test_walk)
-		walk = new std::thread(std::bind(concurrent_walk<Set>, std::ref(s), &start_compute, &walked));
+		walk = new std::thread([&]() { concurrent_walk<Set>(s, &start_compute, &walked); });
 
 	//launch find
 	found = 0;
 	if (test_find)
-		find = new std::thread(std::bind(concurrent_find<K, Set>, std::cref(keys_find), std::ref(s), &start_compute, &found));
+		find = new std::thread([&]() { concurrent_find<K, Set>((keys_find), (s), &start_compute, &found); });
 	
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
