@@ -1382,7 +1382,7 @@ namespace seq
 				size_t to_alloc = bytes / alloc_size + (bytes % alloc_size ? 1 : 0);
 
 				directory* dir = reinterpret_cast<directory*>(al.allocate(to_alloc));
-				memset(dir, 0, to_alloc * sizeof(std::uint64_t));
+				memset(static_cast<void*>(dir), 0, to_alloc * sizeof(std::uint64_t));
 
 				//++dir_count;
 				return dir;
