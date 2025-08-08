@@ -106,8 +106,6 @@ namespace seq
 		else
 			return v;
 	}
-	
-
 
 	/// Check if iterator is random access
 	template<class Iter>
@@ -129,8 +127,6 @@ namespace seq
 	template<class Iter>
 	constexpr bool is_reverse_iterator_v = is_reverse_iterator<Iter>::value;
 
-
-
 	/// @brief Inherits std::true_type is T is of type std::unique_ptr<...>, false otherwise
 	template<class T>
 	struct is_unique_ptr : std::false_type
@@ -142,7 +138,6 @@ namespace seq
 	};
 	template<class T>
 	constexpr bool is_unique_ptr_v = is_unique_ptr<T>::value;
-
 
 	/// @brief Type trait telling if a class is relocatable or not.
 	///
@@ -209,7 +204,6 @@ namespace seq
 	{
 	};
 
-
 	template<class T>
 	struct is_tuple : std::bool_constant<false>
 	{
@@ -252,7 +246,7 @@ namespace seq
 	};
 
 	/// @brief Tells if given type supports equality comparison with operator ==
-	template<class T, class  = void>
+	template<class T, class = void>
 	struct is_equal_comparable : std::false_type
 	{
 	};
@@ -260,7 +254,6 @@ namespace seq
 	struct is_equal_comparable<T, std::void_t<decltype(std::declval<T&>() == std::declval<T&>())>> : std::true_type
 	{
 	};
-
 
 	/// @brief Tells if given type supports comparison with operator <
 	template<class T, class = void>
@@ -272,6 +265,14 @@ namespace seq
 	{
 	};
 
+	template<class F>
+	struct is_function_pointer : std::false_type
+	{
+	};
+
+	template<class R, class... A>
+	struct is_function_pointer<R (*)(A...)> : std::true_type;
+	{};
 
 	/// @brief Check if type provides the 'iterator' typedef
 	template<class T, class = void>
@@ -294,14 +295,12 @@ namespace seq
 	struct has_value_type<T, std::void_t<typename T::value_type>> : std::true_type
 	{
 	};
-	
 
 	template<class C>
 	struct is_iterable
 	{
 		static constexpr bool value = has_iterator<C>::value && has_value_type<C>::value;
 	};
-
 
 	template<class T, class = void>
 	struct has_is_transparent : std::false_type
@@ -350,7 +349,6 @@ namespace seq
 	struct has_plus_equal<T, std::void_t<decltype(std::declval<T&>() += 1)>> : std::true_type
 	{
 	};
-	
 
 	/// Provide a is_always_equal type traits for allocators in case current compiler
 	/// std::allocator_traits::is_always_equal is not present.

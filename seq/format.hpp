@@ -1574,7 +1574,7 @@ namespace seq
 			char fmt = detail::to_upper(val.format());
 			bool upper = val.format() <= 'Z';
 
-#if !defined(SEQ_USE_INTERNAL_STD_TO_CHARS)
+#if !defined(SEQ_USE_INTERNAL_STD_TO_CHARS) && !defined(__GNUC__) // a LOT of version of gcc are missing the floating point std::to_chars
 			to_chars_result<Char> f = detail::float_to_chars<Char>(val.value(), fmt, val.precision(), tmp);
 #else
 			char exp = upper ? 'E' : 'e';

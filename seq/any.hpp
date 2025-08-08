@@ -493,7 +493,7 @@ namespace seq
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if<is_less_comparable<T>::value, bool>::type compare_less_any(const void* a, const void* b)
 		{
-			if constexpr (std::is_pointer_v<T>)
+			if constexpr (is_function_pointer<T>::value)
 				return reinterpret_cast<const void*>(*static_cast<const T*>(a)) < reinterpret_cast<const void*>(*static_cast<const T*>(b));
 			else
 				return *static_cast<const T*>(a) < *static_cast<const T*>(b);

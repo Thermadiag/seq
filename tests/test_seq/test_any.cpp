@@ -693,6 +693,12 @@ static void test_hold_any()
 #endif
 int test_any(int, char* [])
 {
+	typedef int (*ptr)(int, int);
+	seq::any a = ptr();
+	seq::any a2 = ptr();
+	a < a2;
+	std::cout << seq::fmt(true) << std::endl;
+
 	SEQ_TEST_MODULE_RETURN(any, 1, test_hold_any());
 	return 0;
 }
