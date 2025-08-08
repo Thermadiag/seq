@@ -81,7 +81,7 @@ namespace seq
 					end = start + size;
 					
 					if constexpr(std::is_trivial<T>::value)
-						memcpy(data, other.start, size * sizeof(T));
+						memcpy(static_cast<void*>(data), static_cast<void*>(other.start), size * sizeof(T));
 					else {
 						size_t i = 0;
 						try {
@@ -849,8 +849,8 @@ namespace seq
 				// insert on the left side
 				T tmp = T(std::forward<Args>(args)...); //handle aliasing
 				emplace_front();
-				if (std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value)
-					memmove(begin(), begin() + 1, dist * sizeof(T));
+				if constexpr (std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value)
+					memmove(static_cast<void*>(begin()), static_cast<void*>(begin() + 1), dist * sizeof(T));
 				else
 					std::move(begin() + 1, begin() + 1 + dist, begin());
 				*(begin() + dist) = std::move(tmp);
@@ -1006,7 +1006,7 @@ namespace seq
 
 				if constexpr(std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value) {
 					this->destroy_range(const_cast<T*>(first), const_cast<T*>(last));
-					memmove(begin() + count, begin(), off * sizeof(T));
+					memmove(static_cast<void*>(begin() + count), static_cast<void*>(begin()), off * sizeof(T));
 					this->base_type::start += count;
 				}
 				else {

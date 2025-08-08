@@ -1389,7 +1389,7 @@ namespace seq
 				std::to_chars_result f;
 				std::chars_format format = fmt == 'E' ? std::chars_format::scientific : (fmt == 'F' ? std::chars_format::fixed : std::chars_format::general);
 				for (;;) {
-					f = std::to_chars(const_cast<char*>(tmp.data()), const_cast<char*>(tmp.data()) + tmp.capacity(), value, format, precision);
+					f = std::to_chars(const_cast<char*>(tmp.data()), const_cast<char*>(tmp.data()) + tmp.capacity(), value, format, (int)precision);
 					if SEQ_LIKELY (f.ec == std::errc())
 						break;
 					tmp.reserve(tmp.capacity() * 2);
@@ -1401,7 +1401,7 @@ namespace seq
 				std::chars_format format = fmt == 'E' ? std::chars_format::scientific : (fmt == 'F' ? std::chars_format::fixed : std::chars_format::general);
 				auto& std_to_chars = std_to_chars_buffer();
 				for (;;) {
-					f = std::to_chars(const_cast<char*>(std_to_chars.data()), const_cast<char*>(std_to_chars.data()) + std_to_chars.capacity(), value, format, precision);
+					f = std::to_chars(const_cast<char*>(std_to_chars.data()), const_cast<char*>(std_to_chars.data()) + std_to_chars.capacity(), value, format, (int)precision);
 					if SEQ_LIKELY (f.ec == std::errc())
 						break;
 					std_to_chars.reserve(std_to_chars.capacity() * 2);
@@ -2287,8 +2287,8 @@ namespace seq
 			template<class Iter>
 			auto to_iter(Iter dst) -> Iter
 			{
-				using Char = typename std::iterator_traits<Iter>::value_type;
-				auto& tmp = detail::to_chars_buffer<Char>();
+				using C = typename std::iterator_traits<Iter>::value_type;
+				auto& tmp = detail::to_chars_buffer<C>();
 				tmp.clear();
 				reserve_string(tmp);
 				this->append(tmp);

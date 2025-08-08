@@ -83,56 +83,67 @@ namespace seq
 		}
 	} // namespace detail
 
-	/// @brief Returns type Id used by hold_any as a unique type identifier
-	/// @tparam T type
-	/// @return unique Id for type T
 	template<class T>
-	SEQ_ALWAYS_INLINE constexpr int get_type_id() noexcept
+	SEQ_ALWAYS_INLINE constexpr int get_base_type_id() noexcept
 	{
 		if constexpr (std::is_same_v<char, T>)
 			return 1;
 		else if constexpr (std::is_same_v<signed char, T>)
 			return 2;
-		else if constexpr(std::is_same_v<short, T>)
+		else if constexpr (std::is_same_v<short, T>)
 			return 3;
-		else if constexpr(std::is_same_v<int, T>)
+		else if constexpr (std::is_same_v<int, T>)
 			return 4;
-		else if constexpr(std::is_same_v<long, T>)
+		else if constexpr (std::is_same_v<long, T>)
 			return 5;
-		else if constexpr(std::is_same_v<long long, T>)
+		else if constexpr (std::is_same_v<long long, T>)
 			return 6;
-		else if constexpr(std::is_same_v<unsigned char, T>)
+		else if constexpr (std::is_same_v<unsigned char, T>)
 			return 7;
 		else if constexpr (std::is_same_v<char16_t, T>)
 			return 8;
 		else if constexpr (std::is_same_v<char32_t, T>)
 			return 9;
-		else if constexpr(std::is_same_v<unsigned short, T>)
+		else if constexpr (std::is_same_v<unsigned short, T>)
 			return 10;
-		else if constexpr(std::is_same_v<unsigned int, T>)
+		else if constexpr (std::is_same_v<unsigned int, T>)
 			return 11;
-		else if constexpr(std::is_same_v<unsigned long, T>)
+		else if constexpr (std::is_same_v<unsigned long, T>)
 			return 12;
-		else if constexpr(std::is_same_v<unsigned long long, T>)
+		else if constexpr (std::is_same_v<unsigned long long, T>)
 			return 13;
-		else if constexpr(std::is_same_v<float, T>)
+		else if constexpr (std::is_same_v<float, T>)
 			return 14;
-		else if constexpr(std::is_same_v<double, T>)
+		else if constexpr (std::is_same_v<double, T>)
 			return 15;
-		else if constexpr(std::is_same_v<long double, T>)
+		else if constexpr (std::is_same_v<long double, T>)
 			return 16;
-		else if constexpr(std::is_same_v<std::string, T>)
+		else if constexpr (std::is_same_v<std::string, T>)
 			return 17;
-		else if constexpr(std::is_same_v<tstring, T>)
+		else if constexpr (std::is_same_v<tstring, T>)
 			return 18;
-		else if constexpr(std::is_same_v<tstring_view, T>)
+		else if constexpr (std::is_same_v<tstring_view, T>)
 			return 19;
-		else if constexpr(std::is_same_v<const char*, T>)
+		else if constexpr (std::is_same_v<const char*, T>)
 			return 20;
-		else if constexpr(std::is_same_v<char*, T>)
+		else if constexpr (std::is_same_v<char*, T>)
 			return 21;
-		else if constexpr(std::is_same_v<std::string_view, T>)
+		else if constexpr (std::is_same_v<std::string_view, T>)
 			return 22;
+		else {
+			return 0;
+		}
+	}
+
+	/// @brief Returns type Id used by hold_any as a unique type identifier
+	/// @tparam T type
+	/// @return unique Id for type T
+	template<class T>
+	SEQ_ALWAYS_INLINE int get_type_id() noexcept
+	{
+		constexpr int v = get_base_type_id<T>();
+		if constexpr (v != 0)
+			return v;
 		else {
 			static constexpr int last_id = 22;
 			static int id = detail::build_type_id<last_id+1>();
@@ -228,6 +239,12 @@ namespace seq
 		{
 			if constexpr (!is_formattable<T>::value)
 				throw seq::bad_any_function_call("data type is not formattable");
+			else if constexpr (std::is_pointer_v<T>) {
+				auto f = fmt(*static_cast<const void*>(in)); //TEST
+				f.set_width_format(wfmt);
+				f.set_numeric_format(nfmt);
+				f.append(out);
+			}
 			else {
 				auto f = fmt(const_cast<T&>(*static_cast<const T*>(in)));
 				f.set_width_format(wfmt);
@@ -246,37 +263,37 @@ namespace seq
 			}
 			else {
 				switch (in_p->type_id()) {
-					case get_type_id<char>():
+					case get_base_type_id<char>():
 						return static_cast<T>(*static_cast<const char*>(in));
-					case get_type_id<signed char>():
+					case get_base_type_id<signed char>():
 						return static_cast<T>(*static_cast<const signed char*>(in));
-					case get_type_id<unsigned char>():
+					case get_base_type_id<unsigned char>():
 						return static_cast<T>(*static_cast<const unsigned char*>(in));
-					case get_type_id<char16_t>():
+					case get_base_type_id<char16_t>():
 						return static_cast<T>(*static_cast<const char16_t*>(in));
-					case get_type_id<char32_t>():
+					case get_base_type_id<char32_t>():
 						return static_cast<T>(*static_cast<const char32_t*>(in));
-					case get_type_id<short>():
+					case get_base_type_id<short>():
 						return static_cast<T>(*static_cast<const short*>(in));
-					case get_type_id<unsigned short>():
+					case get_base_type_id<unsigned short>():
 						return static_cast<T>(*static_cast<const unsigned short*>(in));
-					case get_type_id<int>():
+					case get_base_type_id<int>():
 						return static_cast<T>(*static_cast<const int*>(in));
-					case get_type_id<unsigned int>():
+					case get_base_type_id<unsigned int>():
 						return static_cast<T>(*static_cast<const unsigned int*>(in));
-					case get_type_id<long>():
+					case get_base_type_id<long>():
 						return static_cast<T>(*static_cast<const long*>(in));
-					case get_type_id<unsigned long>():
+					case get_base_type_id<unsigned long>():
 						return static_cast<T>(*static_cast<const unsigned long*>(in));
-					case get_type_id<long long>():
+					case get_base_type_id<long long>():
 						return static_cast<T>(*static_cast<const long long*>(in));
-					case get_type_id<unsigned long long>():
+					case get_base_type_id<unsigned long long>():
 						return static_cast<T>(*static_cast<const unsigned long long*>(in));
-					case get_type_id<float>():
+					case get_base_type_id<float>():
 						return static_cast<T>(*static_cast<const float*>(in));
-					case get_type_id<double>():
+					case get_base_type_id<double>():
 						return static_cast<T>(*static_cast<const double*>(in));
-					case get_type_id<long double>():
+					case get_base_type_id<long double>():
 						return static_cast<T>(*static_cast<const long double*>(in));
 					default:
 						throw std::bad_cast();
@@ -308,37 +325,37 @@ namespace seq
 			if constexpr (is_allocated_string<String>::value) {
 				String res;
 				switch (in_p->type_id()) {
-					case get_type_id<char>():
+					case get_base_type_id<char>():
 						return fmt(*static_cast<const char*>(in)).append(res);
-					case get_type_id<signed char>():
+					case get_base_type_id<signed char>():
 						return fmt(*static_cast<const signed char*>(in)).append(res);
-					case get_type_id<unsigned char>():
+					case get_base_type_id<unsigned char>():
 						return fmt(*static_cast<const unsigned char*>(in)).append(res);
-					case get_type_id<char16_t>():
+					case get_base_type_id<char16_t>():
 						return fmt(*static_cast<const char16_t*>(in)).append(res);
-					case get_type_id<char32_t>():
+					case get_base_type_id<char32_t>():
 						return fmt(*static_cast<const char32_t*>(in)).append(res);
-					case get_type_id<short>():
+					case get_base_type_id<short>():
 						return fmt(*static_cast<const short*>(in)).append(res);
-					case get_type_id<unsigned short>():
+					case get_base_type_id<unsigned short>():
 						return fmt(*static_cast<const unsigned short*>(in)).append(res);
-					case get_type_id<int>():
+					case get_base_type_id<int>():
 						return fmt(*static_cast<const int*>(in)).append(res);
-					case get_type_id<unsigned int>():
+					case get_base_type_id<unsigned int>():
 						return fmt(*static_cast<const unsigned int*>(in)).append(res);
-					case get_type_id<long>():
+					case get_base_type_id<long>():
 						return fmt(*static_cast<const long*>(in)).append(res);
-					case get_type_id<unsigned long>():
+					case get_base_type_id<unsigned long>():
 						return fmt(*static_cast<const unsigned long*>(in)).append(res);
-					case get_type_id<long long>():
+					case get_base_type_id<long long>():
 						return fmt(*static_cast<const long long*>(in)).append(res);
-					case get_type_id<unsigned long long>():
+					case get_base_type_id<unsigned long long>():
 						return fmt(*static_cast<const unsigned long long*>(in)).append(res);
-					case get_type_id<float>():
+					case get_base_type_id<float>():
 						return fmt(*static_cast<const float*>(in)).append(res);
-					case get_type_id<double>():
+					case get_base_type_id<double>():
 						return fmt(*static_cast<const double*>(in)).append(res);
-					case get_type_id<long double>():
+					case get_base_type_id<long double>():
 						return fmt(*static_cast<const long double*>(in)).append(res);
 					default:
 						throw std::bad_cast();
