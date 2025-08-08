@@ -240,7 +240,7 @@ namespace seq
 			if constexpr (!is_formattable<T>::value)
 				throw seq::bad_any_function_call("data type is not formattable");
 			else if constexpr (std::is_pointer_v<T>) {
-				auto f = fmt(static_cast<const void*>(*static_cast<const T*>(in))); // TEST
+				auto f = fmt(reinterpret_cast<const void*>(*static_cast<const T*>(in))); // TEST
 				f.set_width_format(wfmt);
 				f.set_numeric_format(nfmt);
 				f.append(out);
@@ -493,7 +493,10 @@ namespace seq
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if<is_less_comparable<T>::value, bool>::type compare_less_any(const void* a, const void* b)
 		{
-			return *static_cast<const T*>(a) < *static_cast<const T*>(b);
+			if constexpr (std::is_pointer_v<T>)
+				return reinterpret_cast<const void*>(*static_cast<const T*>(a)) < reinterpret_cast<const void*>(*static_cast<const T*>(b));
+			else
+				return *static_cast<const T*>(a) < *static_cast<const T*>(b);
 		}
 		template<class T>
 		SEQ_ALWAYS_INLINE typename std::enable_if<!is_less_comparable<T>::value, bool>::type compare_less_any(const void*, const void*)
