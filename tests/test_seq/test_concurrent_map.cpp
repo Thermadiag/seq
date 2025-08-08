@@ -771,7 +771,7 @@ void test_concurrent_map_members()
 		SEQ_TEST(count == vec.size());
 	}
 
-#ifdef SEQ_HAS_CPP_17
+#ifdef __cpp_lib_parallel_algorithm
 	// visit all parallel
 	{
 		std::vector<std::pair<std::string, std::string>> vec;
@@ -783,15 +783,15 @@ void test_concurrent_map_members()
 
 		map_type map1(vec.begin(), vec.end());
 		std::atomic<size_t> count{ 0 };
-		map1.visit_all(std::execution::par_unseq, [&](const auto&) { ++count; });
+		map1.visit_all(std::execution::par, [&](const auto&) { ++count; });
 		SEQ_TEST(count == vec.size());
 		count.store( 0);
-		map1.cvisit_all(std::execution::par_unseq, [&](const auto&) { ++count; });
+		map1.cvisit_all(std::execution::par, [&](const auto&) { ++count; });
 		SEQ_TEST(count == vec.size());
 
-		map1.visit_all(std::execution::par_unseq, [](auto& v) { v.second = std::string(); });
+		map1.visit_all(std::execution::par, [](auto& v) { v.second = std::string(); });
 		count.store(0);
-		map1.visit_all(std::execution::par_unseq, [&](auto& v) { count += v.second.empty(); });
+		map1.visit_all(std::execution::par, [&](auto& v) { count += v.second.empty(); });
 		SEQ_TEST(count == vec.size());
 	}
 #endif
@@ -892,8 +892,8 @@ void test_concurrent_map_members()
 
 			seq::random_shuffle(vec.begin(), vec.end());
 			seq::concurrent_map<size_t, size_t> maph;
-#ifdef SEQ_HAS_CPP_17
-			std::for_each(std::execution::par_unseq, vec.begin(), vec.end(), [&](size_t v) {
+#ifdef __cpp_lib_parallel_algorithm
+			std::for_each(std::execution::par, vec.begin(), vec.end(), [&](size_t v) {
 				maph.emplace_or_visit( v, 1, [](auto& p) {p.second++; });
 				}
 			);
@@ -922,8 +922,8 @@ void test_concurrent_map_members()
 			seq::random_shuffle(vec.begin(), vec.end());
 			seq::concurrent_map<size_t, size_t> maph;
 
-#ifdef SEQ_HAS_CPP_17
-			std::for_each(std::execution::par_unseq, vec.begin(), vec.end(), [&](size_t v) {
+#ifdef __cpp_lib_parallel_algorithm
+			std::for_each(std::execution::par, vec.begin(), vec.end(), [&](size_t v) {
 				maph.insert_or_visit(std::make_pair(v, (size_t)1), [](auto& p) {p.second++; });
 				}
 			);
@@ -981,8 +981,8 @@ void test_concurrent_map_members()
 		SEQ_TEST(map2.merge(map1) == 100000);
 		SEQ_TEST(map1.size() == 0);
 
-#ifdef SEQ_HAS_CPP_17
-		SEQ_TEST(map1.merge(std::execution::par_unseq, map2) == 100000);
+#ifdef __cpp_lib_parallel_algorithm
+		SEQ_TEST(map1.merge(std::execution::par, map2) == 100000);
 		SEQ_TEST(map2.size() == 0);
 #endif
 	}
