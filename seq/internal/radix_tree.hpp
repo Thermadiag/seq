@@ -1559,6 +1559,8 @@ namespace seq
 			RadixConstIter(const RadixConstIter&) noexcept = default;
 			RadixConstIter& operator=(const RadixConstIter&) noexcept = default;
 
+			bool is_vector() const noexcept { return dir->const_child(child).tag() == Dir::IsVector; }
+
 			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference
 			{
 				SEQ_ASSERT_DEBUG(dir, "dereferencing null iterator");
@@ -1746,8 +1748,9 @@ namespace seq
 			template<class K>
 			SEQ_ALWAYS_INLINE size_t find(const K& key) const
 			{
-				for (size_t i = 0; i < vector.size(); ++i)
-					if (Equal{}(vector[i], key))
+				size_t count = vector.size();
+				for (size_t i = 0; i < count; ++i)
+					if (equal(vector[i], key))
 						return i;
 				return vector.size();
 			}
@@ -2546,13 +2549,19 @@ namespace seq
 				}
 				return hash.n_bits(start, bits) == match.n_bits(start, bits);
 			}
-			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, size_t start_bit, directory* d) const noexcept
+			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, size_t start_bit, const directory* d) const noexcept
 			{
 				// Check if given hash value share the same prefix as d
 				return generic_check_prefix(hash, hash_key(d->any_child()), start_bit, d->prefix_len);
 			}
-			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const hash_type& h2, size_t bit_len) const noexcept { return generic_check_prefix(hash, h2, 0, bit_len); }
-			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const key_type& k, size_t bit_len) const noexcept { return generic_check_prefix(hash, hash_key(k), 0, bit_len); }
+			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const hash_type& h2, size_t start_bit, size_t bit_len) const noexcept
+			{
+				return generic_check_prefix(hash, h2, start_bit, bit_len);
+			}
+			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const key_type& k, size_t start_bit, size_t bit_len) const noexcept
+			{
+				return generic_check_prefix(hash, hash_key(k), start_bit, bit_len);
+			}
 
 			template<class U>
 			SEQ_ALWAYS_INLINE auto check_prefix_insert(directory* dir, directory* d, size_t& hash_bits, unsigned pos, const hash_type& hash, const U& value) noexcept -> directory*
@@ -2685,7 +2694,7 @@ namespace seq
 
 				// compute tiny hash
 				std::uint8_t th = h.tiny_hash();
-				if (variable_length || hint == end() || !check_prefix(h, hash_key(hint.dir->any_child()), hint.bit_pos)) {
+				if (variable_length || !is_sorted || hint == end() || hint.is_vector() || !check_prefix(h, hash_key(hint.dir->any_child()), 0, hint.bit_pos)) {
 					// Reset position to insert from the root directory
 					hint.dir = d_data->base.root;
 					hint.bit_pos = 0;
@@ -2722,9 +2731,9 @@ namespace seq
 					return;
 
 				const_iterator it = this->end();
-				for (; start != end; ++start)
+				for (; start != end; ++start) {
 					it = this->template emplace_hash_hint<false>(it, hash_key((*start)), EmplacePolicy{}, *start).first;
-
+				}
 				if (is_sorted && _sort_leaves)
 					sort_leaves();
 			}
@@ -2964,7 +2973,7 @@ namespace seq
 			}
 
 			/// @brief Check if given hash value share the same prefix as d
-			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const directory* d) const noexcept { return check_prefix(hash, hash_key(d->any_child()), d->prefix_len); }
+			//SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const directory* d) const noexcept { return check_prefix(hash, hash_key(d->any_child()), d->prefix_len); }
 
 			/// @brief Find key in vector node
 			template<class U>
@@ -3009,7 +3018,7 @@ namespace seq
 
 							// check directory prefix
 							if (prefix_search && d->prefix_len) {
-								if (!check_prefix(hash, d))
+								if (!check_prefix(hash, bit_pos, d))//TEST
 									return cend();
 								else
 									bit_pos += d->prefix_len;
@@ -3053,7 +3062,7 @@ namespace seq
 
 							// check directory prefix
 							if (prefix_search && d->prefix_len) {
-								if (!check_prefix(hash, d))
+								if (!check_prefix(hash, bit_pos, d)) //TEST: bit_pos
 									return nullptr;
 								else
 									bit_pos += d->prefix_len;
@@ -3119,7 +3128,7 @@ namespace seq
 					if constexpr (prefix_search) {
 						// check directory prefix
 						if (d->prefix_len) {
-							if (!check_prefix(hash, d)) {
+							if (!check_prefix(hash, bit_pos, d)) {//TEST: bit_pos
 								bool less = Less{}(ExtractKey{}(d->any_child()), key);
 								auto tmp = const_iterator::find_next(
 								  less ? d->parent : d, less ? d->parent_pos + 1 : 0, less ? bit_pos - d->parent->hash_len : bit_pos + d->prefix_len);
@@ -3149,6 +3158,8 @@ namespace seq
 					return lower_bound_in_vector(d, pos, bit_pos, key);
 
 				const node* n = d->children()[pos].to_node();
+				//TEST
+				auto & back = n->back();
 				unsigned p = n->template lower_bound<ExtractKey, Less, Equal>(bit_pos, th, key);
 				if (p != n->count())
 					return const_iterator(d_data, d, pos, p, bit_pos);

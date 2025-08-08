@@ -309,6 +309,7 @@ inline void test_radix_set_common()
 
 		// make sure the set is valid
 		SEQ_TEST(std::distance(set.begin(), set.end()) == static_cast<std::ptrdiff_t>(set.size()));
+		SEQ_TEST(std::is_sorted(set.begin(), set.end()));
 
 		// look for existing values
 		for (size_t i = 1000 * mul; i < 2000 * mul; i += 5)
@@ -332,11 +333,12 @@ inline void test_radix_set_common()
 			
 		}
 
+		//TODO: test lower_bound with vector nodes
+		//TODO: test prefix search with vector nodes, leaf nodes, and multiple directories with prefix_len
+
 		// mix existing/non existing values
 		for (size_t i = 0; i < 4000 * mul; i++)
 		{
-			
-			set.lower_bound(i);
 			
 			auto it = set.lower_bound(i);
 

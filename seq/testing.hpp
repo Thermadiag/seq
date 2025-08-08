@@ -256,8 +256,7 @@ namespace seq
 	template<class Iter>
 	void random_shuffle(Iter begin, Iter end, uint_fast32_t seed = 0)
 	{
-		std::random_device rd;
-		std::mt19937 g(rd());
+		std::mt19937 g(seed);
 		if (seed)
 			g.seed(seed);
 		std::shuffle(begin, end, g);
