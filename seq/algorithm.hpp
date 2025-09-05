@@ -208,18 +208,35 @@ namespace seq
 			return it - d;
 		}
 
+
+		template<class Iter>
+		auto unwrap_iter(Iter it) noexcept
+		{
+			return it;
+		}
+		template<class Iter>
+		auto unwrap_iter(std::move_iterator<Iter> it) noexcept
+		{
+			return unwrap_iter(it.base());
+		}
+		template<class Iter>
+		auto unwrap_iter(std::reverse_iterator<Iter> it) noexcept
+		{
+			return unwrap_iter(it.base());
+		}
+
 		// compare iterators for equality without triggering compile error
 		template<class Iter1, class Iter2>
 		static SEQ_ALWAYS_INLINE bool iter_equal(Iter1 it1, Iter2 it2) noexcept
 		{
-			return false;
+			using type1 = decltype(unwrap_iter(it1));
+			using type2 = decltype(unwrap_iter(it2));
+			if constexpr (std::is_same_v<type1, type2>) 
+				return unwrap_iter(it1) == unwrap_iter(it2);
+			else
+				return false;
 		}
-		template<class Iter1>
-		static SEQ_ALWAYS_INLINE bool iter_equal(Iter1 it1, Iter1 it2) noexcept
-		{
-			return it1 == it2;
-		}
-
+		
 		// similar to std::distance with an overload for IterWrapper that supports subtracting 2 iterators
 		template<class Iter>
 		static SEQ_ALWAYS_INLINE auto iter_distance(Iter first, Iter last) noexcept

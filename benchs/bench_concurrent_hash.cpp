@@ -251,11 +251,7 @@ void concurrent_find(const std::vector<K>& keys, Set& s, std::atomic<bool>* star
 	for (size_t i = 0; i < keys.size(); ++i) {
 		if (find_map(s, keys[i]))
 			++(*count);
-		else {
-			//TEST
-			//bool stop = true;
-			//find_map(s, keys[i]);
-		}
+
 	}
 }
 
@@ -333,7 +329,7 @@ void test_concurrent_map(const std::vector<K>& _keys, Set& s, size_t numthreads 
 	for (size_t i = 0; i < numthreads; ++i) {
 		size_t start = i * chunk_size;
 		size_t end = i == numthreads-1 ? keys.size() : start + chunk_size;
-		threads[i] = new std::thread([&]() { concurrent_insert<K, Set>( keys, s, start, end, &start_compute); });
+		threads[i] = new std::thread([&,start,end]() { concurrent_insert<K, Set>( keys, s, start, end, &start_compute); });
 	}
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
@@ -393,7 +389,7 @@ void test_concurrent_map(const std::vector<K>& _keys, Set& s, size_t numthreads 
 	for (size_t i = 0; i < numthreads; ++i) {
 		auto k = keys_find;
 		seq::random_shuffle(k.begin(), k.end(),(unsigned) i);
-		threads[i] = new std::thread([&]() { concurrent_find_once<K, Set>(k, s, &start_compute, &counts[i]); });
+		threads[i] = new std::thread([&,k,i]() { concurrent_find_once<K, Set>(k, s, &start_compute, &counts[i]); });
 	}
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
@@ -412,7 +408,7 @@ void test_concurrent_map(const std::vector<K>& _keys, Set& s, size_t numthreads 
 	// parallel find failed
 	start_compute = false;
 	for (size_t i = 0; i < numthreads; ++i) {
-		threads[i] = new std::thread([&]() { concurrent_find_once<K, Set>(keys_not_found, s, &start_compute, &counts[i]); });
+		threads[i] = new std::thread([&,i]() { concurrent_find_once<K, Set>(keys_not_found, s, &start_compute, &counts[i]); });
 	}
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
@@ -435,7 +431,7 @@ void test_concurrent_map(const std::vector<K>& _keys, Set& s, size_t numthreads 
 	for (size_t i = 0; i < numthreads; ++i) {
 		size_t start = i * chunk_size;
 		size_t end = i == numthreads - 1 ? keys.size() : start + chunk_size;
-		threads[i] = new std::thread([&]() { concurrent_erase<K, Set>((keys), (s), start, end, &start_compute); });
+		threads[i] = new std::thread([&,start,end]() { concurrent_erase<K, Set>((keys), (s), start, end, &start_compute); });
 	}
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -544,11 +540,9 @@ template<class K, class Gen>
 void test_concurrent_hash_maps(size_t count, const Gen & gen)
 { 
 	test_concurrent_map<K, concurrent_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>>>>(count, "seq::concurrent_map", gen);
-	/*
-#ifdef SEQ_HAS_CPP_17
+
 	test_concurrent_map<K, gtl::parallel_flat_hash_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>>, 5, std::shared_mutex>>(
 	  count, "gtl::parallel_flat_hash_map", gen);
-#endif
 	
 #ifdef BOOST_CONCURRENT_MAP_FOUND
 	test_concurrent_map<K, boost::concurrent_flat_map<K, size_t, seq::hasher<K>, std::equal_to<K> > >(count, "boost::concurrent_flat_map", gen);
@@ -564,15 +558,15 @@ void test_concurrent_hash_maps(size_t count, const Gen & gen)
 #endif
 #endif
 
-	*/
 	
+
 }
 
 
 int bench_concurrent_hash(int, char** const)
 {
 	 {
-		size_t count = 20000000;
+		size_t count =20000000;
 		using K = size_t;
 		auto gen = [](size_t i) {return i; };
 		test_concurrent_hash_maps<K>(count, gen);
