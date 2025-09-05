@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -1067,7 +1067,6 @@ namespace seq
 			using StringChar = typename T::value_type;
 			static_assert(std::is_same<StreamChar, StringChar>::value, "read_string: cannot mix different char types");
 
-
 			// Read a line (std::string or seq::tiny_string) from input stream
 			str.reset();
 
@@ -1938,10 +1937,10 @@ namespace seq
 	/// Use seq::from_stream to extract numerical values and words, seq::read_line_from_stream to extract full lines.
 	///
 	template<class Char>
-	class buffer_input_stream : public basic_input_stream<Char, buffer_input_stream<Char> >
+	class buffer_input_stream : public basic_input_stream<Char, buffer_input_stream<Char>>
 	{
 	public:
-		using base_type = basic_input_stream<Char,buffer_input_stream<Char> >;
+		using base_type = basic_input_stream<Char, buffer_input_stream<Char>>;
 		using State = StreamState;
 		using streamsize = size_t;
 
@@ -2060,7 +2059,7 @@ namespace seq
 	class std_input_stream : public basic_input_stream<Char, std_input_stream<Char, buff_size>>
 	{
 	public:
-		using base_type = basic_input_stream<Char, std_input_stream<Char,buff_size>>;
+		using base_type = basic_input_stream<Char, std_input_stream<Char, buff_size>>;
 		using State = StreamState;
 		using streamsize = std::uint64_t;
 
@@ -2620,13 +2619,6 @@ namespace seq
 		return str;
 	}
 
-
-
-
-
-
-
-
 	/// @brief Read an integral value from the sequence of characters [first,last).
 	/// @param first first character of the sequence
 	/// @param last past-the-end character
@@ -2731,8 +2723,6 @@ namespace seq
 		return { str ? str.tell() : first, str.error() };
 	}
 
-
-	
 	/// @brief Read a floating point value from the sequence of characters [first,last).
 	/// @param first first character of the sequence
 	/// @param last past-the-end character
@@ -2841,8 +2831,6 @@ namespace seq
 		return { str ? str.tell() : first, str.error() };
 	}
 
-
-	
 	// integer to chars
 
 	/// @brief Converts value into a character string by successively filling the range [first, last), where [first, last) is required to be a valid range.
@@ -2926,9 +2914,6 @@ namespace seq
 		return detail::write_integral(detail::char_range<Char>(first, last), value, base, fmt);
 	}
 
-
-
-	
 	// floating-point to chars
 
 	/// @brief Converts value into a character string by successively filling the range [first, last), where [first, last) is required to be a valid range.
@@ -3028,11 +3013,9 @@ namespace seq
 	}
 
 	template<class Char>
-	auto to_chars(Char* first, Char* last, bool value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result <Char> = delete;
+	auto to_chars(Char* first, Char* last, bool value, int base = 10, const integral_chars_format& fmt = integral_chars_format()) -> to_chars_result<Char> = delete;
 
 } // end namespace seq
-
-
 
 /** @}*/
 // end charconv

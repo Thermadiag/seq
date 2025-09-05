@@ -8,10 +8,10 @@ All references and iterators are invalidated when inserting/removing keys.
 
 ## Interface
 
-``seq::flat_set`` provides a similar interface to std::set (C++17) with the following differences:
+``seq::flat_set`` provides a similar interface to std::set (C++17) and std::flat_set (C++20) with the following differences:
 -	The node related functions are not implemented,
 -	The member `flat_set::pos()` is used to access elements at a random location,
--	The members `flat_set::tvector()` returns a reference to the underlying seq::tiered_vector object,
+-	The members `flat_set::container()` returns a reference to the underlying seq::tiered_vector object,
 -	Its iterator and const_iterator types are random access iterators.
 
 The underlying tiered_vector object stores plain non const Key objects, and `seq::flat_map` iterators return objects of type `std::pair<Key,Value>`.
@@ -21,14 +21,8 @@ In addition to members returning (const_)iterator(s), the flat_set provides the 
 
 ## Direct access to tiered_vector
 
-Unlike most flat set implementations, it it possible to directly access and modify the underlying tiered_vector. 
-This possibility must be used with great care, as modifying directly the tiered_vector might break the key ordering. 
-When calling the non-const version of `flat_set::tvector()`, the flat_set will be marked as dirty, and further attempts to call functions like `flat_set::find()` of `flat_set::lower_bound()` (functions based on key ordering) will throw a `std::logic_error`.
-
-Therefore, after finishing modifying the tiered_vector, you must call `flat_set::sort()` to sort again the tiered_vector, remove potential duplicates, and mark the flat_set as non dirty anymore.
-
-This way of modifying a flat_set must be used carefully, but is way faster than multiple calls to `flat_set::insert()` or `flat_set::erase()`.
-
+Like `std::flat_set`, `seq::flat_set/map/multiset/multimap` provide the members `extract()` to retrieve (move) the underlying seq::tiered_vector object.
+The vector can be modified at will and then moved to the flat_set using `replace()` member. In this case, the vector must already be sorted and unique (unless multiset/multimap).
 
 ## Range insertion
 

@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -146,7 +146,7 @@ namespace seq
 			return v;
 		else {
 			static constexpr int last_id = 22;
-			static int id = detail::build_type_id<last_id+1>();
+			static int id = detail::build_type_id<last_id + 1>();
 			return id;
 		}
 	}
@@ -430,12 +430,11 @@ namespace seq
 		template<class T>
 		int compare_string(const tstring_view& a, const T& b)
 		{
-			if constexpr (is_generic_char_string<T>::value) 
+			if constexpr (is_generic_char_string<T>::value)
 				return a.compare(b);
-			else 
+			else
 				return -2; // invalid value
 		}
-
 
 		/// @brief Stream object to std::ostream or throw std::bad_function_call
 		template<class T>
@@ -494,13 +493,10 @@ namespace seq
 		SEQ_ALWAYS_INLINE typename std::enable_if<is_less_comparable<T>::value, bool>::type compare_less_any(const void* a, const void* b)
 		{
 #ifdef __clang__
-			_Pragma("clang diagnostic push") 
-			_Pragma("clang diagnostic ignored \"-Wordered-compare-function-pointers\"" )
+			_Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wordered-compare-function-pointers\"")
 #endif
-			if constexpr (is_function_pointer<T>::value)
-				return reinterpret_cast<const void*>(*static_cast<const T*>(a)) < reinterpret_cast<const void*>(*static_cast<const T*>(b));
-			else
-				return *static_cast<const T*>(a) < *static_cast<const T*>(b);
+			    if constexpr (is_function_pointer<T>::value) return reinterpret_cast<const void*>(*static_cast<const T*>(a)) < reinterpret_cast<const void*>(*static_cast<const T*>(b));
+			else return *static_cast<const T*>(a) < *static_cast<const T*>(b);
 #ifdef __clang__
 			_Pragma("clang diagnostic pop")
 #endif

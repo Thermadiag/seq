@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,6 @@ namespace seq
 		using Policy = detail::BuildValue<Key, true>;
 		using radix_tree_type = radix_detail::RadixTree<Key, radix_detail::RadixHasher<radix_key_type>, Extract, Allocator, radix_detail::LeafNode<Key>>;
 		radix_tree_type d_tree;
-
 
 	public:
 		/// @brief const iterator class
@@ -461,7 +460,7 @@ namespace seq
 	{
 	};
 	template<class L, class R>
-	struct is_pair<std::pair<L, R>>: std::true_type
+	struct is_pair<std::pair<L, R>> : std::true_type
 	{
 	};
 
@@ -491,10 +490,9 @@ namespace seq
 			{
 				return ExtractKey{}(p);
 			}
-			
 		};
 
-		using Policy = detail::BuildValue<std::pair<Key, T>, true >;
+		using Policy = detail::BuildValue<std::pair<Key, T>, true>;
 		using radix_tree_type = radix_detail::RadixTree<std::pair<Key, T>, radix_detail::RadixHasher<radix_key_type>, Extract, Allocator>;
 		radix_tree_type d_tree;
 

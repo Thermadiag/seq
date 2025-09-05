@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,21 +22,19 @@
  * SOFTWARE.
  */
 
-
 #include <seq/tiered_vector.hpp>
 #include <seq/devector.hpp>
 #include <seq/testing.hpp>
 #include <seq/format.hpp>
 
 #include <list>
-#include <deque> 
+#include <deque>
 #include <algorithm>
 #include <cstdio>
 #include <vector>
 #include <iostream>
 
 using namespace seq;
-
 
 template<class Deq1, class Deq2>
 void assert_equal(const Deq1& d1, const Deq2& d2)
@@ -53,8 +51,7 @@ void assert_equal(const Deq1& d1, const Deq2& d2)
 	auto it1 = d1.begin();
 	auto it2 = d2.begin();
 	int i = 0;
-	while (it1 != d1.end())
-	{
+	while (it1 != d1.end()) {
 		if (*it1 != *it2) {
 			throw std::runtime_error("");
 		}
@@ -64,23 +61,21 @@ void assert_equal(const Deq1& d1, const Deq2& d2)
 	}
 }
 
-
 /// @brief Compare performances of std::vector, std::deque, seq::tiered_vector for some stl algorithms
-template< class T>
+template<class T>
 void test_tiered_vector_algorithms(size_t count = 5000000)
 {
 	std::cout << std::endl;
 	std::cout << "Compare performances of std::vector, std::deque, seq::tiered_vector for some stl algorithms" << std::endl;
 	std::cout << std::endl;
 
-
 	typedef T type;
-	typedef tiered_vector<type, std::allocator<type> > deque_type;
+	typedef tiered_vector<type, std::allocator<type>> deque_type;
 
-	deque_type  tvec;
+	deque_type tvec;
 	std::deque<type> deq;
 	std::vector<type> vec;
-	srand(0);// time(NULL));
+	srand(0); // time(NULL));
 	for (size_t i = 0; i < count; ++i) {
 		T r = (T)rand();
 		deq.push_back(r);
@@ -89,11 +84,11 @@ void test_tiered_vector_algorithms(size_t count = 5000000)
 	}
 
 	std::cout << fmt(fmt("algorithm").l(20), "|", fmt("std::vector").c(20), "|", fmt("std::deque").c(20), "|", fmt("seq::tiered_vector").c(20), "|") << std::endl;
-	std::cout << fmt(rep('-',20), "|", rep('-',20), "|", rep('-', 20), "|", rep('-', 20), "|") << std::endl;
+	std::cout << fmt(rep('-', 20), "|", rep('-', 20), "|", rep('-', 20), "|", rep('-', 20), "|") << std::endl;
 
 	auto f = fmt(pos<0, 2, 4, 6>(), str().l(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|");
 
-	tick(); 
+	tick();
 	std::sort(vec.begin(), vec.end());
 	size_t vec_t = tock_ms();
 
@@ -127,8 +122,7 @@ void test_tiered_vector_algorithms(size_t count = 5000000)
 	std::cout << f("std::unique", vec_t, deq_t, tvec_t) << std::endl;
 
 	for (size_t i = 0; i < count; ++i)
-		tvec[i] = deq[i] = vec[i] =  rand();
-
+		tvec[i] = deq[i] = vec[i] = rand();
 
 	tick();
 	std::rotate(vec.begin(), vec.begin() + vec.size() / 2, vec.end());
@@ -144,8 +138,6 @@ void test_tiered_vector_algorithms(size_t count = 5000000)
 
 	assert_equal(deq, tvec);
 	std::cout << f("std::rotate", vec_t, deq_t, tvec_t) << std::endl;
-	
-
 
 	tick();
 	std::reverse(vec.begin(), vec.end());
@@ -163,7 +155,7 @@ void test_tiered_vector_algorithms(size_t count = 5000000)
 	std::cout << f("std::reverse", vec_t, deq_t, tvec_t) << std::endl;
 
 	for (size_t i = 0; i < count; ++i)
-		tvec[i] = deq[i] = vec[i] =  rand();
+		tvec[i] = deq[i] = vec[i] = rand();
 
 	tick();
 	std::partial_sort(vec.begin(), vec.begin() + vec.size() / 2, vec.end());
@@ -197,11 +189,9 @@ void test_tiered_vector_algorithms(size_t count = 5000000)
 
 	assert_equal(deq, tvec);
 	std::cout << f("std::nth_element", vec_t, deq_t, tvec_t) << std::endl;
-	
 }
 
-
-//#include "segmented_tree/include/boost/segmented_tree/seq.hpp"
+// #include "segmented_tree/include/boost/segmented_tree/seq.hpp"
 
 /// @brief Compare performances of std::vector, std::deque, seq::tiered_vector and seq::devector
 /// A value of 1000000000 means that the container has not been tested against a particular operation because too slow (for instance pop front on a std::vector).
@@ -212,22 +202,19 @@ void test_tiered_vector(size_t count = 10000000)
 	std::cout << "Compare performances of std::vector, std::deque, seq::tiered_vector, seq::devector and seq::cvector" << std::endl;
 	std::cout << std::endl;
 
-
 	std::cout << fmt(fmt("method").l(30), "|", fmt("std::vector").c(20), "|", fmt("std::deque").c(20), "|", fmt("seq::tiered_vector").c(20), "|", fmt("seq::devector").c(20), "|") << std::endl;
-	std::cout << fmt(rep('-',30), "|", rep('-',20), "|", rep('-', 20), "|", rep('-', 20), "|", rep('-', 20), "|", rep('-', 20), "|") << std::endl;
+	std::cout << fmt(rep('-', 30), "|", rep('-', 20), "|", rep('-', 20), "|", rep('-', 20), "|", rep('-', 20), "|", rep('-', 20), "|") << std::endl;
 
-	auto f = fmt( _str().l(30), "|", _fmt(_u(), " ms").c(20), "|", _fmt(_u(), " ms").c(20), "|", _fmt(_u(), " ms").c(20), "|", _fmt(_u(), " ms").c(20), "|");
-
+	auto f = fmt(_str().l(30), "|", _fmt(_u(), " ms").c(20), "|", _fmt(_u(), " ms").c(20), "|", _fmt(_u(), " ms").c(20), "|", _fmt(_u(), " ms").c(20), "|");
 
 	{
 		typedef T type;
 		std::vector<type> vec;
-		std::deque<type > deq;
+		std::deque<type> deq;
 		seq::devector<type> devec;
 
-		using deque_type =  tiered_vector<type, std::allocator<T> > ;
+		using deque_type = tiered_vector<type, std::allocator<T>>;
 		deque_type tvec;
-
 
 		size_t vec_t, deq_t, tvec_t, devec_t, cvec_t;
 
@@ -251,18 +238,15 @@ void test_tiered_vector(size_t count = 10000000)
 			tvec.push_back(i);
 		tvec_t = tock_ms();
 
-
 		assert_equal(deq, tvec);
 		assert_equal(deq, devec);
 		std::cout << f("push_back", vec_t, deq_t, tvec_t, devec_t) << std::endl;
-
-		
 
 		deq = std::deque<type>{};
 		vec = std::vector<type>{};
 		tvec = deque_type{};
 		devec = devector<type>{};
-		
+
 		tick();
 		for (size_t i = 0; i < count; ++i)
 			deq.push_front(i);
@@ -284,66 +268,69 @@ void test_tiered_vector(size_t count = 10000000)
 		assert_equal(deq, devec);
 		std::cout << f("push_front", 1000000000, deq_t, tvec_t, devec_t) << std::endl;
 
-
 		deq = std::deque<type>{};
 		vec = std::vector<type>{};
 		tvec = deque_type{};
 		devec = devector<type>{};
-		
-		for (size_t i = 0; i < count; ++i)
-		{
+
+		for (size_t i = 0; i < count; ++i) {
 			deq.push_back(i);
 			vec.push_back(i);
 			devec.push_back(i);
 			tvec.push_back(i);
-			
 		}
 
-		size_t sum = 0, sum2=0, sum3=0;
+		size_t sum = 0, sum2 = 0, sum3 = 0;
 		tick();
 		for (size_t i = 0; i < count; ++i)
 			sum += deq[i];
-		deq_t = tock_ms(); print_null(sum);
+		deq_t = tock_ms();
+		print_null(sum);
 
 		tick();
 		sum = 0;
 		for (size_t i = 0; i < count; ++i)
 			sum += vec[i];
-		vec_t = tock_ms(); print_null(sum);
+		vec_t = tock_ms();
+		print_null(sum);
 
 		tick();
 		sum = 0;
 		for (size_t i = 0; i < count; ++i)
 			sum += devec[i];
-		devec_t = tock_ms(); print_null(sum);
+		devec_t = tock_ms();
+		print_null(sum);
 
 		tick();
 		sum2 = 0;
 		for (size_t i = 0; i < count; ++i)
 			sum2 += tvec[i];
-		tvec_t = tock_ms(); print_null(sum2);
+		tvec_t = tock_ms();
+		print_null(sum2);
 
 		SEQ_TEST(sum == sum2);
 		std::cout << f("iterate operator[]", vec_t, deq_t, tvec_t, devec_t) << std::endl;
-
 
 		sum = 0;
 		tick();
 		for (typename std::deque<type>::iterator it = deq.begin(); it != deq.end(); ++it)
 			sum += *it;
-		deq_t = tock_ms(); print_null(sum);
+		deq_t = tock_ms();
+		print_null(sum);
 
 		tick();
 		sum = 0;
 		for (auto it = vec.begin(); it != vec.end(); ++it)
 			sum += *it;
-		vec_t = tock_ms(); print_null(sum);
+		vec_t = tock_ms();
+		print_null(sum);
 
 		tick();
 		sum = 0;
 		for (auto it = devec.begin(); it != devec.end(); ++it)
 			sum += *it;
-		devec_t = tock_ms(); print_null(sum);
+		devec_t = tock_ms();
+		print_null(sum);
 
 		tick();
 		sum2 = 0;
@@ -351,16 +338,15 @@ void test_tiered_vector(size_t count = 10000000)
 		for (auto it = tvec.cbegin(); it != end; ++it) {
 			sum2 += *it;
 		}
-		tvec_t = tock_ms(); print_null(sum2);
+		tvec_t = tock_ms();
+		print_null(sum2);
 
 		SEQ_TEST(sum == sum2);
 		std::cout << f("iterate iterators", vec_t, deq_t, tvec_t, devec_t) << std::endl;
 
-
-
 		tick();
 		deq.resize(deq.size() / 10);
-		deq_t = tock_ms(); 
+		deq_t = tock_ms();
 
 		tick();
 		vec.resize(vec.size() / 10);
@@ -372,12 +358,11 @@ void test_tiered_vector(size_t count = 10000000)
 
 		tick();
 		tvec.resize(tvec.size() / 10);
-		tvec_t = tock_ms(); 
+		tvec_t = tock_ms();
 
 		assert_equal(deq, tvec);
 		assert_equal(deq, devec);
 		std::cout << f("resize to lower", vec_t, deq_t, tvec_t, devec_t) << std::endl;
-
 
 		tick();
 		deq.resize(count, 0);
@@ -422,7 +407,7 @@ void test_tiered_vector(size_t count = 10000000)
 		}
 
 		assert_equal(deq, tvec);
-		
+
 		{
 			std::vector<type> tmp = vec;
 
@@ -446,16 +431,15 @@ void test_tiered_vector(size_t count = 10000000)
 			assert_equal(deq, devec);
 			std::cout << f("insert range left side", vec_t, deq_t, tvec_t, devec_t) << std::endl;
 
-			
 			deq.resize(count);
 			tvec.resize(count);
 			vec.resize(count);
 			devec.resize(count);
-			
+
 			assert_equal(deq, tvec);
 			assert_equal(deq, devec);
-			
-			//TODO
+
+			// TODO
 
 			tick();
 			deq.insert(deq.begin() + (deq.size() * 3) / 5, tmp.begin(), tmp.end());
@@ -483,15 +467,13 @@ void test_tiered_vector(size_t count = 10000000)
 			devec.resize(count);
 		}
 
-
-
 		{
 			for (size_t i = 0; i < deq.size(); ++i) {
-				deq[i] = vec[i] = tvec[i] = devec[i] =i;
+				deq[i] = vec[i] = tvec[i] = devec[i] = i;
 			}
 			assert_equal(deq, tvec);
 			assert_equal(deq, devec);
-			
+
 			tick();
 			deq.erase(deq.begin() + deq.size() / 4, deq.begin() + deq.size() / 2);
 			deq_t = tock_ms();
@@ -516,7 +498,6 @@ void test_tiered_vector(size_t count = 10000000)
 			vec.resize(count, 0);
 			tvec.resize(count, 0);
 			devec.resize(count, 0);
-			
 
 			tick();
 			deq.erase(deq.begin() + deq.size() / 2, deq.begin() + deq.size() * 3 / 4);
@@ -541,13 +522,14 @@ void test_tiered_vector(size_t count = 10000000)
 
 		{
 			std::vector<type> tmp(count);
-			for (size_t i = 0; i < tmp.size(); ++i) tmp[i] = i;
+			for (size_t i = 0; i < tmp.size(); ++i)
+				tmp[i] = i;
 
 			deq.resize(count / 2, 0);
 			vec.resize(count / 2, 0);
 			tvec.resize(count / 2, 0);
 			devec.resize(count / 2, 0);
-			
+
 			tick();
 			deq.assign(tmp.begin(), tmp.end());
 			deq_t = tock_ms();
@@ -572,7 +554,7 @@ void test_tiered_vector(size_t count = 10000000)
 			vec.resize(count * 2, 0);
 			tvec.resize(count * 2, 0);
 			devec.resize(count * 2, 0);
-			
+
 			tick();
 			deq.assign(tmp.begin(), tmp.end());
 			deq_t = tock_ms();
@@ -602,7 +584,7 @@ void test_tiered_vector(size_t count = 10000000)
 			vec.resize(lst.size() / 2, 0);
 			tvec.resize(lst.size() / 2, 0);
 			devec.resize(lst.size() / 2, 0);
-			
+
 			tick();
 			deq.assign(lst.begin(), lst.end());
 			deq_t = tock_ms();
@@ -627,7 +609,7 @@ void test_tiered_vector(size_t count = 10000000)
 			vec.resize(lst.size() * 2, 0);
 			tvec.resize(lst.size() * 2, 0);
 			devec.resize(lst.size() * 2, 0);
-			
+
 			tick();
 			deq.assign(lst.begin(), lst.end());
 			deq_t = tock_ms();
@@ -649,22 +631,20 @@ void test_tiered_vector(size_t count = 10000000)
 			std::cout << f("assign shrink forward iterator", vec_t, deq_t, tvec_t, devec_t) << std::endl;
 		}
 
-
 		deq.resize(count, 0);
 		vec.resize(count, 0);
 		tvec.resize(count, 0);
 		devec.resize(count, 0);
 		assert_equal(deq, tvec);
 		assert_equal(deq, devec);
-		
-		//fill again, backward
+
+		// fill again, backward
 		for (size_t i = 0; i < deq.size(); ++i) {
 			deq[i] = deq.size() - i - 1;
 			vec[i] = vec.size() - i - 1;
 			tvec[i] = tvec.size() - i - 1;
 			devec[i] = tvec.size() - i - 1;
 		}
-
 
 		tick();
 		while (deq.size() > 25)
@@ -690,16 +670,14 @@ void test_tiered_vector(size_t count = 10000000)
 		assert_equal(deq, devec);
 		std::cout << f("pop_back", vec_t, deq_t, tvec_t, devec_t) << std::endl;
 
-
-
 		deq.resize(count, 0);
 		tvec.resize(count, 0);
 		vec.resize(count, 0);
 		devec.resize(count, 0);
 		assert_equal(deq, tvec);
 		assert_equal(deq, devec);
-		
-		//fill again, backward
+
+		// fill again, backward
 		for (size_t i = 0; i < deq.size(); ++i) {
 			deq[i] = deq.size() - i - 1;
 			vec[i] = vec.size() - i - 1;
@@ -707,12 +685,11 @@ void test_tiered_vector(size_t count = 10000000)
 			devec[i] = tvec.size() - i - 1;
 		}
 
-
 		assert_equal(deq, tvec);
 		assert_equal(deq, devec);
-		
+
 		tick();
-		while (deq.size() > count/2) {
+		while (deq.size() > count / 2) {
 			deq.pop_front();
 		}
 		deq_t = tock_ms();
@@ -730,10 +707,7 @@ void test_tiered_vector(size_t count = 10000000)
 
 		assert_equal(deq, tvec);
 		assert_equal(deq, devec);
-		std::cout << f("pop_front", 1000000000ULL, deq_t, tvec_t,devec_t) << std::endl;
-
-
-
+		std::cout << f("pop_front", 1000000000ULL, deq_t, tvec_t, devec_t) << std::endl;
 
 		size_t insert_count = std::max((size_t)50, count / 100);
 		std::vector<size_t> in_pos;
@@ -741,7 +715,6 @@ void test_tiered_vector(size_t count = 10000000)
 		srand(0);
 		for (size_t i = 0; i < insert_count; ++i)
 			in_pos.push_back((size_t)rand() % ss++);
-
 
 		tick();
 		for (size_t i = 0; i < insert_count; ++i) {
@@ -765,27 +738,23 @@ void test_tiered_vector(size_t count = 10000000)
 		assert_equal(deq, devec);
 		std::cout << f("insert random position", 1000000000ULL, deq_t, tvec_t, devec_t) << std::endl;
 
-
-
-
 		deq.resize(count, 0);
 		tvec.resize(count, 0);
 		devec.resize(count, 0);
-		
-		//fill again, backward
+
+		// fill again, backward
 		for (size_t i = 0; i < deq.size(); ++i) {
 			deq[i] = deq.size() - i - 1;
 			tvec[i] = tvec.size() - i - 1;
 			devec[i] = tvec.size() - i - 1;
 		}
 
-		size_t erase_count = deq.size() / 20;//std::min((size_t)5000000, deq.size());
+		size_t erase_count = deq.size() / 20; // std::min((size_t)5000000, deq.size());
 		std::vector<size_t> er_pos;
 		size_t sss = count;
 		srand(0);
 		for (size_t i = 0; i < erase_count; ++i)
 			er_pos.push_back((size_t)rand() % sss--);
-
 
 		tick();
 		for (size_t i = 0; i < erase_count; ++i) {
@@ -809,11 +778,7 @@ void test_tiered_vector(size_t count = 10000000)
 		assert_equal(deq, devec);
 		std::cout << f("erase random position", 1000000000ULL, deq_t, tvec_t, devec_t) << std::endl;
 	}
-
-
 }
-
-
 
 int bench_tiered_vector(int, char** const)
 {
@@ -821,11 +786,7 @@ int bench_tiered_vector(int, char** const)
 	size_t e = tock_ms();
 	std::cout << e << std::endl;
 	test_tiered_vector_algorithms<size_t>(5000000);
-	test_tiered_vector<size_t>(10000000); 
-	 
+	test_tiered_vector<size_t>(10000000);
+
 	return 0;
 }
-
-
-
-

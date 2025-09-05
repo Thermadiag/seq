@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -54,11 +54,22 @@ See the documentation of each class for more details.
  *  @{
  */
 
-
 #define SEQ_INLINE_BINARY_SEARCH SEQ_ALWAYS_INLINE
 
 namespace seq
 {
+	/// @brief Equivalent to C++23 std::sorted_unique_t
+	struct sorted_unique_t
+	{
+	};
+	inline constexpr sorted_unique_t sorted_unique{};
+
+	/// @brief Equivalent to C++23 std::sorted_equivalent_t
+	struct sorted_equivalent_t
+	{
+	};
+	inline constexpr sorted_equivalent_t sorted_equivalent{};
+
 	namespace detail
 	{
 		// Tells if type is a string class
@@ -91,7 +102,7 @@ namespace seq
 				return 0;
 		}
 
-		template<class Key, class Less, bool IsComparable = (is_string_class<Key>::value && is_std_less<Less>::value) >
+		template<class Key, class Less, bool IsComparable = (is_string_class<Key>::value && is_std_less<Less>::value)>
 		struct BaseComparable
 		{
 		};
@@ -105,7 +116,7 @@ namespace seq
 		template<class Key, class Less, class Extract>
 		struct LessAdapter
 		  : public Less
-		  , public BaseComparable<Key,Less> // inherit the comparable typedef
+		  , public BaseComparable<Key, Less> // inherit the comparable typedef
 		{
 			LessAdapter() {}
 			LessAdapter(const Less& l)
@@ -119,7 +130,7 @@ namespace seq
 
 			void swap(LessAdapter& o) noexcept { std::swap(*this, o); }
 
-			template<class L, class R> 
+			template<class L, class R>
 			SEQ_ALWAYS_INLINE bool operator()(const L& l, const R& r) const noexcept(noexcept(Less{}(Extract::key(l), Extract::key(r))))
 			{
 				return Less::operator()(Extract::key(l), Extract::key(r));
@@ -168,7 +179,6 @@ namespace seq
 			}
 		};
 
-
 		template<bool Stable, class Deque, class Less>
 		size_t sort_deque(Deque& d, size_t begin, Less le)
 		{
@@ -180,7 +190,7 @@ namespace seq
 				using T = typename Deque::value_type;
 				static constexpr bool nothrow = std::is_nothrow_move_constructible<T>::value && std::is_nothrow_move_assignable<T>::value;
 
-				if  (!nothrow) {
+				if (!nothrow) {
 					net_sort(d.begin() + begin, d.end(), le);
 					return begin;
 				}
@@ -199,7 +209,7 @@ namespace seq
 				using T = typename Deque::value_type;
 				static constexpr bool nothrow = std::is_nothrow_move_constructible<T>::value && std::is_nothrow_move_assignable<T>::value;
 
-				if  (!nothrow) {
+				if (!nothrow) {
 					net_sort(d.begin(), d.end(), le);
 				}
 				else {
@@ -231,7 +241,7 @@ namespace seq
 			if SEQ_UNLIKELY (b_index == buckets.size())
 				return { d.size(), false };
 
-			//TEST
+			// TEST
 			/* {
 				// find inside bucket
 				const auto* bucket = buckets[b_index].bucket;
@@ -262,7 +272,7 @@ namespace seq
 				return { r, _low.second };
 			}
 			*/
-			
+
 			// find inside bucket
 			const auto* bucket = buckets[b_index].bucket;
 
@@ -273,18 +283,18 @@ namespace seq
 			const T* begin_ptr = bucket->begin_ptr();
 
 			const bool low_half = begin_ptr != bucket->buffer() &&			    // begin is not 0
-						    (bucket->begin + bucket->size) > bucket->max_size_ && // begin + size overflow
-						    le(*(bucket->buffer() + bucket->max_size1), value);   // value to took for is not in the upper half (between begin and buffer end)
+					      (bucket->begin + bucket->size) > bucket->max_size_ && // begin + size overflow
+					      le(*(bucket->buffer() + bucket->max_size1), value);   // value to took for is not in the upper half (between begin and buffer end)
 
 			const T* ptr = low_half ? bucket->buffer() : begin_ptr;
 			const pos_type partition_size =
-				low_half ? ((bucket->begin + bucket->size) & bucket->max_size1) : (std::min(bucket->size, static_cast<detail::cbuffer_pos>(bucket->max_size_ - bucket->begin)));
+			  low_half ? ((bucket->begin + bucket->size) & bucket->max_size1) : (std::min(bucket->size, static_cast<detail::cbuffer_pos>(bucket->max_size_ - bucket->begin)));
 
 			auto _low = lower_bound<Multi, KeyType>(ptr, partition_size, value, le);
 
 			_low.first = ptr == begin_ptr ? _low.first : _low.first + (bucket->max_size_ - bucket->begin);
-			size_t r = static_cast<size_t>(_low.first) +
-					(b_index != 0 ? static_cast<size_t>(buckets[0]->size) + static_cast<size_t>(b_index - 1) * static_cast<size_t>(bucket->max_size_) : 0);
+			size_t r =
+			  static_cast<size_t>(_low.first) + (b_index != 0 ? static_cast<size_t>(buckets[0]->size) + static_cast<size_t>(b_index - 1) * static_cast<size_t>(bucket->max_size_) : 0);
 			return { r, _low.second };
 		}
 
@@ -411,7 +421,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto base() const noexcept -> const base_type& { return (*this); }
 
 		public:
-			using deque_type = tiered_vector<Value, Allocator, SEQ_MIN_BUCKET_SIZE(Value), SEQ_MAX_BUCKET_SIZE, FindBucketSize<Value>, true, ExtractKey<Key, Value>>;
+			using container_type = tiered_vector<Value, Allocator, SEQ_MIN_BUCKET_SIZE(Value), SEQ_MAX_BUCKET_SIZE, FindBucketSize<Value>, true, ExtractKey<Key, Value>>;
 			using key_type = Key;
 			using value_type = Value;
 			using difference_type = typename std::allocator_traits<Allocator>::difference_type;
@@ -423,22 +433,13 @@ namespace seq
 			using const_reference = const Value&;
 			using pointer = typename std::allocator_traits<Allocator>::pointer;
 			using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
-			using iterator = typename deque_type::iterator;
-			using const_iterator = typename deque_type::const_iterator;
-			using reverse_iterator = typename deque_type::reverse_iterator;
-			using const_reverse_iterator = typename deque_type::const_reverse_iterator;
+			using iterator = typename container_type::iterator;
+			using const_iterator = typename container_type::const_iterator;
+			using reverse_iterator = typename container_type::reverse_iterator;
+			using const_reverse_iterator = typename container_type::const_reverse_iterator;
 
 			// tiered_vector object
-			deque_type d_deque;
-			// check if dirty (in case of calls to flat_tree::tvector())
-			bool d_dirty = false;
-
-			SEQ_ALWAYS_INLINE void mark_dirty() noexcept { d_dirty = true; }
-			SEQ_ALWAYS_INLINE void check_dirty() const
-			{
-				if SEQ_UNLIKELY (d_dirty)
-					throw std::logic_error("flat_tree is dirty");
-			}
+			container_type d_deque;
 
 			template<class Iter, class Cat>
 			void assign_cat(Iter first, Iter last, Cat /*unused*/)
@@ -576,25 +577,21 @@ namespace seq
 			flat_tree(const flat_tree& other)
 			  : base_type(other)
 			  , d_deque(other.d_deque)
-			  , d_dirty(other.d_dirty)
 			{
 			}
 			flat_tree(const flat_tree& other, const Allocator& alloc)
 			  : base_type(other)
 			  , d_deque(other.d_deque, alloc)
-			  , d_dirty(other.d_dirty)
 			{
 			}
-			flat_tree(flat_tree&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value && std::is_nothrow_move_constructible<deque_type>::value)
+			flat_tree(flat_tree&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value && std::is_nothrow_move_constructible<container_type>::value)
 			  : base_type(std::move(other))
 			  , d_deque(std::move(other.d_deque))
-			  , d_dirty(other.d_dirty)
 			{
 			}
 			flat_tree(flat_tree&& other, const Allocator& alloc)
 			  : base_type(std::move(other))
 			  , d_deque(std::move(other.d_deque), alloc)
-			  , d_dirty(other.d_dirty)
 			{
 			}
 			flat_tree(std::initializer_list<value_type> init, const Compare& comp = Compare(), const Allocator& alloc = Allocator())
@@ -606,11 +603,10 @@ namespace seq
 			{
 			}
 
-			auto operator=(flat_tree&& other) noexcept(std::is_nothrow_move_assignable<base_type>::value && std::is_nothrow_move_assignable<deque_type>::value) -> flat_tree&
+			auto operator=(flat_tree&& other) noexcept(std::is_nothrow_move_assignable<base_type>::value && std::is_nothrow_move_assignable<container_type>::value) -> flat_tree&
 			{
 				if (this != std::addressof(other)) {
 					d_deque = std::move(other.d_deque);
-					d_dirty = other.d_dirty;
 					base() = std::move(other.base());
 				}
 				return *this;
@@ -619,7 +615,6 @@ namespace seq
 			{
 				if (this != std::addressof(other)) {
 					d_deque = (other.d_deque);
-					d_dirty = other.d_dirty;
 					base() = other.base();
 				}
 				return *this;
@@ -637,21 +632,26 @@ namespace seq
 			auto size() const noexcept -> size_type { return d_deque.size(); }
 			auto max_size() const noexcept -> size_type { return d_deque.max_size(); }
 			void clear() noexcept { d_deque.clear(); }
-			auto tvector() noexcept -> deque_type&
-			{
-				mark_dirty();
-				return d_deque;
-			}
-			auto tvector() const noexcept -> const deque_type& { return d_deque; }
-			auto ctvector() const noexcept -> const deque_type& { return d_deque; }
 
-			void swap(flat_tree& other) noexcept(noexcept(std::declval<deque_type&>().swap(std::declval<deque_type&>())) &&
+			auto container() const noexcept -> const container_type& { return d_deque; }
+
+			auto extract() noexcept -> container_type
+			{
+				auto d = std::move(d_deque);
+				return d;
+			}
+			void replace(container_type&& c) noexcept
+			{
+				SEQ_ASSERT_DEBUG(std::is_sorted(c.begin(), c.end(), base()), "");
+				d_deque = std::move(c);
+			}
+
+			void swap(flat_tree& other) noexcept(noexcept(std::declval<container_type&>().swap(std::declval<container_type&>())) &&
 							     noexcept(std::declval<base_type&>().swap(std::declval<base_type&>())))
 			{
 				if (this != std::addressof(other)) {
 					d_deque.swap(other.d_deque);
 					base().swap(other.base());
-					std::swap(d_dirty, other.d_dirty);
 				}
 			}
 
@@ -668,8 +668,6 @@ namespace seq
 			template<class Policy, class K, class... Args>
 			auto emplace_pos(Policy p, K&& key, Args&&... args) -> std::pair<size_t, bool>
 			{
-
-				check_dirty();
 				if constexpr (!Unique)
 					return emplace_pos_multi(p, std::forward<K>(key), std::forward<Args>(args)...);
 
@@ -703,7 +701,6 @@ namespace seq
 			template<class Policy, class K, class... Args>
 			auto emplace_pos_hint(const_iterator hint, Policy p, K&& key, Args&&... args) -> std::pair<size_t, bool>
 			{
-				check_dirty();
 				if constexpr (!Unique) {
 					if (hint != end() && (*this)(key, *hint)) {
 						auto h = hint;
@@ -736,8 +733,8 @@ namespace seq
 				return emplace_pos_hint(hint, TryFlatEmplacePolicy{}, std::forward<K>(key), std::forward<Args>(args)...);
 			}
 
-			template<class InputIt>
-			void insert(InputIt first, InputIt last)
+			template<class InputIt, class Tag>
+			void insert(InputIt first, InputIt last, Tag)
 			{
 				if (first == last)
 					return;
@@ -764,8 +761,10 @@ namespace seq
 						++dit;
 					}
 				}
-				// Sort new values
-				size_before = sort_deque<Stable>(d_deque, size_before, base());
+
+				if constexpr (!std::is_same_v<Tag, sorted_unique_t> && !std::is_same_v<Tag, sorted_equivalent_t>)
+					// Sort new values
+					size_before = sort_deque<Stable>(d_deque, size_before, base());
 
 				// Merge
 				std::inplace_merge(d_deque.begin(), d_deque.begin() + static_cast<difference_type>(size_before), d_deque.end(), base());
@@ -776,11 +775,14 @@ namespace seq
 					d_deque.erase(it.absolutePos(), d_deque.size());
 				}
 				d_deque.manager()->update_all_back_values();
-
-				// insert range of value will undirty the tiered_vector
-				d_dirty = false;
 			}
-			void insert(std::initializer_list<value_type> ilist) { insert(ilist.begin(), ilist.end()); }
+
+			template<class InputIt, class Tag>
+			void insert(std::initializer_list<value_type> ilist, Tag t)
+			{
+				insert(ilist.begin(), ilist.end(), t);
+			}
+
 			template<class Iter>
 			void assign(Iter first, Iter last)
 			{
@@ -789,8 +791,6 @@ namespace seq
 					return;
 				}
 				assign_cat(first, last, typename std::iterator_traits<Iter>::iterator_category());
-				// insert range of value will undirty the tiered_vector
-				d_dirty = false;
 			}
 			void erase_pos(size_type pos) { d_deque.erase(pos); }
 			auto erase(const_iterator pos) -> iterator { return d_deque.erase(pos); }
@@ -800,7 +800,6 @@ namespace seq
 			template<class K>
 			auto erase(const K& key) -> size_type
 			{
-				check_dirty();
 				if constexpr (Unique) {
 					size_t pos = tvector_binary_search<!Unique>(d_deque, key, base());
 					if (pos == d_deque.size())
@@ -820,19 +819,16 @@ namespace seq
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto find(const K& x) -> iterator
 			{
-				check_dirty();
 				return d_deque.iterator_at(tvector_binary_search<!Unique>(d_deque, x, base()));
 			}
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto find(const K& x) const -> const_iterator
 			{
-				check_dirty();
 				return d_deque.iterator_at(tvector_binary_search<!Unique>(d_deque, x, base()));
 			}
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto find_pos(const K& x) const -> size_t
 			{
-				check_dirty();
 				return tvector_binary_search<!Unique>(d_deque, x, base());
 			}
 			SEQ_ALWAYS_INLINE auto pos(size_t i) const noexcept -> const Value& { return d_deque[i]; }
@@ -840,49 +836,41 @@ namespace seq
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto lower_bound(const K& x) -> iterator
 			{
-				check_dirty();
 				return d_deque.iterator_at(tvector_lower_bound<!Unique>(d_deque, x, base()).first);
 			}
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto lower_bound(const K& x) const -> const_iterator
 			{
-				check_dirty();
 				return d_deque.iterator_at(tvector_lower_bound<!Unique>(d_deque, x, base()).first);
 			}
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto lower_bound_pos(const K& x) const -> size_t
 			{
-				check_dirty();
 				return tvector_lower_bound<!Unique>(d_deque, x, base()).first;
 			}
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto upper_bound(const K& x) -> iterator
 			{
-				check_dirty();
 				return d_deque.iterator_at(tvector_upper_bound(d_deque, x, base()));
 			}
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto upper_bound(const K& x) const -> const_iterator
 			{
-				check_dirty();
 				return d_deque.iterator_at(tvector_upper_bound(d_deque, x, base()));
 			}
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto upper_bound_pos(const K& x) const -> size_t
 			{
-				check_dirty();
 				return tvector_upper_bound(d_deque, x, base());
 			}
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto contains(const K& x) const -> bool
 			{
-				check_dirty();
 				return tvector_binary_search<!Unique>(d_deque, x, base()) != size();
 			}
 			template<class K>
 			SEQ_INLINE_BINARY_SEARCH auto count(const K& x) const -> size_type
 			{
-				check_dirty();
 				if constexpr (Unique) {
 					size_t pos = tvector_binary_search<!Unique>(d_deque, x, base());
 					return (pos == d_deque.size() ? 0 : 1);
@@ -929,10 +917,9 @@ namespace seq
 			template<class C2, bool Unique2>
 			void merge(flat_tree<Key, Key, C2, Allocator, Unique2>& source)
 			{
-				check_dirty();
 				if (Unique) {
-					deque_type out;
-					typename flat_tree<Key, Key, C2, Allocator, Unique2>::deque_type rem;
+					container_type out;
+					typename flat_tree<Key, Key, C2, Allocator, Unique2>::container_type rem;
 					detail::unique_merge_move(out, begin(), end(), source.begin(), source.end(), base(), &rem);
 					d_deque = std::move(out);
 					source.d_deque = std::move(rem);
@@ -964,45 +951,6 @@ namespace seq
 
 			auto key_comp() const -> key_compare { return static_cast<const key_compare&>(base()); }
 			auto value_comp() const -> value_compare { return base(); }
-
-			void sort()
-			{
-				// Sort again the tiered_vector, but only if:
-				//	- the flat_tree is dirty (and potentially unsorted),
-				//  - and the tiered_vector is not already sorted.
-
-				if (d_deque.empty() || !d_dirty)
-					return;
-
-				iterator it = d_deque.begin();
-				iterator en = d_deque.end();
-				bool sorted = true;
-				bool unique = true;
-
-				// Check for sorted and uniqueness
-				iterator prev = it++;
-				while (it != en && sorted) {
-					if ((*this)(*it, *prev))
-						sorted = false;
-					else if (Unique && !(*this)(*prev, *it))
-						unique = false;
-					++it;
-				}
-
-				// Sort if necessary, remove non unique values if necessary
-
-				if (!sorted)
-					sort_full_deque<Stable>(d_deque, base());
-				if constexpr (Unique)
-					if ((!sorted || !unique)) {
-						iterator l =
-						  std::unique(d_deque.begin(), d_deque.end(), [this](const auto& l, const auto& r) { return !this->base()(extract_key::key(l), extract_key::key(r)); });
-						d_deque.erase(l, d_deque.end());
-					}
-				d_deque.manager()->update_all_back_values();
-
-				d_dirty = false;
-			}
 		};
 
 	} // end namespace detail
@@ -1029,7 +977,7 @@ namespace seq
 	/// seq::flat_set provides a similar interface to std::set (C++17) with the following differences:
 	///		-	The node related functions are not implemented,
 	///		-	The member flat_set::pos() is used to access to a random location,
-	///		-	The members flat_set::tvector() returns a reference to the underlying seq::tiered_vector object,
+	///		-	The members flat_set::container() returns a reference to the underlying seq::tiered_vector object,
 	///		-	Its iterator and const_iterator types are random access iterators.
 	///
 	/// The underlying tiered_vector object stores plain non const Key objects. However, in order to avoid modifying the keys
@@ -1038,20 +986,6 @@ namespace seq
 	///
 	/// In addition to members returning (const_)iterator(s), the flat_set provides the same members ending with the '_pos' prefix
 	/// and returning positions within the tiered_vector instead of iterators. These functions are slightly faster than the iterator based members.
-	///
-	///
-	/// Direct access to tiered_vector
-	/// ------------------------------
-	///
-	/// Unlike most flat set implementations, it it possible to directly access and modify the underlying tiered_vector.
-	/// This possibility must be used with great care, as modifying directly the tiered_vector might break the key ordering.
-	/// When calling the non-const version of flat_set::tvector(), the flat_set will be marked as dirty, and further attempts
-	/// to call functions like flat_set::find() of flat_set::lower_bound() (functions based on key ordering) will throw a std::logic_error.
-	///
-	/// Therefore, after finishing modifying the tiered_vector, you must call flat_set::sort() to sort again the tiered_vector, remove potential duplicates,
-	/// and mark the flat_set as non dirty anymore.
-	///
-	/// This way of modifying a flat_set must be used carefully, but is way faster than multiple calls to flat_set::insert() or flat_set::erase().
 	///
 	///
 	/// Range insertion
@@ -1134,17 +1068,18 @@ namespace seq
 		using Policy = detail::BuildValue<Key, has_is_transparent<Compare>::value>;
 
 	public:
-		using deque_type = typename flat_tree_type::deque_type;
-		using iterator = typename deque_type::const_iterator;
-		using const_iterator = typename deque_type::const_iterator;
-		using reverse_iterator = typename deque_type::const_reverse_iterator;
-		using const_reverse_iterator = typename deque_type::const_reverse_iterator;
+		using container_type = typename flat_tree_type::container_type;
+		using iterator = typename container_type::const_iterator;
+		using const_iterator = typename container_type::const_iterator;
+		using reverse_iterator = typename container_type::const_reverse_iterator;
+		using const_reverse_iterator = typename container_type::const_reverse_iterator;
 
 		using key_type = Key;
 		using value_type = Key;
 		using difference_type = typename std::allocator_traits<Allocator>::difference_type;
 		using size_type = typename std::allocator_traits<Allocator>::size_type;
 		using key_compare = Compare;
+		using value_compare = Compare;
 		using allocator_type = Allocator;
 		using reference = Key&;
 		using const_reference = const Key&;
@@ -1265,6 +1200,9 @@ namespace seq
 			return *this;
 		}
 
+		auto extract() noexcept -> container_type { return d_tree.extract(); }
+		void replace(container_type&& c) noexcept { d_tree.replace(std::move(c)); }
+
 		/// @brief Returns container's allocator
 		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return d_tree.get_allocator(); }
 		SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return d_tree.get_allocator(); }
@@ -1280,17 +1218,8 @@ namespace seq
 		/// @brief Swap this container's content with another. Iterators to both containers remain valid, including end iterators.
 		SEQ_ALWAYS_INLINE void swap(flat_set& other) noexcept(noexcept(std::declval<flat_tree_type&>().swap(std::declval<flat_tree_type&>()))) { d_tree.swap(other.d_tree); }
 
-		/// @brief Returns the underlying tiered_vector.
-		/// Calling this function will mark the container as dirty. Any further attempts to call members like find(), lower_bound, upper_bound... will
-		/// raise a std::logic_error. To mark the container as non dirty anymore, the user must call flat_set::sort().
-		/// @return a reference to the underlying seq::tiered_vector object
-		SEQ_ALWAYS_INLINE auto tvector() noexcept -> deque_type& { return d_tree.tvector(); }
 		/// @brief Returns a const reference to the underlying tiered_vector.
-		/// The container will NOT be marked as dirty.
-		SEQ_ALWAYS_INLINE auto tvector() const noexcept -> const deque_type& { return d_tree.tvector(); }
-		/// @brief Returns a const reference to the underlying tiered_vector.
-		/// The container will NOT be marked as dirty.
-		SEQ_ALWAYS_INLINE auto ctvector() const noexcept -> const deque_type& { return d_tree.ctvector(); }
+		SEQ_ALWAYS_INLINE auto container() const noexcept -> const container_type& { return d_tree.container(); }
 
 		/// @brief See std::set::emplace().
 		template<class... Args>
@@ -1337,11 +1266,18 @@ namespace seq
 		template<class InputIt>
 		SEQ_ALWAYS_INLINE void insert(InputIt first, InputIt last)
 		{
-			return d_tree.insert(first, last);
+			return d_tree.insert(first, last, false);
 		}
+		template<class InputIt>
+		SEQ_ALWAYS_INLINE void insert(sorted_unique_t, InputIt first, InputIt last)
+		{
+			return d_tree.insert(first, last, sorted_unique_t{});
+		}
+
 		/// @brief Inserts elements from initializer list ilist. If multiple elements in the range have keys that compare equivalent,
 		/// it is unspecified which element is inserted, except if template parameter Stable is true.
-		SEQ_ALWAYS_INLINE void insert(std::initializer_list<value_type> ilist) { return d_tree.insert(ilist); }
+		SEQ_ALWAYS_INLINE void insert(std::initializer_list<value_type> ilist) { return d_tree.insert(ilist, false); }
+		SEQ_ALWAYS_INLINE void insert(sorted_unique_t, std::initializer_list<value_type> ilist) { return d_tree.insert(ilist, sorted_unique_t{}); }
 
 		/// @brief Assign the content of the range [first, last) to this container, discarding previous values.
 		template<class Iter>
@@ -1599,13 +1535,6 @@ namespace seq
 
 		/// @brief Returns the comparison object
 		SEQ_ALWAYS_INLINE auto key_comp() const -> key_compare { return d_tree.key_comp(); }
-
-		/// @brief Sort the container.
-		/// This function sort again the container only if:
-		///		-	The container is dirty (because of flat_set::tvector() calls) and
-		///		-	the container is not already sorted.
-		/// This function also remove duplicates if necessary.
-		SEQ_ALWAYS_INLINE void sort() { d_tree.sort(); }
 	};
 
 	/// @brief flat sorted container similar to boost::flat_multiset with faster insertion/deletion of single values
@@ -1716,7 +1645,14 @@ namespace seq
 		{
 			base_type::insert(first, last);
 		}
+		template<class InputIt>
+		SEQ_ALWAYS_INLINE void insert(sorted_equivalent_t, InputIt first, InputIt last)
+		{
+			base_type::insert(sorted_equivalent_t{}, first, last);
+		}
+
 		SEQ_ALWAYS_INLINE void insert(std::initializer_list<value_type> ilist) { base_type::insert(ilist); }
+		SEQ_ALWAYS_INLINE void insert(sorted_equivalent_t, std::initializer_list<value_type> ilist) { base_type::insert(sorted_equivalent_t{}, ilist); }
 
 		SEQ_ALWAYS_INLINE auto insert_pos(const value_type& value) -> size_t { return base_type::insert_pos(value).first; }
 		SEQ_ALWAYS_INLINE auto insert_pos(value_type&& value) -> size_t { return base_type::insert_pos(std::move(value)).first; }
@@ -1749,10 +1685,6 @@ namespace seq
 	///
 	/// All references and iterators are invalidated when inserting/removing elements.
 	///
-	/// Unlike std::map which stores objects of type std::pair<const Key,T>, flat_map stores objects of type  std::pair<Key,T>.
-	/// To avoid modifying the key value through iterators or using flat_map::pos(), the value is reinterpreted to std::pair<const Key,T>.
-	/// Although quite ugly, this solution works on all tested compilers.
-	///
 	template<class Key, class T, class Compare = std::less<>, class Allocator = std::allocator<std::pair<Key, T>>, bool Stable = false, bool Unique = true>
 	class flat_map
 	{
@@ -1762,11 +1694,11 @@ namespace seq
 		using Policy = detail::BuildValue<std::pair<Key, T>, has_is_transparent<Compare>::value>;
 
 	public:
-		using deque_type = typename flat_tree_type::deque_type;
-		using iterator = typename deque_type::iterator;
-		using const_iterator = typename deque_type::const_iterator;
-		using reverse_iterator = typename deque_type::reverse_iterator;
-		using const_reverse_iterator = typename deque_type::const_reverse_iterator;
+		using container_type = typename flat_tree_type::container_type;
+		using iterator = typename container_type::iterator;
+		using const_iterator = typename container_type::const_iterator;
+		using reverse_iterator = typename container_type::reverse_iterator;
+		using const_reverse_iterator = typename container_type::const_reverse_iterator;
 
 		using key_type = Key;
 		using mapped_type = T;
@@ -1842,6 +1774,9 @@ namespace seq
 			return *this;
 		}
 
+		auto extract() noexcept -> container_type { return d_tree.extract(); }
+		void replace(container_type&& c) noexcept { d_tree.replace(std::move(c)); }
+
 		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return d_tree.get_allocator(); }
 		SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return d_tree.get_allocator(); }
 
@@ -1851,9 +1786,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE void clear() noexcept { d_tree.clear(); }
 		SEQ_ALWAYS_INLINE void swap(flat_map& other) noexcept(noexcept(std::declval<flat_tree_type&>().swap(std::declval<flat_tree_type&>()))) { d_tree.swap(other.d_tree); }
 
-		SEQ_ALWAYS_INLINE auto tvector() noexcept -> deque_type& { return d_tree.tvector(); }
-		SEQ_ALWAYS_INLINE auto tvector() const noexcept -> const deque_type& { return d_tree.tvector(); }
-		SEQ_ALWAYS_INLINE auto ctvector() const noexcept -> const deque_type& { return d_tree.ctvector(); }
+		SEQ_ALWAYS_INLINE auto container() const noexcept -> const container_type& { return d_tree.container(); }
 
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> std::pair<iterator, bool>
@@ -2010,9 +1943,16 @@ namespace seq
 		template<class InputIt>
 		SEQ_ALWAYS_INLINE void insert(InputIt first, InputIt last)
 		{
-			return d_tree.insert(first, last);
+			return d_tree.insert(first, last, false);
 		}
-		SEQ_ALWAYS_INLINE void insert(std::initializer_list<value_type> ilist) { return d_tree.insert(ilist); }
+		template<class InputIt>
+		SEQ_ALWAYS_INLINE void insert(sorted_unique_t, InputIt first, InputIt last)
+		{
+			return d_tree.insert(first, last, sorted_unique_t{});
+		}
+
+		SEQ_ALWAYS_INLINE void insert(std::initializer_list<value_type> ilist) { return d_tree.insert(ilist, false); }
+		SEQ_ALWAYS_INLINE void insert(sorted_unique_t, std::initializer_list<value_type> ilist) { return d_tree.insert(ilist, sorted_unique_t{}); }
 
 		template<class Iter>
 		SEQ_ALWAYS_INLINE void assign(Iter first, Iter last)
@@ -2155,8 +2095,6 @@ namespace seq
 
 		SEQ_ALWAYS_INLINE auto key_comp() const -> key_compare { return d_tree.key_comp(); }
 		SEQ_ALWAYS_INLINE auto value_comp() const -> value_compare { return d_tree.value_comp(); }
-
-		SEQ_ALWAYS_INLINE void sort() { d_tree.sort(); }
 	};
 
 	/// @brief flat sorted container similar to boost::flat_multimap with faster insertion/deletion of single values
@@ -2174,17 +2112,13 @@ namespace seq
 	///
 	/// All references and iterators are invalidated when inserting/removing keys.
 	///
-	/// Unlike std::multimap which stores objects of type std::pair<const Key,T>, flat_multimap stores objects of type  std::pair<Key,T>.
-	/// To avoid modifying the key value through iterators or using flat_multimap::pos(), the value is reinterpreted to std::pair<const Key,T>.
-	/// Although quite ugly, this solution works on all tested compilers.
-	///
 	template<class Key, class T, class Compare = std::less<>, class Allocator = std::allocator<std::pair<Key, T>>, bool Stable = false>
 	class flat_multimap : public flat_map<Key, T, Compare, Allocator, Stable, false>
 	{
 		using base_type = flat_map<Key, T, Compare, Allocator, Stable, false>;
 
 	public:
-		using deque_type = typename base_type::deque_type;
+		using container_type = typename base_type::container_type;
 		using key_type = Key;
 		using mapped_type = T;
 		using value_type = typename base_type::value_type;
@@ -2284,7 +2218,14 @@ namespace seq
 		{
 			return base_type::insert(first, last);
 		}
+		template<class InputIt>
+		SEQ_ALWAYS_INLINE void insert(sorted_equivalent_t, InputIt first, InputIt last)
+		{
+			return base_type::insert(sorted_unique_t{}, first, last);
+		}
+
 		SEQ_ALWAYS_INLINE void insert(std::initializer_list<value_type> ilist) { return base_type::insert(ilist); }
+		SEQ_ALWAYS_INLINE void insert(sorted_equivalent_t, std::initializer_list<value_type> ilist) { return base_type::insert(sorted_unique_t{}, ilist); }
 
 		SEQ_ALWAYS_INLINE auto insert_pos(const value_type& value) -> size_t { return base_type::insert_pos(value).first; }
 		SEQ_ALWAYS_INLINE auto insert_pos(value_type&& value) -> size_t { return base_type::insert_pos(std::move(value)).first; }
@@ -2339,9 +2280,9 @@ namespace seq
 	template<class Key, class Compare, class Al1, bool S1, bool U1, class Pred>
 	auto erase_if(flat_set<Key, Compare, Al1, S1, U1>& s1, Pred p) -> typename flat_set<Key, Compare, Al1, S1, U1>::size_type
 	{
-		using deque_type = typename flat_set<Key, Compare, Al1, S1, U1>::deque_type;
+		using container_type = typename flat_set<Key, Compare, Al1, S1, U1>::container_type;
 		// use const_cast to avoid flagging the flat_set as dirty
-		deque_type& d = const_cast<deque_type&>(s1.cdeque());
+		container_type& d = const_cast<container_type&>(s1.container());
 		auto it = std::remove_if(d.begin(), d.end(), p);
 		size_t res = d.end() - it;
 		d.erase(it, d.end());
@@ -2374,9 +2315,9 @@ namespace seq
 	template<class Key, class T, class Compare, class Al1, bool S1, bool U1, class Pred>
 	auto erase_if(flat_map<Key, T, Compare, Al1, S1, U1>& s1, Pred p) -> typename flat_map<Key, T, Compare, Al1, S1, U1>::size_type
 	{
-		using deque_type = typename flat_map<Key, T, Compare, Al1, S1, U1>::deque_type;
+		using container_type = typename flat_map<Key, T, Compare, Al1, S1, U1>::container_type;
 		// use const_cast to avoid flagging the flat_set as dirty
-		deque_type& d = const_cast<deque_type&>(s1.cdeque());
+		container_type& d = const_cast<container_type&>(s1.container());
 		auto it = std::remove_if(d.begin(), d.end(), p);
 		size_t res = d.end() - it;
 		d.erase(it, d.end());

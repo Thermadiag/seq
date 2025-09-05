@@ -1,4 +1,5 @@
 
+
 [![CTest](https://github.com/Thermadiag/seq/actions/workflows/cmake.yml/badge.svg?branch=master)](https://github.com/Thermadiag/seq/actions/workflows/cmake.yml)
 
 Transitioning to v2.0
@@ -20,22 +21,22 @@ The *seq* containers are not necessarly drop-in replacement for their STL counte
 
 Currently, the *containers* module provide 5 types of containers:
 -	Sequential random-access containers: 
-	-	[seq::devector](docs/devector.md): double ended vector that can be optimized for front operations, back operations or both. Similar interface to `std::deque`.
+	-	[seq::devector](docs/devector.md): double ended vector that optimized for front and back operations. Similar interface to `std::deque`.
 	-	[seq::tiered_vector](docs/tiered_vector.md): tiered vector implementation optimized for fast insertion and deletion in the middle. Similar interface to `std::deque`.
 -	Sequential stable non random-access container: `seq::sequence`, fast stable list-like container.
 -	Sorted containers: 
-	-	[seq::flat_set](docs/flat_set.md) : flat set container similar to boost::flat_set but based on seq::tiered_vector and providing fast insertion/deletion of single elements.
+	-	[seq::flat_set](docs/flat_set.md) : flat set container similar to boost::flat_set but based on seq::tiered_vector and providing fast insertion/deletion of single elements, while keeping the fast lookup performances of flat containers.
 	-	`seq::flat_map`: associative version of `seq::flat_set`.
 	-	`seq::flat_multiset`: similar to `seq::flat_set` but supporting duplicate keys.
 	-	`seq::flat_multimap`: similar to `seq::flat_map` but supporting duplicate keys.
-	-	[seq::radix_set](docs/radix_tree.md) : radix based (derived from the *Burst Trie*) sorted container with a similar interface to std::set. Provides very fast lookup.
+	-	[seq::radix_set](docs/radix_tree.md) : radix based (derived from the *Burst Trie*) sorted container with a similar interface to `std::set`. One of the fastest `std::set` like data structure for all operations, especially point lookup.
 	-	`seq::radix_map`: associative version of `seq::radix_set`.
 -	Hash tables: 
-	-	[seq::ordered_set](docs/ordered_set.md): Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket and node interface) with iterator/reference stability, and additional features (see class documentation).
+	-	[seq::ordered_set](docs/ordered_set.md): Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket and node interface) with iterator/reference stability, with performances close to 'flat' hash maps. `seq::ordered_set` preserves the insertion order.
 	-	`seq::ordered_map`: associative version of `seq::ordered_set`.
 	-	[seq::radix_hash_set](docs/radix_tree.md): radix based hash table with a similar interface to `std::unordered_set`. Uses incremental rehash (no memory peak) with a very small memory footprint.
 	-	`seq::radix_hash_map`: associative version of `seq::radix_hash_set`.
-	-	[seq::concurrent_map](docs/concurrent_map.md) and `seq::concurrent_set`: higly scalable concurrent hash tables.
+	-	[seq::concurrent_map](docs/concurrent_map.md) and `seq::concurrent_set`: higly scalable concurrent hash tables with interfaces similar to `boost::concurrent_flat_set/map`.
 -	Strings:
 	-	[seq::tiny_string](docs/tiny_string.md): relocatable string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
 
@@ -54,7 +55,7 @@ The library is divided in 7 small modules:
 
 A cmake project is provided for installation and compilation of tests/benchmarks.
 
-*seq* library was tested with gcc/10.1.0, gcc/13.2.0 (Windows, mingw), gcc/8.4.0 (Linux), gcc/6.4.0 (Linux), msvc/19.29 (Windows), ClangCL/12.0.0 (Windows).
+*seq* library was tested with gcc 10.1.0 and 13.2.0 (Windows and Linux), msvc 19.43 (Windows), ClangCL 12.0.0 (Windows).
 
 Design
 ------

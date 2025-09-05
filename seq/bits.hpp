@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -324,7 +324,6 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #define SEQ_FALLTHROUGH()
 #endif
 
-
 // likely/unlikely definition
 #if !defined(_MSC_VER) || defined(__clang__)
 #define SEQ_LIKELY(...) (__builtin_expect(!!(__VA_ARGS__), 1))
@@ -341,8 +340,6 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #define SEQ_UNLIKELY(...) (__VA_ARGS__)
 #endif
 #endif
-
-
 
 // Simple function inlining
 #define SEQ_INLINE inline
@@ -608,7 +605,10 @@ namespace seq
 
 namespace seq
 {
-	static SEQ_ALWAYS_INLINE void umul128(const uint64_t m1, const uint64_t m2, uint64_t* const rl, uint64_t* const rh) { *rl = _umul128(m1, m2, rh); }
+	static SEQ_ALWAYS_INLINE void umul128(const uint64_t m1, const uint64_t m2, uint64_t* const rl, uint64_t* const rh)
+	{
+		*rl = _umul128(m1, m2, rh);
+	}
 }
 #define SEQ_HAS_FAST_UMUL128 1
 
@@ -732,7 +732,10 @@ namespace seq
 		return static_cast<unsigned>(x);
 	}
 
-	SEQ_ALWAYS_INLINE auto popcnt32(uint32_t x) -> unsigned { return detail::popcount32(x); }
+	SEQ_ALWAYS_INLINE auto popcnt32(uint32_t x) -> unsigned
+	{
+		return detail::popcount32(x);
+	}
 
 #elif defined(HAVE_ASM_POPCNT) && defined(__i386__)
 
@@ -744,37 +747,64 @@ namespace seq
 		return x;
 	}
 
-	SEQ_ALWAYS_INLINE unsigned popcnt64(std::uint64_t x) { return popcnt32((uint32_t)x) + popcnt32((uint32_t)(x >> 32)); }
+	SEQ_ALWAYS_INLINE unsigned popcnt64(std::uint64_t x)
+	{
+		return popcnt32((uint32_t)x) + popcnt32((uint32_t)(x >> 32));
+	}
 
 #elif defined(_MSC_VER) && defined(_M_X64)
 
 #define SEQ_HAS_BUILTIN_POPCNT
 
-	SEQ_ALWAYS_INLINE unsigned popcnt64(std::uint64_t x) { return (unsigned)_mm_popcnt_u64(x); }
+	SEQ_ALWAYS_INLINE unsigned popcnt64(std::uint64_t x)
+	{
+		return (unsigned)_mm_popcnt_u64(x);
+	}
 
-	SEQ_ALWAYS_INLINE unsigned popcnt32(uint32_t x) { return (unsigned)_mm_popcnt_u32(x); }
+	SEQ_ALWAYS_INLINE unsigned popcnt32(uint32_t x)
+	{
+		return (unsigned)_mm_popcnt_u32(x);
+	}
 
 #elif defined(_MSC_VER) && defined(_M_IX86)
 
 #define SEQ_HAS_BUILTIN_POPCNT
 
-	SEQ_ALWAYS_INLINE unsigned popcnt64(std::uint64_t x) { return _mm_popcnt_u32((uint32_t)x) + _mm_popcnt_u32((uint32_t)(x >> 32)); }
-	SEQ_ALWAYS_INLINE unsigned popcnt32(uint32_t x) { return _mm_popcnt_u32(x); }
+	SEQ_ALWAYS_INLINE unsigned popcnt64(std::uint64_t x)
+	{
+		return _mm_popcnt_u32((uint32_t)x) + _mm_popcnt_u32((uint32_t)(x >> 32));
+	}
+	SEQ_ALWAYS_INLINE unsigned popcnt32(uint32_t x)
+	{
+		return _mm_popcnt_u32(x);
+	}
 
 	/* non x86 CPUs */
 #elif defined(HAVE_BUILTIN_POPCOUNT)
 
 #define SEQ_HAS_BUILTIN_POPCNT
 
-	SEQ_ALWAYS_INLINE std::uint64_t popcnt64(std::uint64_t x) { return __builtin_popcountll(x); }
-	SEQ_ALWAYS_INLINE uint32_t popcnt32(uint32_t x) { return __builtin_popcount(x); }
+	SEQ_ALWAYS_INLINE std::uint64_t popcnt64(std::uint64_t x)
+	{
+		return __builtin_popcountll(x);
+	}
+	SEQ_ALWAYS_INLINE uint32_t popcnt32(uint32_t x)
+	{
+		return __builtin_popcount(x);
+	}
 
 	/* no hardware POPCNT,
 	 * use pure integer algorithm */
 #else
 
-	SEQ_ALWAYS_INLINE std::uint64_t popcnt64(std::uint64_t x) { return detail::popcount64(x); }
-	SEQ_ALWAYS_INLINE uint32_t popcnt32(uint32_t x) { return detail::popcount32(x); }
+	SEQ_ALWAYS_INLINE std::uint64_t popcnt64(std::uint64_t x)
+	{
+		return detail::popcount64(x);
+	}
+	SEQ_ALWAYS_INLINE uint32_t popcnt32(uint32_t x)
+	{
+		return detail::popcount32(x);
+	}
 
 #endif
 
@@ -1082,7 +1112,10 @@ namespace seq
 #ifdef SEQ_ARCH_64
 #if defined(_MSC_VER) && defined(__BMI2__)
 
-	inline unsigned nth_bit_set(std::uint64_t x, unsigned n) noexcept { return static_cast<unsigned>(_tzcnt_u64(_pdep_u64(1ULL << n, x))); }
+	inline unsigned nth_bit_set(std::uint64_t x, unsigned n) noexcept
+	{
+		return static_cast<unsigned>(_tzcnt_u64(_pdep_u64(1ULL << n, x)));
+	}
 
 /*
 // This does not compile on some gcc??
@@ -1093,11 +1126,17 @@ namespace seq
 */
 #else
 	/// @brief Returns the index of the nth set bit in \a x, or 64 if such bit does not exist.
-	inline auto nth_bit_set(std::uint64_t x, unsigned n) noexcept -> unsigned { return detail::generic_nth_bit_set(x, n); }
+	inline auto nth_bit_set(std::uint64_t x, unsigned n) noexcept -> unsigned
+	{
+		return detail::generic_nth_bit_set(x, n);
+	}
 #endif
 #else
 
-	inline unsigned nth_bit_set(std::uint64_t x, unsigned n) noexcept { return detail::generic_nth_bit_set(x, n); }
+	inline unsigned nth_bit_set(std::uint64_t x, unsigned n) noexcept
+	{
+		return detail::generic_nth_bit_set(x, n);
+	}
 #endif
 
 	namespace detail
@@ -1170,7 +1209,7 @@ namespace seq
 		return _byteswap_ulong(value);
 #endif
 #else
-		return ((((value)&0xff000000) >> 24) | (((value)&0x00ff0000) >> 8) | (((value)&0x0000ff00) << 8) | (((value)&0x000000ff) << 24));
+		return ((((value) & 0xff000000) >> 24) | (((value) & 0x00ff0000) >> 8) | (((value) & 0x0000ff00) << 8) | (((value) & 0x000000ff) << 24));
 #endif
 	}
 
@@ -1196,9 +1235,9 @@ namespace seq
 		return _byteswap_uint64(value);
 #endif
 #else
-		return (SEQ_EXTENSION((((value)&0xff00000000000000ull) >> 56) | (((value)&0x00ff000000000000ull) >> 40) | (((value)&0x0000ff0000000000ull) >> 24) |
-				      (((value)&0x000000ff00000000ull) >> 8) | (((value)&0x00000000ff000000ull) << 8) | (((value)&0x0000000000ff0000ull) << 24) |
-				      (((value)&0x000000000000ff00ull) << 40) | (((value)&0x00000000000000ffull) << 56)));
+		return (SEQ_EXTENSION((((value) & 0xff00000000000000ull) >> 56) | (((value) & 0x00ff000000000000ull) >> 40) | (((value) & 0x0000ff0000000000ull) >> 24) |
+				      (((value) & 0x000000ff00000000ull) >> 8) | (((value) & 0x00000000ff000000ull) << 8) | (((value) & 0x0000000000ff0000ull) << 24) |
+				      (((value) & 0x000000000000ff00ull) << 40) | (((value) & 0x00000000000000ffull) << 56)));
 #endif
 	}
 
@@ -1248,7 +1287,10 @@ namespace seq
 	}
 
 	/// @brief Write size_t object to dst
-	SEQ_ALWAYS_INLINE void write_size_t(void* dst, size_t value) { memcpy(dst, &value, sizeof(size_t)); }
+	SEQ_ALWAYS_INLINE void write_size_t(void* dst, size_t value)
+	{
+		memcpy(dst, &value, sizeof(size_t));
+	}
 
 	/// @brief Read 16 bits integer from src in little endian order
 	SEQ_ALWAYS_INLINE auto read_LE_16(const void* src) -> std::uint16_t
@@ -1431,8 +1473,6 @@ namespace seq
 	{
 	};
 
-
-
 	/// @brief Fast psudo random number generator.
 	/// Generates 32 bits random integers.
 	class fast_rand
@@ -1506,8 +1546,6 @@ namespace seq
 		return rng();
 	}
 
-
-
 	inline void print_features()
 	{
 		std::printf("Has builtin expect: ");
@@ -1570,7 +1608,7 @@ namespace seq
 } // end namespace seq
 
 #ifdef __GNUC__
-//#pragma GCC diagnostic pop
+// #pragma GCC diagnostic pop
 #endif
 
 #undef max

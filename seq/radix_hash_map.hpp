@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -56,13 +56,12 @@ namespace seq
 		};
 
 		using Policy = detail::BuildValue<Key, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
-		
+
 		using radix_hash = radix_detail::RadixHasherUnordered<Key, Hash, KeyLess, KeyEqual>;
 		using radix_tree_type = radix_detail::RadixTree<Key, radix_hash, Extract, Allocator, radix_detail::LeafNode<Key, false>, 8>;
 		radix_tree_type d_tree;
 
 	public:
-
 		struct const_iterator
 		{
 			using iter_type = typename radix_tree_type::const_iterator;
@@ -279,10 +278,7 @@ namespace seq
 		/// @brief Rehash the container.
 		/// Mostly used to shrink the container memory foorprint
 		/// after a lot of erase() calls.
-		void rehash(size_t = 0)
-		{
-			d_tree.shrink_to_fit();
-		}
+		void rehash(size_t = 0) { d_tree.shrink_to_fit(); }
 
 		/// @brief Sets the number of nodes to the number needed to accomodate at least count elements.
 		/// @param count new capacity of the container
@@ -505,7 +501,6 @@ namespace seq
 		radix_tree_type d_tree;
 
 	public:
-
 		struct const_iterator
 		{
 			using iter_type = typename radix_tree_type::const_iterator;
@@ -713,7 +708,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto cbegin() const noexcept -> const_iterator { return this->d_tree.begin(); }
 
 		void clear() { this->d_tree.clear(); }
-		
+
 		/// @brief Rehash the container.
 		/// Mostly used to shrink the container memory foorprint
 		/// after a lot of erase() calls.

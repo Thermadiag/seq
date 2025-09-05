@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,6 @@
 #include <algorithm>
 #include <vector>
 
-
 #define SEQ_ALGO_ASSERT_DEBUG(condition, msg) SEQ_ASSERT_DEBUG(condition, msg)
 
 namespace seq
@@ -45,13 +44,9 @@ namespace seq
 		// Unspecified length
 		static constexpr unsigned Unspecified = (unsigned)-1;
 
-		
-		
-		
-
 		/// @brief Iterator wrapper for bidirectional iterator
 		template<class Iter>
-		class IterWrapper 
+		class IterWrapper
 		{
 			template<class Diff>
 			void increment_iter(Iter& it, Diff d)
@@ -146,7 +141,6 @@ namespace seq
 		{
 			return it1.iter != it2.iter;
 		}
-		
 
 		// noexcept specifier for inplace merge/sort
 		template<class T, class Cmp>
@@ -208,7 +202,6 @@ namespace seq
 			return it - d;
 		}
 
-
 		template<class Iter>
 		auto unwrap_iter(Iter it) noexcept
 		{
@@ -231,12 +224,12 @@ namespace seq
 		{
 			using type1 = decltype(unwrap_iter(it1));
 			using type2 = decltype(unwrap_iter(it2));
-			if constexpr (std::is_same_v<type1, type2>) 
+			if constexpr (std::is_same_v<type1, type2>)
 				return unwrap_iter(it1) == unwrap_iter(it2);
 			else
 				return false;
 		}
-		
+
 		// similar to std::distance with an overload for IterWrapper that supports subtracting 2 iterators
 		template<class Iter>
 		static SEQ_ALWAYS_INLINE auto iter_distance(Iter first, Iter last) noexcept
@@ -248,7 +241,7 @@ namespace seq
 		{
 			return last - first;
 		}
-		
+
 		template<class Iter>
 		auto wrap_iter(Iter it, ptrdiff_t d = 0)
 		{
@@ -257,7 +250,6 @@ namespace seq
 			else
 				return IterWrapper<Iter>(it, d);
 		}
-
 
 		template<class Iter, class Cmp>
 		static void merge_inplace_left_subproblem(Iter f0,
@@ -325,8 +317,6 @@ namespace seq
 			n1_1 = (n1 - n0_1) - 1;
 		}
 
-		
-
 		template<class Iter, class Out>
 		SEQ_ALWAYS_INLINE Out copy_internal(Iter begin, Iter end, Out out)
 		{
@@ -339,7 +329,6 @@ namespace seq
 			// Let the compiler decide to use memmove if necesary
 			return std::move((begin.base()), (end.base()), (out));
 		}
-
 
 		template<bool Overlap, class Iter1, class Iter2, class Out, class Cmp>
 		inline Out merge_forward(Iter1 first1, Iter1 end1, Iter2 first2, Iter2 end2, Out out, Cmp c)
@@ -395,7 +384,7 @@ namespace seq
 
 			while (first2 != end2) {
 				while (first1 != end1 && !c(*first2, *first1)) {
-					
+
 					*out = (*first1);
 					++out;
 					++first1;
@@ -409,7 +398,7 @@ namespace seq
 				++first2;
 
 				while (first2 != end2 && c(*first2, *first1)) {
-					
+
 					*out = (*first2);
 					++out;
 					++first2;
@@ -437,7 +426,6 @@ namespace seq
 			return out;
 		}
 
-		
 		template<class Iter, class Out, class Cmp>
 		static SEQ_ALWAYS_INLINE std::pair<bool, bool> merge_tails(Iter* first, Iter* second, Out& out_left, Out& out_right, Cmp c)
 		{
@@ -468,7 +456,7 @@ namespace seq
 			else if (finish_left)
 				std::move((first[1]), (++second[1]), (out_left));
 			else if (finish_right)
-				std::move((first[0]), (++second[0]), ( out_left));
+				std::move((first[0]), (++second[0]), (out_left));
 		}
 
 		template<unsigned Count, class Iter, class Out, class Cmp>
@@ -480,7 +468,7 @@ namespace seq
 			// Uses the fastest available method: standard forward merge
 			// or branchless merge from both ends for random access iterators and relocatable types.
 
-			if constexpr ( is_random_access<Iter>::value  && is_relocatable<T>::value) {
+			if constexpr (is_random_access<Iter>::value && is_relocatable<T>::value) {
 
 				// Branchless merge from both ends
 				// Only truly faster with trivial comparison function,
@@ -502,7 +490,7 @@ namespace seq
 					return res;
 				}
 				else {
-					
+
 					ptrdiff_t dist1 = iter_distance(first1, last1);
 					ptrdiff_t dist2 = iter_distance(first2, last2);
 
@@ -607,7 +595,7 @@ namespace seq
 
 				if (r(*iter_prev(e1), *f0)) {
 					// Simple rotation needed
-					std::rotate((f0),(f1), (e1));
+					std::rotate((f0), (f1), (e1));
 					return;
 				}
 
@@ -663,7 +651,7 @@ namespace seq
 			// Standard in-place insertion sort working on bidirectional iterators,
 			// but using a number of values to sort instead of an end iterator.
 
-			using T= typename std::iterator_traits<Iter>::value_type;
+			using T = typename std::iterator_traits<Iter>::value_type;
 			if SEQ_UNLIKELY (count < 2)
 				return count == 0 ? begin : iter_next(begin);
 
@@ -740,7 +728,7 @@ namespace seq
 				if (!s2)
 					end = merge_move_bidirectional<Unspecified>((it2), (it3), (it3), (it4), middle, c);
 				else {
-					auto dst = std::move((it2),( it3), middle);
+					auto dst = std::move((it2), (it3), middle);
 					end = std::move((it3), (it4), dst);
 				}
 				if (c(*middle, *iter_prev(middle)))
@@ -867,14 +855,14 @@ namespace seq
 		Iter atom_sort_8(Iter vals, unsigned count, Cmp cmp) noexcept(NothrowSortIter<Iter, Cmp>::value)
 		{
 			// Sort up to 8 values
-			if constexpr (is_random_access<Iter>::value ) {
+			if constexpr (is_random_access<Iter>::value) {
 				if (N == 8 || count == 8) {
 					// Sort 8 values using a sorting netork
 					network_sort_8(vals[0], vals[1], vals[2], vals[3], vals[4], vals[5], vals[6], vals[7], cmp);
 					return vals + 8;
 				}
 			}
-			
+
 			return insertion_sort_n(vals, N == Unspecified ? count : N, cmp);
 		}
 
@@ -1104,7 +1092,7 @@ namespace seq
 
 			if (size < 128) {
 				auto r = try_wave_sort<5>(begin, size, size, l, buf);
-				if (r.first == begin) 
+				if (r.first == begin)
 					//  Failed
 					sort_128(begin, (unsigned)size, l, buf);
 				return;
@@ -1171,7 +1159,6 @@ namespace seq
 
 	/// @brief Null buffer, uses (slow) bufferless merge sort
 	static constexpr buffer<void*> null_buffer{ nullptr, 0 };
-
 
 	/// @brief Stable merge algorithm similar to std::merge.
 	///
@@ -1267,7 +1254,7 @@ namespace seq
 
 		if constexpr (std::is_same<buffer<void*>, Buffer>::value) {
 			// Compute buffer size
-			size_t buf_size = sort_buffer_size(buf, std::distance(iters[0], iters[count -1])/2);
+			size_t buf_size = sort_buffer_size(buf, std::distance(iters[0], iters[count - 1]) / 2);
 			std::vector<Key> buf_(buf_size);
 			merge_sorted_runs_with_buffer(iters, 0, count - 1, c, buffer<Key*>{ buf_.data(), buf_.size() });
 		}
@@ -1320,7 +1307,7 @@ namespace seq
 			return;
 		}
 
-		if constexpr (std::is_same<buffer<void*>, Buffer>::value) { 
+		if constexpr (std::is_same<buffer<void*>, Buffer>::value) {
 			// Compute buffer size
 			size_t buf_size = sort_buffer_size(buf, size / 2);
 			if (buf_size < 16)

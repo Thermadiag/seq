@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-
-
 #include "seq/sequence.hpp"
 #include "seq/tiered_vector.hpp"
 #include "seq/testing.hpp"
@@ -32,10 +30,8 @@
 #include <vector>
 #include <deque>
 
-
 template<class Alloc, class U>
 using RebindAlloc = typename std::allocator_traits<Alloc>::template rebind_alloc<U>;
-
 
 template<class Deq1, class Deq2>
 bool equal_seq(const Deq1& d1, const Deq2& d2)
@@ -47,13 +43,12 @@ bool equal_seq(const Deq1& d1, const Deq2& d2)
 	if (d1.front() != d2.front())
 		return false;
 	if (d1.back() != d2.back()) {
-		
+
 		return false;
 	}
 	auto it1 = d1.begin();
 	auto it2 = d2.begin();
-	while (it1 != d1.end())
-	{
+	while (it1 != d1.end()) {
 		if (*it1 != *it2) {
 			return false;
 		}
@@ -70,9 +65,9 @@ bool is_sorted(Deq& d)
 	if (d.empty())
 		return true;
 	auto first = d.begin();
-	auto it = first; ++it;
-	for (; it != d.end(); ++it, ++first)
-	{
+	auto it = first;
+	++it;
+	for (; it != d.end(); ++it, ++first) {
 		if (*it < *first)
 			return false;
 	}
@@ -82,28 +77,37 @@ bool is_sorted(Deq& d)
 struct WideType
 {
 	size_t data[16];
-	WideType(size_t v = 0) {
-		data[0] = v;
-	}
+	WideType(size_t v = 0) { data[0] = v; }
 	bool operator<(const WideType& other) const { return data[0] < other.data[0]; }
 	bool operator==(const WideType& other) const { return data[0] == other.data[0]; }
 	bool operator!=(const WideType& other) const { return data[0] != other.data[0]; }
 };
-inline bool operator==(const WideType& a, size_t b)  { return a.data[0] == b; }
-inline bool operator!=(const WideType& a, size_t b)  { return a.data[0] != b; }
-inline bool operator==(const size_t& a, WideType b) { return a == b.data[0]; }
-inline bool operator!=(const size_t& a, WideType b) { return a != b.data[0]; }
+inline bool operator==(const WideType& a, size_t b)
+{
+	return a.data[0] == b;
+}
+inline bool operator!=(const WideType& a, size_t b)
+{
+	return a.data[0] != b;
+}
+inline bool operator==(const size_t& a, WideType b)
+{
+	return a == b.data[0];
+}
+inline bool operator!=(const size_t& a, WideType b)
+{
+	return a != b.data[0];
+}
 
-
-template<class T, class Alloc = std::allocator<T> >
-void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
+template<class T, class Alloc = std::allocator<T>>
+void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 {
 	using namespace seq;
 	const unsigned count = size;
 
 	{
 
-		//test different memory layout with different data size
+		// test different memory layout with different data size
 		using Al = RebindAlloc<Alloc, size_t>;
 		Al a(al);
 
@@ -117,10 +121,9 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		big_slow bs(a);
 		big_fast bf(a);
 
-		size_t c =static_cast<size_t>( size / 10);
+		size_t c = static_cast<size_t>(size / 10);
 
-		for (size_t i = 0; i < c; ++i)
-		{
+		for (size_t i = 0; i < c; ++i) {
 			size_t v = static_cast<size_t>(i);
 			ss.push_back(v);
 			sf.push_back(v);
@@ -128,7 +131,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 			bf.push_back(v);
 		}
 
-		SEQ_TEST(equal_seq(ss,bs));
+		SEQ_TEST(equal_seq(ss, bs));
 		SEQ_TEST(equal_seq(sf, bf));
 		SEQ_TEST(equal_seq(ss, bf));
 
@@ -140,7 +143,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		seq::random_shuffle(erase_pos.begin(), erase_pos.end());
 		seq::random_shuffle(erase_pos.begin(), erase_pos.end());
 
-		//erase values
+		// erase values
 		for (size_t i = 0; i < erase_pos.size(); ++i) {
 			ss.erase(ss.begin() + erase_pos[i]);
 			sf.erase(sf.begin() + erase_pos[i]);
@@ -151,16 +154,16 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		SEQ_TEST(equal_seq(sf, bf));
 		SEQ_TEST(equal_seq(ss, bf));
 
-		//std::cout << "about to sort " << ss.size() << " values"<< std::endl;
-		//sort 
+		// std::cout << "about to sort " << ss.size() << " values"<< std::endl;
+		// sort
 		ss.sort();
-		//std::cout << "sorted1" << std::endl;
+		// std::cout << "sorted1" << std::endl;
 		sf.sort();
-		//std::cout << "sorted2" << std::endl;
+		// std::cout << "sorted2" << std::endl;
 		bs.sort();
-		//std::cout << "sorted3" << std::endl;
+		// std::cout << "sorted3" << std::endl;
 		bf.sort();
-		//std::cout << "sorted4" << std::endl;
+		// std::cout << "sorted4" << std::endl;
 
 		SEQ_TEST(is_sorted(ss));
 		SEQ_TEST(is_sorted(sf));
@@ -175,14 +178,14 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 
 	typedef T type;
 	std::vector<type> vec;
-	typedef tiered_vector<type, std::allocator<T> > deque_type;
+	typedef tiered_vector<type, std::allocator<T>> deque_type;
 	deque_type deq;
-	typedef sequence<type , Alloc > sequence_type;
+	typedef sequence<type, Alloc> sequence_type;
 	sequence_type seq(al);
 
 	SEQ_TEST(seq.begin() == seq.end());
 	SEQ_TEST(seq.size() == 0);
-	
+
 	seq.resize(10);
 	SEQ_TEST(seq.size() == 10);
 	seq.clear();
@@ -200,23 +203,21 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 	for (unsigned i = 0; i < count; ++i)
 		seq.push_back(static_cast<type>(i));
 
-
 	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test resize lower
 	deq.resize(deq.size() / 10);
 	seq.resize(seq.size() / 10);
-		
+
 	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test resize upper
 	deq.resize(static_cast<size_t>(count), 0);
 	seq.resize(static_cast<size_t>(count), 0);
-		
+
 	SEQ_TEST(equal_seq(deq, seq));
 
-
-	size_t i = 0; 
+	size_t i = 0;
 	for (auto it = seq.begin(); it != seq.end(); ++it)
 		*it = static_cast<T>(i++);
 	i = 0;
@@ -232,20 +233,18 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 	// Test resize front upper
 	deq.resize_front(static_cast<size_t>(count), 0);
 	seq.resize_front(static_cast<size_t>(count), 0);
-		
+
 	SEQ_TEST(equal_seq(deq, seq));
 
 	{
 		// Test copy construct
 		deque_type d2 = deq;
-		sequence_type dd2( seq,al);
+		sequence_type dd2(seq, al);
 
 		SEQ_TEST(equal_seq(d2, dd2));
 	}
 
 	SEQ_TEST(equal_seq(deq, seq));
-
-
 
 	{
 		{
@@ -258,7 +257,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 				++j;
 			}
 		}
-			
+
 		SEQ_TEST(equal_seq(deq, seq));
 
 		// Test erase range left side
@@ -282,7 +281,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		// Test assign grow
 		deq.assign(vec.begin(), vec.end());
 		seq.assign(vec.begin(), vec.end());
-			
+
 		SEQ_TEST(equal_seq(deq, seq));
 
 		deq.resize(vec.size() * 2, 0);
@@ -291,7 +290,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		// Test assign shrink
 		deq.assign(vec.begin(), vec.end());
 		seq.assign(vec.begin(), vec.end());
-			
+
 		SEQ_TEST(equal_seq(deq, seq));
 	}
 
@@ -306,7 +305,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		// Test assign shrink with non random access iterator
 		deq.assign(lst.begin(), lst.end());
 		seq.assign(lst.begin(), lst.end());
-			
+
 		SEQ_TEST(equal_seq(deq, seq));
 		deq.resize(lst.size() * 2, 0);
 		seq.resize(lst.size() * 2, 0);
@@ -314,10 +313,9 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		// Test assign grow with non random access iterator
 		deq.assign(lst.begin(), lst.end());
 		seq.assign(lst.begin(), lst.end());
-			
+
 		SEQ_TEST(equal_seq(deq, seq));
 	}
-
 
 	deq.resize(count, 0);
 	seq.resize(count, 0);
@@ -328,11 +326,11 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 
 	SEQ_TEST(equal_seq(deq, seq));
 
-	//fill again, backward
+	// fill again, backward
 	{
 		auto itd = deq.begin();
 		auto its = seq.begin();
-		type j = static_cast<type>(deq.size())-1;
+		type j = static_cast<type>(deq.size()) - 1;
 		while (itd != deq.end()) {
 			*itd++ = j;
 			*its++ = j;
@@ -354,7 +352,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 
 	SEQ_TEST(equal_seq(deq, seq));
 
-	//fill again, backward
+	// fill again, backward
 	{
 		auto itd = deq.begin();
 		auto its = seq.begin();
@@ -366,20 +364,16 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		}
 	}
 
-
-
 	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test pop_front
-	while (deq.size() > 25) 
+	while (deq.size() > 25)
 		deq.pop_front();
 	while (seq.size() > 25)
 		seq.pop_front();
 	SEQ_TEST(equal_seq(deq, seq));
 
-
-		
-	//Test erase
+	// Test erase
 	{
 		sequence_type d(al);
 		deque_type dd;
@@ -399,21 +393,20 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		for (int j = 0; j < 50; ++j) {
 			int pos = j % 5;
 			pos = static_cast<int>(d.size()) * pos / 4;
-			if (pos == static_cast<int>(d.size())) --pos;
+			if (pos == static_cast<int>(d.size()))
+				--pos;
 			dd.erase(dd.begin() + pos);
 			d.erase(d.begin() + pos);
 			SEQ_TEST(equal_seq(d, dd));
 		}
 	}
 
-
-
 	deq.resize(count, 0);
 	seq.resize(count, 0);
 
 	seq.shrink_to_fit();
 
-	//fill again, backward
+	// fill again, backward
 	{
 		auto itd = deq.begin();
 		auto its = seq.begin();
@@ -426,9 +419,6 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 	}
 
 	SEQ_TEST(equal_seq(deq, seq));
-
-	
-
 
 	seq.resize(count);
 	deq.resize(count);
@@ -443,28 +433,28 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		while (itd != deq.end()) {
 			*itd = *itv;
 			*its = *itv;
-			++itd; ++its; ++itv;
+			++itd;
+			++its;
+			++itv;
 		}
 	}
 	std::vector<int> ran_pos;
 	int ssize = static_cast<int>(vec.size());
 	srand(0);
-	for (unsigned j = 0; j < /*100000*/count/10; ++j) {
+	for (unsigned j = 0; j < /*100000*/ count / 10; ++j) {
 		ran_pos.push_back(rand() % ssize--);
 	}
 
 	// Test erase random position
 	for (size_t j = 0; j < ran_pos.size(); ++j)
 		deq.erase(deq.begin() + ran_pos[j]);
-	
+
 	auto tmp = seq.begin();
 	for (size_t j = 0; j < ran_pos.size(); ++j) {
 		tmp = seq.erase(seq.iterator_at(static_cast<size_t>(ran_pos[j])));
 	}
-	
+
 	SEQ_TEST(equal_seq(deq, seq));
-
-
 
 	seq.resize(count);
 	deq.resize(count);
@@ -475,13 +465,15 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 		while (itd != deq.end()) {
 			*itd = *itv;
 			*its = *itv;
-			++itd; ++its; ++itv;
+			++itd;
+			++its;
+			++itv;
 		}
 	}
 
 	// Test move assign and move copy
 
-	sequence_type seq2 ( std::move(seq),al);
+	sequence_type seq2(std::move(seq), al);
 	deque_type deq2 = std::move(deq);
 	SEQ_TEST(equal_seq(deq2, seq2) && seq2.size() > 0 && seq.size() == 0 && deq.size() == 0);
 
@@ -490,21 +482,16 @@ void test_sequence(unsigned size = 50000000U, const Alloc & al = Alloc())
 	SEQ_TEST(equal_seq(deq, seq) && seq.size() > 0 && seq2.size() == 0 && deq2.size() == 0);
 }
 
-
-
-
-
-SEQ_PROTOTYPE( int test_sequence(int , char*[]))
+SEQ_PROTOTYPE(int test_sequence(int, char*[]))
 {
 	// Test sequence and detect potential memory leak or wrong allocator propagation
 	CountAlloc<size_t> al;
-	SEQ_TEST_MODULE_RETURN(sequence,1, test_sequence<size_t>(1000000,al));
+	SEQ_TEST_MODULE_RETURN(sequence, 1, test_sequence<size_t>(1000000, al));
 	SEQ_TEST(get_alloc_bytes(al) == 0);
-	
+
 	// Test sequence and detect potential memory leak (including non destroyed objects) or wrong allocator propagation
 	SEQ_TEST_MODULE_RETURN(sequence_destroy, 1, test_sequence<TestDestroy<size_t>>(1000000));
 	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-	
+
 	return 0;
 }
-

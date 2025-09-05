@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-
-
 #include "seq/testing.hpp"
 #include "seq/devector.hpp"
 #include "tests.hpp"
@@ -37,17 +35,15 @@ bool vector_equals(const V1& v1, const V2& v2)
 	return seq::equal(v1.begin(), v1.end(), v2.begin(), v2.end());
 }
 
-
-
-template<class T, class Alloc = std::allocator<T> >
-void test_devector_logic(const Alloc & al = Alloc())
+template<class T, class Alloc = std::allocator<T>>
+void test_devector_logic(const Alloc& al = Alloc())
 {
 	using namespace seq;
 
 	std::vector<T> v;
 	devector<T, Alloc> dv(al);
 
-	//test push_back
+	// test push_back
 	for (size_t i = 0; i < 200; ++i)
 		v.push_back(static_cast<T>(i));
 	for (size_t i = 0; i < 100; ++i)
@@ -57,7 +53,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 	SEQ_TEST(vector_equals(v, dv));
 
-	//test push_back after reserve
+	// test push_back after reserve
 	v.clear();
 	dv.clear();
 	v.reserve(200);
@@ -71,7 +67,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 	SEQ_TEST(vector_equals(v, dv));
 
-	//test push_back after reserve back
+	// test push_back after reserve back
 	v.clear();
 	dv.clear();
 	v.reserve(200);
@@ -85,7 +81,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 	SEQ_TEST(vector_equals(v, dv));
 
-	//test push_back after reserve front
+	// test push_back after reserve front
 	v.clear();
 	dv.clear();
 	v.reserve(200);
@@ -99,9 +95,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 	SEQ_TEST(vector_equals(v, dv));
 
-
-
-	//test push front
+	// test push front
 	for (size_t i = 0; i < 200; ++i)
 		v.insert(v.begin(), static_cast<T>(i));
 	for (size_t i = 0; i < 100; ++i)
@@ -111,7 +105,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 	SEQ_TEST(vector_equals(v, dv));
 
-	//test push_back after reserve
+	// test push_back after reserve
 	v.clear();
 	dv.clear();
 	v.reserve(200);
@@ -125,7 +119,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 	SEQ_TEST(vector_equals(v, dv));
 
-	//test push_back after reserve back
+	// test push_back after reserve back
 	v.clear();
 	dv.clear();
 	v.reserve(200);
@@ -139,7 +133,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 	SEQ_TEST(vector_equals(v, dv));
 
-	//test push_back after reserve front
+	// test push_back after reserve front
 	v.clear();
 	dv.clear();
 	v.reserve(200);
@@ -152,8 +146,6 @@ void test_devector_logic(const Alloc & al = Alloc())
 		dv.emplace_front(static_cast<T>(i));
 
 	SEQ_TEST(vector_equals(v, dv));
-
-
 
 	// test resize;
 	v.resize(1000);
@@ -175,22 +167,22 @@ void test_devector_logic(const Alloc & al = Alloc())
 	SEQ_TEST(vector_equals(v1, v2));
 
 	// test operator[]
-	for (size_t i = 0; i < v.size(); ++i) v[i] = static_cast<T>(i);
-	for (size_t i = 0; i < dv.size(); ++i) dv[i] = static_cast<T>(i);
+	for (size_t i = 0; i < v.size(); ++i)
+		v[i] = static_cast<T>(i);
+	for (size_t i = 0; i < dv.size(); ++i)
+		dv[i] = static_cast<T>(i);
 	SEQ_TEST(vector_equals(v, dv));
 
-	//test shrink_to_fit
+	// test shrink_to_fit
 	v.shrink_to_fit();
 	dv.shrink_to_fit();
 	SEQ_TEST(vector_equals(v, dv));
 
-
-	//test insertion
-	std::ptrdiff_t pos[4] = { 
-		rand() % static_cast<std::ptrdiff_t>(v.size()),
-		rand() % static_cast<std::ptrdiff_t>(v.size()),
-		rand() % static_cast<std::ptrdiff_t>(v.size()),
-		rand() % static_cast<std::ptrdiff_t>(v.size()) };
+	// test insertion
+	std::ptrdiff_t pos[4] = { rand() % static_cast<std::ptrdiff_t>(v.size()),
+				  rand() % static_cast<std::ptrdiff_t>(v.size()),
+				  rand() % static_cast<std::ptrdiff_t>(v.size()),
+				  rand() % static_cast<std::ptrdiff_t>(v.size()) };
 	v.insert(v.begin() + pos[0], static_cast<T>(1234));
 	v.insert(v.begin() + pos[0], static_cast<T>(1235));
 	v.insert(v.begin() + pos[0], static_cast<T>(1236));
@@ -201,7 +193,7 @@ void test_devector_logic(const Alloc & al = Alloc())
 	dv.insert(dv.begin() + pos[0], static_cast<T>(1237));
 	SEQ_TEST(vector_equals(v, dv));
 
-	//test range insertion
+	// test range insertion
 	v.insert(v.begin() + pos[0], v1.begin(), v1.end());
 	v.insert(v.begin() + pos[1], v1.begin(), v1.end());
 	v.insert(v.begin() + pos[2], v1.begin(), v1.end());
@@ -214,9 +206,9 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 	// test erase
 	std::ptrdiff_t err[4] = { rand() % static_cast<std::ptrdiff_t>(v.size()),
-		rand() % static_cast<std::ptrdiff_t>(v.size()),
-		rand() % static_cast<std::ptrdiff_t>(v.size()),
-		rand() % static_cast<std::ptrdiff_t>(v.size()) };
+				  rand() % static_cast<std::ptrdiff_t>(v.size()),
+				  rand() % static_cast<std::ptrdiff_t>(v.size()),
+				  rand() % static_cast<std::ptrdiff_t>(v.size()) };
 	for (int i = 0; i < 4; ++i) {
 		if (err[i] > static_cast<std::ptrdiff_t>(v.size() - 200))
 			err[i] -= 200;
@@ -231,22 +223,22 @@ void test_devector_logic(const Alloc & al = Alloc())
 	dv.erase(dv.begin() + err[3]);
 	SEQ_TEST(vector_equals(v, dv));
 
-	//test erase range
-	for(int i=0; i < 4;++i)
-		v.erase( v.begin() + err[i], v.begin() + err[i]+ 10);
+	// test erase range
 	for (int i = 0; i < 4; ++i)
-		dv.erase( dv.begin() + err[i], dv.begin() + err[i] + 10);
+		v.erase(v.begin() + err[i], v.begin() + err[i] + 10);
+	for (int i = 0; i < 4; ++i)
+		dv.erase(dv.begin() + err[i], dv.begin() + err[i] + 10);
 	SEQ_TEST(vector_equals(v, dv));
 
-	//test assign
+	// test assign
 	v.assign(v1.begin(), v1.end());
 	dv.assign(v1.begin(), v1.end());
 	SEQ_TEST(vector_equals(v, dv));
 
-	//test copy
+	// test copy
 	{
 		std::vector<T> vv = v;
-		devector<T, Alloc> dvv(dv,al);
+		devector<T, Alloc> dvv(dv, al);
 		SEQ_TEST(vector_equals(vv, dvv));
 
 		vv.clear();
@@ -255,10 +247,10 @@ void test_devector_logic(const Alloc & al = Alloc())
 		dvv = dv;
 		SEQ_TEST(vector_equals(vv, dvv));
 	}
-	//test move
+	// test move
 	{
 		std::vector<T> vv = std::move(v);
-		devector<T, Alloc> dvv (std::move(dv),al);
+		devector<T, Alloc> dvv(std::move(dv), al);
 		SEQ_TEST(vector_equals(vv, dvv));
 		SEQ_TEST(vector_equals(v, dv));
 
@@ -267,14 +259,14 @@ void test_devector_logic(const Alloc & al = Alloc())
 		SEQ_TEST(vector_equals(vv, dvv));
 		SEQ_TEST(vector_equals(v, dv));
 
-		//swap
+		// swap
 		std::swap(dv, dvv);
 		std::swap(v, vv);
 		SEQ_TEST(vector_equals(vv, dvv));
 		SEQ_TEST(vector_equals(v, dv));
 	}
-	
-	//range construct
+
+	// range construct
 	{
 		std::vector<T> vv(v1.begin(), v1.end());
 		devector<T, Alloc> dvv(v1.begin(), v1.end(), al);
@@ -284,24 +276,23 @@ void test_devector_logic(const Alloc & al = Alloc())
 
 #include "tests.hpp"
 
-SEQ_PROTOTYPE( int test_devector(int , char*[]))
+SEQ_PROTOTYPE(int test_devector(int, char*[]))
 {
-	
+
 	// Test devector and potential memory leak or wrong allocator propagation
 	CountAlloc<size_t> al;
-	SEQ_TEST_MODULE_RETURN(devector, 1, test_devector_logic<size_t,CountAlloc<size_t> >(al));
+	SEQ_TEST_MODULE_RETURN(devector, 1, test_devector_logic<size_t, CountAlloc<size_t>>(al));
 	SEQ_TEST(get_alloc_bytes(al) == 0);
-	
+
 	// Test devector and potential memory leak on object destruction
 	SEQ_TEST_MODULE_RETURN(devector_destroy, 1, test_devector_logic<TestDestroy<size_t>>());
 	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-	
+
 	// Test devector and potential memory leak or wrong allocator propagation with non relocatable type
 	CountAlloc<TestDestroy<size_t, false>> al2;
-	SEQ_TEST_MODULE_RETURN(devector_destroy_no_relocatable, 1, test_devector_logic<TestDestroy<size_t,false>>(al2));
+	SEQ_TEST_MODULE_RETURN(devector_destroy_no_relocatable, 1, test_devector_logic<TestDestroy<size_t, false>>(al2));
 	SEQ_TEST(get_alloc_bytes(al2) == 0);
 	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-	
 
 	return 0;
 }

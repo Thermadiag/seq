@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 
 #include <seq/flat_map.hpp>
 #include <seq/radix_map.hpp>
@@ -75,7 +74,6 @@ inline size_t convert_to_size_t(const std::pair<T, U>& v)
 {
 	return convert_to_size_t(v.first);
 }
-
 
 template<class C>
 struct is_boost_map : std::false_type
@@ -197,7 +195,7 @@ struct LaunchTest
 			insert_range = tock_ms();
 			insert_range_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
 
-			//std::cout << name << " " << insert_range << " ms" << std::endl;
+			// std::cout << name << " " << insert_range << " ms" << std::endl;
 			check_sorted(s);
 		}
 
@@ -386,81 +384,29 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 	test_set<flat_map<T, T>>("seq::flat_map", vec, f);
 	test_set<gtl::btree_map<T, T>>("phmap::btree_map", vec, f);
 
-
 	// TEST
 #ifdef BOOST_FOUND
-		test_set<boost::container::flat_map<T,T> >("boost::flat_map", vec,f);
+	test_set<boost::container::flat_map<T, T>>("boost::flat_map", vec, f);
 #endif
 	test_set<radix_map<T, T, Extract>>("seq::radix_map", vec, f);
-	
+
 	test_set<std::map<T, T>>("std::map", vec, f);
 }
 
-int bench_map(int, char** const)
-{
-	
-	using string = tstring;
-	// test random IP addresses
-	/* {
 
-		srand(0);
-		test_map<string>(4000000, [](size_t i) {
-			string s = join(".", ch(rand() & 255), ch(rand() & 255), ch(rand() & 255), ch(rand() & 255));
-			return s;
-		});
-	}*/
 
-	// test random tuple
-	{
-		std::random_device dev;
-		std::mt19937 rngi(dev());
-		std::uniform_int_distribution<unsigned> dist;
-		test_map<std::tuple<unsigned, unsigned>>(2000000, [&](size_t i) { return std::make_tuple(dist(rngi), dist(rngi)); });
-	}
 
-	// test random integers
-	{
-		std::random_device dev;
-		std::mt19937 rngi(dev());
-		std::uniform_int_distribution<size_t> dist;
-		test_map<size_t>(2000000, [&](size_t i) { return dist(rngi); });
-	}
-	// test random floating point values
-	{
-		// std::random_device rd;
-		std::mt19937 e2(0);
-		std::uniform_real_distribution<> dist;
-		test_map<double>(2000000, [&](size_t i) { return dist(e2); });
-	}
-	
-	// Random short strings
-	test_map<string>(1000000, [](size_t i) { return generate_random_string<string>(13, true); });
-	
-	// random mix of short and long strings
-	test_map<string>(1000000, [](size_t i) { return generate_random_string<string>(63, false); });
-	// Test with seq::r_any
-	test_map<seq::r_any>(2000000, [](size_t i) {
-		size_t idx = i & 3U;
-		switch (idx) {
-			case 0:
-				return seq::r_any(i * UINT64_C(0xc4ceb9fe1a85ec53));
-			case 1:
-				return seq::r_any((double)i * (double)UINT64_C(0xc4ceb9fe1a85ec53));
-			default:
-				return seq::r_any(generate_random_string<seq::tstring>(13, true));
-		}
-	});
 
-	return 0;
-}
-
-/*template<class Map, class Format>
+/*
+template<class Map, class Format>
 void test_small_map_repeat(const char * name, int count, int repeat, Format f)
 {
 	using value_type = typename Map::value_type;
-	std::vector< value_type> vec;
+	using key_type = typename Map::key_type;
+	using mapped_type = typename Map::mapped_type;
+	std::vector<std::pair<key_type, mapped_type>> vec;
 	for (int i = 0; i < count; ++i)
-		vec.push_back(static_cast<value_type>(i));
+		vec.push_back({ (key_type)i, (mapped_type)i });
 	seq::random_shuffle(vec.begin(), vec.end());
 
 	tick();
@@ -474,13 +420,14 @@ void test_small_map_repeat(const char * name, int count, int repeat, Format f)
 
 		size_t sum = 0;
 		for (size_t j = 0; j < vec.size(); ++j)
-			//sum += *(size_t)m.find(vec[j]);
-			find_val<Map,value_type>::find(m,vec[j],sum);
+			sum += find_val(m, vec[j].first);
 
 		print_null(sum);
 
+		m.erase(m.begin(), std::next(m.begin() , m.size() / 2));
+
 		for (size_t j = 0; j < vec.size(); ++j)
-			m.erase(vec[j]);
+			m.erase(vec[j].first);
 
 		print_null(m.size());
 	}
@@ -503,8 +450,59 @@ void test_small_map(int count, int repeat)
 	std::cout << fmt(str().c(30).f('-'), "|", str().c(20).f('-'), "|") << std::endl;
 
 
-	test_small_map_repeat<phmap::btree_set<T > >("phmap::btree_set", count, repeat, f);
-	test_small_map_repeat < flat_set < T, std::less<T>, std::allocator<T> > >("seq::flat_set", count, repeat, f);
-	test_small_map_repeat<boost::container::flat_set<T> >("boost::flat_set<T>", count, repeat, f);
-	test_small_map_repeat<std::set<T> >("std::set", count, repeat, f);
-}*/
+	test_small_map_repeat<gtl::btree_map<T,T>>("gtl::btree_map", count, repeat, f);
+	test_small_map_repeat<flat_map<T, T>>("seq::flat_map", count, repeat, f);
+	test_small_map_repeat<boost::container::flat_map<T,T> >("boost::flat_map<T>", count, repeat, f);
+	test_small_map_repeat<std::map<T, T>>("std::map", count, repeat, f);
+}
+*/
+
+
+int bench_map(int, char** const)
+{
+	
+	using string = tstring;
+	
+	// test random tuple
+	{
+		std::random_device dev;
+		std::mt19937 rngi(dev());
+		std::uniform_int_distribution<unsigned> dist;
+		test_map<std::tuple<unsigned, unsigned>>(2000000, [&](size_t i) { return std::make_tuple(dist(rngi), dist(rngi)); });
+	}
+
+	// test random integers
+	{
+		std::random_device dev;
+		std::mt19937 rngi(dev());
+		std::uniform_int_distribution<size_t> dist;
+		test_map<size_t>(2000000, [&](size_t i) { return dist(rngi); });
+	}
+	// test random floating point values
+	{
+		// std::random_device rd;
+		std::mt19937 e2(0);
+		std::uniform_real_distribution<> dist;
+		test_map<double>(2000000, [&](size_t i) { return dist(e2); });
+	}
+
+	// Random short strings
+	test_map<string>(1000000, [](size_t i) { return generate_random_string<string>(13, true); });
+
+	// random mix of short and long strings
+	test_map<string>(1000000, [](size_t i) { return generate_random_string<string>(63, false); });
+	// Test with seq::r_any
+	test_map<seq::r_any>(2000000, [](size_t i) {
+		size_t idx = i & 3U;
+		switch (idx) {
+			case 0:
+				return seq::r_any(i * UINT64_C(0xc4ceb9fe1a85ec53));
+			case 1:
+				return seq::r_any((double)i * (double)UINT64_C(0xc4ceb9fe1a85ec53));
+			default:
+				return seq::r_any(generate_random_string<seq::tstring>(13, true));
+		}
+	});
+	
+	return 0;
+}

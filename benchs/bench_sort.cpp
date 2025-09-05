@@ -47,17 +47,14 @@ void indisort(T start, size_t size, Cmp c)
 	}
 }
 
-
-
-
 template<class Arithmetic>
 std::vector<Arithmetic> generate_random_numbers(size_t count, Arithmetic max = std::numeric_limits<Arithmetic>::max())
 {
 	std::mt19937 rng(0);
 	std::vector<Arithmetic> vec(count);
-	if constexpr(std::is_integral_v<Arithmetic>) {
+	if constexpr (std::is_integral_v<Arithmetic>) {
 		std::uniform_int_distribution<Arithmetic> dist(0, max);
-		for (size_t i = 0; i < vec.size(); ++i) 
+		for (size_t i = 0; i < vec.size(); ++i)
 			vec[i] = (dist(rng));
 	}
 	else {
@@ -86,7 +83,6 @@ std::vector<Type> generate_random(size_t count, size_t max_size_or_val)
 		return generate_random_strings<Type>(count, max_size_or_val);
 }
 
-
 template<class Type>
 std::vector<Type> generate_waves(size_t count, size_t max_wave_len, size_t max_val)
 {
@@ -111,7 +107,6 @@ std::vector<Type> generate_waves(size_t count, size_t max_wave_len, size_t max_v
 	return res;
 }
 
-
 enum Method
 {
 	StdSort,
@@ -129,32 +124,31 @@ bool sort(Vec& v, Cmp c, Method m)
 {
 	switch (m) {
 		case StdSort:
-			std::sort(v.begin(), v.end(),c);
+			std::sort(v.begin(), v.end(), c);
 			break;
 		case StdStableSort:
-			std::stable_sort(v.begin(), v.end(),c);
+			std::stable_sort(v.begin(), v.end(), c);
 			break;
 		case Pdqsort:
-			pdqsort(v.begin(), v.end(),c);
+			pdqsort(v.begin(), v.end(), c);
 			break;
 #ifdef BOOST_FOUND
 		case BoostSpinSort:
-			boost::sort::spinsort(v.begin(), v.end(),c);
+			boost::sort::spinsort(v.begin(), v.end(), c);
 			break;
 #endif
 		case NetSort:
 			seq::net_sort(v.begin(), v.end(), c);
 			break;
 		case NetSortTiny:
-			seq::net_sort(v.begin(), v.end(), c,seq::tiny_buffer);
+			seq::net_sort(v.begin(), v.end(), c, seq::tiny_buffer);
 			break;
 	}
 	return std::is_sorted(v.begin(), v.end());
 }
 
-
 template<class Vec, class F>
-void test_pattern(const Vec & v , const char * name, F f)
+void test_pattern(const Vec& v, const char* name, F f)
 {
 	using namespace seq;
 
@@ -166,12 +160,11 @@ void test_pattern(const Vec & v , const char * name, F f)
 	auto vec = v;
 	size_t el;
 	bool sorted;
-	
+
 	tick();
 	sorted = sort(vec, std::less<>{}, StdSort);
 	el = tock_ms();
 	std::cout << f("std::sort", el, sorted) << std::endl;
-	
 
 	vec = v;
 	tick();
@@ -210,22 +203,18 @@ template<class Type>
 void test_patterns_for_type(size_t count, size_t max_val)
 {
 	auto f = seq::join("|", seq::_str().l(20), seq::_fmt(seq::_u(), " ms").c(20), seq::_fmt<bool>().c(20));
-	
 
 	auto v = generate_random<Type>(count, max_val);
 	std::sort(v.begin(), v.end());
 
-
-	test_pattern(v,"sorted",  f);
+	test_pattern(v, "sorted", f);
 
 	std::sort(v.begin(), v.end(), std::greater<>{});
 	test_pattern(v, "reverse", f);
 
+	test_pattern(generate_random<Type>(count, max_val), "random", f);
 
-	test_pattern(generate_random<Type>(count, max_val),"random", f);
-
-
-	test_pattern(generate_waves<Type>(count, 1000, max_val), "wave" ,f);
+	test_pattern(generate_waves<Type>(count, 1000, max_val), "wave", f);
 }
 
 int bench_sort(int, char** const)
@@ -239,7 +228,7 @@ int bench_sort(int, char** const)
 
 	std::cout << "Test double" << std::endl;
 	test_patterns_for_type<double>(10000000, std::numeric_limits<size_t>::max());
-	
+
 	using string = std::string;
 
 	std::cout << std::endl;
@@ -253,7 +242,6 @@ int bench_sort(int, char** const)
 	std::cout << std::endl;
 	std::cout << "Test string length 70" << std::endl;
 	test_patterns_for_type<string>(1000000, 70);
-	
 
 	return 0;
 }

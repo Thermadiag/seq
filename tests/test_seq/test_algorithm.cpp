@@ -56,7 +56,6 @@ void test_reverse_sort_stability()
 	SEQ_TEST(eq);
 }
 
-
 void test_move_only()
 {
 	// Test net_sort on move only type
@@ -74,11 +73,11 @@ void test_move_only()
 
 void test_unique()
 {
-	//Test seq::unique validity and stability
+	// Test seq::unique validity and stability
 
 	using ptr_type = std::shared_ptr<size_t>;
 	std::vector<ptr_type> vec(1000000);
-	for (size_t i=0; i < vec.size(); ++i)
+	for (size_t i = 0; i < vec.size(); ++i)
 		vec[i] = std::make_shared<size_t>(i % 100);
 
 	auto v = vec;
@@ -86,9 +85,7 @@ void test_unique()
 	v.erase(end, v.end());
 	SEQ_TEST(v.size() == 100);
 	SEQ_TEST(std::equal(v.begin(), v.end(), vec.begin(), vec.begin() + 100));
-
 }
-
 
 void test_unique_move_only()
 {
@@ -111,6 +108,6 @@ SEQ_PROTOTYPE(int test_algorithm(int, char** const))
 	test_unique_move_only();
 	test_stability();
 	test_move_only();
-	
+
 	return 0;
 }

@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,6 @@
 #include "type_traits.hpp"
 #include "utils.hpp"
 
-
 #ifdef min
 #undef min
 #undef max
@@ -64,7 +63,7 @@ namespace seq
 
 	template<class Char>
 	using basic_tstring_view = tiny_string<Char, std::char_traits<Char>, view_allocator<Char>, 0>;
-	
+
 	/// @brief Base string view typedef, similar to std::string_view.
 	using tstring_view = basic_tstring_view<char>;
 	using wtstring_view = basic_tstring_view<wchar_t>;
@@ -101,15 +100,17 @@ namespace seq
 			const char* pInLimit = static_cast<const char*>(_pInLimit);
 			const char* pStart = pIn;
 
-			while SEQ_LIKELY(pIn < pInLimit - (stepsize - 1)) {
-				size_t const diff = read_size_t(pMatch) ^ read_size_t(pIn);
-				if (diff == 0u) {
-					pIn += stepsize;
-					pMatch += stepsize;
-					continue;
+			while
+				SEQ_LIKELY(pIn < pInLimit - (stepsize - 1))
+				{
+					size_t const diff = read_size_t(pMatch) ^ read_size_t(pIn);
+					if (diff == 0u) {
+						pIn += stepsize;
+						pMatch += stepsize;
+						continue;
+					}
+					return static_cast<size_t>(pIn - pStart);
 				}
-				return static_cast<size_t>(pIn - pStart);
-			}
 
 			if ((stepsize == 8) && (pIn < (pInLimit - 3)) && (read_32(pMatch) == read_32(pIn))) {
 				pIn += 4;
@@ -322,7 +323,7 @@ namespace seq
 		{
 			return std::basic_string_view<Char, Traits>(data, size).find_first_not_of(s, pos, n);
 
-			//Possible implementation:
+			// Possible implementation:
 			/* const Char* end = data + size;
 			const Char* send = s + n;
 			for (const Char* p = data + pos; p != end; ++p) {
@@ -341,7 +342,7 @@ namespace seq
 		{
 			return std::basic_string_view<Char, Traits>(data, size).find_last_not_of(s, pos, n);
 
-			//Possible implementation:
+			// Possible implementation:
 			/* if (size == 0)
 				return npos;
 			if (pos >= size)
@@ -476,7 +477,7 @@ namespace seq
 			SEQ_STR_INLINE_STRONG StringHolder() noexcept { reset(); }
 			template<class Union>
 			SEQ_STR_INLINE_STRONG StringHolder(const Union& u) noexcept
-			//:d_union(u){
+			//: d_union(u){
 			{
 				memcpy(&d_union, &u, sizeof(d_union));
 				// avoid a reset operation
@@ -497,10 +498,7 @@ namespace seq
 					return (d_union.non_sso.size & (non_sso_flag - 1ULL));
 				return d_union.non_sso.size;
 			}
-			SEQ_STR_INLINE_STRONG std::uintptr_t size() const noexcept
-			{
-				return size(last_sso_char());
-			}
+			SEQ_STR_INLINE_STRONG std::uintptr_t size() const noexcept { return size(last_sso_char()); }
 			SEQ_STR_INLINE_STRONG const Char* data() const noexcept { return is_sso() ? d_union.sso.data : (d_union.non_sso.data + char_offset); }
 			SEQ_STR_INLINE_STRONG Char* data() noexcept { return is_sso() ? d_union.sso.data : (d_union.non_sso.data + char_offset); }
 
@@ -818,8 +816,8 @@ namespace seq
 		SEQ_STR_INLINE_STRONG Char* resize_grow(size_t len, bool exact_size = false)
 		{
 			// Resize for growing, keep old data
-			if SEQ_UNLIKELY(is_sso()) {
-				if SEQ_UNLIKELY(len > sso_max_size) {
+			if SEQ_UNLIKELY (is_sso()) {
+				if SEQ_UNLIKELY (len > sso_max_size) {
 					internal_resize(len, true, exact_size);
 					return d_data.d_union.non_sso.data + char_offset;
 				}
@@ -829,7 +827,7 @@ namespace seq
 				}
 			}
 			else {
-				if SEQ_UNLIKELY(len > *reinterpret_cast<const size_t*>(d_data.d_union.non_sso.data) - 1)
+				if SEQ_UNLIKELY (len > *reinterpret_cast<const size_t*>(d_data.d_union.non_sso.data) - 1)
 					internal_resize(len, true, exact_size);
 				else
 					d_data.setSizeNonSSO(len);
@@ -1305,7 +1303,7 @@ namespace seq
 			internal_resize(n, false, true);
 			std::fill_n(this->data(), n, c);
 			return *this;
-		} 
+		}
 		/// @brief Assign to this string the initializer list il
 		auto assign(std::initializer_list<Char> il) -> tiny_string& { return assign(il.begin(), il.end()); }
 		/// @brief Move the content of other to this string. Equivalent to tiny_string::operator=.
@@ -1314,7 +1312,7 @@ namespace seq
 			if constexpr (sizeof(tiny_string) <= 16 || !noexcept(move_allocator(std::declval<Allocator&>(), std::declval<Allocator&>())))
 				// Use internal_data.swap() for small static size or if moving allocator is NOT noexcept
 				d_data.swap(other.d_data);
-			else if SEQ_LIKELY(this != std::addressof(other)) {
+			else if SEQ_LIKELY (this != std::addressof(other)) {
 				if (!is_sso())
 					d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal() + char_offset);
 				memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
@@ -1515,7 +1513,7 @@ namespace seq
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "pop_back on an empty string!");
 
-			if SEQ_LIKELY(!is_sso()) {
+			if SEQ_LIKELY (!is_sso()) {
 				size_t s = d_data.sizeNonSSO() - 1;
 				d_data.setSizeNonSSO(s);
 				d_data.d_union.non_sso.data[s + char_offset] = 0;
@@ -1573,7 +1571,7 @@ namespace seq
 		/// @brief Append buffer content to this string
 		auto append(const Char* s, size_t n) -> tiny_string&
 		{
-			if SEQ_UNLIKELY(n == 0)
+			if SEQ_UNLIKELY (n == 0)
 				return *this;
 			size_t old_size = size();
 			size_t new_size = old_size + n;
@@ -1585,7 +1583,7 @@ namespace seq
 		/// @brief Append n copies of character c to the string
 		auto append(size_t n, Char c) -> tiny_string&
 		{
-			if SEQ_UNLIKELY(n == 0)
+			if SEQ_UNLIKELY (n == 0)
 				return *this;
 			size_t old_size = size();
 			size_t new_size = old_size + n;
@@ -1974,18 +1972,9 @@ namespace seq
 
 		size_t rfind(const std::basic_string_view<Char, Traits>& str, size_t pos = npos) const noexcept { return rfind(str.data(), pos, str.size()); }
 
-		auto rfind(const Char* s, size_t pos = npos) const noexcept -> size_t
-		{ 
-			return rfind(s, pos, Traits::length(s)); 
-		}
-		auto rfind(const Char* s, size_t pos, size_type n) const noexcept -> size_t 
-		{ 
-			return detail::traits_string_rfind<Traits>(data(), pos, size(), s, n, npos); 
-		}
-		auto rfind(Char c, size_t pos = npos) const noexcept -> size_t
-		{
-			return std::basic_string_view<Char, Traits>(data(), size()).rfind(c, pos);
-		}
+		auto rfind(const Char* s, size_t pos = npos) const noexcept -> size_t { return rfind(s, pos, Traits::length(s)); }
+		auto rfind(const Char* s, size_t pos, size_type n) const noexcept -> size_t { return detail::traits_string_rfind<Traits>(data(), pos, size(), s, n, npos); }
+		auto rfind(Char c, size_t pos = npos) const noexcept -> size_t { return std::basic_string_view<Char, Traits>(data(), size()).rfind(c, pos); }
 
 		auto find_first_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t { return detail::traits_string_find_first_of<Traits>(data(), pos, size(), s, n, npos); }
 		template<class Al, size_t S>
@@ -2002,10 +1991,7 @@ namespace seq
 			return find_last_of(str.data(), pos, str.size());
 		}
 		auto find_last_of(const Char* s, size_t pos = npos) const noexcept -> size_t { return find_last_of(s, pos, Traits::length(s)); }
-		auto find_last_of(const Char* s, size_t pos, size_t n = npos) const noexcept -> size_t 
-		{ 
-			return detail::traits_string_find_last_of<Traits>(data(), pos, size(), s, n, npos); 
-		}
+		auto find_last_of(const Char* s, size_t pos, size_t n = npos) const noexcept -> size_t { return detail::traits_string_find_last_of<Traits>(data(), pos, size(), s, n, npos); }
 		auto find_last_of(Char c, size_t pos = npos) const noexcept -> size_t { return rfind(c, pos); }
 
 		template<class Al, size_t S>
@@ -2052,13 +2038,13 @@ namespace seq
 		template<class Al>
 		SEQ_STR_INLINE_STRONG auto compare(const std::basic_string<Char, Traits, Al>& str) const noexcept -> int
 		{
-			return detail::traits_string_compare<Traits>(data() , size(), str.data(), str.size());
+			return detail::traits_string_compare<Traits>(data(), size(), str.data(), str.size());
 		}
 		SEQ_STR_INLINE_STRONG auto compare(const std::basic_string_view<Char, Traits>& str) const noexcept -> int
 		{
-			return detail::traits_string_compare<Traits>(data() , size(), str.data(), str.size());
-		}		
-		
+			return detail::traits_string_compare<Traits>(data(), size(), str.data(), str.size());
+		}
+
 		template<class Al, size_t S>
 		auto compare(size_t pos, size_t len, const tiny_string<Char, Traits, Al, S>& str) const noexcept -> int
 		{
@@ -2378,14 +2364,8 @@ namespace seq
 		auto rfind(const std::basic_string_view<Char, Traits>& str, size_t pos = npos) const noexcept -> size_t { return rfind(str.data(), pos, str.size()); }
 
 		auto rfind(const Char* s, size_t pos = npos) const noexcept -> size_t { return rfind(s, pos, Traits::length(s)); }
-		auto rfind(const Char* s, size_t pos, size_type n) const noexcept -> size_t 
-		{
-			return detail::traits_string_rfind(data(), pos, size(), s, n, npos); 
-		}
-		auto rfind(Char c, size_t pos = npos) const noexcept -> size_t
-		{
-			return std::basic_string_view<Char, Traits>(data(), size()).rfind(c, pos);
-		}
+		auto rfind(const Char* s, size_t pos, size_type n) const noexcept -> size_t { return detail::traits_string_rfind(data(), pos, size(), s, n, npos); }
+		auto rfind(Char c, size_t pos = npos) const noexcept -> size_t { return std::basic_string_view<Char, Traits>(data(), size()).rfind(c, pos); }
 
 		auto find_first_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t { return detail::traits_string_find_first_of<Traits>(data(), pos, size(), s, n, npos); }
 		template<class A, size_t S>
@@ -2402,10 +2382,7 @@ namespace seq
 			return find_last_of(str.data(), pos, str.size());
 		}
 		auto find_last_of(const Char* s, size_t pos = npos) const noexcept -> size_t { return find_last_of(s, pos, Traits::length(s)); }
-		auto find_last_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t 
-		{ 
-			return detail::traits_string_find_last_of(data(), pos, size(), s, n, npos); 
-		}
+		auto find_last_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t { return detail::traits_string_find_last_of(data(), pos, size(), s, n, npos); }
 		auto find_last_of(Char c, size_t pos = npos) const noexcept -> size_t { return rfind(c, pos); }
 
 		template<class A, size_t S>
@@ -2458,13 +2435,13 @@ namespace seq
 		template<class Al>
 		SEQ_STR_INLINE_STRONG auto compare(const std::basic_string<Char, Traits, Al>& str) const noexcept -> int
 		{
-			return detail::traits_string_compare<Traits>(data() , size(), str.data(), str.size());
+			return detail::traits_string_compare<Traits>(data(), size(), str.data(), str.size());
 		}
 		SEQ_STR_INLINE_STRONG auto compare(const std::basic_string_view<Char, Traits>& str) const noexcept -> int
 		{
-			return detail::traits_string_compare<Traits>(data() , size(), str.data(), str.size());
-		}		
-		
+			return detail::traits_string_compare<Traits>(data(), size(), str.data(), str.size());
+		}
+
 		template<class Al>
 		auto compare(size_t pos, size_t len, const std::basic_string<Char, Traits, Al>& str) const noexcept -> int
 		{
@@ -2612,7 +2589,6 @@ namespace seq
 		return detail::traits_string_inf<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
 	}
 
-
 	template<class Char, class Traits, class A1, class A2, size_t S1, size_t S2>
 	SEQ_STR_INLINE auto operator<=(const tiny_string<Char, Traits, A1, S1>& lhs, const tiny_string<Char, Traits, A2, S2>& rhs) noexcept -> bool
 	{
@@ -2648,7 +2624,6 @@ namespace seq
 	{
 		return detail::traits_string_inf_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
 	}
-
 
 	template<class Char, class Traits, class A1, class A2, size_t S1, size_t S2>
 	SEQ_STR_INLINE auto operator>(const tiny_string<Char, Traits, A1, S1>& lhs, const tiny_string<Char, Traits, A2, S2>& rhs) noexcept -> bool
@@ -2686,7 +2661,6 @@ namespace seq
 		return detail::traits_string_sup<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
 	}
 
-
 	template<class Char, class Traits, class A1, class A2, size_t S1, size_t S2>
 	SEQ_STR_INLINE auto operator>=(const tiny_string<Char, Traits, A1, S1>& lhs, const tiny_string<Char, Traits, A2, S2>& rhs) noexcept -> bool
 	{
@@ -2722,7 +2696,6 @@ namespace seq
 	{
 		return detail::traits_string_sup_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
 	}
-
 
 	////////////////////////////////////////////////////////////////
 	// Concatenation operators
@@ -2782,7 +2755,7 @@ namespace seq
 	} // end namespace detail
 
 	template<class Char, class Traits, class Al, size_t Size, class Al2, size_t Size2>
-	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, const tiny_string<Char, Traits, Al2, Size2>& rhs) 
+	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, const tiny_string<Char, Traits, Al2, Size2>& rhs)
 	{
 		using find_alloc = detail::FindAllocator<Al, Al2>;
 		using ret_type = typename detail::FindReturnType<Char, Traits, tiny_string<Char, Traits, Al, Size>, tiny_string<Char, Traits, Al2, Size2>>::type;
@@ -2795,16 +2768,15 @@ namespace seq
 	}
 
 	template<class Char, class Traits, size_t Size, class Al, class Al2>
-	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, const std::basic_string<Char, Traits, Al2>& rhs) 
+	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, const std::basic_string<Char, Traits, Al2>& rhs)
 	{
 		return lhs + tstring_view(rhs.data(), rhs.size());
 	}
 	template<class Char, class Traits, size_t Size, class Al>
-	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, const std::basic_string_view<Char, Traits>& rhs) 
+	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, const std::basic_string_view<Char, Traits>& rhs)
 	{
 		return lhs + tstring_view(rhs.data(), rhs.size());
 	}
-
 
 	template<class Char, class Traits, size_t Size, class Al>
 	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, const Char* rhs)
@@ -2812,13 +2784,13 @@ namespace seq
 		return lhs + tstring_view(rhs);
 	}
 	template<class Char, class Traits, size_t Size, class Al>
-	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, char rhs) 
+	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, char rhs)
 	{
 		return lhs + tstring_view(&rhs, 1);
 	}
 
 	template<class Char, class Traits, size_t Size, class Al, class Al2>
-	SEQ_STR_INLINE auto operator+(const std::basic_string<Char, Traits, Al2>& lhs, const tiny_string<Char, Traits, Al, Size>& rhs) 
+	SEQ_STR_INLINE auto operator+(const std::basic_string<Char, Traits, Al2>& lhs, const tiny_string<Char, Traits, Al, Size>& rhs)
 	{
 		return tstring_view(lhs.data(), lhs.size()) + rhs;
 	}
@@ -2828,14 +2800,13 @@ namespace seq
 		return tstring_view(lhs.data(), lhs.size()) + rhs;
 	}
 
-
 	template<class Char, class Traits, size_t Size, class Al>
-	SEQ_STR_INLINE auto operator+(const Char* lhs, const tiny_string<Char, Traits, Al, Size>& rhs) 
+	SEQ_STR_INLINE auto operator+(const Char* lhs, const tiny_string<Char, Traits, Al, Size>& rhs)
 	{
 		return tstring_view(lhs) + rhs;
 	}
 	template<class Char, class Traits, size_t Size, class Al>
-	SEQ_STR_INLINE auto operator+(Char lhs, const tiny_string<Char, Traits, Al, Size>& rhs) 
+	SEQ_STR_INLINE auto operator+(Char lhs, const tiny_string<Char, Traits, Al, Size>& rhs)
 	{
 		return tstring_view(&lhs, 1) + rhs;
 	}
@@ -2862,7 +2833,6 @@ namespace seq
 		return str.data();
 	}
 
-
 	/// @brief Returns the string size for given string object
 	template<class Char, class Traits, class Al>
 	inline auto string_size(const std::basic_string<Char, Traits, Al>& str) -> size_t
@@ -2884,8 +2854,6 @@ namespace seq
 	{
 		return str.size();
 	}
-
-
 
 	//////
 	// String related type traits
@@ -2911,8 +2879,6 @@ namespace seq
 		using char_type = typename std::remove_const<c_type>::type;
 		static constexpr bool value = (std::is_pointer<T>::value || std::is_array<T>::value) && is_character_type<char_type>::value;
 	};
-
-
 
 	/// @brief Detect tiny_string
 	template<class T>
@@ -2944,7 +2910,6 @@ namespace seq
 	{
 	};
 
-
 	/// @brief Detect tiny_string, std::string, but not tstring_view
 	template<class T>
 	struct is_allocated_string : std::false_type
@@ -2960,16 +2925,15 @@ namespace seq
 	{
 	};
 
-
 	/// @brief Detect all possible string types (std::string, tstring, tstring_view, std::string_view, const char*, char*,...
 	template<class T>
-	struct is_generic_string2 
+	struct is_generic_string2
 	{
 		static constexpr bool value = is_character_pointer<T>::value || is_tiny_string<T>::value || is_basic_string<T>::value || is_basic_string_view<T>::value;
 	};
 
 	/// @brief Find char type for given generic string
-	template<class T, class  = void>
+	template<class T, class = void>
 	struct character_type
 	{
 		using type = void;
@@ -2995,10 +2959,8 @@ namespace seq
 		using type = typename T::value_type;
 	};
 
-	
-
 	/// @brief Detect all possible string types (std::string, tstring, tstring_view, std::string_view, const char*, char*
-	template<class T, class  = void>
+	template<class T, class = void>
 	struct is_generic_char_string : std::false_type
 	{
 	};
@@ -3007,7 +2969,7 @@ namespace seq
 	{
 		static constexpr bool value = std::is_same<char, typename is_character_pointer<T>::char_type>::value;
 	};
-	
+
 	template<class Traits, class Allocator>
 	struct is_generic_char_string<std::basic_string<char, Traits, Allocator>, void> : std::true_type
 	{
@@ -3020,8 +2982,6 @@ namespace seq
 	struct is_generic_char_string<std::basic_string_view<char, Traits>, void> : std::true_type
 	{
 	};
-
-
 
 	/// @brief Detect all possible string types of any character type (std::basic_string, basic_tstring, basic_tstring_view, std::basic_string_view, const Char*, Char*
 	template<class T, class = void>
@@ -3045,7 +3005,6 @@ namespace seq
 	{
 	};
 
-
 	/// @brief Detect tstring_view or std::string_view
 	template<class T>
 	struct is_string_view : std::false_type
@@ -3062,7 +3021,7 @@ namespace seq
 
 	/// @brief Detect generic string view: tstring_view, std::string_view, char*, const char*
 	template<class T>
-	struct is_generic_string_view 
+	struct is_generic_string_view
 	{
 		static constexpr bool value = is_character_pointer<T>::value;
 	};
@@ -3210,7 +3169,6 @@ namespace seq
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
 		}
-
 	};
 
 	/// @brief Specialization of seq::hasher for basic_string
@@ -3259,7 +3217,6 @@ namespace seq
 
 namespace std
 {
-	
 
 	/// @brief Specialization of std::hash for tiny_string
 	/// This specialization uses a (relatively) strong hash function: murmurhash2
@@ -3293,6 +3250,5 @@ namespace std
 	};
 
 } // end namespace std
-
 
 #endif

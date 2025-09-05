@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-
 #include <utility>
 #include <list>
 #include <deque>
@@ -31,21 +30,24 @@
 #include <seq/any.hpp>
 #include <seq/format.hpp>
 
-
-
 namespace seq
 {
 	// Specialization of ostream_format for std::pair<T,T>
 
 	template<class T, bool S>
-	class ostream_format<std::pair<T, T>,S> : public base_ostream_format<std::pair<T, T>, ostream_format<std::pair<T, T>,S > >
+	class ostream_format<std::pair<T, T>, S> : public base_ostream_format<std::pair<T, T>, ostream_format<std::pair<T, T>, S>>
 	{
-		using base_type = base_ostream_format<std::pair<T, T>, ostream_format<std::pair<T, T>,S > >;
+		using base_type = base_ostream_format<std::pair<T, T>, ostream_format<std::pair<T, T>, S>>;
 
 	public:
-
-		ostream_format() : base_type() {}
-		ostream_format(const std::pair<T, T>& v) : base_type(v) {}
+		ostream_format()
+		  : base_type()
+		{
+		}
+		ostream_format(const std::pair<T, T>& v)
+		  : base_type(v)
+		{
+		}
 
 		// The specialization must provide this member:
 
@@ -69,8 +71,6 @@ namespace seq
 	};
 }
 
-
-
 inline void test_format()
 {
 
@@ -78,20 +78,19 @@ inline void test_format()
 
 	const double PI = 3.14159265358979323846;
 
-	{ 
+	{
 		// Test formatting single values
 
-		SEQ_TEST_TO_OSTREAM("3.14159", fmt(PI)); //default double formatting
-		SEQ_TEST_TO_OSTREAM("3.141593E+00", fmt(PI, 'E')); //scientific notation, equivalent to fmt(PI).format('E') or fmt(PI).t('E')
-		SEQ_TEST_TO_OSTREAM("3.14159265359E+00", fmt(PI, 'E').precision(12)); //scientific notation with maximum precision, equivalent to fmt(PI).t('E').precision(12) or fmt(PI).t('E').p(12)
-		SEQ_TEST_TO_OSTREAM("3,14159", fmt(PI).dot(',')); //change dot, equivalent to fmt(PI).d(',')
-		SEQ_TEST_TO_OSTREAM("---3.14159", fmt(PI).right(10).fill('-')); //align to the right and pad with '-', equivalent to fmt(PI).r(10).f('-')
-		SEQ_TEST_TO_OSTREAM("3.14159---", fmt(PI).left(10).fill('-')); //align to the left and pad with '-', equivalent to fmt(PI).l(10).f('-')
-		SEQ_TEST_TO_OSTREAM("-3.14159--", fmt(PI).center(10).fill('-')); //align to the center and pad with '-', equivalent to fmt(PI).c(10).f('-')
-		SEQ_TEST_TO_OSTREAM("0x1E240", fmt(123456).base(16).hex_prefix().upper()); //hexadecimal upper case with '0x' prefix. equivalent to fmt(123456).b(16).h().u() or hex(123456).h().u()
-		SEQ_TEST_TO_OSTREAM("**hello***", fmt("hello").c(10).f('*')); //center string and pad with '*', equivalent to fmt("hello").center(10).fill('*')
-		SEQ_TEST_TO_OSTREAM("ell", fmt("hello").c(3).f('*'));  //center and truncate string
-			
+		SEQ_TEST_TO_OSTREAM("3.14159", fmt(PI));			      // default double formatting
+		SEQ_TEST_TO_OSTREAM("3.141593E+00", fmt(PI, 'E'));		      // scientific notation, equivalent to fmt(PI).format('E') or fmt(PI).t('E')
+		SEQ_TEST_TO_OSTREAM("3.14159265359E+00", fmt(PI, 'E').precision(12)); // scientific notation with maximum precision, equivalent to fmt(PI).t('E').precision(12) or fmt(PI).t('E').p(12)
+		SEQ_TEST_TO_OSTREAM("3,14159", fmt(PI).dot(','));		      // change dot, equivalent to fmt(PI).d(',')
+		SEQ_TEST_TO_OSTREAM("---3.14159", fmt(PI).right(10).fill('-'));	      // align to the right and pad with '-', equivalent to fmt(PI).r(10).f('-')
+		SEQ_TEST_TO_OSTREAM("3.14159---", fmt(PI).left(10).fill('-'));	      // align to the left and pad with '-', equivalent to fmt(PI).l(10).f('-')
+		SEQ_TEST_TO_OSTREAM("-3.14159--", fmt(PI).center(10).fill('-'));      // align to the center and pad with '-', equivalent to fmt(PI).c(10).f('-')
+		SEQ_TEST_TO_OSTREAM("0x1E240", fmt(123456).base(16).hex_prefix().upper()); // hexadecimal upper case with '0x' prefix. equivalent to fmt(123456).b(16).h().u() or hex(123456).h().u()
+		SEQ_TEST_TO_OSTREAM("**hello***", fmt("hello").c(10).f('*'));		   // center string and pad with '*', equivalent to fmt("hello").center(10).fill('*')
+		SEQ_TEST_TO_OSTREAM("ell", fmt("hello").c(3).f('*'));			   // center and truncate string
 
 		// Direct string conversion
 		std::string str = fmt(PI);
@@ -103,17 +102,17 @@ inline void test_format()
 	{
 		// Test formatting single values with shortcuts
 
-		SEQ_TEST_TO_OSTREAM("u", ch('u'));	//equivalent to fmt('u').as_char() or fmt('u').c()
-		SEQ_TEST_TO_OSTREAM("1.2e+00", e(1.2));	//equivalent to fmt(1.2,'e') or fmt(1.2).format('e') or fmt(1.2).t('e')
-		SEQ_TEST_TO_OSTREAM("1.2E+00", E(1.2));	//equivalent to fmt(1.2,'E') or fmt(1.2).format('E') or fmt(1.2).t('E')
-		SEQ_TEST_TO_OSTREAM("1.2", f(1.2));	//equivalent to fmt(1.2,'f') or fmt(1.2).format('f') or fmt(1.2).t('f')
-		SEQ_TEST_TO_OSTREAM("1.2", F(1.2) );	//equivalent to fmt(1.2,'F') or fmt(1.2).format('F') or fmt(1.2).t('F')
-		SEQ_TEST_TO_OSTREAM("1.2", g(1.2) );	//equivalent to fmt(1.2,'g') or fmt(1.2).format('g') or fmt(1.2).t('g')
-		SEQ_TEST_TO_OSTREAM("1.2", G(1.2) );	//equivalent to fmt(1.2,'G') or fmt(1.2).format('G') or fmt(1.2).t('G')
-		SEQ_TEST_TO_OSTREAM("100", fmt(100));	//
-		SEQ_TEST_TO_OSTREAM("64", hex(100));	//equivalent to fmt(100).base(16) or fmt(100).b(16)
-		SEQ_TEST_TO_OSTREAM("144", oct(100));	//equivalent to fmt(100).base(8) or fmt(100).b(8)
-		SEQ_TEST_TO_OSTREAM("1100100", bin(100));	//equivalent to fmt(100).base(2) or fmt(100).b(2)
+		SEQ_TEST_TO_OSTREAM("u", ch('u'));	  // equivalent to fmt('u').as_char() or fmt('u').c()
+		SEQ_TEST_TO_OSTREAM("1.2e+00", e(1.2));	  // equivalent to fmt(1.2,'e') or fmt(1.2).format('e') or fmt(1.2).t('e')
+		SEQ_TEST_TO_OSTREAM("1.2E+00", E(1.2));	  // equivalent to fmt(1.2,'E') or fmt(1.2).format('E') or fmt(1.2).t('E')
+		SEQ_TEST_TO_OSTREAM("1.2", f(1.2));	  // equivalent to fmt(1.2,'f') or fmt(1.2).format('f') or fmt(1.2).t('f')
+		SEQ_TEST_TO_OSTREAM("1.2", F(1.2));	  // equivalent to fmt(1.2,'F') or fmt(1.2).format('F') or fmt(1.2).t('F')
+		SEQ_TEST_TO_OSTREAM("1.2", g(1.2));	  // equivalent to fmt(1.2,'g') or fmt(1.2).format('g') or fmt(1.2).t('g')
+		SEQ_TEST_TO_OSTREAM("1.2", G(1.2));	  // equivalent to fmt(1.2,'G') or fmt(1.2).format('G') or fmt(1.2).t('G')
+		SEQ_TEST_TO_OSTREAM("100", fmt(100));	  //
+		SEQ_TEST_TO_OSTREAM("64", hex(100));	  // equivalent to fmt(100).base(16) or fmt(100).b(16)
+		SEQ_TEST_TO_OSTREAM("144", oct(100));	  // equivalent to fmt(100).base(8) or fmt(100).b(8)
+		SEQ_TEST_TO_OSTREAM("1100100", bin(100)); // equivalent to fmt(100).base(2) or fmt(100).b(2)
 	}
 
 	{
@@ -129,56 +128,49 @@ inline void test_format()
 		// Direct stream with nested formatting
 		SEQ_TEST_TO_OSTREAM("...Or it could be 4.33e+01 ", fmt("...Or it could be", fmt(43.3, 'e').c(10)));
 
-
 		// Reuse a formatting object built without arguments
 		auto f = fmt<int, tstring_view, double, tstring_view, double>();
 		SEQ_TEST_TO_OSTREAM("1 + 2.2 = 3.2", f(1, " + ", 2.2, " = ", 3.2));
-
 
 		// Reuse a formatting object and use seq::null to only update some arguments
 		auto f2 = fmt(int(), " + ", fmt<double>().format('g'), " = ", fmt<double>().format('e'));
 		SEQ_TEST_TO_OSTREAM("1 + 2.2 = 3.2e+00", f2(1, null, 2.2, null, 3.2));
 
 		// Convert to string or tstring
-		std::string s1 = f2(1, null, 2.2, null, 3.2);	//equivalent to s1 = f2(1, null, 2.2, null, 3.2).str();
-		tstring s2 = f2(1, null, 2.2, null, 3.2);		//equivalent to s2 = f2(1, null, 2.2, null, 3.2).str<tstring>();
+		std::string s1 = f2(1, null, 2.2, null, 3.2); // equivalent to s1 = f2(1, null, 2.2, null, 3.2).str();
+		tstring s2 = f2(1, null, 2.2, null, 3.2);     // equivalent to s2 = f2(1, null, 2.2, null, 3.2).str<tstring>();
 		SEQ_TEST(s1 == "1 + 2.2 = 3.2e+00");
 		SEQ_TEST(s2 == "1 + 2.2 = 3.2e+00");
 
 		// Append to string
 		s2 += ", repeat-> ";
-		f2(1, null, 2.2, null, 3.2).append(s2);			// append formatted result to s2
+		f2(1, null, 2.2, null, 3.2).append(s2); // append formatted result to s2
 		SEQ_TEST_TO_OSTREAM("1 + 2.2 = 3.2e+00, repeat-> 1 + 2.2 = 3.2e+00", s2);
-
 
 		// Modify formatting object using get() and/or set()
 		f2.set<0>(fmt<int>().base(16).h().u()); // reset the formatting object at position 0
-		f2.get<2>().format('e');				// modifiy the formatting object at position 2
-		SEQ_TEST_TO_OSTREAM( "0x1 + 2.2e+00 = 3.2e+00", f2(1, null, 2.2, null, 3.2));
-
+		f2.get<2>().format('e');		// modifiy the formatting object at position 2
+		SEQ_TEST_TO_OSTREAM("0x1 + 2.2e+00 = 3.2e+00", f2(1, null, 2.2, null, 3.2));
 
 		// Use positional argument
 		SEQ_TEST_TO_OSTREAM("0x1 + 2.2e+00 = 3.2e+00", f2(pos<0, 2, 4>(), 1, 2.2, 3.2)); // provided arguments are used for positions 0, 2 and 4
 
 		// Positional directly in the fmt call
 		auto f3 = fmt(pos<0, 2, 4>(), int(), " + ", seq::g<double>(), " = ", seq::e<double>());
-		SEQ_TEST_TO_OSTREAM( "1 + 2.2 = 3.2e+00", f3(1, 2.2, 3.2));
-
+		SEQ_TEST_TO_OSTREAM("1 + 2.2 = 3.2e+00", f3(1, 2.2, 3.2));
 
 		// Building tables
 
 		// header/trailer format, 2 columns of width 20 centered, separated by a '|'
 		auto header = fmt(pos<1, 3>(), "|", seq::str().c(20), "|", seq::str().c(20), "|");
-		//line format, 2 columns of width 20 centered, separated by a '|'
+		// line format, 2 columns of width 20 centered, separated by a '|'
 		auto line = fmt(pos<1, 3>(), "|", seq::fmt<double>().c(20), "|", seq::fmt<double>().c(20), "|");
 		// write table
 		SEQ_TEST_TO_OSTREAM("|      Header 1      |      Header 2      |", header("Header 1", "Header 2"));
 		SEQ_TEST_TO_OSTREAM("|        1.1         |        2.2         |", line(1.1, 2.2));
 		SEQ_TEST_TO_OSTREAM("|        3.3         |        4.4         |", line(3.3, 4.4));
 		SEQ_TEST_TO_OSTREAM("|     Trailer 1      |     Trailer 2      |", header("Trailer 1", "Trailer 2"));
-
 	}
-
 
 	{
 		// Print to std::ostream
@@ -202,7 +194,6 @@ inline void test_format()
 		char dst2[100];
 		*seq::fmt(1.123456789, 'g').to_chars(dst2, sizeof(dst2)).first = 0;
 		SEQ_TEST(dst2 == std::string("1.12346"));
-
 	}
 
 	{
@@ -216,11 +207,10 @@ inline void test_format()
 		SEQ_TEST_TO_OSTREAM("Print a pair of double centered: ******(1.2e+00, 3.4e+00)******", fmt("Print a pair of double centered: ", fmt(std::make_pair(1.2, 3.4)).t('e').c(30).f('*')));
 	}
 
-
 	{
 		// Create table. Make sure this compile without warning.
 		// Example used within format documentation.
-		
+
 		using namespace seq;
 
 		// Build the line format. Use join() to add a '|' character in between columns. Use _a() to format anything with the supplied width modifiers.
@@ -228,27 +218,24 @@ inline void test_format()
 		auto line = join("|", _a().l(20), _a().c(15), _a().c(15), _a().c(15), "");
 		// Slot argument passed to line object. Displays a time measurement as unsigned integer followed by " ms" string
 		auto slot = fmt(_u(), "ms");
-		// Another slot argument passed to line object. Displays a time measurment as unsigned integer followed by " ms" string, and a memory measurement as unsigned integer followed by " MO" string.
+		// Another slot argument passed to line object. Displays a time measurment as unsigned integer followed by " ms" string, and a memory measurement as unsigned integer followed by " MO"
+		// string.
 		auto slot2 = fmt(_u(), "ms / ", _u(), "MO");
 
 		// Output table header using the 'line' format object
 		std::cout << line("Operation type", "std::vector", "std::deque", "std::list") << std::endl;
 
-		// Output the  separator between table header and actual table content (something like ----|----|----|). 
+		// Output the  separator between table header and actual table content (something like ----|----|----|).
 		// Use reset() to clear the line content and set the fill character to '-'
 		std::cout << line.reset('-') << std::endl;
 
 		// Reset the fill character to ' ' (blank space)
 		line.reset(' ');
 
-
-
 		// Containers to benchmark
 		std::vector<size_t> vec;
 		std::deque<size_t> deq;
 		std::list<size_t> lst;
-
-
 
 		// Benchmark back insertion for std::vector, std::deque, std::list.
 		// We measure the time spent and the program memory footprint afterward.
@@ -257,7 +244,7 @@ inline void test_format()
 		tick();
 		for (size_t i = 0; i < 10000000; ++i)
 			vec.push_back(i);
-		std::uint64_t tvec = tock_ms(); //measure elapsed time
+		std::uint64_t tvec = tock_ms();			   // measure elapsed time
 		std::uint64_t mvec = get_memory_usage() / 1000000; // measure program memory usage
 
 		reset_memory_usage();
@@ -274,18 +261,16 @@ inline void test_format()
 		std::uint64_t tlst = tock_ms();
 		std::uint64_t mlst = get_memory_usage() / 1000000;
 
-
 		// Output measurments using the 'line' format object.
 		// Note that in this situation, we must use the operator*() of the slot objects to create copies.
 		// Indeed, passing values to the slot will modify it and return a reference. By calling slot2(...) several times
 		// in the same instruction, the line object will only receive the last set values in slot2 (depending on function evaluation order).
-		std::cout << line(
-			"push_back",		// type of operation (left aligned on 20 characters)
-			*slot2(tvec, mvec), // time and memory (centered on 15 characters)
-			*slot2(tdeq, mdeq), // time and memory (centered on 15 characters)
-			*slot2(tlst, mlst)	// time and memory (centered on 15 characters)
-		) << std::endl;
-
+		std::cout << line("push_back",	      // type of operation (left aligned on 20 characters)
+				  *slot2(tvec, mvec), // time and memory (centered on 15 characters)
+				  *slot2(tdeq, mdeq), // time and memory (centered on 15 characters)
+				  *slot2(tlst, mlst)  // time and memory (centered on 15 characters)
+				  )
+			  << std::endl;
 
 		// Benchmark iteration
 
@@ -305,22 +290,18 @@ inline void test_format()
 		tlst = tock_ms();
 
 		// Output measurments
-		std::cout << line(
-			"iterate",		// type of operation (left aligned on 20 characters)
-			*slot(tvec),	// time (centered on 15 characters)
-			*slot(tdeq),	// time (centered on 15 characters)
-			*slot(tlst)		// time (centered on 15 characters)
-		) << std::endl;
-
-		
+		std::cout << line("iterate",   // type of operation (left aligned on 20 characters)
+				  *slot(tvec), // time (centered on 15 characters)
+				  *slot(tdeq), // time (centered on 15 characters)
+				  *slot(tlst)  // time (centered on 15 characters)
+				  )
+			  << std::endl;
 	}
 }
 
-
-
-SEQ_PROTOTYPE( int test_format(int , char*[]))
+SEQ_PROTOTYPE(int test_format(int, char*[]))
 {
-	
+
 	SEQ_TEST_MODULE_RETURN(format, 1, test_format());
 	return 0;
 }

@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -76,6 +76,7 @@ namespace seq
 		LARGE_INTEGER StartingTime{ 0, 0 };
 		uint64_t start = 0;
 		uint64_t ok = 0;
+
 	public:
 		timer() noexcept {}
 		timer(const timer&) = delete;
@@ -84,7 +85,7 @@ namespace seq
 		void tick() noexcept
 		{
 			start = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-			ok = ::QueryPerformanceCounter(&StartingTime);				
+			ok = ::QueryPerformanceCounter(&StartingTime);
 		}
 		std::uint64_t tock() const noexcept
 		{
@@ -95,7 +96,7 @@ namespace seq
 						Elapsed.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
 						Elapsed.QuadPart *= 1000000000LL;
 						Elapsed.QuadPart /= Frequency.QuadPart;
-						return static_cast<std::uint64_t>(Elapsed.QuadPart );
+						return static_cast<std::uint64_t>(Elapsed.QuadPart);
 					}
 			return (std::chrono::high_resolution_clock::now().time_since_epoch().count() - start);
 		}

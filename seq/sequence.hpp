@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -72,8 +72,6 @@ namespace seq
 			std::uint64_t used;
 			// Index in the list of node. Ordered, but not necessarly incremented by one.
 			std::int64_t node_index;
-			// User define flag
-			std::int64_t user_flag;
 			// Index of the first valid value
 			int start;
 			// Past the end index of the last valid value
@@ -177,7 +175,6 @@ namespace seq
 			void clear_all() {}
 		};
 
-		
 		//
 		// const iterator for sequence object
 		//
@@ -242,7 +239,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto operator++() noexcept -> sequence_const_iterator&
 			{
 				++pos;
-				if SEQ_UNLIKELY(pos == count || !((node->used & (1ULL << pos)))) {
+				if SEQ_UNLIKELY (pos == count || !((node->used & (1ULL << pos)))) {
 					update_incr_pos();
 				}
 				// SEQ_ASSERT_DEBUG((pos >= 0 && pos < node->end) || (pos == 0 && node == &data->end), "invalid iterator position");
@@ -268,7 +265,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto operator--() noexcept -> sequence_const_iterator&
 			{
 				--pos;
-				if SEQ_UNLIKELY(pos == -1 || !((node->used & (1ULL << pos))) /*ptr == node->end*/) {
+				if SEQ_UNLIKELY (pos == -1 || !((node->used & (1ULL << pos))) /*ptr == node->end*/) {
 					update_decr_pos();
 				}
 				// SEQ_ASSERT_DEBUG(pos >= 0 && pos < node->end, "invalid iterator position");
@@ -523,7 +520,6 @@ namespace seq
 			return res;
 		}
 
-		
 		template<class List>
 		struct sequence_ra_iterator
 		{
@@ -568,7 +564,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE void setAbsolutePos(std::size_t _abs_pos) noexcept
 			{
 				SEQ_ASSERT_DEBUG(_abs_pos <= (data->size), "invalid iterator position");
-				if SEQ_UNLIKELY(_abs_pos == data->size) {
+				if SEQ_UNLIKELY (_abs_pos == data->size) {
 					node = data->end;
 					pos = node->start;
 				}
@@ -581,7 +577,7 @@ namespace seq
 				}
 				this->abs_pos = static_cast<difference_type>(_abs_pos);
 			}
-			SEQ_ALWAYS_INLINE auto operator[](difference_type offset) const noexcept -> reference 
+			SEQ_ALWAYS_INLINE auto operator[](difference_type offset) const noexcept -> reference
 			{
 				difference_type new_pos = pos + offset;
 				if (new_pos >= 0 && new_pos < node->end)
@@ -609,7 +605,7 @@ namespace seq
 			{
 				SEQ_ASSERT_DEBUG(abs_pos < static_cast<difference_type>(data->size), "invalid iterator position");
 				++abs_pos;
-				if (++pos >= node->end) 
+				if (++pos >= node->end)
 					update_incr();
 				return *this;
 			}
@@ -634,7 +630,7 @@ namespace seq
 			{
 				SEQ_ASSERT_DEBUG(abs_pos > 0, "invalid iterator position");
 				--abs_pos;
-				if (--pos < node->start) 
+				if (--pos < node->start)
 					update_decr();
 				SEQ_ASSERT_DEBUG(pos >= 0 && pos < node->end, "invalid iterator position");
 				return *this;
@@ -856,7 +852,7 @@ namespace seq
 							std::uint64_t mask = 1ULL << index;
 
 							// This might throw
-							if SEQ_LIKELY(node->used & mask) {
+							if SEQ_LIKELY (node->used & mask) {
 								// avoid moving value on itself, as it is buggy with mingw (gcc 10.1.0) which just clear the string
 								if (node->buffer() + index != it.node->buffer() + it.pos)
 									node->buffer()[index] = std::move(*it);
@@ -871,7 +867,7 @@ namespace seq
 							// Increment current node index
 							++index;
 
-							if SEQ_UNLIKELY(index == count) {
+							if SEQ_UNLIKELY (index == count) {
 								// End of node, go to next one
 								// First, update node bounds
 								node->start = 0;
@@ -1573,7 +1569,7 @@ namespace seq
 				d_data->deallocate_chunk(node);
 				node = next;
 			}
-			
+
 			destroy_data(d_data);
 			d_data = nullptr;
 		}
@@ -1585,16 +1581,16 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_back(Args&&... args) -> T&
 		{
-			if SEQ_UNLIKELY(!d_data)
+			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 			chunk_type* last = static_cast<chunk_type*>(d_data->end.prev);
-			if SEQ_UNLIKELY(last->used & (1ULL << (count - 1ULL)))
+			if SEQ_UNLIKELY (last->used & (1ULL << (count - 1ULL)))
 				return emplace_back_new_chunk(last, std::forward<Args>(args)...);
 
 			// Might throw which is fine
 			construct_ptr(last->buffer() + last->end, std::forward<Args>(args)...);
 			last->used |= (1ULL << (last->end));
-			if SEQ_UNLIKELY(last->used == full)
+			if SEQ_UNLIKELY (last->used == full)
 				remove_free_node(last);
 			++d_data->size;
 			return *(last->buffer() + last->end++);
@@ -1628,10 +1624,10 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_front(Args&&... args) -> T&
 		{
-			if SEQ_UNLIKELY(!d_data)
+			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 			chunk_type* first = static_cast<chunk_type*>(d_data->end.next);
-			if SEQ_UNLIKELY(first->used & 1)
+			if SEQ_UNLIKELY (first->used & 1)
 				return emplace_front_new_chunk(first, std::forward<Args>(args)...);
 			// Construct, might throw (which is ok)
 			construct_ptr(first->buffer() + first->start - 1, std::forward<Args>(args)...);
@@ -1676,7 +1672,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> iterator
 		{
-			if SEQ_UNLIKELY(!d_data)
+			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 
 			if (d_data->end.next_free == &d_data->end)
@@ -1706,7 +1702,6 @@ namespace seq
 		/// Strong exception guarantee.
 		SEQ_ALWAYS_INLINE auto insert(T&& value) -> iterator { return emplace(std::move(value)); }
 
-
 		/// @brief Resizes the container to contain count elements.
 		/// @param new_size new size of the container
 		/// @param value the value to initialize the new elements with
@@ -1725,7 +1720,7 @@ namespace seq
 				return;
 			}
 
-			if SEQ_UNLIKELY(!d_data)
+			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 
 			if (new_size > size()) {
@@ -1852,7 +1847,7 @@ namespace seq
 				return;
 			}
 
-			if SEQ_UNLIKELY(!d_data)
+			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 
 			if (new_size > size()) {
@@ -1969,7 +1964,7 @@ namespace seq
 		template<class Iter>
 		void assign(Iter first, Iter last)
 		{
-			if SEQ_UNLIKELY(!d_data)
+			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 			assign_cat(first, last, typename std::iterator_traits<Iter>::iterator_category());
 		}
@@ -1979,7 +1974,7 @@ namespace seq
 		/// Basic exception guarantee.
 		void assign(const std::initializer_list<T>& lst)
 		{
-			if SEQ_UNLIKELY(!d_data)
+			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 			assign_cat(lst.begin(), lst.end(), std::random_access_iterator_tag());
 		}
@@ -1990,7 +1985,7 @@ namespace seq
 		/// Basic exception guarantee.
 		void assign(size_type new_size, const T& value)
 		{
-			if SEQ_UNLIKELY(!d_data)
+			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 			assign_cat(cvalue_iterator<T>(0, value), cvalue_iterator<T>(new_size, value), std::random_access_iterator_tag());
 		}
@@ -2015,7 +2010,7 @@ namespace seq
 		/// Basic exception guarantee.
 		void reserve(size_t new_cap)
 		{
-			if SEQ_UNLIKELY(!d_data)
+			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 			if (new_cap > d_data->size) {
 				size_t chunks = new_cap / count + (new_cap % count ? 1 : 0);
@@ -2033,12 +2028,12 @@ namespace seq
 			T* ptr = front_ptr();
 			chunk_type* node = static_cast<chunk_type*>(d_data->end.next);
 
-			if SEQ_UNLIKELY(node->used == full)
+			if SEQ_UNLIKELY (node->used == full)
 				add_free_node(node);
 
 			node->used &= ~(1ULL << static_cast<std::uint64_t>(node->start));
 			destroy_ptr(ptr);
-			if SEQ_UNLIKELY(node->used == 0ULL)
+			if SEQ_UNLIKELY (node->used == 0ULL)
 				pop_front_remove_chunk(node);
 			else {
 				++node->start;
@@ -2058,12 +2053,12 @@ namespace seq
 			T* ptr = back_ptr();
 			chunk_type* node = static_cast<chunk_type*>(d_data->end.prev);
 
-			if SEQ_UNLIKELY(node->used == full)
+			if SEQ_UNLIKELY (node->used == full)
 				add_free_node(node);
 
 			node->used &= ~(1ULL << static_cast<std::uint64_t>(ptr - node->buffer()));
 			destroy_ptr(ptr);
-			if SEQ_UNLIKELY(node->used == 0ULL)
+			if SEQ_UNLIKELY (node->used == 0ULL)
 				pop_back_remove_chunk(node);
 			else {
 				if (!(node->used & (1ULL << static_cast<std::uint64_t>(--node->end - 1))))
@@ -2107,12 +2102,12 @@ namespace seq
 
 			destroy_ptr(ptr);
 
-			if SEQ_UNLIKELY(it.node->used == full)
+			if SEQ_UNLIKELY (it.node->used == full)
 				add_free_node(it.node);
 
 			it.node->used &= ~(1ULL << (it.pos));
 
-			if SEQ_LIKELY(it.node->used != 0) {
+			if SEQ_LIKELY (it.node->used != 0) {
 				if (it.pos == it.node->start)
 					it.node->start = static_cast<int>(bit_scan_forward_64(it.node->used));
 				if (it.pos == it.node->end - 1)
@@ -2195,8 +2190,8 @@ namespace seq
 		/// @brief Sort the sequence using given comparator.
 		/// sort() relies on seq::net_sort().
 		/// This invalidates all iterators and references.
-		template<class Less, class Buffer  >
-		void sort(Less less, Buffer buf )
+		template<class Less, class Buffer>
+		void sort(Less less, Buffer buf)
 		{
 			if (empty())
 				return;
@@ -2220,6 +2215,8 @@ namespace seq
 				iters[i + 1] = begin + abs_pos;
 				net_sort_size(d.chunks[i]->buffer() + d.chunks[i]->start, csize, less, buf);
 			}
+			if (iters.size() > 2 && iters.back() == iters[iters.size() - 2])
+				iters.pop_back();
 			inplace_merge(iters.data(), iters.size(), less, buf);
 		}
 

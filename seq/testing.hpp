@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2022 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -243,7 +243,6 @@ namespace seq
 	{
 
 		detail::get_clock().tick();
-
 	}
 
 	/// @brief For tests only, returns elapsed milliseconds since last call to tick()
@@ -270,7 +269,7 @@ namespace seq
 			return true;
 		if (first == last || first2 == last2)
 			return false;
-		
+
 		if constexpr (is_random_access_v<Iter1> && is_random_access_v<Iter2>)
 			if (std::distance(first, last) != std::distance(first2, last2))
 				return false;
