@@ -3018,7 +3018,7 @@ namespace seq
 
 							// check directory prefix
 							if (prefix_search && d->prefix_len) {
-								if (!check_prefix(hash, bit_pos, d))//TEST
+								if (!check_prefix(hash, bit_pos, d))
 									return cend();
 								else
 									bit_pos += d->prefix_len;
@@ -3062,7 +3062,7 @@ namespace seq
 
 							// check directory prefix
 							if (prefix_search && d->prefix_len) {
-								if (!check_prefix(hash, bit_pos, d)) //TEST: bit_pos
+								if (!check_prefix(hash, bit_pos, d)) 
 									return nullptr;
 								else
 									bit_pos += d->prefix_len;
@@ -3128,7 +3128,7 @@ namespace seq
 					if constexpr (prefix_search) {
 						// check directory prefix
 						if (d->prefix_len) {
-							if (!check_prefix(hash, bit_pos, d)) {//TEST: bit_pos
+							if (!check_prefix(hash, bit_pos, d)) {
 								bool less = Less{}(ExtractKey{}(d->any_child()), key);
 								auto tmp = const_iterator::find_next(
 								  less ? d->parent : d, less ? d->parent_pos + 1 : 0, less ? bit_pos - d->parent->hash_len : bit_pos + d->prefix_len);
@@ -3158,8 +3158,6 @@ namespace seq
 					return lower_bound_in_vector(d, pos, bit_pos, key);
 
 				const node* n = d->children()[pos].to_node();
-				//TEST
-				auto & back = n->back();
 				unsigned p = n->template lower_bound<ExtractKey, Less, Equal>(bit_pos, th, key);
 				if (p != n->count())
 					return const_iterator(d_data, d, pos, p, bit_pos);

@@ -743,9 +743,9 @@ namespace seq
 		/// @brief Returns the container full capacity (back_capacity() + size() + front_capacity())
 		SEQ_ALWAYS_INLINE auto capacity() const noexcept -> size_t { return this->base_type::capacity; }
 		/// @brief Returns the container back capacity
-		SEQ_ALWAYS_INLINE auto back_capacity() const noexcept -> size_t { return this->data + capacity() - this->base_type::end; }
+		SEQ_ALWAYS_INLINE auto back_capacity() const noexcept -> size_t { return (this->base_type::data + capacity()) - this->base_type::end; }
 		/// @brief Returns the container front capacity
-		SEQ_ALWAYS_INLINE auto front_capacity() const noexcept -> size_t { return this->start - this->data; }
+		SEQ_ALWAYS_INLINE auto front_capacity() const noexcept -> size_t { return this->start - this->base_type::data; }
 		/// @brief Returns the container maximum size
 		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
 		/// @brief Returns true if the container is empty, false otherwise
