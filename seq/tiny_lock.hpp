@@ -291,18 +291,3 @@ namespace seq
 
 
 
-
-
-
-namespace seq
-{
-	namespace detail
-	{
-		class thread_data
-		{
-			std::mutex mutex;
-			std::condition_variable cond;
-			std::queue<std::function<void>> queue;
-		};
-	}
-}
