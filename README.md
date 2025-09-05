@@ -51,7 +51,7 @@ The library is divided in 7 small modules:
 -	[format](docs/format.md): fast and type safe formatting tools
 -	[containers](docs/containers.md): main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector, compressed vector...
 -	[any](docs/any.md): type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.
--	[algorithm](docs/algorithm): a (small) collection of algorithm include the `net_sort` stable sorting algorithm.
+-	[algorithm](docs/algorithm.md): a (small) collection of algorithm include the `net_sort` stable sorting algorithm.
 
 A cmake project is provided for installation and compilation of tests/benchmarks.
 
