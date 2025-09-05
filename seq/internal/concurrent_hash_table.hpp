@@ -1317,7 +1317,7 @@ namespace seq
 					auto found = FindWithTh<extract_key, chain_concurrent_node_size>(th, d_data->key_eq(), key, d->hashs, d->values());
 					if (found) {
 						// Erase from dense node if functor returns true
-						if (!std::forward<F>(fun)(*found))
+						if (!std::forward<F>(fun)(const_cast<Value&>(*found)))
 							return 0;
 
 						erase_from_dense(bucket, values, d, static_cast<unsigned>(found - d->values()));
@@ -1353,7 +1353,7 @@ namespace seq
 				auto found = FindWithTh<extract_key, max_concurrent_node_size>(th, d_data->key_eq(), key, bucket->hashs, values->values());
 				if (found) {
 					// Erase from main bucket if functor returns true
-					if (!std::forward<F>(fun)(*found))
+					if (!std::forward<F>(fun)(const_cast<Value&>(*found)))
 						return 0;
 					erase_from_bucket(bucket, values, static_cast<unsigned>(found - values->values()));
 					--d_size;
