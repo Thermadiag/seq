@@ -21,8 +21,12 @@ set(SEQ_INSTALL_LIBDIR       "${CMAKE_INSTALL_LIBDIR}")
 set(SEQ_INSTALL_DATAROOTDIR  "${CMAKE_INSTALL_DATAROOTDIR}")
 set(SEQ_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/seq")
 
+# create source file list
+file(GLOB SeqSources
+     "seq/*.hpp"
+)
 
-add_library(seq INTERFACE )
+add_library(seq INTERFACE ${SeqSources})
 
 target_include_directories(seq INTERFACE
 					   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/seq>"

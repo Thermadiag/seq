@@ -9,3 +9,5 @@ set(SEQ_VERSION "@PROJECT_VERSION@")
 
 set_and_check(SEQ_INCLUDE_DIR "${PACKAGE_PREFIX_DIR}/include")
 
+# Automatic addition of include dir
+include_directories(${SEQ_INCLUDE_DIR})

@@ -1169,7 +1169,7 @@ namespace seq
 			other.d_data.reset();
 		}
 		/// @brief Move constructor with custom allocator
-		tiny_string(tiny_string&& other, const Allocator& al) noexcept
+		tiny_string(tiny_string&& other, const Allocator& al) 
 		  : d_data(al)
 		{
 			memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
