@@ -1,6 +1,8 @@
 
 
-[![CTest](https://github.com/Thermadiag/seq/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/cmake.yml)
+[![CTest](https://github.com/Thermadiag/seq/actions/workflows/build-linux.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/build-linux.yml)
+[![CTest](https://github.com/Thermadiag/seq/actions/workflows/build-macos.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/build-macos.yml)
+[![CTest](https://github.com/Thermadiag/seq/actions/workflows/build-windows.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/build-windows.yml)
 
 Transitioning to v2.0
 ---------------------
