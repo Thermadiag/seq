@@ -153,6 +153,44 @@ Several *Sharding* values are predefined:
 -	`seq::no_concurrency`: the `seq::concurrent_map` is not thread safe and behaves like any other hash table, but using a different interface. This is used to test the raw performance of `seq::concurrent_map` compared to other hash tables like `boost::unordered_flat_map`.
 
 
+## Basic usage
+
+```cpp
+
+#include <seq/concurrent_map.hpp>
+#include <iostream>
+
+//...
+
+// Use default map type
+seq::concurrent_map<int,int> map;
+
+// insert values
+for(int i = 0; i < 10; ++i)
+	map.emplace(i,i);
+	
+// find a value
+map.visit(1 , [](auto & val) {std::cout << "found "<<val.first<<", "<<val.second << std::endl;});
+
+// failed lookup, found is false
+bool found = map.visit(-1,[](auto&){});
+
+// walk through the map
+map.visit_all([](auto & val) {std::cout << "found "<<val.first<<", "<<val.second << std::endl;});
+
+// erase all entries one by one
+for(int i=0; i < 10; ++i)
+	map.erase(i);
+	
+	
+
+// Use custom concurrency: shared and high concurrency
+seq::concurrent_map<int,int, seq::hasher<int>, std::equal_to<>, std::allocator<std::pair<int,int>>, seq::high_concurrency_shared> map2;
+
+
+
+```
+
 ## Performances
 
 The performances of `seq::concurrent_map` has been evaluated based on `boost::concurrent_flat_map`, `gtl::parallel_flat_hash_map`, `libcuckoo::cuckoohash_map` and `tbb::concurrent_hash_map` for simple operations: parallel insert, parallel erase, parallel successfull lookups and parallel failed lookups. The following graphs show the results of each benchmark by comparing the number of performed operations/second depending on the number of threads (the higher the better). 

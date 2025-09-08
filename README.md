@@ -89,6 +89,8 @@ Acknowledgements
 
 *seq* library uses a simplified version of the [komihash](https://github.com/avaneev/komihash) hash function for its hashing framework.
 
+The `net_sort` stable sorting algorithm uses several ideas originaly coming (I think) from the [quadsort](https://github.com/scandum/quadsort) algorithm from scandum (bidirectional merge and ping-pong merge). 
+
 Benchmarks (in `seq/benchs`) compare the performances of the *seq* library with other great libraries that I use in personnal or professional projects:
 -	<a href="https://plflib.org/">plf</a>: used for the plf::colony container,
 -	<a href="https://github.com/greg7mdp/gtl">gtl</a>: used for its gtl::btree_set and gtl::parallel_flat_hash_map,
