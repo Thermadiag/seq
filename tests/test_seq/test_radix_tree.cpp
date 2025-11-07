@@ -1226,8 +1226,79 @@ struct Extract
 	T operator()(const TestDestroy<T>& v) const { return static_cast<T>(v); }
 };
 
+#include <vector>
+#include "radix_tuple_serie.hpp"
+
+template<class Map>
+static void check_map(const Map& m)
+{
+	for (auto it = m.begin(); it != m.end(); ++it) {
+		SEQ_TEST(m.find(it->first) != m.end());
+	}
+}
+
+static void test_issue()
+{
+	seq::radix_map<std::tuple<uint32_t, uint32_t>, std::vector<std::tuple<uint32_t, uint32_t>>> tuples;
+
+	unsigned count = sizeof(serie) / sizeof(std::tuple<uint32_t, uint32_t>);
+	for (unsigned i = 0; i < count; ++i) {
+		auto key = serie[i];
+		std::vector<std::tuple<uint32_t, uint32_t>> values = { key };
+		tuples.insert(std::make_pair(key, values));
+	}
+	check_map(tuples);
+
+	// Test tuple is truly inserted
+	std::tuple<uint32_t, uint32_t> test_tuple = { 9305, 9999 };
+	tuples.insert(std::make_pair((test_tuple), std::vector<std::tuple<uint32_t, uint32_t>>{ test_tuple }));
+	check_map(tuples);
+
+	// Test if the test tuple is found (as expected => true)
+	//auto find_result_0 = tuples.find((test_tuple));
+	//bool contains_step_0 = find_result_0 != tuples.end();
+	//std::cout << "First: " << contains_step_0 << std::endl;
+
+	// insert a new tuple (should not affect the test tuple)
+	{
+		std::tuple<uint32_t, uint32_t> to_insert = { 9323, 20001 };
+		auto it = tuples.find((to_insert));
+		if (it == tuples.end()) {
+			std::vector<std::tuple<uint32_t, uint32_t>> values = { to_insert };
+			tuples.insert(std::make_pair((to_insert), values));
+		}
+		else {
+			it->second.push_back(to_insert);
+		}
+	}
+	check_map(tuples);
+
+	// Test if the test tuple is found (as expected => true)
+	//auto find_result_1 = tuples.find((test_tuple));
+	//bool contains_step_1 = find_result_1 != tuples.end();
+	//std::cout << "Second: " << contains_step_1 << std::endl;
+
+	// This insertion breaks the radix map somehow
+	{
+		std::tuple<uint32_t, uint32_t> to_insert = { 9323, 20002 };
+		auto it = tuples.find((to_insert));
+		if (it == tuples.end()) {
+			std::vector<std::tuple<uint32_t, uint32_t>> values = { to_insert };
+			tuples.insert(std::make_pair((to_insert), values));
+		}
+		else {
+			it->second.push_back(to_insert);
+		}
+	}
+	check_map(tuples);
+}
+
+
+
 SEQ_PROTOTYPE(int test_radix_tree(int, char*[]))
 {
+	
+	test_issue();
 
 	SEQ_TEST_MODULE_RETURN(radix_set_string, 1, test_string_key());
 	SEQ_TEST_MODULE_RETURN(test_worst_string_key_a, 1, test_worst_string_key('a'));

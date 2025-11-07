@@ -16,12 +16,12 @@
 -	`seq::unique`: removed duplicates from a range in a stable way. This is very similar to `std::unique` except that the range does not need to be sorted. It uses a hash table under the hood to find duplicate values. A custom hash function and comparison function can be passed for custom types.
 
 -	`seq::net_sort` and `seq::net_sort_size`: "new" generic stable sorting algorithm that is used everywhere within the seq library.  `seq::net_sort` is a merge sort algorithm with the following specificities:
-		-	Bottom-up merging instead of the more traditional top-down approach,
-		-	Small blocks of 8 elements are sorted using a sorting network,
-		-	Bidirectional merging is used for relocatable types,
-		-	Ping-pong merge is used to merge 4 sorted ranges,
-		-	Can work without allocating memory through a (potentially null) user provided buffer,
-		-	Also works on bidirectional iterators.
+	-	Bottom-up merging instead of the more traditional top-down approach,
+	-	Small blocks of 8 elements are sorted using a sorting network,
+	-	Bidirectional merging is used for relocatable types,
+	-	Ping-pong merge is used to merge 4 sorted ranges,
+	-	Can work without allocating memory through a (potentially null) user provided buffer,
+	-	Also works on bidirectional iterators.
 
 	If provided buffer is one of `seq::default_buffer`, `seq::medium_buffer`, `seq::small_buffer` or `seq::tiny_buffer`, this function will try to allocate memory.
 

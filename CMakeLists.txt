@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(seq
-    VERSION 2.0
+    VERSION 2.1
     DESCRIPTION "Collection of C++17 original containers"
     HOMEPAGE_URL "https://github.com/Thermadiag/seq"
     LANGUAGES CXX

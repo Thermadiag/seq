@@ -2128,6 +2128,8 @@ namespace seq
 				directory* new_dir = directory::make(d_data->base, new_hash_len);
 				// copy prefix length
 				new_dir->prefix_len = dir->prefix_len;
+				// set parent, used by iterator::get_bit_pos
+				new_dir->parent = parent_dir;
 
 				try {
 					for (unsigned i = 0; i < size; ++i) {
@@ -2135,8 +2137,10 @@ namespace seq
 						unsigned child_count = child->size();
 
 						if (prefix_search && child->prefix_len >= start_arity) {
-							// keep this directory and remove max_hash_len to the prefix.
-							unsigned loc = (i << start_arity) | (get_prefix_first_bits(child, start_arity, bit_pos));
+							// keep this directory and remove start_arity to the prefix.
+							size_t dir_pos = iterator::get_bit_pos(new_dir);
+							unsigned loc = hash_key(child->any_child()).n_bits(dir_pos, new_hash_len);
+
 							child->prefix_len -= start_arity;
 							new_dir->child(loc) = dir->const_child(i);
 							new_dir->child_count++;
@@ -2148,7 +2152,7 @@ namespace seq
 						}
 
 						if (child->hash_len != start_arity) {
-							// if child has more than min_hash_len bits
+							// if child has more than start_arity bits
 							unsigned rem_bits = child->hash_len - start_arity;
 							unsigned mask = ((1U << rem_bits) - 1U);
 
@@ -2210,6 +2214,9 @@ namespace seq
 
 					throw;
 				}
+
+				// reset parent
+				new_dir->parent = nullptr;
 
 				// destroy old directory
 				directory::destroy(d_data->base, dir, false);
@@ -2973,7 +2980,7 @@ namespace seq
 			}
 
 			/// @brief Check if given hash value share the same prefix as d
-			//SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const directory* d) const noexcept { return check_prefix(hash, hash_key(d->any_child()), d->prefix_len); }
+			// SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const directory* d) const noexcept { return check_prefix(hash, hash_key(d->any_child()), d->prefix_len); }
 
 			/// @brief Find key in vector node
 			template<class U>
@@ -3062,7 +3069,7 @@ namespace seq
 
 							// check directory prefix
 							if (prefix_search && d->prefix_len) {
-								if (!check_prefix(hash, bit_pos, d)) 
+								if (!check_prefix(hash, bit_pos, d))
 									return nullptr;
 								else
 									bit_pos += d->prefix_len;
