@@ -1297,7 +1297,18 @@ static void test_issue()
 
 SEQ_PROTOTYPE(int test_radix_tree(int, char*[]))
 {
-	
+	{
+		seq::radix_map<std::tuple<uint64_t>, uint64_t> tuples;
+
+		std::tuple<uint64_t> dummy = std::make_tuple(1000);
+		auto it = tuples.find(dummy);
+		if (it == tuples.end()) {
+			std::cout << "End" << std::endl;
+		}
+		else {
+			std::cout << "Not End" << std::endl;
+		}
+	}
 	test_issue();
 
 	SEQ_TEST_MODULE_RETURN(radix_set_string, 1, test_string_key());
