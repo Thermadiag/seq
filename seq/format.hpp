@@ -789,19 +789,19 @@ namespace seq
 		};
 
 		/// @brief Tells if T is one of format library basic type (arithmetic or tstring_view types)
-		template<class T, bool IsBasicType = (std::is_arithmetic<T>::value || is_tiny_string<T>::value || inline_value_storage<T>::value)>
+		template<class T, bool IsBasicType = (std::is_arithmetic_v<T> || is_tiny_string<T>::value || inline_value_storage<T>::value)>
 		struct is_fmt_basic_type
 		{
 			static constexpr bool value = IsBasicType;
 		};
 
 		template<class Out, class In>
-		typename std::enable_if<std::is_convertible<In, Out>::value, Out>::type HolderConvert(const In& v)
+		typename std::enable_if<std::is_convertible_v<In, Out>, Out>::type HolderConvert(const In& v)
 		{
 			return static_cast<Out>(v);
 		}
 		template<class Out, class In>
-		typename std::enable_if<!std::is_convertible<In, Out>::value, const In&>::type HolderConvert(const In& v)
+		typename std::enable_if<!std::is_convertible_v<In, Out>, const In&>::type HolderConvert(const In& v)
 		{
 			return v;
 		}
@@ -810,11 +810,8 @@ namespace seq
 		template<class T, bool IsBasicType = is_fmt_basic_type<T>::value>
 		struct ValueHolder
 		{
-			T _value;
-			ValueHolder()
-			  : _value()
-			{
-			}
+			T _value ;
+			ValueHolder() = default;
 			explicit ValueHolder(const T& value)
 			  : _value(value)
 			{
@@ -831,11 +828,8 @@ namespace seq
 		template<class T>
 		struct ValueHolder<T, false>
 		{
-			const T* _value;
-			ValueHolder()
-			  : _value(nullptr)
-			{
-			}
+			const T* _value = nullptr;
+			ValueHolder() = default;
 			explicit ValueHolder(const T& value)
 			  : _value(&value)
 			{
@@ -850,7 +844,7 @@ namespace seq
 		struct ValueHolder<ostream_format<T, Slot>, false>
 		{
 			// Handle nested ostream_format
-			ostream_format<T, Slot> _value;
+			ostream_format<T, Slot> _value ;
 			ValueHolder()
 			  : _value()
 			{
@@ -1010,26 +1004,26 @@ namespace seq
 		static constexpr bool is_formattable = true;
 		using value_type = T;
 		using char_type = typename character_type<T>::type;
-		using valid_char_type = typename std::conditional<std::is_void<char_type>::value, char, char_type>::type;
+		using valid_char_type = typename std::conditional<std::is_void_v<char_type>, char, char_type>::type;
 
 	protected:
 		template<class Char>
 		void assert_char() const noexcept
 		{
-			static_assert(std::is_void<char_type>::value || std::is_same<char_type, Char>::value, "cannot mix different character types");
+			static_assert(std::is_void_v<char_type> || std::is_same_v<char_type, Char>, "cannot mix different character types");
 		}
 
 	public:
 		base_ostream_format()
 		  : _value()
 		  , _width()
-		  , _format(std::is_floating_point<T>::value ? 'g' : static_cast<char>(10))
+		  , _format(std::is_floating_point_v<T> ? 'g' : static_cast<char>(10))
 		{
 		}
 		explicit base_ostream_format(const T& val)
 		  : _value(val)
 		  , _width()
-		  , _format(std::is_floating_point<T>::value ? 'g' : static_cast<char>(10))
+		  , _format(std::is_floating_point_v<T> ? 'g' : static_cast<char>(10))
 		{
 		}
 		base_ostream_format(const T& val, char base_or_format)
@@ -1488,10 +1482,7 @@ namespace seq
 		///
 		/// If the type is integral, initialize to base 10.
 		/// If the type ia floating point, initialize the format with 'g'.
-		ostream_format()
-		  : base_type()
-		{
-		}
+		ostream_format() = default;
 
 		explicit ostream_format(const T& value)
 		  : base_type(value)
@@ -1525,9 +1516,9 @@ namespace seq
 		auto write_integral_to_string(String& tmp, const ostream_format<U, S>& val) const -> size_t
 		{
 			using Char = typename String::value_type;
-			using ValType = typename std::decay<decltype(val.value())>::type;
-			using Integral = typename std::conditional<std::is_pointer<ValType>::value, uintptr_t, ValType>::type;
-			Integral ival = (Integral)val.value();
+			using ValType = std::decay_t<decltype(val.value())>;
+			using Integral = std::conditional_t<std::is_pointer_v<ValType>, uintptr_t, ValType>;
+			Integral ival = (Integral)(val.value());
 
 			to_chars_result<Char> f;
 			size_t size;
@@ -1652,10 +1643,7 @@ namespace seq
 		using char_type = typename ostream_format<T, S1>::char_type;
 		using valid_char_type = typename ostream_format<T, S1>::valid_char_type;
 
-		ostream_format()
-		  : base_type()
-		{
-		}
+		ostream_format() = default;
 
 		explicit ostream_format(const ostream_format<T, S1>& value)
 		  : base_type(value)
@@ -1676,7 +1664,7 @@ namespace seq
 	inline auto operator<<(std::basic_ostream<Elem, Traits>& oss, const ostream_format<T, S>& val) -> std::basic_ostream<Elem, Traits>&
 	{
 		using valid_char_type = typename ostream_format<T, S>::valid_char_type;
-		static_assert(std::is_same<valid_char_type, Elem>::value, "output to stream: cannot mix different character types");
+		static_assert(std::is_same_v<valid_char_type, Elem>, "output to stream: cannot mix different character types");
 		auto& tmp = detail::ostream_buffer<Elem>();
 		tmp.clear();
 		size_t s = val.to_string(tmp);
@@ -1705,7 +1693,7 @@ namespace seq
 		};
 
 		template<typename T, bool S>
-		struct FormatWrapper<T, S, typename std::enable_if<(std::is_pointer<T>::value && !is_generic_string<T>::value), void>::type>
+		struct FormatWrapper<T, S, typename std::enable_if<(std::is_pointer_v<T> && !is_generic_string<T>::value), void>::type>
 		{
 			// Default behavior: use ostream_format<T> without const ref
 			using type = ostream_format<const void*, S>;
@@ -1839,7 +1827,7 @@ namespace seq
 			template<class String, class Sep>
 			static void convert(String& out, const Tuple& t, Sep sep)
 			{
-				static_assert(std::is_same<typename String::value_type, typename Sep::value_type>::value, "convert: cannot mix different character types");
+				static_assert(std::is_same_v<typename String::value_type, typename Sep::value_type>, "convert: cannot mix different character types");
 				static constexpr int pos = tuple_size - N;
 				std::get<pos>(t).append(out);
 				if SEQ_CONSTEXPR (HasSeparator && pos != (tuple_size - 1)) {
@@ -2091,8 +2079,8 @@ namespace seq
 		struct base_separator
 		{
 			using GuessChar = typename GuessCharType<Tuple>::type;
-			using char_type = typename std::conditional<std::is_void<Char>::value, GuessChar, Char>::type;
-			using valid_char_type = typename std::conditional<std::is_void<char_type>::value, char, char_type>::type;
+			using char_type = typename std::conditional<std::is_void_v<Char>, GuessChar, Char>::type;
+			using valid_char_type = typename std::conditional<std::is_void_v<char_type>, char, char_type>::type;
 		};
 
 		/// @brief Store separator string (only if HasSeparator is true) used by join() function
@@ -2462,7 +2450,7 @@ namespace seq
 			using wrapped_tuple = metafunction::result_of<metafunction::transform_elements<std::tuple<Args...>, apply_wrapper>>;
 			using return_type = mutli_ostream_format<wrapped_tuple, C, HS, Pos, Slot>;
 
-			static return_type build(Args&&... args) { return return_type(std::forward<Args>(args)...); }
+			static auto build(Args&&... args) { return return_type(std::forward<Args>(args)...); }
 		};
 
 		template<class C, bool HS, bool Slot, class... Args>
@@ -2471,7 +2459,7 @@ namespace seq
 			using type = typename std::remove_const<typename std::remove_reference<Args...>::type>::type;
 			using return_type = typename FormatWrapper<type, Slot>::type;
 
-			static auto build(Args&&... args) -> return_type { return return_type(std::forward<Args>(args)...); }
+			static auto build(Args&&... args) { return return_type(std::forward<Args>(args)...); }
 		};
 
 		// Check that the first type of variadict template is iterable
@@ -2847,7 +2835,7 @@ namespace seq
 		size_t to_string(String& out) const
 		{
 			using CharType = typename String::value_type;
-			static_assert(std::is_same<CharType, Char>::value, "to_string: cannot mix different character types");
+			static_assert(std::is_same_v<CharType, Char>, "to_string: cannot mix different character types");
 
 			using val_type = typename T::value_type;
 
@@ -2956,7 +2944,7 @@ namespace seq
 	template<class Elem, class Traits, class T, class C, bool HS, class P, bool S>
 	inline auto operator<<(std::basic_ostream<Elem, Traits>& oss, const detail::mutli_ostream_format<T, C, HS, P, S>& val) -> std::basic_ostream<Elem, Traits>&
 	{
-		static_assert(std::is_void<C>::value || std::is_same<Elem, C>::value, "cannot mix different character types");
+		static_assert(std::is_void_v<C> || std::is_same_v<Elem, C>, "cannot mix different character types");
 		auto& tmp = detail::multi_ostream_buffer<Elem>();
 		tmp.clear();
 		val.append(tmp);
@@ -3234,7 +3222,7 @@ namespace seq
 	auto split(const Str& str, const detail::match_base<Char, Match>& match, Skip skip = Skip())
 	{
 		using CharType = typename character_type<Str>::type;
-		static_assert(std::is_void<Char>::value || std::is_same<CharType, Char>::value, "split: cannot mix different character types");
+		static_assert(std::is_void_v<Char> || std::is_same_v<CharType, Char>, "split: cannot mix different character types");
 		return detail::internal_split(str, static_cast<const Match&>(match), skip);
 	}
 

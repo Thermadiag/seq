@@ -38,7 +38,7 @@
 namespace seq
 {
 	/// @brief Compute integer type maximum value at compile time
-	template<class T, bool Signed = std::is_signed<T>::value>
+	template<class T, bool Signed = std::is_signed_v<T>>
 	struct integer_max
 	{
 		static constexpr T value = std::numeric_limits<T>::max(); // static_cast<T>( ~(static_cast < T>(1) << (static_cast<T>(sizeof(T) * 8) - static_cast < T>(1))) );
@@ -50,7 +50,7 @@ namespace seq
 	};
 
 	/// @brief Compute integer type minimum value at compile time
-	template<class T, bool Signed = std::is_signed<T>::value>
+	template<class T, bool Signed = std::is_signed_v<T>>
 	struct integer_min
 	{
 		static constexpr T value = (-integer_max<T>::value) - static_cast<T>(1);
@@ -62,7 +62,7 @@ namespace seq
 	};
 
 	/// @brief Define the return type of seq::negate_if_signed and seq::abs
-	template<class T, bool Signed = std::is_signed<T>::value, size_t Size = sizeof(T)>
+	template<class T, bool Signed = std::is_signed_v<T>, size_t Size = sizeof(T)>
 	struct integer_abs_return
 	{
 		using type = T;
@@ -156,7 +156,7 @@ namespace seq
 	template<class T>
 	struct is_relocatable
 	{
-		static constexpr bool value = std::is_trivially_copyable<T>::value && std::is_trivially_destructible<T>::value;
+		static constexpr bool value = std::is_trivially_copyable_v<T> && std::is_trivially_destructible_v<T>;
 	};
 
 	template<class T>

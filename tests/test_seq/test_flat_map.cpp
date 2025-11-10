@@ -952,8 +952,10 @@ void test_heavy_set(size_t count)
 	SEQ_TEST(s.size() == 0);
 }
 
+
 SEQ_PROTOTYPE(int test_flat_map(int, char*[]))
 {
+
 	// Test various map.multimap functions and potential memory leak or wrong allocator propagation
 	CountAlloc<double> al;
 	// SEQ_TEST_MODULE_RETURN(heavy_flat_set, 1, test_heavy_set<seq::flat_set<size_t>>(10000));

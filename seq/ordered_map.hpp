@@ -490,7 +490,7 @@ namespace seq
 			{
 			}
 			SparseFlatNodeHashTable(SparseFlatNodeHashTable&& other) noexcept(
-			  std::is_nothrow_copy_constructible<base_type>::value&& std::is_nothrow_move_constructible<sequence_type>::value)
+			  std::is_nothrow_copy_constructible_v<base_type>&& std::is_nothrow_move_constructible_v<sequence_type>)
 			  : base_type(other)
 			  , d_seq(std::move(other.d_seq))
 			  , d_buckets(other.d_buckets)
@@ -1127,7 +1127,7 @@ namespace seq
 		}
 		/// @brief Move constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
-		ordered_set(ordered_set&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value)
+		ordered_set(ordered_set&& other) noexcept(std::is_nothrow_move_constructible_v<base_type>)
 		  : base_type(std::move(other))
 		{
 		}
@@ -1604,7 +1604,7 @@ namespace seq
 		  : ordered_map(other, copy_allocator(other.get_allocator()))
 		{
 		}
-		ordered_map(ordered_map&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value)
+		ordered_map(ordered_map&& other) noexcept(std::is_nothrow_move_constructible_v<base_type>)
 		  : base_type(std::move(other))
 		{
 		}
@@ -1729,7 +1729,7 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Anywhere>(value); }
 		SEQ_ALWAYS_INLINE auto insert(value_type&& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Anywhere>(std::move(value)); }
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert(P&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template emplace<detail::Anywhere>(Policy::make(std::forward<P>(value)));
@@ -1744,7 +1744,7 @@ namespace seq
 			(void)hint;
 			return insert(std::move(value)).first;
 		}
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, P&& value) -> iterator
 		{
 			(void)hint;
@@ -1851,7 +1851,7 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE auto push_back(const value_type& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Back>(value); }
 		SEQ_ALWAYS_INLINE auto push_back(value_type&& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Back>(std::move(value)); }
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto push_back(P&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template emplace<detail::Back>(Policy::make(std::forward<P>(value)));
@@ -1864,7 +1864,7 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE auto push_front(const value_type& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Front>(value); }
 		SEQ_ALWAYS_INLINE auto push_front(value_type&& value) -> std::pair<iterator, bool> { return this->base_type::template emplace<detail::Front>(std::move(value)); }
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto push_front(P&& value) -> std::pair<iterator, bool>
 		{
 			return this->base_type::template emplace<detail::Front>(Policy::make(std::forward<P>(value)));

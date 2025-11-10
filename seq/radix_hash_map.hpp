@@ -190,7 +190,7 @@ namespace seq
 		}
 		/// @brief Move constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
-		radix_hash_set(radix_hash_set&& other) noexcept(std::is_nothrow_move_constructible<radix_tree_type>::value)
+		radix_hash_set(radix_hash_set&& other) noexcept(std::is_nothrow_move_constructible_v<radix_tree_type>)
 		  : d_tree(std::move(other.d_tree))
 		{
 		}
@@ -231,7 +231,7 @@ namespace seq
 		}
 
 		/// @brief Move assignment operator
-		auto operator=(radix_hash_set&& other) noexcept(std::is_nothrow_move_assignable<radix_tree_type>::value) -> radix_hash_set&
+		auto operator=(radix_hash_set&& other) noexcept(std::is_nothrow_move_assignable_v<radix_tree_type>) -> radix_hash_set&
 		{
 			d_tree = std::move(other.d_tree);
 			return *this;
@@ -653,7 +653,7 @@ namespace seq
 		  : d_tree(other.d_tree)
 		{
 		}
-		radix_hash_map(radix_hash_map&& other) noexcept(std::is_nothrow_move_constructible<radix_tree_type>::value)
+		radix_hash_map(radix_hash_map&& other) noexcept(std::is_nothrow_move_constructible_v<radix_tree_type>)
 		  : d_tree(std::move(other.d_tree))
 		{
 		}
@@ -679,7 +679,7 @@ namespace seq
 			d_tree = other.d_tree;
 			return *this;
 		}
-		auto operator=(radix_hash_map&& other) noexcept(std::is_nothrow_move_assignable<radix_tree_type>::value) -> radix_hash_map&
+		auto operator=(radix_hash_map&& other) noexcept(std::is_nothrow_move_assignable_v<radix_tree_type>) -> radix_hash_map&
 		{
 			d_tree = std::move(other.d_tree);
 			return *this;
@@ -731,7 +731,7 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> std::pair<iterator, bool> { return d_tree.emplace(value); }
 		SEQ_ALWAYS_INLINE auto insert(value_type&& value) -> std::pair<iterator, bool> { return d_tree.emplace(std::move(value)); }
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert(P&& value) -> std::pair<iterator, bool>
 		{
 			return d_tree.emplace(Policy::make(std::forward<P>(value)));
@@ -747,7 +747,7 @@ namespace seq
 			(void)hint;
 			return d_tree.emplace(std::move(value)).first;
 		}
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, P&& value) -> iterator
 		{
 			(void)hint;

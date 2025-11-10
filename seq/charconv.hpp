@@ -510,7 +510,7 @@ namespace seq
 				first = (int)str.getc();
 			}
 			else if (first == '-') {
-				if (!std::is_signed<T>::value)
+				if (!std::is_signed_v<T>)
 					goto error;
 				sign = -1;
 				first = (int)str.getc();
@@ -574,7 +574,7 @@ namespace seq
 				first = (int)str.getc();
 			}
 			else if (first == '-') {
-				if SEQ_UNLIKELY (!std::is_signed<T>::value)
+				if SEQ_UNLIKELY (!std::is_signed_v<T>)
 					goto error;
 				sign = -1;
 				first = (int)str.getc();
@@ -731,7 +731,7 @@ namespace seq
 			return 0;
 		}
 
-		template<class Integral, bool Pointer = std::is_pointer<Integral>::value>
+		template<class Integral, bool Pointer = std::is_pointer_v<Integral>>
 		struct NullValue
 		{
 			static constexpr Integral value = 0;
@@ -1029,7 +1029,7 @@ namespace seq
 		{
 			using StreamChar = typename Stream::char_type;
 			using StringChar = typename T::value_type;
-			static_assert(std::is_same<StreamChar, StringChar>::value, "read_string: cannot mix different char types");
+			static_assert(std::is_same_v<StreamChar, StringChar>, "read_string: cannot mix different char types");
 
 			// Read a string object (std::string or seq::tiny_string) from input stream
 			str.reset();
@@ -1065,7 +1065,7 @@ namespace seq
 		{
 			using StreamChar = typename Stream::char_type;
 			using StringChar = typename T::value_type;
-			static_assert(std::is_same<StreamChar, StringChar>::value, "read_string: cannot mix different char types");
+			static_assert(std::is_same_v<StreamChar, StringChar>, "read_string: cannot mix different char types");
 
 			// Read a line (std::string or seq::tiny_string) from input stream
 			str.reset();
@@ -1143,7 +1143,7 @@ namespace seq
 				using uint_type = typename integer_abs_return<T>::type;
 				uint_type val;
 
-				if (std::is_signed<T>::value && _val < 0) {
+				if (std::is_signed_v<T> && _val < 0) {
 					neg = 1;
 					val = negate_if_signed(_val);
 				}
@@ -1167,7 +1167,7 @@ namespace seq
 					tmp[--index] = 'x';
 					tmp[--index] = '0';
 				}
-				if (std::is_signed<T>::value && neg) {
+				if (std::is_signed_v<T> && neg) {
 					tmp[--index] = '-';
 				}
 
@@ -1212,7 +1212,7 @@ namespace seq
 				using uint_type = typename integer_abs_return<T>::type;
 				uint_type value;
 
-				if (std::is_signed<T>::value && _value < 0) {
+				if (std::is_signed_v<T> && _value < 0) {
 					neg = 1;
 					value = negate_if_signed(_value);
 				}
@@ -1224,7 +1224,7 @@ namespace seq
 				if SEQ_UNLIKELY (fmt.integral_min_width > digit) {
 					digit = fmt.integral_min_width;
 				}
-				if (std::is_signed<T>::value) {
+				if (std::is_signed_v<T>) {
 					digit += neg;
 				}
 				Char* buffer = range.add_size(digit);
@@ -1255,7 +1255,7 @@ namespace seq
 				while (buffer > start) {
 					*--buffer = (Char)'0';
 				}
-				if (std::is_signed<T>::value && neg) {
+				if (std::is_signed_v<T> && neg) {
 					*--buffer = (Char)'-';
 				}
 				return { res, std::errc() };
@@ -1265,7 +1265,7 @@ namespace seq
 		template<class Range, class T>
 		SEQ_ALWAYS_INLINE auto write_integer_decimal_part(const Range& range, T value, int min_width, bool null_first) -> to_chars_result<typename Range::char_type>
 		{
-			static_assert(std::is_unsigned<T>::value, "");
+			static_assert(std::is_unsigned_v<T>, "");
 
 			using Char = typename Range::char_type;
 

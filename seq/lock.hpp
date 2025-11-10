@@ -110,7 +110,7 @@ namespace seq
 	template<class LockType = std::uint32_t>
 	class shared_spinner
 	{
-		static_assert(std::is_unsigned<LockType>::value, "shared_spinner only supports unsigned atomic types!");
+		static_assert(std::is_unsigned_v<LockType>, "shared_spinner only supports unsigned atomic types!");
 		using lock_type = LockType;
 		static constexpr lock_type write = 1;
 		static constexpr lock_type need_lock = 2;

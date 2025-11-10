@@ -523,7 +523,7 @@ namespace seq
 			// Destroy all values within buffer
 			void destroy() noexcept
 			{
-				if constexpr (!std::is_trivially_destructible<T>::value) {
+				if constexpr (!std::is_trivially_destructible_v<T>) {
 					for (cbuffer_pos i = 0; i < size; ++i)
 						destroy_ptr(&(*this)[i]);
 				}
@@ -590,7 +590,7 @@ namespace seq
 			void resize(cbuffer_pos s, const Helper& helper = Helper())
 			{
 				if (s < size) {
-					if constexpr (!std::is_trivially_destructible<T>::value) {
+					if constexpr (!std::is_trivially_destructible_v<T>) {
 						for (cbuffer_pos i = s; i < size; ++i)
 							destroy_ptr(&(*this)[i]);
 					}
@@ -652,7 +652,7 @@ namespace seq
 
 			// Pushing front while poping back value
 			// Might throw, but leave the buffer in a valid state
-			SEQ_ALWAYS_INLINE void push_front_pop_back(T& inout) noexcept(std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value)
+			SEQ_ALWAYS_INLINE void push_front_pop_back(T& inout) noexcept(std::is_nothrow_move_assignable_v<T> && std::is_nothrow_move_constructible_v<T>)
 			{
 				// Only works for filled array
 				if constexpr (relocatable) {
@@ -674,7 +674,7 @@ namespace seq
 
 			// Pushing front while poping back
 			// Might throw, but leave the buffer in a valid state since it is already full
-			SEQ_ALWAYS_INLINE void push_back_pop_front(T& inout) noexcept(std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value)
+			SEQ_ALWAYS_INLINE void push_back_pop_front(T& inout) noexcept(std::is_nothrow_move_assignable_v<T> && std::is_nothrow_move_constructible_v<T>)
 			{
 				// Only works for filled array
 				if constexpr (relocatable) {
@@ -731,7 +731,7 @@ namespace seq
 
 			// Move buffer content toward the right by 1 element
 			// Might throw
-			void move_right_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
+			void move_right_1(int pos) noexcept(std::is_nothrow_move_assignable_v<T> || relocatable)
 			{
 				// starting from pos, move elements toward the end
 				T* ptr1 = &at(size - 1);
@@ -770,7 +770,7 @@ namespace seq
 			}
 			// Move buffer content toward the left by 1 element
 			// Might throw
-			void move_left_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
+			void move_left_1(int pos) noexcept(std::is_nothrow_move_assignable_v<T> || relocatable)
 			{
 				// starting from pos, move elements toward the beginning
 				T* ptr1 = &at(0);
@@ -809,7 +809,7 @@ namespace seq
 
 			// Move buffer content toward the left by 1 element
 			// Might throw
-			void move_right(cbuffer_pos pos) noexcept((std::is_nothrow_move_assignable<T>::value && std::is_nothrow_default_constructible<T>::value) || relocatable)
+			void move_right(cbuffer_pos pos) noexcept((std::is_nothrow_move_assignable_v<T> && std::is_nothrow_default_constructible_v<T>) || relocatable)
 			{
 				if constexpr (!relocatable)
 					construct_ptr(&(*this)[size]);
@@ -821,7 +821,7 @@ namespace seq
 				// for (cbuffer_pos i = size - 1; i > pos; --i)
 				//	(*this)[i] = std::move((*this)[i - 1]);
 			}
-			void move_left(cbuffer_pos pos) noexcept((std::is_nothrow_move_assignable<T>::value && std::is_nothrow_default_constructible<T>::value) || relocatable)
+			void move_left(cbuffer_pos pos) noexcept((std::is_nothrow_move_assignable_v<T> && std::is_nothrow_default_constructible_v<T>) || relocatable)
 			{
 				if constexpr (!relocatable)
 					construct_ptr(&(*this)[begin ? -1 : max_size1]);
@@ -883,7 +883,7 @@ namespace seq
 				// Might throw, fine
 				T res = std::move(*p);
 				// For relocatable types, we must destroy the back value
-				if constexpr (relocatable && !std::is_trivially_destructible<T>::value)
+				if constexpr (relocatable && !std::is_trivially_destructible_v<T>)
 					destroy_ptr(p);
 
 				if (pos > size / 2) {
@@ -924,7 +924,7 @@ namespace seq
 				// Might throw, fine
 				T res = std::move(*p);
 
-				if constexpr (relocatable && !std::is_trivially_destructible<T>::value)
+				if constexpr (relocatable && !std::is_trivially_destructible_v<T>)
 					destroy_ptr(p);
 
 				if (pos < size / 2) {
@@ -956,7 +956,7 @@ namespace seq
 				return res;
 			}
 
-			void move_erase_right_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
+			void move_erase_right_1(int pos) noexcept(std::is_nothrow_move_assignable_v<T> || relocatable)
 			{
 				// starting from pos, move elements toward the end
 				T* ptr1 = &at(pos);
@@ -991,7 +991,7 @@ namespace seq
 					}
 				}
 			}
-			void move_erase_left_1(int pos) noexcept(std::is_nothrow_move_assignable<T>::value || relocatable)
+			void move_erase_left_1(int pos) noexcept(std::is_nothrow_move_assignable_v<T> || relocatable)
 			{
 				// starting from pos, move elements toward the beginning
 				T* ptr1 = &at(pos);
@@ -1192,7 +1192,7 @@ namespace seq
 		struct StorePlainKey
 		{
 			using key_type = KeyType;
-			static constexpr bool value = (std::is_copy_constructible<KeyType>::value && std::is_nothrow_copy_constructible<KeyType>::value && sizeof(KeyType) <= 16);
+			static constexpr bool value = (std::is_copy_constructible_v<KeyType> && std::is_nothrow_copy_constructible_v<KeyType> && sizeof(KeyType) <= 16);
 		};
 
 		// Store a CircularBuffer pointer and an optional back value (pointer to the back value of the CircularBuffer)
@@ -1327,7 +1327,7 @@ namespace seq
 
 		public:
 			// Construct from bucket size and allocator
-			BucketManager(cbuffer_pos bucket_size, const Allocator& al = Allocator()) noexcept(std::is_nothrow_copy_constructible<Allocator>::value)
+			BucketManager(cbuffer_pos bucket_size, const Allocator& al = Allocator()) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 			  : Allocator(al)
 			  , d_buckets(al)
 			  , d_size(0)
@@ -1337,7 +1337,7 @@ namespace seq
 			{
 			}
 			// Move construct
-			BucketManager(BucketManager&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
+			BucketManager(BucketManager&& other) noexcept(std::is_nothrow_move_constructible_v<Allocator>)
 			  : Allocator(std::move(other.get_allocator()))
 			  , d_buckets(std::move(other.d_buckets))
 			  , d_size(other.d_size)
@@ -2840,7 +2840,7 @@ namespace seq
 
 	public:
 		/// @brief Default constructor, initialize the internal bucket manager.
-		tiered_vector() noexcept(std::is_nothrow_default_constructible<Allocator>::value)
+		tiered_vector() noexcept(std::is_nothrow_default_constructible_v<Allocator>)
 		  : Allocator()
 		  , d_manager(nullptr)
 		{
@@ -2892,7 +2892,7 @@ namespace seq
 		}
 		/// @brief Move constructor. Constructs the container with the contents of other using move semantics. Allocator is obtained by move-construction from the allocator belonging to other.
 		/// @param other another container to be used as source to initialize the elements of the container with
-		tiered_vector(tiered_vector&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
+		tiered_vector(tiered_vector&& other) noexcept(std::is_nothrow_move_constructible_v<Allocator>)
 		  : Allocator(std::move(other.get_allocator()))
 		  , d_manager(other.manager())
 		{

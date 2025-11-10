@@ -147,7 +147,7 @@ namespace seq
 		struct NothrowSort
 		{
 			// Check if sorting given type with given comparator does not throw
-			static constexpr bool value = std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && std::is_nothrow_constructible<T>::value &&
+			static constexpr bool value = std::is_nothrow_move_assignable_v<T> && std::is_nothrow_move_constructible_v<T> && std::is_nothrow_constructible_v<T> &&
 						      noexcept(std::declval<Cmp&>()(std::declval<T&>(), std::declval<T&>()));
 		};
 		// noexcept specifier for inplace merge/sort
@@ -1230,7 +1230,7 @@ namespace seq
 		auto s1 = (size_t)std::distance(first, middle);
 		auto s2 = (size_t)std::distance(middle, last);
 
-		if constexpr (std::is_same<buffer<void*>, Buffer>::value) {
+		if constexpr (std::is_same_v<buffer<void*>, Buffer>) {
 			// Compute buffer size
 			size_t min_size = std::min(s1, s2);
 			size_t buf_size = sort_buffer_size(buf, min_size);
@@ -1252,7 +1252,7 @@ namespace seq
 			// Nothing to do
 			return;
 
-		if constexpr (std::is_same<buffer<void*>, Buffer>::value) {
+		if constexpr (std::is_same_v<buffer<void*>, Buffer>) {
 			// Compute buffer size
 			size_t buf_size = sort_buffer_size(buf, std::distance(iters[0], iters[count - 1]) / 2);
 			std::vector<Key> buf_(buf_size);
@@ -1307,7 +1307,7 @@ namespace seq
 			return;
 		}
 
-		if constexpr (std::is_same<buffer<void*>, Buffer>::value) {
+		if constexpr (std::is_same_v<buffer<void*>, Buffer>) {
 			// Compute buffer size
 			size_t buf_size = sort_buffer_size(buf, size / 2);
 			if (buf_size < 16)

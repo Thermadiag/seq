@@ -339,21 +339,25 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 	// warmup
 	{
 		ordered_set<T, Hash, std::equal_to<>, std::allocator<T>> set;
+		set.max_load_factor(0.85);
 		test_hash_set("seq::ordered_set", set, keys, f, false);
 	}
 
 	{
 		ordered_set<T, Hash, std::equal_to<>> set;
+		set.max_load_factor(0.85);
 		test_hash_set("seq::ordered_set", set, keys, f);
 	}
 #ifdef SEQ_HAS_CPP_17
 	{
 		ankerl::unordered_dense::set<T, Hash, std::equal_to<>> set;
+		set.max_load_factor(0.85);
 		test_hash_set("ankerl::unordered_dense::set", set, keys, f);
 	}
 #endif
 	{
 		concurrent_set<T, Hash, std::equal_to<>, std::allocator<T>, seq::no_concurrency> set;
+		set.max_load_factor(0.85);
 		test_hash_set("seq::concurrent_set", set, keys, f);
 	}
 
@@ -380,6 +384,7 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 
 	{
 		std::unordered_set<T, Hash, std::equal_to<>> set;
+		set.max_load_factor(0.85);
 		test_hash_set("std::unordered_set", set, keys, f);
 	}
 }

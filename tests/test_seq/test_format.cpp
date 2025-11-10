@@ -27,8 +27,8 @@
 #include <deque>
 #include <vector>
 #include <seq/testing.hpp>
-#include <seq/any.hpp>
 #include <seq/format.hpp>
+#include <seq/any.hpp>
 
 namespace seq
 {

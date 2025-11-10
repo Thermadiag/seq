@@ -49,32 +49,32 @@ namespace seq
 			  , Equal(e)
 			{
 			}
-			HashEqual(const HashEqual& other) noexcept(std::is_nothrow_copy_constructible<Hash>::value&& std::is_nothrow_copy_constructible<Equal>::value)
+			HashEqual(const HashEqual& other) noexcept(std::is_nothrow_copy_constructible_v<Hash> && std::is_nothrow_copy_constructible_v<Equal>)
 			  : Hash(other)
 			  , Equal(other)
 			{
 			}
-			HashEqual(HashEqual&& other) noexcept(std::is_nothrow_move_constructible<Hash>::value&& std::is_nothrow_move_constructible<Equal>::value)
+			HashEqual(HashEqual&& other) noexcept(std::is_nothrow_move_constructible_v<Hash> && std::is_nothrow_move_constructible_v<Equal>)
 			  : Hash(std::move(other))
 			  , Equal(std::move(other))
 			{
 			}
 
-			auto operator=(const HashEqual& other) noexcept(std::is_nothrow_copy_assignable<Hash>::value&& std::is_nothrow_copy_assignable<Equal>::value) -> HashEqual&
+			auto operator=(const HashEqual& other) noexcept(std::is_nothrow_copy_assignable_v<Hash> && std::is_nothrow_copy_assignable_v<Equal>) -> HashEqual&
 			{
 				static_cast<Hash&>(*this) = static_cast<const Hash&>(other);
 				static_cast<Equal&>(*this) = static_cast<const Equal&>(other);
 				return *this;
 			}
-			auto operator=(HashEqual&& other) noexcept(std::is_nothrow_move_assignable<Hash>::value&& std::is_nothrow_move_assignable<Equal>::value) -> HashEqual&
+			auto operator=(HashEqual&& other) noexcept(std::is_nothrow_move_assignable_v<Hash> && std::is_nothrow_move_assignable_v<Equal>) -> HashEqual&
 			{
 				static_cast<Hash&>(*this) = std::move(static_cast<Hash&>(other));
 				static_cast<Equal&>(*this) = std::move(static_cast<Equal&>(other));
 				return *this;
 			}
 
-			void swap(HashEqual& other) noexcept(std::is_nothrow_move_assignable<Hash>::value&& std::is_nothrow_move_assignable<Equal>::value&&
-							       std::is_nothrow_move_constructible<Hash>::value&& std::is_nothrow_move_constructible<Equal>::value)
+			void swap(HashEqual& other) noexcept(std::is_nothrow_move_assignable_v<Hash> && std::is_nothrow_move_assignable_v<Equal>&&
+							       std::is_nothrow_move_constructible_v<Hash>&& std::is_nothrow_move_constructible_v<Equal>)
 			{
 				std::swap(static_cast<Hash&>(*this), static_cast<Hash&>(other));
 				std::swap(static_cast<Equal&>(*this), static_cast<Equal&>(other));

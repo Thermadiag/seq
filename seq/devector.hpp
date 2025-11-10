@@ -57,7 +57,7 @@ namespace seq
 			  , capacity(0)
 			{
 			}
-			DEVectorData(DEVectorData&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
+			DEVectorData(DEVectorData&& other) noexcept(std::is_nothrow_move_constructible_v<Allocator>)
 			  : Allocator(std::move(static_cast<Allocator&>(other)))
 			  , data(other.data)
 			  , start(other.start)
@@ -80,7 +80,7 @@ namespace seq
 					data = start = allocate(size);
 					end = start + size;
 					
-					if constexpr(std::is_trivial<T>::value)
+					if constexpr(std::is_trivial_v<T>)
 						memcpy(static_cast<void*>(data), static_cast<void*>(other.start), size * sizeof(T));
 					else {
 						size_t i = 0;
@@ -115,7 +115,7 @@ namespace seq
 			void destroy_range(T* begin, T* en)
 			{
 				// destroy values in the range [begin,end)
-				if constexpr (!std::is_trivially_destructible<T>::value) {
+				if constexpr (!std::is_trivially_destructible_v<T>) {
 					for (T* p = begin; p != en; ++p)
 						destroy_ptr(p);
 				}
@@ -145,7 +145,7 @@ namespace seq
 				// In case of exception, input is not detroyed, and created values are destroyed
 				// Strong exception guarantee
 
-				static constexpr bool noexcept_move = std::is_nothrow_move_constructible<T>::value;
+				static constexpr bool noexcept_move = std::is_nothrow_move_constructible_v<T>;
 
 				if constexpr (relocatable)
 					memcpy(static_cast<void*>(dst), static_cast<void*>(first), static_cast<size_t>(last - first) * sizeof(T));
@@ -709,7 +709,7 @@ namespace seq
 		}
 		/// @brief Move constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
-		devector(devector&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value)
+		devector(devector&& other) noexcept(std::is_nothrow_move_constructible_v<base_type>)
 		  : base_type(std::move(static_cast<base_type&>(other)))
 		{
 		}
@@ -849,7 +849,7 @@ namespace seq
 				// insert on the left side
 				T tmp = T(std::forward<Args>(args)...); //handle aliasing
 				emplace_front();
-				if constexpr (std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value)
+				if constexpr (std::is_nothrow_move_assignable_v<T> && std::is_nothrow_move_constructible_v<T> && is_relocatable_v<T>)
 					memmove(static_cast<void*>(begin()), static_cast<void*>(begin() + 1), dist * sizeof(T));
 				else
 					std::move(begin() + 1, begin() + 1 + dist, begin());
@@ -1004,7 +1004,7 @@ namespace seq
 
 			if (off < static_cast<size_type>(end() - last)) {	// closer to front
 
-				if constexpr(std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value) {
+				if constexpr(std::is_nothrow_move_assignable_v<T> && std::is_nothrow_move_constructible_v<T> && is_relocatable_v<T>) {
 					this->destroy_range(const_cast<T*>(first), const_cast<T*>(last));
 					memmove(static_cast<void*>(begin() + count), static_cast<void*>(begin()), off * sizeof(T));
 					this->base_type::start += count;
@@ -1016,7 +1016,7 @@ namespace seq
 				}
 			}
 			else {	// closer to back
-				if constexpr (std::is_nothrow_move_assignable<T>::value && std::is_nothrow_move_constructible<T>::value && is_relocatable<T>::value) {
+				if constexpr (std::is_nothrow_move_assignable_v<T> && std::is_nothrow_move_constructible_v<T> && is_relocatable_v<T>) {
 					this->destroy_range(const_cast<T*>(first), const_cast<T*>(last));
 					memmove(static_cast<void*>(const_cast<T*>(first)), last, (end() - last) * sizeof(T));
 					this->base_type::end -= count;

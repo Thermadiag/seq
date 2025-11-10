@@ -75,7 +75,7 @@ namespace seq
 			using pointer = decltype(std::declval<T&>().data());
 			using ctype = typename std::remove_pointer<pointer>::type;
 			using type = typename std::remove_const<ctype>::type;
-			static constexpr bool value = std::is_pointer<pointer>::value;
+			static constexpr bool value = std::is_pointer_v<pointer>;
 		};
 		template<class T, class = void>
 		struct has_size : std::false_type
@@ -86,10 +86,10 @@ namespace seq
 		struct has_size<T, typename std::void_t<decltype(std::declval<T&>().size())>>
 		{
 			using type = decltype(std::declval<T&>().size());
-			static constexpr bool value = std::is_integral<type>::value;
+			static constexpr bool value = std::is_integral_v<type>;
 		};
 		template<class T>
-		struct is_native_type : std::bool_constant<std::is_pointer<T>::value || std::is_arithmetic<T>::value>
+		struct is_native_type : std::bool_constant<std::is_pointer_v<T> || std::is_arithmetic_v<T>>
 		{
 		};
 		template<class T>
@@ -135,7 +135,7 @@ namespace seq
 		{
 			using type = typename std::make_unsigned<T>::type;
 			type val = static_cast<type>(k);
-			if constexpr (std::is_signed<T>::value)
+			if constexpr (std::is_signed_v<T>)
 				// wrap around to keep an unsigned value in the same order as the signed one
 				val += (static_cast<type>(1) << (static_cast<type>(sizeof(T) * 8 - 1)));
 			return val;
@@ -199,13 +199,13 @@ namespace seq
 		struct make_unsigned_or_bool : std::make_unsigned<T>
 		{
 			// make_unsigned that also work on bool type
-			using type = typename std::conditional<std::is_same<T, bool>::value, bool, typename std::make_unsigned<T>::type>::type;
+			using type = typename std::conditional<std::is_same_v<T, bool>, bool, typename std::make_unsigned<T>::type>::type;
 		};
 		template<class T>
 		struct make_unsigned_from_float
 		{
 			// Unsigned type with the same size as float type
-			using type = typename std::conditional<std::is_same<T, float>::value, uint32_t, uint64_t>::type;
+			using type = typename std::conditional<std::is_same_v<T, float>, uint32_t, uint64_t>::type;
 		};
 
 		/// @brief Default invalid hash class for the radix tree
@@ -217,7 +217,7 @@ namespace seq
 
 		/// @brief Integral hash class
 		template<class Integral>
-		struct RadixHasher<Integral, typename std::enable_if<std::is_integral<Integral>::value, void>::type>
+		struct RadixHasher<Integral, typename std::enable_if<std::is_integral_v<Integral>, void>::type>
 		{
 			using less_type = default_less;
 			using integral_type = typename make_unsigned_or_bool<Integral>::type;
@@ -233,6 +233,8 @@ namespace seq
 
 			SEQ_ALWAYS_INLINE auto n_bits(size_t start, size_t count) const noexcept
 			{
+				if SEQ_UNLIKELY (count == 0)
+					return 0u; // Avoid UB when shifting by integer size bits
 				if constexpr (sizeof(integral_type) < 4u) {
 					// Special trick for 16 and 8 bits integers
 					unsigned v = static_cast<unsigned>(value) << (32u - sizeof(integral_type) * 8u);
@@ -277,7 +279,7 @@ namespace seq
 
 		/// @brief Hash class for float and double
 		template<class T>
-		struct RadixHasher<T, typename std::enable_if<std::is_floating_point<T>::value, void>::type> : RadixHasher<typename make_unsigned_from_float<T>::type>
+		struct RadixHasher<T, typename std::enable_if<std::is_floating_point_v<T>, void>::type> : RadixHasher<typename make_unsigned_from_float<T>::type>
 		{
 			static_assert(std::numeric_limits<T>::is_iec559, "");
 			using unsigned_type = typename make_unsigned_from_float<T>::type;
@@ -305,7 +307,7 @@ namespace seq
 
 		/// @brief Hash class for pointers
 		template<class T>
-		struct RadixHasher<T, typename std::enable_if<std::is_pointer<T>::value, void>::type> : RadixHasher<uintptr_t>
+		struct RadixHasher<T, typename std::enable_if<std::is_pointer_v<T>, void>::type> : RadixHasher<uintptr_t>
 		{
 			SEQ_ALWAYS_INLINE RadixHasher(uintptr_t v = 0) noexcept
 			  : RadixHasher<uintptr_t>{ v }
@@ -381,7 +383,7 @@ namespace seq
 					using unsigned_type = typename RadixHasher<type>::integral_type;
 					type* p = reinterpret_cast<type*>(&hash);
 					unsigned_type* up = reinterpret_cast<unsigned_type*>(&hash);
-					static_assert(!std::is_const<T>::value, " const type!");
+					static_assert(!std::is_const_v<T>, " const type!");
 					if constexpr (sizeof(type) == 2) {
 						up[0] = swap_b(to_uint(p[0]));
 						up[1] = swap_b(to_uint(p[1]));
@@ -541,11 +543,11 @@ namespace seq
 				if constexpr (sizeof(type) == 1)
 					h ^= *reinterpret_cast<const uint8_t*>(src);
 				else if constexpr (sizeof(type) == 2)
-					h ^= static_cast<uint8_t>(*reinterpret_cast<const uint16_t*>(src) * 14313749767032793493ULL);
+					h ^= static_cast<uint8_t>(read_16(src) * 14313749767032793493ULL);
 				else if constexpr (sizeof(type) == 4)
-					h ^= static_cast<uint8_t>(*reinterpret_cast<const uint32_t*>(src) * 14313749767032793493ULL);
+					h ^= static_cast<uint8_t>(read_32(src) * 14313749767032793493ULL);
 				else if constexpr (sizeof(type) == 8)
-					h ^= static_cast<uint8_t>(*reinterpret_cast<const uint64_t*>(src) * 14313749767032793493ULL);
+					h ^= static_cast<uint8_t>(read_64(src) * 14313749767032793493ULL);
 				return TupleInfo<Tuple, N - 1>::build_tiny_hash(h, src + sizeof(type));
 			}
 		};
@@ -570,7 +572,7 @@ namespace seq
 			static constexpr size_t bit_step = 2;
 			static constexpr bool is_transparent = true;
 
-			char data[size];
+			alignas(std::uint64_t) char data[size];
 
 			template<class U>
 			auto as() const noexcept
@@ -579,7 +581,9 @@ namespace seq
 			}
 
 			RadixHasher() {}
-			SEQ_ALWAYS_INLINE RadixHasher(const T& val) { TupleInfo<T>::build_hash(data, val); }
+			SEQ_ALWAYS_INLINE RadixHasher(const T& val) { 
+				TupleInfo<T>::build_hash(data, val); 
+			}
 
 			SEQ_ALWAYS_INLINE constexpr auto get_size() const noexcept -> size_t { return max_bits; }
 
@@ -960,7 +964,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE std::pair<const T*, unsigned> find_insert(const Equal& eq, size_t /*start_bit*/, unsigned th, const U& val) const
 			{
 				using key_type = typename ExtractKeyResultType<ExtractKey, T>::type;
-				if constexpr (Sorted && EnsureSorted && std::is_arithmetic<key_type>::value) {
+				if constexpr (Sorted && EnsureSorted && std::is_arithmetic_v<key_type>) {
 					// For arithmetic keys, checking bounds is cheap and helps a lot for ordered insertions
 					if (Less{}(ExtractKey{}(values()[count() - 1]), (val)))
 						return std::pair<const T*, unsigned>(nullptr, count());
@@ -1130,7 +1134,7 @@ namespace seq
 				unsigned size = node->count();
 
 				// destroy values
-				if constexpr (!std::is_trivially_destructible<T>::value) {
+				if constexpr (!std::is_trivially_destructible_v<T>) {
 					T* values = node->values();
 					for (unsigned i = 0; i < size; ++i)
 						values[i].~T();
@@ -1916,7 +1920,7 @@ namespace seq
 					insert(other.begin(), other.end(), false);
 			}
 
-			RadixTree(RadixTree&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value && std::is_nothrow_copy_constructible<Hash>::value)
+			RadixTree(RadixTree&& other) noexcept(std::is_nothrow_move_constructible_v<Allocator> && std::is_nothrow_copy_constructible_v<Hash>)
 			  : Hash(other)
 			  , Allocator(std::move(other.get_allocator()))
 			  , d_data(nullptr)

@@ -188,7 +188,7 @@ namespace seq
 			}
 			else {
 				using T = typename Deque::value_type;
-				static constexpr bool nothrow = std::is_nothrow_move_constructible<T>::value && std::is_nothrow_move_assignable<T>::value;
+				static constexpr bool nothrow = std::is_nothrow_move_constructible_v<T> && std::is_nothrow_move_assignable_v<T>;
 
 				if (!nothrow) {
 					net_sort(d.begin() + begin, d.end(), le);
@@ -207,7 +207,7 @@ namespace seq
 			}
 			else {
 				using T = typename Deque::value_type;
-				static constexpr bool nothrow = std::is_nothrow_move_constructible<T>::value && std::is_nothrow_move_assignable<T>::value;
+				static constexpr bool nothrow = std::is_nothrow_move_constructible_v<T> && std::is_nothrow_move_assignable_v<T>;
 
 				if (!nothrow) {
 					net_sort(d.begin(), d.end(), le);
@@ -584,7 +584,7 @@ namespace seq
 			  , d_deque(other.d_deque, alloc)
 			{
 			}
-			flat_tree(flat_tree&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value && std::is_nothrow_move_constructible<container_type>::value)
+			flat_tree(flat_tree&& other) noexcept(std::is_nothrow_move_constructible_v<base_type> && std::is_nothrow_move_constructible_v<container_type>)
 			  : base_type(std::move(other))
 			  , d_deque(std::move(other.d_deque))
 			{
@@ -603,7 +603,7 @@ namespace seq
 			{
 			}
 
-			auto operator=(flat_tree&& other) noexcept(std::is_nothrow_move_assignable<base_type>::value && std::is_nothrow_move_assignable<container_type>::value) -> flat_tree&
+			auto operator=(flat_tree&& other) noexcept(std::is_nothrow_move_assignable_v<base_type> && std::is_nothrow_move_assignable_v<container_type>) -> flat_tree&
 			{
 				if (this != std::addressof(other)) {
 					d_deque = std::move(other.d_deque);
@@ -1143,7 +1143,7 @@ namespace seq
 		/// @brief Move constructor. Constructs the container with the contents of other using move semantics.
 		/// If alloc is not provided, allocator is obtained by move-construction from the allocator belonging to other.
 		/// @param other another container to be used as source to initialize the elements of the container with
-		flat_set(flat_set&& other) noexcept(std::is_nothrow_move_constructible<flat_tree_type>::value)
+		flat_set(flat_set&& other) noexcept(std::is_nothrow_move_constructible_v<flat_tree_type>)
 		  : d_tree(std::move(other.d_tree))
 		{
 		}
@@ -1178,7 +1178,7 @@ namespace seq
 		/// @brief Move assignment operator
 		/// @param other another container to be used as source to initialize the elements of the container with
 		/// @return reference to this container
-		auto operator=(flat_set&& other) noexcept(std::is_nothrow_move_assignable<flat_tree_type>::value) -> flat_set&
+		auto operator=(flat_set&& other) noexcept(std::is_nothrow_move_assignable_v<flat_tree_type>) -> flat_set&
 		{
 			d_tree = std::move(other.d_tree);
 			return *this;
@@ -1601,7 +1601,7 @@ namespace seq
 		  : base_type(other, alloc)
 		{
 		}
-		flat_multiset(flat_multiset&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value)
+		flat_multiset(flat_multiset&& other) noexcept(std::is_nothrow_move_constructible_v<base_type>)
 		  : base_type(std::move(other))
 		{
 		}
@@ -1618,7 +1618,7 @@ namespace seq
 		{
 		}
 
-		auto operator=(flat_multiset&& other) noexcept(std::is_nothrow_move_assignable<base_type>::value) -> flat_multiset&
+		auto operator=(flat_multiset&& other) noexcept(std::is_nothrow_move_assignable_v<base_type>) -> flat_multiset&
 		{
 			static_cast<base_type&>(*this) = std::move(static_cast<base_type&>(other));
 			return *this;
@@ -1741,7 +1741,7 @@ namespace seq
 		  : d_tree(other.d_tree, alloc)
 		{
 		}
-		flat_map(flat_map&& other) noexcept(std::is_nothrow_move_constructible<flat_tree_type>::value)
+		flat_map(flat_map&& other) noexcept(std::is_nothrow_move_constructible_v<flat_tree_type>)
 		  : d_tree(std::move(other.d_tree))
 		{
 		}
@@ -1758,7 +1758,7 @@ namespace seq
 		{
 		}
 
-		auto operator=(flat_map&& other) noexcept(std::is_nothrow_move_assignable<flat_tree_type>::value) -> flat_map&
+		auto operator=(flat_map&& other) noexcept(std::is_nothrow_move_assignable_v<flat_tree_type>) -> flat_map&
 		{
 			d_tree = std::move(other.d_tree);
 			return *this;
@@ -1796,7 +1796,7 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> std::pair<iterator, bool> { return emplace(value); }
 		SEQ_ALWAYS_INLINE auto insert(value_type&& value) -> std::pair<iterator, bool> { return emplace(std::move(value)); }
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert(P&& value) -> std::pair<iterator, bool>
 		{
 			return emplace(std::forward<P>(value));
@@ -1811,7 +1811,7 @@ namespace seq
 
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator { return emplace_hint(hint, value); }
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator { return emplace_hint(hint, std::move(value)); }
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		auto insert(const_iterator hint, P&& value) -> iterator
 		{
 			return emplace_hint(hint, std::forward<P>(value));
@@ -1824,7 +1824,7 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE auto insert_pos(const value_type& value) -> std::pair<size_t, bool> { return d_tree.emplace(value); }
 		SEQ_ALWAYS_INLINE auto insert_pos(value_type&& value) -> std::pair<size_t, bool> { return d_tree.emplace(std::move(value)); }
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert_pos(P&& value) -> std::pair<size_t, bool>
 		{
 			return emplace_pos(std::forward<P>(value));
@@ -2163,7 +2163,7 @@ namespace seq
 		  : base_type(other, alloc)
 		{
 		}
-		flat_multimap(flat_multimap&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value)
+		flat_multimap(flat_multimap&& other) noexcept(std::is_nothrow_move_constructible_v<base_type>)
 		  : base_type(std::move(other))
 		{
 		}
@@ -2180,7 +2180,7 @@ namespace seq
 		{
 		}
 
-		auto operator=(flat_multimap&& other) noexcept(std::is_nothrow_move_assignable<base_type>::value) -> flat_multimap&
+		auto operator=(flat_multimap&& other) noexcept(std::is_nothrow_move_assignable_v<base_type>) -> flat_multimap&
 		{
 			static_cast<base_type&>(*this) = std::move(static_cast<base_type&>(other));
 			return *this;
@@ -2201,13 +2201,13 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator { return base_type::insert(hint, value); }
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator { return base_type::insert(hint, std::move(value)); }
 
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert(P&& value) -> iterator
 		{
 			return base_type::emplace(std::forward<P>(value)).first;
 		}
 
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, P&& value) -> iterator
 		{
 			return base_type::emplace_hint(hint, std::forward<P>(value));
@@ -2229,7 +2229,7 @@ namespace seq
 
 		SEQ_ALWAYS_INLINE auto insert_pos(const value_type& value) -> size_t { return base_type::insert_pos(value).first; }
 		SEQ_ALWAYS_INLINE auto insert_pos(value_type&& value) -> size_t { return base_type::insert_pos(std::move(value)).first; }
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_ALWAYS_INLINE auto insert_pos(P&& value) -> size_t
 		{
 			return base_type::insert_pos(std::forward<P>(value)).first;

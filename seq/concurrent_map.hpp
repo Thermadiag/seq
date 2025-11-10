@@ -108,7 +108,7 @@ namespace seq
 		{
 		}
 
-		concurrent_set(concurrent_set&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value)
+		concurrent_set(concurrent_set&& other) noexcept(std::is_nothrow_move_constructible_v<base_type>)
 		  : base_type(std::move(other))
 		{
 		}
@@ -524,7 +524,7 @@ namespace seq
 		{
 		}
 
-		concurrent_map(concurrent_map&& other) noexcept(std::is_nothrow_move_constructible<base_type>::value)
+		concurrent_map(concurrent_map&& other) noexcept(std::is_nothrow_move_constructible_v<base_type>)
 		  : base_type(std::move(other))
 		{
 		}
@@ -706,7 +706,7 @@ namespace seq
 
 		SEQ_CONCURRENT_INLINE auto insert(value_type&& value) -> bool { return base_type::emplace(std::move(value)); }
 
-		template<class P, typename std::enable_if<std::is_constructible<value_type, P>::value, int>::type = 0>
+		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		SEQ_CONCURRENT_INLINE auto insert(P&& value) -> bool
 		{
 			return base_type::emplace(Policy::make(std::forward<P>(value)));

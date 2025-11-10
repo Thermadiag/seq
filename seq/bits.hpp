@@ -982,7 +982,7 @@ namespace seq
 	SEQ_ALWAYS_INLINE auto count_digits_base_10(T x) -> unsigned
 	{
 
-		static_assert(std::is_unsigned<T>::value, "");
+		static_assert(std::is_unsigned_v<T>, "");
 
 		if (sizeof(T) > 4) {
 			if (x >= 10000000000ULL) {

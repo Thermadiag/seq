@@ -27,7 +27,7 @@ namespace test_detail
 template<class T, bool Relocatable = true>
 class TestDestroy
 {
-	static_assert(std::is_arithmetic<T>::value, "TestDestroy only supports arithmetic types");
+	static_assert(std::is_arithmetic_v<T>, "TestDestroy only supports arithmetic types");
 	
 	T value;
 
@@ -44,7 +44,7 @@ public:
 		++test_detail::get_count();
 	}
 	template<class U>
-	TestDestroy(const U& val, typename std::enable_if<std::is_arithmetic<U>::value,void>::type* =nullptr)
+	TestDestroy(const U& val, typename std::enable_if<std::is_arithmetic_v<U>,void>::type* =nullptr)
 		:value(static_cast<T>(val)) {
 		++test_detail::get_count();
 	}

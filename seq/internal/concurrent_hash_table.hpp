@@ -659,7 +659,7 @@ namespace seq
 			using this_type = ChainingHashTable<PrivateData, Key, Value, NodeLock>;
 			using lock_array = SharedLockArray<node_lock, Allocator>;
 
-			static constexpr bool is_concurrent = !std::is_same<NodeLock, null_lock>::value;
+			static constexpr bool is_concurrent = !std::is_same_v<NodeLock, null_lock>;
 			using size_type = typename std::conditional<is_concurrent, std::atomic<size_t>, size_t>::type;
 			using chain_count_type = typename std::conditional<is_concurrent, std::atomic<unsigned>, unsigned>::type;
 			using lock_array_type = typename std::conditional<is_concurrent, std::atomic<lock_array*>, lock_array*>::type;
@@ -709,7 +709,7 @@ namespace seq
 			void free_nodes(chain_node_type* n) noexcept(noexcept(chain_node_allocator{ Allocator{} })) { chain_node_allocator{ get_allocator() }.deallocate(n, 1); }
 
 			void move_back(node_type* buckets, value_node_type* values, size_t new_hash_mask, node_type* old_buckets, value_node_type* old_values, size_t old_hash_mask) noexcept(
-			  std::is_nothrow_move_constructible<Value>::value)
+			  std::is_nothrow_move_constructible_v<Value>)
 			{
 				// In case of exception (bad_alloc only) during rehash, move back from new buckets to previous buckets
 				for (size_t i = 0; i < new_hash_mask + 1; ++i) {
@@ -800,8 +800,8 @@ namespace seq
 							FindInsertNode<extract_key, InsertConcurrentPolicy, false>(
 							  d_chain_count, get_allocator(), hashs[j + 1], key_eq(), buckets + pos, values + pos, std::move_if_noexcept(val));
 
-							if (std::is_nothrow_move_constructible<Value>::value) {
-								if (!std::is_trivially_destructible<Value>::value)
+							if (std::is_nothrow_move_constructible_v<Value>) {
+								if (!std::is_trivially_destructible_v<Value>)
 									val.~Value();
 								// mark position as destroyed
 								hashs[j + 1] = 0;
@@ -814,7 +814,7 @@ namespace seq
 				}
 				catch (...) {
 
-					if (std::is_nothrow_move_constructible<Value>::value && buckets && values) {
+					if (std::is_nothrow_move_constructible_v<Value> && buckets && values) {
 						// Move back values from new to old buckets
 						move_back(buckets, values, new_hash_mask, d_buckets, d_values, d_hash_mask);
 					}
@@ -850,7 +850,7 @@ namespace seq
 				}
 
 				// Destroy previous buckets
-				destroy_buckets(old_buckets, old_values, old_hash_mask + 1, !std::is_nothrow_move_constructible<Value>::value);
+				destroy_buckets(old_buckets, old_values, old_hash_mask + 1, !std::is_nothrow_move_constructible_v<Value>);
 
 				// Create locks if needed
 				if (is_concurrent && !locks && new_hash_mask >= 1) {
@@ -873,14 +873,14 @@ namespace seq
 				for (size_t i = 0; i < count; ++i) {
 					node_type* n = buckets + i;
 					value_node_type* v = values + i;
-					if (destroy_values && !std::is_trivially_destructible<Value>::value) {
+					if (destroy_values && !std::is_trivially_destructible_v<Value>) {
 						for (unsigned j = 0; j < n->count(); ++j)
 							destroy_ptr(v->values() + j);
 					}
 					if (n->full() && v->right) {
 						ConcurrentDenseNode<Value>* d = v->right;
 						do {
-							if (destroy_values && !std::is_trivially_destructible<Value>::value) {
+							if (destroy_values && !std::is_trivially_destructible_v<Value>) {
 								for (unsigned j = 0; j < d->count(); ++j)
 									destroy_ptr(d->values() + j);
 							}
@@ -1030,7 +1030,7 @@ namespace seq
 			void erase_full_bucket(node_type* n, value_node_type* v) noexcept
 			{
 				// Clear full bucket in case of exception
-				if (!std::is_trivially_destructible<Value>::value) {
+				if (!std::is_trivially_destructible_v<Value>) {
 					for (unsigned i = 0; i < n->count(); ++i)
 						v->values()[i].~Value();
 				}
@@ -1039,7 +1039,7 @@ namespace seq
 
 				chain_node_type* d = v->right;
 				while (d) {
-					if (!std::is_trivially_destructible<Value>::value) {
+					if (!std::is_trivially_destructible_v<Value>) {
 						for (unsigned i = 0; i < d->count(); ++i)
 							d->values()[i].~Value();
 					}
@@ -1687,7 +1687,7 @@ namespace seq
 					other.visit_all([&](Value& v) { this->emplace_policy_no_check<InsertConcurrentPolicy>(std::move(v)); });
 				}
 			}
-			ConcurrentHashTable(ConcurrentHashTable&& other) noexcept(std::is_nothrow_move_constructible<Alloc>::value && std::is_nothrow_copy_constructible<base_hash_equal>::value)
+			ConcurrentHashTable(ConcurrentHashTable&& other) noexcept(std::is_nothrow_move_constructible_v<Alloc> && std::is_nothrow_copy_constructible_v<base_hash_equal>)
 			  : base_hash_equal(other)
 			  , Alloc(std::move(other.get_safe_allocator()))
 			  , d_data(nullptr)

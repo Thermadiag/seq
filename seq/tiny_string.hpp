@@ -567,22 +567,22 @@ namespace seq
 			static constexpr size_t max_allowed_sso_capacity = base::max_allowed_sso_capacity;
 			static constexpr size_t max_capacity = base::max_capacity;
 
-			SEQ_STR_INLINE_STRONG string_internal() noexcept(std::is_nothrow_default_constructible<Allocator>::value)
+			SEQ_STR_INLINE_STRONG string_internal() noexcept(std::is_nothrow_default_constructible_v<Allocator>)
 			  : base()
 			  , Allocator()
 			{
 			}
-			SEQ_STR_INLINE_STRONG string_internal(const Allocator& al) noexcept(std::is_nothrow_copy_constructible<Allocator>::value)
+			SEQ_STR_INLINE_STRONG string_internal(const Allocator& al) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 			  : base()
 			  , Allocator(al)
 			{
 			}
-			SEQ_STR_INLINE_STRONG string_internal(Allocator&& al) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
+			SEQ_STR_INLINE_STRONG string_internal(Allocator&& al) noexcept(std::is_nothrow_move_constructible_v<Allocator>)
 			  : base()
 			  , Allocator(std::move(al))
 			{
 			}
-			SEQ_STR_INLINE_STRONG string_internal(Allocator&& al, const string_internal& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
+			SEQ_STR_INLINE_STRONG string_internal(Allocator&& al, const string_internal& other) noexcept(std::is_nothrow_move_constructible_v<Allocator>)
 			  : base(other.d_union)
 			  , Allocator(std::move(al))
 			{
@@ -594,7 +594,7 @@ namespace seq
 
 			SEQ_STR_INLINE_STRONG void swap(string_internal& other) noexcept(noexcept(swap_allocator(std::declval<Allocator&>(), std::declval<Allocator&>())))
 			{
-				if constexpr (!std::is_same<std::allocator<Char>, Allocator>::value)
+				if constexpr (!std::is_same_v<std::allocator<Char>, Allocator>)
 					swap_allocator(get_allocator(), other.get_allocator());
 				std::swap(this->d_union, other.d_union);
 			}
@@ -1076,9 +1076,9 @@ namespace seq
 		using allocator_type = Allocator;
 
 		/// @brief Default constructor
-		tiny_string() noexcept(std::is_nothrow_default_constructible<internal_data>::value) {}
+		tiny_string() noexcept(std::is_nothrow_default_constructible_v<internal_data>) {}
 		/// @brief Construct from allocator object
-		explicit tiny_string(const Allocator& al) noexcept(std::is_nothrow_copy_constructible<Allocator>::value)
+		explicit tiny_string(const Allocator& al) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 		  : d_data(al)
 		{
 		}
@@ -1163,7 +1163,7 @@ namespace seq
 			memcpy(initialize(len), other.data() + pos, len * sizeof(Char));
 		}
 		/// @brief Move constructor
-		SEQ_STR_INLINE_STRONG tiny_string(tiny_string&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
+		SEQ_STR_INLINE_STRONG tiny_string(tiny_string&& other) noexcept(std::is_nothrow_move_constructible_v<Allocator>)
 		  : d_data(std::move(other.d_data.get_allocator()), other.d_data)
 		{
 			other.d_data.reset();
@@ -1598,7 +1598,7 @@ namespace seq
 		{
 			if (first == last)
 				return *this;
-			if (std::is_same<typename std::iterator_traits<Iter>::iterator_category, std::random_access_iterator_tag>::value) {
+			if (std::is_same_v<typename std::iterator_traits<Iter>::iterator_category, std::random_access_iterator_tag>) {
 				size_t n = std::distance(first, last);
 				size_t old_size = size();
 				size_t new_size = old_size + n;
@@ -2864,9 +2864,9 @@ namespace seq
 	struct is_character_type
 	{
 		using C = typename std::decay<T>::type;
-		static constexpr bool value = std::is_same<C, char>::value || std::is_same<C, wchar_t>::value || std::is_same<C, char16_t>::value || std::is_same<C, char32_t>::value
+		static constexpr bool value = std::is_same_v<C, char> || std::is_same_v<C, wchar_t> || std::is_same_v<C, char16_t> || std::is_same_v<C, char32_t>
 #ifdef SEQ_HAS_CPP_20
-					      || std::is_same<C, char8_t>::value
+					      || std::is_same_v<C, char8_t>
 #endif
 		  ;
 	};
@@ -2877,7 +2877,7 @@ namespace seq
 	{
 		using c_type = typename std::remove_pointer<typename std::decay<T>::type>::type;
 		using char_type = typename std::remove_const<c_type>::type;
-		static constexpr bool value = (std::is_pointer<T>::value || std::is_array<T>::value) && is_character_type<char_type>::value;
+		static constexpr bool value = (std::is_pointer_v<T> || std::is_array<T>::value) && is_character_type<char_type>::value;
 	};
 
 	/// @brief Detect tiny_string
@@ -2918,7 +2918,7 @@ namespace seq
 	template<class Char, class Traits, class Al, size_t S>
 	struct is_allocated_string<tiny_string<Char, Traits, Al, S>>
 	{
-		static constexpr bool value = !std::is_same<Al, view_allocator<Char>>::value;
+		static constexpr bool value = !std::is_same_v<Al, view_allocator<Char>>;
 	};
 	template<class Char, class Traits, class Allocator>
 	struct is_allocated_string<std::basic_string<Char, Traits, Allocator>> : std::true_type
@@ -2967,7 +2967,7 @@ namespace seq
 	template<class T>
 	struct is_generic_char_string<T, typename std::enable_if<is_character_pointer<T>::value, void>::type>
 	{
-		static constexpr bool value = std::is_same<char, typename is_character_pointer<T>::char_type>::value;
+		static constexpr bool value = std::is_same_v<char, typename is_character_pointer<T>::char_type>;
 	};
 
 	template<class Traits, class Allocator>
@@ -3052,7 +3052,7 @@ namespace seq
 
 	template<class Elem, class Traits, size_t Size, class Alloc>
 	inline auto operator>>(std::basic_istream<Elem, Traits>& iss, tiny_string<Elem, Traits, Alloc, Size>& str) ->
-	  typename std::enable_if<!std::is_same<Alloc, view_allocator<Elem>>::value, std::basic_istream<Elem, Traits>>::type&
+	  typename std::enable_if<!std::is_same_v<Alloc, view_allocator<Elem>>, std::basic_istream<Elem, Traits>>::type&
 	{ // extract a string
 		typedef std::ctype<Elem> c_type;
 		typedef std::basic_istream<Elem, Traits> stream_type;

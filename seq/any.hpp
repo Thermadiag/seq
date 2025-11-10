@@ -240,7 +240,8 @@ namespace seq
 			if constexpr (!is_formattable<T>::value)
 				throw seq::bad_any_function_call("data type is not formattable");
 			else if constexpr (std::is_pointer_v<T>) {
-				auto f = fmt(reinterpret_cast<const void*>(*static_cast<const T*>(in))); // TEST
+				const void * ptr = reinterpret_cast<const void*>(*static_cast<const T*>(in));
+				auto f = fmt(ptr); 
 				f.set_width_format(wfmt);
 				f.set_numeric_format(nfmt);
 				f.append(out);
@@ -257,7 +258,7 @@ namespace seq
 		template<class T, class TypeInfo>
 		T cast_arithmetic(const void* in, const TypeInfo* in_p)
 		{
-			if constexpr (!std::is_arithmetic<T>::value) {
+			if constexpr (!std::is_arithmetic_v<T>) {
 				throw std::bad_cast();
 				return T();
 			}
@@ -306,7 +307,7 @@ namespace seq
 		template<class T, class String>
 		T arithmetic_from_string(const String& in)
 		{
-			if constexpr (std::is_arithmetic<T>::value) {
+			if constexpr (std::is_arithmetic_v<T>) {
 				T res;
 				if (from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
 					throw std::bad_cast();
@@ -400,7 +401,7 @@ namespace seq
 		template<class OutPtr>
 		OutPtr cast_to_void(const void* ptr)
 		{
-			if constexpr (std::is_same<OutPtr, void*>::value || std::is_same<OutPtr, const void*>::value)
+			if constexpr (std::is_same_v<OutPtr, void*> || std::is_same_v<OutPtr, const void*>)
 				return static_cast<OutPtr>(const_cast<void*>(ptr));
 			else {
 				throw std::bad_cast();
@@ -516,42 +517,42 @@ namespace seq
 		}
 
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_copy_assignable<T>::value, void>::type assign_value(T& dst, const T& src)
+		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_copy_assignable_v<T>, void>::type assign_value(T& dst, const T& src)
 		{
 			dst = src;
 		}
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_copy_assignable<T>::value, void>::type assign_value(T&, const T&)
+		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_copy_assignable_v<T>, void>::type assign_value(T&, const T&)
 		{
 		}
 
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_move_assignable<T>::value, void>::type move_assign_value(T& dst, T& src)
+		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_move_assignable_v<T>, void>::type move_assign_value(T& dst, T& src)
 		{
 			dst = std::move(src);
 		}
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_move_assignable<T>::value, void>::type move_assign_value(T&, T&)
+		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_move_assignable_v<T>, void>::type move_assign_value(T&, T&)
 		{
 		}
 
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_copy_constructible<T>::value, void>::type copy_construct_value(void* dst, const T& src)
+		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_copy_constructible_v<T>, void>::type copy_construct_value(void* dst, const T& src)
 		{
 			new (dst) T(src);
 		}
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_copy_constructible<T>::value, void>::type copy_construct_value(void*, const T&)
+		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_copy_constructible_v<T>, void>::type copy_construct_value(void*, const T&)
 		{
 		}
 
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_arithmetic<T>::value, bool>::type compare_equal_arithmetic(long double a, const T& b)
+		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_arithmetic_v<T>, bool>::type compare_equal_arithmetic(long double a, const T& b)
 		{
 			SEQ_COMPARE_FLOAT(return a == static_cast<long double>(b);)
 		}
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_arithmetic<T>::value, bool>::type compare_equal_arithmetic(long double, const T&)
+		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_arithmetic_v<T>, bool>::type compare_equal_arithmetic(long double, const T&)
 		{
 			return false;
 		}
@@ -561,10 +562,10 @@ namespace seq
 		{
 			// Copy object to destination buffer, allocating buffer if dst size is not big enough
 
-			if (!std::is_copy_assignable<T>::value && !std::is_copy_constructible<T>::value)
+			if (!std::is_copy_assignable_v<T> && !std::is_copy_constructible_v<T>)
 				throw seq::bad_any_function_call("data type is not copyable");
 
-			if (in_p == out_p && std::is_copy_assignable<T>::value) {
+			if (in_p == out_p && std::is_copy_assignable_v<T>) {
 				// same type, just copy
 				// get the dst pointer
 				void* dst = sizeof(T) > out_storage_size ? read_void_p(out_storage) : out_storage;
@@ -595,7 +596,7 @@ namespace seq
 		{
 			// Move object to destination buffer, allocating buffer if dst size is not big enough
 
-			if (in_p == out_p && std::is_move_assignable<T>::value) {
+			if (in_p == out_p && std::is_move_assignable_v<T>) {
 				// same type, just copy
 				// get the dst pointer
 				void* dst = sizeof(T) > out_storage_size ? read_void_p(out_storage) : out_storage;
@@ -811,8 +812,8 @@ namespace seq
 		{
 			static constexpr size_t size_T = sizeof(T);
 			// compile time tags
-			static constexpr size_t tag = (std::is_trivially_destructible<T>::value ? 0 : 1) | (std::is_trivially_copyable<T>::value ? 0 : 2) | (is_relocatable<T>::value ? 0 : 4) |
-						      (detail::need_separate_storage<T, sizeof(storage_type), ForceRelocatable>::value ? 8 : 0) | (std::is_pointer<T>::value ? 16 : 0);
+			static constexpr size_t tag = (std::is_trivially_destructible_v<T> ? 0 : 1) | (std::is_trivially_copyable_v<T> ? 0 : 2) | (is_relocatable<T>::value ? 0 : 4) |
+						      (detail::need_separate_storage<T, sizeof(storage_type), ForceRelocatable>::value ? 8 : 0) | (std::is_pointer_v<T> ? 16 : 0);
 
 			// create object storage with allocation if sizeof(T) > StaticSize
 			void* d = &d_storage;
@@ -840,7 +841,7 @@ namespace seq
 			d_type_info.set_full(0);
 		}
 
-		template<class T, class = typename std::enable_if<std::is_reference<T>::value, void>::type>
+		template<class T, class = typename std::enable_if<std::is_reference_v<T>, void>::type>
 		auto convert(const TypeInfo* /*unused*/, const TypeInfo* /*unused*/, std::uintptr_t /*unused*/) const -> T
 		{
 			throw std::bad_cast();
@@ -855,18 +856,18 @@ namespace seq
 			return ref;
 		}
 
-		template<class T, class = typename std::enable_if<!std::is_reference<T>::value, void>::type>
+		template<class T, class = typename std::enable_if<!std::is_reference_v<T>, void>::type>
 		auto convert(const TypeInfo* info, const TypeInfo* out_p, std::uintptr_t tags) const -> typename std::decay<T>::type
 		{
 			using type = typename std::decay<T>::type;
 
 			// cast pointer to void*
-			if ((std::is_same<void*, type>::value || std::is_same<const void*, type>::value) && (tags & detail::pointer)) {
+			if ((std::is_same_v<void*, type> || std::is_same_v<const void*, type>) && (tags & detail::pointer)) {
 				return detail::cast_to_void<type>(detail::read_void_p(this->data()));
 			}
 
 			// to arithmetic conversion
-			if (std::is_arithmetic<type>::value) {
+			if (std::is_arithmetic_v<type>) {
 				if (info->type_id() <= get_type_id<long double>())
 					return detail::cast_arithmetic<type>(this->data(), info);
 				else if (info->type_id() == get_type_id<std::string>())
@@ -1706,7 +1707,7 @@ namespace seq
 		}
 
 		/// @brief Construct from any object except another hold_any
-		template<class T, class = typename std::enable_if<!std::is_base_of<detail::null_policy, typename std::decay<T>::type>::value, void>::type>
+		template<class T, class = typename std::enable_if<!std::is_base_of_v<detail::null_policy, typename std::decay<T>::type>, void>::type>
 		hold_any(T&& value)
 		  : base_type()
 		{
@@ -1806,7 +1807,7 @@ namespace seq
 		}
 
 		/// @brief Assign any kind of object except a hold_any
-		template<class T, class = typename std::enable_if<!std::is_base_of<detail::null_policy, typename std::decay<T>::type>::value, void>::type>
+		template<class T, class = typename std::enable_if<!std::is_base_of_v<detail::null_policy, typename std::decay<T>::type>, void>::type>
 		auto operator=(T&& value) -> hold_any&
 		{
 			using type = typename std::decay<T>::type;
@@ -1907,7 +1908,7 @@ namespace seq
 			int a_id = this->type_id();
 
 			// arithmetic comparison
-			if (is_arithmetic_type(a_id) && std::is_arithmetic<type>::value) {
+			if (is_arithmetic_type(a_id) && std::is_arithmetic_v<type>) {
 				return detail::compare_equal_arithmetic(this->template cast<long double>(), std::forward<T>(other));
 			}
 
@@ -1944,9 +1945,9 @@ namespace seq
 			int a_id = this->type_id();
 
 			// arithmetic comparison
-			if (is_arithmetic_type(a_id) && std::is_arithmetic<type>::value) {
-				if (is_integral_type(a_id) && std::is_integral<type>::value) {
-					if (is_signed_integral_type(a_id) != std::is_signed<type>::value || is_unsigned_integral_type(a_id)) // different sign: convert to unsigned integral
+			if (is_arithmetic_type(a_id) && std::is_arithmetic_v<type>) {
+				if (is_integral_type(a_id) && std::is_integral_v<type>) {
+					if (is_signed_integral_type(a_id) != std::is_signed_v<type> || is_unsigned_integral_type(a_id)) // different sign: convert to unsigned integral
 						return detail::less_arithmetic<type, unsigned long long>(this->template cast<unsigned long long>(), other);
 					else
 						return detail::less_arithmetic<type, long long>(this->template cast<long long>(), other);
@@ -1987,9 +1988,9 @@ namespace seq
 			int a_id = this->type_id();
 
 			// arithmetic comparison
-			if (is_arithmetic_type(a_id) && std::is_arithmetic<type>::value) {
-				if (is_integral_type(a_id) && std::is_integral<type>::value) {
-					if (is_signed_integral_type(a_id) != std::is_signed<type>::value || is_unsigned_integral_type(a_id)) // different sign: convert to unsigned integral
+			if (is_arithmetic_type(a_id) && std::is_arithmetic_v<type>) {
+				if (is_integral_type(a_id) && std::is_integral_v<type>) {
+					if (is_signed_integral_type(a_id) != std::is_signed_v<type> || is_unsigned_integral_type(a_id)) // different sign: convert to unsigned integral
 						return detail::greater_arithmetic<type, unsigned long long>(this->template cast<unsigned long long>(), other);
 					else
 						return detail::greater_arithmetic<type, long long>(this->template cast<long long>(), other);

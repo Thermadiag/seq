@@ -128,7 +128,7 @@ namespace seq
 			using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 
 			size_t chunks = 0;
-			std_alloc(const Allocator& alloc) noexcept(std::is_nothrow_copy_constructible<Allocator>::value)
+			std_alloc(const Allocator& alloc) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 			  : Allocator(alloc)
 			  , chunks(0)
 			{
@@ -771,7 +771,7 @@ namespace seq
 			detail::base_list_chunk<T> end; // end chunk
 			std::size_t size;		// full size
 
-			Data(const Allocator& al) noexcept(std::is_nothrow_copy_constructible<Allocator>::value)
+			Data(const Allocator& al) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 			  : layout_manager(al)
 			  , size(0)
 			{
@@ -918,7 +918,7 @@ namespace seq
 					endNode()->prev = last;
 					while (_del != endNode()) {
 						// Only call destructor if necessary
-						if (!std::is_trivially_destructible<T>::value && _del->used != 0) {
+						if (!std::is_trivially_destructible_v<T> && _del->used != 0) {
 							std::uint64_t id = 0;
 							while (id != count) {
 								std::uint64_t mask = 1ULL << id;
@@ -1018,7 +1018,7 @@ namespace seq
 		void destroy_node_elements(chunk_type* node) noexcept
 		{
 			// Destroy all valid (constructed) elements of a node
-			if (!std::is_trivially_destructible<T>::value && node->used) {
+			if (!std::is_trivially_destructible_v<T> && node->used) {
 				for (int i = node->start; i < node->end; ++i)
 					if (node->used & (1ULL << static_cast<std::uint64_t>(i)))
 						destroy_ptr(node->buffer() + i);
@@ -1358,7 +1358,7 @@ namespace seq
 
 	public:
 		/// @brief Default constructor, initialize internal data
-		sequence() noexcept(std::is_nothrow_default_constructible<Allocator>::value)
+		sequence() noexcept(std::is_nothrow_default_constructible_v<Allocator>)
 		  : Allocator()
 		  , d_data(nullptr)
 		{
@@ -1409,7 +1409,7 @@ namespace seq
 				import(other);
 		}
 		/// @brief Move constructor
-		sequence(sequence&& other) noexcept(std::is_nothrow_move_constructible<Allocator>::value)
+		sequence(sequence&& other) noexcept(std::is_nothrow_move_constructible_v<Allocator>)
 		  : Allocator(std::move(other.get_allocator()))
 		  , d_data(other.d_data)
 		{
@@ -1562,7 +1562,7 @@ namespace seq
 			chunk_type* node = static_cast<chunk_type*>(d_data->endNode()->next);
 			while (node != d_data->endNode()) {
 				// Destroy node content only if needed
-				if (!std::is_trivially_destructible<T>::value && node->used)
+				if (!std::is_trivially_destructible_v<T> && node->used)
 					destroy_node_elements(node);
 				// Deallocate chunk
 				chunk_type* next = static_cast<chunk_type*>(node->next);

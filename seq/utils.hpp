@@ -545,7 +545,7 @@ namespace seq
 
 	/// @brief Copy allocator for container copy constructor
 	template<class Allocator>
-	auto copy_allocator(const Allocator& alloc) noexcept(std::is_nothrow_copy_constructible<Allocator>::value) -> Allocator
+	auto copy_allocator(const Allocator& alloc) noexcept(std::is_nothrow_copy_constructible_v<Allocator>) -> Allocator
 	{
 		return std::allocator_traits<Allocator>::select_on_container_copy_construction(alloc);
 	}
@@ -566,7 +566,7 @@ namespace seq
 	/// @brief Assign allocator for container copy operator
 	template<class Allocator>
 	void assign_allocator(Allocator& left,
-			      const Allocator& right) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value || std::is_nothrow_copy_assignable<Allocator>::value)
+			      const Allocator& right) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value || std::is_nothrow_copy_assignable_v<Allocator>)
 	{
 		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value) {
 			left = right;
@@ -576,7 +576,7 @@ namespace seq
 	/// @brief Move allocator for container move assignment
 	template<class Allocator>
 	void move_allocator(Allocator& left,
-			    Allocator& right) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value || std::is_nothrow_move_assignable<Allocator>::value)
+			    Allocator& right) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value || std::is_nothrow_move_assignable_v<Allocator>)
 	{
 		// (maybe) propagate on container move assignment
 		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value) {

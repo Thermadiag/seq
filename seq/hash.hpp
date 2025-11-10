@@ -254,7 +254,7 @@ namespace seq
 	};
 
 	template<typename Enum>
-	struct hasher<Enum, typename std::enable_if<std::is_enum<Enum>::value, void>::type>
+	struct hasher<Enum, typename std::enable_if<std::is_enum_v<Enum>, void>::type>
 	{
 		using is_avalanching = int;
 		using is_transparent = int;
