@@ -177,7 +177,7 @@ namespace seq
 						d_buckets[i].for_each(d_values + i, [&](std::uint8_t* hashs, unsigned j, Value& val) {
 							auto pos = hash_key(extract_key::key(val)) & new_hash_mask;
 							FindInsertNode<extract_key, InsertFlatPolicy, false>(
-							  d_chain_count, get_allocator(), hashs[j + 1], key_eq(), buckets + pos, values + pos, std::move_if_noexcept(val));
+							  d_chain_count, get_allocator(), hashs[j + 1], this->key_eq(), buckets + pos, values + pos, std::move_if_noexcept(val));
 
 							if (std::is_nothrow_move_constructible_v<Value>) {
 								if (!std::is_trivially_destructible_v<Value>)
@@ -286,7 +286,7 @@ namespace seq
 				size_t pos = (hash & d_hash_mask);
 				
 				auto p = FindInsertNode<extract_key, Policy, true>(
-				  d_chain_count, get_allocator(), th, key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
+				  d_chain_count, get_allocator(), th, this->key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
 				if (!p.second) {
 					// Key exist: call functor
 					std::forward<F>(fun)(*p.first);
