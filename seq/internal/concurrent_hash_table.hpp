@@ -543,15 +543,16 @@ namespace seq
 
 		/// @brief Insert value in a new dense node
 		template<class Policy, class ChainCount, class Allocator, class Node, class K, class... Args>
-		auto InsertNewDense(ChainCount& counter, const Allocator& al, std::uint8_t th, Node* n, K&& key, Args&&... args) -> std::pair<typename Node::value_type*, bool>
+		auto InsertNewDense(ChainCount& counter,  Allocator al, std::uint8_t th, Node* n, K&& key, Args&&... args) -> std::pair<typename Node::value_type*, bool>
 		{
 			using value_type = typename Node::value_type;
-			using Alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<ConcurrentDenseNode<value_type>>;
-			Alloc a = al;
-			ConcurrentDenseNode<value_type>* d = a.allocate(1);
-			//memset(d, 0, sizeof(ConcurrentDenseNode<value_type>));
-			memset(d->hashs,0,sizeof(d->hashs)); //TEST
-			d->right = nullptr; //TEST
+			//using Alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<ConcurrentDenseNode<value_type>>;
+			//Alloc a = al;
+			//ConcurrentDenseNode<value_type>* d = a.allocate(1);
+			ConcurrentDenseNode<value_type>* d = al.allocate(1);
+
+			memset(d->hashs,0,sizeof(d->hashs)); 
+			d->right = nullptr; 
 			d->left = reinterpret_cast<ConcurrentDenseNode<value_type>*>(n);
 
 			try {
@@ -559,7 +560,7 @@ namespace seq
 			}
 			catch (...) {
 				// destroy dense node
-				a.deallocate(d, 1);
+				al.deallocate(d, 1);
 				throw;
 			}
 			d->hashs[++d->hashs[0]] = th;
@@ -803,7 +804,7 @@ namespace seq
 						d_buckets[i].for_each(d_values + i, [&](std::uint8_t* hashs, unsigned j, Value& val) {
 							auto pos = hash_key(extract_key::key(val)) & new_hash_mask;
 							FindInsertNode<extract_key, InsertConcurrentPolicy, false>(
-							  d_chain_count, get_allocator(), hashs[j + 1], key_eq(), buckets + pos, values + pos, std::move_if_noexcept(val));
+							  d_chain_count, chain_node_allocator{ get_allocator() }, hashs[j + 1], key_eq(), buckets + pos, values + pos, std::move_if_noexcept(val));
 
 							if (std::is_nothrow_move_constructible_v<Value>) {
 								if (!std::is_trivially_destructible_v<Value>)
@@ -1021,7 +1022,7 @@ namespace seq
 				LockUnique<node_lock> lock(ll, true);
 
 				auto p = FindInsertNode<extract_key, Policy, true>(
-				  d_chain_count, get_allocator(), th, key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
+				  d_chain_count, chain_node_allocator{ get_allocator() } ,th, key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
 				if (!p.second) {
 					// Key exist: call functor
 					std::forward<F>(fun)(*p.first);

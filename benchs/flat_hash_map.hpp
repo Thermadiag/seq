@@ -94,6 +94,27 @@ namespace seq
 			// We can insert more elements than this value, but using chaining.
 			static constexpr size_t max_hash_mask = std::numeric_limits<size_t>::max();
 
+			struct ChainAllocator
+			{
+				this_type* table;
+				chain_node_type* allocate(size_t ) 
+				{ 
+					if (table->first_free) {
+						auto* r = table->first_free;
+						table->first_free = table->first_free->right;
+						return r;
+					}
+					chain_node_allocator al{ table->get_allocator() };
+					return al.allocate(1);
+					
+				}
+				void deallocate(chain_node_type* node, size_t) noexcept
+				{ 
+					node->right = table->first_free;
+					table->first_free = node;
+				}
+			};
+
 		private:
 			node_type* d_buckets;	       // hash table
 			value_node_type* d_values;     // values
@@ -102,6 +123,7 @@ namespace seq
 			size_t d_hash_mask;	       // hash mask
 			chain_count_type d_chain_count; // number of chained nodes, used to optimize detection of needed rehash on insert
 			float d_max_load_factor = 0.75f;
+			chain_node_type* first_free = nullptr;
 
 			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept { return static_cast<const Alloc&>(*this); }
 
@@ -128,7 +150,11 @@ namespace seq
 
 			void free_nodes(node_type* n, size_t count) noexcept(noexcept(node_allocator{ Allocator{} })) { node_allocator{ get_allocator() }.deallocate(n, count); }
 			void free_nodes(value_node_type* n, size_t count) noexcept(noexcept(value_node_allocator{ Allocator{} })) { value_node_allocator{ get_allocator() }.deallocate(n, count); }
-			void free_nodes(chain_node_type* n) noexcept(noexcept(chain_node_allocator{ Allocator{} })) { chain_node_allocator{ get_allocator() }.deallocate(n, 1); }
+			void free_nodes(chain_node_type* n) noexcept(noexcept(chain_node_allocator{ Allocator{} })) 
+			{ 
+				//chain_node_allocator{ get_allocator() }.deallocate(n, 1); 
+				ChainAllocator{ this }.deallocate(n, 1);
+			}
 
 			void move_back(node_type* buckets, value_node_type* values, size_t new_hash_mask, node_type* old_buckets, value_node_type* old_values, size_t old_hash_mask) noexcept(
 			  std::is_nothrow_move_constructible_v<Value>)
@@ -176,8 +202,14 @@ namespace seq
 
 						d_buckets[i].for_each(d_values + i, [&](std::uint8_t* hashs, unsigned j, Value& val) {
 							auto pos = hash_key(extract_key::key(val)) & new_hash_mask;
-							FindInsertNode<extract_key, InsertFlatPolicy, false>(
-							  d_chain_count, get_allocator(), hashs[j + 1], this->key_eq(), buckets + pos, values + pos, std::move_if_noexcept(val));
+							FindInsertNode<extract_key, InsertFlatPolicy, false>(d_chain_count,
+													     //chain_node_allocator{ get_allocator() },
+													     ChainAllocator{ this },
+													     hashs[j + 1],
+													     this->key_eq(),
+													     buckets + pos,
+													     values + pos,
+													     std::move_if_noexcept(val));
 
 							if (std::is_nothrow_move_constructible_v<Value>) {
 								if (!std::is_trivially_destructible_v<Value>)
@@ -286,7 +318,7 @@ namespace seq
 				size_t pos = (hash & d_hash_mask);
 				
 				auto p = FindInsertNode<extract_key, Policy, true>(
-				  d_chain_count, get_allocator(), th, this->key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
+				  d_chain_count, ChainAllocator{ this }, th, this->key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
 				if (!p.second) {
 					// Key exist: call functor
 					std::forward<F>(fun)(*p.first);
@@ -654,6 +686,12 @@ namespace seq
 			/// @brief Clear the hash table
 			void clear_no_lock()
 			{
+				while (first_free) {
+					auto* next = first_free->right;
+					chain_node_allocator{ get_allocator() }.deallocate(first_free, 1);
+					first_free = next;
+				}
+
 				if (d_buckets == get_static_node())
 					return;
 
@@ -665,7 +703,6 @@ namespace seq
 				d_values = nullptr;
 				d_size = d_next_target = 0;
 				d_hash_mask = 0;
-
 			}
 
 			/// @brief Returns true if two FlatHashTable are equals
