@@ -386,8 +386,8 @@ namespace seq
 						mask &= mask - 1;
 					} while (mask);
 				}
-				return nullptr;
 #endif
+				return nullptr;
 			}
 
 			SEQ_UNREACHABLE();
@@ -549,7 +549,9 @@ namespace seq
 			using Alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<ConcurrentDenseNode<value_type>>;
 			Alloc a = al;
 			ConcurrentDenseNode<value_type>* d = a.allocate(1);
-			memset(d, 0, sizeof(ConcurrentDenseNode<value_type>));
+			//memset(d, 0, sizeof(ConcurrentDenseNode<value_type>));
+			memset(d->hashs,0,sizeof(d->hashs)); //TEST
+			d->right = nullptr; //TEST
 			d->left = reinterpret_cast<ConcurrentDenseNode<value_type>*>(n);
 
 			try {
@@ -700,7 +702,10 @@ namespace seq
 			auto make_value_nodes(size_t count = 1) -> value_node_type*
 			{
 				value_node_type* n = value_node_allocator{ get_allocator() }.allocate(count);
-				memset(n, 0, count * sizeof(value_node_type));
+				//memset(n, 0, count * sizeof(value_node_type));
+				for(size_t i=0; i < count; ++i)
+					n[i].right = nullptr; //TEST
+				
 				return n;
 			}
 

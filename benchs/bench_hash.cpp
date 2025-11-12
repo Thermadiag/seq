@@ -32,7 +32,7 @@
 
 #include "robin_hood/robin_hood.h"
 
-#ifdef BOOST_CONCURRENT_MAP_FOUND
+#ifdef BOOST_UNORDERED_MAP_FOUND
 #include <boost/unordered/unordered_flat_set.hpp>
 #endif
 
@@ -61,6 +61,11 @@ template<class C>
 void reserve(C& set, size_t count)
 {
 	set.reserve(count);
+}
+
+template<class T>
+void reserve(radix_set<T> & , size_t )
+{
 }
 
 template<class T>
@@ -366,6 +371,10 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 		test_hash_set("seq::radix_hash_set", set, keys, f);
 	}
 	{
+		radix_set<T> set;
+		test_hash_set("seq::radix_set", set, keys, f);
+	}
+	{
 		robin_hood::unordered_flat_set<T, Hash, std::equal_to<>> set;
 		test_hash_set("robin_hood::unordered_flat_set", set, keys, f);
 	}
@@ -375,7 +384,7 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 		test_hash_set("gtl::flat_hash_set", set, keys, f);
 	}
 #endif
-#ifdef BOOST_CONCURRENT_MAP_FOUND
+#ifdef BOOST_UNORDERED_MAP_FOUND
 	{
 		boost::unordered_flat_set<T, Hash, std::equal_to<>> set;
 		test_hash_set("boost::unordered_flat_set", set, keys, f);
@@ -404,7 +413,7 @@ int bench_hash(int, char** const)
 
 	test_hash<tstring, seq::hasher<tstring>>(4000000, [](size_t i) { return generate_random_string<tstring>(13, true); });
 
-	test_hash<seq::r_any, seq::hasher<seq::r_any>>(2500000, [](size_t i) {
+	/*test_hash<seq::r_any, seq::hasher<seq::r_any>>(2500000, [](size_t i) {
 		size_t idx = i & 3U;
 		switch (idx) {
 			case 0:
@@ -414,7 +423,7 @@ int bench_hash(int, char** const)
 			default:
 				return seq::r_any(generate_random_string<tstring>(63, false));
 		}
-	});
+	});*/
 
 	return 0;
 }
