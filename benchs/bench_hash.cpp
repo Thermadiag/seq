@@ -45,6 +45,8 @@
 #include <seq/tiny_string.hpp>
 #include <seq/concurrent_map.hpp>
 
+#include "flat_hash_map.hpp"
+
 #ifdef SEQ_HAS_CPP_17
 #include "ankerl/unordered_dense.h"
 #include <gtl/phmap.hpp>
@@ -111,6 +113,13 @@ size_t walk_set(C& set)
 
 template<class Key, class Hash, class Equal, class Allocator, unsigned Shards>
 size_t walk_set(concurrent_set<Key, Hash, Equal, Allocator, Shards>& set)
+{
+	size_t sum = 0;
+	set.cvisit_all([&](const auto& v) { sum += to_size_t(v); });
+	return sum;
+}
+template<class Key, class Hash, class Equal, class Allocator>
+size_t walk_set(flat_hash_set<Key, Hash, Equal, Allocator>& set)
 {
 	size_t sum = 0;
 	set.cvisit_all([&](const auto& v) { sum += to_size_t(v); });
@@ -356,14 +365,19 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 #ifdef SEQ_HAS_CPP_17
 	{
 		ankerl::unordered_dense::set<T, Hash, std::equal_to<>> set;
-		set.max_load_factor(0.85);
+		//set.max_load_factor(0.85);
 		test_hash_set("ankerl::unordered_dense::set", set, keys, f);
 	}
 #endif
 	{
 		concurrent_set<T, Hash, std::equal_to<>, std::allocator<T>, seq::no_concurrency> set;
-		set.max_load_factor(0.85);
+		//set.max_load_factor(0.85);
 		test_hash_set("seq::concurrent_set", set, keys, f);
+	}
+	{
+		flat_hash_set<T, Hash, std::equal_to<>, std::allocator<T> > set;
+		set.max_load_factor(0.6);
+		test_hash_set("seq::flat_hash_set", set, keys, f);
 	}
 
 	{
