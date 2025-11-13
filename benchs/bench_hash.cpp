@@ -45,7 +45,7 @@
 #include <seq/tiny_string.hpp>
 #include <seq/concurrent_map.hpp>
 
-#include "flat_hash_map.hpp"
+//#include "flat_hash_map.hpp"
 
 #ifdef SEQ_HAS_CPP_17
 #include "ankerl/unordered_dense.h"
@@ -118,13 +118,13 @@ size_t walk_set(concurrent_set<Key, Hash, Equal, Allocator, Shards>& set)
 	set.cvisit_all([&](const auto& v) { sum += to_size_t(v); });
 	return sum;
 }
-template<class Key, class Hash, class Equal, class Allocator>
+/* template<class Key, class Hash, class Equal, class Allocator>
 size_t walk_set(flat_hash_set<Key, Hash, Equal, Allocator>& set)
 {
 	size_t sum = 0;
 	set.cvisit_all([&](const auto& v) { sum += to_size_t(v); });
 	return sum;
-}
+}*/
 
 inline bool test_insert(bool v)
 {
@@ -374,19 +374,15 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 		//set.max_load_factor(0.85);
 		test_hash_set("seq::concurrent_set", set, keys, f);
 	}
-	{
+	/* {
 		flat_hash_set<T, Hash, std::equal_to<>, std::allocator<T> > set;
 		set.max_load_factor(0.6);
 		test_hash_set("seq::flat_hash_set", set, keys, f);
-	}
+	}*/
 
 	{
 		radix_hash_set<T, Hash, std::equal_to<>> set;
 		test_hash_set("seq::radix_hash_set", set, keys, f);
-	}
-	{
-		radix_set<T> set;
-		test_hash_set("seq::radix_set", set, keys, f);
 	}
 	{
 		robin_hood::unordered_flat_set<T, Hash, std::equal_to<>> set;
@@ -414,7 +410,8 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 
 int bench_hash(int, char** const)
 {
-
+	
+	
 	test_hash<int, seq::hasher<int>>(8000000, [](size_t i) { return (i); });
 	test_hash<size_t, seq::hasher<size_t>>(8000000, [](size_t i) { return (i); });
 
@@ -427,7 +424,7 @@ int bench_hash(int, char** const)
 
 	test_hash<tstring, seq::hasher<tstring>>(4000000, [](size_t i) { return generate_random_string<tstring>(13, true); });
 
-	/*test_hash<seq::r_any, seq::hasher<seq::r_any>>(2500000, [](size_t i) {
+	test_hash<seq::r_any, seq::hasher<seq::r_any>>(2500000, [](size_t i) {
 		size_t idx = i & 3U;
 		switch (idx) {
 			case 0:
@@ -437,7 +434,7 @@ int bench_hash(int, char** const)
 			default:
 				return seq::r_any(generate_random_string<tstring>(63, false));
 		}
-	});*/
+	});
 
 	return 0;
 }

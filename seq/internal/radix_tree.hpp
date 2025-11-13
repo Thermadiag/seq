@@ -2126,6 +2126,140 @@ namespace seq
 					// we are above maximum allowed size for a directory
 					return nullptr;
 
+				// Future release: use this version to soften the memory peak
+				/* directory* new_dir = nullptr;
+				{
+					//TEST
+					//Link all children of dir
+					directory* first = static_cast<directory*>(dir->children()[0].ptr());
+					directory* link = first;
+					dir->children()[0] = child_ptr();
+					for (unsigned i = 1; i != size; ++i) {
+						directory* child = static_cast<directory*>(dir->children()[i].ptr());
+						link->parent = child;
+						link = child;
+						dir->children()[i] = child_ptr();
+					}
+
+					auto prefix_len = dir->prefix_len;
+
+					// Destroy dir before allocating new directory to avoid memory peak
+					directory::destroy(d_data->base, dir, false);
+
+					try {
+						// might throw, fine
+						new_dir = directory::make(d_data->base, new_hash_len);
+						// copy prefix length
+						new_dir->prefix_len = prefix_len;
+						// set parent, used by iterator::get_bit_pos
+						new_dir->parent = parent_dir;
+					}
+					catch (...) {
+						// Reset parent for all children
+						for (unsigned i = 0; i != size; ++i) {
+							auto* next = first->parent;
+							first->parent = dir;
+							first = next;
+						}
+						throw;
+					}
+
+					unsigned i = 0;
+					try {
+						for (; i != size; ++i) {
+							directory* child = first;
+							directory* next = first->parent;
+							unsigned child_count = child->size();
+
+							if (prefix_search && child->prefix_len >= start_arity) {
+								// keep this directory and remove start_arity to the prefix.
+								size_t dir_pos = iterator::get_bit_pos(new_dir);
+								unsigned loc = hash_key(child->any_child()).n_bits(dir_pos, new_hash_len);
+
+								child->prefix_len -= start_arity;
+								new_dir->child(loc) = dir->const_child(i);
+								new_dir->child_count++;
+								new_dir->dir_count++;
+								child->parent = new_dir;
+								child->parent_pos = loc;
+								first = next;
+								continue;
+							}
+
+							if (child->hash_len != start_arity) {
+								// if child has more than start_arity bits
+								unsigned rem_bits = child->hash_len - start_arity;
+								unsigned mask = ((1U << rem_bits) - 1U);
+
+								for (unsigned j = 0; j < child_count; ++j) {
+									unsigned loc = (i << start_arity) | (j >> rem_bits); // take high bits of j
+									directory* intermediate = static_cast<directory*>(new_dir->children()[loc].ptr());
+									if (!intermediate)
+										// this part might throw which is a problem, we are in an intermediate state.
+										intermediate = make_intermediate(new_dir, rem_bits, loc);
+
+									// take low bits of j
+									if ((intermediate->children()[j & mask] = child->children()[j])) // take high bits of j
+									{
+										intermediate->child_count++;
+										if (intermediate->first_valid_child == static_cast<uint64_t>(-1))
+											intermediate->first_valid_child = j & mask;
+									}
+									if (child->children()[j].tag() == directory::IsDir) {
+										intermediate->dir_count++;
+										directory* d = child->const_child(j).to_dir();
+										d->parent = intermediate;
+										d->parent_pos = j & mask;
+									}
+									else if (child->children()[j].tag() != 0)
+										intermediate->first_valid_child = j & mask;
+
+									// set children to null in case of exception
+									child->children()[j] = child_ptr();
+								}
+							}
+							else {
+								for (unsigned j = 0; j < child_count; ++j) {
+									// compute location
+									unsigned loc = j | (i << child->hash_len);
+
+									if ((new_dir->children()[loc] = child->children()[j]))
+										++new_dir->child_count;
+
+									// update directory count
+									if SEQ_UNLIKELY (child->children()[j].tag() == directory::IsDir) {
+										new_dir->dir_count++;
+										directory* d = child->const_child(j).to_dir();
+										d->parent = new_dir;
+										d->parent_pos = loc;
+									}
+									// set children to null in case of exception
+									child->children()[j] = child_ptr();
+								}
+							}
+
+							directory::destroy(d_data->base, child, false);
+							first = next;
+						}
+					}
+					catch (...) {
+						// to keep the basic exception guarantee, the simplest solution is just to clear the tree
+						directory::destroy(d_data->base, new_dir, true);
+						for (; i != size; ++i) {
+							directory* next = first->parent;
+							directory::destroy(d_data->base, first, true);
+							first = next;
+						}
+						clear();
+
+						throw;
+					}
+
+					// reset parent
+					new_dir->parent = nullptr;
+				}*/
+
+				
 				// save internal value in order to reset it later to the new directory
 
 				// might throw, fine
@@ -2193,12 +2327,12 @@ namespace seq
 								unsigned loc = j | (i << child->hash_len);
 
 								if ((new_dir->children()[loc] = child->children()[j]))
-									new_dir->child_count++;
+									++new_dir->child_count;
 
 								// update directory count
-								if (child->children()[j].tag() == directory::IsDir) {
+								if SEQ_UNLIKELY(child->children()[j].tag() == directory::IsDir) {
 									new_dir->dir_count++;
-									directory* d = child->const_child(j).to_dir(); // static_cast<directory*>(child->children()[j].ptr());
+									directory* d = child->const_child(j).to_dir(); 
 									d->parent = new_dir;
 									d->parent_pos = loc;
 								}
@@ -2224,6 +2358,7 @@ namespace seq
 
 				// destroy old directory
 				directory::destroy(d_data->base, dir, false);
+				
 
 				// keep merging if possible
 				while (new_dir->dir_count == new_dir->size()) {
@@ -2458,7 +2593,6 @@ namespace seq
 
 				// now, check if the current directory contains only directories, and merge it if possible
 				if (dir->dir_count == dir->size()) {
-
 					if (merge_dir(dir, prev_hash_bits)) {
 						// directory merging succeded, now insert the new value starting from the root
 						return this->insert_hash_with_tiny<EnsureSorted>(d_data->base.root, 0, hash, th, policy, std::forward<K>(key), std::forward<Args>(args)...).first;
