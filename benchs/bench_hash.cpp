@@ -36,6 +36,8 @@
 #include <boost/unordered/unordered_flat_set.hpp>
 #endif
 
+#include <tsl/sparse_set.h>
+
 #include <seq/testing.hpp>
 #include <seq/ordered_map.hpp>
 #include <seq/radix_hash_map.hpp>
@@ -45,7 +47,7 @@
 #include <seq/tiny_string.hpp>
 #include <seq/concurrent_map.hpp>
 
-//#include "flat_hash_map.hpp"
+// #include "flat_hash_map.hpp"
 
 #ifdef SEQ_HAS_CPP_17
 #include "ankerl/unordered_dense.h"
@@ -66,7 +68,7 @@ void reserve(C& set, size_t count)
 }
 
 template<class T>
-void reserve(radix_set<T> & , size_t )
+void reserve(radix_set<T>&, size_t)
 {
 }
 
@@ -174,7 +176,6 @@ struct LaunchTest
 			start_mem = get_memory_usage();
 			C s;
 			tick();
-			// s.reserve(success.size());
 			reserve(s, success.size());
 			for (int i = 0; i < success.size(); ++i) {
 
@@ -279,11 +280,11 @@ struct LaunchTest
 		tick();
 		int i = 0;
 		size_t target = set.size() / 2;
-		while (set.size() > target) {
+		/* while (set.size() > target) {
 			if (set.erase(success[i]) != 1)
 				SEQ_TEST(false);
 			i++;
-		}
+		}*/
 		eraset = tock_ms();
 		erase_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
 
@@ -359,19 +360,17 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 
 	{
 		ordered_set<T, Hash, std::equal_to<>> set;
-		set.max_load_factor(0.85);
+		//set.max_load_factor(0.85);
 		test_hash_set("seq::ordered_set", set, keys, f);
 	}
-#ifdef SEQ_HAS_CPP_17
 	{
 		ankerl::unordered_dense::set<T, Hash, std::equal_to<>> set;
 		//set.max_load_factor(0.85);
 		test_hash_set("ankerl::unordered_dense::set", set, keys, f);
 	}
-#endif
 	{
 		concurrent_set<T, Hash, std::equal_to<>, std::allocator<T>, seq::no_concurrency> set;
-		//set.max_load_factor(0.85);
+		// set.max_load_factor(1);
 		test_hash_set("seq::concurrent_set", set, keys, f);
 	}
 	/* {
@@ -383,6 +382,10 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 	{
 		radix_hash_set<T, Hash, std::equal_to<>> set;
 		test_hash_set("seq::radix_hash_set", set, keys, f);
+	}
+	{
+		tsl::sparse_set<T, Hash, std::equal_to<>> set;
+		test_hash_set("tsl::sparse_set", set, keys, f);
 	}
 	{
 		robin_hood::unordered_flat_set<T, Hash, std::equal_to<>> set;
@@ -408,11 +411,45 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 	}
 }
 
+struct Test
+{
+	size_t v;
+	size_t data[4];
+	Test(size_t i = 0) noexcept
+	  : v(i)
+	{
+	}
+	bool operator==(const Test& o) const noexcept { return v == o.v; }
+};
+template<>
+struct hasher<Test>
+{
+	size_t operator()(const Test& t) const noexcept { return hasher<size_t>{}(t.v); }
+};
+#include <seq/testing.hpp>
+
+using schema_t = std::tuple<uint64_t, uint64_t>;
+
+struct extractor_t
+{
+	schema_t operator()(const schema_t* tuple) const { return schema_t{ std::get<1>(*tuple), std::get<0>(*tuple) }; }
+};
+
+void show_all(seq::radix_map<schema_t*, size_t, extractor_t>::iterator begin, seq::radix_map<schema_t*, size_t, extractor_t>::iterator end)
+{
+	for (auto it = begin; it != end; ++it) {
+		std::cout << "Tuple: (" << std::get<0>(*(it->first)) << "," << std::get<1>(*(it->first)) << ") -> " << it->second << std::endl;
+	}
+}
+
 int bench_hash(int, char** const)
 {
+	using tvec = tiered_vector<int>;
 	
-	
-	test_hash<int, seq::hasher<int>>(8000000, [](size_t i) { return (i); });
+	std::vector<int> vv(10);
+	tvec vec{ vv.begin(), vv.end() };
+
+	test_hash<int, seq::hasher<int>>(800000, [](size_t i) { return (i); });
 	test_hash<size_t, seq::hasher<size_t>>(8000000, [](size_t i) { return (i); });
 
 	random_float_genertor<double> rng;

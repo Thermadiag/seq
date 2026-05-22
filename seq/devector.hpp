@@ -688,7 +688,7 @@ namespace seq
 		/// @param first the range to copy the elements from
 		/// @param last the range to copy the elements from
 		/// @param alloc allocator to use for all memory allocations of this container
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		devector(InputIt first, InputIt last, const Allocator& alloc = Allocator())
 		  : base_type(alloc)
 		{

@@ -32,12 +32,13 @@
 The <i>any</i> module provides the seq::hold_any class and related functions to provide a type-erasing polymorphic object wrapper.
 */
 
-#include "format.hpp"
 #include "tagged_pointer.hpp"
 #include "tiny_string.hpp"
 #include "hash.hpp"
 
 #include <atomic>
+#include <charconv>
+#include <sstream>
 
 #ifndef SEQ_ANY_MALLOC
 #define SEQ_ANY_MALLOC operator new // allocation function used within seq::hold_any
@@ -79,7 +80,7 @@ namespace seq
 		{
 			// Generate a unique id starting from Start
 			static std::atomic<int> cnt = { Start }; // start index for custom types
-			return cnt++;
+			return cnt.fetch_add(1);
 		}
 	} // namespace detail
 
@@ -98,38 +99,40 @@ namespace seq
 			return 5;
 		else if constexpr (std::is_same_v<long long, T>)
 			return 6;
-		else if constexpr (std::is_same_v<unsigned char, T>)
+		else if constexpr (std::is_same_v<bool, T>)
 			return 7;
-		else if constexpr (std::is_same_v<char16_t, T>)
+		else if constexpr (std::is_same_v<unsigned char, T>)
 			return 8;
-		else if constexpr (std::is_same_v<char32_t, T>)
+		else if constexpr (std::is_same_v<char16_t, T>)
 			return 9;
-		else if constexpr (std::is_same_v<unsigned short, T>)
+		else if constexpr (std::is_same_v<char32_t, T>)
 			return 10;
-		else if constexpr (std::is_same_v<unsigned int, T>)
+		else if constexpr (std::is_same_v<unsigned short, T>)
 			return 11;
-		else if constexpr (std::is_same_v<unsigned long, T>)
+		else if constexpr (std::is_same_v<unsigned int, T>)
 			return 12;
-		else if constexpr (std::is_same_v<unsigned long long, T>)
+		else if constexpr (std::is_same_v<unsigned long, T>)
 			return 13;
-		else if constexpr (std::is_same_v<float, T>)
+		else if constexpr (std::is_same_v<unsigned long long, T>)
 			return 14;
-		else if constexpr (std::is_same_v<double, T>)
+		else if constexpr (std::is_same_v<float, T>)
 			return 15;
-		else if constexpr (std::is_same_v<long double, T>)
+		else if constexpr (std::is_same_v<double, T>)
 			return 16;
-		else if constexpr (std::is_same_v<std::string, T>)
+		else if constexpr (std::is_same_v<long double, T>)
 			return 17;
-		else if constexpr (std::is_same_v<tstring, T>)
+		else if constexpr (std::is_same_v<std::string, T>)
 			return 18;
-		else if constexpr (std::is_same_v<tstring_view, T>)
+		else if constexpr (std::is_same_v<tstring, T>)
 			return 19;
-		else if constexpr (std::is_same_v<const char*, T>)
+		else if constexpr (std::is_same_v<tstring_view, T>)
 			return 20;
-		else if constexpr (std::is_same_v<char*, T>)
+		else if constexpr (std::is_same_v<const char*, T>)
 			return 21;
-		else if constexpr (std::is_same_v<std::string_view, T>)
+		else if constexpr (std::is_same_v<char*, T>)
 			return 22;
+		else if constexpr (std::is_same_v<std::string_view, T>)
+			return 23;
 		else {
 			return 0;
 		}
@@ -145,41 +148,41 @@ namespace seq
 		if constexpr (v != 0)
 			return v;
 		else {
-			static constexpr int last_id = 22;
+			static constexpr int last_id = 23;
 			static int id = detail::build_type_id<last_id + 1>();
 			return id;
 		}
 	}
 
 	/// @brief Returns true if given type id corresponds to a signed integral type
-	SEQ_ALWAYS_INLINE auto is_signed_integral_type(int id) noexcept -> bool
+	SEQ_ALWAYS_INLINE constexpr bool is_signed_integral_type(int id) noexcept
 	{
-		return id != 0 && id <= get_type_id<long long>();
+		return id != 0 && id <= get_base_type_id<long long>();
 	}
 	/// @brief Returns true if given type id corresponds to an unsigned integral type
-	SEQ_ALWAYS_INLINE auto is_unsigned_integral_type(int id) noexcept -> bool
+	SEQ_ALWAYS_INLINE constexpr bool is_unsigned_integral_type(int id) noexcept
 	{
-		return id >= get_type_id<unsigned char>() && id <= get_type_id<unsigned long long>();
+		return id >= get_base_type_id<bool>() && id <= get_base_type_id<unsigned long long>();
 	}
 	/// @brief Returns true if given type id corresponds to an integral type
-	SEQ_ALWAYS_INLINE auto is_integral_type(int id) noexcept -> bool
+	SEQ_ALWAYS_INLINE constexpr bool is_integral_type(int id) noexcept
 	{
-		return id != 0 && id <= get_type_id<unsigned long long>();
+		return id != 0 && id <= get_base_type_id<unsigned long long>();
 	}
 	/// @brief Returns true if given type id corresponds to a floating point type
-	SEQ_ALWAYS_INLINE auto is_floating_point_type(int id) noexcept -> bool
+	SEQ_ALWAYS_INLINE constexpr bool is_floating_point_type(int id) noexcept
 	{
-		return id >= get_type_id<float>() && id <= get_type_id<long double>();
+		return id >= get_base_type_id<float>() && id <= get_base_type_id<long double>();
 	}
 	/// @brief Returns true if given type id corresponds to an arithmetic type (floating point or integral)
-	SEQ_ALWAYS_INLINE auto is_arithmetic_type(int id) noexcept -> bool
+	SEQ_ALWAYS_INLINE constexpr bool is_arithmetic_type(int id) noexcept
 	{
-		return id != 0 && id <= get_type_id<long double>();
+		return id != 0 && id <= get_base_type_id<long double>();
 	}
 	/// @brief Returns true if given type id corresponds to a string type (std::string, tstring, tstring_view or const char*)
-	SEQ_ALWAYS_INLINE auto is_string_type(int id) noexcept -> bool
+	SEQ_ALWAYS_INLINE constexpr bool is_string_type(int id) noexcept
 	{
-		return id >= get_type_id<std::string>() && id <= get_type_id<std::string_view>();
+		return id >= get_base_type_id<std::string>() && id <= get_base_type_id<std::string_view>();
 	}
 
 	namespace detail
@@ -202,16 +205,10 @@ namespace seq
 			pointer = 16	     // pointer type
 		};
 
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//
-		// LOTS of partial specialization because C++11 does not support 'if constexpr ()' ...
-		//
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 		/// @brief Hash value only if is_hashable<T>::value is true,
 		/// otherwise throw bad_any_function_call
 		template<class T>
-		auto hash_for_val(const void* in) -> size_t
+		static SEQ_ALWAYS_INLINE auto hash_for_val(const void* in) -> size_t
 		{
 			if constexpr (is_hashable<T>::value) {
 				if constexpr (is_character_pointer<T>::value) {
@@ -233,30 +230,9 @@ namespace seq
 			}
 		}
 
-		/// @brief Format to string
-		template<class T>
-		void format_val(std::string& out, const void* in, const width_format& wfmt, const numeric_format& nfmt)
-		{
-			if constexpr (!is_formattable<T>::value)
-				throw seq::bad_any_function_call("data type is not formattable");
-			else if constexpr (std::is_pointer_v<T>) {
-				const void * ptr = reinterpret_cast<const void*>(*static_cast<const T*>(in));
-				auto f = fmt(ptr); 
-				f.set_width_format(wfmt);
-				f.set_numeric_format(nfmt);
-				f.append(out);
-			}
-			else {
-				auto f = fmt(const_cast<T&>(*static_cast<const T*>(in)));
-				f.set_width_format(wfmt);
-				f.set_numeric_format(nfmt);
-				f.append(out);
-			}
-		}
-
 		/// @brief Cast T to an arithmetic type
 		template<class T, class TypeInfo>
-		T cast_arithmetic(const void* in, const TypeInfo* in_p)
+		static T cast_arithmetic(const void* in, const TypeInfo* in_p)
 		{
 			if constexpr (!std::is_arithmetic_v<T>) {
 				throw std::bad_cast();
@@ -264,6 +240,8 @@ namespace seq
 			}
 			else {
 				switch (in_p->type_id()) {
+					case get_base_type_id<bool>():
+						return static_cast<T>(*static_cast<const bool*>(in));
 					case get_base_type_id<char>():
 						return static_cast<T>(*static_cast<const char*>(in));
 					case get_base_type_id<signed char>():
@@ -307,9 +285,33 @@ namespace seq
 		template<class T, class String>
 		T arithmetic_from_string(const String& in)
 		{
-			if constexpr (std::is_arithmetic_v<T>) {
+			if constexpr (std::is_same_v<bool, T>) {
+				uint8_t res;
+				if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
+					throw std::bad_cast();
+				return (T)res;
+			}
+			else if constexpr (std::is_same_v<char16_t, T>) {
+				uint16_t res;
+				if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
+					throw std::bad_cast();
+				return (T)res;
+			}
+			else if constexpr (std::is_same_v<char32_t, T>) {
+				uint32_t res;
+				if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
+					throw std::bad_cast();
+				return (T)res;
+			}
+			else if constexpr (std::is_same_v<long double, T>) {
+				double res;
+				if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
+					throw std::bad_cast();
+				return (T)res;
+			}
+			else if constexpr (std::is_arithmetic_v<T>) {
 				T res;
-				if (from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
+				if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
 					throw std::bad_cast();
 				return res;
 			}
@@ -319,50 +321,87 @@ namespace seq
 			}
 		}
 
-		/// @brief Convert arithmetic object to allcoated string object
+		template<class String, class T>
+		String arithmetic_to_string(const T& in)
+		{
+			if constexpr (std::is_same_v<T, bool>)
+				return arithmetic_to_string((uint8_t)in);
+			else if constexpr (std::is_integral_v<T>) {
+				String tmp(19, (char)0);
+				auto res = std::to_chars(tmp.data(), tmp.data() + tmp.size(), in);
+				if (res.ec != std::errc())
+					throw std::bad_cast();
+				tmp.resize(res.ptr - tmp.data());
+				return tmp;
+			}
+			else if constexpr (std::is_same_v<T, char16_t>)
+				return arithmetic_to_string((uint16_t)in);
+			else if constexpr (std::is_same_v<T, char32_t>)
+				return arithmetic_to_string((uint32_t)in);
+			else if constexpr (std::is_same_v<T, long double>)
+				return arithmetic_to_string((double)in);
+			else if constexpr (std::is_floating_point_v<T>) {
+#if __cpp_lib_to_chars
+				String tmp(24, (char)0);
+				auto res = std::to_chars(tmp.data(), tmp.data() + tmp.size(), in);
+				if (res.ec != std::errc())
+					throw std::bad_cast();
+				tmp.resize(res.ptr - tmp.data());
+				return tmp;
+#else
+				std::ostringstream oss;
+				oss << in;
+				return oss.str();
+#endif
+			}
+			else {
+				throw std::bad_cast();
+				return {};
+			}
+		}
+
+		/// @brief Convert arithmetic object to allocated string object
 		template<class String, class TypeInfo>
 		String arithmetic_to_string(const void* in, const TypeInfo* in_p)
 		{
 			if constexpr (is_allocated_string<String>::value) {
-				String res;
 				switch (in_p->type_id()) {
 					case get_base_type_id<char>():
-						return fmt(*static_cast<const char*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const char*>(in));
 					case get_base_type_id<signed char>():
-						return fmt(*static_cast<const signed char*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const signed char*>(in));
 					case get_base_type_id<unsigned char>():
-						return fmt(*static_cast<const unsigned char*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const unsigned char*>(in));
 					case get_base_type_id<char16_t>():
-						return fmt(*static_cast<const char16_t*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const char16_t*>(in));
 					case get_base_type_id<char32_t>():
-						return fmt(*static_cast<const char32_t*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const char32_t*>(in));
 					case get_base_type_id<short>():
-						return fmt(*static_cast<const short*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const short*>(in));
 					case get_base_type_id<unsigned short>():
-						return fmt(*static_cast<const unsigned short*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const unsigned short*>(in));
 					case get_base_type_id<int>():
-						return fmt(*static_cast<const int*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const int*>(in));
 					case get_base_type_id<unsigned int>():
-						return fmt(*static_cast<const unsigned int*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const unsigned int*>(in));
 					case get_base_type_id<long>():
-						return fmt(*static_cast<const long*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const long*>(in));
 					case get_base_type_id<unsigned long>():
-						return fmt(*static_cast<const unsigned long*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const unsigned long*>(in));
 					case get_base_type_id<long long>():
-						return fmt(*static_cast<const long long*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const long long*>(in));
 					case get_base_type_id<unsigned long long>():
-						return fmt(*static_cast<const unsigned long long*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const unsigned long long*>(in));
 					case get_base_type_id<float>():
-						return fmt(*static_cast<const float*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const float*>(in));
 					case get_base_type_id<double>():
-						return fmt(*static_cast<const double*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const double*>(in));
 					case get_base_type_id<long double>():
-						return fmt(*static_cast<const long double*>(in)).append(res);
+						return arithmetic_to_string<String>(*static_cast<const long double*>(in));
 					default:
 						throw std::bad_cast();
 						break;
 				}
-				return res;
 			}
 			else {
 				throw std::bad_cast();
@@ -439,33 +478,37 @@ namespace seq
 
 		/// @brief Stream object to std::ostream or throw std::bad_function_call
 		template<class T>
-		typename std::enable_if<is_ostreamable<T>::value, void>::type ostream_any(std::ostream& oss, const void* in)
+		void ostream_any(std::ostream& oss, const void* in)
 		{
+			if constexpr (is_ostreamable<T>::value) {
+
 #if defined(__clang__) && defined(_MSC_VER)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmicrosoft-cast"
 #endif
-			oss << *static_cast<const T*>(in);
+				oss << *static_cast<const T*>(in);
 #if defined(__clang__) && defined(_MSC_VER)
 #pragma clang diagnostic pop
 #endif
-		}
-		template<class T>
-		typename std::enable_if<!is_ostreamable<T>::value, void>::type ostream_any(std::ostream&, const void*)
-		{
-			throw seq::bad_any_function_call("data type does not streamable to std::ostream");
+			}
+			else {
+				(void)oss;
+				(void)in;
+				throw seq::bad_any_function_call("data type does not streamable to std::ostream");
+			}
 		}
 
 		/// @brief Read object to std::istream or throw std::bad_function_call
 		template<class T>
-		typename std::enable_if<is_istreamable<T>::value, void>::type istream_any(std::istream& iss, void* in)
+		void istream_any(std::istream& iss, void* in)
 		{
-			iss >> *static_cast<T*>(in);
-		}
-		template<class T>
-		typename std::enable_if<!is_istreamable<T>::value, void>::type istream_any(std::istream&, void*)
-		{
-			throw seq::bad_any_function_call("data type does not streamable from std::istream");
+			if constexpr (is_istreamable<T>::value)
+				iss >> *static_cast<T*>(in);
+			else {
+				(void)iss;
+				(void)in;
+				throw seq::bad_any_function_call("data type does not streamable from std::istream");
+			}
 		}
 
 		/// @brief Hash object using hasher or throw std::bad_function_call
@@ -479,82 +522,73 @@ namespace seq
 		}
 		/// @brief Compare equal 2 objects of same type
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<is_equal_comparable<T>::value, bool>::type compare_equal_any(const void* a, const void* b)
+		SEQ_ALWAYS_INLINE bool compare_equal_any(const void* a, const void* b)
 		{
-			SEQ_COMPARE_FLOAT(return *static_cast<const T*>(a) == *static_cast<const T*>(b);)
+			if constexpr (is_equal_comparable<T>::value) {
+				SEQ_COMPARE_FLOAT(return *static_cast<const T*>(a) == *static_cast<const T*>(b);)
+			}
+			else {
+				(void)a;
+				(void)b;
+				return false;
+			}
 		}
-		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<!is_equal_comparable<T>::value, bool>::type compare_equal_any(const void*, const void*)
-		{
-			return false;
-		}
+		
 
 		/// @brief Compare 2 objects of same type for less than, or throw std::bad_function_call
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<is_less_comparable<T>::value, bool>::type compare_less_any(const void* a, const void* b)
+		SEQ_ALWAYS_INLINE bool compare_less_any(const void* a, const void* b)
 		{
+			if constexpr (is_less_comparable<T>::value) {
+
 #ifdef __clang__
-			_Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wordered-compare-function-pointers\"")
+				_Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wordered-compare-function-pointers\"")
 #endif
-			    if constexpr (is_function_pointer<T>::value) return reinterpret_cast<const void*>(*static_cast<const T*>(a)) < reinterpret_cast<const void*>(*static_cast<const T*>(b));
-			else return *static_cast<const T*>(a) < *static_cast<const T*>(b);
+				    if constexpr (is_function_pointer<T>::value) return reinterpret_cast<const void*>(*static_cast<const T*>(a)) <
+				  reinterpret_cast<const void*>(*static_cast<const T*>(b));
+				else return *static_cast<const T*>(a) < *static_cast<const T*>(b);
 #ifdef __clang__
-			_Pragma("clang diagnostic pop")
+				_Pragma("clang diagnostic pop")
 #endif
+			}
+			else {
+				(void)a;
+				(void)b;
+				throw seq::bad_any_function_call("data type does not provide a less operator");
+				return false;
+			}
 		}
-		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<!is_less_comparable<T>::value, bool>::type compare_less_any(const void*, const void*)
-		{
-			throw seq::bad_any_function_call("data type does not provide a less operator");
-			return false;
-		}
-
-		/// @brief Format object or throw std::bad_function_call
-		template<class T>
-		SEQ_ALWAYS_INLINE void format_any(std::string& out, const void* in, const width_format& wfmt, const numeric_format& nfmt)
-		{
-			format_val<T>(out, in, wfmt, nfmt);
-		}
+		
 
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_copy_assignable_v<T>, void>::type assign_value(T& dst, const T& src)
+		SEQ_ALWAYS_INLINE void assign_value(T& dst, const T& src)
 		{
-			dst = src;
-		}
-		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_copy_assignable_v<T>, void>::type assign_value(T&, const T&)
-		{
+			if constexpr (std::is_copy_assignable_v<T>)
+				dst = src;
 		}
 
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_move_assignable_v<T>, void>::type move_assign_value(T& dst, T& src)
+		SEQ_ALWAYS_INLINE void move_assign_value(T& dst, T& src)
 		{
-			dst = std::move(src);
-		}
-		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_move_assignable_v<T>, void>::type move_assign_value(T&, T&)
-		{
+			if constexpr (std::is_move_assignable_v<T>)
+				dst = std::move(src);
 		}
 
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_copy_constructible_v<T>, void>::type copy_construct_value(void* dst, const T& src)
+		SEQ_ALWAYS_INLINE void copy_construct_value(void* dst, const T& src)
 		{
-			new (dst) T(src);
+			if constexpr (std::is_copy_constructible_v<T>)
+				new (dst) T(src);
 		}
+		
 		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_copy_constructible_v<T>, void>::type copy_construct_value(void*, const T&)
+		SEQ_ALWAYS_INLINE bool compare_equal_arithmetic(long double a, const T& b)
 		{
-		}
-
-		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<std::is_arithmetic_v<T>, bool>::type compare_equal_arithmetic(long double a, const T& b)
-		{
-			SEQ_COMPARE_FLOAT(return a == static_cast<long double>(b);)
-		}
-		template<class T>
-		SEQ_ALWAYS_INLINE typename std::enable_if<!std::is_arithmetic_v<T>, bool>::type compare_equal_arithmetic(long double, const T&)
-		{
-			return false;
+			if constexpr (std::is_arithmetic_v<T>) {
+				SEQ_COMPARE_FLOAT(return a == static_cast<long double>(b);)
+			}
+			else
+				return false;
 		}
 
 		template<class T, class any_type_info>
@@ -562,10 +596,10 @@ namespace seq
 		{
 			// Copy object to destination buffer, allocating buffer if dst size is not big enough
 
-			if (!std::is_copy_assignable_v<T> && !std::is_copy_constructible_v<T>)
+			if constexpr (!std::is_copy_assignable_v<T> && !std::is_copy_constructible_v<T>)
 				throw seq::bad_any_function_call("data type is not copyable");
 
-			if (in_p == out_p && std::is_copy_assignable_v<T>) {
+			if (std::is_copy_assignable_v<T> && in_p == out_p) {
 				// same type, just copy
 				// get the dst pointer
 				void* dst = sizeof(T) > out_storage_size ? read_void_p(out_storage) : out_storage;
@@ -596,7 +630,7 @@ namespace seq
 		{
 			// Move object to destination buffer, allocating buffer if dst size is not big enough
 
-			if (in_p == out_p && std::is_move_assignable_v<T>) {
+			if (std::is_move_assignable_v<T> && in_p == out_p) {
 				// same type, just copy
 				// get the dst pointer
 				void* dst = sizeof(T) > out_storage_size ? read_void_p(out_storage) : out_storage;
@@ -649,8 +683,6 @@ namespace seq
 		virtual auto less_any(const void* a, const void* o) const -> bool = 0;
 		/// @brief Hash object of underlying type
 		virtual auto hash_any(const void* in) const -> size_t = 0;
-		/// @brief Format object of underlying type into output string
-		virtual void format_any(std::string& out, const void* in, const width_format& wfmt, const numeric_format& nfmt) const = 0;
 		/// @brief Stream object of underlying type to a std::ostream object
 		virtual void ostream_any(const void* in, std::ostream& oss) const = 0;
 		/// @brief Read object of underlying type from a std::istream object
@@ -668,7 +700,6 @@ namespace seq
 		auto equal_any(const void* a, const void* b) const -> bool override { return detail::compare_equal_any<T>(a, b); }
 		auto less_any(const void* a, const void* b) const -> bool override { return detail::compare_less_any<T>(a, b); }
 		auto hash_any(const void* in) const -> size_t override { return detail::hash_any<T, SupportHash>(in); }
-		void format_any(std::string& out, const void* in, const width_format& wfmt, const numeric_format& nfmt) const override { detail::format_any<T>(out, in, wfmt, nfmt); }
 		void ostream_any(const void* in, std::ostream& oss) const override { return detail::ostream_any<T>(oss, in); }
 		void istream_any(void* in, std::istream& iss) const override { return detail::istream_any<T>(iss, in); }
 		void copy_any(const any_type_info* in_p, const void* in, const any_type_info* out_p, void* out_storage, unsigned out_storage_size) const override
@@ -862,12 +893,12 @@ namespace seq
 			using type = typename std::decay<T>::type;
 
 			// cast pointer to void*
-			if ((std::is_same_v<void*, type> || std::is_same_v<const void*, type>) && (tags & detail::pointer)) {
+			if constexpr ((std::is_same_v<void*, type> || std::is_same_v<const void*, type>) && (tags & detail::pointer)) {
 				return detail::cast_to_void<type>(detail::read_void_p(this->data()));
 			}
 
 			// to arithmetic conversion
-			if (std::is_arithmetic_v<type>) {
+			else if constexpr (std::is_arithmetic_v<type>) {
 				if (info->type_id() <= get_type_id<long double>())
 					return detail::cast_arithmetic<type>(this->data(), info);
 				else if (info->type_id() == get_type_id<std::string>())
@@ -885,7 +916,7 @@ namespace seq
 			}
 
 			// convert to tstring_view, only valid for string types
-			if (is_generic_string_view<type>::value) {
+			else if constexpr (is_generic_string_view<type>::value) {
 				if (info->type_id() == get_type_id<std::string>())
 					return detail::string_to_view<type, std::string>(*static_cast<const std::string*>(this->data()));
 				else if (info->type_id() == get_type_id<tstring>())
@@ -901,7 +932,7 @@ namespace seq
 			}
 
 			// to string type conversion
-			if (is_allocated_string<type>::value) {
+			else if constexpr (is_allocated_string<type>::value) {
 				if (info->type_id() == get_type_id<std::string>())
 					return detail::string_to_string<type, std::string>(*static_cast<const std::string*>(this->data()));
 				else if (info->type_id() == get_type_id<tstring>())
@@ -1908,12 +1939,12 @@ namespace seq
 			int a_id = this->type_id();
 
 			// arithmetic comparison
-			if (is_arithmetic_type(a_id) && std::is_arithmetic_v<type>) {
+			if (std::is_arithmetic_v<type> && is_arithmetic_type(a_id)) {
 				return detail::compare_equal_arithmetic(this->template cast<long double>(), std::forward<T>(other));
 			}
 
 			// string comparison
-			if (is_string_type(a_id) && is_generic_char_string<type>::value) {
+			if (is_generic_char_string<type>::value && is_string_type(a_id)) {
 				return detail::compare_string<type>(this->template cast<tstring_view>(), std::forward<T>(other)) == 0;
 			}
 
@@ -2308,30 +2339,6 @@ namespace seq
 		res.template emplace<T>(il, std::forward<Args>(args)...);
 		return res;
 	}
-
-	template<class Interface, size_t S, size_t A, bool R, bool Slot>
-	class ostream_format<hold_any<Interface, S, A, R>, Slot> : public base_ostream_format<hold_any<Interface, S, A, R>, ostream_format<hold_any<Interface, S, A, R>, Slot>>
-	{
-		using base_type = base_ostream_format<hold_any<Interface, S, A, R>, ostream_format<hold_any<Interface, S, A, R>, Slot>>;
-
-	public:
-		ostream_format()
-		  : base_type()
-		{
-		}
-		explicit ostream_format(const hold_any<Interface, S, A, R>& v)
-		  : base_type(v)
-		{
-		}
-
-		auto to_string(std::string& out) const -> size_t
-		{
-			size_t prev = out.size();
-			if (!this->value().empty())
-				this->value().type()->format_any(out, this->value().data(), this->width_fmt(), this->numeric_fmt());
-			return out.size() - prev;
-		}
-	};
 
 	using any = hold_any<>;
 	using r_any = hold_any<any_default_interface, sizeof(double), alignof(double), true>;

@@ -73,7 +73,7 @@ namespace seq
 		enum
 		{
 			max_concurrent_node_size = 16,
-			chain_concurrent_node_size = 16
+			chain_concurrent_node_size = 8
 		};
 #else
 		enum
@@ -332,14 +332,13 @@ namespace seq
 			}
 			if constexpr (Size == 16) {
 #if defined(__SSE2__)
-				auto hs = _mm_loadu_si128(reinterpret_cast<const __m128i*>(hashs));
+				auto hs = _mm_load_si128(reinterpret_cast<const __m128i*>(hashs));
 				int mask = _mm_movemask_epi8(_mm_cmpeq_epi8(hs, _mm_set1_epi8(0))) >> 1;
 				if (mask)
 					return bit_scan_forward_32(static_cast<unsigned>(mask));
 #endif
 				return static_cast<unsigned>(-1);
 			}
-
 			SEQ_UNREACHABLE();
 		}
 
@@ -369,13 +368,12 @@ namespace seq
 				}
 				return nullptr;
 			}
-
 			if constexpr (Size == 16) {
 #if defined(__SSE2__)
 				// SSE movemask
 				if (!hashs[0])
 					return nullptr;
-				auto hs = _mm_loadu_si128(reinterpret_cast<const __m128i*>(hashs));
+				auto hs = _mm_load_si128(reinterpret_cast<const __m128i*>(hashs));
 				int mask = _mm_movemask_epi8(_mm_cmpeq_epi8(hs, _mm_set1_epi8(static_cast<char>(th)))) >> 1;
 				if (mask) {
 					SEQ_PREFETCH(values);
@@ -389,13 +387,12 @@ namespace seq
 #endif
 				return nullptr;
 			}
-
 			SEQ_UNREACHABLE();
 		}
 
 		/// @brief Dense node of chain_concurrent_node_size hashs and values
 		template<class T>
-		struct ConcurrentDenseNode
+		struct alignas(chain_concurrent_node_size) ConcurrentDenseNode
 		{
 			using value_type = T;
 			static constexpr unsigned size = chain_concurrent_node_size;
@@ -431,7 +428,7 @@ namespace seq
 		};
 
 		/// @brief Hash node of max_concurrent_node_size tiny hashes
-		struct ConcurrentHashNode
+		struct alignas(max_concurrent_node_size) ConcurrentHashNode
 		{
 			static constexpr unsigned size = max_concurrent_node_size;
 			static constexpr unsigned shift = (size == 32 ? 5 : (size == 16 ? 4 : 3));
@@ -543,16 +540,16 @@ namespace seq
 
 		/// @brief Insert value in a new dense node
 		template<class Policy, class ChainCount, class Allocator, class Node, class K, class... Args>
-		auto InsertNewDense(ChainCount& counter,  Allocator al, std::uint8_t th, Node* n, K&& key, Args&&... args) -> std::pair<typename Node::value_type*, bool>
+		auto InsertNewDense(ChainCount& counter, Allocator al, std::uint8_t th, Node* n, K&& key, Args&&... args) -> std::pair<typename Node::value_type*, bool>
 		{
 			using value_type = typename Node::value_type;
-			//using Alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<ConcurrentDenseNode<value_type>>;
-			//Alloc a = al;
-			//ConcurrentDenseNode<value_type>* d = a.allocate(1);
+			// using Alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<ConcurrentDenseNode<value_type>>;
+			// Alloc a = al;
+			// ConcurrentDenseNode<value_type>* d = a.allocate(1);
 			ConcurrentDenseNode<value_type>* d = al.allocate(1);
 
-			memset(d->hashs,0,sizeof(d->hashs)); 
-			d->right = nullptr; 
+			memset(d->hashs, 0, sizeof(d->hashs));
+			d->right = nullptr;
 			d->left = reinterpret_cast<ConcurrentDenseNode<value_type>*>(n);
 
 			try {
@@ -703,10 +700,10 @@ namespace seq
 			auto make_value_nodes(size_t count = 1) -> value_node_type*
 			{
 				value_node_type* n = value_node_allocator{ get_allocator() }.allocate(count);
-				//memset(n, 0, count * sizeof(value_node_type));
-				for(size_t i=0; i < count; ++i)
-					n[i].right = nullptr; //TEST
-				
+				// memset(n, 0, count * sizeof(value_node_type));
+				for (size_t i = 0; i < count; ++i)
+					n[i].right = nullptr; // TEST
+
 				return n;
 			}
 
@@ -1022,7 +1019,7 @@ namespace seq
 				LockUnique<node_lock> lock(ll, true);
 
 				auto p = FindInsertNode<extract_key, Policy, true>(
-				  d_chain_count, chain_node_allocator{ get_allocator() } ,th, key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
+				  d_chain_count, chain_node_allocator{ get_allocator() }, th, key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
 				if (!p.second) {
 					// Key exist: call functor
 					std::forward<F>(fun)(*p.first);

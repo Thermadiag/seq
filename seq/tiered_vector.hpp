@@ -51,6 +51,7 @@ namespace seq
 
 		using cbuffer_pos = int; // index type within circular buffer, must be signed
 
+
 		template<class BucketMgr>
 		struct deque_const_iterator
 		{
@@ -69,13 +70,13 @@ namespace seq
 
 			SEQ_ALWAYS_INLINE std::pair<cbuffer_pos, cbuffer_pos> update(size_type p) const noexcept
 			{
-				if (mgr)
+				if SEQ_LIKELY(mgr)
 					return mgr->indexes(p);
 				return { 0, 0 };
 			}
-			std::pair<cbuffer_pos, cbuffer_pos> update() noexcept { return update(pos); }
+			SEQ_ALWAYS_INLINE std::pair<cbuffer_pos, cbuffer_pos> update() noexcept { return update(pos); }
 
-			SEQ_ALWAYS_INLINE deque_const_iterator() noexcept {}
+			SEQ_ALWAYS_INLINE deque_const_iterator() noexcept = default;
 			SEQ_ALWAYS_INLINE explicit deque_const_iterator(const bucket_manager* d) noexcept
 			  : mgr(const_cast<bucket_manager*>(d))
 			  , pos(d ? d->size() : 0)
@@ -97,13 +98,11 @@ namespace seq
 			} // any pos
 
 			deque_const_iterator(const deque_const_iterator&) noexcept = default;
-			deque_const_iterator(deque_const_iterator&&) noexcept = default;
 			deque_const_iterator& operator=(const deque_const_iterator&) noexcept = default;
-			deque_const_iterator& operator=(deque_const_iterator&&) noexcept = default;
 
 			SEQ_ALWAYS_INLINE auto absolutePos() const noexcept -> size_type { return pos; }
 
-			void setPos(size_t new_pos) noexcept
+			SEQ_ALWAYS_INLINE void setPos(size_t new_pos) noexcept
 			{
 				SEQ_ASSERT_DEBUG(new_pos <= static_cast<size_t>(mgr->d_size), "invalid iterator position");
 				pos = new_pos;
@@ -362,7 +361,7 @@ namespace seq
 			chunk_type* node = nullptr;
 			int pos = 0;
 
-			tvector_ra_iterator() noexcept {}
+			tvector_ra_iterator() noexcept = default;
 			SEQ_ALWAYS_INLINE tvector_ra_iterator(const BucketMgr* d) noexcept // begin
 			  : data(const_cast<BucketMgr*>(d))
 			  , node(const_cast<chunk_type*>(d->d_buckets.data()))
@@ -551,13 +550,11 @@ namespace seq
 			// Element access.
 			SEQ_ALWAYS_INLINE auto operator[](cbuffer_pos index) noexcept -> T&
 			{
-				// SEQ_ASSERT_DEBUG(index >= 0, "Invalid index");
 				SEQ_ASSERT_DEBUG(!(index >= max_size() && begin == 0), "Invalid index");
 				return buffer()[((begin + index) & (max_size1))];
 			}
 			SEQ_ALWAYS_INLINE auto operator[](cbuffer_pos index) const noexcept -> const T&
 			{
-				// SEQ_ASSERT_DEBUG(index >= 0, "Invalid index");
 				SEQ_ASSERT_DEBUG(!(index >= max_size() && begin == 0), "Invalid index");
 				return buffer()[((begin + index) & (max_size1))];
 			}
@@ -1793,8 +1790,9 @@ namespace seq
 				return d_buckets.front()->front();
 			}
 
-			SEQ_ALWAYS_INLINE std::pair<cbuffer_pos, cbuffer_pos> indexes(size_type pos)
+			SEQ_ALWAYS_INLINE std::pair<cbuffer_pos, cbuffer_pos> indexes(size_type pos) const noexcept
 			{
+				SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "empty container");
 				const auto front_size = static_cast<size_t>(d_buckets.front()->size);
 				return { static_cast<cbuffer_pos>((pos + (static_cast<size_t>(d_bucket_size) - front_size)) >> static_cast<size_t>(d_bucket_size_bits)),
 					 static_cast<cbuffer_pos>((pos - (pos < front_size ? 0 : front_size)) & static_cast<size_t>(d_bucket_size1)) };
@@ -1803,19 +1801,13 @@ namespace seq
 			// Returns element at global position
 			SEQ_ALWAYS_INLINE auto at(size_type pos) noexcept -> T&
 			{
-				SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "empty container");
-				const auto front_size = static_cast<size_t>(d_buckets.front()->size);
-				const auto bucket = (pos + (static_cast<size_t>(d_bucket_size) - front_size)) >> static_cast<size_t>(d_bucket_size_bits);
-				const auto index = (pos - (pos < front_size ? 0 : front_size)) & static_cast<size_t>(d_bucket_size1);
-				return (*d_buckets[bucket].bucket)[static_cast<cbuffer_pos>(index)];
+				const auto p = indexes(pos);
+				return (*d_buckets[p.first].bucket)[p.second];
 			}
 			SEQ_ALWAYS_INLINE auto at(size_type pos) const noexcept -> const T&
 			{
-				SEQ_ASSERT_DEBUG(d_buckets.size() > 0, "empty container");
-				const auto front_size = static_cast<size_t>(d_buckets.front()->size);
-				const auto bucket = (pos + (static_cast<size_t>(d_bucket_size) - front_size)) >> static_cast<size_t>(d_bucket_size_bits);
-				const auto index = (pos - (pos < front_size ? 0 : front_size)) & static_cast<size_t>(d_bucket_size1);
-				return (*d_buckets[bucket].bucket)[static_cast<cbuffer_pos>(index)];
+				const auto p = indexes(pos);
+				return (*d_buckets[p.first].bucket)[p.second];
 			}
 
 			// Create bucket at the back
@@ -1886,7 +1878,7 @@ namespace seq
 					bucket = create_back_bucket();
 				}
 				T* ptr = bucket->emplace_back(std::forward<Args>(args)...);
-				if (StoreBackValues)
+				if constexpr (StoreBackValues)
 					d_buckets.back().update();
 				d_size++;
 				return *ptr;
@@ -1906,7 +1898,7 @@ namespace seq
 					bucket = create_front_bucket();
 
 				T* res = bucket->emplace_front(std::forward<Args>(args)...);
-				if (StoreBackValues)
+				if constexpr (StoreBackValues)
 					d_buckets.front().update();
 				d_size++;
 				return *res;
@@ -1924,7 +1916,7 @@ namespace seq
 
 					// All functions might throw, fine
 					res = create_back_bucket()->emplace_back(std::move(d_buckets[0]->insert_pop_back(index, std::forward<Args>(args)...)));
-					if (StoreBackValues) {
+					if constexpr (StoreBackValues) {
 						d_buckets.back().update();
 						d_buckets[0].update();
 					}
@@ -1932,7 +1924,7 @@ namespace seq
 				else {
 					// Might throw, fine
 					res = d_buckets[0].bucket->emplace(index, std::forward<Args>(args)...);
-					if (StoreBackValues)
+					if constexpr (StoreBackValues)
 						d_buckets.front().update();
 				}
 				return res;
@@ -1951,7 +1943,7 @@ namespace seq
 					// We insert into the first bucket which is not full
 					// Might throw, fine
 					res = bucket(bucket_index)->emplace(index, std::forward<Args>(args)...);
-					if (StoreBackValues)
+					if constexpr (StoreBackValues)
 						d_buckets[bucket_index].update();
 				}
 				else if SEQ_UNLIKELY (bucket_index == 0) {
@@ -1967,7 +1959,7 @@ namespace seq
 							this->remove_front_bucket();
 						throw;
 					}
-					if (StoreBackValues) {
+					if constexpr (StoreBackValues) {
 						d_buckets[0].update();
 						d_buckets[1].update();
 					}
@@ -1975,19 +1967,17 @@ namespace seq
 				else {
 					// we are going to loose value at index 0, save it
 					size_t bindex = bucket_index;
-					// T tmp = std::move((*bucket(bindex))[0]);
-					// bucket(bucket_index)->insert<false>(index, value);
-
+					
 					// Might throw, fine
 					T tmp = bucket(bucket_index)->insert_pop_front(index, std::forward<Args>(args)...);
-					if (StoreBackValues)
+					if constexpr (StoreBackValues)
 						d_buckets[bucket_index].update();
 
 					// propagate down to left side
 					while (--bindex > 0) {
 						// Might throw, fine
 						bucket(bindex)->push_back_pop_front(tmp); // No discard
-						if (StoreBackValues)
+						if constexpr (StoreBackValues)
 							d_buckets[bindex].update();
 					}
 					// first bucket
@@ -1995,12 +1985,12 @@ namespace seq
 					if (!bucket->isFull()) {
 						// Might throw, fine
 						bucket->emplace_back(std::move(tmp));
-						if (StoreBackValues)
+						if constexpr (StoreBackValues)
 							d_buckets[0].update();
 					}
 					else {
 						bucket->push_back_pop_front(tmp); // No discard
-						if (StoreBackValues)
+						if constexpr (StoreBackValues)
 							d_buckets[0].update();
 						bucket = create_front_bucket();
 						try {
@@ -2011,7 +2001,7 @@ namespace seq
 							this->remove_front_bucket();
 							throw;
 						}
-						if (StoreBackValues)
+						if constexpr (StoreBackValues)
 							d_buckets[0].update();
 					}
 					res = &at(pos);
@@ -2026,14 +2016,14 @@ namespace seq
 					SEQ_ASSERT_DEBUG(bucket_index == 0 || bucket_index == d_buckets.size() - 1, "Corrupted tiered_vector structure");
 					// Might throw, fine
 					res = bucket(bucket_index)->emplace(index, std::forward<Args>(args)...);
-					if (StoreBackValues)
+					if constexpr (StoreBackValues)
 						d_buckets[bucket_index].update();
 				}
 				else if SEQ_UNLIKELY (bucket_index == d_buckets.size() - 1) {
 					// Inserting into last (full) bucket
 					// Might throw, fine
 					T tmp = bucket(bucket_index)->insert_pop_back(index, std::forward<Args>(args)...);
-					if (StoreBackValues)
+					if constexpr (StoreBackValues)
 						d_buckets[bucket_index].update();
 					try {
 						res = create_back_bucket()->emplace_back(std::move(tmp));
@@ -2044,7 +2034,7 @@ namespace seq
 							remove_back_bucket();
 						throw;
 					}
-					if (StoreBackValues)
+					if constexpr (StoreBackValues)
 						d_buckets.back().update();
 				}
 				else {
@@ -2052,7 +2042,7 @@ namespace seq
 					size_type bindex = bucket_index;
 					// Might throw, fine
 					T tmp = bucket(bindex)->insert_pop_back(index, std::forward<Args>(args)...);
-					if (StoreBackValues)
+					if constexpr (StoreBackValues)
 						d_buckets[bindex].update();
 
 					// Propagate to right buckets with successive push_front
@@ -2073,11 +2063,11 @@ namespace seq
 					else {
 						// Might throw, fine
 						bucket->push_front_pop_back(tmp);
-						if (StoreBackValues)
+						if constexpr (StoreBackValues)
 							d_buckets.back().update();
 						bucket = create_back_bucket();
 						bucket->emplace_front(std::move(tmp));
-						if (StoreBackValues)
+						if constexpr (StoreBackValues)
 							d_buckets.back().update();
 					}
 					res = &at(pos);
@@ -2135,7 +2125,7 @@ namespace seq
 				d_buckets.back()->pop_back();
 				if SEQ_UNLIKELY (d_buckets.back()->size == 0 && d_buckets.size() > 1)
 					remove_back_bucket();
-				else if (StoreBackValues)
+				else if constexpr (StoreBackValues)
 					d_buckets.back().update();
 				--d_size;
 			}
@@ -2148,7 +2138,7 @@ namespace seq
 				if SEQ_UNLIKELY (bucket->size == 0 && d_buckets.size() > 1) {
 					remove_front_bucket();
 				}
-				else if (StoreBackValues)
+				else if constexpr (StoreBackValues)
 					d_buckets.front().update();
 				--d_size;
 			}
@@ -2166,30 +2156,33 @@ namespace seq
 			{
 				SEQ_ASSERT_DEBUG(pos < d_size, "tiered_vector: erase at invalid position");
 				SEQ_ASSERT_DEBUG(d_size > 0, "tiered_vector: erase element on an empty tiered_vector");
-				if SEQ_UNLIKELY (pos == 0 || pos == d_size - 1)
-					return erase_extremity(pos);
 
-				erase_middle(pos);
+				if (pos == 0)
+					pop_front();
+				else if (pos == d_size - 1)
+					pop_back();
+				else
+					erase_middle(pos);
 			}
 			SEQ_ALWAYS_INLINE void erase_left(size_type bucket_index, int index)
 			{
 				// shift left values
 				T tmp = std::move((d_buckets.front().bucket)->back());
 				d_buckets.front().bucket->pop_back();
-				if (StoreBackValues)
+				if constexpr (StoreBackValues)
 					d_buckets.front().update();
 
 				for (size_type i = 1; i < bucket_index; ++i) {
 					// Might throw, fine
 					bucket(i)->push_front_pop_back(tmp);
-					if (StoreBackValues)
+					if constexpr (StoreBackValues)
 						d_buckets[i].update();
 				}
 
 				// Might throw, fine
 				bucket(bucket_index)->erase_push_front(index, std::move(tmp));
 
-				if (StoreBackValues)
+				if constexpr (StoreBackValues)
 					d_buckets[bucket_index].update();
 				if (d_buckets.front()->size == 0 && d_buckets.size() > 1) {
 					remove_front_bucket();
@@ -2201,20 +2194,20 @@ namespace seq
 
 				// Might throw, fine
 				bucket(bucket_index)->erase_push_back(index, std::move(bucket(bucket_index + 1)->front()));
-				if (StoreBackValues)
+				if constexpr (StoreBackValues)
 					d_buckets[bucket_index].update();
 
 				for (size_type i = bucket_index + 1; i < d_buckets.size() - 1; ++i) {
 					// Might throw, fine
 					bucket(i)->push_back_pop_front(bucket(i + 1)->front());
-					if (StoreBackValues)
+					if constexpr (StoreBackValues)
 						d_buckets[i].update();
 				}
 				d_buckets.back()->pop_front();
 				if (d_buckets.back()->size == 0 && d_buckets.size() > 1) {
 					remove_back_bucket();
 				}
-				else if (StoreBackValues)
+				else if constexpr (StoreBackValues)
 					d_buckets.back().update();
 			}
 			void erase_middle(size_type pos)
@@ -2233,7 +2226,7 @@ namespace seq
 					if (bucket->size == 0) {
 						remove_front_bucket();
 					}
-					else if (StoreBackValues)
+					else if constexpr (StoreBackValues)
 						d_buckets.front().update();
 				}
 				else if (bucket_index == d_buckets.size() - 1) {
@@ -2245,7 +2238,7 @@ namespace seq
 					if (bucket->size == 0 && d_buckets.size() > 1) {
 						remove_back_bucket();
 					}
-					else if (StoreBackValues)
+					else if constexpr (StoreBackValues)
 						d_buckets.back().update();
 				}
 				else if (pos < d_size / 2) {
@@ -2928,7 +2921,7 @@ namespace seq
 		/// @param first first iterator of the range
 		/// @param last last iterator of the range
 		/// @param alloc allocator object
-		template<class Iter>
+		template<class Iter, std::enable_if_t<is_iterator<Iter>::value,int> = 0>
 		tiered_vector(Iter first, Iter last, const Allocator& alloc = Allocator())
 		  : Allocator(alloc)
 		  , d_manager(make_manager(alloc, min_block_size, alloc))

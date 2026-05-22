@@ -34,6 +34,7 @@
 #include <time.h>
 #endif
 #include <cstdint>
+#include <chrono>
 
 #include "bits.hpp"
 

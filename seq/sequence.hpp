@@ -1444,7 +1444,7 @@ namespace seq
 		/// @param first begin iterator
 		/// @param last end iterator
 		/// @param al allocator object
-		template<class Iter>
+		template<class Iter, std::enable_if_t<is_iterator<Iter>::value, int> = 0>
 		sequence(Iter first, Iter last, const Allocator& al = Allocator())
 		  : Allocator(al)
 		  , d_data(make_data(al))
@@ -2124,7 +2124,6 @@ namespace seq
 		/// @param first iterator to the element to remove
 		/// @param last iterator to the element to remove
 		/// @return Iterator following the last removed element
-		/// This function performs in O(1).
 		/// Iterators and references to the erased elements are invalidated.
 		/// Iterators and references to other elements in the sequence remain valid.
 		auto erase(const_iterator first, const_iterator last) noexcept -> iterator

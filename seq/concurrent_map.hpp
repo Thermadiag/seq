@@ -94,7 +94,7 @@ namespace seq
 				this->rehash(n);
 		}
 
-		template<class InputIterator>
+		template<class InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_set(InputIterator f, InputIterator l, size_type n = 0, const hasher& hf = hasher(), const key_equal& eql = key_equal(), const allocator_type& a = allocator_type())
 		  : base_type(hf, eql, a)
 		{
@@ -113,7 +113,7 @@ namespace seq
 		{
 		}
 
-		template<class InputIterator>
+		template<class InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_set(InputIterator f, InputIterator l, allocator_type const& a)
 		  : concurrent_set(f, l, 0, hasher(), key_equal(), a)
 		{
@@ -150,13 +150,13 @@ namespace seq
 		{
 		}
 
-		template<typename InputIterator>
+		template<typename InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_set(InputIterator f, InputIterator l, size_type n, const allocator_type& a)
 		  : concurrent_set(f, l, n, hasher(), key_equal(), a)
 		{
 		}
 
-		template<typename InputIterator>
+		template<typename InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_set(InputIterator f, InputIterator l, size_type n, const hasher& hf, const allocator_type& a)
 		  : concurrent_set(f, l, n, hf, key_equal(), a)
 		{
@@ -510,7 +510,7 @@ namespace seq
 				this->rehash(n);
 		}
 
-		template<class InputIterator>
+		template<class InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_map(InputIterator f, InputIterator l, size_type n = 0, const hasher& hf = hasher(), const key_equal& eql = key_equal(), const allocator_type& a = allocator_type())
 		  : base_type(hf, eql, a)
 		{
@@ -529,7 +529,7 @@ namespace seq
 		{
 		}
 
-		template<class InputIterator>
+		template<class InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_map(InputIterator f, InputIterator l, allocator_type const& a)
 		  : concurrent_map(f, l, 0, hasher(), key_equal(), a)
 		{
@@ -566,13 +566,13 @@ namespace seq
 		{
 		}
 
-		template<typename InputIterator>
+		template<typename InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_map(InputIterator f, InputIterator l, size_type n, const allocator_type& a)
 		  : concurrent_map(f, l, n, hasher(), key_equal(), a)
 		{
 		}
 
-		template<typename InputIterator>
+		template<typename InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_map(InputIterator f, InputIterator l, size_type n, const hasher& hf, const allocator_type& a)
 		  : concurrent_map(f, l, n, hf, key_equal(), a)
 		{

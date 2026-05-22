@@ -1184,7 +1184,7 @@ namespace seq
 			}
 		}
 		/// @brief Construct by copying the range [first,last)
-		template<class Iter>
+		template<class Iter, std::enable_if_t<is_iterator<Iter>::value, int> = 0>
 		tiny_string(Iter first, Iter last, const Allocator& al = Allocator())
 		  : d_data(al)
 		{

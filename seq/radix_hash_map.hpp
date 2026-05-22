@@ -145,7 +145,7 @@ namespace seq
 		/// @param hash hash function to use
 		/// @param equal comparison function to use for all key comparisons of this container
 		/// @param alloc allocator to use for all memory allocations of this container
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_set(InputIt first, InputIt last, const Hash& hash = Hash(), const key_equal& eq = key_equal(), const Allocator& alloc = Allocator())
 		  : d_tree(radix_hash(0, hash, eq), alloc)
 		{
@@ -157,7 +157,7 @@ namespace seq
 		/// @param first the range to copy the elements from
 		/// @param last the range to copy the elements from
 		/// @param alloc allocator to use for all memory allocations of this container
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_set(InputIt first, InputIt last, const Allocator& alloc)
 		  : d_tree(first, last, alloc)
 		{
@@ -169,7 +169,7 @@ namespace seq
 		/// @param last the range to copy the elements from
 		/// @param hash hash function to use
 		/// @param alloc allocator to use for all memory allocations of this container
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_set(InputIt first, InputIt last, const Hash& hash, const Allocator& alloc)
 		  : d_tree(radix_hash(0, hash), alloc)
 		{
@@ -628,19 +628,19 @@ namespace seq
 		{
 		}
 
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_map(InputIt first, InputIt last, const Hash& hash = Hash(), const key_equal& eq = key_equal(), const Allocator& alloc = Allocator())
 		  : d_tree(radix_hash(0, hash, eq), alloc)
 		{
 			insert(first, last);
 		}
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_map(InputIt first, InputIt last, const Allocator& alloc)
 		  : d_tree(alloc)
 		{
 			insert(first, last);
 		}
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_map(InputIt first, InputIt last, const Hash& hash, const Allocator& alloc)
 		  : radix_hash_map(first, last, hash, key_equal(), alloc)
 		{

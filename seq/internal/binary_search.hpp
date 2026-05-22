@@ -27,6 +27,7 @@
 #define SEQ_BINARY_SEARCH_HPP
 
 #include "../type_traits.hpp"
+#include "../bits.hpp"
 #include <algorithm>
 
 namespace seq

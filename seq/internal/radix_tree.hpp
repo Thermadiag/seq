@@ -61,7 +61,7 @@ namespace seq
 		struct ExtractKeyResultType
 		{
 			using rtype = decltype(ExtractKey{}(std::declval<const T&>()));
-			using type = typename std::decay<rtype>::type;
+			using type = std::decay_t<rtype>;
 		};
 
 		template<class T, class = void>
@@ -581,9 +581,7 @@ namespace seq
 			}
 
 			RadixHasher() {}
-			SEQ_ALWAYS_INLINE RadixHasher(const T& val) { 
-				TupleInfo<T>::build_hash(data, val); 
-			}
+			SEQ_ALWAYS_INLINE RadixHasher(const T& val) { TupleInfo<T>::build_hash(data, val); }
 
 			SEQ_ALWAYS_INLINE constexpr auto get_size() const noexcept -> size_t { return max_bits; }
 
@@ -638,6 +636,7 @@ namespace seq
 			using this_type = RadixHasherUnordered<T, Hash, Less, Equal>;
 			static constexpr bool is_transparent = hash_is_transparent<Hash>::value;
 			static constexpr bool prefix_search = false;
+			static constexpr size_t bit_step = 2;
 
 			SEQ_ALWAYS_INLINE RadixHasherUnordered(size_t val = 0, const Hash& h = Hash(), const Equal& eq = Equal()) noexcept
 			  : RadixHasher<size_t>{ val }
@@ -682,7 +681,7 @@ namespace seq
 				return static_cast<unsigned>(v.emplace_no_check(std::forward<K>(key), std::forward<Args>(args)...).first);
 			}
 			template<class T, class K, class... Args>
-			static T* emplace(T* dst, K&& key, Args&&... args)
+			static SEQ_ALWAYS_INLINE T* emplace(T* dst, K&& key, Args&&... args)
 			{
 				return new (dst) T(std::forward<K>(key), std::forward<Args>(args)...);
 			}
@@ -705,14 +704,14 @@ namespace seq
 				    .first);
 			}
 			template<class T, class K, class... Args>
-			static T* emplace(T* dst, K&& key, Args&&... args)
+			static SEQ_ALWAYS_INLINE T* emplace(T* dst, K&& key, Args&&... args)
 			{
 				return new (dst) T(std::piecewise_construct, std::forward_as_tuple(std::forward<K>(key)), std::forward_as_tuple(std::forward<Args>(args)...));
 			}
 		};
 
 		template<class ExtractKey, class Hasher, class T, class SizeType, class K>
-		static inline SizeType compute_lower_bound(const T* vals, SizeType size, const K& key)
+		static SEQ_ALWAYS_INLINE SizeType compute_lower_bound(const T* vals, SizeType size, const K& key)
 		{
 			return lower_bound<false, T>(vals, size, key, [](const auto& l, const auto& r) { return Hasher::less(ExtractKey{}(l), ExtractKey{}(r)); }).first;
 		}
@@ -720,7 +719,7 @@ namespace seq
 		/// @brief Copy count elements from src to dst while destroying elements in src
 		/// In case of exception, destroy all elements in in src and dst.
 		template<class U>
-		static inline void copy_destroy(U* dst, U* src, unsigned count)
+		static void copy_destroy(U* dst, U* src, unsigned count)
 		{
 			if constexpr (is_relocatable<U>::value)
 				memcpy(static_cast<void*>(dst), static_cast<const void*>(src), sizeof(U) * count);
@@ -748,7 +747,7 @@ namespace seq
 		/// @brief Insert element at src position while moving elements to the right at dst.
 		/// Basic exception guarantee.
 		template<class U, class Policy, class... Args>
-		static void SEQ_ALWAYS_INLINE insert_move_right(U* dst, U* src, unsigned count, Policy, Args&&... args)
+		static void insert_move_right(U* dst, U* src, unsigned count, Policy, Args&&... args)
 		{
 			// Move src to the right
 			// In case of exception, values are in undefined state, but no new value created (basic exception guarantee)
@@ -807,51 +806,36 @@ namespace seq
 			std::uint64_t tmp = (word & 0x7F7F7F7F7F7F7F7FULL) + 0x7F7F7F7F7F7F7F7FULL;
 			return ~(tmp | word | 0x7F7F7F7F7F7F7F7FULL);
 		}
-#ifdef __SSE3__
-		static SEQ_ALWAYS_INLINE unsigned movemask32(const unsigned char* hashs, unsigned char th) noexcept
+#ifdef __SSE2__
+		static SEQ_ALWAYS_INLINE unsigned movemask16(const unsigned char* hashs, unsigned char th) noexcept
 		{
-			auto left = static_cast<unsigned short>(_mm_movemask_epi8(_mm_cmpeq_epi8(_mm_loadu_si128(reinterpret_cast<const __m128i*>(hashs)), _mm_set1_epi8(static_cast<char>(th)))));
-			auto right =
-			  static_cast<unsigned short>(_mm_movemask_epi8(_mm_cmpeq_epi8(_mm_loadu_si128(reinterpret_cast<const __m128i*>(hashs + 16)), _mm_set1_epi8(static_cast<char>(th)))));
-			return static_cast<unsigned>(left) | (static_cast<unsigned>(right) << 16);
+			return static_cast<unsigned short>(_mm_movemask_epi8(_mm_cmpeq_epi8(_mm_loadu_si128(reinterpret_cast<const __m128i*>(hashs)), _mm_set1_epi8(static_cast<char>(th)))));
 		}
 #endif
 
 		/// @brief Swiss table like find using AVX2, SSE3, or 8 byte movemask.
-		template<bool UseLowerBound, class ExtractKey, class Equal, class Less, class T, class U>
+		template<bool Sorted, bool UseLowerBound, class ExtractKey, class Equal, class Less, class T, class U>
 		static SEQ_ALWAYS_INLINE unsigned find_value(const Equal& eq, const T* values, const unsigned char* ths, unsigned size, unsigned char th, unsigned* insert_pos, const U& val)
 		{
+
 			if constexpr (UseLowerBound) {
 				*insert_pos = size;
 				if (Less{}(ExtractKey{}(values[size - 1]), val))
 					return static_cast<unsigned>(-1);
 			}
-#ifdef __SSE3__
-			if (cpu_features().HAS_SSE3) {
-				unsigned size32 = size & ~31u;
-				for (unsigned i = 0; i < size32; i += 32) {
-					if (unsigned found = movemask32(ths + i, th)) {
-						do {
-							unsigned pos = bit_scan_forward_32(found);
-							if (eq(ExtractKey{}(values[i + pos]), val))
-								return i + pos;
-							found = found & ~(1U << pos);
-						} while (found);
-					}
-				}
-				if (unsigned rem = size - size32) {
-					if (unsigned found = movemask32(ths + size32, th) & ((1U << rem) - 1U)) {
-						do {
-							unsigned pos = bit_scan_forward_32(found);
-							if (eq(ExtractKey{}(values[size32 + pos]), val))
-								return size32 + pos;
-							found = found & ~(1U << pos);
-						} while (found);
-					}
+#if defined(__SSE2__)
+
+			for (unsigned i = 0; i < size; i += 16) {
+				if (unsigned found = movemask16(ths + i, th) & ((i + 16 > size) ? ((1U << (size & 15u)) - 1U) : 0xFFFFFFFFu)) {
+					do {
+						unsigned pos = bit_scan_forward_32(found);
+						if (eq(ExtractKey{}(values[i + pos]), val))
+							return i + pos;
+						found = found & ~(1U << pos);
+					} while (found);
 				}
 			}
-			else
-#endif
+#else
 			{
 				unsigned count = size & ~7U;
 				uint64_t _th;
@@ -875,6 +859,7 @@ namespace seq
 					}
 				}
 			}
+#endif
 
 			if constexpr (UseLowerBound)
 				*insert_pos = compute_lower_bound<ExtractKey, Less>(values, size, val);
@@ -915,8 +900,8 @@ namespace seq
 			static constexpr bool is_sorted = Sorted;
 			// header size on 64 bits
 			static constexpr unsigned header_size = sizeof(std::uint64_t);
-			// minimum capacity, depends on sizeof(T) to allow an AVX (32 bytes) load
-			static constexpr unsigned min_capacity = sizeof(T) == 1 ? 32 : sizeof(T) <= 3 ? 16 : sizeof(T) <= 8 ? 8 : sizeof(T) <= 16 ? 4 : 2;
+			// minimum capacity, depends on sizeof(T) to allow an SSE2 (16 bytes) load
+			static constexpr unsigned min_capacity = sizeof(T) == 1 ? 16 : sizeof(T) <= 3 ? 8 : sizeof(T) <= 8 ? 4 : sizeof(T) <= 16 ? 2 : 1;
 			// maximum capacity (and size), lower for sorted elements
 			static constexpr unsigned max_capacity = Sorted ? 64 : 96;
 
@@ -925,7 +910,6 @@ namespace seq
 			// returns the capacity for a given size
 			static unsigned capacity_for_size(unsigned size) noexcept
 			{
-				// return (size / min_capacity) * min_capacity + (size % min_capacity ? min_capacity : 0);
 				if (size <= min_capacity)
 					return min_capacity;
 				unsigned bits = bit_scan_reverse_32(size);
@@ -972,19 +956,19 @@ namespace seq
 						return std::pair<const T*, unsigned>(nullptr, 0);
 				}
 				unsigned insert_pos = static_cast<unsigned>(-1);
-				unsigned pos = find_value<(Sorted && EnsureSorted), ExtractKey, Equal, Less>(eq, values(), hashs(), count(), static_cast<std::uint8_t>(th), &insert_pos, val);
+				unsigned pos = find_value<Sorted, (Sorted && EnsureSorted), ExtractKey, Equal, Less>(eq, values(), hashs(), count(), static_cast<std::uint8_t>(th), &insert_pos, val);
 				return std::pair<const T*, unsigned>(pos == static_cast<unsigned>(-1) ? nullptr : values() + pos, insert_pos);
 			}
 			// Returns value index, -1 if not found
 			template<class ExtractKey, class Equal, class Less, class K>
 			SEQ_ALWAYS_INLINE unsigned find(const Equal& eq, size_t /*start_bit*/, std::uint8_t th, const K& key) const
 			{
-				return find_value<false, ExtractKey, Equal, Less>(eq, values(), hashs(), count(), th, nullptr, key);
+				return find_value<Sorted, false, ExtractKey, Equal, Less>(eq, values(), hashs(), count(), th, nullptr, key);
 			}
 			template<class ExtractKey, class Equal, class K>
 			SEQ_ALWAYS_INLINE unsigned find(const Equal& eq, std::uint8_t th, const K& key) const
 			{
-				return find_value<false, ExtractKey, Equal, default_less>(eq, values(), hashs(), count(), th, nullptr, key);
+				return find_value<Sorted, false, ExtractKey, Equal, default_less>(eq, values(), hashs(), count(), th, nullptr, key);
 			}
 
 			// Sort leaf
@@ -999,8 +983,9 @@ namespace seq
 			std::pair<LeafNode*, unsigned> switch_buffer(NodeAllocator& al, unsigned old_size, unsigned pos, std::uint8_t th, Policy, Args&&... args)
 			{
 				unsigned new_capacity = capacity_for_size(old_size + 1);
+				unsigned new_hash_count = hash_for_size(old_size + 1, new_capacity);
 				// might throw, fine
-				LeafNode* n = al.allocate(hash_for_size(old_size + 1, new_capacity), new_capacity);
+				LeafNode* n = al.allocate(new_hash_count, new_capacity);
 				*n->size() = this->count();
 				*n->capacity() = new_capacity;
 				try {
@@ -1072,18 +1057,31 @@ namespace seq
 			template<class NodeAllocator>
 			LeafNode* erase(NodeAllocator& al, unsigned pos)
 			{
-				erase_pos(values(), pos, *size());
-				erase_pos(hashs(), pos, *size());
-				(*size())--;
-
-				if (*size() == 0) {
+				unsigned s = *size();
+				if (s == 1) {
+					values()->~T();
 					unsigned cap = capacity_for_size(1);
 					al.deallocate(this, hash_for_size(1, cap), cap);
 					return nullptr;
 				}
+				if (Sorted) {
+					erase_pos(values(), pos, *size());
+					erase_pos(hashs(), pos, *size());
+				}
+				else {
+					// swap position
+					if (pos != s - 1) {
+						// Might throw, fine
+						values()[pos] = std::move(values()[s - 1]);
+						hashs()[pos] = hashs()[s - 1];
+						hashs()[s - 1] = 0;
+					}
+					values()[s - 1].~T();
+				}
+				(*size())--;
 
-				unsigned cap = capacity_for_size(*size());
-				if (cap != *capacity()) {
+				if (*size() <= (*capacity()) / 2) {
+					unsigned cap = capacity_for_size(*size());
 					// might throw, fine
 					LeafNode* n = al.allocate(hash_for_size(*size(), cap), cap);
 					*n->size() = *this->size();
@@ -1291,7 +1289,7 @@ namespace seq
 		};
 
 		/// @brief Class handling allocation/deallocation for leaves and directories
-		template<class Allocator, class T, class Directory, class Node>
+		template<class Allocator, class T, class Directory, class Node, size_t StartArity>
 		class NodeAllocator : private Allocator
 		{
 			template<class Al, class U>
@@ -1310,13 +1308,44 @@ namespace seq
 			size_t size;	 // tree size
 			directory* root; // root directory
 
+			/// @brief Returns an empty directory used to initialize a radix tree
+			static directory* get_null_dir() noexcept
+			{
+				struct null_dir
+				{
+					directory dir;
+					typename directory::child_ptr child;
+				};
+				static null_dir inst;
+				return &inst.dir;
+			}
+
 			NodeAllocator(const Allocator& al)
 			  : Allocator(al)
 			  , size(0)
-			  , root(nullptr)
+			  , root(get_null_dir())
 			{
 			}
-			~NodeAllocator() {}
+
+			~NodeAllocator() noexcept { clear(); }
+
+			void clear() noexcept
+			{
+				if (root != get_null_dir())
+					directory::destroy(*this, root);
+				reset();
+			}
+			void reset() noexcept
+			{
+				size = 0;
+				root = get_null_dir();
+			}
+
+			void swap_data(NodeAllocator& other) noexcept
+			{
+				std::swap(size, other.size);
+				std::swap(root, other.root);
+			}
 
 			Allocator& get_allocator() noexcept { return *this; }
 			const Allocator& get_allocator() const noexcept { return *this; }
@@ -1382,12 +1411,11 @@ namespace seq
 			/// @brief Allocate a directory for given bit length
 			directory* allocate_dir(size_t hash_len)
 			{
-
-				RebindAlloc<Allocator, std::uint64_t> al = get_allocator();
 				size_t dir_size = 1ULL << hash_len;
 				size_t bytes = sizeof(directory) + sizeof(child_ptr) * dir_size;
 				size_t to_alloc = bytes / alloc_size + (bytes % alloc_size ? 1 : 0);
 
+				RebindAlloc<Allocator, std::uint64_t> al = get_allocator();
 				directory* dir = reinterpret_cast<directory*>(al.allocate(to_alloc));
 				memset(static_cast<void*>(dir), 0, to_alloc * sizeof(std::uint64_t));
 
@@ -1397,6 +1425,7 @@ namespace seq
 			/// @brief Deallocate directory
 			void deallocate_dir(directory* dir)
 			{
+
 				RebindAlloc<Allocator, std::uint64_t> al = get_allocator();
 				size_t bytes = sizeof(directory) + sizeof(child_ptr) * dir->size();
 				size_t to_dealloc = bytes / alloc_size + (bytes % alloc_size ? 1 : 0);
@@ -1406,14 +1435,13 @@ namespace seq
 		};
 
 		/// @brief Iterator class for radix trees
-		template<class T, class Data, class Dir, class VectorType>
+		template<class T, class Dir, class VectorType>
 		class RadixConstIter
 		{
 		public:
 			using child_ptr = typename Dir::child_ptr;
 			using node = typename Dir::node;
 
-			Data* data;
 			Dir* dir;
 			size_t bit_pos;	   // bit position of the directory
 			unsigned child;	   // node position in directory
@@ -1513,8 +1541,12 @@ namespace seq
 			{
 				auto tmp = find_next(dir, child + 1, bit_pos);
 				if SEQ_UNLIKELY (!tmp.dir) {
-					dir = nullptr;
-					child = 0;
+					// Find root
+					auto* root = dir;
+					while (root->parent)
+						root = root->parent;
+					dir = root;
+					child = root->size();
 					node_pos = 0;
 					return *this; // end of iteration
 				}
@@ -1544,36 +1576,33 @@ namespace seq
 				return *this;
 			}
 
-			SEQ_ALWAYS_INLINE RadixConstIter(const Data* dt, const Dir* d, unsigned c, unsigned np, size_t bp) noexcept
-			  : data(const_cast<Data*>(dt))
-			  , dir(const_cast<Dir*>(d))
+			SEQ_ALWAYS_INLINE RadixConstIter(const Dir* d, unsigned c, unsigned np, size_t bp) noexcept
+			  : dir(const_cast<Dir*>(d))
 			  , bit_pos(bp)
 			  , child(c)
 			  , node_pos(np)
 			{
 			}
-			SEQ_ALWAYS_INLINE RadixConstIter(const Data* dt = nullptr) noexcept // end
-			  : data(const_cast<Data*>(dt))
-			  , dir(nullptr)
+			SEQ_ALWAYS_INLINE RadixConstIter(const Dir* root) noexcept // end
+			  : dir(const_cast<Dir*>(root))
 			  , bit_pos(0)
-			  , child(0)
+			  , child(root->size())
 			  , node_pos(0)
 			{
 			}
-			RadixConstIter(const RadixConstIter&) noexcept = default;
-			RadixConstIter& operator=(const RadixConstIter&) noexcept = default;
+			SEQ_ALWAYS_INLINE RadixConstIter(const RadixConstIter&) noexcept = default;
+			SEQ_ALWAYS_INLINE RadixConstIter& operator=(const RadixConstIter&) noexcept = default;
 
 			bool is_vector() const noexcept { return dir->const_child(child).tag() == Dir::IsVector; }
 
 			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference
 			{
-				SEQ_ASSERT_DEBUG(dir, "dereferencing null iterator");
+				SEQ_ASSERT_DEBUG(dir && child < dir->size(), "dereferencing invalid iterator");
 				return const_cast<value_type&>(dir->const_child(child).tag() == Dir::IsVector ? to_vector()->at(node_pos) : to_node()->values()[node_pos]);
 			}
 			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
 			SEQ_ALWAYS_INLINE auto operator++() noexcept -> RadixConstIter&
 			{
-				SEQ_ASSERT_DEBUG(data, "");
 				++node_pos;
 				if (node_pos != (dir->const_child(child).tag() == Dir::IsVector ? to_vector()->size() : to_node()->count()))
 					return *this;
@@ -1588,10 +1617,10 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE auto operator--() noexcept -> RadixConstIter&
 			{
-				SEQ_ASSERT_DEBUG(data, "");
-				if (!dir) {
+				if (child == dir->size()) {
 					// end iterator: got to last element
-					auto tmp = find_prev(data->base.root, data->base.root->size(), 0);
+					SEQ_ASSERT_DEBUG(dir->size() != 0, "");
+					auto tmp = find_prev(dir, dir->size(), 0);
 					dir = tmp.dir;
 					child = tmp.child;
 					node_pos = dir->const_child(child).tag() == Dir::IsVector ? static_cast<unsigned>(to_vector()->size()) - 1 : to_node()->count() - 1;
@@ -1609,16 +1638,8 @@ namespace seq
 				--(*this);
 				return _Tmp;
 			}
-			SEQ_ALWAYS_INLINE bool operator==(const RadixConstIter& other) const noexcept
-			{
-				SEQ_ASSERT_DEBUG(data == other.data || !data || !other.data, "comparing iterators from different radix trees");
-				return dir == other.dir && child == other.child && node_pos == other.node_pos;
-			}
-			SEQ_ALWAYS_INLINE bool operator!=(const RadixConstIter& other) const noexcept
-			{
-				SEQ_ASSERT_DEBUG(data == other.data || !data || !other.data, "comparing iterators from different radix trees");
-				return dir != other.dir || child != other.child || node_pos != other.node_pos;
-			}
+			SEQ_ALWAYS_INLINE bool operator==(const RadixConstIter& other) const noexcept { return dir == other.dir && child == other.child && node_pos == other.node_pos; }
+			SEQ_ALWAYS_INLINE bool operator!=(const RadixConstIter& other) const noexcept { return dir != other.dir || child != other.child || node_pos != other.node_pos; }
 		};
 
 		inline void check_vector_size(size_t size)
@@ -1772,10 +1793,10 @@ namespace seq
 		};
 
 		/// @brief Root of a radix tree
-		template<class Allocator, class T, class Directory, class Node>
-		struct RootTree : public NodeAllocator<Allocator, T, Directory, Node>
+		template<class Allocator, class T, class Directory, class Node, size_t StartArity>
+		struct RootTree : public NodeAllocator<Allocator, T, Directory, Node, StartArity>
 		{
-			using base_type = NodeAllocator<Allocator, T, Directory, Node>;
+			using base_type = NodeAllocator<Allocator, T, Directory, Node, StartArity>;
 			using directory = Directory;
 			using node = Node;
 
@@ -1792,9 +1813,7 @@ namespace seq
 		/// @tparam Hash Hasher type, either Hasher or SortedHasher
 		/// @tparam Extract extract key from value type
 		template<class T, class Hash, class ExtractKey = default_key, class Allocator = std::allocator<T>, class NodeType = LeafNode<T>, unsigned MaxDepth = 16>
-		struct RadixTree
-		  : public Hash
-		  , public Allocator
+		struct RadixTree : public Hash
 		{
 			static constexpr unsigned start_arity = Hash::bit_step;
 			static constexpr bool prefix_search = Hash::prefix_search;
@@ -1808,7 +1827,7 @@ namespace seq
 			using vector_type = VectorNode<T, Hash, ExtractKey, Allocator, (is_sorted || !std::is_same_v<less_type, default_less>)>;
 			using directory = Directory<T, NodeType, vector_type, Hash>;
 			using child_ptr = typename directory::child_ptr;
-			using root_type = RootTree<Allocator, T, directory, NodeType>;
+			using root_type = RootTree<Allocator, T, directory, NodeType, start_arity>;
 			using this_type = RadixTree<T, Hash, ExtractKey, Allocator, NodeType, MaxDepth>;
 
 			template<class U>
@@ -1819,102 +1838,39 @@ namespace seq
 			/// @brief Equal structure operating on keys
 			using Equal = VectorEqual<Hash, ExtractKey>;
 
-			/// @brief Internal data
-			struct PrivateData
-			{
-				root_type base;
-				PrivateData(const Allocator& al, unsigned start_len = start_arity)
-				  : base(al)
-				{
-					base.root = directory::make(base, start_len);
-				}
-				~PrivateData() { directory::destroy(base, base.root); }
-			};
-
-			/// @brief Returns an empty directory used to initialize a radix tree
-			static directory* get_null_dir() noexcept
-			{
-				struct null_dir
-				{
-					directory dir;
-					typename directory::child_ptr child;
-				};
-				static null_dir inst;
-				return &inst.dir;
-			}
-
-			/// @brief Destroy internal data and reset root
-			void destroy_data()
-			{
-				if (!d_data)
-					return;
-				RebindAlloc<PrivateData> al = get_allocator();
-				destroy_ptr(d_data);
-				al.deallocate(d_data, 1);
-				d_data = nullptr;
-				d_root = get_null_dir();
-			}
-
-			/// @brief Allocate and construct internal data with given arity
-			void make_data(unsigned start_len = start_arity)
-			{
-				if (d_data)
-					return;
-				RebindAlloc<PrivateData> al = get_allocator();
-				PrivateData* d = al.allocate(1);
-				try {
-					construct_ptr(d, get_allocator(), start_len);
-				}
-				catch (...) {
-					al.deallocate(d, 1);
-					throw;
-				}
-				d_data = d;
-				d_root = d->base.root;
-			}
-
 		public:
 			using value_type = T;
 			using hash_type = Hash;
 			using const_hash_ref = const Hash&;
 			using extract_key_type = ExtractKey;
-			using const_iterator = RadixConstIter<T, PrivateData, directory, vector_type>;
+			using const_iterator = RadixConstIter<T, directory, vector_type>;
 			using iterator = const_iterator;
 
-			PrivateData* d_data;
-			directory* d_root;
+			root_type d_base;
 
 			// Constructors
 
 			RadixTree(const Allocator& al = Allocator())
-			  : Allocator(al)
-			  , d_data(nullptr)
-			  , d_root(get_null_dir())
+			  : d_base(al)
 			{
 			}
 
 			RadixTree(const Hash& h, const Allocator& al = Allocator())
 			  : Hash(h)
-			  , Allocator(al)
-			  , d_data(nullptr)
-			  , d_root(get_null_dir())
+			  , d_base(al)
 			{
 			}
 
 			RadixTree(const RadixTree& other)
 			  : Hash(other)
-			  , Allocator(copy_allocator(other.get_allocator()))
-			  , d_data(nullptr)
-			  , d_root(get_null_dir())
+			  , d_base(copy_allocator(other.get_allocator()))
 			{
 				if (other.size())
 					insert(other.begin(), other.end(), false);
 			}
 			RadixTree(const RadixTree& other, const Allocator& al)
 			  : Hash(other)
-			  , Allocator(al)
-			  , d_data(nullptr)
-			  , d_root(get_null_dir())
+			  , d_base(al)
 			{
 				if (other.size())
 					insert(other.begin(), other.end(), false);
@@ -1922,17 +1878,13 @@ namespace seq
 
 			RadixTree(RadixTree&& other) noexcept(std::is_nothrow_move_constructible_v<Allocator> && std::is_nothrow_copy_constructible_v<Hash>)
 			  : Hash(other)
-			  , Allocator(std::move(other.get_allocator()))
-			  , d_data(nullptr)
-			  , d_root(get_null_dir())
+			  , d_base(std::move(other.get_allocator()))
 			{
 				swap(other, false);
 			}
 			RadixTree(RadixTree&& other, const Allocator& alloc)
 			  : Hash(other)
-			  , Allocator(alloc)
-			  , d_data(nullptr)
-			  , d_root(get_null_dir())
+			  , d_base(alloc)
 			{
 				if (alloc == other.get_allocator())
 					swap(other, false);
@@ -1942,9 +1894,7 @@ namespace seq
 
 			template<class Iter>
 			RadixTree(Iter first, Iter last, const Allocator& alloc = Allocator())
-			  : Allocator(alloc)
-			  , d_data(nullptr)
-			  , d_root(get_null_dir())
+			  : d_base(alloc)
 			{
 				insert(first, last);
 			}
@@ -2005,34 +1955,33 @@ namespace seq
 				if (size() == 0)
 					return end();
 				// Find the first valid value
-				auto tmp = const_iterator::find_next(d_data->base.root, 0, 0);
-				return const_iterator(d_data, tmp.dir, tmp.child, 0, tmp.bit_pos);
+				auto tmp = const_iterator::find_next(d_base.root, 0, 0);
+				return const_iterator(tmp.dir, tmp.child, 0, tmp.bit_pos);
 			}
-			SEQ_ALWAYS_INLINE const_iterator end() const noexcept { return const_iterator(d_data); }
+			SEQ_ALWAYS_INLINE const_iterator end() const noexcept { return const_iterator(d_base.root); }
 			SEQ_ALWAYS_INLINE const_iterator cbegin() const noexcept { return begin(); }
 			SEQ_ALWAYS_INLINE const_iterator cend() const noexcept { return end(); }
 
 			// Alloctor
 
-			SEQ_ALWAYS_INLINE Allocator& get_allocator() noexcept { return static_cast<Allocator&>(*this); }
-			SEQ_ALWAYS_INLINE const Allocator& get_allocator() const noexcept { return static_cast<const Allocator&>(*this); }
+			SEQ_ALWAYS_INLINE Allocator& get_allocator() noexcept { return d_base.get_allocator(); }
+			SEQ_ALWAYS_INLINE const Allocator& get_allocator() const noexcept { return d_base.get_allocator(); }
 
 			// Size functions
 
-			SEQ_ALWAYS_INLINE bool empty() const noexcept { return !d_data || d_data->base.size == 0; }
-			SEQ_ALWAYS_INLINE size_t size() const noexcept { return d_data ? d_data->base.size : 0; }
+			SEQ_ALWAYS_INLINE bool empty() const noexcept { return d_base.size == 0; }
+			SEQ_ALWAYS_INLINE size_t size() const noexcept { return d_base.size; }
 			SEQ_ALWAYS_INLINE size_t max_size() const noexcept { return std::numeric_limits<size_t>::max(); }
 
 			/// @brief Destroy and deallocate all values, directories and nodes
-			void clear() { destroy_data(); }
+			void clear() noexcept { d_base.clear(); }
 
 			/// @brief Swap 2 radix trees
 			void swap(RadixTree& other, bool swap_alloc = true) noexcept(noexcept(swap_allocator(std::declval<Allocator&>(), std::declval<Allocator&>())))
 			{
-				std::swap(d_data, other.d_data);
-				std::swap(d_root, other.d_root);
+				d_base.swap_data(other.d_base);
 				if (swap_alloc)
-					swap_allocator<Allocator>(*this, other);
+					swap_allocator<Allocator>(d_base.get_allocator(), other.d_base.get_allocator());
 			}
 
 			/// @brief Reserve capcity ahead, only works for unsorted trees
@@ -2047,8 +1996,9 @@ namespace seq
 				// Update its root size
 				capacity = (capacity / (node::max_capacity));
 				unsigned bits = bit_scan_reverse_64(capacity) + 1;
-				bits = std::min(bits, 26U); // maximum 26 bits for a directory
-				other.make_data(bits);
+				bits = std::min(bits, 31U); // maximum 31 bits for a directory
+				bits = bits & (~start_arity);
+				other.d_base.root = directory::make(other.d_base, bits);
 
 				// Move all values inside the new tree
 				for (auto it = begin(); it != end(); ++it)
@@ -2076,7 +2026,7 @@ namespace seq
 				if (size() == 0)
 					return;
 
-				d_data->base.root->for_each_leaf([](directory* dir, unsigned pos) {
+				d_base.root->for_each_leaf([](directory* dir, unsigned pos) {
 					auto child = dir->child(pos);
 					if (child.tag() == directory::IsLeaf) {
 						child.to_node()->template sort<extract_key_type>(Less{});
@@ -2102,7 +2052,7 @@ namespace seq
 
 			directory* make_intermediate(directory* parent, unsigned hash_len, unsigned parent_pos)
 			{
-				directory* intermediate = directory::make(d_data->base, hash_len);
+				directory* intermediate = directory::make(d_base, hash_len);
 				intermediate->parent = parent;
 				intermediate->parent_pos = parent_pos;
 				parent->children()[parent_pos] = child_ptr(intermediate, directory::IsDir);
@@ -2125,11 +2075,10 @@ namespace seq
 				if SEQ_UNLIKELY (new_hash_len >= 32)
 					// we are above maximum allowed size for a directory
 					return nullptr;
-
+				/*
 				// Future release: use this version to soften the memory peak
-				/* directory* new_dir = nullptr;
+				directory* new_dir = nullptr;
 				{
-					//TEST
 					//Link all children of dir
 					directory* first = static_cast<directory*>(dir->children()[0].ptr());
 					directory* link = first;
@@ -2144,11 +2093,11 @@ namespace seq
 					auto prefix_len = dir->prefix_len;
 
 					// Destroy dir before allocating new directory to avoid memory peak
-					directory::destroy(d_data->base, dir, false);
+					directory::destroy(d_base, dir, false);
 
 					try {
 						// might throw, fine
-						new_dir = directory::make(d_data->base, new_hash_len);
+						new_dir = directory::make(d_base, new_hash_len);
 						// copy prefix length
 						new_dir->prefix_len = prefix_len;
 						// set parent, used by iterator::get_bit_pos
@@ -2238,16 +2187,16 @@ namespace seq
 								}
 							}
 
-							directory::destroy(d_data->base, child, false);
+							directory::destroy(d_base, child, false);
 							first = next;
 						}
 					}
 					catch (...) {
 						// to keep the basic exception guarantee, the simplest solution is just to clear the tree
-						directory::destroy(d_data->base, new_dir, true);
+						directory::destroy(d_base, new_dir, true);
 						for (; i != size; ++i) {
 							directory* next = first->parent;
-							directory::destroy(d_data->base, first, true);
+							directory::destroy(d_base, first, true);
 							first = next;
 						}
 						clear();
@@ -2257,13 +2206,13 @@ namespace seq
 
 					// reset parent
 					new_dir->parent = nullptr;
-				}*/
+				}
+				*/
 
-				
 				// save internal value in order to reset it later to the new directory
 
 				// might throw, fine
-				directory* new_dir = directory::make(d_data->base, new_hash_len);
+				directory* new_dir = directory::make(d_base, new_hash_len);
 				// copy prefix length
 				new_dir->prefix_len = dir->prefix_len;
 				// set parent, used by iterator::get_bit_pos
@@ -2330,9 +2279,9 @@ namespace seq
 									++new_dir->child_count;
 
 								// update directory count
-								if SEQ_UNLIKELY(child->children()[j].tag() == directory::IsDir) {
+								if SEQ_UNLIKELY (child->children()[j].tag() == directory::IsDir) {
 									new_dir->dir_count++;
-									directory* d = child->const_child(j).to_dir(); 
+									directory* d = child->const_child(j).to_dir();
 									d->parent = new_dir;
 									d->parent_pos = loc;
 								}
@@ -2342,12 +2291,12 @@ namespace seq
 						}
 
 						dir->children()[i] = child_ptr();
-						directory::destroy(d_data->base, child, false);
+						directory::destroy(d_base, child, false);
 					}
 				}
 				catch (...) {
 					// to keep the basic exception guarantee, the simplest solution is just to clear the tree
-					directory::destroy(d_data->base, new_dir, true);
+					directory::destroy(d_base, new_dir, true);
 					clear();
 
 					throw;
@@ -2357,8 +2306,7 @@ namespace seq
 				new_dir->parent = nullptr;
 
 				// destroy old directory
-				directory::destroy(d_data->base, dir, false);
-				
+				directory::destroy(d_base, dir, false);
 
 				// keep merging if possible
 				while (new_dir->dir_count == new_dir->size()) {
@@ -2387,7 +2335,7 @@ namespace seq
 						merge_dir(parent_dir);
 				}
 				else
-					d_root = d_data->base.root = new_dir;
+					d_base.root = new_dir;
 
 				return new_dir;
 			}
@@ -2477,7 +2425,7 @@ namespace seq
 			const_iterator insert_in_vector(directory* dir, size_t bit_pos, node* child, unsigned pos, Policy, K&& key, Args&&... args)
 			{
 				// turn node into a vector and move values
-				vector_type* vec = d_data->base.make_vector(*this);
+				vector_type* vec = d_base.make_vector(*this);
 				unsigned position = 0;
 				try {
 					T* vals = child->values();
@@ -2487,17 +2435,17 @@ namespace seq
 					position = Policy::emplace_vector_no_check(*vec, std::forward<K>(key), std::forward<Args>(args)...);
 				}
 				catch (...) {
-					d_data->base.destroy_vector(vec);
+					d_base.destroy_vector(vec);
 					throw;
 				}
 
 				// destroy old child
-				node::destroy(d_data->base, child);
+				node::destroy(d_base, child);
 
 				dir->children()[pos] = child_ptr(vec, directory::IsVector);
-				++d_data->base.size;
+				++d_base.size;
 
-				return const_iterator(d_data, dir, pos, position, bit_pos);
+				return const_iterator(dir, pos, position, bit_pos);
 			}
 
 			/// @brief Returns directory depth
@@ -2533,7 +2481,7 @@ namespace seq
 					return insert_in_vector(dir, hash_bits, child, pos, policy, std::forward<K>(key), std::forward<Args>(args)...);
 
 				// create new child directory, might throw, fine
-				directory* child_dir = directory::make(d_data->base, start_arity);
+				directory* child_dir = directory::make(d_base, start_arity);
 
 				node* n = nullptr;
 				try {
@@ -2560,7 +2508,7 @@ namespace seq
 
 						if (!child_dir->const_child(new_pos).full()) {
 							// create node. If this throw, the new directory is destroyed (basic exception guarantee)
-							n = node::make(d_data->base, cth, EmplacePolicy{}, std::move(vals[i])).first;
+							n = node::make(d_base, cth, EmplacePolicy{}, std::move(vals[i])).first;
 							child_dir->child(new_pos) = child_ptr(n, directory::IsLeaf);
 							child_dir->child_count++;
 							child_dir->first_valid_child = new_pos;
@@ -2570,7 +2518,7 @@ namespace seq
 							// if Sort is false, insert the value at the end of the leaf (only for sorted nodes)
 							n = static_cast<node*>(child_dir->const_child(new_pos).ptr());
 							auto p = n->template insert<extract_key_type, Less>(
-							  d_data->base, hash_bits, Sort ? static_cast<unsigned>(-1) : n->count(), cth, EmplacePolicy{}, std::move(vals[i]));
+							  d_base, hash_bits, Sort ? static_cast<unsigned>(-1) : n->count(), cth, EmplacePolicy{}, std::move(vals[i]));
 							child_dir->child(new_pos) = child_ptr(n = p.first, directory::IsLeaf);
 						}
 					}
@@ -2578,12 +2526,12 @@ namespace seq
 				catch (...) {
 					// In case of exception, just destroyed the newly created directory.
 					// Some values might have been moved to it but, hey, this is basic exception guarantee only
-					directory::destroy(d_data->base, child_dir);
+					directory::destroy(d_base, child_dir);
 					throw;
 				}
 
 				// destroy child node unused anymore
-				node::destroy(d_data->base, child);
+				node::destroy(d_base, child);
 
 				// update parent dir
 				child_dir->parent = dir;
@@ -2593,9 +2541,10 @@ namespace seq
 
 				// now, check if the current directory contains only directories, and merge it if possible
 				if (dir->dir_count == dir->size()) {
+
 					if (merge_dir(dir, prev_hash_bits)) {
 						// directory merging succeded, now insert the new value starting from the root
-						return this->insert_hash_with_tiny<EnsureSorted>(d_data->base.root, 0, hash, th, policy, std::forward<K>(key), std::forward<Args>(args)...).first;
+						return this->insert_hash_with_tiny<EnsureSorted>(d_base.root, 0, hash, th, policy, std::forward<K>(key), std::forward<Args>(args)...).first;
 					}
 				}
 
@@ -2613,13 +2562,13 @@ namespace seq
 			std::pair<const_iterator, bool> insert_null_node(directory* dir, size_t bit_pos, unsigned pos, unsigned th, Policy policy, K&& key, Args&&... args)
 			{
 				// child is empty: create a new leaf, might throw (fine)
-				auto p = node::make(d_data->base, th, policy, std::forward<K>(key), std::forward<Args>(args)...);
+				auto p = node::make(d_base, th, policy, std::forward<K>(key), std::forward<Args>(args)...);
 				dir->child(pos) = child_ptr(p.first, directory::IsLeaf);
 				dir->child_count++;
 				dir->first_valid_child = pos;
-				++d_data->base.size;
+				++d_base.size;
 
-				return std::pair<const_iterator, bool>(const_iterator(d_data, dir, pos, 0, bit_pos), true);
+				return std::pair<const_iterator, bool>(const_iterator(dir, pos, 0, bit_pos), true);
 			}
 
 			/// @brief Insert new value in a vector node
@@ -2630,9 +2579,9 @@ namespace seq
 				vector_type* child = static_cast<vector_type*>(dir->children()[pos].ptr());
 				auto found = Policy::emplace_vector(*child, std::forward<K>(key), std::forward<Args>(args)...);
 				if (!found.second)
-					return std::pair<const_iterator, bool>(const_iterator(d_data, dir, pos, static_cast<unsigned>(found.first), bit_pos), false);
-				++d_data->base.size;
-				return std::pair<const_iterator, bool>(const_iterator(d_data, dir, pos, static_cast<unsigned>(found.first), bit_pos), true);
+					return std::pair<const_iterator, bool>(const_iterator(dir, pos, static_cast<unsigned>(found.first), bit_pos), false);
+				++d_base.size;
+				return std::pair<const_iterator, bool>(const_iterator(dir, pos, static_cast<unsigned>(found.first), bit_pos), true);
 			}
 
 			/// @brief The value to insert does not follow a directory prefox -> create intermediate directory
@@ -2646,7 +2595,7 @@ namespace seq
 				// create intermediate directory with a new prefix length
 
 				// might throw, fine
-				directory* new_dir = directory::make(d_data->base, start_arity);
+				directory* new_dir = directory::make(d_base, start_arity);
 				d->parent->child(pos) = child_ptr(new_dir, directory::IsDir);
 				new_dir->parent = d->parent;
 				new_dir->parent_pos = pos;
@@ -2738,7 +2687,7 @@ namespace seq
 
 				if (found.first)
 					// key already exists!
-					return std::pair<const_iterator, bool>(const_iterator(d_data, dir, pos, static_cast<unsigned>(found.first - child->values()), hash_bits), false);
+					return std::pair<const_iterator, bool>(const_iterator(dir, pos, static_cast<unsigned>(found.first - child->values()), hash_bits), false);
 
 				// check if the node is full and needs to be rehashed
 				if SEQ_UNLIKELY (child->full())
@@ -2747,18 +2696,18 @@ namespace seq
 
 				// add to leaf
 				auto p = child->template insert<extract_key_type, Less>(
-				  d_data->base, hash_bits, EnsureSorted ? found.second : child->count(), th, policy, std::forward<K>(key), std::forward<Args>(args)...);
+				  d_base, hash_bits, EnsureSorted ? found.second : child->count(), th, policy, std::forward<K>(key), std::forward<Args>(args)...);
 
 				// update first_valid_child
 				dir->first_valid_child = pos;
 
 				// increment size
-				++d_data->base.size;
+				++d_base.size;
 
 				// update child at pos
 				dir->child(pos) = child_ptr(p.first, directory::IsLeaf);
 
-				return std::pair<const_iterator, bool>(const_iterator(d_data, dir, pos, p.second, hash_bits), true);
+				return std::pair<const_iterator, bool>(const_iterator(dir, pos, p.second, hash_bits), true);
 			}
 
 			/// @brief Main key insertion process, starting from dir at hash_bits position.
@@ -2787,9 +2736,15 @@ namespace seq
 					pos = hash.n_bits(hash_bits, dir->hash_len);
 				}
 
-				if (dir->const_child(pos).tag() == directory::IsNull)
+				if (dir->const_child(pos).tag() == directory::IsNull) {
+					if SEQ_UNLIKELY (dir->hash_len == 0) {
+						// empty root dir
+						d_base.root = directory::make(d_base, start_arity);
+						return insert_hash_with_tiny<EnsureSorted>(d_base.root, 0, hash, th, p, std::forward<K>(key), std::forward<Args>(args)...);
+					}
 					// child is empty: create a new node
 					return insert_null_node(dir, hash_bits, pos, th, p, std::forward<K>(key), std::forward<Args>(args)...);
+				}
 
 				else if (dir->const_child(pos).tag() == directory::IsVector)
 					// insert in vector node
@@ -2804,12 +2759,8 @@ namespace seq
 			template<bool EnsureSorted, class Policy, class K, class... Args>
 			SEQ_ALWAYS_INLINE std::pair<const_iterator, bool> emplace_hash(const_hash_ref hash, Policy p, K&& key, Args&&... args)
 			{
-				if SEQ_UNLIKELY (!d_data)
-					// initialize root
-					make_data();
-
 				// insert
-				return insert_hash_with_tiny<EnsureSorted>(d_data->base.root, 0, hash, hash.tiny_hash(), p, std::forward<K>(key), std::forward<Args>(args)...);
+				return insert_hash_with_tiny<EnsureSorted>(d_base.root, 0, hash, hash.tiny_hash(), p, std::forward<K>(key), std::forward<Args>(args)...);
 			}
 
 			/// @brief Construct emplace and insert
@@ -2823,7 +2774,6 @@ namespace seq
 			template<bool EnsureSorted, class Policy, class K, class... Args>
 			SEQ_ALWAYS_INLINE std::pair<const_iterator, bool> emplace_hash_hint(const_iterator hint, const_hash_ref h, Policy p, K&& key, Args&&... args)
 			{
-				SEQ_ASSERT_DEBUG(hint.data == d_data || !hint.data, "");
 
 				// Insert value and try to reuse the previous position information.
 				// This makes sorted insertion (ascending or desending order) way faster.
@@ -2833,15 +2783,11 @@ namespace seq
 				// In addition, we only do that for fixed length keys
 				// to avoid potential cache misses in check_prefix().
 
-				if SEQ_UNLIKELY (!d_data)
-					// initialize root
-					make_data();
-
 				// compute tiny hash
 				std::uint8_t th = h.tiny_hash();
 				if (variable_length || !is_sorted || hint == end() || hint.is_vector() || !check_prefix(h, hash_key(hint.dir->any_child()), 0, hint.bit_pos)) {
 					// Reset position to insert from the root directory
-					hint.dir = d_data->base.root;
+					hint.dir = d_base.root;
 					hint.bit_pos = 0;
 				}
 
@@ -2909,8 +2855,8 @@ namespace seq
 				if (!d->parent) {
 					// Root dir
 					// Create a new root of half the size, might throw, fine
-					auto* new_root = directory::make(d_data->base, d->hash_len - start_arity);
-					d_data->base.root = d_root = new_root;
+					auto* new_root = directory::make(d_base, d->hash_len - start_arity);
+					d_base.root = new_root;
 				}
 
 				// The remaining does not throw
@@ -2930,7 +2876,7 @@ namespace seq
 						directory* parent = p->parent;
 						unsigned parent_pos = p->parent_pos;
 
-						directory::destroy(d_data->base, p, false);
+						directory::destroy(d_base, p, false);
 						parent->children()[parent_pos] = child_ptr();
 						parent->child_count--;
 						parent->dir_count--;
@@ -2950,7 +2896,7 @@ namespace seq
 						count += dir->child(pos).to_vector()->size();
 				});
 
-				this->d_data->base.size -= count;
+				this->d_base.size -= count;
 				return count;
 			}
 
@@ -2993,7 +2939,7 @@ namespace seq
 								// Insert all values except the moved one
 								if (it.dir != dir || it.child != pos || it.node_pos != i)
 									this->insert_hash_with_tiny<true>(
-									  d_data->base.root, 0, hash_key(node->values()[i]), node->hashs()[i], EmplacePolicy{}, std::move(node->values()[i]));
+									  d_base.root, 0, hash_key(node->values()[i]), node->hashs()[i], EmplacePolicy{}, std::move(node->values()[i]));
 							}
 						}
 						else {
@@ -3014,13 +2960,13 @@ namespace seq
 				catch (...) {
 					// Destroy the directory and recompute ends
 					// to leave the tree in a valid state
-					directory::destroy(d_data->base, d);
+					directory::destroy(d_base, d);
 					if (value)
 						value->~T();
 					throw;
 				}
 
-				directory::destroy(d_data->base, d);
+				directory::destroy(d_base, d);
 				return res;
 			}
 
@@ -3049,7 +2995,7 @@ namespace seq
 						d->child_count--;
 					}
 					else {
-						--d_data->base.size;
+						--d_base.size;
 						if (it.node_pos == v->size())
 							return next;
 						return it;
@@ -3058,19 +3004,19 @@ namespace seq
 				else {
 					// erase in leaf node
 					node* n = d->child(dpos).to_node();
-					n = n->erase(d_data->base, it.node_pos);
+					n = n->erase(d_base, it.node_pos);
 					d->children()[dpos] = child_ptr(n, n ? d->child(dpos).tag() : 0);
 					if (!n)
 						d->child_count--;
 					else {
-						--d_data->base.size;
+						--d_base.size;
 						if (it.node_pos == n->count())
 							return next;
 						return it;
 					}
 				}
 
-				--d_data->base.size;
+				--d_base.size;
 
 				// If we reach that point, the directory might be empty
 
@@ -3090,7 +3036,7 @@ namespace seq
 					directory* parent = d->parent;
 					unsigned parent_pos = d->parent_pos;
 
-					directory::destroy(d_data->base, d, false);
+					directory::destroy(d_base, d, false);
 					parent->children()[parent_pos] = child_ptr();
 					parent->child_count--;
 					parent->dir_count--;
@@ -3122,12 +3068,13 @@ namespace seq
 
 			/// @brief Find key in vector node
 			template<class U>
-			const_iterator find_in_vector(const directory* d, size_t bit_pos, unsigned pos, const vector_type* vec, const U& key) const
+			SEQ_NOINLINE(const_iterator)
+			find_in_vector(const directory* d, size_t bit_pos, unsigned pos, const vector_type* vec, const U& key) const
 			{
 				size_t found = vec->find(key);
 				if (found == vec->size())
 					return end();
-				return const_iterator(d_data, d, pos, static_cast<unsigned>(found), bit_pos);
+				return const_iterator(d, pos, static_cast<unsigned>(found), bit_pos);
 			}
 
 			template<class U>
@@ -3145,13 +3092,11 @@ namespace seq
 			SEQ_ALWAYS_INLINE const_iterator find_hash(const_hash_ref hash, const U& key) const
 			{
 				// start directory
-				const directory* d = d_root;
-
-				// tiny hash
-				unsigned th = hash.tiny_hash();
+				const directory* d = d_base.root;
 
 				// start position within start directory
 				size_t bit_pos = 0;
+				unsigned th = hash.tiny_hash();
 				unsigned pos = hash.n_bits(bit_pos, d->hash_len);
 
 				// walk through the tree as long as we keep finding directories
@@ -3162,11 +3107,13 @@ namespace seq
 							d = d->children()[pos].to_dir();
 
 							// check directory prefix
-							if (prefix_search && d->prefix_len) {
-								if (!check_prefix(hash, bit_pos, d))
-									return cend();
-								else
-									bit_pos += d->prefix_len;
+							if constexpr (prefix_search) {
+								if (d->prefix_len) {
+									if (!check_prefix(hash, bit_pos, d))
+										return cend();
+									else
+										bit_pos += d->prefix_len;
+								}
 							}
 
 							// compute new position within current directory
@@ -3179,7 +3126,7 @@ namespace seq
 						case directory::IsLeaf:
 							th = d->children()[pos].to_node()->template find<extract_key_type, Equal, Less>(Equal{}, bit_pos, static_cast<std::uint8_t>(th), key);
 							if (th != static_cast<unsigned>(-1))
-								return const_iterator(d_data, d, pos, th, bit_pos);
+								return const_iterator(d, pos, th, bit_pos);
 							return cend();
 					}
 				}
@@ -3191,7 +3138,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE const T* find_ptr_hash(const_hash_ref hash, const U& key) const
 			{
 				// start directory
-				const directory* d = d_root;
+				const directory* d = d_base.root;
 				// tiny hash
 				unsigned th = hash.tiny_hash();
 				// start position within start directory
@@ -3206,11 +3153,13 @@ namespace seq
 							d = d->children()[pos].to_dir();
 
 							// check directory prefix
-							if (prefix_search && d->prefix_len) {
-								if (!check_prefix(hash, bit_pos, d))
-									return nullptr;
-								else
-									bit_pos += d->prefix_len;
+							if constexpr (prefix_search) {
+								if (d->prefix_len) {
+									if (!check_prefix(hash, bit_pos, d))
+										return nullptr;
+									else
+										bit_pos += d->prefix_len;
+								}
 							}
 
 							// compute new position within current directory
@@ -3220,11 +3169,13 @@ namespace seq
 						case directory::IsVector:
 							return find_in_vector_ptr(d, bit_pos, pos, d->children()[pos].to_vector(), key);
 
-						case directory::IsLeaf:
-							th = d->children()[pos].to_node()->template find<extract_key_type, Equal, Less>(Equal{}, bit_pos, static_cast<std::uint8_t>(th), key);
+						case directory::IsLeaf: {
+							auto node = d->children()[pos].to_node();
+							th = node->template find<extract_key_type, Equal, Less>(Equal{}, bit_pos, static_cast<std::uint8_t>(th), key);
 							if (th != static_cast<unsigned>(-1))
-								return d->children()[pos].to_node()->values() + th;
+								return node->values() + th;
 							return nullptr;
+						}
 					}
 				}
 				// not found: the node is null or the key is not inside
@@ -3248,15 +3199,16 @@ namespace seq
 				const vector_type* v = d->children()[pos].to_vector();
 				unsigned p = static_cast<unsigned>(v->lower_bound(key));
 				if (p != v->size())
-					return const_iterator(d_data, d, pos, p, bit_pos);
-				return ++const_iterator(d_data, d, pos, p - 1, bit_pos);
+					return const_iterator(d, pos, p, bit_pos);
+				return ++const_iterator(d, pos, p - 1, bit_pos);
 			}
 
 			/// @brief Find key based on its hash value
-			SEQ_ALWAYS_INLINE const_iterator lower_bound_hash(const_hash_ref hash, const key_type& key) const
+			template<class U>
+			SEQ_ALWAYS_INLINE const_iterator lower_bound_hash(const_hash_ref hash, const U& key) const
 			{
 				// start directory
-				const directory* d = d_root;
+				const directory* d = d_base.root;
 				// tiny hash
 				unsigned th = hash.tiny_hash();
 				// start position within start directory
@@ -3274,12 +3226,12 @@ namespace seq
 						// check directory prefix
 						if (d->prefix_len) {
 							if (!check_prefix(hash, bit_pos, d)) {
-								bool less = Less{}(ExtractKey{}(d->any_child()), key);
+								bool less = Less{}(ExtractKey{}(d->any_child()), ExtractKey{}(key));
 								auto tmp = const_iterator::find_next(
 								  less ? d->parent : d, less ? d->parent_pos + 1 : 0, less ? bit_pos - d->parent->hash_len : bit_pos + d->prefix_len);
 
 								// Note: could be end() iterator
-								return const_iterator(d_data, tmp.dir, tmp.child, 0, tmp.bit_pos);
+								return const_iterator(tmp.dir, tmp.child, 0, tmp.bit_pos);
 							}
 							else
 								bit_pos += d->prefix_len;
@@ -3294,19 +3246,19 @@ namespace seq
 					auto tmp = const_iterator::find_next(d, pos + 1, bit_pos);
 
 					// Note: could be end() iterator
-					return const_iterator(d_data, tmp.dir, tmp.child, 0, tmp.bit_pos);
+					return const_iterator(tmp.dir, tmp.child, 0, tmp.bit_pos);
 				}
 
 				// at this point, the position within current directory hold either a standard leaf or a vector
 
 				if SEQ_UNLIKELY (d->children()[pos].tag() == directory::IsVector)
-					return lower_bound_in_vector(d, pos, bit_pos, key);
+					return lower_bound_in_vector(d, pos, bit_pos, ExtractKey{}(key));
 
 				const node* n = d->children()[pos].to_node();
 				unsigned p = n->template lower_bound<ExtractKey, Less, Equal>(bit_pos, th, key);
 				if (p != n->count())
-					return const_iterator(d_data, d, pos, p, bit_pos);
-				return ++const_iterator(d_data, d, pos, p - 1, bit_pos);
+					return const_iterator(d, pos, p, bit_pos);
+				return ++const_iterator(d, pos, p - 1, bit_pos);
 			}
 			template<class U>
 			SEQ_ALWAYS_INLINE const_iterator lower_bound(const U& k) const
@@ -3314,10 +3266,11 @@ namespace seq
 				return lower_bound_hash(hash_key(k), k);
 			}
 
-			SEQ_ALWAYS_INLINE const_iterator upper_bound_hash(const_hash_ref hash, const key_type& key) const
+			template<class U>
+			SEQ_ALWAYS_INLINE const_iterator upper_bound_hash(const_hash_ref hash, const U& key) const
 			{
 				const_iterator it = lower_bound_hash(hash, key);
-				if (it != end() && ExtractKey{}(*it) == key)
+				if (it != end() && ExtractKey{}(*it) == ExtractKey{}(key))
 					++it;
 				return it;
 			}

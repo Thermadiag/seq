@@ -393,10 +393,6 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 	test_set<std::map<T, T>>("std::map", vec, f);
 }
 
-
-
-
-
 /*
 template<class Map, class Format>
 void test_small_map_repeat(const char * name, int count, int repeat, Format f)
@@ -457,12 +453,11 @@ void test_small_map(int count, int repeat)
 }
 */
 
-
 int bench_map(int, char** const)
 {
-	
+
 	using string = tstring;
-	
+
 	// test random tuple
 	{
 		std::random_device dev;
@@ -503,6 +498,6 @@ int bench_map(int, char** const)
 				return seq::r_any(generate_random_string<seq::tstring>(13, true));
 		}
 	});
-	
+
 	return 0;
 }
