@@ -46,6 +46,8 @@
 #include "seq/bits.hpp"
 #include "seq/internal/utils.hpp"
 #include "seq/timer.hpp"
+#include "seq/legacy/format.hpp"
+
 
 #ifdef max
 #undef max

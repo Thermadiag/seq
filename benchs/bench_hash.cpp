@@ -471,7 +471,7 @@ struct Test
 	bool operator==(const Test& o) const noexcept { return v == o.v; }
 };
 template<>
-struct hasher<Test>
+struct seq::hasher<Test>
 {
 	size_t operator()(const Test& t) const noexcept { return hasher<size_t>{}(t.v); }
 };

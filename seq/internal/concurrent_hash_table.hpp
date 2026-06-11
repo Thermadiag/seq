@@ -524,7 +524,7 @@ namespace seq
 			chain_count_type d_chain_count; // number of chained nodes, used to optimize detection of needed rehash on insert
 
 			/// @brief Find given value based on its small hash representation and hashs/values arrays
-			template<unsigned Size, class Equal, class K, class Value>
+			template<unsigned Size, class Equal, class K>
 			static SEQ_CONCURRENT_INLINE auto FindWithTh(std::uint8_t th, const Equal& eq, K&& key, const std::uint8_t* hashs, const Value* values) noexcept(
 			  noexcept(eq(extract_key::key(*values), std::forward<K>(key)))) -> const Value*
 			{
@@ -592,7 +592,7 @@ namespace seq
 
 			/// @brief Find given value in a dense node.
 			/// Performs lookup on the full chain.
-			template<class Equal, class K, class Value, class F>
+			template<class Equal, class K, class F>
 			auto FindInDense(std::uint8_t th, const Equal& eq, K&& key, const ConcurrentDenseNode<Value>* n, F&& f) const
 			  noexcept(noexcept(eq(std::forward<K>(key), extract_key::key(std::declval<Value&>())))) -> size_t
 			{

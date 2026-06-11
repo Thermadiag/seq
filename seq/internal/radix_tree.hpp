@@ -419,9 +419,9 @@ namespace seq
 					// One byte: string
 					uint64_t hash = 0;
 					if (size >= byte_offset + 8u)
-						memcpy(&hash, data + byte_offset, 8u);
+						memcpy((void*)&hash, data + byte_offset, 8u);
 					else if (byte_offset < size)
-						memcpy(&hash, data + byte_offset, static_cast<unsigned>(size - byte_offset));
+						memcpy((void*)&hash, data + byte_offset, static_cast<unsigned>(size - byte_offset));
 					return static_cast<unsigned>((swap_b(hash) << bit_offset) >> (64u - count));
 				}
 				else {
@@ -430,9 +430,9 @@ namespace seq
 					byte_offset = (byte_offset) % sizeof(type);
 
 					if (size >= char_offset + 8U / sizeof(type))
-						memcpy(&hash, data + char_offset, 8U);
+						memcpy((void*)&hash, data + char_offset, 8U);
 					else if (char_offset < size)
-						memcpy(&hash, data + char_offset, static_cast<size_t>((size - char_offset) * sizeof(type)));
+						memcpy((void*)&hash, data + char_offset, static_cast<size_t>((size - char_offset) * sizeof(type)));
 
 					// That's easier in big endian as all the bytes
 					// are already in the right order...
@@ -656,9 +656,9 @@ namespace seq
 					size_t bit_offset = (shift) & 7U;
 					uint64_t hash = 0;
 					if (size >= byte_offset + 8u)
-						memcpy(&hash, data + byte_offset, 8u);
+						memcpy((void*)&hash, data + byte_offset, 8u);
 					else if (byte_offset < size)
-						memcpy(&hash, data + byte_offset, static_cast<unsigned>(size - byte_offset));
+						memcpy((void*)&hash, data + byte_offset, std::min(8u,static_cast<unsigned>(size - byte_offset)));
 					return static_cast<unsigned>((swap_b(hash) << bit_offset) >> (64u - count));
 				}
 			}
@@ -2768,7 +2768,7 @@ namespace seq
 
 			/// @brief Main key insertion process, starting from dir at hash_bits position.
 			template<bool EnsureSorted, class Policy, class K, class... Args>
-			SEQ_ALWAYS_INLINE std::pair<const_iterator, bool>
+			std::pair<const_iterator, bool>
 			insert_hash_with_tiny(directory* dir, size_t hash_bits, const_hash_ref hash, std::uint8_t th, Policy p, K&& key, Args&&... args)
 			{
 				static constexpr bool Sort = EnsureSorted && node::is_sorted;

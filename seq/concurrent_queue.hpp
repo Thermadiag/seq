@@ -496,6 +496,15 @@ namespace seq
 		struct QueueIterator : public QueueConstIterator<Queue>
 		{
 			using base_type = QueueConstIterator<Queue>;
+			using bucket_type = typename base_type::bucket_type;
+			using value_type = typename base_type::value_type;
+			using reference = value_type&;
+			using const_reference = const value_type&;
+			using pointer = value_type*;
+			using const_pointer = const value_type*;
+			using iterator_category = std::bidirectional_iterator_tag;
+			using difference_type = std::ptrdiff_t;
+			using size_type = std::uint64_t;
 
 			QueueIterator() noexcept = default;
 			QueueIterator(const base_type& other) noexcept

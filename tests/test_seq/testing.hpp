@@ -45,7 +45,7 @@
 
 #include "seq/bits.hpp"
 #include "seq/internal/utils.hpp"
-#include "seq/legacy/charconv.hpp"
+#include "seq/legacy/format.hpp"
 #include "seq/timer.hpp"
 
 #ifdef max

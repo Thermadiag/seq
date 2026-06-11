@@ -33,7 +33,7 @@
 
 #include <utility>
 
-#include "bits.hpp"
+#include "../bits.hpp"
 
 namespace seq
 {

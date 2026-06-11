@@ -212,7 +212,7 @@ std::pair<size_t, size_t> test_queue(Queue& q, int threads)
 	//	push(q, T{});
 	 
 	start_push.store(true);
-	//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	start_pop.store(true);
 
 	auto st = msecs();
@@ -242,7 +242,7 @@ void test_queue_name(const char* name, int threads = 1)
 int bench_concurrent_queue(int, char** const)
 {
 	
-	int threads = 16 ;
+	int threads = 1 ;
 	int count = 1000000;  
 	
 
