@@ -30,6 +30,8 @@
 #include "plf/plf_colony.hpp"
 
 #include <list>
+#include <deque>
+
 #include <iostream>
 
 #include "testing.hpp"
@@ -48,16 +50,17 @@ void test_sequence_vs_colony(size_t count)
 	using seq_type = sequence<T, std::allocator<T>>;
 	using colony_type = plf::colony<T>;
 	using list_type = std::list<T>;
+	using deque_type = std::deque<T>;
 
 	std::cout << std::endl;
-	std::cout << "Compare performances of seq::sequence, plf::colony and std::list " << std::endl;
+	std::cout << "Compare performances of seq::sequence, plf::colony, std::deque and std::list " << std::endl;
 	std::cout << std::endl;
 
 
-	std::cout << fmt(fmt("method").l(30), "|", fmt("plf::colony").c(20), "|", fmt("seq::sequence").c(20), "|", fmt("std::list").c(20), "|") << std::endl;
-	std::cout << fmt(str().l(30).f('-'), "|", str().c(20).f('-'), "|", str().c(20).f('-'), "|", str().c(20).f('-'), "|") << std::endl;
+	std::cout << fmt(fmt("method").l(30), "|", fmt("plf::colony").c(20), "|", fmt("seq::sequence").c(20), "|", fmt("std::deque").c(20), "|", fmt("std::list").c(20), "|") << std::endl;
+	std::cout << fmt(str().l(30).f('-'), "|", str().c(20).f('-'), "|", str().c(20).f('-'),"|", str().c(20).f('-'), "|", str().c(20).f('-'), "|") << std::endl;
 
-	auto f = fmt(pos<0, 2, 4, 6>(), str().l(30), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|");
+	auto f = fmt(pos<0, 2, 4, 6, 8>(), str().l(30), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|");
 
 
 
@@ -66,8 +69,9 @@ void test_sequence_vs_colony(size_t count)
 	colony_type col1;
 	seq_type seq1;
 	list_type lst;
+	deque_type deq;
 
-	size_t col_t, seq_t, lst_t;
+	size_t col_t, seq_t, lst_t, deq_t;
 
 	for (size_t i = 0; i < count; ++i)
 		shufle.push_back((T)i);
@@ -89,13 +93,20 @@ void test_sequence_vs_colony(size_t count)
 
 	tick();
 	for (int i = 0; i < count; ++i)
+		deq.push_back((shufle[i]));
+	deq_t = tock_ms();
+
+	tick();
+	for (int i = 0; i < count; ++i)
 		lst.push_back((shufle[i]));
 	lst_t = tock_ms();
 
-	std::cout << f("insert(reserve)", col_t, seq_t, lst_t) << std::endl;
+	std::cout << f("insert(reserve)", col_t, seq_t, deq_t, lst_t) << std::endl;
 
 	col1 = colony_type{};
 	seq1 = seq_type{};
+	deq.clear();
+	lst.clear();
 
 
 	tick();
@@ -110,10 +121,15 @@ void test_sequence_vs_colony(size_t count)
 
 	tick();
 	for (int i = 0; i < count; ++i)
+		deq.push_back((shufle[i]));
+	deq_t = tock_ms();
+
+	tick();
+	for (int i = 0; i < count; ++i)
 		lst.push_back((shufle[i]));
 	lst_t = tock_ms();
 
-	std::cout << f("insert", col_t, seq_t, lst_t) << std::endl;
+	std::cout << f("insert", col_t, seq_t,deq_t, lst_t) << std::endl;
 
 
 
@@ -126,15 +142,20 @@ void test_sequence_vs_colony(size_t count)
 	seq_t = tock_ms();
 
 	tick();
+	deq.clear();
+	deq_t = tock_ms();
+
+	tick();
 	lst.clear();
 	lst_t = tock_ms();
 
 	SEQ_TEST(seq1.size() == 0 && col1.size() == 0 && lst.size() == 0);
-	std::cout << f("clear", col_t, seq_t, lst_t) << std::endl;
+	std::cout << f("clear", col_t, seq_t, deq_t,lst_t) << std::endl;
 
 	for (int i = 0; i < count; ++i) {
 		col1.insert((shufle[i]));
 		seq1.insert((shufle[i]));
+		deq.push_back((shufle[i]));
 		lst.push_back((shufle[i]));
 	}
 
@@ -147,17 +168,22 @@ void test_sequence_vs_colony(size_t count)
 	seq_t = tock_ms();
 
 	tick();
+	deq.erase(deq.begin(), deq.end());
+	deq_t = tock_ms();
+
+	tick();
 	lst.erase(lst.begin(), lst.end());
 	lst_t = tock_ms();
 
 	SEQ_TEST(seq1.size() == 0 && col1.size() == 0 && lst.size() == 0);
-	std::cout << f("erase(begin(),end())", col_t, seq_t, lst_t) << std::endl;
+	std::cout << f("erase(begin(),end())", col_t, seq_t, deq_t, lst_t) << std::endl;
 
 
 
 	for (int i = 0; i < count; ++i) {
 		col1.insert((shufle[i]));
 		seq1.insert((shufle[i]));
+		deq.push_back((shufle[i]));
 		lst.push_back((shufle[i]));
 	}
 	T sum = 0;
@@ -173,11 +199,16 @@ void test_sequence_vs_colony(size_t count)
 	seq_t = tock_ms();
 
 	tick();
+	for (auto it = deq.begin(); it != deq.end(); ++it)
+		sum += *it;
+	deq_t = tock_ms();
+
+	tick();
 	for (auto it = lst.begin(); it != lst.end(); ++it)
 		sum += *it;
 	lst_t = tock_ms();
 
-	std::cout << f("iterate", col_t, seq_t, lst_t) << std::endl; print_null(sum);
+	std::cout << f("iterate", col_t, seq_t, deq_t, lst_t) << std::endl; print_null(sum);
 
 
 
@@ -196,13 +227,19 @@ void test_sequence_vs_colony(size_t count)
 	seq_t = tock_ms();
 
 	tick();
+	//for (auto it = deq.begin(); it != deq.end(); ++it) {
+	//	it = deq.erase(it);
+	//}
+	deq_t = tock_ms();
+
+	tick();
 	for (auto it = lst.begin(); it != lst.end(); ++it) {
 		it = lst.erase(it);
 	}
 	lst_t = tock_ms();
 
 	SEQ_TEST(seq1.size() == col1.size()  && col1.size() == lst.size() );
-	std::cout << f("erase half", col_t, seq_t, lst_t) << std::endl;
+	std::cout << f("erase half", col_t, seq_t, deq_t, lst_t) << std::endl;
 
 
 	tick();
@@ -216,21 +253,28 @@ void test_sequence_vs_colony(size_t count)
 	seq_t = tock_ms();
 
 	tick();
+	//for (int i = 0; i < shufle.size(); ++i)
+	//	deq.push_back(shufle[i]);
+	deq_t = tock_ms();
+
+	tick();
 	for (int i = 0; i < shufle.size(); ++i)
 		lst.push_back(shufle[i]);
 	lst_t = tock_ms();
 
-	std::cout << f("insert again", col_t, seq_t, lst_t) << std::endl;
+	std::cout << f("insert again", col_t, seq_t, deq_t, lst_t) << std::endl;
 
 
 
 	col1.clear();
 	seq1.clear();
 	lst.clear();
+	deq.clear();
 	for (int i = 0; i < count; ++i) {
 		seq1.push_back((shufle[i]));
 		col1.insert((shufle[i]));
 		lst.push_back((shufle[i]));
+		deq.push_back((shufle[i]));
 	}
 
 
@@ -243,10 +287,14 @@ void test_sequence_vs_colony(size_t count)
 	seq_t = tock_ms();
 
 	tick();
+	std::sort(deq.begin(),deq.end());
+	deq_t = tock_ms();
+
+	tick();
 	lst.sort();
 	lst_t = tock_ms();
 
-	std::cout << f("sort", col_t, seq_t, lst_t) << std::endl;
+	std::cout << f("sort", col_t, seq_t, deq_t, lst_t) << std::endl;
 
 }
 

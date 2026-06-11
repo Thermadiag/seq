@@ -14,7 +14,7 @@ using concurrent_set = seq::concurrent_set<T, seq::hasher<T>, std::equal_to<>, s
 template<class T>
 struct queue
 {
-	using lock_type = std::mutex;
+	using lock_type = seq::spinlock;//std::mutex;
 	lock_type lock;
 	seq::sequence<T> deq;
 
@@ -242,7 +242,7 @@ void test_queue_name(const char* name, int threads = 1)
 int bench_concurrent_queue(int, char** const)
 {
 	
-	int threads = 1 ;
+	int threads = 16 ;
 	int count = 1000000;  
 	
 

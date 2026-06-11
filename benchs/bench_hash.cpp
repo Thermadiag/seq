@@ -410,11 +410,7 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 		// set.max_load_factor(0.85);
 		test_hash_set("seq::ordered_set", set, keys, f);
 	}
-	/* {
-		ordered_set2<T, Hash, std::equal_to<>> set;
-		set.max_load_factor(0.85);
-		test_hash_set("seq::ordered_set2", set, keys, f);
-	}*/
+	
 	{
 		ankerl::unordered_dense::set<T, Hash, std::equal_to<>> set;
 		// set.max_load_factor(0.85);
