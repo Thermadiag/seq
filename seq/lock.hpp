@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -126,7 +126,7 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE bool try_lock(lock_type& expect)
 		{
-			if SEQ_UNLIKELY(!d_lock.compare_exchange_strong(expect, write, std::memory_order_acq_rel)) {
+			if SEQ_UNLIKELY (!d_lock.compare_exchange_strong(expect, write, std::memory_order_acq_rel)) {
 				return failed_lock(expect);
 			}
 			return true;
@@ -146,8 +146,9 @@ namespace seq
 		SEQ_ALWAYS_INLINE void lock()
 		{
 			lock_type expect = 0;
-			while SEQ_UNLIKELY(!try_lock(expect))
-				yield();
+			while
+				SEQ_UNLIKELY(!try_lock(expect))
+			yield();
 		}
 		SEQ_ALWAYS_INLINE void unlock()
 		{
@@ -156,8 +157,9 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE void lock_shared()
 		{
-			while SEQ_UNLIKELY(!try_lock_shared())
-				yield();
+			while
+				SEQ_UNLIKELY(!try_lock_shared())
+			yield();
 		}
 		SEQ_ALWAYS_INLINE void unlock_shared()
 		{
@@ -172,7 +174,7 @@ namespace seq
 			lock_type expect = 0;
 			return d_lock.compare_exchange_strong(expect, write, std::memory_order_acq_rel);
 		}
-		SEQ_ALWAYS_INLINE bool try_lock_fast() { return try_lock();}
+		SEQ_ALWAYS_INLINE bool try_lock_fast() { return try_lock(); }
 		SEQ_ALWAYS_INLINE bool try_lock_shared()
 		{
 			// This version might be slightly slower in some situations (low concurrency).
@@ -184,7 +186,7 @@ namespace seq
 			else {
 				// Version based on fetch_add
 				if (!(d_lock.load(std::memory_order_relaxed) & (need_lock | write))) {
-					if SEQ_LIKELY(!(d_lock.fetch_add(read, std::memory_order_acquire) & (need_lock | write)))
+					if SEQ_LIKELY (!(d_lock.fetch_add(read, std::memory_order_acquire) & (need_lock | write)))
 						return true;
 					d_lock.fetch_add(-read, std::memory_order_release);
 				}
@@ -193,6 +195,30 @@ namespace seq
 		}
 		SEQ_ALWAYS_INLINE bool is_locked() const noexcept { return d_lock.load(std::memory_order_relaxed) != 0; }
 		SEQ_ALWAYS_INLINE bool is_locked_shared() const noexcept { return d_lock.load(std::memory_order_relaxed) & write; }
+
+		SEQ_ALWAYS_INLINE void upgrade() noexcept
+		{
+			for (;;) {
+				if (d_lock.load(std::memory_order_relaxed) == read) {
+					lock_type l = read;
+					if (d_lock.compare_exchange_strong(l, write))
+						return;
+				}
+				yield();
+			}
+		}
+
+		SEQ_ALWAYS_INLINE void downgrade() noexcept
+		{
+			for (;;) {
+				if (d_lock.load(std::memory_order_relaxed) == write) {
+					lock_type l = write;
+					if (d_lock.compare_exchange_strong(l, read))
+						return;
+				}
+				yield();
+			}
+		}
 	};
 
 	using shared_spinlock = shared_spinner<>;
@@ -218,6 +244,9 @@ namespace seq
 		void lock_shared() noexcept {}
 		bool try_lock_shared() noexcept { return true; }
 		void unlock_shared() noexcept {}
+
+		void upgrade() noexcept {}
+		void downgrade() noexcept {}
 	};
 
 }

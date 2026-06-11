@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,11 +30,9 @@
 #include <functional>
 #include <unordered_map>
 
-#include <seq/testing.hpp>
-#include <seq/ordered_map.hpp>
 #include <seq/ordered_map.hpp>
 #include <seq/radix_hash_map.hpp>
-#include <seq/format.hpp>
+#include <seq/legacy/format.hpp>
 #include <seq/any.hpp>
 #include <seq/tiny_string.hpp>
 
@@ -58,6 +56,8 @@
 #endif
 
 #include <seq/radix_hash_map.hpp>
+
+#include "testing.hpp"
 
 using namespace seq;
 

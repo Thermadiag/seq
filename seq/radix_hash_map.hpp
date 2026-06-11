@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@
  */
 
 #include "internal/radix_tree.hpp"
-#include "utils.hpp"
+#include "internal/utils.hpp"
 
 namespace seq
 {
@@ -836,6 +836,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto operator[](const Key& key) -> T& { return try_emplace(key).first->second; }
 		SEQ_ALWAYS_INLINE auto operator[](Key&& key) -> T& { return try_emplace(std::move(key)).first->second; }
 
+		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return d_tree.erase(pos.iter); }
 		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos.iter); }
 		SEQ_ALWAYS_INLINE auto erase(const Key& key) -> size_type { return d_tree.erase(key); }
 		template<class K, class KE = KeyEqual, class H = Hash, typename std::enable_if<has_is_transparent<KE>::value && has_is_transparent<H>::value>::type* = nullptr>

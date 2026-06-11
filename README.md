@@ -4,10 +4,10 @@
 [![CTest](https://github.com/Thermadiag/seq/actions/workflows/build-macos.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/build-macos.yml)
 [![CTest](https://github.com/Thermadiag/seq/actions/workflows/build-windows.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/build-windows.yml)
 
-Transitioning to v2.0
+Transitioning to v2.1
 ---------------------
 
-*seq* v2.0 introduced a lot of changes. See this [note](docs/v2.md) for more details and explanations.
+*seq* v2.1 introduced a lot of changes. See [changelog](docs/changelog.md) for more details and explanations.
 
 Purpose
 -------
@@ -23,7 +23,7 @@ The *seq* containers are not necessarly drop-in replacement for their STL counte
 
 Currently, the *containers* module provide 5 types of containers:
 -	Sequential random-access containers: 
-	-	[seq::devector](docs/devector.md): double ended vector that optimized for front and back operations. Similar interface to `std::deque`.
+	-	[seq::devector](docs/devector.md): double ended vector optimized for front AND back operations. Similar interface to `std::deque`.
 	-	[seq::tiered_vector](docs/tiered_vector.md): tiered vector implementation optimized for fast insertion and deletion in the middle. Similar interface to `std::deque`.
 -	Sequential stable non random-access container: `seq::sequence`, fast stable list-like container.
 -	Sorted containers: 
@@ -36,7 +36,7 @@ Currently, the *containers* module provide 5 types of containers:
 -	Hash tables: 
 	-	[seq::ordered_set](docs/ordered_set.md): Ordered robin-hood hash table with backward shift deletion. Drop-in replacement for `std::unordered_set` (except for the bucket and node interface) with iterator/reference stability, with performances close to 'flat' hash maps. `seq::ordered_set` preserves the insertion order.
 	-	`seq::ordered_map`: associative version of `seq::ordered_set`.
-	-	[seq::radix_hash_set](docs/radix_tree.md): radix based hash table with a similar interface to `std::unordered_set`. Uses incremental rehash (no memory peak) with a very small memory footprint.
+	-	[seq::radix_hash_set](docs/radix_tree.md): radix based hash table with a similar interface to `std::unordered_set`. Uses incremental rehash (no memory peak), ideal when low memory footprint and low latency are required.
 	-	`seq::radix_hash_map`: associative version of `seq::radix_hash_set`.
 	-	[seq::concurrent_map](docs/concurrent_map.md) and `seq::concurrent_set`: higly scalable concurrent hash tables with interfaces similar to `boost::concurrent_flat_set/map`.
 -	Strings:
@@ -46,18 +46,15 @@ Currently, the *containers* module provide 5 types of containers:
 Content
 -------
 
-The library is divided in 7 small modules:
+The library is divided in 5 small modules:
 -	[bits](docs/bits.md): low-level bits manipulation utilities
 -	[hash](docs/hash.md): tiny hashing framework
--	[charconv](docs/charconv.md): fast arithmetic to/from string conversion
--	[format](docs/format.md): fast and type safe formatting tools
 -	[containers](docs/containers.md): main module, collection of original containers: double ended vector, tiered-vector, ordered hash map, flat map based on tiered-vector, compressed vector...
 -	[any](docs/any.md): type-erasing polymorphic object wrapper used to build heterogeneous containers, including hash tables and sorted containers.
 -	[algorithm](docs/algorithm.md): a (small) collection of algorithm include the `net_sort` stable sorting algorithm.
 
 A cmake project is provided for installation and compilation of tests/benchmarks.
 
-*seq* library was tested with gcc 10.1.0 and 13.2.0 (Windows and Linux), msvc 19.43 (Windows), ClangCL 12.0.0 (Windows).
 
 Design
 ------
@@ -101,4 +98,4 @@ Benchmarks (in `seq/benchs`) compare the performances of the *seq* library with 
 Some of these libraries are included in the `seq/benchs` folder.
 
 
-seq:: library and this page Copyright (c) 2025, Victor Moncada
+seq:: library and this page Copyright (c) 2026, Victor Moncada

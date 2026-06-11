@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
 
 #include "type_traits.hpp"
 #include "bits.hpp"
-#include "utils.hpp"
+#include "internal/utils.hpp"
 
 #include <algorithm>
 

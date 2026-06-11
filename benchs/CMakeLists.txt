@@ -6,16 +6,15 @@ enable_testing()
 # create the testing file and list of tests
 create_test_sourcelist (Benchs
   seq_benchs.cpp
-  bench_format.cpp
   bench_hash.cpp
   bench_concurrent_hash.cpp
   bench_map.cpp
   bench_sequence.cpp
-  bench_text_stream.cpp
   bench_tiered_vector.cpp
   bench_tiny_string.cpp
   #bench_boost_unordered_benchmarks.cpp
   bench_sort.cpp
+  bench_concurrent_queue.cpp
   )
 
 # add the executable

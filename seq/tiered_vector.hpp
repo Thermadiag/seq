@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,11 @@
 #ifndef SEQ_TIERED_VECTOR_HPP
 #define SEQ_TIERED_VECTOR_HPP
 
+#include "internal/utils.hpp"
 #include "devector.hpp"
-#include "utils.hpp"
 #include "tiny_string.hpp"
-#include "algorithm.hpp"
+#include "net_sort.hpp"
 
-#include <algorithm>
 #include <string>
 #include <cmath>
 
@@ -1719,8 +1718,8 @@ namespace seq
 			}
 
 			// Returns true is tiered_vector size is even
-			SEQ_ALWAYS_INLINE auto isPow2Size() const noexcept -> bool { return isPow2Size(d_size); }
-			SEQ_ALWAYS_INLINE auto isPow2Size(size_t s) const noexcept -> bool { return ((s - 1) & s) == 0; }
+			SEQ_ALWAYS_INLINE auto is_pow_2() const noexcept -> bool { return is_pow_2(d_size); }
+			SEQ_ALWAYS_INLINE auto is_pow_2(size_t s) const noexcept -> bool { return ((s - 1) & s) == 0; }
 			// Returns allocator
 			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return *this; }
 			SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return *this; }
@@ -2141,14 +2140,6 @@ namespace seq
 				else if constexpr (StoreBackValues)
 					d_buckets.front().update();
 				--d_size;
-			}
-
-			void erase_extremity(size_type pos) noexcept
-			{
-				if (pos == 0)
-					pop_front();
-				else
-					pop_back();
 			}
 
 			// Erase anywhere

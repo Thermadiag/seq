@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,9 @@
 /** @file */
 
 #include "internal/hash_utils.hpp"
+#include "internal/utils.hpp"
+
 #include "sequence.hpp"
-#include "utils.hpp"
 #include "hash.hpp"
 
 namespace seq
@@ -534,7 +535,6 @@ namespace seq
 			  noexcept(std::declval<sequence_type&>().swap(std::declval<sequence_type&>())) && noexcept(std::declval<base_type&>().swap(std::declval<base_type&>())))
 			{
 				if (this != std::addressof(other)) {
-					std::swap(static_cast<base_type&>(*this), static_cast<base_type&>(other));
 					std::swap(d_buckets, other.d_buckets);
 					std::swap(d_hash_mask, other.d_hash_mask);
 					std::swap(d_hash_len, other.d_hash_len);
@@ -837,6 +837,7 @@ namespace seq
 				return d_seq.erase(it); // return res;
 			}
 			auto erase(const_iterator it) -> iterator { return erase_hash(hash_key(extract_key::key(*it)), it); }
+			auto erase(iterator it) -> iterator { return erase_hash(hash_key(extract_key::key(*it)), it); }
 
 			template<class K>
 			auto erase(const K& key) -> size_t
@@ -1952,6 +1953,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto operator[](const Key& k) -> T& { return try_emplace(k).first->second; }
 		SEQ_ALWAYS_INLINE auto operator[](Key&& k) -> T& { return try_emplace(std::move(k)).first->second; }
 
+		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return this->base_type::erase(pos); }
 		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return this->base_type::erase(pos); }
 		SEQ_ALWAYS_INLINE auto erase(const Key& key) -> size_type { return this->base_type::erase(key); }
 		template<class K, class KE = KeyEqual, class H = Hash, typename std::enable_if<has_is_transparent<KE>::value && has_is_transparent<H>::value>::type* = nullptr>

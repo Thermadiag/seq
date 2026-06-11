@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -476,10 +476,10 @@ Above example compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10 on a Intel(
 #include <string_view>
 #include <charconv>
 
-#include "tiny_string.hpp"
-#include "type_traits.hpp"
+#include "../tiny_string.hpp"
+#include "../type_traits.hpp"
 #include "charconv.hpp"
-#include "utils.hpp" // for iterator_range
+#include "../internal/utils.hpp" // for iterator_range
 
 #undef min
 #undef max
@@ -496,6 +496,36 @@ namespace seq
 	// forward declaration
 	template<class T, bool Slot>
 	class ostream_format;
+	
+	
+	/// @brief Iterator range class, provides a valid range object from a start and end iterator.
+	template<class Iter>
+	class iterator_range
+	{
+		Iter d_begin;
+		Iter d_end;
+
+	public:
+		using iterator = Iter;
+		using value_type = typename std::iterator_traits<Iter>::value_type;
+		using reference = typename std::iterator_traits<Iter>::reference;
+		using pointer = typename std::iterator_traits<Iter>::pointer;
+		using difference_type = typename std::iterator_traits<Iter>::difference_type;
+		using size_type = difference_type;
+
+		iterator_range(const Iter& b = Iter(), const Iter& e = Iter())
+		  : d_begin(b)
+		  , d_end(e)
+		{
+		}
+		iterator_range(const iterator_range&) = default;
+		iterator_range(iterator_range&&) noexcept = default;
+		iterator_range& operator=(const iterator_range&) = default;
+		iterator_range& operator=(iterator_range&&) = default;
+
+		Iter begin() const { return d_begin; }
+		Iter end() const { return d_end; }
+	};
 
 	namespace detail
 	{

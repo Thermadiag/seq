@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,10 +26,10 @@
 #define SEQ_RADIX_TREE_HPP
 
 #include "../bits.hpp"
-#include "../tagged_pointer.hpp"
 #include "../hash.hpp"
 #include "../flat_map.hpp"
 #include "../type_traits.hpp"
+#include "tagged_pointer.hpp"
 #include "simd.hpp"
 
 namespace seq
@@ -327,6 +327,62 @@ namespace seq
 			SEQ_ALWAYS_INLINE bool equal(const U& l, const V& r) const noexcept
 			{
 				return static_cast<T>(l) == static_cast<T>(r);
+			}
+		};
+
+		/// @brief Hash class for time_point
+		template<class Clock, class Duration>
+		struct RadixHasher<std::chrono::time_point<Clock, Duration>> : RadixHasher<decltype(std::chrono::time_point<Clock, Duration>{}.time_since_epoch().count())>
+		{
+			using time_point_type = std::chrono::time_point<Clock, Duration>;
+			using integral_type = decltype(time_point_type{}.time_since_epoch().count());
+
+			SEQ_ALWAYS_INLINE RadixHasher(integral_type v = 0) noexcept
+			  : RadixHasher<integral_type>{ to_uint(v) }
+			{
+			}
+			template<class U>
+			SEQ_ALWAYS_INLINE auto hash(U k) const noexcept
+			{
+				return RadixHasher<time_point_type>{ static_cast<time_point_type>(k).time_since_epoch().count() };
+			}
+			template<class U, class V>
+			static SEQ_ALWAYS_INLINE bool less(const U& l, const V& r) noexcept
+			{
+				return static_cast<time_point_type>(l) < static_cast<time_point_type>(r);
+			}
+			template<class U, class V>
+			SEQ_ALWAYS_INLINE bool equal(const U& l, const V& r) const noexcept
+			{
+				return static_cast<time_point_type>(l) == static_cast<time_point_type>(r);
+			}
+		};
+
+		/// @brief Hash class for duration
+		template<class Rep, class Ratio>
+		struct RadixHasher<std::chrono::duration<Rep, Ratio>> : RadixHasher<Rep>
+		{
+			using duration_type = std::chrono::duration<Rep, Ratio>;
+			using integral_type = Rep;
+
+			SEQ_ALWAYS_INLINE RadixHasher(integral_type v = 0) noexcept
+			  : RadixHasher<integral_type>{ to_uint(v) }
+			{
+			}
+			template<class U>
+			SEQ_ALWAYS_INLINE auto hash(U k) const noexcept
+			{
+				return RadixHasher<duration_type>{ std::chrono::duration_cast<duration_type>(k).count() };
+			}
+			template<class U, class V>
+			static SEQ_ALWAYS_INLINE bool less(const U& l, const V& r) noexcept
+			{
+				return std::chrono::duration_cast<duration_type>(l) < std::chrono::duration_cast<duration_type>(r);
+			}
+			template<class U, class V>
+			SEQ_ALWAYS_INLINE bool equal(const U& l, const V& r) const noexcept
+			{
+				return std::chrono::duration_cast<duration_type>(l) == std::chrono::duration_cast<duration_type>(r);
 			}
 		};
 
@@ -1914,7 +1970,7 @@ namespace seq
 			{
 				if (std::addressof(other) != this) {
 					clear();
-					assign_allocator<Allocator>(*this, other);
+					assign_allocator<Allocator>(get_allocator(), other.get_allocator());
 					insert(other.begin(), other.end(), false);
 				}
 				return *this;
@@ -3231,6 +3287,8 @@ namespace seq
 								  less ? d->parent : d, less ? d->parent_pos + 1 : 0, less ? bit_pos - d->parent->hash_len : bit_pos + d->prefix_len);
 
 								// Note: could be end() iterator
+								if (!tmp.dir)
+									return end();
 								return const_iterator(tmp.dir, tmp.child, 0, tmp.bit_pos);
 							}
 							else
@@ -3246,6 +3304,8 @@ namespace seq
 					auto tmp = const_iterator::find_next(d, pos + 1, bit_pos);
 
 					// Note: could be end() iterator
+					if (!tmp.dir)
+						return end();
 					return const_iterator(tmp.dir, tmp.child, 0, tmp.bit_pos);
 				}
 
@@ -3280,13 +3340,21 @@ namespace seq
 				return upper_bound_hash(hash_key(k), k);
 			}
 
+			template<class K>
+			bool key_equals(const key_type& prefix, const K& other) const noexcept
+			{
+				if (other.size() < prefix.size())
+					return false;
+				return memcmp(prefix.data(), other.data(), prefix.size()) == 0;
+			}
+
 			/// @brief Find key based on its hash value
 			SEQ_ALWAYS_INLINE const_iterator prefix_hash(const_hash_ref hash, const key_type& key) const
 			{
 				static_assert(prefix_search, "prefix function is only available for variable length keys!");
 
 				auto it = lower_bound_hash(hash, key);
-				if (it != end() && ExtractKey{}(*it).find(key.data(), 0, key.size()) == 0)
+				if (it != end() && key_equals(key, ExtractKey{}(*it)))
 					return it;
 				return end();
 			}
@@ -3296,52 +3364,16 @@ namespace seq
 				return prefix_hash(hash_key(k), k);
 			}
 
-			class const_prefix_iterator
-			{
-				const_iterator it;
-				key_type prefix;
-
-			public:
-				using iterator_category = std::forward_iterator_tag;
-				using value_type = T;
-				using difference_type = std::ptrdiff_t;
-				using const_pointer = const value_type*;
-				using const_reference = const value_type&;
-				using pointer = value_type*;
-				using reference = value_type&;
-
-				SEQ_ALWAYS_INLINE const_prefix_iterator(const const_iterator& i = const_iterator(), const key_type& pr = key_type()) noexcept
-				  : it(i)
-				  , prefix(pr)
-				{
-				}
-				const_prefix_iterator(const const_prefix_iterator&) = default;
-				const_prefix_iterator& operator=(const const_prefix_iterator&) = default;
-
-				SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return *it; }
-				SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-				SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_prefix_iterator&
-				{
-					++it;
-					if (it != const_iterator(it.data) && ExtractKey{}(*it).find(prefix.data(), 0, prefix.size()) != 0)
-						it = const_iterator(it.data); // end
-					return *this;
-				}
-				SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_prefix_iterator
-				{
-					const_prefix_iterator _Tmp = *this;
-					++(*this);
-					return _Tmp;
-				}
-				SEQ_ALWAYS_INLINE bool operator==(const const_prefix_iterator& other) const noexcept { return it == other.it; }
-				SEQ_ALWAYS_INLINE bool operator!=(const const_prefix_iterator& other) const noexcept { return it != other.it; }
-			};
-
-			template<class U>
-			SEQ_ALWAYS_INLINE auto prefix_range(const U& k) const -> std::pair<const_prefix_iterator, const_prefix_iterator>
+			SEQ_ALWAYS_INLINE auto prefix_range(const key_type& k) const -> std::pair<const_iterator, const_iterator>
 			{
 				auto it = prefix(k);
-				return std::make_pair(const_prefix_iterator(it, extract_key_type{}(k)), const_prefix_iterator(end()));
+				auto prefix_end = it;
+				while (prefix_end != end()) {
+					++prefix_end;
+					if (prefix_end != end() && !key_equals(k, ExtractKey{}(*prefix_end)))
+						break; 
+				}
+				return {it, prefix_end};
 			}
 		};
 	}

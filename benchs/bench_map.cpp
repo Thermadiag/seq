@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,7 @@
 
 #include <seq/flat_map.hpp>
 #include <seq/radix_map.hpp>
-#include <seq/format.hpp>
-#include <seq/testing.hpp>
+#include <seq/legacy/format.hpp>
 #include <seq/any.hpp>
 #include "gtl/btree.hpp"
 
@@ -36,6 +35,9 @@
 #include <iostream>
 #include <map>
 #include <algorithm>
+#include <random>
+
+#include "testing.hpp"
 
 using namespace seq;
 
@@ -357,7 +359,7 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 	std::sort(vec.begin(), vec.end(), less);
 	auto it = std::unique(vec.begin(), vec.end(), equal);
 	vec.resize(it - vec.begin());
-	seq::random_shuffle(vec.begin(), vec.end(), 1);
+	std::shuffle(vec.begin(), vec.end(), std::mt19937(1));
 	// std::reverse(vec.begin(), vec.end());
 
 	std::cout << "vector size: " << vec.size() << std::endl;

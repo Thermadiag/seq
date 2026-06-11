@@ -9,8 +9,6 @@ enable_testing()
 create_test_sourcelist (Tests
   seq_tests.cpp
   test_any.cpp
-  test_charconv.cpp
-  test_format.cpp
   test_devector.cpp
   test_flat_map.cpp
   test_ordered_map.cpp

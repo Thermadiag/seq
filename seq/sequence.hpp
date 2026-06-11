@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,8 +31,8 @@
 #include <vector>
 
 #include "type_traits.hpp"
-#include "utils.hpp"
-#include "algorithm.hpp"
+#include "internal/utils.hpp"
+#include "net_sort.hpp"
 
 namespace seq
 {
@@ -122,18 +122,18 @@ namespace seq
 		// Standard list_chunk allocator for OptimizeForMemory
 		// Keep track of the list_chunk number for fast memory footprint
 		template<class T, class Allocator = std::allocator<T>, bool Align64 = false>
-		struct std_alloc : private Allocator
+		struct ChunkAlloc : private Allocator
 		{
 			template<class U>
 			using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 
 			size_t chunks = 0;
-			std_alloc(const Allocator& alloc) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
+			ChunkAlloc(const Allocator& alloc) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 			  : Allocator(alloc)
 			  , chunks(0)
 			{
 			}
-			std_alloc(size_t /*unused*/, const Allocator& alloc) noexcept
+			ChunkAlloc(size_t /*unused*/, const Allocator& alloc) noexcept
 			  : Allocator(alloc)
 			  , chunks(0)
 			{
@@ -754,7 +754,7 @@ namespace seq
 		template<class U>
 		using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 		using chunk_type = detail::list_chunk<T>;
-		using layout_manager = detail::std_alloc<T, Allocator, ForceAlign64>;
+		using layout_manager = detail::ChunkAlloc<T, Allocator, ForceAlign64>;
 		static constexpr std::uint64_t count = detail::list_chunk<T>::count;
 		static constexpr std::uint64_t count1 = detail::list_chunk<T>::count - 1;
 		static constexpr std::uint64_t count_bits = detail::list_chunk<T>::count_bits;
@@ -1340,19 +1340,12 @@ namespace seq
 		// Sequence object internal data
 		Data* d_data;
 
-		auto make_data(const Allocator& al) -> Data*
-		{
-			rebind_alloc<Data> a = al;
-			Data* d = a.allocate(1);
-			construct_ptr(d, al);
-			return d;
-		}
+		auto make_data(const Allocator& al) -> Data* { return new (allocate_from<Data>(al)) Data(al); }
 		void destroy_data(Data* d)
 		{
 			if (d) {
-				rebind_alloc<Data> a = get_allocator();
-				destroy_ptr(d);
-				a.deallocate(d, 1);
+				d->~Data();
+				deallocate_from(get_allocator(), d);
 			}
 		}
 
@@ -2173,9 +2166,8 @@ namespace seq
 			return res;
 		}
 
-		/// @brief Sort the sequence.
+		/// @brief Sort the sequence inplace and in a stable way.
 		/// The sequence is sorted using the std::less<value_type> comparator.
-		/// sort() relies on the <a href="https://github.com/orlp/pdqsort">pdqsort</a> implementation from Orson Peters, and should be as fast as sorting a std::deque.
 		/// This invalidates all iterators and references.
 		void sort() { sort(std::less<T>()); }
 

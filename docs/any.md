@@ -211,7 +211,7 @@ assert(set.find(2.5) != set.end());					// use heterogeneous lookup
 assert(set.find("hello")  != set.end());			// use heterogeneous lookup 
 assert(set.find(tstring("world")) != set.end());	// use heterogeneous lookup 
 assert(set.find(tstring_view("ok")) != set.end()) ;	// use heterogeneous lookup 
-assert(set.find("ok") == set.end()) ;				// "ok" not found has we compare 2 const char* -> pointer comparison, not string comparison
+assert(set.find("ok") != set.end()) ;				// we compare const char* with any containing const char* -> string comparison
 assert(set.find("no") == set.end());				// failed lookup
 
 ```
@@ -227,7 +227,6 @@ Two `hold_any` are considered equal if:
 -	They hold the same type and both underlying objects compare equals. If the type does not provide a comparison operator, the operator==() always return false.
 -	They both hold an arithmetic value of possibly different types, and these values compare equals.
 -	They both hold a string like object (std::string, seq::tstring, seq::tstring_view, std::string_view, char*, const char*) that compare equals.
-	Note that a const char* can be compared to another string object (like std::string) using string comparison, but comparing two const char* will result in a pointer comparison!
 
 It is possible to register a comparison function for unrelated types using `seq::register_any_equal_comparison()` function.
 
