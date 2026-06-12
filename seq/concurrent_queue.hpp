@@ -255,11 +255,10 @@ namespace seq
 					if (!(first->cnt.load(std::memory_order_relaxed) & idx_bits))
 						continue;
 
-					// Mark as poped
-					auto poped = first->pop.fetch_or(idx_bits) | idx_bits;
-
 					// Retrieve/destroy value
 					fun(first->ptr()[idx]);
+					// Mark as poped
+					auto poped = first->pop.fetch_or(idx_bits) | idx_bits;
 
 					if (poped == mask_full)
 						// Destroy bucket if all values were removed
@@ -269,7 +268,7 @@ namespace seq
 				}
 			}
 
-			SEQ_ALWAYS_INLINE void push_internal(uint64_t pos, T && val) noexcept
+			SEQ_ALWAYS_INLINE void push_internal(uint64_t pos, T&& val) noexcept
 			{
 				auto idx = pos & (count - 1);
 				auto head_start = pos / count;
@@ -308,6 +307,11 @@ namespace seq
 			{
 				// Remove entries
 				clear();
+
+				// Remove current bucket
+				auto* start = d_end.next.load(std::memory_order_relaxed);
+				if (start != end_bucket())
+					free_bucket(start);
 
 				// Free pending buckets
 				shrink_to_fit();
@@ -388,12 +392,8 @@ namespace seq
 			SEQ_ALWAYS_INLINE bool pop(T& val) noexcept
 			{
 				auto f = [&](T& v) {
-					if constexpr (is_relocatable_v<T> && !std::is_trivial_v<T>)
-						memcpy((void*)&val, &v, sizeof(T));
-					else {
-						val = std::move(v);
-						destroy(&v);
-					}
+					val = std::move(v);
+					destroy(&v);
 				};
 				return pop_internal(f);
 			}
@@ -549,24 +549,23 @@ namespace seq
 
 	}
 
-
 	/// @brief Thread-safe FIFO container.
 	/// @tparam T Value type
 	/// @tparam Allocator Allocator type
-	/// 
+	///
 	/// seq::concurrent_queue is a thread-safe unbounded queue (or FIFO)
 	/// aiming at better performances than using std::queue + std::mutex.
 	/// It is designed for Multi-Producer, Multi-Consumer (MPMC) scenarios.
-	/// 
+	///
 	/// seq::concurrent_queue is not lock-free nor wait-free, but combines
-	/// atomic-based operations with locks to provide a certain level of 
-	/// concurrency. In all tested scenarios, concurrent_queue is faster 
-	/// than a regular std::queue with std::mutex, with a gain of up to 
+	/// atomic-based operations with locks to provide a certain level of
+	/// concurrency. In all tested scenarios, concurrent_queue is faster
+	/// than a regular std::queue with std::mutex, with a gain of up to
 	/// a factor 2 in some situations.
-	/// 
+	///
 	/// In addition, concurrent_queue provides unsafe but usefull features
 	/// like iteration.
-	/// 
+	///
 	template<class T, class Allocator = std::allocator<T>>
 	class concurrent_queue : private Allocator
 	{
@@ -603,7 +602,7 @@ namespace seq
 		}
 
 		/// @brief Move constructor
-		/// It is safe to call this while other is still being used. 
+		/// It is safe to call this while other is still being used.
 		concurrent_queue(concurrent_queue&& other) noexcept(std::is_nothrow_move_constructible_v<Allocator>)
 		  : Allocator(std::move(static_cast<Allocator&>(other)))
 		{
@@ -691,9 +690,6 @@ namespace seq
 		}
 		/// @brief Returns true if the queue is empty.
 		SEQ_ALWAYS_INLINE bool empty() const noexcept { return size() == 0; }
-
-
-
 
 		// Unsafe API
 
