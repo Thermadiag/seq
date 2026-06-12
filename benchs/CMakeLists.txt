@@ -9,6 +9,7 @@ create_test_sourcelist (Benchs
   bench_hash.cpp
   bench_concurrent_hash.cpp
   bench_map.cpp
+  bench_map_csv.cpp
   bench_sequence.cpp
   bench_tiered_vector.cpp
   bench_tiny_string.cpp
