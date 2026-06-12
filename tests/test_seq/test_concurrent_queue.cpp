@@ -73,12 +73,14 @@ static void test_queue(const std::vector<T>& vals, const Al& al)
 		queue_type q(al);
 		for (auto& v : vals)
 			q.push(v);
-		SEQ_TEST(std::distance(q.begin(), q.end()) == vals.size());
-		SEQ_TEST(std::distance(q.cbegin(), q.cend()) == vals.size());
-		SEQ_TEST(std::distance(q.rbegin(), q.rend()) == vals.size());
-		SEQ_TEST(std::distance(q.crbegin(), q.crend()) == vals.size());
-		for (auto& v : vals)
+		SEQ_TEST((size_t)std::distance(q.begin(), q.end()) == vals.size());
+		SEQ_TEST((size_t)std::distance(q.cbegin(), q.cend()) == vals.size());
+		SEQ_TEST((size_t)std::distance(q.rbegin(), q.rend()) == vals.size());
+		SEQ_TEST((size_t)std::distance(q.crbegin(), q.crend()) == vals.size());
+		for (auto& v: vals){
+			(void)v; 
 			q.pop();
+		}	
 		test_empty_queue(q);
 		for (auto& v : vals)
 			q.emplace(v);
