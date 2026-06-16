@@ -227,10 +227,10 @@ void pop_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, saf
 			if ((++r & 31) == 0)
 				if SEQ_UNLIKELY(cnt.value() >= max_pop)
 					stop.store(true);
-			//	printf("pop %i\n", (int)cnt.value());
 		}
-		//else
-		//	std::this_thread::yield();
+		else
+			// Give time for additional push
+			std::this_thread::yield();
 	}
 }
 
@@ -266,7 +266,7 @@ Ret test_queue(Queue& q, int threads)
 	//	push(q, T{});
 
 	start_push.store(true);
-	//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	start_pop.store(true);
 
 	/* auto st = msecs();
@@ -280,9 +280,9 @@ Ret test_queue(Queue& q, int threads)
 		all_threads[i].second.join();
 	}
 
-	T v;
-	while(pop(q,v))
-		;
+	//T v;
+	//while(pop(q,v))
+	//	;
 	auto el = msecs() - st;
 
 	return { push_cnt.value(), pop_cnt.value() ,el};
