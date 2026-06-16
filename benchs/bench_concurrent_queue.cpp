@@ -25,7 +25,7 @@ struct queue
 {
 	using lock_type = std::mutex;
 	lock_type lock;
-	seq::sequence<T> deq;
+	std::deque<T> deq;
 
 public:
 	using value_type = T;
@@ -57,34 +57,38 @@ public:
 };
 
 template<class Queue, class... Args>
-void push(Queue& q, Args&&... t)
+bool push(Queue& q, Args&&... t)
 {
 	q.emplace(std::forward<Args>(t)...);
+	return true;
 }
 template<class T, class... Args>
-void push(moodycamel::ConcurrentQueue<T>& q, Args&&... t)
+bool push(moodycamel::ConcurrentQueue<T>& q, Args&&... t)
 {
 	q.enqueue(std::forward<Args>(t)...);
+	return true;
 }
 
 #if BOOST_FOUND
 template<class T, class... Args>
-void push(boost_queue<T>& q, Args&&... t)
+bool push(boost_queue<T>& q, Args&&... t)
 {
-	SEQ_TEST(q.push(T{std::forward<Args>(t)...} ));
+	return (q.push(T{std::forward<Args>(t)...} ));
 }
 #endif
 
 
 template<class T, class... Args>
-void push(Queue<T>& q, Args&&... t)
+bool push(Queue<T>& q, Args&&... t)
 {
 	q.emplace(std::forward<Args>(t)...);
+	return true;
 }
 template<class T, class... Args>
-void push(concurrent_set<T>& q, Args&&... t)
+bool push(concurrent_set<T>& q, Args&&... t)
 {
 	q.emplace(std::forward<Args>(t)...);
+	return true;
 }
 
 template<class Queue, class T>
@@ -198,11 +202,16 @@ void push_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, sa
 	T val = 0;
 	size_t r = 0;
 	while (!stop) {
-		push(q, val++);
-		if ((++r & 31) == 0)
-			cnt.add(32);
+		if(push(q, val++))
+			if ((++r & 31) == 0)
+				cnt.add(32);
 	}
 }
+
+
+static constexpr size_t max_pop = 3000000;
+
+
 template<class T, class Queue>
 void pop_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, safe_counter<size_t>& cnt)
 {
@@ -214,10 +223,12 @@ void pop_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, saf
 		if (pop(q, val)) {
 			cnt.add();
 			if ((++r & 31) == 0)
-				if SEQ_UNLIKELY(cnt.value() > 3000000)
+				if SEQ_UNLIKELY(cnt.value() >= max_pop)
 					stop.store(true);
 			//	printf("pop %i\n", (int)cnt.value());
 		}
+		else
+			std::this_thread::yield();
 	}
 }
 
@@ -244,6 +255,8 @@ Ret test_queue(Queue& q, int threads)
 		all_threads[(size_t)i].second = std::thread([&]() { pop_thread<T>(q, start_pop, stop, pop_cnt); });
 	}
 
+	
+
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 	// for (int i = 0; i < 10000; ++i)
@@ -267,11 +280,18 @@ Ret test_queue(Queue& q, int threads)
 
 	return { push_cnt.value(), pop_cnt.value() ,el};
 }
-template<class Queue, class T>
+template<class QueueType, class T>
 void test_queue_name(const char* name, int threads = 1)
 {
-	Queue q;
-	auto p = test_queue<T>(q, threads);
+	Ret p;
+	if constexpr (std::is_same_v<Queue<int>,QueueType>){
+		QueueType q(max_pop * 10);
+		p = test_queue<T>(q, threads);
+	} 
+	else{ 
+		QueueType q;
+		p = test_queue<T>(q, threads);
+	}	
 
 	std::cout << name << ": " << p.push_cnt << " " << p.pop_cnt << " " << p.elapsed_ms << std::endl;
 }
@@ -285,12 +305,16 @@ int bench_concurrent_queue(int, char** const)
 	int threads = 8;
 	int count = 1000000;
 
-	test_queue_name<queue<int>, int>("queue", threads);
-	test_queue_name<seq::concurrent_queue<int>, int>("concurrent_queue", threads);
-	test_queue_name<moodycamel::ConcurrentQueue<int>, int>("moodycamel", threads);
+	for(int th = 1; th <= threads; ++th){ 
+		std::cout << th << "Threads" << std::endl;
+		test_queue_name<queue<int>, int>("queue", threads);
+		test_queue_name<seq::concurrent_queue<int>, int>("concurrent_queue", threads);
+		test_queue_name<Queue<int>, int>("rigtorp", threads);
+		test_queue_name<moodycamel::ConcurrentQueue<int>, int>("moodycamel", threads);
 #if BOOST_FOUND
-	test_queue_name<boost_queue<int>, int>("boost::lockfree::queue", threads);
+		test_queue_name<boost_queue<int>, int>("boost::lockfree::queue", threads);
 #endif
+	}
 
 	struct Test
 	{
