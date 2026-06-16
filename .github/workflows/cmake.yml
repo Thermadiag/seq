@@ -2,7 +2,7 @@ name: build
 on: 
 
   push:
-    branches: [ "main" ]
+    branches: [ "main", "radix" ]
   pull_request:
     branches: [ "main",  "releases/**" ]
   workflow_dispatch:
