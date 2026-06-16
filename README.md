@@ -4,7 +4,7 @@
 [![CTest](https://github.com/Thermadiag/seq/actions/workflows/build-macos.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/build-macos.yml)
 [![CTest](https://github.com/Thermadiag/seq/actions/workflows/build-windows.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/build-windows.yml)
 
-For what it's worth, this library and its documentation were generated without the help of AI.
+For what it's worth, this library and its documentation were created without the help of AI.
 
 Transitioning to v2.1
 ---------------------
@@ -43,7 +43,8 @@ Currently, the *containers* module provide 5 types of containers:
 	-	[seq::concurrent_map](docs/concurrent_map.md) and `seq::concurrent_set`: higly scalable concurrent hash tables with interfaces similar to `boost::concurrent_flat_set/map`.
 -	Strings:
 	-	[seq::tiny_string](docs/tiny_string.md): relocatable string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
-
+-	Other:
+	-	[seq::concurrent_queue](docs/concurrent_queue.md): fast thread-safe queue designed for Multi-Producer Multi-Consumer (MPMC) scenarios.
 
 Content
 -------
@@ -86,8 +87,8 @@ Currently, the following options are provided:
 Benchmarks
 ----------
 
-Currently 2 types of benchmarks are provided. One is dedicated to concurrent hash tables and is available [here](docs/concurrent_map.md). Its goal is to compare `seq/concurrent_set/map` to other implementations.
-Another one is dedicated to sorted containers and is available [here](docs/sorted_benchmark.md). Its goal is to compare `seq/flat_set/map` and `seq/radix_set/map` to other implementations.
+Currently 2 types of benchmarks are provided. One is dedicated to concurrent hash tables and is available [here](docs/concurrent_map.md). Its goal is to compare `seq::concurrent_set/map` to other implementations.
+Another one is dedicated to sorted containers and is available [here](docs/sorted_benchmark.md). Its goal is to compare `seq::flat_set/map` and `seq::radix_set/map` to other implementations.
 
 Acknowledgements
 ----------------

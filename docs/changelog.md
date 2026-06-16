@@ -14,10 +14,10 @@ Additional changes:
 -	The `seq::net_sort` algorithm has been slightly optimized/refactored and moved to *net_sort.hpp* header.
 -	The `radix_set/map` lower_bound() method has been corrected (compilation error).
 -	`radix_set/map` now supports std::chrono::time_point and std::chrono::duration as key.
--	`radix_set/map` no longer have typedef `prefix_iterator` and `prefix_const_iterator`. Instead, member prefix_range() noew returns a std::pair of regular iterators. 
+-	`radix_set/map` no longer have typedef `prefix_iterator` and `prefix_const_iterator`. Instead, member prefix_range() now returns a std::pair of regular iterators. 
 -	All radix-based containers (`seq::radix_set/map`, `seq::radix_hash_set/map`) have been internally simplified.
--	The `seq::hold_any` class has been refactored and simplified. A `seq::hold_any` containing a char* or const char* is now considered holding a string. Comparison a `seq::hold_any` ontaining a char* or const char* results in string comparison.
--	New container: `seq::concurrent_queue`.
+-	The `seq::hold_any` class has been refactored and simplified. A `seq::hold_any` containing a char* or const char* is now considered holding a string. Comparison of `seq::hold_any` containing a `char*` or `const char*` results in string comparison.
+-	New container: [`seq::concurrent_queue`](concurrent_queue.md).
 
 
 
