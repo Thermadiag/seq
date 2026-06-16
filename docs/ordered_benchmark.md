@@ -22,7 +22,7 @@ The following graphs show the average insertion time (one by one) in nanoseconds
 -	random short ascii `seq::tstring` of 15 characters (using Small String Optimization),
 -	random long ascii string of 64 characters (each requiring an allocation).
 
-[Insert](images/map_insert.svg)
+![Insert](images/map_insert.svg)
 
 A few things can be said:
 -	`seq::radix_set` is always the fastest. Its insertion complexity is always in-between O(1) for random input, up to O(sqrt(N)) for adverserial input (similar to `seq::flat_set`) and unlike most radix trees that perform in O(k) (k is the input length).
@@ -36,7 +36,7 @@ The following graphs show the average successfull lookup time in nanoseconds bas
 -	random short ascii `seq::tstring` of 15 characters (using Small String Optimization),
 -	random long ascii string of 64 characters (each requiring an allocation).
 
-[Lookup](images/map_lookup.svg)
+![Lookup](images/map_lookup.svg)
 
 Results here are slightly different than for the insertion benchmark, and we clearly see the O(log(N)) asymptotic complexity for most containers. Some remarks:
 -	For random input of fixed length size (which is the case here as the strings are bounded), `seq::radix_set` has a complexity of O(1) as almost each input creates a unique lookup path. In fact, for truely random integers, `seq::radix_set` behaves almost exactly like a hash table. Its worst complexity (with adverserial input) is always O(log(N)) as it degenerate to a flat map with an additional constant time.
