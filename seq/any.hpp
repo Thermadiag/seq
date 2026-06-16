@@ -348,8 +348,12 @@ namespace seq
 						throw std::bad_cast();
 				} 	
 #else
-				std::istringstream iss(std::string(in));
-				if(!(iss >> res))
+				std::istringstream iss{std::string(in)};
+				if constexpr (is_istreamable<T>::value){ 
+					if(!(iss >> res))
+						throw std::bad_cast();
+				}
+				else	
 					throw std::bad_cast();
 #endif
 
