@@ -9,7 +9,8 @@
 using namespace rigtorp::mpmc;
 #if BOOST_FOUND
 #include <boost/lockfree/queue.hpp>
-
+template<class T>
+using boost_queue = boost::lockfree::queue<T>;
 #endif
 
 
@@ -17,8 +18,7 @@ using namespace rigtorp::mpmc;
 template<class T>
 using concurrent_set = seq::concurrent_set<T, seq::hasher<T>, std::equal_to<>, std::allocator<T>, seq::low_concurrency>;
 
-template<class T>
-using boost_queue = boost::lockfree::queue<T>;
+
 
 template<class T>
 struct queue
