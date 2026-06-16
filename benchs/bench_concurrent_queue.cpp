@@ -1,6 +1,8 @@
 #include "testing.hpp"
 #include <seq/concurrent_queue.hpp>
 #include <deque>
+#include <fstream>
+
 #include "concurrentqueue.h"
 #include "MPMCQueue.h"
 #include <seq/sequence.hpp>
@@ -242,6 +244,7 @@ struct Ret
 	uint64_t push_cnt = 0;
 	uint64_t pop_cnt = 0;
 	uint64_t elapsed_ms = 0;
+	std::string name;
 };
 
 template<class T, class Queue>
@@ -281,7 +284,7 @@ Ret test_queue(Queue& q, int threads)
 	return { push_cnt.value(), pop_cnt.value() ,el};
 }
 template<class QueueType, class T>
-void test_queue_name(const char* name, int threads = 1)
+Ret test_queue_name(const char* name, int threads = 1)
 {
 	Ret p;
 	if constexpr (std::is_same_v<Queue<int>,QueueType>){
@@ -292,29 +295,59 @@ void test_queue_name(const char* name, int threads = 1)
 		QueueType q;
 		p = test_queue<T>(q, threads);
 	}	
-
+	p.name = name;
 	std::cout << name << ": " << p.push_cnt << " " << p.pop_cnt << " " << p.elapsed_ms << std::endl;
+	return p;
 }
 
-#include <seq/net_sort.hpp>
+
+bool to_csv(const std::vector < std::vector<Ret>>& res, const char* filename)
+{
+	std::ofstream fout(filename);
+	if (!fout)
+		return false;
+	fout << "\"sep=\t\"" << std::endl;
+	
+    fout << "Threads\t";
+	for (size_t i = 0; i < res[1].size(); ++i) {
+		fout << res[1][i].name <<"\t";
+	}	  
+	fout << std::endl;
+
+	for(size_t i = 1; i < res.size(); ++i){
+		fout << i <<"\t";
+		auto & vec = res[i]; 
+		for (size_t j = 0; j < vec.size(); ++j) 
+			fout << vec[j].elapsed_ms  <<"\t";
+		fout << std::endl;
+
+	}	
+	fout << std::endl;
+
+	return true;
+}
+
+
 
 int bench_concurrent_queue(int, char** const)
 {
 	// These benchmarks are not well formalized!
 
-	int threads = 8;
+	int threads = 32;
 	int count = 1000000;
 
+	std::vector<std::vector<Ret>> rets(threads+1);
 	for(int th = 1; th <= threads; ++th){ 
-		std::cout << th << "Threads" << std::endl;
-		test_queue_name<queue<int>, int>("queue", threads);
-		test_queue_name<seq::concurrent_queue<int>, int>("concurrent_queue", threads);
-		test_queue_name<Queue<int>, int>("rigtorp", threads);
-		test_queue_name<moodycamel::ConcurrentQueue<int>, int>("moodycamel", threads);
+		std::cout << th << " threads" << std::endl;
+		rets[(size_t)th].push_back( test_queue_name<queue<int>, int>("std::deque", threads));
+		rets[(size_t)th].push_back( test_queue_name<seq::concurrent_queue<int>, int>("seq::concurrent_queue", threads));
+		rets[(size_t)th].push_back( test_queue_name<rigtorp::mpmc::Queue<int>, int>("rigtorp::mpmc::Queue", threads));
+		rets[(size_t)th].push_back( test_queue_name<moodycamel::ConcurrentQueue<int>, int>("moodycamel::ConcurrentQueue", threads));
 #if BOOST_FOUND
-		test_queue_name<boost_queue<int>, int>("boost::lockfree::queue", threads);
+		rets[(size_t)th].push_back( test_queue_name<boost_queue<int>, int>("boost::lockfree::queue", threads));
 #endif
 	}
+	to_csv(rets,"bench_concurrent_queue.csv");
 
 	struct Test
 	{
