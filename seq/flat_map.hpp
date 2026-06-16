@@ -895,7 +895,7 @@ namespace seq
 			template<class C2, bool Unique2>
 			void merge(flat_tree<Key, Key, C2, Allocator, Unique2>& source)
 			{
-				if (Unique) {
+				if constexpr (Unique) {
 					container_type out;
 					typename flat_tree<Key, Key, C2, Allocator, Unique2>::container_type rem;
 					detail::unique_merge_move(out, begin(), end(), source.begin(), source.end(), base(), &rem);

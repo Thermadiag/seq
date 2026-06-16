@@ -133,7 +133,7 @@ namespace seq
 				// and using CAS + yield is way more effective than fetch_add().
 
 				// An early stop condition can be provided.
-
+				
 				auto val = a.load(std::memory_order_relaxed);
 				uint8_t cnt = 0;
 				for (;;) {
@@ -145,9 +145,10 @@ namespace seq
 					if (a.compare_exchange_strong(val, val + 1))
 						return val;
 
-					cnt = ((cnt + 1) & 31);
-					for (uint8_t i = 0; i < cnt + 1; ++i)
+					
+					for (uint8_t i = 0; i < cnt +1; ++i)
 						std::this_thread::yield();
+					cnt = ((cnt + 1) & 31);
 				}
 			}
 
@@ -162,10 +163,8 @@ namespace seq
 			{
 				// Remove and return bucket from the free list.
 				auto* b = d_free.load(std::memory_order_relaxed);
-				while (b) {
-					if (d_free.compare_exchange_strong(b, b->next.load(std::memory_order_relaxed)))
-						break;
-				}
+				while (b && !d_free.compare_exchange_strong(b, b->next.load(std::memory_order_relaxed)))
+					;
 				if (b)
 					d_free_count.fetch_sub(count);
 				return b;
@@ -205,12 +204,14 @@ namespace seq
 
 			void remove_bucket(Bucket* first) noexcept
 			{
-				std::scoped_lock<lock_type> ll(d_free_lock);
+				{
+					std::scoped_lock<lock_type> ll(d_free_lock);
 
-				// Remove from list and bucket to the free list
-				auto next = first->next.load(std::memory_order_relaxed);
-				end_bucket()->next.store(next, std::memory_order_release);
-				next->prev.store(end_bucket(), std::memory_order_release);
+					// Remove from list and bucket to the free list
+					auto next = first->next.load(std::memory_order_relaxed);
+					end_bucket()->next.store(next, std::memory_order_release);
+					next->prev.store(end_bucket(), std::memory_order_release);
+				}
 				free_bucket(first);
 			}
 

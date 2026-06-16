@@ -4,7 +4,7 @@
 #include <seq/legacy/format.hpp>
 #include <seq/any.hpp>
 #include <seq/timer.hpp>
-
+#include <seq/algorithm.hpp>
 #include "gtl/btree.hpp"
 
 #ifdef BOOST_FOUND
@@ -148,8 +148,9 @@ measure_type bench_find_failed(Set& s, const std::vector<T>& vec, const std::vec
 			t.tick();
 
 			// perform look up of all inserted values
-			for (const auto& v : failed)
+			for (const auto& v : failed) {
 				SEQ_TEST(s.count(v) == 0);
+			}
 
 			auto el = t.tock();
 			elapsed.push_back({ i, el / failed.size() });
@@ -218,7 +219,6 @@ SetResults bench_set(const char *name, const std::vector<T>& keys, const std::ve
 		Set s;
 		r.insert = bench_insert(s, keys);
 	}
-	// return;
 	{
 		Set s;
 		r.erase = bench_erase(s, keys);
@@ -234,10 +234,12 @@ SetResults bench_set(const char *name, const std::vector<T>& keys, const std::ve
 	return r;
 }
 
+
+
 int bench_map_csv(int, char** const)
 {
 
-	{
+	/* {
 		std::vector<size_t> keys(1024*1024 + 5000);
 		for (size_t i = 0; i < keys.size(); ++i)
 			keys[i] = i;
@@ -257,7 +259,32 @@ int bench_map_csv(int, char** const)
 		res.push_back(  bench_set<gtl::btree_set<size_t>>("gtl::btree_set", keys, failed));
 		res.push_back(  bench_set<std::set<size_t>>("std::set" ,keys, failed));
 
-		to_csv(res, "bench_map_csv.csv");
+		to_csv(res, "bench_map_size_t.csv");
+	}*/
+
+	{
+		std::vector<tstring> keys(1024 * 1024 * 4 + 5000);
+		for (size_t i = 0; i < keys.size(); ++i)
+			keys[i] = generate_random_string<tstring>(63,true);
+		auto it = seq::unique(keys.begin(), keys.end());
+		keys.resize(it - keys.begin());
+
+		std::shuffle(keys.begin(), keys.end(), std::random_device{});
+		std::vector<tstring> failed(keys.begin() + keys.size() - 5000, keys.end());
+		keys.erase(keys.begin() + keys.size() - failed.size(), keys.end());
+
+		std::vector<SetResults> res;
+
+		// #ifdef BOOST_FOUND
+		//		res.push_back(bench_set<boost::container::flat_set<size_t>>("boost.flat_set", keys, failed));
+		// #endif
+		res.push_back(bench_set<flat_set<tstring>>("flat_set", keys, failed));
+		res.push_back(bench_set<radix_set<tstring>>("radix_set", keys, failed));
+
+		res.push_back(bench_set<gtl::btree_set<tstring>>("gtl::btree_set", keys, failed));
+		res.push_back(bench_set<std::set<tstring>>("std::set", keys, failed));
+
+		to_csv(res, "bench_map_short_tstring.csv");
 	}
 
 	return 0;

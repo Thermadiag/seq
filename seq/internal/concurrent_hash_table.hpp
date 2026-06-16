@@ -757,8 +757,9 @@ namespace seq
 						std::unique_lock<std::mutex> ll(d_rehash_mutex);
 						d_rehash_condition.wait_for(ll, std::chrono::milliseconds(1), [&lock]() { return !lock.is_locked(); });
 					}
-					else
+					else {
 						std::this_thread::yield();
+					}
 				}
 			}
 			SEQ_ALWAYS_INLINE void lock_shared(node_lock& lock) const
