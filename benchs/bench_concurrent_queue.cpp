@@ -229,8 +229,8 @@ void pop_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, saf
 					stop.store(true);
 			//	printf("pop %i\n", (int)cnt.value());
 		}
-		else
-			std::this_thread::yield();
+		//else
+		//	std::this_thread::yield();
 	}
 }
 
@@ -279,6 +279,10 @@ Ret test_queue(Queue& q, int threads)
 		all_threads[i].first.join();
 		all_threads[i].second.join();
 	}
+
+	T v;
+	while(pop(q,v))
+		;
 	auto el = msecs() - st;
 
 	return { push_cnt.value(), pop_cnt.value() ,el};
@@ -288,7 +292,7 @@ Ret test_queue_name(const char* name, int threads = 1)
 {
 	Ret p;
 	if constexpr (std::is_same_v<Queue<int>,QueueType>){
-		QueueType q(max_pop * 10);
+		QueueType q(max_pop * 2);
 		p = test_queue<T>(q, threads);
 	} 
 	else{ 
@@ -333,18 +337,18 @@ int bench_concurrent_queue(int, char** const)
 {
 	// These benchmarks are not well formalized!
 
-	int threads = 32;
+	int threads = 16;
 	int count = 1000000;
 
 	std::vector<std::vector<Ret>> rets(threads+1);
 	for(int th = 1; th <= threads; ++th){ 
 		std::cout << th << " threads" << std::endl;
-		rets[(size_t)th].push_back( test_queue_name<queue<int>, int>("std::deque", threads));
-		rets[(size_t)th].push_back( test_queue_name<seq::concurrent_queue<int>, int>("seq::concurrent_queue", threads));
-		rets[(size_t)th].push_back( test_queue_name<rigtorp::mpmc::Queue<int>, int>("rigtorp::mpmc::Queue", threads));
-		rets[(size_t)th].push_back( test_queue_name<moodycamel::ConcurrentQueue<int>, int>("moodycamel::ConcurrentQueue", threads));
+		rets[(size_t)th].push_back( test_queue_name<queue<int>, int>("std::deque", th));
+		rets[(size_t)th].push_back( test_queue_name<seq::concurrent_queue<int>, int>("seq::concurrent_queue", th));
+		//rets[(size_t)th].push_back( test_queue_name<rigtorp::mpmc::Queue<int>, int>("rigtorp::mpmc::Queue", th));
+		rets[(size_t)th].push_back( test_queue_name<moodycamel::ConcurrentQueue<int>, int>("moodycamel::ConcurrentQueue", th));
 #if BOOST_FOUND
-		rets[(size_t)th].push_back( test_queue_name<boost_queue<int>, int>("boost::lockfree::queue", threads));
+		rets[(size_t)th].push_back( test_queue_name<boost_queue<int>, int>("boost::lockfree::queue", th));
 #endif
 	}
 	to_csv(rets,"bench_concurrent_queue.csv");
