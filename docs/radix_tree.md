@@ -31,6 +31,8 @@ The VART is a Burst Trie with the following specificities:
 
 For the rest of the documentation, we consider a VART with a start arity of 4 and maximum leaf node size of 64 keys.
 
+The `seq::radix_set` class has been [benchmarked](sorted_benchmark.md) against other sorted containers.
+
 ## Insertion process
 
 

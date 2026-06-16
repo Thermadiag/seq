@@ -4,6 +4,8 @@
 [![CTest](https://github.com/Thermadiag/seq/actions/workflows/build-macos.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/build-macos.yml)
 [![CTest](https://github.com/Thermadiag/seq/actions/workflows/build-windows.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/build-windows.yml)
 
+For what it's worth, this library and its documentation were generated without the help of AI.
+
 Transitioning to v2.1
 ---------------------
 
@@ -81,6 +83,12 @@ Currently, the following options are provided:
 -	SEQ_BUILD_BENCHS(OFF): build all benchmarks
 
 
+Benchmarks
+----------
+
+Currently 2 types of benchmarks are provided. One is dedicated to concurrent hash tables and is available [here](docs/concurrent_map.md). Its goal is to compare `seq/concurrent_set/map` to other implementations.
+Another one is dedicated to sorted containers and is available [here](docs/sorted_benchmark.md). Its goal is to compare `seq/flat_set/map` and `seq/radix_set/map` to other implementations.
+
 Acknowledgements
 ----------------
 
@@ -93,6 +101,7 @@ Benchmarks (in `seq/benchs`) compare the performances of the *seq* library with 
 -	<a href="https://github.com/greg7mdp/gtl">gtl</a>: used for its gtl::btree_set and gtl::parallel_flat_hash_map,
 -	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set, boost::unordered_flat_set and boost::concurrent_flat_map,
 -	<a href="https://github.com/martinus/unordered_dense">unordered_dense</a>: used for ankerl::unordered_dense::set,
+-	<a href="https://github.com/oneapi-src/oneTBB">TBB</a>: used for tbb::concurrent_unordered_map and tbb::concurrent_hash_map.
 -	<a href="https://github.com/oneapi-src/oneTBB">TBB</a>: used for tbb::concurrent_unordered_map and tbb::concurrent_hash_map.
 
 Some of these libraries are included in the `seq/benchs` folder.
