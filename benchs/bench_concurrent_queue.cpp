@@ -7,9 +7,18 @@
 #include <seq/concurrent_map.hpp>
 #include <seq/devector.hpp>
 using namespace rigtorp::mpmc;
+#if BOOST_FOUND
+#include <boost/lockfree/queue.hpp>
+
+#endif
+
+
 
 template<class T>
 using concurrent_set = seq::concurrent_set<T, seq::hasher<T>, std::equal_to<>, std::allocator<T>, seq::low_concurrency>;
+
+template<class T>
+using boost_queue = boost::lockfree::queue<T>;
 
 template<class T>
 struct queue
@@ -58,6 +67,15 @@ void push(moodycamel::ConcurrentQueue<T>& q, Args&&... t)
 	q.enqueue(std::forward<Args>(t)...);
 }
 
+#if BOOST_FOUND
+template<class T, class... Args>
+void push(boost_queue<T>& q, Args&&... t)
+{
+	SEQ_TEST(q.push(T{std::forward<Args>(t)...} ));
+}
+#endif
+
+
 template<class T, class... Args>
 void push(Queue<T>& q, Args&&... t)
 {
@@ -84,6 +102,13 @@ bool pop(Queue<T>& q, T& v)
 {
 	return q.try_pop(v);
 }
+#if BOOST_FOUND
+template<class T>
+bool pop(boost_queue<T>& q, T &v)
+{
+	return q.pop(v);
+}
+#endif
 template<class T>
 bool pop(concurrent_set<T>& q, T& v)
 {
@@ -189,7 +214,7 @@ void pop_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, saf
 		if (pop(q, val)) {
 			cnt.add();
 			if ((++r & 31) == 0)
-				if SEQ_UNLIKELY(cnt.value() > 30000000)
+				if SEQ_UNLIKELY(cnt.value() > 3000000)
 					stop.store(true);
 			//	printf("pop %i\n", (int)cnt.value());
 		}
@@ -225,7 +250,7 @@ Ret test_queue(Queue& q, int threads)
 	//	push(q, T{});
 
 	start_push.store(true);
-	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	start_pop.store(true);
 
 	/* auto st = msecs();
@@ -257,12 +282,15 @@ int bench_concurrent_queue(int, char** const)
 {
 	// These benchmarks are not well formalized!
 
-	int threads = 16;
+	int threads = 8;
 	int count = 1000000;
 
 	test_queue_name<queue<int>, int>("queue", threads);
 	test_queue_name<seq::concurrent_queue<int>, int>("concurrent_queue", threads);
 	test_queue_name<moodycamel::ConcurrentQueue<int>, int>("moodycamel", threads);
+#if BOOST_FOUND
+	test_queue_name<boost_queue<int>, int>("boost::lockfree::queue", threads);
+#endif
 
 	struct Test
 	{
@@ -305,6 +333,16 @@ int bench_concurrent_queue(int, char** const)
 		el = seq::tock_ms();
 		std::cout << "push concurrent modycamel: " << el << " ms " << mq.size_approx() << std::endl;
 
+	#if BOOST_FOUND
+		seq::tick();
+		boost_queue<queue_type> bq;
+		bq.reserve_unsafe(vals.size());
+		launch_push(bq, vals, threads);
+		el = seq::tock_ms();
+		std::cout << "push concurrent boost: " << el << " ms " << std::endl;
+	#endif
+
+
 		Queue<queue_type> mpq(vals.size());
 		seq::tick();
 		launch_push(mpq, vals, threads);
@@ -335,6 +373,13 @@ int bench_concurrent_queue(int, char** const)
 		launch_pop<queue_type>(mq, count, threads);
 		el = seq::tock_ms();
 		std::cout << "pop concurrent modycamel: " << el << " ms " << mq.size_approx() << std::endl;
+
+	#if BOOST_FOUND
+		seq::tick();
+		launch_pop<queue_type>(bq, count, threads);
+		el = seq::tock_ms();
+		std::cout << "pop concurrent boost: " << el << " ms " << std::endl;
+	#endif	
 
 		seq::tick();
 		launch_pop<queue_type>(mpq, count, threads);
@@ -371,6 +416,14 @@ int bench_concurrent_queue(int, char** const)
 		unbalanced<queue_type>(mq, vals, unbalance, threads);
 		el = seq::tock_ms();
 		std::cout << "push/pop concurrent modycamel: " << el << " ms " << mq.size_approx() << std::endl;
+
+	#if BOOST_FOUND
+		boost_queue<queue_type> bq;
+		seq::tick();
+		unbalanced<queue_type>(bq, vals, unbalance, threads);
+		el = seq::tock_ms();
+		std::cout << "push/pop concurrent boost: " << el << " ms " << std::endl;
+	#endif	
 	}
 
 	return 0;

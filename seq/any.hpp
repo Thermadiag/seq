@@ -327,34 +327,32 @@ namespace seq
 		template<class T, class String>
 		T arithmetic_from_string(const String& in)
 		{
-			if constexpr (std::is_same_v<bool, T>) {
-				uint8_t res;
-				if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
-					throw std::bad_cast();
-				return (T)res;
-			}
-			else if constexpr (std::is_same_v<char16_t, T>) {
-				uint16_t res;
-				if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
-					throw std::bad_cast();
-				return (T)res;
-			}
-			else if constexpr (std::is_same_v<char32_t, T>) {
-				uint32_t res;
-				if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
-					throw std::bad_cast();
-				return (T)res;
-			}
-			else if constexpr (std::is_same_v<long double, T>) {
-				double res;
-				if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
-					throw std::bad_cast();
-				return (T)res;
-			}
+			if constexpr (std::is_same_v<bool, T>) 
+				return (bool)arithmetic_from_string<uint8_t>(in);
+			else if constexpr (std::is_same_v<char16_t, T>) 
+				return (char16_t)arithmetic_from_string<uint16_t>(in);
+			else if constexpr (std::is_same_v<char32_t, T>) 
+				return (char32_t)arithmetic_from_string<uint32_t>(in);
+			else if constexpr (std::is_same_v<long double, T>) 
+				return (long double)arithmetic_from_string<double>(in);
 			else if constexpr (std::is_arithmetic_v<T>) {
 				T res;
-				if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
+#if __cpp_lib_to_chars
+				if constexpr(std::is_floating_point_v<T>){ 
+					if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
+						throw std::bad_cast();
+				}
+				else{
+					// Add the 'base' argument, mandatory with clang on macosx(?)
+					if (std::from_chars(string_data(in), string_data(in) + string_size(in), res, 10).ec != std::errc())
+						throw std::bad_cast();
+				} 	
+#else
+				std::istringstream iss(std::string(in));
+				if(!(iss >> res))
 					throw std::bad_cast();
+#endif
+
 				return res;
 			}
 			else {
