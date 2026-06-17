@@ -3146,8 +3146,8 @@ namespace seq
 	class hasher<seq::tiny_string<Char, Traits, Allocator, Size>>
 	{
 	public:
-		using is_transparent = int;
-		using is_avalanching = int;
+		using is_transparent = std::true_type;
+		using is_avalanching = std::true_type;
 		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Traits, Allocator, Size>& str) const noexcept -> size_t
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
@@ -3177,8 +3177,8 @@ namespace seq
 	class hasher<std::basic_string<Char, Traits, Allocator>>
 	{
 	public:
-		using is_transparent = int;
-		using is_avalanching = int;
+		using is_transparent = std::true_type;
+		using is_avalanching = std::true_type;
 
 		template<class A, size_t S>
 		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Traits, A, S>& str) const noexcept -> size_t
@@ -3224,8 +3224,8 @@ namespace std
 	class hash<seq::tiny_string<Char, Traits, Allocator, Size>>
 	{
 	public:
-		using is_transparent = int;
-		using is_avalanching = int;
+		using is_transparent = std::true_type;
+		using is_avalanching = std::true_type;
 		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Traits, Allocator, Size>& str) const noexcept -> size_t
 		{
 			return seq::hash_bytes_komihash(str.data(), str.size() * sizeof(Char));

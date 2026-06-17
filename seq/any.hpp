@@ -2397,8 +2397,8 @@ namespace seq
 	class hasher<seq::hold_any<Interface, S, A, R>>
 	{
 	public:
-		using is_transparent = void;
-		using is_avalanching = void;
+		using is_transparent = std::true_type;
+		using is_avalanching = std::true_type;
 
 		auto operator()(const seq::hold_any<Interface, S, A, R>& a) const -> size_t { return (a.hash()); }
 
@@ -2438,7 +2438,8 @@ namespace std
 	class hash<seq::hold_any<Interface, S, A, R>>
 	{
 	public:
-		using is_transparent = void;
+		using is_transparent = std::true_type;
+		using is_avalanching = std::true_type;
 
 		auto operator()(const seq::hold_any<Interface, S, A, R>& a) const -> size_t { return a.hash(); }
 

@@ -57,8 +57,8 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/seq"
 
 
 # Configure and install seq.pc
-configure_file(seq.pc.in seq.pc @ONLY)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/seq.pc
+configure_file(seq.pc.in ${CMAKE_BINARY_DIR}/seq.pc @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/seq.pc
 			DESTINATION ${SEQ_INSTALL_DATAROOTDIR}/pkgconfig)
 
 

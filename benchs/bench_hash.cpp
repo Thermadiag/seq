@@ -49,10 +49,9 @@
 
 #include "testing.hpp"
 
-#ifdef SEQ_HAS_CPP_17
 #include "ankerl/unordered_dense.h"
 #include <gtl/phmap.hpp>
-#endif
+
 
 using namespace seq;
 
@@ -174,8 +173,8 @@ size_t walk_set(flat_hash_set<Key, Hash, Equal, Allocator>& set)
 	size_t sum = 0;
 	set.cvisit_all([&](const auto& v) { sum += to_size_t(v); });
 	return sum;
-}*/
-
+}
+*/
 inline bool test_insert(bool v)
 {
 	return v;
@@ -421,6 +420,11 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 		// set.max_load_factor(0.8);
 		test_hash_set("seq::concurrent_set", set, keys, f);
 	}
+	/* {
+		flat_hash_set<T, Hash, std::equal_to<>, std::allocator<T>> set;
+		// set.max_load_factor(0.8);
+		test_hash_set("seq::flat_hash_set", set, keys, f);
+	}*/
 	
 
 	{
@@ -442,11 +446,11 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 	}
 #endif
 #ifdef BOOST_UNORDERED_MAP_FOUND
-	/* {
+	 {
 	// Compile error with boost::unordered_flat_set and seq::hasher
 		boost::unordered_flat_set<T, Hash, std::equal_to<>> set;
 		test_hash_set("boost::unordered_flat_set", set, keys, f);
-	}*/
+	}
 #endif
 
 	{

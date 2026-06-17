@@ -100,10 +100,12 @@ The `net_sort` stable sorting algorithm uses several ideas originaly coming (I t
 Benchmarks (in `seq/benchs`) compare the performances of the *seq* library with other great libraries that I use in personnal or professional projects:
 -	<a href="https://plflib.org/">plf</a>: used for the plf::colony container,
 -	<a href="https://github.com/greg7mdp/gtl">gtl</a>: used for its gtl::btree_set and gtl::parallel_flat_hash_map,
--	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set, boost::unordered_flat_set and boost::concurrent_flat_map,
+-	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set, boost::unordered_flat_set, boost::concurrent_flat_map, boost::lockfree::queue,
 -	<a href="https://github.com/martinus/unordered_dense">unordered_dense</a>: used for ankerl::unordered_dense::set,
 -	<a href="https://github.com/oneapi-src/oneTBB">TBB</a>: used for tbb::concurrent_unordered_map and tbb::concurrent_hash_map.
--	<a href="https://github.com/oneapi-src/oneTBB">TBB</a>: used for tbb::concurrent_unordered_map and tbb::concurrent_hash_map.
+-	<a href="https://github.com/Tessil">TBB</a>: numerous Tessil's hash tables.
+-	<a href="https://github.com/cameron314/concurrentqueue">TBB</a>: used for its MPMC concurrent queue.
+-	<a href="https://github.com/rigtorp/MPMCQueue">MPMCQueue</a>: Rigtorp's MPMC concurrent queue.
 
 Some of these libraries are included in the `seq/benchs` folder.
 

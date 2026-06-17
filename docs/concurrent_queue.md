@@ -12,6 +12,7 @@ In the end I decided to roll my own implentation with the following criteria:
 -	Having the possibility to preallocate memory up-front,
 -	Always ensure FIFO behavior,
 -	Not being to harsh on the type requirement,
+-	Providing strong exception guarantee,
 -	Providing unsafe but usefull API (like iteration)
 
 The resulting `seq::concurrent_queue` is not fully lock-free nor wait-free, but combines atomic-based operations with locks to provide a certain level of concurrency.
