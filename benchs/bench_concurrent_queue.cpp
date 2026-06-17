@@ -345,7 +345,7 @@ int bench_concurrent_queue(int, char** const)
 	int threads = 16;
 	int count = 1000000;
 
-	std::vector<std::vector<Ret>> rets(threads + 1);
+	/*std::vector<std::vector<Ret>> rets(threads + 1);
 	for(int th = 1; th <= threads; ++th){ 
 		std::cout << th << " threads" << std::endl;
 		rets[(size_t)th].push_back( test_queue_name<queue<int>, int>("std::deque", th));
@@ -357,7 +357,7 @@ int bench_concurrent_queue(int, char** const)
 #endif
 	}
 	to_csv(rets,"bench_concurrent_queue.csv");
-	
+	*/
 	struct Test
 	{
 		int val;

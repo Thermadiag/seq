@@ -15,6 +15,8 @@ Additional operations could have been tested, like iteration performances, faile
 -	Both `gtl::btree_set` and `seq::flat_set` are very sensible to the value type size. In addition, `seq::flat_set` is MUCH faster for insertion/deletion with relocatable types (based on `seq::is_relocatable` type trait). For large value type size, `gtl::btree_set` behaves exactly like `std::set`.
 -	`seq::radix_set` and `seq::flat_set` are both faster when using range insertion.
 
+The 2 benchmarks ran on Windows 11 containing an *Intel(R) Core(TM) i7-10850H* at 2.70GHz.
+
 ## Successfull insertion benchmark
 
 The following graphs show the average insertion time (one by one) in nanoseconds based on the container current size (lower is better) for 3 different value types:
