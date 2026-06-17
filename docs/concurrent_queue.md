@@ -15,7 +15,6 @@ In the end I decided to roll my own implentation with the following criteria:
 -	Providing unsafe but usefull API (like iteration)
 
 The resulting `seq::concurrent_queue` is not fully lock-free nor wait-free, but combines atomic-based operations with locks to provide a certain level of concurrency.
-While I still need to properly formalize a benchmark, It is consistenly faster than a regular queue + mutex, and usually faster or as fast as aforementioned implementations.
 
 Below image is a simple benchmark of multiple concurrent queue implementations: [moodycamel::ConcurrentQueue](https://github.com/cameron314/concurrentqueue), [boost::lockfree::queue](https://www.boost.org/doc/libs/1_53_0/doc/html/lockfree.html), `seq::concurrent_queue` and a simple queue + mutex.
 In this benchmark, N threads continuously push new values while N threads continuously try to dequeue elements. We stop the process when 10M elements have been successfully dequeued and measure the time it took (lower is better).
@@ -24,5 +23,5 @@ The benchmark ran on a Linux server equipped with 2 *Intel(R) Xeon(R) Gold 5220R
 
 ![Dequeue](images/concurrent_queue.svg)
  
-`seq::concurrent_queue` performs really well and only start to get outpaced by `moodycamel::ConcurrentQueue` with 10 producer threads and 10 consumer threads. The choice between the 2 implementations really depend of your need regarding the dequeing order.
+`seq::concurrent_queue` performs really well and only start to get outpaced by `moodycamel::ConcurrentQueue` with 10 producer threads and 10 consumer threads. The choice between the 2 implementations really depend of your need regarding the dequeuing order.
 
