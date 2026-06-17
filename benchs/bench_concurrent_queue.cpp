@@ -292,14 +292,16 @@ template<class QueueType, class T>
 Ret test_queue_name(const char* name, int threads = 1)
 {
 	Ret p;
-	if constexpr (std::is_same_v<Queue<int>,QueueType>){
+	if constexpr (std::is_same_v<Queue<T>,QueueType>){
 		QueueType q(max_pop * 2);
 		p = test_queue<T>(q, threads);
 	} 
-	else if constexpr (std::is_same_v<boost_queue<int>, QueueType>) {
+#if BOOST_FOUND
+	else if constexpr (std::is_same_v<boost_queue<T>, QueueType>) {
 		QueueType q(0);
 		p = test_queue<T>(q, threads);
-	} 
+	}
+#endif
 	else{ 
 		QueueType q;
 		p = test_queue<T>(q, threads);

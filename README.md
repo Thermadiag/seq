@@ -16,7 +16,8 @@ Purpose
 
 The *seq* library is a header-only collection of original C++17 STL-like containers and related tools.
 
-*seq* library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) std. Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.
+*seq* library does not try to reimplement already existing container classes present in other libraries like <a href="https://github.com/facebook/folly">folly</a>, <a href="https://abseil.io/">abseil</a>, <a href="https://www.boost.org/">boost</a> and (of course) std.
+Instead, it provides new features (or a combination of features) that are usually not present in other libraries. Some low level API like bits manipulation or hashing functions are not new, but must be defined to keep the seq library self dependent.
 
 Among other things (see modules below), the *seq* library defines several container classes as alternatives to STL containers or providing features not present in the STL.
 These containers generally adhere to the properties of STL containers (in C++17 version), though there are often some associated API differences and/or implementation details which differ from the standard library.
@@ -83,6 +84,8 @@ Currently, the following options are provided:
 -	SEQ_BUILD_TESTS(OFF): build all tests
 -	SEQ_BUILD_BENCHS(OFF): build all benchmarks
 
+It is also possible to directly copy/paste the *seq* folder into your project, while slightly dirty.
+
 
 Benchmarks
 ----------
@@ -104,7 +107,7 @@ Benchmarks (in `seq/benchs`) compare the performances of the *seq* library with 
 -	<a href="https://github.com/martinus/unordered_dense">unordered_dense</a>: used for ankerl::unordered_dense::set,
 -	<a href="https://github.com/oneapi-src/oneTBB">TBB</a>: used for tbb::concurrent_unordered_map and tbb::concurrent_hash_map.
 -	<a href="https://github.com/Tessil">TBB</a>: numerous Tessil's hash tables.
--	<a href="https://github.com/cameron314/concurrentqueue">TBB</a>: used for its MPMC concurrent queue.
+-	<a href="https://github.com/cameron314/concurrentqueue">Modycamel</a>: used for its MPMC concurrent queue.
 -	<a href="https://github.com/rigtorp/MPMCQueue">MPMCQueue</a>: Rigtorp's MPMC concurrent queue.
 
 Some of these libraries are included in the `seq/benchs` folder.
