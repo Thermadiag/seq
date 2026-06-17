@@ -230,6 +230,7 @@ namespace seq
 					}
 				}
 			}
+		#define YIELD_CONTINUE {std::this_thread::yield(); continue;} 	
 
 			template<class F>
 			SEQ_ALWAYS_INLINE bool pop_internal(F fun) noexcept
@@ -249,7 +250,7 @@ namespace seq
 
 					// Check if empty or if this is the right bucket
 					if (first == end_bucket() || first->head_start != head_start)
-						continue;
+						YIELD_CONTINUE;
 
 					// Check if value is valid
 					auto idx_bits = (1ull << idx);

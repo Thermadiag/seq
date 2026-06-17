@@ -230,7 +230,8 @@ void pop_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, saf
 		}
 		else
 			// Give time for additional push
-			std::this_thread::yield();
+			//std::this_thread::yield();
+			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	}
 }
 
@@ -266,8 +267,7 @@ Ret test_queue(Queue& q, int threads)
 	//	push(q, T{});
 
 	start_push.store(true);
-	std::this_thread::yield();
-	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	//std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	start_pop.store(true);
 
 	/* auto st = msecs();
