@@ -165,6 +165,7 @@ namespace seq
 				auto* b = d_free.load(std::memory_order_relaxed);
 				while (b && !d_free.compare_exchange_strong(b, b->next.load(std::memory_order_relaxed)))
 					;
+				
 				if (b)
 					d_free_count.fetch_sub(count);
 				return b;
@@ -190,14 +191,13 @@ namespace seq
 				b->pop.store(0);
 				b->head_start = head_start;
 				new (b->ptr()) T(std::move(val));
+				b->next.store(end_bucket(), std::memory_order_release);
 
 				std::scoped_lock<lock_type> ll(d_free_lock);
 
 				// Add to list
 				auto last = d_end.prev.load(std::memory_order_relaxed);
-				b->next.store(end_bucket(), std::memory_order_release);
 				b->prev.store(last, std::memory_order_release);
-
 				last->next.store(b, std::memory_order_release);
 				end_bucket()->prev.store(b, std::memory_order_release);
 			}
@@ -259,7 +259,7 @@ namespace seq
 					// Retrieve/destroy value
 					fun(first->ptr()[idx]);
 					// Mark as poped
-					auto poped = first->pop.fetch_or(idx_bits) | idx_bits;
+					auto poped = first->pop.fetch_or(idx_bits, std::memory_order_relaxed) | idx_bits;
 
 					if (poped == mask_full)
 						// Destroy bucket if all values were removed
@@ -280,7 +280,7 @@ namespace seq
 						if (head_start != last->head_start)
 							continue;
 						new (last->ptr() + idx) T(std::move(val));
-						last->cnt.fetch_or(1ull << idx, std::memory_order_release);
+						last->cnt.fetch_or(1ull << idx, std::memory_order_relaxed);
 						return;
 					}
 					else {

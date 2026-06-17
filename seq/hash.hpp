@@ -175,8 +175,8 @@ namespace seq
 	template<>                                                                                                                                                                                     \
 	struct hasher<T>                                                                                                                                                                               \
 	{                                                                                                                                                                                              \
-		using is_avalanching = int;                                                                                                                                                            \
-		using is_transparent = int;                                                                                                                                                            \
+		using is_avalanching = void;                                                                                                                                                            \
+		using is_transparent = void;                                                                                                                                                            \
 		template<class U>                                                                                                                                                                      \
 		SEQ_ALWAYS_INLINE size_t operator()(const U& v) const noexcept                                                                                                                         \
 		{                                                                                                                                                                                      \
@@ -206,8 +206,8 @@ namespace seq
 	template<>
 	struct hasher<float>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		template<class U>
 		SEQ_ALWAYS_INLINE size_t operator()(const U& v) const noexcept
 		{
@@ -224,8 +224,8 @@ namespace seq
 	template<>
 	struct hasher<double>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		template<class U>
 		SEQ_ALWAYS_INLINE size_t operator()(const U& v) const noexcept
 		{
@@ -246,8 +246,8 @@ namespace seq
 	template<class T>
 	struct hasher<T*>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		template<class U>
 		SEQ_ALWAYS_INLINE size_t operator()(U* ptr) const noexcept
 		{
@@ -258,8 +258,8 @@ namespace seq
 	template<class T>
 	struct hasher<std::unique_ptr<T>>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		SEQ_ALWAYS_INLINE size_t operator()(const std::unique_ptr<T>& ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr.get())); }
 		SEQ_ALWAYS_INLINE size_t operator()(const T* ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr)); }
 	};
@@ -267,8 +267,8 @@ namespace seq
 	template<class T>
 	struct hasher<std::shared_ptr<T>>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		SEQ_ALWAYS_INLINE size_t operator()(const std::shared_ptr<T>& ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr.get())); }
 		SEQ_ALWAYS_INLINE size_t operator()(const T* ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr)); }
 	};
@@ -276,8 +276,8 @@ namespace seq
 	template<typename Enum>
 	struct hasher<Enum, typename std::enable_if<std::is_enum_v<Enum>, void>::type>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		SEQ_ALWAYS_INLINE size_t operator()(Enum e) const noexcept
 		{
 			using Underlying = typename std::underlying_type<Enum>::type;
@@ -293,8 +293,8 @@ namespace seq
 	template<class A, class B>
 	struct hasher<std::pair<A, B>>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		template<class U, class V>
 		SEQ_ALWAYS_INLINE size_t operator()(const std::pair<U, V>& p) const noexcept
 		{
@@ -333,8 +333,8 @@ namespace seq
 	template<class... Args>
 	struct hasher<std::tuple<Args...>>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		template<class OtherTuple>
 		SEQ_ALWAYS_INLINE size_t operator()(const OtherTuple& t) const noexcept
 		{
@@ -347,8 +347,8 @@ namespace seq
 	template<class Rep, class Ratio>
 	struct hasher<std::chrono::duration<Rep, Ratio>>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		using type = std::chrono::duration<Rep, Ratio>;
 
 		size_t operator()(const type& s) const { return hasher<Rep>{}(s.count()); }
@@ -362,8 +362,8 @@ namespace seq
 	template<class Clock, class Duration>
 	struct hasher<std::chrono::time_point<Clock, Duration>>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		using type = std::chrono::time_point<Clock, Duration>;
 		using integral = decltype(type{}.time_since_epoch().count());
 

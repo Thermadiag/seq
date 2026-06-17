@@ -27,7 +27,7 @@ struct queue
 {
 	using lock_type = std::mutex;
 	lock_type lock;
-	std::deque<T> deq;
+	seq::sequence<T> deq;
 
 public:
 	using value_type = T;
@@ -211,7 +211,7 @@ void push_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, sa
 }
 
 
-static constexpr size_t max_pop = 3000000;
+static constexpr size_t max_pop = 10000000;
 
 
 template<class T, class Queue>
@@ -266,6 +266,7 @@ Ret test_queue(Queue& q, int threads)
 	//	push(q, T{});
 
 	start_push.store(true);
+	std::this_thread::yield();
 	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	start_pop.store(true);
 
@@ -293,6 +294,10 @@ Ret test_queue_name(const char* name, int threads = 1)
 	Ret p;
 	if constexpr (std::is_same_v<Queue<int>,QueueType>){
 		QueueType q(max_pop * 2);
+		p = test_queue<T>(q, threads);
+	} 
+	else if constexpr (std::is_same_v<boost_queue<int>, QueueType>) {
+		QueueType q(0);
 		p = test_queue<T>(q, threads);
 	} 
 	else{ 
@@ -340,7 +345,7 @@ int bench_concurrent_queue(int, char** const)
 	int threads = 16;
 	int count = 1000000;
 
-	std::vector<std::vector<Ret>> rets(threads+1);
+	/* std::vector<std::vector<Ret>> rets(threads + 1);
 	for(int th = 1; th <= threads; ++th){ 
 		std::cout << th << " threads" << std::endl;
 		rets[(size_t)th].push_back( test_queue_name<queue<int>, int>("std::deque", th));
@@ -352,7 +357,7 @@ int bench_concurrent_queue(int, char** const)
 #endif
 	}
 	to_csv(rets,"bench_concurrent_queue.csv");
-
+	*/
 	struct Test
 	{
 		int val;
@@ -396,7 +401,7 @@ int bench_concurrent_queue(int, char** const)
 
 	#if BOOST_FOUND
 		seq::tick();
-		boost_queue<queue_type> bq;
+		boost_queue<queue_type> bq{ 0 };
 		bq.reserve_unsafe(vals.size());
 		launch_push(bq, vals, threads);
 		el = seq::tock_ms();
@@ -479,7 +484,7 @@ int bench_concurrent_queue(int, char** const)
 		std::cout << "push/pop concurrent modycamel: " << el << " ms " << mq.size_approx() << std::endl;
 
 	#if BOOST_FOUND
-		boost_queue<queue_type> bq;
+		boost_queue<queue_type> bq{0};
 		seq::tick();
 		unbalanced<queue_type>(bq, vals, unbalance, threads);
 		el = seq::tock_ms();

@@ -442,10 +442,11 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 	}
 #endif
 #ifdef BOOST_UNORDERED_MAP_FOUND
-	{
+	/* {
+	// Compile error with boost::unordered_flat_set and seq::hasher
 		boost::unordered_flat_set<T, Hash, std::equal_to<>> set;
 		test_hash_set("boost::unordered_flat_set", set, keys, f);
-	}
+	}*/
 #endif
 
 	{

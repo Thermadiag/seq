@@ -531,7 +531,8 @@ void test_concurrent_hash_maps(size_t count, const Gen& gen)
 	  count, "gtl::parallel_flat_hash_map", gen);
 
 #ifdef BOOST_CONCURRENT_MAP_FOUND
-	test_concurrent_map<K, boost::concurrent_flat_map<K, size_t, seq::hasher<K>, std::equal_to<K>>>(count, "boost::concurrent_flat_map", gen);
+	// Compile error with boost::concurrent_flat_map and seq::hasher
+	//test_concurrent_map<K, boost::concurrent_flat_map<K, size_t, seq::hasher<K>, std::equal_to<K>>>(count, "boost::concurrent_flat_map", gen);
 #endif
 
 	test_concurrent_map<K, libcuckoo::cuckoohash_map<K, size_t, seq::hasher<K>, std::equal_to<K>>>(count, "libcuckoo::cuckoohash_map", gen);
