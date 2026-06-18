@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@
 #include <unordered_set>
 #include <iostream>
 #include <fstream>
+#include <random>
 
 #ifdef _MSC_VER
 #include <concurrent_unordered_set.h>
@@ -36,23 +37,65 @@
 #include <boost/unordered/unordered_flat_set.hpp>
 #endif
 
-#include <seq/testing.hpp>
+#include <tsl/sparse_set.h>
+
 #include <seq/ordered_map.hpp>
 #include <seq/radix_hash_map.hpp>
 #include <seq/radix_map.hpp>
-#include <seq/format.hpp>
+#include <seq/legacy/format.hpp>
 #include <seq/any.hpp>
 #include <seq/tiny_string.hpp>
 #include <seq/concurrent_map.hpp>
 
-//#include "flat_hash_map.hpp"
+#include "testing.hpp"
 
-#ifdef SEQ_HAS_CPP_17
 #include "ankerl/unordered_dense.h"
 #include <gtl/phmap.hpp>
-#endif
+
 
 using namespace seq;
+
+template<class T>
+struct ValueHolder
+{
+	std::unique_ptr<T> ptr;
+
+	ValueHolder()
+	  : ptr(new T())
+	{
+	}
+	template<class... Args>
+	ValueHolder(Args&&... args)
+	  : ptr(new T(std::forward<Args>(args)...))
+	{
+	}
+	ValueHolder(ValueHolder&& ) noexcept = default;
+	ValueHolder& operator=(ValueHolder&&) noexcept = default;
+
+	ValueHolder(const ValueHolder& other)
+	  : ptr(new T(*other.ptr))
+	{
+	}
+
+	operator const T&() const noexcept { return *ptr; }
+
+	friend bool operator==(const ValueHolder& l, const ValueHolder& r) { return *l.ptr == *r.ptr; }
+	friend bool operator==(const T& l, const ValueHolder& r) { return l == *r.ptr; }
+	friend bool operator==(const ValueHolder& l, const T& r) { return *l.ptr == r; }
+};
+
+namespace seq
+{
+	template<class T>
+	struct hasher<ValueHolder<T>>
+	{
+		using is_transparent=int;
+		using is_avalanching=int;
+		size_t operator()(const ValueHolder<T>& v) const noexcept { return hasher<T>{}(*v.ptr); }
+		template<class U>
+		size_t operator()(const U& v) const noexcept { return hasher<T>{}(v); }
+	};
+}
 
 template<class C, class Iter>
 void erase(C& set, Iter it)
@@ -66,7 +109,7 @@ void reserve(C& set, size_t count)
 }
 
 template<class T>
-void reserve(radix_set<T> & , size_t )
+void reserve(radix_set<T>&, size_t)
 {
 }
 
@@ -75,6 +118,7 @@ inline size_t to_size_t(const T& t)
 {
 	return static_cast<size_t>(t);
 }
+
 inline size_t to_size_t(const std::string& t)
 {
 	return t.size();
@@ -88,6 +132,11 @@ template<class Interface, size_t S, size_t A, bool R>
 inline size_t to_size_t(const seq::hold_any<Interface, S, A, R>& t)
 {
 	return reinterpret_cast<size_t>(t.data());
+}
+template<class T>
+inline size_t to_size_t(const ValueHolder<T>& t)
+{
+	return to_size_t(*t.ptr);
 }
 
 template<class Iter>
@@ -124,8 +173,8 @@ size_t walk_set(flat_hash_set<Key, Hash, Equal, Allocator>& set)
 	size_t sum = 0;
 	set.cvisit_all([&](const auto& v) { sum += to_size_t(v); });
 	return sum;
-}*/
-
+}
+*/
 inline bool test_insert(bool v)
 {
 	return v;
@@ -174,7 +223,6 @@ struct LaunchTest
 			start_mem = get_memory_usage();
 			C s;
 			tick();
-			// s.reserve(success.size());
 			reserve(s, success.size());
 			for (int i = 0; i < success.size(); ++i) {
 
@@ -280,8 +328,7 @@ struct LaunchTest
 		int i = 0;
 		size_t target = set.size() / 2;
 		while (set.size() > target) {
-			if (set.erase(success[i]) != 1)
-				SEQ_TEST(false);
+			SEQ_TEST(set.erase(success[i]) == 1);
 			i++;
 		}
 		eraset = tock_ms();
@@ -347,42 +394,46 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 		std::sort(keys.begin(), keys.end());
 		size_t size = std::unique(keys.begin(), keys.end()) - keys.begin();
 		keys.resize(size);
-		seq::random_shuffle(keys.begin(), keys.end(), 1);
+		std::shuffle(keys.begin(), keys.end(), std::mt19937(1));
 	}
 
 	// warmup
 	{
 		ordered_set<T, Hash, std::equal_to<>, std::allocator<T>> set;
-		set.max_load_factor(0.85);
+		// set.max_load_factor(0.85);
 		test_hash_set("seq::ordered_set", set, keys, f, false);
 	}
 
 	{
 		ordered_set<T, Hash, std::equal_to<>> set;
-		set.max_load_factor(0.85);
+		// set.max_load_factor(0.85);
 		test_hash_set("seq::ordered_set", set, keys, f);
 	}
-#ifdef SEQ_HAS_CPP_17
+	
 	{
 		ankerl::unordered_dense::set<T, Hash, std::equal_to<>> set;
-		//set.max_load_factor(0.85);
+		// set.max_load_factor(0.85);
 		test_hash_set("ankerl::unordered_dense::set", set, keys, f);
 	}
-#endif
 	{
 		concurrent_set<T, Hash, std::equal_to<>, std::allocator<T>, seq::no_concurrency> set;
-		//set.max_load_factor(0.85);
+		// set.max_load_factor(0.8);
 		test_hash_set("seq::concurrent_set", set, keys, f);
 	}
 	/* {
-		flat_hash_set<T, Hash, std::equal_to<>, std::allocator<T> > set;
-		set.max_load_factor(0.6);
+		flat_hash_set<T, Hash, std::equal_to<>, std::allocator<T>> set;
+		// set.max_load_factor(0.8);
 		test_hash_set("seq::flat_hash_set", set, keys, f);
 	}*/
+	
 
 	{
 		radix_hash_set<T, Hash, std::equal_to<>> set;
 		test_hash_set("seq::radix_hash_set", set, keys, f);
+	}
+	{
+		tsl::sparse_set<T, Hash, std::equal_to<>> set;
+		test_hash_set("tsl::sparse_set", set, keys, f);
 	}
 	{
 		robin_hood::unordered_flat_set<T, Hash, std::equal_to<>> set;
@@ -395,7 +446,8 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 	}
 #endif
 #ifdef BOOST_UNORDERED_MAP_FOUND
-	{
+	 {
+	// Compile error with boost::unordered_flat_set and seq::hasher
 		boost::unordered_flat_set<T, Hash, std::equal_to<>> set;
 		test_hash_set("boost::unordered_flat_set", set, keys, f);
 	}
@@ -406,17 +458,41 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 		set.max_load_factor(0.85);
 		test_hash_set("std::unordered_set", set, keys, f);
 	}
+	
 }
+
+struct Test
+{
+	size_t v;
+	size_t data[4];
+	Test(size_t i = 0) noexcept
+	  : v(i)
+	{
+	}
+	bool operator==(const Test& o) const noexcept { return v == o.v; }
+};
+template<>
+struct seq::hasher<Test>
+{
+	size_t operator()(const Test& t) const noexcept { return hasher<size_t>{}(t.v); }
+};
+
+
+
 
 int bench_hash(int, char** const)
 {
-	
-	
+	using tvec = tiered_vector<int>;
+
+	std::vector<int> vv(10);
+	tvec vec{ vv.begin(), vv.end() };
+
 	test_hash<int, seq::hasher<int>>(8000000, [](size_t i) { return (i); });
 	test_hash<size_t, seq::hasher<size_t>>(8000000, [](size_t i) { return (i); });
 
-	random_float_genertor<double> rng;
-	test_hash<double, seq::hasher<double>>(8000000, [&rng](size_t i) { return rng(); });
+	std::mt19937 e2(0);
+	std::uniform_real_distribution<> rng;
+	test_hash<double, seq::hasher<double>>(8000000, [&](size_t i) { return rng(e2); });
 
 	test_hash<tstring, seq::hasher<tstring>>(2500000, [](size_t i) { return generate_random_string<tstring>(63, false); });
 

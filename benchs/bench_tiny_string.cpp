@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,15 +24,17 @@
 
 
 #include <seq/tiny_string.hpp>
-#include <seq/testing.hpp>
-#include <seq/format.hpp>
+#include <seq/legacy/format.hpp>
 
 #include <unordered_set>
 #include <set>
+#include <iostream>
 
 extern "C" {
 #include <stdlib.h>
 }
+
+#include "testing.hpp"
 
 using namespace seq;
 

@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -94,7 +94,7 @@ namespace seq
 				this->rehash(n);
 		}
 
-		template<class InputIterator>
+		template<class InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_set(InputIterator f, InputIterator l, size_type n = 0, const hasher& hf = hasher(), const key_equal& eql = key_equal(), const allocator_type& a = allocator_type())
 		  : base_type(hf, eql, a)
 		{
@@ -113,7 +113,7 @@ namespace seq
 		{
 		}
 
-		template<class InputIterator>
+		template<class InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_set(InputIterator f, InputIterator l, allocator_type const& a)
 		  : concurrent_set(f, l, 0, hasher(), key_equal(), a)
 		{
@@ -150,13 +150,13 @@ namespace seq
 		{
 		}
 
-		template<typename InputIterator>
+		template<typename InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_set(InputIterator f, InputIterator l, size_type n, const allocator_type& a)
 		  : concurrent_set(f, l, n, hasher(), key_equal(), a)
 		{
 		}
 
-		template<typename InputIterator>
+		template<typename InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_set(InputIterator f, InputIterator l, size_type n, const hasher& hf, const allocator_type& a)
 		  : concurrent_set(f, l, n, hf, key_equal(), a)
 		{
@@ -201,7 +201,7 @@ namespace seq
 		SEQ_CONCURRENT_INLINE auto key_eq() const -> key_equal { return base_type::get_key_eq(); }
 
 		SEQ_CONCURRENT_INLINE void clear() { base_type::clear(); }
-		SEQ_CONCURRENT_INLINE void rehash(size_t n) { base_type::rehash(n); }
+		SEQ_CONCURRENT_INLINE void rehash(size_t n) { base_type::rehash((size_t)(n / (double)max_load_factor())); }
 		SEQ_CONCURRENT_INLINE void reserve(size_t size) { base_type::reserve(size); }
 		SEQ_CONCURRENT_INLINE void swap(concurrent_set& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
 
@@ -510,7 +510,7 @@ namespace seq
 				this->rehash(n);
 		}
 
-		template<class InputIterator>
+		template<class InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_map(InputIterator f, InputIterator l, size_type n = 0, const hasher& hf = hasher(), const key_equal& eql = key_equal(), const allocator_type& a = allocator_type())
 		  : base_type(hf, eql, a)
 		{
@@ -529,7 +529,7 @@ namespace seq
 		{
 		}
 
-		template<class InputIterator>
+		template<class InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_map(InputIterator f, InputIterator l, allocator_type const& a)
 		  : concurrent_map(f, l, 0, hasher(), key_equal(), a)
 		{
@@ -566,13 +566,13 @@ namespace seq
 		{
 		}
 
-		template<typename InputIterator>
+		template<typename InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_map(InputIterator f, InputIterator l, size_type n, const allocator_type& a)
 		  : concurrent_map(f, l, n, hasher(), key_equal(), a)
 		{
 		}
 
-		template<typename InputIterator>
+		template<typename InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_map(InputIterator f, InputIterator l, size_type n, const hasher& hf, const allocator_type& a)
 		  : concurrent_map(f, l, n, hf, key_equal(), a)
 		{
@@ -617,7 +617,7 @@ namespace seq
 		SEQ_CONCURRENT_INLINE auto key_eq() const -> key_equal { return base_type::get_key_eq(); }
 
 		SEQ_CONCURRENT_INLINE void clear() { base_type::clear(); }
-		SEQ_CONCURRENT_INLINE void rehash(size_t n) { base_type::rehash(n); }
+		SEQ_CONCURRENT_INLINE void rehash(size_t n) { base_type::rehash((size_t)(n / (double)max_load_factor())); }
 		SEQ_CONCURRENT_INLINE void reserve(size_t size) { base_type::reserve(size); }
 		SEQ_CONCURRENT_INLINE void swap(concurrent_map& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
 

@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,8 @@
 
 #include <memory>
 
-#include "bits.hpp"
-#include "type_traits.hpp"
+#include "../bits.hpp"
+#include "../type_traits.hpp"
 
 namespace seq
 {
@@ -358,34 +358,7 @@ namespace seq
 		new (p) T(std::forward<Args>(args)...);
 	}
 
-	/// @brief Iterator range class, provides a valid range object from a start and end iterator.
-	template<class Iter>
-	class iterator_range
-	{
-		Iter d_begin;
-		Iter d_end;
-
-	public:
-		using iterator = Iter;
-		using value_type = typename std::iterator_traits<Iter>::value_type;
-		using reference = typename std::iterator_traits<Iter>::reference;
-		using pointer = typename std::iterator_traits<Iter>::pointer;
-		using difference_type = typename std::iterator_traits<Iter>::difference_type;
-		using size_type = difference_type;
-
-		iterator_range(const Iter& b = Iter(), const Iter& e = Iter())
-		  : d_begin(b)
-		  , d_end(e)
-		{
-		}
-		iterator_range(const iterator_range&) = default;
-		iterator_range(iterator_range&&) noexcept = default;
-		iterator_range& operator=(const iterator_range&) = default;
-		iterator_range& operator=(iterator_range&&) = default;
-
-		Iter begin() const { return d_begin; }
-		Iter end() const { return d_end; }
-	};
+	
 
 	namespace detail
 	{
@@ -541,7 +514,28 @@ namespace seq
 		{
 			return ResizeHelperDirect<T>{ v };
 		}
+
+		template<class Allocator, class T>
+		using RebindAllocator = typename std::allocator_traits<Allocator>::template rebind_alloc<T>;
 	}
+
+
+	/// @brief Allocate count elements of type T using provided allocator
+	template<class T, class Alloc>
+	T* allocate_from(const Alloc& al, size_t count = 1)
+	{
+		detail::RebindAllocator<Alloc, T> alloc{ al };
+		return alloc.allocate(count);
+	}
+	/// @brief Deallocate count elements using provided allocator
+	template<class Alloc, class T>
+	void deallocate_from(const Alloc& al, T* p, size_t count = 1) noexcept
+	{
+		detail::RebindAllocator<Alloc, T> alloc{ al };
+		alloc.deallocate(p, count);
+	}
+
+
 
 	/// @brief Copy allocator for container copy constructor
 	template<class Allocator>
@@ -597,6 +591,9 @@ namespace seq
 	{
 		static constexpr bool value = std::allocator_traits<Allocator>::propagate_on_container_move_assignment::type && !is_always_equal<Allocator>::value;
 	};
+
+
+
 
 } // end namespace seq
 

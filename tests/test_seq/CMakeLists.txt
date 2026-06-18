@@ -9,8 +9,6 @@ enable_testing()
 create_test_sourcelist (Tests
   seq_tests.cpp
   test_any.cpp
-  test_charconv.cpp
-  test_format.cpp
   test_devector.cpp
   test_flat_map.cpp
   test_ordered_map.cpp
@@ -21,6 +19,7 @@ create_test_sourcelist (Tests
   test_tiny_string.cpp
   test_all_maps.cpp
   test_concurrent_map.cpp
+test_concurrent_queue.cpp
   test_algorithm.cpp
   )
   

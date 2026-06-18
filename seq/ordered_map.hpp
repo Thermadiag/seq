@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,9 @@
 /** @file */
 
 #include "internal/hash_utils.hpp"
+#include "internal/utils.hpp"
+
 #include "sequence.hpp"
-#include "utils.hpp"
 #include "hash.hpp"
 
 namespace seq
@@ -188,7 +189,7 @@ namespace seq
 		struct InsertPolicy
 		{
 			template<class Seq, class K, class... Args>
-			static auto emplace(Seq& s, K&& key, Args&&... args)
+			static SEQ_ALWAYS_INLINE auto emplace(Seq& s, K&& key, Args&&... args)
 			{
 				if constexpr (Loc == Front)
 					return s.emplace_front_iter(std::forward<K>(key), std::forward<Args>(args)...);
@@ -202,7 +203,7 @@ namespace seq
 		struct TryInsertPolicy
 		{
 			template<class Seq, class K, class... Args>
-			static auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
+			static SEQ_ALWAYS_INLINE auto emplace(Seq& s, K&& key, Args&&... args) -> typename Seq::iterator
 			{
 				if constexpr (Loc == Front)
 					return s.emplace_front_iter(
@@ -337,7 +338,6 @@ namespace seq
 					d_buckets[index] = node_type(node_type::small_hash(hash), dist, first.as_uint());
 
 					// Insert node
-					// if (dist)
 					start_insert(d_buckets, new_hash_mask, index, dist, n);
 				}
 
@@ -424,12 +424,11 @@ namespace seq
 					}
 					else {
 						if (dist > static_cast<size_t>(d_max_dist))
-							d_max_dist = static_cast<int>(dist); // = (dist > node_type::max_distance) ? node_type::max_distance : dist;
+							d_max_dist = static_cast<int>(dist); 
 
 						node_type n = node_type(static_cast<tiny_hash>(h), static_cast<dist_type>(dist), it.as_uint());
 						std::swap(n, d_buckets[index]);
-						if (dist)
-							start_insert(d_buckets, bsize, index, static_cast<dist_type>(dist), n);
+						start_insert(d_buckets, bsize, index, static_cast<dist_type>(dist), n);
 					}
 					++it;
 				}
@@ -536,7 +535,6 @@ namespace seq
 			  noexcept(std::declval<sequence_type&>().swap(std::declval<sequence_type&>())) && noexcept(std::declval<base_type&>().swap(std::declval<base_type&>())))
 			{
 				if (this != std::addressof(other)) {
-					std::swap(static_cast<base_type&>(*this), static_cast<base_type&>(other));
 					std::swap(d_buckets, other.d_buckets);
 					std::swap(d_hash_mask, other.d_hash_mask);
 					std::swap(d_hash_len, other.d_hash_len);
@@ -639,7 +637,7 @@ namespace seq
 			{
 				// Key lookup
 
-				const bool robin_hood = d_max_dist < (node_type::max_distance);
+				const dist_type robin_hood = d_max_dist < (node_type::max_distance);
 				const tiny_hash h = node_type::small_hash(hash);
 				const auto* it = d_buckets + mask_hash(hash, d_hash_mask, d_hash_len);
 				const auto* end = d_buckets + d_hash_mask;
@@ -647,20 +645,18 @@ namespace seq
 
 				// Combination of linear and robin-hood probing in the same loop.
 				// An empty node has a distance of -1 and break the probe chain.
-				// A tombstone has a value 127 and never break the probe chain
+				// A tombstone has a value of 127 and never break the probe chain
 				// (it is superior to node_type::max_distance which is 126, and dist is never incremented when tombstones are present: linear situation)
 				// A tombstone value is never checked as its tiny hash is 0 (which is invalid).
 
-				if SEQ_UNLIKELY(!robin_hood)
-					check_hash_operation();
+				check_hash_operation();
 
 				while (!(dist > it->distance())) {
 					// Check for equality (first the hash part and then the key itself).
 					if (h == it->hash() && (*this)(extract_key::key(sequence_node_value(*it)), key))
 						return const_iterator(it->node(), it->pos());
 					it = it == end ? d_buckets : it + 1;
-					if SEQ_LIKELY(robin_hood)
-						++dist;
+					dist += robin_hood;
 				}
 				// Failed lookup
 				return d_seq.end();
@@ -727,7 +723,6 @@ namespace seq
 				// Move nodes based on distance (robin hood hashing), only if computed distance is not null
 				node_type n = *it;
 				*it = node_type(h, dist, tmp_it.as_uint());
-				// if (dist )
 				start_insert(d_buckets, d_hash_mask, static_cast<size_t>(it - d_buckets), dist, n);
 
 				return std::pair<iterator, bool>(tmp_it, true);
@@ -842,6 +837,7 @@ namespace seq
 				return d_seq.erase(it); // return res;
 			}
 			auto erase(const_iterator it) -> iterator { return erase_hash(hash_key(extract_key::key(*it)), it); }
+			auto erase(iterator it) -> iterator { return erase_hash(hash_key(extract_key::key(*it)), it); }
 
 			template<class K>
 			auto erase(const K& key) -> size_t
@@ -1075,7 +1071,7 @@ namespace seq
 		/// @param hash hash function to use
 		/// @param equal comparison function to use for all key comparisons of this container
 		/// @param alloc allocator to use for all memory allocations of this container
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		ordered_set(InputIt first, InputIt last, const Hash& hash = Hash(), const key_equal& equal = key_equal(), const Allocator& alloc = Allocator())
 		  : base_type(hash, equal, alloc)
 		{
@@ -1088,7 +1084,7 @@ namespace seq
 		/// @param first the range to copy the elements from
 		/// @param last the range to copy the elements from
 		/// @param alloc allocator to use for all memory allocations of this container
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		ordered_set(InputIt first, InputIt last, const Allocator& alloc)
 		  : ordered_set(first, last, Hash(), key_equal(), alloc)
 		{
@@ -1574,18 +1570,18 @@ namespace seq
 		{
 		}
 
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		ordered_map(InputIt first, InputIt last, const Hash& hash = Hash(), const key_equal& equal = key_equal(), const Allocator& alloc = Allocator())
 		  : base_type(hash, equal, alloc)
 		{
 			insert(first, last);
 		}
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		ordered_map(InputIt first, InputIt last, const Allocator& alloc)
 		  : ordered_map(first, last, Hash(), key_equal(), alloc)
 		{
 		}
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		ordered_map(InputIt first, InputIt last, const Hash& hash, const Allocator& alloc)
 		  : ordered_map(first, last, hash, key_equal(), alloc)
 		{
@@ -1957,6 +1953,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto operator[](const Key& k) -> T& { return try_emplace(k).first->second; }
 		SEQ_ALWAYS_INLINE auto operator[](Key&& k) -> T& { return try_emplace(std::move(k)).first->second; }
 
+		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return this->base_type::erase(pos); }
 		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return this->base_type::erase(pos); }
 		SEQ_ALWAYS_INLINE auto erase(const Key& key) -> size_type { return this->base_type::erase(key); }
 		template<class K, class KE = KeyEqual, class H = Hash, typename std::enable_if<has_is_transparent<KE>::value && has_is_transparent<H>::value>::type* = nullptr>

@@ -24,6 +24,7 @@ set(SEQ_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/seq")
 # create source file list
 file(GLOB SeqSources
      "seq/*.hpp"
+	"seq/internal/*.hpp"
 )
 
 add_library(seq INTERFACE ${SeqSources})
@@ -56,15 +57,16 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/seq"
 
 
 # Configure and install seq.pc
-configure_file(seq.pc.in seq.pc @ONLY)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/seq.pc
+configure_file(seq.pc.in ${CMAKE_BINARY_DIR}/seq.pc @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/seq.pc
 			DESTINATION ${SEQ_INSTALL_DATAROOTDIR}/pkgconfig)
 
 
 # Configure and install seq_config.hpp
-configure_file(seq_config.hpp.in seq_config.hpp @ONLY)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/seq_config.hpp
-			DESTINATION "${CMAKE_INSTALL_PREFIX}/include/seq")
+configure_file(seq_config.hpp.in ${CMAKE_BINARY_DIR}/seq_config.hpp @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/seq_config.hpp
+			DESTINATION "include/seq")
+
 
 # Configure and install seqConfig.cmake and seqConfigVersion.cmake
 include(CMakePackageConfigHelpers)

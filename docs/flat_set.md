@@ -43,6 +43,8 @@ All ``seq::flat_set`` operations only provide *basic exception guarantee*, exact
 
 ## Performances
 
+For a more recent benchmark, see [here](sorted_benchmark.md).
+
 Performances of `seq::flat_set` has been measured and compared to std::set, std::unordered_set, <a href="https://www.boost.org/doc/libs/1_64_0/doc/html/boost/container/flat_set.html">boost::flat_set</a> and <a href="https://github.com/greg7mdp/parallel-hashmap">phmap::btree_set</a> (based on abseil btree_set). 
 The following table show the results when compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10, using Intel(R) Core(TM) i7-10850H at 2.70GHz. Measured operations are:
 -	Insert successfully a range of 1M unique double randomly shuffled using set_class::insert(first,last)

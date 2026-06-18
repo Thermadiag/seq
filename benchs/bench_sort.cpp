@@ -1,16 +1,17 @@
 #include <random>
 #include <vector>
+#include <iostream>
 
-#include <seq/algorithm.hpp>
-#include <seq/testing.hpp>
+#include <seq/net_sort.hpp>
 #include <seq/tiny_string.hpp>
-#include <seq/format.hpp>
+#include <seq/legacy/format.hpp>
 
 #ifdef BOOST_FOUND
 #include <boost/sort/spinsort/spinsort.hpp>
 #endif
 
 #include "pdqsort.hpp"
+#include "testing.hpp"
 
 template<class T, class Cmp>
 void indisort(T start, size_t size, Cmp c)

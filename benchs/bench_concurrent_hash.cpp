@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,11 +30,9 @@
 #include <functional>
 #include <unordered_map>
 
-#include <seq/testing.hpp>
-#include <seq/ordered_map.hpp>
 #include <seq/ordered_map.hpp>
 #include <seq/radix_hash_map.hpp>
-#include <seq/format.hpp>
+#include <seq/legacy/format.hpp>
 #include <seq/any.hpp>
 #include <seq/tiny_string.hpp>
 
@@ -58,6 +56,8 @@
 #endif
 
 #include <seq/radix_hash_map.hpp>
+
+#include "testing.hpp"
 
 using namespace seq;
 
@@ -502,7 +502,7 @@ void test_concurrent_map(size_t count, const char* name, Rng rng)
 		seq::random_shuffle(keys.begin(), keys.end(), seed);
 		// if (seed < 4)
 		//	continue;
-		for (size_t threads = 1; threads < 20; ++threads) {
+		for (size_t threads = 1; threads <= 16; ++threads) {
 
 			Map set;
 			// reserve(set,keys.size());
@@ -529,7 +529,7 @@ void test_concurrent_hash_maps(size_t count, const Gen& gen)
 
 	test_concurrent_map<K, gtl::parallel_flat_hash_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>>, 5, std::shared_mutex>>(
 	  count, "gtl::parallel_flat_hash_map", gen);
-
+	
 #ifdef BOOST_CONCURRENT_MAP_FOUND
 	test_concurrent_map<K, boost::concurrent_flat_map<K, size_t, seq::hasher<K>, std::equal_to<K>>>(count, "boost::concurrent_flat_map", gen);
 #endif

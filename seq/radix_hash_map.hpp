@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@
  */
 
 #include "internal/radix_tree.hpp"
-#include "utils.hpp"
+#include "internal/utils.hpp"
 
 namespace seq
 {
@@ -145,7 +145,7 @@ namespace seq
 		/// @param hash hash function to use
 		/// @param equal comparison function to use for all key comparisons of this container
 		/// @param alloc allocator to use for all memory allocations of this container
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_set(InputIt first, InputIt last, const Hash& hash = Hash(), const key_equal& eq = key_equal(), const Allocator& alloc = Allocator())
 		  : d_tree(radix_hash(0, hash, eq), alloc)
 		{
@@ -157,7 +157,7 @@ namespace seq
 		/// @param first the range to copy the elements from
 		/// @param last the range to copy the elements from
 		/// @param alloc allocator to use for all memory allocations of this container
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_set(InputIt first, InputIt last, const Allocator& alloc)
 		  : d_tree(first, last, alloc)
 		{
@@ -169,7 +169,7 @@ namespace seq
 		/// @param last the range to copy the elements from
 		/// @param hash hash function to use
 		/// @param alloc allocator to use for all memory allocations of this container
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_set(InputIt first, InputIt last, const Hash& hash, const Allocator& alloc)
 		  : d_tree(radix_hash(0, hash), alloc)
 		{
@@ -628,19 +628,19 @@ namespace seq
 		{
 		}
 
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_map(InputIt first, InputIt last, const Hash& hash = Hash(), const key_equal& eq = key_equal(), const Allocator& alloc = Allocator())
 		  : d_tree(radix_hash(0, hash, eq), alloc)
 		{
 			insert(first, last);
 		}
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_map(InputIt first, InputIt last, const Allocator& alloc)
 		  : d_tree(alloc)
 		{
 			insert(first, last);
 		}
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_map(InputIt first, InputIt last, const Hash& hash, const Allocator& alloc)
 		  : radix_hash_map(first, last, hash, key_equal(), alloc)
 		{
@@ -836,6 +836,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto operator[](const Key& key) -> T& { return try_emplace(key).first->second; }
 		SEQ_ALWAYS_INLINE auto operator[](Key&& key) -> T& { return try_emplace(std::move(key)).first->second; }
 
+		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return d_tree.erase(pos.iter); }
 		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos.iter); }
 		SEQ_ALWAYS_INLINE auto erase(const Key& key) -> size_type { return d_tree.erase(key); }
 		template<class K, class KE = KeyEqual, class H = Hash, typename std::enable_if<has_is_transparent<KE>::value && has_is_transparent<H>::value>::type* = nullptr>

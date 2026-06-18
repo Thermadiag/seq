@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,10 +43,11 @@
 #include <algorithm>
 #include <iomanip>
 
-#include "bits.hpp"
-#include "utils.hpp"
-#include "charconv.hpp"
-#include "timer.hpp"
+#include "seq/bits.hpp"
+#include "seq/internal/utils.hpp"
+#include "seq/timer.hpp"
+#include "seq/legacy/format.hpp"
+
 
 #ifdef max
 #undef max

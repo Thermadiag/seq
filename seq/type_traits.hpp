@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -165,42 +165,23 @@ namespace seq
 	// Specilizations for unique_ptr, shared_ptr and pair
 
 	template<class T, class D>
-	struct is_relocatable<std::unique_ptr<T, D>>
+	struct is_relocatable<std::unique_ptr<T, D>> : std::bool_constant<is_relocatable<D>::value>
 	{
-		static constexpr bool value = is_relocatable<D>::value;
 	};
 	template<class T>
-	struct is_relocatable<std::shared_ptr<T>>
+	struct is_relocatable<std::shared_ptr<T>> : std::true_type
 	{
-		static constexpr bool value = true;
 	};
 	template<class T, class V>
-	struct is_relocatable<std::pair<T, V>>
+	struct is_relocatable<std::pair<T, V>> : std::bool_constant<is_relocatable<T>::value && is_relocatable<V>::value>
 	{
-		static constexpr bool value = is_relocatable<T>::value && is_relocatable<V>::value;
 	};
 	template<class T>
-	struct is_relocatable<std::allocator<T>>
+	struct is_relocatable<std::allocator<T>> : std::true_type
 	{
-		static constexpr bool value = true;
 	};
-
-	namespace detail
-	{
-		template<class Tuple, size_t Pos = std::tuple_size<Tuple>::value>
-		struct is_relocatable_tupe
-		{
-			using type = typename std::tuple_element<std::tuple_size<Tuple>::value - Pos, Tuple>::type;
-			static constexpr bool value = seq::is_relocatable<type>::value && is_relocatable_tupe<Tuple, Pos - 1>::value;
-		};
-		template<class Tuple>
-		struct is_relocatable_tupe<Tuple, 0>
-		{
-			static constexpr bool value = true;
-		};
-	}
 	template<class... Args>
-	struct is_relocatable<std::tuple<Args...>> : detail::is_relocatable_tupe<std::tuple<Args...>>
+	struct is_relocatable<std::tuple<Args...>> : std::bool_constant<(is_relocatable_v<Args> && ...)>
 	{
 	};
 
@@ -300,6 +281,17 @@ namespace seq
 	struct is_iterable
 	{
 		static constexpr bool value = has_iterator<C>::value && has_value_type<C>::value;
+	};
+
+	/// @brief Check if givern type is an iterator
+	template<class T, class = void>
+	struct is_iterator : std::false_type
+	{
+	};
+
+	template<class T>
+	struct is_iterator<T, std::void_t<typename std::iterator_traits<T>::iterator_category>> : std::true_type
+	{
 	};
 
 	template<class T, class = void>

@@ -122,8 +122,192 @@ namespace seq
 			size_t d_next_target;	       // next size before rehash
 			size_t d_hash_mask;	       // hash mask
 			chain_count_type d_chain_count; // number of chained nodes, used to optimize detection of needed rehash on insert
-			float d_max_load_factor = 0.75f;
+			float d_max_load_factor = 0.7f;
 			chain_node_type* first_free = nullptr;
+
+			template<unsigned Size, class Equal, class K>
+			static SEQ_CONCURRENT_INLINE auto FindWithTh(std::uint8_t th, const Equal& eq, K&& key, const std::uint8_t* hashs, const Value* values) noexcept(
+			  noexcept(eq(extract_key::key(*values), std::forward<K>(key)))) -> const Value*
+			{
+				if constexpr (Size == 4) {
+					if (!hashs[0])
+						return nullptr;
+					// no SSE variant (way slower)
+					std::uint32_t _th;
+					memset(&_th, th, sizeof(_th));
+
+					// do first 3 values
+					std::uint32_t found = MoveMask4((*reinterpret_cast<const std::uint32_t*>(hashs)) ^ _th) >> 8u;
+					if (found) {
+						SEQ_PREFETCH(values);
+						do {
+							unsigned pos = bit_scan_forward_32(found) >> 3u;
+							if (eq(extract_key::key(values[pos]), std::forward<K>(key)))
+								return values + pos;
+							reinterpret_cast<unsigned char*>(&found)[pos] = 0;
+						} while (found);
+					}
+					return nullptr;
+				}
+				else if constexpr (Size == 8) {
+					if (!hashs[0])
+						return nullptr;
+					// no SSE variant (way slower)
+					std::uint64_t _th;
+					memset(&_th, th, sizeof(_th));
+
+					// do first 7 values
+					std::uint64_t found = MoveMask8((*reinterpret_cast<const std::uint64_t*>(hashs)) ^ _th) >> 8u;
+					if (found) {
+						SEQ_PREFETCH(values);
+						do {
+							unsigned pos = bit_scan_forward_64(found) >> 3u;
+							if (eq(extract_key::key(values[pos]), std::forward<K>(key)))
+								return values + pos;
+							reinterpret_cast<unsigned char*>(&found)[pos] = 0;
+						} while (found);
+					}
+					return nullptr;
+				}
+				else if constexpr (Size == 16) {
+#if defined(__SSE2__)
+					// SSE movemask
+					if (!hashs[0])
+						return nullptr;
+					auto hs = _mm_load_si128(reinterpret_cast<const __m128i*>(hashs));
+					auto mask = (unsigned)_mm_movemask_epi8(_mm_cmpeq_epi8(hs, _mm_set1_epi8(static_cast<char>(th)))) >> 1;
+					if (mask) {
+						SEQ_PREFETCH(values);
+						do {
+							unsigned pos = bit_scan_forward_32(mask);
+							if (eq(extract_key::key(values[pos]), std::forward<K>(key)))
+								return values + pos;
+							mask &= mask - 1u;
+						} while (mask);
+					}
+#endif
+					return nullptr;
+				}
+				SEQ_UNREACHABLE();
+			}
+
+			/// @brief Find given value in a dense node.
+			/// Performs lookup on the full chain.
+			template<class Equal, class K, class F>
+			auto FindInDense(std::uint8_t th, const Equal& eq, K&& key, const ConcurrentDenseNode<Value>* n, F&& f) const
+			  noexcept(noexcept(eq(std::forward<K>(key), extract_key::key(std::declval<Value&>())))) -> size_t
+			{
+				do {
+					auto v = FindWithTh<chain_concurrent_node_size>(th, eq, std::forward<K>(key), n->hashs, n->values());
+					if (v) {
+						std::forward<F>(f)(const_cast<Value&>(*v));
+						return 1;
+					}
+				} while ((n = n->right));
+				return 0;
+			}
+
+			/// @brief Find given value in main node.
+			/// Performs lookup on the full chain.
+			template<class Equal, class K, class F>
+			SEQ_CONCURRENT_INLINE auto FindInNode(std::uint8_t th, const Equal& eq, K&& key, const ConcurrentHashNode* node, const ConcurrentValueNode<Value>* values, F&& f) const
+			  noexcept(noexcept(eq(std::forward<K>(key), extract_key::key(std::declval<Value&>())))) -> size_t
+			{
+				if (auto v = FindWithTh<max_concurrent_node_size>(th, eq, std::forward<K>(key), node->hashs, values->values())) {
+					std::forward<F>(f)(const_cast<Value&>(*v));
+					return 1;
+				}
+				if (node->full() && values->right)
+					return FindInDense(th, eq, std::forward<K>(key), values->right, std::forward<F>(f));
+				return 0;
+			}
+
+			/// @brief Returns index of the next null hash value
+			/// Only used when an exception is thrown during rehash
+			auto FindFreeSlotInNode(ConcurrentHashNode* node, ConcurrentValueNode<Value>* values) noexcept -> std::pair<Value*, std::uint8_t*>
+			{
+				// Look for a free slot in the node chain
+				unsigned idx = FindIndexZero<max_concurrent_node_size>(node->hashs);
+				if (idx != static_cast<unsigned>(-1))
+					return { values->values() + idx, node->hashs + idx + 1 };
+				auto* d = values->right;
+				while (d) {
+					idx = FindIndexZero<chain_concurrent_node_size>(d->hashs);
+					if (idx != static_cast<unsigned>(-1))
+						return { d->values() + idx, d->hashs + idx + 1 };
+					d = d->right;
+				}
+				return { nullptr, nullptr };
+			}
+
+			/// @brief Insert value in a new dense node
+			template<class Policy, class Node, class K, class... Args>
+			auto InsertNewDense(std::uint8_t th, Node* n, K&& key, Args&&... args) -> std::pair<Value*, bool>
+			{
+				chain_node_allocator al{ get_allocator() };
+				chain_node_type* d = al.allocate(1);
+
+				memset(d->hashs, 0, sizeof(d->hashs));
+				d->right = nullptr;
+				d->left = reinterpret_cast<chain_node_type*>(n);
+
+				try {
+					Policy::emplace(d->values(), std::forward<K>(key), std::forward<Args>(args)...);
+				}
+				catch (...) {
+					// destroy dense node
+					al.deallocate(d, 1);
+					throw;
+				}
+				d->hashs[++d->hashs[0]] = th;
+				n->right = d;
+				++d_chain_count;
+				return { d->values(), true };
+			}
+
+			/// @brief Insert value in dense node if it does not already exist
+			template<class Policy, bool CheckExists, class Equal, class K, class... Args>
+			auto FindInsertDense(std::uint8_t th, const Equal& eq, ConcurrentDenseNode<Value>* n, K&& key, Args&&... args) -> std::pair<Value*, bool>
+			{
+				auto valid = n;
+				do {
+					if constexpr (CheckExists) {
+						auto v = FindWithTh<chain_concurrent_node_size>(th, eq, extract_key::key(std::forward<K>(key)), n->hashs, n->values());
+						if (v)
+							return { const_cast<Value*>(v), false };
+					}
+					valid = n;
+				} while ((n = n->right));
+				if SEQ_UNLIKELY (valid->full())
+					return InsertNewDense<Policy>(th, valid, std::forward<K>(key), std::forward<Args>(args)...);
+
+				// might throw, fine
+				auto p = Policy::emplace(valid->values() + valid->count(), std::forward<K>(key), std::forward<Args>(args)...);
+				valid->hashs[++valid->hashs[0]] = th;
+				return { p, true };
+			}
+
+			/// @brief Insert value if it does not already exist
+			template<class Policy, bool CheckExists, class Equal, class K, class... Args>
+			SEQ_CONCURRENT_INLINE auto FindInsertNode(std::uint8_t th, const Equal& eq, ConcurrentHashNode* node, ConcurrentValueNode<Value>* values, K&& key, Args&&... args)
+			  -> std::pair<Value*, bool>
+			{
+				if constexpr (CheckExists) {
+					auto v = FindWithTh<max_concurrent_node_size>(th, eq, extract_key::key(std::forward<K>(key)), node->hashs, values->values());
+					if (v)
+						return { const_cast<Value*>(v), false };
+				}
+				if SEQ_UNLIKELY (node->full()) {
+					if (values->right)
+						return FindInsertDense<Policy, CheckExists>(th, eq, values->right, std::forward<K>(key), std::forward<Args>(args)...);
+					return InsertNewDense<Policy>(th, values, std::forward<K>(key), std::forward<Args>(args)...);
+				}
+				// might throw, fine
+				auto p = Policy::emplace(values->values() + node->count(), std::forward<K>(key), std::forward<Args>(args)...);
+				node->hashs[++node->hashs[0]] = th;
+				return { p, true };
+			}
+
 
 			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept { return static_cast<const Alloc&>(*this); }
 
@@ -202,9 +386,7 @@ namespace seq
 
 						d_buckets[i].for_each(d_values + i, [&](std::uint8_t* hashs, unsigned j, Value& val) {
 							auto pos = hash_key(extract_key::key(val)) & new_hash_mask;
-							FindInsertNode<extract_key, InsertFlatPolicy, false>(d_chain_count,
-													     //chain_node_allocator{ get_allocator() },
-													     ChainAllocator{ this },
+							FindInsertNode< InsertFlatPolicy, false>(
 													     hashs[j + 1],
 													     this->key_eq(),
 													     buckets + pos,
@@ -302,7 +484,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE void rehash_on_insert()
 			{
 				// Rehash on insert
-				if SEQ_UNLIKELY ((d_size >= d_next_target) && (d_buckets == get_static_node() || d_chain_count > ((d_hash_mask + 1) >> 5)))
+				if SEQ_UNLIKELY ((d_size >= d_next_target) && (d_buckets == get_static_node() || d_chain_count > ((d_hash_mask + 1) >> 4)))
 					// delay rehash as long as there are few chains
 					rehash_on_next_target(d_size);
 			}
@@ -317,8 +499,7 @@ namespace seq
 				auto th = node_type::tiny_hash(hash);
 				size_t pos = (hash & d_hash_mask);
 				
-				auto p = FindInsertNode<extract_key, Policy, true>(
-				  d_chain_count, ChainAllocator{ this }, th, this->key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
+				auto p = FindInsertNode< Policy, true>(th, this->key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
 				if (!p.second) {
 					// Key exist: call functor
 					std::forward<F>(fun)(*p.first);
@@ -484,14 +665,14 @@ namespace seq
 			{
 				size_t hash = hash_key(key);
 				size_t pos = (hash & d_hash_mask);
-				return FindInNode<extract_key>(node_type::tiny_hash(hash), this->key_eq(), key, d_buckets + pos, d_values + pos, std::forward<F>(f));
+				return FindInNode(node_type::tiny_hash(hash), this->key_eq(), key, d_buckets + pos, d_values + pos, std::forward<F>(f));
 			}
 			template<class K, class F>
 			SEQ_ALWAYS_INLINE size_t visit(const K& key, F&& f)
 			{
 				size_t hash = hash_key(key);
 				size_t pos = (hash & d_hash_mask);
-				return FindInNode<extract_key>(node_type::tiny_hash(hash), this->key_eq(), key, d_buckets + pos, d_values + pos, std::forward<F>(f));
+				return FindInNode(node_type::tiny_hash(hash), this->key_eq(), key, d_buckets + pos, d_values + pos, std::forward<F>(f));
 			}
 
 			SEQ_ALWAYS_INLINE bool contains_value(const Value& key_value) const
@@ -579,7 +760,7 @@ namespace seq
 				auto* d = values->right;
 				do {
 					// Look in dense node
-					auto found = FindWithTh<extract_key, chain_concurrent_node_size>(th, this->key_eq(), key, d->hashs, d->values());
+					auto found = FindWithTh< chain_concurrent_node_size>(th, this->key_eq(), key, d->hashs, d->values());
 					if (found) {
 						// Erase from dense node if functor returns true
 						if (!std::forward<F>(fun)(const_cast<Value&>(*found)))
@@ -607,7 +788,7 @@ namespace seq
 				auto values = d_values + pos;
 				auto bucket = d_buckets + pos;
 				// Find in main bucket
-				auto found = FindWithTh<extract_key, max_concurrent_node_size>(th, this->key_eq(), key, bucket->hashs, values->values());
+				auto found = FindWithTh< max_concurrent_node_size>(th, this->key_eq(), key, bucket->hashs, values->values());
 				if (found) {
 					// Erase from main bucket if functor returns true
 					if (!std::forward<F>(fun)(const_cast<Value&>(*found)))

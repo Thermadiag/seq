@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@
 
 #include "hash.hpp"
 #include "type_traits.hpp"
-#include "utils.hpp"
+#include "internal/utils.hpp"
 
 #ifdef min
 #undef min
@@ -380,7 +380,6 @@ namespace seq
 				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if (common == (n - 1) * sizeof(Char))
 					return static_cast<size_t>(in - data);
-				// in += common +1;
 				++in;
 			}
 			return npos;
@@ -1184,7 +1183,7 @@ namespace seq
 			}
 		}
 		/// @brief Construct by copying the range [first,last)
-		template<class Iter>
+		template<class Iter, std::enable_if_t<is_iterator<Iter>::value, int> = 0>
 		tiny_string(Iter first, Iter last, const Allocator& al = Allocator())
 		  : d_data(al)
 		{
@@ -3147,8 +3146,8 @@ namespace seq
 	class hasher<seq::tiny_string<Char, Traits, Allocator, Size>>
 	{
 	public:
-		using is_transparent = int;
-		using is_avalanching = int;
+		using is_transparent = std::true_type;
+		using is_avalanching = std::true_type;
 		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Traits, Allocator, Size>& str) const noexcept -> size_t
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
@@ -3178,8 +3177,8 @@ namespace seq
 	class hasher<std::basic_string<Char, Traits, Allocator>>
 	{
 	public:
-		using is_transparent = int;
-		using is_avalanching = int;
+		using is_transparent = std::true_type;
+		using is_avalanching = std::true_type;
 
 		template<class A, size_t S>
 		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Traits, A, S>& str) const noexcept -> size_t
@@ -3225,8 +3224,8 @@ namespace std
 	class hash<seq::tiny_string<Char, Traits, Allocator, Size>>
 	{
 	public:
-		using is_transparent = int;
-		using is_avalanching = int;
+		using is_transparent = std::true_type;
+		using is_avalanching = std::true_type;
 		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Traits, Allocator, Size>& str) const noexcept -> size_t
 		{
 			return seq::hash_bytes_komihash(str.data(), str.size() * sizeof(Char));

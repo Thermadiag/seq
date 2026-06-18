@@ -1,13 +1,39 @@
 
+# seq v2.1
 
 
-Notes on version 2 of seq library
----------------------------------
+The version 2.1 introduced additional breaking changes:
+-	The modules *charconv* and *format* are now deprecated. They are still available, but moved to the *legacy* folder.
+	Indeed, while I really like these, they do not belong to a library about containers. They will eventually be moved to another library, and removed from *seq*.
+-	The *tagged_pointer.hpp* file have been moved to the *internal* folder (private API).
+
+Additional changes:
+
+-	The hashing framework has a better handling of transparent keys.
+-	The hashing framework now supports std::chrono::time_point and std::chrono::duration.
+-	The `seq::net_sort` algorithm has been slightly optimized/refactored and moved to *net_sort.hpp* header.
+-	The `radix_set/map` lower_bound() method has been corrected (compilation error).
+-	`radix_set/map` now supports std::chrono::time_point and std::chrono::duration as key.
+-	`radix_set/map` no longer have typedef `prefix_iterator` and `prefix_const_iterator`. Instead, member prefix_range() now returns a std::pair of regular iterators. 
+-	All radix-based containers (`seq::radix_set/map`, `seq::radix_hash_set/map`) have been internally simplified.
+-	The `seq::hold_any` class has been refactored and simplified. A `seq::hold_any` containing a char* or const char* is now considered holding a string. Comparison of `seq::hold_any` containing a `char*` or `const char*` results in string comparison.
+-	New container: [`seq::concurrent_queue`](concurrent_queue.md).
+
+The markdown documentation has been updated accordingly, and new benchmark results were added. Full list of benchmarks now:
+-	Benchmark of [concurrent hash tables](concurrent_map.md) at the end of the page. Its goal is to compare `seq::concurrent_set/map` to other implementations.
+-	Benchmark on [sorted containers](sorted_benchmark.md). Its goal is to compare `seq::flat_set/map` and `seq::radix_set/map` to other implementations.
+-	Very tiny benchmark on [concurrent queues](concurrent_queue.md) to compare `seq::concurrent_queue` with other implementations.
+-	[Memory and latency benchmark](latency_benchmark.md) on hash tables to compare `seq::radix_hash_set/map` with other implementations.
+
+
+
+# seq v2.0
+
 
 The version 2 of `seq` introduced several changes on all modules, which are listed below.
 
-Library wide changes
---------------------
+## Library wide changes
+
 
 -	The biggest change is the library requirement which was upgraded to C++17. Indeed, working with C++14 was painfull and all compilers I now work with support at least C++17.
 -	Another big change is the full removal of the `cvector` class (compressed vector-like container). Indeed, `cvector` relied on a compression algorithm that was heavily refactored and upgraded, up to the point where it did not belong to a library about containers...
@@ -16,41 +42,35 @@ Library wide changes
 -	[Pdqsort](https://github.com/orlp/pdqsort) is not used anymore within the library. Instead the `net_sort` algorithm (from [algorithm](algorithm.md) module) is used everywhere.
 -	The `memory` module (deprecated in v1.3) was removed.
 
-[bits](bits.md)
---------------------
+## [bits](bits.md)
 
 -	Internal refactoring.
 -	Updated SEQ_LIKELY/SEQ_UNLIKELY to use c++20 [[likely]]/[[unlikely]] attributes if available.
 -	Added class `fast_rand`: fast 32 bits random number generator.
 
-[hash](hash.md)
---------------------
+## [hash](hash.md)
 
 -	Internal refactoring.
 -	Moved implementation which was in `hash.cpp` to `hash_impl.hpp`
 
 
-[charconv](charconv.md)
-----------------------------
+## [charconv](charconv.md)
 
 -	Internal refactoring
 -	Removed file `charconv.cpp`
 -	All functions to read/write integral/floating numbers are now template, and work on any character type instead of just `char`.
 
-[format](format.md)
-------------------------
+## [format](format.md)
 
 -	Full refactoring of the module.
 -	All functions now work with any character type including `wchar_t`, `char16_t`, `char32_t` and `char8_t` (if available).
 
-[any](any.md)
-------------------
+## [any](any.md)
 
 -	Minor refactoring to simplify the code.
 -	Now relies on seq::hasher instead of std::hash.
 
-[containers](containers.md)
---------------------------------
+## [containers](containers.md)
 
 -	Sequential random-access containers: 
 	-	[seq::devector](devector.md):
@@ -87,10 +107,9 @@ Library wide changes
 	-	Added several type traits to help detect string types and character types.
 	
 
-[algorithm](algorithm.md)
--------------------------
+## [algorithm](algorithm.md)
+
 
 New module, provides several iterator based algorithms including the `net_sort` sorting one.
-
 
 

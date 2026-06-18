@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,10 +32,125 @@
  */
 
 #include "internal/radix_tree.hpp"
-#include "utils.hpp"
+#include "internal/utils.hpp"
 
 namespace seq
 {
+	namespace detail
+	{
+		template<class Iter>
+		class radix_const_iterator
+		{
+		protected:
+			Iter d_iter;
+
+		public:
+			using value_type = typename Iter::value_type;
+			using iterator_category = std::bidirectional_iterator_tag;
+			using size_type = size_t;
+			using difference_type = std::ptrdiff_t;
+			using pointer = const value_type*;
+			using reference = const value_type&;
+			using const_pointer = const value_type*;
+			using const_reference = const value_type&;
+
+			const Iter& base_iter() const noexcept { return d_iter; }
+
+			radix_const_iterator() noexcept = default;
+			radix_const_iterator(const radix_const_iterator&) noexcept = default;
+			radix_const_iterator(const Iter& it) noexcept
+			  : d_iter(it)
+			{
+			}
+			SEQ_ALWAYS_INLINE auto operator++() noexcept -> radix_const_iterator&
+			{
+				++d_iter;
+				return *this;
+			}
+			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> radix_const_iterator
+			{
+				radix_const_iterator _Tmp = *this;
+				++(*this);
+				return _Tmp;
+			}
+			SEQ_ALWAYS_INLINE auto operator--() noexcept -> radix_const_iterator&
+			{
+				--d_iter;
+				return *this;
+			}
+			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> radix_const_iterator
+			{
+				radix_const_iterator _Tmp = *this;
+				--(*this);
+				return _Tmp;
+			}
+			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return reinterpret_cast<const value_type&>(*d_iter); }
+			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
+
+			SEQ_ALWAYS_INLINE friend bool operator==(const radix_const_iterator& l, const radix_const_iterator& r) noexcept { return l.d_iter == r.d_iter; }
+			SEQ_ALWAYS_INLINE friend bool operator!=(const radix_const_iterator& l, const radix_const_iterator& r) noexcept { return l.d_iter != r.d_iter; }
+
+		};
+
+		template<class Iter>
+		bool check_bit_pos(const radix_const_iterator<Iter>& it)
+		{
+			// For tests only
+			return it.base_iter().bit_pos == it.base_iter().get_bit_pos(it.base_iter().dir);
+		}
+
+		template<class Iter>
+		struct radix_iterator : radix_const_iterator<Iter>
+		{
+			using base_type = radix_const_iterator<Iter>;
+			using value_type = typename Iter::value_type;
+			;
+			using iterator_category = std::bidirectional_iterator_tag;
+			using size_type = size_t;
+			using difference_type = std::ptrdiff_t;
+			using pointer = value_type*;
+			using reference = value_type&;
+			using const_pointer = const value_type*;
+			using const_reference = const value_type&;
+
+			radix_iterator() noexcept = default;
+			radix_iterator(const base_type& other) noexcept
+			  : base_type(other)
+			{
+			}
+			radix_iterator(const Iter& it) noexcept
+			  : base_type(it)
+			{
+			}
+			SEQ_ALWAYS_INLINE auto operator++() noexcept -> radix_iterator&
+			{
+				++this->d_iter;
+				return *this;
+			}
+			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> radix_iterator
+			{
+				radix_iterator ret = *this;
+				++(*this);
+				return ret;
+			}
+			SEQ_ALWAYS_INLINE auto operator--() noexcept -> radix_iterator&
+			{
+				--this->d_iter;
+				return *this;
+			}
+			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> radix_iterator
+			{
+				radix_iterator ret = *this;
+				--(*this);
+				return ret;
+			}
+			SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference { return const_cast<reference>(base_type::operator*()); }
+			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
+			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return const_cast<reference>(base_type::operator*()); }
+			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const_pointer { return std::pointer_traits<const_pointer>::pointer_to(**this); }
+		};
+
+	}
 
 	/// @brief Radix based sorted container using Variable Arity Radix Tree (VART). Same interface as std::set.
 	/// @tparam Key key type
@@ -57,95 +172,13 @@ namespace seq
 
 		using Policy = detail::BuildValue<Key, true>;
 		using radix_tree_type = radix_detail::RadixTree<Key, radix_detail::RadixHasher<radix_key_type>, Extract, Allocator, radix_detail::LeafNode<Key>>;
+		using tree_iterator = typename radix_tree_type::iterator;
+
 		radix_tree_type d_tree;
 
 	public:
-		/// @brief const iterator class
-		struct const_iterator
-		{
-			using iter_type = typename radix_tree_type::const_iterator;
-			using value_type = Key;
-			using iterator_category = std::bidirectional_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = const value_type*;
-			using reference = const value_type&;
-			iter_type iter;
-
-			const_iterator() {}
-			const_iterator(const iter_type& it)
-			  : iter(it)
-			{
-			}
-			const_iterator(iter_type&& it)
-			  : iter(std::move(it))
-			{
-			}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_iterator&
-			{
-				++iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_iterator
-			{
-				const_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> const_iterator&
-			{
-				--iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> const_iterator
-			{
-				const_iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return *iter; }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-
-			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const noexcept -> bool { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const noexcept -> bool { return iter != it.iter; }
-		};
-		using iterator = const_iterator;
-
-		/// @brief const iterator class for prefix search
-		struct const_prefix_iterator
-		{
-			using iter_type = typename radix_tree_type::const_prefix_iterator;
-			using value_type = Key;
-			using iterator_category = std::forward_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = const value_type*;
-			using reference = const value_type&;
-			iter_type iter;
-
-			const_prefix_iterator() {}
-			const_prefix_iterator(const iter_type& it)
-			  : iter(it)
-			{
-			}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_prefix_iterator&
-			{
-				++iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_prefix_iterator
-			{
-				const_prefix_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return *iter; }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-
-			SEQ_ALWAYS_INLINE auto operator==(const const_prefix_iterator& it) const noexcept -> bool { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_prefix_iterator& it) const noexcept -> bool { return iter != it.iter; }
-		};
-		using prefix_iterator = const_prefix_iterator;
+		using const_iterator = detail::radix_const_iterator<tree_iterator>;
+		using iterator = detail::radix_iterator<tree_iterator>;
 
 		using key_type = Key;
 		using value_type = Key;
@@ -177,7 +210,7 @@ namespace seq
 		/// @param first the range to copy the elements from
 		/// @param last the range to copy the elements from
 		/// @param alloc allocator to use for all memory allocations of this container
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_set(InputIt first, InputIt last, const Allocator& alloc = Allocator())
 		  : radix_set(alloc)
 		{
@@ -278,13 +311,13 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
-			return d_tree.emplace_hint(hint.iter, Policy::make(std::forward<Args>(args)...));
+			return d_tree.emplace_hint(hint.base_iter(), Policy::make(std::forward<Args>(args)...));
 		}
 
 		/// @brief Same as std::set::insert()
-		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator { return d_tree.emplace_hint(hint.iter, value); }
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator { return d_tree.emplace_hint(hint.base_iter(), value); }
 		/// @brief Same as std::set::insert()
-		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator { return d_tree.emplace_hint(hint.iter, std::move(value)); }
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator { return d_tree.emplace_hint(hint.base_iter(), std::move(value)); }
 
 		/// @brief Inserts elements from range [first, last). If multiple elements in the range have keys that compare equivalent,
 		/// it is unspecified which element is inserted, except if template parameter Stable is true.
@@ -309,9 +342,10 @@ namespace seq
 		}
 
 		/// @brief Erase element at given location.
-		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos.iter); }
+		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return d_tree.erase(pos.base_iter()); }
+		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos.base_iter()); }
 		/// @brief Erase elements in the range [first, last)
-		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator { return d_tree.erase(first.iter, last.iter); }
+		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator { return d_tree.erase(first.base_iter(), last.base_iter()); }
 
 		/// @brief Removes the element (if one exists) with key that compares equivalent to the value key.
 		/// @param key key value of the elements to remove
@@ -330,16 +364,31 @@ namespace seq
 		{
 			return d_tree.find(key);
 		}
+		template<class K>
+		SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
+		{
+			return d_tree.find(key);
+		}
 
 		template<class K>
 		SEQ_ALWAYS_INLINE auto find_ptr(const K& key) const -> const value_type*
 		{
 			return d_tree.find_ptr(key);
 		}
+		template<class K>
+		SEQ_ALWAYS_INLINE auto find_ptr(const K& key) -> value_type*
+		{
+			return (value_type*)d_tree.find_ptr(key);
+		}
 
 		/// @brief Returns an iterator pointing to the first element that compares not less (i.e. greater or equal) to the value key.
 		template<class K>
 		SEQ_ALWAYS_INLINE auto lower_bound(const K& key) const -> const_iterator
+		{
+			return d_tree.lower_bound(key);
+		}
+		template<class K>
+		SEQ_ALWAYS_INLINE auto lower_bound(const K& key) -> iterator
 		{
 			return d_tree.lower_bound(key);
 		}
@@ -350,18 +399,34 @@ namespace seq
 		{
 			return d_tree.upper_bound(key);
 		}
+		template<class K>
+		SEQ_ALWAYS_INLINE auto upper_bound(const K& key) -> iterator
+		{
+			return d_tree.upper_bound(key);
+		}
 
 		template<class K>
 		SEQ_ALWAYS_INLINE auto prefix(const K& key) const -> const_iterator
 		{
 			return d_tree.prefix(key);
 		}
+		template<class K>
+		SEQ_ALWAYS_INLINE auto prefix(const K& key) -> iterator
+		{
+			return d_tree.prefix(key);
+		}
 
 		template<class K>
-		SEQ_ALWAYS_INLINE auto prefix_range(const K& key) const -> std::pair<const_prefix_iterator, const_prefix_iterator>
+		SEQ_ALWAYS_INLINE auto prefix_range(const K& key) const -> std::pair<const_iterator, const_iterator>
 		{
-			auto p = d_tree.prefix_range(key);
-			return { p.first, p.second };
+			auto r = d_tree.prefix_range(key);
+			return { (r.first), (r.second) };
+		}
+		template<class K>
+		SEQ_ALWAYS_INLINE auto prefix_range(const K& key) -> std::pair<iterator, iterator>
+		{
+			auto r = d_tree.prefix_range(key);
+			return { (r.first), (r.second) };
 		}
 
 		/// @brief Checks if there is an element with key that compares equivalent to the value key.
@@ -382,7 +447,16 @@ namespace seq
 		/// The range is defined by two iterators, one pointing to the first element that is not less than key and another pointing to the first element greater than key.
 		/// Alternatively, the first iterator may be obtained with lower_bound(), and the second with upper_bound().
 		template<class K>
-		SEQ_ALWAYS_INLINE auto equal_range(const K& key) const -> std::pair<iterator, iterator>
+		SEQ_ALWAYS_INLINE auto equal_range(const K& key) const -> std::pair<const_iterator, const_iterator>
+		{
+			auto it = d_tree.find(key);
+			if (it == d_tree.end())
+				return std::pair<const_iterator, const_iterator>(d_tree.end(), d_tree.end());
+			auto start = it++;
+			return std::pair<const_iterator, const_iterator>(start, it);
+		}
+		template<class K>
+		SEQ_ALWAYS_INLINE auto equal_range(const K& key) -> std::pair<iterator, iterator>
 		{
 			auto it = d_tree.find(key);
 			if (it == d_tree.end())
@@ -494,195 +568,11 @@ namespace seq
 
 		using Policy = detail::BuildValue<std::pair<Key, T>, true>;
 		using radix_tree_type = radix_detail::RadixTree<std::pair<Key, T>, radix_detail::RadixHasher<radix_key_type>, Extract, Allocator>;
+		using tree_iterator = typename radix_tree_type::const_iterator;
+
 		radix_tree_type d_tree;
 
 	public:
-		struct const_iterator
-		{
-			using iter_type = typename radix_tree_type::const_iterator;
-			using value_type = std::pair<Key, T>;
-			using iterator_category = std::bidirectional_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = const value_type*;
-			using reference = const value_type&;
-			using const_pointer = const value_type*;
-			using const_reference = const value_type&;
-			iter_type iter;
-
-			const_iterator() {}
-			const_iterator(const iter_type& it)
-			  : iter(it)
-			{
-			}
-			const_iterator(iter_type&& it)
-			  : iter(std::move(it))
-			{
-			}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_iterator&
-			{
-				++iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_iterator
-			{
-				const_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> const_iterator&
-			{
-				--iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> const_iterator
-			{
-				const_iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return reinterpret_cast<const value_type&>(*iter); }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-
-			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const noexcept -> bool { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const noexcept -> bool { return iter != it.iter; }
-		};
-
-		struct iterator : public const_iterator
-		{
-			using iter_type = typename radix_tree_type::const_iterator;
-			using value_type = std::pair<Key, T>;
-			using iterator_category = std::bidirectional_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = value_type*;
-			using reference = value_type&;
-			using const_pointer = const value_type*;
-			using const_reference = const value_type&;
-
-			iterator()
-			  : const_iterator()
-			{
-			}
-			iterator(const iter_type& it)
-			  : const_iterator(it)
-			{
-			}
-			iterator(iter_type&& it)
-			  : const_iterator(std::move(it))
-			{
-			}
-			iterator(const const_iterator& it)
-			  : const_iterator(it)
-			{
-			}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> iterator&
-			{
-				++this->iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> iterator
-			{
-				iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> iterator&
-			{
-				--this->iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> iterator
-			{
-				iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference { return reinterpret_cast<value_type&>(const_cast<std::pair<Key, T>&>(*this->iter)); }
-			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> const_reference { return reinterpret_cast<const value_type&>(*this->iter); }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const_pointer { return std::pointer_traits<const_pointer>::pointer_to(**this); }
-
-			SEQ_ALWAYS_INLINE auto operator==(const const_iterator& it) const noexcept -> bool { return this->iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_iterator& it) const noexcept -> bool { return this->iter != it.iter; }
-		};
-
-		/// @brief const iterator class for prefix search
-		struct const_prefix_iterator
-		{
-			using iter_type = typename radix_tree_type::const_prefix_iterator;
-			using value_type = std::pair<Key, T>;
-			using iterator_category = std::forward_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = const value_type*;
-			using reference = const value_type&;
-			using const_pointer = const value_type*;
-			using const_reference = const value_type&;
-			iter_type iter;
-
-			const_prefix_iterator() {}
-			const_prefix_iterator(const iter_type& it)
-			  : iter(it)
-			{
-			}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_prefix_iterator&
-			{
-				++iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_prefix_iterator
-			{
-				const_prefix_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return *iter; }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-
-			SEQ_ALWAYS_INLINE auto operator==(const const_prefix_iterator& it) const noexcept -> bool { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_prefix_iterator& it) const noexcept -> bool { return iter != it.iter; }
-		};
-
-		struct prefix_iterator : public const_prefix_iterator
-		{
-			using iter_type = typename radix_tree_type::const_prefix_iterator;
-			using value_type = std::pair<Key, T>;
-			using iterator_category = std::forward_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = value_type*;
-			using reference = value_type&;
-			using const_pointer = const value_type*;
-			using const_reference = const value_type&;
-
-			prefix_iterator()
-			  : const_prefix_iterator()
-			{
-			}
-			prefix_iterator(const iter_type& it)
-			  : const_prefix_iterator(it)
-			{
-			}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> prefix_iterator&
-			{
-				++this->iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> prefix_iterator
-			{
-				prefix_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference { return reinterpret_cast<value_type&>(const_cast<std::pair<Key, T>&>(*this->iter)); }
-			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> const_reference { return reinterpret_cast<const value_type&>(*this->iter); }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const_pointer { return std::pointer_traits<const_pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE auto operator==(const const_prefix_iterator& it) const noexcept -> bool { return this->iter == it.iter; }
-			SEQ_ALWAYS_INLINE auto operator!=(const const_prefix_iterator& it) const noexcept -> bool { return this->iter != it.iter; }
-		};
-
 		using key_type = Key;
 		using mapped_type = T;
 		using value_type = std::pair<Key, T>;
@@ -695,6 +585,8 @@ namespace seq
 		using const_reference = const value_type&;
 		using pointer = typename std::allocator_traits<Allocator>::pointer;
 		using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
+		using const_iterator = detail::radix_const_iterator<tree_iterator>;
+		using iterator = detail::radix_iterator<tree_iterator>;
 		using reverse_iterator = std::reverse_iterator<iterator>;
 		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
@@ -703,14 +595,9 @@ namespace seq
 		  : d_tree(alloc)
 		{
 		}
-		template<class InputIt>
+		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_map(InputIt first, InputIt last, const Allocator& alloc = Allocator())
 		  : d_tree(first, last, alloc)
-		{
-		}
-		template<class InputIt>
-		radix_map(const radix_map& other)
-		  : d_tree(other.d_tree)
 		{
 		}
 
@@ -767,12 +654,12 @@ namespace seq
 		{
 			return d_tree.emplace(Policy::make(std::forward<P>(value)));
 		}
-		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator { return d_tree.emplace_hint(hint.iter, value); }
-		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator { return d_tree.emplace_hint(hint.iter, std::move(value)); }
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, const value_type& value) -> iterator { return d_tree.emplace_hint(hint.base_iter(), value); }
+		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, value_type&& value) -> iterator { return d_tree.emplace_hint(hint.base_iter(), std::move(value)); }
 		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
 		auto insert(const_iterator hint, P&& value) -> iterator
 		{
-			return d_tree.emplace_hint(hint.iter, Policy::make(std::forward<P>(value)));
+			return d_tree.emplace_hint(hint.base_iter(), Policy::make(std::forward<P>(value)));
 		}
 
 		template<class... Args>
@@ -783,7 +670,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_hint(const_iterator hint, Args&&... args) -> iterator
 		{
-			return d_tree.emplace_hint(hint.iter, Policy::make(std::forward<Args>(args)...));
+			return d_tree.emplace_hint(hint.base_iter(), Policy::make(std::forward<Args>(args)...));
 		}
 
 		template<class... Args>
@@ -799,12 +686,12 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto try_emplace(const_iterator hint, const Key& k, Args&&... args) -> iterator
 		{
-			return d_tree.try_emplace_hint(hint.iter, k, std::forward<Args>(args)...).first;
+			return d_tree.try_emplace_hint(hint.base_iter(), k, std::forward<Args>(args)...).first;
 		}
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto try_emplace(const_iterator hint, Key&& k, Args&&... args) -> iterator
 		{
-			return d_tree.try_emplace_hint(hint.iter, std::move(k), std::forward<Args>(args)...).first;
+			return d_tree.try_emplace_hint(hint.base_iter(), std::move(k), std::forward<Args>(args)...).first;
 		}
 
 		template<class M>
@@ -827,7 +714,7 @@ namespace seq
 		template<class M>
 		SEQ_ALWAYS_INLINE auto insert_or_assign(const_iterator hint, const Key& k, M&& obj) -> iterator
 		{
-			auto inserted = d_tree.try_emplace_hint(hint.iter, k, std::forward<M>(obj));
+			auto inserted = d_tree.try_emplace_hint(hint.base_iter(), k, std::forward<M>(obj));
 			if (!inserted.second)
 				inserted.first->second = std::forward<M>(obj);
 			return inserted.first;
@@ -835,7 +722,7 @@ namespace seq
 		template<class M>
 		SEQ_ALWAYS_INLINE auto insert_or_assign(const_iterator hint, Key&& k, M&& obj) -> iterator
 		{
-			auto inserted = d_tree.try_emplace_hint(hint.iter, std::move(k), std::forward<M>(obj));
+			auto inserted = d_tree.try_emplace_hint(hint.base_iter(), std::move(k), std::forward<M>(obj));
 			if (!inserted.second)
 				inserted.first->second = std::forward<M>(obj);
 			return inserted.first;
@@ -872,9 +759,9 @@ namespace seq
 			d_tree.assign(first, last);
 		}
 
-		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return d_tree.erase(pos.iter); }
-		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos.iter); }
-		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator { return d_tree.erase(first.iter, last.iter); }
+		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return d_tree.erase(pos.base_iter()); }
+		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos.base_iter()); }
+		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator { return d_tree.erase(first.base_iter(), last.base_iter()); }
 
 		template<class K>
 		SEQ_ALWAYS_INLINE auto erase(const K& key) -> size_type
@@ -941,13 +828,13 @@ namespace seq
 		}
 
 		template<class K>
-		SEQ_ALWAYS_INLINE auto prefix_range(const K& x) -> std::pair<prefix_iterator, prefix_iterator>
+		SEQ_ALWAYS_INLINE auto prefix_range(const K& x) -> std::pair<iterator, iterator>
 		{
 			auto p = d_tree.prefix_range(x);
 			return { p.first, p.second };
 		}
 		template<class K>
-		SEQ_ALWAYS_INLINE auto prefix_range(const K& x) const -> std::pair<const_prefix_iterator, const_prefix_iterator>
+		SEQ_ALWAYS_INLINE auto prefix_range(const K& x) const -> std::pair<const_iterator, const_iterator>
 		{
 			auto p = d_tree.prefix_range(x);
 			return { p.first, p.second };

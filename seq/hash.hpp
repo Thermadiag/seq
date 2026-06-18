@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,28 +29,20 @@
 
 /**\defgroup hash Hash: small collection of hash utilities
 
-The hash module provides several hash-related functions:
-	-	seq::hash_combine: combine 2 hash values
-	-	seq::hash_finalize: mix hash value for better avalanching
-	-	seq::hash_bytes_murmur64: murmurhash2 algorithm
-	-	seq::hash_bytes_fnv1a: fnv1a hash algorithm working on chunks of 4 to 8 bytes
-	-	seq::hash_bytes_fnv1a_slow: standard fnv1a hash algorithm
-
-Note that the specialization of std::hash for seq::tiny_string uses murmurhash2 algorithm.
-
 */
 
 /** \addtogroup hash
  *  @{
  */
 
-#include "utils.hpp"
+#include "internal/utils.hpp"
 #include "internal/hash_impl.hpp"
 #include <string>
 #include <type_traits>
 #include <tuple>
 #include <utility>
 #include <memory>
+#include <chrono>
 
 namespace seq
 {
@@ -118,7 +110,10 @@ namespace seq
 	}
 
 	/// @brief Mix input hash value for better avalanching
-	SEQ_ALWAYS_INLINE size_t hash_finalize(size_t h) noexcept { return detail::Mixin<sizeof(size_t)>::mix(h); }
+	SEQ_ALWAYS_INLINE size_t hash_finalize(size_t h) noexcept
+	{
+		return detail::Mixin<sizeof(size_t)>::mix(h);
+	}
 
 	/// @brief Combine 2 hash values. Uses murmurhash2 mixin.
 	/// @param seed in/out seed value
@@ -148,7 +143,6 @@ namespace seq
 		return detail::HashVal<Hasher>::hash(h, v);
 	}
 
-
 	inline auto hash_bytes_murmur64(const void* ptr, size_t size) noexcept
 	{
 		return detail::hash_bytes_murmur64_impl(ptr, size);
@@ -162,7 +156,6 @@ namespace seq
 		return detail::hash_bytes_komihash_impl(ptr, size);
 	}
 
-
 	template<class T, class Enable = void>
 	struct hasher : public std::hash<T>
 	{
@@ -173,8 +166,13 @@ namespace seq
 	template<>                                                                                                                                                                                     \
 	struct hasher<T>                                                                                                                                                                               \
 	{                                                                                                                                                                                              \
-		using is_avalanching = int;                                                                                                                                                            \
-		SEQ_ALWAYS_INLINE size_t operator()(T v) const noexcept { return hash_finalize(static_cast<size_t>(v)); }                                                                              \
+		using is_avalanching = void;                                                                                                                                                            \
+		using is_transparent = void;                                                                                                                                                            \
+		template<class U>                                                                                                                                                                      \
+		SEQ_ALWAYS_INLINE size_t operator()(const U& v) const noexcept                                                                                                                         \
+		{                                                                                                                                                                                      \
+			return hash_finalize(static_cast<size_t>(static_cast<T>(v)));                                                                                                                  \
+		}                                                                                                                                                                                      \
 	}
 
 	SEQ_INTEGRAL_HASH_FUNCTION(bool);
@@ -199,15 +197,17 @@ namespace seq
 	template<>
 	struct hasher<float>
 	{
-		using is_avalanching = int;
-		SEQ_ALWAYS_INLINE size_t operator()(float v) const noexcept
+		using is_avalanching = void;
+		using is_transparent = void;
+		template<class U>
+		SEQ_ALWAYS_INLINE size_t operator()(const U& v) const noexcept
 		{
 			union
 			{
 				float fv;
 				std::uint32_t uv;
 			};
-			fv = v;
+			fv = (float)v;
 			return hash_finalize(uv);
 		}
 	};
@@ -215,31 +215,42 @@ namespace seq
 	template<>
 	struct hasher<double>
 	{
-		using is_avalanching = int;
-		SEQ_ALWAYS_INLINE size_t operator()(double v) const noexcept
+		using is_avalanching = void;
+		using is_transparent = void;
+		template<class U>
+		SEQ_ALWAYS_INLINE size_t operator()(const U& v) const noexcept
 		{
 			union
 			{
 				double fv;
 				std::uint64_t uv;
 			};
-			fv = v;
+			fv = (double)v;
 			return hash_finalize(static_cast<size_t>(uv));
 		}
+	};
+	template<>
+	struct hasher<long double> : hasher<double>
+	{
 	};
 
 	template<class T>
 	struct hasher<T*>
 	{
-		using is_avalanching = int;
-		SEQ_ALWAYS_INLINE size_t operator()(T* ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr)); }
+		using is_avalanching = void;
+		using is_transparent = void;
+		template<class U>
+		SEQ_ALWAYS_INLINE size_t operator()(U* ptr) const noexcept
+		{
+			return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr));
+		}
 	};
 
 	template<class T>
 	struct hasher<std::unique_ptr<T>>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		SEQ_ALWAYS_INLINE size_t operator()(const std::unique_ptr<T>& ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr.get())); }
 		SEQ_ALWAYS_INLINE size_t operator()(const T* ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr)); }
 	};
@@ -247,8 +258,8 @@ namespace seq
 	template<class T>
 	struct hasher<std::shared_ptr<T>>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		SEQ_ALWAYS_INLINE size_t operator()(const std::shared_ptr<T>& ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr.get())); }
 		SEQ_ALWAYS_INLINE size_t operator()(const T* ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr)); }
 	};
@@ -256,8 +267,8 @@ namespace seq
 	template<typename Enum>
 	struct hasher<Enum, typename std::enable_if<std::is_enum_v<Enum>, void>::type>
 	{
-		using is_avalanching = int;
-		using is_transparent = int;
+		using is_avalanching = void;
+		using is_transparent = void;
 		SEQ_ALWAYS_INLINE size_t operator()(Enum e) const noexcept
 		{
 			using Underlying = typename std::underlying_type<Enum>::type;
@@ -273,8 +284,10 @@ namespace seq
 	template<class A, class B>
 	struct hasher<std::pair<A, B>>
 	{
-		using is_avalanching = int;
-		SEQ_ALWAYS_INLINE size_t operator()(const std::pair<A, B>& p) const noexcept
+		using is_avalanching = void;
+		using is_transparent = void;
+		template<class U, class V>
+		SEQ_ALWAYS_INLINE size_t operator()(const std::pair<U, V>& p) const noexcept
 		{
 			size_t s = hasher<A>{}(p.first);
 			hash_combine(s, hasher<B>{}(p.second));
@@ -287,7 +300,8 @@ namespace seq
 		template<class Tuple, size_t Index = std::tuple_size<Tuple>::value - 1>
 		struct HashTuple
 		{
-			static SEQ_ALWAYS_INLINE void apply(size_t& seed, Tuple const& tuple) noexcept
+			template<class OtherTuple>
+			static SEQ_ALWAYS_INLINE void apply(size_t& seed, OtherTuple const& tuple) noexcept
 			{
 				using elem_type = typename std::tuple_element<Index, Tuple>::type;
 				HashTuple<Tuple, Index - 1>::apply(seed, tuple);
@@ -298,7 +312,8 @@ namespace seq
 		template<class Tuple>
 		struct HashTuple<Tuple, 0>
 		{
-			static SEQ_ALWAYS_INLINE void apply(size_t& seed, Tuple const& tuple) noexcept
+			template<class OtherTuple>
+			static SEQ_ALWAYS_INLINE void apply(size_t& seed, OtherTuple const& tuple) noexcept
 			{
 				using elem_type = typename std::tuple_element<0, Tuple>::type;
 				hash_combine(seed, hasher<elem_type>{}(std::get<0>(tuple)));
@@ -309,12 +324,45 @@ namespace seq
 	template<class... Args>
 	struct hasher<std::tuple<Args...>>
 	{
-		using is_avalanching = int;
-		SEQ_ALWAYS_INLINE size_t operator()(const std::tuple<Args...>& t) const noexcept
+		using is_avalanching = void;
+		using is_transparent = void;
+		template<class OtherTuple>
+		SEQ_ALWAYS_INLINE size_t operator()(const OtherTuple& t) const noexcept
 		{
 			size_t seed = 0;
 			detail::HashTuple<std::tuple<Args...>>::apply(seed, t);
 			return seed;
+		}
+	};
+
+	template<class Rep, class Ratio>
+	struct hasher<std::chrono::duration<Rep, Ratio>>
+	{
+		using is_avalanching = void;
+		using is_transparent = void;
+		using type = std::chrono::duration<Rep, Ratio>;
+
+		size_t operator()(const type& s) const { return hasher<Rep>{}(s.count()); }
+		template<class T, class = std::enable_if_t<std::is_arithmetic_v<T>, void>>
+		size_t operator()(T s) const
+		{
+			return hasher<Rep>{}(static_cast<Rep>(s));
+		}
+	};
+
+	template<class Clock, class Duration>
+	struct hasher<std::chrono::time_point<Clock, Duration>>
+	{
+		using is_avalanching = void;
+		using is_transparent = void;
+		using type = std::chrono::time_point<Clock, Duration>;
+		using integral = decltype(type{}.time_since_epoch().count());
+
+		size_t operator()(const type& s) const {return hasher<integral>{}(s.time_since_epoch().count()); }
+		template<class T, class = std::enable_if_t<std::is_arithmetic_v<T>, void>>
+		size_t operator()(T s) const
+		{
+			return hasher<integral>{}(static_cast<integral>(s));
 		}
 	};
 }

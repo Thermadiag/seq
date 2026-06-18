@@ -1,0 +1,1254 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="222.29407mm"
+   height="125.19199mm"
+   viewBox="0 0 222.29407 125.19199"
+   version="1.1"
+   id="svg5"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2">
+    <clipPath
+       id="clip0">
+      <rect
+         x="71"
+         y="78"
+         width="845"
+         height="482"
+         id="rect2488" />
+    </clipPath>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-57.236561,4.1991286)">
+    <g
+       clip-path="url(#clip0)"
+       transform="matrix(0.26458333,0,0,0.26458333,37.172298,-26.380058)"
+       id="g2835">
+      <rect
+         x="145.5"
+         y="282.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2493" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(151.663,295)"
+         id="text2495">0</text>
+      <rect
+         x="164.5"
+         y="282.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2497" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(170.56,295)"
+         id="text2499">1</text>
+      <rect
+         x="183.5"
+         y="282.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2501" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(189.458,295)"
+         id="text2503">2</text>
+      <rect
+         x="202.5"
+         y="282.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2505" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(208.356,295)"
+         id="text2507">3</text>
+      <rect
+         x="114.5"
+         y="153.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2509" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,-30.8425,151.1575)"
+         id="text2511">Leaf (1)</text>
+      <rect
+         x="153.5"
+         y="153.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2513" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,-11.567,170.433)"
+         id="text2515">Leaf (7)</text>
+      <rect
+         x="190.5"
+         y="153.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2517" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,12.6665,183.6665)"
+         id="text2519">Null Leaf (0)</text>
+      <rect
+         x="229.5"
+         y="153.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2521" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,26.442,208.442)"
+         id="text2523">Leaf (2)</text>
+      <path
+         d="m 0,-0.5 h 3 v 1 H 0 Z m 4,0 h 3 v 1 H 4 Z m 4,0 h 3 v 1 H 8 Z m 4,0 h 3 v 1 h -3 z m 4,0 h 1.8333 v 2.16667 h -1 V 0 l 0.5,0.5 H 16 Z m 1.8333,3.16667 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4.00003 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 0.081 l -0.5,-0.5 h 2.919 v 1 h -3.419 v -0.581 z m 3.419,-0.419 h 3 v 1 h -3 z m 4,0 H 28 v 1 h -2.7477 z m 1.4144,-3.5 8,4 -8,4 z"
+         transform="matrix(0,-1,-1,0,155.248,282.167)"
+         id="path2525" />
+      <path
+         d="m 0,-0.5 h 3 v 1 H 0 Z m 4,0 h 3 v 1 H 4 Z m 4,0 h 3 v 1 H 8 Z m 4,0 h 3 v 1 h -3 z m 4,0 h 1.8333 v 2.16667 h -1 V 0 l 0.5,0.5 H 16 Z m 1.8333,3.16667 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4.00003 v 0.4274 l -0.5,-0.5 h 2.5726 v 1 h -3.0726 v -0.9274 z m 3.0726,-0.0726 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 1.7608,-3.50003 8,4.00003 -8,4 z"
+         transform="matrix(0,-1,-1,0,173.594,282.167)"
+         id="path2527" />
+      <path
+         d="m 192,282.167 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -1.834 h 2.167 v 1 H 192.5 l 0.5,-0.5 v 1.334 z m 3.167,-1.834 h 3 v 1 h -3 z m 4,0 h 0.808 l -0.5,0.5 v -2.192 h 1 v 2.692 h -1.308 z m 0.308,-2.692 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m -3.5,-2.141 4,-8 4,8 z"
+         id="path2529" />
+      <path
+         d="m 211,282.167 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -1.834 h 2.167 v 1 H 211.5 l 0.5,-0.5 v 1.334 z m 3.167,-1.834 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 0.461 l -0.5,0.5 v -2.538 h 1 v 3.038 h -0.961 z m -0.039,-3.038 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m -3.5,-1.795 4,-8 4,8 z"
+         id="path2531" />
+      <rect
+         x="579.5"
+         y="282.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2533" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(585.773,295)"
+         id="text2535">0</text>
+      <rect
+         x="598.5"
+         y="282.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2537" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(604.671,295)"
+         id="text2539">1</text>
+      <rect
+         x="617.5"
+         y="282.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2541" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(623.569,295)"
+         id="text2543">2</text>
+      <rect
+         x="636.5"
+         y="282.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2545" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(642.466,295)"
+         id="text2547">3</text>
+      <rect
+         x="386.5"
+         y="128.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2549" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,119.642,272.642)"
+         id="text2551">Leaf (12)</text>
+      <rect
+         x="425.5"
+         y="128.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2553" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,137.4175,293.4175)"
+         id="text2555">Leaf (7)</text>
+      <rect
+         x="462.5"
+         y="128.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2557" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,161.651,306.651)"
+         id="text2559">Null Leaf (0)</text>
+      <rect
+         x="501.5"
+         y="128.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2561" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,175.4265,331.4265)"
+         id="text2563">Leaf (1)</text>
+      <rect
+         x="444.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2565" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(450.76,254)"
+         id="text2567">0</text>
+      <rect
+         x="463.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2569" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(469.658,254)"
+         id="text2571">1</text>
+      <rect
+         x="482.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2573" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(488.555,254)"
+         id="text2575">2</text>
+      <rect
+         x="501.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2577" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(507.453,254)"
+         id="text2579">3</text>
+      <rect
+         x="536.5"
+         y="241.5"
+         width="18"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2581" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(541.987,254)"
+         id="text2583">0</text>
+      <rect
+         x="554.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2585" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(560.884,254)"
+         id="text2587">1</text>
+      <rect
+         x="573.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2589" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(579.782,254)"
+         id="text2591">2</text>
+      <rect
+         x="592.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2593" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(598.68,254)"
+         id="text2595">3</text>
+      <rect
+         x="629.5"
+         y="241.5"
+         width="18"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2597" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(635.026,254)"
+         id="text2599">0</text>
+      <rect
+         x="647.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2601" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(653.924,254)"
+         id="text2603">1</text>
+      <rect
+         x="666.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2605" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(672.821,254)"
+         id="text2607">2</text>
+      <rect
+         x="685.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2609" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(691.719,254)"
+         id="text2611">3</text>
+      <rect
+         x="719.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2613" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(725.329,254)"
+         id="text2615">0</text>
+      <rect
+         x="738.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2617" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(744.226,254)"
+         id="text2619">1</text>
+      <rect
+         x="757.5"
+         y="241.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2621" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(763.124,254)"
+         id="text2623">2</text>
+      <rect
+         x="776.5"
+         y="241.5"
+         width="18"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2625" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(782.022,254)"
+         id="text2627">3</text>
+      <path
+         d="m 0,-0.5 h 3 v 1 H 0 Z m 4,0 h 3 v 1 H 4 Z m 4,0 h 3 v 1 H 8 Z m 3.6111,1.388871 V 3.88887 h -1 V 0.888871 Z m 0,3.999999 v 3 h -1 v -3 z m 0,4 v 3.00003 h -1 V 8.88887 Z m 0,4.00003 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 0.3294 l -0.5,-0.5 h 2.6706 v 1 h -3.1706 v -0.8294 z m 3.1706,-0.1706 h 0.7739 v 1 h -0.7739 z m -0.5594,-3.5 8,4 -8,3.9997 z"
+         transform="matrix(0,-1,-1,0,589.718,282.722)"
+         id="path2629" />
+      <path
+         d="m 0,-0.5 h 3 v 1 H 0 Z m 4,0 h 3 v 1 H 4 Z m 4,0 h 3 v 1 H 8 Z m 3.6111,1.388871 V 3.88887 h -1 V 0.888871 Z m 0,3.999999 V 5.9915 l -0.5,-0.5 h 1.8974 v 1 H 10.6111 V 4.88887 Z m 2.3974,0.60263 h 1.5471 v 1 h -1.5471 z m 0.2138,-3.5 8,4 -8,4 z"
+         transform="matrix(0,-1,-1,0,608.492,282.722)"
+         id="path2631" />
+      <path
+         d="m 627,282.722 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 1.389,-3.611 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 2.569 l -0.5,0.5 v -0.431 h 1 v 0.931 h -3.069 z m 2.069,-0.931 v -3 h 1 v 3 z m -3.5,-1.68 4,-8 4,8 z"
+         id="path2633" />
+      <path
+         d="m 645,282.722 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 1.389,-3.611 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 1.973 l -0.5,0.5 v -1.026 h 1 v 1.526 h -2.473 z m 1.473,-1.526 v -2.418 h 1 v 2.418 z m -3.5,-1.085 4,-8 4,8 z"
+         id="path2635" />
+      <rect
+         x="727.5"
+         y="128.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2637" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,288.2985,444.2985)"
+         id="text2639">Leaf (5)</text>
+      <rect
+         x="765.5"
+         y="128.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2641" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,307.574,463.574)"
+         id="text2643">Leaf (6)</text>
+      <rect
+         x="803.5"
+         y="128.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2645" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,326.307,482.307)"
+         id="text2647">Leaf (2)</text>
+      <rect
+         x="841.5"
+         y="128.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2649" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,347.0825,500.0825)"
+         id="text2651">Leaf (32)</text>
+      <rect
+         x="536.5"
+         y="128.5"
+         width="168"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         stroke-dasharray="2.66667, 2"
+         fill="#ffffff"
+         id="rect2653" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,238.1265,378.1265)"
+         id="text2655">More leaves…</text>
+      <path
+         d="m 0,-0.5 h 3 v 1 H 0 Z m 4,0 h 3 v 1 H 4 Z m 4,0 h 1.94882 v 2.05118 h -1 V 0 l 0.5,0.5 H 8 Z m 1.94882,3.05118 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4.00002 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0.17538,2.8246 h 2.1068 v 1 h -2.1068 z m 0.7734,-3.5 8,4 -8,4 z"
+         transform="matrix(0,-1,-1,0,454.376,241.398)"
+         id="path2657" />
+      <path
+         d="m 0,-0.5 h 3 v 1 H 0 Z m 4,0 h 3 v 1 H 4 Z m 4,0 h 1.94884 v 2.05116 h -1 V 0 l 0.5,0.5 H 8 Z m 1.94884,3.05116 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4.00004 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m -0.17099,3.171 H 12.231 v 1 H 9.77785 Z m 1.11975,-3.5 8,4 -8,4 z"
+         transform="matrix(0,-1,-1,0,472.722,241.398)"
+         id="path2659" />
+      <path
+         d="m 0,-0.5 h 3 v 1 H 0 Z m 4,0 h 3 v 1 H 4 Z m 4,0 h 1.94882 v 2.05118 h -1 V 0 l 0.5,0.5 H 8 Z m 1.94882,3.05118 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4.00002 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 1.1023 l -0.5,-0.5 h 1.89768 v 1 H 8.94882 v -1.6023 z m 0.94878,-2.8977 8,4 -8,4 z"
+         transform="matrix(0,-1,-1,0,492.154,241.398)"
+         id="path2661" />
+      <path
+         d="m 510,241.398 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -1.949 h 1.833 l -0.5,0.5 v -0.218 h 1 v 0.718 H 510.5 l 0.5,-0.5 v 1.449 z m 1.333,-2.667 v -1.564 h 1 v 1.564 z m -3.5,-0.231 4,-8 4,8 z"
+         id="path2663" />
+      <path
+         d="m 728,241.398 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -1.949 h 2.051 v 1 H 728.5 l 0.5,-0.5 v 1.449 z m 3.051,-1.949 h 3 v 1 h -3 z m 4,0 h 1.317 l -0.5,0.5 v -1.684 h 1 v 2.184 h -1.817 z m 0.817,-2.184 v -0.098 h 1 v 0.098 z m -3.5,1.235 4,-8 4,8 z"
+         id="path2665" />
+      <path
+         d="m 747,241.398 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -1.949 h 2.051 v 1 H 747.5 l 0.5,-0.5 v 1.449 z m 3.051,-1.949 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 0.97 l -0.5,0.5 v -2.03 h 1 v 2.53 h -1.47 z m -3.03,-0.949 4,-8 4,8 z"
+         id="path2667" />
+      <path
+         d="m 766,241.398 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -1.949 h 2.051 v 1 H 766.5 l 0.5,-0.5 v 1.449 z m 3.051,-1.949 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 3.039,0.039 v -2.321 h 1 v 2.321 z m -3.5,-0.988 4,-8 4,8 z"
+         id="path2669" />
+      <path
+         d="m 785,241.398 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -1.949 h 2.051 v 1 H 785.5 l 0.5,-0.5 v 1.449 z m 3.051,-1.949 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 2.693,-0.308 v -1.974 h 1 v 1.974 z m -3.5,-0.641 4,-8 4,8 z"
+         id="path2671" />
+      <path
+         d="M 0.5,-2.81215e-6 0.500017,3 h -1 L -0.5,2.81215e-6 Z M 0.500022,4 l 1.7e-5,3 h -1 l -1.6e-5,-3 z m 2.3e-5,4 1.7e-5,3 h -1 l -1.7e-5,-3 z m 3.500015,2.6666 -3.999955013,8.0001 -4.000044987,-8 z"
+         transform="matrix(1,0,0,-1,666.5,232.167)"
+         id="path2673" />
+      <path
+         d="M 0.5,-2.81215e-6 0.500017,3 h -1 L -0.5,2.81215e-6 Z M 0.500022,4 l 1.7e-5,3 h -1 l -1.6e-5,-3 z m 2.3e-5,4 1.7e-5,3 h -1 l -1.7e-5,-3 z m 3.500015,2.6666 -3.999955013,8.0001 -4.000044987,-8 z"
+         transform="matrix(1,0,0,-1,573.5,232.167)"
+         id="path2675" />
+      <rect
+         x="217"
+         y="279"
+         width="110"
+         height="24"
+         fill="#ffffff"
+         id="rect2677" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="12px"
+         transform="translate(226.947,296)"
+         id="text2679">Root directory(4)</text>
+      <rect
+         x="659"
+         y="279"
+         width="113"
+         height="24"
+         fill="#ffffff"
+         id="rect2681" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="12px"
+         transform="translate(668.707,296)"
+         id="text2683">Root directory (4)</text>
+      <rect
+         x="799"
+         y="241"
+         width="117"
+         height="24"
+         fill="#ffffff"
+         id="rect2685" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="12px"
+         transform="translate(808.189,257)"
+         id="text2693">Level 1 directories<tspan
+   fill="#c00000"
+   font-size="16px"
+   x="-704.65002"
+   y="-151"
+   id="tspan2687">Tree state after 10 insertions</tspan><tspan
+   fill="#c00000"
+   font-size="16px"
+   x="-306.07001"
+   y="-156"
+   id="tspan2689">Tree state after 500 insertions</tspan><tspan
+   fill="#c00000"
+   font-size="16px"
+   x="-531.83002"
+   y="137"
+   id="tspan2691">Tree state after 500 insertions and level merging</tspan></text>
+      <path
+         d="m 76.5001,99.0001 c 0,-6.3513 5.1487,-11.5 11.5,-11.5 6.3512,0 11.5,5.1487 11.5,11.5 0,6.3509 -5.1488,11.4999 -11.5,11.4999 -6.3513,0 -11.5,-5.149 -11.5,-11.4999 z"
+         stroke="#c00000"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="#c00000"
+         fill-rule="evenodd"
+         id="path2695" />
+      <text
+         fill="#ffffff"
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(82.543,105)"
+         id="text2697">1</text>
+      <path
+         d="m 471.5,96.0001 c 0,-6.3513 5.149,-11.5 11.5,-11.5 6.351,0 11.5,5.1487 11.5,11.5 0,6.3509 -5.149,11.4999 -11.5,11.4999 -6.351,0 -11.5,-5.149 -11.5,-11.4999 z"
+         stroke="#c00000"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="#c00000"
+         fill-rule="evenodd"
+         id="path2699" />
+      <text
+         fill="#ffffff"
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(477.538,101)"
+         id="text2701">2</text>
+      <path
+         d="m 247.5,388 c 0,-6.351 5.149,-11.5 11.5,-11.5 6.351,0 11.5,5.149 11.5,11.5 0,6.351 -5.149,11.5 -11.5,11.5 -6.351,0 -11.5,-5.149 -11.5,-11.5 z"
+         stroke="#c00000"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="#c00000"
+         fill-rule="evenodd"
+         id="path2703" />
+      <text
+         fill="#ffffff"
+         font-family="Calibri, Calibri_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="19px"
+         transform="translate(253.45,394)"
+         id="text2705">3</text>
+      <rect
+         x="276.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2707" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(282.457,549)"
+         id="text2709">0</text>
+      <rect
+         x="295.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2711" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(301.355,549)"
+         id="text2713">1</text>
+      <rect
+         x="314.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2715" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(320.252,549)"
+         id="text2717">2</text>
+      <rect
+         x="333.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2719" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(339.15,549)"
+         id="text2721">3</text>
+      <rect
+         x="585"
+         y="533"
+         width="120"
+         height="24"
+         fill="#ffffff"
+         id="rect2723" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="12px"
+         transform="translate(594.517,550)"
+         id="text2725">Root directory (16)</text>
+      <rect
+         x="351.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2727" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(357.48,549)"
+         id="text2729">4</text>
+      <rect
+         x="370.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2731" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(376.378,549)"
+         id="text2733">5</text>
+      <rect
+         x="389.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2735" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(395.275,549)"
+         id="text2737">6</text>
+      <rect
+         x="408.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2739" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(414.173,549)"
+         id="text2741">7</text>
+      <rect
+         x="426.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2743" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(432.946,549)"
+         id="text2745">8</text>
+      <rect
+         x="445.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2747" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(451.844,549)"
+         id="text2749">9</text>
+      <rect
+         x="464.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2751" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(467.741,549)"
+         id="text2753">10</text>
+      <rect
+         x="483.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2755" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(486.639,549)"
+         id="text2757">11</text>
+      <rect
+         x="502.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2759" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(505.092,549)"
+         id="text2761">12</text>
+      <rect
+         x="521.5"
+         y="536.5"
+         width="18"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2763" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(523.99,549)"
+         id="text2765">13</text>
+      <rect
+         x="539.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2767" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(542.887,549)"
+         id="text2769">14</text>
+      <rect
+         x="558.5"
+         y="536.5"
+         width="19"
+         height="19"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2771" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="translate(561.785,549)"
+         id="text2773">15</text>
+      <rect
+         x="197.5"
+         y="418.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2775" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,-120.413,323.587)"
+         id="text2777">Leaf (12)</text>
+      <rect
+         x="236.5"
+         y="418.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2779" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,-102.637,344.363)"
+         id="text2781">Leaf (7)</text>
+      <rect
+         x="273.5"
+         y="418.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2783" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,-78.404,357.596)"
+         id="text2785">Null Leaf (0)</text>
+      <rect
+         x="312.5"
+         y="418.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2787" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,-64.6285,382.3715)"
+         id="text2789">Leaf (1)</text>
+      <rect
+         x="538.5"
+         y="418.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2791" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,48.2435,495.2435)"
+         id="text2793">Leaf (5)</text>
+      <rect
+         x="576.5"
+         y="418.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2795" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,67.519,514.519)"
+         id="text2797">Leaf (6)</text>
+      <rect
+         x="614.5"
+         y="418.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2799" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,86.252,533.252)"
+         id="text2801">Leaf (2)</text>
+      <rect
+         x="652.5"
+         y="418.5"
+         width="19"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         fill="#ffffff"
+         id="rect2803" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,107.028,551.028)"
+         id="text2805">Leaf (32)</text>
+      <rect
+         x="346.5"
+         y="418.5"
+         width="169"
+         height="94"
+         stroke="#000000"
+         stroke-width="0.666667"
+         stroke-miterlimit="8"
+         stroke-dasharray="2.66667, 2"
+         fill="#ffffff"
+         id="rect2807" />
+      <text
+         font-family="Arial, Arial_MSFontService, sans-serif"
+         font-weight="400"
+         font-size="11px"
+         transform="rotate(90,-1.9285,429.0715)"
+         id="text2809">More leaves…</text>
+      <path
+         d="M 0.5,-2.81215e-6 0.500017,3 h -1 L -0.5,2.81215e-6 Z M 0.500022,4 l 1.7e-5,3 h -1 l -1.6e-5,-3 z m 2.3e-5,4 1.7e-5,3 h -1 l -1.7e-5,-3 z m 3.500015,2.6666 -3.999955013,8.0001 -4.000044987,-8 z"
+         transform="matrix(1,0,0,-1,473.5,531.167)"
+         id="path2811" />
+      <path
+         d="M 0.5,-2.81215e-6 0.500017,3 h -1 L -0.5,2.81215e-6 Z M 0.500022,4 l 1.7e-5,3 h -1 l -1.6e-5,-3 z m 2.3e-5,4 1.7e-5,3 h -1 l -1.7e-5,-3 z m 3.500015,2.6666 -3.999955013,8.0001 -4.000044987,-8 z"
+         transform="matrix(1,0,0,-1,383.5,532.167)"
+         id="path2813" />
+      <path
+         d="m 0,-0.5 h 3 v 1 H 0 Z m 4,0 h 3 v 1 H 4 Z m 4,0 h 3 v 1 H 8 Z m 4.1871,0.812871 V 3.31287 h -1 V 0.312871 Z m 0,3.999999 v 3 h -1 v -3 z m 0,4 v 3.00003 h -1 V 8.31287 Z m 0,4.00003 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 2.3697 l -0.5,-0.5 h 0.6303 v 1 h -1.1303 v -2.8697 z m 1.1303,1.8697 h 3 v 1 h -3 z m 2.0568,-3.5 8,4 -8,4 z"
+         transform="matrix(0,-1,-1,0,286.183,535.874)"
+         id="path2815" />
+      <path
+         d="m 0,-0.5 h 3 v 1 H 0 Z m 4,0 h 3 v 1 H 4 Z m 4,0 h 3 v 1 H 8 Z m 4.1871,0.812913 V 3.31291 h -1 V 0.312913 Z m 0,3.999997 v 3 h -1 v -3 z m 0,4 v 2.99999 h -1 V 8.31291 Z m 0,3.99999 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 2.7161 l -0.5,-0.5 h 0.2839 v 1 h -0.7839 v -3.2161 z m 0.7839,2.2161 h 3 v 1 h -3 z m 2.4032,-3.5 8,4 -8,4 z"
+         transform="matrix(0,-1,-1,0,304.529,535.874)"
+         id="path2817" />
+      <path
+         d="m 0,-0.5 h 3 v 1 H 0 Z m 4,0 h 3 v 1 H 4 Z m 4,0 h 3 v 1 H 8 Z m 4.1871,0.812891 V 3.31289 h -1 V 0.312891 Z m 0,3.999999 v 3 h -1 v -3 z m 0,4 v 3.00001 h -1 V 8.31289 Z m 0,4.00001 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 0.1475 l -0.5,-0.5 h 2.8525 v 1 h -3.3525 v -0.6475 z m 3.3525,-0.3525 h 1.1679 v 1 h -1.1679 z m -0.1654,-3.5 8,4 -8,4 z"
+         transform="matrix(0,-1,-1,0,323.96,535.874)"
+         id="path2819" />
+      <path
+         d="m 0,-0.5 h 3 v 1 H 0 Z m 4,0 h 3 v 1 H 4 Z m 4,0 h 3 v 1 H 8 Z m 4.1871,0.812913 V 3.31291 h -1 V 0.312913 Z m 0,3.999997 v 3 h -1 v -3 z m 0,4 v 2.99999 h -1 V 8.31291 Z m 0,3.99999 v 3 h -1 v -3 z m 0,4 v 3 h -1 v -3 z m 0,4 v 0.4939 l -0.5,-0.5 h 2.5061 v 1 h -3.0061 v -0.9939 z m 3.0061,-0.0061 h 1.5143 v 1 h -1.5143 z m 0.181,-3.5 8,4 -8,4 z"
+         transform="matrix(0,-1,-1,0,342.307,535.874)"
+         id="path2821" />
+      <path
+         d="m 511,535.874 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0.813,-4.187 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 3.182,0.182 v -3 h 1 v 3 z m 0,-4 v -0.702 h 1 v 0.702 z m -3.5,0.631 4,-8 4,8 z"
+         id="path2823" />
+      <path
+         d="m 530,535.874 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0.813,-4.187 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 2.835,-0.165 v -3 h 1 v 3 z m 0,-4 v -0.355 h 1 v 0.355 z m -3.5,0.978 4,-8 4,8 z"
+         id="path2825" />
+      <path
+         d="m 549,535.874 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0.813,-4.187 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 1.904 l -0.5,0.5 v -1.096 h 1 v 1.596 h -2.404 z m 1.404,-1.596 v -2.924 h 1 v 2.924 z m -3.5,-1.591 4,-8 4,8 z"
+         id="path2827" />
+      <path
+         d="m 568,535.874 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0,-4 v -3 h 1 v 3 z m 0.813,-4.187 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 3 v 1 h -3 z m 4,0 h 1.557 l -0.5,0.5 v -1.442 h 1 v 1.942 h -2.057 z m 1.057,-1.942 v -2.578 h 1 v 2.578 z m -3.5,-1.245 4,-8 4,8 z"
+         id="path2829" />
+      <path
+         d="m 308.5,192 h 35 v -5.5 l 11,11 -11,11 V 203 h -35 z"
+         stroke="#c00000"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="#c00000"
+         fill-rule="evenodd"
+         id="path2831" />
+      <path
+         d="m 504,316.5 v 35 h 5.5 l -11,11 -11,-11 h 5.5 v -35 z"
+         stroke="#c00000"
+         stroke-width="1.33333"
+         stroke-miterlimit="8"
+         fill="#c00000"
+         fill-rule="evenodd"
+         id="path2833" />
+    </g>
+  </g>
+</svg>

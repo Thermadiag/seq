@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2025 Victor Moncada <vtr.moncada@gmail.com>
+ * Copyright (c) 2026 Victor Moncada <vtr.moncada@gmail.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,15 +28,16 @@
 #endif
 
 #include "seq/radix_map.hpp"
-#include "seq/testing.hpp"
+#include "testing.hpp"
 #include "seq/tiny_string.hpp"
+#include "tests.hpp"
 
 #include <memory>
 #include <set>
 #include <map>
 #include <string>
 
-#include "tests.hpp"
+
 
 template<class Alloc, class U>
 using RebindAlloc = typename std::allocator_traits<Alloc>::template rebind_alloc<U>;
@@ -307,7 +308,7 @@ inline void test_radix_set_common()
 		for (size_t i = 1000 * mul; i < 2000 * mul; i += 5) {
 			auto it = set.lower_bound(i);
 			// test bit position
-			SEQ_TEST(it.iter.bit_pos == it.iter.get_bit_pos(it.iter.dir));
+			SEQ_TEST(seq::detail::check_bit_pos(it));
 			// test iterator validity
 			SEQ_TEST(it != set.end() && *it == i);
 		}
@@ -332,7 +333,7 @@ inline void test_radix_set_common()
 
 			// test bit position
 			if (it != set.end())
-				SEQ_TEST(it.iter.bit_pos == it.iter.get_bit_pos(it.iter.dir));
+				SEQ_TEST(seq::detail::check_bit_pos(it));
 
 			if (i < 1000 * mul) {
 				// values < first value
@@ -353,6 +354,51 @@ inline void test_radix_set_common()
 				SEQ_TEST(it != set.end() && v > i && (v - i) < 5);
 			}
 		}
+	}
+
+	{
+		// Test prefix search
+		seq::radix_set<std::string> set;
+		set.insert("this is ok");
+		set.insert("this is not ok");
+		set.insert("this is right");
+		set.insert("this is not right");
+		set.insert("this was a test");
+		set.insert("test");
+		set.insert("unused");
+
+		auto range = set.prefix_range("this");
+		SEQ_TEST(std::distance(range.first, range.second) == 5);
+		range = set.prefix_range("this is");
+		SEQ_TEST(std::distance(range.first, range.second) == 4);
+		range = set.prefix_range("t");
+		SEQ_TEST(std::distance(range.first, range.second) == 6);
+		range = set.prefix_range("u");
+		SEQ_TEST(std::distance(range.first, range.second) == 1);
+		range = set.prefix_range("a");
+		SEQ_TEST(std::distance(range.first, range.second) == 0);
+	}
+	{
+		// Test prefix search
+		seq::radix_map<std::string,int> set;
+		set.insert({ "this is ok", 0 });
+		set.insert({ "this is not ok", 0 });
+		set.insert({ "this is right", 0 });
+		set.insert({ "this is not right", 0 });
+		set.insert({ "this was a test", 0 });
+		set.insert({ "test", 0 });
+		set.insert({ "unused", 0 });
+
+		auto range = set.prefix_range("this");
+		SEQ_TEST(std::distance(range.first, range.second) == 5);
+		range = set.prefix_range("this is");
+		SEQ_TEST(std::distance(range.first, range.second) == 4);
+		range = set.prefix_range("t");
+		SEQ_TEST(std::distance(range.first, range.second) == 6);
+		range = set.prefix_range("u");
+		SEQ_TEST(std::distance(range.first, range.second) == 1);
+		range = set.prefix_range("a");
+		SEQ_TEST(std::distance(range.first, range.second) == 0);
 	}
 }
 
@@ -475,7 +521,7 @@ inline void test_radix_map_common()
 		for (size_t i = 1000 * mul; i < 2000 * mul; i += 5) {
 			auto it = set.lower_bound(i);
 			// test bit position
-			SEQ_TEST(it.iter.bit_pos == it.iter.get_bit_pos(it.iter.dir));
+			SEQ_TEST(seq::detail::check_bit_pos(it));
 			// test iterator validity
 			SEQ_TEST(it != set.end() && it->first == i);
 		}
@@ -486,7 +532,7 @@ inline void test_radix_map_common()
 
 			// test bit position
 			if (it != set.end())
-				SEQ_TEST(it.iter.bit_pos == it.iter.get_bit_pos(it.iter.dir));
+				SEQ_TEST(seq::detail::check_bit_pos(it));
 
 			if (i < 1000 * mul) {
 				// values < first value
@@ -1295,8 +1341,87 @@ static void test_issue()
 
 
 
+
+
+
+using schema_t = std::tuple<uint64_t, uint64_t>;
+
+struct extractor_t
+{
+	schema_t operator()(const schema_t* tuple) const { return schema_t{ std::get<1>(*tuple), std::get<0>(*tuple) }; }
+};
+
+void show_all(seq::radix_map<schema_t*, size_t, extractor_t>::iterator begin, seq::radix_map<schema_t*, size_t, extractor_t>::iterator end)
+{
+	for (auto it = begin; it != end; ++it) {
+		std::cout << "Tuple: (" << std::get<0>(*(it->first)) << "," << std::get<1>(*(it->first)) << ") -> " << it->second << std::endl;
+	}
+}
+static void test_issue2()
+{
+	seq::radix_map<schema_t*, size_t, extractor_t> tuples;
+	extractor_t my_extractor;
+	schema_t my_tuple = schema_t{ 0, 1 };
+	tuples.insert(std::make_pair(&my_tuple, 1));
+	// is stored in order (1,0) because schema_t* is given => applying extractor_t to get inner_key
+	std::cout << "All tuples in the index:" << std::endl;
+	for (auto it : tuples) {
+		std::cout << "Tuple: (" << std::get<0>(*(it.first)) << "," << std::get<1>(*(it.first)) << ") -> " << it.second << std::endl;
+	}
+	std::cout << "===============================" << std::endl;
+
+	// Works CORRECT: schema_t is given => equal to radix_map::radix_key_type
+	// => no extractor applied => no result found (as only the inner key (1,0) is inserted)
+	std::cout << "Variant 0:" << std::endl;
+	seq::radix_map<schema_t*, size_t, extractor_t>::iterator lower_0 = tuples.lower_bound(my_tuple);
+	seq::radix_map<schema_t*, size_t, extractor_t>::iterator upper_0 = tuples.upper_bound(my_tuple);
+	show_all(lower_0, upper_0);
+	std::cout << "===============================" << std::endl;
+
+	// Works CORRECT: schema_t is given => equal to radix_map::radix_key_type
+	// => no extractor applied => but we applied the constructor before so the tuple is reordered to (1,0) => result found
+	std::cout << "Variant 1:" << std::endl;
+	schema_t to_test_tuple = my_extractor(&my_tuple);
+	std::cout << "To test tuple: (" << std::get<0>(to_test_tuple) << "," << std::get<1>(to_test_tuple) << ")" << std::endl;
+	seq::radix_map<schema_t*, size_t, extractor_t>::iterator lower_1 = tuples.lower_bound(to_test_tuple);
+	seq::radix_map<schema_t*, size_t, extractor_t>::iterator upper_1 = tuples.upper_bound(to_test_tuple);
+	show_all(lower_1, upper_1);
+	std::cout << "===============================" << std::endl;
+
+	// !Does not compile.!
+	// Expected: schema_t* is given => equal to radix_map::Key template argument
+	// => given extractor should be applied => seeking for (1,0) => result found
+	std::cout << "Variant 2:" << std::endl;
+	seq::radix_map<schema_t*, size_t, extractor_t>::iterator lower_2 = tuples.lower_bound(&my_tuple);
+	seq::radix_map<schema_t*, size_t, extractor_t>::iterator upper_2 = tuples.upper_bound(&my_tuple);
+	show_all(lower_2, upper_2);
+	std::cout << "===============================" << std::endl;
+
+}
+
+int test_chrono()
+{
+	using time = decltype(std::chrono::steady_clock::now());
+
+	seq::radix_set<time> set;
+	for (int i = 0; i < 1000000; ++i)
+		set.insert(std::chrono::steady_clock::now());
+	SEQ_TEST(set.size() > 0 && set.size() <= 1000000);
+	
+	using duration = decltype(time{}.time_since_epoch());
+
+	seq::radix_set<duration> set2;
+	for (int i = 0; i < 1000000; ++i)
+		set2.insert(std::chrono::steady_clock::now().time_since_epoch());
+	SEQ_TEST(set2.size() > 0 && set2.size() <= 1000000);
+
+	return 0;
+}
+
+
 SEQ_PROTOTYPE(int test_radix_tree(int, char*[]))
 {
+	test_chrono();
 	{
 		seq::radix_map<std::tuple<uint64_t>, uint64_t> tuples;
 
@@ -1310,6 +1435,7 @@ SEQ_PROTOTYPE(int test_radix_tree(int, char*[]))
 		}
 	}
 	test_issue();
+	test_issue2();
 
 	SEQ_TEST_MODULE_RETURN(radix_set_string, 1, test_string_key());
 	SEQ_TEST_MODULE_RETURN(test_worst_string_key_a, 1, test_worst_string_key('a'));

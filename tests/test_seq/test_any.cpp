@@ -10,8 +10,8 @@
 #include "seq/any.hpp"
 #include "seq/tiny_string.hpp"
 #include "seq/hash.hpp"
-#include "seq/testing.hpp"
-#include "seq/format.hpp"
+#include "testing.hpp"
+#include "seq/legacy/format.hpp"
 #include "seq/ordered_map.hpp"
 
 namespace seq
@@ -629,7 +629,7 @@ static void test_hold_any()
 		SEQ_TEST(set.find(2.5) != set.end());		   // use heterogeneous lookup
 		SEQ_TEST(set.find("hello") != set.end());	   // use heterogeneous lookup
 		SEQ_TEST(set.find(tstring("world")) != set.end()); // use heterogeneous lookup
-		SEQ_TEST(set.find("ok") == set.end());		   //"ok" not found has we compare 2 const char* -> pointer comparison, not string comparison
+		SEQ_TEST(set.find("ok") != set.end());		   //ensure const char* to const char* results in string comparison
 		SEQ_TEST(set.find("no") == set.end());		   // failed lookup
 	}
 	{
@@ -671,7 +671,6 @@ static void test_hold_any()
 
 int test_any(int, char*[])
 {
-
 	SEQ_TEST_MODULE_RETURN(any, 1, test_hold_any());
 	return 0;
 }

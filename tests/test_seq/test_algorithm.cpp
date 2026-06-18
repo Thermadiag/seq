@@ -1,6 +1,6 @@
 #include <seq/algorithm.hpp>
 #include <seq/tiny_string.hpp>
-#include <seq/testing.hpp>
+#include "testing.hpp"
 
 #include <memory>
 #include <vector>
