@@ -67,7 +67,7 @@ namespace seq
 	namespace detail
 	{
 
-#if defined(__SSE2__)
+#if defined(__SSE2__) || defined(__ARM_NEON) || defined(__ARM_NEON__)
 		// Node size with and without SSE2
 
 		enum

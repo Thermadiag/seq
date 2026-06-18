@@ -879,7 +879,7 @@ namespace seq
 				if (Less{}(ExtractKey{}(values[size - 1]), val))
 					return static_cast<unsigned>(-1);
 			}
-#if defined(__SSE2__)
+#if defined(__SSE2__) || defined(__ARM_NEON) || defined(__ARM_NEON__)
 
 			for (unsigned i = 0; i < size; i += 16) {
 				if (unsigned found = movemask16(ths + i, th) & ((i + 16 > size) ? ((1U << (size & 15u)) - 1U) : 0xFFFFFFFFu)) {
