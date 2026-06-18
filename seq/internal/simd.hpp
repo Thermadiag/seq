@@ -185,7 +185,50 @@
 #define SSE2NEON_ARCH_AARCH64 0
 #endif
 
+#if defined(__clang__)
+/* Clang compiler detected (including Apple Clang) */
+#define SSE2NEON_COMPILER_GCC_COMPAT 1 /* Clang supports GCC extensions */
+#if defined(_MSC_VER)
+#define SSE2NEON_COMPILER_MSVC 1 /* Clang-CL: Clang with MSVC on Windows */
+#else
+#define SSE2NEON_COMPILER_MSVC 0
+#endif
+
+#elif defined(__GNUC__)
+/* GCC compiler (only reached if not Clang, since Clang also defines __GNUC__)
+ */
+#define SSE2NEON_COMPILER_CLANG 0
+#define SSE2NEON_COMPILER_GCC_COMPAT 1
+#define SSE2NEON_COMPILER_MSVC 0
+
+#elif defined(_MSC_VER)
+/* Microsoft Visual C++ (native, not Clang-CL) */
+#define SSE2NEON_COMPILER_CLANG 0
+#define SSE2NEON_COMPILER_GCC_COMPAT 0 /* No GCC extensions available */
+#define SSE2NEON_COMPILER_MSVC 1
+
+#else
+#endif
+
+
+/* compiler specific definitions */
+#if SSE2NEON_COMPILER_GCC_COMPAT
+#pragma push_macro("ALIGN_STRUCT")
+#define ALIGN_STRUCT(x) __attribute__((aligned(x)))
+#elif SSE2NEON_COMPILER_MSVC
+#ifndef ALIGN_STRUCT
+#define ALIGN_STRUCT(x) __declspec(align(x))
+#endif
+#endif
+
+
 typedef int64x2_t __m128i; /* 128-bit vector containing integers */
+
+// Some intrinsics operate on unaligned data types.
+typedef int16_t ALIGN_STRUCT(1) unaligned_int16_t;
+typedef int32_t ALIGN_STRUCT(1) unaligned_int32_t;
+typedef int64_t ALIGN_STRUCT(1) unaligned_int64_t;
+
 
 #define vreinterpretq_m128i_s32(x) vreinterpretq_s64_s32(x)
 #define _sse2neon_reinterpret_cast(t, e) reinterpret_cast<t>(e)
