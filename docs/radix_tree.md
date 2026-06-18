@@ -63,7 +63,9 @@ For that, the parent directory arity is multiplied by 4, the sub-directories are
 We don't need to process the keys in order to find the position of each node within the new parent directory, as it is the combination of the sub-directory position and its child position.
 Below is a an image displaying the radix tree state after 10 insertions, after 500 insertions, and after the level merging.
 
+
 ![LevelMerging](images/level_merging.svg]
+
 
 This level merging process is done on insertion step 4, during the keys dispatching to new nodes. The above image is straightforward and only works when all subdirectories have the same arity of 4.
 Other scenarios are possible: the sub-directories have variable arities (because of other level mergings), or arities greater than 4, or store a non 0 prefix length. All these cases are not described here, but properly handled by the VART.
