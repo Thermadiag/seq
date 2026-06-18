@@ -93,7 +93,7 @@ Benchmarks
 The library provides several (small) benchmarks and more will be added:
 -	Benchmark of [concurrent hash tables](docs/concurrent_map.md) at the end of the page. Its goal is to compare `seq::concurrent_set/map` to other implementations.
 -	Benchmark on [sorted containers](docs/sorted_benchmark.md). Its goal is to compare `seq::flat_set/map` and `seq::radix_set/map` to other implementations.
--	Very tiny benchmark on [concurrent queues](dcos/concurrent_queue.md) to compare `seq::concurrent_queue` with other implementations.
+-	Very tiny benchmark on [concurrent queues](docs/concurrent_queue.md) to compare `seq::concurrent_queue` with other implementations.
 -	[Memory and latency benchmark](docs/latency_benchmark.md) on hash tables to compare `seq::radix_hash_set/map` with other implementations.
 
 
