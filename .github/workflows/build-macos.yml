@@ -36,5 +36,6 @@ jobs:
               cmake .. -DCMAKE_BUILD_TYPE=Debug -DSEQ_NO_WARNINGS=ON -DSEQ_BUILD_TESTS=ON -DSEQ_BUILD_BENCHS=ON -DCMAKE_INSTALL_PREFIX=./install
               cmake --build ./ 
               cmake --build . --target install
+              ./install/bin/seq_bench bench_hash
 
         
