@@ -229,8 +229,11 @@ typedef int16_t ALIGN_STRUCT(1) unaligned_int16_t;
 typedef int32_t ALIGN_STRUCT(1) unaligned_int32_t;
 typedef int64_t ALIGN_STRUCT(1) unaligned_int64_t;
 
-
+#define vreinterpretq_s8_m128i(x) vreinterpretq_s8_s64(x)
 #define vreinterpretq_m128i_s32(x) vreinterpretq_s64_s32(x)
+#define vreinterpretq_m128i_u8(x) vreinterpretq_s64_u8(x)
+#define vreinterpretq_m128i_s8(x) vreinterpretq_s64_s8(x)
+#define vreinterpretq_u8_m128i(x) vreinterpretq_u8_s64(x)
 #define _sse2neon_reinterpret_cast(t, e) reinterpret_cast<t>(e)
 
 // Load 128-bits of integer data from memory into dst. mem_addr must be aligned
