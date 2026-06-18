@@ -3,8 +3,8 @@
 This document summarizes benchmark results between various sorted containers to demonstrate their differences in speed and complexity. The goal is mostly to place the *seq* containers compared to other well known implementations. The following containers are tested:
 -	`std::set`: this is the standard version of a sorted container, always a good idea to position ourself based on it. Its implementation is usually based on a Red-Black (RB) tree.
 -	[`gtl::btree_set`](https://github.com/greg7mdp/gtl): B-tree set derived from [`absl::btree_set`](https://abseil.io/about/design/btree). Its internal nodes can store multiple values for usually better performances than a regular RB-tree. The number of stored values per node depends on the value type size.
--	`seq::flat_set`: flat set data structure within the *seq* library offering random access in addition to *standard* features. `seq::flat_set` is implemented on top of `seq::tiered_vector` for fast insertion/deletion of single element as opposed to most flat containers like [`boost::container::flat_set`](https://www.boost.org/doc/libs/1_53_0/doc/html/boost/container/flat_set.html).
--	`seq::radix_set`: Radix tree using what I called Variable Arity Radix Tree ([VART](radix_tree.md)). I created this data structure based on the regular Burst Trie.
+-	[seq::flat_set](flat_set.md): flat set data structure within the *seq* library offering random access in addition to *standard* features. `seq::flat_set` is implemented on top of `seq::tiered_vector` for fast insertion/deletion of single element as opposed to most flat containers like [`boost::container::flat_set`](https://www.boost.org/doc/libs/1_53_0/doc/html/boost/container/flat_set.html).
+-	[seq::radix_set](radix_tree.md): Radix tree using what I called Variable Arity Radix Tree ([VART](radix_tree.md)). I created this data structure based on the regular Burst Trie.
 
 The benchmarks test 2 operations only: successfull insert and successfull lookup based on the number of entries in the container. For all tested containers, erasure and failed lookups are very similar to tested operations in terms of speed and are not displayed here.
 
