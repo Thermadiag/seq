@@ -43,24 +43,24 @@ Now, let's see if the memory usage is correlated to the insertion latency.
 ## Insertion latency benchmark
 
 The goal here is to measure the MAXIMUM time required for an insertion. This measure is usefull for low latency systems, where the hash table maximum size cannot be predicted up-front.
-For that, we insert 10M values within the hash table and measure the each individual insertion time using the most precise possible measurement method (QueryPerformanceCounter on Windows).
-For this benchmark, the measure precision is not an issue as we expect high values during rehash. The following graph displays the maximum insertion latency in nanoseconds based on the number of elements. The maximum latency is displayed in the legend.
+For that, we insert 10M values within the hash table and measure each individual insertion time using the most precise possible measurement method (QueryPerformanceCounter on Windows).
+For this benchmark, the measure precision is not an issue as we expect high values during rehash. The following graph displays the maximum insertion time in nanoseconds based on the number of elements. The maximum time reached is displayed in the legend.
 I removed the `std::unordered_set` curve which is too high and makes it impossible to interpret the results (and log scale does not help either). Just know that it's roughly 2 times slower than the second slowest (`tsl::sparse_set`).
 
 ![InsertLatency](images/insert_latency.svg)
 
-Measurements are coherant whith the memory patterns:
+Some conclusions:
 -	`gtl::flat_hash_set` is rather fast to rehash, but still needs 66ms to insert a single value at most.
 -	`ankerl::unordered_dense::set` rehash process is slightly slower, as robin hood insertion process might require to move around several elements. We also see secondary peaks corresponding to the vector resize.
 -	`tsl::sparse_set` rehash process is... slow. No wonder as it requires a lot of small allocations/deallocations, that's the price of a small memory usage. If you're unlucky, a single insertion in a big table might take more than... 300ms.
 -	`seq::radix_hash_set` has a very low latency compared to other implementations. Its biggest insertion time (4.7ms) is 10 times lower than the second fastest (`gtl::flat_hash_set`).
 
-So far so good, we see that `seq::radix_hash_set` manage to combine very low memory usage with low insertion latency. But this is also the case for a regular `std::map`... that we usually don't want to use for single point lookup.
+So far so good, we see that `seq::radix_hash_set` manages to combine very low memory usage with low insertion latency. But this is also the case for a regular `std::map`... that we usually don't want to use for single point lookup.
 To be complete, we also need to measure the latency of successfull and failed lookup operations.
 
 ## Lookup latency benchmark
 
-In this benchmark, we want to knwow the maximum time taken by a single `find()` operation, weither successfull or not.
+In this benchmark, we want to know the maximum time taken by a single `find()` operation, weither successfull or not.
 The process is slightly different than with previous benchmark: 
 -	We insert 10M elements to a hash table,
 -	Every 10k elements, we measure the time it takes to look for 100 random existing values and compute the average time. We cannot just measure a single lookup which is way too fast for our measurement method.
@@ -70,13 +70,16 @@ In the end failed lookup latencies are very similar to the successfull ones, the
 
 ![FindLatency](images/find_latency.svg)
 
-First (good) news, all hash table behave in O(1) complexity. We already knew that, but it's still pleasing to the eyes. As for the interpretation:
+First (good) news, all hash table behave in O(1) complexity. We already knew that, but it's still pleasing to the eyes. As for the (light) interpretation:
 -	`gtl::flat_hash_set` is rather fast with a low dispersion, like `seq::radix_hash_set`.
 -	`ankerl::unordered_dense::set` and `tsl::sparse_set` have a higher average lookup time with a higher dispersion.
 -	And the winner is... **std::unordered_set**!! This is the first benchmark I see with `std::unordered_set` on top (well, the good top).
 
-These results contradict most other lookup benchmarks. Indded, `ankerl::unordered_dense::set` is usually very fast, while `std::unordered_set` not so much (although the msvc implementation is good for lookup).
-I suspect that traditional benchmarks usually loop through all existing values in the hash table, which probably tends to highlight the cache locality differences between each implementation (even if the access pattern is random).
+These results contradict most online lookup benchmarks. Indeed, `ankerl::unordered_dense::set` is usually very fast, while `std::unordered_set` not so much (although the msvc implementation is really good for lookup).
+I suspect that traditional benchmarks usually loop through all existing values in the hash table, which probably tends to highlight 2 things:
+-	the cache locality differences between each implementation (even if the access pattern is random),
+-	the efficiency of the probing strategy.
+
 In this becnhmark, we only look for a few values in-between lots of insertions (that might slightly trash the cache). Therefore we probably are in a cold cache scenario that gives different results. Weither this scenario is more realistic or not depends on your use-case.
 
 As a side note, we confirmed that `seq::radix_hash_set` has a low lookup latency in addition to low insertion latency and low memory footprint!
