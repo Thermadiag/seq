@@ -1840,7 +1840,7 @@ namespace seq
 		{
 			static constexpr size_t invalid = static_cast<size_t>(-1);
 			size_t res = GetStringSize<Tuple>::get(0, m.d_tuple);
-			if SEQ_CONSTEXPR (HasSeparator) {
+			if constexpr (HasSeparator) {
 				if (res != invalid) {
 					res += (std::tuple_size<Tuple>::value - 1) * m.separator().size();
 				}
@@ -1860,7 +1860,7 @@ namespace seq
 				static_assert(std::is_same_v<typename String::value_type, typename Sep::value_type>, "convert: cannot mix different character types");
 				static constexpr int pos = tuple_size - N;
 				std::get<pos>(t).append(out);
-				if SEQ_CONSTEXPR (HasSeparator && pos != (tuple_size - 1)) {
+				if constexpr (HasSeparator && pos != (tuple_size - 1)) {
 					out.append(sep);
 				}
 				Converter<HasSeparator, Tuple, N - 1>::convert(out, t, sep);

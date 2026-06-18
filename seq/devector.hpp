@@ -175,7 +175,7 @@ namespace seq
 
 			auto grow_capacity() const -> size_t
 			{
-				size_t c = static_cast<size_t>(static_cast<double>(capacity) * SEQ_GROW_FACTOR);
+				size_t c = static_cast<size_t>((capacity) * /* SEQ_GROW_FACTOR*/2);
 				if (c == capacity)
 					++c;
 				if (c < 2)

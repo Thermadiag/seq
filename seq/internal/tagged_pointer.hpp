@@ -55,7 +55,7 @@ namespace seq
 		constexpr uintptr_t find_alignment()
 		{
 			if constexpr (Type == HeapPointer)
-				return SEQ_DEFAULT_ALIGNMENT;
+				return alignof(std::max_align_t);
 			else if constexpr (Type == CustomAlignment)
 				return UserDefinedAlignment;
 			else
@@ -158,7 +158,7 @@ namespace seq
 	{
 		// Specialization for void* , remove the reference type and related members
 
-		static constexpr uintptr_t align = (Type != CustomAlignment ? SEQ_DEFAULT_ALIGNMENT : UserDefinedAlignment);
+		static constexpr uintptr_t align = (Type != CustomAlignment ? alignof(std::max_align_t) : UserDefinedAlignment);
 		static_assert(align > 0 && (((align & (align - 1)) == 0)), "alignment must be a non null power of 2");
 		static constexpr uintptr_t bits = static_bit_scan_reverse<align>::value;
 

@@ -211,23 +211,12 @@
 #endif
 
 
-/* compiler specific definitions */
-#if SSE2NEON_COMPILER_GCC_COMPAT
-#pragma push_macro("ALIGN_STRUCT")
-#define ALIGN_STRUCT(x) __attribute__((aligned(x)))
-#elif SSE2NEON_COMPILER_MSVC
-#ifndef ALIGN_STRUCT
-#define ALIGN_STRUCT(x) __declspec(align(x))
-#endif
-#endif
-
-
 typedef int64x2_t __m128i; /* 128-bit vector containing integers */
 
 // Some intrinsics operate on unaligned data types.
-typedef int16_t ALIGN_STRUCT(1) unaligned_int16_t;
-typedef int32_t ALIGN_STRUCT(1) unaligned_int32_t;
-typedef int64_t ALIGN_STRUCT(1) unaligned_int64_t;
+typedef int16_t SEQ_ALIGN_TO_BOUNDARY(1) unaligned_int16_t;
+typedef int32_t SEQ_ALIGN_TO_BOUNDARY(1) unaligned_int32_t;
+typedef int64_t SEQ_ALIGN_TO_BOUNDARY(1) unaligned_int64_t;
 
 #define vreinterpretq_s8_m128i(x) vreinterpretq_s8_s64(x)
 #define vreinterpretq_m128i_s32(x) vreinterpretq_s64_s32(x)

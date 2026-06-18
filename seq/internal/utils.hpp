@@ -66,7 +66,7 @@ namespace seq
 
 	public:
 		static_assert(Align == 0 || ((Align - 1) & Align) == 0, "wrong alignment value (must be a power of 2)");
-		static constexpr size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
+		static constexpr size_t alignment = (Align == 0 || Align < alignof(std::max_align_t)) ? alignof(std::max_align_t) : Align;
 
 		using value_type = T;
 		using pointer = T*;
@@ -127,7 +127,7 @@ namespace seq
 		auto allocate(size_t n, const void* /*unused*/) -> T* { return allocate(n); }
 		auto allocate(size_t n) -> T*
 		{
-			if (alignment == SEQ_DEFAULT_ALIGNMENT) {
+			if (alignment == alignof(std::max_align_t)) {
 				rebind_alloc<T> al = get_allocator();
 				return al.allocate(n);
 			}
@@ -155,7 +155,7 @@ namespace seq
 		}
 		void deallocate(T* p, size_t n)
 		{
-			if (alignment == SEQ_DEFAULT_ALIGNMENT) {
+			if (alignment == alignof(std::max_align_t)) {
 				rebind_alloc<T> al = get_allocator();
 				return al.deallocate(p, n);
 			}
@@ -182,7 +182,7 @@ namespace seq
 
 	public:
 		static_assert(Align == 0 || ((Align - 1) & Align) == 0, "wrong alignment value (must be a power of 2)");
-		static constexpr size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
+		static constexpr size_t alignment = (Align == 0 || Align < alignof(std::max_align_t)) ? alignof(std::max_align_t) : Align;
 
 		using value_type = T;
 		using pointer = T*;
@@ -549,7 +549,7 @@ namespace seq
 	void swap_allocator(Allocator& left,
 			    Allocator& right) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_swap::value || std::allocator_traits<Allocator>::is_always_equal::value)
 	{
-		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_swap::value) {
+		if constexpr (std::allocator_traits<Allocator>::propagate_on_container_swap::value) {
 			std::swap(left, right);
 		}
 		else {
@@ -562,7 +562,7 @@ namespace seq
 	void assign_allocator(Allocator& left,
 			      const Allocator& right) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value || std::is_nothrow_copy_assignable_v<Allocator>)
 	{
-		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value) {
+		if constexpr (std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value) {
 			left = right;
 		}
 	}
@@ -573,7 +573,7 @@ namespace seq
 			    Allocator& right) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value || std::is_nothrow_move_assignable_v<Allocator>)
 	{
 		// (maybe) propagate on container move assignment
-		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value) {
+		if constexpr (std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value) {
 			left = std::move(right);
 		}
 	}

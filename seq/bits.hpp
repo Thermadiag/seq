@@ -98,28 +98,6 @@ See functions documentation for more details.
 #include <machine/bswap.h>
 #endif
 
-// Global grow factor for most containers
-#ifndef SEQ_GROW_FACTOR
-#define SEQ_GROW_FACTOR 1.6
-#endif
-
-// Error codes for compression module
-#define SEQ_ERROR_UNDEFINED (static_cast<unsigned>(-1))
-#define SEQ_ERROR_CORRUPTED_DATA (static_cast<unsigned>(-2))
-#define SEQ_ERROR_SRC_OVERFLOW (static_cast<unsigned>(-3))
-#define SEQ_ERROR_DST_OVERFLOW (static_cast<unsigned>(-4))
-#define SEQ_ERROR_ALLOC (static_cast<unsigned>(-5))
-#define SEQ_ERROR_INVALID_INPUT (static_cast<unsigned>(-6))
-#define SEQ_LAST_ERROR_CODE (static_cast<unsigned>(-10))
-
-// Fore header only (if SEQ_HEADER_ONLY is defined)
-#ifdef SEQ_HEADER_ONLY
-#define SEQ_HEADER_ONLY_EXPORT_FUNCTION inline
-#define SEQ_HEADER_ONLY_ARG(...) __VA_ARGS__
-#else
-#define SEQ_HEADER_ONLY_EXPORT_FUNCTION
-#define SEQ_HEADER_ONLY_ARG(...)
-#endif
 
 // From rapsody library
 // https://stackoverflow.com/questions/4239993/determining-endianness-at-compile-time
@@ -188,34 +166,6 @@ See functions documentation for more details.
 #endif
 #endif
 
-// With some version of mingw, alignof(std::max_align_t) (16 or 32) is inconsistent with the real alignment obtained through malloc (8)
-#ifdef __MINGW32__
-#ifdef SEQ_ARCH_64
-#define SEQ_DEFAULT_ALIGNMENT alignof(double)
-namespace seq
-{
-	using max_align_t = double;
-}
-#else
-#define SEQ_DEFAULT_ALIGNMENT alignof(double)
-namespace seq
-{
-	using max_align_t = double;
-}
-#endif
-#else
-
-namespace seq
-{
-#if defined(__GNUC__) && (__GNUC__ < 5 && __GNUC_MINOR__ < 9)
-#define SEQ_DEFAULT_ALIGNMENT alignof(double)
-	using max_align_t = double;
-#else
-#define SEQ_DEFAULT_ALIGNMENT alignof(std::max_align_t)
-	using max_align_t = std::max_align_t;
-#endif
-} // namespace seq
-#endif
 
 // Abort program with a last message
 #define SEQ_ABORT(...)                                                                                                                                                                                 \
@@ -253,13 +203,6 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #if __cplusplus >= 202002L
 #define SEQ_HAS_CPP_20
 #endif
-#endif
-
-// If constexpr
-#ifdef SEQ_HAS_CPP_17
-#define SEQ_CONSTEXPR constexpr
-#else
-#define SEQ_CONSTEXPR
 #endif
 
 // Unreachable code
@@ -420,10 +363,7 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #define __has_builtin(x) 0
 #endif
 
-// Support for __has_attribute
-#ifndef __has_attribute
-#define __has_attribute(x) 0
-#endif
+
 
 // Check for aligned memory allocation functions
 #if ((defined __QNXNTO__) || (defined _GNU_SOURCE) || ((defined _XOPEN_SOURCE) && (_XOPEN_SOURCE >= 600))) && (defined _POSIX_ADVISORY_INFO) && (_POSIX_ADVISORY_INFO > 0)
