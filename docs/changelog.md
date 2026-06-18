@@ -20,10 +20,10 @@ Additional changes:
 -	New container: [`seq::concurrent_queue`](concurrent_queue.md).
 
 The markdown documentation has been updated accordingly, and new benchmark results were added. Full list of benchmarks now:
--	Benchmark of [concurrent hash tables](docs/concurrent_map.md) at the end of the page. Its goal is to compare `seq::concurrent_set/map` to other implementations.
--	Benchmark on [sorted containers](docs/sorted_benchmark.md). Its goal is to compare `seq::flat_set/map` and `seq::radix_set/map` to other implementations.
--	Very tiny benchmark on [concurrent queues](docs/concurrent_queue.md) to compare `seq::concurrent_queue` with other implementations.
--	[Memory and latency benchmark](docs/latency_benchmark.md) on hash tables to compare `seq::radix_hash_set/map` with other implementations.
+-	Benchmark of [concurrent hash tables](concurrent_map.md) at the end of the page. Its goal is to compare `seq::concurrent_set/map` to other implementations.
+-	Benchmark on [sorted containers](sorted_benchmark.md). Its goal is to compare `seq::flat_set/map` and `seq::radix_set/map` to other implementations.
+-	Very tiny benchmark on [concurrent queues](concurrent_queue.md) to compare `seq::concurrent_queue` with other implementations.
+-	[Memory and latency benchmark](latency_benchmark.md) on hash tables to compare `seq::radix_hash_set/map` with other implementations.
 
 
 
