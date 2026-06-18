@@ -33,6 +33,9 @@ For the rest of the documentation, we consider a VART with a start arity of 4 an
 
 The `seq::radix_set` class has been [benchmarked](sorted_benchmark.md) against other sorted containers.
 
+The `seq::radix_hash_set` memory usage and latency was [benchmarked](docs/latency_benchmark.md) against other hash tables.
+
+
 ## Insertion process
 
 

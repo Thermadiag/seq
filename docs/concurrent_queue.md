@@ -3,7 +3,7 @@
 The new container `seq::concurrent_queue` was added in *seq v2.1*. As its name implies, it is a concurrent (thread safe) FIFO (First In First Out) designed for Multi-Producer Multi-Consumer (MPMC) scenarios.
 
 I tried several concurrent queue implementations but they all had their own limitations:
--	[moodycamel::ConcurrentQueue](https://github.com/cameron314/concurrentqueue): very fast for pushing, but no guarantee on the dequeuing order which is a big stop for me.
+-	[moodycamel::ConcurrentQueue](https://github.com/cameron314/concurrentqueue): very fast, but no guarantee on the dequeuing order which is a big stop for me.
 -	[boost::lockfree::queue](https://www.boost.org/doc/libs/1_53_0/doc/html/lockfree.html): I did not manage to get any performances out of it, maybe I configured it wrongly. But the type limitation is also a big no.
 -	[MPMCQueue](https://github.com/rigtorp/MPMCQueue): very good one, but sadly only work with preallocated storage.
 

@@ -84,14 +84,18 @@ Currently, the following options are provided:
 -	SEQ_BUILD_TESTS(OFF): build all tests
 -	SEQ_BUILD_BENCHS(OFF): build all benchmarks
 
-It is also possible to directly copy/paste the *seq* folder into your project, while slightly dirty.
+It is also possible to directly copy/paste the *seq* folder into your project, while slightly dirty :).
 
 
 Benchmarks
 ----------
 
-Currently 2 types of benchmarks are provided. One is dedicated to concurrent hash tables and is available [here](docs/concurrent_map.md). Its goal is to compare `seq::concurrent_set/map` to other implementations.
-Another one is dedicated to sorted containers and is available [here](docs/sorted_benchmark.md). Its goal is to compare `seq::flat_set/map` and `seq::radix_set/map` to other implementations.
+The library provides several (small) benchmarks and more will be added:
+-	Benchmark of [concurrent hash tables](docs/concurrent_map.md) at the end of the page. Its goal is to compare `seq::concurrent_set/map` to other implementations.
+-	Benchmark on [sorted containers](docs/sorted_benchmark.md). Its goal is to compare `seq::flat_set/map` and `seq::radix_set/map` to other implementations.
+-	Very tiny benchmark on [concurrent queues](dcos/concurrent_queue.md) to compare `seq::concurrent_queue` with other implementations.
+-	[Memory and latency benchmark](docs/latency_benchmark.md) on hash tables to compare `seq::radix_hash_set/map` with other implementations.
+
 
 Acknowledgements
 ----------------
