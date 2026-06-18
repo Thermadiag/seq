@@ -50,23 +50,29 @@ namespace seq
 
 	class timer
 	{
-		std::uint64_t start = 0;
+		std::uint64_t start{ 0 };
 		mach_timebase_info_data_t rate;
 
 	public:
-		timer()
-		{
-			mach_timebase_info_data_t rate;
-			mach_timebase_info(&rate);
-		}
-		timer(const timer&) = delete;
-		timer& operator=(const timer&) = delete;
-
+		timer() noexcept { mach_timebase_info(&rate); }
 		void tick() noexcept { start = mach_absolute_time(); }
 		std::uint64_t tock() const noexcept
 		{
-			std::uint64_t elapsed = mach_absolute_time() - start;
-			return (elapsed * rate.numer) / rate.denom;
+			// std::uint64_t elapsed = mach_absolute_time() - start;
+			// return (elapsed * rate.numer) / rate.denom;
+			//   Stop the clock.
+
+			std::uint64_t end = mach_absolute_time();
+
+			// Calculate the duration.
+
+			std::uint64_t elapsed = end - start;
+
+			// Convert to nanoseconds.
+			// Do the maths. We hope that the multiplication doesn't
+			// overflow; the price you pay for working in fixed point.
+
+			return elapsed * rate.numer / rate.denom;
 		}
 	};
 
