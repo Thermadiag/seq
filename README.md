@@ -110,7 +110,7 @@ Benchmarks (in `seq/benchs`) compare the performances of the *seq* library with 
 -	<a href="https://www.boost.org/">boost</a>: used for boost::flat_set, boost::unordered_flat_set, boost::concurrent_flat_map, boost::lockfree::queue,
 -	<a href="https://github.com/martinus/unordered_dense">unordered_dense</a>: used for ankerl::unordered_dense::set,
 -	<a href="https://github.com/oneapi-src/oneTBB">TBB</a>: used for tbb::concurrent_unordered_map and tbb::concurrent_hash_map.
--	<a href="https://github.com/Tessil">TBB</a>: numerous Tessil's hash tables.
+-	<a href="https://github.com/Tessil">TSL</a>: numerous Tessil's hash tables.
 -	<a href="https://github.com/cameron314/concurrentqueue">Modycamel</a>: used for its MPMC concurrent queue.
 -	<a href="https://github.com/rigtorp/MPMCQueue">MPMCQueue</a>: Rigtorp's MPMC concurrent queue.
 
