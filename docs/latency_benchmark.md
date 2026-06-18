@@ -19,15 +19,15 @@ We do not compare ALL possible implementations in this benchmark, only a few has
 -	`std::unordered_set`: the standard C++ hash table using chaining. We use the msvc implementation which is quite performant considering its requirements (and compared to libstdc++ one),
 -	[seq::radix_hash_set](radix_tree.md): *seq* library hash table based on VART and using incremental rehash.
 
-As far as I know, all hash tables use a factor 2 growth policy.
+As far as I know, all hash tables use a factor of 2 growth policy.
 
 All benchmarks ran on an *Intel(R) Core(TM) i7-10850H* at 2.70GHz and were compiled with msvc 19.44.35219.
 
 ## Memory peak benchmark
 
 The first benchmark measures the memory peak of each hash table based on the number of elements it contains. For that we insert 10M integers of 64 bits in each table using `seq::hasher` hash function. 
-Every 10000 insertions, the program peak memory reach so far is recorded. Therefore, we do NOT see the release of memory happening at the end of rehash, which is Ok since we are only interseted in the memory peak.
-The following graph shows the memory peak in MB based on the number of inserted values for each hash table. The maximum memory reached is displayed in the legend.
+Every 10000 insertions, the program memory peak is recorded. Therefore, we do NOT see the release of memory happening at the end of rehash, which is Ok since we are only interested in the memory peak.
+The following graph shows the memory peak in MB based on the number of inserted values for each hash table.
 
 ![MemoryPeak](images/memory_peak.svg)
 
@@ -36,7 +36,7 @@ All implementations have a distinctive behavior:
 -	`gtl::flat_hash_set` behaves like a *regular* open-addressing hash table, with a single memory peak at each rehash.
 -	`ankerl::unordered_dense::set` displays multiple memory peaks as it uses a double storage strategy: one for the hash table (element index + probe distance) and one for the values (regular std::vector). Both storage double their capacities at different times.
 -	`tsl::sparse_set` displays tiny memory peaks (when the bucket table is effectively doubled) followed by a linear pattern (when each bucket receive new values).
--	`seq::radix_hash_set` has a very low, almost linear memory pattern. This is thinks to it incremental rehash strategy as explained [here](radix_tree.md).
+-	`seq::radix_hash_set` has a very low, almost linear memory pattern. This is thanks to it incremental rehash strategy as explained [here](radix_tree.md).
 
 Now, let's see if the memory usage is correlated to the insertion latency.
 
@@ -47,7 +47,7 @@ For that, we insert 10M values within the hash table and measure the each indivi
 For this benchmark, the measure precision is not an issue as we expect high values during rehash. The following graph displays the maximum insertion latency in nanoseconds based on the number of elements. The maximum latency is displayed in the legend.
 I removed the `std::unordered_set` curve which is too high and makes it impossible to interpret the results (and log scale does not help either). Just know that it's roughly 2 times slower than the second slowest (`tsl::sparse_set`).
 
-![InsertLatency](insert_latency.svg)
+![InsertLatency](images/insert_latency.svg)
 
 Measurements are coherant whith the memory patterns:
 -	`gtl::flat_hash_set` is rather fast to rehash, but still needs 66ms to insert a single value at most.
@@ -68,7 +68,7 @@ The process is slightly different than with previous benchmark:
 
 In the end failed lookup latencies are very similar to the successfull ones, therefore I just give the later:
 
-![FindLatency](find_latency.svg)
+![FindLatency](images/find_latency.svg)
 
 First (good) news, all hash table behave in O(1) complexity. We already knew that, but it's still pleasing to the eyes. As for the interpretation:
 -	`gtl::flat_hash_set` is rather fast with a low dispersion, like `seq::radix_hash_set`.
