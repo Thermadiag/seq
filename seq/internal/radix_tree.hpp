@@ -692,7 +692,7 @@ namespace seq
 			using this_type = RadixHasherUnordered<T, Hash, Less, Equal>;
 			static constexpr bool is_transparent = hash_is_transparent<Hash>::value;
 			static constexpr bool prefix_search = false;
-			static constexpr size_t bit_step = 2;
+			static constexpr size_t bit_step = 1;//TEST instead of 2
 
 			SEQ_ALWAYS_INLINE RadixHasherUnordered(size_t val = 0, const Hash& h = Hash(), const Equal& eq = Equal()) noexcept
 			  : RadixHasher<size_t>{ val }

@@ -16,6 +16,7 @@ create_test_sourcelist (Benchs
   #bench_boost_unordered_benchmarks.cpp
   bench_sort.cpp
   bench_concurrent_queue.cpp
+bench_hash_latency.cpp
   )
 
 # add the executable
