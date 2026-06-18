@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_set>
+#include <thread>
 
 using namespace seq;
 

@@ -61,7 +61,9 @@ VART also uses path compression to reduce the tree depth for keys sharing common
 At some point during the insertion process, a directory (the root one or an intermediate directory) will be entirely filled with sub-directories. These sub-directories can be removed to efficiently reduce the tree depth.
 For that, the parent directory arity is multiplied by 4, the sub-directories are suppressed, and their children nodes (other directories or leaf nodes) are reinserted into the parent directory.
 We don't need to process the keys in order to find the position of each node within the new parent directory, as it is the combination of the sub-directory position and its child position.
-Below is a an image displaying the radix tree state after 10 insertions, after 500 insertions, and after the level merging.
+
+Below is a an image displaying the radix tree state after 10 insertions (state 1), after 500 insertions (state 2), and after the level merging (state 3). We can see that inserting 500 values creates intermediate directories (level 1 directories).
+Once the root directory only contains sub-directories (state 2), the root arity is increased, level 1 directories are suppressed and leaves are linked to the root directory (state 3).
 
 ![LevelMerging](images/level_merging.svg)
 
