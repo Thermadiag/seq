@@ -37,6 +37,6 @@ jobs:
               cmake --build ./ 
               cmake --build . --target install
               ls ./install/bin
-              ./install/bin/seq_bench bench_hash
+              ./install/bin/seq_benchs bench_hash
 
         
