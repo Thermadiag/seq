@@ -862,7 +862,7 @@ namespace seq
 			std::uint64_t tmp = (word & 0x7F7F7F7F7F7F7F7FULL) + 0x7F7F7F7F7F7F7F7FULL;
 			return ~(tmp | word | 0x7F7F7F7F7F7F7F7FULL);
 		}
-#ifdef __SSE2__
+#if defined( __SSE2__) || defined(__ARM_NEON) || defined(__ARM_NEON__)
 		static SEQ_ALWAYS_INLINE unsigned movemask16(const unsigned char* hashs, unsigned char th) noexcept
 		{
 			return static_cast<unsigned short>(_mm_movemask_epi8(_mm_cmpeq_epi8(_mm_loadu_si128(reinterpret_cast<const __m128i*>(hashs)), _mm_set1_epi8(static_cast<char>(th)))));

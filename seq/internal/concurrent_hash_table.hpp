@@ -342,7 +342,7 @@ namespace seq
 				return static_cast<unsigned>(-1);
 			}
 			else if constexpr (Size == 16) {
-#if defined(__SSE2__)
+#if defined(__SSE2__) || defined(__ARM_NEON) || defined(__ARM_NEON__)
 				auto hs = _mm_load_si128(reinterpret_cast<const __m128i*>(hashs));
 				int mask = _mm_movemask_epi8(_mm_cmpeq_epi8(hs, _mm_setzero_si128())) >> 1;
 				if (mask)
@@ -569,7 +569,7 @@ namespace seq
 					return nullptr;
 				}
 				else if constexpr (Size == 16) {
-#if defined(__SSE2__)
+#if defined(__SSE2__) || defined(__ARM_NEON) || defined(__ARM_NEON__)
 					// SSE movemask
 					if (!hashs[0])
 						return nullptr;
