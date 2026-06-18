@@ -187,6 +187,9 @@
 
 typedef int64x2_t __m128i; /* 128-bit vector containing integers */
 
+#define vreinterpretq_m128i_s32(x) vreinterpretq_s64_s32(x)
+#define _sse2neon_reinterpret_cast(t, e) reinterpret_cast<t>(e)
+
 // Load 128-bits of integer data from memory into dst. mem_addr must be aligned
 // on a 16-byte boundary or a general-protection exception may be generated.
 // https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#text=_mm_load_si128
