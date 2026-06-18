@@ -26,7 +26,7 @@ The VART is a Burst Trie with the following specificities:
 -	Each leaf node is a flat sorted array of keys (or pairs of key/value for the radix_map) containing at most MAX keys, where MAX depends on the key size (typically 64).
 -	Intermediate nodes are called 'directories'  and can potentially have an unlimited number of children (other directories or leaf nodes).
 -	Since keys are stored 'as is' without compression, `seq::radix_set` and `seq::radix_map` can provide the same interface as `std::set` and `std::map`.
--	Keys can be arithmetic types, pointers, standard strings or wide strings, vectors, arrays... (anything with a `data()` and `size()` member).
+-	Keys can be arithmetic types, pointers, std::chrono time_point and duration, standard strings or wide strings, vectors, arrays... (anything with a `data()` and `size()` member).
 -	Keys are unique within the tree.
 
 For the rest of the documentation, we consider a VART with a start arity of 4 and maximum leaf node size of 64 keys.
@@ -61,44 +61,11 @@ VART also uses path compression to reduce the tree depth for keys sharing common
 At some point during the insertion process, a directory (the root one or an intermediate directory) will be entirely filled with sub-directories. These sub-directories can be removed to efficiently reduce the tree depth.
 For that, the parent directory arity is multiplied by 4, the sub-directories are suppressed, and their children nodes (other directories or leaf nodes) are reinserted into the parent directory.
 We don't need to process the keys in order to find the position of each node within the new parent directory, as it is the combination of the sub-directory position and its child position.
-Below is a simplified code sample describing this process:
+Below is a an image displaying the radix tree state after 10 insertions, after 500 insertions, and after the level merging.
 
-```cpp
+![LevelMerging](images/level_merging.svg]
 
-// here, 'parent' is the parent directory
-
-// create a new parent directory with an arity equals to parent_arity * 4
-// Note that the arity is stored as its log2 representation (number of bits)
-directory* new_parent = directory::create(parent->bit_length + 2);
-
-// Walk through the sub-directories
-for (unsigned i = 0; i < parent->child_count(); ++i)
-{
-	// get sub-directory
-	directory* sub_dir = parent->child(i);
-
-	// walk through all nodes within sub_dir
-	for (unsigned j = 0; j < sub_dir->child_count(); ++j)
-	{
-		void* child = sub_dir->child(j); // child could be null, a directory or a leaf node
-
-		// compute the child position within new_parent 
-		unsigned position = j | (i << sub_dir->bit_length);
-
-		// add child to new_parent
-		new_parent->set_child(position, child);
-	}
-
-	// we can safely destroy sub_dir as we moved all its children to new_parent
-	directory::destroy(sub_dir);
-}
-
-// we can safely destroy parent as we moved its content to new_parent
-directory::destroy(parent);
-		
-```
-
-This level merging process is done on insertion step 4, during the keys dispatching to new nodes. The above code sample is straightforward and only works when all subdirectories have the same arity of 4.
+This level merging process is done on insertion step 4, during the keys dispatching to new nodes. The above image is straightforward and only works when all subdirectories have the same arity of 4.
 Other scenarios are possible: the sub-directories have variable arities (because of other level mergings), or arities greater than 4, or store a non 0 prefix length. All these cases are not described here, but properly handled by the VART.
 
 The insertion process is in fact more complex than described previously: because of this level merging, each intermediate directory might consume more than 2 bits of the key to get its child index, depending on its arity.
