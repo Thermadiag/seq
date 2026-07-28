@@ -1108,7 +1108,6 @@ namespace seq
 		auto alloc() -> void*
 		{
 			static_assert(sizeof(T) % alignof(T) == 0);
-			static constexpr size_t size_T = sizeof(T);
 			// compile time tags
 			static constexpr size_t tag = make_tag<T>();
 

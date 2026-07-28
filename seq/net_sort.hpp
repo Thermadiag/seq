@@ -115,7 +115,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto operator-=(Diff diff) -> IterWrapper&
 			{
 				pos -= static_cast<difference_type>(diff);
-				increment_iter(iter, -static_cast<difference_typet>(diff));
+				increment_iter(iter, -static_cast<difference_type>(diff));
 				return *this;
 			}
 		};
@@ -228,7 +228,7 @@ namespace seq
 
 		template<class Iter, class Cmp>
 		static void
-		merge_inplace_left(Iter f0, size_t n0, Iter f1, size_t n1, Iter& f0_0, size_t& n0_0, Iter& f0_1, size_t& n0_1, Iter& f1_0, size_t& n1_0, Iter& f1_1, size_t& n1_1, Cmp& r) 
+		merge_inplace_left(Iter f0, size_t n0, Iter f1, size_t n1, Iter& f0_0, size_t& n0_0, Iter& f0_1, size_t& n0_1, Iter& f1_0, size_t& n1_0, Iter& f1_1, size_t& n1_1, const Cmp& r) 
 		{
 			// Subroutine of inplace_merge_n
 			SEQ_ALGO_ASSERT_DEBUG((size_t)iter_distance(f0, f1) == n0, "");
@@ -250,7 +250,7 @@ namespace seq
 
 		template<class Iter, class Cmp>
 		static void
-		merge_inplace_right(Iter f0, size_t n0, Iter f1, size_t n1, Iter& f0_0, size_t& n0_0, Iter& f0_1, size_t& n0_1, Iter& f1_0, size_t& n1_0, Iter& f1_1, size_t& n1_1, Cmp& r) 
+		merge_inplace_right(Iter f0, size_t n0, Iter f1, size_t n1, Iter& f0_0, size_t& n0_0, Iter& f0_1, size_t& n0_1, Iter& f1_0, size_t& n1_0, Iter& f1_1, size_t& n1_1, const Cmp& r) 
 		{
 			// Subroutine of inplace_merge_n
 			SEQ_ALGO_ASSERT_DEBUG((size_t)iter_distance(f0, f1) == n0, "");
@@ -284,7 +284,7 @@ namespace seq
 		}
 
 		template<bool Overlap, class Iter1, class Iter2, class Out, class Cmp>
-		static Out merge_forward(Iter1 first1, Iter1 end1, Iter2 first2, Iter2 end2, Out out, Cmp& c)
+		static Out merge_forward(Iter1 first1, Iter1 end1, Iter2 first2, Iter2 end2, Out out, const Cmp& c)
 		{
 			// Merge 2 range forward
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(first1, end1, c), "");
@@ -380,7 +380,7 @@ namespace seq
 		}
 
 		template<class Iter, class Out, class Cmp>
-		static SEQ_ALWAYS_INLINE std::pair<bool, bool> merge_tails(Iter* first, Iter* second, Out& out_left, Out& out_right, Cmp& c)
+		static SEQ_ALWAYS_INLINE std::pair<bool, bool> merge_tails(Iter* first, Iter* second, Out& out_left, Out& out_right, const Cmp& c)
 		{
 			// Merge tails and advance
 			bool left_order = c(*first[1], *first[0]);
@@ -397,7 +397,7 @@ namespace seq
 		}
 
 		template<class Iter, class Out, class Cmp>
-		static SEQ_ALWAYS_INLINE void finish_bidirectional_merge(Iter* first, Iter* second, Out out_left, Cmp& c)
+		static SEQ_ALWAYS_INLINE void finish_bidirectional_merge(Iter* first, Iter* second, Out out_left, const Cmp& c)
 		{
 			bool finish_left = (second[0] < first[0]);
 			bool finish_right = (second[1] < first[1]);
@@ -413,7 +413,7 @@ namespace seq
 		}
 
 		template<size_t Count, class Iter, class Out, class Cmp>
-		static Out merge_move_bidirectional(Iter first1, Iter last1, Iter first2, Iter last2, Out out, Cmp& c, Out* out_end = nullptr) 
+		static Out merge_move_bidirectional(Iter first1, Iter last1, Iter first2, Iter last2, Out out, const Cmp& c, Out* out_end = nullptr) 
 		{
 			using T = typename std::iterator_traits<Iter>::value_type;
 
@@ -492,7 +492,7 @@ namespace seq
 		}
 
 		template<bool Overlap, class Iter1, class Iter2, class Out, class Cmp>
-		static SEQ_ALWAYS_INLINE void merge_backward(Iter1 first1, Iter1 last1, Iter2 first2, Iter2 last2, Out out_end, Cmp& c) 
+		static SEQ_ALWAYS_INLINE void merge_backward(Iter1 first1, Iter1 last1, Iter2 first2, Iter2 last2, Out out_end,  Cmp c) 
 		{
 			// Merge backward implemented in terms of merge_forward
 			merge_forward<Overlap>(std::make_reverse_iterator(last2),
@@ -504,7 +504,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class B>
-		static SEQ_ALWAYS_INLINE void merge_with_buffer(Iter first, size_t n0, Iter middle, size_t n1, Iter e1, Cmp& r, B& buffer)
+		static SEQ_ALWAYS_INLINE void merge_with_buffer(Iter first, size_t n0, Iter middle, size_t n1, Iter e1, const Cmp& r, B& buffer)
 		{
 			// Inplace merge 2 ranges using provided buffer.
 			// Moves as few elements as possible to the temporary buffer.
@@ -532,7 +532,7 @@ namespace seq
 		}
 
 		template<bool FirstChecks, class Iter, class Cmp, class B>
-		static void merge_adaptive_n(Iter f0, size_t n0, Iter f1, size_t n1, Iter e1, Cmp& r, B& buffer)
+		static void merge_adaptive_n(Iter f0, size_t n0, Iter f1, size_t n1, Iter e1, const Cmp& r, B& buffer)
 		{
 			// Inplace merge with buffer, first published by Dudzin'sky and Dydek in 1981 IPL 12(1):5-8
 			// Implementation from: https://www.jmeiners.com/efficient-programming-with-components/15_merge_inplace.html
@@ -601,7 +601,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp>
-		Iter insertion_sort_n(Iter begin, size_t count, Cmp& l)
+		Iter insertion_sort_n(Iter begin, size_t count, const Cmp& l)
 		{
 			// Standard in-place insertion sort working on bidirectional iterators,
 			// but using a number of values to sort instead of an end iterator.
@@ -629,7 +629,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp>
-		static void reverse_sort(Iter begin, Iter end, Cmp& l)
+		static void reverse_sort(Iter begin, Iter end, const Cmp& l)
 		{
 			// Inplace reverse range.
 			// The range must be sorted in descending order.
@@ -662,7 +662,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class Storage>
-		static void ping_pong_merge_4(Iter it0, Iter it1, Iter it2, Iter it3, Iter it4, Cmp& c, Storage& tmp)
+		static void ping_pong_merge_4(Iter it0, Iter it1, Iter it2, Iter it3, Iter it4, const Cmp& c, Storage& tmp)
 		{
 			// Ping pong merge 4 sorted ranges using provided buffer.
 
@@ -700,7 +700,7 @@ namespace seq
 			}
 		}
 		template<class Iter, class Cmp, class Storage>
-		static void ping_pong_merge_3(Iter it0, Iter it1, Iter it2, Iter it3, Cmp& c, Storage& tmp) 
+		static void ping_pong_merge_3(Iter it0, Iter it1, Iter it2, Iter it3, const Cmp& c, Storage& tmp) 
 		{
 			// Ping pong merge 3 sorted ranges using provided buffer.
 
@@ -729,7 +729,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class Buffer, class Out = typename std::iterator_traits<Iter>::pointer>
-		static void merge_sorted_runs_with_buffer(Iter* iters, size_t start, size_t last, Cmp& cmp, Buffer& buf) 
+		static void merge_sorted_runs_with_buffer(Iter* iters, size_t start, size_t last, const Cmp& cmp, Buffer& buf) 
 		{
 			// Inplace merge already sorted ranges represented by an array of iterators.
 			// Supports bidirectional iterators.
@@ -777,7 +777,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class Buffer>
-		static void small_sort_8(Iter it, Cmp& cmp, Buffer& b)
+		static void small_sort_8(Iter it, const Cmp& cmp, Buffer& b)
 		{
 			swap_branchless(*it, it[1], cmp(it[1], *it));
 			swap_branchless(it[2], it[3], cmp(it[3], it[2]));
@@ -788,7 +788,7 @@ namespace seq
 		}
 
 		template<size_t N, class Iter, class Cmp, class Buffer>
-		static SEQ_ALWAYS_INLINE Iter atom_sort_8(Iter vals, size_t count, Cmp& cmp, Buffer& b) 
+		static SEQ_ALWAYS_INLINE Iter atom_sort_8(Iter vals, size_t count, const Cmp& cmp, Buffer& b) 
 		{
 			// Sort up to 8 values
 
@@ -804,7 +804,7 @@ namespace seq
 		}
 
 		template<class Iter, class Out, class Cmp>
-		static Out atom_sort_64(Iter& first, Out out, Cmp& c)
+		static Out atom_sort_64(Iter& first, Out out, const Cmp& c)
 		{
 			// Sort 64 values to output
 
@@ -835,7 +835,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class Buffer>
-		static Iter sort_128(Iter vals, size_t count, Cmp& c, Buffer& buf)
+		static Iter sort_128(Iter vals, size_t count, const Cmp& c, Buffer& buf)
 		{
 			// Sort inplace up to 128 values using provided buffer
 
@@ -862,7 +862,7 @@ namespace seq
 		}
 
 		template<size_t IterCount, class T, class Cmp, class Buffer>
-		static std::pair<T, size_t> try_wave_sort(T begin, size_t size, size_t min_dist, Cmp& c, Buffer& buf)
+		static std::pair<T, size_t> try_wave_sort(T begin, size_t size, size_t min_dist, const Cmp& c, Buffer& buf)
 		{
 			// Attempt to sort the range [begin,end).
 			// Find consecutive sorted runs (ascending or descending), up to IterCount-1.
@@ -937,7 +937,7 @@ namespace seq
 		}
 
 		template<size_t MaxIters, class Iter, class Cmp, class Fn, class Buff>
-		static void generic_merge_sort_internal(Iter begin, Iter end, size_t size, Cmp& l, Fn sort_sub_range, Buff buf, size_t min_size = 0)
+		static void generic_merge_sort_internal(Iter begin, Iter end, size_t size, const Cmp& l, Fn sort_sub_range, Buff buf, size_t min_size = 0)
 		{
 			// Generic merge sort that uses a custom sort function for small chunks.
 			// Supports bidirectional iterators.
@@ -1026,7 +1026,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class Buffer>
-		static void merge_sort_internal(Iter begin, size_t size, Cmp& l, Buffer buf)
+		static void merge_sort_internal(Iter begin, size_t size, const Cmp& l, Buffer buf)
 		{
 			// Bottom-up merge sort.
 			// Small chunks of up to 128 elements are sorted using insertion sort or sorting network and ping-pong merge.

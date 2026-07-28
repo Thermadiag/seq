@@ -12,7 +12,6 @@
 
 #include "pdqsort.hpp"
 #include "testing.hpp"
-#include "blqs.h"
 
 template<class T, class Cmp>
 void indisort(T start, size_t size, Cmp c)

@@ -2008,7 +2008,7 @@ namespace seq
 		auto find_last_not_of(const Char* s, size_t pos = npos) const noexcept -> size_t
 		{
 			if (!s)
-				return n pos;
+				return npos;
 			return find_last_not_of(s, pos, Traits::length(s));
 		}
 		auto find_last_not_of(const Char* s, size_t pos, size_t n = npos) const noexcept -> size_t
