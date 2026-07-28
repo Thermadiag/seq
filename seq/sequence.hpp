@@ -868,6 +868,10 @@ namespace seq
 		template<class Iter, class Cat>
 		void assign_cat(Iter first, Iter last, Cat)
 		{
+			if(first == last) {
+				clear();
+				return;
+			}
 			iterator it = begin();
 			iterator en = end();
 			size_type new_count = 0;
@@ -888,6 +892,13 @@ namespace seq
 		template<class Iter>
 		void assign_cat(Iter first, Iter last, std::random_access_iterator_tag)
 		{
+			if(first == last) {
+				clear();
+				return;
+			}
+			if(first > last) 
+				throw std::invalid_argument("sequence::assign: invalid iterator range");
+
 			size_type new_count = static_cast<size_t>(last - first);
 			resize(new_count);
 			std::copy(first, last, begin());
@@ -1126,7 +1137,7 @@ namespace seq
 		}
 
 		// Sequence object internal data
-		Data* d_data;
+		Data* d_data = nullptr;
 
 		auto make_data(const Allocator& al) -> Data* { return new (allocate_from<Data>(al)) Data(al); }
 		void destroy_data(Data* d)
@@ -1144,18 +1155,18 @@ namespace seq
 			return iterator(static_cast<chunk_type*>(d_data->end.prev), static_cast<int>(back - (static_cast<chunk_type*>(d_data->end.prev))->buffer()));
 		}
 
+		SEQ_ALWAYS_INLINE auto allocator_ref() noexcept -> Allocator& { return static_cast<Allocator&>(*this); }
+
 	public:
 		/// @brief Default constructor, initialize internal data
 		sequence() noexcept(std::is_nothrow_default_constructible_v<Allocator>)
 		  : Allocator()
-		  , d_data(nullptr)
 		{
 		}
 		/// @brief Constructor from an allocator object
 		/// @param al allocator object
-		explicit sequence(const Allocator& al)
+		explicit sequence(const Allocator& al) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 		  : Allocator(al)
-		  , d_data(make_data(al))
 		{
 		}
 		/// @brief Construct with an initial size and a fill value
@@ -1164,7 +1175,6 @@ namespace seq
 		/// @param al allocator object
 		sequence(size_type count, const T& value, const Allocator& al = Allocator())
 		  : Allocator(al)
-		  , d_data(make_data(al))
 		{
 			resize(count, value);
 		}
@@ -1173,7 +1183,6 @@ namespace seq
 		/// @param al allocator object
 		explicit sequence(size_type count, const Allocator& al = Allocator())
 		  : Allocator(al)
-		  , d_data(make_data(al))
 		{
 			resize(count);
 		}
@@ -1181,7 +1190,6 @@ namespace seq
 		/// @param other input sequence to copy
 		sequence(const sequence& other)
 		  : Allocator(copy_allocator(other.get_allocator()))
-		  , d_data(nullptr)
 		{
 			if (other.size())
 				import(other);
@@ -1191,7 +1199,6 @@ namespace seq
 		/// @param al allocator object
 		sequence(const sequence& other, const Allocator& al)
 		  : Allocator(al)
-		  , d_data(nullptr)
 		{
 			if (other.size())
 				import(other);
@@ -1209,7 +1216,6 @@ namespace seq
 		/// @param alloc allocator object
 		sequence(sequence&& other, const Allocator& alloc)
 		  : Allocator(alloc)
-		  , d_data(make_data(alloc))
 		{
 			if (alloc == other.get_allocator())
 				std::swap(other.d_data, d_data);
@@ -1222,11 +1228,8 @@ namespace seq
 		/// @param lst initializer list
 		/// @param al allocator object
 		sequence(const std::initializer_list<T>& lst, const Allocator& al = Allocator())
-		  : Allocator(al)
-		  , d_data(make_data(al))
-		{
-			assign(lst.begin(), lst.end());
-		}
+		  : sequence(lst.begin(), lst.end(), al)
+		{}
 		/// @brief Constructs the sequence with the contents of the range [first, last).
 		/// @tparam Iter iterator type
 		/// @param first begin iterator
@@ -1235,7 +1238,6 @@ namespace seq
 		template<class Iter, std::enable_if_t<is_iterator<Iter>::value, int> = 0>
 		sequence(Iter first, Iter last, const Allocator& al = Allocator())
 		  : Allocator(al)
-		  , d_data(make_data(al))
 		{
 			assign(first, last);
 		}
@@ -1250,31 +1252,55 @@ namespace seq
 		/// @return reference to this
 		auto operator=(const sequence& other) -> sequence&
 		{
-			if (this != std::addressof(other)) {
+			if (this == std::addressof(other))
+				return *this;
 
-				if constexpr (assign_alloc<Allocator>::value) {
-					if (get_allocator() != other.get_allocator()) {
-						destroy_data(d_data);
-						d_data = nullptr;
-					}
-				}
-				assign_allocator(get_allocator(), other.get_allocator());
+			using traits = std::allocator_traits<Allocator>;
 
-				if (other.size()) {
-					import(other);
-				}
-				else
-					clear();
-			}
+			clear();
+			// Copy allocator, might throw
+			if constexpr (traits::propagate_on_container_copy_assignment::value )
+				allocator_ref() = other.get_allocator();
+
+			if (other.size()) 
+				import(other);
+			
 			return *this;
 		}
 
 		/// @brief Move assignment operator
 		/// @param other input sequence object
 		/// @return reference to this
-		auto operator=(sequence&& other) noexcept(noexcept(std::declval<sequence&>().swap(std::declval<sequence&>()))) -> sequence&
+		auto operator=(sequence&& other) noexcept(std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value ? std::is_nothrow_move_assignable_v<Allocator> : std::allocator_traits<Allocator>::is_always_equal::value) -> sequence&
 		{
-			this->swap(other);
+			if (this == std::addressof(other))
+				return *this;
+
+			using traits = std::allocator_traits<Allocator>;
+
+			if constexpr (traits::propagate_on_container_move_assignment::value) {
+
+				// Reset this container
+				clear();
+
+				// Move allocator, might throw
+				static_cast<Allocator&>(*this) = std::move(static_cast<Allocator&>(other));
+
+				d_data = other.d_data;
+				other.d_data = nullptr;
+			}
+			else {
+				if(get_allocator() == other.get_allocator()) {
+					clear();
+					d_data = other.d_data;
+					other.d_data = nullptr;
+				}
+				else {
+					resize(other.size());
+					std::move(other.begin(), other.end(),begin());
+				}
+			}
+
 			return *this;
 		}
 
@@ -1282,10 +1308,18 @@ namespace seq
 		/// @param other other sequence to swap with
 		/// All iterators and references remain valid.
 		/// An iterator holding the past-the-end value in this container will refer to the other container after the operation.
-		void swap(sequence& other) noexcept(noexcept(swap_allocator(std::declval<Allocator&>(), std::declval<Allocator&>())))
+		void swap(sequence& other) noexcept(std::is_nothrow_swappable_v<Allocator>)
 		{
 			if (this != std::addressof(other)) {
-				swap_allocator(get_allocator(), other.get_allocator());
+				using traits = std::allocator_traits<Allocator>;
+
+				if constexpr (!traits::propagate_on_container_swap::value) {
+					SEQ_ASSERT_DEBUG(get_allocator() == other.get_allocator(), "swap requires equal non-propagating allocators");
+				}
+				else {
+					using std::swap;
+					swap(allocator_ref(), allocator_ref());
+				}
 				std::swap(d_data, other.d_data);
 			}
 		}
@@ -1298,9 +1332,7 @@ namespace seq
 		auto memory_footprint() const noexcept -> std::size_t { return d_data ? sizeof(*d_data) + d_data->memory_footprint() : 0; }
 
 		/// @brief Returns the allocator associated with the container.
-		SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return static_cast<Allocator&>(*this); }
-		/// @brief Returns the allocator associated with the container.
-		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return static_cast<const Allocator&>(*this); }
+		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> Allocator { return static_cast<const Allocator&>(*this); }
 
 		/// @brief Returns the sequence maximum size.
 		static auto max_size() noexcept -> size_type { return (sizeof(size_t) > 4) ? static_cast<size_t>(std::numeric_limits<std::int64_t>::max()) : std::numeric_limits<std::size_t>::max(); }
@@ -1379,6 +1411,10 @@ namespace seq
 		{
 			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
+
+			if(d_data->size == max_size())
+				throw std::length_error("sequence::emplace_back");
+
 			chunk_type* last = static_cast<chunk_type*>(d_data->end.prev);
 			if SEQ_UNLIKELY (last->used & (1ULL << (count - 1ULL)))
 				return emplace_back_new_chunk(last, std::forward<Args>(args)...);
@@ -1422,6 +1458,10 @@ namespace seq
 		{
 			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
+
+			if(d_data->size == max_size())
+				throw std::length_error("sequence::emplace_front");
+
 			chunk_type* first = static_cast<chunk_type*>(d_data->end.next);
 			if SEQ_UNLIKELY (first->used & 1)
 				return emplace_front_new_chunk(first, std::forward<Args>(args)...);
@@ -1471,6 +1511,9 @@ namespace seq
 			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 
+			if(d_data->size == max_size())
+				throw std::length_error("sequence::emplace");
+
 			if SEQ_UNLIKELY (d_data->end.next_free == &d_data->end)
 				// If no free slot, default to emplace_back
 				return emplace_back_iter_noinline(std::forward<Args>(args)...);
@@ -1515,6 +1558,9 @@ namespace seq
 				clear();
 				return;
 			}
+
+			if(new_size > max_size())
+				throw std::length_error("sequence::resize");
 
 			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
@@ -1643,6 +1689,9 @@ namespace seq
 				return;
 			}
 
+			if(new_size > max_size())
+				throw std::length_error("sequence::resize");
+
 			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 
@@ -1770,9 +1819,7 @@ namespace seq
 		/// Basic exception guarantee.
 		void assign(const std::initializer_list<T>& lst)
 		{
-			if SEQ_UNLIKELY (!d_data)
-				d_data = make_data(get_allocator());
-			assign_cat(lst.begin(), lst.end(), std::random_access_iterator_tag());
+			assign(lst.begin(), lst.end());
 		}
 
 		/// @brief Replaces the contents with new_size copies of value \a value
@@ -1781,6 +1828,9 @@ namespace seq
 		/// Basic exception guarantee.
 		void assign(size_type new_size, const T& value)
 		{
+			if(new_size > max_size())
+				throw std::length_error("sequence::assign");
+
 			if SEQ_UNLIKELY (!d_data)
 				d_data = make_data(get_allocator());
 			assign_cat(cvalue_iterator<T>(0, value), cvalue_iterator<T>(new_size, value), std::random_access_iterator_tag());
@@ -1806,6 +1856,9 @@ namespace seq
 		/// Basic exception guarantee.
 		void reserve(size_t new_cap)
 		{
+			if(new_cap > max_size())
+				throw std::length_error("sequence::reserve");
+
 			if SEQ_UNLIKELY (!d_data) 
 				d_data = make_data(get_allocator());
 

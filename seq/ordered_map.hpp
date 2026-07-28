@@ -1189,9 +1189,7 @@ namespace seq
 		/// @brief Set the maximum load factor
 		void max_load_factor(float f) noexcept { base_type::max_load_factor(f); }
 		/// @brief Returns the container allocator object
-		auto get_allocator() noexcept -> allocator_type& { return this->d_seq.get_allocator(); }
-		/// @brief Returns the container allocator object
-		auto get_allocator() const noexcept -> const allocator_type& { return this->d_seq.get_allocator(); }
+		auto get_allocator() const noexcept -> allocator_type { return this->d_seq.get_allocator(); }
 		/// @brief Returns the hash function
 		auto hash_function() const noexcept -> const hasher& { return this->base_type::hash_function(); }
 		/// @brief Returns the equality comparison function
@@ -1648,8 +1646,7 @@ namespace seq
 		auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
 		void max_load_factor(float f) noexcept { base_type::max_load_factor(f); }
 
-		auto get_allocator() noexcept -> allocator_type& { return this->d_seq.get_allocator(); }
-		auto get_allocator() const noexcept -> const allocator_type& { return this->d_seq.get_allocator(); }
+		auto get_allocator() const noexcept -> allocator_type { return this->d_seq.get_allocator(); }
 
 		auto hash_function() const noexcept -> const hasher& { return this->base_type::hash_function(); }
 		auto key_eq() const noexcept -> const key_equal& { return this->base_type::key_eq(); }
