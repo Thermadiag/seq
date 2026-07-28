@@ -76,6 +76,42 @@ void test_tstring_logic()
 	using std_string = std::basic_string<Char, std::char_traits<Char>, std::allocator<Char> >;
 	using t_string = seq::tiny_string<Char, std::char_traits<Char>, std::allocator<Char>, MaxStaticSize>;
 
+	
+	{
+		tstring short_ = "ok";
+		tstring o;
+		o = short_; 
+		o = std::move(short_);
+
+		tstring long_ = "this is a very long string";
+		o = std::move(long_);
+		auto cc = o.capacity();
+		auto ss = o.size();
+		o.clear();
+		cc = o.capacity();
+		ss = o.size();
+		o = "ok";
+		o.shrink_to_fit();
+		ss = o.size();
+		cc = o.capacity();
+
+		o = "ok";
+		ss = o.size();
+		cc = o.capacity();
+		o.clear();
+		cc = o.capacity();
+		ss = o.size();
+		o.shrink_to_fit();
+		ss = o.size();
+		cc = o.capacity();
+
+	}
+	{
+		// Test from non SSO to SSO
+		tstring str = "ok"; //"this is a very long string";
+		str = "ok";
+	}
+
 	std_string v;
 	t_string dv;
 

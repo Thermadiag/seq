@@ -32,6 +32,7 @@
 
 #include <string>
 #include <cmath>
+#include <type_traits>
 
 #ifndef SEQ_MIN_BUCKET_SIZE
 /// @brief Minimum bucket size for given type
@@ -49,7 +50,6 @@ namespace seq
 	{
 
 		using cbuffer_pos = int; // index type within circular buffer, must be signed
-
 
 		template<class BucketMgr>
 		struct deque_const_iterator
@@ -69,7 +69,7 @@ namespace seq
 
 			SEQ_ALWAYS_INLINE std::pair<cbuffer_pos, cbuffer_pos> update(size_type p) const noexcept
 			{
-				if SEQ_LIKELY(mgr)
+				if SEQ_LIKELY (mgr)
 					return mgr->indexes(p);
 				return { 0, 0 };
 			}
@@ -113,7 +113,11 @@ namespace seq
 				auto idx = indexes.second + diff;
 				if (idx >= 0 && idx < mgr->d_buckets[static_cast<size_t>(indexes.first)].bucket->size) {
 					indexes.second = static_cast<int>(idx);
-					pos += diff;
+
+					const auto new_pos = static_cast<difference_type>(pos) + diff;
+					SEQ_ASSERT_DEBUG(new_pos >= 0 && new_pos <= static_cast<difference_type>(mgr->size()), "invalid iterator offset");
+					pos = static_cast<size_type>(new_pos);
+
 					return;
 				}
 				setPos(static_cast<size_t>(static_cast<difference_type>(pos) + diff));
@@ -152,7 +156,12 @@ namespace seq
 				auto idx = indexes.second + diff;
 				if (idx >= 0 && idx < mgr->d_buckets[static_cast<size_t>(indexes.first)].bucket->size)
 					return mgr->d_buckets[static_cast<size_t>(indexes.first)].bucket->at(static_cast<cbuffer_pos>(idx));
-				auto p = update(static_cast<size_type>(pos + diff));
+
+				const auto new_pos = static_cast<difference_type>(pos) + diff;
+
+				SEQ_ASSERT_DEBUG(new_pos >= 0 && new_pos <= static_cast<difference_type>(mgr->size()), "invalid iterator offset");
+
+				auto p = update(static_cast<size_type>(new_pos));
 				return mgr->d_buckets[static_cast<size_t>(p.first)].bucket->at(p.second);
 			}
 			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference
@@ -189,7 +198,12 @@ namespace seq
 			using reference = value_type&;
 			using const_reference = const value_type&;
 
-			SEQ_ALWAYS_INLINE deque_iterator() noexcept {}
+			deque_iterator() noexcept = default;
+			deque_iterator(const deque_iterator&) noexcept = default;
+			deque_iterator(deque_iterator&&) noexcept = default;
+			deque_iterator& operator=(const deque_iterator&) noexcept = default;
+			deque_iterator& operator=(deque_iterator&&) noexcept = default;
+
 			SEQ_ALWAYS_INLINE explicit deque_iterator(const bucket_manager* d) noexcept
 			  : base_type(d)
 			{
@@ -198,19 +212,10 @@ namespace seq
 			  : base_type(d, b)
 			{
 			}
-			SEQ_ALWAYS_INLINE deque_iterator(const deque_const_iterator<BucketMgr>& other) noexcept
-			  : base_type(other)
-			{
-			}
 			SEQ_ALWAYS_INLINE explicit deque_iterator(const bucket_manager* d, size_type p, size_type unused) noexcept
 			  : base_type(d, p, unused)
 			{
 			} // any pos
-
-			deque_iterator(const deque_iterator&) noexcept = default;
-			deque_iterator(deque_iterator&&) noexcept = default;
-			deque_iterator& operator=(const deque_iterator&) noexcept = default;
-			deque_iterator& operator=(deque_iterator&&) noexcept = default;
 
 			SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference { return const_cast<reference>(base_type::operator*()); }
 			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
@@ -287,21 +292,7 @@ namespace seq
 			return res;
 		}
 		template<class BucketMgr>
-		SEQ_ALWAYS_INLINE auto operator-(typename deque_const_iterator<BucketMgr>::difference_type diff, const deque_const_iterator<BucketMgr>& it) noexcept -> deque_const_iterator<BucketMgr>
-		{
-			deque_const_iterator<BucketMgr> res = it;
-			res -= diff;
-			return res;
-		}
-		template<class BucketMgr>
 		SEQ_ALWAYS_INLINE auto operator-(const deque_iterator<BucketMgr>& it, typename deque_iterator<BucketMgr>::difference_type diff) noexcept -> deque_iterator<BucketMgr>
-		{
-			deque_iterator<BucketMgr> res = it;
-			res -= diff;
-			return res;
-		}
-		template<class BucketMgr>
-		SEQ_ALWAYS_INLINE auto operator-(typename deque_iterator<BucketMgr>::difference_type diff, const deque_iterator<BucketMgr>& it) noexcept -> deque_iterator<BucketMgr>
 		{
 			deque_iterator<BucketMgr> res = it;
 			res -= diff;
@@ -311,36 +302,43 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto operator-(const deque_const_iterator<BucketMgr>& it1, const deque_const_iterator<BucketMgr>& it2) noexcept ->
 		  typename deque_const_iterator<BucketMgr>::difference_type
 		{
-			return static_cast<std::ptrdiff_t>(it1.pos - it2.pos);
+			SEQ_ASSERT_DEBUG(it1.mgr == it2.mgr, "iterators from different containers");
+			return static_cast<std::ptrdiff_t>(it1.pos) - static_cast<std::ptrdiff_t>(it2.pos);
 		}
 		template<class BucketMgr>
 		SEQ_ALWAYS_INLINE auto operator==(const deque_const_iterator<BucketMgr>& it1, const deque_const_iterator<BucketMgr>& it2) noexcept -> bool
 		{
+			SEQ_ASSERT_DEBUG(it1.mgr == it2.mgr, "iterators from different containers");
 			return it1.pos == it2.pos;
 		}
 		template<class BucketMgr>
 		SEQ_ALWAYS_INLINE auto operator!=(const deque_const_iterator<BucketMgr>& it1, const deque_const_iterator<BucketMgr>& it2) noexcept -> bool
 		{
+			SEQ_ASSERT_DEBUG(it1.mgr == it2.mgr, "iterators from different containers");
 			return it1.pos != it2.pos;
 		}
 		template<class BucketMgr>
 		SEQ_ALWAYS_INLINE auto operator<(const deque_const_iterator<BucketMgr>& it1, const deque_const_iterator<BucketMgr>& it2) noexcept -> bool
 		{
+			SEQ_ASSERT_DEBUG(it1.mgr == it2.mgr, "iterators from different containers");
 			return (it1.pos) < (it2.pos);
 		}
 		template<class BucketMgr>
 		SEQ_ALWAYS_INLINE auto operator>(const deque_const_iterator<BucketMgr>& it1, const deque_const_iterator<BucketMgr>& it2) noexcept -> bool
 		{
+			SEQ_ASSERT_DEBUG(it1.mgr == it2.mgr, "iterators from different containers");
 			return (it1.pos) > (it2.pos);
 		}
 		template<class BucketMgr>
 		SEQ_ALWAYS_INLINE auto operator<=(const deque_const_iterator<BucketMgr>& it1, const deque_const_iterator<BucketMgr>& it2) noexcept -> bool
 		{
+			SEQ_ASSERT_DEBUG(it1.mgr == it2.mgr, "iterators from different containers");
 			return it1.pos <= it2.pos;
 		}
 		template<class BucketMgr>
 		SEQ_ALWAYS_INLINE auto operator>=(const deque_const_iterator<BucketMgr>& it1, const deque_const_iterator<BucketMgr>& it2) noexcept -> bool
 		{
+			SEQ_ASSERT_DEBUG(it1.mgr == it2.mgr, "iterators from different containers");
 			return it1.pos >= it2.pos;
 		}
 
@@ -469,7 +467,7 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE auto operator-(const tvector_ra_iterator& other) const noexcept -> difference_type
 			{
-				return ((node - other.node) << data->d_bucket_size_bits) + (pos - other.pos);
+				return (node - other.node) * static_cast<difference_type>(data->d_bucket_size) + (pos - other.pos);
 			}
 		};
 
@@ -651,21 +649,11 @@ namespace seq
 			SEQ_ALWAYS_INLINE void push_front_pop_back(T& inout) noexcept(std::is_nothrow_move_assignable_v<T> && std::is_nothrow_move_constructible_v<T>)
 			{
 				// Only works for filled array
-				if constexpr (relocatable) {
-					using namespace algo_detail;
-					auto tmp = as_bits(back());
-					if (--begin < 0)
-						begin = max_size1;
-					as_bits(buffer()[begin]) = as_bits(inout);
-					as_bits(inout) = tmp;
-				}
-				else {
-					T res = std::move(back());
-					if (--begin < 0)
-						begin = max_size1;
-					buffer()[begin] = std::move(inout);
-					inout = std::move(res);
-				}
+				T res = std::move(back());
+				if (--begin < 0)
+					begin = max_size1;
+				buffer()[begin] = std::move(inout);
+				inout = std::move(res);
 			}
 
 			// Pushing front while poping back
@@ -673,19 +661,10 @@ namespace seq
 			SEQ_ALWAYS_INLINE void push_back_pop_front(T& inout) noexcept(std::is_nothrow_move_assignable_v<T> && std::is_nothrow_move_constructible_v<T>)
 			{
 				// Only works for filled array
-				if constexpr (relocatable) {
-					using namespace algo_detail;
-					auto tmp = as_bits(front());
-					begin = (begin + 1) & (max_size1);
-					as_bits((*this)[size - 1]) = as_bits(inout);
-					as_bits(inout) = tmp;
-				}
-				else {
-					T tmp = std::move(front());
-					begin = (begin + 1) & (max_size1);
-					(*this)[size - 1] = std::move(inout);
-					inout = std::move(tmp);
-				}
+				T tmp = std::move(front());
+				begin = (begin + 1) & (max_size1);
+				(*this)[size - 1] = std::move(inout);
+				inout = std::move(tmp);
 			}
 
 			// Pop back/front
@@ -1196,6 +1175,8 @@ namespace seq
 		template<class T, class ValueCompare, bool StoreBackValues, bool IsPlainKey = StorePlainKey<typename ValueCompare::key_type>::value>
 		struct StoreBucket
 		{
+			static constexpr bool relocatable = true;
+
 			// No back value storage
 			CircularBuffer<T>* bucket;
 
@@ -1216,6 +1197,8 @@ namespace seq
 		template<class T, class ValueCompare>
 		struct StoreBucket<T, ValueCompare, true, false>
 		{
+			static constexpr bool relocatable = true;
+
 			// Store back value as pointer
 			using key_type = typename StorePlainKey<typename ValueCompare::key_type>::key_type;
 			const key_type* back_value = nullptr;
@@ -1228,6 +1211,11 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE void update() noexcept
 			{
+				// Ensure ValueCompare::key returns a l value
+				using key_result = decltype(ValueCompare::key(std::declval<const T&>()));
+
+				static_assert(std::is_lvalue_reference_v<key_result>);
+
 				// Update back value
 				back_value = &ValueCompare::key((bucket)->back());
 			}
@@ -1244,6 +1232,9 @@ namespace seq
 		{
 			// Store plain back value
 			using key_type = typename StorePlainKey<typename ValueCompare::key_type>::key_type;
+
+			static constexpr bool relocatable = is_relocatable_v<key_type>;
+
 			key_type back_value;
 			CircularBuffer<T>* bucket = nullptr;
 
@@ -1258,12 +1249,12 @@ namespace seq
 
 			auto operator=(StoreBucket&& other) noexcept -> StoreBucket& = default;
 
-			SEQ_ALWAYS_INLINE void update() noexcept
+			SEQ_ALWAYS_INLINE void update()
 			{
 				// Update back value
 				back_value = ValueCompare::key((bucket)->back());
 			}
-			SEQ_ALWAYS_INLINE auto back() const noexcept -> typename ValueCompare::key_type { return back_value; }
+			SEQ_ALWAYS_INLINE auto back() const noexcept -> const typename ValueCompare::key_type& { return back_value; }
 			SEQ_ALWAYS_INLINE auto operator->() noexcept -> CircularBuffer<T>* { return bucket; }
 			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const CircularBuffer<T>* { return bucket; }
 		};
@@ -1274,12 +1265,7 @@ namespace seq
 	template<class T, class ValueCompare, bool StoreBackValues, bool IsPlainKey>
 	struct is_relocatable<detail::StoreBucket<T, ValueCompare, StoreBackValues, IsPlainKey>>
 	{
-		static constexpr bool value = true;
-	};
-	// Specialization of is_relocatable for StoreBucket
-	template<class T, class ValueCompare>
-	struct is_relocatable<detail::StoreBucket<T, ValueCompare, true, true>> : is_relocatable<typename ValueCompare::key_type>
-	{
+		static constexpr bool value = detail::StoreBucket<T, ValueCompare, StoreBackValues, IsPlainKey>::relocatable;
 	};
 
 	namespace detail
@@ -1376,8 +1362,8 @@ namespace seq
 				else if (size > other.d_size)
 					full_size = other.d_size;
 
-				SEQ_ASSERT_DEBUG(start < other.size(), "invalid start position");
-				SEQ_ASSERT_DEBUG(start + full_size <= other.size(), "invalid end position");
+				SEQ_ASSERT_DEBUG(start <= other.size(), "invalid start position");
+				SEQ_ASSERT_DEBUG(full_size <= other.size() - start, "invalid end position");
 
 				// Get new bucket count
 				size_type bucket_count = full_size / static_cast<size_t>(new_bucket_size) + (full_size % static_cast<size_t>(new_bucket_size) ? 1 : 0);
@@ -1408,11 +1394,13 @@ namespace seq
 
 						// If this throw, d_size won't be updated (which is fine)
 						try {
-							other.for_each(pos, end, [&](const T& v) { construct_ptr(ptr++, v); });
+							other.for_each(pos, end, [&](const T& v) {
+								construct_ptr(ptr, v);
+								++ptr;
+							});
 						}
 						catch (...) {
 							// Destroy constructed elements
-							--ptr;
 							for (T* p = current->buffer(); p != ptr; ++p)
 								destroy_ptr(p);
 							this->remove_back_bucket();
@@ -1502,9 +1490,9 @@ namespace seq
 
 					// If this throw, d_size won't be updated (which is fine)
 					try {
-
 						other.for_each_bucket(pos, end, front_size, [&ptr, &bindex, &other](size_t index, T& v) {
-							construct_ptr(ptr++, std::move(v));
+							construct_ptr(ptr, std::move(v));
+							++ptr;
 							if (index != bindex) {
 								other.destroy_bucket(other.d_buckets[bindex].bucket);
 								other.d_buckets[bindex].bucket = nullptr;
@@ -1514,7 +1502,6 @@ namespace seq
 					}
 					catch (...) {
 						// Destroy constructed values
-						--ptr;
 						for (T* p = current->buffer(); p != ptr; ++p)
 							destroy_ptr(p);
 						this->remove_back_bucket();
@@ -1555,6 +1542,33 @@ namespace seq
 				// Destroy all element, deallocate buckets
 				destroy_all();
 			}
+
+			/* bool assert_invariants() const
+			{
+				size_type total = 0;
+
+				for (size_type i = 0; i < d_buckets.size(); ++i) {
+					const auto& stored = d_buckets[i];
+					SEQ_ASSERT_DEBUG(stored.bucket != nullptr);
+					SEQ_ASSERT_DEBUG(stored.bucket->size > 0);
+					SEQ_ASSERT_DEBUG(stored.bucket->size <= d_bucket_size);
+
+					total += stored.bucket->size;
+
+					if constexpr (StoreBackValues) {
+						SEQ_ASSERT_DEBUG(equivalent(stored.back_key(), ValueCompare::key(stored.bucket->back())));
+					}
+				}
+
+				SEQ_ASSERT_DEBUG(total == d_size);
+
+				if (d_buckets.size() > 2) {
+					for (size_type i = 1; i + 1 < d_buckets.size(); ++i)
+						SEQ_ASSERT_DEBUG(d_buckets[i].bucket->size == d_bucket_size);
+				}
+				return true;
+			}*/
+
 
 			void destroy_bucket(BucketType* b) noexcept
 			{
@@ -1717,9 +1731,9 @@ namespace seq
 				return fun;
 			}
 
-			// Returns true is tiered_vector size is even
+			// Returns true is tiered_vector size is a power of 2
 			SEQ_ALWAYS_INLINE auto is_pow_2() const noexcept -> bool { return is_pow_2(d_size); }
-			SEQ_ALWAYS_INLINE auto is_pow_2(size_t s) const noexcept -> bool { return ((s - 1) & s) == 0; }
+			SEQ_ALWAYS_INLINE auto is_pow_2(size_t s) const noexcept -> bool { return s != 0 && ((s - 1) & s) == 0; }
 			// Returns allocator
 			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return *this; }
 			SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return *this; }
@@ -1966,7 +1980,7 @@ namespace seq
 				else {
 					// we are going to loose value at index 0, save it
 					size_t bindex = bucket_index;
-					
+
 					// Might throw, fine
 					T tmp = bucket(bucket_index)->insert_pop_front(index, std::forward<Args>(args)...);
 					if constexpr (StoreBackValues)
@@ -2104,16 +2118,22 @@ namespace seq
 			template<class... Args>
 			auto insert(size_type pos, Args&&... args) -> T&
 			{
-
 				SEQ_ASSERT_DEBUG(pos <= size(), "invalid insert position");
 
-				if SEQ_LIKELY (pos != 0 && pos != size())
-					return *insert_middle_fwd(pos, std::forward<Args>(args)...);
+				try {
 
-				if (pos == 0)
-					return emplace_front(std::forward<Args>(args)...);
+					if SEQ_LIKELY (pos != 0 && pos != size())
+						return *insert_middle_fwd(pos, std::forward<Args>(args)...);
 
-				return emplace_back(std::forward<Args>(args)...);
+					if (pos == 0)
+						return emplace_front(std::forward<Args>(args)...);
+
+					return emplace_back(std::forward<Args>(args)...);
+				}
+				catch (...) {
+					update_all_back_values();
+					throw;
+				}
 			}
 
 			SEQ_ALWAYS_INLINE void pop_back() noexcept
@@ -2148,12 +2168,18 @@ namespace seq
 				SEQ_ASSERT_DEBUG(pos < d_size, "tiered_vector: erase at invalid position");
 				SEQ_ASSERT_DEBUG(d_size > 0, "tiered_vector: erase element on an empty tiered_vector");
 
-				if (pos == 0)
-					pop_front();
-				else if (pos == d_size - 1)
-					pop_back();
-				else
-					erase_middle(pos);
+				try {
+					if (pos == 0)
+						pop_front();
+					else if (pos == d_size - 1)
+						pop_back();
+					else
+						erase_middle(pos);
+				}
+				catch (...) {
+					update_all_back_values();
+					throw;
+				}
 			}
 			SEQ_ALWAYS_INLINE void erase_left(size_type bucket_index, int index)
 			{
@@ -2476,6 +2502,8 @@ namespace seq
 				}
 				return size_before;
 			}
+
+			
 		};
 
 		template<class T>
@@ -2611,23 +2639,18 @@ namespace seq
 	///
 	template<class T,					  ///! value type
 		 class Allocator = std::allocator<T>,		  ///! allocator type
-		 unsigned MinBSize = SEQ_MIN_BUCKET_SIZE(T),	  ///! minimum bucket size, depends on the value_type size
-		 unsigned MaxBSize = SEQ_MAX_BUCKET_SIZE,	  ///! maximum bucket size, fixed to SEQ_MAX_BUCKET_SIZE
-		 class FindBSize = detail::FindBucketSize<T>,	  ///! struct used to find the bucket size for a given tiered_vector size
-		 bool StoreBackValues = false,			  ///! Internal parameter used by flat_*map classes
 		 class ValueCompare = detail::NullValueCompare<T> ///! Internal parameter used by flat_*map classes
 		 >
 	class tiered_vector : private Allocator
 	{
 		template<class U>
 		using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
+		static constexpr unsigned min_block_size = SEQ_MIN_BUCKET_SIZE(T);				   // minimum bucket size, depends on the value_type size
+		static constexpr unsigned max_block_size = SEQ_MAX_BUCKET_SIZE;					   // maximum bucket size, fixed to SEQ_MAX_BUCKET_SIZE
+		static constexpr bool StoreBackValues = std::is_same_v<ValueCompare, detail::NullValueCompare<T>>; // Internal parameter used by flat_*map classes
+		using FindBSize = detail::FindBucketSize<T>;							   // struct used to find the bucket size for a given tiered_vector size
 
 	public:
-		enum
-		{
-			min_block_size = static_cast<detail::cbuffer_pos>(MinBSize),
-			max_block_size = MaxBSize > SEQ_MAX_BUCKET_SIZE ? static_cast<detail::cbuffer_pos>(SEQ_MAX_BUCKET_SIZE) : static_cast<detail::cbuffer_pos>(MaxBSize)
-		};
 		static_assert(((min_block_size - 1) & min_block_size) == 0, "Minimum block size must be a power of 2");
 		static_assert(((max_block_size - 1) & max_block_size) == 0, "Maximum block size must be a power of 2");
 		static_assert(min_block_size > 0, "Invalid min block size");
@@ -2635,7 +2658,7 @@ namespace seq
 
 		using bucket_manager = detail::BucketManager<T, Allocator, min_block_size, max_block_size, StoreBackValues, ValueCompare>;
 		using alloc_traits = std::allocator_traits<Allocator>;
-		using this_type = tiered_vector<T, Allocator, min_block_size, max_block_size, FindBSize, StoreBackValues, ValueCompare>;
+		using this_type = tiered_vector<T, Allocator, ValueCompare>;
 		using find_bsize_type = FindBSize;
 
 		using value_type = T;
@@ -2680,15 +2703,20 @@ namespace seq
 		// Make the manager a pointer to keep iterator validity in case of swap
 		bucket_manager* d_manager;
 
-		// Update the bucket size if necessary, used when inserting/deleting single elements
-		SEQ_ALWAYS_INLINE void update_bucket_size()
+		SEQ_ALWAYS_INLINE bool need_update_bucket_size()
 		{
 			static constexpr size_t minb = static_cast<size_t>(min_block_size);
 			static constexpr size_t maxb = static_cast<size_t>(max_block_size);
 			static constexpr size_t mul_factor = (minb < 8U) ? 8U : minb;
 			static constexpr size_t mask = (mul_factor * mul_factor) - 1ULL;
 			// Check the bucket size every (min_block_size * min_block_size) insertions/deletions
-			if SEQ_UNLIKELY (min_block_size != maxb && (size() < 64U || (size() & mask) == 0))
+			return (min_block_size != maxb && (size() < 64U || (size() & mask) == 0));
+		}
+
+		// Update the bucket size if necessary, used when inserting/deleting single elements
+		SEQ_ALWAYS_INLINE void update_bucket_size()
+		{
+			if SEQ_UNLIKELY (need_update_bucket_size())
 				check_bucket_size();
 		}
 		// Find bucket size based on full tiered_vector size
@@ -2912,7 +2940,7 @@ namespace seq
 		/// @param first first iterator of the range
 		/// @param last last iterator of the range
 		/// @param alloc allocator object
-		template<class Iter, std::enable_if_t<is_iterator<Iter>::value,int> = 0>
+		template<class Iter, std::enable_if_t<is_iterator<Iter>::value, int> = 0>
 		tiered_vector(Iter first, Iter last, const Allocator& alloc = Allocator())
 		  : Allocator(alloc)
 		  , d_manager(make_manager(alloc, min_block_size, alloc))
@@ -3105,22 +3133,12 @@ namespace seq
 		/// @brief Appends the given element value to the end of the container.
 		/// @param value the value of the element to append
 		/// Basic exception guarantee, except if <em>MinBSize == MaxBSize</em> (strong guarantee in this case).
-		SEQ_ALWAYS_INLINE void push_back(const T& value)
-		{
-			make_manager_if_null();
-			update_bucket_size();
-			manager()->push_back(value);
-		}
+		SEQ_ALWAYS_INLINE void push_back(const T& value) { emplace_back(value); }
 
 		/// @brief Appends the given element value to the end of the container using move semantic.
 		/// @param value the value of the element to append
 		/// Basic exception guarantee, except if <em>MinBSize == MaxBSize</em> (strong guarantee in this case).
-		SEQ_ALWAYS_INLINE void push_back(T&& value)
-		{
-			make_manager_if_null();
-			update_bucket_size();
-			manager()->push_back(std::move(value));
-		}
+		SEQ_ALWAYS_INLINE void push_back(T&& value) { emplace_back(std::move(value)); }
 
 		/// @brief Appends a new element to the end of the container
 		/// @tparam ...Args
@@ -3131,29 +3149,23 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto emplace_back(Args&&... args) -> T&
 		{
 			make_manager_if_null();
-			update_bucket_size();
+			if SEQ_UNLIKELY (need_update_bucket_size()) {
+				T tmp(std::forward<Args>(args)...);
+				check_bucket_size();
+				return manager()->emplace_back(std::move(tmp));
+			}
 			return manager()->emplace_back(std::forward<Args>(args)...);
 		}
 
 		/// @brief Appends the given element value to the beginning of the container.
 		/// @param value the value of the element to append
 		/// Basic exception guarantee, except if <em>MinBSize == MaxBSize</em> (strong guarantee in this case).
-		SEQ_ALWAYS_INLINE void push_front(const T& value)
-		{
-			make_manager_if_null();
-			update_bucket_size();
-			manager()->push_front(value);
-		}
+		SEQ_ALWAYS_INLINE void push_front(const T& value) { emplace_front(value); }
 
 		/// @brief Appends the given element value to the beginning of the container using move semantic.
 		/// @param value the value of the element to append
 		/// Basic exception guarantee, except if <em>MinBSize == MaxBSize</em> (strong guarantee in this case).
-		SEQ_ALWAYS_INLINE void push_front(T&& value)
-		{
-			make_manager_if_null();
-			update_bucket_size();
-			manager()->push_front(std::move(value));
-		}
+		SEQ_ALWAYS_INLINE void push_front(T&& value) { emplace_front(std::move(value)); }
 
 		/// @brief Appends a new element to the beginning of the container
 		/// @tparam ...Args
@@ -3164,7 +3176,11 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto emplace_front(Args&&... args) -> T&
 		{
 			make_manager_if_null();
-			update_bucket_size();
+			if SEQ_UNLIKELY (need_update_bucket_size()) {
+				T tmp(std::forward<Args>(args)...);
+				check_bucket_size();
+				return manager()->emplace_front(std::move(tmp));
+			}
 			return manager()->emplace_front(std::forward<Args>(args)...);
 		}
 
@@ -3172,23 +3188,13 @@ namespace seq
 		/// @param pos absolute position within the tiered_vector
 		/// @param value element to insert
 		/// Basic exception guarantee.
-		SEQ_ALWAYS_INLINE void insert(size_type pos, const T& value)
-		{
-			make_manager_if_null();
-			update_bucket_size();
-			manager()->insert(pos, value);
-		}
+		SEQ_ALWAYS_INLINE void insert(size_type pos, const T& value) { emplace(pos, value); }
 
 		/// @brief Insert \a value before \a pos using move semantic.
 		/// @param pos absolute position within the tiered_vector
 		/// @param value element to insert
 		/// Basic exception guarantee.
-		SEQ_ALWAYS_INLINE void insert(size_type pos, T&& value)
-		{
-			make_manager_if_null();
-			update_bucket_size();
-			manager()->insert(pos, std::move(value));
-		}
+		SEQ_ALWAYS_INLINE void insert(size_type pos, T&& value) { emplace(pos, std::move(value)); }
 
 		/// @brief Insert \a value before \a it
 		/// @param it iterator within the tiered_vector
@@ -3220,7 +3226,11 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto emplace(size_type pos, Args&&... args) -> T&
 		{
 			make_manager_if_null();
-			update_bucket_size();
+			if SEQ_UNLIKELY (need_update_bucket_size()) {
+				T tmp(std::forward<Args>(args)...);
+				check_bucket_size();
+				return manager()->insert(pos, std::move(tmp));
+			}
 			return manager()->insert(pos, std::forward<Args>(args)...);
 		}
 
@@ -3233,9 +3243,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(const_iterator pos, Args&&... args) -> T&
 		{
-			make_manager_if_null();
-			update_bucket_size();
-			return manager()->insert(pos.absolutePos(), std::forward<Args>(args)...);
+			return emplace(pos.absolutePos(), std::forward<Args>(args)...);
 		}
 
 		/// @brief Inserts elements from range [first, last) before pos.
@@ -3422,7 +3430,7 @@ namespace seq
 		{
 			// random access
 			if (pos >= size())
-				throw std::out_of_range("");
+				throw std::out_of_range("tiered_vector::at");
 			return (manager()->at(pos));
 		}
 		/// @brief Returns a reference to the element at specified location pos, with bounds checking.
@@ -3430,7 +3438,7 @@ namespace seq
 		{
 			// random access
 			if (pos >= size())
-				throw std::out_of_range("");
+				throw std::out_of_range("tiered_vector::at");
 			return (manager()->at(pos));
 		}
 		/// @brief Returns a reference to the element at specified location pos, without bounds checking.

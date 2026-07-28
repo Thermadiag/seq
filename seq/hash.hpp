@@ -35,14 +35,19 @@
  *  @{
  */
 
-#include "internal/utils.hpp"
-#include "internal/hash_impl.hpp"
 #include <string>
 #include <type_traits>
 #include <tuple>
 #include <utility>
 #include <memory>
 #include <chrono>
+#include <cstddef>    // size_t
+#include <cstdint>    // uint64_t, uintptr_t, etc.
+#include <functional> // std::hash
+#include <cstring>
+
+#include "internal/utils.hpp"
+#include "internal/hash_impl.hpp"
 
 namespace seq
 {
@@ -71,12 +76,12 @@ namespace seq
 		template<size_t Size>
 		struct Mixin
 		{
-			static SEQ_ALWAYS_INLINE size_t mix(size_t a) noexcept { return static_cast<size_t>(Mixin64(a)); }
+			static SEQ_ALWAYS_INLINE size_t mix(std::uint64_t a) noexcept { return static_cast<size_t>(Mixin64(a)); }
 		};
 		template<>
 		struct Mixin<8>
 		{
-			static SEQ_ALWAYS_INLINE size_t mix(size_t a) noexcept
+			static SEQ_ALWAYS_INLINE size_t mix(std::uint64_t a) noexcept
 			{
 #ifdef SEQ_HAS_FAST_UMUL128
 				static constexpr uint64_t k = 0xde5fb9d2630458e9ULL;
@@ -88,29 +93,10 @@ namespace seq
 #endif
 			}
 		};
-
-		template<class Hash, bool avalanching = hash_is_avalanching<Hash>::value>
-		struct HashVal
-		{
-			template<class T>
-			static SEQ_ALWAYS_INLINE size_t hash(const Hash& h, const T& v) noexcept(noexcept(std::declval<Hash&>()(std::declval<T&>())))
-			{
-				return h(v);
-			}
-		};
-		template<class Hash>
-		struct HashVal<Hash, false>
-		{
-			template<class T>
-			static SEQ_ALWAYS_INLINE size_t hash(const Hash& h, const T& v) noexcept(noexcept(std::declval<Hash&>()(std::declval<T&>())))
-			{
-				return Mixin<sizeof(size_t)>::mix(h(v));
-			}
-		};
 	}
 
 	/// @brief Mix input hash value for better avalanching
-	SEQ_ALWAYS_INLINE size_t hash_finalize(size_t h) noexcept
+	SEQ_ALWAYS_INLINE size_t hash_finalize(std::uint64_t h) noexcept
 	{
 		return detail::Mixin<sizeof(size_t)>::mix(h);
 	}
@@ -138,9 +124,12 @@ namespace seq
 	/// @brief Hash value v using provided hasher.
 	/// Mix the result if Hasher does not provide the is_avalanching typedef.
 	template<class Hasher, class T>
-	SEQ_ALWAYS_INLINE size_t hash_value(const Hasher& h, const T& v) noexcept(noexcept(std::declval<Hasher&>()(std::declval<T&>())))
+	SEQ_ALWAYS_INLINE size_t hash_value(const Hasher& h, const T& v) noexcept(noexcept(std::declval<const Hasher&>()(std::declval<const T&>())))
 	{
-		return detail::HashVal<Hasher>::hash(h, v);
+		if constexpr (hash_is_avalanching<Hasher>::value)
+			return h(v);
+		else
+			return detail::Mixin<sizeof(size_t)>::mix(h(v));
 	}
 
 	inline auto hash_bytes_murmur64(const void* ptr, size_t size) noexcept
@@ -159,19 +148,19 @@ namespace seq
 	template<class T, class Enable = void>
 	struct hasher : public std::hash<T>
 	{
-		SEQ_ALWAYS_INLINE size_t operator()(const T& v) const noexcept(noexcept(std::declval<std::hash<T>&>()(std::declval<T&>()))) { return (std::hash<T>::operator()(v)); }
+		SEQ_ALWAYS_INLINE size_t operator()(const T& v) const noexcept(noexcept(std::declval<const std::hash<T>&>()(std::declval<const T&>()))) { return (std::hash<T>::operator()(v)); }
 	};
 
 #define SEQ_INTEGRAL_HASH_FUNCTION(T)                                                                                                                                                                  \
 	template<>                                                                                                                                                                                     \
 	struct hasher<T>                                                                                                                                                                               \
 	{                                                                                                                                                                                              \
-		using is_avalanching = void;                                                                                                                                                            \
-		using is_transparent = void;                                                                                                                                                            \
+		using is_avalanching = void;                                                                                                                                                           \
+		using is_transparent = void;                                                                                                                                                           \
 		template<class U>                                                                                                                                                                      \
 		SEQ_ALWAYS_INLINE size_t operator()(const U& v) const noexcept                                                                                                                         \
 		{                                                                                                                                                                                      \
-			return hash_finalize(static_cast<size_t>(static_cast<T>(v)));                                                                                                                  \
+			return hash_finalize(static_cast<std::uint64_t>(static_cast<T>(v)));                                                                                                                  \
 		}                                                                                                                                                                                      \
 	}
 
@@ -200,15 +189,18 @@ namespace seq
 		using is_avalanching = void;
 		using is_transparent = void;
 		template<class U>
-		SEQ_ALWAYS_INLINE size_t operator()(const U& v) const noexcept
+		SEQ_ALWAYS_INLINE std::size_t operator()(const U& _v) const noexcept
 		{
-			union
-			{
-				float fv;
-				std::uint32_t uv;
-			};
-			fv = (float)v;
-			return hash_finalize(uv);
+			std::uint32_t bits;
+			float v = static_cast<float>(_v);
+
+			if constexpr (std::is_signed_v<U>) {
+				if (v == 0.0f) // 0.f and -0.f compare equal but have different bits representation
+					return hash_finalize(0);
+			}
+
+			std::memcpy(&bits, &v, sizeof(bits));
+			return hash_finalize(bits);
 		}
 	};
 
@@ -218,15 +210,18 @@ namespace seq
 		using is_avalanching = void;
 		using is_transparent = void;
 		template<class U>
-		SEQ_ALWAYS_INLINE size_t operator()(const U& v) const noexcept
+		SEQ_ALWAYS_INLINE std::size_t operator()(const U& _v) const noexcept
 		{
-			union
-			{
-				double fv;
-				std::uint64_t uv;
-			};
-			fv = (double)v;
-			return hash_finalize(static_cast<size_t>(uv));
+			std::uint64_t bits;
+			double v = static_cast<double>(_v);
+
+			if constexpr (std::is_signed_v<U>) {
+				if (v == 0.0) // 0.f and -0.f compare equal but have different bits representation
+					return hash_finalize(0);
+			}
+
+			std::memcpy(&bits, &v, sizeof(bits));
+			return hash_finalize(bits);
 		}
 	};
 	template<>
@@ -246,12 +241,12 @@ namespace seq
 		}
 	};
 
-	template<class T>
-	struct hasher<std::unique_ptr<T>>
+	template<class T, class D>
+	struct hasher<std::unique_ptr<T, D>>
 	{
 		using is_avalanching = void;
 		using is_transparent = void;
-		SEQ_ALWAYS_INLINE size_t operator()(const std::unique_ptr<T>& ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr.get())); }
+		SEQ_ALWAYS_INLINE size_t operator()(const std::unique_ptr<T, D>& ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr.get())); }
 		SEQ_ALWAYS_INLINE size_t operator()(const T* ptr) const noexcept { return hash_finalize(reinterpret_cast<std::uintptr_t>(ptr)); }
 	};
 
@@ -287,10 +282,10 @@ namespace seq
 		using is_avalanching = void;
 		using is_transparent = void;
 		template<class U, class V>
-		SEQ_ALWAYS_INLINE size_t operator()(const std::pair<U, V>& p) const noexcept
+		SEQ_ALWAYS_INLINE size_t operator()(const std::pair<U, V>& p) const
 		{
-			size_t s = hasher<A>{}(p.first);
-			hash_combine(s, hasher<B>{}(p.second));
+			size_t s = hash_value(hasher<A>{}, p.first);
+			hash_combine(s, hash_value(hasher<B>{},p.second));
 			return s;
 		}
 	};
@@ -301,11 +296,11 @@ namespace seq
 		struct HashTuple
 		{
 			template<class OtherTuple>
-			static SEQ_ALWAYS_INLINE void apply(size_t& seed, OtherTuple const& tuple) noexcept
+			static SEQ_ALWAYS_INLINE void apply(size_t& seed, OtherTuple const& tuple)
 			{
 				using elem_type = typename std::tuple_element<Index, Tuple>::type;
 				HashTuple<Tuple, Index - 1>::apply(seed, tuple);
-				hash_combine(seed, hasher<elem_type>{}(std::get<Index>(tuple)));
+				hash_combine(seed, hash_value( hasher<elem_type>{},std::get<Index>(tuple)));
 			}
 		};
 
@@ -313,10 +308,10 @@ namespace seq
 		struct HashTuple<Tuple, 0>
 		{
 			template<class OtherTuple>
-			static SEQ_ALWAYS_INLINE void apply(size_t& seed, OtherTuple const& tuple) noexcept
+			static SEQ_ALWAYS_INLINE void apply(size_t& seed, OtherTuple const& tuple)
 			{
 				using elem_type = typename std::tuple_element<0, Tuple>::type;
-				hash_combine(seed, hasher<elem_type>{}(std::get<0>(tuple)));
+				hash_combine(seed, hash_value(hasher<elem_type>{},std::get<0>(tuple)));
 			}
 		};
 	}
@@ -327,12 +322,21 @@ namespace seq
 		using is_avalanching = void;
 		using is_transparent = void;
 		template<class OtherTuple>
-		SEQ_ALWAYS_INLINE size_t operator()(const OtherTuple& t) const noexcept
+		SEQ_ALWAYS_INLINE size_t operator()(const OtherTuple& t) const
 		{
 			size_t seed = 0;
 			detail::HashTuple<std::tuple<Args...>>::apply(seed, t);
 			return seed;
 		}
+	};
+
+	template<>
+	struct hasher<std::tuple<>>
+	{
+		using is_avalanching = void;
+		using is_transparent = void;
+
+		size_t operator()(const std::tuple<>&) const noexcept { return 0; }
 	};
 
 	template<class Rep, class Ratio>
@@ -342,9 +346,9 @@ namespace seq
 		using is_transparent = void;
 		using type = std::chrono::duration<Rep, Ratio>;
 
-		size_t operator()(const type& s) const { return hasher<Rep>{}(s.count()); }
+		size_t operator()(const type& s) const noexcept { return hasher<Rep>{}(s.count()); }
 		template<class T, class = std::enable_if_t<std::is_arithmetic_v<T>, void>>
-		size_t operator()(T s) const
+		size_t operator()(T s) const noexcept
 		{
 			return hasher<Rep>{}(static_cast<Rep>(s));
 		}
@@ -358,9 +362,9 @@ namespace seq
 		using type = std::chrono::time_point<Clock, Duration>;
 		using integral = decltype(type{}.time_since_epoch().count());
 
-		size_t operator()(const type& s) const {return hasher<integral>{}(s.time_since_epoch().count()); }
+		size_t operator()(const type& s) const noexcept { return hasher<integral>{}(s.time_since_epoch().count()); }
 		template<class T, class = std::enable_if_t<std::is_arithmetic_v<T>, void>>
-		size_t operator()(T s) const
+		size_t operator()(T s) const noexcept
 		{
 			return hasher<integral>{}(static_cast<integral>(s));
 		}

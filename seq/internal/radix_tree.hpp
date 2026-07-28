@@ -64,30 +64,7 @@ namespace seq
 			using type = std::decay_t<rtype>;
 		};
 
-		template<class T, class = void>
-		struct has_data_pointer : std::false_type
-		{
-			using type = char;
-		};
-		template<class T>
-		struct has_data_pointer<T, typename std::void_t<decltype(std::declval<T&>().data())>>
-		{
-			using pointer = decltype(std::declval<T&>().data());
-			using ctype = typename std::remove_pointer<pointer>::type;
-			using type = typename std::remove_const<ctype>::type;
-			static constexpr bool value = std::is_pointer_v<pointer>;
-		};
-		template<class T, class = void>
-		struct has_size : std::false_type
-		{
-			using type = char;
-		};
-		template<class T>
-		struct has_size<T, typename std::void_t<decltype(std::declval<T&>().size())>>
-		{
-			using type = decltype(std::declval<T&>().size());
-			static constexpr bool value = std::is_integral_v<type>;
-		};
+		
 		template<class T>
 		struct is_native_type : std::bool_constant<std::is_pointer_v<T> || std::is_arithmetic_v<T>>
 		{

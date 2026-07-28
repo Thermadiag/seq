@@ -44,8 +44,7 @@ namespace seq
 
 			const unsigned char* ptr = static_cast<const unsigned char*>(_ptr);
 			std::uint64_t h = seed ^ (len * m);
-			const std::uint8_t* end = ptr + len - (sizeof(std::uint64_t) - 1);
-			while (ptr < end) {
+			while (len >= sizeof(std::uint64_t)) {
 				auto k = read_64(ptr);
 
 				k *= m;
@@ -56,6 +55,7 @@ namespace seq
 				h *= m;
 
 				ptr += sizeof(std::uint64_t);
+				len -= sizeof(std::uint64_t);
 			}
 
 			switch (len & 7U) {

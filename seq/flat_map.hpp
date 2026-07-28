@@ -389,7 +389,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto base() const noexcept -> const base_type& { return (*this); }
 
 		public:
-			using container_type = tiered_vector<Value, Allocator, SEQ_MIN_BUCKET_SIZE(Value), SEQ_MAX_BUCKET_SIZE, FindBucketSize<Value>, true, ExtractKey<Key, Value>>;
+			using container_type = tiered_vector<Value, Allocator, ExtractKey<Key, Value>>;
 			using key_type = Key;
 			using value_type = Value;
 			using difference_type = typename std::allocator_traits<Allocator>::difference_type;

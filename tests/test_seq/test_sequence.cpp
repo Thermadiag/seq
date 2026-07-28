@@ -145,10 +145,10 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 
 		// erase values
 		for (size_t i = 0; i < erase_pos.size(); ++i) {
-			ss.erase(ss.begin() + erase_pos[i]);
-			sf.erase(sf.begin() + erase_pos[i]);
-			bs.erase(bs.begin() + erase_pos[i]);
-			bf.erase(bf.begin() + erase_pos[i]);
+			ss.erase(std::next(ss.begin() , erase_pos[i]));
+			sf.erase(std::next(sf.begin() , erase_pos[i]));
+			bs.erase(std::next(bs.begin() , erase_pos[i]));
+			bf.erase(std::next(bf.begin() , erase_pos[i]));
 		}
 		SEQ_TEST(equal_seq(ss, bs));
 		SEQ_TEST(equal_seq(sf, bf));
@@ -262,7 +262,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 
 		// Test erase range left side
 		deq.erase(deq.begin() + deq.size() / 4, deq.begin() + deq.size() / 2);
-		seq.erase(seq.begin() + seq.size() / 4, seq.begin() + seq.size() / 2);
+		seq.erase(std::next(seq.begin() , seq.size() / 4), std::next(seq.begin() , seq.size() / 2));
 		SEQ_TEST(equal_seq(deq, seq));
 
 		deq.resize(static_cast<size_t>(count), 0);
@@ -270,7 +270,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 
 		// Test erase range right side
 		deq.erase(deq.begin() + deq.size() / 2, deq.begin() + deq.size() * 3 / 4);
-		seq.erase(seq.begin() + seq.size() / 2, seq.begin() + seq.size() * 3 / 4);
+		seq.erase(std::next(seq.begin() , seq.size() / 2), std::next(seq.begin() , seq.size() * 3 / 4));
 		SEQ_TEST(equal_seq(deq, seq));
 	}
 
@@ -396,7 +396,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 			if (pos == static_cast<int>(d.size()))
 				--pos;
 			dd.erase(dd.begin() + pos);
-			d.erase(d.begin() + pos);
+			d.erase(std::next(d.begin() , pos));
 			SEQ_TEST(equal_seq(d, dd));
 		}
 	}

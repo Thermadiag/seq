@@ -486,6 +486,30 @@ Above example compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10 on a Intel(
 
 namespace seq
 {
+	namespace metafunction
+	{
+		template<class MetaFunction>
+		using result_of = typename MetaFunction::result;
+
+		template<class Tuple, template<class> class Function>
+		struct transform_elements;
+
+		// meta-function which takes a tuple and a unary metafunction
+		// and yields a tuple of the result of applying the metafunction
+		// to each element_type of the tuple.
+		// type: binary metafunction
+		// arg1 = the tuple of types to be wrapped
+		// arg2 = the unary metafunction to apply to each element_type
+		// returns tuple<result_of<arg2<element>>...> for each element in arg1
+
+		template<class... Elements, template<class> class UnaryMetaFunction>
+		struct transform_elements<std::tuple<Elements...>, UnaryMetaFunction>
+		{
+			template<class Arg>
+			using function = UnaryMetaFunction<Arg>;
+			using result = std::tuple<result_of<function<Elements>>...>;
+		};
+	}
 
 	/// @brief Placehoder when reusing a formatting object
 	struct null_format

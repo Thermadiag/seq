@@ -265,6 +265,31 @@ static void test_hold_any()
 	static_assert(is_relocatable<big_pod>::value == true, "");
 	static_assert(is_relocatable<small_non_pod>::value == false, "");
 	static_assert(is_relocatable<big_non_pod>::value == false, "");
+
+
+	{
+		// test a few edge case
+		seq::any a = "ok";
+		std::string _b = "ok";
+		seq::any b = _b.data();
+		SEQ_TEST( a == b);
+		SEQ_TEST( a == _b);
+		SEQ_TEST( a == seq::any(_b));
+		SEQ_TEST(a.hash() == seq::any(_b).hash());
+		SEQ_TEST(a.hash() == b.hash());
+		b = (char*)nullptr;
+		SEQ_TEST( b != a);
+
+		auto h1 = seq::any(1).hash();
+		SEQ_TEST(h1 == seq::any(1.f).hash());
+		SEQ_TEST(h1 ==  seq::any(1.).hash());
+		SEQ_TEST(h1 ==  seq::any((char)1).hash());
+
+		auto _h1 = seq::any(-1).hash();
+		SEQ_TEST(_h1 ==   seq::any(-1.f).hash());
+		SEQ_TEST(_h1 == seq::any(-1.).hash());
+		SEQ_TEST(_h1 == seq::any((char)-1).hash());
+	}
 	{
 		// test default ctor
 		any a, b, c, d;
@@ -583,11 +608,10 @@ static void test_hold_any()
 		double d = a.cast<double>(); // d holds 1.2
 		SEQ_COMPARE_FLOAT(SEQ_TEST((d == 1.2));)
 
-		int i = a.cast<int>(); // i holds 1
-		SEQ_TEST(i == 1);
+		SEQ_TEST_THROW(std::bad_cast,  a.cast<int>()); // "1.2" cannot be cast to integer
 
 		a = 1.2;
-		i = a.cast<int>(); // valid, cast double to int
+		int i = a.cast<int>(); // valid, cast double to int
 		SEQ_TEST(i == 1);
 
 		str2 = a.cast<std::string>(); // valid, str2 holds "1.2"

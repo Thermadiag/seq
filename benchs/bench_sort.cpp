@@ -12,6 +12,7 @@
 
 #include "pdqsort.hpp"
 #include "testing.hpp"
+#include "blqs.h"
 
 template<class T, class Cmp>
 void indisort(T start, size_t size, Cmp c)
@@ -120,6 +121,7 @@ enum Method
 	NetSortTiny
 };
 
+
 template<class Vec, class Cmp>
 bool sort(Vec& v, Cmp c, Method m)
 {
@@ -138,6 +140,7 @@ bool sort(Vec& v, Cmp c, Method m)
 			boost::sort::spinsort(v.begin(), v.end(), c);
 			break;
 #endif
+		
 		case NetSort:
 			seq::net_sort(v.begin(), v.end(), c);
 			break;

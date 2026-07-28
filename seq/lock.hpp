@@ -32,6 +32,7 @@
 #include <chrono>
 #include <thread>
 #include <type_traits>
+#include <cstdint>
 
 #include "bits.hpp"
 
@@ -83,7 +84,7 @@ namespace seq
 		template<class Rep, class Period>
 		SEQ_ALWAYS_INLINE bool try_lock_for(const std::chrono::duration<Rep, Period>& duration) noexcept
 		{
-			return try_lock_until(std::chrono::system_clock::now() + duration);
+			return try_lock_until(std::chrono::steady_clock::now() + duration);
 		}
 
 		template<class Clock, class Duration>
@@ -94,7 +95,7 @@ namespace seq
 					return true;
 
 				while (d_lock.load(std::memory_order_relaxed)) {
-					if (std::chrono::system_clock::now() > timePoint)
+					if (Clock::now() > timePoint)
 						return false;
 					std::this_thread::yield();
 				}
@@ -105,7 +106,9 @@ namespace seq
 		SEQ_ALWAYS_INLINE void unlock_shared() { unlock(); }
 	};
 
-	/// @brief An unfaire read-write spinlock class that favors write operations
+	/// @brief An unfaire read-write spinlock class that favors write operations.
+	/// 
+	/// shared_spinner handle overflows only when sizeof(LockType) == 1.
 	///
 	template<class LockType = std::uint32_t>
 	class shared_spinner
@@ -194,31 +197,6 @@ namespace seq
 			}
 		}
 		SEQ_ALWAYS_INLINE bool is_locked() const noexcept { return d_lock.load(std::memory_order_relaxed) != 0; }
-		SEQ_ALWAYS_INLINE bool is_locked_shared() const noexcept { return d_lock.load(std::memory_order_relaxed) & write; }
-
-		SEQ_ALWAYS_INLINE void upgrade() noexcept
-		{
-			for (;;) {
-				if (d_lock.load(std::memory_order_relaxed) == read) {
-					lock_type l = read;
-					if (d_lock.compare_exchange_strong(l, write))
-						return;
-				}
-				yield();
-			}
-		}
-
-		SEQ_ALWAYS_INLINE void downgrade() noexcept
-		{
-			for (;;) {
-				if (d_lock.load(std::memory_order_relaxed) == write) {
-					lock_type l = write;
-					if (d_lock.compare_exchange_strong(l, read))
-						return;
-				}
-				yield();
-			}
-		}
 	};
 
 	using shared_spinlock = shared_spinner<>;

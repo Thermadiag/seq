@@ -40,14 +40,11 @@ The <i>any</i> module provides the seq::hold_any class and related functions to 
 #include <charconv>
 #include <sstream>
 #include <string_view>
-
-#ifndef SEQ_ANY_MALLOC
-#define SEQ_ANY_MALLOC operator new // allocation function used within seq::hold_any
-#endif
-
-#ifndef SEQ_ANY_FREE
-#define SEQ_ANY_FREE operator delete // deallocation function used within seq::hold_any
-#endif
+#include <cstdlib>
+#include <cerrno>
+#include <cmath>
+#include <iomanip>
+#include <limits>
 
 #ifdef _MSC_VER
 // For msvc only disable warning "inherits via dominance" that occurs when using hold_any with custom interface
@@ -103,7 +100,6 @@ namespace seq
 	// forward declaration
 	template<class Interface, size_t S, size_t A, bool R>
 	class hold_any;
-
 
 	template<class T>
 	struct is_hold_any : std::false_type
@@ -183,6 +179,12 @@ namespace seq
 	/// @brief Returns type Id used by hold_any as a unique type identifier
 	/// @tparam T type
 	/// @return unique Id for type T
+	///
+	/// Only the type id of arithmetic and string types are predifined and fixed.
+	/// Ids of other types are generated in the call order of get_type_id().
+	/// Therefore, be aware of this property if you intend to serialize seq::any objects
+	/// or sort an array of seq::any (the type id is used to compare unrelated types).
+	///
 	template<class T>
 	SEQ_ALWAYS_INLINE int get_type_id() noexcept
 	{
@@ -256,15 +258,43 @@ namespace seq
 				if constexpr (is_character_pointer<T>::value) {
 					// character pointer
 					using char_type = typename character_type<T>::type;
-					return hasher<basic_tstring_view<char_type>>{}(static_cast<const char_type*>(read_void_p(in)));
+					auto ptr = static_cast<const char_type*>(read_void_p(in));
+					if (!ptr)
+						return 0;
+					return hasher<basic_tstring_view<char_type>>{}(ptr);
 				}
 				else if constexpr ((is_tiny_string<T>::value || is_basic_string<T>::value || is_basic_string_view<T>::value)) {
 					// string types
 					using char_type = typename T::value_type;
 					return hasher<basic_tstring_view<char_type>>{}(*static_cast<const T*>(in));
 				}
-				else
-					return hasher<T>{}(*static_cast<const T*>(in));
+				else if constexpr (std::is_arithmetic_v<T>) {
+					const T v = *static_cast<const T*>(in);
+					if constexpr (std::is_integral_v<T>) {
+						if constexpr (std::is_signed_v<T>) {
+							if (v < 0)
+								return hasher<std::int64_t>{}(static_cast<std::int64_t>(v));
+						}
+						return hasher<std::uint64_t>{}(static_cast<std::uint64_t>(v));
+					}
+					else {
+						const long double f = static_cast<long double>(v);
+						if (std::isfinite(f)) {
+							long double integral_part = 0;
+							if (std::modf(f, &integral_part) == 0) {
+								const long double two63 = std::ldexp(1.0L, 63);
+								const long double two64 = std::ldexp(1.0L, 64);
+								if (f < 0 && f >= -two63)
+									return hasher<std::int64_t>{}(static_cast<std::int64_t>(f));
+								if (f >= 0 && f < two64)
+									return hasher<std::uint64_t>{}(static_cast<std::uint64_t>(f));
+							}
+						}
+						return hasher<long double>{}(f);
+					}
+				}
+
+				return hasher<T>{}(*static_cast<const T*>(in));
 			}
 			else {
 				throw seq::bad_any_function_call("data type is not hashable");
@@ -327,33 +357,46 @@ namespace seq
 		template<class T, class String>
 		T arithmetic_from_string(const String& in)
 		{
-			if constexpr (std::is_same_v<bool, T>) 
+			if constexpr (std::is_same_v<bool, T>)
 				return (bool)arithmetic_from_string<uint8_t>(in);
-			else if constexpr (std::is_same_v<char16_t, T>) 
+			else if constexpr (std::is_same_v<char16_t, T>)
 				return (char16_t)arithmetic_from_string<uint16_t>(in);
-			else if constexpr (std::is_same_v<char32_t, T>) 
+			else if constexpr (std::is_same_v<char32_t, T>)
 				return (char32_t)arithmetic_from_string<uint32_t>(in);
-			else if constexpr (std::is_same_v<long double, T>) 
-				return (long double)arithmetic_from_string<double>(in);
+			else if constexpr (std::is_same_v<long double, T>) {
+				const std::string tmp(string_data(in), string_size(in));
+				char* end = nullptr;
+				errno = 0;
+				const long double res = std::strtold(tmp.c_str(), &end);
+				if (errno == ERANGE || end != tmp.c_str() + tmp.size())
+					throw std::bad_cast();
+				return res;
+			}
 			else if constexpr (std::is_arithmetic_v<T>) {
 				T res;
 #if __cpp_lib_to_chars
-				if constexpr(std::is_floating_point_v<T>){ 
-					if (std::from_chars(string_data(in), string_data(in) + string_size(in), res).ec != std::errc())
+				auto end = string_data(in) + string_size(in);
+				if constexpr (std::is_floating_point_v<T>) {
+					auto r = std::from_chars(string_data(in), end, res);
+					if (r.ec != std::errc() || r.ptr != end)
 						throw std::bad_cast();
 				}
-				else{
+				else {
 					// Add the 'base' argument, mandatory with clang on macosx(?)
-					if (std::from_chars(string_data(in), string_data(in) + string_size(in), res, 10).ec != std::errc())
-						throw std::bad_cast();
-				} 	
-#else
-				std::istringstream iss{std::string(in)};
-				if constexpr (is_istreamable<T>::value){ 
-					if(!(iss >> res))
+					auto r = std::from_chars(string_data(in), end, res, 10);
+					if (r.ec != std::errc() || r.ptr != end)
 						throw std::bad_cast();
 				}
-				else	
+#else
+				std::istringstream iss{ std::string(in) };
+				if constexpr (is_istreamable<T>::value) {
+					if (!(iss >> res))
+						throw std::bad_cast();
+					iss >> std::ws;
+					if (!iss.eof())
+						throw std::bad_cast();
+				}
+				else
 					throw std::bad_cast();
 #endif
 
@@ -371,7 +414,7 @@ namespace seq
 			if constexpr (std::is_same_v<T, bool>)
 				return arithmetic_to_string<String>((uint8_t)in);
 			else if constexpr (std::is_integral_v<T>) {
-				String tmp(19, (char)0);
+				String tmp(std::numeric_limits<T>::digits10 + 3, (char)0);
 				auto res = std::to_chars(tmp.data(), tmp.data() + tmp.size(), in);
 				if (res.ec != std::errc())
 					throw std::bad_cast();
@@ -382,11 +425,14 @@ namespace seq
 				return arithmetic_to_string<String>((uint16_t)in);
 			else if constexpr (std::is_same_v<T, char32_t>)
 				return arithmetic_to_string<String>((uint32_t)in);
-			else if constexpr (std::is_same_v<T, long double>)
-				return arithmetic_to_string<String>((double)in);
+			else if constexpr (std::is_same_v<T, long double>) {
+				std::ostringstream oss;
+				oss << std::setprecision(std::numeric_limits<long double>::max_digits10) << in;
+				return String(oss.str());
+			}
 			else if constexpr (std::is_floating_point_v<T>) {
 #if __cpp_lib_to_chars
-				String tmp(24, (char)0);
+				String tmp(56, (char)0);
 				auto res = std::to_chars(tmp.data(), tmp.data() + tmp.size(), in);
 				if (res.ec != std::errc())
 					throw std::bad_cast();
@@ -492,6 +538,152 @@ namespace seq
 			}
 		}
 
+		// Les implementation mixing signed/unsigned integral types
+		template<class T, class U>
+		constexpr bool integral_less(T a, U b)
+		{
+			static_assert(std::is_integral_v<T> && std::is_integral_v<U>);
+
+			if constexpr (std::is_signed_v<T> == std::is_signed_v<U>) {
+				return a < b;
+			}
+			else if constexpr (std::is_signed_v<T>) {
+				return a < 0 || std::make_unsigned_t<T>(a) < b;
+			}
+			else {
+				return b >= 0 && a < std::make_unsigned_t<U>(b);
+			}
+		}
+
+
+		enum class arithmetic_kind { signed_integer, unsigned_integer, floating };
+
+		struct arithmetic_value
+		{
+			arithmetic_kind kind{};
+			std::int64_t s{};
+			std::uint64_t u{};
+			long double f{};
+		};
+
+		template<class TypeInfo>
+		arithmetic_value read_arithmetic(const void* in, const TypeInfo* info)
+		{
+			const int id = info->type_id();
+#define SEQ_READ_SIGNED(T) case get_base_type_id<T>(): return { arithmetic_kind::signed_integer, static_cast<std::int64_t>(*static_cast<const T*>(in)), 0, 0 }
+#define SEQ_READ_UNSIGNED(T) case get_base_type_id<T>(): return { arithmetic_kind::unsigned_integer, 0, static_cast<std::uint64_t>(*static_cast<const T*>(in)), 0 }
+#define SEQ_READ_FLOAT(T) case get_base_type_id<T>(): return { arithmetic_kind::floating, 0, 0, static_cast<long double>(*static_cast<const T*>(in)) }
+			switch (id) {
+				SEQ_READ_UNSIGNED(bool);
+				case get_base_type_id<char>():
+					if constexpr (std::is_signed_v<char>)
+						return { arithmetic_kind::signed_integer, static_cast<std::int64_t>(*static_cast<const char*>(in)), 0, 0 };
+					else
+						return { arithmetic_kind::unsigned_integer, 0, static_cast<std::uint64_t>(*static_cast<const char*>(in)), 0 };
+				SEQ_READ_SIGNED(signed char);
+				SEQ_READ_UNSIGNED(unsigned char);
+				SEQ_READ_UNSIGNED(char16_t);
+				SEQ_READ_UNSIGNED(char32_t);
+				SEQ_READ_SIGNED(short);
+				SEQ_READ_UNSIGNED(unsigned short);
+				SEQ_READ_SIGNED(int);
+				SEQ_READ_UNSIGNED(unsigned int);
+				SEQ_READ_SIGNED(long);
+				SEQ_READ_UNSIGNED(unsigned long);
+				SEQ_READ_SIGNED(long long);
+				SEQ_READ_UNSIGNED(unsigned long long);
+				SEQ_READ_FLOAT(float);
+				SEQ_READ_FLOAT(double);
+				SEQ_READ_FLOAT(long double);
+				default: throw std::bad_cast();
+			}
+#undef SEQ_READ_SIGNED
+#undef SEQ_READ_UNSIGNED
+#undef SEQ_READ_FLOAT
+		}
+
+		template<class T>
+		arithmetic_value make_arithmetic(const T& v)
+		{
+			static_assert(std::is_arithmetic_v<T>);
+			if constexpr (std::is_floating_point_v<T>)
+				return { arithmetic_kind::floating, 0, 0, static_cast<long double>(v) };
+			else if constexpr (std::is_signed_v<T>)
+				return { arithmetic_kind::signed_integer, static_cast<std::int64_t>(v), 0, 0 };
+			else
+				return { arithmetic_kind::unsigned_integer, 0, static_cast<std::uint64_t>(v), 0 };
+		}
+
+		inline bool arithmetic_equal(const arithmetic_value& a, const arithmetic_value& b)
+		{
+			if (a.kind == arithmetic_kind::signed_integer && b.kind == arithmetic_kind::signed_integer) return a.s == b.s;
+			if (a.kind == arithmetic_kind::unsigned_integer && b.kind == arithmetic_kind::unsigned_integer) return a.u == b.u;
+			if (a.kind == arithmetic_kind::signed_integer && b.kind == arithmetic_kind::unsigned_integer) return a.s >= 0 && static_cast<std::uint64_t>(a.s) == b.u;
+			if (a.kind == arithmetic_kind::unsigned_integer && b.kind == arithmetic_kind::signed_integer) return b.s >= 0 && a.u == static_cast<std::uint64_t>(b.s);
+			if (a.kind == arithmetic_kind::floating && b.kind == arithmetic_kind::floating) return a.f == b.f;
+
+			const arithmetic_value& i = a.kind == arithmetic_kind::floating ? b : a;
+			const long double f = a.kind == arithmetic_kind::floating ? a.f : b.f;
+			if (!std::isfinite(f)) return false;
+			long double ip = 0;
+			if (std::modf(f, &ip) != 0) return false;
+			if (i.kind == arithmetic_kind::signed_integer) {
+				const long double two63 = std::ldexp(1.0L, 63);
+				return f >= -two63 && f < two63 && static_cast<std::int64_t>(f) == i.s;
+			}
+			const long double two64 = std::ldexp(1.0L, 64);
+			return f >= 0 && f < two64 && static_cast<std::uint64_t>(f) == i.u;
+		}
+
+		inline bool integer_less_float(const arithmetic_value& i, long double f)
+		{
+			if (std::isnan(f)) return false;
+			if (f == std::numeric_limits<long double>::infinity()) return true;
+			if (f == -std::numeric_limits<long double>::infinity()) return false;
+			if (i.kind == arithmetic_kind::signed_integer) {
+				const long double two63 = std::ldexp(1.0L, 63);
+				if (f <= -two63) return false;
+				if (f >= two63) return true;
+				const std::int64_t q = static_cast<std::int64_t>(f);
+				return i.s < q || (i.s == q && f > static_cast<long double>(q));
+			}
+			const long double two64 = std::ldexp(1.0L, 64);
+			if (f < 0) return false;
+			if (f >= two64) return true;
+			const std::uint64_t q = static_cast<std::uint64_t>(f);
+			return i.u < q || (i.u == q && f > static_cast<long double>(q));
+		}
+
+		inline bool float_less_integer(long double f, const arithmetic_value& i)
+		{
+			if (std::isnan(f)) return false;
+			if (f == -std::numeric_limits<long double>::infinity()) return true;
+			if (f == std::numeric_limits<long double>::infinity()) return false;
+			if (i.kind == arithmetic_kind::signed_integer) {
+				const long double two63 = std::ldexp(1.0L, 63);
+				if (f < -two63) return true;
+				if (f >= two63) return false;
+				const std::int64_t q = static_cast<std::int64_t>(f);
+				return q < i.s || (q == i.s && f < static_cast<long double>(q));
+			}
+			const long double two64 = std::ldexp(1.0L, 64);
+			if (f < 0) return true;
+			if (f >= two64) return false;
+			const std::uint64_t q = static_cast<std::uint64_t>(f);
+			return q < i.u || (q == i.u && f < static_cast<long double>(q));
+		}
+
+		inline bool arithmetic_less(const arithmetic_value& a, const arithmetic_value& b)
+		{
+			if (a.kind == arithmetic_kind::signed_integer && b.kind == arithmetic_kind::signed_integer) return a.s < b.s;
+			if (a.kind == arithmetic_kind::unsigned_integer && b.kind == arithmetic_kind::unsigned_integer) return a.u < b.u;
+			if (a.kind == arithmetic_kind::signed_integer && b.kind == arithmetic_kind::unsigned_integer) return integral_less(a.s, b.u);
+			if (a.kind == arithmetic_kind::unsigned_integer && b.kind == arithmetic_kind::signed_integer) return integral_less(a.u, b.s);
+			if (a.kind == arithmetic_kind::floating && b.kind == arithmetic_kind::floating) return a.f < b.f;
+			if (a.kind == arithmetic_kind::floating) return float_less_integer(a.f, b);
+			return integer_less_float(a, b.f);
+		}
+
 		/// @brief Less than comparison for hold_any::less_than
 		template<class T, class Cast, class U>
 		bool less_arithmetic(const U& a, const T& b)
@@ -538,7 +730,7 @@ namespace seq
 			else {
 				(void)oss;
 				(void)in;
-				throw seq::bad_any_function_call("data type does not streamable to std::ostream");
+				throw seq::bad_any_function_call("data type not streamable to std::ostream");
 			}
 		}
 
@@ -551,7 +743,7 @@ namespace seq
 			else {
 				(void)iss;
 				(void)in;
-				throw seq::bad_any_function_call("data type does not streamable from std::istream");
+				throw seq::bad_any_function_call("data type not streamable from std::istream");
 			}
 		}
 
@@ -621,6 +813,8 @@ namespace seq
 		{
 			if constexpr (std::is_copy_constructible_v<T>)
 				new (dst) T(src);
+			else
+				throw bad_any_function_call("unavailable copy constructor");
 		}
 
 		template<class T>
@@ -633,8 +827,20 @@ namespace seq
 				return false;
 		}
 
+		template<class T>
+		static inline void* allocate_one()
+		{
+			return std::allocator<T>{}.allocate(1);
+		}
+
+		template<class T>
+		static inline void deallocate_one(T* p)
+		{
+			std::allocator<T>{}.deallocate(p, 1);
+		}
+
 		template<class T, class any_type_info>
-		void copy_any(const any_type_info* in_p, const void* in, const any_type_info* out_p, void* out_storage, unsigned out_storage_size)
+		void copy_any(const any_type_info* in_p, const void* in, const any_type_info* out_p, void* out_storage, bool allocated_storage)
 		{
 			// Copy object to destination buffer, allocating buffer if dst size is not big enough
 
@@ -644,55 +850,51 @@ namespace seq
 			if (std::is_copy_assignable_v<T> && in_p == out_p) {
 				// same type, just copy
 				// get the dst pointer
-				void* dst = sizeof(T) > out_storage_size ? read_void_p(out_storage) : out_storage;
+				void* dst = allocated_storage ? read_void_p(out_storage) : out_storage;
 				// might throw, fine
 				assign_value(*static_cast<T*>(dst), *static_cast<const T*>(in));
 			}
 			else {
 				void* dst = out_storage;
-				if (sizeof(T) > out_storage_size) {
-					dst = SEQ_ANY_MALLOC(sizeof(T));
-					if (!dst)
-						throw std::bad_alloc();
+				if (allocated_storage) {
+					dst = allocate_one<T>();
 					memcpy(out_storage, &dst, sizeof(void*));
 				}
 				try {
 					copy_construct_value(dst, *static_cast<const T*>(in));
 				}
 				catch (...) {
-					if (sizeof(T) > out_storage_size)
-						SEQ_ANY_FREE(dst);
+					if (allocated_storage)
+						deallocate_one(static_cast<T*>(dst));
 					throw;
 				}
 			}
 		}
 
 		template<class T, class any_type_info>
-		void move_any(const any_type_info* in_p, void* in, const any_type_info* out_p, void* out_storage, unsigned out_storage_size)
+		void move_any(const any_type_info* in_p, void* in, const any_type_info* out_p, void* out_storage, bool allocated_storage)
 		{
 			// Move object to destination buffer, allocating buffer if dst size is not big enough
 
 			if (std::is_move_assignable_v<T> && in_p == out_p) {
 				// same type, just copy
 				// get the dst pointer
-				void* dst = sizeof(T) > out_storage_size ? read_void_p(out_storage) : out_storage;
+				void* dst = allocated_storage ? read_void_p(out_storage) : out_storage;
 				// might throw, fine
 				move_assign_value(*static_cast<T*>(dst), *static_cast<T*>(in));
 			}
 			else {
 				void* dst = out_storage;
-				if (sizeof(T) > out_storage_size) {
-					dst = SEQ_ANY_MALLOC(sizeof(T));
-					if SEQ_UNLIKELY (!dst)
-						throw std::bad_alloc();
+				if (allocated_storage) {
+					dst = allocate_one<T>();
 					memcpy(out_storage, &dst, sizeof(void*));
 				}
 				try {
 					new (dst) T(std::move(*static_cast<T*>(in)));
 				}
 				catch (...) {
-					if (sizeof(T) > out_storage_size)
-						SEQ_ANY_FREE(dst);
+					if (allocated_storage)
+						deallocate_one(static_cast<T*>(dst));
 					throw;
 				}
 			}
@@ -717,10 +919,12 @@ namespace seq
 		virtual ~any_type_info() {}
 		/// @brief Returns the size of underlying type
 		virtual auto sizeof_type() const noexcept -> size_t = 0;
+		virtual auto alignof_type() const noexcept -> size_t = 0;
 		/// @brief Returns supported operations by the type
 		virtual auto supported_operations() const noexcept -> int = 0;
 		/// @brief Destroy object
 		virtual void destroy_any(void* in) const noexcept = 0;
+		virtual void deallocate_any(void* in) const noexcept = 0;
 		/// @brief Compare 2 objects of same type for equality
 		virtual auto equal_any(const void* a, const void* o) const -> bool = 0;
 		/// @brief Compare 2 objects of same type for less than
@@ -731,8 +935,8 @@ namespace seq
 		virtual void ostream_any(const void* in, std::ostream& oss) const = 0;
 		/// @brief Read object of underlying type from a std::istream object
 		virtual void istream_any(void* in, std::istream& iss) const = 0;
-		virtual void copy_any(const any_type_info* in_p, const void* in, const any_type_info* out_p, void* out_storage, unsigned out_storage_size) const = 0;
-		virtual void move_any(const any_type_info* in_p, void* in, const any_type_info* out_p, void* out_storage, unsigned out_storage_size) const = 0;
+		virtual void copy_any(const any_type_info* in_p, const void* in, const any_type_info* out_p, void* out_storage, bool allocated_storage) const = 0;
+		virtual void move_any(const any_type_info* in_p, void* in, const any_type_info* out_p, void* out_storage, bool allocated_storage) const = 0;
 	};
 
 	/// @brief Implementation of any_type_info for specific type (Type Erasure)
@@ -740,20 +944,22 @@ namespace seq
 	struct any_typed_type_info : virtual any_type_info
 	{
 		auto sizeof_type() const noexcept -> size_t override { return sizeof(T); }
+		auto alignof_type() const noexcept -> size_t override { return alignof(T); }
 		auto supported_operations() const noexcept -> int override { return supported_type_operations<T>(); }
 		void destroy_any(void* in) const noexcept override { static_cast<T*>(in)->~T(); }
+		void deallocate_any(void* in) const noexcept override { detail::deallocate_one(static_cast<T*>(in)); }
 		auto equal_any(const void* a, const void* b) const -> bool override { return detail::compare_equal_any<T>(a, b); }
 		auto less_any(const void* a, const void* b) const -> bool override { return detail::compare_less_any<T>(a, b); }
 		auto hash_any(const void* in) const -> size_t override { return detail::hash_any<T, SupportHash>(in); }
 		void ostream_any(const void* in, std::ostream& oss) const override { return detail::ostream_any<T>(oss, in); }
 		void istream_any(void* in, std::istream& iss) const override { return detail::istream_any<T>(iss, in); }
-		void copy_any(const any_type_info* in_p, const void* in, const any_type_info* out_p, void* out_storage, unsigned out_storage_size) const override
+		void copy_any(const any_type_info* in_p, const void* in, const any_type_info* out_p, void* out_storage, bool allocated_storage) const override
 		{
-			detail::copy_any<T>(in_p, in, out_p, out_storage, out_storage_size);
+			detail::copy_any<T>(in_p, in, out_p, out_storage, allocated_storage);
 		}
-		void move_any(const any_type_info* in_p, void* in, const any_type_info* out_p, void* out_storage, unsigned out_storage_size) const override
+		void move_any(const any_type_info* in_p, void* in, const any_type_info* out_p, void* out_storage, bool allocated_storage) const override
 		{
-			detail::move_any<T>(in_p, in, out_p, out_storage, out_storage_size);
+			detail::move_any<T>(in_p, in, out_p, out_storage, allocated_storage);
 		}
 	};
 
@@ -843,15 +1049,15 @@ namespace seq
 		}
 
 		/// @brief Check if given type required a separated (heap allocated) storage
-		template<class T, size_t SizeofStorage, bool ForceRelocatable>
+		template<class T, size_t SizeofStorage, size_t Alignment, bool ForceRelocatable>
 		struct need_separate_storage
 		{
-			static constexpr bool value = sizeof(T) > SizeofStorage;
+			static constexpr bool value = sizeof(T) > SizeofStorage || alignof(T) > Alignment;
 		};
-		template<class T, size_t SizeofStorage>
-		struct need_separate_storage<T, SizeofStorage, true>
+		template<class T, size_t SizeofStorage, size_t Alignment>
+		struct need_separate_storage<T, SizeofStorage, Alignment, true>
 		{
-			static constexpr bool value = (sizeof(T) > SizeofStorage) || (!seq::is_relocatable<T>::value);
+			static constexpr bool value = (sizeof(T) > SizeofStorage || alignof(T) > Alignment) || (!seq::is_relocatable<T>::value);
 		};
 	}
 
@@ -872,6 +1078,10 @@ namespace seq
 	struct any_base : public detail::null_policy
 	{
 	protected:
+		static_assert(StaticSize >= sizeof(void*), "hold_any storage must hold a pointer");
+		static_assert(Alignment != 0);
+		static_assert((Alignment & (Alignment - 1)) == 0);
+
 		// using storage_type = typename std::aligned_storage< StaticSize, Alignment>::type;
 		struct alignas(Alignment) storage_type
 		{
@@ -882,21 +1092,30 @@ namespace seq
 		pointer_type d_type_info{};
 		storage_type d_storage{};
 
+		template<class T>
+		static constexpr size_t make_tag()
+		{
+			constexpr size_t tag = (std::is_trivially_destructible_v<T> ? 0 : 1) | 
+				(std::is_trivially_copyable_v<T> ? 0 : 2) | 
+				(is_relocatable<T>::value ? 0 : 4) |
+				(detail::need_separate_storage<T, sizeof(storage_type), Alignment, ForceRelocatable>::value ? 8 : 0) |
+				(std::is_pointer_v<T> ? 16 : 0);
+			return tag;
+		}
+
 		/// @brief Allocate storage for given type, returns pointer to object in order to be constructed
 		template<class T>
 		auto alloc() -> void*
 		{
+			static_assert(sizeof(T) % alignof(T) == 0);
 			static constexpr size_t size_T = sizeof(T);
 			// compile time tags
-			static constexpr size_t tag = (std::is_trivially_destructible_v<T> ? 0 : 1) | (std::is_trivially_copyable_v<T> ? 0 : 2) | (is_relocatable<T>::value ? 0 : 4) |
-						      (detail::need_separate_storage<T, sizeof(storage_type), ForceRelocatable>::value ? 8 : 0) | (std::is_pointer_v<T> ? 16 : 0);
+			static constexpr size_t tag = make_tag<T>();
 
 			// create object storage with allocation if sizeof(T) > StaticSize
 			void* d = &d_storage;
-			if (tag & detail::big_size) {
-				d = SEQ_ANY_MALLOC(size_T);
-				if SEQ_UNLIKELY (d == nullptr)
-					throw std::bad_alloc();
+			if constexpr (tag & detail::big_size) {
+				d = detail::allocate_one<T>();
 				memcpy(&d_storage, &d, sizeof(void*));
 			}
 			// set the type tags
@@ -911,7 +1130,7 @@ namespace seq
 			if (d_type_info.full() & detail::big_size) {
 				void* d;
 				memcpy(&d, &d_storage, sizeof(void*));
-				SEQ_ANY_FREE(d);
+				d_type_info->deallocate_any(d);
 			}
 			// clear any_type_info pointer
 			d_type_info.set_full(0);
@@ -933,7 +1152,7 @@ namespace seq
 		}
 
 		template<class T, class = typename std::enable_if<!std::is_reference_v<T>, void>::type>
-		auto convert(const TypeInfo* info, const TypeInfo* out_p, std::uintptr_t tags) const -> typename std::decay<T>::type
+		auto convert(const TypeInfo* info, const TypeInfo* out_p, std::uintptr_t tags) const -> std::decay_t<T>
 		{
 			using type = typename std::decay<T>::type;
 
@@ -1271,6 +1490,9 @@ namespace seq
 	///
 	/// The specialization of std::hash for hold_any is transparent to support heterogeneous lookup.
 	///
+	/// Note that different equal arithmetic types (like 1 and 1.0 for instance) produce the same hash value.
+	/// Likewise, different string types having the same content produce the same hash value.
+	///
 	/// Example:
 	///
 	/// \code{.cpp}
@@ -1318,8 +1540,8 @@ namespace seq
 	///		-	They hold the same type and both underlying objects compare equals. If the type does not provide a comparison operator, the operator==() always return false.
 	///		-	They both hold an arithmetic value of possibly different types, and these values compare equals.
 	///		-	They both hold a string like object (std::string, seq::tstring, seq::tstring_view, std::string_view, char*, const char*) that compare equals.
-	///			Note that a const char* can be compared to another string object (like std::string) using string comparison, but comparing two const char* will result in a pointer
-	/// comparison!
+	///			Note that a const char* can be compared to another string object (like std::string) using string comparison, and comparing two const char* will also result in string
+	/// comparison.
 	///
 	/// It is possible to register a comparison function for unrelated types using seq::register_any_equal_comparison() function.
 	///
@@ -1666,36 +1888,29 @@ namespace seq
 			using type = typename std::decay<ValueType>::type;
 			static_assert(std::is_same_v<hold_any, type> || !is_hold_any<type>::value, "forbidden nested hold_any");
 
-			auto* i_t = this->type();
 			auto* o_t = get_type<type>();
 			type* out = nullptr;
-			if (o_t == i_t) {
-				// same type
-				out = static_cast<type*>(this->data());
-				*out = type(std::forward<Args>(args)...);
+
+			// different types, clear this object
+			reset();
+			// set type info pointer
+			this->d_type_info = o_t;
+			void* d = nullptr;
+			try {
+				// create memory chunk and tags, might throw
+				d = this->template alloc<type>();
+				// copy, might throw
+				out = new (d) type(std::forward<Args>(args)...);
 			}
-			else {
-				// different types, clear this object
-				reset();
-				// set type info pointer
-				this->d_type_info = o_t;
-				void* d = nullptr;
-				try {
-					// create memory chunk and tags, might throw
-					d = this->template alloc<type>();
-					// copy, might throw
-					out = new (d) type(std::forward<Args>(args)...);
-				}
-				catch (...) {
-					// free memory chunk if needed
-					if (d && sizeof(type) > static_size)
-						SEQ_ANY_FREE(d);
-					// reset type info pointer and tags
-					this->d_type_info.set_full(0);
-					throw;
-					// just to remove cppcheck warning
-					out = get_null_out<type>();
-				}
+			catch (...) {
+				// free memory chunk if needed
+				if (d && (this->template make_tag<type>() & detail::big_size))
+					detail::deallocate_one(static_cast<type*>(d));
+				// reset type info pointer and tags
+				this->d_type_info.set_full(0);
+				throw;
+				// just to remove cppcheck warning
+				out = get_null_out<type>();
 			}
 
 			return *out;
@@ -1753,7 +1968,7 @@ namespace seq
 			}
 			else {
 				// copy data, might throw
-				other.type()->copy_any(other.type(), other.data(), nullptr, &this->d_storage, static_size);
+				other.type()->copy_any(other.type(), other.data(), nullptr, &this->d_storage, other.big_size());
 			}
 			// copy type info
 			this->d_type_info = other.d_type_info;
@@ -1779,7 +1994,7 @@ namespace seq
 				}
 				else {
 					// move data, might throw
-					other.type()->move_any(other.type(), other.data(), nullptr, &this->d_storage, (static_size));
+					other.type()->move_any(other.type(), other.data(), nullptr, &this->d_storage, other.big_size());
 					// copy tag and info pointer on success
 					this->d_type_info = other.d_type_info;
 				}
@@ -1810,7 +2025,7 @@ namespace seq
 			catch (...) {
 				// free memory if needed
 				if (d && (this->d_type_info.tag() & detail::big_size))
-					SEQ_ANY_FREE(d);
+					detail::deallocate_one(static_cast<type*>(d));
 				// reset type info
 				this->d_type_info.set_full(0);
 				throw;
@@ -1823,6 +2038,11 @@ namespace seq
 		/// @brief Copy assignment
 		auto operator=(const hold_any& other) -> hold_any&
 		{
+			if (other.empty()) {
+				reset();
+				return *this;
+			}
+
 			const auto* i_t = this->type();
 			const auto* o_t = other.type();
 
@@ -1838,7 +2058,7 @@ namespace seq
 			}
 			else {
 				// copy any type, might throw
-				o_t->copy_any(o_t, other.data(), i_t, &this->d_storage, static_size);
+				o_t->copy_any(o_t, other.data(), i_t, &this->d_storage, other.big_size());
 			}
 			this->d_type_info = other.d_type_info;
 
@@ -1872,14 +2092,14 @@ namespace seq
 					}
 					else {
 						// move, might throw
-						o_t->move_any(o_t, other.data(), i_t, &this->d_storage, static_size);
+						o_t->move_any(o_t, other.data(), i_t, &this->d_storage, other.big_size());
 					}
 				}
 				else {
 					// different type, clear this object
 					reset();
 					// move, might throw
-					o_t->move_any(o_t, other.data(), nullptr, &this->d_storage, static_size);
+					o_t->move_any(o_t, other.data(), nullptr, &this->d_storage, other.big_size());
 					// copy type info with tags
 					this->d_type_info = other.d_type_info;
 				}
@@ -1887,7 +2107,6 @@ namespace seq
 				return *this;
 			}
 		}
-
 
 		/// @brief Assign any kind of object except a hold_any
 		template<class T, class = typename std::enable_if<!std::is_base_of_v<detail::null_policy, typename std::decay<T>::type>, void>::type>
@@ -1967,8 +2186,9 @@ namespace seq
 				int a_id = this->type_id();
 
 				// arithmetic comparison
-				if (std::is_arithmetic_v<type> && is_arithmetic_type(a_id)) {
-					return detail::compare_equal_arithmetic(this->template cast<long double>(), (other));
+				if constexpr (std::is_arithmetic_v<type>) {
+					if (is_arithmetic_type(a_id))
+						return detail::arithmetic_equal(detail::read_arithmetic(this->data(), this->type()), detail::make_arithmetic(other));
 				}
 
 				// string comparison
@@ -2008,14 +2228,9 @@ namespace seq
 				int a_id = this->type_id();
 
 				// arithmetic comparison
-				if (std::is_arithmetic_v<type>  && is_arithmetic_type(a_id)) {
-					if (is_integral_type(a_id) && std::is_integral_v<type>) {
-						if (is_signed_integral_type(a_id) != std::is_signed_v<type> || is_unsigned_integral_type(a_id)) // different sign: convert to unsigned integral
-							return detail::less_arithmetic<type, unsigned long long>(this->template cast<unsigned long long>(), other);
-						else
-							return detail::less_arithmetic<type, long long>(this->template cast<long long>(), other);
-					}
-					return detail::less_arithmetic<type, long double>(this->template cast<long double>(), other);
+				if constexpr (std::is_arithmetic_v<type>) {
+					if (is_arithmetic_type(a_id))
+						return detail::arithmetic_less(detail::read_arithmetic(this->data(), this->type()), detail::make_arithmetic(other));
 				}
 
 				// string comparison
@@ -2045,7 +2260,7 @@ namespace seq
 				using type = typename std::decay<T>::type;
 
 				if (this->empty())
-					return true;
+					return false;
 
 				const type_info_type* otype = get_type<type>();
 
@@ -2056,14 +2271,9 @@ namespace seq
 				int a_id = this->type_id();
 
 				// arithmetic comparison
-				if (std::is_arithmetic_v<type>  && is_arithmetic_type(a_id)) {
-					if (is_integral_type(a_id) && std::is_integral_v<type>) {
-						if (is_signed_integral_type(a_id) != std::is_signed_v<type> || is_unsigned_integral_type(a_id)) // different sign: convert to unsigned integral
-							return detail::greater_arithmetic<type, unsigned long long>(this->template cast<unsigned long long>(), other);
-						else
-							return detail::greater_arithmetic<type, long long>(this->template cast<long long>(), other);
-					}
-					return detail::greater_arithmetic<type, long double>(this->template cast<long double>(), other);
+				if constexpr (std::is_arithmetic_v<type>) {
+					if (is_arithmetic_type(a_id))
+						return detail::arithmetic_less(detail::make_arithmetic(other), detail::read_arithmetic(this->data(), this->type()));
 				}
 
 				// string comparison
@@ -2103,9 +2313,8 @@ namespace seq
 			int b_id = other.type_id();
 
 			// arithmetic comparison
-			if (is_arithmetic_type(a_id) && is_arithmetic_type(b_id)) {
-				SEQ_COMPARE_FLOAT(return this->template cast<long double>() == other.template cast<long double>());
-			}
+			if (is_arithmetic_type(a_id) && is_arithmetic_type(b_id))
+				return detail::arithmetic_equal(detail::read_arithmetic(this->data(), this->type()), detail::read_arithmetic(other.data(), other.type()));
 
 			// string comparison
 			if (is_string_type(a_id) && is_string_type(b_id)) {
@@ -2142,15 +2351,8 @@ namespace seq
 			int b_id = other.type_id();
 
 			// arithmetic comparison
-			if (is_arithmetic_type(a_id) && is_arithmetic_type(b_id)) {
-				if (is_integral_type(a_id) && is_integral_type(b_id)) {
-					if (is_signed_integral_type(a_id) != is_signed_integral_type(b_id) || is_unsigned_integral_type(a_id)) // different sign: convert to unsigned integral
-						return this->template cast<unsigned long long>() < other.template cast<unsigned long long>();
-					else
-						return this->template cast<long long>() < other.template cast<long long>();
-				}
-				return this->template cast<long double>() < other.template cast<long double>();
-			}
+			if (is_arithmetic_type(a_id) && is_arithmetic_type(b_id))
+				return detail::arithmetic_less(detail::read_arithmetic(this->data(), this->type()), detail::read_arithmetic(other.data(), other.type()));
 
 			// string comparison
 			if (is_string_type(a_id) && is_string_type(b_id)) {
@@ -2170,7 +2372,8 @@ namespace seq
 		SEQ_ALWAYS_INLINE bool operator>=(const hold_any& other) const { return !(*this < other); }
 	};
 
-	/// @brief Register a conversion function based on explicit conversion from type T to type U
+	/// @brief Register a conversion function based on explicit conversion from type T to type U.
+	/// This function is NOT thread safe and should not be called concurrently or while a custom conversion is called.
 	template<class T, class U>
 	void register_any_conversion()
 	{
@@ -2184,6 +2387,7 @@ namespace seq
 		converts[out_id] = detail::default_convert<T, U>;
 	}
 	/// @brief Register a conversion function using given functor
+	/// This function is NOT thread safe and should not be called concurrently or while a custom conversion is called.
 	template<class T, class U, class Fun>
 	void register_any_conversion(Fun fun)
 	{
@@ -2198,7 +2402,8 @@ namespace seq
 		converts[out_id] = [fun](const void* in, void* out) { detail::default_convert_with_functor<T, U>(fun, in, out); };
 	}
 
-	/// @brief Register the comparison function T() < U()
+	/// @brief Register the comparison function T() < U().
+	/// This function is NOT thread safe and should not be called concurrently or while a custom comparison is called.
 	template<class T, class U>
 	void register_any_less_comparison()
 	{
@@ -2211,7 +2416,8 @@ namespace seq
 			converts.resize(out_id + 1);
 		converts[out_id] = detail::default_less_comparison<T, U>;
 	}
-	/// @brief Register a comparison function between types T and U based on given functor
+	/// @brief Register a comparison function between types T and U based on given functor.
+	/// This function is NOT thread safe and should not be called concurrently or while a custom comparison is called.
 	template<class T, class U, class Fun>
 	void register_any_less_comparison(Fun fun)
 	{
@@ -2226,7 +2432,8 @@ namespace seq
 		converts[out_id] = [fun](const void* l, const void* r) { return detail::default_less_comparison_with_functor<T, U>(fun, l, r); };
 	}
 
-	/// @brief Register the comparison function T() == U()
+	/// @brief Register the comparison function T() == U().
+	/// This function is NOT thread safe and should not be called concurrently or while a custom comparison is called.
 	template<class T, class U>
 	void register_any_equal_comparison()
 	{
@@ -2240,7 +2447,8 @@ namespace seq
 		converts[out_id] = detail::default_equal_comparison<T, U>;
 	}
 
-	/// @brief Register a comparison function between types T and U based on given functor
+	/// @brief Register a comparison function between types T and U based on given functor.
+	/// This function is NOT thread safe and should not be called concurrently or while a custom comparison is called.
 	template<class T, class U, class Fun>
 	void register_any_equal_comparison(Fun fun)
 	{
@@ -2331,7 +2539,7 @@ namespace seq
 	SEQ_ALWAYS_INLINE auto operator>>(std::istream& iss, hold_any<Interface, S, A, R>& a) -> std::istream&
 	{
 		if (a.empty())
-			throw seq::bad_any_function_call("attempt to read empty hold_any from std::ostream");
+			throw seq::bad_any_function_call("attempt to read empty hold_any from std::istream");
 		a.type()->istream_any(a.data(), iss);
 		return iss;
 	}
@@ -2351,7 +2559,7 @@ namespace seq
 	template<class T, class Interface, size_t S, size_t A, bool R>
 	SEQ_ALWAYS_INLINE auto any_cast(const hold_any<Interface, S, A, R>* operand) noexcept -> const T*
 	{
-		if (operand->type() == hold_any<Interface>::template get_type<T>())
+		if (operand && operand->type() == hold_any<Interface, S, A, R>::template get_type<T>())
 			return static_cast<const T*>(operand->data());
 		return nullptr;
 	}
@@ -2359,7 +2567,7 @@ namespace seq
 	template<class T, class Interface, size_t S, size_t A, bool R>
 	SEQ_ALWAYS_INLINE auto any_cast(hold_any<Interface, S, A, R>* operand) noexcept -> T*
 	{
-		if (operand->type() == hold_any<Interface>::template get_type<T>())
+		if (operand && operand->type() == hold_any<Interface, S, A, R>::template get_type<T>())
 			return static_cast<T*>(operand->data());
 		return nullptr;
 	}
@@ -2390,7 +2598,6 @@ namespace seq
 	{
 		static constexpr bool value = hold_any<Interface, S, A, R>::relocatable;
 	};
-
 
 	// specialization of seq::hasher for hold_any
 	template<class Interface, size_t S, size_t A, bool R>

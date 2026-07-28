@@ -235,7 +235,7 @@ namespace seq
 			using extract_key = ExtractKey<Key, Value>;
 			template<class U>
 			using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
-			using node_type = RobinNode<Value, list_chunk<Value>, base_list_chunk<Value>::count_bits>;
+			using node_type = RobinNode<Value, list_chunk<Value,true>, base_list_chunk<Value>::count_bits>;
 			using dist_type = typename node_type::dist_type;
 			using difference_type = std::ptrdiff_t;
 			using tiny_hash = typename node_type::tiny_hash;

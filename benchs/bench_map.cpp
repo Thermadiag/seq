@@ -457,6 +457,19 @@ void test_small_map(int count, int repeat)
 
 int bench_map(int, char** const)
 {
+	{
+		seq::any a = float{ 1.5F };
+		seq::any b = double{ 1.5 };
+
+		SEQ_TEST(a == b);		      // likely true
+		SEQ_TEST(a.hash() == b.hash()); // not guaranteed
+
+		auto h1=any(42).hash();
+		auto h2 = any(42U).hash();
+		auto h3 = any(42.0).hash();
+
+		bool stop = true;
+	}
 
 	using string = tstring;
 

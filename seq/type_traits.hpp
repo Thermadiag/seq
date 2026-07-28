@@ -109,7 +109,7 @@ namespace seq
 
 	/// Check if iterator is random access
 	template<class Iter>
-	struct is_random_access : std::is_same<std::random_access_iterator_tag, typename std::iterator_traits<Iter>::iterator_category>
+	struct is_random_access : std::is_base_of<std::random_access_iterator_tag, typename std::iterator_traits<Iter>::iterator_category>
 	{
 	};
 	template<class Iter>
@@ -282,6 +282,8 @@ namespace seq
 	{
 		static constexpr bool value = has_iterator<C>::value && has_value_type<C>::value;
 	};
+	template<class T>
+	constexpr bool is_iterable_v = is_iterable<T>::value;
 
 	/// @brief Check if givern type is an iterator
 	template<class T, class = void>
@@ -293,6 +295,9 @@ namespace seq
 	struct is_iterator<T, std::void_t<typename std::iterator_traits<T>::iterator_category>> : std::true_type
 	{
 	};
+	template<class T>
+	constexpr bool is_iterator_v = is_iterator<T>::value;
+
 
 	template<class T, class = void>
 	struct has_is_transparent : std::false_type
@@ -356,29 +361,77 @@ namespace seq
 		static constexpr bool value = std::is_empty_v<Alloc>;
 	};
 
-	namespace metafunction
+
+	/// @brief Detect if T is a char type (removing const and reference)
+	template<class T>
+	struct is_character_type
 	{
-		template<class MetaFunction>
-		using result_of = typename MetaFunction::result;
+		using C = typename std::decay<T>::type;
+		static constexpr bool value = std::is_same_v<C, char> || std::is_same_v<C, wchar_t> || std::is_same_v<C, char16_t> || std::is_same_v<C, char32_t>
+#ifdef SEQ_HAS_CPP_20
+					      || std::is_same_v<C, char8_t>
+#endif
+		  ;
+	};
+	template<class T>
+	constexpr bool is_character_type_v = is_character_type<T>::value;
 
-		template<class Tuple, template<class> class Function>
-		struct transform_elements;
+	/// @brief Detect if type has member data() returning a pointer
+	template<class T, class = void>
+	struct has_data_pointer : std::false_type
+	{
+		using type = char;
+	};
+	template<class T>
+	struct has_data_pointer<T, typename std::void_t<decltype(std::declval<T&>().data())>>
+	{
+		using pointer = decltype(std::declval<T&>().data());
+		using ctype = typename std::remove_pointer<pointer>::type;
+		using type = typename std::remove_const<ctype>::type;
+		static constexpr bool value = std::is_pointer_v<pointer>;
+	};
+	template<class T>
+	constexpr bool has_data_pointer_v = has_data_pointer<T>::value;
 
-		// meta-function which takes a tuple and a unary metafunction
-		// and yields a tuple of the result of applying the metafunction
-		// to each element_type of the tuple.
-		// type: binary metafunction
-		// arg1 = the tuple of types to be wrapped
-		// arg2 = the unary metafunction to apply to each element_type
-		// returns tuple<result_of<arg2<element>>...> for each element in arg1
+	/// @brief Detect if type has member size() returning an integral
+	template<class T, class = void>
+	struct has_size : std::false_type
+	{
+		using type = char;
+	};
+	template<class T>
+	struct has_size<T, typename std::void_t<decltype(std::declval<T&>().size())>>
+	{
+		using type = decltype(std::declval<T&>().size());
+		static constexpr bool value = std::is_integral_v<type>;
+	};
+	template<class T>
+	constexpr bool has_size_v = has_size<T>::value;
 
-		template<class... Elements, template<class> class UnaryMetaFunction>
-		struct transform_elements<std::tuple<Elements...>, UnaryMetaFunction>
-		{
-			template<class Arg>
-			using function = UnaryMetaFunction<Arg>;
-			using result = std::tuple<result_of<function<Elements>>...>;
-		};
-	}
+
+	template<class T, class  = void>
+	struct is_string_class : std::false_type
+	{
+	};
+	template<class T>
+	struct is_string_class<T, std::void_t<typename T::value_type>>
+	{
+		static constexpr bool value = is_iterable_v<T> && has_data_pointer_v<T> && has_size_v<T> && is_character_type_v<typename T::value_type>;
+	};
+	template<class T>
+	constexpr bool is_string_class_v = is_string_class<T>::value;
+
+	template<class T, class Char, class = void>
+	struct is_string_class_for : std::false_type
+	{
+	};
+	template<class T, class Char>
+	struct is_string_class_for<T, Char, std::void_t<typename T::value_type>>
+	{
+		static constexpr bool value = is_iterable_v<T> && has_data_pointer_v<T> && has_size_v<T> && std::is_same_v<typename T::value_type,Char>;
+	};
+	template<class T, class Char>
+	constexpr bool is_string_class_for_v = is_string_class_for<T,Char>::value;
+
 }
 #endif

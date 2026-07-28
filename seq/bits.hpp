@@ -70,7 +70,6 @@ See functions documentation for more details.
 #include <cstdlib>
 #include <cstddef>
 #include <cassert>
-#include <cstddef>
 #include <cstdio>
 #include <type_traits>
 
@@ -97,7 +96,6 @@ See functions documentation for more details.
 #include <sys/types.h>
 #include <machine/bswap.h>
 #endif
-
 
 // From rapsody library
 // https://stackoverflow.com/questions/4239993/determining-endianness-at-compile-time
@@ -152,7 +150,7 @@ See functions documentation for more details.
 #define SEQ_ARCH_32
 #endif
 
-// BIM2 instruction set is not properly defined on msvc
+// BMI2 instruction set is not properly defined on msvc
 #if defined(_MSC_VER) && defined(__AVX2__)
 #ifndef __BMI2__
 #define __BMI2__
@@ -166,6 +164,17 @@ See functions documentation for more details.
 #endif
 #endif
 
+#ifdef __GNUC__
+#define GNUC_PREREQ(x, y) (__GNUC__ > x || (__GNUC__ == x && __GNUC_MINOR__ >= y))
+#else
+#define GNUC_PREREQ(x, y) 0
+#endif
+
+#ifdef __clang__
+#define CLANG_PREREQ(x, y) (__clang_major__ > (x) || (__clang_major__ == (x) && __clang_minor__ >= (y)))
+#else
+#define CLANG_PREREQ(x, y) 0
+#endif
 
 // Abort program with a last message
 #define SEQ_ABORT(...)                                                                                                                                                                                 \
@@ -174,19 +183,6 @@ See functions documentation for more details.
 		fflush(stdout);                                                                                                                                                                        \
 		abort();                                                                                                                                                                               \
 	}
-
-#ifdef __clang__
-// clang produces " unused function template" warning with this one (?)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-const-variable"
-#endif
-// going through a variable to avoid cppcheck error with SEQ_OFFSETOF
-static constexpr void* __dummy_ptr_with_long_name = nullptr;
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-// Redefine offsetof to get rid of warning "'offsetof' within non-standard-layout type ...."
-#define SEQ_OFFSETOF(s, m) (reinterpret_cast<::size_t>(&reinterpret_cast<char const volatile&>(((static_cast<const s*>(__dummy_ptr_with_long_name))->m))))
 
 // Check for C++17
 #if defined(_MSC_VER) && !defined(__clang__)
@@ -307,7 +303,7 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #endif
 
 // assume data are aligned
-#if defined(__GNUC__) && (__GNUC__ >= 4 && __GNUC_MINOR__ >= 7)
+#if defined(__GNUC__) && GNUC_PREREQ(4, 7)
 #define SEQ_RESTRICT __restrict
 #define SEQ_ASSUME_ALIGNED(type, ptr, out, alignment) type* SEQ_RESTRICT out = (type*)__builtin_assume_aligned((ptr), alignment);
 #elif defined(__GNUC__)
@@ -324,6 +320,14 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #define SEQ_ASSUME_ALIGNED(type, ptr, out, alignment) type __attribute__((aligned(alignment)))* SEQ_RESTRICT out = (type __attribute__((aligned(alignment)))*)(ptr);
 #elif defined(_MSC_VER)
 #define SEQ_RESTRICT __restrict
+#define SEQ_ASSUME_ALIGNED(type, ptr, out, alignment) type* SEQ_RESTRICT out = ptr;
+#endif
+
+#ifndef SEQ_RESTRICT
+#define SEQ_RESTRICT
+#endif
+
+#ifndef SEQ_ASSUME_ALIGNED
 #define SEQ_ASSUME_ALIGNED(type, ptr, out, alignment) type* SEQ_RESTRICT out = ptr;
 #endif
 
@@ -363,8 +367,6 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #define __has_builtin(x) 0
 #endif
 
-
-
 // Check for aligned memory allocation functions
 #if ((defined __QNXNTO__) || (defined _GNU_SOURCE) || ((defined _XOPEN_SOURCE) && (_XOPEN_SOURCE >= 600))) && (defined _POSIX_ADVISORY_INFO) && (_POSIX_ADVISORY_INFO > 0)
 #define SEQ_HAS_POSIX_MEMALIGN 1
@@ -390,7 +392,7 @@ static constexpr void* __dummy_ptr_with_long_name = nullptr;
 #define SEQ_HAS_MINGW_ALIGNED_MALLOC 0
 #endif
 
-#if defined(SEQ_HAS_POSIX_MEMALIGN) || defined(SEQ_HAS_MM_MALLOC) || defined(SEQ_HAS_ALIGNED_MALLOC) || defined(SEQ_HAS_MINGW_ALIGNED_MALLOC)
+#if (SEQ_HAS_POSIX_MEMALIGN) || (SEQ_HAS_MM_MALLOC) || (SEQ_HAS_ALIGNED_MALLOC) || (SEQ_HAS_MINGW_ALIGNED_MALLOC)
 #define SEQ_HAS_ALIGNED_ALLOCATION
 #endif
 
@@ -420,6 +422,11 @@ namespace seq
 		/// Fast, but wastes alignment additional bytes of memory. Does not throw any exception.
 		inline auto handmade_aligned_malloc(size_t size, size_t alignment) -> void*
 		{
+			SEQ_ASSERT_DEBUG(((alignment - 1) & alignment) == 0, "invalid allocation alignment");
+
+			if ((alignment & (alignment - 1)) != 0)
+				return nullptr;
+
 			void* ptr = nullptr;
 			alignment--;
 
@@ -460,7 +467,7 @@ namespace seq
 	/// @brief  Allocates \a size bytes. The returned pointer is guaranteed to have \a align bytes alignment.
 	/// @param size size in bytes to allocate
 	/// @param align alignment of result pointer
-	/// @return algned pointer or NULL on error
+	/// @return aligned pointer or NULL on error
 	inline auto aligned_malloc(size_t size, size_t align) -> void*
 	{
 		void* result = nullptr;
@@ -587,18 +594,6 @@ namespace seq
 	}
 }
 
-#endif
-
-#ifdef __GNUC__
-#define GNUC_PREREQ(x, y) (__GNUC__ > x || (__GNUC__ == x && __GNUC_MINOR__ >= y))
-#else
-#define GNUC_PREREQ(x, y) 0
-#endif
-
-#ifdef __clang__
-#define CLANG_PREREQ(x, y) (__clang_major__ > (x) || (__clang_major__ == (x) && __clang_minor__ >= (y)))
-#else
-#define CLANG_PREREQ(x, y) 0
 #endif
 
 #if (_MSC_VER < 1900) && !defined(__cplusplus)
@@ -826,14 +821,14 @@ namespace seq
 
 	/// @brief Returns the highest set bit index in \a val
 	/// Undefined if val==0.
-	SEQ_ALWAYS_INLINE auto bit_scan_reverse_32(std::uint32_t val) -> unsigned int
+	SEQ_ALWAYS_INLINE auto bit_scan_reverse_32(std::uint32_t v) -> unsigned int
 	{
 #if defined(_MSC_VER) /* Visual */
 		unsigned long r = 0;
-		_BitScanReverse(&r, val);
+		_BitScanReverse(&r, v);
 		return static_cast<unsigned>(r);
 #elif (defined(__clang__) || (defined(__GNUC__) && (__GNUC__ >= 3))) /* Use GCC Intrinsic */
-		return 31 - __builtin_clz(val);
+		return 31 - __builtin_clz(v);
 #else								     /* Software version */
 		static const unsigned int pos[32] = { 0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9 };
 		// does not work for 0
@@ -896,22 +891,20 @@ namespace seq
 	/// Undefined if bb==0.
 	SEQ_ALWAYS_INLINE auto bit_scan_forward(size_t bb) noexcept -> unsigned
 	{
-#ifdef SEQ_ARCH_64
-		return bit_scan_forward_64(bb);
-#else
-		return bit_scan_forward_32(bb);
-#endif
+		if constexpr (sizeof(std::size_t) == 8)
+			return bit_scan_forward_64(bb);
+		else
+			return bit_scan_forward_32((unsigned)bb);
 	}
 
 	/// @brief Returns the highest set bit index in \a bb.
 	/// Undefined if bb==0.
 	SEQ_ALWAYS_INLINE auto bit_scan_reverse(size_t bb) noexcept -> unsigned
 	{
-#ifdef SEQ_ARCH_64
-		return bit_scan_reverse_64(bb);
-#else
-		return bit_scan_reverse_32(bb);
-#endif
+		if constexpr (sizeof(std::size_t) == 8)
+			return bit_scan_reverse_64(bb);
+		else
+			return bit_scan_reverse_32((unsigned)bb);
 	}
 
 	/**
@@ -921,8 +914,8 @@ namespace seq
 	template<class T>
 	SEQ_ALWAYS_INLINE auto count_digits_base_10(T x) -> unsigned
 	{
-
-		static_assert(std::is_unsigned_v<T>, "");
+		static_assert(std::is_unsigned_v<T> && sizeof(T) <= sizeof(std::uint64_t), "count_digits_base_10 supports unsigned integers up to 64 bits");
+		static_assert(!std::is_same_v<std::remove_cv_t<T>, bool>);
 
 		if (sizeof(T) > 4) {
 			if (x >= 10000000000ULL) {
@@ -1033,9 +1026,10 @@ namespace seq
 	{
 		inline auto generic_nth_bit_set(std::uint64_t value, unsigned int n) noexcept -> unsigned int
 		{
-			if (value == 0) {
+			if (n >= 64)
 				return 64;
-			}
+			if (value == 0)
+				return 64;
 
 			unsigned pos = bit_scan_forward_64(value);
 			for (unsigned i = 0; i < n; ++i) {
@@ -1054,6 +1048,8 @@ namespace seq
 
 	inline unsigned nth_bit_set(std::uint64_t x, unsigned n) noexcept
 	{
+		if (n >= 64)
+			return 64;
 		return static_cast<unsigned>(_tzcnt_u64(_pdep_u64(1ULL << n, x)));
 	}
 
@@ -1363,10 +1359,17 @@ namespace seq
 	template<typename T>
 	SEQ_ALWAYS_INLINE T reverse_bits(T n)
 	{
+		using U = std::remove_cv_t<T>;
+
+		static_assert(std::is_integral_v<U>);
+		static_assert(std::is_unsigned_v<U>);
+		static_assert(!std::is_same_v<U, bool>);
+		static_assert(sizeof(U) <= sizeof(std::uint64_t));
+
 		// we force the passed-in type to its unsigned equivalent, because C++ may
 		// perform arithmetic right shift instead of logical right shift, depending
 		// on the compiler implementation.
-		typedef typename std::make_unsigned<T>::type unsigned_T;
+		typedef typename std::make_unsigned<U>::type unsigned_T;
 		unsigned_T v = static_cast<unsigned_T>(n);
 
 		// swap every bit with its neighbor
@@ -1411,9 +1414,10 @@ namespace seq
 	template<>
 	struct static_bit_scan_reverse<0ULL>
 	{
+		// No value provided to trigger a compile error
 	};
 
-	/// @brief Fast psudo random number generator.
+	/// @brief Fast pseudo random number generator.
 	/// Generates 32 bits random integers.
 	class fast_rand
 	{
@@ -1445,7 +1449,7 @@ namespace seq
 			seeds.Seed1 = s2;
 			seeds.Seed2 = s1;
 
-			return static_cast<unsigned>(s1 ^ (s1 << 32u));
+			return static_cast<unsigned>(s1 ^ (s1 >> 32u));
 		}
 
 #else
@@ -1551,8 +1555,12 @@ namespace seq
 // #pragma GCC diagnostic pop
 #endif
 
-#undef max
+#ifdef min
 #undef min
+#endif
+#ifdef max
+#undef max
+#endif
 
 /** @}*/
 // end bits

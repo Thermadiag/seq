@@ -88,7 +88,7 @@ void test_sequence_vs_colony(size_t count)
 	tick();
 	seq1.reserve(count);
 	for (int i = 0; i < count; ++i)
-		seq1.push_back((shufle[i]));
+		seq1.insert((shufle[i]));
 	seq_t = tock_ms();
 
 	tick();
