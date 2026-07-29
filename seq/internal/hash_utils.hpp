@@ -43,6 +43,7 @@ namespace seq
 		  : private Hash
 		  , private Equal
 		{
+			
 			HashEqual() {}
 			HashEqual(const Hash& h, const Equal& e)
 			  : Hash(h)

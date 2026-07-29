@@ -109,17 +109,19 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 
 		// test different memory layout with different data size
 		using Al = RebindAlloc<Alloc, size_t>;
+		using AlWide = RebindAlloc<Alloc, WideType>;
 		Al a(al);
+		AlWide aw(al);
 
 		using small_slow = sequence<size_t, Al>;
 		using small_fast = sequence<size_t, Al>;
-		using big_slow = sequence<WideType, Al>;
-		using big_fast = sequence<WideType, Al>;
+		using big_slow = sequence<WideType, AlWide>;
+		using big_fast = sequence<WideType, AlWide>;
 
 		small_slow ss(a);
 		small_fast sf(a);
-		big_slow bs(a);
-		big_fast bf(a);
+		big_slow bs(aw);
+		big_fast bf(aw);
 
 		size_t c = static_cast<size_t>(size / 10);
 

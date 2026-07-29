@@ -217,10 +217,8 @@ namespace seq
 			{
 			} // any pos
 
-			SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference { return const_cast<reference>(base_type::operator*()); }
-			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
 			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return const_cast<reference>(base_type::operator*()); }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const_pointer { return std::pointer_traits<const_pointer>::pointer_to(**this); }
+			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
 			SEQ_ALWAYS_INLINE auto operator++() noexcept -> deque_iterator&
 			{
 				base_type::operator++();
@@ -1569,7 +1567,6 @@ namespace seq
 				return true;
 			}*/
 
-
 			void destroy_bucket(BucketType* b) noexcept
 			{
 				if (!b)
@@ -1608,19 +1605,6 @@ namespace seq
 				d_buckets.clear();
 			}
 
-			// Move copy
-			/*auto operator=(BucketManager&& other) noexcept(noexcept(swap_allocator(std::declval<Allocator&>(), std::declval<Allocator&>()))) -> BucketManager&
-			{
-				if (this != std::addressof(other)) {
-					swap_allocator(get_allocator(), other.get_allocator());
-					d_buckets.swap(other.d_buckets);
-					std::swap(d_bucket_size, other.d_bucket_size);
-					std::swap(d_bucket_size1, other.d_bucket_size1);
-					std::swap(d_bucket_size_bits, other.d_bucket_size_bits);
-					std::swap(d_size, other.d_size);
-				}
-				return *this;
-			}*/
 			// Get bucket vector
 			SEQ_ALWAYS_INLINE BucketVector& buckets() noexcept { return d_buckets; }
 			SEQ_ALWAYS_INLINE const BucketVector& buckets() const noexcept { return d_buckets; }
@@ -2502,8 +2486,6 @@ namespace seq
 				}
 				return size_before;
 			}
-
-			
 		};
 
 		template<class T>
@@ -2655,6 +2637,7 @@ namespace seq
 		static_assert(((max_block_size - 1) & max_block_size) == 0, "Maximum block size must be a power of 2");
 		static_assert(min_block_size > 0, "Invalid min block size");
 		static_assert(max_block_size >= min_block_size, "Invalid max block size");
+		static_assert(std::is_same_v<typename std::allocator_traits<Allocator>::pointer, T*>, "tiered_vector requires allocators with raw pointer types");
 
 		using bucket_manager = detail::BucketManager<T, Allocator, min_block_size, max_block_size, StoreBackValues, ValueCompare>;
 		using alloc_traits = std::allocator_traits<Allocator>;
@@ -2687,6 +2670,7 @@ namespace seq
 			}
 			catch (...) {
 				alloc.deallocate(res, 1);
+				throw;
 			}
 			return res;
 		}
@@ -2779,16 +2763,16 @@ namespace seq
 			if (first == last)
 				return;
 
-			if(first > last)
+			if (first > last)
 				throw std::invalid_argument("tiered_vector::insert: invalid iterator range");
 
 			size_type to_insert = static_cast<size_t>(last - first);
 
-			if(to_insert > max_size() - size())
+			if (to_insert > max_size() - size())
 				throw std::length_error("tiered_vector::insert");
 
 			if (pos < size() / 2) {
-				
+
 				// Might throw, fine
 				resize_front(size() + to_insert);
 				iterator beg = begin();
@@ -2832,7 +2816,13 @@ namespace seq
 		tiered_vector(size_type count, const T& value, const Allocator& alloc = Allocator())
 		  : Allocator(alloc)
 		{
-			resize(count, value);
+			try {
+				resize(count, value);
+			}
+			catch (...) {
+				destroy_manager(d_manager);
+				throw;
+			}
 		}
 		/// @brief Constructs the container with count default-inserted instances of T. No copies are made.
 		/// @param count new tiered_vector size
@@ -2840,15 +2830,27 @@ namespace seq
 		explicit tiered_vector(size_type count, const Allocator& alloc = Allocator())
 		  : Allocator(alloc)
 		{
-			resize(count);
+			try {
+				resize(count);
+			}
+			catch (...) {
+				destroy_manager(d_manager);
+				throw;
+			}
 		}
 		/// @brief Copy constructor. Constructs the container with the copy of the contents of other.
 		/// @param other another container to be used as source to initialize the elements of the container with
 		tiered_vector(const tiered_vector& other)
-		  : Allocator(copy_allocator(other.get_allocator()))
+		  : Allocator(std::allocator_traits<Allocator>::select_on_container_copy_construction(other.get_allocator()))
 		{
-			if (other.size())
-				d_manager = make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0U, static_cast<size_t>(-1), get_allocator());
+			try {
+				if (other.size())
+					d_manager = make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0U, static_cast<size_t>(-1), get_allocator());
+			}
+			catch (...) {
+				destroy_manager(d_manager);
+				throw;
+			}
 		}
 		/// @brief Constructs the container with the copy of the contents of other, using alloc as the allocator.
 		/// @param other other another container to be used as source to initialize the elements of the container with
@@ -2856,8 +2858,14 @@ namespace seq
 		tiered_vector(const tiered_vector& other, const Allocator& alloc)
 		  : Allocator(alloc)
 		{
-			if (other.size())
-				d_manager = make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0U, static_cast<size_t>(-1), get_allocator());
+			try {
+				if (other.size())
+					d_manager = make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0U, static_cast<size_t>(-1), get_allocator());
+			}
+			catch (...) {
+				destroy_manager(d_manager);
+				throw;
+			}
 		}
 		/// @brief Move constructor. Constructs the container with the contents of other using move semantics. Allocator is obtained by move-construction from the allocator belonging to other.
 		/// @param other another container to be used as source to initialize the elements of the container with
@@ -2879,8 +2887,14 @@ namespace seq
 				other.d_manager = nullptr;
 			}
 			else {
-				resize(other.size());
-				std::move(other.begin(), other.end(), begin());
+				try {
+					for (auto& v : other) 
+						emplace_back(std::move(v));
+				}
+				catch (...) {
+					destroy_manager(d_manager);
+					throw;
+				}
 			}
 		}
 		/// @brief Constructs the container with the contents of the initializer list \a init.
@@ -2888,7 +2902,8 @@ namespace seq
 		/// @param alloc allocator object
 		tiered_vector(const std::initializer_list<T>& lst, const Allocator& alloc = Allocator())
 		  : tiered_vector(lst.begin(), lst.end(), alloc)
-		{}
+		{
+		}
 		/// @brief  Constructs the container with the contents of the range [first, last).
 		/// @tparam Iter iterator type
 		/// @param first first iterator of the range
@@ -2898,7 +2913,13 @@ namespace seq
 		tiered_vector(Iter first, Iter last, const Allocator& alloc = Allocator())
 		  : Allocator(alloc)
 		{
-			assign(first, last);
+			try {
+				assign(first, last);
+			}
+			catch (...) {
+				destroy_manager(d_manager);
+				throw;
+			}
 		}
 
 		/// @brief  Destructor
@@ -2907,7 +2928,9 @@ namespace seq
 		/// @brief Move assignment operator.
 		/// @param other another container to use as data source
 		/// @return reference to this
-		auto operator=(tiered_vector&& other) noexcept(std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value ? std::is_nothrow_move_assignable_v<Allocator> : std::allocator_traits<Allocator>::is_always_equal::value) -> tiered_vector&
+		auto operator=(tiered_vector&& other) noexcept(std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value
+								 ? std::is_nothrow_move_assignable_v<Allocator>
+								 : std::allocator_traits<Allocator>::is_always_equal::value) -> tiered_vector&
 		{
 			if (this == std::addressof(other))
 				return *this;
@@ -2927,7 +2950,7 @@ namespace seq
 				other.d_manager = nullptr;
 			}
 			else {
-				if(get_allocator() == other.get_allocator()) {
+				if (get_allocator() == other.get_allocator()) {
 					destroy_manager(manager());
 					d_manager = other.d_manager;
 					other.d_manager = nullptr;
@@ -2935,7 +2958,7 @@ namespace seq
 				else {
 					destroy_manager(manager());
 					d_manager = nullptr;
-					if(other.size()) {
+					if (other.size()) {
 						d_manager = make_manager(get_allocator(), std::move(*other.manager()), other.manager()->bucket_size(), 0U, static_cast<size_t>(-1), get_allocator());
 						other.clear();
 					}
@@ -2955,14 +2978,27 @@ namespace seq
 
 			using traits = std::allocator_traits<Allocator>;
 
-			clear();
-			// Copy allocator, might throw
-			if constexpr (traits::propagate_on_container_copy_assignment::value )
-				static_cast<Allocator&>(*this) = (static_cast<const Allocator&>(other));
+			if constexpr (traits::propagate_on_container_copy_assignment::value) {
+				if (get_allocator() != other.get_allocator()) {
+					tiered_vector tmp(other, other.get_allocator());
 
-			if(other.size()) 
-				d_manager = (make_manager(get_allocator(), *other.manager(), other.manager()->bucket_size(), 0U, static_cast<size_t>(-1), get_allocator()));;
-			
+					destroy_manager(d_manager);
+					d_manager = nullptr;
+
+					static_cast<Allocator&>(*this) = static_cast<const Allocator&>(other);
+
+					d_manager = tmp.d_manager;
+					tmp.d_manager = nullptr;
+					return *this;
+				}
+
+				static_cast<Allocator&>(*this) = static_cast<const Allocator&>(other);
+			}
+
+			tiered_vector tmp(other, get_allocator());
+			destroy_manager(d_manager);
+			d_manager = tmp.d_manager;
+			tmp.d_manager = nullptr;
 			return *this;
 		}
 
@@ -2982,12 +3018,12 @@ namespace seq
 		/// @brief Retruns true if the container is empty, false otherwise.
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return !d_manager || d_manager->size() == 0; }
 		/// @brief Returns the allocator associated with the container.
-		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> Allocator { return static_cast<const Allocator&>(*this); }
+		SEQ_ALWAYS_INLINE auto get_allocator() const -> Allocator { return static_cast<const Allocator&>(*this); }
 		/// @brief Exchanges the contents of the container with those of other. Does not invoke any move, copy, or swap operations on individual elements.
 		/// @param other other sequence to swap with
 		/// All iterators and references remain valid.
 		/// An iterator holding the past-the-end value in this container will refer to the other container after the operation.
-		void swap(tiered_vector& other) noexcept(std::is_nothrow_swappable_v<Allocator>)
+		void swap(tiered_vector& other) noexcept(!alloc_traits::propagate_on_container_swap::value || std::is_nothrow_swappable_v<Allocator>)
 		{
 			if (this != std::addressof(other)) {
 				using traits = std::allocator_traits<Allocator>;
@@ -3017,7 +3053,7 @@ namespace seq
 			else {
 				make_manager_if_null();
 
-				if(count > max_size())
+				if (count > max_size())
 					throw std::length_error("tiered_vector::resize");
 
 				detail::cbuffer_pos bucket_size = findBSize(count);
@@ -3046,7 +3082,7 @@ namespace seq
 			else {
 				make_manager_if_null();
 
-				if(count > max_size())
+				if (count > max_size())
 					throw std::length_error("tiered_vector::resize");
 
 				int bucket_size = findBSize(count);
@@ -3074,7 +3110,7 @@ namespace seq
 			else {
 				make_manager_if_null();
 
-				if(count > max_size())
+				if (count > max_size())
 					throw std::length_error("tiered_vector::resize_front");
 
 				detail::cbuffer_pos bucket_size = findBSize(count);
@@ -3122,9 +3158,6 @@ namespace seq
 		/// @brief Clear the container.
 		void clear() noexcept
 		{
-			if (size() == 0)
-				return;
-
 			destroy_manager(d_manager);
 			d_manager = nullptr;
 		}
@@ -3149,7 +3182,7 @@ namespace seq
 		{
 			make_manager_if_null();
 
-			if(d_manager->d_size == max_size())
+			if (d_manager->d_size == max_size())
 				throw std::length_error("tiered_vector::emplace_back");
 
 			if SEQ_UNLIKELY (need_update_bucket_size()) {
@@ -3180,7 +3213,7 @@ namespace seq
 		{
 			make_manager_if_null();
 
-			if(d_manager->d_size == max_size())
+			if (d_manager->d_size == max_size())
 				throw std::length_error("tiered_vector::emplace_front");
 
 			if SEQ_UNLIKELY (need_update_bucket_size()) {
@@ -3234,7 +3267,7 @@ namespace seq
 		{
 			make_manager_if_null();
 
-			if(d_manager->d_size == max_size())
+			if (d_manager->d_size == max_size())
 				throw std::length_error("tiered_vector::emplace");
 
 			if SEQ_UNLIKELY (need_update_bucket_size()) {

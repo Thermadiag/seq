@@ -239,7 +239,7 @@ struct CountAlloc
 	  : d_count(new counter())
 	{
 	}
-	CountAlloc(const CountAlloc& other)
+	CountAlloc(const CountAlloc& other) noexcept
 	  : d_count(other.d_count)
 	{
 	}

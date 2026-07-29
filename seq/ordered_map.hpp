@@ -231,11 +231,14 @@ namespace seq
 		{
 
 		public:
+			static_assert(std::is_nothrow_swappable_v<Hash>);
+			static_assert(std::is_nothrow_swappable_v<Equal>);
+
 			using base_type = HashEqual<Hash, Equal>;
 			using extract_key = ExtractKey<Key, Value>;
 			template<class U>
 			using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
-			using node_type = RobinNode<Value, list_chunk<Value,true>, base_list_chunk<Value>::count_bits>;
+			using node_type = RobinNode<Value, list_chunk<Value,true>, base_list_chunk<Value, true, list_chunk<Value,true> >::count_bits>;
 			using dist_type = typename node_type::dist_type;
 			using difference_type = std::ptrdiff_t;
 			using tiny_hash = typename node_type::tiny_hash;
@@ -297,64 +300,67 @@ namespace seq
 				// The old table is dropped before creating the new one, avoiding memory peaks.
 				// Do not check for potential duplicate values.
 
+				
+				auto buckets = make_buckets((new_hash_mask + 1ULL));
+				int max_dist = 1;
+				
+				
 				try {
-					free_buckets(d_buckets);
-					d_buckets = null_node();
-					d_next_target = d_hash_mask = d_hash_len = 0;
-					d_max_dist = 1;
-					d_buckets = make_buckets((new_hash_mask + 1ULL));
+
+					size_t hash, index;
+					size_t hmask = new_hash_mask;
+					typename node_type::dist_type dist = 0;
+
+					// Loop through values
+					for (; (first != last) && (max_dist != node_type::max_distance); ++first) {
+
+						// Hash value
+						hash = hash_key(extract_key::key(*first));
+						// Compute index
+						index = mask_hash(hash, new_hash_mask, new_hash_len);
+
+						if (buckets[index].distance() == -1) {
+							buckets[index] = node_type(node_type::small_hash(hash), 0, first.as_uint());
+							continue;
+						}
+
+						// Robin-hood probing
+						dist = 0;
+						while (dist <= buckets[index].distance()) {
+							index = (index == hmask) ? 0 : index + 1;
+							dist++;
+						}
+						max_dist = (dist > max_dist) ? dist : max_dist;
+						node_type n = buckets[index];
+						buckets[index] = node_type(node_type::small_hash(hash), dist, first.as_uint());
+
+						// Insert node
+						start_insert(buckets, new_hash_mask, index, dist, n, max_dist);
+					}
+
+					for (; first != last; ++first) {
+						// Hash value
+						hash = hash_key(extract_key::key(*first));
+						// Compute index
+						index = mask_hash(hash, new_hash_mask, new_hash_len);
+
+						// Pure linear hashing
+						while (!buckets[index].null()) {
+							index = (index == hmask) ? 0 : index + 1;
+						}
+						// Insert
+						buckets[index] =
+						  node_type(node_type::small_hash(hash), index == mask_hash(hash, new_hash_mask, new_hash_len) ? 0 : node_type::max_distance, first.as_uint());
+					}
 				}
 				catch (...) {
-					// mark as dirty
-					mark_dirty();
+					free_buckets(buckets);
 					throw;
 				}
 
-				size_t hash, index;
-				size_t hmask = new_hash_mask;
-				typename node_type::dist_type dist = 0;
-
-				// Loop through values
-				for (; (first != last) && (d_max_dist != node_type::max_distance); ++first) {
-
-					// Hash value
-					hash = hash_key(extract_key::key(*first));
-					// Compute index
-					index = mask_hash(hash, new_hash_mask, new_hash_len);
-
-					if (d_buckets[index].distance() == -1) {
-						d_buckets[index] = node_type(node_type::small_hash(hash), 0, first.as_uint());
-						continue;
-					}
-
-					// Robin-hood probing
-					dist = 0;
-					while (dist <= d_buckets[index].distance()) {
-						index = (index == hmask) ? 0 : index + 1;
-						dist++;
-					}
-					d_max_dist = (dist > d_max_dist) ? dist : d_max_dist;
-					node_type n = d_buckets[index];
-					d_buckets[index] = node_type(node_type::small_hash(hash), dist, first.as_uint());
-
-					// Insert node
-					start_insert(d_buckets, new_hash_mask, index, dist, n);
-				}
-
-				for (; first != last; ++first) {
-					// Hash value
-					hash = hash_key(extract_key::key(*first));
-					// Compute index
-					index = mask_hash(hash, new_hash_mask, new_hash_len);
-
-					// Pure linear hashing
-					while (!d_buckets[index].null()) {
-						index = (index == hmask) ? 0 : index + 1;
-					}
-					// Insert
-					d_buckets[index] = node_type(node_type::small_hash(hash), index == mask_hash(hash, new_hash_mask, new_hash_len) ? 0 : node_type::max_distance, first.as_uint());
-				}
-
+				free_buckets(d_buckets);
+				d_buckets = buckets;
+				d_max_dist = max_dist;
 				d_hash_mask = new_hash_mask;
 				d_hash_len = new_hash_len;
 				d_next_target = static_cast<size_t>(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor));
@@ -375,7 +381,6 @@ namespace seq
 					d_buckets = make_buckets((new_hash_mask + 1ULL));
 				}
 				catch (...) {
-					mark_dirty();
 					throw;
 				}
 
@@ -428,7 +433,7 @@ namespace seq
 
 						node_type n = node_type(static_cast<tiny_hash>(h), static_cast<dist_type>(dist), it.as_uint());
 						std::swap(n, d_buckets[index]);
-						start_insert(d_buckets, bsize, index, static_cast<dist_type>(dist), n);
+						start_insert(d_buckets, bsize, index, static_cast<dist_type>(dist), n, d_max_dist);
 					}
 					++it;
 				}
@@ -438,7 +443,7 @@ namespace seq
 				d_next_target = static_cast<size_t>(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor));
 			}
 
-			SEQ_ALWAYS_INLINE void start_insert(node_type* buckets, size_t hash_mask, size_t index, typename node_type::dist_type dist, node_type node) noexcept
+			SEQ_ALWAYS_INLINE void start_insert(node_type* buckets, size_t hash_mask, size_t index, typename node_type::dist_type dist, node_type node, int & max_dist) noexcept
 			{
 				// Use robin-hood hashing to move keys on insertion
 				dist_type od;
@@ -449,8 +454,8 @@ namespace seq
 						index = (index == hash_mask) ? 0 : index + 1;
 						od = buckets[index].distance();
 					} while (od >= dist);
-					if SEQ_UNLIKELY(dist > d_max_dist)
-						d_max_dist = dist = dist > node_type::max_distance ? node_type::max_distance : dist;
+					if SEQ_UNLIKELY (dist > max_dist)
+						max_dist = dist = dist > node_type::max_distance ? node_type::max_distance : dist;
 
 					node.set_distance(dist);
 					std::swap(buckets[index], node);
@@ -506,7 +511,7 @@ namespace seq
 				other.d_max_dist = 1;
 			}
 			SparseFlatNodeHashTable(SparseFlatNodeHashTable&& other, const Allocator& alloc)
-			  : base_type(other.hash_function(), other.key_eq())
+			  : base_type(other)
 			  , d_seq(std::move(other.d_seq), alloc)
 			  , d_buckets(other.d_buckets)
 			  , d_hash_mask(other.d_hash_mask)
@@ -535,13 +540,13 @@ namespace seq
 			  noexcept(std::declval<sequence_type&>().swap(std::declval<sequence_type&>())) && noexcept(std::declval<base_type&>().swap(std::declval<base_type&>())))
 			{
 				if (this != std::addressof(other)) {
+					d_seq.swap(other.d_seq);
 					std::swap(d_buckets, other.d_buckets);
 					std::swap(d_hash_mask, other.d_hash_mask);
 					std::swap(d_hash_len, other.d_hash_len);
 					std::swap(d_next_target, other.d_next_target);
 					std::swap(d_max_dist, other.d_max_dist);
 					std::swap(d_load_factor, other.d_load_factor);
-					d_seq.swap(other.d_seq);
 					base_type::swap(other);
 				}
 			}
@@ -551,11 +556,7 @@ namespace seq
 				// check for dirty
 				return d_max_dist == mask_dirty;
 			}
-			SEQ_ALWAYS_INLINE void mark_dirty() noexcept
-			{
-				// mark the table as dirty
-				d_max_dist = mask_dirty;
-			}
+			
 			SEQ_ALWAYS_INLINE void check_hash_operation() const
 			{
 				if SEQ_UNLIKELY(dirty())
@@ -571,7 +572,6 @@ namespace seq
 			void rehash(size_t size = 0, bool force = false)
 			{
 				// Rehash for given size if one of the following is true:
-				// - the hash table is dirty
 				// - the new hash table size is different from the current one
 				// - force is true
 
@@ -588,9 +588,8 @@ namespace seq
 				else
 					new_hash_mask = (1ULL << (1ULL + (bit_scan_reverse_64(size)))) - 1ULL;
 				new_hash_len = bit_scan_reverse_64(new_hash_mask) + 1U;
-				if (dirty())
-					rehash_remove_duplicates(new_hash_mask, new_hash_len, d_seq.begin(), d_seq.end());
-				else if (force || new_hash_mask != d_hash_mask || d_max_dist == node_type::max_distance) {
+				
+				if (force || new_hash_mask != d_hash_mask || d_max_dist == node_type::max_distance) {
 					if (d_max_dist == node_type::max_distance && null_size) {
 						// linear hashing behavior: make sure to increase hash table size
 						new_hash_mask = ((new_hash_mask + 1U) * 2U) - 1U;
@@ -723,7 +722,7 @@ namespace seq
 				// Move nodes based on distance (robin hood hashing), only if computed distance is not null
 				node_type n = *it;
 				*it = node_type(h, dist, tmp_it.as_uint());
-				start_insert(d_buckets, d_hash_mask, static_cast<size_t>(it - d_buckets), dist, n);
+				start_insert(d_buckets, d_hash_mask, static_cast<size_t>(it - d_buckets), dist, n, d_max_dist);
 
 				return std::pair<iterator, bool>(tmp_it, true);
 			}
@@ -732,9 +731,6 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto emplace(K&& key, Args&&... args) -> std::pair<iterator, bool>
 			{
 				// Insert new key
-
-				// Check for dirty
-				check_hash_operation();
 
 				// Check for potential rehash.
 				// Avoid rehashing if the maximum distance is below 7.
@@ -759,9 +755,6 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto try_emplace(K&& key, Args&&... args) -> std::pair<iterator, bool>
 			{
 				// Insert new key
-
-				// Check for dirty
-				check_hash_operation();
 
 				// Check for potential rehash.
 				// Avoid rehashing if the maximum distance is below 7.
@@ -804,9 +797,6 @@ namespace seq
 				// Erase key
 
 				SEQ_ASSERT_DEBUG(it != d_seq.end(), "invalid erase position");
-
-				// Check for dirty
-				check_hash_operation();
 
 				// Find the node corresponding to this iterator
 				node_type* n = find_node(hash, it);
@@ -1110,8 +1100,6 @@ namespace seq
 		{
 			this->d_seq.resize(other.size());
 			std::copy(other.sequence().begin(), other.sequence().end(), this->d_seq.begin());
-			if (other.dirty())
-				base_type::mark_dirty();
 			max_load_factor(other.max_load_factor());
 			rehash();
 		}
@@ -1159,8 +1147,6 @@ namespace seq
 		{
 			if (this != std::addressof(other)) {
 				this->d_seq = other.sequence();
-				if (other.dirty())
-					this->mark_dirty();
 				max_load_factor(other.max_load_factor());
 				rehash();
 			}
@@ -1200,7 +1186,7 @@ namespace seq
 		/// @return a reference to the underlying seq::sequence object
 		auto sequence() noexcept -> sequence_type&
 		{
-			this->base_type::mark_dirty();
+			//TODO: extract/replace
 			return this->d_seq;
 		}
 		/// @brief Returns the underlying sequence object. Do NOT mark the container as dirty.
@@ -1589,8 +1575,6 @@ namespace seq
 		{
 			this->d_seq.resize(other.size());
 			std::copy(other.sequence().begin(), other.sequence().end(), this->d_seq.begin());
-			if (other.dirty())
-				base_type::mark_dirty();
 			max_load_factor(other.max_load_factor());
 			rehash();
 		}
@@ -1623,8 +1607,6 @@ namespace seq
 		{
 			if (this != std::addressof(other)) {
 				this->d_seq = other.sequence();
-				if (other.dirty())
-					this->mark_dirty();
 				max_load_factor(other.max_load_factor());
 				rehash();
 			}
@@ -1653,7 +1635,6 @@ namespace seq
 
 		auto sequence() noexcept -> sequence_type&
 		{
-			this->base_type::mark_dirty();
 			return this->d_seq;
 		}
 		auto sequence() const noexcept -> const sequence_type& { return this->d_seq; }

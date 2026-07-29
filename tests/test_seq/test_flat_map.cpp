@@ -444,7 +444,7 @@ inline void test_flat_multiset_logic(const Alloc& al = Alloc())
 template<class map_type, class umap_type, bool Unique>
 inline void test_flat_map_or_multi_logic()
 {
-	using pair_type = typename map_type::value_type;
+	using pair_type = std::pair<typename map_type::key_type,typename map_type::mapped_type>;
 	using namespace seq;
 	{
 		// test construct from initializer list
@@ -664,7 +664,7 @@ inline void test_flat_map_or_multi_logic()
 template<class map_type, class umap_type>
 inline void test_flat_multimap_logic()
 {
-	using pair_type = typename map_type::value_type;
+	using pair_type = std::pair<typename map_type::key_type,typename map_type::mapped_type>;
 	using namespace seq;
 	{
 		// test construct from initializer list

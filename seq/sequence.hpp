@@ -30,6 +30,15 @@
 #include <climits>
 #include <vector>
 #include <utility>
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+#include <initializer_list>
+#include <iterator>
+#include <limits>
+#include <memory>
+#include <stdexcept>
+#include <type_traits>
 
 #include "type_traits.hpp"
 #include "internal/utils.hpp"
@@ -48,30 +57,38 @@ namespace seq
 				return 1ULL << Count;
 		}
 
-		// Contiguous storage for up to 64 objects
 		template<class T>
+		constexpr std::uint64_t chunk_count()
+		{
+			return sizeof(T) <= 8 ? 64 : sizeof(T) <= 16 ? 32 : sizeof(T) <= 32 ? 16 : sizeof(T) <= 64 ? 8 : 4;
+		}
+
+		// Contiguous storage for up to 64 objects
+		template<class T, bool Aligned, class Derived>
 		struct base_list_chunk
 		{
+			using derived_type = Derived;
+
 			// Max number of elements
-			static constexpr std::uint64_t count = sizeof(T) <= 8 ? 64 : sizeof(T) <= 16 ? 32 : sizeof(T) <= 32 ? 16 : sizeof(T) <= 64 ? 8 : 4;
+			static constexpr std::uint64_t count = chunk_count<T>();
 			// log2(count)
 			static constexpr std::uint64_t count_bits = sizeof(T) <= 8 ? 6 : sizeof(T) <= 16 ? 5 : sizeof(T) <= 32 ? 4 : sizeof(T) <= 64 ? 3 : 2;
 			// Mask value when full
 			static constexpr std::uint64_t full = (count == 64ULL ? static_cast<std::uint64_t>(-1) : (shift_left<count>() - 1ULL));
-			// Invalid index value
-			static constexpr std::int64_t no_index = LLONG_MIN;
+
+			static constexpr bool aligned = Aligned;
 
 			// Previous node
-			base_list_chunk<T>* prev;
+			base_list_chunk* prev;
 			// Next node
-			base_list_chunk<T>* next;
+			base_list_chunk* next;
 			// Previous node with at least one free element
-			base_list_chunk<T>* prev_free;
+			base_list_chunk* prev_free;
 			// Next node with at least one free element
-			base_list_chunk<T>* next_free;
+			base_list_chunk* next_free;
 			// Mask (bit 1 for allocated, 0 for free)
 			std::uint64_t used;
-			
+
 			// Index of the first valid value
 			int start;
 			// Past the end index of the last valid value
@@ -80,15 +97,26 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto firstFree() const noexcept -> unsigned { return bit_scan_forward_64(~used); }
 			// First used index
 			SEQ_ALWAYS_INLINE auto firstUsed() const noexcept -> unsigned { return bit_scan_forward_64(used); }
-			
+
 			// Number of valid (allocated) elements
 			SEQ_ALWAYS_INLINE auto size() const noexcept -> unsigned { return popcnt64(used); }
+
+			SEQ_ALWAYS_INLINE auto derived() noexcept -> derived_type* { return static_cast<derived_type*>(this); }
+			SEQ_ALWAYS_INLINE auto derived() const noexcept -> const derived_type* { return static_cast<const derived_type*>(this); }
+
+			// Raw buffer access
+			SEQ_ALWAYS_INLINE T* buffer() noexcept { return std::launder(reinterpret_cast<T*>(derived()->get_storage())); }
+			SEQ_ALWAYS_INLINE const T* buffer() const noexcept { return std::launder(reinterpret_cast<const T*>(derived()->get_storage())); }
+			SEQ_ALWAYS_INLINE T& front() { return buffer()[start]; }
+			SEQ_ALWAYS_INLINE const T& front() const { return buffer()[start]; }
+			SEQ_ALWAYS_INLINE T& back() { return buffer()[end - 1]; }
+			SEQ_ALWAYS_INLINE const T& back() const { return buffer()[end - 1]; }
 		};
 
 		template<class T, bool Aligned>
 		struct find_chunk_alignment
 		{
-			static constexpr size_t aligned = std::max(base_list_chunk<T>::count, alignof(std::max_align_t));
+			static constexpr size_t aligned = std::max(chunk_count<T>(), alignof(std::max_align_t));
 			static constexpr size_t non_aligned = std::max(alignof(T), alignof(std::max_align_t));
 			static constexpr size_t value = Aligned ? aligned : non_aligned;
 		};
@@ -96,36 +124,15 @@ namespace seq
 		// Actual chunk class, store up to 64 objects
 		// Its size is a multiple of 64 bytes
 		template<class T, bool Aligned>
-		struct alignas(find_chunk_alignment<T, Aligned>::value) list_chunk : public base_list_chunk<T>
+		struct alignas(find_chunk_alignment<T, Aligned>::value) list_chunk : public base_list_chunk<T, Aligned, list_chunk<T, Aligned>>
 		{
-			using base_type = base_list_chunk<T>;
-			using base_type::count;
-			using base_type::count_bits;
-			using base_type::end;
-			using base_type::next;
-			using base_type::next_free;
-			using base_type::prev;
-			using base_type::prev_free;
-			using base_type::start;
-			using base_type::used;
+			using base = base_list_chunk<T, Aligned, list_chunk<T, Aligned>>;
 
-			struct alignas(T) storage_type
-			{
-				char data[sizeof(T) * count];
-			};
 			// Storage for values
-			storage_type storage;
+			alignas(T) std::byte storage[sizeof(T) * base::count];
 
-			SEQ_ALWAYS_INLINE storage_type* get_storage() noexcept { return &storage; }
-			SEQ_ALWAYS_INLINE const storage_type* get_storage() const noexcept { return &storage; }
-
-			// Raw buffer access
-			SEQ_ALWAYS_INLINE T* buffer() noexcept { return reinterpret_cast<T*>(get_storage()); }
-			SEQ_ALWAYS_INLINE const T* buffer() const noexcept { return reinterpret_cast<const T*>(get_storage()); }
-			SEQ_ALWAYS_INLINE T& front() { return buffer()[start]; }
-			SEQ_ALWAYS_INLINE const T& front() const { return buffer()[start]; }
-			SEQ_ALWAYS_INLINE T& back() { return buffer()[end - 1]; }
-			SEQ_ALWAYS_INLINE const T& back() const { return buffer()[end - 1]; }
+			SEQ_ALWAYS_INLINE auto get_storage() noexcept { return &storage; }
+			SEQ_ALWAYS_INLINE auto get_storage() const noexcept { return &storage; }
 		};
 
 		//
@@ -142,35 +149,40 @@ namespace seq
 			using pointer = typename List::const_pointer;
 			using reference = const value_type&;
 			using list_data = typename List::Data;
-			using chunk_type = typename List::chunk_type;
+			using node_type = typename List::node_type;
 #ifdef _MSC_VER
 			using pos_type = int;
 #else
 			using pos_type = difference_type;
 #endif
 
-			static constexpr int count = chunk_type::count;
+			static constexpr int count = node_type::count;
 
-			chunk_type* node = nullptr;
+			node_type* node = nullptr;
 			pos_type pos = 0;
 
 			SEQ_ALWAYS_INLINE sequence_const_iterator() noexcept {}
-			SEQ_ALWAYS_INLINE sequence_const_iterator(const chunk_type* n) noexcept
-			  : node(const_cast<chunk_type*>(n))
+			SEQ_ALWAYS_INLINE sequence_const_iterator(const node_type* n) noexcept
+			  : node(const_cast<node_type*>(n))
 			  , pos(n ? static_cast<pos_type>(n->start) : 0)
 			{
 			}
-			SEQ_ALWAYS_INLINE sequence_const_iterator(const chunk_type* n, pos_type p) noexcept
-			  : node(const_cast<chunk_type*>(n))
+			SEQ_ALWAYS_INLINE sequence_const_iterator(const node_type* n, pos_type p) noexcept
+			  : node(const_cast<node_type*>(n))
 			  , pos(p)
 			{
 			}
 
-			SEQ_ALWAYS_INLINE std::uintptr_t as_uint() const noexcept { return (reinterpret_cast<std::uintptr_t>(node)) | static_cast<std::uintptr_t>(pos); }
+			SEQ_ALWAYS_INLINE std::uintptr_t as_uint() const noexcept
+			{
+				static_assert(node_type::aligned);
+				return (reinterpret_cast<std::uintptr_t>(node)) | static_cast<std::uintptr_t>(pos);
+			}
 			SEQ_ALWAYS_INLINE void from_uint(std::uintptr_t p) noexcept
 			{
-				node = reinterpret_cast<chunk_type*>(p & ~(chunk_type::count - 1));
-				pos = static_cast<pos_type>(p & (chunk_type::count - 1));
+				static_assert(node_type::aligned);
+				node = reinterpret_cast<node_type*>(p & ~(node_type::count - 1));
+				pos = static_cast<pos_type>(p & (node_type::count - 1));
 			}
 
 			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference
@@ -182,7 +194,7 @@ namespace seq
 			void update_incr_pos() noexcept
 			{
 				if (pos == node->end) {
-					node = static_cast<chunk_type*>(node->next);
+					node = static_cast<node_type*>(node->next);
 					pos = static_cast<pos_type>(node->start);
 				}
 				else {
@@ -207,7 +219,7 @@ namespace seq
 			void update_decr_pos() noexcept
 			{
 				if (pos < node->start) {
-					node = static_cast<chunk_type*>(node->prev);
+					node = static_cast<node_type*>(node->prev);
 					pos = (node->end - 1);
 				}
 				else {
@@ -248,11 +260,11 @@ namespace seq
 			using reference = value_type&;
 
 			SEQ_ALWAYS_INLINE sequence_iterator() noexcept {}
-			SEQ_ALWAYS_INLINE sequence_iterator(const typename base_type::chunk_type* n) noexcept
+			SEQ_ALWAYS_INLINE sequence_iterator(const typename base_type::node_type* n) noexcept
 			  : sequence_const_iterator<List>(n)
 			{
 			}
-			SEQ_ALWAYS_INLINE sequence_iterator(const typename base_type::chunk_type* n, typename base_type::pos_type p) noexcept
+			SEQ_ALWAYS_INLINE sequence_iterator(const typename base_type::node_type* n, typename base_type::pos_type p) noexcept
 			  : sequence_const_iterator<List>(n, p)
 			{
 			}
@@ -284,7 +296,6 @@ namespace seq
 				base_type::operator--();
 				return _Tmp;
 			}
-			
 		};
 
 		template<class List>
@@ -297,15 +308,15 @@ namespace seq
 		{
 			return a.node != b.node || a.pos != b.pos;
 		}
-		
+
 		template<class List>
 		struct sequence_ra_iterator
 		{
-			using chunk_type = typename List::chunk_type;
+			using node_type = typename List::node_type;
 			struct Data
 			{
-				std::vector<chunk_type*> chunks{};
-				chunk_type* end;
+				std::vector<node_type*> chunks{};
+				node_type* end;
 				size_t size{};
 			};
 			using iterator_category = std::random_access_iterator_tag;
@@ -315,24 +326,24 @@ namespace seq
 			using reference = value_type&;
 			using pos_type = difference_type;
 
-			static constexpr int count = chunk_type::count;
+			static constexpr int count = node_type::count;
 
 			Data* data = nullptr;
-			chunk_type* node = nullptr;
+			node_type* node = nullptr;
 			difference_type abs_pos = 0;
 			pos_type pos = 0;
 
 			SEQ_ALWAYS_INLINE sequence_ra_iterator() noexcept {}
-			SEQ_ALWAYS_INLINE sequence_ra_iterator(const Data* d, const chunk_type* n) noexcept
+			SEQ_ALWAYS_INLINE sequence_ra_iterator(const Data* d, const node_type* n) noexcept
 			  : data(const_cast<Data*>(d))
-			  , node(const_cast<chunk_type*>(n))
+			  , node(const_cast<node_type*>(n))
 			  , abs_pos(0)
 			  , pos(n->start)
 			{
 			}
-			SEQ_ALWAYS_INLINE sequence_ra_iterator(const Data* d, const chunk_type* n, pos_type p, difference_type _abs_pos) noexcept
+			SEQ_ALWAYS_INLINE sequence_ra_iterator(const Data* d, const node_type* n, pos_type p, difference_type _abs_pos) noexcept
 			  : data(const_cast<Data*>(d))
-			  , node(const_cast<chunk_type*>(n))
+			  , node(const_cast<node_type*>(n))
 			  , abs_pos(_abs_pos)
 			  , pos(p)
 			{
@@ -349,9 +360,9 @@ namespace seq
 				else {
 
 					size_t front_size = static_cast<size_t>(data->chunks.front()->end - data->chunks.front()->start);
-					size_t bucket = (_abs_pos + (chunk_type::count - front_size)) >> chunk_type::count_bits;
+					size_t bucket = (_abs_pos + (node_type::count - front_size)) >> node_type::count_bits;
 					node = data->chunks[bucket];
-					pos = node->start + static_cast<int>((_abs_pos - (_abs_pos < front_size ? 0 : front_size)) & (chunk_type::count - 1));
+					pos = node->start + static_cast<int>((_abs_pos - (_abs_pos < front_size ? 0 : front_size)) & (node_type::count - 1));
 				}
 				this->abs_pos = static_cast<difference_type>(_abs_pos);
 			}
@@ -372,7 +383,7 @@ namespace seq
 			void update_incr() noexcept
 			{
 				if (pos == node->end) {
-					node = static_cast<chunk_type*>(node->next);
+					node = static_cast<node_type*>(node->next);
 					pos = node->start;
 				}
 				else {
@@ -396,7 +407,7 @@ namespace seq
 			void update_decr() noexcept
 			{
 				if (pos < node->start) {
-					node = static_cast<chunk_type*>(node->prev);
+					node = static_cast<node_type*>(node->prev);
 					pos = (node->end - 1);
 				}
 				else {
@@ -511,18 +522,22 @@ namespace seq
 		using const_iterator = detail::sequence_const_iterator<this_type>;
 		using reverse_iterator = std::reverse_iterator<iterator>;
 		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-		using chunk_type = detail::list_chunk<T,Aligned>;
+		using chunk_type = detail::list_chunk<T, Aligned>;
+		using node_type = detail::base_list_chunk<T, Aligned, chunk_type>;
 
 	private:
 		friend class detail::sequence_const_iterator<this_type>; // iterator has access to internal Data object
 		friend class detail::sequence_iterator<this_type>;	 // iterator has access to internal Data object
 		template<class U>
 		using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
-		
-		static constexpr std::uint64_t count = chunk_type::count;
-		static constexpr std::uint64_t count1 = chunk_type::count - 1;
-		static constexpr std::uint64_t count_bits = chunk_type::count_bits;
-		static constexpr std::uint64_t full = chunk_type::full;
+
+		static constexpr std::uint64_t count = node_type::count;
+		static constexpr std::uint64_t count1 = node_type::count - 1;
+		static constexpr std::uint64_t count_bits = node_type::count_bits;
+		static constexpr std::uint64_t full = node_type::full;
+
+		static_assert(std::is_nothrow_copy_constructible_v<Allocator>, "sequence only supports nothrow copy constructible allocators");
+		static_assert(std::is_same_v<typename std::allocator_traits<Allocator>::pointer, T*>, "sequence requires allocators with raw pointer types");
 
 		/// Internal data
 		/// We use a pointer to Data internally as it fasten the move copy and assignment, and simplifies th iterator implemention.
@@ -531,31 +546,78 @@ namespace seq
 		struct Data : private Allocator
 		{
 			using difference_type = typename std::allocator_traits<Allocator>::difference_type;
-			using chunk_type = detail::list_chunk<T,Aligned>;
-			detail::base_list_chunk<T> end; // end chunk
-			std::size_t size;		// full size
+
+			node_type end;	  // end chunk
+			std::size_t size; // full size
 
 			// We keep spare chunk if possible
-			detail::base_list_chunk<T> end_free; // end of free chunks
+			node_type end_free;	       // end of free chunks
 			std::size_t free_elements = 0; // total number of free values (max count * 2)
+			std::size_t total_slots = 0;
 
 			Data(const Allocator& al) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 			  : Allocator(al)
 			  , size(0)
 			{
-				endNode()->prev = endNode()->next = endNode();
-				endNode()->prev_free = endNode()->next_free = endNode();
-				endFree()->prev = endFree()->next = endFree();
-				endNode()->used = full;
-				endNode()->start = endNode()->end = 0;
+				end.prev = end.next = &end;
+				end.prev_free = end.next_free = &end;
+				end_free.prev = end_free.next = &end_free;
+				end.used = full;
+				end.start = end.end = 0;
 			}
 
-			SEQ_ALWAYS_INLINE auto endNode() noexcept -> chunk_type* { return static_cast<chunk_type*>(&end); }
-			SEQ_ALWAYS_INLINE auto endNode() const noexcept -> const chunk_type* { return static_cast<const chunk_type*>(&end); }
-			SEQ_ALWAYS_INLINE auto endFree() noexcept -> chunk_type* { return static_cast<chunk_type*>(&end_free); }
-			SEQ_ALWAYS_INLINE auto endFree() const noexcept -> const chunk_type* { return static_cast<const chunk_type*>(&end_free); }
+			~Data() noexcept { clear(); }
 
-			chunk_type* pop_free() noexcept
+			static void destroy_node_elements(node_type* node) noexcept
+			{
+				// Destroy all valid (constructed) elements of a node
+				if (!std::is_trivially_destructible_v<T> && node->used) {
+					for (int i = node->start; i < node->end; ++i)
+						if (node->used & (1ULL << static_cast<std::uint64_t>(i)))
+							destroy_ptr(node->buffer() + i);
+				}
+				node->start = node->end = 0;
+				node->used = 0;
+			}
+
+			node_type* allocate_node()
+			{
+				auto* ret = allocate_from<chunk_type>(get_allocator());
+				total_slots += node_type::count;
+				return ret;
+			}
+			void deallocate_node(node_type* n) noexcept
+			{
+				deallocate_from(get_allocator(), n->derived());
+				total_slots -= node_type::count;
+			}
+
+			void clear() noexcept
+			{
+				// Remove free chunks
+				while (node_type* c = pop_free()) {
+					deallocate_node( c);
+				}
+
+				node_type* node = end.next;
+				while (node != &end) {
+					// Destroy node content only if needed
+					if (!std::is_trivially_destructible_v<T> && node->used)
+						destroy_node_elements(node);
+					// Deallocate chunk
+					node_type* next = node->next;
+					deallocate_node(node);
+					node = next;
+				}
+
+				end.prev = end.next = &end;
+				end.prev_free = end.next_free = &end;
+				end_free.prev = end_free.next = &end_free;
+			}
+
+			auto get_allocator() const -> Allocator { return static_cast<const Allocator&>(*this); }
+
+			auto pop_free() noexcept -> node_type*
 			{
 				// Remove from list of free chunks
 				auto node = end_free.next;
@@ -564,9 +626,9 @@ namespace seq
 				node->prev->next = node->next;
 				node->next->prev = node->prev;
 				free_elements -= count;
-				return static_cast<chunk_type*>(node);
+				return (node);
 			}
-			void add_free(chunk_type* node) noexcept
+			void add_free(node_type* node) noexcept
 			{
 				node->next = end_free.next;
 				node->prev = &end_free;
@@ -574,11 +636,11 @@ namespace seq
 				free_elements += count;
 			}
 
-			void shrink_to_fit(std::vector<chunk_type*>* vec_chunk = nullptr)
+			void shrink_to_fit(std::vector<node_type*>* vec_chunk = nullptr)
 			{
 				// Remove free chunks
-				while (chunk_type* c = pop_free()) {
-					deallocate_from(static_cast<Allocator&>(*this), c);
+				while (node_type* c = pop_free()) {
+					deallocate_node(c);
 				}
 
 				// Compact sequence by shifting left all values and remove holes produced by calls to erase()
@@ -587,50 +649,50 @@ namespace seq
 				if (vec_chunk) {
 					vec_chunk->clear();
 					// throw now and not later
-					vec_chunk->reserve(size / chunk_type::count);
+					vec_chunk->reserve((size + (node_type::count - 1)) / node_type::count);
 				}
 
 				// Does nothing if the sequence is alreay compact
 				if (size == 0) {
 					// fill vec_chunk
 					if (vec_chunk) {
-						chunk_type* chunk = static_cast<chunk_type*>(endNode()->next);
-						while (chunk != endNode()) {
+						node_type* chunk = end.next;
+						while (chunk != &end) {
 							vec_chunk->push_back(chunk);
-							chunk = static_cast<chunk_type*>(chunk->next);
+							chunk = (chunk->next);
 						}
 					}
 					return;
 				}
 
 				// Make sure dirty node is valid
-				chunk_type* dirty = static_cast<chunk_type*>(endNode()->next);
+				node_type* dirty = end.next;
 
 				// Push dirty to the right while nodes are full (already compact)
-				while (dirty != endNode() && dirty->used == full) {
+				while (dirty != &end && dirty->used == full) {
 					if (vec_chunk)
 						vec_chunk->push_back(dirty);
-					dirty->next_free = dirty->prev_free = endNode();
-					dirty = static_cast<chunk_type*>(dirty->next);
+					dirty->next_free = dirty->prev_free = &end;
+					dirty = (dirty->next);
 				}
 
 				// Now, start packing left
-				if (dirty != endNode()) {
+				if (dirty != &end) {
 
 					if (vec_chunk)
 						vec_chunk->push_back(dirty);
 
 					// iterator to the dirty node start
-					iterator it(dirty);
+					iterator it((dirty));
 					// iterator to end of sequence
-					iterator it_end(endNode());
+					iterator it_end(&end);
 					// current node
-					chunk_type* node = dirty;
+					node_type* node = dirty;
 					// current index in current node
 					std::uint64_t index = 0;
 
 					// remove from free list
-					node->next_free = node->prev_free = endNode();
+					node->next_free = node->prev_free = &end;
 
 					size_t saved_size = this->size;
 
@@ -663,9 +725,9 @@ namespace seq
 								node->end = count;
 								SEQ_ASSERT_DEBUG(node->size() == count, "");
 								// Remove from free nodes
-								node->next_free = node->prev_free = endNode();
-								node = static_cast<chunk_type*>(node->next);
-								if (vec_chunk && node != endNode())
+								node->next_free = node->prev_free = &end;
+								node = (node->next);
+								if (vec_chunk && node != &end)
 									vec_chunk->push_back(node);
 								index = 0;
 							}
@@ -693,18 +755,18 @@ namespace seq
 					// Update last node bounds
 					node->start = 0;
 					node->end = static_cast<int>(node->size());
-					chunk_type* last = node;
+					node_type* last = node;
 
 					// Deallocate next nodes (never throws)
-					chunk_type* _del = static_cast<chunk_type*>(node->next);
+					node_type* _del = node->next;
 					if (node->start == node->end) {
 						_del = node;
-						last = static_cast<chunk_type*>(node->prev);
+						last = (node->prev);
 					}
 
-					last->next = endNode();
-					endNode()->prev = last;
-					while (_del != endNode()) {
+					last->next = &end;
+					end.prev = last;
+					while (_del != &end) {
 						// Only call destructor if necessary
 						if (!std::is_trivially_destructible_v<T> && _del->used != 0) {
 							std::uint64_t id = 0;
@@ -718,45 +780,51 @@ namespace seq
 							}
 						}
 						// Next node
-						chunk_type* next = static_cast<chunk_type*>(_del->next);
-						deallocate_from(static_cast<Allocator&>(*this), _del);
+						node_type* next = (_del->next);
+						deallocate_node(_del);
 						_del = next;
 					}
 				}
 
 				// Get last chunk. If not full, set it as the first free node.
-				chunk_type* last = static_cast<chunk_type*>(endNode()->prev);
+				node_type* last = end.prev;
 				if (last->used == full)
-					endNode()->prev_free = endNode()->next_free = endNode();
+					end.prev_free = end.next_free = &end;
 				else
-					endNode()->prev_free = endNode()->next_free = last;
+					end.prev_free = end.next_free = last;
 			}
 
 			// Returns a const_iterator at given position
 			SEQ_ALWAYS_INLINE auto iterator_at(size_t pos) const noexcept -> const_iterator
 			{
-				if (pos < this->size / 2)
-					return std::next(const_iterator(static_cast<chunk_type*>(end.next), end.next->start) , static_cast<difference_type>(pos));
+				SEQ_ASSERT_DEBUG(pos <= size, "sequence::iterator_at: invalid position");
+				if (pos == size)
+					return const_iterator(&end, 0);
+				else if (pos < this->size / 2)
+					return std::next(const_iterator((end.next), end.next->start), static_cast<difference_type>(pos));
 				else
-					return std::prev(const_iterator(static_cast<chunk_type*>(&end), 0) , static_cast<difference_type>(this->size - pos));
+					return std::prev(const_iterator((&end), 0), static_cast<difference_type>(this->size - pos));
 			}
 			// Returns an iterator at given position
 			SEQ_ALWAYS_INLINE auto iterator_at(size_t pos) noexcept -> iterator
 			{
-				if (pos < this->size / 2)
-					return std::next(iterator(static_cast<chunk_type*>(end.next), end.next->start), static_cast<difference_type>(pos));
+				SEQ_ASSERT_DEBUG(pos <= size, "sequence::iterator_at: invalid position");
+				if (pos == size)
+					return iterator(&end, 0);
+				else if (pos < this->size / 2)
+					return std::next(iterator((end.next), end.next->start), static_cast<difference_type>(pos));
 				else
-					return std::prev(iterator(static_cast<chunk_type*>(&end), 0), static_cast<difference_type>(this->size - pos));
+					return std::prev(iterator((&end), 0), static_cast<difference_type>(this->size - pos));
 			}
 		};
 
 		// Allocate and build a chunk with uninitialized storage
-		auto make_chunk(chunk_type* prev, chunk_type* next, std::int64_t index = chunk_type::no_index) -> chunk_type*
+		auto make_chunk(node_type* prev, node_type* next) -> node_type*
 		{
 			// Allocate, might throw
-			chunk_type* ptr = d_data->pop_free();
-			if(!ptr)
-				ptr = allocate_from<chunk_type>(get_allocator());
+			node_type* ptr = d_data->pop_free();
+			if (!ptr)
+				ptr = d_data->allocate_node();
 
 			// Set the previous and next chunks
 			ptr->prev = prev;
@@ -774,51 +842,40 @@ namespace seq
 			return ptr;
 		}
 
-		void destroy_node(chunk_type* c)
-		{ 
-			if (d_data->free_elements < count * 2) 
+		void destroy_node(node_type* c)
+		{
+			if (d_data->free_elements < count * 2)
 				d_data->add_free(c);
 			else
-				deallocate_from(get_allocator(), c);
+				d_data->deallocate_node(c);
 		}
 
-		void remove_free_node(chunk_type* node) noexcept
+		void remove_free_node(node_type* node) noexcept
 		{
 			// Remove from list of free chunks
 			node->prev_free->next_free = node->next_free;
 			node->next_free->prev_free = node->prev_free;
 			node->next_free = node->prev_free = &d_data->end;
 		}
-		void add_free_node(chunk_type* node) noexcept
+		void add_free_node(node_type* node) noexcept
 		{
 			// Add to list of free node
 			node->next_free = d_data->end.next_free;
 			node->prev_free = &d_data->end;
 			node->next_free->prev_free = node->prev_free->next_free = node;
 		}
-		void remove_node(chunk_type* node) noexcept
+		void remove_node(node_type* node) noexcept
 		{
 			// Remove from list of free chunks
 			node->prev->next = node->next;
 			node->next->prev = node->prev;
 			node->next = node->prev = &d_data->end;
 		}
-		void destroy_node_elements(chunk_type* node) noexcept
-		{
-			// Destroy all valid (constructed) elements of a node
-			if (!std::is_trivially_destructible_v<T> && node->used) {
-				for (int i = node->start; i < node->end; ++i)
-					if (node->used & (1ULL << static_cast<std::uint64_t>(i)))
-						destroy_ptr(node->buffer() + i);
-			}
-			node->start = node->end = 0;
-			node->used = 0;
-		}
 
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_anywhere(Args&&... args) -> iterator
 		{
-			chunk_type* node = static_cast<chunk_type*>(d_data->end.next_free);
+			node_type* node = d_data->end.next_free;
 			std::uint64_t index = static_cast<std::uint64_t>(node->start != 0 ? node->start - 1 : (node->end != count ? node->end : static_cast<int>(node->firstFree())));
 			T* res = node->buffer() + index;
 			// Construct first as it might throw
@@ -843,32 +900,32 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto back_ptr() const noexcept -> const T*
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return &((static_cast<chunk_type*>(d_data->end.prev))->back());
+			return &(d_data->end.prev->back());
 		}
 		// Returns pointer to front value
 		SEQ_ALWAYS_INLINE auto front_ptr() const noexcept -> const T*
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return &((static_cast<chunk_type*>(d_data->end.next))->front());
+			return &(d_data->end.next->front());
 		}
 		// Returns pointer to back value
 		SEQ_ALWAYS_INLINE auto back_ptr() noexcept -> T*
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return &((static_cast<chunk_type*>(d_data->end.prev))->back());
+			return &(d_data->end.prev->back());
 		}
 		// Returns pointer to front value
 		SEQ_ALWAYS_INLINE auto front_ptr() noexcept -> T*
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return &((static_cast<chunk_type*>(d_data->end.next))->front());
+			return &(d_data->end.next->front());
 		}
 
 		// Assign  range for non random access iterator
 		template<class Iter, class Cat>
 		void assign_cat(Iter first, Iter last, Cat)
 		{
-			if(first == last) {
+			if (first == last) {
 				clear();
 				return;
 			}
@@ -892,11 +949,11 @@ namespace seq
 		template<class Iter>
 		void assign_cat(Iter first, Iter last, std::random_access_iterator_tag)
 		{
-			if(first == last) {
+			if (first == last) {
 				clear();
 				return;
 			}
-			if(first > last) 
+			if (first > last)
 				throw std::invalid_argument("sequence::assign: invalid iterator range");
 
 			size_type new_count = static_cast<size_t>(last - first);
@@ -907,10 +964,10 @@ namespace seq
 		// Insert back creating a new chunk
 		template<class... Args>
 		SEQ_NOINLINE(T&)
-		emplace_back_new_chunk(chunk_type* last, Args&&... args)
+		emplace_back_new_chunk(node_type* last, Args&&... args)
 		{
 			// Build chunk, might throw (which is fine)
-			last = make_chunk(last, static_cast<chunk_type*>(&d_data->end)); // specify chunk index if not dirty
+			last = make_chunk(last, &d_data->end); // specify chunk index if not dirty
 			try {
 				// construct object, might throw
 				construct_ptr(&last->front(), std::forward<Args>(args)...);
@@ -919,7 +976,7 @@ namespace seq
 				// delete chunk
 				remove_node(last);
 				remove_free_node(last);
-				destroy_node( last);
+				destroy_node(last);
 				throw;
 			}
 
@@ -932,10 +989,10 @@ namespace seq
 
 		template<class... Args>
 		SEQ_NOINLINE(T&)
-		emplace_front_new_chunk(chunk_type* first, Args&&... args)
+		emplace_front_new_chunk(node_type* first, Args&&... args)
 		{
 			// Build chunk, migh throw (which is fine)
-			first = make_chunk(static_cast<chunk_type*>(&d_data->end), first);
+			first = make_chunk(&d_data->end, first);
 			first->end = count;
 
 			try {
@@ -946,7 +1003,7 @@ namespace seq
 				// delete chunk
 				remove_node(first);
 				remove_free_node(first);
-				destroy_node( first);
+				destroy_node(first);
 				throw;
 			}
 
@@ -956,11 +1013,16 @@ namespace seq
 			return first->front();
 		}
 
+		SEQ_ALWAYS_INLINE void make_data_if_null()
+		{
+			if SEQ_UNLIKELY(!d_data)
+				d_data.reset(make_data(get_allocator()));
+		}
+
 		template<class Alloc, bool Align>
 		void import(const sequence<T, Alloc, Align>& other)
 		{
-			if (!d_data)
-				d_data = make_data(get_allocator());
+			make_data_if_null();
 
 			// Assign another sequence
 
@@ -997,15 +1059,15 @@ namespace seq
 				}
 
 				size_type diff = osize - size();
-				chunk_type* last = d_data->endNode();
+				node_type* last = &d_data->end;
 
 				// First, fill last chunk
 				if (size()) {
 
 					// Fill back last chunk
-					last = static_cast<chunk_type*>(d_data->endNode()->prev);
-					if (last->end != chunk_type::count) {
-						while (last->end != chunk_type::count && diff) {
+					last = d_data->end.prev;
+					if (last->end != node_type::count) {
+						while (last->end != node_type::count && diff) {
 							// Might throw, fine
 							construct_ptr(last->buffer() + last->end, *other_it);
 							last->used |= 1ULL << last->end;
@@ -1023,18 +1085,18 @@ namespace seq
 				}
 
 				// Add chunks
-				size_type chunks = diff / chunk_type::count;
-				size_type rem = diff % chunk_type::count;
+				size_type chunks = diff / node_type::count;
+				size_type rem = diff % node_type::count;
 
 				while (chunks--) {
-					last = make_chunk(last, static_cast<chunk_type*>(&d_data->end));
+					last = make_chunk(last, &d_data->end);
 					remove_free_node(last);
-					last->used = full;
 
 					try {
 						// Fill last chunk, might throw
-						while (last->end != chunk_type::count) {
+						while (last->end != node_type::count) {
 							construct_ptr(last->buffer() + last->end, *other_it);
+							last->used |= 1ull << (uint64_t)last->end;
 							++last->end;
 							++other_it;
 						}
@@ -1042,22 +1104,22 @@ namespace seq
 					catch (...) {
 						// In case of exception, remove full chunk
 						remove_node(last);
-						destroy_node_elements(last);
+						Data::destroy_node_elements(last);
 						destroy_node(last);
 						throw;
 					}
-					d_data->size += chunk_type::count;
+					d_data->size += node_type::count;
 				}
 				// Add remaining
 				if (rem) {
 					// Might throw, ok
-					last = make_chunk(last, static_cast<chunk_type*>(&d_data->end));
-					last->used = (1ULL << rem) - 1ULL;
+					last = make_chunk(last, &d_data->end);
 
 					try {
 						// Fill last chunk, might throw
 						while (last->end != static_cast<int>(rem)) {
 							construct_ptr(last->buffer() + last->end, *other_it);
+							last->used |= 1ull << (uint64_t)last->end;
 							++last->end;
 							++other_it;
 						}
@@ -1065,7 +1127,7 @@ namespace seq
 					catch (...) {
 						// In case of exception, remove full chunk
 						remove_node(last);
-						destroy_node_elements(last);
+						Data::destroy_node_elements(last);
 						remove_free_node(last);
 						destroy_node(last);
 						throw;
@@ -1079,22 +1141,22 @@ namespace seq
 				// Copy first part
 				std::copy(other.begin(), other.end(), begin());
 
-				chunk_type* last = static_cast<chunk_type*>(d_data->end.prev);
+				node_type* last = d_data->end.prev;
 				difference_type diff = static_cast<difference_type>(size() - osize);
 
 				// empty last chunk
 				while (last == d_data->end.prev && diff--)
 					pop_back();
 
-				while (diff > static_cast<difference_type>(chunk_type::count)) {
+				while (diff > static_cast<difference_type>(node_type::count)) {
 					// Destroy full chunks
-					last = static_cast<chunk_type*>(d_data->end.prev);
+					last = d_data->end.prev;
 					unsigned size = last->size();
 					diff -= size;
 					d_data->size -= size;
 					if (last->used != full)
 						remove_free_node(last);
-					destroy_node_elements(last);
+					Data::destroy_node_elements(last);
 					remove_node(last);
 					destroy_node(last);
 				}
@@ -1105,7 +1167,7 @@ namespace seq
 			}
 		}
 
-		void pop_front_remove_chunk(chunk_type* node) noexcept
+		void pop_front_remove_chunk(node_type* node) noexcept
 		{
 			// Remove chunk due to pop_front() call
 
@@ -1116,7 +1178,7 @@ namespace seq
 			destroy_node(node);
 		}
 
-		void pop_back_remove_chunk(chunk_type* node) noexcept
+		void pop_back_remove_chunk(node_type* node) noexcept
 		{
 			// Remove chunk due to pop_front() call
 
@@ -1127,7 +1189,7 @@ namespace seq
 			destroy_node(node);
 		}
 
-		void erase_remove_chunk(chunk_type* node) noexcept
+		void erase_remove_chunk(node_type* node) noexcept
 		{
 			// remove from list
 			remove_node(node);
@@ -1135,27 +1197,46 @@ namespace seq
 			remove_free_node(node);
 			destroy_node(node);
 		}
+
+		struct DataDestroy
+		{
+			void operator()(Data* d) const noexcept
+			{
+				if (!d)
+					return;
+
+				auto al = d->get_allocator();
+				d->~Data();
+				deallocate_from(al, d);
+			}
+		};
 
 		// Sequence object internal data
-		Data* d_data = nullptr;
+		std::unique_ptr<Data, DataDestroy> d_data;
 
-		auto make_data(const Allocator& al) -> Data* { return new (allocate_from<Data>(al)) Data(al); }
-		void destroy_data(Data* d)
+		auto make_data(const Allocator& al) -> Data*
 		{
-			if (d) {
-				d->~Data();
-				deallocate_from(get_allocator(), d);
+			Data* p = allocate_from<Data>(al);
+			try {
+				::new (static_cast<void*>(p)) Data(al);
+				return p;
+			}
+			catch (...) {
+				deallocate_from(al, p);
+				throw;
 			}
 		}
 
 		template<class... Args>
-		SEQ_NOINLINE(auto) emplace_back_iter_noinline(Args&&... args) -> iterator
+		SEQ_NOINLINE(auto)
+		emplace_back_iter_noinline(Args&&... args) -> iterator
 		{
 			T* back = &emplace_back(std::forward<Args>(args)...);
-			return iterator(static_cast<chunk_type*>(d_data->end.prev), static_cast<int>(back - (static_cast<chunk_type*>(d_data->end.prev))->buffer()));
+			return iterator(d_data->end.prev, static_cast<int>(back - (d_data->end.prev)->buffer()));
 		}
 
 		SEQ_ALWAYS_INLINE auto allocator_ref() noexcept -> Allocator& { return static_cast<Allocator&>(*this); }
+		SEQ_ALWAYS_INLINE auto allocator_ref() const noexcept -> const Allocator& { return static_cast<const Allocator&>(*this); }
 
 	public:
 		/// @brief Default constructor, initialize internal data
@@ -1205,10 +1286,9 @@ namespace seq
 		}
 		/// @brief Move constructor
 		sequence(sequence&& other) noexcept(std::is_nothrow_move_constructible_v<Allocator>)
-		  : Allocator(std::move(other.get_allocator()))
-		  , d_data(other.d_data)
+		  : Allocator(std::move(other.allocator_ref()))
+		  , d_data(std::move(other.d_data))
 		{
-			other.d_data = nullptr;
 		}
 		/// @brief  Allocator-extended move constructor. Using alloc as the allocator for the new container, moving the contents from other; if alloc != other.get_allocator(), this results in
 		/// an element-wise move.
@@ -1219,9 +1299,10 @@ namespace seq
 		{
 			if (alloc == other.get_allocator())
 				std::swap(other.d_data, d_data);
-			else {
-				resize(other.size());
-				std::move(other.begin(), other.end(), begin());
+			else if (!other.empty()) {
+				reserve(other.size());
+				for (auto& v : other)
+					emplace_back(std::move(v));
 			}
 		}
 		/// @brief Constructs the sequence with the contents of the initializer list \a lst
@@ -1229,7 +1310,8 @@ namespace seq
 		/// @param al allocator object
 		sequence(const std::initializer_list<T>& lst, const Allocator& al = Allocator())
 		  : sequence(lst.begin(), lst.end(), al)
-		{}
+		{
+		}
 		/// @brief Constructs the sequence with the contents of the range [first, last).
 		/// @tparam Iter iterator type
 		/// @param first begin iterator
@@ -1242,10 +1324,7 @@ namespace seq
 			assign(first, last);
 		}
 		/// @brief Destructor
-		~sequence() noexcept 
-		{ 
-			clear(); 
-		}
+		~sequence() noexcept = default;
 
 		/// @brief Copy operator, basic exception guarantee
 		/// @param other input sequence object
@@ -1259,19 +1338,21 @@ namespace seq
 
 			clear();
 			// Copy allocator, might throw
-			if constexpr (traits::propagate_on_container_copy_assignment::value )
+			if constexpr (traits::propagate_on_container_copy_assignment::value)
 				allocator_ref() = other.get_allocator();
 
-			if (other.size()) 
+			if (other.size())
 				import(other);
-			
+
 			return *this;
 		}
 
 		/// @brief Move assignment operator
 		/// @param other input sequence object
 		/// @return reference to this
-		auto operator=(sequence&& other) noexcept(std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value ? std::is_nothrow_move_assignable_v<Allocator> : std::allocator_traits<Allocator>::is_always_equal::value) -> sequence&
+		auto operator=(sequence&& other) noexcept(std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value ? std::is_nothrow_move_assignable_v<Allocator>
+																	  : std::allocator_traits<Allocator>::is_always_equal::value)
+		  -> sequence&
 		{
 			if (this == std::addressof(other))
 				return *this;
@@ -1286,18 +1367,18 @@ namespace seq
 				// Move allocator, might throw
 				static_cast<Allocator&>(*this) = std::move(static_cast<Allocator&>(other));
 
-				d_data = other.d_data;
-				other.d_data = nullptr;
+				d_data = std::move(other.d_data);
 			}
 			else {
-				if(get_allocator() == other.get_allocator()) {
+				if (get_allocator() == other.get_allocator()) {
 					clear();
-					d_data = other.d_data;
-					other.d_data = nullptr;
+					d_data = std::move(other.d_data);
 				}
 				else {
-					resize(other.size());
-					std::move(other.begin(), other.end(),begin());
+					clear();
+					reserve(other.size());
+					for (auto& v : other)
+						emplace_back(std::move(v));
 				}
 			}
 
@@ -1308,7 +1389,7 @@ namespace seq
 		/// @param other other sequence to swap with
 		/// All iterators and references remain valid.
 		/// An iterator holding the past-the-end value in this container will refer to the other container after the operation.
-		void swap(sequence& other) noexcept(std::is_nothrow_swappable_v<Allocator>)
+		void swap(sequence& other) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_swap::value || std::is_nothrow_swappable_v<Allocator>)
 		{
 			if (this != std::addressof(other)) {
 				using traits = std::allocator_traits<Allocator>;
@@ -1318,15 +1399,15 @@ namespace seq
 				}
 				else {
 					using std::swap;
-					swap(allocator_ref(), allocator_ref());
+					swap(allocator_ref(), other.allocator_ref());
 				}
 				std::swap(d_data, other.d_data);
 			}
 		}
 
 		/// @brief Returns the sequence internal data. Internal use only.
-		SEQ_ALWAYS_INLINE auto data() noexcept -> Data* { return d_data; }
-		SEQ_ALWAYS_INLINE auto data() const noexcept -> const Data* { return d_data; }
+		SEQ_ALWAYS_INLINE auto data() noexcept -> Data* { return d_data.get(); }
+		SEQ_ALWAYS_INLINE auto data() const noexcept -> const Data* { return d_data.get(); }
 
 		/// @brief Returns the full memory footprint of this sequence in bytes, excluding sizeof(*this).
 		auto memory_footprint() const noexcept -> std::size_t { return d_data ? sizeof(*d_data) + d_data->memory_footprint() : 0; }
@@ -1335,7 +1416,18 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> Allocator { return static_cast<const Allocator&>(*this); }
 
 		/// @brief Returns the sequence maximum size.
-		static auto max_size() noexcept -> size_type { return (sizeof(size_t) > 4) ? static_cast<size_t>(std::numeric_limits<std::int64_t>::max()) : std::numeric_limits<std::size_t>::max(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_type
+		{
+			using chunk_allocator = detail::RebindAllocator<Allocator, chunk_type>;
+			using chunk_traits = std::allocator_traits<chunk_allocator>;
+
+			const size_type max_chunks = chunk_traits::max_size(chunk_allocator{ allocator_ref() });
+			constexpr size_type numeric_max = std::numeric_limits<size_type>::max();
+
+			if (max_chunks > numeric_max / node_type::count)
+				return numeric_max;
+			return max_chunks * node_type::count;
+		}
 
 		/// @brief Returns thenumber of elements in this sequence.
 		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_type { return d_data ? d_data->size : 0; }
@@ -1343,34 +1435,34 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return !d_data || d_data->size == 0; }
 
 		/// @brief Returns the number of elements that the container has currently allocated space for.
-		SEQ_ALWAYS_INLINE auto capacity() const noexcept -> size_t { return d_data ? d_data->get_capacity() * 64ULL : 0; }
+		SEQ_ALWAYS_INLINE auto capacity() const noexcept -> size_t { return d_data ? d_data->total_slots : 0; }
 
 		/// @brief Returns the back sequence value.
 		SEQ_ALWAYS_INLINE auto back() const noexcept -> const T&
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return (static_cast<chunk_type*>(d_data->end.prev))->back();
+			return d_data->end.prev->back();
 		}
 
 		/// @brief Returns the back sequence value.
 		SEQ_ALWAYS_INLINE auto back() noexcept -> T&
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return (static_cast<chunk_type*>(d_data->end.prev))->back();
+			return d_data->end.prev->back();
 		}
 
 		/// @brief Returns the front sequence value.
 		SEQ_ALWAYS_INLINE auto front() const noexcept -> const T&
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return (static_cast<chunk_type*>(d_data->end.next))->front();
+			return d_data->end.next->front();
 		}
 
 		/// @brief Returns the front sequence value.
 		SEQ_ALWAYS_INLINE auto front() noexcept -> T&
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return (static_cast<chunk_type*>(d_data->end.next))->front();
+			return d_data->end.next->front();
 		}
 
 		/// @brief Clears the contents.
@@ -1382,24 +1474,8 @@ namespace seq
 			if (!d_data)
 				return;
 
-			// Remove free chunks
-			while (chunk_type* c = d_data->pop_free()) {
-				deallocate_from(get_allocator(), c);
-			}
-
-			chunk_type* node = static_cast<chunk_type*>(d_data->endNode()->next);
-			while (node != d_data->endNode()) {
-				// Destroy node content only if needed
-				if (!std::is_trivially_destructible_v<T> && node->used)
-					destroy_node_elements(node);
-				// Deallocate chunk
-				chunk_type* next = static_cast<chunk_type*>(node->next);
-				deallocate_from(get_allocator(), node);
-				node = next;
-			}
-
-			destroy_data(d_data);
-			d_data = nullptr;
+			d_data->clear();
+			d_data.reset();
 		}
 
 		/// @brief Constructs an element in-place at the end
@@ -1409,13 +1485,12 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_back(Args&&... args) -> T&
 		{
-			if SEQ_UNLIKELY (!d_data)
-				d_data = make_data(get_allocator());
+			make_data_if_null();
 
-			if(d_data->size == max_size())
+			if (d_data->size == max_size())
 				throw std::length_error("sequence::emplace_back");
 
-			chunk_type* last = static_cast<chunk_type*>(d_data->end.prev);
+			node_type* last = d_data->end.prev;
 			if SEQ_UNLIKELY (last->used & (1ULL << (count - 1ULL)))
 				return emplace_back_new_chunk(last, std::forward<Args>(args)...);
 
@@ -1437,7 +1512,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto emplace_back_iter(Args&&... args) -> iterator
 		{
 			T* back = &emplace_back(std::forward<Args>(args)...);
-			return iterator(static_cast<chunk_type*>(d_data->end.prev), static_cast<int>(back - (static_cast<chunk_type*>(d_data->end.prev))->buffer()));
+			return iterator(d_data->end.prev, static_cast<int>(back - (d_data->end.prev)->buffer()));
 		}
 
 		/// @brief Appends the given element value to the end of the sequence.
@@ -1456,13 +1531,12 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_front(Args&&... args) -> T&
 		{
-			if SEQ_UNLIKELY (!d_data)
-				d_data = make_data(get_allocator());
+			make_data_if_null();
 
-			if(d_data->size == max_size())
+			if (d_data->size == max_size())
 				throw std::length_error("sequence::emplace_front");
 
-			chunk_type* first = static_cast<chunk_type*>(d_data->end.next);
+			node_type* first = d_data->end.next;
 			if SEQ_UNLIKELY (first->used & 1)
 				return emplace_front_new_chunk(first, std::forward<Args>(args)...);
 			// Construct, might throw (which is ok)
@@ -1482,7 +1556,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto emplace_front_iter(Args&&... args) -> iterator
 		{
 			T* front = &emplace_front(std::forward<Args>(args)...);
-			return iterator(static_cast<chunk_type*>(d_data->end.next), static_cast<int>(front - (static_cast<chunk_type*>(d_data->end.next))->buffer()));
+			return iterator(d_data->end.next, static_cast<int>(front - (d_data->end.next)->buffer()));
 		}
 
 		/// @brief Prepends the given element value to the beginning of the sequence.
@@ -1508,10 +1582,9 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> iterator
 		{
-			if SEQ_UNLIKELY (!d_data)
-				d_data = make_data(get_allocator());
+			make_data_if_null();
 
-			if(d_data->size == max_size())
+			if (d_data->size == max_size())
 				throw std::length_error("sequence::emplace");
 
 			if SEQ_UNLIKELY (d_data->end.next_free == &d_data->end)
@@ -1559,11 +1632,10 @@ namespace seq
 				return;
 			}
 
-			if(new_size > max_size())
+			if (new_size > max_size())
 				throw std::length_error("sequence::resize");
 
-			if SEQ_UNLIKELY (!d_data)
-				d_data = make_data(get_allocator());
+			make_data_if_null();
 
 			if (new_size > size()) {
 
@@ -1571,15 +1643,15 @@ namespace seq
 
 				reserve(new_size);
 				size_type diff = new_size - size();
-				chunk_type* last = d_data->endNode();
+				node_type* last = &d_data->end;
 
 				// First, fill last chunk
 				if (size()) {
 
 					// Fill back last chunk
-					last = static_cast<chunk_type*>(d_data->endNode()->prev);
-					if (last->end != chunk_type::count) {
-						while (last->end != chunk_type::count && diff) {
+					last = d_data->end.prev;
+					if (last->end != node_type::count) {
+						while (last->end != node_type::count && diff) {
 							// Might throw, fine
 							helper.construct(last->buffer() + last->end);
 							last->used |= 1ULL << last->end;
@@ -1596,46 +1668,46 @@ namespace seq
 				}
 
 				// Add chunks
-				size_type chunks = diff / chunk_type::count;
-				size_type rem = diff % chunk_type::count;
+				size_type chunks = diff / node_type::count;
+				size_type rem = diff % node_type::count;
 
 				while (chunks--) {
-					last = make_chunk(last, static_cast<chunk_type*>(&d_data->end));
+					last = make_chunk(last, &d_data->end);
 					remove_free_node(last);
-					last->used = full;
 
 					try {
 						// Fill last chunk, might throw
-						while (last->end != chunk_type::count) {
+						while (last->end != node_type::count) {
 							helper.construct(last->buffer() + last->end);
+							last->used |= 1ull << (uint64_t)last->end;
 							++last->end;
 						}
 					}
 					catch (...) {
 						// In case of exception, remove full chunk
-						destroy_node_elements(last);
+						Data::destroy_node_elements(last);
 						remove_node(last);
 						destroy_node(last);
 						throw;
 					}
-					d_data->size += chunk_type::count;
+					d_data->size += node_type::count;
 				}
 				// Add remaining
 				if (rem) {
 					// Might throw, ok
-					last = make_chunk(last, static_cast<chunk_type*>(&d_data->end));
-					last->used = (1ULL << rem) - 1ULL;
+					last = make_chunk(last, &d_data->end);
 
 					try {
 						// Fill last chunk, might throw
 						while (last->end != static_cast<int>(rem)) {
 							helper.construct(last->buffer() + last->end);
+							last->used |= 1ull << (uint64_t)last->end;
 							++last->end;
 						}
 					}
 					catch (...) {
 						// In case of exception, remove full chunk
-						destroy_node_elements(last);
+						Data::destroy_node_elements(last);
 						remove_free_node(last);
 						remove_node(last);
 						destroy_node(last);
@@ -1645,22 +1717,22 @@ namespace seq
 				}
 			}
 			else {
-				chunk_type* last = static_cast<chunk_type*>(d_data->end.prev);
+				node_type* last = d_data->end.prev;
 				difference_type diff = static_cast<difference_type>(size() - new_size);
 
 				// empty last chunk
 				while (last == d_data->end.prev && diff--)
 					pop_back();
 
-				while (diff > static_cast<difference_type>(chunk_type::count)) {
+				while (diff > static_cast<difference_type>(node_type::count)) {
 					// destroy full chunks
-					last = static_cast<chunk_type*>(d_data->end.prev);
+					last = d_data->end.prev;
 					unsigned size = last->size();
 					diff -= size;
 					d_data->size -= size;
 					if (last->used != full)
 						remove_free_node(last);
-					destroy_node_elements(last);
+					Data::destroy_node_elements(last);
 					remove_node(last);
 					destroy_node(last);
 				}
@@ -1689,22 +1761,21 @@ namespace seq
 				return;
 			}
 
-			if(new_size > max_size())
+			if (new_size > max_size())
 				throw std::length_error("sequence::resize");
 
-			if SEQ_UNLIKELY (!d_data)
-				d_data = make_data(get_allocator());
+			make_data_if_null();
 
 			if (new_size > size()) {
 				auto helper = detail::resize_helper<T>(std::forward<const U&>(value)...);
 
 				reserve(new_size);
 				size_type diff = new_size - size();
-				chunk_type* front = d_data->endNode();
+				node_type* front = &d_data->end;
 				if (size()) {
 
 					// Fill front first chunk
-					front = static_cast<chunk_type*>(d_data->endNode()->next);
+					front = d_data->end.next;
 					if (front->start != 0) {
 						while (front->start != 0 && diff) {
 							// Might throw, ok
@@ -1723,48 +1794,48 @@ namespace seq
 				}
 
 				// Add chunks
-				size_type chunks = diff / chunk_type::count;
-				size_type rem = diff % chunk_type::count;
+				size_type chunks = diff / node_type::count;
+				size_type rem = diff % node_type::count;
 
 				while (chunks--) {
 					// Might throw, ok
-					front = make_chunk(static_cast<chunk_type*>(&d_data->end), front);
+					front = make_chunk(&d_data->end, front);
 					remove_free_node(front);
-					front->used = full;
-					front->start = front->end = chunk_type::count;
+					front->start = front->end = node_type::count;
 
 					try {
 						while (front->start != 0) {
 							// Might throw, ok
 							helper.construct(front->buffer() + front->start - 1);
 							--front->start;
+							front->used |= 1ull << (uint64_t)front->start;
 						}
 					}
 					catch (...) {
 						// In case of exception, remove front chunk
-						destroy_node_elements(front);
+						Data::destroy_node_elements(front);
 						remove_node(front);
 						destroy_node(front);
 						throw;
 					}
-					d_data->size += chunk_type::count;
+					d_data->size += node_type::count;
 				}
 				// Add remaining
 				if (rem) {
 					// might throw, ok
-					front = make_chunk(static_cast<chunk_type*>(&d_data->end), front);
-					front->start = front->end = chunk_type::count;
-					front->used = ((1ULL << rem) - 1ULL) << (chunk_type::count - rem);
-					size_type target = chunk_type::count - rem;
+					front = make_chunk(&d_data->end, front);
+					front->start = front->end = node_type::count;
+					size_type target = node_type::count - rem;
 					try {
 						while (front->start != static_cast<int>(target)) {
 							helper.construct(front->buffer() + front->start - 1);
 							--front->start;
+							front->used |= 1ull << (uint64_t)front->start;
 						}
 					}
 					catch (...) {
 						// In case of exception, remove front chunk
-						destroy_node_elements(front);
+						Data::destroy_node_elements(front);
 						remove_free_node(front);
 						remove_node(front);
 						destroy_node(front);
@@ -1775,22 +1846,22 @@ namespace seq
 			}
 			else {
 
-				chunk_type* front = static_cast<chunk_type*>(d_data->end.next);
+				node_type* front = d_data->end.next;
 				difference_type diff = static_cast<difference_type>(size() - new_size);
 
 				// empty last chunk
 				while (front == d_data->end.next && diff--)
 					pop_front();
 
-				while (diff > static_cast<difference_type>(chunk_type::count)) {
+				while (diff > static_cast<difference_type>(node_type::count)) {
 					// destroy full chunks
-					front = static_cast<chunk_type*>(d_data->end.next);
+					front = d_data->end.next;
 					unsigned size = front->size();
 					diff -= size;
 					d_data->size -= size;
 					if (front->used != full)
 						remove_free_node(front);
-					destroy_node_elements(front);
+					Data::destroy_node_elements(front);
 					remove_node(front);
 					destroy_node(front);
 				}
@@ -1809,18 +1880,14 @@ namespace seq
 		template<class Iter>
 		void assign(Iter first, Iter last)
 		{
-			if SEQ_UNLIKELY (!d_data)
-				d_data = make_data(get_allocator());
+			make_data_if_null();
 			assign_cat(first, last, typename std::iterator_traits<Iter>::iterator_category());
 		}
 
 		/// @brief Replaces the contents of the container.
 		/// @param lst	initializer list to copy the values from
 		/// Basic exception guarantee.
-		void assign(const std::initializer_list<T>& lst)
-		{
-			assign(lst.begin(), lst.end());
-		}
+		void assign(const std::initializer_list<T>& lst) { assign(lst.begin(), lst.end()); }
 
 		/// @brief Replaces the contents with new_size copies of value \a value
 		/// @param new_size the new size of the container
@@ -1828,11 +1895,10 @@ namespace seq
 		/// Basic exception guarantee.
 		void assign(size_type new_size, const T& value)
 		{
-			if(new_size > max_size())
+			if (new_size > max_size())
 				throw std::length_error("sequence::assign");
 
-			if SEQ_UNLIKELY (!d_data)
-				d_data = make_data(get_allocator());
+			make_data_if_null();
 			assign_cat(cvalue_iterator<T>(0, value), cvalue_iterator<T>(new_size, value), std::random_access_iterator_tag());
 		}
 
@@ -1856,16 +1922,14 @@ namespace seq
 		/// Basic exception guarantee.
 		void reserve(size_t new_cap)
 		{
-			if(new_cap > max_size())
+			if (new_cap > max_size())
 				throw std::length_error("sequence::reserve");
 
-			if SEQ_UNLIKELY (!d_data) 
-				d_data = make_data(get_allocator());
+			make_data_if_null();
 
 			if (new_cap > size()) {
-				size_t rem = new_cap - size();
-				while (d_data->free_elements < rem)
-					d_data->add_free(allocate_from<chunk_type>(get_allocator()));
+				while (d_data->total_slots < new_cap)
+					d_data->add_free(d_data->allocate_node());
 			}
 		}
 
@@ -1877,7 +1941,7 @@ namespace seq
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "pop_front() on an empty container");
 			T* ptr = front_ptr();
-			chunk_type* node = static_cast<chunk_type*>(d_data->end.next);
+			node_type* node = d_data->end.next;
 
 			if SEQ_UNLIKELY (node->used == full)
 				add_free_node(node);
@@ -1902,7 +1966,7 @@ namespace seq
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "pop_back() on an empty container");
 			T* ptr = back_ptr();
-			chunk_type* node = static_cast<chunk_type*>(d_data->end.prev);
+			node_type* node = d_data->end.prev;
 
 			if SEQ_UNLIKELY (node->used == full)
 				add_free_node(node);
@@ -1988,8 +2052,8 @@ namespace seq
 
 			iterator res = last;
 
-			chunk_type* node = first.node;
-			bool was_full = first.node->used == chunk_type::full;
+			node_type* node = first.node;
+			bool was_full = first.node->used == node_type::full;
 
 			while (first != last) {
 				destroy_ptr(&(*first));
@@ -2011,7 +2075,7 @@ namespace seq
 							add_free_node(node);
 					}
 					node = first.node;
-					was_full = first.node->used == chunk_type::full;
+					was_full = first.node->used == node_type::full;
 				}
 			}
 			if (node != &d_data->end) {
@@ -2049,10 +2113,10 @@ namespace seq
 
 			data d;
 			d.size = size();
-			d.end = d_data->endNode();
+			d.end = &d_data->end;
 			d_data->shrink_to_fit(&d.chunks);
 
-			iter begin(&d, static_cast<chunk_type*>(d_data->endNode()->next));
+			iter begin(&d, d_data->end.next);
 
 			std::vector<iter> iters(d.chunks.size() + 1);
 			iters[0] = begin;
@@ -2069,17 +2133,17 @@ namespace seq
 		}
 
 		/// @brief Returns an iterator to the first element of the sequence.
-		SEQ_ALWAYS_INLINE auto begin() noexcept -> iterator { return iterator(d_data ? static_cast<chunk_type*>(d_data->end.next) : nullptr); }
+		SEQ_ALWAYS_INLINE auto begin() noexcept -> iterator { return iterator(d_data ? d_data->end.next : nullptr); }
 		/// @brief Returns an iterator to the element following the last element of the sequence.
-		SEQ_ALWAYS_INLINE auto end() noexcept -> iterator { return iterator(d_data ? static_cast<chunk_type*>(&d_data->end) : nullptr, 0); }
+		SEQ_ALWAYS_INLINE auto end() noexcept -> iterator { return iterator(d_data ? &d_data->end : nullptr, 0); }
 		/// @brief Returns an iterator to the first element of the sequence.
-		SEQ_ALWAYS_INLINE auto begin() const noexcept -> const_iterator { return const_iterator(d_data ? static_cast<chunk_type*>(d_data->end.next) : nullptr); }
+		SEQ_ALWAYS_INLINE auto begin() const noexcept -> const_iterator { return const_iterator(d_data ? d_data->end.next : nullptr); }
 		/// @brief Returns an iterator to the element following the last element of the sequence.
-		SEQ_ALWAYS_INLINE auto end() const noexcept -> const_iterator { return const_iterator(d_data ? static_cast<chunk_type*>(&d_data->end) : nullptr, 0); }
+		SEQ_ALWAYS_INLINE auto end() const noexcept -> const_iterator { return const_iterator(d_data ? &d_data->end : nullptr, 0); }
 		/// @brief Returns an iterator to the first element of the sequence.
-		SEQ_ALWAYS_INLINE auto cbegin() const noexcept -> const_iterator { return const_iterator(d_data ? static_cast<chunk_type*>(d_data->end.next) : nullptr); }
+		SEQ_ALWAYS_INLINE auto cbegin() const noexcept -> const_iterator { return const_iterator(d_data ? d_data->end.next : nullptr); }
 		/// @brief Returns an iterator to the element following the last element of the sequence.
-		SEQ_ALWAYS_INLINE auto cend() const noexcept -> const_iterator { return const_iterator(d_data ? static_cast<chunk_type*>(&d_data->end) : nullptr, 0); }
+		SEQ_ALWAYS_INLINE auto cend() const noexcept -> const_iterator { return const_iterator(d_data ? &d_data->end : nullptr, 0); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		SEQ_ALWAYS_INLINE auto rbegin() noexcept -> reverse_iterator { return reverse_iterator(end()); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
