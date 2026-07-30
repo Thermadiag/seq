@@ -190,115 +190,115 @@ namespace seq
 			return *this;
 		}
 
-		SEQ_CONCURRENT_INLINE auto size() const noexcept -> size_t { return base_type::size(); }
-		SEQ_CONCURRENT_INLINE auto max_size() const noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
-		SEQ_CONCURRENT_INLINE auto empty() const noexcept -> bool { return size() == 0; }
-		SEQ_CONCURRENT_INLINE auto load_factor() const noexcept -> float { return base_type::load_factor(); }
-		SEQ_CONCURRENT_INLINE auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
-		SEQ_CONCURRENT_INLINE void max_load_factor(float f) { base_type::max_load_factor(f); }
-		SEQ_CONCURRENT_INLINE auto get_allocator() const -> allocator_type { return base_type::get_safe_allocator(); }
-		SEQ_CONCURRENT_INLINE auto hash_function() const -> hasher { return base_type::get_hash_function(); }
-		SEQ_CONCURRENT_INLINE auto key_eq() const -> key_equal { return base_type::get_key_eq(); }
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return base_type::size(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
+		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return size() == 0; }
+		SEQ_ALWAYS_INLINE auto load_factor() const noexcept -> float { return base_type::load_factor(); }
+		SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
+		SEQ_ALWAYS_INLINE void max_load_factor(float f) { base_type::max_load_factor(f); }
+		SEQ_ALWAYS_INLINE auto get_allocator() const -> allocator_type { return base_type::get_allocator(); }
+		SEQ_ALWAYS_INLINE auto hash_function() const -> hasher { return base_type::hash_function(); }
+		SEQ_ALWAYS_INLINE auto key_eq() const -> key_equal { return base_type::key_eq(); }
 
-		SEQ_CONCURRENT_INLINE void clear() { base_type::clear(); }
-		SEQ_CONCURRENT_INLINE void rehash(size_t n) { base_type::rehash((size_t)(n / (double)max_load_factor())); }
-		SEQ_CONCURRENT_INLINE void reserve(size_t size) { base_type::reserve(size); }
-		SEQ_CONCURRENT_INLINE void swap(concurrent_set& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
+		SEQ_ALWAYS_INLINE void clear() { base_type::clear(); }
+		SEQ_ALWAYS_INLINE void rehash(size_t n) { base_type::rehash((size_t)(n / (double)max_load_factor())); }
+		SEQ_ALWAYS_INLINE void reserve(size_t size) { base_type::reserve(size); }
+		SEQ_ALWAYS_INLINE void swap(concurrent_set& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
 
 		template<class F>
-		SEQ_CONCURRENT_INLINE bool visit_all(F&& fun)
+		SEQ_ALWAYS_INLINE bool visit_all(F&& fun)
 		{
 			return base_type::visit_all(std::forward<F>(fun));
 		}
 		template<class F>
-		SEQ_CONCURRENT_INLINE bool visit_all(F&& fun) const
+		SEQ_ALWAYS_INLINE bool visit_all(F&& fun) const
 		{
 			return base_type::visit_all(std::forward<F>(fun));
 		}
 		template<class F>
-		SEQ_CONCURRENT_INLINE bool cvisit_all(F&& fun) const
+		SEQ_ALWAYS_INLINE bool cvisit_all(F&& fun) const
 		{
 			return base_type::visit_all(std::forward<F>(fun));
 		}
 
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun)
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun)
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun) const
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type cvisit_all(ExecPolicy&& p, F&& fun) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type cvisit_all(ExecPolicy&& p, F&& fun) const
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 
 		template<class F>
-		SEQ_CONCURRENT_INLINE size_type visit(const Key& key, F&& fun) const
+		SEQ_ALWAYS_INLINE size_type visit(const Key& key, F&& fun) const
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 		template<class F>
-		SEQ_CONCURRENT_INLINE size_type cvisit(const Key& key, F&& fun) const
+		SEQ_ALWAYS_INLINE size_type cvisit(const Key& key, F&& fun) const
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 		template<class F>
-		SEQ_CONCURRENT_INLINE size_type visit(const Key& key, F&& fun)
+		SEQ_ALWAYS_INLINE size_type visit(const Key& key, F&& fun)
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 
 		template<class K, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type visit(const K& key, F&& fun) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type visit(const K& key, F&& fun) const
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 		template<class K, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type cvisit(const K& key, F&& fun) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type cvisit(const K& key, F&& fun) const
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 		template<class K, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type visit(const K& key, F&& fun)
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type visit(const K& key, F&& fun)
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE auto emplace(Args&&... args) -> bool
+		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> bool
 		{
 			return base_type::emplace(Policy::make(std::forward<Args>(args)...));
 		}
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE bool emplace_or_visit(Args&&... args)
+		SEQ_ALWAYS_INLINE bool emplace_or_visit(Args&&... args)
 		{
 			return detail::ApplyFLast(emplace_or_visit_impl{ this }, std::forward<Args>(args)...);
 		}
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE bool emplace_or_cvisit(Args&&... args)
+		SEQ_ALWAYS_INLINE bool emplace_or_cvisit(Args&&... args)
 		{
 			return detail::ApplyFLast(emplace_or_cvisit_impl{ this }, std::forward<Args>(args)...);
 		}
 
-		SEQ_CONCURRENT_INLINE auto insert(const value_type& value) -> bool { return base_type::emplace(value); }
+		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> bool { return base_type::emplace(value); }
 
-		SEQ_CONCURRENT_INLINE auto insert(value_type&& value) -> bool { return base_type::emplace(std::move(value)); }
+		SEQ_ALWAYS_INLINE auto insert(value_type&& value) -> bool { return base_type::emplace(std::move(value)); }
 
 		template<class InputIt>
-		SEQ_CONCURRENT_INLINE void insert(InputIt first, InputIt last)
+		SEQ_ALWAYS_INLINE void insert(InputIt first, InputIt last)
 		{
 			base_type::insert(first, last);
 		}
 
-		SEQ_CONCURRENT_INLINE void insert(std::initializer_list<value_type> ilist) { insert(ilist.begin(), ilist.end()); }
+		SEQ_ALWAYS_INLINE void insert(std::initializer_list<value_type> ilist) { insert(ilist.begin(), ilist.end()); }
 
 		template<class Ty, class F>
-		SEQ_CONCURRENT_INLINE bool insert_or_visit(Ty&& value, F&& f)
+		SEQ_ALWAYS_INLINE bool insert_or_visit(Ty&& value, F&& f)
 		{
 			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>(std::forward<F>(f), Policy::make(std::forward<Ty>(value)));
 		}
@@ -315,7 +315,7 @@ namespace seq
 		}
 
 		template<class Ty, class F>
-		SEQ_CONCURRENT_INLINE bool insert_or_cvisit(Ty&& value, F&& f)
+		SEQ_ALWAYS_INLINE bool insert_or_cvisit(Ty&& value, F&& f)
 		{
 			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { std::forward<F>(f)(v); }, Policy::make(std::forward<Ty>(value)));
 		}
@@ -331,53 +331,53 @@ namespace seq
 			this->insert_or_cvisit(ilist.begin(), ilist.end(), std::forward<F>(f));
 		}
 
-		SEQ_CONCURRENT_INLINE auto erase(const Key& key) -> size_type
+		SEQ_ALWAYS_INLINE auto erase(const Key& key) -> size_type
 		{
 			return base_type::erase(key, [](const auto&) { return true; });
 		}
 
 		template<class K>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type erase(const K& key)
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type erase(const K& key)
 		{
 			return base_type::erase(key, [](const auto&) { return true; });
 		}
 
 		template<class F>
-		SEQ_CONCURRENT_INLINE auto erase_if(const Key& key, F&& fun) -> size_type
+		SEQ_ALWAYS_INLINE auto erase_if(const Key& key, F&& fun) -> size_type
 		{
 			return base_type::erase(key, std::forward<F>(fun));
 		}
 
 		template<class K, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value && !detail::internal_is_execution_policy<K>, size_type>::type erase_if(const K& key, F&& fun)
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value && !detail::internal_is_execution_policy<K>, size_type>::type erase_if(const K& key, F&& fun)
 		{
 			return base_type::erase(key, std::forward<F>(fun));
 		}
 
 		template<class F>
-		SEQ_CONCURRENT_INLINE size_type erase_if(F&& fun)
+		SEQ_ALWAYS_INLINE size_type erase_if(F&& fun)
 		{
 			return base_type::erase_if(std::forward<F>(fun));
 		}
 
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type erase_if(ExecPolicy&& p, F&& fun)
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type erase_if(ExecPolicy&& p, F&& fun)
 		{
 			return base_type::erase_if(p, std::forward<F>(fun));
 		}
 
-		SEQ_CONCURRENT_INLINE auto count(const Key& key) const -> size_type { return base_type::count(key); }
+		SEQ_ALWAYS_INLINE auto count(const Key& key) const -> size_type { return base_type::count(key); }
 
 		template<class K>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type count(const K& key) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type count(const K& key) const
 		{
 			return base_type::count(key);
 		}
 
-		SEQ_CONCURRENT_INLINE bool contains(const Key& key) const { return base_type::contains(key); }
+		SEQ_ALWAYS_INLINE bool contains(const Key& key) const { return base_type::contains(key); }
 
 		template<class K>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type contains(const K& key) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type contains(const K& key) const
 		{
 			return base_type::contains(key);
 		}
@@ -606,140 +606,140 @@ namespace seq
 			return *this;
 		}
 
-		SEQ_CONCURRENT_INLINE auto size() const noexcept -> size_t { return base_type::size(); }
-		SEQ_CONCURRENT_INLINE auto max_size() const noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
-		SEQ_CONCURRENT_INLINE auto empty() const noexcept -> bool { return size() == 0; }
-		SEQ_CONCURRENT_INLINE auto load_factor() const noexcept -> float { return base_type::load_factor(); }
-		SEQ_CONCURRENT_INLINE auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
-		SEQ_CONCURRENT_INLINE void max_load_factor(float f) { base_type::max_load_factor(f); }
-		SEQ_CONCURRENT_INLINE auto get_allocator() const -> allocator_type { return base_type::get_safe_allocator(); }
-		SEQ_CONCURRENT_INLINE auto hash_function() const -> hasher { return base_type::get_hash_function(); }
-		SEQ_CONCURRENT_INLINE auto key_eq() const -> key_equal { return base_type::get_key_eq(); }
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return base_type::size(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
+		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return size() == 0; }
+		SEQ_ALWAYS_INLINE auto load_factor() const noexcept -> float { return base_type::load_factor(); }
+		SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
+		SEQ_ALWAYS_INLINE void max_load_factor(float f) { base_type::max_load_factor(f); }
+		SEQ_ALWAYS_INLINE auto get_allocator() const -> allocator_type { return base_type::get_allocator(); }
+		SEQ_ALWAYS_INLINE auto hash_function() const -> hasher { return base_type::hash_function(); }
+		SEQ_ALWAYS_INLINE auto key_eq() const -> key_equal { return base_type::key_eq(); }
 
-		SEQ_CONCURRENT_INLINE void clear() { base_type::clear(); }
-		SEQ_CONCURRENT_INLINE void rehash(size_t n) { base_type::rehash((size_t)(n / (double)max_load_factor())); }
-		SEQ_CONCURRENT_INLINE void reserve(size_t size) { base_type::reserve(size); }
-		SEQ_CONCURRENT_INLINE void swap(concurrent_map& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
+		SEQ_ALWAYS_INLINE void clear() { base_type::clear(); }
+		SEQ_ALWAYS_INLINE void rehash(size_t n) { base_type::rehash((size_t)(n / (double)max_load_factor())); }
+		SEQ_ALWAYS_INLINE void reserve(size_t size) { base_type::reserve(size); }
+		SEQ_ALWAYS_INLINE void swap(concurrent_map& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
 
 		template<class F>
-		SEQ_CONCURRENT_INLINE bool visit_all(F&& fun)
+		SEQ_ALWAYS_INLINE bool visit_all(F&& fun)
 		{
 			return base_type::visit_all(std::forward<F>(fun));
 		}
 		template<class F>
-		SEQ_CONCURRENT_INLINE bool visit_all(F&& fun) const
+		SEQ_ALWAYS_INLINE bool visit_all(F&& fun) const
 		{
 			return base_type::visit_all(std::forward<F>(fun));
 		}
 		template<class F>
-		SEQ_CONCURRENT_INLINE bool cvisit_all(F&& fun) const
+		SEQ_ALWAYS_INLINE bool cvisit_all(F&& fun) const
 		{
 			return base_type::visit_all(std::forward<F>(fun));
 		}
 
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun)
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun)
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun) const
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type cvisit_all(ExecPolicy&& p, F&& fun) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type cvisit_all(ExecPolicy&& p, F&& fun) const
 		{
 			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 
 		template<class F>
-		SEQ_CONCURRENT_INLINE size_type visit(const Key& key, F&& fun) const
+		SEQ_ALWAYS_INLINE size_type visit(const Key& key, F&& fun) const
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 		template<class F>
-		SEQ_CONCURRENT_INLINE size_type cvisit(const Key& key, F&& fun) const
+		SEQ_ALWAYS_INLINE size_type cvisit(const Key& key, F&& fun) const
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 		template<class F>
-		SEQ_CONCURRENT_INLINE size_type visit(const Key& key, F&& fun)
+		SEQ_ALWAYS_INLINE size_type visit(const Key& key, F&& fun)
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 
 		template<class K, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type visit(const K& key, F&& fun) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type visit(const K& key, F&& fun) const
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 		template<class K, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type cvisit(const K& key, F&& fun) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type cvisit(const K& key, F&& fun) const
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 		template<class K, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type visit(const K& key, F&& fun)
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type visit(const K& key, F&& fun)
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
 
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE auto emplace(Args&&... args) -> bool
+		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> bool
 		{
 			return base_type::emplace(Policy::make(std::forward<Args>(args)...));
 		}
 
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE bool emplace_or_visit(Args&&... args)
+		SEQ_ALWAYS_INLINE bool emplace_or_visit(Args&&... args)
 		{
 			return detail::ApplyFLast(emplace_or_visit_impl{ this }, std::forward<Args>(args)...);
 		}
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE bool emplace_or_cvisit(Args&&... args)
+		SEQ_ALWAYS_INLINE bool emplace_or_cvisit(Args&&... args)
 		{
 			return detail::ApplyFLast(emplace_or_cvisit_impl{ this }, std::forward<Args>(args)...);
 		}
 
-		SEQ_CONCURRENT_INLINE auto insert(const value_type& value) -> bool { return base_type::emplace(value); }
+		SEQ_ALWAYS_INLINE auto insert(const value_type& value) -> bool { return base_type::emplace(value); }
 
-		SEQ_CONCURRENT_INLINE auto insert(value_type&& value) -> bool { return base_type::emplace(std::move(value)); }
+		SEQ_ALWAYS_INLINE auto insert(value_type&& value) -> bool { return base_type::emplace(std::move(value)); }
 
 		template<class P, typename std::enable_if<std::is_constructible_v<value_type, P>, int>::type = 0>
-		SEQ_CONCURRENT_INLINE auto insert(P&& value) -> bool
+		SEQ_ALWAYS_INLINE auto insert(P&& value) -> bool
 		{
 			return base_type::emplace(Policy::make(std::forward<P>(value)));
 		}
 
 		template<class InputIt>
-		SEQ_CONCURRENT_INLINE void insert(InputIt first, InputIt last)
+		SEQ_ALWAYS_INLINE void insert(InputIt first, InputIt last)
 		{
 			base_type::insert(first, last);
 		}
 
-		SEQ_CONCURRENT_INLINE void insert(std::initializer_list<value_type> ilist) { insert(ilist.begin(), ilist.end()); }
+		SEQ_ALWAYS_INLINE void insert(std::initializer_list<value_type> ilist) { insert(ilist.begin(), ilist.end()); }
 
 		template<class M>
-		SEQ_CONCURRENT_INLINE bool insert_or_assign(key_type const& k, M&& obj)
+		SEQ_ALWAYS_INLINE bool insert_or_assign(key_type const& k, M&& obj)
 		{
 			return base_type::template emplace_policy<detail::TryInsertConcurrentPolicy>([&](auto& p) { p.second = std::forward<M>(obj); }, k, std::forward<M>(obj));
 		}
 
 		template<class M>
-		SEQ_CONCURRENT_INLINE bool insert_or_assign(key_type&& k, M&& obj)
+		SEQ_ALWAYS_INLINE bool insert_or_assign(key_type&& k, M&& obj)
 		{
 			return base_type::template emplace_policy<detail::TryInsertConcurrentPolicy>([&](auto& p) { p.second = std::forward<M>(obj); }, std::move(k), std::forward<M>(obj));
 		}
 
 		template<class K, class M>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type insert_or_assign(K&& k, M&& obj)
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type insert_or_assign(K&& k, M&& obj)
 		{
 			return base_type::template emplace_policy<detail::TryInsertConcurrentPolicy>([&](auto& p) { p.second = std::forward<M>(obj); }, std::forward<K>(k), std::forward<M>(obj));
 		}
 
 		template<class Ty, class F>
-		SEQ_CONCURRENT_INLINE bool insert_or_visit(Ty&& value, F&& f)
+		SEQ_ALWAYS_INLINE bool insert_or_visit(Ty&& value, F&& f)
 		{
 			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>(std::forward<F>(f), Policy::make(std::forward<Ty>(value)));
 		}
@@ -756,7 +756,7 @@ namespace seq
 		}
 
 		template<class Ty, class F>
-		SEQ_CONCURRENT_INLINE bool insert_or_cvisit(Ty&& value, F&& f)
+		SEQ_ALWAYS_INLINE bool insert_or_cvisit(Ty&& value, F&& f)
 		{
 			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { std::forward<F>(f)(v); }, Policy::make(std::forward<Ty>(value)));
 		}
@@ -773,106 +773,106 @@ namespace seq
 		}
 
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE bool try_emplace(key_type const& k, Args&&... args)
+		SEQ_ALWAYS_INLINE bool try_emplace(key_type const& k, Args&&... args)
 		{
 			return base_type::template emplace_policy<detail::TryInsertConcurrentPolicy>([](auto&) {}, k, std::forward<Args>(args)...);
 		}
 
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE bool try_emplace(key_type&& k, Args&&... args)
+		SEQ_ALWAYS_INLINE bool try_emplace(key_type&& k, Args&&... args)
 		{
 			return base_type::template emplace_policy<detail::TryInsertConcurrentPolicy>([](auto&) {}, std::move(k), std::forward<Args>(args)...);
 		}
 
 		template<class K, class... Args>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type try_emplace(K&& k, Args&&... args)
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type try_emplace(K&& k, Args&&... args)
 		{
 			return base_type::template emplace_policy<detail::TryInsertConcurrentPolicy>([](auto&) {}, std::forward<K>(k), std::forward<Args>(args)...);
 		}
 
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE bool try_emplace_or_visit(key_type const& k, Args&&... args)
+		SEQ_ALWAYS_INLINE bool try_emplace_or_visit(key_type const& k, Args&&... args)
 		{
 			return detail::ApplyFLast(try_emplace_or_visit_impl{ this }, k, std::forward<Args>(args)...);
 		}
 
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE bool try_emplace_or_visit(key_type&& k, Args&&... args)
+		SEQ_ALWAYS_INLINE bool try_emplace_or_visit(key_type&& k, Args&&... args)
 		{
 			return detail::ApplyFLast(try_emplace_or_visit_impl{ this }, std::move(k), std::forward<Args>(args)...);
 		}
 
 		template<class K, class... Args>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type try_emplace_or_visit(K&& k, Args&&... args)
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type try_emplace_or_visit(K&& k, Args&&... args)
 		{
 			return detail::ApplyFLast(try_emplace_or_visit_impl{ this }, std::forward<K>(k), std::forward<Args>(args)...);
 		}
 
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE bool try_emplace_or_cvisit(key_type const& k, Args&&... args)
+		SEQ_ALWAYS_INLINE bool try_emplace_or_cvisit(key_type const& k, Args&&... args)
 		{
 			return detail::ApplyFLast(try_emplace_or_cvisit_impl{ this }, k, std::forward<Args>(args)...);
 		}
 
 		template<class... Args>
-		SEQ_CONCURRENT_INLINE bool try_emplace_or_cvisit(key_type&& k, Args&&... args)
+		SEQ_ALWAYS_INLINE bool try_emplace_or_cvisit(key_type&& k, Args&&... args)
 		{
 			return detail::ApplyFLast(try_emplace_or_cvisit_impl{ this }, std::move(k), std::forward<Args>(args)...);
 		}
 
 		template<class K, class... Args>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type try_emplace_or_cvisit(K&& k, Args&&... args)
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type try_emplace_or_cvisit(K&& k, Args&&... args)
 		{
 			return detail::ApplyFLast(try_emplace_or_cvisit_impl{ this }, std::forward<K>(k), std::forward<Args>(args)...);
 		}
 
-		SEQ_CONCURRENT_INLINE auto erase(const Key& key) -> size_type
+		SEQ_ALWAYS_INLINE auto erase(const Key& key) -> size_type
 		{
 			return base_type::erase(key, [](const auto&) { return true; });
 		}
 
 		template<class K>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type erase(const K& key)
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type erase(const K& key)
 		{
 			return base_type::erase(key, [](const auto&) { return true; });
 		}
 
 		template<class F>
-		SEQ_CONCURRENT_INLINE auto erase_if(const Key& key, F&& fun) -> size_type
+		SEQ_ALWAYS_INLINE auto erase_if(const Key& key, F&& fun) -> size_type
 		{
 			return base_type::erase(key, std::forward<F>(fun));
 		}
 
 		template<class K, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value && !detail::internal_is_execution_policy<K>, size_type>::type erase_if(const K& key, F&& fun)
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value && !detail::internal_is_execution_policy<K>, size_type>::type erase_if(const K& key, F&& fun)
 		{
 			return base_type::erase(key, std::forward<F>(fun));
 		}
 
 		template<class F>
-		SEQ_CONCURRENT_INLINE size_type erase_if(F&& fun)
+		SEQ_ALWAYS_INLINE size_type erase_if(F&& fun)
 		{
 			return base_type::erase_if(std::forward<F>(fun));
 		}
 
 		template<class ExecPolicy, class F>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type erase_if(ExecPolicy&& p, F&& fun)
+		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type erase_if(ExecPolicy&& p, F&& fun)
 		{
 			return base_type::erase_if(p, std::forward<F>(fun));
 		}
 
-		SEQ_CONCURRENT_INLINE auto count(const Key& key) const -> size_type { return base_type::count(key); }
+		SEQ_ALWAYS_INLINE auto count(const Key& key) const -> size_type { return base_type::count(key); }
 
 		template<class K>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type count(const K& key) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type count(const K& key) const
 		{
 			return base_type::count(key);
 		}
 
-		SEQ_CONCURRENT_INLINE bool contains(const Key& key) const { return base_type::contains(key); }
+		SEQ_ALWAYS_INLINE bool contains(const Key& key) const { return base_type::contains(key); }
 
 		template<class K>
-		SEQ_CONCURRENT_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type contains(const K& key) const
+		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, bool>::type contains(const K& key) const
 		{
 			return base_type::contains(key);
 		}
