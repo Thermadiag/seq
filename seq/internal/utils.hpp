@@ -153,8 +153,6 @@ namespace seq
 		new (p) T(std::forward<Args>(args)...);
 	}
 
-	
-
 	namespace detail
 	{
 		// Extract the key on a std::pair or a Key value
@@ -280,7 +278,7 @@ namespace seq
 			void construct(T* dst) const noexcept(std::is_nothrow_copy_constructible_v<T>) { construct_ptr(dst, val); }
 		};
 		template<class T>
-		struct ResizeHelper<T,false>
+		struct ResizeHelper<T, false>
 		{
 			template<class... U>
 			ResizeHelper(const U&... vals)
@@ -293,7 +291,7 @@ namespace seq
 		struct ResizeHelperDirect
 		{
 			const T& val;
-			void construct(T* dst) const noexcept(std::is_nothrow_default_constructible_v<T>) { construct_ptr(dst,val); }
+			void construct(T* dst) const noexcept(std::is_nothrow_default_constructible_v<T>) { construct_ptr(dst, val); }
 		};
 		// Returns a helper class used by
 		// containers providing both members
@@ -305,15 +303,96 @@ namespace seq
 			return ResizeHelper < T, sizeof...(U) == 1 > (std::forward<const U&>(vals)...);
 		}
 		template<class T>
-		auto resize_helper(const T & v)
+		auto resize_helper(const T& v)
 		{
 			return ResizeHelperDirect<T>{ v };
 		}
 
 		template<class Allocator, class T>
 		using RebindAllocator = typename std::allocator_traits<Allocator>::template rebind_alloc<T>;
-	}
 
+		/// @brief Wrapper class for map bidirectional iterator.
+		/// @tparam Iter base iterator type
+		/// @tparam Value value type, usually std::pair<const Key, MappedType>
+		/// 
+		/// This wrapper use an ugly reinterpret_cast to return std::pair<const Key, MappedType> instead of std::pair<Key, MappedType>.
+		/// 
+		template<class Iter, class Value>
+		class MadBidirIterator
+		{
+			template<class OT, class V>
+			friend class MadBidirIterator;
+
+			Iter d_iter;
+
+		public:
+			static constexpr bool IsConst = std::is_const_v<std::remove_reference_t<typename Iter::reference>>;
+
+			using value_type = Value;
+			using iterator_category = std::bidirectional_iterator_tag;
+			using size_type = typename Iter::size_type;
+			using difference_type = typename Iter::difference_type;
+			using pointer = std::conditional_t<IsConst, const Value*, Value*>;
+			using reference = std::conditional_t<IsConst, const Value&, Value&>;
+			using const_pointer = const Value*;
+			using const_reference = const Value&;
+
+			const Iter& iter() const noexcept { return d_iter; }
+
+			MadBidirIterator() noexcept = default;
+			MadBidirIterator(Iter it) noexcept
+			  : d_iter(it)
+			{
+			}
+			template<class OT, std::enable_if_t<IsConst && !MadBidirIterator<OT, Value>::IsConst && std::is_constructible_v<Iter, OT>, int> = 0>
+			MadBidirIterator(const MadBidirIterator<OT, Value>& other) noexcept
+			  : d_iter(other.d_iter)
+			{
+				// Can convert from non-const to const, but not the opposite
+				static_assert(!MadBidirIterator<OT, Value>::IsConst);
+			}
+			MadBidirIterator(const MadBidirIterator&) noexcept = default;
+			MadBidirIterator& operator=(const MadBidirIterator&) noexcept = default;
+
+			MadBidirIterator& operator++() noexcept
+			{
+				++d_iter;
+				return *this;
+			}
+			MadBidirIterator operator++(int) noexcept
+			{
+				MadBidirIterator tmp(*this);
+				++*this;
+				return tmp;
+			}
+			MadBidirIterator& operator--() noexcept
+			{
+				--d_iter;
+				return *this;
+			}
+			MadBidirIterator operator--(int) noexcept
+			{
+				MadBidirIterator tmp(*this);
+				--*this;
+				return tmp;
+			}
+
+			reference operator*() const noexcept { return reinterpret_cast<reference>(*d_iter); }
+			pointer operator->() const noexcept { return reinterpret_cast<pointer>(d_iter.operator->()); }
+
+			template<class OT>
+			bool operator==(const MadBidirIterator<OT, Value>& r) const noexcept
+			{
+				return d_iter == r.d_iter;
+			}
+			template<class OT>
+			bool operator!=(const MadBidirIterator<OT, Value>& r) const noexcept
+			{
+				return d_iter != r.d_iter;
+			}
+		};
+
+	}
 
 	/// @brief Allocate count elements of type T using provided allocator
 	template<class T, class Alloc>
@@ -338,9 +417,6 @@ namespace seq
 		using traits = std::allocator_traits<rebind>;
 		return traits::max_size(rebind{ al });
 	}
-	
-
-
 
 	/// @brief Copy allocator for container copy constructor
 	template<class Allocator>
@@ -396,9 +472,6 @@ namespace seq
 	{
 		static constexpr bool value = std::allocator_traits<Allocator>::propagate_on_container_move_assignment::type && !is_always_equal<Allocator>::value;
 	};
-
-
-
 
 } // end namespace seq
 

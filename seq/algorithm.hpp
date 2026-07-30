@@ -35,23 +35,17 @@ namespace seq
 	{
 		// Hash function working on pointer
 		template<class Key, class Hash>
-		struct HashPtr : Hash
+		struct HashPtr 
 		{
-			HashPtr(const Hash& h = Hash())
-			  : Hash(h)
-			{
-			}
-			size_t operator()(const Key* k) const noexcept { return Hash::operator()(*k); }
+			const Hash* h;
+			size_t operator()(const Key* k) const noexcept { return (*h)(*k); }
 		};
 		// Comparison function working on pointer
 		template<class Key, class Equal>
-		struct EqualPtr : Equal
+		struct EqualPtr 
 		{
-			EqualPtr(const Equal& eq = Equal())
-			  : Equal(eq)
-			{
-			}
-			size_t operator()(const Key* l, const Key* r) const noexcept { return Equal::operator()(*l, *r); }
+			const Equal* eq;
+			bool operator()(const Key* l, const Key* r) const noexcept { return (*eq)(*l, *r); }
 		};
 	}
 
@@ -84,7 +78,7 @@ namespace seq
 		if (first == last)
 			return last;
 
-		TableType set{ HashFn(h), EqualFn(eq) };
+		TableType set{ HashFn{ &h }, EqualFn{ &eq } };
 
 		if constexpr (is_random_access<Iter>::value)
 			set.reserve(std::distance(first, last));

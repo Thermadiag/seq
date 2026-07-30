@@ -43,6 +43,8 @@ namespace seq
 		  : private Hash
 		  , private Equal
 		{
+			static_assert(std::is_nothrow_swappable_v<Hash>);
+			static_assert(std::is_nothrow_swappable_v<Equal>);
 			
 			HashEqual() {}
 			HashEqual(const Hash& h, const Equal& e)

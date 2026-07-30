@@ -209,7 +209,7 @@ inline void test_ordered_set_logic(const Alloc & al = Alloc())
 
 		uset.insert(v.begin(), v.end());
 		for (auto it = v.begin(); it != v.end(); ++it)
-			set.sequence().insert(*it);
+			set./* sequence().*/insert(*it);
 		set.rehash();
 		SEQ_TEST(hash_set_equals(set, uset));
 
@@ -472,7 +472,7 @@ inline void test_ordered_map_logic()
 
 		uset.insert(v.begin(), v.end());
 		for (auto it = v.begin(); it != v.end(); ++it)
-			set.sequence().insert(*it);
+			set./* sequence().*/insert(*it);
 		set.rehash();
 		SEQ_TEST(hash_map_equals(set, uset));
 
