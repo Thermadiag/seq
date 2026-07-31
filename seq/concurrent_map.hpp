@@ -40,7 +40,7 @@ namespace seq
 		using extract_key = detail::ExtractKey<Key, Key>;
 
 		template<class K, class H, class E>
-		using is_transparent = std::integral_constant<bool, !std::is_same_v<K, void> && has_is_transparent<H>::value && has_is_transparent<E>::value>;
+		using is_transparent = std::integral_constant<bool, !std::is_same_v<K, void> && has_is_transparent<H>::value && has_is_transparent<E>::value && std::is_invocable_v<const H&, const K&>>;
 
 		template<class K, class H, class KE, class A, unsigned S>
 		friend bool operator==(concurrent_set<K, H, KE, A, S> const& lhs, concurrent_set<K, H, KE, A, S> const& rhs);
@@ -63,7 +63,7 @@ namespace seq
 			template<class F, class... A>
 			bool operator()(F&& f, A&&... a)
 			{
-				return _this->base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { std::forward<F>(f)(v); }, std::forward<A>(a)...);
+				return _this->base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { f(v); }, std::forward<A>(a)...);
 			}
 		};
 
@@ -77,9 +77,9 @@ namespace seq
 		using difference_type = std::ptrdiff_t;
 		using hasher = Hash;
 		using key_equal = Equal;
-		using reference = value_type&;
+		using reference = const value_type&;
 		using const_reference = const value_type&;
-		using pointer = typename std::allocator_traits<Allocator>::pointer;
+		using pointer = typename std::allocator_traits<Allocator>::const_pointer;
 		using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
 
 		concurrent_set()
@@ -184,14 +184,14 @@ namespace seq
 			static_cast<base_type&>(*this) = static_cast<const base_type&>(other);
 			return *this;
 		}
-		auto operator=(concurrent_set&& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) -> concurrent_set&
+		auto operator=(concurrent_set&& other) noexcept(std::is_nothrow_move_assignable_v<base_type>) -> concurrent_set&
 		{
-			base_type::swap(other);
+			static_cast<base_type&>(*this) = std::move(static_cast<base_type&>(other));
 			return *this;
 		}
 
 		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return base_type::size(); }
-		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return base_type::max_size(); }
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return size() == 0; }
 		SEQ_ALWAYS_INLINE auto load_factor() const noexcept -> float { return base_type::load_factor(); }
 		SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
@@ -201,7 +201,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto key_eq() const -> key_equal { return base_type::key_eq(); }
 
 		SEQ_ALWAYS_INLINE void clear() { base_type::clear(); }
-		SEQ_ALWAYS_INLINE void rehash(size_t n) { base_type::rehash((size_t)(n / (double)max_load_factor())); }
+		SEQ_ALWAYS_INLINE void rehash(size_t n) { base_type::rehash(n); }
 		SEQ_ALWAYS_INLINE void reserve(size_t size) { base_type::reserve(size); }
 		SEQ_ALWAYS_INLINE void swap(concurrent_set& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
 
@@ -303,10 +303,11 @@ namespace seq
 			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>(std::forward<F>(f), Policy::make(std::forward<Ty>(value)));
 		}
 		template<class InputIterator, class F>
-		void insert_or_visit(InputIterator first, InputIterator last, F&& f)
+		void insert_or_visit(InputIterator first, InputIterator last, F&& fun)
 		{
+			auto& f = fun;
 			for (; first != last; ++first)
-				insert_or_visit(*first, std::forward<F>(f));
+				insert_or_visit(*first, f);
 		}
 		template<class F>
 		void insert_or_visit(std::initializer_list<value_type> ilist, F&& f)
@@ -317,13 +318,14 @@ namespace seq
 		template<class Ty, class F>
 		SEQ_ALWAYS_INLINE bool insert_or_cvisit(Ty&& value, F&& f)
 		{
-			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { std::forward<F>(f)(v); }, Policy::make(std::forward<Ty>(value)));
+			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { (f)(v); }, Policy::make(std::forward<Ty>(value)));
 		}
 		template<class InputIterator, class F>
-		void insert_or_cvisit(InputIterator first, InputIterator last, F&& f)
+		void insert_or_cvisit(InputIterator first, InputIterator last, F&& fun)
 		{
+			auto& f = fun;
 			for (; first != last; ++first)
-				insert_or_cvisit(*first, std::forward<F>(f));
+				insert_or_cvisit(*first, f);
 		}
 		template<class F>
 		void insert_or_cvisit(std::initializer_list<value_type> ilist, F&& f)
@@ -385,7 +387,6 @@ namespace seq
 		template<class H2, class P2>
 		size_type merge(concurrent_set<Key, H2, P2, Allocator, Shards>& x)
 		{
-			SEQ_ASSERT_DEBUG(get_allocator() == x.get_allocator(), "");
 			return base_type::merge(x);
 		}
 
@@ -398,7 +399,6 @@ namespace seq
 		template<class ExecPolicy, class H2, class P2>
 		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type merge(ExecPolicy&& p, concurrent_set<Key, H2, P2, Allocator, Shards>& x)
 		{
-			SEQ_ASSERT_DEBUG(get_allocator() == x.get_allocator(), "");
 			return base_type::merge(std::forward<ExecPolicy>(p), x);
 		}
 
@@ -424,7 +424,7 @@ namespace seq
 	template<class Key, class Hash, class Equal, class Allocator, unsigned Shards, class Predicate>
 	typename concurrent_set<Key, Hash, Equal, Allocator, Shards>::size_type erase_if(concurrent_set<Key, Hash, Equal, Allocator, Shards>& set, Predicate pred)
 	{
-		set.erase_if(pred);
+		return set.erase_if(pred);
 	}
 
 	template<class Key, class T, class Hash = hasher<Key>, class Equal = std::equal_to<>, class Allocator = std::allocator<std::pair<Key, T>>, unsigned Shards = seq::medium_concurrency>
@@ -436,7 +436,7 @@ namespace seq
 		using extract_key = detail::ExtractKey<Key, std::pair<Key, T>>;
 
 		template<class K, class H, class E>
-		using is_transparent = std::integral_constant<bool, !std::is_same_v<K, void> && has_is_transparent<H>::value && has_is_transparent<E>::value>;
+		using is_transparent = std::integral_constant<bool, !std::is_same_v<K, void> && has_is_transparent<H>::value && has_is_transparent<E>::value && std::is_invocable_v<const H&, const K&>>;
 
 		template<class K, class V, class H, class KE, class A, unsigned S>
 		friend bool operator==(concurrent_map<K, V, H, KE, A, S> const& lhs, concurrent_map<K, V, H, KE, A, S> const& rhs);
@@ -459,7 +459,7 @@ namespace seq
 			template<class F, class... A>
 			bool operator()(F&& f, A&&... a)
 			{
-				return _this->base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { std::forward<F>(f)(v); }, std::forward<A>(a)...);
+				return _this->base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) {(f)(v); }, std::forward<A>(a)...);
 			}
 		};
 
@@ -478,7 +478,7 @@ namespace seq
 			template<class F, class... A>
 			bool operator()(F&& f, A&&... a)
 			{
-				return _this->base_type::template emplace_policy<detail::TryInsertConcurrentPolicy>([&](const auto& v) { std::forward<F>(f)(v); }, std::forward<A>(a)...);
+				return _this->base_type::template emplace_policy<detail::TryInsertConcurrentPolicy>([&](const auto& v) { f(v); }, std::forward<A>(a)...);
 			}
 		};
 
@@ -600,9 +600,9 @@ namespace seq
 			static_cast<base_type&>(*this) = static_cast<const base_type&>(other);
 			return *this;
 		}
-		auto operator=(concurrent_map&& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) -> concurrent_map&
+		auto operator=(concurrent_map&& other) noexcept(std::is_nothrow_move_assignable_v<base_type>) -> concurrent_map&
 		{
-			base_type::swap(other);
+			static_cast<base_type&>(*this) = std::move(static_cast<base_type&>(other));
 			return *this;
 		}
 
@@ -617,7 +617,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto key_eq() const -> key_equal { return base_type::key_eq(); }
 
 		SEQ_ALWAYS_INLINE void clear() { base_type::clear(); }
-		SEQ_ALWAYS_INLINE void rehash(size_t n) { base_type::rehash((size_t)(n / (double)max_load_factor())); }
+		SEQ_ALWAYS_INLINE void rehash(size_t n) { base_type::rehash(n); }
 		SEQ_ALWAYS_INLINE void reserve(size_t size) { base_type::reserve(size); }
 		SEQ_ALWAYS_INLINE void swap(concurrent_map& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
 
@@ -744,10 +744,11 @@ namespace seq
 			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>(std::forward<F>(f), Policy::make(std::forward<Ty>(value)));
 		}
 		template<class InputIterator, class F>
-		void insert_or_visit(InputIterator first, InputIterator last, F&& f)
+		void insert_or_visit(InputIterator first, InputIterator last, F&& fun)
 		{
+			auto& f = fun;
 			for (; first != last; ++first)
-				insert_or_visit(*first, std::forward<F>(f));
+				insert_or_visit(*first, f);
 		}
 		template<class F>
 		void insert_or_visit(std::initializer_list<value_type> ilist, F&& f)
@@ -758,13 +759,14 @@ namespace seq
 		template<class Ty, class F>
 		SEQ_ALWAYS_INLINE bool insert_or_cvisit(Ty&& value, F&& f)
 		{
-			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { std::forward<F>(f)(v); }, Policy::make(std::forward<Ty>(value)));
+			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { (f)(v); }, Policy::make(std::forward<Ty>(value)));
 		}
 		template<class InputIterator, class F>
-		void insert_or_cvisit(InputIterator first, InputIterator last, F&& f)
+		void insert_or_cvisit(InputIterator first, InputIterator last, F&& fun)
 		{
+			auto& f = fun;
 			for (; first != last; ++first)
-				insert_or_cvisit(*first, std::forward<F>(f));
+				insert_or_cvisit(*first,f);
 		}
 		template<class F>
 		void insert_or_cvisit(std::initializer_list<value_type> ilist, F&& f)
@@ -858,7 +860,7 @@ namespace seq
 		template<class ExecPolicy, class F>
 		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type erase_if(ExecPolicy&& p, F&& fun)
 		{
-			return base_type::erase_if(p, std::forward<F>(fun));
+			return base_type::erase_if(std::forward<ExecPolicy>(p), std::forward<F>(fun));
 		}
 
 		SEQ_ALWAYS_INLINE auto count(const Key& key) const -> size_type { return base_type::count(key); }
@@ -880,7 +882,6 @@ namespace seq
 		template<class H2, class P2>
 		size_type merge(concurrent_map<Key, T, H2, P2, Allocator, Shards>& x)
 		{
-			SEQ_ASSERT_DEBUG(get_allocator() == x.get_allocator(), "");
 			return base_type::merge(x);
 		}
 
@@ -893,7 +894,6 @@ namespace seq
 		template<class ExecPolicy, class H2, class P2>
 		typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, size_type>::type merge(ExecPolicy&& p, concurrent_map<Key, T, H2, P2, Allocator, Shards>& x)
 		{
-			SEQ_ASSERT_DEBUG(get_allocator() == x.get_allocator(), "");
 			return base_type::merge(std::forward<ExecPolicy>(p), x);
 		}
 
@@ -919,7 +919,7 @@ namespace seq
 	template<class Key, class T, class Hash, class Equal, class Allocator, unsigned Shards, class Predicate>
 	typename concurrent_map<Key, T, Hash, Equal, Allocator, Shards>::size_type erase_if(concurrent_map<Key, T, Hash, Equal, Allocator, Shards>& set, Predicate pred)
 	{
-		set.erase_if(pred);
+		return set.erase_if(pred);
 	}
 
 }

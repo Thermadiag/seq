@@ -62,8 +62,11 @@ namespace seq
 		high_concurrency_shared = high_concurrency | shared_concurrency
 	};
 
+
 	namespace detail
 	{
+
+		#define _SEQ_CONCURRENT_MAP_LOAD_FACTOR 0.7f
 
 #if defined(__SSE2__) || defined(__ARM_NEON) || defined(__ARM_NEON__)
 		// Node size with and without SSE2
@@ -71,7 +74,7 @@ namespace seq
 		enum
 		{
 			max_concurrent_node_size = 16,
-			chain_concurrent_node_size = 4
+			chain_concurrent_node_size = 8
 		};
 #else
 		enum
@@ -180,6 +183,39 @@ namespace seq
 			~BoolUnlocker() noexcept { *_l = false; }
 		};
 
+		template<class T, class Allocator>
+		T* MakeRange(const Allocator& alloc, size_t count)
+		{
+			RebindAllocator<Allocator, T> al{ alloc };
+			T* vals = al.allocate(count);
+			// Construct
+			size_t constructed = 0;
+			try {
+				for (; constructed < count; ++constructed)
+					new (vals + constructed) T();
+			}
+			catch (...) {
+				if constexpr (!std::is_trivially_destructible_v<T>) {
+					while (constructed)
+						(vals + --constructed)->~T();
+				}
+				al.deallocate(vals, count);
+				throw;
+			}
+
+			return vals;
+		}
+
+		template<class Allocator, class T>
+		void DestroyRange(Allocator& alloc, T* ptr, size_t count) noexcept
+		{
+			if (!std::is_trivially_destructible_v<T>) {
+				for (size_t i = 0; i < count; ++i)
+					ptr[i].~T();
+			}
+			alloc.deallocate(ptr, count);
+		}
+
 		/// @brief Random-access array of lock objects
 		/// @tparam Lock lock type
 		/// @tparam Allocator allocator type
@@ -189,30 +225,37 @@ namespace seq
 		/// Uses a power of 2 grow strategy.
 		///
 		template<class Lock, class Allocator = std::allocator<Lock>>
-		class SharedLockArray : private Allocator
+		class SharedLockArray
 		{
 			template<class U>
 			using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 			using lock_type = Lock;
 			using this_type = SharedLockArray<Lock, Allocator>;
+			static constexpr size_t array_count = 64;
 
 			// Store ahead of time 32 arrays of lock objects.
 			// Each array has a size which is a power of 2 : size = (1 << array_index)
-			std::atomic<lock_type*> arrays[32];
+			std::atomic<lock_type*> arrays[array_count];
+
+			rebind_alloc<lock_type> alloc;
 
 			// Allocate/initialize the array for given index (between 0 and 31)
 			lock_type* make_array(size_t index)
 			{
-				lock_type* l = arrays[index].load(std::memory_order_relaxed);
+				lock_type* l = arrays[index].load(std::memory_order_acquire);
 				if (l)
 					return l;
-				rebind_alloc<lock_type> al = *this;
-				l = al.allocate(1ull << index);
-				memset(static_cast<void*>(l), 0, (1ull << index) * sizeof(lock_type));
+
+				// Allocate
+				size_t size = 1ull << index;
+				l = MakeRange<lock_type>(alloc, size);
+
 				lock_type* prev = nullptr;
 				if (arrays[index].compare_exchange_strong(prev, l))
 					return l;
-				al.deallocate(l, 1ull << index);
+
+				// Destroy
+				DestroyRange(alloc, l, size);
 				return prev;
 			}
 
@@ -229,14 +272,14 @@ namespace seq
 				  , index(i)
 				{
 				}
-				auto operator*() const noexcept -> Lock&
+				auto operator*() const -> Lock&
 				{
-					lock_type* l = array->arrays[array_index].load(std::memory_order_relaxed);
+					lock_type* l = array->arrays[array_index].load(std::memory_order_acquire);
 					if SEQ_UNLIKELY (!l)
 						l = array->make_array(array_index);
 					return l[index];
 				}
-				auto operator->() const noexcept -> Lock* { return std::pointer_traits<Lock*>::pointer_to(**this); }
+				auto operator->() const -> Lock* { return std::pointer_traits<Lock*>::pointer_to(**this); }
 				auto operator++() noexcept -> iterator&
 				{
 					if (++index == (1u << array_index)) {
@@ -248,36 +291,37 @@ namespace seq
 			};
 
 			SharedLockArray(const Allocator& al = Allocator()) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
-			  : Allocator(al)
+			  : alloc(al)
 			{
-				memset(static_cast<void*>(&arrays[0]), 0, sizeof(arrays));
+				for (size_t i = 0; i < array_count; ++i)
+					arrays[i].store(nullptr);
 			}
 			~SharedLockArray() noexcept
 			{
-				for (size_t i = 0; i < 32; ++i) {
-					if (lock_type* l = arrays[i].load()) {
-						size_t size = 1ull << i;
-						rebind_alloc<lock_type> al = *this;
-						al.deallocate(l, size);
-					}
+				for (size_t i = 0; i < array_count; ++i) {
+					if (lock_type* l = arrays[i].load())
+						DestroyRange(alloc, l, 1ull << i);
 				}
 			}
-			/// @brief Resize array. Not mandatory as at() member will do it if necessary.
-			void resize(size_t size)
+
+			void ensure_size(size_t count)
 			{
-				size_t count = bit_scan_reverse_32(static_cast<unsigned>(size));
-				for (size_t i = 0; i <= count; ++i)
-					if (!arrays[i].load(std::memory_order_relaxed))
-						at(i);
+				if (!count)
+					return;
+
+				size_t last_segment = bit_scan_reverse_64(count);
+				for (size_t segment = 0; segment <= last_segment; ++segment)
+					make_array(segment);
 			}
+
 			/// @brief Returns element at given position.
 			/// Resize array if necessary.
 			/// Thread-safe member.
 			SEQ_ALWAYS_INLINE lock_type& at(size_t i) const
 			{
-				unsigned ar_index = bit_scan_reverse_32(static_cast<unsigned>(i + 1u));
-				unsigned in_array = static_cast<unsigned>(i) - ((1u << ar_index) - 1u);
-				lock_type* l = arrays[ar_index].load(std::memory_order_relaxed);
+				size_t ar_index = bit_scan_reverse_64((i + 1ull));
+				size_t in_array = i - ((1ull << ar_index) - 1ull);
+				lock_type* l = arrays[ar_index].load(std::memory_order_acquire);
 				if SEQ_UNLIKELY (!l)
 					l = const_cast<SharedLockArray*>(this)->make_array(ar_index);
 				return l[in_array];
@@ -286,7 +330,7 @@ namespace seq
 
 		/// @brief Apply functor and return boolean value (true if void() functor, functor result otherwise)
 		template<class F, class... Args>
-		static SEQ_ALWAYS_INLINE bool ApplyFunctor(F& f, Args&&... args) noexcept(noexcept(f(std::forward<Args>(args)...)))
+		static SEQ_ALWAYS_INLINE bool ApplyFunctor(F&& f, Args&&... args) noexcept(noexcept(f(std::forward<Args>(args)...)))
 		{
 			if constexpr (std::is_convertible_v<std::invoke_result_t<F, Args...>, bool>)
 				return f(std::forward<Args>(args)...);
@@ -298,14 +342,28 @@ namespace seq
 
 		/// @brief Simulate atomic load on non atomic value
 		template<class T>
-		static SEQ_ALWAYS_INLINE T AtomicLoad(T v) noexcept
+		static SEQ_ALWAYS_INLINE T AtomicLoadAcquire(T v) noexcept
 		{
 			return v;
 		}
 
-		/// @brief Relaxed atomic load
+		/// @brief Acquire atomic load
 		template<class T>
-		static SEQ_ALWAYS_INLINE T AtomicLoad(const std::atomic<T>& v) noexcept
+		static SEQ_ALWAYS_INLINE T AtomicLoadAcquire(const std::atomic<T>& v) noexcept
+		{
+			return v.load(std::memory_order_acquire);
+		}
+
+		/// @brief Simulate atomic load on non atomic value
+		template<class T>
+		static SEQ_ALWAYS_INLINE T AtomicLoadRelaxed(T v) noexcept
+		{
+			return v;
+		}
+
+		/// @brief Acquire atomic load
+		template<class T>
+		static SEQ_ALWAYS_INLINE T AtomicLoadRelaxed(const std::atomic<T>& v) noexcept
 		{
 			return v.load(std::memory_order_relaxed);
 		}
@@ -328,13 +386,13 @@ namespace seq
 		static SEQ_ALWAYS_INLINE auto FindIndexZero(const std::uint8_t* hashs) noexcept -> unsigned
 		{
 			if constexpr (Size == 4) {
-				std::uint32_t found = MoveMask4((*reinterpret_cast<const std::uint32_t*>(hashs)) ^ 0u) >> 8u;
+				std::uint32_t found = MoveMask4(read_32(hashs) ^ 0u) >> 8u;
 				if (found)
 					return bit_scan_forward_32(found) >> 3u;
 				return static_cast<unsigned>(-1);
 			}
 			else if constexpr (Size == 8) {
-				std::uint64_t found = MoveMask8((*reinterpret_cast<const std::uint64_t*>(hashs)) ^ 0ull) >> 8u;
+				std::uint64_t found = MoveMask8(read_64(hashs) ^ 0ull) >> 8u;
 				if (found)
 					return bit_scan_forward_64(found) >> 3u;
 				return static_cast<unsigned>(-1);
@@ -353,7 +411,7 @@ namespace seq
 
 		/// @brief Dense node of chain_concurrent_node_size hashs and values
 		template<class T>
-		struct ConcurrentDenseNode
+		struct alignas(chain_concurrent_node_size) ConcurrentDenseNode
 		{
 			using value_type = T;
 			static constexpr unsigned size = chain_concurrent_node_size;
@@ -362,10 +420,12 @@ namespace seq
 				char data[sizeof(T)];
 			};
 
-			ConcurrentDenseNode* right;
-			ConcurrentDenseNode* left;
+			ConcurrentDenseNode* right = nullptr;
+			std::uintptr_t inspected = 0; // Helper value for erase_if()
 			std::uint8_t hashs[size];
 			Value vals[size - 1];
+
+			ConcurrentDenseNode() noexcept { memset(hashs, 0, sizeof(hashs)); }
 
 			SEQ_ALWAYS_INLINE auto count() const noexcept -> unsigned { return hashs[0]; }
 			SEQ_ALWAYS_INLINE bool full() const noexcept { return hashs[0] == size - 1; }
@@ -382,14 +442,14 @@ namespace seq
 			{
 				char data[sizeof(T)];
 			};
-			ConcurrentDenseNode<T>* right;
+			ConcurrentDenseNode<T>* right = nullptr;
 			Value vals[max_concurrent_node_size - 1];
 			SEQ_ALWAYS_INLINE auto values() noexcept -> T* { return reinterpret_cast<T*>(vals); }
 			SEQ_ALWAYS_INLINE auto values() const noexcept -> const T* { return reinterpret_cast<const T*>(vals); }
 		};
 
 		/// @brief Hash node of max_concurrent_node_size tiny hashes
-		struct alignas(16) ConcurrentHashNode
+		struct alignas(max_concurrent_node_size) ConcurrentHashNode
 		{
 			static constexpr unsigned size = max_concurrent_node_size;
 			static constexpr unsigned shift = (size == 32 ? 5 : (size == 16 ? 4 : 3));
@@ -407,20 +467,21 @@ namespace seq
 			}
 
 			template<class T, class F>
-			void for_each(const ConcurrentValueNode<T>* n, F&& f) const noexcept(noexcept(std::forward<F>(f)(std::declval<std::uint8_t*>(), 0, std::declval<T&>())))
+			void for_each(const ConcurrentValueNode<T>* n, F&& f) const noexcept(noexcept(f(std::declval<std::uint8_t*>(), 0, std::declval<T&>())))
 			{
 				for (unsigned i = 0; i < count(); ++i)
-					std::forward<F>(f)(hashs, i, n->values()[i]);
+					f(hashs, i, n->values()[i]);
 				if (full() && n->right) {
 					const ConcurrentDenseNode<T>* d = n->right;
 					do {
 						for (unsigned i = 0; i < d->count(); ++i)
-							std::forward<F>(f)(d->hashs, i, d->values()[i]);
+							f(d->hashs, i, d->values()[i]);
 					} while ((d = d->right));
 				}
 			}
 			template<class T, class F>
-			bool for_each_until(const ConcurrentValueNode<T>* n, F f) const noexcept(noexcept(std::forward<F>(f)(std::declval<std::uint8_t*>(), 0, std::declval<T&>())))
+			bool for_each_until(const ConcurrentValueNode<T>* n, F&& f) const
+			  noexcept(noexcept(ApplyFunctor(std::declval<F&>(), std::declval<const std::uint8_t*>(), 0u, std::declval<const T&>())))
 			{
 				for (unsigned i = 0; i < count(); ++i)
 					if (!ApplyFunctor(f, hashs, i, n->values()[i]))
@@ -436,16 +497,16 @@ namespace seq
 				return true;
 			}
 			template<class T, class F>
-			void for_each(ConcurrentValueNode<T>* n, F&& f) noexcept(noexcept(std::forward<F>(f)(std::declval<std::uint8_t*>(), 0, std::declval<T&>())))
+			void for_each(ConcurrentValueNode<T>* n, F&& f) noexcept(noexcept(f(std::declval<std::uint8_t*>(), 0, std::declval<T&>())))
 			{
 				static_cast<const ConcurrentHashNode*>(this)->for_each(
-				  n, [&f](const std::uint8_t* hs, unsigned i, const T& v) { std::forward<F>(f)(const_cast<std::uint8_t*>(hs), i, const_cast<T&>(v)); });
+				  n, [&f](const std::uint8_t* hs, unsigned i, const T& v) { f(const_cast<std::uint8_t*>(hs), i, const_cast<T&>(v)); });
 			}
 			template<class T, class F>
-			bool for_each_until(ConcurrentValueNode<T>* n, F&& f) noexcept(noexcept(std::forward<F>(f)(std::declval<std::uint8_t*>(), 0, std::declval<T&>())))
+			bool for_each_until(ConcurrentValueNode<T>* n, F&& f) noexcept(noexcept(f(std::declval<std::uint8_t*>(), 0, std::declval<T&>())))
 			{
 				return static_cast<const ConcurrentHashNode*>(this)->for_each_until(
-				  n, [&f](const std::uint8_t* hs, unsigned i, const T& v) { return std::forward<F>(f)(const_cast<std::uint8_t*>(hs), i, const_cast<T&>(v)); });
+				  n, [&f](const std::uint8_t* hs, unsigned i, const T& v) { return f(const_cast<std::uint8_t*>(hs), i, const_cast<T&>(v)); });
 			}
 		};
 
@@ -485,46 +546,60 @@ namespace seq
 			using data_type = PrivateData;
 			using Allocator = typename PrivateData::allocator_type;
 			using extract_key = ExtractKey<Key, Value>;
-			template<class U>
-			using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 			using node_type = ConcurrentHashNode;
 			using value_node_type = ConcurrentValueNode<Value>;
 			using chain_node_type = ConcurrentDenseNode<Value>;
 			using node_lock = NodeLock;
-			using node_allocator = rebind_alloc<node_type>;
-			using value_node_allocator = rebind_alloc<value_node_type>;
-			using chain_node_allocator = rebind_alloc<chain_node_type>;
 			using value_type = typename extract_key::value_type;
 			using this_type = ChainingHashTable<PrivateData, Key, Value, NodeLock>;
 			using lock_array = SharedLockArray<node_lock, Allocator>;
 
 			static constexpr bool is_concurrent = !std::is_same_v<NodeLock, null_lock>;
-			using size_type = typename std::conditional<is_concurrent, std::atomic<size_t>, size_t>::type;
-			using chain_count_type = typename std::conditional<is_concurrent, std::atomic<unsigned>, unsigned>::type;
-			using lock_array_type = typename std::conditional<is_concurrent, std::atomic<lock_array*>, lock_array*>::type;
+			using size_type = typename std::conditional_t<is_concurrent, std::atomic<size_t>, size_t>;
+			using chain_count_type = typename std::conditional_t<is_concurrent, std::atomic<unsigned>, unsigned>;
+			using lock_array_type = typename std::conditional_t<is_concurrent, std::atomic<lock_array*>, lock_array*>;
+			using bucket_type = typename std::conditional_t<is_concurrent, std::atomic<node_type*>, node_type*>;
 
 			// Maximum hash mask, depends on the SharedLockArray max size.
 			// We can insert more elements than this value, but using chaining.
 			static constexpr size_t max_hash_mask = is_concurrent ? ((1u << 31u) - 1u) : std::numeric_limits<size_t>::max();
 
+			struct Entry
+			{
+				uint8_t* hashs;
+				Value* values;
+				unsigned pos;
+				bool operator!=(const Entry& r) const noexcept { return values != r.values || pos != r.pos; }
+			};
+
 		private:
-			node_type* d_buckets;	       // hash table
-			value_node_type* d_values;     // values
-			PrivateData* d_data;	       // pointer to upper PrivateData
-			lock_array_type d_locks;       // lock array
-			size_type d_size;	       // total size
-			size_t d_next_target;	       // next size before rehash
-			size_t d_hash_mask;	       // hash mask
-			node_lock d_rehash_lock;       // unique lock for rehash
-			std::atomic<bool> d_in_rehash; // tells if we are in rehash
+			bucket_type d_buckets{ get_static_node() }; // hash table
+			value_node_type* d_values = nullptr;	    // values
+			PrivateData* d_data = nullptr;		    // pointer to upper PrivateData
+			lock_array_type d_locks{ nullptr };	    // lock array
+			size_type d_size{ 0 };			    // total size
+			size_type d_next_target{ 0 };		    // next size before rehash
+			size_type d_hash_mask{ 0 };		    // hash mask
+			node_lock d_rehash_lock;		    // unique lock for rehash
+			std::atomic<bool> d_in_rehash{ false };	    // tells if we are in rehash
 			std::mutex d_rehash_mutex;
 			std::condition_variable d_rehash_condition;
-			chain_count_type d_chain_count; // number of chained nodes, used to optimize detection of needed rehash on insert
+
+			// Lock type used to prevent concurrent access
+			// for operations involving 2 or more tables.
+			// This include equal_to() and mere().
+			node_lock d_cross_lock;
+
+			// Store all allocators to avoid potential throwing in destructor
+			RebindAllocator<Allocator, node_type> d_node_al;
+			RebindAllocator<Allocator, value_node_type> d_value_al;
+			RebindAllocator<Allocator, chain_node_type> d_chain_al;
+			RebindAllocator<Allocator, lock_array> d_lock_al;
 
 			/// @brief Find given value based on its small hash representation and hashs/values arrays
-			template<unsigned Size, class Equal, class K>
-			static SEQ_ALWAYS_INLINE auto FindWithTh(std::uint8_t th, const Equal& eq, K&& key, const std::uint8_t* hashs, const Value* values) noexcept(
-			  noexcept(eq(extract_key::key(*values), std::forward<K>(key)))) -> const Value*
+			template<unsigned Size, class Equal, class K, class Node>
+			static SEQ_ALWAYS_INLINE auto FindWithTh(std::uint8_t th, const Equal& eq, K&& key, const std::uint8_t* hashs, const Node* node) noexcept(
+			  noexcept(eq(extract_key::key(*node->values()), std::forward<K>(key)))) -> const Value*
 			{
 				if constexpr (Size == 4) {
 					if (!hashs[0])
@@ -534,13 +609,13 @@ namespace seq
 					memset(&_th, th, sizeof(_th));
 
 					// do first 3 values
-					std::uint32_t found = MoveMask4((*reinterpret_cast<const std::uint32_t*>(hashs)) ^ _th) >> 8u;
+					std::uint32_t found = MoveMask4(read_32(hashs) ^ _th) >> 8u;
 					if (found) {
-						SEQ_PREFETCH(values);
+						SEQ_PREFETCH(node->values());
 						do {
 							unsigned pos = bit_scan_forward_32(found) >> 3u;
-							if (eq(extract_key::key(values[pos]), std::forward<K>(key)))
-								return values + pos;
+							if (eq(extract_key::key(node->values()[pos]), std::forward<K>(key)))
+								return node->values() + pos;
 							reinterpret_cast<unsigned char*>(&found)[pos] = 0;
 						} while (found);
 					}
@@ -554,13 +629,13 @@ namespace seq
 					memset(&_th, th, sizeof(_th));
 
 					// do first 7 values
-					std::uint64_t found = MoveMask8((*reinterpret_cast<const std::uint64_t*>(hashs)) ^ _th) >> 8u;
+					std::uint64_t found = MoveMask8(read_64(hashs) ^ _th) >> 8u;
 					if (found) {
-						SEQ_PREFETCH(values);
+						SEQ_PREFETCH(node->values());
 						do {
 							unsigned pos = bit_scan_forward_64(found) >> 3u;
-							if (eq(extract_key::key(values[pos]), std::forward<K>(key)))
-								return values + pos;
+							if (eq(extract_key::key(node->values()[pos]), std::forward<K>(key)))
+								return node->values() + pos;
 							reinterpret_cast<unsigned char*>(&found)[pos] = 0;
 						} while (found);
 					}
@@ -574,11 +649,11 @@ namespace seq
 					auto hs = _mm_load_si128(reinterpret_cast<const __m128i*>(hashs));
 					auto mask = (unsigned)_mm_movemask_epi8(_mm_cmpeq_epi8(hs, _mm_set1_epi8(static_cast<char>(th)))) >> 1;
 					if (mask) {
-						SEQ_PREFETCH(values);
+						SEQ_PREFETCH(node->values());
 						do {
 							unsigned pos = bit_scan_forward_32(mask);
-							if (eq(extract_key::key(values[pos]), std::forward<K>(key)))
-								return values + pos;
+							if (eq(extract_key::key(node->values()[pos]), std::forward<K>(key)))
+								return node->values() + pos;
 							mask &= mask - 1u;
 						} while (mask);
 					}
@@ -586,37 +661,6 @@ namespace seq
 					return nullptr;
 				}
 				SEQ_UNREACHABLE();
-			}
-
-			/// @brief Find given value in a dense node.
-			/// Performs lookup on the full chain.
-			template<class Equal, class K, class F>
-			auto FindInDense(std::uint8_t th, const Equal& eq, K&& key, const ConcurrentDenseNode<Value>* n, F&& f) const
-			  noexcept(noexcept(eq(std::forward<K>(key), extract_key::key(std::declval<Value&>())))) -> size_t
-			{
-				do {
-					auto v = FindWithTh<chain_concurrent_node_size>(th, eq, std::forward<K>(key), n->hashs, n->values());
-					if (v) {
-						std::forward<F>(f)(const_cast<Value&>(*v));
-						return 1;
-					}
-				} while ((n = n->right));
-				return 0;
-			}
-
-			/// @brief Find given value in main node.
-			/// Performs lookup on the full chain.
-			template<class Equal, class K, class F>
-			SEQ_ALWAYS_INLINE auto FindInNode(std::uint8_t th, const Equal& eq, K&& key, const ConcurrentHashNode* node, const ConcurrentValueNode<Value>* values, F&& f) const
-			  noexcept(noexcept(eq(std::forward<K>(key), extract_key::key(std::declval<Value&>())))) -> size_t
-			{
-				if (auto v = FindWithTh<max_concurrent_node_size>(th, eq, std::forward<K>(key), node->hashs, values->values())) {
-					std::forward<F>(f)(const_cast<Value&>(*v));
-					return 1;
-				}
-				if (node->full() && values->right)
-					return FindInDense(th, eq, std::forward<K>(key), values->right, std::forward<F>(f));
-				return 0;
 			}
 
 			/// @brief Returns index of the next null hash value
@@ -641,24 +685,18 @@ namespace seq
 			template<class Policy, class Node, class K, class... Args>
 			auto InsertNewDense(std::uint8_t th, Node* n, K&& key, Args&&... args) -> std::pair<Value*, bool>
 			{
-				chain_node_allocator al{ get_allocator() };
-				chain_node_type* d = al.allocate(1);
-
-				memset(d->hashs, 0, sizeof(d->hashs));
-				d->right = nullptr;
-				d->left = reinterpret_cast<chain_node_type*>(n);
+				chain_node_type* d = MakeRange<chain_node_type>(d_chain_al, 1);
 
 				try {
 					Policy::emplace(d->values(), std::forward<K>(key), std::forward<Args>(args)...);
 				}
 				catch (...) {
 					// destroy dense node
-					al.deallocate(d, 1);
+					DestroyRange(d_chain_al, d, 1);
 					throw;
 				}
 				d->hashs[++d->hashs[0]] = th;
 				n->right = d;
-				++d_chain_count;
 				return { d->values(), true };
 			}
 
@@ -669,7 +707,7 @@ namespace seq
 				auto valid = n;
 				do {
 					if constexpr (CheckExists) {
-						auto v = FindWithTh<chain_concurrent_node_size>(th, eq, extract_key::key(std::forward<K>(key)), n->hashs, n->values());
+						auto v = FindWithTh<chain_concurrent_node_size>(th, eq, extract_key::key(std::forward<K>(key)), n->hashs, n);
 						if (v)
 							return { const_cast<Value*>(v), false };
 					}
@@ -690,7 +728,7 @@ namespace seq
 			  -> std::pair<Value*, bool>
 			{
 				if constexpr (CheckExists) {
-					auto v = FindWithTh<max_concurrent_node_size>(th, eq, extract_key::key(std::forward<K>(key)), node->hashs, values->values());
+					auto v = FindWithTh<max_concurrent_node_size>(th, eq, extract_key::key(std::forward<K>(key)), node->hashs, values);
 					if (v)
 						return { const_cast<Value*>(v), false };
 				}
@@ -705,32 +743,83 @@ namespace seq
 				return { p, true };
 			}
 
+			template<bool ValOnly, class Dense, class K>
+			auto find_key_in_dense(Dense* dense, uint8_t th, size_t bucket_pos, const K& key) const -> std::conditional_t<ValOnly, Value*, Entry>
+			{
+				// Find in right dense nodes
+				do {
+					auto found = FindWithTh<chain_concurrent_node_size>(th, d_data->key_eq(), key, dense->hashs, dense);
+					if (found) {
+						if constexpr (ValOnly)
+							return const_cast<Value*>(found);
+						else
+							return Entry{ dense->hashs, dense->values(), (unsigned)(found - dense->values()) };
+					}
+					dense = dense->right;
+				} while (dense);
+
+				if constexpr (ValOnly)
+					return nullptr;
+				else
+					return Entry{ nullptr, nullptr, 0 };
+			}
+
+			template<bool ValOnly, class K>
+			SEQ_ALWAYS_INLINE auto find_key(size_t hash, size_t bucket_pos, const K& key) const -> std::conditional_t<ValOnly, Value*, Entry>
+			{
+				auto th = node_type::tiny_hash(hash);
+				auto values = d_values + bucket_pos;
+				auto bucket = AtomicLoadRelaxed(d_buckets) + bucket_pos;
+				// Find in main bucket
+				if (auto found = FindWithTh<max_concurrent_node_size>(th, d_data->key_eq(), key, bucket->hashs, values)) {
+					if constexpr (ValOnly)
+						return const_cast<Value*>(found);
+					else
+						return Entry{ bucket->hashs, values->values(), (unsigned)(found - values->values()) };
+				}
+				if (bucket->full() && values->right)
+					return find_key_in_dense<ValOnly>(values->right, th, bucket_pos, key);
+				if constexpr (ValOnly)
+					return nullptr;
+				else
+					return Entry{ nullptr, nullptr, 0 };
+			}
+
+			auto right_most(size_t bucket_pos) noexcept -> Entry
+			{
+				auto values = d_values + bucket_pos;
+				auto bucket = AtomicLoadRelaxed(d_buckets) + bucket_pos;
+				auto dense = values->right;
+
+				if (!dense)
+					return { bucket->hashs, values->values(), bucket->count() - 1 };
+
+				while (dense->right)
+					dense = dense->right;
+				return { dense->hashs, dense->values(), dense->count() - 1 };
+			}
+
 			SEQ_ALWAYS_INLINE auto get_allocator() const noexcept { return d_data->get_allocator(); }
 			SEQ_ALWAYS_INLINE auto key_eq() const noexcept { return d_data->key_eq(); }
 
-			static auto get_static_node() noexcept -> node_type*
+			static SEQ_ALWAYS_INLINE auto get_static_node() noexcept -> node_type*
 			{
 				static node_type node;
 				return &node;
 			}
 
-			auto make_nodes(size_t count = 1) -> node_type*
+			auto make_nodes(size_t count = 1) -> node_type* { return MakeRange<node_type>(d_node_al, count); }
+			auto make_value_nodes(size_t count = 1) -> value_node_type* { return MakeRange<value_node_type>(d_value_al, count); }
+			template<class Node>
+			void free_nodes(Node* n, size_t count = 1) noexcept
 			{
-				node_type* n = node_allocator{ get_allocator() }.allocate(count);
-				memset(static_cast<void*>(n), 0, count * sizeof(node_type));
-				return n;
+				if constexpr (std::is_same_v<node_type, Node>)
+					DestroyRange(d_node_al, n, count);
+				else if constexpr (std::is_same_v<value_node_type, Node>)
+					DestroyRange(d_value_al, n, count);
+				if constexpr (std::is_same_v<chain_node_type, Node>)
+					DestroyRange(d_chain_al, n, count);
 			}
-			auto make_value_nodes(size_t count = 1) -> value_node_type*
-			{
-				value_node_type* n = value_node_allocator{ get_allocator() }.allocate(count);
-				for (size_t i = 0; i < count; ++i)
-					n[i].right = nullptr;
-				return n;
-			}
-
-			void free_nodes(node_type* n, size_t count) noexcept(noexcept(node_allocator{ Allocator{} })) { node_allocator{ get_allocator() }.deallocate(n, count); }
-			void free_nodes(value_node_type* n, size_t count) noexcept(noexcept(value_node_allocator{ Allocator{} })) { value_node_allocator{ get_allocator() }.deallocate(n, count); }
-			void free_nodes(chain_node_type* n) noexcept(noexcept(chain_node_allocator{ Allocator{} })) { chain_node_allocator{ get_allocator() }.deallocate(n, 1); }
 
 			void move_back(node_type* buckets, value_node_type* values, size_t new_hash_mask, node_type* old_buckets, value_node_type* old_values, size_t old_hash_mask) noexcept(
 			  std::is_nothrow_move_constructible_v<Value> && noexcept(std::declval<PrivateData&>().hash_key(extract_key::key(std::declval<Value&>()))))
@@ -790,42 +879,39 @@ namespace seq
 				LockUnique<node_lock> ll(d_rehash_lock);
 
 				// Make sure we are growing
-				if (grow_only && new_hash_mask <= d_hash_mask && d_hash_mask != 0)
+				auto hash_mask = AtomicLoadAcquire(d_hash_mask);
+				if (grow_only && new_hash_mask <= hash_mask && hash_mask != 0)
 					return;
 
-				rebind_alloc<lock_array> lock_al = get_allocator();
-				lock_array* locks = AtomicLoad(d_locks);
+				lock_array* locks = AtomicLoadAcquire(d_locks);
 				lock_array* new_locks = nullptr;
 				node_type* buckets = nullptr;
 				value_node_type* values = nullptr;
 				size_t locked_count = 0;
-				auto old_chain_count = d_chain_count;
 				size_t i = 0;
-
-				// Reset chain count
-				d_chain_count = 0;
 
 				try {
 
-					// Alloc new buckets
+					// Allocator new buckets
 					buckets = make_nodes(new_hash_mask + 1u);
 					values = make_value_nodes(new_hash_mask + 1u);
 
 					// Create locks if needed
-					if (is_concurrent && !locks && new_hash_mask >= 1) {
+					if (is_concurrent && !locks) {
 						// might throw, fine
-						new_locks = lock_al.allocate(1);
+						new_locks = d_lock_al.allocate(1);
 						try {
 							construct_ptr(new_locks, get_allocator());
 						}
 						catch (...) {
-							lock_al.deallocate(new_locks, 1);
+							d_lock_al.deallocate(new_locks, 1);
 							throw;
 						}
 					}
 
-					size_t count = (d_buckets != get_static_node()) ? d_hash_mask + 1u : 0u;
+					size_t count = (d_buckets != get_static_node()) ? hash_mask + 1u : 0u;
 					auto iter = typename lock_array::iterator(locks);
+					auto old_buckets = AtomicLoadRelaxed(d_buckets);
 
 					for (i = 0; i < count; ++i) {
 
@@ -835,7 +921,7 @@ namespace seq
 							locked_count++;
 						}
 
-						d_buckets[i].for_each(d_values + i, [&](std::uint8_t* hashs, unsigned j, Value& val) {
+						old_buckets[i].for_each(d_values + i, [&](std::uint8_t* hashs, unsigned j, Value& val) {
 							auto pos = hash_key(extract_key::key(val)) & new_hash_mask;
 							FindInsertNode<InsertConcurrentPolicy, false>(hashs[j + 1], key_eq(), buckets + pos, values + pos, std::move_if_noexcept(val));
 
@@ -850,15 +936,22 @@ namespace seq
 						if (is_concurrent && locks)
 							++iter;
 					}
+
+					if constexpr (is_concurrent) {
+						// Ensure all lock objects are allocated to avoid potential std::bad_alloc in clear_no_lock().
+						lock_array* resulting_locks = locks ? locks : new_locks;
+						resulting_locks->ensure_size(new_hash_mask + 1);
+					}
 				}
 				catch (...) {
 
-					d_chain_count = old_chain_count;
 					bool should_clear = false;
-					if (std::is_nothrow_move_constructible_v<Value> && buckets && values) {
-						// Move back values from new to old buckets
+					if constexpr (std::is_nothrow_move_constructible_v<Value>) {
 						try {
-							move_back(buckets, values, new_hash_mask, d_buckets, d_values, d_hash_mask);
+							// Try to recover the table previous state by moving back values from
+							// the 'new' storage.
+							if (buckets && values)
+								move_back(buckets, values, new_hash_mask, AtomicLoadRelaxed(d_buckets), d_values, hash_mask);
 						}
 						catch (...) {
 							// We can recover from some exceptions like std::bad_alloc.
@@ -866,6 +959,10 @@ namespace seq
 							// To ensure table invariants, clear the table.
 							should_clear = true;
 						}
+					}
+					else if constexpr (!std::is_copy_constructible_v<Value>) {
+						// A failed move may have changed a key in the old table.
+						should_clear = true;
 					}
 
 					// Destroy and deallocate
@@ -879,7 +976,7 @@ namespace seq
 
 					if (new_locks) {
 						destroy_ptr(new_locks);
-						lock_al.deallocate(new_locks, 1);
+						d_lock_al.deallocate(new_locks, 1);
 					}
 
 					if (should_clear)
@@ -891,15 +988,15 @@ namespace seq
 				}
 
 				// Save old bucket
-				node_type* old_buckets = d_buckets;
+				node_type* old_buckets = AtomicLoadRelaxed(d_buckets);
 				value_node_type* old_values = d_values;
-				size_t old_hash_mask = d_hash_mask;
+				size_t old_hash_mask = hash_mask;
 
 				// Affect new buckets
 				d_next_target = static_cast<size_t>(static_cast<double>((new_hash_mask + 1) * node_type::size) * static_cast<double>(d_data->max_load_factor()));
-				d_buckets = buckets;
 				d_values = values;
 				d_hash_mask = new_hash_mask;
+				d_buckets = buckets;
 
 				if (is_concurrent && locks) {
 					// Unlock all nodes
@@ -919,10 +1016,39 @@ namespace seq
 				d_rehash_condition.notify_all();
 			}
 
-			void destroy_buckets(node_type* buckets, value_node_type* values, size_t count, bool destroy_values = true)
+			auto destroy_bucket(node_type* n, value_node_type* v, bool destroy_values = true) noexcept -> size_t
+			{
+				size_t ret = n->count();
+
+				// Destroy one bucket and destroy/deallocate right dense nodes
+				if (!std::is_trivially_destructible_v<Value> && destroy_values) {
+					for (unsigned j = 0; j < n->count(); ++j)
+						destroy_ptr(v->values() + j);
+				}
+				if (n->full() && v->right) {
+					ConcurrentDenseNode<Value>* d = v->right;
+					do {
+						ret += d->count();
+						if (!std::is_trivially_destructible_v<Value> && destroy_values) {
+							for (unsigned j = 0; j < d->count(); ++j)
+								destroy_ptr(d->values() + j);
+						}
+						ConcurrentDenseNode<Value>* right = d->right;
+						free_nodes(d);
+						d = right;
+					} while (d);
+				}
+
+				v->right = nullptr;
+				memset(n->hashs, 0, sizeof(n->hashs));
+
+				return ret;
+			}
+
+			void destroy_buckets(node_type* buckets, value_node_type* values, size_t count, bool destroy_values = true) noexcept
 			{
 				// Deallocate nodes and destroy values
-				if (buckets == get_static_node())
+				if (!buckets || buckets == get_static_node())
 					return;
 
 				if (!values) {
@@ -930,26 +1056,9 @@ namespace seq
 					return;
 				}
 
-				for (size_t i = 0; i < count; ++i) {
-					node_type* n = buckets + i;
-					value_node_type* v = values + i;
-					if (destroy_values && !std::is_trivially_destructible_v<Value>) {
-						for (unsigned j = 0; j < n->count(); ++j)
-							destroy_ptr(v->values() + j);
-					}
-					if (n->full() && v->right) {
-						ConcurrentDenseNode<Value>* d = v->right;
-						do {
-							if (destroy_values && !std::is_trivially_destructible_v<Value>) {
-								for (unsigned j = 0; j < d->count(); ++j)
-									destroy_ptr(d->values() + j);
-							}
-							ConcurrentDenseNode<Value>* right = d->right;
-							free_nodes(d);
-							d = right;
-						} while (d);
-					}
-				}
+				for (size_t i = 0; i < count; ++i)
+					destroy_bucket(buckets + i, values + i, destroy_values);
+
 				free_nodes(buckets, count);
 				free_nodes(values, count);
 			}
@@ -970,14 +1079,17 @@ namespace seq
 			}
 			void rehash_on_next_target(size_t s)
 			{
-				if (d_hash_mask < max_hash_mask && (!is_concurrent || !d_in_rehash.load(std::memory_order_relaxed)))
-					rehash_internal(s == 0 ? 0u : static_cast<size_t>((d_hash_mask + 1ull) * 2ull - 1ull), true);
+				auto hash_mask = AtomicLoadAcquire(d_hash_mask);
+				if (hash_mask < max_hash_mask && (!is_concurrent || !d_in_rehash.load(std::memory_order_relaxed)))
+					rehash_internal(s == 0 ? 0u : static_cast<size_t>((hash_mask + 1ull) * 2ull - 1ull), true);
 			}
 			SEQ_ALWAYS_INLINE void rehash_on_insert()
 			{
+				SEQ_ASSERT_DEBUG(AtomicLoadRelaxed(d_buckets) != get_static_node() || AtomicLoadAcquire(d_next_target) == 0, "static bucket requires zero rehash target");
+
 				// Rehash on insert
-				size_t s = AtomicLoad(d_size);
-				if SEQ_UNLIKELY ((s >= d_next_target) && (d_buckets == get_static_node() || AtomicLoad(d_chain_count) > ((d_hash_mask + 1) >> 4))) {
+				size_t s = AtomicLoadAcquire(d_size);
+				if SEQ_UNLIKELY ((s >= AtomicLoadAcquire(d_next_target)) /* || (d_buckets == get_static_node())*/) {
 					// delay rehash as long as there are few chains
 					rehash_on_next_target(s);
 				}
@@ -985,7 +1097,7 @@ namespace seq
 
 			SEQ_NOINLINE(auto) update_lock(lock_array* locks, size_t hash, size_t& hash_mask, size_t& pos, node_lock*& l)
 			{
-				hash_mask = d_hash_mask;
+				hash_mask = AtomicLoadAcquire(d_hash_mask);
 				if (((hash & hash_mask) != pos)) {
 					pos = (hash & hash_mask);
 					l->unlock();
@@ -995,7 +1107,7 @@ namespace seq
 			}
 			SEQ_NOINLINE(auto) update_lock_shared(lock_array* locks, size_t hash, size_t& hash_mask, size_t& pos, node_lock*& l) const
 			{
-				hash_mask = d_hash_mask;
+				hash_mask = AtomicLoadAcquire(d_hash_mask);
 				if (((hash & hash_mask) != pos)) {
 					pos = (hash & hash_mask);
 					l->unlock_shared();
@@ -1009,15 +1121,15 @@ namespace seq
 			get_node_global_lock(lock_array* locks, size_t hash, node_lock*& l) -> size_t
 			{
 				if (WaitForBucket)
-					while (d_buckets == get_static_node())
+					while (AtomicLoadRelaxed(d_buckets) == get_static_node())
 						std::this_thread::yield();
 				l = &d_rehash_lock;
 				l->lock();
-				if ((locks = AtomicLoad(d_locks))) {
+				if ((locks = AtomicLoadAcquire(d_locks))) {
 					l->unlock();
 					return this->template get_node<false>(locks, hash, l);
 				}
-				return (hash & d_hash_mask);
+				return hash & AtomicLoadAcquire(d_hash_mask);
 			}
 			template<bool WaitForBucket = true>
 			SEQ_ALWAYS_INLINE auto get_node(lock_array* locks, size_t hash, node_lock*& l) -> size_t
@@ -1025,11 +1137,11 @@ namespace seq
 				if SEQ_UNLIKELY (!locks)
 					return this->template get_node_global_lock<WaitForBucket>(locks, hash, l);
 				// Returns node locked for given hash value
-				size_t hash_mask = d_hash_mask;
+				size_t hash_mask = AtomicLoadRelaxed(d_hash_mask);
 				size_t pos = hash & hash_mask;
 				l = &locks->at(pos);
 				this->lock(*l);
-				while ((WaitForBucket && d_buckets == get_static_node()) || hash_mask != d_hash_mask)
+				while ((WaitForBucket && AtomicLoadRelaxed(d_buckets) == get_static_node()) || hash_mask != AtomicLoadAcquire(d_hash_mask))
 					update_lock(locks, hash, hash_mask, pos, l);
 				return pos;
 			}
@@ -1038,22 +1150,22 @@ namespace seq
 			{
 				l = const_cast<node_lock*>(&d_rehash_lock);
 				l->lock_shared();
-				if ((locks = AtomicLoad(d_locks))) {
+				if ((locks = AtomicLoadAcquire(d_locks))) {
 					l->unlock_shared();
 					return get_node_shared(locks, hash, l);
 				}
-				return (hash & d_hash_mask);
+				return hash & AtomicLoadAcquire(d_hash_mask);
 			}
 			SEQ_ALWAYS_INLINE auto get_node_shared(lock_array* locks, size_t hash, node_lock*& l) const -> size_t
 			{
 				if SEQ_UNLIKELY (!locks)
 					return get_node_shared_global_lock(locks, hash, l);
 				// Returns node locked for given hash value
-				size_t hash_mask = d_hash_mask;
+				size_t hash_mask = AtomicLoadRelaxed(d_hash_mask);
 				size_t pos = hash & hash_mask;
 				l = &locks->at(pos);
 				this->lock_shared(*l);
-				while (hash_mask != d_hash_mask)
+				while (hash_mask != AtomicLoadAcquire(d_hash_mask))
 					update_lock_shared(locks, hash, hash_mask, pos, l);
 				return pos;
 			}
@@ -1069,123 +1181,21 @@ namespace seq
 				node_lock* ll = nullptr;
 				size_t pos;
 				if constexpr (is_concurrent)
-					pos = this->template get_node<true>(AtomicLoad(d_locks), hash, ll);
+					pos = this->template get_node<true>(AtomicLoadAcquire(d_locks), hash, ll);
 				else
-					pos = (hash & d_hash_mask);
+					pos = hash & AtomicLoadAcquire(d_hash_mask);
 				// Grab lock
 				LockUnique<node_lock> lock(ll, true);
 
-				auto p = FindInsertNode<Policy, CheckExists>(th, key_eq(), d_buckets + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
+				auto p = FindInsertNode<Policy, CheckExists>(th, key_eq(), AtomicLoadRelaxed(d_buckets) + pos, d_values + pos, std::forward<K>(key), std::forward<Args>(args)...);
 				if (!p.second) {
 					// Key exist: call functor
-					std::forward<F>(fun)(*p.first);
+					fun(*p.first);
 					return false;
 				}
 
 				++d_size;
 				return true;
-			}
-
-			void erase_full_bucket(node_type* n, value_node_type* v) noexcept
-			{
-				// Clear full bucket in case of exception
-				if (!std::is_trivially_destructible_v<Value>) {
-					for (unsigned i = 0; i < n->count(); ++i)
-						v->values()[i].~Value();
-				}
-				d_size -= n->count();
-				memset(n->hashs, 0, sizeof(n->hashs));
-
-				chain_node_type* d = v->right;
-				while (d) {
-					if (!std::is_trivially_destructible_v<Value>) {
-						for (unsigned i = 0; i < d->count(); ++i)
-							d->values()[i].~Value();
-					}
-					d_size -= d->count();
-					chain_node_type* right = d->right;
-					free_nodes(d);
-					d = right;
-				}
-			}
-
-			void erase_from_dense(node_type* bucket, value_node_type* values, chain_node_type* n, unsigned pos)
-			{
-				// Erase position within a dense node and shift left remaining values
-				try {
-					while (n->right) {
-						// Replace by last value of right node
-						unsigned count = n->right->hashs[0];
-						n->values()[pos] = std::move(n->right->values()[count - 1]);
-						n->hashs[pos + 1] = n->right->hashs[count];
-						pos = count - 1;
-						n = n->right;
-					}
-					// move hashs and values toward the left
-					if (unsigned move_count = (n->hashs[0] - pos - 1)) {
-						std::move(n->values() + pos + 1, n->values() + pos + 1 + move_count, n->values() + pos);
-						memmove(n->hashs + pos + 1, n->hashs + pos + 2, move_count);
-					}
-					// invalidate last hash, destroy value
-					n->hashs[n->hashs[0]] = 0;
-					n->values()[n->hashs[0] - 1].~Value();
-				}
-				catch (...) {
-					// Erase full node, no ways to revert back the state
-					erase_full_bucket(bucket, values);
-					throw;
-				}
-
-				// decrease size and delete node if necessary
-				if (--n->hashs[0] == 0) {
-					chain_node_type* prev = n->left;
-					prev->right = nullptr;
-					free_nodes(n);
-				}
-			}
-			void erase_from_bucket(node_type* bucket, value_node_type* values, unsigned pos)
-			{
-				// Erase position from main node and shift left remaining values
-				if (values->right) {
-					// Take last value from right node
-					values->values()[pos] = std::move(values->right->values()[values->right->count() - 1]);
-					bucket->hashs[pos + 1] = values->right->hashs[values->right->count()];
-					// Erase last value from right node
-					erase_from_dense(bucket, values, values->right, values->right->count() - 1);
-				}
-				else {
-					// move hashs and values toward the left
-					if (unsigned move_count = (bucket->hashs[0] - pos - 1)) {
-						std::move(values->values() + pos + 1, values->values() + pos + 1 + move_count, values->values() + pos);
-						memmove(bucket->hashs + pos + 1, bucket->hashs + pos + 2, move_count);
-					}
-					// invalidate last hash, destroy value, decrease size
-					bucket->hashs[bucket->hashs[0]] = 0;
-					values->values()[bucket->hashs[0] - 1].~Value();
-					bucket->hashs[0]--;
-				}
-			}
-
-			/// @brief Erase key if found AND is fun(value) returns true.
-			/// Returns number of erased entries (1 or 0).
-			template<class F, class K>
-			auto erase_key_dense(node_type* bucket, value_node_type* values, uint8_t th, F&& fun, const K& key) -> size_t
-			{
-				auto* d = values->right;
-				do {
-					// Look in dense node
-					auto found = FindWithTh<chain_concurrent_node_size>(th, d_data->key_eq(), key, d->hashs, d->values());
-					if (found) {
-						// Erase from dense node if functor returns true
-						if (!std::forward<F>(fun)(const_cast<Value&>(*found)))
-							return 0;
-
-						erase_from_dense(bucket, values, d, static_cast<unsigned>(found - d->values()));
-						--d_size;
-						return 1;
-					}
-				} while ((d = d->right));
-				return 0;
 			}
 
 			bool contains_value(const Value& key_value) const
@@ -1206,15 +1216,11 @@ namespace seq
 		public:
 			/// @brief Constructor
 			explicit ChainingHashTable(PrivateData* data) noexcept
-			  : d_buckets(get_static_node())
-			  , d_values(nullptr)
-			  , d_data(data)
-			  , d_locks(nullptr)
-			  , d_size(0)
-			  , d_next_target(0)
-			  , d_hash_mask(0)
-			  , d_in_rehash(false)
-			  , d_chain_count(0)
+			  : d_data(data)
+			  , d_node_al(data->get_allocator())
+			  , d_value_al(data->get_allocator())
+			  , d_chain_al(data->get_allocator())
+			  , d_lock_al(data->get_allocator())
 			{
 			}
 
@@ -1226,19 +1232,17 @@ namespace seq
 				// Clear tables
 				clear_no_lock();
 				// Destroy lock array
-				if (lock_array* locks = AtomicLoad(d_locks)) {
-					destroy_ptr(locks);
-					rebind_alloc<lock_array>{ get_allocator() }.deallocate(locks, 1);
-				}
+				if (lock_array* locks = AtomicLoadAcquire(d_locks))
+					DestroyRange(d_lock_al, locks, 1);
 			}
 
 			/// @brief Returns hash table size
-			SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return AtomicLoad(d_size); }
+			SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return AtomicLoadAcquire(d_size); }
 
 			/// @brief Hash key using provided hasher
 			/// Apply hash mixin if hasher does not provide the is_avalanching typedef
 			template<class H, class K>
-			static SEQ_ALWAYS_INLINE auto hash_key(const H& hasher, const K& key) noexcept(noexcept(hash_value(hasher, extract_key::key(key)))) -> size_t
+			static SEQ_ALWAYS_INLINE auto hash_key(const H& hasher, const K& key) -> size_t
 			{
 				return hash_value(hasher, (extract_key::key(key)));
 			}
@@ -1261,7 +1265,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto load_factor() const noexcept -> float
 			{
 				// Returns the current load factor
-				size_t bucket_count = d_buckets != get_static_node() ? d_hash_mask + 1u : 0u;
+				size_t bucket_count = AtomicLoadRelaxed(d_buckets) != get_static_node() ? d_hash_mask + 1u : 0u;
 				return size() == 0 ? 0.f : static_cast<float>(size()) / static_cast<float>(bucket_count * node_type::size);
 			}
 			/// @brief Reserve enough space in the hash table
@@ -1284,28 +1288,35 @@ namespace seq
 			SEQ_ALWAYS_INLINE size_t visit_hash(size_t hash, const K& key, F&& f) const
 			{
 				node_lock* lock = nullptr;
-				// size_t pos = is_concurrent ? get_node_shared(AtomicLoad(d_locks), hash, lock) : (hash & d_hash_mask);
 				size_t pos;
 				if constexpr (is_concurrent)
-					pos = get_node_shared(AtomicLoad(d_locks), hash, lock);
+					pos = get_node_shared(AtomicLoadAcquire(d_locks), hash, lock);
 				else
 					pos = (hash & d_hash_mask);
 
 				LockShared<node_lock> ll(lock, true);
-				return FindInNode(node_type::tiny_hash(hash), d_data->key_eq(), key, d_buckets + pos, d_values + pos, std::forward<F>(f));
+				if (auto entry = find_key<true>(hash, pos, key)) {
+					(f)(static_cast<const Value&>(*entry));
+					return 1;
+				}
+				return 0;
 			}
 			template<class K, class F>
 			SEQ_ALWAYS_INLINE size_t visit_hash(size_t hash, const K& key, F&& f)
 			{
 				node_lock* lock = nullptr;
-				// size_t pos = is_concurrent ? this->template get_node<false>(AtomicLoad(d_locks), hash, lock) : (hash & d_hash_mask);
 				size_t pos;
 				if constexpr (is_concurrent)
-					pos = this->template get_node<false>(AtomicLoad(d_locks), hash, lock);
+					pos = this->template get_node<false>(AtomicLoadAcquire(d_locks), hash, lock);
 				else
 					pos = (hash & d_hash_mask);
+
 				LockUnique<node_lock> ll(lock, true);
-				return FindInNode(node_type::tiny_hash(hash), d_data->key_eq(), key, d_buckets + pos, d_values + pos, std::forward<F>(f));
+				if (auto entry = find_key<true>(hash, pos, key)) {
+					(f)(const_cast<Value&>(*entry));
+					return 1;
+				}
+				return 0;
 			}
 
 			/// @brief Visit all entries and call functor for each of them.
@@ -1316,20 +1327,20 @@ namespace seq
 			{
 				// Avoid rehash while calling visit_all
 				LockShared<node_lock> lock(const_cast<node_lock&>(d_rehash_lock));
-				if (d_buckets == get_static_node())
+				if (AtomicLoadRelaxed(d_buckets) == get_static_node())
 					return true;
 
 				size_t count = d_hash_mask + 1u;
-				lock_array* locks = AtomicLoad(d_locks);
+				lock_array* locks = AtomicLoadAcquire(d_locks);
 				auto iter = typename lock_array::iterator(locks);
 				for (size_t i = 0; i < count; ++i) {
 					LockShared<node_lock> ll;
 					if (locks)
 						ll.init(*iter);
-					const node_type* n = d_buckets + i;
+					const node_type* n = AtomicLoadRelaxed(d_buckets) + i;
 					const value_node_type* v = d_values + i;
 
-					if (!n->for_each_until(v, [&](auto, auto, const Value& val) { return std::forward<F>(fun)(val); }))
+					if (!n->for_each_until(v, [&](auto, auto, const Value& val) { return (fun)(val); }))
 						return false;
 					if (locks)
 						++iter;
@@ -1337,21 +1348,21 @@ namespace seq
 				return true;
 			}
 			template<class F>
-			bool visit_all(F fun)
+			bool visit_all(F&& fun)
 			{
 				// Avoid rehash while calling visit_all
 				LockShared<node_lock> lock(const_cast<node_lock&>(d_rehash_lock));
-				if (d_buckets == get_static_node())
+				if (AtomicLoadRelaxed(d_buckets) == get_static_node())
 					return true;
 
 				size_t count = d_hash_mask + 1u;
-				lock_array* locks = AtomicLoad(d_locks);
+				lock_array* locks = AtomicLoadAcquire(d_locks);
 				auto iter = typename lock_array::iterator(locks);
 				for (size_t i = 0; i < count; ++i) {
 					LockUnique<node_lock> ll;
 					if (locks)
 						ll.init(*iter);
-					node_type* n = d_buckets + i;
+					node_type* n = AtomicLoadRelaxed(d_buckets) + i;
 					value_node_type* v = d_values + i;
 
 					if (!n->for_each_until(v, [&](auto, auto, Value& val) { return fun(val); }))
@@ -1360,16 +1371,6 @@ namespace seq
 						++iter;
 				}
 				return true;
-			}
-
-			SEQ_ALWAYS_INLINE bool need_rehash_on_insert()
-			{
-				// Rehash on insert
-				size_t s = AtomicLoad(d_size);
-				if SEQ_UNLIKELY ((s >= d_next_target) && (d_buckets == get_static_node() || AtomicLoad(d_chain_count) > ((d_hash_mask + 1) >> 5)))
-					// delay rehash as long as there are few chains
-					return true;
-				return false;
 			}
 
 			/// @brief Insert entry based on provided policy
@@ -1393,94 +1394,167 @@ namespace seq
 				return insert_policy<Policy, true>(hash, std::forward<F>(fun), std::forward<K>(key), std::forward<Args>(args)...);
 			}
 
+			bool erase_entry(size_t bucket_pos, const Entry& entry)
+			{
+				// Erase given entry.
+				// Returns true if the full node was deallocated, false otherwise.
+
+				auto last = right_most(bucket_pos);
+
+				// Exchange value with right most value, this might throw
+				if (entry != last) {
+					try {
+						entry.values[entry.pos] = std::move(last.values[last.pos]);
+					}
+					catch (...) {
+						// Erase full bucket to preserve invariant
+						d_size -= destroy_bucket(AtomicLoadRelaxed(d_buckets) + bucket_pos, d_values + bucket_pos);
+						throw;
+					}
+				}
+
+				// Destroy
+				destroy_ptr(last.values + last.pos);
+
+				// Exchange hash
+				entry.hashs[entry.pos + 1] = last.hashs[last.pos + 1];
+				last.hashs[last.pos + 1] = 0;
+				// Decrement last node size and full table size
+				--d_size;
+				if (--last.hashs[0] == 0) {
+					// Bucket (main or dense) is empty
+					// Main bucket: nothing to do
+					if (AtomicLoadRelaxed(d_buckets)[bucket_pos].hashs != last.hashs) {
+						// Dense bucket: find the previous one
+						if (d_values[bucket_pos].right->hashs == last.hashs) {
+							// This is the dense bucket right after the main one
+							free_nodes(d_values[bucket_pos].right);
+							d_values[bucket_pos].right = nullptr;
+							return true;
+						}
+						else {
+							auto dense = d_values[bucket_pos].right;
+							while (dense->right && dense->right->hashs != last.hashs)
+								dense = dense->right;
+							SEQ_ASSERT_DEBUG(dense->right, "corrupted hash table");
+							free_nodes(dense->right);
+							dense->right = nullptr;
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+
 			/// @brief Erase key if found AND is fun(value) returns true.
 			/// Returns number of erased entries (1 or 0).
 			template<class F, class K>
 			SEQ_ALWAYS_INLINE auto erase_key(size_t hash, F&& fun, const K& key) -> size_t
 			{
 				node_lock* lock = nullptr;
-				// size_t pos = is_concurrent ? this->template get_node<false>(AtomicLoad(d_locks), hash, lock) : (hash & d_hash_mask);
 				size_t pos;
 				if constexpr (is_concurrent)
-					pos = this->template get_node<false>(AtomicLoad(d_locks), hash, lock);
+					pos = this->template get_node<false>(AtomicLoadAcquire(d_locks), hash, lock);
 				else
 					pos = (hash & d_hash_mask);
 
 				LockUnique<node_lock> ll(lock, true);
 
-				if SEQ_UNLIKELY (d_buckets == get_static_node())
+				if SEQ_UNLIKELY (AtomicLoadRelaxed(d_buckets) == get_static_node())
 					return 0;
 
-				auto th = node_type::tiny_hash(hash);
-				auto values = d_values + pos;
-				auto bucket = d_buckets + pos;
-				// Find in main bucket
-				auto found = FindWithTh<max_concurrent_node_size>(th, d_data->key_eq(), key, bucket->hashs, values->values());
-				if (found) {
-					// Erase from main bucket if functor returns true
-					if (!std::forward<F>(fun)(const_cast<Value&>(*found)))
-						return 0;
-					erase_from_bucket(bucket, values, static_cast<unsigned>(found - values->values()));
-					--d_size;
-					return 1;
+				auto entry = find_key<false>(hash, pos, key);
+				if (!entry.hashs)
+					return 0;
+
+				if (!(fun)(const_cast<Value&>(entry.values[entry.pos])))
+					return 0;
+
+				erase_entry(pos, entry);
+				return 1;
+			}
+
+			auto next_non_inspected(size_t pos) noexcept -> chain_node_type*
+			{
+				auto dense = d_values[pos].right;
+				while (dense) {
+					if (!dense->inspected)
+						return dense;
+					dense = dense->right;
 				}
-
-				// Go right if possible
-				if (!bucket->full() || !values->right)
-					return 0;
-
-				return erase_key_dense(bucket, values, th, std::forward<F>(fun), key);
+				return nullptr;
 			}
 
 			/// @brief Erase all entries for which given functor returns true
 			template<class F>
-			size_t erase_if(F&& fun)
+			size_t erase_if(F &&fun)
 			{
+				struct ResetInspectFlag
+				{
+					// Reset the inspected to 0 for all chained nodes
+					this_type* table;
+					size_t pos;
+					~ResetInspectFlag() noexcept
+					{
+						auto dense = table->d_values[pos].right;
+						while (dense) {
+							dense->inspected = 0;
+							dense = dense->right;
+						}
+					}
+				};
+
 				// Avoid rehash while calling erase_if
 				LockUnique<node_lock> lock(d_rehash_lock);
-				if (d_buckets == get_static_node())
+				if (AtomicLoadRelaxed(d_buckets) == get_static_node())
 					return 0;
 
-				lock_array* locks = AtomicLoad(d_locks);
+				lock_array* locks = AtomicLoadAcquire(d_locks);
 				size_t count = d_hash_mask + 1u;
 				size_t res = 0;
 				auto iter = typename lock_array::iterator(locks);
 
 				for (size_t i = 0; i < count; ++i) {
+
+					// Lock bucket
 					LockUnique<node_lock> ll;
 					if (locks)
 						ll.init(*iter);
-					node_type* n = d_buckets + i;
+
+					ResetInspectFlag guard{ this, i };
+
+					node_type* n = AtomicLoadRelaxed(d_buckets) + i;
 					value_node_type* vals = d_values + i;
 
-					// Go to the most right node
-					auto* d = n->full() ? vals->right : nullptr;
-					while (d && d->right)
-						d = d->right;
-
-					// Erase from dense nodes
-					while (d && static_cast<void*>(d) != static_cast<void*>(vals)) {
-						auto* prev = d->left;
-						// delete backward from dense node
-						for (int j = static_cast<int>(d->count() - 1); j >= 0; --j) {
-							if (std::forward<F>(fun)(d->values()[j])) {
-								erase_from_dense(n, vals, d, static_cast<unsigned>(j));
-								--d_size;
-								++res;
-							}
-						}
-						d = prev;
-					}
-
-					// Erase from main bucket
-					for (int j = static_cast<int>(n->count() - 1); j >= 0; --j) {
-						if (std::forward<F>(fun)(vals->values()[j])) {
-							erase_from_bucket(n, vals, static_cast<unsigned>(j));
-							--d_size;
+					// Erase from main
+					for (unsigned j = 0; j < n->count();) {
+						if (fun(vals->values()[j])) {
+							erase_entry(i, { n->hashs, vals->values(), j });
 							++res;
 						}
+						else
+							++j;
 					}
 
+					// Erase from right dense nodes
+					while (auto dense = next_non_inspected(i)) {
+
+						dense->inspected = 1;
+
+						for (unsigned j = 0; j < dense->count();) {
+							if (fun(dense->values()[j])) {
+								if (erase_entry(i, { dense->hashs, dense->values(), j })) {
+									++res;
+									break;
+								}
+								++res;
+							}
+							else
+								++j;
+						}
+					}
+
+					// Increment lock
 					if (locks)
 						++iter;
 				}
@@ -1488,19 +1562,19 @@ namespace seq
 				return res;
 			}
 
-			void clear()
+			void clear() noexcept
 			{
 				// Cannot clear while rehashing
 				LockUnique<node_lock> lock(d_rehash_lock);
 				clear_no_lock();
 			}
 			/// @brief Clear the hash table
-			void clear_no_lock()
+			void clear_no_lock() noexcept
 			{
-				if (d_buckets == get_static_node())
+				if (AtomicLoadRelaxed(d_buckets) == get_static_node())
 					return;
 
-				lock_array* locks = AtomicLoad(d_locks);
+				lock_array* locks = AtomicLoadAcquire(d_locks);
 				size_t count = d_hash_mask + 1;
 
 				if (is_concurrent && locks) {
@@ -1511,12 +1585,12 @@ namespace seq
 				}
 
 				// reset members
-				destroy_buckets(d_buckets, d_values, count);
+				destroy_buckets(AtomicLoadRelaxed(d_buckets), d_values, count);
 				d_buckets = get_static_node();
 				d_values = nullptr;
-				d_size = d_next_target = 0;
+				d_size = 0;
+				d_next_target = 0;
 				d_hash_mask = 0;
-				d_chain_count = 0;
 
 				if (is_concurrent && locks) {
 					// unlock all buckets
@@ -1532,12 +1606,19 @@ namespace seq
 				if (d_size != other.size())
 					return false;
 
+				std::scoped_lock<node_lock, node_lock> guard(const_cast<node_lock&>(d_cross_lock), const_cast<node_lock&>(other.d_cross_lock));
 				return visit_all([&](const auto& v) { return other.contains_value(v); });
 			}
 
 			/// @brief insert all entries from other not found in this, and remove them from other
 			size_t merge(ChainingHashTable& other)
 			{
+				static_assert(std::is_nothrow_move_constructible_v<Value> || std::is_copy_constructible_v<Value>, "merge requires a copyable value or nothrow move construction");
+
+				if (this == std::addressof(other))
+					return 0;
+
+				std::scoped_lock<node_lock, node_lock> guard(d_cross_lock, other.d_cross_lock);
 				return other.erase_if([&](auto& v) {
 					size_t hash = hash_key(extract_key::key(v));
 					return this->emplace_policy<InsertConcurrentPolicy>(hash, std::move_if_noexcept(v));
@@ -1549,10 +1630,10 @@ namespace seq
 		///
 		/// Holds N sub-tables (of type ChainingHashTable) based on _Shards template parameter.
 		///
-		template<class Key, class Value, class Hash, class KeyEqual, class Alloc, unsigned _Shards>
+		template<class Key, class Value, class Hash, class KeyEqual, class Allocator, unsigned _Shards>
 		class ConcurrentHashTable
 		  : public HashEqual<Hash, KeyEqual>
-		  , private Alloc
+		  , private Allocator
 		{
 			static_assert(((_Shards & ~shared_concurrency) <= 10 || _Shards == no_concurrency), "Concurrency factor too high! (limited to 11)");
 
@@ -1569,7 +1650,7 @@ namespace seq
 			using load_factor_type = typename std::conditional<is_concurrent, std::atomic<float>, float>::type;
 			using node_lock_type = typename std::conditional<is_concurrent, possible_lock_type, null_lock>::type;
 			template<class U>
-			using rebind_alloc = typename std::allocator_traits<Alloc>::template rebind_alloc<U>;
+			using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 			using hash_map = detail::ChainingHashTable<PrivateData, Key, Value, node_lock_type>;
 			using base_hash_equal = HashEqual<Hash, KeyEqual>;
 			using data_type = typename std::conditional<is_concurrent, std::atomic<PrivateData*>, PrivateData*>::type;
@@ -1578,11 +1659,11 @@ namespace seq
 			/// @brief Internal data
 			class PrivateData
 			  : public base_hash_equal
-			  , private Alloc
+			  , private Allocator
 			{
 				struct DummyPrivate
 				{
-					using allocator_type = Alloc;
+					using allocator_type = Allocator;
 				};
 				using dummy_map = detail::ChainingHashTable<DummyPrivate, Key, Value, node_lock_type>;
 				struct alignas(dummy_map) MapHolder
@@ -1593,15 +1674,15 @@ namespace seq
 				};
 
 			public:
-				using allocator_type = Alloc;
+				using allocator_type = Allocator;
 				static constexpr unsigned map_count = 1u << shards;
 
-				load_factor_type load_factor{ 0.7f };
+				load_factor_type load_factor{ _SEQ_CONCURRENT_MAP_LOAD_FACTOR };
 				MapHolder maps[map_count];
 
-				PrivateData(const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual(), const Alloc& alloc = Alloc())
+				PrivateData(const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual(), const Allocator& alloc = Allocator())
 				  : base_hash_equal(hash, equal)
-				  , Alloc(alloc)
+				  , Allocator(alloc)
 				{
 					// Allocate/construct all sub-tables
 					unsigned i = 0;
@@ -1622,10 +1703,10 @@ namespace seq
 						destroy_ptr(&at(i));
 				}
 
-				SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Alloc& { return *this; }
-				SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Alloc& { return *this; }
+				SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return *this; }
+				SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return *this; }
 
-				SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return AtomicLoad(load_factor); }
+				SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return AtomicLoadAcquire(load_factor); }
 
 				template<class K>
 				SEQ_ALWAYS_INLINE auto hash_key(const K& key) const noexcept(noexcept(hash_map::hash_key(std::declval<const Hash&>(), std::declval<const K&>()))) -> size_t
@@ -1646,7 +1727,7 @@ namespace seq
 				}
 
 				/// @brief Make a PrivateData object
-				static auto make(const Alloc& alloc, const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual()) -> PrivateData*
+				static auto make(const Allocator& alloc, const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual()) -> PrivateData*
 				{
 					rebind_alloc<PrivateData> al = alloc;
 					PrivateData* d = al.allocate(1);
@@ -1677,31 +1758,34 @@ namespace seq
 
 			PrivateData* make_data()
 			{
-				PrivateData* d = AtomicLoad(d_data);
+				PrivateData* d = AtomicLoadAcquire(d_data);
 				if (d)
 					return d;
-				d_data = d = PrivateData::make(this->get_allocator(), this->hash_function(), this->key_eq());
+
+				if constexpr (is_concurrent) {
+					d = PrivateData::make(this->get_allocator(), this->hash_function(), this->key_eq());
+					PrivateData* expected = nullptr;
+					if (!d_data.compare_exchange_strong(expected, d)) {
+						PrivateData::destroy(d);
+						return expected;
+					}
+				}
+				else
+					d_data = d = PrivateData::make(this->get_allocator(), this->hash_function(), this->key_eq());
 				return d;
 			}
 
 			SEQ_ALWAYS_INLINE PrivateData* get_data()
 			{
-				PrivateData* d = AtomicLoad(d_data);
+				PrivateData* d = AtomicLoadAcquire(d_data);
 				if SEQ_UNLIKELY (!d) {
 					d = make_data();
 				}
 				return d;
 			}
-			SEQ_ALWAYS_INLINE PrivateData* get_data_no_lock()
-			{
-				PrivateData* d = AtomicLoad(d_data);
-				if SEQ_UNLIKELY (!d)
-					d = make_data();
 
-				return d;
-			}
-			SEQ_ALWAYS_INLINE const PrivateData* get_data() const noexcept { return AtomicLoad(d_data); }
-			SEQ_ALWAYS_INLINE const PrivateData* cget_data() const noexcept { return AtomicLoad(d_data); }
+			SEQ_ALWAYS_INLINE const PrivateData* get_data() const noexcept { return AtomicLoadAcquire(d_data); }
+			SEQ_ALWAYS_INLINE const PrivateData* cget_data() const noexcept { return AtomicLoadAcquire(d_data); }
 
 			/// @brief Given a hash value, returns the corresponding sub-table index
 			SEQ_ALWAYS_INLINE auto index_from_hash(size_t hash) const noexcept -> unsigned
@@ -1728,20 +1812,20 @@ namespace seq
 
 			void destroy_data() noexcept
 			{
-				PrivateData::destroy(AtomicLoad(d_data));
+				PrivateData::destroy(AtomicLoadAcquire(d_data));
 				d_data = (nullptr);
 			}
 
 		public:
-			ConcurrentHashTable(const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual(), const Alloc& alloc = Alloc())
+			ConcurrentHashTable(const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual(), const Allocator& alloc = Allocator())
 			  : base_hash_equal(hash, equal)
-			  , Alloc(alloc)
+			  , Allocator(alloc)
 			  , d_data(nullptr)
 			{
 			}
-			ConcurrentHashTable(const ConcurrentHashTable& other, const Alloc& alloc)
+			ConcurrentHashTable(const ConcurrentHashTable& other, const Allocator& alloc)
 			  : base_hash_equal(other)
-			  , Alloc(alloc)
+			  , Allocator(alloc)
 			  , d_data(PrivateData::make(alloc, other.hash_function(), other.key_eq()))
 			{
 				try {
@@ -1754,15 +1838,16 @@ namespace seq
 				}
 			}
 			ConcurrentHashTable(const ConcurrentHashTable& other)
-			  : ConcurrentHashTable(other, std::allocator_traits<Alloc>::select_on_container_copy_construction(other.get_allocator()))
+			  : ConcurrentHashTable(other, std::allocator_traits<Allocator>::select_on_container_copy_construction(other.get_allocator()))
 			{
 			}
-			ConcurrentHashTable(ConcurrentHashTable&& other, const Alloc& alloc)
+			ConcurrentHashTable(ConcurrentHashTable&& other, const Allocator& alloc)
 			  : base_hash_equal(other)
-			  , Alloc(alloc)
+			  , Allocator(alloc)
 			{
 				if (alloc == other.get_allocator()) {
-					d_data.store(other.d_data.exchange(nullptr));
+					d_data = AtomicLoadAcquire(other.d_data);
+					other.d_data = nullptr;
 				}
 				else {
 					// Move to a temporary and commit.
@@ -1782,16 +1867,16 @@ namespace seq
 							other.clear();
 						throw;
 					}
-					d_data = AtomicLoad(tmp.d_data);
+					d_data = AtomicLoadAcquire(tmp.d_data);
 					tmp.d_data = nullptr;
 					other.clear();
 				}
 			}
-			ConcurrentHashTable(ConcurrentHashTable&& other) noexcept(std::is_nothrow_move_constructible_v<Alloc> && std::is_nothrow_copy_constructible_v<base_hash_equal>)
+			ConcurrentHashTable(ConcurrentHashTable&& other) noexcept(std::is_nothrow_move_constructible_v<Allocator> && std::is_nothrow_copy_constructible_v<base_hash_equal>)
 			  : base_hash_equal(other)
-			  , Alloc(std::move(static_cast<Alloc&>(other)))
+			  , Allocator(std::move(static_cast<Allocator&>(other)))
 			{
-				d_data = AtomicLoad(other.d_data);
+				d_data = AtomicLoadAcquire(other.d_data);
 				other.d_data = nullptr;
 			}
 			~ConcurrentHashTable() noexcept { destroy_data(); }
@@ -1804,53 +1889,71 @@ namespace seq
 				if (this == std::addressof(other))
 					return *this;
 
-				using traits = std::allocator_traits<Alloc>;
+				using traits = std::allocator_traits<Allocator>;
 
 				// Copy allocator, might throw
 				if constexpr (traits::propagate_on_container_copy_assignment::value)
-					static_cast<Alloc&>(*this) = other.get_allocator();
+					static_cast<Allocator&>(*this) = other.get_allocator();
 
+				// Copy in temporary
+				ConcurrentHashTable tmp(other.hash_function(), other.key_eq(), get_allocator());
+				tmp.reserve(other.size());
+				other.visit_all([&](const Value& v) { tmp.template emplace_policy<InsertConcurrentPolicy>([](const auto&) {}, v); });
+
+				// Commit
 				destroy_data();
 				base() = other.base();
-				other.visit_all([this](const Value& v) { this->template emplace_policy<InsertConcurrentPolicy>([](const auto&) {}, v); });
+				d_data = AtomicLoadAcquire(tmp.d_data);
+				tmp.d_data = nullptr;
 
 				return *this;
 			}
 
-			ConcurrentHashTable& operator=(ConcurrentHashTable&& other) noexcept((std::allocator_traits<Alloc>::propagate_on_container_move_assignment::value
-												? std::is_nothrow_move_assignable_v<Alloc>
-												: std::allocator_traits<Alloc>::is_always_equal::value) &&
+			ConcurrentHashTable& operator=(ConcurrentHashTable&& other) noexcept((std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value
+												? std::is_nothrow_move_assignable_v<Allocator>
+												: std::allocator_traits<Allocator>::is_always_equal::value) &&
 											     std::is_nothrow_copy_assignable_v<base_hash_equal>)
 			{
 				if (this == std::addressof(other))
 					return *this;
 
-				using traits = std::allocator_traits<Alloc>;
+				using traits = std::allocator_traits<Allocator>;
 
 				if constexpr (traits::propagate_on_container_move_assignment::value) {
 
 					// Move allocator, might throw
-					static_cast<Alloc&>(*this) = std::move(static_cast<Alloc&>(other));
+					static_cast<Allocator&>(*this) = std::move(static_cast<Allocator&>(other));
 					destroy_data();
 					base() = other.base();
-					d_data = AtomicLoad(other.d_data);
+					d_data = AtomicLoadAcquire(other.d_data);
 					other.d_data = nullptr;
 				}
 				else {
 					if (get_allocator() == other.get_allocator()) {
 						destroy_data();
 						base() = other.base();
-						d_data = AtomicLoad(other.d_data);
+						d_data = AtomicLoadAcquire(other.d_data);
 						other.d_data = nullptr;
 					}
 					else {
 						ConcurrentHashTable tmp(other.hash_function(), other.key_eq(), get_allocator());
 						tmp.reserve(other.size());
-						other.visit_all([&](Value& v) { tmp.template emplace_policy<InsertConcurrentPolicy>([](const auto&) {}, std::move(v)); });
 
-						destroy_data();
-						base() = other.base();
-						d_data = AtomicLoad(tmp.d_data);
+						try {
+							other.visit_all([&](Value& v) { tmp.template emplace_policy<InsertConcurrentPolicy>([](const auto&) {}, std::move(v)); });
+							destroy_data();
+							base() = other.base();
+						}
+						catch (...) {
+							if constexpr (!std::is_trivially_move_constructible_v<Value>)
+								other.clear();
+							throw;
+						}
+
+						if constexpr (!std::is_trivially_move_constructible_v<Value>)
+							other.clear();
+
+						d_data = AtomicLoadAcquire(tmp.d_data);
 						tmp.d_data = nullptr;
 					}
 				}
@@ -1858,14 +1961,17 @@ namespace seq
 				return *this;
 			}
 
+			SEQ_ALWAYS_INLINE auto max_size() const noexcept { return std::allocator_traits<Allocator>::max_size(static_cast<const Allocator&>(*this)); }
+
 			template<class F>
 			bool visit_all(F&& fun)
 			{
 				const PrivateData* d = cget_data();
 				if (!d)
 					return true;
+				auto& f = fun;
 				for (unsigned i = 0; i < PrivateData::map_count; ++i)
-					if (!const_cast<PrivateData*>(d)->at(i).visit_all(std::forward<F>(fun)))
+					if (!const_cast<PrivateData*>(d)->at(i).visit_all(f))
 						return false;
 				return true;
 			}
@@ -1875,8 +1981,9 @@ namespace seq
 				const PrivateData* d = get_data();
 				if (!d)
 					return true;
+				auto& f = fun;
 				for (unsigned i = 0; i < PrivateData::map_count; ++i)
-					if (!d->at(i).visit_all([&fun](const Value& v) { std::forward<F>(fun)(v); }))
+					if (!d->at(i).visit_all([&](const Value& v) { return f(v); }))
 						return false;
 				return true;
 			}
@@ -1890,11 +1997,12 @@ namespace seq
 				if (!d)
 					return true;
 				std::atomic<bool> res{ true };
+				auto& f = fun;
 				std::for_each(std::forward<ExecPolicy>(p), d->maps, d->maps + PrivateData::map_count, [&](const auto& m) {
-					if (!const_cast<hash_map*>(m.as_map())->visit_all(std::forward<F>(fun)))
+					if (!const_cast<hash_map*>(m.as_map())->visit_all(fun))
 						res.store(false);
 				});
-				return AtomicLoad(res);
+				return AtomicLoadAcquire(res);
 			}
 			template<class ExecPolicy, class F>
 			bool visit_all(ExecPolicy&& p, F&& fun) const
@@ -1905,11 +2013,12 @@ namespace seq
 				if (!d)
 					return true;
 				std::atomic<bool> res{ true };
+				auto& f = fun;
 				std::for_each(std::forward<ExecPolicy>(p), d->maps, d->maps + PrivateData::map_count, [&](auto& m) {
-					if (!m.as_map()->visit_all(std::forward<F>(fun)))
+					if (!m.as_map()->visit_all((fun)))
 						res.store(false);
 				});
-				return AtomicLoad(res);
+				return AtomicLoadAcquire(res);
 			}
 
 			void reserve(size_t size)
@@ -1938,12 +2047,12 @@ namespace seq
 				for (unsigned i = 0; i < PrivateData::map_count; ++i)
 					const_cast<PrivateData*>(d)->at(i).clear();
 			}
-			auto get_allocator() const -> Alloc { return *this; }
+			auto get_allocator() const -> Allocator { return *this; }
 
 			auto max_load_factor() const noexcept -> float
 			{
 				const PrivateData* d = get_data();
-				return d ? d->max_load_factor() : 0.7f;
+				return d ? d->max_load_factor() : _SEQ_CONCURRENT_MAP_LOAD_FACTOR;
 			}
 			void max_load_factor(float f)
 			{
@@ -1961,7 +2070,7 @@ namespace seq
 				f /= PrivateData::map_count;
 				return f;
 			}
-			void swap(ConcurrentHashTable& other) noexcept((!traits::propagate_on_container_swap::value || std::is_nothrow_swappable_v<Alloc>) &&
+			void swap(ConcurrentHashTable& other) noexcept((!std::allocator_traits<Allocator>::propagate_on_container_swap::value || std::is_nothrow_swappable_v<Allocator>) &&
 								       std::is_nothrow_swappable_v<base_hash_equal>)
 			{
 				if (this != std::addressof(other)) {
@@ -1972,14 +2081,14 @@ namespace seq
 					}
 					else {
 						using std::swap;
-						swap(static_cast<Alloc&>(*this), static_cast<Alloc&>(other));
+						swap(static_cast<Allocator&>(*this), static_cast<Allocator&>(other));
 					}
 
 					using std::swap;
 					swap(base(), other.base());
 
-					auto l = AtomicLoad(d_data);
-					auto r = AtomicLoad(other.d_data);
+					auto l = AtomicLoadAcquire(d_data);
+					auto r = AtomicLoadAcquire(other.d_data);
 					d_data = r;
 					other.d_data = l;
 				}
@@ -2105,8 +2214,9 @@ namespace seq
 				if SEQ_UNLIKELY (!d)
 					return 0;
 				size_t res = 0;
+				auto& f = fun;
 				for (unsigned i = 0; i < PrivateData::map_count; ++i)
-					res += const_cast<PrivateData*>(d)->at(i).erase_if(std::forward<F>(fun));
+					res += const_cast<PrivateData*>(d)->at(i).erase_if(f);
 				return res;
 			}
 
@@ -2121,18 +2231,16 @@ namespace seq
 					if SEQ_UNLIKELY (!d)
 						return 0;
 					std::atomic<size_t> res{ 0 };
-					std::for_each(std::forward<ExecPolicy>(p), d->maps, d->maps + PrivateData::map_count, [&](const auto& m) {
-						res += const_cast<hash_map*>(m.as_map())->erase_if(std::forward<F>(fun));
-					});
+					auto& f = fun;
+					std::for_each(
+					  std::forward<ExecPolicy>(p), d->maps, d->maps + PrivateData::map_count, [&](const auto& m) { res += const_cast<hash_map*>(m.as_map())->erase_if(f); });
 					return res;
 				}
 			}
 
 			auto merge(ConcurrentHashTable& other) -> size_t
 			{
-				// Lock internal data to avoid swap or move during merging
-
-				PrivateData* d1 = get_data_no_lock();
+				PrivateData* d1 = get_data();
 				PrivateData* d2 = const_cast<PrivateData*>(other.cget_data());
 				if (!d2)
 					return 0;
@@ -2146,11 +2254,10 @@ namespace seq
 			template<class ExecPolicy>
 			auto merge(ExecPolicy&& p, ConcurrentHashTable& other) -> size_t
 			{
-				// Lock internal data to avoid swap or move during merging
 				if constexpr (!is_concurrent)
 					return merge(other);
 
-				PrivateData* d1 = get_data_no_lock();
+				PrivateData* d1 = get_data();
 				PrivateData* d2 = const_cast<PrivateData*>(other.cget_data());
 				if (!d2)
 					return 0;
@@ -2165,8 +2272,6 @@ namespace seq
 
 			bool operator==(const ConcurrentHashTable& other) const
 			{
-				// Lock internal data to avoid swap or move during comparison
-
 				const PrivateData* d1 = cget_data();
 				const PrivateData* d2 = other.cget_data();
 				if (!d1 && !d2)
@@ -2202,7 +2307,7 @@ namespace seq
 			template<typename F, typename Last, typename Tuple, typename... A>
 			static SEQ_ALWAYS_INLINE auto apply(F&& f, Last&& last, Tuple&&, A&&... a)
 			{
-				return std::forward<F>(f)(std::forward<Last>(last), std::forward<A>(a)...);
+				return (f)(std::forward<Last>(last), std::forward<A>(a)...);
 			}
 		};
 

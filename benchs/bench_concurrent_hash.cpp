@@ -548,7 +548,7 @@ void test_concurrent_hash_maps(size_t count, const Gen& gen)
 int bench_concurrent_hash(int, char** const)
 {
 	{
-		size_t count = 20000000;
+		size_t count = 20000000; 
 		using K = size_t;
 		auto gen = [](size_t i) { return i; };
 		test_concurrent_hash_maps<K>(count, gen);
