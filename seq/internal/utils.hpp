@@ -146,6 +146,16 @@ namespace seq
 		p->~T();
 	}
 
+	/// @brief Destroy count objects
+	template<class T>
+	void destroy_ptr(T* p, size_t count) noexcept
+	{
+		if constexpr (!std::is_trivially_destructible_v<T>) {
+			for (size_t i = 0; i < count; ++i)
+				p[i].~T();
+		}
+	}
+
 	/// @brief Simply call new (p) T(...), used as a replacement to std::allocator::construct() which was removed in C++20
 	template<class T, class... Args>
 	SEQ_ALWAYS_INLINE void construct_ptr(T* p, Args&&... args) noexcept(noexcept(T(std::forward<Args>(args)...)))
@@ -311,22 +321,29 @@ namespace seq
 		template<class Allocator, class T>
 		using RebindAllocator = typename std::allocator_traits<Allocator>::template rebind_alloc<T>;
 
+		enum ConstIteratorTag
+		{
+			ConstIterator,
+			NonConstIterator,
+			FromIterator
+		};
+
 		/// @brief Wrapper class for map bidirectional iterator.
 		/// @tparam Iter base iterator type
 		/// @tparam Value value type, usually std::pair<const Key, MappedType>
-		/// 
+		///
 		/// This wrapper use an ugly reinterpret_cast to return std::pair<const Key, MappedType> instead of std::pair<Key, MappedType>.
-		/// 
-		template<class Iter, class Value>
-		class MadBidirIterator
+		///
+		template<class Iter, class Value, ConstIteratorTag tag = FromIterator>
+		class MapBidirIterator
 		{
-			template<class OT, class V>
-			friend class MadBidirIterator;
+			template<class OT, class V, ConstIteratorTag>
+			friend class MapBidirIterator;
 
 			Iter d_iter;
 
 		public:
-			static constexpr bool IsConst = std::is_const_v<std::remove_reference_t<typename Iter::reference>>;
+			static constexpr bool IsConst = tag == FromIterator ? std::is_const_v<std::remove_reference_t<typename Iter::reference>> : (tag == ConstIterator);
 
 			using value_type = Value;
 			using iterator_category = std::bidirectional_iterator_tag;
@@ -339,54 +356,68 @@ namespace seq
 
 			const Iter& iter() const noexcept { return d_iter; }
 
-			MadBidirIterator() noexcept = default;
-			MadBidirIterator(Iter it) noexcept
+			MapBidirIterator() noexcept(std::is_default_constructible_v<Iter>) = default;
+			MapBidirIterator(Iter&& it) noexcept(std::is_nothrow_move_constructible_v<Iter>)
+			  : d_iter(std::move(it))
+			{
+			}
+			MapBidirIterator(const Iter& it) noexcept(std::is_nothrow_copy_constructible_v<Iter>)
 			  : d_iter(it)
 			{
 			}
-			template<class OT, std::enable_if_t<IsConst && !MadBidirIterator<OT, Value>::IsConst && std::is_constructible_v<Iter, OT>, int> = 0>
-			MadBidirIterator(const MadBidirIterator<OT, Value>& other) noexcept
+			template<class OT, ConstIteratorTag T, std::enable_if_t<IsConst && !MapBidirIterator<OT, Value, T>::IsConst && std::is_constructible_v<Iter, OT>, int> = 0>
+			MapBidirIterator(const MapBidirIterator<OT, Value, T>& other) noexcept(std::is_nothrow_copy_constructible_v<Iter>)
 			  : d_iter(other.d_iter)
 			{
 				// Can convert from non-const to const, but not the opposite
-				static_assert(!MadBidirIterator<OT, Value>::IsConst);
+				static_assert(!MapBidirIterator<OT, Value, T>::IsConst);
 			}
-			MadBidirIterator(const MadBidirIterator&) noexcept = default;
-			MadBidirIterator& operator=(const MadBidirIterator&) noexcept = default;
+			template<class OT, ConstIteratorTag T, std::enable_if_t<IsConst && !MapBidirIterator<OT, Value, T>::IsConst && std::is_constructible_v<Iter, OT>, int> = 0>
+			MapBidirIterator(MapBidirIterator<OT, Value, T>&& other) noexcept(std::is_nothrow_move_constructible_v<Iter>)
+			  : d_iter(std::move(other.d_iter))
+			{
+				// Can convert from non-const to const, but not the opposite
+				static_assert(!MapBidirIterator<OT, Value, T>::IsConst);
+			}
+			MapBidirIterator(const MapBidirIterator&) noexcept(std::is_nothrow_copy_constructible_v<Iter>) = default;
+			MapBidirIterator& operator=(const MapBidirIterator&) noexcept(std::is_nothrow_copy_assignable_v<Iter>) = default;
 
-			MadBidirIterator& operator++() noexcept
+			MapBidirIterator(MapBidirIterator&&) noexcept(std::is_nothrow_move_constructible_v<Iter>) = default;
+			MapBidirIterator& operator=( MapBidirIterator&&) noexcept(std::is_nothrow_move_assignable_v<Iter>) = default;
+
+			MapBidirIterator& operator++() noexcept(noexcept(++std::declval<Iter&>()))
 			{
 				++d_iter;
 				return *this;
 			}
-			MadBidirIterator operator++(int) noexcept
+			MapBidirIterator operator++(int) noexcept(noexcept(++std::declval<Iter&>()))
 			{
-				MadBidirIterator tmp(*this);
+				MapBidirIterator tmp(*this);
 				++*this;
 				return tmp;
 			}
-			MadBidirIterator& operator--() noexcept
+			MapBidirIterator& operator--() noexcept(noexcept(--std::declval<Iter&>()))
 			{
 				--d_iter;
 				return *this;
 			}
-			MadBidirIterator operator--(int) noexcept
+			MapBidirIterator operator--(int) noexcept(noexcept(--std::declval<Iter&>()))
 			{
-				MadBidirIterator tmp(*this);
+				MapBidirIterator tmp(*this);
 				--*this;
 				return tmp;
 			}
 
-			reference operator*() const noexcept { return reinterpret_cast<reference>(*d_iter); }
-			pointer operator->() const noexcept { return reinterpret_cast<pointer>(d_iter.operator->()); }
+			reference operator*() const noexcept(noexcept(*std::declval<Iter&>())) { return reinterpret_cast<reference>(*d_iter); }
+			pointer operator->() const noexcept(noexcept(std::declval<Iter&>().operator->)) { return reinterpret_cast<pointer>(d_iter.operator->()); }
 
-			template<class OT>
-			bool operator==(const MadBidirIterator<OT, Value>& r) const noexcept
+			template<class OT, ConstIteratorTag T>
+			bool operator==(const MapBidirIterator<OT, Value, T>& r) const noexcept(noexcept(std::declval<Iter&>() == std::declval<Iter&>()))
 			{
 				return d_iter == r.d_iter;
 			}
-			template<class OT>
-			bool operator!=(const MadBidirIterator<OT, Value>& r) const noexcept
+			template<class OT, ConstIteratorTag T>
+			bool operator!=(const MapBidirIterator<OT, Value, T>& r) const noexcept(noexcept(std::declval<Iter&>() != std::declval<Iter&>()))
 			{
 				return d_iter != r.d_iter;
 			}

@@ -2637,7 +2637,7 @@ namespace seq
 		static_assert(((max_block_size - 1) & max_block_size) == 0, "Maximum block size must be a power of 2");
 		static_assert(min_block_size > 0, "Invalid min block size");
 		static_assert(max_block_size >= min_block_size, "Invalid max block size");
-		static_assert(std::is_same_v<typename std::allocator_traits<Allocator>::pointer, T*>, "tiered_vector requires allocators with raw pointer types");
+		static_assert(std::is_pointer_v<typename std::allocator_traits<Allocator>::pointer>, "tiered_vector requires allocators with raw pointer types");
 
 		using bucket_manager = detail::BucketManager<T, Allocator, min_block_size, max_block_size, StoreBackValues, ValueCompare>;
 		using alloc_traits = std::allocator_traits<Allocator>;

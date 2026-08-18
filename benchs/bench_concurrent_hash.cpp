@@ -502,7 +502,7 @@ void test_concurrent_map(size_t count, const char* name, Rng rng)
 		seq::random_shuffle(keys.begin(), keys.end(), seed);
 		// if (seed < 4)
 		//	continue;
-		for (size_t threads = 1; threads <= 16; ++threads) {
+		for (size_t threads = 1; threads <= 12; ++threads) {
 
 			Map set;
 			// reserve(set,keys.size());
@@ -529,7 +529,7 @@ void test_concurrent_hash_maps(size_t count, const Gen& gen)
 
 	test_concurrent_map<K, gtl::parallel_flat_hash_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>>, 5, std::shared_mutex>>(
 	  count, "gtl::parallel_flat_hash_map", gen);
-	
+
 #ifdef BOOST_CONCURRENT_MAP_FOUND
 	test_concurrent_map<K, boost::concurrent_flat_map<K, size_t, seq::hasher<K>, std::equal_to<K>>>(count, "boost::concurrent_flat_map", gen);
 #endif
@@ -548,7 +548,15 @@ void test_concurrent_hash_maps(size_t count, const Gen& gen)
 int bench_concurrent_hash(int, char** const)
 {
 	{
-		size_t count = 20000000; 
+		seq::concurrent_map<int, int> m;
+		m.insert({ 1, 2 });
+		m.visit(1, [&](auto& v) {
+			std::cout << v.first << std::endl;
+			m.visit(1, [](auto& v) { std::cout << v.second << std::endl; });
+		});
+	}
+	{
+		size_t count = 20000000;
 		using K = size_t;
 		auto gen = [](size_t i) { return i; };
 		test_concurrent_hash_maps<K>(count, gen);

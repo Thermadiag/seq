@@ -48,15 +48,6 @@ namespace seq
 		template<class K, class H, class KE, class A, unsigned S, class Predicate>
 		friend typename concurrent_set<K, H, KE, A, S>::size_type erase_if(concurrent_set<K, H, KE, A, S>& set, Predicate pred);
 
-		struct emplace_or_visit_impl
-		{
-			this_type* _this;
-			template<class F, class... A>
-			bool operator()(F&& f, A&&... a)
-			{
-				return _this->base_type::template emplace_policy<detail::InsertConcurrentPolicy>(std::forward<F>(f), std::forward<A>(a)...);
-			}
-		};
 		struct emplace_or_cvisit_impl
 		{
 			this_type* _this;
@@ -206,11 +197,6 @@ namespace seq
 		SEQ_ALWAYS_INLINE void swap(concurrent_set& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
 
 		template<class F>
-		SEQ_ALWAYS_INLINE bool visit_all(F&& fun)
-		{
-			return base_type::visit_all(std::forward<F>(fun));
-		}
-		template<class F>
 		SEQ_ALWAYS_INLINE bool visit_all(F&& fun) const
 		{
 			return base_type::visit_all(std::forward<F>(fun));
@@ -221,11 +207,6 @@ namespace seq
 			return base_type::visit_all(std::forward<F>(fun));
 		}
 
-		template<class ExecPolicy, class F>
-		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun)
-		{
-			return base_type::visit_all(std::forward<ExecPolicy>(p), std::forward<F>(fun));
-		}
 		template<class ExecPolicy, class F>
 		SEQ_ALWAYS_INLINE typename std::enable_if<detail::internal_is_execution_policy<ExecPolicy>, bool>::type visit_all(ExecPolicy&& p, F&& fun) const
 		{
@@ -247,11 +228,7 @@ namespace seq
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
-		template<class F>
-		SEQ_ALWAYS_INLINE size_type visit(const Key& key, F&& fun)
-		{
-			return base_type::visit(key, std::forward<F>(fun));
-		}
+		
 
 		template<class K, class F>
 		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type visit(const K& key, F&& fun) const
@@ -263,12 +240,7 @@ namespace seq
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
-		template<class K, class F>
-		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type visit(const K& key, F&& fun)
-		{
-			return base_type::visit(key, std::forward<F>(fun));
-		}
-
+		
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> bool
 		{
@@ -277,7 +249,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE bool emplace_or_visit(Args&&... args)
 		{
-			return detail::ApplyFLast(emplace_or_visit_impl{ this }, std::forward<Args>(args)...);
+			return detail::ApplyFLast(emplace_or_cvisit_impl{ this }, std::forward<Args>(args)...);
 		}
 		template<class... Args>
 		SEQ_ALWAYS_INLINE bool emplace_or_cvisit(Args&&... args)
@@ -300,7 +272,7 @@ namespace seq
 		template<class Ty, class F>
 		SEQ_ALWAYS_INLINE bool insert_or_visit(Ty&& value, F&& f)
 		{
-			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>(std::forward<F>(f), Policy::make(std::forward<Ty>(value)));
+			return base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { (f)(v); }, Policy::make(std::forward<Ty>(value)));
 		}
 		template<class InputIterator, class F>
 		void insert_or_visit(InputIterator first, InputIterator last, F&& fun)

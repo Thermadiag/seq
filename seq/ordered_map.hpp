@@ -1242,29 +1242,25 @@ namespace seq
 		void replace(container_type&& c) { base_type::replace(std::move(c)); }
 
 		/// @brief Returns an iterator to the first element of the container.
-		auto end() noexcept -> iterator { return this->d_seq.end(); }
-		/// @brief Returns an iterator to the first element of the container.
 		auto end() const noexcept -> const_iterator { return this->d_seq.end(); }
 		/// @brief Returns an iterator to the first element of the container.
 		auto cend() const noexcept -> const_iterator { return this->d_seq.end(); }
-		/// @brief Returns an iterator to the element following the last element of the container.
-		auto begin() noexcept -> iterator { return this->d_seq.begin(); }
+
 		/// @brief Returns an iterator to the element following the last element of the container.
 		auto begin() const noexcept -> const_iterator { return this->d_seq.begin(); }
 		/// @brief Returns an iterator to the element following the last element of the container.
 		auto cbegin() const noexcept -> const_iterator { return this->d_seq.begin(); }
-		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		auto rbegin() noexcept -> reverse_iterator { return this->d_seq.rbegin(); }
+
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		auto rbegin() const noexcept -> const_reverse_iterator { return this->d_seq.rbegin(); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		auto crbegin() const noexcept -> const_reverse_iterator { return this->d_seq.rbegin(); }
-		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		auto rend() noexcept -> reverse_iterator { return this->d_seq.rend(); }
+
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
 		auto rend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
 		auto crend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
+
 		/// @brief Clear the container
 		void clear() { this->base_type::clear(); }
 
@@ -1475,10 +1471,7 @@ namespace seq
 		/// @param key key value to search for
 		/// @return iterator pointing to found key on success, end iterator on failure.
 		SEQ_ALWAYS_INLINE auto find(const Key& key) const -> const_iterator { return this->base_type::find(key); }
-		/// @brief Finds an element with key equivalent to key
-		/// @param value key value to search for
-		/// @return iterator pointing to found key on success, end iterator on failure.
-		SEQ_ALWAYS_INLINE auto find(const Key& value) -> iterator { return static_cast<iterator>(const_cast<this_type*>(this)->base_type::find(value)); }
+		
 		/// @brief Finds an element with key equivalent to key.
 		/// Finds an element with key that compares equivalent to the value x.
 		/// This overload participates in overload resolution only if Hash::is_transparent and KeyEqual::is_transparent are valid and each denotes a type.
@@ -1491,18 +1484,7 @@ namespace seq
 		{
 			return const_cast<this_type*>(this)->base_type::find(x);
 		}
-		/// @brief Finds an element with key equivalent to key.
-		/// Finds an element with key that compares equivalent to the value x.
-		/// This overload participates in overload resolution only if Hash::is_transparent and KeyEqual::is_transparent are valid and each denotes a type.
-		/// This assumes that such Hash is callable with both K and Key type, and that the KeyEqual is transparent, which, together, allows calling this function without constructing an
-		/// instance of Key.
-		/// @param key value to search for
-		/// @return iterator pointing to found key on success, end iterator on failure.
-		template<class K, class KE = KeyEqual, class H = Hash, typename std::enable_if<has_is_transparent<KE>::value && has_is_transparent<H>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
-		{
-			return static_cast<iterator>(const_cast<this_type*>(this)->base_type::find(key));
-		}
+		
 
 		/// @brief Returns 1 of key exists, 0 otherwise
 		SEQ_ALWAYS_INLINE auto count(const Key& key) const -> size_type { return find(key) != end(); }
@@ -1548,12 +1530,14 @@ namespace seq
 	///
 	/// For more details on its internal implementation, see #seq::ordered_set documentation.
 	///
-	template<class Key, class T, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<std::pair<Key, T>>>
-	class ordered_map : private detail::SparseFlatNodeHashTable<Key, std::pair<Key, T>, Hash, KeyEqual, Allocator>
+	template<class Key, class T, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<std::pair<const Key, T>>>
+	class ordered_map : private detail::SparseFlatNodeHashTable<Key, std::pair<Key, T>, Hash, KeyEqual, detail::RebindAllocator<Allocator, std::pair<Key, T>>>
 	{
-		using base_type = detail::SparseFlatNodeHashTable<Key, std::pair<Key, T>, Hash, KeyEqual, Allocator>;
+		using storage_type = std::pair<Key, T>;
+		using base_allocator = detail::RebindAllocator< Allocator,storage_type>;
+		using base_type = detail::SparseFlatNodeHashTable<Key, storage_type, Hash, KeyEqual, base_allocator>;
 		using this_type = ordered_map<Key, T, Hash, KeyEqual, Allocator>;
-		using extract_key = detail::ExtractKey<Key, std::pair<Key, T>>;
+		using extract_key = detail::ExtractKey<Key, storage_type>;
 
 		template<class Less>
 		struct LessAdapter
@@ -1582,8 +1566,8 @@ namespace seq
 		using difference_type = std::ptrdiff_t;
 
 		using container_type = typename base_type::container_type;
-		using iterator = detail::MadBidirIterator<typename container_type::iterator,value_type>;
-		using const_iterator = detail::MadBidirIterator<typename container_type::const_iterator,value_type>;
+		using iterator = detail::MapBidirIterator<typename container_type::iterator,value_type>;
+		using const_iterator = detail::MapBidirIterator<typename container_type::const_iterator,value_type>;
 		using reverse_iterator = std::reverse_iterator<iterator>;
 		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
@@ -1595,19 +1579,19 @@ namespace seq
 		using pointer = value_type*;
 		using const_pointer = const value_type*;
 
-		ordered_map(const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual(), const Allocator& alloc = Allocator()) noexcept
-		  : base_type(hash, equal, alloc)
+		ordered_map(const Hash& hash = {}, const KeyEqual& equal = {}, const Allocator& alloc = {}) noexcept
+		  : base_type(hash, equal, base_allocator{ alloc })
 		{
 		}
 
 		explicit ordered_map(const Allocator& alloc)
-		  : ordered_map(Hash(), KeyEqual(), alloc)
+		  : ordered_map(Hash(), KeyEqual(),  alloc )
 		{
 		}
 
 		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
-		ordered_map(InputIt first, InputIt last, const Hash& hash = Hash(), const key_equal& equal = key_equal(), const Allocator& alloc = Allocator())
-		  : base_type(hash, equal, alloc)
+		ordered_map(InputIt first, InputIt last, const Hash& hash =  {}, const key_equal& equal = {}, const Allocator& alloc = {})
+		  : ordered_map(hash, equal, alloc )
 		{
 			insert(first, last);
 		}
@@ -1622,7 +1606,7 @@ namespace seq
 		{
 		}
 		ordered_map(const ordered_map& other, const Allocator& alloc)
-		  : base_type(other.hash_function(), other.key_eq(), alloc)
+		  : base_type(other.hash_function(), other.key_eq(), base_allocator{ alloc })
 		{
 			this->d_seq.reserve(other.size());
 			max_load_factor(other.max_load_factor());
@@ -1638,7 +1622,7 @@ namespace seq
 		{
 		}
 		ordered_map(ordered_map&& other, const Allocator& alloc)
-		  : base_type(std::move(other), alloc)
+		  : base_type(std::move(other), base_allocator{ alloc })
 		{
 		}
 		ordered_map(std::initializer_list<value_type> init, const Hash& hash = Hash(), const key_equal& equal = key_equal(), const Allocator& alloc = Allocator())
@@ -1678,7 +1662,7 @@ namespace seq
 		auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
 		void max_load_factor(float f) noexcept { base_type::max_load_factor(f); }
 
-		auto get_allocator() const noexcept -> allocator_type { return this->d_seq.get_allocator(); }
+		auto get_allocator() const -> allocator_type { return this->d_seq.get_allocator(); }
 
 		auto hash_function() const noexcept -> const hasher& { return this->base_type::hash_function(); }
 		auto key_eq() const noexcept -> const key_equal& { return this->base_type::key_eq(); }
@@ -2037,7 +2021,7 @@ namespace seq
 			return false;
 		for (auto it = lhs.begin(); it != lhs.end(); ++it) {
 			auto found = rhs.find(*it);
-			if (found == rhs.end())
+			if (found == rhs.end() || !(*found == *it))
 				return false;
 		}
 		return true;
@@ -2056,10 +2040,10 @@ namespace seq
 	template<class Key, class Hash1, class KeyEqual, class Allocator1, class Pred>
 	auto erase_if(ordered_set<Key, Hash1, KeyEqual, Allocator1>& set, Pred p) -> size_t
 	{
-		using container_type = typename ordered_set<Key, Hash1, KeyEqual, Allocator1>::container_type;
-		// avoid flagging the map as dirty
-		auto& seq = const_cast<container_type&>(set.csequence());
 		size_t count = 0;
+
+		auto seq = set.extract();
+
 		for (auto it = seq.begin(); it != seq.end();) {
 			if (p(*it)) {
 				it = seq.erase(it);
@@ -2068,11 +2052,9 @@ namespace seq
 			else
 				++it;
 		}
-		if (count) {
-			// flag as dirty and rehash
-			set.sequence();
-			set.rehash();
-		}
+		
+		set.replace(std::move(seq));
+
 		return count;
 	}
 
@@ -2088,7 +2070,7 @@ namespace seq
 			return false;
 		for (auto it = lhs.begin(); it != lhs.end(); ++it) {
 			auto found = rhs.find(it->first);
-			if (found == rhs.end() || !(found->second == it->second))
+			if (found == rhs.end() || !(*found == *it))
 				return false;
 		}
 		return true;
@@ -2107,9 +2089,8 @@ namespace seq
 	template<class Key, class T, class Hash1, class KeyEqual, class Allocator1, class Pred>
 	auto erase_if(ordered_map<Key, T, Hash1, KeyEqual, Allocator1>& set, Pred p) -> size_t
 	{
-		using container_type = typename ordered_map<Key, T, Hash1, KeyEqual, Allocator1>::container_type;
-		// avoid flagging the map as dirty
-		auto& seq = const_cast<container_type&>(set.csequence());
+		auto seq = set.extract();
+
 		size_t count = 0;
 		for (auto it = seq.begin(); it != seq.end();) {
 			if (p(*it)) {
@@ -2119,11 +2100,9 @@ namespace seq
 			else
 				++it;
 		}
-		if (count) {
-			// flag as dirty and rehash
-			set.sequence();
-			set.rehash();
-		}
+		
+		set.replace(std::move(seq));
+
 		return count;
 	}
 

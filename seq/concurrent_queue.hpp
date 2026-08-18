@@ -763,25 +763,6 @@ namespace seq
 				d->clear();
 		}
 
-		/// @brief Swap 2 queues.
-		/// This function is NOT thread safe.
-		void swap(concurrent_queue& other) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_swap::value || std::is_nothrow_swappable_v<Allocator>)
-		{
-			if (this != std::addressof(other)) {
-				using traits = std::allocator_traits<Allocator>;
-
-				if constexpr (!traits::propagate_on_container_swap::value) {
-					SEQ_ASSERT_DEBUG(get_allocator() == other.get_allocator(), "swap requires equal non-propagating allocators");
-				}
-				else {
-					using std::swap;
-					swap(static_cast<Allocator&>(*this), static_cast<Allocator&>(other));
-				}
-				auto tmp = d_data.exchange(other.d_data.load());
-				other.d_data.store(tmp);
-			}
-		}
-
 		/// @brief Reserve enough space to hold at least count elements.
 		/// This is a best-effort reservation when called concurrently.
 		void reserve(size_t count) { data()->reserve(count); }
@@ -822,7 +803,30 @@ namespace seq
 		/// @brief Returns true if the queue is empty.
 		SEQ_ALWAYS_INLINE bool empty() const noexcept { return size() == 0; }
 
+
+		////////////////////////////////////////////////////////////////////////////////////
 		// Unsafe API
+		////////////////////////////////////////////////////////////////////////////////////
+		
+		/// @brief Swap 2 queues.
+		/// This function is NOT thread safe.
+		void swap(concurrent_queue& other) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_swap::value || std::is_nothrow_swappable_v<Allocator>)
+		{
+			if (this != std::addressof(other)) {
+				using traits = std::allocator_traits<Allocator>;
+
+				if constexpr (!traits::propagate_on_container_swap::value) {
+					SEQ_ASSERT_DEBUG(get_allocator() == other.get_allocator(), "swap requires equal non-propagating allocators");
+				}
+				else {
+					using std::swap;
+					swap(static_cast<Allocator&>(*this), static_cast<Allocator&>(other));
+				}
+				auto tmp = d_data.exchange(other.d_data.load());
+				other.d_data.store(tmp);
+			}
+		}
+
 
 		/// @brief Release unused memory.
 		void shrink_to_fit() noexcept

@@ -572,6 +572,11 @@ struct DummyHash
 
 SEQ_PROTOTYPE(int test_radix_hash_map(int, char*[]))
 {
+	// Ensure compilation
+	seq::radix_hash_map<int,int> map; 
+	map.key_eq();
+	map.hash_function();
+	map.load_factor();
 
 	// Test radix hash map and detect potential memory leak or wrong allocator propagation
 	CountAlloc<double> al;

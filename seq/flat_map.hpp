@@ -303,7 +303,6 @@ namespace seq
 				return d.size();
 			}
 			else {
-
 				if (l.first != d.size() && le(value, d[l.first]))
 					l.first = d.size();
 				return l.first;
@@ -1345,21 +1344,6 @@ namespace seq
 		/// @param key value to look for
 		/// @return iterator pointing to found element, or end iterator
 		template<class K, class LE = Compare, typename std::enable_if<has_is_transparent<LE>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
-		{
-			return d_tree.find(key);
-		}
-		/// @brief Finds an element with key equivalent to key.
-		/// @param key value to look for
-		/// @return iterator pointing to found element, or end iterator
-		SEQ_ALWAYS_INLINE auto find(const Key& key) -> iterator { return d_tree.find(key); }
-
-		/// @brief Finds an element with key that compares equivalent to the value key.
-		/// This overload participates in overload resolution only if the qualified-id Compare::is_transparent is valid and denotes a type.
-		/// It allows calling this function without constructing an instance of Key.
-		/// @param key value to look for
-		/// @return iterator pointing to found element, or end iterator
-		template<class K, class LE = Compare, typename std::enable_if<has_is_transparent<LE>::value>::type* = nullptr>
 		SEQ_ALWAYS_INLINE auto find(const K& key) const -> const_iterator
 		{
 			return d_tree.find(key);
@@ -1391,17 +1375,6 @@ namespace seq
 		/// This overload participates in overload resolution only if the qualified-id Compare::is_transparent is valid and denotes a type.
 		/// It allows calling this function without constructing an instance of Key.
 		template<class K, class LE = Compare, typename std::enable_if<has_is_transparent<LE>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE auto lower_bound(const K& key) -> iterator
-		{
-			return d_tree.lower_bound(key);
-		}
-		/// @brief Returns an iterator pointing to the first element that is not less than (i.e. greater or equal to) key.
-		SEQ_ALWAYS_INLINE auto lower_bound(const Key& key) -> iterator { return d_tree.lower_bound(key); }
-
-		/// @brief Returns an iterator pointing to the first element that compares not less (i.e. greater or equal) to the value key.
-		/// This overload participates in overload resolution only if the qualified-id Compare::is_transparent is valid and denotes a type.
-		/// It allows calling this function without constructing an instance of Key.
-		template<class K, class LE = Compare, typename std::enable_if<has_is_transparent<LE>::value>::type* = nullptr>
 		SEQ_ALWAYS_INLINE auto lower_bound(const K& key) const -> const_iterator
 		{
 			return d_tree.lower_bound(key);
@@ -1419,17 +1392,6 @@ namespace seq
 		}
 		/// @brief Returns the position of the first element that is not less than (i.e. greater or equal to) key.
 		SEQ_ALWAYS_INLINE auto lower_bound_pos(const Key& key) const -> size_t { return d_tree.lower_bound_pos(key); }
-
-		/// @brief Returns an iterator pointing to the first element that compares greater to the value key.
-		/// This overload participates in overload resolution only if the qualified-id Compare::is_transparent is valid and denotes a type.
-		/// It allows calling this function without constructing an instance of Key.
-		template<class K, class LE = Compare, typename std::enable_if<has_is_transparent<LE>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE auto upper_bound(const K& key) -> iterator
-		{
-			return d_tree.upper_bound(key);
-		}
-		/// @brief Returns an iterator pointing to the first element that is greater than key.
-		SEQ_ALWAYS_INLINE auto upper_bound(const Key& key) -> iterator { return d_tree.upper_bound(key); }
 
 		/// @brief Returns an iterator pointing to the first element that compares greater to the value key.
 		/// This overload participates in overload resolution only if the qualified-id Compare::is_transparent is valid and denotes a type.
@@ -1482,22 +1444,6 @@ namespace seq
 		/// This overload participates in overload resolution only if the qualified-id Compare::is_transparent is valid and denotes a type.
 		/// It allows calling this function without constructing an instance of Key.
 		template<class K, class LE = Compare, typename std::enable_if<has_is_transparent<LE>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE auto equal_range(const K& key) -> std::pair<iterator, iterator>
-		{
-			return d_tree.equal_range(key);
-		}
-		/// @brief Returns a range containing all elements with the given key in the container.
-		/// The range is defined by two iterators, one pointing to the first element that is not less than key and another pointing to the first element greater than key.
-		/// Alternatively, the first iterator may be obtained with lower_bound(), and the second with upper_bound().
-		SEQ_ALWAYS_INLINE auto equal_range(const Key& key) -> std::pair<iterator, iterator> { return d_tree.equal_range(key); }
-
-		/// @brief Returns a range containing all elements with the given key in the container.
-		/// The range is defined by two iterators, one pointing to the first element that is not less than key and another pointing to the first element greater than key.
-		/// Alternatively, the first iterator may be obtained with lower_bound(), and the second with upper_bound().
-		///
-		/// This overload participates in overload resolution only if the qualified-id Compare::is_transparent is valid and denotes a type.
-		/// It allows calling this function without constructing an instance of Key.
-		template<class K, class LE = Compare, typename std::enable_if<has_is_transparent<LE>::value>::type* = nullptr>
 		SEQ_ALWAYS_INLINE auto equal_range(const K& key) const -> std::pair<const_iterator, const_iterator>
 		{
 			return d_tree.equal_range(key);
@@ -1534,28 +1480,20 @@ namespace seq
 		}
 
 		/// @brief Returns an iterator to the first element of the container.
-		SEQ_ALWAYS_INLINE auto begin() noexcept -> iterator { return d_tree.begin(); }
-		/// @brief Returns an iterator to the first element of the container.
 		SEQ_ALWAYS_INLINE auto begin() const noexcept -> const_iterator { return d_tree.cbegin(); }
 		/// @brief Returns an iterator to the first element of the container.
 		SEQ_ALWAYS_INLINE auto cbegin() const noexcept -> const_iterator { return d_tree.cbegin(); }
 
-		/// @brief Returns an iterator to the element following the last element of the container.
-		SEQ_ALWAYS_INLINE auto end() noexcept -> iterator { return d_tree.end(); }
 		/// @brief Returns an iterator to the element following the last element of the container.
 		SEQ_ALWAYS_INLINE auto end() const noexcept -> const_iterator { return d_tree.cend(); }
 		/// @brief Returns an iterator to the element following the last element of the container.
 		SEQ_ALWAYS_INLINE auto cend() const noexcept -> const_iterator { return d_tree.cend(); }
 
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		SEQ_ALWAYS_INLINE auto rbegin() noexcept -> reverse_iterator { return d_tree.rbegin(); }
-		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		SEQ_ALWAYS_INLINE auto rbegin() const noexcept -> const_reverse_iterator { return d_tree.crbegin(); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		SEQ_ALWAYS_INLINE auto crbegin() const noexcept -> const_reverse_iterator { return d_tree.crbegin(); }
 
-		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		SEQ_ALWAYS_INLINE auto rend() noexcept -> reverse_iterator { return d_tree.rend(); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
 		SEQ_ALWAYS_INLINE auto rend() const noexcept -> const_reverse_iterator { return d_tree.crend(); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
@@ -1833,10 +1771,12 @@ namespace seq
 	///
 	/// All references and iterators are invalidated when inserting/removing elements.
 	///
-	template<class Key, class T, class Compare = std::less<>, class Allocator = std::allocator<std::pair<Key, T>>, bool Stable = false, bool Unique = true>
+	template<class Key, class T, class Compare = std::less<>, class Allocator = std::allocator<std::pair<const Key, T>>, bool Stable = false, bool Unique = true>
 	class flat_map
 	{
-		using flat_tree_type = detail::flat_tree<Key, std::pair<Key, T>, Compare, Allocator, Stable, Unique>;
+		using storage_type = std::pair<Key, T>;
+		using base_allocator = detail::RebindAllocator<Allocator, storage_type>;
+		using flat_tree_type = detail::flat_tree<Key, storage_type, Compare, base_allocator, Stable, Unique>;
 		flat_tree_type d_tree;
 
 		using Policy = detail::BuildValue<std::pair<Key, T>, has_is_transparent<Compare>::value>;
@@ -1864,16 +1804,16 @@ namespace seq
 
 		flat_map() {}
 		explicit flat_map(const Compare& comp, const Allocator& alloc = Allocator())
-		  : d_tree(comp, alloc)
+		  : d_tree(comp, base_allocator{ alloc })
 		{
 		}
 		explicit flat_map(const Allocator& alloc)
-		  : d_tree(alloc)
+		  : d_tree(base_allocator{ alloc })
 		{
 		}
 		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		flat_map(InputIt first, InputIt last, const Compare& comp = Compare(), const Allocator& alloc = Allocator())
-		  : d_tree(first, last, comp, alloc)
+		  : d_tree(first, last, comp, base_allocator{ alloc })
 		{
 		}
 		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
@@ -1887,7 +1827,7 @@ namespace seq
 		}
 
 		flat_map(const flat_map& other, const Allocator& alloc)
-		  : d_tree(other.d_tree, alloc)
+		  : d_tree(other.d_tree, base_allocator{ alloc })
 		{
 		}
 		flat_map(flat_map&& other) noexcept(std::is_nothrow_move_constructible_v<flat_tree_type>)
@@ -1895,7 +1835,7 @@ namespace seq
 		{
 		}
 		flat_map(flat_map&& other, const Allocator& alloc)
-		  : d_tree(std::move(other.d_tree), alloc)
+		  : d_tree(std::move(other.d_tree), base_allocator{ alloc })
 		{
 		}
 		flat_map(std::initializer_list<value_type> init, const Compare& comp = Compare(), const Allocator& alloc = Allocator())
@@ -2411,9 +2351,8 @@ namespace seq
 		if (s1.size() != s2.size())
 			return false;
 		auto it1 = s1.begin();
-		auto cmp = s1.key_comp();
 		for (auto it2 = s2.begin(); it2 != s2.end(); ++it2, ++it1) {
-			if (cmp(*it1, *it2) || cmp(*it2, *it1))
+			if (!(*it1 == *it2))
 				return false;
 		}
 		return true;
@@ -2426,15 +2365,13 @@ namespace seq
 	}
 	/// @brief Erases all elements that satisfy the predicate p from the container.
 	template<class Key, class Compare, class Al1, bool S1, bool U1, class Pred>
-	auto erase_if(flat_set<Key, Compare, Al1, S1, U1>& s1, Pred p) -> typename flat_set<Key, Compare, Al1, S1, U1>::size_type
+	auto erase_if(flat_set<Key, Compare, Al1, S1, U1>& s1, Pred p) -> size_t
 	{
-		using container_type = typename flat_set<Key, Compare, Al1, S1, U1>::container_type;
-		// use const_cast to avoid flagging the flat_set as dirty
-		container_type& d = const_cast<container_type&>(s1.container());
+		auto d = s1.extract();
 		auto it = std::remove_if(d.begin(), d.end(), p);
-		size_t res = d.end() - it;
+		size_t res = (size_t)(d.end() - it);
 		d.erase(it, d.end());
-		d.manager()->update_all_back_values();
+		s1.replace(std::move(d));
 		return res;
 	}
 
@@ -2447,9 +2384,8 @@ namespace seq
 		auto it1 = s1.begin();
 		auto cmp = s1.key_comp();
 		for (auto it2 = s2.begin(); it2 != s2.end(); ++it2, ++it1) {
-			if (cmp(it1->first, it2->first) || cmp(it2->first, it1->first))
+			if (!(*it1 == *it2))
 				return false;
-			SEQ_COMPARE_FLOAT(if (it1->second != it2->second) return false;)
 		}
 		return true;
 	}
@@ -2461,15 +2397,13 @@ namespace seq
 	}
 	/// @brief Erases all elements that satisfy the predicate p from the container.
 	template<class Key, class T, class Compare, class Al1, bool S1, bool U1, class Pred>
-	auto erase_if(flat_map<Key, T, Compare, Al1, S1, U1>& s1, Pred p) -> typename flat_map<Key, T, Compare, Al1, S1, U1>::size_type
+	auto erase_if(flat_map<Key, T, Compare, Al1, S1, U1>& s1, Pred p) -> size_t
 	{
-		using container_type = typename flat_map<Key, T, Compare, Al1, S1, U1>::container_type;
-		// use const_cast to avoid flagging the flat_set as dirty
-		container_type& d = const_cast<container_type&>(s1.container());
+		auto d = s1.extract();
 		auto it = std::remove_if(d.begin(), d.end(), p);
 		size_t res = d.end() - it;
 		d.erase(it, d.end());
-		d.manager()->update_all_back_values();
+		s1.replace(std::move(d));
 		return res;
 	}
 

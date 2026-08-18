@@ -37,8 +37,6 @@
 #include <map>
 #include <string>
 
-
-
 template<class Alloc, class U>
 using RebindAlloc = typename std::allocator_traits<Alloc>::template rebind_alloc<U>;
 
@@ -68,19 +66,32 @@ void test_destroy(T count)
 	TestDestroyCount<Val>::test(count);
 }
 
+namespace seq
+{
+	namespace detail
+	{
+
+		template<class Iter>
+		bool check_bit_pos(const Iter& it)
+		{
+			// For tests only
+			return it.iter().bit_pos == it.iter().get_bit_pos(it.iter().dir);
+		}
+
+	}
+}
+
 // #undef SEQ_TEST
 // #define SEQ_TEST(...) if(!(__VA_ARGS__)) throw std::runtime_error("");
+
+static int _global_count = 0;
 
 /// @brief Allocator that allows only one allocation
 template<class T>
 class dummy_alloc : public std::allocator<T>
 {
 public:
-	static int& get_int()
-	{
-		static int c = 0;
-		return c;
-	}
+	static int& get_int() { return _global_count; }
 	template<class U>
 	struct rebind
 	{
@@ -380,7 +391,7 @@ inline void test_radix_set_common()
 	}
 	{
 		// Test prefix search
-		seq::radix_map<std::string,int> set;
+		seq::radix_map<std::string, int> set;
 		set.insert({ "this is ok", 0 });
 		set.insert({ "this is not ok", 0 });
 		set.insert({ "this is right", 0 });
@@ -886,6 +897,7 @@ inline void test_radix_map_logic()
 	using namespace seq;
 	using pair_type = typename map_type::value_type;
 	using key_type = typename map_type::key_type;
+	using vec_pair_type = std::pair<std::remove_const_t<typename pair_type::first_type>,typename pair_type::second_type>;
 	{
 		// test construct from initializer list
 		map_type set = { { 1., 1. }, { 9., 9. }, { 2., 2. }, { 8., 8. }, { 3., 3. }, { 7., 7. }, { 4., 4. }, { 6., 6. }, { 5., 5. }, { 2., 2. }, { 7., 7. } };
@@ -1014,8 +1026,8 @@ inline void test_radix_map_logic()
 	}
 	{
 		// test rehash() with duplicate removal
-
-		std::vector<pair_type> v;
+		
+		std::vector<vec_pair_type> v;
 		for (size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<key_type>(i), static_cast<key_type>(i));
 		for (size_t i = 0; i < 10000; ++i)
@@ -1070,7 +1082,7 @@ inline void test_radix_map_logic()
 	}
 	{
 		// test copy
-		std::vector<pair_type> v;
+		std::vector<vec_pair_type> v;
 		for (size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<key_type>(i), static_cast<key_type>(i));
 		seq::random_shuffle(v.begin(), v.end());
@@ -1301,9 +1313,9 @@ static void test_issue()
 	check_map(tuples);
 
 	// Test if the test tuple is found (as expected => true)
-	//auto find_result_0 = tuples.find((test_tuple));
-	//bool contains_step_0 = find_result_0 != tuples.end();
-	//std::cout << "First: " << contains_step_0 << std::endl;
+	// auto find_result_0 = tuples.find((test_tuple));
+	// bool contains_step_0 = find_result_0 != tuples.end();
+	// std::cout << "First: " << contains_step_0 << std::endl;
 
 	// insert a new tuple (should not affect the test tuple)
 	{
@@ -1320,9 +1332,9 @@ static void test_issue()
 	check_map(tuples);
 
 	// Test if the test tuple is found (as expected => true)
-	//auto find_result_1 = tuples.find((test_tuple));
-	//bool contains_step_1 = find_result_1 != tuples.end();
-	//std::cout << "Second: " << contains_step_1 << std::endl;
+	// auto find_result_1 = tuples.find((test_tuple));
+	// bool contains_step_1 = find_result_1 != tuples.end();
+	// std::cout << "Second: " << contains_step_1 << std::endl;
 
 	// This insertion breaks the radix map somehow
 	{
@@ -1338,11 +1350,6 @@ static void test_issue()
 	}
 	check_map(tuples);
 }
-
-
-
-
-
 
 using schema_t = std::tuple<uint64_t, uint64_t>;
 
@@ -1396,7 +1403,6 @@ static void test_issue2()
 	seq::radix_map<schema_t*, size_t, extractor_t>::iterator upper_2 = tuples.upper_bound(&my_tuple);
 	show_all(lower_2, upper_2);
 	std::cout << "===============================" << std::endl;
-
 }
 
 int test_chrono()
@@ -1407,7 +1413,7 @@ int test_chrono()
 	for (int i = 0; i < 1000000; ++i)
 		set.insert(std::chrono::steady_clock::now());
 	SEQ_TEST(set.size() > 0 && set.size() <= 1000000);
-	
+
 	using duration = decltype(time{}.time_since_epoch());
 
 	seq::radix_set<duration> set2;
@@ -1418,9 +1424,24 @@ int test_chrono()
 	return 0;
 }
 
-
 SEQ_PROTOTYPE(int test_radix_tree(int, char*[]))
 {
+	/* {
+		struct Extract
+		{
+			seq::tstring operator()(const seq::tstring& p) const noexcept 
+			{ 
+				auto ret = p;
+				ret.replace("a", "o");
+				return ret;
+			}
+		};
+		seq::radix_set<seq::tstring, Extract> s;
+		auto i1 = s.insert(seq::tstring("toto"));
+		auto i2 = s.insert(seq::tstring("tata"));
+		auto i3 = s.insert("titi");
+
+	}*/
 	test_chrono();
 	{
 		seq::radix_map<std::tuple<uint64_t>, uint64_t> tuples;

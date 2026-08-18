@@ -537,7 +537,7 @@ namespace seq
 		static constexpr std::uint64_t full = node_type::full;
 
 		static_assert(std::is_nothrow_copy_constructible_v<Allocator>, "sequence only supports nothrow copy constructible allocators");
-		static_assert(std::is_same_v<typename std::allocator_traits<Allocator>::pointer, T*>, "sequence requires allocators with raw pointer types");
+		static_assert(std::is_pointer_v<typename std::allocator_traits<Allocator>::pointer>, "sequence requires allocators with raw pointer types");
 
 		/// Internal data
 		/// We use a pointer to Data internally as it fasten the move copy and assignment, and simplifies th iterator implemention.
