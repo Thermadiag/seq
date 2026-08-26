@@ -613,8 +613,8 @@ namespace seq
 			SEQ_STR_INLINE_STRONG auto get_allocator() const noexcept -> const Allocator& { return *this; }
 			SEQ_STR_INLINE_STRONG void swap(string_internal& other) noexcept
 			{
-				auto tmp = d_union;
-				d_union = other.d_union;
+				auto tmp = this->d_union;
+				this->d_union = other.d_union;
 				other.d_union = tmp;
 			}
 		};
@@ -1065,9 +1065,9 @@ namespace seq
 			// to deduce noexcept specifier.
 			// Also tries to use memmove when possible.
 
-			if constexpr (std::is_same_v<It, Char*> || std::is_same_v<It, const Char*> || std::is_same_v<It, std::basic_string<Char>::iterator> ||
-				      std::is_same_v<It, std::basic_string<Char>::const_iterator> || std::is_same_v<It, std::basic_string_view<Char>::iterator> ||
-				      std::is_same_v<It, std::basic_string_view<Char>::const_iterator>) {
+			if constexpr (std::is_same_v<It, Char*> || std::is_same_v<It, const Char*> || std::is_same_v<It, typename std::basic_string<Char>::iterator> ||
+				      std::is_same_v<It, typename std::basic_string<Char>::const_iterator> || std::is_same_v<It, typename std::basic_string_view<Char>::iterator> ||
+				      std::is_same_v<It, typename std::basic_string_view<Char>::const_iterator>) {
 				const auto n = static_cast<size_t>(last - first);
 				if (n != 0)
 					memmove(dst, std::addressof(*first), n * sizeof(Char));

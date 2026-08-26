@@ -116,11 +116,8 @@ namespace seq
 			};
 
 		private:
-#ifdef __cpp_lib_hardware_interference_size
-			static constexpr size_t cache_line_size = std::hardware_destructive_interference_size;
-#else
+
 			static constexpr size_t cache_line_size = 64;
-#endif
 
 			alignas(cache_line_size) atomic_type d_head{ 0 };// Head (insert) position
 			alignas(cache_line_size) atomic_type d_tail{ 0 };// Tail (pop) position

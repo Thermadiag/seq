@@ -754,7 +754,6 @@ namespace seq
 	template<class Key, class T, class Hash, class Equal, class L1, class L2, class Al1, class Al2>
 	auto operator==(const radix_hash_map<Key, T, Hash, Equal, Al1, L1>& s1, const radix_hash_map<Key, T, Hash, Equal, Al2, L2>& s2) -> bool
 	{
-		using value_type_extract = typename radix_hash_map<Key, T, Hash, Equal, Al1, L1>::value_type_extract;
 		if (s1.size() != s2.size())
 			return false;
 

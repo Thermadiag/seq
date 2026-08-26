@@ -2356,7 +2356,7 @@ namespace seq
 			operator tiny_string<C, Al, S>() const
 			{
 				// convertion operator to tiny_string
-				return str<tiny_string<C, Traits, Al, S>>();
+				return str<tiny_string<C, Al, S>>();
 			}
 		};
 

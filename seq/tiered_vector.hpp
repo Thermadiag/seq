@@ -691,7 +691,6 @@ namespace seq
 			template<class Helper>
 			void push_front_n(cbuffer_pos n, const Helper& helper)
 			{
-				cbuffer_pos saved_begin = begin;
 				cbuffer_pos i = 0;
 				try {
 					for (; i < n; ++i) {
@@ -886,7 +885,7 @@ namespace seq
 				catch (...) {
 					if constexpr (relocatable) {
 						// Existing basic-guarantee recovery.
-						memcpy(res, &back(), sizeof(T));
+						memcpy((void*)res, (void*)&back(), sizeof(T));
 						--size;
 					}
 					else if (shifted_left) {
@@ -946,7 +945,7 @@ namespace seq
 					if constexpr (relocatable) {
 						// Relocate the preconstructed value into the hole. Its source
 						// lifetime ends without running the destructor.
-						memcpy(&(*this)[pos], value, sizeof(T));
+						memcpy((void*)&(*this)[pos], (void*)value, sizeof(T));
 						value_is_alive = false;
 					}
 					else {
@@ -1002,7 +1001,7 @@ namespace seq
 					if constexpr (relocatable) {
 						// Relocate the preconstructed value into the hole. Its source
 						// lifetime ends without running the destructor.
-						memcpy(destination, value, sizeof(T));
+						memcpy((void*)destination, (void*)value, sizeof(T));
 						value_is_alive = false;
 					}
 					else {
@@ -1111,7 +1110,7 @@ namespace seq
 					}
 					catch (...) {
 						// Move saved value to the erased slot
-						memcpy(to_erase, tmp.live_slot(0), sizeof(T));
+						memcpy((void*)to_erase, (void*)tmp.live_slot(0), sizeof(T));
 						// Restore size
 						++size;
 						throw;
@@ -1139,7 +1138,7 @@ namespace seq
 					}
 					catch (...) {
 						// Move saved value to the erased slot
-						memcpy(to_erase, tmp.live_slot(0), sizeof(T));
+						memcpy((void*)to_erase, (void*)tmp.live_slot(0), sizeof(T));
 						// Restore size
 						++size;
 						throw;
@@ -1163,7 +1162,7 @@ namespace seq
 
 				if constexpr (relocatable)
 					// Save element at pos
-					memcpy(erased.raw_slot(0), &(*this)[pos], sizeof(T));
+					memcpy((void*)erased.raw_slot(0), (void*)(&(*this)[pos]), sizeof(T));
 
 				if (pos > size / 2) {
 					// move elems after pos

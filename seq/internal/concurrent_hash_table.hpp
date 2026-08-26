@@ -1067,8 +1067,9 @@ namespace seq
 				}
 			}
 
-			SEQ_NOINLINE(auto) update_lock(lock_array* locks, size_t hash, size_t& hash_mask, size_t& pos, node_lock*& l)
+			SEQ_NOINLINE(auto) update_lock( lock_array* locks, size_t hash, size_t& hash_mask, size_t& pos, node_lock*& l)
 			{
+				std::this_thread::yield();//TEST
 				hash_mask = AtomicLoad(d_hash_mask, std::memory_order_acquire);
 				if (((hash & hash_mask) != pos)) {
 					pos = (hash & hash_mask);
@@ -1079,6 +1080,7 @@ namespace seq
 			}
 			SEQ_NOINLINE(auto) update_lock_shared(lock_array* locks, size_t hash, size_t& hash_mask, size_t& pos, node_lock*& l) const
 			{
+				std::this_thread::yield();//TEST
 				hash_mask = AtomicLoad(d_hash_mask, std::memory_order_acquire);
 				if (((hash & hash_mask) != pos)) {
 					pos = (hash & hash_mask);
@@ -2211,7 +2213,6 @@ namespace seq
 
 				std::scoped_lock<node_lock_type, node_lock_type> guard(d_cross_lock, other.d_cross_lock);
 
-				PrivateData* d1 = get_data();
 				PrivateData* d2 = const_cast<PrivateData*>(other.cget_data());
 				if (!d2)
 					return 0;
@@ -2232,7 +2233,6 @@ namespace seq
 
 				std::scoped_lock<node_lock_type, node_lock_type> guard(d_cross_lock, other.d_cross_lock);
 
-				PrivateData* d1 = get_data();
 				PrivateData* d2 = const_cast<PrivateData*>(other.cget_data());
 				if (!d2)
 					return 0;

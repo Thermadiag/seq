@@ -94,7 +94,6 @@ namespace seq
 			// Compare 2 values
 			// Always return 0 if they are NOT comparable
 			if constexpr (is_string_class<L>::value && is_generic_string<R>::value) {
-				using Char = typename character_type<L>::type;
 				using Traits = typename L::traits_type;
 				return detail::traits_string_compare<Traits>(string_data(l), string_size(l), string_data(r), string_size(r));
 			}
@@ -2306,7 +2305,7 @@ namespace seq
 		if (s1.size() != s2.size())
 			return false;
 		auto it1 = s1.begin();
-		auto cmp = s1.key_comp();
+		//auto cmp = s1.key_comp();
 		for (auto it2 = s2.begin(); it2 != s2.end(); ++it2, ++it1) {
 			if (!(*it1 == *it2))
 				return false;

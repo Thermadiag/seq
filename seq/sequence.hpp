@@ -1232,7 +1232,7 @@ namespace seq
 		SEQ_NOINLINE(auto)
 		emplace_back_iter_noinline(Args&&... args) -> iterator
 		{
-			T* back = &emplace_back(std::forward<Args>(args)...);
+			emplace_back(std::forward<Args>(args)...);
 			return iterator(d_data->end_node->prev, d_data->end_node->prev->end -1);
 		}
 
@@ -1541,7 +1541,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_back_iter(Args&&... args) -> iterator
 		{
-			T* back = &emplace_back(std::forward<Args>(args)...);
+			emplace_back(std::forward<Args>(args)...);
 			return iterator(d_data->end_node->prev, d_data->end_node->prev->end -1);
 		}
 
@@ -1585,7 +1585,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_front_iter(Args&&... args) -> iterator
 		{
-			T* front = &emplace_front(std::forward<Args>(args)...);
+			emplace_front(std::forward<Args>(args)...);
 			return iterator(d_data->end_node->next, d_data->end_node->next->start);
 		}
 

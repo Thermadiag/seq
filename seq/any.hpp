@@ -1888,7 +1888,7 @@ namespace seq
 
 			hold_any tmp = type(std::forward<Args>(args)...);
 			*this = std::move(tmp);
-			return cast<type&>();
+			return this->template cast<type&>();
 		}
 
 	public:

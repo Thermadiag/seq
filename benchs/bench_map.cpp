@@ -80,6 +80,12 @@ namespace art
 }
 
 template<class T>
+struct is_art : std::false_type{};
+
+template<class K, class V>
+struct is_art<art::radix_map<K,V>>: std::true_type{}; 
+
+template<class T>
 inline size_t convert_to_size_t(const T& v)
 {
 	return static_cast<size_t>(v);
@@ -289,7 +295,7 @@ struct LaunchTest
 		size_t erase = 0;
 
 #ifndef TEST_BOOST_INSERT_ERASE
-		if (is_boost_map<C>::value) {
+		if constexpr(is_boost_map<C>::value) {
 			erase = 1000000;
 		}
 		else
@@ -302,10 +308,12 @@ struct LaunchTest
 			for (size_t i = 0; i < success.size() / 2; ++i) {
 				auto it = set.find(success[i].first);
 				SEQ_TEST(it != set.end());
-				if (it != set.end())
-					// set.erase((const_iterator)it);
-					// TEST
-					set.erase(it->first);
+				if (it != set.end()){ 
+					if constexpr(!is_art<C>::value)
+						set.erase(it);
+					else
+						set.erase(it->first);
+				}	
 			}
 
 			erase = tock_ms();
