@@ -1069,7 +1069,7 @@ namespace seq
 
 			SEQ_NOINLINE(auto) update_lock( lock_array* locks, size_t hash, size_t& hash_mask, size_t& pos, node_lock*& l)
 			{
-				std::this_thread::yield();//TEST
+				std::this_thread::yield();
 				hash_mask = AtomicLoad(d_hash_mask, std::memory_order_acquire);
 				if (((hash & hash_mask) != pos)) {
 					pos = (hash & hash_mask);
@@ -1080,7 +1080,7 @@ namespace seq
 			}
 			SEQ_NOINLINE(auto) update_lock_shared(lock_array* locks, size_t hash, size_t& hash_mask, size_t& pos, node_lock*& l) const
 			{
-				std::this_thread::yield();//TEST
+				std::this_thread::yield();
 				hash_mask = AtomicLoad(d_hash_mask, std::memory_order_acquire);
 				if (((hash & hash_mask) != pos)) {
 					pos = (hash & hash_mask);

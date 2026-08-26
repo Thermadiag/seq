@@ -39,6 +39,7 @@
 #include <map>
 #include <algorithm>
 #include <random>
+#include <fstream>
 
 #include "testing.hpp"
 
@@ -270,9 +271,9 @@ struct LaunchTest
 		tick();
 		sum = 0;
 		for (size_t i = 0; i < success.size(); ++i) 
-			SEQ_TEST(set.lower_bound(success[i].first) != set.end());
+			//SEQ_TEST(set.lower_bound(success[i].first) != set.end());
 			//TEST: lower_bound on failed
-			//sum += (set.lower_bound(fail[i].first) != set.begin());
+			sum += (set.lower_bound(fail[i].first) != set.begin());
 		size_t lower_bound = tock_ms();
 		print_null(sum);
 
@@ -412,7 +413,7 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 		      ""); // erase
 
 	auto header = join("|", _s().l(30), _s().c(20), _s().c(20), _s().c(15), _s().c(15), _s().c(15), _s().c(15), _s().c(15), _s().c(15), "");
-	std::cout << header("Set name", "Insert(range)", "Insert", "Insert(failed)", "Find (success)", "LB (success)", "Find (failed)", "Iterate", "Erase") << std::endl;
+	std::cout << header("Set name", "Insert(range)", "Insert", "Insert(failed)", "Find (success)", "LB (not equal)", "Find (failed)", "Iterate", "Erase") << std::endl;
 	std::cout << header(fill('-'), fill('-'), fill('-'), fill('-'), fill('-'), fill('-'), fill('-'), fill('-'), fill('-')) << std::endl;
 
 	// Warmup
@@ -497,6 +498,24 @@ void test_small_map(int count, int repeat)
 }
 */
 
+template<class String>
+std::vector<String> load_dict(const char* filename)
+{
+	std::ifstream fin(filename);
+	if (!fin)
+		return {};
+	std::vector<String> ret;
+	while (true) {
+		String r;
+		fin >> r;
+		if (fin)
+			ret.push_back(std::move(r));
+		else
+			break;
+	}
+	return ret;
+}
+
 int bench_map(int, char** const)
 {
 	/* {
@@ -541,7 +560,13 @@ int bench_map(int, char** const)
 		}
 	}*/
 	
-	using string = seq::tstring;
+	using string = std::string;//seq::tstring;
+
+	/* {
+		auto vec = load_dict<string>("C:\\Users\\VM213788\\Documents\\src\\seq\\benchs\\words.txt");
+		seq::random_shuffle(vec.begin(), vec.end(), 1);
+		test_map<string>(vec.size(), [&](size_t i) { return vec[i]; });
+	}*/
 
 	// test random tuple
 	{
