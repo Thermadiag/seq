@@ -71,12 +71,13 @@ struct Convert<String, char>
 struct Less
 {
 	template<class Char>
-	bool operator()(const std::basic_string<Char,std::char_traits<Char>, std::allocator<Char>> & v1, const std::basic_string<Char, std::char_traits<Char>, std::allocator<Char>>& v2) const noexcept{
+	SEQ_ALWAYS_INLINE bool operator()(const std::basic_string<Char,std::char_traits<Char>, std::allocator<Char>> & v1, const std::basic_string<Char, std::char_traits<Char>, std::allocator<Char>>& v2) const noexcept{
 		
 		return seq::detail::traits_string_inf< std::char_traits<Char> >(v1.data(), v1.size(), v2.data(), v2.size());
 	}
-	template<class Char, class Traits, class Al, size_t S>
-	bool operator()(const tiny_string<Char,Traits,Al,S>& s1, const tiny_string<Char, Traits, Al, S>& s2) const noexcept {
+	template<class Char, class Al, size_t S>
+	SEQ_ALWAYS_INLINE bool operator()(const tiny_string<Char, Al, S>& s1, const tiny_string<Char, Al, S>& s2) const noexcept
+	{
 		return s1 < s2;
 	}
 };
@@ -113,7 +114,7 @@ inline void test_sort_strings(size_t count = 1000000)
 	std::cout << std::endl;
 
 	using std_string = std::basic_string<Char, std::char_traits<Char>, std::allocator<Char> >;
-	using t_string = tiny_string<Char, std::char_traits<Char>, std::allocator<Char> >;
+	using t_string = tiny_string<Char, std::allocator<Char> >;
 
 	std::vector<std_string> vec(count);
 	std::vector<std_string> vec_w(count);
@@ -383,7 +384,7 @@ template<class Char, size_t MaxStaticSize = 0>
 void test_tstring_operators(size_t count = 5000000, size_t string_size = 13)
 {
 	using std_string = std::basic_string<Char, std::char_traits<Char>, std::allocator<Char> >;
-	using t_string = tiny_string<Char, std::char_traits<Char>, std::allocator<Char>, MaxStaticSize>;
+	using t_string = tiny_string<Char,  std::allocator<Char>, MaxStaticSize>;
 
 
 	std::cout << std::endl;
@@ -504,7 +505,7 @@ template<class Char, size_t MaxStaticSize=0>
 void test_tstring_members(size_t count = 5000000)
 {
 	using std_string = std::basic_string<Char, std::char_traits<Char>, std::allocator<Char> >;
-	using tstring = tiny_string<Char,std::char_traits<Char>,std::allocator<Char>,MaxStaticSize>;
+	using tstring = tiny_string<Char,std::allocator<Char>,MaxStaticSize>;
 
 	std::cout << std::endl;
 	std::cout << "Compare std::string and seq::tiny_string with " <<count <<" elements for type '"<<typeid(Char).name() <<"'"<< std::endl;
@@ -819,8 +820,11 @@ void test_tstring_members(size_t count = 5000000)
 }
 
 
+
 int bench_tiny_string(int, char** const)
 {
+	
+
 	/*using Char = char32_t;
 	using string = tiny_string<Char>;
 	using string1 = tiny_string<Char,std::char_traits<Char>,std::allocator<Char>, 0>;
@@ -834,17 +838,22 @@ int bench_tiny_string(int, char** const)
 	string3 s3; int _s3 = string3::max_static_size; int of3 = sizeof(string3);
 	string4 s4; int _s4 = string4::max_static_size; int of4 = sizeof(string4);*/
 
-	test_insert_map<std::string>("std::string",500000);
-	test_insert_map<seq::tstring>("seq::tstring",500000);
-	
-	test_push_back_vector(10000000);
-	test_insert_flat_map(1000000);
+	size_t factor = 10;
+#ifndef NDEBUG
+	factor = 1; // Debug mode
+#endif
 
-	test_sort_strings<char>(2000000);
-	test_sort_strings<wchar_t>(2000000);
-	test_tstring_members<char>(20000000);
-	test_tstring_members<wchar_t>(20000000);
-	test_tstring_operators<char,0>(5000000, 13);
-	test_tstring_operators<wchar_t, 0>(5000000, 5);
+	test_insert_map<std::string>("std::string", 50000*factor);
+	test_insert_map<seq::tstring>("seq::tstring",50000*factor);
+	
+	test_push_back_vector(1000000*factor);
+	test_insert_flat_map(100000*factor);
+
+	test_sort_strings<char>(200000*factor);
+	test_sort_strings<wchar_t>(200000*factor);
+	test_tstring_members<char>(2000000*factor);
+	test_tstring_members<wchar_t>(2000000 * factor);
+	test_tstring_operators<char, 0>(500000 * factor, 13);
+	test_tstring_operators<wchar_t, 0>(500000 * factor, 5);
 	return 0;
 }

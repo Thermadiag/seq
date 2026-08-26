@@ -30,17 +30,40 @@
 
 namespace seq
 {
+	/**
+	@brief Concurrent hash table class.
+	@tparam Key key type
+	@tparam Hash hash function
+	@tparam Equal equality function
+	@tparam Allocator allocator type
+	@tparam Shards sharding factor
 
+	seq::concurrent_set is a concurrent hash table class providing an interface similar to boost::concurrent_flat_set.
+	All members are thread-safe, except:
+	-	Destructor,
+	-	swap() member,
+	-	Copy/move assignment members.
+
+	On a high level point of view, seq::concurrent_set relies on the following mechanisms:
+	-	It uses *Sharding*: the hashmap  is divided into a fixed (but configurable) number of submaps indexed by the hash value.
+	-	Each *shard* (or submap) is a Swiss table, except that it uses chaining instead of the more traditional quadratic probing. This allows load factors greater than 1, and removes the need of tombstones when erasing elements.
+	-	Each bucket within a submap can contain up to 15 elements. An array of metadata is maintained separatly and contains a reduced hash representation of one byte per element to allow efficient SIMD-based  lookups.
+	-	Each bucket contains an additional pointer to the next chained node (of up to 15 elements) in case of bucket overflow.
+	-	Fine grained locking is obtained by associating a read-write spinlock to each bucket. This spinlock covers the bucket itself as well as potential chained nodes.
+
+	See the library markdown documentation for more details on its internal implementation.
+	*/
 	template<class Key, class Hash = hasher<Key>, class Equal = std::equal_to<>, class Allocator = std::allocator<Key>, unsigned Shards = seq::medium_concurrency>
-	class concurrent_set : private detail::ConcurrentHashTable<Key, Key, Hash, Equal, Allocator, Shards>
+	class concurrent_set : private detail::ConcurrentHashTable<Key, Key, Key, Hash, Equal, Allocator, Shards>
 	{
 
-		using base_type = detail::ConcurrentHashTable<Key, Key, Hash, Equal, Allocator, Shards>;
+		using base_type = detail::ConcurrentHashTable<Key, Key, Key, Hash, Equal, Allocator, Shards>;
 		using this_type = concurrent_set<Key, Hash, Equal, Allocator, Shards>;
 		using extract_key = detail::ExtractKey<Key, Key>;
 
 		template<class K, class H, class E>
-		using is_transparent = std::integral_constant<bool, !std::is_same_v<K, void> && has_is_transparent<H>::value && has_is_transparent<E>::value && std::is_invocable_v<const H&, const K&>>;
+		using is_transparent =
+		  std::integral_constant<bool, !std::is_same_v<K, void> && has_is_transparent<H>::value && has_is_transparent<E>::value && std::is_invocable_v<const H&, const K&>>;
 
 		template<class K, class H, class KE, class A, unsigned S>
 		friend bool operator==(concurrent_set<K, H, KE, A, S> const& lhs, concurrent_set<K, H, KE, A, S> const& rhs);
@@ -228,7 +251,6 @@ namespace seq
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
-		
 
 		template<class K, class F>
 		SEQ_ALWAYS_INLINE typename std::enable_if<is_transparent<K, Equal, Hash>::value, size_type>::type visit(const K& key, F&& fun) const
@@ -240,7 +262,7 @@ namespace seq
 		{
 			return base_type::visit(key, std::forward<F>(fun));
 		}
-		
+
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace(Args&&... args) -> bool
 		{
@@ -399,16 +421,44 @@ namespace seq
 		return set.erase_if(pred);
 	}
 
-	template<class Key, class T, class Hash = hasher<Key>, class Equal = std::equal_to<>, class Allocator = std::allocator<std::pair<Key, T>>, unsigned Shards = seq::medium_concurrency>
-	class concurrent_map : private detail::ConcurrentHashTable<Key, std::pair<Key, T>, Hash, Equal, Allocator, Shards>
-	{
 
-		using base_type = detail::ConcurrentHashTable<Key, std::pair<Key, T>, Hash, Equal, Allocator, Shards>;
+	/**
+	@brief Concurrent hash table class.
+	@tparam Key key type
+	@tparam Value value type
+	@tparam Hash hash function
+	@tparam Equal equality function
+	@tparam Allocator allocator type
+	@tparam Shards sharding factor
+
+	seq::concurrent_map is a concurrent hash table class providing an interface similar to boost::concurrent_flat_map.
+	All members are thread-safe, except:
+	-	Destructor,
+	-	swap() member,
+	-	Copy/move assignment members.
+
+	On a high level point of view, seq::concurrent_map relies on the following mechanisms:
+	-	It uses *Sharding*: the hashmap  is divided into a fixed (but configurable) number of submaps indexed by the hash value.
+	-	Each *shard* (or submap) is a Swiss table, except that it uses chaining instead of the more traditional quadratic probing. This allows load factors greater than 1, and removes the need
+	of tombstones when erasing elements. 
+	-	Each bucket within a submap can contain up to 15 elements. An array of metadata is maintained separatly and contains a reduced hash representation of
+	one byte per element to allow efficient SIMD-based  lookups. 
+	-	Each bucket contains an additional pointer to the next chained node (of up to 15 elements) in case of bucket overflow. 
+	-	Fine grained locking is obtained by associating a read-write spinlock to each bucket. This spinlock covers the bucket itself as well as potential chained nodes.
+
+	See the library markdown documentation for more details on its internal implementation.
+	*/
+	template<class Key, class T, class Hash = hasher<Key>, class Equal = std::equal_to<>, class Allocator = std::allocator<std::pair<const Key, T>>, unsigned Shards = seq::medium_concurrency>
+	class concurrent_map : private detail::ConcurrentHashTable<Key, std::pair<Key, T>, std::pair<const Key, T>, Hash, Equal, detail::RebindAllocator<Allocator, std::pair<Key, T>>, Shards>
+	{
+		using base_allocator =  detail::RebindAllocator<Allocator, std::pair<Key, T>>;
+		using base_type = detail::ConcurrentHashTable<Key, std::pair<Key, T>, std::pair<const Key, T>, Hash, Equal, base_allocator, Shards>;
 		using this_type = concurrent_map<Key, T, Hash, Equal, Allocator, Shards>;
 		using extract_key = detail::ExtractKey<Key, std::pair<Key, T>>;
 
 		template<class K, class H, class E>
-		using is_transparent = std::integral_constant<bool, !std::is_same_v<K, void> && has_is_transparent<H>::value && has_is_transparent<E>::value && std::is_invocable_v<const H&, const K&>>;
+		using is_transparent =
+		  std::integral_constant<bool, !std::is_same_v<K, void> && has_is_transparent<H>::value && has_is_transparent<E>::value && std::is_invocable_v<const H&, const K&>>;
 
 		template<class K, class V, class H, class KE, class A, unsigned S>
 		friend bool operator==(concurrent_map<K, V, H, KE, A, S> const& lhs, concurrent_map<K, V, H, KE, A, S> const& rhs);
@@ -431,7 +481,7 @@ namespace seq
 			template<class F, class... A>
 			bool operator()(F&& f, A&&... a)
 			{
-				return _this->base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) {(f)(v); }, std::forward<A>(a)...);
+				return _this->base_type::template emplace_policy<detail::InsertConcurrentPolicy>([&](const auto& v) { (f)(v); }, std::forward<A>(a)...);
 			}
 		};
 
@@ -459,7 +509,7 @@ namespace seq
 	public:
 		using key_type = Key;
 		using mapped_type = T;
-		using value_type = std::pair<Key, T>;
+		using value_type = std::pair<const Key, T>;
 		using allocator_type = Allocator;
 		using size_type = size_t;
 		using difference_type = std::ptrdiff_t;
@@ -476,7 +526,7 @@ namespace seq
 		}
 
 		explicit concurrent_map(size_type n, const hasher& hf = hasher(), const key_equal& eql = key_equal(), const allocator_type& a = allocator_type())
-		  : base_type(hf, eql, a)
+		  : base_type(hf, eql, base_allocator{ a })
 		{
 			if (n)
 				this->rehash(n);
@@ -484,7 +534,7 @@ namespace seq
 
 		template<class InputIterator, std::enable_if_t<is_iterator<InputIterator>::value, int> = 0>
 		concurrent_map(InputIterator f, InputIterator l, size_type n = 0, const hasher& hf = hasher(), const key_equal& eql = key_equal(), const allocator_type& a = allocator_type())
-		  : base_type(hf, eql, a)
+		  : base_type(hf, eql, base_allocator{ a })
 		{
 			if (n)
 				this->rehash(n);
@@ -507,18 +557,18 @@ namespace seq
 		{
 		}
 
-		explicit concurrent_map(allocator_type const& a)
-		  : base_type(hasher(), key_equal(), a)
+		explicit concurrent_map(const allocator_type & a)
+		  : base_type(hasher(), key_equal(), base_allocator{ a })
 		{
 		}
 
-		concurrent_map(const concurrent_map& other, const allocator_type& alloc)
-		  : base_type(other, alloc)
+		concurrent_map(const concurrent_map& other, const allocator_type& a)
+		  : base_type(other, base_allocator{ a })
 		{
 		}
 
-		concurrent_map(concurrent_map&& other, const allocator_type& alloc)
-		  : base_type(std::move(other), alloc)
+		concurrent_map(concurrent_map&& other, const allocator_type& a)
+		  : base_type(std::move(other), base_allocator{ a })
 		{
 		}
 
@@ -738,7 +788,7 @@ namespace seq
 		{
 			auto& f = fun;
 			for (; first != last; ++first)
-				insert_or_cvisit(*first,f);
+				insert_or_cvisit(*first, f);
 		}
 		template<class F>
 		void insert_or_cvisit(std::initializer_list<value_type> ilist, F&& f)

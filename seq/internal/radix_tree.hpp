@@ -456,20 +456,20 @@ namespace seq
 				return RadixHasher<T>{ static_cast<const type*>(k.data()), k.size() };
 			}
 
-			static SEQ_ALWAYS_INLINE bool less(const type* v1, size_t l1, const type* v2, size_t l2) noexcept
+			static SEQ_ALWAYS_INLINE int compare(const type* v1, size_t l1, const type* v2, size_t l2) noexcept
 			{
 				size_t l = std::min(l1, l2);
 				if constexpr (sizeof(type) == 1) {
 					// Comparison for one byte string
 					using unsigned_char = typename std::make_unsigned<type>::type;
 					if (l && *v1 != *v2)
-						return (static_cast<unsigned_char>(*v1) < static_cast<unsigned_char>(*v2));
+						return (static_cast<unsigned_char>(*v1) < static_cast<unsigned_char>(*v2)) ? -1 : 1;
 					const type* end = v1 + l;
 					while ((v1 < end - (8 - 1))) {
 						uint64_t r1 = read_64(v1);
 						uint64_t r2 = read_64(v2);
 						if (r1 != r2)
-							return swap_b(r1) < swap_b(r2);
+							return swap_b(r1) < swap_b(r2) ? -1 : 1;
 						v1 += 8;
 						v2 += 8;
 					}
@@ -477,7 +477,7 @@ namespace seq
 						uint32_t r1 = read_32(v1);
 						uint32_t r2 = read_32(v2);
 						if (r1 != r2)
-							return swap_b(r1) < swap_b(r2);
+							return swap_b(r1) < swap_b(r2) ? -1 : 1;
 						v1 += 4;
 						v2 += 4;
 					}
@@ -485,24 +485,33 @@ namespace seq
 						uint16_t r1 = read_16(v1);
 						uint16_t r2 = read_16(v2);
 						if (r1 != r2)
-							return swap_b(r1) < swap_b(r2);
+							return swap_b(r1) < swap_b(r2) ? -1 : 1;
 						v1 += 2;
 						v2 += 2;
 					}
 					if (v1 != end && *v1 != *v2)
-						return static_cast<unsigned_char>(*v1) < static_cast<unsigned_char>(*v2);
+						return static_cast<unsigned_char>(*v1) < static_cast<unsigned_char>(*v2) ? -1 : 1;
 				}
 				else {
 					// For multi byte character string,
 					// use standard lexicographic comparison
 					if (l && *v1 != *v2)
-						return (*v1) < (*v2);
+						return (*v1) < (*v2) ? -1 : 1;
 					for (size_t i = 1; i < l; ++i)
 						if (v1[i] != v2[i])
-							return v1[i] < v2[i];
+							return v1[i] < v2[i] ? -1 : 1;
 				}
-				return l1 < l2;
+				return (l1 < l2 ? -1 : (l1 > l2));
 			}
+			template<class L, class R>
+			static SEQ_ALWAYS_INLINE int compare(const L& l, const R& r) noexcept
+			{
+				auto lh = RadixHasher<T>{}.hash(l);
+				auto rh = RadixHasher<T>{}.hash(r);
+				return compare(lh.data, lh.size, rh.data, rh.size);
+			}
+
+			static SEQ_ALWAYS_INLINE bool less(const type* v1, size_t l1, const type* v2, size_t l2) noexcept { return compare(v1, l1, v2, l2) < 0; }
 			template<class L, class R>
 			static SEQ_ALWAYS_INLINE bool less(const L& l, const R& r) noexcept
 			{
@@ -515,40 +524,29 @@ namespace seq
 			{
 				if (l1 != l2)
 					return false;
-
-				if constexpr (sizeof(type) == 1) {
-					// using unsigned_char = typename std::make_unsigned<type>::type;
-					if (l1 && *v1 != *v2)
+				const char* cv1 = (const char*)v1;
+				const char* cv2 = (const char*)v2;
+				const char* end = (const char*)(v1 + l1);
+				while ((cv1 < end - (8 - 1))) {
+					if (read_64(cv1) != read_64(cv2))
 						return false;
-					const type* end = v1 + l1;
-					while ((v1 < end - (8 - 1))) {
-						if (read_64(v1) != read_64(v2))
-							return false;
-						v1 += 8;
-						v2 += 8;
-					}
-					if ((v1 < (end - 3))) {
-						if (read_32(v1) != read_32(v2))
-							return false;
-						v1 += 4;
-						v2 += 4;
-					}
-					if ((v1 < (end - 1))) {
-						if (read_16(v1) != read_16(v2))
-							return false;
-						v1 += 2;
-						v2 += 2;
-					}
-					if (v1 != end && *v1 != *v2)
-						return false;
+					cv1 += 8;
+					cv2 += 8;
 				}
-				else {
-					if (l1 && *v1 != *v2)
+				if ((cv1 < (end - 3))) {
+					if (read_32(cv1) != read_32(cv2))
 						return false;
-					for (size_t i = 1; i < l1; ++i)
-						if (v1[i] != v2[i])
-							return false;
+					cv1 += 4;
+					cv2 += 4;
 				}
+				if ((cv1 < (end - 1))) {
+					if (read_16(cv1) != read_16(cv2))
+						return false;
+					cv1 += 2;
+					cv2 += 2;
+				}
+				if (cv1 != end && *cv1 != *cv2)
+					return false;
 				return true;
 			}
 			template<class L, class R>
@@ -612,10 +610,13 @@ namespace seq
 
 			alignas(std::uint64_t) char data[size];
 
-			template<class U>
+			template<bool Swap, class U>
 			auto as() const noexcept
 			{
-				return RadixHasher<U>{ swap_b(*reinterpret_cast<const U*>(data)) };
+				if constexpr(Swap)
+					return RadixHasher<U>{ swap_b(*reinterpret_cast<const U*>(data)) };
+				else
+					return RadixHasher<U>{ (*reinterpret_cast<const U*>(data)) };
 			}
 
 			RadixHasher() {}
@@ -625,13 +626,15 @@ namespace seq
 
 			SEQ_ALWAYS_INLINE auto n_bits(size_t shift, size_t count) const noexcept -> size_t
 			{
-				if constexpr (size == 2)
-					return as<uint16_t>().n_bits(shift, count);
+				if constexpr (size == 1)
+					return as<true, uint8_t>().n_bits(shift, count);
+				else if constexpr (size == 2)
+					return as<true, uint16_t>().n_bits(shift, count);
 				else if constexpr (size == 4)
-					return as<uint32_t>().n_bits(shift, count);
+					return as<true, uint32_t>().n_bits(shift, count);
 				else if constexpr (size == 8)
-					return as<uint64_t>().n_bits(shift, count);
-				else {
+					return as<true, uint64_t>().n_bits(shift, count);
+				else{
 					if SEQ_UNLIKELY (count == 0)
 						return 0;
 					size_t byte_offset = shift >> 3u;
@@ -645,7 +648,19 @@ namespace seq
 				}
 			}
 
-			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash() const noexcept { return TupleInfo<T>::build_tiny_hash(0, data); }
+			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash() const noexcept
+			{
+				if constexpr (size == 1)
+					return as<false, uint8_t>().tiny_hash();
+				else if constexpr (size == 2)
+					return as<false,uint16_t>().tiny_hash();
+				else if constexpr (size == 4)
+					return as<false, uint32_t>().tiny_hash();
+				else if constexpr (size == 8)
+					return as<false, uint64_t>().tiny_hash();
+				else
+					return TupleInfo<T>::build_tiny_hash(0, data);
+			}
 
 			SEQ_ALWAYS_INLINE auto hash(const T& v) const noexcept { return RadixHasher<T>(v); }
 
@@ -701,10 +716,9 @@ namespace seq
 			}
 		};
 
-	}
 
-	namespace radix_detail
-	{
+
+
 		/// @brief Policy used when inserting new key
 		struct EmplacePolicy
 		{
@@ -751,7 +765,8 @@ namespace seq
 		template<class ExtractKey, class Hasher, class T, class SizeType, class K>
 		static SEQ_ALWAYS_INLINE SizeType compute_lower_bound(const T* vals, SizeType size, const K& key)
 		{
-			return lower_bound<false, T>(vals, size, key, [](const auto& l, const auto& r) { return Hasher::less(ExtractKey{}(l), ExtractKey{}(r)); }).first;
+			// return lower_bound<false, T>(vals, size, key, [](const auto& l, const auto& r) { return Hasher::less(ExtractKey{}(l), ExtractKey{}(r)); }).first;
+			return lower_bound<false, T>(vals, size, key, Hasher{}).first;
 		}
 
 		/// @brief Copy count elements from src to dst about to be destroyed.
@@ -811,7 +826,7 @@ namespace seq
 				catch (...) {
 					// destroy created element
 					if (constructed)
-						(dst + count - 1)->~U();
+						destroy_ptr(dst + count - 1);
 					throw;
 				}
 			}
@@ -823,13 +838,13 @@ namespace seq
 		static void erase_pos(U* src, size_t pos, size_t count)
 		{
 			if constexpr (is_relocatable<U>::value) {
-				src[pos].~U();
+				destroy_ptr(src + pos);
 				memmove(static_cast<void*>(src + pos), static_cast<const void*>(src + pos + 1), (count - pos - 1) * sizeof(U));
 			}
 			else {
 				// might throw, in which case the count remains the same.
 				std::move(src + pos + 1, src + count, src + pos);
-				src[count - 1].~U();
+				destroy_ptr(src + count -1);
 			}
 		}
 
@@ -976,7 +991,7 @@ namespace seq
 
 			// Returns lower bound for sorted leaf only
 			template<class ExtractKey, class Less, class Equal, class K>
-			SEQ_ALWAYS_INLINE size_t lower_bound(size_t start_bit, size_t, const K& key) const
+			SEQ_ALWAYS_INLINE size_t lower_bound(size_t start_bit, const K& key) const
 			{
 				return compute_lower_bound<ExtractKey, Less>(/* start_bit,*/ values(), count(), key);
 			}
@@ -1720,21 +1735,23 @@ namespace seq
 			SEQ_ALWAYS_INLINE bool operator!=(const RadixConstIter& other) const noexcept { return dir != other.dir || child != other.child || node_pos != other.node_pos; }
 		};
 
+
 		/// @brief Less functor used by vector nodes
-		template<class Hasher, class ExtractKey>
-		struct VectorLess
+		template<class Key , class Hasher, class ExtractKey>
+		struct VectorLess 
 		{
 			using is_transparent = int;
 			template<class U, class V>
-			bool operator()(const U& a, const V& b) const noexcept(noexcept(Hasher::less(ExtractKey{}(a), ExtractKey{}(b))))
+			SEQ_ALWAYS_INLINE bool operator()(const U& a, const V& b) const noexcept(noexcept(Hasher::less(ExtractKey{}(a), ExtractKey{}(b))))
 			{
 				return Hasher::less(ExtractKey{}(a), ExtractKey{}(b));
 			}
 			template<class U, class V>
-			static bool less(const U& a, const V& b) noexcept(noexcept(Hasher::less(ExtractKey{}(a), ExtractKey{}(b))))
+			static SEQ_ALWAYS_INLINE bool less(const U& a, const V& b) noexcept(noexcept(Hasher::less(ExtractKey{}(a), ExtractKey{}(b))))
 			{
 				return Hasher::less(ExtractKey{}(a), ExtractKey{}(b));
 			}
+			
 		};
 
 		/// @brief Equal functor used by vector nodes
@@ -1759,7 +1776,7 @@ namespace seq
 		{
 			using key_type = typename ExtractKeyResultType<ExtractKey, T>::type;
 			using value_type = T;
-			using Less = VectorLess<Hasher, ExtractKey>;
+			using Less = VectorLess<key_type,Hasher, ExtractKey>;
 
 			flat_set<T, Less, Allocator> set;
 
@@ -1889,7 +1906,7 @@ namespace seq
 			using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 
 			/// @brief Less structure operating on keys
-			using Less = VectorLess<Hash, ExtractKey>;
+			using Less = VectorLess<key_type, Hash, ExtractKey>;
 			/// @brief Equal structure operating on keys
 			using Equal = VectorEqual<Hash, ExtractKey>;
 
@@ -3185,7 +3202,6 @@ namespace seq
 
 				// start position within start directory
 				size_t bit_pos = 0;
-				size_t th = hash.tiny_hash();
 				size_t pos = hash.n_bits(bit_pos, d->hash_len);
 
 				// walk through the tree as long as we keep finding directories
@@ -3212,11 +3228,13 @@ namespace seq
 						case directory::IsVector:
 							return find_in_vector(d, bit_pos, pos, d->children()[pos].to_vector(), key);
 
-						case directory::IsLeaf:
+						case directory::IsLeaf: {
+							size_t th = hash.tiny_hash();
 							th = d->children()[pos].to_node()->template find<extract_key_type, Equal, Less>(Equal{}, bit_pos, static_cast<std::uint8_t>(th), key);
 							if (th != static_cast<size_t>(-1))
 								return const_iterator(d, pos, th, bit_pos);
 							return cend();
+						}
 					}
 				}
 				// not found: the node is null or the key is not inside
@@ -3228,8 +3246,7 @@ namespace seq
 			{
 				// start directory
 				const directory* d = d_base.root;
-				// tiny hash
-				size_t th = hash.tiny_hash();
+
 				// start position within start directory
 				size_t bit_pos = 0;
 				size_t pos = hash.n_bits(0, d->hash_len);
@@ -3260,6 +3277,8 @@ namespace seq
 
 						case directory::IsLeaf: {
 							auto node = d->children()[pos].to_node();
+							// tiny hash
+							size_t th = hash.tiny_hash();
 							th = node->template find<extract_key_type, Equal, Less>(Equal{}, bit_pos, static_cast<std::uint8_t>(th), key);
 							if (th != static_cast<size_t>(-1))
 								return node->values() + th;
@@ -3298,8 +3317,6 @@ namespace seq
 			{
 				// start directory
 				const directory* d = d_base.root;
-				// tiny hash
-				size_t th = hash.tiny_hash();
 				// start position within start directory
 				size_t bit_pos = 0;
 				size_t pos = hash.n_bits(bit_pos, d->hash_len);
@@ -3348,7 +3365,14 @@ namespace seq
 					return lower_bound_in_vector(d, pos, bit_pos, ExtractKey{}(key));
 
 				const node* n = d->children()[pos].to_node();
-				size_t p = n->template lower_bound<ExtractKey, Less, Equal>(bit_pos, th, key);
+
+				// At that point, it is cheap to use regular find just in case
+				size_t th = hash.tiny_hash();
+				th = n->template find<extract_key_type, Equal, Less>(Equal{}, bit_pos, static_cast<std::uint8_t>(th), key);
+				if (th != static_cast<size_t>(-1))
+					return const_iterator(d, pos, th, bit_pos);
+
+				size_t p = n->template lower_bound<ExtractKey, Less, Equal>(bit_pos, key);
 				if (p != n->count())
 					return const_iterator(d, pos, p, bit_pos);
 				return ++const_iterator(d, pos, p - 1, bit_pos);

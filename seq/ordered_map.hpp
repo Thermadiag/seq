@@ -27,6 +27,8 @@
 
 /** @file */
 
+#include <cmath>
+
 #include "internal/hash_utils.hpp"
 #include "internal/utils.hpp"
 
@@ -74,13 +76,13 @@ namespace seq
 			SEQ_ALWAYS_INLINE RobinNode() noexcept
 			  : val(0)
 			{
-				(reinterpret_cast<char*>(&val))[6] = -1;
+				(reinterpret_cast<std::int8_t*>(&val))[index_dist] = -1;
 			}
 			SEQ_ALWAYS_INLINE RobinNode(tiny_hash h, dist_type dist, std::uintptr_t it) noexcept
 			{
 				val = it;
 				(reinterpret_cast<unsigned char*>(&val))[index_hash] = h;
-				(reinterpret_cast<char*>(&val))[index_dist] = static_cast<char>(dist);
+				(reinterpret_cast<std::int8_t*>(&val))[index_dist] = static_cast<std::int8_t>(dist);
 			}
 			SEQ_ALWAYS_INLINE std::uint64_t as_iter() const noexcept { return val & mask_node_and_pos; }
 			// Check if node is a tombstone (only for pure linear hashing)
@@ -92,7 +94,7 @@ namespace seq
 			// sequence chunk, aligned on 64 bytes at most
 			SEQ_ALWAYS_INLINE auto node() const noexcept -> Node* { return reinterpret_cast<Node*>(val & mask_node); }
 			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash { return (reinterpret_cast<const unsigned char*>(&val))[index_hash]; }
-			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { return (reinterpret_cast<const char*>(&val))[index_dist]; }
+			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { return (reinterpret_cast<const std::int8_t*>(&val))[index_dist]; }
 			SEQ_ALWAYS_INLINE bool is_same(std::uintptr_t it) const noexcept
 			{
 				// check iterator equality
@@ -158,7 +160,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto pos() const noexcept -> std::uint8_t { return storage[0] & mask_low; }
 			SEQ_ALWAYS_INLINE auto node() const noexcept -> Node* { return reinterpret_cast<Node*>(read_size_t(storage) & mask_high); }
 			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash { return _hash; }
-			SEQ_ALWAYS_INLINE bool is_same(std::uintptr_t it) const noexcept { return *reinterpret_cast<const std::uintptr_t*>(storage) == it; }
+			SEQ_ALWAYS_INLINE bool is_same(std::uintptr_t it) const noexcept { return read_size_t(storage) == it; }
 			SEQ_ALWAYS_INLINE void empty() noexcept
 			{
 				memset(storage, 0, sizeof(storage));
@@ -221,7 +223,7 @@ namespace seq
 		template<class T, class Node, unsigned PosBits>
 		SEQ_ALWAYS_INLINE auto sequence_node_value(const RobinNode<T, Node, PosBits>& n) noexcept -> const T&
 		{
-			return n.node()->buffer()[n.pos()];
+			return *n.node()->live_slot(n.pos());
 		}
 
 		/// @brief Base class for robin-hood hash table.
@@ -250,13 +252,14 @@ namespace seq
 			using container_type = sequence<Value, Allocator, true>;
 			using iterator = typename container_type::iterator;
 			using const_iterator = typename container_type::const_iterator;
+			using allocator_type = Allocator;
 
 			container_type d_seq;		    // sequence object holding the actual values
 			node_type* d_buckets = null_node(); // hash table with robin-hood probing
 			size_t d_hash_mask = 0;		    // hash mask
 			size_t d_next_target = 0;	    // next size before rehash
 			int d_max_dist = 1;		    // current maximum distance of a node to its theoric best location
-			float d_load_factor = 0.6f;	    // maximum load factor
+			float d_load_factor = 0.75f;	    // maximum load factor
 
 		private:
 			static auto null_node() noexcept -> node_type*
@@ -352,7 +355,7 @@ namespace seq
 				d_buckets = buckets;
 				d_max_dist = max_dist;
 				d_hash_mask = new_hash_mask;
-				d_next_target = static_cast<size_t>(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor));
+				d_next_target = static_cast<size_t>(std::floor(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor)));
 			}
 
 			SEQ_ALWAYS_INLINE void start_insert(node_type* buckets, size_t hash_mask, size_t index, typename node_type::dist_type dist, node_type node, int& max_dist) noexcept
@@ -417,6 +420,7 @@ namespace seq
 			  // Extended sequence move constructor leaves other's allocator unchanged
 			  , d_seq(std::move(other.d_seq), alloc)
 			{
+				d_load_factor = other.d_load_factor;
 				if (alloc == other.d_seq.get_allocator()) {
 					// Same allocators: just swap members
 					std::swap(d_buckets, other.d_buckets);
@@ -477,6 +481,7 @@ namespace seq
 				if constexpr (!traits::propagate_on_container_copy_assignment::value) {
 					// Strong exception guarantee path
 					SparseFlatNodeHashTable tmp(other.hash_function(), other.key_eq(), get_allocator());
+					tmp.max_load_factor(other.max_load_factor());
 					tmp.d_seq.assign(other.d_seq.begin(), other.d_seq.end());
 					tmp.rehash();
 					swap(tmp); // same allocator
@@ -486,6 +491,7 @@ namespace seq
 						// Weak exception guarantee path
 						// We still need to copy allocator
 						SparseFlatNodeHashTable tmp(other.hash_function(), other.key_eq(), other.get_allocator());
+						tmp.max_load_factor(other.max_load_factor());
 						tmp.d_seq.assign(other.d_seq.begin(), other.d_seq.end());
 						tmp.rehash();
 
@@ -501,6 +507,7 @@ namespace seq
 						clear();
 
 						SparseFlatNodeHashTable tmp(other.hash_function(), other.key_eq(), other.get_allocator());
+						tmp.max_load_factor(other.max_load_factor());
 						tmp.d_seq.assign(other.d_seq.begin(), other.d_seq.end());
 						tmp.rehash();
 
@@ -585,7 +592,7 @@ namespace seq
 			void reserve(size_t size)
 			{
 				if (size > this->size())
-					rehash(static_cast<size_t>(static_cast<double>(size) / static_cast<double>(d_load_factor)));
+					rehash(static_cast<size_t>(std::ceil(static_cast<double>(size) / static_cast<double>(d_load_factor))));
 				d_seq.reserve(size);
 			}
 
@@ -607,16 +614,15 @@ namespace seq
 				// - the new hash table size is different from the current one
 				// - force is true
 
-				const bool null_size = (size == 0);
+				const bool automatic = size == 0;
+				const size_t minimum = static_cast<size_t>(std::ceil(static_cast<double>(this->size()) / d_load_factor));
 
-				if (null_size)
-					size = static_cast<size_t>(static_cast<double>(this->size()) / static_cast<double>(d_load_factor));
-				if (size == 0)
-					return rehash(1, d_seq.end(), d_seq.end()); // Minimum size is 2 TODO: why?
+				size = automatic ? minimum : std::max(size, minimum);
+				size = std::max<size_t>(size, 2);
 
 				size_t new_hash_mask = hash_mask_for_size(size);
 				if (force || new_hash_mask != d_hash_mask || d_max_dist == node_type::max_distance) {
-					if (d_max_dist == node_type::max_distance && null_size) {
+					if (d_max_dist == node_type::max_distance && automatic) {
 						// linear hashing behavior: make sure to increase hash table size
 						new_hash_mask = ((new_hash_mask + 1U) * 2U) - 1U;
 					}
@@ -689,6 +695,12 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto find(const K& key) const -> const_iterator
 			{
 				return find_hash(hash_key(key), key);
+			}
+			template<class K>
+			SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
+			{
+				auto it = find_hash(hash_key(key), key);
+				return iterator(it.node, it.pos);
 			}
 
 			template<class Policy, class K, class... Args>
@@ -884,9 +896,16 @@ namespace seq
 			{
 				// Erase range of iterators. Most of the checks are performed in sequence::erase().
 				// Works for dirty hash map
+
 				iterator res = d_seq.erase(first, last);
-				// force rehash
-				rehash(0, true);
+				try {
+					// force rehash
+					rehash(0, true);
+				}
+				catch (...) {
+					clear();
+					throw;
+				}
 				return res;
 			}
 
@@ -942,128 +961,84 @@ namespace seq
 
 	} // end namespace detail
 
-	/// @brief Associative container that contains a set of unique objects of type Key. Search, insertion, and removal have average constant-time complexity.
-	/// @tparam Key Key type
-	/// @tparam Hash Hash function
-	/// @tparam KeyEqual Equality comparison function
-	/// @tparam Allocator allocator object
-	///
-	/// seq::ordered_set is a open addressing hash table using robin hood hashing and backward shift deletion. Its main properties are:
-	///		-	Keys are ordered by insertion order. Therefore, ordered_set provides the additional members push_back(), push_front(), emplace_back() and emplace_front() to control key
-	/// ordering. 		-	Since the container is ordered, it is also sortable. ordered_set provides the additional members sort() and stable_sort() for this purpose. 		-
-	/// The hash table itself basically stores iterators to a seq::sequence object storing the actual values. Therefore, seq::ordered_set provides <b>stable references 			and
-	/// iterators, even on rehash</b> (unlike std::unordered_set that invalidates iterators on rehash). 		-	No memory peak on rehash. 		-	seq::ordered_set uses
-	/// robin hood probing with backward shift deletion. It does not rely on tombstones and supports high load factors. 		-	It is fast and memory efficient compared to other node
-	/// based hash tables
-	///(see section <b>Performances</b>), but still slower than most open addressing hash tables due to the additional indirection.
-	///
-	///
-	/// Interface
-	/// ---------
-	///
-	/// seq::ordered_set provides a similar interface to std::unordered_set with the following differences:
-	///		-	The bucket related functions are not implemented,
-	///		-	The default load factor is set to 0.6,
-	///		-	Additional members push_back(), push_front(), emplace_back() and emplace_front() let you control the key ordering,
-	///		-	Additional members sort() and stable_sort() let you sort the container,
-	///		-	The member ordered_set::sequence() returns a reference to the underlying seq::sequence object,
-	///		-	Its iterator and const_iterator types are bidirectional iterators.
-	///
-	/// The underlying sequence object stores plain non const Key objects. However, in order to avoid modifying the keys
-	/// through iterators (and potentially invalidating the order), both iterator and const_iterator types can only return
-	/// const references.
-	///
-	///
-	/// Exception guarantee
-	/// -------------------
-	///
-	/// Most members of seq::ordered_set provide <b>strong exception guarantee</b>, except if specified otherwise (mentionned in function documentation).
-	///
-	///
-	/// Growth policy and load factor
-	/// -----------------------------
-	///
-	/// seq::ordered_set uses a growth factor of 2 to use the fast modulo. The hash table size is multiplied by 2 each time the table load factor exceeds
-	/// the given max_load_factor(). The default maximum load factor is set to 0.6 and can by set up to 0.95, which is well supported thanks to the robin hood hashing.
-	///
-	/// In some cases, the actual load factor can exceed the provided maximum load factor. This holds when the keys are very well distributed, and the maximum
-	/// distance of a key to its computed location is low (below 8). This strategy avoids some unnecessary rehash for very strong hash function (or well distributed keys).
-	/// Note however that the load factor will never exceed 0.95.
-	///
-	/// On rehash, the old table is deallocated before allocating the new (twice as big) one. This is possible thanks to the double storage strategy (values are stored in an
-	/// independant seq::sequence object) and avoid memory peaks.
-	///
-	///
-	/// Handling of bad hash function
-	/// -----------------------------
-	///
-	/// Like most robin hood based hash tables (ska::flat_hash_set, tsl::robin_set...), seq::ordered_set uses 8 bits to store the node distance to
-	/// its computed location. For a bad hash function leading to strong clustering, this 8 bits distance quickly overflows. The usual strategy in this
-	/// case is to rehash the table based on the growth strategy, hopping for a better key distribution.
-	///
-	/// For very bad hash function (or in case of DOS attack), hash tables like ska::flat_hash_set and tsl::robin_set will keep rehashing its values and reallocating
-	/// the table, until a fatal std::bad_alloc is thrown. seq::ordered_set uses a different strategy to cope with such situation:
-	///		-	When the distance value overflows, it is discarded and the table relies on pure linear hashing.
-	///		-	In this case, deleting an entry will create a tombstone instead of the standard backward shift deletion.
-	///		-	The linear probing behavior is kept until a call to ordered_set::rehash() that might switch back the behavior to robin hood hashing.
-	///
-	/// Therefore, a (very) bad hash function will only make the table slower but will never explode with a std::bad_alloc exception
-	///
-	///
-	/// Deleting entries
-	/// ----------------
-	///
-	/// seq::ordered_set uses backward shift deletion to avoid introducing tombstone, except for bad hash functions (see section above).
-	/// The key lookup remains fast when deleting lots of entries, and mixed scenarios involving lots of interleaved insertion/deletion
-	/// are well supported.
-	///
-	/// Note however that removing a key will never trigger a rehash. The user is free to rehash the ordered_set at any point using ordered_set::rehash() member.
-	///
-	///
-	/// Sorting
-	/// -------
-	///
-	/// Since the ordered_set is ordered by key insertion order, it makes sense to provide a function to sort it.
-	/// The members ordered_set::sort() and ordered_set::stable_sort() are provided and call respectively seq::sequence::sort() and seq::sequence::stable_sort().
-	/// These functions rehash the full table after sorting.
-	///
-	///
-	/// Performances
-	/// ------------
-	///
-	/// Performances of seq::ordered_set has been measured and compared to other node based hash tables: std::unordered_set, <a
-	/// href="https://github.com/skarupke/flat_hash_map/blob/master/unordered_map.hpp">ska::unordered_set</a>, <a
-	/// href="https://github.com/martinus/robin-hood-hashing">robin_hood::unordered_node_set</a>, <a href="https://github.com/greg7mdp/parallel-hashmap">phmap::node_hash_set</a> (based on abseil
-	/// hash table) and <a href="https://www.boost.org/doc/libs/1_51_0/doc/html/boost/unordered_set.html">boost::unordered_set</a>. The following table show the results when compiled with
-	/// gcc 10.1.0 (-O3) for msys2 on Windows 10, using Intel(R) Core(TM) i7-10850H at 2.70GHz. Measured operations are:
-	///		-	Insert successfully 5M unique double randomly shuffled in an empty table using hash_table::insert()
-	///		-	Insert successfully 5M unique double randomly shuffled in an empty table using hash_table::insert() after reserving enough space
-	///		-	Successfully search for 5M double in random order using hash_table::find(const Key&)
-	///		-	Search for 5M double not present in the table (failed lookup)
-	///		-	Walk through the full table (5M double) using iterators
-	///		-	Erase half the table in random order using hash_table::erase(iterator)
-	///		-	Perform successfull lookups on the remaining 2.5M keys.
-	///
-	/// For each tested hash table, the maximum load factor is left to its default value, and std::hash<double> is used. For insert and erase operations,
-	/// the program memory consumption is given. Note that the memory consumption is not the exact memory usage of the hash table, and should only be used
-	/// to measure the difference between implementations.
-	///
-	/// Hash table name               |       Insert       |  Insert(reserve)   |Find (success) | Find (failed) |    Iterate    |       Erase        |  Find again   |
-	/// ------------------------------|--------------------|--------------------|---------------|---------------|---------------|--------------------|---------------|
-	/// seq::ordered_set              |   461 ms/145 MO    |   310 ms/145 MO    |    321 ms     |    177 ms     |     5 ms      |   462 ms/222 MO    |    203 ms     |
-	/// phmap::node_hash_set          |   975 ms/188 MO    |   489 ms/187 MO    |    438 ms     |    132 ms     |     95 ms     |   732 ms/264 MO    |    250 ms     |
-	/// robin_hood::unordered_node_set|   583 ms/182 MO    |   242 ms/149 MO    |    341 ms     |    142 ms     |     83 ms     |   379 ms/258 MO    |    224 ms     |
-	/// ska::unordered_set            |   1545 ms/257 MO   |   774 ms/256 MO    |    324 ms     |    258 ms     |    128 ms     |   613 ms/333 MO    |    238 ms     |
-	/// boost::unordered_set          |   1708 ms/257 MO   |   901 ms/257 MO    |    571 ms     |    532 ms     |    262 ms     |   1073 ms/333 MO   |    405 ms     |
-	/// std::unordered_set            |   1830 ms/238 MO   |   1134 ms/232 MO   |    847 ms     |    878 ms     |    295 ms     |   1114 ms/315 MO   |    646 ms     |
-	///
-	/// This benchmark is available in file 'seq/benchs/bench_hash.hpp'.
-	/// seq::ordered_set is among the fastest hashtable for each operation except for failed lookup, and has a lower memory overhead.
-	/// Note that this benchmark does not represent all possible workloads, and additional tests must be fullfilled for specific scenarios.
-	///
-	/// seq::ordered_set uses internally and if possible compressed pointers to reduce its memory footprint. In such case, the last 16 bits of a pointer are used to store
-	/// metadata. Situations where this is not possible are detected at compile time, but it is possible to manually disable this optimization by defining SEQ_NO_COMPRESSED_PTR.
-	///
+	/**
+	@brief Associative container that contains a set of unique objects of type Key. Search, insertion, and removal have average constant-time complexity.
+	@tparam Key Key type
+	@tparam Hash Hash function
+	@tparam KeyEqual Equality comparison function
+	@tparam Allocator allocator object
+
+	Ordered set
+	-----------
+
+	`seq::ordered_set` is a open addressing hash table using robin hood hashing and backward shift deletion. Its main properties are:
+	-	Keys are ordered by insertion order. Therefore, ordered_set provides the additional members push_back(), push_front(), emplace_back() and emplace_front() to control key ordering.
+	-	Since the container is ordered, it is also sortable. ordered_set provides the additional members sort() for this purpose.
+	-	The hash table itself basically stores iterators to a `seq::sequence` object storing the actual values. Therefore, `seq::ordered_set` provides *stable references and iterators, even on
+	rehash* (unlike `std::unordered_set` that invalidates iterators on rehash). -	No memory peak on rehash. -	`seq::ordered_set` uses robin hood probing with backward shift deletion. It does
+	not rely on tombstones and supports high load factors. -	It is fast and memory efficient compared to other node based hash tables (see section *Performances*), but still slower than
+	most open addressing hash tables due to the additional indirection.
+
+
+	Interface
+	---------
+
+	`seq::ordered_set` provides a similar interface to `std::unordered_set` with the following differences:
+	-	The bucket related functions are not implemented,
+	-	The default load factor is set to 0.75,
+	-	Additional members push_back(), push_front(), emplace_back() and emplace_front() let you control the key ordering,
+	-	Additional member sort() let you sort the container,
+	-	Its iterator and const_iterator types are bidirectional iterators.
+
+	Direct access to sequence
+	-------------------------
+
+	`seq::ordered_set/map` provide the members `extract()` to retrieve (move) the underlying seq::sequence object.
+	The sequence can be modified at will and then moved to the ordered_set using `replace()` member. In this case, the sequence must already be unique.
+
+	Exception guarantee
+	-------------------
+
+	Most members of `seq::ordered_set` provide *strong exception guarantee*, except if specified otherwise (mentionned in function documentation).
+
+	Growth policy and load factor
+	-----------------------------
+
+	`seq::ordered_set` uses a growth factor of 2 to use the fast modulo. The hash table size is multiplied by 2 each time the table load factor exceeds the given max_load_factor(). The default
+	maximum load factor is set to 0.75 and can by set up to 0.95, which is well supported thanks to the robin hood hashing.
+
+	In some cases, the actual load factor can exceed the provided maximum load factor. This holds when the keys are very well distributed, and the maximum distance of a key to its computed
+	location is low (below 8). This strategy avoids some unnecessary rehash for very strong hash function (or well distributed keys).
+
+	Handling of bad hash function
+	-----------------------------
+
+	Like most robin hood based hash tables, `seq::ordered_set` uses 8 bits to store the node distance to its computed location. For a bad hash function leading to strong clustering, this 8 bits
+	distance quickly overflows. The usual strategy in this case is to rehash the table based on the growth strategy, hopping for a better key distribution.
+
+	For very bad hash function (or in case of DOS attack), hash tables like <a href="https://github.com/skarupke/flat_hash_map/blob/master/flat_hash_set.hpp">ska::flat_hash_set</a> and <a
+	href="https://github.com/Tessil/robin-map/blob/master/include/tsl/robin_set.h">tsl::robin_set</a> will keep rehashing its values and reallocating the table, until a fatal std::bad_alloc is
+	thrown. `seq::ordered_set` uses a different strategy to cope with such situation: -	When the distance value overflows, it is discarded and the table relies on pure linear hashing. -
+	In this case, deleting an entry will create a tombstone instead of the standard backward shift deletion. -	The linear probing behavior is kept until a call to ordered_set::rehash() that
+	might switch back the behavior to robin hood hashing.
+
+	Therefore, a (very) bad hash function will only make the table slower but will never explode with a std::bad_alloc exception
+
+	Deleting entries
+	----------------
+
+	`seq::ordered_set` uses backward shift deletion to avoid introducing tombstones, except for bad hash functions (see section above).
+	The key lookup remains fast when deleting lots of entries, and mixed scenarios involving lots of interleaved insertion/deletion are well supported.
+
+	Note however that removing a key will never trigger a rehash. The user is free to rehash the ordered_set at any point using ordered_set::rehash() member.
+
+	Sorting
+	-------
+
+	Since the ordered_set is ordered by key insertion order, it makes sense to provide a function to sort it.
+	The member ordered_set::sort() calls seq::sequence::sort() and uses a stable sorting algorithm.
+	This function rehash the full table after sorting.
+	*/
 	template<class Key, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<Key>>
 	class ordered_set : private detail::SparseFlatNodeHashTable<Key, Key, Hash, KeyEqual, Allocator>
 	{
@@ -1091,7 +1066,7 @@ namespace seq
 		using pointer = typename std::allocator_traits<Allocator>::const_pointer;
 		using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
 
-		/// @brief Constructs empty container. Sets max_load_factor() to 0.6.
+		/// @brief Constructs empty container. Sets max_load_factor() to 0.75.
 		/// @param hash hash function to use
 		/// @param equal comparison function to use for all key comparisons of this container
 		/// @param alloc allocator to use for all memory allocations of this container
@@ -1099,13 +1074,13 @@ namespace seq
 		  : base_type(hash, equal, alloc)
 		{
 		}
-		/// @brief Constructs empty container. Sets max_load_factor() to 0.6.
+		/// @brief Constructs empty container. Sets max_load_factor() to 0.75.
 		/// @param alloc allocator to use for all memory allocations of this container
 		explicit ordered_set(const Allocator& alloc)
 		  : ordered_set(Hash(), KeyEqual(), alloc)
 		{
 		}
-		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.6.
+		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.75.
 		/// If multiple elements in the range have keys that compare equivalent, only the first occurence is inserted.
 		/// Input iteration order is preserved.
 		/// @tparam InputIt iterator type
@@ -1120,7 +1095,7 @@ namespace seq
 		{
 			insert(first, last);
 		}
-		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.6.
+		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.75.
 		/// If multiple elements in the range have keys that compare equivalent, only the first occurence is inserted.
 		/// Input iteration order is preserved.
 		/// @tparam InputIt iterator type
@@ -1132,7 +1107,7 @@ namespace seq
 		  : ordered_set(first, last, Hash(), key_equal(), alloc)
 		{
 		}
-		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.6.
+		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.75.
 		/// If multiple elements in the range have keys that compare equivalent, only the first occurence is inserted.
 		/// Input iteration order is preserved.
 		/// @tparam InputIt iterator type
@@ -1285,23 +1260,19 @@ namespace seq
 		/// Invalidate all references and iterators.
 		/// Basic exception guarantee only.
 		/// @param le comparison function
-		template<class Less, class Buffer>
-		void sort(Less le, Buffer buf)
-		{
-			this->d_seq.sort(le, buf);
-			rehash();
-		}
 		template<class Less>
 		void sort(Less le)
 		{
-			this->d_seq.sort(le);
-			rehash();
+			try {
+				this->d_seq.sort(le);
+				this->base_type::rehash(0, true);
+			}
+			catch (...) {
+				clear();
+				throw;
+			}
 		}
-		void sort()
-		{
-			this->d_seq.sort();
-			rehash();
-		}
+		void sort() { sort(std::less<>{}); }
 
 		/// @brief Calls seq::sequence::shrink_to_fit().
 		/// Remove potential holes in the sequence object due to calls to ordered_set::erase().
@@ -1310,8 +1281,14 @@ namespace seq
 		/// Basic exception guarantee only.
 		void shrink_to_fit()
 		{
-			this->d_seq.shrink_to_fit();
-			rehash();
+			try {
+				this->d_seq.shrink_to_fit();
+				this->base_type::rehash(0, true);
+			}
+			catch (...) {
+				clear();
+				throw;
+			}
 		}
 
 		/// @brief Swap this container with other
@@ -1471,7 +1448,7 @@ namespace seq
 		/// @param key key value to search for
 		/// @return iterator pointing to found key on success, end iterator on failure.
 		SEQ_ALWAYS_INLINE auto find(const Key& key) const -> const_iterator { return this->base_type::find(key); }
-		
+
 		/// @brief Finds an element with key equivalent to key.
 		/// Finds an element with key that compares equivalent to the value x.
 		/// This overload participates in overload resolution only if Hash::is_transparent and KeyEqual::is_transparent are valid and each denotes a type.
@@ -1484,7 +1461,6 @@ namespace seq
 		{
 			return const_cast<this_type*>(this)->base_type::find(x);
 		}
-		
 
 		/// @brief Returns 1 of key exists, 0 otherwise
 		SEQ_ALWAYS_INLINE auto count(const Key& key) const -> size_type { return find(key) != end(); }
@@ -1505,36 +1481,22 @@ namespace seq
 		}
 	};
 
-	/// @brief Associative container that contains key-value pairs with unique keys. Search, insertion, and removal of elements have average constant-time complexity.
-	/// @tparam Key Key type
-	/// @tparam T mapped type
-	/// @tparam Hash Hash function
-	/// @tparam KeyEqual Equality comparison function
-	/// @tparam Allocator allocator object
-	///
-	/// seq::ordered_map is a hash table using robin hood hashing and backward shift deletion. Its main properties are:
-	///		-	Keys are ordered by insertion order. Therefore, ordered_set provides the additional members push_back(), push_front(), emplace_back() and emplace_front() to constrol
-	/// key ordering. 		-	Since the container is ordered, it is also sortable. ordered_set provides the additional members sort() and stable_sort() for this purpose.
-	/// -	The hash table itself basically stores iterators to a seq::sequence object storing the actual values. Therefore, seq::ordered_set provides <b>stable references
-	/// and iterators, even on rehash</b> (unlike std::unordered_set that invalidates iterators on rehash). 		-	No memory peak on rehash. 		-	seq::ordered_set
-	/// uses robin hood probing with backard shift deletion. It does not rely on tombstones and supports high load factors. 		-	It is fast and memory efficient compared to
-	/// other node based
-	/// hash tables (see section <b>Performances</b>), but still slower than most open addressing hash tables.
-	///
-	/// seq::ordered_map behaves like #seq::ordered_set except that the underlying sequence stores elements of types std::pair<Key,T> instead of Key.
-	/// Its interface is similar to std::unordered_map, except for the bucket based members.
-	///
-	/// Unlike std::unordered_map which stores objects of type std::pair<const Key,T>, ordered_map stores objects of type  std::pair<Key,T>.
-	/// To avoid modifying the key value through iterators, the value is reinterpreted to std::pair<const Key,T>.
-	/// Although quite ugly, this solution works on all tested compilers.
-	///
-	/// For more details on its internal implementation, see #seq::ordered_set documentation.
-	///
+	/**
+	@brief Associative container that contains key-value pairs with unique keys. Search, insertion, and removal of elements have average constant-time complexity.
+	@tparam Key Key type
+	@tparam T mapped type
+	@tparam Hash Hash function
+	@tparam KeyEqual Equality comparison function
+	@tparam Allocator allocator object
+
+	seq::ordered_map is a open addressing hash table using robin hood hashing and backward shift deletion.
+	See seq::ordered_set documentation for more details.
+	*/
 	template<class Key, class T, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<std::pair<const Key, T>>>
 	class ordered_map : private detail::SparseFlatNodeHashTable<Key, std::pair<Key, T>, Hash, KeyEqual, detail::RebindAllocator<Allocator, std::pair<Key, T>>>
 	{
 		using storage_type = std::pair<Key, T>;
-		using base_allocator = detail::RebindAllocator< Allocator,storage_type>;
+		using base_allocator = detail::RebindAllocator<Allocator, storage_type>;
 		using base_type = detail::SparseFlatNodeHashTable<Key, storage_type, Hash, KeyEqual, base_allocator>;
 		using this_type = ordered_map<Key, T, Hash, KeyEqual, Allocator>;
 		using extract_key = detail::ExtractKey<Key, storage_type>;
@@ -1566,12 +1528,11 @@ namespace seq
 		using difference_type = std::ptrdiff_t;
 
 		using container_type = typename base_type::container_type;
-		using iterator = detail::MapBidirIterator<typename container_type::iterator,value_type>;
-		using const_iterator = detail::MapBidirIterator<typename container_type::const_iterator,value_type>;
+		using iterator = detail::MapBidirIterator<typename container_type::iterator, value_type>;
+		using const_iterator = detail::MapBidirIterator<typename container_type::const_iterator, value_type>;
 		using reverse_iterator = std::reverse_iterator<iterator>;
 		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-		
 		using hasher = Hash;
 		using key_equal = KeyEqual;
 		using reference = value_type&;
@@ -1579,19 +1540,19 @@ namespace seq
 		using pointer = value_type*;
 		using const_pointer = const value_type*;
 
-		ordered_map(const Hash& hash = {}, const KeyEqual& equal = {}, const Allocator& alloc = {}) noexcept
+		ordered_map(const Hash& hash = {}, const KeyEqual& equal = {}, const Allocator& alloc = {})
 		  : base_type(hash, equal, base_allocator{ alloc })
 		{
 		}
 
 		explicit ordered_map(const Allocator& alloc)
-		  : ordered_map(Hash(), KeyEqual(),  alloc )
+		  : ordered_map(Hash(), KeyEqual(), alloc)
 		{
 		}
 
 		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
-		ordered_map(InputIt first, InputIt last, const Hash& hash =  {}, const key_equal& equal = {}, const Allocator& alloc = {})
-		  : ordered_map(hash, equal, alloc )
+		ordered_map(InputIt first, InputIt last, const Hash& hash = {}, const key_equal& equal = {}, const Allocator& alloc = {})
+		  : ordered_map(hash, equal, alloc)
 		{
 			insert(first, last);
 		}
@@ -1697,32 +1658,31 @@ namespace seq
 		void rehash() { this->base_type::rehash(); }
 		void rehash(size_t n) { this->base_type::rehash(n); }
 		void reserve(size_t size) { this->base_type::reserve(size); }
+
 		template<class Less>
 		void sort(Less le)
 		{
-			this->d_seq.sort(LessAdapter<Less>(le));
-			this->base_type::rehash();
+			try {
+				this->d_seq.sort(LessAdapter<Less>(le));
+				this->base_type::rehash(0, true);
+			}
+			catch (...) {
+				clear();
+				throw;
+			}
 		}
-		void sort()
-		{
-			this->d_seq.sort(LessAdapter<std::less<Key>>());
-			this->base_type::rehash();
-		}
-		template<class Less>
-		void stable_sort(Less le)
-		{
-			this->d_seq.stable_sort(LessAdapter<Less>(le));
-			this->base_type::rehash();
-		}
-		void stable_sort()
-		{
-			this->d_seq.stable_sort(LessAdapter<std::less<Key>>());
-			this->base_type::rehash();
-		}
+		void sort() { sort(std::less<Key>{}); }
+		
 		void shrink_to_fit()
 		{
-			this->d_seq.shrink_to_fit();
-			this->base_type::rehash();
+			try {
+				this->d_seq.shrink_to_fit();
+				this->base_type::rehash(0, true);
+			}
+			catch (...) {
+				clear();
+				throw;
+			}
 		}
 
 		void swap(ordered_map& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
@@ -2052,7 +2012,7 @@ namespace seq
 			else
 				++it;
 		}
-		
+
 		set.replace(std::move(seq));
 
 		return count;
@@ -2100,7 +2060,7 @@ namespace seq
 			else
 				++it;
 		}
-		
+
 		set.replace(std::move(seq));
 
 		return count;

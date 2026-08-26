@@ -343,6 +343,21 @@ See functions documentation for more details.
 #define SEQ_ALIGN_TO_BOUNDARY(n) SEQ_USER_ALIGN_TO_BOUNDARY(n)
 #endif
 
+// Detect RTTI
+#if defined(__clang__)
+#if __has_feature(cxx_rtti)
+#define SEQ_HAS_RTTI
+#endif
+#elif defined(__GNUC__)
+#if defined(__GXX_RTTI)
+#define SEQ_HAS_RTTI
+#endif
+#elif defined(_MSC_VER)
+#if defined(_CPPRTTI)
+#define SEQ_HAS_RTTI
+#endif
+#endif
+
 #ifndef SEQ_DEBUG
 #ifndef NDEBUG
 #define SEQ_DEBUG

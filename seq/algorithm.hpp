@@ -73,7 +73,7 @@ namespace seq
 		using Key = typename std::iterator_traits<Iter>::value_type;
 		using HashFn = HashPtr<Key, Hash>;
 		using EqualFn = EqualPtr<Key, Equal>;
-		using TableType = seq::detail::ConcurrentHashTable<Key*, Key*, HashFn, EqualFn, std::allocator<Key*>, no_concurrency>;
+		using TableType = seq::detail::ConcurrentHashTable<Key*, Key*,Key*, HashFn, EqualFn, std::allocator<Key*>, no_concurrency>;
 
 		if (first == last)
 			return last;

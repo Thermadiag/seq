@@ -57,6 +57,11 @@ namespace seq
 				return ExtractKey{}(p);
 			}
 			SEQ_ALWAYS_INLINE const radix_key_type& operator()(const radix_key_type& k) const noexcept { return k; }
+			template<class U>
+			static SEQ_ALWAYS_INLINE decltype(auto) key(const U& k) noexcept
+			{
+				return Extract{}(k);
+			}
 		};
 
 		using Policy = detail::BuildValue<Key, true>;
@@ -410,6 +415,11 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto operator()(const U& p) const noexcept(noexcept(ExtractKey{}(p))) -> decltype(ExtractKey{}(p))
 			{
 				return ExtractKey{}(p);
+			}
+			template<class U>
+			static SEQ_ALWAYS_INLINE decltype(auto) key(const U& k) noexcept
+			{
+				return Extract{}(k);
 			}
 		};
 

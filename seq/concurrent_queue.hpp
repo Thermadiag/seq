@@ -78,9 +78,9 @@ namespace seq
 
 			struct BaseBucket
 			{
-				atomic_bucket prev{ nullptr };	  // Linked list
-				atomic_bucket next{ nullptr };	  // Linked list
-				size_type head_start = mask_full; // Bucket index
+				atomic_bucket prev{ nullptr };	   // Linked list
+				atomic_bucket next{ nullptr };	   // Linked list
+				atomic_type head_start{ invalid }; // Bucket index
 			};
 
 			// Bucket structure, stores up to count elements
@@ -88,10 +88,7 @@ namespace seq
 			{
 				atomic_type cnt{ mask_full };			      // Mask of created (constructed) elements
 				atomic_type pop{ 0 };				      // Mask of poped (removed) elements
-				alignas(T) char values[sizeof(T) * count] = { '\0' }; // Elements
-
-				// Return pointer to elements
-				SEQ_ALWAYS_INLINE T* ptr() noexcept { return (T*)values; }
+				RawStorage<T, count> values;	// Elements
 
 				// Return bitmask of valid elements
 				size_type valid_mask() const noexcept { return cnt.load(std::memory_order_relaxed) & (~pop.load(std::memory_order_relaxed)); }
@@ -119,14 +116,15 @@ namespace seq
 			};
 
 		private:
-			// Head (insert) position
-			atomic_type d_head{ 0 };
+#ifdef __cpp_lib_hardware_interference_size
+			static constexpr size_t cache_line_size = std::hardware_destructive_interference_size;
+#else
+			static constexpr size_t cache_line_size = 64;
+#endif
 
-			// Tail (pop) position
-			atomic_type d_tail{ 0 };
-
-			// End bucket of linked list
-			BaseBucket d_end;
+			alignas(cache_line_size) atomic_type d_head{ 0 };// Head (insert) position
+			alignas(cache_line_size) atomic_type d_tail{ 0 };// Tail (pop) position
+			alignas(cache_line_size) BaseBucket d_end; // End bucket of linked list
 
 			// Free list of buckets
 			atomic_bucket d_free{ nullptr };
@@ -135,6 +133,8 @@ namespace seq
 
 			// Lock protecting linked list order
 			lock_type d_list_lock;
+			// Next bucket index allowed when the linked list is empty (protected by d_list_lock)
+			size_type d_empty_next_head_start = 0;
 
 			struct AddReserve
 			{
@@ -159,7 +159,7 @@ namespace seq
 					if constexpr (!std::is_same_v<EarlyStop, int>)
 						if (f(ret))
 							return { invalid, ret.reserved };
-					
+
 					if constexpr (!Pop) {
 						// Insertion: test position overflow (should never happen)
 						if SEQ_UNLIKELY (ret.pos == std::numeric_limits<uint64_t>::max() - 1) {
@@ -169,7 +169,7 @@ namespace seq
 						}
 					}
 
-					if (a.compare_exchange_strong(ret.pos, ret.pos + 1))
+					if (a.compare_exchange_strong(ret.pos, ret.pos + 1, std::memory_order_relaxed, std::memory_order_relaxed))
 						return ret;
 
 					for (uint8_t i = 0; i < cnt + 1; ++i)
@@ -182,7 +182,7 @@ namespace seq
 			{
 				Bucket* p = allocate_from<Bucket>(get_allocator());
 				try {
-					return new (p) Bucket();
+					return new (p) Bucket;
 				}
 				catch (...) {
 					deallocate_from(get_allocator(), p);
@@ -205,6 +205,7 @@ namespace seq
 			void free_bucket(BaseBucket* q) noexcept
 			{
 				// Add bucket to free list.
+				q->head_start.store(invalid, std::memory_order_release);
 				std::scoped_lock<spinlock> guard(d_free_lock);
 				auto fr = d_free.load(std::memory_order_relaxed);
 				q->next.store(fr, std::memory_order_relaxed);
@@ -222,18 +223,18 @@ namespace seq
 				auto* last = d_end.prev.load(std::memory_order_relaxed);
 
 				if (last == &d_end) {
-					if (head_start != 0)
+					if (head_start != d_empty_next_head_start)
 						return false;
 				}
 				else {
-					if (head_start != last->head_start + 1 || static_cast<Bucket*>(last)->cnt.load(std::memory_order_acquire) != mask_full)
+					if (head_start != last->head_start.load(std::memory_order_relaxed) + 1 || static_cast<Bucket*>(last)->cnt.load(std::memory_order_acquire) != mask_full)
 						return false;
 				}
 
 				b->cnt.store(1, std::memory_order_relaxed);
 				b->pop.store(0, std::memory_order_relaxed);
-				b->head_start = head_start;
-				new (b->ptr()) T(std::move(val));
+				new (b->values.raw_slot(0)) T(std::move(val));
+				b->head_start.store(head_start, std::memory_order_release);
 				b->next.store(&d_end, std::memory_order_relaxed);
 				b->prev.store(last, std::memory_order_relaxed);
 
@@ -249,6 +250,8 @@ namespace seq
 
 					// Remove from list and bucket to the free list
 					auto next = first->next.load(std::memory_order_relaxed);
+					if (next == &d_end)
+						d_empty_next_head_start = first->head_start.load(std::memory_order_relaxed) + 1;
 					d_end.next.store(next, std::memory_order_release);
 					next->prev.store(&d_end, std::memory_order_release);
 				}
@@ -272,7 +275,7 @@ namespace seq
 					auto first = d_end.next.load(std::memory_order_acquire);
 
 					// Check if empty or if this is the right bucket
-					if (first == &d_end || first->head_start != head_start) {
+					if (first == &d_end || first->head_start.load(std::memory_order_acquire) != head_start) {
 						std::this_thread::yield();
 						continue;
 					}
@@ -285,7 +288,7 @@ namespace seq
 						continue;
 
 					// Retrieve/destroy value
-					fun(bucket->ptr()[idx]);
+					fun(*bucket->values.live_slot(idx));
 					// Mark as poped
 					auto popped = bucket->pop.fetch_or(idx_bits, std::memory_order_acq_rel) | idx_bits;
 
@@ -299,33 +302,45 @@ namespace seq
 
 			SEQ_ALWAYS_INLINE void push_internal(AddReserve r, T&& val) noexcept
 			{
-				auto pos = r.pos;
-				auto idx = pos & (count - 1);
-				auto head_start = pos / count;
+				const size_type pos = r.pos;
+				const size_type idx = pos & (count - 1);
+				const size_type head_start = pos / count;
 
-				for (;;) {
-					auto last = d_end.prev.load(std::memory_order_acquire);
-					if (idx != 0) {
-						if (head_start != last->head_start)
-							continue;
-
-						auto bucket = static_cast<Bucket*>(last);
-						new (bucket->ptr() + idx) T(std::move(val));
-						bucket->cnt.fetch_or(1ull << idx, std::memory_order_release);
-						// Free potentially reserved bucket
-						if (r.reserved)
-							free_bucket(r.reserved);
-						return;
-					}
-					else {
-						if (last == &d_end) {
-							if (head_start != 0)
-								continue;
-						}
-						
+				// The first position in a bucket is responsible for linking it.
+				if (idx == 0) {
+					for (;;) {
 						if (make_bucket(head_start, r.reserved, std::move(val)))
 							return;
+
+						std::this_thread::yield();
 					}
+				}
+
+				// Wait until the producer responsible for idx == 0 has linked
+				// this ticket's bucket.
+				for (;;) {
+					auto last = d_end.prev.load(std::memory_order_acquire);
+
+					// d_end is not a Bucket and must never be downcast.
+					if (last == &d_end) {
+						std::this_thread::yield();
+						continue;
+					}
+
+					if (last->head_start.load(std::memory_order_acquire) != head_start) {
+						std::this_thread::yield();
+						continue;
+					}
+
+					auto bucket = static_cast<Bucket*>(last);
+					new (bucket->values.raw_slot(idx)) T(std::move(val));
+					bucket->cnt.fetch_or(size_type{ 1 } << idx, std::memory_order_release);
+
+					// Free potentially reserved bucket.
+					if (r.reserved)
+						free_bucket(r.reserved);
+
+					return;
 				}
 			}
 
@@ -401,13 +416,13 @@ namespace seq
 			SEQ_ALWAYS_INLINE void emplace(Args&&... args)
 			{
 				// Create value upfront as this might throw
-				T val{ std::forward<Args>(args)... };
+				T val( std::forward<Args>(args)... );
 
 				// Increment head position, and make sure a bucket is availble if needed BEFORE increment
 				// to avoid potential bad_alloc exception to corrupt the head state.
 				auto pos = add<false>(d_head, [&](AddReserve& v) {
 					if ((v.pos & (count - 1)) == 0) {
-						if (!v.reserved) 
+						if (!v.reserved)
 							v.reserved = this->pop_bucket();
 						if (!v.reserved)
 							v.reserved = allocate_bucket();
@@ -445,13 +460,13 @@ namespace seq
 
 			SEQ_ALWAYS_INLINE bool pop() noexcept
 			{
-				return pop_internal([](T& v) { v.~T(); });
+				return pop_internal([](T& v) { destroy_ptr(std::addressof(v)); });
 			}
 			SEQ_ALWAYS_INLINE bool pop(T& val) noexcept
 			{
 				auto f = [&](T& v) {
 					val = std::move(v);
-					v.~T();
+					destroy_ptr(std::addressof(v));
 				};
 				return pop_internal(f);
 			}
@@ -486,7 +501,7 @@ namespace seq
 			  , d_end(end)
 			{
 			}
-			QueueConstIterator(base_bucket_type * end, base_bucket_type* b, unsigned p) noexcept
+			QueueConstIterator(base_bucket_type* end, base_bucket_type* b, unsigned p) noexcept
 			  : d_bucket(b)
 			  , d_end(end)
 			  , d_pos(p == (unsigned)-1 ? bucket(b)->first_valid_index() : p)
@@ -494,11 +509,10 @@ namespace seq
 			  , d_last(bucket(b)->last_valid_index())
 			{
 			}
-			
+
 			bucket_type* bucket(base_bucket_type* b) noexcept { return static_cast<bucket_type*>(b); }
 			bucket_type* bucket() noexcept { return bucket(d_bucket); }
 			const bucket_type* bucket() const noexcept { return static_cast<const bucket_type*>(d_bucket); }
-
 
 			auto operator++() noexcept -> QueueConstIterator&
 			{
@@ -544,7 +558,7 @@ namespace seq
 			{
 				SEQ_ASSERT_DEBUG(d_bucket && d_bucket != d_end, "invalid operation on end iterator");
 				SEQ_ASSERT_DEBUG(bucket()->is_valid(d_pos), "iterator points to an empty location");
-				return const_cast<QueueConstIterator*>(this)->bucket()->ptr()[d_pos];
+				return *const_cast<QueueConstIterator*>(this)->bucket()->values.live_slot(d_pos);
 			}
 			auto operator->() const noexcept -> const_pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
 
@@ -636,9 +650,9 @@ namespace seq
 	/// like iteration.
 	///
 	/// Pushing elements, removing elements, reserving or clearing the queue can be conccurently called.
-	/// Members size(), empty(), and get_allocator() are safe under the stated restrictions. 
+	/// Members size(), empty(), and get_allocator() are safe under the stated restrictions.
 	/// Iteration requires exclusive access.
-	/// 
+	///
 	///
 	template<class T, class Allocator = std::allocator<T>>
 	class concurrent_queue : private Allocator
@@ -718,7 +732,7 @@ namespace seq
 
 			// Clear this queue and deallocate
 			if (auto d = d_data.exchange(nullptr)) {
-				d->~queue_type();
+				destroy_ptr(d);
 				deallocate_from(get_allocator(), d);
 			}
 
@@ -747,7 +761,7 @@ namespace seq
 		~concurrent_queue() noexcept
 		{
 			if (auto d = d_data.exchange(nullptr)) {
-				d->~queue_type();
+				destroy_ptr(d);
 				deallocate_from(get_allocator(), d);
 			}
 		}
@@ -803,11 +817,10 @@ namespace seq
 		/// @brief Returns true if the queue is empty.
 		SEQ_ALWAYS_INLINE bool empty() const noexcept { return size() == 0; }
 
-
 		////////////////////////////////////////////////////////////////////////////////////
 		// Unsafe API
 		////////////////////////////////////////////////////////////////////////////////////
-		
+
 		/// @brief Swap 2 queues.
 		/// This function is NOT thread safe.
 		void swap(concurrent_queue& other) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_swap::value || std::is_nothrow_swappable_v<Allocator>)
@@ -827,7 +840,6 @@ namespace seq
 			}
 		}
 
-
 		/// @brief Release unused memory.
 		void shrink_to_fit() noexcept
 		{
@@ -844,7 +856,7 @@ namespace seq
 			auto bucket = d->end_bucket()->next.load(std::memory_order_relaxed);
 			if (bucket == d->end_bucket())
 				return end();
-			return const_iterator(d->end_bucket() , bucket, (unsigned)-1);
+			return const_iterator(d->end_bucket(), bucket, (unsigned)-1);
 		}
 		auto begin() noexcept -> iterator { return cbegin(); }
 		auto begin() const noexcept -> const_iterator { return cbegin(); }
@@ -887,7 +899,7 @@ namespace seq
 
 			queue_type* prev = nullptr;
 			if (!d_data.compare_exchange_strong(prev, d)) {
-				d->~queue_type();
+				destroy_ptr(d);
 				deallocate_from(get_allocator(), d);
 				d = prev;
 			}

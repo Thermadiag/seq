@@ -106,6 +106,21 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 	const unsigned count = size;
 
 	{
+		// Test sort
+		using Al = RebindAlloc<Alloc, size_t>;
+		sequence<size_t, Al> s(al);
+		for (size_t i = 0; i < 65; ++i)
+			s.insert(i);
+		s.erase(s.begin());
+		s.sort();
+
+		SEQ_TEST(s.size() == 64);
+		auto it = s.begin(); 
+		for (size_t i = 1; i < 65; ++i, ++it) {
+			SEQ_TEST(*it == i);
+		}
+	}
+	{
 
 		// test different memory layout with different data size
 		using Al = RebindAlloc<Alloc, size_t>;

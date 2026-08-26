@@ -92,17 +92,16 @@ namespace seq
 	template<class T>
 	auto negate_if_signed(T v) -> typename integer_abs_return<T>::type
 	{
-		if constexpr (std::is_signed_v<T>)
-			return static_cast<std::make_unsigned_t<T>>(-v);
-		else
-			return v;
+		using U = std::make_unsigned_t<T>;
+		U u = static_cast<U>(v);
+		return v < 0 ? U(0) - u : u;
 	}
 	/// @brief Returns absolute value of v.
 	template<class T>
 	auto abs(T v) -> typename integer_abs_return<T>::type
 	{
 		if constexpr (std::is_signed_v<T>)
-			return static_cast<std::make_unsigned_t<T>>(v < 0 ? -v : v);
+			return static_cast<std::make_unsigned_t<T>>(negate_if_signed(v));
 		else
 			return v;
 	}
@@ -165,11 +164,7 @@ namespace seq
 	// Specilizations for unique_ptr, shared_ptr and pair
 
 	template<class T, class D>
-	struct is_relocatable<std::unique_ptr<T, D>> : std::bool_constant<is_relocatable<D>::value>
-	{
-	};
-	template<class T>
-	struct is_relocatable<std::shared_ptr<T>> : std::true_type
+	struct is_relocatable<std::unique_ptr<T, D>> : std::bool_constant<is_relocatable_v<D> && is_relocatable_v<typename std::unique_ptr<T, D>::pointer>>
 	{
 	};
 	template<class T, class V>
@@ -255,33 +250,28 @@ namespace seq
 	{
 	};
 
-	/// @brief Check if type provides the 'iterator' typedef
-	template<class T, class = void>
-	struct has_iterator : std::false_type
-	{
-	};
 
+	namespace detail
+	{
+		// To allow ADL with custom begin/end
+		using std::begin;
+		using std::end;
+
+		template<class T>
+		auto is_iterable_impl(int) -> decltype(begin(std::declval<const T&>()) != end(std::declval<const T&>()),   // begin/end and operator !=
+						       void(),						       // Handle evil operator ,
+						       ++std::declval<decltype(begin(std::declval<const T&>()))&>(), // operator ++
+						       void(*begin(std::declval<const T&>())),		       // operator*
+						       std::true_type{});
+
+		template<typename T>
+		std::false_type is_iterable_impl(...);
+	}
+
+	/// @brief Check if type is iterable
 	template<class T>
-	struct has_iterator<T, std::void_t<typename T::iterator>> : std::true_type
-	{
-	};
-
-	/// @brief Check if type provides the 'value_type' typedef
-	template<class T, class = void>
-	struct has_value_type : std::false_type
-	{
-	};
-
-	template<class T>
-	struct has_value_type<T, std::void_t<typename T::value_type>> : std::true_type
-	{
-	};
-
-	template<class C>
-	struct is_iterable
-	{
-		static constexpr bool value = has_iterator<C>::value && has_value_type<C>::value;
-	};
+	using is_iterable = decltype(detail::is_iterable_impl<T>(0));
+	
 	template<class T>
 	constexpr bool is_iterable_v = is_iterable<T>::value;
 
@@ -383,9 +373,9 @@ namespace seq
 		using type = char;
 	};
 	template<class T>
-	struct has_data_pointer<T, typename std::void_t<decltype(std::declval<T&>().data())>>
+	struct has_data_pointer<T, typename std::void_t<decltype(std::declval<const T&>().data())>>
 	{
-		using pointer = decltype(std::declval<T&>().data());
+		using pointer = std::decay_t<decltype(std::declval<const T&>().data())>;
 		using ctype = typename std::remove_pointer<pointer>::type;
 		using type = typename std::remove_const<ctype>::type;
 		static constexpr bool value = std::is_pointer_v<pointer>;
@@ -400,9 +390,9 @@ namespace seq
 		using type = char;
 	};
 	template<class T>
-	struct has_size<T, typename std::void_t<decltype(std::declval<T&>().size())>>
+	struct has_size<T, typename std::void_t<decltype(std::declval<const T&>().size())>>
 	{
-		using type = decltype(std::declval<T&>().size());
+		using type = decltype(std::declval<const T&>().size());
 		static constexpr bool value = std::is_integral_v<type>;
 	};
 	template<class T>
@@ -428,10 +418,63 @@ namespace seq
 	template<class T, class Char>
 	struct is_string_class_for<T, Char, std::void_t<typename T::value_type>>
 	{
-		static constexpr bool value = is_iterable_v<T> && has_data_pointer_v<T> && has_size_v<T> && std::is_same_v<typename T::value_type,Char>;
+		static constexpr bool value = is_iterable_v<T> && has_data_pointer_v<T> && has_size_v<T> && std::is_same_v<typename T::value_type, Char> && std::is_same_v<typename has_data_pointer<T>::type, Char>;
 	};
 	template<class T, class Char>
 	constexpr bool is_string_class_for_v = is_string_class_for<T,Char>::value;
+
+
+	/// @brief Detect if T if a char pointer or array
+	template<class T>
+	struct is_character_pointer
+	{
+		using decayed = std::decay_t<T>;
+		using c_type = typename std::remove_pointer<decayed>::type;
+		using char_type = typename std::remove_const<c_type>::type;
+		static constexpr bool value = (std::is_pointer_v<decayed> || std::is_array_v<decayed>) && is_character_type<char_type>::value;
+	};
+	template<class T>
+	constexpr bool is_character_pointer_v = is_character_pointer<T>::value;
+
+
+	/// @brief Detect all possible string types of any character type (std::basic_string, basic_tstring, std::basic_string_view, const Char*, Char*
+	template<class T>
+	struct is_generic_string
+	{
+		static constexpr bool value = is_string_class_v<T> || is_character_pointer_v<T>;
+	};
+	template<class T>
+	constexpr bool is_generic_string_v = is_generic_string<T>::value;
+
+
+	/// @brief Similar to is_generic_string, but only validate given character type
+	template<class T, class Char>
+	struct is_generic_string_for
+	{
+		static constexpr bool value = is_string_class_for_v<T, Char> || (is_character_pointer_v<T> && std::is_same_v<Char, typename is_character_pointer<T>::char_type>);
+	};
+	template<class T, class Char>
+	constexpr bool is_generic_string_for_v = is_generic_string_for<T,Char>::value;
+
+
+	/// @brief Detect generic string character type
+	template<class T, class = void>
+	struct character_type
+	{
+		using type = void;
+	};
+	template<class T>
+	struct character_type<T, typename std::enable_if<is_character_pointer_v<T>, void>::type>
+	{
+		using type = typename is_character_pointer<T>::char_type;
+	};
+	template<class T>
+	struct character_type<T, typename std::enable_if<is_string_class_v<T>, void>::type>
+	{
+		using type = typename T::value_type;
+	};
+	template<class T>
+	using character_type_t = typename character_type<T>::type;
 
 }
 #endif

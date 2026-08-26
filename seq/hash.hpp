@@ -48,6 +48,7 @@
 
 #include "internal/utils.hpp"
 #include "internal/hash_impl.hpp"
+#include "type_traits.hpp"
 
 namespace seq
 {
@@ -64,41 +65,21 @@ namespace seq
 	{
 	};
 
-	namespace detail
-	{
-		SEQ_ALWAYS_INLINE std::uint64_t Mixin64(std::uint64_t a) noexcept
-		{
-			a ^= a >> 23;
-			a *= 0x2127599bf4325c37ULL;
-			a ^= a >> 47;
-			return a;
-		}
-		template<size_t Size>
-		struct Mixin
-		{
-			static SEQ_ALWAYS_INLINE size_t mix(std::uint64_t a) noexcept { return static_cast<size_t>(Mixin64(a)); }
-		};
-		template<>
-		struct Mixin<8>
-		{
-			static SEQ_ALWAYS_INLINE size_t mix(std::uint64_t a) noexcept
-			{
-#ifdef SEQ_HAS_FAST_UMUL128
-				static constexpr uint64_t k = 0xde5fb9d2630458e9ULL;
-				uint64_t l, h;
-				umul128(a, k, &l, &h);
-				return static_cast<size_t>(h + l);
-#else
-				return static_cast<size_t>(Mixin64(a));
-#endif
-			}
-		};
-	}
 
 	/// @brief Mix input hash value for better avalanching
-	SEQ_ALWAYS_INLINE size_t hash_finalize(std::uint64_t h) noexcept
+	SEQ_ALWAYS_INLINE size_t hash_finalize(std::uint64_t a) noexcept
 	{
-		return detail::Mixin<sizeof(size_t)>::mix(h);
+#ifdef SEQ_HAS_FAST_UMUL128
+		static constexpr uint64_t k = 0xde5fb9d2630458e9ULL;
+		uint64_t l, h;
+		umul128(a, k, &l, &h);
+		return static_cast<size_t>(h + l);
+#else
+		a ^= a >> 23;
+		a *= 0x2127599bf4325c37ULL;
+		a ^= a >> 47;
+		return a;
+#endif
 	}
 
 	/// @brief Combine 2 hash values. Uses murmurhash2 mixin.
@@ -129,7 +110,7 @@ namespace seq
 		if constexpr (hash_is_avalanching<Hasher>::value)
 			return h(v);
 		else
-			return detail::Mixin<sizeof(size_t)>::mix(h(v));
+			return hash_finalize(h(v));
 	}
 
 	inline auto hash_bytes_murmur64(const void* ptr, size_t size) noexcept

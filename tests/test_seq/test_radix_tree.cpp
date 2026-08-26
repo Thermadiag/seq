@@ -212,7 +212,7 @@ inline void test_radix_set_common()
 	{
 		// Test heterogeneous lookup on string type
 		dummy_alloc<char>::get_int() = 0;
-		seq::radix_set<seq::tiny_string<char, std::char_traits<char>, dummy_alloc<char>, 0>> set;
+		seq::radix_set<seq::tiny_string<char, dummy_alloc<char>, 0>> set;
 		set.insert("this is a very very long string");
 		SEQ_TEST(set.find("this is a very very long string") != set.end());
 	}
@@ -429,7 +429,7 @@ inline void test_radix_map_common()
 	{
 		// Test heterogeneous lookup on string type
 		dummy_alloc<char>::get_int() = 0;
-		seq::radix_map<seq::tiny_string<char, std::char_traits<char>, dummy_alloc<char>, 0>, int> set;
+		seq::radix_map<seq::tiny_string<char, dummy_alloc<char>, 0>, int> set;
 		set.emplace("this is a very very long string", 2);
 		SEQ_TEST(set.find("this is a very very long string") != set.end());
 	}

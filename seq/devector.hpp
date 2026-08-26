@@ -169,7 +169,7 @@ namespace seq
 							construct_ptr(dst, std::move_if_noexcept(*first));
 							// if T is inothrow move constructible, destroy input while iterating to avoid another loop on inputs
 							if (noexcept_move)
-								first->~T();
+								destroy_ptr(first);
 							++first;
 							++dst;
 						}

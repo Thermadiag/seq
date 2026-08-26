@@ -74,7 +74,7 @@ void test_tstring_logic()
 	using namespace seq;
 
 	using std_string = std::basic_string<Char, std::char_traits<Char>, std::allocator<Char> >;
-	using t_string = seq::tiny_string<Char, std::char_traits<Char>, std::allocator<Char>, MaxStaticSize>;
+	using t_string = seq::tiny_string<Char, std::allocator<Char>, MaxStaticSize>;
 
 	
 	std_string v;
@@ -474,8 +474,81 @@ void test_tstring_logic()
 }
 
 
+template<class S1, class S2>
+void test_operators(const S1& s1, const S2& s2)
+{
+	SEQ_TEST(s1 == s2);
+	SEQ_TEST(!(s1 != s2));
+	SEQ_TEST(!(s1 < s2));
+	SEQ_TEST(!(s1 > s2));
+	SEQ_TEST(s1 <= s2);
+	SEQ_TEST(s1 >= s2);
+}
+
+
+void test_operators_for_char()
+{
+	
+	test_operators(seq::tstring("short"), seq::tstring("short"));
+	test_operators(seq::tstring("short"), std::string("short"));
+	test_operators(seq::tstring("short"), std::string_view("short"));
+	test_operators(seq::tstring("short"), ("short"));
+	test_operators(std::string("short"), seq::tstring("short"));
+	test_operators(std::string_view("short"), seq::tstring("short"));
+	test_operators(("short"), seq::tstring("short"));
+
+	const char* long_ = "this is a very lonnnnnnnng string";
+	test_operators(seq::tstring(long_), seq::tstring(long_));
+	test_operators(seq::tstring(long_), std::string(long_));
+	test_operators(seq::tstring(long_), std::string_view(long_));
+	test_operators(seq::tstring(long_), (long_));
+	test_operators(std::string(long_), seq::tstring(long_));
+	test_operators(std::string_view(long_), seq::tstring(long_));
+	test_operators((long_), seq::tstring(long_));
+}
+
+void test_operators_for_wchar()
+{
+	using tstring_type = seq::tiny_string<wchar_t>;
+	using string_type = std::basic_string<wchar_t>;
+	using vstring_type = std::basic_string_view<wchar_t>;
+
+	test_operators(tstring_type(L"short"), tstring_type(L"short"));
+	test_operators(tstring_type(L"short"), string_type(L"short"));
+	test_operators(tstring_type(L"short"), vstring_type(L"short"));
+	test_operators(tstring_type(L"short"), (L"short"));
+	test_operators(string_type(L"short"), tstring_type(L"short"));
+	test_operators(vstring_type(L"short"), tstring_type(L"short"));
+	test_operators((L"short"), tstring_type(L"short"));
+
+	const wchar_t* long_ = L"this is a very lonnnnnnnng string";
+	test_operators(tstring_type(long_), tstring_type(long_));
+	test_operators(tstring_type(long_), string_type(long_));
+	test_operators(tstring_type(long_), vstring_type(long_));
+	test_operators(tstring_type(long_), (long_));
+	test_operators(string_type(long_), tstring_type(long_));
+	test_operators(vstring_type(long_), tstring_type(long_));
+	test_operators((long_), tstring_type(long_));
+}
+
 SEQ_PROTOTYPE( int test_tiny_string(int , char*[]))
 {
+	{
+		std::string t1 = "toto";
+		std::string t2 = "tutu";
+		std::swap(t1, t2);
+		std::string t3 = std::move(t1);
+	}
+	{
+		using namespace seq;
+		std::vector<tstring> vec;
+		for (int i = 0; i < 1000; ++i)
+			vec.emplace_back(generate_random_string<tstring>(63));
+		std::sort(vec.begin(), vec.end());
+	}
+	test_operators_for_char();
+	test_operators_for_wchar();
+	
 	SEQ_TEST_MODULE_RETURN(tiny_string_char, 1, test_tstring_logic<char>());
 	SEQ_TEST_MODULE_RETURN(tiny_string_wchar_t, 1, test_tstring_logic<wchar_t>());
 	SEQ_TEST_MODULE_RETURN(tiny_string_char, 1, test_tstring_logic<char,20>());

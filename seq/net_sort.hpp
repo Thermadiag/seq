@@ -42,6 +42,7 @@ namespace seq
 	template<class Iter>
 	struct buffer
 	{
+		using iter_type = Iter;
 		Iter first;
 		size_t size = 0;
 	};
@@ -74,7 +75,7 @@ namespace seq
 			Iter iter;
 			difference_type pos;
 
-			SEQ_ALWAYS_INLINE IterWrapper(Iter it = Iter(), difference_type p = 0) 
+			SEQ_ALWAYS_INLINE IterWrapper(Iter it = Iter(), difference_type p = 0)
 			  : iter(it)
 			  , pos(p)
 			{
@@ -149,51 +150,49 @@ namespace seq
 			return it1.iter != it2.iter;
 		}
 
-
-
 		// similar to std::next, but use ++ operator when no distance is specified
 		template<class Iter>
-		static SEQ_ALWAYS_INLINE auto iter_next(Iter it) 
+		static SEQ_ALWAYS_INLINE auto iter_next(Iter it)
 		{
 			return ++it;
 		}
 		template<class Iter, class Diff>
-		static SEQ_ALWAYS_INLINE auto iter_next(Iter it, Diff d) 
+		static SEQ_ALWAYS_INLINE auto iter_next(Iter it, Diff d)
 		{
 			return it + d;
 		}
 
 		// similar to std::prev, but use -- operator when no distance is specified
 		template<class Iter>
-		static SEQ_ALWAYS_INLINE auto iter_prev(Iter it) 
+		static SEQ_ALWAYS_INLINE auto iter_prev(Iter it)
 		{
 			return --it;
 		}
 		template<class Iter, class Diff>
-		static SEQ_ALWAYS_INLINE auto iter_prev(Iter it, Diff d) 
+		static SEQ_ALWAYS_INLINE auto iter_prev(Iter it, Diff d)
 		{
 			return it - d;
 		}
 
 		template<class Iter>
-		static SEQ_ALWAYS_INLINE auto unwrap_iter(Iter it) 
+		static SEQ_ALWAYS_INLINE auto unwrap_iter(Iter it)
 		{
 			return it;
 		}
 		template<class Iter>
-		static SEQ_ALWAYS_INLINE auto unwrap_iter(std::move_iterator<Iter> it) 
+		static SEQ_ALWAYS_INLINE auto unwrap_iter(std::move_iterator<Iter> it)
 		{
 			return unwrap_iter(it.base());
 		}
 		template<class Iter>
-		static SEQ_ALWAYS_INLINE auto unwrap_iter(std::reverse_iterator<Iter> it) 
+		static SEQ_ALWAYS_INLINE auto unwrap_iter(std::reverse_iterator<Iter> it)
 		{
 			return unwrap_iter(it.base());
 		}
 
 		// compare iterators for equality without triggering compile error
 		template<class Iter1, class Iter2>
-		static SEQ_ALWAYS_INLINE bool iter_equal(Iter1 it1, Iter2 it2) 
+		static SEQ_ALWAYS_INLINE bool iter_equal(Iter1 it1, Iter2 it2)
 		{
 			using type1 = decltype(unwrap_iter(it1));
 			using type2 = decltype(unwrap_iter(it2));
@@ -205,12 +204,12 @@ namespace seq
 
 		// similar to std::distance with an overload for IterWrapper that supports subtracting 2 iterators
 		template<class Iter>
-		static SEQ_ALWAYS_INLINE auto iter_distance(Iter first, Iter last) 
+		static SEQ_ALWAYS_INLINE auto iter_distance(Iter first, Iter last)
 		{
 			return std::distance(first, last);
 		}
 		template<class Iter>
-		static SEQ_ALWAYS_INLINE auto iter_distance(const IterWrapper<Iter>& first, const IterWrapper<Iter>& last) 
+		static SEQ_ALWAYS_INLINE auto iter_distance(const IterWrapper<Iter>& first, const IterWrapper<Iter>& last)
 		{
 			return last - first;
 		}
@@ -228,7 +227,7 @@ namespace seq
 
 		template<class Iter, class Cmp>
 		static void
-		merge_inplace_left(Iter f0, size_t n0, Iter f1, size_t n1, Iter& f0_0, size_t& n0_0, Iter& f0_1, size_t& n0_1, Iter& f1_0, size_t& n1_0, Iter& f1_1, size_t& n1_1, const Cmp& r) 
+		merge_inplace_left(Iter f0, size_t n0, Iter f1, size_t n1, Iter& f0_0, size_t& n0_0, Iter& f0_1, size_t& n0_1, Iter& f1_0, size_t& n1_0, Iter& f1_1, size_t& n1_1, const Cmp& r)
 		{
 			// Subroutine of inplace_merge_n
 			SEQ_ALGO_ASSERT_DEBUG((size_t)iter_distance(f0, f1) == n0, "");
@@ -250,7 +249,7 @@ namespace seq
 
 		template<class Iter, class Cmp>
 		static void
-		merge_inplace_right(Iter f0, size_t n0, Iter f1, size_t n1, Iter& f0_0, size_t& n0_0, Iter& f0_1, size_t& n0_1, Iter& f1_0, size_t& n1_0, Iter& f1_1, size_t& n1_1, const Cmp& r) 
+		merge_inplace_right(Iter f0, size_t n0, Iter f1, size_t n1, Iter& f0_0, size_t& n0_0, Iter& f0_1, size_t& n0_1, Iter& f1_0, size_t& n1_0, Iter& f1_1, size_t& n1_1, const Cmp& r)
 		{
 			// Subroutine of inplace_merge_n
 			SEQ_ALGO_ASSERT_DEBUG((size_t)iter_distance(f0, f1) == n0, "");
@@ -413,7 +412,7 @@ namespace seq
 		}
 
 		template<size_t Count, class Iter, class Out, class Cmp>
-		static Out merge_move_bidirectional(Iter first1, Iter last1, Iter first2, Iter last2, Out out, const Cmp& c, Out* out_end = nullptr) 
+		static Out merge_move_bidirectional(Iter first1, Iter last1, Iter first2, Iter last2, Out out, const Cmp& c, Out* out_end = nullptr)
 		{
 			using T = typename std::iterator_traits<Iter>::value_type;
 
@@ -492,7 +491,7 @@ namespace seq
 		}
 
 		template<bool Overlap, class Iter1, class Iter2, class Out, class Cmp>
-		static SEQ_ALWAYS_INLINE void merge_backward(Iter1 first1, Iter1 last1, Iter2 first2, Iter2 last2, Out out_end,  Cmp c) 
+		static SEQ_ALWAYS_INLINE void merge_backward(Iter1 first1, Iter1 last1, Iter2 first2, Iter2 last2, Out out_end, Cmp c)
 		{
 			// Merge backward implemented in terms of merge_forward
 			merge_forward<Overlap>(std::make_reverse_iterator(last2),
@@ -597,7 +596,7 @@ namespace seq
 			// Recurse on each range
 			merge_adaptive_n<true>(f0_0, n0_0, f0_1, n0_1, iter_next(f0_1, n0_1), r, buffer);
 			merge_adaptive_n<true>(f1_0, n1_0, f1_1, n1_1, iter_next(f1_1, n1_1), r, buffer);
-			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f0, e1), "");
+			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f0, e1, r), "");
 		}
 
 		template<class Iter, class Cmp>
@@ -700,7 +699,7 @@ namespace seq
 			}
 		}
 		template<class Iter, class Cmp, class Storage>
-		static void ping_pong_merge_3(Iter it0, Iter it1, Iter it2, Iter it3, const Cmp& c, Storage& tmp) 
+		static void ping_pong_merge_3(Iter it0, Iter it1, Iter it2, Iter it3, const Cmp& c, Storage& tmp)
 		{
 			// Ping pong merge 3 sorted ranges using provided buffer.
 
@@ -729,7 +728,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class Buffer, class Out = typename std::iterator_traits<Iter>::pointer>
-		static void merge_sorted_runs_with_buffer(Iter* iters, size_t start, size_t last, const Cmp& cmp, Buffer& buf) 
+		static void merge_sorted_runs_with_buffer(Iter* iters, size_t start, size_t last, const Cmp& cmp, Buffer& buf)
 		{
 			// Inplace merge already sorted ranges represented by an array of iterators.
 			// Supports bidirectional iterators.
@@ -769,11 +768,10 @@ namespace seq
 		{
 			// Swap elements based on is_less.
 			// Uses branchless swap for small trivial types.
-			
+
 			using std::swap;
 			if (b_is_less)
 				swap(a, b);
-			
 		}
 
 		template<class Iter, class Cmp, class Buffer>
@@ -788,13 +786,13 @@ namespace seq
 		}
 
 		template<size_t N, class Iter, class Cmp, class Buffer>
-		static SEQ_ALWAYS_INLINE Iter atom_sort_8(Iter vals, size_t count, const Cmp& cmp, Buffer& b) 
+		static SEQ_ALWAYS_INLINE Iter atom_sort_8(Iter vals, size_t count, const Cmp& cmp, Buffer& b)
 		{
 			// Sort up to 8 values
 
 			if constexpr (is_random_access<Iter>::value && N == 8) {
 				if (count == 8) {
-					// Sort exactly 8 values 
+					// Sort exactly 8 values
 					small_sort_8(vals, cmp, b);
 					return vals + 8;
 				}
@@ -808,11 +806,9 @@ namespace seq
 		{
 			// Sort 64 values to output
 
-			
 			using type = std::decay_t<typename std::iterator_traits<Iter>::value_type>;
 			type buff[8];
 			buffer<type*> b{ buff, 8 };
-
 
 			auto it0 = atom_sort_8<8>(first, 8, c, b);
 			auto it1 = atom_sort_8<8>(it0, 8, c, b);
@@ -1037,7 +1033,7 @@ namespace seq
 				auto r = try_wave_sort<5>(begin, size, size, l, buf);
 				if (r.first == begin)
 					//  Failed
-					sort_128(begin,size, l, buf);
+					sort_128(begin, size, l, buf);
 				return;
 			}
 
@@ -1059,7 +1055,6 @@ namespace seq
 				  size_t cnt = std::min(remaining, (size_t)128u);
 				  auto it = sort_128(b, cnt, l, buf);
 				  return std::make_pair(it, (size_t)cnt);
-
 			  },
 			  buf);
 
@@ -1089,15 +1084,18 @@ namespace seq
 				// Tiny buffer
 				ret = (count / 128u);
 
-			if (ret == 0) 
+			if (ret == 0)
 				ret = std::min((size_t)16, count);
-			
+
 			return ret;
 		}
 
-	} // end algo_detail
+		template<class Iter>
+		inline constexpr bool has_direct_reference_v =
+		  std::is_lvalue_reference_v<typename std::iterator_traits<Iter>::reference> &&
+		  std::is_same_v<std::remove_cv_t<std::remove_reference_t<typename std::iterator_traits<Iter>::reference>>, typename std::iterator_traits<Iter>::value_type>;
 
-	
+	} // end algo_detail
 
 	/// @brief Default sort buffer size, uses input size/2 elements
 	static constexpr buffer<void*> default_buffer{ nullptr, 0 };
@@ -1189,7 +1187,8 @@ namespace seq
 			size_t min_size = std::min(s1, s2);
 			size_t buf_size = sort_buffer_size(buf, min_size);
 			std::vector<Key> buf_(buf_size);
-			return merge_adaptive_n<false>(wrap_iter(first), s1, wrap_iter(middle, s1), s2, wrap_iter(last, s1 + s2), c, buffer<Key*>{ buf_.data(), buf_.size() });
+			auto work = buffer<Key*>{ buf_.data(), buf_.size() };
+			return merge_adaptive_n<false>(wrap_iter(first), s1, wrap_iter(middle, s1), s2, wrap_iter(last, s1 + s2), c, work);
 		}
 		else
 			// Use provided buffer
@@ -1251,8 +1250,8 @@ namespace seq
 	///
 	/// net_sort_size() and net_sort() work on bidirectional iterators.
 	/// Using net_sort_size() instead of net_sort() is faster when the range size is already known.
-	/// 
-	/// Underlying type must be default constructible and move assignable/constructible. 
+	///
+	/// Underlying type must be default constructible and move assignable/constructible.
 	///
 	/// All credits to scandum (https://github.com/scandum) for its quadsort algorithm from which
 	/// I took several ideas (bidirectional merge and ping-pong merge).
@@ -1260,11 +1259,20 @@ namespace seq
 	template<class Iter, class Cmp = std::less<>, class Buffer = buffer<void*>>
 	void net_sort_size(Iter begin, size_t size, Cmp cmp = Cmp(), Buffer buf = Buffer())
 	{
+		static_assert(algo_detail::has_direct_reference_v<Iter>,
+			      "seq::net_sort requires iterator dereference to return value_type&; "
+			      "proxy iterators such as std::vector<bool>::iterator are unsupported");
+
+		using buf_iter_type = typename Buffer::iter_type;
+		if constexpr (!std::is_same_v<buf_iter_type, void*>) {
+			static_assert(is_random_access_v<buf_iter_type>, "seq::net_sort requires random access buffer");
+		}
+
 		using namespace algo_detail;
 		using Key = typename std::iterator_traits<Iter>::value_type;
 		using Cat = typename std::iterator_traits<Iter>::iterator_category;
-		
-		static_assert(std::is_base_of_v<std::bidirectional_iterator_tag, Cat>, "net_sort requires at least a bidirectional iterator");
+
+		static_assert(std::is_base_of_v<std::bidirectional_iterator_tag, Cat>, "seq::net_sort requires at least bidirectional iterators");
 
 		if constexpr (!std::is_same_v<Buffer, buffer<void*>>) {
 			using BufferIter = decltype(buf.first);
@@ -1307,8 +1315,8 @@ namespace seq
 	/// net_sort_size() and net_sort() work on bidirectional iterators.
 	/// Using net_sort_size() instead of net_sort() is faster when the range size is already known.
 	///
-	/// Underlying type must be default constructible and move assignable/constructible. 
-	/// 
+	/// Underlying type must be default constructible and move assignable/constructible.
+	///
 	/// Full credits to scandum (https://github.com/scandum) for its quadsort algorithm from which
 	/// I took several ideas (bidirectional merge and ping-pong merge).
 	///

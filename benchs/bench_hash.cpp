@@ -123,8 +123,8 @@ inline size_t to_size_t(const std::string& t)
 {
 	return t.size();
 }
-template<class Char, class Traits, size_t S, class A>
-inline size_t to_size_t(const tiny_string<Char, Traits, A, S>& t)
+template<class Char, size_t S, class A>
+inline size_t to_size_t(const tiny_string<Char, A, S>& t)
 {
 	return t.size();
 }
@@ -496,7 +496,7 @@ int bench_hash(int, char** const)
 
 	test_hash<tstring, seq::hasher<tstring>>(2500000, [](size_t i) { return generate_random_string<tstring>(63, false); });
 
-	test_hash<tstring, seq::hasher<tstring>>(4000000, [](size_t i) { return generate_random_string<tstring>(1, true) + (tstring(12, ' ') + generate_random_string<tstring>(13, true)); });
+	test_hash<tstring, seq::hasher<tstring>>(4000000, [](size_t i) { return generate_random_string<tstring>(1, true) + tstring(12, ' ') + generate_random_string<tstring>(13, true); });
 
 	test_hash<tstring, seq::hasher<tstring>>(4000000, [](size_t i) { return generate_random_string<tstring>(13, true); });
 

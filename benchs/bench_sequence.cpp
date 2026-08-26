@@ -296,6 +296,38 @@ void test_sequence_vs_colony(size_t count)
 
 	std::cout << f("sort", col_t, seq_t, deq_t, lst_t) << std::endl;
 
+
+
+	col1.clear();
+	seq1.clear();
+	lst.clear();
+	deq.clear();
+	for (int i = 0; i < count; ++i) {
+		seq1.push_back((shufle[i]));
+		col1.insert((shufle[i]));
+		lst.push_back((shufle[i]));
+		deq.push_back((shufle[i]));
+	}
+
+	tick();
+	//col1.sort();
+	seq::net_sort_size(col1.begin(), col1.size());
+	col_t = tock_ms();
+
+	tick();
+	seq::net_sort_size(seq1.begin(), seq1.size());
+	seq_t = tock_ms();
+
+	tick();
+	seq::net_sort(deq.begin(), deq.end());
+	deq_t = tock_ms();
+
+	tick();
+	seq::net_sort_size(lst.begin(), lst.size());
+	lst_t = tock_ms();
+
+	std::cout << f("net_sort", col_t, seq_t, deq_t, lst_t) << std::endl;
+
 }
 
 
@@ -307,6 +339,6 @@ void test_sequence_vs_colony(size_t count)
 
 int bench_sequence(int, char** const)
 {
-	test_sequence_vs_colony<size_t>(5000000);
+	test_sequence_vs_colony<size_t>(5000000); 
 	return 0;
 }

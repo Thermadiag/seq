@@ -266,6 +266,62 @@ static void test_hold_any()
 	static_assert(is_relocatable<small_non_pod>::value == false, "");
 	static_assert(is_relocatable<big_non_pod>::value == false, "");
 
+	{
+		// Ensure comparing non comparable types throw
+		seq::nh_any a = padding<2>{};
+		seq::nh_any b = padding<2>{};
+		SEQ_TEST_THROW(seq::bad_any_function_call, a == b);
+	}
+	{
+		// Ensure this does not throw
+		std::vector<seq::nh_any> vec;
+		for (int i = 0; i < 100; ++i)
+			vec.emplace_back(std::unique_ptr<int>(new int(i)));
+	}
+	{
+		// Test self ref cast
+		std::string tmp = "test";
+		seq::any a = tmp;
+		a = a.cast<std::string&>();
+		SEQ_TEST(a == tmp);
+	}
+	{
+		// Test hash function
+		seq::any a = "test";
+		std::string tmp = "test";
+		seq::any b = tmp;
+		SEQ_TEST(a.hash() == b.hash());
+		SEQ_TEST(a.hash() == seq::hasher<seq::any>{}("test"));
+	}
+	{
+		//Test int and string not equal
+		seq::any a = "1";
+		seq::any b = 1;
+		SEQ_TEST(a != b);
+	}
+	{
+		seq::nh_any a = Str<0, false>("test");
+		seq::nh_any b = Str<0, false>("tutu");
+		a = b;
+		SEQ_TEST(a == b);
+	}
+	{
+		// Test string equality
+		const char p[] = "x";
+		const char q[] = "x";
+
+		any a = static_cast<const char*>(p);
+		any b = std::string("x");
+		any c = static_cast<const char*>(q);
+
+		SEQ_TEST(a == b);
+		SEQ_TEST(a == c);
+		SEQ_TEST(c == b);
+
+		any d = (const char*)nullptr;
+		auto view = d.cast<std::string_view>();
+		SEQ_TEST(view == std::string_view{});
+	}
 
 	{
 		// test a few edge case
@@ -516,32 +572,20 @@ static void test_hold_any()
 	{
 		// test custom comparison
 
-		// define a comparison function between std::pair<int,int> and int
-		struct equal_pair
-		{
-			bool operator()(const std::pair<int, int>& a, int b) const { return a.first == b && a.second == b; }
-		};
-
-		register_any_equal_comparison<std::pair<int, int>, int>(equal_pair{});
-
-		nh_any pair = std::make_pair(2, 2);
-		nh_any integer = 2;
-		SEQ_TEST(pair == integer);
-	}
-	{
-		// test custom comparison
-
 		// define a dumy comparison function between std::pair<int,int> and int
-		struct less_pair
+		struct less_pad
 		{
-			bool operator()(const std::pair<int, int>& a, int b) const { return a.first < b && a.second < b; }
+			bool operator()(const padding<1>& a, const padding<1>& b) const { 
+				return a.d_padd[0] < b.d_padd[0]; 
+			}
 		};
 
-		register_any_less_comparison<std::pair<int, int>, int>(less_pair{});
+		register_any_less_comparison<padding<1>>(less_pad{});
 
-		nh_any pair = std::make_pair(1, 2);
-		nh_any integer = 3;
-		SEQ_TEST(pair < integer);
+		nh_any l = padding<1>{ { 1 } };
+		nh_any r = padding<1>{ { 2 } };
+		SEQ_TEST(l < r);
+		SEQ_TEST(!(r < l));
 	}
 	{
 		// test cast
@@ -598,7 +642,7 @@ static void test_hold_any()
 
 		// conversion to the different string types
 		tstring str = a.cast<tstring>();
-		tstring_view view = a.cast<tstring_view>();
+		std::string_view view = a.cast<std::string_view>();
 		std::string str2 = a.cast<std::string>();
 		SEQ_TEST(a == str);
 		SEQ_TEST(a == view);

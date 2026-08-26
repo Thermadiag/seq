@@ -937,6 +937,19 @@ void test_concurrent_map_members()
 		SEQ_TEST(map2.size() == 0);
 #endif
 	}
+	// Equality
+	{
+		seq::concurrent_map<size_t, size_t> map1, map2;
+		for (size_t i = 0; i < 100000; ++i)
+			map1.insert({ i, i });
+		for (int i = 100000 - 1; i >= 0; --i) {
+			size_t v = (size_t)i;
+			map2.insert({ v, v });
+		}
+		SEQ_TEST(map1 == map2);
+		map1.visit(1, [](auto& v) { v.second = 0; });
+		SEQ_TEST(map1 != map2);
+	}
 }
 
 #include "tests.hpp"

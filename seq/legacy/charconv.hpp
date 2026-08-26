@@ -2580,10 +2580,10 @@ namespace seq
 	/// If no string was read because the get position was after the last stream character, the value string is cleared and stream state is set
 	/// to #EndOfFile.
 	///
-	template<class Stream, class Traits, size_t Ss, class Al>
-	inline auto from_stream(Stream& str, tiny_string<typename Stream::char_type, Traits, Al, Ss>& value) -> Stream&
+	template<class Stream, size_t Ss, class Al>
+	inline auto from_stream(Stream& str, tiny_string<typename Stream::char_type, Al, Ss>& value) -> Stream&
 	{
-		value = detail::read_string<tiny_string<typename Stream::char_type, Traits, Al, Ss>>(str);
+		value = detail::read_string<tiny_string<typename Stream::char_type, Al, Ss>>(str);
 		return str;
 	}
 
@@ -2612,10 +2612,10 @@ namespace seq
 	/// If no string was read because the get position was after the last stream character, the value string is cleared and stream state is set
 	/// to #EndOfFile.
 	///
-	template<class Stream, class Traits, size_t Ss, class Al>
-	inline auto read_line_from_stream(Stream& str, tiny_string<typename Stream::char_type, Traits, Al, Ss>& value) -> Stream&
+	template<class Stream, size_t Ss, class Al>
+	inline auto read_line_from_stream(Stream& str, tiny_string<typename Stream::char_type, Al, Ss>& value) -> Stream&
 	{
-		value = detail::read_line<tiny_string<typename Stream::char_type, Traits, Al, Ss>>(str);
+		value = detail::read_line<tiny_string<typename Stream::char_type, Al, Ss>>(str);
 		return str;
 	}
 

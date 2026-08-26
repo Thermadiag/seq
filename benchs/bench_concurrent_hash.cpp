@@ -525,7 +525,8 @@ public:
 template<class K, class Gen>
 void test_concurrent_hash_maps(size_t count, const Gen& gen)
 {
-	test_concurrent_map<K, concurrent_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>>>>(count, "seq::concurrent_map", gen);
+	test_concurrent_map<K, concurrent_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>> /*, seq::low_concurrency*/>>(
+		  count, "seq::concurrent_map", gen);
 
 	test_concurrent_map<K, gtl::parallel_flat_hash_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>>, 5, std::shared_mutex>>(
 	  count, "gtl::parallel_flat_hash_map", gen);
@@ -547,14 +548,7 @@ void test_concurrent_hash_maps(size_t count, const Gen& gen)
 
 int bench_concurrent_hash(int, char** const)
 {
-	{
-		seq::concurrent_map<int, int> m;
-		m.insert({ 1, 2 });
-		m.visit(1, [&](auto& v) {
-			std::cout << v.first << std::endl;
-			m.visit(1, [](auto& v) { std::cout << v.second << std::endl; });
-		});
-	}
+	
 	{
 		size_t count = 20000000;
 		using K = size_t;

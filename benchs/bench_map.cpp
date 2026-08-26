@@ -32,6 +32,9 @@
 #include "boost/container/flat_map.hpp"
 #endif
 
+#include "art/radix_map.h"
+#include "art/radix_set.h"
+
 #include <iostream>
 #include <map>
 #include <algorithm>
@@ -40,6 +43,41 @@
 #include "testing.hpp"
 
 using namespace seq;
+
+// For art::radix_map
+namespace art
+{
+	// fixed size ascii string transform
+	template<size_t MAX_SIZE>
+	struct key_transform<seq::tstring, MAX_SIZE>
+	{
+		std::array<char, MAX_SIZE> operator()(const seq::tstring& key) const noexcept
+		{
+			// make sure to initialize the whole array, otherwise the suffix of
+			// identical keys could be different
+			std::array<char, MAX_SIZE> transformed{};
+			std::memcpy(&transformed, key.c_str(), key.size() + 1);
+
+			return transformed;
+		}
+	};
+
+	template<>
+	struct key_transform<double>
+	{
+		uint64_t operator()(double __val) const noexcept { return seq::byte_swap_64( seq::radix_detail::to_uint(__val)); }
+	};
+
+	template<>
+	struct key_transform<std::tuple<unsigned,unsigned>>
+	{
+		uint64_t operator()(std::tuple<unsigned, unsigned> __val) const noexcept
+		{
+			uint64_t r = (uint64_t)std::get<0>(__val) << 32ull | std::get<1>(__val);
+			return seq::byte_swap_64(r);
+		}
+	};
+}
 
 template<class T>
 inline size_t convert_to_size_t(const T& v)
@@ -53,8 +91,8 @@ inline size_t convert_to_size_t(const std::tuple<T, T>& v)
 	return static_cast<size_t>(std::get<0>(v) + std::get<1>(v));
 }
 
-template<class Char, class Traits, size_t S, class Al>
-inline size_t convert_to_size_t(const tiny_string<Char, Traits, Al, S>& v)
+template<class Char, size_t S, class Al>
+inline size_t convert_to_size_t(const tiny_string<Char, Al, S>& v)
 {
 	return static_cast<size_t>(v.size());
 }
@@ -147,27 +185,8 @@ void check_sorted(C& set)
 		SEQ_TEST(set.find(it->first) != set.end());
 }
 
-template<class C>
-struct is_radix_set : std::false_type
-{
-};
 
-template<class T, class Extract, class Al>
-struct is_radix_set<radix_set<T, Extract, Al>> : std::true_type
-{
-};
-
-template<class C>
-struct is_radix_map : std::false_type
-{
-};
-
-template<class T, class V, class Extract, class Al>
-struct is_radix_map<radix_map<T, V, Extract, Al>> : std::true_type
-{
-};
-
-template<class C, class U, bool Launch = !(is_hold_any<typename U::first_type>::value && (is_radix_set<C>::value || is_radix_map<C>::value))>
+template<class C, class U, bool Launch = true>
 struct LaunchTest
 {
 	template<class Format>
@@ -244,9 +263,12 @@ struct LaunchTest
 		// lower_bound success
 		tick();
 		sum = 0;
-		for (size_t i = 0; i < success.size(); ++i)
+		for (size_t i = 0; i < success.size(); ++i) 
 			SEQ_TEST(set.lower_bound(success[i].first) != set.end());
+			//TEST: lower_bound on failed
+			//sum += (set.lower_bound(fail[i].first) != set.begin());
 		size_t lower_bound = tock_ms();
+		print_null(sum);
 
 		// find fail
 		tick();
@@ -281,7 +303,9 @@ struct LaunchTest
 				auto it = set.find(success[i].first);
 				SEQ_TEST(it != set.end());
 				if (it != set.end())
-					set.erase((const_iterator)it);
+					// set.erase((const_iterator)it);
+					// TEST
+					set.erase(it->first);
 			}
 
 			erase = tock_ms();
@@ -303,6 +327,8 @@ struct LaunchTest
 		}
 
 		// clear
+		//TEST: comment
+		/*
 #ifndef TEST_BOOST_INSERT_ERASE
 		if (!is_boost_map<C>::value)
 #endif
@@ -316,6 +342,7 @@ struct LaunchTest
 			}
 			SEQ_TEST(set.size() == 0);
 		}
+		*/
 		if (write)
 			std::cout << f(name, fmt(insert_range, insert_range_mem), fmt(insert, insert_mem), insert_fail, find, lower_bound, find_fail, iterate, erase) << std::endl;
 	}
@@ -390,7 +417,14 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 #ifdef BOOST_FOUND
 	test_set<boost::container::flat_map<T, T>>("boost::flat_map", vec, f);
 #endif
-	test_set<radix_map<T, T, Extract>>("seq::radix_map", vec, f);
+
+	if constexpr (!is_hold_any<T>::value) {
+
+		test_set<radix_map<T, T, Extract>>("seq::radix_map", vec, f);
+
+		// https://github.com/philipbecker/cpp-art/tree/master
+		test_set<art::radix_map<T, T>>("art::radix_map", vec, f);
+	}
 
 	test_set<std::map<T, T>>("std::map", vec, f);
 }
@@ -455,17 +489,51 @@ void test_small_map(int count, int repeat)
 }
 */
 
-#include <set>
-
 int bench_map(int, char** const)
 {
-	{
-		std::set<std::string> set;
-		set.insert("toto");
-		auto it = set.find("toto");
-	}
+	/* {
+		std::vector<std::string> vec;
+		for (size_t i = 0; i < 10000; ++i)
+			vec.push_back(generate_random_string<std::string>(13, true));
 
-	using string = tstring;
+		std::sort(vec.begin(), vec.end());
+		auto it = std::unique(vec.begin(), vec.end());
+		vec.resize(it - vec.begin());
+		auto b = vec.back();
+		vec.pop_back();
+		std::shuffle(vec.begin(), vec.end(), std::mt19937(1));
+
+		std::vector<std::string> success(vec.begin(), vec.begin() + vec.size() / 2);
+		std::vector<std::string> fail(vec.begin() + vec.size() / 2, vec.end());
+		fail.push_back(b);
+
+		seq::radix_set<std::string> s1;
+		art::radix_set<std::string> s2;
+		s1.insert(success.begin(), success.end());
+		s2.insert(success.begin(), success.end());
+
+		for (auto& v : fail) {
+			auto it = s2.lower_bound(v);
+			auto tmp = s1.lower_bound(v);
+			if (tmp == s1.end())
+				bool stop = true;
+			if (it == s2.end()) {
+				
+				auto& last = *(--s2.end());
+				bool is_less = last < v;
+				auto it1 = s1.lower_bound(v);
+				bool ok = it1 == s1.end();
+				if (!ok) {
+					SEQ_TEST(v < *it1);
+					if (it1 != s1.begin())
+						SEQ_TEST(*(--it1) < v);
+				}
+				bool stop = true;
+			}
+		}
+	}*/
+	
+	using string = seq::tstring;
 
 	// test random tuple
 	{
@@ -480,8 +548,9 @@ int bench_map(int, char** const)
 		std::random_device dev;
 		std::mt19937 rngi(dev());
 		std::uniform_int_distribution<size_t> dist;
-		test_map<size_t>(2000000, [&](size_t i) { return dist(rngi); });
+		test_map<uint64_t>(2000000, [&](size_t i) { return dist(rngi); });
 	}
+
 	// test random floating point values
 	{
 		// std::random_device rd;

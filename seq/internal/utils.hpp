@@ -28,6 +28,8 @@
 /** @file */
 
 #include <memory>
+#include <cstddef> 
+#include <new>     // std::launder, placement new
 
 #include "../bits.hpp"
 #include "../type_traits.hpp"
@@ -143,7 +145,8 @@ namespace seq
 	template<class T>
 	SEQ_ALWAYS_INLINE void destroy_ptr(T* p) noexcept
 	{
-		p->~T();
+		if constexpr (!std::is_trivially_destructible_v<T>)
+			p->~T();
 	}
 
 	/// @brief Destroy count objects
@@ -317,6 +320,27 @@ namespace seq
 		{
 			return ResizeHelperDirect<T>{ v };
 		}
+
+		/// @brief Contiguous raw storage to store N element of type T
+		/// Use raw_slot() to construct elements, live_slot() to access already constructed elements.
+		template<class T, size_t N>
+		struct RawStorage
+		{
+			static_assert(N != 0);
+
+			RawStorage() noexcept = default;
+			RawStorage(const RawStorage&) = delete;
+			RawStorage(RawStorage&&) = delete;
+
+			// Storage for N elements of type T
+			alignas(T) std::byte storage[sizeof(T) * N];
+
+			SEQ_ALWAYS_INLINE T* raw_slot(std::size_t i) noexcept { return (T*)reinterpret_cast<T*>(storage + sizeof(T) * i); }
+			SEQ_ALWAYS_INLINE T* live_slot(std::size_t i) noexcept { return std::launder(raw_slot(i)); }
+
+			SEQ_ALWAYS_INLINE const T* raw_slot(std::size_t i) const noexcept { return reinterpret_cast<const T*>(storage + sizeof(T) * i); }
+			SEQ_ALWAYS_INLINE const T* live_slot(std::size_t i) const noexcept { return std::launder(raw_slot(i)); }
+		};
 
 		template<class Allocator, class T>
 		using RebindAllocator = typename std::allocator_traits<Allocator>::template rebind_alloc<T>;
