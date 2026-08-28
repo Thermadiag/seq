@@ -488,6 +488,8 @@ namespace seq
 		template<unsigned Count = 16>
 		class AtomicSize_t
 		{
+			static_assert(Count != 0 && (Count & (Count - 1)) == 0, "Count must be a power of two");
+
 			static SEQ_ALWAYS_INLINE unsigned thread_id() noexcept
 			{
 				static std::atomic<unsigned> ids{ 0 };
@@ -503,8 +505,8 @@ namespace seq
 		public:
 			AtomicSize_t() noexcept 
 			{ 
-				for(unsigned i = 0; i <w Count; ++i)
-					d_vals.store(0);
+				for (auto& value : d_vals)
+					std::atomic_init(&value, int64_t{ 0 });
 			}
 			AtomicSize_t(size_t v) noexcept
 			  : AtomicSize_t()
@@ -925,7 +927,7 @@ namespace seq
 				value_node_type* values = nullptr;
 				size_t locked_count = 0;
 				size_t i = 0;
-				auto eq = key_eq();
+				const auto& eq = key_eq();
 
 				try {
 
@@ -1066,14 +1068,13 @@ namespace seq
 					ConcurrentDenseNode<Value>* d = v->right;
 					do {
 						ret += d->count();
-						if (!std::is_trivially_destructible_v<Value> && destroy_values) {
-							for (unsigned j = 0; j < d->count(); ++j)
-								destroy_ptr(d->values() + j);
-						}
+						if (destroy_values) 
+								destroy_ptr(d->values(), d->count());
 						ConcurrentDenseNode<Value>* right = d->right;
 						free_nodes(d);
 						d = right;
 					} while (d);
+					--d_chain_count;
 				}
 
 				v->right = nullptr;
@@ -1128,20 +1129,19 @@ namespace seq
 					}
 				}
 			}
-			void rehash_on_next_target(size_t s)
+			void rehash_on_next_target()
 			{
 				auto hash_mask = AtomicLoad(d_hash_mask, std::memory_order_acquire);
 				if (hash_mask < max_hash_mask && (!is_concurrent || !d_in_rehash.load(std::memory_order_relaxed)))
-					rehash_internal(s == 0 ? 0u : static_cast<size_t>((hash_mask + 1ull) * 2ull - 1ull), true);
+					rehash_internal(AtomicLoad(d_buckets) == d_static_node ? 0u : static_cast<size_t>((hash_mask + 1ull) * 2ull - 1ull), true);
 			}
 			SEQ_ALWAYS_INLINE void rehash_on_insert()
 			{
 				SEQ_ASSERT_DEBUG(AtomicLoad(d_buckets) != d_static_node || AtomicLoad(d_next_target, std::memory_order_acquire) == 0, "static bucket requires zero rehash target");
 
-				// Rehash on insert
-				if SEQ_UNLIKELY ((AtomicLoad(d_chain_count, std::memory_order_acquire) >= AtomicLoad(d_next_target, std::memory_order_acquire))) {
-					// delay rehash as long as there are few chains
-					rehash_on_next_target(AtomicLoad(d_size, std::memory_order_acquire));
+				auto buckets = AtomicLoad(d_buckets, std::memory_order_acquire);
+				if SEQ_UNLIKELY (buckets == d_static_node || AtomicLoad(d_chain_count, std::memory_order_relaxed) >= AtomicLoad(d_next_target, std::memory_order_relaxed)) {
+					rehash_on_next_target();
 				}
 			}
 
@@ -1280,10 +1280,11 @@ namespace seq
 			/// @brief Destructor
 			~ChainingHashTable() noexcept
 			{
-				// Clear tables
-				clear_no_lock();
-				// Destroy lock array
-				if (lock_array* locks = AtomicLoad(d_locks, std::memory_order_acquire))
+				auto buckets = AtomicLoad(d_buckets);
+				if (buckets != d_static_node) 
+					destroy_buckets(buckets, d_values, AtomicLoad(d_hash_mask) + 1);
+
+				if (auto* locks = AtomicLoad(d_locks, std::memory_order_acquire)) 
 					DestroyRange(d_lock_al, locks, 1);
 			}
 
@@ -1304,32 +1305,30 @@ namespace seq
 				return hash_key(d_data->hash_function(), key);
 			}
 			/// @brief Returns the maximum load factor
-			SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return d_data->max_load_factor(); }
-			/// @brief Set the maximum load factor
-			SEQ_ALWAYS_INLINE void max_load_factor(float f)
-			{
-				if (f < 0.1f)
-					f = 0.1f;
-				rehash(static_cast<size_t>(static_cast<double>(size()) / static_cast<double>(f)));
-			}
+			SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return _SEQ_CONCURRENT_MAP_LOAD_FACTOR; }
+			
 			/// @brief Returns current load factor
 			SEQ_ALWAYS_INLINE auto load_factor() const noexcept -> float
 			{
 				// Returns the current load factor
 				size_t bucket_count = AtomicLoad(d_buckets) != d_static_node ? d_hash_mask + 1u : 0u;
-				return size() == 0 ? 0.f : static_cast<float>(size()) / static_cast<float>(bucket_count * node_type::size);
+				auto s = size();
+				return s == 0 ? 0.f : static_cast<float>(s) / static_cast<float>(bucket_count * node_type::size);
 			}
 			/// @brief Reserve enough space in the hash table
 			void reserve(size_t size)
 			{
-				if (size > this->size())
-					rehash(static_cast<size_t>(static_cast<double>(size) / 0.7 ));
+				auto buckets = AtomicLoad(d_buckets, std::memory_order_acquire);
+				size_t current_capacity = buckets == d_static_node ? 0 : (AtomicLoad(d_hash_mask) + 1) * node_type::size * _SEQ_CONCURRENT_MAP_LOAD_FACTOR;
+
+				if (size > current_capacity)
+					rehash(static_cast<size_t>(static_cast<double>(size) / (double)_SEQ_CONCURRENT_MAP_LOAD_FACTOR));
 			}
 			/// @brief Rehash table for given number of buckets
 			void rehash_table(size_t n)
 			{
 				if (n == 0)
-					clear();
+					rehash(1);
 				else
 					rehash(n);
 			}
@@ -1619,6 +1618,9 @@ namespace seq
 				// Cannot clear while rehashing
 				std::scoped_lock<rehash_lock_type> lock(d_rehash_mutex);
 				clear_no_lock();
+				destroy_buckets(AtomicLoad(d_buckets), d_values, count);
+				d_buckets = get_static_node();
+				d_values = nullptr;
 			}
 			/// @brief Clear the hash table
 			void clear_no_lock() noexcept
@@ -1636,14 +1638,24 @@ namespace seq
 						(*iter).lock();
 				}
 
+				
+
 				// reset members
-				destroy_buckets(AtomicLoad(d_buckets), d_values, count);
+				/* destroy_buckets(AtomicLoad(d_buckets), d_values, count);
 				d_buckets = get_static_node();
 				d_values = nullptr;
 				d_size = 0;
 				d_next_target = 0;
 				d_chain_count = 0;
-				d_hash_mask = 0;
+				d_hash_mask = 0;*/
+
+				auto buckets = AtomicLoad(d_buckets);
+				
+				for (size_t i = 0; i < count; ++i) {
+					destroy_bucket(buckets + i, d_values + i, true);
+				}
+				d_size = 0;
+				d_chain_count = 0;
 
 				if (is_concurrent && locks) {
 					// unlock all buckets
@@ -1734,7 +1746,7 @@ namespace seq
 				SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const Allocator& { return *this; }
 				SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> Allocator& { return *this; }
 
-				SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return AtomicLoad(load_factor, std::memory_order_acquire); }
+				SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return _SEQ_CONCURRENT_MAP_LOAD_FACTOR; }
 
 				template<class K>
 				SEQ_ALWAYS_INLINE auto hash_key(const K& key) const noexcept(noexcept(hash_map::hash_key(std::declval<const Hash&>(), std::declval<const K&>()))) -> size_t
@@ -1745,14 +1757,6 @@ namespace seq
 				SEQ_ALWAYS_INLINE auto at(unsigned pos) noexcept -> hash_map& { return reinterpret_cast<hash_map&>(maps[pos]); }
 				SEQ_ALWAYS_INLINE auto at(unsigned pos) const noexcept -> const hash_map& { return reinterpret_cast<const hash_map&>(maps[pos]); }
 
-				void max_load_factor(float f)
-				{
-					if (f < 0.1f)
-						f = 0.1f;
-					load_factor = f;
-					for (unsigned i = 0; i < map_count; ++i)
-						at(i).max_load_factor(f);
-				}
 
 				/// @brief Make a PrivateData object
 				static auto make(const Allocator& alloc, const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual()) -> PrivateData*
@@ -1860,7 +1864,6 @@ namespace seq
 			  , d_data(PrivateData::make(alloc, other.hash_function(), other.key_eq()))
 			{
 				try {
-					this->max_load_factor(other.max_load_factor());
 					this->reserve(other.size());
 					other.visit_all([&](const auto& v) { this->emplace_policy_no_check<InsertConcurrentPolicy>(v); });
 				}
@@ -1886,7 +1889,6 @@ namespace seq
 					// other is cleared after to preserve its invariant.
 
 					ConcurrentHashTable tmp(other.hash_function(), other.key_eq(), alloc);
-					tmp.max_load_factor(other.max_load_factor());
 					tmp.reserve(other.size());
 
 					try {
@@ -1932,7 +1934,6 @@ namespace seq
 				}
 
 				ConcurrentHashTable tmp(other.hash_function(), other.key_eq(), get_allocator());
-				tmp.max_load_factor(other.max_load_factor());
 				tmp.reserve(other.size());
 				other.visit_all([&](const Value& v) { tmp.template emplace_policy<InsertConcurrentPolicy>([](const auto&) {}, v); });
 
@@ -1973,7 +1974,6 @@ namespace seq
 					}
 					else {
 						ConcurrentHashTable tmp(other.hash_function(), other.key_eq(), get_allocator());
-						tmp.max_load_factor(other.max_load_factor());
 						tmp.reserve(other.size());
 
 						try {
@@ -2096,11 +2096,7 @@ namespace seq
 				const PrivateData* d = get_data();
 				return d ? d->max_load_factor() : _SEQ_CONCURRENT_MAP_LOAD_FACTOR;
 			}
-			void max_load_factor(float f)
-			{
-				PrivateData* d = get_data();
-				d->max_load_factor(f);
-			}
+			
 			auto load_factor() const -> float
 			{
 				const PrivateData* d = get_data();
