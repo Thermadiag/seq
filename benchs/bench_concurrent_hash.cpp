@@ -44,6 +44,7 @@
 #include <gtl/phmap.hpp>
 #endif
 
+
 #ifdef NDEBUG
 #ifdef TBB_FOUND
 #include <tbb/concurrent_hash_map.h>
@@ -99,6 +100,7 @@ SEQ_ALWAYS_INLINE bool insert(Concurrency::concurrent_unordered_map<K, V, H>& s,
 }
 #endif
 
+
 template<class S, class K>
 SEQ_ALWAYS_INLINE bool insert(S& s, const K& k)
 {
@@ -116,14 +118,18 @@ void concurrent_insert(const std::vector<K>& keys, Set& s, size_t start, size_t 
 	}
 }
 
+
+
 template<class Set>
 size_t walk_map(const Set& s)
 {
 	size_t count = 0;
 	for (auto it = s.begin(); it != s.end(); ++it, ++count) {
 	}
+
 	return count;
 }
+
 template<class K, class V, class H, class E, class A, size_t S>
 size_t walk_map(const libcuckoo::cuckoohash_map<K, V, H, E, A, S>& s)
 {
@@ -138,7 +144,7 @@ size_t walk_map(const concurrent_map<K, V, H, E, A, T>& s)
 	return size;
 }
 
-#ifdef SEQ_HAS_CPP_17
+
 template<class K, class V, class H, class E, class A, size_t T, class M>
 size_t walk_map(const gtl::parallel_flat_hash_map<K, V, H, E, A, T, M>& s)
 {
@@ -146,7 +152,7 @@ size_t walk_map(const gtl::parallel_flat_hash_map<K, V, H, E, A, T, M>& s)
 	s.for_each([&size](const auto&) { ++size; });
 	return size;
 }
-#endif
+
 
 #ifdef BOOST_CONCURRENT_MAP_FOUND
 template<class K, class V, class H, class P, class A>
@@ -208,6 +214,8 @@ SEQ_ALWAYS_INLINE bool find_map(const boost::concurrent_flat_map<K, V, H, P, A>&
 	return s.contains(key);
 }
 #endif
+
+
 
 template<class Map>
 void reserve(Map& m, size_t size)
@@ -288,6 +296,7 @@ void erase(Concurrency::concurrent_unordered_map<K, V, H>& s, const K& k)
 	s.unsafe_erase(k);
 }
 #endif
+
 
 template<class K, class Set>
 void concurrent_erase(const std::vector<K>& keys, Set& s, size_t start, size_t end, std::atomic<bool>* start_compute)
@@ -505,7 +514,7 @@ void test_concurrent_map(size_t count, const char* name, Rng rng)
 		for (size_t threads = 1; threads <= 12; ++threads) {
 
 			Map set;
-			// reserve(set,keys.size());
+			//reserve(set,keys.size());
 			size_t el_insert, el_walk, el_find, el_find_fail, el_erase;
 			test_concurrent_map(keys, set, threads, el_insert, el_walk, el_find, el_find_fail, el_erase, false, false);
 
@@ -525,11 +534,12 @@ public:
 template<class K, class Gen>
 void test_concurrent_hash_maps(size_t count, const Gen& gen)
 {
-	test_concurrent_map<K, concurrent_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>> /*, seq::low_concurrency*/>>(
+	test_concurrent_map<K, concurrent_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>> >>(
 		  count, "seq::concurrent_map", gen);
 
 	test_concurrent_map<K, gtl::parallel_flat_hash_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>>, 5, std::shared_mutex>>(
 	  count, "gtl::parallel_flat_hash_map", gen);
+	
 
 #ifdef BOOST_CONCURRENT_MAP_FOUND
 	test_concurrent_map<K, boost::concurrent_flat_map<K, size_t, seq::hasher<K>, std::equal_to<K>>>(count, "boost::concurrent_flat_map", gen);

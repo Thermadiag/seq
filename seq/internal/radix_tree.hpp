@@ -384,8 +384,8 @@ namespace seq
 			static constexpr size_t bit_step = 4;
 			using type = typename has_native_data_pointer<T>::type;
 			using less_type = default_less;
-			const type* data{ nullptr };
-			size_t size{ 0 };
+			const type* data = nullptr;
+			size_t size = 0;
 
 			SEQ_ALWAYS_INLINE auto get_size() const noexcept -> size_t { return static_cast<size_t>(size * sizeof(type) * 8ULL); }
 
@@ -449,11 +449,16 @@ namespace seq
 
 			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash() const noexcept { return static_cast<std::uint8_t>(hash_bytes_komihash(data, size * sizeof(type))); }
 
-			SEQ_ALWAYS_INLINE auto hash(const type* p) const noexcept { return RadixHasher<T>{ p, std::char_traits<type>::length(p) }; }
+			SEQ_ALWAYS_INLINE auto hash(const type* p, size_t size) const noexcept
+			{
+				return RadixHasher<T>{ p, size };
+			}
+			SEQ_ALWAYS_INLINE auto hash(const type* p) const noexcept { return hash(p, string_size(p)) };
+
 			template<class U>
 			SEQ_ALWAYS_INLINE auto hash(const U& k) const noexcept
 			{
-				return RadixHasher<T>{ static_cast<const type*>(k.data()), k.size() };
+				return hash(k.data(),k.size());
 			}
 
 			static SEQ_ALWAYS_INLINE int compare(const type* v1, size_t l1, const type* v2, size_t l2) noexcept
@@ -515,9 +520,7 @@ namespace seq
 			template<class L, class R>
 			static SEQ_ALWAYS_INLINE bool less(const L& l, const R& r) noexcept
 			{
-				auto lh = RadixHasher<T>{}.hash(l);
-				auto rh = RadixHasher<T>{}.hash(r);
-				return less(lh.data, lh.size, rh.data, rh.size);
+				return compare(l, r) < 0;
 			}
 
 			static SEQ_ALWAYS_INLINE bool equal(const type* v1, size_t l1, const type* v2, size_t l2) noexcept
@@ -613,7 +616,7 @@ namespace seq
 			template<bool Swap, class U>
 			auto as() const noexcept
 			{
-				if constexpr(Swap)
+				if constexpr (Swap)
 					return RadixHasher<U>{ swap_b(*reinterpret_cast<const U*>(data)) };
 				else
 					return RadixHasher<U>{ (*reinterpret_cast<const U*>(data)) };
@@ -634,7 +637,7 @@ namespace seq
 					return as<true, uint32_t>().n_bits(shift, count);
 				else if constexpr (size == 8)
 					return as<true, uint64_t>().n_bits(shift, count);
-				else{
+				else {
 					if SEQ_UNLIKELY (count == 0)
 						return 0;
 					size_t byte_offset = shift >> 3u;
@@ -653,7 +656,7 @@ namespace seq
 				if constexpr (size == 1)
 					return as<false, uint8_t>().tiny_hash();
 				else if constexpr (size == 2)
-					return as<false,uint16_t>().tiny_hash();
+					return as<false, uint16_t>().tiny_hash();
 				else if constexpr (size == 4)
 					return as<false, uint32_t>().tiny_hash();
 				else if constexpr (size == 8)
@@ -715,9 +718,6 @@ namespace seq
 				return Equal::operator()(l, r);
 			}
 		};
-
-
-
 
 		/// @brief Policy used when inserting new key
 		struct EmplacePolicy
@@ -844,7 +844,7 @@ namespace seq
 			else {
 				// might throw, in which case the count remains the same.
 				std::move(src + pos + 1, src + count, src + pos);
-				destroy_ptr(src + count -1);
+				destroy_ptr(src + count - 1);
 			}
 		}
 
@@ -1735,10 +1735,9 @@ namespace seq
 			SEQ_ALWAYS_INLINE bool operator!=(const RadixConstIter& other) const noexcept { return dir != other.dir || child != other.child || node_pos != other.node_pos; }
 		};
 
-
 		/// @brief Less functor used by vector nodes
-		template<class Key , class Hasher, class ExtractKey>
-		struct VectorLess 
+		template<class Key, class Hasher, class ExtractKey>
+		struct VectorLess
 		{
 			using is_transparent = int;
 			template<class U, class V>
@@ -1751,7 +1750,6 @@ namespace seq
 			{
 				return Hasher::less(ExtractKey{}(a), ExtractKey{}(b));
 			}
-			
 		};
 
 		/// @brief Equal functor used by vector nodes
@@ -1776,7 +1774,7 @@ namespace seq
 		{
 			using key_type = typename ExtractKeyResultType<ExtractKey, T>::type;
 			using value_type = T;
-			using Less = VectorLess<key_type,Hasher, ExtractKey>;
+			using Less = VectorLess<key_type, Hasher, ExtractKey>;
 
 			flat_set<T, Less, Allocator> set;
 

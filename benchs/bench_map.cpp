@@ -395,8 +395,8 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 	std::sort(vec.begin(), vec.end(), less);
 	auto it = std::unique(vec.begin(), vec.end(), equal);
 	vec.resize(it - vec.begin());
-	std::shuffle(vec.begin(), vec.end(), std::mt19937(1));
-	// std::reverse(vec.begin(), vec.end());
+	//std::shuffle(vec.begin(), vec.end(), std::mt19937(1));
+	 std::reverse(vec.begin(), vec.end());
 
 	std::cout << "vector size: " << vec.size() << std::endl;
 
@@ -564,9 +564,9 @@ int bench_map(int, char** const)
 
 	/* {
 		auto vec = load_dict<string>("C:\\Users\\VM213788\\Documents\\src\\seq\\benchs\\words.txt");
-		seq::random_shuffle(vec.begin(), vec.end(), 1);
+		//seq::random_shuffle(vec.begin(), vec.end(), 1);
 		test_map<string>(vec.size(), [&](size_t i) { return vec[i]; });
-	}*/
+	}
 
 	// test random tuple
 	{
@@ -575,13 +575,13 @@ int bench_map(int, char** const)
 		std::uniform_int_distribution<unsigned> dist;
 		test_map<std::tuple<unsigned, unsigned>>(2000000, [&](size_t i) { return std::make_tuple(dist(rngi), dist(rngi)); });
 	}
-
+	*/
 	// test random integers
 	{
 		std::random_device dev;
 		std::mt19937 rngi(dev());
 		std::uniform_int_distribution<size_t> dist;
-		test_map<uint64_t>(2000000, [&](size_t i) { return dist(rngi); });
+		test_map<uint64_t>(200000, [&](size_t i) { return dist(rngi); });
 	}
 
 	// test random floating point values
