@@ -1618,9 +1618,6 @@ namespace seq
 				// Cannot clear while rehashing
 				std::scoped_lock<rehash_lock_type> lock(d_rehash_mutex);
 				clear_no_lock();
-				destroy_buckets(AtomicLoad(d_buckets), d_values, count);
-				d_buckets = get_static_node();
-				d_values = nullptr;
 			}
 			/// @brief Clear the hash table
 			void clear_no_lock() noexcept
