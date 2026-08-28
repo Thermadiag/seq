@@ -453,7 +453,7 @@ namespace seq
 			{
 				return RadixHasher<T>{ p, size };
 			}
-			SEQ_ALWAYS_INLINE auto hash(const type* p) const noexcept { return hash(p, string_size(p)) };
+			SEQ_ALWAYS_INLINE auto hash(const type* p) const noexcept { return hash(p, string_size(p)); }
 
 			template<class U>
 			SEQ_ALWAYS_INLINE auto hash(const U& k) const noexcept

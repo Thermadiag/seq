@@ -485,8 +485,8 @@ namespace seq
 			}
 		};
 
-		template<class T, unsigned Count = 16>
-		class AtomicInteger
+		template<unsigned Count = 16>
+		class AtomicSize_t
 		{
 			static SEQ_ALWAYS_INLINE unsigned thread_id() noexcept
 			{
@@ -495,57 +495,63 @@ namespace seq
 				return id & (Count - 1);
 			}
 
-			std::atomic<size_t> d_vals[Count];
+			std::atomic<int64_t> d_vals[Count];
 
-			SEQ_ALWAYS_INLINE void incr() noexcept { d_vals[thread_id()].fetch_add(1, std::memory_order_relaxed); }
-			SEQ_ALWAYS_INLINE void decr() noexcept { d_vals[thread_id()].fetch_sub(1, std::memory_order_relaxed); }
+			SEQ_ALWAYS_INLINE void incr(int64_t v) noexcept { d_vals[thread_id()].fetch_add(v, std::memory_order_relaxed); }
+			SEQ_ALWAYS_INLINE void decr(int64_t v) noexcept { d_vals[thread_id()].fetch_sub(v, std::memory_order_relaxed); }
 
 		public:
-			AtomicInteger() noexcept { memset(d_vals, 0, sizeof(d_vals)); }
-			AtomicInteger(size_t v) noexcept
-			  : AtomicInteger()
-			{
-				d_vals[thread_id()] = v;
+			AtomicSize_t() noexcept 
+			{ 
+				for(unsigned i = 0; i <w Count; ++i)
+					d_vals.store(0);
 			}
-			SEQ_ALWAYS_INLINE AtomicInteger& operator++() noexcept
+			AtomicSize_t(size_t v) noexcept
+			  : AtomicSize_t()
 			{
-				incr();
+				d_vals[thread_id()] = (int64_t)v;
+			}
+			AtomicSize_t(const AtomicSize_t&) = delete;
+			AtomicSize_t& operator=(const AtomicSize_t&) = delete;
+			SEQ_ALWAYS_INLINE AtomicSize_t& operator++() noexcept
+			{
+				incr(1);
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE AtomicInteger& operator--() noexcept
+			SEQ_ALWAYS_INLINE AtomicSize_t& operator--() noexcept
 			{
-				decr();
+				decr(1);
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE AtomicInteger& operator+=(size_t v) noexcept
+			SEQ_ALWAYS_INLINE AtomicSize_t& operator+=(size_t v) noexcept
 			{
-				d_vals[thread_id()].fetch_add(v, std::memory_order_relaxed);
+				incr((int64_t)v);
 				return *this;
 			}
-			SEQ_ALWAYS_INLINE AtomicInteger& operator-=(size_t v) noexcept
+			SEQ_ALWAYS_INLINE AtomicSize_t& operator-=(size_t v) noexcept
 			{
-				d_vals[thread_id()].fetch_sub(v, std::memory_order_relaxed);
+				decr((int64_t)v);
 				return *this;
 			}
-			size_t load(std::memory_order o = std::memory_order_seq_cst) const noexcept
+			size_t load(std::memory_order o = std::memory_order_relaxed) const noexcept
 			{
 				auto v = d_vals[0].load(o);
 				for (unsigned i = 1; i < Count; ++i)
 					v += d_vals[i].load(o);
-				return v;
+				return v < 0 ? 0 : (size_t)v;
 			}
 			operator size_t() const noexcept { return load(); }
-			AtomicInteger& operator=(size_t v) noexcept
+			AtomicSize_t& operator=(size_t v) noexcept
 			{
 				for (unsigned i = 0; i < Count; ++i)
 					d_vals[i].store(0);
-				d_vals[thread_id()] = v;
+				d_vals[thread_id()] = (int64_t)v;
 				return *this;
 			}
 		};
 
-		template<class T, unsigned C>
-		static SEQ_ALWAYS_INLINE auto AtomicLoad(const AtomicInteger<T,C>& v, std::memory_order o = std::memory_order_relaxed)
+		template<unsigned C>
+		static SEQ_ALWAYS_INLINE auto AtomicLoad(const AtomicSize_t<C>& v, std::memory_order o = std::memory_order_relaxed)
 		{
 			return v.load(o);
 		}
@@ -574,7 +580,7 @@ namespace seq
 
 			static constexpr bool is_concurrent = !std::is_same_v<NodeLock, null_lock>;
 			using size_type = std::conditional_t<is_concurrent, std::atomic<size_t>, size_t>;
-			using atomic_integer = std::conditional_t<is_concurrent, AtomicInteger<size_t>, size_t>;
+			using atomic_integer = std::conditional_t<is_concurrent, AtomicSize_t<>, size_t>;
 			using chain_count_type = std::conditional_t<is_concurrent, std::atomic<unsigned>, unsigned>;
 			using lock_array_type = std::conditional_t<is_concurrent, std::atomic<lock_array*>, lock_array*>;
 			using bucket_type = std::conditional_t<is_concurrent, std::atomic<node_type*>, node_type*>;
@@ -712,7 +718,7 @@ namespace seq
 					DestroyRange(d_chain_al, d, 1);
 					throw;
 				}
-				d_chain_count += 1;
+				
 				d->hashs[++d->hashs[0]] = th;
 				n->right = d;
 				return { d->values(), true };
@@ -753,7 +759,9 @@ namespace seq
 				if SEQ_UNLIKELY (node->full()) {
 					if (values->right)
 						return FindInsertDense<Policy, CheckExists>(th, eq, values->right, std::forward<K>(key), std::forward<Args>(args)...);
-					return InsertNewDense<Policy>(th, values, std::forward<K>(key), std::forward<Args>(args)...);
+					auto r =  InsertNewDense<Policy>(th, values, std::forward<K>(key), std::forward<Args>(args)...);
+					d_chain_count += 1;
+					return r;
 				}
 				// might throw, fine
 				auto p = Policy::emplace(values->values() + node->count(), std::forward<K>(key), std::forward<Args>(args)...);
@@ -846,10 +854,8 @@ namespace seq
 					DestroyRange(d_node_al, n, count);
 				else if constexpr (std::is_same_v<value_node_type, Node>)
 					DestroyRange(d_value_al, n, count);
-				if constexpr (std::is_same_v<chain_node_type, Node>) {
-					d_chain_count -= count;
+				if constexpr (std::is_same_v<chain_node_type, Node>) 
 					DestroyRange(d_chain_al, n, count);
-				}
 			}
 
 			void move_back(node_type* buckets, value_node_type* values, size_t new_hash_mask, node_type* old_buckets, value_node_type* old_values, size_t old_hash_mask) noexcept(
@@ -1317,7 +1323,7 @@ namespace seq
 			void reserve(size_t size)
 			{
 				if (size > this->size())
-					rehash(static_cast<size_t>(static_cast<double>(size) / static_cast<double>(max_load_factor())));
+					rehash(static_cast<size_t>(static_cast<double>(size) / 0.7 ));
 			}
 			/// @brief Rehash table for given number of buckets
 			void rehash_table(size_t n)
@@ -1475,6 +1481,7 @@ namespace seq
 							// This is the dense bucket right after the main one
 							free_nodes(d_values[bucket_pos].right);
 							d_values[bucket_pos].right = nullptr;
+							d_chain_count -=1;
 							return true;
 						}
 						else {
