@@ -1636,16 +1636,6 @@ namespace seq
 				}
 
 				
-
-				// reset members
-				/* destroy_buckets(AtomicLoad(d_buckets), d_values, count);
-				d_buckets = get_static_node();
-				d_values = nullptr;
-				d_size = 0;
-				d_next_target = 0;
-				d_chain_count = 0;
-				d_hash_mask = 0;*/
-
 				auto buckets = AtomicLoad(d_buckets);
 				
 				for (size_t i = 0; i < count; ++i) {
@@ -1714,7 +1704,6 @@ namespace seq
 				using allocator_type = Allocator;
 				static constexpr unsigned map_count = 1u << shards;
 
-				load_factor_type load_factor{ _SEQ_CONCURRENT_MAP_LOAD_FACTOR };
 				MapHolder maps[map_count];
 
 				PrivateData(const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual(), const Allocator& alloc = Allocator())
