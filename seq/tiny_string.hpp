@@ -808,7 +808,7 @@ namespace seq
 			// return is_sso(len) ? sso_max_capacity : (len < first_allocated_capacity ? first_allocated_capacity : (1ULL << (1ULL + (bit_scan_reverse_64(len)))));
 		}
 
-		SEQ_STR_INLINE_STRONG Char* resize_grow(size_t len, bool exact_size = false)
+		Char* resize_grow(size_t len, bool exact_size = false)
 		{
 			// Resize for growing, keep old data
 			Char* p;
@@ -912,7 +912,7 @@ namespace seq
 				resize_front(s - (last - first));
 			}
 			else {
-				internal_copy(p + last, p + s, p + first);
+				internal_move(p + last, p + s, p + first);
 				resize(s - (last - first));
 			}
 		}
@@ -1059,7 +1059,7 @@ namespace seq
 		}
 
 		template<class It>
-		SEQ_STR_INLINE_STRONG void internal_copy(It first, It last, Char* dst)
+		SEQ_STR_INLINE_STRONG void internal_move(It first, It last, Char* dst)
 		{
 			// Similar to std::copy, but make sure only a known subset of iterator interface is used
 			// to deduce noexcept specifier.
@@ -1071,6 +1071,25 @@ namespace seq
 				const auto n = static_cast<size_t>(last - first);
 				if (n != 0)
 					memmove(dst, std::addressof(*first), n * sizeof(Char));
+			}
+			else {
+				for (; first != last; ++first, ++dst)
+					*dst = *first;
+			}
+		}
+		template<class It>
+		SEQ_STR_INLINE_STRONG void internal_copy(It first, It last, Char* dst)
+		{
+			// Similar to std::copy, but make sure only a known subset of iterator interface is used
+			// to deduce noexcept specifier.
+			// Also tries to use memmove when possible.
+
+			if constexpr (std::is_same_v<It, Char*> || std::is_same_v<It, const Char*> || std::is_same_v<It, typename std::basic_string<Char>::iterator> ||
+				      std::is_same_v<It, typename std::basic_string<Char>::const_iterator> || std::is_same_v<It, typename std::basic_string_view<Char>::iterator> ||
+				      std::is_same_v<It, typename std::basic_string_view<Char>::const_iterator>) {
+				const auto n = static_cast<size_t>(last - first);
+				if (n != 0)
+					memcpy(dst, std::addressof(*first), n * sizeof(Char));
 			}
 			else {
 				for (; first != last; ++first, ++dst)
@@ -1523,9 +1542,15 @@ namespace seq
 		SEQ_STR_INLINE_STRONG void push_back(Char c)
 		{
 			size_type s = size();
+			if (SEQ_LIKELY(s < capacity())) {
+				Char* p = data();
+				p[s] = c;
+				p[s + 1] = Char{};
+				d_data.setSizeKeepSSOFlag(s + 1);
+				return;
+			}
 			Char* p = resize_grow(s + 1);
 			p[s] = c;
-			// p[s + 1] = 0; // This is done in resize_grow
 			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 		/// @brief Removes the last character of the string

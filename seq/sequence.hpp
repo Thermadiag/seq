@@ -587,7 +587,6 @@ namespace seq
 			Data(const Allocator& al, node_type* end) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 			  : Allocator(al)
 			  , end_node(end)
-			  , size(0)
 			{
 				end_free.prev = end_free.next = &end_free;
 			}
