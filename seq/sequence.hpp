@@ -223,6 +223,13 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto operator++() noexcept -> sequence_const_iterator&
 			{
 				++pos;
+				if SEQ_LIKELY (node->used == node_type::full) {
+					if SEQ_UNLIKELY (pos == count) {
+						node = static_cast<node_type*>(node->next);
+						pos = node->start;
+					}
+					return *this;
+				}
 				if SEQ_UNLIKELY (pos == count || !((node->used & (1ULL << pos)))) {
 					update_incr_pos();
 				}
@@ -247,6 +254,13 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto operator--() noexcept -> sequence_const_iterator&
 			{
 				--pos;
+				if SEQ_LIKELY (node->used == node_type::full) {
+					if SEQ_UNLIKELY (pos == -1) {
+						node = static_cast<node_type*>(node->prev);
+						pos = (node->end - 1);
+					}
+					return *this;
+				}
 				if SEQ_UNLIKELY (pos == -1 || !((node->used & (1ULL << pos))) /*ptr == node->end*/) {
 					update_decr_pos();
 				}
@@ -569,16 +583,6 @@ namespace seq
 			std::size_t total_slots = 0;
 			node_type* end_node;// end chunk
 			node_type end_free;// end of free chunks
-
-
-			/* node_type* end_node; // end chunk
-			std::size_t size; // full size
-
-			// We keep spare chunk if possible
-			node_type end_free;	       // end of free chunks
-			std::size_t free_elements = 0; // total number of free values (max count * 2)
-			std::size_t total_slots = 0;
-			std::size_t max_size = 0;*/
 
 			Data(const Allocator& al, node_type* end) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 			  : Allocator(al)
