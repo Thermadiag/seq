@@ -2591,7 +2591,7 @@ namespace seq
 		using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
 		static constexpr unsigned min_block_size = SEQ_MIN_BUCKET_SIZE(T);				   // minimum bucket size, depends on the value_type size
 		static constexpr unsigned max_block_size = SEQ_MAX_BUCKET_SIZE;					   // maximum bucket size, fixed to SEQ_MAX_BUCKET_SIZE
-		static constexpr bool StoreBackValues = std::is_same_v<ValueCompare, detail::NullValueCompare<T>>; // Internal parameter used by flat_*map classes
+		static constexpr bool StoreBackValues = !std::is_same_v<ValueCompare, detail::NullValueCompare<T>>; // Internal parameter used by flat_*map classes
 		using FindBSize = detail::FindBucketSize<T>;							   // struct used to find the bucket size for a given tiered_vector size
 
 	public:
