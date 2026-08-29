@@ -226,7 +226,6 @@ namespace seq
 				if SEQ_UNLIKELY (pos == count || !((node->used & (1ULL << pos)))) {
 					update_incr_pos();
 				}
-				// SEQ_ASSERT_DEBUG((pos >= 0 && pos < node->end) || (pos == 0 && node == &data->end), "invalid iterator position");
 				return *this;
 			}
 			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> sequence_const_iterator
@@ -571,6 +570,7 @@ namespace seq
 			node_type end_free;	       // end of free chunks
 			std::size_t free_elements = 0; // total number of free values (max count * 2)
 			std::size_t total_slots = 0;
+			std::size_t max_size = 0;
 
 			Data(const Allocator& al, node_type* end) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 			  : Allocator(al)
@@ -728,8 +728,8 @@ namespace seq
 
 			// Insert this chunk in the list of partially free chunks
 			ptr->prev_free = d_data->end_node;
-			ptr->next_free = d_data->end_node->next_free;
-			d_data->end_node->next_free = d_data->end_node->next_free->prev_free = ptr;
+			ptr->next_free = d_end.next_free;
+			d_end.next_free = d_end.next_free->prev_free = ptr;
 
 			return ptr;
 		}
@@ -752,7 +752,7 @@ namespace seq
 		void add_free_node(node_type* node) noexcept
 		{
 			// Add to list of free node
-			node->next_free = d_data->end_node->next_free;
+			node->next_free = d_end.next_free;
 			node->prev_free = d_data->end_node;
 			node->next_free->prev_free = node->prev_free->next_free = node;
 		}
@@ -767,7 +767,7 @@ namespace seq
 		template<class... Args>
 		SEQ_ALWAYS_INLINE auto emplace_anywhere(Args&&... args) -> iterator
 		{
-			node_type* node = d_data->end_node->next_free;
+			node_type* node = d_end.next_free;
 			std::uint64_t index = static_cast<std::uint64_t>(node->start != 0 ? node->start - 1 : (node->end != count ? node->end : static_cast<int>(node->firstFree())));
 			T* res = node->raw_slot(index);
 			// Construct first as it might throw
@@ -792,25 +792,25 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto back_ptr() const noexcept -> const T*
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return &(d_data->end_node->prev->back());
+			return &(d_end.prev->back());
 		}
 		// Returns pointer to front value
 		SEQ_ALWAYS_INLINE auto front_ptr() const noexcept -> const T*
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return &(d_data->end_node->next->front());
+			return &(d_end.next->front());
 		}
 		// Returns pointer to back value
 		SEQ_ALWAYS_INLINE auto back_ptr() noexcept -> T*
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return &(d_data->end_node->prev->back());
+			return &(d_end.prev->back());
 		}
 		// Returns pointer to front value
 		SEQ_ALWAYS_INLINE auto front_ptr() noexcept -> T*
 		{
 			SEQ_ASSERT_DEBUG(d_data->size > 0, "empty container");
-			return &(d_data->end_node->next->front());
+			return &(d_end.next->front());
 		}
 
 		// Assign  range for non random access iterator
@@ -907,8 +907,10 @@ namespace seq
 
 		SEQ_ALWAYS_INLINE void make_data_if_null()
 		{
-			if SEQ_UNLIKELY(!d_data)
-				d_data.reset(make_data(get_allocator(),&d_end));
+			if SEQ_UNLIKELY (!d_data) {
+				d_data.reset(make_data(get_allocator(), &d_end));
+				d_data->max_size = max_size();
+			}
 		}
 
 		template<class Alloc, bool Align>
@@ -957,7 +959,7 @@ namespace seq
 				if (size()) {
 
 					// Fill back last chunk
-					last = d_data->end_node->prev;
+					last = d_end.prev;
 					if (last->end != node_type::count) {
 						while (last->end != node_type::count && diff) {
 							// Might throw, fine
@@ -1033,18 +1035,18 @@ namespace seq
 				// Copy first part
 				std::copy(other.begin(), other.end(), begin());
 
-				node_type* last = d_data->end_node->prev;
+				node_type* last = d_end.prev;
 				difference_type diff = static_cast<difference_type>(size() - osize);
 
 				// empty last chunk
-				while (last == d_data->end_node->prev && diff) {
+				while (last == d_end.prev && diff) {
 					pop_back();
 					--diff;
 				}
 
 				while (diff > static_cast<difference_type>(node_type::count)) {
 					// Destroy full chunks
-					last = d_data->end_node->prev;
+					last = d_end.prev;
 					unsigned size = last->size();
 					diff -= size;
 					d_data->size -= size;
@@ -1113,12 +1115,12 @@ namespace seq
 			tmp.make_data_if_null();
 
 			// Loop through full nodes
-			auto start = d_data->end_node->next;
+			auto start = d_end.next;
 			for (;;) {
 				if (start == d_data->end_node) {
 					// We reach the end without meeting holes, nothing to do except populating vec_chunk
 					if (vec_chunk) {
-						start = d_data->end_node->next;
+						start = d_end.next;
 						while (start != d_data->end_node) {
 							vec_chunk->push_back(start);
 							start = start->next;
@@ -1233,7 +1235,7 @@ namespace seq
 		emplace_back_iter_noinline(Args&&... args) -> iterator
 		{
 			emplace_back(std::forward<Args>(args)...);
-			return iterator(d_data->end_node->prev, d_data->end_node->prev->end -1);
+			return iterator(d_end.prev, d_end.prev->end -1);
 		}
 
 		SEQ_ALWAYS_INLINE auto allocator_ref() noexcept -> Allocator& { return static_cast<Allocator&>(*this); }
@@ -1474,28 +1476,28 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto back() const noexcept -> const T&
 		{
 			SEQ_ASSERT_DEBUG(!empty(), "empty container");
-			return d_data->end_node->prev->back();
+			return d_end.prev->back();
 		}
 
 		/// @brief Returns the back sequence value.
 		SEQ_ALWAYS_INLINE auto back() noexcept -> T&
 		{
 			SEQ_ASSERT_DEBUG(!empty(), "empty container");
-			return d_data->end_node->prev->back();
+			return d_end.prev->back();
 		}
 
 		/// @brief Returns the front sequence value.
 		SEQ_ALWAYS_INLINE auto front() const noexcept -> const T&
 		{
 			SEQ_ASSERT_DEBUG(!empty(), "empty container");
-			return d_data->end_node->next->front();
+			return d_end.next->front();
 		}
 
 		/// @brief Returns the front sequence value.
 		SEQ_ALWAYS_INLINE auto front() noexcept -> T&
 		{
 			SEQ_ASSERT_DEBUG(!empty(), "empty container");
-			return d_data->end_node->next->front();
+			return d_end.next->front();
 		}
 
 		/// @brief Clears the contents.
@@ -1517,10 +1519,10 @@ namespace seq
 		{
 			make_data_if_null();
 
-			if (d_data->size == max_size())
+			if SEQ_UNLIKELY (d_data->size == d_data->max_size)
 				throw std::length_error("sequence::emplace_back");
 
-			node_type* last = d_data->end_node->prev;
+			node_type* last = d_end.prev;
 			if SEQ_UNLIKELY (last->used & (1ULL << (count - 1ULL)))
 				return emplace_back_new_chunk(last, std::forward<Args>(args)...);
 
@@ -1542,7 +1544,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto emplace_back_iter(Args&&... args) -> iterator
 		{
 			emplace_back(std::forward<Args>(args)...);
-			return iterator(d_data->end_node->prev, d_data->end_node->prev->end -1);
+			return iterator(d_end.prev, d_end.prev->end -1);
 		}
 
 		/// @brief Appends the given element value to the end of the sequence.
@@ -1563,10 +1565,10 @@ namespace seq
 		{
 			make_data_if_null();
 
-			if (d_data->size == max_size())
+			if SEQ_UNLIKELY (d_data->size == d_data->max_size)
 				throw std::length_error("sequence::emplace_front");
 
-			node_type* first = d_data->end_node->next;
+			node_type* first = d_end.next;
 			if SEQ_UNLIKELY (first->used & 1)
 				return emplace_front_new_chunk(first, std::forward<Args>(args)...);
 			// Construct, might throw (which is ok)
@@ -1586,7 +1588,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto emplace_front_iter(Args&&... args) -> iterator
 		{
 			emplace_front(std::forward<Args>(args)...);
-			return iterator(d_data->end_node->next, d_data->end_node->next->start);
+			return iterator(d_end.next, d_end.next->start);
 		}
 
 		/// @brief Prepends the given element value to the beginning of the sequence.
@@ -1614,10 +1616,10 @@ namespace seq
 		{
 			make_data_if_null();
 
-			if (d_data->size == max_size())
+			if SEQ_UNLIKELY (d_data->size == d_data->max_size)
 				throw std::length_error("sequence::emplace");
 
-			if SEQ_UNLIKELY (d_data->end_node->next_free == d_data->end_node)
+			if SEQ_UNLIKELY (d_end.next_free == d_data->end_node)
 				// If no free slot, default to emplace_back
 				return emplace_back_iter_noinline(std::forward<Args>(args)...);
 
@@ -1662,7 +1664,7 @@ namespace seq
 				return;
 			}
 
-			if (new_size > max_size())
+			if SEQ_UNLIKELY (new_size > max_size())
 				throw std::length_error("sequence::resize");
 
 			make_data_if_null();
@@ -1679,7 +1681,7 @@ namespace seq
 				if (size()) {
 
 					// Fill back last chunk
-					last = d_data->end_node->prev;
+					last = d_end.prev;
 					if (last->end != node_type::count) {
 						while (last->end != node_type::count && diff) {
 							// Might throw, fine
@@ -1747,18 +1749,18 @@ namespace seq
 				}
 			}
 			else {
-				node_type* last = d_data->end_node->prev;
+				node_type* last = d_end.prev;
 				difference_type diff = static_cast<difference_type>(size() - new_size);
 
 				// empty last chunk
-				while (last == d_data->end_node->prev && diff) {
+				while (last == d_end.prev && diff) {
 					pop_back();
 					--diff;
 				}
 
 				while (diff > static_cast<difference_type>(node_type::count)) {
 					// destroy full chunks
-					last = d_data->end_node->prev;
+					last = d_end.prev;
 					unsigned size = last->size();
 					diff -= size;
 					d_data->size -= size;
@@ -1793,7 +1795,7 @@ namespace seq
 				return;
 			}
 
-			if (new_size > max_size())
+			if SEQ_UNLIKELY (new_size > max_size())
 				throw std::length_error("sequence::resize");
 
 			make_data_if_null();
@@ -1807,7 +1809,7 @@ namespace seq
 				if (size()) {
 
 					// Fill front first chunk
-					front = d_data->end_node->next;
+					front = d_end.next;
 					if (front->start != 0) {
 						while (front->start != 0 && diff) {
 							// Might throw, ok
@@ -1878,18 +1880,18 @@ namespace seq
 			}
 			else {
 
-				node_type* front = d_data->end_node->next;
+				node_type* front = d_end.next;
 				difference_type diff = static_cast<difference_type>(size() - new_size);
 
 				// empty last chunk
-				while (front == d_data->end_node->next && diff) {
+				while (front == d_end.next && diff) {
 					pop_front();
 					--diff;
 				}
 
 				while (diff > static_cast<difference_type>(node_type::count)) {
 					// destroy full chunks
-					front = d_data->end_node->next;
+					front = d_end.next;
 					unsigned size = front->size();
 					diff -= size;
 					d_data->size -= size;
@@ -1929,7 +1931,7 @@ namespace seq
 		/// Basic exception guarantee.
 		void assign(size_type new_size, const T& value)
 		{
-			if (new_size > max_size())
+			if SEQ_UNLIKELY (new_size > max_size())
 				throw std::length_error("sequence::assign");
 
 			make_data_if_null();
@@ -1954,7 +1956,7 @@ namespace seq
 		/// Basic exception guarantee.
 		void reserve(size_t new_cap)
 		{
-			if (new_cap > max_size())
+			if SEQ_UNLIKELY (new_cap > max_size())
 				throw std::length_error("sequence::reserve");
 
 			make_data_if_null();
@@ -1973,7 +1975,7 @@ namespace seq
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "pop_front() on an empty container");
 			T* ptr = front_ptr();
-			node_type* node = d_data->end_node->next;
+			node_type* node = d_end.next;
 
 			if SEQ_UNLIKELY (node->used == full)
 				add_free_node(node);
@@ -1998,7 +2000,7 @@ namespace seq
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "pop_back() on an empty container");
 			T* ptr = back_ptr();
-			node_type* node = d_data->end_node->prev;
+			node_type* node = d_end.prev;
 
 			if SEQ_UNLIKELY (node->used == full)
 				add_free_node(node);
@@ -2149,7 +2151,7 @@ namespace seq
 			shrink_to_fit_internal(&d.chunks);
 			d.end = d_data->end_node;
 
-			iter begin(&d, d_data->end_node->next);
+			iter begin(&d, d_end.next);
 
 			std::vector<iter> iters(d.chunks.size() + 1);
 			iters[0] = begin;

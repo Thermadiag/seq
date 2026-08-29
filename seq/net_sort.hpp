@@ -32,7 +32,7 @@
 #include <limits>
 #include <type_traits>
 #include <algorithm>
-#include <vector>
+#include <memory>
 
 #define SEQ_ALGO_ASSERT_DEBUG(condition, msg) SEQ_ASSERT_DEBUG(condition, msg)
 
@@ -420,7 +420,7 @@ namespace seq
 			// Uses the fastest available method: standard forward merge
 			// or branchless merge from both ends for random access iterators and relocatable types.
 
-			if constexpr (is_random_access<Iter>::value && is_relocatable<T>::value) {
+			if constexpr (is_random_access<Iter>::value && is_random_access<Out>::value && is_relocatable<T>::value && sizeof(T) <= 8) {
 
 				// Branchless merge from both ends
 				// Only truly faster with trivial comparison function,
@@ -1042,7 +1042,7 @@ namespace seq
 			  begin,
 			  size,
 			  l,
-			  [&](Iter b, size_t remaining, auto l) {
+			  [&](Iter b, size_t remaining, const auto& l) {
 				  // Try wave sort first, as it might consume a lot more
 				  // than the default 128 elements (possibly the whole sequence)
 				  auto r = try_wave_sort<5>(b, remaining, std::min(remaining, (size_t)128u), l, buf);
@@ -1186,8 +1186,8 @@ namespace seq
 			// Compute buffer size
 			size_t min_size = std::min(s1, s2);
 			size_t buf_size = sort_buffer_size(buf, min_size);
-			std::vector<Key> buf_(buf_size);
-			auto work = buffer<Key*>{ buf_.data(), buf_.size() };
+			std::unique_ptr<Key[]> storage(new Key[buf_size]);
+			buffer<Key*> work{ storage.get(), buf_size };
 			return merge_adaptive_n<false>(wrap_iter(first), s1, wrap_iter(middle, s1), s2, wrap_iter(last, s1 + s2), c, work);
 		}
 		else
@@ -1215,8 +1215,8 @@ namespace seq
 		if constexpr (std::is_same_v<buffer<void*>, Buffer>) {
 			// Compute buffer size
 			size_t buf_size = sort_buffer_size(buf, std::distance(iters[0], iters[count - 1]) / 2);
-			std::vector<Key> buf_(buf_size);
-			merge_sorted_runs_with_buffer(iters, 0, count - 1, c, buffer<Key*>{ buf_.data(), buf_.size() });
+			std::unique_ptr<Key[]> buf_(new Key[buf_size]);
+			merge_sorted_runs_with_buffer(iters, 0, count - 1, c, buffer<Key*>{ buf_.get(), buf_size });
 		}
 		else
 			// Use provided buffer
@@ -1288,8 +1288,8 @@ namespace seq
 		if constexpr (std::is_same_v<buffer<void*>, Buffer>) {
 			// Compute buffer size
 			size_t buf_size = sort_buffer_size(buf, size / 2);
-			std::vector<Key> buf_(buf_size);
-			return merge_sort_internal(wrap_iter(begin, 0), size, cmp, seq::buffer<Key*>{ buf_.data(), buf_.size() });
+			std::unique_ptr<Key[]> buf_(new Key[buf_size]);
+			return merge_sort_internal(wrap_iter(begin, 0), size, cmp, seq::buffer<Key*>{ buf_.get(), buf_size });
 		}
 		else {
 			// Use provided buffer
