@@ -259,7 +259,7 @@ namespace seq
 			size_t d_hash_mask = 0;		    // hash mask
 			size_t d_next_target = 0;	    // next size before rehash
 			int d_max_dist = 1;		    // current maximum distance of a node to its theoric best location
-			float d_load_factor = 0.75f;	    // maximum load factor
+			float d_load_factor = 0.6f;	    // maximum load factor
 
 		private:
 			static auto null_node() noexcept -> node_type*
@@ -313,7 +313,7 @@ namespace seq
 						// Compute index
 						index = mask_hash(hash, new_hash_mask);
 
-						if (buckets[index].distance() == -1) {
+						if SEQ_LIKELY(buckets[index].distance() == -1) {
 							buckets[index] = node_type(node_type::small_hash(hash), 0, first.as_uint());
 							continue;
 						}
@@ -321,8 +321,8 @@ namespace seq
 						// Robin-hood probing
 						dist = 0;
 						while (dist <= buckets[index].distance()) {
-							index = (index == hmask) ? 0 : index + 1;
-							dist++;
+							index = (index + 1) & hmask;
+							++dist;
 						}
 						max_dist = (dist > max_dist) ? dist : max_dist;
 						node_type n = buckets[index];
@@ -785,8 +785,7 @@ namespace seq
 				// Insert new key
 
 				// Check for potential rehash.
-				// Avoid rehashing if the maximum distance is below 7.
-				if SEQ_UNLIKELY (size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target))
+				if SEQ_UNLIKELY (size() >= d_hash_mask || (size() >= d_next_target))
 					rehash(size() * 2U);
 
 				// Check for purely linear hash table
@@ -985,7 +984,7 @@ namespace seq
 
 	`seq::ordered_set` provides a similar interface to `std::unordered_set` with the following differences:
 	-	The bucket related functions are not implemented,
-	-	The default load factor is set to 0.75,
+	-	The default load factor is set to 0.6,
 	-	Additional members push_back(), push_front(), emplace_back() and emplace_front() let you control the key ordering,
 	-	Additional member sort() let you sort the container,
 	-	Its iterator and const_iterator types are bidirectional iterators.
@@ -1005,7 +1004,7 @@ namespace seq
 	-----------------------------
 
 	`seq::ordered_set` uses a growth factor of 2 to use the fast modulo. The hash table size is multiplied by 2 each time the table load factor exceeds the given max_load_factor(). The default
-	maximum load factor is set to 0.75 and can by set up to 0.95, which is well supported thanks to the robin hood hashing.
+	maximum load factor is set to 0.6 and can by set up to 0.95, which is well supported thanks to the robin hood hashing.
 
 	In some cases, the actual load factor can exceed the provided maximum load factor. This holds when the keys are very well distributed, and the maximum distance of a key to its computed
 	location is low (below 8). This strategy avoids some unnecessary rehash for very strong hash function (or well distributed keys).
@@ -1066,7 +1065,7 @@ namespace seq
 		using pointer = typename std::allocator_traits<Allocator>::const_pointer;
 		using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
 
-		/// @brief Constructs empty container. Sets max_load_factor() to 0.75.
+		/// @brief Constructs empty container. Sets max_load_factor() to 0.6.
 		/// @param hash hash function to use
 		/// @param equal comparison function to use for all key comparisons of this container
 		/// @param alloc allocator to use for all memory allocations of this container
@@ -1074,13 +1073,13 @@ namespace seq
 		  : base_type(hash, equal, alloc)
 		{
 		}
-		/// @brief Constructs empty container. Sets max_load_factor() to 0.75.
+		/// @brief Constructs empty container. Sets max_load_factor() to 0.6.
 		/// @param alloc allocator to use for all memory allocations of this container
 		explicit ordered_set(const Allocator& alloc)
 		  : ordered_set(Hash(), KeyEqual(), alloc)
 		{
 		}
-		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.75.
+		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.6.
 		/// If multiple elements in the range have keys that compare equivalent, only the first occurence is inserted.
 		/// Input iteration order is preserved.
 		/// @tparam InputIt iterator type
@@ -1095,7 +1094,7 @@ namespace seq
 		{
 			insert(first, last);
 		}
-		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.75.
+		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.6.
 		/// If multiple elements in the range have keys that compare equivalent, only the first occurence is inserted.
 		/// Input iteration order is preserved.
 		/// @tparam InputIt iterator type
@@ -1107,7 +1106,7 @@ namespace seq
 		  : ordered_set(first, last, Hash(), key_equal(), alloc)
 		{
 		}
-		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.75.
+		/// @brief constructs the container with the contents of the range [first, last). Sets max_load_factor() to 0.6.
 		/// If multiple elements in the range have keys that compare equivalent, only the first occurence is inserted.
 		/// Input iteration order is preserved.
 		/// @tparam InputIt iterator type
