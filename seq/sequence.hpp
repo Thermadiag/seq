@@ -563,14 +563,22 @@ namespace seq
 		{
 			using difference_type = typename std::allocator_traits<Allocator>::difference_type;
 
-			node_type * end_node;	  // end chunk
+			std::size_t size = 0;// full size
+			std::size_t max_size = 0;
+			std::size_t free_elements = 0;// total number of free values (max count * 2)
+			std::size_t total_slots = 0;
+			node_type* end_node;// end chunk
+			node_type end_free;// end of free chunks
+
+
+			/* node_type* end_node; // end chunk
 			std::size_t size; // full size
 
 			// We keep spare chunk if possible
 			node_type end_free;	       // end of free chunks
 			std::size_t free_elements = 0; // total number of free values (max count * 2)
 			std::size_t total_slots = 0;
-			std::size_t max_size = 0;
+			std::size_t max_size = 0;*/
 
 			Data(const Allocator& al, node_type* end) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 			  : Allocator(al)
