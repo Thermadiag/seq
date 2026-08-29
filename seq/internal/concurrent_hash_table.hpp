@@ -288,6 +288,7 @@ namespace seq
 				const size_t segment = segment_from_position(position);
 				const size_t index = position - segment_start(segment);
 				lock_type* values = arrays[segment].load(std::memory_order_relaxed);
+				SEQ_ASSERT_DEBUG(values != nullptr, "lock segment was not allocated before mask publication");
 				return values[index];
 			}
 		};
@@ -404,7 +405,7 @@ namespace seq
 			};
 			ConcurrentDenseNode<T>* right;
 			Value vals[max_concurrent_node_size - 1];
-			ConcurrentValueNode()
+			ConcurrentValueNode() noexcept
 			  : right(nullptr)
 			{
 			}
@@ -623,7 +624,7 @@ namespace seq
 			};
 
 		private:
-			node_type* d_static_node = get_static_node();
+			node_type* d_static_node = get_static_node(); // Static (invalid) node, faster access than calling get_static_node() every time
 
 			bucket_type d_buckets{ get_static_node() }; // hash table
 			value_node_type* d_values = nullptr;	    // values
@@ -631,17 +632,19 @@ namespace seq
 			size_type d_hash_mask{ 0 };		    // hash mask
 			PrivateData* d_data = nullptr;		    // pointer to upper PrivateData
 
-			// Wwrite-heavy counters on another cache line
+			// Write-heavy counters on another cache line
 			atomic_integer d_size{ 0 }; // total size
-			size_type d_total_chains{ 0 };
-			size_type d_chain_count{ 0 };
+			size_type d_total_chains{ 0 }; // total number of dense nodes
+			size_type d_chain_count{ 0 }; // total number of buckets having at least one dense node
 			size_type d_next_target{ 0 }; // next size before rehash
 
-			node_lock d_rehash_lock;		// unique lock for rehash
-			std::atomic<bool> d_in_rehash{ false }; // tells if we are in rehash
-			std::atomic<bool> d_need_rehash{ true }; // tells if we need to rehash
 			rehash_lock_type d_rehash_mutex;
 
+			// Remaining 1 byte elements
+			node_lock d_rehash_lock;		 // unique lock for rehash
+			std::atomic<bool> d_in_rehash{ false };	 // tells if we are in rehash
+			std::atomic<bool> d_need_rehash{ true }; // tells if we need to rehash
+			
 			// Store all allocators to avoid potential throwing in destructor
 			RebindAllocator<Allocator, node_type> d_node_al;
 			RebindAllocator<Allocator, value_node_type> d_value_al;
@@ -878,6 +881,7 @@ namespace seq
 
 			auto make_nodes(size_t count = 1) -> node_type* { return MakeRange<node_type>(d_node_al, count); }
 			auto make_value_nodes(size_t count = 1) -> value_node_type* { return MakeRange<value_node_type>(d_value_al, count); }
+			
 			template<class Node>
 			void free_nodes(Node* n, size_t count = 1) noexcept
 			{
@@ -887,7 +891,6 @@ namespace seq
 					DestroyRange(d_value_al, n, count);
 				if constexpr (std::is_same_v<chain_node_type, Node>) {
 					d_total_chains -= 1;
-					update_need_rehash();
 					DestroyRange(d_chain_al, n, count);
 				}
 			}
@@ -919,17 +922,19 @@ namespace seq
 				return false;
 			}
 
-			SEQ_ALWAYS_INLINE void update_need_rehash() noexcept { d_need_rehash.store(check_need_rehash()); }
-			
+			SEQ_ALWAYS_INLINE void update_need_rehash() noexcept
+			{
+				if (check_need_rehash())
+					d_need_rehash.store(true, std::memory_order_relaxed);
+			}
 
 			SEQ_ALWAYS_INLINE void lock(node_lock& lock)
 			{
 				while (!lock.try_lock()) {
 					if (d_in_rehash.load(std::memory_order_relaxed))
 						std::shared_lock<rehash_lock_type> ll(d_rehash_mutex);
-					else {
+					else 
 						thread_yield();
-					}
 				}
 			}
 			SEQ_ALWAYS_INLINE void lock_shared(node_lock& lock) const
@@ -939,9 +944,8 @@ namespace seq
 						this_type* _this = const_cast<this_type*>(this);
 						std::shared_lock<rehash_lock_type> ll(_this->d_rehash_mutex);
 					}
-					else {
+					else 
 						thread_yield();
-					}
 				}
 			}
 
@@ -961,8 +965,6 @@ namespace seq
 				// Lock
 				std::scoped_lock<node_lock> ll(d_rehash_lock);
 				std::scoped_lock<rehash_lock_type> ll2(d_rehash_mutex);
-
-				d_need_rehash.store(false);
 
 				// Make sure we are growing
 				auto hash_mask = AtomicLoad(d_hash_mask, std::memory_order_acquire);
@@ -1085,7 +1087,7 @@ namespace seq
 				d_values = values;
 				AtomicStore(d_buckets, buckets, std::memory_order_release);
 				AtomicStore(d_hash_mask, new_hash_mask, std::memory_order_release);
-				update_need_rehash();
+				d_need_rehash.store(false);
 
 				if (is_concurrent && locks) {
 					// Unlock all nodes
@@ -1125,7 +1127,6 @@ namespace seq
 						d = right;
 					} while (d);
 					--d_chain_count;
-					update_need_rehash();
 				}
 
 				v->right = nullptr;
@@ -1187,8 +1188,6 @@ namespace seq
 					rehash_internal(AtomicLoad(d_buckets) == d_static_node ? 0u : static_cast<size_t>((hash_mask + 1ull) * 2ull - 1ull), true);
 			}
 
-			
-
 			SEQ_ALWAYS_INLINE void rehash_on_insert()
 			{
 				SEQ_ASSERT_DEBUG(AtomicLoad(d_buckets) != d_static_node || AtomicLoad(d_next_target, std::memory_order_acquire) == 0, "static bucket requires zero rehash target");
@@ -1247,7 +1246,7 @@ namespace seq
 				if SEQ_UNLIKELY (!locks)
 					return this->template get_node_global_lock<WaitForBucket>(locks, hash, l);
 				// Returns node locked for given hash value
-				size_t hash_mask = AtomicLoad(d_hash_mask);
+				size_t hash_mask = AtomicLoad(d_hash_mask, std::memory_order_acquire);
 				size_t pos = hash & hash_mask;
 				l = &locks->at_existing(pos);
 				this->lock(*l);
@@ -1274,7 +1273,7 @@ namespace seq
 				if SEQ_UNLIKELY (!locks)
 					return get_node_shared_global_lock(locks, hash, l);
 				// Returns node locked for given hash value
-				size_t hash_mask = AtomicLoad(d_hash_mask);
+				size_t hash_mask = AtomicLoad(d_hash_mask, std::memory_order_acquire);
 				size_t pos = hash & hash_mask;
 				l = &locks->at_existing(pos);
 				this->lock_shared(*l);
@@ -1549,7 +1548,6 @@ namespace seq
 							free_nodes(d_values[bucket_pos].right);
 							d_values[bucket_pos].right = nullptr;
 							d_chain_count -= 1;
-							update_need_rehash();
 							return true;
 						}
 						else {
@@ -1714,7 +1712,7 @@ namespace seq
 				d_size = 0;
 				d_chain_count = 0;
 				d_total_chains = 0;
-				update_need_rehash();
+				d_need_rehash.store(false);
 
 				if (is_concurrent && locks) {
 					// unlock all buckets
