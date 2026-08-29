@@ -808,8 +808,7 @@ namespace seq
 				// Insert new key
 
 				// Check for potential rehash.
-				// Avoid rehashing if the maximum distance is below 7.
-				if SEQ_UNLIKELY (size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target))
+				if SEQ_UNLIKELY (size() >= d_hash_mask || (size() >= d_next_target))
 					rehash(size() * 2U);
 
 				// Check for purely linear hash table

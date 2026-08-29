@@ -790,7 +790,8 @@ namespace seq
 		{
 			// returns the capacity for given length
 
-			if (len > max_size()) // We need the null character
+			const size_t maximum = max_size();
+			if (len > maximum)
 				throw std::length_error("tiny_string too long");
 
 			if (is_sso(len))
@@ -799,11 +800,13 @@ namespace seq
 			if (len < first_allocated_capacity)
 				return first_allocated_capacity;
 
+			const size_t allocation_limit = maximum + 1;
+
 			const unsigned bits = bit_scan_reverse_64(len);
 			if ((sizeof(size_t) == 4 && bits >= 31) || (sizeof(size_t) == 8 && bits >= 63))
-				return max_size() + 1;
+				return allocation_limit;
 
-			return static_cast<size_t>(1ULL << (1ULL + bits));
+			return std::min(allocation_limit, static_cast<size_t>(1ULL << (1ULL + bits)));
 
 			// return is_sso(len) ? sso_max_capacity : (len < first_allocated_capacity ? first_allocated_capacity : (1ULL << (1ULL + (bit_scan_reverse_64(len)))));
 		}
@@ -934,7 +937,7 @@ namespace seq
 				// independent container or begins within this string's storage.
 				using reference = decltype(*first);
 				if constexpr (!std::is_lvalue_reference_v<reference>)
-					return true; // conservatively assume aliasing
+					return !empty(); // conservatively assume aliasing
 				else {
 					const auto p = reinterpret_cast<std::uintptr_t>(std::addressof(*first));
 					return p >= (std::uintptr_t)begin() && p <= (std::uintptr_t)end();
@@ -2648,12 +2651,7 @@ namespace seq
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
 		}
-		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> size_t
-		{
-			if (!str)
-				return 0;
-			return seq::hash_bytes_komihash((str), Traits::length(str) * sizeof(Char));
-		}
+		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> size_t { return seq::hash_bytes_komihash((str), str ? Traits::length(str) * sizeof(Char) : 0); }
 
 		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string_view<Char, Traits>& str) const noexcept -> size_t
 		{
@@ -2683,12 +2681,7 @@ namespace seq
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
 		}
-		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> size_t
-		{
-			if (!str)
-				return 0;
-			return seq::hash_bytes_komihash((str), Traits::length(str) * sizeof(Char));
-		}
+		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> size_t { return seq::hash_bytes_komihash((str), str ? Traits::length(str) * sizeof(Char) : 0); }
 		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string_view<Char, Traits>& str) const noexcept -> size_t
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
@@ -2739,12 +2732,7 @@ namespace std
 		{
 			return seq::hash_bytes_komihash(str.data(), str.size() * sizeof(Char));
 		}
-		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> size_t
-		{
-			if (!str)
-				return 0;
-			return seq::hash_bytes_komihash(str, Traits::length(str) * sizeof(Char));
-		}
+		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> size_t { return seq::hash_bytes_komihash(str, str ? Traits::length(str) * sizeof(Char) : 0); }
 
 		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string_view<Char, Traits>& str) const noexcept -> size_t
 		{
