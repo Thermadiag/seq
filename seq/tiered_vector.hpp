@@ -2575,9 +2575,6 @@ namespace seq
 	/// @brief seq::tiered_vector is a std::deque like container implemented as a tiered-vector.
 	/// @tparam T value type
 	/// @tparam Allocator allocator type
-	/// @tparam MinBSize minimum bucket size, depends on the value_type size
-	/// @tparam MaxBSize maximum bucket size
-	/// @tparam FindBSize struct used to find the bucket size for a given tiered_vector size
 	/// @tparam ValueCompare internal use only
 	///
 	///
@@ -2663,23 +2660,10 @@ namespace seq
 	///
 	/// As explained above, all seq::tiered_vector operations invalidate iterators and references, except for swapping two seq::tiered_vector.
 	///
-	/// The only exception is when providing a minimum bucket size (\a MinBSize) equals to the maximum bucket size (\a MaxBSize).
-	/// In this case, inserting/deleting elements will <em>never</em> change the bucket size and move all elements within
-	/// new buckets. This affects the members #emplace_back(), #push_back(), #emplace_front() and #push_front() that provide the
-	/// same invalidation rules as for std::deque.
-	///
-	///
 	/// Performances
 	/// ------------
 	///
-	/// seq::tiered_vector was optimized to match libstdc++ std::deque performances as close as possible.
-	/// My benchmarhs show that most members are actually faster than libstdc++ std::deque, except
-	/// for #push_back(), #push_front(), #pop_back() and #pop_front() which are slightly slower
-	/// due to the need to move all elements when the bucket size changes. This can be alievated
-	/// by the \a OptimizeForSpeed flag that makes both operations as fast as their std::deque counterparts (see 'seq/seq/benchs/bench_tiered_vector.hpp' for more details).
-	///
-	/// Usually, iterating through a seq::tiered_vector is faster than through a std::deque, and the random-access
-	/// #operator[](size_t) is also faster. Making a lot of random access based on iterators can be slightly slower with seq::tiered_vector
+	/// seq::tiered_vector was optimized to match libstdc++ std::deque performances as close as possible. Making a lot of random access based on iterators can be slightly slower with seq::tiered_vector
 	/// depending on the use case. For instance, sorting a seq::tiered_vector is slower than sorting a std::deque.
 	///
 	/// Inserting/deleting single elements in the middle of a seq::tiered_vector is several order of magnitudes faster than std::deque

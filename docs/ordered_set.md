@@ -4,7 +4,6 @@
 -	Keys are ordered by insertion order. Therefore, ordered_set provides the additional members push_back(), push_front(), emplace_back() and emplace_front() to control key ordering.
 -	Since the container is ordered, it is also sortable. ordered_set provides the additional member sort() for this purpose.
 -	The hash table itself basically stores iterators to a `seq::sequence` object storing the actual values. Therefore, `seq::ordered_set` provides *stable references and iterators, even on rehash* (unlike `std::unordered_set` that invalidates iterators on rehash).
--	No memory peak on rehash.
 -	`seq::ordered_set` uses robin hood probing with backward shift deletion. It does not rely on tombstones and supports high load factors.
 -	It is fast and memory efficient compared to other node based hash tables (see section *Performances*), but still slower than most open addressing hash tables due to the additional indirection.
 
@@ -13,7 +12,7 @@
 
 `seq::ordered_set` provides a similar interface to `std::unordered_set` with the following differences:
 -	The bucket related functions are not implemented,
--	The default load factor is set to 0.75,
+-	The default load factor is set to 0.6,
 -	Additional members push_back(), push_front(), emplace_back() and emplace_front() let you control the key ordering,
 -	Additional member sort() let you sort the container in a stable way,
 -	Its iterator and const_iterator types are bidirectional iterators.
@@ -29,9 +28,7 @@ Most members of `seq::ordered_set` provide *strong exception guarantee*, except 
 
 ## Growth policy and load factor
 
-`seq::ordered_set` uses a growth factor of 2 to use the fast modulo. The hash table size is multiplied by 2 each time the table load factor exceeds the given max_load_factor(). The default maximum load factor is set to 0.75 and can by set up to 0.95, which is well supported thanks to the robin hood hashing.
-
-In some cases, the actual load factor can exceed the provided maximum load factor. This holds when the keys are very well distributed, and the maximum distance of a key to its computed location is low (below 8). This strategy avoids some unnecessary rehash for very strong hash function (or well distributed keys).
+`seq::ordered_set` uses a growth factor of 2 to use the fast modulo. The hash table size is multiplied by 2 each time the table load factor exceeds the given max_load_factor(). The default maximum load factor is set to 0.6 and can by set up to 0.95, which is well supported thanks to the robin hood hashing.
 
 ## Handling of bad hash function
 

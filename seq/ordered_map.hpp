@@ -1005,9 +1005,6 @@ namespace seq
 	`seq::ordered_set` uses a growth factor of 2 to use the fast modulo. The hash table size is multiplied by 2 each time the table load factor exceeds the given max_load_factor(). The default
 	maximum load factor is set to 0.6 and can by set up to 0.95, which is well supported thanks to the robin hood hashing.
 
-	In some cases, the actual load factor can exceed the provided maximum load factor. This holds when the keys are very well distributed, and the maximum distance of a key to its computed
-	location is low (below 8). This strategy avoids some unnecessary rehash for very strong hash function (or well distributed keys).
-
 	Handling of bad hash function
 	-----------------------------
 

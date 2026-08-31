@@ -19,14 +19,8 @@ This allows a complexity of O(sqrt(N)) for insertion and deletion in the middle 
 
 ## Bucket managment
 
-The `seq::tiered_vector` maintains internally an array of circular buffers (or buckets). At any moment, all buckets have the same size which is a power of 2. At container initialization, the bucket size is given by template parameter *MinBSize* which is, by default, between 64 and 8 depending on value_type size.
-Whenever `seq::tiered_vector` grows (through push_back(), push_front(), insert(), resize() ...), the new bucket size is computed using the template parameter *FindBSize*. *FindBSize* must provide the member
-
-```cpp
- unsigned  FindBSize::operator() (size_t size, unsigned MinBSize, unsigned MaxBSize) const noexcept ;
-```
-
-returning the new bucket size based on the container size, the minimum and maximum bucket size. Default implementation returns a value close to sqrt(size()) rounded up to the next power of 2.
+The `seq::tiered_vector` maintains internally an array of circular buffers (or buckets). At any moment, all buckets have the same size which is a power of 2. At container initialization, the bucket size is in between 64 and 2 depending on value_type size.
+Whenever `seq::tiered_vector` grows (through push_back(), push_front(), insert(), resize() ...), the new bucket size is computed using an internal heuristic that returns a power of 2 above sqrt(size()).
 
 If the new bucket size is different than the current one, new buckets are created and elements from the old buckets are moved to the new ones. This has the practical consequence to <b> invalidate all iterators and references on growing or shrinking </b>, as opposed to std::deque which maintains references when inserting/deleting at both ends.
 
@@ -62,15 +56,9 @@ Although possible, providing strong exception guarantee on `seq::tiered_vector` 
 
 As explained above, all `seq::tiered_vector` operations invalidate iterators and references, except for swapping two `seq::tiered_vector`.
 
-The only exception is when providing a minimum bucket size (*MinBSize*) equals to the maximum bucket size *MaxBSize*).
-In this case, inserting/deleting elements will <em>never</em> change the bucket size and move all elements within new buckets. This affects the members emplace_back(), push_back(), emplace_front() and push_front() that provide the same invalidation rules as for std::deque.
-
-
 ## Performances
 
-`seq::tiered_vector` was optimized to match libstdc++ `std::deque` performances as close as possible.
-
-Usually, iterating through a `seq::tiered_vector` is faster than through a std::deque, and the random-access `operator[](size_t)` is also faster. Making a lot of random access based on iterators can be slightly slower with `seq::tiered_vector` depending on the use case. For instance, sorting a `seq::tiered_vector` is slower than sorting a `std::deque`.
+`seq::tiered_vector` was optimized to match libstdc++ `std::deque` performances as close as possible. Making a lot of random access based on iterators can be slightly slower with `seq::tiered_vector` depending on the use case. For instance, sorting a `seq::tiered_vector` is slower than sorting a `std::deque`.
 
 Inserting/deleting single elements in the middle of a `seq::tiered_vector` is several order of magnitudes faster than std::deque due to the tiered-vector implementation.
 

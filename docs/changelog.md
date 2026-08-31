@@ -1,3 +1,14 @@
+# seq v2.2
+
+First version using AI, and only for code review (no code/documentation generation).
+
+-	All associative containers: iterators dereferencing now return `std::pair<const Key, Value>` instead of plain `std::pair<Key, Value>`.
+-	All containers have been reviewed to correct allocator propagation behavior.
+-	All containers have been reviewed to correct potentially wrong exception guarantees.
+-	Swiss table based containers (`radix_set/map`, `radix_hash_set/map`, `concurrent_set/map`) now support NEON instruction set.
+-	Concurrent containers (`concurrent_set/map`, `concurrent_queue`) behavior have been strengthen.
+-	All containers have been optimized on way or another.	
+
 
 # seq v2.1
 

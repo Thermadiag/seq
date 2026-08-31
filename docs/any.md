@@ -34,7 +34,7 @@ std::cout << seq::any(std::vector<bool>()); // std::vector<bool> does not define
 
 ```
 
-The only exception is the hashing support. Indeed, there is no way in C++11 to tell at compile time if a type is hashable or not, as most implementations of `std::hash` use static_assert() in the operator() member (undetectable through SFINAE). 
+The only exception is the hashing support. Indeed, there is no way in C++17 to tell at compile time if a type is hashable or not, as most implementations of `std::hash` use static_assert() in the operator() member (undetectable through SFINAE). 
 `hold_any` optimistically assumes that all types are hashable. In order to store non hashable types, you must specialize the `seq::is_hashable` type trait for this type:
 
 ```cpp
@@ -283,24 +283,6 @@ assert(b >= a);   // compare any(double) to any(int)
 assert(c < d); //compare any(const char*) to any(std::string)
 assert(d > c); // compare any(std::string) to const char*
 
-
-// define a dumy comparison function between std::pair<int,int> and int
-struct less_pair
-{
-	bool operator()(const std::pair<int, int>& a, int b) const { 
-		return a.first < b && a.second < b; 
-	}
-	bool operator()(int b, const std::pair<int, int>& a) const { 
-		return b < a.first && b < a.second ; 
-	}
-};
-
-seq::register_any_less_comparison<std::pair<int,int>, int>(less_pair{},less_pair{});
-
-seq::nh_any pair = std::pair<int,int>(1,2);
-seq::nh_any integer = 3;
-assert(pair < integer); 
-assert(!(integer < pair));
 
 ``` 
 

@@ -17,7 +17,6 @@
 
 -	`seq::net_sort` and `seq::net_sort_size`: "new" generic stable sorting algorithm that is used everywhere within the seq library.  `seq::net_sort` is a merge sort algorithm with the following specificities:
 	-	Bottom-up merging instead of the more traditional top-down approach,
-	-	Small blocks of 8 elements are sorted using a sorting network,
 	-	Bidirectional merging is used for relocatable types,
 	-	Ping-pong merge is used to merge 4 sorted ranges,
 	-	Can work without allocating memory through a (potentially null) user provided buffer,

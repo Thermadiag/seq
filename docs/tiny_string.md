@@ -4,9 +4,7 @@
 `seq::tiny_string` is a string class similar to std::string but aiming at greater performances when used in containers.
 It provides a customizable Small String Optimization (SSO) much like boost::small_vector, where the maximum static size before an allocation is triggered is defined at compile time.
 
-`seq::tiny_string` contains some preallocated elements in-place, which can avoid the use of dynamic storage allocation when the actual number of elements is below that preallocated threshold (*MaxStaticSize* parameter).
-
-`seq::tiny_string` supports any type of character in a similar way as `std::basic_string`.
+`seq::tiny_string` supports any type of character in a similar way as `std::basic_string`, but can only use std::char_traits<Char>.
 
 
 ## Motivation
@@ -26,19 +24,17 @@ For the rest of the documentation, only standard `char` strings are considered.
 ## Size and bookkeeping
 
 By default on 64 bits machines, a `tiny_string` contains enough room to store a 16 bytes string, therefore a length of 15 bytes for null terminated strings.
-Starting version 1.2 of *seq* library, tiny_string does not store any additional bytes for internal bookkeeping. The fact that a string MUST be null terminated allows some tricks in order to use the full string size for SSO.
+tiny_string does not store any additional bytes for internal bookkeeping. The fact that a string MUST be null terminated allows some tricks in order to use the full string size for SSO.
 
 This means that the default `seq::tstring` has a size of 16 bytes and can hold a small string of... 16 bytes (including trailing 0).
 Likewise, `seq::tiny_string<char, std::char_traits<char>, std::allocator<char>, 31>` has a size of 32 bytes and can hold a small string of 32 bytes.
 
-When the tiny_string grows beyong the preallocated threshold, memory is allocated on the heap based on provided allocator using a grow factor of 2.
-
-Starting version 1.2 of *seq* library, tiny_string behaves exactly like std::string and does not deallocate memory on shrinking, except on calls to `shrink_to_fit()`.
+When the tiny_string grows beyong the preallocated threshold, memory is allocated on the heap based on provided allocator using a grow factor of 2. tiny_string behaves exactly like std::string and does not deallocate memory on shrinking, except on calls to `shrink_to_fit()`.
 
 Several typedefs are provided for convenience:
 
--	`seq::tstring`: equivalent to `seq::tiny_string<char, std::char_traits<char>, std::allocator<char>, 0 >`
--	`seq::wtstring`: equivalent to `seq::tiny_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t>, 0 >`
+-	`seq::tstring`: equivalent to `seq::tiny_string<char, std::allocator<char>, 0 >`
+-	`seq::wtstring`: equivalent to `seq::tiny_string<wchar_t, std::allocator<wchar_t>, 0 >`
 
 
 ## Static size
@@ -83,7 +79,7 @@ A pure stable node based container like `std::set` does not benefit greatly from
 `phmap::btree_set` is also a node based container, but each node can contain several elements. Note that btree_set uses a fix sized node in bytes, and its arity is computed from this size. A similar strategy is used for std::deque in most implementation to get its bucket size. Using tstring instead of std::string doubles the btree arity, increasing its overall performances for both insertion and lookup.
 	
 Within the `seq` library, the following containers provide optimizations for relocatable types:
--	random access containers: `seq::tiered_vector`, `seq::devector`, `seq::cvector`
+-	random access containers: `seq::tiered_vector`, `seq::devector`
 -	sorted containers: `seq::flat_set`, `seq::flat_map`, `seq::flat_multiset`, `seq::flat_mutlimap`, `seq::radix_set`, `seq::radix_map`
 -	hash tables: `seq::radix_hash_set`, `seq::radix_hash_map`
 
@@ -99,12 +95,3 @@ The comparison operators are also overloaded to work with std::string.
 `seq::tiny_string` provides the same invalidation rules as std::string as well as the same exception guarantees.
 
 A specialization of `std::hash` and `seq::hasher` is provided for tiny_string types which relies on [komihash](https://github.com/avaneev/komihash). This specialization is transparent and supports hashing std::string, tiny_string and const char*.
-
-## String view
-
-`seq::tiny_string` is specialized for seq::view_allocator in order to provide a `std::string_view` like class.
-It is provided for compilers that do not support (yet) std::string_view, and provides a similar interface.
-
-The global typedef `seq::tstring_view` is provided  for convenience, and is equivalent to `seq::tiny_string<char,std::char_traits<char>,seq::view_allocator<char>,0>`.
-tstring_view is also hashable and can be compared to other tiny_string types as well as std::string.
-
