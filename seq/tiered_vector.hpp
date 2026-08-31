@@ -655,7 +655,7 @@ namespace seq
 			}
 			// Pushing front while poping back value
 			// Might throw, but leave the buffer in a valid state
-			SEQ_ALWAYS_INLINE void push_front_pop_back(T& inout)
+			SEQ_ALWAYS_INLINE void push_front_pop_back(T& inout) noexcept(relocatable || (std::is_nothrow_move_constructible_v<T> && std::is_nothrow_move_assignable_v<T>))
 			{
 				if constexpr (relocatable) {
 					relocate_swap(back(), inout);
@@ -673,7 +673,7 @@ namespace seq
 
 			// Pushing front while poping back
 			// Might throw, but leave the buffer in a valid state since it is already full
-			SEQ_ALWAYS_INLINE void push_back_pop_front(T& inout) noexcept(std::is_nothrow_move_assignable_v<T> && std::is_nothrow_move_constructible_v<T>)
+			SEQ_ALWAYS_INLINE void push_back_pop_front(T& inout) noexcept(relocatable || (std::is_nothrow_move_constructible_v<T> && std::is_nothrow_move_assignable_v<T>))
 			{
 				// Only works for filled array
 				if constexpr (relocatable) {
@@ -1522,7 +1522,7 @@ namespace seq
 					d_size = full_size;
 
 					// Copy by contiguous segments
-					other.for_each_segments(start, start + full_size, [&](auto ptr, auto count) {
+					other.for_each_segments(start, start + full_size, [&](auto ptr, auto count) noexcept {
 						do {
 							auto rem = d_bucket_size - bucket->size;
 							if (!rem) {
@@ -1619,7 +1619,7 @@ namespace seq
 					construct_ptr(res, max_size, val);
 				}
 				catch (...) {
-					get_allocator().deallocate(reinterpret_cast<T*>(res), BucketType::start_data_T + static_cast<size_t>(max_size));
+					destroy_bucket(res, false);
 					throw;
 				}
 				return res;
