@@ -562,11 +562,11 @@ int bench_map(int, char** const)
 	
 	using string = seq::tstring;
 
-	{
+	/* {
 		auto vec = load_dict<string>("C:\\Users\\VM213788\\Documents\\src\\seq\\benchs\\words.txt");
 		//seq::random_shuffle(vec.begin(), vec.end(), 1);
 		test_map<string>(vec.size(), [&](size_t i) { return vec[i]; });
-	}
+	}*/
 
 	// test random tuple
 	{

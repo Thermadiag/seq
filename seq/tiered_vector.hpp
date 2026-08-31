@@ -645,16 +645,30 @@ namespace seq
 				return buffer() + begin;
 			}
 
+
+			static SEQ_ALWAYS_INLINE void relocate_swap(T& a, T& b) noexcept
+			{
+				RawStorage<T, 1> tmp;
+				std::memcpy(tmp.raw_slot(0), std::addressof(a), sizeof(T));
+				std::memcpy(std::addressof(a), std::addressof(b), sizeof(T));
+				std::memcpy(std::addressof(b), tmp.raw_slot(0), sizeof(T));
+			}
 			// Pushing front while poping back value
 			// Might throw, but leave the buffer in a valid state
-			SEQ_ALWAYS_INLINE void push_front_pop_back(T& inout) noexcept(std::is_nothrow_move_assignable_v<T> && std::is_nothrow_move_constructible_v<T>)
+			SEQ_ALWAYS_INLINE void push_front_pop_back(T& inout)
 			{
-				// Only works for filled array
-				T res = std::move(back());
-				if (--begin < 0)
-					begin = max_size1;
-				buffer()[begin] = std::move(inout);
-				inout = std::move(res);
+				if constexpr (relocatable) {
+					relocate_swap(back(), inout);
+					if (--begin < 0)
+						begin = max_size1;
+				}
+				else {
+					T res = std::move(back());
+					if (--begin < 0)
+						begin = max_size1;
+					buffer()[begin] = std::move(inout);
+					inout = std::move(res);
+				}
 			}
 
 			// Pushing front while poping back
@@ -662,10 +676,16 @@ namespace seq
 			SEQ_ALWAYS_INLINE void push_back_pop_front(T& inout) noexcept(std::is_nothrow_move_assignable_v<T> && std::is_nothrow_move_constructible_v<T>)
 			{
 				// Only works for filled array
-				T tmp = std::move(front());
-				begin = (begin + 1) & (max_size1);
-				(*this)[size - 1] = std::move(inout);
-				inout = std::move(tmp);
+				if constexpr (relocatable) {
+					relocate_swap(front(), inout);
+					begin = (begin + 1) & (max_size1);
+				}
+				else {
+					T tmp = std::move(front());
+					begin = (begin + 1) & (max_size1);
+					(*this)[size - 1] = std::move(inout);
+					inout = std::move(tmp);
+				}
 			}
 
 			// Pop back/front
@@ -1482,24 +1502,77 @@ namespace seq
 				if (full_size == 0)
 					return;
 
-				create_back_bucket();
+				if constexpr (is_relocatable_v<T>) {
 
-				try {
+					const size_type bucket_count = 1 + (full_size - 1) / static_cast<size_type>(d_bucket_size);
 
-					other.for_each(start, start + full_size, [&](auto& v) {
-						if SEQ_UNLIKELY (d_buckets.back().bucket->size == d_bucket_size)
+					// Preallocate
+					try {
+						for (size_type i = 0; i < bucket_count; ++i)
 							create_back_bucket();
+					}
+					catch (...) {
+						// Every bucket is still empty.
+						destroy_all();
+						throw;
+					}
 
-						d_buckets.back().bucket->emplace_back(std::move(v));
-					});
+					size_t pos = 0;
+					auto bucket = d_buckets[0].bucket;
+					d_size = full_size;
+
+					// Copy by contiguous segments
+					other.for_each_segments(start, start + full_size, [&](auto ptr, auto count) {
+						do {
+							auto rem = d_bucket_size - bucket->size;
+							if (!rem) {
+								++pos;
+								bucket = d_buckets[pos].bucket;
+								rem = d_bucket_size;
+							}
+							auto to_copy = std::min((size_t)rem, count);
+							memcpy(bucket->buffer() + bucket->size, ptr, to_copy * sizeof(T));
+							bucket->size += to_copy;
+							count -= to_copy;
+							ptr += to_copy;
+						} while (count);
+						});
+
+					
+					update_all_back_values();
+
+					// Destroy from other
+					if constexpr (!std::is_trivially_destructible_v<T>) {
+						other.for_each(0, start, [](T& value) noexcept { destroy_ptr(std::addressof(value)); });
+						other.for_each(start + full_size, other.d_size, [](T& value) noexcept { destroy_ptr(std::addressof(value)); });
+					}
+
+					// Selected elements were relocated, excluded elements were destroyed above.
+					other.destroy_all(false);
 				}
-				catch (...) {
-					destroy_all();
-					throw;
+				else {
+
+					create_back_bucket();
+
+					try {
+
+						other.for_each(start, start + full_size, [&](auto& v) {
+							auto* back = d_buckets.back().bucket;
+							if SEQ_UNLIKELY (back->size == d_bucket_size) {
+								create_back_bucket();
+								back = d_buckets.back().bucket;
+							}
+							back->emplace_back(std::move(v));
+						});
+					}
+					catch (...) {
+						destroy_all();
+						throw;
+					}
+					d_size = full_size;
+					update_all_back_values();
+					other.destroy_all();
 				}
-				d_size = full_size;
-				update_all_back_values();
-				other.destroy_all();
 			}
 
 			~BucketManager() noexcept
@@ -1513,11 +1586,12 @@ namespace seq
 				uint64_t value;
 			};
 
-			void destroy_bucket(BucketType* b) noexcept
+			void destroy_bucket(BucketType* b, bool destroy_values = true) noexcept
 			{
 				if (!b)
 					return;
-				b->destroy();
+				if(destroy_values)
+					b->destroy();
 
 				size_t bytes = (BucketType::start_data_T + static_cast<size_t>(b->max_size())) * sizeof(T);
 				size_t dwords = (bytes + sizeof(RawBucket)-1) / sizeof(RawBucket);
@@ -1552,11 +1626,11 @@ namespace seq
 			}
 
 			// Destroy all element, deallocate buckets
-			void destroy_all() noexcept
+			void destroy_all(bool destroy_values = true) noexcept
 			{
 				for (auto it = d_buckets.begin(); it != d_buckets.end(); ++it) {
 					if (it->bucket)
-						destroy_bucket(it->bucket);
+						destroy_bucket(it->bucket, destroy_values);
 				}
 				d_buckets.clear();
 				d_size = 0;
@@ -1626,6 +1700,40 @@ namespace seq
 					for (size_type i = 0; i < count - first_count; ++i)
 						fun(buffer[i]);
 
+					remaining -= count;
+					pos = 0;
+					++bindex;
+				}
+
+				return fun;
+			}
+
+			// For each function, faster than using iterators
+			template<class Functor>
+			auto for_each_segments(size_type start, size_type end, Functor fun) -> Functor
+			{
+				if (start == end)
+					return fun;
+
+				SEQ_ASSERT_DEBUG(start < end && end <= d_size, "invalid range");
+
+				size_type remaining = end - start;
+				size_type bindex = bucket_index(start);
+				size_type pos = static_cast<size_type>(bucket_pos(start));
+
+				while (remaining) {
+					BucketType* cur = d_buckets[bindex].bucket;
+					const size_type capacity = static_cast<size_type>(cur->max_size());
+					const size_type count = std::min(remaining, static_cast<size_type>(cur->size) - pos);
+					const size_type physical = (static_cast<size_type>(cur->begin) + pos) & static_cast<size_type>(cur->max_size1);
+					const size_type first_count = std::min(count, capacity - physical);
+					T* buffer = cur->buffer();
+
+					if(first_count)
+						fun(buffer + physical, first_count);
+					if (auto rem = count - first_count)
+						fun(buffer, rem);
+					
 					remaining -= count;
 					pos = 0;
 					++bindex;
