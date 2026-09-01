@@ -53,8 +53,8 @@ template <typename T> using AlignedAllocator = std::allocator<T>;
 template <typename T> struct AlignedAllocator {
   using value_type = T;
 
-  T *allocate(std::size_t n) {
-    if (n > std::numeric_limits<std::size_t>::max() / sizeof(T)) {
+  T *allocate(size_t n) {
+    if (n > std::numeric_limits<size_t>::max() / sizeof(T)) {
       throw std::bad_array_new_length();
     }
 #ifdef _WIN32
@@ -72,7 +72,7 @@ template <typename T> struct AlignedAllocator {
     return p;
   }
 
-  void deallocate(T *p, std::size_t) {
+  void deallocate(T *p, size_t) {
 #ifdef _WIN32
     _aligned_free(p);
 #else

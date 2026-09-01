@@ -220,11 +220,11 @@ namespace seq
 
 		void close() noexcept;
 		bool is_open() const noexcept;
-		size_t tell() const noexcept;
+		std::size_t tell() const noexcept;
 		void back() noexcept;
-		size_t seek(size_t pos) noexcept;
+		std::size_t seek(std::size_t pos) noexcept;
 		int getc() noexcept;
-		size_t read(char* dst, size_t count) noexcept;
+		std::size_t read(char* dst, std::size_t count) noexcept;
 		void set_state(State st) noexcept;
 		State state() const noexcept;
 
@@ -269,7 +269,7 @@ namespace seq
 			  , end(en)
 			{
 			}
-			SEQ_ALWAYS_INLINE auto add_size(size_t count) const noexcept -> Char*
+			SEQ_ALWAYS_INLINE auto add_size(std::size_t count) const noexcept -> Char*
 			{
 				const Char* tmp = pos;
 				const_cast<char_range*>(this)->pos += count;
@@ -300,9 +300,9 @@ namespace seq
 			  : str(str)
 			{
 			}
-			SEQ_ALWAYS_INLINE auto add_size(size_t count) const -> Char*
+			SEQ_ALWAYS_INLINE auto add_size(std::size_t count) const -> Char*
 			{
-				size_t size = str->size();
+				std::size_t size = str->size();
 				const_cast<String*>(str)->resize(size + count);
 				return const_cast<Char*>(str->data()) + size;
 			}
@@ -1124,7 +1124,7 @@ namespace seq
 
 				if (!_val) {
 					int size = fmt.integral_min_width ? static_cast<int>(fmt.integral_min_width) : 1;
-					Char* dst = range.add_size(static_cast<size_t>(size));
+					Char* dst = range.add_size(static_cast<std::size_t>(size));
 					if SEQ_UNLIKELY (!dst) {
 						return { range.end_ptr(), std::errc::value_too_large };
 					}
@@ -1171,7 +1171,7 @@ namespace seq
 					tmp[--index] = '-';
 				}
 
-				size_t size = sizeof(tmp) - static_cast<size_t>(index) - 1;
+				std::size_t size = sizeof(tmp) - static_cast<std::size_t>(index) - 1;
 				Char* dst = range.add_size(size);
 				if SEQ_UNLIKELY (!dst) {
 					return { range.end_ptr(), std::errc::value_too_large };
@@ -1691,14 +1691,14 @@ namespace seq
 
 				if (last != start) {
 					// remove leading 0
-					memmove(start, start + 1, static_cast<size_t>(saved_last - start) * sizeof(Char));
+					memmove(start, start + 1, static_cast<std::size_t>(saved_last - start) * sizeof(Char));
 					--saved_last;
 				}
 				last = saved_last;
 			}
 			else {
 				// remove leading 0
-				memmove(start, start + 1, static_cast<size_t>(last - start - 1) * sizeof(Char));
+				memmove(start, start + 1, static_cast<std::size_t>(last - start - 1) * sizeof(Char));
 				last -= 2;
 			}
 
@@ -1910,7 +1910,7 @@ namespace seq
 			/// @brief Returns true if the stream read its last character
 			SEQ_ALWAYS_INLINE auto at_end() const noexcept -> bool { return d_start >= d_end; }
 			/// @brief Returns the internal character sequence size
-			static SEQ_ALWAYS_INLINE auto size() noexcept -> size_t { return 0; }
+			static SEQ_ALWAYS_INLINE auto size() noexcept -> std::size_t { return 0; }
 			/// @brief Returns the current read position in the stream
 			SEQ_ALWAYS_INLINE auto tell() const noexcept -> const Char* { return d_start; }
 			/// @brief Go back one character (if possible)
@@ -1942,7 +1942,7 @@ namespace seq
 	public:
 		using base_type = basic_input_stream<Char, buffer_input_stream<Char>>;
 		using State = StreamState;
-		using streamsize = size_t;
+		using streamsize = std::size_t;
 
 	private:
 		const Char* d_buff;
@@ -2033,7 +2033,7 @@ namespace seq
 		}
 		/// @brief Read several characters at once
 		/// @return The number of read characters
-		auto read(Char* dst, streamsize size) noexcept -> size_t
+		auto read(Char* dst, streamsize size) noexcept -> std::size_t
 		{
 			streamsize rem = d_len - d_pos;
 			streamsize to_read = std::min(size, rem);
@@ -2065,7 +2065,7 @@ namespace seq
 
 	private:
 		std::basic_istream<Char>* d_file;
-		size_t d_pos;
+		std::size_t d_pos;
 		Char d_buff[buff_size];
 		Char* d_buff_pos;
 		Char* d_buff_end;
@@ -2080,7 +2080,7 @@ namespace seq
 		auto fillbuff() -> Char
 		{
 			d_file->read(d_buff, buff_size);
-			size_t read = d_file->gcount();
+			std::size_t read = d_file->gcount();
 			d_file->clear();
 
 			d_buff_pos = d_buff;
@@ -2142,7 +2142,7 @@ namespace seq
 		/// @brief Returns true if the stream is open (the underlying std::istream object is valid)
 		auto is_open() const noexcept -> bool { return d_file != NULL; }
 		/// @brief Returns the stream get position
-		auto tell() const noexcept -> size_t { return d_pos; }
+		auto tell() const noexcept -> std::size_t { return d_pos; }
 		/// @brief Go back to previous character if possible
 		void back() noexcept
 		{
@@ -2154,10 +2154,10 @@ namespace seq
 				seek(d_pos - 1);
 		}
 		/// @brief Seek to given position and returns the new get position
-		SEQ_NOINLINE(auto) seek(size_t pos) noexcept -> size_t
+		SEQ_NOINLINE(auto) seek(std::size_t pos) noexcept -> std::size_t
 		{
 			if (pos < d_pos) {
-				size_t start = d_buff_pos ? static_cast<size_t>(d_buff_pos - d_buff) : 0;
+				std::size_t start = d_buff_pos ? static_cast<std::size_t>(d_buff_pos - d_buff) : 0;
 				if (pos + start >= d_pos) {
 					d_buff_pos -= d_pos - pos;
 					d_pos = pos;
@@ -2170,7 +2170,7 @@ namespace seq
 				}
 			}
 			else {
-				size_t end = d_buff_end ? static_cast<size_t>(d_buff_end - d_buff_pos) : 0;
+				std::size_t end = d_buff_end ? static_cast<std::size_t>(d_buff_end - d_buff_pos) : 0;
 				if (d_pos + end > pos) {
 					d_buff_pos += pos - d_pos;
 					d_pos = pos;
@@ -2194,11 +2194,11 @@ namespace seq
 			return *d_buff_pos++;
 		}
 		/// @brief Read several bytes from the stream, and return the number of read bytes.
-		auto read(Char* dst, size_t size) noexcept -> size_t
+		auto read(Char* dst, std::size_t size) noexcept -> std::size_t
 		{
-			size_t rem = d_buff_end - d_buff_pos;
-			size_t from_buffer = std::min(size, rem);
-			size_t read_vals = from_buffer;
+			std::size_t rem = d_buff_end - d_buff_pos;
+			std::size_t from_buffer = std::min(size, rem);
+			std::size_t read_vals = from_buffer;
 			if (from_buffer) {
 				memcpy(dst, d_buff_pos, from_buffer * sizeof(Char));
 				d_buff_pos += from_buffer;
@@ -2580,7 +2580,7 @@ namespace seq
 	/// If no string was read because the get position was after the last stream character, the value string is cleared and stream state is set
 	/// to #EndOfFile.
 	///
-	template<class Stream, size_t Ss, class Al>
+	template<class Stream, std::size_t Ss, class Al>
 	inline auto from_stream(Stream& str, tiny_string<typename Stream::char_type, Al, Ss>& value) -> Stream&
 	{
 		value = detail::read_string<tiny_string<typename Stream::char_type, Al, Ss>>(str);
@@ -2612,7 +2612,7 @@ namespace seq
 	/// If no string was read because the get position was after the last stream character, the value string is cleared and stream state is set
 	/// to #EndOfFile.
 	///
-	template<class Stream, size_t Ss, class Al>
+	template<class Stream, std::size_t Ss, class Al>
 	inline auto read_line_from_stream(Stream& str, tiny_string<typename Stream::char_type, Al, Ss>& value) -> Stream&
 	{
 		value = detail::read_line<tiny_string<typename Stream::char_type, Al, Ss>>(str);

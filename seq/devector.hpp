@@ -45,9 +45,9 @@ namespace seq
 			static constexpr bool relocatable = is_relocatable<T>::value;
 
 			T* data = nullptr;    // pointer to the memory storage
-			size_t start_pos = 0; // position of the first value
-			size_t end_pos = 0;   // past-the-end position
-			size_t capacity = 0;  // memory storage capacity
+			std::size_t start_pos = 0; // position of the first value
+			std::size_t end_pos = 0;   // past-the-end position
+			std::size_t capacity = 0;  // memory storage capacity
 
 			DEVectorData(const Allocator& al = Allocator())
 			  : Allocator(al)
@@ -71,7 +71,7 @@ namespace seq
 			  , end_pos(0)
 			  , capacity(0)
 			{
-				size_t size = capacity = static_cast<size_t>(other.end_pos - other.start_pos);
+				std::size_t size = capacity = static_cast<std::size_t>(other.end_pos - other.start_pos);
 				if (size) {
 					data = allocate(size);
 					start_pos = 0;
@@ -80,7 +80,7 @@ namespace seq
 					if constexpr (std::is_trivial_v<T>)
 						memcpy(static_cast<void*>(data), other.start_ptr(), size * sizeof(T));
 					else {
-						size_t i = 0;
+						std::size_t i = 0;
 						try {
 							for (; i != size; ++i)
 								construct_ptr(data + i, other.start_ptr()[i]);
@@ -105,18 +105,18 @@ namespace seq
 			auto end_ptr() noexcept { return data + end_pos; }
 			auto end_ptr() const noexcept { return data + end_pos; }
 
-			auto get_size() const noexcept { return static_cast<size_t>(end_pos - start_pos); }
+			auto get_size() const noexcept { return static_cast<std::size_t>(end_pos - start_pos); }
 
 			auto max_size_internal() const noexcept
 			{
 				using alloc_traits = std::allocator_traits<Allocator>;
-				return std::min<size_t>(alloc_traits::max_size(get_allocator()), static_cast<size_t>(std::numeric_limits<std::ptrdiff_t>::max()));
+				return std::min<std::size_t>(alloc_traits::max_size(get_allocator()), static_cast<std::size_t>(std::numeric_limits<std::ptrdiff_t>::max()));
 			}
 
 			auto get_allocator() noexcept -> Allocator& { return *this; }
 			auto get_allocator() const noexcept -> const Allocator& { return *this; }
-			auto allocate(size_t n) -> T* { return n ? get_allocator().allocate(n) : nullptr; }
-			void deallocate(T* p, size_t n)
+			auto allocate(std::size_t n) -> T* { return n ? get_allocator().allocate(n) : nullptr; }
+			void deallocate(T* p, std::size_t n)
 			{
 				if (p)
 					get_allocator().deallocate(p, n);
@@ -160,7 +160,7 @@ namespace seq
 				static constexpr bool noexcept_move = std::is_nothrow_move_constructible_v<T>;
 
 				if constexpr (relocatable)
-					memcpy(static_cast<void*>(dst), static_cast<void*>(first), static_cast<size_t>(last - first) * sizeof(T));
+					memcpy(static_cast<void*>(dst), static_cast<void*>(first), static_cast<std::size_t>(last - first) * sizeof(T));
 				else {
 					T* saved = first;
 					T* saved_dst = dst;
@@ -185,13 +185,13 @@ namespace seq
 				}
 			}
 
-			auto grow_capacity() const -> size_t
+			auto grow_capacity() const -> std::size_t
 			{
 				auto max = max_size_internal();
 				if (capacity == max)
 					throw std::length_error("devector capacity exceeded");
 
-				size_t c = capacity * 2;
+				std::size_t c = capacity * 2;
 				if (capacity > max / 2)
 					c = max;
 
@@ -209,7 +209,7 @@ namespace seq
 
 				// static constexpr bool noexcept_move = std::is_nothrow_move_constructible<T>::value && std::is_nothrow_copy_constructible<T>::value;
 
-				size_t size = static_cast<size_t>(last - first);
+				std::size_t size = static_cast<std::size_t>(last - first);
 				if (dst + size < first || dst >= last)
 					// no overlapp, use construct_destroy_input
 					return construct_destroy_input(first, last, dst);
@@ -285,7 +285,7 @@ namespace seq
 			void shrink_to_fit()
 			{
 				// Strong exception guarantee
-				size_t size = get_size();
+				std::size_t size = get_size();
 				if (size == capacity)
 					return;
 
@@ -312,13 +312,13 @@ namespace seq
 				end_pos = capacity = size;
 			}
 
-			void reserve(size_t new_capacity)
+			void reserve(std::size_t new_capacity)
 			{
 				// Strong exception guatantee
 				if (new_capacity <= capacity)
 					return;
 
-				size_t size = get_size();
+				std::size_t size = get_size();
 				T* _new = allocate(new_capacity);
 				T* _new_start = _new + (start_pos); // keep previous left position
 				T* _new_end = _new_start + size;
@@ -336,20 +336,20 @@ namespace seq
 				deallocate(data, capacity);
 
 				data = _new;
-				start_pos = static_cast<size_t>(_new_start - _new);
-				end_pos = static_cast<size_t>(_new_end - _new);
+				start_pos = static_cast<std::size_t>(_new_start - _new);
+				end_pos = static_cast<std::size_t>(_new_end - _new);
 				capacity = new_capacity;
 			}
 
-			void reserve_back(size_t new_back_capacity)
+			void reserve_back(std::size_t new_back_capacity)
 			{
 				// Basic exception guarantee
-				size_t size = get_size();
-				size_t back_capacity = static_cast<size_t>(capacity - end_pos);
+				std::size_t size = get_size();
+				std::size_t back_capacity = static_cast<std::size_t>(capacity - end_pos);
 				if (back_capacity >= new_back_capacity)
 					return;
 
-				size_t required_capacity = new_back_capacity + size;
+				std::size_t required_capacity = new_back_capacity + size;
 
 				if (required_capacity > max_size_internal())
 					throw std::length_error("devector::reserve");
@@ -378,15 +378,15 @@ namespace seq
 				}
 			}
 
-			void reserve_front(size_t new_front_capacity)
+			void reserve_front(std::size_t new_front_capacity)
 			{
 				// Basic exception guarantee
-				size_t size = get_size();
-				size_t front_capacity = start_pos;
+				std::size_t size = get_size();
+				std::size_t front_capacity = start_pos;
 				if (front_capacity >= new_front_capacity)
 					return;
 
-				size_t required_capacity = new_front_capacity + size;
+				std::size_t required_capacity = new_front_capacity + size;
 
 				if (required_capacity > max_size_internal())
 					throw std::length_error("devector::reserve");
@@ -417,14 +417,14 @@ namespace seq
 			}
 
 			template<class... U>
-			void resize(size_t new_size, const U&... value)
+			void resize(std::size_t new_size, const U&... value)
 			{
 				if (new_size > max_size_internal())
 					throw std::length_error("devector::resize");
 
 				// Strong exception guarantee
 
-				size_t size = get_size();
+				std::size_t size = get_size();
 				if (size == new_size)
 					return;
 
@@ -433,7 +433,7 @@ namespace seq
 					auto helper = detail::resize_helper<T>(std::forward<const U&>(value)...);
 
 					// Grow
-					size_t remaining = static_cast<size_t>(capacity - end_pos);
+					std::size_t remaining = static_cast<std::size_t>(capacity - end_pos);
 					if (remaining >= (new_size - size)) {
 						// no need to allocate, just construct
 						T* new_end = data + end_pos + (new_size - size);
@@ -442,7 +442,7 @@ namespace seq
 					}
 					else {
 						// reallocate, might throw, fine
-						size_t _new_capacity = new_size;
+						std::size_t _new_capacity = new_size;
 						T* _new = allocate(_new_capacity);
 						T* _new_start = (_new + (_new_capacity - new_size) / 2); // good balance: leave as much space at the left and the right
 						T* _new_end = _new_start + new_size;
@@ -468,8 +468,8 @@ namespace seq
 						deallocate(data, capacity);
 
 						data = _new;
-						start_pos = static_cast<size_t>(_new_start - _new);
-						end_pos = static_cast<size_t>(_new_end - _new);
+						start_pos = static_cast<std::size_t>(_new_start - _new);
+						end_pos = static_cast<std::size_t>(_new_end - _new);
 						capacity = _new_capacity;
 					}
 				}
@@ -482,14 +482,14 @@ namespace seq
 			}
 
 			template<class... U>
-			void resize_front(size_t new_size, const U&... value)
+			void resize_front(std::size_t new_size, const U&... value)
 			{
 				if (new_size > max_size_internal())
 					throw std::length_error("devector::resize");
 
 				// Strong exception guarantee
 
-				size_t size = get_size();
+				std::size_t size = get_size();
 				if (size == new_size)
 					return;
 
@@ -498,7 +498,7 @@ namespace seq
 					auto helper = detail::resize_helper<T>(std::forward<const U&>(value)...);
 
 					// Grow
-					size_t remaining = start_pos;
+					std::size_t remaining = start_pos;
 					if (remaining >= (new_size - size)) {
 						// no need to allocate, just construct
 						T* new_start = data + start_pos - (new_size - size);
@@ -507,7 +507,7 @@ namespace seq
 					}
 					else {
 						// reallocate, might throw, fine
-						size_t _new_capacity = new_size;
+						std::size_t _new_capacity = new_size;
 						T* _new = allocate(_new_capacity);
 						T* _new_start = (_new + (_new_capacity - new_size) / 2); // good balance: leave as much space at the left and the right
 						T* _new_end = _new_start + new_size;
@@ -531,8 +531,8 @@ namespace seq
 						deallocate(data, capacity);
 
 						data = _new;
-						start_pos = static_cast<size_t>(_new_start - _new);
-						end_pos = static_cast<size_t>(_new_end - _new);
+						start_pos = static_cast<std::size_t>(_new_start - _new);
+						end_pos = static_cast<std::size_t>(_new_end - _new);
 						capacity = _new_capacity;
 					}
 				}
@@ -552,7 +552,7 @@ namespace seq
 				// grow_back is only called when there is no more room on the back
 				SEQ_ASSERT_DEBUG(end_pos == capacity, "");
 
-				size_t size = get_size();
+				std::size_t size = get_size();
 
 				if (start_pos > size) {
 					// Front capacity is greater than current size:
@@ -566,7 +566,7 @@ namespace seq
 				}
 
 				// reallocate
-				size_t new_capacity = grow_capacity();
+				std::size_t new_capacity = grow_capacity();
 				T* _new = allocate(new_capacity);
 				T* _new_start = _new + (start_pos); // keep previous left position
 				if (_new_start + size == _new + new_capacity)
@@ -594,8 +594,8 @@ namespace seq
 				deallocate(data, capacity);
 
 				data = _new;
-				start_pos = static_cast<size_t>(_new_start - _new);
-				end_pos = static_cast<size_t>(_new_end - _new);
+				start_pos = static_cast<std::size_t>(_new_start - _new);
+				end_pos = static_cast<std::size_t>(_new_end - _new);
 				capacity = new_capacity;
 			}
 			template<class... Args>
@@ -607,9 +607,9 @@ namespace seq
 				// grow_front is only called when there is no more room on the back
 				SEQ_ASSERT_DEBUG(start_pos == 0, "");
 
-				size_t size = get_size();
+				std::size_t size = get_size();
 
-				if (static_cast<size_t>((capacity - size)) > size) {
+				if (static_cast<std::size_t>((capacity - size)) > size) {
 					// Back capacity is greater than current size:
 					// move data to back
 					T tmp(std::forward<Args>(args)...); // copy to solve potential aliasing issue
@@ -621,7 +621,7 @@ namespace seq
 				}
 
 				// reallocate
-				size_t new_capacity = grow_capacity();
+				std::size_t new_capacity = grow_capacity();
 				T* _new = allocate(new_capacity);
 				T* _new_start = _new + (new_capacity - (capacity - start_pos)); // keep previous right position
 				if (_new_start == _new)
@@ -649,8 +649,8 @@ namespace seq
 				deallocate(data, capacity);
 
 				data = _new;
-				start_pos = static_cast<size_t>(_new_start - _new);
-				end_pos = static_cast<size_t>(_new_end - _new);
+				start_pos = static_cast<std::size_t>(_new_start - _new);
+				end_pos = static_cast<std::size_t>(_new_end - _new);
 				capacity = new_capacity;
 			}
 		};
@@ -707,7 +707,7 @@ namespace seq
 	public:
 		using value_type = T;
 		using allocator_type = Allocator;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = std::ptrdiff_t;
 		using reference = T&;
 		using const_reference = const T&;
@@ -808,15 +808,15 @@ namespace seq
 		~devector() noexcept = default;
 
 		/// @brief Returns the container size
-		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return this->base_type::get_size(); }
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> std::size_t { return this->base_type::get_size(); }
 		/// @brief Returns the container full capacity (back_capacity() + size() + front_capacity())
-		SEQ_ALWAYS_INLINE auto capacity() const noexcept -> size_t { return this->base_type::capacity; }
+		SEQ_ALWAYS_INLINE auto capacity() const noexcept -> std::size_t { return this->base_type::capacity; }
 		/// @brief Returns the container back capacity
-		SEQ_ALWAYS_INLINE auto back_capacity() const noexcept -> size_t { return capacity() - this->end_pos; }
+		SEQ_ALWAYS_INLINE auto back_capacity() const noexcept -> std::size_t { return capacity() - this->end_pos; }
 		/// @brief Returns the container front capacity
-		SEQ_ALWAYS_INLINE auto front_capacity() const noexcept -> size_t { return this->start_pos; }
+		SEQ_ALWAYS_INLINE auto front_capacity() const noexcept -> std::size_t { return this->start_pos; }
 		/// @brief Returns the container maximum size
-		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return this->max_size_internal(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> std::size_t { return this->max_size_internal(); }
 		/// @brief Returns true if the container is empty, false otherwise
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return this->base_type::end_pos == this->start_pos; }
 
@@ -898,7 +898,7 @@ namespace seq
 		template<class... Args>
 		auto emplace(const_iterator pos, Args&&... args) -> iterator
 		{
-			size_t dist = static_cast<size_t>(pos - begin());
+			std::size_t dist = static_cast<std::size_t>(pos - begin());
 			SEQ_ASSERT_DEBUG(dist <= size(), "devector: invalid insertion location");
 
 			if (pos == cbegin()) {
@@ -947,7 +947,7 @@ namespace seq
 		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		auto insert(const_iterator pos, InputIt first, InputIt last) -> iterator
 		{
-			size_type off = static_cast<size_t>(pos - begin());
+			size_type off = static_cast<std::size_t>(pos - begin());
 			SEQ_ASSERT_DEBUG(off <= size(), "devector insert iterator outside range");
 			size_type oldsize = size();
 
@@ -963,7 +963,7 @@ namespace seq
 			else if (off <= size() / 2) { // closer to front, push to front then rotate
 				try {
 					if constexpr (is_random_access_v<InputIt>)
-						reserve_front(static_cast<size_t>(n));
+						reserve_front(static_cast<std::size_t>(n));
 
 					for (; first != last; ++first)
 						push_front(*first); // prepend flipped
@@ -981,7 +981,7 @@ namespace seq
 			else { // closer to back
 				try {
 					if constexpr (is_random_access_v<InputIt>)
-						reserve_back(static_cast<size_t>(n));
+						reserve_back(static_cast<std::size_t>(n));
 
 					for (; first != last; ++first)
 						push_back(*first); // append
@@ -1023,7 +1023,7 @@ namespace seq
 				if (n < 0)
 					throw std::length_error("invalid iterator range");
 
-				resize(static_cast<size_t>(n));
+				resize(static_cast<std::size_t>(n));
 				std::copy(first, last, begin());
 			}
 			else {
@@ -1067,8 +1067,8 @@ namespace seq
 			if (first == last)
 				return last;
 
-			size_type off = static_cast<size_t>(first - begin());
-			size_type count = static_cast<size_t>(last - first);
+			size_type off = static_cast<std::size_t>(first - begin());
+			size_type count = static_cast<std::size_t>(last - first);
 
 			if (off < static_cast<size_type>(end() - last)) { // closer to front
 
@@ -1121,44 +1121,44 @@ namespace seq
 		/// If new_cap is greater than the current capacity(), new storage is allocated, otherwise the function does nothing.
 		/// Invalidate iterators and references if a new storage is allocated.
 		/// Strong exception guarantee.
-		void reserve(size_t new_cap) { this->base_type::reserve(new_cap); }
+		void reserve(std::size_t new_cap) { this->base_type::reserve(new_cap); }
 
 		/// @brief Ensure that the devector has at least new_back_capacity free slots at the back.
 		/// Invalidate iterators and references if a new storage is allocated.
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// @param new_back_capacity minimum back capacity
-		void reserve_back(size_t new_back_capacity) { this->base_type::reserve_back(new_back_capacity); }
+		void reserve_back(std::size_t new_back_capacity) { this->base_type::reserve_back(new_back_capacity); }
 		/// @brief Ensure that the devector has at least new_front_capacity free slots at the front.
 		/// Invalidate iterators and references if a new storage is allocated.
 		/// Strong exception guarantee if move constructor and move assignment operator are noexcept. Otherwise basic exception guarantee.
 		/// @param new_front_capacity minimum front capacity
-		void reserve_front(size_t new_front_capacity) { this->base_type::reserve_front(new_front_capacity); }
+		void reserve_front(std::size_t new_front_capacity) { this->base_type::reserve_front(new_front_capacity); }
 
 		/// @brief Resizes the container to contain count elements.
 		/// Invalidate iterators and references if a new storage is allocated.
 		/// Strong exception guarantee.
 		/// @param count new container size
-		void resize(size_t count) { this->base_type::resize(count); }
+		void resize(std::size_t count) { this->base_type::resize(count); }
 		/// @brief Resizes the container to contain count elements.
 		/// Invalidate iterators and references if a new storage is allocated.
 		/// Strong exception guarantee.
 		/// @param count new container size
 		/// @param value if count is greater than size(), copies of value are appended to the back of the devector
-		void resize(size_t count, const T& value) { this->base_type::resize(count, value); }
+		void resize(std::size_t count, const T& value) { this->base_type::resize(count, value); }
 
 		/// @brief Resizes the container to contain count elements.
 		/// The container is extended by the front.
 		/// Invalidate iterators and references if a new storage is allocated.
 		/// Strong exception guarantee.
 		/// @param count new container size
-		void resize_front(size_t new_size) { this->base_type::resize_front(new_size); }
+		void resize_front(std::size_t new_size) { this->base_type::resize_front(new_size); }
 		/// @brief Resizes the container to contain count elements.
 		/// The container is extended by the front.
 		/// Invalidate iterators and references if a new storage is allocated.
 		/// Strong exception guarantee.
 		/// @param count new container size
 		/// @param value if count is greater than size(), copies of value are prepended to the back of the devector
-		void resize_front(size_t new_size, const T& value) { this->base_type::resize_front(new_size, value); }
+		void resize_front(std::size_t new_size, const T& value) { this->base_type::resize_front(new_size, value); }
 
 		/// @brief Returns pointer to the underlying array serving as element storage. The pointer is such that range [data(); data() + size()) is always a valid range,
 		/// even if the container is empty (data() is not dereferenceable in that case).
@@ -1194,13 +1194,13 @@ namespace seq
 		}
 
 		/// @brief Returns a reference to the element at pos
-		SEQ_ALWAYS_INLINE auto operator[](size_t pos) const noexcept -> const T&
+		SEQ_ALWAYS_INLINE auto operator[](std::size_t pos) const noexcept -> const T&
 		{
 			SEQ_ASSERT_DEBUG(pos < size(), "invalid position");
 			return data()[pos];
 		}
 		/// @brief Returns a reference to the element at pos
-		SEQ_ALWAYS_INLINE auto operator[](size_t pos) noexcept -> T&
+		SEQ_ALWAYS_INLINE auto operator[](std::size_t pos) noexcept -> T&
 		{
 			SEQ_ASSERT_DEBUG(pos < size(), "invalid position");
 			return data()[pos];
@@ -1208,7 +1208,7 @@ namespace seq
 
 		/// @brief Returns a reference to the element at pos.
 		/// Throw std::out_of_range if pos is invalid.
-		SEQ_ALWAYS_INLINE auto at(size_t pos) const -> const T&
+		SEQ_ALWAYS_INLINE auto at(std::size_t pos) const -> const T&
 		{
 			if (pos >= size())
 				throw std::out_of_range("devector out of range");
@@ -1216,7 +1216,7 @@ namespace seq
 		}
 		/// @brief Returns a reference to the element at pos.
 		/// Throw std::out_of_range if pos is invalid.
-		SEQ_ALWAYS_INLINE auto at(size_t pos) -> T&
+		SEQ_ALWAYS_INLINE auto at(std::size_t pos) -> T&
 		{
 			if (pos >= size())
 				throw std::out_of_range("devector out of range");

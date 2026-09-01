@@ -151,10 +151,10 @@ namespace seq
 
 	/// @brief Destroy count objects
 	template<class T>
-	void destroy_ptr(T* p, size_t count) noexcept
+	void destroy_ptr(T* p, std::size_t count) noexcept
 	{
 		if constexpr (!std::is_trivially_destructible_v<T>) {
-			for (size_t i = 0; i < count; ++i)
+			for (std::size_t i = 0; i < count; ++i)
 				p[i].~T();
 		}
 	}
@@ -308,7 +308,7 @@ namespace seq
 		};
 		// Returns a helper class used by
 		// containers providing both members
-		// resize(size_t size) and resize(size_t size, const T & value)
+		// resize(std::size_t size) and resize(std::size_t size, const T & value)
 		template<class T, class... U>
 		auto resize_helper(const U&... vals)
 		{
@@ -323,7 +323,7 @@ namespace seq
 
 		/// @brief Contiguous raw storage to store N element of type T
 		/// Use raw_slot() to construct elements, live_slot() to access already constructed elements.
-		template<class T, size_t N>
+		template<class T, std::size_t N>
 		struct RawStorage
 		{
 			static_assert(N != 0);
@@ -451,14 +451,14 @@ namespace seq
 
 	/// @brief Allocate count elements of type T using provided allocator
 	template<class T, class Alloc>
-	T* allocate_from(const Alloc& al, size_t count = 1)
+	T* allocate_from(const Alloc& al, std::size_t count = 1)
 	{
 		detail::RebindAllocator<Alloc, T> alloc{ al };
 		return alloc.allocate(count);
 	}
 	/// @brief Deallocate count elements using provided allocator
 	template<class Alloc, class T>
-	void deallocate_from(const Alloc& al, T* p, size_t count = 1) noexcept
+	void deallocate_from(const Alloc& al, T* p, std::size_t count = 1) noexcept
 	{
 		detail::RebindAllocator<Alloc, T> alloc{ al };
 		alloc.deallocate(p, count);
@@ -466,7 +466,7 @@ namespace seq
 
 	/// @brief Returns rebind allocator max size
 	template<class T, class Alloc>
-	size_t allocator_max_size(const Alloc& al) noexcept
+	std::size_t allocator_max_size(const Alloc& al) noexcept
 	{
 		using rebind = detail::RebindAllocator<Alloc, T>;
 		using traits = std::allocator_traits<rebind>;

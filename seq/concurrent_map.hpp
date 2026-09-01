@@ -87,7 +87,7 @@ namespace seq
 		using key_type = Key;
 		using value_type = Key;
 		using allocator_type = Allocator;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = std::ptrdiff_t;
 		using hasher = Hash;
 		using key_equal = Equal;
@@ -204,8 +204,8 @@ namespace seq
 			return *this;
 		}
 
-		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return base_type::size(); }
-		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return base_type::max_size(); }
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> std::size_t { return base_type::size(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> std::size_t { return base_type::max_size(); }
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return size() == 0; }
 		SEQ_ALWAYS_INLINE auto load_factor() const noexcept -> float { return base_type::load_factor(); }
 		SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
@@ -215,8 +215,8 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto key_eq() const -> key_equal { return base_type::key_eq(); }
 
 		SEQ_ALWAYS_INLINE void clear() { base_type::clear(); }
-		SEQ_ALWAYS_INLINE void rehash(size_t n) { base_type::rehash(n); }
-		SEQ_ALWAYS_INLINE void reserve(size_t size) { base_type::reserve(size); }
+		SEQ_ALWAYS_INLINE void rehash(std::size_t n) { base_type::rehash(n); }
+		SEQ_ALWAYS_INLINE void reserve(std::size_t size) { base_type::reserve(size); }
 		SEQ_ALWAYS_INLINE void swap(concurrent_set& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
 
 		template<class F>
@@ -511,7 +511,7 @@ namespace seq
 		using mapped_type = T;
 		using value_type = std::pair<const Key, T>;
 		using allocator_type = Allocator;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = std::ptrdiff_t;
 		using hasher = Hash;
 		using key_equal = Equal;
@@ -628,8 +628,8 @@ namespace seq
 			return *this;
 		}
 
-		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return base_type::size(); }
-		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> std::size_t { return base_type::size(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> std::size_t { return std::numeric_limits<std::size_t>::max(); }
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return size() == 0; }
 		SEQ_ALWAYS_INLINE auto load_factor() const noexcept -> float { return base_type::load_factor(); }
 		SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
@@ -639,8 +639,8 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto key_eq() const -> key_equal { return base_type::key_eq(); }
 
 		SEQ_ALWAYS_INLINE void clear() { base_type::clear(); }
-		SEQ_ALWAYS_INLINE void rehash(size_t n) { base_type::rehash(n); }
-		SEQ_ALWAYS_INLINE void reserve(size_t size) { base_type::reserve(size); }
+		SEQ_ALWAYS_INLINE void rehash(std::size_t n) { base_type::rehash(n); }
+		SEQ_ALWAYS_INLINE void reserve(std::size_t size) { base_type::reserve(size); }
 		SEQ_ALWAYS_INLINE void swap(concurrent_map& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
 
 		template<class F>

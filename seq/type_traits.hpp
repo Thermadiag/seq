@@ -62,7 +62,7 @@ namespace seq
 	};
 
 	/// @brief Define the return type of seq::negate_if_signed and seq::abs
-	template<class T, bool Signed = std::is_signed_v<T>, size_t Size = sizeof(T)>
+	template<class T, bool Signed = std::is_signed_v<T>, std::size_t Size = sizeof(T)>
 	struct integer_abs_return
 	{
 		using type = T;

@@ -81,8 +81,8 @@ namespace seq
 	class timer
 	{
 		LARGE_INTEGER StartingTime{ 0, 0 };
-		uint64_t start = 0;
-		uint64_t ok = 0;
+		std::uint64_t start = 0;
+		std::uint64_t ok = 0;
 
 	public:
 		timer() noexcept {}

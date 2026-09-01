@@ -47,7 +47,7 @@ void queue_thread(Queue& q, const std::vector<T> & vec, std::atomic<bool> & star
 	while (!start)
 		;
 
-	for (size_t i = 0; i < vec.size(); ++i) {
+	for (std::size_t i = 0; i < vec.size(); ++i) {
 		auto v = uniform_dist(e2);
 		if (v % 2 == 0)
 			q.push(vec[i]);
@@ -73,10 +73,10 @@ static void test_queue(const std::vector<T>& vals, const Al& al)
 		queue_type q(al);
 		for (auto& v : vals)
 			q.push(v);
-		SEQ_TEST((size_t)std::distance(q.begin(), q.end()) == vals.size());
-		SEQ_TEST((size_t)std::distance(q.cbegin(), q.cend()) == vals.size());
-		SEQ_TEST((size_t)std::distance(q.rbegin(), q.rend()) == vals.size());
-		SEQ_TEST((size_t)std::distance(q.crbegin(), q.crend()) == vals.size());
+		SEQ_TEST((std::size_t)std::distance(q.begin(), q.end()) == vals.size());
+		SEQ_TEST((std::size_t)std::distance(q.cbegin(), q.cend()) == vals.size());
+		SEQ_TEST((std::size_t)std::distance(q.rbegin(), q.rend()) == vals.size());
+		SEQ_TEST((std::size_t)std::distance(q.crbegin(), q.crend()) == vals.size());
 		for (auto& v: vals){
 			(void)v; 
 			q.pop();
@@ -109,13 +109,13 @@ static void test_queue(const std::vector<T>& vals, const Al& al)
 
 	std::vector<std::thread> threads(16);
 	std::atomic<bool> start{ false };
-	for (size_t i = 0; i < threads.size(); ++i)
+	for (std::size_t i = 0; i < threads.size(); ++i)
 		threads[i] = std::thread([&]() { queue_thread(q, vals, start); });
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 	start.store(true);
-	for (size_t i = 0; i < threads.size(); ++i)
+	for (std::size_t i = 0; i < threads.size(); ++i)
 		threads[i].join();
 
 }
@@ -131,7 +131,7 @@ SEQ_PROTOTYPE(int test_concurrent_queue(int, char*[]))
 {
 	
 	std::vector<TestDestroy<double>> vals(1000000);
-	for (size_t i = 0; i < vals.size(); ++i)
+	for (std::size_t i = 0; i < vals.size(); ++i)
 		vals[i] = TestDestroy<double> ((double)i);
 
 	CountAlloc<TestDestroy<double>> al;

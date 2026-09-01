@@ -97,10 +97,10 @@ struct plus
 	decltype(T() + T()) operator()(const T& a, const T& b) const { return a + b; }
 };
 
-template<size_t S>
+template<std::size_t S>
 struct padding
 {
-	size_t d_padd[S];
+	std::size_t d_padd[S];
 };
 template<>
 struct padding<0>
@@ -118,7 +118,7 @@ inline void my_strcpy(char* dst, const char* src)
 }
 
 /// @brief String type which could be small/big , relocatable or not
-template<size_t S, bool Reloc>
+template<std::size_t S, bool Reloc>
 struct Str : padding<S>
 {
 	char* d_data;
@@ -193,7 +193,7 @@ struct Str : padding<S>
 	}
 };
 
-template<size_t S, bool R>
+template<std::size_t S, bool R>
 std::ostream& operator<<(std::ostream& oss, const Str<S, R>& s)
 {
 	if (!s.empty())
@@ -203,16 +203,16 @@ std::ostream& operator<<(std::ostream& oss, const Str<S, R>& s)
 
 namespace std
 {
-	template<size_t S, bool R>
+	template<std::size_t S, bool R>
 	struct hash<Str<S, R>>
 	{
-		size_t operator()(const Str<S, R>& s) const { return s.empty() ? 0 : std::hash<seq::tstring>{}(s.c_str()); }
+		std::size_t operator()(const Str<S, R>& s) const { return s.empty() ? 0 : std::hash<seq::tstring>{}(s.c_str()); }
 	};
 }
 
 namespace seq
 {
-	template<size_t S, bool Reloc>
+	template<std::size_t S, bool Reloc>
 	struct is_relocatable<Str<S, Reloc>>
 	{
 		static constexpr bool value = Reloc;
@@ -270,7 +270,7 @@ static void test_hold_any()
 		// Ensure comparing non comparable types throw
 		seq::nh_any a = padding<2>{};
 		seq::nh_any b = padding<2>{};
-		SEQ_TEST_THROW(seq::bad_any_function_call, a == b);
+		SEQ_TEST_THROW(seq::bad_any_function_call, bool eq = a == b; (void)eq;);
 	}
 	{
 		// Ensure this does not throw

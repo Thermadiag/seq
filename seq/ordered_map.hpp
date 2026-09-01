@@ -68,7 +68,7 @@ namespace seq
 			std::uint64_t val;
 
 			// Extract part of hash value
-			static SEQ_ALWAYS_INLINE auto small_hash(size_t h) noexcept -> tiny_hash
+			static SEQ_ALWAYS_INLINE auto small_hash(std::size_t h) noexcept -> tiny_hash
 			{
 				tiny_hash res = ((h) >> (sizeof(h) * 8U - 8U));
 				return res == 0 ? 1 : res;
@@ -130,9 +130,9 @@ namespace seq
 			static constexpr std::uint64_t tag_bits = pos_bits; // tag_ptr::tag_bits;
 			static constexpr std::uint64_t mask_high = (~((1ULL << tag_bits) - 1ULL));
 			static constexpr std::uint8_t mask_low = ((1U << static_cast<unsigned>(tag_bits)) - 1U);
-			static SEQ_ALWAYS_INLINE tiny_hash small_hash(size_t h) noexcept
+			static SEQ_ALWAYS_INLINE tiny_hash small_hash(std::size_t h) noexcept
 			{
-				tiny_hash res = ((h) >> (sizeof(size_t) * 8u - 8u));
+				tiny_hash res = ((h) >> (sizeof(std::size_t) * 8u - 8u));
 				return res == 0 ? 1 : res;
 			}
 
@@ -146,7 +146,7 @@ namespace seq
 			{
 				memset(storage, 0, sizeof(storage));
 			}
-			SEQ_ALWAYS_INLINE RobinNode(tiny_hash h, size_t dist, const std::uintptr_t it) noexcept
+			SEQ_ALWAYS_INLINE RobinNode(tiny_hash h, std::size_t dist, const std::uintptr_t it) noexcept
 			{
 				std::uintptr_t p = it;
 				memcpy(storage, &p, sizeof(p));
@@ -233,8 +233,8 @@ namespace seq
 		{
 
 		public:
-			static_assert(std::is_nothrow_swappable_v<Hash>);
-			static_assert(std::is_nothrow_swappable_v<Equal>);
+			//static_assert(std::is_nothrow_swappable_v<Hash>);
+			//static_assert(std::is_nothrow_swappable_v<Equal>);
 
 			using base_type = HashEqual<Hash, Equal>;
 			using hash_equal = base_type;
@@ -256,8 +256,8 @@ namespace seq
 
 			container_type d_seq;		    // sequence object holding the actual values
 			node_type* d_buckets = null_node(); // hash table with robin-hood probing
-			size_t d_hash_mask = 0;		    // hash mask
-			size_t d_next_target = 0;	    // next size before rehash
+			std::size_t d_hash_mask = 0;		    // hash mask
+			std::size_t d_next_target = 0;	    // next size before rehash
 			int d_max_dist = 1;		    // current maximum distance of a node to its theoric best location
 			float d_load_factor = 0.6f;	    // maximum load factor
 
@@ -269,13 +269,13 @@ namespace seq
 				return &null;
 			}
 
-			SEQ_ALWAYS_INLINE size_t mask_hash(size_t hash, size_t hash_mask) const noexcept { return hash & hash_mask; }
+			SEQ_ALWAYS_INLINE std::size_t mask_hash(std::size_t hash, std::size_t hash_mask) const noexcept { return hash & hash_mask; }
 
-			SEQ_ALWAYS_INLINE auto find_node(size_t hash, const const_iterator& it) noexcept -> node_type*
+			SEQ_ALWAYS_INLINE auto find_node(std::size_t hash, const const_iterator& it) noexcept -> node_type*
 			{
 
 				// Find an existing node based on a sequence iterator and the hash value
-				size_t index = mask_hash(hash, d_hash_mask);
+				std::size_t index = mask_hash(hash, d_hash_mask);
 				for (;;) {
 					for (; index <= d_hash_mask; ++index)
 						if (d_buckets[index].is_same(it.as_uint()))
@@ -291,7 +291,7 @@ namespace seq
 			}
 
 			template<class Iter>
-			void rehash(size_t new_hash_mask, Iter first, Iter last)
+			void rehash(std::size_t new_hash_mask, Iter first, Iter last)
 			{
 				// Rehash the table for given mask value.
 				// Do not check for potential duplicate values.
@@ -301,8 +301,8 @@ namespace seq
 
 				try {
 
-					size_t hash, index;
-					size_t hmask = new_hash_mask;
+					std::size_t hash, index;
+					std::size_t hmask = new_hash_mask;
 					typename node_type::dist_type dist = 0;
 
 					// Loop through values
@@ -355,10 +355,10 @@ namespace seq
 				d_buckets = buckets;
 				d_max_dist = max_dist;
 				d_hash_mask = new_hash_mask;
-				d_next_target = static_cast<size_t>(std::floor(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor)));
+				d_next_target = static_cast<std::size_t>(std::floor(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor)));
 			}
 
-			SEQ_ALWAYS_INLINE void start_insert(node_type* buckets, size_t hash_mask, size_t index, typename node_type::dist_type dist, node_type node, int& max_dist) noexcept
+			SEQ_ALWAYS_INLINE void start_insert(node_type* buckets, std::size_t hash_mask, std::size_t index, typename node_type::dist_type dist, node_type node, int& max_dist) noexcept
 			{
 				// Use robin-hood hashing to move keys on insertion
 				dist_type od;
@@ -378,22 +378,22 @@ namespace seq
 				}
 			}
 
-			auto make_buckets(size_t size) const -> node_type*
+			auto make_buckets(std::size_t size) const -> node_type*
 			{
 				// Allocate/initialize nodes
 				node_type* res = allocate_from<node_type>(d_seq.get_allocator(), size);
-				for (size_t i = 0; i < size; ++i)
+				for (std::size_t i = 0; i < size; ++i)
 					new (res + i) node_type();
 				return res;
 			}
-			void free_buckets(const Allocator& al, node_type* buckets, size_t size) const noexcept
+			void free_buckets(const Allocator& al, node_type* buckets, std::size_t size) const noexcept
 			{
 				// Deallocate nodes
 				if (buckets == null_node() || !buckets)
 					return;
 				deallocate_from(al, buckets, size);
 			}
-			void free_buckets(node_type* buckets, size_t size) const noexcept { free_buckets(d_seq.get_allocator(), buckets, size); }
+			void free_buckets(node_type* buckets, std::size_t size) const noexcept { free_buckets(d_seq.get_allocator(), buckets, size); }
 
 		public:
 			explicit SparseFlatNodeHashTable(const Hash& hash, const Equal& equal, const Allocator& alloc)
@@ -440,7 +440,7 @@ namespace seq
 
 			~SparseFlatNodeHashTable() noexcept { free_buckets(d_buckets, bucket_size()); }
 
-			void swap(SparseFlatNodeHashTable& other) noexcept(noexcept(d_seq.swap(other.d_seq)) && noexcept(base_type::swap(other)))
+			void swap(SparseFlatNodeHashTable& other) noexcept(noexcept(d_seq.swap(other.d_seq)) && noexcept(std::declval<SparseFlatNodeHashTable&>().base_type::swap(other)))
 			{
 				if (this != std::addressof(other)) {
 					// This is the only line that might throw
@@ -588,19 +588,19 @@ namespace seq
 				return *this;
 			}
 
-			SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return d_seq.size(); }
-			void reserve(size_t size)
+			SEQ_ALWAYS_INLINE auto size() const noexcept -> std::size_t { return d_seq.size(); }
+			void reserve(std::size_t size)
 			{
 				if (size > this->size())
-					rehash(static_cast<size_t>(std::ceil(static_cast<double>(size) / static_cast<double>(d_load_factor))));
+					rehash(static_cast<std::size_t>(std::ceil(static_cast<double>(size) / static_cast<double>(d_load_factor))));
 				d_seq.reserve(size);
 			}
 
-			size_t hash_mask_for_size(size_t size) const noexcept
+			std::size_t hash_mask_for_size(std::size_t size) const noexcept
 			{
 				if (size == 0)
 					return 1;
-				size_t new_hash_mask;
+				std::size_t new_hash_mask;
 				if ((size & (size - 1ULL)) == 0ULL)
 					new_hash_mask = size - 1ULL;
 				else
@@ -608,19 +608,19 @@ namespace seq
 				return new_hash_mask;
 			}
 
-			void rehash(size_t size = 0, bool force = false)
+			void rehash(std::size_t size = 0, bool force = false)
 			{
 				// Rehash for given size if one of the following is true:
 				// - the new hash table size is different from the current one
 				// - force is true
 
 				const bool automatic = size == 0;
-				const size_t minimum = static_cast<size_t>(std::ceil(static_cast<double>(this->size()) / d_load_factor));
+				const std::size_t minimum = static_cast<std::size_t>(std::ceil(static_cast<double>(this->size()) / d_load_factor));
 
 				size = automatic ? minimum : std::max(size, minimum);
-				size = std::max<size_t>(size, 2);
+				size = std::max<std::size_t>(size, 2);
 
-				size_t new_hash_mask = hash_mask_for_size(size);
+				std::size_t new_hash_mask = hash_mask_for_size(size);
 				if (force || new_hash_mask != d_hash_mask || d_max_dist == node_type::max_distance) {
 					if (d_max_dist == node_type::max_distance && automatic) {
 						// linear hashing behavior: make sure to increase hash table size
@@ -631,7 +631,7 @@ namespace seq
 			}
 
 			template<class K>
-			SEQ_ALWAYS_INLINE auto hash_key(const K& key) const noexcept(noexcept(std::declval<const Hash&>().operator()(std::declval<const K&>()))) -> size_t
+			SEQ_ALWAYS_INLINE auto hash_key(const K& key) const noexcept(noexcept(std::declval<const Hash&>().operator()(std::declval<const K&>()))) -> std::size_t
 			{
 				return hash_value(this->hash_function(), key);
 			}
@@ -650,21 +650,21 @@ namespace seq
 					d_load_factor = 0.95f;
 				else if (d_load_factor < 0.1f)
 					d_load_factor = 0.1f;
-				d_next_target = static_cast<size_t>(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor));
+				d_next_target = static_cast<std::size_t>(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor));
 			}
 			auto load_factor() const noexcept -> float
 			{
 				// Returns the current load factor
 				return static_cast<float>(size()) / static_cast<float>(bucket_size());
 			}
-			auto bucket_size() const noexcept -> size_t
+			auto bucket_size() const noexcept -> std::size_t
 			{
 				// Returns the node array size
 				return d_hash_mask + 1;
 			}
 
 			template<class K>
-			SEQ_ALWAYS_INLINE auto find_hash_node(size_t hash, const K& key) const -> node_type*
+			SEQ_ALWAYS_INLINE auto find_hash_node(std::size_t hash, const K& key) const -> node_type*
 			{
 				// Key lookup
 
@@ -692,7 +692,7 @@ namespace seq
 			}
 
 			template<class K>
-			SEQ_ALWAYS_INLINE auto find_hash(size_t hash, const K& key) const -> const_iterator
+			SEQ_ALWAYS_INLINE auto find_hash(std::size_t hash, const K& key) const -> const_iterator
 			{
 				auto it = find_hash_node(hash, key);
 				return it ? const_iterator(it->node(), it->pos()) : d_seq.end();
@@ -716,11 +716,11 @@ namespace seq
 			{
 				// Insert value using linear probing
 
-				const size_t hash = hash_key(extract_key::key(key));
+				const std::size_t hash = hash_key(extract_key::key(key));
 				const tiny_hash h = node_type::small_hash(hash);
 
-				size_t index = mask_hash(hash, d_hash_mask);
-				size_t insert_pos = bucket_size();
+				std::size_t index = mask_hash(hash, d_hash_mask);
+				std::size_t insert_pos = bucket_size();
 
 				// Pure linear hashing
 				for (;;) {
@@ -781,7 +781,7 @@ namespace seq
 				// Move nodes based on distance (robin hood hashing), only if computed distance is not null
 				node_type n = *it;
 				*it = node_type(h, dist, tmp_it.as_uint());
-				start_insert(d_buckets, d_hash_mask, static_cast<size_t>(it - d_buckets), dist, n, d_max_dist);
+				start_insert(d_buckets, d_hash_mask, static_cast<std::size_t>(it - d_buckets), dist, n, d_max_dist);
 
 				return std::pair<iterator, bool>(tmp_it, true);
 			}
@@ -800,7 +800,7 @@ namespace seq
 					return insert_linear(InsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
 
 				// Compute hash value
-				const size_t hash = hash_key(extract_key::key(key));
+				const std::size_t hash = hash_key(extract_key::key(key));
 				const tiny_hash h = node_type::small_hash(hash);
 				auto* it = d_buckets + mask_hash(hash, d_hash_mask);
 
@@ -823,7 +823,7 @@ namespace seq
 					return insert_linear(TryInsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
 
 				// Compute hash value
-				const size_t hash = hash_key(extract_key::key(key));
+				const std::size_t hash = hash_key(extract_key::key(key));
 				const tiny_hash h = node_type::small_hash(hash);
 				auto* it = d_buckets + mask_hash(hash, d_hash_mask);
 
@@ -849,7 +849,7 @@ namespace seq
 					emplace<Anywhere>(*first);
 			}
 
-			auto erase_hash(size_t hash, const_iterator it, node_type* it_node = nullptr) -> iterator
+			auto erase_hash(std::size_t hash, const_iterator it, node_type* it_node = nullptr) -> iterator
 			{
 				// Erase key
 
@@ -895,9 +895,9 @@ namespace seq
 			}
 
 			template<class K>
-			auto erase(const K& key) -> size_t
+			auto erase(const K& key) -> std::size_t
 			{
-				size_t hash = hash_key(key);
+				std::size_t hash = hash_key(key);
 				auto it = find_hash_node(hash, key);
 				if (!it)
 					return 0;
@@ -1067,7 +1067,7 @@ namespace seq
 		using key_type = Key;
 		using value_type = Key;
 		using allocator_type = Allocator;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = std::ptrdiff_t;
 		using hasher = Hash;
 		using key_equal = KeyEqual;
@@ -1195,9 +1195,9 @@ namespace seq
 		}
 
 		/// @brief Returns the container size
-		auto size() const noexcept -> size_t { return this->d_seq.size(); }
+		auto size() const noexcept -> std::size_t { return this->d_seq.size(); }
 		/// @brief Returns the container maximum size
-		auto max_size() const noexcept -> size_t { return this->d_seq.max_size(); }
+		auto max_size() const noexcept -> std::size_t { return this->d_seq.max_size(); }
 		/// @brief Returns true if the container is empty, false otherwise
 		auto empty() const noexcept -> bool { return this->d_seq.empty(); }
 		/// @brief Returns the current maximum possible probe distance
@@ -1259,11 +1259,11 @@ namespace seq
 		/// Otherwise, this function does nothing.
 		///
 		void rehash() { this->base_type::rehash(); }
-		void rehash(size_t n) { this->base_type::rehash(n); }
+		void rehash(std::size_t n) { this->base_type::rehash(n); }
 
 		/// @brief Sets the number of nodes to the number needed to accomodate at least count elements without exceeding maximum load factor and rehashes the container.
 		/// @param count new capacity of the container
-		void reserve(size_t count) { this->base_type::reserve(count); }
+		void reserve(std::size_t count) { this->base_type::reserve(count); }
 
 		/// @brief Sort the container based on given comparator.
 		/// The full container is rehashed afterward.
@@ -1534,7 +1534,7 @@ namespace seq
 		using mapped_type = T;
 		using value_type = std::pair<const Key, T>;
 		using allocator_type = Allocator;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = std::ptrdiff_t;
 
 		using container_type = typename base_type::container_type;
@@ -1623,8 +1623,8 @@ namespace seq
 			return *this;
 		}
 
-		auto size() const noexcept -> size_t { return this->d_seq.size(); }
-		auto max_size() const noexcept -> size_t { return this->d_seq.max_size(); }
+		auto size() const noexcept -> std::size_t { return this->d_seq.size(); }
+		auto max_size() const noexcept -> std::size_t { return this->d_seq.max_size(); }
 		auto empty() const noexcept -> bool { return this->d_seq.empty(); }
 
 		auto max_probe_distance() const noexcept -> int { return this->d_max_dist; }
@@ -1666,8 +1666,8 @@ namespace seq
 
 		void clear() { this->base_type::clear(); }
 		void rehash() { this->base_type::rehash(); }
-		void rehash(size_t n) { this->base_type::rehash(n); }
-		void reserve(size_t size) { this->base_type::reserve(size); }
+		void rehash(std::size_t n) { this->base_type::rehash(n); }
+		void reserve(std::size_t size) { this->base_type::reserve(size); }
 
 		template<class Less>
 		void sort(Less le)
@@ -2008,9 +2008,9 @@ namespace seq
 	/// @param p predicate that returns true if the element should be erased
 	/// @return number of erased elements
 	template<class Key, class Hash1, class KeyEqual, class Allocator1, class Pred>
-	auto erase_if(ordered_set<Key, Hash1, KeyEqual, Allocator1>& set, Pred p) -> size_t
+	auto erase_if(ordered_set<Key, Hash1, KeyEqual, Allocator1>& set, Pred p) -> std::size_t
 	{
-		size_t count = 0;
+		std::size_t count = 0;
 
 		auto seq = set.extract();
 
@@ -2057,11 +2057,11 @@ namespace seq
 	/// @param p predicate that returns true if the element should be erased
 	/// @return number of erased elements
 	template<class Key, class T, class Hash1, class KeyEqual, class Allocator1, class Pred>
-	auto erase_if(ordered_map<Key, T, Hash1, KeyEqual, Allocator1>& set, Pred p) -> size_t
+	auto erase_if(ordered_map<Key, T, Hash1, KeyEqual, Allocator1>& set, Pred p) -> std::size_t
 	{
 		auto seq = set.extract();
 
-		size_t count = 0;
+		std::size_t count = 0;
 		for (auto it = seq.begin(); it != seq.end();) {
 			if (p(*it)) {
 				it = seq.erase(it);

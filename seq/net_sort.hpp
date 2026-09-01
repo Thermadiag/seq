@@ -44,13 +44,13 @@ namespace seq
 	{
 		using iter_type = Iter;
 		Iter first;
-		size_t size = 0;
+		std::size_t size = 0;
 	};
 
 	namespace algo_detail
 	{
 		// Unspecified length
-		static constexpr size_t Unspecified = (size_t)-1;
+		static constexpr std::size_t Unspecified = (std::size_t)-1;
 
 		/// @brief Iterator wrapper for bidirectional iterator
 		template<class Iter>
@@ -227,10 +227,10 @@ namespace seq
 
 		template<class Iter, class Cmp>
 		static void
-		merge_inplace_left(Iter f0, size_t n0, Iter f1, size_t n1, Iter& f0_0, size_t& n0_0, Iter& f0_1, size_t& n0_1, Iter& f1_0, size_t& n1_0, Iter& f1_1, size_t& n1_1, const Cmp& r)
+		merge_inplace_left(Iter f0, std::size_t n0, Iter f1, std::size_t n1, Iter& f0_0, std::size_t& n0_0, Iter& f0_1, std::size_t& n0_1, Iter& f1_0, std::size_t& n1_0, Iter& f1_1, std::size_t& n1_1, const Cmp& r)
 		{
 			// Subroutine of inplace_merge_n
-			SEQ_ALGO_ASSERT_DEBUG((size_t)iter_distance(f0, f1) == n0, "");
+			SEQ_ALGO_ASSERT_DEBUG((std::size_t)iter_distance(f0, f1) == n0, "");
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f0, iter_next(f0, n0), r) && std::is_sorted(f1, iter_next(f1, n1), r), "");
 			SEQ_ALGO_ASSERT_DEBUG(n0 > 0, "");
 			SEQ_ALGO_ASSERT_DEBUG(n1 > 0, "");
@@ -249,10 +249,10 @@ namespace seq
 
 		template<class Iter, class Cmp>
 		static void
-		merge_inplace_right(Iter f0, size_t n0, Iter f1, size_t n1, Iter& f0_0, size_t& n0_0, Iter& f0_1, size_t& n0_1, Iter& f1_0, size_t& n1_0, Iter& f1_1, size_t& n1_1, const Cmp& r)
+		merge_inplace_right(Iter f0, std::size_t n0, Iter f1, std::size_t n1, Iter& f0_0, std::size_t& n0_0, Iter& f0_1, std::size_t& n0_1, Iter& f1_0, std::size_t& n1_0, Iter& f1_1, std::size_t& n1_1, const Cmp& r)
 		{
 			// Subroutine of inplace_merge_n
-			SEQ_ALGO_ASSERT_DEBUG((size_t)iter_distance(f0, f1) == n0, "");
+			SEQ_ALGO_ASSERT_DEBUG((std::size_t)iter_distance(f0, f1) == n0, "");
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f0, iter_next(f0, n0), r) && std::is_sorted(f1, iter_next(f1, n1), r), "");
 			SEQ_ALGO_ASSERT_DEBUG(n0 > 0, "");
 			SEQ_ALGO_ASSERT_DEBUG(n1 > 0, "");
@@ -411,7 +411,7 @@ namespace seq
 				std::move((first[0]), (++second[0]), (out_left));
 		}
 
-		template<size_t Count, class Iter, class Out, class Cmp>
+		template<std::size_t Count, class Iter, class Out, class Cmp>
 		static Out merge_move_bidirectional(Iter first1, Iter last1, Iter first2, Iter last2, Out out, const Cmp& c, Out* out_end = nullptr)
 		{
 			using T = typename std::iterator_traits<Iter>::value_type;
@@ -503,7 +503,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class B>
-		static SEQ_ALWAYS_INLINE void merge_with_buffer(Iter first, size_t n0, Iter middle, size_t n1, Iter e1, const Cmp& r, B& buffer)
+		static SEQ_ALWAYS_INLINE void merge_with_buffer(Iter first, std::size_t n0, Iter middle, std::size_t n1, Iter e1, const Cmp& r, B& buffer)
 		{
 			// Inplace merge 2 ranges using provided buffer.
 			// Moves as few elements as possible to the temporary buffer.
@@ -531,12 +531,12 @@ namespace seq
 		}
 
 		template<bool FirstChecks, class Iter, class Cmp, class B>
-		static void merge_adaptive_n(Iter f0, size_t n0, Iter f1, size_t n1, Iter e1, const Cmp& r, B& buffer)
+		static void merge_adaptive_n(Iter f0, std::size_t n0, Iter f1, std::size_t n1, Iter e1, const Cmp& r, B& buffer)
 		{
 			// Inplace merge with buffer, first published by Dudzin'sky and Dydek in 1981 IPL 12(1):5-8
 			// Implementation from: https://www.jmeiners.com/efficient-programming-with-components/15_merge_inplace.html
 
-			SEQ_ALGO_ASSERT_DEBUG((size_t)iter_distance(f0, f1) == n0, "");
+			SEQ_ALGO_ASSERT_DEBUG((std::size_t)iter_distance(f0, f1) == n0, "");
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f0, iter_next(f0, n0), r), "");
 			SEQ_ALGO_ASSERT_DEBUG(std::is_sorted(f1, iter_next(f1, n1), r), "");
 
@@ -587,7 +587,7 @@ namespace seq
 
 			// Rotate left or right range
 			Iter f0_0, f0_1, f1_0, f1_1;
-			size_t n0_0, n0_1, n1_0, n1_1;
+			std::size_t n0_0, n0_1, n1_0, n1_1;
 			if (n0 < n1)
 				merge_inplace_left(f0, n0, f1, n1, f0_0, n0_0, f0_1, n0_1, f1_0, n1_0, f1_1, n1_1, r);
 			else
@@ -600,7 +600,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp>
-		Iter insertion_sort_n(Iter begin, size_t count, const Cmp& l)
+		Iter insertion_sort_n(Iter begin, std::size_t count, const Cmp& l)
 		{
 			// Standard in-place insertion sort working on bidirectional iterators,
 			// but using a number of values to sort instead of an end iterator.
@@ -665,7 +665,7 @@ namespace seq
 		{
 			// Ping pong merge 4 sorted ranges using provided buffer.
 
-			if ((size_t)(it4 - it0) <= tmp.size) {
+			if ((std::size_t)(it4 - it0) <= tmp.size) {
 				const bool s0 = !c(*it1, *iter_prev(it1));
 				const bool s1 = !c(*it2, *iter_prev(it2));
 				const bool s2 = !c(*it3, *iter_prev(it3));
@@ -703,7 +703,7 @@ namespace seq
 		{
 			// Ping pong merge 3 sorted ranges using provided buffer.
 
-			if ((size_t)(it2 - it0) <= tmp.size) {
+			if ((std::size_t)(it2 - it0) <= tmp.size) {
 				const bool s0 = !c(*it1, *iter_prev(it1));
 				const bool s1 = !c(*it2, *iter_prev(it2));
 				if (s0 && s1)
@@ -728,7 +728,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class Buffer, class Out = typename std::iterator_traits<Iter>::pointer>
-		static void merge_sorted_runs_with_buffer(Iter* iters, size_t start, size_t last, const Cmp& cmp, Buffer& buf)
+		static void merge_sorted_runs_with_buffer(Iter* iters, std::size_t start, std::size_t last, const Cmp& cmp, Buffer& buf)
 		{
 			// Inplace merge already sorted ranges represented by an array of iterators.
 			// Supports bidirectional iterators.
@@ -785,8 +785,8 @@ namespace seq
 			ping_pong_merge_4(it, it + 2, it + 4, it + 6, it + 8, cmp, b);
 		}
 
-		template<size_t N, class Iter, class Cmp, class Buffer>
-		static SEQ_ALWAYS_INLINE Iter atom_sort_8(Iter vals, size_t count, const Cmp& cmp, Buffer& b)
+		template<std::size_t N, class Iter, class Cmp, class Buffer>
+		static SEQ_ALWAYS_INLINE Iter atom_sort_8(Iter vals, std::size_t count, const Cmp& cmp, Buffer& b)
 		{
 			// Sort up to 8 values
 
@@ -831,7 +831,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class Buffer>
-		static Iter sort_128(Iter vals, size_t count, const Cmp& c, Buffer& buf)
+		static Iter sort_128(Iter vals, std::size_t count, const Cmp& c, Buffer& buf)
 		{
 			// Sort inplace up to 128 values using provided buffer
 
@@ -844,12 +844,12 @@ namespace seq
 			else {
 				// Buffer too small or less than 128 elements
 				Iter iters[17] = { vals };
-				size_t cnt = 1;
-				size_t rem = count;
+				std::size_t cnt = 1;
+				std::size_t rem = count;
 				Iter src = vals;
 				while (rem) {
-					auto p = atom_sort_8<Unspecified>(src, std::min<size_t>(rem, 8u), c, buf);
-					rem -= (size_t)(p - src);
+					auto p = atom_sort_8<Unspecified>(src, std::min<std::size_t>(rem, 8u), c, buf);
+					rem -= (std::size_t)(p - src);
 					iters[cnt++] = src = p;
 				}
 				merge_sorted_runs_with_buffer(iters, 0, cnt - 1, c, buf);
@@ -857,8 +857,8 @@ namespace seq
 			}
 		}
 
-		template<size_t IterCount, class T, class Cmp, class Buffer>
-		static std::pair<T, size_t> try_wave_sort(T begin, size_t size, size_t min_dist, const Cmp& c, Buffer& buf)
+		template<std::size_t IterCount, class T, class Cmp, class Buffer>
+		static std::pair<T, std::size_t> try_wave_sort(T begin, std::size_t size, std::size_t min_dist, const Cmp& c, Buffer& buf)
 		{
 			// Attempt to sort the range [begin,end).
 			// Find consecutive sorted runs (ascending or descending), up to IterCount-1.
@@ -872,8 +872,8 @@ namespace seq
 			T prev = begin;
 			T iters[IterCount] = { begin++ };
 			bool ascending[IterCount];
-			size_t cnt = 1;
-			size_t dist = 1;
+			std::size_t cnt = 1;
+			std::size_t dist = 1;
 
 			if (size == 1)
 				return { begin, 1 };
@@ -920,7 +920,7 @@ namespace seq
 				iters[cnt++] = begin;
 
 			// reverse descending ranges
-			for (size_t i = 0; i < cnt - 1; ++i) {
+			for (std::size_t i = 0; i < cnt - 1; ++i) {
 				if (!ascending[i])
 					// stable reverse
 					reverse_sort(iters[i], iters[i + 1], c);
@@ -932,26 +932,26 @@ namespace seq
 			return { begin, dist };
 		}
 
-		template<size_t MaxIters, class Iter, class Cmp, class Fn, class Buff>
-		static void generic_merge_sort_internal(Iter begin, Iter end, size_t size, const Cmp& l, Fn sort_sub_range, Buff buf, size_t min_size = 0)
+		template<std::size_t MaxIters, class Iter, class Cmp, class Fn, class Buff>
+		static void generic_merge_sort_internal(Iter begin, Iter end, std::size_t size, const Cmp& l, Fn sort_sub_range, Buff buf, std::size_t min_size = 0)
 		{
 			// Generic merge sort that uses a custom sort function for small chunks.
 			// Supports bidirectional iterators.
 
-			size_t remaining = size;
+			std::size_t remaining = size;
 			Iter start = begin;
 			Iter last_start = begin;
-			size_t new_min_size = std::numeric_limits<size_t>::max();
+			std::size_t new_min_size = std::numeric_limits<std::size_t>::max();
 
 			do {
-				size_t cnt = 1;
-				size_t cum_dist = 0;
+				std::size_t cnt = 1;
+				std::size_t cum_dist = 0;
 				Iter iters[MaxIters] = { begin };
 
 				do {
 					// Sort any number of elements (up to remaining).
-					// sort_sub_range must return a std::pair<Iter,size_t>.
-					std::pair<Iter, size_t> r;
+					// sort_sub_range must return a std::pair<Iter,std::size_t>.
+					std::pair<Iter, std::size_t> r;
 					if (min_size == 0)
 						// First pass: sort input chunk
 						r = sort_sub_range(begin, remaining, l);
@@ -964,7 +964,7 @@ namespace seq
 							auto it = begin;
 
 							if constexpr (!is_random_access<Iter>::value) {
-								size_t d = (size_t)iter_distance(begin, end);
+								std::size_t d = (std::size_t)iter_distance(begin, end);
 								if (min_size > d / 2)
 									it = iter_prev(end, d - min_size + 1);
 							}
@@ -972,7 +972,7 @@ namespace seq
 								it = iter_next(begin, min_size - 1);
 
 							auto p = std::is_sorted_until((it), (end), l);
-							r = { p, min_size - 1 + (size_t)iter_distance(it, p) };
+							r = { p, min_size - 1 + (std::size_t)iter_distance(it, p) };
 						}
 						else {
 							// No need to call is_sorted_until(), we know
@@ -1002,7 +1002,7 @@ namespace seq
 				merge_sorted_runs_with_buffer(iters, 0u, cnt - 1u, l, buf);
 
 				// Update new min size if this is NOT the last chunk
-				if (remaining || new_min_size == std::numeric_limits<size_t>::max()) {
+				if (remaining || new_min_size == std::numeric_limits<std::size_t>::max()) {
 					new_min_size = std::min(new_min_size, cum_dist);
 				}
 
@@ -1022,7 +1022,7 @@ namespace seq
 		}
 
 		template<class Iter, class Cmp, class Buffer>
-		static void merge_sort_internal(Iter begin, size_t size, const Cmp& l, Buffer buf)
+		static void merge_sort_internal(Iter begin, std::size_t size, const Cmp& l, Buffer buf)
 		{
 			// Bottom-up merge sort.
 			// Small chunks of up to 128 elements are sorted using insertion sort or sorting network and ping-pong merge.
@@ -1042,19 +1042,19 @@ namespace seq
 			  begin,
 			  size,
 			  l,
-			  [&](Iter b, size_t remaining, const auto& l) {
+			  [&](Iter b, std::size_t remaining, const auto& l) {
 				  // Try wave sort first, as it might consume a lot more
 				  // than the default 128 elements (possibly the whole sequence)
-				  auto r = try_wave_sort<5>(b, remaining, std::min(remaining, (size_t)128u), l, buf);
+				  auto r = try_wave_sort<5>(b, remaining, std::min(remaining, (std::size_t)128u), l, buf);
 				  if (r.first != b) {
 					  //  Success, retrieve new start position and number of sorted elements
 					  return r;
 				  }
 
 				  // Failure, use sort_128()
-				  size_t cnt = std::min(remaining, (size_t)128u);
+				  std::size_t cnt = std::min(remaining, (std::size_t)128u);
 				  auto it = sort_128(b, cnt, l, buf);
-				  return std::make_pair(it, (size_t)cnt);
+				  return std::make_pair(it, (std::size_t)cnt);
 			  },
 			  buf);
 
@@ -1063,21 +1063,21 @@ namespace seq
 
 		// Create the internal buffer used by net_sort()
 		template<class Buffer>
-		static size_t sort_buffer_size(const Buffer& buf, size_t count) noexcept
+		static std::size_t sort_buffer_size(const Buffer& buf, std::size_t count) noexcept
 		{
 			// Default buffer
 			if (buf.size == 0)
 				return (count);
 
 			// No buffer
-			if (buf.size == std::numeric_limits<size_t>::max())
+			if (buf.size == std::numeric_limits<std::size_t>::max())
 				return 0;
 
-			size_t ret = 0;
-			if (buf.size == std::numeric_limits<size_t>::max() - 1)
+			std::size_t ret = 0;
+			if (buf.size == std::numeric_limits<std::size_t>::max() - 1)
 				// Medium buffer
 				ret = (count / 8u);
-			else if (buf.size == std::numeric_limits<size_t>::max() - 2)
+			else if (buf.size == std::numeric_limits<std::size_t>::max() - 2)
 				// Small buffer
 				ret = (count / 32u);
 			else
@@ -1085,7 +1085,7 @@ namespace seq
 				ret = (count / 128u);
 
 			if (ret == 0)
-				ret = std::min((size_t)16, count);
+				ret = std::min((std::size_t)16, count);
 
 			return ret;
 		}
@@ -1101,16 +1101,16 @@ namespace seq
 	static constexpr buffer<void*> default_buffer{ nullptr, 0 };
 
 	/// @brief Medium sort buffer size, uses input size/16 elements
-	static constexpr buffer<void*> medium_buffer{ nullptr, std::numeric_limits<size_t>::max() - 1u };
+	static constexpr buffer<void*> medium_buffer{ nullptr, std::numeric_limits<std::size_t>::max() - 1u };
 
 	/// @brief Small sort buffer size, uses input size/64 elements
-	static constexpr buffer<void*> small_buffer{ nullptr, std::numeric_limits<size_t>::max() - 2u };
+	static constexpr buffer<void*> small_buffer{ nullptr, std::numeric_limits<std::size_t>::max() - 2u };
 
 	/// @brief Tiny sort buffer size, uses input size/256 elements
-	static constexpr buffer<void*> tiny_buffer{ nullptr, std::numeric_limits<size_t>::max() - 3u };
+	static constexpr buffer<void*> tiny_buffer{ nullptr, std::numeric_limits<std::size_t>::max() - 3u };
 
 	/// @brief Null buffer, uses (slow) bufferless merge sort
-	static constexpr buffer<void*> null_buffer{ nullptr, std::numeric_limits<size_t>::max() };
+	static constexpr buffer<void*> null_buffer{ nullptr, std::numeric_limits<std::size_t>::max() };
 
 	/// @brief Stable merge algorithm similar to std::merge.
 	///
@@ -1179,13 +1179,13 @@ namespace seq
 
 		// Now go through merge_adaptive_n
 
-		auto s1 = (size_t)std::distance(first, middle);
-		auto s2 = (size_t)std::distance(middle, last);
+		auto s1 = (std::size_t)std::distance(first, middle);
+		auto s2 = (std::size_t)std::distance(middle, last);
 
 		if constexpr (std::is_same_v<buffer<void*>, Buffer>) {
 			// Compute buffer size
-			size_t min_size = std::min(s1, s2);
-			size_t buf_size = sort_buffer_size(buf, min_size);
+			std::size_t min_size = std::min(s1, s2);
+			std::size_t buf_size = sort_buffer_size(buf, min_size);
 			std::unique_ptr<Key[]> storage(new Key[buf_size]);
 			buffer<Key*> work{ storage.get(), buf_size };
 			return merge_adaptive_n<false>(wrap_iter(first), s1, wrap_iter(middle, s1), s2, wrap_iter(last, s1 + s2), c, work);
@@ -1203,7 +1203,7 @@ namespace seq
 	/// 'small_buffer' or 'tiny_buffer'. 0 sized buffer are supported (but way slower).
 	///
 	template<class Iter, class Cmp = std::less<>, class Buffer = buffer<void*>>
-	void inplace_merge(Iter* iters, size_t count, Cmp c = Cmp(), Buffer buf = Buffer())
+	void inplace_merge(Iter* iters, std::size_t count, Cmp c = Cmp(), Buffer buf = Buffer())
 	{
 		using namespace algo_detail;
 		using Key = typename std::iterator_traits<Iter>::value_type;
@@ -1214,7 +1214,7 @@ namespace seq
 
 		if constexpr (std::is_same_v<buffer<void*>, Buffer>) {
 			// Compute buffer size
-			size_t buf_size = sort_buffer_size(buf, std::distance(iters[0], iters[count - 1]) / 2);
+			std::size_t buf_size = sort_buffer_size(buf, std::distance(iters[0], iters[count - 1]) / 2);
 			std::unique_ptr<Key[]> buf_(new Key[buf_size]);
 			merge_sorted_runs_with_buffer(iters, 0, count - 1, c, buffer<Key*>{ buf_.get(), buf_size });
 		}
@@ -1257,7 +1257,7 @@ namespace seq
 	/// I took several ideas (bidirectional merge and ping-pong merge).
 	///
 	template<class Iter, class Cmp = std::less<>, class Buffer = buffer<void*>>
-	void net_sort_size(Iter begin, size_t size, Cmp cmp = Cmp(), Buffer buf = Buffer())
+	void net_sort_size(Iter begin, std::size_t size, Cmp cmp = Cmp(), Buffer buf = Buffer())
 	{
 		static_assert(algo_detail::has_direct_reference_v<Iter>,
 			      "seq::net_sort requires iterator dereference to return value_type&; "
@@ -1287,7 +1287,7 @@ namespace seq
 
 		if constexpr (std::is_same_v<buffer<void*>, Buffer>) {
 			// Compute buffer size
-			size_t buf_size = sort_buffer_size(buf, size / 2);
+			std::size_t buf_size = sort_buffer_size(buf, size / 2);
 			std::unique_ptr<Key[]> buf_(new Key[buf_size]);
 			return merge_sort_internal(wrap_iter(begin, 0), size, cmp, seq::buffer<Key*>{ buf_.get(), buf_size });
 		}

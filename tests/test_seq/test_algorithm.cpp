@@ -8,11 +8,11 @@
 void test_stability()
 {
 	// Test stability
-	using ptr_type = std::shared_ptr<size_t>;
+	using ptr_type = std::shared_ptr<std::size_t>;
 
 	std::vector<ptr_type> vec(1000000);
-	for (size_t i = 0; i < vec.size(); ++i)
-		vec[i] = std::make_shared<size_t>(i % 100);
+	for (std::size_t i = 0; i < vec.size(); ++i)
+		vec[i] = std::make_shared<std::size_t>(i % 100);
 
 	auto le = [](const auto& l, const auto& r) { return *l < *r; };
 
@@ -32,11 +32,11 @@ void test_reverse_sort_stability()
 {
 	// Test stability on vector sorted in descending order.
 	// This tests the validity of seq::reverse_sort
-	using ptr_type = std::shared_ptr<size_t>;
+	using ptr_type = std::shared_ptr<std::size_t>;
 
 	std::vector<ptr_type> vec(1000000);
-	for (size_t i = 0; i < vec.size(); ++i)
-		vec[i] = std::make_shared<size_t>(i % 100);
+	for (std::size_t i = 0; i < vec.size(); ++i)
+		vec[i] = std::make_shared<std::size_t>(i % 100);
 
 	auto le = [](const auto& l, const auto& r) { return *l < *r; };
 	auto ge = [](const auto& l, const auto& r) { return *l > *r; };
@@ -59,11 +59,11 @@ void test_reverse_sort_stability()
 void test_move_only()
 {
 	// Test net_sort on move only type
-	using ptr_type = std::unique_ptr<size_t>;
+	using ptr_type = std::unique_ptr<std::size_t>;
 
 	std::vector<ptr_type> vec(1000000);
-	for (size_t i = 0; i < vec.size(); ++i)
-		vec[i] = std::make_unique<size_t>(i % 100);
+	for (std::size_t i = 0; i < vec.size(); ++i)
+		vec[i] = std::make_unique<std::size_t>(i % 100);
 
 	auto le = [](const auto& l, const auto& r) { return *l < *r; };
 
@@ -75,13 +75,13 @@ void test_unique()
 {
 	// Test seq::unique validity and stability
 
-	using ptr_type = std::shared_ptr<size_t>;
+	using ptr_type = std::shared_ptr<std::size_t>;
 	std::vector<ptr_type> vec(1000000);
-	for (size_t i = 0; i < vec.size(); ++i)
-		vec[i] = std::make_shared<size_t>(i % 100);
+	for (std::size_t i = 0; i < vec.size(); ++i)
+		vec[i] = std::make_shared<std::size_t>(i % 100);
 
 	auto v = vec;
-	auto end = seq::unique(v.begin(), v.end(), [](const auto& v) { return seq::hasher<size_t>{}(*v); }, [](const auto& l, const auto& r) { return *l == *r; });
+	auto end = seq::unique(v.begin(), v.end(), [](const auto& v) { return seq::hasher<std::size_t>{}(*v); }, [](const auto& l, const auto& r) { return *l == *r; });
 	v.erase(end, v.end());
 	SEQ_TEST(v.size() == 100);
 	SEQ_TEST(std::equal(v.begin(), v.end(), vec.begin(), vec.begin() + 100));
@@ -91,12 +91,12 @@ void test_unique_move_only()
 {
 	// Test seq::unique on move only type
 
-	using ptr_type = std::unique_ptr<size_t>;
+	using ptr_type = std::unique_ptr<std::size_t>;
 	std::vector<ptr_type> vec(1000000);
-	for (size_t i = 0; i < vec.size(); ++i)
-		vec[i] = std::make_unique<size_t>(i % 100);
+	for (std::size_t i = 0; i < vec.size(); ++i)
+		vec[i] = std::make_unique<std::size_t>(i % 100);
 
-	auto end = seq::unique(vec.begin(), vec.end(), [](const auto& v) { return seq::hasher<size_t>{}(*v); }, [](const auto& l, const auto& r) { return *l == *r; });
+	auto end = seq::unique(vec.begin(), vec.end(), [](const auto& v) { return seq::hasher<std::size_t>{}(*v); }, [](const auto& l, const auto& r) { return *l == *r; });
 	vec.erase(end, vec.end());
 	SEQ_TEST(vec.size() == 100);
 }

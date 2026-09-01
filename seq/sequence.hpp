@@ -110,22 +110,22 @@ namespace seq
 			template<class Int>
 			SEQ_ALWAYS_INLINE T* raw_slot(Int i) noexcept
 			{
-				return derived()->storage.raw_slot((size_t)i);
+				return derived()->storage.raw_slot((std::size_t)i);
 			}
 			template<class Int>
 			SEQ_ALWAYS_INLINE T* live_slot(Int i) noexcept
 			{
-				return derived()->storage.live_slot((size_t)i);
+				return derived()->storage.live_slot((std::size_t)i);
 			}
 			template<class Int>
 			SEQ_ALWAYS_INLINE const T* raw_slot(Int i) const noexcept
 			{
-				return derived()->storage.raw_slot((size_t)i);
+				return derived()->storage.raw_slot((std::size_t)i);
 			}
 			template<class Int>
 			SEQ_ALWAYS_INLINE const T* live_slot(Int i) const noexcept
 			{
-				return derived()->storage.live_slot((size_t)i);
+				return derived()->storage.live_slot((std::size_t)i);
 			}
 
 			SEQ_ALWAYS_INLINE T& front() { return *live_slot(start); }
@@ -137,9 +137,9 @@ namespace seq
 		template<class T, bool Aligned>
 		struct find_chunk_alignment
 		{
-			static constexpr size_t aligned = std::max(chunk_count<T>(), alignof(std::max_align_t));
-			static constexpr size_t non_aligned = std::max(alignof(T), alignof(std::max_align_t));
-			static constexpr size_t value = Aligned ? aligned : non_aligned;
+			static constexpr std::size_t aligned = std::max((std::size_t)chunk_count<T>(), (std::size_t)alignof(std::max_align_t));
+			static constexpr std::size_t non_aligned = std::max(alignof(T), alignof(std::max_align_t));
+			static constexpr std::size_t value = Aligned ? aligned : non_aligned;
 		};
 
 		// Actual chunk class, store up to 64 objects
@@ -163,7 +163,7 @@ namespace seq
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = typename List::value_type;
 			using difference_type = typename List::difference_type;
-			using size_type = size_t;
+			using size_type = std::size_t;
 			using pointer = typename List::const_pointer;
 			using reference = const value_type&;
 			using list_data = typename List::Data;
@@ -286,7 +286,7 @@ namespace seq
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = typename List::value_type;
 			using difference_type = typename List::difference_type;
-			using size_type = size_t;
+			using size_type = std::size_t;
 			using pointer = typename List::pointer;
 			using reference = value_type&;
 
@@ -348,7 +348,7 @@ namespace seq
 			{
 				std::vector<node_type*> chunks{};
 				node_type* end;
-				size_t size{};
+				std::size_t size{};
 			};
 			using iterator_category = std::random_access_iterator_tag;
 			using value_type = typename List::value_type;
@@ -380,7 +380,7 @@ namespace seq
 			{
 			}
 
-			SEQ_ALWAYS_INLINE auto absolutePos() const noexcept -> size_t { return static_cast<size_t>(abs_pos); }
+			SEQ_ALWAYS_INLINE auto absolutePos() const noexcept -> std::size_t { return static_cast<std::size_t>(abs_pos); }
 			SEQ_ALWAYS_INLINE void setAbsolutePos(std::size_t _abs_pos) noexcept
 			{
 				SEQ_ASSERT_DEBUG(_abs_pos <= (data->size), "invalid iterator position");
@@ -390,8 +390,8 @@ namespace seq
 				}
 				else {
 
-					size_t front_size = static_cast<size_t>(data->chunks.front()->end - data->chunks.front()->start);
-					size_t bucket = (_abs_pos + (node_type::count - front_size)) >> node_type::count_bits;
+					std::size_t front_size = static_cast<std::size_t>(data->chunks.front()->end - data->chunks.front()->start);
+					std::size_t bucket = (_abs_pos + (node_type::count - front_size)) >> node_type::count_bits;
 					node = data->chunks[bucket];
 					pos = node->start + static_cast<int>((_abs_pos - (_abs_pos < front_size ? 0 : front_size)) & (node_type::count - 1));
 				}
@@ -462,12 +462,12 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE auto operator+=(difference_type diff) noexcept -> sequence_ra_iterator&
 			{
-				setAbsolutePos(static_cast<size_t>(abs_pos + diff));
+				setAbsolutePos(static_cast<std::size_t>(abs_pos + diff));
 				return *this;
 			}
 			SEQ_ALWAYS_INLINE auto operator-=(difference_type diff) noexcept -> sequence_ra_iterator&
 			{
-				setAbsolutePos(static_cast<size_t>(abs_pos - diff));
+				setAbsolutePos(static_cast<std::size_t>(abs_pos - diff));
 				return *this;
 			}
 
@@ -698,7 +698,7 @@ namespace seq
 
 			
 			// Returns a const_iterator at given position
-			SEQ_ALWAYS_INLINE auto iterator_at(size_t pos) const noexcept -> const_iterator
+			SEQ_ALWAYS_INLINE auto iterator_at(std::size_t pos) const noexcept -> const_iterator
 			{
 				SEQ_ASSERT_DEBUG(pos <= size, "sequence::iterator_at: invalid position");
 				if (pos == size)
@@ -709,7 +709,7 @@ namespace seq
 					return std::prev(const_iterator((end_node), 0), static_cast<difference_type>(this->size - pos));
 			}
 			// Returns an iterator at given position
-			SEQ_ALWAYS_INLINE auto iterator_at(size_t pos) noexcept -> iterator
+			SEQ_ALWAYS_INLINE auto iterator_at(std::size_t pos) noexcept -> iterator
 			{
 				SEQ_ASSERT_DEBUG(pos <= size, "sequence::iterator_at: invalid position");
 				if (pos == size)
@@ -859,7 +859,7 @@ namespace seq
 			if (first > last)
 				throw std::invalid_argument("sequence::assign: invalid iterator range");
 
-			size_type new_count = static_cast<size_t>(last - first);
+			size_type new_count = static_cast<std::size_t>(last - first);
 			resize(new_count);
 			std::copy(first, last, begin());
 		}
@@ -935,7 +935,7 @@ namespace seq
 			if (this == &other)
 				return;
 
-			size_t osize = other.size();
+			std::size_t osize = other.size();
 
 			if (osize == size()) {
 				// Same size, plain copy
@@ -1001,7 +1001,7 @@ namespace seq
 						// Fill last chunk, might throw
 						while (last->end != node_type::count) {
 							construct_ptr(last->raw_slot( last->end), *other_it);
-							last->used |= 1ull << (uint64_t)last->end;
+							last->used |= 1ull << (std::uint64_t)last->end;
 							++last->end;
 							++other_it;
 						}
@@ -1024,7 +1024,7 @@ namespace seq
 						// Fill last chunk, might throw
 						while (last->end != static_cast<int>(rem)) {
 							construct_ptr(last->raw_slot(last->end), *other_it);
-							last->used |= 1ull << (uint64_t)last->end;
+							last->used |= 1ull << (std::uint64_t)last->end;
 							++last->end;
 							++other_it;
 						}
@@ -1481,7 +1481,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return !d_data || d_data->size == 0; }
 
 		/// @brief Returns the number of elements that the container has currently allocated space for.
-		SEQ_ALWAYS_INLINE auto capacity() const noexcept -> size_t { return d_data ? d_data->total_slots : 0; }
+		SEQ_ALWAYS_INLINE auto capacity() const noexcept -> std::size_t { return d_data ? d_data->total_slots : 0; }
 
 		/// @brief Returns the back sequence value.
 		SEQ_ALWAYS_INLINE auto back() const noexcept -> const T&
@@ -1722,7 +1722,7 @@ namespace seq
 						// Fill last chunk, might throw
 						while (last->end != node_type::count) {
 							helper.construct(last->raw_slot( last->end));
-							last->used |= 1ull << (uint64_t)last->end;
+							last->used |= 1ull << (std::uint64_t)last->end;
 							++last->end;
 						}
 					}
@@ -1744,7 +1744,7 @@ namespace seq
 						// Fill last chunk, might throw
 						while (last->end != static_cast<int>(rem)) {
 							helper.construct(last->raw_slot( last->end));
-							last->used |= 1ull << (uint64_t)last->end;
+							last->used |= 1ull << (std::uint64_t)last->end;
 							++last->end;
 						}
 					}
@@ -1853,7 +1853,7 @@ namespace seq
 							// Might throw, ok
 							helper.construct(front->raw_slot( front->start - 1));
 							--front->start;
-							front->used |= 1ull << (uint64_t)front->start;
+							front->used |= 1ull << (std::uint64_t)front->start;
 						}
 					}
 					catch (...) {
@@ -1875,7 +1875,7 @@ namespace seq
 						while (front->start != static_cast<int>(target)) {
 							helper.construct(front->raw_slot( front->start - 1));
 							--front->start;
-							front->used |= 1ull << (uint64_t)front->start;
+							front->used |= 1ull << (std::uint64_t)front->start;
 						}
 					}
 					catch (...) {
@@ -1965,7 +1965,7 @@ namespace seq
 		/// reserve() does not change the size of the sequence.
 		/// Note that reserve() only works with \a OptimizeForSpeed flag.
 		/// Basic exception guarantee.
-		void reserve(size_t new_cap)
+		void reserve(std::size_t new_cap)
 		{
 			if SEQ_UNLIKELY (new_cap > max_size())
 				throw std::length_error("sequence::reserve");
@@ -2166,8 +2166,8 @@ namespace seq
 
 			std::vector<iter> iters(d.chunks.size() + 1);
 			iters[0] = begin;
-			size_t abs_pos = 0;
-			for (size_t i = 0; i < d.chunks.size(); ++i) {
+			std::size_t abs_pos = 0;
+			for (std::size_t i = 0; i < d.chunks.size(); ++i) {
 				auto csize = d.chunks[i]->end - d.chunks[i]->start;
 				abs_pos += csize;
 				iters[i + 1] = begin + abs_pos;

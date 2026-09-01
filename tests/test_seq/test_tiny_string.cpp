@@ -36,12 +36,12 @@ template<class String, class Char = typename String::value_type>
 struct Convert
 {
 	static String apply(const char* value) {
-		const size_t cSize = strlen(value) + 1;
+		const std::size_t cSize = strlen(value) + 1;
 
 		String wc;
 		wc.resize(cSize);
 
-		/*size_t cSize1 =*/ mbstowcs(reinterpret_cast<wchar_t*>(&wc[0]), value, cSize);
+		/*std::size_t cSize1 =*/ mbstowcs(reinterpret_cast<wchar_t*>(&wc[0]), value, cSize);
 		//mbstowcs_s(&cSize1, reinterpret_cast<wchar_t*>(&wc[0]), cSize, value, cSize);
 
 		wc.pop_back();
@@ -68,7 +68,7 @@ bool string_equals(const S1& s1, const S2& s2)
 	return seq::equal(s1.begin(), s1.end(), s2.begin(), s2.end());
 }
 
-template<class Char, size_t MaxStaticSize = 0>
+template<class Char, std::size_t MaxStaticSize = 0>
 void test_tstring_logic()
 {
 	using namespace seq;
@@ -123,8 +123,8 @@ void test_tstring_logic()
 	SEQ_TEST(string_equals(v1, v2));
 
 	// test operator[]
-	for (size_t i = 0; i < v.size(); ++i) v[i] = static_cast<Char>(i);
-	for (size_t i = 0; i < dv.size(); ++i) dv[i] = static_cast<Char>(i);
+	for (std::size_t i = 0; i < v.size(); ++i) v[i] = static_cast<Char>(i);
+	for (std::size_t i = 0; i < dv.size(); ++i) dv[i] = static_cast<Char>(i);
 	SEQ_TEST(string_equals(v, dv));
 
 	//test shrink_to_fit
@@ -243,7 +243,7 @@ void test_tstring_logic()
 	//test sorting
 	{
 		std::vector<std_string> vec(100000);
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			vec[i] = generate_random_string<std_string>(32);
 		std::vector<t_string> vec2(vec.begin(), vec.end());
 		SEQ_TEST(string_equals(vec, vec2));
@@ -263,12 +263,12 @@ void test_tstring_logic()
 
 		std_string str;
 		t_string tstr;
-		size_t _count = count;
+		std::size_t _count = count;
 
-		for (size_t i = 0; i < _count; ++i)
+		for (std::size_t i = 0; i < _count; ++i)
 			tstr.append(to_append.c_str());
 		
-		for (size_t i = 0; i < _count; ++i)
+		for (std::size_t i = 0; i < _count; ++i)
 			str.append(to_append.c_str());
 		
 		SEQ_TEST(string_equals(str, tstr));
@@ -348,8 +348,8 @@ void test_tstring_logic()
 		SEQ_TEST(sum1==sum2);
 
 		// test find
-		size_t f = 0;
-		size_t pos1 = 0;
+		std::size_t f = 0;
+		std::size_t pos1 = 0;
 		std_string find1 = Convert< std_string>::apply("abcdefghijklmnop"); //does exists
 		std_string find2 = Convert< std_string>::apply("kdpohdsifgugcvbfd"); //does not exists
 
@@ -360,8 +360,8 @@ void test_tstring_logic()
 			else pos1++;
 		}
 		
-		size_t f2 = 0;
-		size_t pos2 = 0;
+		std::size_t f2 = 0;
+		std::size_t pos2 = 0;
 		for (int i = 0; i < 10; ++i) {
 			pos2 = str.find((i & 1) ? find1 : find2);
 			f2 += pos2;
@@ -453,13 +453,13 @@ void test_tstring_logic()
 		f = 0;
 		for (unsigned i = 0; i < len; ++i) {
 			int c = tstr.compare(i, find1.size(), find1);
-			f += static_cast<size_t>(c < 0 ? -1 : (c > 0 ? 1 : 0));
+			f += static_cast<std::size_t>(c < 0 ? -1 : (c > 0 ? 1 : 0));
 		}
 
 		f2 = 0;
 		for (unsigned i = 0; i < len; ++i) {
 			int c = str.compare(i, find1.size(), find1);
-			f2 += static_cast<size_t>(c < 0 ? -1 : (c > 0 ? 1 : 0));
+			f2 += static_cast<std::size_t>(c < 0 ? -1 : (c > 0 ? 1 : 0));
 		}
 		SEQ_TEST(f == f2);
 

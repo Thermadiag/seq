@@ -49,7 +49,7 @@ public:
 		deq.pop_front();
 		return true;
 	}
-	size_t size() const { return deq.size(); }
+	std::size_t size() const { return deq.size(); }
 
 	void clear()
 	{
@@ -151,7 +151,7 @@ void unbalanced(Queue& q, const std::vector<T>& data, int balance, int threads)
 #pragma omp parallel for num_threads(threads)
 	for (int i = 0; i < threads; ++i) {
 
-		for (size_t j = 0; j < data.size(); ++j) {
+		for (std::size_t j = 0; j < data.size(); ++j) {
 			if (j % balance == 0) {
 				T v;
 				pop(q, v);
@@ -197,12 +197,12 @@ public:
 };
 
 template<class T, class Queue>
-void push_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, safe_counter<size_t>& cnt)
+void push_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, safe_counter<std::size_t>& cnt)
 {
 	while (!start)
 		; // std::this_thread::yield();
 	T val = 0;
-	size_t r = 0;
+	std::size_t r = 0;
 	while (!stop) {
 		if(push(q, val++))
 			if ((++r & 31) == 0)
@@ -211,16 +211,16 @@ void push_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, sa
 }
 
 
-static constexpr size_t max_pop = 10000000;
+static constexpr std::size_t max_pop = 10000000;
 
 
 template<class T, class Queue>
-void pop_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, safe_counter<size_t>& cnt)
+void pop_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, safe_counter<std::size_t>& cnt)
 {
 	while (!start)
 		; // std::this_thread::yield();
 	T val;
-	size_t r = 0;
+	std::size_t r = 0;
 	while (!stop) {
 		if (pop(q, val)) {
 			cnt.add();
@@ -235,28 +235,28 @@ void pop_thread(Queue& q, std::atomic<bool>& start, std::atomic<bool>& stop, saf
 	}
 }
 
-static uint64_t msecs()
+static std::uint64_t msecs()
 {
-	return (uint64_t)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+	return (std::uint64_t)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
 }
 
 struct Ret
 {
-	uint64_t push_cnt = 0;
-	uint64_t pop_cnt = 0;
-	uint64_t elapsed_ms = 0;
+	std::uint64_t push_cnt = 0;
+	std::uint64_t pop_cnt = 0;
+	std::uint64_t elapsed_ms = 0;
 	std::string name;
 };
 
 template<class T, class Queue>
 Ret test_queue(Queue& q, int threads)
 {
-	std::vector<std::pair<std::thread, std::thread>> all_threads((size_t)threads);
+	std::vector<std::pair<std::thread, std::thread>> all_threads((std::size_t)threads);
 	std::atomic<bool> start_push{ false }, start_pop{ false }, stop{ false };
-	safe_counter<size_t> push_cnt, pop_cnt;
+	safe_counter<std::size_t> push_cnt, pop_cnt;
 	for (int i = 0; i < threads; ++i) {
-		all_threads[(size_t)i].first = std::thread([&]() { push_thread<T>(q, start_push, stop, push_cnt); });
-		all_threads[(size_t)i].second = std::thread([&]() { pop_thread<T>(q, start_pop, stop, pop_cnt); });
+		all_threads[(std::size_t)i].first = std::thread([&]() { push_thread<T>(q, start_push, stop, push_cnt); });
+		all_threads[(std::size_t)i].second = std::thread([&]() { pop_thread<T>(q, start_pop, stop, pop_cnt); });
 	}
 
 	
@@ -276,7 +276,7 @@ Ret test_queue(Queue& q, int threads)
 	}
 	stop.store(true);*/
 	auto st = msecs();
-	for (size_t i = 0; i < (size_t)threads; ++i) {
+	for (std::size_t i = 0; i < (std::size_t)threads; ++i) {
 		all_threads[i].first.join();
 		all_threads[i].second.join();
 	}
@@ -320,15 +320,15 @@ bool to_csv(const std::vector < std::vector<Ret>>& res, const char* filename)
 	fout << "\"sep=\t\"" << std::endl;
 	
     fout << "Threads\t";
-	for (size_t i = 0; i < res[1].size(); ++i) {
+	for (std::size_t i = 0; i < res[1].size(); ++i) {
 		fout << res[1][i].name <<"\t";
 	}	  
 	fout << std::endl;
 
-	for(size_t i = 1; i < res.size(); ++i){
+	for(std::size_t i = 1; i < res.size(); ++i){
 		fout << i <<"\t";
 		auto & vec = res[i]; 
-		for (size_t j = 0; j < vec.size(); ++j) 
+		for (std::size_t j = 0; j < vec.size(); ++j) 
 			fout << vec[j].elapsed_ms  <<"\t";
 		fout << std::endl;
 
@@ -350,12 +350,12 @@ int bench_concurrent_queue(int, char** const)
 	/*std::vector<std::vector<Ret>> rets(threads + 1);
 	for(int th = 1; th <= threads; ++th){ 
 		std::cout << th << " threads" << std::endl;
-		rets[(size_t)th].push_back( test_queue_name<queue<int>, int>("std::deque", th));
-		rets[(size_t)th].push_back( test_queue_name<seq::concurrent_queue<int>, int>("seq::concurrent_queue", th));
-		//rets[(size_t)th].push_back( test_queue_name<rigtorp::mpmc::Queue<int>, int>("rigtorp::mpmc::Queue", th));
-		rets[(size_t)th].push_back( test_queue_name<moodycamel::ConcurrentQueue<int>, int>("moodycamel::ConcurrentQueue", th));
+		rets[(std::size_t)th].push_back( test_queue_name<queue<int>, int>("std::deque", th));
+		rets[(std::size_t)th].push_back( test_queue_name<seq::concurrent_queue<int>, int>("seq::concurrent_queue", th));
+		//rets[(std::size_t)th].push_back( test_queue_name<rigtorp::mpmc::Queue<int>, int>("rigtorp::mpmc::Queue", th));
+		rets[(std::size_t)th].push_back( test_queue_name<moodycamel::ConcurrentQueue<int>, int>("moodycamel::ConcurrentQueue", th));
 #if BOOST_FOUND
-		rets[(size_t)th].push_back( test_queue_name<boost_queue<int>, int>("boost::lockfree::queue", th));
+		rets[(std::size_t)th].push_back( test_queue_name<boost_queue<int>, int>("boost::lockfree::queue", th));
 #endif
 	}
 	to_csv(rets,"bench_concurrent_queue.csv");
@@ -373,8 +373,8 @@ int bench_concurrent_queue(int, char** const)
 	};
 	using queue_type = int;
 
-	std::vector<queue_type> vals((size_t)count);
-	for (size_t i = 0; i < vals.size(); ++i)
+	std::vector<queue_type> vals((std::size_t)count);
+	for (std::size_t i = 0; i < vals.size(); ++i)
 		vals[i] = (int)i;
 
 	// Parallel push

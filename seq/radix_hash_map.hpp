@@ -68,7 +68,7 @@ namespace seq
 		using key_type = Key;
 		using value_type = Key;
 		using allocator_type = Allocator;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = std::ptrdiff_t;
 		using hasher = Hash;
 		using key_equal = KeyEqual;
@@ -203,9 +203,9 @@ namespace seq
 		}
 
 		/// @brief Returns the container size
-		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return d_tree.size(); }
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> std::size_t { return d_tree.size(); }
 		/// @brief Returns the container maximum size
-		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return d_tree.max_size(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> std::size_t { return d_tree.max_size(); }
 		/// @brief Returns true if the container is empty, false otherwise
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return d_tree.empty(); }
 		/// @brief Returns the container allocator object
@@ -237,11 +237,11 @@ namespace seq
 		/// @brief Rehash the container.
 		/// Mostly used to shrink the container memory foorprint
 		/// after a lot of erase() calls.
-		void rehash(size_t = 0) { d_tree.shrink_to_fit(); }
+		void rehash(std::size_t = 0) { d_tree.shrink_to_fit(); }
 
 		/// @brief Sets the number of nodes to the number needed to accomodate at least count elements.
 		/// @param count new capacity of the container
-		void reserve(size_t count) { d_tree.reserve(count); }
+		void reserve(std::size_t count) { d_tree.reserve(count); }
 
 		/// @brief Swap this container with other
 		void swap(radix_hash_set& other) { d_tree.swap(other.d_tree); }
@@ -405,7 +405,7 @@ namespace seq
 	/// @param p predicate that returns true if the element should be erased
 	/// @return number of erased elements
 	template<class Key, class Hash1, class KeyEqual, class Allocator1, class Less, class Pred>
-	auto erase_if(radix_hash_set<Key, Hash1, KeyEqual, Allocator1, Less>& s, Pred p) -> size_t
+	auto erase_if(radix_hash_set<Key, Hash1, KeyEqual, Allocator1, Less>& s, Pred p) -> std::size_t
 	{
 		typename radix_hash_set<Key, Hash1, KeyEqual, Allocator1, Less>::size_type count = 0;
 		for (auto it = s.begin(); it != s.end();) {
@@ -468,7 +468,7 @@ namespace seq
 		using mapped_type = T;
 		using value_type = std::pair<const Key, T>;
 		using allocator_type = Allocator;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = std::ptrdiff_t;
 		using hasher = Hash;
 		using key_equal = KeyEqual;
@@ -552,8 +552,8 @@ namespace seq
 			return *this;
 		}
 
-		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return this->d_tree.size(); }
-		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return this->d_tree.max_size(); }
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> std::size_t { return this->d_tree.size(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> std::size_t { return this->d_tree.max_size(); }
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return this->d_tree.empty(); }
 
 		auto load_factor() const noexcept -> float { return this->d_tree.load_factor(); }
@@ -575,9 +575,9 @@ namespace seq
 
 		void clear() { this->d_tree.clear(); }
 
-		void rehash(size_t buckets) { d_tree.rehash(buckets); }
+		void rehash(std::size_t buckets) { d_tree.rehash(buckets); }
 
-		void reserve(size_t size) { this->d_tree.reserve(size); }
+		void reserve(std::size_t size) { this->d_tree.reserve(size); }
 
 		void swap(radix_hash_map& other) { d_tree.swap(other.d_tree); }
 

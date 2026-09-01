@@ -43,12 +43,12 @@ template<class String, class Char = typename String::value_type>
 struct Convert
 {
 	static String apply(const char* value) {
-		const size_t cSize = strlen(value) + 1;
+		const std::size_t cSize = strlen(value) + 1;
 
 		String wc;
 		wc.resize(cSize);
 
-		//size_t cSize1;
+		//std::size_t cSize1;
 		//mbstowcs_s(&cSize1, (wchar_t*)&wc[0], cSize, value, cSize);
 		mbstowcs((wchar_t*)&wc[0], value, cSize);
 
@@ -75,7 +75,7 @@ struct Less
 		
 		return seq::detail::traits_string_inf< std::char_traits<Char> >(v1.data(), v1.size(), v2.data(), v2.size());
 	}
-	template<class Char, class Al, size_t S>
+	template<class Char, class Al, std::size_t S>
 	SEQ_ALWAYS_INLINE bool operator()(const tiny_string<Char, Al, S>& s1, const tiny_string<Char, Al, S>& s2) const noexcept
 	{
 		return s1 < s2;
@@ -85,7 +85,7 @@ struct Less
 using namespace seq;
 
 template<class Less, class Vec>
-size_t test_sort(const Vec& v)
+std::size_t test_sort(const Vec& v)
 {
 	Vec copy = v;
 
@@ -94,7 +94,7 @@ size_t test_sort(const Vec& v)
 	return tock_ms();
 }
 template<class Vec>
-size_t test_sort2(const Vec& v)
+std::size_t test_sort2(const Vec& v)
 {
 	Vec copy = v;
 
@@ -107,7 +107,7 @@ size_t test_sort2(const Vec& v)
 /// Compare sorting a vector of std::string and seq::tstring using the native std::string::operator< and with tstring::operator<
 /// @param count number of string to sort
 template<class Char>
-inline void test_sort_strings(size_t count = 1000000)
+inline void test_sort_strings(std::size_t count = 1000000)
 {
 	std::cout << std::endl;
 	std::cout << "Compare std::sort on vectors of small/big std::string and seq::tiny_string with char type '" <<typeid(Char).name()<<"'"<< std::endl;
@@ -119,7 +119,7 @@ inline void test_sort_strings(size_t count = 1000000)
 	std::vector<std_string> vec(count);
 	std::vector<std_string> vec_w(count);
 	
-	for (size_t i = 0; i < vec.size(); ++i) {
+	for (std::size_t i = 0; i < vec.size(); ++i) {
 		vec[i] = generate_random_string<std_string>(13/sizeof(Char), true);
 		vec_w[i] = generate_random_string<std_string>(199, false);
 	}
@@ -137,8 +137,8 @@ inline void test_sort_strings(size_t count = 1000000)
 		<< "|" << fmt(test_sort<Less>(vec_w)).c(30) << "|"
 		<< std::endl;
 
-	size_t s1 = test_sort<std::less<t_string>>(tvec);
-	size_t s2 = test_sort<std::less<t_string>>(tvec_w);
+	std::size_t s1 = test_sort<std::less<t_string>>(tvec);
+	std::size_t s2 = test_sort<std::less<t_string>>(tvec_w);
 	std::cout << fmt("seq::tiny_string").l(30)
 		<< "|" << fmt(s1).c(30) 
 		<< "|" << fmt(s1).c(30)
@@ -153,13 +153,13 @@ inline void test_sort_strings(size_t count = 1000000)
 #include <seq/devector.hpp>
 #include <seq/flat_map.hpp>
 
-void test_push_back_vector(size_t count)
+void test_push_back_vector(std::size_t count)
 {
 	// In order to be truly representative, SEQ_GROW_FACTOR should be set to the one of std::vector on the considered STL implementation
 	std::cout << "Test push back "<<count<< " small string in vector" << std::endl << std::endl;
 	std::vector<std::string> vec(count);
 	std::vector<tstring> tvec(count);
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		tvec[i] = vec[i] = generate_random_string<std::string>(13, true);
 
 	auto header = join("|", _str().c(20), _str().c(20), _str().c(20), "");
@@ -168,7 +168,7 @@ void test_push_back_vector(size_t count)
 
 	auto line = join("|", _str().c(20), _u().c(20), _u().c(20), "");
 
-	size_t vec_string, vec_tstring, de_string, de_tstring;
+	std::size_t vec_string, vec_tstring, de_string, de_tstring;
 
 	std::vector<std::string> vs; 
 	std::vector<tstring> vt; 
@@ -176,25 +176,25 @@ void test_push_back_vector(size_t count)
 	seq::devector<tstring, std::allocator<tstring>> dt; 
 	{
 		tick();
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			vs.push_back(vec[i]);
 		vec_string = tock_ms();
 	}
 	{
 		tick();
-		for (size_t i = 0; i < tvec.size(); ++i)
+		for (std::size_t i = 0; i < tvec.size(); ++i)
 			vt.push_back(tvec[i]);
 		vec_tstring = tock_ms();
 	}
 	{
 		tick();
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			ds.push_back(vec[i]);
 		de_string = tock_ms();
 	}
 	{
 		tick();
-		for (size_t i = 0; i < tvec.size(); ++i)
+		for (std::size_t i = 0; i < tvec.size(); ++i)
 			dt.push_back(tvec[i]);
 		de_tstring = tock_ms();
 	}
@@ -205,12 +205,12 @@ void test_push_back_vector(size_t count)
 
 
 
-void test_insert_flat_map(size_t count)
+void test_insert_flat_map(std::size_t count)
 {
 	std::cout << "Test insert "<<count<< "small string in a seq::flat_set" << std::endl << std::endl;
 	std::vector<std::string> vec(count);
 	std::vector<tstring> tvec(count);
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		tvec[i] = vec[i] = generate_random_string<std::string>(13, true);
 
 	auto header = join("|", _str().c(20), _str().c(20),  "");
@@ -219,19 +219,19 @@ void test_insert_flat_map(size_t count)
 
 	auto line = join("|", _str().c(20), _u().c(20), "");
 
-	size_t vec_string, vec_tstring;
+	std::size_t vec_string, vec_tstring;
 
 	seq::flat_set<std::string> vs;
 	seq::flat_set<tstring> vt;
 	{
 		tick();
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			vs.insert(vec[i]);
 		vec_string = tock_ms();
 	}
 	{
 		tick();
-		for (size_t i = 0; i < tvec.size(); ++i)
+		for (std::size_t i = 0; i < tvec.size(); ++i)
 			vt.insert(tvec[i]);
 		vec_tstring = tock_ms();
 	}
@@ -245,10 +245,10 @@ void test_insert_flat_map(size_t count)
 #include "gtl/btree.hpp"
 
 template<class String>
-void test_insert_map(const char * str_name,size_t count)
+void test_insert_map(const char * str_name,std::size_t count)
 {
 	std::vector<String> vec(count);
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		 vec[i] = generate_random_string<String>(13, true);
 
 	auto header = join("|", _str().l(20), _str().c(20), _str().c(20), _str().c(20) ,"");
@@ -257,19 +257,19 @@ void test_insert_map(const char * str_name,size_t count)
 
 	auto line = join("|", _str().l(20), _fmt( _u(), " ms").c(20), _fmt(_u(), " ms").c(20), _fmt(_u(), " ms").c(20), "");
 
-	size_t i_flat, i_ph, i_set, f_flat, f_ph, f_set;
+	std::size_t i_flat, i_ph, i_set, f_flat, f_ph, f_set;
 
 	
 	{
 		tick();
 		seq::flat_set<String> flat;
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			flat.insert(vec[i]);
 		i_flat = tock_ms();
 
 		tick();
-		size_t sum = 0;
-		for (size_t i = 0; i < vec.size(); ++i)
+		std::size_t sum = 0;
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			sum += flat.find_pos(vec[i]);
 		f_flat = tock_ms();
 		print_null(sum);
@@ -277,13 +277,13 @@ void test_insert_map(const char * str_name,size_t count)
 	{
 		tick();
 		gtl::btree_set<String> ph;
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			ph.insert(vec[i]);
 		i_ph = tock_ms();
 
 		tick();
-		size_t sum = 0;
-		for (size_t i = 0; i < vec.size(); ++i)
+		std::size_t sum = 0;
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			sum += ph.find(vec[i]) != ph.end();
 		f_ph = tock_ms();
 		print_null(sum);
@@ -291,13 +291,13 @@ void test_insert_map(const char * str_name,size_t count)
 	{
 		tick();
 		std::set<String> set;
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			set.insert(vec[i]);
 		i_set = tock_ms();
 
 		tick();
-		size_t sum = 0;
-		for (size_t i = 0; i < vec.size(); ++i)
+		std::size_t sum = 0;
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			sum += set.find(vec[i]) != set.end();
 		f_set = tock_ms();
 		print_null(sum);
@@ -313,10 +313,10 @@ void test_insert_map(const char * str_name,size_t count)
 
 
 template<class String>
-void test_insert_map(const char* str_name, size_t count)
+void test_insert_map(const char* str_name, std::size_t count)
 {
 	std::vector<String> vec(count);
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		vec[i] = generate_random_string<String>(13, true);
 
 	auto header = join("|", _str().l(20),  _str().c(20), _str().c(20), "");
@@ -325,19 +325,19 @@ void test_insert_map(const char* str_name, size_t count)
 
 	auto line = join("|", _str().l(20), _fmt(_u(), " ms").c(20), _fmt(_u(), " ms").c(20), "");
 
-	size_t i_flat, i_set, f_flat, f_set;
+	std::size_t i_flat, i_set, f_flat, f_set;
 
 
 	{
 		tick();
 		seq::flat_set<String> flat;
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			flat.insert(vec[i]);
 		i_flat = tock_ms();
 
 		tick();
-		size_t sum = 0;
-		for (size_t i = 0; i < vec.size(); ++i)
+		std::size_t sum = 0;
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			sum += flat.find_pos(vec[i]);
 		f_flat = tock_ms();
 		print_null(sum);
@@ -346,13 +346,13 @@ void test_insert_map(const char* str_name, size_t count)
 	{
 		tick();
 		std::set<String> set;
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			set.insert(vec[i]);
 		i_set = tock_ms();
 
 		tick();
-		size_t sum = 0;
-		for (size_t i = 0; i < vec.size(); ++i)
+		std::size_t sum = 0;
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			sum += set.find(vec[i]) != set.end();
 		f_set = tock_ms();
 		print_null(sum);
@@ -380,8 +380,8 @@ bool string_equals(const S1& s1, const S2& s2)
 /// @brief Test std::string and tstring operators <, == and <=
 /// @param count number of string in the vector
 /// @param string_size size of each string. Default to 14 to keep SSO for bosth tstring and std::string
-template<class Char, size_t MaxStaticSize = 0>
-void test_tstring_operators(size_t count = 5000000, size_t string_size = 13)
+template<class Char, std::size_t MaxStaticSize = 0>
+void test_tstring_operators(std::size_t count = 5000000, std::size_t string_size = 13)
 {
 	using std_string = std::basic_string<Char, std::char_traits<Char>, std::allocator<Char> >;
 	using t_string = tiny_string<Char,  std::allocator<Char>, MaxStaticSize>;
@@ -394,14 +394,14 @@ void test_tstring_operators(size_t count = 5000000, size_t string_size = 13)
 	std::cout << fmt(fmt("method").l(30), "|", fmt("std::string").c(20), "|", fmt("tstring").c(20), "|") << std::endl;
 	std::cout << fmt(str().l(30).f('-'), "|", str().c(20).f('-'), "|", str().c(20).f('-'), "|") << std::endl;
 
-	auto f = fmt(pos<0, 2, 4>(), str().l(30), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|");
+	auto f = fmt(pos<0, 2, 4>(), str().l(30), "|", fmt(pos<0>(), std::size_t(), " ms").c(20), "|", fmt(pos<0>(), std::size_t(), " ms").c(20), "|");
 
 
 	// Test operators
 	{
 		std::vector<std_string> a(count);
 		std::vector<t_string> b(count);
-		for (size_t i = 0; i < count; ++i) {
+		for (std::size_t i = 0; i < count; ++i) {
 			a[i] = generate_random_string<std_string>((int)string_size, true);
 		}
 		std::sort(a.begin(), a.end());
@@ -410,21 +410,21 @@ void test_tstring_operators(size_t count = 5000000, size_t string_size = 13)
 
 
 		tick();
-		size_t sum = 0;
+		std::size_t sum = 0;
 		std_string middle = a[a.size() / 2];
-		for (size_t i = 0; i < a.size(); ++i) {
+		for (std::size_t i = 0; i < a.size(); ++i) {
 			sum += a[i] == middle;
 		}
-		size_t std_t = tock_ms();
+		std::size_t std_t = tock_ms();
 
 
 		tick();
-		size_t sum2 = 0;
+		std::size_t sum2 = 0;
 		t_string middle2 = b[b.size() / 2];
-		for (size_t i = 0; i < b.size(); ++i) {
+		for (std::size_t i = 0; i < b.size(); ++i) {
 			sum2 += b[i] == middle2;
 		}
-		size_t tstr_t = tock_ms();
+		std::size_t tstr_t = tock_ms();
 
 		SEQ_TEST(sum == sum2);
 		std::cout << f("operator== (fail)", std_t, tstr_t) << std::endl;
@@ -434,7 +434,7 @@ void test_tstring_operators(size_t count = 5000000, size_t string_size = 13)
 		tick();
 		sum = 0;
 		std::vector<std_string> c = a;
-		for (size_t i = 1; i < a.size(); ++i) {
+		for (std::size_t i = 1; i < a.size(); ++i) {
 			sum += a[i] == c[i];
 			sum += a[i] == c[i-1];
 		}
@@ -443,7 +443,7 @@ void test_tstring_operators(size_t count = 5000000, size_t string_size = 13)
 		tick();
 		sum2 = 0;
 		std::vector<t_string> d = b;
-		for (size_t i = 1; i < b.size(); ++i) {
+		for (std::size_t i = 1; i < b.size(); ++i) {
 			sum2 += b[i] == d[i];
 			sum2 += b[i] == d[i-1];
 		}
@@ -456,7 +456,7 @@ void test_tstring_operators(size_t count = 5000000, size_t string_size = 13)
 		tick();
 		sum = 0;
 		middle = a[a.size() / 2];
-		for (size_t i = 0; i < a.size(); ++i) {
+		for (std::size_t i = 0; i < a.size(); ++i) {
 			const std_string& v1 = a[i];
 			sum += v1 <= middle;
 		}
@@ -465,7 +465,7 @@ void test_tstring_operators(size_t count = 5000000, size_t string_size = 13)
 		tick();
 		sum2 = 0;
 		middle2 = b[b.size() / 2];
-		for (size_t i = 0; i < b.size(); ++i) {
+		for (std::size_t i = 0; i < b.size(); ++i) {
 			const t_string& v1 = b[i];
 			sum2 += v1 <= middle2;
 		}
@@ -478,7 +478,7 @@ void test_tstring_operators(size_t count = 5000000, size_t string_size = 13)
 		tick();
 		sum = 0;
 		middle = a[a.size() / 2];
-		for (size_t i = 0; i < a.size(); ++i) {
+		for (std::size_t i = 0; i < a.size(); ++i) {
 			const std_string& v1 = a[i];
 			sum += v1 < middle;
 		}
@@ -487,7 +487,7 @@ void test_tstring_operators(size_t count = 5000000, size_t string_size = 13)
 		tick();
 		sum2 = 0;
 		middle2 = b[b.size() / 2];
-		for (size_t i = 0; i < b.size(); ++i) {
+		for (std::size_t i = 0; i < b.size(); ++i) {
 			const t_string& v1 = b[i];
 			sum2 += v1 < middle2;
 		}
@@ -501,8 +501,8 @@ void test_tstring_operators(size_t count = 5000000, size_t string_size = 13)
 
 
 /// @brief Compare some members of std::string and seq::tiny_string
-template<class Char, size_t MaxStaticSize=0>
-void test_tstring_members(size_t count = 5000000)
+template<class Char, std::size_t MaxStaticSize=0>
+void test_tstring_members(std::size_t count = 5000000)
 {
 	using std_string = std::basic_string<Char, std::char_traits<Char>, std::allocator<Char> >;
 	using tstring = tiny_string<Char,std::allocator<Char>,MaxStaticSize>;
@@ -514,9 +514,9 @@ void test_tstring_members(size_t count = 5000000)
 	std::cout << fmt(fmt("method").l(30), "|", fmt("std::string").c(20), "|", fmt("tstring").c(20), "|") << std::endl;
 	std::cout << fmt(str().l(30).f('-'), "|", str().c(20).f('-'), "|", str().c(20).f('-'), "|") << std::endl;
 
-	auto format = fmt(pos<0, 2, 4>(), str().l(30), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|");
+	auto format = fmt(pos<0, 2, 4>(), str().l(30), "|", fmt(pos<0>(), std::size_t(), " ms").c(20), "|", fmt(pos<0>(), std::size_t(), " ms").c(20), "|");
 
-	size_t std_t, tstr_t;
+	std::size_t std_t, tstr_t;
 
 	//test consecutive append
 	{
@@ -524,16 +524,16 @@ void test_tstring_members(size_t count = 5000000)
 
 		std_string str;
 		tstring tstr;
-		size_t _count = count;
+		std::size_t _count = count;
 		
 
 		tick();
-		for (size_t i = 0; i < _count; ++i)
+		for (std::size_t i = 0; i < _count; ++i)
 			tstr.append(to_append);
 		tstr_t = tock_ms();
 
 		tick();
-		for (size_t i = 0; i < _count; ++i)
+		for (std::size_t i = 0; i < _count; ++i)
 			str.append(to_append);
 		std_t = tock_ms();
 
@@ -556,7 +556,7 @@ void test_tstring_members(size_t count = 5000000)
 
 	{
 		std::vector<std_string> vec(count);
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 			vec[i] = generate_random_string<std_string>(13, true);
 		std::vector<tstring> tvec(count);
 		std::copy(vec.begin(), vec.end(), tvec.begin());
@@ -589,7 +589,7 @@ void test_tstring_members(size_t count = 5000000)
 	}
 	{
 		std::vector<std_string> vec(count);
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 			vec[i] = generate_random_string<std_string>(MaxStaticSize == 0 ? 24 : MaxStaticSize + 10, true);
 		std::vector<tstring> tvec(count);
 		std::copy(vec.begin(), vec.end(), tvec.begin());
@@ -622,19 +622,19 @@ void test_tstring_members(size_t count = 5000000)
 	}
 
 	{
-		size_t std_t, tstr_t;
+		std::size_t std_t, tstr_t;
 		std_string str;
 		tstring tstr;
 
 		tick();
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 		{
 			tstr.push_back(std::max((unsigned char)i, (unsigned char)1));
 		}
 		tstr_t = tock_ms();
 
 		tick();
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 			str.push_back(std::max((unsigned char)i, (unsigned char)1));
 		std_t = tock_ms();
 
@@ -642,24 +642,24 @@ void test_tstring_members(size_t count = 5000000)
 		std::cout << format("push_back", std_t, tstr_t) << std::endl;
 
 
-		size_t sum = 0;
+		std::size_t sum = 0;
 		tick();
 		for (int i = 0; i < count; ++i)
-			sum += (size_t)tstr[i];
+			sum += (std::size_t)tstr[i];
 		tstr_t = tock_ms();
 
-		size_t sum2 = 0;
+		std::size_t sum2 = 0;
 		tick();
-		for (size_t i = 0; i < count; ++i)
-			sum2 += (size_t)str[i];
+		for (std::size_t i = 0; i < count; ++i)
+			sum2 += (std::size_t)str[i];
 		std_t = tock_ms();
 
 		SEQ_TEST(sum == sum2);
 		std::cout << format("operator[]", std_t, tstr_t) << std::endl;
 
 
-		size_t f = 0;
-		size_t pos = 0;
+		std::size_t f = 0;
+		std::size_t pos = 0;
 		std_string find1 = Convert<std_string>::apply("abcdefghijklmnop"); //does exists
 		std_string find2 = Convert<std_string>::apply("kdpohdsifgugcvbfd"); //does not exists
 		
@@ -672,8 +672,8 @@ void test_tstring_members(size_t count = 5000000)
 		}
 		tstr_t = tock_ms();
 
-		size_t f2 = 0;
-		size_t pos2 = 0;
+		std::size_t f2 = 0;
+		std::size_t pos2 = 0;
 		tick();
 		for (int i = 0; i < 10; ++i) {
 			pos2 = str.find((i & 1) ? find1 : find2);
@@ -778,13 +778,13 @@ void test_tstring_members(size_t count = 5000000)
 		std::cout << format("find_last_of", std_t, tstr_t) << std::endl;
 
 
-		size_t len = count - find1.size();
+		std::size_t len = count - find1.size();
 
 		SEQ_TEST(str == tstr);
 
 		f = 0;
 		tick();
-		for (size_t i = 0; i < len; ++i) {
+		for (std::size_t i = 0; i < len; ++i) {
 			int c= tstr.compare(i, find1.size(), find1);
 			f += c;
 		}
@@ -792,7 +792,7 @@ void test_tstring_members(size_t count = 5000000)
 
 		f2 = 0;
 		tick();
-		for (size_t i = 0; i < len; ++i)
+		for (std::size_t i = 0; i < len; ++i)
 		{
 			int c = str.compare(i, find1.size(), find1);
 			if (c < 0) c = -1;
@@ -838,7 +838,7 @@ int bench_tiny_string(int, char** const)
 	string3 s3; int _s3 = string3::max_static_size; int of3 = sizeof(string3);
 	string4 s4; int _s4 = string4::max_static_size; int of4 = sizeof(string4);*/
 
-	size_t factor = 10;
+	std::size_t factor = 10;
 #ifndef NDEBUG
 	factor = 1; // Debug mode
 #endif

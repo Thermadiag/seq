@@ -187,14 +187,14 @@ namespace seq
 		struct make_unsigned_from_float
 		{
 			// Unsigned type with the same size as float type
-			using type = typename std::conditional<std::is_same_v<T, float>, uint32_t, uint64_t>::type;
+			using type = typename std::conditional<std::is_same_v<T, float>, std::uint32_t, std::uint64_t>::type;
 		};
 
 		/// @brief Default invalid hash class for the radix tree
 		template<class Key, class = void>
 		struct RadixHasher
 		{
-			static constexpr size_t max_bits = 0; // invalid value
+			static constexpr std::size_t max_bits = 0; // invalid value
 		};
 
 		/// @brief Integral hash class
@@ -207,13 +207,13 @@ namespace seq
 			static constexpr bool variable_length = false;
 			static constexpr bool prefix_search = true;
 			static constexpr bool has_fast_check_prefix = true; // provides a check_prefix() function
-			static constexpr size_t max_bits = sizeof(Integral) * 8U;
-			static constexpr size_t bit_step = 2;
+			static constexpr std::size_t max_bits = sizeof(Integral) * 8U;
+			static constexpr std::size_t bit_step = 2;
 			static constexpr bool is_transparent = true;
 
 			integral_type value = 0;
 
-			SEQ_ALWAYS_INLINE size_t n_bits(size_t start, size_t count) const noexcept
+			SEQ_ALWAYS_INLINE std::size_t n_bits(std::size_t start, std::size_t count) const noexcept
 			{
 				if SEQ_UNLIKELY (count == 0)
 					return 0u; // Avoid UB when shifting by integer size bits
@@ -223,13 +223,13 @@ namespace seq
 					return (v << static_cast<unsigned>(start)) >> (32u - static_cast<unsigned>(count));
 				}
 				else
-					return static_cast<size_t>((value << static_cast<integral_type>(start)) >> (integral_bits - static_cast<integral_type>(count)));
+					return static_cast<std::size_t>((value << static_cast<integral_type>(start)) >> (integral_bits - static_cast<integral_type>(count)));
 			}
 
-			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash() const noexcept { return static_cast<std::uint8_t>(hash_finalize(static_cast<size_t>(value))); }
+			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash() const noexcept { return static_cast<std::uint8_t>(hash_finalize(static_cast<std::size_t>(value))); }
 
 			// Retuns the total number of bits
-			SEQ_ALWAYS_INLINE constexpr size_t get_size() const noexcept { return static_cast<size_t>(integral_bits); }
+			SEQ_ALWAYS_INLINE constexpr std::size_t get_size() const noexcept { return static_cast<std::size_t>(integral_bits); }
 			template<class U>
 			SEQ_ALWAYS_INLINE auto hash(const U& k) const noexcept
 			{
@@ -237,7 +237,7 @@ namespace seq
 			}
 
 			template<class U>
-			static SEQ_ALWAYS_INLINE bool check_prefix(RadixHasher<U> hash, RadixHasher<U> match, size_t start, size_t bits) noexcept
+			static SEQ_ALWAYS_INLINE bool check_prefix(RadixHasher<U> hash, RadixHasher<U> match, std::size_t start, std::size_t bits) noexcept
 			{
 				// Faster check_prefix() version
 				if constexpr (sizeof(U) < 4u)
@@ -380,41 +380,41 @@ namespace seq
 			static constexpr bool variable_length = true;
 			static constexpr bool prefix_search = true;
 			static constexpr bool has_fast_check_prefix = false;
-			static constexpr size_t max_bits = static_cast<size_t>(-1); // unlimited
-			static constexpr size_t bit_step = 4;
+			static constexpr std::size_t max_bits = static_cast<std::size_t>(-1); // unlimited
+			static constexpr std::size_t bit_step = 4;
 			using type = typename has_native_data_pointer<T>::type;
 			using less_type = default_less;
 			const type* data = nullptr;
-			size_t size = 0;
+			std::size_t size = 0;
 
-			SEQ_ALWAYS_INLINE auto get_size() const noexcept -> size_t { return static_cast<size_t>(size * sizeof(type) * 8ULL); }
+			SEQ_ALWAYS_INLINE auto get_size() const noexcept -> std::size_t { return static_cast<std::size_t>(size * sizeof(type) * 8ULL); }
 
-			SEQ_ALWAYS_INLINE auto n_bits(size_t shift, size_t count) const noexcept -> size_t
+			SEQ_ALWAYS_INLINE auto n_bits(std::size_t shift, std::size_t count) const noexcept -> std::size_t
 			{
 				if SEQ_UNLIKELY (count == 0)
 					return 0;
 
-				size_t byte_offset = shift >> 3u;
-				size_t bit_offset = (shift) & 7U;
+				std::size_t byte_offset = shift >> 3u;
+				std::size_t bit_offset = (shift) & 7U;
 
 				if constexpr (sizeof(type) == 1) {
 					// One byte: string
-					uint64_t hash = 0;
+					std::uint64_t hash = 0;
 					if (size >= byte_offset + 8u)
 						memcpy((void*)&hash, data + byte_offset, 8u);
 					else if (byte_offset < size)
-						memcpy((void*)&hash, data + byte_offset, static_cast<size_t>(size - byte_offset));
-					return static_cast<size_t>((swap_b(hash) << bit_offset) >> (64u - count));
+						memcpy((void*)&hash, data + byte_offset, static_cast<std::size_t>(size - byte_offset));
+					return static_cast<std::size_t>((swap_b(hash) << bit_offset) >> (64u - count));
 				}
 				else {
-					uint64_t hash = 0;
-					size_t char_offset = byte_offset / sizeof(type);
+					std::uint64_t hash = 0;
+					std::size_t char_offset = byte_offset / sizeof(type);
 					byte_offset = (byte_offset) % sizeof(type);
 
 					if (size >= char_offset + 8U / sizeof(type))
 						memcpy((void*)&hash, data + char_offset, 8U);
 					else if (char_offset < size)
-						memcpy((void*)&hash, data + char_offset, static_cast<size_t>((size - char_offset) * sizeof(type)));
+						memcpy((void*)&hash, data + char_offset, static_cast<std::size_t>((size - char_offset) * sizeof(type)));
 
 					// That's easier in big endian as all the bytes
 					// are already in the right order...
@@ -440,16 +440,16 @@ namespace seq
 						if (shift > 32 && (char_offset + 1) < size) {
 							auto hash2 = to_uint(data[char_offset + 1]);
 							hash = (hash << (byte_offset << 3u)) | (hash2 >> (64u - (byte_offset << 3u)));
-							return static_cast<size_t>((hash << bit_offset) >> (64u - count));
+							return static_cast<std::size_t>((hash << bit_offset) >> (64u - count));
 						}
 					}
-					return static_cast<size_t>((hash << ((byte_offset << 3u) + bit_offset)) >> (64u - count));
+					return static_cast<std::size_t>((hash << ((byte_offset << 3u) + bit_offset)) >> (64u - count));
 				}
 			}
 
 			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash() const noexcept { return static_cast<std::uint8_t>(hash_bytes_komihash(data, size * sizeof(type))); }
 
-			SEQ_ALWAYS_INLINE auto hash(const type* p, size_t size) const noexcept
+			SEQ_ALWAYS_INLINE auto hash(const type* p, std::size_t size) const noexcept
 			{
 				return RadixHasher<T>{ p, size };
 			}
@@ -461,9 +461,9 @@ namespace seq
 				return hash(k.data(),k.size());
 			}
 
-			static SEQ_ALWAYS_INLINE int compare(const type* v1, size_t l1, const type* v2, size_t l2) noexcept
+			static SEQ_ALWAYS_INLINE int compare(const type* v1, std::size_t l1, const type* v2, std::size_t l2) noexcept
 			{
-				size_t l = std::min(l1, l2);
+				std::size_t l = std::min(l1, l2);
 				if constexpr (sizeof(type) == 1) {
 					// Comparison for one byte string
 					using unsigned_char = typename std::make_unsigned<type>::type;
@@ -471,24 +471,24 @@ namespace seq
 						return (static_cast<unsigned_char>(*v1) < static_cast<unsigned_char>(*v2)) ? -1 : 1;
 					const type* end = v1 + l;
 					while ((v1 < end - (8 - 1))) {
-						uint64_t r1 = read_64(v1);
-						uint64_t r2 = read_64(v2);
+						std::uint64_t r1 = read_64(v1);
+						std::uint64_t r2 = read_64(v2);
 						if (r1 != r2)
 							return swap_b(r1) < swap_b(r2) ? -1 : 1;
 						v1 += 8;
 						v2 += 8;
 					}
 					if ((v1 < (end - 3))) {
-						uint32_t r1 = read_32(v1);
-						uint32_t r2 = read_32(v2);
+						std::uint32_t r1 = read_32(v1);
+						std::uint32_t r2 = read_32(v2);
 						if (r1 != r2)
 							return swap_b(r1) < swap_b(r2) ? -1 : 1;
 						v1 += 4;
 						v2 += 4;
 					}
 					if ((v1 < (end - 1))) {
-						uint16_t r1 = read_16(v1);
-						uint16_t r2 = read_16(v2);
+						std::uint16_t r1 = read_16(v1);
+						std::uint16_t r2 = read_16(v2);
 						if (r1 != r2)
 							return swap_b(r1) < swap_b(r2) ? -1 : 1;
 						v1 += 2;
@@ -502,7 +502,7 @@ namespace seq
 					// use standard lexicographic comparison
 					if (l && *v1 != *v2)
 						return (*v1) < (*v2) ? -1 : 1;
-					for (size_t i = 1; i < l; ++i)
+					for (std::size_t i = 1; i < l; ++i)
 						if (v1[i] != v2[i])
 							return v1[i] < v2[i] ? -1 : 1;
 				}
@@ -516,14 +516,14 @@ namespace seq
 				return compare(lh.data, lh.size, rh.data, rh.size);
 			}
 
-			static SEQ_ALWAYS_INLINE bool less(const type* v1, size_t l1, const type* v2, size_t l2) noexcept { return compare(v1, l1, v2, l2) < 0; }
+			static SEQ_ALWAYS_INLINE bool less(const type* v1, std::size_t l1, const type* v2, std::size_t l2) noexcept { return compare(v1, l1, v2, l2) < 0; }
 			template<class L, class R>
 			static SEQ_ALWAYS_INLINE bool less(const L& l, const R& r) noexcept
 			{
 				return compare(l, r) < 0;
 			}
 
-			static SEQ_ALWAYS_INLINE bool equal(const type* v1, size_t l1, const type* v2, size_t l2) noexcept
+			static SEQ_ALWAYS_INLINE bool equal(const type* v1, std::size_t l1, const type* v2, std::size_t l2) noexcept
 			{
 				if (l1 != l2)
 					return false;
@@ -561,13 +561,13 @@ namespace seq
 			}
 		};
 
-		template<class Tuple, size_t N = std::tuple_size<Tuple>::value>
+		template<class Tuple, std::size_t N = std::tuple_size<Tuple>::value>
 		struct TupleInfo
 		{
-			static constexpr size_t tuple_size = std::tuple_size<Tuple>::value;
-			static constexpr size_t pos = tuple_size - N;
+			static constexpr std::size_t tuple_size = std::tuple_size<Tuple>::value;
+			static constexpr std::size_t pos = tuple_size - N;
 			using type = typename std::tuple_element<pos, Tuple>::type;
-			static constexpr size_t size = sizeof(type) + TupleInfo<Tuple, N - 1>::size;
+			static constexpr std::size_t size = sizeof(type) + TupleInfo<Tuple, N - 1>::size;
 			static_assert(!RadixHasher<type>::variable_length, "tuple key only works with fixed size types");
 
 			static SEQ_ALWAYS_INLINE void build_hash(char* dst, const Tuple& t) noexcept
@@ -577,25 +577,25 @@ namespace seq
 				memcpy(dst, &s, sizeof(s));
 				return TupleInfo<Tuple, N - 1>::build_hash(dst + sizeof(type), t);
 			}
-			static SEQ_ALWAYS_INLINE uint8_t build_tiny_hash(uint8_t h, const char* src) noexcept
+			static SEQ_ALWAYS_INLINE std::uint8_t build_tiny_hash(std::uint8_t h, const char* src) noexcept
 			{
 				if constexpr (sizeof(type) == 1)
-					h ^= *reinterpret_cast<const uint8_t*>(src);
+					h ^= *reinterpret_cast<const std::uint8_t*>(src);
 				else if constexpr (sizeof(type) == 2)
-					h ^= static_cast<uint8_t>(read_16(src) * 14313749767032793493ULL);
+					h ^= static_cast<std::uint8_t>(read_16(src) * 14313749767032793493ULL);
 				else if constexpr (sizeof(type) == 4)
-					h ^= static_cast<uint8_t>(read_32(src) * 14313749767032793493ULL);
+					h ^= static_cast<std::uint8_t>(read_32(src) * 14313749767032793493ULL);
 				else if constexpr (sizeof(type) == 8)
-					h ^= static_cast<uint8_t>(read_64(src) * 14313749767032793493ULL);
+					h ^= static_cast<std::uint8_t>(read_64(src) * 14313749767032793493ULL);
 				return TupleInfo<Tuple, N - 1>::build_tiny_hash(h, src + sizeof(type));
 			}
 		};
 		template<class Tuple>
 		struct TupleInfo<Tuple, 0>
 		{
-			static constexpr size_t size = 0;
+			static constexpr std::size_t size = 0;
 			static SEQ_ALWAYS_INLINE void build_hash(char*, const Tuple&) {}
-			static SEQ_ALWAYS_INLINE uint8_t build_tiny_hash(uint8_t h, const char*) noexcept { return h; }
+			static SEQ_ALWAYS_INLINE std::uint8_t build_tiny_hash(std::uint8_t h, const char*) noexcept { return h; }
 		};
 
 		/// @brief Hash class for tuple
@@ -606,9 +606,9 @@ namespace seq
 			static constexpr bool variable_length = false;
 			static constexpr bool prefix_search = true;
 			static constexpr bool has_fast_check_prefix = false;
-			static constexpr size_t size = TupleInfo<T>::size;
-			static constexpr size_t max_bits = size * 8;
-			static constexpr size_t bit_step = 2;
+			static constexpr std::size_t size = TupleInfo<T>::size;
+			static constexpr std::size_t max_bits = size * 8;
+			static constexpr std::size_t bit_step = 2;
 			static constexpr bool is_transparent = true;
 
 			alignas(std::uint64_t) char data[size];
@@ -625,42 +625,42 @@ namespace seq
 			RadixHasher() {}
 			SEQ_ALWAYS_INLINE RadixHasher(const T& val) { TupleInfo<T>::build_hash(data, val); }
 
-			SEQ_ALWAYS_INLINE constexpr auto get_size() const noexcept -> size_t { return max_bits; }
+			SEQ_ALWAYS_INLINE constexpr auto get_size() const noexcept -> std::size_t { return max_bits; }
 
-			SEQ_ALWAYS_INLINE auto n_bits(size_t shift, size_t count) const noexcept -> size_t
+			SEQ_ALWAYS_INLINE auto n_bits(std::size_t shift, std::size_t count) const noexcept -> std::size_t
 			{
 				if constexpr (size == 1)
-					return as<true, uint8_t>().n_bits(shift, count);
+					return as<true, std::uint8_t>().n_bits(shift, count);
 				else if constexpr (size == 2)
-					return as<true, uint16_t>().n_bits(shift, count);
+					return as<true, std::uint16_t>().n_bits(shift, count);
 				else if constexpr (size == 4)
-					return as<true, uint32_t>().n_bits(shift, count);
+					return as<true, std::uint32_t>().n_bits(shift, count);
 				else if constexpr (size == 8)
-					return as<true, uint64_t>().n_bits(shift, count);
+					return as<true, std::uint64_t>().n_bits(shift, count);
 				else {
 					if SEQ_UNLIKELY (count == 0)
 						return 0;
-					size_t byte_offset = shift >> 3u;
-					size_t bit_offset = (shift) & 7U;
-					uint64_t hash = 0;
+					std::size_t byte_offset = shift >> 3u;
+					std::size_t bit_offset = (shift) & 7U;
+					std::uint64_t hash = 0;
 					if (size >= byte_offset + 8u)
 						memcpy((void*)&hash, data + byte_offset, 8u);
 					else if (byte_offset < size)
-						memcpy((void*)&hash, data + byte_offset, std::min((size_t)8, static_cast<size_t>(size - byte_offset)));
-					return static_cast<size_t>((swap_b(hash) << bit_offset) >> (64u - count));
+						memcpy((void*)&hash, data + byte_offset, std::min((std::size_t)8, static_cast<std::size_t>(size - byte_offset)));
+					return static_cast<std::size_t>((swap_b(hash) << bit_offset) >> (64u - count));
 				}
 			}
 
 			SEQ_ALWAYS_INLINE std::uint8_t tiny_hash() const noexcept
 			{
 				if constexpr (size == 1)
-					return as<false, uint8_t>().tiny_hash();
+					return as<false, std::uint8_t>().tiny_hash();
 				else if constexpr (size == 2)
-					return as<false, uint16_t>().tiny_hash();
+					return as<false, std::uint16_t>().tiny_hash();
 				else if constexpr (size == 4)
-					return as<false, uint32_t>().tiny_hash();
+					return as<false, std::uint32_t>().tiny_hash();
 				else if constexpr (size == 8)
-					return as<false, uint64_t>().tiny_hash();
+					return as<false, std::uint64_t>().tiny_hash();
 				else
 					return TupleInfo<T>::build_tiny_hash(0, data);
 			}
@@ -684,7 +684,7 @@ namespace seq
 		/// @brief Hasher using a hash function
 		template<class T, class Hash, class Less, class Equal>
 		struct RadixHasherUnordered
-		  : RadixHasher<size_t>
+		  : RadixHasher<std::size_t>
 		  , Hash
 		  , Equal
 		{
@@ -692,10 +692,10 @@ namespace seq
 			using this_type = RadixHasherUnordered<T, Hash, Less, Equal>;
 			static constexpr bool is_transparent = hash_is_transparent<Hash>::value;
 			static constexpr bool prefix_search = false;
-			static constexpr size_t bit_step = 1;
+			static constexpr std::size_t bit_step = 1;
 
-			SEQ_ALWAYS_INLINE RadixHasherUnordered(size_t val = 0, const Hash& h = {}, const Equal& eq = {})
-			  : RadixHasher<size_t>{ val }
+			SEQ_ALWAYS_INLINE RadixHasherUnordered(std::size_t val = 0, const Hash& h = {}, const Equal& eq = {})
+			  : RadixHasher<std::size_t>{ val }
 			  , Hash(h)
 			  , Equal(eq)
 			{
@@ -723,12 +723,12 @@ namespace seq
 		struct EmplacePolicy
 		{
 			template<class Vector, class K, class... Args>
-			static std::pair<size_t, bool> emplace_vector(Vector& v, K&& key, Args&&... args)
+			static std::pair<std::size_t, bool> emplace_vector(Vector& v, K&& key, Args&&... args)
 			{
 				return v.emplace(std::forward<K>(key), std::forward<Args>(args)...);
 			}
 			template<class Vector, class K, class... Args>
-			static size_t emplace_vector_no_check(Vector& v, K&& key, Args&&... args)
+			static std::size_t emplace_vector_no_check(Vector& v, K&& key, Args&&... args)
 			{
 				return v.emplace_no_check(std::forward<K>(key), std::forward<Args>(args)...).first;
 			}
@@ -742,13 +742,13 @@ namespace seq
 		struct TryEmplacePolicy
 		{
 			template<class Vector, class K, class... Args>
-			static std::pair<size_t, bool> emplace_vector(Vector& v, K&& key, Args&&... args)
+			static std::pair<std::size_t, bool> emplace_vector(Vector& v, K&& key, Args&&... args)
 			{
 				return v.emplace(
 				  typename Vector::value_type(std::piecewise_construct, std::forward_as_tuple(std::forward<K>(key)), std::forward_as_tuple(std::forward<Args>(args)...)));
 			}
 			template<class Vector, class K, class... Args>
-			static size_t emplace_vector_no_check(Vector& v, K&& key, Args&&... args)
+			static std::size_t emplace_vector_no_check(Vector& v, K&& key, Args&&... args)
 			{
 				return v
 				  .emplace_no_check(
@@ -772,12 +772,12 @@ namespace seq
 		/// @brief Copy count elements from src to dst about to be destroyed.
 		/// In case of exception, destroy all created elements in dst.
 		template<class U>
-		static void move_destroy(U* dst, U* src, size_t count)
+		static void move_destroy(U* dst, U* src, std::size_t count)
 		{
 			if constexpr (is_relocatable<U>::value)
 				memcpy(static_cast<void*>(dst), static_cast<const void*>(src), sizeof(U) * count);
 			else {
-				size_t i = 0;
+				std::size_t i = 0;
 				try {
 					for (; i < count; ++i)
 						new (dst + i) U(std::move_if_noexcept(src[i]));
@@ -793,7 +793,7 @@ namespace seq
 		/// @brief Insert element at src position while moving elements to the right at dst.
 		/// Basic exception guarantee.
 		template<class U, class Policy, class... Args>
-		static void insert_move_right_one(U* src, size_t count, Policy, Args&&... args)
+		static void insert_move_right_one(U* src, std::size_t count, Policy, Args&&... args)
 		{
 			U* dst = src + 1;
 
@@ -835,7 +835,7 @@ namespace seq
 		/// @brief Erase element at pos in src.
 		/// Basic exception guarantee
 		template<class U>
-		static void erase_pos(U* src, size_t pos, size_t count)
+		static void erase_pos(U* src, std::size_t pos, std::size_t count)
 		{
 			if constexpr (is_relocatable<U>::value) {
 				destroy_ptr(src + pos);
@@ -863,17 +863,17 @@ namespace seq
 
 		/// @brief Swiss table like find using AVX2, SSE3, or 8 byte movemask.
 		template<bool Sorted, bool UseLowerBound, class ExtractKey, class Equal, class Less, class T, class U>
-		static SEQ_ALWAYS_INLINE size_t find_value(const Equal& eq, const T* values, const std::uint8_t* ths, size_t size, std::uint8_t th, size_t* insert_pos, const U& val)
+		static SEQ_ALWAYS_INLINE std::size_t find_value(const Equal& eq, const T* values, const std::uint8_t* ths, std::size_t size, std::uint8_t th, std::size_t* insert_pos, const U& val)
 		{
 
 			if constexpr (UseLowerBound) {
 				*insert_pos = size;
 				if (Less{}(ExtractKey{}(values[size - 1]), val))
-					return static_cast<size_t>(-1);
+					return static_cast<std::size_t>(-1);
 			}
 #if defined(__SSE2__) || defined(__ARM_NEON) || defined(__ARM_NEON__)
 
-			for (size_t i = 0; i < size; i += 16) {
+			for (std::size_t i = 0; i < size; i += 16) {
 				if (unsigned found = movemask16(ths + i, th) & ((i + 16 > size) ? ((1U << (size & 15u)) - 1U) : 0xFFFFFFFFu)) {
 					do {
 						unsigned pos = bit_scan_forward_32(found);
@@ -885,11 +885,11 @@ namespace seq
 			}
 #else
 			{
-				size_t count = size & ~7U;
-				uint64_t _th;
+				std::size_t count = size & ~7U;
+				std::uint64_t _th;
 				memset(&_th, th, sizeof(_th));
-				for (size_t i = 0; i < count; i += 8) {
-					uint64_t found = movemask8((read_64(ths + i) ^ _th));
+				for (std::size_t i = 0; i < count; i += 8) {
+					std::uint64_t found = movemask8((read_64(ths + i) ^ _th));
 					while (found) {
 						unsigned pos = bit_scan_forward_64(found) >> 3;
 						if (eq(ExtractKey{}(values[i + pos]), val))
@@ -897,8 +897,8 @@ namespace seq
 						reinterpret_cast<unsigned char*>(&found)[pos] = 0;
 					}
 				}
-				if (size_t rem = size - count) {
-					uint64_t found = movemask8((read_64(ths + count) ^ _th)) & ((1ULL << (rem) * 8ULL) - 1ULL);
+				if (std::size_t rem = size - count) {
+					std::uint64_t found = movemask8((read_64(ths + count) ^ _th)) & ((1ULL << (rem) * 8ULL) - 1ULL);
 					while (found) {
 						unsigned pos = bit_scan_forward_64(found) >> 3;
 						if (eq(ExtractKey{}(values[count + pos]), val))
@@ -912,7 +912,7 @@ namespace seq
 			if constexpr (UseLowerBound)
 				*insert_pos = compute_lower_bound<ExtractKey, Less>(values, size, val);
 
-			return static_cast<size_t>(-1);
+			return static_cast<std::size_t>(-1);
 		}
 
 		/// @brief Insertion sort algorithm based on values and maintaining hash values order
@@ -947,21 +947,21 @@ namespace seq
 
 			static constexpr bool is_sorted = Sorted;
 			// header size on 64 bits
-			static constexpr size_t header_size = sizeof(std::uint64_t);
+			static constexpr std::size_t header_size = sizeof(std::uint64_t);
 			// minimum capacity, depends on sizeof(T) to allow an SSE2 (16 bytes) load
-			static constexpr size_t min_capacity = sizeof(T) == 1 ? 16 : sizeof(T) <= 3 ? 8 : sizeof(T) <= 8 ? 4 : sizeof(T) <= 16 ? 2 : 1;
+			static constexpr std::size_t min_capacity = sizeof(T) == 1 ? 16 : sizeof(T) <= 3 ? 8 : sizeof(T) <= 8 ? 4 : sizeof(T) <= 16 ? 2 : 1;
 			// maximum capacity (and size), lower for sorted elements
-			static constexpr size_t max_capacity = Sorted ? 64 : 96;
+			static constexpr std::size_t max_capacity = Sorted ? 64 : 96;
 
 			// returns size of header and tiny hash values
-			static size_t hash_for_size(size_t /*size*/, size_t capacity) noexcept { return header_size + capacity; }
+			static std::size_t hash_for_size(std::size_t /*size*/, std::size_t capacity) noexcept { return header_size + capacity; }
 			// returns the capacity for a given size
-			static size_t capacity_for_size(size_t size) noexcept
+			static std::size_t capacity_for_size(std::size_t size) noexcept
 			{
 				if (size <= min_capacity)
 					return min_capacity;
-				size_t bits = bit_scan_reverse_64(size);
-				size_t cap = (size_t)1 << bits;
+				std::size_t bits = bit_scan_reverse_64(size);
+				std::size_t cap = (std::size_t)1 << bits;
 				if (cap < size) {
 					cap *= 2;
 				}
@@ -970,10 +970,10 @@ namespace seq
 				return cap;
 			}
 
-			static SEQ_ALWAYS_INLINE constexpr size_t align_up(size_t size) noexcept { return (size + (alignof(T) - 1)) & ~(alignof(T) - 1); }
+			static SEQ_ALWAYS_INLINE constexpr std::size_t align_up(std::size_t size) noexcept { return (size + (alignof(T) - 1)) & ~(alignof(T) - 1); }
 
 			// Protect value_offset from over aligned types
-			static_assert(align_up(max_capacity + header_size) <= std::numeric_limits<uint16_t>::max());
+			static_assert(align_up(max_capacity + header_size) <= std::numeric_limits<std::uint16_t>::max());
 
 			std::uint16_t size;
 			std::uint16_t capacity;
@@ -981,23 +981,23 @@ namespace seq
 			std::uint16_t reserved;
 
 			SEQ_ALWAYS_INLINE bool full() const noexcept { return size >= max_capacity; }
-			SEQ_ALWAYS_INLINE size_t count() const noexcept { return size; }
+			SEQ_ALWAYS_INLINE std::size_t count() const noexcept { return size; }
 			SEQ_ALWAYS_INLINE const std::uint8_t* hashs() const noexcept { return reinterpret_cast<const std::uint8_t*>(this + 1); }
 			SEQ_ALWAYS_INLINE std::uint8_t* hashs() noexcept { return reinterpret_cast<std::uint8_t*>(this + 1); }
 			SEQ_ALWAYS_INLINE T* values() noexcept { return reinterpret_cast<T*>((char*)this + value_offset); }
 			SEQ_ALWAYS_INLINE const T* values() const noexcept { return reinterpret_cast<const T*>((char*)this + value_offset); }
 			SEQ_ALWAYS_INLINE const T& back() const noexcept { return values()[count() - 1]; }
-			SEQ_ALWAYS_INLINE std::uint8_t get_tiny_hash(size_t pos) const { return hashs()[pos]; }
+			SEQ_ALWAYS_INLINE std::uint8_t get_tiny_hash(std::size_t pos) const { return hashs()[pos]; }
 
 			// Returns lower bound for sorted leaf only
 			template<class ExtractKey, class Less, class Equal, class K>
-			SEQ_ALWAYS_INLINE size_t lower_bound(size_t start_bit, const K& key) const
+			SEQ_ALWAYS_INLINE std::size_t lower_bound(std::size_t start_bit, const K& key) const
 			{
 				return compute_lower_bound<ExtractKey, Less>(/* start_bit,*/ values(), count(), key);
 			}
 			// Check if given value already exists, and return insertion position for sorted leaf only
 			template<bool EnsureSorted, class ExtractKey, class Equal, class Less, class U>
-			SEQ_ALWAYS_INLINE std::pair<const T*, size_t> find_insert(const Equal& eq, size_t /*start_bit*/, size_t th, const U& val) const
+			SEQ_ALWAYS_INLINE std::pair<const T*, std::size_t> find_insert(const Equal& eq, std::size_t /*start_bit*/, std::size_t th, const U& val) const
 			{
 				using key_type = typename ExtractKeyResultType<ExtractKey, T>::type;
 				if constexpr (Sorted && EnsureSorted && std::is_arithmetic_v<key_type>) {
@@ -1007,18 +1007,18 @@ namespace seq
 					if (Less{}((val), ExtractKey{}(values()[0])))
 						return { nullptr, 0 };
 				}
-				size_t insert_pos = static_cast<size_t>(-1);
-				size_t pos = find_value<Sorted, (Sorted && EnsureSorted), ExtractKey, Equal, Less>(eq, values(), hashs(), count(), static_cast<std::uint8_t>(th), &insert_pos, val);
-				return { pos == static_cast<size_t>(-1) ? nullptr : values() + pos, insert_pos };
+				std::size_t insert_pos = static_cast<std::size_t>(-1);
+				std::size_t pos = find_value<Sorted, (Sorted && EnsureSorted), ExtractKey, Equal, Less>(eq, values(), hashs(), count(), static_cast<std::uint8_t>(th), &insert_pos, val);
+				return { pos == static_cast<std::size_t>(-1) ? nullptr : values() + pos, insert_pos };
 			}
 			// Returns value index, -1 if not found
 			template<class ExtractKey, class Equal, class Less, class K>
-			SEQ_ALWAYS_INLINE size_t find(const Equal& eq, size_t /*start_bit*/, std::uint8_t th, const K& key) const
+			SEQ_ALWAYS_INLINE std::size_t find(const Equal& eq, std::size_t /*start_bit*/, std::uint8_t th, const K& key) const
 			{
 				return find_value<Sorted, false, ExtractKey, Equal, Less>(eq, values(), hashs(), count(), th, nullptr, key);
 			}
 			template<class ExtractKey, class Equal, class K>
-			SEQ_ALWAYS_INLINE size_t find(const Equal& eq, std::uint8_t th, const K& key) const
+			SEQ_ALWAYS_INLINE std::size_t find(const Equal& eq, std::uint8_t th, const K& key) const
 			{
 				return find_value<Sorted, false, ExtractKey, Equal, default_less>(eq, values(), hashs(), count(), th, nullptr, key);
 			}
@@ -1032,10 +1032,10 @@ namespace seq
 
 			// Reallocate leaf on insertion
 			template<class NodeAllocator, class Policy, class... Args>
-			std::pair<LeafNode*, size_t> switch_buffer(NodeAllocator& al, size_t old_size, size_t pos, std::uint8_t th, Policy, Args&&... args)
+			std::pair<LeafNode*, std::size_t> switch_buffer(NodeAllocator& al, std::size_t old_size, std::size_t pos, std::uint8_t th, Policy, Args&&... args)
 			{
-				size_t new_capacity = capacity_for_size(old_size + 1);
-				size_t new_hash_count = hash_for_size(old_size + 1, new_capacity);
+				std::size_t new_capacity = capacity_for_size(old_size + 1);
+				std::size_t new_hash_count = hash_for_size(old_size + 1, new_capacity);
 				// might throw, fine
 				LeafNode* n = al.allocate(new_hash_count, new_capacity);
 				n->size = this->size;
@@ -1095,9 +1095,9 @@ namespace seq
 			}
 			// Insert new value. Does NOT check for already existing element.
 			template<class ExtractKey, class Less, class NodeAllocator, class Policy, class K, class... Args>
-			SEQ_ALWAYS_INLINE std::pair<LeafNode*, size_t> insert(NodeAllocator& al, size_t start_bit, size_t pos, std::uint8_t th, Policy p, K&& key, Args&&... args)
+			SEQ_ALWAYS_INLINE std::pair<LeafNode*, std::size_t> insert(NodeAllocator& al, std::size_t start_bit, std::size_t pos, std::uint8_t th, Policy p, K&& key, Args&&... args)
 			{
-				const size_t size = count();
+				const std::size_t size = count();
 
 				if constexpr (Sorted) {
 					if (pos > size)
@@ -1135,14 +1135,14 @@ namespace seq
 			}
 
 			template<class NodeAllocator>
-			LeafNode* erase(NodeAllocator& al, size_t pos)
+			LeafNode* erase(NodeAllocator& al, std::size_t pos)
 			{
-				size_t s = this->size;
+				std::size_t s = this->size;
 
 				// Case one value remaining, never throws
 				if (s == 1) {
 					values()->~T();
-					size_t cap = capacity_for_size(1);
+					std::size_t cap = capacity_for_size(1);
 					al.deallocate(this, hash_for_size(1, cap), cap);
 					return nullptr;
 				}
@@ -1175,7 +1175,7 @@ namespace seq
 				if (capacity > min_capacity && count() <= capacity / 2) {
 					// If the following throws, the tree remains in a valid state
 
-					size_t cap = capacity_for_size(count());
+					std::size_t cap = capacity_for_size(count());
 					// might throw, fine
 					LeafNode* n = al.allocate(hash_for_size(count(), cap), cap);
 					n->size = this->size;
@@ -1204,10 +1204,10 @@ namespace seq
 
 			// Create node with one value
 			template<class NodeAllocator, class Policy, class... Args>
-			static std::pair<LeafNode*, T*> make(NodeAllocator& alloc, size_t th, Policy, Args&&... args)
+			static std::pair<LeafNode*, T*> make(NodeAllocator& alloc, std::size_t th, Policy, Args&&... args)
 			{
-				const size_t capacity = capacity_for_size(1);
-				const size_t hash_count = hash_for_size(1, capacity);
+				const std::size_t capacity = capacity_for_size(1);
+				const std::size_t hash_count = hash_for_size(1, capacity);
 				LeafNode* tmp = alloc.allocate(hash_count, capacity);
 				tmp->size = 1;
 				tmp->capacity = (std::uint16_t)capacity;
@@ -1229,8 +1229,8 @@ namespace seq
 			template<class NodeAllocator>
 			static void destroy(NodeAllocator& alloc, LeafNode* node)
 			{
-				size_t size = node->count();
-				size_t cap = node->capacity;
+				std::size_t size = node->count();
+				std::size_t cap = node->capacity;
 				destroy_ptr(node->values(), size);
 				alloc.deallocate(node, hash_for_size(size, cap), cap);
 			}
@@ -1259,7 +1259,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE Dir* to_dir() noexcept { return static_cast<Dir*>(this->ptr()); }
 			SEQ_ALWAYS_INLINE Node* to_node() noexcept { return static_cast<Node*>(this->ptr()); }
 			SEQ_ALWAYS_INLINE Vector* to_vector() noexcept { return static_cast<Vector*>(this->ptr()); }
-			SEQ_ALWAYS_INLINE size_t size() const { return this->tag() == Dir::IsLeaf ? to_node()->count() : to_vector()->size(); }
+			SEQ_ALWAYS_INLINE std::size_t size() const { return this->tag() == Dir::IsLeaf ? to_node()->count() : to_vector()->size(); }
 			SEQ_ALWAYS_INLINE const typename Node::value_type& front() const { return this->tag() == Dir::IsLeaf ? *to_node()->values() : to_vector()->front(); }
 		};
 
@@ -1279,14 +1279,14 @@ namespace seq
 			static constexpr std::uint8_t IsDir = 1;
 			static constexpr std::uint8_t IsLeaf = 2;
 			static constexpr std::uint8_t IsVector = 3;
-			static constexpr size_t invalid = static_cast<size_t>(-1);
+			static constexpr std::size_t invalid = static_cast<std::size_t>(-1);
 
-			size_t hash_len = 0;		    // hash len in bits, size = 1 << hash_len
-			size_t dir_count = 0;		    // number of directories inside
-			size_t child_count = 0;		    // total number of children
-			size_t parent_pos = 0;		    // position within parent directory
-			size_t first_valid_child = invalid; // position of the first valid child, if possible a leaf node.
-			size_t prefix_len = 0;		    // prefix len in bits.
+			std::size_t hash_len = 0;		    // hash len in bits, size = 1 << hash_len
+			std::size_t dir_count = 0;		    // number of directories inside
+			std::size_t child_count = 0;		    // total number of children
+			std::size_t parent_pos = 0;		    // position within parent directory
+			std::size_t first_valid_child = invalid; // position of the first valid child, if possible a leaf node.
+			std::size_t prefix_len = 0;		    // prefix len in bits.
 			Directory* parent = nullptr;	    // parent directory (null for root leaf)
 
 			/// @brief Returns a child of this directory.
@@ -1312,7 +1312,7 @@ namespace seq
 			void compute_first_valid() noexcept
 			{
 				first_valid_child = invalid;
-				for (size_t i = 0; i < size(); ++i) {
+				for (std::size_t i = 0; i < size(); ++i) {
 					if (const_child(i).tag() == IsLeaf) {
 						first_valid_child = i;
 						break;
@@ -1327,7 +1327,7 @@ namespace seq
 			void for_each_leaf(Fun f) const
 			{
 				Directory* d = const_cast<Directory*>(this);
-				for (size_t i = 0; i < size(); ++i) {
+				for (std::size_t i = 0; i < size(); ++i) {
 					auto tag = d->child(i).tag();
 					if (tag == IsDir) {
 						d->child(i).to_dir()->for_each_leaf(f);
@@ -1340,16 +1340,16 @@ namespace seq
 			}
 
 			/// @brief Returns the full size of the directory
-			SEQ_ALWAYS_INLINE size_t size() const noexcept { return ((size_t)1 << hash_len); }
+			SEQ_ALWAYS_INLINE std::size_t size() const noexcept { return ((std::size_t)1 << hash_len); }
 			/// @brief Returns the children pointer
 			SEQ_ALWAYS_INLINE child_ptr* children() noexcept { return (reinterpret_cast<child_ptr*>(this + 1)); }
 			SEQ_ALWAYS_INLINE const child_ptr* children() const noexcept { return (reinterpret_cast<const child_ptr*>(this + 1)); }
 			/// @brief Returns child at given position
-			SEQ_ALWAYS_INLINE child_ptr& child(size_t pos) noexcept { return children()[pos]; }
-			SEQ_ALWAYS_INLINE child_ptr const_child(size_t pos) const noexcept { return children()[pos]; }
+			SEQ_ALWAYS_INLINE child_ptr& child(std::size_t pos) noexcept { return children()[pos]; }
+			SEQ_ALWAYS_INLINE child_ptr const_child(std::size_t pos) const noexcept { return children()[pos]; }
 			/// @brief Allocate, initialize and return a directory with given bit length (log2(size))
 			template<class NodeAllocator>
-			static Directory* make(NodeAllocator& alloc, size_t hash_len)
+			static Directory* make(NodeAllocator& alloc, std::size_t hash_len)
 			{
 				return alloc.allocate_dir(hash_len);
 			}
@@ -1359,8 +1359,8 @@ namespace seq
 			{
 				// recursively destroy and deallocate
 				if (recurse) {
-					size_t size = dir->size();
-					for (size_t i = 0; i < size; ++i) {
+					std::size_t size = dir->size();
+					for (std::size_t i = 0; i < size; ++i) {
 						child_ptr child = dir->const_child(i);
 						if (child.full()) {
 							if (child.tag() == IsDir)
@@ -1378,14 +1378,14 @@ namespace seq
 		};
 
 		/// @brief Class handling allocation/deallocation for leaves and directories
-		template<class Allocator, class T, class Directory, class Node, size_t StartArity>
+		template<class Allocator, class T, class Directory, class Node, std::size_t StartArity>
 		class NodeAllocator : private Allocator
 		{
 			template<class Al, class U>
 			using RebindAlloc = typename std::allocator_traits<Al>::template rebind_alloc<U>;
 			using child_ptr = typename Directory::child_ptr;
 
-			static constexpr size_t alignment = alignof(T) > alignof(std::uint64_t) ? alignof(T) : alignof(std::uint64_t);
+			static constexpr std::size_t alignment = alignof(T) > alignof(std::uint64_t) ? alignof(T) : alignof(std::uint64_t);
 
 			struct alignas(alignment) AllocType
 			{
@@ -1398,7 +1398,7 @@ namespace seq
 			using vector_type = typename directory::vector_type;
 			using node = Node;
 
-			size_t size;	 // tree size
+			std::size_t size;	 // tree size
 			directory* root; // root directory
 
 			/// @brief Returns an empty directory used to initialize a radix tree
@@ -1473,43 +1473,43 @@ namespace seq
 			}
 
 			/// @brief Allocate a leaf node for given capacity
-			node* allocate(size_t hash_size, size_t capacity)
+			node* allocate(std::size_t hash_size, std::size_t capacity)
 			{
 				RebindAlloc<Allocator, AllocType> al = get_allocator();
-				size_t bytes = hash_size + sizeof(T) * capacity;
-				size_t to_alloc = bytes / sizeof(AllocType) + (bytes % sizeof(AllocType) ? 1 : 0) + (size_t)(alignment > 1);
+				std::size_t bytes = hash_size + sizeof(T) * capacity;
+				std::size_t to_alloc = bytes / sizeof(AllocType) + (bytes % sizeof(AllocType) ? 1 : 0) + (std::size_t)(alignment > 1);
 				return new (reinterpret_cast<node*>(al.allocate(to_alloc))) node();
 			}
 			/// @brief Deallocate a leaf node with given capacity
-			void deallocate(node* n, size_t hash_size, size_t capacity)
+			void deallocate(node* n, std::size_t hash_size, std::size_t capacity)
 			{
 				RebindAlloc<Allocator, AllocType> al = get_allocator();
-				size_t bytes = hash_size + sizeof(T) * capacity;
-				size_t to_dealloc = bytes / sizeof(AllocType) + (bytes % sizeof(AllocType) ? 1 : 0) + (size_t)(alignment > 1);
+				std::size_t bytes = hash_size + sizeof(T) * capacity;
+				std::size_t to_dealloc = bytes / sizeof(AllocType) + (bytes % sizeof(AllocType) ? 1 : 0) + (std::size_t)(alignment > 1);
 				n->~node();
 				al.deallocate(reinterpret_cast<AllocType*>(n), to_dealloc);
 			}
 
 			/// @brief Allocate a directory for given bit length
-			directory* allocate_dir(size_t hash_len)
+			directory* allocate_dir(std::size_t hash_len)
 			{
-				static constexpr size_t alloc_size = sizeof(std::uint64_t);
+				static constexpr std::size_t alloc_size = sizeof(std::uint64_t);
 
-				if (hash_len >= sizeof(size_t) * 8 - 1)
+				if (hash_len >= sizeof(std::size_t) * 8 - 1)
 					throw std::length_error("directory arity is too large");
 
-				size_t dir_size = 1ULL << hash_len;
+				std::size_t dir_size = 1ULL << hash_len;
 
-				if (dir_size > (std::numeric_limits<size_t>::max() - sizeof(directory)) / sizeof(child_ptr))
+				if (dir_size > (std::numeric_limits<std::size_t>::max() - sizeof(directory)) / sizeof(child_ptr))
 					throw std::length_error("directory allocation size overflow");
 
-				size_t bytes = sizeof(directory) + sizeof(child_ptr) * dir_size;
-				size_t to_alloc = bytes / alloc_size + (bytes % alloc_size ? 1 : 0);
+				std::size_t bytes = sizeof(directory) + sizeof(child_ptr) * dir_size;
+				std::size_t to_alloc = bytes / alloc_size + (bytes % alloc_size ? 1 : 0);
 
 				RebindAlloc<Allocator, std::uint64_t> al = get_allocator();
 				directory* dir = new (reinterpret_cast<directory*>(al.allocate(to_alloc))) directory();
 				dir->hash_len = hash_len;
-				for (size_t i = 0; i < dir->size(); ++i)
+				for (std::size_t i = 0; i < dir->size(); ++i)
 					new (dir->children() + i) child_ptr();
 				// memset(static_cast<void*>(dir), 0, to_alloc * sizeof(std::uint64_t));
 				return dir;
@@ -1517,10 +1517,10 @@ namespace seq
 			/// @brief Deallocate directory
 			void deallocate_dir(directory* dir)
 			{
-				static constexpr size_t alloc_size = sizeof(std::uint64_t);
+				static constexpr std::size_t alloc_size = sizeof(std::uint64_t);
 				RebindAlloc<Allocator, std::uint64_t> al = get_allocator();
-				size_t bytes = sizeof(directory) + sizeof(child_ptr) * dir->size();
-				size_t to_dealloc = bytes / alloc_size + (bytes % alloc_size ? 1 : 0);
+				std::size_t bytes = sizeof(directory) + sizeof(child_ptr) * dir->size();
+				std::size_t to_dealloc = bytes / alloc_size + (bytes % alloc_size ? 1 : 0);
 				dir->~directory();
 				al.deallocate(reinterpret_cast<std::uint64_t*>(dir), to_dealloc);
 			}
@@ -1535,17 +1535,17 @@ namespace seq
 			using node = typename Dir::node;
 
 			Dir* dir;
-			size_t bit_pos;	 // bit position of the directory
-			size_t child;	 // node position in directory
-			size_t node_pos; // position within node
+			std::size_t bit_pos;	 // bit position of the directory
+			std::size_t child;	 // node position in directory
+			std::size_t node_pos; // position within node
 
 			SEQ_ALWAYS_INLINE const node* to_node() const noexcept { return static_cast<const node*>(dir->const_child(child).ptr()); }
 			SEQ_ALWAYS_INLINE const VectorType* to_vector() const noexcept { return static_cast<const VectorType*>(dir->const_child(child).ptr()); }
 
 			/// @brief Returns the bit position of given directory
-			static size_t get_bit_pos(const Dir* dir) noexcept
+			static std::size_t get_bit_pos(const Dir* dir) noexcept
 			{
-				size_t bit_pos = dir->prefix_len;
+				std::size_t bit_pos = dir->prefix_len;
 				while (dir->parent) {
 					bit_pos += dir->parent->hash_len + dir->parent->prefix_len;
 					dir = dir->parent;
@@ -1556,7 +1556,7 @@ namespace seq
 		public:
 			using iterator_category = std::bidirectional_iterator_tag;
 			using value_type = T;
-			using size_type = size_t;
+			using size_type = std::size_t;
 			using difference_type = std::ptrdiff_t;
 			using const_pointer = const value_type*;
 			using const_reference = const value_type&;
@@ -1566,14 +1566,14 @@ namespace seq
 			struct PosInDir
 			{
 				Dir* dir;
-				size_t child;
-				size_t bit_pos;
+				std::size_t child;
+				std::size_t bit_pos;
 			};
 
-			static PosInDir find_next(const Dir* current, size_t current_pos, size_t bit_pos) noexcept
+			static PosInDir find_next(const Dir* current, std::size_t current_pos, std::size_t bit_pos) noexcept
 			{
 				// go right on the directory
-				size_t dir_size = current->size();
+				std::size_t dir_size = current->size();
 				for (; current_pos != dir_size; ++current_pos) {
 					if (current->const_child(current_pos))
 						break;
@@ -1599,17 +1599,17 @@ namespace seq
 				return { nullptr, 0, 0 }; // end of iteration
 			}
 
-			static PosInDir find_prev(const Dir* current, size_t current_pos, size_t bit_pos) noexcept
+			static PosInDir find_prev(const Dir* current, std::size_t current_pos, std::size_t bit_pos) noexcept
 			{
 				// go left on the directory
-				size_t dir_size = current->size();
+				std::size_t dir_size = current->size();
 				if (current_pos == dir_size)
 					--current_pos;
-				for (; current_pos != static_cast<size_t>(-1); --current_pos) {
+				for (; current_pos != static_cast<std::size_t>(-1); --current_pos) {
 					if (current->const_child(current_pos))
 						break;
 				}
-				child_ptr found = current_pos != static_cast<size_t>(-1) ? current->const_child(current_pos) : child_ptr();
+				child_ptr found = current_pos != static_cast<std::size_t>(-1) ? current->const_child(current_pos) : child_ptr();
 
 				// found a valid non dir node: return
 				if (found && found.tag() != Dir::IsDir)
@@ -1663,13 +1663,13 @@ namespace seq
 				dir = tmp.dir;
 				child = tmp.child;
 				child_ptr c = dir->children()[child];
-				node_pos = c.tag() == Dir::IsLeaf ? c.to_node()->count() - 1 : static_cast<size_t>(c.to_vector()->size()) - 1;
+				node_pos = c.tag() == Dir::IsLeaf ? c.to_node()->count() - 1 : static_cast<std::size_t>(c.to_vector()->size()) - 1;
 				bit_pos = tmp.bit_pos;
 
 				return *this;
 			}
 
-			SEQ_ALWAYS_INLINE RadixConstIter(const Dir* d, size_t c, size_t np, size_t bp) noexcept
+			SEQ_ALWAYS_INLINE RadixConstIter(const Dir* d, std::size_t c, std::size_t np, std::size_t bp) noexcept
 			  : dir(const_cast<Dir*>(d))
 			  , bit_pos(bp)
 			  , child(c)
@@ -1716,12 +1716,12 @@ namespace seq
 					auto tmp = find_prev(dir, dir->size(), 0);
 					dir = tmp.dir;
 					child = tmp.child;
-					node_pos = dir->const_child(child).tag() == Dir::IsVector ? static_cast<size_t>(to_vector()->size()) - 1 : to_node()->count() - 1;
+					node_pos = dir->const_child(child).tag() == Dir::IsVector ? static_cast<std::size_t>(to_vector()->size()) - 1 : to_node()->count() - 1;
 					bit_pos = tmp.bit_pos;
 					return *this;
 				}
 				--node_pos;
-				if (node_pos == static_cast<size_t>(-1))
+				if (node_pos == static_cast<std::size_t>(-1))
 					return prev();
 				return *this;
 			}
@@ -1783,37 +1783,37 @@ namespace seq
 			{
 			}
 
-			SEQ_ALWAYS_INLINE size_t size() const noexcept { return set.size(); }
-			SEQ_ALWAYS_INLINE size_t capacity() const noexcept { return set.size(); }
+			SEQ_ALWAYS_INLINE std::size_t size() const noexcept { return set.size(); }
+			SEQ_ALWAYS_INLINE std::size_t capacity() const noexcept { return set.size(); }
 			SEQ_ALWAYS_INLINE const T& front() const noexcept { return set.pos(0); }
 			SEQ_ALWAYS_INLINE const T& back() const noexcept { return set.pos(set.size() - 1); }
 			template<class... Args>
-			SEQ_ALWAYS_INLINE std::pair<size_t, bool> emplace(Args&&... args)
+			SEQ_ALWAYS_INLINE std::pair<std::size_t, bool> emplace(Args&&... args)
 			{
 				return set.emplace_pos(std::forward<Args>(args)...);
 			}
 			template<class... Args>
-			SEQ_ALWAYS_INLINE std::pair<size_t, bool> emplace_no_check(Args&&... args)
+			SEQ_ALWAYS_INLINE std::pair<std::size_t, bool> emplace_no_check(Args&&... args)
 			{
 				return set.emplace_pos(std::forward<Args>(args)...);
 			}
-			SEQ_ALWAYS_INLINE void erase(size_t pos) { set.erase_pos(pos); }
+			SEQ_ALWAYS_INLINE void erase(std::size_t pos) { set.erase_pos(pos); }
 			template<class K>
-			SEQ_ALWAYS_INLINE size_t find(const K& key) const
+			SEQ_ALWAYS_INLINE std::size_t find(const K& key) const
 			{
 				return set.find_pos(key);
 			}
 			template<class K>
-			SEQ_ALWAYS_INLINE size_t lower_bound(const K& key) const
+			SEQ_ALWAYS_INLINE std::size_t lower_bound(const K& key) const
 			{
 				return set.lower_bound_pos(key);
 			}
 			template<class K>
-			SEQ_ALWAYS_INLINE size_t upper_bound(const K& key) const
+			SEQ_ALWAYS_INLINE std::size_t upper_bound(const K& key) const
 			{
 				return set.upper_bound_pos(key);
 			}
-			SEQ_ALWAYS_INLINE const T& at(size_t pos) const { return set.pos(pos); }
+			SEQ_ALWAYS_INLINE const T& at(std::size_t pos) const { return set.pos(pos); }
 		};
 
 		/// @brief Unsorted vector node based on seq::dvector
@@ -1833,14 +1833,14 @@ namespace seq
 			{
 			}
 
-			SEQ_ALWAYS_INLINE size_t size() const noexcept { return vector.size(); }
-			SEQ_ALWAYS_INLINE size_t capacity() const noexcept { return vector.capacity(); }
+			SEQ_ALWAYS_INLINE std::size_t size() const noexcept { return vector.size(); }
+			SEQ_ALWAYS_INLINE std::size_t capacity() const noexcept { return vector.capacity(); }
 			SEQ_ALWAYS_INLINE const T& front() const noexcept { return vector.front(); }
 			SEQ_ALWAYS_INLINE const T& back() const noexcept { return vector.back(); }
 			template<class K, class... Args>
-			SEQ_ALWAYS_INLINE std::pair<size_t, bool> emplace(K&& key, Args&&... args)
+			SEQ_ALWAYS_INLINE std::pair<std::size_t, bool> emplace(K&& key, Args&&... args)
 			{
-				size_t found = find(key);
+				std::size_t found = find(key);
 				if (found == size()) {
 					vector.emplace_back(std::forward<K>(key), std::forward<Args>(args)...);
 					return { vector.size() - 1, true };
@@ -1848,32 +1848,32 @@ namespace seq
 				return { found, false };
 			}
 			template<class... Args>
-			SEQ_ALWAYS_INLINE std::pair<size_t, bool> emplace_no_check(Args&&... args)
+			SEQ_ALWAYS_INLINE std::pair<std::size_t, bool> emplace_no_check(Args&&... args)
 			{
 				vector.emplace_back(std::forward<Args>(args)...);
 				return { vector.size() - 1, true };
 			}
-			SEQ_ALWAYS_INLINE void erase(size_t pos) { vector.erase(vector.begin() + pos); }
+			SEQ_ALWAYS_INLINE void erase(std::size_t pos) { vector.erase(vector.begin() + pos); }
 			template<class K>
-			SEQ_ALWAYS_INLINE size_t find(const K& key) const
+			SEQ_ALWAYS_INLINE std::size_t find(const K& key) const
 			{
-				size_t count = vector.size();
-				for (size_t i = 0; i < count; ++i)
+				std::size_t count = vector.size();
+				for (std::size_t i = 0; i < count; ++i)
 					if (equal(vector[i], key))
 						return i;
 				return vector.size();
 			}
 			template<class... Args>
-			SEQ_ALWAYS_INLINE size_t lower_bound(Args&&... args) const noexcept
+			SEQ_ALWAYS_INLINE std::size_t lower_bound(Args&&... args) const noexcept
 			{
 				return vector.size();
 			}
 			template<class... Args>
-			SEQ_ALWAYS_INLINE size_t upper_bound(Args&&... args) const noexcept
+			SEQ_ALWAYS_INLINE std::size_t upper_bound(Args&&... args) const noexcept
 			{
 				return vector.size();
 			}
-			SEQ_ALWAYS_INLINE const T& at(size_t pos) const noexcept { return vector[pos]; }
+			SEQ_ALWAYS_INLINE const T& at(std::size_t pos) const noexcept { return vector[pos]; }
 		};
 
 		/// @brief Radix tree container using Variable Arity Radix Tree
@@ -1882,14 +1882,14 @@ namespace seq
 		/// @tparam NodeType leaf node type
 		/// @tparam Hash Hasher type, either Hasher or SortedHasher
 		/// @tparam Extract extract key from value type
-		template<class T, class Hash, class ExtractKey = default_key, class Allocator = std::allocator<T>, class NodeType = LeafNode<T>, size_t MaxDepth = 16>
+		template<class T, class Hash, class ExtractKey = default_key, class Allocator = std::allocator<T>, class NodeType = LeafNode<T>, std::size_t MaxDepth = 16>
 		struct RadixTree : public Hash
 		{
-			static constexpr size_t start_arity = Hash::bit_step;
+			static constexpr std::size_t start_arity = Hash::bit_step;
 			static constexpr bool prefix_search = Hash::prefix_search;
 			static constexpr bool variable_length = Hash::variable_length;
 			static constexpr bool is_sorted = NodeType::is_sorted;
-			static constexpr size_t minus_one_size_t = static_cast<size_t>(-1);
+			static constexpr std::size_t minus_one_size_t = static_cast<std::size_t>(-1);
 
 			using less_type = typename Hash::less_type;
 			using node = NodeType;
@@ -1916,7 +1916,7 @@ namespace seq
 				if (size() == 0)
 					return;
 
-				d_base.root->for_each_leaf([](directory* dir, size_t pos) {
+				d_base.root->for_each_leaf([](directory* dir, std::size_t pos) {
 					auto child = dir->child(pos);
 					if (child.tag() == directory::IsLeaf) {
 						child.to_node()->template sort<extract_key_type>(Less{});
@@ -2116,12 +2116,12 @@ namespace seq
 			// Size functions
 
 			SEQ_ALWAYS_INLINE bool empty() const noexcept { return d_base.size == 0; }
-			SEQ_ALWAYS_INLINE size_t size() const noexcept { return d_base.size; }
-			SEQ_ALWAYS_INLINE size_t max_size() const
+			SEQ_ALWAYS_INLINE std::size_t size() const noexcept { return d_base.size; }
+			SEQ_ALWAYS_INLINE std::size_t max_size() const
 			{
 				using difference_type = std::ptrdiff_t;
 
-				return std::min(traits::max_size(get_allocator()), static_cast<size_t>(std::numeric_limits<difference_type>::max()));
+				return std::min(traits::max_size(get_allocator()), static_cast<std::size_t>(std::numeric_limits<difference_type>::max()));
 			}
 
 			/// @brief Destroy and deallocate all values, directories and nodes
@@ -2148,7 +2148,7 @@ namespace seq
 				d_base.swap_data(other.d_base);
 			}
 
-			void rehash(size_t leaf_count)
+			void rehash(std::size_t leaf_count)
 			{
 				if (node::is_sorted)
 					return;
@@ -2157,7 +2157,7 @@ namespace seq
 					leaf_count = 1;
 
 				// Compute root arity
-				size_t bits = (leaf_count > 1) ? bit_scan_reverse_64(leaf_count - 1) + 1 : 0;
+				std::size_t bits = (leaf_count > 1) ? bit_scan_reverse_64(leaf_count - 1) + 1 : 0;
 				bits = ((bits + start_arity - 1) / start_arity) * start_arity;
 
 				// Create new radix tree
@@ -2182,12 +2182,12 @@ namespace seq
 			}
 
 			/// @brief Reserve capcity ahead, only works for unsorted trees
-			void reserve(size_t capacity)
+			void reserve(std::size_t capacity)
 			{
 				if (node::is_sorted)
 					return;
 
-				size_t leaf_count = capacity / node::max_capacity + static_cast<size_t>(capacity % node::max_capacity != 0);
+				std::size_t leaf_count = capacity / node::max_capacity + static_cast<std::size_t>(capacity % node::max_capacity != 0);
 				rehash(leaf_count);
 			}
 
@@ -2212,10 +2212,10 @@ namespace seq
 				if (empty())
 					return 0.f;
 
-				size_t count = 0;
-				size_t capacity = 0;
+				std::size_t count = 0;
+				std::size_t capacity = 0;
 
-				d_base.root->for_each_leaf([&](directory* dir, size_t pos) {
+				d_base.root->for_each_leaf([&](directory* dir, std::size_t pos) {
 					auto child = dir->child(pos);
 					if (child.tag() == directory::IsLeaf) {
 						auto* n = child.to_node();
@@ -2247,7 +2247,7 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE const hash_type& hash_key(const hash_type& val) const { return val; }
 
-			auto get_prefix_first_bits(directory* dir, size_t count, size_t bit_pos) -> size_t
+			auto get_prefix_first_bits(directory* dir, std::size_t count, std::size_t bit_pos) -> std::size_t
 			{
 				// Returns the count first bits starting at given directory based on any of its children
 				if (bit_pos == minus_one_size_t)
@@ -2255,7 +2255,7 @@ namespace seq
 				return hash_key(dir->any_child()).n_bits(bit_pos, count);
 			}
 
-			directory* make_intermediate(directory* parent, size_t hash_len, size_t parent_pos)
+			directory* make_intermediate(directory* parent, std::size_t hash_len, std::size_t parent_pos)
 			{
 				directory* intermediate = directory::make(d_base, hash_len);
 				intermediate->parent = parent;
@@ -2270,14 +2270,14 @@ namespace seq
 			directory* merge_dir(directory* dir)
 			{
 				directory* parent_dir = dir->parent;
-				size_t parent_pos = dir->parent_pos;
+				std::size_t parent_pos = dir->parent_pos;
 
-				size_t size = dir->size();
+				std::size_t size = dir->size();
 
 				// new directory hash len
-				size_t new_hash_len = start_arity + dir->hash_len;
+				std::size_t new_hash_len = start_arity + dir->hash_len;
 
-				if SEQ_UNLIKELY (new_hash_len >= sizeof(size_t) * 8 - 1)
+				if SEQ_UNLIKELY (new_hash_len >= sizeof(std::size_t) * 8 - 1)
 					//  we are above maximum allowed size for a directory
 					return nullptr;
 
@@ -2289,14 +2289,14 @@ namespace seq
 				new_dir->parent = parent_dir;
 
 				try {
-					for (size_t i = 0; i < size; ++i) {
+					for (std::size_t i = 0; i < size; ++i) {
 						directory* child = static_cast<directory*>(dir->children()[i].ptr());
-						size_t child_count = child->size();
+						std::size_t child_count = child->size();
 
 						if (prefix_search && child->prefix_len >= start_arity) {
 							// keep this directory and remove start_arity to the prefix.
-							size_t dir_pos = iterator::get_bit_pos(new_dir);
-							size_t loc = hash_key(child->any_child()).n_bits(dir_pos, new_hash_len);
+							std::size_t dir_pos = iterator::get_bit_pos(new_dir);
+							std::size_t loc = hash_key(child->any_child()).n_bits(dir_pos, new_hash_len);
 
 							child->prefix_len -= start_arity;
 							new_dir->child(loc) = dir->const_child(i);
@@ -2310,11 +2310,11 @@ namespace seq
 
 						if (child->hash_len != start_arity) {
 							// if child has more than start_arity bits
-							size_t rem_bits = child->hash_len - start_arity;
-							size_t mask = ((size_t{ 1 } << rem_bits) - 1);
+							std::size_t rem_bits = child->hash_len - start_arity;
+							std::size_t mask = ((std::size_t{ 1 } << rem_bits) - 1);
 
-							for (size_t j = 0; j < child_count; ++j) {
-								size_t loc = (i << start_arity) | (j >> rem_bits); // take high bits of j
+							for (std::size_t j = 0; j < child_count; ++j) {
+								std::size_t loc = (i << start_arity) | (j >> rem_bits); // take high bits of j
 								directory* intermediate = static_cast<directory*>(new_dir->children()[loc].ptr());
 								if (!intermediate)
 									// this part might throw which is a problem, we are in an intermediate state.
@@ -2324,7 +2324,7 @@ namespace seq
 								if ((intermediate->children()[j & mask] = child->children()[j])) // take high bits of j
 								{
 									intermediate->child_count++;
-									if (intermediate->first_valid_child == static_cast<uint64_t>(-1))
+									if (intermediate->first_valid_child == static_cast<std::uint64_t>(-1))
 										intermediate->first_valid_child = j & mask;
 								}
 								if (child->children()[j].tag() == directory::IsDir) {
@@ -2341,9 +2341,9 @@ namespace seq
 							}
 						}
 						else {
-							for (size_t j = 0; j < child_count; ++j) {
+							for (std::size_t j = 0; j < child_count; ++j) {
 								// compute location
-								size_t loc = j | (i << child->hash_len);
+								std::size_t loc = j | (i << child->hash_len);
 
 								if ((new_dir->children()[loc] = child->children()[j]))
 									++new_dir->child_count;
@@ -2408,13 +2408,13 @@ namespace seq
 			}
 
 			/// @brief Returns the number of common bits from start_pos in the range [first,last)
-			template<size_t BitStep, class Iter>
-			auto nb_common_bits(size_t start_bit, Iter start, Iter end) -> size_t
+			template<std::size_t BitStep, class Iter>
+			auto nb_common_bits(std::size_t start_bit, Iter start, Iter end) -> std::size_t
 			{
 				// Compute number of common bits from start_bits for given range
 				// The result is rounded down to the previous BitStep multiplier
 
-				size_t max_bits = hash_type::max_bits;
+				std::size_t max_bits = hash_type::max_bits;
 
 				if constexpr (variable_length) {
 					// Compute maximum possible common bits
@@ -2425,7 +2425,7 @@ namespace seq
 					for (; it != end; ++it) {
 						auto size = hash_key((*it)).get_size();
 						if (size > start_bit) {
-							size_t bits = size - start_bit;
+							std::size_t bits = size - start_bit;
 							max_bits = std::max(max_bits, bits);
 						}
 					}
@@ -2434,15 +2434,15 @@ namespace seq
 				auto first = hash_key((*start));
 
 				++start;
-				size_t bits = max_bits;
-				size_t i = 1;
+				std::size_t bits = max_bits;
+				std::size_t i = 1;
 				for (; start != end && bits > 0; ++start, ++i) {
 					auto tmp = hash_key(*start);
-					size_t start = start_bit;
-					size_t common = 0;
+					std::size_t start = start_bit;
+					std::size_t common = 0;
 
 					for (;;) {
-						if (size_t x = first.n_bits(start, 32u) ^ tmp.n_bits(start, 32u)) {
+						if (std::size_t x = first.n_bits(start, 32u) ^ tmp.n_bits(start, 32u)) {
 							common += 32U - bit_scan_reverse_32(static_cast<std::uint32_t>(x)) - 1U;
 							break;
 						}
@@ -2461,7 +2461,7 @@ namespace seq
 			}
 
 			template<class Iter>
-			auto compute_common_bits(size_t start_pos, Iter first, Iter last) -> size_t
+			auto compute_common_bits(std::size_t start_pos, Iter first, Iter last) -> std::size_t
 			{
 				// Returns the number of common bits from start_pos in the range [first,last)
 				return nb_common_bits<start_arity>(start_pos, first, last);
@@ -2469,7 +2469,7 @@ namespace seq
 
 			/// @brief Returns the number of common bits from start_pos between first and second
 			template<class K1, class K2>
-			auto compute_common_bits_2(size_t start_bits, const K1& first, const K2& second) -> size_t
+			auto compute_common_bits_2(std::size_t start_bits, const K1& first, const K2& second) -> std::size_t
 			{
 				// Returns the number of common bits from start_pos between first and second
 				struct Iter
@@ -2489,15 +2489,15 @@ namespace seq
 
 			/// @brief Move all elements within given leaf into a newly created vector, and insert given new value
 			template<class Policy, class K, class... Args>
-			const_iterator insert_in_vector(directory* dir, size_t bit_pos, node* child, size_t pos, Policy, K&& key, Args&&... args)
+			const_iterator insert_in_vector(directory* dir, std::size_t bit_pos, node* child, std::size_t pos, Policy, K&& key, Args&&... args)
 			{
 				// turn node into a vector and move values
 				vector_type* vec = d_base.make_vector(*this);
-				size_t position = 0;
+				std::size_t position = 0;
 				try {
 					T* vals = child->values();
-					size_t count = child->count();
-					for (size_t i = 0; i < count; ++i)
+					std::size_t count = child->count();
+					for (std::size_t i = 0; i < count; ++i)
 						vec->emplace_no_check(std::move_if_noexcept(vals[i]));
 					position = Policy::emplace_vector_no_check(*vec, std::forward<K>(key), std::forward<Args>(args)...);
 				}
@@ -2521,9 +2521,9 @@ namespace seq
 			}
 
 			/// @brief Returns directory depth
-			size_t get_depth(directory* dir)
+			std::size_t get_depth(directory* dir)
 			{
-				size_t depth = 0;
+				std::size_t depth = 0;
 				while (dir->parent) {
 					++depth;
 					dir = dir->parent;
@@ -2533,12 +2533,12 @@ namespace seq
 
 			/// @brief Rehash leaf and move its elements to deeper leaves. Then, insert new value.
 			template<bool EnsureSorted, class Policy, class K, class... Args>
-			const_iterator rehash_node_and_insert(directory* dir, size_t hash_bits, const_hash_ref hash, std::uint8_t th, Policy policy, K&& key, Args&&... args)
+			const_iterator rehash_node_and_insert(directory* dir, std::size_t hash_bits, const_hash_ref hash, std::uint8_t th, Policy policy, K&& key, Args&&... args)
 			{
 				static constexpr bool Sort = EnsureSorted && node::is_sorted;
 
 				// get position in directory
-				size_t pos = hash.n_bits(hash_bits, dir->hash_len);
+				std::size_t pos = hash.n_bits(hash_bits, dir->hash_len);
 				// get leaf, which cannot be null at this point
 				node* child = dir->const_child(pos).to_node();
 
@@ -2546,7 +2546,7 @@ namespace seq
 
 				// increment bit position and save it
 				hash_bits += dir->hash_len;
-				size_t prev_hash_bits = hash_bits;
+				std::size_t prev_hash_bits = hash_bits;
 
 				if ((!variable_length && hash_bits > Hash::max_bits - start_arity) || (variable_length && get_depth(dir) > MaxDepth))
 					// We exhausted all available bits, no choice but to turn this leaf into a vector
@@ -2558,21 +2558,21 @@ namespace seq
 				try {
 					// Rehash node and insert its values inside the new directory
 					T* vals = child->values();
-					size_t count = child->count();
+					std::size_t count = child->count();
 
 					if constexpr (prefix_search) {
 						// Find common prefix and increment bit position accordingly
-						if (size_t common_bits = compute_common_bits(hash_bits, vals, vals + count)) {
+						if (std::size_t common_bits = compute_common_bits(hash_bits, vals, vals + count)) {
 							child_dir->prefix_len = common_bits;
 							hash_bits += common_bits;
 						}
 					}
 
-					for (size_t i = 0; i < count; ++i) {
+					for (std::size_t i = 0; i < count; ++i) {
 
 						// Compute position in directory.
 						// This actually recompute the hash value (potentially costly).
-						size_t new_pos = hash_key(vals[i]).n_bits(hash_bits, start_arity);
+						std::size_t new_pos = hash_key(vals[i]).n_bits(hash_bits, start_arity);
 
 						// get the tiny hash
 						std::uint8_t cth = child->get_tiny_hash(i);
@@ -2588,7 +2588,7 @@ namespace seq
 							// if Sort is false, insert the value at the end of the leaf
 							auto* n = static_cast<node*>(child_dir->const_child(new_pos).ptr());
 							auto p = n->template insert<extract_key_type, Less>(
-							  d_base, hash_bits, Sort ? static_cast<size_t>(-1) : n->count(), cth, EmplacePolicy{}, std::move(vals[i]));
+							  d_base, hash_bits, Sort ? static_cast<std::size_t>(-1) : n->count(), cth, EmplacePolicy{}, std::move(vals[i]));
 							child_dir->child(new_pos) = child_ptr(p.first, directory::IsLeaf);
 						}
 					}
@@ -2629,7 +2629,7 @@ namespace seq
 
 			/// @brief Insert value in an empty position within dir
 			template<class Policy, class K, class... Args>
-			std::pair<const_iterator, bool> insert_null_node(directory* dir, size_t bit_pos, size_t pos, size_t th, Policy policy, K&& key, Args&&... args)
+			std::pair<const_iterator, bool> insert_null_node(directory* dir, std::size_t bit_pos, std::size_t pos, std::size_t th, Policy policy, K&& key, Args&&... args)
 			{
 				if SEQ_UNLIKELY (size() >= max_size())
 					throw std::length_error("RadixTree::insert_hash_with_tiny: max_size() exceeded");
@@ -2646,12 +2646,12 @@ namespace seq
 
 			/// @brief Insert new value in a vector node
 			template<class Policy, class K, class... Args>
-			std::pair<const_iterator, bool> insert_in_vector_node(directory* dir, size_t bit_pos, size_t pos, size_t, Policy, K&& key, Args&&... args)
+			std::pair<const_iterator, bool> insert_in_vector_node(directory* dir, std::size_t bit_pos, std::size_t pos, std::size_t, Policy, K&& key, Args&&... args)
 			{
 				// child is a vector
 				vector_type* child = static_cast<vector_type*>(dir->children()[pos].ptr());
 
-				size_t vec_pos = child->find(key);
+				std::size_t vec_pos = child->find(key);
 
 				if (vec_pos != child->size()) {
 					// Key already exists
@@ -2660,7 +2660,7 @@ namespace seq
 				if SEQ_UNLIKELY (size() >= max_size())
 					throw std::length_error("RadixTree::insert_in_vector_node: max_size() exceeded");
 
-				size_t inserted = Policy::emplace_vector_no_check(*child, std::forward<K>(key), std::forward<Args>(args)...);
+				std::size_t inserted = Policy::emplace_vector_no_check(*child, std::forward<K>(key), std::forward<Args>(args)...);
 
 				++d_base.size;
 				return { const_iterator(dir, pos, inserted, bit_pos), true };
@@ -2668,7 +2668,7 @@ namespace seq
 
 			/// @brief The value to insert does not follow a directory prefox -> create intermediate directory
 			template<class U>
-			directory* check_prefix_create_intermediate(directory* dir, directory* d, size_t& hash_bits, size_t pos, const hash_type&, const U& value)
+			directory* check_prefix_create_intermediate(directory* dir, directory* d, std::size_t& hash_bits, std::size_t pos, const hash_type&, const U& value)
 			{
 				// compute the number of common bits starting at hash_bits
 				const T& any_child = d->any_child();
@@ -2676,8 +2676,8 @@ namespace seq
 
 				// create intermediate directory with a new prefix length
 
-				const size_t new_hash_bits = hash_bits + static_cast<size_t>(common);
-				const size_t new_pos = hash_key(any_child).n_bits(new_hash_bits, start_arity);
+				const std::size_t new_hash_bits = hash_bits + static_cast<std::size_t>(common);
+				const std::size_t new_pos = hash_key(any_child).n_bits(new_hash_bits, start_arity);
 
 				// might throw, fine
 				directory* new_dir = directory::make(d_base, start_arity);
@@ -2686,7 +2686,7 @@ namespace seq
 				new_dir->parent = d->parent;
 				new_dir->parent_pos = pos;
 				new_dir->child_count = new_dir->dir_count = 1;
-				new_dir->prefix_len = static_cast<size_t>(common);
+				new_dir->prefix_len = static_cast<std::size_t>(common);
 
 				hash_bits = new_hash_bits;
 
@@ -2697,13 +2697,13 @@ namespace seq
 
 				// detect nasty bug where prefix_len wrap around
 				SEQ_ASSERT_DEBUG(d->prefix_len >= (start_arity + common), "");
-				d->prefix_len -= start_arity + static_cast<size_t>(common);
+				d->prefix_len -= start_arity + static_cast<std::size_t>(common);
 				hash_bits -= dir->hash_len;
 
 				return new_dir;
 			}
 
-			static SEQ_ALWAYS_INLINE bool generic_check_prefix(const hash_type& hash, const hash_type& match, size_t start, size_t bits) noexcept
+			static SEQ_ALWAYS_INLINE bool generic_check_prefix(const hash_type& hash, const hash_type& match, std::size_t start, std::size_t bits) noexcept
 			{
 				// Check equal prefix for hash and match.
 				// Only check from start for given bits length.
@@ -2731,22 +2731,22 @@ namespace seq
 				}
 				return hash.n_bits(start, bits) == match.n_bits(start, bits);
 			}
-			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, size_t start_bit, const directory* d) const
+			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, std::size_t start_bit, const directory* d) const
 			{
 				// Check if given hash value share the same prefix as d
 				return generic_check_prefix(hash, hash_key(d->any_child()), start_bit, d->prefix_len);
 			}
-			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const hash_type& h2, size_t start_bit, size_t bit_len) const noexcept
+			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const hash_type& h2, std::size_t start_bit, std::size_t bit_len) const noexcept
 			{
 				return generic_check_prefix(hash, h2, start_bit, bit_len);
 			}
-			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const key_type& k, size_t start_bit, size_t bit_len) const
+			SEQ_ALWAYS_INLINE bool check_prefix(const hash_type& hash, const key_type& k, std::size_t start_bit, std::size_t bit_len) const
 			{
 				return generic_check_prefix(hash, hash_key(k), start_bit, bit_len);
 			}
 
 			template<class U>
-			SEQ_ALWAYS_INLINE auto check_prefix_insert(directory* dir, directory* d, size_t& hash_bits, size_t pos, const hash_type& hash, const U& value) -> directory*
+			SEQ_ALWAYS_INLINE auto check_prefix_insert(directory* dir, directory* d, std::size_t& hash_bits, std::size_t pos, const hash_type& hash, const U& value) -> directory*
 			{
 				// Check if the value to insert follows the directory prefix.
 				// If not, create an intermediate directory with a new prefix.
@@ -2768,14 +2768,14 @@ namespace seq
 			/// @brief Insert in leaf node
 			template<bool EnsureSorted, class Policy, class K, class... Args>
 			SEQ_ALWAYS_INLINE std::pair<const_iterator, bool>
-			insert_in_leaf(directory* dir, node* child, size_t hash_bits, size_t pos, const_hash_ref hash, std::uint8_t th, Policy policy, K&& key, Args&&... args)
+			insert_in_leaf(directory* dir, node* child, std::size_t hash_bits, std::size_t pos, const_hash_ref hash, std::uint8_t th, Policy policy, K&& key, Args&&... args)
 			{
 				// find key in node
 				auto found = child->template find_insert<EnsureSorted, extract_key_type, Equal, Less>(Equal{}, hash_bits, th, ExtractKey{}(key));
 
 				if (found.first)
 					// key already exists!
-					return { const_iterator(dir, pos, static_cast<size_t>(found.first - child->values()), hash_bits), false };
+					return { const_iterator(dir, pos, static_cast<std::size_t>(found.first - child->values()), hash_bits), false };
 
 				if SEQ_UNLIKELY (size() >= max_size())
 					throw std::length_error("RadixTree::insert_hash_with_tiny: max_size() exceeded");
@@ -2802,12 +2802,12 @@ namespace seq
 
 			/// @brief Main key insertion process, starting from dir at hash_bits position.
 			template<bool EnsureSorted, class Policy, class K, class... Args>
-			std::pair<const_iterator, bool> insert_hash_with_tiny(directory* dir, size_t hash_bits, const_hash_ref hash, std::uint8_t th, Policy p, K&& key, Args&&... args)
+			std::pair<const_iterator, bool> insert_hash_with_tiny(directory* dir, std::size_t hash_bits, const_hash_ref hash, std::uint8_t th, Policy p, K&& key, Args&&... args)
 			{
 				static constexpr bool Sort = EnsureSorted && node::is_sorted;
 
 				// compute position within directory
-				size_t pos = hash.n_bits(hash_bits, dir->hash_len);
+				std::size_t pos = hash.n_bits(hash_bits, dir->hash_len);
 
 				// move forward inside the tree
 				while (dir->const_child(pos).tag() == directory::IsDir) {
@@ -2935,13 +2935,13 @@ namespace seq
 					clear();
 					return end();
 				}
-				size_t count = std::distance(first, last);
-				for (size_t i = 0; i < count; ++i)
+				std::size_t count = std::distance(first, last);
+				for (std::size_t i = 0; i < count; ++i)
 					first = erase(first);
 				return first;
 			}
 
-			size_t remove_directory(directory* d)
+			std::size_t remove_directory(directory* d)
 			{
 				// Remove the directory from the tree
 				// and returns the total number fo removed elements.
@@ -2972,7 +2972,7 @@ namespace seq
 					// Destroy empty directories until root directory
 					while (p->parent && p->child_count == 0) {
 						directory* parent = p->parent;
-						size_t parent_pos = p->parent_pos;
+						std::size_t parent_pos = p->parent_pos;
 
 						directory::destroy(d_base, p, false);
 						parent->children()[parent_pos] = child_ptr();
@@ -2985,8 +2985,8 @@ namespace seq
 				}
 
 				// Update container size
-				size_t count = 0;
-				d->for_each_leaf([&count](directory* dir, size_t pos) {
+				std::size_t count = 0;
+				d->for_each_leaf([&count](directory* dir, std::size_t pos) {
 					auto tag = dir->child(pos).tag();
 					if (tag == directory::IsLeaf)
 						count += dir->child(pos).to_node()->count();
@@ -3034,12 +3034,12 @@ namespace seq
 					directory_detached = true;
 
 					// Reinsert all values inside directory into the tree
-					d->for_each_leaf([this, &it](directory* dir, size_t pos) {
+					d->for_each_leaf([this, &it](directory* dir, std::size_t pos) {
 						auto tag = dir->child(pos).tag();
 						if (tag == directory::IsLeaf) {
 							// Standard leaf
 							auto node = dir->child(pos).to_node();
-							for (size_t i = 0; i < node->count(); ++i) {
+							for (std::size_t i = 0; i < node->count(); ++i) {
 								// Insert all values except the moved one
 								if (it.dir != dir || it.child != pos || it.node_pos != i)
 									this->insert_hash_with_tiny<true>(
@@ -3049,7 +3049,7 @@ namespace seq
 						else {
 							// Vector node
 							auto* vec = dir->child(pos).to_vector();
-							for (size_t i = 0; i < vec->size(); ++i) {
+							for (std::size_t i = 0; i < vec->size(); ++i) {
 								if (it.dir != dir || it.child != pos || it.node_pos != i)
 									this->emplace(std::move(vec->at(i)));
 							}
@@ -3084,7 +3084,7 @@ namespace seq
 				++next;
 
 				directory* d = it.dir;
-				size_t dpos = it.child;
+				std::size_t dpos = it.child;
 
 				if (d->child(dpos).tag() == directory::IsVector) {
 
@@ -3138,7 +3138,7 @@ namespace seq
 				// Destroy empty directories until root directory
 				while (d->parent && d->child_count == 0) {
 					directory* parent = d->parent;
-					size_t parent_pos = d->parent_pos;
+					std::size_t parent_pos = d->parent_pos;
 
 					directory::destroy(d_base, d, false);
 					parent->children()[parent_pos] = child_ptr();
@@ -3158,7 +3158,7 @@ namespace seq
 			}
 
 			template<class K>
-			size_t erase(const K& key)
+			std::size_t erase(const K& key)
 			{
 				auto it = find(key);
 				if (it == end())
@@ -3173,18 +3173,18 @@ namespace seq
 			/// @brief Find key in vector node
 			template<class U>
 			SEQ_NOINLINE(const_iterator)
-			find_in_vector(const directory* d, size_t bit_pos, size_t pos, const vector_type* vec, const U& key) const
+			find_in_vector(const directory* d, std::size_t bit_pos, std::size_t pos, const vector_type* vec, const U& key) const
 			{
-				size_t found = vec->find(key);
+				std::size_t found = vec->find(key);
 				if (found == vec->size())
 					return end();
 				return const_iterator(d, pos, found, bit_pos);
 			}
 
 			template<class U>
-			const T* find_in_vector_ptr(const directory*, size_t, size_t, const vector_type* vec, const U& key) const
+			const T* find_in_vector_ptr(const directory*, std::size_t, std::size_t, const vector_type* vec, const U& key) const
 			{
-				size_t found = vec->find(key);
+				std::size_t found = vec->find(key);
 				if (found == vec->size())
 					return nullptr;
 				return &vec->at(found);
@@ -3199,8 +3199,8 @@ namespace seq
 				const directory* d = d_base.root;
 
 				// start position within start directory
-				size_t bit_pos = 0;
-				size_t pos = hash.n_bits(bit_pos, d->hash_len);
+				std::size_t bit_pos = 0;
+				std::size_t pos = hash.n_bits(bit_pos, d->hash_len);
 
 				// walk through the tree as long as we keep finding directories
 				while (std::uintptr_t tag = d->children()[pos].tag()) {
@@ -3227,9 +3227,9 @@ namespace seq
 							return find_in_vector(d, bit_pos, pos, d->children()[pos].to_vector(), key);
 
 						case directory::IsLeaf: {
-							size_t th = hash.tiny_hash();
+							std::size_t th = hash.tiny_hash();
 							th = d->children()[pos].to_node()->template find<extract_key_type, Equal, Less>(Equal{}, bit_pos, static_cast<std::uint8_t>(th), key);
-							if (th != static_cast<size_t>(-1))
+							if (th != static_cast<std::size_t>(-1))
 								return const_iterator(d, pos, th, bit_pos);
 							return cend();
 						}
@@ -3246,8 +3246,8 @@ namespace seq
 				const directory* d = d_base.root;
 
 				// start position within start directory
-				size_t bit_pos = 0;
-				size_t pos = hash.n_bits(0, d->hash_len);
+				std::size_t bit_pos = 0;
+				std::size_t pos = hash.n_bits(0, d->hash_len);
 
 				// walk through the tree as long as we keep finding directories
 				while (std::uintptr_t tag = d->children()[pos].tag()) {
@@ -3276,9 +3276,9 @@ namespace seq
 						case directory::IsLeaf: {
 							auto node = d->children()[pos].to_node();
 							// tiny hash
-							size_t th = hash.tiny_hash();
+							std::size_t th = hash.tiny_hash();
 							th = node->template find<extract_key_type, Equal, Less>(Equal{}, bit_pos, static_cast<std::uint8_t>(th), key);
-							if (th != static_cast<size_t>(-1))
+							if (th != static_cast<std::size_t>(-1))
 								return node->values() + th;
 							return nullptr;
 						}
@@ -3300,10 +3300,10 @@ namespace seq
 				return find_ptr_hash(hash_key(k), k);
 			}
 
-			const_iterator lower_bound_in_vector(const directory* d, size_t pos, size_t bit_pos, const key_type& key) const
+			const_iterator lower_bound_in_vector(const directory* d, std::size_t pos, std::size_t bit_pos, const key_type& key) const
 			{
 				const vector_type* v = d->children()[pos].to_vector();
-				size_t p = v->lower_bound(key);
+				std::size_t p = v->lower_bound(key);
 				if (p != v->size())
 					return const_iterator(d, pos, p, bit_pos);
 				return ++const_iterator(d, pos, p - 1, bit_pos);
@@ -3316,8 +3316,8 @@ namespace seq
 				// start directory
 				const directory* d = d_base.root;
 				// start position within start directory
-				size_t bit_pos = 0;
-				size_t pos = hash.n_bits(bit_pos, d->hash_len);
+				std::size_t bit_pos = 0;
+				std::size_t pos = hash.n_bits(bit_pos, d->hash_len);
 
 				// walk through the tree as long as we keep finding directories
 				while (d->children()[pos].tag() == directory::IsDir) {
@@ -3365,12 +3365,12 @@ namespace seq
 				const node* n = d->children()[pos].to_node();
 
 				// At that point, it is cheap to use regular find just in case
-				size_t th = hash.tiny_hash();
+				std::size_t th = hash.tiny_hash();
 				th = n->template find<extract_key_type, Equal, Less>(Equal{}, bit_pos, static_cast<std::uint8_t>(th), key);
-				if (th != static_cast<size_t>(-1))
+				if (th != static_cast<std::size_t>(-1))
 					return const_iterator(d, pos, th, bit_pos);
 
-				size_t p = n->template lower_bound<ExtractKey, Less, Equal>(bit_pos, key);
+				std::size_t p = n->template lower_bound<ExtractKey, Less, Equal>(bit_pos, key);
 				if (p != n->count())
 					return const_iterator(d, pos, p, bit_pos);
 				return ++const_iterator(d, pos, p - 1, bit_pos);

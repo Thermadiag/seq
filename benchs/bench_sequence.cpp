@@ -45,7 +45,7 @@ using namespace seq;
 /// @tparam T 
 /// @param count 
 template<class T>
-void test_sequence_vs_colony(size_t count)
+void test_sequence_vs_colony(std::size_t count)
 {
 	using seq_type = sequence<T, std::allocator<T>>;
 	using colony_type = plf::colony<T>;
@@ -60,7 +60,7 @@ void test_sequence_vs_colony(size_t count)
 	std::cout << fmt(fmt("method").l(30), "|", fmt("plf::colony").c(20), "|", fmt("seq::sequence").c(20), "|", fmt("std::deque").c(20), "|", fmt("std::list").c(20), "|") << std::endl;
 	std::cout << fmt(str().l(30).f('-'), "|", str().c(20).f('-'), "|", str().c(20).f('-'),"|", str().c(20).f('-'), "|", str().c(20).f('-'), "|") << std::endl;
 
-	auto f = fmt(pos<0, 2, 4, 6, 8>(), str().l(30), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|", fmt(pos<0>(), size_t(), " ms").c(20), "|");
+	auto f = fmt(pos<0, 2, 4, 6, 8>(), str().l(30), "|", fmt(pos<0>(), std::size_t(), " ms").c(20), "|", fmt(pos<0>(), std::size_t(), " ms").c(20), "|", fmt(pos<0>(), std::size_t(), " ms").c(20), "|", fmt(pos<0>(), std::size_t(), " ms").c(20), "|");
 
 
 
@@ -71,9 +71,9 @@ void test_sequence_vs_colony(size_t count)
 	list_type lst;
 	deque_type deq;
 
-	size_t col_t, seq_t, lst_t, deq_t;
+	std::size_t col_t, seq_t, lst_t, deq_t;
 
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		shufle.push_back((T)i);
 	seq::random_shuffle(shufle.begin(), shufle.end());
 
@@ -339,6 +339,6 @@ void test_sequence_vs_colony(size_t count)
 
 int bench_sequence(int, char** const)
 {
-	test_sequence_vs_colony<size_t>(5000000); 
+	test_sequence_vs_colony<std::size_t>(5000000); 
 	return 0;
 }

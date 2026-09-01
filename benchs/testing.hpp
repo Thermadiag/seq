@@ -80,7 +80,7 @@ namespace seq
 	{
 		std::streambuf* sbuf{ nullptr };
 		std::ostream* oss{ nullptr };
-		size_t size{ 0 };
+		std::size_t size{ 0 };
 
 		virtual int overflow(int c) override
 		{
@@ -97,7 +97,7 @@ namespace seq
 			oss->rdbuf(this);
 		}
 		virtual ~streambuf_size() noexcept override { oss->rdbuf(sbuf); }
-		size_t get_size() const { return size; }
+		std::size_t get_size() const { return size; }
 	};
 
 	namespace detail
@@ -156,7 +156,7 @@ namespace seq
 #define SEQ_TEST_MODULE(name, ...)                                                                                                                                                                     \
 	do {                                                                                                                                                                                           \
 		seq::streambuf_size str(std::cout);                                                                                                                                                    \
-		size_t size = 0;                                                                                                                                                                       \
+		std::size_t size = 0;                                                                                                                                                                       \
 		bool ok = true;                                                                                                                                                                        \
 		try {                                                                                                                                                                                  \
 			std::cout << "TEST MODULE " << #name << "... ";                                                                                                                                \
@@ -190,7 +190,7 @@ namespace seq
 #define SEQ_TEST_MODULE_RETURN(name, ret_value, ...)                                                                                                                                                   \
 	do {                                                                                                                                                                                           \
 		seq::streambuf_size str(std::cout);                                                                                                                                                    \
-		size_t size = 0;                                                                                                                                                                       \
+		std::size_t size = 0;                                                                                                                                                                       \
 		bool ok = true;                                                                                                                                                                        \
 		try {                                                                                                                                                                                  \
 			std::cout << "TEST MODULE " << #name << "... ";                                                                                                                                \
@@ -247,7 +247,7 @@ namespace seq
 	}
 
 	/// @brief For tests only, returns elapsed milliseconds since last call to tick()
-	inline auto tock_ms() -> std::uint64_t
+	inline auto tock_ms() -> uint64_t
 	{
 		return detail::get_clock().tock() / 1000000;
 	}
@@ -306,7 +306,7 @@ namespace seq
 #endif
 	}
 
-	inline auto get_memory_usage() -> size_t
+	inline auto get_memory_usage() -> std::size_t
 	{
 #if defined(WIN32) || defined(_WIN32)
 		Sleep(50);
@@ -363,9 +363,9 @@ namespace seq
 	auto generate_random_string(int max_size, bool fixed = false) -> String
 	{
 		using value_type = typename String::value_type;
-		size_t size = static_cast<size_t>(fixed ? max_size : rand() % max_size);
+		std::size_t size = static_cast<std::size_t>(fixed ? max_size : rand() % max_size);
 		String res(size, 0);
-		for (size_t i = 0; i < size; ++i)
+		for (std::size_t i = 0; i < size; ++i)
 			res[i] = static_cast<value_type>((rand() & 63) + 33);
 
 		return res;
@@ -474,7 +474,7 @@ namespace seq
 		typedef const T* const_pointer;
 		typedef T& reference;
 		typedef const T& const_reference;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = ptrdiff_t;
 		using is_always_equal = std::false_type;
 		using propagate_on_container_swap = std::true_type;
@@ -512,22 +512,22 @@ namespace seq
 		bool operator==(const debug_allocator& other) const { return d_count == other.d_count; }
 		bool operator!=(const debug_allocator& other) const { return d_count != other.d_count; }
 
-		void deallocate(T* p, const size_t count)
+		void deallocate(T* p, const std::size_t count)
 		{
 			std::allocator<T>{}.deallocate(p, count);
 			(*d_count) -= count * sizeof(T);
 			// printf("deallocate %i elems (%i B) of type %s\n", (int)count, (int)(count * sizeof(T)), typeid(T).name());
 			SEQ_ASSERT_DEBUG(*d_count >= 0, "");
 		}
-		T* allocate(const size_t count)
+		T* allocate(const std::size_t count)
 		{
 			T* p = std::allocator<T>{}.allocate(count);
 			(*d_count) += count * sizeof(T);
 			// printf("allocate %i elems (%i B) of type %s\n", (int)count,(int)(count*sizeof(T)), typeid(T).name());
 			return p;
 		}
-		T* allocate(const size_t count, const void*) { return allocate(count); }
-		size_t max_size() const noexcept { return static_cast<size_t>(-1) / sizeof(T); }
+		T* allocate(const std::size_t count, const void*) { return allocate(count); }
+		std::size_t max_size() const noexcept { return static_cast<std::size_t>(-1) / sizeof(T); }
 	};
 
 	template<class T>

@@ -49,7 +49,7 @@ using namespace seq;
 namespace art
 {
 	// fixed size ascii string transform
-	template<size_t MAX_SIZE>
+	template<std::size_t MAX_SIZE>
 	struct key_transform<seq::tstring, MAX_SIZE>
 	{
 		std::array<char, MAX_SIZE> operator()(const seq::tstring& key) const noexcept
@@ -66,15 +66,15 @@ namespace art
 	template<>
 	struct key_transform<double>
 	{
-		uint64_t operator()(double __val) const noexcept { return seq::byte_swap_64( seq::radix_detail::to_uint(__val)); }
+		std::uint64_t operator()(double __val) const noexcept { return seq::byte_swap_64( seq::radix_detail::to_uint(__val)); }
 	};
 
 	template<>
 	struct key_transform<std::tuple<unsigned,unsigned>>
 	{
-		uint64_t operator()(std::tuple<unsigned, unsigned> __val) const noexcept
+		std::uint64_t operator()(std::tuple<unsigned, unsigned> __val) const noexcept
 		{
-			uint64_t r = (uint64_t)std::get<0>(__val) << 32ull | std::get<1>(__val);
+			std::uint64_t r = (std::uint64_t)std::get<0>(__val) << 32ull | std::get<1>(__val);
 			return seq::byte_swap_64(r);
 		}
 	};
@@ -87,37 +87,37 @@ template<class K, class V>
 struct is_art<art::radix_map<K,V>>: std::true_type{}; 
 
 template<class T>
-inline size_t convert_to_size_t(const T& v)
+inline std::size_t convert_to_size_t(const T& v)
 {
-	return static_cast<size_t>(v);
+	return static_cast<std::size_t>(v);
 }
 
 template<class T>
-inline size_t convert_to_size_t(const std::tuple<T, T>& v)
+inline std::size_t convert_to_size_t(const std::tuple<T, T>& v)
 {
-	return static_cast<size_t>(std::get<0>(v) + std::get<1>(v));
+	return static_cast<std::size_t>(std::get<0>(v) + std::get<1>(v));
 }
 
-template<class Char, size_t S, class Al>
-inline size_t convert_to_size_t(const tiny_string<Char, Al, S>& v)
+template<class Char, std::size_t S, class Al>
+inline std::size_t convert_to_size_t(const tiny_string<Char, Al, S>& v)
 {
-	return static_cast<size_t>(v.size());
+	return static_cast<std::size_t>(v.size());
 }
-inline size_t convert_to_size_t(const std::string& v)
+inline std::size_t convert_to_size_t(const std::string& v)
 {
-	return static_cast<size_t>(v.size());
+	return static_cast<std::size_t>(v.size());
 }
-inline size_t convert_to_size_t(const std::wstring& v)
+inline std::size_t convert_to_size_t(const std::wstring& v)
 {
-	return static_cast<size_t>(v.size());
+	return static_cast<std::size_t>(v.size());
 }
-template<class Interface, size_t S, size_t A, bool R>
-inline size_t convert_to_size_t(const seq::hold_any<Interface, S, A, R>& t)
+template<class Interface, std::size_t S, std::size_t A, bool R>
+inline std::size_t convert_to_size_t(const seq::hold_any<Interface, S, A, R>& t)
 {
-	return reinterpret_cast<size_t>(t.data());
+	return reinterpret_cast<std::size_t>(t.data());
 }
 template<class T, class U>
-inline size_t convert_to_size_t(const std::pair<T, U>& v)
+inline std::size_t convert_to_size_t(const std::pair<T, U>& v)
 {
 	return convert_to_size_t(v.first);
 }
@@ -184,7 +184,7 @@ void check_sorted(C& set)
 {
 	auto less = [](const auto& a, const auto& b) { return a.first < b.first; };
 	auto greater = [](const auto& a, const auto& b) { return a.first > b.first; };
-	size_t dist = std::distance(set.begin(), set.end());
+	std::size_t dist = std::distance(set.begin(), set.end());
 	SEQ_TEST(dist == set.size());
 	SEQ_TEST(std::is_sorted(set.begin(), set.end(), less));
 	SEQ_TEST(std::is_sorted(set.rbegin(), set.rend(), greater));
@@ -208,9 +208,9 @@ struct LaunchTest
 		// seq::random_shuffle(fail.begin(), fail.end(),1);
 
 		reset_memory_usage();
-		size_t start_mem = get_memory_usage();
-		size_t insert_range, insert_range_mem;
-		size_t insert, insert_mem;
+		std::size_t start_mem = get_memory_usage();
+		std::size_t insert_range, insert_range_mem;
+		std::size_t insert, insert_mem;
 
 		{
 			C s;
@@ -241,7 +241,7 @@ struct LaunchTest
 			start_mem = get_memory_usage();
 
 			tick();
-			for (size_t i = 0; i < success.size(); ++i) {
+			for (std::size_t i = 0; i < success.size(); ++i) {
 				SEQ_TEST(insert_value(set, success[i].first, success[i].second));
 			}
 
@@ -253,47 +253,47 @@ struct LaunchTest
 
 		// insert fail
 		tick();
-		for (size_t i = 0; i < success.size(); ++i)
+		for (std::size_t i = 0; i < success.size(); ++i)
 			SEQ_TEST(!insert_value(set, success[i].first, success[i].second));
-		size_t insert_fail = tock_ms();
-		// size_t insert_fail_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
+		std::size_t insert_fail = tock_ms();
+		// std::size_t insert_fail_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
 
 		check_sorted(set);
 
 		// find success
 		tick();
-		size_t sum = 0;
-		for (size_t i = 0; i < success.size(); ++i)
+		std::size_t sum = 0;
+		for (std::size_t i = 0; i < success.size(); ++i)
 			SEQ_TEST(find_val(set, success[i].first));
-		size_t find = tock_ms();
+		std::size_t find = tock_ms();
 
 		// lower_bound success
 		tick();
 		sum = 0;
-		for (size_t i = 0; i < success.size(); ++i) 
+		for (std::size_t i = 0; i < success.size(); ++i) 
 			//SEQ_TEST(set.lower_bound(success[i].first) != set.end());
 			//TEST: lower_bound on failed
 			sum += (set.lower_bound(fail[i].first) != set.begin());
-		size_t lower_bound = tock_ms();
+		std::size_t lower_bound = tock_ms();
 		print_null(sum);
 
 		// find fail
 		tick();
 		sum = 0;
-		for (size_t i = 0; i < fail.size(); ++i)
+		for (std::size_t i = 0; i < fail.size(); ++i)
 			SEQ_TEST(!find_val(set, fail[i].first));
 		// SEQ_TEST(set.lower_bound(fail[i]) != typename C::const_iterator());
-		size_t find_fail = tock_ms();
+		std::size_t find_fail = tock_ms();
 
 		// walk
 		tick();
 		sum = 0;
 		for (auto it = set.begin(); it != set.end(); ++it)
 			sum += convert_to_size_t(*it);
-		size_t iterate = tock_ms();
+		std::size_t iterate = tock_ms();
 		print_null(sum);
 
-		size_t erase = 0;
+		std::size_t erase = 0;
 
 #ifndef TEST_BOOST_INSERT_ERASE
 		if constexpr(is_boost_map<C>::value) {
@@ -306,7 +306,7 @@ struct LaunchTest
 			// std::cout << "erase: " << success.size() / 2 << " elems" << std::endl;
 			tick();
 			using const_iterator = typename C::const_iterator;
-			for (size_t i = 0; i < success.size() / 2; ++i) {
+			for (std::size_t i = 0; i < success.size() / 2; ++i) {
 				auto it = set.find(success[i].first);
 				SEQ_TEST(it != set.end());
 				if (it != set.end()){ 
@@ -322,16 +322,16 @@ struct LaunchTest
 			SEQ_TEST(set.size() == (success.size() / 2 + success.size() % 2));
 			check_sorted(set);
 
-			for (size_t i = 0; i < success.size() / 2; ++i)
+			for (std::size_t i = 0; i < success.size() / 2; ++i)
 				SEQ_TEST(set.find(success[i].first) == set.end());
-			for (size_t i = success.size() / 2; i < success.size(); ++i)
+			for (std::size_t i = success.size() / 2; i < success.size(); ++i)
 				SEQ_TEST(set.find(success[i].first) != set.end());
 
 			// reinsert
-			for (size_t i = 0; i < success.size() / 2; ++i)
+			for (std::size_t i = 0; i < success.size() / 2; ++i)
 				SEQ_TEST(set.emplace(success[i].first, success[i].second).second);
 			check_sorted(set);
-			for (size_t i = 0; i < success.size(); ++i)
+			for (std::size_t i = 0; i < success.size(); ++i)
 				SEQ_TEST(set.find(success[i].first) != set.end());
 		}
 
@@ -378,7 +378,7 @@ void test_set(const char* name, const std::vector<U>& vec, Format f, bool write 
 /// @param count
 /// @param gen
 template<class T, class Gen, class Extract = default_key>
-void test_map(size_t count, Gen gen, Extract e = Extract())
+void test_map(std::size_t count, Gen gen, Extract e = Extract())
 {
 	std::cout << std::endl;
 	std::cout << "Test sorted containers with type = " << typeid(T).name() << " and count = " << count / 2 << std::endl;
@@ -455,24 +455,24 @@ void test_small_map_repeat(const char * name, int count, int repeat, Format f)
 	{
 		Map m ;
 		print_null(m.size());
-		for (size_t j = 0; j < vec.size() / 2; ++j)
+		for (std::size_t j = 0; j < vec.size() / 2; ++j)
 			m.insert(vec[j]);
 		m.insert(vec.begin() + vec.size() / 2, vec.end());
 
-		size_t sum = 0;
-		for (size_t j = 0; j < vec.size(); ++j)
+		std::size_t sum = 0;
+		for (std::size_t j = 0; j < vec.size(); ++j)
 			sum += find_val(m, vec[j].first);
 
 		print_null(sum);
 
 		m.erase(m.begin(), std::next(m.begin() , m.size() / 2));
 
-		for (size_t j = 0; j < vec.size(); ++j)
+		for (std::size_t j = 0; j < vec.size(); ++j)
 			m.erase(vec[j].first);
 
 		print_null(m.size());
 	}
-	size_t el = tock_ms();
+	std::size_t el = tock_ms();
 	std::cout << f(name, el) << std::endl;
 }
 
@@ -485,7 +485,7 @@ void test_small_map(int count, int repeat)
 
 	auto f = fmt(pos<0,2>(),
 		fmt("").l(30), "|",  //name
-		fmt<size_t>().c(20), "|"); //time
+		fmt<std::size_t>().c(20), "|"); //time
 
 	std::cout << fmt(fmt("Set name").l(30), "|", fmt("Tims (ms)").c(20), "|") << std::endl;
 	std::cout << fmt(str().c(30).f('-'), "|", str().c(20).f('-'), "|") << std::endl;
@@ -520,7 +520,7 @@ int bench_map(int, char** const)
 {
 	/* {
 		std::vector<std::string> vec;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			vec.push_back(generate_random_string<std::string>(13, true));
 
 		std::sort(vec.begin(), vec.end());
@@ -565,7 +565,7 @@ int bench_map(int, char** const)
 	/* {
 		auto vec = load_dict<string>("C:\\Users\\VM213788\\Documents\\src\\seq\\benchs\\words.txt");
 		//seq::random_shuffle(vec.begin(), vec.end(), 1);
-		test_map<string>(vec.size(), [&](size_t i) { return vec[i]; });
+		test_map<string>(vec.size(), [&](std::size_t i) { return vec[i]; });
 	}*/
 
 	// test random tuple
@@ -573,15 +573,15 @@ int bench_map(int, char** const)
 		std::random_device dev;
 		std::mt19937 rngi(dev());
 		std::uniform_int_distribution<unsigned> dist;
-		test_map<std::tuple<unsigned, unsigned>>(2000000, [&](size_t i) { return std::make_tuple(dist(rngi), dist(rngi)); });
+		test_map<std::tuple<unsigned, unsigned>>(2000000, [&](std::size_t i) { return std::make_tuple(dist(rngi), dist(rngi)); });
 	}
 	
 	// test random integers
 	{
 		std::random_device dev;
 		std::mt19937 rngi(dev());
-		std::uniform_int_distribution<size_t> dist;
-		test_map<uint64_t>(2000000, [&](size_t i) { return dist(rngi); });
+		std::uniform_int_distribution<std::size_t> dist;
+		test_map<std::uint64_t>(2000000, [&](std::size_t i) { return dist(rngi); });
 	}
 
 	// test random floating point values
@@ -589,17 +589,17 @@ int bench_map(int, char** const)
 		// std::random_device rd;
 		std::mt19937 e2(0);
 		std::uniform_real_distribution<> dist;
-		test_map<double>(2000000, [&](size_t i) { return dist(e2); });
+		test_map<double>(2000000, [&](std::size_t i) { return dist(e2); });
 	}
 
 	// Random short strings
-	test_map<string>(1000000, [](size_t i) { return generate_random_string<string>(13, true); });
+	test_map<string>(1000000, [](std::size_t i) { return generate_random_string<string>(13, true); });
 
 	// random mix of short and long strings
-	test_map<string>(1000000, [](size_t i) { return generate_random_string<string>(63, false); });
+	test_map<string>(1000000, [](std::size_t i) { return generate_random_string<string>(63, false); });
 	// Test with seq::r_any
-	test_map<seq::r_any>(2000000, [](size_t i) {
-		size_t idx = i & 3U;
+	test_map<seq::r_any>(2000000, [](std::size_t i) {
+		std::size_t idx = i & 3U;
 		switch (idx) {
 			case 0:
 				return seq::r_any(i * UINT64_C(0xc4ceb9fe1a85ec53));

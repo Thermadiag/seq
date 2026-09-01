@@ -44,8 +44,8 @@ The bits module provides several portable low-level functions for bits manipulat
 	-	seq::bit_scan_forward_64: index of the lowest set bit in a 64 bits word
 	-	seq::bit_scan_reverse_32: index of the highest set bit in a 32 bits word
 	-	seq::bit_scan_reverse_64: index of the highest set bit in a 32 bits word
-	-	seq::bit_scan_forward: index of the lowest set bit in a size_t word
-	-	seq::bit_scan_reverse: index of the highest set bit in a size_t word
+	-	seq::bit_scan_forward: index of the lowest set bit in a std::size_t word
+	-	seq::bit_scan_reverse: index of the highest set bit in a std::size_t word
 	-	seq::static_bit_scan_reverse: index of the highest set bit at compile time
 	-	seq::count_digits_base_10: number of digits to represent an integer in base 10
 	-	seq::nth_bit_set: index of the nth set bit in a 64 bits word
@@ -435,7 +435,7 @@ namespace seq
 
 		/// Like malloc, but the returned pointer is guaranteed to be alignment-byte aligned.
 		/// Fast, but wastes alignment additional bytes of memory. Does not throw any exception.
-		inline auto handmade_aligned_malloc(size_t size, size_t alignment) -> void*
+		inline auto handmade_aligned_malloc(std::size_t size, std::size_t alignment) -> void*
 		{
 			SEQ_ASSERT_DEBUG(((alignment - 1) & alignment) == 0, "invalid allocation alignment");
 
@@ -445,11 +445,11 @@ namespace seq
 			void* ptr = nullptr;
 			alignment--;
 
-			size_t offset = 0;
+			std::size_t offset = 0;
 			std::uint8_t* mem = nullptr;
 
 			// Room for padding and extra pointer stored in front of allocated area
-			size_t overhead = alignment + sizeof(void*);
+			std::size_t overhead = alignment + sizeof(void*);
 
 			// Avoid integer overflow
 			if (size > (SIZE_MAX - overhead)) {
@@ -483,7 +483,7 @@ namespace seq
 	/// @param size size in bytes to allocate
 	/// @param align alignment of result pointer
 	/// @return aligned pointer or NULL on error
-	inline auto aligned_malloc(size_t size, size_t align) -> void*
+	inline auto aligned_malloc(std::size_t size, std::size_t align) -> void*
 	{
 		void* result = nullptr;
 
@@ -524,12 +524,12 @@ namespace seq
 
 namespace seq
 {
-	SEQ_ALWAYS_INLINE void umul128(const uint64_t m1, const uint64_t m2, uint64_t* const rl, uint64_t* const rh)
+	SEQ_ALWAYS_INLINE void umul128(const std::uint64_t m1, const std::uint64_t m2, std::uint64_t* const rl, std::uint64_t* const rh)
 	{
 		const unsigned __int128 r = static_cast<unsigned __int128>(m1) * m2;
 
-		*rh = static_cast<uint64_t>(r >> 64);
-		*rl = static_cast<uint64_t>(r);
+		*rh = static_cast<std::uint64_t>(r >> 64);
+		*rl = static_cast<std::uint64_t>(r);
 	}
 }
 #define SEQ_HAS_FAST_UMUL128 1
@@ -538,7 +538,7 @@ namespace seq
 
 namespace seq
 {
-	SEQ_ALWAYS_INLINE void umul128(const uint64_t m1, const uint64_t m2, uint64_t* const rl, uint64_t* const rh)
+	SEQ_ALWAYS_INLINE void umul128(const std::uint64_t m1, const std::uint64_t m2, std::uint64_t* const rl, std::uint64_t* const rh)
 	{
 		*rh = __mulhdu(m1, m2);
 		*rl = m1 * m2;
@@ -552,7 +552,7 @@ namespace seq
 
 namespace seq
 {
-	SEQ_ALWAYS_INLINE void umul128(const uint64_t m1, const uint64_t m2, uint64_t* const rl, uint64_t* const rh)
+	SEQ_ALWAYS_INLINE void umul128(const std::uint64_t m1, const std::uint64_t m2, std::uint64_t* const rl, std::uint64_t* const rh)
 	{
 		*rh = __umulh(m1, m2);
 		*rl = m1 * m2;
@@ -567,7 +567,7 @@ namespace seq
 
 namespace seq
 {
-	static SEQ_ALWAYS_INLINE void umul128(const uint64_t m1, const uint64_t m2, uint64_t* const rl, uint64_t* const rh)
+	static SEQ_ALWAYS_INLINE void umul128(const std::uint64_t m1, const std::uint64_t m2, std::uint64_t* const rl, std::uint64_t* const rh)
 	{
 		*rl = _umul128(m1, m2, rh);
 	}
@@ -587,25 +587,25 @@ namespace seq
 
 #else // defined( _MSC_VER ) && !defined( __INTEL_COMPILER )
 
-#define __SEQ_EMULU(x, y) ((uint64_t)(x) * (y))
+#define __SEQ_EMULU(x, y) ((std::uint64_t)(x) * (y))
 
 #endif // defined( _MSC_VER ) && !defined( __INTEL_COMPILER )
 
 namespace seq
 {
-	static inline void umul128(const uint64_t u, const uint64_t v, uint64_t* const rl, uint64_t* const rh)
+	static inline void umul128(const std::uint64_t u, const std::uint64_t v, std::uint64_t* const rl, std::uint64_t* const rh)
 	{
 		*rl = u * v;
 
-		const uint32_t u0 = static_cast<uint32_t>(u);
-		const uint32_t v0 = static_cast<uint32_t>(v);
-		const uint64_t w0 = __SEQ_EMULU(u0, v0);
-		const uint32_t u1 = static_cast<uint32_t>(u >> 32);
-		const uint32_t v1 = static_cast<uint32_t>(v >> 32);
-		const uint64_t t = __SEQ_EMULU(u1, v0) + static_cast<uint32_t>(w0 >> 32);
-		const uint64_t w1 = __SEQ_EMULU(u0, v1) + static_cast<uint32_t>(t);
+		const std::uint32_t u0 = static_cast<std::uint32_t>(u);
+		const std::uint32_t v0 = static_cast<std::uint32_t>(v);
+		const std::uint64_t w0 = __SEQ_EMULU(u0, v0);
+		const std::uint32_t u1 = static_cast<std::uint32_t>(u >> 32);
+		const std::uint32_t v1 = static_cast<std::uint32_t>(v >> 32);
+		const std::uint64_t t = __SEQ_EMULU(u1, v0) + static_cast<std::uint32_t>(w0 >> 32);
+		const std::uint64_t w1 = __SEQ_EMULU(u0, v1) + static_cast<std::uint32_t>(t);
 
-		*rh = __SEQ_EMULU(u1, v1) + static_cast<uint32_t>(w1 >> 32) + static_cast<uint32_t>(t >> 32);
+		*rh = __SEQ_EMULU(u1, v1) + static_cast<std::uint32_t>(w1 >> 32) + static_cast<std::uint32_t>(t >> 32);
 	}
 }
 
@@ -663,7 +663,7 @@ namespace seq
 
 			return (x * h01) >> 56;
 		}
-		SEQ_ALWAYS_INLINE auto popcount32(uint32_t i) -> unsigned
+		SEQ_ALWAYS_INLINE auto popcount32(std::uint32_t i) -> unsigned
 		{
 			i = i - ((i >> 1) & 0x55555555);		// add pairs of bits
 			i = (i & 0x33333333) + ((i >> 2) & 0x33333333); // quads
@@ -682,7 +682,7 @@ namespace seq
 		return static_cast<unsigned>(x);
 	}
 
-	SEQ_ALWAYS_INLINE auto popcnt32(uint32_t x) -> unsigned
+	SEQ_ALWAYS_INLINE auto popcnt32(std::uint32_t x) -> unsigned
 	{
 		return detail::popcount32(x);
 	}
@@ -691,7 +691,7 @@ namespace seq
 
 #define SEQ_HAS_ASM_POPCNT
 
-	SEQ_ALWAYS_INLINE unsigned popcnt32(uint32_t x)
+	SEQ_ALWAYS_INLINE unsigned popcnt32(std::uint32_t x)
 	{
 		__asm__("popcnt %1, %0" : "=r"(x) : "0"(x));
 		return x;
@@ -699,7 +699,7 @@ namespace seq
 
 	SEQ_ALWAYS_INLINE unsigned popcnt64(std::uint64_t x)
 	{
-		return popcnt32((uint32_t)x) + popcnt32((uint32_t)(x >> 32));
+		return popcnt32((std::uint32_t)x) + popcnt32((std::uint32_t)(x >> 32));
 	}
 
 #elif defined(_MSC_VER) && defined(_M_X64)
@@ -711,7 +711,7 @@ namespace seq
 		return (unsigned)_mm_popcnt_u64(x);
 	}
 
-	SEQ_ALWAYS_INLINE unsigned popcnt32(uint32_t x)
+	SEQ_ALWAYS_INLINE unsigned popcnt32(std::uint32_t x)
 	{
 		return (unsigned)_mm_popcnt_u32(x);
 	}
@@ -722,9 +722,9 @@ namespace seq
 
 	SEQ_ALWAYS_INLINE unsigned popcnt64(std::uint64_t x)
 	{
-		return _mm_popcnt_u32((uint32_t)x) + _mm_popcnt_u32((uint32_t)(x >> 32));
+		return _mm_popcnt_u32((std::uint32_t)x) + _mm_popcnt_u32((std::uint32_t)(x >> 32));
 	}
-	SEQ_ALWAYS_INLINE unsigned popcnt32(uint32_t x)
+	SEQ_ALWAYS_INLINE unsigned popcnt32(std::uint32_t x)
 	{
 		return _mm_popcnt_u32(x);
 	}
@@ -738,7 +738,7 @@ namespace seq
 	{
 		return __builtin_popcountll(x);
 	}
-	SEQ_ALWAYS_INLINE uint32_t popcnt32(uint32_t x)
+	SEQ_ALWAYS_INLINE std::uint32_t popcnt32(std::uint32_t x)
 	{
 		return __builtin_popcount(x);
 	}
@@ -751,7 +751,7 @@ namespace seq
 	{
 		return detail::popcount64(x);
 	}
-	SEQ_ALWAYS_INLINE uint32_t popcnt32(uint32_t x)
+	SEQ_ALWAYS_INLINE std::uint32_t popcnt32(std::uint32_t x)
 	{
 		return detail::popcount32(x);
 	}
@@ -830,7 +830,7 @@ namespace seq
 		return __builtin_ctz(val);
 #else								     /* Software version */
 		static const int MultiplyDeBruijnBitPosition[32] = { 0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9 };
-		return MultiplyDeBruijnBitPosition[((uint32_t)((val & -val) * 0x077CB531U)) >> 27];
+		return MultiplyDeBruijnBitPosition[((std::uint32_t)((val & -val) * 0x077CB531U)) >> 27];
 #endif
 	}
 
@@ -904,7 +904,7 @@ namespace seq
 
 	/// @brief Returns the lowest set bit index in \a bb.
 	/// Undefined if bb==0.
-	SEQ_ALWAYS_INLINE auto bit_scan_forward(size_t bb) noexcept -> unsigned
+	SEQ_ALWAYS_INLINE auto bit_scan_forward(std::size_t bb) noexcept -> unsigned
 	{
 		if constexpr (sizeof(std::size_t) == 8)
 			return bit_scan_forward_64(bb);
@@ -914,7 +914,7 @@ namespace seq
 
 	/// @brief Returns the highest set bit index in \a bb.
 	/// Undefined if bb==0.
-	SEQ_ALWAYS_INLINE auto bit_scan_reverse(size_t bb) noexcept -> unsigned
+	SEQ_ALWAYS_INLINE auto bit_scan_reverse(std::size_t bb) noexcept -> unsigned
 	{
 		if constexpr (sizeof(std::size_t) == 8)
 			return bit_scan_reverse_64(bb);
@@ -1092,13 +1092,13 @@ namespace seq
 
 	namespace detail
 	{
-		template<size_t ConsecutiveNBits>
-		auto find_consecutive_bits(size_t num) -> size_t
+		template<std::size_t ConsecutiveNBits>
+		auto find_consecutive_bits(std::size_t num) -> std::size_t
 		{
 			return (num >> (ConsecutiveNBits - 1)) & find_consecutive_bits<ConsecutiveNBits - 1>(num);
 		}
 		template<>
-		inline auto find_consecutive_bits<1>(size_t num) -> size_t
+		inline auto find_consecutive_bits<1>(std::size_t num) -> std::size_t
 		{
 			return (num);
 		}
@@ -1107,8 +1107,8 @@ namespace seq
 	/// @brief Returns the position of the first consecutive N bits within \a num
 	/// @param num number of consecutive bits to look for
 	/// @return position of the first consecutive N bits within \a num
-	template<size_t ConsecutiveNBits>
-	auto consecutive_N_bits(size_t num) -> unsigned
+	template<std::size_t ConsecutiveNBits>
+	auto consecutive_N_bits(std::size_t num) -> unsigned
 	{
 		static_assert(ConsecutiveNBits > 0, "invalid 0 consecutive bits requested");
 		num = detail::find_consecutive_bits<ConsecutiveNBits>(num);
@@ -1237,10 +1237,10 @@ namespace seq
 		memcpy(dst, &value, sizeof(std::uint64_t));
 	}
 
-	/// @brief Write size_t object to dst
-	SEQ_ALWAYS_INLINE void write_size_t(void* dst, size_t value)
+	/// @brief Write std::size_t object to dst
+	SEQ_ALWAYS_INLINE void write_size_t(void* dst, std::size_t value)
 	{
-		memcpy(dst, &value, sizeof(size_t));
+		memcpy(dst, &value, sizeof(std::size_t));
 	}
 
 	/// @brief Read 16 bits integer from src in little endian order
@@ -1335,37 +1335,37 @@ namespace seq
 		return value;
 	}
 
-	/// @brief Reads size_t object from src
-	SEQ_ALWAYS_INLINE auto read_size_t(const void* src) -> size_t
+	/// @brief Reads std::size_t object from src
+	SEQ_ALWAYS_INLINE auto read_size_t(const void* src) -> std::size_t
 	{
-		size_t res = 0;
-		memcpy(&res, src, sizeof(size_t));
+		std::size_t res = 0;
+		memcpy(&res, src, sizeof(std::size_t));
 		return res;
 	}
-	/// @brief Reads size_t object from src in little endian order
-	SEQ_ALWAYS_INLINE auto read_LE_size_t(const void* src) -> size_t
+	/// @brief Reads std::size_t object from src in little endian order
+	SEQ_ALWAYS_INLINE auto read_LE_size_t(const void* src) -> std::size_t
 	{
-		size_t res = 0;
-		memcpy(&res, src, sizeof(size_t));
+		std::size_t res = 0;
+		memcpy(&res, src, sizeof(std::size_t));
 #if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_LITTLE_ENDIAN
-		if (sizeof(size_t) == 8)
+		if (sizeof(std::size_t) == 8)
 			res = byte_swap_64(res);
 		else
 			res = byte_swap_32(res);
 #endif
 		return res;
 	}
-	/// @brief Reads size_t object from src in big endian order
-	SEQ_ALWAYS_INLINE auto read_BE_size_t(const void* src) -> size_t
+	/// @brief Reads std::size_t object from src in big endian order
+	SEQ_ALWAYS_INLINE auto read_BE_size_t(const void* src) -> std::size_t
 	{
-		size_t res = 0;
-		memcpy(&res, src, sizeof(size_t));
+		std::size_t res = 0;
+		memcpy(&res, src, sizeof(std::size_t));
 #if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
-		if (sizeof(size_t) == 8) {
-			res = static_cast<size_t>(byte_swap_64(res));
+		if (sizeof(std::size_t) == 8) {
+			res = static_cast<std::size_t>(byte_swap_64(res));
 		}
 		else {
-			res = static_cast<size_t>(byte_swap_32(static_cast<std::uint32_t>(res)));
+			res = static_cast<std::size_t>(byte_swap_32(static_cast<std::uint32_t>(res)));
 		}
 #endif
 		return res;
@@ -1416,15 +1416,15 @@ namespace seq
 	}
 
 	/// @brief Static version of bit_scan_reverse
-	template<size_t Size>
+	template<std::size_t Size>
 	struct static_bit_scan_reverse
 	{
-		static constexpr size_t value = Size > 1ULL ? 1ULL + static_bit_scan_reverse<Size / 2ULL>::value : 1ULL;
+		static constexpr std::size_t value = Size > 1ULL ? 1ULL + static_bit_scan_reverse<Size / 2ULL>::value : 1ULL;
 	};
 	template<>
 	struct static_bit_scan_reverse<1>
 	{
-		static constexpr size_t value = 0ULL;
+		static constexpr std::size_t value = 0ULL;
 	};
 	template<>
 	struct static_bit_scan_reverse<0ULL>
@@ -1440,21 +1440,21 @@ namespace seq
 		// komihash implementation: https://github.com/avaneev/komihash
 		struct Seeds
 		{
-			uint64_t Seed1;
-			uint64_t Seed2;
+			std::uint64_t Seed1;
+			std::uint64_t Seed2;
 		};
 		Seeds seeds;
 
 	public:
-		fast_rand(size_t seed) noexcept
+		fast_rand(std::size_t seed) noexcept
 		  : seeds{ seed, seed }
 		{
 		}
 
 		unsigned operator()() noexcept
 		{
-			uint64_t s1 = seeds.Seed1;
-			uint64_t s2 = seeds.Seed2;
+			std::uint64_t s1 = seeds.Seed1;
+			std::uint64_t s2 = seeds.Seed2;
 
 			umul128(s1, s2, &s1, &s2);
 
@@ -1474,7 +1474,7 @@ namespace seq
 		unsigned z{ 521288629 };
 
 	public:
-		fast_rand(size_t seed) noexcept
+		fast_rand(std::size_t seed) noexcept
 		  : x(static_cast<unsigned>(seed))
 		{
 			if (x == 0)
@@ -1501,7 +1501,7 @@ namespace seq
 	static SEQ_ALWAYS_INLINE unsigned random_uint32()
 	{
 		thread_local int seed = 0;
-		thread_local fast_rand rng(static_cast<size_t>(reinterpret_cast<std::uintptr_t>(&seed)));
+		thread_local fast_rand rng(static_cast<std::size_t>(reinterpret_cast<std::uintptr_t>(&seed)));
 		return rng();
 	}
 

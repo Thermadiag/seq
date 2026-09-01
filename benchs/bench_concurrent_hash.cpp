@@ -73,7 +73,7 @@ inline bool get_res(const std::pair<A, bool>& p)
 }
 
 #ifdef SEQ_HAS_CPP_17
-template<class K, class V, class H, class E, class A, size_t T, class M>
+template<class K, class V, class H, class E, class A, std::size_t T, class M>
 SEQ_ALWAYS_INLINE bool insert(gtl::parallel_flat_hash_map<K, V, H, E, A, T, M>& s, const K& k)
 {
 	return s.emplace(k, 0).second;
@@ -87,7 +87,7 @@ SEQ_ALWAYS_INLINE bool insert(boost::concurrent_flat_map<K, V, H, P, A>& s, cons
 	return s.emplace(k, 0);
 }
 #endif
-template<class Key, class V, class H, class E, class A, size_t S, class K>
+template<class Key, class V, class H, class E, class A, std::size_t S, class K>
 SEQ_ALWAYS_INLINE bool insert(libcuckoo::cuckoohash_map<Key, V, H, E, A, S>& s, const K& k)
 {
 	return s.insert(k, 0);
@@ -108,12 +108,12 @@ SEQ_ALWAYS_INLINE bool insert(S& s, const K& k)
 }
 
 template<class K, class Set>
-void concurrent_insert(const std::vector<K>& keys, Set& s, size_t start, size_t end, std::atomic<bool>* start_compute)
+void concurrent_insert(const std::vector<K>& keys, Set& s, std::size_t start, std::size_t end, std::atomic<bool>* start_compute)
 {
 	while (!(*start_compute)) {
 	}
 
-	for (size_t i = start; i < end; ++i) {
+	for (std::size_t i = start; i < end; ++i) {
 		insert(s, keys[i]);
 	}
 }
@@ -121,34 +121,34 @@ void concurrent_insert(const std::vector<K>& keys, Set& s, size_t start, size_t 
 
 
 template<class Set>
-size_t walk_map(const Set& s)
+std::size_t walk_map(const Set& s)
 {
-	size_t count = 0;
+	std::size_t count = 0;
 	for (auto it = s.begin(); it != s.end(); ++it, ++count) {
 	}
 
 	return count;
 }
 
-template<class K, class V, class H, class E, class A, size_t S>
-size_t walk_map(const libcuckoo::cuckoohash_map<K, V, H, E, A, S>& s)
+template<class K, class V, class H, class E, class A, std::size_t S>
+std::size_t walk_map(const libcuckoo::cuckoohash_map<K, V, H, E, A, S>& s)
 {
 	return s.size();
 }
 
 template<class K, class V, class H, class E, class A, unsigned T>
-size_t walk_map(const concurrent_map<K, V, H, E, A, T>& s)
+std::size_t walk_map(const concurrent_map<K, V, H, E, A, T>& s)
 {
-	size_t size = 0;
+	std::size_t size = 0;
 	s.cvisit_all([&size](const auto&) { ++size; });
 	return size;
 }
 
 
-template<class K, class V, class H, class E, class A, size_t T, class M>
-size_t walk_map(const gtl::parallel_flat_hash_map<K, V, H, E, A, T, M>& s)
+template<class K, class V, class H, class E, class A, std::size_t T, class M>
+std::size_t walk_map(const gtl::parallel_flat_hash_map<K, V, H, E, A, T, M>& s)
 {
-	size_t size = 0;
+	std::size_t size = 0;
 	s.for_each([&size](const auto&) { ++size; });
 	return size;
 }
@@ -156,16 +156,16 @@ size_t walk_map(const gtl::parallel_flat_hash_map<K, V, H, E, A, T, M>& s)
 
 #ifdef BOOST_CONCURRENT_MAP_FOUND
 template<class K, class V, class H, class P, class A>
-size_t walk_map(const boost::concurrent_flat_map<K, V, H, P, A>& s)
+std::size_t walk_map(const boost::concurrent_flat_map<K, V, H, P, A>& s)
 {
-	size_t size = 0;
+	std::size_t size = 0;
 	s.cvisit_all([&size](const auto&) { ++size; });
 	return size;
 }
 #endif
 
 template<class Set>
-void concurrent_walk(Set& s, std::atomic<bool>* start_compute, size_t* count)
+void concurrent_walk(Set& s, std::atomic<bool>* start_compute, std::size_t* count)
 {
 	while (!(*start_compute)) {
 	}
@@ -173,7 +173,7 @@ void concurrent_walk(Set& s, std::atomic<bool>* start_compute, size_t* count)
 	while (*start_compute) {
 		*count = walk_map(s);
 	}
-	size_t size = s.size();
+	std::size_t size = s.size();
 	*count = walk_map(s);
 	SEQ_TEST(*count == size);
 }
@@ -201,7 +201,7 @@ SEQ_ALWAYS_INLINE bool find_map(const tbb::concurrent_unordered_map<K, V, H>& s,
 }
 #endif
 #endif
-template<class K, class V, class H, class E, class A, size_t S>
+template<class K, class V, class H, class E, class A, std::size_t S>
 SEQ_ALWAYS_INLINE bool find_map(const libcuckoo::cuckoohash_map<K, V, H, E, A, S>& s, const K& key)
 {
 	return s.contains(key);
@@ -218,19 +218,19 @@ SEQ_ALWAYS_INLINE bool find_map(const boost::concurrent_flat_map<K, V, H, P, A>&
 
 
 template<class Map>
-void reserve(Map& m, size_t size)
+void reserve(Map& m, std::size_t size)
 {
 	m.reserve(size);
 }
 #ifdef NDEBUG
 #ifdef TBB_FOUND
 template<class K, class V, class H>
-void reserve(tbb::concurrent_hash_map<K, V, H>& s, size_t size)
+void reserve(tbb::concurrent_hash_map<K, V, H>& s, std::size_t size)
 {
 	s.rehash(size);
 }
 template<class K, class V, class H>
-void reserve(tbb::concurrent_unordered_map<K, V, H>& s, size_t size)
+void reserve(tbb::concurrent_unordered_map<K, V, H>& s, std::size_t size)
 {
 	s.reserve(size);
 }
@@ -238,32 +238,32 @@ void reserve(tbb::concurrent_unordered_map<K, V, H>& s, size_t size)
 #endif
 
 template<class K, class Set>
-void concurrent_find(const std::vector<K>& keys, Set& s, std::atomic<bool>* start_compute, size_t* count)
+void concurrent_find(const std::vector<K>& keys, Set& s, std::atomic<bool>* start_compute, std::size_t* count)
 {
 	while (!(*start_compute)) {
 	}
 
 	while (*start_compute) {
 		*count = 0;
-		for (size_t i = 0; i < keys.size(); ++i)
+		for (std::size_t i = 0; i < keys.size(); ++i)
 			if (find_map(s, keys[i]))
 				++(*count);
 	}
 	*count = 0;
-	for (size_t i = 0; i < keys.size(); ++i) {
+	for (std::size_t i = 0; i < keys.size(); ++i) {
 		if (find_map(s, keys[i]))
 			++(*count);
 	}
 }
 
 template<class K, class Set>
-void concurrent_find_once(const std::vector<K>& keys, Set& s, std::atomic<bool>* start_compute, size_t* count)
+void concurrent_find_once(const std::vector<K>& keys, Set& s, std::atomic<bool>* start_compute, std::size_t* count)
 {
 	while (!(*start_compute)) {
 	}
 
 	*count = 0;
-	for (size_t i = 0; i < keys.size(); ++i)
+	for (std::size_t i = 0; i < keys.size(); ++i)
 		if (find_map(s, keys[i]))
 			++(*count);
 }
@@ -299,25 +299,25 @@ void erase(Concurrency::concurrent_unordered_map<K, V, H>& s, const K& k)
 
 
 template<class K, class Set>
-void concurrent_erase(const std::vector<K>& keys, Set& s, size_t start, size_t end, std::atomic<bool>* start_compute)
+void concurrent_erase(const std::vector<K>& keys, Set& s, std::size_t start, std::size_t end, std::atomic<bool>* start_compute)
 {
 	while (!(*start_compute)) {
 	}
 
-	for (size_t i = start; i < end; ++i)
-		// for (size_t i = 0; i < keys.size(); ++i)
+	for (std::size_t i = start; i < end; ++i)
+		// for (std::size_t i = 0; i < keys.size(); ++i)
 		erase(s, keys[i]);
 }
 
 template<class K, class Set>
 void test_concurrent_map(const std::vector<K>& _keys,
 			 Set& s,
-			 size_t numthreads,
-			 size_t& el_insert,
-			 size_t& el_walk,
-			 size_t& el_find,
-			 size_t& el_find_fail,
-			 size_t& el_erase,
+			 std::size_t numthreads,
+			 std::size_t& el_insert,
+			 std::size_t& el_walk,
+			 std::size_t& el_find,
+			 std::size_t& el_find_fail,
+			 std::size_t& el_erase,
 			 bool test_walk,
 			 bool test_find)
 {
@@ -329,25 +329,25 @@ void test_concurrent_map(const std::vector<K>& _keys,
 	std::vector<K> keys_not_found(_keys.begin() + _keys.size() / 2, _keys.end());
 	seq::random_shuffle(keys_not_found.begin(), keys_not_found.end(), 1);
 
-	size_t chunk_size = keys.size() / numthreads;
+	std::size_t chunk_size = keys.size() / numthreads;
 
 	std::atomic<bool> start_compute{ false };
 	std::vector<std::thread*> threads(numthreads);
-	for (size_t i = 0; i < numthreads; ++i) {
-		size_t start = i * chunk_size;
-		size_t end = i == numthreads - 1 ? keys.size() : start + chunk_size;
+	for (std::size_t i = 0; i < numthreads; ++i) {
+		std::size_t start = i * chunk_size;
+		std::size_t end = i == numthreads - 1 ? keys.size() : start + chunk_size;
 		threads[i] = new std::thread([&, start, end]() { concurrent_insert<K, Set>(keys, s, start, end, &start_compute); });
 	}
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
 	// launch walk
-	size_t walked = 0;
+	std::size_t walked = 0;
 	std::thread* walk;
 	if (test_walk)
 		walk = new std::thread([&]() { concurrent_walk<Set>(s, &start_compute, &walked); });
 
 	// launch find
-	size_t found = 0;
+	std::size_t found = 0;
 	std::thread* find;
 	if (test_find)
 		find = new std::thread([&]() { concurrent_find<K, Set>(keys_find, s, &start_compute, &found); });
@@ -355,11 +355,11 @@ void test_concurrent_map(const std::vector<K>& _keys,
 	seq::tick();
 	start_compute = true;
 
-	for (size_t i = 0; i < numthreads; ++i) {
+	for (std::size_t i = 0; i < numthreads; ++i) {
 		threads[i]->join();
 		delete threads[i];
 	}
-	size_t ss = s.size();
+	std::size_t ss = s.size();
 	if (ss != keys.size()) {
 		printf("insert error: %i\n", (int)ss);
 	}
@@ -382,7 +382,7 @@ void test_concurrent_map(const std::vector<K>& _keys,
 		SEQ_TEST(found == s.size());
 
 	seq::tick();
-	size_t count = walk_map(s);
+	std::size_t count = walk_map(s);
 	el_walk = seq::tock_ms();
 	if (count != s.size()) {
 		printf("walk error, %i missing\n", (int)(s.size() - count));
@@ -391,8 +391,8 @@ void test_concurrent_map(const std::vector<K>& _keys,
 
 	// parallel find
 	start_compute = false;
-	std::vector<size_t> counts(numthreads, 0);
-	for (size_t i = 0; i < numthreads; ++i) {
+	std::vector<std::size_t> counts(numthreads, 0);
+	for (std::size_t i = 0; i < numthreads; ++i) {
 		auto k = keys_find;
 		seq::random_shuffle(k.begin(), k.end(), (unsigned)i);
 		threads[i] = new std::thread([&, k, i]() { concurrent_find_once<K, Set>(k, s, &start_compute, &counts[i]); });
@@ -402,7 +402,7 @@ void test_concurrent_map(const std::vector<K>& _keys,
 	seq::tick();
 	start_compute = true;
 
-	for (size_t i = 0; i < numthreads; ++i) {
+	for (std::size_t i = 0; i < numthreads; ++i) {
 		threads[i]->join();
 		delete threads[i];
 		SEQ_TEST(s.size() == counts[i]);
@@ -411,7 +411,7 @@ void test_concurrent_map(const std::vector<K>& _keys,
 
 	// parallel find failed
 	start_compute = false;
-	for (size_t i = 0; i < numthreads; ++i) {
+	for (std::size_t i = 0; i < numthreads; ++i) {
 		threads[i] = new std::thread([&, i]() { concurrent_find_once<K, Set>(keys_not_found, s, &start_compute, &counts[i]); });
 	}
 	std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -419,7 +419,7 @@ void test_concurrent_map(const std::vector<K>& _keys,
 	seq::tick();
 	start_compute = true;
 
-	for (size_t i = 0; i < numthreads; ++i) {
+	for (std::size_t i = 0; i < numthreads; ++i) {
 		threads[i]->join();
 		delete threads[i];
 		SEQ_TEST(0 == counts[i]);
@@ -428,9 +428,9 @@ void test_concurrent_map(const std::vector<K>& _keys,
 
 	// parallel erase
 
-	for (size_t i = 0; i < numthreads; ++i) {
-		size_t start = i * chunk_size;
-		size_t end = i == numthreads - 1 ? keys.size() : start + chunk_size;
+	for (std::size_t i = 0; i < numthreads; ++i) {
+		std::size_t start = i * chunk_size;
+		std::size_t end = i == numthreads - 1 ? keys.size() : start + chunk_size;
 		threads[i] = new std::thread([&, start, end]() { concurrent_erase<K, Set>((keys), (s), start, end, &start_compute); });
 	}
 
@@ -451,7 +451,7 @@ void test_concurrent_map(const std::vector<K>& _keys,
 	seq::tick();
 	start_compute = true;
 
-	for (size_t i = 0; i < numthreads; ++i) {
+	for (std::size_t i = 0; i < numthreads; ++i) {
 		threads[i]->join();
 		delete threads[i];
 	}
@@ -472,10 +472,10 @@ void test_concurrent_map(const std::vector<K>& _keys,
 }
 
 template<class K, class Map, class Rng>
-void test_concurrent_map(size_t count, const char* name, Rng rng)
+void test_concurrent_map(std::size_t count, const char* name, Rng rng)
 {
 	std::vector<K> keys;
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		keys.push_back(rng(i));
 	std::sort(keys.begin(), keys.end());
 	auto it = std::unique(keys.begin(), keys.end());
@@ -511,11 +511,11 @@ void test_concurrent_map(size_t count, const char* name, Rng rng)
 		seq::random_shuffle(keys.begin(), keys.end(), seed);
 		// if (seed < 4)
 		//	continue;
-		for (size_t threads = 1; threads <= 12; ++threads) {
+		for (std::size_t threads = 1; threads <= 12; ++threads) {
 
 			Map set;
 			//reserve(set,keys.size());
-			size_t el_insert, el_walk, el_find, el_find_fail, el_erase;
+			std::size_t el_insert, el_walk, el_find, el_find_fail, el_erase;
 			test_concurrent_map(keys, set, threads, el_insert, el_walk, el_find, el_find_fail, el_erase, false, false);
 
 			std::cout << f(name, threads, el_insert, el_walk, el_find, el_find_fail, el_erase) << std::endl;
@@ -532,26 +532,26 @@ public:
 };
 
 template<class K, class Gen>
-void test_concurrent_hash_maps(size_t count, const Gen& gen)
+void test_concurrent_hash_maps(std::size_t count, const Gen& gen)
 {
-	test_concurrent_map<K, concurrent_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>> >>(
+	test_concurrent_map<K, concurrent_map<K, std::size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, std::size_t>> >>(
 		  count, "seq::concurrent_map", gen);
 
-	test_concurrent_map<K, gtl::parallel_flat_hash_map<K, size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, size_t>>, 5, std::shared_mutex>>(
+	test_concurrent_map<K, gtl::parallel_flat_hash_map<K, std::size_t, seq::hasher<K>, std::equal_to<K>, std::allocator<std::pair<K, std::size_t>>, 5, std::shared_mutex>>(
 	  count, "gtl::parallel_flat_hash_map", gen);
 	
 
 #ifdef BOOST_CONCURRENT_MAP_FOUND
-	test_concurrent_map<K, boost::concurrent_flat_map<K, size_t, seq::hasher<K>, std::equal_to<K>>>(count, "boost::concurrent_flat_map", gen);
+	test_concurrent_map<K, boost::concurrent_flat_map<K, std::size_t, seq::hasher<K>, std::equal_to<K>>>(count, "boost::concurrent_flat_map", gen);
 #endif
 
-	test_concurrent_map<K, libcuckoo::cuckoohash_map<K, size_t, seq::hasher<K>, std::equal_to<K>>>(count, "libcuckoo::cuckoohash_map", gen);
+	test_concurrent_map<K, libcuckoo::cuckoohash_map<K, std::size_t, seq::hasher<K>, std::equal_to<K>>>(count, "libcuckoo::cuckoohash_map", gen);
 
 #ifdef NDEBUG
 #ifdef TBB_FOUND
-	test_concurrent_map<K, tbb::concurrent_hash_map<K, size_t, my_tbb_hash_compare<K>>>(count, "tbb::concurrent_hash_map", gen); // safe erase
+	test_concurrent_map<K, tbb::concurrent_hash_map<K, std::size_t, my_tbb_hash_compare<K>>>(count, "tbb::concurrent_hash_map", gen); // safe erase
 
-	// test_concurrent_map<K, tbb::concurrent_unordered_map <K, size_t>  >(count, "tbb::concurrent_unordered_map ", gen); //safe iteration
+	// test_concurrent_map<K, tbb::concurrent_unordered_map <K, std::size_t>  >(count, "tbb::concurrent_unordered_map ", gen); //safe iteration
 #endif
 #endif
 }
@@ -560,19 +560,19 @@ int bench_concurrent_hash(int, char** const)
 {
 	
 	{
-		size_t count = 20000000;
-		using K = size_t;
-		auto gen = [](size_t i) { return i; };
+		std::size_t count = 20000000;
+		using K = std::size_t;
+		auto gen = [](std::size_t i) { return i; };
 		test_concurrent_hash_maps<K>(count, gen);
 	}
 
 	{
-		size_t count = 10000000;
+		std::size_t count = 10000000;
 		using K = tstring;
 		std::vector<tstring> strs;
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 			strs.push_back(generate_random_string<tstring>(33, false));
-		auto gen = [&](size_t i) { return strs[i]; };
+		auto gen = [&](std::size_t i) { return strs[i]; };
 		test_concurrent_hash_maps<K>(count, gen);
 	}
 

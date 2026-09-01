@@ -91,9 +91,9 @@ namespace seq
 	{
 		using is_transparent=int;
 		using is_avalanching=int;
-		size_t operator()(const ValueHolder<T>& v) const noexcept { return hasher<T>{}(*v.ptr); }
+		std::size_t operator()(const ValueHolder<T>& v) const noexcept { return hasher<T>{}(*v.ptr); }
 		template<class U>
-		size_t operator()(const U& v) const noexcept { return hasher<T>{}(v); }
+		std::size_t operator()(const U& v) const noexcept { return hasher<T>{}(v); }
 	};
 }
 
@@ -103,46 +103,46 @@ void erase(C& set, Iter it)
 	set.erase(it);
 }
 template<class C>
-void reserve(C& set, size_t count)
+void reserve(C& set, std::size_t count)
 {
 	set.reserve(count);
 }
 
 template<class T>
-void reserve(radix_set<T>&, size_t)
+void reserve(radix_set<T>&, std::size_t)
 {
 }
 
 template<class T>
-inline size_t to_size_t(const T& t)
+inline std::size_t to_size_t(const T& t)
 {
-	return static_cast<size_t>(t);
+	return static_cast<std::size_t>(t);
 }
 
-inline size_t to_size_t(const std::string& t)
+inline std::size_t to_size_t(const std::string& t)
 {
 	return t.size();
 }
-template<class Char, size_t S, class A>
-inline size_t to_size_t(const tiny_string<Char, A, S>& t)
+template<class Char, std::size_t S, class A>
+inline std::size_t to_size_t(const tiny_string<Char, A, S>& t)
 {
 	return t.size();
 }
-template<class Interface, size_t S, size_t A, bool R>
-inline size_t to_size_t(const seq::hold_any<Interface, S, A, R>& t)
+template<class Interface, std::size_t S, std::size_t A, bool R>
+inline std::size_t to_size_t(const seq::hold_any<Interface, S, A, R>& t)
 {
-	return reinterpret_cast<size_t>(t.data());
+	return reinterpret_cast<std::size_t>(t.data());
 }
 template<class T>
-inline size_t to_size_t(const ValueHolder<T>& t)
+inline std::size_t to_size_t(const ValueHolder<T>& t)
 {
 	return to_size_t(*t.ptr);
 }
 
 template<class Iter>
-size_t count_iter(Iter start, Iter end)
+std::size_t count_iter(Iter start, Iter end)
 {
-	size_t count = 0;
+	std::size_t count = 0;
 	while (start != end) {
 		++count;
 		++start;
@@ -151,9 +151,9 @@ size_t count_iter(Iter start, Iter end)
 }
 
 template<class C>
-size_t walk_set(C& set)
+std::size_t walk_set(C& set)
 {
-	size_t sum = 0;
+	std::size_t sum = 0;
 	auto end = set.end();
 	for (auto it = set.begin(); it != end; ++it)
 		sum += to_size_t(*it);
@@ -161,16 +161,16 @@ size_t walk_set(C& set)
 }
 
 template<class Key, class Hash, class Equal, class Allocator, unsigned Shards>
-size_t walk_set(concurrent_set<Key, Hash, Equal, Allocator, Shards>& set)
+std::size_t walk_set(concurrent_set<Key, Hash, Equal, Allocator, Shards>& set)
 {
-	size_t sum = 0;
+	std::size_t sum = 0;
 	set.cvisit_all([&](const auto& v) { sum += to_size_t(v); });
 	return sum;
 }
 /* template<class Key, class Hash, class Equal, class Allocator>
-size_t walk_set(flat_hash_set<Key, Hash, Equal, Allocator>& set)
+std::size_t walk_set(flat_hash_set<Key, Hash, Equal, Allocator>& set)
 {
-	size_t sum = 0;
+	std::size_t sum = 0;
 	set.cvisit_all([&](const auto& v) { sum += to_size_t(v); });
 	return sum;
 }
@@ -211,12 +211,12 @@ struct LaunchTest
 		// seq::random_shuffle(failed.begin(), failed.end(),1);
 
 		reset_memory_usage();
-		size_t start_mem = get_memory_usage();
-		size_t sum = 0;
+		std::size_t start_mem = get_memory_usage();
+		std::size_t sum = 0;
 
 		// insert with reserve
-		size_t insert_reserve = 0;
-		size_t insert_reserve_mem = 0;
+		std::size_t insert_reserve = 0;
+		std::size_t insert_reserve_mem = 0;
 
 		{
 			reset_memory_usage();
@@ -237,29 +237,29 @@ struct LaunchTest
 
 		// insert no reserve
 		tick();
-		for (size_t i = 0; i < success.size(); ++i) {
+		for (std::size_t i = 0; i < success.size(); ++i) {
 			set.insert(success[i]);
 		}
-		size_t insert = tock_ms();
-		size_t insert_mem = ((get_memory_usage() - start_mem) / (1024 * 1024));
+		std::size_t insert = tock_ms();
+		std::size_t insert_mem = ((get_memory_usage() - start_mem) / (1024 * 1024));
 
 		// std::cout << "A" << std::endl;
 		// std::cout << std::endl << set.size() << std::endl;
 
-		size_t prev_size = set.size();
+		std::size_t prev_size = set.size();
 
 		reset_memory_usage();
 		start_mem = get_memory_usage();
 
 		// insert failed
 		tick();
-		for (size_t i = 0; i < success.size(); ++i) {
+		for (std::size_t i = 0; i < success.size(); ++i) {
 
 			if (test_insert(set.insert(success[i])))
 				SEQ_TEST(false);
 		}
-		size_t insert_fail = tock_ms();
-		size_t insert_fail_mem = ((get_memory_usage() - start_mem) / (1024 * 1024));
+		std::size_t insert_fail = tock_ms();
+		std::size_t insert_fail_mem = ((get_memory_usage() - start_mem) / (1024 * 1024));
 
 		SEQ_TEST(prev_size == set.size());
 
@@ -269,7 +269,7 @@ struct LaunchTest
 
 		// successfull lookups
 		tick();
-		for (size_t i = 0; i < success.size(); ++i) {
+		for (std::size_t i = 0; i < success.size(); ++i) {
 
 			/*auto it = set.find(success[i]);
 			if (it != set.end())
@@ -283,7 +283,7 @@ struct LaunchTest
 				SEQ_TEST(false);
 			}
 		}
-		size_t find = tock_ms();
+		std::size_t find = tock_ms();
 		print_null(sum);
 
 		// std::cout << "B" << std::endl;
@@ -291,7 +291,7 @@ struct LaunchTest
 		// failed lookups
 		tick();
 		sum = 0;
-		for (size_t i = 0; i < failed.size(); ++i) {
+		for (std::size_t i = 0; i < failed.size(); ++i) {
 			/*auto it = set.find(failed[i]);
 			if (it != set.end()) {
 				SEQ_TEST(false);
@@ -303,7 +303,7 @@ struct LaunchTest
 			else
 				++sum;
 		}
-		size_t failed_ = tock_ms();
+		std::size_t failed_ = tock_ms();
 		print_null(sum);
 
 		// std::cout << "C" << std::endl;
@@ -312,7 +312,7 @@ struct LaunchTest
 		tick();
 		sum = walk_set(set);
 
-		size_t walk = tock_ms();
+		std::size_t walk = tock_ms();
 		print_null(sum);
 
 		// std::cout << "D" << std::endl;
@@ -322,11 +322,11 @@ struct LaunchTest
 		// std::vector<T> to_erase(success);
 		// seq::random_shuffle(to_erase.begin(), to_erase.end(), 1);
 
-		size_t eraset = 0;
-		size_t erase_mem = 0, find_again = 0;
+		std::size_t eraset = 0;
+		std::size_t erase_mem = 0, find_again = 0;
 		tick();
 		int i = 0;
-		size_t target = set.size() / 2;
+		std::size_t target = set.size() / 2;
 		while (set.size() > target) {
 			SEQ_TEST(set.erase(success[i]) == 1);
 			i++;
@@ -388,11 +388,11 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 
 	// Generate inputs
 	std::vector<T> keys(count);
-	for (size_t i = 0; i < keys.size(); ++i)
+	for (std::size_t i = 0; i < keys.size(); ++i)
 		keys[i] = (T)gen(i);
 	{
 		std::sort(keys.begin(), keys.end());
-		size_t size = std::unique(keys.begin(), keys.end()) - keys.begin();
+		std::size_t size = std::unique(keys.begin(), keys.end()) - keys.begin();
 		keys.resize(size);
 		std::shuffle(keys.begin(), keys.end(), std::mt19937(1));
 	}
@@ -463,9 +463,9 @@ void test_hash(int count, Gen gen, bool save_keys = false)
 
 struct Test
 {
-	size_t v;
-	size_t data[4];
-	Test(size_t i = 0) noexcept
+	std::size_t v;
+	std::size_t data[4];
+	Test(std::size_t i = 0) noexcept
 	  : v(i)
 	{
 	}
@@ -474,7 +474,7 @@ struct Test
 template<>
 struct seq::hasher<Test>
 {
-	size_t operator()(const Test& t) const noexcept { return hasher<size_t>{}(t.v); }
+	std::size_t operator()(const Test& t) const noexcept { return hasher<std::size_t>{}(t.v); }
 };
 
 
@@ -487,21 +487,21 @@ int bench_hash(int, char** const)
 	std::vector<int> vv(10);
 	tvec vec{ vv.begin(), vv.end() };
 
-	test_hash<int, seq::hasher<int>>(8000000, [](size_t i) { return (i); });
-	test_hash<size_t, seq::hasher<size_t>>(8000000, [](size_t i) { return (i); });
+	test_hash<int, seq::hasher<int>>(8000000, [](std::size_t i) { return (i); });
+	test_hash<std::size_t, seq::hasher<std::size_t>>(8000000, [](std::size_t i) { return (i); });
 
 	std::mt19937 e2(0);
 	std::uniform_real_distribution<> rng;
-	test_hash<double, seq::hasher<double>>(8000000, [&](size_t i) { return rng(e2); });
+	test_hash<double, seq::hasher<double>>(8000000, [&](std::size_t i) { return rng(e2); });
 
-	test_hash<tstring, seq::hasher<tstring>>(2500000, [](size_t i) { return generate_random_string<tstring>(63, false); });
+	test_hash<tstring, seq::hasher<tstring>>(2500000, [](std::size_t i) { return generate_random_string<tstring>(63, false); });
 
-	test_hash<tstring, seq::hasher<tstring>>(4000000, [](size_t i) { return generate_random_string<tstring>(1, true) + tstring(12, ' ') + generate_random_string<tstring>(13, true); });
+	test_hash<tstring, seq::hasher<tstring>>(4000000, [](std::size_t i) { return generate_random_string<tstring>(1, true) + tstring(12, ' ') + generate_random_string<tstring>(13, true); });
 
-	test_hash<tstring, seq::hasher<tstring>>(4000000, [](size_t i) { return generate_random_string<tstring>(13, true); });
+	test_hash<tstring, seq::hasher<tstring>>(4000000, [](std::size_t i) { return generate_random_string<tstring>(13, true); });
 
-	test_hash<seq::r_any, seq::hasher<seq::r_any>>(2500000, [](size_t i) {
-		size_t idx = i & 3U;
+	test_hash<seq::r_any, seq::hasher<seq::r_any>>(2500000, [](std::size_t i) {
+		std::size_t idx = i & 3U;
 		switch (idx) {
 			case 0:
 				return seq::r_any(i * UINT64_C(0xc4ceb9fe1a85ec53));

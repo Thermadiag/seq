@@ -43,7 +43,7 @@ namespace art {
         return !(*(char *) &num == 1);
     }
 
-    template<typename _Key, size_t MAX_SIZE = 256>
+    template<typename _Key, std::size_t MAX_SIZE = 256>
     struct key_transform;
 
     // Unsigned integers are already binary comparable.
@@ -141,7 +141,7 @@ namespace art {
     };
 
     // fixed size ascii string transform
-    template<size_t MAX_SIZE>
+    template<std::size_t MAX_SIZE>
     struct key_transform<std::string, MAX_SIZE> {
         std::array<char, MAX_SIZE> operator()(const std::string &key) const noexcept {
             // make sure to initialize the whole array, otherwise the suffix of

@@ -49,18 +49,18 @@ namespace seq
 		class QueueImpl : private Allocator
 		{
 			// Create mask value based on bit count
-			template<uint64_t Count>
-			static constexpr uint64_t QueueMask()
+			template<std::uint64_t Count>
+			static constexpr std::uint64_t QueueMask()
 			{
 				if constexpr (Count == 64)
-					return std::numeric_limits<uint64_t>::max();
+					return std::numeric_limits<std::uint64_t>::max();
 				else
 					return ((1ull << Count) - 1ull);
 			}
 
 		public:
 			using value_type = T;
-			using size_type = uint64_t;
+			using size_type = std::uint64_t;
 			using lock_type = std::mutex;
 			using atomic_type = std::atomic<size_type>;
 
@@ -94,17 +94,17 @@ namespace seq
 				size_type valid_mask() const noexcept { return cnt.load(std::memory_order_relaxed) & (~pop.load(std::memory_order_relaxed)); }
 
 				// Return index of first valid element
-				uint16_t first_valid_index() const noexcept
+				std::uint16_t first_valid_index() const noexcept
 				{
 					auto mask = valid_mask();
-					return mask ? (uint16_t)bit_scan_forward_64(mask) : 0;
+					return mask ? (std::uint16_t)bit_scan_forward_64(mask) : 0;
 				}
 
 				// Return index of last valid element
-				uint16_t last_valid_index() const noexcept
+				std::uint16_t last_valid_index() const noexcept
 				{
 					auto mask = valid_mask();
-					return mask ? (uint16_t)bit_scan_reverse_64(mask) : 0;
+					return mask ? (std::uint16_t)bit_scan_reverse_64(mask) : 0;
 				}
 
 				// Return if given index contains a valid element
@@ -117,7 +117,7 @@ namespace seq
 
 		private:
 
-			static constexpr size_t cache_line_size = 64;
+			static constexpr std::size_t cache_line_size = 64;
 
 			alignas(cache_line_size) atomic_type d_head{ 0 };// Head (insert) position
 			alignas(cache_line_size) atomic_type d_tail{ 0 };// Tail (pop) position
@@ -150,7 +150,7 @@ namespace seq
 
 				AddReserve ret{ a.load(std::memory_order_relaxed), nullptr };
 
-				uint8_t cnt = 0;
+				std::uint8_t cnt = 0;
 				for (;;) {
 					// Early stop condition
 					if constexpr (!std::is_same_v<EarlyStop, int>)
@@ -159,7 +159,7 @@ namespace seq
 
 					if constexpr (!Pop) {
 						// Insertion: test position overflow (should never happen)
-						if SEQ_UNLIKELY (ret.pos == std::numeric_limits<uint64_t>::max() - 1) {
+						if SEQ_UNLIKELY (ret.pos == std::numeric_limits<std::uint64_t>::max() - 1) {
 							if (ret.reserved)
 								free_bucket(ret.reserved);
 							throw std::length_error("concurrent_queue reach its maximum ticket position");
@@ -169,7 +169,7 @@ namespace seq
 					if (a.compare_exchange_strong(ret.pos, ret.pos + 1, std::memory_order_relaxed, std::memory_order_relaxed))
 						return ret;
 
-					for (uint8_t i = 0; i < cnt + 1; ++i)
+					for (std::uint8_t i = 0; i < cnt + 1; ++i)
 						std::this_thread::yield();
 					cnt = ((cnt + 1) & 31);
 				}
@@ -377,7 +377,7 @@ namespace seq
 					deallocate_from(get_allocator(), b);
 			}
 
-			void reserve(size_t new_count)
+			void reserve(std::size_t new_count)
 			{
 				// Allocate enough buckets to store up to new_count elements
 
@@ -467,7 +467,7 @@ namespace seq
 				};
 				return pop_internal(f);
 			}
-			SEQ_ALWAYS_INLINE size_t size() const noexcept
+			SEQ_ALWAYS_INLINE std::size_t size() const noexcept
 			{
 				auto h = d_head.load(std::memory_order_relaxed);
 				auto t = d_tail.load(std::memory_order_relaxed);
@@ -566,8 +566,8 @@ namespace seq
 			base_bucket_type* d_bucket = nullptr;
 			base_bucket_type* d_end = nullptr;
 			unsigned d_pos = 0;
-			uint16_t d_first = 0;
-			uint16_t d_last = 0;
+			std::uint16_t d_first = 0;
+			std::uint16_t d_last = 0;
 		};
 
 		// Iterator fo concurrent_queue (unsafe)
@@ -666,7 +666,7 @@ namespace seq
 		using value_type = T;
 		using reference = T&;
 		using pointer = T*;
-		using size_type = uint64_t;
+		using size_type = std::uint64_t;
 		using allocator_type = Allocator;
 		using iterator = detail::QueueIterator<queue_type>;
 		using const_iterator = detail::QueueConstIterator<queue_type>;
@@ -776,7 +776,7 @@ namespace seq
 
 		/// @brief Reserve enough space to hold at least count elements.
 		/// This is a best-effort reservation when called concurrently.
-		void reserve(size_t count) { data()->reserve(count); }
+		void reserve(std::size_t count) { data()->reserve(count); }
 
 		/// @brief Push an element to the back of the queue.
 		/// Strong exception guarantee for queue contents.

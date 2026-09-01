@@ -216,7 +216,7 @@ typedef int64x2_t __m128i; /* 128-bit vector containing integers */
 // Some intrinsics operate on unaligned data types.
 typedef int16_t SEQ_ALIGN_TO_BOUNDARY(1) unaligned_int16_t;
 typedef int32_t SEQ_ALIGN_TO_BOUNDARY(1) unaligned_int32_t;
-typedef int64_t SEQ_ALIGN_TO_BOUNDARY(1) unaligned_int64_t;
+typedef std::int64_t SEQ_ALIGN_TO_BOUNDARY(1) unaligned_int64_t;
 
 #define vreinterpretq_s8_m128i(x) vreinterpretq_s8_s64(x)
 #define vreinterpretq_m128i_s32(x) vreinterpretq_s64_s32(x)

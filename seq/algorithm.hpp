@@ -38,7 +38,7 @@ namespace seq
 		struct HashPtr 
 		{
 			const Hash* h;
-			size_t operator()(const Key* k) const noexcept { return (*h)(*k); }
+			std::size_t operator()(const Key* k) const noexcept { return (*h)(*k); }
 		};
 		// Comparison function working on pointer
 		template<class Key, class Equal>

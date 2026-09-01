@@ -85,13 +85,13 @@ inline void test_concurrent_set_logic(const Alloc& al)
 	{
 		// push_front/back and sorted
 		std::vector<T> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<T>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
 		set_type set(al);
 		std::unordered_set<T> uset;
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.insert(v[i]);
 			set.insert(v[i]);
 		}
@@ -133,9 +133,9 @@ inline void test_concurrent_set_logic(const Alloc& al)
 		// test rehash() with duplicate removal
 
 		std::vector<T> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<T>(i));
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<T>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -147,7 +147,7 @@ inline void test_concurrent_set_logic(const Alloc& al)
 		SEQ_TEST(test_set_equals(set, uset));
 
 		// remove half
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.erase(v[i]);
 			set.erase(v[i]);
 		}
@@ -181,7 +181,7 @@ inline void test_concurrent_set_logic(const Alloc& al)
 	{
 		// test copy
 		std::vector<T> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<T>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -224,7 +224,7 @@ inline void test_concurrent_set_logic(const Alloc& al)
 		SEQ_TEST(test_set_equals(set, uset));
 
 		// erase half
-		for (size_t i = 0; i < v.size(); i += 2) {
+		for (std::size_t i = 0; i < v.size(); i += 2) {
 			set.erase(v[i]);
 			uset.erase(v[i]);
 		}
@@ -267,13 +267,13 @@ inline void test_concurrent_map_logic(const Alloc& al)
 	{
 		// push_front/back and sorted
 		std::vector<T> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<T>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
 		map_type set(al);
 		umap_type uset;
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.emplace(v[i], v[i]);
 			set.emplace(v[i], v[i]);
 		}
@@ -383,7 +383,7 @@ inline void test_concurrent_map_logic(const Alloc& al)
 	{
 		// test copy
 		std::vector<std::pair<T, T>> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<T>(i), static_cast<T>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -426,7 +426,7 @@ inline void test_concurrent_map_logic(const Alloc& al)
 		SEQ_TEST(test_map_equals(set, uset));
 
 		// erase half
-		for (size_t i = 0; i < v.size(); i += 2) {
+		for (std::size_t i = 0; i < v.size(); i += 2) {
 			set.erase(v[i].first);
 			uset.erase(v[i].first);
 		}
@@ -444,11 +444,11 @@ inline void test_concurrent_map_logic(const Alloc& al)
 }
 
 template<class T, class Hash, unsigned Shards, class Alloc>
-void test_heavy_set(size_t count, const Alloc& al, unsigned seed = 0)
+void test_heavy_set(std::size_t count, const Alloc& al, unsigned seed = 0)
 {
 	using key_type = T;
 	std::vector<key_type> keys(count);
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		keys[i] = static_cast<key_type>(i);
 	seq::random_shuffle(keys.begin(), keys.end(), seed);
 
@@ -460,13 +460,13 @@ void test_heavy_set(size_t count, const Alloc& al, unsigned seed = 0)
 		SEQ_TEST(s.size() == count);
 
 		// find all
-		for (size_t i = 0; i < count; ++i) {
+		for (std::size_t i = 0; i < count; ++i) {
 			SEQ_TEST(s.visit(keys[i], [&](const auto&) {}));
 		}
 
 		// failed find
-		for (size_t i = 0; i < count; ++i) {
-			size_t ke = i + count;
+		for (std::size_t i = 0; i < count; ++i) {
+			std::size_t ke = i + count;
 			SEQ_TEST(!s.visit(ke, [](const auto&) {}));
 		}
 
@@ -474,21 +474,21 @@ void test_heavy_set(size_t count, const Alloc& al, unsigned seed = 0)
 		SEQ_TEST(s.size() == 0);
 
 		// insert all one by one
-		for (size_t i = 0; i < count; ++i) {
+		for (std::size_t i = 0; i < count; ++i) {
 			s.insert(keys[i]);
 			// find while inserting
-			for (size_t j = 0; j <= i; ++j) {
+			for (std::size_t j = 0; j <= i; ++j) {
 				SEQ_TEST(s.visit(keys[j], [&](const auto&) {}));
 			}
 			// failed find
-			for (size_t j = i + 1; j < count; ++j) {
+			for (std::size_t j = i + 1; j < count; ++j) {
 				SEQ_TEST(!s.visit(keys[j], [](const auto&) {}));
 			}
 		}
 		SEQ_TEST(s.size() == count);
 
 		// failed insertion
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 			s.insert(keys[i]);
 		SEQ_TEST(s.size() == count);
 
@@ -497,39 +497,39 @@ void test_heavy_set(size_t count, const Alloc& al, unsigned seed = 0)
 		SEQ_TEST(s.size() == count);
 
 		// find all
-		for (size_t i = 0; i < count; ++i) {
+		for (std::size_t i = 0; i < count; ++i) {
 			SEQ_TEST(s.visit(keys[i], [&](const auto&) {}));
 		}
 
 		// failed find
-		for (size_t i = 0; i < count; ++i) {
-			size_t ke = i + count;
+		for (std::size_t i = 0; i < count; ++i) {
+			std::size_t ke = i + count;
 			SEQ_TEST(!s.visit(ke, [](const auto&) {}));
 		}
 
 		// erase half
-		size_t cc = (count / 2U) * 2U;
-		for (size_t i = 0; i < cc; i += 2) {
+		std::size_t cc = (count / 2U) * 2U;
+		for (std::size_t i = 0; i < cc; i += 2) {
 
 			SEQ_TEST(s.erase(keys[i]));
 		}
 		SEQ_TEST(s.size() == count / 2);
 
 		// find all
-		for (size_t i = 1; i < count; i += 2) {
+		for (std::size_t i = 1; i < count; i += 2) {
 			if (i >= count)
 				break;
 			SEQ_TEST(s.visit(keys[i], [&](const auto&) {}));
 		}
 
 		// failed
-		for (size_t i = 0; i < cc; i += 2) {
+		for (std::size_t i = 0; i < cc; i += 2) {
 			SEQ_TEST(!s.visit(keys[i], [](const auto&) {}));
 		}
 	}
 
 	// erase remaining keys
-	for (size_t i = 0; i < count; ++i) {
+	for (std::size_t i = 0; i < count; ++i) {
 		s.erase(keys[i]);
 	}
 
@@ -662,7 +662,7 @@ void test_concurrent_map_members()
 	// Load factor
 	{
 		std::vector<std::pair<std::string, std::string>> vec;
-		for (size_t i = 0; i < 1000; ++i) {
+		for (std::size_t i = 0; i < 1000; ++i) {
 			vec.push_back(std::make_pair(seq::generate_random_string<std::string>(63), seq::generate_random_string<std::string>(63)));
 		}
 
@@ -714,14 +714,14 @@ void test_concurrent_map_members()
 	// visit all
 	{
 		std::vector<std::pair<std::string, std::string>> vec;
-		for (size_t i = 0; i < 1000; ++i)
+		for (std::size_t i = 0; i < 1000; ++i)
 			vec.push_back(std::make_pair(seq::generate_random_string<std::string>(63), seq::generate_random_string<std::string>(63)));
 		std::sort(vec.begin(), vec.end(), [](const auto& l, const auto& r) { return l.first < r.first; });
 		auto it = std::unique(vec.begin(), vec.end(), [](const auto& l, const auto& r) { return l.first == r.first; });
 		vec.erase(it, vec.end());
 
 		map_type map1(vec.begin(), vec.end());
-		size_t count = 0;
+		std::size_t count = 0;
 		map1.visit_all([&](const auto&) { ++count; });
 		SEQ_TEST(count == vec.size());
 		count = 0;
@@ -738,14 +738,14 @@ void test_concurrent_map_members()
 	// visit all parallel
 	{
 		std::vector<std::pair<std::string, std::string>> vec;
-		for (size_t i = 0; i < 1000; ++i)
+		for (std::size_t i = 0; i < 1000; ++i)
 			vec.push_back(std::make_pair(seq::generate_random_string<std::string>(63), seq::generate_random_string<std::string>(63)));
 		std::sort(vec.begin(), vec.end(), [](const auto& l, const auto& r) { return l.first < r.first; });
 		auto it = std::unique(vec.begin(), vec.end(), [](const auto& l, const auto& r) { return l.first == r.first; });
 		vec.erase(it, vec.end());
 
 		map_type map1(vec.begin(), vec.end());
-		std::atomic<size_t> count{ 0 };
+		std::atomic<std::size_t> count{ 0 };
 		map1.visit_all(std::execution::par, [&](const auto&) { ++count; });
 		SEQ_TEST(count == vec.size());
 		count.store(0);
@@ -762,7 +762,7 @@ void test_concurrent_map_members()
 	// Single visit, count, contains
 	{
 		std::vector<std::pair<std::string, std::string>> vec;
-		for (size_t i = 0; i < 1000; ++i)
+		for (std::size_t i = 0; i < 1000; ++i)
 			vec.push_back(std::make_pair(seq::generate_random_string<std::string>(63), seq::generate_random_string<std::string>(63)));
 		std::sort(vec.begin(), vec.end(), [](const auto& l, const auto& r) { return l.first < r.first; });
 		auto it = std::unique(vec.begin(), vec.end(), [](const auto& l, const auto& r) { return l.first == r.first; });
@@ -770,7 +770,7 @@ void test_concurrent_map_members()
 
 		map_type map1(vec.begin(), vec.begin() + vec.size() / 2);
 
-		for (size_t i = 0; i < vec.size() / 2; ++i) {
+		for (std::size_t i = 0; i < vec.size() / 2; ++i) {
 
 			SEQ_TEST(map1.cvisit(vec[i].first, [](const auto&) {}));
 			SEQ_TEST(map1.cvisit(vec[i].first.c_str(), [](const auto&) {}));
@@ -780,7 +780,7 @@ void test_concurrent_map_members()
 			SEQ_TEST(map1.contains(vec[i].first) == true);
 			SEQ_TEST(map1.contains(vec[i].first.c_str()) == true);
 		}
-		for (size_t i = vec.size() / 2; i < vec.size(); ++i) {
+		for (std::size_t i = vec.size() / 2; i < vec.size(); ++i) {
 
 			SEQ_TEST(!map1.cvisit(vec[i].first, [](const auto&) {}));
 			SEQ_TEST(!map1.cvisit(vec[i].first.c_str(), [](const auto&) {}));
@@ -848,22 +848,22 @@ void test_concurrent_map_members()
 	{
 		{
 			// create histogram
-			std::vector<size_t> vec;
-			for (size_t i = 0; i < 100; ++i)
-				for (size_t j = 0; j < 1000; ++j)
+			std::vector<std::size_t> vec;
+			for (std::size_t i = 0; i < 100; ++i)
+				for (std::size_t j = 0; j < 1000; ++j)
 					vec.push_back(i);
 
 			seq::random_shuffle(vec.begin(), vec.end());
-			seq::concurrent_map<size_t, size_t> maph;
+			seq::concurrent_map<std::size_t, std::size_t> maph;
 #ifdef __cpp_lib_parallel_algorithm
-			std::for_each(std::execution::par, vec.begin(), vec.end(), [&](size_t v) { maph.emplace_or_visit(v, 1, [](auto& p) { p.second++; }); });
+			std::for_each(std::execution::par, vec.begin(), vec.end(), [&](std::size_t v) { maph.emplace_or_visit(v, 1, [](auto& p) { p.second++; }); });
 #else
-			std::for_each(vec.begin(), vec.end(), [&](size_t v) { maph.emplace_or_visit(v, 1, [](auto& p) { p.second++; }); });
+			std::for_each(vec.begin(), vec.end(), [&](std::size_t v) { maph.emplace_or_visit(v, 1, [](auto& p) { p.second++; }); });
 #endif
 
-			std::vector<size_t> hist(100);
+			std::vector<std::size_t> hist(100);
 			maph.cvisit_all([&](const auto& p) { hist[p.first] = p.second; });
-			for (size_t i = 0; i < hist.size(); ++i)
+			for (std::size_t i = 0; i < hist.size(); ++i)
 				SEQ_TEST(hist[i] == 1000);
 		}
 	}
@@ -871,23 +871,23 @@ void test_concurrent_map_members()
 	{
 		{
 			// create histogram
-			std::vector<size_t> vec;
-			for (size_t i = 0; i < 100; ++i)
-				for (size_t j = 0; j < 1000; ++j)
+			std::vector<std::size_t> vec;
+			for (std::size_t i = 0; i < 100; ++i)
+				for (std::size_t j = 0; j < 1000; ++j)
 					vec.push_back(i);
 
 			seq::random_shuffle(vec.begin(), vec.end());
-			seq::concurrent_map<size_t, size_t> maph;
+			seq::concurrent_map<std::size_t, std::size_t> maph;
 
 #ifdef __cpp_lib_parallel_algorithm
-			std::for_each(std::execution::par, vec.begin(), vec.end(), [&](size_t v) { maph.insert_or_visit(std::make_pair(v, (size_t)1), [](auto& p) { p.second++; }); });
+			std::for_each(std::execution::par, vec.begin(), vec.end(), [&](std::size_t v) { maph.insert_or_visit(std::make_pair(v, (std::size_t)1), [](auto& p) { p.second++; }); });
 #else
-			std::for_each(vec.begin(), vec.end(), [&](size_t v) { maph.insert_or_visit(std::make_pair(v, 1u), [](auto& p) { p.second++; }); });
+			std::for_each(vec.begin(), vec.end(), [&](std::size_t v) { maph.insert_or_visit(std::make_pair(v, 1u), [](auto& p) { p.second++; }); });
 #endif
 
-			std::vector<size_t> hist(100);
+			std::vector<std::size_t> hist(100);
 			maph.cvisit_all([&](const auto& p) { hist[p.first] = p.second; });
-			for (size_t i = 0; i < hist.size(); ++i)
+			for (std::size_t i = 0; i < hist.size(); ++i)
 				SEQ_TEST(hist[i] == 1000);
 		}
 	}
@@ -924,11 +924,11 @@ void test_concurrent_map_members()
 	}
 	// merge
 	{
-		seq::concurrent_map<size_t, size_t> map1;
-		for (size_t i = 0; i < 100000; ++i)
+		seq::concurrent_map<std::size_t, std::size_t> map1;
+		for (std::size_t i = 0; i < 100000; ++i)
 			map1.emplace(i, i);
 
-		seq::concurrent_map<size_t, size_t> map2;
+		seq::concurrent_map<std::size_t, std::size_t> map2;
 		SEQ_TEST(map2.merge(map1) == 100000);
 		SEQ_TEST(map1.size() == 0);
 
@@ -939,11 +939,11 @@ void test_concurrent_map_members()
 	}
 	// Equality
 	{
-		seq::concurrent_map<size_t, size_t> map1, map2;
-		for (size_t i = 0; i < 100000; ++i)
+		seq::concurrent_map<std::size_t, std::size_t> map1, map2;
+		for (std::size_t i = 0; i < 100000; ++i)
 			map1.insert({ i, i });
 		for (int i = 100000 - 1; i >= 0; --i) {
-			size_t v = (size_t)i;
+			std::size_t v = (std::size_t)i;
 			map2.insert({ v, v });
 		}
 		SEQ_TEST(map1 == map2);
@@ -957,8 +957,8 @@ void test_concurrent_map_members()
 /// @brief Hash function that provokes lots of collisions
 struct DummyHash
 {
-	size_t operator()(size_t v) const noexcept { return (v * UINT64_C(0xff51afd7ed558ccd)) & 31U; }
-	size_t operator()(const TestDestroy<size_t>& v) const noexcept { return (static_cast<size_t>(v) * UINT64_C(0xff51afd7ed558ccd)) & 31U; }
+	std::size_t operator()(std::size_t v) const noexcept { return (v * UINT64_C(0xff51afd7ed558ccd)) & 31U; }
+	std::size_t operator()(const TestDestroy<std::size_t>& v) const noexcept { return (static_cast<std::size_t>(v) * UINT64_C(0xff51afd7ed558ccd)) & 31U; }
 };
 
 SEQ_PROTOTYPE(int test_concurrent_map(int, char*[]))
@@ -988,23 +988,23 @@ SEQ_PROTOTYPE(int test_concurrent_map(int, char*[]))
 	SEQ_TEST_MODULE_RETURN(concurrent_set_no_concurrency, 1, test_concurrent_set_logic<double, seq::no_concurrency>(al));
 	SEQ_TEST(get_alloc_bytes(al) == 0);
 
-	CountAlloc<size_t> alu;
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_low_concurrency, 1, test_heavy_set<size_t, seq::hasher<size_t>, seq::low_concurrency>(10000, alu));
+	CountAlloc<std::size_t> alu;
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_low_concurrency, 1, test_heavy_set<std::size_t, seq::hasher<std::size_t>, seq::low_concurrency>(10000, alu));
 	SEQ_TEST(get_alloc_bytes(alu) == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_medium_concurrency, 1, test_heavy_set<size_t, seq::hasher<size_t>, seq::medium_concurrency>(10000, alu));
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_medium_concurrency, 1, test_heavy_set<std::size_t, seq::hasher<std::size_t>, seq::medium_concurrency>(10000, alu));
 	SEQ_TEST(get_alloc_bytes(alu) == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_high_concurrency, 1, test_heavy_set<size_t, seq::hasher<size_t>, seq::high_concurrency>(10000, alu));
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_high_concurrency, 1, test_heavy_set<std::size_t, seq::hasher<std::size_t>, seq::high_concurrency>(10000, alu));
 	SEQ_TEST(get_alloc_bytes(alu) == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_no_concurrency, 1, test_heavy_set<size_t, seq::hasher<size_t>, seq::no_concurrency>(10000, alu));
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_no_concurrency, 1, test_heavy_set<std::size_t, seq::hasher<std::size_t>, seq::no_concurrency>(10000, alu));
 	SEQ_TEST(get_alloc_bytes(alu) == 0);
 
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_low_concurrency, 1, test_heavy_set<size_t, DummyHash, seq::low_concurrency>(5000, alu));
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_low_concurrency, 1, test_heavy_set<std::size_t, DummyHash, seq::low_concurrency>(5000, alu));
 	SEQ_TEST(get_alloc_bytes(alu) == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_medium_concurrency, 1, test_heavy_set<size_t, DummyHash, seq::medium_concurrency>(5000, alu));
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_medium_concurrency, 1, test_heavy_set<std::size_t, DummyHash, seq::medium_concurrency>(5000, alu));
 	SEQ_TEST(get_alloc_bytes(alu) == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_high_concurrency, 1, test_heavy_set<size_t, DummyHash, seq::high_concurrency>(5000, alu));
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_high_concurrency, 1, test_heavy_set<std::size_t, DummyHash, seq::high_concurrency>(5000, alu));
 	SEQ_TEST(get_alloc_bytes(alu) == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_no_concurrency, 1, test_heavy_set<size_t, DummyHash, seq::no_concurrency>(5000, alu));
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_no_concurrency, 1, test_heavy_set<std::size_t, DummyHash, seq::no_concurrency>(5000, alu));
 	SEQ_TEST(get_alloc_bytes(alu) == 0);
 
 	CountAlloc<TestDestroy<double>> al2;
@@ -1024,19 +1024,19 @@ SEQ_PROTOTYPE(int test_concurrent_map(int, char*[]))
 	SEQ_TEST(TestDestroy<double>::count() == 0);
 	SEQ_TEST(get_alloc_bytes(al2) == 0);
 
-	CountAlloc<TestDestroy<size_t>> al3;
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_destroy_no_concurrency, 1, test_heavy_set<TestDestroy<size_t>, std::hash<TestDestroy<size_t>>, seq::no_concurrency>(10000, al3));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	CountAlloc<TestDestroy<std::size_t>> al3;
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_destroy_no_concurrency, 1, test_heavy_set<TestDestroy<std::size_t>, std::hash<TestDestroy<std::size_t>>, seq::no_concurrency>(10000, al3));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 	SEQ_TEST(get_alloc_bytes(al3) == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_destroy_medium_concurrency, 1, test_heavy_set<TestDestroy<size_t>, std::hash<TestDestroy<size_t>>, seq::medium_concurrency>(10000, al3));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_destroy_medium_concurrency, 1, test_heavy_set<TestDestroy<std::size_t>, std::hash<TestDestroy<std::size_t>>, seq::medium_concurrency>(10000, al3));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 	SEQ_TEST(get_alloc_bytes(al3) == 0);
 
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_destroy_no_concurrency, 1, test_heavy_set<TestDestroy<size_t>, DummyHash, seq::no_concurrency>(10000, al3));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_destroy_no_concurrency, 1, test_heavy_set<TestDestroy<std::size_t>, DummyHash, seq::no_concurrency>(10000, al3));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 	SEQ_TEST(get_alloc_bytes(al3) == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_destroy_medium_concurrency, 1, test_heavy_set<TestDestroy<size_t>, DummyHash, seq::medium_concurrency>(10000, al3));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(heavy_concurrent_set_linear_destroy_medium_concurrency, 1, test_heavy_set<TestDestroy<std::size_t>, DummyHash, seq::medium_concurrency>(10000, al3));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 	SEQ_TEST(get_alloc_bytes(al3) == 0);
 
 	return 0;

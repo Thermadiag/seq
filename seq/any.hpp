@@ -103,7 +103,7 @@ namespace seq
 	};
 
 	// forward declaration
-	template<class Interface, size_t S, size_t A, bool R>
+	template<class Interface, std::size_t S, std::size_t A, bool R>
 	class hold_any;
 
 	template<class T>
@@ -111,7 +111,7 @@ namespace seq
 	{
 	};
 
-	template<class Interface, size_t S, size_t A, bool R>
+	template<class Interface, std::size_t S, std::size_t A, bool R>
 	struct is_hold_any<hold_any<Interface, S, A, R>> : std::true_type
 	{
 	};
@@ -258,7 +258,7 @@ namespace seq
 		/// @brief Hash value only if is_hashable<T>::value is true,
 		/// otherwise throw bad_any_function_call
 		template<class T>
-		static SEQ_ALWAYS_INLINE auto hash_for_val(const void* in) -> size_t
+		static SEQ_ALWAYS_INLINE auto hash_for_val(const void* in) -> std::size_t
 		{
 			if constexpr (is_hashable<T>::value) {
 				if constexpr (is_character_pointer<T>::value) {
@@ -368,11 +368,11 @@ namespace seq
 		T arithmetic_from_string(const String& in)
 		{
 			if constexpr (std::is_same_v<bool, T>)
-				return (bool)arithmetic_from_string<uint8_t>(in);
+				return (bool)arithmetic_from_string<std::uint8_t>(in);
 			else if constexpr (std::is_same_v<char16_t, T>)
-				return (char16_t)arithmetic_from_string<uint16_t>(in);
+				return (char16_t)arithmetic_from_string<std::uint16_t>(in);
 			else if constexpr (std::is_same_v<char32_t, T>)
-				return (char32_t)arithmetic_from_string<uint32_t>(in);
+				return (char32_t)arithmetic_from_string<std::uint32_t>(in);
 			else if constexpr (std::is_same_v<long double, T>) {
 				const std::string tmp(string_data(in), string_size(in));
 				char* end = nullptr;
@@ -422,7 +422,7 @@ namespace seq
 		String arithmetic_to_string(const T& in)
 		{
 			if constexpr (std::is_same_v<T, bool>)
-				return arithmetic_to_string<String>((uint8_t)in);
+				return arithmetic_to_string<String>((std::uint8_t)in);
 			else if constexpr (std::is_integral_v<T>) {
 				String tmp(std::numeric_limits<T>::digits10 + 3, (char)0);
 				auto res = std::to_chars(tmp.data(), tmp.data() + tmp.size(), in);
@@ -432,9 +432,9 @@ namespace seq
 				return tmp;
 			}
 			else if constexpr (std::is_same_v<T, char16_t>)
-				return arithmetic_to_string<String>((uint16_t)in);
+				return arithmetic_to_string<String>((std::uint16_t)in);
 			else if constexpr (std::is_same_v<T, char32_t>)
-				return arithmetic_to_string<String>((uint32_t)in);
+				return arithmetic_to_string<String>((std::uint32_t)in);
 			else if constexpr (std::is_same_v<T, long double>) {
 				std::ostringstream oss;
 				oss << std::setprecision(std::numeric_limits<long double>::max_digits10) << in;
@@ -812,7 +812,7 @@ namespace seq
 
 		/// @brief Hash object using hasher or throw std::bad_function_call
 		template<class T, bool SupportHash>
-		SEQ_ALWAYS_INLINE auto hash_any(const void* in) -> size_t
+		SEQ_ALWAYS_INLINE auto hash_any(const void* in) -> std::size_t
 		{
 			if constexpr (!SupportHash)
 				throw bad_any_function_call("hold_any type is not hashable");
@@ -898,7 +898,7 @@ namespace seq
 				else
 				{
 					// use registered comparison
-					size_t b_id = static_cast<size_t>(get_type_id<T>());
+					std::size_t b_id = static_cast<std::size_t>(get_type_id<T>());
 					if (b_id < detail::get_less_comparison().size()) 
 						if (const auto& f = detail::get_less_comparison()[b_id])
 							return f(a, b);
@@ -1006,7 +1006,7 @@ namespace seq
 	/// @brief Base class representing a type and related functions
 	class alignas(32) any_type_info
 	{
-		template<class I, size_t S, size_t A, bool R>
+		template<class I, std::size_t S, std::size_t A, bool R>
 		friend class hold_any;
 
 		int d_type_id{};
@@ -1016,8 +1016,8 @@ namespace seq
 		auto type_id() const noexcept -> int { return d_type_id; }
 		virtual ~any_type_info() {}
 		/// @brief Returns the size of underlying type
-		virtual auto sizeof_type() const noexcept -> size_t = 0;
-		virtual auto alignof_type() const noexcept -> size_t = 0;
+		virtual auto sizeof_type() const noexcept -> std::size_t = 0;
+		virtual auto alignof_type() const noexcept -> std::size_t = 0;
 		/// @brief Returns supported operations by the type
 		virtual auto supported_operations() const noexcept -> int = 0;
 		/// @brief Destroy object
@@ -1028,7 +1028,7 @@ namespace seq
 		/// @brief Compare 2 objects of same type for less than
 		virtual auto less_any(const void* a, const void* o) const -> bool = 0;
 		/// @brief Hash object of underlying type
-		virtual auto hash_any(const void* in) const -> size_t = 0;
+		virtual auto hash_any(const void* in) const -> std::size_t = 0;
 		/// @brief Stream object of underlying type to a std::ostream object
 		virtual void ostream_any(const void* in, std::ostream& oss) const = 0;
 		/// @brief Read object of underlying type from a std::istream object
@@ -1045,14 +1045,14 @@ namespace seq
 	template<class T, bool SupportHash = true>
 	struct any_typed_type_info : virtual any_type_info
 	{
-		auto sizeof_type() const noexcept -> size_t override { return sizeof(T); }
-		auto alignof_type() const noexcept -> size_t override { return alignof(T); }
+		auto sizeof_type() const noexcept -> std::size_t override { return sizeof(T); }
+		auto alignof_type() const noexcept -> std::size_t override { return alignof(T); }
 		auto supported_operations() const noexcept -> int override { return supported_type_operations<T>(); }
 		void destroy_any(void* in) const noexcept override { static_cast<T*>(in)->~T(); }
 		void deallocate_any(void* in) const noexcept override { detail::deallocate_one(static_cast<T*>(in)); }
 		auto equal_any(const void* a, const void* b) const -> bool override { return detail::compare_equal_any<T>(a, b); }
 		auto less_any(const void* a, const void* b) const -> bool override { return detail::compare_less_any<T>(a, b); }
-		auto hash_any(const void* in) const -> size_t override { return detail::hash_any<T, SupportHash>(in); }
+		auto hash_any(const void* in) const -> std::size_t override { return detail::hash_any<T, SupportHash>(in); }
 		void ostream_any(const void* in, std::ostream& oss) const override { return detail::ostream_any<T>(oss, in); }
 		void istream_any(void* in, std::istream& iss) const override { return detail::istream_any<T>(iss, in); }
 		void copy_construct_any(const void* in, void* out_storage, bool allocated_storage) const override { detail::copy_construct_any<T>(in, out_storage, allocated_storage); }
@@ -1102,12 +1102,12 @@ namespace seq
 
 
 		/// @brief Check if given type required a separated (heap allocated) storage
-		template<class T, size_t SizeofStorage, size_t Alignment, bool ForceRelocatable>
+		template<class T, std::size_t SizeofStorage, std::size_t Alignment, bool ForceRelocatable>
 		struct need_separate_storage
 		{
 			static constexpr bool value = sizeof(T) > SizeofStorage || alignof(T) > Alignment;
 		};
-		template<class T, size_t SizeofStorage, size_t Alignment>
+		template<class T, std::size_t SizeofStorage, std::size_t Alignment>
 		struct need_separate_storage<T, SizeofStorage, Alignment, true>
 		{
 			static constexpr bool value = (sizeof(T) > SizeofStorage || alignof(T) > Alignment) || (!seq::is_relocatable<T>::value);
@@ -1127,7 +1127,7 @@ namespace seq
 	///
 	/// It is possible to inherit any_base in order to provide an extended interface to hold_any (see hold_any documentation for an example).
 	///
-	template<class Derived, class TypeInfo, size_t StaticSize = sizeof(void*), size_t Alignment = alignof(void*), bool ForceRelocatable = false>
+	template<class Derived, class TypeInfo, std::size_t StaticSize = sizeof(void*), std::size_t Alignment = alignof(void*), bool ForceRelocatable = false>
 	struct any_base : public detail::null_policy
 	{
 	protected:
@@ -1146,9 +1146,9 @@ namespace seq
 		storage_type d_storage{};
 
 		template<class T>
-		static constexpr size_t make_tag()
+		static constexpr std::size_t make_tag()
 		{
-			constexpr size_t tag = (std::is_trivially_destructible_v<T> ? 0 : 1) | (std::is_trivially_copyable_v<T> ? 0 : 2) | (is_relocatable<T>::value ? 0 : 4) |
+			constexpr std::size_t tag = (std::is_trivially_destructible_v<T> ? 0 : 1) | (std::is_trivially_copyable_v<T> ? 0 : 2) | (is_relocatable<T>::value ? 0 : 4) |
 					       (detail::need_separate_storage<T, sizeof(storage_type), Alignment, ForceRelocatable>::value ? 8 : 0) | (std::is_pointer_v<T> ? 16 : 0);
 			return tag;
 		}
@@ -1159,7 +1159,7 @@ namespace seq
 		{
 			static_assert(sizeof(T) % alignof(T) == 0);
 			// compile time tags
-			static constexpr size_t tag = make_tag<T>();
+			static constexpr std::size_t tag = make_tag<T>();
 
 			// create object storage with allocation if sizeof(T) > StaticSize
 			void* d = &d_storage;
@@ -1252,13 +1252,13 @@ namespace seq
 			if (in_id >= static_cast<int>(detail::get_converters().size()))
 				throw SEQ_BAD_CAST("seq::hod_any: invalid conversion");
 			int out_id = out_p->type_id();
-			const auto& converts = detail::get_converters()[static_cast<size_t>(in_id)]; // info->d_convert;
-			if (out_id >= static_cast<int>(converts.size()) || !converts[static_cast<size_t>(out_id)])
+			const auto& converts = detail::get_converters()[static_cast<std::size_t>(in_id)]; // info->d_convert;
+			if (out_id >= static_cast<int>(converts.size()) || !converts[static_cast<std::size_t>(out_id)])
 				throw SEQ_BAD_CAST("seq::hod_any: invalid conversion");
 
-			if (const auto& f = converts[static_cast<size_t>(out_id)]) {
+			if (const auto& f = converts[static_cast<std::size_t>(out_id)]) {
 				type out;
-				converts[static_cast<size_t>(out_id)](this->data(), &out);
+				converts[static_cast<std::size_t>(out_id)](this->data(), &out);
 				return out;
 			}
 			else 
@@ -1285,7 +1285,7 @@ namespace seq
 		/// @brief Returns true if this object is empty, false otherwise.
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return this->d_type_info.full() == 0; }
 		/// @brief Returns the size of underlying type, 0 if empty.
-		SEQ_ALWAYS_INLINE auto sizeof_type() const noexcept -> size_t { return empty() ? 0 : type()->sizeof_type(); }
+		SEQ_ALWAYS_INLINE auto sizeof_type() const noexcept -> std::size_t { return empty() ? 0 : type()->sizeof_type(); }
 		/// @brief Returns the supported operations of underlying type, 0 if empty.
 		/// The result is a combination of supported_any_operation enum.
 		SEQ_ALWAYS_INLINE auto supported_operations() const noexcept -> int { return empty() ? 0 : type()->supported_operations(); }
@@ -1328,7 +1328,7 @@ namespace seq
 
 		/// @brief Returns the hash value for underlying object based on seq::hasher.
 		/// Might throw a std::bad_function_call.
-		SEQ_ALWAYS_INLINE auto hash() const -> size_t { return empty() ? 0 : this->type()->hash_any(this->data()); }
+		SEQ_ALWAYS_INLINE auto hash() const -> std::size_t { return empty() ? 0 : this->type()->hash_any(this->data()); }
 	};
 
 	/// @brief Default interface for hold_any
@@ -1746,7 +1746,7 @@ namespace seq
 	/// 		virtual const std::type_info& info() const { return typeid(T); }
 	///
 	/// 		// new implementation for the hash function based on the old one
-	/// 		virtual size_t hash_any(const void* in) const {
+	/// 		virtual std::size_t hash_any(const void* in) const {
 	/// 			return any_typed_type_info<T>{}.hash_any(in)* UINT64_C(0xc4ceb9fe1a85ec53);
 	/// 		}
 	/// 	};
@@ -1869,7 +1869,7 @@ namespace seq
 	///
 	/// \endcode
 	///
-	template<class Interface = any_default_interface, size_t StaticSize = sizeof(double), size_t Alignment = alignof(double), bool Relocatable = false>
+	template<class Interface = any_default_interface, std::size_t StaticSize = sizeof(double), std::size_t Alignment = alignof(double), bool Relocatable = false>
 	class hold_any : public Interface::template any_interface<any_base<hold_any<Interface, StaticSize, Alignment, Relocatable>, typename Interface::type_info, StaticSize, Alignment, Relocatable>>
 	{
 
@@ -1902,7 +1902,7 @@ namespace seq
 		using typed_type_info_type = typename Interface::template typed_type_info<T>;
 
 		/// Maximum size for Small Buffer Optimization
-		static constexpr size_t static_size = sizeof(typename std::aligned_storage<StaticSize, Alignment>::type);
+		static constexpr std::size_t static_size = sizeof(typename std::aligned_storage<StaticSize, Alignment>::type);
 
 		/// @brief Returns the type info for given type
 		template<class T>
@@ -2342,8 +2342,8 @@ namespace seq
 	template<class T, class U, class Fun>
 	void register_any_conversion(Fun fun)
 	{
-		const size_t in_id = static_cast<size_t>(get_type_id<T>());
-		const size_t out_id = static_cast<size_t>(get_type_id<U>());
+		const std::size_t in_id = static_cast<std::size_t>(get_type_id<T>());
+		const std::size_t out_id = static_cast<std::size_t>(get_type_id<U>());
 		if (detail::get_converters().size() <= in_id)
 			detail::get_converters().resize(in_id + 1);
 		auto& converts = detail::get_converters()[in_id];
@@ -2368,7 +2368,7 @@ namespace seq
 	void register_any_less_comparison(Fun fun)
 	{
 		static_assert(!is_less_comparable<T>::value);
-		const size_t in_id = static_cast<size_t>(get_type_id<T>());
+		const std::size_t in_id = static_cast<std::size_t>(get_type_id<T>());
 		if (detail::get_less_comparison().size() <= in_id)
 			detail::get_less_comparison().resize(in_id + 1);
 		detail::get_less_comparison()[in_id] = [fun](const void* l, const void* r) { return detail::default_less_comparison_with_functor<T>(fun, l, r); };
@@ -2376,70 +2376,70 @@ namespace seq
 
 
 	// operator == with any other type, mandatory for heterogeneous lookup in hash table
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>,int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>,int> = 0>
 	SEQ_ALWAYS_INLINE auto operator==(const hold_any<Interface, S, A, R>& a,  T&& b) -> bool
 	{
 		return a.equal_to(std::forward<T>(b));
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
 	SEQ_ALWAYS_INLINE auto operator==( T&& b, const hold_any<Interface, S, A, R>& a) -> bool
 	{
 		return a.equal_to(std::forward<T>(b));
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
 	SEQ_ALWAYS_INLINE auto operator!=(const hold_any<Interface, S, A, R>& a,  T&& b) -> bool
 	{
 		return !a.equal_to(std::forward<T>(b));
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
 	SEQ_ALWAYS_INLINE auto operator!=( T&& b, const hold_any<Interface, S, A, R>& a) -> bool
 	{
 		return !a.equal_to(std::forward<T>(b));
 	}
 
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
 	SEQ_ALWAYS_INLINE auto operator<(const hold_any<Interface, S, A, R>& a,  T&& b) -> bool
 	{
 		return a.less_than(std::forward<T>(b));
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
 	SEQ_ALWAYS_INLINE auto operator>(const hold_any<Interface, S, A, R>& a, T&& b) -> bool
 	{
 		return a.greater_than(std::forward<T>(b));
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
 	SEQ_ALWAYS_INLINE auto operator<=(const hold_any<Interface, S, A, R>& a,  T&& b) -> bool
 	{
 		return !(std::forward<T>(b) < a);
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
 	SEQ_ALWAYS_INLINE auto operator>=(const hold_any<Interface, S, A, R>& a, T&& b) -> bool
 	{
 		return !(a < std::forward<T>(b));
 	}
 
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
 	SEQ_ALWAYS_INLINE auto operator<( T&& a, const hold_any<Interface, S, A, R>& b) -> bool
 	{
 		return b.greater_than(std::forward<T>(a));
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
 	SEQ_ALWAYS_INLINE auto operator>( T&& a, const hold_any<Interface, S, A, R>& b) -> bool
 	{
 		return b.less_than(std::forward<T>(a));
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
 	SEQ_ALWAYS_INLINE auto operator<=( T&& a, const hold_any<Interface, S, A, R>& b) -> bool
 	{
 		return !(b < std::forward<T>(a));
 	}
-	template<class Interface, size_t S, size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
+	template<class Interface, std::size_t S, std::size_t A, bool R, class T, std::enable_if_t<!is_hold_any_v<std::decay_t<T>>, int> = 0>
 	SEQ_ALWAYS_INLINE auto operator>=( T&& a, const hold_any<Interface, S, A, R>& b) -> bool
 	{
 		return !(std::forward<T>(a) < b);
 	}
 
-	template<class Interface, size_t S, size_t A, bool R>
+	template<class Interface, std::size_t S, std::size_t A, bool R>
 	SEQ_ALWAYS_INLINE auto operator<<(std::ostream& oss, const hold_any<Interface, S, A, R>& a) -> std::ostream&
 	{
 		if (a.empty())
@@ -2448,7 +2448,7 @@ namespace seq
 		return oss;
 	}
 
-	template<class Interface, size_t S, size_t A, bool R>
+	template<class Interface, std::size_t S, std::size_t A, bool R>
 	SEQ_ALWAYS_INLINE auto operator>>(std::istream& iss, hold_any<Interface, S, A, R>& a) -> std::istream&
 	{
 		if (a.empty())
@@ -2457,19 +2457,19 @@ namespace seq
 		return iss;
 	}
 
-	template<class T, class Interface, size_t S, size_t A, bool R>
+	template<class T, class Interface, std::size_t S, std::size_t A, bool R>
 	SEQ_ALWAYS_INLINE auto any_cast(const hold_any<Interface, S, A, R>& operand) -> T
 	{
 		return operand.template cast<T>();
 	}
 
-	template<class T, class Interface, size_t S, size_t A, bool R>
+	template<class T, class Interface, std::size_t S, std::size_t A, bool R>
 	SEQ_ALWAYS_INLINE auto any_cast(hold_any<Interface, S, A, R>& operand) -> T
 	{
 		return operand.template cast<T>();
 	}
 
-	template<class T, class Interface, size_t S, size_t A, bool R>
+	template<class T, class Interface, std::size_t S, std::size_t A, bool R>
 	SEQ_ALWAYS_INLINE auto any_cast(const hold_any<Interface, S, A, R>* operand) noexcept -> const T*
 	{
 		if (operand && operand->type() == hold_any<Interface, S, A, R>::template get_type<T>())
@@ -2477,7 +2477,7 @@ namespace seq
 		return nullptr;
 	}
 
-	template<class T, class Interface, size_t S, size_t A, bool R>
+	template<class T, class Interface, std::size_t S, std::size_t A, bool R>
 	SEQ_ALWAYS_INLINE auto any_cast(hold_any<Interface, S, A, R>* operand) noexcept -> T*
 	{
 		if (operand && operand->type() == hold_any<Interface, S, A, R>::template get_type<T>())
@@ -2506,24 +2506,24 @@ namespace seq
 	using nh_any = hold_any<any_no_hash_interface>;
 	using r_nh_any = hold_any<any_no_hash_interface, sizeof(double), alignof(double), true>;
 
-	template<class Interface, size_t S, size_t A, bool R>
+	template<class Interface, std::size_t S, std::size_t A, bool R>
 	struct is_relocatable<hold_any<Interface, S, A, R>>
 	{
 		static constexpr bool value = hold_any<Interface, S, A, R>::relocatable;
 	};
 
 	// specialization of seq::hasher for hold_any
-	template<class Interface, size_t S, size_t A, bool R>
+	template<class Interface, std::size_t S, std::size_t A, bool R>
 	class hasher<seq::hold_any<Interface, S, A, R>>
 	{
 	public:
 		using is_transparent = std::true_type;
 		using is_avalanching = std::true_type;
 
-		auto operator()(const seq::hold_any<Interface, S, A, R>& a) const -> size_t { return (a.hash()); }
+		auto operator()(const seq::hold_any<Interface, S, A, R>& a) const -> std::size_t { return (a.hash()); }
 
 		template<class T>
-		auto operator()( T* value) const -> size_t
+		auto operator()( T* value) const -> std::size_t
 		{
 			using pointer_type = T*; // preserve cv
 			pointer_type p = value;
@@ -2532,7 +2532,7 @@ namespace seq
 		}
 
 		template<class T>
-		auto operator()(const T& value) const -> size_t
+		auto operator()(const T& value) const -> std::size_t
 		{
 			// For any type, use the type info for this type and call hash_any
 			const auto* type_inf = seq::hold_any<Interface, S, A, R>::template get_type<T>();
@@ -2541,7 +2541,7 @@ namespace seq
 	};
 
 	// swap overload for hold_any
-	template<class Interface, size_t S, size_t A, bool R>
+	template<class Interface, std::size_t S, std::size_t A, bool R>
 	void swap(seq::hold_any<Interface, S, A, R>& a, seq::hold_any<Interface, S, A, R>& b)
 	{
 		a.swap(b);
@@ -2553,17 +2553,17 @@ namespace std
 {
 
 	// specialization of std hash for hold_any
-	template<class Interface, size_t S, size_t A, bool R>
+	template<class Interface, std::size_t S, std::size_t A, bool R>
 	class hash<seq::hold_any<Interface, S, A, R>>
 	{
 	public:
 		using is_transparent = std::true_type;
 		using is_avalanching = std::true_type;
 
-		auto operator()(const seq::hold_any<Interface, S, A, R>& a) const -> size_t { return a.hash(); }
+		auto operator()(const seq::hold_any<Interface, S, A, R>& a) const -> std::size_t { return a.hash(); }
 
 		template<class T>
-		auto operator()( T* value) const -> size_t
+		auto operator()( T* value) const -> std::size_t
 		{
 			using pointer_type = T*; // preserve cv
 			pointer_type p = value;
@@ -2572,7 +2572,7 @@ namespace std
 		}
 
 		template<class T>
-		auto operator()(const T& value) const -> size_t
+		auto operator()(const T& value) const -> std::size_t
 		{
 			// For any type, use the type info for this type and call hash_any
 			const auto* type_inf = seq::hold_any<Interface, S, A, R>::template get_type<T>();
