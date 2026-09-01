@@ -1908,6 +1908,7 @@ namespace seq
 			/// @brief Equal structure operating on keys
 			using Equal = VectorEqual<Hash, ExtractKey>;
 
+
 			/// @brief Sort all leaves
 			void sort_leaves()
 			{
@@ -1932,6 +1933,13 @@ namespace seq
 			using const_iterator = RadixConstIter<T, directory, vector_type>;
 			using iterator = const_iterator;
 			using traits = std::allocator_traits<Allocator>;
+
+			// The extractor cannot return a temporay variable length value.
+			// Indeed, the hasher only stores a pointer to the key internal data
+			// that will be dangling as soon as we leave this function.
+			using ResultType = typename ExtractKeyResultType<ExtractKey, T>::rtype;
+			static_assert(std::is_lvalue_reference_v<ResultType> || !hash_type::variable_length, "A variable-length radix key must be returned by lvalue reference");
+
 
 			// We do NOT support fancy pointer
 			static_assert(std::is_same_v<typename traits::pointer, T*>);
@@ -2236,13 +2244,6 @@ namespace seq
 			template<class U>
 			SEQ_ALWAYS_INLINE hash_type hash_key(const U& val) const
 			{
-				// The extractor cannot return a temporay variable length value.
-				// Indeed, the hasher only stores a pointer to the key internal data
-				// that will be dangling as soon as we leave this function.
-
-				using result_type = typename ExtractKeyResultType<ExtractKey,U>::rtype;
-				static_assert(std::is_lvalue_reference_v<result_type> || !hash_type::variable_length, "A variable-length radix key must be returned by lvalue reference");
-
 				return this->hash(ExtractKey{}(val));
 			}
 			SEQ_ALWAYS_INLINE const hash_type& hash_key(const hash_type& val) const { return val; }
