@@ -13,7 +13,7 @@ jobs:
     build-linux:
         strategy:
           matrix:
-            compiler: [gcc-13.2.0]
+            compiler: [gcc]
         uses: ./.github/workflows/build-linux.yml
         with:
           compiler: ${{ matrix.compiler }}
@@ -22,7 +22,7 @@ jobs:
     build-windows:
         strategy:
           matrix:
-            compiler: [ msvc]
+            compiler: [msvc]
         uses: ./.github/workflows/build-windows.yml
         with:
           compiler: ${{ matrix.compiler }}

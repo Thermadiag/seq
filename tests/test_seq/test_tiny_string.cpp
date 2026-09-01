@@ -533,19 +533,7 @@ void test_operators_for_wchar()
 
 SEQ_PROTOTYPE( int test_tiny_string(int , char*[]))
 {
-	{
-		std::string t1 = "toto";
-		std::string t2 = "tutu";
-		std::swap(t1, t2);
-		std::string t3 = std::move(t1);
-	}
-	{
-		using namespace seq;
-		std::vector<tstring> vec;
-		for (int i = 0; i < 1000; ++i)
-			vec.emplace_back(generate_random_string<tstring>(63));
-		std::sort(vec.begin(), vec.end());
-	}
+	
 	test_operators_for_char();
 	test_operators_for_wchar();
 	

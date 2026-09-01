@@ -955,11 +955,7 @@ void test_heavy_set(std::size_t count)
 
 SEQ_PROTOTYPE(int test_flat_map(int, char*[]))
 {
-	seq::flat_set<int> destination;
-	seq::flat_multiset<int> source{ 1, 1 };
-
-	destination.merge(source);
-
+	
 	// Test various map.multimap functions and potential memory leak or wrong allocator propagation
 	CountAlloc<double> al;
 	// SEQ_TEST_MODULE_RETURN(heavy_flat_set, 1, test_heavy_set<seq::flat_set<std::size_t>>(10000));
