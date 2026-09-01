@@ -69,19 +69,19 @@ using RebindAlloc = typename std::allocator_traits<Alloc>::template rebind_alloc
 
 
 template<class Alloc >
-void test_deque_algorithms(size_t count , const Alloc & al)
+void test_deque_algorithms(std::size_t count , const Alloc & al)
 {
 	using namespace seq;
 	// Test algorithms on tiered_vector, some of them requiring random access iterators
 	
-	typedef size_t type;
+	typedef std::size_t type;
 	typedef tiered_vector<type, Alloc > deque_type;
 
 	// Build with non unique random values
 	deque_type  tvec(al);
 	std::deque<type> deq;
 	srand(0);// time(NULL));
-	for (size_t i = 0; i < count; ++i) {
+	for (std::size_t i = 0; i < count; ++i) {
 		int r = rand();
 		deq.push_back(static_cast<type>(r));
 		tvec.push_back(static_cast<type>(r));
@@ -96,8 +96,8 @@ void test_deque_algorithms(size_t count , const Alloc & al)
 	// Test unique after sorting
 	auto it1 = std::unique(deq.begin(), deq.end());
 	auto it2 = std::unique(tvec.begin(), tvec.end());
-	deq.resize(static_cast<size_t>(it1 - deq.begin()));
-	tvec.resize(static_cast<size_t>(it2 - tvec.begin()));
+	deq.resize(static_cast<std::size_t>(it1 - deq.begin()));
+	tvec.resize(static_cast<std::size_t>(it2 - tvec.begin()));
 		
 	SEQ_TEST(equal_deq(deq, tvec));
 
@@ -105,7 +105,7 @@ void test_deque_algorithms(size_t count , const Alloc & al)
 	deq.resize(count);
 	tvec.resize(count);
 
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		tvec[i] = deq[i] = static_cast<type>( rand());
 
 	// Test rotate
@@ -121,7 +121,7 @@ void test_deque_algorithms(size_t count , const Alloc & al)
 	SEQ_TEST(equal_deq(deq, tvec));
 
 	// Reset values
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		tvec[i] = deq[i] = static_cast<type>( rand());
 
 	// Test partial sort
@@ -131,7 +131,7 @@ void test_deque_algorithms(size_t count , const Alloc & al)
 
 
 	
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		tvec[i] =deq[i] = static_cast<type>(rand());
 
 	// Strangely, msvc implementation of std::nth_element produce a warning as it tries to modify the value of const iterator
@@ -147,12 +147,12 @@ void test_deque_algorithms(size_t count , const Alloc & al)
 
 
 template<class T, class Alloc = std::allocator<T>>
-void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
+void test_tiered_vector(std::size_t count = 5000000, const Alloc & al = Alloc())
 {
 	using namespace seq;
 
 	// First, test some stl algorithms
-	test_deque_algorithms(count,RebindAlloc<Alloc,size_t>(al));
+	test_deque_algorithms(count,RebindAlloc<Alloc,std::size_t>(al));
 	
 	typedef T type;
 	std::deque<type > deq;
@@ -173,11 +173,11 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 
 
 	// Fill containers
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		deq.push_back(static_cast<T>(i));
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		tvec.push_back(static_cast<T>(i));
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		vec.push_back(static_cast<T>(i));
 		
 	SEQ_TEST(equal_deq(deq, tvec));
@@ -225,7 +225,7 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 
 	{
 		// Rest values
-		for (size_t i = 0; i < deq.size(); ++i) {
+		for (std::size_t i = 0; i < deq.size(); ++i) {
 			deq[i] = tvec[i] = static_cast<T>(i);
 		}
 		SEQ_TEST(equal_deq(deq, tvec));
@@ -263,7 +263,7 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 	}
 	{
 		std::list<type> lst;
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 			lst.push_back(static_cast<T>(i));
 
 		deq.resize(lst.size() / 2,0);
@@ -288,7 +288,7 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 	SEQ_TEST(equal_deq(deq, tvec));
 
 	//fill again, backward
-	for (size_t i = 0; i < deq.size(); ++i) {
+	for (std::size_t i = 0; i < deq.size(); ++i) {
 		deq[i] = static_cast<T>(deq.size() - i - 1);
 		tvec[i] = static_cast<T>(tvec.size() - i - 1);
 	}
@@ -306,7 +306,7 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 	SEQ_TEST(equal_deq(deq, tvec));
 
 	//fill again, backward
-	for (size_t i = 0; i < deq.size(); ++i) {
+	for (std::size_t i = 0; i < deq.size(); ++i) {
 		deq[i] = static_cast<T>(deq.size() - i - 1);
 		tvec[i] = static_cast<T>(tvec.size() - i - 1);
 	}
@@ -329,14 +329,14 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 		std::deque<type> dd;
 		d.resize(128 * 3,0);
 		dd.resize(128 * 3,0);
-		for (size_t i = 0; i < d.size(); ++i) {
+		for (std::size_t i = 0; i < d.size(); ++i) {
 			d[i] = dd[i] = static_cast<T>(i);
 		}
 		SEQ_TEST(equal_deq(d, dd));
 		d.insert(10, static_cast<type>(-1));
 		dd.insert(dd.begin() + 10, static_cast<type>(-1));
 		SEQ_TEST(equal_deq(d, dd));
-		for (size_t i = 0; i < 128; ++i) {
+		for (std::size_t i = 0; i < 128; ++i) {
 			d.erase(0);
 			dd.erase(dd.begin());
 			SEQ_TEST(equal_deq(d, dd));
@@ -348,7 +348,7 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 	}
 
 
-	unsigned insert_count = static_cast<unsigned>( std::max(static_cast<size_t>(50), count / 100));
+	unsigned insert_count = static_cast<unsigned>( std::max(static_cast<std::size_t>(50), count / 100));
 	std::vector<std::ptrdiff_t> in_pos;
 	int ss= static_cast<int>(deq.size());
 	srand(0);
@@ -360,7 +360,7 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 		deq.insert(deq.begin() + in_pos[i], static_cast<T>(i));
 	}
 	for (unsigned i = 0; i < insert_count; ++i) {
-		tvec.insert(static_cast<size_t>(in_pos[i]), static_cast<T>(i));
+		tvec.insert(static_cast<std::size_t>(in_pos[i]), static_cast<T>(i));
 	}
 	SEQ_TEST(equal_deq(deq, tvec));
 
@@ -372,7 +372,7 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 		std::deque<type> dd;
 		d.resize(100,0);
 		dd.resize(100,0);
-		for (size_t i = 0; i < d.size(); ++i) {
+		for (std::size_t i = 0; i < d.size(); ++i) {
 			d[i] = dd[i] = static_cast<T>(i);
 		}
 
@@ -381,7 +381,7 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 			pos = static_cast<int>(d.size()) * pos / 4;
 			if (pos == static_cast<int>(d.size()) )--pos;
 			dd.erase(dd.begin() + pos);
-			d.erase(static_cast<size_t>(pos));
+			d.erase(static_cast<std::size_t>(pos));
 			SEQ_TEST(equal_deq(d, dd));
 		}
 	}
@@ -396,25 +396,25 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 	SEQ_TEST(equal_deq(deq, tvec));
 
 	//fill again, backward
-	for (size_t i = 0; i < deq.size(); ++i) {
+	for (std::size_t i = 0; i < deq.size(); ++i) {
 		deq[i] = static_cast<T>(deq.size() - i - 1);
 		tvec[i] = static_cast<T>(tvec.size() - i - 1);
 	}
 
 	// Test erase single values at random position
-	size_t erase_count =  deq.size()/2;
+	std::size_t erase_count =  deq.size()/2;
 	std::vector<std::ptrdiff_t> er_pos;
-	size_t sss= count;
+	std::size_t sss= count;
 	srand(0);
-	for(size_t i=0; i< erase_count; ++i)
+	for(std::size_t i=0; i< erase_count; ++i)
 		er_pos.push_back(rand() % static_cast<int>(sss--));
 
 
-	for (size_t i = 0; i < erase_count; ++i) {
+	for (std::size_t i = 0; i < erase_count; ++i) {
 		deq.erase(deq.begin() + er_pos[i]);
 	}
-	for (size_t i = 0; i < erase_count; ++i) {
-		tvec.erase(static_cast<size_t>(er_pos[i]));
+	for (std::size_t i = 0; i < erase_count; ++i) {
+		tvec.erase(static_cast<std::size_t>(er_pos[i]));
 	}
 	SEQ_TEST(equal_deq(deq, tvec));
 
@@ -423,7 +423,7 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 
 	tvec.resize(count);
 	deq.resize(count);
-	for (size_t i = 0; i < deq.size(); ++i) {
+	for (std::size_t i = 0; i < deq.size(); ++i) {
 		deq[i] = tvec[i] = static_cast<T>(i);
 	}
 
@@ -443,16 +443,16 @@ void test_tiered_vector(size_t count = 5000000, const Alloc & al = Alloc())
 SEQ_PROTOTYPE( int test_tiered_vector(int , char*[]))
 {
 	// Test tiered_vector and detect potential memory leak or wrong allocator propagation
-	CountAlloc<size_t> al;
-	SEQ_TEST_MODULE_RETURN(tiered_vector,1, test_tiered_vector<size_t>(100000,al));
+	CountAlloc<std::size_t> al;
+	SEQ_TEST_MODULE_RETURN(tiered_vector,1, test_tiered_vector<std::size_t>(100000,al));
 	SEQ_TEST(get_alloc_bytes(al) == 0);
-	SEQ_TEST_MODULE_RETURN(tiered_vector_destroy, 1, test_tiered_vector<TestDestroy<size_t>>(100000));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(tiered_vector_destroy, 1, test_tiered_vector<TestDestroy<std::size_t>>(100000));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 
 	// Test tiered_vector and detect potential memory leak or wrong allocator propagation with non relocatable type
-	CountAlloc<TestDestroy<size_t, false>> al2;
-	SEQ_TEST_MODULE_RETURN(tiered_vector_destroy_no_relocatable, 1, test_tiered_vector<TestDestroy<size_t,false>>(100000,al2));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	CountAlloc<TestDestroy<std::size_t, false>> al2;
+	SEQ_TEST_MODULE_RETURN(tiered_vector_destroy_no_relocatable, 1, test_tiered_vector<TestDestroy<std::size_t,false>>(100000,al2));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 	SEQ_TEST(get_alloc_bytes(al2) == 0);
 	return 0;
 }

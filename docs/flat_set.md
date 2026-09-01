@@ -11,13 +11,9 @@ All references and iterators are invalidated when inserting/removing keys.
 ``seq::flat_set`` provides a similar interface to std::set (C++17) and std::flat_set (C++20) with the following differences:
 -	The node related functions are not implemented,
 -	The member `flat_set::pos()` is used to access elements at a random location,
--	The members `flat_set::container()` returns a reference to the underlying seq::tiered_vector object,
 -	Its iterator and const_iterator types are random access iterators.
 
-The underlying tiered_vector object stores plain non const Key objects, and `seq::flat_map` iterators return objects of type `std::pair<Key,Value>`.
-
 In addition to members returning (const_)iterator(s), the flat_set provides the same members ending with the '_pos' prefix and returning positions within the tiered_vector instead of iterators. These functions are slightly faster than the iterator based members.
-
 
 ## Direct access to tiered_vector
 
@@ -35,11 +31,9 @@ Range insertion works the following way:
 
 If you need to keep stability when inserting range of values, you must set the Stable template parameter to true.
 
-
 ## Exception guarantee
 
 All ``seq::flat_set`` operations only provide *basic exception guarantee*, exactly like the underlying `seq::tiered_vector`.
-
 
 ## Performances
 

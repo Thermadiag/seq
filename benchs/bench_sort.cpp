@@ -14,7 +14,7 @@
 #include "testing.hpp"
 
 template<class T, class Cmp>
-void indisort(T start, size_t size, Cmp c)
+void indisort(T start, std::size_t size, Cmp c)
 {
 	using value_type = typename std::iterator_traits<T>::value_type;
 
@@ -22,22 +22,22 @@ void indisort(T start, size_t size, Cmp c)
 	uintptr_t* sort_array = buffer.data();
 	uintptr_t* indexes = buffer.data() + size;
 	value_type** ptrs = (value_type**)(buffer.data() + size * 2);
-	size_t index = 0;
+	std::size_t index = 0;
 	for (auto it = start; index != size; ++it, ++index) {
 
 		sort_array[index] = (index);
 		indexes[index] = (index);
 		ptrs[index] = (&(*it));
 	}
-	// pdqsort(sort_array, sort_array + size, [&ptrs,c](size_t l, size_t r) { return c(*ptrs[l] , *ptrs[r]); });
-	auto le = [&ptrs, c](size_t l, size_t r) noexcept { return c(*ptrs[l], *ptrs[r]); };
+	// pdqsort(sort_array, sort_array + size, [&ptrs,c](std::size_t l, std::size_t r) { return c(*ptrs[l] , *ptrs[r]); });
+	auto le = [&ptrs, c](std::size_t l, std::size_t r) noexcept { return c(*ptrs[l], *ptrs[r]); };
 	seq::net_sort(sort_array, sort_array + size, le);
 
 	index = 0;
 
 	for (auto current_index = sort_array; current_index != sort_array + size; ++current_index, ++index) {
 
-		size_t idx = indexes[*current_index];
+		std::size_t idx = indexes[*current_index];
 		while (idx != indexes[idx])
 			idx = indexes[idx];
 		value_type tmp = std::move(*ptrs[index]);
@@ -49,25 +49,25 @@ void indisort(T start, size_t size, Cmp c)
 }
 
 template<class Arithmetic>
-std::vector<Arithmetic> generate_random_numbers(size_t count, Arithmetic max = std::numeric_limits<Arithmetic>::max())
+std::vector<Arithmetic> generate_random_numbers(std::size_t count, Arithmetic max = std::numeric_limits<Arithmetic>::max())
 {
 	std::mt19937 rng(0);
 	std::vector<Arithmetic> vec(count);
 	if constexpr (std::is_integral_v<Arithmetic>) {
 		std::uniform_int_distribution<Arithmetic> dist(0, max);
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			vec[i] = (dist(rng));
 	}
 	else {
 		std::uniform_real_distribution<Arithmetic> dist(0, max);
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			vec[i] = (dist(rng));
 	}
 	return vec;
 }
 
 template<class String>
-std::vector<String> generate_random_strings(size_t count, size_t max_size)
+std::vector<String> generate_random_strings(std::size_t count, std::size_t max_size)
 {
 	std::vector<String> res(count);
 	for (String& s : res)
@@ -76,7 +76,7 @@ std::vector<String> generate_random_strings(size_t count, size_t max_size)
 }
 
 template<class Type>
-std::vector<Type> generate_random(size_t count, size_t max_size_or_val)
+std::vector<Type> generate_random(std::size_t count, std::size_t max_size_or_val)
 {
 	if constexpr (std::is_arithmetic_v<Type>)
 		return generate_random_numbers<Type>(count, max_size_or_val);
@@ -85,15 +85,15 @@ std::vector<Type> generate_random(size_t count, size_t max_size_or_val)
 }
 
 template<class Type>
-std::vector<Type> generate_waves(size_t count, size_t max_wave_len, size_t max_val)
+std::vector<Type> generate_waves(std::size_t count, std::size_t max_wave_len, std::size_t max_val)
 {
 	std::mt19937 rng(0);
-	std::uniform_int_distribution<size_t> dist(0, max_wave_len);
+	std::uniform_int_distribution<std::size_t> dist(0, max_wave_len);
 
 	std::vector<Type> res;
 	while (res.size() < count) {
 		std::vector<Type> tmp;
-		size_t size = dist(rng);
+		std::size_t size = dist(rng);
 		tmp = generate_random<Type>(size, max_val);
 
 		// Sort and potentially reverse
@@ -120,6 +120,7 @@ enum Method
 	NetSortTiny
 };
 
+
 template<class Vec, class Cmp>
 bool sort(Vec& v, Cmp c, Method m)
 {
@@ -138,6 +139,7 @@ bool sort(Vec& v, Cmp c, Method m)
 			boost::sort::spinsort(v.begin(), v.end(), c);
 			break;
 #endif
+		
 		case NetSort:
 			seq::net_sort(v.begin(), v.end(), c);
 			break;
@@ -159,7 +161,7 @@ void test_pattern(const Vec& v, const char* name, F f)
 	std::cout << h(seq::fill('-'), seq::fill('-'), seq::fill('-')) << std::endl;
 
 	auto vec = v;
-	size_t el;
+	std::size_t el;
 	bool sorted;
 
 	tick();
@@ -201,7 +203,7 @@ void test_pattern(const Vec& v, const char* name, F f)
 }
 
 template<class Type>
-void test_patterns_for_type(size_t count, size_t max_val)
+void test_patterns_for_type(std::size_t count, std::size_t max_val)
 {
 	auto f = seq::join("|", seq::_str().l(20), seq::_fmt(seq::_u(), " ms").c(20), seq::_fmt<bool>().c(20));
 
@@ -220,15 +222,15 @@ void test_patterns_for_type(size_t count, size_t max_val)
 
 int bench_sort(int, char** const)
 {
-	std::cout << "Test uint64_t" << std::endl;
-	test_patterns_for_type<uint64_t>(10000000, std::numeric_limits<int>::max());
+	std::cout << "Test std::uint64_t" << std::endl;
+	test_patterns_for_type<std::uint64_t>(10000000, std::numeric_limits<int>::max());
 
 	std::cout << std::endl;
-	std::cout << "Test uint64_t % 100" << std::endl;
-	test_patterns_for_type<uint64_t>(10000000, 100);
+	std::cout << "Test std::uint64_t % 100" << std::endl;
+	test_patterns_for_type<std::uint64_t>(10000000, 100);
 
 	std::cout << "Test double" << std::endl;
-	test_patterns_for_type<double>(10000000, std::numeric_limits<size_t>::max());
+	test_patterns_for_type<double>(10000000, std::numeric_limits<std::size_t>::max());
 
 	using string = std::string;
 

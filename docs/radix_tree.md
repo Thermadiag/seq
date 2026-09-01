@@ -33,7 +33,7 @@ For the rest of the documentation, we consider a VART with a start arity of 4 an
 
 The `seq::radix_set` class has been [benchmarked](sorted_benchmark.md) against other sorted containers.
 
-The `seq::radix_hash_set` memory usage and latency was [benchmarked](docs/latency_benchmark.md) against other hash tables.
+The `seq::radix_hash_set` memory usage and latency was [benchmarked](latency_benchmark.md) against other hash tables.
 
 
 ## Insertion process
@@ -107,7 +107,7 @@ Starting version 2 of `seq`, the VART rebalance itself on erasure for `seq::radi
 Both `seq::radix_hash_set` and `seq::radix_hash_map` uses VART behind the scene, except that the tree structure is built upon the hashed representation of the keys instead of the keys themselves.
 The step 4 of the insertion process (key dispatching) requires to rehash the keys within a leaf node in order to find their new locations. Therefore, the tree grows using incremental rehash by chunks of 64 keys. This is very similar to *extendible hashing*, except that a poor hash function will result in an unbalanced tree (still with a low memory footprint) instead of a huge and sparsely populated root directory. With a good hash function, the tree usually becomes a flat array (root directory) of leaf nodes, ensuring fast lookups. 
 
-A `seq::radix_hash_set/map` grows rather smoothly for a hash table, with an almost [linear memory pattern](docs/latency_benchmark.md). The absence of memory peak makes it one of the least memory gready hash table implementation.
+A `seq::radix_hash_set/map` grows rather smoothly for a hash table, with an almost [linear memory pattern](latency_benchmark.md). The absence of memory peak makes it one of the least memory gready hash table implementation.
 Another benefit of `seq::radix_hash_set/map` is its lower latency on insert/erase operations thanks to the incremental rehash, making it more suitbale for firm real-time applications.
 
 ### Collision resolution
@@ -119,7 +119,6 @@ It is possible to mitigate such scenarios by providing a 'less than' comparison 
 ## Interface
 
 The interface of `seq::radix_set` and `seq::radix_map` are similar to those of `std::set` and `std::map`. However, a `seq::radix_set/map` invalidates all references and iterators on insert/erase operations, and only provides Basic exception guarantees.
-Note that dereferencing an iterator of `seq::radix_map` returns a `std::pair<Key,Value>` instead of `std::pair<const Key,Value>`.
 
 `seq::radix_set` and `seq::radix_map` do not use a comparison function to provide key ordering. Therefore, the `Compare` template argument found in `std::set` and `std::map` is replaced by the `ExtractKey` argument. This type is a functor that must return a key type on which ordering is built.
 Example:

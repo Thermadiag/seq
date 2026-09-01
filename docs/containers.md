@@ -9,8 +9,7 @@ Currently, the *containers* module provide 5 types of containers:
 -	Sequential random-access containers: 
 	-	[seq::devector](devector.md): double ended vector that can be optimized for front operations, back operations or both. Similar interface to `std::deque`.
 	-	[seq::tiered_vector](tiered_vector.md): tiered vector implementation optimized for fast insertion and deletion in the middle. Similar interface to `std::deque`.
-	-	[seq::cvector](cvector.md): vector-like class storing its values in a compressed way to reduce program memory footprint. Similar interface to `std::vector`.
--	Sequential stable non random-access container: `seq::sequence`, fast stable list-like container.
+-	Sequential stable non random-access container: [seq::sequence](sequence.md), fast stable list-like container.
 -	Sorted containers: 
 	-	[seq::flat_set](flat_set.md) : flat set container similar to boost::flat_set but based on seq::tiered_vector and providing fast insertion/deletion of single elements.
 	-	`seq::flat_map`: associative version of `seq::flat_set`.
@@ -26,4 +25,5 @@ Currently, the *containers* module provide 5 types of containers:
 	-	[seq::concurrent_map](concurrent_map.md) and `seq::concurrent_set`: higly scalable concurrent hash tables.
 -	Strings:
 	-	[seq::tiny_string](tiny_string.md): string-like class with configurable Small String Optimization and tiny memory footprint. Makes most string containers faster.
-
+-	Other:
+	-	[seq::concurrent_queue](concurrent_queue.md): fast thread-safe queue designed for Multi-Producer Multi-Consumer (MPMC) scenarios.

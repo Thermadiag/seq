@@ -37,8 +37,6 @@
 #include <map>
 #include <string>
 
-
-
 template<class Alloc, class U>
 using RebindAlloc = typename std::allocator_traits<Alloc>::template rebind_alloc<U>;
 
@@ -68,19 +66,32 @@ void test_destroy(T count)
 	TestDestroyCount<Val>::test(count);
 }
 
+namespace seq
+{
+	namespace detail
+	{
+
+		template<class Iter>
+		bool check_bit_pos(const Iter& it)
+		{
+			// For tests only
+			return it.iter().bit_pos == it.iter().get_bit_pos(it.iter().dir);
+		}
+
+	}
+}
+
 // #undef SEQ_TEST
 // #define SEQ_TEST(...) if(!(__VA_ARGS__)) throw std::runtime_error("");
+
+static int _global_count = 0;
 
 /// @brief Allocator that allows only one allocation
 template<class T>
 class dummy_alloc : public std::allocator<T>
 {
 public:
-	static int& get_int()
-	{
-		static int c = 0;
-		return c;
-	}
+	static int& get_int() { return _global_count; }
 	template<class U>
 	struct rebind
 	{
@@ -104,14 +115,14 @@ public:
 	dummy_alloc& operator=(const dummy_alloc&) = default;
 	auto operator==(const dummy_alloc&) const noexcept -> bool { return true; }
 	auto operator!=(const dummy_alloc&) const noexcept -> bool { return false; }
-	auto allocate(size_t n, const void* /*unused*/) -> T* { return allocate(n); }
-	auto allocate(size_t n) -> T*
+	auto allocate(std::size_t n, const void* /*unused*/) -> T* { return allocate(n); }
+	auto allocate(std::size_t n) -> T*
 	{
 		if (get_int()++ == 0)
 			return std::allocator<T>{}.allocate(n);
 		throw std::runtime_error("error");
 	}
-	void deallocate(T* p, size_t n) { std::allocator<T>{}.deallocate(p, n); }
+	void deallocate(T* p, std::size_t n) { std::allocator<T>{}.deallocate(p, n); }
 };
 
 template<class T, class U>
@@ -162,7 +173,7 @@ template<class C>
 void check_sorted(C& set)
 {
 
-	size_t dist = static_cast<size_t>(std::distance(set.begin(), set.end()));
+	std::size_t dist = static_cast<std::size_t>(std::distance(set.begin(), set.end()));
 	SEQ_TEST(dist == set.size());
 	SEQ_TEST(std::is_sorted(set.begin(), set.end()));
 	SEQ_TEST(std::is_sorted(set.rbegin(), set.rend(), std::greater<>{}));
@@ -172,7 +183,7 @@ void check_sorted(C& set)
 	for (auto it = set.begin(); it != set.end(); ++it)
 		vec.push_back(*it);
 
-	for (size_t i = 0; i < vec.size(); ++i) {
+	for (std::size_t i = 0; i < vec.size(); ++i) {
 		SEQ_TEST(set.find(vec[i]) != set.end());
 	}
 }
@@ -180,7 +191,7 @@ void check_sorted(C& set)
 inline std::wstring from_string(const std::string& str)
 {
 	std::wstring res(str.size(), (wchar_t)0);
-	for (size_t i = 0; i < str.size(); ++i)
+	for (std::size_t i = 0; i < str.size(); ++i)
 		res[i] = (wchar_t)str[i];
 	return res;
 }
@@ -201,7 +212,7 @@ inline void test_radix_set_common()
 	{
 		// Test heterogeneous lookup on string type
 		dummy_alloc<char>::get_int() = 0;
-		seq::radix_set<seq::tiny_string<char, std::char_traits<char>, dummy_alloc<char>, 0>> set;
+		seq::radix_set<seq::tiny_string<char, dummy_alloc<char>, 0>> set;
 		set.insert("this is a very very long string");
 		SEQ_TEST(set.find("this is a very very long string") != set.end());
 	}
@@ -232,7 +243,7 @@ inline void test_radix_set_common()
 			{
 				return x == pt.x && y == pt.y;
 			}
-			operator size_t() const { return static_cast<size_t>(x); }
+			operator std::size_t() const { return static_cast<std::size_t>(x); }
 		};
 		struct Extract
 		{
@@ -247,7 +258,7 @@ inline void test_radix_set_common()
 		std::uniform_int_distribution<int> uniform_dist;
 
 		std::vector<Point> vec;
-		for (size_t i = 0; i < 500000; ++i)
+		for (std::size_t i = 0; i < 500000; ++i)
 		{
 			vec.push_back(Point{ static_cast<short>(uniform_dist(e2)), static_cast<int>(uniform_dist(e2)) });
 		}
@@ -255,7 +266,7 @@ inline void test_radix_set_common()
 		std::set<Point> set1;
 		seq::radix_set<Point,Extract> set2;
 
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 		{
 			set1.insert(vec[i]);
 			set2.insert(vec[i]);
@@ -263,39 +274,39 @@ inline void test_radix_set_common()
 
 		SEQ_TEST(set1.size() == set2.size());
 		SEQ_TEST(seq::equal(set1.begin(), set1.end(), set2.begin()));
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			SEQ_TEST(set2.find(vec[i]) != set2.end());
 	}*/
 	{
 		// Test wide string
 		std::vector<std::string> vec;
-		for (size_t i = 0; i < 100000; ++i)
+		for (std::size_t i = 0; i < 100000; ++i)
 			vec.push_back(seq::generate_random_string<std::string>(63, false));
 
 		std::vector<std::wstring> wvec;
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			wvec.push_back(from_string(vec[i]));
 
 		std::set<std::wstring> set1;
 		seq::radix_set<std::wstring> set2;
 
-		for (size_t i = 0; i < wvec.size(); ++i) {
+		for (std::size_t i = 0; i < wvec.size(); ++i) {
 			set1.insert(wvec[i]);
 			set2.insert(wvec[i]);
 		}
 
 		SEQ_TEST(set1.size() == set2.size());
 		SEQ_TEST(seq::equal(set1.begin(), set1.end(), set2.begin()));
-		for (size_t i = 0; i < wvec.size(); ++i)
+		for (std::size_t i = 0; i < wvec.size(); ++i)
 			SEQ_TEST(set2.find(wvec[i]) != set2.end());
 	}
 	{
 		// test lower_bound
-		size_t mul = 100;
-		seq::radix_set<size_t> set;
-		size_t count = 0;
+		std::size_t mul = 100;
+		seq::radix_set<std::size_t> set;
+		std::size_t count = 0;
 
-		for (size_t i = 1000 * mul; i < 2000 * mul; i += 5, ++count) {
+		for (std::size_t i = 1000 * mul; i < 2000 * mul; i += 5, ++count) {
 
 			set.insert(i);
 		}
@@ -305,7 +316,7 @@ inline void test_radix_set_common()
 		SEQ_TEST(std::is_sorted(set.begin(), set.end()));
 
 		// look for existing values
-		for (size_t i = 1000 * mul; i < 2000 * mul; i += 5) {
+		for (std::size_t i = 1000 * mul; i < 2000 * mul; i += 5) {
 			auto it = set.lower_bound(i);
 			// test bit position
 			SEQ_TEST(seq::detail::check_bit_pos(it));
@@ -315,10 +326,10 @@ inline void test_radix_set_common()
 
 		{
 			// verify with find
-			std::vector<size_t> vec;
-			for (size_t i : set)
+			std::vector<std::size_t> vec;
+			for (std::size_t i : set)
 				vec.push_back(i);
-			for (size_t i : vec) {
+			for (std::size_t i : vec) {
 				SEQ_TEST(set.find(i) != set.end());
 			}
 		}
@@ -327,7 +338,7 @@ inline void test_radix_set_common()
 		// TODO: test prefix search with vector nodes, leaf nodes, and multiple directories with prefix_len
 
 		// mix existing/non existing values
-		for (size_t i = 0; i < 4000 * mul; i++) {
+		for (std::size_t i = 0; i < 4000 * mul; i++) {
 
 			auto it = set.lower_bound(i);
 
@@ -350,7 +361,7 @@ inline void test_radix_set_common()
 			else {
 
 				// non existing value within [first,last]
-				size_t v = *it;
+				std::size_t v = *it;
 				SEQ_TEST(it != set.end() && v > i && (v - i) < 5);
 			}
 		}
@@ -380,7 +391,7 @@ inline void test_radix_set_common()
 	}
 	{
 		// Test prefix search
-		seq::radix_map<std::string,int> set;
+		seq::radix_map<std::string, int> set;
 		set.insert({ "this is ok", 0 });
 		set.insert({ "this is not ok", 0 });
 		set.insert({ "this is right", 0 });
@@ -418,7 +429,7 @@ inline void test_radix_map_common()
 	{
 		// Test heterogeneous lookup on string type
 		dummy_alloc<char>::get_int() = 0;
-		seq::radix_map<seq::tiny_string<char, std::char_traits<char>, dummy_alloc<char>, 0>, int> set;
+		seq::radix_map<seq::tiny_string<char, dummy_alloc<char>, 0>, int> set;
 		set.emplace("this is a very very long string", 2);
 		SEQ_TEST(set.find("this is a very very long string") != set.end());
 	}
@@ -448,7 +459,7 @@ inline void test_radix_map_common()
 			{
 				return x == pt.x && y == pt.y;
 			}
-			operator size_t() const { return static_cast<size_t>(x); }
+			operator std::size_t() const { return static_cast<std::size_t>(x); }
 		};
 		struct Extract
 		{
@@ -463,7 +474,7 @@ inline void test_radix_map_common()
 		std::uniform_int_distribution<int> uniform_dist;
 
 		std::vector<Point> vec;
-		for (size_t i = 0; i < 500000; ++i)
+		for (std::size_t i = 0; i < 500000; ++i)
 		{
 			vec.push_back(Point{ static_cast<short>(uniform_dist(e2)), static_cast<int>(uniform_dist(e2)) });
 		}
@@ -471,7 +482,7 @@ inline void test_radix_map_common()
 		std::map<Point, int> set1;
 		seq::radix_map<Point, int, Extract> set2;
 
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 		{
 			set1.emplace(vec[i],1);
 			set2.emplace(vec[i],1);
@@ -479,22 +490,22 @@ inline void test_radix_map_common()
 
 		SEQ_TEST(set1.size() == set2.size());
 		SEQ_TEST(seq::equal(set1.begin(), set1.end(), set2.begin(), set2.end(), [](const std::pair<Point, int>& l, const std::pair<const Point, int>& r) {return r.first == l.first && r.second
-	== l.second; })); for (size_t i = 0; i < vec.size(); ++i) SEQ_TEST(set2.find(vec[i]) != set2.end());
+	== l.second; })); for (std::size_t i = 0; i < vec.size(); ++i) SEQ_TEST(set2.find(vec[i]) != set2.end());
 	}*/
 	{
 		// Test wide string
 		std::vector<std::string> vec;
-		for (size_t i = 0; i < 100000; ++i)
+		for (std::size_t i = 0; i < 100000; ++i)
 			vec.push_back(seq::generate_random_string<std::string>(63, false));
 
 		std::vector<std::wstring> wvec;
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			wvec.push_back(from_string(vec[i]));
 
 		std::map<std::wstring, int> set1;
 		seq::radix_map<std::wstring, int> set2;
 
-		for (size_t i = 0; i < wvec.size(); ++i) {
+		for (std::size_t i = 0; i < wvec.size(); ++i) {
 			set1.emplace(wvec[i], 1);
 			set2.emplace(wvec[i], 1);
 		}
@@ -503,22 +514,22 @@ inline void test_radix_map_common()
 		SEQ_TEST(seq::equal(set1.begin(), set1.end(), set2.begin(), set2.end(), [](const std::pair<std::wstring, int>& l, const std::pair<const std::wstring, int>& r) {
 			return r.first == l.first && r.second == l.second;
 		}));
-		for (size_t i = 0; i < wvec.size(); ++i)
+		for (std::size_t i = 0; i < wvec.size(); ++i)
 			SEQ_TEST(set2.find(wvec[i]) != set2.end());
 	}
 	{
 		// test lower_bound
-		size_t mul = 100;
-		seq::radix_map<size_t, int> set;
+		std::size_t mul = 100;
+		seq::radix_map<std::size_t, int> set;
 
-		for (size_t i = 1000 * mul; i < 2000 * mul; i += 5)
+		for (std::size_t i = 1000 * mul; i < 2000 * mul; i += 5)
 			set.emplace(i, 1);
 
 		// make sure the set is valid
 		SEQ_TEST(std::distance(set.begin(), set.end()) == static_cast<std::ptrdiff_t>(set.size()));
 
 		// look for existing values
-		for (size_t i = 1000 * mul; i < 2000 * mul; i += 5) {
+		for (std::size_t i = 1000 * mul; i < 2000 * mul; i += 5) {
 			auto it = set.lower_bound(i);
 			// test bit position
 			SEQ_TEST(seq::detail::check_bit_pos(it));
@@ -527,7 +538,7 @@ inline void test_radix_map_common()
 		}
 
 		// mix existing/non existing values
-		for (size_t i = 0; i < 4000 * mul; i++) {
+		for (std::size_t i = 0; i < 4000 * mul; i++) {
 			auto it = set.lower_bound(i);
 
 			// test bit position
@@ -549,7 +560,7 @@ inline void test_radix_map_common()
 			else {
 
 				// non existing value within [first,last]
-				size_t v = it->first;
+				std::size_t v = it->first;
 				SEQ_TEST(it != set.end() && v > i && (v - i) < 5);
 			}
 		}
@@ -583,7 +594,7 @@ inline void test_radix_set_logic(const Alloc& al)
 	{
 		// insert/emplace
 		std::vector<value_type> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<value_type>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -591,7 +602,7 @@ inline void test_radix_set_logic(const Alloc& al)
 
 		set_type set(al);
 		std_set_type uset;
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.insert(v[i]);
 			if ((i & 1) == 0)
 				set.insert(v[i]);
@@ -700,7 +711,7 @@ inline void test_radix_set_logic(const Alloc& al)
 	{
 		// test copy
 		std::vector<value_type> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<value_type>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -750,7 +761,7 @@ inline void test_radix_set_logic(const Alloc& al)
 		SEQ_TEST(set_equals(set, uset));
 
 		// erase half
-		for (size_t i = 0; i < v.size(); i += 2) {
+		for (std::size_t i = 0; i < v.size(); i += 2) {
 
 			set.erase(v[i]);
 			uset.erase(v[i]);
@@ -791,7 +802,7 @@ inline void test_radix_set_logic(const Alloc& al)
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// add already existing values one by one
-		for (size_t i = 0; i < vals.size() / 2; ++i) {
+		for (std::size_t i = 0; i < vals.size() / 2; ++i) {
 			set.insert(vals[i]);
 			ref.insert(vals[i]);
 		}
@@ -816,7 +827,7 @@ inline void test_radix_set_logic(const Alloc& al)
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// add already existing values one by one
-		for (size_t i = 0; i < vals.size() / 2; ++i) {
+		for (std::size_t i = 0; i < vals.size() / 2; ++i) {
 			set.insert(vals[i]);
 			ref.insert(vals[i]);
 		}
@@ -835,14 +846,14 @@ inline void test_radix_set_logic(const Alloc& al)
 		ref.insert(vals.begin(), vals.begin() + vals.size() / 2);
 
 		set_type set(al);
-		for (size_t i = 0; i < vals.size() / 2; ++i)
+		for (std::size_t i = 0; i < vals.size() / 2; ++i)
 			set.insert(vals[i]);
 
 		// compare flat_set with std::set
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// add already existing values one by one
-		for (size_t i = 0; i < vals.size() / 2; ++i) {
+		for (std::size_t i = 0; i < vals.size() / 2; ++i) {
 			set.insert(vals[i]);
 			ref.insert(vals[i]);
 		}
@@ -862,14 +873,14 @@ inline void test_radix_set_logic(const Alloc& al)
 		ref.insert(vals.begin(), vals.begin() + vals.size() / 2);
 
 		set_type set(al);
-		for (size_t i = 0; i < vals.size() / 2; ++i)
+		for (std::size_t i = 0; i < vals.size() / 2; ++i)
 			set.insert(vals[i]);
 
 		// compare flat_set with std::set
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// add already existing values one by one
-		for (size_t i = 0; i < vals.size() / 2; ++i) {
+		for (std::size_t i = 0; i < vals.size() / 2; ++i) {
 			set.insert(vals[i]);
 			ref.insert(vals[i]);
 		}
@@ -886,6 +897,7 @@ inline void test_radix_map_logic()
 	using namespace seq;
 	using pair_type = typename map_type::value_type;
 	using key_type = typename map_type::key_type;
+	using vec_pair_type = std::pair<std::remove_const_t<typename pair_type::first_type>,typename pair_type::second_type>;
 	{
 		// test construct from initializer list
 		map_type set = { { 1., 1. }, { 9., 9. }, { 2., 2. }, { 8., 8. }, { 3., 3. }, { 7., 7. }, { 4., 4. }, { 6., 6. }, { 5., 5. }, { 2., 2. }, { 7., 7. } };
@@ -904,13 +916,13 @@ inline void test_radix_map_logic()
 	{
 		// push_front/back and sorted
 		std::vector<key_type> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<key_type>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
 		map_type set;
 		umap_type uset;
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.emplace(v[i], v[i]);
 			if ((i & 1) == 0)
 				set.emplace(v[i], v[i]);
@@ -978,7 +990,7 @@ inline void test_radix_map_logic()
 		SEQ_TEST(map_equals(set, uset));
 
 		// test at() and operator[]
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			SEQ_TEST(set[v[i]] == uset[v[i]]);
 			SEQ_TEST(set.at(v[i]) == uset.at(v[i]));
 		}
@@ -1014,11 +1026,11 @@ inline void test_radix_map_logic()
 	}
 	{
 		// test rehash() with duplicate removal
-
-		std::vector<pair_type> v;
-		for (size_t i = 0; i < 10000; ++i)
+		
+		std::vector<vec_pair_type> v;
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<key_type>(i), static_cast<key_type>(i));
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<key_type>(i), static_cast<key_type>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -1037,7 +1049,7 @@ inline void test_radix_map_logic()
 		SEQ_TEST(map_equals(set, uset));
 
 		// remove half
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.erase(v[i].first);
 			set.erase(v[i].first);
 		}
@@ -1070,8 +1082,8 @@ inline void test_radix_map_logic()
 	}
 	{
 		// test copy
-		std::vector<pair_type> v;
-		for (size_t i = 0; i < 10000; ++i)
+		std::vector<vec_pair_type> v;
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<key_type>(i), static_cast<key_type>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -1115,11 +1127,11 @@ inline void test_radix_map()
 }
 
 template<class Set>
-void test_heavy_set(size_t count)
+void test_heavy_set(std::size_t count)
 {
 	using key_type = typename Set::value_type;
 	std::vector<key_type> keys(count);
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		keys[i] = static_cast<key_type>(i);
 	seq::random_shuffle(keys.begin(), keys.end());
 
@@ -1133,7 +1145,7 @@ void test_heavy_set(size_t count)
 		SEQ_TEST(s.size() == count);
 
 		// find all
-		for (size_t i = 0; i < count; ++i) {
+		for (std::size_t i = 0; i < count; ++i) {
 			auto it = s.find(keys[i]);
 			// TEST
 			if (it == s.end() || *it != keys[i]) {
@@ -1144,8 +1156,8 @@ void test_heavy_set(size_t count)
 		}
 
 		// failed find
-		for (size_t i = 0; i < count; ++i) {
-			size_t ke = i + count;
+		for (std::size_t i = 0; i < count; ++i) {
+			std::size_t ke = i + count;
 			auto it = s.find(ke);
 			SEQ_TEST(it == s.end());
 		}
@@ -1154,16 +1166,16 @@ void test_heavy_set(size_t count)
 		SEQ_TEST(s.size() == 0);
 
 		// insert all one by one
-		for (size_t i = 0; i < count; ++i) {
+		for (std::size_t i = 0; i < count; ++i) {
 			s.insert(keys[i]);
 			// find while inserting
-			for (size_t j = 0; j <= i; ++j) {
+			for (std::size_t j = 0; j <= i; ++j) {
 				auto it = s.find(keys[j]);
 				SEQ_TEST(it != s.end());
 				SEQ_TEST(*it == keys[j]);
 			}
 			// failed find
-			for (size_t j = i + 1; j < count; ++j) {
+			for (std::size_t j = i + 1; j < count; ++j) {
 				auto it = s.find(keys[j]);
 				SEQ_TEST(it == s.end());
 			}
@@ -1171,7 +1183,7 @@ void test_heavy_set(size_t count)
 		SEQ_TEST(s.size() == count);
 
 		// failed insertion
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 			s.insert(keys[i]);
 		SEQ_TEST(s.size() == count);
 
@@ -1180,29 +1192,29 @@ void test_heavy_set(size_t count)
 		SEQ_TEST(s.size() == count);
 
 		// find all
-		for (size_t i = 0; i < count; ++i) {
+		for (std::size_t i = 0; i < count; ++i) {
 			auto it = s.find(keys[i]);
 			SEQ_TEST(it != s.end());
 			SEQ_TEST(*it == keys[i]);
 		}
 
 		// failed find
-		for (size_t i = 0; i < count; ++i) {
-			size_t ke = i + count;
+		for (std::size_t i = 0; i < count; ++i) {
+			std::size_t ke = i + count;
 			auto it = s.find(ke);
 			SEQ_TEST(it == s.end());
 		}
 
 		// erase half
-		size_t cc = (count / 2U) * 2U;
-		for (size_t i = 0; i < cc; i += 2) {
+		std::size_t cc = (count / 2U) * 2U;
+		for (std::size_t i = 0; i < cc; i += 2) {
 			auto it = s.find(keys[i]);
 			s.erase(it);
 		}
 		SEQ_TEST(s.size() == count / 2);
 
 		// find all
-		for (size_t i = 1; i < count; i += 2) {
+		for (std::size_t i = 1; i < count; i += 2) {
 			if (i >= count)
 				break;
 
@@ -1212,14 +1224,14 @@ void test_heavy_set(size_t count)
 		}
 
 		// failed
-		for (size_t i = 0; i < cc; i += 2) {
+		for (std::size_t i = 0; i < cc; i += 2) {
 			auto it = s.find(keys[i]);
 			SEQ_TEST(it == s.end());
 		}
 	}
 
 	// erase remaining keys
-	for (size_t i = 0; i < count; ++i) {
+	for (std::size_t i = 0; i < count; ++i) {
 
 		auto it = s.find(keys[i]);
 		if (it != s.end())
@@ -1232,14 +1244,14 @@ void test_heavy_set(size_t count)
 static void test_string_key()
 {
 	std::vector<std::string> vec(1000);
-	for (size_t i = 0; i < 1000; ++i)
+	for (std::size_t i = 0; i < 1000; ++i)
 		vec[i] = i == 0 ? std::string() : seq::generate_random_string<std::string>(static_cast<int>(i), true);
 
 	std::vector<std::string> sorted = vec;
 	std::sort(sorted.begin(), sorted.end());
 
 	seq::radix_set<std::string> set;
-	for (size_t i = 0; i < vec.size(); ++i)
+	for (std::size_t i = 0; i < vec.size(); ++i)
 		set.insert(vec[i]);
 
 	check_sorted(set);
@@ -1249,7 +1261,7 @@ static void test_worst_string_key(char c)
 {
 	std::vector<std::string> vec(1000);
 	std::string str;
-	for (size_t i = 0; i < 1000; ++i) {
+	for (std::size_t i = 0; i < 1000; ++i) {
 		vec[i] = str;
 		str.push_back(c);
 	}
@@ -1258,7 +1270,7 @@ static void test_worst_string_key(char c)
 	std::sort(sorted.begin(), sorted.end());
 
 	seq::radix_set<std::string> set;
-	for (size_t i = 0; i < vec.size(); ++i)
+	for (std::size_t i = 0; i < vec.size(); ++i)
 		set.insert(vec[i]);
 
 	check_sorted(set);
@@ -1285,32 +1297,32 @@ static void check_map(const Map& m)
 
 static void test_issue()
 {
-	seq::radix_map<std::tuple<uint32_t, uint32_t>, std::vector<std::tuple<uint32_t, uint32_t>>> tuples;
+	seq::radix_map<std::tuple<std::uint32_t, std::uint32_t>, std::vector<std::tuple<std::uint32_t, std::uint32_t>>> tuples;
 
-	unsigned count = sizeof(serie) / sizeof(std::tuple<uint32_t, uint32_t>);
+	unsigned count = sizeof(serie) / sizeof(std::tuple<std::uint32_t, std::uint32_t>);
 	for (unsigned i = 0; i < count; ++i) {
 		auto key = serie[i];
-		std::vector<std::tuple<uint32_t, uint32_t>> values = { key };
+		std::vector<std::tuple<std::uint32_t, std::uint32_t>> values = { key };
 		tuples.insert(std::make_pair(key, values));
 	}
 	check_map(tuples);
 
 	// Test tuple is truly inserted
-	std::tuple<uint32_t, uint32_t> test_tuple = { 9305, 9999 };
-	tuples.insert(std::make_pair((test_tuple), std::vector<std::tuple<uint32_t, uint32_t>>{ test_tuple }));
+	std::tuple<std::uint32_t, std::uint32_t> test_tuple = { 9305, 9999 };
+	tuples.insert(std::make_pair((test_tuple), std::vector<std::tuple<std::uint32_t, std::uint32_t>>{ test_tuple }));
 	check_map(tuples);
 
 	// Test if the test tuple is found (as expected => true)
-	//auto find_result_0 = tuples.find((test_tuple));
-	//bool contains_step_0 = find_result_0 != tuples.end();
-	//std::cout << "First: " << contains_step_0 << std::endl;
+	// auto find_result_0 = tuples.find((test_tuple));
+	// bool contains_step_0 = find_result_0 != tuples.end();
+	// std::cout << "First: " << contains_step_0 << std::endl;
 
 	// insert a new tuple (should not affect the test tuple)
 	{
-		std::tuple<uint32_t, uint32_t> to_insert = { 9323, 20001 };
+		std::tuple<std::uint32_t, std::uint32_t> to_insert = { 9323, 20001 };
 		auto it = tuples.find((to_insert));
 		if (it == tuples.end()) {
-			std::vector<std::tuple<uint32_t, uint32_t>> values = { to_insert };
+			std::vector<std::tuple<std::uint32_t, std::uint32_t>> values = { to_insert };
 			tuples.insert(std::make_pair((to_insert), values));
 		}
 		else {
@@ -1320,16 +1332,16 @@ static void test_issue()
 	check_map(tuples);
 
 	// Test if the test tuple is found (as expected => true)
-	//auto find_result_1 = tuples.find((test_tuple));
-	//bool contains_step_1 = find_result_1 != tuples.end();
-	//std::cout << "Second: " << contains_step_1 << std::endl;
+	// auto find_result_1 = tuples.find((test_tuple));
+	// bool contains_step_1 = find_result_1 != tuples.end();
+	// std::cout << "Second: " << contains_step_1 << std::endl;
 
 	// This insertion breaks the radix map somehow
 	{
-		std::tuple<uint32_t, uint32_t> to_insert = { 9323, 20002 };
+		std::tuple<std::uint32_t, std::uint32_t> to_insert = { 9323, 20002 };
 		auto it = tuples.find((to_insert));
 		if (it == tuples.end()) {
-			std::vector<std::tuple<uint32_t, uint32_t>> values = { to_insert };
+			std::vector<std::tuple<std::uint32_t, std::uint32_t>> values = { to_insert };
 			tuples.insert(std::make_pair((to_insert), values));
 		}
 		else {
@@ -1339,19 +1351,14 @@ static void test_issue()
 	check_map(tuples);
 }
 
-
-
-
-
-
-using schema_t = std::tuple<uint64_t, uint64_t>;
+using schema_t = std::tuple<std::uint64_t, std::uint64_t>;
 
 struct extractor_t
 {
 	schema_t operator()(const schema_t* tuple) const { return schema_t{ std::get<1>(*tuple), std::get<0>(*tuple) }; }
 };
 
-void show_all(seq::radix_map<schema_t*, size_t, extractor_t>::iterator begin, seq::radix_map<schema_t*, size_t, extractor_t>::iterator end)
+void show_all(seq::radix_map<schema_t*, std::size_t, extractor_t>::iterator begin, seq::radix_map<schema_t*, std::size_t, extractor_t>::iterator end)
 {
 	for (auto it = begin; it != end; ++it) {
 		std::cout << "Tuple: (" << std::get<0>(*(it->first)) << "," << std::get<1>(*(it->first)) << ") -> " << it->second << std::endl;
@@ -1359,7 +1366,7 @@ void show_all(seq::radix_map<schema_t*, size_t, extractor_t>::iterator begin, se
 }
 static void test_issue2()
 {
-	seq::radix_map<schema_t*, size_t, extractor_t> tuples;
+	seq::radix_map<schema_t*, std::size_t, extractor_t> tuples;
 	extractor_t my_extractor;
 	schema_t my_tuple = schema_t{ 0, 1 };
 	tuples.insert(std::make_pair(&my_tuple, 1));
@@ -1373,8 +1380,8 @@ static void test_issue2()
 	// Works CORRECT: schema_t is given => equal to radix_map::radix_key_type
 	// => no extractor applied => no result found (as only the inner key (1,0) is inserted)
 	std::cout << "Variant 0:" << std::endl;
-	seq::radix_map<schema_t*, size_t, extractor_t>::iterator lower_0 = tuples.lower_bound(my_tuple);
-	seq::radix_map<schema_t*, size_t, extractor_t>::iterator upper_0 = tuples.upper_bound(my_tuple);
+	seq::radix_map<schema_t*, std::size_t, extractor_t>::iterator lower_0 = tuples.lower_bound(my_tuple);
+	seq::radix_map<schema_t*, std::size_t, extractor_t>::iterator upper_0 = tuples.upper_bound(my_tuple);
 	show_all(lower_0, upper_0);
 	std::cout << "===============================" << std::endl;
 
@@ -1383,8 +1390,8 @@ static void test_issue2()
 	std::cout << "Variant 1:" << std::endl;
 	schema_t to_test_tuple = my_extractor(&my_tuple);
 	std::cout << "To test tuple: (" << std::get<0>(to_test_tuple) << "," << std::get<1>(to_test_tuple) << ")" << std::endl;
-	seq::radix_map<schema_t*, size_t, extractor_t>::iterator lower_1 = tuples.lower_bound(to_test_tuple);
-	seq::radix_map<schema_t*, size_t, extractor_t>::iterator upper_1 = tuples.upper_bound(to_test_tuple);
+	seq::radix_map<schema_t*, std::size_t, extractor_t>::iterator lower_1 = tuples.lower_bound(to_test_tuple);
+	seq::radix_map<schema_t*, std::size_t, extractor_t>::iterator upper_1 = tuples.upper_bound(to_test_tuple);
 	show_all(lower_1, upper_1);
 	std::cout << "===============================" << std::endl;
 
@@ -1392,11 +1399,10 @@ static void test_issue2()
 	// Expected: schema_t* is given => equal to radix_map::Key template argument
 	// => given extractor should be applied => seeking for (1,0) => result found
 	std::cout << "Variant 2:" << std::endl;
-	seq::radix_map<schema_t*, size_t, extractor_t>::iterator lower_2 = tuples.lower_bound(&my_tuple);
-	seq::radix_map<schema_t*, size_t, extractor_t>::iterator upper_2 = tuples.upper_bound(&my_tuple);
+	seq::radix_map<schema_t*, std::size_t, extractor_t>::iterator lower_2 = tuples.lower_bound(&my_tuple);
+	seq::radix_map<schema_t*, std::size_t, extractor_t>::iterator upper_2 = tuples.upper_bound(&my_tuple);
 	show_all(lower_2, upper_2);
 	std::cout << "===============================" << std::endl;
-
 }
 
 int test_chrono()
@@ -1407,7 +1413,7 @@ int test_chrono()
 	for (int i = 0; i < 1000000; ++i)
 		set.insert(std::chrono::steady_clock::now());
 	SEQ_TEST(set.size() > 0 && set.size() <= 1000000);
-	
+
 	using duration = decltype(time{}.time_since_epoch());
 
 	seq::radix_set<duration> set2;
@@ -1418,14 +1424,29 @@ int test_chrono()
 	return 0;
 }
 
-
 SEQ_PROTOTYPE(int test_radix_tree(int, char*[]))
 {
+	/* {
+		struct Extract
+		{
+			seq::tstring operator()(const seq::tstring& p) const noexcept 
+			{ 
+				auto ret = p;
+				ret.replace("a", "o");
+				return ret;
+			}
+		};
+		seq::radix_set<seq::tstring, Extract> s;
+		auto i1 = s.insert(seq::tstring("toto"));
+		auto i2 = s.insert(seq::tstring("tata"));
+		auto i3 = s.insert("titi");
+
+	}*/
 	test_chrono();
 	{
-		seq::radix_map<std::tuple<uint64_t>, uint64_t> tuples;
+		seq::radix_map<std::tuple<std::uint64_t>, std::uint64_t> tuples;
 
-		std::tuple<uint64_t> dummy = std::make_tuple(1000);
+		std::tuple<std::uint64_t> dummy = std::make_tuple(1000);
 		auto it = tuples.find(dummy);
 		if (it == tuples.end()) {
 			std::cout << "End" << std::endl;
@@ -1447,15 +1468,15 @@ SEQ_PROTOTYPE(int test_radix_tree(int, char*[]))
 	SEQ_TEST_MODULE_RETURN(radix_set, 1, test_radix_set<double>(al));
 	SEQ_TEST(get_alloc_bytes(al) == 0);
 	SEQ_TEST_MODULE_RETURN(radix_map, 1, test_radix_map<double>());
-	SEQ_TEST_MODULE_RETURN(heavy_radix_set, 1, test_heavy_set<seq::radix_set<size_t>>(10000));
+	SEQ_TEST_MODULE_RETURN(heavy_radix_set, 1, test_heavy_set<seq::radix_set<std::size_t>>(10000));
 
 	// Test radix map and detect potential memory leak (allocations and non destroyed objects) or wrong allocator propagation
 	SEQ_TEST_MODULE_RETURN(radix_set_destroy, 1, test_radix_set<TestDestroy<double>, Extract<double>>());
 	SEQ_TEST(TestDestroy<double>::count() == 0);
 	SEQ_TEST_MODULE_RETURN(radix_map_destroy, 1, test_radix_map<TestDestroy<double>, Extract<double>>());
 	SEQ_TEST(TestDestroy<double>::count() == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_radix_set_destroy, 1, test_heavy_set<seq::radix_set<TestDestroy<size_t>, Extract<size_t>>>(10000));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(heavy_radix_set_destroy, 1, test_heavy_set<seq::radix_set<TestDestroy<std::size_t>, Extract<std::size_t>>>(10000));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 
 	// Test radix map and detect potential memory leak (allocations and non destroyed objects) or wrong allocator propagation with non relocatable type
 	CountAlloc<TestDestroy<double, false>> al2;
@@ -1464,8 +1485,8 @@ SEQ_PROTOTYPE(int test_radix_tree(int, char*[]))
 	SEQ_TEST(get_alloc_bytes(al2) == 0);
 	SEQ_TEST_MODULE_RETURN(radix_map_destroy_no_relocatable, 1, test_radix_map<TestDestroy<double, false>, Extract<double>>());
 	SEQ_TEST(TestDestroy<double>::count() == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_radix_set_destroy_no_relocatable, 1, test_heavy_set<seq::radix_set<TestDestroy<size_t, false>, Extract<size_t>>>(10000));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(heavy_radix_set_destroy_no_relocatable, 1, test_heavy_set<seq::radix_set<TestDestroy<std::size_t, false>, Extract<std::size_t>>>(10000));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 
 	return 0;
 }

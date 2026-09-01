@@ -486,6 +486,30 @@ Above example compiled with gcc 10.1.0 (-O3) for msys2 on Windows 10 on a Intel(
 
 namespace seq
 {
+	namespace metafunction
+	{
+		template<class MetaFunction>
+		using result_of = typename MetaFunction::result;
+
+		template<class Tuple, template<class> class Function>
+		struct transform_elements;
+
+		// meta-function which takes a tuple and a unary metafunction
+		// and yields a tuple of the result of applying the metafunction
+		// to each element_type of the tuple.
+		// type: binary metafunction
+		// arg1 = the tuple of types to be wrapped
+		// arg2 = the unary metafunction to apply to each element_type
+		// returns tuple<result_of<arg2<element>>...> for each element in arg1
+
+		template<class... Elements, template<class> class UnaryMetaFunction>
+		struct transform_elements<std::tuple<Elements...>, UnaryMetaFunction>
+		{
+			template<class Arg>
+			using function = UnaryMetaFunction<Arg>;
+			using result = std::tuple<result_of<function<Elements>>...>;
+		};
+	}
 
 	/// @brief Placehoder when reusing a formatting object
 	struct null_format
@@ -819,7 +843,7 @@ namespace seq
 		};
 
 		/// @brief Tells if T is one of format library basic type (arithmetic or tstring_view types)
-		template<class T, bool IsBasicType = (std::is_arithmetic_v<T> || is_tiny_string<T>::value || inline_value_storage<T>::value)>
+		template<class T, bool IsBasicType = (std::is_arithmetic_v<T> ||  is_basic_string_view<T>::value || inline_value_storage<T>::value)>
 		struct is_fmt_basic_type
 		{
 			static constexpr bool value = IsBasicType;
@@ -1278,11 +1302,11 @@ namespace seq
 			return str<std::basic_string<Char, Traits, Al>>();
 		}
 		/// @brief Conversion operator to tiny_string
-		template<class Char, class Traits, size_t Ss, class Al>
-		operator tiny_string<Char, Traits, Al, Ss>() const
+		template<class Char, size_t Ss, class Al>
+		operator tiny_string<Char, Al, Ss>() const
 		{
 			this->template assert_char<Char>();
-			return str<tiny_string<Char, Traits, Al, Ss>>();
+			return str<tiny_string<Char, Al, Ss>>();
 		}
 
 		/// @brief Convert the formatting object to String
@@ -1367,7 +1391,7 @@ namespace seq
 				// Floating point types
 				return val.write_float_to_string(out, val);
 			}
-			else if constexpr (is_tiny_string<T>::value) {
+			else if constexpr (is_tiny_string<T>::value || is_basic_string_view<T>::value) {
 				// For tstring_view
 				return val.write_string_to_string(out, val);
 			}
@@ -1734,7 +1758,7 @@ namespace seq
 		{
 			// charachter pointer/array or string type
 			using char_type = typename character_type<T>::type;
-			using type = ostream_format<basic_tstring_view<char_type>, S>;
+			using type = ostream_format<std::basic_string_view<char_type>, S>;
 		};
 
 		template<class T, bool S>
@@ -1814,7 +1838,7 @@ namespace seq
 				return GetStringSize<OtherTuple>::get(0, m.d_tuple);
 			}
 			template<class Char, bool S>
-			static inline size_t get_string_size(const ostream_format<basic_tstring_view<Char>, S>& s) noexcept
+			static inline size_t get_string_size(const ostream_format<std::basic_string_view<Char>, S>& s) noexcept
 			{
 				return s.value().size();
 			}
@@ -1840,7 +1864,7 @@ namespace seq
 		{
 			static constexpr size_t invalid = static_cast<size_t>(-1);
 			size_t res = GetStringSize<Tuple>::get(0, m.d_tuple);
-			if SEQ_CONSTEXPR (HasSeparator) {
+			if constexpr (HasSeparator) {
 				if (res != invalid) {
 					res += (std::tuple_size<Tuple>::value - 1) * m.separator().size();
 				}
@@ -1860,7 +1884,7 @@ namespace seq
 				static_assert(std::is_same_v<typename String::value_type, typename Sep::value_type>, "convert: cannot mix different character types");
 				static constexpr int pos = tuple_size - N;
 				std::get<pos>(t).append(out);
-				if SEQ_CONSTEXPR (HasSeparator && pos != (tuple_size - 1)) {
+				if constexpr (HasSeparator && pos != (tuple_size - 1)) {
 					out.append(sep);
 				}
 				Converter<HasSeparator, Tuple, N - 1>::convert(out, t, sep);
@@ -2121,13 +2145,13 @@ namespace seq
 			using valid_char_type = typename base_separator<Tuple, Char>::valid_char_type;
 
 		private:
-			basic_tstring_view<valid_char_type> sep;
+			std::basic_string_view<valid_char_type> sep;
 
 		public:
 			static constexpr bool has_separator = true;
 			format_separator() noexcept {}
 			auto separator() const noexcept { return sep; }
-			Derived& set_separator(const basic_tstring_view<valid_char_type>& s) noexcept
+			Derived& set_separator(const std::basic_string_view<valid_char_type>& s) noexcept
 			{
 				sep = s;
 				return static_cast<Derived&>(*this);
@@ -2141,8 +2165,8 @@ namespace seq
 			static constexpr bool has_separator = false;
 
 			format_separator() {}
-			auto separator() const noexcept { return basic_tstring_view<valid_char_type>(); }
-			Derived& set_separator(const basic_tstring_view<valid_char_type>&) noexcept { return static_cast<Derived&>(*this); }
+			auto separator() const noexcept { return std::basic_string_view<valid_char_type>(); }
+			Derived& set_separator(const std::basic_string_view<valid_char_type>&) noexcept { return static_cast<Derived&>(*this); }
 		};
 
 		/// @brief Base class for mutli_ostream_format
@@ -2328,11 +2352,11 @@ namespace seq
 				// convertion operator to std::string
 				return str<std::basic_string<C, Traits, Al>>();
 			}
-			template<class C, class Traits, size_t S, class Al>
-			operator tiny_string<C, Traits, Al, S>() const
+			template<class C, size_t S, class Al>
+			operator tiny_string<C, Al, S>() const
 			{
 				// convertion operator to tiny_string
-				return str<tiny_string<C, Traits, Al, S>>();
+				return str<tiny_string<C, Al, S>>();
 			}
 		};
 
@@ -2589,7 +2613,7 @@ namespace seq
 	template<class Char>
 	inline auto fmt(const Char* str, size_t size)
 	{
-		return ostream_format<basic_tstring_view<Char>>(basic_tstring_view<Char>(str, size));
+		return ostream_format<std::basic_string_view<Char>>(std::basic_string_view<Char>(str, size));
 	}
 
 	template<class T = double>
@@ -2797,21 +2821,21 @@ namespace seq
 	{
 		// Null string formatting, used with seq::fmt().
 		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
-		return fmt<basic_tstring_view<Char>>();
+		return fmt<std::basic_string_view<Char>>();
 	}
 	template<class Char = char>
 	inline auto s()
 	{
 		// Null string formatting, used with seq::fmt().
 		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
-		return fmt<basic_tstring_view<Char>>();
+		return fmt<std::basic_string_view<Char>>();
 	}
 	template<class Char = char>
 	inline auto _str()
 	{
 		// Null string formatting, used with seq::fmt().
 		// Ex.: fmt(pos<1, 3>(),"|", seq::str().c(20), "|", seq::str().c(20), "|");
-		return _fmt<basic_tstring_view<Char>>();
+		return _fmt<std::basic_string_view<Char>>();
 	}
 	inline auto _s()
 	{
@@ -2821,7 +2845,7 @@ namespace seq
 	}
 
 	/// @brief Repeat count times character c
-	inline auto rep(char32_t c, int count) -> ostream_format<tstring_view>
+	inline auto rep(char32_t c, int count) -> ostream_format<std::string_view>
 	{
 		// Repeat count times character c
 		return str().l(count).f(c);
@@ -2844,16 +2868,16 @@ namespace seq
 	public:
 		using char_type = Char;
 
-		basic_tstring_view<Char> separator;
+		std::basic_string_view<Char> separator;
 		width_format wfmt;
 
-		ostream_format(basic_tstring_view<Char> s, const T& v)
+		ostream_format(std::basic_string_view<Char> s, const T& v)
 		  : base_type(v)
 		  , separator(s)
 		{
 		}
 		template<class U, bool S>
-		ostream_format(basic_tstring_view<Char> s, const T& v, const ostream_format<U, S>& wf)
+		ostream_format(std::basic_string_view<Char> s, const T& v, const ostream_format<U, S>& wf)
 		  : base_type(v)
 		  , separator(s)
 		  , wfmt(wf.width_fmt())
@@ -2996,10 +3020,10 @@ namespace seq
 		template<class Char>
 		struct by_string_ : match_base<Char, by_string_<Char>>
 		{
-			basic_tstring_view<Char> match;
-			by_string_(const basic_tstring_view<Char>& s = basic_tstring_view<Char>()) noexcept
+			std::basic_string_view<Char> match;
+			by_string_(const std::basic_string_view<Char>& s = {}) noexcept
 			  : match(s) {};
-			size_t find(const basic_tstring_view<Char>& v, size_t start) const noexcept { return v.find(match, start); }
+			size_t find(const std::basic_string_view<Char>& v, size_t start) const noexcept { return v.find(match, start); }
 			size_t next(size_t pos) const noexcept { return pos + match.size(); }
 			bool full_split() const noexcept { return match.size() == 0; }
 		};
@@ -3011,7 +3035,7 @@ namespace seq
 			Char match;
 			by_char_(Char s = 0) noexcept
 			  : match(s) {};
-			size_t find(const basic_tstring_view<Char>& v, size_t start) const noexcept { return v.find(match, start); }
+			size_t find(const std::basic_string_view<Char>& v, size_t start) const noexcept { return v.find(match, start); }
 			size_t next(size_t pos) const noexcept { return pos + 1; }
 			bool full_split() const noexcept { return false; }
 		};
@@ -3020,10 +3044,10 @@ namespace seq
 		template<class Char>
 		struct by_any_char_ : match_base<Char, by_any_char_<Char>>
 		{
-			basic_tstring_view<Char> match;
-			by_any_char_(const basic_tstring_view<Char>& s = basic_tstring_view<Char>()) noexcept
+			std::basic_string_view<Char> match;
+			by_any_char_(const std::basic_string_view<Char>& s = {}) noexcept
 			  : match(s) {};
-			size_t find(const basic_tstring_view<Char>& v, size_t start) const noexcept { return v.find_first_of(match, start); }
+			size_t find(const std::basic_string_view<Char>& v, size_t start) const noexcept { return v.find_first_of(match, start); }
 			size_t next(size_t pos) const noexcept { return pos + 1; }
 			bool full_split() const noexcept { return match.size() == 0; }
 		};
@@ -3032,10 +3056,10 @@ namespace seq
 		template<class Char>
 		struct by_not_any_char_ : match_base<Char, by_not_any_char_<Char>>
 		{
-			basic_tstring_view<Char> match;
-			by_not_any_char_(const basic_tstring_view<Char>& s = basic_tstring_view<Char>()) noexcept
+			std::basic_string_view<Char> match;
+			by_not_any_char_(const std::basic_string_view<Char>& s = {}) noexcept
 			  : match(s) {};
-			size_t find(const basic_tstring_view<Char>& v, size_t start) const noexcept { return v.find_first_not_of(match, start); }
+			size_t find(const std::basic_string_view<Char>& v, size_t start) const noexcept { return v.find_first_not_of(match, start); }
 			size_t next(size_t pos) const noexcept { return pos + 1; }
 			bool full_split() const noexcept { return false; }
 		};
@@ -3045,12 +3069,12 @@ namespace seq
 		struct by_word_ : match_base<void, by_word_>
 		{
 			template<class Char>
-			size_t find(const basic_tstring_view<Char>& v, size_t start) const noexcept
+			size_t find(const std::basic_string_view<Char>& v, size_t start) const noexcept
 			{
 				for (; start != v.size(); ++start)
 					if (is_space((int)v[start]))
 						return start;
-				return basic_tstring_view<Char>::npos;
+				return std::basic_string_view<Char>::npos;
 			}
 			size_t next(size_t pos) const noexcept { return pos + 1; }
 			bool full_split() const noexcept { return false; }
@@ -3157,7 +3181,7 @@ namespace seq
 		struct SplitIter
 		{
 			using char_type = Char;
-			using view_type = basic_tstring_view<char_type>;
+			using view_type = std::basic_string_view<char_type>;
 
 			view_type source;
 			view_type current; // current match

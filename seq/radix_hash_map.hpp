@@ -53,64 +53,27 @@ namespace seq
 			{
 				return value;
 			}
+			template<class U>
+			static SEQ_ALWAYS_INLINE decltype(auto) key(const U& k) noexcept
+			{
+				return Extract{}(k);
+			}
 		};
 
 		using Policy = detail::BuildValue<Key, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
 
 		using radix_hash = radix_detail::RadixHasherUnordered<Key, Hash, KeyLess, KeyEqual>;
 		using radix_tree_type = radix_detail::RadixTree<Key, radix_hash, Extract, Allocator, radix_detail::LeafNode<Key, false>, 8>;
+		using radix_iterator = typename radix_tree_type::const_iterator;
 		radix_tree_type d_tree;
 
 	public:
-		struct const_iterator
-		{
-			using iter_type = typename radix_tree_type::const_iterator;
-			using value_type = Key;
-			using iterator_category = std::bidirectional_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = const value_type*;
-			using reference = const value_type&;
-			iter_type iter;
-
-			SEQ_ALWAYS_INLINE const_iterator() {}
-			SEQ_ALWAYS_INLINE const_iterator(iter_type it)
-			  : iter(it)
-			{
-			}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_iterator&
-			{
-				++iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_iterator
-			{
-				const_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> const_iterator&
-			{
-				--iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> const_iterator
-			{
-				const_iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return *iter; }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE bool operator==(const const_iterator& it) const noexcept { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE bool operator!=(const const_iterator& it) const noexcept { return iter != it.iter; }
-		};
-
+		using const_iterator = detail::MapBidirIterator<radix_iterator,Key,detail::ConstIterator>;
 		using iterator = const_iterator;
 		using key_type = Key;
 		using value_type = Key;
 		using allocator_type = Allocator;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = std::ptrdiff_t;
 		using hasher = Hash;
 		using key_equal = KeyEqual;
@@ -237,29 +200,30 @@ namespace seq
 			return *this;
 		}
 
+		/// @brief Assign initializer-list
+		auto operator=(const std::initializer_list<value_type>& init) -> radix_hash_set&
+		{
+			d_tree = init;
+			return *this;
+		}
+
 		/// @brief Returns the container size
-		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return d_tree.size(); }
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> std::size_t { return d_tree.size(); }
 		/// @brief Returns the container maximum size
-		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return d_tree.max_size(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> std::size_t { return d_tree.max_size(); }
 		/// @brief Returns true if the container is empty, false otherwise
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return d_tree.empty(); }
 		/// @brief Returns the container allocator object
-		SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> allocator_type& { return d_tree.get_allocator(); }
-		/// @brief Returns the container allocator object
-		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const allocator_type& { return d_tree.get_allocator(); }
-		/// @brief Returns the hash function
-		SEQ_ALWAYS_INLINE auto hash_function() const noexcept -> const hasher& { return d_tree.hash_function(); }
-		/// @brief Returns the equality comparison function
-		SEQ_ALWAYS_INLINE auto key_eq() const noexcept -> key_equal { return key_equal{}; }
+		SEQ_ALWAYS_INLINE auto get_allocator() const -> allocator_type { return d_tree.get_allocator(); }
+		
+		SEQ_ALWAYS_INLINE auto hash_function() const -> hasher { return static_cast<const Hash&>(d_tree); }
+		SEQ_ALWAYS_INLINE auto key_eq() const -> key_equal { return static_cast<const key_equal&>(d_tree); }
 
-		/// @brief Returns an iterator to the first element of the container.
-		SEQ_ALWAYS_INLINE auto end() noexcept -> iterator { return d_tree.end(); }
 		/// @brief Returns an iterator to the first element of the container.
 		SEQ_ALWAYS_INLINE auto end() const noexcept -> const_iterator { return d_tree.end(); }
 		/// @brief Returns an iterator to the first element of the container.
 		SEQ_ALWAYS_INLINE auto cend() const noexcept -> const_iterator { return d_tree.end(); }
-		/// @brief Returns an iterator to the element following the last element of the container.
-		SEQ_ALWAYS_INLINE auto begin() noexcept -> iterator { return d_tree.begin(); }
+
 		/// @brief Returns an iterator to the element following the last element of the container.
 		SEQ_ALWAYS_INLINE auto begin() const noexcept -> const_iterator { return d_tree.begin(); }
 		/// @brief Returns an iterator to the element following the last element of the container.
@@ -269,7 +233,7 @@ namespace seq
 		void clear() { d_tree.clear(); }
 
 		/// @brief Does nothing, just provided for STL compatibility purpose.
-		auto load_factor() const noexcept -> float { return 1.f; }
+		auto load_factor() const noexcept -> float { return d_tree.load_factor(); }
 		/// @brief Does nothing, just provided for STL compatibility purpose.
 		auto max_load_factor() const noexcept -> float { return 1.f; }
 		/// @brief Does nothing, just provided for STL compatibility purpose.
@@ -278,11 +242,11 @@ namespace seq
 		/// @brief Rehash the container.
 		/// Mostly used to shrink the container memory foorprint
 		/// after a lot of erase() calls.
-		void rehash(size_t = 0) { d_tree.shrink_to_fit(); }
+		void rehash(std::size_t = 0) { d_tree.shrink_to_fit(); }
 
 		/// @brief Sets the number of nodes to the number needed to accomodate at least count elements.
 		/// @param count new capacity of the container
-		void reserve(size_t count) { d_tree.reserve(count); }
+		void reserve(std::size_t count) { d_tree.reserve(count); }
 
 		/// @brief Swap this container with other
 		void swap(radix_hash_set& other) { d_tree.swap(other.d_tree); }
@@ -347,12 +311,12 @@ namespace seq
 		void insert(std::initializer_list<value_type> ilist) { insert(ilist.begin(), ilist.end()); }
 
 		/// @brief Erase element at given location.
-		/// Iterators and references are not invalidated. Rehashing never occurs.
+		/// Iterators and references are invalidated. Rehashing never occurs.
 		/// @param pos iterator to the element to erase
 		/// @return iterator to the next element
-		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos.iter); }
+		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos.iter()); }
 		/// @brief Erase element comparing equal to given key (if any).
-		/// Iterators and references are not invalidated. Rehashing never occurs.
+		/// Iterators and references are invalidated. Rehashing never occurs.
 		/// @param key key to be erased
 		/// @return number of erased elements (0 or 1)
 		SEQ_ALWAYS_INLINE auto erase(const Key& key) -> size_type { return d_tree.erase(key); }
@@ -368,20 +332,12 @@ namespace seq
 		{
 			return d_tree.erase(x);
 		}
-		/// @brief Removes the elements in the range [first; last), which must be a valid range in *this.
-		/// @param first range of elements to remove
-		/// @param last range of elements to remove
-		/// @return Iterator following the last removed element
-		auto erase(const_iterator first, const_iterator last) -> iterator { return d_tree.erase(first.iter, last.iter); }
-
+		
 		/// @brief Finds an element with key equivalent to key
 		/// @param key key value to search for
 		/// @return iterator pointing to found key on success, end iterator on failure.
 		SEQ_ALWAYS_INLINE auto find(const Key& key) const -> const_iterator { return d_tree.find(key); }
-		/// @brief Finds an element with key equivalent to key
-		/// @param value key value to search for
-		/// @return iterator pointing to found key on success, end iterator on failure.
-		SEQ_ALWAYS_INLINE auto find(const Key& value) -> iterator { return d_tree.find(value); }
+		
 		/// @brief Finds an element with key equivalent to key.
 		/// Finds an element with key that compares equivalent to the value x.
 		/// This overload participates in overload resolution only if Hash::is_transparent and KeyEqual::is_transparent are valid and each denotes a type.
@@ -394,18 +350,15 @@ namespace seq
 		{
 			return d_tree.find(x);
 		}
-		/// @brief Finds an element with key equivalent to key.
-		/// Finds an element with key that compares equivalent to the value x.
-		/// This overload participates in overload resolution only if Hash::is_transparent and KeyEqual::is_transparent are valid and each denotes a type.
-		/// This assumes that such Hash is callable with both K and Key type, and that the KeyEqual is transparent, which, together, allows calling this function without constructing an
-		/// instance of Key.
-		/// @param value key value to search for
-		/// @return iterator pointing to found key on success, end iterator on failure.
-		template<class K, class KE = KeyEqual, class H = Hash, typename std::enable_if<has_is_transparent<KE>::value && has_is_transparent<H>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
+
+		/// @brief Similar to find(), but returns a pointer on found value.
+		/// Returns null on failure.
+		template<class K>
+		SEQ_ALWAYS_INLINE auto find_ptr(const K& key) const -> const value_type*
 		{
-			return d_tree.find(key);
+			return d_tree.find_ptr(key);
 		}
+
 
 		/// @brief Returns 1 of key exists, 0 otherwise
 		SEQ_ALWAYS_INLINE auto count(const Key& key) const -> size_type { return find(key) != end(); }
@@ -432,12 +385,15 @@ namespace seq
 	/// @param rhs right ordered_set
 	/// @return true if both containers compare equals, false otherwise
 	template<class Key, class Hash1, class Hash2, class KeyEqual, class Allocator1, class Allocator2, class Less1, class Less2>
-	auto operator==(const radix_hash_set<Key, Hash1, KeyEqual, Allocator1, Less1>& lhs, const radix_hash_set<Key, Hash2, KeyEqual, Allocator2, Less2>& rhs) -> bool
+	auto operator==(const radix_hash_set<Key, Hash1, KeyEqual, Allocator1, Less1>& s1, const radix_hash_set<Key, Hash2, KeyEqual, Allocator2, Less2>& s2) -> bool
 	{
-		if (lhs.size() != rhs.size())
+		if (s1.size() != s2.size())
 			return false;
-		for (auto it = lhs.begin(); it != lhs.end(); ++it) {
-			if (rhs.find(*it) == rhs.end())
+		for (auto it = s1.begin(); it != s1.end(); ++it) {
+			auto found = s2.find(*it);
+			if (found == s2.end())
+				return false;
+			if (!(*it == *found))
 				return false;
 		}
 		return true;
@@ -454,7 +410,7 @@ namespace seq
 	/// @param p predicate that returns true if the element should be erased
 	/// @return number of erased elements
 	template<class Key, class Hash1, class KeyEqual, class Allocator1, class Less, class Pred>
-	auto erase_if(radix_hash_set<Key, Hash1, KeyEqual, Allocator1, Less>& s, Pred p) -> size_t
+	auto erase_if(radix_hash_set<Key, Hash1, KeyEqual, Allocator1, Less>& s, Pred p) -> std::size_t
 	{
 		typename radix_hash_set<Key, Hash1, KeyEqual, Allocator1, Less>::size_type count = 0;
 		for (auto it = s.begin(); it != s.end();) {
@@ -468,14 +424,21 @@ namespace seq
 		return count;
 	}
 
-	/// @brief Radix based sorted container using Variable Arity Radix Tree (VART). Same interface as std::unordered_map.
+	/// @brief Radix based sorted container using Variable Arity Radix Tree (VART). 
+	/// The interface is similar to std::unordered_map with some differences:
+	/// -	Basic exception guarantees only,
+	/// -	No iterator/reference stability,
+	/// -	Hash and KeyEqual cannot be the same class and cannot be final,
+	/// -	No member erase(first,last),
+	/// -	A stateless KeyLess functor can be provided to handle bad hash functions.
+	/// 
 	/// @tparam Key key type
 	/// @tparam T mapped type
 	/// @tparam Hash hash function
 	/// @tparam KeyEqual equality comparison functor
 	/// @tparam Allocator allocator
 	/// @tparam KeyLess optional less than comparison
-	template<class Key, class T, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<std::pair<Key, T>>, class KeyLess = default_less>
+	template<class Key, class T, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<std::pair<const Key, T>>, class KeyLess = default_less>
 	class radix_hash_map
 	{
 		struct Extract
@@ -492,123 +455,30 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE const Key& operator()(const std::pair<Key, T>& p) const noexcept { return (p.first); }
 			SEQ_ALWAYS_INLINE const Key& operator()(const std::pair<const Key, T>& p) const noexcept { return (p.first); }
+			template<class U>
+			static SEQ_ALWAYS_INLINE decltype(auto) key(const U& k) noexcept
+			{
+				return Extract{}(k);
+			}
 		};
 
 		using Policy = detail::BuildValue<std::pair<Key, T>, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
 
+		using storage_type = std::pair<Key, T>;
+		using base_allocator = detail::RebindAllocator<Allocator,storage_type>;
 		using radix_hash = radix_detail::RadixHasherUnordered<Key, Hash, KeyLess, KeyEqual>;
-		using radix_tree_type = radix_detail::RadixTree<std::pair<Key, T>, radix_hash, Extract, Allocator, radix_detail::LeafNode<std::pair<Key, T>, false>, 8>;
+		using radix_tree_type = radix_detail::RadixTree<storage_type, radix_hash, Extract, base_allocator, radix_detail::LeafNode<storage_type, false>, 8>;
+		using tree_iterator = typename radix_tree_type::iterator;
+
 		radix_tree_type d_tree;
 
 	public:
-		struct const_iterator
-		{
-			using iter_type = typename radix_tree_type::const_iterator;
-			iter_type iter;
-
-		public:
-			using value_type = std::pair<Key, T>;
-			using iterator_category = std::bidirectional_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = const value_type*;
-			using reference = const value_type&;
-			using const_pointer = const value_type*;
-			using const_reference = const value_type&;
-
-			SEQ_ALWAYS_INLINE const_iterator() {}
-			SEQ_ALWAYS_INLINE const_iterator(const iter_type& it)
-			  : iter(it)
-			{
-			}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> const_iterator&
-			{
-				++iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> const_iterator
-			{
-				const_iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> const_iterator&
-			{
-				--iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> const_iterator
-			{
-				const_iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> reference { return reinterpret_cast<const value_type&>(*iter); }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-
-			SEQ_ALWAYS_INLINE bool operator==(const const_iterator& it) const noexcept { return iter == it.iter; }
-			SEQ_ALWAYS_INLINE bool operator!=(const const_iterator& it) const noexcept { return iter != it.iter; }
-		};
-		struct iterator : public const_iterator
-		{
-			using iter_type = typename radix_tree_type::const_iterator;
-			using value_type = std::pair<Key, T>;
-			using iterator_category = std::bidirectional_iterator_tag;
-			using size_type = size_t;
-			using difference_type = std::ptrdiff_t;
-			using pointer = value_type*;
-			using reference = value_type&;
-			using const_pointer = const value_type*;
-			using const_reference = const value_type&;
-
-			SEQ_ALWAYS_INLINE iterator()
-			  : const_iterator()
-			{
-			}
-			SEQ_ALWAYS_INLINE iterator(const iter_type& it)
-			  : const_iterator(it)
-			{
-			}
-			SEQ_ALWAYS_INLINE iterator(const const_iterator& it)
-			  : const_iterator(it)
-			{
-			}
-			SEQ_ALWAYS_INLINE auto operator++() noexcept -> iterator&
-			{
-				++this->iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator++(int) noexcept -> iterator
-			{
-				iterator _Tmp = *this;
-				++(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator--() noexcept -> iterator&
-			{
-				--this->iter;
-				return *this;
-			}
-			SEQ_ALWAYS_INLINE auto operator--(int) noexcept -> iterator
-			{
-				iterator _Tmp = *this;
-				--(*this);
-				return _Tmp;
-			}
-			SEQ_ALWAYS_INLINE auto operator*() noexcept -> reference { return reinterpret_cast<value_type&>(const_cast<std::pair<Key, T>&>(*this->iter)); }
-			SEQ_ALWAYS_INLINE auto operator->() noexcept -> pointer { return std::pointer_traits<pointer>::pointer_to(**this); }
-			SEQ_ALWAYS_INLINE auto operator*() const noexcept -> const_reference { return reinterpret_cast<const value_type&>(*this->iter); }
-			SEQ_ALWAYS_INLINE auto operator->() const noexcept -> const_pointer { return std::pointer_traits<const_pointer>::pointer_to(**this); }
-
-			SEQ_ALWAYS_INLINE bool operator==(const const_iterator& it) const noexcept { return this->iter == it.iter; }
-			SEQ_ALWAYS_INLINE bool operator!=(const const_iterator& it) const noexcept { return this->iter != it.iter; }
-		};
-
+		
 		using key_type = Key;
 		using mapped_type = T;
-		using value_type = std::pair<Key, T>;
+		using value_type = std::pair<const Key, T>;
 		using allocator_type = Allocator;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = std::ptrdiff_t;
 		using hasher = Hash;
 		using key_equal = KeyEqual;
@@ -617,26 +487,28 @@ namespace seq
 		using const_reference = const value_type&;
 		using pointer = typename std::allocator_traits<Allocator>::pointer;
 		using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
+		using iterator = detail::MapBidirIterator<tree_iterator,value_type,detail::NonConstIterator>;
+		using const_iterator = detail::MapBidirIterator<tree_iterator,value_type,detail::ConstIterator>;
 
-		radix_hash_map(const Hash& hash = Hash(), const KeyEqual& eq = KeyEqual(), const Allocator& alloc = Allocator())
-		  : d_tree(radix_hash(0, hash, eq), alloc)
+		radix_hash_map(const Hash& hash = {}, const KeyEqual& eq = {}, const Allocator& alloc = {})
+		  : d_tree(radix_hash(0, hash, eq), base_allocator{ alloc })
 		{
 		}
 
 		explicit radix_hash_map(const Allocator& alloc)
-		  : d_tree(alloc)
+		  : d_tree(base_allocator{ alloc })
 		{
 		}
 
 		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
-		radix_hash_map(InputIt first, InputIt last, const Hash& hash = Hash(), const key_equal& eq = key_equal(), const Allocator& alloc = Allocator())
-		  : d_tree(radix_hash(0, hash, eq), alloc)
+		radix_hash_map(InputIt first, InputIt last, const Hash& hash = Hash(), const key_equal& eq = {}, const Allocator& alloc = {})
+		  : d_tree(radix_hash(0, hash, eq), base_allocator{ alloc })
 		{
 			insert(first, last);
 		}
 		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
 		radix_hash_map(InputIt first, InputIt last, const Allocator& alloc)
-		  : d_tree(alloc)
+		  : d_tree(base_allocator{ alloc })
 		{
 			insert(first, last);
 		}
@@ -646,7 +518,7 @@ namespace seq
 		{
 		}
 		radix_hash_map(const radix_hash_map& other, const Allocator& alloc)
-		  : d_tree(other.d_tree, alloc)
+		  : d_tree(other.d_tree, base_allocator{ alloc })
 		{
 		}
 		radix_hash_map(const radix_hash_map& other)
@@ -658,11 +530,11 @@ namespace seq
 		{
 		}
 		radix_hash_map(radix_hash_map&& other, const Allocator& alloc)
-		  : d_tree(std::move(other.d_tree), alloc)
+		  : d_tree(std::move(other.d_tree), base_allocator{ alloc })
 		{
 		}
-		radix_hash_map(std::initializer_list<value_type> init, const Hash& hash = Hash(), const key_equal& = key_equal(), const Allocator& alloc = Allocator())
-		  : radix_hash_map(init.begin(), init.end(), hash, key_equal(), alloc)
+		radix_hash_map(std::initializer_list<value_type> init, const Hash& hash = {}, const key_equal& eq = {}, const Allocator& alloc = {})
+		  : radix_hash_map(init.begin(), init.end(), hash, eq, alloc)
 		{
 		}
 		radix_hash_map(std::initializer_list<value_type> init, const Hash& hash, const Allocator& alloc)
@@ -684,20 +556,24 @@ namespace seq
 			d_tree = std::move(other.d_tree);
 			return *this;
 		}
+		auto operator=(const std::initializer_list<value_type>& init) -> radix_hash_map&
+		{
+			d_tree.assign(init.begin(), init.end());
+			return *this;
+		}
 
-		SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return this->d_tree.size(); }
-		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> size_t { return this->d_tree.max_size(); }
+		SEQ_ALWAYS_INLINE auto size() const noexcept -> std::size_t { return this->d_tree.size(); }
+		SEQ_ALWAYS_INLINE auto max_size() const noexcept -> std::size_t { return this->d_tree.max_size(); }
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return this->d_tree.empty(); }
 
-		auto load_factor() const noexcept -> float { return 1.f; }
+		auto load_factor() const noexcept -> float { return this->d_tree.load_factor(); }
 		auto max_load_factor() const noexcept -> float { return 1.f; }
 		void max_load_factor(float) noexcept {}
 
-		SEQ_ALWAYS_INLINE auto get_allocator() noexcept -> allocator_type& { return this->d_tree.get_allocator(); }
-		SEQ_ALWAYS_INLINE auto get_allocator() const noexcept -> const allocator_type& { return this->d_tree.get_allocator(); }
+		SEQ_ALWAYS_INLINE auto get_allocator() const -> allocator_type { return this->d_tree.get_allocator(); }
 
-		SEQ_ALWAYS_INLINE auto hash_function() const -> hasher { return this->d_tree.hash_function(); }
-		SEQ_ALWAYS_INLINE auto key_eq() const -> key_equal { return KeyEqual{}; }
+		SEQ_ALWAYS_INLINE auto hash_function() const -> hasher { return static_cast<const Hash&>(d_tree); }
+		SEQ_ALWAYS_INLINE auto key_eq() const -> key_equal { return static_cast<const key_equal&>(d_tree); }
 
 		SEQ_ALWAYS_INLINE auto end() noexcept -> iterator { return this->d_tree.end(); }
 		SEQ_ALWAYS_INLINE auto end() const noexcept -> const_iterator { return this->d_tree.end(); }
@@ -709,12 +585,9 @@ namespace seq
 
 		void clear() { this->d_tree.clear(); }
 
-		/// @brief Rehash the container.
-		/// Mostly used to shrink the container memory foorprint
-		/// after a lot of erase() calls.
-		void rehash(size_t = 0) { d_tree.shrink_to_fit(); }
+		void rehash(std::size_t buckets) { d_tree.rehash(buckets); }
 
-		void reserve(size_t size) { this->d_tree.reserve(size); }
+		void reserve(std::size_t size) { this->d_tree.reserve(size); }
 
 		void swap(radix_hash_map& other) { d_tree.swap(other.d_tree); }
 
@@ -836,15 +709,14 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto operator[](const Key& key) -> T& { return try_emplace(key).first->second; }
 		SEQ_ALWAYS_INLINE auto operator[](Key&& key) -> T& { return try_emplace(std::move(key)).first->second; }
 
-		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return d_tree.erase(pos.iter); }
-		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos.iter); }
+		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return d_tree.erase(pos.iter()); }
+		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return d_tree.erase(pos.iter()); }
 		SEQ_ALWAYS_INLINE auto erase(const Key& key) -> size_type { return d_tree.erase(key); }
 		template<class K, class KE = KeyEqual, class H = Hash, typename std::enable_if<has_is_transparent<KE>::value && has_is_transparent<H>::value>::type* = nullptr>
 		SEQ_ALWAYS_INLINE auto erase(const K& key) -> size_type
 		{
 			return d_tree.erase(key);
 		}
-		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator { return d_tree.erase(first.iter, last.iter); }
 
 		SEQ_ALWAYS_INLINE auto find(const Key& value) const -> const_iterator { return d_tree.find(value); }
 		SEQ_ALWAYS_INLINE auto find(const Key& value) -> iterator { return d_tree.find(value); }
@@ -858,6 +730,17 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
 		{
 			return d_tree.find(key);
+		}
+
+		template<class K>
+		SEQ_ALWAYS_INLINE auto find_ptr(const K& key) -> value_type*
+		{
+			return const_cast<value_type*>(reinterpret_cast<const value_type*>(d_tree.find_ptr(key)));
+		}
+		template<class K>
+		SEQ_ALWAYS_INLINE auto find_ptr(const K& key) const -> const value_type*
+		{
+			return reinterpret_cast<const value_type*>(d_tree.find_ptr(key));
 		}
 
 		SEQ_ALWAYS_INLINE auto count(const Key& key) const -> size_type { return find(key) != end(); }
@@ -881,12 +764,14 @@ namespace seq
 	template<class Key, class T, class Hash, class Equal, class L1, class L2, class Al1, class Al2>
 	auto operator==(const radix_hash_map<Key, T, Hash, Equal, Al1, L1>& s1, const radix_hash_map<Key, T, Hash, Equal, Al2, L2>& s2) -> bool
 	{
-		using value_type_extract = typename radix_hash_map<Key, T, Hash, Equal, Al1, L1>::value_type_extract;
 		if (s1.size() != s2.size())
 			return false;
-		auto it1 = s1.begin();
-		for (auto it2 = s2.begin(); it2 != s2.end(); ++it2, ++it1) {
-			if (value_type_extract{}(*it1) != value_type_extract{}(*it2) || it1->second != it2->second)
+
+		for (auto it = s1.begin(); it != s1.end(); ++it) {
+			auto found = s2.find(it->first);
+			if (found == s2.end())
+				return false;
+			if (!(*it == *found))
 				return false;
 		}
 		return true;

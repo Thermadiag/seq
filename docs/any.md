@@ -19,12 +19,11 @@ The seq library provides the following aliases:
 -	Support for comparison operators <, <=, >, >=, == and !=
 -	Support for standard stream operators to/from std::ostream/std::istream
 -	`hold_any` is hashable based on std::hash
--	`hold_any` can be formatted using the [format](format.md) module of seq library
 -	`hold_any` interface can be extended
 
 `hold_any` is very similar to boost.TypeErasure or folly.Poly, but its default implementation provides more features in order to be used within most containers (sorted containers, hash tables,...).
 
-These features do not modify the requirements of held types: they must be at least move only contructible.
+These features do not modify the requirements of held types: they must be at least nothrow move contructible.
 `hold_any` uses type erasure to provide custom behavior based on held object type, and the additional functions like streaming or comparison support are implemented if the type supports them. 
 If not, the corresponding functions will throw a std::bad_function_call exception:
 
@@ -35,7 +34,7 @@ std::cout << seq::any(std::vector<bool>()); // std::vector<bool> does not define
 
 ```
 
-The only exception is the hashing support. Indeed, there is no way in C++11 to tell at compile time if a type is hashable or not, as most implementations of `std::hash` use static_assert() in the operator() member (undetectable through SFINAE). 
+The only exception is the hashing support. Indeed, there is no way in C++17 to tell at compile time if a type is hashable or not, as most implementations of `std::hash` use static_assert() in the operator() member (undetectable through SFINAE). 
 `hold_any` optimistically assumes that all types are hashable. In order to store non hashable types, you must specialize the `seq::is_hashable` type trait for this type:
 
 ```cpp
@@ -228,7 +227,7 @@ Two `hold_any` are considered equal if:
 -	They both hold an arithmetic value of possibly different types, and these values compare equals.
 -	They both hold a string like object (std::string, seq::tstring, seq::tstring_view, std::string_view, char*, const char*) that compare equals.
 
-It is possible to register a comparison function for unrelated types using `seq::register_any_equal_comparison()` function.
+Comparing 2 hold_any with the same type which does not support equality comparison will throw a seq::bad_any_function_call.
 
 Example:
 
@@ -249,22 +248,6 @@ assert(c == d); //compare any(const char*) to any(std::string)
 assert(d == "hello"); // compare any(std::string) to const char*
 
 
-// define a comparison function between std::pair<int,int> and int
-struct equal_pair
-{
-bool operator()(const std::pair<int,int> & a, int b) const
-{
-	return a.first == b && a.second == b;
-}
-};
-
-seq::register_any_equal_comparison<std::pair<int,int>, int>(equal_pair{});
-
-seq::nh_any pair = std::pair<int,int>(2,2);
-seq::nh_any integer = 2;
-assert(pair == integer);
-
-
 ```
 
 
@@ -280,6 +263,8 @@ A `hold_any` object A is considered less than another `hold_any` B if:
 -	For totally unrelated types, returns get_type_id(A) < get_type_id(B).
  
 It is possible to register a comparison function for unrelated types using `seq::register_any_less_comparison()` function.
+
+Comparing 2 hold_any with the same type which does not support less than comparison will throw a seq::bad_any_function_call, except if a custom comparison function was installed with seq::register_any_less_comparison().
 
 Example:
 
@@ -298,21 +283,6 @@ assert(b >= a);   // compare any(double) to any(int)
 assert(c < d); //compare any(const char*) to any(std::string)
 assert(d > c); // compare any(std::string) to const char*
 
-
-// define a dumy comparison function between std::pair<int,int> and int
-struct less_pair
-{
-bool operator()(const std::pair<int,int> & a, int b) const
-{
-	return a.first < b && a.second < b;
-}
-};
-
-seq::register_any_less_comparison<std::pair<int,int>, int>(less_pair{});
-
-seq::nh_any pair = std::pair<int,int>(1,2);
-seq::nh_any integer = 3;
-assert(pair < integer); 
 
 ``` 
 

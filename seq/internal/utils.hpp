@@ -28,217 +28,14 @@
 /** @file */
 
 #include <memory>
+#include <cstddef> 
+#include <new>     // std::launder, placement new
 
 #include "../bits.hpp"
 #include "../type_traits.hpp"
 
 namespace seq
 {
-
-	/// @brief Constants used by #object_pool, #parallel_object_pool and #object_allocator
-	enum
-	{
-		// EnoughForSharedPtr = INT_MAX, ///! MaxObjectsAllocation value for #object_pool and #parallel_object_pool to enable shared_ptr building
-		DefaultAlignment = 0 ///! Default alignment value for #object_pool, #parallel_object_pool and #object_allocator
-	};
-
-	/// @brief Allocator class with custom alignment.
-	/// @tparam T object type to allocate
-	/// @tparam Allocator underlying allocator
-	///
-	/// aligned_allocator is a stl conforming allocator class supporting custom alignment.
-	/// It relies on an underlying allocator class to perform the actual memory allocation.
-	/// aligned_allocator will allocate more memory than required for over aligned types.
-	///
-	/// If \a Align is 0, the default system alignment is used.
-	///
-	/// If provided Allocator class is std::allocator<T>, aligned_allocator is specialized to
-	/// use seq::aligned_malloc and seq::aligned_free.
-	///
-	template<class T, class Allocator = std::allocator<T>, size_t Align = DefaultAlignment>
-	class aligned_allocator
-	{
-
-		template<class U>
-		using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
-
-		Allocator d_alloc;
-
-	public:
-		static_assert(Align == 0 || ((Align - 1) & Align) == 0, "wrong alignment value (must be a power of 2)");
-		static constexpr size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
-
-		using value_type = T;
-		using pointer = T*;
-		using const_pointer = const T*;
-		using reference = T&;
-		using const_reference = const T&;
-		using size_type = size_t;
-		using difference_type = std::ptrdiff_t;
-		using propagate_on_container_swap = typename std::allocator_traits<Allocator>::propagate_on_container_swap;
-		using propagate_on_container_copy_assignment = typename std::allocator_traits<Allocator>::propagate_on_container_copy_assignment;
-		using propagate_on_container_move_assignment = typename std::allocator_traits<Allocator>::propagate_on_container_move_assignment;
-		using is_always_equal = typename std::allocator_traits<Allocator>::is_always_equal;
-
-		template<class U>
-		struct rebind
-		{
-			using other = aligned_allocator<U, Allocator, Align>;
-		};
-
-		auto select_on_container_copy_construction() const noexcept -> aligned_allocator { return *this; }
-
-		aligned_allocator(const Allocator al)
-		  : d_alloc(al)
-		{
-		}
-		aligned_allocator(const aligned_allocator& other)
-		  : d_alloc(other.d_alloc)
-		{
-		}
-		aligned_allocator(aligned_allocator&& other) noexcept
-		  : d_alloc(std::move(other.d_alloc))
-		{
-		}
-		template<class U>
-		aligned_allocator(const aligned_allocator<U, Allocator, Align>& other)
-		  : d_alloc(other.get_allocator())
-		{
-		}
-		~aligned_allocator() {}
-
-		auto get_allocator() noexcept -> Allocator& { return d_alloc; }
-		auto get_allocator() const noexcept -> Allocator { return d_alloc; }
-
-		auto operator=(const aligned_allocator& other) -> aligned_allocator&
-		{
-			d_alloc = other.d_alloc;
-			return *this;
-		}
-		auto operator=(aligned_allocator&& other) noexcept -> aligned_allocator&
-		{
-			d_alloc = std::move(other.d_alloc);
-			return *this;
-		}
-		auto operator==(const aligned_allocator& other) const noexcept -> bool { return d_alloc == other.d_alloc; }
-		auto operator!=(const aligned_allocator& other) const noexcept -> bool { return d_alloc != other.d_alloc; }
-		auto address(reference x) const noexcept -> pointer { return static_cast<std::allocator<T>*>(this)->address(x); }
-		auto address(const_reference x) const noexcept -> const_pointer { return static_cast<std::allocator<T>*>(this)->address(x); }
-		auto allocate(size_t n, const void* /*unused*/) -> T* { return allocate(n); }
-		auto allocate(size_t n) -> T*
-		{
-			if (alignment == SEQ_DEFAULT_ALIGNMENT) {
-				rebind_alloc<T> al = get_allocator();
-				return al.allocate(n);
-			}
-
-			rebind_alloc<std::uint8_t> al = get_allocator();
-			void* ptr;
-			size_t align = alignment - 1;
-			size_t size = n * sizeof(T);
-
-			// Room for padding and extra pointer stored in front of allocated area
-			size_t overhead = align + sizeof(void*);
-
-			// Avoid integer overflow
-			if (size > (SIZE_MAX - overhead))
-				return nullptr;
-
-			std::uint8_t* mem = al.allocate(size + overhead);
-
-			// Use the fact that align + 1U is a power of 2
-			size_t offset = ((align ^ (reinterpret_cast<size_t>(mem + sizeof(void*)) & align)) + 1U) & align;
-			ptr = (mem + sizeof(void*) + offset);
-			(reinterpret_cast<void**>(ptr))[-1] = mem;
-
-			return static_cast<T*>(ptr);
-		}
-		void deallocate(T* p, size_t n)
-		{
-			if (alignment == SEQ_DEFAULT_ALIGNMENT) {
-				rebind_alloc<T> al = get_allocator();
-				return al.deallocate(p, n);
-			}
-			if (p != nullptr) {
-				rebind_alloc<std::uint8_t> al = get_allocator();
-				al.deallocate(reinterpret_cast<std::uint8_t*>((reinterpret_cast<void**>(p))[-1]), n * sizeof(T) + alignment - 1ULL + sizeof(void*));
-			}
-		}
-		template<class... Args>
-		void construct(T* p, Args&&... args)
-		{
-			//((std::allocator<T>*)(this))->construct(p, std::forward<Args>(args)...);
-			construct_ptr(p, std::forward<Args>(args)...);
-		}
-		void destroy(T* p) { destroy_ptr(p); }
-	};
-
-	template<class T, size_t Align>
-	class aligned_allocator<T, std::allocator<T>, Align> : public std::allocator<T>
-	{
-		using Allocator = std::allocator<T>;
-		template<class U>
-		using rebind_alloc = typename std::allocator_traits<std::allocator<T>>::template rebind_alloc<U>;
-
-	public:
-		static_assert(Align == 0 || ((Align - 1) & Align) == 0, "wrong alignment value (must be a power of 2)");
-		static constexpr size_t alignment = (Align == 0 || Align < SEQ_DEFAULT_ALIGNMENT) ? SEQ_DEFAULT_ALIGNMENT : Align;
-
-		using value_type = T;
-		using pointer = T*;
-		using const_pointer = const T*;
-		using reference = T&;
-		using const_reference = const T&;
-		using size_type = size_t;
-		using difference_type = std::ptrdiff_t;
-		using propagate_on_container_swap = typename std::allocator_traits<Allocator>::propagate_on_container_swap;
-		using propagate_on_container_copy_assignment = typename std::allocator_traits<Allocator>::propagate_on_container_copy_assignment;
-		using propagate_on_container_move_assignment = typename std::allocator_traits<Allocator>::propagate_on_container_move_assignment;
-		template<class U>
-		struct rebind
-		{
-			using other = aligned_allocator<U, std::allocator<U>, Align>;
-		};
-
-		auto select_on_container_copy_construction() const noexcept -> aligned_allocator { return *this; }
-
-		aligned_allocator() {}
-		aligned_allocator(const Allocator& al)
-		  : std::allocator<T>(al)
-		{
-		}
-		aligned_allocator(const aligned_allocator& al)
-		  : std::allocator<T>(al)
-		{
-		}
-		aligned_allocator(aligned_allocator&& al) noexcept
-		  : std::allocator<T>(std::move(al))
-		{
-		}
-		template<class U, class V>
-		aligned_allocator(const aligned_allocator<U, std::allocator<V>, Align>& /*unused*/)
-		{
-		}
-
-		auto get_allocator() noexcept -> Allocator& { return *this; }
-		auto get_allocator() const noexcept -> Allocator { return *this; }
-
-		auto operator=(const aligned_allocator& /*unused*/) -> aligned_allocator& { return *this; }
-		auto operator==(const aligned_allocator& /*unused*/) const noexcept -> bool { return true; }
-		auto operator!=(const aligned_allocator& /*unused*/) const noexcept -> bool { return false; }
-		auto address(reference x) const noexcept -> pointer { return static_cast<std::allocator<T>*>(this)->address(x); }
-		auto address(const_reference x) const noexcept -> const_pointer { return static_cast<std::allocator<T>*>(this)->address(x); }
-		auto allocate(size_t n, const void* /*unused*/) -> T* { return allocate(n); }
-		auto allocate(size_t n) -> T* { return static_cast<T*>(aligned_malloc(n * sizeof(T), alignment)); }
-		void deallocate(T* p, size_t /*unused*/) { aligned_free(p); }
-		template<class... Args>
-		void construct(T* p, Args&&... args)
-		{
-			construct_ptr(p, std::forward<Args>(args)...);
-		}
-		void destroy(T* p) { destroy_ptr(static_cast<T*>(p)); }
-	};
-
 	/// @brief Convenient random access iterator on a constant value
 	template<class T>
 	class cvalue_iterator
@@ -348,7 +145,18 @@ namespace seq
 	template<class T>
 	SEQ_ALWAYS_INLINE void destroy_ptr(T* p) noexcept
 	{
-		p->~T();
+		if constexpr (!std::is_trivially_destructible_v<T>)
+			p->~T();
+	}
+
+	/// @brief Destroy count objects
+	template<class T>
+	void destroy_ptr(T* p, std::size_t count) noexcept
+	{
+		if constexpr (!std::is_trivially_destructible_v<T>) {
+			for (std::size_t i = 0; i < count; ++i)
+				p[i].~T();
+		}
 	}
 
 	/// @brief Simply call new (p) T(...), used as a replacement to std::allocator::construct() which was removed in C++20
@@ -357,8 +165,6 @@ namespace seq
 	{
 		new (p) T(std::forward<Args>(args)...);
 	}
-
-	
 
 	namespace detail
 	{
@@ -485,7 +291,7 @@ namespace seq
 			void construct(T* dst) const noexcept(std::is_nothrow_copy_constructible_v<T>) { construct_ptr(dst, val); }
 		};
 		template<class T>
-		struct ResizeHelper<T,false>
+		struct ResizeHelper<T, false>
 		{
 			template<class... U>
 			ResizeHelper(const U&... vals)
@@ -498,11 +304,11 @@ namespace seq
 		struct ResizeHelperDirect
 		{
 			const T& val;
-			void construct(T* dst) const noexcept(std::is_nothrow_default_constructible_v<T>) { construct_ptr(dst,val); }
+			void construct(T* dst) const noexcept(std::is_nothrow_default_constructible_v<T>) { construct_ptr(dst, val); }
 		};
 		// Returns a helper class used by
 		// containers providing both members
-		// resize(size_t size) and resize(size_t size, const T & value)
+		// resize(std::size_t size) and resize(std::size_t size, const T & value)
 		template<class T, class... U>
 		auto resize_helper(const U&... vals)
 		{
@@ -510,32 +316,162 @@ namespace seq
 			return ResizeHelper < T, sizeof...(U) == 1 > (std::forward<const U&>(vals)...);
 		}
 		template<class T>
-		auto resize_helper(const T & v)
+		auto resize_helper(const T& v)
 		{
 			return ResizeHelperDirect<T>{ v };
 		}
 
+		/// @brief Contiguous raw storage to store N element of type T
+		/// Use raw_slot() to construct elements, live_slot() to access already constructed elements.
+		template<class T, std::size_t N>
+		struct RawStorage
+		{
+			static_assert(N != 0);
+
+			RawStorage() noexcept = default;
+			RawStorage(const RawStorage&) = delete;
+			RawStorage(RawStorage&&) = delete;
+
+			// Storage for N elements of type T
+			alignas(T) std::byte storage[sizeof(T) * N];
+
+			SEQ_ALWAYS_INLINE T* raw_slot(std::size_t i) noexcept { return (T*)reinterpret_cast<T*>(storage + sizeof(T) * i); }
+			SEQ_ALWAYS_INLINE T* live_slot(std::size_t i) noexcept { return std::launder(raw_slot(i)); }
+
+			SEQ_ALWAYS_INLINE const T* raw_slot(std::size_t i) const noexcept { return reinterpret_cast<const T*>(storage + sizeof(T) * i); }
+			SEQ_ALWAYS_INLINE const T* live_slot(std::size_t i) const noexcept { return std::launder(raw_slot(i)); }
+		};
+
 		template<class Allocator, class T>
 		using RebindAllocator = typename std::allocator_traits<Allocator>::template rebind_alloc<T>;
-	}
 
+		enum ConstIteratorTag
+		{
+			ConstIterator,
+			NonConstIterator,
+			FromIterator
+		};
+
+		/// @brief Wrapper class for map bidirectional iterator.
+		/// @tparam Iter base iterator type
+		/// @tparam Value value type, usually std::pair<const Key, MappedType>
+		///
+		/// This wrapper use an ugly reinterpret_cast to return std::pair<const Key, MappedType> instead of std::pair<Key, MappedType>.
+		///
+		template<class Iter, class Value, ConstIteratorTag tag = FromIterator>
+		class MapBidirIterator
+		{
+			template<class OT, class V, ConstIteratorTag>
+			friend class MapBidirIterator;
+
+			Iter d_iter;
+
+		public:
+			static constexpr bool IsConst = tag == FromIterator ? std::is_const_v<std::remove_reference_t<typename Iter::reference>> : (tag == ConstIterator);
+
+			using value_type = Value;
+			using iterator_category = std::bidirectional_iterator_tag;
+			using size_type = typename Iter::size_type;
+			using difference_type = typename Iter::difference_type;
+			using pointer = std::conditional_t<IsConst, const Value*, Value*>;
+			using reference = std::conditional_t<IsConst, const Value&, Value&>;
+			using const_pointer = const Value*;
+			using const_reference = const Value&;
+
+			const Iter& iter() const noexcept { return d_iter; }
+
+			MapBidirIterator() noexcept(std::is_default_constructible_v<Iter>) = default;
+			MapBidirIterator(Iter&& it) noexcept(std::is_nothrow_move_constructible_v<Iter>)
+			  : d_iter(std::move(it))
+			{
+			}
+			MapBidirIterator(const Iter& it) noexcept(std::is_nothrow_copy_constructible_v<Iter>)
+			  : d_iter(it)
+			{
+			}
+			template<class OT, ConstIteratorTag T, std::enable_if_t<IsConst && !MapBidirIterator<OT, Value, T>::IsConst && std::is_constructible_v<Iter, OT>, int> = 0>
+			MapBidirIterator(const MapBidirIterator<OT, Value, T>& other) noexcept(std::is_nothrow_copy_constructible_v<Iter>)
+			  : d_iter(other.d_iter)
+			{
+				// Can convert from non-const to const, but not the opposite
+				static_assert(!MapBidirIterator<OT, Value, T>::IsConst);
+			}
+			template<class OT, ConstIteratorTag T, std::enable_if_t<IsConst && !MapBidirIterator<OT, Value, T>::IsConst && std::is_constructible_v<Iter, OT>, int> = 0>
+			MapBidirIterator(MapBidirIterator<OT, Value, T>&& other) noexcept(std::is_nothrow_move_constructible_v<Iter>)
+			  : d_iter(std::move(other.d_iter))
+			{
+				// Can convert from non-const to const, but not the opposite
+				static_assert(!MapBidirIterator<OT, Value, T>::IsConst);
+			}
+			MapBidirIterator(const MapBidirIterator&) noexcept(std::is_nothrow_copy_constructible_v<Iter>) = default;
+			MapBidirIterator& operator=(const MapBidirIterator&) noexcept(std::is_nothrow_copy_assignable_v<Iter>) = default;
+
+			MapBidirIterator(MapBidirIterator&&) noexcept(std::is_nothrow_move_constructible_v<Iter>) = default;
+			MapBidirIterator& operator=( MapBidirIterator&&) noexcept(std::is_nothrow_move_assignable_v<Iter>) = default;
+
+			MapBidirIterator& operator++() noexcept(noexcept(++std::declval<Iter&>()))
+			{
+				++d_iter;
+				return *this;
+			}
+			MapBidirIterator operator++(int) noexcept(noexcept(++std::declval<Iter&>()))
+			{
+				MapBidirIterator tmp(*this);
+				++*this;
+				return tmp;
+			}
+			MapBidirIterator& operator--() noexcept(noexcept(--std::declval<Iter&>()))
+			{
+				--d_iter;
+				return *this;
+			}
+			MapBidirIterator operator--(int) noexcept(noexcept(--std::declval<Iter&>()))
+			{
+				MapBidirIterator tmp(*this);
+				--*this;
+				return tmp;
+			}
+
+			reference operator*() const noexcept(noexcept(*std::declval<Iter&>())) { return reinterpret_cast<reference>(*d_iter); }
+			pointer operator->() const noexcept(noexcept(std::declval<Iter&>().operator->())) { return reinterpret_cast<pointer>(d_iter.operator->()); }
+
+			template<class OT, ConstIteratorTag T>
+			bool operator==(const MapBidirIterator<OT, Value, T>& r) const noexcept(noexcept(std::declval<Iter&>() == std::declval<Iter&>()))
+			{
+				return d_iter == r.d_iter;
+			}
+			template<class OT, ConstIteratorTag T>
+			bool operator!=(const MapBidirIterator<OT, Value, T>& r) const noexcept(noexcept(std::declval<Iter&>() != std::declval<Iter&>()))
+			{
+				return d_iter != r.d_iter;
+			}
+		};
+
+	}
 
 	/// @brief Allocate count elements of type T using provided allocator
 	template<class T, class Alloc>
-	T* allocate_from(const Alloc& al, size_t count = 1)
+	T* allocate_from(const Alloc& al, std::size_t count = 1)
 	{
 		detail::RebindAllocator<Alloc, T> alloc{ al };
 		return alloc.allocate(count);
 	}
 	/// @brief Deallocate count elements using provided allocator
 	template<class Alloc, class T>
-	void deallocate_from(const Alloc& al, T* p, size_t count = 1) noexcept
+	void deallocate_from(const Alloc& al, T* p, std::size_t count = 1) noexcept
 	{
 		detail::RebindAllocator<Alloc, T> alloc{ al };
 		alloc.deallocate(p, count);
 	}
 
-
+	/// @brief Returns rebind allocator max size
+	template<class T, class Alloc>
+	std::size_t allocator_max_size(const Alloc& al) noexcept
+	{
+		using rebind = detail::RebindAllocator<Alloc, T>;
+		using traits = std::allocator_traits<rebind>;
+		return traits::max_size(rebind{ al });
+	}
 
 	/// @brief Copy allocator for container copy constructor
 	template<class Allocator>
@@ -549,7 +485,7 @@ namespace seq
 	void swap_allocator(Allocator& left,
 			    Allocator& right) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_swap::value || std::allocator_traits<Allocator>::is_always_equal::value)
 	{
-		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_swap::value) {
+		if constexpr (std::allocator_traits<Allocator>::propagate_on_container_swap::value) {
 			std::swap(left, right);
 		}
 		else {
@@ -562,7 +498,7 @@ namespace seq
 	void assign_allocator(Allocator& left,
 			      const Allocator& right) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value || std::is_nothrow_copy_assignable_v<Allocator>)
 	{
-		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value) {
+		if constexpr (std::allocator_traits<Allocator>::propagate_on_container_copy_assignment::value) {
 			left = right;
 		}
 	}
@@ -573,7 +509,7 @@ namespace seq
 			    Allocator& right) noexcept(!std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value || std::is_nothrow_move_assignable_v<Allocator>)
 	{
 		// (maybe) propagate on container move assignment
-		if SEQ_CONSTEXPR (std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value) {
+		if constexpr (std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value) {
 			left = std::move(right);
 		}
 	}
@@ -591,9 +527,6 @@ namespace seq
 	{
 		static constexpr bool value = std::allocator_traits<Allocator>::propagate_on_container_move_assignment::type && !is_always_equal<Allocator>::value;
 	};
-
-
-
 
 } // end namespace seq
 

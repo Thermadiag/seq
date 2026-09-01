@@ -44,11 +44,11 @@ void test_devector_logic(const Alloc& al = Alloc())
 	devector<T, Alloc> dv(al);
 
 	// test push_back
-	for (size_t i = 0; i < 200; ++i)
+	for (std::size_t i = 0; i < 200; ++i)
 		v.push_back(static_cast<T>(i));
-	for (size_t i = 0; i < 100; ++i)
+	for (std::size_t i = 0; i < 100; ++i)
 		dv.push_back(static_cast<T>(i));
-	for (size_t i = 100; i < 200; ++i)
+	for (std::size_t i = 100; i < 200; ++i)
 		dv.emplace_back(static_cast<T>(i));
 
 	SEQ_TEST(vector_equals(v, dv));
@@ -58,11 +58,11 @@ void test_devector_logic(const Alloc& al = Alloc())
 	dv.clear();
 	v.reserve(200);
 	dv.reserve(200);
-	for (size_t i = 0; i < 200; ++i)
+	for (std::size_t i = 0; i < 200; ++i)
 		v.push_back(static_cast<T>(i));
-	for (size_t i = 0; i < 100; ++i)
+	for (std::size_t i = 0; i < 100; ++i)
 		dv.push_back(static_cast<T>(i));
-	for (size_t i = 100; i < 200; ++i)
+	for (std::size_t i = 100; i < 200; ++i)
 		dv.emplace_back(static_cast<T>(i));
 
 	SEQ_TEST(vector_equals(v, dv));
@@ -96,11 +96,11 @@ void test_devector_logic(const Alloc& al = Alloc())
 	SEQ_TEST(vector_equals(v, dv));
 
 	// test push front
-	for (size_t i = 0; i < 200; ++i)
+	for (std::size_t i = 0; i < 200; ++i)
 		v.insert(v.begin(), static_cast<T>(i));
-	for (size_t i = 0; i < 100; ++i)
+	for (std::size_t i = 0; i < 100; ++i)
 		dv.push_front(static_cast<T>(i));
-	for (size_t i = 100; i < 200; ++i)
+	for (std::size_t i = 100; i < 200; ++i)
 		dv.emplace_front(static_cast<T>(i));
 
 	SEQ_TEST(vector_equals(v, dv));
@@ -110,11 +110,11 @@ void test_devector_logic(const Alloc& al = Alloc())
 	dv.clear();
 	v.reserve(200);
 	dv.reserve(200);
-	for (size_t i = 0; i < 200; ++i)
+	for (std::size_t i = 0; i < 200; ++i)
 		v.insert(v.begin(), static_cast<T>(i));
-	for (size_t i = 0; i < 100; ++i)
+	for (std::size_t i = 0; i < 100; ++i)
 		dv.push_front(static_cast<T>(i));
-	for (size_t i = 100; i < 200; ++i)
+	for (std::size_t i = 100; i < 200; ++i)
 		dv.emplace_front(static_cast<T>(i));
 
 	SEQ_TEST(vector_equals(v, dv));
@@ -124,11 +124,11 @@ void test_devector_logic(const Alloc& al = Alloc())
 	dv.clear();
 	v.reserve(200);
 	dv.reserve_back(200);
-	for (size_t i = 0; i < 200; ++i)
+	for (std::size_t i = 0; i < 200; ++i)
 		v.insert(v.begin(), static_cast<T>(i));
-	for (size_t i = 0; i < 100; ++i)
+	for (std::size_t i = 0; i < 100; ++i)
 		dv.push_front(static_cast<T>(i));
-	for (size_t i = 100; i < 200; ++i)
+	for (std::size_t i = 100; i < 200; ++i)
 		dv.emplace_front(static_cast<T>(i));
 
 	SEQ_TEST(vector_equals(v, dv));
@@ -138,11 +138,11 @@ void test_devector_logic(const Alloc& al = Alloc())
 	dv.clear();
 	v.reserve(200);
 	dv.reserve_front(200);
-	for (size_t i = 0; i < 200; ++i)
+	for (std::size_t i = 0; i < 200; ++i)
 		v.insert(v.begin(), static_cast<T>(i));
-	for (size_t i = 0; i < 100; ++i)
+	for (std::size_t i = 0; i < 100; ++i)
 		dv.push_front(static_cast<T>(i));
-	for (size_t i = 100; i < 200; ++i)
+	for (std::size_t i = 100; i < 200; ++i)
 		dv.emplace_front(static_cast<T>(i));
 
 	SEQ_TEST(vector_equals(v, dv));
@@ -167,9 +167,9 @@ void test_devector_logic(const Alloc& al = Alloc())
 	SEQ_TEST(vector_equals(v1, v2));
 
 	// test operator[]
-	for (size_t i = 0; i < v.size(); ++i)
+	for (std::size_t i = 0; i < v.size(); ++i)
 		v[i] = static_cast<T>(i);
-	for (size_t i = 0; i < dv.size(); ++i)
+	for (std::size_t i = 0; i < dv.size(); ++i)
 		dv[i] = static_cast<T>(i);
 	SEQ_TEST(vector_equals(v, dv));
 
@@ -280,19 +280,19 @@ SEQ_PROTOTYPE(int test_devector(int, char*[]))
 {
 
 	// Test devector and potential memory leak or wrong allocator propagation
-	CountAlloc<size_t> al;
-	SEQ_TEST_MODULE_RETURN(devector, 1, test_devector_logic<size_t, CountAlloc<size_t>>(al));
+	CountAlloc<std::size_t> al;
+	SEQ_TEST_MODULE_RETURN(devector, 1, test_devector_logic<std::size_t, CountAlloc<std::size_t>>(al));
 	SEQ_TEST(get_alloc_bytes(al) == 0);
 
 	// Test devector and potential memory leak on object destruction
-	SEQ_TEST_MODULE_RETURN(devector_destroy, 1, test_devector_logic<TestDestroy<size_t>>());
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(devector_destroy, 1, test_devector_logic<TestDestroy<std::size_t>>());
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 
 	// Test devector and potential memory leak or wrong allocator propagation with non relocatable type
-	CountAlloc<TestDestroy<size_t, false>> al2;
-	SEQ_TEST_MODULE_RETURN(devector_destroy_no_relocatable, 1, test_devector_logic<TestDestroy<size_t, false>>(al2));
+	CountAlloc<TestDestroy<std::size_t, false>> al2;
+	SEQ_TEST_MODULE_RETURN(devector_destroy_no_relocatable, 1, test_devector_logic<TestDestroy<std::size_t, false>>(al2));
 	SEQ_TEST(get_alloc_bytes(al2) == 0);
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 
 	return 0;
 }

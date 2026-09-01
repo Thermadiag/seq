@@ -36,7 +36,7 @@ namespace seq
 		/// @param _ptr input buffer
 		/// @param len input buffer size
 		/// @return computed hash value
-		SEQ_ALWAYS_INLINE auto hash_bytes_murmur64_impl(const void* _ptr, size_t len) noexcept -> size_t
+		SEQ_ALWAYS_INLINE auto hash_bytes_murmur64_impl(const void* _ptr, std::size_t len) noexcept -> std::size_t
 		{
 			static constexpr std::uint64_t m = 14313749767032793493ULL;
 			static constexpr std::uint64_t seed = 3782874213ULL;
@@ -44,8 +44,7 @@ namespace seq
 
 			const unsigned char* ptr = static_cast<const unsigned char*>(_ptr);
 			std::uint64_t h = seed ^ (len * m);
-			const std::uint8_t* end = ptr + len - (sizeof(std::uint64_t) - 1);
-			while (ptr < end) {
+			while (len >= sizeof(std::uint64_t)) {
 				auto k = read_64(ptr);
 
 				k *= m;
@@ -56,6 +55,7 @@ namespace seq
 				h *= m;
 
 				ptr += sizeof(std::uint64_t);
+				len -= sizeof(std::uint64_t);
 			}
 
 			switch (len & 7U) {
@@ -88,23 +88,23 @@ namespace seq
 			h ^= h >> r;
 			h *= m;
 			h ^= h >> r;
-			return static_cast<size_t>(h);
+			return static_cast<std::size_t>(h);
 		}
 
 		/// @brief Compute a hash value for input data using the fnv1a algorithm.
 		/// @param _ptr input buffer
 		/// @param size input buffer size
 		/// @return computed hash value
-		SEQ_ALWAYS_INLINE auto hash_bytes_fnv1a_impl(const void* _ptr, size_t size) noexcept -> size_t
+		SEQ_ALWAYS_INLINE auto hash_bytes_fnv1a_impl(const void* _ptr, std::size_t size) noexcept -> std::size_t
 		{
-			static constexpr size_t FNV_offset_basis = sizeof(size_t) == 8 ? 14695981039346656037ULL : 2166136261U;
-			static constexpr size_t FNV_prime = sizeof(size_t) == 8 ? 1099511628211ULL : 16777619U;
+			static constexpr std::size_t FNV_offset_basis = sizeof(std::size_t) == 8 ? 14695981039346656037ULL : 2166136261U;
+			static constexpr std::size_t FNV_prime = sizeof(std::size_t) == 8 ? 1099511628211ULL : 16777619U;
 
 			const unsigned char* ptr = static_cast<const unsigned char*>(_ptr);
-			size_t h = FNV_offset_basis;
+			std::size_t h = FNV_offset_basis;
 
-			for (size_t i = 0; i < size; ++i) {
-				auto k = static_cast<size_t>(ptr[i]);
+			for (std::size_t i = 0; i < size; ++i) {
+				auto k = static_cast<std::size_t>(ptr[i]);
 				h ^= k;
 				h *= FNV_prime;
 			}
@@ -122,19 +122,19 @@ namespace seq
 		 * @return Final byte-padded value from the message.
 		 */
 
-#define SEQ_HU64(v) static_cast<uint64_t>(v)
+#define SEQ_HU64(v) static_cast<std::uint64_t>(v)
 
-		static SEQ_ALWAYS_INLINE uint64_t kh_lpu64ec_l3(const uint8_t* const Msg, const size_t MsgLen)
+		static SEQ_ALWAYS_INLINE std::uint64_t kh_lpu64ec_l3(const std::uint8_t* const Msg, const std::size_t MsgLen)
 		{
 			const int ml8 = static_cast<int>(MsgLen * 8);
 			if (MsgLen < 4) {
-				const uint8_t* const Msg3 = Msg + MsgLen - 3;
-				const uint64_t m = SEQ_HU64(Msg3[0]) | SEQ_HU64(Msg3[1]) << 8 | SEQ_HU64(Msg3[2]) << 16;
+				const std::uint8_t* const Msg3 = Msg + MsgLen - 3;
+				const std::uint64_t m = SEQ_HU64(Msg3[0]) | SEQ_HU64(Msg3[1]) << 8 | SEQ_HU64(Msg3[2]) << 16;
 				return (SEQ_HU64(1) << ml8 | m >> (24 - ml8));
 			}
 
-			const uint64_t mh = read_LE_32(Msg + MsgLen - 4);
-			const uint64_t ml = read_LE_32(Msg);
+			const std::uint64_t mh = read_LE_32(Msg + MsgLen - 4);
+			const std::uint64_t ml = read_LE_32(Msg);
 			return (SEQ_HU64(1) << ml8 | ml | (mh >> (64 - ml8)) << 32);
 		}
 
@@ -149,11 +149,11 @@ namespace seq
 		 * @return Final byte-padded value from the message.
 		 */
 
-		static SEQ_ALWAYS_INLINE uint64_t kh_lpu64ec_nz(const uint8_t* const Msg, const size_t MsgLen)
+		static SEQ_ALWAYS_INLINE std::uint64_t kh_lpu64ec_nz(const std::uint8_t* const Msg, const std::size_t MsgLen)
 		{
 			const int ml8 = static_cast<int>(MsgLen * 8);
 			if (MsgLen < 4) {
-				uint64_t m = Msg[0];
+				std::uint64_t m = Msg[0];
 				if (MsgLen > 1) {
 					m |= SEQ_HU64(Msg[1]) << 8;
 					if (MsgLen > 2)
@@ -162,8 +162,8 @@ namespace seq
 				return (SEQ_HU64(1) << ml8 | m);
 			}
 
-			const uint64_t mh = read_LE_32(Msg + MsgLen - 4);
-			const uint64_t ml = read_LE_32(Msg);
+			const std::uint64_t mh = read_LE_32(Msg + MsgLen - 4);
+			const std::uint64_t ml = read_LE_32(Msg);
 			return (SEQ_HU64(1) << ml8 | ml | (mh >> (64 - ml8)) << 32);
 		}
 
@@ -178,14 +178,14 @@ namespace seq
 		 * @return Final byte-padded value from the message.
 		 */
 
-		static SEQ_ALWAYS_INLINE uint64_t kh_lpu64ec_l4(const uint8_t* const Msg, const size_t MsgLen)
+		static SEQ_ALWAYS_INLINE std::uint64_t kh_lpu64ec_l4(const std::uint8_t* const Msg, const std::size_t MsgLen)
 		{
 			const int ml8 = static_cast<int>(MsgLen * 8);
 			if (MsgLen < 5) {
-				const uint64_t m = read_LE_32(Msg + MsgLen - 4);
+				const std::uint64_t m = read_LE_32(Msg + MsgLen - 4);
 				return (SEQ_HU64(1) << ml8 | m >> (32 - ml8));
 			}
-			const uint64_t m = read_LE_64(Msg + MsgLen - 8);
+			const std::uint64_t m = read_LE_64(Msg + MsgLen - 8);
 			return (SEQ_HU64(1) << ml8 | m >> (64 - ml8));
 		}
 
@@ -204,7 +204,7 @@ namespace seq
 	Seed5 += r1h;                                                                                                                                                                                  \
 	Seed1 ^= Seed5;                                                                                                                                                                                \
 	KOMIHASH_HASHROUND();                                                                                                                                                                          \
-	return static_cast<size_t>(Seed1)
+	return static_cast<std::size_t>(Seed1)
 
 		/**
 		 * The hashing epilogue function (for internal use).
@@ -216,9 +216,9 @@ namespace seq
 		 * @return 64-bit hash value.
 		 */
 
-		static SEQ_ALWAYS_INLINE uint64_t komihash_epi(const uint8_t* Msg, size_t MsgLen, uint64_t Seed1, uint64_t Seed5)
+		static SEQ_ALWAYS_INLINE std::uint64_t komihash_epi(const std::uint8_t* Msg, std::size_t MsgLen, std::uint64_t Seed1, std::uint64_t Seed5)
 		{
-			uint64_t r1h, r2h;
+			std::uint64_t r1h, r2h;
 
 			if SEQ_LIKELY (MsgLen > 31) {
 				KOMIHASH_HASH16(Msg);
@@ -242,16 +242,16 @@ namespace seq
 			KOMIHASH_HASHFIN();
 		}
 
-		static SEQ_ALWAYS_INLINE uint64_t komihash_long(const uint8_t* Msg, size_t MsgLen, uint64_t Seed1, uint64_t Seed5)
+		static SEQ_ALWAYS_INLINE std::uint64_t komihash_long(const std::uint8_t* Msg, std::size_t MsgLen, std::uint64_t Seed1, std::uint64_t Seed5)
 		{
 			if (MsgLen > 63) {
-				uint64_t Seed2 = 1354286222620113816ull;
-				uint64_t Seed3 = 11951381506893904140ull;
-				uint64_t Seed4 = 719472657908900949ull;
-				uint64_t Seed6 = 17340704221724641189ull;
-				uint64_t Seed7 = 10258850193283144468ull;
-				uint64_t Seed8 = 8175790239553258206ull;
-				uint64_t r1h, r2h, r3h, r4h;
+				std::uint64_t Seed2 = 1354286222620113816ull;
+				std::uint64_t Seed3 = 11951381506893904140ull;
+				std::uint64_t Seed4 = 719472657908900949ull;
+				std::uint64_t Seed6 = 17340704221724641189ull;
+				std::uint64_t Seed7 = 10258850193283144468ull;
+				std::uint64_t Seed8 = 8175790239553258206ull;
+				std::uint64_t r1h, r2h, r3h, r4h;
 
 				do {
 					SEQ_PREFETCH(Msg);
@@ -275,19 +275,19 @@ namespace seq
 				Seed5 ^= Seed6 ^ Seed7 ^ Seed8;
 				Seed1 ^= Seed2 ^ Seed3 ^ Seed4;
 			}
-			return static_cast<size_t>(komihash_epi(Msg, MsgLen, Seed1, Seed5));
+			return static_cast<std::size_t>(komihash_epi(Msg, MsgLen, Seed1, Seed5));
 		}
 
 		/**
 		 Strip down version of KOMIHASH hash function.
 		 See https://github.com/avaneev/komihash/tree/main for more details.
 		 */
-		SEQ_ALWAYS_INLINE size_t hash_bytes_komihash_impl(const void* Msg0, size_t MsgLen) noexcept
+		SEQ_ALWAYS_INLINE std::size_t hash_bytes_komihash_impl(const void* Msg0, std::size_t MsgLen) noexcept
 		{
-			const uint8_t* Msg = reinterpret_cast<const uint8_t*>(Msg0);
-			uint64_t Seed1 = 131429069690128604ull;
-			uint64_t Seed5 = 5688864720084962249ull;
-			uint64_t r1h, r2h;
+			const std::uint8_t* Msg = reinterpret_cast<const std::uint8_t*>(Msg0);
+			std::uint64_t Seed1 = 131429069690128604ull;
+			std::uint64_t Seed5 = 5688864720084962249ull;
+			std::uint64_t r1h, r2h;
 
 			SEQ_PREFETCH(Msg);
 
@@ -317,7 +317,7 @@ namespace seq
 				KOMIHASH_HASHFIN();
 			}
 
-			return static_cast<size_t>(detail::komihash_long(Msg, MsgLen, Seed1, Seed5));
+			return static_cast<std::size_t>(detail::komihash_long(Msg, MsgLen, Seed1, Seed5));
 		}
 
 	}

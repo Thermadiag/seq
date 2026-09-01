@@ -32,7 +32,7 @@ struct is_boost_set<boost::container::flat_set<K>> : std::true_type
 };
 #endif
 
-using measure_type = std::vector<std::pair<size_t, size_t>>;
+using measure_type = std::vector<std::pair<std::size_t, std::size_t>>;
 
 #define STEP 65536
 
@@ -42,11 +42,11 @@ measure_type bench_insert(Set& s, const std::vector<T>& vec)
 	
 	timer t;
 
-	std::vector<std::pair<size_t, size_t>> elapsed;
+	std::vector<std::pair<std::size_t, std::size_t>> elapsed;
 	elapsed.reserve(vec.size() / STEP + 2);
 
 	if (is_boost_set<Set>::value) {
-		for (size_t i = 0; i < vec.size(); ++i) {
+		for (std::size_t i = 0; i < vec.size(); ++i) {
 			if (((i & (STEP-1)) == 0 && i)|| i == 1000)  {
 				elapsed.push_back({ i, 0 });
 			}
@@ -56,11 +56,11 @@ measure_type bench_insert(Set& s, const std::vector<T>& vec)
 
 	t.tick();
 
-	for (size_t i = 0; i < vec.size(); ++i) {
+	for (std::size_t i = 0; i < vec.size(); ++i) {
 		s.insert(vec[i]);
 		if (((i & (STEP-1)) == 0 && i)|| i == 1000)  {
 			auto el = t.tock();
-			elapsed.push_back({ i, el / (size_t)(i == 1000 ? 1000 : STEP) });
+			elapsed.push_back({ i, el / (std::size_t)(i == 1000 ? 1000 : STEP) });
 			t.tick();
 		}
 	}
@@ -72,11 +72,11 @@ measure_type bench_erase(Set& s, const std::vector<T>& vec)
 {
 	timer t;
 
-	std::vector<std::pair<size_t, size_t>> elapsed;
+	std::vector<std::pair<std::size_t, std::size_t>> elapsed;
 	elapsed.reserve(vec.size() / STEP + 2);
 
 	if (is_boost_set<Set>::value) {
-		for (size_t i = 0; i < vec.size(); ++i) {
+		for (std::size_t i = 0; i < vec.size(); ++i) {
 			if (((i & (STEP-1)) == 0 && i)|| i == 1000)  {
 				elapsed.push_back({ i, 0 });
 			}
@@ -84,8 +84,8 @@ measure_type bench_erase(Set& s, const std::vector<T>& vec)
 		return elapsed;
 	}
 
-	std::vector<size_t> idx(vec.size());
-	for (size_t i = 0; i < vec.size(); ++i) {
+	std::vector<std::size_t> idx(vec.size());
+	for (std::size_t i = 0; i < vec.size(); ++i) {
 		s.insert(vec[i]);
 		idx.push_back(i);
 	}
@@ -93,11 +93,11 @@ measure_type bench_erase(Set& s, const std::vector<T>& vec)
 
 	t.tick();
 
-	for (size_t i = 0; i < vec.size(); ++i) {
+	for (std::size_t i = 0; i < vec.size(); ++i) {
 		s.erase(vec[idx[i]]);
 		if (((i & (STEP-1)) == 0 && i)|| i == 1000)  {
 			auto el = t.tock();
-			elapsed.push_back({ vec.size() - i, el / (size_t)(i == 1000 ? 1000 : STEP) });
+			elapsed.push_back({ vec.size() - i, el / (std::size_t)(i == 1000 ? 1000 : STEP) });
 			t.tick();
 		}
 	}
@@ -108,12 +108,12 @@ measure_type bench_erase(Set& s, const std::vector<T>& vec)
 template<class Set, class T>
 measure_type bench_find_success(Set& s, const std::vector<T>& vec)
 {
-	std::vector<std::pair<size_t, size_t>> elapsed;
+	std::vector<std::pair<std::size_t, std::size_t>> elapsed;
 	elapsed.reserve(vec.size() / STEP + 2);
-	std::vector<size_t> idx;
+	std::vector<std::size_t> idx;
 	idx.reserve(vec.size());
 
-	for (size_t i = 0; i < vec.size(); ++i) {
+	for (std::size_t i = 0; i < vec.size(); ++i) {
 		s.insert(vec[i]);
 		idx.push_back(i);
 		if (((i & (STEP-1)) == 0 && i)|| i == 1000)  {
@@ -137,10 +137,10 @@ measure_type bench_find_success(Set& s, const std::vector<T>& vec)
 template<class Set, class T>
 measure_type bench_find_failed(Set& s, const std::vector<T>& vec, const std::vector<T>& failed)
 {
-	std::vector<std::pair<size_t, size_t>> elapsed;
+	std::vector<std::pair<std::size_t, std::size_t>> elapsed;
 	elapsed.reserve(vec.size() / STEP + 2);
 
-	for (size_t i = 0; i < vec.size(); ++i) {
+	for (std::size_t i = 0; i < vec.size(); ++i) {
 		s.insert(vec[i]);
 		if (((i & (STEP-1)) == 0 && i)|| i == 1000)  {
 
@@ -161,7 +161,7 @@ measure_type bench_find_failed(Set& s, const std::vector<T>& vec, const std::vec
 
 static void print_measure(const measure_type& m)
 {
-	for (size_t i = 0; i < m.size(); ++i)
+	for (std::size_t i = 0; i < m.size(); ++i)
 		std::cout << m[i].first << " " << m[i].second << std::endl;
 }
 
@@ -182,24 +182,24 @@ bool to_csv(const std::vector < SetResults>& res, const char* filename)
 	fout << "\"sep=\t\"" << std::endl;
 	
     fout << "\t";
-	for (size_t i = 0; i < res.size(); ++i) {
+	for (std::size_t i = 0; i < res.size(); ++i) {
 		auto n = res[i].name;
 		fout << n + "\t\t\t\t";
 	}
 	fout << std::endl;
 
 	fout << "count\t";
-	for (size_t i = 0; i < res.size(); ++i) {
+	for (std::size_t i = 0; i < res.size(); ++i) {
 		auto n = res[i].name;
 		fout << "insert\t" <<"erase\t" <<"find\t" << "fail\t" ;
 	}
 	fout << std::endl;
 
-	size_t rows = res[0].insert.size();
-	for (size_t j = 0; j < rows; ++j) {
+	std::size_t rows = res[0].insert.size();
+	for (std::size_t j = 0; j < rows; ++j) {
 	
 		fout << res[0].insert[j].first << "\t";
-		for (size_t i = 0; i < res.size(); ++i) {
+		for (std::size_t i = 0; i < res.size(); ++i) {
 			auto & r = res[i];
 			fout << r.insert[j].second << "\t" << r.erase[j].second << "\t" << r.find_success[j].second << "\t" << r.find_fail[j].second << "\t" ;
 		}
@@ -240,31 +240,31 @@ int bench_map_csv(int, char** const)
 {
 
 	/* {
-		std::vector<size_t> keys(1024*1024 + 5000);
-		for (size_t i = 0; i < keys.size(); ++i)
+		std::vector<std::size_t> keys(1024*1024 + 5000);
+		for (std::size_t i = 0; i < keys.size(); ++i)
 			keys[i] = i;
 
 		std::shuffle(keys.begin(), keys.end(), std::random_device{});
-		std::vector<size_t> failed(keys.begin() + keys.size() - 5000, keys.end());
+		std::vector<std::size_t> failed(keys.begin() + keys.size() - 5000, keys.end());
 		keys.erase(keys.begin() + keys.size() - failed.size(), keys.end());
 
 		std::vector<SetResults> res;
 
 //#ifdef BOOST_FOUND
-//		res.push_back(bench_set<boost::container::flat_set<size_t>>("boost.flat_set", keys, failed));
+//		res.push_back(bench_set<boost::container::flat_set<std::size_t>>("boost.flat_set", keys, failed));
 //#endif
-		res.push_back( bench_set<flat_set<size_t>>("flat_set", keys, failed));
-		res.push_back(  bench_set<radix_set<size_t>>("radix_set", keys, failed));
+		res.push_back( bench_set<flat_set<std::size_t>>("flat_set", keys, failed));
+		res.push_back(  bench_set<radix_set<std::size_t>>("radix_set", keys, failed));
 
-		res.push_back(  bench_set<gtl::btree_set<size_t>>("gtl::btree_set", keys, failed));
-		res.push_back(  bench_set<std::set<size_t>>("std::set" ,keys, failed));
+		res.push_back(  bench_set<gtl::btree_set<std::size_t>>("gtl::btree_set", keys, failed));
+		res.push_back(  bench_set<std::set<std::size_t>>("std::set" ,keys, failed));
 
 		to_csv(res, "bench_map_size_t.csv");
 	}*/
 
 	{
 		std::vector<tstring> keys(1024 * 1024 * 4 + 5000);
-		for (size_t i = 0; i < keys.size(); ++i)
+		for (std::size_t i = 0; i < keys.size(); ++i)
 			keys[i] = generate_random_string<tstring>(63,true);
 		auto it = seq::unique(keys.begin(), keys.end());
 		keys.resize(it - keys.begin());
@@ -276,7 +276,7 @@ int bench_map_csv(int, char** const)
 		std::vector<SetResults> res;
 
 		// #ifdef BOOST_FOUND
-		//		res.push_back(bench_set<boost::container::flat_set<size_t>>("boost.flat_set", keys, failed));
+		//		res.push_back(bench_set<boost::container::flat_set<std::size_t>>("boost.flat_set", keys, failed));
 		// #endif
 		res.push_back(bench_set<flat_set<tstring>>("flat_set", keys, failed));
 		res.push_back(bench_set<radix_set<tstring>>("radix_set", keys, failed));

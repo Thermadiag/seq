@@ -32,47 +32,92 @@
 #include "boost/container/flat_map.hpp"
 #endif
 
+#include "art/radix_map.h"
+#include "art/radix_set.h"
+
 #include <iostream>
 #include <map>
 #include <algorithm>
 #include <random>
+#include <fstream>
 
 #include "testing.hpp"
 
 using namespace seq;
 
-template<class T>
-inline size_t convert_to_size_t(const T& v)
+// For art::radix_map
+namespace art
 {
-	return static_cast<size_t>(v);
+	// fixed size ascii string transform
+	template<std::size_t MAX_SIZE>
+	struct key_transform<seq::tstring, MAX_SIZE>
+	{
+		std::array<char, MAX_SIZE> operator()(const seq::tstring& key) const noexcept
+		{
+			// make sure to initialize the whole array, otherwise the suffix of
+			// identical keys could be different
+			std::array<char, MAX_SIZE> transformed{};
+			std::memcpy(&transformed, key.c_str(), key.size() + 1);
+
+			return transformed;
+		}
+	};
+
+	template<>
+	struct key_transform<double>
+	{
+		std::uint64_t operator()(double __val) const noexcept { return seq::byte_swap_64( seq::radix_detail::to_uint(__val)); }
+	};
+
+	template<>
+	struct key_transform<std::tuple<unsigned,unsigned>>
+	{
+		std::uint64_t operator()(std::tuple<unsigned, unsigned> __val) const noexcept
+		{
+			std::uint64_t r = (std::uint64_t)std::get<0>(__val) << 32ull | std::get<1>(__val);
+			return seq::byte_swap_64(r);
+		}
+	};
 }
 
 template<class T>
-inline size_t convert_to_size_t(const std::tuple<T, T>& v)
+struct is_art : std::false_type{};
+
+template<class K, class V>
+struct is_art<art::radix_map<K,V>>: std::true_type{}; 
+
+template<class T>
+inline std::size_t convert_to_size_t(const T& v)
 {
-	return static_cast<size_t>(std::get<0>(v) + std::get<1>(v));
+	return static_cast<std::size_t>(v);
 }
 
-template<class Char, class Traits, size_t S, class Al>
-inline size_t convert_to_size_t(const tiny_string<Char, Traits, Al, S>& v)
+template<class T>
+inline std::size_t convert_to_size_t(const std::tuple<T, T>& v)
 {
-	return static_cast<size_t>(v.size());
+	return static_cast<std::size_t>(std::get<0>(v) + std::get<1>(v));
 }
-inline size_t convert_to_size_t(const std::string& v)
+
+template<class Char, std::size_t S, class Al>
+inline std::size_t convert_to_size_t(const tiny_string<Char, Al, S>& v)
 {
-	return static_cast<size_t>(v.size());
+	return static_cast<std::size_t>(v.size());
 }
-inline size_t convert_to_size_t(const std::wstring& v)
+inline std::size_t convert_to_size_t(const std::string& v)
 {
-	return static_cast<size_t>(v.size());
+	return static_cast<std::size_t>(v.size());
 }
-template<class Interface, size_t S, size_t A, bool R>
-inline size_t convert_to_size_t(const seq::hold_any<Interface, S, A, R>& t)
+inline std::size_t convert_to_size_t(const std::wstring& v)
 {
-	return reinterpret_cast<size_t>(t.data());
+	return static_cast<std::size_t>(v.size());
+}
+template<class Interface, std::size_t S, std::size_t A, bool R>
+inline std::size_t convert_to_size_t(const seq::hold_any<Interface, S, A, R>& t)
+{
+	return reinterpret_cast<std::size_t>(t.data());
 }
 template<class T, class U>
-inline size_t convert_to_size_t(const std::pair<T, U>& v)
+inline std::size_t convert_to_size_t(const std::pair<T, U>& v)
 {
 	return convert_to_size_t(v.first);
 }
@@ -139,7 +184,7 @@ void check_sorted(C& set)
 {
 	auto less = [](const auto& a, const auto& b) { return a.first < b.first; };
 	auto greater = [](const auto& a, const auto& b) { return a.first > b.first; };
-	size_t dist = std::distance(set.begin(), set.end());
+	std::size_t dist = std::distance(set.begin(), set.end());
 	SEQ_TEST(dist == set.size());
 	SEQ_TEST(std::is_sorted(set.begin(), set.end(), less));
 	SEQ_TEST(std::is_sorted(set.rbegin(), set.rend(), greater));
@@ -147,27 +192,8 @@ void check_sorted(C& set)
 		SEQ_TEST(set.find(it->first) != set.end());
 }
 
-template<class C>
-struct is_radix_set : std::false_type
-{
-};
 
-template<class T, class Extract, class Al>
-struct is_radix_set<radix_set<T, Extract, Al>> : std::true_type
-{
-};
-
-template<class C>
-struct is_radix_map : std::false_type
-{
-};
-
-template<class T, class V, class Extract, class Al>
-struct is_radix_map<radix_map<T, V, Extract, Al>> : std::true_type
-{
-};
-
-template<class C, class U, bool Launch = !(is_hold_any<typename U::first_type>::value && (is_radix_set<C>::value || is_radix_map<C>::value))>
+template<class C, class U, bool Launch = true>
 struct LaunchTest
 {
 	template<class Format>
@@ -182,9 +208,9 @@ struct LaunchTest
 		// seq::random_shuffle(fail.begin(), fail.end(),1);
 
 		reset_memory_usage();
-		size_t start_mem = get_memory_usage();
-		size_t insert_range, insert_range_mem;
-		size_t insert, insert_mem;
+		std::size_t start_mem = get_memory_usage();
+		std::size_t insert_range, insert_range_mem;
+		std::size_t insert, insert_mem;
 
 		{
 			C s;
@@ -215,7 +241,7 @@ struct LaunchTest
 			start_mem = get_memory_usage();
 
 			tick();
-			for (size_t i = 0; i < success.size(); ++i) {
+			for (std::size_t i = 0; i < success.size(); ++i) {
 				SEQ_TEST(insert_value(set, success[i].first, success[i].second));
 			}
 
@@ -227,47 +253,50 @@ struct LaunchTest
 
 		// insert fail
 		tick();
-		for (size_t i = 0; i < success.size(); ++i)
+		for (std::size_t i = 0; i < success.size(); ++i)
 			SEQ_TEST(!insert_value(set, success[i].first, success[i].second));
-		size_t insert_fail = tock_ms();
-		// size_t insert_fail_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
+		std::size_t insert_fail = tock_ms();
+		// std::size_t insert_fail_mem = (get_memory_usage() - start_mem) / (1024 * 1024);
 
 		check_sorted(set);
 
 		// find success
 		tick();
-		size_t sum = 0;
-		for (size_t i = 0; i < success.size(); ++i)
+		std::size_t sum = 0;
+		for (std::size_t i = 0; i < success.size(); ++i)
 			SEQ_TEST(find_val(set, success[i].first));
-		size_t find = tock_ms();
+		std::size_t find = tock_ms();
 
 		// lower_bound success
 		tick();
 		sum = 0;
-		for (size_t i = 0; i < success.size(); ++i)
-			SEQ_TEST(set.lower_bound(success[i].first) != set.end());
-		size_t lower_bound = tock_ms();
+		for (std::size_t i = 0; i < success.size(); ++i) 
+			//SEQ_TEST(set.lower_bound(success[i].first) != set.end());
+			//TEST: lower_bound on failed
+			sum += (set.lower_bound(fail[i].first) != set.begin());
+		std::size_t lower_bound = tock_ms();
+		print_null(sum);
 
 		// find fail
 		tick();
 		sum = 0;
-		for (size_t i = 0; i < fail.size(); ++i)
+		for (std::size_t i = 0; i < fail.size(); ++i)
 			SEQ_TEST(!find_val(set, fail[i].first));
 		// SEQ_TEST(set.lower_bound(fail[i]) != typename C::const_iterator());
-		size_t find_fail = tock_ms();
+		std::size_t find_fail = tock_ms();
 
 		// walk
 		tick();
 		sum = 0;
 		for (auto it = set.begin(); it != set.end(); ++it)
 			sum += convert_to_size_t(*it);
-		size_t iterate = tock_ms();
+		std::size_t iterate = tock_ms();
 		print_null(sum);
 
-		size_t erase = 0;
+		std::size_t erase = 0;
 
 #ifndef TEST_BOOST_INSERT_ERASE
-		if (is_boost_map<C>::value) {
+		if constexpr(is_boost_map<C>::value) {
 			erase = 1000000;
 		}
 		else
@@ -277,11 +306,15 @@ struct LaunchTest
 			// std::cout << "erase: " << success.size() / 2 << " elems" << std::endl;
 			tick();
 			using const_iterator = typename C::const_iterator;
-			for (size_t i = 0; i < success.size() / 2; ++i) {
+			for (std::size_t i = 0; i < success.size() / 2; ++i) {
 				auto it = set.find(success[i].first);
 				SEQ_TEST(it != set.end());
-				if (it != set.end())
-					set.erase((const_iterator)it);
+				if (it != set.end()){ 
+					if constexpr(!is_art<C>::value)
+						set.erase(it);
+					else
+						set.erase(it->first);
+				}	
 			}
 
 			erase = tock_ms();
@@ -289,20 +322,22 @@ struct LaunchTest
 			SEQ_TEST(set.size() == (success.size() / 2 + success.size() % 2));
 			check_sorted(set);
 
-			for (size_t i = 0; i < success.size() / 2; ++i)
+			for (std::size_t i = 0; i < success.size() / 2; ++i)
 				SEQ_TEST(set.find(success[i].first) == set.end());
-			for (size_t i = success.size() / 2; i < success.size(); ++i)
+			for (std::size_t i = success.size() / 2; i < success.size(); ++i)
 				SEQ_TEST(set.find(success[i].first) != set.end());
 
 			// reinsert
-			for (size_t i = 0; i < success.size() / 2; ++i)
+			for (std::size_t i = 0; i < success.size() / 2; ++i)
 				SEQ_TEST(set.emplace(success[i].first, success[i].second).second);
 			check_sorted(set);
-			for (size_t i = 0; i < success.size(); ++i)
+			for (std::size_t i = 0; i < success.size(); ++i)
 				SEQ_TEST(set.find(success[i].first) != set.end());
 		}
 
 		// clear
+		//TEST: comment
+		/*
 #ifndef TEST_BOOST_INSERT_ERASE
 		if (!is_boost_map<C>::value)
 #endif
@@ -316,6 +351,7 @@ struct LaunchTest
 			}
 			SEQ_TEST(set.size() == 0);
 		}
+		*/
 		if (write)
 			std::cout << f(name, fmt(insert_range, insert_range_mem), fmt(insert, insert_mem), insert_fail, find, lower_bound, find_fail, iterate, erase) << std::endl;
 	}
@@ -342,7 +378,7 @@ void test_set(const char* name, const std::vector<U>& vec, Format f, bool write 
 /// @param count
 /// @param gen
 template<class T, class Gen, class Extract = default_key>
-void test_map(size_t count, Gen gen, Extract e = Extract())
+void test_map(std::size_t count, Gen gen, Extract e = Extract())
 {
 	std::cout << std::endl;
 	std::cout << "Test sorted containers with type = " << typeid(T).name() << " and count = " << count / 2 << std::endl;
@@ -360,7 +396,7 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 	auto it = std::unique(vec.begin(), vec.end(), equal);
 	vec.resize(it - vec.begin());
 	std::shuffle(vec.begin(), vec.end(), std::mt19937(1));
-	// std::reverse(vec.begin(), vec.end());
+	//std::reverse(vec.begin(), vec.end());
 
 	std::cout << "vector size: " << vec.size() << std::endl;
 
@@ -377,7 +413,7 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 		      ""); // erase
 
 	auto header = join("|", _s().l(30), _s().c(20), _s().c(20), _s().c(15), _s().c(15), _s().c(15), _s().c(15), _s().c(15), _s().c(15), "");
-	std::cout << header("Set name", "Insert(range)", "Insert", "Insert(failed)", "Find (success)", "LB (success)", "Find (failed)", "Iterate", "Erase") << std::endl;
+	std::cout << header("Set name", "Insert(range)", "Insert", "Insert(failed)", "Find (success)", "LB (not equal)", "Find (failed)", "Iterate", "Erase") << std::endl;
 	std::cout << header(fill('-'), fill('-'), fill('-'), fill('-'), fill('-'), fill('-'), fill('-'), fill('-'), fill('-')) << std::endl;
 
 	// Warmup
@@ -390,7 +426,14 @@ void test_map(size_t count, Gen gen, Extract e = Extract())
 #ifdef BOOST_FOUND
 	test_set<boost::container::flat_map<T, T>>("boost::flat_map", vec, f);
 #endif
-	test_set<radix_map<T, T, Extract>>("seq::radix_map", vec, f);
+
+	if constexpr (!is_hold_any<T>::value) {
+
+		test_set<radix_map<T, T, Extract>>("seq::radix_map", vec, f);
+
+		// https://github.com/philipbecker/cpp-art/tree/master
+		test_set<art::radix_map<T, T>>("art::radix_map", vec, f);
+	}
 
 	test_set<std::map<T, T>>("std::map", vec, f);
 }
@@ -412,24 +455,24 @@ void test_small_map_repeat(const char * name, int count, int repeat, Format f)
 	{
 		Map m ;
 		print_null(m.size());
-		for (size_t j = 0; j < vec.size() / 2; ++j)
+		for (std::size_t j = 0; j < vec.size() / 2; ++j)
 			m.insert(vec[j]);
 		m.insert(vec.begin() + vec.size() / 2, vec.end());
 
-		size_t sum = 0;
-		for (size_t j = 0; j < vec.size(); ++j)
+		std::size_t sum = 0;
+		for (std::size_t j = 0; j < vec.size(); ++j)
 			sum += find_val(m, vec[j].first);
 
 		print_null(sum);
 
 		m.erase(m.begin(), std::next(m.begin() , m.size() / 2));
 
-		for (size_t j = 0; j < vec.size(); ++j)
+		for (std::size_t j = 0; j < vec.size(); ++j)
 			m.erase(vec[j].first);
 
 		print_null(m.size());
 	}
-	size_t el = tock_ms();
+	std::size_t el = tock_ms();
 	std::cout << f(name, el) << std::endl;
 }
 
@@ -442,7 +485,7 @@ void test_small_map(int count, int repeat)
 
 	auto f = fmt(pos<0,2>(),
 		fmt("").l(30), "|",  //name
-		fmt<size_t>().c(20), "|"); //time
+		fmt<std::size_t>().c(20), "|"); //time
 
 	std::cout << fmt(fmt("Set name").l(30), "|", fmt("Tims (ms)").c(20), "|") << std::endl;
 	std::cout << fmt(str().c(30).f('-'), "|", str().c(20).f('-'), "|") << std::endl;
@@ -455,42 +498,108 @@ void test_small_map(int count, int repeat)
 }
 */
 
+template<class String>
+std::vector<String> load_dict(const char* filename)
+{
+	std::ifstream fin(filename);
+	if (!fin)
+		return {};
+	std::vector<String> ret;
+	while (true) {
+		String r;
+		fin >> r;
+		if (fin)
+			ret.push_back(std::move(r));
+		else
+			break;
+	}
+	return ret;
+}
+
 int bench_map(int, char** const)
 {
+	/* {
+		std::vector<std::string> vec;
+		for (std::size_t i = 0; i < 10000; ++i)
+			vec.push_back(generate_random_string<std::string>(13, true));
 
-	using string = tstring;
+		std::sort(vec.begin(), vec.end());
+		auto it = std::unique(vec.begin(), vec.end());
+		vec.resize(it - vec.begin());
+		auto b = vec.back();
+		vec.pop_back();
+		std::shuffle(vec.begin(), vec.end(), std::mt19937(1));
+
+		std::vector<std::string> success(vec.begin(), vec.begin() + vec.size() / 2);
+		std::vector<std::string> fail(vec.begin() + vec.size() / 2, vec.end());
+		fail.push_back(b);
+
+		seq::radix_set<std::string> s1;
+		art::radix_set<std::string> s2;
+		s1.insert(success.begin(), success.end());
+		s2.insert(success.begin(), success.end());
+
+		for (auto& v : fail) {
+			auto it = s2.lower_bound(v);
+			auto tmp = s1.lower_bound(v);
+			if (tmp == s1.end())
+				bool stop = true;
+			if (it == s2.end()) {
+				
+				auto& last = *(--s2.end());
+				bool is_less = last < v;
+				auto it1 = s1.lower_bound(v);
+				bool ok = it1 == s1.end();
+				if (!ok) {
+					SEQ_TEST(v < *it1);
+					if (it1 != s1.begin())
+						SEQ_TEST(*(--it1) < v);
+				}
+				bool stop = true;
+			}
+		}
+	}*/
+	
+	using string = seq::tstring;
+
+	/* {
+		auto vec = load_dict<string>("C:\\Users\\VM213788\\Documents\\src\\seq\\benchs\\words.txt");
+		//seq::random_shuffle(vec.begin(), vec.end(), 1);
+		test_map<string>(vec.size(), [&](std::size_t i) { return vec[i]; });
+	}*/
 
 	// test random tuple
 	{
 		std::random_device dev;
 		std::mt19937 rngi(dev());
 		std::uniform_int_distribution<unsigned> dist;
-		test_map<std::tuple<unsigned, unsigned>>(2000000, [&](size_t i) { return std::make_tuple(dist(rngi), dist(rngi)); });
+		test_map<std::tuple<unsigned, unsigned>>(2000000, [&](std::size_t i) { return std::make_tuple(dist(rngi), dist(rngi)); });
 	}
-
+	
 	// test random integers
 	{
 		std::random_device dev;
 		std::mt19937 rngi(dev());
-		std::uniform_int_distribution<size_t> dist;
-		test_map<size_t>(2000000, [&](size_t i) { return dist(rngi); });
+		std::uniform_int_distribution<std::size_t> dist;
+		test_map<std::uint64_t>(2000000, [&](std::size_t i) { return dist(rngi); });
 	}
+
 	// test random floating point values
 	{
 		// std::random_device rd;
 		std::mt19937 e2(0);
 		std::uniform_real_distribution<> dist;
-		test_map<double>(2000000, [&](size_t i) { return dist(e2); });
+		test_map<double>(2000000, [&](std::size_t i) { return dist(e2); });
 	}
 
 	// Random short strings
-	test_map<string>(1000000, [](size_t i) { return generate_random_string<string>(13, true); });
+	test_map<string>(1000000, [](std::size_t i) { return generate_random_string<string>(13, true); });
 
 	// random mix of short and long strings
-	test_map<string>(1000000, [](size_t i) { return generate_random_string<string>(63, false); });
+	test_map<string>(1000000, [](std::size_t i) { return generate_random_string<string>(63, false); });
 	// Test with seq::r_any
-	test_map<seq::r_any>(2000000, [](size_t i) {
-		size_t idx = i & 3U;
+	test_map<seq::r_any>(2000000, [](std::size_t i) {
+		std::size_t idx = i & 3U;
 		switch (idx) {
 			case 0:
 				return seq::r_any(i * UINT64_C(0xc4ceb9fe1a85ec53));

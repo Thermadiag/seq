@@ -51,11 +51,11 @@ namespace seq
 	namespace detail
 	{
 		// Get tagged_pointer actual alignment value
-		template<class T, TagPointerType Type, size_t UserDefinedAlignment>
+		template<class T, TagPointerType Type, std::size_t UserDefinedAlignment>
 		constexpr uintptr_t find_alignment()
 		{
 			if constexpr (Type == HeapPointer)
-				return SEQ_DEFAULT_ALIGNMENT;
+				return alignof(std::max_align_t);
 			else if constexpr (Type == CustomAlignment)
 				return UserDefinedAlignment;
 			else
@@ -69,14 +69,14 @@ namespace seq
 	/// The number of bits used for the tag value depends on the TagPointerType flag:
 	///		-	StackPointer (default): the tagged_pointer is assumed to point on a stack value or on a value inside an array.
 	///			In this case, the tag bits is equal to static_bit_scan_reverse<alignof(T)>::value. For instance, 2 bits for int32_t,
-	///			3 bits for int64_t and ... 0 bits for char.
+	///			3 bits for std::int64_t and ... 0 bits for char.
 	///		-	HeapPointer: the tagged_pointer is assumed to point on a heap allocated value. Therefore, its alignment is (in theory)
 	///			equal to alignof(std::max_align_t). On most platforms, the tag bits is either 3 or 4.
 	///		-	CustomAlignment : the tag bits is given by static_bit_scan_reverse<UserDefinedAlignment>::value.
 	///
 	/// tagged_pointer is specialized to work with void pointer.
 	///
-	template<class T, TagPointerType Type = StackPointer, size_t UserDefinedAlignment = 0>
+	template<class T, TagPointerType Type = StackPointer, std::size_t UserDefinedAlignment = 0>
 	class tagged_pointer
 	{
 		static constexpr uintptr_t align = detail::find_alignment<T, Type, UserDefinedAlignment>();
@@ -153,12 +153,12 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto operator*() const noexcept -> const_reference { return *ptr(); }
 	};
 
-	template<TagPointerType Type, size_t UserDefinedAlignment>
+	template<TagPointerType Type, std::size_t UserDefinedAlignment>
 	class tagged_pointer<void, Type, UserDefinedAlignment>
 	{
 		// Specialization for void* , remove the reference type and related members
 
-		static constexpr uintptr_t align = (Type != CustomAlignment ? SEQ_DEFAULT_ALIGNMENT : UserDefinedAlignment);
+		static constexpr uintptr_t align = (Type != CustomAlignment ? alignof(std::max_align_t) : UserDefinedAlignment);
 		static_assert(align > 0 && (((align & (align - 1)) == 0)), "alignment must be a non null power of 2");
 		static constexpr uintptr_t bits = static_bit_scan_reverse<align>::value;
 

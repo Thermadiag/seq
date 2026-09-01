@@ -77,7 +77,7 @@ class TestDestroy
 	std::atomic<int> valid = 0;
 
 public:
-	static std::int64_t count() { return test_detail::get_count(); }
+	static int64_t count() { return test_detail::get_count(); }
 	TestDestroy()
 	  : value()
 	{
@@ -207,7 +207,7 @@ namespace std
 	template<class T, bool R>
 	struct hash<TestDestroy<T, R>>
 	{
-		size_t operator()(const TestDestroy<T, R>& v) const { return std::hash<T>{}(static_cast<T>(v)); }
+		std::size_t operator()(const TestDestroy<T, R>& v) const { return std::hash<T>{}(static_cast<T>(v)); }
 	};
 }
 
@@ -219,7 +219,7 @@ struct CountAlloc
 	typedef const T* const_pointer;
 	typedef T& reference;
 	typedef const T& const_reference;
-	using size_type = size_t;
+	using size_type = std::size_t;
 	using difference_type = ptrdiff_t;
 	using is_always_equal = std::false_type;
 	using propagate_on_container_swap = std::true_type;
@@ -239,7 +239,7 @@ struct CountAlloc
 	  : d_count(new counter())
 	{
 	}
-	CountAlloc(const CountAlloc& other)
+	CountAlloc(const CountAlloc& other) noexcept
 	  : d_count(other.d_count)
 	{
 	}
@@ -258,28 +258,28 @@ struct CountAlloc
 	bool operator==(const CountAlloc& other) const { return d_count == other.d_count; }
 	bool operator!=(const CountAlloc& other) const { return d_count != other.d_count; }
 
-	void deallocate(T* p, const size_t count)
+	void deallocate(T* p, const std::size_t count)
 	{
 		std::allocator<T>{}.deallocate(p, count);
 		d_count->sub(count * sizeof(T));
 	}
-	T* allocate(const size_t count)
+	T* allocate(const std::size_t count)
 	{
 		T* p = std::allocator<T>{}.allocate(count);
 		d_count->add(count * sizeof(T));
 		return p;
 	}
-	T* allocate(const size_t count, const void*) { return allocate(count); }
-	size_t max_size() const noexcept { return static_cast<size_t>(-1) / sizeof(T); }
+	T* allocate(const std::size_t count, const void*) { return allocate(count); }
+	std::size_t max_size() const noexcept { return static_cast<std::size_t>(-1) / sizeof(T); }
 };
 
 template<class T>
-std::int64_t get_alloc_bytes(const CountAlloc<T>& al)
+int64_t get_alloc_bytes(const CountAlloc<T>& al)
 {
 	return al.d_count->value();
 }
 template<class T>
-std::int64_t get_alloc_bytes(const std::allocator<T>&)
+int64_t get_alloc_bytes(const std::allocator<T>&)
 {
 	return 0;
 }

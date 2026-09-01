@@ -26,14 +26,7 @@ This global lock is what hurts concurrent scaling the most, even when acquired i
 
 ## Submap locking scheme
 `seq::concurrent_map` only provides one read-write spinlock per bucket that covers the bucket itself (up to 15 elements) and the chained nodes (up to 15 elements per node). 
-
-For each insert, erase or lookup operation, the strategy is the following:
-
-- The  bucket index is computed based on the hash value using a shift operation (the table uses a power of 2 growth policy)
-- The bucket lock is aquired in either read (const lookup) or write mode (non const lookup, insert, erase). Only one lock per operation is acquired as no probing happens.
-- The bucket lock is released at the end of operation.
-
-So far so good, but what happens during a rehash? Well, the rehash process will visit each bucket (and associated chained nodes) and lock each bucket in write mode before relocating elements into the new buckets. The bucket locks **are not released until the end of the rehash process.** Note that freeing the old bucket array, affecting the new bucket array, and updating the hash mask are all performed when all bucket locks are acquired. At the very end of the rehash process, all locks are released.
+The rehash process will visit each bucket (and associated chained nodes) and lock each bucket in write mode before relocating elements into the new buckets. The bucket locks **are not released until the end of the rehash process.** Note that freeing the old bucket array, affecting the new bucket array, and updating the hash mask are all performed when all bucket locks are acquired. At the very end of the rehash process, all locks are released.
 
 Therefore, when performing a lookup, insert or erase operation while rehash is in process, 2 things might happen:
 
@@ -46,77 +39,9 @@ We cannot store them in the buckets themselves: the old buckets (and locks) will
 
 We could store them in a dedicated array of locks with the same size of the bucket array. But likewise this array of locks needs to grow or shrink during rehash. And we might end-up destroying the lock array while other threads are spinning on these locks.
 
-Therefore we need a **thread-safe, random-access, reference stable array of read-write spinlocks** (ouch). The thread-safety cannot be based on a global locking mechanism, or we would  be back to square one. The selected approach is a bucket based array with a growth policy of 2 and **that can only grow**. The code of this array-like class is pretty short and a simplified version is given bellow:
-
-```cpp
-template<class Lock, class Allocator = std::allocator<Lock> >
-class SharedLockArray : private Allocator
-{
-	template< class U>
-	using rebind_alloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
-	using lock_type = Lock;
-
-	// Store ahead of time 32 arrays of lock objects.
-	// Each array has a size which is a power of 2 : size = (1 << array_index)
-	std::atomic<lock_type*> arrays[32];
-
-	// Allocate/initialize the array for given index (between 0 and 31)
-	lock_type* make_array(size_t index) 
-	{
-		lock_type* l = arrays[index].load(std::memory_order_relaxed);
-		if (l) 
-			return l; // array already existing: return it
-
-		// allocate and initialize array
-		rebind_alloc<lock_type> al = *this;
-		l = al.allocate(1ull << index);
-		memset(static_cast<void*>(l), 0, (1ull << index) * sizeof(lock_type));
-
-		// affect array if not already done
-		lock_type* prev = nullptr;
-		if (arrays[index].compare_exchange_strong(prev, l))
-			return l;
-		// the array was created just before by another thread
-		al.deallocate(l, 1ull << index);
-		return prev;
-	}
-
-public:
-	
-	SharedLockArray(const Allocator& al = Allocator())
-		:Allocator(al) 
-	{
-		memset(static_cast<void*>(&arrays[0]), 0, sizeof(arrays));
-	}
-	
-	~SharedLockArray()
-	{
-		// destroy all arrays
-		for (size_t i = 0; i < 32; ++i) {
-			if (lock_type* l = arrays[i].load()) {
-				size_t size = 1ull << i;
-				rebind_alloc<lock_type> al = *this;
-				al.deallocate(l, size);
-			}
-		}
-	}
-	
-	/// @brief Returns element at given position.
-	/// Resize array if necessary in a thread-safe way.
-	lock_type& at(size_t i) const 
-	{
-		// compute array index, and index within that array
-		unsigned ar_index = bit_scan_reverse_32(static_cast<unsigned>(i + 1u));
-		unsigned in_array = static_cast<unsigned>(i) - ((1u << ar_index) - 1u);
-		lock_type* l = arrays[ar_index].load(std::memory_order_relaxed);
-		if (!l) // create the lock array if needed
-			l = const_cast<SharedLockArray*>(this)->make_array(ar_index);
-		return l[in_array];
-	}
-};
-
-```
-We use 32 arrays of size `1 << array_index` , and the lock object at a given position is obtained using a *bit scan reverse* operation. This array of locks will lazily grow by power of 2, but cannot shrink (or we would lose the thread-safety and reference stability). Since 32 internal arrays are used the number of spinlocks is limited to `std::numeric_limits<unsigned>::max()`.
+Therefore we need a **thread-safe, random-access, reference stable array of read-write spinlocks** (ouch). The thread-safety cannot be based on a global locking mechanism, or we would  be back to square one. 
+The selected approach is a bucket based array with a growth policy of 2 and **that can only grow**.  We use 64 arrays of size `1 << array_index` , and the lock object at a given position is obtained using a *bit scan reverse* operation. 
+This array of locks will lazily grow by power of 2, but cannot shrink (or we would lose the thread-safety and reference stability).
 
 Therefore, we have a grow-only array of read-write spinlocks that can only grow during rehash. Removing elements from a submap, or even clearing the submap, will **never** make this array shrink (only submap destructor will destroy it). Luckily its memory footprint is relatively low, as we use a 1 byte spinlock object (code available in `lock.hpp`). That's a 1 byte overhead per bucket (of up to 15 elements) and additional chained nodes.
 
@@ -190,6 +115,11 @@ seq::concurrent_map<int,int, seq::hasher<int>, std::equal_to<>, std::allocator<s
 
 
 ```
+
+## Exception guarantees
+
+Insertion/erasure (include erase_if()) provide strong exception guarantee for nothrow move objects, basic exception guarantee otherwise.
+All other mutable operations provide basic exception guarantees.
 
 ## Performances
 

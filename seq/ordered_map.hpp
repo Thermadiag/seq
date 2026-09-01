@@ -27,6 +27,8 @@
 
 /** @file */
 
+#include <cmath>
+
 #include "internal/hash_utils.hpp"
 #include "internal/utils.hpp"
 
@@ -66,21 +68,21 @@ namespace seq
 			std::uint64_t val;
 
 			// Extract part of hash value
-			static SEQ_ALWAYS_INLINE auto small_hash(size_t h) noexcept -> tiny_hash
+			static SEQ_ALWAYS_INLINE auto small_hash(std::size_t h) noexcept -> tiny_hash
 			{
 				tiny_hash res = ((h) >> (sizeof(h) * 8U - 8U));
 				return res == 0 ? 1 : res;
 			}
-			SEQ_ALWAYS_INLINE RobinNode()
+			SEQ_ALWAYS_INLINE RobinNode() noexcept
 			  : val(0)
 			{
-				(reinterpret_cast<char*>(&val))[6] = -1;
+				(reinterpret_cast<std::int8_t*>(&val))[index_dist] = -1;
 			}
-			SEQ_ALWAYS_INLINE RobinNode(tiny_hash h, dist_type dist, std::uintptr_t it)
+			SEQ_ALWAYS_INLINE RobinNode(tiny_hash h, dist_type dist, std::uintptr_t it) noexcept
 			{
 				val = it;
 				(reinterpret_cast<unsigned char*>(&val))[index_hash] = h;
-				(reinterpret_cast<char*>(&val))[index_dist] = static_cast<char>(dist);
+				(reinterpret_cast<std::int8_t*>(&val))[index_dist] = static_cast<std::int8_t>(dist);
 			}
 			SEQ_ALWAYS_INLINE std::uint64_t as_iter() const noexcept { return val & mask_node_and_pos; }
 			// Check if node is a tombstone (only for pure linear hashing)
@@ -92,7 +94,7 @@ namespace seq
 			// sequence chunk, aligned on 64 bytes at most
 			SEQ_ALWAYS_INLINE auto node() const noexcept -> Node* { return reinterpret_cast<Node*>(val & mask_node); }
 			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash { return (reinterpret_cast<const unsigned char*>(&val))[index_hash]; }
-			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { return (reinterpret_cast<const char*>(&val))[index_dist]; }
+			SEQ_ALWAYS_INLINE auto distance() const noexcept -> dist_type { return (reinterpret_cast<const std::int8_t*>(&val))[index_dist]; }
 			SEQ_ALWAYS_INLINE bool is_same(std::uintptr_t it) const noexcept
 			{
 				// check iterator equality
@@ -128,9 +130,9 @@ namespace seq
 			static constexpr std::uint64_t tag_bits = pos_bits; // tag_ptr::tag_bits;
 			static constexpr std::uint64_t mask_high = (~((1ULL << tag_bits) - 1ULL));
 			static constexpr std::uint8_t mask_low = ((1U << static_cast<unsigned>(tag_bits)) - 1U);
-			static SEQ_ALWAYS_INLINE tiny_hash small_hash(size_t h)
+			static SEQ_ALWAYS_INLINE tiny_hash small_hash(std::size_t h) noexcept
 			{
-				tiny_hash res = ((h) >> (sizeof(size_t) * 8u - 8u));
+				tiny_hash res = ((h) >> (sizeof(std::size_t) * 8u - 8u));
 				return res == 0 ? 1 : res;
 			}
 
@@ -138,13 +140,13 @@ namespace seq
 			std::uint8_t _hash;
 			std::int8_t _dist;
 
-			SEQ_ALWAYS_INLINE RobinNode()
+			SEQ_ALWAYS_INLINE RobinNode() noexcept
 			  : _hash(0)
 			  , _dist(-1)
 			{
 				memset(storage, 0, sizeof(storage));
 			}
-			SEQ_ALWAYS_INLINE RobinNode(tiny_hash h, size_t dist, const std::uintptr_t it)
+			SEQ_ALWAYS_INLINE RobinNode(tiny_hash h, std::size_t dist, const std::uintptr_t it) noexcept
 			{
 				std::uintptr_t p = it;
 				memcpy(storage, &p, sizeof(p));
@@ -158,7 +160,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto pos() const noexcept -> std::uint8_t { return storage[0] & mask_low; }
 			SEQ_ALWAYS_INLINE auto node() const noexcept -> Node* { return reinterpret_cast<Node*>(read_size_t(storage) & mask_high); }
 			SEQ_ALWAYS_INLINE auto hash() const noexcept -> tiny_hash { return _hash; }
-			SEQ_ALWAYS_INLINE bool is_same(std::uintptr_t it) const noexcept { return *reinterpret_cast<const std::uintptr_t*>(storage) == it; }
+			SEQ_ALWAYS_INLINE bool is_same(std::uintptr_t it) const noexcept { return read_size_t(storage) == it; }
 			SEQ_ALWAYS_INLINE void empty() noexcept
 			{
 				memset(storage, 0, sizeof(storage));
@@ -221,7 +223,7 @@ namespace seq
 		template<class T, class Node, unsigned PosBits>
 		SEQ_ALWAYS_INLINE auto sequence_node_value(const RobinNode<T, Node, PosBits>& n) noexcept -> const T&
 		{
-			return n.node()->buffer()[n.pos()];
+			return *n.node()->live_slot(n.pos());
 		}
 
 		/// @brief Base class for robin-hood hash table.
@@ -231,11 +233,15 @@ namespace seq
 		{
 
 		public:
+			//static_assert(std::is_nothrow_swappable_v<Hash>);
+			//static_assert(std::is_nothrow_swappable_v<Equal>);
+
 			using base_type = HashEqual<Hash, Equal>;
+			using hash_equal = base_type;
 			using extract_key = ExtractKey<Key, Value>;
 			template<class U>
 			using RebindAlloc = typename std::allocator_traits<Allocator>::template rebind_alloc<U>;
-			using node_type = RobinNode<Value, list_chunk<Value>, base_list_chunk<Value>::count_bits>;
+			using node_type = RobinNode<Value, list_chunk<Value, true>, base_list_chunk<Value, true, list_chunk<Value, true>>::count_bits>;
 			using dist_type = typename node_type::dist_type;
 			using difference_type = std::ptrdiff_t;
 			using tiny_hash = typename node_type::tiny_hash;
@@ -243,39 +249,33 @@ namespace seq
 			using value_type = typename extract_key::value_type;
 			using key_type = typename extract_key::key_type;
 			using mapped_type = typename extract_key::mapped_type;
-			using sequence_type = sequence<Value, Allocator, true>;
-			using iterator = typename sequence_type::iterator;
-			using const_iterator = typename sequence_type::const_iterator;
+			using container_type = sequence<Value, Allocator, true>;
+			using iterator = typename container_type::iterator;
+			using const_iterator = typename container_type::const_iterator;
+			using allocator_type = Allocator;
 
-			static constexpr typename node_type::dist_type mask_dirty = integer_max<typename node_type::dist_type>::value;
-
-			sequence_type d_seq;  // sequence object holding the actual values
-			node_type* d_buckets; // hash table with robin-hood probing
-			size_t d_hash_mask;   // hash mask
-			size_t d_hash_len;
-			size_t d_next_target; // next size before rehash
-			int d_max_dist;	      // current maximum distance of a node to its theoric best location
-			float d_load_factor;  // maximum load factor
+			container_type d_seq;		    // sequence object holding the actual values
+			node_type* d_buckets = null_node(); // hash table with robin-hood probing
+			std::size_t d_hash_mask = 0;		    // hash mask
+			std::size_t d_next_target = 0;	    // next size before rehash
+			int d_max_dist = 1;		    // current maximum distance of a node to its theoric best location
+			float d_load_factor = 0.6f;	    // maximum load factor
 
 		private:
-			static auto null_node() -> node_type*
+			static auto null_node() noexcept -> node_type*
 			{
 				// Null node used to initialize d_buckets (avoid a check on lookup)
 				static node_type null;
 				return &null;
 			}
 
-			SEQ_ALWAYS_INLINE size_t mask_hash(size_t hash, size_t hash_mask, size_t hash_len) const noexcept
-			{
-				(void)hash_len;
-				return hash & hash_mask;
-			}
+			SEQ_ALWAYS_INLINE std::size_t mask_hash(std::size_t hash, std::size_t hash_mask) const noexcept { return hash & hash_mask; }
 
-			SEQ_ALWAYS_INLINE auto find_node(size_t hash, const const_iterator& it) noexcept -> node_type*
+			SEQ_ALWAYS_INLINE auto find_node(std::size_t hash, const const_iterator& it) noexcept -> node_type*
 			{
 
 				// Find an existing node based on a sequence iterator and the hash value
-				size_t index = mask_hash(hash, d_hash_mask, d_hash_len);
+				std::size_t index = mask_hash(hash, d_hash_mask);
 				for (;;) {
 					for (; index <= d_hash_mask; ++index)
 						if (d_buckets[index].is_same(it.as_uint()))
@@ -291,154 +291,74 @@ namespace seq
 			}
 
 			template<class Iter>
-			void rehash(size_t new_hash_mask, size_t new_hash_len, Iter first, Iter last)
+			void rehash(std::size_t new_hash_mask, Iter first, Iter last)
 			{
 				// Rehash the table for given mask value.
-				// The old table is dropped before creating the new one, avoiding memory peaks.
 				// Do not check for potential duplicate values.
 
+				auto buckets = make_buckets((new_hash_mask + 1ULL));
+				int max_dist = 1;
+
 				try {
-					free_buckets(d_buckets);
-					d_buckets = null_node();
-					d_next_target = d_hash_mask = d_hash_len = 0;
-					d_max_dist = 1;
-					d_buckets = make_buckets((new_hash_mask + 1ULL));
+
+					std::size_t hash, index;
+					std::size_t hmask = new_hash_mask;
+					typename node_type::dist_type dist = 0;
+
+					// Loop through values
+					for (; (first != last) && (max_dist != node_type::max_distance); ++first) {
+
+						// Hash value
+						hash = hash_key(extract_key::key(*first));
+						// Compute index
+						index = mask_hash(hash, new_hash_mask);
+
+						if SEQ_LIKELY(buckets[index].distance() == -1) {
+							buckets[index] = node_type(node_type::small_hash(hash), 0, first.as_uint());
+							continue;
+						}
+
+						// Robin-hood probing
+						dist = 0;
+						while (dist <= buckets[index].distance()) {
+							index = (index + 1) & hmask;
+							++dist;
+						}
+						max_dist = (dist > max_dist) ? dist : max_dist;
+						node_type n = buckets[index];
+						buckets[index] = node_type(node_type::small_hash(hash), dist, first.as_uint());
+
+						// Insert node
+						start_insert(buckets, new_hash_mask, index, dist, n, max_dist);
+					}
+
+					for (; first != last; ++first) {
+						// Hash value
+						hash = hash_key(extract_key::key(*first));
+						// Compute index
+						index = mask_hash(hash, new_hash_mask);
+
+						// Pure linear hashing
+						while (!buckets[index].null()) {
+							index = (index == hmask) ? 0 : index + 1;
+						}
+						// Insert
+						buckets[index] = node_type(node_type::small_hash(hash), index == mask_hash(hash, new_hash_mask) ? 0 : node_type::max_distance, first.as_uint());
+					}
 				}
 				catch (...) {
-					// mark as dirty
-					mark_dirty();
+					free_buckets(buckets, new_hash_mask + 1);
 					throw;
 				}
 
-				size_t hash, index;
-				size_t hmask = new_hash_mask;
-				typename node_type::dist_type dist = 0;
-
-				// Loop through values
-				for (; (first != last) && (d_max_dist != node_type::max_distance); ++first) {
-
-					// Hash value
-					hash = hash_key(extract_key::key(*first));
-					// Compute index
-					index = mask_hash(hash, new_hash_mask, new_hash_len);
-
-					if (d_buckets[index].distance() == -1) {
-						d_buckets[index] = node_type(node_type::small_hash(hash), 0, first.as_uint());
-						continue;
-					}
-
-					// Robin-hood probing
-					dist = 0;
-					while (dist <= d_buckets[index].distance()) {
-						index = (index == hmask) ? 0 : index + 1;
-						dist++;
-					}
-					d_max_dist = (dist > d_max_dist) ? dist : d_max_dist;
-					node_type n = d_buckets[index];
-					d_buckets[index] = node_type(node_type::small_hash(hash), dist, first.as_uint());
-
-					// Insert node
-					start_insert(d_buckets, new_hash_mask, index, dist, n);
-				}
-
-				for (; first != last; ++first) {
-					// Hash value
-					hash = hash_key(extract_key::key(*first));
-					// Compute index
-					index = mask_hash(hash, new_hash_mask, new_hash_len);
-
-					// Pure linear hashing
-					while (!d_buckets[index].null()) {
-						index = (index == hmask) ? 0 : index + 1;
-					}
-					// Insert
-					d_buckets[index] = node_type(node_type::small_hash(hash), index == mask_hash(hash, new_hash_mask, new_hash_len) ? 0 : node_type::max_distance, first.as_uint());
-				}
-
+				free_buckets(d_buckets, bucket_size());
+				d_buckets = buckets;
+				d_max_dist = max_dist;
 				d_hash_mask = new_hash_mask;
-				d_hash_len = new_hash_len;
-				d_next_target = static_cast<size_t>(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor));
+				d_next_target = static_cast<std::size_t>(std::floor(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor)));
 			}
 
-			template<class Iter>
-			void rehash_remove_duplicates(size_t new_hash_mask, size_t new_hash_len, Iter first, Iter last)
-			{
-				// Rehash the table for given mask value.
-				// The old table is dropped before creating the new one, avoiding memory peaks.
-				// Check for potential duplicate values, and erase duplicates from the sequence object in a stable way.
-
-				try {
-					free_buckets(d_buckets);
-					d_buckets = null_node();
-					d_next_target = d_hash_mask = d_hash_len = 0;
-					d_max_dist = 1;
-					d_buckets = make_buckets((new_hash_mask + 1ULL));
-				}
-				catch (...) {
-					mark_dirty();
-					throw;
-				}
-
-				size_t hash, index, dist;
-				size_t bsize = new_hash_mask + 1ULL;
-
-				for (auto it = first; it != last;) {
-
-					hash = hash_key(extract_key::key(*it));
-					tiny_hash h = node_type::small_hash(hash);
-					index = mask_hash(hash, new_hash_mask, new_hash_len);
-
-					dist = 0;
-					while (!d_buckets[index].null() && static_cast<difference_type>(dist) <= static_cast<difference_type>(d_buckets[index].distance())) {
-						if (h == d_buckets[index].hash() && (*this)(extract_key::key(sequence_node_value(d_buckets[index])), extract_key::key(*it))) {
-							dist = static_cast<size_t>(-1);
-							break;
-						}
-						if SEQ_UNLIKELY(++index == bsize)
-							index = 0;
-						dist++;
-					}
-
-					if SEQ_UNLIKELY(d_max_dist == static_cast<int>(node_type::max_distance) && dist != static_cast<size_t>(-1)) {
-						// linear hash table, we must go up to an empty node
-						while (!d_buckets[index].null()) {
-
-							if (h == d_buckets[index].hash() && (*this)(extract_key::key(sequence_node_value(d_buckets[index])), extract_key::key(*it))) {
-								dist = static_cast<size_t>(-1);
-								break;
-							}
-							if SEQ_UNLIKELY(++index == bsize)
-								index = 0;
-						}
-					}
-
-					// the value exists
-					if (dist == static_cast<size_t>(-1)) {
-						it = d_seq.erase(it);
-						continue;
-					}
-
-					if SEQ_UNLIKELY(d_max_dist == node_type::max_distance) {
-						d_buckets[index] =
-						  node_type(static_cast<tiny_hash>(h), index == mask_hash(hash, new_hash_mask, new_hash_len) ? 0 : node_type::max_distance, it.as_uint());
-					}
-					else {
-						if (dist > static_cast<size_t>(d_max_dist))
-							d_max_dist = static_cast<int>(dist); 
-
-						node_type n = node_type(static_cast<tiny_hash>(h), static_cast<dist_type>(dist), it.as_uint());
-						std::swap(n, d_buckets[index]);
-						start_insert(d_buckets, bsize, index, static_cast<dist_type>(dist), n);
-					}
-					++it;
-				}
-
-				d_hash_mask = new_hash_mask;
-				d_hash_len = new_hash_len;
-				d_next_target = static_cast<size_t>(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor));
-			}
-
-			SEQ_ALWAYS_INLINE void start_insert(node_type* buckets, size_t hash_mask, size_t index, typename node_type::dist_type dist, node_type node) noexcept
+			SEQ_ALWAYS_INLINE void start_insert(node_type* buckets, std::size_t hash_mask, std::size_t index, typename node_type::dist_type dist, node_type node, int& max_dist) noexcept
 			{
 				// Use robin-hood hashing to move keys on insertion
 				dist_type od;
@@ -449,8 +369,8 @@ namespace seq
 						index = (index == hash_mask) ? 0 : index + 1;
 						od = buckets[index].distance();
 					} while (od >= dist);
-					if SEQ_UNLIKELY(dist > d_max_dist)
-						d_max_dist = dist = dist > node_type::max_distance ? node_type::max_distance : dist;
+					if SEQ_UNLIKELY (dist > max_dist)
+						max_dist = dist = dist > node_type::max_distance ? node_type::max_distance : dist;
 
 					node.set_distance(dist);
 					std::swap(buckets[index], node);
@@ -458,149 +378,260 @@ namespace seq
 				}
 			}
 
-			auto make_buckets(size_t size) const -> node_type*
+			auto make_buckets(std::size_t size) const -> node_type*
 			{
 				// Allocate/initialize nodes
-				node_allocator al = d_seq.get_allocator();
-				node_type* res = al.allocate(size);
-				for (size_t i = 0; i < size; ++i)
+				node_type* res = allocate_from<node_type>(d_seq.get_allocator(), size);
+				for (std::size_t i = 0; i < size; ++i)
 					new (res + i) node_type();
 				return res;
 			}
-			void free_buckets(node_type* buckets) const
+			void free_buckets(const Allocator& al, node_type* buckets, std::size_t size) const noexcept
 			{
 				// Deallocate nodes
 				if (buckets == null_node() || !buckets)
 					return;
-				node_allocator al = d_seq.get_allocator();
-				al.deallocate(buckets, bucket_size());
+				deallocate_from(al, buckets, size);
 			}
+			void free_buckets(node_type* buckets, std::size_t size) const noexcept { free_buckets(d_seq.get_allocator(), buckets, size); }
 
 		public:
 			explicit SparseFlatNodeHashTable(const Hash& hash, const Equal& equal, const Allocator& alloc)
 			  : base_type(hash, equal)
 			  , d_seq(alloc)
-			  , d_buckets(null_node())
-			  , d_hash_mask(0)
-			  , d_hash_len(0)
-			  , d_next_target(0)
-			  , d_max_dist(1)
-			  , d_load_factor(0.6f)
 			{
 			}
-			SparseFlatNodeHashTable(SparseFlatNodeHashTable&& other) noexcept(
-			  std::is_nothrow_copy_constructible_v<base_type>&& std::is_nothrow_move_constructible_v<sequence_type>)
+			SparseFlatNodeHashTable(SparseFlatNodeHashTable&& other) noexcept(std::is_nothrow_copy_constructible_v<base_type> && std::is_nothrow_move_constructible_v<container_type>)
 			  : base_type(other)
 			  , d_seq(std::move(other.d_seq))
 			  , d_buckets(other.d_buckets)
 			  , d_hash_mask(other.d_hash_mask)
-			  , d_hash_len(other.d_hash_len)
 			  , d_next_target(other.d_next_target)
 			  , d_max_dist(other.d_max_dist)
 			  , d_load_factor(other.d_load_factor)
 			{
 				other.d_buckets = null_node();
 				other.d_hash_mask = 0;
-				other.d_hash_len = 0;
 				other.d_next_target = 0;
 				other.d_max_dist = 1;
 			}
 			SparseFlatNodeHashTable(SparseFlatNodeHashTable&& other, const Allocator& alloc)
-			  : base_type(other.hash_function(), other.key_eq())
+			  : base_type(other)
+			  // Extended sequence move constructor leaves other's allocator unchanged
 			  , d_seq(std::move(other.d_seq), alloc)
-			  , d_buckets(other.d_buckets)
-			  , d_hash_mask(other.d_hash_mask)
-			  , d_hash_len(other.d_hash_len)
-			  , d_next_target(other.d_next_target)
-			  , d_max_dist(other.d_max_dist)
-			  , d_load_factor(other.d_load_factor)
 			{
+				d_load_factor = other.d_load_factor;
 				if (alloc == other.d_seq.get_allocator()) {
-					other.d_buckets = null_node();
-					other.d_hash_mask = 0;
-					other.d_hash_len = 0;
-					other.d_next_target = 0;
-					other.d_max_dist = 1;
+					// Same allocators: just swap members
+					std::swap(d_buckets, other.d_buckets);
+					std::swap(d_hash_mask, other.d_hash_mask);
+					std::swap(d_next_target, other.d_next_target);
+					std::swap(d_max_dist, other.d_max_dist);
 				}
 				else {
+					// Clear the source: it is either empty or contains moved from values.
+					// There is no need to preserve its invariants by rehashing moved from values,
+					// so just clear it.
+					other.clear();
 					// rehash
-					d_buckets = null_node();
 					rehash(0, true);
 				}
 			}
 
-			~SparseFlatNodeHashTable() { free_buckets(d_buckets); }
+			~SparseFlatNodeHashTable() noexcept { free_buckets(d_buckets, bucket_size()); }
 
-			void swap(SparseFlatNodeHashTable& other) noexcept(
-			  noexcept(std::declval<sequence_type&>().swap(std::declval<sequence_type&>())) && noexcept(std::declval<base_type&>().swap(std::declval<base_type&>())))
+			void swap(SparseFlatNodeHashTable& other) noexcept(noexcept(d_seq.swap(other.d_seq)) && noexcept(std::declval<SparseFlatNodeHashTable&>().base_type::swap(other)))
 			{
 				if (this != std::addressof(other)) {
+					// This is the only line that might throw
+					d_seq.swap(other.d_seq);
 					std::swap(d_buckets, other.d_buckets);
 					std::swap(d_hash_mask, other.d_hash_mask);
-					std::swap(d_hash_len, other.d_hash_len);
 					std::swap(d_next_target, other.d_next_target);
 					std::swap(d_max_dist, other.d_max_dist);
 					std::swap(d_load_factor, other.d_load_factor);
-					d_seq.swap(other.d_seq);
 					base_type::swap(other);
 				}
 			}
 
-			SEQ_ALWAYS_INLINE bool dirty() const noexcept
+			auto get_allocator() const { return d_seq.get_allocator(); }
+
+			void steal_buckets(SparseFlatNodeHashTable& other) noexcept
 			{
-				// check for dirty
-				return d_max_dist == mask_dirty;
+				SEQ_ASSERT_DEBUG(d_buckets == null_node(), "steal_buckets destination still owns buckets");
+				d_buckets = other.d_buckets;
+				other.d_buckets = null_node();
+				d_hash_mask = other.d_hash_mask;
+				d_max_dist = other.d_max_dist;
+				d_next_target = other.d_next_target;
+				d_load_factor = other.d_load_factor;
+				other.d_hash_mask = 0;
+				other.d_next_target = 0;
+				other.d_max_dist = 1;
 			}
-			SEQ_ALWAYS_INLINE void mark_dirty() noexcept
+
+			/// @brief Copy assignment operator
+			auto operator=(const SparseFlatNodeHashTable& other) -> SparseFlatNodeHashTable&
 			{
-				// mark the table as dirty
-				d_max_dist = mask_dirty;
+				if (this == std::addressof(other))
+					return *this;
+
+				using traits = std::allocator_traits<Allocator>;
+
+				if constexpr (!traits::propagate_on_container_copy_assignment::value) {
+					// Strong exception guarantee path
+					SparseFlatNodeHashTable tmp(other.hash_function(), other.key_eq(), get_allocator());
+					tmp.max_load_factor(other.max_load_factor());
+					tmp.d_seq.assign(other.d_seq.begin(), other.d_seq.end());
+					tmp.rehash();
+					swap(tmp); // same allocator
+				}
+				else {
+					if (get_allocator() == other.get_allocator()) {
+						// Weak exception guarantee path
+						// We still need to copy allocator
+						SparseFlatNodeHashTable tmp(other.hash_function(), other.key_eq(), other.get_allocator());
+						tmp.max_load_factor(other.max_load_factor());
+						tmp.d_seq.assign(other.d_seq.begin(), other.d_seq.end());
+						tmp.rehash();
+
+						// Make sure d_seq use other's allocator.
+						clear();
+						container_type seq(other.get_allocator());
+						d_seq = seq;
+
+						swap(tmp);
+					}
+					else {
+						// Weak exception guarantee path
+						clear();
+
+						SparseFlatNodeHashTable tmp(other.hash_function(), other.key_eq(), other.get_allocator());
+						tmp.max_load_factor(other.max_load_factor());
+						tmp.d_seq.assign(other.d_seq.begin(), other.d_seq.end());
+						tmp.rehash();
+
+						hash_eq() = std::move(tmp.hash_eq());
+
+						// Make sure d_seq use other's allocator
+						container_type seq(other.get_allocator());
+						d_seq = seq;
+						d_seq = std::move(tmp.d_seq);
+
+						// Now we can safely move/copy members
+						steal_buckets(tmp);
+					}
+				}
+				return *this;
 			}
-			SEQ_ALWAYS_INLINE void check_hash_operation() const
+
+			/// @brief Move assignment operator.
+			auto operator=(SparseFlatNodeHashTable&& other) noexcept(std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value
+										   ? (std::is_nothrow_move_assignable_v<container_type> && std::is_nothrow_copy_assignable_v<hash_equal>)
+										   : false) -> SparseFlatNodeHashTable&
 			{
-				if SEQ_UNLIKELY(dirty())
-					throw std::logic_error("ordered hash table is dirty");
+				if (this == std::addressof(other))
+					return *this;
+
+				using traits = std::allocator_traits<Allocator>;
+
+				this->clear();
+
+				if constexpr (traits::propagate_on_container_move_assignment::value) {
+
+					// No problem if this throws
+					hash_eq() = other.hash_eq();
+					try {
+						d_seq = std::move(other.d_seq);
+						// The rest cannot throw
+						steal_buckets(other);
+					}
+					catch (...) {
+						// We don't know in which state we are, clear
+						this->clear();
+						// This 'if' condition is not necessary, but removes a warning on msvc...
+						if constexpr (!std::is_nothrow_move_assignable_v<container_type>)
+							throw;
+					}
+				}
+				else {
+					bool equal_allocators = get_allocator() == other.get_allocator();
+
+					// No problem if this throws
+					hash_eq() = other.hash_eq();
+
+					try {
+						d_seq = std::move(other.d_seq);
+						d_load_factor = other.d_load_factor;
+
+						if (equal_allocators) {
+							steal_buckets(other);
+							other.clear();
+						}
+						else {
+							// We can clear the source table to preserve its invariants.
+							// Indeed, it is either empty or filled with moved from elements.
+							other.clear();
+							// Now, rehash using our own allocator.
+							// This might throw, which is why we clear the source before.
+							rehash(size(), true);
+						}
+					}
+					catch (...) {
+						// We don't know in which state we are, clear both containers
+						this->clear();
+						other.clear();
+						throw;
+					}
+				}
+
+				return *this;
 			}
-			SEQ_ALWAYS_INLINE auto size() const noexcept -> size_t { return d_seq.size(); }
-			void reserve(size_t size)
+
+			SEQ_ALWAYS_INLINE auto size() const noexcept -> std::size_t { return d_seq.size(); }
+			void reserve(std::size_t size)
 			{
 				if (size > this->size())
-					rehash(static_cast<size_t>(static_cast<double>(size) / static_cast<double>(d_load_factor)));
+					rehash(static_cast<std::size_t>(std::ceil(static_cast<double>(size) / static_cast<double>(d_load_factor))));
 				d_seq.reserve(size);
 			}
-			void rehash(size_t size = 0, bool force = false)
+
+			std::size_t hash_mask_for_size(std::size_t size) const noexcept
 			{
-				// Rehash for given size if one of the following is true:
-				// - the hash table is dirty
-				// - the new hash table size is different from the current one
-				// - force is true
-
-				const bool null_size = (size == 0);
-
-				if (null_size)
-					size = static_cast<size_t>(static_cast<double>(this->size()) / static_cast<double>(d_load_factor));
 				if (size == 0)
-					return rehash(63, 6, d_seq.end(), d_seq.end()); // Minimum size is 64
-				size_t new_hash_mask;
-				size_t new_hash_len;
+					return 1;
+				std::size_t new_hash_mask;
 				if ((size & (size - 1ULL)) == 0ULL)
 					new_hash_mask = size - 1ULL;
 				else
 					new_hash_mask = (1ULL << (1ULL + (bit_scan_reverse_64(size)))) - 1ULL;
-				new_hash_len = bit_scan_reverse_64(new_hash_mask) + 1U;
-				if (dirty())
-					rehash_remove_duplicates(new_hash_mask, new_hash_len, d_seq.begin(), d_seq.end());
-				else if (force || new_hash_mask != d_hash_mask || d_max_dist == node_type::max_distance) {
-					if (d_max_dist == node_type::max_distance && null_size) {
+				return new_hash_mask;
+			}
+
+			void rehash(std::size_t size = 0, bool force = false)
+			{
+				// Rehash for given size if one of the following is true:
+				// - the new hash table size is different from the current one
+				// - force is true
+
+				const bool automatic = size == 0;
+				const std::size_t minimum = static_cast<std::size_t>(std::ceil(static_cast<double>(this->size()) / d_load_factor));
+
+				size = automatic ? minimum : std::max(size, minimum);
+				size = std::max<std::size_t>(size, 2);
+
+				std::size_t new_hash_mask = hash_mask_for_size(size);
+				if (force || new_hash_mask != d_hash_mask || d_max_dist == node_type::max_distance) {
+					if (d_max_dist == node_type::max_distance && automatic) {
 						// linear hashing behavior: make sure to increase hash table size
 						new_hash_mask = ((new_hash_mask + 1U) * 2U) - 1U;
 					}
-					rehash(new_hash_mask, new_hash_len, d_seq.begin(), d_seq.end());
+					rehash(new_hash_mask, d_seq.begin(), d_seq.end());
 				}
 			}
 
 			template<class K>
-			SEQ_ALWAYS_INLINE auto hash_key(const K& key) const noexcept(noexcept(std::declval<Hash&>().operator()(std::declval<K&>()))) -> size_t
+			SEQ_ALWAYS_INLINE auto hash_key(const K& key) const noexcept(noexcept(std::declval<const Hash&>().operator()(std::declval<const K&>()))) -> std::size_t
 			{
 				return hash_value(this->hash_function(), key);
 			}
@@ -619,27 +650,27 @@ namespace seq
 					d_load_factor = 0.95f;
 				else if (d_load_factor < 0.1f)
 					d_load_factor = 0.1f;
-				d_next_target = static_cast<size_t>(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor));
+				d_next_target = static_cast<std::size_t>(static_cast<double>(bucket_size()) * static_cast<double>(d_load_factor));
 			}
 			auto load_factor() const noexcept -> float
 			{
 				// Returns the current load factor
 				return static_cast<float>(size()) / static_cast<float>(bucket_size());
 			}
-			auto bucket_size() const noexcept -> size_t
+			auto bucket_size() const noexcept -> std::size_t
 			{
 				// Returns the node array size
 				return d_hash_mask + 1;
 			}
 
 			template<class K>
-			SEQ_ALWAYS_INLINE auto find_hash(size_t hash, const K& key) const -> const_iterator
+			SEQ_ALWAYS_INLINE auto find_hash_node(std::size_t hash, const K& key) const -> node_type*
 			{
 				// Key lookup
 
 				const dist_type robin_hood = d_max_dist < (node_type::max_distance);
 				const tiny_hash h = node_type::small_hash(hash);
-				const auto* it = d_buckets + mask_hash(hash, d_hash_mask, d_hash_len);
+				const auto* it = d_buckets + mask_hash(hash, d_hash_mask);
 				const auto* end = d_buckets + d_hash_mask;
 				dist_type dist = 0;
 
@@ -649,23 +680,34 @@ namespace seq
 				// (it is superior to node_type::max_distance which is 126, and dist is never incremented when tombstones are present: linear situation)
 				// A tombstone value is never checked as its tiny hash is 0 (which is invalid).
 
-				check_hash_operation();
-
 				while (!(dist > it->distance())) {
 					// Check for equality (first the hash part and then the key itself).
 					if (h == it->hash() && (*this)(extract_key::key(sequence_node_value(*it)), key))
-						return const_iterator(it->node(), it->pos());
+						return const_cast<node_type*>(it);
 					it = it == end ? d_buckets : it + 1;
 					dist += robin_hood;
 				}
 				// Failed lookup
-				return d_seq.end();
+				return nullptr;
+			}
+
+			template<class K>
+			SEQ_ALWAYS_INLINE auto find_hash(std::size_t hash, const K& key) const -> const_iterator
+			{
+				auto it = find_hash_node(hash, key);
+				return it ? const_iterator(it->node(), it->pos()) : d_seq.end();
 			}
 
 			template<class K>
 			SEQ_ALWAYS_INLINE auto find(const K& key) const -> const_iterator
 			{
 				return find_hash(hash_key(key), key);
+			}
+			template<class K>
+			SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
+			{
+				auto it = find_hash(hash_key(key), key);
+				return iterator(it.node, it.pos);
 			}
 
 			template<class Policy, class K, class... Args>
@@ -674,20 +716,36 @@ namespace seq
 			{
 				// Insert value using linear probing
 
-				const size_t hash = hash_key(extract_key::key(key));
-				size_t index = mask_hash(hash, d_hash_mask, d_hash_len);
+				const std::size_t hash = hash_key(extract_key::key(key));
 				const tiny_hash h = node_type::small_hash(hash);
 
+				std::size_t index = mask_hash(hash, d_hash_mask);
+				std::size_t insert_pos = bucket_size();
+
 				// Pure linear hashing
-				while (!d_buckets[index].null() && !d_buckets[index].is_tombstone()) {
-					if (d_buckets[index].hash() == h && (*this)(extract_key::key(sequence_node_value(d_buckets[index])), extract_key::key(key)))
-						return std::pair<iterator, bool>(iterator(d_buckets[index].node(), d_buckets[index].pos()), false);
-					if SEQ_UNLIKELY(++index == bucket_size())
+				for (;;) {
+					auto& bucket = d_buckets[index];
+					if (!bucket.null()) {
+						if (bucket.hash() == h && (*this)(extract_key::key(sequence_node_value(bucket)), extract_key::key(key)))
+							return std::pair<iterator, bool>(iterator(bucket.node(), bucket.pos()), false);
+					}
+					else {
+						// Set insertion position
+						if (insert_pos == bucket_size())
+							insert_pos = index;
+
+						if (!bucket.is_tombstone())
+							// True empty slot
+							break;
+
+						// Tombstone: keep probing
+					}
+					if SEQ_UNLIKELY (++index == bucket_size())
 						index = 0;
 				}
 
 				iterator tmp_it = Policy::emplace(d_seq, std::forward<K>(key), std::forward<Args>(args)...);
-				d_buckets[index] = node_type(h, index == mask_hash(hash, d_hash_mask, d_hash_len) ? 0 : node_type::max_distance, tmp_it.as_uint());
+				d_buckets[insert_pos] = node_type(h, insert_pos == mask_hash(hash, d_hash_mask) ? 0 : node_type::max_distance, tmp_it.as_uint());
 				return std::pair<iterator, bool>(tmp_it, true);
 			}
 
@@ -723,7 +781,7 @@ namespace seq
 				// Move nodes based on distance (robin hood hashing), only if computed distance is not null
 				node_type n = *it;
 				*it = node_type(h, dist, tmp_it.as_uint());
-				start_insert(d_buckets, d_hash_mask, static_cast<size_t>(it - d_buckets), dist, n);
+				start_insert(d_buckets, d_hash_mask, static_cast<std::size_t>(it - d_buckets), dist, n, d_max_dist);
 
 				return std::pair<iterator, bool>(tmp_it, true);
 			}
@@ -733,22 +791,18 @@ namespace seq
 			{
 				// Insert new key
 
-				// Check for dirty
-				check_hash_operation();
-
 				// Check for potential rehash.
-				// Avoid rehashing if the maximum distance is below 7.
-				if SEQ_UNLIKELY(size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target))
+				if SEQ_UNLIKELY (size() >= d_hash_mask || (size() >= d_next_target))
 					rehash(size() * 2U);
 
 				// Check for purely linear hash table
-				if SEQ_UNLIKELY(d_max_dist == node_type::max_distance)
+				if SEQ_UNLIKELY (d_max_dist == node_type::max_distance)
 					return insert_linear(InsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
 
 				// Compute hash value
-				const size_t hash = hash_key(extract_key::key(key));
+				const std::size_t hash = hash_key(extract_key::key(key));
 				const tiny_hash h = node_type::small_hash(hash);
-				auto* it = d_buckets + mask_hash(hash, d_hash_mask, d_hash_len);
+				auto* it = d_buckets + mask_hash(hash, d_hash_mask);
 
 				if (it->distance() == -1)
 					return insert_fast(it, h, InsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
@@ -760,22 +814,18 @@ namespace seq
 			{
 				// Insert new key
 
-				// Check for dirty
-				check_hash_operation();
-
 				// Check for potential rehash.
-				// Avoid rehashing if the maximum distance is below 7.
-				if SEQ_UNLIKELY(size() >= d_hash_mask || (d_max_dist > 7 && size() >= d_next_target))
+				if SEQ_UNLIKELY (size() >= d_hash_mask || (size() >= d_next_target))
 					rehash(size() * 2U);
 
 				// Check for purely linear hash table
-				if SEQ_UNLIKELY(d_max_dist == node_type::max_distance)
+				if SEQ_UNLIKELY (d_max_dist == node_type::max_distance)
 					return insert_linear(TryInsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
 
 				// Compute hash value
-				const size_t hash = hash_key(extract_key::key(key));
+				const std::size_t hash = hash_key(extract_key::key(key));
 				const tiny_hash h = node_type::small_hash(hash);
-				auto* it = d_buckets + mask_hash(hash, d_hash_mask, d_hash_len);
+				auto* it = d_buckets + mask_hash(hash, d_hash_mask);
 
 				if (it->distance() == -1)
 					return insert_fast(it, h, TryInsertPolicy<loc>{}, std::forward<K>(key), std::forward<Args>(args)...);
@@ -799,24 +849,22 @@ namespace seq
 					emplace<Anywhere>(*first);
 			}
 
-			auto erase_hash(size_t hash, const_iterator it) -> iterator
+			auto erase_hash(std::size_t hash, const_iterator it, node_type* it_node = nullptr) -> iterator
 			{
 				// Erase key
 
-				SEQ_ASSERT_DEBUG(it != d_seq.end(), "invalid erase position");
-
-				// Check for dirty
-				check_hash_operation();
-
 				// Find the node corresponding to this iterator
-				node_type* n = find_node(hash, it);
+				node_type* n = it_node ? it_node : find_node(hash, it);
 				node_type* prev = n++;
 				const node_type* end = d_buckets + bucket_size();
 
-				if SEQ_UNLIKELY(n == end)
+				if (it_node)
+					it = const_iterator(it_node->node(), it_node->pos());
+
+				if SEQ_UNLIKELY (n == end)
 					n = d_buckets;
 
-				if SEQ_UNLIKELY(d_max_dist == node_type::max_distance) {
+				if SEQ_UNLIKELY (d_max_dist == node_type::max_distance) {
 					// Pure linear hash map: use tombstone
 					prev->empty_tombstone();
 					return d_seq.erase(it); // return res;
@@ -828,25 +876,32 @@ namespace seq
 					*prev = *n;
 					prev->set_distance(dist - 1);
 					prev = n++;
-					if SEQ_UNLIKELY(n == end)
+					if SEQ_UNLIKELY (n == end)
 						n = d_buckets;
 					dist = n->distance();
 				}
 				prev->empty();
-
 				return d_seq.erase(it); // return res;
 			}
-			auto erase(const_iterator it) -> iterator { return erase_hash(hash_key(extract_key::key(*it)), it); }
-			auto erase(iterator it) -> iterator { return erase_hash(hash_key(extract_key::key(*it)), it); }
+			auto erase(const_iterator it) -> iterator
+			{
+				SEQ_ASSERT_DEBUG(it != d_seq.end(), "invalid erase position");
+				return erase_hash(hash_key(extract_key::key(*it)), it);
+			}
+			auto erase(iterator it) -> iterator
+			{
+				SEQ_ASSERT_DEBUG(it != d_seq.end(), "invalid erase position");
+				return erase_hash(hash_key(extract_key::key(*it)), it);
+			}
 
 			template<class K>
-			auto erase(const K& key) -> size_t
+			auto erase(const K& key) -> std::size_t
 			{
-				size_t hash = hash_key(key);
-				const_iterator it = find_hash(hash, key);
-				if (it == d_seq.end())
+				std::size_t hash = hash_key(key);
+				auto it = find_hash_node(hash, key);
+				if (!it)
 					return 0;
-				erase_hash(hash, it);
+				erase_hash(hash, const_iterator{}, it );
 				return 1;
 			}
 
@@ -854,173 +909,146 @@ namespace seq
 			{
 				// Erase range of iterators. Most of the checks are performed in sequence::erase().
 				// Works for dirty hash map
+
 				iterator res = d_seq.erase(first, last);
-				// force rehash
-				rehash(0, true);
+				try {
+					// force rehash
+					rehash(0, true);
+				}
+				catch (...) {
+					clear();
+					throw;
+				}
 				return res;
 			}
 
-			void clear()
+			void clear() noexcept
 			{
 				d_seq.clear();
-				free_buckets(d_buckets);
+				free_buckets(d_buckets, bucket_size());
 				d_buckets = null_node();
-				d_hash_mask = d_next_target = d_hash_len = 0;
+				d_hash_mask = d_next_target = 0;
 				d_max_dist = 1;
+			}
+
+			auto hash_eq() noexcept -> base_type& { return *this; }
+			auto hash_eq() const noexcept -> const base_type& { return *this; }
+
+			auto extract() noexcept(std::is_nothrow_move_constructible_v<container_type> && std::is_nothrow_copy_constructible_v<allocator_type>) -> container_type
+			{
+				auto al = get_allocator();
+
+				try {
+					auto d = std::move(d_seq);
+
+					free_buckets(al, d_buckets, d_hash_mask + 1);
+					d_buckets = null_node();
+					d_hash_mask = d_next_target = 0;
+					d_max_dist = 1;
+					return d;
+				}
+				catch (...) {
+					d_seq.clear();
+					free_buckets(al, d_buckets, bucket_size());
+					d_buckets = null_node();
+					d_hash_mask = d_next_target = 0;
+					d_max_dist = 1;
+					throw;
+				}
+			}
+
+			void replace(container_type&& c)
+			{
+				try {
+					clear();
+					d_seq = std::move(c);
+					rehash();
+				}
+				catch (...) {
+					// We don't know in which state we are: just clear.
+					clear();
+					throw;
+				}
 			}
 		};
 
 	} // end namespace detail
 
-	/// @brief Associative container that contains a set of unique objects of type Key. Search, insertion, and removal have average constant-time complexity.
-	/// @tparam Key Key type
-	/// @tparam Hash Hash function
-	/// @tparam KeyEqual Equality comparison function
-	/// @tparam Allocator allocator object
-	///
-	/// seq::ordered_set is a open addressing hash table using robin hood hashing and backward shift deletion. Its main properties are:
-	///		-	Keys are ordered by insertion order. Therefore, ordered_set provides the additional members push_back(), push_front(), emplace_back() and emplace_front() to control key
-	///ordering. 		-	Since the container is ordered, it is also sortable. ordered_set provides the additional members sort() and stable_sort() for this purpose. 		-	The hash table itself basically
-	///stores iterators to a seq::sequence object storing the actual values. Therefore, seq::ordered_set provides <b>stable references 			and iterators, even on rehash</b> (unlike std::unordered_set
-	///that invalidates iterators on rehash). 		-	No memory peak on rehash. 		-	seq::ordered_set uses robin hood probing with backward shift deletion. It does not rely on tombstones and
-	///supports high load factors.
-	///		-	It is fast and memory efficient compared to other node based hash tables (see section <b>Performances</b>), but still slower than most open addressing hash tables due to the
-	///additional indirection.
-	///
-	///
-	/// Interface
-	/// ---------
-	///
-	/// seq::ordered_set provides a similar interface to std::unordered_set with the following differences:
-	///		-	The bucket related functions are not implemented,
-	///		-	The default load factor is set to 0.6,
-	///		-	Additional members push_back(), push_front(), emplace_back() and emplace_front() let you control the key ordering,
-	///		-	Additional members sort() and stable_sort() let you sort the container,
-	///		-	The member ordered_set::sequence() returns a reference to the underlying seq::sequence object,
-	///		-	Its iterator and const_iterator types are bidirectional iterators.
-	///
-	/// The underlying sequence object stores plain non const Key objects. However, in order to avoid modifying the keys
-	/// through iterators (and potentially invalidating the order), both iterator and const_iterator types can only return
-	/// const references.
-	///
-	///
-	/// Direct access to sequence
-	/// ----------------------
-	///
-	/// Unlike most hash table implementations, it it possible to access and modify the underlying value storage directly (a seq::sequence object).
-	/// This possibility musy be used with great care, as modifying directly the sequence might break the hashing.
-	/// When calling the non-const version of ordered_set::sequence(), the ordered_set will be marked as dirty, and further attempts
-	/// to call functions like ordered_set::find() of ordered_set::insert() (functions based on hash value) will throw a std::logic_error.
-	///
-	/// Therefore, after finishing modifying the sequence, you must call ordered_set::rehash() to rehash the sequence, remove potential duplicates,
-	/// and mark the ordered_set as non dirty anymore.
-	///
-	/// This way of modifying a ordered_set must be used carefully, but is way faster than multiple calls to ordered_set::insert() of ordered_set::erase().
-	/// For instance, it is usually faster to insert values this way than reserving the hash table ahead, except when inserting lots of duplicate keys.
-	/// Example:
-	///
-	/// \code{.cpp}
-	/// std::vector<double> keys = ...
-	///
-	/// seq::ordered_set<double> set;
-	/// for(size_t i=0; i < keys.size(); ++i)
-	///		set.sequence().insert(keys[i]);
-	///
-	/// // rehash the set and remove potential duplicate values in a stable way
-	/// set.rehash();
-	/// \endcode
-	///
-	///
-	/// Exception guarantee
-	/// -------------------
-	///
-	/// Most members of seq::ordered_set provide <b>strong exception guarantee</b>, except if specified otherwise (mentionned in function documentation).
-	///
-	///
-	/// Growth policy and load factor
-	/// -----------------------------
-	///
-	/// seq::ordered_set uses a growth factor of 2 to use the fast modulo. The hash table size is multiplied by 2 each time the table load factor exceeds
-	/// the given max_load_factor(). The default maximum load factor is set to 0.6 and can by set up to 0.95, which is well supported thanks to the robin hood hashing.
-	///
-	/// In some cases, the actual load factor can exceed the provided maximum load factor. This holds when the keys are very well distributed, and the maximum
-	/// distance of a key to its computed location is low (below 8). This strategy avoids some unnecessary rehash for very strong hash function (or well distributed keys).
-	/// Note however that the load factor will never exceed 0.95.
-	///
-	/// On rehash, the old table is deallocated before allocating the new (twice as big) one. This is possible thanks to the double storage strategy (values are stored in an
-	/// independant seq::sequence object) and avoid memory peaks.
-	///
-	///
-	/// Handling of bad hash function
-	/// -----------------------------
-	///
-	/// Like most robin hood based hash tables (ska::flat_hash_set, tsl::robin_set...), seq::ordered_set uses 8 bits to store the node distance to
-	/// its computed location. For a bad hash function leading to strong clustering, this 8 bits distance quickly overflows. The usual strategy in this
-	/// case is to rehash the table based on the growth strategy, hopping for a better key distribution.
-	///
-	/// For very bad hash function (or in case of DOS attack), hash tables like ska::flat_hash_set and tsl::robin_set will keep rehashing its values and reallocating
-	/// the table, until a fatal std::bad_alloc is thrown. seq::ordered_set uses a different strategy to cope with such situation:
-	///		-	When the distance value overflows, it is discarded and the table relies on pure linear hashing.
-	///		-	In this case, deleting an entry will create a tombstone instead of the standard backward shift deletion.
-	///		-	The linear probing behavior is kept until a call to ordered_set::rehash() that might switch back the behavior to robin hood hashing.
-	///
-	/// Therefore, a (very) bad hash function will only make the table slower but will never explode with a std::bad_alloc exception
-	///
-	///
-	/// Deleting entries
-	/// ----------------
-	///
-	/// seq::ordered_set uses backward shift deletion to avoid introducing tombstone, except for bad hash functions (see section above).
-	/// The key lookup remains fast when deleting lots of entries, and mixed scenarios involving lots of interleaved insertion/deletion
-	/// are well supported.
-	///
-	/// Note however that removing a key will never trigger a rehash. The user is free to rehash the ordered_set at any point using ordered_set::rehash() member.
-	///
-	///
-	/// Sorting
-	/// -------
-	///
-	/// Since the ordered_set is ordered by key insertion order, it makes sense to provide a function to sort it.
-	/// The members ordered_set::sort() and ordered_set::stable_sort() are provided and call respectively seq::sequence::sort() and seq::sequence::stable_sort().
-	/// These functions rehash the full table after sorting.
-	///
-	///
-	/// Performances
-	/// ------------
-	///
-	/// Performances of seq::ordered_set has been measured and compared to other node based hash tables: std::unordered_set, <a
-	/// href="https://github.com/skarupke/flat_hash_map/blob/master/unordered_map.hpp">ska::unordered_set</a>, <a
-	/// href="https://github.com/martinus/robin-hood-hashing">robin_hood::unordered_node_set</a>, <a href="https://github.com/greg7mdp/parallel-hashmap">phmap::node_hash_set</a> (based on abseil
-	/// hash table) and <a href="https://www.boost.org/doc/libs/1_51_0/doc/html/boost/unordered_set.html">boost::unordered_set</a>. The following table show the results when compiled with
-	/// gcc 10.1.0 (-O3) for msys2 on Windows 10, using Intel(R) Core(TM) i7-10850H at 2.70GHz. Measured operations are:
-	///		-	Insert successfully 5M unique double randomly shuffled in an empty table using hash_table::insert()
-	///		-	Insert successfully 5M unique double randomly shuffled in an empty table using hash_table::insert() after reserving enough space
-	///		-	Successfully search for 5M double in random order using hash_table::find(const Key&)
-	///		-	Search for 5M double not present in the table (failed lookup)
-	///		-	Walk through the full table (5M double) using iterators
-	///		-	Erase half the table in random order using hash_table::erase(iterator)
-	///		-	Perform successfull lookups on the remaining 2.5M keys.
-	///
-	/// For each tested hash table, the maximum load factor is left to its default value, and std::hash<double> is used. For insert and erase operations,
-	/// the program memory consumption is given. Note that the memory consumption is not the exact memory usage of the hash table, and should only be used
-	/// to measure the difference between implementations.
-	///
-	/// Hash table name               |       Insert       |  Insert(reserve)   |Find (success) | Find (failed) |    Iterate    |       Erase        |  Find again   |
-	/// ------------------------------|--------------------|--------------------|---------------|---------------|---------------|--------------------|---------------|
-	/// seq::ordered_set              |   461 ms/145 MO    |   310 ms/145 MO    |    321 ms     |    177 ms     |     5 ms      |   462 ms/222 MO    |    203 ms     |
-	/// phmap::node_hash_set          |   975 ms/188 MO    |   489 ms/187 MO    |    438 ms     |    132 ms     |     95 ms     |   732 ms/264 MO    |    250 ms     |
-	/// robin_hood::unordered_node_set|   583 ms/182 MO    |   242 ms/149 MO    |    341 ms     |    142 ms     |     83 ms     |   379 ms/258 MO    |    224 ms     |
-	/// ska::unordered_set            |   1545 ms/257 MO   |   774 ms/256 MO    |    324 ms     |    258 ms     |    128 ms     |   613 ms/333 MO    |    238 ms     |
-	/// boost::unordered_set          |   1708 ms/257 MO   |   901 ms/257 MO    |    571 ms     |    532 ms     |    262 ms     |   1073 ms/333 MO   |    405 ms     |
-	/// std::unordered_set            |   1830 ms/238 MO   |   1134 ms/232 MO   |    847 ms     |    878 ms     |    295 ms     |   1114 ms/315 MO   |    646 ms     |
-	///
-	/// This benchmark is available in file 'seq/benchs/bench_hash.hpp'.
-	/// seq::ordered_set is among the fastest hashtable for each operation except for failed lookup, and has a lower memory overhead.
-	/// Note that this benchmark does not represent all possible workloads, and additional tests must be fullfilled for specific scenarios.
-	///
-	/// seq::ordered_set uses internally and if possible compressed pointers to reduce its memory footprint. In such case, the last 16 bits of a pointer are used to store
-	/// metadata. Situations where this is not possible are detected at compile time, but it is possible to manually disable this optimization by defining SEQ_NO_COMPRESSED_PTR.
-	///
+	/**
+	@brief Associative container that contains a set of unique objects of type Key. Search, insertion, and removal have average constant-time complexity.
+	@tparam Key Key type
+	@tparam Hash Hash function
+	@tparam KeyEqual Equality comparison function
+	@tparam Allocator allocator object
+
+	Ordered set
+	-----------
+
+	`seq::ordered_set` is a open addressing hash table using robin hood hashing and backward shift deletion. Its main properties are:
+	-	Keys are ordered by insertion order. Therefore, ordered_set provides the additional members push_back(), push_front(), emplace_back() and emplace_front() to control key ordering.
+	-	Since the container is ordered, it is also sortable. ordered_set provides the additional members sort() for this purpose.
+	-	The hash table itself basically stores iterators to a `seq::sequence` object storing the actual values. Therefore, `seq::ordered_set` provides *stable references and iterators, even on
+	rehash* (unlike `std::unordered_set` that invalidates iterators on rehash). -	No memory peak on rehash. -	`seq::ordered_set` uses robin hood probing with backward shift deletion. It does
+	not rely on tombstones and supports high load factors. -	It is fast and memory efficient compared to other node based hash tables (see section *Performances*), but still slower than
+	most open addressing hash tables due to the additional indirection.
+
+
+	Interface
+	---------
+
+	`seq::ordered_set` provides a similar interface to `std::unordered_set` with the following differences:
+	-	The bucket related functions are not implemented,
+	-	The default load factor is set to 0.6,
+	-	Additional members push_back(), push_front(), emplace_back() and emplace_front() let you control the key ordering,
+	-	Additional member sort() let you sort the container,
+	-	Its iterator and const_iterator types are bidirectional iterators.
+
+	Direct access to sequence
+	-------------------------
+
+	`seq::ordered_set/map` provide the members `extract()` to retrieve (move) the underlying seq::sequence object.
+	The sequence can be modified at will and then moved to the ordered_set using `replace()` member. In this case, the sequence must already be unique.
+
+	Exception guarantee
+	-------------------
+
+	Most members of `seq::ordered_set` provide *strong exception guarantee*, except if specified otherwise (mentionned in function documentation).
+
+	Growth policy and load factor
+	-----------------------------
+
+	`seq::ordered_set` uses a growth factor of 2 to use the fast modulo. The hash table size is multiplied by 2 each time the table load factor exceeds the given max_load_factor(). The default
+	maximum load factor is set to 0.6 and can by set up to 0.95, which is well supported thanks to the robin hood hashing.
+
+	Handling of bad hash function
+	-----------------------------
+
+	Like most robin hood based hash tables, `seq::ordered_set` uses 8 bits to store the node distance to its computed location. For a bad hash function leading to strong clustering, this 8 bits
+	distance quickly overflows. The usual strategy in this case is to rehash the table based on the growth strategy, hopping for a better key distribution.
+
+	For very bad hash function (or in case of DOS attack), hash tables like <a href="https://github.com/skarupke/flat_hash_map/blob/master/flat_hash_set.hpp">ska::flat_hash_set</a> and <a
+	href="https://github.com/Tessil/robin-map/blob/master/include/tsl/robin_set.h">tsl::robin_set</a> will keep rehashing its values and reallocating the table, until a fatal std::bad_alloc is
+	thrown. `seq::ordered_set` uses a different strategy to cope with such situation: -	When the distance value overflows, it is discarded and the table relies on pure linear hashing. -
+	In this case, deleting an entry will create a tombstone instead of the standard backward shift deletion. -	The linear probing behavior is kept until a call to ordered_set::rehash() that
+	might switch back the behavior to robin hood hashing.
+
+	Therefore, a (very) bad hash function will only make the table slower but will never explode with a std::bad_alloc exception
+
+	Deleting entries
+	----------------
+
+	`seq::ordered_set` uses backward shift deletion to avoid introducing tombstones, except for bad hash functions (see section above).
+	The key lookup remains fast when deleting lots of entries, and mixed scenarios involving lots of interleaved insertion/deletion are well supported.
+
+	Note however that removing a key will never trigger a rehash. The user is free to rehash the ordered_set at any point using ordered_set::rehash() member.
+
+	Sorting
+	-------
+
+	Since the ordered_set is ordered by key insertion order, it makes sense to provide a function to sort it.
+	The member ordered_set::sort() calls seq::sequence::sort() and uses a stable sorting algorithm.
+	This function rehash the full table after sorting.
+	*/
 	template<class Key, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<Key>>
 	class ordered_set : private detail::SparseFlatNodeHashTable<Key, Key, Hash, KeyEqual, Allocator>
 	{
@@ -1030,29 +1058,29 @@ namespace seq
 		using Policy = detail::BuildValue<Key, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
 
 	public:
-		using sequence_type = typename base_type::sequence_type;
-		using const_iterator = typename sequence_type::const_iterator;
+		using container_type = typename base_type::container_type;
+		using const_iterator = typename container_type::const_iterator;
 		using iterator = const_iterator;
-		using const_reverse_iterator = typename sequence_type::const_reverse_iterator;
+		using const_reverse_iterator = typename container_type::const_reverse_iterator;
 		using reverse_iterator = const_reverse_iterator;
 
 		using key_type = Key;
 		using value_type = Key;
 		using allocator_type = Allocator;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = std::ptrdiff_t;
 		using hasher = Hash;
 		using key_equal = KeyEqual;
-		using reference = value_type&;
+		using reference = const value_type&;
 		using const_reference = const value_type&;
-		using pointer = typename std::allocator_traits<Allocator>::pointer;
+		using pointer = typename std::allocator_traits<Allocator>::const_pointer;
 		using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
 
 		/// @brief Constructs empty container. Sets max_load_factor() to 0.6.
 		/// @param hash hash function to use
 		/// @param equal comparison function to use for all key comparisons of this container
 		/// @param alloc allocator to use for all memory allocations of this container
-		ordered_set(const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual(), const Allocator& alloc = Allocator()) noexcept
+		ordered_set(const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual(), const Allocator& alloc = Allocator())
 		  : base_type(hash, equal, alloc)
 		{
 		}
@@ -1108,17 +1136,15 @@ namespace seq
 		ordered_set(const ordered_set& other, const Allocator& alloc)
 		  : base_type(other.hash_function(), other.key_eq(), alloc)
 		{
-			this->d_seq.resize(other.size());
-			std::copy(other.sequence().begin(), other.sequence().end(), this->d_seq.begin());
-			if (other.dirty())
-				base_type::mark_dirty();
+			this->d_seq.reserve(other.size());
 			max_load_factor(other.max_load_factor());
-			rehash();
+			for (const auto& v : other.d_seq)
+				emplace(v);
 		}
 		/// @brief Copy constructor
 		/// @param other another container to be used as source to initialize the elements of the container with
 		ordered_set(const ordered_set& other)
-		  : ordered_set(other, copy_allocator(other.get_allocator()))
+		  : ordered_set(other, std::allocator_traits<Allocator>::select_on_container_copy_construction(other.get_allocator()))
 		{
 		}
 		/// @brief Move constructor
@@ -1157,27 +1183,21 @@ namespace seq
 		/// @brief Copy assignment operator
 		auto operator=(const ordered_set& other) -> ordered_set&
 		{
-			if (this != std::addressof(other)) {
-				this->d_seq = other.sequence();
-				if (other.dirty())
-					this->mark_dirty();
-				max_load_factor(other.max_load_factor());
-				rehash();
-			}
+			static_cast<base_type&>(*this) = other;
 			return *this;
 		}
 
 		/// @brief Move assignment operator
-		auto operator=(ordered_set&& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) -> ordered_set&
+		auto operator=(ordered_set&& other) noexcept(noexcept(std::declval<base_type&>() = std::declval<base_type&&>())) -> ordered_set&
 		{
-			base_type::swap(other);
+			static_cast<base_type&>(*this) = std::move(static_cast<base_type&>(other));
 			return *this;
 		}
 
 		/// @brief Returns the container size
-		auto size() const noexcept -> size_t { return this->d_seq.size(); }
+		auto size() const noexcept -> std::size_t { return this->d_seq.size(); }
 		/// @brief Returns the container maximum size
-		auto max_size() const noexcept -> size_t { return this->d_seq.max_size(); }
+		auto max_size() const noexcept -> std::size_t { return this->d_seq.max_size(); }
 		/// @brief Returns true if the container is empty, false otherwise
 		auto empty() const noexcept -> bool { return this->d_seq.empty(); }
 		/// @brief Returns the current maximum possible probe distance
@@ -1189,50 +1209,43 @@ namespace seq
 		/// @brief Set the maximum load factor
 		void max_load_factor(float f) noexcept { base_type::max_load_factor(f); }
 		/// @brief Returns the container allocator object
-		auto get_allocator() noexcept -> allocator_type& { return this->d_seq.get_allocator(); }
-		/// @brief Returns the container allocator object
-		auto get_allocator() const noexcept -> const allocator_type& { return this->d_seq.get_allocator(); }
+		auto get_allocator() const -> allocator_type { return this->d_seq.get_allocator(); }
 		/// @brief Returns the hash function
 		auto hash_function() const noexcept -> const hasher& { return this->base_type::hash_function(); }
 		/// @brief Returns the equality comparison function
 		auto key_eq() const noexcept -> const key_equal& { return this->base_type::key_eq(); }
+
 		/// @brief Returns the underlying sequence object.
-		/// Calling this function will mark the container as dirty. Any further attempts to call members like find() or insert() (relying on the hash function)
-		/// will raise a std::logic_error. To mark the container as non dirty anymore, the user must call ordered_set::rehash().
-		/// @return a reference to the underlying seq::sequence object
-		auto sequence() noexcept -> sequence_type&
-		{
-			this->base_type::mark_dirty();
-			return this->d_seq;
-		}
-		/// @brief Returns the underlying sequence object. Do NOT mark the container as dirty.
-		auto sequence() const noexcept -> const sequence_type& { return this->d_seq; }
-		/// @brief Returns the underlying sequence object. Do NOT mark the container as dirty.
-		auto csequence() const noexcept -> const sequence_type& { return this->d_seq; }
-		/// @brief Returns an iterator to the first element of the container.
-		auto end() noexcept -> iterator { return this->d_seq.end(); }
+		auto sequence() const noexcept -> const container_type& { return this->d_seq; }
+
+		/// @brief Returns the underlying moved sequence object.
+		/// This clears the hash table.
+		auto extract() noexcept(noexcept(base_type::extract())) -> container_type { return base_type::extract(); }
+
+		/// @brief Replace the internal sequence object by the provided one using move semantic.
+		/// Mandatory precondition: the sequence must already be unique!
+		void replace(container_type&& c) { base_type::replace(std::move(c)); }
+
 		/// @brief Returns an iterator to the first element of the container.
 		auto end() const noexcept -> const_iterator { return this->d_seq.end(); }
 		/// @brief Returns an iterator to the first element of the container.
 		auto cend() const noexcept -> const_iterator { return this->d_seq.end(); }
-		/// @brief Returns an iterator to the element following the last element of the container.
-		auto begin() noexcept -> iterator { return this->d_seq.begin(); }
+
 		/// @brief Returns an iterator to the element following the last element of the container.
 		auto begin() const noexcept -> const_iterator { return this->d_seq.begin(); }
 		/// @brief Returns an iterator to the element following the last element of the container.
 		auto cbegin() const noexcept -> const_iterator { return this->d_seq.begin(); }
-		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		auto rbegin() noexcept -> reverse_iterator { return this->d_seq.rbegin(); }
+
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		auto rbegin() const noexcept -> const_reverse_iterator { return this->d_seq.rbegin(); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
 		auto crbegin() const noexcept -> const_reverse_iterator { return this->d_seq.rbegin(); }
-		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		auto rend() noexcept -> reverse_iterator { return this->d_seq.rend(); }
+
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
 		auto rend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
 		auto crend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
+
 		/// @brief Clear the container
 		void clear() { this->base_type::clear(); }
 
@@ -1246,35 +1259,31 @@ namespace seq
 		/// Otherwise, this function does nothing.
 		///
 		void rehash() { this->base_type::rehash(); }
-		void rehash(size_t n) { this->base_type::rehash(n); }
+		void rehash(std::size_t n) { this->base_type::rehash(n); }
 
 		/// @brief Sets the number of nodes to the number needed to accomodate at least count elements without exceeding maximum load factor and rehashes the container.
 		/// @param count new capacity of the container
-		void reserve(size_t count) { this->base_type::reserve(count); }
+		void reserve(std::size_t count) { this->base_type::reserve(count); }
 
 		/// @brief Sort the container based on given comparator.
 		/// The full container is rehashed afterward.
 		/// Invalidate all references and iterators.
 		/// Basic exception guarantee only.
 		/// @param le comparison function
-		template<class Less, class Buffer>
-		void sort(Less le, Buffer  buf)
-		{
-			sequence().sort(le, buf);
-			rehash();
-		}
 		template<class Less>
 		void sort(Less le)
 		{
-			sequence().sort(le);
-			rehash();
+			try {
+				this->d_seq.sort(le);
+				this->base_type::rehash(0, true);
+			}
+			catch (...) {
+				clear();
+				throw;
+			}
 		}
-		void sort()
-		{
-			sequence().sort();
-			rehash();
-		}
-		
+		void sort() { sort(std::less<>{}); }
+
 		/// @brief Calls seq::sequence::shrink_to_fit().
 		/// Remove potential holes in the sequence object due to calls to ordered_set::erase().
 		/// Does not allocate memory, except for the hash table itself.
@@ -1282,8 +1291,14 @@ namespace seq
 		/// Basic exception guarantee only.
 		void shrink_to_fit()
 		{
-			sequence().shrink_to_fit();
-			rehash();
+			try {
+				this->d_seq.shrink_to_fit();
+				this->base_type::rehash(0, true);
+			}
+			catch (...) {
+				clear();
+				throw;
+			}
 		}
 
 		/// @brief Swap this container with other
@@ -1443,10 +1458,7 @@ namespace seq
 		/// @param key key value to search for
 		/// @return iterator pointing to found key on success, end iterator on failure.
 		SEQ_ALWAYS_INLINE auto find(const Key& key) const -> const_iterator { return this->base_type::find(key); }
-		/// @brief Finds an element with key equivalent to key
-		/// @param value key value to search for
-		/// @return iterator pointing to found key on success, end iterator on failure.
-		SEQ_ALWAYS_INLINE auto find(const Key& value) -> iterator { return static_cast<iterator>(const_cast<this_type*>(this)->base_type::find(value)); }
+
 		/// @brief Finds an element with key equivalent to key.
 		/// Finds an element with key that compares equivalent to the value x.
 		/// This overload participates in overload resolution only if Hash::is_transparent and KeyEqual::is_transparent are valid and each denotes a type.
@@ -1458,18 +1470,6 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto find(const K& x) const -> const_iterator
 		{
 			return const_cast<this_type*>(this)->base_type::find(x);
-		}
-		/// @brief Finds an element with key equivalent to key.
-		/// Finds an element with key that compares equivalent to the value x.
-		/// This overload participates in overload resolution only if Hash::is_transparent and KeyEqual::is_transparent are valid and each denotes a type.
-		/// This assumes that such Hash is callable with both K and Key type, and that the KeyEqual is transparent, which, together, allows calling this function without constructing an
-		/// instance of Key.
-		/// @param key value to search for
-		/// @return iterator pointing to found key on success, end iterator on failure.
-		template<class K, class KE = KeyEqual, class H = Hash, typename std::enable_if<has_is_transparent<KE>::value && has_is_transparent<H>::value>::type* = nullptr>
-		SEQ_ALWAYS_INLINE auto find(const K& key) -> iterator
-		{
-			return static_cast<iterator>(const_cast<this_type*>(this)->base_type::find(key));
 		}
 
 		/// @brief Returns 1 of key exists, 0 otherwise
@@ -1491,36 +1491,25 @@ namespace seq
 		}
 	};
 
-	/// @brief Associative container that contains key-value pairs with unique keys. Search, insertion, and removal of elements have average constant-time complexity.
-	/// @tparam Key Key type
-	/// @tparam T mapped type
-	/// @tparam Hash Hash function
-	/// @tparam KeyEqual Equality comparison function
-	/// @tparam Allocator allocator object
-	///
-	/// seq::ordered_map is a hash table using robin hood hashing and backward shift deletion. Its main properties are:
-	///		-	Keys are ordered by insertion order. Therefore, ordered_set provides the additional members push_back(), push_front(), emplace_back() and emplace_front() to constrol key
-	///ordering. 		-	Since the container is ordered, it is also sortable. ordered_set provides the additional members sort() and stable_sort() for this purpose. 		-	The hash table itself basically
-	///stores iterators to a seq::sequence object storing the actual values. Therefore, seq::ordered_set provides <b>stable references 			and iterators, even on rehash</b> (unlike std::unordered_set
-	///that invalidates iterators on rehash). 		-	No memory peak on rehash. 		-	seq::ordered_set uses robin hood probing with backard shift deletion. It does not rely on tombstones and
-	///supports high load factors.
-	///		-	It is fast and memory efficient compared to other node based hash tables (see section <b>Performances</b>), but still slower than most open addressing hash tables.
-	///
-	/// seq::ordered_map behaves like #seq::ordered_set except that the underlying sequence stores elements of types std::pair<Key,T> instead of Key.
-	/// Its interface is similar to std::unordered_map, except for the bucket based members.
-	///
-	/// Unlike std::unordered_map which stores objects of type std::pair<const Key,T>, ordered_map stores objects of type  std::pair<Key,T>.
-	/// To avoid modifying the key value through iterators, the value is reinterpreted to std::pair<const Key,T>.
-	/// Although quite ugly, this solution works on all tested compilers.
-	///
-	/// For more details on its internal implementation, see #seq::ordered_set documentation.
-	///
-	template<class Key, class T, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<std::pair<Key, T>>>
-	class ordered_map : private detail::SparseFlatNodeHashTable<Key, std::pair<Key, T>, Hash, KeyEqual, Allocator>
+	/**
+	@brief Associative container that contains key-value pairs with unique keys. Search, insertion, and removal of elements have average constant-time complexity.
+	@tparam Key Key type
+	@tparam T mapped type
+	@tparam Hash Hash function
+	@tparam KeyEqual Equality comparison function
+	@tparam Allocator allocator object
+
+	seq::ordered_map is a open addressing hash table using robin hood hashing and backward shift deletion.
+	See seq::ordered_set documentation for more details.
+	*/
+	template<class Key, class T, class Hash = hasher<Key>, class KeyEqual = std::equal_to<>, class Allocator = std::allocator<std::pair<const Key, T>>>
+	class ordered_map : private detail::SparseFlatNodeHashTable<Key, std::pair<Key, T>, Hash, KeyEqual, detail::RebindAllocator<Allocator, std::pair<Key, T>>>
 	{
-		using base_type = detail::SparseFlatNodeHashTable<Key, std::pair<Key, T>, Hash, KeyEqual, Allocator>;
+		using storage_type = std::pair<Key, T>;
+		using base_allocator = detail::RebindAllocator<Allocator, storage_type>;
+		using base_type = detail::SparseFlatNodeHashTable<Key, storage_type, Hash, KeyEqual, base_allocator>;
 		using this_type = ordered_map<Key, T, Hash, KeyEqual, Allocator>;
-		using extract_key = detail::ExtractKey<Key, std::pair<Key, T>>;
+		using extract_key = detail::ExtractKey<Key, storage_type>;
 
 		template<class Less>
 		struct LessAdapter
@@ -1541,27 +1530,28 @@ namespace seq
 		using Policy = detail::BuildValue<std::pair<Key, T>, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
 
 	public:
-		using sequence_type = typename base_type::sequence_type;
-		using iterator = typename sequence_type::iterator;
-		using const_iterator = typename sequence_type::const_iterator;
-		using reverse_iterator = typename sequence_type::reverse_iterator;
-		using const_reverse_iterator = typename sequence_type::const_reverse_iterator;
-
 		using key_type = Key;
 		using mapped_type = T;
-		using value_type = std::pair<Key, T>;
+		using value_type = std::pair<const Key, T>;
 		using allocator_type = Allocator;
-		using size_type = size_t;
+		using size_type = std::size_t;
 		using difference_type = std::ptrdiff_t;
+
+		using container_type = typename base_type::container_type;
+		using iterator = detail::MapBidirIterator<typename container_type::iterator, value_type>;
+		using const_iterator = detail::MapBidirIterator<typename container_type::const_iterator, value_type>;
+		using reverse_iterator = std::reverse_iterator<iterator>;
+		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
 		using hasher = Hash;
 		using key_equal = KeyEqual;
 		using reference = value_type&;
 		using const_reference = const value_type&;
-		using pointer = typename std::allocator_traits<Allocator>::pointer;
-		using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
+		using pointer = value_type*;
+		using const_pointer = const value_type*;
 
-		ordered_map(const Hash& hash = Hash(), const KeyEqual& equal = KeyEqual(), const Allocator& alloc = Allocator()) noexcept
-		  : base_type(hash, equal, alloc)
+		ordered_map(const Hash& hash = {}, const KeyEqual& equal = {}, const Allocator& alloc = {})
+		  : base_type(hash, equal, base_allocator{ alloc })
 		{
 		}
 
@@ -1571,8 +1561,8 @@ namespace seq
 		}
 
 		template<class InputIt, std::enable_if_t<is_iterator<InputIt>::value, int> = 0>
-		ordered_map(InputIt first, InputIt last, const Hash& hash = Hash(), const key_equal& equal = key_equal(), const Allocator& alloc = Allocator())
-		  : base_type(hash, equal, alloc)
+		ordered_map(InputIt first, InputIt last, const Hash& hash = {}, const key_equal& equal = {}, const Allocator& alloc = {})
+		  : ordered_map(hash, equal, alloc)
 		{
 			insert(first, last);
 		}
@@ -1587,17 +1577,15 @@ namespace seq
 		{
 		}
 		ordered_map(const ordered_map& other, const Allocator& alloc)
-		  : base_type(other.hash_function(), other.key_eq(), alloc)
+		  : base_type(other.hash_function(), other.key_eq(), base_allocator{ alloc })
 		{
-			this->d_seq.resize(other.size());
-			std::copy(other.sequence().begin(), other.sequence().end(), this->d_seq.begin());
-			if (other.dirty())
-				base_type::mark_dirty();
+			this->d_seq.reserve(other.size());
 			max_load_factor(other.max_load_factor());
-			rehash();
+			for (const auto& v : other.d_seq)
+				emplace(v);
 		}
 		ordered_map(const ordered_map& other)
-		  : ordered_map(other, copy_allocator(other.get_allocator()))
+		  : ordered_map(other, std::allocator_traits<Allocator>::select_on_container_copy_construction(other.get_allocator()))
 		{
 		}
 		ordered_map(ordered_map&& other) noexcept(std::is_nothrow_move_constructible_v<base_type>)
@@ -1605,7 +1593,7 @@ namespace seq
 		{
 		}
 		ordered_map(ordered_map&& other, const Allocator& alloc)
-		  : base_type(std::move(other), alloc)
+		  : base_type(std::move(other), base_allocator{ alloc })
 		{
 		}
 		ordered_map(std::initializer_list<value_type> init, const Hash& hash = Hash(), const key_equal& equal = key_equal(), const Allocator& alloc = Allocator())
@@ -1621,25 +1609,22 @@ namespace seq
 		{
 		}
 
+		/// @brief Copy assignment operator
 		auto operator=(const ordered_map& other) -> ordered_map&
 		{
-			if (this != std::addressof(other)) {
-				this->d_seq = other.sequence();
-				if (other.dirty())
-					this->mark_dirty();
-				max_load_factor(other.max_load_factor());
-				rehash();
-			}
-			return *this;
-		}
-		auto operator=(ordered_map&& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) -> ordered_map&
-		{
-			base_type::swap(other);
+			static_cast<base_type&>(*this) = other;
 			return *this;
 		}
 
-		auto size() const noexcept -> size_t { return this->d_seq.size(); }
-		auto max_size() const noexcept -> size_t { return this->d_seq.max_size(); }
+		/// @brief Move assignment operator
+		auto operator=(ordered_map&& other) noexcept(noexcept(std::declval<base_type&>() = std::declval<base_type&&>())) -> ordered_map&
+		{
+			static_cast<base_type&>(*this) = std::move(static_cast<base_type&>(other));
+			return *this;
+		}
+
+		auto size() const noexcept -> std::size_t { return this->d_seq.size(); }
+		auto max_size() const noexcept -> std::size_t { return this->d_seq.max_size(); }
 		auto empty() const noexcept -> bool { return this->d_seq.empty(); }
 
 		auto max_probe_distance() const noexcept -> int { return this->d_max_dist; }
@@ -1648,19 +1633,20 @@ namespace seq
 		auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
 		void max_load_factor(float f) noexcept { base_type::max_load_factor(f); }
 
-		auto get_allocator() noexcept -> allocator_type& { return this->d_seq.get_allocator(); }
-		auto get_allocator() const noexcept -> const allocator_type& { return this->d_seq.get_allocator(); }
+		auto get_allocator() const -> allocator_type { return this->d_seq.get_allocator(); }
 
 		auto hash_function() const noexcept -> const hasher& { return this->base_type::hash_function(); }
 		auto key_eq() const noexcept -> const key_equal& { return this->base_type::key_eq(); }
 
-		auto sequence() noexcept -> sequence_type&
-		{
-			this->base_type::mark_dirty();
-			return this->d_seq;
-		}
-		auto sequence() const noexcept -> const sequence_type& { return this->d_seq; }
-		auto csequence() const noexcept -> const sequence_type& { return this->d_seq; }
+		auto sequence() const noexcept -> const container_type& { return this->d_seq; }
+
+		/// @brief Returns the underlying moved sequence object.
+		/// This clears the hash table.
+		auto extract() noexcept(noexcept(base_type::extract())) -> container_type { return base_type::extract(); }
+
+		/// @brief Replace the internal sequence object by the provided one using move semantic.
+		/// Mandatory precondition: the sequence must already be unique!
+		void replace(container_type&& c) { base_type::replace(std::move(c)); }
 
 		auto end() noexcept -> iterator { return this->d_seq.end(); }
 		auto end() const noexcept -> const_iterator { return this->d_seq.end(); }
@@ -1670,44 +1656,43 @@ namespace seq
 		auto begin() const noexcept -> const_iterator { return this->d_seq.begin(); }
 		auto cbegin() const noexcept -> const_iterator { return this->d_seq.begin(); }
 
-		auto rbegin() noexcept -> reverse_iterator { return this->d_seq.rbegin(); }
-		auto rbegin() const noexcept -> const_reverse_iterator { return this->d_seq.rbegin(); }
-		auto crbegin() const noexcept -> const_reverse_iterator { return this->d_seq.rbegin(); }
+		auto rbegin() noexcept -> reverse_iterator { return reverse_iterator(end()); }
+		auto rbegin() const noexcept -> const_reverse_iterator { return const_reverse_iterator(end()); }
+		auto crbegin() const noexcept -> const_reverse_iterator { return rbegin(); }
 
-		auto rend() noexcept -> reverse_iterator { return this->d_seq.rend(); }
-		auto rend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
-		auto crend() const noexcept -> const_reverse_iterator { return this->d_seq.rend(); }
+		auto rend() noexcept -> reverse_iterator { return reverse_iterator(begin()); }
+		auto rend() const noexcept -> const_reverse_iterator { return const_reverse_iterator(begin()); }
+		auto crend() const noexcept -> const_reverse_iterator { return rend(); }
 
 		void clear() { this->base_type::clear(); }
 		void rehash() { this->base_type::rehash(); }
-		void rehash(size_t n) { this->base_type::rehash(n); }
-		void reserve(size_t size) { this->base_type::reserve(size); }
+		void rehash(std::size_t n) { this->base_type::rehash(n); }
+		void reserve(std::size_t size) { this->base_type::reserve(size); }
+
 		template<class Less>
 		void sort(Less le)
 		{
-			sequence().sort(LessAdapter<Less>(le));
-			this->base_type::rehash();
+			try {
+				this->d_seq.sort(LessAdapter<Less>(le));
+				this->base_type::rehash(0, true);
+			}
+			catch (...) {
+				clear();
+				throw;
+			}
 		}
-		void sort()
-		{
-			sequence().sort(LessAdapter<std::less<Key>>());
-			this->base_type::rehash();
-		}
-		template<class Less>
-		void stable_sort(Less le)
-		{
-			sequence().stable_sort(LessAdapter<Less>(le));
-			this->base_type::rehash();
-		}
-		void stable_sort()
-		{
-			sequence().stable_sort(LessAdapter<std::less<Key>>());
-			this->base_type::rehash();
-		}
+		void sort() { sort(std::less<Key>{}); }
+		
 		void shrink_to_fit()
 		{
-			sequence().shrink_to_fit();
-			this->base_type::rehash();
+			try {
+				this->d_seq.shrink_to_fit();
+				this->base_type::rehash(0, true);
+			}
+			catch (...) {
+				clear();
+				throw;
+			}
 		}
 
 		void swap(ordered_map& other) noexcept(noexcept(std::declval<base_type&>().swap(std::declval<base_type&>()))) { base_type::swap(other); }
@@ -1744,7 +1729,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto insert(const_iterator hint, P&& value) -> iterator
 		{
 			(void)hint;
-			return this->base_type::template emplace<detail::Anywhere>(Policy::make(std::forward<P>(value)));
+			return this->base_type::template emplace<detail::Anywhere>(Policy::make(std::forward<P>(value))).first;
 		}
 		template<class InputIt>
 		void insert(InputIt first, InputIt last)
@@ -1953,15 +1938,15 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto operator[](const Key& k) -> T& { return try_emplace(k).first->second; }
 		SEQ_ALWAYS_INLINE auto operator[](Key&& k) -> T& { return try_emplace(std::move(k)).first->second; }
 
-		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return this->base_type::erase(pos); }
-		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return this->base_type::erase(pos); }
+		SEQ_ALWAYS_INLINE auto erase(iterator pos) -> iterator { return this->base_type::erase(pos.iter()); }
+		SEQ_ALWAYS_INLINE auto erase(const_iterator pos) -> iterator { return this->base_type::erase(pos.iter()); }
 		SEQ_ALWAYS_INLINE auto erase(const Key& key) -> size_type { return this->base_type::erase(key); }
 		template<class K, class KE = KeyEqual, class H = Hash, typename std::enable_if<has_is_transparent<KE>::value && has_is_transparent<H>::value>::type* = nullptr>
 		SEQ_ALWAYS_INLINE auto erase(const K& key) -> size_type
 		{
 			return this->base_type::erase(key);
 		}
-		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator { return this->base_type::erase(first, last); }
+		SEQ_ALWAYS_INLINE auto erase(const_iterator first, const_iterator last) -> iterator { return this->base_type::erase(first.iter(), last.iter()); }
 
 		SEQ_ALWAYS_INLINE auto find(const Key& value) const -> const_iterator { return this->base_type::find(value); }
 		SEQ_ALWAYS_INLINE auto find(const Key& value) -> iterator { return static_cast<iterator>(const_cast<this_type*>(this)->base_type::find(value)); }
@@ -2006,7 +1991,7 @@ namespace seq
 			return false;
 		for (auto it = lhs.begin(); it != lhs.end(); ++it) {
 			auto found = rhs.find(*it);
-			if (found == rhs.end())
+			if (found == rhs.end() || !(*found == *it))
 				return false;
 		}
 		return true;
@@ -2023,12 +2008,12 @@ namespace seq
 	/// @param p predicate that returns true if the element should be erased
 	/// @return number of erased elements
 	template<class Key, class Hash1, class KeyEqual, class Allocator1, class Pred>
-	auto erase_if(ordered_set<Key, Hash1, KeyEqual, Allocator1>& set, Pred p) -> size_t
+	auto erase_if(ordered_set<Key, Hash1, KeyEqual, Allocator1>& set, Pred p) -> std::size_t
 	{
-		using sequence_type = typename ordered_set<Key, Hash1, KeyEqual, Allocator1>::sequence_type;
-		// avoid flagging the map as dirty
-		auto& seq = const_cast<sequence_type&>(set.csequence());
-		size_t count = 0;
+		std::size_t count = 0;
+
+		auto seq = set.extract();
+
 		for (auto it = seq.begin(); it != seq.end();) {
 			if (p(*it)) {
 				it = seq.erase(it);
@@ -2037,11 +2022,9 @@ namespace seq
 			else
 				++it;
 		}
-		if (count) {
-			// flag as dirty and rehash
-			set.sequence();
-			set.rehash();
-		}
+
+		set.replace(std::move(seq));
+
 		return count;
 	}
 
@@ -2057,7 +2040,7 @@ namespace seq
 			return false;
 		for (auto it = lhs.begin(); it != lhs.end(); ++it) {
 			auto found = rhs.find(it->first);
-			if (found == rhs.end() || !(found->second == it->second))
+			if (found == rhs.end() || !(*found == *it))
 				return false;
 		}
 		return true;
@@ -2074,12 +2057,11 @@ namespace seq
 	/// @param p predicate that returns true if the element should be erased
 	/// @return number of erased elements
 	template<class Key, class T, class Hash1, class KeyEqual, class Allocator1, class Pred>
-	auto erase_if(ordered_map<Key, T, Hash1, KeyEqual, Allocator1>& set, Pred p) -> size_t
+	auto erase_if(ordered_map<Key, T, Hash1, KeyEqual, Allocator1>& set, Pred p) -> std::size_t
 	{
-		using sequence_type = typename ordered_map<Key, T, Hash1, KeyEqual, Allocator1>::sequence_type;
-		// avoid flagging the map as dirty
-		auto& seq = const_cast<sequence_type&>(set.csequence());
-		size_t count = 0;
+		auto seq = set.extract();
+
+		std::size_t count = 0;
 		for (auto it = seq.begin(); it != seq.end();) {
 			if (p(*it)) {
 				it = seq.erase(it);
@@ -2088,11 +2070,9 @@ namespace seq
 			else
 				++it;
 		}
-		if (count) {
-			// flag as dirty and rehash
-			set.sequence();
-			set.rehash();
-		}
+
+		set.replace(std::move(seq));
+
 		return count;
 	}
 

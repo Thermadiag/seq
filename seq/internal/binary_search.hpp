@@ -26,9 +26,14 @@
 #ifndef SEQ_BINARY_SEARCH_HPP
 #define SEQ_BINARY_SEARCH_HPP
 
+#include <algorithm>
+#include <iterator>
+#include <type_traits>
+#include <utility>
+
 #include "../type_traits.hpp"
 #include "../bits.hpp"
-#include <algorithm>
+
 
 namespace seq
 {
@@ -117,7 +122,7 @@ namespace seq
 	template<bool Multi, class Key, class Iter, class SizeType, class U, class Le>
 	SEQ_ALWAYS_INLINE SizeType upper_bound(Iter ptr, SizeType size, const U& value, const Le& le)
 	{
-		return lower_bound<Key, Multi>(ptr, size, value, [&le](const auto& a, const auto& b) { return !le(b, a); }).first;
+		return lower_bound<Multi, Key>(ptr, size, value, [&le](const auto& a, const auto& b) { return !le(b, a); }).first;
 	}
 
 } // end seq

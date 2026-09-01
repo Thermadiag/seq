@@ -76,25 +76,25 @@ bool is_sorted(Deq& d)
 
 struct WideType
 {
-	size_t data[16];
-	WideType(size_t v = 0) { data[0] = v; }
+	std::size_t data[16];
+	WideType(std::size_t v = 0) { data[0] = v; }
 	bool operator<(const WideType& other) const { return data[0] < other.data[0]; }
 	bool operator==(const WideType& other) const { return data[0] == other.data[0]; }
 	bool operator!=(const WideType& other) const { return data[0] != other.data[0]; }
 };
-inline bool operator==(const WideType& a, size_t b)
+inline bool operator==(const WideType& a, std::size_t b)
 {
 	return a.data[0] == b;
 }
-inline bool operator!=(const WideType& a, size_t b)
+inline bool operator!=(const WideType& a, std::size_t b)
 {
 	return a.data[0] != b;
 }
-inline bool operator==(const size_t& a, WideType b)
+inline bool operator==(const std::size_t& a, WideType b)
 {
 	return a == b.data[0];
 }
-inline bool operator!=(const size_t& a, WideType b)
+inline bool operator!=(const std::size_t& a, WideType b)
 {
 	return a != b.data[0];
 }
@@ -106,25 +106,42 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 	const unsigned count = size;
 
 	{
+		// Test sort
+		using Al = RebindAlloc<Alloc, std::size_t>;
+		sequence<std::size_t, Al> s(al);
+		for (std::size_t i = 0; i < 65; ++i)
+			s.insert(i);
+		s.erase(s.begin());
+		s.sort();
+
+		SEQ_TEST(s.size() == 64);
+		auto it = s.begin(); 
+		for (std::size_t i = 1; i < 65; ++i, ++it) {
+			SEQ_TEST(*it == i);
+		}
+	}
+	{
 
 		// test different memory layout with different data size
-		using Al = RebindAlloc<Alloc, size_t>;
+		using Al = RebindAlloc<Alloc, std::size_t>;
+		using AlWide = RebindAlloc<Alloc, WideType>;
 		Al a(al);
+		AlWide aw(al);
 
-		using small_slow = sequence<size_t, Al>;
-		using small_fast = sequence<size_t, Al>;
-		using big_slow = sequence<WideType, Al>;
-		using big_fast = sequence<WideType, Al>;
+		using small_slow = sequence<std::size_t, Al>;
+		using small_fast = sequence<std::size_t, Al>;
+		using big_slow = sequence<WideType, AlWide>;
+		using big_fast = sequence<WideType, AlWide>;
 
 		small_slow ss(a);
 		small_fast sf(a);
-		big_slow bs(a);
-		big_fast bf(a);
+		big_slow bs(aw);
+		big_fast bf(aw);
 
-		size_t c = static_cast<size_t>(size / 10);
+		std::size_t c = static_cast<std::size_t>(size / 10);
 
-		for (size_t i = 0; i < c; ++i) {
-			size_t v = static_cast<size_t>(i);
+		for (std::size_t i = 0; i < c; ++i) {
+			std::size_t v = static_cast<std::size_t>(i);
 			ss.push_back(v);
 			sf.push_back(v);
 			bs.push_back(v);
@@ -136,7 +153,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 		SEQ_TEST(equal_seq(ss, bf));
 
 		std::vector<std::ptrdiff_t> erase_pos(c / 10);
-		for (size_t i = 0; i < erase_pos.size(); ++i) {
+		for (std::size_t i = 0; i < erase_pos.size(); ++i) {
 			erase_pos[i] = static_cast<std::ptrdiff_t>(i);
 		}
 		seq::random_shuffle(erase_pos.begin(), erase_pos.end());
@@ -144,11 +161,11 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 		seq::random_shuffle(erase_pos.begin(), erase_pos.end());
 
 		// erase values
-		for (size_t i = 0; i < erase_pos.size(); ++i) {
-			ss.erase(ss.begin() + erase_pos[i]);
-			sf.erase(sf.begin() + erase_pos[i]);
-			bs.erase(bs.begin() + erase_pos[i]);
-			bf.erase(bf.begin() + erase_pos[i]);
+		for (std::size_t i = 0; i < erase_pos.size(); ++i) {
+			ss.erase(std::next(ss.begin() , erase_pos[i]));
+			sf.erase(std::next(sf.begin() , erase_pos[i]));
+			bs.erase(std::next(bs.begin() , erase_pos[i]));
+			bf.erase(std::next(bf.begin() , erase_pos[i]));
 		}
 		SEQ_TEST(equal_seq(ss, bs));
 		SEQ_TEST(equal_seq(sf, bf));
@@ -196,7 +213,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 	for (unsigned i = 0; i < count; ++i)
 		deq.push_back(static_cast<type>(i));
 
-	vec.reserve(static_cast<size_t>(count));
+	vec.reserve(static_cast<std::size_t>(count));
 	for (unsigned i = 0; i < count; ++i)
 		vec.push_back(static_cast<type>(i));
 
@@ -212,12 +229,12 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test resize upper
-	deq.resize(static_cast<size_t>(count), 0);
-	seq.resize(static_cast<size_t>(count), 0);
+	deq.resize(static_cast<std::size_t>(count), 0);
+	seq.resize(static_cast<std::size_t>(count), 0);
 
 	SEQ_TEST(equal_seq(deq, seq));
 
-	size_t i = 0;
+	std::size_t i = 0;
 	for (auto it = seq.begin(); it != seq.end(); ++it)
 		*it = static_cast<T>(i++);
 	i = 0;
@@ -231,8 +248,8 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 	SEQ_TEST(equal_seq(deq, seq));
 
 	// Test resize front upper
-	deq.resize_front(static_cast<size_t>(count), 0);
-	seq.resize_front(static_cast<size_t>(count), 0);
+	deq.resize_front(static_cast<std::size_t>(count), 0);
+	seq.resize_front(static_cast<std::size_t>(count), 0);
 
 	SEQ_TEST(equal_seq(deq, seq));
 
@@ -262,15 +279,15 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 
 		// Test erase range left side
 		deq.erase(deq.begin() + deq.size() / 4, deq.begin() + deq.size() / 2);
-		seq.erase(seq.begin() + seq.size() / 4, seq.begin() + seq.size() / 2);
+		seq.erase(std::next(seq.begin() , seq.size() / 4), std::next(seq.begin() , seq.size() / 2));
 		SEQ_TEST(equal_seq(deq, seq));
 
-		deq.resize(static_cast<size_t>(count), 0);
-		seq.resize(static_cast<size_t>(count), 0);
+		deq.resize(static_cast<std::size_t>(count), 0);
+		seq.resize(static_cast<std::size_t>(count), 0);
 
 		// Test erase range right side
 		deq.erase(deq.begin() + deq.size() / 2, deq.begin() + deq.size() * 3 / 4);
-		seq.erase(seq.begin() + seq.size() / 2, seq.begin() + seq.size() * 3 / 4);
+		seq.erase(std::next(seq.begin() , seq.size() / 2), std::next(seq.begin() , seq.size() * 3 / 4));
 		SEQ_TEST(equal_seq(deq, seq));
 	}
 
@@ -396,7 +413,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 			if (pos == static_cast<int>(d.size()))
 				--pos;
 			dd.erase(dd.begin() + pos);
-			d.erase(d.begin() + pos);
+			d.erase(std::next(d.begin() , pos));
 			SEQ_TEST(equal_seq(d, dd));
 		}
 	}
@@ -423,7 +440,7 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 	seq.resize(count);
 	deq.resize(count);
 	vec.resize(count);
-	for (size_t j = 0; j < vec.size(); ++j)
+	for (std::size_t j = 0; j < vec.size(); ++j)
 		vec[j] = static_cast<type>(j);
 	seq::random_shuffle(vec.begin(), vec.end());
 	{
@@ -446,12 +463,12 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 	}
 
 	// Test erase random position
-	for (size_t j = 0; j < ran_pos.size(); ++j)
+	for (std::size_t j = 0; j < ran_pos.size(); ++j)
 		deq.erase(deq.begin() + ran_pos[j]);
 
 	auto tmp = seq.begin();
-	for (size_t j = 0; j < ran_pos.size(); ++j) {
-		tmp = seq.erase(seq.iterator_at(static_cast<size_t>(ran_pos[j])));
+	for (std::size_t j = 0; j < ran_pos.size(); ++j) {
+		tmp = seq.erase(seq.iterator_at(static_cast<std::size_t>(ran_pos[j])));
 	}
 
 	SEQ_TEST(equal_seq(deq, seq));
@@ -485,13 +502,13 @@ void test_sequence(unsigned size = 50000000U, const Alloc& al = Alloc())
 SEQ_PROTOTYPE(int test_sequence(int, char*[]))
 {
 	// Test sequence and detect potential memory leak or wrong allocator propagation
-	CountAlloc<size_t> al;
-	SEQ_TEST_MODULE_RETURN(sequence, 1, test_sequence<size_t>(1000000, al));
+	CountAlloc<std::size_t> al;
+	SEQ_TEST_MODULE_RETURN(sequence, 1, test_sequence<std::size_t>(1000000, al));
 	SEQ_TEST(get_alloc_bytes(al) == 0);
 
 	// Test sequence and detect potential memory leak (including non destroyed objects) or wrong allocator propagation
-	SEQ_TEST_MODULE_RETURN(sequence_destroy, 1, test_sequence<TestDestroy<size_t>>(1000000));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(sequence_destroy, 1, test_sequence<TestDestroy<std::size_t>>(1000000));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 
 	return 0;
 }

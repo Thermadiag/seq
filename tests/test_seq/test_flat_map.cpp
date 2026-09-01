@@ -125,13 +125,13 @@ inline void test_flat_set_or_multi_logic(const Alloc& al = Alloc())
 	{
 		// insert/emplace
 		std::vector<double> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<double>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
 		set_type set(al);
 		std_set_type uset;
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.insert(v[i]);
 			if ((i & 1) == 0)
 				set.insert(v[i]);
@@ -232,7 +232,7 @@ inline void test_flat_set_or_multi_logic(const Alloc& al = Alloc())
 	{
 		// test copy
 		std::vector<double> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<double>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -279,7 +279,7 @@ inline void test_flat_set_or_multi_logic(const Alloc& al = Alloc())
 		SEQ_TEST(set_equals(set, uset));
 
 		// erase half
-		for (size_t i = 0; i < v.size(); i += 2) {
+		for (std::size_t i = 0; i < v.size(); i += 2) {
 			/*int c1 = set.count(v[i]);
 			int c2 = uset.count(v[i]);
 			if (i == 28)
@@ -325,17 +325,17 @@ inline void test_flat_set_or_multi_logic(const Alloc& al = Alloc())
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// add already existing values one by one
-		for (size_t i = 0; i < vals.size() / 2; ++i) {
+		for (std::size_t i = 0; i < vals.size() / 2; ++i) {
 			set.insert(vals[i]);
 			ref.insert(vals[i]);
 		}
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// test find_pos
-		for (size_t i = 0; i < vals.size() / 2; ++i) {
+		for (std::size_t i = 0; i < vals.size() / 2; ++i) {
 			SEQ_TEST(set.find_pos(vals[i]) != set.size());
 		}
-		for (size_t i = vals.size() / 2; i < vals.size(); ++i)
+		for (std::size_t i = vals.size() / 2; i < vals.size(); ++i)
 			SEQ_TEST(set.find_pos(vals[i]) == set.size());
 	}
 
@@ -355,16 +355,16 @@ inline void test_flat_set_or_multi_logic(const Alloc& al = Alloc())
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// add already existing values one by one
-		for (size_t i = 0; i < vals.size() / 2; ++i) {
+		for (std::size_t i = 0; i < vals.size() / 2; ++i) {
 			set.insert(vals[i]);
 			ref.insert(vals[i]);
 		}
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// test find_pos
-		for (size_t i = 0; i < vals.size() / 2; ++i)
+		for (std::size_t i = 0; i < vals.size() / 2; ++i)
 			SEQ_TEST(set.find_pos(vals[i]) != set.size());
-		for (size_t i = vals.size() / 2; i < vals.size(); ++i)
+		for (std::size_t i = vals.size() / 2; i < vals.size(); ++i)
 			SEQ_TEST(set.find_pos(vals[i]) == set.size());
 	}
 	{
@@ -377,23 +377,23 @@ inline void test_flat_set_or_multi_logic(const Alloc& al = Alloc())
 		ref.insert(vals.begin(), vals.begin() + vals.size() / 2);
 
 		set_type set(al);
-		for (size_t i = 0; i < vals.size() / 2; ++i)
+		for (std::size_t i = 0; i < vals.size() / 2; ++i)
 			set.insert(vals[i]);
 
 		// compare flat_set with std::set
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// add already existing values one by one
-		for (size_t i = 0; i < vals.size() / 2; ++i) {
+		for (std::size_t i = 0; i < vals.size() / 2; ++i) {
 			set.insert(vals[i]);
 			ref.insert(vals[i]);
 		}
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// test find_pos
-		for (size_t i = 0; i < vals.size() / 2; ++i)
+		for (std::size_t i = 0; i < vals.size() / 2; ++i)
 			SEQ_TEST(set.find_pos(vals[i]) != set.size());
-		for (size_t i = vals.size() / 2; i < vals.size(); ++i)
+		for (std::size_t i = vals.size() / 2; i < vals.size(); ++i)
 			SEQ_TEST(set.find_pos(vals[i]) == set.size());
 	}
 	{
@@ -407,23 +407,23 @@ inline void test_flat_set_or_multi_logic(const Alloc& al = Alloc())
 		ref.insert(vals.begin(), vals.begin() + vals.size() / 2);
 
 		set_type set(al);
-		for (size_t i = 0; i < vals.size() / 2; ++i)
+		for (std::size_t i = 0; i < vals.size() / 2; ++i)
 			set.insert(vals[i]);
 
 		// compare flat_set with std::set
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// add already existing values one by one
-		for (size_t i = 0; i < vals.size() / 2; ++i) {
+		for (std::size_t i = 0; i < vals.size() / 2; ++i) {
 			set.insert(vals[i]);
 			ref.insert(vals[i]);
 		}
 		SEQ_TEST(seq::equal(set.begin(), set.end(), ref.begin(), ref.end()));
 
 		// test find_pos
-		for (size_t i = 0; i < vals.size() / 2; ++i)
+		for (std::size_t i = 0; i < vals.size() / 2; ++i)
 			SEQ_TEST(set.find_pos(vals[i]) != set.size());
-		for (size_t i = vals.size() / 2; i < vals.size(); ++i)
+		for (std::size_t i = vals.size() / 2; i < vals.size(); ++i)
 			SEQ_TEST(set.find_pos(vals[i]) == set.size());
 	}
 }
@@ -444,7 +444,7 @@ inline void test_flat_multiset_logic(const Alloc& al = Alloc())
 template<class map_type, class umap_type, bool Unique>
 inline void test_flat_map_or_multi_logic()
 {
-	using pair_type = typename map_type::value_type;
+	using pair_type = std::pair<typename map_type::key_type,typename map_type::mapped_type>;
 	using namespace seq;
 	{
 		// test construct from initializer list
@@ -464,13 +464,13 @@ inline void test_flat_map_or_multi_logic()
 	{
 		// push_front/back and sorted
 		std::vector<double> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<double>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
 		map_type set;
 		umap_type uset;
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.emplace(v[i], v[i]);
 			if ((i & 1) == 0)
 				set.emplace(v[i], v[i]);
@@ -538,7 +538,7 @@ inline void test_flat_map_or_multi_logic()
 		SEQ_TEST(map_equals(set, uset));
 
 		// test at() and operator[]
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			SEQ_TEST(set[v[i]] == uset[v[i]]);
 			SEQ_TEST(set.at(v[i]) == uset.at(v[i]));
 		}
@@ -576,9 +576,9 @@ inline void test_flat_map_or_multi_logic()
 		// test rehash() with duplicate removal
 
 		std::vector<pair_type> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<double>(i), static_cast<double>(i));
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<double>(i), static_cast<double>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -597,7 +597,7 @@ inline void test_flat_map_or_multi_logic()
 		SEQ_TEST(map_equals(set, uset));
 
 		// remove half
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.erase(v[i].first);
 			set.erase(v[i].first);
 		}
@@ -631,7 +631,7 @@ inline void test_flat_map_or_multi_logic()
 	{
 		// test copy
 		std::vector<pair_type> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<double>(i), static_cast<double>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -664,7 +664,7 @@ inline void test_flat_map_or_multi_logic()
 template<class map_type, class umap_type>
 inline void test_flat_multimap_logic()
 {
-	using pair_type = typename map_type::value_type;
+	using pair_type = std::pair<typename map_type::key_type,typename map_type::mapped_type>;
 	using namespace seq;
 	{
 		// test construct from initializer list
@@ -684,13 +684,13 @@ inline void test_flat_multimap_logic()
 	{
 		// push_front/back and sorted
 		std::vector<double> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<double>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
 		map_type set;
 		umap_type uset;
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.emplace(v[i], v[i]);
 			if ((i & 1) == 0)
 				set.emplace(v[i], v[i]);
@@ -746,9 +746,9 @@ inline void test_flat_multimap_logic()
 		// test rehash() with duplicate removal
 
 		std::vector<pair_type> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<double>(i), static_cast<double>(i));
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<double>(i), static_cast<double>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -767,7 +767,7 @@ inline void test_flat_multimap_logic()
 		SEQ_TEST(map_equals(set, uset));
 
 		// remove half
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.erase(v[i].first);
 			set.erase(v[i].first);
 		}
@@ -801,7 +801,7 @@ inline void test_flat_multimap_logic()
 	{
 		// test copy
 		std::vector<pair_type> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<double>(i), static_cast<double>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -845,11 +845,11 @@ inline void test_flat_multimap_logic()
 }
 
 template<class Set>
-void test_heavy_set(size_t count)
+void test_heavy_set(std::size_t count)
 {
 	using key_type = typename Set::value_type;
 	std::vector<key_type> keys(count);
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		keys[i] = i;
 	seq::random_shuffle(keys.begin(), keys.end());
 
@@ -861,15 +861,15 @@ void test_heavy_set(size_t count)
 		SEQ_TEST(s.size() == count);
 
 		// find all
-		for (size_t i = 0; i < count; ++i) {
+		for (std::size_t i = 0; i < count; ++i) {
 			auto it = s.find(keys[i]);
 			SEQ_TEST(it != s.end());
 			SEQ_TEST(*it == keys[i]);
 		}
 
 		// failed find
-		for (size_t i = 0; i < count; ++i) {
-			size_t ke = i + count;
+		for (std::size_t i = 0; i < count; ++i) {
+			std::size_t ke = i + count;
 			auto it = s.find(ke);
 			SEQ_TEST(it == s.end());
 		}
@@ -878,16 +878,16 @@ void test_heavy_set(size_t count)
 		SEQ_TEST(s.size() == 0);
 
 		// insert all one by one
-		for (size_t i = 0; i < count; ++i) {
+		for (std::size_t i = 0; i < count; ++i) {
 			s.insert(keys[i]);
 			// find while inserting
-			for (size_t j = 0; j <= i; ++j) {
+			for (std::size_t j = 0; j <= i; ++j) {
 				auto it = s.find(keys[j]);
 				SEQ_TEST(it != s.end());
 				SEQ_TEST(*it == keys[j]);
 			}
 			// failed find
-			for (size_t j = i + 1; j < count; ++j) {
+			for (std::size_t j = i + 1; j < count; ++j) {
 				auto it = s.find(keys[j]);
 				SEQ_TEST(it == s.end());
 			}
@@ -895,7 +895,7 @@ void test_heavy_set(size_t count)
 		SEQ_TEST(s.size() == count);
 
 		// failed insertion
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 			s.insert(keys[i]);
 		SEQ_TEST(s.size() == count);
 
@@ -904,29 +904,29 @@ void test_heavy_set(size_t count)
 		SEQ_TEST(s.size() == count);
 
 		// find all
-		for (size_t i = 0; i < count; ++i) {
+		for (std::size_t i = 0; i < count; ++i) {
 			auto it = s.find(keys[i]);
 			SEQ_TEST(it != s.end());
 			SEQ_TEST(*it == keys[i]);
 		}
 
 		// failed find
-		for (size_t i = 0; i < count; ++i) {
-			size_t ke = i + count;
+		for (std::size_t i = 0; i < count; ++i) {
+			std::size_t ke = i + count;
 			auto it = s.find(ke);
 			SEQ_TEST(it == s.end());
 		}
 
 		// erase half
-		size_t cc = (count / 2U) * 2U;
-		for (size_t i = 0; i < cc; i += 2) {
+		std::size_t cc = (count / 2U) * 2U;
+		for (std::size_t i = 0; i < cc; i += 2) {
 			auto it = s.find(keys[i]);
 			s.erase(it);
 		}
 		SEQ_TEST(s.size() == count / 2);
 
 		// find all
-		for (size_t i = 1; i < count; i += 2) {
+		for (std::size_t i = 1; i < count; i += 2) {
 			if (i >= count)
 				break;
 
@@ -936,14 +936,14 @@ void test_heavy_set(size_t count)
 		}
 
 		// failed
-		for (size_t i = 0; i < cc; i += 2) {
+		for (std::size_t i = 0; i < cc; i += 2) {
 			auto it = s.find(keys[i]);
 			SEQ_TEST(it == s.end());
 		}
 	}
 
 	// erase remaining keys
-	for (size_t i = 0; i < count; ++i) {
+	for (std::size_t i = 0; i < count; ++i) {
 		auto it = s.find(keys[i]);
 		if (it != s.end())
 			s.erase(it);
@@ -955,10 +955,10 @@ void test_heavy_set(size_t count)
 
 SEQ_PROTOTYPE(int test_flat_map(int, char*[]))
 {
-
+	
 	// Test various map.multimap functions and potential memory leak or wrong allocator propagation
 	CountAlloc<double> al;
-	// SEQ_TEST_MODULE_RETURN(heavy_flat_set, 1, test_heavy_set<seq::flat_set<size_t>>(10000));
+	// SEQ_TEST_MODULE_RETURN(heavy_flat_set, 1, test_heavy_set<seq::flat_set<std::size_t>>(10000));
 	SEQ_TEST_MODULE_RETURN(flat_map, 1, test_flat_map_logic<double>());
 	SEQ_TEST_MODULE_RETURN(flat_multimap, 1, test_flat_multimap_logic<double>());
 	SEQ_TEST_MODULE_RETURN(flat_set, 1, test_flat_set_logic<double>(al));
@@ -967,8 +967,8 @@ SEQ_PROTOTYPE(int test_flat_map(int, char*[]))
 	SEQ_TEST(get_alloc_bytes(al) == 0);
 
 	// Test various map.multimap functions and potential memory leak
-	SEQ_TEST_MODULE_RETURN(heavy_flat_set_destroy, 1, test_heavy_set<seq::flat_set<TestDestroy<size_t>>>(10000));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(heavy_flat_set_destroy, 1, test_heavy_set<seq::flat_set<TestDestroy<std::size_t>>>(10000));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 	SEQ_TEST_MODULE_RETURN(flat_map_destroy, 1, test_flat_map_logic<TestDestroy<double>>());
 	SEQ_TEST(TestDestroy<double>::count() == 0);
 	SEQ_TEST_MODULE_RETURN(flat_multimap_destroy, 1, test_flat_multimap_logic<TestDestroy<double>>());
@@ -980,8 +980,8 @@ SEQ_PROTOTYPE(int test_flat_map(int, char*[]))
 
 	// Test various map.multimap functions and potential memory leak with non relocatable type
 	CountAlloc<TestDestroy<double, false>> al2;
-	SEQ_TEST_MODULE_RETURN(heavy_flat_set_destroy_no_relocatable, 1, test_heavy_set<seq::flat_set<TestDestroy<size_t, false>>>(10000));
-	SEQ_TEST(TestDestroy<size_t, false>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(heavy_flat_set_destroy_no_relocatable, 1, test_heavy_set<seq::flat_set<TestDestroy<std::size_t, false>>>(10000));
+	SEQ_TEST(TestDestroy<std::size_t, false>::count() == 0);
 	SEQ_TEST_MODULE_RETURN(flat_map_destroy_no_relocatable, 1, test_flat_map_logic<TestDestroy<double, false>>());
 	SEQ_TEST(TestDestroy<double, false>::count() == 0);
 	SEQ_TEST_MODULE_RETURN(flat_multimap_destroy_no_relocatable, 1, test_flat_multimap_logic<TestDestroy<double, false>>());

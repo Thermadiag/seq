@@ -4,12 +4,6 @@
 [![CTest](https://github.com/Thermadiag/seq/actions/workflows/build-macos.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/build-macos.yml)
 [![CTest](https://github.com/Thermadiag/seq/actions/workflows/build-windows.yml/badge.svg?branch=main)](https://github.com/Thermadiag/seq/actions/workflows/build-windows.yml)
 
-For what it's worth, this library and its documentation were created without the help of AI.
-
-Transitioning to v2.1
----------------------
-
-*seq* v2.1 introduced a lot of changes. See [changelog](docs/changelog.md) for more details and explanations.
 
 Purpose
 -------
@@ -28,7 +22,7 @@ Currently, the *containers* module provide 5 types of containers:
 -	Sequential random-access containers: 
 	-	[seq::devector](docs/devector.md): double ended vector optimized for front AND back operations. Similar interface to `std::deque`.
 	-	[seq::tiered_vector](docs/tiered_vector.md): tiered vector implementation optimized for fast insertion and deletion in the middle. Similar interface to `std::deque`.
--	Sequential stable non random-access container: `seq::sequence`, fast stable list-like container.
+-	Sequential stable non random-access container: [seq::sequence](docs/sequence.md), fast stable list-like container.
 -	Sorted containers: 
 	-	[seq::flat_set](docs/flat_set.md) : flat set container similar to boost::flat_set but based on seq::tiered_vector and providing fast insertion/deletion of single elements, while keeping the fast lookup performances of flat containers.
 	-	`seq::flat_map`: associative version of `seq::flat_set`.
@@ -59,7 +53,6 @@ The library is divided in 5 small modules:
 
 A cmake project is provided for installation and compilation of tests/benchmarks.
 
-
 Design
 ------
 
@@ -86,7 +79,6 @@ Currently, the following options are provided:
 
 It is also possible to directly copy/paste the *seq* folder into your project, while slightly dirty :).
 
-
 Benchmarks
 ----------
 
@@ -96,6 +88,10 @@ The library provides several (small) benchmarks and more will be added:
 -	Very tiny benchmark on [concurrent queues](docs/concurrent_queue.md) to compare `seq::concurrent_queue` with other implementations.
 -	[Memory and latency benchmark](docs/latency_benchmark.md) on hash tables to compare `seq::radix_hash_set/map` with other implementations.
 
+Transitioning between versions
+------------------------------
+
+*seq* v2.X introduced a lot of changes. See [changelog](docs/changelog.md) for more details and explanations.
 
 Acknowledgements
 ----------------

@@ -44,33 +44,18 @@
 #undef max
 #endif
 
-#define SEQ_STR_INLINE inline
 #define SEQ_STR_INLINE_STRONG SEQ_ALWAYS_INLINE
 
 namespace seq
 {
 
-	/// @brief Allocator type for tiny string view
-	template<class Char>
-	struct view_allocator
-	{
-		using value_type = Char;
-	};
-
 	// forward declaration
-	template<class Char, class Traits, class Allocator, size_t MaxStaticSize>
+	template<class Char, class Allocator, std::size_t MaxStaticSize>
 	class tiny_string;
 
-	template<class Char>
-	using basic_tstring_view = tiny_string<Char, std::char_traits<Char>, view_allocator<Char>, 0>;
-
-	/// @brief Base string view typedef, similar to std::string_view.
-	using tstring_view = basic_tstring_view<char>;
-	using wtstring_view = basic_tstring_view<wchar_t>;
-
 	/// @brief Base string typedef, similar to std::string. Equivalent to tiny_string<0, std::allocator<char>>.
-	using tstring = tiny_string<char, std::char_traits<char>, std::allocator<char>, 0>;
-	using wtstring = tiny_string<wchar_t, std::char_traits<wchar_t>, std::allocator<wchar_t>, 0>;
+	using tstring = tiny_string<char, std::allocator<char>, 0>;
+	using wtstring = tiny_string<wchar_t, std::allocator<wchar_t>, 0>;
 
 	namespace detail
 	{
@@ -80,7 +65,7 @@ namespace seq
 
 		// Function missing on msvc and gcc/mingw
 		template<class Char>
-		inline auto string_memrchr(const Char* s, Char c, size_t n) noexcept -> const Char*
+		auto string_memrchr(const Char* s, Char c, std::size_t n) noexcept -> const Char*
 		{
 			const Char* p = s;
 			for (p += n; n > 0; n--) {
@@ -92,88 +77,88 @@ namespace seq
 			return nullptr;
 		}
 
-		inline auto count_approximate_common_bytes(const void* _pIn, const void* _pMatch, const void* _pInLimit) noexcept -> size_t
+		inline auto count_approximate_common_bytes(const void* _pIn, const void* _pMatch, const void* _pInLimit) noexcept -> std::size_t
 		{
-			static constexpr size_t stepsize = sizeof(size_t);
+			static constexpr std::size_t stepsize = sizeof(std::size_t);
 			const char* pIn = static_cast<const char*>(_pIn);
 			const char* pMatch = static_cast<const char*>(_pMatch);
 			const char* pInLimit = static_cast<const char*>(_pInLimit);
 			const char* pStart = pIn;
 
-			while
-				SEQ_LIKELY(pIn < pInLimit - (stepsize - 1))
-				{
-					size_t const diff = read_size_t(pMatch) ^ read_size_t(pIn);
-					if (diff == 0u) {
-						pIn += stepsize;
-						pMatch += stepsize;
-						continue;
-					}
-					return static_cast<size_t>(pIn - pStart);
+			while (static_cast<std::size_t>(pInLimit - pIn) >= stepsize) {
+				std::size_t const diff = read_size_t(pMatch) ^ read_size_t(pIn);
+				if (diff == 0u) {
+					pIn += stepsize;
+					pMatch += stepsize;
+					continue;
 				}
+				return static_cast<std::size_t>(pIn - pStart);
+			}
 
-			if ((stepsize == 8) && (pIn < (pInLimit - 3)) && (read_32(pMatch) == read_32(pIn))) {
+			if ((stepsize == 8) && static_cast<std::size_t>(pInLimit - pIn) >= sizeof(std::uint32_t) && (read_32(pMatch) == read_32(pIn))) {
 				pIn += 4;
 				pMatch += 4;
 			}
-			if ((pIn < (pInLimit - 1)) && (read_16(pMatch) == read_16(pIn))) {
+			if (static_cast<std::size_t>(pInLimit - pIn) >= sizeof(std::uint16_t) && (read_16(pMatch) == read_16(pIn))) {
 				pIn += 2;
 				pMatch += 2;
 			}
 			if ((pIn < pInLimit) && (*pMatch == *pIn)) {
 				pIn++;
 			}
-			return static_cast<size_t>(pIn - pStart);
+			return static_cast<std::size_t>(pIn - pStart);
+		}
+
+		template<class T>
+		SEQ_STR_INLINE_STRONG T swap_if_le(T v) noexcept
+		{
+#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
+			if constexpr (sizeof(T) == 8)
+				return byte_swap_64(v);
+			else if constexpr (sizeof(T) == 4)
+				return byte_swap_32(v);
+			else if constexpr (sizeof(T) == 2)
+				return byte_swap_16(v);
+			else
+				return v;
+#else
+			return v;
+#endif
 		}
 
 		template<class Traits, class Char>
-		SEQ_STR_INLINE_STRONG int traits_string_compare(const Char* v1, size_t l1, const Char* v2, size_t l2) noexcept
+		SEQ_STR_INLINE_STRONG int traits_string_compare(const Char* v1, std::size_t l1, const Char* v2, std::size_t l2) noexcept
 		{
 			using unsigned_char = typename std::make_unsigned<Char>::type;
 
-			size_t l = l1 < l2 ? l1 : l2;
-			if (l && *v1 != *v2)
-				return (static_cast<unsigned_char>(*v1) < static_cast<unsigned_char>(*v2)) ? -1 : 1;
+			std::size_t l = l1 < l2 ? l1 : l2;
+			if (l && !Traits::eq(*v1, *v2))
+				return Traits::lt(*v1, *v2) ? -1 : 1;
 
 #ifndef SEQ_NO_FAST_BSWAP
-			if constexpr (sizeof(Char) == 1) {
+			if constexpr (sizeof(Char) == 1 && std::is_same_v<Traits, std::char_traits<Char>>) {
 				const Char* end = v1 + l;
-				while ((v1 < end - (8 - 1))) {
+				while ((end - v1) >= 8) {
 					std::uint64_t r1 = read_64(v1);
 					std::uint64_t r2 = read_64(v2);
-					if (r1 != r2) {
-#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
-						r1 = byte_swap_64(r1);
-						r2 = byte_swap_64(r2);
-#endif
-						return r1 < r2 ? -1 : 1;
-					}
+					if (r1 != r2)
+						return swap_if_le(r1) < swap_if_le(r2) ? -1 : 1;
 					v1 += 8;
 					v2 += 8;
 				}
-				if ((v1 < (end - 3))) {
+				if ((end - v1) >= 4) {
 					std::uint32_t r1 = read_32(v1);
 					std::uint32_t r2 = read_32(v2);
-					if (r1 != r2) {
-#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
-						r1 = byte_swap_32(r1);
-						r2 = byte_swap_32(r2);
-#endif
-						return r1 < r2 ? -1 : 1;
-					}
+					if (r1 != r2)
+						return swap_if_le(r1) < swap_if_le(r2) ? -1 : 1;
 					v1 += 4;
 					v2 += 4;
 				}
-				if ((v1 < (end - 1))) {
+				if ((end - v1) >= 2) {
 					std::uint16_t r1 = read_16(v1);
 					std::uint16_t r2 = read_16(v2);
-					if (r1 != r2) {
-#if SEQ_BYTEORDER_ENDIAN != SEQ_BYTEORDER_BIG_ENDIAN
-						r1 = byte_swap_16(r1);
-						r2 = byte_swap_16(r2);
-#endif
-						return r1 < r2 ? -1 : 1;
-					}
+					if (r1 != r2)
+						return swap_if_le(r1) < swap_if_le(r2) ? -1 : 1;
 					v1 += 2;
 					v2 += 2;
 				}
@@ -184,74 +169,71 @@ namespace seq
 				}
 				return (l1 < l2 ? -1 : (l1 > l2));
 			}
+			else
 #endif
-
-			const int r = Traits::compare(v1, v2, l);
-			return r != 0 ? r : (l1 < l2 ? -1 : (l1 > l2));
-		}
-		template<class Traits, class Pair>
-		SEQ_STR_INLINE_STRONG int traits_string_compare(const Pair& p1, const Pair& p2) noexcept
-		{
-			return traits_string_compare<Traits>(p1.first, p1.second, p2.first, p2.second);
+			{
+				const int r = Traits::compare(v1, v2, l);
+				return r != 0 ? r : (l1 < l2 ? -1 : (l1 > l2));
+			}
 		}
 
 		template<class Traits, class Char>
-		SEQ_STR_INLINE_STRONG bool traits_string_inf(const Char* v1, size_t l1, const Char* v2, size_t l2) noexcept
+		SEQ_STR_INLINE_STRONG bool traits_string_inf(const Char* v1, std::size_t l1, const Char* v2, std::size_t l2) noexcept
 		{
 			return traits_string_compare<Traits>(v1, l1, v2, l2) < 0;
 		}
-		template<class Traits, class Pair>
-		SEQ_STR_INLINE_STRONG bool traits_string_inf(const Pair& p1, const Pair& p2) noexcept
+		template<class Traits, class Char>
+		SEQ_STR_INLINE_STRONG bool traits_string_inf(const std::pair<const Char*, std::size_t>& p1, const std::pair<const Char*, std::size_t>& p2) noexcept
 		{
 			return traits_string_compare<Traits>(p1.first, p1.second, p2.first, p2.second) < 0;
 		}
 
 		template<class Traits, class Char>
-		SEQ_STR_INLINE bool traits_string_sup(const Char* v1, size_t l1, const Char* v2, size_t l2) noexcept
+		bool traits_string_sup(const Char* v1, std::size_t l1, const Char* v2, std::size_t l2) noexcept
 		{
 			return traits_string_inf<Traits>(v2, l2, v1, l1);
 		}
 		template<class Traits, class Pair>
-		SEQ_STR_INLINE bool traits_string_sup(const Pair& p1, const Pair& p2) noexcept
+		bool traits_string_sup(const Pair& p1, const Pair& p2) noexcept
 		{
 			return traits_string_inf<Traits>(p2.first, p2.second, p1.first, p1.second);
 		}
 
 		template<class Traits, class Char>
-		SEQ_STR_INLINE bool traits_string_inf_equal(const Char* v1, size_t l1, const Char* v2, size_t l2) noexcept
+		bool traits_string_inf_equal(const Char* v1, std::size_t l1, const Char* v2, std::size_t l2) noexcept
 		{
 			return !traits_string_inf<Traits>(v2, l2, v1, l1);
 		}
 		template<class Traits, class Pair>
-		SEQ_STR_INLINE bool traits_string_inf_equal(const Pair& p1, const Pair& p2) noexcept
+		bool traits_string_inf_equal(const Pair& p1, const Pair& p2) noexcept
 		{
 			return traits_string_inf_equal<Traits>(p1.first, p1.second, p2.first, p2.second);
 		}
 
 		template<class Traits, class Char>
-		SEQ_STR_INLINE bool traits_string_sup_equal(const Char* v1, size_t l1, const Char* v2, size_t l2) noexcept
+		bool traits_string_sup_equal(const Char* v1, std::size_t l1, const Char* v2, std::size_t l2) noexcept
 		{
 			return traits_string_inf_equal<Traits>(v2, l2, v1, l1);
 		}
 		template<class Traits, class Pair>
-		SEQ_STR_INLINE bool traits_string_sup_equal(const Pair& p1, const Pair& p2) noexcept
+		bool traits_string_sup_equal(const Pair& p1, const Pair& p2) noexcept
 		{
 			return traits_string_sup_equal<Traits>(p1.first, p1.second, p2.first, p2.second);
 		}
 
 		template<class Traits, class Char>
-		SEQ_STR_INLINE bool traits_string_equal(const Char* v1, size_t l1, const Char* v2, size_t l2) noexcept
+		bool traits_string_equal(const Char* v1, std::size_t l1, const Char* v2, std::size_t l2) noexcept
 		{
 			return (l1 == l2) && traits_string_compare<Traits>(v1, l1, v2, l2) == 0;
 		}
 		template<class Traits, class Pair>
-		SEQ_STR_INLINE bool traits_string_equal(const Pair& p1, const Pair& p2) noexcept
+		bool traits_string_equal(const Pair& p1, const Pair& p2) noexcept
 		{
 			return traits_string_equal<Traits>(p1.first, p1.second, p2.first, p2.second);
 		}
 
 		template<class Traits, class Char>
-		inline auto traits_string_find_first_of(const Char* data, size_t pos, size_t size, const Char* s, size_t n, size_t npos) noexcept -> size_t
+		auto traits_string_find_first_of(const Char* data, std::size_t pos, std::size_t size, const Char* s, std::size_t n, std::size_t npos) noexcept -> std::size_t
 		{
 			return std::basic_string_view<Char, Traits>(data, size).find_first_of(s, pos, n);
 
@@ -265,26 +247,26 @@ namespace seq
 				for (const Char* p = data + pos; p != end; ++p)
 					for (const Char* m = s; m != send; ++m)
 						if (*m == *p)
-							return static_cast<size_t>(p - data);
+							return static_cast<std::size_t>(p - data);
 			}
 			else {
 				unsigned char buff[256 / CHAR_BIT];
 				memset(buff, 0, sizeof(buff));
-				for (size_t i = 0; i < n; ++i) {
+				for (std::size_t i = 0; i < n; ++i) {
 					unsigned char v = static_cast<unsigned char>(s[i]);
 					buff[v / CHAR_BIT] |= 1U << (v % CHAR_BIT);
 				}
 				for (const Char* p = data + pos; p != end; ++p) {
 					unsigned char v = static_cast<unsigned char>(*p);
 					if ((buff[v / CHAR_BIT] >> (v % CHAR_BIT)) & 1U)
-						return static_cast<size_t>(p - data);
+						return static_cast<std::size_t>(p - data);
 				}
 			}
 			return npos;*/
 		}
 
 		template<class Traits, class Char>
-		inline auto traits_string_find_last_of(const Char* data, size_t pos, size_t size, const Char* s, size_t n, size_t npos) noexcept -> size_t
+		auto traits_string_find_last_of(const Char* data, std::size_t pos, std::size_t size, const Char* s, std::size_t n, std::size_t npos) noexcept -> std::size_t
 		{
 			return std::basic_string_view<Char, Traits>(data, size).find_last_of(s, pos, n);
 
@@ -299,27 +281,27 @@ namespace seq
 				for (const Char* in = p + pos; in >= p; --in) {
 					for (const Char* m = s; m != send; ++m)
 						if (*m == *in)
-							return static_cast<size_t>(in - p);
+							return static_cast<std::size_t>(in - p);
 				}
 			}
 			else {
 				unsigned char buff[256 / CHAR_BIT];
 				memset(buff, 0, sizeof(buff));
-				for (size_t i = 0; i < n; ++i) {
+				for (std::size_t i = 0; i < n; ++i) {
 					unsigned char v = static_cast<unsigned char>(s[i]);
 					buff[v / CHAR_BIT] |= 1U << (v % CHAR_BIT);
 				}
 				for (const Char* in = p + pos; in >= p; --in) {
 					unsigned char v = static_cast<unsigned char>(*in);
 					if ((buff[v / CHAR_BIT] >> (v % CHAR_BIT)) & 1U)
-						return static_cast<size_t>(in - p);
+						return static_cast<std::size_t>(in - p);
 				}
 			}
 			return npos;*/
 		}
 
 		template<class Traits, class Char>
-		inline auto traits_string_find_first_not_of(const Char* data, size_t pos, size_t size, const Char* s, size_t n, size_t npos) noexcept -> size_t
+		auto traits_string_find_first_not_of(const Char* data, std::size_t pos, std::size_t size, const Char* s, std::size_t n, std::size_t npos) noexcept -> std::size_t
 		{
 			return std::basic_string_view<Char, Traits>(data, size).find_first_not_of(s, pos, n);
 
@@ -332,13 +314,13 @@ namespace seq
 					if (*m == *p)
 						break;
 				if (m == send)
-					return static_cast<size_t>(p - data);
+					return static_cast<std::size_t>(p - data);
 			}
 			return npos;*/
 		}
 
 		template<class Traits, class Char>
-		inline auto traits_string_find_last_not_of(const Char* data, size_t pos, size_t size, const Char* s, size_t n, size_t npos) noexcept -> size_t
+		auto traits_string_find_last_not_of(const Char* data, std::size_t pos, std::size_t size, const Char* s, std::size_t n, std::size_t npos) noexcept -> std::size_t
 		{
 			return std::basic_string_view<Char, Traits>(data, size).find_last_not_of(s, pos, n);
 
@@ -355,38 +337,40 @@ namespace seq
 					if (*m == *in)
 						break;
 				if (m == send)
-					return static_cast<size_t>(in - p);
+					return static_cast<std::size_t>(in - p);
 			}
 			return npos;*/
 		}
 
 		template<class Traits, class Char>
-		inline auto traits_string_find(const Char* data, size_t pos, size_t size, const Char* s, size_t n, size_t npos) noexcept -> size_t
+		auto traits_string_find(const Char* data, std::size_t pos, std::size_t size, const Char* s, std::size_t n, std::size_t npos) noexcept -> std::size_t
 		{
-			if (n > size || pos + n > size)
+			if (pos > size)
 				return npos;
 			if (n == 0)
-				return 0;
+				return pos;
+			if (n > size - pos)
+				return npos;
 
 			const Char* in = data + pos;
 			const Char* end = in + (size - pos - n) + 1;
 			Char c = *s;
 			for (;;) {
-				in = Traits::find(in, static_cast<size_t>(end - in), c);
+				in = Traits::find(in, static_cast<std::size_t>(end - in), c);
 				if (!in)
 					return npos;
 
 				// start searching, count_approximate_common_bytes returns (usually) an underestimation of the common bytes, except if equal
-				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
+				std::size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if (common == (n - 1) * sizeof(Char))
-					return static_cast<size_t>(in - data);
+					return static_cast<std::size_t>(in - data);
 				++in;
 			}
 			return npos;
 		}
 
 		template<class Traits, class Char>
-		inline auto traits_string_rfind(const Char* data, size_t pos, size_t size, const Char* s, size_t n, size_t npos) noexcept -> size_t
+		auto traits_string_rfind(const Char* data, std::size_t pos, std::size_t size, const Char* s, std::size_t n, std::size_t npos) noexcept -> std::size_t
 		{
 			return std::basic_string_view<Char, Traits>(data, size).rfind(s, pos, n);
 
@@ -399,26 +383,26 @@ namespace seq
 			const Char* in = std::min(beg + pos, data + size - n);
 			Char c = *s;
 			for (;;) {
-				in = string_memrchr(beg, c, static_cast<size_t>(in - beg + 1));
+				in = string_memrchr(beg, c, static_cast<std::size_t>(in - beg + 1));
 				if (!in)
 					return npos;
 				// start searching
-				size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
+				std::size_t common = detail::count_approximate_common_bytes(in + 1, s + 1, in + n);
 				if (common == (n - 1) * sizeof(Char))
-					return static_cast<size_t>(in - data);
+					return static_cast<std::size_t>(in - data);
 				--in;
 			}
 			return npos;*/
 		}
 
-		template<class Char, size_t MaxSSO>
+		template<class Char, std::size_t MaxSSO>
 		struct SSOStorage
 		{
-			static constexpr size_t sizeof_word = sizeof(std::uintptr_t);
-			static constexpr size_t sso_size_bytes = sizeof(Char) * MaxSSO;
-			static constexpr size_t sso_struct_bytes = ((sso_size_bytes / sizeof_word + (sso_size_bytes % sizeof_word ? 1 : 0)) * sizeof_word);
-			static constexpr size_t struct_bytes = sso_struct_bytes < sizeof_word * 2 ? sizeof_word * 2 : sso_struct_bytes;
-			static constexpr size_t sso_capacity = struct_bytes / sizeof(Char);
+			static constexpr std::size_t sizeof_word = sizeof(std::uintptr_t);
+			static constexpr std::size_t sso_size_bytes = sizeof(Char) * MaxSSO;
+			static constexpr std::size_t sso_struct_bytes = ((sso_size_bytes / sizeof_word + (sso_size_bytes % sizeof_word ? 1 : 0)) * sizeof_word);
+			static constexpr std::size_t struct_bytes = sso_struct_bytes < sizeof_word * 2 ? sizeof_word * 2 : sso_struct_bytes;
+			static constexpr std::size_t sso_capacity = struct_bytes / sizeof(Char);
 			Char data[sso_capacity];
 		};
 
@@ -429,7 +413,7 @@ namespace seq
 			std::uintptr_t size;
 		};
 
-		template<class Char, size_t MaxSSOCapacity>
+		template<class Char, std::size_t MaxSSOCapacity>
 		struct StringHolder
 		{
 
@@ -441,9 +425,9 @@ namespace seq
 			using unsigned_char = typename std::make_unsigned<Char>::type;
 
 			// Compute maximum allowed SSO capacity
-			static constexpr size_t _max_allowed_sso_capacity = (1ULL << (sizeof(unsigned_char) * 8ULL - 1ULL)) - 1ULL;
-			static constexpr size_t max_allowed_sso_capacity = (_max_allowed_sso_capacity / sizeof(std::uintptr_t)) * sizeof(std::uintptr_t);
-			static constexpr size_t max_sso_capacity = MaxSSOCapacity > max_allowed_sso_capacity ? max_allowed_sso_capacity : MaxSSOCapacity;
+			static constexpr std::size_t _max_allowed_sso_capacity = (1ULL << (sizeof(unsigned_char) * 8ULL - 1ULL)) - 1ULL;
+			static constexpr std::size_t max_allowed_sso_capacity = (_max_allowed_sso_capacity / sizeof(std::uintptr_t)) * sizeof(std::uintptr_t);
+			static constexpr std::size_t max_sso_capacity = MaxSSOCapacity > max_allowed_sso_capacity ? max_allowed_sso_capacity : MaxSSOCapacity;
 
 #if SEQ_BYTEORDER_ENDIAN == SEQ_BYTEORDER_LITTLE_ENDIAN
 			static constexpr std::uintptr_t sso_capacity = SSOStorage<Char, max_sso_capacity>::sso_capacity;
@@ -451,7 +435,7 @@ namespace seq
 			static constexpr bool last_character_overlapp = sizeof(SSOStorage<Char, sso_capacity>) == sizeof(NoneSSOStorage<Char>);
 
 #else
-			static constexpr size_t min_capacity_for_BE = SSOStorage<Char, sizeof(NoneSSOStorage<Char>) / sizeof(Char) + 1U>::sso_capacity;
+			static constexpr std::size_t min_capacity_for_BE = SSOStorage<Char, sizeof(NoneSSOStorage<Char>) / sizeof(Char) + 1U>::sso_capacity;
 			static constexpr std::uintptr_t _sso_capacity = SSOStorage<Char, max_sso_capacity>::sso_capacity;
 			static constexpr std::uintptr_t sso_capacity = _sso_capacity < min_capacity_for_BE ? min_capacity_for_BE : _sso_capacity;
 			static constexpr bool last_character_overlapp = false;
@@ -462,10 +446,10 @@ namespace seq
 			static constexpr unsigned_char sso_mask = sizeof(unsigned_char) == 8U ? (1ULL << 63ULL) : (1ULL << (sizeof(unsigned_char) * 8ULL - 1ULL));
 			static constexpr unsigned_char non_sso_mask = sso_mask >> 1ULL;
 			static constexpr unsigned_char check_sso_mask = sso_mask | non_sso_mask;
-			static constexpr std::uintptr_t max_capacity = last_character_overlapp ? (std::numeric_limits<size_t>::max() >> 2ULL) : std::numeric_limits<size_t>::max();
+			static constexpr std::uintptr_t max_capacity = last_character_overlapp ? (std::numeric_limits<std::size_t>::max() >> 2ULL) : std::numeric_limits<std::size_t>::max();
 
 			static constexpr std::uintptr_t non_sso_flag = (1ULL << (sizeof(std::uintptr_t) * 8U - 2U));
-			static constexpr size_t char_offset = sizeof(size_t) / sizeof(Char);
+			static constexpr std::size_t char_offset = sizeof(std::size_t) / sizeof(Char);
 
 			union StorageUnion
 			{
@@ -476,7 +460,6 @@ namespace seq
 			SEQ_STR_INLINE_STRONG StringHolder() noexcept { reset(); }
 			template<class Union>
 			SEQ_STR_INLINE_STRONG StringHolder(const Union& u) noexcept
-			//: d_union(u){
 			{
 				memcpy(&d_union, &u, sizeof(d_union));
 				// avoid a reset operation
@@ -486,32 +469,33 @@ namespace seq
 			SEQ_STR_INLINE_STRONG unsigned_char& last_sso_char() noexcept { return reinterpret_cast<unsigned_char*>(d_union.sso.data)[sso_capacity - 1]; }
 
 			SEQ_STR_INLINE_STRONG bool is_sso() const noexcept { return (last_sso_char() & check_sso_mask) != non_sso_mask; }
-			static SEQ_STR_INLINE bool is_sso(std::uintptr_t size) noexcept { return size < sso_capacity; }
-			SEQ_STR_INLINE std::uintptr_t sizeSSO() const noexcept { return (last_sso_char() == 0 ? sso_capacity - 1U : last_sso_char() & (sso_mask - 1U)); }
-			SEQ_STR_INLINE std::uintptr_t sizeNonSSO() const noexcept { return (last_character_overlapp ? (d_union.non_sso.size & (non_sso_flag - 1ULL)) : d_union.non_sso.size); }
+			static SEQ_STR_INLINE_STRONG bool is_sso(std::uintptr_t size) noexcept { return size < sso_capacity; }
+			SEQ_STR_INLINE_STRONG std::uintptr_t sizeSSO() const noexcept { return (last_sso_char() == 0 ? sso_capacity - 1U : last_sso_char() & (sso_mask - 1U)); }
+			SEQ_STR_INLINE_STRONG std::uintptr_t sizeNonSSO() const noexcept { return (last_character_overlapp ? (d_union.non_sso.size & (non_sso_flag - 1ULL)) : d_union.non_sso.size); }
 			SEQ_STR_INLINE_STRONG std::uintptr_t size(unsigned_char last) const noexcept
 			{
 				if ((last & check_sso_mask) != non_sso_mask)
 					return last == 0 ? (sso_capacity - 1U) : (last & (sso_mask - 1U));
-				if (last_character_overlapp)
+				if constexpr (last_character_overlapp)
 					return (d_union.non_sso.size & (non_sso_flag - 1ULL));
-				return d_union.non_sso.size;
+				else
+					return d_union.non_sso.size;
 			}
 			SEQ_STR_INLINE_STRONG std::uintptr_t size() const noexcept { return size(last_sso_char()); }
 			SEQ_STR_INLINE_STRONG const Char* data() const noexcept { return is_sso() ? d_union.sso.data : (d_union.non_sso.data + char_offset); }
 			SEQ_STR_INLINE_STRONG Char* data() noexcept { return is_sso() ? d_union.sso.data : (d_union.non_sso.data + char_offset); }
 
-			SEQ_STR_INLINE_STRONG std::pair<const Char*, size_t> as_pair(const unsigned_char last) const noexcept
+			SEQ_STR_INLINE_STRONG std::pair<const Char*, std::size_t> as_pair(const unsigned_char last) const noexcept
 			{
 				if ((last & check_sso_mask) != non_sso_mask)
 					return { d_union.sso.data, (last == 0 ? sso_capacity - 1U : last & (sso_mask - 1U)) };
-				return { (d_union.non_sso.data + char_offset), static_cast<size_t>((last_character_overlapp ? (d_union.non_sso.size & (non_sso_flag - 1ULL)) : d_union.non_sso.size)) };
+				return { (d_union.non_sso.data + char_offset), static_cast<std::size_t>((last_character_overlapp ? (d_union.non_sso.size & (non_sso_flag - 1ULL)) : d_union.non_sso.size)) };
 			}
-			SEQ_STR_INLINE_STRONG std::pair<const Char*, size_t> as_pair() const noexcept { return as_pair(last_sso_char()); }
+			SEQ_STR_INLINE_STRONG std::pair<const Char*, std::size_t> as_pair() const noexcept { return as_pair(last_sso_char()); }
 
-			SEQ_STR_INLINE void setSizeNonSSO(std::uintptr_t size) noexcept
+			SEQ_STR_INLINE_STRONG void setSizeNonSSO(std::uintptr_t size) noexcept
 			{
-				if (last_character_overlapp)
+				if constexpr (last_character_overlapp)
 					// last character overlapp with size member: set last 2 bits to '01'
 					d_union.non_sso.size = size | non_sso_flag;
 				else {
@@ -521,7 +505,7 @@ namespace seq
 					last_sso_char() = non_sso_mask;
 				}
 			}
-			SEQ_STR_INLINE bool setSize(std::uintptr_t size) noexcept
+			SEQ_STR_INLINE_STRONG bool setSize(std::uintptr_t size) noexcept
 			{
 				if (size == sso_capacity - 1) {
 					last_sso_char() = 0;
@@ -537,7 +521,7 @@ namespace seq
 				}
 			}
 
-			SEQ_STR_INLINE void setSizeKeepSSOFlag(std::uintptr_t size) noexcept
+			SEQ_STR_INLINE_STRONG void setSizeKeepSSOFlag(std::uintptr_t size) noexcept
 			{
 				if (!is_sso())
 					setSizeNonSSO(size);
@@ -551,20 +535,31 @@ namespace seq
 			{
 				// Initialize with SSO string of size 0
 				last_sso_char() = static_cast<unsigned_char>(sso_mask);
+				d_union.sso.data[0] = Char{ 0 };
+			}
+
+			SEQ_STR_INLINE_STRONG auto capacity_internal() const noexcept -> std::size_t
+			{
+				// returns the capacity
+				return is_sso() ? sso_capacity :
+						// read_size_t(d_data.d_union.non_sso.data);
+					 *reinterpret_cast<const std::size_t*>(d_union.non_sso.data);
 			}
 		};
 
-		template<class Char, size_t MaxStaticSize, class Allocator>
+		template<class Char, std::size_t MaxStaticSize, class Allocator>
 		struct string_internal
 		  : StringHolder<Char, MaxStaticSize + 1U>
 		  , private Allocator
 		{
 			using base = StringHolder<Char, MaxStaticSize + 1U>;
 
-			static constexpr size_t max_sso_capacity = base::sso_capacity;
-			static constexpr size_t max_sso_size = base::sso_capacity - 1U;
-			static constexpr size_t max_allowed_sso_capacity = base::max_allowed_sso_capacity;
-			static constexpr size_t max_capacity = base::max_capacity;
+			static constexpr std::size_t max_sso_capacity = base::sso_capacity;
+			static constexpr std::size_t max_sso_size = base::sso_capacity - 1U;
+			static constexpr std::size_t max_allowed_sso_capacity = base::max_allowed_sso_capacity;
+			static constexpr std::size_t max_capacity = base::max_capacity;
+
+			static constexpr std::size_t per_size_t = sizeof(std::size_t) / sizeof(Char);
 
 			SEQ_STR_INLINE_STRONG string_internal() noexcept(std::is_nothrow_default_constructible_v<Allocator>)
 			  : base()
@@ -586,49 +581,43 @@ namespace seq
 			  , Allocator(std::move(al))
 			{
 			}
-			SEQ_STR_INLINE_STRONG auto allocate(size_t n) -> Char* { return this->Allocator::allocate(n); }
-			SEQ_STR_INLINE_STRONG void deallocate(Char* p, size_t n) { this->Allocator::deallocate(p, n); }
+
+			SEQ_STR_INLINE_STRONG constexpr std::size_t max_size() const
+			{
+				using word_allocator = typename std::allocator_traits<Allocator>::template rebind_alloc<std::size_t>;
+				using word_traits = std::allocator_traits<word_allocator>;
+
+				word_allocator alloc(get_allocator());
+				constexpr std::size_t max_words = std::numeric_limits<std::size_t>::max() / per_size_t;
+				const std::size_t words = std::min(static_cast<std::size_t>(word_traits::max_size(alloc)), max_words);
+				const std::size_t n = words * per_size_t;
+				const std::size_t available = n > per_size_t + 1 ? n - per_size_t - 1 : 0;
+				return std::max(max_sso_size, std::min(max_capacity, available));
+			}
+
+			auto allocate(std::size_t n) -> Char*
+			{
+				// Allocate with std::size_t alignment
+				if (n > std::numeric_limits<std::size_t>::max() - (per_size_t - 1))
+					throw std::length_error("tiny_string allocation too large");
+
+				n = (n + per_size_t - 1) / per_size_t;
+				return (Char*)allocate_from<std::size_t>(get_allocator(), n);
+			}
+			void deallocate(Char* p, std::size_t n)
+			{
+				n = (n + per_size_t - 1) / per_size_t;
+				deallocate_from(get_allocator(), (std::size_t*)p, n);
+			}
 			SEQ_STR_INLINE_STRONG auto get_allocator() noexcept -> Allocator& { return *this; }
 			SEQ_STR_INLINE_STRONG auto get_allocator() const noexcept -> const Allocator& { return *this; }
-
-			SEQ_STR_INLINE_STRONG void swap(string_internal& other) noexcept(noexcept(swap_allocator(std::declval<Allocator&>(), std::declval<Allocator&>())))
-			{
-				if constexpr (!std::is_same_v<std::allocator<Char>, Allocator>)
-					swap_allocator(get_allocator(), other.get_allocator());
-				std::swap(this->d_union, other.d_union);
-			}
-		};
-
-		template<class Char, size_t MaxStaticSize>
-		struct string_internal<Char, MaxStaticSize, view_allocator<Char>>
-		{
-			// internal storage for tiny_string and view_allocator (tstring_view objects)
-			const Char* data;
-			size_t size;
-
-			string_internal(const Char* d = nullptr, size_t s = 0) noexcept
-			  : data(d)
-			  , size(s)
-			{
-			}
-
-			auto allocate(size_t n) -> Char*
-			{
-				throw std::bad_alloc();
-				return nullptr;
-			}
-			void deallocate(Char* /*unused*/, size_t /*unused*/) noexcept {}
-			auto get_allocator() const noexcept -> view_allocator<Char> { return view_allocator<Char>(); }
-
 			SEQ_STR_INLINE_STRONG void swap(string_internal& other) noexcept
 			{
-				std::swap(data, other.data);
-				std::swap(size, other.size);
+				auto tmp = this->d_union;
+				this->d_union = other.d_union;
+				other.d_union = tmp;
 			}
-
-			SEQ_STR_INLINE_STRONG std::pair<const Char*, size_t> as_pair() const noexcept { return { data, size }; }
 		};
-
 	}
 
 	/// @brief String class with a similar interface and requirements than std::string
@@ -639,12 +628,7 @@ namespace seq
 	/// seq::tiny_string is a string class similar to std::string but aiming at greater performances when used in containers.
 	/// It provides a customizable Small String Optimization (SSO) much like boost::small_vector, where the maximum static size
 	/// before an allocation is triggered is defined at compile time.
-	///
-	/// seq::tiny_string contains some preallocated elements in-place, which can avoid the use of dynamic storage allocation when
-	/// the actual number of elements is below that preallocated threshold (MaxStaticSize parameter).
-	///
 	/// seq::tiny_string only supports characters of type char, not wchar_t.
-	///
 	///
 	/// Motivation
 	/// ----------
@@ -662,34 +646,26 @@ namespace seq
 	/// Size and bookkeeping
 	/// --------------------
 	///
-	/// By default, a tiny_string contains enough room to store a 15 bytes string, therefore a length of 14 bytes for null terminated strings.
-	/// For small strings (below the preallocated threshold), tiny_string only store one additional byte for bookkeeping: 7 bits for string length
-	/// and 1 bit to tell if the string is allocated in-place or on the heap. It means that the default tiny_string size is 16 bytes, which is half
-	/// the size of std::string on gcc and msvc. This small footprint is what makes tiny_string very fast on flat containers like std::vector ot std::deque,
-	/// while node based container (like std::map) are less impacted. Note that this tiny size is only reach when using an empty allocator class like std::allocator<char>.
+	/// By default on 64 bits machines, a `tiny_string` contains enough room to store a 16 bytes string, therefore a length of 15 bytes for null terminated strings.
+	/// tiny_string does not store any additional bytes for internal bookkeeping. The fact that a string MUST be null terminated allows some tricks in order to use the full string size for SSO.
 	///
-	/// When the tiny_string grows beyong the preallocated threshold, memory is allocated on the heap based on provided allocator, and the bookkeeping part is divided as follow:
-	///		-	still 1 bit to tell is the memory is heap allocated or not,
-	///		-	1 bit to tell if the string capacity is exactly equal to the string size + 1 (as tiny_string is always null terminated),
-	///		-	sizeof(size_t)*8 - 2 bits to store the string size. Therefore, the maximum size of tiny_string is slightly lower than std::string.
-	///		-	a pointer (4 to 8 bytes) to the actual memory chunk.
+	/// This means that the default `seq::tstring` has a size of 16 bytes and can hold a small string of... 16 bytes (including trailing 0).
+	/// Likewise, `seq::tiny_string<char, std::char_traits<char>, std::allocator<char>, 31>` has a size of 32 bytes and can hold a small string of 32 bytes.
 	///
-	/// seq::tiny_string does not store the memory capacity, and always use a grow factor of 2. The capacity is always deduced from the string length
-	/// using compiler intrinsics (like _BitScanReverse on msvc). In some cases (like copy construction), the allocated capacity is the same as the string length,
-	/// in which case a 1 bit flag is set to track this information.
+	/// When the tiny_string grows beyong the preallocated threshold, memory is allocated on the heap based on provided allocator using a grow factor of 2. tiny_string behaves exactly like std::string and does not deallocate memory on shrinking, except on calls to `shrink_to_fit()`.
 	///
-	/// The global typedef seq::tstring is provided for convenience, and is equivalent to seq::tiny_string<0,std::allocator<char>>.
+	/// Several typedefs are provided for convenience:
+	/// -	`seq::tstring`: equivalent to `seq::tiny_string<char, std::allocator<char>, 0 >`
+	/// -	`seq::wtstring`: equivalent to `seq::tiny_string<wchar_t, std::allocator<wchar_t>, 0 >`
 	///
 	/// Static size
 	/// -----------
 	///
-	/// The maximum preallocated space is specified as a template parameter (MaxStaticSize).
-	/// By default, this value is set to 0, meaning that the tiny_string only uses 2 word of either 32 or 64 bits depending on the architecture.
-	/// Therefore, the maximum in-place capacity is either 7 or 15 bytes.
+	/// The maximum preallocated space is specified as a template parameter (MaxStaticSize). By default, this value is set to 0, meaning that the tiny_string only uses 2 words of either 32 or 64 bits depending on the architecture (whatever the char type is).
+	/// Therefore, the maximum in-place capacity is either 8 or 16 bytes for 1 byte char type, less for wchar_t string.
 	///
-	/// The maximum preallocated space can be increased up to 126 bytes. To have a tiny_string of 32 bytes like std::string on gcc and msvc, you could use, for instance, tiny_string<28>.
-	/// In this case, the maximum string size (excluding null-terminated character) to use SSO would be 30 bytes (!).
-	///
+	/// The maximum preallocated space can be increased up to 120 elements (size of 119 since the string is null terminated) for char type. 
+	/// Use seq::tiny_string<char_type>::max_allowed_static_size to retrieve the maximum static size for a given char type.
 	///
 	/// Relocatable type
 	/// ----------------
@@ -713,128 +689,102 @@ namespace seq
 	/// Functions working on other strings like find(), compare()... are overloaded to also work on std::string.
 	/// The comparison operators are also overloaded to work with std::string.
 	///
-	/// seq::tiny_string provides the following additional members for convenience:
-	///		-	join(): merge several strings with a common separator
-	///		-	split(): split string based on separator
-	///		-	replace(): replace a string by another one
-	///		-	convert(): convert the string to another type using streams
-	///		-	sprintf(): format string
-	///
 	/// seq::tiny_string also works with std::istream/std::ostream exactly like std::string.
 	/// A specialization of std::hash is provided for tiny_string types which relies on murmurhash2. This specialization is transparent and
 	/// supports hashing std::string, tiny_string and const char*.
 	///
 	/// seq::tiny_string provides the same invalidation rules as std::string as well as the same exception guarantees.
 	///
-	/// The main difference compared to std::string is memory deallocation. As tiny_string does not store the capacity internally,
-	/// its capacity is deduced from the size and must be the closest greater or equal power of 2 (except for a few situations where the capacity is excatly the length +1).
-	/// Therefore, tiny_string must release memory when its size decreases due, for instance, to calls to tiny_string::pop_back().
-	/// Likewise, shrink_to_fit() and reserve() are no-ops.
+	/// A specialization of std::hash and seq::hasher is provided for tiny_string types which relies on komihash. This specialization is transparent and supports hashing std::string, tiny_string and const char*.
 	///
-	///
-	/// String view
-	/// -----------
-	///
-	/// seq::tiny_string is specialized for seq::view_allocator in order to provide a std::string_view like class.
-	/// It is provided for compilers that do not support (yet) std::string_view, and provides a similar interface.
-	///
-	/// The global typedef seq::tstring_view is provided  for convenience, and is equivalent to seq::tiny_string<0,seq::view_allocator>.
-	/// tstring_view is also hashable and can be compared to other tiny_string types as well as std::string.
-	///
-	///
-	/// Performances
-	/// ------------
-	///
-	/// All tiny_string members have been optimized to match or outperform (for small strings) most std::string implementations. They have been benchmarked against
-	/// gcc (10.0.1) and msvc (14.20) for members compare(), find(), rfind(), find_first_of(), find_last_of(), find_first_not_of() and find_last_not_of().
-	/// Comparison operators <=> are usually faster than std::string.
-	///
-	/// However, tiny_string is usually slower for back insertion with push_back(). The pop_back() member is also slower than msvc and gcc implementations.
-	///
-	/// tiny_string is usually faster when used inside flat containers simply because its size is smaller than std::string (32 bytes on gcc and msvc).
-	/// The following table shows the performances of tiny_string against std::string for sorting a vector of 1M random short string (size = 14, where both tiny_string
-	/// and std::string use SSO) and 1M random longer strings (size = 200, both use heap allocation). Tested with gcc 10.1.0 (-O3) for msys2 on Windows 10,
-	/// using Intel(R) Core(TM) i7-10850H at 2.70GHz.
-	///
-	/// String class       | sort small (std::less) | sort small (tstring::less) | sort wide (std::less) | sort wide (tstring::less) |
-	/// -------------------|------------------------|----------------------------|-----------------------|---------------------------|
-	/// std::string        |          160 ms        |          122 ms            |       382 ms          |         311 ms            |
-	/// seq::tiny_string   |          112 ms        |          112 ms            |       306 ms          |         306 ms            |
-	///
-	/// This benchmark is available in file 'seq/benchs/bench_tiny_string.hpp'.
-	/// Note that tiny_string always uses its own comparison function. We can see that the comparison function of tiny_string is faster than the default one used
-	/// by std::string. Even when using tiny_string comparator, std::string remains slightly slower due to the tinier memory footprint of tiny_string.
-	///
-	/// The difference is wider on msvc (14.20):
-	///
-	/// String class       | sort small (std::less) | sort small (tstring::less) | sort wide (std::less) | sort wide (tstring::less) |
-	/// -------------------|------------------------|----------------------------|-----------------------|---------------------------|
-	/// std::string        |          281 ms        |          264 ms            |       454 ms          |         441 ms            |
-	/// seq::tiny_string   |          176 ms        |          176 ms            |       390 ms          |         390 ms            |
-	///
-	///
-	///
-	template<class Char, class Traits = std::char_traits<Char>, class Allocator = std::allocator<Char>, size_t MaxStaticSize = 0>
+	template<class Char, class Allocator = std::allocator<Char>, std::size_t MaxStaticSize = 0>
 	class tiny_string
 	{
-		static_assert(sizeof(Char) == alignof(Char), "invalid Char type alignment");
-		static_assert((sizeof(size_t) % sizeof(Char)) == 0, "invalid Char type size");
-		static_assert(sizeof(Char) <= alignof(size_t), "invalid Char type size");
-
+		using Traits = std::char_traits<Char>;
 		using internal_data = detail::string_internal<Char, MaxStaticSize, Allocator>;
-		using this_type = tiny_string<Char, Traits, Allocator, MaxStaticSize>;
+		using this_type = tiny_string<Char, Allocator, MaxStaticSize>;
 
-		static constexpr size_t sso_max_capacity = internal_data::max_sso_capacity;
-		static constexpr size_t sso_max_size = internal_data::max_sso_size;
-		static constexpr size_t max_allowed_sso_capacity = internal_data::max_allowed_sso_capacity;
-		static constexpr size_t first_allocated_capacity = (1ULL << (static_bit_scan_reverse<sso_max_capacity>::value + 1U)); // TODO: check value
-		static constexpr size_t char_offset = sizeof(size_t) / sizeof(Char);
+		static constexpr std::size_t sso_max_capacity = internal_data::max_sso_capacity;
+		static constexpr std::size_t sso_max_size = internal_data::max_sso_size;
+		static constexpr std::size_t max_allowed_sso_capacity = internal_data::max_allowed_sso_capacity;
+		static constexpr std::size_t first_allocated_capacity = (1ULL << (static_bit_scan_reverse<sso_max_capacity>::value + 1U)); // TODO: check value
+		static constexpr std::size_t char_offset = sizeof(std::size_t) / sizeof(Char);
+
+		static_assert(sizeof(Char) == alignof(Char), "invalid Char type alignment");
+		static_assert((sizeof(std::size_t) % sizeof(Char)) == 0, "invalid Char type size");
+		static_assert(sizeof(Char) <= alignof(std::size_t), "invalid Char type size");
+		static_assert(MaxStaticSize < max_allowed_sso_capacity, "tiny_string maximum static size is limited to 126 elements");
+		static_assert(is_character_type_v<Char>, "invalid character type");
+		static_assert(std::is_trivially_copyable_v<Char>);
 
 		internal_data d_data;
 
-		template<class C, class T, class Al, size_t S>
+		template<class C, class Al, std::size_t S>
 		friend class tiny_string;
 
 		// is it a small string
-		SEQ_STR_INLINE bool is_sso() const noexcept { return d_data.is_sso(); }
-		SEQ_STR_INLINE bool is_sso(size_t len) const noexcept { return d_data.is_sso(len); }
+		SEQ_STR_INLINE_STRONG bool is_sso() const noexcept { return d_data.is_sso(); }
+		SEQ_STR_INLINE_STRONG bool is_sso(std::size_t len) const noexcept { return d_data.is_sso(len); }
 
-		SEQ_STR_INLINE auto capacity_internal() const noexcept -> size_t
+		SEQ_STR_INLINE_STRONG auto capacity_internal() const noexcept -> std::size_t
 		{
 			// returns the capacity
-			return is_sso() ? sso_max_capacity :
-					// read_size_t(d_data.d_union.non_sso.data);
-				 *reinterpret_cast<const size_t*>(d_data.d_union.non_sso.data);
+			return d_data.capacity_internal();
 		}
-		SEQ_STR_INLINE auto capacity_for_length(size_t len) const noexcept -> size_t
+		auto capacity_for_length(std::size_t len) const -> std::size_t
 		{
 			// returns the capacity for given length
-			return is_sso(len) ? sso_max_capacity : (len < first_allocated_capacity ? first_allocated_capacity : (1ULL << (1ULL + (bit_scan_reverse_64(len)))));
+
+			const std::size_t maximum = max_size();
+			if (len > maximum)
+				throw std::length_error("tiny_string too long");
+
+			if (is_sso(len))
+				return sso_max_capacity;
+
+			if (len < first_allocated_capacity)
+				return first_allocated_capacity;
+
+			const std::size_t allocation_limit = maximum + 1;
+
+			const unsigned bits = bit_scan_reverse_64(len);
+			if ((sizeof(std::size_t) == 4 && bits >= 31) || (sizeof(std::size_t) == 8 && bits >= 63))
+				return allocation_limit;
+
+			return std::min(allocation_limit, static_cast<std::size_t>(1ULL << (1ULL + bits)));
+
+			// return is_sso(len) ? sso_max_capacity : (len < first_allocated_capacity ? first_allocated_capacity : (1ULL << (1ULL + (bit_scan_reverse_64(len)))));
 		}
 
-		SEQ_STR_INLINE_STRONG Char* resize_grow(size_t len, bool exact_size = false)
+		Char* resize_grow(std::size_t len, bool exact_size = false)
 		{
 			// Resize for growing, keep old data
-			if SEQ_UNLIKELY (is_sso()) {
-				if SEQ_UNLIKELY (len > sso_max_size) {
+			Char* p;
+
+			if (is_sso()) {
+				if (len > sso_max_size) {
 					internal_resize(len, true, exact_size);
-					return d_data.d_union.non_sso.data + char_offset;
+					p = d_data.d_union.non_sso.data + char_offset;
 				}
 				else {
 					d_data.setSize(len);
-					return d_data.d_union.sso.data;
+					p = d_data.d_union.sso.data;
 				}
 			}
 			else {
-				if SEQ_UNLIKELY (len > *reinterpret_cast<const size_t*>(d_data.d_union.non_sso.data) - 1)
+				if (len > capacity())
 					internal_resize(len, true, exact_size);
 				else
 					d_data.setSizeNonSSO(len);
-				return d_data.d_union.non_sso.data + char_offset;
+
+				p = d_data.d_union.non_sso.data + char_offset;
 			}
+
+			p[len] = Char{ 0 };
+			return p;
 		}
 
-		void internal_resize(size_t len, bool keep_old, bool exact_size = false)
+		void internal_resize(std::size_t len, bool keep_old, bool exact_size = false)
 		{
 			// Resize string without initializing memory.
 			// Take care of switch from sso to non sso (and opposite).
@@ -842,7 +792,7 @@ namespace seq
 			// Allocate the exact amount of memory if exact_size is true.
 			// Always null terminate new string.
 
-			const size_t old_size = size();
+			const std::size_t old_size = size();
 			const bool sso = is_sso();
 			if (len == old_size)
 				return;
@@ -857,7 +807,7 @@ namespace seq
 				}
 			}
 			else {
-				if (len <= *reinterpret_cast<const size_t*>(d_data.d_union.non_sso.data) - 1) {
+				if (len <= *reinterpret_cast<const std::size_t*>(d_data.d_union.non_sso.data) - 1) {
 					// Just set the size and last char to 0
 					d_data.setSizeNonSSO(len);
 					d_data.d_union.non_sso.data[len + char_offset] = 0;
@@ -869,15 +819,16 @@ namespace seq
 
 				// from non sso to sso
 				Char* ptr = d_data.d_union.non_sso.data;
+				std::size_t cap = capacity_for_length(old_size);
 				if (keep_old)
 					memcpy(d_data.d_union.sso.data, ptr + char_offset, len * sizeof(Char));
-				d_data.deallocate(ptr, capacity_internal() + char_offset);
+				d_data.deallocate(ptr, cap + char_offset);
 			}
 			// non sso new len, might throw
 			else {
 				// from sso to non sso
 
-				size_t capacity = exact_size ? len + 1 : capacity_for_length(len);
+				std::size_t capacity = exact_size ? len + 1 : capacity_for_length(len);
 				Char* ptr = d_data.allocate(capacity + char_offset);
 				// write capacity
 				write_size_t(ptr, capacity);
@@ -894,145 +845,136 @@ namespace seq
 			d_data.setSize(len);
 		}
 
-		template<class Iter, class Cat>
-		void assign_cat(Iter first, Iter last, Cat /*unused*/)
-		{
-			// assign range for non random access iterators
-			tiny_string tmp;
-			while (first != last) {
-				tmp.push_back(*first);
-				++first;
-			}
-			*this = std::move(tmp);
-		}
-		template<class Iter>
-		void assign_cat(Iter first, Iter last, std::random_access_iterator_tag /*unused*/)
-		{
-			// assign range for random access iterators
-			internal_resize(static_cast<size_t>(last - first), false, true);
-			std::copy(first, last, data());
-		}
-
-		template<class Iter, class Cat>
-		void insert_cat(size_t pos, Iter first, Iter last, Cat /*unused*/)
-		{
-			// insert range for non random access iterators
-			SEQ_ASSERT_DEBUG(pos <= size(), "invalid insert position");
-			if (first == last)
-				return;
-
-			// push back, might throw
-			size_type prev_size = size();
-			for (; first != last; ++first)
-				push_back(*first);
-			// Might throw, fine
-			std::rotate(begin() + pos, begin() + prev_size, end());
-		}
-
-		template<class Iter>
-		void insert_cat(size_t pos, Iter first, Iter last, std::random_access_iterator_tag /*unused*/)
-		{
-			// insert range for random access iterators
-			SEQ_ASSERT_DEBUG(pos <= size(), "invalid insert position");
-			if (first == last)
-				return;
-
-			if (pos < size() / 2) {
-				size_type to_insert = static_cast<size_t>(last - first);
-				// Might throw, fine
-				resize_front(size() + to_insert);
-				iterator beg = begin();
-				// Might throw, fine
-				Char* p = data();
-				std::for_each(p + to_insert, p + to_insert + pos, [&](Char v) {
-					*beg = v;
-					++beg;
-				});
-				std::for_each(p + pos, p + pos + to_insert, [&](Char& v) { v = *first++; });
-			}
-			else {
-				// Might throw, fine
-				size_type to_insert = static_cast<size_t>(last - first);
-				resize(size() + to_insert);
-				Char* p = data();
-				size_t s = size();
-				std::copy_backward(p + pos, p + (s - to_insert), p + s);
-				std::copy(first, last, p + pos);
-			}
-		}
-
-		void erase_internal(size_t first, size_t last)
+		void erase_internal(std::size_t first, std::size_t last)
 		{
 			SEQ_ASSERT_DEBUG(first <= last, "erase: invalid positions");
 			SEQ_ASSERT_DEBUG(last <= size(), "erase: invalid last position");
 			if (first == last)
 				return;
-			size_type space_before = first;
-			size_type space_after = size() - last;
-			size_type s = size();
+			std::size_t space_before = first;
+			std::size_t space_after = size() - last;
+			std::size_t s = size();
 			Char* p = data();
 			if (space_before < space_after) {
 				std::copy_backward(p, p + first, p + last);
 				resize_front(s - (last - first));
 			}
 			else {
-				std::copy(p + last, p + s, p + first);
+				internal_move(p + last, p + s, p + first);
 				resize(s - (last - first));
 			}
 		}
 
 		template<class Iter>
-		void replace_cat(size_t pos, size_t len, Iter first, Iter last, std::random_access_iterator_tag /*unused*/)
+		SEQ_ALWAYS_INLINE bool alias(Iter first, Iter last) const
 		{
-			size_t input_size = (last - first);
-			size_t new_size = size() - len + input_size;
-			if (new_size <= capacity()) {
-				// do everything inplace
-				if (input_size != len)
-					memmove(data() + pos + input_size, data() + pos + len, size() - (pos + len));
+			// Check for aliasing
+			if constexpr (!is_random_access_v<Iter>)
+				return false;
+			else if constexpr (!std::is_same_v<typename std::iterator_traits<Iter>::value_type, Char>)
+				return false;
+			else if constexpr (std::is_pointer_v<Iter> && std::is_same_v<std::remove_cv_t<std::remove_pointer_t<Iter>>, Char>)
+				return (std::uintptr_t)first >= (std::uintptr_t)begin() && (std::uintptr_t)first <= (std::uintptr_t)end();
+			else {
+				if (first == last)
+					return false;
+				// Assumption: a source iterator range either refers entirely to one
+				// independent container or begins within this string's storage.
+				using reference = decltype(*first);
+				if constexpr (!std::is_lvalue_reference_v<reference>)
+					return !empty(); // conservatively assume aliasing
+				else {
+					const auto p = reinterpret_cast<std::uintptr_t>(std::addressof(*first));
+					return p >= (std::uintptr_t)begin() && p <= (std::uintptr_t)end();
+				}
+			}
+		}
 
-				// copy input
-				std::copy(first, last, data() + pos);
+		template<class It>
+		static constexpr bool nothrow_iter() noexcept
+		{
+			// Check if iterator type does not throw for a call to internal_copy()
+			return std::is_nothrow_copy_constructible_v<It> && noexcept(std::declval<Char&>() = *std::declval<It&>()) && noexcept(std::declval<It&>() != std::declval<It&>()) &&
+			       noexcept(*std::declval<It&>()) && noexcept(++std::declval<It&>()) && noexcept(std::declval<It&>()++);
+		}
 
-				data()[new_size] = 0;
-				d_data.setSizeKeepSSOFlag(new_size);
-				return;
+		template<class Iter>
+		tiny_string& replace_internal(std::size_t pos, std::size_t len, Iter first, Iter last)
+		{
+			// Check this bounds
+			if (pos > size())
+				throw std::out_of_range("tiny_string::replace position out of range");
+
+			std::size_t available = size() - pos;
+			if (len > available)
+				len = available;
+
+			if (alias(first, last))
+				goto forward;
+
+			if constexpr (is_random_access_v<Iter> && nothrow_iter<Iter>()) {
+
+				const auto insize = std::distance(first, last);
+				if (insize < 0)
+					throw std::length_error("tiny_string::replace: invalid iterator range");
+
+				const std::size_t input_size = static_cast<std::size_t>(insize);
+				const std::size_t retained = size() - len;
+
+				if (input_size > max_size() - retained)
+					throw std::length_error("tiny_string too long");
+
+				const std::size_t new_size = retained + input_size;
+
+				if (new_size <= capacity()) {
+					// do everything inplace
+					if (input_size != len)
+						memmove(data() + pos + input_size, data() + pos + len, (size() - (pos + len)) * sizeof(Char));
+
+					// copy input
+					internal_copy(first, last, data() + pos);
+
+					data()[new_size] = 0;
+					d_data.setSizeKeepSSOFlag(new_size);
+					SEQ_ASSERT_DEBUG(check_invariant(), "");
+					return *this;
+				}
+
+				// otherwise, create a new string and fill it (might throw)
+				tiny_string other(new_size, 0, get_allocator());
+				Char* op = other.data();
+				// first part
+				memcpy(op, data(), pos * sizeof(Char));
+				// middle part
+				internal_copy(first, last, op + pos);
+				// last part
+				memcpy(op + pos + input_size, data() + pos + len, (size() - (pos + len)) * sizeof(Char));
+
+				std::swap(d_data.d_union, other.d_data.d_union);
+				SEQ_ASSERT_DEBUG(check_invariant(), "");
+				return *this;
 			}
 
-			// otherwise, create a new string and fill it (might throw)
-			tiny_string other(new_size, 0);
-			Char* op = other.data();
-			// first part
-			memcpy(op, data(), pos * sizeof(Char));
-			// middle part
-			std::copy(first, last, op + pos);
-			// last part
-			memcpy(op + pos + input_size, data() + pos + len, (size() - (pos + len)) * sizeof(Char));
-
-			swap(other);
-		}
-		template<class Iter, class Cat>
-		void replace_cat(size_t pos, size_t len, Iter first, Iter last, Cat c)
-		{
+		forward: {
 			// otherwise, create a new string and fill it
-			tiny_string other;
+			tiny_string other(get_allocator());
 			// first part
 			other.append(data(), pos);
 			// middle part
 			other.append(first, last);
 			// last part
 			other.append(data() + pos + len, size() - (pos + len));
-			swap(other);
+			std::swap(d_data.d_union, other.d_data.d_union);
 		}
-		template<class Iter>
-		void replace_internal(size_t pos, size_t len, Iter first, Iter last)
-		{
-			// replace portion of the string
-			replace_cat(pos, len, first, last, typename std::iterator_traits<Iter>::iterator_category());
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
+			return *this;
 		}
 
-		auto initialize(size_t size) -> Char*
+		auto initialize(std::size_t size) -> Char*
 		{
+			if (size > max_size())
+				throw std::length_error("tiny_string::initialize: invalid size");
+
 			// intialize the string for given size
 			if (!d_data.setSize(size)) {
 				// non sso
@@ -1052,13 +994,69 @@ namespace seq
 			return d_data.d_union.sso.data;
 		}
 
-	public:
-		static_assert(MaxStaticSize < max_allowed_sso_capacity, "tiny_string maximum static size is limited to 126 elements");
+		template<class String>
+		std::basic_string_view<Char, Traits> compute_substring(const String& str, std::size_t pos, std::size_t len) const
+		{
+			if (pos > str.size())
+				throw std::out_of_range("tiny_string substring position");
 
-		// Maximum string length to use SSO
-		static constexpr size_t max_allowed_static_size = max_allowed_sso_capacity - 1;
-		static constexpr size_t max_static_size = sso_max_capacity - 1;
-		static constexpr size_t npos = static_cast<size_t>(-1);
+			const std::size_t available = str.size() - pos;
+			if (len > available)
+				len = available;
+			return { str.data() + pos, len };
+		}
+
+		template<class It>
+		SEQ_STR_INLINE_STRONG void internal_move(It first, It last, Char* dst)
+		{
+			// Similar to std::copy, but make sure only a known subset of iterator interface is used
+			// to deduce noexcept specifier.
+			// Also tries to use memmove when possible.
+
+			if constexpr (std::is_same_v<It, Char*> || std::is_same_v<It, const Char*> || std::is_same_v<It, typename std::basic_string<Char>::iterator> ||
+				      std::is_same_v<It, typename std::basic_string<Char>::const_iterator> || std::is_same_v<It, typename std::basic_string_view<Char>::iterator> ||
+				      std::is_same_v<It, typename std::basic_string_view<Char>::const_iterator>) {
+				const auto n = static_cast<std::size_t>(last - first);
+				if (n != 0)
+					memmove(dst, std::addressof(*first), n * sizeof(Char));
+			}
+			else {
+				for (; first != last; ++first, ++dst)
+					*dst = *first;
+			}
+		}
+		template<class It>
+		SEQ_STR_INLINE_STRONG void internal_copy(It first, It last, Char* dst)
+		{
+			// Similar to std::copy, but make sure only a known subset of iterator interface is used
+			// to deduce noexcept specifier.
+			// Also tries to use memmove when possible.
+
+			if constexpr (std::is_same_v<It, Char*> || std::is_same_v<It, const Char*> || std::is_same_v<It, typename std::basic_string<Char>::iterator> ||
+				      std::is_same_v<It, typename std::basic_string<Char>::const_iterator> || std::is_same_v<It, typename std::basic_string_view<Char>::iterator> ||
+				      std::is_same_v<It, typename std::basic_string_view<Char>::const_iterator>) {
+				const auto n = static_cast<std::size_t>(last - first);
+				if (n != 0)
+					memcpy(dst, std::addressof(*first), n * sizeof(Char));
+			}
+			else {
+				for (; first != last; ++first, ++dst)
+					*dst = *first;
+			}
+		}
+
+		bool check_invariant() noexcept { return data()[size()] == 0; }
+		auto to_string_view() const noexcept { return std::basic_string_view<Char, Traits>(data(), size()); }
+
+		using al_traits = std::allocator_traits<Allocator>;
+		using word_allocator = typename al_traits::template rebind_alloc<std::size_t>;
+		using word_traits = std::allocator_traits<word_allocator>;
+
+		static_assert(std::is_same_v<typename al_traits::size_type, std::size_t>);
+		static_assert(std::is_same_v<typename word_traits::size_type, std::size_t>);
+
+	public:
+		static_assert(std::is_same_v<typename al_traits::pointer, Char*>, "tiny_string does not support fancy pointers");
 
 		using traits_type = Traits;
 		using value_type = Char;
@@ -1070,62 +1068,80 @@ namespace seq
 		using const_iterator = const Char*;
 		using reverse_iterator = std::reverse_iterator<iterator>;
 		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-		using size_type = size_t;
-		using difference_type = std::intptr_t;
+		using size_type = std::size_t; // We require std::size_t as size_type instead of allocator size_type
+		using difference_type = std::ptrdiff_t;
 		using allocator_type = Allocator;
 
+		// Maximum string length to use SSO
+		static constexpr size_type max_allowed_static_size = max_allowed_sso_capacity - 1;
+		static constexpr size_type max_static_size = sso_max_capacity - 1;
+		static constexpr size_type npos = static_cast<size_type>(-1);
+
 		/// @brief Default constructor
-		tiny_string() noexcept(std::is_nothrow_default_constructible_v<internal_data>) {}
+		tiny_string() noexcept(std::is_nothrow_default_constructible_v<internal_data>) { SEQ_ASSERT_DEBUG(check_invariant(), ""); }
 		/// @brief Construct from allocator object
 		explicit tiny_string(const Allocator& al) noexcept(std::is_nothrow_copy_constructible_v<Allocator>)
 		  : d_data(al)
 		{
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 		/// @brief Construct from a null-terminated string and an allocator object
 		tiny_string(const Char* data, const Allocator& al = Allocator())
 		  : d_data(al)
 		{
-			size_t len = Traits::length(data);
-			memcpy(initialize(len), data, len * sizeof(Char));
+			if (data) {
+				const size_type len = Traits::length(data);
+				memcpy(initialize(len), data, len * sizeof(Char));
+			}
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 		/// @brief Construct from a string, its size and an allocator object
-		tiny_string(const Char* data, size_t n, const Allocator& al = Allocator())
+		tiny_string(const Char* data, size_type n, const Allocator& al = Allocator())
 		  : d_data(al)
 		{
-			memcpy(initialize(n), data, n * sizeof(Char));
+			if (n != 0) {
+				if (!data)
+					throw std::invalid_argument("tiny_string: null source with nonzero length");
+				memcpy(initialize(n), data, n * sizeof(Char));
+			}
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 		/// @brief Construct by filling with n copy of character c and an allocator object
-		tiny_string(size_t n, Char c, const Allocator& al = Allocator())
+		tiny_string(size_type n, Char c, const Allocator& al = Allocator())
 		  : d_data(al)
 		{
 			std::fill_n(initialize(n), n, c);
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 		/// @brief Construct from a std::string and an allocator object
-		template<class Al>
-		tiny_string(const std::basic_string<Char, Traits, Al>& str, const Allocator& al = Allocator())
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		tiny_string(const String& str, const Allocator& al = Allocator())
 		  : d_data(al)
 		{
-			memcpy(initialize(str.size()), str.data(), str.size() * sizeof(Char));
+			if (str.size() > 0)
+				memcpy(initialize(str.size()), str.data(), str.size() * sizeof(Char));
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 
-		template<class Tr>
-		tiny_string(const std::basic_string_view<Char, Tr>& str, const Allocator& al = Allocator())
-		  : d_data(al)
+		/// @brief Construct by copying a sub-part of other
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		tiny_string(const String& other, size_type pos, size_type len, const Allocator& al = Allocator())
+		  : tiny_string(compute_substring(other, pos, len), al)
 		{
-			memcpy(initialize(str.size()), str.data(), str.size() * sizeof(Char));
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
+		}
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		tiny_string(const String& other, size_type pos, const Allocator& al = Allocator())
+		  : tiny_string(compute_substring(other, pos, npos), al)
+		{
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 
 		/// @brief Copy constructor
 		tiny_string(const tiny_string& other)
-		  : d_data(copy_allocator(other.d_data.get_allocator()))
+		  : tiny_string(other, copy_allocator(other.d_data.get_allocator()))
 		{
-			if (other.is_sso())
-				// for SSO and read only string
-				memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
-			else {
-				size_t size = other.size();
-				memcpy(initialize(size), other.d_data.d_union.non_sso.data + char_offset, sizeof(Char) * (size));
-			}
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 		/// @brief Copy constructor with custom allocator
 		tiny_string(const tiny_string& other, const Allocator& al)
@@ -1135,59 +1151,47 @@ namespace seq
 				// for SSO and read only string
 				memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
 			else {
-				size_t size = other.size();
+				size_type size = other.size();
 				memcpy(initialize(size), other.d_data.d_union.non_sso.data + char_offset, sizeof(Char) * (size));
 			}
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
-		/// @brief Construct by copying the content of another tiny_string
-		template<size_t OtherMaxSS, class OtherAlloc>
-		tiny_string(const tiny_string<Char, Traits, OtherAlloc, OtherMaxSS>& other)
-		  : d_data()
-		{
-			memcpy(initialize(other.size()), other.data(), other.size() * sizeof(Char));
-		}
-		/// @brief Construct by copying a sub-part of other
-		tiny_string(const tiny_string& other, size_t pos, size_t len, const Allocator& al = Allocator())
-		  : d_data(al)
-		{
-			if (len == npos || pos + len > other.size())
-				len = other.size() - pos;
-			memcpy(initialize(len), other.data() + pos, len * sizeof(Char));
-		}
-		/// @brief Construct by copying a sub-part of other
-		tiny_string(const tiny_string& other, size_t pos, const Allocator& al = Allocator())
-		  : d_data(al)
-		{
-			size_t len = other.size() - pos;
-			memcpy(initialize(len), other.data() + pos, len * sizeof(Char));
-		}
+
 		/// @brief Move constructor
 		SEQ_STR_INLINE_STRONG tiny_string(tiny_string&& other) noexcept(std::is_nothrow_move_constructible_v<Allocator>)
 		  : d_data(std::move(other.d_data.get_allocator()), other.d_data)
 		{
 			other.d_data.reset();
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
+			SEQ_ASSERT_DEBUG(other.check_invariant(), "");
 		}
 		/// @brief Move constructor with custom allocator
-		tiny_string(tiny_string&& other, const Allocator& al) 
+		tiny_string(tiny_string&& other, const Allocator& al) noexcept(std::allocator_traits<Allocator>::is_always_equal::value && std::is_nothrow_copy_constructible_v<Allocator>)
 		  : d_data(al)
 		{
-			memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
-			if (!is_sso()) {
-				if (!std::allocator_traits<Allocator>::is_always_equal::value && al != other.get_allocator()) {
-					size_t size = other.size();
-					memcpy(initialize(size), other.data(), size * sizeof(Char));
-				}
-				else {
-					other.d_data.reset();
-				}
+			using traits = std::allocator_traits<Allocator>;
+
+			if constexpr (traits::is_always_equal::value) {
+				memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
+				other.d_data.reset();
 			}
+			else if (al == other.get_allocator()) {
+				memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
+				other.d_data.reset();
+			}
+			else {
+				const size_type n = other.size();
+				memcpy(initialize(n), other.data(), n * sizeof(Char));
+			}
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
+			SEQ_ASSERT_DEBUG(other.check_invariant(), "");
 		}
 		/// @brief Construct by copying the range [first,last)
-		template<class Iter, std::enable_if_t<is_iterator<Iter>::value, int> = 0>
+		template<class Iter, std::enable_if_t<is_iterator_v<Iter>, int> = 0>
 		tiny_string(Iter first, Iter last, const Allocator& al = Allocator())
 		  : d_data(al)
 		{
-			assign_cat(first, last, typename std::iterator_traits<Iter>::iterator_category());
+			assign(first, last);
 		}
 		/// @brief Construct from initializer list
 		tiny_string(std::initializer_list<Char> il, const Allocator& al = Allocator())
@@ -1196,14 +1200,12 @@ namespace seq
 			assign(il);
 		}
 
-		~tiny_string()
+		~tiny_string() noexcept
 		{
-			if (!is_sso()) {
+			if (!is_sso())
 				d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal() + char_offset);
-			}
 		}
 
-		SEQ_STR_INLINE_STRONG std::pair<const Char*, size_t> as_pair() const noexcept { return d_data.as_pair(); }
 		/// @brief Returns the internal character storage
 		SEQ_STR_INLINE_STRONG auto data() noexcept -> Char* { return d_data.data(); }
 		/// @brief Returns the internal character storage
@@ -1211,141 +1213,128 @@ namespace seq
 		/// @brief Returns the internal character storage
 		SEQ_STR_INLINE_STRONG auto c_str() const noexcept -> const Char* { return data(); }
 		/// @brief Returns the string size (without the trailing null character)
-		SEQ_STR_INLINE_STRONG auto size() const noexcept -> size_t { return d_data.size(); }
+		SEQ_STR_INLINE_STRONG auto size() const noexcept -> size_type { return static_cast<size_type>(d_data.size()); }
 		/// @brief Returns the string size (without the trailing null character)
-		SEQ_STR_INLINE_STRONG auto length() const noexcept -> size_t { return size(); }
+		SEQ_STR_INLINE_STRONG auto length() const noexcept -> size_type { return size(); }
 		/// @brief Returns the string maximum size
-		SEQ_STR_INLINE_STRONG auto max_size() const noexcept -> size_t { return internal_data::max_capacity - 1; }
+		SEQ_STR_INLINE_STRONG auto max_size() const -> size_type { return d_data.max_size(); }
 		/// @brief Returns the string current capacity
-		SEQ_STR_INLINE_STRONG auto capacity() const noexcept -> size_t { return capacity_internal() - 1ULL; }
+		SEQ_STR_INLINE_STRONG auto capacity() const noexcept -> size_type { return static_cast<size_type>(capacity_internal() - 1ULL); }
 		/// @brief Returns true if the string is empty, false otherwise
 		SEQ_STR_INLINE_STRONG auto empty() const noexcept -> bool { return size() == 0; }
 		/// @brief Returns the string allocator
-		SEQ_STR_INLINE_STRONG auto get_allocator() const noexcept -> const allocator_type& { return d_data.get_allocator(); }
-		SEQ_STR_INLINE_STRONG auto get_allocator() noexcept -> allocator_type& { return d_data.get_allocator(); }
+		SEQ_STR_INLINE_STRONG auto get_allocator() const -> allocator_type { return d_data.get_allocator(); }
+
+		SEQ_STR_INLINE_STRONG std::pair<const Char*, std::size_t> as_pair() const noexcept { return d_data.as_pair(); }
 
 		/// @brief Assign the range [first,last) to this string
-		template<class Iter>
+		template<class Iter, std::enable_if_t<is_iterator_v<Iter>, int> = 0>
 		auto assign(Iter first, Iter last) -> tiny_string&
 		{
-			assign_cat(first, last, typename std::iterator_traits<Iter>::iterator_category());
-			return *this;
-		}
-		/// @brief Assign the content of other to this string
-		auto assign(const tiny_string& other) -> tiny_string&
-		{
-			if (is_sso() && other.is_sso())
-				memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
+			if constexpr (!nothrow_iter<Iter>()) {
+				tiny_string tmp(get_allocator());
+				for (; first != last; ++first)
+					tmp.push_back(*first);
+				std::swap(d_data.d_union, tmp.d_data.d_union);
+			}
 			else {
-				if constexpr (assign_alloc<Allocator>::value) {
-					if (get_allocator() != other.get_allocator()) {
-						clear();
+
+				if (alias(first, last)) {
+					// Aliasing: insert in new string and move
+					tiny_string tmp(first, last, get_allocator());
+					std::swap(d_data.d_union, tmp.d_data.d_union);
+				}
+				else {
+					if constexpr (!is_random_access_v<Iter>) {
+						// Assign range for non random access iterators, keep allocated memory if any
+						tiny_string tmp(get_allocator());
+						for (; first != last; ++first)
+							tmp.push_back(*first);
+						*this = std::move(tmp);
+					}
+					else {
+						const auto distance = std::distance(first, last);
+						if (distance < 0)
+							throw std::length_error("tiny_string::assign: invalid iterator range");
+
+						// Assign range for random access iterators
+						internal_resize(static_cast<size_type>(distance), false, true);
+						internal_copy(first, last, data());
 					}
 				}
-				assign_allocator(get_allocator(), other.get_allocator());
-
-				internal_resize(other.size(), false, true);
-				memcpy(this->data(), other.c_str(), other.size() * sizeof(Char));
 			}
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 			return *this;
 		}
 		/// @brief Assign the content of other to this string
-		template<class OtherAlloc, size_t OtherMaxStaticSize>
-		auto assign(const tiny_string<Char, Traits, OtherAlloc, OtherMaxStaticSize>& other) -> tiny_string&
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto assign(const String& other) -> tiny_string&
 		{
-			internal_resize(other.size(), false, true);
-			memcpy(this->data(), other.c_str(), other.size() * sizeof(Char));
-			return *this;
+			const auto* d = other.data();
+			return assign(d, d + other.size());
 		}
-		/// @brief Assign the content of other to this string
-		template<class Al>
-		auto assign(const std::basic_string<Char, Traits, Al>& other) -> tiny_string&
-		{
-			internal_resize(other.size(), false, true);
-			memcpy(this->data(), other.c_str(), other.size() * sizeof(Char));
-			return *this;
-		}
-		/// @brief Assign the content of other to this string
-		auto assign(const std::basic_string_view<Char, Traits>& other) -> tiny_string&
-		{
-			internal_resize(other.size(), false, true);
-			memcpy(this->data(), other.data(), other.size() * sizeof(Char));
-			return *this;
-		}
+
 		/// @brief Assign a sub-part of other to this string
-		auto assign(const tiny_string& str, size_t subpos, size_t sublen) -> tiny_string&
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto assign(const String& str, size_type subpos, size_type sublen) -> tiny_string&
 		{
-			if (sublen == npos || subpos + sublen > str.size())
-				sublen = str.size() - subpos;
-			internal_resize(sublen, false, true);
-			memcpy(this->data(), str.data() + subpos, sublen * sizeof(Char));
-			return *this;
+			return assign(compute_substring(str, subpos, sublen));
 		}
 		/// @brief Assign a null-terminated buffer to this string
 		auto assign(const Char* s) -> tiny_string&
 		{
-			size_t len = Traits::length(s);
-			internal_resize(len, false, true);
-			memcpy(this->data(), s, len * sizeof(Char));
+			if (!s)
+				clear();
+			else
+				assign(s, Traits::length(s));
 			return *this;
 		}
 		/// @brief Assign a buffer to this string
-		auto assign(const Char* s, size_t n) -> tiny_string&
+		auto assign(const Char* s, size_type n) -> tiny_string&
 		{
-			internal_resize(n, false, true);
-			memcpy(this->data(), s, n * sizeof(Char));
+			if (s && n)
+				assign(s, s + n);
+			else
+				clear();
 			return *this;
 		}
 		/// @brief Reset the string by n copies of c
-		auto assign(size_t n, Char c) -> tiny_string&
+		auto assign(size_type n, Char c) -> tiny_string&
 		{
 			internal_resize(n, false, true);
 			std::fill_n(this->data(), n, c);
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 			return *this;
 		}
 		/// @brief Assign to this string the initializer list il
 		auto assign(std::initializer_list<Char> il) -> tiny_string& { return assign(il.begin(), il.end()); }
-		/// @brief Move the content of other to this string. Equivalent to tiny_string::operator=.
-		SEQ_STR_INLINE_STRONG auto assign(tiny_string&& other) noexcept(noexcept(std::declval<internal_data&>().swap(std::declval<internal_data&>()))) -> tiny_string&
-		{
-			if constexpr (sizeof(tiny_string) <= 16 || !noexcept(move_allocator(std::declval<Allocator&>(), std::declval<Allocator&>())))
-				// Use internal_data.swap() for small static size or if moving allocator is NOT noexcept
-				d_data.swap(other.d_data);
-			else if SEQ_LIKELY (this != std::addressof(other)) {
-				if (!is_sso())
-					d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal() + char_offset);
-				memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
-				move_allocator(d_data.get_allocator(), other.d_data.get_allocator());
-				other.d_data.reset();
-			}
-			return *this;
-		}
 
 		/// @brief Resize the string.
 		/// For wide string, the allocated memory will be of exactly n+1 bytes.
-		void resize(size_t n) { resize(n, 0); }
+		void resize(size_type n) { resize(n, 0); }
 		/// @brief Resize the string.
 		/// For wide string, the allocated memory will be of exactly n+1 bytes.
 		/// If n is bigger than size(), pad with (n-size()) copies of c.
-		void resize(size_t n, Char c)
+		void resize(size_type n, Char c)
 		{
-			size_t old_size = size();
+			size_type old_size = size();
 			if (old_size == n)
 				return;
 			internal_resize(n, true);
 			if (n > old_size)
 				std::fill_n(data() + old_size, n - old_size, c);
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 
 		/// @brief Resize the string from the front.
 		/// For wide string, the allocated memory will be of exactly n+1 bytes.
-		void resize_front(size_t n) { resize_front(n, 0); }
+		void resize_front(size_type n) { resize_front(n, 0); }
 		/// @brief Resize the string from the front.
 		/// For wide string, the allocated memory will be of exactly n+1 bytes.
 		/// If n is bigger than size(), pad at the front with (n-size()) copies of c.
-		void resize_front(size_t n, Char c)
+		void resize_front(size_type n, Char c)
 		{
-			size_t old_size = size();
+			size_type old_size = size();
 			if (old_size == n)
 				return;
 
@@ -1361,10 +1350,11 @@ namespace seq
 				}
 				d_data.setSizeKeepSSOFlag(n);
 				data()[n] = 0;
+				SEQ_ASSERT_DEBUG(check_invariant(), "");
 				return;
 			}
 
-			tiny_string other(n, 0);
+			tiny_string other(n, 0, get_allocator());
 			if (n > old_size) {
 				std::fill_n(other.data(), n - old_size, c);
 				memcpy(other.data() + n - old_size, data(), old_size * sizeof(Char));
@@ -1373,88 +1363,85 @@ namespace seq
 				memcpy(other.data(), data() + old_size - n, n * sizeof(Char));
 			}
 			swap(other);
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 
-		/// @brief Swap the content of this string with other
-		SEQ_STR_INLINE_STRONG void swap(tiny_string& other) noexcept(noexcept(std::declval<internal_data&>().swap(std::declval<internal_data&>())))
-		{
-			// Do not check for same address as this is counter productive
-			d_data.swap(other.d_data);
-		}
-
-		/// @brief Clear the string and deallocate memory for wide strings
+		/// @brief Clear the string without deallocating its memory
 		void clear() noexcept
 		{
-			if (!is_sso())
-				d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal() + char_offset);
-			d_data.reset();
+			d_data.setSizeKeepSSOFlag(0);
+			data()[0] = Char{ 0 };
 		}
 
 		void shrink_to_fit()
 		{
-			size_t s = size();
-			if (!is_sso() && capacity_internal() != s + 1) {
+			size_type s = size();
+			size_type cp = capacity_internal();
+			if (!is_sso() && cp != s + 1) {
 				Char* p = d_data.d_union.non_sso.data;
 				if (is_sso(s)) {
 					memcpy(d_data.d_union.sso.data, p + char_offset, (s + 1) * sizeof(Char));
-					d_data.deallocate(p, capacity_internal() + char_offset);
 				}
 				else {
 					Char* _new = d_data.allocate(s + char_offset + 1);
 					write_size_t(_new, s + 1);
 					memcpy(_new + char_offset, p + char_offset, (s + 1) * sizeof(Char));
-					d_data.deallocate(p, capacity_internal() + char_offset);
 					d_data.d_union.non_sso.data = _new;
 				}
+				d_data.deallocate(p, cp + char_offset);
 				d_data.setSize(s);
+			}
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
+		}
+
+		void reserve(size_type new_capacity)
+		{
+			if (new_capacity > capacity()) {
+				size_type s = size();
+				Char* p = resize_grow(new_capacity, true);
+				d_data.setSizeKeepSSOFlag(s);
+				p[s] = 0;
+				SEQ_ASSERT_DEBUG(check_invariant(), "");
 			}
 		}
 
-		void reserve(size_t new_capacity)
-		{
-			size_t s = size();
-			Char* p = resize_grow(new_capacity, true);
-			d_data.setSizeKeepSSOFlag(s);
-			p[s] = 0;
-		}
-
 		/// @brief Returns an iterator to the first element of the container.
-		SEQ_STR_INLINE auto begin() noexcept -> iterator { return data(); }
+		auto begin() noexcept -> iterator { return data(); }
 		/// @brief Returns an iterator to the first element of the container.
-		SEQ_STR_INLINE auto begin() const noexcept -> const_iterator { return data(); }
+		auto begin() const noexcept -> const_iterator { return data(); }
 		/// @brief Returns an iterator to the first element of the container.
-		SEQ_STR_INLINE auto cbegin() const noexcept -> const_iterator { return data(); }
+		auto cbegin() const noexcept -> const_iterator { return data(); }
 
 		/// @brief Returns an iterator to the element following the last element of the container.
-		SEQ_STR_INLINE auto end() noexcept -> iterator { return data() + size(); }
+		auto end() noexcept -> iterator { return data() + size(); }
 		/// @brief Returns an iterator to the element following the last element of the container.
-		SEQ_STR_INLINE auto end() const noexcept -> const_iterator { return data() + size(); }
+		auto end() const noexcept -> const_iterator { return data() + size(); }
 		/// @brief Returns an iterator to the element following the last element of the container.
-		SEQ_STR_INLINE auto cend() const noexcept -> const_iterator { return end(); }
+		auto cend() const noexcept -> const_iterator { return end(); }
 
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		SEQ_STR_INLINE auto rbegin() noexcept -> reverse_iterator { return reverse_iterator(end()); }
+		auto rbegin() noexcept -> reverse_iterator { return reverse_iterator(end()); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		SEQ_STR_INLINE auto rbegin() const noexcept -> const_reverse_iterator { return const_reverse_iterator(end()); }
+		auto rbegin() const noexcept -> const_reverse_iterator { return const_reverse_iterator(end()); }
 		/// @brief Returns a reverse iterator to the first element of the reversed list.
-		SEQ_STR_INLINE auto crbegin() const noexcept -> const_reverse_iterator { return rbegin(); }
+		auto crbegin() const noexcept -> const_reverse_iterator { return rbegin(); }
 
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		SEQ_STR_INLINE auto rend() noexcept -> reverse_iterator { return reverse_iterator(begin()); }
+		auto rend() noexcept -> reverse_iterator { return reverse_iterator(begin()); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		SEQ_STR_INLINE auto rend() const noexcept -> const_reverse_iterator { return const_reverse_iterator(begin()); }
+		auto rend() const noexcept -> const_reverse_iterator { return const_reverse_iterator(begin()); }
 		/// @brief Returns a reverse iterator to the element following the last element of the reversed list.
-		SEQ_STR_INLINE auto crend() const noexcept -> const_reverse_iterator { return rend(); }
+		auto crend() const noexcept -> const_reverse_iterator { return rend(); }
 
 		/// @brief Returns the character at pos, throw std::out_of_range for invalid position.
-		SEQ_STR_INLINE Char at(size_t pos) const
+		SEQ_STR_INLINE_STRONG const_reference at(size_type pos) const
 		{
 			if (pos >= size())
 				throw std::out_of_range("");
 			return data()[pos];
 		}
 		/// @brief Returns the character at pos, throw std::out_of_range for invalid position.
-		SEQ_STR_INLINE Char& at(size_t pos)
+		SEQ_STR_INLINE_STRONG reference at(size_type pos)
 		{
 			if (pos >= size())
 				throw std::out_of_range("");
@@ -1462,38 +1449,38 @@ namespace seq
 		}
 
 		/// @brief Returns the character at pos
-		SEQ_STR_INLINE Char operator[](size_t pos) const noexcept
+		SEQ_STR_INLINE_STRONG const_reference operator[](size_type pos) const noexcept
 		{
-			SEQ_ASSERT_DEBUG(pos < size(), "invalid position");
+			SEQ_ASSERT_DEBUG(pos <= size(), "invalid position");
 			return data()[pos];
 		}
 		/// @brief Returns the character at pos
-		SEQ_STR_INLINE Char& operator[](size_t pos) noexcept
+		SEQ_STR_INLINE_STRONG reference operator[](size_type pos) noexcept
 		{
-			SEQ_ASSERT_DEBUG(pos < size(), "invalid position");
+			SEQ_ASSERT_DEBUG(pos <= size(), "invalid position");
 			return data()[pos];
 		}
 
 		/// @brief Returns the last character of the string
-		SEQ_STR_INLINE Char back() const noexcept
+		SEQ_STR_INLINE_STRONG const_reference back() const noexcept
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container");
 			return data()[size() - 1];
 		}
 		/// @brief Returns the last character of the string
-		SEQ_STR_INLINE Char& back() noexcept
+		SEQ_STR_INLINE_STRONG reference back() noexcept
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container");
 			return data()[size() - 1];
 		}
 		/// @brief Returns the first character of the string
-		SEQ_STR_INLINE Char front() const noexcept
+		SEQ_STR_INLINE_STRONG const_reference front() const noexcept
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container");
 			return data()[0];
 		}
 		/// @brief Returns the first character of the string
-		SEQ_STR_INLINE Char& front() noexcept
+		SEQ_STR_INLINE_STRONG reference front() noexcept
 		{
 			SEQ_ASSERT_DEBUG(size() > 0, "empty container");
 			return data()[0];
@@ -1502,10 +1489,17 @@ namespace seq
 		/// @brief Append character to the back of the string
 		SEQ_STR_INLINE_STRONG void push_back(Char c)
 		{
-			size_t s = size();
+			size_type s = size();
+			if (SEQ_LIKELY(s < capacity())) {
+				Char* p = data();
+				p[s] = c;
+				p[s + 1] = Char{};
+				d_data.setSizeKeepSSOFlag(s + 1);
+				return;
+			}
 			Char* p = resize_grow(s + 1);
 			p[s] = c;
-			p[s + 1] = 0;
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 		/// @brief Removes the last character of the string
 		SEQ_STR_INLINE_STRONG void pop_back()
@@ -1513,7 +1507,7 @@ namespace seq
 			SEQ_ASSERT_DEBUG(size() > 0, "pop_back on an empty string!");
 
 			if SEQ_LIKELY (!is_sso()) {
-				size_t s = d_data.sizeNonSSO() - 1;
+				size_type s = d_data.sizeNonSSO() - 1;
 				d_data.setSizeNonSSO(s);
 				d_data.d_union.non_sso.data[s + char_offset] = 0;
 			}
@@ -1521,334 +1515,354 @@ namespace seq
 				d_data.setSize(d_data.sizeSSO() - 1);
 				d_data.d_union.sso.data[d_data.sizeSSO()] = 0;
 			}
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 		}
 
 		/// @brief Append the content of str to this string
-		template<class Al, size_t Ss>
-		auto append(const tiny_string<Char, Traits, Al, Ss>& str) -> tiny_string&
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto append(const String& str) -> tiny_string&
 		{
-			return append(str.data(), str.size());
-		}
-
-		/// @brief Append the content of str to this string
-		template<class Al>
-		auto append(const std::basic_string<Char, Traits, Al>& str) -> tiny_string&
-		{
-			return append(str.data(), str.size());
-		}
-		/// @brief Append the content of str to this string
-		auto append(const std::basic_string_view<Char, Traits>& str) -> tiny_string& { return append(str.data(), str.size()); }
-
-		/// @brief Append the sub-part of str to this string
-		template<size_t Ss, class Al>
-		auto append(const tiny_string<Char, Traits, Al, Ss>& str, size_t subpos, size_t sublen = npos) -> tiny_string&
-		{
-			if (sublen == npos || subpos + sublen > str.size())
-				sublen = str.size() - subpos;
-			return append(str.data() + subpos, sublen);
-		}
-		/// @brief Append the sub-part of str to this string
-		template<class Al>
-		auto append(const std::basic_string<Char, Traits, Al>& str, size_t subpos, size_t sublen = npos) -> tiny_string&
-		{
-			if (sublen == npos || subpos + sublen > str.size())
-				sublen = str.size() - subpos;
-			return append(str.data() + subpos, sublen);
+			const auto* d = str.data();
+			return append(d, d + str.size());
 		}
 
 		/// @brief Append the sub-part of str to this string
-		auto append(const std::basic_string_view<Char, Traits>& str, size_t subpos, size_t sublen = npos) -> tiny_string&
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto append(const String& str, size_type subpos, size_type sublen = npos) -> tiny_string&
 		{
-			if (sublen == npos || subpos + sublen > str.size())
-				sublen = str.size() - subpos;
-			return append(str.data() + subpos, sublen);
+			return append(compute_substring(str, subpos, sublen));
 		}
 
 		/// @brief Append a null-terminated buffer to this string
-		auto append(const Char* s) -> tiny_string& { return append(s, Traits::length(s)); }
+		auto append(const Char* s) -> tiny_string&
+		{
+			if (s)
+				append(s, Traits::length(s));
+			return *this;
+		}
 
 		/// @brief Append buffer content to this string
-		auto append(const Char* s, size_t n) -> tiny_string&
+		auto append(const Char* s, size_type n) -> tiny_string&
 		{
-			if SEQ_UNLIKELY (n == 0)
-				return *this;
-			size_t old_size = size();
-			size_t new_size = old_size + n;
-			Char* d = resize_grow(new_size);
-			memcpy(d + old_size, s, n * sizeof(Char));
-			d[new_size] = 0;
+			if (n)
+				return append(s, s + n);
 			return *this;
 		}
+
+		/// @brief Append a character
+		auto append(Char c) -> tiny_string&
+		{
+			push_back(c);
+			return *this;
+		}
+
 		/// @brief Append n copies of character c to the string
-		auto append(size_t n, Char c) -> tiny_string&
+		auto append(size_type n, Char c) -> tiny_string&
 		{
 			if SEQ_UNLIKELY (n == 0)
 				return *this;
-			size_t old_size = size();
-			size_t new_size = old_size + n;
+
+			const size_type old_size = size();
+			if (n > max_size() - old_size)
+				throw std::length_error("tiny_string::append too long");
+
+			const size_type new_size = old_size + n;
 			Char* d = resize_grow(new_size);
 			std::fill_n(d + old_size, n, c);
-			d[new_size] = 0;
-			return *this;
-		}
-		/// @brief Append the content of the range [first,last) to this string
-		template<class Iter>
-		auto append(Iter first, Iter last) -> tiny_string&
-		{
-			if (first == last)
-				return *this;
-			if (std::is_same_v<typename std::iterator_traits<Iter>::iterator_category, std::random_access_iterator_tag>) {
-				size_t n = std::distance(first, last);
-				size_t old_size = size();
-				size_t new_size = old_size + n;
-				Char* d = resize_grow(new_size);
-				std::copy(first, last, d + old_size);
-				d[new_size] = 0;
-			}
-			else {
-				while (first != last) {
-					push_back(*first);
-					++first;
-				}
-			}
+			// d[new_size] = 0; // This is done in resize_grow
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 			return *this;
 		}
 		/// @brief Append the content of the range [il.begin(),il.end()) to this string
 		auto append(std::initializer_list<Char> il) -> tiny_string& { return append(il.begin(), il.end()); }
 
+		/// @brief Append the content of the range [first,last) to this string
+		template<class Iter, std::enable_if_t<is_iterator_v<Iter>, int> = 0>
+		auto append(Iter first, Iter last) -> tiny_string&
+		{
+			if (first == last)
+				return *this;
+
+			if constexpr (!nothrow_iter<Iter>() || !is_random_access_v<Iter>) {
+				tiny_string tmp(*this, get_allocator());
+				while (first != last) {
+					tmp.push_back(*first);
+					++first;
+				}
+				std::swap(d_data.d_union, tmp.d_data.d_union);
+			}
+			else {
+
+				if (alias(first, last)) {
+					tiny_string tmp(first, last, get_allocator());
+					return append(tmp);
+				}
+
+				const auto distance = std::distance(first, last);
+				if (distance < 0)
+					throw std::length_error("tiny_string::append: invalid iterator range");
+
+				const size_type n = static_cast<size_type>(distance);
+				const size_type old_size = size();
+				if (n > max_size() - old_size)
+					throw std::length_error("tiny_string::append too long");
+
+				const size_type new_size = old_size + n;
+				Char* d = resize_grow(new_size);
+				internal_copy(first, last, d + old_size);
+			}
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
+			return *this;
+		}
+
 		/// @brief Inserts the content of str at position pos
-		template<size_t S, class AL>
-		auto insert(size_t pos, const tiny_string<Char, Traits, AL, S>& str) -> tiny_string&
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto insert(size_type pos, const String& str) -> tiny_string&
 		{
-			insert(begin() + pos, str.begin(), str.end());
-			return *this;
-		}
-		/// @brief Inserts a sub-part of str at position pos
-		template<class Al>
-		auto insert(size_t pos, const std::basic_string<Char, Traits, Al>& str) -> tiny_string&
-		{
+			if (pos > size())
+				throw std::out_of_range("tiny_string::insert position");
 			insert(begin() + pos, str.begin(), str.end());
 			return *this;
 		}
 
 		/// @brief Inserts a sub-part of str at position pos
-		auto insert(size_t pos, const std::basic_string_view<Char, Traits>& str) -> tiny_string&
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto insert(size_type pos, const String& str, size_type subpos, size_type sublen = npos) -> tiny_string&
 		{
-			insert(begin() + pos, str.begin(), str.end());
-			return *this;
-		}
-
-		/// @brief Inserts a sub-part of str at position pos
-		auto insert(size_t pos, const tiny_string& str, size_t subpos, size_t sublen = npos) -> tiny_string&
-		{
-			if (sublen == npos || subpos + sublen > str.size())
-				sublen = str.size() - subpos;
-			insert(begin() + pos, str.begin() + subpos, str.begin() + subpos + sublen);
+			if (pos > size())
+				throw std::out_of_range("tiny_string::insert position");
+			insert(begin() + pos, compute_substring(str, subpos, sublen));
 			return *this;
 		}
 		/// @brief Inserts a null-terminated buffer at position pos
-		auto insert(size_t pos, const Char* s) -> tiny_string&
+		auto insert(size_type pos, const Char* s) -> tiny_string&
 		{
-			// avoid multiple push_back
-			size_t len = Traits::length(s);
-			insert(begin() + pos, s, s + len);
+			if (pos > size())
+				throw std::out_of_range("tiny_string::insert position");
+			if (s)
+				insert(begin() + pos, s, s + Traits::length(s));
 			return *this;
 		}
 		/// @brief Inserts buffer at position pos
-		auto insert(size_t pos, const Char* s, size_t n) -> tiny_string&
+		auto insert(size_type pos, const Char* s, size_type n) -> tiny_string&
 		{
-			insert(begin() + pos, s, s + n);
+			if (pos > size())
+				throw std::out_of_range("tiny_string::insert position");
+			if (n != 0) {
+				if (!s)
+					throw std::invalid_argument("tiny_string::insert: null pointer");
+
+				insert(begin() + pos, s, s + n);
+			}
 			return *this;
 		}
 		/// @brief Inserts n copies of character c at position pos
-		auto insert(size_t pos, size_t n, Char c) -> tiny_string&
+		auto insert(size_type pos, size_type n, Char c) -> tiny_string&
 		{
+			if (pos > size())
+				throw std::out_of_range("tiny_string::insert position");
 			insert(begin() + pos, cvalue_iterator<Char>(0, c), cvalue_iterator<Char>(n));
 			return *this;
 		}
+
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto insert(const_iterator p, const String& str) -> iterator
+		{
+			return insert(p, str.data(), str.data() + str.size());
+		}
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto insert(const_iterator p, const String& str, size_type subpos, size_type sublen = npos) -> iterator
+		{
+			return insert(p, compute_substring(str, subpos, sublen));
+		}
+		auto insert(const_iterator p, const Char* s) -> iterator
+		{
+			if (s)
+				return insert(p, s, s + Traits::length(s));
+			return const_cast<iterator>(p);
+		}
+		auto insert(const_iterator p, const Char* s, size_type n) -> iterator
+		{
+			if (n)
+				return insert(p, s, s + n);
+			return const_cast<iterator>(p);
+		}
 		/// @brief Inserts n copies of character c at position p
-		auto insert(const_iterator p, size_t n, Char c) -> iterator { return insert(p, cvalue_iterator<Char>(0, c), cvalue_iterator<Char>(n)); }
+		auto insert(const_iterator p, size_type n, Char c) -> iterator { return insert(p, cvalue_iterator<Char>(0, c), cvalue_iterator<Char>(n)); }
 		/// @brief Inserts character c at position p
 		auto insert(const_iterator p, Char c) -> iterator { return insert(p, &c, (&c) + 1); }
-		/// @brief Inserts the content of the range [first,last) at position p
-		template<class InputIterator>
-		auto insert(const_iterator p, InputIterator first, InputIterator last) -> iterator
-		{
-			size_t pos = static_cast<size_t>(p - cbegin());
-			insert_cat(pos, first, last, typename std::iterator_traits<InputIterator>::iterator_category());
-			return begin() + pos;
-		}
 		/// @brief Inserts the content of the range [il.begin(),il.end()) at position p
-		auto insert(const_iterator p, std::initializer_list<Char> il) -> iterator
+		auto insert(const_iterator p, std::initializer_list<Char> il) -> iterator { return insert(p, il.begin(), il.end()); }
+		/// @brief Inserts the content of the range [first,last) at position p
+		template<class Iter, std::enable_if_t<is_iterator_v<Iter>, int> = 0>
+		auto insert(const_iterator loc, Iter first, Iter last) -> iterator
 		{
-			size_t pos = p - cbegin();
-			insert_cat(pos, il.begin(), il.end(), std::random_access_iterator_tag());
+			SEQ_ASSERT_DEBUG(loc >= begin() && loc <= end(), "tiny_string::insert invalid iterator");
+
+			size_type pos = static_cast<size_type>(loc - begin());
+
+			if constexpr (!nothrow_iter<Iter>() || !is_random_access_v<Iter>) {
+				tiny_string tmp(cbegin(), loc, get_allocator());
+				tmp.append(first, last);
+				tmp.append(loc, cend());
+				std::swap(d_data.d_union, tmp.d_data.d_union);
+			}
+			else {
+
+				if (alias(first, last)) {
+					tiny_string tmp(first, last, get_allocator());
+					return insert(loc, tmp.begin(), tmp.end());
+				}
+
+				const auto distance = std::distance(first, last);
+				if (distance < 0)
+					throw std::length_error("tiny_string::insert: invalid iterator range");
+
+				if (static_cast<size_type>(distance) > max_size() - size())
+					throw std::length_error("tiny_string::append too long");
+
+				if (pos < size() / 2) {
+					size_type to_insert = static_cast<size_type>(distance);
+					// Might throw, fine
+					resize_front(size() + to_insert);
+					iterator beg = begin();
+					// Might throw, fine
+					Char* p = data();
+					std::for_each(p + to_insert, p + to_insert + pos, [&](Char v) {
+						*beg = v;
+						++beg;
+					});
+					std::for_each(p + pos, p + pos + to_insert, [&](Char& v) { v = *first++; });
+				}
+				else {
+					// Might throw, fine
+					size_type to_insert = static_cast<size_type>(distance);
+					resize(size() + to_insert);
+					Char* p = data();
+					size_type s = size();
+					std::copy_backward(p + pos, p + (s - to_insert), p + s);
+					internal_copy(first, last, p + pos);
+				}
+			}
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 			return begin() + pos;
 		}
 
 		/// @brief Removes up to sublen character starting from subpos
-		auto erase(size_t subpos, size_t sublen = npos) -> tiny_string&
+		auto erase(size_type subpos, size_type sublen = npos) -> tiny_string&
 		{
-			if (sublen == npos || subpos + sublen > size())
-				sublen = size() - subpos;
+			if (subpos > size())
+				throw std::out_of_range("tiny_string::erase position");
+
+			const size_type available = size() - subpos;
+			if (sublen > available)
+				sublen = available;
+
 			erase_internal(subpos, subpos + sublen);
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 			return *this;
 		}
 		/// @brief Remove character at position p
 		auto erase(const_iterator p) -> iterator
 		{
-			size_type f = static_cast<size_t>(p - begin());
-			erase_internal(f, f + 1);
+			size_type f = static_cast<size_type>(p - begin());
+			erase(f, 1);
 			return begin() + f;
 		}
 		/// @brief Removes the range [first,last)
 		auto erase(const_iterator first, const_iterator last) -> iterator
 		{
-			size_type f = static_cast<size_t>(first - begin());
-			erase_internal(f, static_cast<size_t>(last - begin()));
+			if (first > last)
+				throw std::invalid_argument("tiny_string::erase: invalid iterator range");
+			size_type f = static_cast<size_type>(first - begin());
+			erase(f, static_cast<size_type>(last - first));
 			return begin() + f;
 		}
 
 		/// @brief Replace up to len character starting from pos by str
-		template<class Al>
-		auto replace(size_t pos, size_t len, const std::basic_string<Char, Traits, Al>& str) -> tiny_string&
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto replace(size_type pos, size_type len, const String& str) -> tiny_string&
 		{
-			if (len == npos || pos + len > size())
-				len = size() - pos;
-			replace_internal(pos, len, str.begin(), str.end());
-			return *this;
-		}
-
-		/// @brief Replace up to len character starting from pos by str
-		auto replace(size_t pos, size_t len, const std::basic_string_view<Char, Traits>& str) -> tiny_string&
-		{
-			if (len == npos || pos + len > size())
-				len = size() - pos;
-			replace_internal(pos, len, str.begin(), str.end());
-			return *this;
+			return replace(pos, len, str.begin(), str.end());
 		}
 
 		/// @brief Replace characters in the range [i1,i2) by str
-		template<class Al>
-		auto replace(const_iterator i1, const_iterator i2, const std::basic_string<Char, Traits, Al>& str) -> tiny_string&
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto replace(const_iterator i1, const_iterator i2, const String& str) -> tiny_string&
 		{
-			replace_internal(i1 - cbegin(), i2 - i1, str.begin(), str.end());
-			return *this;
-		}
-
-		/// @brief Replace characters in the range [i1,i2) by str
-		auto replace(const_iterator i1, const_iterator i2, const std::basic_string_view<Char, Traits>& str) -> tiny_string&
-		{
-			replace_internal(i1 - cbegin(), i2 - i1, str.begin(), str.end());
-			return *this;
-		}
-
-		/// @brief Replace up to len character starting from pos by str
-		template<class Al, size_t S>
-		auto replace(size_t pos, size_t len, const tiny_string<Char, Traits, Al, S>& str) -> tiny_string&
-		{
-			if (len == npos || pos + len > size())
-				len = size() - pos;
-			replace_internal(pos, len, str.begin(), str.end());
-			return *this;
-		}
-		/// @brief Replace characters in the range [i1,i2) by str
-		template<class Al, size_t S>
-		auto replace(const_iterator i1, const_iterator i2, const tiny_string<Char, Traits, Al, S>& str) -> tiny_string&
-		{
-			replace_internal(i1 - cbegin(), i2 - i1, str.begin(), str.end());
-			return *this;
+			return replace(static_cast<size_type>(i1 - cbegin()), static_cast<size_type>(i2 - i1), str.begin(), str.end());
 		}
 
 		/// @brief Replace up to len character starting from pos by a sub-part of str
-		template<class Al, size_t S>
-		auto replace(size_t pos, size_t len, const tiny_string<Char, Traits, Al, S>& str, size_t subpos, size_t sublen) -> tiny_string&
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto replace(size_type pos, size_type len, const String& str, size_type subpos, size_type sublen) -> tiny_string&
 		{
-			if (len == npos || pos + len > size())
-				len = size() - pos;
-			if (sublen == npos || subpos + sublen > str.size())
-				sublen = size() - subpos;
-			replace_internal(pos, len, str.begin() + subpos, str.begin() + subpos + sublen);
-			return *this;
-		}
-		/// @brief Replace up to len character starting from pos by a sub-part of str
-		template<class Al>
-		auto replace(size_t pos, size_t len, const std::basic_string<Char, Traits, Al>& str, size_t subpos, size_t sublen) -> tiny_string&
-		{
-			if (len == npos || pos + len > size())
-				len = size() - pos;
-			if (sublen == npos || subpos + sublen > str.size())
-				sublen = size() - subpos;
-			replace_internal(pos, len, str.begin() + subpos, str.begin() + subpos + sublen);
-			return *this;
-		}
-
-		/// @brief Replace up to len character starting from pos by a sub-part of str
-		auto replace(size_t pos, size_t len, const std::basic_string_view<Char, Traits>& str, size_t subpos, size_t sublen) -> tiny_string&
-		{
-			if (len == npos || pos + len > size())
-				len = size() - pos;
-			if (sublen == npos || subpos + sublen > str.size())
-				sublen = size() - subpos;
-			replace_internal(pos, len, str.begin() + subpos, str.begin() + subpos + sublen);
-			return *this;
+			return replace(pos, len, compute_substring(str, subpos, sublen));
 		}
 
 		/// @brief Replace up to len character starting from pos by s
-		auto replace(size_t pos, size_t len, const Char* s) -> tiny_string&
+		auto replace(size_type pos, size_type len, const Char* s) -> tiny_string&
 		{
-			size_t l = Traits::length(s);
-			replace_internal(pos, len, s, s + l);
-			return *this;
+			if (!s)
+				return *this;
+			return replace(pos, len, s, s + Traits::length(s));
 		}
 		/// @brief Replace characters in the range [i1,i2) by null-terminated string s
 		auto replace(const_iterator i1, const_iterator i2, const Char* s) -> tiny_string&
 		{
-			size_t l = Traits::length(s);
-			replace_internal(i1 - cbegin(), i2 - i1, s, s + l);
-			return *this;
+			if (!s)
+				return *this;
+			return replace(i1, i2, s, Traits::length(s));
 		}
 		/// @brief Replace up to len character starting from pos by buffer s of size n
-		auto replace(size_t pos, size_t len, const Char* s, size_t n) -> tiny_string&
+		auto replace(size_type pos, size_type len, const Char* s, size_type n) -> tiny_string&
 		{
-			replace_internal(pos, len, s, s + n);
-			return *this;
+			if (n == 0)
+				return erase(pos, len);
+
+			if (!s)
+				throw std::invalid_argument("tiny_string::replace: null pointer passed");
+			return replace(pos, len, s, s + n);
 		}
 		/// @brief Replace characters in the range [i1,i2) by buffer s of size n
-		auto replace(const_iterator i1, const_iterator i2, const Char* s, size_t n) -> tiny_string&
-		{
-			replace_internal(i1 - cbegin(), i2 - i1, s, s + n);
-			return *this;
-		}
+		auto replace(const_iterator i1, const_iterator i2, const Char* s, size_type n) -> tiny_string& { return replace(i1, i2, s, s + n); }
 
 		/// @brief Replace up to len character starting from pos by n copies of c
-		auto replace(size_t pos, size_t len, size_t n, Char c) -> tiny_string&
-		{
-			replace_internal(pos, len, cvalue_iterator<Char>(0, c), cvalue_iterator<Char>(n));
-			return *this;
-		}
+		auto replace(size_type pos, size_type len, size_type n, Char c) -> tiny_string& { return replace(pos, len, cvalue_iterator<Char>(0, c), cvalue_iterator<Char>(n)); }
 		/// @brief Replace characters in the range [i1,i2) by n copies of c
-		auto replace(const_iterator i1, const_iterator i2, size_t n, Char c) -> tiny_string&
-		{
-			replace_internal(i1 - cbegin(), i2 - i1, cvalue_iterator<Char>(0, c), cvalue_iterator<Char>(n));
-			return *this;
-		}
+		auto replace(const_iterator i1, const_iterator i2, size_type n, Char c) -> tiny_string& { return replace(i1, i2, cvalue_iterator<Char>(0, c), cvalue_iterator<Char>(n)); }
 		/// @brief Replace characters in the range [i1,i2) by the range [first,last)
-		template<class InputIterator>
-		auto replace(const_iterator i1, const_iterator i2, InputIterator first, InputIterator last) -> tiny_string&
+		template<class It, std::enable_if_t<is_iterator_v<It>, int> = 0>
+		auto replace(const_iterator i1, const_iterator i2, It first, It last) -> tiny_string&
 		{
-			replace_internal(i1 - cbegin(), i2 - i1, first, last);
-			return *this;
+			if (i1 > i2)
+				throw std::invalid_argument("tiny_string::replace: invalid iterator range");
+			return replace(static_cast<size_type>(i1 - cbegin()), static_cast<size_type>(i2 - i1), first, last);
 		}
 		/// @brief Replace characters in the range [i1,i2) by the range [il.begin(),il.end())
 		auto replace(const_iterator i1, const_iterator i2, std::initializer_list<Char> il) -> tiny_string& { return replace(i1, i2, il.begin(), il.end()); }
 
-		/// @brief Replace any sub-string _from of size n1 by the string _to of size n2, starting to position start
-		auto replace(const Char* _from, size_t n1, const Char* _to, size_t n2, size_t start = 0) -> size_t
+		template<class It, std::enable_if_t<is_iterator_v<It>, int> = 0>
+		auto replace(size_type pos, size_type len, It first, It last) -> tiny_string&
 		{
-			size_t res = 0;
-			size_t start_pos = start;
-			while ((start_pos = find(_from, start_pos, n1)) != std::string::npos) {
+			return replace_internal(pos, len, first, last);
+		}
+
+		/// @brief Replace any sub-string _from of size n1 by the string _to of size n2, starting to position start
+		auto replace(const Char* _from, size_type n1, const Char* _to, size_type n2, size_type start = 0) -> size_type
+		{
+			if (n1 == 0)
+				return 0;
+
+			if (alias(_from, _from + n1) || alias(_to, _to + n2)) {
+				tiny_string sfrom(_from, n1, get_allocator());
+				tiny_string sto(_to, n2, get_allocator());
+				return replace(sfrom.data(), sfrom.size(), sto.data(), sto.size(), start);
+			}
+
+			size_type res = 0;
+			size_type start_pos = start;
+			while ((start_pos = find(_from, start_pos, n1)) != npos) {
 				replace(start_pos, n1, _to, n2);
 				start_pos += n2; // Handles case where 'to' is a substring of 'from'
 				++res;
@@ -1856,1027 +1870,374 @@ namespace seq
 			return res;
 		}
 		/// @brief Replace any sub-string _from by the string _to, starting to position start
-		auto replace(const Char* _from, const Char* _to, size_t start = 0) -> size_t { return replace(_from, Traits::length(_from), _to, Traits::length(_to), start); }
+		auto replace(const Char* _from, const Char* _to, size_type start = 0) -> size_type { return replace(_from, Traits::length(_from), _to, Traits::length(_to), start); }
 		/// @brief Replace any sub-string _from by the string _to, starting to position start
-		template<size_t S1, class Al1, size_t S2, class Al2>
-		auto replace(const tiny_string<Char, Traits, Al1, S1>& _from, const tiny_string<Char, Traits, Al2, S2>& _to, size_t start = 0) -> size_t
+		template<class String1, class String2, std::enable_if_t<(is_string_class_for_v<String1, Char> && is_string_class_for_v<String2, Char>), int> = 0>
+		auto replace(const String1& _from, const String2& _to, size_type start = 0) -> size_type
 		{
 			return replace(_from.data(), _from.size(), _to.data(), _to.size(), start);
 		}
 		/// @brief Replace any sub-string _from by the string _to, starting to position start
-		template<class Al1, class Al2>
-		auto replace(const std::basic_string<Char, Traits, Al1>& _from, const std::basic_string<Char, Traits, Al2>& _to, size_t start = 0) -> size_t
-		{
-			return replace(_from.data(), _from.size(), _to.data(), _to.size(), start);
-		}
-
-		/// @brief Replace any sub-string _from by the string _to, starting to position start
-		auto replace(const std::basic_string_view<Char, Traits>& _from, const std::basic_string_view<Char, Traits>& _to, size_t start = 0) -> size_t
+		auto replace(const std::basic_string_view<Char, Traits>& _from, const std::basic_string_view<Char, Traits>& _to, size_type start = 0) -> size_type
 		{
 			return replace(_from.data(), _from.size(), _to.data(), _to.size(), start);
 		}
 
 		/// @brief Returns the count of non-overlapping occurrences of 'str' starting from position start
-		auto count(const Char* str, size_t n, size_t start = 0) const noexcept -> size_t
+		auto count(const Char* str, size_type n, size_type start = 0) const noexcept -> size_type
 		{
-			if (length() == 0)
+			if (length() == 0 || n == 0)
 				return 0;
-			size_t count = 0;
-			for (size_t offset = find(str, start, n); offset != npos; offset = find(str, offset + n, n))
+			size_type count = 0;
+			for (size_type offset = find(str, start, n); offset != npos; offset = find(str, offset + n, n))
 				++count;
 			return count;
 		}
 		/// @brief Returns the count of non-overlapping occurrences of 'str' starting from position start
-		auto count(const Char* str, size_t start = 0) const noexcept -> size_t { return count(str, Traits::length(str), start); }
+		auto count(const Char* str, size_type start = 0) const noexcept -> size_type
+		{
+			if (str)
+				return count(str, Traits::length(str), start);
+			return 0;
+		}
 		/// @brief Returns the count of non-overlapping occurrences of 'str' starting from position start
-		template<class Al, size_t S>
-		auto count(const tiny_string<Char, Traits, Al, S>& str, size_t start = 0) const noexcept -> size_t
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto count(const String& str, size_type start = 0) const -> size_type
 		{
 			return count(str.data(), str.size(), start);
 		}
 		/// @brief Returns the count of non-overlapping occurrences of 'str' starting from position start
-		template<class Al>
-		auto count(const std::basic_string<Char, Traits, Al>& str, size_t start = 0) const noexcept -> size_t
-		{
-			return count(str.data(), str.size(), start);
-		}
-
-		/// @brief Returns the count of non-overlapping occurrences of 'str' starting from position start
-		auto count(const std::basic_string_view<Char, Traits>& str, size_t start = 0) const noexcept -> size_t { return count(str.data(), str.size(), start); }
-
-		/// @brief Returns the count of non-overlapping occurrences of 'str' starting from position start
-		auto count(Char c, size_t start = 0) const noexcept -> size_t
+		auto count(Char c, size_type start = 0) const noexcept -> size_type
 		{
 			if (length() == 0)
 				return 0;
-			size_t count = 0;
-			for (size_t offset = find(c, start); offset != npos; offset = find(c, offset + 1))
+			size_type count = 0;
+			for (size_type offset = find(c, start); offset != npos; offset = find(c, offset + 1))
 				++count;
 			return count;
 		}
 
 		/// @brief Copies a substring [pos, pos+len) to character string pointed to by s.
 		/// Returns the number of copied characters.
-		auto copy(Char* s, size_t len, size_t pos = 0) const -> size_t
+		auto copy(Char* s, size_type len, size_type pos = 0) const -> size_type
 		{
 			if (pos > size())
 				throw std::out_of_range("tiny_string::copy out of range");
-			if (len == npos || pos + len > size())
+			if (len == npos || len > (size() - pos))
 				len = size() - pos;
-			memcpy(s, data() + pos, len * sizeof(Char));
+
+			if (len != 0) {
+				if (!s)
+					throw std::invalid_argument("tiny_string::copy: null destination");
+				memcpy(s, data() + pos, len * sizeof(Char));
+			}
 			return len;
 		}
 
-		// @brief Returns a sub-part of this string as a tstring_view object
-		auto substr(size_t pos, size_t len = npos) const -> tiny_string<Char, Traits, view_allocator<Char>, 0>
-		{
-			if (pos > size())
-				throw std::out_of_range("tiny_string::substr out of range");
-			if (len == npos || pos + len > size())
-				len = size() - pos;
-			return tiny_string<Char, Traits, view_allocator<Char>, 0>(begin() + pos, len);
-		}
+		// @brief Returns a sub-part of this string
+		auto substr(size_type pos, size_type len = npos) const { return tiny_string(compute_substring(*this, pos, len)); }
 
-		template<class Al, size_t S>
-		auto find(const tiny_string<Char, Traits, Al, S>& str, size_t pos = 0) const noexcept -> size_t
+		// @brief Returns a sub-part of this string as a basic_string_view object
+		auto substr_view(size_type pos, size_type len = npos) const { return compute_substring(*this, pos, len); }
+
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto find(const String& str, size_type pos = 0) const -> size_type
 		{
 			return find(str.data(), pos, str.size());
 		}
-		template<class Al>
-		auto find(const std::basic_string<Char, Traits, Al>& str, size_t pos = 0) const noexcept -> size_t
+		auto find(const Char* s, size_type pos = 0) const noexcept -> size_type
 		{
-			return find(str.data(), pos, str.size());
+			if (!s)
+				return npos;
+			return find(s, pos, Traits::length(s));
 		}
-
-		auto find(const std::basic_string_view<Char, Traits>& str, size_t pos = 0) const noexcept -> size_t { return find(str.data(), pos, str.size()); }
-
-		auto find(const Char* s, size_t pos = 0) const noexcept -> size_t { return find(s, pos, Traits::length(s)); }
-		auto find(const Char* s, size_t pos, size_type n) const noexcept -> size_t { return detail::traits_string_find<Traits>(data(), pos, size(), s, n, npos); }
-		auto find(Char c, size_t pos = 0) const noexcept -> size_t
+		auto find(const Char* s, size_type pos, size_type n) const noexcept -> size_type { return detail::traits_string_find<Traits>(data(), pos, size(), s, n, npos); }
+		auto find(Char c, size_type pos = 0) const noexcept -> size_type
 		{
+			if (pos >= size())
+				return npos;
 			const Char* p = Traits::find(data() + pos, size() - pos, c);
 			return p == NULL ? npos : p - begin();
 		}
 
-		template<class Al, size_t S>
-		auto rfind(const tiny_string<Char, Traits, Al, S>& str, size_t pos = npos) const noexcept -> size_t
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto rfind(const String& str, size_type pos = npos) const -> size_type
 		{
 			return rfind(str.data(), pos, str.size());
 		}
-		template<class Al>
-		auto rfind(const std::basic_string<Char, Traits, Al>& str, size_t pos = npos) const noexcept -> size_t
+		auto rfind(const Char* s, size_type pos = npos) const noexcept -> size_type
 		{
-			return rfind(str.data(), pos, str.size());
+			if (!s)
+				return npos;
+			return rfind(s, pos, Traits::length(s));
 		}
+		auto rfind(const Char* s, size_type pos, size_type n) const noexcept -> size_type { return detail::traits_string_rfind<Traits>(data(), pos, size(), s, n, npos); }
+		auto rfind(Char c, size_type pos = npos) const noexcept -> size_type { return std::basic_string_view<Char, Traits>(data(), size()).rfind(c, pos); }
 
-		size_t rfind(const std::basic_string_view<Char, Traits>& str, size_t pos = npos) const noexcept { return rfind(str.data(), pos, str.size()); }
-
-		auto rfind(const Char* s, size_t pos = npos) const noexcept -> size_t { return rfind(s, pos, Traits::length(s)); }
-		auto rfind(const Char* s, size_t pos, size_type n) const noexcept -> size_t { return detail::traits_string_rfind<Traits>(data(), pos, size(), s, n, npos); }
-		auto rfind(Char c, size_t pos = npos) const noexcept -> size_t { return std::basic_string_view<Char, Traits>(data(), size()).rfind(c, pos); }
-
-		auto find_first_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t { return detail::traits_string_find_first_of<Traits>(data(), pos, size(), s, n, npos); }
-		template<class Al, size_t S>
-		auto find_first_of(const tiny_string<Char, Traits, Al, S>& str, size_t pos = 0) const noexcept -> size_t
+		auto find_first_of(const Char* s, size_type pos, size_type n) const noexcept -> size_type
+		{
+			if (!s)
+				return npos;
+			return detail::traits_string_find_first_of<Traits>(data(), pos, size(), s, n, npos);
+		}
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto find_first_of(const String& str, size_type pos = 0) const -> size_type
 		{
 			return find_first_of(str.data(), pos, str.size());
 		}
-		auto find_first_of(const Char* s, size_t pos = 0) const noexcept -> size_t { return find_first_of(s, pos, Traits::length(s)); }
-		auto find_first_of(Char c, size_t pos = 0) const noexcept -> size_t { return find(c, pos); }
+		auto find_first_of(const Char* s, size_type pos = 0) const noexcept -> size_type
+		{
+			if (!s)
+				return npos;
+			return find_first_of(s, pos, Traits::length(s));
+		}
+		auto find_first_of(Char c, size_type pos = 0) const noexcept -> size_type { return find(c, pos); }
 
-		template<class Al, size_t S>
-		auto find_last_of(const tiny_string<Char, Traits, Al, S>& str, size_t pos = npos) const noexcept -> size_t
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto find_last_of(const String& str, size_type pos = npos) const -> size_type
 		{
 			return find_last_of(str.data(), pos, str.size());
 		}
-		auto find_last_of(const Char* s, size_t pos = npos) const noexcept -> size_t { return find_last_of(s, pos, Traits::length(s)); }
-		auto find_last_of(const Char* s, size_t pos, size_t n = npos) const noexcept -> size_t { return detail::traits_string_find_last_of<Traits>(data(), pos, size(), s, n, npos); }
-		auto find_last_of(Char c, size_t pos = npos) const noexcept -> size_t { return rfind(c, pos); }
+		auto find_last_of(const Char* s, size_type pos = npos) const noexcept -> size_type
+		{
+			if (!s)
+				return npos;
+			return find_last_of(s, pos, Traits::length(s));
+		}
+		auto find_last_of(const Char* s, size_type pos, size_type n) const noexcept -> size_type
+		{
+			if (!s)
+				return npos;
+			return detail::traits_string_find_last_of<Traits>(data(), pos, size(), s, n, npos);
+		}
+		auto find_last_of(Char c, size_type pos = npos) const noexcept -> size_type { return rfind(c, pos); }
 
-		template<class Al, size_t S>
-		auto find_first_not_of(const tiny_string<Char, Traits, Al, S>& str, size_t pos = 0) const noexcept -> size_t
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto find_first_not_of(const String& str, size_type pos = 0) const -> size_type
 		{
 			return find_first_not_of(str.data(), pos, str.size());
 		}
-		auto find_first_not_of(const Char* s, size_t pos = 0) const noexcept -> size_t { return find_first_not_of(s, pos, Traits::length(s)); }
-		auto find_first_not_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t { return detail::traits_string_find_first_not_of<Traits>(data(), pos, size(), s, n, npos); }
-		auto find_first_not_of(Char c, size_t pos = 0) const noexcept -> size_t
+		auto find_first_not_of(const Char* s, size_type pos = 0) const noexcept -> size_type { return find_first_not_of(s, pos, s ? Traits::length(s) : 0); }
+		auto find_first_not_of(const Char* s, size_type pos, size_type n) const noexcept -> size_type
 		{
-			const Char* e = end();
-			for (const Char* p = data() + pos; p != e; ++p)
-				if (*p != c)
-					return p - data();
-			return npos;
+			if (pos >= size())
+				return npos;
+			if (!s)
+				return n == 0 ? pos : npos;
+			return detail::traits_string_find_first_not_of<Traits>(data(), pos, size(), s, n, npos);
 		}
+		auto find_first_not_of(Char c, size_type pos = 0) const noexcept -> size_type { return to_string_view().find_first_not_of(c, pos); }
 
-		template<class Al, size_t S>
-		auto find_last_not_of(const tiny_string<Char, Traits, Al, S>& str, size_t pos = npos) const noexcept -> size_t
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto find_last_not_of(const String& str, size_type pos = npos) const -> size_type
 		{
 			return find_last_not_of(str.data(), pos, str.size());
 		}
-		auto find_last_not_of(const Char* s, size_t pos = npos) const noexcept -> size_t { return find_last_not_of(s, pos, Traits::length(s)); }
-		auto find_last_not_of(const Char* s, size_t pos, size_t n = npos) const noexcept -> size_t { return detail::traits_string_find_last_not_of<Traits>(data(), pos, size(), s, n, npos); }
-		auto find_last_not_of(Char c, size_t pos = npos) const noexcept -> size_t
+		auto find_last_not_of(const Char* s, size_type pos = npos) const noexcept -> size_type { return find_last_not_of(s, pos, s ? Traits::length(s) : 0); }
+		auto find_last_not_of(const Char* s, size_type pos, size_type n) const noexcept -> size_type
 		{
-			if (size() == 0)
-				return npos;
-			if (pos >= size())
-				pos = size() - 1;
-			const Char* p = data();
-			for (const Char* in = p + pos; in >= p; --in)
-				if (*in != c)
-					return in - p;
-			return npos;
+			if (!s) {
+				if (n != 0 || empty())
+					return npos;
+				return std::min(pos, size() - 1);
+			}
+			return detail::traits_string_find_last_not_of<Traits>(data(), pos, size(), s, n, npos);
 		}
+		auto find_last_not_of(Char c, size_type pos = npos) const noexcept -> size_type { return to_string_view().find_last_not_of(c, pos); }
 
-		template<class Al, size_t S>
-		SEQ_STR_INLINE_STRONG auto compare(const tiny_string<Char, Traits, Al, S>& str) const noexcept -> int
-		{
-			return detail::traits_string_compare<Traits>(as_pair(), str.as_pair());
-		}
-		template<class Al>
-		SEQ_STR_INLINE_STRONG auto compare(const std::basic_string<Char, Traits, Al>& str) const noexcept -> int
-		{
-			return detail::traits_string_compare<Traits>(data(), size(), str.data(), str.size());
-		}
-		SEQ_STR_INLINE_STRONG auto compare(const std::basic_string_view<Char, Traits>& str) const noexcept -> int
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		SEQ_STR_INLINE_STRONG auto compare(const String& str) const -> int
 		{
 			return detail::traits_string_compare<Traits>(data(), size(), str.data(), str.size());
 		}
 
-		template<class Al, size_t S>
-		auto compare(size_t pos, size_t len, const tiny_string<Char, Traits, Al, S>& str) const noexcept -> int
-		{
-			return compare(pos, len, str.data(), str.size());
-		}
-		template<class Al>
-		auto compare(size_t pos, size_t len, const std::basic_string<Char, Traits, Al>& str) const noexcept -> int
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto compare(size_type pos, size_type len, const String& str) const -> int
 		{
 			return compare(pos, len, str.data(), str.size());
 		}
 
-		auto compare(size_t pos, size_t len, const std::basic_string_view<Char, Traits>& str) const noexcept -> int { return compare(pos, len, str.data(), str.size()); }
-
-		template<class Al, size_t S>
-		auto compare(size_t pos, size_t len, const tiny_string<Char, Traits, Al, S>& str, size_t subpos, size_t sublen) const noexcept -> int
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		auto compare(size_type pos, size_type len, const String& str, size_type subpos, size_type sublen) const -> int
 		{
-			if (sublen == npos || subpos + sublen > str.size())
-				sublen = str.size() - subpos;
-			return compare(pos, len, str.data() + subpos, sublen);
+			return compare(pos, len, compute_substring(str, subpos, sublen));
 		}
 		auto compare(const Char* s) const noexcept -> int { return compare(0, size(), s); }
-		auto compare(size_t pos, size_t len, const Char* s) const noexcept -> int { return compare(pos, len, s, Traits::length(s)); }
-		auto compare(size_t pos, size_t len, const Char* _s, size_t n) const noexcept -> int
+		auto compare(size_type pos, size_type len, const Char* s) const -> int
 		{
-			if (len == npos) //|| pos + len > size())
-				len = size() - pos;
-			return detail::traits_string_compare<Traits>(data() + pos, len, _s, n);
+			if (!s)
+				return compare(pos, len, std::basic_string_view<Char, Traits>{});
+			return compare(pos, len, s, Traits::length(s));
+		}
+		auto compare(size_type pos, size_type len, const Char* _s, size_type n) const -> int
+		{
+			auto v = compute_substring(*this, pos, len);
+			return detail::traits_string_compare<Traits>(v.data(), v.size(), _s, n);
 		}
 
-		auto operator=(const tiny_string& other) -> tiny_string&
+		/// @brief Swap the content of this string with other
+		SEQ_ALWAYS_INLINE void swap(tiny_string& other) noexcept(std::allocator_traits<Allocator>::propagate_on_container_swap::value ? std::is_nothrow_swappable_v<Allocator> : true)
 		{
-			if (this != std::addressof(other))
-				assign(other);
+			using traits = std::allocator_traits<Allocator>;
+
+			if constexpr (!traits::propagate_on_container_swap::value) {
+				SEQ_ASSERT_DEBUG(get_allocator() == other.get_allocator(), "swap requires equal non-propagating allocators");
+			}
+			else {
+				using std::swap;
+				if (this == std::addressof(other))
+					return;
+				swap(d_data.get_allocator(), other.d_data.get_allocator());
+			}
+
+			d_data.swap(other.d_data);
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
+			SEQ_ASSERT_DEBUG(other.check_invariant(), "");
+		}
+
+		/// @brief Copy assignment.
+		///
+		/// Provides the strong exception guarantee when allocator propagation does
+		/// not require a potentially throwing commit. Otherwise provides the basic
+		/// exception guarantee.
+		SEQ_ALWAYS_INLINE auto operator=(const tiny_string& other) -> tiny_string&
+		{
+			if (this != std::addressof(other)) {
+				using traits = std::allocator_traits<Allocator>;
+
+				if constexpr (traits::propagate_on_container_copy_assignment::value) {
+
+					tiny_string tmp(other, other.get_allocator());
+
+					// Release storage using the current allocator before changing it.
+					if (!is_sso())
+						d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal() + char_offset);
+					try {
+						d_data.get_allocator() = other.get_allocator();
+						memcpy(&d_data.d_union, &tmp.d_data.d_union, sizeof(d_data.d_union));
+						tmp.d_data.reset();
+						SEQ_ASSERT_DEBUG(check_invariant(), "");
+						return *this;
+					}
+					catch (...) {
+						d_data.reset();
+						throw;
+					}
+				}
+				else {
+					if (other.is_sso()) {
+						if (!is_sso())
+							d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal() + char_offset);
+						memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
+					}
+					else {
+						internal_resize(other.size(), false, false);
+						internal_copy(other.begin(), other.end(), data());
+					}
+				}
+			}
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
 			return *this;
 		}
-		template<class Al, size_t S>
-		auto operator=(const tiny_string<Char, Traits, Al, S>& other) -> tiny_string&
+
+		/// @brief Move assignment.
+		///
+		/// Provides the strong exception guarantee except when the allocator
+		/// propagates and its move assignment throws. In that case, the destination
+		/// remains valid but its previous value may have been lost.
+		SEQ_ALWAYS_INLINE auto operator=(tiny_string&& other) noexcept(std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value
+										 ? std::is_nothrow_move_assignable_v<Allocator>
+										 : std::allocator_traits<Allocator>::is_always_equal::value) -> tiny_string&
+		{
+
+			if (this == std::addressof(other))
+				return *this;
+
+			using traits = std::allocator_traits<Allocator>;
+
+			if constexpr (traits::propagate_on_container_move_assignment::value) {
+
+				// Deallocate and reset
+				if (!is_sso())
+					d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal() + char_offset);
+
+				if constexpr (std::is_nothrow_move_assignable_v<Allocator>) {
+					d_data.get_allocator() = std::move(other.d_data.get_allocator()); // No-op for std::allocator
+					memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
+					other.d_data.reset();
+				}
+				else {
+					// Since moving allocator might throw, we need to reset this before
+					d_data.reset();
+
+					// Move allocator, last line that might throw
+					d_data.get_allocator() = std::move(other.d_data.get_allocator());
+
+					// Steal data and reset other
+					memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
+					other.d_data.reset();
+				}
+			}
+			else if constexpr (traits::is_always_equal::value) {
+				// Deallocate this (fast way)
+				if (!is_sso())
+					d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal() + char_offset);
+				// Steal data
+				memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
+				other.d_data.reset();
+			}
+			else {
+				if (get_allocator() == other.get_allocator()) {
+					// Deallocate this (fast way)
+					if (!is_sso())
+						d_data.deallocate(d_data.d_union.non_sso.data, capacity_internal() + char_offset);
+					// Steal data
+					memcpy(&d_data.d_union, &other.d_data.d_union, sizeof(d_data.d_union));
+					other.d_data.reset();
+				}
+				else
+					// Different allocator: assign an leave the source unchanged.
+					// Might throw!
+					assign(other.data(), other.size());
+			}
+
+			SEQ_ASSERT_DEBUG(check_invariant(), "");
+			SEQ_ASSERT_DEBUG(other.check_invariant(), "");
+			return *this;
+		}
+
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		SEQ_ALWAYS_INLINE auto operator=(const String& other) -> tiny_string&
 		{
 			return assign(other);
 		}
-		SEQ_STR_INLINE_STRONG auto operator=(tiny_string&& other) noexcept(noexcept(std::declval<tiny_string&>().assign(std::move(std::declval<tiny_string&>())))) -> tiny_string&
-		{
-			return assign(std::move(other));
-		}
-		auto operator=(const Char* other) -> tiny_string& { return assign(other); }
-		auto operator=(Char c) -> tiny_string& { return assign(&c, 1); }
-		template<class Al>
-		auto operator=(const std::basic_string<Char, Traits, Al>& other) -> tiny_string&
-		{
-			return assign(other);
-		}
 
-		auto operator=(const std::basic_string_view<Char, Traits>& other) -> tiny_string& { return assign(other); }
+		SEQ_ALWAYS_INLINE auto operator=(const Char* other) -> tiny_string& { return assign(other); }
+		SEQ_ALWAYS_INLINE auto operator=(Char c) -> tiny_string& { return assign(&c, 1); }
+		SEQ_ALWAYS_INLINE auto operator=(std::initializer_list<Char> il) -> tiny_string& { return assign(il); }
 
-		auto operator=(std::initializer_list<Char> il) -> tiny_string& { return assign(il); }
-
-		template<class Al, size_t S>
-		auto operator+=(const tiny_string<Char, Traits, Al, S>& str) -> tiny_string&
+		template<class String, std::enable_if_t<is_string_class_for_v<String, Char>, int> = 0>
+		SEQ_ALWAYS_INLINE auto operator+=(const String& str) -> tiny_string&
 		{
 			return append(str);
 		}
-		template<class Al>
-		auto operator+=(const std::basic_string<Char, Traits, Al>& str) -> tiny_string&
-		{
-			return append(str);
-		}
-		auto operator+=(const Char* s) -> tiny_string& { return append(s); }
-		auto operator+=(Char c) -> tiny_string&
+		SEQ_ALWAYS_INLINE auto operator+=(const Char* s) -> tiny_string& { return append(s); }
+		SEQ_ALWAYS_INLINE auto operator+=(Char c) -> tiny_string&
 		{
 			push_back(c);
 			return *this;
 		}
-		auto operator+=(std::initializer_list<Char> il) -> tiny_string& { return append(il); }
+		SEQ_ALWAYS_INLINE auto operator+=(std::initializer_list<Char> il) -> tiny_string& { return append(il); }
 
-		auto operator+=(const std::basic_string_view<Char, Traits>& str) -> tiny_string& { return append(str); }
-
-		/// @brief Implicit conversion to std::string
+		/// @brief Implicit conversion to std::basic_string
 		template<class Al>
-		operator std::basic_string<Char, Traits, Al>() const
+		SEQ_ALWAYS_INLINE operator std::basic_string<Char, Traits, Al>() const
 		{
 			return std::basic_string<Char, Traits, Al>(data(), size());
 		}
-	};
 
-	/// @brief Specialization of tiny_string for string views.
-	/// You should use the global typedef tstring_view equivalent to tiny_string<0,view_allocator>.
-	/// Provides a similar interface to std::string_view.
-	/// See tiny_string documentation for more details.
-	template<class Char, class Traits>
-	struct tiny_string<Char, Traits, view_allocator<Char>, 0>
-	{
-		using internal_data = detail::string_internal<Char, 0, view_allocator<Char>>;
-		using this_type = tiny_string<Char, Traits, view_allocator<Char>, 0>;
-
-		static constexpr size_t sso_max_capacity = ((sizeof(internal_data) - alignof(Char)) / sizeof(Char));
-
-		internal_data d_data;
-
-		// is it a small string
-		SEQ_STR_INLINE bool is_sso() const noexcept { return false; }
-		SEQ_STR_INLINE bool is_sso(size_t /*unused*/) const noexcept { return false; }
-		auto size_internal() const noexcept -> size_t { return d_data.size; }
-
-	public:
-		static constexpr size_t max_static_size = sso_max_capacity - 1;
-		static constexpr size_t npos = static_cast<size_t>(-1);
-
-		using traits_type = Traits;
-		using value_type = Char;
-		using reference = Char&;
-		using pointer = Char*;
-		using const_reference = const Char&;
-		using const_pointer = const Char*;
-		using iterator = const Char*;
-		using const_iterator = const Char*;
-		using reverse_iterator = std::reverse_iterator<iterator>;
-		using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-		using size_type = size_t;
-		using difference_type = std::intptr_t;
-		using allocator_type = view_allocator<Char>;
-
-		auto data() const noexcept -> const Char* { return d_data.data; }
-		auto c_str() const noexcept -> const Char* { return data(); }
-		auto size() const noexcept -> size_t { return d_data.size; }
-		auto length() const noexcept -> size_t { return size(); }
-		static auto max_size() noexcept -> size_t { return std::numeric_limits<size_t>::max(); }
-		auto empty() const noexcept -> bool { return size() == 0; }
-		auto get_allocator() const noexcept -> allocator_type { return d_data.get_allocator(); }
-
-		tiny_string() noexcept
-		  : d_data(nullptr, 0)
-		{
-		}
-
-		tiny_string(const Char* data) noexcept
-		  : d_data(data, Traits::length(data))
-		{
-		}
-
-		tiny_string(const Char* data, size_t n) noexcept
-		  : d_data(data, n)
-		{
-		}
-
-		template<class Al>
-		tiny_string(const std::basic_string<Char, Traits, Al>& str) noexcept
-		  : d_data(str.data(), str.size())
-		{
-		}
-
-		tiny_string(const std::basic_string_view<Char, Traits>& str) noexcept
-		  : d_data(str.data(), str.size())
-		{
-		}
-
-		template<class Al, size_t S>
-		tiny_string(const tiny_string<Char, Traits, Al, S>& other) noexcept
-		  : d_data(other.data(), other.size())
-		{
-		}
-
-		tiny_string(const tiny_string& other) noexcept
-		  : d_data(other.d_data)
-		{
-		}
-
-		template<class Iter>
-		tiny_string(Iter first, Iter last)
-		  : d_data(&(*first), last - first)
-		{
-		}
-
-		auto operator=(const tiny_string& other) noexcept -> tiny_string&
-		{
-			d_data = other.d_data;
-			return *this;
-		}
-		template<class A, size_t S>
-		auto operator=(const tiny_string<Char, Traits, A, S>& other) noexcept -> tiny_string&
-		{
-			d_data = internal_data(other.data(), other.size());
-			return *this;
-		}
-		template<class Al>
-		auto operator=(const std::basic_string<Char, Traits, Al>& other) noexcept -> tiny_string&
-		{
-			d_data = internal_data(other.data(), other.size());
-			return *this;
-		}
-		auto operator=(const Char* other) noexcept -> tiny_string&
-		{
-			d_data = internal_data(other, Traits::length(other));
-			return *this;
-		}
-		template<size_t S>
-		auto operator=(const Char other[S]) noexcept -> tiny_string&
-		{
-			d_data = internal_data(other, Traits::length(other));
-			return *this;
-		}
-		auto operator=(const std::basic_string_view<Char, Traits>& other) noexcept -> tiny_string&
-		{
-			d_data = internal_data(other.data(), other.size());
-			return *this;
-		}
-
-		SEQ_STR_INLINE_STRONG void swap(tiny_string& other) noexcept { d_data.swap(other.d_data); }
-		SEQ_STR_INLINE_STRONG std::pair<const Char*, size_t> as_pair() const noexcept { return d_data.as_pair(); }
-		auto begin() const noexcept -> const_iterator { return data(); }
-		auto cbegin() const noexcept -> const_iterator { return data(); }
-		auto end() const noexcept -> const_iterator { return d_data.data + d_data.size; }
-		auto cend() const noexcept -> const_iterator { return d_data.data + d_data.size; }
-		auto rbegin() const noexcept -> const_reverse_iterator { return const_reverse_iterator(end()); }
-		auto rend() const noexcept -> const_reverse_iterator { return const_reverse_iterator(begin()); }
-		auto crbegin() const noexcept -> const_reverse_iterator { return rbegin(); }
-		auto crend() const noexcept -> const_reverse_iterator { return rend(); }
-
-		auto at(size_t pos) const -> Char
-		{
-			if (pos >= size()) {
-				throw std::out_of_range("");
-			}
-			return data()[pos];
-		}
-		auto operator[](size_t pos) const noexcept -> Char { return data()[pos]; }
-
-		auto back() const noexcept -> Char { return data()[size() - 1]; }
-		auto front() const noexcept -> Char { return data()[0]; }
-
-		/**
-		 * Convenient function, returns the count of non-overlapping occurrences of 'str'
-		 */
-		auto count(const Char* str, size_t n, size_t start = 0) const noexcept -> size_t
-		{
-			if (length() == 0)
-				return 0;
-			size_t count = 0;
-			for (size_t offset = find(str, start, n); offset != npos; offset = find(str, offset + n, n))
-				++count;
-			return count;
-		}
-		auto count(const Char* str, size_t start = 0) const noexcept -> size_t { return count(str, Traits::length(str), start); }
-		auto count(const tiny_string& str, size_t start = 0) const noexcept -> size_t { return count(str.data(), str.size(), start); }
-		template<class Al>
-		auto count(const std::basic_string<Char, Traits, Al>& str, size_t start = 0) const noexcept -> size_t
-		{
-			return count(str.data(), str.size(), start);
-		}
-
-		auto count(const std::basic_string_view<Char, Traits>& str, size_t start = 0) const noexcept -> size_t { return count(str.data(), str.size(), start); }
-
-		auto count(Char c, size_t start = 0) const noexcept -> size_t
-		{
-			if (length() == 0)
-				return 0;
-			size_t count = 0;
-			for (size_t offset = find(c, start); offset != npos; offset = find(c, offset + 1))
-				++count;
-			return count;
-		}
-
-		auto copy(Char* s, size_t len, size_t pos = 0) const -> size_t
-		{
-			if (pos > size()) {
-				throw std::out_of_range("tiny_string::copy out of range");
-			}
-			if (len == npos || pos + len > size()) {
-				len = size() - pos;
-			}
-			memcpy(s, data() + pos, len * sizeof(Char));
-			return len;
-		}
-
-		auto substr(size_t pos = 0, size_t len = npos) const -> tiny_string
-		{
-			if (pos > size()) {
-				throw std::out_of_range("tiny_string::substr out of range");
-			}
-			if (len == npos || pos + len > size()) {
-				len = size() - pos;
-			}
-			return { begin() + pos, len };
-		}
-
-		template<class Al, size_t S>
-		auto find(const tiny_string<Char, Traits, Al, S>& str, size_t pos = 0) const noexcept -> size_t
-		{
-			return find(str.data(), pos, str.size());
-		}
-		template<class Al>
-		auto find(const std::basic_string<Char, Traits, Al>& str, size_t pos = 0) const noexcept -> size_t
-		{
-			return find(str.data(), pos, str.size());
-		}
-
-		auto find(const std::basic_string_view<Char, Traits>& str, size_t pos = 0) const noexcept -> size_t { return find(str.data(), pos, str.size()); }
-
-		auto find(const Char* s, size_t pos = 0) const noexcept -> size_t { return find(s, pos, Traits::length(s)); }
-		auto find(const Char* s, size_t pos, size_type n) const noexcept -> size_t { return detail::traits_string_find<Traits>(data(), pos, size(), s, n, npos); }
-		auto find(Char c, size_t pos = 0) const noexcept -> size_t
-		{
-			const Char* p = Traits::find(data() + pos, size() - pos, c);
-			return p == nullptr ? npos : static_cast<size_t>(p - begin());
-		}
-
-		template<class A, size_t S>
-		auto rfind(const tiny_string<Char, Traits, A, S>& str, size_t pos = npos) const noexcept -> size_t
-		{
-			return rfind(str.data(), pos, str.size());
-		}
-		template<class Al>
-		auto rfind(const std::basic_string<Char, Traits, Al>& str, size_t pos = npos) const noexcept -> size_t
-		{
-			return rfind(str.data(), pos, str.size());
-		}
-
-		auto rfind(const std::basic_string_view<Char, Traits>& str, size_t pos = npos) const noexcept -> size_t { return rfind(str.data(), pos, str.size()); }
-
-		auto rfind(const Char* s, size_t pos = npos) const noexcept -> size_t { return rfind(s, pos, Traits::length(s)); }
-		auto rfind(const Char* s, size_t pos, size_type n) const noexcept -> size_t { return detail::traits_string_rfind(data(), pos, size(), s, n, npos); }
-		auto rfind(Char c, size_t pos = npos) const noexcept -> size_t { return std::basic_string_view<Char, Traits>(data(), size()).rfind(c, pos); }
-
-		auto find_first_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t { return detail::traits_string_find_first_of<Traits>(data(), pos, size(), s, n, npos); }
-		template<class A, size_t S>
-		auto find_first_of(const tiny_string<Char, Traits, A, S>& str, size_t pos = 0) const noexcept -> size_t
-		{
-			return find_first_of(str.data(), pos, str.size());
-		}
-		auto find_first_of(const Char* s, size_t pos = 0) const noexcept -> size_t { return find_first_of(s, pos, Traits::length(s)); }
-		auto find_first_of(Char c, size_t pos = 0) const noexcept -> size_t { return find(c, pos); }
-
-		template<class A, size_t S>
-		auto find_last_of(const tiny_string<Char, Traits, A, S>& str, size_t pos = npos) const noexcept -> size_t
-		{
-			return find_last_of(str.data(), pos, str.size());
-		}
-		auto find_last_of(const Char* s, size_t pos = npos) const noexcept -> size_t { return find_last_of(s, pos, Traits::length(s)); }
-		auto find_last_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t { return detail::traits_string_find_last_of(data(), pos, size(), s, n, npos); }
-		auto find_last_of(Char c, size_t pos = npos) const noexcept -> size_t { return rfind(c, pos); }
-
-		template<class A, size_t S>
-		auto find_first_not_of(const tiny_string<Char, Traits, A, S>& str, size_t pos = 0) const noexcept -> size_t
-		{
-			return find_first_not_of(str.data(), pos, str.size());
-		}
-		auto find_first_not_of(const Char* s, size_t pos = 0) const noexcept -> size_t { return find_first_not_of(s, pos, Traits::length(s)); }
-		auto find_first_not_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t { return detail::traits_string_find_first_not_of<Traits>(data(), pos, size(), s, n, npos); }
-		auto find_first_not_of(Char c, size_t pos = 0) const noexcept -> size_t
-		{
-			const Char* e = end();
-			for (const Char* p = data() + pos; p != e; ++p) {
-				if (*p != c) {
-					return static_cast<size_t>(p - data());
-				}
-			}
-			return npos;
-		}
-
-		template<class A, size_t S>
-		auto find_last_not_of(const tiny_string<Char, Traits, A, S>& str, size_t pos = npos) const noexcept -> size_t
-		{
-			return find_last_not_of(str.data(), pos, str.size());
-		}
-		auto find_last_not_of(const Char* s, size_t pos = npos) const noexcept -> size_t { return find_last_not_of(s, pos, Traits::length(s)); }
-		auto find_last_not_of(const Char* s, size_t pos, size_t n) const noexcept -> size_t { return detail::traits_string_find_last_not_of(data(), pos, size(), s, n, npos); }
-		auto find_last_not_of(Char c, size_t pos = npos) const noexcept -> size_t
-		{
-			if (size() == 0) {
-				return npos;
-			}
-			if (pos >= size()) {
-				pos = size() - 1;
-			}
-			const Char* p = data();
-			for (const Char* in = p + pos; in >= p; --in) {
-				if (*in != c) {
-					return static_cast<size_t>(in - p);
-				}
-			}
-			return npos;
-		}
-
-		template<class A, size_t S>
-		SEQ_STR_INLINE_STRONG auto compare(const tiny_string<Char, Traits, A, S>& str) const noexcept -> int
-		{
-			return detail::traits_string_compare<Traits>(as_pair(), str.as_pair());
-		}
-		template<class Al>
-		SEQ_STR_INLINE_STRONG auto compare(const std::basic_string<Char, Traits, Al>& str) const noexcept -> int
-		{
-			return detail::traits_string_compare<Traits>(data(), size(), str.data(), str.size());
-		}
-		SEQ_STR_INLINE_STRONG auto compare(const std::basic_string_view<Char, Traits>& str) const noexcept -> int
-		{
-			return detail::traits_string_compare<Traits>(data(), size(), str.data(), str.size());
-		}
-
-		template<class Al>
-		auto compare(size_t pos, size_t len, const std::basic_string<Char, Traits, Al>& str) const noexcept -> int
-		{
-			return compare(pos, len, str.data(), str.size());
-		}
-
-		int compare(size_t pos, size_t len, const std::basic_string_view<Char, Traits>& str) const noexcept { return compare(pos, len, str.data(), str.size()); }
-
-		template<class A, size_t S>
-		auto compare(size_t pos, size_t len, const tiny_string<Char, Traits, A, S>& str, size_t subpos, size_t sublen) const noexcept -> int
-		{
-			if (sublen == npos || subpos + sublen > str.size()) {
-				sublen = str.size() - subpos;
-			}
-			return compare(pos, len, str.data() + subpos, sublen);
-		}
-		auto compare(const Char* s) const noexcept -> int { return compare(0, size(), s); }
-		auto compare(size_t pos, size_t len, const Char* s) const noexcept -> int { return compare(pos, len, s, Traits::length(s)); }
-		auto compare(size_t pos, size_t len, const Char* _s, size_t n) const noexcept -> int
-		{
-
-			if (len == npos) //|| pos + len > size())
-				len = size() - pos;
-			return detail::traits_string_compare<Traits>(data() + pos, len, _s, n);
-		}
-
-		/// @brief Implicit conversion to std::string
-		template<class Al>
-		operator std::basic_string<Char, Traits, Al>() const
-		{
-			return std::basic_string<Char, Traits, Al>(data(), size());
-		}
-	};
-
-	/**********************************
-	 * Comparison operators
-	 * ********************************/
-
-	template<class Char, class Traits, class A1, class A2, size_t S1, size_t S2>
-	SEQ_STR_INLINE auto operator==(const tiny_string<Char, Traits, A1, S1>& lhs, const tiny_string<Char, Traits, A2, S2>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_equal<Traits>(lhs.as_pair(), rhs.as_pair()); // lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE auto operator==(const Char* lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_equal<Traits>(lhs, Traits::length(lhs), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE auto operator==(const tiny_string<Char, Traits, Al, S>& lhs, const Char* rhs) noexcept -> bool
-	{
-		return detail::traits_string_equal<Traits>(lhs.data(), lhs.size(), rhs, Traits::length(rhs));
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE auto operator==(const std::basic_string<Char, Traits, Al>& lhs, const tiny_string<Char, Traits, Al2, S>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE auto operator==(const tiny_string<Char, Traits, Al2, S>& lhs, const std::basic_string<Char, Traits, Al>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE bool operator==(const std::basic_string_view<Char, Traits>& lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept
-	{
-		return detail::traits_string_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE bool operator==(const tiny_string<Char, Traits, Al, S>& lhs, const std::basic_string_view<Char, Traits>& rhs) noexcept
-	{
-		return detail::traits_string_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-
-	template<class Char, class Traits, class A1, class A2, size_t S1, size_t S2>
-	SEQ_STR_INLINE auto operator!=(const tiny_string<Char, Traits, A1, S1>& lhs, const tiny_string<Char, Traits, A2, S2>& rhs) noexcept -> bool
-	{
-		return !(lhs == rhs);
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE auto operator!=(const Char* lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept -> bool
-	{
-		return !(lhs == rhs);
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE auto operator!=(const tiny_string<Char, Traits, Al, S>& lhs, const Char* rhs) noexcept -> bool
-	{
-		return !(lhs == rhs);
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE auto operator!=(const std::basic_string<Char, Traits, Al>& lhs, const tiny_string<Char, Traits, Al2, S>& rhs) noexcept -> bool
-	{
-		return !(lhs == rhs);
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE auto operator!=(const tiny_string<Char, Traits, Al2, S>& lhs, const std::basic_string<Char, Traits, Al>& rhs) noexcept -> bool
-	{
-		return !(lhs == rhs);
-	}
-
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE bool operator!=(const std::basic_string_view<Char, Traits>& lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept
-	{
-		return !(lhs == rhs);
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE bool operator!=(const tiny_string<Char, Traits, Al, S>& lhs, const std::basic_string_view<Char, Traits>& rhs) noexcept
-	{
-		return !(lhs == rhs);
-	}
-
-	template<class Char, class Traits, class A1, class A2, size_t S1, size_t S2>
-	SEQ_STR_INLINE_STRONG auto operator<(const tiny_string<Char, Traits, A1, S1>& lhs, const tiny_string<Char, Traits, A2, S2>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_inf<Traits>(lhs.as_pair(), rhs.as_pair()); // lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE_STRONG auto operator<(const Char* lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_inf<Traits>(lhs, Traits::length(lhs), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE_STRONG auto operator<(const tiny_string<Char, Traits, Al, S>& lhs, const Char* rhs) noexcept -> bool
-	{
-		return detail::traits_string_inf<Traits>(lhs.data(), lhs.size(), rhs, Traits::length(rhs));
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE_STRONG auto operator<(const std::basic_string<Char, Traits, Al>& lhs, const tiny_string<Char, Traits, Al2, S>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_inf<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE_STRONG auto operator<(const tiny_string<Char, Traits, Al2, S>& lhs, const std::basic_string<Char, Traits, Al>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_inf<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE_STRONG bool operator<(const std::basic_string_view<Char, Traits>& lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept
-	{
-		return detail::traits_string_inf<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE_STRONG bool operator<(const tiny_string<Char, Traits, Al, S>& lhs, const std::basic_string_view<Char, Traits>& rhs) noexcept
-	{
-		return detail::traits_string_inf<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-
-	template<class Char, class Traits, class A1, class A2, size_t S1, size_t S2>
-	SEQ_STR_INLINE auto operator<=(const tiny_string<Char, Traits, A1, S1>& lhs, const tiny_string<Char, Traits, A2, S2>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_inf_equal<Traits>(lhs.as_pair(), rhs.as_pair()); // lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE auto operator<=(const Char* lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_inf_equal<Traits>(lhs, Traits::length(lhs), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE auto operator<=(const tiny_string<Char, Traits, Al, S>& lhs, const Char* rhs) noexcept -> bool
-	{
-		return detail::traits_string_inf_equal<Traits>(lhs.data(), lhs.size(), rhs, Traits::length(rhs));
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE auto operator<=(const std::basic_string<Char, Traits, Al>& lhs, const tiny_string<Char, Traits, Al2, S>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_inf_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE auto operator<=(const tiny_string<Char, Traits, Al2, S>& lhs, const std::basic_string<Char, Traits, Al>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_inf_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE bool operator<=(const std::basic_string_view<Char, Traits>& lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept
-	{
-		return detail::traits_string_inf_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE bool operator<=(const tiny_string<Char, Traits, Al, S>& lhs, const std::basic_string_view<Char, Traits>& rhs) noexcept
-	{
-		return detail::traits_string_inf_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-
-	template<class Char, class Traits, class A1, class A2, size_t S1, size_t S2>
-	SEQ_STR_INLINE auto operator>(const tiny_string<Char, Traits, A1, S1>& lhs, const tiny_string<Char, Traits, A2, S2>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_sup<Traits>(lhs.as_pair(), rhs.as_pair()); // lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE auto operator>(const Char* lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_sup<Traits>(lhs, Traits::length(lhs), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE auto operator>(const tiny_string<Char, Traits, Al, S>& lhs, const Char* rhs) noexcept -> bool
-	{
-		return detail::traits_string_sup<Traits>(lhs.data(), lhs.size(), rhs, Traits::length(rhs));
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE auto operator>(const std::basic_string<Char, Traits, Al>& lhs, const tiny_string<Char, Traits, Al2, S>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_sup<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE auto operator>(const tiny_string<Char, Traits, Al2, S>& lhs, const std::basic_string<Char, Traits, Al>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_sup<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE bool operator>(const std::basic_string_view<Char, Traits>& lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept
-	{
-		return detail::traits_string_sup<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE bool operator>(const tiny_string<Char, Traits, Al, S>& lhs, const std::basic_string_view<Char, Traits>& rhs) noexcept
-	{
-		return detail::traits_string_sup<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-
-	template<class Char, class Traits, class A1, class A2, size_t S1, size_t S2>
-	SEQ_STR_INLINE auto operator>=(const tiny_string<Char, Traits, A1, S1>& lhs, const tiny_string<Char, Traits, A2, S2>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_sup_equal<Traits>(lhs.as_pair(), rhs.as_pair()); // lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE auto operator>=(const Char* lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_sup_equal<Traits>(lhs, Traits::length(lhs), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE auto operator>=(const tiny_string<Char, Traits, Al, S>& lhs, const Char* rhs) noexcept -> bool
-	{
-		return detail::traits_string_sup_equal<Traits>(lhs.data(), lhs.size(), rhs, Traits::length(rhs));
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE auto operator>=(const std::basic_string<Char, Traits, Al>& lhs, const tiny_string<Char, Traits, Al2, S>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_sup_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, class Al2, size_t S>
-	SEQ_STR_INLINE auto operator>=(const tiny_string<Char, Traits, Al2, S>& lhs, const std::basic_string<Char, Traits, Al>& rhs) noexcept -> bool
-	{
-		return detail::traits_string_sup_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE bool operator>=(const std::basic_string_view<Char, Traits>& lhs, const tiny_string<Char, Traits, Al, S>& rhs) noexcept
-	{
-		return detail::traits_string_sup_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	SEQ_STR_INLINE bool operator>=(const tiny_string<Char, Traits, Al, S>& lhs, const std::basic_string_view<Char, Traits>& rhs) noexcept
-	{
-		return detail::traits_string_sup_equal<Traits>(lhs.data(), lhs.size(), rhs.data(), rhs.size());
-	}
-
-	////////////////////////////////////////////////////////////////
-	// Concatenation operators
-	////////////////////////////////////////////////////////////////
-
-	namespace detail
-	{
-		template<class T>
-		struct GetStaticSize
-		{
-			static constexpr size_t value = 0;
-		};
-		template<class Char, class Traits, class Al, size_t S>
-		struct GetStaticSize<tiny_string<Char, Traits, Al, S>>
-		{
-			static constexpr size_t value = S;
-		};
-		template<class S1, class S2>
-		struct FindStaticSize
-		{
-			static constexpr size_t value = GetStaticSize<S1>::value > GetStaticSize<S2>::value ? GetStaticSize<S1>::value : GetStaticSize<S2>::value;
-		};
-		template<class Al1, class Al2>
-		struct FindAllocator
-		{
-			using allocator_type = Al1;
-			static auto select(const Al1& al1, const Al2& /*unused*/) -> Al1 { return al1; }
-		};
-		template<class Char>
-		struct FindAllocator<view_allocator<Char>, view_allocator<Char>>
-		{
-			using allocator_type = std::allocator<Char>;
-			static auto select(const view_allocator<Char>& /*unused*/, const view_allocator<Char>& /*unused*/) -> std::allocator<Char> { return {}; }
-		};
-		template<class Al1, class Char>
-		struct FindAllocator<Al1, view_allocator<Char>>
-		{
-			using allocator_type = Al1;
-			static auto select(const Al1& al1, const view_allocator<Char>& /*unused*/) -> Al1 { return al1; }
-		};
-		template<class Char, class Al2>
-		struct FindAllocator<view_allocator<Char>, Al2>
-		{
-			using allocator_type = Al2;
-			static auto select(const view_allocator<Char>& /*unused*/, const Al2& al2) -> Al2 { return al2; }
-		};
-		template<class Char, class Traits, class S1, class S2, class Al = void>
-		struct FindReturnType
-		{
-			using type = tiny_string<Char, Traits, typename FindAllocator<Al, Al>::allocator_type, FindStaticSize<S1, S2>::value>;
-		};
-		template<class Char, class Traits, class S1, class S2>
-		struct FindReturnType<Char, Traits, S1, S2, void>
-		{
-			using type = tiny_string<Char, Traits, typename FindAllocator<typename S1::allocator_type, typename S2::allocator_type>::allocator_type, FindStaticSize<S1, S2>::value>;
-		};
-	} // end namespace detail
-
-	template<class Char, class Traits, class Al, size_t Size, class Al2, size_t Size2>
-	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, const tiny_string<Char, Traits, Al2, Size2>& rhs)
-	{
-		using find_alloc = detail::FindAllocator<Al, Al2>;
-		using ret_type = typename detail::FindReturnType<Char, Traits, tiny_string<Char, Traits, Al, Size>, tiny_string<Char, Traits, Al2, Size2>>::type;
-		ret_type ret(lhs.size() + rhs.size(),
-			     static_cast<Char>(0),
-			     std::allocator_traits<typename ret_type::allocator_type>::select_on_container_copy_construction(find_alloc::select(lhs.get_allocator(), rhs.get_allocator())));
-		memcpy(ret.data(), lhs.data(), lhs.size() * sizeof(Char));
-		memcpy(ret.data() + lhs.size(), rhs.data(), rhs.size() * sizeof(Char));
-		return ret;
-	}
-
-	template<class Char, class Traits, size_t Size, class Al, class Al2>
-	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, const std::basic_string<Char, Traits, Al2>& rhs)
-	{
-		return lhs + tstring_view(rhs.data(), rhs.size());
-	}
-	template<class Char, class Traits, size_t Size, class Al>
-	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, const std::basic_string_view<Char, Traits>& rhs)
-	{
-		return lhs + tstring_view(rhs.data(), rhs.size());
-	}
-
-	template<class Char, class Traits, size_t Size, class Al>
-	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, const Char* rhs)
-	{
-		return lhs + tstring_view(rhs);
-	}
-	template<class Char, class Traits, size_t Size, class Al>
-	SEQ_STR_INLINE auto operator+(const tiny_string<Char, Traits, Al, Size>& lhs, char rhs)
-	{
-		return lhs + tstring_view(&rhs, 1);
-	}
-
-	template<class Char, class Traits, size_t Size, class Al, class Al2>
-	SEQ_STR_INLINE auto operator+(const std::basic_string<Char, Traits, Al2>& lhs, const tiny_string<Char, Traits, Al, Size>& rhs)
-	{
-		return tstring_view(lhs.data(), lhs.size()) + rhs;
-	}
-	template<class Char, class Traits, size_t Size, class Al>
-	SEQ_STR_INLINE auto operator+(const std::basic_string_view<Char, Traits>& lhs, const tiny_string<Char, Traits, Al, Size>& rhs)
-	{
-		return tstring_view(lhs.data(), lhs.size()) + rhs;
-	}
-
-	template<class Char, class Traits, size_t Size, class Al>
-	SEQ_STR_INLINE auto operator+(const Char* lhs, const tiny_string<Char, Traits, Al, Size>& rhs)
-	{
-		return tstring_view(lhs) + rhs;
-	}
-	template<class Char, class Traits, size_t Size, class Al>
-	SEQ_STR_INLINE auto operator+(Char lhs, const tiny_string<Char, Traits, Al, Size>& rhs)
-	{
-		return tstring_view(&lhs, 1) + rhs;
-	}
-
-	/// @brief Returns the string data (const char*) for given string object
-	template<class Char, class Traits, class Al>
-	inline auto string_data(const std::basic_string<Char, Traits, Al>& str) -> const Char*
-	{
-		return str.data();
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	inline auto string_data(const tiny_string<Char, Traits, Al, S>& str) -> const Char*
-	{
-		return str.data();
-	}
-	template<class Char>
-	inline auto string_data(const Char* str) -> const Char*
-	{
-		return str;
-	}
-	template<class Char, class Traits>
-	inline auto string_data(const std::basic_string_view<Char, Traits>& str) -> const Char*
-	{
-		return str.data();
-	}
-
-	/// @brief Returns the string size for given string object
-	template<class Char, class Traits, class Al>
-	inline auto string_size(const std::basic_string<Char, Traits, Al>& str) -> size_t
-	{
-		return str.size();
-	}
-	template<class Char, class Traits, class Al, size_t S>
-	inline auto string_size(const tiny_string<Char, Traits, Al, S>& str) -> size_t
-	{
-		return str.size();
-	}
-	template<class Char>
-	inline auto string_size(const Char* str) -> size_t
-	{
-		return std::char_traits<Char>::length(str);
-	}
-	template<class Char, class Traits>
-	inline auto string_size(const std::basic_string_view<Char, Traits>& str) -> size_t
-	{
-		return str.size();
-	}
-
-	//////
-	// String related type traits
-	//////
-
-	/// @brief Detect if T is a char type (removing const and reference)
-	template<class T>
-	struct is_character_type
-	{
-		using C = typename std::decay<T>::type;
-		static constexpr bool value = std::is_same_v<C, char> || std::is_same_v<C, wchar_t> || std::is_same_v<C, char16_t> || std::is_same_v<C, char32_t>
-#ifdef SEQ_HAS_CPP_20
-					      || std::is_same_v<C, char8_t>
-#endif
-		  ;
-	};
-
-	/// @brief Detect if T if a char pointer or array
-	template<class T>
-	struct is_character_pointer
-	{
-		using c_type = typename std::remove_pointer<typename std::decay<T>::type>::type;
-		using char_type = typename std::remove_const<c_type>::type;
-		static constexpr bool value = (std::is_pointer_v<T> || std::is_array<T>::value) && is_character_type<char_type>::value;
+		/// @brief Implicit conversion to std::basic_string_view
+		operator std::basic_string_view<Char, Traits>() const noexcept { return to_string_view(); }
 	};
 
 	/// @brief Detect tiny_string
@@ -2884,10 +2245,174 @@ namespace seq
 	struct is_tiny_string : std::false_type
 	{
 	};
-	template<class Char, class Traits, class Al, size_t S>
-	struct is_tiny_string<tiny_string<Char, Traits, Al, S>> : std::true_type
+	template<class Char, class Al, std::size_t S>
+	struct is_tiny_string<tiny_string<Char, Al, S>> : std::true_type
 	{
 	};
+	template<class T>
+	constexpr bool is_tiny_string_v = is_tiny_string<T>::value;
+
+	/// @brief Returns the string data (const char*) for given string object
+	template<class String, std::enable_if_t<is_string_class_v<String>, int> = 0>
+	SEQ_STR_INLINE_STRONG auto string_data(const String& str)
+	{
+		return str.data();
+	}
+	template<class Char>
+	SEQ_STR_INLINE_STRONG auto string_data(const Char* str) -> const Char*
+	{
+		return str;
+	}
+
+	template<class String, std::enable_if_t<is_string_class_v<String>, int> = 0>
+	SEQ_STR_INLINE_STRONG auto string_pair(const String& str)
+	{
+		using Char = typename String::value_type;
+		return std::pair<const Char*, std::size_t>(str.data(), str.size());
+	}
+	template<class Char>
+	SEQ_STR_INLINE_STRONG auto string_pair(const Char* str)
+	{
+		return std::pair<const Char*, std::size_t>(str, str ? std::char_traits<Char>::length(str) : 0);
+	}
+	template<class Char, class Al, std::size_t S>
+	SEQ_STR_INLINE_STRONG auto string_pair(const tiny_string<Char, Al, S>& str)
+	{
+		return str.as_pair();
+	}
+
+	/// @brief Returns the string size for given string object
+	template<class String, std::enable_if_t<is_string_class_v<String>, int> = 0>
+	SEQ_STR_INLINE_STRONG auto string_size(const String& str) -> std::size_t
+	{
+		return (std::size_t)str.size();
+	}
+	template<class Char>
+	SEQ_STR_INLINE_STRONG auto string_size(const Char* str) -> std::size_t
+	{
+		return str ? std::char_traits<Char>::length(str) : 0;
+	}
+
+	/**********************************
+	 * Comparison operators
+	 * ********************************/
+
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char>, int> = 0>
+	auto operator==(const tiny_string<Char, A, S>& lhs, const String& rhs) -> bool
+	{
+		using Traits = std::char_traits<Char>;
+		return detail::traits_string_equal<Traits>(lhs.data(), lhs.size(), string_data(rhs), string_size(rhs));
+	}
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char> && !is_tiny_string_v<String>, int> = 0>
+	auto operator==(const String& lhs, const tiny_string<Char, A, S>& rhs) -> bool
+	{
+		using Traits = std::char_traits<Char>;
+		return detail::traits_string_equal<Traits>(string_data(lhs), string_size(lhs), rhs.data(), rhs.size());
+	}
+
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char>, int> = 0>
+	auto operator!=(const tiny_string<Char, A, S>& lhs, const String& rhs) -> bool
+	{
+		return !(lhs == rhs);
+	}
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char> && !is_tiny_string_v<String>, int> = 0>
+	auto operator!=(const String& lhs, const tiny_string<Char, A, S>& rhs) -> bool
+	{
+		return !(lhs == rhs);
+	}
+
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char>, int> = 0>
+	SEQ_STR_INLINE_STRONG auto operator<(const tiny_string<Char, A, S>& lhs, const String& rhs) -> bool
+	{
+		using Traits = std::char_traits<Char>;
+		return detail::traits_string_inf<Traits>(string_pair(lhs), string_pair(rhs));
+	}
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char> && !is_tiny_string_v<String>, int> = 0>
+	SEQ_STR_INLINE_STRONG auto operator<(const String& lhs, const tiny_string<Char, A, S>& rhs) -> bool
+	{
+		using Traits = std::char_traits<Char>;
+		return detail::traits_string_inf<Traits>(string_pair(lhs), string_pair(rhs));
+	}
+
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char>, int> = 0>
+	auto operator<=(const tiny_string<Char, A, S>& lhs, const String& rhs) -> bool
+	{
+		using Traits = std::char_traits<Char>;
+		return detail::traits_string_inf_equal<Traits>(lhs.data(), lhs.size(), string_data(rhs), string_size(rhs));
+	}
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char> && !is_tiny_string_v<String>, int> = 0>
+	auto operator<=(const String& lhs, const tiny_string<Char, A, S>& rhs) -> bool
+	{
+		using Traits = std::char_traits<Char>;
+		return detail::traits_string_inf_equal<Traits>(string_data(lhs), string_size(lhs), rhs.data(), rhs.size());
+	}
+
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char>, int> = 0>
+	auto operator>(const tiny_string<Char, A, S>& lhs, const String& rhs) -> bool
+	{
+		using Traits = std::char_traits<Char>;
+		return detail::traits_string_sup<Traits>(lhs.data(), lhs.size(), string_data(rhs), string_size(rhs));
+	}
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char> && !is_tiny_string_v<String>, int> = 0>
+	auto operator>(const String& lhs, const tiny_string<Char, A, S>& rhs) -> bool
+	{
+		using Traits = std::char_traits<Char>;
+		return detail::traits_string_sup<Traits>(string_data(lhs), string_size(lhs), rhs.data(), rhs.size());
+	}
+
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char>, int> = 0>
+	auto operator>=(const tiny_string<Char, A, S>& lhs, const String& rhs) -> bool
+	{
+		using Traits = std::char_traits<Char>;
+		return detail::traits_string_sup_equal<Traits>(lhs.data(), lhs.size(), string_data(rhs), string_size(rhs));
+	}
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char> && !is_tiny_string_v<String>, int> = 0>
+	auto operator>=(const String& lhs, const tiny_string<Char, A, S>& rhs) -> bool
+	{
+		using Traits = std::char_traits<Char>;
+		return detail::traits_string_sup_equal<Traits>(string_data(lhs), string_size(lhs), rhs.data(), rhs.size());
+	}
+
+	////////////////////////////////////////////////////////////////
+	// Concatenation operators
+	////////////////////////////////////////////////////////////////
+
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char>, int> = 0>
+	auto operator+(const tiny_string<Char, A, S>& lhs, const String& rhs)
+	{
+		tiny_string<Char, A, S> ret(lhs);
+		ret.append(string_data(rhs), string_size(rhs));
+		return ret;
+	}
+	template<class Char, class A, std::size_t S>
+	auto operator+(const tiny_string<Char, A, S>& lhs, Char c)
+	{
+		tiny_string<Char, A, S> ret(lhs);
+		ret.append(c);
+		return ret;
+	}
+
+	template<class Char, class A, std::size_t S, class String, std::enable_if_t<is_generic_string_for_v<String, Char> && !is_tiny_string_v<String>, int> = 0>
+	auto operator+(const String& lhs, const tiny_string<Char, A, S>& rhs)
+	{
+		using traits = std::allocator_traits<A>;
+		tiny_string<Char, A, S> ret(lhs, traits::select_on_container_copy_construction(rhs.get_allocator()));
+		ret.append(string_data(rhs), string_size(rhs));
+		return ret;
+	}
+	template<class Char, class A, std::size_t S>
+	auto operator+(Char c, const tiny_string<Char, A, S>& rhs)
+	{
+		using traits = std::allocator_traits<A>;
+		tiny_string<Char, A, S> ret(traits::select_on_container_copy_construction(rhs.get_allocator()));
+		ret.append(c);
+		ret.append(string_data(rhs), string_size(rhs));
+		return ret;
+	}
+
+	//////
+	// String related type traits
+	//////
 
 	/// @brief Detect basic_string
 	template<class T>
@@ -2909,124 +2434,36 @@ namespace seq
 	{
 	};
 
-	/// @brief Detect tiny_string, std::string, but not tstring_view
+	/// @brief Detect tiny_string, std::basic_string, but not std::basic_string_view
 	template<class T>
 	struct is_allocated_string : std::false_type
 	{
 	};
-	template<class Char, class Traits, class Al, size_t S>
-	struct is_allocated_string<tiny_string<Char, Traits, Al, S>>
+	template<class Char, class Al, std::size_t S>
+	struct is_allocated_string<tiny_string<Char, Al, S>> : std::true_type
 	{
-		static constexpr bool value = !std::is_same_v<Al, view_allocator<Char>>;
 	};
 	template<class Char, class Traits, class Allocator>
 	struct is_allocated_string<std::basic_string<Char, Traits, Allocator>> : std::true_type
 	{
 	};
 
-	/// @brief Detect all possible string types (std::string, tstring, tstring_view, std::string_view, const char*, char*,...
-	template<class T>
-	struct is_generic_string2
-	{
-		static constexpr bool value = is_character_pointer<T>::value || is_tiny_string<T>::value || is_basic_string<T>::value || is_basic_string_view<T>::value;
-	};
-
-	/// @brief Find char type for given generic string
-	template<class T, class = void>
-	struct character_type
-	{
-		using type = void;
-	};
-	template<class T>
-	struct character_type<T, typename std::enable_if<is_character_pointer<T>::value, void>::type>
-	{
-		using type = typename is_character_pointer<T>::char_type;
-	};
-	template<class T>
-	struct character_type<T, typename std::enable_if<is_tiny_string<T>::value, void>::type>
-	{
-		using type = typename T::value_type;
-	};
-	template<class T>
-	struct character_type<T, typename std::enable_if<is_basic_string<T>::value, void>::type>
-	{
-		using type = typename T::value_type;
-	};
-	template<class T>
-	struct character_type<T, typename std::enable_if<is_basic_string_view<T>::value, void>::type>
-	{
-		using type = typename T::value_type;
-	};
-
-	/// @brief Detect all possible string types (std::string, tstring, tstring_view, std::string_view, const char*, char*
+	/// @brief Detect all possible string types (std::string, tstring, std::string_view, const char*, char*
 	template<class T, class = void>
 	struct is_generic_char_string : std::false_type
 	{
 	};
 	template<class T>
-	struct is_generic_char_string<T, typename std::enable_if<is_character_pointer<T>::value, void>::type>
+	struct is_generic_char_string<T, typename std::enable_if<is_generic_string_v<T>, void>::type>
 	{
-		static constexpr bool value = std::is_same_v<char, typename is_character_pointer<T>::char_type>;
+		static constexpr bool value = std::is_same_v<char, character_type_t<T>>;
 	};
 
-	template<class Traits, class Allocator>
-	struct is_generic_char_string<std::basic_string<char, Traits, Allocator>, void> : std::true_type
-	{
-	};
-	template<class Traits, class Al, size_t S>
-	struct is_generic_char_string<tiny_string<char, Traits, Al, S>, void> : std::true_type
-	{
-	};
-	template<class Traits>
-	struct is_generic_char_string<std::basic_string_view<char, Traits>, void> : std::true_type
-	{
-	};
-
-	/// @brief Detect all possible string types of any character type (std::basic_string, basic_tstring, basic_tstring_view, std::basic_string_view, const Char*, Char*
-	template<class T, class = void>
-	struct is_generic_string : std::false_type
-	{
-	};
-	template<class T>
-	struct is_generic_string<T, typename std::enable_if<is_character_pointer<T>::value, void>::type> : std::true_type
-	{
-	};
-	template<class Char, class Traits, class Allocator>
-	struct is_generic_string<std::basic_string<Char, Traits, Allocator>, void> : std::true_type
-	{
-	};
-	template<class Char, class Traits, class Al, size_t S>
-	struct is_generic_string<tiny_string<Char, Traits, Al, S>, void> : std::true_type
-	{
-	};
-	template<class Char, class Traits>
-	struct is_generic_string<std::basic_string_view<Char, Traits>, void> : std::true_type
-	{
-	};
-
-	/// @brief Detect tstring_view or std::string_view
-	template<class T>
-	struct is_string_view : std::false_type
-	{
-	};
-	template<class Char, class Traits>
-	struct is_string_view<tiny_string<Char, Traits, view_allocator<Char>, 0>> : std::true_type
-	{
-	};
-	template<class Char, class Traits>
-	struct is_string_view<std::basic_string_view<Char, Traits>> : std::true_type
-	{
-	};
-
-	/// @brief Detect generic string view: tstring_view, std::string_view, char*, const char*
+	/// @brief Detect generic string view: std::string_view, char*, const char*
 	template<class T>
 	struct is_generic_string_view
 	{
 		static constexpr bool value = is_character_pointer<T>::value;
-	};
-	template<class Char, class Traits>
-	struct is_generic_string_view<tiny_string<Char, Traits, view_allocator<Char>, 0>> : std::true_type
-	{
 	};
 	template<class Char, class Traits>
 	struct is_generic_string_view<std::basic_string_view<Char, Traits>> : std::true_type
@@ -3035,13 +2472,8 @@ namespace seq
 
 	// Specialization of is_relocatable
 
-	template<class Char>
-	struct is_relocatable<view_allocator<Char>> : std::true_type
-	{
-	};
-
-	template<class Char, class Traits, class Al, size_t S>
-	struct is_relocatable<tiny_string<Char, Traits, Al, S>> : is_relocatable<Al>
+	template<class Char, class Al, std::size_t S>
+	struct is_relocatable<tiny_string<Char, Al, S>> : is_relocatable<Al>
 	{
 	};
 
@@ -3049,13 +2481,13 @@ namespace seq
 	 * Reading/writing from/to streams
 	 * ********************************/
 
-	template<class Elem, class Traits, size_t Size, class Alloc>
-	inline auto operator>>(std::basic_istream<Elem, Traits>& iss, tiny_string<Elem, Traits, Alloc, Size>& str) ->
-	  typename std::enable_if<!std::is_same_v<Alloc, view_allocator<Elem>>, std::basic_istream<Elem, Traits>>::type&
+	template<class Elem, class Traits, std::size_t Size, class Alloc>
+	auto operator>>(std::basic_istream<Elem, Traits>& iss, tiny_string<Elem, Alloc, Size>& str) ->
+	  typename std::enable_if<std::is_same_v<Traits, std::char_traits<Elem>>, std::basic_istream<Elem, Traits>>::type&
 	{ // extract a string
 		typedef std::ctype<Elem> c_type;
 		typedef std::basic_istream<Elem, Traits> stream_type;
-		typedef tiny_string<Elem, Traits, Alloc, Size> string_type;
+		typedef tiny_string<Elem, Alloc, Size> string_type;
 		typedef typename string_type::size_type size_type;
 
 		std::ios_base::iostate state = std::ios_base::goodbit;
@@ -3094,11 +2526,11 @@ namespace seq
 		return (iss);
 	}
 
-	template<class Elem, class Traits, size_t Size, class Alloc>
-	inline auto operator<<(std::basic_ostream<Elem, Traits>& oss, const tiny_string<Elem, Traits, Alloc, Size>& str) -> std::basic_ostream<Elem, Traits>&
+	template<class Elem, class Traits, std::size_t Size, class Alloc, std::enable_if_t<std::is_same_v<Traits, std::char_traits<Elem>>, int> = 0>
+	auto operator<<(std::basic_ostream<Elem, Traits>& oss, const tiny_string<Elem, Alloc, Size>& str) -> std::basic_ostream<Elem, Traits>&
 	{ // insert a string
 		typedef std::basic_ostream<Elem, Traits> myos;
-		typedef tiny_string<Elem, Traits, Alloc, Size> mystr;
+		typedef tiny_string<Elem, Alloc, Size> mystr;
 		typedef typename mystr::size_type mysizt;
 
 		std::ios_base::iostate state = std::ios_base::goodbit;
@@ -3142,29 +2574,31 @@ namespace seq
 	/// @brief Specialization of hasher for tiny_string
 	/// Uses seq hash function hash_bytes_komihash()
 	///
-	template<class Char, class Traits, class Allocator, size_t Size>
-	class hasher<seq::tiny_string<Char, Traits, Allocator, Size>>
+	template<class Char, class Allocator, std::size_t Size>
+	class hasher<seq::tiny_string<Char, Allocator, Size>>
 	{
+		using Traits = std::char_traits<Char>;
+
 	public:
 		using is_transparent = std::true_type;
 		using is_avalanching = std::true_type;
-		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Traits, Allocator, Size>& str) const noexcept -> size_t
+		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Allocator, Size>& str) const noexcept -> std::size_t
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
 		}
-		template<size_t S, class Al>
-		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Traits, Al, S>& str) const noexcept -> size_t
+		template<std::size_t S, class Al>
+		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Al, S>& str) const noexcept -> std::size_t
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
 		}
 		template<class Al>
-		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string<Char, Traits, Al>& str) const noexcept -> size_t
+		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string<Char, Traits, Al>& str) const noexcept -> std::size_t
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
 		}
-		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> size_t { return seq::hash_bytes_komihash((str), Traits::length(str) * sizeof(Char)); }
+		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> std::size_t { return seq::hash_bytes_komihash((str), str ? Traits::length(str) * sizeof(Char) : 0); }
 
-		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string_view<Char, Traits>& str) const noexcept -> size_t
+		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string_view<Char, Traits>& str) const noexcept -> std::size_t
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
 		}
@@ -3173,26 +2607,27 @@ namespace seq
 	/// @brief Specialization of seq::hasher for basic_string
 	/// Uses seq hash function hash_bytes_komihash()
 	///
-	template<class Char, class Traits, class Allocator>
-	class hasher<std::basic_string<Char, Traits, Allocator>>
+	template<class Char, class Allocator>
+	class hasher<std::basic_string<Char, std::char_traits<Char>, Allocator>>
 	{
+		using Traits = std::char_traits<Char>;
+
 	public:
 		using is_transparent = std::true_type;
 		using is_avalanching = std::true_type;
 
-		template<class A, size_t S>
-		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Traits, A, S>& str) const noexcept -> size_t
+		template<class A, std::size_t S>
+		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, A, S>& str) const noexcept -> std::size_t
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
 		}
 		template<class A>
-		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string<Char, Traits, A>& str) const noexcept -> size_t
+		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string<Char, Traits, A>& str) const noexcept -> std::size_t
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
 		}
-		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> size_t { return seq::hash_bytes_komihash((str), Traits::length(str) * sizeof(Char)); }
-
-		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string_view<Char, Traits>& str) const noexcept -> size_t
+		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> std::size_t { return seq::hash_bytes_komihash((str), str ? Traits::length(str) * sizeof(Char) : 0); }
+		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string_view<Char, Traits>& str) const noexcept -> std::size_t
 		{
 			return seq::hash_bytes_komihash((str.data()), str.size() * sizeof(Char));
 		}
@@ -3207,8 +2642,8 @@ namespace seq
 	};
 
 	// Overload std::swap for tiny_string.
-	template<class Char, class Traits, class Allocator, size_t Size>
-	SEQ_STR_INLINE_STRONG void swap(tiny_string<Char, Traits, Allocator, Size>& a, tiny_string<Char, Traits, Allocator, Size>& b)
+	template<class Char, class Allocator, std::size_t Size>
+	SEQ_STR_INLINE_STRONG void swap(tiny_string<Char, Allocator, Size>& a, tiny_string<Char, Allocator, Size>& b) noexcept(noexcept(a.swap(b)))
 	{
 		a.swap(b);
 	}
@@ -3220,29 +2655,31 @@ namespace std
 	/// @brief Specialization of std::hash for tiny_string
 	/// This specialization uses a (relatively) strong hash function: murmurhash2
 	///
-	template<class Char, class Traits, class Allocator, size_t Size>
-	class hash<seq::tiny_string<Char, Traits, Allocator, Size>>
+	template<class Char, class Allocator, std::size_t Size>
+	class hash<seq::tiny_string<Char, Allocator, Size>>
 	{
+		using Traits = std::char_traits<Char>;
+
 	public:
 		using is_transparent = std::true_type;
 		using is_avalanching = std::true_type;
-		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Traits, Allocator, Size>& str) const noexcept -> size_t
+		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Allocator, Size>& str) const noexcept -> std::size_t
 		{
 			return seq::hash_bytes_komihash(str.data(), str.size() * sizeof(Char));
 		}
-		template<size_t S, class Al>
-		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Traits, Al, S>& str) const noexcept -> size_t
+		template<std::size_t S, class Al>
+		SEQ_STR_INLINE_STRONG auto operator()(const seq::tiny_string<Char, Al, S>& str) const noexcept -> std::size_t
 		{
 			return seq::hash_bytes_komihash(str.data(), str.size() * sizeof(Char));
 		}
 		template<class Al>
-		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string<Char, Traits, Al>& str) const noexcept -> size_t
+		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string<Char, Traits, Al>& str) const noexcept -> std::size_t
 		{
 			return seq::hash_bytes_komihash(str.data(), str.size() * sizeof(Char));
 		}
-		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> size_t { return seq::hash_bytes_komihash(str, Traits::length(str) * sizeof(Char)); }
+		SEQ_STR_INLINE_STRONG auto operator()(const Char* str) const noexcept -> std::size_t { return seq::hash_bytes_komihash(str, str ? Traits::length(str) * sizeof(Char) : 0); }
 
-		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string_view<Char, Traits>& str) const noexcept -> size_t
+		SEQ_STR_INLINE_STRONG auto operator()(const std::basic_string_view<Char, Traits>& str) const noexcept -> std::size_t
 		{
 			return seq::hash_bytes_komihash(str.data(), str.size() * sizeof(Char));
 		}

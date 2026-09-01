@@ -2,9 +2,8 @@
 
 `seq::ordered_set` is a open addressing hash table using robin hood hashing and backward shift deletion. Its main properties are:
 -	Keys are ordered by insertion order. Therefore, ordered_set provides the additional members push_back(), push_front(), emplace_back() and emplace_front() to control key ordering.
--	Since the container is ordered, it is also sortable. ordered_set provides the additional members sort() and stable_sort() for this purpose.
+-	Since the container is ordered, it is also sortable. ordered_set provides the additional member sort() for this purpose.
 -	The hash table itself basically stores iterators to a `seq::sequence` object storing the actual values. Therefore, `seq::ordered_set` provides *stable references and iterators, even on rehash* (unlike `std::unordered_set` that invalidates iterators on rehash).
--	No memory peak on rehash.
 -	`seq::ordered_set` uses robin hood probing with backward shift deletion. It does not rely on tombstones and supports high load factors.
 -	It is fast and memory efficient compared to other node based hash tables (see section *Performances*), but still slower than most open addressing hash tables due to the additional indirection.
 
@@ -15,52 +14,21 @@
 -	The bucket related functions are not implemented,
 -	The default load factor is set to 0.6,
 -	Additional members push_back(), push_front(), emplace_back() and emplace_front() let you control the key ordering,
--	Additional members sort() and stable_sort() let you sort the container,
--	The member `ordered_set::sequence()` returns a reference to the underlying `seq::sequence` object,
+-	Additional member sort() let you sort the container in a stable way,
 -	Its iterator and const_iterator types are bidirectional iterators.
-
-The underlying sequence object stores plain non const Key objects, and `seq::ordered_map` iterators return objects of type `std::pair<Key,Value>`. 
 
 ## Direct access to sequence
 
-Unlike most hash table implementations, it is possible to access and modify the underlying value storage directly (a `seq::sequence` object). 
-This possibility must be used with great care, as modifying directly the sequence might break the hashing. 
-When calling the non-const version of ordered_set::sequence(), the ordered_set will be marked as dirty, and further attempts to call functions like ordered_set::find() of ordered_set::insert() (functions based on hash value) will throw a std::logic_error.
-
-Therefore, after finishing modifying the sequence, you must call `ordered_set::rehash()` to rehash the sequence, remove potential duplicates, and mark the ordered_set as non dirty anymore.
-
-This way of modifying a ordered_set must be used carefully, but is way faster than multiple calls to ordered_set::insert() of ordered_set::erase().
-For instance, it is usually faster to insert values this way than reserving the hash table ahead, except when inserting lots of duplicate keys.
-Example:
-
-```cpp
-std::vector<double> keys = ...
-
-seq::ordered_set<double> set;
-
-// Insert keys directly in the underlying sequence objecy
-for(size_t i=0; i < keys.size(); ++i)
-	set.sequence().insert(keys[i]);
-
-// rehash the set and remove potential duplicate values in a stable way
-set.rehash();
-```
-
+`seq::ordered_set/map` provide the members `extract()` to retrieve (move) the underlying seq::sequence object.
+The sequence can be modified at will and then moved to the ordered_set using `replace()` member. In this case, the sequence must already be unique.
 
 ## Exception guarantee
 
 Most members of `seq::ordered_set` provide *strong exception guarantee*, except if specified otherwise (mentionned in function documentation).
 
-
 ## Growth policy and load factor
 
 `seq::ordered_set` uses a growth factor of 2 to use the fast modulo. The hash table size is multiplied by 2 each time the table load factor exceeds the given max_load_factor(). The default maximum load factor is set to 0.6 and can by set up to 0.95, which is well supported thanks to the robin hood hashing.
-
-In some cases, the actual load factor can exceed the provided maximum load factor. This holds when the keys are very well distributed, and the maximum distance of a key to its computed location is low (below 8). This strategy avoids some unnecessary rehash for very strong hash function (or well distributed keys).
-Note however that the load factor will never exceed 0.95.
-
-On rehash, the old table is deallocated before allocating the new (twice as big) one. This is possible thanks to the double storage strategy (values are stored in an independant `seq::sequence` object) and **avoid memory peaks**.
-
 
 ## Handling of bad hash function
 
@@ -73,7 +41,6 @@ For very bad hash function (or in case of DOS attack), hash tables like <a href=
 
 Therefore, a (very) bad hash function will only make the table slower but will never explode with a std::bad_alloc exception
 
-
 ## Deleting entries
 
 `seq::ordered_set` uses backward shift deletion to avoid introducing tombstones, except for bad hash functions (see section above).
@@ -81,13 +48,11 @@ The key lookup remains fast when deleting lots of entries, and mixed scenarios i
 
 Note however that removing a key will never trigger a rehash. The user is free to rehash the ordered_set at any point using ordered_set::rehash() member.
 
-
 ## Sorting
 
 Since the ordered_set is ordered by key insertion order, it makes sense to provide a function to sort it.
-The members ordered_set::sort() and ordered_set::stable_sort() are provided and call respectively `seq::sequence::sort()` and `seq::sequence::stable_sort()`.
-These functions rehash the full table after sorting.
-
+The member ordered_set::sort() calls seq::sequence::sort() and uses a stable sorting algorithm.
+This function rehash the full table after sorting.
 
 ## Performances
 

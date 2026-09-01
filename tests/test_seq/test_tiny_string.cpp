@@ -36,12 +36,12 @@ template<class String, class Char = typename String::value_type>
 struct Convert
 {
 	static String apply(const char* value) {
-		const size_t cSize = strlen(value) + 1;
+		const std::size_t cSize = strlen(value) + 1;
 
 		String wc;
 		wc.resize(cSize);
 
-		/*size_t cSize1 =*/ mbstowcs(reinterpret_cast<wchar_t*>(&wc[0]), value, cSize);
+		/*std::size_t cSize1 =*/ mbstowcs(reinterpret_cast<wchar_t*>(&wc[0]), value, cSize);
 		//mbstowcs_s(&cSize1, reinterpret_cast<wchar_t*>(&wc[0]), cSize, value, cSize);
 
 		wc.pop_back();
@@ -68,14 +68,15 @@ bool string_equals(const S1& s1, const S2& s2)
 	return seq::equal(s1.begin(), s1.end(), s2.begin(), s2.end());
 }
 
-template<class Char, size_t MaxStaticSize = 0>
+template<class Char, std::size_t MaxStaticSize = 0>
 void test_tstring_logic()
 {
 	using namespace seq;
 
 	using std_string = std::basic_string<Char, std::char_traits<Char>, std::allocator<Char> >;
-	using t_string = seq::tiny_string<Char, std::char_traits<Char>, std::allocator<Char>, MaxStaticSize>;
+	using t_string = seq::tiny_string<Char, std::allocator<Char>, MaxStaticSize>;
 
+	
 	std_string v;
 	t_string dv;
 
@@ -122,8 +123,8 @@ void test_tstring_logic()
 	SEQ_TEST(string_equals(v1, v2));
 
 	// test operator[]
-	for (size_t i = 0; i < v.size(); ++i) v[i] = static_cast<Char>(i);
-	for (size_t i = 0; i < dv.size(); ++i) dv[i] = static_cast<Char>(i);
+	for (std::size_t i = 0; i < v.size(); ++i) v[i] = static_cast<Char>(i);
+	for (std::size_t i = 0; i < dv.size(); ++i) dv[i] = static_cast<Char>(i);
 	SEQ_TEST(string_equals(v, dv));
 
 	//test shrink_to_fit
@@ -242,7 +243,7 @@ void test_tstring_logic()
 	//test sorting
 	{
 		std::vector<std_string> vec(100000);
-		for (size_t i = 0; i < vec.size(); ++i)
+		for (std::size_t i = 0; i < vec.size(); ++i)
 			vec[i] = generate_random_string<std_string>(32);
 		std::vector<t_string> vec2(vec.begin(), vec.end());
 		SEQ_TEST(string_equals(vec, vec2));
@@ -262,12 +263,12 @@ void test_tstring_logic()
 
 		std_string str;
 		t_string tstr;
-		size_t _count = count;
+		std::size_t _count = count;
 
-		for (size_t i = 0; i < _count; ++i)
+		for (std::size_t i = 0; i < _count; ++i)
 			tstr.append(to_append.c_str());
 		
-		for (size_t i = 0; i < _count; ++i)
+		for (std::size_t i = 0; i < _count; ++i)
 			str.append(to_append.c_str());
 		
 		SEQ_TEST(string_equals(str, tstr));
@@ -347,8 +348,8 @@ void test_tstring_logic()
 		SEQ_TEST(sum1==sum2);
 
 		// test find
-		size_t f = 0;
-		size_t pos1 = 0;
+		std::size_t f = 0;
+		std::size_t pos1 = 0;
 		std_string find1 = Convert< std_string>::apply("abcdefghijklmnop"); //does exists
 		std_string find2 = Convert< std_string>::apply("kdpohdsifgugcvbfd"); //does not exists
 
@@ -359,8 +360,8 @@ void test_tstring_logic()
 			else pos1++;
 		}
 		
-		size_t f2 = 0;
-		size_t pos2 = 0;
+		std::size_t f2 = 0;
+		std::size_t pos2 = 0;
 		for (int i = 0; i < 10; ++i) {
 			pos2 = str.find((i & 1) ? find1 : find2);
 			f2 += pos2;
@@ -452,13 +453,13 @@ void test_tstring_logic()
 		f = 0;
 		for (unsigned i = 0; i < len; ++i) {
 			int c = tstr.compare(i, find1.size(), find1);
-			f += static_cast<size_t>(c < 0 ? -1 : (c > 0 ? 1 : 0));
+			f += static_cast<std::size_t>(c < 0 ? -1 : (c > 0 ? 1 : 0));
 		}
 
 		f2 = 0;
 		for (unsigned i = 0; i < len; ++i) {
 			int c = str.compare(i, find1.size(), find1);
-			f2 += static_cast<size_t>(c < 0 ? -1 : (c > 0 ? 1 : 0));
+			f2 += static_cast<std::size_t>(c < 0 ? -1 : (c > 0 ? 1 : 0));
 		}
 		SEQ_TEST(f == f2);
 
@@ -473,8 +474,69 @@ void test_tstring_logic()
 }
 
 
+template<class S1, class S2>
+void test_operators(const S1& s1, const S2& s2)
+{
+	SEQ_TEST(s1 == s2);
+	SEQ_TEST(!(s1 != s2));
+	SEQ_TEST(!(s1 < s2));
+	SEQ_TEST(!(s1 > s2));
+	SEQ_TEST(s1 <= s2);
+	SEQ_TEST(s1 >= s2);
+}
+
+
+void test_operators_for_char()
+{
+	
+	test_operators(seq::tstring("short"), seq::tstring("short"));
+	test_operators(seq::tstring("short"), std::string("short"));
+	test_operators(seq::tstring("short"), std::string_view("short"));
+	test_operators(seq::tstring("short"), ("short"));
+	test_operators(std::string("short"), seq::tstring("short"));
+	test_operators(std::string_view("short"), seq::tstring("short"));
+	test_operators(("short"), seq::tstring("short"));
+
+	const char* long_ = "this is a very lonnnnnnnng string";
+	test_operators(seq::tstring(long_), seq::tstring(long_));
+	test_operators(seq::tstring(long_), std::string(long_));
+	test_operators(seq::tstring(long_), std::string_view(long_));
+	test_operators(seq::tstring(long_), (long_));
+	test_operators(std::string(long_), seq::tstring(long_));
+	test_operators(std::string_view(long_), seq::tstring(long_));
+	test_operators((long_), seq::tstring(long_));
+}
+
+void test_operators_for_wchar()
+{
+	using tstring_type = seq::tiny_string<wchar_t>;
+	using string_type = std::basic_string<wchar_t>;
+	using vstring_type = std::basic_string_view<wchar_t>;
+
+	test_operators(tstring_type(L"short"), tstring_type(L"short"));
+	test_operators(tstring_type(L"short"), string_type(L"short"));
+	test_operators(tstring_type(L"short"), vstring_type(L"short"));
+	test_operators(tstring_type(L"short"), (L"short"));
+	test_operators(string_type(L"short"), tstring_type(L"short"));
+	test_operators(vstring_type(L"short"), tstring_type(L"short"));
+	test_operators((L"short"), tstring_type(L"short"));
+
+	const wchar_t* long_ = L"this is a very lonnnnnnnng string";
+	test_operators(tstring_type(long_), tstring_type(long_));
+	test_operators(tstring_type(long_), string_type(long_));
+	test_operators(tstring_type(long_), vstring_type(long_));
+	test_operators(tstring_type(long_), (long_));
+	test_operators(string_type(long_), tstring_type(long_));
+	test_operators(vstring_type(long_), tstring_type(long_));
+	test_operators((long_), tstring_type(long_));
+}
+
 SEQ_PROTOTYPE( int test_tiny_string(int , char*[]))
 {
+	
+	test_operators_for_char();
+	test_operators_for_wchar();
+	
 	SEQ_TEST_MODULE_RETURN(tiny_string_char, 1, test_tstring_logic<char>());
 	SEQ_TEST_MODULE_RETURN(tiny_string_wchar_t, 1, test_tstring_logic<wchar_t>());
 	SEQ_TEST_MODULE_RETURN(tiny_string_char, 1, test_tstring_logic<char,20>());

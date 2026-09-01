@@ -130,13 +130,13 @@ inline void test_ordered_set_logic(const Alloc & al = Alloc())
 	{
 		// push_front/back and sorted
 		std::vector<T> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<T>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
 		set_type set(al);
 		std::unordered_set<T> uset;
-		for (size_t i = 0; i < v.size()/2; ++i) {
+		for (std::size_t i = 0; i < v.size()/2; ++i) {
 			uset.insert(v[i]);
 			if ((i & 1) == 0)
 				set.push_back(v[i]);
@@ -189,9 +189,9 @@ inline void test_ordered_set_logic(const Alloc & al = Alloc())
 		//test rehash() with duplicate removal
 		
 		std::vector<T> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<T>(i));
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<T>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -209,12 +209,12 @@ inline void test_ordered_set_logic(const Alloc & al = Alloc())
 
 		uset.insert(v.begin(), v.end());
 		for (auto it = v.begin(); it != v.end(); ++it)
-			set.sequence().insert(*it);
+			set./* sequence().*/insert(*it);
 		set.rehash();
 		SEQ_TEST(hash_set_equals(set, uset));
 
 		//remove half
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.erase(v[i]);
 			set.erase(v[i]);
 		}
@@ -255,7 +255,7 @@ inline void test_ordered_set_logic(const Alloc & al = Alloc())
 	{
 		//test copy
 		std::vector<T> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<T>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -298,7 +298,7 @@ inline void test_ordered_set_logic(const Alloc & al = Alloc())
 		SEQ_TEST(hash_set_equals(set, uset));
 
 		//erase half
-		for (size_t i = 0; i < v.size(); i+=2) {
+		for (std::size_t i = 0; i < v.size(); i+=2) {
 			set.erase(v[i]);
 			uset.erase(v[i]);
 		}
@@ -347,13 +347,13 @@ inline void test_ordered_map_logic()
 	{
 		// push_front/back and sorted
 		std::vector<T> v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.push_back(static_cast<T>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
 		map_type set;
 		umap_type uset;
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.emplace(v[i],v[i]);
 			if ((i & 1) == 0)
 				set.emplace_back(v[i],v[i]);
@@ -411,7 +411,7 @@ inline void test_ordered_map_logic()
 		SEQ_TEST(hash_map_equals(set, uset));
 
 		//test at() and operator[]
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			SEQ_TEST(set[v[i]] == uset[v[i]]);
 			SEQ_TEST(set.at(v[i]) == uset.at(v[i]));
 		}
@@ -454,9 +454,9 @@ inline void test_ordered_map_logic()
 		//test rehash() with duplicate removal
 
 		std::vector<std::pair<T, T> > v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<T>(i), static_cast<T>(i));
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<T>(i), static_cast<T>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -472,12 +472,12 @@ inline void test_ordered_map_logic()
 
 		uset.insert(v.begin(), v.end());
 		for (auto it = v.begin(); it != v.end(); ++it)
-			set.sequence().insert(*it);
+			set./* sequence().*/insert(*it);
 		set.rehash();
 		SEQ_TEST(hash_map_equals(set, uset));
 
 		//remove half
-		for (size_t i = 0; i < v.size() / 2; ++i) {
+		for (std::size_t i = 0; i < v.size() / 2; ++i) {
 			uset.erase(v[i].first);
 			set.erase(v[i].first);
 		}
@@ -516,7 +516,7 @@ inline void test_ordered_map_logic()
 	{
 		//test copy
 		std::vector<std::pair<T, T> > v;
-		for (size_t i = 0; i < 10000; ++i)
+		for (std::size_t i = 0; i < 10000; ++i)
 			v.emplace_back(static_cast<T>(i), static_cast<T>(i));
 		seq::random_shuffle(v.begin(), v.end());
 
@@ -558,7 +558,7 @@ inline void test_ordered_map_logic()
 		SEQ_TEST(hash_map_equals(set, uset));
 
 		//erase half
-		for (size_t i = 0; i < v.size(); i += 2) {
+		for (std::size_t i = 0; i < v.size(); i += 2) {
 			set.erase(v[i].first);
 			uset.erase(v[i].first);
 		}
@@ -582,11 +582,11 @@ inline void test_ordered_map_logic()
 
 
 template<class Set>
-void test_heavy_set(size_t count)
+void test_heavy_set(std::size_t count)
 {
 	using key_type = typename Set::value_type;
 	std::vector<key_type> keys(count);
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 		keys[i] = static_cast<key_type>( i);
 	seq::random_shuffle(keys.begin(), keys.end());
 
@@ -599,7 +599,7 @@ void test_heavy_set(size_t count)
 		SEQ_TEST(s.size() == count);
 
 		// find all
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 		{
 			auto it = s.find(keys[i]);
 			SEQ_TEST(it != s.end());
@@ -607,9 +607,9 @@ void test_heavy_set(size_t count)
 		}
 
 		//failed find
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 		{
-			size_t ke = i + count;
+			std::size_t ke = i + count;
 			auto it = s.find(ke);
 			SEQ_TEST(it == s.end());
 		}
@@ -620,18 +620,18 @@ void test_heavy_set(size_t count)
 		SEQ_TEST(s.size() == 0);
 
 		//insert all one by one
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 		{
 			s.insert(keys[i]);
 			// find while inserting
-			for (size_t j = 0; j <= i; ++j)
+			for (std::size_t j = 0; j <= i; ++j)
 			{
 				auto it = s.find(keys[j]);
 				SEQ_TEST(it != s.end());
 				SEQ_TEST(*it == keys[j]);
 			}
 			// failed find
-			for (size_t j = i + 1; j < count; ++j)
+			for (std::size_t j = i + 1; j < count; ++j)
 			{
 				auto it = s.find(keys[j]);
 				SEQ_TEST(it == s.end());
@@ -640,7 +640,7 @@ void test_heavy_set(size_t count)
 		SEQ_TEST(s.size() == count);
 
 		//failed insertion
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 			s.insert(keys[i]);
 		SEQ_TEST(s.size() == count);
 
@@ -652,7 +652,7 @@ void test_heavy_set(size_t count)
 		
 
 		// find all
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 		{
 			auto it = s.find(keys[i]);
 			SEQ_TEST(it != s.end());
@@ -660,23 +660,23 @@ void test_heavy_set(size_t count)
 		}
 
 		//failed find
-		for (size_t i = 0; i < count; ++i)
+		for (std::size_t i = 0; i < count; ++i)
 		{
-			size_t ke = i + count;
+			std::size_t ke = i + count;
 			auto it = s.find(ke);
 			SEQ_TEST(it == s.end());
 		}
 
 		//erase half
-		size_t cc = (count / 2U) * 2U;
-		for (size_t i = 0; i < cc; i += 2) {
+		std::size_t cc = (count / 2U) * 2U;
+		for (std::size_t i = 0; i < cc; i += 2) {
 			auto it = s.find(keys[i]);
 			s.erase(it);
 		}
 		SEQ_TEST(s.size() == count / 2);
 
 		// find all
-		for (size_t i = 1; i < count; i+=2)
+		for (std::size_t i = 1; i < count; i+=2)
 		{
 			if (i >= count)
 				break;
@@ -687,7 +687,7 @@ void test_heavy_set(size_t count)
 		}
 
 		//failed
-		for (size_t i = 0; i < cc; i += 2)
+		for (std::size_t i = 0; i < cc; i += 2)
 		{
 			auto it = s.find(keys[i]);
 			SEQ_TEST(it == s.end());
@@ -695,7 +695,7 @@ void test_heavy_set(size_t count)
 	}
 
 	//erase remaining keys
-	for (size_t i = 0; i < count; ++i)
+	for (std::size_t i = 0; i < count; ++i)
 	{
 		auto it = s.find(keys[i]);
 		if (it != s.end())
@@ -711,13 +711,13 @@ void test_heavy_set(size_t count)
 /// @brief Hash function that provokes lots of collisions
 struct DummyHash
 {
-	size_t operator()(size_t v) const noexcept
+	std::size_t operator()(std::size_t v) const noexcept
 	{
 		return (v * UINT64_C(0xff51afd7ed558ccd)) & 31U;
 	}
-	size_t operator()(const TestDestroy<size_t>& v) const noexcept
+	std::size_t operator()(const TestDestroy<std::size_t>& v) const noexcept
 	{
-		return (static_cast<size_t>(v) * UINT64_C(0xff51afd7ed558ccd)) & 31U;
+		return (static_cast<std::size_t>(v) * UINT64_C(0xff51afd7ed558ccd)) & 31U;
 	}
 };
 
@@ -725,19 +725,20 @@ struct DummyHash
 
 SEQ_PROTOTYPE( int test_ordered_map(int , char*[]))
 { 
+	
 	//Test ordered_map and detect potential memory leak or wrong allocator propagation
-	SEQ_TEST_MODULE_RETURN(heavy_ordered_set,1, test_heavy_set<seq::ordered_set<size_t> >(10000));
-	SEQ_TEST_MODULE_RETURN(heavy_ordered_set_linear,1, test_heavy_set<seq::ordered_set<size_t, DummyHash> >(3000));
+	SEQ_TEST_MODULE_RETURN(heavy_ordered_set,1, test_heavy_set<seq::ordered_set<std::size_t> >(10000));
+	SEQ_TEST_MODULE_RETURN(heavy_ordered_set_linear,1, test_heavy_set<seq::ordered_set<std::size_t, DummyHash> >(3000));
 	SEQ_TEST_MODULE_RETURN(ordered_map,1,test_ordered_map_logic<double>());
 	CountAlloc<double> al;
 	SEQ_TEST_MODULE_RETURN(ordered_set,1,test_ordered_set_logic<double>(al));
 	SEQ_TEST(get_alloc_bytes(al) == 0);
 
 	//Test ordered_map and detect potential memory leak or wrong allocator propagation
-	SEQ_TEST_MODULE_RETURN(heavy_ordered_set_destroy, 1, test_heavy_set<seq::ordered_set<TestDestroy<size_t>> >(10000));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
-	SEQ_TEST_MODULE_RETURN(heavy_ordered_set_linear_destroy, 1, test_heavy_set<seq::ordered_set<TestDestroy<size_t>, DummyHash> >(3000));
-	SEQ_TEST(TestDestroy<size_t>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(heavy_ordered_set_destroy, 1, test_heavy_set<seq::ordered_set<TestDestroy<std::size_t>> >(10000));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
+	SEQ_TEST_MODULE_RETURN(heavy_ordered_set_linear_destroy, 1, test_heavy_set<seq::ordered_set<TestDestroy<std::size_t>, DummyHash> >(3000));
+	SEQ_TEST(TestDestroy<std::size_t>::count() == 0);
 	SEQ_TEST_MODULE_RETURN(ordered_map_destroy, 1, test_ordered_map_logic<TestDestroy<double>>());
 	SEQ_TEST(TestDestroy<double>::count() == 0);
 	CountAlloc<TestDestroy<double>> al2;

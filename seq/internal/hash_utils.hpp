@@ -43,6 +43,9 @@ namespace seq
 		  : private Hash
 		  , private Equal
 		{
+			static_assert(std::is_nothrow_swappable_v<Hash>);
+			static_assert(std::is_nothrow_swappable_v<Equal>);
+			
 			HashEqual() {}
 			HashEqual(const Hash& h, const Equal& e)
 			  : Hash(h)
@@ -84,7 +87,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE auto key_eq() const noexcept -> const Equal& { return (*this); }
 
 			template<class... Args>
-			SEQ_ALWAYS_INLINE auto hash(Args&&... args) const noexcept(noexcept(std::declval<Hash&>().operator()(std::forward<Args>(args)...))) -> size_t
+			SEQ_ALWAYS_INLINE auto hash(Args&&... args) const noexcept(noexcept(std::declval<Hash&>().operator()(std::forward<Args>(args)...))) -> std::size_t
 			{
 				return (Hash::operator()(std::forward<Args>(args)...));
 			}

@@ -174,6 +174,172 @@
 
 
 
+#if defined(__ARM_NEON) || defined(__ARM_NEON__)
+
+// All of this is taken from sse2neon (https://github.com/DLTcollab/sse2neon)
+
+/* Architecture detection */
+#if defined(__aarch64__) || defined(__arm64__) || defined(_M_ARM64) || defined(_M_ARM64EC)
+#define SSE2NEON_ARCH_AARCH64 1
+#else
+#define SSE2NEON_ARCH_AARCH64 0
+#endif
+
+#if defined(__clang__)
+/* Clang compiler detected (including Apple Clang) */
+#define SSE2NEON_COMPILER_GCC_COMPAT 1 /* Clang supports GCC extensions */
+#if defined(_MSC_VER)
+#define SSE2NEON_COMPILER_MSVC 1 /* Clang-CL: Clang with MSVC on Windows */
+#else
+#define SSE2NEON_COMPILER_MSVC 0
+#endif
+
+#elif defined(__GNUC__)
+/* GCC compiler (only reached if not Clang, since Clang also defines __GNUC__)
+ */
+#define SSE2NEON_COMPILER_CLANG 0
+#define SSE2NEON_COMPILER_GCC_COMPAT 1
+#define SSE2NEON_COMPILER_MSVC 0
+
+#elif defined(_MSC_VER)
+/* Microsoft Visual C++ (native, not Clang-CL) */
+#define SSE2NEON_COMPILER_CLANG 0
+#define SSE2NEON_COMPILER_GCC_COMPAT 0 /* No GCC extensions available */
+#define SSE2NEON_COMPILER_MSVC 1
+
+#else
+#endif
+
+
+typedef int64x2_t __m128i; /* 128-bit vector containing integers */
+
+// Some intrinsics operate on unaligned data types.
+typedef int16_t SEQ_ALIGN_TO_BOUNDARY(1) unaligned_int16_t;
+typedef int32_t SEQ_ALIGN_TO_BOUNDARY(1) unaligned_int32_t;
+typedef std::int64_t SEQ_ALIGN_TO_BOUNDARY(1) unaligned_int64_t;
+
+#define vreinterpretq_s8_m128i(x) vreinterpretq_s8_s64(x)
+#define vreinterpretq_m128i_s32(x) vreinterpretq_s64_s32(x)
+#define vreinterpretq_m128i_u8(x) vreinterpretq_s64_u8(x)
+#define vreinterpretq_m128i_s8(x) vreinterpretq_s64_s8(x)
+#define vreinterpretq_u8_m128i(x) vreinterpretq_u8_s64(x)
+#define _sse2neon_reinterpret_cast(t, e) reinterpret_cast<t>(e)
+
+// Load 128-bits of integer data from memory into dst. mem_addr must be aligned
+// on a 16-byte boundary or a general-protection exception may be generated.
+// https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#text=_mm_load_si128
+SEQ_ALWAYS_INLINE __m128i _mm_load_si128(const __m128i* p)
+{
+	return vreinterpretq_m128i_s32(vld1q_s32(_sse2neon_reinterpret_cast(const int32_t*, p)));
+}
+// Load 128-bits of integer data from memory into dst. mem_addr does not need to
+// be aligned on any particular boundary.
+// https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#text=_mm_loadu_si128
+SEQ_ALWAYS_INLINE __m128i _mm_loadu_si128(const __m128i* p)
+{
+	return vreinterpretq_m128i_s32(vld1q_s32(_sse2neon_reinterpret_cast(const unaligned_int32_t*, p)));
+}
+// Compare packed 8-bit integers in a and b for equality, and store the results
+// in dst.
+// https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#text=_mm_cmpeq_epi8
+SEQ_ALWAYS_INLINE __m128i _mm_cmpeq_epi8(__m128i a, __m128i b)
+{
+	return vreinterpretq_m128i_u8(vceqq_s8(vreinterpretq_s8_m128i(a), vreinterpretq_s8_m128i(b)));
+}
+
+// Return vector of type __m128i with all elements set to zero.
+// https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#text=_mm_setzero_si128
+SEQ_ALWAYS_INLINE __m128i _mm_setzero_si128(void)
+{
+	return vreinterpretq_m128i_s32(vdupq_n_s32(0));
+}
+
+// Broadcast 8-bit integer a to all elements of dst.
+// https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#text=_mm_set1_epi8
+SEQ_ALWAYS_INLINE __m128i _mm_set1_epi8(signed char w)
+{
+	return vreinterpretq_m128i_s8(vdupq_n_s8(w));
+}
+
+// Create mask from the most significant bit of each 8-bit element in a, and
+// store the result in dst.
+// https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html#text=_mm_movemask_epi8
+//
+//   Input (__m128i): 16 bytes, extract bit 7 (MSB) of each
+//   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+//   |0|1|2|3|4|5|6|7|8|9|A|B|C|D|E|F|  byte index
+//   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+//    |   ...                     |
+//   MSB                         MSB
+//    v   v v v v v v v v v v v v v v
+//   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+//   |0|1|2|3|4|5|6|7|8|9|A|B|C|D|E|F|  bit position in result
+//   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+//   |<-- low byte ->|<-- high byte->|
+//
+//   Output (int): 16-bit mask where bit[i] = MSB of input byte[i]
+SEQ_ALWAYS_INLINE int _mm_movemask_epi8(__m128i a)
+{
+	uint8x16_t input = vreinterpretq_u8_m128i(a);
+
+#if SSE2NEON_ARCH_AARCH64
+	// AArch64: Variable shift + horizontal add (vaddv).
+	//
+	// Step 1: Extract MSB of each byte (vshr #7: 0x80->1, 0x7F->0)
+	uint8x16_t msbs = vshrq_n_u8(input, 7);
+
+	// Step 2: Shift each byte left by its bit position (0-7 per half)
+	//
+	//   msbs:     [ 1  ][ 0  ][ 1  ][ 1  ][ 0  ][ 1  ][ 0  ][ 1  ] (example)
+	//   shifts:   [ 0  ][ 1  ][ 2  ][ 3  ][ 4  ][ 5  ][ 6  ][ 7  ]
+	//               |     |     |     |     |     |     |     |
+	//              <<0   <<1   <<2   <<3   <<4   <<5   <<6   <<7
+	//               v     v     v     v     v     v     v     v
+	//   result:  [0x01][0x00][0x04][0x08][0x00][0x20][0x00][0x80]
+	//
+	//   Horizontal sum: 0x01+0x04+0x08+0x20+0x80 = 0xAD = 0b10101101
+	//   Each bit in sum corresponds to one input byte's MSB.
+	static const int8_t shift_table[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7 };
+	int8x16_t shifts = vld1q_s8(shift_table);
+	uint8x16_t positioned = vshlq_u8(msbs, shifts);
+
+	// Step 3: Sum each half -> bits [7:0] and [15:8]
+	return vaddv_u8(vget_low_u8(positioned)) | (vaddv_u8(vget_high_u8(positioned)) << 8);
+#else
+	// ARMv7: Shift-right-accumulate (no vaddv).
+	//
+	// Step 1: Extract MSB of each byte
+	uint8x16_t msbs = vshrq_n_u8(input, 7);
+	uint64x2_t bits = vreinterpretq_u64_u8(msbs);
+
+	// Step 2: Parallel bit collection via shift-right-accumulate
+	//
+	//   Initial (8 bytes shown):
+	//   byte:     [  0 ][  1 ][  2 ][  3 ][  4 ][  5 ][  6 ][  7 ]
+	//   value:    [ 01 ][ 00 ][ 01 ][ 01 ][ 00 ][ 01 ][ 00 ][ 01 ]
+	//
+	//   vsra(..., 7):  add original + (original >> 7)
+	//   byte 1 gets: orig[1] + orig[0] = b1|b0 in bits [1:0]
+	//   byte 3 gets: orig[3] + orig[2] = b3|b2 in bits [1:0]
+	//   ...
+	//   Result: pairs combined into odd bytes
+	//
+	//   vsra(..., 14): combine pairs -> 4 bits in bytes 3,7
+	//   vsra(..., 28): combine all   -> 8 bits in byte 7 (actually byte 0)
+	bits = vsraq_n_u64(bits, bits, 7);
+	bits = vsraq_n_u64(bits, bits, 14);
+	bits = vsraq_n_u64(bits, bits, 28);
+
+	// Step 3: Extract packed result from byte 0 of each half
+	uint8x16_t output = vreinterpretq_u8_u64(bits);
+	return vgetq_lane_u8(output, 0) | (vgetq_lane_u8(output, 8) << 8);
+#endif
+}
+
+#endif
+
+
+
 
 #ifdef _MSC_VER
 
