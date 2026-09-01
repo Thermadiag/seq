@@ -60,7 +60,7 @@ namespace seq
 		template<class ExtractKey, class T>
 		struct ExtractKeyResultType
 		{
-			using rtype = decltype(ExtractKey{}(std::declval<const T&>()));
+			using rtype = decltype(std::declval<ExtractKey&>()(std::declval<const T&>()));
 			using type = std::decay_t<rtype>;
 		};
 
