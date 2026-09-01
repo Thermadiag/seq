@@ -209,7 +209,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return size() == 0; }
 		SEQ_ALWAYS_INLINE auto load_factor() const noexcept -> float { return base_type::load_factor(); }
 		SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
-		SEQ_ALWAYS_INLINE void max_load_factor(float f) { base_type::max_load_factor(f); }
+		SEQ_ALWAYS_INLINE void max_load_factor(float f) { }
 		SEQ_ALWAYS_INLINE auto get_allocator() const -> allocator_type { return base_type::get_allocator(); }
 		SEQ_ALWAYS_INLINE auto hash_function() const -> hasher { return base_type::hash_function(); }
 		SEQ_ALWAYS_INLINE auto key_eq() const -> key_equal { return base_type::key_eq(); }
@@ -633,7 +633,7 @@ namespace seq
 		SEQ_ALWAYS_INLINE auto empty() const noexcept -> bool { return size() == 0; }
 		SEQ_ALWAYS_INLINE auto load_factor() const noexcept -> float { return base_type::load_factor(); }
 		SEQ_ALWAYS_INLINE auto max_load_factor() const noexcept -> float { return base_type::max_load_factor(); }
-		SEQ_ALWAYS_INLINE void max_load_factor(float f) { base_type::max_load_factor(f); }
+		SEQ_ALWAYS_INLINE void max_load_factor(float f) { }
 		SEQ_ALWAYS_INLINE auto get_allocator() const -> allocator_type { return base_type::get_allocator(); }
 		SEQ_ALWAYS_INLINE auto hash_function() const -> hasher { return base_type::hash_function(); }
 		SEQ_ALWAYS_INLINE auto key_eq() const -> key_equal { return base_type::key_eq(); }

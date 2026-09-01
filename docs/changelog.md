@@ -1,13 +1,27 @@
 # seq v2.2
 
-First version using AI, and only for code review (no code/documentation generation).
+This version does not provide new features. It was mostly centered around code review using AI to detect and correct issues.
+Note that AI was only used as a static analyser tool without generating code/documentation.
 
 -	All associative containers: iterators dereferencing now return `std::pair<const Key, Value>` instead of plain `std::pair<Key, Value>`.
 -	All containers have been reviewed to correct allocator propagation behavior.
 -	All containers have been reviewed to correct potentially wrong exception guarantees.
 -	Swiss table based containers (`radix_set/map`, `radix_hash_set/map`, `concurrent_set/map`) now support NEON instruction set.
 -	Concurrent containers (`concurrent_set/map`, `concurrent_queue`) behavior have been strengthen.
--	All containers have been optimized on way or another.	
+
+Additional changes
+
+-	`seq::net_sort` was corrected as sort wasn't stable in some scenario (due to unstable sorting network).
+-	`radix_set/map` and `radix_hash_set/map`: minor optimizations.
+-	`flat_set/map`: minor optimizations for relocatable types.
+-	`concurrent_set/map`: major optimizations for multi-threaded scalability.
+-	`seq::hold_any`: interface simplification. Correction of floating point value edge cases (NaN and hashing), better exception safety.
+-	`seq::ordered_set/map`: correction of potentially wrong bucket size selection. Now fully support strong exception guarantee, at the price of keeping the memory peak. Minor optimization in erase(key) member.
+-	`seq::devector`: corrected a memory leak.
+-	`seq::hasher`: better handling of edge cases for floating point values (NaN, negative 0).
+-	`seq::sequence`: simplification of shrink_to_fit(). Now fully support strong exception guarantee.
+-	`seq::tiered_vector`: internal bucket growth simplification and optimization.
+-	`seq::tiny_string`: now provides the exact same exception guarantee as std::string. The behavior of some functions (find_first.., find_last...) now matches the ones of std::string. Now detect and handle potential aliasing in all concerned members (insert(), append()...).
 
 
 # seq v2.1

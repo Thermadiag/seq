@@ -664,7 +664,7 @@ namespace seq
 			}
 
 			template<class K>
-			SEQ_ALWAYS_INLINE auto find_hash(size_t hash, const K& key) const -> const_iterator
+			SEQ_ALWAYS_INLINE auto find_hash_node(size_t hash, const K& key) const -> node_type*
 			{
 				// Key lookup
 
@@ -683,12 +683,19 @@ namespace seq
 				while (!(dist > it->distance())) {
 					// Check for equality (first the hash part and then the key itself).
 					if (h == it->hash() && (*this)(extract_key::key(sequence_node_value(*it)), key))
-						return const_iterator(it->node(), it->pos());
+						return const_cast<node_type*>(it);
 					it = it == end ? d_buckets : it + 1;
 					dist += robin_hood;
 				}
 				// Failed lookup
-				return d_seq.end();
+				return nullptr;
+			}
+
+			template<class K>
+			SEQ_ALWAYS_INLINE auto find_hash(size_t hash, const K& key) const -> const_iterator
+			{
+				auto it = find_hash_node(hash, key);
+				return it ? const_iterator(it->node(), it->pos()) : d_seq.end();
 			}
 
 			template<class K>
@@ -842,16 +849,17 @@ namespace seq
 					emplace<Anywhere>(*first);
 			}
 
-			auto erase_hash(size_t hash, const_iterator it) -> iterator
+			auto erase_hash(size_t hash, const_iterator it, node_type* it_node = nullptr) -> iterator
 			{
 				// Erase key
 
-				SEQ_ASSERT_DEBUG(it != d_seq.end(), "invalid erase position");
-
 				// Find the node corresponding to this iterator
-				node_type* n = find_node(hash, it);
+				node_type* n = it_node ? it_node : find_node(hash, it);
 				node_type* prev = n++;
 				const node_type* end = d_buckets + bucket_size();
+
+				if (it_node)
+					it = const_iterator(it_node->node(), it_node->pos());
 
 				if SEQ_UNLIKELY (n == end)
 					n = d_buckets;
@@ -873,20 +881,27 @@ namespace seq
 					dist = n->distance();
 				}
 				prev->empty();
-
 				return d_seq.erase(it); // return res;
 			}
-			auto erase(const_iterator it) -> iterator { return erase_hash(hash_key(extract_key::key(*it)), it); }
-			auto erase(iterator it) -> iterator { return erase_hash(hash_key(extract_key::key(*it)), it); }
+			auto erase(const_iterator it) -> iterator
+			{
+				SEQ_ASSERT_DEBUG(it != d_seq.end(), "invalid erase position");
+				return erase_hash(hash_key(extract_key::key(*it)), it);
+			}
+			auto erase(iterator it) -> iterator
+			{
+				SEQ_ASSERT_DEBUG(it != d_seq.end(), "invalid erase position");
+				return erase_hash(hash_key(extract_key::key(*it)), it);
+			}
 
 			template<class K>
 			auto erase(const K& key) -> size_t
 			{
 				size_t hash = hash_key(key);
-				const_iterator it = find_hash(hash, key);
-				if (it == d_seq.end())
+				auto it = find_hash_node(hash, key);
+				if (!it)
 					return 0;
-				erase_hash(hash, it);
+				erase_hash(hash, const_iterator{}, it );
 				return 1;
 			}
 

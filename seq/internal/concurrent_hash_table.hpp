@@ -1386,7 +1386,7 @@ namespace seq
 			void reserve(size_t size)
 			{
 				auto buckets = AtomicLoad(d_buckets, std::memory_order_acquire);
-				size_t current_capacity = buckets == d_static_node ? 0 : (AtomicLoad(d_hash_mask) + 1) * node_type::size * _SEQ_CONCURRENT_MAP_LOAD_FACTOR;
+				size_t current_capacity = buckets == d_static_node ? size_t{ 0 } : static_cast<size_t>( (AtomicLoad(d_hash_mask) + 1) * node_type::size * _SEQ_CONCURRENT_MAP_LOAD_FACTOR);
 
 				if (size > current_capacity)
 					rehash(static_cast<size_t>(static_cast<double>(size) / (double)_SEQ_CONCURRENT_MAP_LOAD_FACTOR));

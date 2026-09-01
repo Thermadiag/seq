@@ -1532,7 +1532,7 @@ namespace seq
 							}
 							auto to_copy = std::min((size_t)rem, count);
 							memcpy(bucket->buffer() + bucket->size, ptr, to_copy * sizeof(T));
-							bucket->size += to_copy;
+							bucket->size += (cbuffer_pos)to_copy;
 							count -= to_copy;
 							ptr += to_copy;
 						} while (count);
