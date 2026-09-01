@@ -2244,7 +2244,8 @@ namespace seq
 			template<class U>
 			SEQ_ALWAYS_INLINE hash_type hash_key(const U& val) const
 			{
-				return this->Hash::hash(ExtractKey{}(val));
+				ExtractKey k;
+				return this->Hash::hash(k(val));
 			}
 			SEQ_ALWAYS_INLINE const hash_type& hash_key(const hash_type& val) const { return val; }
 

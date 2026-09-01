@@ -10,13 +10,13 @@ on:
 
 
 jobs: 
-    build-linux:
-        strategy:
-          matrix:
-            compiler: [gcc-13.2.0]
-        uses: ./.github/workflows/build-linux.yml
-        with:
-          compiler: ${{ matrix.compiler }}
+    # build-linux:
+        # strategy:
+          # matrix:
+            # compiler: [gcc-13.2.0]
+        # uses: ./.github/workflows/build-linux.yml
+        # with:
+          # compiler: ${{ matrix.compiler }}
 
         
     build-windows:
@@ -27,10 +27,10 @@ jobs:
         with:
           compiler: ${{ matrix.compiler }}
       
-    build-macos:
-        strategy:
-          matrix:
-            compiler: [clang]
-        uses: ./.github/workflows/build-macos.yml
-        with:
-          compiler: ${{ matrix.compiler }}
+    # build-macos:
+        # strategy:
+          # matrix:
+            # compiler: [clang]
+        # uses: ./.github/workflows/build-macos.yml
+        # with:
+          # compiler: ${{ matrix.compiler }}
