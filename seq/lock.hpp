@@ -62,7 +62,6 @@ namespace seq
 				if (!d_lock.exchange(true, std::memory_order_acquire))
 					return;
 
-				unsigned k = 0;
 				// Wait for lock to be released without generating cache misses
 				while (d_lock.load(std::memory_order_relaxed))
 					// Issue X86 PAUSE or ARM YIELD instruction to reduce contention between

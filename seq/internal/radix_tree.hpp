@@ -2240,7 +2240,7 @@ namespace seq
 				// Indeed, the hasher only stores a pointer to the key internal data
 				// that will be dangling as soon as we leave this function.
 
-				using result_type = decltype(ExtractKey{}(std::declval<const U&>()));
+				using result_type = typename ExtractKeyResultType<ExtractKey,U>::rtype;
 				static_assert(std::is_lvalue_reference_v<result_type> || !hash_type::variable_length, "A variable-length radix key must be returned by lvalue reference");
 
 				return this->hash(ExtractKey{}(val));

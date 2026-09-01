@@ -433,7 +433,7 @@ namespace seq
 			}
 
 			reference operator*() const noexcept(noexcept(*std::declval<Iter&>())) { return reinterpret_cast<reference>(*d_iter); }
-			pointer operator->() const noexcept(noexcept(std::declval<Iter&>().operator->)) { return reinterpret_cast<pointer>(d_iter.operator->()); }
+			pointer operator->() const noexcept(noexcept(std::declval<Iter&>().operator->())) { return reinterpret_cast<pointer>(d_iter.operator->()); }
 
 			template<class OT, ConstIteratorTag T>
 			bool operator==(const MapBidirIterator<OT, Value, T>& r) const noexcept(noexcept(std::declval<Iter&>() == std::declval<Iter&>()))
