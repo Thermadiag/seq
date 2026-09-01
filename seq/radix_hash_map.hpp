@@ -53,6 +53,11 @@ namespace seq
 			{
 				return value;
 			}
+			template<class U>
+			static SEQ_ALWAYS_INLINE decltype(auto) key(const U& k) noexcept
+			{
+				return Extract{}(k);
+			}
 		};
 
 		using Policy = detail::BuildValue<Key, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
@@ -450,6 +455,11 @@ namespace seq
 			}
 			SEQ_ALWAYS_INLINE const Key& operator()(const std::pair<Key, T>& p) const noexcept { return (p.first); }
 			SEQ_ALWAYS_INLINE const Key& operator()(const std::pair<const Key, T>& p) const noexcept { return (p.first); }
+			template<class U>
+			static SEQ_ALWAYS_INLINE decltype(auto) key(const U& k) noexcept
+			{
+				return Extract{}(k);
+			}
 		};
 
 		using Policy = detail::BuildValue<std::pair<Key, T>, has_is_transparent<Hash>::value && has_is_transparent<KeyEqual>::value>;
