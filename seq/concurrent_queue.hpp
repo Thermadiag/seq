@@ -86,9 +86,9 @@ namespace seq
 			// Bucket structure, stores up to count elements
 			struct Bucket : BaseBucket
 			{
-				atomic_type cnt{ mask_full };			      // Mask of created (constructed) elements
-				atomic_type pop{ 0 };				      // Mask of poped (removed) elements
-				RawStorage<T, count> values;	// Elements
+				atomic_type cnt{ mask_full }; // Mask of created (constructed) elements
+				atomic_type pop{ 0 };	      // Mask of poped (removed) elements
+				RawStorage<T, count> values;  // Elements
 
 				// Return bitmask of valid elements
 				size_type valid_mask() const noexcept { return cnt.load(std::memory_order_relaxed) & (~pop.load(std::memory_order_relaxed)); }
@@ -116,12 +116,11 @@ namespace seq
 			};
 
 		private:
-
 			static constexpr std::size_t cache_line_size = 64;
 
-			alignas(cache_line_size) atomic_type d_head{ 0 };// Head (insert) position
-			alignas(cache_line_size) atomic_type d_tail{ 0 };// Tail (pop) position
-			alignas(cache_line_size) BaseBucket d_end; // End bucket of linked list
+			alignas(cache_line_size) atomic_type d_head{ 0 }; // Head (insert) position
+			alignas(cache_line_size) atomic_type d_tail{ 0 }; // Tail (pop) position
+			alignas(cache_line_size) BaseBucket d_end;	  // End bucket of linked list
 
 			// Free list of buckets
 			atomic_bucket d_free{ nullptr };
@@ -285,7 +284,7 @@ namespace seq
 						continue;
 
 					// Retrieve/destroy value
-					fun(*bucket->values.live_slot(idx));
+					fun(*bucket->values.live_slot((std::size_t)idx));
 					// Mark as poped
 					auto popped = bucket->pop.fetch_or(idx_bits, std::memory_order_acq_rel) | idx_bits;
 
@@ -330,7 +329,7 @@ namespace seq
 					}
 
 					auto bucket = static_cast<Bucket*>(last);
-					new (bucket->values.raw_slot(idx)) T(std::move(val));
+					new (bucket->values.raw_slot((std::size_t)idx)) T(std::move(val));
 					bucket->cnt.fetch_or(size_type{ 1 } << idx, std::memory_order_release);
 
 					// Free potentially reserved bucket.
@@ -413,7 +412,7 @@ namespace seq
 			SEQ_ALWAYS_INLINE void emplace(Args&&... args)
 			{
 				// Create value upfront as this might throw
-				T val( std::forward<Args>(args)... );
+				T val(std::forward<Args>(args)...);
 
 				// Increment head position, and make sure a bucket is availble if needed BEFORE increment
 				// to avoid potential bad_alloc exception to corrupt the head state.
@@ -471,7 +470,7 @@ namespace seq
 			{
 				auto h = d_head.load(std::memory_order_relaxed);
 				auto t = d_tail.load(std::memory_order_relaxed);
-				return h > t ? (h - t) : 0;
+				return h > t ? static_cast<std::size_t>(h - t) : std::size_t{ 0 };
 			}
 			SEQ_ALWAYS_INLINE bool empty() const noexcept { return size() == 0; }
 		};
@@ -686,7 +685,7 @@ namespace seq
 		  : Allocator(al)
 		{
 			concurrent_queue tmp(al);
-			tmp.reserve(count);
+			tmp.reserve((size_t)count);
 			d_data.store(tmp.d_data.exchange(nullptr));
 		}
 

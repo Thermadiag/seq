@@ -1172,7 +1172,7 @@ namespace seq
 					throw;
 				}
 
-				if (capacity > min_capacity && count() <= capacity / 2) {
+				if (capacity > min_capacity && count() <= capacity / 2u) {
 					// If the following throws, the tree remains in a valid state
 
 					std::size_t cap = capacity_for_size(count());

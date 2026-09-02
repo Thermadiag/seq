@@ -78,7 +78,7 @@ namespace seq
 		a ^= a >> 23;
 		a *= 0x2127599bf4325c37ULL;
 		a ^= a >> 47;
-		return a;
+		return static_cast<std::size_t>(a);
 #endif
 	}
 
